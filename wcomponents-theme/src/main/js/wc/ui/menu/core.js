@@ -46,7 +46,7 @@ define(["wc/has",
 		"wc/dom/getBox",
 		"wc/array/toArray"
 	],
-	/** @param has wc/has @param attribute wc/dom/attribute @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param formUpdateManager wc/dom/formUpdateManager @param getFilteredGroup wc/dom/getFilteredGroup @param keyWalker wc/dom/keyWalker @param shed wc/dom/shed @param textContent wc/dom/textContent @param viewportCollision wc/dom/viewportCollision @param Widget wc/dom/Widget @param key wc/key @param processResponse wc/ui/ajax/processResponse @param timers wc/timers @param i18n wc/i18n/i18n @param getBox wc/dom/getBox @param toArray wc/array/toArray @ignore */
+	/** @param has @param attribute @param classList @param event @param focus @param formUpdateManager @param getFilteredGroup @param keyWalker @param shed @param textContent @param viewportCollision @param Widget @param key @param processResponse @param timers @param i18n @param getBox @param toArray @ignore */
 	function(has, attribute, classList, event, focus, formUpdateManager, getFilteredGroup, keyWalker, shed, textContent, viewportCollision, Widget, key, processResponse, timers, i18n, getBox, toArray) {
 		"use strict";
 
@@ -86,14 +86,11 @@ define(["wc/has",
 				ESCAPE: "_escape"
 			},
 			LETTER,
-			KEY_NAME_RE = /^DOM_VK_/,
 			activateOnHover,  // used to track the currently open menu to determine whether hover effects are in place
 			openMenu = null,  // used in the focusEvent handler to close a menu if it has lost focus;
 			TRANSIENT_SELECTED_ATTRIB = "data-wc-selected",
 			BUTTON = "button",
 			CLOSE_BUTTON,
-			MENU_ROLE = "menu",
-			MENU_CLASS = "wc-menu",
 			MENUITEM_ROLE = "menuitem",
 			DEFAULT_CLOSE_LABEL,
 			/**
@@ -119,53 +116,10 @@ define(["wc/has",
 		function setupFixedWidgets() {
 			return {
 				TABSTOP: new Widget("", "", { "tabIndex": "0" }),  // used to get the current tabstop in any menu
-				GENERIC_ROOT: [new Widget("", MENU_CLASS), new Widget("", "", {"role" : "tree"})],
+				GENERIC_ROOT: [new Widget("", "wc-menu"), new Widget("", "", {"role" : "tree"})],
 				OFFSCREEN: new Widget("", "wc_off")
 			};
 		}
-
-		/**
-		 * Indicates if the current menu is transient. This is used rather than testing this._transient directly because
-		 * it allows us to be sure we have the real _transient property of he menu being acted upon and not the
-		 * _transient property of the class which just happens to be doing the test.
-		 * @function isMenuTransient
-		 * @private
-		 * @param {Element} root The root node of the current menu.
-		 * @param {Object} instance The subclass we are interested in.
-		 * @returns {Boolean} true if the menu is one which is modelled by instance and that model menu is transient.
-		 */
-		function isMenuTransient(root, instance) {
-			var result = false;
-			if (instance.isRoot(root)) {
-				result = instance._transient;
-			}
-			return result;
-		}
-
-		/**
-		 * Get the menu leaf ancestor of a given element.
-		 *
-		 * @function
-		 * @protected
-		 * @param {Element} element The element we are testing.
-		 * @returns {?Element} The leaf Element which is or contains element or null if the element is not in a menu
-		 *  item.
-		 */
-		AbstractMenu.prototype.getItem = function(element) {
-			if (this.getRoot(element)) {
-				if (this._isBranch(element)) {
-					return element;
-				}
-				if (this._isOpener(element)) {
-					return this._getBranch(element);
-				}
-				return Widget.findAncestor(element, this._wd.leaf);
-			}
-			return null;
-		};
-
-
-
 
 		/**
 		 * Get the object of fixed (non-subclass-specific) {@link module:wc/dom/Widget}s.
@@ -178,16 +132,15 @@ define(["wc/has",
 			return fixedWidgets || (fixedWidgets = setupFixedWidgets());
 		}
 
-
 		/**
 		 * Get the nearest ancestor menu from a given element.
 		 *
-		 * @function
-		 * @public
+		 * @function getFirstMenuAncestor
+		 * @private
 		 * @param {Element} element The start point
 		 * @returns {?Element} The menu root node if any.
 		 */
-		function getMenuAncestor(element) {
+		function getFirstMenuAncestor(element) {
 			return Widget.findAncestor(element, getFixedWidgets().GENERIC_ROOT);
 		}
 
@@ -216,260 +169,6 @@ define(["wc/has",
 					});
 				}
 				element.tabIndex = "0";
-			}
-		}
-
-		/**
-		 * This is a treewalker which is used to test an elements text node descendants. It is used as part of another
-		 * treewalker filter. precondition: element has been tested as a potential element match, now we want to know if
-		 * its first visible text node starts with a particular letter.
-		 *
-		 * @function hasTextNodeMatch
-		 * @private
-		 * @see {@link getNavigationTreeWalkerFilter}
-		 * @param {Element} element The menu node being tested.
-		 * @param {String} letter The letter on the key the user pressed.
-		 * @returns {Integer} A NodeFilter STATIC variable
-		 */
-		function hasTextNodeMatch(element, letter) {
-			var tw,
-				node,
-				textNodeContent,
-				result = NodeFilter.FILTER_SKIP;
-
-			function textNodeFilter(textNode) {
-				var rval = NodeFilter.FILTER_SKIP,
-					parent = textNode.parentNode;
-
-				if (shed.hasHiddenAncestor(textNode, element) || shed.hasDisabledAncestor(textNode, element) || getFixedWidgets().OFFSCREEN.findAncestor(parent)) {
-					rval = NodeFilter.FILTER_REJECT;
-				}
-				else if (textNode.nodeValue) {
-					rval = NodeFilter.FILTER_ACCEPT;
-				}
-				return rval;
-			}
-
-			LETTER = LETTER || new RegExp(i18n.get("${wc.common.i18n.letter}"));
-
-			if (letter && LETTER.test(letter)) {
-				tw = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, textNodeFilter, false);
-				tw.currentNode = element;
-				tw.nextNode();
-				node = tw.currentNode;
-
-				if (node && node.nodeType === Node.TEXT_NODE) {
-					textNodeContent = node.nodeValue;
-					if (textNodeContent.toLocaleUpperCase().indexOf(letter.toLocaleUpperCase()) === 0) {
-						result = NodeFilter.FILTER_ACCEPT;
-					}
-					else if (textNodeContent) {
-						result = NodeFilter.FILTER_REJECT;
-					}
-				}
-			}
-			return result;
-		}
-
-		/**
-		 * Indicates if a particular element is an item in a menu.
-		 * @function isItem
-		 * @private
-		 * @param {Element} element The element to test.
-		 * @param {Object} instance The subclass we are currently testing, required to make sure we only get positives
-		 *    for the type of menu we are in.
-		 * @returns {Boolean}
-		 */
-		function isItem(element, instance) {
-			var role = element.getAttribute(ROLE_ATTRIB),
-				o;
-			if (instance._isBranch(element)) {
-				return true;
-			}
-			if (!role || instance._isOpener(element)) {
-				return false;
-			}
-			for (o in instance._role.LEAF) {
-				if (instance._role.LEAF[o] === role) {
-					return true;
-				}
-			}
-			return false;
-		}
-
-		/**
-		 * Curry for creating a tree walker filter. This has been split out of {@link getTreeWalker} because we use the
-		 * same filter in the keyActivator helper function but it is passed to the instance of {@link wc/dom/keyWalker}
-		 * as part of the config.
-		 *
-		 * @function getNavigationTreeWalkerFilter
-		 * @private
-		 * @param {Boolean} ignoreClosed If true we ignore closed branches.
-		 * @param {Object} instance An instance of a menu class which extends this class.
-		 * @param {String} [letter] The key literal of a letter key used for jump navigation.
-		 * @returns {Function} A TreeWalker filter function.
-		 */
-		function getNavigationTreeWalkerFilter(ignoreClosed, instance, letter) {
-			return function(element) {
-				// treeWalker filter function that provides the core Abstract Tree View of the menu
-				var branch, result = canNavigate(element, instance);
-
-				// skip over closed branches
-				if (ignoreClosed && result !== NodeFilter.FILTER_REJECT && instance.isSubMenu(element)) {
-					if ((branch = instance._getBranch(element))) { // should always be true
-						if (!shed.isExpanded(instance._getBranchExpandableElement(branch))) {
-							result = NodeFilter.FILTER_REJECT;
-						}
-					}
-					else {
-						console.warn("A submenu cannot find its branch ancestor in AbstractMenu.getNavigationTreeWalkerFilter");
-						result = NodeFilter.FILTER_SKIP;
-					}
-				}
-				// finally, if we define a letter we will only have a match if the candidate match also meets the text content match
-				if (letter && (result === NodeFilter.FILTER_ACCEPT)) {
-					result = hasTextNodeMatch(element, letter);
-				}
-				return result;
-			};
-		}
-
-		/**
-		 * Helper for getNavigationTreeWalkerFilter.
-		 * Determines if the current element is navigable, e.g. it is not disabled or hidden etc.
-		 * @param element Anelement, as passed to getNavigationTreeWalkerFilter
-		 * @param instance A menu instance as passed to getNavigationTreeWalkerFilter
-		 * @returns {Number} A NodeFilter value.
-		 * @function
-		 * @private
-		 */
-		function canNavigate(element, instance) {
-			var result = NodeFilter.FILTER_SKIP;
-			if (shed.isDisabled(element) || shed.isHidden(element)) {
-				result = NodeFilter.FILTER_REJECT;
-			}
-			else if (isItem(element, instance)) {
-				// branch or leaf
-				result = NodeFilter.FILTER_ACCEPT;
-			}
-			return result;
-		}
-
-		/**
-		 * Gets the keyWalker configuration for a particular menu.
-		 * @function getkeyWalkerConfig
-		 * @private
-		 * @param {Element} item An element inside a menu
-		 * @param {Element} [root] The menu root if we already have it.
-		 * @param {Object} instance The subclass instance.
-		 * @returns {Object} a keywalker configuration object.
-		 */
-		function getkeyWalkerConfig(item, root, instance) {
-			var _root = root || instance.getRoot(item),
-				kwConfig;
-			if (_root) {
-				kwConfig = {
-					root: _root
-				};
-				kwConfig[keyWalker.OPTIONS.DEPTH_FIRST] = instance._treeWalkDepthFirst(_root);
-				kwConfig[keyWalker.OPTIONS.CYCLE] = instance._cycleSiblings;
-			}
-			return kwConfig;
-		}
-
-		/**
-		 * Get the first available menu node with visible text which starts with a particular letter. NOTE: the
-		 * WAI-ARIA guidelines for this functionality indicate the NEXT available item so we do not cycle within the
-		 * menu even if the menu supports cycling on key nevigation.
-		 * @function getTextTarget
-		 * @private
-		 * @param {Element} item The menu node on which we started when the user pressed a letter key.
-		 * @param {String} letter The letter pressed by the user.
-		 * @param {Element} root The current menu root node.
-		 * @param {Object} instance The subclass instance.
-		 * @returns {Element} The next available menu item with visible text which starts with keyName or null if not
-		 *    found.
-		 */
-		function getTextTarget(item, letter, root, instance) {
-			var target = null,
-				keyWalkerConfig = getkeyWalkerConfig(item, root, instance);
-			keyWalkerConfig.filter = getNavigationTreeWalkerFilter(true, instance, letter);
-			keyWalkerConfig[keyWalker.OPTIONS.CYCLE] = false;  // do not cycle on key match
-			target = keyWalker.getTarget(keyWalkerConfig, item, keyWalker.MOVE_TO.NEXT);
-			return target;
-		}
-
-		/**
-		 * Closes an open menu when an element outside of the menu receives focus or is clicked.
-		 *
-		 * ## Why is his here?
-		 *
-		 * If a transient menu is inside an element which is able to receive focus (such as a selectable table row) and
-		 * the user agent is Chrome (at least since v27, possibly earlier) then a mousedown on a menu item will set
-		 * focus to the focusable ancestor which will lead to this code being invoked. This only becomes a problem
-		 * because the menu will close before the click event fires and the button will not actually receive the click
-		 * (since it is now hidden). So in those cases we wrap the call to closeAllPaths in a timeout to allow the
-		 * webkit focus fix to kick in and refocus the original button.
-		 *
-		 * @function closeOpenMenu
-		 * @private
-		 * @param {Element} menu The menu to close.
-		 * @param {Element} element The element which has caused the menu to close (most commonly by receiving focus).
-		 * @param {Object} instance The subclass instance.
-		 */
-		function closeOpenMenu(menu, element, instance) {
-			try {
-				if (element === window) {
-					instance.closeAllPaths(menu, null);
-				}
-				else if (element.tabIndex >= 0) {
-					timers.setTimeout(instance.closeAllPaths.bind(instance), 150, menu, null);
-				}
-				else {
-					instance.closeAllPaths(menu, null);
-				}
-			}
-			finally {
-				openMenu = null;
-				activateOnHover = null;
-			}
-		}
-
-		/**
-		 * Mouse over handler. Sets up hover effects when the menu is transoent and not displayed on a mobile device.
-		 * This handler is only bound if required when a menu first receives focus and is bound directly to the menu
-		 * root. Note, we do not apply hover effects on mobile even though mobile devices may have keyboards and mice
-		 * because we restyle transient sub-menus on these devices to improve usability when NOT using a mouse. This
-		 * restyle melds better with most mobile OS native menu systems which are full-page per menu level.
-		 *
-		 * @see {@link focusEvent}
-		 * @function mouseoverEvent
-		 * @private
-		 * @param {Event} $event the mouseover event wrapped by {@link module:wc/dom/event}.
-		 */
-		function mouseoverEvent($event) {
-			var target = $event.target,
-				root,
-				item;
-			if ($event.defaultPrevented || this.isMobile) {
-				return;
-			}
-			if ((root = this.getRoot(target)) && isMenuTransient(root, this) && root === this.getRoot(document.activeElement)/* element root is same as focus root */) {
-				item = this.getItem(target);
-				if (!item || shed.isDisabled(item)) {
-					return;
-				}
-				this._focusItem(item, root);
-
-				if (activateOnHover === root.id) {
-					// current menu is active menu
-					if (this._isOpener(item)) {
-						item = this._getBranch(item);
-					}
-					if (item && this._isBranch(item) && !shed.isExpanded(this._getBranchExpandableElement(item))) {
-						this[FUNC_MAP.OPEN](item);
-					}
-				}
 			}
 		}
 
@@ -505,37 +204,324 @@ define(["wc/has",
 		}
 
 		/**
-		 * Gets an instance of TreeWalker for a particular menu.
-		 * @function getTreeWalker
+		 * Indicates if there is a viewport collision on the sides of the viewport.
+		 * @function doICollide
 		 * @private
-		 * @param {Element} root The root of the tree to be walked.
-		 * @param {Boolean} [ignoreClosed] If true we ignore closed branches.
-		 * @param {Object} instance The subclass.
-		 * @returns {TreeWalker} A treeWalker for the menu starting at root.
+		 * @see {@link _doCollisionDetection}
+		 * @param {module:wc/dom/viewportCollision} collision The calculated 'collision'.
+		 * @param {Boolean} [isNotDefaultDirection] Indicates the collision direction to test. If true we test against the
+		 *    side deemed to be the DEFAULT direction of reading.
+		 * @returns {Boolean} true if the collsion shows the colliding element hits the relevant viewport edge.
 		 */
-		function getTreeWalker(root, ignoreClosed, instance) {
-			var filter = getNavigationTreeWalkerFilter(ignoreClosed, instance);
-			return document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, filter, false);
+		function doICollide(collision, isNotDefaultDirection) {
+			var result = false;
+
+			if (collision) {
+				if (CLASS.DEFAULT_DIRECTION === CLASS.COLLIDE_EAST) {
+					result = isNotDefaultDirection ? (collision.w < 0) : (collision.e > 0);
+				}
+				else {
+					result = isNotDefaultDirection ? (collision.e > 0) : (collision.w < 0);
+				}
+			}
+			return result;
 		}
 
 		/**
-		 * Gets all ancestor menu nodes betweeen two points.
-		 * @function getPathToItem
+		 * Mouse over handler. Sets up hover effects when the menu is transoent and not displayed on a mobile device.
+		 * This handler is only bound if required when a menu first receives focus and is bound directly to the menu
+		 * root. Note, we do not apply hover effects on mobile even though mobile devices may have keyboards and mice
+		 * because we restyle transient sub-menus on these devices to improve usability when NOT using a mouse. This
+		 * restyle melds better with most mobile OS native menu systems which are full-page per menu level.
+		 *
+		 * @see {@link focusEvent}
+		 * @function mouseoverEvent
 		 * @private
+		 * @param {Event} $event the mouseover event wrapped by {@link module:wc/dom/event}.
+		 */
+		function mouseoverEvent($event) {
+			var target = $event.target,
+				root,
+				item;
+			if ($event.defaultPrevented || this.isMobile) {
+				return;
+			}
+			if ((root = this.getRoot(target)) && this.isTransient(root) && root === this.getRoot(document.activeElement)/* element root is same as focus root */) {
+				item = this.getItem(target);
+				if (!item || shed.isDisabled(item)) {
+					return;
+				}
+				this._focusItem(item, root);
+
+				if (activateOnHover === root.id) {
+					// current menu is active menu
+					if (this._isOpener(item)) {
+						item = this._getBranch(item);
+					}
+					if (item && this._isBranch(item) && !shed.isExpanded(this._getBranchExpandableElement(item))) {
+						this[FUNC_MAP.OPEN](item);
+					}
+				}
+			}
+		}
+
+		/**
+		 * A TreeWalker filter to get a text node match during key-initiated tree walking.
+		 * @function
+		 * @protected
+		 * @param {Node} textNode The node being tested.
+		 * @returns {Number}
+		 */
+		AbstractMenu.prototype.textMatchFilter = function(textNode) {
+			var parent = textNode.parentNode;
+
+			if (shed.hasHiddenAncestor(textNode, parent) || shed.hasDisabledAncestor(textNode, parent) || getFixedWidgets().OFFSCREEN.findAncestor(parent)) {
+				return NodeFilter.FILTER_REJECT;
+			}
+			if (textNode.nodeValue) {
+				return NodeFilter.FILTER_ACCEPT;
+			}
+			return NodeFilter.FILTER_SKIP;
+		};
+
+		/**
+		 * This is a treewalker which is used to test an elements text node descendants. It is used as part of another
+		 * treewalker filter. precondition: element has been tested as a potential element match, now we want to know if
+		 * its first visible text node starts with a particular letter.
+		 *
+		 * @function hasTextNodeMatch
+		 * @private
+		 * @param {Element} element The menu node being tested.
+		 * @param {String} letter The letter on the key the user pressed.
+		 * @returns {Integer} A NodeFilter STATIC variable
+		 */
+		AbstractMenu.prototype.hasTextNodeMatch = function(element, letter) {
+			var tw,
+				node,
+				textNodeContent,
+				result = NodeFilter.FILTER_SKIP;
+
+			LETTER = LETTER || new RegExp(i18n.get("${wc.common.i18n.letter}"));
+
+			if (letter && LETTER.test(letter)) {
+				tw = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, this.textMatchFilter.bind(this), false);
+				tw.currentNode = element;
+				tw.nextNode();
+				node = tw.currentNode;
+
+				if (node && node.nodeType === Node.TEXT_NODE) {
+					textNodeContent = node.nodeValue;
+					if (textNodeContent.toLocaleUpperCase().indexOf(letter.toLocaleUpperCase()) === 0) {
+						result = NodeFilter.FILTER_ACCEPT;
+					}
+					else if (textNodeContent) {
+						result = NodeFilter.FILTER_REJECT;
+					}
+				}
+			}
+			return result;
+		};
+
+		/**
+		 * Indicates if a particular element is an item in a menu.
+		 * @function
+		 * @protected
+		 * @param {Element} element The element to test.
+		 * @returns {Boolean}
+		 */
+		AbstractMenu.prototype.isItem = function(element) {
+			var role = element.getAttribute(ROLE_ATTRIB),
+				o;
+			if (this._isBranch(element)) {
+				return true;
+			}
+			if (!role || this._isOpener(element)) {
+				return false;
+			}
+			for (o in this._role.LEAF) {
+				if (this._role.LEAF[o] === role) {
+					return true;
+				}
+			}
+			return false;
+		};
+
+		/**
+		 * Get the menu leaf ancestor of a given element.
+		 *
+		 * @function
+		 * @protected
+		 * @param {Element} element The element we are testing.
+		 * @returns {?Element} The leaf Element which is or contains element or null if the element is not in a menu
+		 *  item.
+		 */
+		AbstractMenu.prototype.getItem = function(element) {
+			if (this.getRoot(element)) {
+				if (this._isBranch(element)) {
+					return element;
+				}
+				if (this._isOpener(element)) {
+					return this._getBranch(element);
+				}
+				return Widget.findAncestor(element, this._wd.leaf);
+			}
+			return null;
+		};
+
+		/**
+		 * Curry for creating a tree walker filter. This has been split out of getTreeWalker because we use the same
+		 * filter in the keyActivator helper function but it is passed to the instance of {@link modeule:wc/dom/keyWalker}
+		 * as part of the config.
+		 *
+		 * @function
+		 * @public
+		 * @param {Boolean} ignoreClosed If true we ignore closed branches.
+		 * @param {String} [letter] The key literal of a letter key used for jump navigation.
+		 * @returns {Function} A TreeWalker filter function.
+		 */
+		AbstractMenu.prototype.getNavigationTreeWalkerFilter = function(ignoreClosed, letter) {
+			var instance = this;
+
+			return function(element) {
+				// treeWalker filter function that provides the core Abstract Tree View of the menu
+				var branch,
+					result = NodeFilter.FILTER_SKIP;
+
+				if (shed.isDisabled(element) || shed.isHidden(element)) {
+					result = NodeFilter.FILTER_REJECT;
+				}
+				else if (instance.isItem(element)) {
+					// branch or leaf
+					result = NodeFilter.FILTER_ACCEPT;
+				}
+
+				// skip over closed branches
+				if (ignoreClosed && result !== NodeFilter.FILTER_REJECT && instance.isSubMenu(element)) {
+					if ((branch = instance._getBranch(element))) { // should always be true
+						if (!shed.isExpanded(instance._getBranchExpandableElement(branch))) {
+							result = NodeFilter.FILTER_REJECT;
+						}
+					}
+					else {
+						console.warn("A submenu cannot find its branch ancestor in AbstractMenu.getNavigationTreeWalkerFilter");
+						result = NodeFilter.FILTER_SKIP;
+					}
+				}
+				// finally, if we define a letter we will only have a match if the candidate match also meets the text content match
+				if (letter && (result === NodeFilter.FILTER_ACCEPT)) {
+					result = instance.hasTextNodeMatch(element, letter);
+				}
+				return result;
+			};
+		};
+
+		/**
+		 * Gets the keyWalker configuration for a particular menu.
+		 * @function
+		 * @protected
+		 * @param {Element} item An element inside a menu
+		 * @param {Element} [root] The menu root if we already have it.
+		 * @returns {Object} a keywalker configuration object.
+		 */
+		AbstractMenu.prototype.getkeyWalkerConfig = function(item, root) {
+			var _root = root || this.getRoot(item),
+				kwConfig;
+			if (_root) {
+				kwConfig = {
+					root: _root
+				};
+				kwConfig[keyWalker.OPTIONS.DEPTH_FIRST] = this._treeWalkDepthFirst(_root);
+				kwConfig[keyWalker.OPTIONS.CYCLE] = this._cycleSiblings;
+			}
+			return kwConfig;
+		};
+
+		/**
+		 * Get the first available menu node with visible text which starts with a particular letter. NOTE: the
+		 * WAI-ARIA guidelines for this functionality indicate the NEXT available item so we do not cycle within the
+		 * menu even if the menu supports cycling on key nevigation.
+		 * @function
+		 * @protected
+		 * @param {Element} item The menu node on which we started when the user pressed a letter key.
+		 * @param {String} letter The letter pressed by the user.
+		 * @param {Element} root The current menu root node.
+		 * @returns {Element} The next available menu item with visible text which starts with keyName or null if not
+		 *    found.
+		 */
+		AbstractMenu.prototype.getTextTarget = function(item, letter, root) {
+			var target = null,
+				keyWalkerConfig = this.getkeyWalkerConfig(item, root);
+			keyWalkerConfig.filter = this.getNavigationTreeWalkerFilter(true, letter);
+			keyWalkerConfig[keyWalker.OPTIONS.CYCLE] = false;  // do not cycle on key match
+			target = keyWalker.getTarget(keyWalkerConfig, item, keyWalker.MOVE_TO.NEXT);
+			return target;
+		};
+
+		/**
+		 * Closes an open menu when an element outside of the menu receives focus or is clicked.
+		 *
+		 * ## Why is his here?
+		 *
+		 * If a transient menu is inside an element which is able to receive focus (such as a selectable table row) and
+		 * the user agent is Chrome (at least since v27, possibly earlier) then a mousedown on a menu item will set
+		 * focus to the focusable ancestor which will lead to this code being invoked. This only becomes a problem
+		 * because the menu will close before the click event fires and the button will not actually receive the click
+		 * (since it is now hidden). So in those cases we wrap the call to closeAllPaths in a timeout to allow the
+		 * webkit focus fix to kick in and refocus the original button.
+		 *
+		 * @function
+		 * @protected
+		 * @param {Element} menu The menu to close.
+		 * @param {Element} element The element which has caused the menu to close (most commonly by receiving focus).
+		 */
+		AbstractMenu.prototype.closeOpenMenu = function(menu, element) {
+			try {
+				if (element === window) {
+					this.closeAllPaths(menu, null);
+				}
+				else if (element.tabIndex >= 0) {
+					timers.setTimeout(this.closeAllPaths.bind(this), 150, menu, null);
+				}
+				else {
+					this.closeAllPaths(menu, null);
+				}
+			}
+			finally {
+				openMenu = null;
+				activateOnHover = null;
+			}
+		};
+
+		/**
+		 * Gets an instance of TreeWalker for a particular menu.
+		 * @function
+		 * @protected
+		 * @param {Element} root The root of the tree to be walked.
+		 * @param {Boolean} [ignoreClosed] If true we ignore closed branches.
+		 * @returns {TreeWalker} A treeWalker for the menu starting at root.
+		 */
+		AbstractMenu.prototype.getTreeWalker = function(root, ignoreClosed) {
+			var filter = this.getNavigationTreeWalkerFilter(ignoreClosed);
+			return document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT, filter, false);
+		};
+
+		/**
+		 * Gets all ancestor menu nodes betweeen two points.
+		 * @function
+		 * @protected
 		 * @param {Element} item A menu node.
 		 * @param {Element} from The highest level ancestor in which we are interested (usually the root).
-		 * @param {Object} instance The subclass.
 		 * @returns {Element[]} An array of Elements each item in the array being a menu node on the path from the 'from'
 		 *    element to the item in question. This will always be at least item itself (if item is root or start).
 		 */
-		function getPathToItem(item, from, instance) {
+		AbstractMenu.prototype.getPathToItem = function(item, from) {
 			var tw,
 				result = [
 					item
 				],
 				parent;
 
-			tw = getTreeWalker(from, false, instance);
+			tw = this.getTreeWalker(from, false);
 			tw.currentNode = item;
 
 			while ((parent = tw.parentNode()) && parent !== from) {
@@ -544,7 +530,7 @@ define(["wc/has",
 			result[result.length] = from;
 			result.reverse();
 			return result;
-		}
+		};
 
 		/**
 		 * Closes all paths from the provided node, except the path to the node represented by 'except'.
@@ -559,13 +545,13 @@ define(["wc/has",
 				tw,
 				next;
 			if (except) {
-				exceptPath = getPathToItem(except, from, this);
+				exceptPath = this.getPathToItem(except, from);
 				if (exceptPath && exceptPath.length) {
 					exceptPath.reverse();
 					exceptPath.pop();
 				}
 			}
-			tw = getTreeWalker(from, true, this);
+			tw = this.getTreeWalker(from, true);
 			while ((next = tw.nextNode())) {
 				if (exceptPath && next === exceptPath[exceptPath.length - 1]) {
 					exceptPath.pop();
@@ -580,45 +566,43 @@ define(["wc/has",
 		/**
 		 * Get the first item (menu item or submenu or submenu content) in a given menu or branch which is not disabled
 		 * or hidden.
-		 * @function getFirstAvailableItem
-		 * @private
+		 * @function
+		 * @protected
 		 * @param {Element} start Any menu node but preferably a submenu wrapper element.
-		 * @param {Object} instance The subclass.
-		 * @returns {Element} The first menu item which is not hidden or disabled or in a closed branch.
+		 * @returns {?Element} The first menu item which is not hidden or disabled or in a closed branch.
 		 */
-		function getFirstAvailableItem(start, instance) {
+		AbstractMenu.prototype.getFirstAvailableItem = function(start) {
 			var tw,
 				next,
 				submenu = start;
 
-			if (!(instance.isSubMenu(submenu) || instance.getRoot(submenu) === submenu)) {
-				submenu = instance._getSubMenu(submenu, instance._isBranch(submenu));
+			if (!(this.isSubMenu(submenu) || this.getRoot(submenu) === submenu)) {
+				submenu = this._getSubMenu(submenu, this._isBranch(submenu));
 			}
 
 			if (submenu) {
-				tw = getTreeWalker(submenu, true, instance);
+				tw = this.getTreeWalker(submenu, true);
 				tw.currentNode = submenu;
 				while ((next = tw.nextNode())) {
-					if (isItem(next, instance) && !shed.isDisabled(next) && !shed.isHidden(next)) {
+					if (this.isItem(next) && !shed.isDisabled(next) && !shed.isHidden(next)) {
 						return next;
 					}
 				}
 			}
 			return null;
-		}
+		};
 
 		/**
 		 * Disable/enable all menu items in a given branch.
 		 * @see {@link module:wc/ui/menu/core~shedSubscriber}.
 		 * @see {@link module:wc/ui/menu/core~fixDisabledAfterAjax}
-		 * @function disableInBranch
-		 * @private
+		 * @function
+		 * @protected
 		 * @param {Element} branch The menu branch we need to manipulate.
-		 * @param {String} func The {@link wc/dom/shed} function to invoke: either "enable" or "disable".
-		 * @param {Object} instance The subclass used to ensure we are in the right type of menu.
+		 * @param {String} func The name of the {@link wc/dom/shed} function to invoke: either "enable" or "disable".
 		 */
-		function disableInBranch(branch, func, instance) {
-			var content = instance._getSubMenu(branch, true),
+		AbstractMenu.prototype.disableInBranch = function(branch, func) {
+			var content = this._getSubMenu(branch, true),
 				kids = content.children || content.childNodes,
 				i,
 				next;
@@ -630,7 +614,7 @@ define(["wc/has",
 				}
 				shed[func](next);  // by calling disable/enable on anything we ensure it will be honoured or passed on as appropriate
 			}
-		}
+		};
 
 		/**
 		 * We need to investigate the existing DOM to determine the menu type
@@ -645,6 +629,7 @@ define(["wc/has",
 		 * @private
 		 * @param {Element} element The reference element (element being replaced).
 		 * @param {DocumentFragment} documentFragment The document fragment which will be inserted.
+		 * @this An instance of a sub-class menu.
 		 */
 		function ajaxSubscriber(element, documentFragment/* , action */) {
 			var root,
@@ -682,7 +667,7 @@ define(["wc/has",
 					});
 			}
 			/* before we do anything else make sure we are in the right kind of menu */
-			if (element && (root = this.getRoot(element)) === getMenuAncestor(element)) {
+			if (element && (root = this.getRoot(element)) === getFirstMenuAncestor(element)) {
 				AJAX_CONTEXTLESS_ITEM = AJAX_CONTEXTLESS_ITEM || new Widget("", "", {"role": "${wc.ui.menu.dummyRole}"});
 				/*
 				 * If the ajaxTarget is the content of a WSubMenu then we can be sure
@@ -716,7 +701,7 @@ define(["wc/has",
 						 */
 						var submenuContext = (this._getSubMenu(nextBranch) || element);
 						this._setMenuItemRole(nextBranch, this._getBranch(submenuContext));
-						if (isMenuTransient(root, this) && (opener = this._getBranchOpener(nextBranch))) {
+						if (this.isTransient(root) && (opener = this._getBranchOpener(nextBranch))) {
 							opener.setAttribute("aria-haspopup", TRUE);
 						}
 						fixBranchContent(nextBranch, null, this);
@@ -726,30 +711,6 @@ define(["wc/has",
 					fixBranchContent(this._getBranch(element), documentFragment, this);
 				}
 			}
-		}
-
-		/**
-		 * Indicates if there is a viewport collision on the sides of the viewport.
-		 * @function doICollide
-		 * @private
-		 * @see {@link _doCollisionDetection}
-		 * @param {module:wc/dom/viewportCollision} collision The calculated 'collision'.
-		 * @param {Boolean} [isNotDefaultDirection] Indicates the collision direction to test. If true we test against the
-		 *    side deemed to be the DEFAULT direction of reading.
-		 * @returns {Boolean} true if the collsion shows the colliding element hits the relevant viewport edge.
-		 */
-		function doICollide(collision, isNotDefaultDirection) {
-			var result = false;
-
-			if (collision) {
-				if (CLASS.DEFAULT_DIRECTION === CLASS.COLLIDE_EAST) {
-					result = isNotDefaultDirection ? (collision.w < 0) : (collision.e > 0);
-				}
-				else {
-					result = isNotDefaultDirection ? (collision.e > 0) : (collision.w < 0);
-				}
-			}
-			return result;
 		}
 
 		/**
@@ -771,12 +732,12 @@ define(["wc/has",
 			}
 			return result;
 		}
+
 		/**
 		 * Collision detection which supports rtl and ltr opening submenus.
 		 * @todo this is now so cumbersome we may be better off just calculating offsets and position the submenu
 		 * directly.
-		 * @see {@link  module:wc/ui/menu/core~doCollisionDetection}
-		 * @function _doCollisionDetection
+		 * @function module:wc/ui/menu/core~_doCollisionDetection
 		 * @private
 		 * @param {Element} submenu The submenu content which may be colliding with the edge of the viewport.
 		 * @param {Object} instance An instance of a subclass.
@@ -895,7 +856,7 @@ define(["wc/has",
 		 * @param {Object} instance The subclass.
 		 */
 		function fixDisabledAfterAjax(element, root, instance) {
-			var path = getPathToItem(element, root, instance),
+			var path = instance.getPathToItem(element, root),
 				next,
 				iHaveBeenDisabled = false;
 			// first go from root to element and find if there are any disabled ancestors
@@ -913,7 +874,7 @@ define(["wc/has",
 					function(nextBranch) {
 						// an ajax response does not have a context menu so only individual nodes get disabled
 						if (shed.isDisabled(nextBranch)) {
-							disableInBranch(nextBranch, "disable", instance);
+							instance.disableInBranch(nextBranch, "disable");
 						}
 					});
 			}
@@ -930,7 +891,7 @@ define(["wc/has",
 		function postAjaxSubscriber(element) {
 			var root,
 				subItem;
-			if (element && (root = this.getRoot(element)) && root === getMenuAncestor(element)) {
+			if (element && (root = this.getRoot(element)) && root === getFirstMenuAncestor(element)) {
 				if (postAjaxTimer) {
 					timers.clearTimeout(postAjaxTimer);
 					postAjaxTimer = null;
@@ -943,10 +904,10 @@ define(["wc/has",
 				 * should do this AFTER making sure we have set all disabled and
 				 * selected states as required.*/
 				if (this.isSubMenu(element)) {
-					if (isMenuTransient(root, this) && !this.isMobile) {
+					if (this.isTransient(root) && !this.isMobile) {
 						doCollisionDetection(element, this);
 					}
-					if ((subItem = getFirstAvailableItem(element, this))) {
+					if ((subItem = this.getFirstAvailableItem(element))) {
 						if (focusTimer) {
 							timers.clearTimeout(focusTimer);
 							focusTimer = null;
@@ -974,28 +935,30 @@ define(["wc/has",
 		/**
 		 * Sets tabstops when a menu item is hidden or disabled.
 		 * When we disable or hide any item we may have to move the default tabstop. This will be the case if:
-		 * <ul><li>the former default tabstop was the branch opener for the disabled branch and therefore no
-		 *    longer exists. We can assume that if the menu does not have a default tabstop that we just disabled it.</li>
-		 * <li>the former default tabstop the element we just hid</li>
-		 * <li> the old tabstop is the element (which means this is running before the SHED disabled helper: VERY unlikely)</li>
-		 * <li>The old tabstop is inside the branch we just disabled/hid.</li></ul>
-		 * @function hideDisableHelper
-		 * @private
+		 *
+		 *  * the former default tabstop was the branch opener for the disabled branch and therefore no longer exist as
+		 *    we can assume that if the menu does not have a default tabstop that we just disabled it;
+		 *  * the former default tabstop the element we just hid;
+		 *  * the old tabstop is the element (which means this is running before the SHED disabled helper: **very**
+		 *   unlikely); or
+		 *   * The old tabstop is inside the branch we just disabled/hid.
+		 *
+		 * @function
+		 * @protected
 		 * @param {Element} element The menu item element being hidden or disabled.
 		 * @param {Element} root The menu root node.
-		 * @param {Object} instance The subclass menu we are processing.
 		 */
-		function hideDisableHelper(element, root, instance) {
+		AbstractMenu.prototype.hideDisableHelper = function(element, root) {
 			var path,
 				newTabStopItem,
 				oldTabstop = getFixedWidgets().TABSTOP.findDescendant(root);  // only need the first one from the root
 
 			if (!oldTabstop || oldTabstop === element || (oldTabstop.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINS)) {
 				// need to reset the tabIndex to something else
-				path = getPathToItem(element, root, instance);
+				path = this.getPathToItem(element, root);
 				if (path.length <= 2) {
 					// path length of 2 means is only root & branch, anything less is an error
-					newTabStopItem = getFirstAvailableItem(root, instance);
+					newTabStopItem = this.getFirstAvailableItem(root);
 				}
 				else {
 					newTabStopItem = path[(path.length - 2)];  // second last item
@@ -1004,12 +967,12 @@ define(["wc/has",
 			// where was focus?
 			if (!document.activeElement || document.activeElement === element || document.activeElement === document.body/* ie */ || document.activeElement === document.documentElement/* ie sometimes does this too */ || (document.activeElement.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINS)) {
 				// oh, it is in the hidden/disabled submenu better reset focus. If we have a new tabstop item, set it to that
-				instance._focusItem((newTabStopItem || getFirstAvailableItem(root, instance)), root);
+				this._focusItem((newTabStopItem || this.getFirstAvailableItem(root)), root);
 			}
 			else if (newTabStopItem) {
-				setTabstop(newTabStopItem, instance);
+				setTabstop(newTabStopItem, this);
 			}
-		}
+		};
 
 		function shedCollapseHelper(element, root, instance) {
 			var opener,
@@ -1034,23 +997,29 @@ define(["wc/has",
 			}
 		}
 
-
+		/**
+		 * Helper for shed EXPAND action. The default implementation does collision detection and then attempts to
+		 * focus the opened sub-menu.
+		 *
+		 * @function
+		 * @protected
+		 * @param {Element} branch The branch being expanded.
+		 * @param {type} root The root of the current menu.
+		 */
 		AbstractMenu.prototype.expand = function(branch, root) {
 			var opener, content, subItem;
 
 			if ((opener = this._getBranchOpener(branch))) {
-
 				content = getContent(opener);
 				if (content) {
-					if (!this.isMobile) {
+					if (this.isTransient(root) && !this.isMobile) {
 						doCollisionDetection(content, this);
 					}
-					if ((subItem = getFirstAvailableItem(content, this))) {
+					if ((subItem = this.getFirstAvailableItem(content))) {
 						timers.setTimeout(this._focusItem.bind(this), 0, subItem, root);
 					}
 				}
 			}
-
 		};
 
 		/**
@@ -1063,24 +1032,21 @@ define(["wc/has",
 		 */
 		AbstractMenu.prototype.shedSubscriber = function(element, action) {
 			var root,
-				branch,
-				isTransient;
+				branch;
 
 			if (!(element && (root = this.getRoot(element)))) {
 				return;
 			}
 
-			isTransient = isMenuTransient(root, this);
-
 			if (action === shed.actions.ENABLE || action === shed.actions.DISABLE) {
-				enableDisable(element, action, root, isTransient, this);
+				this.enableDisable(element, action, root);
 				return;
 			}
 			if (action === shed.actions.HIDE) {
-				hideDisableHelper(element, root, this);
+				this.hideDisableHelper(element, root);
 				return;
 			}
-			if (isTransient) { // collision detection on branch open
+			if (this.isTransient(root)) { // collision detection on branch open
 				if (action === shed.actions.EXPAND || action === shed.actions.COLLAPSE) {
 					if (this.isSubMenu(element) && (branch = this._getBranch(element))) {
 						expandCollapseTransientBranch(branch, action, root, this);
@@ -1096,7 +1062,6 @@ define(["wc/has",
 					this.expand(branch, root);
 				}
 			}
-
 
 			if (action === shed.actions.COLLAPSE) {
 				shedCollapseHelper(element, root, this);
@@ -1156,30 +1121,29 @@ define(["wc/has",
 		}
 
 		/*
-		 * Helper for shedSubscriber.
+		 * Helper for shedSubscriber. This helper deals with enable/disable actions. The default implementation is for
+		 * transient menus and will close a submenu if a branch is disabled.
 		 * @function
-		 * @private
+		 * @protected
 		 */
-		function enableDisable(element, action, root, isTransient, instance) {
+		AbstractMenu.prototype.enableDisable = function(element, action, root) {
 			var shedFunc, branch;
-			if (instance._isBranch(element)) {
+			if (this._isBranch(element)) {
 				shedFunc = action === shed.actions.DISABLE ? "disable" : "enable";
-				if (isTransient) {
-					// close the submenu
-					if (action === shed.actions.DISABLE && (branch = instance._getBranchExpandableElement(element)) && shed.isExpanded(branch)) {
-						shed.collapse(branch); // do not call this[FUNC_MAP.CLOSE] because we don't want all the animate gubbins
-					}
+				// close the submenu
+				if (action === shed.actions.DISABLE && (branch = this._getBranchExpandableElement(element)) && shed.isExpanded(branch)) {
+					shed.collapse(branch); // do not call this[FUNC_MAP.CLOSE] because we don't want all the animate gubbins
 				}
 				// dis/en-able the opener
-				shed[shedFunc](instance._getBranchOpener(element));
+				shed[shedFunc](this._getBranchOpener(element));
 				// disable or re-enable stuff inside the submenu
-				disableInBranch(element, shedFunc, instance);
+				this.disableInBranch(element, shedFunc);
 			}
 			// branches and items when disabled: may have to change default tabstop
 			if (action === shed.actions.DISABLE) {
-				hideDisableHelper(element, root, instance);
+				this.hideDisableHelper(element, root);
 			}
-		}
+		};
 
 		function writeExpandedState(nextSubmenu, toContainer) {
 			var name, branchItem;
@@ -1198,7 +1162,7 @@ define(["wc/has",
 
 		function writeSelectedState(nextSelectedItem, toContainer) {
 			var root = this.getRoot(nextSelectedItem);
-			if (root && root === getMenuAncestor(nextSelectedItem)) {
+			if (root && root === getFirstMenuAncestor(nextSelectedItem)) {
 				formUpdateManager.writeStateField(toContainer, nextSelectedItem.id + "${wc.ui.menu.selectable.nameSuffix}", "x");
 			}
 		}
@@ -1332,17 +1296,18 @@ define(["wc/has",
 		};
 
 		/**
-		 * If set to true the menu will have transient effects: that is, close when
-		 * it loses focus or activate on hover and invoke viewport collision. These are
-		 * all facted of menus which do not have sticky open-ness. In abstract menu this
-		 * property should not be addressed directly but should be tested using the private
-		 * helper function isMenuTransient. This prevents false results from subclasses.
+		 * If set to true the menu will have transient effects: that is, close when it loses focus or activate on hover
+		 * and invoke viewport collision. These are all facted of menus which do not have sticky open-ness. Defaults to
+		 * true.
 		 *
-		 * @var
-		 * @type {Boolean}
-		 * @protected
+		 * @function
+		 * @public
+		 * @param {Element} element An element in a menu. Not used in the default implementation.
+		 * @return {boolean} true if the current menu has transient sub-menu artefacts.
 		 */
-		AbstractMenu.prototype._transient = true;
+		AbstractMenu.prototype.isTransient = function(element) {
+			return true;
+		};
 
 		/**
 		 * Indicates the method for finding "next" and "previous" when tree walking.
@@ -1412,7 +1377,7 @@ define(["wc/has",
 		 * @protected
 		 */
 		AbstractMenu.prototype._role = {
-			MENU: MENU_ROLE,
+			MENU: "menu",
 			LEAF: {
 				noSelection: MENUITEM_ROLE,
 				single: "menuitemradio",
@@ -1449,7 +1414,7 @@ define(["wc/has",
 		 */
 		AbstractMenu.prototype.getRoot = function(item) {
 			var result = this.ROOT.findAncestor(item);
-			if (result && result !== getMenuAncestor(item)) { // make sure the first generic root is root
+			if (result && result !== getFirstMenuAncestor(item)) { // make sure the first generic root is root
 				 return null;
 			}
 			return result;
@@ -1580,7 +1545,7 @@ define(["wc/has",
 				return false;
 			}
 			if (this.isMobile) {
-				CLOSE_BUTTON = CLOSE_BUTTON || new Widget("button", "closesubmenu", {"role": "menuitem"});
+				CLOSE_BUTTON = CLOSE_BUTTON || new Widget(BUTTON, "closesubmenu", {"role": "menuitem"});
 				if (CLOSE_BUTTON.isOneOfMe(item)) {
 					this[FUNC_MAP.CLOSE_MY_BRANCH](item);
 					return true;
@@ -1610,7 +1575,7 @@ define(["wc/has",
 		AbstractMenu.prototype._escape = function(item) {
 			var branch,
 				root = this.getRoot(item);
-			if (root && isMenuTransient(root, this) && (branch = this[this._FUNC_MAP.CLOSE_MY_BRANCH](item)) && branch.parentNode) {
+			if (root && this.isTransient(root) && (branch = this[this._FUNC_MAP.CLOSE_MY_BRANCH](item)) && branch.parentNode) {
 				// if we have successfully closed a submenu at the top of the menu then remove the hover flag
 				branch = this._getBranch(branch.parentNode);
 				if (!branch || (branch === root)) {
@@ -1753,7 +1718,7 @@ define(["wc/has",
 					}
 				};
 
-				if (isMenuTransient(root, this)) {
+				if (this.isTransient(root)) {
 					// Close any open branches except the path to the current item
 					this.closeAllPaths(root, item);
 				}
@@ -1788,7 +1753,7 @@ define(["wc/has",
 		 * @returns {Boolean} true if the element is a leaf node of a menu
 		 */
 		AbstractMenu.prototype._isLeaf = function(element) {
-			return (isItem(element, this) && !this._isBranch(element));
+			return (this.isItem(element) && !this._isBranch(element));
 		};
 
 
@@ -1812,8 +1777,8 @@ define(["wc/has",
 		 * @returns {?Element} Element if a target appropriate to action is found otherwise null.
 		 */
 		AbstractMenu.prototype._getTargetItem = function(item, action, root, forceCycle) {
-			var keyWalkerConfig = getkeyWalkerConfig(item, root, this);
-			keyWalkerConfig.filter = getNavigationTreeWalkerFilter(true, this);
+			var keyWalkerConfig = this.getkeyWalkerConfig(item, root);
+			keyWalkerConfig.filter = this.getNavigationTreeWalkerFilter(true);
 			if (forceCycle || forceCycle === false) {
 				keyWalkerConfig[keyWalker.OPTIONS.CYCLE] = forceCycle;
 			}
@@ -1846,14 +1811,15 @@ define(["wc/has",
 				action = this._keyMap[keyName];
 
 			LETTER = LETTER || new RegExp(i18n.get("${wc.common.i18n.letter}"));
+
 			if (action) {
 				if (this[action]) {
 					return this[action](item);
 				}
 				target = this._getTargetItem(item, action, root);
 			}
-			else if (keyName && (keyName = keyName.replace(KEY_NAME_RE, "")) && keyName.length === 1 && LETTER.test(keyName)) {
-				target = getTextTarget(item, keyName, root, this);
+			else if (keyName && (keyName = keyName.replace(/^DOM_VK_/, "")) && keyName.length === 1 && LETTER.test(keyName)) {
+				target = this.getTextTarget(item, keyName, root);
 			}
 			if (target) {
 				this._focusItem(target, root);
@@ -1890,12 +1856,12 @@ define(["wc/has",
 				return;
 			}
 			root = ((target === window || target === document) ? null : this.getRoot(target));
-			genericRoot = ((target === window || target === document) ? null : getMenuAncestor(target));
+			genericRoot = ((target === window || target === document) ? null : getFirstMenuAncestor(target));
 			if (root && (root === genericRoot)) {
 				if (openMenu && (localOpenMenu = document.getElementById(openMenu)) && localOpenMenu !== root) {
-					closeOpenMenu(localOpenMenu, target, this);
+					this.closeOpenMenu(localOpenMenu, target);
 				}
-				if (isMenuTransient(root, this)) {
+				if (this.isTransient(root)) {
 					if (!attribute.get(root, BOOTSTRAPPED)) {
 						attribute.set(root, BOOTSTRAPPED, true);
 						event.add(root, event.TYPE.mouseover, mouseoverEvent.bind(this));
@@ -1912,7 +1878,7 @@ define(["wc/has",
 				}
 			}
 			else if (!genericRoot && openMenu && (localOpenMenu = document.getElementById(openMenu)) && this.isRoot(localOpenMenu)) {  // focus is not in any menu
-				closeOpenMenu(localOpenMenu, target, this);
+				this.closeOpenMenu(localOpenMenu, target);
 			}
 		};
 
@@ -1935,23 +1901,23 @@ define(["wc/has",
 				if (target !== window && (root = this.getRoot(target))) {
 					if ((item = this.getItem(target)) && !shed.isDisabled(item)) {
 						if (openMenu && (localOpenMenu = document.getElementById(openMenu)) && root !== localOpenMenu) {
-							closeOpenMenu(localOpenMenu, target, this);
+							this.closeOpenMenu(localOpenMenu, target);
 						}
 						this[FUNC_MAP.ACTION](target);
-						if (isMenuTransient(root, this)) {
+						if (this.isTransient(root)) {
 							if (this._isBranch(item)) {
 								activateOnHover = shed.isExpanded(this._getBranchExpandableElement(item)) ? root.id : null;
 							}
 							else if (this._isLeaf(item)) {
 								me = this;
-								timers.setTimeout(closeOpenMenu, 0, root, target, me);
+								timers.setTimeout(this.closeOpenMenu.bind(this), 0, root, target, me);
 							}
 						}
 					}
 				}
 				else if (openMenu && (localOpenMenu = document.getElementById(openMenu)) && this.isRoot(localOpenMenu)) {
 					// click outside any menu we need to close any open transient menu
-					closeOpenMenu(localOpenMenu, target, this);
+					this.closeOpenMenu(localOpenMenu, target);
 				}
 			}
 			catch (ex) {
@@ -2098,7 +2064,7 @@ define(["wc/has",
 				leaf = this._role.LEAF;
 			this._wd.submenu = new Widget("", "", { "role": "menu" });
 			this._wd.branch = new Widget("", "wc-submenu");
-			this._wd.opener = new Widget("button", "wc-submenu-o");
+			this._wd.opener = new Widget(BUTTON, "wc-submenu-o");
 			this._wd.leaf = [];
 			for (o in leaf) {
 				if (leaf.hasOwnProperty(o)) {
