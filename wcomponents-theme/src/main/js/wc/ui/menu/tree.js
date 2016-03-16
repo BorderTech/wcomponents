@@ -29,9 +29,10 @@ define(["wc/ui/menu/core",
 		"wc/dom/classList",
 		"wc/dom/formUpdateManager",
 		"wc/dom/getFilteredGroup",
-		"wc/ui/ajaxRegion"],
-	/** @param abstractMenu @param keyWalker @param shed @param Widget @param toArray  @param treeItem @param initialise @param has s @param classList @param formUpdateManager @param getFilteredGroup @param ajaxRegion @ignore */
-	function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, has, classList, formUpdateManager, getFilteredGroup, ajaxRegion) {
+		"wc/ui/ajaxRegion",
+		"wc/timers"],
+	/** @param abstractMenu @param keyWalker @param shed @param Widget @param toArray  @param treeItem @param initialise @param has s @param classList @param formUpdateManager @param getFilteredGroup @param ajaxRegion @param timers @ignore */
+	function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, has, classList, formUpdateManager, getFilteredGroup, ajaxRegion, timers) {
 		"use strict";
 
 		/**
@@ -44,7 +45,8 @@ define(["wc/ui/menu/core",
 			var SUBMENU_CONTENT,
 				DUMMY_BRANCH,
 				VOPENER,
-				LEAF_WD;
+				LEAF_WD,
+				ajaxTimer;
 
 			if (has("ie") === 8) {
 				// IE8 fails to repaint tree branch closes in a timely manner when closing if the repainter is not included explicitly.
@@ -607,6 +609,17 @@ define(["wc/ui/menu/core",
 					// we are only concerned with htree here. Vertical trees are fine.
 					this.constructor.prototype.shedSubscriber.call(this, element, action);
 					return;
+				}
+
+				if (action === shed.actions.SELECT || action === shed.actions.DESELECT) {
+					if (root.getAttribute("data-wc-ajaxalias")) {
+						if (ajaxTimer) {
+							timers.clearTimeout(ajaxTimer);
+							ajaxTimer = null;
+						}
+						ajaxTimer = timers.setTimeout(ajaxRegion.requestLoad, 0, root);
+					}
+					// do not return, we have more to do.
 				}
 
 				if (this.isHTree(root) && action === shed.actions.SELECT) {

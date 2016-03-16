@@ -19,7 +19,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.1.0
  */
 public class WTree extends AbstractInput
-		implements AjaxTarget, SubordinateTrigger, SubordinateTarget,
+		implements AjaxTarget, AjaxTrigger, SubordinateTrigger, SubordinateTarget,
 		Marginable, Targetable {
 
 	/**

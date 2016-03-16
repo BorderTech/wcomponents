@@ -13,7 +13,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTabSet;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.examples.common.AccessibilityWarningPanel;
+import com.github.bordertech.wcomponents.examples.common.AccessibilityWarningContainer;
 import com.github.bordertech.wcomponents.util.StreamUtil;
 import java.io.IOException;
 import java.io.InputStream;
@@ -67,7 +67,7 @@ final class ExamplePanel extends WPanel {
 		srcImage.setCacheKey("srcTabImage");
 		tabset.addTab(source, new WDecoratedLabel(srcImage), WTabSet.TAB_MODE_LAZY).setToolTip("View Source");
 		container.add(new WText("Select an example from the menu"));
-		add(new AccessibilityWarningPanel());
+		add(new AccessibilityWarningContainer());
 	}
 
 	/**
