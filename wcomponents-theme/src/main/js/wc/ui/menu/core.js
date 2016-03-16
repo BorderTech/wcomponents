@@ -1867,10 +1867,8 @@ define(["wc/has",
 						event.add(root, event.TYPE.mouseover, mouseoverEvent.bind(this));
 					}
 				}
-				else if (this._isBranchOrOpener(target)) {
-					this._remapKeys(target, root);
-				}
 				if ((item = this.getItem(target)) && !shed.isDisabled(item)) {
+					this._remapKeys(item, root);
 					if (this._isBranch(item)) {
 						item = this._getBranchOpener(item);
 					}

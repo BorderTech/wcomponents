@@ -105,7 +105,8 @@
 						<xsl:call-template name="title"/>
 						<xsl:call-template name="treeitemContent"/>
 					</button>
-					<div role="group" aria-labelledby="{$nameButtonId}">
+					<!-- The content ID here is just for theme AJAX purposes. -->
+					<div role="group" aria-labelledby="{$nameButtonId}" id="{concat(@id, '-content')}">
 						<xsl:if test="not(ui:treeitem)">
 							<xsl:attribute name="aria-busy">
 								<xsl:copy-of select="$t"/>
