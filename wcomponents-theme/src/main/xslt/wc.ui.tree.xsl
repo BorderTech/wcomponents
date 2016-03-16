@@ -7,7 +7,6 @@
 	<xsl:template match="ui:tree">
 		<xsl:variable name="isError" select="key('errorKey', @id)"/>
 
-
 		<div role="tree">
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="class">
@@ -44,7 +43,7 @@
 			</xsl:if>
 			
 			<xsl:variable name="groupId" select="concat(@id, '-content')"/>
-			<div role="group" class="wc_tree_root" id="{$groupId}">
+			<div role="group" class="wc_tree_root" id="{$groupId}" data-wc-resizedirection="h">
 				<xsl:apply-templates select="ui:treeitem">
 					<xsl:with-param name="disabled" select="@disabled"/>
 				</xsl:apply-templates>
