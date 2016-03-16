@@ -403,7 +403,6 @@ define(["wc/has",
 						}
 					}
 					else {
-						console.warn("A submenu cannot find its branch ancestor in AbstractMenu.getNavigationTreeWalkerFilter");
 						result = NodeFilter.FILTER_SKIP;
 					}
 				}
@@ -577,7 +576,7 @@ define(["wc/has",
 				submenu = start;
 
 			if (!(this.isSubMenu(submenu) || this.getRoot(submenu) === submenu)) {
-				submenu = this._getSubMenu(submenu, this._isBranch(submenu));
+				submenu = this.getSubMenu(submenu, this._isBranch(submenu));
 			}
 
 			if (submenu) {
@@ -602,7 +601,7 @@ define(["wc/has",
 		 * @param {String} func The name of the {@link wc/dom/shed} function to invoke: either "enable" or "disable".
 		 */
 		AbstractMenu.prototype.disableInBranch = function(branch, func) {
-			var content = this._getSubMenu(branch, true),
+			var content = this.getSubMenu(branch, true),
 				kids = content.children || content.childNodes,
 				i,
 				next;
@@ -638,7 +637,7 @@ define(["wc/has",
 			 * helper to update attributes in the content of an ajaxed-in branch/submenuContent
 			 */
 			function fixBranchContent(nextBranch, useThisContent, inst) {
-				var myContent = useThisContent || inst._getSubMenu(nextBranch, true),
+				var myContent = useThisContent || inst.getSubMenu(nextBranch, true),
 					immediate = true;
 				if (!myContent) {
 					// I would worry if I had no content since a content holder is always created
@@ -699,7 +698,7 @@ define(["wc/has",
 						 * So we are always safe to call this._getBranch on the submenuContext of
 						 * any branch in this type of ajax response.
 						 */
-						var submenuContext = (this._getSubMenu(nextBranch) || element);
+						var submenuContext = (this.getSubMenu(nextBranch) || element);
 						this._setMenuItemRole(nextBranch, this._getBranch(submenuContext));
 						if (this.isTransient(root) && (opener = this._getBranchOpener(nextBranch))) {
 							opener.setAttribute("aria-haspopup", TRUE);
@@ -727,7 +726,7 @@ define(["wc/has",
 				ancestor,
 				result = false;
 
-			if (parent && (ancestor = instance._getSubMenu(parent))) {
+			if (parent && (ancestor = instance.getSubMenu(parent))) {
 				result = classList.contains(ancestor, CLASS.DEFAULT_DIRECTION);
 			}
 			return result;
@@ -982,7 +981,7 @@ define(["wc/has",
 
 			if (instance._isBranch(element)) { // tree
 				opener = instance._getBranchOpener(element);
-				groupContainer = instance._getSubMenu(element, true);
+				groupContainer = instance.getSubMenu(element, true);
 				if (groupContainer && (group = getFilteredGroup(groupContainer, {itemWd: instance._wd.leaf[0]})) && group.length) {
 					group.forEach(function(next) {
 						shed.deselect(next);
@@ -1265,7 +1264,7 @@ define(["wc/has",
 		 * <del>properly</del><ins>at all</ins>.
 		 * @var
 		 * @type {module:wc/dom/Widget}
-		 * @protected
+		 * @public
 		 * @abstract
 		 */
 		AbstractMenu.prototype.ROOT = null;
@@ -1472,11 +1471,11 @@ define(["wc/has",
 			}
 
 			if (this._isBranch(item)) {
-				return this._getSubMenu(item, true);
+				return this.getSubMenu(item, true);
 			}
 
 			if (this._isOpener(item) && (myBranch = this._getBranch(item))) {
-				return this._getSubMenu(myBranch, true);
+				return this.getSubMenu(myBranch, true);
 			}
 
 			throw new TypeError("Item must be a branch, submenu or branch opener element.");
@@ -1485,14 +1484,14 @@ define(["wc/has",
 		/**
 		 * Gets the nearest submenu element relative to a start point in the direction specified.
 		 * @function
-		 * @protected
+		 * @public
 		 * @param {Element} item Any HTML element.
 		 * @param {Boolean} [descending] true to look for a descendant submenu (usually only set when called from a
 		 *    branch item)
 		 * @param {Boolean} [all] Find all descendants. Not used if descending != true.
 		 * @returns {?Element} A submenu element if found.
 		 */
-		AbstractMenu.prototype._getSubMenu = function(item, descending, all) {
+		AbstractMenu.prototype.getSubMenu = function(item, descending, all) {
 			var func;
 
 			if (this.getRoot(item)) {

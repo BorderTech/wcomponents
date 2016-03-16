@@ -89,7 +89,7 @@
 				<xsl:otherwise>
 					<xsl:attribute name="aria-expanded">
 						<xsl:choose>
-							<xsl:when test="@open">
+							<xsl:when test="@open and not(@disabled)">
 								<xsl:copy-of select="$t"/>
 							</xsl:when>
 							<xsl:otherwise>
@@ -106,7 +106,8 @@
 						<xsl:call-template name="treeitemContent"/>
 					</button>
 					<!-- The content ID here is just for theme AJAX purposes. -->
-					<div role="group" aria-labelledby="{$nameButtonId}" id="{concat(@id, '-content')}">
+					<xsl:variable name="groupId" select="concat(@id, '-content')"/>
+					<div role="group" aria-labelledby="{$nameButtonId}" id="{$groupId}" data-wc-resizedirection="h">
 						<xsl:if test="not(ui:treeitem)">
 							<xsl:attribute name="aria-busy">
 								<xsl:copy-of select="$t"/>
@@ -122,13 +123,17 @@
 								</xsl:choose>
 							</xsl:with-param>
 						</xsl:apply-templates>
+						<span class="wc_branch_resizer" aria-hidden="true">
+							<button type="button" class="wc_btn_nada wc_btn_icon wc_resize wc_branch_resize_handle" data-wc-resize="{$groupId}" role="presentation">
+								<span class="wc_off">resize handle</span>
+							</button>
+						</span>
 					</div>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:element>
 	</xsl:template>
-	
-	
+
 	<xsl:template name="treeitemContent">
 		<span class="wc_leaf_vopener" aria-hidden="true">
 			<xsl:text>&#x0a;</xsl:text>

@@ -7,7 +7,6 @@
 	<xsl:template match="ui:tree">
 		<xsl:variable name="isError" select="key('errorKey', @id)"/>
 
-
 		<div role="tree">
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="class">
@@ -42,10 +41,18 @@
 			<xsl:if test="$isError">
 				<xsl:call-template name="invalid"/>
 			</xsl:if>
-
-			<xsl:apply-templates select="ui:treeitem">
-				<xsl:with-param name="disabled" select="@disabled"/>
-			</xsl:apply-templates>
+			
+			<xsl:variable name="groupId" select="concat(@id, '-content')"/>
+			<div role="group" class="wc_tree_root" id="{$groupId}" data-wc-resizedirection="h">
+				<xsl:apply-templates select="ui:treeitem">
+					<xsl:with-param name="disabled" select="@disabled"/>
+				</xsl:apply-templates>
+				<span class="wc_branch_resizer" aria-hidden="true">
+					<button type="button" class="wc_btn_nada wc_btn_icon wc_resize wc_branch_resize_handle" data-wc-resize="{$groupId}" role="presentation">
+						<span class="wc_off">resize handle</span>
+					</button>
+				</span>
+			</div>
 
 			<xsl:call-template name="inlineError">
 				<xsl:with-param name="errors" select="$isError"/>

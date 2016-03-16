@@ -113,7 +113,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 				Array.prototype.forEach.call(candidates, function(next) {
 					if (!next.hasAttribute(MENU_FIXED)) {
 						next.setAttribute(MENU_FIXED, "true");
-						Array.prototype.forEach.call(this._getSubMenu(next, true, true), this.fixSubMenuContent, this);
+						Array.prototype.forEach.call(this.getSubMenu(next, true, true), this.fixSubMenuContent, this);
 					}
 				}, this);
 			};

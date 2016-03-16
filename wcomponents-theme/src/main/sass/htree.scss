@@ -1,38 +1,74 @@
 /* htree.scss */
 @import 'tree-vars';
 
+// htree extends and replaces parts of tree.scss
+
 [role='tree'].wc_htree {
 	@include border;
 	overflow: auto;
-	position: relative;
 
 	[role='group'] {
-		// @include border($pos: left, $width: 3px);
-		left: $wc-htree-branch-offset;
-		min-height: 100%; // min-height used to hide the parent menu/submenu hover/selected state.
-		min-width: 0; // min-width used to override common 100%.
-		padding-left: $hgap-small; // override normal (vertical) tree.
+		@include max-content;
+		@include fit-content($what: 'min-width');
+		@include border($pos: right, $width: $wc-htree-branch-right-border-width);
+		left: calc(100% + #{$wc-htree-branch-right-border-width});
+		min-height: 100%;
+		padding-left: 0;
 		position: absolute;
 		top: 0;
-		width: $wc-htree-branch-width;
-		z-index: 1;
+
+		&.wc_tree_root {
+			left: 0;
+			position: relative;
+		}
 	}
 
-	[role='treeitem'] {
-		width: $wc-htree-branch-width;
+	[aria-expanded='true'] > [role='group'] {
+		max-height: 100%;
+		overflow-y: scroll;
 	}
 
 	[aria-expanded] > button {
 		@include flex($align-items: baseline);
 
-		.wc_leaf_hopener {
+		> .wc_leaf_hopener {
 			@include flex-grow(1);
-			text-align: right;
+			display: inline-block; // Only show hopener when we are in a branch opener.
+			padding: $wc-tree-item-pad-t $wc-tree-item-pad-r $wc-tree-item-pad-b 0;
 		}
 	}
 
-	[aria-expanded='true'] > button {
-		background-color: $wc-ui-color-highlight-bg;
-		color: $wc-ui-color-highlight-fg;
+	.wc_branch_resizer {
+		display: block; // override default from tree.scss
 	}
+
+	.wc_leaf_vopener {
+		display: none;
+	}
+
+	.wc_leaf_img {
+		padding-left: $wc-tree-item-pad-l;
+	}
+
+	.wc_leaf_name {
+		padding: $wc-tree-item-pad-t $wc-tree-item-pad-r $wc-tree-item-pad-b $wc-tree-item-pad-l;
+	}
+}
+
+
+// container for the resize handle.
+.wc_branch_resizer {
+	@include border-box;
+	display: none;
+	height: 1.5rem; // allow size for the absolutely positioned iconic button.
+	margin-top: $hgap-small;
+	width: 100%;
+}
+
+// htree resize handles.
+.wc_branch_resize_handle {
+	@include padded-box($pad: 0 $hgap-small);
+	bottom: 0;
+	position: absolute;
+	right: 0;
 }

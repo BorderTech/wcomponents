@@ -3,10 +3,13 @@
 
 [role='tree'] {
 	[role='group'] {
-		background-color: $wc-ui-color-global-bg;
-		color: $wc-ui-color-global-fg;
 		display: none;
-		padding: 0 0 0 $wc-tree-indent;
+		padding-left: $wc-tree-indent;
+
+		&.wc_tree_root {
+			display: block;
+			padding-left: 0;
+		}
 	}
 
 	[aria-expanded='true'] > [role='group'] {
@@ -18,20 +21,10 @@
 	@include border-box;
 	display: block;
 	width: 100%;
-
-	&[aria-expanded] {
-		padding: 0;
-	}
-
-	&[aria-selected='true'] {
-		background-color: $wc-ui-color-highlight-bg;
-		color: $wc-ui-color-highlight-fg;
-	}
 }
 
 button[role='treeitem'],
 [role='treeitem'] > button {
-	padding: $wc-tree-item-pad;
 	width: 100%;
 }
 
@@ -42,71 +35,27 @@ button[role='treeitem'],
 	width: 1.25rem;
 }
 
-.wc_leaf_vopener,
-.wc_leaf_noimg,
-.wc_leaf_hopener {
-	&:before {
-		@include wc-icon;
-	}
-}
-
 .wc_leaf_vopener { // the vertical opener button
+	padding: $wc-tree-item-pad-t 0 $wc-tree-item-pad-b $wc-tree-item-pad-l;
 	text-align: center;
-
-	&:before {
-		[aria-expanded] > button > & {
-			content: $fa-var-caret-right;
-		}
-
-		[aria-expanded='true'] > button > & {
-			content: $fa-var-caret-down;
-		}
-	}
-
-	.wc_htree & {
-		display: none;
-	}
 }
 
 // The icon container
 .wc_leaf_img {
+	padding: $wc-tree-item-pad-t 0 $wc-tree-item-pad-b;
+
 	img {
 		max-height: 16px;
 		max-width: 16px;
 	}
 }
 
-.wc_leaf_noimg:before { // placeholder image
-	content: $fa-var-file-o;
-
-	button > & {
-		[aria-expanded] > & {
-			content: $fa-var-folder-o;
-		}
-
-		[aria-expanded='true'] > & {
-			content: $fa-var-folder-open-o;
-		}
-	}
+.wc_leaf_name {
+	padding: $wc-tree-item-pad-t $wc-tree-item-pad-r $wc-tree-item-pad-b 0;
 }
 
 // htree branch opener.
 .wc_leaf_hopener {
 	display: none;
-
-	.wc_htree [aria-expanded] > button > & {
-		display: inline-block;
-
-		&:before {
-			content: $fa-var-caret-right;
-		}
-	}
+	text-align: right;
 }
-
-
-// .wc_debug {
-// 	.wc_leaf_hopener,
-// 	.wc_leaf_vopener {
-// 		@include outline($color: #f00);
-// 	}
-// }
