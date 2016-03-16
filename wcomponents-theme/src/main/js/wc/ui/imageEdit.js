@@ -339,7 +339,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 				container.className = "wc_img_editor";
 
 				loader.load(TEMPLATE_NAME, true, true).then(function(template) {
-					var eventConfig, editorHtml, i18nProps = {
+					var eventConfig, editorHtml, editorProps = {
 							style: {
 								width: config.width || defaults.width,
 								height: config.height || defaults.height
@@ -387,9 +387,12 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 								snap: "Take a snapshot from the video stream",
 								camera: "Take a photo from your webcam",
 								face: "Attempt to detect and center facial image"
+							},
+							feature: {
+								face: false
 							}
 						};
-					editorHtml = Mustache.to_html(template, i18nProps);
+					editorHtml = Mustache.to_html(template, editorProps);
 
 					container.innerHTML = editorHtml;
 					eventConfig = attachEventHandlers(container);
@@ -830,7 +833,10 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 					eventConfig.click.face = {
 						func: function() {
 							var button = container.querySelector("[name='face']"),
-								done = function() {
+								done = function(msg) {
+									if (msg) {
+										console.log(msg);
+									}
 									if (button) {
 										shed.enable(button);
 									}
@@ -862,6 +868,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 					targetWidthPixels = totalWidth * ZOOM_TO_PC,
 					targetScale = targetWidthPixels / rect.width;
 				fbImage.scale(targetScale);
+				fbImage.setAngle(0);  // TODO we should really rotate the image we pass to trackingjs
 				newLeft = (totalPadPixels / 2) - (rect.x * targetScale);
 				newTop = totalPadPixels - (rect.y * targetScale);  // The face is lower on the head so it probably needs more padding...
 				fbImage.setLeft(newLeft);
