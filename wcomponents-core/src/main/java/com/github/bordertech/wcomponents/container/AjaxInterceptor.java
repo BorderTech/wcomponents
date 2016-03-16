@@ -125,7 +125,7 @@ public class AjaxInterceptor extends InterceptorComponent {
 
 		xml.appendTagOpen("ui:ajaxtarget");
 		xml.appendAttribute("id", operation.getTargetContainerId());
-		xml.appendAttribute("action", "replaceContent");
+		xml.appendAttribute("action", AjaxOperation.AjaxAction.REPLACE_CONTENT.getDesc());
 		xml.appendClose();
 
 		// Paint targets - Assume targets are in the same context as the trigger
@@ -182,12 +182,8 @@ public class AjaxInterceptor extends InterceptorComponent {
 			UIContextHolder.pushContext(target.getContext());
 			try {
 				xml.appendTagOpen("ui:ajaxtarget");
-				if (operation.getActionId() == null) {
-					xml.appendAttribute("id", targetId);
-				} else {
-					xml.appendAttribute("id", operation.getActionId());
-				}
-				xml.appendAttribute("action", "replace");
+				xml.appendAttribute("id", targetId);
+				xml.appendAttribute("action", operation.getAction().getDesc());
 				xml.appendClose();
 
 				target.getComponent().paint(renderContext);
