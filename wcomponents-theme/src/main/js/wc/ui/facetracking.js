@@ -1,5 +1,9 @@
 define(["wc/loader/prefetch", "tracking"], function(prefetch, tracking) {
-	var FACE_LIB = "lib/tracking/build/data/face-min";
+	var constraints = {  // constraints would ideally allow larger images on more powerful devices (or should we resize image?)
+			px: 640 * 480,
+			len: 99999
+		},
+		FACE_LIB = "lib/tracking/build/data/face-min";
 
 	prefetch.jsModule(FACE_LIB);
 
@@ -21,9 +25,9 @@ define(["wc/loader/prefetch", "tracking"], function(prefetch, tracking) {
 		return result.rect;
 	}
 
-	function getSize(rect) {
-		if (rect) {
-			return rect.width * rect.height;
+	function getSize(obj) {
+		if (obj) {
+			return obj.width * obj.height;
 		}
 		return 0;
 	}
@@ -38,19 +42,29 @@ define(["wc/loader/prefetch", "tracking"], function(prefetch, tracking) {
 		var result = new Promise(function(resolve, reject) {
 			try {
 				// the require at this point is to avoid race conditions with the main tracking library and the "face" plugin
-				require([FACE_LIB], function() {
-					var tracker = new tracking.ObjectTracker("face");
-
-					tracker.once("track", function(event) {
-						if (all) {
-							resolve(event.data);
-						}
-						else {
-							resolve(findLargestFace(event.data));
-						}
+				if (!obj) {
+					reject("Must provide an image");
+				}
+				else if (getSize(obj) > constraints.px || obj.src.length > constraints.len) {
+					reject("Image is too large");
+				}
+				else {
+					require([FACE_LIB], function() {
+						var tracker = new tracking.ObjectTracker("face");
+						tracker.setInitialScale(1);
+						tracker.setStepSize(2);
+						tracker.setEdgesDensity(0.1);
+						tracker.once("track", function(event) {
+							if (all) {
+								resolve(event.data);
+							}
+							else {
+								resolve(findLargestFace(event.data));
+							}
+						});
+						tracking.track(obj, tracker);
 					});
-					tracking.track(obj, tracker);
-				});
+				}
 			}
 			catch (ex) {
 				reject(ex);
