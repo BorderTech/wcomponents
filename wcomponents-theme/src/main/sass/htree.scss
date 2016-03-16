@@ -23,6 +23,11 @@
 		}
 	}
 
+	[aria-expanded='true'] > [role='group'] {
+		max-height: 100%;
+		overflow-y: scroll;
+	}
+
 	[aria-expanded] > button {
 		@include flex($align-items: baseline);
 
