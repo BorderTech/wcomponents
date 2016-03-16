@@ -35,6 +35,11 @@ public final class AjaxOperation implements Serializable {
 	private String targetContainerId;
 
 	/**
+	 * The AJAX Action id override.
+	 */
+	private String actionId;
+
+	/**
 	 * Creates an AjaxOperation.
 	 *
 	 * @param triggerId the trigger id. {@link WServlet} uses this as a look-up to obtain the correct AjaxOperation.
@@ -104,4 +109,19 @@ public final class AjaxOperation implements Serializable {
 	public List<String> getTargets() {
 		return targetIds == null ? null : Collections.unmodifiableList(targetIds);
 	}
+
+	/**
+	 * @param actionId the AJAX action id override
+	 */
+	public void setActionId(final String actionId) {
+		this.actionId = actionId;
+	}
+
+	/**
+	 * @return the AJAX action id override
+	 */
+	public String getActionId() {
+		return actionId;
+	}
+
 }

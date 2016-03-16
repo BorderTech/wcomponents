@@ -182,7 +182,11 @@ public class AjaxInterceptor extends InterceptorComponent {
 			UIContextHolder.pushContext(target.getContext());
 			try {
 				xml.appendTagOpen("ui:ajaxtarget");
-				xml.appendAttribute("id", targetId);
+				if (operation.getActionId() == null) {
+					xml.appendAttribute("id", targetId);
+				} else {
+					xml.appendAttribute("id", operation.getActionId());
+				}
 				xml.appendAttribute("action", "replace");
 				xml.appendClose();
 

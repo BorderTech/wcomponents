@@ -469,7 +469,6 @@ public class WTree extends AbstractInput
 		if (isOpenItemRequest(request)) {
 			handleOpenItemRequest(request);
 		}
-
 		// Register for AJAX
 		AjaxHelper.registerComponentTargetItself(getId(), request);
 		// Update custom tree nodes (if needed)
@@ -765,6 +764,12 @@ public class WTree extends AbstractInput
 		setExpandedRows(rowIds);
 
 		setOpenRequestItemId(itemId);
+
+		// Override the current ajax operation to target the opened item
+		ComponentWithContext triggerWithContext = AjaxHelper.getCurrentTriggerAndContext();
+		AjaxOperation operation = new AjaxOperation(getId(), getId());
+		operation.setActionId(param);
+		AjaxHelper.setCurrentOperationDetails(operation, triggerWithContext);
 	}
 
 	/**
