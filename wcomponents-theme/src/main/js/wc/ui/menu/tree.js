@@ -69,8 +69,6 @@ define(["wc/ui/menu/core",
 				return VOPENER.findAncestor(element);
 			};
 
-
-
 			/**
 			 * The descriptors for this menu type.
 			 *
@@ -102,7 +100,6 @@ define(["wc/ui/menu/core",
 				MENU: "tree",
 				LEAF: {noSelection: "treeitem"}
 			};
-
 
 			/**
 			 * A helper to do strict-ish type checking on getting a tree's root element.
@@ -560,7 +557,7 @@ define(["wc/ui/menu/core",
 			 * @returns {Boolean} true if the element is the only selected item at its level.
 			 */
 			function isLastSelectedItemAtLevel(element, root) {
-				var level = instance._getSubMenu(element) || ((root && instance.isRoot(root)) ? root : instance.getRoot(element));
+				var level = instance.getSubMenu(element) || ((root && instance.isRoot(root)) ? root : instance.getRoot(element));
 
 				return getFilteredGroup(level, {
 					itemWd: LEAF_WD
@@ -697,6 +694,17 @@ define(["wc/ui/menu/core",
 				if (action === shed.actions.DISABLE) {
 					this.hideDisableHelper(element, root);
 				}
+			};
+
+			/**
+			 * Find all submenus inside a given element.
+			 * @function
+			 * @public
+			 * @param {Element} element The start element. Should probably be a tree or treeitem.
+			 * @returns {?NodeList} a NodeList containing all submenus inside element.
+			 */
+			this.getSubMenus = function(element) {
+				return this._wd.submenu.findDescendants(element);
 			};
 		}
 

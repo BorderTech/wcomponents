@@ -1,38 +1,51 @@
 /* htree.scss */
 @import 'tree-vars';
 
+// htree extends and replaces parts of tree.scss
+
 [role='tree'].wc_htree {
 	@include border;
 	overflow: auto;
-	position: relative;
 
 	[role='group'] {
-		// @include border($pos: left, $width: 3px);
-		left: $wc-htree-branch-offset;
-		min-height: 100%; // min-height used to hide the parent menu/submenu hover/selected state.
-		min-width: 0; // min-width used to override common 100%.
-		padding-left: $hgap-small; // override normal (vertical) tree.
+		@include max-content;
+		@include fit-content($what: 'min-width');
+		@include border($pos: right, $width: $wc-htree-branch-right-border-width);
+		left: calc(100% + #{$wc-htree-branch-right-border-width});
+		min-height: 100%;
+		padding-left: 0;
 		position: absolute;
 		top: 0;
-		width: $wc-htree-branch-width;
-		z-index: 1;
-	}
 
-	[role='treeitem'] {
-		width: $wc-htree-branch-width;
+		&.wc_tree_root {
+			left: 0;
+			position: relative;
+		}
 	}
 
 	[aria-expanded] > button {
 		@include flex($align-items: baseline);
 
-		.wc_leaf_hopener {
+		> .wc_leaf_hopener {
 			@include flex-grow(1);
-			text-align: right;
+			display: inline-block; // Only show hopener when we are in a branch opener.
+			padding: $wc-tree-item-pad-t $wc-tree-item-pad-r $wc-tree-item-pad-b 0;
 		}
 	}
 
-	[aria-expanded='true'] > button {
-		background-color: $wc-ui-color-highlight-bg;
-		color: $wc-ui-color-highlight-fg;
+	.wc_branch_resizer {
+		display: block; // override default from tree.scss
+	}
+
+	.wc_leaf_vopener {
+		display: none;
+	}
+
+	.wc_leaf_img {
+		padding-left: $wc-tree-item-pad-l;
+	}
+
+	.wc_leaf_name {
+		padding: $wc-tree-item-pad-t $wc-tree-item-pad-r $wc-tree-item-pad-b $wc-tree-item-pad-l;
 	}
 }
