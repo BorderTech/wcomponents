@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.util;
 
+import com.github.bordertech.wcomponents.TreeItemIdNode;
 import com.github.bordertech.wcomponents.WTree;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -12,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import com.github.bordertech.wcomponents.TreeItemModel;
 
 /**
  * Utility methods for {@link WTree} and its tree items.
@@ -31,12 +33,12 @@ public final class TreeItemUtil {
 	 * @param jsonString the string of JSON to convert to a custom tree of nodes
 	 * @return the custom tree structure of item ids
 	 */
-	public static WTree.ItemIdNode convertJsonToTree(final String jsonString) {
+	public static TreeItemIdNode convertJsonToTree(final String jsonString) {
 
 		JsonParser parser = new JsonParser();
 		JsonObject json = parser.parse(jsonString).getAsJsonObject();
 
-		WTree.ItemIdNode root = new WTree.ItemIdNode(null);
+		TreeItemIdNode root = new TreeItemIdNode(null);
 
 		JsonArray children = json.getAsJsonArray("root");
 		for (int i = 0; i < children.size(); i++) {
@@ -53,11 +55,11 @@ public final class TreeItemUtil {
 	 * @param parentNode the parent node
 	 * @param json the current JSON object
 	 */
-	private static void processJsonToTree(final WTree.ItemIdNode parentNode, final JsonObject json) {
+	private static void processJsonToTree(final TreeItemIdNode parentNode, final JsonObject json) {
 
 		String id = json.getAsJsonPrimitive("id").getAsString();
 
-		WTree.ItemIdNode node = new WTree.ItemIdNode(id);
+		TreeItemIdNode node = new TreeItemIdNode(id);
 		parentNode.addChild(node);
 
 		JsonArray children = json.getAsJsonArray("items");
@@ -73,7 +75,7 @@ public final class TreeItemUtil {
 	 * @param tree2 the second tree to compare
 	 * @return true if the trees match
 	 */
-	public static boolean isTreeSame(final WTree.ItemIdNode tree1, final WTree.ItemIdNode tree2) {
+	public static boolean isTreeSame(final TreeItemIdNode tree1, final TreeItemIdNode tree2) {
 
 		// Check IDs match
 		if (!Util.equals(tree1.getItemId(), tree2.getItemId())) {
@@ -98,12 +100,12 @@ public final class TreeItemUtil {
 	 * @param node the node to copy
 	 * @return a copy of the node
 	 */
-	public static WTree.ItemIdNode copyTreeNode(final WTree.ItemIdNode node) {
-		WTree.ItemIdNode copy = new WTree.ItemIdNode(node.getItemId());
+	public static TreeItemIdNode copyTreeNode(final TreeItemIdNode node) {
+		TreeItemIdNode copy = new TreeItemIdNode(node.getItemId());
 		copy.setHasChildren(node.hasChildren());
 
-		for (WTree.ItemIdNode childItem : node.getChildren()) {
-			WTree.ItemIdNode childCopy = copyTreeNode(childItem);
+		for (TreeItemIdNode childItem : node.getChildren()) {
+			TreeItemIdNode childCopy = copyTreeNode(childItem);
 			copy.addChild(childCopy);
 		}
 		return copy;
@@ -150,8 +152,8 @@ public final class TreeItemUtil {
 	 *
 	 * @return the map containing the map of custom items to their node in the tree
 	 */
-	public static Map<String, WTree.ItemIdNode> createCustomIdMap(final WTree.ItemIdNode custom) {
-		Map<String, WTree.ItemIdNode> map = new HashMap<>();
+	public static Map<String, TreeItemIdNode> createCustomIdMap(final TreeItemIdNode custom) {
+		Map<String, TreeItemIdNode> map = new HashMap<>();
 		if (custom != null) {
 			processCustomIdMapping(map, custom);
 		}
@@ -164,13 +166,13 @@ public final class TreeItemUtil {
 	 * @param map the map of custom items and their node
 	 * @param node the current node being processed
 	 */
-	private static void processCustomIdMapping(final Map<String, WTree.ItemIdNode> map, final WTree.ItemIdNode node) {
+	private static void processCustomIdMapping(final Map<String, TreeItemIdNode> map, final TreeItemIdNode node) {
 		String itemId = node.getItemId();
 		if (!Util.empty(itemId)) {
 			map.put(itemId, node);
 		}
 
-		for (WTree.ItemIdNode childItem : node.getChildren()) {
+		for (TreeItemIdNode childItem : node.getChildren()) {
 			processCustomIdMapping(map, childItem);
 		}
 	}
@@ -181,7 +183,7 @@ public final class TreeItemUtil {
 	 */
 	public static Map<String, List<Integer>> createItemIdIndexMap(final WTree tree) {
 		Map<String, List<Integer>> map = new HashMap<>();
-		WTree.TreeModel treeModel = tree.getTreeModel();
+		TreeItemModel treeModel = tree.getTreeModel();
 		int rows = treeModel.getRowCount();
 		Set<String> expanded = tree.getExpandedRows();
 		WTree.ExpandMode mode = tree.getExpandMode();
@@ -203,7 +205,7 @@ public final class TreeItemUtil {
 	 * @param mode the expand mode
 	 * @param expandedRows the set of expanded rows
 	 */
-	private static void processItemIdIndexMapping(final Map<String, List<Integer>> map, final List<Integer> rowIndex, final WTree.TreeModel treeModel, final WTree.ExpandMode mode, final Set<String> expandedRows) {
+	private static void processItemIdIndexMapping(final Map<String, List<Integer>> map, final List<Integer> rowIndex, final TreeItemModel treeModel, final WTree.ExpandMode mode, final Set<String> expandedRows) {
 
 		// Add current item
 		String id = treeModel.getItemId(rowIndex);
@@ -265,7 +267,7 @@ public final class TreeItemUtil {
 	 * @param expandedRows the set of expanded rows
 	 * @param mapItemIds the map of item ids to row index
 	 */
-	private static void processCustomTreeNodes(final WTree.ItemIdNode node, final WTree.TreeModel treeModel, final WTree.ExpandMode mode, final Set<String> expandedRows, final Map<String, List<Integer>> mapItemIds) {
+	private static void processCustomTreeNodes(final TreeItemIdNode node, final TreeItemModel treeModel, final WTree.ExpandMode mode, final Set<String> expandedRows, final Map<String, List<Integer>> mapItemIds) {
 
 		// Node has no children so check if they need to be loaded from the tree model
 		if (node.getChildren().isEmpty()) {
@@ -273,7 +275,7 @@ public final class TreeItemUtil {
 			loadCustomNodesFromModel(node, rowIndex, treeModel, mode, expandedRows);
 		} else {
 			// Check children
-			for (WTree.ItemIdNode child : node.getChildren()) {
+			for (TreeItemIdNode child : node.getChildren()) {
 				processCustomTreeNodes(child, treeModel, mode, expandedRows, mapItemIds);
 			}
 		}
@@ -288,7 +290,7 @@ public final class TreeItemUtil {
 	 * @param mode the expand mode
 	 * @param expandedRows the set of expanded rows
 	 */
-	private static void loadCustomNodesFromModel(final WTree.ItemIdNode node, final List<Integer> rowIndex, final WTree.TreeModel treeModel, final WTree.ExpandMode mode, final Set<String> expandedRows) {
+	private static void loadCustomNodesFromModel(final TreeItemIdNode node, final List<Integer> rowIndex, final TreeItemModel treeModel, final WTree.ExpandMode mode, final Set<String> expandedRows) {
 
 		// Defualt to no children
 		node.setHasChildren(false);
@@ -328,7 +330,7 @@ public final class TreeItemUtil {
 			// Get child item id
 			String nextId = treeModel.getItemId(nextRow);
 			// Add child node
-			WTree.ItemIdNode childNode = new WTree.ItemIdNode(nextId);
+			TreeItemIdNode childNode = new TreeItemIdNode(nextId);
 			node.addChild(childNode);
 			// Process this child node
 			loadCustomNodesFromModel(childNode, nextRow, treeModel, mode, expandedRows);
