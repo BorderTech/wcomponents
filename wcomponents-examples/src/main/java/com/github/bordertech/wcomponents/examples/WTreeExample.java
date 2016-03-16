@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.AbstractTreeItemModel;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Margin;
@@ -57,7 +58,6 @@ public class WTreeExample extends WContainer {
 		ddExpMode.setSelected(WTree.ExpandMode.CLIENT);
 		layout.addField("Expand mode", ddExpMode);
 
-
 		WButton btnOptions = new WButton("Apply");
 		btnOptions.setAction(new Action() {
 			@Override
@@ -98,7 +98,7 @@ public class WTreeExample extends WContainer {
 	/**
 	 * Example tree model.
 	 */
-	public static class ExampleTreeModel extends WTree.AbstractTreeModel {
+	public static class ExampleTreeModel extends AbstractTreeItemModel {
 
 		/**
 		 * List that holds the sample data.
