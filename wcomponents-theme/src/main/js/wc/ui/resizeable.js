@@ -1,12 +1,6 @@
 /**
  * Provides functionality to implement a resizeable component.
  *
- * @typedef {Object} module:wc/ui/resizeable.config() Optional module configuration.
- * @property {?int} min The minimum size, in px, any element is allowed to be.
- * @default 0
- * @proprty {?int} step The number of pixels to increase/decrease per keypress when resizing with the arrow keys.
- * @default 6
- *
  * @module
  * @requires module:wc/dom/attribute
  * @requires module:wc/dom/classList
@@ -22,9 +16,9 @@
  * @requires module:wc/dom/Widget
  * @requires module:wc/has
  * @requires module:wc/ui/ajax/processResponse
+ * @requires module:wc/Observer
+ * @requires module:wc/timers
  * @requires module:wc/config
- *
- * @todo check source order.
  */
 define(["wc/dom/attribute",
 		"wc/dom/classList",
@@ -40,8 +34,11 @@ define(["wc/dom/attribute",
 		"wc/dom/Widget",
 		"wc/has",
 		"wc/ui/ajax/processResponse",
+		"wc/Observer",
+		"wc/timers",
 		"wc/config"],
-	function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcceptableTarget, getBox, getStyle, initialise, shed, uid, Widget, has, processResponse, wcconfig) {
+	function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcceptableTarget, getBox, getStyle, initialise, shed, uid, Widget, has, processResponse, Observer, timers, wcconfig) {
+
 		"use strict";
 		/**
 		 * @constructor
@@ -67,8 +64,25 @@ define(["wc/dom/attribute",
 				BS = ns + ".inited",
 				MM_EVENT = ns + ".move.inited",
 				TRUE = "true",
-				FONT_SIZE;
+				FONT_SIZE,
+				observer,
+				notifyTimer,
+				/**
+				 * @var {number} notifyTimeout The delay between resizing and notifying the resize observers. This can
+				 * be small but is handy to prevent continual notification during dragging.
+				 * @private
+				 */
+				notifyTimeout = ((conf && conf.delay) ? conf.delay : 50);
 
+
+			/**
+			 * In which direction can the element be resized?
+			 * @param {Element} element The resizeable component.
+			 * @returns {String} Values are "v" for only vertical, "h" for only horizontal or "" for both.
+			 */
+			function getAllowedDirections(element) {
+				return element.getAttribute("data-wc-resizedirection");
+			}
 
 			/**
 			 * Get the default font size of the BODY element in pixels.
@@ -133,30 +147,60 @@ define(["wc/dom/attribute",
 
 				if (_size && isNaN(_size)) {
 					if (_size.indexOf(UNIT) > -1) {
-						_size = parseInt(_size, 10);
+						return parseInt(_size, 10);
 					}
-					else {
-						// someone specified the size in ems or maybe even points, but we will guess ems and getStyle() returned that style
-						_size = Math.round(parseFloat(_size) * FONT_SIZE);
-					}
+					// someone specified the size in ems or maybe even points, but we will guess ems and getStyle() returned that style
+					_size = Math.round(parseFloat(_size) * FONT_SIZE);
+				}
+				if (isNaN(_size)) {
+					return 0;
 				}
 				return _size;
 			}
 
 			/**
 			 * Get the width and height of an element.
+			 *
+			 * If we are getting the "native" size it is without inline styles. This is usually because we need to work
+			 * out how big "auto" or "fit-content" is.
+			 *
 			 * @function
 			 * @private
 			 * @param {Element} element the resizeable component.
+			 * @param {Boolean} native If true remove any inline styles before calculating the size. If a min/max
+			 *    width/height is "auto" or one of the "-content" settings (eg fit-content, -moz-max-content etc) then
+			 *    we need to make a guess at the native box size in pixels. This is a bit experimental.
 			 * @returns {Object} a POJSO with properties {float} width and {float} height.
 			 */
-			function getSize(element) {
+			function getSize(element, native) {
 				var height = element.style.height,
 					width = element.style.width,
+					_width, _height,
+					box;
+
+				try {
+					if (native) {
+						_width = width;
+						_height = height;
+						element.style.width = "";
+						element.style.height = "";
+						width = 0;
+						height = 0;
+					}
 					box = getBox(element);
-				height = height ? parseFloat(height.replace(UNIT, "")) : box.height;
-				width = width ? parseFloat(width.replace(UNIT, "")) : box.width;
-				return {"width": width, "height": height};
+					height = height ? parseFloat(height.replace(UNIT, "")) : box.height;
+					width = width ? parseFloat(width.replace(UNIT, "")) : box.width;
+
+					return {width: width, height: height};
+				}
+				finally {
+					if (_width) {
+						element.style.width = _width;
+					}
+					if (_height) {
+						element.style.height = _height;
+					}
+				}
 			}
 
 			/**
@@ -169,30 +213,62 @@ define(["wc/dom/attribute",
 			 */
 			function getSizeContraint(element, isHeight) {
 				var css = "min-" + (isHeight ? "height" : "width"),
-					needUnits = !(document.defaultView && document.defaultView.getComputedStyle);
-				return getStyle(element, css, needUnits, true) || 0;
+					needUnits = !(document.defaultView && document.defaultView.getComputedStyle),
+					result = getStyle(element, css, needUnits, true) || 0,
+					box;
+
+				if (isNaN(result)) {
+					// we have something like auto or fit-content.
+					if (result === "auto" || result.indexOf("-content")) {
+						box = getSize(element, true);
+						return isHeight ? parseFloat(box.height) : parseFloat(box.width);
+					}
+					return 0;
+				}
+				return result;
 			}
 
 			/**
 			 * Changes the component size.
 			 * @function
 			 * @private
-			 * @param {Element} element the resizeable component
-			 * @param {float} deltaX change in width
-			 * @param {float} deltaY change in height
+			 * @param {Element} element The resizeable component.
+			 * @param {float} deltaX Change in width in pixels.
+			 * @param {float} deltaY Change in height in pixels.
 			 */
 			function resize(element, deltaX, deltaY) {
-				var box, min;
-				if (element && (box = getSize(element))) {
-					min = getSizeContraint(element);
-					min = min ? styleToPx(min) : MIN_SIZE;
-					element.style.width = Math.max(box.width + deltaX, min) + UNIT;
-
-					min = getSizeContraint(element, true);
-					min = min ? styleToPx(min) : MIN_SIZE;
-					element.style.height = Math.max(box.height + deltaY, min) + UNIT;
-
+				var box, min, notify, width, height;
+				try {
+					if (element && (box = getSize(element))) {
+						if (deltaX) {
+							min = getSizeContraint(element);
+							min = min ? styleToPx(min) : MIN_SIZE;
+							width = Math.round(Math.max(box.width + deltaX, min));
+							if (width > min && width !== parseInt(element.style.width)) {
+								element.style.width = width + UNIT;
+								notify = true;
+							}
+						}
+						if (deltaY) {
+							min = getSizeContraint(element, true);
+							min = min ? styleToPx(min) : MIN_SIZE;
+							height = Math.round(Math.max(box.height + deltaY, min));
+							if (height > min && height !== parseInt(element.style.height)) {
+								element.style.height = height + UNIT;
+								notify = true;
+							}
+						}
+					}
+				}
+				finally {
 					clearSelection();
+					if (notify && observer) {
+						if (notifyTimer) {
+							timers.clearTimeout(notifyTimer);
+							notifyTimer = null;
+						}
+						notifyTimer = timers.setTimeout(observer.notify, notifyTimeout, element);
+					}
 				}
 			}
 
@@ -240,7 +316,6 @@ define(["wc/dom/attribute",
 				}
 			}
 
-
 			/**
 			 * keydown event handler for keyboard driven resize.
 			 * @function
@@ -251,28 +326,38 @@ define(["wc/dom/attribute",
 				var target = $event.target,
 					element,
 					result = false,
-					x,
-					y,
+					x = 0,
+					y = 0,
 					keyCode = $event.keyCode,
-					resizeTarget;
+					resizeTarget,
+					allowed;
 				if (!$event.defaultPrevented && (element = RESIZE.findAncestor(target)) && (resizeTarget = getResizeTarget(element))) {
+					allowed =  getAllowedDirections(resizeTarget);
 					switch (keyCode) {
 						case KeyEvent.DOM_VK_RIGHT:
-							x = KEY_RESIZE;
+							if (allowed !== "v") {
+								x = KEY_RESIZE;
+							}
 							break;
 						case KeyEvent.DOM_VK_LEFT:
-							x = 0 - KEY_RESIZE;
+							if (allowed !== "v") {
+								x = 0 - KEY_RESIZE;
+							}
 							break;
 						case KeyEvent.DOM_VK_DOWN:
-							y = KEY_RESIZE;
+							if (allowed !== "h") {
+								y = KEY_RESIZE;
+							}
 							break;
 						case KeyEvent.DOM_VK_UP:
-							y = 0 - KEY_RESIZE;
+							if (allowed !== "h") {
+								y = 0 - KEY_RESIZE;
+							}
 							break;
 					}
 					// this is the bit that does the key driven "drag"
 					if (x || y) {
-						resize(resizeTarget, x || 0, y || 0);
+						resize(resizeTarget, x , y);
 						result = true;
 					}
 				}
@@ -292,8 +377,10 @@ define(["wc/dom/attribute",
 			 */
 			function resizeHandleHelper(element, x, y) {
 				var id = element.id,
-					deltaX = x - offsetX[id],
-					deltaY = y - offsetY[id];
+					allowed = getAllowedDirections(element),
+					deltaX = allowed === "v" ? 0 : x - offsetX[id],
+					deltaY = allowed === "h" ? 0 : y - offsetY[id];
+
 				if (element && (deltaX || deltaY)) {
 					resize(element, deltaX, deltaY);
 				}
@@ -399,7 +486,6 @@ define(["wc/dom/attribute",
 				}
 			};
 
-
 			/**
 			 * Adds event listeners to a resize handle and a mousemove event on the document body when the first resize
 			 * handle is present and visible.
@@ -498,10 +584,72 @@ define(["wc/dom/attribute",
 				shed.subscribe(shed.actions.DESELECT, shedSelectSubscriber);
 				processResponse.subscribe(shedAjaxSubscriber, true);
 			};
-		}
 
-		var /** @alias module:wc/ui/resizeable */ instance = new Resizeable();
+			/**
+			 * Allows a component to subscribe to resizing.
+			 * @function module:wc/ui/resizeable.subscribe
+			 * @see {@link module:wc/Observer#subscribe}
+			 *
+			 * @param {Function} subscriber The function that will be notified. This function MUST be present at
+			 *    "publish" time, but need not be preset at "subscribe" time.
+			 * @returns {?Function} A reference to the subscriber.
+			 */
+			this.subscribe = function(subscriber) {
+				function _subscribe(_subscriber) {
+					return observer.subscribe(_subscriber);
+				}
+
+				if (!observer) {
+					observer = new Observer();
+					this.subscribe = _subscribe;
+				}
+				return _subscribe(subscriber);
+			};
+
+			/**
+			 * Get the target component being resized.
+			 * @function
+			 * @alias module:wc/ui/resizeable.getTarget
+			 * @public
+			 * @param {Element} element The resize handle.
+			 */
+			this.getTarget = getResizeTarget;
+
+			/**
+			 * Remove size from the target of a resize control.
+			 *
+			 * @function module:wc/ui/resizeable.clearSize
+			 * @public
+			 * @public
+			 * @param {Element} element The resize handle.
+			 * @return {Boolean} true if a resizeable target was found and reset.
+			 */
+			this.clearSize = function(element) {
+				var target = getResizeTarget(element);
+				if (target) {
+					target.style.width = "";
+					target.style.height = "";
+
+					if (observer) {
+						observer.notify(target);
+					}
+					return true;
+				}
+				return false;
+			};
+		}
+		var /** @alias module:wc/ui/resizeable */
+		instance = new Resizeable();
 		initialise.register(instance);
 		return instance;
+
+		/**
+		 * @typedef {Object} module:wc/ui/resizeable.config() Optional module configuration.
+		 * @property {?int} min The minimum size, in px, any element is allowed to be.
+		 * @default 0
+		 * @property {?int} step The number of pixels to increase/decrease per keypress when resizing with the arrow keys.
+		 * @default 6
+		 * @property {?int} delay The delay, in milliseconds, between resizing an element and notifying the observers.
+		 */
 	}
 );

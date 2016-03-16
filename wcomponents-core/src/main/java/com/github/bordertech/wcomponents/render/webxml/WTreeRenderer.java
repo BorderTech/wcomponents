@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
+import com.github.bordertech.wcomponents.TreeItemIdNode;
+import com.github.bordertech.wcomponents.TreeItemImage;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WTree;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
@@ -9,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import com.github.bordertech.wcomponents.TreeItemModel;
 
 /**
  * The Renderer for the {@link WTree} component.
@@ -29,6 +32,13 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 
 		WTree tree = (WTree) component;
 		XmlStringBuilder xml = renderContext.getWriter();
+
+		// Check if rendering an open item request
+		String openId = tree.getOpenRequestItemId();
+		if (openId != null) {
+			handleOpenItemRequest(tree, xml, openId);
+			return;
+		}
 
 		xml.appendTagOpen("ui:tree");
 		xml.appendAttribute("id", component.getId());
@@ -71,13 +81,36 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 	}
 
 	/**
+	 * Paint the item that was on the open request.
+	 *
+	 * @param tree the WTree to render
+	 * @param xml the XML string builder
+	 * @param itemId the item id to open
+	 */
+	protected void handleOpenItemRequest(final WTree tree, final XmlStringBuilder xml, final String itemId) {
+		TreeItemModel model = tree.getTreeModel();
+		Set<String> selectedRows = new HashSet(tree.getSelectedRows());
+		Set<String> expandedRows = new HashSet(tree.getExpandedRows());
+		WTree.ExpandMode mode = tree.getExpandMode();
+
+		if (tree.getCustomTree() == null) {
+			List<Integer> rowIndex = tree.getItemIdIndexMap().get(itemId);
+			paintItem(tree, mode, model, rowIndex, xml, selectedRows, expandedRows);
+		} else {
+			Map<String, List<Integer>> mapIndex = tree.getItemIdIndexMap();
+			TreeItemIdNode node = tree.getCustomIdMap().get(itemId);
+			paintCustomItem(tree, mode, model, node, xml, selectedRows, expandedRows, mapIndex);
+		}
+	}
+
+	/**
 	 * Paint the tree items.
 	 *
 	 * @param tree the WTree to render
 	 * @param xml the XML string builder
 	 */
 	protected void handlePaintItems(final WTree tree, final XmlStringBuilder xml) {
-		WTree.TreeModel model = tree.getTreeModel();
+		TreeItemModel model = tree.getTreeModel();
 		int rows = model.getRowCount();
 
 		if (rows > 0) {
@@ -104,17 +137,16 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 	 * @param selectedRows the set of selected rows
 	 * @param expandedRows the set of expanded rows
 	 */
-	protected void paintItem(final WTree tree, final WTree.ExpandMode mode, final WTree.TreeModel model, final List<Integer> rowIndex, final XmlStringBuilder xml, final Set<String> selectedRows, final Set<String> expandedRows) {
+	protected void paintItem(final WTree tree, final WTree.ExpandMode mode, final TreeItemModel model, final List<Integer> rowIndex, final XmlStringBuilder xml, final Set<String> selectedRows, final Set<String> expandedRows) {
 
 		String itemId = model.getItemId(rowIndex);
 
-		boolean selectable = model.isSelectable(rowIndex);
 		boolean selected = selectedRows.remove(itemId);
 
 		boolean expandable = model.isExpandable(rowIndex) && model.hasChildren(rowIndex);
 		boolean expanded = expandedRows.remove(itemId);
 
-		WTree.ItemImage image = model.getItemImage(rowIndex);
+		TreeItemImage image = model.getItemImage(rowIndex);
 		String url = null;
 		if (image != null) {
 			url = tree.getItemImageUrl(image, itemId);
@@ -124,7 +156,7 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 		xml.appendAttribute("id", tree.getItemIdPrefix() + itemId);
 		xml.appendAttribute("label", model.getItemLabel(rowIndex));
 		xml.appendOptionalAttribute("imageUrl", url);
-		xml.appendOptionalAttribute("selected", selectable && selected, "true");
+		xml.appendOptionalAttribute("selected", selected, "true");
 		xml.appendOptionalAttribute("expandable", expandable, "true");
 		xml.appendOptionalAttribute("open", expandable && expanded, "true");
 		xml.appendClose();
@@ -154,8 +186,8 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 	 * @param xml the XML string builder
 	 */
 	protected void handlePaintCustom(final WTree tree, final XmlStringBuilder xml) {
-		WTree.TreeModel model = tree.getTreeModel();
-		WTree.ItemIdNode root = tree.getCustomTree();
+		TreeItemModel model = tree.getTreeModel();
+		TreeItemIdNode root = tree.getCustomTree();
 
 		Set<String> selectedRows = new HashSet(tree.getSelectedRows());
 		Set<String> expandedRows = new HashSet(tree.getExpandedRows());
@@ -163,7 +195,7 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 		WTree.ExpandMode mode = tree.getExpandMode();
 
 		// Process root nodes
-		for (WTree.ItemIdNode node : root.getChildren()) {
+		for (TreeItemIdNode node : root.getChildren()) {
 			paintCustomItem(tree, mode, model, node, xml, selectedRows, expandedRows, mapIndex);
 		}
 	}
@@ -180,18 +212,17 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 	 * @param expandedRows the set of expanded rows
 	 * @param mapIndex the map between item ids and their rowIndex
 	 */
-	protected void paintCustomItem(final WTree tree, final WTree.ExpandMode mode, final WTree.TreeModel model, final WTree.ItemIdNode node, final XmlStringBuilder xml, final Set<String> selectedRows, final Set<String> expandedRows, final Map<String, List<Integer>> mapIndex) {
+	protected void paintCustomItem(final WTree tree, final WTree.ExpandMode mode, final TreeItemModel model, final TreeItemIdNode node, final XmlStringBuilder xml, final Set<String> selectedRows, final Set<String> expandedRows, final Map<String, List<Integer>> mapIndex) {
 
 		String itemId = node.getItemId();
 		List<Integer> rowIndex = mapIndex.get(itemId);
 
-		boolean selectable = model.isSelectable(rowIndex);
 		boolean selected = selectedRows.remove(itemId);
 
 		boolean expandable = model.isExpandable(rowIndex) && node.hasChildren();
 		boolean expanded = expandedRows.remove(itemId);
 
-		WTree.ItemImage image = model.getItemImage(rowIndex);
+		TreeItemImage image = model.getItemImage(rowIndex);
 		String url = null;
 		if (image != null) {
 			url = tree.getItemImageUrl(image, itemId);
@@ -201,14 +232,14 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 		xml.appendAttribute("id", tree.getItemIdPrefix() + itemId);
 		xml.appendAttribute("label", model.getItemLabel(rowIndex));
 		xml.appendOptionalAttribute("imageUrl", url);
-		xml.appendOptionalAttribute("selected", selectable && selected, "true");
+		xml.appendOptionalAttribute("selected", selected, "true");
 		xml.appendOptionalAttribute("expandable", expandable, "true");
 		xml.appendOptionalAttribute("open", expandable && expanded, "true");
 		xml.appendClose();
 
 		// Paint child items
 		if (expandable && (mode == WTree.ExpandMode.CLIENT || expanded)) {
-			for (WTree.ItemIdNode childNode : node.getChildren()) {
+			for (TreeItemIdNode childNode : node.getChildren()) {
 				paintCustomItem(tree, mode, model, childNode, xml, selectedRows, expandedRows, mapIndex);
 			}
 		}

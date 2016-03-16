@@ -257,8 +257,8 @@
 							apply to make the submenu and menu ite,s so I cannot even make the menu template into a named template.
 						-->
 						<div class="wc-menu flyout" role="menubar" id="{$subRowToggleControlId}">
-							<div class="wc-submenu" role="menuitem">
-								<button type="button" aria-haspopup="true" class="wc_btn_nada" id="{$subRowToggleControlButtonId}" aria-controls="{$subRowToggleControlContentId}">
+							<div class="wc-submenu" role="presentation">
+								<button type="button" aria-haspopup="true" class="wc_btn_nada wc-submenu-o" id="{$subRowToggleControlButtonId}" aria-controls="{$subRowToggleControlContentId}">
 									<span class="wc_off"><xsl:value-of select="$$${wc.ui.table.string.rowSelection.label}"/></span>
 								</button>
 								<div class="wc_submenucontent wc_seltog" role="menu" aria-expanded="false" id="{$subRowToggleControlContentId}" aria-labelledby="{$subRowToggleControlButtonId}">

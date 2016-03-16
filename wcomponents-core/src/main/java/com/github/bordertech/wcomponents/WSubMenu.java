@@ -38,7 +38,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 		 * Indicates that a round-trip should be made whenever the menu is opened.
 		 *
 		 * @deprecated Use MenuMode DYNAMIC instead as a like-for-like replacement or any other mode if it is more
-		 * appropriate to the individual use case.
+		 * appropriate to the individual use case. NOTE: this will not work for any WMenu type other than TREE.
 		 */
 		SERVER,
 		/**
@@ -386,6 +386,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 
 	/**
 	 * {@inheritDoc}
+	 * @deprecated WSubMenu should only be selectable if the WMenu Type is TREE and Type TREE is deprecated.
 	 */
 	@Override
 	public SelectionMode getSelectionMode() {
@@ -394,6 +395,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 
 	/**
 	 * {@inheritDoc}
+	 * @deprecated WSubMenu should only be selectable if the WMenu Type is TREE and Type TREE is deprecated.
 	 */
 	@Override
 	public void setSelectionMode(final SelectionMode selectionMode) {

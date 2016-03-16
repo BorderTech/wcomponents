@@ -34,6 +34,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 		FLYOUT,
 		/**
 		 * The menu is displayed as a tree structure.
+		 * @deprecated use {@link com.github.bordertech.wcomponents.WTree}
 		 */
 		TREE,
 		/**
@@ -100,6 +101,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 
 	/**
 	 * @return the number of rows to display for a column menu.
+	 * @deprecated No longer supported, no Java alternative. If this is required use application level CSS.
 	 */
 	public int getRows() {
 		return getComponentModel().rows;
@@ -108,6 +110,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	/**
 	 * Sets the number of rows to display for a column menu.
 	 *
+	 * @deprecated No longer supported, no Java alternative. If this is required use application level CSS.
 	 * @param rows The rows to set.
 	 */
 	public void setRows(final int rows) {
@@ -627,6 +630,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 
 		/**
 		 * The number of rows to display for a column menu.
+		 * @deprecated No longer supported.
 		 */
 		private int rows;
 

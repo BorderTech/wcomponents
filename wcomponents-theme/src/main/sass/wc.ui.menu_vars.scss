@@ -1,4 +1,4 @@
-@import 'mixins-common';
+@import 'tree-vars';
 
 //generic menu structure
 $wc-ui-menu-item-pad-topbottom: $vgap-normal;
@@ -18,7 +18,3 @@ $wc-ui-menu-bar-vseparator-pad: $vgap-normal 0;
 $wc-ui-menu-flyout-vseparator-pad: $hgap-small 0;
 //the gap bewtten the text label of a sub menu and its 'opener' image
 $wc-ui-menu-bar-column-opener-indicator-before-after: $hgap-small;
-
-//type TREE
-$wc-ui-menu-tree-indent: 0.75rem;
-$wc-ui-menu-tree-item-pad: $hgap-small $vgap-normal;

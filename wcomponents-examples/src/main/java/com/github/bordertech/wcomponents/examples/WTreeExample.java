@@ -1,7 +1,16 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.AbstractTreeItemModel;
+import com.github.bordertech.wcomponents.Action;
+import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.WButton;
+import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
+import com.github.bordertech.wcomponents.WDropdown;
+import com.github.bordertech.wcomponents.WFieldLayout;
+import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WTree;
 import com.github.bordertech.wcomponents.examples.table.ExampleDataUtil;
 import com.github.bordertech.wcomponents.examples.table.PersonBean;
@@ -21,9 +30,44 @@ public class WTreeExample extends WContainer {
 	private final WTree tree = new WTree();
 
 	/**
+	 * A check box to set the tree to HORIZONTAL.
+	 */
+	private final WCheckBox cbMakeHTree = new WCheckBox();
+
+	/**
+	 * A check box to set multiple selection mode on the tree.
+	 */
+	private final WCheckBox cbUseMultiSelect = new WCheckBox();
+
+	/**
+	 * A selector for expand mode.
+	 */
+	private final WDropdown ddExpMode = new WDropdown();
+
+	/**
 	 * Construct the example.
 	 */
 	public WTreeExample() {
+		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
+		add(layout);
+		layout.setMargin(new Margin(0, 0, 12, 0));
+		layout.addField("Use HTree", cbMakeHTree);
+		layout.addField("Enable multiple selection", cbUseMultiSelect);
+
+		ddExpMode.setOptions(WTree.ExpandMode.values());
+		ddExpMode.setSelected(WTree.ExpandMode.CLIENT);
+		layout.addField("Expand mode", ddExpMode);
+
+		WButton btnOptions = new WButton("Apply");
+		btnOptions.setAction(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				applyOptions();
+			}
+		});
+		layout.addField((WLabel) null, btnOptions);
+
+		tree.setIdName("tree");
 		add(tree);
 	}
 
@@ -43,9 +87,18 @@ public class WTreeExample extends WContainer {
 	}
 
 	/**
+	 * Set options for the WTree based on user input in the options field(s).
+	 */
+	private void applyOptions() {
+		tree.setType(cbMakeHTree.isSelected() ? WTree.Type.HORIZONTAL : WTree.Type.VERTICAL);
+		tree.setSelectMode(cbUseMultiSelect.isSelected() ? WTree.SelectMode.MULTIPLE : WTree.SelectMode.SINGLE);
+		tree.setExpandMode((WTree.ExpandMode) ddExpMode.getSelected());
+	}
+
+	/**
 	 * Example tree model.
 	 */
-	public static class ExampleTreeModel extends WTree.AbstractTreeModel {
+	public static class ExampleTreeModel extends AbstractTreeItemModel {
 
 		/**
 		 * List that holds the sample data.

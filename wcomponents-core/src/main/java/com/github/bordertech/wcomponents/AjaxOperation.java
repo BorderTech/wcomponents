@@ -19,6 +19,50 @@ import java.util.List;
 public final class AjaxOperation implements Serializable {
 
 	/**
+	 * AJAX actions.
+	 */
+	public enum AjaxAction {
+		/**
+		 * Used to replace the "-content" child in the target. Expects {@link #getTargetContainerId()} to be set.
+		 */
+		REPLACE_CONTENT("replaceContent"),
+		/**
+		 * Used to replace the target.
+		 */
+		REPLACE("replace"),
+		/**
+		 * Used to replace child components in the target.
+		 */
+		IN("in");
+
+		/**
+		 * Action description.
+		 */
+		private final String desc;
+
+		/**
+		 * @param desc the action description
+		 */
+		AjaxAction(final String desc) {
+			this.desc = desc;
+		}
+
+		/**
+		 * @return the AJAX description
+		 */
+		public String getDesc() {
+			return desc;
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String toString() {
+			return desc;
+		}
+	}
+	/**
 	 * The AJAX trigger id (present in the HTTP servlet request) that will trigger this operation.
 	 */
 	private final String triggerId;
@@ -33,6 +77,11 @@ public final class AjaxOperation implements Serializable {
 	 * Id of a container target.
 	 */
 	private String targetContainerId;
+
+	/**
+	 * The AJAX Action. Defaults to REPLACE.
+	 */
+	private AjaxAction action = AjaxAction.REPLACE;
 
 	/**
 	 * Creates an AjaxOperation.
@@ -75,7 +124,7 @@ public final class AjaxOperation implements Serializable {
 
 	/**
 	 * Sets the target container id. Allows you to replace a child component without affecting the parent. This is
-	 * necessary for lazy loading components, where child content is not initally present, and can therefore not be
+	 * necessary for lazy loading components, where child content is not initially present, and can therefore not be
 	 * replaced.
 	 *
 	 * @param targetContainerId the target container's id.
@@ -104,4 +153,19 @@ public final class AjaxOperation implements Serializable {
 	public List<String> getTargets() {
 		return targetIds == null ? null : Collections.unmodifiableList(targetIds);
 	}
+
+	/**
+	 * @param action the AJAX action
+	 */
+	public void setAction(final AjaxAction action) {
+		this.action = action;
+	}
+
+	/**
+	 * @return the AJAX action
+	 */
+	public AjaxAction getAction() {
+		return action;
+	}
+
 }

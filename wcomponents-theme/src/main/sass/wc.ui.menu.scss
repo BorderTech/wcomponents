@@ -20,11 +20,9 @@
 [role='menuitem'],
 [role='menuitemradio'],
 [role='menuitemcheckbox'],
-[role='treeitem'],
 .wc-submenu > button {
 	@include border-box;
 	display: block;
-	text-align: $preferred-alignment;
 	width: 100%;
 }
 
@@ -59,7 +57,6 @@
 	}
 }
 
-.wc-submenu[aria-expanded='false'] > [role='group'],
-.wc-submenu > [role='menu'][aria-expanded='false'] {
+[role='menu'][aria-expanded='false'] {
 	display: none;
 }

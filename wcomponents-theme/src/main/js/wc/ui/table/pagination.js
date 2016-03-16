@@ -416,7 +416,6 @@ define(["wc/dom/attribute",
 
 				if (element.hasAttribute("data-wc-ajaxalias")) {
 					triggerButtonId = button.id;
-					// ajaxRegion.requestLoad(element);
 					requestAjaxLoad(element);
 				}
 				else if ((wrapper = TABLE_WRAPPER.findAncestor(element)) && (paginatedTable = TABLE.findDescendant(wrapper, true)) && (page = PAGE.findDescendant(paginatedTable, true))) {
@@ -480,7 +479,6 @@ define(["wc/dom/attribute",
 
 				if (SELECTOR.isOneOfMe(element) && element.hasAttribute("data-wc-ajaxalias")) {
 					// dynamic pagination and change rows per page (latter always ajax).
-					// ajaxRegion.requestLoad(element);
 					requestAjaxLoad(element);
 				}
 				else if (PAGINATION_SELECTOR.isOneOfMe(element)) {

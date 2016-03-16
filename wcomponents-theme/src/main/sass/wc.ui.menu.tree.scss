@@ -1,28 +1,20 @@
 /* wc.ui.menu.tree.scss */
 @import 'wc.ui.menu_vars';
 
-[role='tree'] [role='treeitem'],
-[role='treeitem'][aria-expanded] > button {
-	padding: $wc-ui-menu-tree-item-pad;
-}
+.wc-menu[role='tree'] {
+	[role='treeitem'] {
+		&.wc-submenu:hover {
+			background-color: inherit;
+		}
 
-[role='treeitem'] {
-	[role] {
-		display: table;
+		&[aria-expanded] > button > .wc-decoratedlabel {
+			display: inline-table;
+			width: calc(100% - 1.75rem);
+		}
 	}
 
-	> [role='group'] {
-		display: block;
-		padding: 0 0 0 $wc-ui-menu-tree-indent;
+	[role='treeitem'] > button,
+	button[role='treeitem'] {
+		padding: $wc-tree-item-pad;
 	}
-
-	&.wc-submenu:hover {
-		background-color: inherit;
-	}
-}
-
-[role='tree'] .wc-decoratedlabel {
-	display: inline-table;
-	margin-left: $hgap-small;
-	width: calc(100% - 2em);
 }
