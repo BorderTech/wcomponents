@@ -54,28 +54,8 @@ button[role='treeitem'],
 	padding: $wc-tree-item-pad-t $wc-tree-item-pad-r $wc-tree-item-pad-b 0;
 }
 
-// ----------------------------------------------------------------------------
-// HTREE specific components
-// ----------------------------------------------------------------------------
 // htree branch opener.
 .wc_leaf_hopener {
 	display: none;
 	text-align: right;
-}
-
-// container for the resize handle.
-.wc_branch_resizer {
-	@include border-box;
-	display: none;
-	height: 1.5rem; // allow size for the absolutely positioned iconic button.
-	margin-top: $hgap-small;
-	width: 100%;
-}
-
-// htree resize handles.
-.wc_branch_resize_handle {
-	@include padded-box($pad: 0 $hgap-small);
-	// bottom: 0;
-	position: absolute;
-	right: 0;
 }
