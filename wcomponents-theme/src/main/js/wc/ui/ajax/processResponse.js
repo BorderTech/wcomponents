@@ -32,7 +32,7 @@ define(["wc/Observer",
 			 * @property {String} REPLACE Indicates the action will replace the target.
 			 * @property {String} APPEND Indicates the action will append its payload to the content of the target.
 			 */
-			this.actions = { FILL: "replaceContent", REPLACE: "replace", APPEND: "append" };
+			this.actions = { FILL: "replaceContent", REPLACE: "replace", APPEND: "append", IN: "in" };
 
 			/**
 			 * Subscribers can chose to be notified before the DOM is updated with new content
@@ -222,7 +222,6 @@ define(["wc/Observer",
 				var actionMethod, _element, triggerId = (trigger && trigger.id) ? trigger.id : null;
 				switch (action) {
 					case instance.actions.REPLACE:
-						/*eslint-disable */  // remove when this bug is fixed https://github.com/eslint/eslint/issues/2248
 						if (element.tagName !== tag.BODY) {
 							actionMethod = replaceElement;
 						}
@@ -230,13 +229,14 @@ define(["wc/Observer",
 							console.warn("Refuse to replace BODY element, use action", instance.actions.FILL);
 						}
 						break;
-						/*eslint-enable */
 					case instance.actions.FILL:
 						actionMethod = replaceElementContent;
 						break;
 					case instance.actions.APPEND:
 						actionMethod = appendElementContent;
 						break;
+					case instance.actions.IN:
+						actionMethod=replaceIn;
 					default:
 						console.warn("Unknown action", action);
 						break;
@@ -328,6 +328,45 @@ define(["wc/Observer",
 					result = null;
 				}
 				insertScripts(scripts, parent);
+				return result;
+			}
+
+			/**
+			 * Replace specified elements within a given element in the originating document with the contents of the
+			 * ajax response. If the elements which are immediate children of content are not in the originating
+			 * document's version of element then they are appended to element.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element The containing element in the original document.
+			 * @param {DocumentFragment} content The document fragment containing the replacement(s).
+			 * @returns {?Element}
+			 */
+			function replaceIn(element, content) {
+				var child,
+					_element,
+					id,
+					result,
+					wrapper = document.createElement("div");
+
+				while ((child = content.firstChild)) {
+					wrapper.appendChild(child);
+					if ((id = child.id)) {
+						if ((_element = document.getElementById(child.id))) {
+							result = replaceElement(_element, wrapper);
+						}
+						else {
+							result = appendElementContent(element, wrapper);
+						}
+					}
+					else {
+						result = appendElementContent(element, wrapper);
+					}
+
+					if (wrapper.firstChild) { // should have been removed.
+						wrapper.removeChild(wrapper.firstChild);
+					}
+				}
 				return result;
 			}
 

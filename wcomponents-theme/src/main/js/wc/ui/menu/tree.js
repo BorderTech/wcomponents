@@ -582,7 +582,7 @@ define(["wc/ui/menu/core",
 					obj = {
 						id: elId,
 						alias: root.id,
-						loads: [elId],
+						loads: [elId + "-content"],
 						oneShot: (mode === 'lazy'),
 						getData: "wc_tiid=" + elId,
 						serialiseForm: false,
