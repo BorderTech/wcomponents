@@ -21,7 +21,6 @@
 	-->
 	<xsl:template match="ui:tab">
 		<xsl:param name="tabset"/>
-		<xsl:param name="firstOpenTab"/>
 		<xsl:param name="numAvailTabs"/>
 
 		<xsl:variable name="type" select="$tabset/@type"/>
