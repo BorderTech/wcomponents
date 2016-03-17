@@ -1,6 +1,7 @@
 /* wc.ui.menu.bar.ff.scss */
 @import 'wc.ui.menu_vars';
 
+//TODO: This may be superfluous but definitely needs a clean up.
 $wc-ff-vseparator-pad-top: $wc-ui-menu-item-pad-topbottom * 2;
 
 .wc-menu[role='menubar'] {
@@ -13,11 +14,6 @@ $wc-ff-vseparator-pad-top: $wc-ui-menu-item-pad-topbottom * 2;
 	> div[role] { // buttons, even with no border, no margin, no padding still occupy 2px more vertical space in FF than divs
 		padding-bottom: calc(#{$wc-ui-menu-item-pad-topbottom} + 1px);
 		padding-top: calc(#{$wc-ui-menu-item-pad-topbottom} + 1px);
-	}
-
-	[role='separator'][aria-orientation='vertical'] {
-		padding-bottom: calc(#{$wc-ff-vseparator-pad-top} + 3px); // I honestly do not know why this works but it does.
-		padding-top: 0;
 	}
 
 	> .wc-submenu > button::after {
@@ -33,4 +29,9 @@ $wc-ff-vseparator-pad-top: $wc-ui-menu-item-pad-topbottom * 2;
 	// FF cannot correctly calculate the width of a container if it is absolutely positioned
 	// scss-lint:disable VendorPrefix
 	width: -moz-max-content;
+}
+
+.wc-menu [role='separator'][aria-orientation='vertical'] {
+	padding-bottom: calc(#{$wc-ff-vseparator-pad-top} + 3px); // I honestly do not know why this works but it does.
+	padding-top: 0;
 }

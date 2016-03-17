@@ -15,11 +15,7 @@
 @import 'mixins-common';
 
 // Item default styles.
-// NOTE: an item may be a WMenuItem or a WSubMenu. Remember each submenu has an item role in [role='menu'] and
-// [role='tree'].
-[role='menuitem'],
-[role='menuitemradio'],
-[role='menuitemcheckbox'],
+[role^='menuitem'],
 .wc-submenu > button {
 	@include border-box;
 	display: block;
@@ -33,12 +29,10 @@
 	padding: 0 !important;
 }
 
+// The structure of the labels of a menu. We want the label to fill the menu item/opener. We also want the
+// text portion of the label to be as big as possible since the other portions are empty or icons (usually).
+// This is why we use table-row display rather than flex display.
 .wc-menu {
-	[role='separator'] {
-		@include margin($size: 0);
-		padding: 0;
-	}
-
 	.wc-decoratedlabel {
 		display: table-row;
 		width: 100%;

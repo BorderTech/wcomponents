@@ -17,19 +17,16 @@
 	}
 }
 
-[data-wc-menufixed='true'] {
-	.wc-submenu > [role='menu'][aria-expanded='true'] {
-		@include border-box;
-		height: 100%;
-		left: 0;
-		overflow: auto;
-		position: fixed;
-		top: 0;
-		width: 100%;
+[data-wc-menufixed='true'] .wc-submenu > [role='menu'][aria-expanded='true'] {
+	@include border-box;
+	height: 100%;
+	left: 0;
+	overflow: auto;
+	position: fixed;
+	top: 0;
+	width: 100%;
 
-		> [role] {
-			font-size: 1.25rem;
-		}
+	> [role] {
+		font-size: 1.25rem;
 	}
-
 }

@@ -9,17 +9,13 @@
 	color: $wc-ui-color-menu-fg;
 }
 
-
 // selected elements
 // * WARNING: using the .class [role][aria-checked='true'] shorthand here will cause ANY element with an aria-checked
 // state to take on these styles. This shouldn't be a problem but I have left it with the longer form to allow for
 // odd/weird/stupid component nesting. Anyone want to put a WSelectToggle into a WMenuItem? it is possible...
-[role='menuitemradio'],
-[role='menuitemcheckbox'] {
-	&[aria-checked='true'] {
-		background-color: $wc-ui-color-highlight-bg;
-		color: $wc-ui-color-highlight-fg;
-	}
+[role^='menuitem'][aria-checked='true'] {
+	background-color: $wc-ui-color-highlight-bg;
+	color: $wc-ui-color-highlight-fg;
 }
 
 .wc-submenu[aria-checked='true'] {

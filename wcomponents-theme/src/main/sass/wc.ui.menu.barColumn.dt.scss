@@ -3,12 +3,11 @@
 @import 'wc.ui.menu_vars';
 
 .wc-submenu {
-	[role='menubar'] &,
-	[role='menu'] & {
+	[role^='menu'] & {
 		position: relative;
 	}
 
-	> [role='menu'][aria-expanded='true'] {
+	> [aria-expanded='true'] {
 		@include border;
 		box-shadow: 3px 3px 3px $wc-ui-color-shadow;
 		min-width: 100%;

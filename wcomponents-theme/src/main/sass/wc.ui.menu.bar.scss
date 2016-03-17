@@ -11,22 +11,13 @@
 		> .wc-submenu > button { //top level items
 			padding: $wc-ui-menu-flyout-top-level-item-pad;
 		}
-
-		> [role='separator'][aria-orientation='vertical'] {
-			padding: $wc-ui-menu-flyout-vseparator-pad;
-		}
 	}
 
 	&.bar {
 		> [role],
-		> .wc-submenu > button {//top level items
+		> .wc-submenu > button { // top level items
 			padding: $wc-ui-menu-bar-column-item-pad;
 		}
-
-		> [role='separator'][aria-orientation='vertical'] {
-			padding: $wc-ui-menu-bar-vseparator-pad;
-		}
-
 	}
 
 	> [role],
@@ -42,11 +33,6 @@
 		vertical-align: middle;
 	}
 
-	> [role='separator'][aria-orientation='vertical'] {
-		@include border($pos: left);
-		border-bottom: 0 none;
-		display: inline;
-	}
 
 	[role='menu'] { //sub-menus of a menu bar see wc.ui.menu.barColumn.scss for more
 		white-space: nowrap;
