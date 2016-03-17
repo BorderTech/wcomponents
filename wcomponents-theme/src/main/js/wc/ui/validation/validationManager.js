@@ -2,7 +2,7 @@
  * Generic client side validation manager. This is the publisher for client side validation. Any component which
  * requires validation subscribes to this using validationManager.subscribe.
  *
- * @module validation/validationManager
+ * @module wc/ui/validation/validationManager
  * @requires module:wc/dom/classList
  * @requires module:wc/dom/getBox
  * @requires module:wc/has"
@@ -11,6 +11,8 @@
  * @requires module:wc/dom/tag
  * @requires module:wc/dom/Widget
  * @requires module:wc/Observer
+ * @requires external:lib/sprintf
+ * @requires module:wc/i18n/i18n
  */
 define(["wc/dom/classList",
 		"wc/dom/getBox",
@@ -20,14 +22,14 @@ define(["wc/dom/classList",
 		"wc/dom/tag",
 		"wc/dom/Widget",
 		"wc/Observer",
-		"lib/i18n!wc/nls/validation"],
+		"wc/i18n/i18n"],
 	/** @param classList @param getBox @param has @param initialise @param shed @param tag @param Widget @param Observer @param i18n @ignore*/
 	function(classList, getBox, has, initialise, shed, tag, Widget, Observer, i18n) {
 		"use strict";
 
 		/**
 		 * @constructor
-		 * @alias module:validation/validationManager~ValidationManager
+		 * @alias module:wc/ui/validation/validationManager~ValidationManager
 		 * @private
 		 */
 		function ValidationManager() {
@@ -55,13 +57,13 @@ define(["wc/dom/classList",
 				 * @private */
 				LABEL_ATTRIB = "aria-labelledby",
 				/**
-				 * The class used to indicate an error: the type attribute of the ui:messagebox for errors.
+				 * The class used to indicate an error: the type attribute of the ui:messageBox for errors.
 				 * @constant
 				 * @type {String}
 				 * @private */
 				ERROR = "error",
 				/**
-				 * The class used to indicate a success: the type attribute of the ui:messagebox for success.
+				 * The class used to indicate a success: the type attribute of the ui:messageBox for success.
 				 * @constant
 				 * @type {String}
 				 * @private */
@@ -233,8 +235,8 @@ define(["wc/dom/classList",
 
 			/**
 			 * Flags a component in an error state with an appropriate error message.
-			 * @function module:validation/validationManager.flagError
-			 * @param {module:validation/validationManager~flagconfig} obj Configuration object.
+			 * @function module:wc/ui/validation/validationManager.flagError
+			 * @param {module:wc/ui/validation/validationManager~flagconfig} obj Configuration object.
 			 */
 			this.flagError = function(obj) {
 				var element = obj["element"],
@@ -278,7 +280,7 @@ define(["wc/dom/classList",
 			 * <li>the element is not 'visible' (do shed test first - it is quicker).</li>
 			 * </ol>
 			 *
-			 * @function module:validation/validationManager.isExempt
+			 * @function module:wc/ui/validation/validationManager.isExempt
 			 * @param {Element} element The component to test.
 			 * @returns {Boolean} true if the component is exempt from client side validation.
 			 */
@@ -297,7 +299,7 @@ define(["wc/dom/classList",
 			 * (commonly for a change event listener). NOTE: this does not test the validity of the element, merely
 			 * returns whether anything has put the element into an invalid state previously.
 			 *
-			 * @function module:validation/validationManager.isInvalid
+			 * @function module:wc/ui/validation/validationManager.isInvalid
 			 * @param {Element} element The component to test for validity.
 			 * @returns {Boolean} true if the element is invalid.
 			 */
@@ -316,7 +318,7 @@ define(["wc/dom/classList",
 			 *
 			 * <p>TODO: revisit the above assertion and possibly make this private.</p>
 			 *
-			 * @function module:validation/validationManager.setOK
+			 * @function module:wc/ui/validation/validationManager.setOK
 			 * @param {Element} element the HTML element which was in an error state.
 			 */
 			this.setOK = function(element) {
@@ -337,7 +339,7 @@ define(["wc/dom/classList",
 						}
 					}
 					if (next) {
-						next.innerHTML = i18n.nowOK;
+						next.innerHTML = i18n.get("${validation.core.i18n.nowOK}");
 					}
 					removeWValidationErrorLink(element);
 				}
@@ -347,7 +349,7 @@ define(["wc/dom/classList",
 			 * Most validating components have a pretty similar mechanism to revalidate whern their input changes so
 			 * this helper exists to take care of it.
 			 *
-			 * @function module:validation/validationManager.revalidationHelper
+			 * @function module:wc/ui/validation/validationManager.revalidationHelper
 			 * @param {Element} element The component being re-validated.
 			 * @param {Function} _validateFunc The component's validation function.
 			 */
@@ -377,7 +379,7 @@ define(["wc/dom/classList",
 			/**
 			 * Tests the validity of form bound elements within a specified container.
 			 *
-			 * @function module:validation/validationManager.isValid
+			 * @function module:wc/ui/validation/validationManager.isValid
 			 * @param {Element} [container] A DOM node (preferably containing form controls). If the container is not
 			 *                   specified finds the form containing the activeElement (this is for use with controls
 			 *                   with submitOnchange).
@@ -419,7 +421,7 @@ define(["wc/dom/classList",
 			/**
 			 * Late intialisation callback to subscribe to shed to listen for state changes which impact any existing
 			 * validation error messages.
-			 * @function module:validation/validationManager.postInit
+			 * @function module:wc/ui/validation/validationManager.postInit
 			 */
 			this.postInit = function() {
 				shed.subscribe(shed.actions.DISABLE, shedSubscriber);
@@ -429,7 +431,7 @@ define(["wc/dom/classList",
 
 			/**
 			 * Allows a component to subscribe to client side validation.
-			 * @function module:validation/validationManager.subscribe
+			 * @function module:wc/ui/validation/validationManager.subscribe
 			 * @see {@link module:wc/Observer#subscribe}
 			 *
 			 * @param {Function} subscriber The function that will be notified by validationManager. This function MUST
@@ -451,7 +453,7 @@ define(["wc/dom/classList",
 		}
 
 		var repainter,
-			/** @alias module:validation/validationManager */ instance,
+			/** @alias module:wc/ui/validation/validationManager */ instance,
 			fieldset;
 
 		/* circular dependency on fieldset validation. */
@@ -473,7 +475,7 @@ define(["wc/dom/classList",
 		/**
 		 * Configuration object for flagging errors.
 		 *
-		 * @typedef module:validation/validationManager~flagconfig
+		 * @typedef module:wc/ui/validation/validationManager~flagconfig
 		 * @property {Element} element An element with message to show.</dd>
 		 * @property {String} message The message to display.</dd>
 		 * @property {String} [position] Argument for insertAdjacentHTML. Defaults to "afterEnd".

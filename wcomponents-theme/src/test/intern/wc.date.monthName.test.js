@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 		function (registerSuite, assert, testutils) {
 			"use strict";
 			/* NOTE: this relies on i18n working properly */

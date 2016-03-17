@@ -148,6 +148,7 @@ public final class AjaxHelper {
 			final String containerContentId, final Request request) {
 		AjaxOperation operation = new AjaxOperation(triggerId, containerContentId);
 		operation.setTargetContainerId(containerId);
+		operation.setAction(AjaxOperation.AjaxAction.REPLACE_CONTENT);
 		registerAjaxOperation(operation, request);
 
 		return operation;
@@ -167,6 +168,7 @@ public final class AjaxHelper {
 			final List<String> containerContentIds, final Request request) {
 		AjaxOperation operation = new AjaxOperation(triggerId, containerContentIds);
 		operation.setTargetContainerId(containerId);
+		operation.setAction(AjaxOperation.AjaxAction.REPLACE_CONTENT);
 		registerAjaxOperation(operation, request);
 
 		return operation;

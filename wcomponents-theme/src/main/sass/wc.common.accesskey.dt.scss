@@ -1,5 +1,5 @@
 /* wc.common.accesskey.dt.scss */
-@import 'wc.common.accesskey_vars.scss';
+@import 'wc.common.accesskey_vars';
 // Provides the styling for the accesskey indicator for componentd which implement the @accessKey XML attribute.
 
 // The accesskey character and callout will be in a label, legend, link or button.
@@ -26,8 +26,8 @@ span[role='tooltip'] {
 	// important to over-ride menu rules which may also apply.
 	// scss-lint:disable ImportantRule
 	font-weight: bold !important;
-	margin-top: -2.25em;
-	padding: 0.25em !important;
+	margin-top: -2.25rem;
+	padding: $hgap-small !important;
 	position: absolute;
 	text-align: center;
 	width: auto !important;
@@ -36,12 +36,12 @@ span[role='tooltip'] {
 	&:before,
 	&:after {
 		border-style: solid;
-		border-width: 0.5em 0.25em 0;
+		border-width: 0.5rem 0.25rem 0;
 		bottom: 0;
 		content: '';
 		display: inline-block;
 		left: 30%;
-		margin-bottom: -0.5em;
+		margin-bottom: -0.5rem;
 		position: absolute;
 	}
 

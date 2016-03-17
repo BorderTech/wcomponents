@@ -1,0 +1,32 @@
+/* wc.ui.fileUpload.pattern_edge.scss */
+@import 'mixins-common';
+
+// The default file upload in Edge is a bit ugly if anything is styled at all. This CSS may be considered lipstick.
+// Yes: Edge uses the -ms- shadow elements.
+//scss-lint:disable VendorPrefix
+input[type='file'] {
+	@include border($width: 0);
+	background-color: transparent;
+	padding: 0;
+
+	// pseudo-element ::-ms-browse on its own has detrimental effects on all buttons!!
+	&::-ms-browse {
+		@include button;
+		@include border($pos: left, $width: 0);
+	}
+
+	// &::-webkit-file-upload-button {
+	// 	@include button();
+	// 	@include border($pos: left, $width:0);
+	// }
+
+	&::-ms-value {
+		@include border;
+		@include margin($size: 0);
+		background-color: transparent;
+	}
+
+	&[disabled]::-ms-value {
+		background-color: $wc-ui-color-disabled-bg;
+	}
+}

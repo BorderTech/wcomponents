@@ -1,16 +1,15 @@
 /* wc.ui.dialogue.ie9.scss */
-@import 'wc.ui.dialog_vars.scss';
+@import 'wc.ui.dialog_vars';
 
 dialog {
 	&[open] {
+		@include tight-box;
 		display: block;
-		margin: 0;
-		padding: 0;
 	}
 
 	> [aria-live] {
 		@include border-box;
-		padding: 2em $hgap-normal;
+		padding: 2rem $hgap-normal;
 	}
 
 	> header,

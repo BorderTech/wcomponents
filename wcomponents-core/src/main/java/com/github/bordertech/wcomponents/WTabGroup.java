@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.WTabSet.TabMode;
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
+ * @deprecated No replacement: must not be used as causes accessibility failure.
  */
 public class WTabGroup extends AbstractContainer implements Disableable {
 

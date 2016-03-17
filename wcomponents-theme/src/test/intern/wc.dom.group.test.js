@@ -1,7 +1,7 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"], function(registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], function(registerSuite, assert, testutils) {
 	"use strict";
 
-	var $group, Widget, urlResource = "../../target/test-classes/wcomponents-theme/intern/resources/domUsefulDom.html",
+	var $group, Widget, urlResource = "@RESOURCES@/domUsefulDom.html",
 		testHolder;
 
 	/**
@@ -46,12 +46,11 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 	registerSuite({
 		name: "getFilteredGroup",
 		setup: function() {
-			var result = new testutils.LamePromisePolyFill();
-			testutils.setupHelper(["wc/dom/group", "wc/dom/Widget"], function(g, W) {
-				$group = g;
-				Widget = W;
+			var result = testutils.setupHelper(["wc/dom/group", "wc/dom/Widget"]).then(function(arr) {
+				$group = arr[0];
+				Widget = arr[1];
 				testHolder = testutils.getTestHolder();
-				testutils.setUpExternalHTML(urlResource, testHolder).then(result._resolve);
+				return testutils.setUpExternalHTML(urlResource, testHolder);
 			});
 			return result;
 		},

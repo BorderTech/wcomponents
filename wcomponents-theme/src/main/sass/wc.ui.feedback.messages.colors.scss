@@ -1,0 +1,27 @@
+/* wc.ui.feedback.messages.colors.scss */
+//    WFieldWarningIndicator
+//    WFieldErrorIndicator
+//    WMessageBox/WMessages
+//    WValidationErrors (server side validation)
+//    Client side validation error messages if plugin enabled
+
+// Colors for inline messages
+@import 'mixins-common';
+
+ul {
+	&.error {
+		color: $wc-ui-color-error-fg;
+	}
+
+	&.warn {
+		color: $wc-ui-color-warning-fg;
+	}
+
+	&.info {
+		color: $wc-ui-color-info-fg;
+	}
+
+	&.success {
+		color: $wc-ui-color-success-fg;
+	}
+}

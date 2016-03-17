@@ -1,15 +1,16 @@
 /**
- * @module validation/minMax
+ * @module wc/ui/validation/minMax
  * @requires module:wc/ui/getFirstLabelForElement
+ * @requires module:wc/i18n/i18n
  * @requires external:lib/sprintf
- * @requires module:validation/validationManager
+ * @requires module:wc/ui/validation/validationManager
  *
  */
 define(["wc/ui/getFirstLabelForElement",
-		"lib/i18n!wc/nls/validation",
+		"wc/i18n/i18n",
 		"lib/sprintf",
 		"wc/ui/validation/validationManager"],
-	/** @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param i18n @param sprintf lib/sprintf @param validationManager validation/validationManager @ignore */
+	/** @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param i18n wc/i18n/i18n @param sprintf lib/sprintf @param validationManager wc/ui/validation/validationManager @ignore */
 	function(getFirstLabelForElement, i18n, sprintf, validationManager) {
 		"use strict";
 
@@ -19,8 +20,8 @@ define(["wc/ui/getFirstLabelForElement",
 		 * @todo Split this up to remove nested functions.
 		 *
 		 * @function
-		 * @alias module:validation/minMax
-		 * @param {module:validation/minMax~config} conf Contains the validator configuration options.
+		 * @alias module:wc/ui/validation/minMax
+		 * @param {module:wc/ui/validation/minMax~config} conf Contains the validator configuration options.
 		 * @returns {boolean} true if the tested component meets its constraints (incuding if their are no constraints).
 		 */
 		function minMax(conf) {
@@ -34,8 +35,8 @@ define(["wc/ui/getFirstLabelForElement",
 				flagFunc = conf.flag || _flag,
 				position = conf.position,
 				attachToFunc = conf.attachTo,
-				minText = conf.minText || "selectableUnderMin",
-				maxText = conf.maxText || "selectableOverMax",
+				minText = conf.minText || "${validation.core.i18n.selectableUnderMin}",
+				maxText = conf.maxText || "${validation.core.i18n.selectableOverMax}",
 				result = true,
 				selectables;
 			if (!(widget && container)) {
@@ -68,12 +69,12 @@ define(["wc/ui/getFirstLabelForElement",
 						if (min && count < min) {
 							isInvalid = true;
 							limit = min;
-							flag = i18n[minText];
+							flag = i18n.get(minText);
 						}
 						else if (max && count > max) {
 							isInvalid = true;
 							limit = max;
-							flag = i18n[maxText];
+							flag = i18n.get(maxText);
 						}
 					}
 				}
@@ -97,7 +98,7 @@ define(["wc/ui/getFirstLabelForElement",
 			 *    messages. This is used for validation of WMultiSelectPair.
 			 */
 			function _flag(selectable, flag, limit, secondaryLabel) {
-				var label = getFirstLabelForElement(selectable, true) || selectable.title || i18n.unlabelledQualifier,
+				var label = getFirstLabelForElement(selectable, true) || selectable.title || i18n.get("${validation.core.i18n.unlabelledQualifier}"),
 					message = sprintf.sprintf(flag, label, limit, secondaryLabel),
 					obj = {element: selectable, message: message};
 				if (position) {
@@ -124,7 +125,7 @@ define(["wc/ui/getFirstLabelForElement",
 
 		/**
 		 * The configuration object for the module's return function.
-		 * @typedef {Object} module:validation/minMax~config
+		 * @typedef {Object} module:wc/ui/validation/minMax~config
 		 * @property {Element} container That which is being validated. Usually a FORM element.
 		 * @property {module:wc/dom/Widget} widget Description of the component being tested.
 		 * @property {Function} selectedFunc Function to get the list of selections from the test element.

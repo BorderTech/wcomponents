@@ -6,7 +6,7 @@
  * @requires module:wc/i18n/i18n
  * @requires module:wc/i18n/asciify
  */
-define(["wc/i18n/i18n!", "wc/i18n/asciify"],
+define(["wc/i18n/i18n", "wc/i18n/asciify"],
 	/** @param i18n wc/i18n/i18n @param asciify wc/i18n/asciify @ignore */
 	function(i18n, asciify) {
 		"use strict";

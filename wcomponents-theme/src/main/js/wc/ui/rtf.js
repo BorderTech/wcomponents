@@ -7,11 +7,11 @@
  *
  * @module
  * @requires module:wc/dom/initialise
+ * @requires module:wc/config
  * @requires external:tinyMCE
  */
-define(["wc/dom/initialise", "tinyMCE", "module"],
-	/** @param initialise wc/dom/initialise @param tinyMCE tinyMCE @param module @ignore */
-	function(initialise, tinyMCE, module) {
+define(["wc/dom/initialise", "wc/config", "tinyMCE"],
+	function(initialise, wcconfig, tinyMCE) {
 		"use strict";
 
 		/**
@@ -22,9 +22,9 @@ define(["wc/dom/initialise", "tinyMCE", "module"],
 		 * @param {String[]} idArr An array of RTF ids.
 		 */
 		function processNow(idArr) {
-			var id, initObj = {};
-			if (module && module.config()) {
-				initObj = module.config().initObj || {};
+			var id, initObj = {}, config = wcconfig.get("wc/ui/rtf");
+			if (config) {
+				initObj = config.initObj || {};
 			}
 			while ((id = idArr.shift())) {
 				initObj["selector"] = "textarea#" + id;

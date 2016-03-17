@@ -26,14 +26,14 @@
  *	James A. Overton <james@overton.ca>
  *
  * ***** END LICENSE BLOCK ***** */
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"], function(registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], function(registerSuite, assert, testutils) {
 	"use strict";
 
 
 	var CONTAINER_ID = "treewalkerTestContainerId",
 		ID_1 = "treewalkerTestId1",
 		ID_2 = "treewalkerTestId2",
-		testHolder, urlResource = "../../target/test-classes/wcomponents-theme/intern/resources/domTreeWalker.html";
+		testHolder, urlResource = "@RESOURCES@/domTreeWalker.html";
 
 	/*
 	 * Helper for a couple of the tests
@@ -49,10 +49,11 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 	registerSuite({
 		name: "Treewalker",
 		setup: function() {
-			var result = new testutils.LamePromisePolyFill();
-			testutils.setupHelper([], function() {
-				testHolder = testutils.getTestHolder();
-				testutils.setUpExternalHTML(urlResource, testHolder).then(result._resolve);
+			var result = testutils.setupHelper([]).then(function() {
+				return testHolder = testutils.getTestHolder();
+
+			}).then(function(testHolder) {
+				return testutils.setUpExternalHTML(urlResource, testHolder);
 			});
 			return result;
 		},

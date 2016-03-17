@@ -132,33 +132,30 @@ define(["wc/dom/event",
 			 * @param {Object} [obj] A trigger definition dto.
 			 */
 			this.requestLoad = function(element, obj) {
-				var trigger,
+				var trigger = triggerManager.getTrigger(element),
 					alias,
 					loads,
 					id;
-				if (element.hasAttribute("aria-controls")) {
+
+				if (!trigger) {
+					if (obj) {
+						this.register(obj);
+					}
+					else {
+						id = element.id;
+						alias = element.getAttribute(ALIAS);
+						loads = element.getAttribute("aria-controls").split(" ");
+						this.register({
+							id: id,
+							loads: loads,
+							alias: alias});
+					}
+
 					trigger = triggerManager.getTrigger(element);
+				}
 
-					if (!trigger) {
-						if (obj) {
-							this.register(obj);
-						}
-						else {
-							id = element.id;
-							alias = element.getAttribute(ALIAS);
-							loads = element.getAttribute("aria-controls").split(" ");
-							this.register({
-								id: id,
-								loads: loads,
-								alias: alias});
-						}
-
-						trigger = triggerManager.getTrigger(element);
-					}
-
-					if (trigger) {
-						fireThisTrigger(element, trigger);
-					}
+				if (trigger) {
+					fireThisTrigger(element, trigger);
 				}
 			};
 

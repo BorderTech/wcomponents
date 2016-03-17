@@ -398,8 +398,10 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 				else {
 					relSize = getViewportSize(true);
 					func = "setPositionInView";  // when setting position relative to the viewport never let left or top be less than 0
+					if (!positionedBySize[id]) {
+						++positionedBySize.length;
+					}
 					positionedBySize[id] = {id: id, conf: conf};
-					++positionedBySize.length;
 				}
 
 				if (!(width && height)) {

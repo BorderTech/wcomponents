@@ -53,10 +53,10 @@ import com.github.bordertech.wcomponents.examples.WPopupExample;
 import com.github.bordertech.wcomponents.examples.WRadioButtonInRepeater;
 import com.github.bordertech.wcomponents.examples.WRadioButtonTriggerActionExample;
 import com.github.bordertech.wcomponents.examples.WSectionExample;
-import com.github.bordertech.wcomponents.examples.WSessionExample;
 import com.github.bordertech.wcomponents.examples.WShufflerExample;
 import com.github.bordertech.wcomponents.examples.WSingleSelectExample;
 import com.github.bordertech.wcomponents.examples.WSkipLinksExample;
+import com.github.bordertech.wcomponents.examples.WStyledTextFontAwesomeExample;
 import com.github.bordertech.wcomponents.examples.WStyledTextOptionsExample;
 import com.github.bordertech.wcomponents.examples.WSuggestionsExample;
 import com.github.bordertech.wcomponents.examples.WTemplateExample;
@@ -64,6 +64,7 @@ import com.github.bordertech.wcomponents.examples.WTextExample;
 import com.github.bordertech.wcomponents.examples.WTimeoutWarningDefaultExample;
 import com.github.bordertech.wcomponents.examples.WTimeoutWarningExample;
 import com.github.bordertech.wcomponents.examples.WTimeoutWarningOptionsExample;
+import com.github.bordertech.wcomponents.examples.WTreeExample;
 import com.github.bordertech.wcomponents.examples.WVideoExample;
 import com.github.bordertech.wcomponents.examples.WWindowExample;
 import com.github.bordertech.wcomponents.examples.WhiteSpaceExample;
@@ -89,6 +90,7 @@ import com.github.bordertech.wcomponents.examples.menu.MenuBarExample;
 import com.github.bordertech.wcomponents.examples.menu.MenuFlyoutExample;
 import com.github.bordertech.wcomponents.examples.menu.MenuItemActionMessagesExample;
 import com.github.bordertech.wcomponents.examples.menu.TreeMenuExample;
+import com.github.bordertech.wcomponents.examples.othersys.LinkExamples;
 import com.github.bordertech.wcomponents.examples.repeater.RepeaterExample;
 import com.github.bordertech.wcomponents.examples.repeater.RepeaterExampleWithEditableRows;
 import com.github.bordertech.wcomponents.examples.repeater.link.RepeaterLinkExample;
@@ -120,6 +122,8 @@ import com.github.bordertech.wcomponents.examples.table.TableContentExample;
 import com.github.bordertech.wcomponents.examples.table.TableExpandableContentModelExample;
 import com.github.bordertech.wcomponents.examples.table.TableRowEditingAjaxExample;
 import com.github.bordertech.wcomponents.examples.table.TableScrollableModelExample;
+import com.github.bordertech.wcomponents.examples.table.WTableColumnAlignmentExample;
+import com.github.bordertech.wcomponents.examples.table.WTableColumnWidthExample;
 import com.github.bordertech.wcomponents.examples.table.WTableExample;
 import com.github.bordertech.wcomponents.examples.table.WTableOptionsExample;
 import com.github.bordertech.wcomponents.examples.theme.AccessKeyExample;
@@ -130,7 +134,6 @@ import com.github.bordertech.wcomponents.examples.theme.WCheckBoxExample;
 import com.github.bordertech.wcomponents.examples.theme.WCheckBoxSelectExample;
 import com.github.bordertech.wcomponents.examples.theme.WCollapsibleExample;
 import com.github.bordertech.wcomponents.examples.theme.WCollapsibleGroupExample;
-import com.github.bordertech.wcomponents.examples.theme.WColumnLayoutExample;
 import com.github.bordertech.wcomponents.examples.theme.WConfirmationButtonExample;
 import com.github.bordertech.wcomponents.examples.theme.WDateFieldExample;
 import com.github.bordertech.wcomponents.examples.theme.WEmailFieldExample;
@@ -177,9 +180,6 @@ import com.github.bordertech.wcomponents.examples.validation.ValidationExamples;
 import com.github.bordertech.wcomponents.examples.validation.basic.BasicDiagnosticComponentExample;
 import com.github.bordertech.wcomponents.examples.validation.basic.BasicFieldsValidationExample2;
 import com.github.bordertech.wcomponents.examples.validation.fields.FieldValidation;
-import com.github.bordertech.wcomponents.examples.othersys.LinkExamples;
-import com.github.bordertech.wcomponents.examples.table.WTableColumnAlignmentExample;
-import com.github.bordertech.wcomponents.examples.table.WTableColumnWidthExample;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 
@@ -275,6 +275,7 @@ public final class ExampleData implements Serializable {
 		new ExampleData("Progress bar", WProgressBarExample.class),
 		// new ExampleData("Session timeout", WSessionExample.class),
 		new ExampleData("Styled Text options", WStyledTextOptionsExample.class),
+		new ExampleData("Icons with WStyledText", WStyledTextFontAwesomeExample.class),
 		new ExampleData("Text", WTextExample.class),
 		new ExampleData("Timeout Warning", WTimeoutWarningExample.class),
 		new ExampleData("Timeout Warning default options", WTimeoutWarningDefaultExample.class),
@@ -348,7 +349,8 @@ public final class ExampleData implements Serializable {
 		new ExampleData("WContent", WContentExample.class),
 		new ExampleData("WHiddenComment", WHiddenCommentExample.class),
 		new ExampleData("Input bean binding", InputBeanBindingExample.class),
-		new ExampleData("White space example", WhiteSpaceExample.class)
+		new ExampleData("White space example", WhiteSpaceExample.class),
+		new ExampleData("WTree", WTreeExample.class)
 	};
 
 	/**

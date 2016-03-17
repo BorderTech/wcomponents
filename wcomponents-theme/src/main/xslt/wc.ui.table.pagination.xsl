@@ -31,7 +31,7 @@
 			<xsl:call-template name="paginationDescription"/>
 			<label for="{$id}">
 				<xsl:value-of select="$$${wc.ui.table.string.pagination.page}"/>
-				<select id="{$id}" class="wc_table_pag_select">
+				<select id="{$id}" class="wc_table_pag_select" data-wc-pages="{$pages}">
 					<!-- NOTE: do not use name or data-wc-name as we do not want to trigger an unsaved changes warning -->
 					<xsl:if test="@mode='dynamic'">
 						<xsl:call-template name="tableAjaxController">
@@ -45,17 +45,18 @@
 							</xsl:attribute>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:call-template name="disabledElement">
+							<xsl:attribute name="aria-busy">
+								<xsl:copy-of select="$t"/>
+							</xsl:attribute>
+							<xsl:call-template name="disabledElement"><!-- WDataTable compatibility only -->
 								<xsl:with-param name="field" select="parent::ui:table"/>
 								<xsl:with-param name="isControl" select="1"/>
 							</xsl:call-template>
 						</xsl:otherwise>
 					</xsl:choose>
-					<xsl:call-template name="pagination.option.for.loop">
-						<xsl:with-param name="i" select="0"/>
-						<xsl:with-param name="count" select="$pages"/>
-						<xsl:with-param name="current" select="@currentPage"/>
-					</xsl:call-template>
+					<option value="{@currentPage}" selected="selected">
+						<xsl:value-of select="@currentPage + 1"/>
+					</option>
 				</select>
 			</label>
 			
@@ -68,7 +69,7 @@
 			<!-- buttons to change page -->
 			<xsl:variable name="buttonType">
 				<xsl:choose>
-					<xsl:when test="@mode='server'">
+					<xsl:when test="@mode='server'"><!-- WDataTable compatibility only -->
 						<xsl:text>submit</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
@@ -136,63 +137,26 @@
 		<xsl:param name="type"/>
 		<xsl:param name="idSuffix"/>
 		<xsl:param name="disabled"/>
-		<xsl:element name="button">
-			<xsl:attribute name="id">
-				<xsl:value-of select="concat(../@id,'.pagination.',$idSuffix)"/>
-			</xsl:attribute>
-			<xsl:attribute name="title">
-				<xsl:value-of select="$title"/>
-			</xsl:attribute>
-			<xsl:attribute name="type">
-				<xsl:value-of select="$type"/>
-			</xsl:attribute>
+		<button id="{concat(../@id,'.pagination.',$idSuffix)}" title="{$title}" type="{$type}" class="wc_btn_icon">
 			<xsl:if test="$type='submit'">
 				<xsl:attribute name="formnovalidate">
 					<xsl:text>formnovalidate</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:attribute name="class">
-				<xsl:text>wc_ibtn</xsl:text>
-			</xsl:attribute>
 			<xsl:choose>
 				<xsl:when test = "$disabled = 1">
 					<xsl:attribute name="disabled">
 						<xsl:text>disabled</xsl:text>
 					</xsl:attribute>
 				</xsl:when>
-				<xsl:otherwise>
+				<xsl:otherwise><!-- WDataTable compatibility only -->
 					<xsl:call-template name="disabledElement">
 						<xsl:with-param name="field" select="parent::ui:table"/>
 						<xsl:with-param name="isControl" select="1"/>
 					</xsl:call-template>
 				</xsl:otherwise>
 			</xsl:choose>
-		</xsl:element>
+		</button>
 	</xsl:template>
 
-	<!--*
-	 This is a recursive template to create the options in the pagination SELECT element.
-
-	param i an iterator
-	param count the total number of pages
-	param current the index of the current page, used to mark the option as selected
-	-->
-	<xsl:template name="pagination.option.for.loop">
-		<xsl:param name="i"/>
-		<xsl:param name="count"/>
-		<xsl:param name="current"/>
-		<xsl:if test="$i &lt; $count">
-			<option value="{$i}">
-				<xsl:if test="$i = $current">
-					<xsl:attribute name="selected">selected</xsl:attribute>
-				</xsl:if>
-				<xsl:value-of select="$i + 1"/>
-			</option>
-			<xsl:call-template name="pagination.option.for.loop">
-				<xsl:with-param name="i" select="$i + 1"/>
-				<xsl:with-param name="count" select="$count"/>
-				<xsl:with-param name="current" select="$current"/>
-			</xsl:call-template>
-		</xsl:if>
-	</xsl:template>
 </xsl:stylesheet>

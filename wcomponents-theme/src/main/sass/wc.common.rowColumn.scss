@@ -1,5 +1,5 @@
 /* wc.ui.row.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
 .wc-row {
 	@include flex($justify: space-between);
@@ -10,7 +10,7 @@
 	@include flex-shrink(1);
 }
 
-@include respond(phonelike) {
+@include respond(small) {
 	.wc-row {
 		display: block;
 	}

@@ -1,0 +1,5 @@
+<span class="fa-stack fa-lg">
+{{lower}}
+{{upper}}
+</span>
+<style type="text/css">.text-ban {color: red;}</style>

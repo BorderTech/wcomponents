@@ -1,11 +1,11 @@
 // Override this for some simple colour/size over-rides for dialogs
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
 $wc-ui-color-dialog-head-bg: $std-color-primary;
 $wc-ui-color-dialog-head-fg: $std-color-primary-accent;
 
-$wc-ui-dialog-min-width: 15em;
-$wc-ui-dialog-min-height: 7em;
+$wc-ui-dialog-min-width: 15rem;
+$wc-ui-dialog-min-height: 7rem;
 
 $wc-ui-dialog-transition-delay: 0s;
 $wc-ui-dialog-transition-duration: 0.5s;

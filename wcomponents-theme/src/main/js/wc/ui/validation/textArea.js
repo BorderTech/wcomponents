@@ -1,14 +1,15 @@
 /**
  * Provides functionality to undertake client validation of WTextArea.
  *
- * @module validation/textArea
+ * @module wc/ui/validation/textArea
  * @requires module:wc/dom/attribute
  * @requires module:wc/dom/event
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/Widget
+ * @requires module:wc/i18n/i18n
  * @requires external:lib/sprintf
- * @requires module:validation/required
- * @requires module:validation/validationManager
+ * @requires module:wc/ui/validation/required
+ * @requires module:wc/ui/validation/validationManager
  * @requires module:wc/ui/getFirstLabelForElement
  * @requires module:wc/ui/textArea
  */
@@ -16,18 +17,18 @@ define(["wc/dom/attribute",
 		"wc/dom/event",
 		"wc/dom/initialise",
 		"wc/dom/Widget",
-		"lib/i18n!wc/nls/validation",
+		"wc/i18n/i18n",
 		"lib/sprintf",
 		"wc/ui/validation/required",
 		"wc/ui/validation/validationManager",
 		"wc/ui/getFirstLabelForElement",
 		"wc/ui/textArea"],
-	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param i18n @param sprintf lib/sprintf @param required validation/required @param validationManager validation/validationManager @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param textArea wc/ui/textArea @ignore */
+	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param sprintf lib/sprintf @param required wc/ui/validation/required @param validationManager wc/ui/validation/validationManager @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param textArea wc/ui/textArea @ignore */
 	function(attribute, event, initialise, Widget, i18n, sprintf, required, validationManager, getFirstLabelForElement, textArea) {
 		"use strict";
 		/**
 		 * @constructor
-		 * @alias module:validation/textArea~ValidationTextArea
+		 * @alias module:wc/ui/validation/textArea~ValidationTextArea
 		 * @private
 		 */
 		function ValidationTextArea() {
@@ -73,15 +74,15 @@ define(["wc/dom/attribute",
 				if (value && !validationManager.isExempt(element)) {
 					if ((mask = textArea.getMaxlength(element)) && value.length > mask) {
 						result = true;
-						flag = sprintf.sprintf(i18n.maxlength, "%s", mask, value.length);
+						flag = i18n.get("${validation.maxlength.i18n.error}", "%s", mask, value.length);
 					}
 					else if ((mask = element.getAttribute("${wc.common.attrib.min}")) && value.length < mask) {
 						result = true;
-						flag = sprintf.sprintf(i18n.minLength, "%s", mask);
+						flag = i18n.get("${validation.textField.i18n.minLength}", "%s", mask);
 					}
 
 					if (result) {
-						label = getFirstLabelForElement(element, true) || element.title || i18n.unlabelledQualifier;
+						label = getFirstLabelForElement(element, true) || element.title || i18n.get("${validation.core.i18n.unlabelledQualifier}");
 						message = sprintf.sprintf(flag, label);
 						validationManager.flagError({element: element, message: message, attachTo: (textArea.getCounter(element) || element)});
 					}
@@ -144,7 +145,7 @@ define(["wc/dom/attribute",
 
 			/**
 			 * Initialise callback to set up event listeners.
-			 * @function module:validation/textArea.initialise
+			 * @function module:wc/ui/validation/textArea.initialise
 			 * @param {Element} element The element being initialised, usually document.body.
 			 */
 			this.initialise = function(element) {
@@ -159,14 +160,14 @@ define(["wc/dom/attribute",
 			/**
 			 * Late initialisation to attach validation manager subscriber.
 			 *
-			 * @function module:validation/textArea.postInit
+			 * @function module:wc/ui/validation/textArea.postInit
 			 */
 			this.postInit = function() {
 				validationManager.subscribe(validate);
 			};
 		}
 
-		var /** @alias module:validation/textArea */ instance = new ValidationTextArea();
+		var /** @alias module:wc/ui/validation/textArea */ instance = new ValidationTextArea();
 		instance.constructor = ValidationTextArea;
 		initialise.register(instance);
 		return instance;

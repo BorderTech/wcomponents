@@ -1,11 +1,11 @@
-define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"],
+define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 		var classlist,
 			testHolder,
 			DUMMY_CLASS = "handsallaroundjingjang",
 			SPACE = /\s+/,
-			urlResource = "../../target/test-classes/wcomponents-theme/intern/resources/domClassList.html";
+			urlResource = "@RESOURCES@/domClassList.html";
 
 		function getElementWithClass(multiple) {
 			var candidates = testHolder.getElementsByTagName("*"), i, next, result,
@@ -75,7 +75,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils"]
 					expected = element.className.split(SPACE);
 				do {
 					assert.strictEqual(expected[i], element.classList.item(i), "item returned unexpected result");
-				}while (expected[ ++i ]);
+				} while (expected[ ++i ]);
 			},
 			testItemNoClassValue: function() {
 				var id = "test_par",  // element with class attribute with no value

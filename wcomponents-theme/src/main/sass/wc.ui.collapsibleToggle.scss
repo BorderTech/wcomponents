@@ -1,31 +1,15 @@
 /* wc.ui.collapsibleToggle.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
 .wc-collapsibletoggle {
+	@include tight-box;
 	list-style-type: none;
-	margin: 0;
-	padding: 0;
 
 	> li {
 		display: inline-block;
 
 		+ li {
 			margin-left: $hgap-small;
-		}
-
-		button:before {
-			content: '\229e';
-			font-size: 1.25em;
-			line-height: 0;
-
-			@include reset-large-screen {
-				font-size: 1em;
-				line-height: inherit;
-			}
-		}
-
-		[data-wc-value='collapse']:before {
-			content: '\229f';
 		}
 	}
 }

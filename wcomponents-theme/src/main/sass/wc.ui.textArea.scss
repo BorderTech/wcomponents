@@ -1,5 +1,5 @@
 /* wc.ui.textarea.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
 // the ticker
 textarea + output {
@@ -31,8 +31,8 @@ textarea + output {
 // defaults and set whitespace and wrapping to textarea-like settings.
 //scss-lint:disable QualifyingElement
 pre.wc_ro {
+	@include margin($size: 0);
 	font-family: inherit;
-	margin: 0;
 	white-space: pre-wrap;
 	word-wrap: break-word;
 }

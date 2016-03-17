@@ -1,5 +1,5 @@
 /* wc.ui.messagesBox.scss */
-@import 'wc.ui.messageBox_vars.scss';
+@import 'wc.ui.messageBox_vars';
 
 .wc_msgbox {
 	@include border;
@@ -11,16 +11,6 @@
 		color: $std-color-white;
 		font-size: $msg-box-header-size;
 		font-weight: normal;
-		margin-top: 0;
-		padding: $vgap-normal;
-		width: $line-size;
-
-		&:before {
-			@include make-box($height: $msg-box-header-size, $width: $msg-box-header-size); // Width and height same as font-size for the heading
-			@include background-image($url: '../images/error.png', $height: contain);
-			content: ' ';
-			vertical-align: text-top;
-		}
 
 		> span {
 			@include offscreen;
@@ -51,10 +41,6 @@
 
 		> h1 {
 			background-color: $wc-ui-color-warning-fg;
-
-			&:before {
-				background-image: url('../images/warning.png');
-			}
 		}
 	}
 
@@ -63,10 +49,6 @@
 
 		> h1 {
 			background-color: $wc-ui-color-info-fg;
-
-			&:before {
-				background-image: url('../images/information.png');
-			}
 		}
 	}
 
@@ -75,14 +57,6 @@
 
 		> h1 {
 			background-color: $wc-ui-color-success-fg;
-
-			&:before {
-				background-image: url('../images/success.png');
-			}
 		}
-	}
-
-	li { //maintain white space on messages.
-		white-space: pre-wrap;
 	}
 }

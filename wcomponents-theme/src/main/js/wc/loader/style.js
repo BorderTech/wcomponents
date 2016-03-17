@@ -49,7 +49,7 @@
  * @todo lib/dojo/sniff has been patched to include has("edge") but it not yet released. The include of fixes here is to
  * include our has test for edge. It can be removed once lib/dojo/sniff is updated.
  */
-define(["wc/has", "wc/fixes", "module"], /** @param has wc/has @param module module @ignore */ function(has, fixes, module) {
+define(["wc/has", "wc/config", "wc/fixes"], /** @param has wc/has @param module module @ignore */ function(has, wcconfig) {
 	"use strict";
 	/**
 	 * @constructor
@@ -108,7 +108,7 @@ define(["wc/has", "wc/fixes", "module"], /** @param has wc/has @param module mod
 			 * @private
 			 * @default {ff: "ff", safari: "safari", ios: "ios"}
 			 */
-			screenStylesToAdd = ((module.config && module.config().screen) ? module.config().css : null),
+			screenStylesToAdd = null,
 
 			/* NOTE TO SELF: the vars below which are only used once are used in a function which is called many times.
 			 * leave them here you twit!*/
@@ -119,28 +119,28 @@ define(["wc/has", "wc/fixes", "module"], /** @param has wc/has @param module mod
 			 * @type {String}
 			 * @private
 			 */
-			CSS_BASE_URL = module.config().cssBaseUrl,
+			CSS_BASE_URL = null,
 			/**
 			 * The query string of the XSLT url is used as the query string for the CSS as it contains the version number and cache buster.
 			 * @constant
 			 * @type {String}
 			 * @private
 			 */
-			CACHEBUSTER = module.config().cachebuster,
+			CACHEBUSTER = null,
 			/**
 			 * Indicates if we are in debug mode.
 			 * @var
 			 * @type {boolean}
 			 * @private
 			 */
-			isDebug = !!module.config().debug,
+			isDebug = false,
 			/**
 			 * The part of the CSS url which comes after the browser specific 'extension'.
 			 * @var
 			 * @type {String}
 			 * @private
 			 */
-			cssFileNameAndUrlExtension = (isDebug ? "${debug.target.file.name.suffix}" : "") + ".css" + (CACHEBUSTER ? ("?" + CACHEBUSTER) : ""),
+			cssFileNameAndUrlExtension = ".css",
 			/**
 			 * Used to access keys in the screenStylesToAdd JSON object.
 			 * @var
@@ -171,33 +171,7 @@ define(["wc/has", "wc/fixes", "module"], /** @param has wc/has @param module mod
 			 */
 			CSS_FILE_NAME = "${css.target.file.name}.";
 
-		// We want to sort the IE versions so that we apply fixes for older versions AFTER fixes for newer ones.
-		if (ieVersionsToSupport) {
-			ieVersionsToSupport = ieVersionsToSupport.split(",");
-			if (ieVersionsToSupport.length > 1) {
-				ieVersionsToSupport = ieVersionsToSupport.sort(function (a,b) {
-					var RX = /(\d+)$/,
-						aVer = parseInt(a.match(RX)[0]),
-						bVer = parseInt(b.match(RX)[0]);
-					return bVer - aVer;
-				});
-			}
-		}
-
-		if (platformCSS.length && !screenStylesToAdd) {
-			platformCSS = platformCSS.split(",");
-			/* if(platformCSS.length > 1) {
-				// damn
-				// we want genericRenderingEngine then SpecificBrowser then SpecificPlatform
-				// for example: .webkit THEN .safari THEN .ios
-				// but .ff before .ios so reverse alphabet is not useful.
-				// which means we would be relying on case sensitivity to do unicode ordering - which is BAD!!
-			} */
-			screenStylesToAdd = {};
-			platformCSS.forEach(function(next) {
-				screenStylesToAdd[next] = next;
-			});
-		}
+		initialise();
 
 		/**
 		 * Create a link element for a CSS file in the head element unless we already have one for this URL.
@@ -292,9 +266,6 @@ define(["wc/has", "wc/fixes", "module"], /** @param has wc/has @param module mod
 				j,
 				version,
 				_v;  // I hate IE8! All these vars are for the array iteration because I cannot rely on forEach being loaded in time.;
-			if (module.config && module.config().ie) {
-				ieVersionsToSupport = module.config().ie;
-			}
 			/*
 			 * This module is loaded very early via XSLT and we cannot guarantee that IE8 has received, parsed and
 			 * processed the whole compat layer. This makes it hard to catch some things but mostly foreEach is
@@ -333,6 +304,48 @@ define(["wc/has", "wc/fixes", "module"], /** @param has wc/has @param module mod
 						}
 					}
 				}
+			}
+		}
+
+		function initialise() {
+			var config = wcconfig.get("wc/loader/style");
+			if (config) {
+				screenStylesToAdd = config.screen ? config.css : null;
+				CSS_BASE_URL = config.cssBaseUrl;
+				CACHEBUSTER = config.cachebuster;
+				isDebug = config.debug;
+				cssFileNameAndUrlExtension = (isDebug ? "${debug.target.file.name.suffix}" : "") + ".css" + (CACHEBUSTER ? ("?" + CACHEBUSTER) : "");
+				if (config.ie) {
+					ieVersionsToSupport = config.ie;
+				}
+			}
+
+			// We want to sort the IE versions so that we apply fixes for older versions AFTER fixes for newer ones.
+			if (ieVersionsToSupport) {
+				ieVersionsToSupport = ieVersionsToSupport.split(",");
+				if (ieVersionsToSupport.length > 1) {
+					ieVersionsToSupport = ieVersionsToSupport.sort(function (a,b) {
+						var RX = /(\d+)$/,
+							aVer = parseInt(a.match(RX)[0]),
+							bVer = parseInt(b.match(RX)[0]);
+						return bVer - aVer;
+					});
+				}
+			}
+
+			if (platformCSS.length && !screenStylesToAdd) {
+				platformCSS = platformCSS.split(",");
+				/* if(platformCSS.length > 1) {
+					// damn
+					// we want genericRenderingEngine then SpecificBrowser then SpecificPlatform
+					// for example: .webkit THEN .safari THEN .ios
+					// but .ff before .ios so reverse alphabet is not useful.
+					// which means we would be relying on case sensitivity to do unicode ordering - which is BAD!!
+				} */
+				screenStylesToAdd = {};
+				platformCSS.forEach(function(next) {
+					screenStylesToAdd[next] = next;
+				});
 			}
 		}
 
@@ -399,7 +412,6 @@ define(["wc/has", "wc/fixes", "module"], /** @param has wc/has @param module mod
 			else {
 				addStyle(nameOrUrl, media);
 			}
-
 		};
 	}
 	return /** @alias module:wc/loader/style */ new StyleLoader();

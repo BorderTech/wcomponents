@@ -1,56 +1,23 @@
 /* wc.ui.combo.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
 // This redundant rule is not as redundant as you might think so just leave it be!
 datalist {
 	display: none;
 }
 
-input[role='combobox'] {
-	@include background-image($url: '../images/down.png', $height: 1em, $width: 1em, $x: 100%);
-	@include border;
+input[role='combobox'] { // not the combo wrapper of datefield.
 	@include border-box;
-	padding-right: $line-size;
+	padding-right: 1rem; // allow for icon
 
-	&[disabled] {
-		background-image: url('../images/down-d.png');
-	}
-
-	~ [role='listbox'] {
-		@include border;
-		background-color: $wc-ui-color-highlight-bg;
+	&[aria-expanded = 'true'] ~ [role='listbox'] {
 		display: block;
-		list-style-type: none;
-		margin: 0;
-		max-height: (7 * ($line-size + (2 * $hgap-small))); // allow for up to seven visible options.
+		max-height: (7 * $line-height * (1rem + (2 * $hgap-small))); // allow for up to seven visible options.
 		max-width: 100%;
 		overflow: auto;
-		padding: 0;
-		position: absolute;
-		z-index: $z-index-common;
-
-		dialog & {
-			z-index: $z-index-common-in-dialog;
-		}
-
-		&[aria-busy='true'] {
-			// we do not want dynamic suggestion lists to go transparent when busy
-			// scss-lint:disable ImportantRule
-			background-color: $wc-ui-color-highlight-bg !important;
-		}
 	}
 }
 
-li[role='option'] {
-	color: $wc-ui-color-highlight-fg;
-	margin: 0;
-	min-height: 1em;
-	padding: $hgap-small;
-
-	&:hover,
-	&:focus {
-		background-color: $wc-ui-color-invite-bg;
-		color: $wc-ui-color-invite-fg;
-		cursor: pointer;
-	}
+.wc_list_wrapper {
+	position: relative;
 }

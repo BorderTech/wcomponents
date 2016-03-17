@@ -1,19 +1,11 @@
 /* wc.ui.table.sort.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
-th {
-	&[aria-sort] {
-		@include background-image ('../images/down-d.png', $x: 100%);
-		background-position-x: calc(100% - 0.25em);
-		cursor: pointer;
-		padding-right: calc(16px + 0.5em);//allow for 16px image, image position and 0.25em between text and image.
-	}
+th[aria-sort] {
+	cursor: pointer;
 
-	&[sorted] {
-		background-image: url('../images/down.png');
-	}
-
-	&[sorted~='reversed'] {
-		background-image: url('../images/up.png');
+	> .wc-decoratedlabel {
+		display: inline-block;
+		width: calc(100% - 2em); // allow for sort icon
 	}
 }

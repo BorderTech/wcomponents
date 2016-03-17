@@ -10,7 +10,7 @@
  * @requires module:wc/ui/table/rowExpansion
  * @requires module:wc/ui/table/sort
  */
-define(["wc/ui/table/action", "wc/ui/table/pagination", "wc/ui/rowAnalog", "wc/ui/table/rowExpansion", "wc/ui/table/sort"],
+define(["wc/ui/table/action", "wc/ui/table/pagination", "wc/ui/rowAnalog", "wc/ui/table/rowExpansion", "wc/ui/table/sort", "wc/ui/selectToggle"],
 	function() {
 		"use strict";
 		return 1;

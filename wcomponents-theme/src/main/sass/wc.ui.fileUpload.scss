@@ -1,43 +1,24 @@
 /* wc.ui.fileUpload.scss */
-@import 'mixins_common.scss';
-
-%a-button {
-	display: inline-block;
-	vertical-align: top;
-}
+@import 'mixins-common';
 
 .wc-fileupload {
 	a {
-		@extend %a-button;
 		@include flex-grow(1);
 		@include flex-shrink(1);
-		max-width: calc(100% - #{$line-size});
+		display: inline-block;
+		max-width: calc(100% - 2em);
 
 		img {
 			max-width: 100%;
 		}
 
 		~ button {
-			@extend %a-button;
 			@include flex-shrink(0);
-			@include button;
-			@include background-image($url: '../images/delete.png', $reset-size: 1em);
+			display: inline-block;
 			margin-left: $hgap-small;
-
-			&[disabled] {
-				background-image: url('../images/delete-d.png');
-			}
 		}
 	}
 
-	.wc-file {
-		@include flex($justify: space-between, $align-items: flex-start);
-		@include border;
-		background-color: $wc-ui-color-highlight-bg;
-		color: $wc-ui-color-highlight-fg;
-		padding: $hgap-small;
-		word-wrap: break-word;
-	}
 
 	> .wc_filelist {
 		display: table-cell;  // horrendously wrong no doubt but fixes columns
@@ -92,10 +73,6 @@
 		outline: 2px dotted $wc-ui-color-invite-fg;
 	}
 
-	.wc_btn_camera {
-		@include button($width: 1em, $height: 1em);
-		@include background-image($url: '../images/camera-web.png', $height: 1em, $width: 1em);
-	}
 
 	input[type='file'][data-editor] {
 		max-width: calc(100% - 2em); // leave room for the edit button.
@@ -105,4 +82,23 @@
 			vertical-align: bottom;
 		}
 	}
+	
+	.wc_btn_camera {
+		display: none;  // This should only be available on desktop browsers
+	}
+}
+
+
+.wc-file {
+	@include flex($justify: space-between, $align-items: flex-start);
+	@include border;
+	background-color: $wc-ui-color-highlight-bg;
+	color: $wc-ui-color-highlight-fg;
+	padding: $hgap-small;
+	word-wrap: break-word;
+}
+
+input[type='file']::-webkit-file-upload-button {
+	@include button($border: 0);
+	@include border($pos: right, $width: 1px);
 }

@@ -28,7 +28,7 @@
 	<xsl:template name="plugin_validation">
 		<xsl:variable name="scriptId" select="concat(generate-id(), '-validationscript')"/>
 		<script type="text/javascript" id="{$scriptId}">
-			<xsl:text>require(["wc/compat/compat!"], function(){try{</xsl:text>
+			<xsl:text>require(["wc/compat/compat !"], function(){try{</xsl:text>
 			<xsl:call-template name="plugin_validation_includes"/>
 			<xsl:text>}finally{require(["wc/dom/removeElement"],function(r){r("</xsl:text>
 			<xsl:value-of select="$scriptId"/>

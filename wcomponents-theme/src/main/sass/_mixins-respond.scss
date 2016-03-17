@@ -1,0 +1,86 @@
+// Skeleton responsive design mixin. Gives what we need by default but feel free to add to it with other responsive
+// design mixins as required.
+
+//how big is a small screen?
+$small-screen: 1000px;
+//and a common/medium screen?
+$medium-screen: 1280px;
+//how about a BIG screen?
+$large-screen: 1921px;//bigger than 1080p
+
+// guess what this is for!
+$bigger-than-small-screen: $small-screen + 1px;
+
+@mixin respond($size, $test: max-width) {
+	@if($size == phone) { //should cover most modern phones and some smaller/older tablets
+		@media only screen  and (min-device-width : 320px) and (max-device-width : 736px) {
+			@content;
+		}
+	}
+	@else if($size == phonelike) {
+		@media only screen  and (max-width : 736px) {
+			@content;
+		}
+	}
+	@else if($size == mobile) { // most things from small phones to ipad size tablets
+		@media only screen  and (min-device-width : 320px) and (max-device-width : 1034px) {
+			@content;
+		}
+	}
+	@else if($size == small) {
+		@media only screen and (#{$test}: $small-screen) {
+			@content;
+		}
+	}
+	@else if($size == 'not-small') {
+		@media only screen and (min-width: $bigger-than-small-screen) {
+			@content;
+		}
+	}
+	@else if($size == medium) {
+		@media only screen and (#{$test}: $medium-screen) {
+			@content;
+		}
+	}
+	@else if($size == large) {
+		@media only screen and (#{$test}: $large-screen) {
+			@content;
+		}
+	}
+	@else if($size == ip6) { //iphone 6plus
+		@media only screen  and (min-device-width : 375px) and (max-device-width : 667px) {
+			@content;
+		}
+	}
+	@else if($size == ip6p) { //iphone 6
+		@media only screen  and (min-device-width : 414px) and (max-device-width : 736px) {
+			@content;
+		}
+	}
+	@else if($size == ip5) { //iphone 5/5s/5c
+		@media only screen  and (min-device-width : 320px) and (max-device-width : 568px) {
+			@content;
+		}
+	}
+	@else if($size == ip4) { //iphone 4/4s
+		@media only screen  and (min-device-width : 320px) and (max-device-width : 480px) {
+			@content;
+		}
+	}
+	@else if($size == ipad) { //most ipads
+		@media only screen  and (min-device-width : 768px) and (max-device-width : 1024px) {
+			@content;
+		}
+	}
+	@else {
+		@media only screen and (#{$test}: $size) { // primitive but should allow a bit of customization.
+			@content;
+		}
+	}
+}
+
+@mixin reset-large-screen {
+	@include respond($size: large, $test: min-device-width) {
+		@content;
+	}
+}

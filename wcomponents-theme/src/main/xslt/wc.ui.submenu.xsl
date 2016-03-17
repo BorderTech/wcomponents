@@ -5,6 +5,7 @@
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
+	<xsl:import href="wc.common.title.xsl"/>
 	<!--
 		WSubMenu is a descendant of WMenu and is used to hold WMenuItems.
 
@@ -67,10 +68,7 @@
 			</xsl:choose>
 		</xsl:variable>
 
-		<xsl:element name="div">
-			<xsl:attribute name="id">
-				<xsl:value-of select="$id"/>
-			</xsl:attribute>
+		<div id="{$id}">
 			<!--
 				We try not to tie functionality or display to classes when we have suitable ARIA
 				attributes but the need to differentiate functionality based on whether an
@@ -82,6 +80,7 @@
 				This <<may>> change so you should try not to rely on this class for too much and
 				certainly avoid it for automated testing.
 			-->
+			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:call-template name="makeCommonClass"/>
 			<xsl:if test="$type='tree'">
 				<xsl:attribute name="aria-expanded">
@@ -100,14 +99,13 @@
 					<xsl:value-of select="@selectMode"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:attribute name="role">
 				<xsl:choose>
 					<xsl:when test="$type='tree'"><!-- this will only be met if we can get to the ancestor menu -->
 						<xsl:text>treeitem</xsl:text>
 					</xsl:when>
 					<xsl:when test="$myAncestorMenu">
-						<xsl:text>menuitem</xsl:text>
+						<xsl:text>presentation</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:text>${wc.ui.menu.dummyRole}</xsl:text>
@@ -141,34 +139,14 @@
 				</xsl:call-template>
 			</xsl:if>
 			<!-- This is the submenu opener/label element. -->
-			<xsl:element name="button">
-				<xsl:attribute name="type">
-					<xsl:text>button</xsl:text>
-				</xsl:attribute>
-				<xsl:attribute name="id">
-					<xsl:value-of select="$id"/>
-					<xsl:text>${wc.ui.menu.submenu.openerIdSuffix}</xsl:text>
-				</xsl:attribute>
+			<button type="button" id="{concat($id, '${wc.ui.menu.submenu.openerIdSuffix}')}" name="{$id}" class="wc_btn_nada wc-submenu-o" aria-controls="{$id}">
 				<xsl:if test="not($type='tree')">
 					<xsl:attribute name="aria-haspopup">
 						<xsl:copy-of select="$t"/>
 					</xsl:attribute>
+					<xsl:attribute name="role">menuitem</xsl:attribute>
 				</xsl:if>
-				<xsl:attribute name="name">
-					<xsl:value-of select="$id"/>
-				</xsl:attribute>
-				<xsl:attribute name="class">
-					<xsl:text>wc_btn_nada</xsl:text>
-				</xsl:attribute>
-				<xsl:if test="@toolTip">
-					<xsl:attribute name="title">
-						<xsl:value-of select="normalize-space(@toolTip)"/>
-					</xsl:attribute>
-				</xsl:if>
-				<!-- This is the submenu content which is controlled by the submenu -->
-				<xsl:attribute name="aria-controls">
-					<xsl:value-of select="ui:content/@id"/>
-				</xsl:attribute>
+				<xsl:call-template name="title"/>
 				<!-- see above for how we determine disabled state: it is ugly -->
 				<xsl:if test="$disabledAncestor">
 					<xsl:call-template name="disabledElement">
@@ -201,11 +179,11 @@
 					</xsl:otherwise>
 				</xsl:choose>
 				<xsl:apply-templates select="ui:decoratedlabel"/>
-			</xsl:element>
+			</button>
 			<xsl:apply-templates select="ui:content" mode="submenu">
 				<xsl:with-param name="open" select="$open"/>
 				<xsl:with-param name="type" select="$type"/>
 			</xsl:apply-templates>
-		</xsl:element>
+		</div>
 	</xsl:template>
 </xsl:stylesheet>

@@ -1,5 +1,5 @@
 /* wc.ui.listLayout.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
 .wc-listlayout {
 	margin: 0;
@@ -64,11 +64,6 @@
 			+ li {
 				margin-left: $hgap-normal;
 			}
-		}
-
-		&.dot > li + li:before { // dot bullets should be default but need pseudo-elements for flat lists.
-			content: '\25cf';
-			margin-right: $hgap-normal;
 		}
 	}
 

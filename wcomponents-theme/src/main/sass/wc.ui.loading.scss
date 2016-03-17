@@ -1,6 +1,6 @@
 /* wc.ui.loading.scss */
 // styling for the loading indicator that appears for page reloads and AJAX regions
-@import 'vars_all.scss';
+@import 'mixins-common';
 
 // loading indicator is generated and identified
 //scss-lint:disable IdSelector
@@ -18,36 +18,24 @@
 		color: $wc-ui-color-global-fg;
 		display: inline-block;
 		margin: 0 auto;
-		padding: 1em;
+		padding: $hgap-large;
 		vertical-align: middle;
 		width: auto;
 
-		&:before { // the spinner
-			background-image: url('../images/loading.svg');
-			background-repeat: no-repeat;
-			background-size: 100% 100%;
-			content: '\a0';
-			display: inline-block;
-			height: 2em;
+		&:before {
 			margin-right: $hgap-normal;
-			vertical-align: middle;
-			width: 2em;
 		}
 	}
 }
 
-// ajax busy areas
+// (Usually ajax) busy areas
 // We make the background of the busy element transparent and set all of its children to visibility:hidden so the
 // element appears to just vanish and leave its loading indicator You may want to change this (a Cheshire cat maybe?).
 [aria-busy='true'] {
 	// Some of these properties have to be important to over-ride specific component's rules
 	// scss-lint:disable ImportantRule
 	background-color: transparent !important;
-	background-image: url('../images/loading.svg') !important;
-	background-position: 50% 50%;
-	background-repeat: no-repeat;
-	background-size: $line-size $line-size !important;
-	// border-color: transparent !important; busy stuff should keep borders - we should ensure they keep the same dimensions too so it doesn't look stupid
+	// scss-lint:enable ImportantRule
 	color: $wc-ui-color-disabled-fg;
 
 	// Make any interactive child element of a busy region invisible. We want them to take up their space but not be
