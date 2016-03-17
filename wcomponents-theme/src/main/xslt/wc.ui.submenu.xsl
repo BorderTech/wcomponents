@@ -38,11 +38,6 @@
 				<xsl:number value="1"/>
 			</xsl:if>
 		</xsl:variable>
-		<xsl:variable name="noContextSubMenu">
-			<xsl:if test="$noContextMenu=1 and not($myAncestorSubmenu)">
-				<xsl:number value="1"/>
-			</xsl:if>
-		</xsl:variable>
 		<xsl:variable name="type" select="$myAncestorMenu/@type"/>
 		<xsl:variable name="stickyOpen">
 			<xsl:choose>
