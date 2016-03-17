@@ -226,7 +226,7 @@
 							<xsl:copy-of select="$t"/>
 						</xsl:attribute>
 						<xsl:attribute name="class">
-							<xsl:text>wc_wdf_cal wc_btn_icon</xsl:text>
+							<xsl:text>wc_wdf_cal wc_btn_icon wc_invite</xsl:text>
 						</xsl:attribute>
 						<xsl:call-template name="hideElementIfHiddenSet"/>
 						<xsl:call-template name="disabledElement">

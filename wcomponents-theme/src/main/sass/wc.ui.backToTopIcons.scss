@@ -1,0 +1,7 @@
+/* wc.ui.backToTopIcons.scss */
+@import 'mixins-common';
+
+/// The back to top of page link.
+.wc_btt :before {
+	@include wc-icon($fa-var-chevron-circle-up);
+}

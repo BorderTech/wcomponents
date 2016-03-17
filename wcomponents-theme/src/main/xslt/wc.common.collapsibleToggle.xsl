@@ -55,7 +55,7 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="toggleClass">
-			<xsl:value-of select="local-name(.)"/>
+			<xsl:value-of select="concat('wc_', local-name(.))"/>
 		</xsl:variable>
 		<ul id="{$id}" role="radiogroup">
 			<xsl:call-template name="makeCommonClass"/>

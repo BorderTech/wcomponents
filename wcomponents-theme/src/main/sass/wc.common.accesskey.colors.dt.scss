@@ -1,0 +1,18 @@
+/* wc.common.accesskey.colors.dt.scss */
+@import 'accesskey_vars';
+
+///	Accesskey Tooltips
+///	Styling for the callout (shows when ALT is held down).
+span[role='tooltip'] {
+	@include accesskey-border;
+	background-color: $wc-ui-color-tooltip-bg;
+	color: $wc-ui-color-tooltip-fg;
+
+	&:before {
+		border-color: $wc-ui-color-tooltip-border transparent transparent;
+	}
+
+	&:after {
+		border-color: $wc-ui-color-tooltip-border transparent transparent;
+	}
+}

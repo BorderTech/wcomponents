@@ -19,7 +19,6 @@
 		}
 	}
 
-
 	> .wc_filelist {
 		display: table-cell;  // horrendously wrong no doubt but fixes columns
 		padding-top: $hgap-small;
@@ -67,13 +66,6 @@
 		}
 	}
 
-
-	&.wc_dragging [type=file] {
-		background-color: $wc-ui-color-invite-bg;  //#c0ffee
-		outline: 2px dotted $wc-ui-color-invite-fg;
-	}
-
-
 	input[type='file'][data-editor] {
 		max-width: calc(100% - 2em); // leave room for the edit button.
 
@@ -82,23 +74,20 @@
 			vertical-align: bottom;
 		}
 	}
-	
+
 	.wc_btn_camera {
 		display: none;  // This should only be available on desktop browsers
 	}
 }
 
-
 .wc-file {
 	@include flex($justify: space-between, $align-items: flex-start);
 	@include border;
-	background-color: $wc-ui-color-highlight-bg;
-	color: $wc-ui-color-highlight-fg;
 	padding: $hgap-small;
 	word-wrap: break-word;
 }
 
 input[type='file']::-webkit-file-upload-button {
 	@include button($border: 0);
-	@include border($pos: right, $width: 1px);
+	@include border($pos: right);
 }

@@ -3,14 +3,16 @@
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<xsl:import href="wc.common.inlineError.xsl"/>
+	<xsl:import href="wc.common.invalid.xsl"/>
 	<xsl:import href="wc.common.hField.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<xsl:import href="wc.ui.table.n.xsl"/>
 	<xsl:import href="wc.ui.table.n.caption.xsl"/>
-	<xsl:import href="wc.ui.table.n.tfoot.xsl"/>
+	<xsl:import href="wc.ui.table.n.tableBottomControls.xsl"/>
 	<xsl:import href="wc.ui.table.n.topControls.xsl"/>
+	<xsl:import href="wc.ui.table.n.autocol.xsl"/>
 	
-	<xsl:import href="wc.ui.table.n.WTableContainerClass.xsl"/>
 	<!--
 		WTable (and WDataTable)
 
@@ -51,25 +53,8 @@
 		-->
 		<xsl:variable name="isError" select="key('errorKey',$id)"/>
 
-		<xsl:variable name="disabled">
-			<xsl:if test="@disabled">
-				<xsl:number value="1"/>
-			</xsl:if>
-		</xsl:variable>
-		
-		<xsl:variable name="hasToggleSelectMode">
-			<xsl:if test="ui:rowselection[@toggle and @multiple] and ui:rowexpansion and ui:tbody/ui:tr/ui:subtr">
-				<xsl:number value="1"/>
-			</xsl:if>
-		</xsl:variable>
-
 		<div id="{$id}">
-			<xsl:attribute name="class">
-				<xsl:call-template name="WTableContainerClass">
-					<xsl:with-param name="isError" select="$isError"/>
-				</xsl:call-template>
-			</xsl:attribute>
-
+			<xsl:call-template name="makeCommonClass"/>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 
 			<xsl:if test="ui:pagination[@mode='dynamic' or @mode='client'] or ui:rowexpansion[@mode='lazy' or @mode='dynamic'] or ui:sort[@mode='dynamic'] or key('targetKey',$id) or parent::ui:ajaxtarget[@action='replace']">
@@ -78,24 +63,13 @@
 
 			<xsl:apply-templates select="ui:margin"/>
 			<!--
-				Disabled state
+				Disabled state: WDataTable only
 
 				The disabled state is not strictly required on the table wrapper since we do
 				not do ancestor-or-self lookups in determining disabled controls. It is used to
 				disable table functionality: actions, rowExpansion, sorting and rowSelection.
-			-->
 			<xsl:call-template name="disabledElement"/>
-
-			<!--
-				This is a hook to the on load filters applied to a table. A filter applied to
-				a table will show (on the client) only those rows with a matching filter
-				property.
 			-->
-			<xsl:if test="@activeFilters">
-				<xsl:attribute name="${wc.ui.table.rowFilter.attribute.tableFilter}">
-					<xsl:value-of select="@activeFilters"/>
-				</xsl:attribute>
-			</xsl:if>
 
 			<!-- THIS IS WHERE THE DIV's CONTENT STARTS NO MORE ATTRIBUTES AFTER THIS POINT THANK YOU! -->
 
@@ -129,24 +103,11 @@
 
 					<xsl:variable name="hasRole" select="$rowExpansion + $rowSelection"/>
 
-
 					<!--
-						Add table controls which do not form part of the table structure but which controls and reference the
-						table.
+						Add table controls which do not form part of the table structure but which control and reference
+						the table.
 					-->
 					<xsl:call-template name="topControls"/>
-
-					<xsl:variable name="class">
-						<xsl:if test="ui:thead/ui:th[@width]">
-							<xsl:text>wc_table_fix</xsl:text>
-						</xsl:if>
-						<xsl:if test="@type='hierarchic'">
-							<xsl:text> hierarchic</xsl:text>
-						</xsl:if>
-						<xsl:if test="$hasToggleSelectMode = 1">
-							<xsl:text> wc_table_hastoggleselect</xsl:text>
-						</xsl:if>
-					</xsl:variable>
 
 					<table>
 						<xsl:if test="$hasRole &gt; 0">
@@ -161,6 +122,9 @@
 								</xsl:choose>
 							</xsl:attribute>
 							<xsl:attribute name="aria-readonly">true</xsl:attribute>
+							<xsl:if test="$isError">
+								<xsl:call-template name="invalid"/>
+							</xsl:if>
 							<xsl:if test="$rowSelection=1">
 								<xsl:attribute name="aria-multiselectable">
 									<xsl:choose>
@@ -174,9 +138,9 @@
 								</xsl:attribute>
 							</xsl:if>
 						</xsl:if>
-						<xsl:if test="$class != ''">
+						<xsl:if test="ui:thead/ui:th[@width]">
 							<xsl:attribute name="class">
-								<xsl:value-of select="normalize-space($class)"/>
+								<xsl:text>wc_table_fix</xsl:text>
 							</xsl:attribute>
 						</xsl:if>
 						<xsl:if test="ui:pagination">
@@ -205,19 +169,11 @@
 							</xsl:if>
 
 							<xsl:if test="$rowSelection=1">
-								<col class="wc_table_colauto">
-									<xsl:if test="$isDebug=1">
-										<xsl:comment>row selection column</xsl:comment>
-									</xsl:if>
-								</col>
+								<xsl:call-template name="autocol"/>
 							</xsl:if>
 
 							<xsl:if test="$rowExpansion=1">
-								<col class="wc_table_colauto">
-									<xsl:if test="$isDebug=1">
-										<xsl:comment>row expansion column</xsl:comment>
-									</xsl:if>
-								</col>
+								<xsl:call-template name="autocol"/>
 							</xsl:if>
 
 							<xsl:choose>
@@ -243,27 +199,25 @@
 								</xsl:otherwise>
 							</xsl:choose>
 						</colgroup>
+
 						<xsl:apply-templates select="ui:thead">
 							<xsl:with-param name="hasRole" select="$hasRole"/>
 						</xsl:apply-templates>
 
-
 						<xsl:apply-templates select="ui:tbody">
 							<xsl:with-param name="hasRole" select="$hasRole"/>
-							<xsl:with-param name="disabled" select="$disabled"/>
 						</xsl:apply-templates>
 					</table>
 
 					<xsl:call-template name="tableBottomControls">
 						<xsl:with-param name="addCols" select="$hasRole"/>
-						<xsl:with-param name="disabled" select="$disabled"/>
+					</xsl:call-template>
+					<xsl:call-template name="inlineError">
+						<xsl:with-param name="errors" select="$isError"/>
 					</xsl:call-template>
 					<xsl:call-template name="hField"/>
 				</xsl:otherwise>
 			</xsl:choose>
-			<xsl:call-template name="inlineError">
-				<xsl:with-param name="errors" select="$isError"/>
-			</xsl:call-template>
 		</div>
 	</xsl:template>
 </xsl:stylesheet>

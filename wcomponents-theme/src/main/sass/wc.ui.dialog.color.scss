@@ -1,0 +1,32 @@
+/* wc.ui.dialog.color.scss */
+@import 'dialog_vars';
+
+dialog {
+	background: transparent;
+
+	> [aria-live] { // dialog content container
+		&,
+		&[aria-busy='true'] {
+			// override usual transparency of busy elements because that's just wrong with a dialog's content.
+			// scss-lint:disable ImportantRule
+			background-color: $wc-ui-color-global-bg !important;
+		}
+	}
+
+	> header,
+	> footer { // top and bottom bars of dialog
+		background-color: $wc-ui-color-dialog-head-bg;
+		color: $wc-ui-color-dialog-head-fg;
+	}
+
+	> header {
+
+		> h1 { // the title
+			color: $wc-ui-color-dialog-head-fg;
+		}
+
+		.wc_btn_icon {
+			border-color: $wc-ui-color-dialog-head-fg;
+		}
+	}
+}

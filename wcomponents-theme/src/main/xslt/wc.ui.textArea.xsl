@@ -82,7 +82,6 @@
 					<xsl:value-of select="."/>
 				</xsl:element>
 				<xsl:if test="@maxLength">
-					<xsl:variable name="chrs" select="@maxLength - string-length(text())"/>
 					<xsl:element name="output">
 						<xsl:attribute name="id">
 							<xsl:value-of select="$tickerId"/>
@@ -94,9 +93,6 @@
 							<xsl:value-of select="@id"/>
 						</xsl:attribute>
 						<xsl:call-template name="hiddenElement"/>
-						<!-- This is surely implicit on an output element.
-						<xsl:call-template name="setARIALive"/>
-						-->
 						<xsl:if test="string-length(text()) &gt; @maxLength">
 						<xsl:attribute name="class">
 							<xsl:text>wc_error</xsl:text>

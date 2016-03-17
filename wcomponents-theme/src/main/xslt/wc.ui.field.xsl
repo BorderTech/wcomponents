@@ -38,8 +38,6 @@
 		<xsl:param name="labelWidth" select="../@labelWidth" />
 		<xsl:param name="layout" select="../@layout" />
 		<xsl:if test="parent::ui:fieldlayout or parent::ui:ajaxtarget">
-			<!-- do not output a WField if it is incorrectly parented -->
-			<xsl:variable name="hasParentLayout" select="parent::ui:fieldlayout" />
 			<!--
  				If the child of the ui:input is a WCheckBox or WRadioButton then
  				the label must be placed after the control and any

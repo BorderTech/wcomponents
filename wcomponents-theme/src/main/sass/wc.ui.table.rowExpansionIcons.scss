@@ -1,9 +1,7 @@
 /* wc.ui.table.rowExpansionIcons.scss */
-@import 'mixins-common';
+@import 'expand-collapse-allIcons';
 
 // ROW EXPANSION iconography and expand/collapse all iconography.
-// .wc_table_rowexp_container is the expandable row's expander holding cell or header
-
 tr[role='row'] {
 	> td[role='button']:before {
 		@include wc-icon-fw($fa-var-caret-right);
@@ -16,12 +14,6 @@ tr[role='row'] {
 	}
 }
 
-.wc-rowexpansion button {
-	&:before {
-		@include wc-icon($fa-var-plus-square-o);
-	}
-
-	&[data-wc-value='collapse']:before {
-		content: $fa-var-minus-square-o;
-	}
+.wc-rowexpansion {
+	@extend %expand-collapse-all-icons;
 }

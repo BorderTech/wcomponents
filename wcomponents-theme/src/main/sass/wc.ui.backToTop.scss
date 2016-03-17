@@ -10,7 +10,6 @@
 	text-decoration: none;
 
 	&:before {
-		@include wc-icon($fa-var-chevron-circle-up);
 		display: block;
 		font-size: 1.5rem;
 		line-height: inherit;
@@ -19,6 +18,6 @@
 	}
 
 	> span {
-		@include offscreen();
+		@include offscreen;
 	}
 }

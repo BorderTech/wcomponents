@@ -15,8 +15,6 @@
 		position: absolute;
 
 		&:focus {
-			background-color: $wc-ui-color-global-bg;
-			color: $wc-ui-color-global-fg;
 			display: inline-block;
 			padding: $hgap-normal;
 			position: static;

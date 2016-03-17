@@ -4,10 +4,10 @@
 %wc_btn_nada {
 	@include button($border: 0, $padding: 0, $text-align: inherit);
 	color: inherit;
-	cursor: pointer;
+	// cursor: pointer;
 
-	&[disabled] {
-		color: $wc-ui-color-disabled-fg;
-		cursor: auto;
-	}
+	// &[disabled] {
+	// 	color: $wc-ui-color-disabled-fg;
+	// 	cursor: auto;
+	// }
 }

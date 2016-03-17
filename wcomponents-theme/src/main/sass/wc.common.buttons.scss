@@ -19,32 +19,41 @@
 // mixed. It may be more appropriate to not have a button which disguises itself as a link but to use the noStyle
 // variant.
 @import 'mixins-common';
+@import 'btn_common';
 
 /// User agent button styles are the bane of our lives. The _main_ problem is hard coded font styles rather than
 /// allowing them to inherit.
 button {
-	@include border-box; // redundant for _almost_ all browsers now.
 	@include margin($size: 0);
-	font-family: inherit;
-	font-size: inherit;
-	line-height: inherit;
+	// Uncomment the following to inherit text styles. This will improve consistency across platforms.
+	// If you add this you can remove the specific rule for ec_btn_link & wc_btn_nada below.
+	// @extend %button-like-text;
 }
 
 @import 'btn-nada';
 @import 'btn-link';
 @import 'btn-icon';
 
+.wc_btn_link,
+.wc_btn_nada {
+	@extend %button-like-text;
+}
+
+// A button stripped of its button nature.
 .wc_btn_nada {
 	@extend %wc_btn_nada;
 }
 
+// A button disguised as a link. These will normally also have the class wc_btn_nada.
 .wc_btn_link {
 	@extend %wc_btn_link;
 }
 
+// A common class for buttons which only contain icons.
 .wc_btn_icon {
 	@extend %wc_btn_icon;
 }
+
 
 /// Components which are not button elements but act as buttons. This is _very_ rare and is currently limited to
 /// summary elements in browsers which do not provide native details/summary behaviour.
