@@ -9,14 +9,6 @@
 .wc-datefield {
 	display: inline-block;
 	position: relative;
-
-	&[role='combobox'] { // partial date field or no native support
-		@include border($color: $wc-ui-color-border-form-control);
-
-		&[aria-disabled='true'] {
-			background-color: $wc-ui-color-disabled-bg;
-		}
-	}
 }
 
 // calendar launch button
@@ -24,27 +16,11 @@
 	@include border($width: 0); // remove the generic wc_btn_icon border.
 	@include border($pos: left);
 	@include margin($pos: left);
-
-	&:hover,
-	&:focus {
-		background-color: $wc-ui-color-invite-bg;
-		color: $wc-ui-color-invite-fg;
-	}
-
-	&[disabled]:hover {
-		background-color: $wc-ui-color-disabled-bg;
-		color: $wc-ui-color-disabled-fg;
-	}
 }
 
 [role='combobox'] { // NOTE: all of the nested rules apply to nested selectors. This differentiates datefield from combo.
 	> input {
 		border: 0 none;
-	}
-
-	// The whole combo is invalid but we only want to apply the background color to the textbox.
-	&[aria-invalid='true'] > input {
-		background-color: $wc-ui-color-error-bg;
 	}
 
 	&[aria-expanded='true'] > [role='listbox'] {

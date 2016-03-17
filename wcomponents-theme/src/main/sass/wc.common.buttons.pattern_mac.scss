@@ -1,0 +1,10 @@
+/* wc.common.buttons.pattern_mac.scss */
+// A proof of concept to do two things:
+// 1. ensure has("mac") works; and
+// 2. set buttons to something approaching a consistent appearance in OS X.
+
+@import 'btn_common';
+
+button {
+	@extend %button-like-text;
+}

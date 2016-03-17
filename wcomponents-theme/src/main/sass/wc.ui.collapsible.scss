@@ -27,7 +27,6 @@ summary {
 	> h5,
 	> h6 {
 		@include tight-box;
-		color: $wc-ui-color-global-fg;
 		display: inline-block;
 		font-size: 1rem;
 		font-weight: bold;

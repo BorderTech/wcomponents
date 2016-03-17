@@ -1,0 +1,21 @@
+/* wc.common.page.color.scss */
+// Primary styling for the page and preliminary styling of some commonly used basic elements and layout classes.
+@import 'mixins-common';
+
+
+body {
+	background-color: $wc-ui-color-global-bg;
+	color: $wc-ui-color-global-fg;
+}
+
+a {
+	color: $wc-ui-color-link;
+
+	&:visited {
+		color: $wc-ui-color-link-visited;
+	}
+
+	&[aria-disabled='true'] { // NOTE: we need the disabled color to override the :visited state
+		color: $wc-ui-color-disabled-fg;
+	}
+}

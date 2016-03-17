@@ -78,9 +78,3 @@ $bigger-than-small-screen: $small-screen + 1px;
 		}
 	}
 }
-
-@mixin reset-large-screen {
-	@include respond($size: large, $test: min-device-width) {
-		@content;
-	}
-}

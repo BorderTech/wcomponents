@@ -1,0 +1,9 @@
+/* wc.common.modalShim.color.scss */
+@import 'modalShim_vars';
+// The modal shim is a single generated artefact with a constant id.
+// TODO: maybe change this to a class rather than an ID now we do not have IE6 performance to worry about?
+// scss-lint:disable IdSelector
+#wc_shim {
+	background-color: $wc-ui-color-modal-shim;
+	color: $wc-ui-color-modal-shim-foreground;
+}

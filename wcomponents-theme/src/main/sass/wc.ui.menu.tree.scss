@@ -1,20 +1,15 @@
 /* wc.ui.menu.tree.scss */
-@import 'wc.ui.menu_vars';
+@import 'menu_vars';
 
-.wc-menu[role='tree'] {
-	[role='treeitem'] {
-		&.wc-submenu:hover {
-			background-color: inherit;
-		}
-
-		&[aria-expanded] > button > .wc-decoratedlabel {
-			display: inline-table;
-			width: calc(100% - 1.75rem);
-		}
+// TODO: try to work WMenu Type TREE to be more like WTree so we can get rid of this.
+.wc-menu [role='treeitem'] {
+	&,
+	& > button {
+		padding: $wc-tree-item-pad;
 	}
 
-	[role='treeitem'] > button,
-	button[role='treeitem'] {
-		padding: $wc-tree-item-pad;
+	&[aria-expanded] > button > .wc-decoratedlabel {
+		display: inline-table;
+		width: calc(100% - #{$wc-ui-menu-tree-iconwidth}); // allow for icon.
 	}
 }

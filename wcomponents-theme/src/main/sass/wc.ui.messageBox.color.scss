@@ -1,0 +1,43 @@
+/* wc.ui.messagesBox.color.scss */
+@import 'messageBox_vars';
+
+.wc_msgbox {
+	background-color: $wc-ui-color-global-bg;
+
+	> h1 {
+		color: $std-color-white;
+	}
+
+	// message types - there can only be one type per box
+	&.error {
+		border-color: $wc-ui-color-error-fg;
+
+		> h1 {
+			background-color: $wc-ui-color-error-fg;
+		}
+	}
+
+	&.warn {
+		border-color: $wc-ui-color-warning-fg;
+
+		> h1 {
+			background-color: $wc-ui-color-warning-fg;
+		}
+	}
+
+	&.info {
+		border-color: $wc-ui-color-info-fg;
+
+		> h1 {
+			background-color: $wc-ui-color-info-fg;
+		}
+	}
+
+	&.success {
+		border-color: $wc-ui-color-success-fg;
+
+		> h1 {
+			background-color: $wc-ui-color-success-fg;
+		}
+	}
+}

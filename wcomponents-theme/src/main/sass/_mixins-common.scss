@@ -20,7 +20,7 @@
 @mixin aria-disabled {
 	// important to reset menu button etc rules which are VERY specific
 	// scss-lint:disable ImportantRule
-	color: $wc-ui-color-disabled-fg; // NOTE for your own sanity do not set background-color here
+	// color: $wc-ui-color-disabled-fg; // NOTE for your own sanity do not set background-color here
 	cursor: default !important;
 	outline: none !important;
 	text-decoration: none !important;
@@ -29,7 +29,7 @@
 /// Set simple border styles. Using $width = 0 will unset a border.
 /// @param {String} $pos [all] The border to set. one of 'all' or a border gragment 'top', 'right', 'bottom' or 'left'.
 ///   When set to 'all' a complete border is set, otherwise only the element edge specified by this param.
-/// @param {color} $color [$wc-ui-color-border] The color of the border. Ignored if $width is 0.
+/// @param {color} $color [$wc-ui-color-border] The color of the border. Ignored if $width is 0. Set to -1 to not set.
 /// @param {border-style} $style [$border-style] The style of the border. Ignored if $width is 0.
 /// @param {dimension} $width [$border-width] The width of the border. If 0 then the border will be unset and its style set to none.
 @mixin border($pos: all, $color: $wc-ui-color-border, $style: $border-style, $width: $border-width) {
@@ -37,12 +37,18 @@
 		@if ($width == 0) {
 			border: 0 none;
 		}
+		@else if ($color == -1) {
+			border: $width $style;
+		}
 		@else {
 			border: $width $style $color;
 		}
 	}
 	@else if ($width == 0) {
 		border-#{$pos}: 0 none;
+	}
+	@else if ($color == -1) {
+		border-#{$pos}: $width $style;
 	}
 	@else {
 		border-#{$pos}: $width $style $color;
