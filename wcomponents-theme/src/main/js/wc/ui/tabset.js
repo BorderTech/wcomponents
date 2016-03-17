@@ -82,7 +82,9 @@ define(["wc/dom/ariaAnalog",
 			this.ITEM = new Widget("", "", {"role": "tab"});
 
 			/**
-			 * Automatically select a tab when navigating with the keyboard as per WAI guidelines.
+			 * Do not automatically select a tab when navigating with the keyboard. NOTE: this directly contravenes the
+			 * WAI-ARIA keyboard guidelines for a Tab Panel widget but automatically activating a tab on navigate causes
+			 * all sorts of usability problems.
 			 *
 			 * @see {@link http://www.w3.org/TR/wai-aria-practices/#tabpanel}
 			 * @constant
@@ -91,7 +93,7 @@ define(["wc/dom/ariaAnalog",
 			 * @override
 			 * @default false
 			 */
-			this.selectOnNavigate = true;
+			this.selectOnNavigate = false;
 
 			/**
 			 * The selection mode for the group of tabs context. The select mode is mixed as accordions may be
