@@ -151,10 +151,9 @@ define(["wc/ui/menu/core",
 			 * @function
 			 * @protected
 			 * @override
-			 * @param {Element} [element] An element in a menu. Not used in this implementation.
 			 * @returns {Boolean} false for all trees.
 			 */
-			this.enterOnOpen = function(/* element */) {
+			this.enterOnOpen = function() {
 				return false;
 			};
 
@@ -203,10 +202,9 @@ define(["wc/ui/menu/core",
 			 *
 			 * @function
 			 * @public
-			 * @param {Element} [element] An element in a menu. Not used in this implementation.
 			 * @return {boolean} true if the current menu has transient sub-menu artefacts.
 			 */
-			this.isTransient = function(/* element */) {
+			this.isTransient = function() {
 				return false;
 			};
 

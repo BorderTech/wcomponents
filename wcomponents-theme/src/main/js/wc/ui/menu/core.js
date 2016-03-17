@@ -1299,7 +1299,10 @@ define(["wc/has",
 		 * some sub-classes.
 		 * @return {boolean} true if the current menu has transient sub-menu artefacts.
 		 */
-		AbstractMenu.prototype.isTransient = function(/* element */) {
+		AbstractMenu.prototype.isTransient = function(element) {
+			if (!element) {
+				throw new TypeError("Argument must not be null");
+			}
 			return true;
 		};
 
@@ -1313,7 +1316,10 @@ define(["wc/has",
 		 * @param {Element} element A node in a menu/tree. Not needed by default but mandatory for mixed-mode trees.
 		 * @returns {Boolean} true if treeWalker should traverse depth-first. By default always returns false.
 		 */
-		AbstractMenu.prototype._treeWalkDepthFirst = function(/* element */) {
+		AbstractMenu.prototype._treeWalkDepthFirst = function(element) {
+			if (!element) {
+				throw new TypeError("Argument must not be null");
+			}
 			return false;
 		};
 
@@ -1340,7 +1346,10 @@ define(["wc/has",
 		 *    occasions where it is needed (e.g. bi-modal trees).
 		 * @returns {Boolean} true if only one branch may be open at a time.
 		 */
-		AbstractMenu.prototype._oneOpen = function(/* element */) {
+		AbstractMenu.prototype._oneOpen = function(element) {
+			if (!element) {
+				throw new TypeError("Argument must not be null");
+			}
 			return true;
 		};
 
@@ -1364,7 +1373,10 @@ define(["wc/has",
 		 * multiple modes so should always be passed to the function.
 		 * @returns {Boolean}
 		 */
-		AbstractMenu.prototype._openOnSelect = function(/* element */) {
+		AbstractMenu.prototype._openOnSelect = function(element) {
+			if (!element) {
+				throw new TypeError("Argument must not be null");
+			}
 			return false;
 		};
 
@@ -1376,7 +1388,10 @@ define(["wc/has",
 		 * multiple modes so should always be passed to the function.
 		 * @returns {Boolean}
 		 */
-		AbstractMenu.prototype.enterOnOpen = function(/* element */) {
+		AbstractMenu.prototype.enterOnOpen = function(element) {
+			if (!element) {
+				throw new TypeError("Argument must not be null");
+			}
 			return true;
 		};
 
