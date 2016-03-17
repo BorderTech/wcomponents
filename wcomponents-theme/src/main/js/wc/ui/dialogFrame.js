@@ -102,11 +102,10 @@ define(["wc/dom/classList",
 					}
 					return FORM.findAncestor(candidate);
 				}
-				else { // no clue to the form get the last form in the view
-					forms = document.getElementsByTagName("form");
-					if (forms && forms.length) {
-						return forms[forms.length -1];
-					}
+				// no clue to the form get the last form in the view
+				forms = document.getElementsByTagName("form");
+				if (forms && forms.length) {
+					return forms[forms.length -1];
 				}
 				return null;
 			}

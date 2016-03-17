@@ -61,7 +61,7 @@ define(["wc/has", "wc/ui/loading", "wc/dom/storage"], function(has, loading, sto
 			 * Skip "focusableElementNotVisibleAndNotAriaHidden" because it sets focus and that could be annoying.
 			 */
 			auditConfig.auditRulesToIgnore = ["focusableElementNotVisibleAndNotAriaHidden"];
-			auditConfig.ignoreSelectors('elementsWithMeaningfulBackgroundImage', '[title]'); // this is an error in the testing tool
+			auditConfig.ignoreSelectors("elementsWithMeaningfulBackgroundImage", "[title]"); // this is an error in the testing tool
 
 			issues = axs.Audit.run(auditConfig);
 			issues.forEach(function(issue) {

@@ -50,7 +50,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 		name: "Treewalker",
 		setup: function() {
 			var result = testutils.setupHelper([]).then(function() {
-				return testHolder = testutils.getTestHolder();
+				return (testHolder = testutils.getTestHolder());
 
 			}).then(function(testHolder) {
 				return testutils.setUpExternalHTML(urlResource, testHolder);

@@ -632,7 +632,6 @@ define(["wc/has",
 		 */
 		AriaAnalog.prototype.activate = function(element, SHIFT, CTRL) {
 			var container,
-				lastActivated,
 				selectMode,
 				isMultiSelect,
 				setLastActivated = true;
