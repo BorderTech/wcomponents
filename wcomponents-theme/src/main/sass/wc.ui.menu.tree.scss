@@ -3,18 +3,22 @@
 
 .wc-menu[role='tree'] {
 	[role='treeitem'] {
-		&.wc-submenu:hover {
-			background-color: inherit;
+		&.wc-submenu {
+			padding: 0;
+
+			&:hover {
+				background-color: inherit;
+			}
 		}
 
 		&[aria-expanded] > button > .wc-decoratedlabel {
 			display: inline-table;
-			width: calc(100% - 1.75rem);
+			width: calc(100% - #{$wc-ui-menu-tree-iconwidth}); // allow for icon.
 		}
 	}
 
 	[role='treeitem'] > button,
-	button[role='treeitem'] {
+	[role='treeitem'] {
 		padding: $wc-tree-item-pad;
 	}
 }

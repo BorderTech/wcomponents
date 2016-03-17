@@ -96,17 +96,6 @@
 		background-color: $wc-ui-color-highlight-bg;
 		color: $wc-ui-color-highlight-fg;
 	}
-
-	&:hover,
-	&:focus {
-		background-color: $wc-ui-color-invite-bg;
-		color: $wc-ui-color-invite-fg;
-	}
-
-	&[disabled] {
-		background-color: $wc-ui-color-disabled-bg;
-		color: $wc-ui-color-disabled-fg;
-	}
 }
 
 .wc_wdf_today { // today

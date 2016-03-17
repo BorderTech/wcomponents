@@ -28,11 +28,4 @@ li[role='option'] {
 	@include margin($size: 0);
 	min-height: 1em;
 	padding: $hgap-small;
-
-	&:hover,
-	&:focus {
-		background-color: $wc-ui-color-invite-bg;
-		color: $wc-ui-color-invite-fg;
-		cursor: pointer;
-	}
 }

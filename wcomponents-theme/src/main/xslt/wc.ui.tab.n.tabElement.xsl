@@ -4,7 +4,7 @@
 		
 		Why do we have this? Because over the history of WComponents there have been
 		times when odd designers have wanted tabs to be things other than buttons
-		but only for some types of tabset. See the demo xsl for type 'application'.
+		but only for some types of tabset.
 	-->
 	<xsl:template name="tabElement">
 		<xsl:text>button</xsl:text>

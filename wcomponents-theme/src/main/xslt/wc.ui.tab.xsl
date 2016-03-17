@@ -78,7 +78,7 @@
 
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
-					<xsl:text>wc_btn_nada</xsl:text>
+					<xsl:text>wc_btn_nada wc_invite</xsl:text>
 				</xsl:with-param>
 			</xsl:call-template>
 			

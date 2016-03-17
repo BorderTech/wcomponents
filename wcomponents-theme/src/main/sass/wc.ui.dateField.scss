@@ -24,17 +24,6 @@
 	@include border($width: 0); // remove the generic wc_btn_icon border.
 	@include border($pos: left);
 	@include margin($pos: left);
-
-	&:hover,
-	&:focus {
-		background-color: $wc-ui-color-invite-bg;
-		color: $wc-ui-color-invite-fg;
-	}
-
-	&[disabled]:hover {
-		background-color: $wc-ui-color-disabled-bg;
-		color: $wc-ui-color-disabled-fg;
-	}
 }
 
 [role='combobox'] { // NOTE: all of the nested rules apply to nested selectors. This differentiates datefield from combo.

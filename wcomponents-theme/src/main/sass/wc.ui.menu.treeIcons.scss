@@ -4,7 +4,7 @@
 
 .wc-menu [role='treeitem'] {
 	&[aria-expanded] > button:before {
-		@include wc-icon-fw($fa-var-caret-right, $text-align: left, $width: 1.25rem);
+		@include wc-icon-fw($fa-var-caret-right, $text-align: left, $width: $wc-ui-menu-tree-iconwidth);
 	}
 
 	&[aria-expanded='true'] > button:before {
