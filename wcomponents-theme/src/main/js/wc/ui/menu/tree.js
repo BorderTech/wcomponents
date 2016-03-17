@@ -575,7 +575,7 @@ define(["wc/ui/menu/core",
 					obj,
 					elId = element.id;
 
-				if (mode && mode !== 'client') {
+				if (mode && mode !== "client") {
 					obj = {
 						id: elId,
 						alias: root.id,
