@@ -974,13 +974,10 @@ define(["wc/has",
 		};
 
 		function shedCollapseHelper(element, root, instance) {
-			var opener,
-				group,
-				branch,
+			var group,
 				groupContainer;
 
 			if (instance._isBranch(element)) { // tree
-				opener = instance._getBranchOpener(element);
 				groupContainer = instance.getSubMenu(element, true);
 				if (groupContainer && (group = getFilteredGroup(groupContainer, {itemWd: instance._wd.leaf[0]})) && group.length) {
 					group.forEach(function(next) {
@@ -990,9 +987,6 @@ define(["wc/has",
 						shed.select(element);
 					}
 				}
-			}
-			else if (instance.isSubMenu(element) && (branch = instance._getBranch(element))) { // menus
-				opener = instance._getBranchOpener(branch);
 			}
 		}
 
@@ -1301,10 +1295,14 @@ define(["wc/has",
 		 *
 		 * @function
 		 * @public
-		 * @param {Element} element An element in a menu. Not used in the default implementation.
+		 * @param {Element} element An element in a menu. Not used in the default implementation but may be required by
+		 * some sub-classes.
 		 * @return {boolean} true if the current menu has transient sub-menu artefacts.
 		 */
 		AbstractMenu.prototype.isTransient = function(element) {
+			if (!element) {
+				throw new TypeError("Argument must not be null");
+			}
 			return true;
 		};
 
@@ -1319,6 +1317,9 @@ define(["wc/has",
 		 * @returns {Boolean} true if treeWalker should traverse depth-first. By default always returns false.
 		 */
 		AbstractMenu.prototype._treeWalkDepthFirst = function(element) {
+			if (!element) {
+				throw new TypeError("Argument must not be null");
+			}
 			return false;
 		};
 
@@ -1346,6 +1347,9 @@ define(["wc/has",
 		 * @returns {Boolean} true if only one branch may be open at a time.
 		 */
 		AbstractMenu.prototype._oneOpen = function(element) {
+			if (!element) {
+				throw new TypeError("Argument must not be null");
+			}
 			return true;
 		};
 
@@ -1360,11 +1364,34 @@ define(["wc/has",
 		 */
 		AbstractMenu.prototype._selectOnNavigate = false;
 
-		AbstractMenu.prototype._openOnSelect = function(root) {
+		/**
+		 * Does the menu type expect to open when a branch node is selected? This is the case for some trees but not
+		 * all.
+		 * @function
+		 * @protected
+		 * @param {Element} element Any element in the menu. Not used in the default implementation but required by TREEs
+		 * multiple modes so should always be passed to the function.
+		 * @returns {Boolean}
+		 */
+		AbstractMenu.prototype._openOnSelect = function(element) {
+			if (!element) {
+				throw new TypeError("Argument must not be null");
+			}
 			return false;
 		};
 
-		AbstractMenu.prototype.enterOnOpen = function(root) {
+		/**
+		 * Does the menu expect to focus the sub menu when it is opened?
+		 * @function
+		 * @protected
+		 * @param {Element} element Any element in the menu. Not used in the default implementation but required by TREEs
+		 * multiple modes so should always be passed to the function.
+		 * @returns {Boolean}
+		 */
+		AbstractMenu.prototype.enterOnOpen = function(element) {
+			if (!element) {
+				throw new TypeError("Argument must not be null");
+			}
 			return true;
 		};
 
@@ -1649,6 +1676,8 @@ define(["wc/has",
 
 		/**
 		 * Is a given element a menu root?
+		 * @function
+		 * @public
 		 * @param {Element} element The element to test.
 		 * @returns {Boolean} true if the element is a menu root for the current sub-class.
 		 */

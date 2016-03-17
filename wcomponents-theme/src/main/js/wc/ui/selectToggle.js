@@ -71,7 +71,7 @@ define(["wc/dom/shed",
 				var CHECKBOX = "checkbox",
 					CLASS_TOGGLE = "wc_seltog";
 
-				CONTROLLER_WD = new Widget("", CLASS_TOGGLE),
+				CONTROLLER_WD = new Widget("", CLASS_TOGGLE);
 				CONTROLLER_ABSTRACT = new Widget("button", CLASS_TOGGLE);
 				CONTROLLER_CHECKBOX_WD = CONTROLLER_ABSTRACT.extend("", {role: CHECKBOX});
 				CONTROLLER_LIST_WD = new Widget("span", CLASS_TOGGLE);
