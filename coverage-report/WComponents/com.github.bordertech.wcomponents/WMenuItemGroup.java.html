@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WMenuItemGroup.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WMenuItemGroup.java</span></div><h1>WMenuItemGroup.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * This component provides a logical grouping of related menu items. The rendered version in the UI usually provides a
  * visual grouping as well, including the menu item group's title.
  *
  * @author Yiannis Paschalidis
+ * @author Jonathan Austin
  * @since 1.0.0
+ *
+ * @deprecated menu groups are not compatible with WCAG 2.0.
  */
-public class WMenuItemGroup extends AbstractContainer implements Disableable {
+@Deprecated
+public class WMenuItemGroup extends AbstractContainer implements Disableable, MenuItemGroup {
 
+	/**
+	 * Menu item group label.
+	 */
 	private final WDecoratedLabel label;
+
+	/**
+	 * Menu group items.
+	 */
+<span class="fc" id="L28">	private final WContainer content = new WContainer();</span>
 
 	/**
 	 * Creates a new WMenuItem containing the specified button.
@@ -17,47 +33,32 @@ public class WMenuItemGroup extends AbstractContainer implements Disableable {
 	 * @param headingText the heading text for the group.
 	 */
 	public WMenuItemGroup(final String headingText) {
-<span class="fc" id="L20">		this(new WDecoratedLabel(headingText));</span>
-<span class="fc" id="L21">	}</span>
+<span class="fc" id="L36">		this(new WDecoratedLabel(headingText));</span>
+<span class="fc" id="L37">	}</span>
 
 	/**
 	 * Creates a new WMenuItem containing the specified button.
 	 *
 	 * @param label the label for the group.
 	 */
-<span class="fc" id="L28">	public WMenuItemGroup(final WDecoratedLabel label) {</span>
-<span class="fc" id="L29">		this.label = label;</span>
-<span class="fc" id="L30">		add(label);</span>
-<span class="fc" id="L31">	}</span>
-
-	/**
-	 * Adds a menu item to this group.
-	 *
-	 * @param menuItem the menu item to add.
-	 */
-	public void addMenuItem(final WMenuItem menuItem) {
-<span class="fc" id="L39">		add(menuItem);</span>
-<span class="fc" id="L40">	}</span>
-
-	/**
-	 * Adds a menu item to this group.
-	 */
-	public void addSeparator() {
-<span class="fc" id="L46">		add(new WSeparator());</span>
-<span class="fc" id="L47">	}</span>
-
-	/**
-	 * @return returns the group heading text.
-	 */
-	public String getHeadingText() {
-<span class="fc" id="L53">		return label.getText();</span>
-	}
+<span class="fc" id="L44">	public WMenuItemGroup(final WDecoratedLabel label) {</span>
+<span class="fc" id="L45">		this.label = label;</span>
+<span class="fc" id="L46">		add(label);</span>
+<span class="fc" id="L47">		add(content);</span>
+<span class="fc" id="L48">	}</span>
 
 	/**
 	 * @return the decorated label for this menu item group
 	 */
 	public WDecoratedLabel getDecoratedLabel() {
-<span class="nc" id="L60">		return label;</span>
+<span class="fc" id="L54">		return label;</span>
+	}
+
+	/**
+	 * @return returns the group heading text.
+	 */
+	public String getHeadingText() {
+<span class="fc" id="L61">		return getDecoratedLabel().getText();</span>
 	}
 
 	/**
@@ -66,8 +67,8 @@ public class WMenuItemGroup extends AbstractContainer implements Disableable {
 	 * @param headingText the heading to set.
 	 */
 	public void setHeadingText(final String headingText) {
-<span class="fc" id="L69">		label.setText(headingText);</span>
-<span class="fc" id="L70">	}</span>
+<span class="fc" id="L70">		getDecoratedLabel().setText(headingText);</span>
+<span class="fc" id="L71">	}</span>
 
 	/**
 	 * Indicates whether this group is disabled.
@@ -76,7 +77,7 @@ public class WMenuItemGroup extends AbstractContainer implements Disableable {
 	 */
 	@Override
 	public boolean isDisabled() {
-<span class="fc" id="L79">		return isFlagSet(ComponentModel.DISABLED_FLAG);</span>
+<span class="fc" id="L80">		return isFlagSet(ComponentModel.DISABLED_FLAG);</span>
 	}
 
 	/**
@@ -86,52 +87,102 @@ public class WMenuItemGroup extends AbstractContainer implements Disableable {
 	 */
 	@Override
 	public void setDisabled(final boolean disabled) {
-<span class="fc" id="L89">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
-<span class="fc" id="L90">	}</span>
+<span class="fc" id="L90">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
+<span class="fc" id="L91">	}</span>
 
 	/**
-	 * Add the given menu item as a child of this component.
-	 *
-	 * @param item the item to add.
+	 * Adds a separator to this group.
+	 */
+	public void addSeparator() {
+<span class="fc" id="L97">		addMenuItem(new WSeparator());</span>
+<span class="fc" id="L98">	}</span>
+
+	/**
+	 * @param item add a {@link WSeparator}
+	 */
+	public void add(final WSeparator item) {
+<span class="fc" id="L104">		addMenuItem(item);</span>
+<span class="fc" id="L105">	}</span>
+
+	/**
+	 * @param item add a {@link WMenuItem}
 	 */
 	public void add(final WMenuItem item) {
-<span class="fc" id="L98">		super.add(item);</span>
-<span class="fc" id="L99">	}</span>
+<span class="fc" id="L111">		addMenuItem(item);</span>
+<span class="fc" id="L112">	}</span>
 
 	/**
-	 * Add the given sub-menu as a child of this component.
-	 *
-	 * @param item the sub-menu to add.
+	 * @param item add a {@link WSubMenu}
 	 */
 	public void add(final WSubMenu item) {
-<span class="fc" id="L107">		super.add(item);</span>
-<span class="fc" id="L108">	}</span>
-
-	/**
-	 * Add the given separator as a child of this component.
-	 *
-	 * @param separator the separator to add.
-	 */
-	public void add(final WSeparator separator) {
-<span class="fc" id="L116">		super.add(separator);</span>
-<span class="fc" id="L117">	}</span>
+<span class="fc" id="L118">		addMenuItem(item);</span>
+<span class="fc" id="L119">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override // to make public
-	void remove(final WComponent child) {
-<span class="nc" id="L124">		super.remove(child);</span>
-<span class="nc" id="L125">	}</span>
+	@Override
+	public void addMenuItem(final MenuItem item) {
+<span class="fc bfc" id="L126" title="All 2 branches covered.">		if (item instanceof MenuItemGroup) {</span>
+<span class="fc" id="L127">			throw new IllegalArgumentException(&quot;Cannot add a nested menu group to another menu group.&quot;);</span>
+		}
+<span class="fc" id="L129">		getContent().add(item);</span>
+<span class="fc" id="L130">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @deprecated Use {@link #removeMenuItem(com.github.bordertech.wcomponents.MenuItem)} instead.
+	 */
+	@Deprecated
+	@Override
+	public void remove(final WComponent item) {
+<span class="nc bnc" id="L140" title="All 2 branches missed.">		if (item instanceof MenuItem) {</span>
+<span class="nc" id="L141">			removeMenuItem((MenuItem) item);</span>
+		}
+<span class="nc" id="L143">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void removeMenuItem(final MenuItem item) {
+<span class="fc" id="L150">		getContent().remove(item);</span>
+<span class="fc" id="L151">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void removeAllMenuItems() {
+<span class="fc" id="L158">		getContent().removeAll();</span>
+<span class="fc" id="L159">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List&lt;MenuItem&gt; getMenuItems() {
+<span class="fc" id="L166">		List&lt;MenuItem&gt; items = new ArrayList(getContent().getChildren());</span>
+<span class="fc" id="L167">		return Collections.unmodifiableList(items);</span>
+	}
 
 	/**
 	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {
-<span class="nc" id="L132">		String text = label.getText();</span>
-<span class="nc bnc" id="L133" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
-<span class="nc" id="L134">		return toString(text, 1, getChildCount() - 1);</span>
+<span class="nc" id="L175">		String text = getLabel().getText();</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="nc" id="L177">		return getContent().toString(text, -1, -1);</span>
 	}
+
+	/**
+	 * @return the container holding the menu items
+	 */
+	private WContainer getContent() {
+<span class="fc" id="L184">		return content;</span>
+	}
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

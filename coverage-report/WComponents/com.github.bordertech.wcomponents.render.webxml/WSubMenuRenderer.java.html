@@ -65,7 +65,7 @@ import com.github.bordertech.wcomponents.util.Util;
 <span class="pc" id="L65">				throw new SystemException(&quot;Unknown menu mode: &quot; + menu.getMode());</span>
 		}
 
-<span class="pc bpc" id="L68" title="1 of 4 branches missed.">		switch (menu.getSelectMode()) {</span>
+<span class="pc bpc" id="L68" title="1 of 4 branches missed.">		switch (menu.getSelectionMode()) {</span>
 			case NONE:
 <span class="fc" id="L70">				break;</span>
 
@@ -95,20 +95,14 @@ import com.github.bordertech.wcomponents.util.Util;
 
 		// Render content if not EAGER Mode or is EAGER and is the current AJAX request
 <span class="pc bpc" id="L97" title="1 of 4 branches missed.">		if (mode != MenuMode.EAGER || AjaxHelper.isCurrentAjaxTrigger(menu)) {</span>
-			// Skip label, as it has already been painted
-<span class="fc" id="L99">			int size = menu.getChildCount();</span>
-
-			// Visibility of children set in prepare paint
-<span class="fc bfc" id="L102" title="All 2 branches covered.">			for (int i = 1; i &lt; size; i++) {</span>
-<span class="fc" id="L103">				WComponent child = menu.getChildAt(i);</span>
-<span class="fc" id="L104">				child.paint(renderContext);</span>
-			}
+			// Visibility of content set in prepare paint
+<span class="fc" id="L99">			menu.paintMenuItems(renderContext);</span>
 		}
 
-<span class="fc" id="L108">		xml.appendEndTag(&quot;ui:content&quot;);</span>
+<span class="fc" id="L102">		xml.appendEndTag(&quot;ui:content&quot;);</span>
 
-<span class="fc" id="L110">		xml.appendEndTag(&quot;ui:submenu&quot;);</span>
-<span class="fc" id="L111">	}</span>
+<span class="fc" id="L104">		xml.appendEndTag(&quot;ui:submenu&quot;);</span>
+<span class="fc" id="L105">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

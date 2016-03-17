@@ -166,20 +166,19 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	 * &lt;/p&gt;
 	 *
 	 * @return the selected options in the given UI context.
-	 * @throws IllegalArgumentException
 	 */
 	@Override
 	public List&lt;?&gt; getValue() {
 		// Convert data to a list (if necessary)
-<span class="fc" id="L174">		List&lt;?&gt; data = convertDataToList(getData());</span>
+<span class="fc" id="L173">		List&lt;?&gt; data = convertDataToList(getData());</span>
 
 		// Validate the selected options (allow handle invalid options)
-<span class="fc" id="L177">		List&lt;?&gt; validOptions = findValidOptions(getOptions(), data, true);</span>
+<span class="fc" id="L176">		List&lt;?&gt; validOptions = findValidOptions(getOptions(), data, true);</span>
 
-<span class="pc bpc" id="L179" title="1 of 4 branches missed.">		if (validOptions == null || validOptions.isEmpty()) {</span>
-<span class="fc" id="L180">			return NO_SELECTION;</span>
+<span class="pc bpc" id="L178" title="1 of 4 branches missed.">		if (validOptions == null || validOptions.isEmpty()) {</span>
+<span class="fc" id="L179">			return NO_SELECTION;</span>
 		}
-<span class="fc" id="L182">		return validOptions;</span>
+<span class="fc" id="L181">		return validOptions;</span>
 	}
 
 	/**
@@ -196,34 +195,34 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	 */
 	@Override
 	public Object getData() {
-<span class="fc" id="L199">		Object data = super.getData();</span>
+<span class="fc" id="L198">		Object data = super.getData();</span>
 
 		// Treat &quot;empty&quot; the same as null (ie no selection)
-<span class="fc" id="L202">		boolean empty = false;</span>
-<span class="fc bfc" id="L203" title="All 2 branches covered.">		if (data == null) {</span>
-<span class="fc" id="L204">			empty = true;</span>
-<span class="fc bfc" id="L205" title="All 2 branches covered.">		} else if (data instanceof List&lt;?&gt;) {</span>
-<span class="fc" id="L206">			empty = ((List&lt;?&gt;) data).isEmpty();</span>
-<span class="fc bfc" id="L207" title="All 2 branches covered.">		} else if (data instanceof Object[]) {</span>
-<span class="fc bfc" id="L208" title="All 2 branches covered.">			empty = ((Object[]) data).length == 0;</span>
+<span class="fc" id="L201">		boolean empty = false;</span>
+<span class="fc bfc" id="L202" title="All 2 branches covered.">		if (data == null) {</span>
+<span class="fc" id="L203">			empty = true;</span>
+<span class="fc bfc" id="L204" title="All 2 branches covered.">		} else if (data instanceof List&lt;?&gt;) {</span>
+<span class="fc" id="L205">			empty = ((List&lt;?&gt;) data).isEmpty();</span>
+<span class="fc bfc" id="L206" title="All 2 branches covered.">		} else if (data instanceof Object[]) {</span>
+<span class="fc bfc" id="L207" title="All 2 branches covered.">			empty = ((Object[]) data).length == 0;</span>
 		}
 
 		// Check if we need to default to the first option
-<span class="fc bfc" id="L212" title="All 4 branches covered.">		if (empty &amp;&amp; !isAllowNoSelection()) {</span>
-<span class="fc" id="L213">			List&lt;?&gt; options = getOptions();</span>
-<span class="fc bfc" id="L214" title="All 4 branches covered.">			if (options != null &amp;&amp; !options.isEmpty()) {</span>
+<span class="fc bfc" id="L211" title="All 4 branches covered.">		if (empty &amp;&amp; !isAllowNoSelection()) {</span>
+<span class="fc" id="L212">			List&lt;?&gt; options = getOptions();</span>
+<span class="fc bfc" id="L213" title="All 4 branches covered.">			if (options != null &amp;&amp; !options.isEmpty()) {</span>
 				// Check if NULL is an option
-<span class="fc bfc" id="L216" title="All 2 branches covered.">				if (SelectListUtil.containsOption(options, null)) {</span>
-<span class="fc" id="L217">					return Arrays.asList(new Object[]{null});</span>
+<span class="fc bfc" id="L215" title="All 2 branches covered.">				if (SelectListUtil.containsOption(options, null)) {</span>
+<span class="fc" id="L216">					return Arrays.asList(new Object[]{null});</span>
 				} else {
 					// Use the first option
-<span class="fc" id="L220">					Object firstOption = SelectListUtil.getFirstOption(options);</span>
-<span class="fc" id="L221">					return Arrays.asList(new Object[]{firstOption});</span>
+<span class="fc" id="L219">					Object firstOption = SelectListUtil.getFirstOption(options);</span>
+<span class="fc" id="L220">					return Arrays.asList(new Object[]{firstOption});</span>
 				}
 			}
 		}
 
-<span class="fc" id="L226">		return data;</span>
+<span class="fc" id="L225">		return data;</span>
 	}
 
 	/**
@@ -246,23 +245,23 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	 * &lt;/p&gt;
 	 *
 	 * @param data the data to set which is usually a List containing the selected options or null for no selection.
-	 * @throws IllegalArgumentException
+	 * @throws IllegalArgumentException if the data Object is not null but the options List is null or empty.
 	 */
 	@Override
 	public void setData(final Object data) {
-<span class="fc" id="L253">		List&lt;?&gt; options = getOptions();</span>
-<span class="fc bfc" id="L254" title="All 8 branches covered.">		if (!isEditable() &amp;&amp; data != null &amp;&amp; (options == null || options.isEmpty())) {</span>
-<span class="fc" id="L255">			throw new IllegalStateException(</span>
+<span class="fc" id="L252">		List&lt;?&gt; options = getOptions();</span>
+<span class="fc bfc" id="L253" title="All 8 branches covered.">		if (!isEditable() &amp;&amp; data != null &amp;&amp; (options == null || options.isEmpty())) {</span>
+<span class="fc" id="L254">			throw new IllegalStateException(</span>
 					&quot;Should not set selections on a list component with no options.&quot;);
 		}
 
 		// Convert data to a list (if necessary)
-<span class="fc" id="L260">		List&lt;?&gt; selected = convertDataToList(data);</span>
+<span class="fc" id="L259">		List&lt;?&gt; selected = convertDataToList(data);</span>
 
 		// Validate the selected options
-<span class="fc" id="L263">		List&lt;?&gt; validOptions = findValidOptions(options, selected, false);</span>
-<span class="fc" id="L264">		super.setData(validOptions);</span>
-<span class="fc" id="L265">	}</span>
+<span class="fc" id="L262">		List&lt;?&gt; validOptions = findValidOptions(options, selected, false);</span>
+<span class="fc" id="L263">		super.setData(validOptions);</span>
+<span class="fc" id="L264">	}</span>
 
 	/**
 	 * Convert the data to a list (if necessary).
@@ -271,14 +270,14 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	 * @return the data converted to a list
 	 */
 	private List&lt;?&gt; convertDataToList(final Object data) {
-<span class="fc bfc" id="L274" title="All 2 branches covered.">		if (data == null) {</span>
-<span class="fc" id="L275">			return null;</span>
-<span class="fc bfc" id="L276" title="All 2 branches covered.">		} else if (data instanceof List) {</span>
-<span class="fc" id="L277">			return (List&lt;?&gt;) data;</span>
-<span class="fc bfc" id="L278" title="All 2 branches covered.">		} else if (data instanceof Object[]) {</span>
-<span class="fc" id="L279">			return Arrays.asList((Object[]) data);</span>
+<span class="fc bfc" id="L273" title="All 2 branches covered.">		if (data == null) {</span>
+<span class="fc" id="L274">			return null;</span>
+<span class="fc bfc" id="L275" title="All 2 branches covered.">		} else if (data instanceof List) {</span>
+<span class="fc" id="L276">			return (List&lt;?&gt;) data;</span>
+<span class="fc bfc" id="L277" title="All 2 branches covered.">		} else if (data instanceof Object[]) {</span>
+<span class="fc" id="L278">			return Arrays.asList((Object[]) data);</span>
 		} else {
-<span class="fc" id="L281">			return Arrays.asList(new Object[]{data});</span>
+<span class="fc" id="L280">			return Arrays.asList(new Object[]{data});</span>
 		}
 	}
 
@@ -293,59 +292,59 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	private List&lt;?&gt; findValidOptions(final List&lt;?&gt; options, final List&lt;?&gt; selected,
 			final boolean handleInvalid) {
 		// No selection made
-<span class="fc bfc" id="L296" title="All 4 branches covered.">		if (selected == null || selected.isEmpty()) {</span>
+<span class="fc bfc" id="L295" title="All 4 branches covered.">		if (selected == null || selected.isEmpty()) {</span>
 			// No Selection required, or no options to select
-<span class="pc bpc" id="L298" title="1 of 6 branches missed.">			if (isAllowNoSelection() || options == null || options.isEmpty()) {</span>
-<span class="fc" id="L299">				return null;</span>
+<span class="pc bpc" id="L297" title="1 of 6 branches missed.">			if (isAllowNoSelection() || options == null || options.isEmpty()) {</span>
+<span class="fc" id="L298">				return null;</span>
 			} else { // Selection is required
 				// Check if NULL is an option
-<span class="nc bnc" id="L302" title="All 4 branches missed.">				if (selected == null &amp;&amp; SelectListUtil.containsOption(options, null)) {</span>
-<span class="nc" id="L303">					return null;</span>
+<span class="nc bnc" id="L301" title="All 4 branches missed.">				if (selected == null &amp;&amp; SelectListUtil.containsOption(options, null)) {</span>
+<span class="nc" id="L302">					return null;</span>
 				}
 
 				// Must have a selected option
-<span class="nc" id="L307">				throw new IllegalStateException(</span>
+<span class="nc" id="L306">				throw new IllegalStateException(</span>
 						&quot;A valid option must be selected for lists that require a selected option.&quot;);
 			}
 		}
 
 		// Check we have valid options (If options are matched via Option/Code or Legacy Matching, then return a list of
 		// the actual options)
-<span class="fc" id="L314">		List&lt;Object&gt; validSelections = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L313">		List&lt;Object&gt; validSelections = new ArrayList&lt;&gt;();</span>
 
-<span class="fc bfc" id="L316" title="All 2 branches covered.">		for (Object selectedOption : selected) {</span>
-<span class="fc" id="L317">			boolean found = false;</span>
+<span class="fc bfc" id="L315" title="All 2 branches covered.">		for (Object selectedOption : selected) {</span>
+<span class="fc" id="L316">			boolean found = false;</span>
 
-<span class="fc bfc" id="L319" title="All 2 branches covered.">			if (options != null) {</span>
-<span class="fc bfc" id="L320" title="All 2 branches covered.">				if (selectedOption == null) {</span>
-<span class="fc" id="L321">					found = SelectListUtil.containsOption(options, null);</span>
-<span class="pc bpc" id="L322" title="1 of 2 branches missed.">					if (found) {</span>
-<span class="fc" id="L323">						validSelections.add(null);</span>
+<span class="fc bfc" id="L318" title="All 2 branches covered.">			if (options != null) {</span>
+<span class="fc bfc" id="L319" title="All 2 branches covered.">				if (selectedOption == null) {</span>
+<span class="fc" id="L320">					found = SelectListUtil.containsOption(options, null);</span>
+<span class="pc bpc" id="L321" title="1 of 2 branches missed.">					if (found) {</span>
+<span class="fc" id="L322">						validSelections.add(null);</span>
 					}
 				} else {
-<span class="fc" id="L326">					Object option = SelectListUtil.getOptionWithMatching(options, selectedOption);</span>
-<span class="fc bfc" id="L327" title="All 2 branches covered.">					if (option != null) {</span>
-<span class="fc" id="L328">						found = true;</span>
-<span class="fc" id="L329">						validSelections.add(option);</span>
+<span class="fc" id="L325">					Object option = SelectListUtil.getOptionWithMatching(options, selectedOption);</span>
+<span class="fc bfc" id="L326" title="All 2 branches covered.">					if (option != null) {</span>
+<span class="fc" id="L327">						found = true;</span>
+<span class="fc" id="L328">						validSelections.add(option);</span>
 					}
 				}
 			}
 
-<span class="fc bfc" id="L334" title="All 2 branches covered.">			if (!found) {</span>
-<span class="pc bpc" id="L335" title="1 of 4 branches missed.">				if (isEditable() &amp;&amp; selectedOption instanceof String) {</span>
-<span class="fc" id="L336">					validSelections.add(selectedOption);</span>
-<span class="fc bfc" id="L337" title="All 2 branches covered.">				} else if (handleInvalid) { // Handle invalid option</span>
-<span class="nc" id="L338">					List&lt;?&gt; valid = doHandleInvalidOption(selectedOption);</span>
-<span class="nc" id="L339">					setSelected(valid);</span>
-<span class="nc" id="L340">					return valid;</span>
+<span class="fc bfc" id="L333" title="All 2 branches covered.">			if (!found) {</span>
+<span class="pc bpc" id="L334" title="1 of 4 branches missed.">				if (isEditable() &amp;&amp; selectedOption instanceof String) {</span>
+<span class="fc" id="L335">					validSelections.add(selectedOption);</span>
+<span class="fc bfc" id="L336" title="All 2 branches covered.">				} else if (handleInvalid) { // Handle invalid option</span>
+<span class="nc" id="L337">					List&lt;?&gt; valid = doHandleInvalidOption(selectedOption);</span>
+<span class="nc" id="L338">					setSelected(valid);</span>
+<span class="nc" id="L339">					return valid;</span>
 				} else {
-<span class="fc" id="L342">					throw new IllegalStateException(&quot;The selection \&quot;&quot; + selectedOption</span>
+<span class="fc" id="L341">					throw new IllegalStateException(&quot;The selection \&quot;&quot; + selectedOption</span>
 							+ &quot;\&quot; is not an available option.&quot;);
 				}
 			}
-<span class="fc" id="L346">		}</span>
+<span class="fc" id="L345">		}</span>
 
-<span class="fc" id="L348">		return validSelections;</span>
+<span class="fc" id="L347">		return validSelections;</span>
 
 	}
 
@@ -363,7 +362,7 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	 * @return the list of valid options to be set as the selected options
 	 */
 	protected List&lt;?&gt; doHandleInvalidOption(final Object invalidOption) {
-<span class="fc" id="L366">		throw new IllegalStateException(&quot;The selection \&quot;&quot; + invalidOption</span>
+<span class="fc" id="L365">		throw new IllegalStateException(&quot;The selection \&quot;&quot; + invalidOption</span>
 				+ &quot;\&quot; is invalid. It is not an available option.&quot;);
 	}
 
@@ -376,16 +375,16 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	protected boolean doHandleRequest(final Request request) {
 		// First we need to figure out if the new selections are the same as the
 		// previous selections.
-<span class="fc" id="L379">		final List&lt;?&gt; newSelections = getRequestValue(request);</span>
-<span class="fc" id="L380">		List&lt;?&gt; priorSelections = getValue();</span>
+<span class="fc" id="L378">		final List&lt;?&gt; newSelections = getRequestValue(request);</span>
+<span class="fc" id="L379">		List&lt;?&gt; priorSelections = getValue();</span>
 
-<span class="fc bfc" id="L382" title="All 2 branches covered.">		boolean changed = !selectionsEqual(newSelections, priorSelections);</span>
+<span class="fc bfc" id="L381" title="All 2 branches covered.">		boolean changed = !selectionsEqual(newSelections, priorSelections);</span>
 
-<span class="fc bfc" id="L384" title="All 2 branches covered.">		if (changed) {</span>
-<span class="fc" id="L385">			setData(newSelections);</span>
+<span class="fc bfc" id="L383" title="All 2 branches covered.">		if (changed) {</span>
+<span class="fc" id="L384">			setData(newSelections);</span>
 		}
 
-<span class="fc" id="L388">		return changed;</span>
+<span class="fc" id="L387">		return changed;</span>
 	}
 
 	/**
@@ -393,10 +392,10 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	 */
 	@Override
 	public List&lt;?&gt; getRequestValue(final Request request) {
-<span class="fc bfc" id="L396" title="All 2 branches covered.">		if (isPresent(request)) {</span>
-<span class="fc" id="L397">			return getNewSelections(request);</span>
+<span class="fc bfc" id="L395" title="All 2 branches covered.">		if (isPresent(request)) {</span>
+<span class="fc" id="L396">			return getNewSelections(request);</span>
 		} else {
-<span class="fc" id="L399">			return getValue();</span>
+<span class="fc" id="L398">			return getValue();</span>
 		}
 	}
 
@@ -407,84 +406,84 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	 * @return a list of selections that have been added in the given request.
 	 */
 	protected List&lt;?&gt; getNewSelections(final Request request) {
-<span class="fc" id="L410">		String[] paramValues = request.getParameterValues(getId());</span>
-<span class="pc bpc" id="L411" title="1 of 4 branches missed.">		if (paramValues == null || paramValues.length == 0) {</span>
-<span class="fc" id="L412">			return NO_SELECTION;</span>
+<span class="fc" id="L409">		String[] paramValues = request.getParameterValues(getId());</span>
+<span class="pc bpc" id="L410" title="1 of 4 branches missed.">		if (paramValues == null || paramValues.length == 0) {</span>
+<span class="fc" id="L411">			return NO_SELECTION;</span>
 		}
 
-<span class="fc" id="L415">		List&lt;String&gt; values = Arrays.asList(paramValues);</span>
-<span class="fc" id="L416">		List&lt;Object&gt; newSelections = new ArrayList&lt;&gt;(values.size());</span>
+<span class="fc" id="L414">		List&lt;String&gt; values = Arrays.asList(paramValues);</span>
+<span class="fc" id="L415">		List&lt;Object&gt; newSelections = new ArrayList&lt;&gt;(values.size());</span>
 
 		// Figure out which options have been selected.
-<span class="fc" id="L419">		List&lt;?&gt; options = getOptions();</span>
-<span class="fc bfc" id="L420" title="All 4 branches covered.">		if (options == null || options.isEmpty()) {</span>
-<span class="fc bfc" id="L421" title="All 2 branches covered.">			if (!isEditable()) {</span>
+<span class="fc" id="L418">		List&lt;?&gt; options = getOptions();</span>
+<span class="fc bfc" id="L419" title="All 4 branches covered.">		if (options == null || options.isEmpty()) {</span>
+<span class="fc bfc" id="L420" title="All 2 branches covered.">			if (!isEditable()) {</span>
 				// User could not have made a selection.
-<span class="fc" id="L423">				return NO_SELECTION;</span>
+<span class="fc" id="L422">				return NO_SELECTION;</span>
 			}
-<span class="fc" id="L425">			options = Collections.EMPTY_LIST;</span>
+<span class="fc" id="L424">			options = Collections.EMPTY_LIST;</span>
 		}
 
-<span class="fc bfc" id="L428" title="All 2 branches covered.">		for (Object value : values) {</span>
-<span class="fc" id="L429">			boolean found = false;</span>
-<span class="fc" id="L430">			int optionIndex = 0;</span>
+<span class="fc bfc" id="L427" title="All 2 branches covered.">		for (Object value : values) {</span>
+<span class="fc" id="L428">			boolean found = false;</span>
+<span class="fc" id="L429">			int optionIndex = 0;</span>
 
-<span class="fc bfc" id="L432" title="All 2 branches covered.">			for (Object option : options) {</span>
-<span class="fc bfc" id="L433" title="All 2 branches covered.">				if (option instanceof OptionGroup) {</span>
-<span class="fc" id="L434">					List&lt;?&gt; groupOptions = ((OptionGroup) option).getOptions();</span>
-<span class="pc bpc" id="L435" title="1 of 2 branches missed.">					if (groupOptions != null) {</span>
-<span class="fc bfc" id="L436" title="All 2 branches covered.">						for (Object nestedOption : groupOptions) {</span>
-<span class="fc bfc" id="L437" title="All 2 branches covered.">							if (value.equals(optionToCode(nestedOption, optionIndex++))) {</span>
-<span class="fc" id="L438">								newSelections.add(nestedOption);</span>
-<span class="fc" id="L439">								found = true;</span>
-<span class="fc" id="L440">								break;</span>
+<span class="fc bfc" id="L431" title="All 2 branches covered.">			for (Object option : options) {</span>
+<span class="fc bfc" id="L432" title="All 2 branches covered.">				if (option instanceof OptionGroup) {</span>
+<span class="fc" id="L433">					List&lt;?&gt; groupOptions = ((OptionGroup) option).getOptions();</span>
+<span class="pc bpc" id="L434" title="1 of 2 branches missed.">					if (groupOptions != null) {</span>
+<span class="fc bfc" id="L435" title="All 2 branches covered.">						for (Object nestedOption : groupOptions) {</span>
+<span class="fc bfc" id="L436" title="All 2 branches covered.">							if (value.equals(optionToCode(nestedOption, optionIndex++))) {</span>
+<span class="fc" id="L437">								newSelections.add(nestedOption);</span>
+<span class="fc" id="L438">								found = true;</span>
+<span class="fc" id="L439">								break;</span>
 							}
-<span class="fc" id="L442">						}</span>
+<span class="fc" id="L441">						}</span>
 					}
-<span class="fc bfc" id="L444" title="All 2 branches covered.">				} else if (value.equals(optionToCode(option, optionIndex++))) {</span>
-<span class="fc" id="L445">					newSelections.add(option);</span>
-<span class="fc" id="L446">					found = true;</span>
-<span class="fc" id="L447">					break;</span>
+<span class="fc bfc" id="L443" title="All 2 branches covered.">				} else if (value.equals(optionToCode(option, optionIndex++))) {</span>
+<span class="fc" id="L444">					newSelections.add(option);</span>
+<span class="fc" id="L445">					found = true;</span>
+<span class="fc" id="L446">					break;</span>
 				}
-<span class="fc" id="L449">			}</span>
+<span class="fc" id="L448">			}</span>
 
-<span class="fc bfc" id="L451" title="All 2 branches covered.">			if (!found) {</span>
-<span class="fc bfc" id="L452" title="All 2 branches covered.">				if (isEditable()) {</span>
-<span class="fc" id="L453">					newSelections.add(value);</span>
+<span class="fc bfc" id="L450" title="All 2 branches covered.">			if (!found) {</span>
+<span class="fc bfc" id="L451" title="All 2 branches covered.">				if (isEditable()) {</span>
+<span class="fc" id="L452">					newSelections.add(value);</span>
 				} else {
-<span class="fc" id="L455">					LOG.warn(</span>
+<span class="fc" id="L454">					LOG.warn(</span>
 							&quot;Option \&quot;&quot; + value + &quot;\&quot; on the request is not a valid option. Will be ignored.&quot;);
 				}
 			}
-<span class="fc" id="L459">		}</span>
+<span class="fc" id="L458">		}</span>
 
 		// If no valid options found, then return the current settings
-<span class="fc bfc" id="L462" title="All 2 branches covered.">		if (newSelections.isEmpty()) {</span>
-<span class="fc" id="L463">			LOG.warn(&quot;No options on the request are valid. Will be ignored.&quot;);</span>
-<span class="fc" id="L464">			return getValue();</span>
+<span class="fc bfc" id="L461" title="All 2 branches covered.">		if (newSelections.isEmpty()) {</span>
+<span class="fc" id="L462">			LOG.warn(&quot;No options on the request are valid. Will be ignored.&quot;);</span>
+<span class="fc" id="L463">			return getValue();</span>
 		}
 
 		// If must have selection and more than 1 option selected, remove the &quot;null&quot; entry if it was selected.
-<span class="fc bfc" id="L468" title="All 4 branches covered.">		if (!isAllowNoSelection() &amp;&amp; newSelections.size() &gt; 1) {</span>
-<span class="fc" id="L469">			List&lt;Object&gt; filtered = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L470">			Object nullOption = null;</span>
-<span class="fc bfc" id="L471" title="All 2 branches covered.">			for (Object option : newSelections) {</span>
+<span class="fc bfc" id="L467" title="All 4 branches covered.">		if (!isAllowNoSelection() &amp;&amp; newSelections.size() &gt; 1) {</span>
+<span class="fc" id="L468">			List&lt;Object&gt; filtered = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L469">			Object nullOption = null;</span>
+<span class="fc bfc" id="L470" title="All 2 branches covered.">			for (Object option : newSelections) {</span>
 				// Check option is null or empty
-<span class="pc bpc" id="L473" title="1 of 4 branches missed.">				boolean isNull = option == null ? true : option.toString().length() == 0;</span>
-<span class="fc bfc" id="L474" title="All 2 branches covered.">				if (isNull) {</span>
+<span class="pc bpc" id="L472" title="1 of 4 branches missed.">				boolean isNull = option == null ? true : option.toString().length() == 0;</span>
+<span class="fc bfc" id="L473" title="All 2 branches covered.">				if (isNull) {</span>
 					// Hold the option as it could be &quot;null&quot; or &quot;empty&quot;
-<span class="fc" id="L476">					nullOption = option;</span>
+<span class="fc" id="L475">					nullOption = option;</span>
 				} else {
-<span class="fc" id="L478">					filtered.add(option);</span>
+<span class="fc" id="L477">					filtered.add(option);</span>
 				}
-<span class="fc" id="L480">			}</span>
+<span class="fc" id="L479">			}</span>
 			// In the case where only null options were selected, then add one nullOption
-<span class="fc bfc" id="L482" title="All 2 branches covered.">			if (filtered.isEmpty()) {</span>
-<span class="fc" id="L483">				filtered.add(nullOption);</span>
+<span class="fc bfc" id="L481" title="All 2 branches covered.">			if (filtered.isEmpty()) {</span>
+<span class="fc" id="L482">				filtered.add(nullOption);</span>
 			}
-<span class="fc" id="L485">			return filtered;</span>
+<span class="fc" id="L484">			return filtered;</span>
 		} else {
-<span class="fc" id="L487">			return newSelections;</span>
+<span class="fc" id="L486">			return newSelections;</span>
 		}
 	}
 
@@ -497,18 +496,18 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	 * @return true if the lists are equal, false otherwise.
 	 */
 	private boolean selectionsEqual(final List&lt;?&gt; list1, final List&lt;?&gt; list2) {
-<span class="pc bpc" id="L500" title="1 of 2 branches missed.">		if (isSelectionOrderable()) {</span>
-<span class="nc" id="L501">			return Util.equals(list1, list2);</span>
+<span class="pc bpc" id="L499" title="1 of 2 branches missed.">		if (isSelectionOrderable()) {</span>
+<span class="nc" id="L500">			return Util.equals(list1, list2);</span>
 		}
 
 		// Empty or null lists
-<span class="pc bpc" id="L505" title="2 of 8 branches missed.">		if ((list1 == null || list1.isEmpty()) &amp;&amp; (list2 == null || list2.isEmpty())) {</span>
-<span class="fc" id="L506">			return true;</span>
+<span class="pc bpc" id="L504" title="2 of 8 branches missed.">		if ((list1 == null || list1.isEmpty()) &amp;&amp; (list2 == null || list2.isEmpty())) {</span>
+<span class="fc" id="L505">			return true;</span>
 		}
 
 		// Same size and contain same entries
-<span class="pc bpc" id="L510" title="2 of 6 branches missed.">		return list1 != null &amp;&amp; list2 != null &amp;&amp; list1.size() == list2.size() &amp;&amp; list1.</span>
-<span class="fc bfc" id="L511" title="All 2 branches covered.">				containsAll(list2);</span>
+<span class="pc bpc" id="L509" title="2 of 6 branches missed.">		return list1 != null &amp;&amp; list2 != null &amp;&amp; list1.size() == list2.size() &amp;&amp; list1.</span>
+<span class="fc bfc" id="L510" title="All 2 branches covered.">				containsAll(list2);</span>
 	}
 
 	/**
@@ -518,29 +517,29 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	 */
 	@Override
 	protected void validateComponent(final List&lt;Diagnostic&gt; diags) {
-<span class="fc" id="L521">		super.validateComponent(diags);</span>
+<span class="fc" id="L520">		super.validateComponent(diags);</span>
 
-<span class="fc" id="L523">		List&lt;?&gt; selected = getValue();</span>
+<span class="fc" id="L522">		List&lt;?&gt; selected = getValue();</span>
 
 		// Only validate max and min if options have been selected
-<span class="fc bfc" id="L526" title="All 2 branches covered.">		if (!selected.isEmpty()) {</span>
-<span class="fc" id="L527">			int value = selected.size();</span>
-<span class="fc" id="L528">			int min = getMinSelect();</span>
-<span class="fc" id="L529">			int max = getMaxSelect();</span>
+<span class="fc bfc" id="L525" title="All 2 branches covered.">		if (!selected.isEmpty()) {</span>
+<span class="fc" id="L526">			int value = selected.size();</span>
+<span class="fc" id="L527">			int min = getMinSelect();</span>
+<span class="fc" id="L528">			int max = getMaxSelect();</span>
 
-<span class="fc bfc" id="L531" title="All 4 branches covered.">			if (min &gt; 0 &amp;&amp; value &lt; min) {</span>
-<span class="fc" id="L532">				diags.add(</span>
-<span class="fc" id="L533">						createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_MIN_SELECT,</span>
-<span class="fc" id="L534">								this, min));</span>
+<span class="fc bfc" id="L530" title="All 4 branches covered.">			if (min &gt; 0 &amp;&amp; value &lt; min) {</span>
+<span class="fc" id="L531">				diags.add(</span>
+<span class="fc" id="L532">						createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_MIN_SELECT,</span>
+<span class="fc" id="L533">								this, min));</span>
 			}
 
-<span class="fc bfc" id="L537" title="All 4 branches covered.">			if (max &gt; 0 &amp;&amp; value &gt; max) {</span>
-<span class="fc" id="L538">				diags.add(</span>
-<span class="fc" id="L539">						createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_MAX_SELECT,</span>
-<span class="fc" id="L540">								this, max));</span>
+<span class="fc bfc" id="L536" title="All 4 branches covered.">			if (max &gt; 0 &amp;&amp; value &gt; max) {</span>
+<span class="fc" id="L537">				diags.add(</span>
+<span class="fc" id="L538">						createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_MAX_SELECT,</span>
+<span class="fc" id="L539">								this, max));</span>
 			}
 		}
-<span class="fc" id="L543">	}</span>
+<span class="fc" id="L542">	}</span>
 
 	/**
 	 * Retrieves the minimum number of options that can be selected.
@@ -548,7 +547,7 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	 * @return the minimum number of options that can be selected
 	 */
 	public int getMinSelect() {
-<span class="fc" id="L551">		return getComponentModel().minSelect;</span>
+<span class="fc" id="L550">		return getComponentModel().minSelect;</span>
 	}
 
 	/**
@@ -557,8 +556,8 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	 * @param minSelect the minimum number of options can must be selected.
 	 */
 	public void setMinSelect(final int minSelect) {
-<span class="fc" id="L560">		getOrCreateComponentModel().minSelect = minSelect;</span>
-<span class="fc" id="L561">	}</span>
+<span class="fc" id="L559">		getOrCreateComponentModel().minSelect = minSelect;</span>
+<span class="fc" id="L560">	}</span>
 
 	/**
 	 * Retrieves the maximum number of options that can be selected.
@@ -566,7 +565,7 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	 * @return the maximum number of options that can be selected
 	 */
 	public int getMaxSelect() {
-<span class="fc" id="L569">		return getComponentModel().maxSelect;</span>
+<span class="fc" id="L568">		return getComponentModel().maxSelect;</span>
 	}
 
 	/**
@@ -575,15 +574,15 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	 * @param maxSelect the maximum number of options can must be selected.
 	 */
 	public void setMaxSelect(final int maxSelect) {
-<span class="fc" id="L578">		getOrCreateComponentModel().maxSelect = maxSelect;</span>
-<span class="fc" id="L579">	}</span>
+<span class="fc" id="L577">		getOrCreateComponentModel().maxSelect = maxSelect;</span>
+<span class="fc" id="L578">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected MultiSelectionModel newComponentModel() {
-<span class="fc" id="L586">		return new MultiSelectionModel();</span>
+<span class="fc" id="L585">		return new MultiSelectionModel();</span>
 	}
 
 	/**
@@ -592,7 +591,7 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	@Override
 	// For type safety only
 	protected MultiSelectionModel getComponentModel() {
-<span class="fc" id="L595">		return (MultiSelectionModel) super.getComponentModel();</span>
+<span class="fc" id="L594">		return (MultiSelectionModel) super.getComponentModel();</span>
 	}
 
 	/**
@@ -601,13 +600,13 @@ public abstract class AbstractWMultiSelectList extends AbstractWSelectList {
 	@Override
 	// For type safety only
 	protected MultiSelectionModel getOrCreateComponentModel() {
-<span class="fc" id="L604">		return (MultiSelectionModel) super.getOrCreateComponentModel();</span>
+<span class="fc" id="L603">		return (MultiSelectionModel) super.getOrCreateComponentModel();</span>
 	}
 
 	/**
 	 * Holds the extrinsic state information of the multi select list.
 	 */
-<span class="fc" id="L610">	public static class MultiSelectionModel extends SelectionModel {</span>
+<span class="fc" id="L609">	public static class MultiSelectionModel extends SelectionModel {</span>
 
 		/**
 		 * The minimum number of options that can be selected.

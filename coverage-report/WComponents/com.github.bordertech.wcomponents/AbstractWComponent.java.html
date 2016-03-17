@@ -1318,9 +1318,9 @@ import org.apache.commons.logging.LogFactory;
 	List&lt;WComponent&gt; getChildren() {
 <span class="fc" id="L1319">		List&lt;WComponent&gt; children = getComponentModel().getChildren();</span>
 
-<span class="pc bpc" id="L1321" title="2 of 4 branches missed.">		return children != null &amp;&amp; !children.isEmpty()</span>
+<span class="pc bpc" id="L1321" title="1 of 4 branches missed.">		return children != null &amp;&amp; !children.isEmpty()</span>
 <span class="fc" id="L1322">				? Collections.unmodifiableList(children)</span>
-<span class="pc" id="L1323">				: Collections.&lt;WComponent&gt;emptyList();</span>
+<span class="fc" id="L1323">				: Collections.&lt;WComponent&gt;emptyList();</span>
 	}
 
 	/**

@@ -329,6 +329,28 @@ import org.apache.commons.logging.LogFactory;
 	}
 
 	/**
+	 * Registers an image editor with this file upload widget so that the user will be prompted to edit (crop, rotate etc).
+	 * This obviously only makes sense if this widget is configured to only allow image file types.
+	 * It is probably also a logical idea to set max files to one.
+	 *
+	 *
+	 * @param editor The image editor.
+	 */
+	public void setEditor(final WImageEditor editor) {
+<span class="nc" id="L340">		getOrCreateComponentModel().editor = editor;</span>
+<span class="nc" id="L341">	}</span>
+
+	/**
+	 * Return the image editor associated with this file input.
+	 *
+	 * @return The editor or null if not set.
+	 */
+	public WImageEditor getEditor() {
+<span class="fc" id="L349">		return getComponentModel().editor;</span>
+	}
+
+
+	/**
 	 * The AJAX action used when an uploaded file has been selected.
 	 * &lt;p&gt;
 	 * Setting this action causes the uploaded file links to act as AJAX triggers. The file id of the selected file is
@@ -338,8 +360,8 @@ import org.apache.commons.logging.LogFactory;
 	 * @param action the file AJAX action
 	 */
 	public void setFileAjaxAction(final Action action) {
-<span class="nc" id="L341">		getOrCreateComponentModel().fileAction = action;</span>
-<span class="nc" id="L342">	}</span>
+<span class="nc" id="L363">		getOrCreateComponentModel().fileAction = action;</span>
+<span class="nc" id="L364">	}</span>
 
 	/**
 	 * The AJAX action used when an uploaded file has been selected.
@@ -347,7 +369,7 @@ import org.apache.commons.logging.LogFactory;
 	 * @return the file AJAX action
 	 */
 	public Action getFileAjaxAction() {
-<span class="fc" id="L350">		return getComponentModel().fileAction;</span>
+<span class="fc" id="L372">		return getComponentModel().fileAction;</span>
 	}
 
 	/**
@@ -356,17 +378,17 @@ import org.apache.commons.logging.LogFactory;
 	 * @param cols the number of columns.
 	 */
 	public void setColumns(final Integer cols) {
-<span class="nc bnc" id="L359" title="All 4 branches missed.">		if (cols != null &amp;&amp; cols &lt; 0) {</span>
-<span class="nc" id="L360">			throw new IllegalArgumentException(&quot;Must have zero or more columns&quot;);</span>
+<span class="nc bnc" id="L381" title="All 4 branches missed.">		if (cols != null &amp;&amp; cols &lt; 0) {</span>
+<span class="nc" id="L382">			throw new IllegalArgumentException(&quot;Must have zero or more columns&quot;);</span>
 		}
-<span class="nc" id="L362">		getOrCreateComponentModel().cols = cols;</span>
-<span class="nc" id="L363">	}</span>
+<span class="nc" id="L384">		getOrCreateComponentModel().cols = cols;</span>
+<span class="nc" id="L385">	}</span>
 
 	/**
 	 * @return the number of columns for layout of uploaded files. Null uses the theme default.
 	 */
 	public Integer getColumns() {
-<span class="fc" id="L369">		return getComponentModel().cols;</span>
+<span class="fc" id="L391">		return getComponentModel().cols;</span>
 	}
 
 	/**
@@ -375,21 +397,21 @@ import org.apache.commons.logging.LogFactory;
 	 * @return true if a new file has been uploaded
 	 */
 	protected boolean isNewUpload() {
-<span class="nc" id="L378">		return getComponentModel().newUpload;</span>
+<span class="nc" id="L400">		return getComponentModel().newUpload;</span>
 	}
 
 	/**
 	 * @param newUpload true if a new file has been uploaded
 	 */
 	public void setNewUpload(final boolean newUpload) {
-<span class="nc" id="L385">		getOrCreateComponentModel().newUpload = newUpload;</span>
-<span class="nc" id="L386">	}</span>
+<span class="nc" id="L407">		getOrCreateComponentModel().newUpload = newUpload;</span>
+<span class="nc" id="L408">	}</span>
 
 	/**
 	 * @return true if generate thumb nails for the file links.
 	 */
 	public boolean isUseThumbnails() {
-<span class="fc" id="L392">		return getComponentModel().useThumbnails;</span>
+<span class="fc" id="L414">		return getComponentModel().useThumbnails;</span>
 	}
 
 	/**
@@ -400,14 +422,14 @@ import org.apache.commons.logging.LogFactory;
 	 * @param useThumbnails true if generate thumb nails for the file links.
 	 */
 	public void setUseThumbnails(final boolean useThumbnails) {
-<span class="nc" id="L403">		getOrCreateComponentModel().useThumbnails = useThumbnails;</span>
-<span class="nc" id="L404">	}</span>
+<span class="nc" id="L425">		getOrCreateComponentModel().useThumbnails = useThumbnails;</span>
+<span class="nc" id="L426">	}</span>
 
 	/**
 	 * @return the position of the thumbnail image on the file link
 	 */
 	public ImagePosition getThumbnailPosition() {
-<span class="nc" id="L410">		return getComponentModel().thumbnailPosition;</span>
+<span class="nc" id="L432">		return getComponentModel().thumbnailPosition;</span>
 	}
 
 	/**
@@ -419,8 +441,8 @@ import org.apache.commons.logging.LogFactory;
 	 * @param thumbnailPosition the position of the image
 	 */
 	public void setThumbnailPosition(final ImagePosition thumbnailPosition) {
-<span class="nc" id="L422">		getOrCreateComponentModel().thumbnailPosition = thumbnailPosition;</span>
-<span class="nc" id="L423">	}</span>
+<span class="nc" id="L444">		getOrCreateComponentModel().thumbnailPosition = thumbnailPosition;</span>
+<span class="nc" id="L445">	}</span>
 
 	/**
 	 * Retrieve the thumbnail size. If null, the default size is used.
@@ -428,7 +450,7 @@ import org.apache.commons.logging.LogFactory;
 	 * @return the thumbnail size or null for default
 	 */
 	public Dimension getThumbnailSize() {
-<span class="nc" id="L431">		return getComponentModel().thumbnailSize;</span>
+<span class="nc" id="L453">		return getComponentModel().thumbnailSize;</span>
 	}
 
 	/**
@@ -441,28 +463,28 @@ import org.apache.commons.logging.LogFactory;
 	 * @param thumbnailSize the thumbnail size or null for default
 	 */
 	public void setThumbnailSize(final Dimension thumbnailSize) {
-<span class="nc bnc" id="L444" title="All 2 branches missed.">		if (thumbnailSize != null) {</span>
-<span class="nc bnc" id="L445" title="All 4 branches missed.">			if (thumbnailSize.height == 0 || thumbnailSize.width == 0) {</span>
-<span class="nc" id="L446">				throw new IllegalArgumentException(</span>
+<span class="nc bnc" id="L466" title="All 2 branches missed.">		if (thumbnailSize != null) {</span>
+<span class="nc bnc" id="L467" title="All 4 branches missed.">			if (thumbnailSize.height == 0 || thumbnailSize.width == 0) {</span>
+<span class="nc" id="L468">				throw new IllegalArgumentException(</span>
 						&quot;Thumbnail size cannot have a height or width of zero.&quot;);
 			}
-<span class="nc bnc" id="L449" title="All 4 branches missed.">			if (thumbnailSize.height == -1 &amp;&amp; thumbnailSize.width == -1) {</span>
-<span class="nc" id="L450">				throw new IllegalArgumentException(</span>
+<span class="nc bnc" id="L471" title="All 4 branches missed.">			if (thumbnailSize.height == -1 &amp;&amp; thumbnailSize.width == -1) {</span>
+<span class="nc" id="L472">				throw new IllegalArgumentException(</span>
 						&quot;Thumbnail size cannot have both height and width set to -1.&quot;);
 			}
 		}
-<span class="nc" id="L454">		getOrCreateComponentModel().thumbnailSize = thumbnailSize;</span>
-<span class="nc" id="L455">	}</span>
+<span class="nc" id="L476">		getOrCreateComponentModel().thumbnailSize = thumbnailSize;</span>
+<span class="nc" id="L477">	}</span>
 
 	/**
 	 * Clear the thumbnails currently set on the files. This will cause them to be generated again when requested. This
 	 * can be used if the thumbanil size has changed.
 	 */
 	public void clearThumbnails() {
-<span class="nc bnc" id="L462" title="All 2 branches missed.">		for (FileWidgetUpload file : getFiles()) {</span>
-<span class="nc" id="L463">			file.setThumbnail(null);</span>
-<span class="nc" id="L464">		}</span>
-<span class="nc" id="L465">	}</span>
+<span class="nc bnc" id="L484" title="All 2 branches missed.">		for (FileWidgetUpload file : getFiles()) {</span>
+<span class="nc" id="L485">			file.setThumbnail(null);</span>
+<span class="nc" id="L486">		}</span>
+<span class="nc" id="L487">	}</span>
 
 	/**
 	 * {@inheritDoc}
@@ -470,22 +492,22 @@ import org.apache.commons.logging.LogFactory;
 	@Override
 	protected boolean doHandleRequest(final Request request) {
 		// This is a normal page request.
-<span class="nc" id="L473">		List&lt;FileWidgetUpload&gt; newSelections = getNewSelection(request);</span>
-<span class="nc" id="L474">		List&lt;FileWidgetUpload&gt; priorSelections = getValue();</span>
+<span class="nc" id="L495">		List&lt;FileWidgetUpload&gt; newSelections = getNewSelection(request);</span>
+<span class="nc" id="L496">		List&lt;FileWidgetUpload&gt; priorSelections = getValue();</span>
 
-<span class="nc bnc" id="L476" title="All 2 branches missed.">		boolean changed = !selectionsEqual(newSelections, priorSelections);</span>
+<span class="nc bnc" id="L498" title="All 2 branches missed.">		boolean changed = !selectionsEqual(newSelections, priorSelections);</span>
 
-<span class="nc bnc" id="L478" title="All 2 branches missed.">		if (changed) {</span>
-<span class="nc" id="L479">			setData(newSelections);</span>
+<span class="nc bnc" id="L500" title="All 2 branches missed.">		if (changed) {</span>
+<span class="nc" id="L501">			setData(newSelections);</span>
 		}
 
 		// Check for new uploads
-<span class="nc bnc" id="L483" title="All 2 branches missed.">		if (isNewUpload()) {</span>
-<span class="nc" id="L484">			changed = true;</span>
-<span class="nc" id="L485">			setNewUpload(false);</span>
+<span class="nc bnc" id="L505" title="All 2 branches missed.">		if (isNewUpload()) {</span>
+<span class="nc" id="L506">			changed = true;</span>
+<span class="nc" id="L507">			setNewUpload(false);</span>
 		}
 
-<span class="nc" id="L488">		return changed;</span>
+<span class="nc" id="L510">		return changed;</span>
 	}
 
 	/**
@@ -493,10 +515,10 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	@Override
 	public List&lt;FileWidgetUpload&gt; getRequestValue(final Request request) {
-<span class="nc bnc" id="L496" title="All 2 branches missed.">		if (isPresent(request)) {</span>
-<span class="nc" id="L497">			return getNewSelection(request);</span>
+<span class="nc bnc" id="L518" title="All 2 branches missed.">		if (isPresent(request)) {</span>
+<span class="nc" id="L519">			return getNewSelection(request);</span>
 		} else {
-<span class="nc" id="L499">			return getValue();</span>
+<span class="nc" id="L521">			return getValue();</span>
 		}
 	}
 
@@ -507,11 +529,11 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
-<span class="fc" id="L510">		super.preparePaintComponent(request);</span>
-<span class="pc bpc" id="L511" title="1 of 2 branches missed.">		if (getFileAjaxAction() != null) {</span>
-<span class="nc" id="L512">			AjaxHelper.registerComponentTargetItself(getId(), request);</span>
+<span class="fc" id="L532">		super.preparePaintComponent(request);</span>
+<span class="pc bpc" id="L533" title="1 of 2 branches missed.">		if (getFileAjaxAction() != null) {</span>
+<span class="nc" id="L534">			AjaxHelper.registerComponentTargetItself(getId(), request);</span>
 		}
-<span class="fc" id="L514">	}</span>
+<span class="fc" id="L536">	}</span>
 
 	/**
 	 * {@inheritDoc}
@@ -519,20 +541,20 @@ import org.apache.commons.logging.LogFactory;
 	@Override
 	protected boolean beforeHandleRequest(final Request request) {
 		// Check if is targeted request
-<span class="nc" id="L522">		String targetParam = request.getParameter(Environment.TARGET_ID);</span>
-<span class="nc bnc" id="L523" title="All 4 branches missed.">		boolean targetted = (targetParam != null &amp;&amp; targetParam.equals(getTargetId()));</span>
-<span class="nc bnc" id="L524" title="All 2 branches missed.">		if (targetted) {</span>
-<span class="nc" id="L525">			doHandleTargetedRequest(request);</span>
-<span class="nc" id="L526">			return false;</span>
+<span class="nc" id="L544">		String targetParam = request.getParameter(Environment.TARGET_ID);</span>
+<span class="nc bnc" id="L545" title="All 4 branches missed.">		boolean targetted = (targetParam != null &amp;&amp; targetParam.equals(getTargetId()));</span>
+<span class="nc bnc" id="L546" title="All 2 branches missed.">		if (targetted) {</span>
+<span class="nc" id="L547">			doHandleTargetedRequest(request);</span>
+<span class="nc" id="L548">			return false;</span>
 		}
 
 		// Check if AJAX trigger and has file id in request
-<span class="nc bnc" id="L530" title="All 4 branches missed.">		if (AjaxHelper.isCurrentAjaxTrigger(this) &amp;&amp; request.getParameter(FILE_UPLOAD_ID_KEY) != null) {</span>
-<span class="nc" id="L531">			doHandleFileAjaxActionRequest(request);</span>
-<span class="nc" id="L532">			return false;</span>
+<span class="nc bnc" id="L552" title="All 4 branches missed.">		if (AjaxHelper.isCurrentAjaxTrigger(this) &amp;&amp; request.getParameter(FILE_UPLOAD_ID_KEY) != null) {</span>
+<span class="nc" id="L553">			doHandleFileAjaxActionRequest(request);</span>
+<span class="nc" id="L554">			return false;</span>
 		}
 
-<span class="nc" id="L535">		return true;</span>
+<span class="nc" id="L557">		return true;</span>
 	}
 
 	/**
@@ -542,39 +564,39 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	protected void doHandleFileAjaxActionRequest(final Request request) {
 		// Protect against client-side tampering of disabled components
-<span class="nc bnc" id="L545" title="All 2 branches missed.">		if (isDisabled()) {</span>
-<span class="nc" id="L546">			throw new SystemException(&quot;File widget is disabled.&quot;);</span>
+<span class="nc bnc" id="L567" title="All 2 branches missed.">		if (isDisabled()) {</span>
+<span class="nc" id="L568">			throw new SystemException(&quot;File widget is disabled.&quot;);</span>
 		}
 
 		// Check for file id
-<span class="nc" id="L550">		String fileId = request.getParameter(FILE_UPLOAD_ID_KEY);</span>
-<span class="nc bnc" id="L551" title="All 2 branches missed.">		if (fileId == null) {</span>
-<span class="nc" id="L552">			throw new SystemException(&quot;No file id provided for ajax action.&quot;);</span>
+<span class="nc" id="L572">		String fileId = request.getParameter(FILE_UPLOAD_ID_KEY);</span>
+<span class="nc bnc" id="L573" title="All 2 branches missed.">		if (fileId == null) {</span>
+<span class="nc" id="L574">			throw new SystemException(&quot;No file id provided for ajax action.&quot;);</span>
 		}
 
 		// Check valid file id
-<span class="nc" id="L556">		FileWidgetUpload file = getFile(fileId);</span>
-<span class="nc bnc" id="L557" title="All 2 branches missed.">		if (file == null) {</span>
-<span class="nc" id="L558">			throw new SystemException(&quot;Invalid file id [&quot; + fileId + &quot;].&quot;);</span>
+<span class="nc" id="L578">		FileWidgetUpload file = getFile(fileId);</span>
+<span class="nc bnc" id="L579" title="All 2 branches missed.">		if (file == null) {</span>
+<span class="nc" id="L580">			throw new SystemException(&quot;Invalid file id [&quot; + fileId + &quot;].&quot;);</span>
 		}
 
 		// Run the action
-<span class="nc" id="L562">		final Action action = getFileAjaxAction();</span>
-<span class="nc bnc" id="L563" title="All 2 branches missed.">		if (action == null) {</span>
-<span class="nc" id="L564">			throw new SystemException(&quot;No action set for file ajax action request.&quot;);</span>
+<span class="nc" id="L584">		final Action action = getFileAjaxAction();</span>
+<span class="nc bnc" id="L585" title="All 2 branches missed.">		if (action == null) {</span>
+<span class="nc" id="L586">			throw new SystemException(&quot;No action set for file ajax action request.&quot;);</span>
 		}
 
 		// Set the selected file id as the action object
-<span class="nc" id="L568">		final ActionEvent event = new ActionEvent(this, &quot;fileajax&quot;, fileId);</span>
-<span class="nc" id="L569">		Runnable later = new Runnable() {</span>
+<span class="nc" id="L590">		final ActionEvent event = new ActionEvent(this, &quot;fileajax&quot;, fileId);</span>
+<span class="nc" id="L591">		Runnable later = new Runnable() {</span>
 			@Override
 			public void run() {
-<span class="nc" id="L572">				action.execute(event);</span>
-<span class="nc" id="L573">			}</span>
+<span class="nc" id="L594">				action.execute(event);</span>
+<span class="nc" id="L595">			}</span>
 		};
 
-<span class="nc" id="L576">		invokeLater(later);</span>
-<span class="nc" id="L577">	}</span>
+<span class="nc" id="L598">		invokeLater(later);</span>
+<span class="nc" id="L599">	}</span>
 
 	/**
 	 * Handle a targeted request.
@@ -583,31 +605,31 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	protected void doHandleTargetedRequest(final Request request) {
 		// Upload file request
-<span class="nc bnc" id="L586" title="All 2 branches missed.">		if (request.getFileItems(getId()) != null) {</span>
-<span class="nc" id="L587">			doHandleUploadRequest(request);</span>
-<span class="nc" id="L588">			return;</span>
+<span class="nc bnc" id="L608" title="All 2 branches missed.">		if (request.getFileItems(getId()) != null) {</span>
+<span class="nc" id="L609">			doHandleUploadRequest(request);</span>
+<span class="nc" id="L610">			return;</span>
 		}
 
 		// Check for file id
-<span class="nc" id="L592">		String fileId = request.getParameter(FILE_UPLOAD_ID_KEY);</span>
-<span class="nc bnc" id="L593" title="All 2 branches missed.">		if (fileId == null) {</span>
-<span class="nc" id="L594">			throw new SystemException(&quot;No file id provided for content request.&quot;);</span>
+<span class="nc" id="L614">		String fileId = request.getParameter(FILE_UPLOAD_ID_KEY);</span>
+<span class="nc bnc" id="L615" title="All 2 branches missed.">		if (fileId == null) {</span>
+<span class="nc" id="L616">			throw new SystemException(&quot;No file id provided for content request.&quot;);</span>
 		}
 
 		// Check valid file id
-<span class="nc" id="L598">		FileWidgetUpload file = getFile(fileId);</span>
-<span class="nc bnc" id="L599" title="All 2 branches missed.">		if (file == null) {</span>
-<span class="nc" id="L600">			throw new SystemException(&quot;Invalid file id [&quot; + fileId + &quot;].&quot;);</span>
+<span class="nc" id="L620">		FileWidgetUpload file = getFile(fileId);</span>
+<span class="nc bnc" id="L621" title="All 2 branches missed.">		if (file == null) {</span>
+<span class="nc" id="L622">			throw new SystemException(&quot;Invalid file id [&quot; + fileId + &quot;].&quot;);</span>
 		}
 
 		// Check if thumb nail requested
-<span class="nc bnc" id="L604" title="All 2 branches missed.">		boolean thumbNail = request.getParameter(FILE_UPLOAD_THUMB_NAIL_KEY) != null;</span>
-<span class="nc bnc" id="L605" title="All 2 branches missed.">		if (thumbNail) {</span>
-<span class="nc" id="L606">			doHandleThumbnailRequest(file);</span>
+<span class="nc bnc" id="L626" title="All 2 branches missed.">		boolean thumbNail = request.getParameter(FILE_UPLOAD_THUMB_NAIL_KEY) != null;</span>
+<span class="nc bnc" id="L627" title="All 2 branches missed.">		if (thumbNail) {</span>
+<span class="nc" id="L628">			doHandleThumbnailRequest(file);</span>
 		} else {
-<span class="nc" id="L608">			doHandleFileContentRequest(file);</span>
+<span class="nc" id="L630">			doHandleFileContentRequest(file);</span>
 		}
-<span class="nc" id="L610">	}</span>
+<span class="nc" id="L632">	}</span>
 
 	/**
 	 * The request is a targeted file upload request. Upload the file and respond with the file information.
@@ -616,61 +638,61 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	protected void doHandleUploadRequest(final Request request) {
 		// Protect against client-side tampering of disabled/read-only fields.
-<span class="nc bnc" id="L619" title="All 4 branches missed.">		if (isDisabled() || isReadOnly()) {</span>
-<span class="nc" id="L620">			throw new SystemException(&quot;File widget cannot be updated.&quot;);</span>
+<span class="nc bnc" id="L641" title="All 4 branches missed.">		if (isDisabled() || isReadOnly()) {</span>
+<span class="nc" id="L642">			throw new SystemException(&quot;File widget cannot be updated.&quot;);</span>
 		}
 
 		// Only process on a POST
-<span class="nc bnc" id="L624" title="All 2 branches missed.">		if (!&quot;POST&quot;.equals(request.getMethod())) {</span>
-<span class="nc" id="L625">			throw new SystemException(</span>
-<span class="nc" id="L626">					&quot;File widget cannot be updated by &quot; + request.getMethod() + &quot;.&quot;);</span>
+<span class="nc bnc" id="L646" title="All 2 branches missed.">		if (!&quot;POST&quot;.equals(request.getMethod())) {</span>
+<span class="nc" id="L647">			throw new SystemException(</span>
+<span class="nc" id="L648">					&quot;File widget cannot be updated by &quot; + request.getMethod() + &quot;.&quot;);</span>
 		}
 
 		// Check only one file item in the request
-<span class="nc" id="L630">		FileItem[] items = request.getFileItems(getId());</span>
-<span class="nc bnc" id="L631" title="All 2 branches missed.">		if (items.length &gt; 1) {</span>
-<span class="nc" id="L632">			throw new SystemException(&quot;More than one file item received on the request.&quot;);</span>
+<span class="nc" id="L652">		FileItem[] items = request.getFileItems(getId());</span>
+<span class="nc bnc" id="L653" title="All 2 branches missed.">		if (items.length &gt; 1) {</span>
+<span class="nc" id="L654">			throw new SystemException(&quot;More than one file item received on the request.&quot;);</span>
 		}
 
 		// Check the client provided a fileID
-<span class="nc" id="L636">		String fileId = request.getParameter(FILE_UPLOAD_ID_KEY);</span>
-<span class="nc bnc" id="L637" title="All 2 branches missed.">		if (fileId == null) {</span>
-<span class="nc" id="L638">			throw new SystemException(&quot;No file id provided for file upload.&quot;);</span>
+<span class="nc" id="L658">		String fileId = request.getParameter(FILE_UPLOAD_ID_KEY);</span>
+<span class="nc bnc" id="L659" title="All 2 branches missed.">		if (fileId == null) {</span>
+<span class="nc" id="L660">			throw new SystemException(&quot;No file id provided for file upload.&quot;);</span>
 		}
 
 		// Wrap the file item
-<span class="nc" id="L642">		FileItemWrap wrap = new FileItemWrap(items[0]);</span>
-<span class="nc" id="L643">		FileWidgetUpload file = new FileWidgetUpload(fileId, wrap);</span>
-<span class="nc" id="L644">		addFile(file);</span>
+<span class="nc" id="L664">		FileItemWrap wrap = new FileItemWrap(items[0]);</span>
+<span class="nc" id="L665">		FileWidgetUpload file = new FileWidgetUpload(fileId, wrap);</span>
+<span class="nc" id="L666">		addFile(file);</span>
 
-<span class="nc" id="L646">		int idx = getFiles().size() - 1;</span>
+<span class="nc" id="L668">		int idx = getFiles().size() - 1;</span>
 
-<span class="nc" id="L648">		setNewUpload(true);</span>
+<span class="nc" id="L670">		setNewUpload(true);</span>
 
 		// Build response
-<span class="nc" id="L651">		StringWriter writer = new StringWriter();</span>
-<span class="nc" id="L652">		XmlStringBuilder xml = new XmlStringBuilder(writer);</span>
+<span class="nc" id="L673">		StringWriter writer = new StringWriter();</span>
+<span class="nc" id="L674">		XmlStringBuilder xml = new XmlStringBuilder(writer);</span>
 
-<span class="nc" id="L654">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="nc" id="L676">		UIContext uic = UIContextHolder.getCurrent();</span>
 
-<span class="nc" id="L656">		xml.append(XMLUtil.getXMLDeclarationWithThemeXslt(uic));</span>
+<span class="nc" id="L678">		xml.append(XMLUtil.getXMLDeclarationWithThemeXslt(uic));</span>
 
-<span class="nc" id="L658">		xml.appendTagOpen(&quot;ui:ajaxResponse&quot;);</span>
-<span class="nc" id="L659">		xml.append(XMLUtil.STANDARD_NAMESPACES);</span>
-<span class="nc" id="L660">		xml.appendClose();</span>
-<span class="nc" id="L661">		xml.appendTagOpen(&quot;ui:ajaxTarget&quot;);</span>
-<span class="nc" id="L662">		xml.appendAttribute(&quot;id&quot;, getId());</span>
-<span class="nc" id="L663">		xml.appendAttribute(&quot;action&quot;, &quot;replace&quot;);</span>
-<span class="nc" id="L664">		xml.appendClose();</span>
+<span class="nc" id="L680">		xml.appendTagOpen(&quot;ui:ajaxResponse&quot;);</span>
+<span class="nc" id="L681">		xml.append(XMLUtil.STANDARD_NAMESPACES);</span>
+<span class="nc" id="L682">		xml.appendClose();</span>
+<span class="nc" id="L683">		xml.appendTagOpen(&quot;ui:ajaxTarget&quot;);</span>
+<span class="nc" id="L684">		xml.appendAttribute(&quot;id&quot;, getId());</span>
+<span class="nc" id="L685">		xml.appendAttribute(&quot;action&quot;, &quot;replace&quot;);</span>
+<span class="nc" id="L686">		xml.appendClose();</span>
 
-<span class="nc" id="L666">		FileWidgetRendererUtil.renderFileElement(this, xml, file, idx);</span>
+<span class="nc" id="L688">		FileWidgetRendererUtil.renderFileElement(this, xml, file, idx);</span>
 
-<span class="nc" id="L668">		xml.appendEndTag(&quot;ui:ajaxTarget&quot;);</span>
-<span class="nc" id="L669">		xml.appendEndTag(&quot;ui:ajaxResponse&quot;);</span>
+<span class="nc" id="L690">		xml.appendEndTag(&quot;ui:ajaxTarget&quot;);</span>
+<span class="nc" id="L691">		xml.appendEndTag(&quot;ui:ajaxResponse&quot;);</span>
 
-<span class="nc" id="L671">		FileUploadXMLResponse content = new FileUploadXMLResponse(writer.getBuffer().toString());</span>
-<span class="nc" id="L672">		ContentEscape escape = new ContentEscape(content);</span>
-<span class="nc" id="L673">		throw escape;</span>
+<span class="nc" id="L693">		FileUploadXMLResponse content = new FileUploadXMLResponse(writer.getBuffer().toString());</span>
+<span class="nc" id="L694">		ContentEscape escape = new ContentEscape(content);</span>
+<span class="nc" id="L695">		throw escape;</span>
 	}
 
 	/**
@@ -680,12 +702,12 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	protected void doHandleThumbnailRequest(final FileWidgetUpload file) {
 		// Create thumb nail (if required)
-<span class="nc bnc" id="L683" title="All 2 branches missed.">		if (file.getThumbnail() == null) {</span>
-<span class="nc" id="L684">			Image thumbnail = createThumbNail(file.getFile());</span>
-<span class="nc" id="L685">			file.setThumbnail(thumbnail);</span>
+<span class="nc bnc" id="L705" title="All 2 branches missed.">		if (file.getThumbnail() == null) {</span>
+<span class="nc" id="L706">			Image thumbnail = createThumbNail(file.getFile());</span>
+<span class="nc" id="L707">			file.setThumbnail(thumbnail);</span>
 		}
-<span class="nc" id="L687">		ContentEscape escape = new ContentEscape(file.getThumbnail());</span>
-<span class="nc" id="L688">		throw escape;</span>
+<span class="nc" id="L709">		ContentEscape escape = new ContentEscape(file.getThumbnail());</span>
+<span class="nc" id="L710">		throw escape;</span>
 	}
 
 	/**
@@ -694,8 +716,8 @@ import org.apache.commons.logging.LogFactory;
 	 * @param file the file to process
 	 */
 	protected void doHandleFileContentRequest(final FileWidgetUpload file) {
-<span class="nc" id="L697">		ContentEscape escape = new ContentEscape(file.getFile());</span>
-<span class="nc" id="L698">		throw escape;</span>
+<span class="nc" id="L719">		ContentEscape escape = new ContentEscape(file.getFile());</span>
+<span class="nc" id="L720">		throw escape;</span>
 	}
 
 	/**
@@ -703,15 +725,15 @@ import org.apache.commons.logging.LogFactory;
 	 * @return the thumbnail
 	 */
 	protected Image createThumbNail(final File file) {
-<span class="nc" id="L706">		Image image = null;</span>
+<span class="nc" id="L728">		Image image = null;</span>
 		try {
-<span class="nc" id="L708">			Dimension size = getThumbnailSize();</span>
-<span class="nc" id="L709">			image = ThumbnailUtil.createThumbnail(file.getInputStream(), file.getName(), size, file.</span>
-<span class="nc" id="L710">					getMimeType());</span>
-<span class="nc" id="L711">		} catch (Exception e) {</span>
-<span class="nc" id="L712">			LOG.error(&quot;Could not generate thumbnail for file. &quot; + e.getMessage(), e);</span>
-<span class="nc" id="L713">		}</span>
-<span class="nc" id="L714">		return image;</span>
+<span class="nc" id="L730">			Dimension size = getThumbnailSize();</span>
+<span class="nc" id="L731">			image = ThumbnailUtil.createThumbnail(file.getInputStream(), file.getName(), size, file.</span>
+<span class="nc" id="L732">					getMimeType());</span>
+<span class="nc" id="L733">		} catch (Exception e) {</span>
+<span class="nc" id="L734">			LOG.error(&quot;Could not generate thumbnail for file. &quot; + e.getMessage(), e);</span>
+<span class="nc" id="L735">		}</span>
+<span class="nc" id="L736">		return image;</span>
 	}
 
 	/**
@@ -721,35 +743,35 @@ import org.apache.commons.logging.LogFactory;
 	 * @return the URL to access the uploaded file.
 	 */
 	public String getFileUrl(final String fileId) {
-<span class="fc" id="L724">		FileWidgetUpload file = getFile(fileId);</span>
-<span class="pc bpc" id="L725" title="1 of 2 branches missed.">		if (file == null) {</span>
-<span class="nc" id="L726">			return null;</span>
+<span class="fc" id="L746">		FileWidgetUpload file = getFile(fileId);</span>
+<span class="pc bpc" id="L747" title="1 of 2 branches missed.">		if (file == null) {</span>
+<span class="nc" id="L748">			return null;</span>
 		}
 
-<span class="fc" id="L729">		Environment env = getEnvironment();</span>
-<span class="fc" id="L730">		Map&lt;String, String&gt; parameters = env.getHiddenParameters();</span>
-<span class="fc" id="L731">		parameters.put(Environment.TARGET_ID, getTargetId());</span>
+<span class="fc" id="L751">		Environment env = getEnvironment();</span>
+<span class="fc" id="L752">		Map&lt;String, String&gt; parameters = env.getHiddenParameters();</span>
+<span class="fc" id="L753">		parameters.put(Environment.TARGET_ID, getTargetId());</span>
 
-<span class="pc bpc" id="L733" title="1 of 2 branches missed.">		if (Util.empty(file.getFileCacheKey())) {</span>
+<span class="pc bpc" id="L755" title="1 of 2 branches missed.">		if (Util.empty(file.getFileCacheKey())) {</span>
 			// Add some randomness to the URL to prevent caching
-<span class="fc" id="L735">			String random = WebUtilities.generateRandom();</span>
-<span class="fc" id="L736">			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);</span>
-<span class="fc" id="L737">		} else {</span>
+<span class="fc" id="L757">			String random = WebUtilities.generateRandom();</span>
+<span class="fc" id="L758">			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);</span>
+<span class="fc" id="L759">		} else {</span>
 			// Remove step counter as not required for cached content
-<span class="nc" id="L739">			parameters.remove(Environment.STEP_VARIABLE);</span>
-<span class="nc" id="L740">			parameters.remove(Environment.SESSION_TOKEN_VARIABLE);</span>
+<span class="nc" id="L761">			parameters.remove(Environment.STEP_VARIABLE);</span>
+<span class="nc" id="L762">			parameters.remove(Environment.SESSION_TOKEN_VARIABLE);</span>
 			// Add the cache key
-<span class="nc" id="L742">			parameters.put(Environment.CONTENT_CACHE_KEY, file.getFileCacheKey());</span>
+<span class="nc" id="L764">			parameters.put(Environment.CONTENT_CACHE_KEY, file.getFileCacheKey());</span>
 		}
 
 		// File id
-<span class="fc" id="L746">		parameters.put(FILE_UPLOAD_ID_KEY, fileId);</span>
+<span class="fc" id="L768">		parameters.put(FILE_UPLOAD_ID_KEY, fileId);</span>
 
 		// The targetable path needs to be configured for the portal environment.
-<span class="fc" id="L749">		String url = env.getWServletPath();</span>
+<span class="fc" id="L771">		String url = env.getWServletPath();</span>
 
 		// Note the last parameter. In javascript we don't want to encode &quot;&amp;&quot;.
-<span class="fc" id="L752">		return WebUtilities.getPath(url, parameters, true);</span>
+<span class="fc" id="L774">		return WebUtilities.getPath(url, parameters, true);</span>
 	}
 
 	/**
@@ -759,44 +781,44 @@ import org.apache.commons.logging.LogFactory;
 	 * @return the URL to access the thumbnail for an uploaded file.
 	 */
 	public String getFileThumbnailUrl(final String fileId) {
-<span class="nc" id="L762">		FileWidgetUpload file = getFile(fileId);</span>
-<span class="nc bnc" id="L763" title="All 2 branches missed.">		if (file == null) {</span>
-<span class="nc" id="L764">			return null;</span>
+<span class="nc" id="L784">		FileWidgetUpload file = getFile(fileId);</span>
+<span class="nc bnc" id="L785" title="All 2 branches missed.">		if (file == null) {</span>
+<span class="nc" id="L786">			return null;</span>
 		}
 
 		// Check static resource
-<span class="nc" id="L768">		Image thumbnail = file.getThumbnail();</span>
-<span class="nc bnc" id="L769" title="All 2 branches missed.">		if (thumbnail instanceof InternalResource) {</span>
-<span class="nc" id="L770">			return ((InternalResource) thumbnail).getTargetUrl();</span>
+<span class="nc" id="L790">		Image thumbnail = file.getThumbnail();</span>
+<span class="nc bnc" id="L791" title="All 2 branches missed.">		if (thumbnail instanceof InternalResource) {</span>
+<span class="nc" id="L792">			return ((InternalResource) thumbnail).getTargetUrl();</span>
 		}
 
-<span class="nc" id="L773">		Environment env = getEnvironment();</span>
-<span class="nc" id="L774">		Map&lt;String, String&gt; parameters = env.getHiddenParameters();</span>
-<span class="nc" id="L775">		parameters.put(Environment.TARGET_ID, getTargetId());</span>
+<span class="nc" id="L795">		Environment env = getEnvironment();</span>
+<span class="nc" id="L796">		Map&lt;String, String&gt; parameters = env.getHiddenParameters();</span>
+<span class="nc" id="L797">		parameters.put(Environment.TARGET_ID, getTargetId());</span>
 
-<span class="nc bnc" id="L777" title="All 2 branches missed.">		if (Util.empty(file.getThumbnailCacheKey())) {</span>
+<span class="nc bnc" id="L799" title="All 2 branches missed.">		if (Util.empty(file.getThumbnailCacheKey())) {</span>
 			// Add some randomness to the URL to prevent caching
-<span class="nc" id="L779">			String random = WebUtilities.generateRandom();</span>
-<span class="nc" id="L780">			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);</span>
-<span class="nc" id="L781">		} else {</span>
+<span class="nc" id="L801">			String random = WebUtilities.generateRandom();</span>
+<span class="nc" id="L802">			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);</span>
+<span class="nc" id="L803">		} else {</span>
 			// Remove step counter as not required for cached content
-<span class="nc" id="L783">			parameters.remove(Environment.STEP_VARIABLE);</span>
-<span class="nc" id="L784">			parameters.remove(Environment.SESSION_TOKEN_VARIABLE);</span>
+<span class="nc" id="L805">			parameters.remove(Environment.STEP_VARIABLE);</span>
+<span class="nc" id="L806">			parameters.remove(Environment.SESSION_TOKEN_VARIABLE);</span>
 			// Add the cache key
-<span class="nc" id="L786">			parameters.put(Environment.CONTENT_CACHE_KEY, file.getThumbnailCacheKey());</span>
+<span class="nc" id="L808">			parameters.put(Environment.CONTENT_CACHE_KEY, file.getThumbnailCacheKey());</span>
 		}
 
 		// File id
-<span class="nc" id="L790">		parameters.put(FILE_UPLOAD_ID_KEY, fileId);</span>
+<span class="nc" id="L812">		parameters.put(FILE_UPLOAD_ID_KEY, fileId);</span>
 
 		// Thumbnail flag
-<span class="nc" id="L793">		parameters.put(FILE_UPLOAD_THUMB_NAIL_KEY, &quot;Y&quot;);</span>
+<span class="nc" id="L815">		parameters.put(FILE_UPLOAD_THUMB_NAIL_KEY, &quot;Y&quot;);</span>
 
 		// The targetable path needs to be configured for the portal environment.
-<span class="nc" id="L796">		String url = env.getWServletPath();</span>
+<span class="nc" id="L818">		String url = env.getWServletPath();</span>
 
 		// Note the last parameter. In javascript we don't want to encode &quot;&amp;&quot;.
-<span class="nc" id="L799">		return WebUtilities.getPath(url, parameters, true);</span>
+<span class="nc" id="L821">		return WebUtilities.getPath(url, parameters, true);</span>
 	}
 
 	/**
@@ -805,23 +827,23 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	private List&lt;FileWidgetUpload&gt; getNewSelection(final Request request) {
 		// Get selected items (if any)
-<span class="nc" id="L808">		String[] selectedParam = request.getParameterValues(getId() + &quot;.selected&quot;);</span>
-<span class="nc bnc" id="L809" title="All 2 branches missed.">		if (selectedParam == null) {</span>
-<span class="nc" id="L810">			selectedParam = new String[0];</span>
+<span class="nc" id="L830">		String[] selectedParam = request.getParameterValues(getId() + &quot;.selected&quot;);</span>
+<span class="nc bnc" id="L831" title="All 2 branches missed.">		if (selectedParam == null) {</span>
+<span class="nc" id="L832">			selectedParam = new String[0];</span>
 		}
-<span class="nc" id="L812">		List&lt;String&gt; selected = Arrays.asList(selectedParam);</span>
+<span class="nc" id="L834">		List&lt;String&gt; selected = Arrays.asList(selectedParam);</span>
 
-<span class="nc" id="L814">		List&lt;FileWidgetUpload&gt; newSelection = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L815">		List&lt;FileWidgetUpload&gt; currentSelection = getValue();</span>
+<span class="nc" id="L836">		List&lt;FileWidgetUpload&gt; newSelection = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L837">		List&lt;FileWidgetUpload&gt; currentSelection = getValue();</span>
 
-<span class="nc bnc" id="L817" title="All 2 branches missed.">		for (FileWidgetUpload file : currentSelection) {</span>
-<span class="nc" id="L818">			boolean select = selected.contains(file.getFileId());</span>
-<span class="nc bnc" id="L819" title="All 2 branches missed.">			if (select) {</span>
-<span class="nc" id="L820">				newSelection.add(file);</span>
+<span class="nc bnc" id="L839" title="All 2 branches missed.">		for (FileWidgetUpload file : currentSelection) {</span>
+<span class="nc" id="L840">			boolean select = selected.contains(file.getFileId());</span>
+<span class="nc bnc" id="L841" title="All 2 branches missed.">			if (select) {</span>
+<span class="nc" id="L842">				newSelection.add(file);</span>
 			}
-<span class="nc" id="L822">		}</span>
+<span class="nc" id="L844">		}</span>
 
-<span class="nc" id="L824">		return newSelection;</span>
+<span class="nc" id="L846">		return newSelection;</span>
 	}
 
 	/**
@@ -829,7 +851,7 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	@Override
 	public String getTargetId() {
-<span class="fc" id="L832">		return getId();</span>
+<span class="fc" id="L854">		return getId();</span>
 	}
 
 	/**
@@ -841,9 +863,9 @@ import org.apache.commons.logging.LogFactory;
 	 * @return true if the lists are equal, false otherwise.
 	 */
 	private boolean selectionsEqual(final List&lt;?&gt; list1, final List&lt;?&gt; list2) {
-<span class="nc bnc" id="L844" title="All 12 branches missed.">		return (list1 == null || list1.isEmpty()) &amp;&amp; (list2 == null || list2.isEmpty())</span>
-<span class="nc bnc" id="L845" title="All 2 branches missed.">				|| (list1 != null &amp;&amp; list2 != null &amp;&amp; list1.size() == list2.size() &amp;&amp; list1.</span>
-<span class="nc bnc" id="L846" title="All 2 branches missed.">				containsAll(list2));</span>
+<span class="nc bnc" id="L866" title="All 12 branches missed.">		return (list1 == null || list1.isEmpty()) &amp;&amp; (list2 == null || list2.isEmpty())</span>
+<span class="nc bnc" id="L867" title="All 2 branches missed.">				|| (list1 != null &amp;&amp; list2 != null &amp;&amp; list1.size() == list2.size() &amp;&amp; list1.</span>
+<span class="nc bnc" id="L868" title="All 2 branches missed.">				containsAll(list2));</span>
 	}
 
 	// ----------------------------------------------------------------
@@ -854,7 +876,7 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	@Override
 	protected MultiFileWidgetModel newComponentModel() {
-<span class="fc" id="L857">		return new MultiFileWidgetModel();</span>
+<span class="fc" id="L879">		return new MultiFileWidgetModel();</span>
 	}
 
 	/**
@@ -863,7 +885,7 @@ import org.apache.commons.logging.LogFactory;
 	@Override
 	// For type safety only
 	protected MultiFileWidgetModel getComponentModel() {
-<span class="fc" id="L866">		return (MultiFileWidgetModel) super.getComponentModel();</span>
+<span class="fc" id="L888">		return (MultiFileWidgetModel) super.getComponentModel();</span>
 	}
 
 	/**
@@ -872,7 +894,7 @@ import org.apache.commons.logging.LogFactory;
 	@Override
 	// For type safety only
 	protected MultiFileWidgetModel getOrCreateComponentModel() {
-<span class="fc" id="L875">		return (MultiFileWidgetModel) super.getOrCreateComponentModel();</span>
+<span class="fc" id="L897">		return (MultiFileWidgetModel) super.getOrCreateComponentModel();</span>
 	}
 
 	/**
@@ -880,7 +902,7 @@ import org.apache.commons.logging.LogFactory;
 	 *
 	 * @author Christina Harris
 	 */
-<span class="fc" id="L883">	public static class MultiFileWidgetModel extends InputModel {</span>
+<span class="fc" id="L905">	public static class MultiFileWidgetModel extends InputModel {</span>
 
 		/**
 		 * The file types accepted by the file input.
@@ -890,7 +912,7 @@ import org.apache.commons.logging.LogFactory;
 		/**
 		 * The maximum size of files uploaded by this component. Defaults to 10Mb.
 		 */
-<span class="fc" id="L893">		private long maxFileSize = 10 * 1000 * 1024;</span>
+<span class="fc" id="L915">		private long maxFileSize = 10 * 1000 * 1024;</span>
 
 		/**
 		 * The maximum number of files which can be uploaded by this component.
@@ -901,6 +923,11 @@ import org.apache.commons.logging.LogFactory;
 		 * The component that will receive drag and dropped files on behalf of this widget.
 		 */
 		private DropZone dropzone;
+
+		/**
+		 * The image editor to associate with this instance.
+		 */
+		private WImageEditor editor;
 
 		/**
 		 * File ajax action.
@@ -951,16 +978,16 @@ import org.apache.commons.logging.LogFactory;
 		/**
 		 * @param xml the xml response
 		 */
-<span class="nc" id="L954">		public FileUploadXMLResponse(final String xml) {</span>
-<span class="nc" id="L955">			this.xml = xml;</span>
-<span class="nc" id="L956">		}</span>
+<span class="nc" id="L981">		public FileUploadXMLResponse(final String xml) {</span>
+<span class="nc" id="L982">			this.xml = xml;</span>
+<span class="nc" id="L983">		}</span>
 
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
 		public byte[] getBytes() {
-<span class="nc" id="L963">			return xml.getBytes();</span>
+<span class="nc" id="L990">			return xml.getBytes();</span>
 		}
 
 		/**
@@ -968,7 +995,7 @@ import org.apache.commons.logging.LogFactory;
 		 */
 		@Override
 		public String getDescription() {
-<span class="nc" id="L971">			return &quot;fileui&quot;;</span>
+<span class="nc" id="L998">			return &quot;fileui&quot;;</span>
 		}
 
 		/**
@@ -976,14 +1003,14 @@ import org.apache.commons.logging.LogFactory;
 		 */
 		@Override
 		public String getMimeType() {
-<span class="nc" id="L979">			return WebUtilities.CONTENT_TYPE_XML;</span>
+<span class="nc" id="L1006">			return WebUtilities.CONTENT_TYPE_XML;</span>
 		}
 	}
 
 	/**
 	 * Holds the uploaded file and extra details.
 	 */
-<span class="fc" id="L986">	public static class FileWidgetUpload implements Serializable {</span>
+<span class="fc" id="L1013">	public static class FileWidgetUpload implements Serializable {</span>
 
 		/**
 		 * File identifier.
@@ -1016,8 +1043,8 @@ import org.apache.commons.logging.LogFactory;
 		 * @param file the file to hold
 		 */
 		public FileWidgetUpload(final File file) {
-<span class="nc" id="L1019">			this(null, file);</span>
-<span class="nc" id="L1020">		}</span>
+<span class="nc" id="L1046">			this(null, file);</span>
+<span class="nc" id="L1047">		}</span>
 
 		/**
 		 * Creates a FileWidgetUpload.
@@ -1025,20 +1052,20 @@ import org.apache.commons.logging.LogFactory;
 		 * @param id the file id
 		 * @param file the file to hold
 		 */
-<span class="fc" id="L1028">		public FileWidgetUpload(final String id, final File file) {</span>
-<span class="pc bpc" id="L1029" title="1 of 2 branches missed.">			if (id == null) {</span>
-<span class="nc" id="L1030">				this.fileId = UUID.randomUUID().toString();</span>
+<span class="fc" id="L1055">		public FileWidgetUpload(final String id, final File file) {</span>
+<span class="pc bpc" id="L1056" title="1 of 2 branches missed.">			if (id == null) {</span>
+<span class="nc" id="L1057">				this.fileId = UUID.randomUUID().toString();</span>
 			} else {
-<span class="fc" id="L1032">				this.fileId = id;</span>
+<span class="fc" id="L1059">				this.fileId = id;</span>
 			}
-<span class="fc" id="L1034">			this.file = file;</span>
-<span class="fc" id="L1035">		}</span>
+<span class="fc" id="L1061">			this.file = file;</span>
+<span class="fc" id="L1062">		}</span>
 
 		/**
 		 * @return the file identifier
 		 */
 		public String getFileId() {
-<span class="fc" id="L1041">			return fileId;</span>
+<span class="fc" id="L1068">			return fileId;</span>
 
 		}
 
@@ -1046,21 +1073,21 @@ import org.apache.commons.logging.LogFactory;
 		 * @return the file
 		 */
 		public File getFile() {
-<span class="fc" id="L1049">			return file;</span>
+<span class="fc" id="L1076">			return file;</span>
 		}
 
 		/**
 		 * @param thumbnail the files thumbnail
 		 */
 		public void setThumbnail(final Image thumbnail) {
-<span class="nc" id="L1056">			this.thumbnail = thumbnail;</span>
-<span class="nc" id="L1057">		}</span>
+<span class="nc" id="L1083">			this.thumbnail = thumbnail;</span>
+<span class="nc" id="L1084">		}</span>
 
 		/**
 		 * @return the files thumbnail, or null
 		 */
 		public Image getThumbnail() {
-<span class="nc" id="L1063">			return thumbnail;</span>
+<span class="nc" id="L1090">			return thumbnail;</span>
 		}
 
 		/**
@@ -1069,7 +1096,7 @@ import org.apache.commons.logging.LogFactory;
 		 * @return the cacheKey
 		 */
 		public String getFileCacheKey() {
-<span class="fc" id="L1072">			return fileCacheKey;</span>
+<span class="fc" id="L1099">			return fileCacheKey;</span>
 		}
 
 		/**
@@ -1078,8 +1105,8 @@ import org.apache.commons.logging.LogFactory;
 		 * @param cacheKey the cacheKey to set.
 		 */
 		public void setFileCacheKey(final String cacheKey) {
-<span class="nc" id="L1081">			this.fileCacheKey = cacheKey;</span>
-<span class="nc" id="L1082">		}</span>
+<span class="nc" id="L1108">			this.fileCacheKey = cacheKey;</span>
+<span class="nc" id="L1109">		}</span>
 
 		/**
 		 * Retrieves the cache key for the thumbnail.
@@ -1087,7 +1114,7 @@ import org.apache.commons.logging.LogFactory;
 		 * @return the cacheKey
 		 */
 		public String getThumbnailCacheKey() {
-<span class="nc" id="L1090">			return thumbnailCacheKey;</span>
+<span class="nc" id="L1117">			return thumbnailCacheKey;</span>
 		}
 
 		/**
@@ -1096,16 +1123,16 @@ import org.apache.commons.logging.LogFactory;
 		 * @param cacheKey the cacheKey to set.
 		 */
 		public void setThumbnailCacheKey(final String cacheKey) {
-<span class="nc" id="L1099">			this.thumbnailCacheKey = cacheKey;</span>
-<span class="nc" id="L1100">		}</span>
+<span class="nc" id="L1126">			this.thumbnailCacheKey = cacheKey;</span>
+<span class="nc" id="L1127">		}</span>
 
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
 		public boolean equals(final Object o) {
-<span class="pc bpc" id="L1107" title="2 of 4 branches missed.">			return (o instanceof FileWidgetUpload) &amp;&amp; Util.equals(fileId, ((FileWidgetUpload) o).</span>
-<span class="fc" id="L1108">					getFileId());</span>
+<span class="pc bpc" id="L1134" title="2 of 4 branches missed.">			return (o instanceof FileWidgetUpload) &amp;&amp; Util.equals(fileId, ((FileWidgetUpload) o).</span>
+<span class="fc" id="L1135">					getFileId());</span>
 		}
 
 		/**
@@ -1113,7 +1140,7 @@ import org.apache.commons.logging.LogFactory;
 		 */
 		@Override
 		public int hashCode() {
-<span class="nc" id="L1116">			return fileId.hashCode();</span>
+<span class="nc" id="L1143">			return fileId.hashCode();</span>
 		}
 
 	}

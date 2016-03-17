@@ -18,10 +18,12 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
- * @deprecated no longer required. Theme is now available via WServlet.
+ * @deprecated no longer required. Theme is now available via WServlet.The bordertech.wcomponents.theme.content.path
+ * parameter im wcomponents-app.properties must not be set and there must be servlet-mappings to the
+ * url-patterns &quot;/{my-mapping}&quot;  and &quot;/{my-mapping}/*&quot; where you specify the value of {my-mapping}.
  */
 @Deprecated
-<span class="fc" id="L24">public class ThemeServlet extends HttpServlet {</span>
+<span class="fc" id="L26">public class ThemeServlet extends HttpServlet {</span>
 
 	/**
 	 * {@inheritDoc}
@@ -30,8 +32,8 @@ import javax.servlet.http.HttpServletResponse;
 	protected void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws
 			ServletException,
 			IOException {
-<span class="nc" id="L33">		doGet(req, resp);</span>
-<span class="nc" id="L34">	}</span>
+<span class="nc" id="L35">		doGet(req, resp);</span>
+<span class="nc" id="L36">	}</span>
 
 	/**
 	 * Serves up a file from the theme.
@@ -45,7 +47,7 @@ import javax.servlet.http.HttpServletResponse;
 	protected void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws
 			ServletException,
 			IOException {
-<span class="fc" id="L48">		ServletUtil.handleThemeResourceRequest(req, resp);</span>
-<span class="fc" id="L49">	}</span>
+<span class="fc" id="L50">		ServletUtil.handleThemeResourceRequest(req, resp);</span>
+<span class="fc" id="L51">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

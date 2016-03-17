@@ -109,108 +109,106 @@ import java.util.List;
 <span class="fc" id="L109">			xml.appendAttribute(&quot;rowsPerPage&quot;, table.getRowsPerPage());</span>
 <span class="fc" id="L110">			xml.appendAttribute(&quot;currentPage&quot;, table.getCurrentPage());</span>
 
-<span class="pc bpc" id="L112" title="2 of 5 branches missed.">			switch (table.getPaginationMode()) {</span>
+<span class="pc bpc" id="L112" title="2 of 4 branches missed.">			switch (table.getPaginationMode()) {</span>
 				case CLIENT:
 <span class="fc" id="L114">					xml.appendAttribute(&quot;mode&quot;, &quot;client&quot;);</span>
 <span class="fc" id="L115">					break;</span>
 				case DYNAMIC:
-<span class="fc" id="L117">					xml.appendAttribute(&quot;mode&quot;, &quot;dynamic&quot;);</span>
-<span class="fc" id="L118">					break;</span>
 				case SERVER:
-<span class="fc" id="L120">					xml.appendAttribute(&quot;mode&quot;, &quot;server&quot;);</span>
-<span class="fc" id="L121">					break;</span>
+<span class="fc" id="L118">					xml.appendAttribute(&quot;mode&quot;, &quot;dynamic&quot;);</span>
+<span class="fc" id="L119">					break;</span>
 				case NONE:
-<span class="nc" id="L123">					break;</span>
+<span class="nc" id="L121">					break;</span>
 				default:
-<span class="nc" id="L125">					throw new SystemException(&quot;Unknown pagination mode: &quot; + table.</span>
-<span class="nc" id="L126">							getPaginationMode());</span>
+<span class="nc" id="L123">					throw new SystemException(&quot;Unknown pagination mode: &quot; + table.</span>
+<span class="nc" id="L124">							getPaginationMode());</span>
 			}
 
-<span class="fc" id="L129">			xml.appendEnd();</span>
+<span class="fc" id="L127">			xml.appendEnd();</span>
 		}
 
-<span class="fc bfc" id="L132" title="All 2 branches covered.">		if (table.getSelectMode() != SelectMode.NONE) {</span>
-<span class="fc bfc" id="L133" title="All 2 branches covered.">			boolean multiple = table.getSelectMode() == SelectMode.MULTIPLE;</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">		if (table.getSelectMode() != SelectMode.NONE) {</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">			boolean multiple = table.getSelectMode() == SelectMode.MULTIPLE;</span>
 
-<span class="fc" id="L135">			xml.appendTagOpen(&quot;ui:rowSelection&quot;);</span>
-<span class="fc" id="L136">			xml.appendOptionalAttribute(&quot;multiple&quot;, multiple, &quot;true&quot;);</span>
+<span class="fc" id="L133">			xml.appendTagOpen(&quot;ui:rowSelection&quot;);</span>
+<span class="fc" id="L134">			xml.appendOptionalAttribute(&quot;multiple&quot;, multiple, &quot;true&quot;);</span>
 
-<span class="fc bfc" id="L138" title="All 2 branches covered.">			if (multiple) {</span>
-<span class="pc bpc" id="L139" title="2 of 4 branches missed.">				switch (table.getSelectAllMode()) {</span>
+<span class="fc bfc" id="L136" title="All 2 branches covered.">			if (multiple) {</span>
+<span class="pc bpc" id="L137" title="2 of 4 branches missed.">				switch (table.getSelectAllMode()) {</span>
 					case CONTROL:
-<span class="fc" id="L141">						xml.appendAttribute(&quot;selectAll&quot;, &quot;control&quot;);</span>
-<span class="fc" id="L142">						break;</span>
+<span class="fc" id="L139">						xml.appendAttribute(&quot;selectAll&quot;, &quot;control&quot;);</span>
+<span class="fc" id="L140">						break;</span>
 					case TEXT:
-<span class="fc" id="L144">						xml.appendAttribute(&quot;selectAll&quot;, &quot;text&quot;);</span>
-<span class="fc" id="L145">						break;</span>
+<span class="fc" id="L142">						xml.appendAttribute(&quot;selectAll&quot;, &quot;text&quot;);</span>
+<span class="fc" id="L143">						break;</span>
 					case NONE:
-<span class="nc" id="L147">						break;</span>
+<span class="nc" id="L145">						break;</span>
 					default:
-<span class="nc" id="L149">						throw new SystemException(&quot;Unknown select-all mode: &quot; + table.</span>
-<span class="nc" id="L150">								getSelectAllMode());</span>
+<span class="nc" id="L147">						throw new SystemException(&quot;Unknown select-all mode: &quot; + table.</span>
+<span class="nc" id="L148">								getSelectAllMode());</span>
 				}
 			}
 
-<span class="fc" id="L154">			xml.appendOptionalAttribute(&quot;groupName&quot;, table.getSelectGroup());</span>
-<span class="fc" id="L155">			xml.appendOptionalAttribute(&quot;submitOnChange&quot;, table.isSubmitOnRowSelect(), &quot;true&quot;);</span>
-<span class="fc" id="L156">			xml.appendEnd();</span>
+<span class="fc" id="L152">			xml.appendOptionalAttribute(&quot;groupName&quot;, table.getSelectGroup());</span>
+<span class="fc" id="L153">			xml.appendOptionalAttribute(&quot;submitOnChange&quot;, table.isSubmitOnRowSelect(), &quot;true&quot;);</span>
+<span class="fc" id="L154">			xml.appendEnd();</span>
 		}
 
-<span class="fc bfc" id="L159" title="All 2 branches covered.">		if (table.getExpandMode() != ExpandMode.NONE) {</span>
-<span class="fc" id="L160">			xml.appendTagOpen(&quot;ui:rowExpansion&quot;);</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">		if (table.getExpandMode() != ExpandMode.NONE) {</span>
+<span class="fc" id="L158">			xml.appendTagOpen(&quot;ui:rowExpansion&quot;);</span>
 
-<span class="pc bpc" id="L162" title="2 of 6 branches missed.">			switch (table.getExpandMode()) {</span>
+<span class="pc bpc" id="L160" title="2 of 6 branches missed.">			switch (table.getExpandMode()) {</span>
 				case CLIENT:
-<span class="fc" id="L164">					xml.appendAttribute(&quot;mode&quot;, &quot;client&quot;);</span>
-<span class="fc" id="L165">					break;</span>
+<span class="fc" id="L162">					xml.appendAttribute(&quot;mode&quot;, &quot;client&quot;);</span>
+<span class="fc" id="L163">					break;</span>
 				case SERVER:
-<span class="fc" id="L167">					xml.appendAttribute(&quot;mode&quot;, &quot;server&quot;);</span>
-<span class="fc" id="L168">					break;</span>
+<span class="fc" id="L165">					xml.appendAttribute(&quot;mode&quot;, &quot;server&quot;);</span>
+<span class="fc" id="L166">					break;</span>
 				case LAZY:
-<span class="fc" id="L170">					xml.appendAttribute(&quot;mode&quot;, &quot;lazy&quot;);</span>
-<span class="fc" id="L171">					break;</span>
+<span class="fc" id="L168">					xml.appendAttribute(&quot;mode&quot;, &quot;lazy&quot;);</span>
+<span class="fc" id="L169">					break;</span>
 				case DYNAMIC:
-<span class="fc" id="L173">					xml.appendAttribute(&quot;mode&quot;, &quot;dynamic&quot;);</span>
-<span class="fc" id="L174">					break;</span>
+<span class="fc" id="L171">					xml.appendAttribute(&quot;mode&quot;, &quot;dynamic&quot;);</span>
+<span class="fc" id="L172">					break;</span>
 				case NONE:
-<span class="nc" id="L176">					break;</span>
+<span class="nc" id="L174">					break;</span>
 				default:
-<span class="nc" id="L178">					throw new SystemException(&quot;Unknown expand mode: &quot; + table.getExpandMode());</span>
+<span class="nc" id="L176">					throw new SystemException(&quot;Unknown expand mode: &quot; + table.getExpandMode());</span>
 			}
 
-<span class="fc" id="L181">			xml.appendOptionalAttribute(&quot;expandAll&quot;, table.isExpandAll(), &quot;true&quot;);</span>
+<span class="fc" id="L179">			xml.appendOptionalAttribute(&quot;expandAll&quot;, table.isExpandAll(), &quot;true&quot;);</span>
 
-<span class="fc" id="L183">			xml.appendEnd();</span>
+<span class="fc" id="L181">			xml.appendEnd();</span>
 		}
 
-<span class="fc bfc" id="L186" title="All 2 branches covered.">		if (table.isSortable()) {</span>
-<span class="fc" id="L187">			int col = table.getSortColumnIndex();</span>
-<span class="fc" id="L188">			boolean ascending = table.isSortAscending();</span>
+<span class="fc bfc" id="L184" title="All 2 branches covered.">		if (table.isSortable()) {</span>
+<span class="fc" id="L185">			int col = table.getSortColumnIndex();</span>
+<span class="fc" id="L186">			boolean ascending = table.isSortAscending();</span>
 
-<span class="fc" id="L190">			xml.appendTagOpen(&quot;ui:sort&quot;);</span>
-<span class="fc bfc" id="L191" title="All 2 branches covered.">			xml.appendOptionalAttribute(&quot;col&quot;, col &gt;= 0, col);</span>
-<span class="pc bpc" id="L192" title="1 of 4 branches missed.">			xml.appendOptionalAttribute(&quot;descending&quot;, col &gt;= 0 &amp;&amp; !ascending, &quot;true&quot;);</span>
+<span class="fc" id="L188">			xml.appendTagOpen(&quot;ui:sort&quot;);</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">			xml.appendOptionalAttribute(&quot;col&quot;, col &gt;= 0, col);</span>
+<span class="pc bpc" id="L190" title="1 of 4 branches missed.">			xml.appendOptionalAttribute(&quot;descending&quot;, col &gt;= 0 &amp;&amp; !ascending, &quot;true&quot;);</span>
 
-<span class="pc bpc" id="L194" title="1 of 3 branches missed.">			switch (table.getSortMode()) {</span>
+<span class="pc bpc" id="L192" title="1 of 3 branches missed.">			switch (table.getSortMode()) {</span>
 				case DYNAMIC:
-<span class="fc" id="L196">					xml.appendAttribute(&quot;mode&quot;, &quot;dynamic&quot;);</span>
-<span class="fc" id="L197">					break;</span>
+<span class="fc" id="L194">					xml.appendAttribute(&quot;mode&quot;, &quot;dynamic&quot;);</span>
+<span class="fc" id="L195">					break;</span>
 				case SERVER:
-<span class="fc" id="L199">					xml.appendAttribute(&quot;mode&quot;, &quot;server&quot;);</span>
-<span class="fc" id="L200">					break;</span>
+<span class="fc" id="L197">					xml.appendAttribute(&quot;mode&quot;, &quot;server&quot;);</span>
+<span class="fc" id="L198">					break;</span>
 				default:
-<span class="nc" id="L202">					throw new SystemException(&quot;Unknown sort mode: &quot; + table.getSortMode());</span>
+<span class="nc" id="L200">					throw new SystemException(&quot;Unknown sort mode: &quot; + table.getSortMode());</span>
 			}
 
-<span class="fc" id="L205">			xml.appendEnd();</span>
+<span class="fc" id="L203">			xml.appendEnd();</span>
 		}
 
-<span class="fc" id="L208">		paintColumnHeadings(table, renderContext);</span>
-<span class="fc" id="L209">		paintRows(table, renderContext);</span>
-<span class="fc" id="L210">		paintTableActions(table, renderContext);</span>
+<span class="fc" id="L206">		paintColumnHeadings(table, renderContext);</span>
+<span class="fc" id="L207">		paintRows(table, renderContext);</span>
+<span class="fc" id="L208">		paintTableActions(table, renderContext);</span>
 
-<span class="fc" id="L212">		xml.appendEndTag(&quot;ui:table&quot;);</span>
-<span class="fc" id="L213">	}</span>
+<span class="fc" id="L210">		xml.appendEndTag(&quot;ui:table&quot;);</span>
+<span class="fc" id="L211">	}</span>
 
 	/**
 	 * Paints the table actions of the table.
@@ -219,52 +217,52 @@ import java.util.List;
 	 * @param renderContext the RenderContext to paint to.
 	 */
 	private void paintTableActions(final WDataTable table, final WebXmlRenderContext renderContext) {
-<span class="fc" id="L222">		XmlStringBuilder xml = renderContext.getWriter();</span>
-<span class="fc" id="L223">		List&lt;WButton&gt; tableActions = table.getActions();</span>
+<span class="fc" id="L220">		XmlStringBuilder xml = renderContext.getWriter();</span>
+<span class="fc" id="L221">		List&lt;WButton&gt; tableActions = table.getActions();</span>
 
-<span class="fc bfc" id="L225" title="All 2 branches covered.">		if (!tableActions.isEmpty()) {</span>
-<span class="fc" id="L226">			boolean hasActions = false;</span>
+<span class="fc bfc" id="L223" title="All 2 branches covered.">		if (!tableActions.isEmpty()) {</span>
+<span class="fc" id="L224">			boolean hasActions = false;</span>
 
-<span class="fc bfc" id="L228" title="All 2 branches covered.">			for (WButton button : tableActions) {</span>
-<span class="fc bfc" id="L229" title="All 2 branches covered.">				if (!button.isVisible()) {</span>
-<span class="fc" id="L230">					continue;</span>
+<span class="fc bfc" id="L226" title="All 2 branches covered.">			for (WButton button : tableActions) {</span>
+<span class="fc bfc" id="L227" title="All 2 branches covered.">				if (!button.isVisible()) {</span>
+<span class="fc" id="L228">					continue;</span>
 				}
 
-<span class="fc bfc" id="L233" title="All 2 branches covered.">				if (!hasActions) {</span>
-<span class="fc" id="L234">					hasActions = true;</span>
-<span class="fc" id="L235">					xml.appendTag(&quot;ui:actions&quot;);</span>
+<span class="fc bfc" id="L231" title="All 2 branches covered.">				if (!hasActions) {</span>
+<span class="fc" id="L232">					hasActions = true;</span>
+<span class="fc" id="L233">					xml.appendTag(&quot;ui:actions&quot;);</span>
 				}
 
-<span class="fc" id="L238">				xml.appendTag(&quot;ui:action&quot;);</span>
+<span class="fc" id="L236">				xml.appendTag(&quot;ui:action&quot;);</span>
 
-<span class="fc" id="L240">				List&lt;WDataTable.ActionConstraint&gt; constraints = table.getActionConstraints(button);</span>
+<span class="fc" id="L238">				List&lt;WDataTable.ActionConstraint&gt; constraints = table.getActionConstraints(button);</span>
 
-<span class="fc bfc" id="L242" title="All 2 branches covered.">				if (constraints != null) {</span>
-<span class="fc bfc" id="L243" title="All 2 branches covered.">					for (WDataTable.ActionConstraint constraint : constraints) {</span>
-<span class="fc" id="L244">						int minRows = constraint.getMinSelectedRowCount();</span>
-<span class="fc" id="L245">						int maxRows = constraint.getMaxSelectedRowCount();</span>
-<span class="fc" id="L246">						String message = constraint.getMessage();</span>
-<span class="fc bfc" id="L247" title="All 2 branches covered.">						String type = constraint.isError() ? &quot;error&quot; : &quot;warning&quot;;</span>
+<span class="fc bfc" id="L240" title="All 2 branches covered.">				if (constraints != null) {</span>
+<span class="fc bfc" id="L241" title="All 2 branches covered.">					for (WDataTable.ActionConstraint constraint : constraints) {</span>
+<span class="fc" id="L242">						int minRows = constraint.getMinSelectedRowCount();</span>
+<span class="fc" id="L243">						int maxRows = constraint.getMaxSelectedRowCount();</span>
+<span class="fc" id="L244">						String message = constraint.getMessage();</span>
+<span class="fc bfc" id="L245" title="All 2 branches covered.">						String type = constraint.isError() ? &quot;error&quot; : &quot;warning&quot;;</span>
 
-<span class="fc" id="L249">						xml.appendTagOpen(&quot;ui:condition&quot;);</span>
-<span class="fc bfc" id="L250" title="All 2 branches covered.">						xml.appendOptionalAttribute(&quot;minSelectedRows&quot;, minRows &gt; 0, minRows);</span>
-<span class="pc bpc" id="L251" title="1 of 2 branches missed.">						xml.appendOptionalAttribute(&quot;maxSelectedRows&quot;, maxRows &gt; 0, maxRows);</span>
-<span class="fc" id="L252">						xml.appendAttribute(&quot;type&quot;, type);</span>
-<span class="fc" id="L253">						xml.appendAttribute(&quot;message&quot;, I18nUtilities.format(null, message));</span>
-<span class="fc" id="L254">						xml.appendEnd();</span>
-<span class="fc" id="L255">					}</span>
+<span class="fc" id="L247">						xml.appendTagOpen(&quot;ui:condition&quot;);</span>
+<span class="fc bfc" id="L248" title="All 2 branches covered.">						xml.appendOptionalAttribute(&quot;minSelectedRows&quot;, minRows &gt; 0, minRows);</span>
+<span class="pc bpc" id="L249" title="1 of 2 branches missed.">						xml.appendOptionalAttribute(&quot;maxSelectedRows&quot;, maxRows &gt; 0, maxRows);</span>
+<span class="fc" id="L250">						xml.appendAttribute(&quot;type&quot;, type);</span>
+<span class="fc" id="L251">						xml.appendAttribute(&quot;message&quot;, I18nUtilities.format(null, message));</span>
+<span class="fc" id="L252">						xml.appendEnd();</span>
+<span class="fc" id="L253">					}</span>
 				}
 
-<span class="fc" id="L258">				button.paint(renderContext);</span>
+<span class="fc" id="L256">				button.paint(renderContext);</span>
 
-<span class="fc" id="L260">				xml.appendEndTag(&quot;ui:action&quot;);</span>
-<span class="fc" id="L261">			}</span>
+<span class="fc" id="L258">				xml.appendEndTag(&quot;ui:action&quot;);</span>
+<span class="fc" id="L259">			}</span>
 
-<span class="fc bfc" id="L263" title="All 2 branches covered.">			if (hasActions) {</span>
-<span class="fc" id="L264">				xml.appendEndTag(&quot;ui:actions&quot;);</span>
+<span class="fc bfc" id="L261" title="All 2 branches covered.">			if (hasActions) {</span>
+<span class="fc" id="L262">				xml.appendEndTag(&quot;ui:actions&quot;);</span>
 			}
 		}
-<span class="fc" id="L267">	}</span>
+<span class="fc" id="L265">	}</span>
 
 	/**
 	 * Paints the rows of the table.
@@ -273,31 +271,31 @@ import java.util.List;
 	 * @param renderContext the RenderContext to paint to.
 	 */
 	private void paintRows(final WDataTable table, final WebXmlRenderContext renderContext) {
-<span class="fc" id="L276">		XmlStringBuilder xml = renderContext.getWriter();</span>
-<span class="fc" id="L277">		TableDataModel model = table.getDataModel();</span>
+<span class="fc" id="L274">		XmlStringBuilder xml = renderContext.getWriter();</span>
+<span class="fc" id="L275">		TableDataModel model = table.getDataModel();</span>
 
-<span class="fc" id="L279">		xml.appendTagOpen(&quot;ui:tbody&quot;);</span>
-<span class="fc" id="L280">		xml.appendAttribute(&quot;id&quot;, table.getRepeater().getId());</span>
-<span class="fc" id="L281">		xml.appendClose();</span>
+<span class="fc" id="L277">		xml.appendTagOpen(&quot;ui:tbody&quot;);</span>
+<span class="fc" id="L278">		xml.appendAttribute(&quot;id&quot;, table.getRepeater().getId());</span>
+<span class="fc" id="L279">		xml.appendClose();</span>
 
-<span class="fc bfc" id="L283" title="All 2 branches covered.">		if (model.getRowCount() == 0) {</span>
-<span class="fc" id="L284">			xml.appendTag(&quot;ui:noData&quot;);</span>
-<span class="fc" id="L285">			xml.appendEscaped(table.getNoDataMessage());</span>
-<span class="fc" id="L286">			xml.appendEndTag(&quot;ui:noData&quot;);</span>
+<span class="fc bfc" id="L281" title="All 2 branches covered.">		if (model.getRowCount() == 0) {</span>
+<span class="fc" id="L282">			xml.appendTag(&quot;ui:noData&quot;);</span>
+<span class="fc" id="L283">			xml.appendEscaped(table.getNoDataMessage());</span>
+<span class="fc" id="L284">			xml.appendEndTag(&quot;ui:noData&quot;);</span>
 		} else {
 			// If has at least one visible col, paint the rows.
-<span class="fc" id="L289">			final int columnCount = table.getColumnCount();</span>
+<span class="fc" id="L287">			final int columnCount = table.getColumnCount();</span>
 
-<span class="pc bpc" id="L291" title="1 of 2 branches missed.">			for (int i = 0; i &lt; columnCount; i++) {</span>
-<span class="pc bpc" id="L292" title="1 of 2 branches missed.">				if (table.getColumn(i).isVisible()) {</span>
-<span class="fc" id="L293">					doPaintRows(table, renderContext);</span>
-<span class="fc" id="L294">					break;</span>
+<span class="pc bpc" id="L289" title="1 of 2 branches missed.">			for (int i = 0; i &lt; columnCount; i++) {</span>
+<span class="pc bpc" id="L290" title="1 of 2 branches missed.">				if (table.getColumn(i).isVisible()) {</span>
+<span class="fc" id="L291">					doPaintRows(table, renderContext);</span>
+<span class="fc" id="L292">					break;</span>
 				}
 			}
 		}
 
-<span class="fc" id="L299">		xml.appendEndTag(&quot;ui:tbody&quot;);</span>
-<span class="fc" id="L300">	}</span>
+<span class="fc" id="L297">		xml.appendEndTag(&quot;ui:tbody&quot;);</span>
+<span class="fc" id="L298">	}</span>
 
 	/**
 	 * Override paintRow so that we only paint the first-level nodes for tree-tables.
@@ -306,36 +304,36 @@ import java.util.List;
 	 * @param renderContext the RenderContext to paint to.
 	 */
 	private void doPaintRows(final WDataTable table, final WebXmlRenderContext renderContext) {
-<span class="fc" id="L309">		TableDataModel model = table.getDataModel();</span>
-<span class="fc" id="L310">		WRepeater repeater = table.getRepeater();</span>
-<span class="fc" id="L311">		List&lt;?&gt; beanList = repeater.getBeanList();</span>
-<span class="fc" id="L312">		final int rowCount = beanList.size();</span>
-<span class="fc" id="L313">		WComponent row = repeater.getRepeatedComponent();</span>
+<span class="fc" id="L307">		TableDataModel model = table.getDataModel();</span>
+<span class="fc" id="L308">		WRepeater repeater = table.getRepeater();</span>
+<span class="fc" id="L309">		List&lt;?&gt; beanList = repeater.getBeanList();</span>
+<span class="fc" id="L310">		final int rowCount = beanList.size();</span>
+<span class="fc" id="L311">		WComponent row = repeater.getRepeatedComponent();</span>
 
-<span class="fc bfc" id="L315" title="All 2 branches covered.">		for (int i = 0; i &lt; rowCount; i++) {</span>
-<span class="pc bpc" id="L316" title="1 of 2 branches missed.">			if (model instanceof TreeTableDataModel) {</span>
-<span class="nc" id="L317">				Integer nodeIdx = (Integer) beanList.get(i);</span>
-<span class="nc" id="L318">				TableTreeNode node = ((TreeTableDataModel) model).getNodeAtLine(nodeIdx);</span>
+<span class="fc bfc" id="L313" title="All 2 branches covered.">		for (int i = 0; i &lt; rowCount; i++) {</span>
+<span class="pc bpc" id="L314" title="1 of 2 branches missed.">			if (model instanceof TreeTableDataModel) {</span>
+<span class="nc" id="L315">				Integer nodeIdx = (Integer) beanList.get(i);</span>
+<span class="nc" id="L316">				TableTreeNode node = ((TreeTableDataModel) model).getNodeAtLine(nodeIdx);</span>
 
-<span class="nc bnc" id="L320" title="All 2 branches missed.">				if (node.getLevel() != 1) {</span>
+<span class="nc bnc" id="L318" title="All 2 branches missed.">				if (node.getLevel() != 1) {</span>
 					// Handled by the layout, so don't paint the row.
-<span class="nc" id="L322">					continue;</span>
+<span class="nc" id="L320">					continue;</span>
 				}
 			}
 
 			// Each row has its own context. This is why we can reuse the same
 			// WComponent instance for each row.
-<span class="fc" id="L328">			UIContext rowContext = repeater.getRowContext(beanList.get(i), i);</span>
+<span class="fc" id="L326">			UIContext rowContext = repeater.getRowContext(beanList.get(i), i);</span>
 
-<span class="fc" id="L330">			UIContextHolder.pushContext(rowContext);</span>
+<span class="fc" id="L328">			UIContextHolder.pushContext(rowContext);</span>
 
 			try {
-<span class="fc" id="L333">				row.paint(renderContext);</span>
+<span class="fc" id="L331">				row.paint(renderContext);</span>
 			} finally {
-<span class="pc" id="L335">				UIContextHolder.popContext();</span>
-<span class="fc" id="L336">			}</span>
+<span class="pc" id="L333">				UIContextHolder.popContext();</span>
+<span class="fc" id="L334">			}</span>
 		}
-<span class="fc" id="L338">	}</span>
+<span class="fc" id="L336">	}</span>
 
 	/**
 	 * Paints the column headings for the given table.
@@ -344,31 +342,31 @@ import java.util.List;
 	 * @param renderContext the RenderContext to paint to.
 	 */
 	private void paintColumnHeadings(final WDataTable table, final WebXmlRenderContext renderContext) {
-<span class="fc" id="L347">		XmlStringBuilder xml = renderContext.getWriter();</span>
-<span class="fc" id="L348">		int[] columnOrder = table.getColumnOrder();</span>
-<span class="fc" id="L349">		TableDataModel model = table.getDataModel();</span>
-<span class="fc" id="L350">		final int columnCount = table.getColumnCount();</span>
+<span class="fc" id="L345">		XmlStringBuilder xml = renderContext.getWriter();</span>
+<span class="fc" id="L346">		int[] columnOrder = table.getColumnOrder();</span>
+<span class="fc" id="L347">		TableDataModel model = table.getDataModel();</span>
+<span class="fc" id="L348">		final int columnCount = table.getColumnCount();</span>
 
-<span class="fc" id="L352">		xml.appendTagOpen(&quot;ui:thead&quot;);</span>
-<span class="fc bfc" id="L353" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;hidden&quot;, !table.isShowColumnHeaders(), &quot;true&quot;);</span>
-<span class="fc" id="L354">		xml.appendClose();</span>
+<span class="fc" id="L350">		xml.appendTagOpen(&quot;ui:thead&quot;);</span>
+<span class="fc bfc" id="L351" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;hidden&quot;, !table.isShowColumnHeaders(), &quot;true&quot;);</span>
+<span class="fc" id="L352">		xml.appendClose();</span>
 
-<span class="pc bpc" id="L356" title="1 of 2 branches missed.">		if (table.isShowRowHeaders()) {</span>
-<span class="nc" id="L357">			paintColumnHeading(table.getRowHeaderColumn(), false, renderContext);</span>
+<span class="pc bpc" id="L354" title="1 of 2 branches missed.">		if (table.isShowRowHeaders()) {</span>
+<span class="nc" id="L355">			paintColumnHeading(table.getRowHeaderColumn(), false, renderContext);</span>
 		}
 
-<span class="fc bfc" id="L360" title="All 2 branches covered.">		for (int i = 0; i &lt; columnCount; i++) {</span>
-<span class="pc bpc" id="L361" title="1 of 2 branches missed.">			int colIndex = columnOrder == null ? i : columnOrder[i];</span>
-<span class="fc" id="L362">			WTableColumn col = table.getColumn(colIndex);</span>
+<span class="fc bfc" id="L358" title="All 2 branches covered.">		for (int i = 0; i &lt; columnCount; i++) {</span>
+<span class="pc bpc" id="L359" title="1 of 2 branches missed.">			int colIndex = columnOrder == null ? i : columnOrder[i];</span>
+<span class="fc" id="L360">			WTableColumn col = table.getColumn(colIndex);</span>
 
-<span class="fc bfc" id="L364" title="All 2 branches covered.">			if (col.isVisible()) {</span>
-<span class="fc" id="L365">				boolean sortable = model.isSortable(colIndex);</span>
-<span class="fc" id="L366">				paintColumnHeading(col, sortable, renderContext);</span>
+<span class="fc bfc" id="L362" title="All 2 branches covered.">			if (col.isVisible()) {</span>
+<span class="fc" id="L363">				boolean sortable = model.isSortable(colIndex);</span>
+<span class="fc" id="L364">				paintColumnHeading(col, sortable, renderContext);</span>
 			}
 		}
 
-<span class="fc" id="L370">		xml.appendEndTag(&quot;ui:thead&quot;);</span>
-<span class="fc" id="L371">	}</span>
+<span class="fc" id="L368">		xml.appendEndTag(&quot;ui:thead&quot;);</span>
+<span class="fc" id="L369">	}</span>
 
 	/**
 	 * Paints a single column heading.
@@ -379,26 +377,26 @@ import java.util.List;
 	 */
 	private void paintColumnHeading(final WTableColumn col, final boolean sortable,
 			final WebXmlRenderContext renderContext) {
-<span class="fc" id="L382">		XmlStringBuilder xml = renderContext.getWriter();</span>
-<span class="fc" id="L383">		int width = col.getWidth();</span>
-<span class="fc" id="L384">		Alignment align = col.getAlign();</span>
+<span class="fc" id="L380">		XmlStringBuilder xml = renderContext.getWriter();</span>
+<span class="fc" id="L381">		int width = col.getWidth();</span>
+<span class="fc" id="L382">		Alignment align = col.getAlign();</span>
 
-<span class="fc" id="L386">		xml.appendTagOpen(&quot;ui:th&quot;);</span>
-<span class="fc bfc" id="L387" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;width&quot;, width &gt; 0, width);</span>
-<span class="fc" id="L388">		xml.appendOptionalAttribute(&quot;sortable&quot;, sortable, &quot;true&quot;);</span>
+<span class="fc" id="L384">		xml.appendTagOpen(&quot;ui:th&quot;);</span>
+<span class="fc bfc" id="L385" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;width&quot;, width &gt; 0, width);</span>
+<span class="fc" id="L386">		xml.appendOptionalAttribute(&quot;sortable&quot;, sortable, &quot;true&quot;);</span>
 
-<span class="fc bfc" id="L390" title="All 2 branches covered.">		if (Alignment.RIGHT.equals(align)) {</span>
-<span class="fc" id="L391">			xml.appendAttribute(&quot;align&quot;, &quot;right&quot;);</span>
-<span class="fc bfc" id="L392" title="All 2 branches covered.">		} else if (Alignment.CENTER.equals(align)) {</span>
-<span class="fc" id="L393">			xml.appendAttribute(&quot;align&quot;, &quot;center&quot;);</span>
+<span class="fc bfc" id="L388" title="All 2 branches covered.">		if (Alignment.RIGHT.equals(align)) {</span>
+<span class="fc" id="L389">			xml.appendAttribute(&quot;align&quot;, &quot;right&quot;);</span>
+<span class="fc bfc" id="L390" title="All 2 branches covered.">		} else if (Alignment.CENTER.equals(align)) {</span>
+<span class="fc" id="L391">			xml.appendAttribute(&quot;align&quot;, &quot;center&quot;);</span>
 		}
 
-<span class="fc" id="L396">		xml.appendClose();</span>
+<span class="fc" id="L394">		xml.appendClose();</span>
 
-<span class="fc" id="L398">		col.paint(renderContext);</span>
+<span class="fc" id="L396">		col.paint(renderContext);</span>
 
-<span class="fc" id="L400">		xml.appendEndTag(&quot;ui:th&quot;);</span>
-<span class="fc" id="L401">	}</span>
+<span class="fc" id="L398">		xml.appendEndTag(&quot;ui:th&quot;);</span>
+<span class="fc" id="L399">	}</span>
 
 	/**
 	 * Retrieves the active filter values for the rows in the table.
@@ -407,20 +405,20 @@ import java.util.List;
 	 * @return a comma-separated list of active filters.
 	 */
 	private String getActiveFilterValues(final WDataTable table) {
-<span class="fc" id="L410">		List&lt;String&gt; filterValues = table.getActiveFilters();</span>
+<span class="fc" id="L408">		List&lt;String&gt; filterValues = table.getActiveFilters();</span>
 
-<span class="pc bpc" id="L412" title="2 of 4 branches missed.">		if (filterValues == null || filterValues.isEmpty()) {</span>
-<span class="fc" id="L413">			return null;</span>
+<span class="pc bpc" id="L410" title="2 of 4 branches missed.">		if (filterValues == null || filterValues.isEmpty()) {</span>
+<span class="fc" id="L411">			return null;</span>
 		}
 
-<span class="nc" id="L416">		StringBuffer sb = new StringBuffer(filterValues.get(0));</span>
+<span class="nc" id="L414">		StringBuffer sb = new StringBuffer(filterValues.get(0));</span>
 
-<span class="nc bnc" id="L418" title="All 2 branches missed.">		for (int i = 1; i &lt; filterValues.size(); i++) {</span>
-<span class="nc" id="L419">			sb.append(&quot;, &quot;);</span>
-<span class="nc" id="L420">			sb.append(filterValues.get(i));</span>
+<span class="nc bnc" id="L416" title="All 2 branches missed.">		for (int i = 1; i &lt; filterValues.size(); i++) {</span>
+<span class="nc" id="L417">			sb.append(&quot;, &quot;);</span>
+<span class="nc" id="L418">			sb.append(filterValues.get(i));</span>
 		}
 
-<span class="nc" id="L423">		return sb.toString();</span>
+<span class="nc" id="L421">		return sb.toString();</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

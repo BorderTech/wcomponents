@@ -129,18 +129,26 @@ public class WShuffler extends AbstractInput implements AjaxTrigger, AjaxTarget,
 	 * @return the shuffled options
 	 */
 	private List&lt;?&gt; getNewOptions(final String[] paramValues) {
-<span class="fc" id="L132">		List&lt;?&gt; oldOptions = getOptions();</span>
+		// Take a copy of the old options
+<span class="fc" id="L133">		List&lt;?&gt; copyOldOptions = new ArrayList(getOptions());</span>
 
 		// Create a new list to hold the shuffled options
-<span class="fc" id="L135">		List&lt;Object&gt; newOptions = new ArrayList&lt;&gt;(paramValues.length);</span>
+<span class="fc" id="L136">		List&lt;Object&gt; newOptions = new ArrayList&lt;&gt;(paramValues.length);</span>
 
-		// Process the array of option indexes
-<span class="fc bfc" id="L138" title="All 2 branches covered.">		for (int i = 0; i &lt; paramValues.length; i++) {</span>
-<span class="fc" id="L139">			int idx = Integer.parseInt(paramValues[i]);</span>
-<span class="fc" id="L140">			newOptions.add(oldOptions.get(idx));</span>
+		// Process the option parameters
+<span class="fc bfc" id="L139" title="All 2 branches covered.">		for (String param : paramValues) {</span>
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">			for (Object oldOption : copyOldOptions) {</span>
+				// Match the string value of the option
+<span class="fc" id="L142">				String stringOldOption = String.valueOf(oldOption);</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">				if (Util.equals(stringOldOption, param)) {</span>
+<span class="fc" id="L144">					newOptions.add(oldOption);</span>
+<span class="fc" id="L145">					copyOldOptions.remove(oldOption);</span>
+<span class="fc" id="L146">					break;</span>
+				}
+<span class="fc" id="L148">			}</span>
 		}
 
-<span class="fc" id="L143">		return newOptions;</span>
+<span class="fc" id="L151">		return newOptions;</span>
 	}
 
 	/**
@@ -148,7 +156,7 @@ public class WShuffler extends AbstractInput implements AjaxTrigger, AjaxTarget,
 	 */
 	@Override
 	protected ShufflerModel newComponentModel() {
-<span class="fc" id="L151">		return new ShufflerModel();</span>
+<span class="fc" id="L159">		return new ShufflerModel();</span>
 	}
 
 	/**
@@ -157,7 +165,7 @@ public class WShuffler extends AbstractInput implements AjaxTrigger, AjaxTarget,
 	@Override
 	// For type safety only
 	protected ShufflerModel getComponentModel() {
-<span class="fc" id="L160">		return (ShufflerModel) super.getComponentModel();</span>
+<span class="fc" id="L168">		return (ShufflerModel) super.getComponentModel();</span>
 	}
 
 	/**
@@ -166,18 +174,19 @@ public class WShuffler extends AbstractInput implements AjaxTrigger, AjaxTarget,
 	@Override
 	// For type safety only
 	protected ShufflerModel getOrCreateComponentModel() {
-<span class="fc" id="L169">		return (ShufflerModel) super.getOrCreateComponentModel();</span>
+<span class="fc" id="L177">		return (ShufflerModel) super.getOrCreateComponentModel();</span>
 	}
 
 	/**
 	 * The ShufflerModel holds the state management of the shuffler.
 	 */
-<span class="fc" id="L175">	public static class ShufflerModel extends InputModel {</span>
+<span class="fc" id="L183">	public static class ShufflerModel extends InputModel {</span>
 
 		/**
 		 * The number of visible rows to display.
 		 */
 		private int rows;
 	}
+
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

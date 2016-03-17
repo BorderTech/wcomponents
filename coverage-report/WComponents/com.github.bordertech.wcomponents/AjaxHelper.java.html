@@ -165,11 +165,11 @@ public final class AjaxHelper {
 	 */
 	static AjaxOperation registerContainer(final String triggerId, final String containerId,
 			final List&lt;String&gt; containerContentIds, final Request request) {
-<span class="fc" id="L168">		AjaxOperation operation = new AjaxOperation(triggerId, containerContentIds);</span>
-<span class="fc" id="L169">		operation.setTargetContainerId(containerId);</span>
-<span class="fc" id="L170">		registerAjaxOperation(operation, request);</span>
+<span class="nc" id="L168">		AjaxOperation operation = new AjaxOperation(triggerId, containerContentIds);</span>
+<span class="nc" id="L169">		operation.setTargetContainerId(containerId);</span>
+<span class="nc" id="L170">		registerAjaxOperation(operation, request);</span>
 
-<span class="fc" id="L172">		return operation;</span>
+<span class="nc" id="L172">		return operation;</span>
 	}
 
 	/**

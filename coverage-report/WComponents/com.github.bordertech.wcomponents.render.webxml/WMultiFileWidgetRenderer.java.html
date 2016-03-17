@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WMultiFileWidgetRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">WMultiFileWidgetRenderer.java</span></div><h1>WMultiFileWidgetRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WImageEditor;
 import com.github.bordertech.wcomponents.WMultiFileWidget;
 import com.github.bordertech.wcomponents.WMultiFileWidget.FileWidgetUpload;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
@@ -14,7 +15,7 @@ import java.util.List;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-<span class="fc" id="L17">final class WMultiFileWidgetRenderer extends AbstractWebXmlRenderer {</span>
+<span class="fc" id="L18">final class WMultiFileWidgetRenderer extends AbstractWebXmlRenderer {</span>
 
 	/**
 	 * Paints the given WMultiFileWidget.
@@ -24,48 +25,55 @@ import java.util.List;
 	 */
 	@Override
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
-<span class="fc" id="L27">		WMultiFileWidget widget = (WMultiFileWidget) component;</span>
-<span class="fc" id="L28">		XmlStringBuilder xml = renderContext.getWriter();</span>
-<span class="fc" id="L29">		long maxFileSize = widget.getMaxFileSize();</span>
-<span class="fc" id="L30">		int maxFiles = widget.getMaxFiles();</span>
-<span class="fc" id="L31">		WComponent dropzone = widget.getDropzone();</span>
+<span class="fc" id="L28">		WMultiFileWidget widget = (WMultiFileWidget) component;</span>
+<span class="fc" id="L29">		XmlStringBuilder xml = renderContext.getWriter();</span>
+<span class="fc" id="L30">		long maxFileSize = widget.getMaxFileSize();</span>
+<span class="fc" id="L31">		int maxFiles = widget.getMaxFiles();</span>
+<span class="fc" id="L32">		WComponent dropzone = widget.getDropzone();</span>
+<span class="fc" id="L33">		WImageEditor editor = widget.getEditor();</span>
 
-<span class="fc" id="L33">		xml.appendTagOpen(&quot;ui:fileUpload&quot;);</span>
-<span class="fc" id="L34">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
-<span class="fc" id="L35">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
-<span class="fc" id="L36">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
-<span class="fc" id="L37">		xml.appendOptionalAttribute(&quot;disabled&quot;, widget.isDisabled(), &quot;true&quot;);</span>
-<span class="fc" id="L38">		xml.appendOptionalAttribute(&quot;hidden&quot;, widget.isHidden(), &quot;true&quot;);</span>
-<span class="fc" id="L39">		xml.appendOptionalAttribute(&quot;required&quot;, widget.isMandatory(), &quot;true&quot;);</span>
-<span class="fc" id="L40">		xml.appendOptionalAttribute(&quot;readOnly&quot;, widget.isReadOnly(), &quot;true&quot;);</span>
-<span class="fc" id="L41">		xml.appendOptionalAttribute(&quot;tabIndex&quot;, widget.hasTabIndex(), widget.getTabIndex());</span>
-<span class="fc" id="L42">		xml.appendOptionalAttribute(&quot;toolTip&quot;, widget.getToolTip());</span>
-<span class="fc" id="L43">		xml.appendOptionalAttribute(&quot;accessibleText&quot;, widget.getAccessibleText());</span>
-<span class="fc" id="L44">		xml.appendOptionalAttribute(&quot;acceptedMimeTypes&quot;, typesToString(widget.getFileTypes()));</span>
-<span class="pc bpc" id="L45" title="1 of 2 branches missed.">		xml.appendOptionalAttribute(&quot;maxFileSize&quot;, maxFileSize &gt; 0, maxFileSize);</span>
-<span class="fc bfc" id="L46" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;maxFiles&quot;, maxFiles &gt; 0, maxFiles);</span>
-<span class="pc bpc" id="L47" title="1 of 2 branches missed.">		if (widget.getColumns() != null) {</span>
-<span class="nc" id="L48">			xml.appendAttribute(&quot;cols&quot;, widget.getColumns());</span>
+<span class="fc" id="L35">		xml.appendTagOpen(&quot;ui:fileUpload&quot;);</span>
+<span class="fc" id="L36">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
+<span class="fc" id="L37">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
+<span class="fc" id="L38">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
+<span class="fc" id="L39">		xml.appendOptionalAttribute(&quot;disabled&quot;, widget.isDisabled(), &quot;true&quot;);</span>
+<span class="fc" id="L40">		xml.appendOptionalAttribute(&quot;hidden&quot;, widget.isHidden(), &quot;true&quot;);</span>
+<span class="fc" id="L41">		xml.appendOptionalAttribute(&quot;required&quot;, widget.isMandatory(), &quot;true&quot;);</span>
+<span class="fc" id="L42">		xml.appendOptionalAttribute(&quot;readOnly&quot;, widget.isReadOnly(), &quot;true&quot;);</span>
+<span class="fc" id="L43">		xml.appendOptionalAttribute(&quot;tabIndex&quot;, widget.hasTabIndex(), widget.getTabIndex());</span>
+<span class="fc" id="L44">		xml.appendOptionalAttribute(&quot;toolTip&quot;, widget.getToolTip());</span>
+<span class="fc" id="L45">		xml.appendOptionalAttribute(&quot;accessibleText&quot;, widget.getAccessibleText());</span>
+<span class="fc" id="L46">		xml.appendOptionalAttribute(&quot;acceptedMimeTypes&quot;, typesToString(widget.getFileTypes()));</span>
+<span class="pc bpc" id="L47" title="1 of 2 branches missed.">		xml.appendOptionalAttribute(&quot;maxFileSize&quot;, maxFileSize &gt; 0, maxFileSize);</span>
+<span class="fc bfc" id="L48" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;maxFiles&quot;, maxFiles &gt; 0, maxFiles);</span>
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">		if (widget.getColumns() != null) {</span>
+<span class="nc" id="L50">			xml.appendAttribute(&quot;cols&quot;, widget.getColumns());</span>
 		}
-<span class="pc bpc" id="L50" title="1 of 2 branches missed.">		if (dropzone != null) {</span>
-<span class="nc" id="L51">			xml.appendAttribute(&quot;dropzone&quot;, dropzone.getId());</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">		if (dropzone != null) {</span>
+<span class="nc" id="L53">			xml.appendAttribute(&quot;dropzone&quot;, dropzone.getId());</span>
 		}
-<span class="pc bpc" id="L53" title="1 of 2 branches missed.">		if (widget.getFileAjaxAction() != null) {</span>
-<span class="nc" id="L54">			xml.appendAttribute(&quot;ajax&quot;, &quot;true&quot;);</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">		if (editor != null) {</span>
+<span class="nc" id="L56">			xml.appendAttribute(&quot;editor&quot;, editor.getId());</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">			if (editor.getUseCamera()) {</span>
+<span class="nc" id="L58">				xml.appendAttribute(&quot;camera&quot;, true);</span>
+			}
+		}
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">		if (widget.getFileAjaxAction() != null) {</span>
+<span class="nc" id="L62">			xml.appendAttribute(&quot;ajax&quot;, &quot;true&quot;);</span>
 		}
 
-<span class="fc bfc" id="L57" title="All 2 branches covered.">		if (widget.getFiles().isEmpty()) {</span>
-<span class="fc" id="L58">			xml.appendEnd();</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">		if (widget.getFiles().isEmpty()) {</span>
+<span class="fc" id="L66">			xml.appendEnd();</span>
 		} else {
-<span class="fc" id="L60">			xml.appendClose();</span>
+<span class="fc" id="L68">			xml.appendClose();</span>
 			// Render files
-<span class="fc" id="L62">			int i = 0;</span>
-<span class="fc bfc" id="L63" title="All 2 branches covered.">			for (FileWidgetUpload file : widget.getFiles()) {</span>
-<span class="fc" id="L64">				FileWidgetRendererUtil.renderFileElement(widget, xml, file, i++);</span>
-<span class="fc" id="L65">			}</span>
-<span class="fc" id="L66">			xml.appendEndTag(&quot;ui:fileUpload&quot;);</span>
+<span class="fc" id="L70">			int i = 0;</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">			for (FileWidgetUpload file : widget.getFiles()) {</span>
+<span class="fc" id="L72">				FileWidgetRendererUtil.renderFileElement(widget, xml, file, i++);</span>
+<span class="fc" id="L73">			}</span>
+<span class="fc" id="L74">			xml.appendEndTag(&quot;ui:fileUpload&quot;);</span>
 		}
-<span class="fc" id="L68">	}</span>
+<span class="fc" id="L76">	}</span>
 
 	/**
 	 * Flattens the list of accepted mime types into a format suitable for rendering.
@@ -74,21 +82,21 @@ import java.util.List;
 	 * @return the list of accepted mime types in a format suitable for rendering
 	 */
 	private String typesToString(final List&lt;String&gt; types) {
-<span class="pc bpc" id="L77" title="1 of 4 branches missed.">		if (types == null || types.isEmpty()) {</span>
-<span class="fc" id="L78">			return null;</span>
+<span class="pc bpc" id="L85" title="1 of 4 branches missed.">		if (types == null || types.isEmpty()) {</span>
+<span class="fc" id="L86">			return null;</span>
 		}
 
-<span class="fc" id="L81">		StringBuffer typesString = new StringBuffer();</span>
+<span class="fc" id="L89">		StringBuffer typesString = new StringBuffer();</span>
 
-<span class="fc bfc" id="L83" title="All 2 branches covered.">		for (Iterator&lt;String&gt; iter = types.iterator(); iter.hasNext();) {</span>
-<span class="fc" id="L84">			typesString.append(iter.next());</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">		for (Iterator&lt;String&gt; iter = types.iterator(); iter.hasNext();) {</span>
+<span class="fc" id="L92">			typesString.append(iter.next());</span>
 
-<span class="fc bfc" id="L86" title="All 2 branches covered.">			if (iter.hasNext()) {</span>
-<span class="fc" id="L87">				typesString.append(',');</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">			if (iter.hasNext()) {</span>
+<span class="fc" id="L95">				typesString.append(',');</span>
 			}
 		}
 
-<span class="fc" id="L91">		return typesString.toString();</span>
+<span class="fc" id="L99">		return typesString.toString();</span>
 	}
 
 }

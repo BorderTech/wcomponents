@@ -73,7 +73,7 @@
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>  				<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../../com/github/bordertech/wcomponents/util/SystemException.html">SystemException</a>(<span class="jxr_string">"Unknown menu mode: "</span> + menu.getMode());
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>  		}
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>  
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>  		<strong class="jxr_keyword">switch</strong> (menu.getSelectMode()) {
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  		<strong class="jxr_keyword">switch</strong> (menu.getSelectionMode()) {
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  			<strong class="jxr_keyword">case</strong> NONE:
 <a class="jxr_linenumber" name="L70" href="#L70">70</a>  				<strong class="jxr_keyword">break</strong>;
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>  
@@ -103,24 +103,18 @@
 <a class="jxr_linenumber" name="L95" href="#L95">95</a>  
 <a class="jxr_linenumber" name="L96" href="#L96">96</a>  		<em class="jxr_comment">// Render content if not EAGER Mode or is EAGER and is the current AJAX request</em>
 <a class="jxr_linenumber" name="L97" href="#L97">97</a>  		<strong class="jxr_keyword">if</strong> (mode != MenuMode.EAGER || AjaxHelper.isCurrentAjaxTrigger(menu)) {
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>  			<em class="jxr_comment">// Skip label, as it has already been painted</em>
-<a class="jxr_linenumber" name="L99" href="#L99">99</a>  			<strong class="jxr_keyword">int</strong> size = menu.getChildCount();
-<a class="jxr_linenumber" name="L100" href="#L100">100</a> 
-<a class="jxr_linenumber" name="L101" href="#L101">101</a> 			<em class="jxr_comment">// Visibility of children set in prepare paint</em>
-<a class="jxr_linenumber" name="L102" href="#L102">102</a> 			<strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 1; i &lt; size; i++) {
-<a class="jxr_linenumber" name="L103" href="#L103">103</a> 				WComponent child = menu.getChildAt(i);
-<a class="jxr_linenumber" name="L104" href="#L104">104</a> 				child.paint(renderContext);
-<a class="jxr_linenumber" name="L105" href="#L105">105</a> 			}
-<a class="jxr_linenumber" name="L106" href="#L106">106</a> 		}
-<a class="jxr_linenumber" name="L107" href="#L107">107</a> 
-<a class="jxr_linenumber" name="L108" href="#L108">108</a> 		xml.appendEndTag(<span class="jxr_string">"ui:content"</span>);
-<a class="jxr_linenumber" name="L109" href="#L109">109</a> 
-<a class="jxr_linenumber" name="L110" href="#L110">110</a> 		xml.appendEndTag(<span class="jxr_string">"ui:submenu"</span>);
-<a class="jxr_linenumber" name="L111" href="#L111">111</a> 	}
-<a class="jxr_linenumber" name="L112" href="#L112">112</a> 
-<a class="jxr_linenumber" name="L113" href="#L113">113</a> }
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  			<em class="jxr_comment">// Visibility of content set in prepare paint</em>
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>  			menu.paintMenuItems(renderContext);
+<a class="jxr_linenumber" name="L100" href="#L100">100</a> 		}
+<a class="jxr_linenumber" name="L101" href="#L101">101</a> 
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> 		xml.appendEndTag(<span class="jxr_string">"ui:content"</span>);
+<a class="jxr_linenumber" name="L103" href="#L103">103</a> 
+<a class="jxr_linenumber" name="L104" href="#L104">104</a> 		xml.appendEndTag(<span class="jxr_string">"ui:submenu"</span>);
+<a class="jxr_linenumber" name="L105" href="#L105">105</a> 	}
+<a class="jxr_linenumber" name="L106" href="#L106">106</a> 
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2015. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2016. All rights reserved.</div>
 </body>
 </html>

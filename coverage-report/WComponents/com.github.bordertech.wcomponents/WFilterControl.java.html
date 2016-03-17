@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WFilterControl.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WFilterControl.java</span></div><h1>WFilterControl.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
 
 /**
- * The WFilterControl lets the user filter data within another (table) component. The filtering occurs client-side,
+ * The WFilterControl lets the user filter data within a {@link WDataTable} component. The filtering occurs client-side,
  * based on text matching.
  *
  * @author Jonathan Austin
  * @since 1.0.0
+ * @deprecated {@link WDataTable} is deprecated, WFilterControl does not apply to {@link WTable} which _must_ be
+ *  filtered using AJAX if filtering is required; {@link WDataTable} filtering _should_ be done using AJAX.
  */
 public class WFilterControl extends AbstractContainer implements AjaxTarget {
 
@@ -19,14 +21,14 @@ public class WFilterControl extends AbstractContainer implements AjaxTarget {
 	 *
 	 * @param filterLabel the label for this filter control
 	 */
-<span class="fc" id="L22">	public WFilterControl(final WDecoratedLabel filterLabel) {</span>
-<span class="fc bfc" id="L23" title="All 2 branches covered.">		if (filterLabel == null) {</span>
-<span class="fc" id="L24">			throw new IllegalArgumentException(&quot;A filter label must be provided.&quot;);</span>
+<span class="fc" id="L24">	public WFilterControl(final WDecoratedLabel filterLabel) {</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">		if (filterLabel == null) {</span>
+<span class="fc" id="L26">			throw new IllegalArgumentException(&quot;A filter label must be provided.&quot;);</span>
 		}
 
-<span class="fc" id="L27">		this.filterLabel = filterLabel;</span>
-<span class="fc" id="L28">		this.add(filterLabel);</span>
-<span class="fc" id="L29">	}</span>
+<span class="fc" id="L29">		this.filterLabel = filterLabel;</span>
+<span class="fc" id="L30">		this.add(filterLabel);</span>
+<span class="fc" id="L31">	}</span>
 
 	/**
 	 * Create a WFilterControl with a label, target and value.
@@ -37,10 +39,10 @@ public class WFilterControl extends AbstractContainer implements AjaxTarget {
 	 */
 	public WFilterControl(final WDecoratedLabel filterLabel, final WComponent target,
 			final String value) {
-<span class="fc" id="L40">		this(filterLabel);</span>
-<span class="fc" id="L41">		getComponentModel().target = target;</span>
-<span class="fc" id="L42">		getComponentModel().value = value;</span>
-<span class="fc" id="L43">	}</span>
+<span class="fc" id="L42">		this(filterLabel);</span>
+<span class="fc" id="L43">		getComponentModel().target = target;</span>
+<span class="fc" id="L44">		getComponentModel().value = value;</span>
+<span class="fc" id="L45">	}</span>
 
 	/**
 	 * Override handleRequest in order to implement processing specific to this component.
@@ -49,11 +51,11 @@ public class WFilterControl extends AbstractContainer implements AjaxTarget {
 	 */
 	@Override
 	public void handleRequest(final Request request) {
-<span class="fc bfc" id="L52" title="All 2 branches covered.">		if (request.getParameter(getId()) != null) {</span>
-<span class="fc" id="L53">			boolean active = request.getParameter(getId()).equals(&quot;true&quot;);</span>
-<span class="fc" id="L54">			setActive(active);</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">		if (request.getParameter(getId()) != null) {</span>
+<span class="fc" id="L55">			boolean active = request.getParameter(getId()).equals(&quot;true&quot;);</span>
+<span class="fc" id="L56">			setActive(active);</span>
 		}
-<span class="fc" id="L56">	}</span>
+<span class="fc" id="L58">	}</span>
 
 	/**
 	 * Gets the label for filter control.
@@ -61,7 +63,7 @@ public class WFilterControl extends AbstractContainer implements AjaxTarget {
 	 * @return the label for the filter control
 	 */
 	public WDecoratedLabel getFilterLabel() {
-<span class="fc" id="L64">		return filterLabel;</span>
+<span class="fc" id="L66">		return filterLabel;</span>
 	}
 
 	/**
@@ -70,7 +72,7 @@ public class WFilterControl extends AbstractContainer implements AjaxTarget {
 	 * @return the filter target
 	 */
 	public WComponent getTarget() {
-<span class="fc" id="L73">		return getComponentModel().target;</span>
+<span class="fc" id="L75">		return getComponentModel().target;</span>
 	}
 
 	/**
@@ -79,8 +81,8 @@ public class WFilterControl extends AbstractContainer implements AjaxTarget {
 	 * @param target the filter target
 	 */
 	public void setTarget(final WComponent target) {
-<span class="fc" id="L82">		getOrCreateComponentModel().target = target;</span>
-<span class="fc" id="L83">	}</span>
+<span class="fc" id="L84">		getOrCreateComponentModel().target = target;</span>
+<span class="fc" id="L85">	}</span>
 
 	/**
 	 * Gets the default filter value.
@@ -88,7 +90,7 @@ public class WFilterControl extends AbstractContainer implements AjaxTarget {
 	 * @return the default filter value
 	 */
 	public String getValue() {
-<span class="fc" id="L91">		return getComponentModel().value;</span>
+<span class="fc" id="L93">		return getComponentModel().value;</span>
 	}
 
 	/**
@@ -97,8 +99,8 @@ public class WFilterControl extends AbstractContainer implements AjaxTarget {
 	 * @param value the filter value
 	 */
 	public void setValue(final String value) {
-<span class="fc" id="L100">		getOrCreateComponentModel().value = value;</span>
-<span class="fc" id="L101">	}</span>
+<span class="fc" id="L102">		getOrCreateComponentModel().value = value;</span>
+<span class="fc" id="L103">	}</span>
 
 	/**
 	 * Retrieves the active state for the filter.
@@ -106,7 +108,7 @@ public class WFilterControl extends AbstractContainer implements AjaxTarget {
 	 * @return true if the filter is active
 	 */
 	public boolean isActive() {
-<span class="fc" id="L109">		return getComponentModel().active;</span>
+<span class="fc" id="L111">		return getComponentModel().active;</span>
 	}
 
 	/**
@@ -115,17 +117,17 @@ public class WFilterControl extends AbstractContainer implements AjaxTarget {
 	 * @param active the state of the filter
 	 */
 	public void setActive(final boolean active) {
-<span class="fc" id="L118">		getOrCreateComponentModel().active = active;</span>
-<span class="fc" id="L119">	}</span>
+<span class="fc" id="L120">		getOrCreateComponentModel().active = active;</span>
+<span class="fc" id="L121">	}</span>
 
 	/**
 	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {
-<span class="nc" id="L126">		String text = filterLabel.getText();</span>
-<span class="nc bnc" id="L127" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
-<span class="nc" id="L128">		return toString(text, -1, -1);</span>
+<span class="nc" id="L128">		String text = filterLabel.getText();</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="nc" id="L130">		return toString(text, -1, -1);</span>
 	}
 
 	/**
@@ -133,7 +135,7 @@ public class WFilterControl extends AbstractContainer implements AjaxTarget {
 	 */
 	@Override // For type safety only
 	protected FilterControlModel getComponentModel() {
-<span class="fc" id="L136">		return (FilterControlModel) super.getComponentModel();</span>
+<span class="fc" id="L138">		return (FilterControlModel) super.getComponentModel();</span>
 	}
 
 	/**
@@ -141,7 +143,7 @@ public class WFilterControl extends AbstractContainer implements AjaxTarget {
 	 */
 	@Override // For type safety only
 	protected FilterControlModel getOrCreateComponentModel() {
-<span class="fc" id="L144">		return (FilterControlModel) super.getOrCreateComponentModel();</span>
+<span class="fc" id="L146">		return (FilterControlModel) super.getOrCreateComponentModel();</span>
 	}
 
 	/**
@@ -151,7 +153,7 @@ public class WFilterControl extends AbstractContainer implements AjaxTarget {
 	 */
 	@Override
 	protected FilterControlModel newComponentModel() {
-<span class="fc" id="L154">		return new FilterControlModel();</span>
+<span class="fc" id="L156">		return new FilterControlModel();</span>
 	}
 
 	/**
@@ -159,7 +161,7 @@ public class WFilterControl extends AbstractContainer implements AjaxTarget {
 	 *
 	 * @author Jonathan Austin
 	 */
-<span class="fc" id="L162">	public static class FilterControlModel extends ComponentModel {</span>
+<span class="fc" id="L164">	public static class FilterControlModel extends ComponentModel {</span>
 
 		/**
 		 * The target of the filter.

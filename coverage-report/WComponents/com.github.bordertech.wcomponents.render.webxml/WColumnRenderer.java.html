@@ -29,31 +29,32 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 <span class="fc" id="L29">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
 <span class="fc" id="L30">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
 <span class="fc" id="L31">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
-<span class="fc" id="L32">		xml.appendAttribute(&quot;width&quot;, col.getWidth());</span>
+<span class="fc" id="L32">		int width = col.getWidth();</span>
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">		xml.appendOptionalAttribute(&quot;width&quot;, width &gt; 0, width);</span>
 
-<span class="pc bpc" id="L34" title="1 of 4 branches missed.">		switch (col.getAlignment()) {</span>
+<span class="pc bpc" id="L35" title="1 of 4 branches missed.">		switch (col.getAlignment()) {</span>
 			case LEFT:
 				// left is assumed if omitted
-<span class="fc" id="L37">				break;</span>
+<span class="fc" id="L38">				break;</span>
 
 			case RIGHT:
-<span class="fc" id="L40">				xml.appendAttribute(&quot;align&quot;, &quot;right&quot;);</span>
-<span class="fc" id="L41">				break;</span>
+<span class="fc" id="L41">				xml.appendAttribute(&quot;align&quot;, &quot;right&quot;);</span>
+<span class="fc" id="L42">				break;</span>
 
 			case CENTER:
-<span class="fc" id="L44">				xml.appendAttribute(&quot;align&quot;, &quot;center&quot;);</span>
-<span class="fc" id="L45">				break;</span>
+<span class="fc" id="L45">				xml.appendAttribute(&quot;align&quot;, &quot;center&quot;);</span>
+<span class="fc" id="L46">				break;</span>
 
 			default:
-<span class="pc" id="L48">				throw new IllegalArgumentException(&quot;Invalid alignment: &quot; + col.getAlignment());</span>
+<span class="pc" id="L49">				throw new IllegalArgumentException(&quot;Invalid alignment: &quot; + col.getAlignment());</span>
 		}
 
-<span class="fc" id="L51">		xml.appendClose();</span>
+<span class="fc" id="L52">		xml.appendClose();</span>
 
 		// Paint column contents
-<span class="fc" id="L54">		paintChildren(col, renderContext);</span>
+<span class="fc" id="L55">		paintChildren(col, renderContext);</span>
 
-<span class="fc" id="L56">		xml.appendEndTag(&quot;ui:column&quot;);</span>
-<span class="fc" id="L57">	}</span>
+<span class="fc" id="L57">		xml.appendEndTag(&quot;ui:column&quot;);</span>
+<span class="fc" id="L58">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

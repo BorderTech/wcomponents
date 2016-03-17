@@ -23,11 +23,11 @@ under the License.
     <link>http://bordertech.github.io/wcomponents/</link>
     <description>wcomponents-parent - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2015</copyright>
+    <copyright>&#169;2016</copyright>
     <item>
-      <title>File: 510,
+      <title>File: 519,
              Errors: 0,
-             Warnings: 31,
+             Warnings: 34,
              Infos: 0
       </title>
             <link>http://bordertech.github.io/wcomponents//checkstyle.html</link>
@@ -299,6 +299,20 @@ under the License.
                           <tr>
                 <td>
                   <a href="http://bordertech.github.io/wcomponents//checkstyle.html#com.github.bordertech.wcomponents.file.File.java">com/github/bordertech/wcomponents/file/File.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://bordertech.github.io/wcomponents//checkstyle.html#com.github.bordertech.wcomponents.MenuItemGroup.java">com/github/bordertech/wcomponents/MenuItemGroup.java</a>
                 </td>
                 <td>
                   0
@@ -682,7 +696,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  1
+                  3
                 </td>
                 <td>
                   0
@@ -1138,6 +1152,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://bordertech.github.io/wcomponents//checkstyle.html#com.github.bordertech.wcomponents.render.webxml.WEditableImageRenderer.java">com/github/bordertech/wcomponents/render/webxml/WEditableImageRenderer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://bordertech.github.io/wcomponents//checkstyle.html#com.github.bordertech.wcomponents.velocity.VelocityEngineFactory.java">com/github/bordertech/wcomponents/velocity/VelocityEngineFactory.java</a>
                 </td>
                 <td>
@@ -1251,6 +1279,20 @@ under the License.
                           <tr>
                 <td>
                   <a href="http://bordertech.github.io/wcomponents//checkstyle.html#com.github.bordertech.wcomponents.WTextField.java">com/github/bordertech/wcomponents/WTextField.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://bordertech.github.io/wcomponents//checkstyle.html#com.github.bordertech.wcomponents.WEditableImage.java">com/github/bordertech/wcomponents/WEditableImage.java</a>
                 </td>
                 <td>
                   0
@@ -1545,6 +1587,20 @@ under the License.
                           <tr>
                 <td>
                   <a href="http://bordertech.github.io/wcomponents//checkstyle.html#com.github.bordertech.wcomponents.subordinate.AbstractSetVisible.java">com/github/bordertech/wcomponents/subordinate/AbstractSetVisible.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://bordertech.github.io/wcomponents//checkstyle.html#com.github.bordertech.wcomponents.MenuItem.java">com/github/bordertech/wcomponents/MenuItem.java</a>
                 </td>
                 <td>
                   0
@@ -3056,6 +3112,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://bordertech.github.io/wcomponents//checkstyle.html#com.github.bordertech.wcomponents.MenuItemSelectable.java">com/github/bordertech/wcomponents/MenuItemSelectable.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://bordertech.github.io/wcomponents//checkstyle.html#com.github.bordertech.wcomponents.BeanTableDataModel.java">com/github/bordertech/wcomponents/BeanTableDataModel.java</a>
                 </td>
                 <td>
@@ -3518,6 +3588,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://bordertech.github.io/wcomponents//checkstyle.html#com.github.bordertech.wcomponents.MenuSelectContainer.java">com/github/bordertech/wcomponents/MenuSelectContainer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://bordertech.github.io/wcomponents//checkstyle.html#com.github.bordertech.wcomponents.SelectListUtil.java">com/github/bordertech/wcomponents/SelectListUtil.java</a>
                 </td>
                 <td>
@@ -3574,6 +3658,20 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://bordertech.github.io/wcomponents//checkstyle.html#com.github.bordertech.wcomponents.render.webxml.WImageEditorRenderer.java">com/github/bordertech/wcomponents/render/webxml/WImageEditorRenderer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://bordertech.github.io/wcomponents//checkstyle.html#com.github.bordertech.wcomponents.WAjaxPollingRegion.java">com/github/bordertech/wcomponents/WAjaxPollingRegion.java</a>
                 </td>
                 <td>
@@ -3603,6 +3701,20 @@ under the License.
                           <tr>
                 <td>
                   <a href="http://bordertech.github.io/wcomponents//checkstyle.html#com.github.bordertech.wcomponents.render.webxml.WSelectToggleRenderer.java">com/github/bordertech/wcomponents/render/webxml/WSelectToggleRenderer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://bordertech.github.io/wcomponents//checkstyle.html#com.github.bordertech.wcomponents.MenuContainer.java">com/github/bordertech/wcomponents/MenuContainer.java</a>
                 </td>
                 <td>
                   0
@@ -3930,7 +4042,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  0
+                  1
                 </td>
                 <td>
                   0
@@ -4387,6 +4499,20 @@ under the License.
                           <tr>
                 <td>
                   <a href="http://bordertech.github.io/wcomponents//checkstyle.html#com.github.bordertech.wcomponents.WConfirmationButton.java">com/github/bordertech/wcomponents/WConfirmationButton.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://bordertech.github.io/wcomponents//checkstyle.html#com.github.bordertech.wcomponents.WImageEditor.java">com/github/bordertech/wcomponents/WImageEditor.java</a>
                 </td>
                 <td>
                   0

@@ -137,59 +137,68 @@
 <a class="jxr_linenumber" name="L129" href="#L129">129</a> <em class="jxr_javadoccomment">	 * @return the shuffled options</em>
 <a class="jxr_linenumber" name="L130" href="#L130">130</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L131" href="#L131">131</a> 	<strong class="jxr_keyword">private</strong> List&lt;?&gt; getNewOptions(<strong class="jxr_keyword">final</strong> String[] paramValues) {
-<a class="jxr_linenumber" name="L132" href="#L132">132</a> 		List&lt;?&gt; oldOptions = getOptions();
-<a class="jxr_linenumber" name="L133" href="#L133">133</a> 
-<a class="jxr_linenumber" name="L134" href="#L134">134</a> 		<em class="jxr_comment">// Create a new list to hold the shuffled options</em>
-<a class="jxr_linenumber" name="L135" href="#L135">135</a> 		List&lt;Object&gt; newOptions = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;(paramValues.length);
-<a class="jxr_linenumber" name="L136" href="#L136">136</a> 
-<a class="jxr_linenumber" name="L137" href="#L137">137</a> 		<em class="jxr_comment">// Process the array of option indexes</em>
-<a class="jxr_linenumber" name="L138" href="#L138">138</a> 		<strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; paramValues.length; i++) {
-<a class="jxr_linenumber" name="L139" href="#L139">139</a> 			<strong class="jxr_keyword">int</strong> idx = Integer.parseInt(paramValues[i]);
-<a class="jxr_linenumber" name="L140" href="#L140">140</a> 			newOptions.add(oldOptions.get(idx));
-<a class="jxr_linenumber" name="L141" href="#L141">141</a> 		}
-<a class="jxr_linenumber" name="L142" href="#L142">142</a> 
-<a class="jxr_linenumber" name="L143" href="#L143">143</a> 		<strong class="jxr_keyword">return</strong> newOptions;
-<a class="jxr_linenumber" name="L144" href="#L144">144</a> 	}
-<a class="jxr_linenumber" name="L145" href="#L145">145</a> 
-<a class="jxr_linenumber" name="L146" href="#L146">146</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L147" href="#L147">147</a> <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
-<a class="jxr_linenumber" name="L148" href="#L148">148</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L149" href="#L149">149</a> 	@Override
-<a class="jxr_linenumber" name="L150" href="#L150">150</a> 	<strong class="jxr_keyword">protected</strong> <a href="../../../../com/github/bordertech/wcomponents/WShuffler.html">ShufflerModel</a> newComponentModel() {
-<a class="jxr_linenumber" name="L151" href="#L151">151</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../com/github/bordertech/wcomponents/WShuffler.html">ShufflerModel</a>();
+<a class="jxr_linenumber" name="L132" href="#L132">132</a> 		<em class="jxr_comment">// Take a copy of the old options</em>
+<a class="jxr_linenumber" name="L133" href="#L133">133</a> 		List&lt;?&gt; copyOldOptions = <strong class="jxr_keyword">new</strong> ArrayList(getOptions());
+<a class="jxr_linenumber" name="L134" href="#L134">134</a> 
+<a class="jxr_linenumber" name="L135" href="#L135">135</a> 		<em class="jxr_comment">// Create a new list to hold the shuffled options</em>
+<a class="jxr_linenumber" name="L136" href="#L136">136</a> 		List&lt;Object&gt; newOptions = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;(paramValues.length);
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> 
+<a class="jxr_linenumber" name="L138" href="#L138">138</a> 		<em class="jxr_comment">// Process the option parameters</em>
+<a class="jxr_linenumber" name="L139" href="#L139">139</a> 		<strong class="jxr_keyword">for</strong> (String param : paramValues) {
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> 			<strong class="jxr_keyword">for</strong> (Object oldOption : copyOldOptions) {
+<a class="jxr_linenumber" name="L141" href="#L141">141</a> 				<em class="jxr_comment">// Match the string value of the option</em>
+<a class="jxr_linenumber" name="L142" href="#L142">142</a> 				String stringOldOption = String.valueOf(oldOption);
+<a class="jxr_linenumber" name="L143" href="#L143">143</a> 				<strong class="jxr_keyword">if</strong> (Util.equals(stringOldOption, param)) {
+<a class="jxr_linenumber" name="L144" href="#L144">144</a> 					newOptions.add(oldOption);
+<a class="jxr_linenumber" name="L145" href="#L145">145</a> 					copyOldOptions.remove(oldOption);
+<a class="jxr_linenumber" name="L146" href="#L146">146</a> 					<strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="L147" href="#L147">147</a> 				}
+<a class="jxr_linenumber" name="L148" href="#L148">148</a> 			}
+<a class="jxr_linenumber" name="L149" href="#L149">149</a> 		}
+<a class="jxr_linenumber" name="L150" href="#L150">150</a> 
+<a class="jxr_linenumber" name="L151" href="#L151">151</a> 		<strong class="jxr_keyword">return</strong> newOptions;
 <a class="jxr_linenumber" name="L152" href="#L152">152</a> 	}
 <a class="jxr_linenumber" name="L153" href="#L153">153</a> 
 <a class="jxr_linenumber" name="L154" href="#L154">154</a> 	<em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L155" href="#L155">155</a> <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
 <a class="jxr_linenumber" name="L156" href="#L156">156</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L157" href="#L157">157</a> 	@Override
-<a class="jxr_linenumber" name="L158" href="#L158">158</a> 	<em class="jxr_comment">// For type safety only</em>
-<a class="jxr_linenumber" name="L159" href="#L159">159</a> 	<strong class="jxr_keyword">protected</strong> <a href="../../../../com/github/bordertech/wcomponents/WShuffler.html">ShufflerModel</a> getComponentModel() {
-<a class="jxr_linenumber" name="L160" href="#L160">160</a> 		<strong class="jxr_keyword">return</strong> (ShufflerModel) <strong class="jxr_keyword">super</strong>.getComponentModel();
-<a class="jxr_linenumber" name="L161" href="#L161">161</a> 	}
-<a class="jxr_linenumber" name="L162" href="#L162">162</a> 
-<a class="jxr_linenumber" name="L163" href="#L163">163</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L164" href="#L164">164</a> <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
-<a class="jxr_linenumber" name="L165" href="#L165">165</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L166" href="#L166">166</a> 	@Override
-<a class="jxr_linenumber" name="L167" href="#L167">167</a> 	<em class="jxr_comment">// For type safety only</em>
-<a class="jxr_linenumber" name="L168" href="#L168">168</a> 	<strong class="jxr_keyword">protected</strong> <a href="../../../../com/github/bordertech/wcomponents/WShuffler.html">ShufflerModel</a> getOrCreateComponentModel() {
-<a class="jxr_linenumber" name="L169" href="#L169">169</a> 		<strong class="jxr_keyword">return</strong> (ShufflerModel) <strong class="jxr_keyword">super</strong>.getOrCreateComponentModel();
-<a class="jxr_linenumber" name="L170" href="#L170">170</a> 	}
-<a class="jxr_linenumber" name="L171" href="#L171">171</a> 
-<a class="jxr_linenumber" name="L172" href="#L172">172</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L173" href="#L173">173</a> <em class="jxr_javadoccomment">	 * The ShufflerModel holds the state management of the shuffler.</em>
-<a class="jxr_linenumber" name="L174" href="#L174">174</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L175" href="#L175">175</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/github/bordertech/wcomponents/WShuffler.html">ShufflerModel</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../com/github/bordertech/wcomponents/AbstractInput.html">InputModel</a> {
-<a class="jxr_linenumber" name="L176" href="#L176">176</a> 
-<a class="jxr_linenumber" name="L177" href="#L177">177</a> 		<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L178" href="#L178">178</a> <em class="jxr_javadoccomment">		 * The number of visible rows to display.</em>
-<a class="jxr_linenumber" name="L179" href="#L179">179</a> <em class="jxr_javadoccomment">		 */</em>
-<a class="jxr_linenumber" name="L180" href="#L180">180</a> 		<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> rows;
-<a class="jxr_linenumber" name="L181" href="#L181">181</a> 	}
-<a class="jxr_linenumber" name="L182" href="#L182">182</a> }
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> 	<strong class="jxr_keyword">protected</strong> <a href="../../../../com/github/bordertech/wcomponents/WShuffler.html">ShufflerModel</a> newComponentModel() {
+<a class="jxr_linenumber" name="L159" href="#L159">159</a> 		<strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../com/github/bordertech/wcomponents/WShuffler.html">ShufflerModel</a>();
+<a class="jxr_linenumber" name="L160" href="#L160">160</a> 	}
+<a class="jxr_linenumber" name="L161" href="#L161">161</a> 
+<a class="jxr_linenumber" name="L162" href="#L162">162</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L163" href="#L163">163</a> <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
+<a class="jxr_linenumber" name="L164" href="#L164">164</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L165" href="#L165">165</a> 	@Override
+<a class="jxr_linenumber" name="L166" href="#L166">166</a> 	<em class="jxr_comment">// For type safety only</em>
+<a class="jxr_linenumber" name="L167" href="#L167">167</a> 	<strong class="jxr_keyword">protected</strong> <a href="../../../../com/github/bordertech/wcomponents/WShuffler.html">ShufflerModel</a> getComponentModel() {
+<a class="jxr_linenumber" name="L168" href="#L168">168</a> 		<strong class="jxr_keyword">return</strong> (ShufflerModel) <strong class="jxr_keyword">super</strong>.getComponentModel();
+<a class="jxr_linenumber" name="L169" href="#L169">169</a> 	}
+<a class="jxr_linenumber" name="L170" href="#L170">170</a> 
+<a class="jxr_linenumber" name="L171" href="#L171">171</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L172" href="#L172">172</a> <em class="jxr_javadoccomment">	 * {@inheritDoc}</em>
+<a class="jxr_linenumber" name="L173" href="#L173">173</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L174" href="#L174">174</a> 	@Override
+<a class="jxr_linenumber" name="L175" href="#L175">175</a> 	<em class="jxr_comment">// For type safety only</em>
+<a class="jxr_linenumber" name="L176" href="#L176">176</a> 	<strong class="jxr_keyword">protected</strong> <a href="../../../../com/github/bordertech/wcomponents/WShuffler.html">ShufflerModel</a> getOrCreateComponentModel() {
+<a class="jxr_linenumber" name="L177" href="#L177">177</a> 		<strong class="jxr_keyword">return</strong> (ShufflerModel) <strong class="jxr_keyword">super</strong>.getOrCreateComponentModel();
+<a class="jxr_linenumber" name="L178" href="#L178">178</a> 	}
+<a class="jxr_linenumber" name="L179" href="#L179">179</a> 
+<a class="jxr_linenumber" name="L180" href="#L180">180</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L181" href="#L181">181</a> <em class="jxr_javadoccomment">	 * The ShufflerModel holds the state management of the shuffler.</em>
+<a class="jxr_linenumber" name="L182" href="#L182">182</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L183" href="#L183">183</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../com/github/bordertech/wcomponents/WShuffler.html">ShufflerModel</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../com/github/bordertech/wcomponents/AbstractInput.html">InputModel</a> {
+<a class="jxr_linenumber" name="L184" href="#L184">184</a> 
+<a class="jxr_linenumber" name="L185" href="#L185">185</a> 		<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L186" href="#L186">186</a> <em class="jxr_javadoccomment">		 * The number of visible rows to display.</em>
+<a class="jxr_linenumber" name="L187" href="#L187">187</a> <em class="jxr_javadoccomment">		 */</em>
+<a class="jxr_linenumber" name="L188" href="#L188">188</a> 		<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> rows;
+<a class="jxr_linenumber" name="L189" href="#L189">189</a> 	}
+<a class="jxr_linenumber" name="L190" href="#L190">190</a> 
+<a class="jxr_linenumber" name="L191" href="#L191">191</a> }
 </pre>
 <hr/>
-<div id="footer">Copyright &#169; 2015. All rights reserved.</div>
+<div id="footer">Copyright &#169; 2016. All rights reserved.</div>
 </body>
 </html>
