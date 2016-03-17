@@ -132,7 +132,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 * @param {Element} root The root element of the current menu.
 			 */
 			this._remapKeys = function(item, root) {
-				var submenu = this._getSubMenu(item),
+				var submenu = this.getSubMenu(item),
 					VK_UP = "DOM_VK_UP",
 					VK_DOWN = "DOM_VK_DOWN",
 					VK_RIGHT = "DOM_VK_RIGHT",
@@ -140,7 +140,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 					branch, grandparent;
 
 				if (submenu) {
-					if ((branch = this._getBranch(submenu)) && (grandparent = this._getSubMenu(branch))) {
+					if ((branch = this._getBranch(submenu)) && (grandparent = this.getSubMenu(branch))) {
 						// more than one level deep.
 						/* If a submenu left closes the current branch and right will
 						 * trigger the action if the item is a branch or opener but
@@ -289,7 +289,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 					branchElement = nextMenu;
 				}
 
-				Array.prototype.forEach.call(instance._getSubMenu(branchElement, true, true), instance.fixSubMenuContent);
+				Array.prototype.forEach.call(instance.getSubMenu(branchElement, true, true), instance.fixSubMenuContent);
 			}
 
 			/**

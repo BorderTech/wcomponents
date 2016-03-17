@@ -3,10 +3,6 @@
 
 .wc-menu[role='tree'] {
 	[role='treeitem'] {
-		> button {
-			padding: $wc-tree-item-pad;
-		}
-
 		&.wc-submenu:hover {
 			background-color: inherit;
 		}
@@ -17,4 +13,8 @@
 		}
 	}
 
+	[role='treeitem'] > button,
+	button[role='treeitem'] {
+		padding: $wc-tree-item-pad;
+	}
 }

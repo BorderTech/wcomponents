@@ -29,9 +29,10 @@ define(["wc/ui/menu/core",
 		"wc/dom/classList",
 		"wc/dom/formUpdateManager",
 		"wc/dom/getFilteredGroup",
-		"wc/ui/ajaxRegion"],
-	/** @param abstractMenu @param keyWalker @param shed @param Widget @param toArray  @param treeItem @param initialise @param has s @param classList @param formUpdateManager @param getFilteredGroup @param ajaxRegion @ignore */
-	function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, has, classList, formUpdateManager, getFilteredGroup, ajaxRegion) {
+		"wc/ui/ajaxRegion",
+		"wc/timers"],
+	/** @param abstractMenu @param keyWalker @param shed @param Widget @param toArray  @param treeItem @param initialise @param has s @param classList @param formUpdateManager @param getFilteredGroup @param ajaxRegion @param timers @ignore */
+	function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, has, classList, formUpdateManager, getFilteredGroup, ajaxRegion, timers) {
 		"use strict";
 
 		/**
@@ -44,7 +45,8 @@ define(["wc/ui/menu/core",
 			var SUBMENU_CONTENT,
 				DUMMY_BRANCH,
 				VOPENER,
-				LEAF_WD;
+				LEAF_WD,
+				ajaxTimer;
 
 			if (has("ie") === 8) {
 				// IE8 fails to repaint tree branch closes in a timely manner when closing if the repainter is not included explicitly.
@@ -68,8 +70,6 @@ define(["wc/ui/menu/core",
 				VOPENER = VOPENER || new Widget ("", "wc_leaf_vopener");
 				return VOPENER.findAncestor(element);
 			};
-
-
 
 			/**
 			 * The descriptors for this menu type.
@@ -102,7 +102,6 @@ define(["wc/ui/menu/core",
 				MENU: "tree",
 				LEAF: {noSelection: "treeitem"}
 			};
-
 
 			/**
 			 * A helper to do strict-ish type checking on getting a tree's root element.
@@ -560,7 +559,7 @@ define(["wc/ui/menu/core",
 			 * @returns {Boolean} true if the element is the only selected item at its level.
 			 */
 			function isLastSelectedItemAtLevel(element, root) {
-				var level = instance._getSubMenu(element) || ((root && instance.isRoot(root)) ? root : instance.getRoot(element));
+				var level = instance.getSubMenu(element) || ((root && instance.isRoot(root)) ? root : instance.getRoot(element));
 
 				return getFilteredGroup(level, {
 					itemWd: LEAF_WD
@@ -610,6 +609,17 @@ define(["wc/ui/menu/core",
 					// we are only concerned with htree here. Vertical trees are fine.
 					this.constructor.prototype.shedSubscriber.call(this, element, action);
 					return;
+				}
+
+				if (action === shed.actions.SELECT || action === shed.actions.DESELECT) {
+					if (root.getAttribute("data-wc-ajaxalias")) {
+						if (ajaxTimer) {
+							timers.clearTimeout(ajaxTimer);
+							ajaxTimer = null;
+						}
+						ajaxTimer = timers.setTimeout(ajaxRegion.requestLoad, 0, root);
+					}
+					// do not return, we have more to do.
 				}
 
 				if (this.isHTree(root) && action === shed.actions.SELECT) {
@@ -697,6 +707,17 @@ define(["wc/ui/menu/core",
 				if (action === shed.actions.DISABLE) {
 					this.hideDisableHelper(element, root);
 				}
+			};
+
+			/**
+			 * Find all submenus inside a given element.
+			 * @function
+			 * @public
+			 * @param {Element} element The start element. Should probably be a tree or treeitem.
+			 * @returns {?NodeList} a NodeList containing all submenus inside element.
+			 */
+			this.getSubMenus = function(element) {
+				return this._wd.submenu.findDescendants(element);
 			};
 		}
 

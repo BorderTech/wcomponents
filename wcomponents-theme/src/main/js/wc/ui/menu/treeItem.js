@@ -90,7 +90,7 @@ define(["wc/dom/ariaAnalog",
 			 * @returns {Boolean} true if element is the first treeitem being activated in its level of the tree.
 			 */
 			function isFirstAtLevel(element, container) {
-				var subMenu = tree._getSubMenu(element) || container,
+				var subMenu = tree.getSubMenu(element) || container,
 					selectedSiblings;
 
 				if (!subMenu) {

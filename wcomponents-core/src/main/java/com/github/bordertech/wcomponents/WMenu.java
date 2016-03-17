@@ -34,6 +34,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 		FLYOUT,
 		/**
 		 * The menu is displayed as a tree structure.
+		 * @deprecated use {@link com.github.bordertech.wcomponents.WTree}
 		 */
 		TREE,
 		/**

@@ -237,6 +237,7 @@ define(["wc/Observer",
 						break;
 					case instance.actions.IN:
 						actionMethod=replaceIn;
+						break;
 					default:
 						console.warn("Unknown action", action);
 						break;

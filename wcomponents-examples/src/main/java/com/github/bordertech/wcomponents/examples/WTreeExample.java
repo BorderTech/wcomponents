@@ -3,14 +3,20 @@ package com.github.bordertech.wcomponents.examples;
 import com.github.bordertech.wcomponents.AbstractTreeItemModel;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
+import com.github.bordertech.wcomponents.WColumn;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WFieldLayout;
+import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WLabel;
+import com.github.bordertech.wcomponents.WRow;
+import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.WTree;
 import com.github.bordertech.wcomponents.examples.table.ExampleDataUtil;
 import com.github.bordertech.wcomponents.examples.table.PersonBean;
@@ -45,14 +51,27 @@ public class WTreeExample extends WContainer {
 	private final WDropdown ddExpMode = new WDropdown();
 
 	/**
+	 * A check box to turn on AJAX trigger.
+	 */
+	private final WCheckBox cbAjaxTrigger = new WCheckBox();
+
+	/**
+	 * A WAjaxControl to show how to use WTree as a WAjaxControl trigger.
+	 */
+	private final WAjaxControl control = new WAjaxControl(tree);
+
+	/**
 	 * Construct the example.
 	 */
 	public WTreeExample() {
+
+
 		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
 		add(layout);
 		layout.setMargin(new Margin(0, 0, 12, 0));
 		layout.addField("Use HTree", cbMakeHTree);
 		layout.addField("Enable multiple selection", cbUseMultiSelect);
+		layout.addField("Enable ajax control", cbAjaxTrigger);
 
 		ddExpMode.setOptions(WTree.ExpandMode.values());
 		ddExpMode.setSelected(WTree.ExpandMode.CLIENT);
@@ -67,8 +86,31 @@ public class WTreeExample extends WContainer {
 		});
 		layout.addField((WLabel) null, btnOptions);
 
+		WRow row = new WRow();
+		add(row);
+		WColumn treeColumn = new WColumn(50);
+		WColumn targetColumn = new WColumn(50);
+		row.add(treeColumn);
+		row.add(targetColumn);
+
 		tree.setIdName("tree");
-		add(tree);
+		treeColumn.add(tree);
+
+		final WTextField target = new WTextField();
+		target.setReadOnly(true);
+		targetColumn.add(new WHeading(HeadingLevel.H2, "Selected rows."));
+		targetColumn.add(target);
+
+		control.addTarget(target);
+		control.setVisible(false); // Ajax control not enabled by default. See applyOptions.
+		add(control);
+
+		tree.setActionOnChange(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				target.setText(tree.getSelectedRows().toString());
+			}
+		});
 	}
 
 	/**
@@ -93,6 +135,8 @@ public class WTreeExample extends WContainer {
 		tree.setType(cbMakeHTree.isSelected() ? WTree.Type.HORIZONTAL : WTree.Type.VERTICAL);
 		tree.setSelectMode(cbUseMultiSelect.isSelected() ? WTree.SelectMode.MULTIPLE : WTree.SelectMode.SINGLE);
 		tree.setExpandMode((WTree.ExpandMode) ddExpMode.getSelected());
+
+		control.setVisible(cbAjaxTrigger.isSelected());
 	}
 
 	/**
