@@ -7,6 +7,12 @@
 [role='menu'] {
 	background-color: $wc-ui-color-menu-bg;
 	color: $wc-ui-color-menu-fg;
+
+	[aria-busy] {
+		// override aria-busy transparency
+		// scss-lint:disable ImportantRule
+		background-color: $wc-ui-color-menu-bg !important;
+	}
 }
 
 // selected elements
@@ -21,4 +27,10 @@
 .wc-submenu[aria-checked='true'] {
 	background-color: transparent;
 	color: inherit;
+}
+
+
+@import 'wc.ui.panel_vars'; // for the header foreground color
+[role='banner'] [role='menubar'][data-wc-menufixed] > [role='menuitem']:first-child > button::after {
+	color: $wc-ui-color-panel-header-foreground;
 }

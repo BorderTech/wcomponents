@@ -9,16 +9,10 @@
 
 	> [aria-expanded='true'] {
 		@include border;
-		box-shadow: 3px 3px 3px $wc-ui-color-shadow;
+		// box-shadow: 3px 3px 3px $wc-ui-color-shadow;
 		min-width: 100%;
 		position: absolute;
 		width: auto;
-	}
-
-	> [role='menu'][aria-busy] {
-		// override aria-busy transparency
-		// scss-lint:disable ImportantRule
-		background-color: $wc-ui-color-menu-bg !important;
 	}
 }
 

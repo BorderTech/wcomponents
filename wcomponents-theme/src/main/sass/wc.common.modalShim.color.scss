@@ -1,18 +1,9 @@
-/* wc.common.modalShim.scss */
+/* wc.common.modalShim.color.scss */
 @import 'wc.common.modalShim_vars';
 // The modal shim is a single generated artefact with a constant id.
 // TODO: maybe change this to a class rather than an ID now we do not have IE6 performance to worry about?
 // scss-lint:disable IdSelector
 #wc_shim {
-	left: 0;
-	min-height: 100%;
-	overflow: hidden;
-	position: fixed;
-	top: 0;
-	width: 100%;
-	z-index: $z-index-modal-shim;
-
-	&.wc_shim_loading { // (un)loading indicator shim
-		z-index: $z-index-unloading-shim;
-	}
+	background-color: $wc-ui-color-modal-shim;
+	color: $wc-ui-color-modal-shim-foreground;
 }

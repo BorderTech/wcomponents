@@ -6,12 +6,10 @@
 dialog {
 	@include border($width: 0); // oh chrome, you try so hard to annoy me
 	@include border-box;
-	background: transparent;
+	@include tight-box;
 	display: none;
 	height: 100%;
 	left: 0;
-	margin: 0;
-	padding: 0;
 	position: fixed;
 	top: 0;
 	width: 100%;
@@ -27,13 +25,6 @@ dialog {
 		@include padded-box;
 		height: 100%;
 		overflow: auto;
-
-		&,
-		&[aria-busy='true'] {
-			// override usual transparency of busy elements because that's just wrong with a dialog's content.
-			// scss-lint:disable ImportantRule
-			background-color: $wc-ui-color-global-bg !important;
-		}
 	}
 
 	&[open] {
@@ -52,8 +43,6 @@ dialog {
 	> footer { // top and bottom bars of dialog
 		@include flex-grow(0);
 		@include flex-shrink(0);
-		background-color: $wc-ui-color-dialog-head-bg;
-		color: $wc-ui-color-dialog-head-fg;
 
 		button:before {
 			padding: $hgap-small;
@@ -67,7 +56,6 @@ dialog {
 		> h1 { // the title
 			@include flex-grow(1);
 			@include margin($size: 0);
-			color: $wc-ui-color-dialog-head-fg;
 			font-size: 1rem;
 		}
 
@@ -77,12 +65,8 @@ dialog {
 			margin-right: $hgap-small;
 		}
 
-		.wc_btn_icon {
-			border-color: $wc-ui-color-dialog-head-fg;
-
-			+ button {
-				margin-left: $hgap-small;
-			}
+		.wc_btn_icon + button {
+			margin-left: $hgap-small;
 		}
 
 		.wc_maxcont {

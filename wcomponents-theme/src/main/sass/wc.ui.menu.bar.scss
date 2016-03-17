@@ -57,16 +57,10 @@
 	}
 }
 
-@import 'wc.ui.panel_vars'; // for the header foreground color
-
 [role='banner'] [role='menubar'][data-wc-menufixed] {
 	display: inline-block;
 
 	> [role='menuitem']:first-child > button {
 		padding: $hgap-small;
-
-		&::after {
-			color: $wc-ui-color-panel-header-foreground;
-		}
 	}
 }

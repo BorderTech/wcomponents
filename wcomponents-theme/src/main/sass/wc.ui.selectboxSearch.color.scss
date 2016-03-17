@@ -1,0 +1,11 @@
+/* wc.ui.selectboxSearch.color.scss */
+@import 'vars';
+
+.wc_selsch {
+	background-color: $wc-ui-color-highlight-bg;
+	color: $wc-ui-color-highlight-fg;
+
+	&.wc_selsch_notfound {
+		color: $wc-ui-color-error-fg;
+	}
+}

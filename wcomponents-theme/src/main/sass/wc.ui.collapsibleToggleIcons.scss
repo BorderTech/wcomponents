@@ -10,8 +10,4 @@
 	[data-wc-value='collapse']:before {
 		content: $fa-var-minus-square-o;
 	}
-
-	button + button {
-		@include margin($pos: left, $size: $hgap-normal);
-	}
 }

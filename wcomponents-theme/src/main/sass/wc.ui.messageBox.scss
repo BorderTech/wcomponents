@@ -4,11 +4,9 @@
 .wc_msgbox {
 	@include border;
 	@include flex;
-	background-color: $wc-ui-color-global-bg;
 	min-height: 0;
 
 	> h1 {
-		color: $std-color-white;
 		font-size: $msg-box-header-size;
 		font-weight: normal;
 
@@ -25,38 +23,5 @@
 		@include flex-align-self(center);
 		margin: $vgap-small 0;
 		padding-right: $hgap-small;
-	}
-
-	// message types - there can only be one type per box
-	&.error {
-		border-color: $wc-ui-color-error-fg;
-
-		> h1 {
-			background-color: $wc-ui-color-error-fg;
-		}
-	}
-
-	&.warn {
-		border-color: $wc-ui-color-warning-fg;
-
-		> h1 {
-			background-color: $wc-ui-color-warning-fg;
-		}
-	}
-
-	&.info {
-		border-color: $wc-ui-color-info-fg;
-
-		> h1 {
-			background-color: $wc-ui-color-info-fg;
-		}
-	}
-
-	&.success {
-		border-color: $wc-ui-color-success-fg;
-
-		> h1 {
-			background-color: $wc-ui-color-success-fg;
-		}
 	}
 }

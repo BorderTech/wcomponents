@@ -9,11 +9,6 @@
 		margin-left: $hgap-normal;
 		text-decoration: underline;
 
-		&[disabled] {
-			color: $wc-ui-color-disabled-fg;
-			cursor: auto;
-		}
-
 		&:first-child {
 			margin-left: 0;
 		}
