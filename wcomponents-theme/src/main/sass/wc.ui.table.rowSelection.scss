@@ -1,6 +1,6 @@
 /* wc.ui.table.rowSelection.scss */
-@import 'wc.ui.table.rowSelection_vars';
-@import 'wc.ui.menu_vars';
+@import 'wc.ui.table_vars';
+@import 'wc.ui.menu_vars'; // for the menu background color.
 
 .wc_table_sel_wrapper {
 	white-space: nowrap;
