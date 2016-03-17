@@ -31,7 +31,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WSuggestions extends AbstractWComponent implements AjaxTarget {
+public class WSuggestions extends AbstractWComponent implements AjaxInternalTrigger, AjaxTarget {
 
 	/**
 	 * The Application-wide lookup-table to use.
@@ -46,9 +46,9 @@ public class WSuggestions extends AbstractWComponent implements AjaxTarget {
 
 	/**
 	 * The way in which the suggestion is provided to and selected by the user. Defaults to BOTH and should remain as
-	 * this for combobox implementations. LIST should be used for implementations which enforce selection of an
-	 * existing value. We may want to consider INLINE in the future but I see no reason for NONE since then it would
-	 * not be a combo.
+	 * this for combobox implementations. LIST should be used for implementations which enforce selection of an existing
+	 * value. We may want to consider INLINE in the future but I see no reason for NONE since then it would not be a
+	 * combo.
 	 */
 	public enum Autocomplete {
 		/**
@@ -117,19 +117,6 @@ public class WSuggestions extends AbstractWComponent implements AjaxTarget {
 		};
 
 		invokeLater(later);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void preparePaintComponent(final Request request) {
-		UIContext uic = UIContextHolder.getCurrent();
-
-		// Register for AJAX if not using a cached list and have a refresh action.
-		if (uic.getUI() != null && getListCacheKey() == null && getRefreshAction() != null) {
-			AjaxHelper.registerComponentTargetItself(getId(), request);
-		}
 	}
 
 	/**

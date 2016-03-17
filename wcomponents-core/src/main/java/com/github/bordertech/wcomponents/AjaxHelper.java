@@ -121,20 +121,6 @@ public final class AjaxHelper {
 	}
 
 	/**
-	 * Registers a single component as being AJAX capable and target itself.
-	 *
-	 * @param triggerId the component to register. The component will be re-painted when the trigger occurs.
-	 * @param request the current request being responded to.
-	 * @return the AjaxOperation control configuration object.
-	 */
-	public static AjaxOperation registerComponentTargetItself(final String triggerId,
-			final Request request) {
-		AjaxOperation operation = new AjaxOperation(triggerId, triggerId);
-		registerAjaxOperation(operation, request);
-		return operation;
-	}
-
-	/**
 	 * This internal method is used to register an arbitrary target container. It must only used by components which
 	 * contain implicit AJAX capability.
 	 *
