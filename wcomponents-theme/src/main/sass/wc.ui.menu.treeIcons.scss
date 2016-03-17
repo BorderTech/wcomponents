@@ -1,6 +1,6 @@
 /* wc.ui.menu.tree.icon.scss */
 // tree menu branch indicators
-@import 'wc.ui.menu_vars';
+@import 'menu_vars';
 
 .wc-menu [role='treeitem'] {
 	&[aria-expanded] > button:before {

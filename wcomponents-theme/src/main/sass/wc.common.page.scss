@@ -10,9 +10,8 @@ html {
 body {
 	@include tight-box;
 	font-family: $default-font;
-	font-size: $mobile-font-size;
+	font-size: $default-font-size;
 	height: 100%; // body to fill viewport for event propagation.
-	line-height: $line-height;
 }
 
 pre {

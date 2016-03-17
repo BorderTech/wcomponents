@@ -1,7 +1,7 @@
 /* wc.ui.dialog.scss */
 // The actual dialog. Its position is set on open such that it sits in the middle of the viewport. Margin:auto only
 // works in Chrome and Webkit.
-@import 'wc.ui.dialog_vars';
+@import 'dialog_vars';
 
 dialog {
 	@include border($width: 0); // oh chrome, you try so hard to annoy me

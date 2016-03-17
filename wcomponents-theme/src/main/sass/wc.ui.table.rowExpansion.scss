@@ -1,29 +1,16 @@
 /* wc.ui.table.rowExpansion.scss */
-@import 'mixins-common';
-@import 'wc.ui.table_vars';
+@import 'table_vars';
+@import 'expand-collapse-all';
 
 .wc-rowexpansion {
-	&[role='radiogroup'] {
-		@include tight-box;
-		list-style-type: none;
+	@extend %expand-collapse-all;
 
-		@include respond(small) {
-			text-align: left;
-		}
-	}
-
-	> li {
-		display: inline-block;
-		width: auto;
-
-		+ li {
-			margin-left: $hgap-small;
-		}
-
-	}
+	// @include respond(small) {
+	// 	text-align: left;
+	// }
 }
 
-.wc-row-indent {
+.wc_rowindent  {
 	display: inline-block;
 	width: $table-hierarchic-indent;
 }

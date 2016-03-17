@@ -7,7 +7,7 @@
 	<xsl:template name="cellIndentationHelper">
 		<xsl:param name="indent" select="0"/>
 		<xsl:if test="$indent &gt; 0">
-			<span class="wc-row-indent" aria-hidden="true">&#x0a;</span>
+			<span class="wc_rowindent " aria-hidden="true">&#x0a;</span>
 			<xsl:call-template name="cellIndentationHelper">
 				<xsl:with-param name="indent" select="$indent - 1"/>
 			</xsl:call-template>

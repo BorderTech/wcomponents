@@ -1,13 +1,6 @@
 /* wc.ui.collapsibleToggleIcons.scss */
-@import 'mixins-common';
+@import 'expand-collapse-allIcons';
 
 .wc-collapsibletoggle {
-	button:before {
-		@include wc-icon($fa-var-plus-square-o);
-		@include margin($pos: right);
-	}
-
-	[data-wc-value='collapse']:before {
-		content: $fa-var-minus-square-o;
-	}
+	@extend %expand-collapse-all-icons;
 }

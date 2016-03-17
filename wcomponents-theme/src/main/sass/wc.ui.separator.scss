@@ -1,7 +1,7 @@
 /* wc.ui.separator.scss */
 
 // @import 'mixins-common';
-@import 'wc.ui.menu_vars';
+@import 'menu_vars';
 
 [role='separator'] {
 	@include margin($size: 0);

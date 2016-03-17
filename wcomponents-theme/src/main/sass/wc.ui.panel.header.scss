@@ -1,7 +1,7 @@
 /* wc.ui.panel.header.scss */
 // This contains CSS for WPanel Type.HEADER which is used to make the page header (role banner) and is most commonly
 // over-ridden.
-@import 'wc.ui.panel_vars';
+@import 'panel_vars';
 
 [role='banner'] h1 {
 	font-size: 3rem;

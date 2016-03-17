@@ -1,6 +1,6 @@
 /* wc.ui.menu.barColumn.scss */
 // for WMenu type BAR, type FLYOUT, type COLUMN
-@import 'wc.ui.menu_vars';
+@import 'menu_vars';
 
 [role='menu'] { //this role is any part of a COLUMN menu and submenus of a BAR or FLYOUT
 	> [role],

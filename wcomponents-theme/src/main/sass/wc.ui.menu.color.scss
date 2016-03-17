@@ -1,7 +1,7 @@
 /* wc.ui.menu.color.scss */
 // Colour styles common to all menus: made to ease theme overrides a little.
 // See wc.ui.menu.css for generic structure.
-@import 'wc.ui.menu_vars';
+@import 'menu_vars';
 
 [role='menubar'].bar,
 [role='menu'] {
@@ -30,7 +30,7 @@
 }
 
 
-@import 'wc.ui.panel_vars'; // for the header foreground color
+@import 'panel_vars'; // for the header foreground color
 [role='banner'] [role='menubar'][data-wc-menufixed] > [role='menuitem']:first-child > button::after {
 	color: $wc-ui-color-panel-header-foreground;
 }
