@@ -26,11 +26,6 @@
 				<xsl:number value="1"/>
 			</xsl:if>
 		</xsl:variable>
-		<xsl:variable name="noContextSubMenu">
-			<xsl:if test="$noContextMenu=1 and not($myAncestorSubmenu)">
-				<xsl:number value="1"/>
-			</xsl:if>
-		</xsl:variable>
 
 		<xsl:variable name="actionType">
 			<xsl:choose>
