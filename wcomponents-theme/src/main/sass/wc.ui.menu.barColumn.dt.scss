@@ -2,34 +2,47 @@
 // Desktop styles for WMenu type BAR, type FLYOUT, type COLUMN
 @import 'menu_vars';
 
-.wc-submenu {
-	[role^='menu'] & {
-		position: relative;
+[role='menubar'] .wc-submenu,
+.wc-menu.column {
+	position: relative;
+}
+
+.wc-submenu > [aria-expanded='true'] {
+	@include border;
+	// box-shadow: 3px 3px 3px $wc-ui-color-shadow;
+	height: auto; // override (mobile) default
+	left: 0;
+	min-width: 100%;
+	position: absolute;
+	top: 100%;
+	width: auto;
+
+	> [role] { // override (mobile) default.
+		font-size: inherit;
+	}
+}
+
+// Now for the collision detection...
+[role='menubar'] [role='menu'] {
+	&.wc_colsth { //south collision
+		left: 100%;
+
+		&.wc_coleast { //collides both south and east
+			left: auto;
+			right: 100%;
+		}
 	}
 
-	> [aria-expanded='true'] {
-		@include border;
-		// box-shadow: 3px 3px 3px $wc-ui-color-shadow;
-		min-width: 100%;
-		position: absolute;
-		width: auto;
+	&.wc_coleast.wc_colwest { //collides both east and west
+		max-width: 100%;
+	}
+
+	[role='menu'].wc_coleast.wc_colwest { //nested submenus which collide both east and west - this is a design flaw and I refuse to cater for it!
+		max-width: none;
 	}
 }
 
 [role='menu'] {
-	[role='menu'] { // nested sub-menus
-		left: 100%;
-		top: 0;
-
-		&.wc_coleast { // nested collisions
-			right: 100%;
-		}
-
-		&.wc_colwest {
-			right: 100%;
-		}
-	}
-
 	// viewport edge collisions
 	&.wc_coleast {
 		left: auto;
@@ -44,5 +57,19 @@
 	&.wc_colsth {
 		bottom: 0;
 		top: auto;
+	}
+
+	 // nested sub-menus
+	[role='menu'] {
+		left: 100%;
+		top: 0;
+
+		&.wc_coleast { // nested collisions
+			right: 100%;
+		}
+
+		&.wc_colwest {
+			right: 100%;
+		}
 	}
 }

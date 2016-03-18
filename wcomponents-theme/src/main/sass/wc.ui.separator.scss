@@ -4,7 +4,9 @@
 @import 'menu_vars';
 
 [role='separator'] {
-	@include margin($size: 0);
+	// We need the important here otherwise we have to do a LOT of overriding of roles.
+	// scss-lint:disable ImportantRule
+	margin: 0;
 	padding: 0;
 }
 
@@ -13,11 +15,11 @@
 	border-bottom: 0 none;
 	display: inline;
 
-	.flyout > & {
-		padding: $wc-ui-menu-flyout-vseparator-pad;
-	}
-
-	.bar > & {
-		padding: $wc-ui-menu-bar-vseparator-pad;
-	}
+	// .flyout > & {
+	// 	padding: $wc-ui-menu-flyout-vseparator-pad;
+	// }
+	//
+	// .bar > & {
+	// 	padding: $wc-ui-menu-bar-vseparator-pad;
+	// }
 }

@@ -1,37 +1,8 @@
 /* wc.ui.menu.bar.ff.scss */
 @import 'menu_vars';
 
-//TODO: This may be superfluous but definitely needs a clean up.
-$wc-ff-vseparator-pad-top: $wc-ui-menu-item-pad-topbottom * 2;
-
-.wc-menu[role='menubar'] {
-	> [role],
-	> [role] > .wc-decoratedlabel,
-	> .wc-submenu > button > .wc-decoratedlabel {
-		vertical-align: top; // Firefox honours inter-node whitespace even when the XSLT has indent off so this is required to make bar menus look reasonable.
-	}
-
-	> div[role] { // buttons, even with no border, no margin, no padding still occupy 2px more vertical space in FF than divs
-		padding-bottom: calc(#{$wc-ui-menu-item-pad-topbottom} + 1px);
-		padding-top: calc(#{$wc-ui-menu-item-pad-topbottom} + 1px);
-	}
-
-	> .wc-submenu > button::after {
-		position: static;
-	}
-}
-
-[role='menubar'].bar > .wc-submenu > button { //top level submenu openers
-	padding-bottom: 0;
-}
-
-.wc-submenu > [role="menu"][aria-expanded="true"] {
+.wc-submenu [role="menu"][aria-expanded="true"] {
 	// FF cannot correctly calculate the width of a container if it is absolutely positioned
 	// scss-lint:disable VendorPrefix
 	width: -moz-max-content;
-}
-
-.wc-menu [role='separator'][aria-orientation='vertical'] {
-	padding-bottom: calc(#{$wc-ff-vseparator-pad-top} + 3px); // I honestly do not know why this works but it does.
-	padding-top: 0;
 }

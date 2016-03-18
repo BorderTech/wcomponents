@@ -31,6 +31,5 @@ tr.wc_invite {
 	&[disabled],
 	&[aria-disabled='true'] {
 		background-color: $wc-ui-color-disabled-bg;
-		color: $wc-ui-color-disabled-fg;
 	}
 }
