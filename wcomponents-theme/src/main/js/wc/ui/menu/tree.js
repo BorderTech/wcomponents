@@ -587,7 +587,7 @@ define(["wc/ui/menu/core",
 						formRegion: root.id
 					};
 
-					ajaxRegion.requestLoad(element, obj);
+					ajaxRegion.requestLoad(element, obj, true);
 				}
 			};
 
