@@ -26,7 +26,7 @@
 				<xsl:apply-templates select="ui:decoratedlabel" mode="section"/>
 				<xsl:element name="div">
 					<xsl:attribute name="class">
-						<xsl:text>content</xsl:text>
+						<xsl:text>wc-content</xsl:text>
 					</xsl:attribute>
 					<xsl:apply-templates select="ui:panel"/>
 				</xsl:element>

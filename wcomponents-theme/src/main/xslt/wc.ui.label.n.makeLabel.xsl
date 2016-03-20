@@ -56,15 +56,15 @@
 
 			<xsl:choose>
 				<xsl:when test="$elementType='label'">
+					<xsl:variable name="localNameLabellable">
+						<xsl:value-of select="local-name($labelableElement)"/>
+					</xsl:variable>
 					<xsl:if test="@for and @for!=''"><!-- this is an explicit 'for' and not for implied by nesting -->
 						<xsl:attribute name="for">
 							<xsl:value-of select="@for"/>
-							<!-- special cases for dateField -->
-							<xsl:choose>
-								<xsl:when test="name($labelableElement) = 'ui:datefield'">
-									<xsl:text>${wc.ui.dateField.id.input.suffix}</xsl:text>
-								</xsl:when>
-							</xsl:choose>
+							<xsl:if test="$localNameLabellable = 'textfield' or  $localNameLabellable = 'datefield' or $localNameLabellable = 'phonenumberfield' or $localNameLabellable = 'emailfield' or $localNameLabellable = 'numberfield' or $localNameLabellable = 'passwordfield'">
+								<xsl:text>-input</xsl:text>
+							</xsl:if>
 						</xsl:attribute>
 					</xsl:if>
 				</xsl:when>
