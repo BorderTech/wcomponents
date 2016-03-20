@@ -80,7 +80,7 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:variable name="inputId">
-					<xsl:value-of select="concat($id,'${wc.ui.dateField.id.input.suffix}')"/>
+					<xsl:value-of select="concat($id,'-input')"/>
 				</xsl:variable>
 				<xsl:if test="not($myLabel)">
 					<xsl:call-template name="checkLabel">
