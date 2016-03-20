@@ -1,8 +1,0 @@
-/* wc.ui.menu.tree.color.scss */
-@import 'menu_vars';
-
-// TODO: try to work WMenu Type TREE to be more like WTree so we can get rid of this.
-.wc-menu [role='treeitem'][aria-selected='true'] {
-	background-color: $wc-ui-color-highlight-bg;
-	color: $wc-ui-color-highlight-fg;
-}
