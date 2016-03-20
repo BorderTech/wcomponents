@@ -417,8 +417,14 @@ define(["wc/ui/menu/core",
 			 * @param {Element} component The component which was brought in with AJAX.
 			 */
 			this._setMenuItemRole = function(component) {
+				var opener;
 				component.setAttribute("role", this._role.LEAF.noSelection);
 				component.removeAttribute("data-wc-selectable");
+
+				if (this._isBranch(component) && (opener = this._getBranchOpener(component))) {
+					opener.removeAttribute("role");
+					opener.removeAttribute("aria-haspopup");
+				}
 			};
 
 			/**
