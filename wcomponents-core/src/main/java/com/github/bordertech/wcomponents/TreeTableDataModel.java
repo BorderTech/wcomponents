@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.WTable.TableModel;
  *
  * <p>
  * Note that Data may be stored locally or sourced remotely, depending on the particular TableDataModel
- * implementation.<p>
+ * implementation.</p>
  *
  * <p>
  * Row and column indices for all methods are zero-based, and TableDataModels are not expected to perform

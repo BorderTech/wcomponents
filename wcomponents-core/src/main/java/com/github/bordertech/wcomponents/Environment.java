@@ -141,13 +141,7 @@ public interface Environment extends Serializable {
 
 	/**
 	 * Get the "host-free" part of the base url for this web application. Eg, if the base url is
-	 * http://localhost:8080/visas, then the "host-free" part is "/visas"
-	 * <p>
-	 * Examples of what this method may return:
-	 * </p>
-	 * <dl>
-	 * <dt>Servlet</dt><dd></dd>
-	 * </dl>
+	 * http://localhost:8080/visas, then the "host-free" part is "/visas".
 	 *
 	 * @return Get the "host-free" part of the base url for this web application.
 	 */
