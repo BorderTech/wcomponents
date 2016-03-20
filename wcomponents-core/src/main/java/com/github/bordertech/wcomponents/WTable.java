@@ -2233,7 +2233,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 	 * </p>
 	 * <p>
 	 * Note that Data may be stored locally or sourced remotely, depending on the particular TableModel implementation.
-	 * <p>
+	 * </p>
 	 * <p>
 	 * The row indexes used in the interface are a list of row indexes. Each item in the list is the index of the row
 	 * for that level. The size of the list passed in matches the depth of the row.
