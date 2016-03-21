@@ -2,17 +2,11 @@ package com.github.bordertech.wcomponents.servlet;
 
 import com.github.bordertech.wcomponents.AbstractRequest;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.util.SystemException;
 import java.io.Serializable;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.FileItem;
 
 /**
  * An implementation of {@link Request} using HttpServletRequests.
@@ -27,9 +21,6 @@ public class ServletRequest extends AbstractRequest {
 	 */
 	private final HttpServletRequest backing;
 
-	private final Map parameters = new HashMap();
-	private final Map files = new HashMap();
-
 	/**
 	 * Creates a ServletRequest.
 	 *
@@ -37,19 +28,23 @@ public class ServletRequest extends AbstractRequest {
 	 */
 	public ServletRequest(final HttpServletRequest aBacking) {
 		backing = aBacking;
-
-		// Take a copy of the parameter map now, so that we don't depend on the request being stable.
-		getParameterMap(aBacking);
+		ServletUtil.setupRequestParameters(backing);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public Map getParameters() {
-		return parameters;
+	public Map<String, String[]> getParameters() {
+		return ServletUtil.getRequestParameters(backing);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public Map getFiles() {
-		return files;
+	public Map<String, FileItem[]> getFiles() {
+		return ServletUtil.getRequestFileItems(backing);
 	}
 
 	/**
@@ -105,58 +100,6 @@ public class ServletRequest extends AbstractRequest {
 	@Override
 	public void setAppSessionAttribute(final String key, final Serializable value) {
 		setSessionAttribute(key, value);
-	}
-
-	/**
-	 * @param backingReq the backing request
-	 */
-	private void getParameterMap(final HttpServletRequest backingReq) {
-		parameters.clear();
-		files.clear();
-
-		String contentType = backingReq.getContentType();
-
-		// Can't use the HttpServletRequest.getParameterMap because it's not in Servlet 2.2
-		boolean isMultipart = (contentType != null && contentType.toLowerCase().startsWith(
-				"multipart/form-data"));
-
-		if (!isMultipart) {
-			for (Enumeration en = backingReq.getParameterNames(); en.hasMoreElements();) {
-				String key = (String) en.nextElement();
-				String[] values = backingReq.getParameterValues(key);
-
-				if (values != null) {
-					if (values.length == 1) {
-						parameters.put(key, values[0]);
-					} else {
-						parameters.put(key, values);
-					}
-				}
-			}
-		} else {
-			ServletFileUpload upload = new ServletFileUpload();
-			upload.setFileItemFactory(new DiskFileItemFactory());
-
-			try {
-				List fileItems = upload.parseRequest(backingReq);
-
-				uploadFileItems(fileItems, parameters, files);
-			} catch (FileUploadException ex) {
-				throw new SystemException(ex);
-			}
-			// Include Query String Parameters (only if parameters were not included in the form fields)
-			for (Enumeration en = backingReq.getParameterNames(); en.hasMoreElements();) {
-				String key = (String) en.nextElement();
-				String[] values = backingReq.getParameterValues(key);
-				if (values != null && !parameters.containsKey(key)) {
-					if (values.length == 1) {
-						parameters.put(key, values[0]);
-					} else {
-						parameters.put(key, values);
-					}
-				}
-			}
-		}
 	}
 
 	/**

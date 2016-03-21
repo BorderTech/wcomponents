@@ -974,13 +974,10 @@ define(["wc/has",
 		};
 
 		function shedCollapseHelper(element, root, instance) {
-			var opener,
-				group,
-				branch,
+			var group,
 				groupContainer;
 
 			if (instance._isBranch(element)) { // tree
-				opener = instance._getBranchOpener(element);
 				groupContainer = instance.getSubMenu(element, true);
 				if (groupContainer && (group = getFilteredGroup(groupContainer, {itemWd: instance._wd.leaf[0]})) && group.length) {
 					group.forEach(function(next) {
@@ -990,9 +987,6 @@ define(["wc/has",
 						shed.select(element);
 					}
 				}
-			}
-			else if (instance.isSubMenu(element) && (branch = instance._getBranch(element))) { // menus
-				opener = instance._getBranchOpener(branch);
 			}
 		}
 
@@ -1006,17 +1000,14 @@ define(["wc/has",
 		 * @param {type} root The root of the current menu.
 		 */
 		AbstractMenu.prototype.expand = function(branch, root) {
-			var opener, content, subItem;
+			var content, subItem;
 
-			if ((opener = this._getBranchOpener(branch))) {
-				content = getContent(opener);
-				if (content) {
-					if (this.isTransient(root) && !this.isMobile) {
-						doCollisionDetection(content, this);
-					}
-					if ((subItem = this.getFirstAvailableItem(content))) {
-						timers.setTimeout(this._focusItem.bind(this), 0, subItem, root);
-					}
+			if ((content = this.getSubMenu(branch, true))) {
+				if (this.isTransient(root) && !this.isMobile) {
+					doCollisionDetection(content, this);
+				}
+				if ((subItem = this.getFirstAvailableItem(content))) {
+					timers.setTimeout(this._focusItem.bind(this), 0, subItem, root);
 				}
 			}
 		};
@@ -1067,24 +1058,6 @@ define(["wc/has",
 			}
 		};
 
-		/**
-		 * Gets the content controlled by a menu.
-		 * @param {Element} opener The control that triggers a menu to "open".
-		 * @function
-		 * @private
-		 * @returns {Element} The content controlled by the menu opener if found.
-		 */
-		function getContent(opener) {
-			var content,
-				CONTENT_ATTRIB = "aria-controls",
-				contentId = opener.getAttribute(CONTENT_ATTRIB);
-			if (contentId) {
-				content = document.getElementById(contentId);
-			}
-			return content;
-		}
-
-
 		/*
 		 * Helper for shedSubscriber. Handles opening an d closing of transient menus. Since we split out tree most
 		 * menus are transient.
@@ -1100,21 +1073,22 @@ define(["wc/has",
 				openMenu = root.id;
 				instance.expand(branch, root);
 			}
-			else if (action === shed.actions.COLLAPSE && (opener = instance._getBranchOpener(branch)) && (content = getContent(opener))) {
+			else if (action === shed.actions.COLLAPSE && (content = instance.getSubMenu(branch, true))) {
 				classList.remove(content, CLASS.DEFAULT_DIRECTION);
 				classList.remove(content, CLASS.AGAINST_DEFAULT);
 				classList.remove(content, CLASS.COLLIDE_SOUTH);
 				content.style.bottom = "";
 				content.removeAttribute("style");
-
-				// if the focus point is inside the branch then refocus to the opener
-				if ((opener !== document.activeElement) && (branch.compareDocumentPosition(document.activeElement) & Node.DOCUMENT_POSITION_CONTAINED_BY)) {
-					instance._focusItem(opener, root);
-				}
-				else {
-					instance._remapKeys(opener, root);
-					// we still have to reset the tabIndex
-					setTabstop(opener, instance);
+				if ((opener = instance._getBranchOpener(branch))) {
+					// if the focus point is inside the branch then refocus to the opener
+					if ((opener !== document.activeElement) && (branch.compareDocumentPosition(document.activeElement) & Node.DOCUMENT_POSITION_CONTAINED_BY)) {
+						instance._focusItem(opener, root);
+					}
+					else {
+						instance._remapKeys(opener, root);
+						// we still have to reset the tabIndex
+						setTabstop(opener, instance);
+					}
 				}
 			}
 		}
@@ -1301,10 +1275,14 @@ define(["wc/has",
 		 *
 		 * @function
 		 * @public
-		 * @param {Element} element An element in a menu. Not used in the default implementation.
+		 * @param {Element} element An element in a menu. Not used in the default implementation but may be required by
+		 * some sub-classes.
 		 * @return {boolean} true if the current menu has transient sub-menu artefacts.
 		 */
 		AbstractMenu.prototype.isTransient = function(element) {
+			if (!element) {
+				throw new TypeError("Argument must not be null");
+			}
 			return true;
 		};
 
@@ -1319,6 +1297,9 @@ define(["wc/has",
 		 * @returns {Boolean} true if treeWalker should traverse depth-first. By default always returns false.
 		 */
 		AbstractMenu.prototype._treeWalkDepthFirst = function(element) {
+			if (!element) {
+				throw new TypeError("Argument must not be null");
+			}
 			return false;
 		};
 
@@ -1346,6 +1327,9 @@ define(["wc/has",
 		 * @returns {Boolean} true if only one branch may be open at a time.
 		 */
 		AbstractMenu.prototype._oneOpen = function(element) {
+			if (!element) {
+				throw new TypeError("Argument must not be null");
+			}
 			return true;
 		};
 
@@ -1360,11 +1344,34 @@ define(["wc/has",
 		 */
 		AbstractMenu.prototype._selectOnNavigate = false;
 
-		AbstractMenu.prototype._openOnSelect = function(root) {
+		/**
+		 * Does the menu type expect to open when a branch node is selected? This is the case for some trees but not
+		 * all.
+		 * @function
+		 * @protected
+		 * @param {Element} element Any element in the menu. Not used in the default implementation but required by TREEs
+		 * multiple modes so should always be passed to the function.
+		 * @returns {Boolean}
+		 */
+		AbstractMenu.prototype._openOnSelect = function(element) {
+			if (!element) {
+				throw new TypeError("Argument must not be null");
+			}
 			return false;
 		};
 
-		AbstractMenu.prototype.enterOnOpen = function(root) {
+		/**
+		 * Does the menu expect to focus the sub menu when it is opened?
+		 * @function
+		 * @protected
+		 * @param {Element} element Any element in the menu. Not used in the default implementation but required by TREEs
+		 * multiple modes so should always be passed to the function.
+		 * @returns {Boolean}
+		 */
+		AbstractMenu.prototype.enterOnOpen = function(element) {
+			if (!element) {
+				throw new TypeError("Argument must not be null");
+			}
 			return true;
 		};
 
@@ -1649,6 +1656,8 @@ define(["wc/has",
 
 		/**
 		 * Is a given element a menu root?
+		 * @function
+		 * @public
 		 * @param {Element} element The element to test.
 		 * @returns {Boolean} true if the element is a menu root for the current sub-class.
 		 */

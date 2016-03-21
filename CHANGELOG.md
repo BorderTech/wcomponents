@@ -4,6 +4,7 @@
 These are API changes and enhancements which _may_ have some impact on current users.
 
 * `WFilterControl` has been removed. This WComponent was originally designed as a low-quality row filter for `WDataTable`. It has been deprecated for some time. WDataTable is deprecated and slated for _imminent_ removal (though not in the next major release) (#306).
+* Handle multi part AJAX requests. Tightened up the com.github.bordertech.wcomponents.Request interface for the return type of getParameters and getFiles (#341).
 
 ## Enhancements
 For full details see [GitHub issues](https://github.com/BorderTech/wcomponents/issues?q=is%3Aissue+is%3Aclosed+label%3Aenhancement).
@@ -13,6 +14,7 @@ For full details see [GitHub issues](https://github.com/BorderTech/wcomponents/i
 
 ## Major Bug fixes
 For all bug fixes see [GitHub Issues](https://github.com/BorderTech/wcomponents/issues?q=is%3Aissue+is%3Aclosed+label%3Abug)
+* Introduced new AjaxInternalTrigger marker interface to indicate which components use AJAX to maintain their internal state (#447).
 
 ## Other
 * The schema has been updated to make all UI element names lowercase. Why is this not an API change? because the schema is not part of the API - it is an internal contract.

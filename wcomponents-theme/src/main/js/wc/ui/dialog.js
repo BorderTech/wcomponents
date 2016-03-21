@@ -45,7 +45,7 @@ define(["wc/dom/classList",
 				BASE_CLASS = "wc-dialog",
 				registry = {},
 				UNIT = "px",
-				emptyOnClose = true,
+				keepContentOnClose = false,
 				openOnLoadTimer,
 				openThisDialog,
 				GET_ATTRIB = "${wc.ui.ajax.attribute.getData}";
@@ -145,7 +145,7 @@ define(["wc/dom/classList",
 						}
 
 						if (isTrigger && _element && (trigger = ajaxRegion.getTrigger(_element, true)) && (targets = trigger.loads) && targets.length && !targets.some(_targetInsideDialog)) {
-							emptyOnClose = false;
+							keepContentOnClose = true;
 							dialogFrame.close();  // NOTE: do not set result to true or you will prevent the AJAX action!
 						}
 					}
@@ -252,10 +252,10 @@ define(["wc/dom/classList",
 						 * NOTE: clear the content and dimensions AFTER resetting all the registry settings.
 						 */
 						dialogFrame.unsetAllDimensions();
-						dialogFrame.resetContent(emptyOnClose, (emptyOnClose ? "" : regObj.id));
+						dialogFrame.resetContent(keepContentOnClose, (keepContentOnClose ? "" : regObj.id));
 					}
 					finally {
-						emptyOnClose = true;
+						keepContentOnClose = false;
 					}
 				}
 			}

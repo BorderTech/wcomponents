@@ -102,14 +102,14 @@ public class HttpServletHelper extends AbstractContainerHelper {
 		this.httpServletRequest = httpServletRequest;
 		this.httpServletResponse = httpServletResponse;
 
-		dataRequest = httpServletRequest.getParameter(WServlet.DATA_LIST_PARAM_NAME) != null;
+		Map<String, String[]> parameters = ServletUtil.getRequestParameters(httpServletRequest);
+		dataRequest = parameters.get(WServlet.DATA_LIST_PARAM_NAME) != null;
 
-		String target = httpServletRequest.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME);
+		String[] target = parameters.get(WServlet.AJAX_TRIGGER_PARAM_NAME);
 		if (target == null) {
-			target = httpServletRequest.getParameter(WServlet.TARGET_ID_PARAM_NAME);
+			target = parameters.get(WServlet.TARGET_ID_PARAM_NAME);
 		}
-
-		this.targetComponentId = target;
+		this.targetComponentId = target == null ? null : target[0];
 	}
 
 	/**

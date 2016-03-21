@@ -52,7 +52,7 @@ define(["wc/array/toArray",
 				TBL_TRIGGER = common.TD.extend("", {"role": "button"}),
 				TBL_EXPANDABLE_ROW = common.ROW.extend("", {"aria-expanded": null}),
 				TABLE = common.TABLE.extend("", {"role": "treegrid"}),
-				EXPAND_COLLAPSE_ALL = new Widget("button", "rowexpansion"),
+				EXPAND_COLLAPSE_ALL = new Widget("button", "wc_rowexpansion"),
 				BOOTSTRAPPED = "wc.ui.table.rowExpansion.bootStrapped",
 				TRUE = "true",
 				FALSE = "false";

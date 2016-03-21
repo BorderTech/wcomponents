@@ -1,0 +1,8 @@
+/* wc.ui.root.color.scss */
+@import 'mixins-common';
+
+noscript p {
+	@include border($width: 3px, $color: $wc-ui-color-error-fg);
+	background-color: $wc-ui-color-global-bg;
+	color: $wc-ui-color-global-fg;
+}

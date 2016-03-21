@@ -1,11 +1,16 @@
 /* wc.ui.menu.barColumn.icon.scss */
 // The opener iconoiography for WMenu type BAR, type FLYOUT, type COLUMN.
-@import 'wc.ui.menu_vars';
+@import 'menu_vars';
 
-.wc-submenu > button {
-	[role='menubar'] > &:after {
+.wc-submenu-o {
+	[role='menubar'] &:after {
 		@include wc-icon($fa-var-caret-down);
 		margin-left: $wc-ui-menu-bar-column-opener-indicator-before-after;
+	}
+
+	[role='menu'] &:after {
+		content: '';
+		display: none;
 	}
 
 	[role='menu'] & > .wc-decoratedlabel:after {
@@ -18,4 +23,10 @@
 .closesubmenu::before {
 	@include wc-icon($fa-var-caret-left);
 	margin-right: $hgap-normal;
+}
+
+
+
+[role='banner'] [data-wc-menufixed] > .wc-submenu > button::before {
+	@include wc-icon($fa-var-bars);
 }

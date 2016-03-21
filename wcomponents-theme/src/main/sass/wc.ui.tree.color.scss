@@ -1,0 +1,19 @@
+/* wc.ui.tree.color.scss */
+@import 'tree-vars';
+
+[role='tree'] {
+	[aria-selected='true'] {
+		&,
+		& > button {
+			background-color: $wc-ui-color-highlight-bg;
+			color: $wc-ui-color-highlight-fg;
+		}
+	}
+
+	&,
+	div[aria-selected='true'],
+	[role='group'] {
+		background-color: $wc-ui-color-global-bg;
+		color: $wc-ui-color-global-fg;
+	}
+}

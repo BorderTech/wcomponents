@@ -1,35 +1,26 @@
 /* wc.ui.menu.barColumn.scss */
 // for WMenu type BAR, type FLYOUT, type COLUMN
-@import 'wc.ui.menu_vars';
+@import 'menu_vars';
 
-[role='menu'] { //this role is any part of a COLUMN menu and submenus of a BAR or FLYOUT
-	> [role],
+[role='banner'] [data-wc-menufixed] {
+	display: inline-block;
+
 	> .wc-submenu > button {
-		padding: $wc-ui-menu-bar-column-item-pad;
-	}
-
-	&[aria-expanded='true'] {
-		z-index: $z-index-common;
-
-		dialog & {
-			z-index: $z-index-common-in-dialog;
-		}
+		padding: $hgap-small;
 	}
 }
 
-[data-wc-menufixed='true'] {
-	.wc-submenu > [role='menu'][aria-expanded='true'] {
-		@include border-box;
-		height: 100%;
-		left: 0;
-		overflow: auto;
-		position: fixed;
-		top: 0;
-		width: 100%;
+// full screen sub menus
+[role='menu'][aria-expanded='true'] {
+	@include border-box;
+	height: 100%;
+	left: 0;
+	overflow: auto;
+	position: fixed;
+	top: 0;
+	width: 100%;
 
-		> [role] {
-			font-size: 1.25rem;
-		}
+	> [role] {
+		font-size: 1.25rem;
 	}
-
 }

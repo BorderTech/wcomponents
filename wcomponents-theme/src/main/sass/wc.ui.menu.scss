@@ -1,4 +1,5 @@
 /* wc.ui.menu.scss */
+@import 'menu_vars';
 // Structural styles common to all menus.
 
 // When styling the items set sizes on elements (buttons, links) and visual styles on the role (menuitem etc) as this
@@ -12,19 +13,7 @@
 // would no longer need to submit. It is handy for other clickable/focusable/disableable goodness though.
 
 // TODO (wishful thinking): Where the WMenu type allows use the menu element in the popup mode and its label/button.
-@import 'mixins-common';
 
-// Item default styles.
-// NOTE: an item may be a WMenuItem or a WSubMenu. Remember each submenu has an item role in [role='menu'] and
-// [role='tree'].
-[role='menuitem'],
-[role='menuitemradio'],
-[role='menuitemcheckbox'],
-.wc-submenu > button {
-	@include border-box;
-	display: block;
-	width: 100%;
-}
 
 .wc-submenu,
 [role='menu'] {
@@ -33,10 +22,55 @@
 	padding: 0 !important;
 }
 
-.wc-menu {
+[role^='menu'] {
+	[role],
+	.wc-submenu-o {
+		padding: $wc-ui-menu-bar-column-item-pad;
+	}
+
 	[role='separator'] {
-		@include margin($size: 0);
 		padding: 0;
+
+		&[aria-orientation='vertical'] {
+			padding: $wc-ui-menu-bar-vseparator-pad;
+		}
+	}
+}
+
+[role='menubar'] {
+	[role],
+	.wc-decoratedlabel {
+		display: inline-block;
+		white-space: nowrap;
+	}
+}
+
+//this role is any part of a COLUMN menu and submenus of a BAR or FLYOUT
+[role='menu'] {
+	// Do not make hidden by dfault and show on aria-expanded='true' as this will hide the root of Type.COLUMN.
+	&[aria-expanded='false'] {
+		// Save some long selector overrides
+		// scss-lint:disable ImportantRule
+		display: none !important;
+	}
+
+	[role^='menu'] & {
+		white-space: nowrap;
+	}
+
+	[role],
+	.wc-submenu-o {
+		display: block;
+		width: 100%;
+	}
+
+
+	&[aria-expanded='true'] {
+		z-index: $z-index-common;
+
+		dialog & {
+			z-index: $z-index-common-in-dialog;
+		}
 	}
 
 	.wc-decoratedlabel {
@@ -57,6 +91,11 @@
 	}
 }
 
-[role='menu'][aria-expanded='false'] {
-	display: none;
+// Div menu items need explicit border box.
+[role^='menuitem'] {
+	@include border-box;
+}
+
+.flyout {
+	display: inline-block;
 }

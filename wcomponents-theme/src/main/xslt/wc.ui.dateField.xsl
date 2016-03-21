@@ -80,7 +80,7 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:variable name="inputId">
-					<xsl:value-of select="concat($id,'${wc.ui.dateField.id.input.suffix}')"/>
+					<xsl:value-of select="concat($id,'-input')"/>
 				</xsl:variable>
 				<xsl:if test="not($myLabel)">
 					<xsl:call-template name="checkLabel">
@@ -226,7 +226,7 @@
 							<xsl:copy-of select="$t"/>
 						</xsl:attribute>
 						<xsl:attribute name="class">
-							<xsl:text>wc_wdf_cal wc_btn_icon</xsl:text>
+							<xsl:text>wc_wdf_cal wc_btn_icon wc_invite</xsl:text>
 						</xsl:attribute>
 						<xsl:call-template name="hideElementIfHiddenSet"/>
 						<xsl:call-template name="disabledElement">

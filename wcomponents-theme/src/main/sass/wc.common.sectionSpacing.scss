@@ -6,7 +6,7 @@ section {
 	> h1,
 	> header h1 {
 		@include margin($size: 0);
-		font-size: 1rem;
+		font-size: 1em; // not 1 rem.
 		font-weight: normal;
 	}
 

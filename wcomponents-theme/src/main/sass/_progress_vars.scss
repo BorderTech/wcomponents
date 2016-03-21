@@ -1,0 +1,5 @@
+// Only used IE9- (no native progress bar).
+@import 'mixins-common';
+
+$wc-ui-color-progress-bg: $std-color-white;
+$wc-ui-color-progress-fg: $std-color-primary;

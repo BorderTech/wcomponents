@@ -19,7 +19,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.1.0
  */
 public class WTree extends AbstractInput
-		implements AjaxTarget, AjaxTrigger, SubordinateTrigger, SubordinateTarget,
+		implements AjaxInternalTrigger, AjaxTarget, AjaxTrigger, SubordinateTrigger, SubordinateTarget,
 		Marginable, Targetable {
 
 	/**
@@ -349,7 +349,7 @@ public class WTree extends AbstractInput
 	 * Set the row keys that are expanded.
 	 * <p>
 	 * A row key uniquely identifies each row and is determined by the {@link TreeItemModel}. Refer to
-	 * {@link TreeItemModel#getRowKey(List)}.
+	 * {@link TreeItemModel#getItemId(List)}.
 	 * </p>
 	 *
 	 * @param itemIds the keys of expanded rows.
@@ -510,9 +510,13 @@ public class WTree extends AbstractInput
 		if (isOpenItemRequest(request)) {
 			handleOpenItemRequest(request);
 		}
-		// Register for AJAX. Use IN action to replace the treeitems.
-		AjaxOperation operation = AjaxHelper.registerComponentTargetItself(getId(), request);
-		operation.setAction(AjaxOperation.AjaxAction.IN);
+
+		if (AjaxHelper.isCurrentAjaxTrigger(this)) {
+			AjaxOperation operation = AjaxHelper.getCurrentOperation();
+			if (operation.isInternalAjaxRequest()) {
+				operation.setAction(AjaxOperation.AjaxAction.IN);
+			}
+		}
 
 		// Update custom tree nodes (if needed)
 		TreeItemIdNode custom = getCustomTree();
@@ -725,7 +729,6 @@ public class WTree extends AbstractInput
 		setExpandedRows(rowIds);
 
 		setOpenRequestItemId(itemId);
-
 	}
 
 	/**

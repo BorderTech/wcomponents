@@ -1,0 +1,35 @@
+/* wc.ui.table.color.scss */
+@import 'table_vars';
+
+thead {
+	background-color: $wc-ui-color-table-head-bg;
+	color: $wc-ui-color-table-head-fg;
+}
+
+.wc_table_bottom_controls {
+	background-color: $wc-ui-color-table-foot-bg;
+	color: $wc-ui-color-table-foot-fg;
+}
+
+// differentiate the th from the td with these functional classes
+//scss-lint:disable QualifyingElement
+// Column Striping.
+// Row striping: You'd think tr:nth-child(even) would be enough. You'd be wrong - that does not account for sub rows.
+col.wc_table_stripe,
+tr.wc_table_stripe {
+	background-color: $wc-ui-color-highlight-bg-rgba;
+}
+
+tr.wc_invite {
+	&:hover,
+	&:focus {
+		background-color: $wc-ui-color-invite-bg-rgba;
+	}
+
+	// It is a pity we have to re-apply the disabled styles for WDataTable.
+	// TODO: remove this when WDataTable is dropped.
+	&[disabled],
+	&[aria-disabled='true'] {
+		background-color: $wc-ui-color-disabled-bg;
+	}
+}

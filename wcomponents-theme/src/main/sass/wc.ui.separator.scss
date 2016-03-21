@@ -1,0 +1,25 @@
+/* wc.ui.separator.scss */
+
+// @import 'mixins-common';
+@import 'menu_vars';
+
+[role='separator'] {
+	// We need the important here otherwise we have to do a LOT of overriding of roles.
+	// scss-lint:disable ImportantRule
+	margin: 0;
+	padding: 0;
+}
+
+[role='separator'][aria-orientation='vertical'] {
+	@include border($pos: left);
+	border-bottom: 0 none;
+	display: inline;
+
+	// .flyout > & {
+	// 	padding: $wc-ui-menu-flyout-vseparator-pad;
+	// }
+	//
+	// .bar > & {
+	// 	padding: $wc-ui-menu-bar-vseparator-pad;
+	// }
+}

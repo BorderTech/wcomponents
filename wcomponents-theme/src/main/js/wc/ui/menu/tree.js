@@ -106,19 +106,19 @@ define(["wc/ui/menu/core",
 			/**
 			 * A helper to do strict-ish type checking on getting a tree's root element.
 			 *
-			 * @param {Element} root The element from which to start searching for the tree root.
+			 * @param {Element} element The element from which to start searching for the tree root.
 			 * @returns {?Element} A tree root node.
 			 */
-			function getRootHelper(root) {
+			function getRootHelper(element) {
 				var _root;
 
-				if (!root) {
+				if (!element) {
 					throw new ReferenceError("Argument 'root' is required.");
 				}
 
-				_root = instance.isRoot(root) ? root : instance.getRoot(root);
+				_root = instance.isRoot(element) ? element : instance.getRoot(element);
 				if (!_root) {
-					throw new TypeError("Argument 'root' is not a tree node.");
+					throw new TypeError("Argument is not in a tree node.");
 				}
 				return _root;
 			}
@@ -131,17 +131,17 @@ define(["wc/ui/menu/core",
 			 * @function
 			 * @protected
 			 * @override
-			 * @param {Element} root A node of the tree to test. This is mandatory in this override.
+			 * @param {Element} element A node of the tree to test. This is mandatory in this override.
 			 * @returns {Boolean} true if only one branch may be open at a time.
 			 */
-			this._oneOpen = function(root) {
-				var _root = getRootHelper(root);
+			this._oneOpen = function(element) {
+				var _root = getRootHelper(element);
 
 				if (isWMenu(_root)) {
 					return false; // WMenu trees are always vertical and always multi-openable.
 				}
 
-				return this.isHTree(root);
+				return this.isHTree(_root);
 			};
 
 
@@ -151,10 +151,9 @@ define(["wc/ui/menu/core",
 			 * @function
 			 * @protected
 			 * @override
-			 * @param {Element} root A node of the tree to test. This is not used in this override.
-			 * @returns {Boolean} false for all trees.å
+			 * @returns {Boolean} false for all trees.
 			 */
-			this.enterOnOpen = function(root) {
+			this.enterOnOpen = function() {
 				return false;
 			};
 
@@ -203,10 +202,9 @@ define(["wc/ui/menu/core",
 			 *
 			 * @function
 			 * @public
-			 * @param {Element} element An element in a menu. Not used in this implementation.
 			 * @return {boolean} true if the current menu has transient sub-menu artefacts.
 			 */
-			this.isTransient = function(element) {
+			this.isTransient = function() {
 				return false;
 			};
 
@@ -419,8 +417,14 @@ define(["wc/ui/menu/core",
 			 * @param {Element} component The component which was brought in with AJAX.
 			 */
 			this._setMenuItemRole = function(component) {
+				var opener;
 				component.setAttribute("role", this._role.LEAF.noSelection);
 				component.removeAttribute("data-wc-selectable");
+
+				if (this._isBranch(component) && (opener = this._getBranchOpener(component))) {
+					opener.removeAttribute("role");
+					opener.removeAttribute("aria-haspopup");
+				}
 			};
 
 			/**
@@ -480,8 +484,7 @@ define(["wc/ui/menu/core",
 			 */
 			this.clickEvent = function($event) {
 				var target = $event.target,
-					root,
-					item;
+					root;
 				if ($event.defaultPrevented || target === window) {
 					return;
 				}
@@ -496,10 +499,8 @@ define(["wc/ui/menu/core",
 						return;
 					}
 
-					if ((item = this.getItem(target)) && !shed.isDisabled(item) && this._isBranch(item)) {
-						if (!this.isInVOpen(target)) {
-							return; // do nothing, do not prevent default, do not pass go.
-						}
+					if (!this.isInVOpen(target)) {
+						return; // do nothing, do not prevent default, do not pass go.
 					}
 				}
 				// if we get here things are odd....
@@ -577,19 +578,19 @@ define(["wc/ui/menu/core",
 					obj,
 					elId = element.id;
 
-				if (mode && mode !== 'client') {
+				if (mode && mode !== "client") {
 					obj = {
 						id: elId,
 						alias: root.id,
 						loads: [elId + "-content"],
-						oneShot: (mode === 'lazy'),
+						oneShot: (mode === "lazy"),
 						getData: "wc_tiid=" + elId,
 						serialiseForm: false,
-						method: 'get',
+						method: "get",
 						formRegion: root.id
 					};
 
-					ajaxRegion.requestLoad(element, obj);
+					ajaxRegion.requestLoad(element, obj, true);
 				}
 			};
 

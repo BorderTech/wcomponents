@@ -353,7 +353,7 @@ define(["wc/Observer",
 				while ((child = content.firstChild)) {
 					wrapper.appendChild(child);
 					if ((id = child.id)) {
-						if ((_element = document.getElementById(child.id))) {
+						if ((_element = document.getElementById(id))) {
 							result = replaceElement(_element, wrapper);
 						}
 						else {

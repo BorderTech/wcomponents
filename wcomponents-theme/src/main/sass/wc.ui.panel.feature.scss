@@ -1,8 +1,0 @@
-/* wc.ui.panel.feature.scss */
-// type FEATURE
-// 'The feature panel is highlighted by a background colour and border.'
-@import 'wc.ui.panel_vars';
-
-.feature {
-	@include padded-box($bg-color: $wc-ui-color-panel-feature-background, $color: $wc-ui-color-panel-feature-foreground);
-}

@@ -8,18 +8,18 @@
 	 The content of the tab. Wrapped in a DIV element.
 	-->
 	<xsl:template match="ui:tabcontent">
-		<xsl:param name="open"/>
-		<xsl:variable name="id">
-			<xsl:value-of select="@id"/>
+		<xsl:param name="tabset"/>
+		
+		<xsl:variable name="open">
+			<xsl:if test="../@open">
+				<xsl:number value="1"/>
+			</xsl:if>
 		</xsl:variable>
+		
 		<xsl:variable name="mode" select="../@mode"/>
-		<xsl:element name="div">
-			<xsl:attribute name="id">
-				<xsl:value-of select="$id"/>
-			</xsl:attribute>
-			<xsl:attribute name="role">
-				<xsl:text>tabpanel</xsl:text>
-			</xsl:attribute>
+		<xsl:variable name="contentHeight" select="$tabset/@contentHeight"/>
+		
+		<div id="{@id}" role="tabpanel">
 			<xsl:attribute name="class">
 				<xsl:text>wc-tabcontent</xsl:text>
 				<xsl:if test="$mode='server'">
@@ -39,27 +39,32 @@
 					</xsl:when>
 				</xsl:choose>
 			</xsl:attribute>
+
 			<xsl:if test="$open!=1">
 				<xsl:call-template name="hiddenElement"/>
 			</xsl:if>
+
 			<xsl:if test="($mode='lazy') or ($mode='eager') or ($mode='dynamic')">
 				<xsl:attribute name="data-wc-ajaxalias">
 					<xsl:value-of select="../@id"/>
 				</xsl:attribute>
 			</xsl:if>
+
 			<xsl:call-template name="setARIALive"/>
-			<xsl:variable name="contentHeight" select="ancestor::ui:tabset[1]/@contentHeight"/>
+
+			<xsl:if test="../@disabled or $tabset/@disabled">
+				<xsl:attribute name="aria-disabled">
+					<xsl:copy-of select="$t"/>
+				</xsl:attribute>
+			</xsl:if>
+
 			<xsl:if test="$contentHeight and $contentHeight!=''">
 				<xsl:attribute name="style">
 					<xsl:value-of select="concat('height:',$contentHeight,';overflow-y:auto;')"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="../@disabled or ancestor::ui:tabset[1]/@disabled">
-				<xsl:attribute name="aria-disabled">
-					<xsl:copy-of select="$t"/>
-				</xsl:attribute>
-			</xsl:if>
+
 			<xsl:apply-templates/>
-		</xsl:element>
+		</div>
 	</xsl:template>
 </xsl:stylesheet>

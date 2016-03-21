@@ -13,7 +13,7 @@ package com.github.bordertech.wcomponents;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WSection extends AbstractNamingContextContainer implements AjaxTarget,
+public class WSection extends AbstractNamingContextContainer implements AjaxInternalTrigger, AjaxTarget,
 		SubordinateTarget, Marginable, DropZone {
 
 	/**
@@ -124,24 +124,6 @@ public class WSection extends AbstractNamingContextContainer implements AjaxTarg
 	@Override
 	public Margin getMargin() {
 		return getComponentModel().margin;
-	}
-
-	/**
-	 * Override preparePaintComponent in order to toggle the visibility of the content, or to register the appropriate
-	 * ajax operation.
-	 *
-	 * @param request the request being responded to
-	 */
-	@Override
-	protected void preparePaintComponent(final Request request) {
-		super.preparePaintComponent(request);
-
-		UIContext uic = UIContextHolder.getCurrent();
-
-		// Register section for AJAX
-		if (uic.getUI() != null && getMode() != null) {
-			AjaxHelper.registerComponentTargetItself(getId(), request);
-		}
 	}
 
 	/**

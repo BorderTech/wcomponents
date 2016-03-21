@@ -1,0 +1,12 @@
+@import 'mixins-common';
+
+%expand-collapse-all-icons {
+	button:before {
+		@include wc-icon($fa-var-plus-square-o);
+		@include margin($pos: right);
+	}
+
+	[data-wc-value='collapse']:before {
+		content: $fa-var-minus-square-o;
+	}
+}

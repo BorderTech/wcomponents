@@ -36,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
  * @deprecated Use {@link WTable} instead.
  */
 @Deprecated
-public class WDataTable extends WBeanComponent implements Disableable, Container, AjaxTarget,
+public class WDataTable extends WBeanComponent implements Disableable, Container, AjaxInternalTrigger, AjaxTarget,
 		SubordinateTarget, NamingContextable {
 
 	/**
@@ -114,6 +114,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		CLIENT,
 		/**
 		 * Indicates that row expansion occurs on the server (round-trip).
+		 *
 		 * @deprecated use ExpandMode.DYNAMIC instead.
 		 */
 		SERVER,
@@ -139,6 +140,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		 * Indicates that pagination occurs using a round-trip to the server (no longer implemented). NOTE: no longer
 		 * supported in theme as it causes an a11y failure. Setting this mode will, in effect, set
 		 * PaginationMode.DYNAMIC.
+		 *
 		 * @deprecated use PaginationMode.DYNAMIC instead.
 		 */
 		SERVER,
@@ -202,6 +204,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		NONE,
 		/**
 		 * Indicates that sorting occurs using a round-trip to the server.
+		 *
 		 * @deprecated use SortMode.DYNAMIC instead.
 		 */
 		SERVER,
@@ -1286,23 +1289,6 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 			}
 
 			return parsed.toArray(new String[parsed.size()]);
-		}
-	}
-
-	/**
-	 * Override preparePaint to register an AJAX operation if necessary.
-	 *
-	 * @param request the request being responded to.
-	 */
-	@Override
-	protected void preparePaintComponent(final Request request) {
-		super.preparePaintComponent(request);
-
-		if (PaginationMode.DYNAMIC.equals(getPaginationMode())
-				|| SortMode.DYNAMIC.equals(getSortMode())
-				|| ExpandMode.DYNAMIC.equals(getExpandMode())
-				|| ExpandMode.LAZY.equals(getExpandMode())) {
-			AjaxHelper.registerComponentTargetItself(getId(), request);
 		}
 	}
 

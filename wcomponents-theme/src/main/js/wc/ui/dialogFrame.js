@@ -102,11 +102,10 @@ define(["wc/dom/classList",
 					}
 					return FORM.findAncestor(candidate);
 				}
-				else { // no clue to the form get the last form in the view
-					forms = document.getElementsByTagName("form");
-					if (forms && forms.length) {
-						return forms[forms.length -1];
-					}
+				// no clue to the form get the last form in the view
+				forms = document.getElementsByTagName("form");
+				if (forms && forms.length) {
+					return forms[forms.length -1];
 				}
 				return null;
 			}
@@ -168,11 +167,11 @@ define(["wc/dom/classList",
 						// mobile browsers dialog is auto max'ed and not resizeable or positionable
 						initDialogControls(dialog, dto);
 						initDialogDimensions(dialog, dto);
-						setModality(dialog, true); // all dialogs are modal on mobile as non-modal dialogs make no sense when they are full screen
-					}
-					else {
 						isModal = (dto && typeof dto.modal !== "undefined") ? dto.modal : true;
 						setModality(dialog, isModal);
+					}
+					else {
+						setModality(dialog, true); // all dialogs are modal on mobile as non-modal dialogs make no sense when they are full screen
 					}
 					// show the dialog
 					shed.show(dialog);

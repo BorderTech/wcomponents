@@ -1,25 +1,17 @@
 /* wc.ui.table.rowSelection.scss */
-@import 'wc.ui.table.rowSelection_vars';
-@import 'wc.ui.menu_vars';
-
-// only want to style aria-selected rows, nothing else
-tr[aria-selected] {
-	&:hover,
-	&:focus {
-		@include row-invite;
-		cursor: pointer;
-	}
-}
+@import 'table_vars';
+@import 'menu_vars'; // for the menu background color.
 
 .wc_table_sel_wrapper {
 	white-space: nowrap;
 
 	[role='menubar'] {
-		button {
-			margin-left: 0; // override .wc_seltog style.
+		button { // override unnecessary .wc_seltog style.
+			margin-left: 0;
+			text-decoration: none;
 		}
 
-		.wc-submenu > button { // the is the submenu opener emulator for the sub-row toggle control
+		.wc-submenu-o { // the is the submenu opener emulator for the sub-row toggle control
 			@include button($background: $wc-ui-color-menu-bg, $padding: 0, $width: 1em);
 			height: 1em;
 			position: relative;

@@ -49,29 +49,22 @@ define(["wc/dom/ariaAnalog",
 			 * @returns {Boolean} true if the element may be activated.
 			 */
 			function isAcceptable (element, target) {
-				var result = isAcceptableTarget(element, target),
-					candidate, root;
-				if (result) {
-					return true;
-				}
+				var root, result = isAcceptableTarget(element, target);
 
 				if (tree && (root = tree.getRoot(target))) {
-					opener = opener || tree._wd.opener;
+					if (tree.isInVOpen(target)) {
+						return false;
+					}
 
-					if (opener) {
-						candidate = opener.findAncestor(target);
-						if (!candidate) {
-							return false;
+					if (!result) {
+						opener = opener || tree._wd.opener;
+
+						if (opener) {
+							return !!opener.findAncestor(target);
 						}
-
-						if (tree.isHTreeOrMenu(root)) {
-							return true;
-						}
-
-						return !tree.isInVOpen(target);
 					}
 				}
-				return false;
+				return result;
 			}
 
 			/**

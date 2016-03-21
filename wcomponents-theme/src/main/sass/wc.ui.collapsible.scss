@@ -27,9 +27,8 @@ summary {
 	> h5,
 	> h6 {
 		@include tight-box;
-		color: $wc-ui-color-global-fg;
 		display: inline-block;
-		font-size: 1rem;
+		font-size: inherit;
 		font-weight: bold;
 		vertical-align: text-top;
 		width: calc(100% - 2rem); // allow for the iconography

@@ -21,7 +21,7 @@ import java.util.Map;
  * @since 1.0.0
  * @author Yiannis Paschalidis
  */
-public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget, Marginable,
+public class WPanel extends WContainer implements AjaxInternalTrigger, AjaxTarget, SubordinateTarget, Marginable,
 		DropZone {
 
 	/**
@@ -143,22 +143,6 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 	 */
 	public void setMode(final PanelMode mode) {
 		getOrCreateComponentModel().mode = mode;
-	}
-
-	/**
-	 * Override preparePaintComponent in order to validate the configuration.
-	 *
-	 * @param request the request being responded to
-	 */
-	@Override
-	protected void preparePaintComponent(final Request request) {
-		UIContext uic = UIContextHolder.getCurrent();
-
-		// Register panel for AJAX
-		if (uic.getUI() != null && getMode() != null) {
-			AjaxHelper.registerComponentTargetItself(getId(), request);
-		}
-
 	}
 
 	/**
