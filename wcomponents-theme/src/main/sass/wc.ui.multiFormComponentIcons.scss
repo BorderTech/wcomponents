@@ -3,14 +3,7 @@
 @import 'mixins-common';
 
 .wc_mfc {
-	input,
-	select {
-		max-width: calc(100% - 2em);
-	}
-
 	button {
-		margin-left: $hgap-small;
-
 		&:before {
 			color: $wc-ui-color-error-fg;
 			content: $fa-var-minus-square;

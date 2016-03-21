@@ -6,7 +6,7 @@
 	-->
 	<xsl:template name="fauxOption">
 		<xsl:param name="value" select="@value"/>
-		<li data-wc-value="{$value}" role="option" tabIndex="0">
+		<li data-wc-value="{$value}" role="option" class="wc_invite" tabIndex="0">
 			<xsl:value-of select="$value"/>
 		</li>
 	</xsl:template>

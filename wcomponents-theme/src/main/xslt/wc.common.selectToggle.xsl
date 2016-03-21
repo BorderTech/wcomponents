@@ -110,7 +110,7 @@
 		<xsl:choose>
 			<xsl:when test="$type='text'">
 				<xsl:variable name="subClass">
-					<xsl:value-of select="local-name(.)"/>
+					<xsl:value-of select="concat('wc_', local-name(.))"/>
 					<xsl:text> wc_seltog</xsl:text>
 				</xsl:variable>
 				<span id="{$toggleId}" role="radiogroup">

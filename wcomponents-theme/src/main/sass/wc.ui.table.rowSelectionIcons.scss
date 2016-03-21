@@ -1,6 +1,5 @@
 /* wc.ui.table.rowSelectionIcons.scss */
-@import 'wc.ui.table.rowSelection_vars';
-@import 'wc.ui.menu_vars';
+@import 'table_vars';
 
 // only want to style aria-selected rows, nothing else
 .wc_table_sel_wrapper:before {
@@ -37,5 +36,4 @@
 			content: $fa-var-check-square-o;
 		}
 	}
-
 }

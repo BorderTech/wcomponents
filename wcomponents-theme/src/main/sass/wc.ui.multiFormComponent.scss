@@ -1,9 +1,18 @@
 /* wc.ui.multiFormComponent.scss */
 // WMultiTextField and WMultiDropdown
-@import 'vars';
+@import 'mixins-common';
 
 .wc_mfc {
 	white-space: nowrap;
+
+	button {
+		margin-left: $hgap-small;
+	}
+
+	input,
+	select {
+		max-width: calc(100% - 2em);
+	}
 
 	ul {
 		&.error,

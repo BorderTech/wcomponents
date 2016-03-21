@@ -5,8 +5,6 @@
 ul[role='listbox'] {
 	@include border;
 	@include tight-box;
-	background-color: $wc-ui-color-highlight-bg;
-	color: $wc-ui-color-highlight-fg;
 	display: none;
 	list-style-type: none;
 	position: absolute;
@@ -15,24 +13,10 @@ ul[role='listbox'] {
 	dialog & {
 		z-index: $z-index-common-in-dialog;
 	}
-
-	&[aria-busy='true'] {
-		// we do not want dynamic suggestion lists to go transparent when busy
-		// scss-lint:disable ImportantRule
-		background-color: $wc-ui-color-highlight-bg !important;
-	}
 }
-
 
 li[role='option'] {
 	@include margin($size: 0);
 	min-height: 1em;
 	padding: $hgap-small;
-
-	&:hover,
-	&:focus {
-		background-color: $wc-ui-color-invite-bg;
-		color: $wc-ui-color-invite-fg;
-		cursor: pointer;
-	}
 }

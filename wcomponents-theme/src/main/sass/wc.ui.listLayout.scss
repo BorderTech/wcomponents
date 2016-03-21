@@ -2,8 +2,7 @@
 @import 'mixins-common';
 
 .wc-listlayout {
-	margin: 0;
-	padding: 0;
+	@include tight-box;
 
 	&.bar,
 	&.flat,
@@ -71,11 +70,6 @@
 	&.right {
 		list-style-position: inside;
 		margin-left: 0;
-	}
-
-	&.striped > :nth-child(odd) {
-		background-color: $wc-ui-color-highlight-bg;
-		color: $wc-ui-color-highlight-fg;
 	}
 }
 

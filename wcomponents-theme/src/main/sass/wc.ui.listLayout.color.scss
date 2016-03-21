@@ -1,0 +1,7 @@
+/* wc.ui.listLayout.color.scss */
+@import 'mixins-common';
+
+.wc-listlayout.striped > :nth-child(odd) {
+	background-color: $wc-ui-color-highlight-bg;
+	color: $wc-ui-color-highlight-fg;
+}

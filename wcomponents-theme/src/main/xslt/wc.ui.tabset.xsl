@@ -11,12 +11,10 @@
 		type.
 	-->
 	<xsl:template match="ui:tabset">
-		<xsl:variable name="firstOpenTab" select="(ui:tab[@open=$t]|ui:tabgroup/ui:tab[@open=$t])[1]"/>
-
 		<div id="{@id}">
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
-					<xsl:value-of select="@type"/>
+					<xsl:value-of select="concat('wc_', @type)"/>
 				</xsl:with-param>
 			</xsl:call-template>
 
@@ -37,15 +35,12 @@
 				</xsl:if>
 				<xsl:apply-templates select="ui:tab|ui:tabgroup/ui:tab">
 					<xsl:with-param name="tabset" select="."/>
-					<xsl:with-param name="firstOpenTab" select="$firstOpenTab"/>
+					<xsl:with-param name="numAvailTabs" select="count(ui:tab[@open and not(@disabled)]|ui:tabgroup/ui:tab[@open and not(@disabled)])"/>
 				</xsl:apply-templates>
 			</div>
 			<xsl:if test="not(@type='accordion')">
 				<xsl:apply-templates select="ui:tab|ui:tabgroup/ui:tab" mode="content">
 					<xsl:with-param name="tabset" select="."/>
-					<xsl:with-param name="tabsetId" select="@id"/>
-					<xsl:with-param name="type" select="@type"/>
-					<xsl:with-param name="firstOpenTab" select="$firstOpenTab"/>
 				</xsl:apply-templates>
 			</xsl:if>
 		</div>

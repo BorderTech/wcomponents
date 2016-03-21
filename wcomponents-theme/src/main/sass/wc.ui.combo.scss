@@ -12,7 +12,9 @@ input[role='combobox'] { // not the combo wrapper of datefield.
 
 	&[aria-expanded = 'true'] ~ [role='listbox'] {
 		display: block;
-		max-height: (7 * $line-height * (1rem + (2 * $hgap-small))); // allow for up to seven visible options.
+		// allow for up to approx seven visible options. The factor 1.25 is a rough line-height
+		// Chrome & Safari on OS - X use 1.125 whereas FF appears to use 1.0625.
+		max-height: (7 * 1.125 * (1rem + (2 * $hgap-small)));
 		max-width: 100%;
 		overflow: auto;
 	}

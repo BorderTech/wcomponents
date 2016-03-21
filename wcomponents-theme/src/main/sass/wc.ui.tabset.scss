@@ -1,5 +1,5 @@
 /* wc.ui.tabset.scss */
-@import 'wc.ui.tabset_vars';
+@import 'tabset_vars';
 
 .wc-tabset {
 	@include flex($direction: column);
@@ -50,20 +50,20 @@
 }
 
 // only style left and right tabsets when we have a reasonable sized viewport.
-@include respond($size: not-small) {
+@include respond($size: 'not-small') {
 	.wc-tabset {
-		&.left {
+		&.wc_left {
 			@include flex-direction(row);
 		}
 
-		&.right {
+		&.wc_right {
 			@include flex-direction(row-reverse);
 		}
 	}
 
 	[role='tablist'] {
-		.left > &,
-		.right > & {
+		.wc_left > &,
+		.wc_right > & {
 			@include flex-direction(column);
 			max-width: $wc-ui-tabset-left-right-tab-width;
 			top: 0;
@@ -78,7 +78,7 @@
 			}
 		}
 
-		.left > & {
+		.wc_left > & {
 			left: $border-width;
 
 			[role='tab'] {
@@ -91,7 +91,7 @@
 
 		}
 
-		.right & {
+		.wc_right & {
 			right: $border-width;
 
 			[role='tab'] {

@@ -9,29 +9,13 @@ html {
 
 body {
 	@include tight-box;
-	background-color: $wc-ui-color-global-bg;
-	color: $wc-ui-color-global-fg;
 	font-family: $default-font;
-	font-size: $mobile-font-size;
+	font-size: $default-font-size;
 	height: 100%; // body to fill viewport for event propagation.
-	line-height: $line-height;
 }
 
 pre {
 	font-family: $mono-font;
-}
-
-a {
-	color: $wc-ui-color-link;
-
-	&:visited {
-		color: $wc-ui-color-link-visited;
-	}
-
-	&[aria-disabled='true'] { // NOTE: we need the disabled color to override the :visited state
-		color: $wc-ui-color-disabled-fg;
-		text-decoration: none;
-	}
 }
 
 .wc_off {
