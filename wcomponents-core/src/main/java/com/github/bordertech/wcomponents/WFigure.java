@@ -12,7 +12,7 @@ package com.github.bordertech.wcomponents;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WFigure extends AbstractNamingContextContainer implements AjaxTarget, SubordinateTarget,
+public class WFigure extends AbstractNamingContextContainer implements AjaxInternalTrigger, AjaxTarget, SubordinateTarget,
 		Marginable {
 
 	/**
@@ -114,24 +114,6 @@ public class WFigure extends AbstractNamingContextContainer implements AjaxTarge
 	@Override
 	public Margin getMargin() {
 		return getComponentModel().margin;
-	}
-
-	/**
-	 * Override preparePaintComponent in order to toggle the visibility of the content, or to register the appropriate
-	 * ajax operation.
-	 *
-	 * @param request the request being responded to
-	 */
-	@Override
-	protected void preparePaintComponent(final Request request) {
-		super.preparePaintComponent(request);
-
-		UIContext uic = UIContextHolder.getCurrent();
-
-		// Register figure for AJAX
-		if (uic.getUI() != null && getMode() != null) {
-			AjaxHelper.registerComponentTargetItself(getId(), request);
-		}
 	}
 
 	/**
