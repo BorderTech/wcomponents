@@ -84,6 +84,9 @@
 						<xsl:text>0</xsl:text>
 					</xsl:attribute>
 					<xsl:call-template name="title"/>
+					<span class="wc_leaf_vopener" aria-hidden="true">
+						<xsl:text>&#x0a;</xsl:text>
+					</span>
 					<xsl:call-template name="treeitemContent"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -100,7 +103,10 @@
 					<xsl:variable name="nameButtonId">
 							<xsl:value-of select="concat(@id, '-branch-name')"/>
 					</xsl:variable>
-					<!-- leave tabindex on this butten, it is used as a short-hand to find fousable controls in the core menu JavaScript. -->
+					<button class="wc_btn_nada wc_invite wc_leaf_vopener" aria-hidden="true" type="button" tabindex="-1">
+						<xsl:text>&#x0a;</xsl:text>
+					</button>
+					<!-- leave tabindex="0" on this button, it is used as a short-hand to find focusable controls in the core menu JavaScript. -->
 					<button type="button" class="wc_btn_nada wc_invite wc_leaf" id="{$nameButtonId}" aria-controls="{@id}" tabindex="0">
 						<xsl:call-template name="title"/>
 						<xsl:call-template name="treeitemContent"/>
@@ -135,9 +141,6 @@
 	</xsl:template>
 
 	<xsl:template name="treeitemContent">
-		<span class="wc_leaf_vopener" aria-hidden="true">
-			<xsl:text>&#x0a;</xsl:text>
-		</span>
 		<span aria-hidden='true'>
 			<xsl:attribute name="class">
 				<xsl:text>wc_leaf_img</xsl:text>

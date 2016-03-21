@@ -28,8 +28,9 @@
 		overflow-y: scroll;
 	}
 
-	[aria-expanded] > button {
+	[aria-expanded] > .wc_leaf {
 		@include flex($align-items: baseline);
+		width: 100%; // override .wc_leaf_vopener + button from wc.ui.tree.scss
 
 		> .wc_leaf_hopener {
 			@include flex-grow(1);
