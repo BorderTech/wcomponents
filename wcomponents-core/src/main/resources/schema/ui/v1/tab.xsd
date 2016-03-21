@@ -27,7 +27,7 @@
 				<xs:annotation>
 					<xs:documentation>
 						True indicates the tab is to be rendered as open. Not output if false. Setting open on a tab requests that it be rendered in the open state
-						when first loaded. For left, right and top tabsets, only one tab should be open. For accordion tabsets, more than one tab may be open.
+						when first loaded. For left, right and top tabsets, only one tab will be open. For accordion tabsets, more than one tab may be open.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>

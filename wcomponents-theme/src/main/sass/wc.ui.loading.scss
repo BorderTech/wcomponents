@@ -13,9 +13,7 @@
 	z-index: $z-index-unloading-message;
 
 	div {
-		background-color: $wc-ui-color-global-bg;
-		background-repeat: no-repeat;
-		color: $wc-ui-color-global-fg;
+		// background-repeat: no-repeat;
 		display: inline-block;
 		margin: 0 auto;
 		padding: $hgap-large;
@@ -31,16 +29,6 @@
 // (Usually ajax) busy areas
 // We make the background of the busy element transparent and set all of its children to visibility:hidden so the
 // element appears to just vanish and leave its loading indicator You may want to change this (a Cheshire cat maybe?).
-[aria-busy='true'] {
-	// Some of these properties have to be important to over-ride specific component's rules
-	// scss-lint:disable ImportantRule
-	background-color: transparent !important;
-	// scss-lint:enable ImportantRule
-	color: $wc-ui-color-disabled-fg;
-
-	// Make any interactive child element of a busy region invisible. We want them to take up their space but not be
-	// shown to reduce the likelihood of a user interacting with them whilst they are being updated/replaced.
-	> * {
-		visibility: hidden;
-	}
+[aria-busy='true'] > * {
+	visibility: hidden;
 }

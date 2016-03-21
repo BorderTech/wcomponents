@@ -1,0 +1,20 @@
+/* wc.ui.dateField.color.scss */
+
+// Styling specific to the date input component including the calendar.
+
+// We use a single ID'd component for all calendar date pickers and move it around to where it is needed.
+// scss-lint:disable IdSelector
+@import 'mixins-common';
+
+.wc-datefield[role='combobox'] { // partial date field or no native support
+	@include border($color: $wc-ui-color-border-form-control);
+
+	&[aria-disabled='true'] {
+		background-color: $wc-ui-color-disabled-bg;
+	}
+}
+
+// The whole combo is invalid but we only want to apply the background color to the textbox.
+[role='combobox'][aria-invalid='true'] > input {
+	background-color: $wc-ui-color-error-bg;
+}

@@ -1,7 +1,7 @@
 /* wc.ui.menu.bar.scss */
 // These styles apply to WMenus of type BAR and FLYOUT
 // NOTE: role menuitemradio and menuitemcheckbox can be shorthanded to aria-checked.
-@import 'wc.ui.menu_vars';
+@import 'menu_vars';
 
 [role='menubar'] {
 	&.flyout {
@@ -11,22 +11,13 @@
 		> .wc-submenu > button { //top level items
 			padding: $wc-ui-menu-flyout-top-level-item-pad;
 		}
-
-		> [role='separator'][aria-orientation='vertical'] {
-			padding: $wc-ui-menu-flyout-vseparator-pad;
-		}
 	}
 
 	&.bar {
 		> [role],
-		> .wc-submenu > button {//top level items
+		> .wc-submenu > button { // top level items
 			padding: $wc-ui-menu-bar-column-item-pad;
 		}
-
-		> [role='separator'][aria-orientation='vertical'] {
-			padding: $wc-ui-menu-bar-vseparator-pad;
-		}
-
 	}
 
 	> [role],
@@ -42,11 +33,6 @@
 		vertical-align: middle;
 	}
 
-	> [role='separator'][aria-orientation='vertical'] {
-		@include border($pos: left);
-		border-bottom: 0 none;
-		display: inline;
-	}
 
 	[role='menu'] { //sub-menus of a menu bar see wc.ui.menu.barColumn.scss for more
 		white-space: nowrap;
@@ -71,16 +57,10 @@
 	}
 }
 
-@import 'wc.ui.panel_vars'; // for the header foreground color
-
 [role='banner'] [role='menubar'][data-wc-menufixed] {
 	display: inline-block;
 
 	> [role='menuitem']:first-child > button {
 		padding: $hgap-small;
-
-		&::after {
-			color: $wc-ui-color-panel-header-foreground;
-		}
 	}
 }

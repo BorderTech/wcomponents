@@ -1,0 +1,14 @@
+/* wc.common.listbox.scss */
+// listbox for combo and datefield
+@import 'mixins-common';
+
+ul[role='listbox'] {
+	background-color: $wc-ui-color-highlight-bg;
+	color: $wc-ui-color-highlight-fg;
+
+	&[aria-busy='true'] {
+		// we do not want dynamic suggestion lists to go transparent when busy
+		// scss-lint:disable ImportantRule
+		background-color: $wc-ui-color-highlight-bg !important;
+	}
+}

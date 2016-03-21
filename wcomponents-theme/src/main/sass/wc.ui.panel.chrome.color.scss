@@ -1,8 +1,8 @@
-/* wc.ui.panel.chrome.scss */
+/* wc.ui.panel.chrome.color.scss */
 // type CHROME
 // 'A panel with a title displayed in a border.'
 
-@import 'wc.ui.panel_vars';
+@import 'panel_vars';
 
 .chrome > h1 {
 	background-color: $wc-ui-color-section-heading-bg;

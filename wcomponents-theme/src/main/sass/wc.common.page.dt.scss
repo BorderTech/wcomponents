@@ -2,11 +2,10 @@
 @import 'mixins-common';
 
 body {
-	@include respond($size: 1024px, $test: min-device-width) {
-		font-size: $font-size;
-	}
+	font-size: $dt-font-size;
 
-	@include reset-large-screen { // make the default (75%) text size bigger on really big screens.
+	// Make the (75%) text size bigger on really big screens because many people find it hard to read.
+	@include respond($size: large, $test: min-device-width) {
 		font-size: $bigscreen-font-size;
 	}
 }

@@ -1,5 +1,4 @@
 /* wc.ui.table.rowSelection.scss */
-@import 'wc.ui.table.rowSelection_vars';
 
 // IE9 bug: in IE9 we have to reset the width of the selector cell to auto because when it is 1em the cell takes over
 // all available space in the table, so in IE8 and below we have to reset it.

@@ -41,7 +41,7 @@
 				<xsl:with-param name="isControl" select="$isButton"/>
 				<xsl:with-param name="class">
 					<xsl:if test="$isButton=1">
-						<xsl:text> wc_btn_nada</xsl:text>
+						<xsl:text>wc_btn_nada wc_invite</xsl:text>
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
@@ -101,7 +101,7 @@
 							<xsl:value-of select="concat(@id, '-branch-name')"/>
 					</xsl:variable>
 					<!-- leave tabindex on this butten, it is used as a short-hand to find fousable controls in the core menu JavaScript. -->
-					<button type="button" class="wc_btn_nada wc_leaf" id="{$nameButtonId}" aria-controls="{@id}" tabindex="0">
+					<button type="button" class="wc_btn_nada wc_invite wc_leaf" id="{$nameButtonId}" aria-controls="{@id}" tabindex="0">
 						<xsl:call-template name="title"/>
 						<xsl:call-template name="treeitemContent"/>
 					</button>
@@ -124,7 +124,7 @@
 							</xsl:with-param>
 						</xsl:apply-templates>
 						<span class="wc_branch_resizer" aria-hidden="true">
-							<button type="button" class="wc_btn_nada wc_btn_icon wc_resize wc_branch_resize_handle" data-wc-resize="{$groupId}" role="presentation">
+							<button type="button" class="wc_btn_nada wc_btn_icon wc_invite wc_resize wc_branch_resize_handle" data-wc-resize="{$groupId}" role="presentation">
 								<span class="wc_off">resize handle</span>
 							</button>
 						</span>

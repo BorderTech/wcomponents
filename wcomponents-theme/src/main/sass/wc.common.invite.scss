@@ -1,0 +1,20 @@
+/* wc.common.invite.scss */
+@import 'mixins-common';
+// wc_invite is a common class for indicating a control which has an "invitation" on hover/focus
+
+.wc_invite {
+	cursor: pointer;
+
+	&:hover,
+	&:focus {
+		background-color: $wc-ui-color-invite-bg;
+		color: $wc-ui-color-invite-fg;
+	}
+
+	&[disabled],
+	&[aria-disabled='true'] {
+		background-color: $wc-ui-color-disabled-bg;
+		color: $wc-ui-color-disabled-fg;
+		cursor: auto;
+	}
+}

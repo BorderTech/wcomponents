@@ -7,8 +7,6 @@
 
 // This is the calendar container.
 #wc-calbox {
-	background-color: $wc-ui-color-global-bg;
-
 	// Important to overcome inline style of the collision detection routine which we want to ignore here.
 	// scss-lint:disable ImportantRule
 	height: 100%;
@@ -59,12 +57,9 @@
 
 	thead {
 		@include border($pos: bottom);
-
 	}
 
 	th {
-		background-color: $wc-ui-color-highlight-bg;
-		color: $wc-ui-color-highlight-fg;
 		font-size: 1rem; // reset from 1.5rem
 		padding: $vgap-small $hgap-small;
 		text-align: center;
@@ -76,7 +71,6 @@
 }
 
 #wc-caldaybox td {
-	color: $wc-ui-color-disabled-fg;
 	padding: 0;
 	text-align: center;
 	vertical-align: middle;
@@ -84,33 +78,12 @@
 
 // date picker buttons
 .wc_wdf_pick {
-	color: $wc-ui-color-global-fg;
 	line-height: 2;
 	max-width: 100%;
 	min-width: 100%;
 	padding: $vgap-small $hgap-small;
 	text-align: center;
 	width: 3rem;
-
-	&[aria-pressed='true'] { // selected date
-		background-color: $wc-ui-color-highlight-bg;
-		color: $wc-ui-color-highlight-fg;
-	}
-
-	&:hover,
-	&:focus {
-		background-color: $wc-ui-color-invite-bg;
-		color: $wc-ui-color-invite-fg;
-	}
-
-	&[disabled] {
-		background-color: $wc-ui-color-disabled-bg;
-		color: $wc-ui-color-disabled-fg;
-	}
-}
-
-.wc_wdf_today { // today
-	@include outline();
 }
 
 // The main purpose of this CSS is to make the pop-up calendar full screen. We make all of the buttons bigger to make

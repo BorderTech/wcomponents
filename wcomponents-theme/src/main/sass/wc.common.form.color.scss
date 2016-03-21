@@ -1,0 +1,27 @@
+/* wc.common.form.color.scss */
+@import 'mixins-common';
+
+input,
+select,
+textarea {
+	&[aria-invalid='true'] {
+		background-color: $wc-ui-color-error-bg;
+	}
+
+	&[disabled] {
+		background-color: $wc-ui-color-disabled-bg;
+	}
+}
+
+/// Form control WAI-ARIA analogs and some containers can have states which are not controlled by native semantics so
+/// require aria-* attribtues.
+/// Invalid
+[aria-invalid='true'] {
+	@include outline($color: $wc-ui-color-error-fg);
+}
+
+/// Disabled.
+[disabled],
+[aria-disabled='true'] {
+	color: $wc-ui-color-disabled-fg;
+}

@@ -61,7 +61,16 @@ define(["wc/dom/ariaAnalog",
 				 * @type String
 				 * @private
 				 */
-				CONTENT_ATTRIB = "aria-controls";
+				CONTENT_ATTRIB = "aria-controls",
+
+				/**
+				 * The ID of the last focused tab. This is needed to reset focusability to the open tab in a tabset
+				 * once focus leaves the tablist.
+				 * @var
+				 * @type String
+				 * @private
+				 */
+				lastTabId;
 
 			/**
 			 * The description of a tab control.
@@ -161,16 +170,17 @@ define(["wc/dom/ariaAnalog",
 
 			/**
 			 * Helper for shedObserver, called when there has been a EXPAND or COLLAPSE.
-			 * @param {Tabset} tabset The tabset controller instance.
 			 * @param {string} action either shed.actions.EXPAND or shed.actions.COLLAPSE
 			 * @param {Element} element Guaranteed to pass `this.ITEM.isOneOfMe(element)`
 			 */
-			function onItemExpansion(tabset, action, element) {
+			function onItemExpansion(action, element) {
 				var contentId,
 					content,
 					container;
-
-				container = tabset.getGroupContainer(element);
+				if (action === shed.actions.EXPAND) {
+					instance.setFocusIndex(element);
+				}
+				container = instance.getGroupContainer(element);
 				if (container) {
 					if ((contentId = element.getAttribute(CONTENT_ATTRIB)) && (content = document.getElementById(contentId))) {
 						if (action === shed.actions.EXPAND) {
@@ -185,52 +195,25 @@ define(["wc/dom/ariaAnalog",
 						}
 					}
 				}
-
 			}
 
 
 			/**
-			 * A subscriber to {@link module:wc/dom/shed} to react to these pseudo-events.
-			 *
-			 * @function module:wc/ui/tabset.shedObserver
-			 * @protected
-			 * @override
-			 * @param {Element} element The element on which the shed action acted.
-			 * @param {String} action The type of shed event. One of EXPAND, COLLAPSE, SELECT or DESELECT.
-			 */
-			this.shedObserver = function (element, action) {
-				if (element) {
-					if ((action === shed.actions.SELECT || action === shed.actions.DESELECT) && this.ITEM.isOneOfMe(element)) {
-						onItemSelection(this, action, element);
-					}
-					if ((action === shed.actions.EXPAND || action === shed.actions.COLLAPSE) && this.ITEM.isOneOfMe(element)) {
-						onItemExpansion(this, action, element);
-					}
-					else if ((action === shed.actions.DISABLE || action === shed.actions.ENABLE)  && TABLIST.isOneOfMe(element)) {
-						// if the tablist is disabled or enabled, diable/enable all the tabs.
-						Array.prototype.forEach.call(this.ITEM.findDescendants(element), function (next) {
-							shed[action](next);
-						});
-					}
-				}
-			};
-
-			/**
 			 * Helper for shedObserver, called when there has been a SELECT or DESELECT.
-			 * @param {Tabset} tabset The tabset controller instance.
 			 * @param {string} action either shed.actions.SELECT or shed.actions.DESELECT
 			 * @param {Element} element Guaranteed to pass `this.ITEM.isOneOfMe(element)`
 			 */
-			function onItemSelection(tabset, action, element) {
+			function onItemSelection(action, element) {
 				var contentId,
 					content,
 					contentContainer,
 					container;
 
 				if (action === shed.actions.SELECT) {
-					tabset.constructor.prototype.shedObserver.call(tabset, element, action);
+					instance.setFocusIndex(element);
+					instance.constructor.prototype.shedObserver.call(instance, element, action);
 				}
-				container = tabset.getGroupContainer(element);
+				container = instance.getGroupContainer(element);
 				if (container) {
 					if ((contentId = element.getAttribute(CONTENT_ATTRIB)) && (content = document.getElementById(contentId))) {
 						if (!getAccordion(container)) {
@@ -251,6 +234,131 @@ define(["wc/dom/ariaAnalog",
 					}
 				}
 			}
+
+			/**
+			 * When disabling an open tab we may have to reset tabindexes. Helper for shedObserver.
+			 * @function
+			 * @private
+			 * @param {Element} element The element being disabled.
+			 */
+			function onItemDisabled(element) {
+				var container,
+					isAccordion,
+					group,
+					open;
+
+				if (element.tabIndex !== "0") { // We only care if we are disabling a focusable tab.
+					return;
+				}
+
+				container = instance.getGroupContainer(element);
+				if (!container) { // this should never happen...
+					return;
+				}
+
+				isAccordion = getAccordion(container);
+				open = isAccordion ? shed.isExpanded(element) : shed.isSelected(element);
+				if (!open) { // we really do not care if closed
+					return;
+				}
+
+				if (isAccordion) {
+					// are there any other open tabs?
+					group = getFilteredGroup(element, {filter: getFilteredGroup.FILTERS.enabled | getFilteredGroup.FILTERS.expanded, containerWd: TABLIST, itemWd: instance.ITEM});
+					if (group && group.length) {
+						return; // we have other open tabs.
+					}
+				}
+
+				group = getFilteredGroup(element, {filter: getFilteredGroup.FILTERS.enabled, containerWd: TABLIST, itemWd: instance.ITEM});
+				if (group && group.length) {
+					element.tabIndex = "-1";
+					group[0].tabIndex = "0";
+				}
+			}
+
+			/**
+			 * When disabling a tab we may have to fix tabIndex. Helper for shedObserver.
+			 * @function
+			 * @private
+			 * @param {Element} element The element being enabled.
+			 */
+			function onItemEnabled(element) {
+				var container,
+					isAccordion,
+					group,
+					open,
+					filter;
+
+				if (element.tabIndex !== "-1") { // if we have not made this tab unfocusable we don't care what it is, it should come out in the wash..
+					return;
+				}
+
+				container = instance.getGroupContainer(element);
+				if (!container) { // this should never happen...
+					return;
+				}
+
+				isAccordion = getAccordion(container);
+				open = isAccordion ? shed.isExpanded(element) : shed.isSelected(element);
+
+				if (open) { // if it is open set its tabIndec to 0 and exit.
+					element.tabIndex = "0";
+					return;
+				}
+
+				// Are there any open tabs?
+				filter = getFilteredGroup.FILTERS.enabled | (isAccordion ? getFilteredGroup.FILTERS.expanded : getFilteredGroup.FILTERS.selected);
+				group = getFilteredGroup(element, {filter: filter, containerWd: TABLIST, itemWd: instance.ITEM});
+				if (group && group.length) { // yes, we have an open tab so set this tabInde to -1 and exit.
+					element.tabIndex = "-1";
+					return;
+				}
+
+				// no other open tabs so this one may as well be focusable.
+				element.tabIndex = "0";
+			}
+
+			/**
+			 * A subscriber to {@link module:wc/dom/shed} to react to these pseudo-events.
+			 *
+			 * @function module:wc/ui/tabset.shedObserver
+			 * @protected
+			 * @override
+			 * @param {Element} element The element on which the shed action acted.
+			 * @param {String} action The type of shed event. One of EXPAND, COLLAPSE, SELECT or DESELECT.
+			 */
+			this.shedObserver = function (element, action) {
+				if (element) {
+					if (this.ITEM.isOneOfMe(element)) {
+						switch (action) {
+							case shed.actions.SELECT:
+							case shed.actions.DESELECT:
+								onItemSelection(action, element);
+								break;
+							case shed.actions.EXPAND:
+							case shed.actions.COLLAPSE:
+								onItemExpansion(action, element);
+								break;
+							case shed.actions.DISABLE:
+								onItemDisabled(element);
+								break;
+							case shed.actions.ENABLE:
+								onItemEnabled(element);
+								break;
+							default:
+								console.warn("Unknown action", action);
+								break;
+						}
+					}
+					else if ((action === shed.actions.DISABLE || action === shed.actions.ENABLE) && TABLIST.isOneOfMe(element)) {
+						// if the tablist is disabled or enabled, diable/enable all the tabs.
+						Array.prototype.forEach.call(this.ITEM.findDescendants(element), function (next) {
+							shed[action](next);
+						});
+					}
+				}
+			};
 
 			/**
 			 * Tab interaction functionality. Shows the tab's content if the tab is a regular tab. Toggles the
@@ -292,6 +400,48 @@ define(["wc/dom/ariaAnalog",
 				}
 				if (this.ITEM.isOneOfMe(container)) {
 					writeTabState(TABLIST.findAncestor(container));
+				}
+			};
+
+			/**
+			 * In order to navigate a tablist we must set focusIndex as we go. Once we leave a tablist, however, we must
+			 * be sure that we reset the focus index so that the open tab is focussed if we TAB back into the list.
+			 * (http://www.w3.org/TR/wai-aria-practices/#tabpanel).
+			 *
+			 */
+			function resetFocusIndex() {
+				var tab, openTabs, isAccordion, filter;
+				try {
+					if (!(lastTabId && (tab = document.getElementById(lastTabId)))) {
+						return;
+					}
+					isAccordion = getAccordion(instance.getGroupContainer(tab));
+					filter = getFilteredGroup.FILTERS.enabled | (isAccordion ? getFilteredGroup.FILTERS.expanded : getFilteredGroup.FILTERS.selected);
+					openTabs = getFilteredGroup(tab, {filter: filter, containerWd: TABLIST, itemWd: instance.ITEM});
+					if (openTabs && openTabs.length) {
+						instance.setFocusIndex(openTabs[0]);
+					}
+				}
+				finally {
+					lastTabId = "";
+				}
+			}
+
+			this.focusEvent = function($event) {
+				var target = $event.target, tab, lastTab, lastTabList;
+				this.constructor.prototype.focusEvent.call(this, $event);
+
+				if ((tab = instance.ITEM.findAncestor(target))) {
+					if (lastTabId && (lastTab = document.getElementById(lastTabId))) {
+						lastTabList = TABLIST.findAncestor(lastTab);
+					}
+					if (lastTabList && lastTabList !== TABLIST.findAncestor(tab)) {
+						resetFocusIndex();
+					}
+					lastTabId = tab.id;
+				}
+				else if (lastTabId) {
+					resetFocusIndex();
 				}
 			};
 

@@ -28,7 +28,6 @@
 				<xsl:number value="1"/>
 			</xsl:if>
 		</xsl:variable>
-		<xsl:variable name="maxFiles" select="@maxFiles"/>
 		<xsl:variable name="myLabel" select="key('labelKey',$id)[1]"/>
 
 		<xsl:variable name="cols">

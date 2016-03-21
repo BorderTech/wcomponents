@@ -48,7 +48,7 @@
 					<xsl:with-param name="disabled" select="@disabled"/>
 				</xsl:apply-templates>
 				<span class="wc_branch_resizer" aria-hidden="true">
-					<button type="button" class="wc_btn_nada wc_btn_icon wc_resize wc_branch_resize_handle" data-wc-resize="{$groupId}" role="presentation">
+					<button type="button" class="wc_btn_nada wc_btn_icon wc_invite wc_resize wc_branch_resize_handle" data-wc-resize="{$groupId}" role="presentation">
 						<span class="wc_off">resize handle</span>
 					</button>
 				</span>

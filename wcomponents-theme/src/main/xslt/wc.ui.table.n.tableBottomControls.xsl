@@ -15,14 +15,14 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:if test="ui:actions or $showPagination=1">
-			<div>
+			<div class="wc_table_bottom_controls">
 				<xsl:if test="$showPagination=1">
 					<div class="wc_table_pag_cont">
 						<xsl:apply-templates select="ui:pagination"/>
 					</div>
 				</xsl:if>
 				<xsl:if test="ui:actions">
-					<div>
+					<div class="wc_table_actions">
 						<xsl:apply-templates select="ui:actions"/>
 					</div>
 				</xsl:if>
