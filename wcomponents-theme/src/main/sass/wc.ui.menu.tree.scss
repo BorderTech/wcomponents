@@ -2,14 +2,34 @@
 @import 'menu_vars';
 
 // TODO: try to work WMenu Type TREE to be more like WTree so we can get rid of this.
-.wc-menu [role='treeitem'] {
-	&,
-	& > button {
+.wc-menu[role="tree"] {
+	[role='treeitem'] {
 		padding: $wc-tree-item-pad;
 	}
 
-	&[aria-expanded] > button > .wc-decoratedlabel {
-		display: inline-table;
-		width: calc(100% - #{$wc-ui-menu-tree-iconwidth}); // allow for icon.
+	.wc-submenu-o {
+		padding: $wc-tree-item-pad;
+
+		> .wc-decoratedlabel {
+			display: inline-table;
+			width: calc(100% - #{$wc-ui-menu-tree-iconwidth}); // allow for icon.
+		}
+	}
+
+	.wc-decoratedlabel {
+		display: table-row;
+		width: 100%;
+	}
+
+	.wc_dlbl_seg {
+		display: table-cell;
+
+		+ .wc_dlbl_seg {
+			padding-left: $hgap-small;
+		}
+	}
+
+	.wc-labelbody {
+		width: 100%;
 	}
 }

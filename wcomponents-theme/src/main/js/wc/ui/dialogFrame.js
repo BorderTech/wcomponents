@@ -167,11 +167,11 @@ define(["wc/dom/classList",
 						// mobile browsers dialog is auto max'ed and not resizeable or positionable
 						initDialogControls(dialog, dto);
 						initDialogDimensions(dialog, dto);
-						setModality(dialog, true); // all dialogs are modal on mobile as non-modal dialogs make no sense when they are full screen
-					}
-					else {
 						isModal = (dto && typeof dto.modal !== "undefined") ? dto.modal : true;
 						setModality(dialog, isModal);
+					}
+					else {
+						setModality(dialog, true); // all dialogs are modal on mobile as non-modal dialogs make no sense when they are full screen
 					}
 					// show the dialog
 					shed.show(dialog);

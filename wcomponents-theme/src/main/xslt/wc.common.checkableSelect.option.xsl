@@ -61,6 +61,9 @@
 		<xsl:element name="{$elementName}">
 			<xsl:attribute name="class">
 				<xsl:value-of select="$layout"/>
+				<xsl:if test="$layout = 'column'">
+					<xsl:text> wc-column</xsl:text>
+				</xsl:if>
 				<xsl:if test="$elementName='ul'">
 					<xsl:text> wc_list_nb</xsl:text>
 				</xsl:if>

@@ -94,6 +94,7 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		defList.addTerm("Dialog opened by", new WText(dialogOpeningButton.getText()));
 		nonModalDialog = new WDialog(defList, dialogOpeningButton);
 		nonModalDialog.setTitle("View list with time");
+		nonModalDialog.setWidth(600);
 
 		dialogOpeningButton.setAction(new Action() {
 			@Override

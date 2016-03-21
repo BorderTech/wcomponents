@@ -44,7 +44,7 @@ public class WDataRenderer extends WContainer {
 	 * <p>
 	 * In terms of the MVC pattern this method copies data from the Model into the View. Note that this method is the
 	 * reverse of updateData.
-	 * <p>
+	 * </p>
 	 *
 	 * <p>
 	 * NOTE: This method will only be called if {@link #getData()} does not return null.
