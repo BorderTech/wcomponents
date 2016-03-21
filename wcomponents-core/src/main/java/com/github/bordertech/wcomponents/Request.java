@@ -89,7 +89,14 @@ public interface Request {
 	 * @return the complete list of parameters contained in this request. If the request contains no parameters, the
 	 * method returns an empty <code>Map</code>.
 	 */
-	Map getParameters();
+	Map<String, String[]> getParameters();
+
+	/**
+	 * Retrieves the files which were uploaded in this request.
+	 *
+	 * @return the uploaded files.
+	 */
+	Map<String, FileItem[]> getFiles();
 
 	/**
 	 * Indicates whether the given request contains the same set of parameters as this one.

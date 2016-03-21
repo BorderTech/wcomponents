@@ -26,12 +26,12 @@ public class MockRequest extends AbstractRequest {
 	/**
 	 * Stores the mock parameters for this request.
 	 */
-	private final Map<String, Object> parameters = new HashMap<>(0);
+	private final Map<String, String[]> parameters = new HashMap<>(0);
 
 	/**
 	 * Stores the mock uploaded files for this request.
 	 */
-	private final Map<String, FileItem> files = new HashMap<>(0);
+	private final Map<String, FileItem[]> files = new HashMap<>(0);
 
 	/**
 	 * A store of arbitrary, application-defined attributes.
@@ -66,7 +66,7 @@ public class MockRequest extends AbstractRequest {
 	 * @param value the parameter value.
 	 */
 	public void setParameter(final String key, final String value) {
-		parameters.put(key, value);
+		parameters.put(key, new String[]{value});
 	}
 
 	/**
@@ -87,9 +87,8 @@ public class MockRequest extends AbstractRequest {
 	 */
 	public void addParameterForButton(final UIContext uic, final WButton button) {
 		UIContextHolder.pushContext(uic);
-
 		try {
-			parameters.put(button.getId(), "x");
+			setParameter(button.getId(), "x");
 		} finally {
 			UIContextHolder.popContext();
 		}
@@ -105,45 +104,7 @@ public class MockRequest extends AbstractRequest {
 	public void setFileContents(final String key, final byte[] contents) {
 		MockFileItem fileItem = new MockFileItem();
 		fileItem.set(contents);
-
-		files.put(key, fileItem);
-	}
-
-	/**
-	 * Retrieves a mock file for the given parameter name.
-	 *
-	 * @param key the parameter name
-	 * @return the MockFileItem with the given key.
-	 */
-	@Override
-	public FileItem getFileItem(final String key) {
-		return getFiles().get(key);
-	}
-
-	/**
-	 * Retrieves mock files for the given parameter name.
-	 *
-	 * @param key the parameter name
-	 * @return the MockFileItems with the given key.
-	 */
-	@Override
-	public FileItem[] getFileItems(final String key) {
-		FileItem file = getFiles().get(key);
-		if (file != null) {
-			return new FileItem[]{(FileItem) file};
-		}
-		return null;
-	}
-
-	/**
-	 * Retrieves the contents of a mock file for the given parameter name.
-	 *
-	 * @param key the parameter name
-	 * @return FileContents from the MockFileItem with the given key.
-	 */
-	@Override
-	public byte[] getFileContents(final String key) {
-		return getFiles().get(key).get();
+		files.put(key, new FileItem[]{fileItem});
 	}
 
 	/**
@@ -177,7 +138,7 @@ public class MockRequest extends AbstractRequest {
 	 * @return the parameter map.
 	 */
 	@Override
-	public Map<String, Object> getParameters() {
+	public Map<String, String[]> getParameters() {
 		return parameters;
 	}
 
@@ -185,7 +146,7 @@ public class MockRequest extends AbstractRequest {
 	 * @return the file upload map.
 	 */
 	@Override
-	public Map<String, FileItem> getFiles() {
+	public Map<String, FileItem[]> getFiles() {
 		return files;
 	}
 
