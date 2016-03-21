@@ -130,9 +130,10 @@ define(["wc/dom/event",
 			 * @public
 			 * @param {Element} element The element which is being changed.
 			 * @param {Object} [obj] A trigger definition dto.
+			 * @param {Boolean} [ignoreAncestor] Indicates to not look up the tree when trying to find a trigger.
 			 */
-			this.requestLoad = function(element, obj) {
-				var trigger = triggerManager.getTrigger(element),
+			this.requestLoad = function(element, obj, ignoreAncestor) {
+				var trigger = triggerManager.getTrigger(element, ignoreAncestor),
 					alias,
 					loads,
 					id;

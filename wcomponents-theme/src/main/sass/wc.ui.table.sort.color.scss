@@ -7,6 +7,13 @@
 // scss-lint:disable QualifyingElement
 col.wc_table_sort_sorted,
 th[sorted] {
-	background-color: $wc-ui-color-highlight-bg;
 	color: $wc-ui-color-highlight-fg;
+}
+
+th[sorted] { // the TH needs to be opague to over-ride the thead background color rather than over-lay it.
+	background-color: $wc-ui-color-highlight-bg;
+}
+
+col.wc_table_sort_sorted {
+	background-color: $wc-ui-color-highlight-bg-rgba;
 }

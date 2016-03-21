@@ -26,6 +26,7 @@ import com.github.bordertech.wcomponents.layout.BorderLayout;
 import com.github.bordertech.wcomponents.util.DateUtilities;
 import com.github.bordertech.wcomponents.validator.DateFieldPivotValidator;
 import com.github.bordertech.wcomponents.validator.RegExFieldValidator;
+import java.util.Date;
 
 /**
  * <p>
@@ -117,6 +118,7 @@ public class CoreFields extends WPanel {
 		WDateField df = new WDateField();
 		WField dateField = fields.addField("WDateField", df);
 		dateField.getLabel().setHint("before today");
+		df.setMaxDate(DateUtilities.roundToDay(new Date()));
 		dateField.addValidator(new DateFieldPivotValidator(DateFieldPivotValidator.BEFORE));
 		df.setToolTip("Set a date before today");
 

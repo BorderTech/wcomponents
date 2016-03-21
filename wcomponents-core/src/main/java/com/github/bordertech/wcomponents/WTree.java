@@ -349,7 +349,7 @@ public class WTree extends AbstractInput
 	 * Set the row keys that are expanded.
 	 * <p>
 	 * A row key uniquely identifies each row and is determined by the {@link TreeItemModel}. Refer to
-	 * {@link TreeItemModel#getRowKey(List)}.
+	 * {@link TreeItemModel#getItemId(List)}.
 	 * </p>
 	 *
 	 * @param itemIds the keys of expanded rows.

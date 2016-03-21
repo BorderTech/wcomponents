@@ -32,6 +32,8 @@ $std-color-invite-bg-rgba: rgba(204, 229, 255, 0.5);
 $std-color-highlight-bg: #f2f2f2;
 // The foreground must meet 4.5:1;
 $std-color-highlight-fg: $std-color-black;
+// Table row zebra-striping must be translucent with alpha no greater than 0.5 on a white background.
+$std-color-highlight-bg-rgba: rgba(0, 0, 0, 0.02);
 
 // Line accents (usually borders)
 $std-color-lines: #ccc;

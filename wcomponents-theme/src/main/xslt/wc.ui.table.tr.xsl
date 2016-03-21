@@ -25,7 +25,7 @@
 		<xsl:variable name="tableId" select="$myTable/@id"/>
 		<xsl:variable name="rowId" select="concat($tableId,'-',@rowIndex)"/>
 
-		<xsl:variable name="selectableRow">
+		<xsl:variable name="tableRowSelection">
 			<xsl:if test="$myTable/ui:rowselection">
 				<xsl:value-of select="1"/>
 			</xsl:if>
@@ -65,13 +65,7 @@
 		</xsl:variable>
 		
 		<xsl:variable name="rowIsSelectable">
-			<xsl:if test="$selectableRow=1 and not(@unselectable=$t)">
-				<xsl:number value="1"/>
-			</xsl:if>
-		</xsl:variable>
-
-		<xsl:variable name="isSelectToggle">
-			<xsl:if test="$hasRowExpansion + $selectableRow = 2 and $myTable/ui:rowselection/@toggle and ui:subtr/ui:tr[not(@unselectable)]">
+			<xsl:if test="$tableRowSelection=1 and not(@unselectable=$t)">
 				<xsl:number value="1"/>
 			</xsl:if>
 		</xsl:variable>
@@ -96,12 +90,6 @@
 							<xsl:text>wc_table_stripe</xsl:text>
 						</xsl:when>
 					</xsl:choose>
-					<!--
-						Adding this class makes all sorts of magic happen.
-					<xsl:if test="$isSelectToggle = 1">
-						<xsl:text> wc_seltog</xsl:text>
-					</xsl:if>
-					-->
 					<xsl:if test="$rowIsSelectable = 1">
 						<xsl:text> wc_invite</xsl:text>
 					</xsl:if>
@@ -206,11 +194,7 @@
 			<xsl:if test="$rowIsSelectable=1">
 				<xsl:attribute name="aria-selected">
 					<xsl:choose>
-						<xsl:when test="$isSelectToggle = 1 and .//ui:subtr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable or @selected)]">
-							<!-- If I am a select toggle row for my 'descendant' rows and one or more of these are not selected then I am not selected. -->
-							<xsl:text>false</xsl:text>
-						</xsl:when>
-						<xsl:when test="$isSelectToggle = 1 or @selected = $t">
+						<xsl:when test="@selected = $t">
 							<xsl:copy-of select="$t"/>
 						</xsl:when>
 						<xsl:otherwise>
@@ -255,62 +239,72 @@
 			This cell is an empty cell which is used as a placeholder to display the secondary indicators of the row 
 			selection mechanism and state. The primary indicators are the aria-selected state.
 			-->
-			<xsl:if test="$selectableRow=1">
-				<td class="wc_table_sel_wrapper" aria-hidden="true">
-					<xsl:if test="$isSelectToggle=1">
-						<xsl:variable name="subRowToggleControlId" select="concat($rowId, '_toggleController')"/>
-						<xsl:variable name="subRowToggleControlButtonId" select="concat($subRowToggleControlId, '_showbtn')"/>
-						<xsl:variable name="subRowToggleControlContentId" select="concat($subRowToggleControlId, '_content')"/>
-						<!--
+			<xsl:if test="$tableRowSelection=1">
+				<td class="wc_table_sel_wrapper">
+					<xsl:choose>
+						<xsl:when test="$hasRowExpansion + $tableRowSelection = 2 and $myTable/ui:rowselection/@toggle and ui:subtr/ui:tr[not(@unselectable)]">
+							<xsl:attribute name="role">
+								<xsl:text>presentation</xsl:text>
+							</xsl:attribute>
+							<xsl:variable name="subRowToggleControlId" select="concat($rowId, '_toggleController')"/>
+							<xsl:variable name="subRowToggleControlButtonId" select="concat($subRowToggleControlId, '_showbtn')"/>
+							<xsl:variable name="subRowToggleControlContentId" select="concat($subRowToggleControlId, '_content')"/>
+							<!--
 							THIS IS HORRID but necessary - it has to be a complete emulation of a flyout menu but I have nothing to
 							apply to make the submenu and menu ite,s so I cannot even make the menu template into a named template.
 						-->
-						<div class="wc-menu flyout" role="menubar" id="{$subRowToggleControlId}">
-							<div class="wc-submenu" role="presentation">
-								<button type="button" aria-haspopup="true" class="wc_btn_nada wc_invite wc-submenu-o" id="{$subRowToggleControlButtonId}" aria-controls="{$subRowToggleControlContentId}">
-									<span class="wc_off"><xsl:value-of select="$$${wc.ui.table.string.rowSelection.label}"/></span>
-								</button>
-								<div class="wc_submenucontent wc_seltog" role="menu" aria-expanded="false" id="{$subRowToggleControlContentId}" aria-labelledby="{$subRowToggleControlButtonId}">
-									<xsl:variable name="allSelectableSubRows" select="count(.//ui:subtr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable)])"/>
-									<xsl:variable name="allUnselectedSubRows" select="count(.//ui:subtr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable or @selected)])"/>
-									<xsl:variable name="subRowControlList">
-										<xsl:value-of select="concat($rowId, ' ')"/><!-- these controllers control this row too -->
-										<xsl:apply-templates select="ui:subtr//ui:tr[ancestor::ui:table[1]/@id = $tableId]" mode="subRowControlIdentifier">
-											<xsl:with-param name="tableId" select="$tableId"/>
-										</xsl:apply-templates>
-									</xsl:variable>
-									<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc_btn_nada wc_invite" aria-controls="{$subRowControlList}" data-wc-value="all">
-										<xsl:attribute name="aria-checked">
-											<xsl:choose>
-												<xsl:when test="$allUnselectedSubRows = 0">
-													<xsl:text>true</xsl:text>
-												</xsl:when>
-												<xsl:otherwise>
-													<xsl:text>false</xsl:text>
-												</xsl:otherwise>
-											</xsl:choose>
-										</xsl:attribute>
-										<span class="wc_off"><xsl:value-of select="$$${wc.common.toggles.i18n.select.label}"/> </span>
-										<xsl:value-of select="$$${wc.common.toggles.i18n.selectAll}"/>
+							<div class="wc-menu flyout" role="menubar" id="{$subRowToggleControlId}">
+								<div class="wc-submenu" role="presentation">
+									<button type="button" aria-haspopup="true" class="wc_btn_nada wc_invite wc-submenu-o" id="{$subRowToggleControlButtonId}" aria-controls="{$subRowToggleControlContentId}">
+										<span class="wc_off"><xsl:value-of select="$$${wc.ui.table.string.rowSelection.label}"/></span>
 									</button>
-									<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc_btn_nada wc_invite" aria-controls="{$subRowControlList}"  data-wc-value="none">
-										<xsl:attribute name="aria-checked">
-											<xsl:choose>
-												<xsl:when test="$allSelectableSubRows = $allUnselectedSubRows">
-													<xsl:text>true</xsl:text>
-												</xsl:when>
-												<xsl:otherwise>
-													<xsl:text>false</xsl:text>
-												</xsl:otherwise>
-											</xsl:choose>
-										</xsl:attribute>
-										<span class="wc_off"><xsl:value-of select="$$${wc.common.toggles.i18n.select.label}"/> </span>
-										<xsl:value-of select="$$${wc.common.toggles.i18n.selectNone}"/>
-									</button>
+									<div class="wc_submenucontent wc_seltog" role="menu" aria-expanded="false" id="{$subRowToggleControlContentId}" aria-labelledby="{$subRowToggleControlButtonId}">
+										<xsl:variable name="allSelectableSubRows" select="count(.//ui:subtr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable)])"/>
+										<xsl:variable name="allUnselectedSubRows" select="count(.//ui:subtr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable or @selected)])"/>
+										<xsl:variable name="subRowControlList">
+											<xsl:value-of select="concat($rowId, ' ')"/><!-- these controllers control this row too -->
+											<xsl:apply-templates select="ui:subtr//ui:tr[ancestor::ui:table[1]/@id = $tableId]" mode="subRowControlIdentifier">
+												<xsl:with-param name="tableId" select="$tableId"/>
+											</xsl:apply-templates>
+										</xsl:variable>
+										<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc_btn_nada wc_invite" aria-controls="{$subRowControlList}" data-wc-value="all">
+											<xsl:attribute name="aria-checked">
+												<xsl:choose>
+													<xsl:when test="$allUnselectedSubRows = 0">
+														<xsl:text>true</xsl:text>
+													</xsl:when>
+													<xsl:otherwise>
+														<xsl:text>false</xsl:text>
+													</xsl:otherwise>
+												</xsl:choose>
+											</xsl:attribute>
+											<span class="wc_off"><xsl:value-of select="$$${wc.common.toggles.i18n.select.label}"/> </span>
+											<xsl:value-of select="$$${wc.common.toggles.i18n.selectAll}"/>
+										</button>
+										<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc_btn_nada wc_invite" aria-controls="{$subRowControlList}"  data-wc-value="none">
+											<xsl:attribute name="aria-checked">
+												<xsl:choose>
+													<xsl:when test="$allSelectableSubRows = $allUnselectedSubRows">
+														<xsl:text>true</xsl:text>
+													</xsl:when>
+													<xsl:otherwise>
+														<xsl:text>false</xsl:text>
+													</xsl:otherwise>
+												</xsl:choose>
+											</xsl:attribute>
+											<span class="wc_off"><xsl:value-of select="$$${wc.common.toggles.i18n.select.label}"/> </span>
+											<xsl:value-of select="$$${wc.common.toggles.i18n.selectNone}"/>
+										</button>
+									</div>
 								</div>
 							</div>
-						</div>
-					</xsl:if>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:attribute name="aria-hidden">
+								<xsl:copy-of select="$t"/>
+							</xsl:attribute>
+						</xsl:otherwise>
+					</xsl:choose>
 				</td>
 			</xsl:if>
 			<!--

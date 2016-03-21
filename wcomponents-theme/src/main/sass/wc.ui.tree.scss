@@ -17,15 +17,23 @@
 	}
 }
 
+button[role='treeitem'],
+[role='treeitem'] > button {
+	width: 100%;
+}
+
 [role='treeitem'] {
 	@include border-box;
 	display: block;
 	width: 100%;
-}
 
-button[role='treeitem'],
-[role='treeitem'] > button {
-	width: 100%;
+	> .wc_leaf_vopener {
+		width: 1.25rem;
+
+		+ button {
+			width: calc(100% - 1.25rem);
+		}
+	}
 }
 
 .wc_leaf_vopener,
@@ -36,6 +44,7 @@ button[role='treeitem'],
 }
 
 .wc_leaf_vopener { // the vertical opener button
+	@include border-box;
 	padding: $wc-tree-item-pad-t 0 $wc-tree-item-pad-b $wc-tree-item-pad-l;
 	text-align: center;
 }

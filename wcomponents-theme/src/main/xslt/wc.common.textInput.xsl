@@ -42,7 +42,7 @@
 						<xsl:with-param name="force" select="1"/>
 					</xsl:call-template>
 				</xsl:if>
-				<div id="{concat($id, '-wrapper')}"><!-- the id is for removal during AJAX -->
+				<div id="{$id}">
 					<xsl:attribute name="class">
 						<xsl:text>wc_input_wrapper</xsl:text>
 						<xsl:if test="@list">
@@ -70,6 +70,7 @@
 					</xsl:variable>
 					<xsl:element name="input">
 						<xsl:call-template name="commonControlAttributes">
+							<xsl:with-param name="id" select="concat($id, '-input')"/>
 							<xsl:with-param name="isError" select="$isError"/>
 							<xsl:with-param name="name" select="@id"/>
 							<xsl:with-param name="live" select="'off'"/>

@@ -5,12 +5,10 @@
 
 [role='banner'] {
 	background-color: $wc-ui-color-panel-header-background;
-	color: $wc-ui-color-panel-header-foreground;
 
-	h1 {
-		color: $wc-ui-color-panel-header-foreground;
-	}
-
+	&,
+	h1,
+	.wc_btn_link,
 	a,
 	a:visited {
 		color: $wc-ui-color-panel-header-foreground;

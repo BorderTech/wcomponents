@@ -29,8 +29,8 @@
 	color: inherit;
 }
 
-
-@import 'panel_vars'; // for the header foreground color
-[role='banner'] [role='menubar'][data-wc-menufixed] > [role='menuitem']:first-child > button::after {
-	color: $wc-ui-color-panel-header-foreground;
-}
+//
+// @import 'panel_vars'; // for the header foreground color
+// [role='banner'] [data-wc-menufixed] > [role='menuitem']:first-child > button::after {
+// 	color: $wc-ui-color-panel-header-foreground;
+// }

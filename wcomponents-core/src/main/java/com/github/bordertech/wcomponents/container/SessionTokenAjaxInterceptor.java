@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.InternalMessages;
-import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
@@ -42,8 +41,8 @@ public class SessionTokenAjaxInterceptor extends InterceptorComponent {
 
 		// Session token should already be set
 		if (expected == null) {
-			throw new SystemException(
-					"Session token should already be set on the session before AJAX request");
+			LOG.error("Session token should already be set on the session before AJAX request. Can be due to the session timing out.");
+			handleError();
 		}
 
 		// Get the session token from the request
