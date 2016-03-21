@@ -49,9 +49,14 @@ public class SessionTokenInterceptor extends InterceptorComponent {
 			// Process request
 			getBackingComponent().serviceRequest(request);
 		} else {  // Invalid token
-			LOG.error(
-					"Wrong session token detected for servlet request. Expected token [" + expected
-					+ "] but got token [" + got + "].");
+			String msg;
+			if (expected == null && got != null) {
+				msg = "Session for token [" + got + "] is no longer valid or timed out.";
+			} else {
+				msg = "Wrong session token detected for servlet request. Expected token [" + expected
+						+ "] but got token [" + got + "].";
+			}
+			LOG.error(msg);
 			String message = I18nUtilities.format(uic.getLocale(),
 					InternalMessages.DEFAULT_SESSION_TOKEN_ERROR);
 			throw new SystemException(message);

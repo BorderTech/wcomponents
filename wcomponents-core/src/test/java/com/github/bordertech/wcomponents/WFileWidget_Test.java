@@ -310,7 +310,7 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		 * @param item the file item
 		 */
 		private void uploadFile(final FileItem item) {
-			getFiles().put(item.getFieldName(), item);
+			getFiles().put(item.getFieldName(), new FileItem[]{item});
 		}
 	}
 }
