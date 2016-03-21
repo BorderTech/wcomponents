@@ -1,13 +1,19 @@
 /* wc.ui.timeoutWarn.scss */
-@import 'vars';
+@import 'mixins-common';
 
 // timeout warning container is generated and identified.
 // scss-lint:disable IdSelector
 #wc_session_container {
+	@include fit-content($fallback: 25rem);
 	background-color: $wc-ui-color-global-bg; // to make it opaque;
 	bottom: 0;
+	max-width: 100%;
 	position: fixed;
 	right: 0;
-	width: 35rem;
 	z-index: $z-index-unloading-message; // z-index needs to be above dialogs, unloading shims etc
+
+	ul {
+		list-style-type: none;
+		padding-left: $hgap-small; 
+	}
 }
