@@ -35,6 +35,15 @@ public final class AjaxHelper {
 	}
 
 	/**
+	 * Clear the registered AJAX operations.
+	 *
+	 * @param request the current request being responded to.
+	 */
+	public static void clearAllRegisteredOperations(final Request request) {
+		request.setSessionAttribute(AJAX_OPERATIONS_SESSION_KEY, null);
+	}
+
+	/**
 	 * @param trigger the AJAX trigger to check
 	 * @return true if this is the current AJAX trigger
 	 */

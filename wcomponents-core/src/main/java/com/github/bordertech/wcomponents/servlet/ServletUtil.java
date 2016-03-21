@@ -8,6 +8,7 @@ import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContent;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.container.AjaxCleanupInterceptor;
 import com.github.bordertech.wcomponents.container.AjaxDebugStructureInterceptor;
 import com.github.bordertech.wcomponents.container.AjaxErrorInterceptor;
 import com.github.bordertech.wcomponents.container.AjaxInterceptor;
@@ -385,30 +386,51 @@ public final class ServletUtil {
 
 		InterceptorComponent[] chain;
 
-		if (parameters.get(WServlet.DATA_LIST_PARAM_NAME) != null) {
+		if (parameters.get(WServlet.DATA_LIST_PARAM_NAME) != null) { // Datalist
 			chain = new InterceptorComponent[]{new DataListInterceptor()};
-		} else if (parameters.get(WServlet.AJAX_TRIGGER_PARAM_NAME) != null) {
-			chain = new InterceptorComponent[]{new AjaxErrorInterceptor(), new SessionTokenAjaxInterceptor(),
+
+		} else if (parameters.get(WServlet.AJAX_TRIGGER_PARAM_NAME) != null) { // AJAX
+			chain = new InterceptorComponent[]{
+				new AjaxErrorInterceptor(),
+				new SessionTokenAjaxInterceptor(),
 				new ResponseCacheInterceptor(CacheType.NO_CACHE),
-				new UIContextDumpInterceptor(), new AjaxSetupInterceptor(),
-				new WWindowInterceptor(true), new WrongStepAjaxInterceptor(),
-				new ContextCleanupInterceptor(), new TransformXMLInterceptor(),
-				new ValidateXMLInterceptor(), new WhitespaceFilterInterceptor(),
-				new SubordinateControlInterceptor(), new AjaxPageShellInterceptor(),
-				new AjaxDebugStructureInterceptor(), new AjaxInterceptor()};
-		} else if (parameters.get(WServlet.TARGET_ID_PARAM_NAME) != null) {
-			chain = new InterceptorComponent[]{new TargetableErrorInterceptor(),
-				new SessionTokenContentInterceptor(), new UIContextDumpInterceptor(),
-				new TargetableInterceptor(), new WWindowInterceptor(false),
+				new UIContextDumpInterceptor(),
+				new AjaxSetupInterceptor(),
+				new WWindowInterceptor(true),
+				new WrongStepAjaxInterceptor(),
+				new ContextCleanupInterceptor(),
+				new TransformXMLInterceptor(),
+				new ValidateXMLInterceptor(),
+				new WhitespaceFilterInterceptor(),
+				new SubordinateControlInterceptor(),
+				new AjaxPageShellInterceptor(),
+				new AjaxDebugStructureInterceptor(),
+				new AjaxInterceptor()};
+
+		} else if (parameters.get(WServlet.TARGET_ID_PARAM_NAME) != null) { // Targetted Content
+			chain = new InterceptorComponent[]{
+				new TargetableErrorInterceptor(),
+				new SessionTokenContentInterceptor(),
+				new UIContextDumpInterceptor(),
+				new TargetableInterceptor(),
+				new WWindowInterceptor(false),
 				new WrongStepContentInterceptor()};
+
 		} else {
-			chain = new InterceptorComponent[]{new SessionTokenInterceptor(),
+			chain = new InterceptorComponent[]{ // Page submit
+				new SessionTokenInterceptor(),
 				new ResponseCacheInterceptor(CacheType.NO_CACHE),
-				new UIContextDumpInterceptor(), new WWindowInterceptor(true),
-				new WrongStepServerInterceptor(), new ContextCleanupInterceptor(),
-				new TransformXMLInterceptor(), new ValidateXMLInterceptor(),
-				new WhitespaceFilterInterceptor(), new SubordinateControlInterceptor(),
-				new PageShellInterceptor(), new FormInterceptor(),
+				new UIContextDumpInterceptor(),
+				new WWindowInterceptor(true),
+				new WrongStepServerInterceptor(),
+				new AjaxCleanupInterceptor(),
+				new ContextCleanupInterceptor(),
+				new TransformXMLInterceptor(),
+				new ValidateXMLInterceptor(),
+				new WhitespaceFilterInterceptor(),
+				new SubordinateControlInterceptor(),
+				new PageShellInterceptor(),
+				new FormInterceptor(),
 				new DebugStructureInterceptor()};
 		}
 
