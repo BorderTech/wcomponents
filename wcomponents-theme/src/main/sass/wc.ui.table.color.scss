@@ -17,7 +17,7 @@ thead {
 // Row striping: You'd think tr:nth-child(even) would be enough. You'd be wrong - that does not account for sub rows.
 col.wc_table_stripe,
 tr.wc_table_stripe {
-	background-color: $wc-ui-color-highlight-bg;
+	background-color: $wc-ui-color-highlight-bg-rgba;
 }
 
 tr.wc_invite {
