@@ -1,0 +1,23 @@
+/* wc.ui.htree.patter_ff.scss */
+// Necessitated by a complete cop-out in https://bugzilla.mozilla.org/show_bug.cgi?id=984869
+@import 'tree-vars';
+
+[role='tree'].wc_htree {
+
+	[aria-expanded] > .wc_leaf {
+		display: table;
+
+		> .wc_leaf_hopener {
+			display: table-cell;
+		}
+	}
+
+	.wc_leaf_img {
+		display: table-cell;
+	}
+
+	.wc_leaf_name {
+		display: table-cell;
+		width: 100%;
+	}
+}

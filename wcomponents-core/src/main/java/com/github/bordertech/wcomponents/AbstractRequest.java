@@ -1,22 +1,18 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.servlet.ServletUtil;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.Enumerator;
-import com.github.bordertech.wcomponents.util.RequestUtil;
-import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.StreamUtil;
 import com.github.bordertech.wcomponents.util.Util;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * This abstract class is intended to support all the various request implementations.
@@ -25,11 +21,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public abstract class AbstractRequest implements Request {
 
-	/**
-	 * The logger instance for this class.
-	 */
-	private static final Log LOG = LogFactory.getLog(AbstractRequest.class);
-
 	private boolean logout;
 
 	/**
@@ -37,23 +28,8 @@ public abstract class AbstractRequest implements Request {
 	 */
 	@Override
 	public String getParameter(final String key) {
-		Object value = getParameters().get(key);
-
-		if (value == null) {
-			return null;
-		}
-
-		if (value.getClass().isArray()) {
-			String[] values = (String[]) value;
-
-			if (values.length == 0) {
-				return null;
-			}
-
-			return values[0];
-		}
-
-		return (String) value;
+		String[] value = getParameters().get(key);
+		return value == null || value.length == 0 ? null : value[0];
 	}
 
 	/**
@@ -61,17 +37,7 @@ public abstract class AbstractRequest implements Request {
 	 */
 	@Override
 	public String[] getParameterValues(final String key) {
-		Object value = getParameters().get(key);
-
-		if (value == null) {
-			return null;
-		}
-
-		if (value instanceof String) {
-			return new String[]{(String) value};
-		}
-
-		return (String[]) value;
+		return getParameters().get(key);
 	}
 
 	/**
@@ -79,8 +45,8 @@ public abstract class AbstractRequest implements Request {
 	 */
 	@Override
 	public byte[] getFileContents(final String key) {
-		FileItem file = (FileItem) getFiles().get(key);
-		return file.get();
+		FileItem file = getFileItem(key);
+		return file == null ? null : file.get();
 	}
 
 	/**
@@ -88,16 +54,7 @@ public abstract class AbstractRequest implements Request {
 	 */
 	@Override
 	public FileItem[] getFileItems(final String key) {
-		Object file = getFiles().get(key);
-
-		if (file == null) {
-			return null;
-		}
-
-		if (file instanceof FileItem) {
-			return new FileItem[]{(FileItem) file};
-		}
-		return (FileItem[]) file;
+		return getFiles().get(key);
 	}
 
 	/**
@@ -105,12 +62,8 @@ public abstract class AbstractRequest implements Request {
 	 */
 	@Override
 	public FileItem getFileItem(final String key) {
-		Object file = getFiles().get(key);
-		if (file instanceof FileItem[]) {
-			// For backwards compatibility we ignore multiple files and simply return one of them.
-			return ((FileItem[]) file)[0];
-		}
-		return (FileItem) file;
+		FileItem[] value = getFiles().get(key);
+		return value == null || value.length == 0 ? null : value[0];
 	}
 
 	/**
@@ -120,20 +73,6 @@ public abstract class AbstractRequest implements Request {
 	public Enumeration getParameterNames() {
 		return new Enumerator(getParameters().keySet().iterator());
 	}
-
-	/**
-	 * @return the complete list of parameters contained in this request. If the request contains no parameters, the
-	 * method returns an empty <code>Map</code>.
-	 */
-	@Override
-	public abstract Map getParameters();
-
-	/**
-	 * Retrieves the files which were uploaded in this request.
-	 *
-	 * @return the uploaded files.
-	 */
-	public abstract Map getFiles();
 
 	/**
 	 * {@inheritDoc}
@@ -187,35 +126,12 @@ public abstract class AbstractRequest implements Request {
 	 * @param fileItems a list of {@link FileItem}s corresponding to POSTed form data.
 	 * @param parameters the map to store non-file request parameters in.
 	 * @param files the map to store the uploaded file parameters in.
+	 * @deprecated Use {@link ServletUtil#uploadFileItems(java.util.List, java.util.Map, java.util.Map)} instead.
 	 */
-	protected static void uploadFileItems(final List fileItems, final Map parameters,
-			final Map files) {
-		for (int i = 0; i < fileItems.size(); i++) {
-			FileItem item = (FileItem) fileItems.get(i);
-			String name = item.getFieldName();
-			boolean formField = item.isFormField();
-
-			if (LOG.isDebugEnabled()) {
-				LOG.debug(
-						"Uploading form " + (formField ? "field" : "attachment") + " \"" + name + "\"");
-			}
-
-			if (formField) {
-				String value;
-				try {
-					// Without specifying UTF-8, apache commons DiskFileItem defaults to ISO-8859-1.
-					value = item.getString("UTF-8");
-				} catch (UnsupportedEncodingException e) {
-					throw new SystemException("Encoding error on formField item", e);
-				}
-				RequestUtil.addParameter(parameters, name, value);
-			} else {
-				// Form attachment
-				RequestUtil.addFileItem(files, name, item);
-				String value = item.getName();
-				RequestUtil.addParameter(parameters, name, value);
-			}
-		}
+	@Deprecated
+	protected static void uploadFileItems(final List fileItems, final Map<String, String[]> parameters,
+			final Map<String, FileItem[]> files) {
+		ServletUtil.uploadFileItems(fileItems, parameters, files);
 	}
 
 	/**
@@ -224,23 +140,11 @@ public abstract class AbstractRequest implements Request {
 	 * @param stream the input stream to read from.
 	 * @return the stream contents as a byte array.
 	 * @throws IOException if there is an error reading from the stream.
+	 * @deprecated Use {@link StreamUtil#getBytes(java.io.InputStream)} instead.
 	 */
+	@Deprecated
 	protected static byte[] readBytes(final InputStream stream) throws IOException {
-		// Load stuff into a byte array
-		ByteArrayOutputStream buffOut = new ByteArrayOutputStream();
-
-		while (stream.available() > 0) {
-			byte[] buff = new byte[stream.available()];
-			int size = stream.read(buff);
-
-			if (size != -1) {
-				buffOut.write(buff, 0, size);
-			}
-		}
-
-		stream.close();
-		byte[] buff = buffOut.toByteArray();
-		return buff;
+		return StreamUtil.getBytes(stream);
 	}
 
 	/**

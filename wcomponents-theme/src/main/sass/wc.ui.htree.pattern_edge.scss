@@ -1,0 +1,9 @@
+/* wc.ui.htree.scss */
+@import 'tree-vars';
+
+// htree extends and replaces parts of tree.scss
+
+[role='tree'].wc_htree [role='group'] {
+	min-width: 0;
+	width: $wc-htree-branch-width-lame;
+}

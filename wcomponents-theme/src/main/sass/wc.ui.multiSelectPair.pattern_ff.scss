@@ -1,4 +1,4 @@
 /* wc.ui.multiSelectPair.ff.scss */
-.wc-multiselectpair select {
+.wc-multiselectpair select { // This fixes a very weird bug in FF.
 	min-height: 9em;
 }

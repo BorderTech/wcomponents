@@ -38,18 +38,29 @@ import com.github.bordertech.wcomponents.container.WrongStepServerInterceptor;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.util.RequestUtil;
 import com.github.bordertech.wcomponents.util.StreamUtil;
+import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.ThemeUtil;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -76,6 +87,21 @@ public final class ServletUtil {
 	 * Theme resource path parameter.
 	 */
 	private static final String THEME_RESOURCE_PATH_PARAM = "/" + Environment.THEME_RESOURCE_PATH_NAME + "/";
+
+	/**
+	 * The parameters extracted from multi part saved on the request.
+	 */
+	private static final String REQUEST_PARAMETERS_KEY = "wc_req_params";
+
+	/**
+	 * The parameters extracted from multi part saved on the request.
+	 */
+	private static final String REQUEST_FILES_KEY = "wc_req_files";
+
+	/**
+	 * The flag that the request has been processed allowing for multi part forms.
+	 */
+	private static final String REQUEST_PROCESSED_KEY = "wc_req_processed";
 
 	/**
 	 * The key used to look up the {@link Config WComponent Configuration} flag for whether we should use enable
@@ -150,9 +176,6 @@ public final class ServletUtil {
 	public static void processRequest(final HttpServletHelper helper, final WComponent ui,
 			final InterceptorComponent interceptorChain) throws ServletException, IOException {
 
-		// Check if processing AJAX
-		boolean ajax = helper.getBackingRequest().getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME) != null;
-
 		try {
 			// Tell the support container about the top most web component
 			// that will service the request/response.
@@ -174,13 +197,10 @@ public final class ServletUtil {
 				helper.render();
 			}
 		} finally {
-			// cleanup
-			if (ajax) {
-				// We need to ensure that the AJAX operation is cleared
-				// The interceptors can not guarantee this
-				// TODO: Investigate changing to not use a thread-local
-				AjaxHelper.clearCurrentOperationDetails();
-			}
+			// We need to ensure that the AJAX operation is cleared
+			// The interceptors can not guarantee this
+			// TODO: Investigate changing to not use a thread-local
+			AjaxHelper.clearCurrentOperationDetails();
 		}
 	}
 
@@ -262,9 +282,8 @@ public final class ServletUtil {
 	}
 
 	/**
-	 * Serves up a file from the theme.
-	 * In practice it is generally a bad idea to use this servlet to serve up static resources.
-	 * Instead it would make more sense to move CSS, JS, HTML resources to a CDN or similar.
+	 * Serves up a file from the theme. In practice it is generally a bad idea to use this servlet to serve up static
+	 * resources. Instead it would make more sense to move CSS, JS, HTML resources to a CDN or similar.
 	 *
 	 *
 	 * @param req the request with the file name in parameter "f", or following the servlet path.
@@ -322,8 +341,7 @@ public final class ServletUtil {
 						substring(fileName
 								.lastIndexOf('/') + 1));
 				resp.setHeader("Content-Disposition", "filename=" + encodedName);  // "filename=" to comply with https://tools.ietf.org/html/rfc6266
-				*/
-
+				 */
 				resp.setContentType(WebUtilities.getContentType(fileName));
 				resp.setHeader("Cache-Control", CacheType.THEME_CACHE.getSettings());
 
@@ -362,11 +380,14 @@ public final class ServletUtil {
 	 */
 	public static InterceptorComponent createInterceptorChain(final HttpServletRequest request) {
 
+		// Allow for multi part parameters
+		Map<String, String[]> parameters = getRequestParameters(request);
+
 		InterceptorComponent[] chain;
 
-		if (request.getParameter(WServlet.DATA_LIST_PARAM_NAME) != null) {
+		if (parameters.get(WServlet.DATA_LIST_PARAM_NAME) != null) {
 			chain = new InterceptorComponent[]{new DataListInterceptor()};
-		} else if (request.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME) != null) {
+		} else if (parameters.get(WServlet.AJAX_TRIGGER_PARAM_NAME) != null) {
 			chain = new InterceptorComponent[]{new AjaxErrorInterceptor(), new SessionTokenAjaxInterceptor(),
 				new ResponseCacheInterceptor(CacheType.NO_CACHE),
 				new UIContextDumpInterceptor(), new AjaxSetupInterceptor(),
@@ -375,7 +396,7 @@ public final class ServletUtil {
 				new ValidateXMLInterceptor(), new WhitespaceFilterInterceptor(),
 				new SubordinateControlInterceptor(), new AjaxPageShellInterceptor(),
 				new AjaxDebugStructureInterceptor(), new AjaxInterceptor()};
-		} else if (request.getParameter(WServlet.TARGET_ID_PARAM_NAME) != null) {
+		} else if (parameters.get(WServlet.TARGET_ID_PARAM_NAME) != null) {
 			chain = new InterceptorComponent[]{new TargetableErrorInterceptor(),
 				new SessionTokenContentInterceptor(), new UIContextDumpInterceptor(),
 				new TargetableInterceptor(), new WWindowInterceptor(false),
@@ -415,11 +436,14 @@ public final class ServletUtil {
 		HttpServletRequest httpServletRequest = helper.getBackingRequest();
 		HttpServletResponse httpServletResponse = helper.getBackingResponse();
 
+		// Allow for multi part requests
+		Map<String, String[]> parameters = getRequestParameters(httpServletRequest);
+
 		// Set error code for AJAX, Content or data requests
-		boolean dataRequest = httpServletRequest.getParameter(WServlet.DATA_LIST_PARAM_NAME) != null;
-		String target = httpServletRequest.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME);
+		boolean dataRequest = parameters.get(WServlet.DATA_LIST_PARAM_NAME) != null;
+		Object target = parameters.get(WServlet.AJAX_TRIGGER_PARAM_NAME);
 		if (target == null) {
-			target = httpServletRequest.getParameter(WServlet.TARGET_ID_PARAM_NAME);
+			target = parameters.get(WServlet.TARGET_ID_PARAM_NAME);
 		}
 		if (target != null || dataRequest) {
 			httpServletResponse.sendError(500, "Internal Error");
@@ -453,6 +477,193 @@ public final class ServletUtil {
 			Locale locale = uic == null ? null : uic.getLocale();
 			message = I18nUtilities.format(locale, message);
 			httpServletResponse.getWriter().println(message);
+		}
+	}
+
+	/**
+	 * @param request the request being processed
+	 * @return true if a multi part form request
+	 */
+	public static boolean isMultipart(final HttpServletRequest request) {
+		String contentType = request.getContentType();
+		boolean isMultipart = (contentType != null && contentType.toLowerCase().startsWith(
+				"multipart/form-data"));
+		return isMultipart;
+	}
+
+	/**
+	 * Get a map of request parameters allowing for multi part form fields.
+	 *
+	 * @param request the request being processed
+	 * @return a map of parameters on the request
+	 */
+	public static Map<String, String[]> getRequestParameters(final HttpServletRequest request) {
+		if (request.getAttribute(REQUEST_PROCESSED_KEY) == null) {
+			setupRequestParameters(request);
+		}
+		return (Map<String, String[]>) request.getAttribute(REQUEST_PARAMETERS_KEY);
+	}
+
+	/**
+	 * Get a value for a request parameter allowing for multi part form fields.
+	 *
+	 * @param request the request being processed
+	 * @param key the parameter key to return
+	 * @return the parameter value
+	 */
+	public static String getRequestParameterValue(final HttpServletRequest request, final String key) {
+		String[] values = getRequestParameterValues(request, key);
+		return values == null || values.length == 0 ? null : values[0];
+	}
+
+	/**
+	 * Get the values for a request parameter allowing for multi part form fields.
+	 *
+	 * @param request the request being processed
+	 * @param key the parameter key to return
+	 * @return the parameter values
+	 */
+	public static String[] getRequestParameterValues(final HttpServletRequest request, final String key) {
+		return getRequestParameters(request).get(key);
+	}
+
+	/**
+	 * Get a map of file items in the request allowing for multi part form fields.
+	 *
+	 * @param request the request being processed
+	 * @return a map of files on the request
+	 */
+	public static Map<String, FileItem[]> getRequestFileItems(final HttpServletRequest request) {
+		if (request.getAttribute(REQUEST_PROCESSED_KEY) == null) {
+			setupRequestParameters(request);
+		}
+		return (Map<String, FileItem[]>) request.getAttribute(REQUEST_FILES_KEY);
+	}
+
+	/**
+	 * Get a file item value from the request allowing for multi part form fields.
+	 *
+	 * @param request the request being processed
+	 * @param key the file parameter key to return
+	 * @return the file item value
+	 */
+	public static FileItem getRequestFileItemValue(final HttpServletRequest request, final String key) {
+		FileItem[] values = getRequestFileItemValues(request, key);
+		return values == null || values.length == 0 ? null : values[0];
+	}
+
+	/**
+	 * Get file item values from the request allowing for multi part form fields.
+	 *
+	 * @param request the request being processed
+	 * @param key the file parameter key to return
+	 * @return the file item values
+	 */
+	public static FileItem[] getRequestFileItemValues(final HttpServletRequest request, final String key) {
+		return getRequestFileItems(request).get(key);
+	}
+
+	/**
+	 * Process the request parameters allowing for multi part form fields.
+	 *
+	 * @param request the request being processed
+	 */
+	public static void setupRequestParameters(final HttpServletRequest request) {
+
+		// Check already processed
+		if (request.getAttribute(REQUEST_PROCESSED_KEY) != null) {
+			return;
+		}
+
+		Map<String, String[]> parameters = new HashMap<>();
+		Map<String, FileItem[]> files = new HashMap<>();
+
+		extractParameterMap(request, parameters, files);
+
+		request.setAttribute(REQUEST_PROCESSED_KEY, "Y");
+		request.setAttribute(REQUEST_PARAMETERS_KEY, Collections.unmodifiableMap(parameters));
+		request.setAttribute(REQUEST_FILES_KEY, Collections.unmodifiableMap(files));
+	}
+
+	/**
+	 * Extract the parameters and file items allowing for multi part form fields.
+	 *
+	 * @param request the request being processed
+	 * @param parameters the map to store non-file request parameters in.
+	 * @param files the map to store the uploaded file parameters in.
+	 */
+	public static void extractParameterMap(final HttpServletRequest request, final Map<String, String[]> parameters, final Map<String, FileItem[]> files) {
+
+		String contentType = request.getContentType();
+
+		// Can't use the HttpServletRequest.getParameterMap because it's not in Servlet 2.2
+		boolean isMultipart = (contentType != null && contentType.toLowerCase().startsWith(
+				"multipart/form-data"));
+
+		if (!isMultipart) {
+			parameters.putAll(request.getParameterMap());
+		} else {
+			ServletFileUpload upload = new ServletFileUpload();
+			upload.setFileItemFactory(new DiskFileItemFactory());
+
+			try {
+				List fileItems = upload.parseRequest(request);
+
+				uploadFileItems(fileItems, parameters, files);
+			} catch (FileUploadException ex) {
+				throw new SystemException(ex);
+			}
+			// Include Query String Parameters (only if parameters were not included in the form fields)
+			for (Object entry : request.getParameterMap().entrySet()) {
+				Map.Entry<String, String[]> param = (Map.Entry<String, String[]>) entry;
+				if (!parameters.containsKey(param.getKey())) {
+					parameters.put(param.getKey(), param.getValue());
+				}
+			}
+		}
+	}
+
+	/**
+	 * <p>
+	 * {@link FileItem} classes (if attachements) will be kept as part of the request. The default behaviour of the file
+	 * item is to store the upload in memory until it reaches a certain size, after which the content is streamed to a
+	 * temp file.</p>
+	 *
+	 * <p>
+	 * If, in the future, performance of uploads becomes a focus we can instead look into using the Jakarta Commons
+	 * Streaming API. In this case, the content of the upload isn't stored anywhere. It will be up to the user to
+	 * read/store the content of the stream.</p>
+	 *
+	 * @param fileItems a list of {@link FileItem}s corresponding to POSTed form data.
+	 * @param parameters the map to store non-file request parameters in.
+	 * @param files the map to store the uploaded file parameters in.
+	 */
+	public static void uploadFileItems(final List<FileItem> fileItems, final Map<String, String[]> parameters,
+			final Map<String, FileItem[]> files) {
+		for (FileItem item : fileItems) {
+			String name = item.getFieldName();
+			boolean formField = item.isFormField();
+
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(
+						"Uploading form " + (formField ? "field" : "attachment") + " \"" + name + "\"");
+			}
+
+			if (formField) {
+				String value;
+				try {
+					// Without specifying UTF-8, apache commons DiskFileItem defaults to ISO-8859-1.
+					value = item.getString("UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					throw new SystemException("Encoding error on formField item", e);
+				}
+				RequestUtil.addParameter(parameters, name, value);
+			} else {
+				// Form attachment
+				RequestUtil.addFileItem(files, name, item);
+				String value = item.getName();
+				RequestUtil.addParameter(parameters, name, value);
+			}
 		}
 	}
 

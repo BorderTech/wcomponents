@@ -213,17 +213,17 @@ public class WFieldLayoutExample extends WPanel {
 		super.preparePaintComponent(request); //To change body of generated methods, choose Tools | Templates.
 		if (!isInitialised()) {
 			String id = legalNumberedPanel.getId();
-			cssText.setText("<style type='text/css'>#" + id + " ol.fieldLayout {"
+			cssText.setText("<style type='text/css'>#" + id + " ol.wc-fieldlayout {"
 					+ "counter-reset: field;"
 					+ "}\n"
-					+ "#" + id + " ol.fieldLayout > li {\n"
+					+ "#" + id + " ol.wc-fieldlayout > li {\n"
 					+ "counter-increment: field;\n"
 					+ "}\n"
-					+ "#" + id + " ol.fieldLayout ol.fieldLayout {\n"
+					+ "#" + id + " ol.wc-fieldlayout ol.wc-fieldlayout {\n"
 					+ "list-style-type: none;\n"
 					+ "padding-left: 0;\n"
 					+ "}\n"
-					+ "#" + id + " ol.fieldLayout ol.fieldLayout > li > :first-child:before {\n"
+					+ "#" + id + " ol.wc-fieldlayout ol.wc-fieldlayout > li > :first-child:before {\n"
 					+ "content: counters(field, \".\") \" \";\n"
 					+ "margin-right: 0.25em;\n"
 					+ "}</style>");

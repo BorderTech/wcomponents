@@ -1000,17 +1000,14 @@ define(["wc/has",
 		 * @param {type} root The root of the current menu.
 		 */
 		AbstractMenu.prototype.expand = function(branch, root) {
-			var opener, content, subItem;
+			var content, subItem;
 
-			if ((opener = this._getBranchOpener(branch))) {
-				content = getContent(opener);
-				if (content) {
-					if (this.isTransient(root) && !this.isMobile) {
-						doCollisionDetection(content, this);
-					}
-					if ((subItem = this.getFirstAvailableItem(content))) {
-						timers.setTimeout(this._focusItem.bind(this), 0, subItem, root);
-					}
+			if ((content = this.getSubMenu(branch, true))) {
+				if (this.isTransient(root) && !this.isMobile) {
+					doCollisionDetection(content, this);
+				}
+				if ((subItem = this.getFirstAvailableItem(content))) {
+					timers.setTimeout(this._focusItem.bind(this), 0, subItem, root);
 				}
 			}
 		};
@@ -1061,24 +1058,6 @@ define(["wc/has",
 			}
 		};
 
-		/**
-		 * Gets the content controlled by a menu.
-		 * @param {Element} opener The control that triggers a menu to "open".
-		 * @function
-		 * @private
-		 * @returns {Element} The content controlled by the menu opener if found.
-		 */
-		function getContent(opener) {
-			var content,
-				CONTENT_ATTRIB = "aria-controls",
-				contentId = opener.getAttribute(CONTENT_ATTRIB);
-			if (contentId) {
-				content = document.getElementById(contentId);
-			}
-			return content;
-		}
-
-
 		/*
 		 * Helper for shedSubscriber. Handles opening an d closing of transient menus. Since we split out tree most
 		 * menus are transient.
@@ -1094,21 +1073,22 @@ define(["wc/has",
 				openMenu = root.id;
 				instance.expand(branch, root);
 			}
-			else if (action === shed.actions.COLLAPSE && (opener = instance._getBranchOpener(branch)) && (content = getContent(opener))) {
+			else if (action === shed.actions.COLLAPSE && (content = instance.getSubMenu(branch, true))) {
 				classList.remove(content, CLASS.DEFAULT_DIRECTION);
 				classList.remove(content, CLASS.AGAINST_DEFAULT);
 				classList.remove(content, CLASS.COLLIDE_SOUTH);
 				content.style.bottom = "";
 				content.removeAttribute("style");
-
-				// if the focus point is inside the branch then refocus to the opener
-				if ((opener !== document.activeElement) && (branch.compareDocumentPosition(document.activeElement) & Node.DOCUMENT_POSITION_CONTAINED_BY)) {
-					instance._focusItem(opener, root);
-				}
-				else {
-					instance._remapKeys(opener, root);
-					// we still have to reset the tabIndex
-					setTabstop(opener, instance);
+				if ((opener = instance._getBranchOpener(branch))) {
+					// if the focus point is inside the branch then refocus to the opener
+					if ((opener !== document.activeElement) && (branch.compareDocumentPosition(document.activeElement) & Node.DOCUMENT_POSITION_CONTAINED_BY)) {
+						instance._focusItem(opener, root);
+					}
+					else {
+						instance._remapKeys(opener, root);
+						// we still have to reset the tabIndex
+						setTabstop(opener, instance);
+					}
 				}
 			}
 		}
