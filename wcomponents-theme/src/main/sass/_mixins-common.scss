@@ -109,9 +109,9 @@
 // Allow duplicate width declarations
 // scss-lint:disable DuplicateProperty
 /// Size a container to fit its content.
-@mixin fit-content($what: width, $imp: 0) {
+@mixin fit-content($what: width, $imp: 0, $fallback: auto) {
 	@if ($imp == 0) {
-		#{$what}: auto;
+		#{$what}: $fallback;
 		#{$what}: -webkit-fit-content;
 		#{$what}: -moz-fit-content;
 		#{$what}: fit-content;
@@ -119,7 +119,7 @@
 	@else {
 		// Important needed for some reason!
 		// scss-lint:disable ImportantRule
-		#{$what}: auto !important;
+		#{$what}: $fallback !important;
 		#{$what}: -webkit-fit-content !important;
 		#{$what}: -moz-fit-content !important;
 		#{$what}: fit-content !important;
