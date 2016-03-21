@@ -4,13 +4,16 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCancelButton;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WDialog;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WFieldSet;
 import com.github.bordertech.wcomponents.WHeading;
+import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WPartialDateField;
@@ -66,7 +69,6 @@ public class WDialogExample extends WPanel implements MessageContainer {
 	 * WButton used to launch an immediate non-modal dialog.
 	 */
 	private final WDialog nonModalDialog;
-
 	/**
 	 * Creates a WDialogExample.
 	 */
@@ -74,6 +76,10 @@ public class WDialogExample extends WPanel implements MessageContainer {
 	public WDialogExample() {
 		setLayout(new FlowLayout(Alignment.VERTICAL));
 		add(messages);
+
+		final WPanel outputPanel = new WPanel(WPanel.Type.BOX);
+		final WText txtNow = new WText("Now : " + (new Date()).toString());
+		outputPanel.add(txtNow);
 
 		/* Immediate opening: This is the preferred way to open a WDialog as it
 		 * is the most efficient. To make a WDialog which opens without making
@@ -261,12 +267,31 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		fileUploadDialog.setWidth(600);
 		add(fileUploadDialog);
 
+
+		final WPartialDateField pdfDate = new WPartialDateField();
+		WButton dateButton = new WButton("Set Date");
+		dateButton.setAction(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				txtNow.setText("Date Selected : " + pdfDate.getValueAsString());
+			}
+		});
+
 		WFieldLayout dateDlgFldLayout = new WFieldLayout();
-		dateDlgFldLayout.addField("Set a date", new WPartialDateField());
+		dateDlgFldLayout.addField("Set a date", pdfDate);
+		WContainer dateBtnContainer = new WContainer();
+		dateBtnContainer.add(dateButton);
+		dateBtnContainer.add(new WAjaxControl(dateButton, outputPanel));
+		dateDlgFldLayout.addField((WLabel) null, dateBtnContainer);
 		WDialog dateDlg = new WDialog(dateDlgFldLayout, new WButton("Select a date in a dialog"));
+
 		dateDlg.setWidth(450);
 		dateDlg.setMode(WDialog.MODAL);
+
+
 		add(dateDlg);
+		add(outputPanel);
+
 	}
 
 	/**

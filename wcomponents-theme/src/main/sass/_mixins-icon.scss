@@ -12,7 +12,7 @@
 	@if($icon != -1) {
 		content: $icon;
 	}
-	font-size: 1rem; // keep icons at 16px
+	// font-size: 1rem; // keep icons at 16px
 }
 
 /// Make a fixed-width icon.

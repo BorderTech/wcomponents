@@ -27,7 +27,7 @@
 }
 
 #wc-calendar {
-	font-size: 1rem;
+	font-size: inherit;
 }
 
 .wc_wdf_pick {
@@ -62,10 +62,10 @@
 	}
 
 	#wc-calendar {
-		font-size: 1.5rem;
+		font-size: inherit;
 
 		th { // The th contain the day name addreviations.
-			font-size: 1rem;
+			font-size: inherit;
 		}
 	}
 
