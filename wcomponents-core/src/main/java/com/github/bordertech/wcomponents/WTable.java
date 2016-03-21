@@ -44,7 +44,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WTable extends WBeanComponent implements Container, AjaxTarget, SubordinateTarget,
+public class WTable extends WBeanComponent implements Container, AjaxInternalTrigger, AjaxTarget, SubordinateTarget,
 		Marginable, NamingContextable {
 
 	/**
@@ -909,6 +909,7 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 
 	/**
 	 * Set the table as having row headers.
+	 *
 	 * @param rowHeaders indicates that the first data column in the table should be considered a row header.
 	 */
 	public void setRowHeaders(final boolean rowHeaders) {
@@ -1497,23 +1498,6 @@ public class WTable extends WBeanComponent implements Container, AjaxTarget, Sub
 			}
 
 			return parsed.toArray(new String[parsed.size()]);
-		}
-	}
-
-	/**
-	 * Override preparePaint to register an AJAX operation if necessary.
-	 *
-	 * @param request the request being responded to.
-	 */
-	@Override
-	protected void preparePaintComponent(final Request request) {
-		super.preparePaintComponent(request);
-
-		if (getRowsPerPageOptions() != null || PaginationMode.DYNAMIC.equals(getPaginationMode()) || SortMode.DYNAMIC.
-				equals(getSortMode())
-				|| ExpandMode.DYNAMIC.equals(getExpandMode()) || ExpandMode.LAZY.equals(
-				getExpandMode())) {
-			AjaxHelper.registerComponentTargetItself(getId(), request);
 		}
 	}
 
