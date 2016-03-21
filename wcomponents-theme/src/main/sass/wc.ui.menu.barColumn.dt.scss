@@ -44,6 +44,20 @@
 }
 
 [role='menu'] {
+	 // nested sub-menus. These must appear before the colision detection overrides below.
+	[role='menu'] {
+		left: 100%;
+		top: 0;
+
+		&.wc_coleast { // nested collisions
+			right: 100%;
+		}
+
+		&.wc_colwest {
+			right: 100%;
+		}
+	}
+
 	// viewport edge collisions
 	&.wc_coleast {
 		left: auto;
@@ -60,17 +74,4 @@
 		top: auto;
 	}
 
-	 // nested sub-menus
-	[role='menu'] {
-		left: 100%;
-		top: 0;
-
-		&.wc_coleast { // nested collisions
-			right: 100%;
-		}
-
-		&.wc_colwest {
-			right: 100%;
-		}
-	}
 }

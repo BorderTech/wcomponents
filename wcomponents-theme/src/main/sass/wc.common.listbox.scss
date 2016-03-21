@@ -11,6 +11,7 @@ ul[role='listbox'] {
 	z-index: $z-index-common;
 
 	dialog & {
+		position: fixed;
 		z-index: $z-index-common-in-dialog;
 	}
 }
