@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.container;
 
 import com.github.bordertech.wcomponents.AbstractWComponentTestCase;
+import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WContainer;
@@ -39,9 +40,22 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testPaintWhileDisabled() {
 		MyComponent testUI = new MyComponent(TEST_XML);
+		Config.getInstance().setProperty(Environment.THEME_CONTENT_PATH, "");
 		Config.getInstance().setProperty(TransformXMLInterceptor.PARAMETERS_KEY, "false");
 		TestResult actual = generateOutput(testUI);
 		Assert.assertEquals("XML should not be transformed when interceptor disabled", TEST_XML, actual.result);
+	}
+
+	/**
+	 * Ensure that the interceptor does nothing as long as the controlling property is disabled.
+	 */
+	@Test
+	public void testPaintWhileEnabledWithThemeContentPathSet() {
+		MyComponent testUI = new MyComponent(TEST_XML);
+		Config.getInstance().setProperty(Environment.THEME_CONTENT_PATH, "set");
+		Config.getInstance().setProperty(TransformXMLInterceptor.PARAMETERS_KEY, "true");
+		TestResult actual = generateOutput(testUI);
+		Assert.assertEquals("XML should not be transformed when interceptor enabled but theme content path set", TEST_XML, actual.result);
 	}
 
 	/**
@@ -51,6 +65,7 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	public void testPaintWhileEnabled() {
 		final String expected = "<omg><wtf>is good for you</wtf></omg>";
 		MyComponent testUI = new MyComponent(TEST_XML);
+		Config.getInstance().setProperty(Environment.THEME_CONTENT_PATH, "");
 		Config.getInstance().setProperty(TransformXMLInterceptor.PARAMETERS_KEY, "true");
 		TestResult actual = generateOutput(testUI);
 		Assert.assertEquals("XML should be transformed when interceptor enabled", expected, actual.result);
@@ -76,6 +91,7 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 
 		/**
 		 * Simply render the string that was passed to the constructor.
+		 *
 		 * @param renderContext
 		 */
 		@Override
@@ -116,11 +132,13 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	 * A simple DTO to pass back the results of the render to the calling test.
 	 */
 	private class TestResult {
+
 		private String result;
 		private String contentType;
 
 		/**
 		 * Create and instance of the DTO.
+		 *
 		 * @param result The rendered output of the UI component.
 		 * @param contentType The content type of the response.
 		 */

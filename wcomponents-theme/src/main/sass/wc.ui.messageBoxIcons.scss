@@ -2,7 +2,6 @@
 @import 'messageBox_vars';
 
 .wc_msgbox {
-
 	> h1:before {
 		@include wc-icon-fw($fa-var-minus-circle, $width: 1.25rem);
 		vertical-align: middle;

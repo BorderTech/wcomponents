@@ -20,7 +20,6 @@
 		param style: passed in ultimately from the transform for ui:field. See wc.ui.field.xsl.
 	-->
 	<xsl:template match="ui:label">
-		<xsl:param name="style"/>
 		<xsl:variable name="for" select="@for"/>
 
 		<xsl:choose>
@@ -33,7 +32,6 @@
 						<xsl:if test="not(local-name($labelableElement)='checkbox' or local-name($labelableElement)='radiobutton' or local-name($labelableElement)='selecttoggle')">
 							<xsl:call-template name="makeLabel">
 								<xsl:with-param name="labelableElement" select="$labelableElement"/>
-								<xsl:with-param name="style" select="$style"/>
 							</xsl:call-template>
 						</xsl:if>
 					</xsl:when>
@@ -47,13 +45,10 @@
 							<xsl:when test="$forElement">
 								<xsl:call-template name="makeFauxLabel">
 									<xsl:with-param name="forElement" select="$forElement"/>
-									<xsl:with-param name="style" select="$style"/>
 								</xsl:call-template>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:call-template name="makeLabelForNothing">
-									<xsl:with-param name="style" select="$style"/>
-								</xsl:call-template>
+								<xsl:call-template name="makeLabelForNothing"/>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:otherwise>
@@ -71,13 +66,10 @@
 					<xsl:when test="count($labelableDescendant)=1">
 						<xsl:call-template name="makeLabel">
 							<xsl:with-param name="labelableElement" select="$labelableDescendant[1]"/>
-							<xsl:with-param name="style" select="$style"/>
 						</xsl:call-template>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:call-template name="makeLabelForNothing">
-							<xsl:with-param name="style" select="$style"/>
-						</xsl:call-template>
+						<xsl:call-template name="makeLabelForNothing"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:when>
@@ -88,9 +80,8 @@
 					the WLabel is for. In either case this is indicative of a WComponent Java error. We should never
 					get here and it could be deleted in which case anything falling through will not be transformed.
 				-->
-				<xsl:call-template name="makeLabelForNothing">
-					<xsl:with-param name="style" select="$style"/>
-				</xsl:call-template>
+				<xsl:call-template name="makeLabelForNothing"/>
+				
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

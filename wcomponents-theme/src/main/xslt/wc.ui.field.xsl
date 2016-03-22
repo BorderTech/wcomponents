@@ -47,10 +47,13 @@
 				<xsl:call-template name="fieldIsCheckRadio" />
 			</xsl:variable>
 			<li id="{@id}">
-				<xsl:attribute name="id">
-					<xsl:value-of select="@id" />
-				</xsl:attribute>
-				<xsl:call-template name="makeCommonClass"/>
+				<xsl:call-template name="makeCommonClass">
+					<xsl:with-param name="additional">
+						<xsl:if test="@inputWidth">
+							<xsl:value-of select="concat('wc_inputwidth wc_fld_inpw_', @inputWidth)"/>
+						</xsl:if>
+					</xsl:with-param>
+				</xsl:call-template>
 				<!--
 					If we are part of an ajaxResponse and we don't have a parent ui:fieldlayout we
 					need to add a transient attribute to act as a flag for the ajax subscriber
@@ -62,28 +65,15 @@
 				</xsl:if>
 				<xsl:call-template name="hideElementIfHiddenSet" />
 				<xsl:call-template name="ajaxTarget" />
-				<xsl:if test=" not($layout = 'stacked') and ($isCheckRadio=1 or not(ui:label))">
+				<xsl:if test=" not($layout = 'stacked') and ($isCheckRadio=1 or not(ui:label) or ui:label/@hidden)">
 					<span class="wc_fld_pl">
-						<xsl:if test="$labelWidth!=''">
-							<xsl:attribute name="style">
-								<xsl:value-of select="concat('width:',$labelWidth,'%;')"/>
-							</xsl:attribute>
-						</xsl:if>
 						<xsl:text>&#x00a0;</xsl:text>
 					</span>
 				</xsl:if>
 				<xsl:if test="$isCheckRadio!=1">
-					<xsl:apply-templates select="ui:label">
-						<xsl:with-param name="style">
-							<xsl:if test="$labelWidth!='' and not($layout = 'stacked')">
-								<xsl:value-of select="concat('width:',$labelWidth,'%;')"/>
-							</xsl:if>
-						</xsl:with-param>
-					</xsl:apply-templates>
+					<xsl:apply-templates select="ui:label"/>
 				</xsl:if>
 				<xsl:apply-templates select="ui:input">
-					<xsl:with-param name="labelWidth" select="$labelWidth" />
-					<xsl:with-param name="parentLayout" select="$layout" />
 					<xsl:with-param name="isCheckRadio" select="$isCheckRadio" />
 				</xsl:apply-templates>
 			</li>
