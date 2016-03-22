@@ -335,4 +335,32 @@ public class WTab_Test extends AbstractWComponentTestCase {
 		assertAccessorsCorrect(tab, "accessKey", '\0', 'A', 'B');
 	}
 
+	/**
+	 * Test tab in tab group.
+	 */
+	@Test
+	public void testTabInTabGroup() {
+
+		WTabSet tabSet = new WTabSet();
+		WTabGroup group = new WTabGroup("Group");
+		WTab tab = new WTab(new WText("test in group"), "label", WTabSet.TabMode.DYNAMIC);
+
+		tabSet.add(group);
+		group.add(tab);
+
+		setActiveContext(createUIContext());
+
+		// AJAX request but not for this WTab (Eager should be visible)
+		MockRequest request = new MockRequest();
+		try {
+			// Setup an AJAX operation that is not for this WTab
+			AjaxHelper.setCurrentOperationDetails(new AjaxOperation(tab.getId(), "X"), null);
+			tab.handleRequest(request);
+			tab.preparePaintComponent(request);
+		} finally {
+			AjaxHelper.clearCurrentOperationDetails();
+		}
+
+	}
+
 }
