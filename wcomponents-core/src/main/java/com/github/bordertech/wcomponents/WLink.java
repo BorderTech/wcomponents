@@ -22,7 +22,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Martin Shevchenko
  * @since 1.0.0
  */
-public class WLink extends WBeanComponent implements Container, Disableable, AjaxTarget,
+public class WLink extends WBeanComponent implements Container, Disableable, AjaxInternalTrigger, AjaxTarget,
 		SubordinateTarget {
 
 	/**
@@ -419,6 +419,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		final AjaxTarget[] actionTargets = getActionTargets();
 
 		if (action != null && uic.getUI() != null) {
+			// Register AJAX operation if AJAX targets are set, otherwise rely on InternalAjax request
 			if (actionTargets != null && actionTargets.length > 0) {
 				List<String> targetIds = new ArrayList<>();
 				for (AjaxTarget target : actionTargets) {
@@ -426,9 +427,6 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 				}
 				// Register the action targets
 				AjaxHelper.registerComponents(targetIds, request, getId());
-			} else {
-				// If no action targets set, then register the link itself as the target
-				AjaxHelper.registerComponentTargetItself(this.getId(), request);
 			}
 		}
 	}

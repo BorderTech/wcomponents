@@ -484,8 +484,7 @@ define(["wc/ui/menu/core",
 			 */
 			this.clickEvent = function($event) {
 				var target = $event.target,
-					root,
-					item;
+					root;
 				if ($event.defaultPrevented || target === window) {
 					return;
 				}
@@ -500,10 +499,8 @@ define(["wc/ui/menu/core",
 						return;
 					}
 
-					if ((item = this.getItem(target)) && !shed.isDisabled(item) && this._isBranch(item)) {
-						if (!this.isInVOpen(target)) {
-							return; // do nothing, do not prevent default, do not pass go.
-						}
+					if (!this.isInVOpen(target)) {
+						return; // do nothing, do not prevent default, do not pass go.
 					}
 				}
 				// if we get here things are odd....

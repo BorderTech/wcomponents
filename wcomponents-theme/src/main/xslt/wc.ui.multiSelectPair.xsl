@@ -92,7 +92,7 @@
 					</span>
 					<!-- BUTTONS -->
 					<span class="wc_msp_btncol">
-						&#x00a0;
+						<xsl:text>&#x00a0;</xsl:text>
 						<xsl:call-template name="multiSelectPairButton">
 							<xsl:with-param name="value" select="'add'"/>
 							<xsl:with-param name="buttonText" select="$$${wc.ui.multiSelectPair.i18n.button.add}"/>

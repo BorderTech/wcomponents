@@ -35,6 +35,15 @@ public final class AjaxHelper {
 	}
 
 	/**
+	 * Clear the registered AJAX operations.
+	 *
+	 * @param request the current request being responded to.
+	 */
+	public static void clearAllRegisteredOperations(final Request request) {
+		request.setSessionAttribute(AJAX_OPERATIONS_SESSION_KEY, null);
+	}
+
+	/**
 	 * @param trigger the AJAX trigger to check
 	 * @return true if this is the current AJAX trigger
 	 */
@@ -116,20 +125,6 @@ public final class AjaxHelper {
 	public static AjaxOperation registerComponent(final String targetId, final Request request,
 			final String triggerId) {
 		AjaxOperation operation = new AjaxOperation(triggerId, targetId);
-		registerAjaxOperation(operation, request);
-		return operation;
-	}
-
-	/**
-	 * Registers a single component as being AJAX capable and target itself.
-	 *
-	 * @param triggerId the component to register. The component will be re-painted when the trigger occurs.
-	 * @param request the current request being responded to.
-	 * @return the AjaxOperation control configuration object.
-	 */
-	public static AjaxOperation registerComponentTargetItself(final String triggerId,
-			final Request request) {
-		AjaxOperation operation = new AjaxOperation(triggerId, triggerId);
 		registerAjaxOperation(operation, request);
 		return operation;
 	}

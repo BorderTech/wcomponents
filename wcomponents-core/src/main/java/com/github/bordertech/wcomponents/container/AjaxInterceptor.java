@@ -14,7 +14,6 @@ import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WServlet;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.SystemException;
-import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -204,8 +203,9 @@ public class AjaxInterceptor extends InterceptorComponent {
 	 */
 	private boolean isProcessTriggerOnly(final ComponentWithContext triggerWithContext,
 			final AjaxOperation operation) {
-		// Target container implies only process the trigger
-		if (operation.getTargetContainerId() != null) {
+
+		// Target container implies only process the trigger or is Internal Ajax
+		if (operation.getTargetContainerId() != null || operation.isInternalAjaxRequest()) {
 			return true;
 		}
 
@@ -227,12 +227,7 @@ public class AjaxInterceptor extends InterceptorComponent {
 			}
 		}
 
-		// Check if the operation only has one target and it is the same as the trigger
-		List<String> targets = operation.getTargets();
-		if (targets == null || targets.isEmpty() || targets.size() > 1) {
-			return false;
-		}
-		return operation.getTriggerId().equals(targets.get(0));
+		return false;
 	}
 
 }

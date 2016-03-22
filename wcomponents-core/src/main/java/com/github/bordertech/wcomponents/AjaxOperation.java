@@ -84,6 +84,27 @@ public final class AjaxOperation implements Serializable {
 	private AjaxAction action = AjaxAction.REPLACE;
 
 	/**
+	 * Flag if AJAX operation is an internal AJAX operation.
+	 */
+	private final boolean internalAjaxRequest;
+
+	/**
+	 * Creates an AjaxOperation for Internal AJAX Operation.
+	 *
+	 * @param triggerId the trigger id. {@link WServlet} uses this as a look-up to obtain the correct AjaxOperation.
+	 */
+	public AjaxOperation(final String triggerId) {
+		if (triggerId == null) {
+			throw new IllegalArgumentException("Trigger id cannot be null");
+		}
+
+		this.triggerId = triggerId;
+		this.targetIds = new ArrayList<>(1);
+		this.targetIds.add(triggerId);
+		this.internalAjaxRequest = true;
+	}
+
+	/**
 	 * Creates an AjaxOperation.
 	 *
 	 * @param triggerId the trigger id. {@link WServlet} uses this as a look-up to obtain the correct AjaxOperation.
@@ -100,7 +121,8 @@ public final class AjaxOperation implements Serializable {
 
 		this.triggerId = triggerId;
 		this.targetIds = new ArrayList<>(1);
-		targetIds.add(targetId);
+		this.targetIds.add(targetId);
+		this.internalAjaxRequest = false;
 	}
 
 	/**
@@ -120,6 +142,7 @@ public final class AjaxOperation implements Serializable {
 
 		this.triggerId = triggerId;
 		this.targetIds = targetIds;
+		this.internalAjaxRequest = false;
 	}
 
 	/**
@@ -166,6 +189,13 @@ public final class AjaxOperation implements Serializable {
 	 */
 	public AjaxAction getAction() {
 		return action;
+	}
+
+	/**
+	 * @return true if AJAX operation is an internal AJAX request
+	 */
+	public boolean isInternalAjaxRequest() {
+		return internalAjaxRequest;
 	}
 
 }

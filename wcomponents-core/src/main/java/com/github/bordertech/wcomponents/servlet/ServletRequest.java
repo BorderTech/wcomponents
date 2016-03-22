@@ -17,6 +17,15 @@ import org.apache.commons.fileupload.FileItem;
 public class ServletRequest extends AbstractRequest {
 
 	/**
+	 * Stores the parameters for this request.
+	 */
+	private final Map<String, String[]> parameters;
+
+	/**
+	 * Stores the uploaded files for this request.
+	 */
+	private final Map<String, FileItem[]> files;
+	/**
 	 * The backing servlet request.
 	 */
 	private final HttpServletRequest backing;
@@ -28,7 +37,8 @@ public class ServletRequest extends AbstractRequest {
 	 */
 	public ServletRequest(final HttpServletRequest aBacking) {
 		backing = aBacking;
-		ServletUtil.setupRequestParameters(backing);
+		parameters = ServletUtil.getRequestParameters(backing);
+		files = ServletUtil.getRequestFileItems(backing);
 	}
 
 	/**
@@ -36,7 +46,7 @@ public class ServletRequest extends AbstractRequest {
 	 */
 	@Override
 	public Map<String, String[]> getParameters() {
-		return ServletUtil.getRequestParameters(backing);
+		return parameters;
 	}
 
 	/**
@@ -44,7 +54,7 @@ public class ServletRequest extends AbstractRequest {
 	 */
 	@Override
 	public Map<String, FileItem[]> getFiles() {
-		return ServletUtil.getRequestFileItems(backing);
+		return files;
 	}
 
 	/**

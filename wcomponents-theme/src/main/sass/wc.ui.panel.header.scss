@@ -14,15 +14,11 @@
 	[role='banner'] {
 		> .wc-content {
 			@include flex($direction: row-reverse, $wrap: wrap, $justify: space-between, $align-items: center, $align-content: flex-start);
+			padding: $hgap-small;
 
 			> * {
 				@include flex-grow(0);
 				@include flex-shrink(1);
-				padding-left: $hgap-small;
-			}
-
-			> :last-child {
-				padding-right: $hgap-small;
 			}
 		}
 

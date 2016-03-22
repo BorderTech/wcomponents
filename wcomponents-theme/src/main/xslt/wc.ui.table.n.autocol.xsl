@@ -6,6 +6,6 @@
 		Creates a caption element if required. Called from the transform for ui:table.
 	-->
 	<xsl:template name="autocol">
-		<col class="wc_table_colauto">&#x00a0;</col>
+		<col class="wc_table_colauto"></col>
 	</xsl:template>
 </xsl:stylesheet>

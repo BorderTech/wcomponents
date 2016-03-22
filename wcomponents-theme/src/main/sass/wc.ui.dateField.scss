@@ -19,8 +19,11 @@
 }
 
 [role='combobox'] { // NOTE: all of the nested rules apply to nested selectors. This differentiates datefield from combo.
+	white-space: nowrap;
+
 	> input {
 		border: 0 none;
+		//max-width: calc(100% - 2rem); // allow for icon with button artefacts.
 	}
 
 	&[aria-expanded='true'] > [role='listbox'] {
@@ -28,5 +31,10 @@
 		display: block;
 		left: $border-width * -1;
 		min-width: 100%;
+
+		dialog & {
+			left: auto;
+			min-width: initial;
+		}
 	}
 }

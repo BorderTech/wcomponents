@@ -1,13 +1,4 @@
 // Just a bunch of common (global?) vars.
-
-// Font size for mobile and small screens (< 1024px). This is the default because mobile is king!
-$default-font-size: 100%;
-// sizes for not-mobile screens >= 1024px
-$dt-font-size: 100%;
-// font size on really learge, dense monitors (eg Apple cinema and thunderbolt displays) where small fonts become too
-// tiny to be useful.
-$bigscreen-font-size: 100%;
-
 // BORDERS
 // Many things have borders and it is nice to have a common look to all of them. You may want to cross reference this to
 // the mixins makeBorder and makePartBorder which use these as default values but allow override.

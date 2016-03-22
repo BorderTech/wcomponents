@@ -371,11 +371,12 @@ define(["wc/has",
 
 			if (event.canCapture) {
 				event.add(element, event.TYPE.focus, eventWrapper.bind(this), null, null, true);
+				event.add(element, event.TYPE.click, eventWrapper.bind(this), null, null, true);
 			}
 			else {
 				event.add(element, event.TYPE.focusin, eventWrapper.bind(this));
+				event.add(element, event.TYPE.click, eventWrapper.bind(this));
 			}
-			event.add(element, event.TYPE.click, eventWrapper.bind(this));
 			event.add(element, event.TYPE.keydown, eventWrapper.bind(this));
 			shed.subscribe(shed.actions.SELECT, this.shedObserver.bind(this));
 			shed.subscribe(shed.actions.DESELECT, this.shedObserver.bind(this));

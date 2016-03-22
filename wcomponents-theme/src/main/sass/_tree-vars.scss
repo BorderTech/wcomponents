@@ -14,3 +14,6 @@ $wc-htree-branch-right-border-width: $hgap-small;
 
 // used for WMenu type TREE. Under review.
 $wc-tree-item-pad: $hgap-small 0;
+
+// the start width of a htree group when the browser is rubbish.
+$wc-htree-branch-width-lame: 10rem;

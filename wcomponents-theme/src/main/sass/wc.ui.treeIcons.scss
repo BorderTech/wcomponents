@@ -5,16 +5,16 @@
 .wc_leaf_noimg,
 .wc_leaf_hopener {
 	&:before {
-		@include wc-icon;
+		@include wc-icon-fw($text-align: left);
 	}
 }
 
 .wc_leaf_vopener:before {
-	[aria-expanded] > button > & {
+	[aria-expanded] > & {
 		content: $fa-var-caret-right;
 	}
 
-	[aria-expanded='true'] > button > & {
+	[aria-expanded='true'] > & {
 		content: $fa-var-caret-down;
 	}
 }
