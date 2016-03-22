@@ -63,6 +63,7 @@ define(["wc/has",
 			AJAX_CONTEXTLESS_ITEM,
 			postAjaxTimer,
 			focusTimer,
+			collisionTimer,
 			TRUE = "true",
 			fixedWidgets,
 			CLASS = {
@@ -207,7 +208,6 @@ define(["wc/has",
 		 * Indicates if there is a viewport collision on the sides of the viewport.
 		 * @function doICollide
 		 * @private
-		 * @see {@link _doCollisionDetection}
 		 * @param {module:wc/dom/viewportCollision} collision The calculated 'collision'.
 		 * @param {Boolean} [isNotDefaultDirection] Indicates the collision direction to test. If true we test against the
 		 *    side deemed to be the DEFAULT direction of reading.
@@ -716,7 +716,6 @@ define(["wc/has",
 		 * Indicates if the parent submenu (if any) of a given submenu is itself colliding with an edge of the viewport.
 		 * @function isParentSubmenuColliding
 		 * @private
-		 * @see {@link  module:wc/ui/menu/core~_doCollisionDetection}
 		 * @param {Element} submenu The submenu currently undergoing collision detection
 		 * @param {Object} instance The subclass.
 		 * @returns {Boolean} true if the parent is also colliding.
@@ -810,12 +809,11 @@ define(["wc/has",
 			if (instance.isMobile) {
 				return;
 			}
-			if (has("ie") === 8) {
-				timers.setTimeout(_doCollisionDetection, 0, submenu, instance);  // IE needs time to repaint to be able to calculate the submenu's bounding box
+			if (collisionTimer) {
+				timers.clearTimeout(collisionTimer);
+				collisionTimer = null;
 			}
-			else {
-				_doCollisionDetection(submenu, instance);
-			}
+			collisionTimer = timers.setTimeout(_doCollisionDetection, 0, submenu, instance);
 		}
 
 		/**
