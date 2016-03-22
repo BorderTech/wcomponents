@@ -502,12 +502,6 @@ define(["wc/ui/menu/core",
 					if (!this.isInVOpen(target)) {
 						return; // do nothing, do not prevent default, do not pass go.
 					}
-
-//					if ((item = this.getItem(target)) && !shed.isDisabled(item) && this._isBranch(item)) {
-//						if (!this.isInVOpen(target)) {
-//							return; // do nothing, do not prevent default, do not pass go.
-//						}
-//					}
 				}
 				// if we get here things are odd....
 				this.constructor.prototype.clickEvent.call(this, $event);
