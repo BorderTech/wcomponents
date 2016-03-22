@@ -11,7 +11,38 @@ define(["wc/dom/tag",
 	function(tag, Widget, toArray) {
 		"use strict";
 
-		var LABELABLE = [tag.INPUT, tag.SELECT, tag.TEXTAREA, tag.PROGRESS];
+		var LABELABLE = [tag.INPUT, tag.SELECT, tag.TEXTAREA, tag.PROGRESS],
+			FIELDSET,
+			LEGEND,
+			WRAPPER,
+			INPUT,
+			LABEL;
+
+
+		/**
+		 * Get labels and/or standins suing querySelector.
+		 *
+		 * @function
+		 * @private
+		 * @param {Element} element The labelled element.
+		 * @param {Element[]} [labelArr] Labels we have already found.
+		 * @param {Boolean} readOnly If true also get labels for element in its read-only state.
+		 * @returns {Array} If element has no 'labels' then an empty array is returned.
+		 */
+		function doLabelQuery(element, labelArr, readOnly) {
+			var result = labelArr || [],
+				id = element.id,
+				query = "label[for=\"" + id + "\"],[data-wc-for=\"" + id + "\"]";
+
+			if (readOnly) {
+				query += ",[${wc.ui.label.attribute.readonlyFor}=\"" + id + "\"]";
+			}
+			if (id) {
+				result = result.concat(toArray(document.querySelectorAll(query)));
+			}
+
+			return result;
+		}
 
 		/**
 		 * Gets labelling element/s (label, legend or pseudo-label) for a control.
@@ -19,49 +50,54 @@ define(["wc/dom/tag",
 		 * @function module:wc/dom/getLabelsForElement
 		 * @param {Element} element The element for which we want to find labels.
 		 * @param {Boolean} [includeReadOnly] If true then also search for "labelling" elements for read only controls.
-		 * @returns {Element[]} An array of elements which label element. If element has no 'labels' then an empty array is
-		 *    returned.
+		 * @returns {Array} An array of elements which 'label' element. If element has no 'labels' then an empty array
+		 *  is returned.
 		 */
 		function getLabels(element, includeReadOnly) {
 			var result = [],
-				labels,
-				FIELDSET = new Widget("fieldset"),
-				LEGEND,
-				LABEL,
+				label,
 				tagName,
-				labelFor,
-				query;
+				_input;
+
+			FIELDSET = FIELDSET || new Widget(tag.FIELDSET);
+			WRAPPER = WRAPPER ||  new Widget("", "wc_input_wrapper");
+
+			if (WRAPPER.isOneOfMe(element)) {
+				if (includeReadOnly) {
+					result = doLabelQuery(element, result, true);
+				}
+				INPUT = INPUT || new Widget(tag.INPUT);
+				_input = INPUT.findDescendant(element);
+				if (_input) {
+					return doLabelQuery(_input, result);
+				}
+				return result;
+			}
 
 			if (FIELDSET.isOneOfMe(element)) {
 				LEGEND = LEGEND || new Widget("legend");
-				if ((labels = LEGEND.findDescendant(element, true))) {
-					result.push(labels);
+				if ((label = LEGEND.findDescendant(element, true))) {
+					result.push(label);
 				}
 			}
 
-			if (element.id) {  // include fieldsets for finding legend stand-in pseudo-labels
-				query = "label[for=\"" + element.id + "\"],[data-wc-for=\"" + element.id + "\"]";
-				if (includeReadOnly) {
-					query += ",[${wc.ui.label.attribute.readonlyFor}=\"" + element.id + "\"]";
-				}
-				result = result.concat(toArray(document.querySelectorAll(query)));
+			result = doLabelQuery(element, result, includeReadOnly);
+
+			if (result && result.length) {
+				return result;
 			}
 
-			if (!(result && result.length)) {
-				// try getting an ancestor label element ONLY if element is input, textarea or select
-				LABEL = LABEL || new Widget("label");
-				tagName = element.tagName;
-				if (~LABELABLE.indexOf(tagName) && (labels = LABEL.findAncestor(element))) {
-					labelFor = labels.getAttribute("for");
-					if ((labelFor && labelFor === element.id) || !labelFor) {
-						result = [labels];
-					}
-					else {
-						result = [];
-					}
+			// try getting an ancestor label element ONLY if element is input, textarea, select or progress.
+			tagName = element.tagName;
+			if (~LABELABLE.indexOf(tagName)) {
+				LABEL = LABEL || new Widget(tag.LABEL);
+
+				if (!(label = LABEL.findAncestor(element))) {
+					return [];
 				}
-				else {
-					result = [];
+
+				if (!label.hasAttribute("for") || (label.getAttribute("for") === element.id)) {
+					return [label];
 				}
 			}
 			return result;
