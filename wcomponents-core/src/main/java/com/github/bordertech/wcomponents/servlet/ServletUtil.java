@@ -616,18 +616,9 @@ public final class ServletUtil {
 	 */
 	public static void extractParameterMap(final HttpServletRequest request, final Map<String, String[]> parameters, final Map<String, FileItem[]> files) {
 
-		String contentType = request.getContentType();
-
-		// Can't use the HttpServletRequest.getParameterMap because it's not in Servlet 2.2
-		boolean isMultipart = (contentType != null && contentType.toLowerCase().startsWith(
-				"multipart/form-data"));
-
-		if (!isMultipart) {
-			parameters.putAll(request.getParameterMap());
-		} else {
+		if (isMultipart(request)) {
 			ServletFileUpload upload = new ServletFileUpload();
 			upload.setFileItemFactory(new DiskFileItemFactory());
-
 			try {
 				List fileItems = upload.parseRequest(request);
 
@@ -642,6 +633,8 @@ public final class ServletUtil {
 					parameters.put(param.getKey(), param.getValue());
 				}
 			}
+		} else {
+			parameters.putAll(request.getParameterMap());
 		}
 	}
 
@@ -662,6 +655,7 @@ public final class ServletUtil {
 	 */
 	public static void uploadFileItems(final List<FileItem> fileItems, final Map<String, String[]> parameters,
 			final Map<String, FileItem[]> files) {
+
 		for (FileItem item : fileItems) {
 			String name = item.getFieldName();
 			boolean formField = item.isFormField();
@@ -687,6 +681,7 @@ public final class ServletUtil {
 				RequestUtil.addParameter(parameters, name, value);
 			}
 		}
+
 	}
 
 }
