@@ -2484,7 +2484,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	 * Intended for internal use only.
 	 * </p>
 	 */
-	public static class RowIdWrapper {
+	public static class RowIdWrapper implements Serializable {
 
 		/**
 		 * The row index.
