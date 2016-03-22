@@ -26,16 +26,16 @@
 		<xsl:element name="{$element}">
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="isWrapper" select="1"/>
-				<xsl:with-param name="class" select="@layout"/>
+				<xsl:with-param name="class">
+					<xsl:value-of select="@layout"/>
+					<xsl:if test="@labelWidth">
+						<xsl:value-of select="concat(' wc_fld_lblwth_',@labelWidth)"/>
+					</xsl:if>
+				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:if test="@ordered and @ordered &gt; 1">
 				<xsl:attribute name="start">
 					<xsl:value-of select="@ordered"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:if test="@labelWidth">
-				<xsl:attribute name="data-wc-labelwidth">
-					<xsl:value-of select="@labelWidth"/>
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:apply-templates select="ui:margin"/>
