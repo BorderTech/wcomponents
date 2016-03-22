@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.container;
 
+import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Response;
 import com.github.bordertech.wcomponents.UIContext;
@@ -9,6 +10,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.ThemeUtil;
+import com.github.bordertech.wcomponents.util.Util;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,17 +31,30 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This interceptor is used to perform server-side XSLT so that HTML is delivered to the client instead of XML.
- * This works by buffering the response in memory and then transforming it before sending the response to the client.
- * This will use more memory and CPU on the server. If this becomes a problem it may be better to perform the transform
- * on an appliance (or the client).
+ * This interceptor is used to perform server-side XSLT so that HTML is delivered to the client instead of XML. This
+ * works by buffering the response in memory and then transforming it before sending the response to the client. This
+ * will use more memory and CPU on the server. If this becomes a problem it may be better to perform the transform on an
+ * appliance (or the client).
  *
+ * <p>
  * It is enabled by setting the "bordertech.wcomponents.xslt.enabled" to true.
+ * <p/>
+ * <p>
+ * However, projects may not always have the theme resources in the classpath and want to load them from a static
+ * resource (eg from a different web server or resources defined in their war file). To load resources from a static
+ * resource, projects set a theme content path via the "bordertech.wcomponents.theme.content.path=theme/myTheme"
+ * parameter.
+ * </p>
+ * <p>
+ * So if a project sets the theme content path then server side transforms become meaningless and will not be performed.
+ * This will allow the client agent to do the transform using the theme loaded from the theme content path.
+ * </p>
  *
  * @author Rick Brown
  * @since 1.0.0
  */
 public class TransformXMLInterceptor extends InterceptorComponent {
+
 	/**
 	 * The key used to look up the enable flag in the current {@link Config configuration}.
 	 */
@@ -62,8 +77,8 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	 */
 	@Override
 	public void paint(final RenderContext renderContext) {
-		boolean doTransform = Config.getInstance().getBoolean(PARAMETERS_KEY, true);
-		if (!doTransform) {
+
+		if (!isPerformTransform()) {
 			super.paint(renderContext);
 			return;
 		}
@@ -106,6 +121,19 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	}
 
 	/**
+	 * @return true if transform flag is set true and a theme content path has not been set.
+	 */
+	private boolean isPerformTransform() {
+		boolean transform = Config.getInstance().getBoolean(PARAMETERS_KEY, false);
+		if (transform) {
+			// Check a theme content path has not been set.
+			String themePath = Config.getInstance().getString(Environment.THEME_CONTENT_PATH);
+			return Util.empty(themePath);
+		}
+		return false;
+	}
+
+	/**
 	 * Transform the UI XML to HTML using the correct XSLT from the classpath.
 	 *
 	 * @param xml The XML to transform.
@@ -127,9 +155,9 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	}
 
 	/**
-	 * Creates a new Transformer instance using cached XSLT stylesheets.
-	 * There will be one cached stylesheet per locale, so this is unlikely to ever use much memory but will certainly
-	 *    use less CPU not having to compile the complex XSLT each time.
+	 * Creates a new Transformer instance using cached XSLT stylesheets. There will be one cached stylesheet per locale,
+	 * so this is unlikely to ever use much memory but will certainly use less CPU not having to compile the complex
+	 * XSLT each time.
 	 *
 	 * Transformer instances are not thread-safe and cannot be reused (they can after the transformation is complete).
 	 *
