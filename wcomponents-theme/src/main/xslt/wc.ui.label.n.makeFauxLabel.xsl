@@ -17,7 +17,6 @@
 	-->
 	<xsl:template name="makeFauxLabel">
 		<xsl:param name="forElement"/>
-		<xsl:param name="style"/>
 
 		<xsl:variable name="readOnly">
 			<xsl:if test="$forElement/@readOnly">
@@ -32,7 +31,6 @@
 		<span tabindex="-1" aria-hidden="true">
 			<xsl:call-template name="labelCommonAttributes">
 				<xsl:with-param name="element" select="$forElement"/>
-				<xsl:with-param name="style" select="$style"/>
 			</xsl:call-template>
 
 			<xsl:choose>

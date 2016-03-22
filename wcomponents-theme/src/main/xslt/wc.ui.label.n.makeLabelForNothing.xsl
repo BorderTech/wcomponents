@@ -22,15 +22,11 @@
 		wc.ui.field.xsl.
 	-->
 	<xsl:template name="makeLabelForNothing">
-		<xsl:param name="style"/>
 		<xsl:element name="span">
 			<xsl:call-template name="labelCommonAttributes">
 				<xsl:with-param name="element" select="false()"/>
-				<xsl:with-param name="style" select="$style"/>
 			</xsl:call-template>
-			
 			<xsl:call-template name="labelClassHelper"/>
-			
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:apply-templates/>
 			<xsl:call-template name="WLabelHint"/>

@@ -42,40 +42,54 @@
 						<xsl:with-param name="force" select="1"/>
 					</xsl:call-template>
 				</xsl:if>
-				<div id="{$id}">
-					<xsl:attribute name="class">
-						<xsl:text>wc_input_wrapper</xsl:text>
-						<xsl:if test="@list">
-							<xsl:text> wc_list_wrapper</xsl:text>
-						</xsl:if>
-					</xsl:attribute>
-					<xsl:variable name="type">
-						<xsl:choose>
-							<xsl:when test="self::ui:textfield">
-								<xsl:text>text</xsl:text>
-							</xsl:when>
-							<xsl:when test="self::ui:numberfield">
-								<xsl:text>number</xsl:text>
-							</xsl:when>
-							<xsl:when test="self::ui:passwordfield">
-								<xsl:text>password</xsl:text>
-							</xsl:when>
-							<xsl:when test="self::ui:emailfield">
-								<xsl:text>email</xsl:text>
-							</xsl:when>
-							<xsl:when test="self::ui:phonenumberfield">
-								<xsl:text>tel</xsl:text>
-							</xsl:when>
-						</xsl:choose>
-					</xsl:variable>
+				<span>
+					<xsl:call-template name="commonAttributes">
+						<xsl:with-param name="isWrapper" select="1"/>
+						<xsl:with-param name="live" select="'off'"/>
+						<xsl:with-param name="class">
+							<xsl:text>wc_input_wrapper</xsl:text>
+							<xsl:if test="@list">
+								<xsl:text> wc_list_wrapper</xsl:text>
+							</xsl:if>
+						</xsl:with-param>
+					</xsl:call-template>
 					<xsl:element name="input">
-						<xsl:call-template name="commonControlAttributes">
-							<xsl:with-param name="id" select="concat($id, '-input')"/>
-							<xsl:with-param name="isError" select="$isError"/>
-							<xsl:with-param name="name" select="@id"/>
-							<xsl:with-param name="live" select="'off'"/>
-							<xsl:with-param name="myLabel" select="$myLabel[1]"/>
-						</xsl:call-template>
+						<xsl:attribute name="id">
+							<xsl:value-of select="concat($id, '-input')"/>
+						</xsl:attribute>
+						<xsl:attribute name="type">
+							<xsl:choose>
+								<xsl:when test="self::ui:textfield">
+									<xsl:text>text</xsl:text>
+								</xsl:when>
+								<xsl:when test="self::ui:numberfield">
+									<xsl:text>number</xsl:text>
+								</xsl:when>
+								<xsl:when test="self::ui:passwordfield">
+									<xsl:text>password</xsl:text>
+								</xsl:when>
+								<xsl:when test="self::ui:emailfield">
+									<xsl:text>email</xsl:text>
+								</xsl:when>
+								<xsl:when test="self::ui:phonenumberfield">
+									<xsl:text>tel</xsl:text>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:text>text</xsl:text>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:attribute>
+						<xsl:attribute name="name">
+							<xsl:value-of select="@id"/>
+						</xsl:attribute>
+						<xsl:if test="not(self::ui:passwordfield)">
+							<xsl:attribute name="value">
+								<xsl:value-of select="."/>
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:if test="$isError and $isError !=''">
+							<xsl:call-template name="invalid"/>
+						</xsl:if>
 						<xsl:if test="@maxLength">
 							<xsl:attribute name="maxLength">
 								<xsl:value-of select="@maxLength"/>
@@ -110,12 +124,6 @@
 								</xsl:choose>
 							</xsl:attribute>
 						</xsl:if>
-						<xsl:attribute name="type">
-							<xsl:value-of select="$type"/>
-						</xsl:attribute>
-						<xsl:attribute name="value">
-							<xsl:value-of select="."/>
-						</xsl:attribute>
 						<xsl:if test="@size and not(self::ui:numberfield)">
 							<xsl:attribute name="size">
 								<xsl:value-of select="@size"/>
@@ -179,11 +187,14 @@
 								</xsl:attribute>
 							</xsl:if>
 						</xsl:if>
+						<xsl:if test="not($myLabel)">
+							<xsl:call-template name="ariaLabel"/>
+						</xsl:if>
 					</xsl:element>
-				</div>
-				<xsl:call-template name="inlineError">
-					<xsl:with-param name="errors" select="$isError"/>
-				</xsl:call-template>
+					<xsl:call-template name="inlineError">
+						<xsl:with-param name="errors" select="$isError"/>
+					</xsl:call-template>
+				</span>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

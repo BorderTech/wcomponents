@@ -171,11 +171,9 @@ define(["wc/dom/attribute",
 				if (result && (result = result.trim())) {
 					// can't just use parseFloat because it accepts the first number before a space, test with isNumeric
 					if (isNumeric(result)) {
-						result = parseFloat(result);
+						return parseFloat(result);
 					}
-					else {
-						result = NaN;
-					}
+					return NaN;
 				}
 				return result;
 			};
