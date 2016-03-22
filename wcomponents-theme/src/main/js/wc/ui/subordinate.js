@@ -448,7 +448,7 @@ define(["wc/dom/tag",
 					result = parseRegex(val);
 				}
 				else if (type === "date") {
-					getDateCompareValue(val);
+					result = getDateCompareValue(val);
 				}
 				else if (type === "number") {
 					result = getNumberCompareValue(val);
@@ -513,23 +513,23 @@ define(["wc/dom/tag",
 					if (dateField && dateField.isOneOfMe(element)) {
 						result = dateField.getValue(element);
 					}
-					if (!interchange.isComplete(result)) {
-						result = null;
+					if (result !== "" && !interchange.isComplete(result)) {
+						return null;
 					}
+					return result;
 				}
-				else if (type === "number") {
+
+				if (type === "number") {
 					if (numberField) {
 						result = numberField.getValueAsNumber(element);
 					}
-					if (isNaN(result)) {// if the result is NaN we can't use it
+					if (result !== "" && isNaN(result)) { // if the result is NaN we can't use it
 						result = null;
 					}
+					return result;
 				}
-				else {
-					// don't check element.text, it is not necessary on option elements from IE8 up and is actually harmful because it will bypass a legit value attribute that equates to false (empty string)
-					result = element.value || element.getAttribute("data-wc-value") || "";
-				}
-				return result;
+				// don't check element.text, it is not necessary on option elements from IE8 up and is actually harmful because it will bypass a legit value attribute that equates to false (empty string)
+				return (element.value || element.getAttribute("data-wc-value") || "");
 			}
 
 			/**

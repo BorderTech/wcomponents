@@ -94,30 +94,20 @@
 					necessity which changes its content type to non-phrase.
 				-->
 				<div id="{$id}">
-					<xsl:call-template name="hideElementIfHiddenSet"/>
-					<xsl:call-template name="ajaxTarget">
-						<xsl:with-param name="live" select="'off'"/>
+					<xsl:call-template name="makeCommonClass">
+						<xsl:with-param name="additional">
+							<xsl:text>wc_input_wrapper</xsl:text>
+						</xsl:with-param>
 					</xsl:call-template>
-					<xsl:call-template name="disabledElement">
-						<xsl:with-param name="isControl" select="0"/>
-					</xsl:call-template>
-					<xsl:call-template name="makeCommonClass"/>
 					<xsl:attribute name="role">
 						<xsl:text>combobox</xsl:text>
 					</xsl:attribute>
-					<xsl:call-template name="requiredElement">
-						<xsl:with-param name="useNative" select="0"/>
-					</xsl:call-template>
 					<xsl:attribute name="aria-autocomplete">
 						<xsl:text>both</xsl:text>
 					</xsl:attribute>
-					<xsl:call-template name="disabledElement"/>
 					<xsl:attribute name="aria-expanded">
 						<xsl:text>false</xsl:text>
 					</xsl:attribute>
-					<xsl:if test="$isError">
-						<xsl:call-template name="invalid"/>
-					</xsl:if>
 					<xsl:attribute name="data-wc-name">
 						<xsl:value-of select="@id"/>
 						<xsl:text>${wc.ui.dateField.name.suffix}</xsl:text>
@@ -126,6 +116,19 @@
 						<xsl:attribute name="data-wc-value">
 							<xsl:value-of select="@date"/>
 						</xsl:attribute>
+					</xsl:if>
+					<xsl:call-template name="hideElementIfHiddenSet"/>
+					<xsl:call-template name="ajaxTarget">
+						<xsl:with-param name="live" select="'off'"/>
+					</xsl:call-template>
+					<xsl:call-template name="disabledElement">
+						<xsl:with-param name="isControl" select="0"/>
+					</xsl:call-template>
+					<xsl:call-template name="requiredElement">
+						<xsl:with-param name="useNative" select="0"/>
+					</xsl:call-template>
+					<xsl:if test="$isError">
+						<xsl:call-template name="invalid"/>
 					</xsl:if>
 					<xsl:if test="not($myLabel)">
 						<xsl:call-template name="ariaLabel"/>
@@ -161,9 +164,6 @@
 						<xsl:attribute name="aria-owns">
 							<xsl:value-of select="$pickId"/>
 						</xsl:attribute>
-						<xsl:call-template name="title">
-							<xsl:with-param name="contentAfter" select="$$${wc.ui.dateField.i18n.title.default}"/>
-						</xsl:call-template>
 
 						<xsl:if test="@min">
 							<xsl:choose>
@@ -198,44 +198,28 @@
 								<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
 							</xsl:attribute>
 						</xsl:if>
+						<xsl:call-template name="title">
+							<xsl:with-param name="contentAfter" select="$$${wc.ui.dateField.i18n.title.default}"/>
+						</xsl:call-template>
 						<xsl:call-template name="ajaxController"/>
 						<xsl:call-template name="disabledElement">
 							<xsl:with-param name="isControl" select="1"/>
 						</xsl:call-template>
 					</xsl:element>
-					<!-- This is the date picker launch control element. -->
-					<xsl:element name="button">
-						<xsl:attribute name="value">
-							<xsl:value-of select="$inputId"/>
-						</xsl:attribute>
-						<xsl:attribute name="tabindex">
-							<xsl:text>-1</xsl:text>
-						</xsl:attribute>
-						<!--
-							Calendar needs an ID so that if the date input itself is the target of an AJAX
-							"replace" the calendar icon will get cleaned up by our duplicate ID prevention
-							logic (assumes the new date field has the same ID which in WComponents is always the case).
+					<!-- This is the date picker launch control element.
+						
+						Calendar needs an ID so that if the date input itself is the target of an AJAX
+						"replace" the calendar icon will get cleaned up by our duplicate ID prevention
+						logic (assumes the new date field has the same ID which in WComponents is always the case).
 						-->
-						<xsl:attribute name="id">
-							<xsl:value-of select="$pickId"/>
-						</xsl:attribute>
-						<xsl:attribute name="type">
-							<xsl:text>button</xsl:text>
-						</xsl:attribute>
-						<xsl:attribute name="aria-haspopup">
-							<xsl:copy-of select="$t"/>
-						</xsl:attribute>
-						<xsl:attribute name="class">
-							<xsl:text>wc_wdf_cal wc_btn_icon wc_invite</xsl:text>
-						</xsl:attribute>
-						<xsl:call-template name="hideElementIfHiddenSet"/>
+					<button value="{$inputId}" tabindex="-1" id="{$pickId}" type="button" aria-haspopup="true" class="wc_wdf_cal wc_btn_icon wc_invite">
 						<xsl:call-template name="disabledElement">
 							<xsl:with-param name="isControl" select="1"/>
 						</xsl:call-template>
 						<xsl:attribute name="title">
 							<xsl:value-of select="$$${wc.ui.dateField.i18n.calendarLaunchButton}"/>
 						</xsl:attribute>
-					</xsl:element>
+					</button>
 					<ul role="listbox" aria-busy="true"></ul>
 				</div>
 				<xsl:call-template name="inlineError">

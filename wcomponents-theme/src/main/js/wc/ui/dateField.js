@@ -161,10 +161,10 @@ define(["wc/has",
 				}
 				childEl.removeAttribute("aria-owns");
 				if ((childEl = getSuggestionList(element, -1))) {
-					element.removeChild(childEl);
+					childEl.parentElement.removeChild(childEl);
 				}
 				if ((childEl = LAUNCHER.findDescendant(element))) {
-					element.removeChild(childEl);
+					childEl.parentElement.removeChild(childEl);
 				}
 			}
 
@@ -973,12 +973,19 @@ define(["wc/has",
 			 * @returns {String} The date in transfer format or an empty string if the field has no value.
 			 */
 			this.getValue = function(element, guess) {
-				var result, textbox;
-				if (element && (element = DATE_FIELD.findAncestor(element))) {
-					result = element.getAttribute(VALUE_ATTRIB);
-					if (!result && (textbox = instance.getTextBox(element)) && textbox.value) {
+				var result, textbox, _element;
+				if (element && (_element = DATE_FIELD.findAncestor(element))) {
+					if ((result = _element.getAttribute(VALUE_ATTRIB))) {
+						return result;
+					}
+
+					if (this.isNativeInput(element) && (result = element.value)) {
+						return result;
+					}
+
+					if (!result && (textbox = instance.getTextBox(_element)) && textbox.value) {
 						// we don't have a recorded xfer date for this element, check its value
-						result = reverseFormat(textbox, guess);
+						return reverseFormat(textbox, guess);
 					}
 				}
 				return result || "";
