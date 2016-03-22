@@ -4,6 +4,7 @@
 	<xsl:import href="wc.ui.label.n.labelClassHelper.xsl"/>
 	<xsl:import href="wc.ui.label.n.labelCommonAttributes.xsl"/>
 	<xsl:import href="wc.ui.label.n.labelHintHelper.xsl"/>
+	<xsl:import href="wc.common.offscreenSpan.xsl"/>
 
 	<!--
 		Basic helper template to make a label for a labelable element.
@@ -29,7 +30,6 @@
 	-->
 	<xsl:template name="makeLabel">
 		<xsl:param name="labelableElement"/>
-		<xsl:param name="style"/>
 
 		<xsl:variable name="readOnly">
 			<xsl:if test="$labelableElement/@readOnly">
@@ -51,7 +51,6 @@
 		<xsl:element name="{$elementType}">
 			<xsl:call-template name="labelCommonAttributes">
 				<xsl:with-param name="element" select="$labelableElement"/>
-				<xsl:with-param name="style" select="$style"/>
 			</xsl:call-template>
 
 			<xsl:choose>
