@@ -14,7 +14,8 @@ For full details see [GitHub issues](https://github.com/BorderTech/wcomponents/i
 
 ## Major Bug fixes
 For all bug fixes see [GitHub Issues](https://github.com/BorderTech/wcomponents/issues?q=is%3Aissue+is%3Aclosed+label%3Abug)
-* Introduced new AjaxInternalTrigger marker interface to indicate which components use AJAX to maintain their internal state (#447).
+* Fix WTree AJAX actions. Introduced new AjaxInternalTrigger marker interface to indicate which components use AJAX to maintain their internal state (#447).
+* Fix WTab in a WTabGroup causing a ClassCastException (#442).
 
 ## Other
 * The schema has been updated to make all UI element names lowercase. Why is this not an API change? because the schema is not part of the API - it is an internal contract.
