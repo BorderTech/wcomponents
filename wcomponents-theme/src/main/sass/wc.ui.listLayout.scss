@@ -78,6 +78,10 @@
 ol.wc-listlayout {
 	margin-left: $list-layout-ordered-spacing;
 
+	&.none {
+		margin-left: 0;
+	}
+
 	&.flat { // flat ordered lists use a pseudo-element with a counter
 		counter-reset: li;
 		margin-left: 0;
