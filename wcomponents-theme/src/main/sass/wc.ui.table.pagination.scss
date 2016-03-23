@@ -18,8 +18,31 @@
 }
 
 // This rule applies when the pagination controls are at the bottom of the table.
-// scss-lint:disable QualifyingElement
-table + div  > .wc_table_pag_cont {
+.wc_table_bottom_controls > .wc_table_pag_cont {
 	text-align: right;
 }
-// scss-lint:enable QualifyingElement
+
+@include respond(phonelike) {
+	.wc_table_pag_cont {
+		> span,
+		> label {
+			text-align: right;
+		}
+
+		> span {
+			display: block;
+		}
+
+		.wc_table_pag_rows {
+			margin-bottom: $vgap-small;
+		}
+
+		.wc_table_pag_btns {
+			margin-top: $vgap-small;
+		}
+
+		.wc_table_top_controls > & {
+			display: none;
+		}
+	}
+}
