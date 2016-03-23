@@ -82,6 +82,7 @@
 						<xsl:attribute name="name">
 							<xsl:value-of select="@id"/>
 						</xsl:attribute>
+						<xsl:call-template name="title"/>
 						<xsl:if test="not(self::ui:passwordfield)">
 							<xsl:attribute name="value">
 								<xsl:value-of select="."/>
