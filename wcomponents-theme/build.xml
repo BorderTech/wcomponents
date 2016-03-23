@@ -360,8 +360,8 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 							<present present="srconly" targetdir="${merge.impl.dir}/src/main/js"/>
 						</fileset>
 					</copy>
-					<copy todir="${merge.impl.dir}/src/main/xml" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/xml" includes="**/*" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
+					<copy todir="${merge.impl.dir}/src/main/resource" overwrite="false">
+						<fileset dir="${prototype.dir}/src/main/resource" includes="**/*" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
 							<present present="srconly" targetdir="${merge.impl.dir}/src/main/xml"/>
 						</fileset>
 					</copy>
@@ -529,7 +529,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 
 			1. Be named version.properties
 			2. Dump the "build.number" property.
-			
+
 			TODO can we ditch this entirely?
 		-->
 		<attribute name="implName"/>
