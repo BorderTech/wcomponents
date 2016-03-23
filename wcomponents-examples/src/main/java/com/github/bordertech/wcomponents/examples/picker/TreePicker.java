@@ -229,7 +229,7 @@ public class TreePicker extends WContainer {
 			});
 
 			setDefaultSubmitButton(selectOtherButton);
-			add(new WLabel("Qualified name"), selectOther);
+			add(new WLabel("Qualified name", selectOther));
 			add(selectOther);
 			add(selectOtherButton);
 		}
