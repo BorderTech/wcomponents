@@ -1,20 +1,24 @@
 package com.github.bordertech.wcomponents.examples.picker;
 
+import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.ImageResource;
+import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.WApplication;
+import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.wcomponents.WNamingContext;
 import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.WTabSet;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.examples.common.AccessibilityWarningContainer;
 import com.github.bordertech.wcomponents.util.StreamUtil;
+import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import java.io.IOException;
 import java.io.InputStream;
 import org.apache.commons.logging.Log;
@@ -27,13 +31,21 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
+ *
+ * Uses WSection as the example container so that the refresh and reset buttons can be put in context.
+ * @author Mark Reeves.
  */
-final class ExamplePanel extends WPanel {
+final class ExampleSection extends WSection implements MessageContainer {
+
+	/**
+	 * Report example messages here.
+	 */
+	private final WMessages messages = new WMessages();
 
 	/**
 	 * Logger for this class.
 	 */
-	private static final Log LOG = LogFactory.getLog(ExamplePanel.class);
+	private static final Log LOG = LogFactory.getLog(ExampleSection.class);
 
 	/**
 	 * The container to add the example to.
@@ -53,21 +65,74 @@ final class ExamplePanel extends WPanel {
 	/**
 	 * Creates an ExamplePanel.
 	 */
-	ExamplePanel() {
-		setType(Type.CHROME);
+	ExampleSection() {
+		super(new WPanel(), new WDecoratedLabel(null, new WText("No Selection"), new WContainer()));
+		buildUI();
+	}
+
+	/**
+	 * Add the controls to the section in the right order.
+	 */
+	private void buildUI() {
+		add(messages);
 		add(tabset);
+		// add(new AccessibilityWarningContainer());
 
-		WNamingContext context = new WNamingContext("eg");
-		context.add(container);
+		container.add(new WText("Select an example from the menu"));
+		// Set a static ID on container and it becomes a de-facto naming context.
+		container.setIdName("eg");
+		tabset.addTab(container, "(no selection)", WTabSet.TAB_MODE_CLIENT);
 
-		tabset.addTab(context, "(no selection)", WTabSet.TAB_MODE_CLIENT);
-
-		final ImageResource srcImageResource = new ImageResource("/image/text-x-source.png", "View Source");
-		WImage srcImage = new WImage(srcImageResource);
+		WImage srcImage = new WImage(new ImageResource("/image/text-x-source.png", "View Source"));
 		srcImage.setCacheKey("srcTabImage");
 		tabset.addTab(source, new WDecoratedLabel(srcImage), WTabSet.TAB_MODE_LAZY).setToolTip("View Source");
-		container.add(new WText("Select an example from the menu"));
-		add(new AccessibilityWarningContainer());
+
+		// The refresh current view button.
+		WButton refreshButton = new WButton("Refresh");
+		refreshButton.setImage("/image/refresh-w.png");
+		refreshButton.setRenderAsLink(true);
+		refreshButton.setAction(new ValidatingAction(messages.getValidationErrors(), refreshButton) {
+			@Override
+			public void executeOnValid(final ActionEvent event) {
+				// Do Nothing
+			}
+		});
+
+		// The reset example button.
+		final WButton resetButton = new WButton("Reset");
+		resetButton.setImage("/image/cancel-w.png");
+		resetButton.setRenderAsLink(true);
+		resetButton.setAction(new ValidatingAction(messages.getValidationErrors(), resetButton) {
+			@Override
+			public void executeOnValid(final ActionEvent event) {
+				resetExample();
+			}
+		});
+
+		addToTail(refreshButton);
+		addToTail(new WText("\u2002"));
+		addToTail(resetButton);
+	}
+
+	/**
+	 * Add an item to the WSection's content.
+	 *
+	 * @param component The component to add.
+	 */
+	public void add(final WComponent component) {
+		this.getContent().add(component);
+	}
+
+	/**
+	 * Add a component to the WDecoratedLabel's tail container.
+	 *
+	 * @param component The component to add.
+	 */
+	private void addToTail(final WComponent component) {
+		WContainer tail = (WContainer) getDecoratedLabel().getTail();
+		if (null != tail) { // bloody well better not be...
+			tail.add(component);
+		}
 	}
 
 	/**
@@ -87,7 +152,7 @@ final class ExamplePanel extends WPanel {
 		resetExample();
 		container.removeAll();
 
-		setTitleText(exampleName);
+		this.getDecoratedLabel().setBody(new WText(exampleName));
 
 		WApplication app = WebUtilities.getAncestorOfClass(WApplication.class, this);
 		if (app != null) {
@@ -151,7 +216,7 @@ final class ExamplePanel extends WPanel {
 		InputStream stream = null;
 
 		try {
-			stream = ExamplePanel.class.getResourceAsStream(sourceName);
+			stream = ExampleSection.class.getResourceAsStream(sourceName);
 
 			if (stream != null) {
 				byte[] sourceBytes = StreamUtil.getBytes(stream);
@@ -172,5 +237,13 @@ final class ExamplePanel extends WPanel {
 		}
 
 		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public WMessages getMessages() {
+		return messages;
 	}
 }
