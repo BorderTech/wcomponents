@@ -1,4 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		ui:content is a child node of a number of components in its most basic form it
 		merely passes through. Some components have their own content implementation:
@@ -16,12 +17,6 @@
 					<xsl:value-of select="@id"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:attribute name="class">
-				<xsl:text>wc-content</xsl:text>
-				<xsl:if test="$class != ''">
-					<xsl:value-of select="concat(' ', $class)"/>
-				</xsl:if>
-			</xsl:attribute>
 			<xsl:if test="$ajaxId != ''">
 				<xsl:attribute name="data-wc-ajaxalias">
 					<xsl:value-of select="$ajaxId"/>
@@ -32,6 +27,9 @@
 					<xsl:value-of select="$labelId"/>
 				</xsl:attribute>
 			</xsl:if>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional" select="$class"/>
+			</xsl:call-template>
 			<xsl:apply-templates/>
 		</div>
 	</xsl:template>

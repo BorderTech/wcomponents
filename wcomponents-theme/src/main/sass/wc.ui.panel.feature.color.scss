@@ -3,6 +3,6 @@
 // 'The feature panel is highlighted by a background colour and border.'
 @import 'panel_vars';
 
-.feature {
+.wc_pnl_feature {
 	@include padded-box($bg-color: $wc-ui-color-panel-feature-background, $color: $wc-ui-color-panel-feature-foreground);
 }

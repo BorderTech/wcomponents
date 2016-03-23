@@ -37,55 +37,28 @@ section {
 	}
 
 	// now the content
-	// All
-	> .wc-content {
+	// WSection is easy: its content is a wpanel.
+	> .wc-panel {
+		margin: $section-content-spacing;
+		padding: 0;
+	}
+
+	// WPanel content and layouts.
+	> div, // the WPanel child of WSection is a div but the rule above overrides this.
+	> .wc-listlayout {
 		padding: $section-content-spacing;
 	}
 
-	// WPanel layouts
-	> .wc-listlayout { // we need to fix the list layout default margin
-		&,
-		&.none,
-		&.flat,
-		&.bar { // need to make these a bit more specific to override the double class in wc.ui.listLayout.scss
-			margin: $section-content-spacing;
-		}
-
-		&.dot { // dotted lists need some more left margin
-			margin-left: $list-layout-dot-spacing + $section-content-spacing;
-
-			&.flat { //except when they are flat
-				margin-left: $section-content-spacing;
-			}
+	// Docking a Bar menu
+	// If you have a WPanel of type CHROME or ACTION or a WSection containing a plain WPanel
+	// and the WPanel does not have a layout then add a WMenu Type BAR to the content of the
+	// WPanel then we can 'dock' the menu to the panel/section header.
+	&,
+	> .wc-panel {
+		> .wc-content > .bar:first-child {
+			// the negative margin must be 0 - the padding of WSection content.
+			$neg-margin: -$section-content-spacing;
+			margin: $neg-margin $neg-margin $section-content-spacing;
 		}
 	}
-
-	// We need to reset the margin-left if the list is ordered so we need element qualifier for ordered lists only
-	// scss-lint:disable QualifyingElement
-	> ol.wc-listlayout {
-		margin-left: $list-layout-ordered-spacing + $section-content-spacing;
-
-		&.flat { //except when they are flat
-			margin-left: $section-content-spacing;
-		}
-	}
-	//scss-lint:enable QualifyingElement
-}
-
-// the negative margin must be 0 - the padding of WSection content.
-$neg-margin: -$section-content-spacing;
-
-// Docking a Bar menu
-// If you have a WPanel of type CHROME or ACTION or a WSection containing a plain WPanel and the WPanel does not have a
-// layout then add a WMenu Type BAR to the content of the WPanel then we can 'dock' the menu to the panel/section
-// header.
-.wc-section > .wc-content > .wc-panel, //we use the WSection class here so we do not end up with weird multi-depth happenings.
-.chrome,
-.action {
-	// need these deep selectors unfortunately
-	// scss-lint:disable SelectorDepth
-	> .wc-content > .bar:first-child {
-		margin: $neg-margin $neg-margin $section-content-spacing;
-	}
-	// scss-lint:enable SelectorDepth
 }

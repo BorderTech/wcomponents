@@ -15,10 +15,11 @@
  * @requires module:wc/dom/uid
  * @requires module:wc/i18n/i18n
  * @requires module:wc/ui/menu/menuItem
+ * @requires module:wc/has
  */
-define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "wc/dom/initialise", "wc/dom/uid", "wc/i18n/i18n", "wc/ui/menu/menuItem"],
-	/** @param abstractMenu wc/ui/menu/core @param keyWalker wc/dom/keyWalker @param shed wc/dom/shed @param Widget wc/dom/Widget @param initialise wc/dom/initialise @param uid wc/dom/uid @param i18n @ignore */
-	function(abstractMenu, keyWalker, shed, Widget, initialise, uid, i18n) {
+define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "wc/dom/initialise", "wc/dom/uid", "wc/i18n/i18n", "wc/has", "wc/ui/menu/menuItem"],
+	/** @param abstractMenu @param keyWalker @param shed @param Widget @param initialise @param uid @param i18n @param has @ignore */
+	function(abstractMenu, keyWalker, shed, Widget, initialise, uid, i18n, has) {
 		"use strict";
 
 		/* Unused dependencies:
@@ -303,7 +304,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 */
 			this.updateMenusForMobile = function (element) {
 				var candidates;
-				if (!this.isMobile) {
+				if (!this.isMobile || has("ipad")) {
 					return;
 				}
 				if (this.isSubMenu(element)) {

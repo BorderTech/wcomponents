@@ -10,22 +10,8 @@
 	padding: $vgap-normal $hgap-normal;
 }
 
-@include respond (mobile) {
-	[role='banner'] {
-		> .wc-content {
-			@include flex($direction: row-reverse, $wrap: wrap, $justify: space-between, $align-items: center, $align-content: flex-start);
-			padding: $hgap-small;
-
-			> * {
-				@include flex-grow(0);
-				@include flex-shrink(1);
-			}
-		}
-
-		h1 {
-			@include tight-box;
-			font-size: 1.25rem;
-			font-weight: bold;
-		}
+@include respond(phonelike) {
+	[role='banner'] > :first-child {
+		@include flex($direction: row-reverse, $wrap: wrap, $justify: space-between, $align-items: center);
 	}
 }

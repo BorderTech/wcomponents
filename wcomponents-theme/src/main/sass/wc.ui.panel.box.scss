@@ -3,6 +3,6 @@
 // 'A box panel has a border.' therefore has a pad to remove the content from the border.
 @import 'mixins-common';
 
-.box {
+.wc_pnl_box {
 	@include padded-box;
 }

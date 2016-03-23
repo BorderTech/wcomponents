@@ -19,6 +19,7 @@
 			* ui:listlayout
 	-->
 	<xsl:template match="ui:panel">
+		<xsl:param name="type" select="@type"/>
 		<xsl:variable name="id" select="@id"/>
 		
 		<xsl:variable name="containerElement">
@@ -29,14 +30,16 @@
 				<xsl:value-of select="$id"/>
 			</xsl:attribute>
 			<xsl:attribute name="class">
-				<xsl:call-template name="WPanelClass"/>
+				<xsl:call-template name="WPanelClass">
+					<xsl:with-param name="type" select="$type"/>
+				</xsl:call-template>
 			</xsl:attribute>
 			<xsl:if test="@buttonId">
 				<xsl:attribute name="${wc.common.attribute.button}">
 					<xsl:value-of select="@buttonId"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="@type='header'">
+			<xsl:if test="$type='header'">
 				<xsl:attribute name="role">
 					<xsl:text>banner</xsl:text>
 				</xsl:attribute>
