@@ -446,7 +446,7 @@ var modelBoxes= new Array('model_video');
                            <div id="instance_video" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:video</span><span class="tT"> </span><span class="tAN">alt=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">autoplay=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">controls=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">duration=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">height=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">loop=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">mediagroup=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">muted=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">poster=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">preload=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">width=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:video</span><span class="tT"> </span><span class="tAN">alt=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">autoplay=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">controls=</span><span class="tAV">"default"</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">duration=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">height=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">loop=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">mediagroup=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">muted=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">poster=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">preload=</span><span class="tAV">"auto"</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">width=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:src</span><span class="tT"> </span><span class="tAN">height=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">type=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">uri=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">width=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,unbounded}</span><span class="tEl">&lt;/ui:src&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:track</span><span class="tT"> </span><span class="tAN">desc=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">kind=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">lang=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">src=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,unbounded}</span><span class="tEl">&lt;/ui:track&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:video&gt;</span></pre></td>
@@ -467,6 +467,7 @@ var modelBoxes= new Array('model_video');
                                     <tr>
                                        <th>QName</th>
                                        <th width="10%">Type</th>
+                                       <th width="10%">Default</th>
                                        <th width="5%">Use</th>
                                        <th>Annotation</th>
                                     </tr>
@@ -474,68 +475,88 @@ var modelBoxes= new Array('model_video');
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_media_xsd_Attribute_Group_ui_media_attributes.html#media.attributes_alt" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component alt')">alt</a></b></td>
                                     <td><b>xs:string</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Alternative text to display if the media is not able to be rendered or if the component
-                                          supports in-situ images (video poster for
-                                          					example).
+                                       <div class="annotation">
+                                          					Alternative text to display if the media is not able to be rendered or if the
+                                          component supports 
+                                          					in-situ images (video poster for example).
+                                          				
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_media_xsd_Attribute_Group_ui_media_attributes.html#media.attributes_autoplay" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component autoplay')">autoplay</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates the media autoplay setting. Not implemented by default due to accessibility
-                                          concerns. Not output if "false".
+                                       <div class="annotation">
+                                          					Indicates the media autoplay setting. Not implemented by default in wcomponents-theme
+                                          due to
+                                          					accessibility concerns.
+                                          				
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_media_xsd_Attribute_Group_ui_media_attributes.html#media.attributes_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component class')">class</a></b></td>
                                     <td><b>xs:string</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                                       <div class="annotation">
+                                          					Provides the ability to pass an HTML class attribute onto the root output element.
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_media_xsd_Attribute_Group_ui_media_attributes.html#media.attributes_controls" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component controls')">controls</a></b></td>
                                     <td>restriction of <b>xs:NMTOKEN</b></td>
+                                    <td>default</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates what controls to display to the user. May not be implemented depending on
-                                          other factors. In most cases the user agent determines the
-                                          					control set and only "none" has any impact. If absent, "default" is assumed and
-                                          native controls will be used.
+                                       <div class="annotation">
+                                          					Indicates what controls to display to the user. May not be implemented depending
+                                          on other factors.
+                                          					In most cases the user agent determines the control set and only "none" has any
+                                          impact.
+                                          				
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_media_xsd_Attribute_Group_ui_media_attributes.html#media.attributes_disabled" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component disabled')">disabled</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a disabled state if "true". Not output if "false". 
-                                          <strong xmlns="">Deprecated:</strong> HTML5 audio and video do not support the
-                                          					disabled state.
+                                       <div class="annotation">
+                                          					The component will be in a disabled state if "true". 
+                                          <strong xmlns="">Deprecated:</strong> HTML5 audio and
+                                          					video do not support the disabled state.
+                                          				
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_media_xsd_Attribute_Group_ui_media_attributes.html#media.attributes_duration" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component duration')">duration</a></b></td>
                                     <td><b>xs:positiveInteger</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates the temporal length of the media. Deprecated, not implemented by default
-                                          since WComponents 12.0.001.
+                                       <div class="annotation">
+                                          					Indicates the temporal length of the media. Not implemented by default in wcomponents-theme.
+                                          				
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="video_xsd_Element_ui_video.html#video_height" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component height')">height</a></b></td>
                                     <td><b>xs:positiveInteger</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation">The vertical size of the video player in pixels.</div>
@@ -544,54 +565,71 @@ var modelBoxes= new Array('model_video');
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_media_xsd_Attribute_Group_ui_media_attributes.html#media.attributes_hidden" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component hidden')">hidden</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a hidden state if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          					The component will be in a hidden state if "true".
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_media_xsd_Attribute_Group_ui_media_attributes.html#media.attributes_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component id')">id</a></b></td>
                                     <td><b>xs:ID</b></td>
+                                    <td></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">The unique identifier for the component.</div>
+                                       <div class="annotation">
+                                          					The unique identifier for the component.
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_media_xsd_Attribute_Group_ui_media_attributes.html#media.attributes_loop" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component loop')">loop</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the media should automatically replay at the end. May have considerable
-                                          accessibility implications and should notbe used or used
-                                          					with extreme caution. 
-                                          <strong xmlns="">NOTE:</strong> default implementation of this attribute may be dropped from future releases due
-                                          to these accessibility concerns.
-                                          					Not output if "false".
+                                       <div class="annotation">
+                                          					Indicates that the media should automatically replay at the end. May have considerable
+                                          accessibility
+                                          					implications and should no tbe used. Not supported by default in wcomponents-theme.
+                                          				
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_media_xsd_Attribute_Group_ui_media_attributes.html#media.attributes_mediagroup" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component mediagroup')">mediagroup</a></b></td>
                                     <td><b>xs:NMTOKEN</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates a group name for a set of media components. Not yet implemented due to low
-                                          levels of user agent support.
+                                       <div class="annotation">
+                                          					Indicates a group name for a set of media components. Not yet implemented due
+                                          to low levels of user
+                                          					agent support.
+                                          				
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_media_xsd_Attribute_Group_ui_media_attributes.html#media.attributes_muted" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component muted')">muted</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the media should be muted on page load. Not output if "false".</div>
+                                       <div class="annotation">
+                                          					Indicates that the media should be muted on page load.
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="video_xsd_Element_ui_video.html#video_poster" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component poster')">poster</a></b></td>
                                     <td><b>xs:anyURI</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation">The location of an image file to display in the video player before the user loads
@@ -603,27 +641,34 @@ var modelBoxes= new Array('model_video');
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_media_xsd_Attribute_Group_ui_media_attributes.html#media.attributes_preload" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component preload')">preload</a></b></td>
                                     <td>restriction of <b>xs:NMTOKEN</b></td>
+                                    <td>auto</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates the rules for pre-loading the media file(s) by the user agent. If absent,
-                                          "auto" is assumed.
+                                       <div class="annotation">
+                                          					Indicates the rules for pre-loading the media file(s) by the user agent.
+                                          				
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_media_xsd_Attribute_Group_ui_media_attributes.html#media.attributes_toolTip" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component toolTip')">toolTip</a></b></td>
                                     <td><b>xs:string</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Text to display to the user as optional 'helper' information. Note, however, that
-                                          there are some accessibility and usability implications of this
-                                          					attribute and it should be used with care.
+                                       <div class="annotation">
+                                          					Text to display to the user as optional 'helper' information. Note, however,
+                                          that there are some
+                                          					accessibility and usability implications of this attribute and it should be used
+                                          with care.
+                                          				
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="video_xsd_Element_ui_video.html#video_width" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component width')">width</a></b></td>
                                     <td><b>xs:positiveInteger</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation">The horizontal size of the video player in pixels.</div>

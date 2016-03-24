@@ -305,7 +305,10 @@ var attributesBoxes= new Array('attributes_button.attributes');
                         </td>
                         <td>
                            <div id="annotations_button.attributes" style="display:block">
-                              <div class="annotation">Common attributes for components which have a button nature to provide user interactivity.</div>
+                              <div class="annotation">
+                                 				Common attributes for components which have a button nature to provide user interactivity.
+                                 			
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -337,7 +340,7 @@ var attributesBoxes= new Array('attributes_button.attributes');
                                  </tr>
                                  <tr>
                                     <td class="firstColumn">Elements </td>
-                                    <td><b><a href="menuItem_xsd_Element_ui_menuItem.html#menuItem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:menuItem')">ui:menuItem</a></b>, <b><a href="submenu_xsd_Element_ui_submenu.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:submenu')">ui:submenu</a></b>, <b><a href="tab_xsd_Element_ui_tab.html#tab" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:tab')">ui:tab</a></b></td>
+                                    <td><b><a href="menuItem_xsd_Element_ui_menuitem.html#menuitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:menuitem')">ui:menuitem</a></b>, <b><a href="submenu_xsd_Element_ui_submenu.html#submenu" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:submenu')">ui:submenu</a></b>, <b><a href="tab_xsd_Element_ui_tab.html#tab" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:tab')">ui:tab</a></b></td>
                                  </tr>
                               </table>
                            </div>
@@ -355,6 +358,7 @@ var attributesBoxes= new Array('attributes_button.attributes');
                                     <tr>
                                        <th>QName</th>
                                        <th width="10%">Type</th>
+                                       <th width="10%">Default</th>
                                        <th width="5%">Use</th>
                                        <th>Annotation</th>
                                     </tr>
@@ -362,14 +366,18 @@ var attributesBoxes= new Array('attributes_button.attributes');
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_common_xsd_Attribute_Group_ui_accesskey_attributes.html#accesskey.attributes_accessKey" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component accessKey')">accessKey</a></b></td>
                                     <td>restriction of <b>xs:string</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Sets a single modified key access key for a control. This attribute should be used
-                                          with caution as: 
+                                       <div class="annotation">
+                                          					Sets a single modified key access key for a control. This attribute should be
+                                          used with caution as:
+                                          					
                                           <ul xmlns="">
                                              						
                                              <li>some user agents reserve some keys for internal use and do not expose them to the
-                                                client for use as access keys; and
+                                                client for
+                                                							use as access keys; and
                                              </li>
                                              						
                                              <li>some keys may clash or cause issues with use of various assistive technologies.</li>
@@ -380,55 +388,78 @@ var attributesBoxes= new Array('attributes_button.attributes');
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="attributeGroups_control_xsd_Attribute_Group_ui_interaction_attributes.html#interaction.attributes_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component class')">class</a></b></td>
+                                    <td class="firstColumn"><b><a href="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.html#container.attributes_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component class')">class</a></b></td>
                                     <td><b>xs:string</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                                       <div class="annotation">
+                                          					Provides the ability to pass an HTML class attribute onto the root output element.
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_control_xsd_Attribute_Group_ui_interaction_attributes.html#interaction.attributes_disabled" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component disabled')">disabled</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a disabled state if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          					The component will be in a disabled state if "true".
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="attributeGroups_control_xsd_Attribute_Group_ui_interaction_attributes.html#interaction.attributes_hidden" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component hidden')">hidden</a></b></td>
+                                    <td class="firstColumn"><b><a href="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.html#container.attributes_hidden" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component hidden')">hidden</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a hidden state if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          					The component will be in a hidden state if "true".
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="attributeGroups_control_xsd_Attribute_Group_ui_interaction_attributes.html#interaction.attributes_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component id')">id</a></b></td>
+                                    <td class="firstColumn"><b><a href="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.html#container.attributes_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component id')">id</a></b></td>
                                     <td><b>xs:ID</b></td>
+                                    <td></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">The unique identifier for the component.</div>
+                                       <div class="annotation">
+                                          					The unique identifier for the component.
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_control_xsd_Attribute_Group_ui_control_attributes.html#control.attributes_toolTip" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component toolTip')">toolTip</a></b></td>
                                     <td><b>xs:string</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Text to display to the user as optional 'helper' information. Note, however, that
-                                          there are some 
-                                          						accessibility and usability implications of this attribute and it should be
-                                          used with care.
+                                       <div class="annotation">
+                                          					Text to display to the user as optional 'helper' information. Note, however,
+                                          that there are some 
+                                          					accessibility and usability implications of this attribute and it should be used
+                                          with care.
+                                          				
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="attributeGroups_control_xsd_Attribute_Group_ui_interaction_attributes.html#interaction.attributes_track" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component track')">track</a></b></td>
+                                    <td class="firstColumn"><b><a href="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.html#container.attributes_track" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component track')">track</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the component should take part in web analytics tracking.</div>
+                                       <div class="annotation">
+                                          					Indicates that the component should take part in web analytics tracking.
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                               </table>

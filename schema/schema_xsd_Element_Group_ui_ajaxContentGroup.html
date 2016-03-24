@@ -343,7 +343,7 @@ var annotationBoxes= new Array('annotations_ajaxContentGroup_id',
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Element </td>
-                                    <td><b><a href="schema_xsd_Element_ui_ajaxResponse.html#ajaxResponse_ajaxTarget" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:ajaxResponse/ui:ajaxTarget')">ui:ajaxResponse/ui:ajaxTarget</a></b></td>
+                                    <td><b><a href="schema_xsd_Element_ui_ajaxresponse.html#ajaxresponse_ajaxtarget" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:ajaxresponse/ui:ajaxtarget')">ui:ajaxresponse/ui:ajaxtarget</a></b></td>
                                  </tr>
                               </table>
                            </div>
@@ -435,11 +435,20 @@ var annotationBoxes= new Array('annotations_ajaxContentGroup_id',
                               <table class="facetsTable">
                                  <tr>
                                     <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>in</b></td>
+                                    <td>
+                                       <div class="annotation">Indicates that the target element identified by the @id attribute will have it's matching
+                                          child(ren) replaced with the child(ren) of the ui:ajaxtarget element.
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>replace</b></td>
                                     <td>
                                        <div class="annotation">Indicates that the target element identified by the @id attribute should be completely
                                           replaced with a new instance of that element which will be the single child of the
-                                          ui:ajaxTarget element.
+                                          ui:ajaxtarget element.
                                        </div>
                                     </td>
                                  </tr>
@@ -448,7 +457,7 @@ var annotationBoxes= new Array('annotations_ajaxContentGroup_id',
                                     <td width="30%"><b>replaceContent</b></td>
                                     <td>
                                        <div class="annotation">Indicates that the target element identified by the @id attribute should have its
-                                          content replaced with the child(ren) of the ui:ajaxTarget element.
+                                          content replaced with the child(ren) of the ui:ajaxtarget element.
                                        </div>
                                     </td>
                                  </tr>
@@ -466,7 +475,7 @@ var annotationBoxes= new Array('annotations_ajaxContentGroup_id',
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Element </td>
-                                    <td><b><a href="schema_xsd_Element_ui_ajaxResponse.html#ajaxResponse_ajaxTarget" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:ajaxResponse/ui:ajaxTarget')">ui:ajaxResponse/ui:ajaxTarget</a></b></td>
+                                    <td><b><a href="schema_xsd_Element_ui_ajaxresponse.html#ajaxresponse_ajaxtarget" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:ajaxresponse/ui:ajaxtarget')">ui:ajaxresponse/ui:ajaxtarget</a></b></td>
                                  </tr>
                               </table>
                            </div>
@@ -487,14 +496,19 @@ var annotationBoxes= new Array('annotations_ajaxContentGroup_id',
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:simpleType</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:restriction</span><span class="tAN"> base=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"in"</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the target element identified by the @id attribute will have it's matching child(ren) replaced with the child(ren) of the ui:ajaxtarget element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"replace"</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the target element identified by the @id attribute should be completely replaced with a new instance of that element which will be the single child of the ui:ajaxTarget element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the target element identified by the @id attribute should be completely replaced with a new instance of that element which will be the single child of the ui:ajaxtarget element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
         </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"replaceContent"</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the target element identified by the @id attribute should have its content replaced with the child(ren) of the ui:ajaxTarget element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the target element identified by the @id attribute should have its content replaced with the child(ren) of the ui:ajaxtarget element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
         </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:restriction&gt;</span><span class="tI">
