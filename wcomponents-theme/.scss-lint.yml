@@ -1,6 +1,6 @@
 scss_files: 'src/main/sass/*.scss'
 
-exclude: 'src/main/sass/libs/**/*.scss'
+exclude: 'src/main/sass/libs/**'
 
 linters:
 # inherit defaults except:
@@ -47,3 +47,6 @@ linters:
 
   SelectorFormat:
     enabled: false # selectors include XML element and attribute values in camelCase. We may review this.
+
+  PseudoElement:
+      enabled: false

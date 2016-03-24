@@ -1,25 +1,53 @@
 # Change log
 
 ## API Changes
+
+## Enhancements
+
+## Major Bug fixes
+
+# Release 1.1.0
+
+## API Changes
 These are API changes and enhancements which _may_ have some impact on current users.
 
 * `WFilterControl` has been removed. This WComponent was originally designed as a low-quality row filter for `WDataTable`. It has been deprecated for some time. WDataTable is deprecated and slated for _imminent_ removal (though not in the next major release) (#306).
 * Handle multi part AJAX requests. Tightened up the com.github.bordertech.wcomponents.Request interface for the return type of getParameters and getFiles (#341).
 
+### New components
+* Created new WTree component which is to be used for vertical and horizontal trees (#263).
+* Created a new WTemplate component that supports velocity, handlebars and plain text. Projects can also implement their own templating engines (#94).
+
 ## Enhancements
-For full details see [GitHub issues](https://github.com/BorderTech/wcomponents/issues?q=is%3Aissue+is%3Aclosed+label%3Aenhancement).
+For full details see [closed enhancements](https://github.com/BorderTech/wcomponents/issues?q=is%3Aissue+is%3Aclosed+label%3Aenhancement).
 
 * Added a new property to WSuggestions: WSuggestions.Autocomplete. This is an enum which currently supports two settings `LIST` and `BOTH` but has the potential to support all settings of the HTML attribute [aria-autocomplete](https://www.w3.org/TR/wai-aria/states_and_properties#aria-autocomplete) if required. This has the usual accessors get/setAutocomplete. The default is WSuggestions.Autocomplete.BOTH which provides the same functionality as in previous versions of WSuggestions. When WSuggestions.Autocomplete.LIST is used then the client implementation will attempt to force selection of an option from the suggestions list rather than allowing free-text input (#379).
-* Created a new WTemplate component that supports velocity, handlebars and plain text. Projects can also implement their own templating engines (#94).
-* Make server side transform disabled by default and dont do a server side transform if a theme content path has been set (#377).
+* Make server side transform disabled by default and do not do a server side transform if a theme content path has been set (#377).
+* Improved mobile/responsive aspects of client rendering (#344).
+* Simplified access to client code, especially CSS (#172).
 
 ## Major Bug fixes
-For all bug fixes see [GitHub Issues](https://github.com/BorderTech/wcomponents/issues?q=is%3Aissue+is%3Aclosed+label%3Abug)
+For bug fixes in this release see [closed bugs 2016 Q1](https://github.com/BorderTech/wcomponents/issues?utf8=✓&q=is%3Aissue+milestone%3A%222016+Q1%22+is%3Aclosed+label%3Abug).
+For all bug fixes see [closed bugs](https://github.com/BorderTech/wcomponents/issues?q=is%3Aissue+is%3Aclosed+label%3Abug)
 * Fix WTree AJAX actions. Introduced new AjaxInternalTrigger marker interface to indicate which components use AJAX to maintain their internal state (#447).
 * Fix WTab in a WTabGroup causing a ClassCastException (#442).
+* Fix WTable to allow setting row headers (#384).
+* Fix an issue in WTable pagination where a table with many pages could cause some browsers to fail to render a view (#409).
+* Fixed a bug which caused an AJAX trigger to fail when the trigger was inside a WDialog and the target was outside the WDialog (#457).
 
 ## Other
 * The schema has been updated to make all UI element names lowercase. Why is this not an API change? because the schema is not part of the API - it is an internal contract.
+
+# Release 1.0.4
+## API Changes
+None.
+
+##Enhancements
+None.
+
+## Major Bug fixes
+For all bug fixes see [closed bugs](https://github.com/BorderTech/wcomponents/issues?q=is%3Aissue+is%3Aclosed+label%3Abug)
+
 
 # Release 1.0.3
 
@@ -33,7 +61,7 @@ These are API changes and enhancements which _may_ have some impact on current u
 * Client-side support of `WFilterControl` has been removed. This applied _only_ to (the deprecated) `WDataTable` but caused significant overhead during XSLT processing of all tables. The old code is available if a custom theme requires it.
 
 ## Enhancements
-These are backwards-compatible API changes which are transparent for all current users. For full details see [GitHub issues](https://github.com/BorderTech/wcomponents/issues?q=is%3Aissue+is%3Aclosed+label%3Aenhancement).
+These are backwards-compatible API changes which are transparent for all current users. For full details see [closed enhancements](https://github.com/BorderTech/wcomponents/issues?q=is%3Aissue+is%3Aclosed+label%3Aenhancement).
 
 * `WTable` API allows for setting the location of the pagination controls using `setPaginationLocation(WTable.PaginationLocation location)` (#297).
 * `WTable` API allows for sub-row group selection (select all/select none) when a table has multiple row selection **and** row expansion enabled. The optional extra functionality allows for a select all/none control for every row which has one or more selectable sub-rows (#257).
@@ -44,7 +72,7 @@ These are backwards-compatible API changes which are transparent for all current
 * Added improved guards against clickjacking (#240).
 
 ## Major Bug fixes
-For all bug fixes see [GitHub Issues](https://github.com/BorderTech/wcomponents/issues?q=is%3Aissue+is%3Aclosed+label%3Abug)
+For all bug fixes see [closed bugs](https://github.com/BorderTech/wcomponents/issues?q=is%3Aissue+is%3Aclosed+label%3Abug)
 
 * Fixed loading `WSubMenu` via AJAX. Items can now be dynamically added when the `WSubMenu` is opened (#250). **NOTE** Any application using `WSubMenu.getChildAt` **must** now use `WSubMenu.getMenuItems` as the child count _will_ be different.
 * Fixed WTabSet ACCORDION interactions (#277).
