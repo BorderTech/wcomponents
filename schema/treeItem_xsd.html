@@ -3,43 +3,41 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <title>Schema documentation for component ui:image</title>
+      <title>Schema documentation for treeItem.xsd</title>
       <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
          <!--
-        var propertiesBoxes= new Array('properties_image', 
-				'properties_image_id', 
-				'properties_image_class', 
-				'properties_image_src', 
-				'properties_image_alt', 
-				'properties_image_hidden', 
-				'properties_image_height', 
-				'properties_image_width');
-var usedByBoxes= new Array('usedBy_image', 
-				'usedBy_image_id', 
-				'usedBy_image_class', 
-				'usedBy_image_src', 
-				'usedBy_image_alt', 
-				'usedBy_image_hidden', 
-				'usedBy_image_height', 
-				'usedBy_image_width');
-var sourceBoxes= new Array('source_image', 
-				'source_image_id', 
-				'source_image_class', 
-				'source_image_src', 
-				'source_image_alt', 
-				'source_image_hidden', 
-				'source_image_height', 
-				'source_image_width');
-var diagramBoxes= new Array('diagram_image');
-var annotationBoxes= new Array('annotations_image', 
-				'annotations_image_id', 
-				'annotations_image_class', 
-				'annotations_image_src', 
-				'annotations_image_alt', 
-				'annotations_image_hidden', 
-				'annotations_image_height', 
-				'annotations_image_width');
-var attributesBoxes= new Array('attributes_image');
+        var propertiesBoxes= new Array('properties_treeItem.xsd', 
+				'properties_treeitem', 
+				'properties_treeitem_id', 
+				'properties_treeitem_label', 
+				'properties_treeitem_imageUrl', 
+				'properties_treeitem_selected', 
+				'properties_treeitem_expandable', 
+				'properties_treeitem_open');
+var usedByBoxes= new Array('usedBy_treeitem', 
+				'usedBy_treeitem_id', 
+				'usedBy_treeitem_label', 
+				'usedBy_treeitem_imageUrl', 
+				'usedBy_treeitem_selected', 
+				'usedBy_treeitem_expandable', 
+				'usedBy_treeitem_open');
+var sourceBoxes= new Array('source_treeitem', 
+				'source_treeitem_id', 
+				'source_treeitem_label', 
+				'source_treeitem_imageUrl', 
+				'source_treeitem_selected', 
+				'source_treeitem_expandable', 
+				'source_treeitem_open');
+var instanceBoxes= new Array('instance_treeitem');
+var diagramBoxes= new Array('diagram_treeitem');
+var annotationBoxes= new Array('annotations_treeitem_id', 
+				'annotations_treeitem_label', 
+				'annotations_treeitem_imageUrl', 
+				'annotations_treeitem_selected', 
+				'annotations_treeitem_expandable', 
+				'annotations_treeitem_open');
+var attributesBoxes= new Array('attributes_treeitem');
+var modelBoxes= new Array('model_treeitem');
 
       
         var button_prefix = 'button_';
@@ -295,6 +293,12 @@ var attributesBoxes= new Array('attributes_image');
                         <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, diagramBoxes);" class="control" /></span><span class="globalControlName">Diagrams</span></td>
                      </tr>
                      <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, instanceBoxes);" class="control" /></span><span class="globalControlName">Instances</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, modelBoxes);" class="control" /></span><span class="globalControlName">Model </span></td>
+                     </tr>
+                     <tr>
                         <td><span><input type="checkbox" value="-" checked="checked" onclick="switchStateForAll(this, propertiesBoxes);" class="control" /></span><span class="globalControlName">Properties </span></td>
                      </tr>
                      <tr>
@@ -314,7 +318,7 @@ var attributesBoxes= new Array('attributes_image');
                <td class="rt_cornerBottomRight"></td>
             </tr>
          </table>
-      </div><a id="image"></a><div class="componentTitle">Element <span class="qname">ui:image</span></div>
+      </div><a id="treeItem.xsd"></a><div class="componentTitle">Included schema <span class="qname">treeItem.xsd</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -332,42 +336,73 @@ var attributesBoxes= new Array('attributes_image');
                      </tr>
                      <tr>
                         <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_image" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_image');" class="control" /></div>
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_treeItem.xsd" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_treeItem.xsd');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_image" style="display:block">
-                              <div class="annotation">WImage proved a mechanism to include arbitrary images in an application. Since the
-                                 applications are rendered using a web browser care should be taken
-                                 				to use image resources which are able to be rendered inline in the target user
-                                 agent(s).
-                              </div>
+                           <div id="properties_treeItem.xsd" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">attribute form default</td>
+                                    <td><b>unqualified</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn" style="white-space: nowrap;">element form default</td>
+                                    <td><b>qualified</b></td>
+                                 </tr>
+                              </table>
                            </div>
                         </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="treeitem"></a><div class="componentTitle">Element <span class="qname">ui:treeitem</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn"><b>Namespace</b></td>
+                        <td>https://github.com/bordertech/wcomponents/namespace/ui/v1.0</td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_image" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_image');" class="control" /></div>
+                           <div class="floatRight"><input id="button_diagram_treeitem" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_treeitem');" class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_image" style="display:block"><img alt="Diagram" border="0" src="img/image_xsd_Element_ui_image.png" usemap="#image_xsd_Element_ui_image" /><map name="image_xsd_Element_ui_image" id="image_xsd_Element_ui_image">
-                                 <area alt="image_xsd_Element_ui_image.tmp#image_id" href="image_xsd_Element_ui_image.html#image_id" coords="125,40,193,64" />
-                                 <area alt="image_xsd_Element_ui_image.tmp#image_class" href="image_xsd_Element_ui_image.html#image_class" coords="125,104,200,128" />
-                                 <area alt="image_xsd_Element_ui_image.tmp#image_src" href="image_xsd_Element_ui_image.html#image_src" coords="125,181,193,205" />
-                                 <area alt="image_xsd_Element_ui_image.tmp#image_alt" href="image_xsd_Element_ui_image.html#image_alt" coords="125,245,193,269" />
-                                 <area alt="image_xsd_Element_ui_image.tmp#image_hidden" href="image_xsd_Element_ui_image.html#image_hidden" coords="125,335,210,359" />
-                                 <area alt="image_xsd_Element_ui_image.tmp#image_height" href="image_xsd_Element_ui_image.html#image_height" coords="125,412,207,436" />
-                                 <area alt="image_xsd_Element_ui_image.tmp#image_width" href="image_xsd_Element_ui_image.html#image_width" coords="125,502,202,526" /></map></div>
+                           <div id="diagram_treeitem" style="display:block"><img alt="Diagram" border="0" src="img/treeItem_xsd_Element_ui_treeitem.png" usemap="#treeItem_xsd_Element_ui_treeitem" /><map name="treeItem_xsd_Element_ui_treeitem" id="treeItem_xsd_Element_ui_treeitem">
+                                 <area alt="treeItem_xsd.tmp#treeitem_id" href="treeItem_xsd.html#treeitem_id" coords="117,40,185,64" />
+                                 <area alt="treeItem_xsd.tmp#treeitem_label" href="treeItem_xsd.html#treeitem_label" coords="117,104,190,128" />
+                                 <area alt="treeItem_xsd.tmp#treeitem_imageUrl" href="treeItem_xsd.html#treeitem_imageUrl" coords="117,168,213,192" />
+                                 <area alt="treeItem_xsd.tmp#treeitem_selected" href="treeItem_xsd.html#treeitem_selected" coords="117,232,209,256" />
+                                 <area alt="treeItem_xsd.tmp#treeitem_expandable" href="treeItem_xsd.html#treeitem_expandable" coords="117,296,227,320" />
+                                 <area alt="treeItem_xsd.tmp#treeitem_open" href="treeItem_xsd.html#treeitem_open" coords="117,373,192,397" />
+                                 <area alt="treeItem_xsd.tmp#treeitem" href="treeItem_xsd.html#treeitem" coords="195,474,272,498" /></map></div>
                         </td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_image" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_image');" class="control" /></div>
+                           <div class="floatRight"><input id="button_properties_treeitem" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_treeitem');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_image" style="display:block">
+                           <div id="properties_treeitem" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
                                     <td class="firstColumn" style="white-space: nowrap;">content</td>
@@ -380,14 +415,46 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_image" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_image');" class="control" /></div>
+                           <div class="floatRight"><input id="button_usedBy_treeitem" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_treeitem');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="usedBy_image" style="display:block">
+                           <div id="usedBy_treeitem" style="display:block">
                               <table class="usedByTable">
                                  <tr>
+                                    <td class="firstColumn">Elements </td>
+                                    <td><b><a href="tree_xsd.html#tree" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for tree.xsd')">ui:tree</a></b>, <b><a href="treeItem_xsd.html#treeitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">ui:treeitem</a></b></td>
+                                 </tr>
+                                 <tr>
                                     <td class="firstColumn">Element Group </td>
-                                    <td><b><a href="contentGroups_xsd_Element_Group_ui_contentGroup.html#contentGroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:contentGroup')">ui:contentGroup</a></b></td>
+                                    <td><b><a href="contentGroups_xsd.html#ajaxContentGroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for contentGroups.xsd')">ui:ajaxContentGroup</a></b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_treeitem" type="image" src="img/btM.gif" value="-" onclick="switchState('model_treeitem');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="model_treeitem" style="display:block"><b><a href="treeItem_xsd.html#treeitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">ui:treeitem*</a></b></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Children</b></td>
+                        <td><b><a href="treeItem_xsd.html#treeitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">ui:treeitem</a></b></td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Instance</b></div>
+                           <div class="floatRight"><input id="button_instance_treeitem" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_treeitem');" class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="instance_treeitem" style="display:block">
+                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
+                                 <tr>
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:treeitem</span><span class="tT"> </span><span class="tAN">expandable=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">imageUrl=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">label=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">open=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;ui:treeitem</span><span class="tT"> </span><span class="tAN">expandable=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">imageUrl=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">label=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">open=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,unbounded}</span><span class="tEl">&lt;/ui:treeitem&gt;</span><span class="tI">
+</span><span class="tEl">&lt;/ui:treeitem&gt;</span></pre></td>
                                  </tr>
                               </table>
                            </div>
@@ -396,80 +463,89 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_image" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_image');" class="control" /></div>
+                           <div class="floatRight"><input id="button_attributes_treeitem" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_treeitem');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="attributes_image" style="display:block">
+                           <div id="attributes_treeitem" style="display:block">
                               <table class="attributesTable">
                                  <thead>
                                     <tr>
                                        <th>QName</th>
                                        <th width="10%">Type</th>
+                                       <th width="10%">Default</th>
                                        <th width="5%">Use</th>
                                        <th>Annotation</th>
                                     </tr>
                                  </thead>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="image_xsd_Element_ui_image.html#image_alt" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component alt')">alt</a></b></td>
-                                    <td><b>xs:string</b></td>
-                                    <td>required</td>
-                                    <td>
-                                       <div class="annotation">A piece of text which is able to be used as a direct, meaningful, stand-in for the
-                                          image. If the image is purely decorative then this should
-                                          						be the empty string, otherwise it should provide the same information conveyed
-                                          by the image and not be a mere description of the image.
-                                       </div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="image_xsd_Element_ui_image.html#image_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component class')">class</a></b></td>
-                                    <td><b>xs:string</b></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="image_xsd_Element_ui_image.html#image_height" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component height')">height</a></b></td>
-                                    <td><b>xs:unsignedInt</b></td>
-                                    <td>optional</td>
-                                    <td>
-                                       <div class="annotation">Provides the display height for the image in pixels. If not set then the image height
-                                          will be determined by the user agent.
-                                       </div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="image_xsd_Element_ui_image.html#image_hidden" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component hidden')">hidden</a></b></td>
+                                    <td class="firstColumn"><b><a href="treeItem_xsd.html#treeitem_expandable" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">expandable</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the image is hidden when loaded. Not output if "false".</div>
+                                       <div class="annotation">
+                                          						Indicates that the treeitem is exapndable: either has treeitem children or has
+                                          AJAX children.
+                                          					
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="image_xsd_Element_ui_image.html#image_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component id')">id</a></b></td>
+                                    <td class="firstColumn"><b><a href="treeItem_xsd.html#treeitem_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">id</a></b></td>
                                     <td><b>xs:ID</b></td>
+                                    <td></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">A unique identifier for the component.</div>
+                                       <div class="annotation">
+                                          						The unique identifier for the component.
+                                          					
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="image_xsd_Element_ui_image.html#image_src" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component src')">src</a></b></td>
+                                    <td class="firstColumn"><b><a href="treeItem_xsd.html#treeitem_imageUrl" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">imageUrl</a></b></td>
                                     <td><b>xs:anyURI</b></td>
-                                    <td>required</td>
-                                    <td>
-                                       <div class="annotation">The location of the source file for the image.</div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td class="firstColumn"><b><a href="image_xsd_Element_ui_image.html#image_width" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component width')">width</a></b></td>
-                                    <td><b>xs:unsignedInt</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Provides the display width for the image in pixels. If not set then the image width
-                                          will be determined by the user agent.
+                                       <div class="annotation">The location of an image to display in the control.</div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="treeItem_xsd.html#treeitem_label" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">label</a></b></td>
+                                    <td><b>xs:string</b></td>
+                                    <td></td>
+                                    <td>required</td>
+                                    <td>
+                                       <div class="annotation">
+                                          						The text label of the tree item.
+                                          					
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="treeItem_xsd.html#treeitem_open" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">open</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td>false</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          						"true" indicates that the submenu is expanded. Not output if "false". Only valid
+                                          if the treeItem
+                                          						has one or more child elements.
+                                          					
+                                       </div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn"><b><a href="treeItem_xsd.html#treeitem_selected" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">selected</a></b></td>
+                                    <td><b>xs:boolean</b></td>
+                                    <td>false</td>
+                                    <td>optional</td>
+                                    <td>
+                                       <div class="annotation">
+                                          						"true" indicates that the submenu is selected.
+                                          					
                                        </div>
                                     </td>
                                  </tr>
@@ -480,50 +556,71 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_image" type="image" src="img/btM.gif" value="-" onclick="switchState('source_image');" class="control" /></div>
+                           <div class="floatRight"><input id="button_source_treeitem" type="image" src="img/btM.gif" value="-" onclick="switchState('source_treeitem');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="source_image" style="display:block">
+                           <div id="source_treeitem" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"image"</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WImage proved a mechanism to include arbitrary images in an application. Since the applications are rendered using a web browser care should be taken to use image resources which are able to be rendered inline in the target user agent(s).</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"treeitem"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:complexType</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WTreeItem provides a single intem within a WTree. The item can be used to invoke commands or provide a selection mechanism, or both. If the tree item contains other tree items it also acts as a control to show/hide these child elements.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;table</span><span class="tEl">&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;caption</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WTreeItem expects that the POSTed form data contains:</span><span class="tEl">&lt;/caption&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;thead</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Field name</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Type</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Mandatory</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Value</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;th</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Notes</span><span class="tEl">&lt;/th&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/thead&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;tbody</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">@id</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">String</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">no</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">"x"</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Value POSTed only if the WTreeItem is the item causing the form submission (ajax mode open).</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/tbody&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;/table&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:sequence</span><span class="tEl">&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:element</span><span class="tAN"> ref=</span><span class="tAV">"ui:treeitem"</span><span class="tAN"> minOccurs=</span><span class="tAV">"0"</span><span class="tAN"> maxOccurs=</span><span class="tAV">"unbounded"</span><span class="tEl">/&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;/xs:sequence&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A unique identifier for the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The unique identifier for the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"label"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The text label of the tree item.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"src"</span><span class="tAN"> type=</span><span class="tAV">"xs:anyURI"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"imageUrl"</span><span class="tAN"> type=</span><span class="tAV">"xs:anyURI"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The location of the source file for the image.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The location of an image to display in the control.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"alt"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"selected"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> default=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A piece of text which is able to be used as a direct, meaningful, stand-in for the image. If the image is purely decorative then this should be the empty string, otherwise it should provide the same information conveyed by the image and not be a mere description of the image.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">"true" indicates that the submenu is selected.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"hidden"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"expandable"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> default=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the image is hidden when loaded. Not output if "false".</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the treeitem is exapndable: either has treeitem children or has AJAX children.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"height"</span><span class="tAN"> type=</span><span class="tAV">"xs:unsignedInt"</span><span class="tEl">&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"open"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> default=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the display height for the image in pixels. If not set then the image height will be determined by the user agent.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"width"</span><span class="tAN"> type=</span><span class="tAV">"xs:unsignedInt"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the display width for the image in pixels. If not set then the image width will be determined by the user agent.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">"true" indicates that the submenu is expanded. Not output if "false". Only valid if the treeItem has one or more child elements.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:complexType&gt;</span><span class="tI">
@@ -543,7 +640,7 @@ var attributesBoxes= new Array('attributes_image');
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="image_id"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="image_xsd_Element_ui_image.html#image" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:image')">ui:image</a></b> / @id</span></div>
+      </table><a id="treeitem_id"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="treeItem_xsd.html#treeitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">ui:treeitem</a></b> / @id</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -562,11 +659,14 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_image_id" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_image_id');" class="control" /></div>
+                           <div class="floatRight"><input id="button_annotations_treeitem_id" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_treeitem_id');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_image_id" style="display:block">
-                              <div class="annotation">A unique identifier for the component.</div>
+                           <div id="annotations_treeitem_id" style="display:block">
+                              <div class="annotation">
+                                 						The unique identifier for the component.
+                                 					
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -577,10 +677,10 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_image_id" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_image_id');" class="control" /></div>
+                           <div class="floatRight"><input id="button_properties_treeitem_id" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_treeitem_id');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_image_id" style="display:block">
+                           <div id="properties_treeitem_id" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
                                     <td class="firstColumn" style="white-space: nowrap;">use</td>
@@ -593,14 +693,14 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_image_id" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_image_id');" class="control" /></div>
+                           <div class="floatRight"><input id="button_usedBy_treeitem_id" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_treeitem_id');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="usedBy_image_id" style="display:block">
+                           <div id="usedBy_treeitem_id" style="display:block">
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Element </td>
-                                    <td><b><a href="image_xsd_Element_ui_image.html#image" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:image')">ui:image</a></b></td>
+                                    <td><b><a href="treeItem_xsd.html#treeitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">ui:treeitem</a></b></td>
                                  </tr>
                               </table>
                            </div>
@@ -609,15 +709,15 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_image_id" type="image" src="img/btM.gif" value="-" onclick="switchState('source_image_id');" class="control" /></div>
+                           <div class="floatRight"><input id="button_source_treeitem_id" type="image" src="img/btM.gif" value="-" onclick="switchState('source_treeitem_id');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="source_image_id" style="display:block">
+                           <div id="source_treeitem_id" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"id"</span><span class="tAN"> type=</span><span class="tAV">"xs:ID"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A unique identifier for the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The unique identifier for the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
@@ -635,7 +735,7 @@ var attributesBoxes= new Array('attributes_image');
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="image_class"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="image_xsd_Element_ui_image.html#image" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:image')">ui:image</a></b> / @class</span></div>
+      </table><a id="treeitem_label"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="treeItem_xsd.html#treeitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">ui:treeitem</a></b> / @label</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -654,11 +754,14 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_image_class" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_image_class');" class="control" /></div>
+                           <div class="floatRight"><input id="button_annotations_treeitem_label" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_treeitem_label');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_image_class" style="display:block">
-                              <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                           <div id="annotations_treeitem_label" style="display:block">
+                              <div class="annotation">
+                                 						The text label of the tree item.
+                                 					
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -669,14 +772,14 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_image_class" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_image_class');" class="control" /></div>
+                           <div class="floatRight"><input id="button_properties_treeitem_label" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_treeitem_label');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_image_class" style="display:block">
+                           <div id="properties_treeitem_label" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
-                                    <td><b>simple</b></td>
+                                    <td class="firstColumn" style="white-space: nowrap;">use</td>
+                                    <td><b>required</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -685,14 +788,14 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_image_class" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_image_class');" class="control" /></div>
+                           <div class="floatRight"><input id="button_usedBy_treeitem_label" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_treeitem_label');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="usedBy_image_class" style="display:block">
+                           <div id="usedBy_treeitem_label" style="display:block">
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Element </td>
-                                    <td><b><a href="image_xsd_Element_ui_image.html#image" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:image')">ui:image</a></b></td>
+                                    <td><b><a href="treeItem_xsd.html#treeitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">ui:treeitem</a></b></td>
                                  </tr>
                               </table>
                            </div>
@@ -701,15 +804,15 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_image_class" type="image" src="img/btM.gif" value="-" onclick="switchState('source_image_class');" class="control" /></div>
+                           <div class="floatRight"><input id="button_source_treeitem_label" type="image" src="img/btM.gif" value="-" onclick="switchState('source_treeitem_label');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="source_image_class" style="display:block">
+                           <div id="source_treeitem_label" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"class"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"label"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the ability to pass an HTML class attribute onto the root output element.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The text label of the tree item.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
@@ -727,7 +830,7 @@ var attributesBoxes= new Array('attributes_image');
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="image_src"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="image_xsd_Element_ui_image.html#image" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:image')">ui:image</a></b> / @src</span></div>
+      </table><a id="treeitem_imageUrl"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="treeItem_xsd.html#treeitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">ui:treeitem</a></b> / @imageUrl</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -746,11 +849,11 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_image_src" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_image_src');" class="control" /></div>
+                           <div class="floatRight"><input id="button_annotations_treeitem_imageUrl" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_treeitem_imageUrl');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_image_src" style="display:block">
-                              <div class="annotation">The location of the source file for the image.</div>
+                           <div id="annotations_treeitem_imageUrl" style="display:block">
+                              <div class="annotation">The location of an image to display in the control.</div>
                            </div>
                         </td>
                      </tr>
@@ -761,14 +864,14 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_image_src" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_image_src');" class="control" /></div>
+                           <div class="floatRight"><input id="button_properties_treeitem_imageUrl" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_treeitem_imageUrl');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_image_src" style="display:block">
+                           <div id="properties_treeitem_imageUrl" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">use</td>
-                                    <td><b>required</b></td>
+                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
+                                    <td><b>simple</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -777,14 +880,14 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_image_src" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_image_src');" class="control" /></div>
+                           <div class="floatRight"><input id="button_usedBy_treeitem_imageUrl" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_treeitem_imageUrl');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="usedBy_image_src" style="display:block">
+                           <div id="usedBy_treeitem_imageUrl" style="display:block">
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Element </td>
-                                    <td><b><a href="image_xsd_Element_ui_image.html#image" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:image')">ui:image</a></b></td>
+                                    <td><b><a href="treeItem_xsd.html#treeitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">ui:treeitem</a></b></td>
                                  </tr>
                               </table>
                            </div>
@@ -793,15 +896,15 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_image_src" type="image" src="img/btM.gif" value="-" onclick="switchState('source_image_src');" class="control" /></div>
+                           <div class="floatRight"><input id="button_source_treeitem_imageUrl" type="image" src="img/btM.gif" value="-" onclick="switchState('source_treeitem_imageUrl');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="source_image_src" style="display:block">
+                           <div id="source_treeitem_imageUrl" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"src"</span><span class="tAN"> type=</span><span class="tAV">"xs:anyURI"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"imageUrl"</span><span class="tAN"> type=</span><span class="tAV">"xs:anyURI"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The location of the source file for the image.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The location of an image to display in the control.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
@@ -819,7 +922,7 @@ var attributesBoxes= new Array('attributes_image');
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="image_alt"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="image_xsd_Element_ui_image.html#image" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:image')">ui:image</a></b> / @alt</span></div>
+      </table><a id="treeitem_selected"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="treeItem_xsd.html#treeitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">ui:treeitem</a></b> / @selected</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -838,107 +941,14 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_image_alt" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_image_alt');" class="control" /></div>
+                           <div class="floatRight"><input id="button_annotations_treeitem_selected" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_treeitem_selected');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_image_alt" style="display:block">
-                              <div class="annotation">A piece of text which is able to be used as a direct, meaningful, stand-in for the
-                                 image. If the image is purely decorative then this should
-                                 						be the empty string, otherwise it should provide the same information conveyed
-                                 by the image and not be a mere description of the image.
+                           <div id="annotations_treeitem_selected" style="display:block">
+                              <div class="annotation">
+                                 						"true" indicates that the submenu is selected.
+                                 					
                               </div>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn"><b>Type</b></td>
-                        <td><b>xs:string</b></td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_image_alt" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_image_alt');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="properties_image_alt" style="display:block">
-                              <table class="propertiesTable">
-                                 <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">use</td>
-                                    <td><b>required</b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_image_alt" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_image_alt');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="usedBy_image_alt" style="display:block">
-                              <table class="usedByTable">
-                                 <tr>
-                                    <td class="firstColumn">Element </td>
-                                    <td><b><a href="image_xsd_Element_ui_image.html#image" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:image')">ui:image</a></b></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_image_alt" type="image" src="img/btM.gif" value="-" onclick="switchState('source_image_alt');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="source_image_alt" style="display:block">
-                              <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
-                                 <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"alt"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">A piece of text which is able to be used as a direct, meaningful, stand-in for the image. If the image is purely decorative then this should be the empty string, otherwise it should provide the same information conveyed by the image and not be a mere description of the image.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-</span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-            <td class="rt_lineRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_cornerBottomLeft"></td>
-            <td class="rt_lineBottom"></td>
-            <td class="rt_cornerBottomRight"></td>
-         </tr>
-      </table><a id="image_hidden"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="image_xsd_Element_ui_image.html#image" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:image')">ui:image</a></b> / @hidden</span></div>
-      <table class="rt">
-         <tr>
-            <td class="rt_cornerTopLeft"></td>
-            <td class="rt_lineTop"></td>
-            <td class="rt_cornerTopRight"></td>
-         </tr>
-         <tr>
-            <td class="rt_lineLeft"></td>
-            <td class="rt_content">
-               <table class="component">
-                  <tbody>
-                     <tr>
-                        <td class="firstColumn"><b>Namespace</b></td>
-                        <td>No namespace</td>
-                     </tr>
-                     <tr>
-                        <td class="firstColumn">
-                           <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_image_hidden" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_image_hidden');" class="control" /></div>
-                        </td>
-                        <td>
-                           <div id="annotations_image_hidden" style="display:block">
-                              <div class="annotation">Indicates that the image is hidden when loaded. Not output if "false".</div>
                            </div>
                         </td>
                      </tr>
@@ -949,14 +959,14 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_image_hidden" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_image_hidden');" class="control" /></div>
+                           <div class="floatRight"><input id="button_properties_treeitem_selected" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_treeitem_selected');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_image_hidden" style="display:block">
+                           <div id="properties_treeitem_selected" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
-                                    <td><b>simple</b></td>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>false</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -965,14 +975,14 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_image_hidden" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_image_hidden');" class="control" /></div>
+                           <div class="floatRight"><input id="button_usedBy_treeitem_selected" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_treeitem_selected');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="usedBy_image_hidden" style="display:block">
+                           <div id="usedBy_treeitem_selected" style="display:block">
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Element </td>
-                                    <td><b><a href="image_xsd_Element_ui_image.html#image" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:image')">ui:image</a></b></td>
+                                    <td><b><a href="treeItem_xsd.html#treeitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">ui:treeitem</a></b></td>
                                  </tr>
                               </table>
                            </div>
@@ -981,15 +991,15 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_image_hidden" type="image" src="img/btM.gif" value="-" onclick="switchState('source_image_hidden');" class="control" /></div>
+                           <div class="floatRight"><input id="button_source_treeitem_selected" type="image" src="img/btM.gif" value="-" onclick="switchState('source_treeitem_selected');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="source_image_hidden" style="display:block">
+                           <div id="source_treeitem_selected" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"hidden"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"selected"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> default=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the image is hidden when loaded. Not output if "false".</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">"true" indicates that the submenu is selected.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
@@ -1007,7 +1017,7 @@ var attributesBoxes= new Array('attributes_image');
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="image_height"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="image_xsd_Element_ui_image.html#image" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:image')">ui:image</a></b> / @height</span></div>
+      </table><a id="treeitem_expandable"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="treeItem_xsd.html#treeitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">ui:treeitem</a></b> / @expandable</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -1026,31 +1036,33 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_image_height" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_image_height');" class="control" /></div>
+                           <div class="floatRight"><input id="button_annotations_treeitem_expandable" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_treeitem_expandable');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_image_height" style="display:block">
-                              <div class="annotation">Provides the display height for the image in pixels. If not set then the image height
-                                 will be determined by the user agent.
+                           <div id="annotations_treeitem_expandable" style="display:block">
+                              <div class="annotation">
+                                 						Indicates that the treeitem is exapndable: either has treeitem children or has
+                                 AJAX children.
+                                 					
                               </div>
                            </div>
                         </td>
                      </tr>
                      <tr>
                         <td class="firstColumn"><b>Type</b></td>
-                        <td><b>xs:unsignedInt</b></td>
+                        <td><b>xs:boolean</b></td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_image_height" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_image_height');" class="control" /></div>
+                           <div class="floatRight"><input id="button_properties_treeitem_expandable" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_treeitem_expandable');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_image_height" style="display:block">
+                           <div id="properties_treeitem_expandable" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
-                                    <td><b>simple</b></td>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>false</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -1059,14 +1071,14 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_image_height" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_image_height');" class="control" /></div>
+                           <div class="floatRight"><input id="button_usedBy_treeitem_expandable" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_treeitem_expandable');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="usedBy_image_height" style="display:block">
+                           <div id="usedBy_treeitem_expandable" style="display:block">
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Element </td>
-                                    <td><b><a href="image_xsd_Element_ui_image.html#image" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:image')">ui:image</a></b></td>
+                                    <td><b><a href="treeItem_xsd.html#treeitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">ui:treeitem</a></b></td>
                                  </tr>
                               </table>
                            </div>
@@ -1075,15 +1087,15 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_image_height" type="image" src="img/btM.gif" value="-" onclick="switchState('source_image_height');" class="control" /></div>
+                           <div class="floatRight"><input id="button_source_treeitem_expandable" type="image" src="img/btM.gif" value="-" onclick="switchState('source_treeitem_expandable');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="source_image_height" style="display:block">
+                           <div id="source_treeitem_expandable" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"height"</span><span class="tAN"> type=</span><span class="tAV">"xs:unsignedInt"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"expandable"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> default=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the display height for the image in pixels. If not set then the image height will be determined by the user agent.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates that the treeitem is exapndable: either has treeitem children or has AJAX children.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
@@ -1101,7 +1113,7 @@ var attributesBoxes= new Array('attributes_image');
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="image_width"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="image_xsd_Element_ui_image.html#image" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:image')">ui:image</a></b> / @width</span></div>
+      </table><a id="treeitem_open"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="treeItem_xsd.html#treeitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">ui:treeitem</a></b> / @open</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -1120,31 +1132,34 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_image_width" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_image_width');" class="control" /></div>
+                           <div class="floatRight"><input id="button_annotations_treeitem_open" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_treeitem_open');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_image_width" style="display:block">
-                              <div class="annotation">Provides the display width for the image in pixels. If not set then the image width
-                                 will be determined by the user agent.
+                           <div id="annotations_treeitem_open" style="display:block">
+                              <div class="annotation">
+                                 						"true" indicates that the submenu is expanded. Not output if "false". Only valid
+                                 if the treeItem
+                                 						has one or more child elements.
+                                 					
                               </div>
                            </div>
                         </td>
                      </tr>
                      <tr>
                         <td class="firstColumn"><b>Type</b></td>
-                        <td><b>xs:unsignedInt</b></td>
+                        <td><b>xs:boolean</b></td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_image_width" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_image_width');" class="control" /></div>
+                           <div class="floatRight"><input id="button_properties_treeitem_open" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_treeitem_open');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_image_width" style="display:block">
+                           <div id="properties_treeitem_open" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
-                                    <td><b>simple</b></td>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>false</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -1153,14 +1168,14 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_image_width" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_image_width');" class="control" /></div>
+                           <div class="floatRight"><input id="button_usedBy_treeitem_open" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_treeitem_open');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="usedBy_image_width" style="display:block">
+                           <div id="usedBy_treeitem_open" style="display:block">
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Element </td>
-                                    <td><b><a href="image_xsd_Element_ui_image.html#image" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:image')">ui:image</a></b></td>
+                                    <td><b><a href="treeItem_xsd.html#treeitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for treeItem.xsd')">ui:treeitem</a></b></td>
                                  </tr>
                               </table>
                            </div>
@@ -1169,15 +1184,15 @@ var attributesBoxes= new Array('attributes_image');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_image_width" type="image" src="img/btM.gif" value="-" onclick="switchState('source_image_width');" class="control" /></div>
+                           <div class="floatRight"><input id="button_source_treeitem_open" type="image" src="img/btM.gif" value="-" onclick="switchState('source_treeitem_open');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="source_image_width" style="display:block">
+                           <div id="source_treeitem_open" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"width"</span><span class="tAN"> type=</span><span class="tAV">"xs:unsignedInt"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"open"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> default=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Provides the display width for the image in pixels. If not set then the image width will be determined by the user agent.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">"true" indicates that the submenu is expanded. Not output if "false". Only valid if the treeItem has one or more child elements.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>

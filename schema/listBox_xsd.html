@@ -7,30 +7,30 @@
       <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
          <!--
         var propertiesBoxes= new Array('properties_listBox.xsd', 
-				'properties_listBox', 
+				'properties_listbox', 
 				'properties_option.with.group_rows', 
 				'properties_option.with.group_single', 
-				'properties_listBox_rows', 
-				'properties_listBox_single');
+				'properties_listbox_rows', 
+				'properties_listbox_single');
 var facetsBoxes= new Array('facets_option.with.group_rows', 
-				'facets_listBox_rows');
-var usedByBoxes= new Array('usedBy_listBox', 
+				'facets_listbox_rows');
+var usedByBoxes= new Array('usedBy_listbox', 
 				'usedBy_option.with.group_rows', 
 				'usedBy_option.with.group_single');
-var sourceBoxes= new Array('source_listBox', 
+var sourceBoxes= new Array('source_listbox', 
 				'source_option.with.group_rows', 
 				'source_option.with.group_single', 
-				'source_listBox_rows', 
-				'source_listBox_single');
-var instanceBoxes= new Array('instance_listBox');
-var diagramBoxes= new Array('diagram_listBox');
-var annotationBoxes= new Array('annotations_listBox', 
+				'source_listbox_rows', 
+				'source_listbox_single');
+var instanceBoxes= new Array('instance_listbox');
+var diagramBoxes= new Array('diagram_listbox');
+var annotationBoxes= new Array('annotations_listbox', 
 				'annotations_option.with.group_rows', 
 				'annotations_option.with.group_single', 
-				'annotations_listBox_rows', 
-				'annotations_listBox_single');
-var attributesBoxes= new Array('attributes_listBox');
-var modelBoxes= new Array('model_listBox');
+				'annotations_listbox_rows', 
+				'annotations_listbox_single');
+var attributesBoxes= new Array('attributes_listbox');
+var modelBoxes= new Array('model_listbox');
 
       
         var button_prefix = 'button_';
@@ -360,7 +360,7 @@ var modelBoxes= new Array('model_listBox');
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="listBox"></a><div class="componentTitle">Element <span class="qname">ui:listBox</span></div>
+      </table><a id="listbox"></a><div class="componentTitle">Element <span class="qname">ui:listbox</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -379,17 +379,18 @@ var modelBoxes= new Array('model_listBox');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_listBox" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_listBox');" class="control" /></div>
+                           <div class="floatRight"><input id="button_annotations_listbox" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_listbox');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_listBox" style="display:block">
+                           <div id="annotations_listbox" style="display:block">
                               <div class="annotation">
                                  				
-                                 <p xmlns="">WListBox represents a selection device using a common list box widget. It may be a
-                                    single- or multi-selection component.
+                                 <p xmlns="">WSingleSelect and WMultiSelect represent selection devices using a common list box
+                                    widget. WSingleSelect
+                                    					is a single-seleciton component and WMultiSelect is a multi-selection component.
                                  </p>
                                  				
-                                 <p xmlns="">WListBox expects that the POSTed form data contains:</p>
+                                 <p xmlns="">These components expect that the POSTed form data contains:</p>
                                  				
                                  <table xmlns="">
                                     					
@@ -415,7 +416,7 @@ var modelBoxes= new Array('model_listBox');
                                           							
                                           <td>@id</td>
                                           							
-                                          <td>String[]</td>
+                                          <td>String|String[]</td>
                                           							
                                           <td>no</td>
                                           							
@@ -446,26 +447,26 @@ var modelBoxes= new Array('model_listBox');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Diagram</b></div>
-                           <div class="floatRight"><input id="button_diagram_listBox" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_listBox');" class="control" /></div>
+                           <div class="floatRight"><input id="button_diagram_listbox" type="image" src="img/btM.gif" value="-" onclick="switchState('diagram_listbox');" class="control" /></div>
                         </td>
                         <td class="diagram">
-                           <div id="diagram_listBox" style="display:block"><img alt="Diagram" border="0" src="img/listBox_xsd_Element_ui_listBox.png" usemap="#listBox_xsd_Element_ui_listBox" /><map name="listBox_xsd_Element_ui_listBox" id="listBox_xsd_Element_ui_listBox">
-                                 <area alt="attributeGroups_control_xsd.tmp#selectList.attributes" href="attributeGroups_control_xsd.html#selectList.attributes" coords="153,43,326,69" />
-                                 <area alt="listBox_xsd.tmp#listBox_rows" href="listBox_xsd.html#listBox_rows" coords="150,84,224,108" />
-                                 <area alt="listBox_xsd.tmp#listBox_single" href="listBox_xsd.html#listBox_single" coords="150,174,230,198" />
-                                 <area alt="attributeGroups_control_xsd.tmp#multiSelect.constraints.attributes" href="attributeGroups_control_xsd.html#multiSelect.constraints.attributes" coords="153,254,398,280" />
-                                 <area alt="option_xsd.tmp#option" href="option_xsd.html#option" coords="221,376,300,400" />
-                                 <area alt="optgroup_xsd.tmp#optgroup" href="optgroup_xsd.html#optgroup" coords="221,453,316,477" />
-                                 <area alt="optgroup_xsd.tmp#option.with.group" href="optgroup_xsd.html#option.with.group" coords="139,335,303,361" /></map></div>
+                           <div id="diagram_listbox" style="display:block"><img alt="Diagram" border="0" src="img/listBox_xsd_Element_ui_listbox.png" usemap="#listBox_xsd_Element_ui_listbox" /><map name="listBox_xsd_Element_ui_listbox" id="listBox_xsd_Element_ui_listbox">
+                                 <area alt="attributeGroups_control_xsd.tmp#selectList.attributes" href="attributeGroups_control_xsd.html#selectList.attributes" coords="154,43,327,69" />
+                                 <area alt="listBox_xsd.tmp#listbox_rows" href="listBox_xsd.html#listbox_rows" coords="151,84,225,108" />
+                                 <area alt="listBox_xsd.tmp#listbox_single" href="listBox_xsd.html#listbox_single" coords="151,174,231,198" />
+                                 <area alt="attributeGroups_control_xsd.tmp#multiSelect.constraints.attributes" href="attributeGroups_control_xsd.html#multiSelect.constraints.attributes" coords="154,254,399,280" />
+                                 <area alt="option_xsd.tmp#option" href="option_xsd.html#option" coords="222,376,301,400" />
+                                 <area alt="optgroup_xsd.tmp#optgroup" href="optgroup_xsd.html#optgroup" coords="222,453,317,477" />
+                                 <area alt="optgroup_xsd.tmp#option.with.group" href="optgroup_xsd.html#option.with.group" coords="140,335,304,361" /></map></div>
                         </td>
                      </tr>
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_listBox" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_listBox');" class="control" /></div>
+                           <div class="floatRight"><input id="button_properties_listbox" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_listbox');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_listBox" style="display:block">
+                           <div id="properties_listbox" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
                                     <td class="firstColumn" style="white-space: nowrap;">content</td>
@@ -478,10 +479,10 @@ var modelBoxes= new Array('model_listBox');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Used by</b></div>
-                           <div class="floatRight"><input id="button_usedBy_listBox" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_listBox');" class="control" /></div>
+                           <div class="floatRight"><input id="button_usedBy_listbox" type="image" src="img/btM.gif" value="-" onclick="switchState('usedBy_listbox');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="usedBy_listBox" style="display:block">
+                           <div id="usedBy_listbox" style="display:block">
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Element Group </td>
@@ -492,10 +493,10 @@ var modelBoxes= new Array('model_listBox');
                         </td>
                      </tr>
                      <tr>
-                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_listBox" type="image" src="img/btM.gif" value="-" onclick="switchState('model_listBox');" class="control" /></div>
+                        <td class="firstColumn"><b>Model</b><div class="floatRight"><input id="button_model_listbox" type="image" src="img/btM.gif" value="-" onclick="switchState('model_listbox');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="model_listBox" style="display:block"><b><a href="option_xsd.html#option" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for option.xsd')">ui:option</a></b> | <b><a href="optgroup_xsd.html#optgroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for optgroup.xsd')">ui:optgroup</a></b></div>
+                           <div id="model_listbox" style="display:block"><b><a href="option_xsd.html#option" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for option.xsd')">ui:option</a></b> | <b><a href="optgroup_xsd.html#optgroup" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for optgroup.xsd')">ui:optgroup</a></b></div>
                         </td>
                      </tr>
                      <tr>
@@ -505,16 +506,16 @@ var modelBoxes= new Array('model_listBox');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Instance</b></div>
-                           <div class="floatRight"><input id="button_instance_listBox" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_listBox');" class="control" /></div>
+                           <div class="floatRight"><input id="button_instance_listbox" type="image" src="img/btM.gif" value="-" onclick="switchState('instance_listbox');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="instance_listBox" style="display:block">
+                           <div id="instance_listbox" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:listBox</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">data=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">max=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">min=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">rows=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">single=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">submitOnChange=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:listbox</span><span class="tT"> </span><span class="tAN">accessibleText=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">data=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">disabled=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">max=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">min=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">readOnly=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">required=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">rows=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">single=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">submitOnChange=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">tabIndex=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">toolTip=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:option</span><span class="tT"> </span><span class="tAN">isNull=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">selected=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">value=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:option&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:optgroup</span><span class="tT"> </span><span class="tAN">label=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,1}</span><span class="tEl">&lt;/ui:optgroup&gt;</span><span class="tI">
-</span><span class="tEl">&lt;/ui:listBox&gt;</span></pre></td>
+</span><span class="tEl">&lt;/ui:listbox&gt;</span></pre></td>
                                  </tr>
                               </table>
                            </div>
@@ -523,15 +524,16 @@ var modelBoxes= new Array('model_listBox');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Attributes</b></div>
-                           <div class="floatRight"><input id="button_attributes_listBox" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_listBox');" class="control" /></div>
+                           <div class="floatRight"><input id="button_attributes_listbox" type="image" src="img/btM.gif" value="-" onclick="switchState('attributes_listbox');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="attributes_listBox" style="display:block">
+                           <div id="attributes_listbox" style="display:block">
                               <table class="attributesTable">
                                  <thead>
                                     <tr>
                                        <th>QName</th>
                                        <th width="10%">Type</th>
+                                       <th width="10%">Default</th>
                                        <th width="5%">Use</th>
                                        <th>Annotation</th>
                                     </tr>
@@ -539,93 +541,137 @@ var modelBoxes= new Array('model_listBox');
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#input.attributes_accessibleText" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">accessibleText</a></b></td>
                                     <td><b>xs:string</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Deprecated. Use toolTip instead.</div>
+                                       <div class="annotation">
+                                          					Deprecated. Use toolTip instead.
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#interaction.attributes_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">class</a></b></td>
+                                    <td class="firstColumn"><b><a href="attributeGroups_container_xsd.html#container.attributes_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.container.xsd')">class</a></b></td>
                                     <td><b>xs:string</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                                       <div class="annotation">
+                                          					Provides the ability to pass an HTML class attribute onto the root output element.
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#selectList.attributes_data" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">data</a></b></td>
                                     <td><b>xs:string</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The key name for the datalist. If set then only the selected option[s] is/are included
-                                          in the source XML and all options and optgroups are
-                                          					fetched in a separate transaction.
+                                       <div class="annotation">
+                                          					The key name for the datalist. If set then only the selected option[s] is/are
+                                          included in the source
+                                          					XML and all options and optgroups are fetched in a separate transaction.
+                                          				
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#interaction.attributes_disabled" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">disabled</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a disabled state if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          					The component will be in a disabled state if "true".
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#interaction.attributes_hidden" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">hidden</a></b></td>
+                                    <td class="firstColumn"><b><a href="attributeGroups_container_xsd.html#container.attributes_hidden" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.container.xsd')">hidden</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a hidden state if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          					The component will be in a hidden state if "true".
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#interaction.attributes_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">id</a></b></td>
+                                    <td class="firstColumn"><b><a href="attributeGroups_container_xsd.html#container.attributes_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.container.xsd')">id</a></b></td>
                                     <td><b>xs:ID</b></td>
+                                    <td></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">The unique identifier for the component.</div>
+                                       <div class="annotation">
+                                          					The unique identifier for the component.
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#multiSelect.constraints.attributes_max" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">max</a></b></td>
                                     <td><b>xs:positiveInteger</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">indicates the maximum number of selected options which represents a valid input 
-                                          <em xmlns="">if any selection is made at all</em>. If not set then there is no maximum constraint.
+                                       <div class="annotation">
+                                          					Indicates the maximum number of selected options which represents a valid input
+                                          
+                                          <em xmlns="">if any selection
+                                             					is made at all
+                                          </em>. If not set then there is no maximum constraint.
+                                          				
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#multiSelect.constraints.attributes_min" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">min</a></b></td>
                                     <td><b>xs:positiveInteger</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">indicates the minimum number of selected options which represents a valid input 
-                                          <em xmlns="">if any selection is made at all</em>. If not set then there is no minimum constraint.
+                                       <div class="annotation">
+                                          					Indicates the minimum number of selected options which represents a valid input
+                                          
+                                          <em xmlns="">if any selection
+                                             					is made at all
+                                          </em>. If not set then there is no minimum constraint.
+                                          				
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#input.attributes_readOnly" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">readOnly</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a non-interactive state if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          					The component will be in a non-interactive state if "true".
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#input.attributes_required" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">required</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be mandatory if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          					The component will be mandatory if "true".
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="listBox_xsd.html#listBox_rows" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for listBox.xsd')">rows</a></b></td>
+                                    <td class="firstColumn"><b><a href="listBox_xsd.html#listbox_rows" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for listBox.xsd')">rows</a></b></td>
                                     <td>restriction of <b>xs:int</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation">Indicates the number of rows of options to display in the user interface. If not specified
@@ -635,8 +681,9 @@ var modelBoxes= new Array('model_listBox');
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="listBox_xsd.html#listBox_single" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for listBox.xsd')">single</a></b></td>
+                                    <td class="firstColumn"><b><a href="listBox_xsd.html#listbox_single" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for listBox.xsd')">single</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation">Indicates that the list box must accept only a single selected option. Not oputput
@@ -647,45 +694,58 @@ var modelBoxes= new Array('model_listBox');
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#submitOnChange.attributes_submitOnChange" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">submitOnChange</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">This attribute has significant negative accessibility implications and 
-                                          <strong xmlns="">extreme</strong>
-                                          					care should be taken with its implementation. It may be removed completely from
-                                          future versions of
+                                       <div class="annotation">
+                                          					This attribute has significant negative accessibility implications and 
+                                          <strong xmlns="">extreme</strong> care
+                                          					should be taken with its implementation. It may be removed completely from future
+                                          versions of 
                                           					WComponents because of these accessibility issues.
+                                          				
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#input.attributes_tabIndex" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">tabIndex</a></b></td>
                                     <td><b>xs:int</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Sets the component's position in the tab navigation order. Not implemented by default
-                                          as it may 
-                                          						pose significant accessibility and usability problems.
+                                       <div class="annotation">
+                                          					Sets the component's position in the tab navigation order. Not implemented by
+                                          default as it may pose
+                                          					significant accessibility and usability problems.
+                                          				
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#control.attributes_toolTip" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">toolTip</a></b></td>
                                     <td><b>xs:string</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Text to display to the user as optional 'helper' information. Note, however, that
-                                          there are some 
-                                          						accessibility and usability implications of this attribute and it should be
-                                          used with care.
+                                       <div class="annotation">
+                                          					Text to display to the user as optional 'helper' information. Note, however,
+                                          that there are some 
+                                          					accessibility and usability implications of this attribute and it should be used
+                                          with care.
+                                          				
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
-                                    <td class="firstColumn"><b><a href="attributeGroups_control_xsd.html#interaction.attributes_track" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.control.xsd')">track</a></b></td>
+                                    <td class="firstColumn"><b><a href="attributeGroups_container_xsd.html#container.attributes_track" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.container.xsd')">track</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the component should take part in web analytics tracking.</div>
+                                       <div class="annotation">
+                                          					Indicates that the component should take part in web analytics tracking.
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                               </table>
@@ -695,17 +755,17 @@ var modelBoxes= new Array('model_listBox');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_listBox" type="image" src="img/btM.gif" value="-" onclick="switchState('source_listBox');" class="control" /></div>
+                           <div class="floatRight"><input id="button_source_listbox" type="image" src="img/btM.gif" value="-" onclick="switchState('source_listbox');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="source_listBox" style="display:block">
+                           <div id="source_listbox" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"listBox"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:element</span><span class="tAN"> name=</span><span class="tAV">"listbox"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WListBox represents a selection device using a common list box widget. It may be a single- or multi-selection component.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WListBox expects that the POSTed form data contains:</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">WSingleSelect and WMultiSelect represent selection devices using a common list box widget. WSingleSelect is a single-seleciton component and WMultiSelect is a multi-selection component.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">These components expect that the POSTed form data contains:</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
       </span><span class="tEl">&lt;table</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;thead</span><span class="tEl">&gt;</span><span class="tI">
           </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
@@ -718,7 +778,7 @@ var modelBoxes= new Array('model_listBox');
         </span><span class="tEl">&lt;tbody</span><span class="tEl">&gt;</span><span class="tI">
           </span><span class="tEl">&lt;tr</span><span class="tEl">&gt;</span><span class="tI">
             </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">@id</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">String[]</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">String|String[]</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
             </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">no</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
             </span><span class="tEl">&lt;td</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">selected option(s)</span><span class="tEl">&lt;/td&gt;</span><span class="tI">
           </span><span class="tEl">&lt;/tr&gt;</span><span class="tI">
@@ -851,7 +911,7 @@ var modelBoxes= new Array('model_listBox');
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Elements </td>
-                                    <td><b><a href="listBox_xsd.html#listBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for listBox.xsd')">ui:listBox</a></b>, <b><a href="shuffler_xsd.html#shuffler" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for shuffler.xsd')">ui:shuffler</a></b></td>
+                                    <td><b><a href="listBox_xsd.html#listbox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for listBox.xsd')">ui:listbox</a></b>, <b><a href="shuffler_xsd.html#shuffler" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for shuffler.xsd')">ui:shuffler</a></b></td>
                                  </tr>
                               </table>
                            </div>
@@ -950,7 +1010,7 @@ var modelBoxes= new Array('model_listBox');
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Element </td>
-                                    <td><b><a href="listBox_xsd.html#listBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for listBox.xsd')">ui:listBox</a></b></td>
+                                    <td><b><a href="listBox_xsd.html#listbox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for listBox.xsd')">ui:listbox</a></b></td>
                                  </tr>
                               </table>
                            </div>
@@ -985,7 +1045,7 @@ var modelBoxes= new Array('model_listBox');
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="listBox_rows"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="listBox_xsd.html#listBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for listBox.xsd')">ui:listBox</a></b> / @rows</span></div>
+      </table><a id="listbox_rows"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="listBox_xsd.html#listbox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for listBox.xsd')">ui:listbox</a></b> / @rows</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -1004,10 +1064,10 @@ var modelBoxes= new Array('model_listBox');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_listBox_rows" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_listBox_rows');" class="control" /></div>
+                           <div class="floatRight"><input id="button_annotations_listbox_rows" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_listbox_rows');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_listBox_rows" style="display:block">
+                           <div id="annotations_listbox_rows" style="display:block">
                               <div class="annotation">Indicates the number of rows of options to display in the user interface. If not specified
                                  then the number of rows displayed will be
                                  						determined by the user agent.
@@ -1022,10 +1082,10 @@ var modelBoxes= new Array('model_listBox');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_listBox_rows" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_listBox_rows');" class="control" /></div>
+                           <div class="floatRight"><input id="button_properties_listbox_rows" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_listbox_rows');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_listBox_rows" style="display:block">
+                           <div id="properties_listbox_rows" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
                                     <td class="firstColumn" style="white-space: nowrap;">content</td>
@@ -1038,10 +1098,10 @@ var modelBoxes= new Array('model_listBox');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Facets</b></div>
-                           <div class="floatRight"><input id="button_facets_listBox_rows" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_listBox_rows');" class="control" /></div>
+                           <div class="floatRight"><input id="button_facets_listbox_rows" type="image" src="img/btM.gif" value="-" onclick="switchState('facets_listbox_rows');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="facets_listBox_rows" style="display:block">
+                           <div id="facets_listbox_rows" style="display:block">
                               <table class="facetsTable">
                                  <tr>
                                     <td class="firstColumn">minInclusive</td>
@@ -1057,10 +1117,10 @@ var modelBoxes= new Array('model_listBox');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_listBox_rows" type="image" src="img/btM.gif" value="-" onclick="switchState('source_listBox_rows');" class="control" /></div>
+                           <div class="floatRight"><input id="button_source_listbox_rows" type="image" src="img/btM.gif" value="-" onclick="switchState('source_listbox_rows');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="source_listBox_rows" style="display:block">
+                           <div id="source_listbox_rows" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"rows"</span><span class="tEl">&gt;</span><span class="tI">
@@ -1088,7 +1148,7 @@ var modelBoxes= new Array('model_listBox');
             <td class="rt_lineBottom"></td>
             <td class="rt_cornerBottomRight"></td>
          </tr>
-      </table><a id="listBox_single"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="listBox_xsd.html#listBox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for listBox.xsd')">ui:listBox</a></b> / @single</span></div>
+      </table><a id="listbox_single"></a><div class="componentTitle">Attribute <span class="qname"><b><a href="listBox_xsd.html#listbox" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for listBox.xsd')">ui:listbox</a></b> / @single</span></div>
       <table class="rt">
          <tr>
             <td class="rt_cornerTopLeft"></td>
@@ -1107,10 +1167,10 @@ var modelBoxes= new Array('model_listBox');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Annotations</b></div>
-                           <div class="floatRight"><input id="button_annotations_listBox_single" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_listBox_single');" class="control" /></div>
+                           <div class="floatRight"><input id="button_annotations_listbox_single" type="image" src="img/btM.gif" value="-" onclick="switchState('annotations_listbox_single');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="annotations_listBox_single" style="display:block">
+                           <div id="annotations_listbox_single" style="display:block">
                               <div class="annotation">Indicates that the list box must accept only a single selected option. Not oputput
                                  if "false".
                               </div>
@@ -1124,10 +1184,10 @@ var modelBoxes= new Array('model_listBox');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Properties</b></div>
-                           <div class="floatRight"><input id="button_properties_listBox_single" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_listBox_single');" class="control" /></div>
+                           <div class="floatRight"><input id="button_properties_listbox_single" type="image" src="img/btM.gif" value="-" onclick="switchState('properties_listbox_single');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="properties_listBox_single" style="display:block">
+                           <div id="properties_listbox_single" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
                                     <td class="firstColumn" style="white-space: nowrap;">content</td>
@@ -1140,10 +1200,10 @@ var modelBoxes= new Array('model_listBox');
                      <tr>
                         <td class="firstColumn">
                            <div class="floatLeft"><b>Source</b></div>
-                           <div class="floatRight"><input id="button_source_listBox_single" type="image" src="img/btM.gif" value="-" onclick="switchState('source_listBox_single');" class="control" /></div>
+                           <div class="floatRight"><input id="button_source_listbox_single" type="image" src="img/btM.gif" value="-" onclick="switchState('source_listbox_single');" class="control" /></div>
                         </td>
                         <td>
-                           <div id="source_listBox_single" style="display:block">
+                           <div id="source_listbox_single" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"single"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
