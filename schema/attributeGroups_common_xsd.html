@@ -380,12 +380,15 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
                         </td>
                         <td>
                            <div id="annotations_accesskey.attributes_accessKey" style="display:block">
-                              <div class="annotation">Sets a single modified key access key for a control. This attribute should be used
-                                 with caution as: 
+                              <div class="annotation">
+                                 					Sets a single modified key access key for a control. This attribute should be
+                                 used with caution as:
+                                 					
                                  <ul xmlns="">
                                     						
                                     <li>some user agents reserve some keys for internal use and do not expose them to the
-                                       client for use as access keys; and
+                                       client for
+                                       							use as access keys; and
                                     </li>
                                     						
                                     <li>some keys may clash or cause issues with use of various assistive technologies.</li>
@@ -521,7 +524,10 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
                         </td>
                         <td>
                            <div id="annotations_ajax.mode.attributes_mode" style="display:block">
-                              <div class="annotation">Indicates the content display mode for the component</div>
+                              <div class="annotation">
+                                 					Indicates the content display mode for the component.
+                                 				
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -538,8 +544,8 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
                            <div id="properties_ajax.mode.attributes_mode" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">use</td>
-                                    <td><b>required</b></td>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>client</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -557,8 +563,11 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>client</b></td>
                                     <td>
-                                       <div class="annotation">The content exists in the page and showing/hiding that content is purely a client-side
-                                          process.
+                                       <div class="annotation">
+                                          								The content exists in the page and showing/hiding that content is purely a
+                                          client-side
+                                          								process.
+                                          							
                                        </div>
                                     </td>
                                  </tr>
@@ -566,15 +575,22 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>dynamic</b></td>
                                     <td>
-                                       <div class="annotation">The content is fetched from the server using AJAX each time the content is displayed.</div>
+                                       <div class="annotation">
+                                          								The content is fetched from the server using AJAX each time the content is
+                                          displayed.
+                                          							
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>eager</b></td>
                                     <td>
-                                       <div class="annotation">The content is not part of the underlying page XML but is fetched from the server
-                                          using AJAX as the browser renders the page.
+                                       <div class="annotation">
+                                          								The content is not part of the underlying page XML but is fetched from the
+                                          server using
+                                          								AJAX as the browser renders the page.
+                                          							
                                        </div>
                                     </td>
                                  </tr>
@@ -582,8 +598,11 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>lazy</b></td>
                                     <td>
-                                       <div class="annotation">The content is fetched from the server the first time the content is displayed then
-                                          remains static for the rest fo the lifecycle of the page.
+                                       <div class="annotation">
+                                          								The content is fetched from the server the first time the content is displayed
+                                          then
+                                          								remains static for the rest fo the lifecycle of the page.
+                                          							
                                        </div>
                                     </td>
                                  </tr>
@@ -591,11 +610,20 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>server</b></td>
                                     <td>
-                                       <div class="annotation">The content is not part of the page's XML unless it is in a visible (open) state and
-                                          a user action to display the content will result in the entire
-                                          								application POSTing to the server application. This mode is deprecated for
-                                          all implementing components and should be avoided as it poses significant
-                                          								user interaction problems.
+                                       <div class="annotation">
+                                          								
+                                          <p xmlns="">This mode is being phased out and is only present for backwards compatibility.</p>
+                                          								
+                                          <p xmlns="">Components may not support this mode.</p>
+                                          								
+                                          <p xmlns="">The content is not part of the page's XML unless it is in a visible (open) state and
+                                             									a user action to display the content will result in the entire application
+                                             POSTing 
+                                             									to the server application. This mode is deprecated for all implementing components
+                                             
+                                             									and should be avoided as it poses significant user interaction problems.
+                                          </p>
+                                          							
                                        </div>
                                     </td>
                                  </tr>
@@ -628,9 +656,9 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
                            <div id="source_ajax.mode.attributes_mode" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"mode"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"mode"</span><span class="tAN"> default=</span><span class="tAV">"client"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the content display mode for the component</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the content display mode for the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:simpleType</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:restriction</span><span class="tAN"> base=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tEl">&gt;</span><span class="tI">
@@ -656,7 +684,11 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
       </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"server"</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The content is not part of the page's XML unless it is in a visible (open) state and a user action to display the content will result in the entire application POSTing to the server application. This mode is deprecated for all implementing components and should be avoided as it poses significant user interaction problems.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">This mode is being phased out and is only present for backwards compatibility.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Components may not support this mode.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The content is not part of the page's XML unless it is in a visible (open) state and a user action to display the content will result in the entire application POSTing to the server application. This mode is deprecated for all implementing components and should be avoided as it poses significant user interaction problems.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
         </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:restriction&gt;</span><span class="tI">
@@ -700,7 +732,10 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
                         </td>
                         <td>
                            <div id="annotations_ajax.mode.simple.attributes_mode" style="display:block">
-                              <div class="annotation">Indicates the content display mode for the component</div>
+                              <div class="annotation">
+                                 					Indicates the content display mode for the component.
+                                 				
+                              </div>
                            </div>
                         </td>
                      </tr>
@@ -736,8 +771,11 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>eager</b></td>
                                     <td>
-                                       <div class="annotation">The content is not part of the underlying page XML but is fetched from the server
-                                          using AJAX as the browser renders the page.
+                                       <div class="annotation">
+                                          								The content is not part of the underlying page XML but is fetched from the
+                                          server using
+                                          								AJAX as the browser renders the page.
+                                          							
                                        </div>
                                     </td>
                                  </tr>
@@ -745,8 +783,11 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
                                     <td class="firstColumn">enumeration</td>
                                     <td width="30%"><b>lazy</b></td>
                                     <td>
-                                       <div class="annotation">The content is fetched from the server the first time the content is displayed then
-                                          remains static for the rest fo the lifecycle of the page.
+                                       <div class="annotation">
+                                          								The content is fetched from the server the first time the content is displayed
+                                          then
+                                          								remains static for the rest fo the lifecycle of the page.
+                                          							
                                        </div>
                                     </td>
                                  </tr>
@@ -781,7 +822,7 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
                                  <tr>
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"mode"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the content display mode for the component</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the content display mode for the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:simpleType</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:restriction</span><span class="tAN"> base=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tEl">&gt;</span><span class="tI">
@@ -853,7 +894,7 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
                                  </tr>
                                  <tr>
                                     <td class="firstColumn">Elements </td>
-                                    <td><b><a href="fieldSet_xsd.html#fieldSet" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fieldSet.xsd')">ui:fieldSet</a></b>, <b><a href="panel_xsd.html#panel" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for panel.xsd')">ui:panel</a></b></td>
+                                    <td><b><a href="fieldSet_xsd.html#fieldset" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for fieldSet.xsd')">ui:fieldset</a></b>, <b><a href="panel_xsd.html#panel" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for panel.xsd')">ui:panel</a></b></td>
                                  </tr>
                               </table>
                            </div>
@@ -880,12 +921,15 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
                                     <td>restriction of <b>xs:string</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Sets a single modified key access key for a control. This attribute should be used
-                                          with caution as: 
+                                       <div class="annotation">
+                                          					Sets a single modified key access key for a control. This attribute should be
+                                          used with caution as:
+                                          					
                                           <ul xmlns="">
                                              						
                                              <li>some user agents reserve some keys for internal use and do not expose them to the
-                                                client for use as access keys; and
+                                                client for
+                                                							use as access keys; and
                                              </li>
                                              						
                                              <li>some keys may clash or cause issues with use of various assistive technologies.</li>
@@ -995,6 +1039,7 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
                                     <tr>
                                        <th>QName</th>
                                        <th width="10%">Type</th>
+                                       <th width="10%">Default</th>
                                        <th width="5%">Use</th>
                                        <th>Annotation</th>
                                     </tr>
@@ -1002,9 +1047,13 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_common_xsd.html#ajax.mode.attributes_mode" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for attributeGroups.common.xsd')">mode</a></b></td>
                                     <td>restriction of <b>xs:NMTOKEN</b></td>
-                                    <td>required</td>
+                                    <td>client</td>
+                                    <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates the content display mode for the component</div>
+                                       <div class="annotation">
+                                          					Indicates the content display mode for the component.
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                               </table>
@@ -1021,9 +1070,9 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> name=</span><span class="tAV">"ajax.mode.attributes"</span><span class="tEl">&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"mode"</span><span class="tAN"> use=</span><span class="tAV">"required"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"mode"</span><span class="tAN"> default=</span><span class="tAV">"client"</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the content display mode for the component</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the content display mode for the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:simpleType</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:restriction</span><span class="tAN"> base=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tEl">&gt;</span><span class="tI">
@@ -1049,7 +1098,11 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
         </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:enumeration</span><span class="tAN"> value=</span><span class="tAV">"server"</span><span class="tEl">&gt;</span><span class="tI">
           </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The content is not part of the page's XML unless it is in a visible (open) state and a user action to display the content will result in the entire application POSTing to the server application. This mode is deprecated for all implementing components and should be avoided as it poses significant user interaction problems.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">This mode is being phased out and is only present for backwards compatibility.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Components may not support this mode.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;p</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The content is not part of the page's XML unless it is in a visible (open) state and a user action to display the content will result in the entire application POSTing to the server application. This mode is deprecated for all implementing components and should be avoided as it poses significant user interaction problems.</span><span class="tEl">&lt;/p&gt;</span><span class="tI">
+            </span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
           </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
         </span><span class="tEl">&lt;/xs:enumeration&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:restriction&gt;</span><span class="tI">
@@ -1134,7 +1187,10 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
                                     <td>restriction of <b>xs:NMTOKEN</b></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates the content display mode for the component</div>
+                                       <div class="annotation">
+                                          					Indicates the content display mode for the component.
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                               </table>
@@ -1153,7 +1209,7 @@ var attributesBoxes= new Array('attributes_accesskey.attributes',
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attributeGroup</span><span class="tAN"> name=</span><span class="tAV">"ajax.mode.simple.attributes"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"mode"</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the content display mode for the component</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the content display mode for the component.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:simpleType</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:restriction</span><span class="tAN"> base=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tEl">&gt;</span><span class="tI">
