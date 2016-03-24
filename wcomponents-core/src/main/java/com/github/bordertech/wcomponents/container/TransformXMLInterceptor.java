@@ -38,7 +38,7 @@ import org.apache.commons.logging.LogFactory;
  *
  * <p>
  * It is enabled by setting the "bordertech.wcomponents.xslt.enabled" to true.
- * <p/>
+ * </p>
  * <p>
  * However, projects may not always have the theme resources in the classpath and want to load them from a static
  * resource (eg from a different web server or resources defined in their war file). To load resources from a static
