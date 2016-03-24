@@ -48,85 +48,87 @@ public class ColumnLayout implements LayoutManager {
 	 */
 	private final int vgap;
 
+
 	/**
-	 * Creates a ColumnLayout with the specified percentage column widths.
+	 * Creates a ColumnLayout with the specified percentage column widths. Using a column width of 0 will make the width
+	 * undefined in the UI. This may then be used for application level styling with CSS for responsive design.
 	 *
-	 * @param columnWidths the column widths, in percent units.
+	 * @param columnWidths the column widths, in percent units, 0 for undefined.
 	 */
 	public ColumnLayout(final int[] columnWidths) {
-<span class="fc" id="L57">		this(columnWidths, null, 0, 0);</span>
-<span class="fc" id="L58">	}</span>
+<span class="fc" id="L59">		this(columnWidths, null, 0, 0);</span>
+<span class="fc" id="L60">	}</span>
 
 	/**
 	 * Creates a ColumnLayout with the specified percentage column widths and column alignments.
 	 *
-	 * @param columnWidths the column widths, in percent units.
+	 * @param columnWidths the column widths, in percent units, 0 for undefined.
 	 * @param columnAlignments the column alignments
 	 */
 	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments) {
-<span class="fc" id="L67">		this(columnWidths, columnAlignments, 0, 0);</span>
-<span class="fc" id="L68">	}</span>
+<span class="fc" id="L69">		this(columnWidths, columnAlignments, 0, 0);</span>
+<span class="fc" id="L70">	}</span>
 
 	/**
 	 * Creates a ColumnLayout with the specified percentage column widths.
 	 *
-	 * @param columnWidths the column widths, in percent units.
+	 * @param columnWidths the column widths, in percent units, 0 for undefined.
 	 * @param hgap the horizontal gap between the columns, measured in pixels.
 	 * @param vgap the vertical gap between the rows, measured in pixels.
 	 */
 	public ColumnLayout(final int[] columnWidths, final int hgap, final int vgap) {
-<span class="fc" id="L78">		this(columnWidths, null, hgap, vgap);</span>
-<span class="fc" id="L79">	}</span>
+<span class="fc" id="L80">		this(columnWidths, null, hgap, vgap);</span>
+<span class="fc" id="L81">	}</span>
 
 	/**
 	 * Creates a ColumnLayout with the specified percentage column widths.
 	 *
-	 * @param columnWidths the column widths, in percent units.
+	 * @param columnWidths the column widths, in percent units, 0 for undefined.
 	 * @param columnAlignments the column alignments
 	 * @param hgap the horizontal gap between the columns, measured in pixels.
 	 * @param vgap the vertical gap between the rows, measured in pixels.
 	 */
 	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments, final int hgap,
-<span class="fc" id="L90">			final int vgap) {</span>
-<span class="fc bfc" id="L91" title="All 4 branches covered.">		if (columnWidths == null || columnWidths.length == 0) {</span>
-<span class="fc" id="L92">			throw new IllegalArgumentException(&quot;ColumnWidths must be provided&quot;);</span>
+<span class="fc" id="L92">			final int vgap) {</span>
+<span class="fc bfc" id="L93" title="All 4 branches covered.">		if (columnWidths == null || columnWidths.length == 0) {</span>
+<span class="fc" id="L94">			throw new IllegalArgumentException(&quot;ColumnWidths must be provided&quot;);</span>
 		}
 
 		// Column Definitions
-<span class="fc bfc" id="L96" title="All 2 branches covered.">		for (int col = 0; col &lt; columnWidths.length; col++) {</span>
-<span class="fc bfc" id="L97" title="All 4 branches covered.">			if (columnWidths[col] &lt; 1 || columnWidths[col] &gt; 100) {</span>
-<span class="fc" id="L98">				throw new IllegalArgumentException(</span>
-						&quot;ColumnWidth (&quot; + columnWidths[col] + &quot;) must be between 1 and 100 percent&quot;);
+<span class="fc bfc" id="L98" title="All 2 branches covered.">		for (int col = 0; col &lt; columnWidths.length; col++) {</span>
+<span class="fc bfc" id="L99" title="All 4 branches covered.">			if (columnWidths[col] &lt; 0 || columnWidths[col] &gt; 100) {</span>
+<span class="fc" id="L100">				throw new IllegalArgumentException(</span>
+						&quot;ColumnWidth (&quot; + columnWidths[col] + &quot;) must be between 0 and 100 percent&quot;);
 			}
 		}
 
-<span class="fc bfc" id="L103" title="All 4 branches covered.">		if (columnAlignments != null &amp;&amp; columnAlignments.length != columnWidths.length) {</span>
-<span class="fc" id="L104">			throw new IllegalArgumentException(</span>
+<span class="fc bfc" id="L105" title="All 4 branches covered.">		if (columnAlignments != null &amp;&amp; columnAlignments.length != columnWidths.length) {</span>
+<span class="fc" id="L106">			throw new IllegalArgumentException(</span>
 					&quot;A columnAlignment must be provided for each columnWidth&quot;);
 		}
 
-<span class="fc bfc" id="L108" title="All 2 branches covered.">		if (hgap &lt; 0) {</span>
-<span class="fc" id="L109">			throw new IllegalArgumentException(&quot;Hgap must be greater than or equal to zero&quot;);</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">		if (hgap &lt; 0) {</span>
+<span class="fc" id="L111">			throw new IllegalArgumentException(&quot;Hgap must be greater than or equal to zero&quot;);</span>
 		}
 
-<span class="fc bfc" id="L112" title="All 2 branches covered.">		if (vgap &lt; 0) {</span>
-<span class="fc" id="L113">			throw new IllegalArgumentException(&quot;Vgap must be greater than or equal to zero&quot;);</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">		if (vgap &lt; 0) {</span>
+<span class="fc" id="L115">			throw new IllegalArgumentException(&quot;Vgap must be greater than or equal to zero&quot;);</span>
 		}
 
-<span class="fc" id="L116">		this.columnWidths = columnWidths;</span>
-<span class="fc" id="L117">		this.columnAlignments = new Alignment[columnWidths.length];</span>
+<span class="fc" id="L118">		this.columnWidths = columnWidths;</span>
+<span class="fc" id="L119">		this.columnAlignments = new Alignment[columnWidths.length];</span>
 
-<span class="fc bfc" id="L119" title="All 2 branches covered.">		if (columnAlignments == null) {</span>
-<span class="fc" id="L120">			Arrays.fill(this.columnAlignments, Alignment.LEFT);</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">		if (columnAlignments == null) {</span>
+<span class="fc" id="L122">			Arrays.fill(this.columnAlignments, Alignment.LEFT);</span>
 		} else {
-<span class="fc bfc" id="L122" title="All 2 branches covered.">			for (int i = 0; i &lt; columnAlignments.length; i++) {</span>
-<span class="pc bpc" id="L123" title="1 of 2 branches missed.">				this.columnAlignments[i] = columnAlignments[i] == null ? Alignment.LEFT : columnAlignments[i];</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">			for (int i = 0; i &lt; columnAlignments.length; i++) {</span>
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">				this.columnAlignments[i] = columnAlignments[i] == null ? Alignment.LEFT : columnAlignments[i];</span>
 			}
 		}
 
-<span class="fc" id="L127">		this.hgap = hgap;</span>
-<span class="fc" id="L128">		this.vgap = vgap;</span>
-<span class="fc" id="L129">	}</span>
+<span class="fc" id="L129">		this.hgap = hgap;</span>
+<span class="fc" id="L130">		this.vgap = vgap;</span>
+<span class="fc" id="L131">	}</span>
 
 	/**
 	 * Sets the alignment of the given column. An IndexOutOfBoundsException will be thrown if col is out of bounds.
@@ -135,21 +137,21 @@ public class ColumnLayout implements LayoutManager {
 	 * @param alignment the alignment to set.
 	 */
 	public void setAlignment(final int col, final Alignment alignment) {
-<span class="nc bnc" id="L138" title="All 2 branches missed.">		columnAlignments[col] = alignment == null ? Alignment.LEFT : alignment;</span>
-<span class="nc" id="L139">	}</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">		columnAlignments[col] = alignment == null ? Alignment.LEFT : alignment;</span>
+<span class="nc" id="L141">	}</span>
 
 	/**
 	 * @return Returns the horizontal gap between the cells, measured in pixels.
 	 */
 	public int getHgap() {
-<span class="fc" id="L145">		return hgap;</span>
+<span class="fc" id="L147">		return hgap;</span>
 	}
 
 	/**
 	 * @return Returns the vertical gap between the cells, measured in pixels.
 	 */
 	public int getVgap() {
-<span class="fc" id="L152">		return vgap;</span>
+<span class="fc" id="L154">		return vgap;</span>
 	}
 
 	/**
@@ -157,7 +159,7 @@ public class ColumnLayout implements LayoutManager {
 	 * @return the width of the given column.
 	 */
 	public int getColumnWidth(final int columnIndex) {
-<span class="fc" id="L160">		return columnWidths[columnIndex];</span>
+<span class="fc" id="L162">		return columnWidths[columnIndex];</span>
 	}
 
 	/**
@@ -165,14 +167,14 @@ public class ColumnLayout implements LayoutManager {
 	 * @return the alignment of the given column.
 	 */
 	public Alignment getColumnAlignment(final int columnIndex) {
-<span class="fc" id="L168">		return columnAlignments[columnIndex];</span>
+<span class="fc" id="L170">		return columnAlignments[columnIndex];</span>
 	}
 
 	/**
 	 * @return the number of columns in this layout.
 	 */
 	public int getColumnCount() {
-<span class="fc" id="L175">		return columnWidths.length;</span>
+<span class="fc" id="L177">		return columnWidths.length;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

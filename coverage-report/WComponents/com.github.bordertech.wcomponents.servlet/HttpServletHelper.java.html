@@ -359,19 +359,23 @@ public class HttpServletHelper extends AbstractContainerHelper {
 <span class="nc" id="L359">			httpServletResponse.setHeader(&quot;Pragma&quot;, &quot;no-cache&quot;);</span>
 <span class="nc" id="L360">			httpServletResponse.setHeader(&quot;Expires&quot;, &quot;-1&quot;);</span>
 		}
-<span class="fc" id="L362">	}</span>
+		// This is to prevent clickjacking. It can also be set to &quot;DENY&quot; to prevent embedding in a frames at all or
+		// &quot;ALLOW-FROM uri&quot; to allow embedding in a frame within a particular site.
+		// The default will allow WComponents applications in a frame on the same origin.
+<span class="fc" id="L365">		httpServletResponse.setHeader(&quot;X-Frame-Options&quot;, &quot;SAMEORIGIN&quot;);</span>
+<span class="fc" id="L366">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void handleError(final Throwable error) throws IOException {
-<span class="pc bpc" id="L369" title="2 of 4 branches missed.">		if (targetComponentId != null || dataRequest) {</span>
-<span class="nc" id="L370">			getResponse().sendError(500, &quot;Internal Error&quot;);</span>
+<span class="pc bpc" id="L373" title="2 of 4 branches missed.">		if (targetComponentId != null || dataRequest) {</span>
+<span class="nc" id="L374">			getResponse().sendError(500, &quot;Internal Error&quot;);</span>
 		} else {
-<span class="fc" id="L372">			super.handleError(error);</span>
+<span class="fc" id="L376">			super.handleError(error);</span>
 		}
-<span class="fc" id="L374">	}</span>
+<span class="fc" id="L378">	}</span>
 
 	/**
 	 * The HttpServlet implementation of the WEnvironment interface.
@@ -381,7 +385,7 @@ public class HttpServletHelper extends AbstractContainerHelper {
 		/**
 		 * The subsession id for this environment.
 		 */
-<span class="fc" id="L384">		private int subsessionId = -1;</span>
+<span class="fc" id="L388">		private int subsessionId = -1;</span>
 
 		/**
 		 * @param postPath the post path
@@ -390,9 +394,9 @@ public class HttpServletHelper extends AbstractContainerHelper {
 		 */
 		public HttpServletEnvironment(final String postPath, final String baseUrl,
 				final String userAgent) {
-<span class="fc" id="L393">			this(postPath, baseUrl, new UserAgentInfo(userAgent));</span>
-<span class="fc" id="L394">			LOG.debug(&quot;user-agent: &quot; + userAgent);</span>
-<span class="fc" id="L395">		}</span>
+<span class="fc" id="L397">			this(postPath, baseUrl, new UserAgentInfo(userAgent));</span>
+<span class="fc" id="L398">			LOG.debug(&quot;user-agent: &quot; + userAgent);</span>
+<span class="fc" id="L399">		}</span>
 
 		/**
 		 * @param postPath the post path
@@ -400,28 +404,28 @@ public class HttpServletHelper extends AbstractContainerHelper {
 		 * @param userAgentInfo the user agent info
 		 */
 		public HttpServletEnvironment(final String postPath, final String baseUrl,
-<span class="fc" id="L403">				final UserAgentInfo userAgentInfo) {</span>
-<span class="fc" id="L404">			setPostPath(postPath);</span>
-<span class="fc" id="L405">			setBaseUrl(baseUrl);</span>
-<span class="fc" id="L406">			setUserAgentInfo(userAgentInfo);</span>
-<span class="fc" id="L407">			setAppId(&quot;app&quot;);</span>
+<span class="fc" id="L407">				final UserAgentInfo userAgentInfo) {</span>
+<span class="fc" id="L408">			setPostPath(postPath);</span>
+<span class="fc" id="L409">			setBaseUrl(baseUrl);</span>
+<span class="fc" id="L410">			setUserAgentInfo(userAgentInfo);</span>
+<span class="fc" id="L411">			setAppId(&quot;app&quot;);</span>
 
 			try {
-<span class="fc" id="L410">				URL url = new URL(baseUrl);</span>
-<span class="fc" id="L411">				setHostFreeBaseUrl(url.getPath());</span>
-<span class="fc" id="L412">			} catch (MalformedURLException ex) {</span>
+<span class="fc" id="L414">				URL url = new URL(baseUrl);</span>
+<span class="fc" id="L415">				setHostFreeBaseUrl(url.getPath());</span>
+<span class="fc" id="L416">			} catch (MalformedURLException ex) {</span>
 				// This should not happen
-<span class="fc" id="L414">				LOG.warn(&quot;Invalid base url: &quot; + baseUrl);</span>
-<span class="fc" id="L415">				setHostFreeBaseUrl(baseUrl);</span>
-<span class="fc" id="L416">			}</span>
-<span class="fc" id="L417">		}</span>
+<span class="fc" id="L418">				LOG.warn(&quot;Invalid base url: &quot; + baseUrl);</span>
+<span class="fc" id="L419">				setHostFreeBaseUrl(baseUrl);</span>
+<span class="fc" id="L420">			}</span>
+<span class="fc" id="L421">		}</span>
 
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
 		public String getAppHostPath() {
-<span class="nc" id="L424">			return getHostFreeBaseUrl();</span>
+<span class="nc" id="L428">			return getHostFreeBaseUrl();</span>
 		}
 
 		/**
@@ -430,8 +434,8 @@ public class HttpServletHelper extends AbstractContainerHelper {
 		 * @param subsessionId The sessionId to set.
 		 */
 		public void setSubsessionId(final int subsessionId) {
-<span class="nc" id="L433">			this.subsessionId = subsessionId;</span>
-<span class="nc" id="L434">		}</span>
+<span class="nc" id="L437">			this.subsessionId = subsessionId;</span>
+<span class="nc" id="L438">		}</span>
 
 		/**
 		 * Override getHiddenParameters in order to add the subsession id.
@@ -440,13 +444,13 @@ public class HttpServletHelper extends AbstractContainerHelper {
 		 */
 		@Override
 		public Map&lt;String, String&gt; getHiddenParameters() {
-<span class="fc" id="L443">			Map&lt;String, String&gt; params = super.getHiddenParameters();</span>
+<span class="fc" id="L447">			Map&lt;String, String&gt; params = super.getHiddenParameters();</span>
 
-<span class="pc bpc" id="L445" title="1 of 2 branches missed.">			if (subsessionId &gt;= 0) {</span>
-<span class="nc" id="L446">				params.put(&quot;ssid&quot;, String.valueOf(subsessionId));</span>
+<span class="pc bpc" id="L449" title="1 of 2 branches missed.">			if (subsessionId &gt;= 0) {</span>
+<span class="nc" id="L450">				params.put(&quot;ssid&quot;, String.valueOf(subsessionId));</span>
 			}
 
-<span class="fc" id="L449">			return params;</span>
+<span class="fc" id="L453">			return params;</span>
 		}
 	}
 }

@@ -46,16 +46,17 @@ import java.util.List;
 
 <span class="pc bpc" id="L47" title="1 of 4 branches missed.">		if (options != null &amp;&amp; !options.isEmpty()) {</span>
 <span class="fc bfc" id="L48" title="All 2 branches covered.">			for (int i = 0; i &lt; options.size(); i++) {</span>
-<span class="fc" id="L49">				xml.appendTagOpen(&quot;ui:option&quot;);</span>
-<span class="fc" id="L50">				xml.appendAttribute(&quot;value&quot;, i);</span>
-<span class="fc" id="L51">				xml.appendClose();</span>
-<span class="fc" id="L52">				xml.appendEscaped(String.valueOf(options.get(i)));</span>
-<span class="fc" id="L53">				xml.appendEndTag(&quot;ui:option&quot;);</span>
+<span class="fc" id="L49">				String stringOption = String.valueOf(options.get(i));</span>
+<span class="fc" id="L50">				xml.appendTagOpen(&quot;ui:option&quot;);</span>
+<span class="fc" id="L51">				xml.appendAttribute(&quot;value&quot;, stringOption);</span>
+<span class="fc" id="L52">				xml.appendClose();</span>
+<span class="fc" id="L53">				xml.appendEscaped(stringOption);</span>
+<span class="fc" id="L54">				xml.appendEndTag(&quot;ui:option&quot;);</span>
 			}
 		}
 
 		// End tag
-<span class="fc" id="L58">		xml.appendEndTag(&quot;ui:shuffler&quot;);</span>
-<span class="fc" id="L59">	}</span>
+<span class="fc" id="L59">		xml.appendEndTag(&quot;ui:shuffler&quot;);</span>
+<span class="fc" id="L60">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

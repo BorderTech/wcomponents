@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WImageEditorRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">WImageEditorRenderer.java</span></div><h1>WImageEditorRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.Renderer;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WImageEditor;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import java.awt.Dimension;
+
+/**
+ * {@link Renderer} for the {@link WImageEditor} component.
+ *
+ * @author Rick Brown
+ * @since 1.0.3
+ */
+<span class="nc" id="L16">final class WImageEditorRenderer extends AbstractWebXmlRenderer {</span>
+
+	/**
+	 * Paints the given {@link WImageEditor}.
+	 *
+	 * @param component the WImageEditor to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+<span class="nc" id="L26">		WImageEditor editorComponent = (WImageEditor) component;</span>
+<span class="nc" id="L27">		XmlStringBuilder xml = renderContext.getWriter();</span>
+
+<span class="nc" id="L29">		xml.appendTagOpen(&quot;wc-imageedit&quot;);</span>
+<span class="nc" id="L30">		xml.appendAttribute(&quot;id&quot;, editorComponent.getId());</span>
+<span class="nc" id="L31">		xml.appendOptionalAttribute(&quot;class&quot;, editorComponent.getHtmlClass());</span>
+<span class="nc" id="L32">		xml.appendOptionalAttribute(&quot;overlay&quot;, editorComponent.getOverlayUrl());</span>
+<span class="nc" id="L33">		xml.appendOptionalAttribute(&quot;camera&quot;, editorComponent.getUseCamera());</span>
+
+		// Check for size information on the image
+<span class="nc" id="L36">		Dimension size = editorComponent.getSize();</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">		if (size != null) {</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">			if (size.getHeight() &gt;= 0) {</span>
+<span class="nc" id="L39">				xml.appendAttribute(&quot;height&quot;, size.height);</span>
+			}
+
+<span class="nc bnc" id="L42" title="All 2 branches missed.">			if (size.getWidth() &gt;= 0) {</span>
+<span class="nc" id="L43">				xml.appendAttribute(&quot;width&quot;, size.width);</span>
+			}
+		}
+
+<span class="nc" id="L47">		xml.appendEnd();</span>
+<span class="nc" id="L48">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
