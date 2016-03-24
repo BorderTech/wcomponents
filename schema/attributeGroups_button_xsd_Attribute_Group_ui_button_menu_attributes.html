@@ -320,8 +320,10 @@ var attributesBoxes= new Array('attributes_button.menu.attributes');
                         </td>
                         <td>
                            <div id="annotations_button.menu.attributes_cancel" style="display:block">
-                              <div class="annotation">If true then the component acts as a cancel control and the user will be warned of
-                                 unsaved changes.
+                              <div class="annotation">
+                                 					If true then the component acts as a cancel control and the user will be warned
+                                 of unsaved changes.
+                                 				
                               </div>
                            </div>
                         </td>
@@ -339,8 +341,8 @@ var attributesBoxes= new Array('attributes_button.menu.attributes');
                            <div id="properties_button.menu.attributes_cancel" style="display:block">
                               <table class="propertiesTable">
                                  <tr>
-                                    <td class="firstColumn" style="white-space: nowrap;">content</td>
-                                    <td><b>simple</b></td>
+                                    <td class="firstColumn" style="white-space: nowrap;">default</td>
+                                    <td><b>false</b></td>
                                  </tr>
                               </table>
                            </div>
@@ -371,7 +373,7 @@ var attributesBoxes= new Array('attributes_button.menu.attributes');
                            <div id="source_button.menu.attributes_cancel" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"cancel"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"cancel"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> default=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">If true then the component acts as a cancel control and the user will be warned of unsaved changes.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
@@ -414,9 +416,11 @@ var attributesBoxes= new Array('attributes_button.menu.attributes');
                         </td>
                         <td>
                            <div id="annotations_button.menu.attributes_msg" style="display:block">
-                              <div class="annotation">If set then the component will require confirmation before submission. This can be
-                                 used to add a custom unsaved changes warning if @cancel is
-                                 					true.
+                              <div class="annotation">
+                                 					If set then the component will require confirmation before submission. This can
+                                 be used to add a
+                                 					custom unsaved changes warning if @cancel is "true".
+                                 				
                               </div>
                            </div>
                         </td>
@@ -468,7 +472,7 @@ var attributesBoxes= new Array('attributes_button.menu.attributes');
                                  <tr>
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"msg"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">If set then the component will require confirmation before submission. This can be used to add a custom unsaved changes warning if @cancel is true.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">If set then the component will require confirmation before submission. This can be used to add a custom unsaved changes warning if @cancel is "true".</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
@@ -509,11 +513,10 @@ var attributesBoxes= new Array('attributes_button.menu.attributes');
                         </td>
                         <td>
                            <div id="annotations_button.menu.attributes_validates" style="display:block">
-                              <div class="annotation">Used in conjunction with client side validation (WComponents plugin since v14.0.001).
-                                 If client side validation is enabled and "validates" not
-                                 					defined, then the entire form will be validated client side by any interaction
-                                 
-                                 <strong xmlns="">unless</strong> the cancel property is set "true".
+                              <div class="annotation">
+                                 					Indicates the region of the view which will be validated by the control's validating
+                                 action.
+                                 				
                               </div>
                            </div>
                         </td>
@@ -565,8 +568,7 @@ var attributesBoxes= new Array('attributes_button.menu.attributes');
                                  <tr>
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"validates"</span><span class="tAN"> type=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Used in conjunction with client side validation (WComponents plugin since v14.0.001). If client side validation is enabled and "validates" not defined, then the entire form will be validated client side by any interaction</span><span class="tI">
-      </span><span class="tEl">&lt;strong</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">unless</span><span class="tEl">&lt;/strong&gt;</span><span class="tT" style="white-space:normal">the cancel property is set "true".</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the region of the view which will be validated by the control's validating action.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attribute&gt;</span></pre></td>
                                  </tr>
@@ -607,8 +609,11 @@ var attributesBoxes= new Array('attributes_button.menu.attributes');
                         </td>
                         <td>
                            <div id="annotations_button.menu.attributes" style="display:block">
-                              <div class="annotation">Common attributes used by buttons and menu items to implement cancel, confirm and
-                                 validation region behaviour.
+                              <div class="annotation">
+                                 				Common attributes used by buttons and menu items to implement cancel, confirm
+                                 and validation region
+                                 				behaviour.
+                                 			
                               </div>
                            </div>
                         </td>
@@ -635,7 +640,7 @@ var attributesBoxes= new Array('attributes_button.menu.attributes');
                               <table class="usedByTable">
                                  <tr>
                                     <td class="firstColumn">Element </td>
-                                    <td><b><a href="menuItem_xsd_Element_ui_menuItem.html#menuItem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:menuItem')">ui:menuItem</a></b></td>
+                                    <td><b><a href="menuItem_xsd_Element_ui_menuitem.html#menuitem" target="mainFrame" title="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" onclick="updatePageTitle('Schema documentation for component ui:menuitem')">ui:menuitem</a></b></td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn">Complex Type </td>
@@ -657,6 +662,7 @@ var attributesBoxes= new Array('attributes_button.menu.attributes');
                                     <tr>
                                        <th>QName</th>
                                        <th width="10%">Type</th>
+                                       <th width="10%">Default</th>
                                        <th width="5%">Use</th>
                                        <th>Annotation</th>
                                     </tr>
@@ -664,34 +670,40 @@ var attributesBoxes= new Array('attributes_button.menu.attributes');
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_button_xsd_Attribute_Group_ui_button_menu_attributes.html#button.menu.attributes_cancel" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component cancel')">cancel</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">If true then the component acts as a cancel control and the user will be warned of
-                                          unsaved changes.
+                                       <div class="annotation">
+                                          					If true then the component acts as a cancel control and the user will be warned
+                                          of unsaved changes.
+                                          				
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_button_xsd_Attribute_Group_ui_button_menu_attributes.html#button.menu.attributes_msg" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component msg')">msg</a></b></td>
                                     <td><b>xs:string</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">If set then the component will require confirmation before submission. This can be
-                                          used to add a custom unsaved changes warning if @cancel is
-                                          					true.
+                                       <div class="annotation">
+                                          					If set then the component will require confirmation before submission. This can
+                                          be used to add a
+                                          					custom unsaved changes warning if @cancel is "true".
+                                          				
                                        </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_button_xsd_Attribute_Group_ui_button_menu_attributes.html#button.menu.attributes_validates" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component validates')">validates</a></b></td>
                                     <td><b>xs:NMTOKEN</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Used in conjunction with client side validation (WComponents plugin since v14.0.001).
-                                          If client side validation is enabled and "validates" not
-                                          					defined, then the entire form will be validated client side by any interaction
-                                          
-                                          <strong xmlns="">unless</strong> the cancel property is set "true".
+                                       <div class="annotation">
+                                          					Indicates the region of the view which will be validated by the control's validating
+                                          action.
+                                          				
                                        </div>
                                     </td>
                                  </tr>
@@ -712,20 +724,19 @@ var attributesBoxes= new Array('attributes_button.menu.attributes');
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Common attributes used by buttons and menu items to implement cancel, confirm and validation region behaviour.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
-  </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"cancel"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tEl">&gt;</span><span class="tI">
+  </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"cancel"</span><span class="tAN"> type=</span><span class="tAV">"xs:boolean"</span><span class="tAN"> default=</span><span class="tAV">"false"</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">If true then the component acts as a cancel control and the user will be warned of unsaved changes.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"msg"</span><span class="tAN"> type=</span><span class="tAV">"xs:string"</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">If set then the component will require confirmation before submission. This can be used to add a custom unsaved changes warning if @cancel is true.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">If set then the component will require confirmation before submission. This can be used to add a custom unsaved changes warning if @cancel is "true".</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"validates"</span><span class="tAN"> type=</span><span class="tAV">"xs:NMTOKEN"</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Used in conjunction with client side validation (WComponents plugin since v14.0.001). If client side validation is enabled and "validates" not defined, then the entire form will be validated client side by any interaction</span><span class="tI">
-        </span><span class="tEl">&lt;strong</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">unless</span><span class="tEl">&lt;/strong&gt;</span><span class="tT" style="white-space:normal">the cancel property is set "true".</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">Indicates the region of the view which will be validated by the control's validating action.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/xs:attributeGroup&gt;</span></pre></td>

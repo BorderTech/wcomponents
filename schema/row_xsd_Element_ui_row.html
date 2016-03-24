@@ -431,7 +431,7 @@ var modelBoxes= new Array('model_row',
                            <div id="instance_row" style="display:block">
                               <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;" class="preWrapContainer">
                                  <tr>
-                                    <td width="100%"><pre><span class="tEl">&lt;ui:row</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hgap=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
+                                    <td width="100%"><pre><span class="tEl">&lt;ui:row</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hgap=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">hidden=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">"false"</span><span class="tT"> </span><span class="tAN">xmlns:ui=</span><span class="tAV">"https://github.com/bordertech/wcomponents/namespace/ui/v1.0"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:margin</span><span class="tT"> </span><span class="tAN">all=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">east=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">north=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">south=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">west=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{0,1}</span><span class="tEl">&lt;/ui:margin&gt;</span><span class="tI">
   </span><span class="tEl">&lt;ui:column</span><span class="tT"> </span><span class="tAN">align=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">class=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">id=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">track=</span><span class="tAV">""</span><span class="tT"> </span><span class="tAN">width=</span><span class="tAV">""</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">{1,unbounded}</span><span class="tEl">&lt;/ui:column&gt;</span><span class="tI">
 </span><span class="tEl">&lt;/ui:row&gt;</span></pre></td>
@@ -452,6 +452,7 @@ var modelBoxes= new Array('model_row',
                                     <tr>
                                        <th>QName</th>
                                        <th width="10%">Type</th>
+                                       <th width="10%">Default</th>
                                        <th width="5%">Use</th>
                                        <th>Annotation</th>
                                     </tr>
@@ -459,14 +460,19 @@ var modelBoxes= new Array('model_row',
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.html#container.attributes_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component class')">class</a></b></td>
                                     <td><b>xs:string</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                                       <div class="annotation">
+                                          					Provides the ability to pass an HTML class attribute onto the root output element.
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="row_xsd_Element_ui_row.html#row_hgap" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component hgap')">hgap</a></b></td>
                                     <td><b>xs:positiveInteger</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
                                        <div class="annotation"> The hgap attribute is used to provide the horizontal space between each column within
@@ -482,25 +488,37 @@ var modelBoxes= new Array('model_row',
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.html#container.attributes_hidden" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component hidden')">hidden</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a hidden state if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          					The component will be in a hidden state if "true".
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.html#container.attributes_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component id')">id</a></b></td>
                                     <td><b>xs:ID</b></td>
+                                    <td></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">The unique identifier for the component.</div>
+                                       <div class="annotation">
+                                          					The unique identifier for the component.
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.html#container.attributes_track" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component track')">track</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the component should take part in web analytics tracking.</div>
+                                       <div class="annotation">
+                                          					Indicates that the component should take part in web analytics tracking.
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                               </table>
@@ -556,11 +574,11 @@ var modelBoxes= new Array('model_row',
           </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
           </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"width"</span><span class="tEl">&gt;</span><span class="tI">
             </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-              </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The width attribute int is deemed to be a percentage where the width of the column (not allowing for hgap) is @width% of the width of the row.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+              </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The width attribute int is deemed to be a percentage where the width of the column (not allowing for hgap) is @width% of the width of the row. A width of 0 is not output but means the column width is defined elsewhere (hopefully in application specific CSS).</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
             </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
             </span><span class="tEl">&lt;xs:simpleType</span><span class="tEl">&gt;</span><span class="tI">
               </span><span class="tEl">&lt;xs:restriction</span><span class="tAN"> base=</span><span class="tAV">"xs:int"</span><span class="tEl">&gt;</span><span class="tI">
-                </span><span class="tEl">&lt;xs:minInclusive</span><span class="tAN"> value=</span><span class="tAV">"1"</span><span class="tEl">/&gt;</span><span class="tI">
+                </span><span class="tEl">&lt;xs:minInclusive</span><span class="tAN"> value=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span><span class="tI">
                 </span><span class="tEl">&lt;xs:maxInclusive</span><span class="tAN"> value=</span><span class="tAV">"100"</span><span class="tEl">/&gt;</span><span class="tI">
               </span><span class="tEl">&lt;/xs:restriction&gt;</span><span class="tI">
             </span><span class="tEl">&lt;/xs:simpleType&gt;</span><span class="tI">
@@ -758,7 +776,8 @@ var modelBoxes= new Array('model_row',
                                     <td>
                                        <div class="annotation">The width attribute int is deemed to be a percentage where the width of the column
                                           (not allowing for hgap) is @width% of the width
-                                          									of the row. 
+                                          									of the row. A width of 0 is not output but means the column width is defined
+                                          elsewhere (hopefully in application specific CSS).
                                        </div>
                                     </td>
                                  </tr>
@@ -805,11 +824,11 @@ var modelBoxes= new Array('model_row',
     </span><span class="tEl">&lt;/xs:attribute&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"width"</span><span class="tEl">&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The width attribute int is deemed to be a percentage where the width of the column (not allowing for hgap) is @width% of the width of the row.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+        </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The width attribute int is deemed to be a percentage where the width of the column (not allowing for hgap) is @width% of the width of the row. A width of 0 is not output but means the column width is defined elsewhere (hopefully in application specific CSS).</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:simpleType</span><span class="tEl">&gt;</span><span class="tI">
         </span><span class="tEl">&lt;xs:restriction</span><span class="tAN"> base=</span><span class="tAV">"xs:int"</span><span class="tEl">&gt;</span><span class="tI">
-          </span><span class="tEl">&lt;xs:minInclusive</span><span class="tAN"> value=</span><span class="tAV">"1"</span><span class="tEl">/&gt;</span><span class="tI">
+          </span><span class="tEl">&lt;xs:minInclusive</span><span class="tAN"> value=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span><span class="tI">
           </span><span class="tEl">&lt;xs:maxInclusive</span><span class="tAN"> value=</span><span class="tAV">"100"</span><span class="tEl">/&gt;</span><span class="tI">
         </span><span class="tEl">&lt;/xs:restriction&gt;</span><span class="tI">
       </span><span class="tEl">&lt;/xs:simpleType&gt;</span><span class="tI">
@@ -1144,7 +1163,8 @@ var modelBoxes= new Array('model_row',
                            <div id="annotations_row_row_column_width" style="display:block">
                               <div class="annotation">The width attribute int is deemed to be a percentage where the width of the column
                                  (not allowing for hgap) is @width% of the width
-                                 									of the row. 
+                                 									of the row. A width of 0 is not output but means the column width is defined
+                                 elsewhere (hopefully in application specific CSS).
                               </div>
                            </div>
                         </td>
@@ -1186,7 +1206,7 @@ var modelBoxes= new Array('model_row',
                                  </tr>
                                  <tr>
                                     <td class="firstColumn">minInclusive</td>
-                                    <td width="30%"><b>1</b></td>
+                                    <td width="30%"><b>0</b></td>
                                     <td>
                                        <div class="annotation"></div>
                                     </td>
@@ -1222,11 +1242,11 @@ var modelBoxes= new Array('model_row',
                                  <tr>
                                     <td width="100%"><pre><span class="tEl">&lt;xs:attribute</span><span class="tAN"> name=</span><span class="tAV">"width"</span><span class="tEl">&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:annotation</span><span class="tEl">&gt;</span><span class="tI">
-    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The width attribute int is deemed to be a percentage where the width of the column (not allowing for hgap) is @width% of the width of the row.</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
+    </span><span class="tEl">&lt;xs:documentation</span><span class="tEl">&gt;</span><span class="tT" style="white-space:normal">The width attribute int is deemed to be a percentage where the width of the column (not allowing for hgap) is @width% of the width of the row. A width of 0 is not output but means the column width is defined elsewhere (hopefully in application specific CSS).</span><span class="tEl">&lt;/xs:documentation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:annotation&gt;</span><span class="tI">
   </span><span class="tEl">&lt;xs:simpleType</span><span class="tEl">&gt;</span><span class="tI">
     </span><span class="tEl">&lt;xs:restriction</span><span class="tAN"> base=</span><span class="tAV">"xs:int"</span><span class="tEl">&gt;</span><span class="tI">
-      </span><span class="tEl">&lt;xs:minInclusive</span><span class="tAN"> value=</span><span class="tAV">"1"</span><span class="tEl">/&gt;</span><span class="tI">
+      </span><span class="tEl">&lt;xs:minInclusive</span><span class="tAN"> value=</span><span class="tAV">"0"</span><span class="tEl">/&gt;</span><span class="tI">
       </span><span class="tEl">&lt;xs:maxInclusive</span><span class="tAN"> value=</span><span class="tAV">"100"</span><span class="tEl">/&gt;</span><span class="tI">
     </span><span class="tEl">&lt;/xs:restriction&gt;</span><span class="tI">
   </span><span class="tEl">&lt;/xs:simpleType&gt;</span><span class="tI">

@@ -305,8 +305,10 @@ var attributesBoxes= new Array('attributes_container.key.attributes');
                         </td>
                         <td>
                            <div id="annotations_container.key.attributes" style="display:block">
-                              <div class="annotation">Common attributes for all container components which are able to be accessed using
+                              <div class="annotation">
+                                 				Common attributes for all container components which are able to be accessed using
                                  a keyboard shourtcut.
+                                 			
                               </div>
                            </div>
                         </td>
@@ -321,10 +323,10 @@ var attributesBoxes= new Array('attributes_container.key.attributes');
                                  <area alt="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.tmp#container.attributes_id" href="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.html#container.attributes_id" coords="244,44,312,68" />
                                  <area alt="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.tmp#container.attributes_class" href="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.html#container.attributes_class" coords="244,108,319,132" />
                                  <area alt="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.tmp#container.attributes_hidden" href="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.html#container.attributes_hidden" coords="244,185,329,209" />
-                                 <area alt="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.tmp#container.attributes_track" href="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.html#container.attributes_track" coords="244,262,319,286" />
+                                 <area alt="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.tmp#container.attributes_track" href="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.html#container.attributes_track" coords="244,249,319,273" />
                                  <area alt="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.tmp#container.attributes" href="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.html#container.attributes" coords="233,3,407,29" />
-                                 <area alt="attributeGroups_common_xsd_Attribute_Group_ui_accesskey_attributes.tmp#accesskey.attributes_accessKey" href="attributeGroups_common_xsd_Attribute_Group_ui_accesskey_attributes.html#accesskey.attributes_accessKey" coords="244,420,347,444" />
-                                 <area alt="attributeGroups_common_xsd_Attribute_Group_ui_accesskey_attributes.tmp#accesskey.attributes" href="attributeGroups_common_xsd_Attribute_Group_ui_accesskey_attributes.html#accesskey.attributes" coords="233,379,410,405" /></map></div>
+                                 <area alt="attributeGroups_common_xsd_Attribute_Group_ui_accesskey_attributes.tmp#accesskey.attributes_accessKey" href="attributeGroups_common_xsd_Attribute_Group_ui_accesskey_attributes.html#accesskey.attributes_accessKey" coords="244,407,347,431" />
+                                 <area alt="attributeGroups_common_xsd_Attribute_Group_ui_accesskey_attributes.tmp#accesskey.attributes" href="attributeGroups_common_xsd_Attribute_Group_ui_accesskey_attributes.html#accesskey.attributes" coords="233,366,410,392" /></map></div>
                         </td>
                      </tr>
                      <tr>
@@ -355,6 +357,7 @@ var attributesBoxes= new Array('attributes_container.key.attributes');
                                     <tr>
                                        <th>QName</th>
                                        <th width="10%">Type</th>
+                                       <th width="10%">Default</th>
                                        <th width="5%">Use</th>
                                        <th>Annotation</th>
                                     </tr>
@@ -362,14 +365,18 @@ var attributesBoxes= new Array('attributes_container.key.attributes');
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_common_xsd_Attribute_Group_ui_accesskey_attributes.html#accesskey.attributes_accessKey" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component accessKey')">accessKey</a></b></td>
                                     <td>restriction of <b>xs:string</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Sets a single modified key access key for a control. This attribute should be used
-                                          with caution as: 
+                                       <div class="annotation">
+                                          					Sets a single modified key access key for a control. This attribute should be
+                                          used with caution as:
+                                          					
                                           <ul xmlns="">
                                              						
                                              <li>some user agents reserve some keys for internal use and do not expose them to the
-                                                client for use as access keys; and
+                                                client for
+                                                							use as access keys; and
                                              </li>
                                              						
                                              <li>some keys may clash or cause issues with use of various assistive technologies.</li>
@@ -382,33 +389,49 @@ var attributesBoxes= new Array('attributes_container.key.attributes');
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.html#container.attributes_class" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component class')">class</a></b></td>
                                     <td><b>xs:string</b></td>
+                                    <td></td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Provides the ability to pass an HTML class attribute onto the root output element.</div>
+                                       <div class="annotation">
+                                          					Provides the ability to pass an HTML class attribute onto the root output element.
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.html#container.attributes_hidden" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component hidden')">hidden</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">The component will be in a hidden state if "true". Not output if "false".</div>
+                                       <div class="annotation">
+                                          					The component will be in a hidden state if "true".
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.html#container.attributes_id" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component id')">id</a></b></td>
                                     <td><b>xs:ID</b></td>
+                                    <td></td>
                                     <td>required</td>
                                     <td>
-                                       <div class="annotation">The unique identifier for the component.</div>
+                                       <div class="annotation">
+                                          					The unique identifier for the component.
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                                  <tr>
                                     <td class="firstColumn"><b><a href="attributeGroups_container_xsd_Attribute_Group_ui_container_attributes.html#container.attributes_track" target="mainFrame" title="No namespace" onclick="updatePageTitle('Schema documentation for component track')">track</a></b></td>
                                     <td><b>xs:boolean</b></td>
+                                    <td>false</td>
                                     <td>optional</td>
                                     <td>
-                                       <div class="annotation">Indicates that the component should take part in web analytics tracking.</div>
+                                       <div class="annotation">
+                                          					Indicates that the component should take part in web analytics tracking.
+                                          				
+                                       </div>
                                     </td>
                                  </tr>
                               </table>
