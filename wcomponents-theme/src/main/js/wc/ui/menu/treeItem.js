@@ -52,7 +52,7 @@ define(["wc/dom/ariaAnalog",
 				var root, result = isAcceptableTarget(element, target);
 
 				if (tree && (root = tree.getRoot(target))) {
-					if (tree.isInVOpen(target)) {
+					if (tree.isInVOpen(target) || tree.isSubMenu(target) || tree.isRoot(target)) {
 						return false;
 					}
 
@@ -201,7 +201,6 @@ define(["wc/dom/ariaAnalog",
 			this.clickEvent = function($event) {
 				var target = $event.target, element;
 				if (!$event.defaultPrevented && (element = this.getActivableFromTarget(target)) && !shed.isDisabled(element)) {
-					opener = opener || new Widget("button", "wc_leaf");
 					if (isAcceptable(element, target)) {
 						this.activate(element, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
 					}

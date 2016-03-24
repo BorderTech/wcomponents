@@ -1762,7 +1762,13 @@ define(["wc/has",
 			return (this.isItem(element) && !this._isBranch(element));
 		};
 
-
+		/**
+		 * Test if an element is a "submenu" node of the current menu/tree type.
+		 * @function
+		 * @public
+		 * @param {Element} element The element to test
+		 * @returns {Boolean} true if element is a submenu and not the root.
+		 */
 		AbstractMenu.prototype.isSubMenu = function(element) {
 			if (!element) {
 				return null;
