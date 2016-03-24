@@ -2,7 +2,8 @@
 @import 'mixins-common';
 
 .wc_resize:before {
-	@include wc-icon($fa-var-hand-lizard-o);
+	@include wc-icon($fa-var-arrows-alt);
+	opacity: 0.5;
 }
 
 // This button selector is required to prevent styling a max/restore header bar
