@@ -51,6 +51,11 @@
 				<include name="*.*"/>
 			</fileset>
 		</copy>
+		<copy todir="${lib.tmp.src.dir}/getusermedia-js" overwrite="true">
+			<fileset dir="${basedir}/node_modules/getusermedia-js/dist">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
 		<copy file="${basedir}/node_modules/sprintf-js/src/sprintf.js" tofile="${lib.tmp.src.dir}/sprintf.js"/>
 		<copy todir="${lib.tmp.src.dir}/dojo" overwrite="true">
 			<fileset dir="${basedir}/node_modules/dojo">

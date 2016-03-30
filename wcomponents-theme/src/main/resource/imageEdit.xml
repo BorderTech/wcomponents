@@ -5,9 +5,7 @@
 		</div>
 	</div>
 	<div class="wc_img_cap wc-column" style="height: {{style.height}}px">
-		<div>
-			<video id="wc_img_video">{{message.novideo}}</video>
-		</div>
+		<div id="wc_img_video_container"></div>
 		<button title="{{message.snap}}" type="button" class="wc_btn_snap wc_btn_icon" name="snap"><span class="wc_off">{{action.snap}}</span></button>
 	</div>
 	<div class="wc_img_nocap wc-column">
@@ -23,8 +21,8 @@
 		</fieldset>
 		<fieldset>
 			<legend>{{heading.zoom}}</legend>
-			<button title="{{message.zoomIn}}" type="button" class="wc_btn_in wc_btn_icon" name="in"><span class="wc_off">{{action.zoomIn}}</span></button>
 			<button title="{{message.zoomOut}}" type="button" class="wc_btn_out wc_btn_icon" name="out"><span class="wc_off">{{action.zoomOut}}</span></button>
+			<button title="{{message.zoomIn}}" type="button" class="wc_btn_in wc_btn_icon" name="in"><span class="wc_off">{{action.zoomIn}}</span></button>
 			{{#feature.face}}
 			<button title="{{message.face}}" type="button" class="wc_btn_face wc_btn_icon" name="face"><span class="wc_off">{{action.face}}</span></button>
 			{{/feature.face}}
