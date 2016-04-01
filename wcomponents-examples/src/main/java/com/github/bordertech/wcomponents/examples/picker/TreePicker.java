@@ -11,6 +11,7 @@ import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WSkipLinks;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.layout.CellAlignment;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.layout.ListLayout;
 import com.github.bordertech.wcomponents.util.Util;
@@ -72,7 +73,7 @@ public class TreePicker extends WPanel implements MessageContainer {
 	/**
 	 * column allignment.
 	 */
-	private static final ColumnLayout.Alignment[] COL_ALIGN = {ColumnLayout.Alignment.LEFT, ColumnLayout.Alignment.LEFT};
+	private static final CellAlignment[] COL_ALIGN = {CellAlignment.LEFT, CellAlignment.LEFT};
 	/**
 	 * column hgap.
 	 */
@@ -91,7 +92,7 @@ public class TreePicker extends WPanel implements MessageContainer {
 		/* The utility bar contains the example selector and a bunch of buttons */
 		WPanel utilityBar = new WPanel();
 		headerPanel.add(utilityBar);
-		utilityBar.setLayout(new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.RIGHT,
+		utilityBar.setLayout(new ListLayout(ListLayout.Type.FLAT, CellAlignment.RIGHT,
 				ListLayout.Separator.NONE, false, COL_HGAP, 0));
 
 		// Add an image for the banner

@@ -2,8 +2,8 @@ package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.layout.CellAlignment;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
-import com.github.bordertech.wcomponents.layout.ColumnLayout.Alignment;
 import java.io.IOException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
@@ -29,7 +29,7 @@ public class ColumnLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testDoRender() throws IOException, SAXException, XpathException {
 		final int[] cols = new int[]{1, 100};
-		final Alignment[] aligns = new Alignment[]{Alignment.RIGHT, Alignment.CENTER};
+		final CellAlignment[] aligns = new CellAlignment[]{CellAlignment.RIGHT, CellAlignment.CENTER};
 
 		final String text1 = "ColumnRenderer_Test.testPaint.text1";
 		final String text2 = "ColumnRenderer_Test.testPaint.text2";
@@ -71,7 +71,7 @@ public class ColumnLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("1", "//ui:panel/ui:columnLayout/@hgap", container);
 		assertXpathEvaluatesTo("2", "//ui:panel/ui:columnLayout/@vgap", container);
 
-		// Test Alignment
+		// Test CellAlignment
 		container.setLayout(new ColumnLayout(cols, aligns));
 		assertSchemaMatch(container);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:columnLayout/@hgap", container);
@@ -79,7 +79,7 @@ public class ColumnLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("right", "//ui:panel/ui:columnLayout/ui:column[1]/@align", container);
 		assertXpathEvaluatesTo("center", "//ui:panel/ui:columnLayout/ui:column[2]/@align", container);
 
-		// Test Alignment, hgap, vgap
+		// Test CellAlignment, hgap, vgap
 		container.setLayout(new ColumnLayout(cols, aligns, 1, 2));
 		assertSchemaMatch(container);
 		assertXpathEvaluatesTo("1", "//ui:panel/ui:columnLayout/@hgap", container);

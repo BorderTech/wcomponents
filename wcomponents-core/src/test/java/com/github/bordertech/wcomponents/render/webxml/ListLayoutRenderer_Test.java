@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.layout.CellAlignment;
 import com.github.bordertech.wcomponents.layout.ListLayout;
 import java.io.IOException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -19,7 +20,7 @@ public class ListLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testDoRenderWhenEmpty() throws IOException, SAXException, XpathException {
 		WPanel panel = new WPanel();
-		panel.setLayout(new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.LEFT,
+		panel.setLayout(new ListLayout(ListLayout.Type.FLAT, CellAlignment.LEFT,
 				ListLayout.Separator.NONE, false));
 		assertSchemaMatch(panel);
 
@@ -32,7 +33,7 @@ public class ListLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:panel/ui:listLayout/@ordered", panel);
 		assertXpathEvaluatesTo("flat", "//ui:panel/ui:listLayout/@type", panel);
 
-		panel.setLayout(new ListLayout(ListLayout.Type.STRIPED, ListLayout.Alignment.CENTER,
+		panel.setLayout(new ListLayout(ListLayout.Type.STRIPED, CellAlignment.CENTER,
 				ListLayout.Separator.NONE, false));
 		assertXpathEvaluatesTo("striped", "//ui:panel/ui:listLayout/@type", panel);
 		assertXpathEvaluatesTo("center", "//ui:panel/ui:listLayout/@align", panel);
@@ -42,7 +43,7 @@ public class ListLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:panel/ui:listLayout/@separator", panel);
 		assertXpathNotExists("//ui:panel/ui:listLayout/@ordered", panel);
 
-		panel.setLayout(new ListLayout(ListLayout.Type.STACKED, ListLayout.Alignment.RIGHT,
+		panel.setLayout(new ListLayout(ListLayout.Type.STACKED, CellAlignment.RIGHT,
 				ListLayout.Separator.NONE, false, 1, 2));
 		assertXpathEvaluatesTo("stacked", "//ui:panel/ui:listLayout/@type", panel);
 		assertXpathEvaluatesTo("right", "//ui:panel/ui:listLayout/@align", panel);
@@ -59,7 +60,7 @@ public class ListLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		final String text2 = "FlowRenderer_Test.testPaint.text2";
 
 		WPanel panel = new WPanel();
-		panel.setLayout(new ListLayout(ListLayout.Type.STRIPED, ListLayout.Alignment.LEFT,
+		panel.setLayout(new ListLayout(ListLayout.Type.STRIPED, CellAlignment.LEFT,
 				ListLayout.Separator.DOT, true, 3, 4));
 		assertSchemaMatch(panel);
 

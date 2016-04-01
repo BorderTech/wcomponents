@@ -13,6 +13,7 @@ import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WNumberField;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.layout.CellAlignment;
 import com.github.bordertech.wcomponents.layout.ListLayout;
 import java.math.BigDecimal;
 
@@ -35,7 +36,7 @@ public class ListLayoutOptionExample extends WContainer {
 	public ListLayoutOptionExample() {
 
 		final WPanel panel = new WPanel();
-		panel.setLayout(new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.CENTER, ListLayout.Separator.BAR, false, 0, 0));
+		panel.setLayout(new ListLayout(ListLayout.Type.FLAT, CellAlignment.CENTER, ListLayout.Separator.BAR, false, 0, 0));
 
 		final WDropdown wdPanelType = new WDropdown();
 		wdPanelType.setOptions(WPanel.Type.values());
@@ -46,8 +47,8 @@ public class ListLayoutOptionExample extends WContainer {
 		wdListLayoutType.setSelected(ListLayout.Type.FLAT);
 
 		final WDropdown wdListLayoutAlignment = new WDropdown();
-		wdListLayoutAlignment.setOptions(ListLayout.Alignment.values());
-		wdListLayoutAlignment.setSelected(ListLayout.Alignment.CENTER);
+		wdListLayoutAlignment.setOptions(CellAlignment.values());
+		wdListLayoutAlignment.setSelected(CellAlignment.CENTER);
 
 		final WDropdown wdListLayoutSeparator = new WDropdown();
 		wdListLayoutSeparator.setOptions(ListLayout.Separator.values());
@@ -80,7 +81,7 @@ public class ListLayoutOptionExample extends WContainer {
 			public void execute(final ActionEvent event) {
 				panel.setType((WPanel.Type) wdPanelType.getSelected());
 				int gap = wnfGap.getValue() == null ? 0 : wnfGap.getValue().intValue();
-				panel.setLayout(new ListLayout((ListLayout.Type) wdListLayoutType.getSelected(), (ListLayout.Alignment) wdListLayoutAlignment.getSelected(), (ListLayout.Separator) wdListLayoutSeparator.getSelected(), wcIsOrdered.isSelected(), gap, gap));
+				panel.setLayout(new ListLayout((ListLayout.Type) wdListLayoutType.getSelected(), (CellAlignment) wdListLayoutAlignment.getSelected(), (ListLayout.Separator) wdListLayoutSeparator.getSelected(), wcIsOrdered.isSelected(), gap, gap));
 
 			}
 		});

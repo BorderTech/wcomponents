@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
-import com.github.bordertech.wcomponents.layout.ColumnLayout.Alignment;
+import com.github.bordertech.wcomponents.layout.CellAlignment;
 
 /**
  * Example showing how to use the {@link ColumnLayout} component.
@@ -111,7 +111,7 @@ public class ColumnLayoutExample extends WContainer {
 		add(new WHeading(HeadingLevel.H2, "Column Alignments: Left, Center, Right"));
 		WPanel panel = new WPanel();
 		panel.setLayout(new ColumnLayout(new int[]{33, 33, 33},
-				new Alignment[]{Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT}));
+				new CellAlignment[]{CellAlignment.LEFT, CellAlignment.CENTER, CellAlignment.RIGHT}));
 		add(panel);
 		panel.add(new BoxComponent("Left"));
 		panel.add(new BoxComponent("Center"));
@@ -127,7 +127,7 @@ public class ColumnLayoutExample extends WContainer {
 		add(new ExplanatoryText("This example shows what happens if you use undefined (0) column width and do not then define them in CSS."));
 		WPanel panel = new WPanel();
 		panel.setLayout(new ColumnLayout(new int[]{0, 0, 0},
-				new Alignment[]{Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT}));
+				new CellAlignment[]{CellAlignment.LEFT, CellAlignment.CENTER, CellAlignment.RIGHT}));
 		add(panel);
 		panel.add(new BoxComponent("Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."));
 		panel.add(new BoxComponent("Praesent eu turpis convallis, fringilla elit nec, ullamcorper purus. Proin dictum ac nunc rhoncus fringilla. Pellentesque habitant morbi tristique senectus et netus et malesuada fames."));
@@ -149,7 +149,7 @@ public class ColumnLayoutExample extends WContainer {
 		WPanel panel = new WPanel();
 		panel.setHtmlClass(htmlClass);
 		panel.setLayout(new ColumnLayout(new int[]{0, 0, 0},
-				new Alignment[]{Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT}));
+				new CellAlignment[]{CellAlignment.LEFT, CellAlignment.CENTER, CellAlignment.RIGHT}));
 		add(panel);
 		panel.add(new BoxComponent("Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."));
 		panel.add(new BoxComponent("Praesent eu turpis convallis, fringilla elit nec, ullamcorper purus. Proin dictum ac nunc rhoncus fringilla. Pellentesque habitant morbi tristique senectus et netus et malesuada fames."));

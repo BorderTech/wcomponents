@@ -12,31 +12,87 @@ public class ColumnLayout implements LayoutManager {
 
 	/**
 	 * An enumeration of possible values for horizontal alignment of column content.
+	 *
+	 * @deprecated Use {@link com.github.bordertech.wcomponents.layout.CellAlignment}
+	 *             instead of {@link com.github.bordertech.wcomponents.layout.ColumnLayout.Alignment}.
 	 */
 	public enum Alignment {
 		/**
 		 * Indicates that content should be left-aligned. This is the default alignment.
 		 */
-		LEFT,
+		LEFT(CellAlignment.LEFT),
 		/**
 		 * Indicates that content should be horizontally centered in the column.
 		 */
-		CENTER,
+		CENTER(CellAlignment.CENTER),
 		/**
 		 * Indicates that content should be right-aligned.
 		 */
-		RIGHT
+		RIGHT(CellAlignment.RIGHT);
+
+		/**
+		 * Alignment constructor.
+		 *
+		 * @param cellAlignment the corresponding {@link CellAlignment}
+		 */
+		Alignment(final CellAlignment cellAlignment) {
+			this.cellAlignment = cellAlignment;
+		}
+
+		/**
+		 * The {@link CellAlignment} that corresponds to this {@link Alignment}.
+		 */
+		private final CellAlignment cellAlignment;
+
+		/**
+		 * Converts an array of {@link Alignment}s to an array of {@link CellAlignment}s.
+		 * @param alignments the array of {@link Alignment}s to convert.
+		 * @return cellAlignments an array of {@link CellAlignment}s corresponding
+		 *         to the passed in {@link Alignment} values
+		 */
+		private static CellAlignment[] toCellAlignments(final Alignment[] alignments) {
+
+			final CellAlignment[] cellAlignemnts = new CellAlignment[alignments.length];
+
+			for (int i = 0; i < alignments.length; i++) {
+				cellAlignemnts[i] = alignments[i].toCellAlignment();
+			}
+
+			return cellAlignemnts;
+		}
+
+		/**
+		 * Converts a {@link CellAlignment} to an {@link Alignment}.
+		 *
+		 * @param cellAlignment the {@link CellAlignment} to convert from.
+		 * @return alignment the converted {@link Alignment} value.
+		 */
+		private static Alignment fromCellAlignment(final CellAlignment cellAlignment) {
+			switch (cellAlignment) {
+				case LEFT: return Alignment.LEFT;
+				case CENTER: return Alignment.CENTER;
+				case RIGHT: return Alignment.RIGHT;
+				default: return null;
+			}
+		}
+
+		/**
+		 * Converts this {@link Alignment} to a {@link CellAlignment}.
+		 * @return the converted {@link CellAlignment} value.
+		 */
+		private CellAlignment toCellAlignment() {
+			return this.cellAlignment;
+		}
 	}
 
-	/**
-	 * The column widths.
+	/** The column widths.
 	 */
 	private final int[] columnWidths;
 
 	/**
 	 * The column alignments.
 	 */
-	private final Alignment[] columnAlignments;
+	private final CellAlignment[] columnAlignments;
 
 	/**
 	 * The horizontal gap between the columns, measured in pixels.
@@ -56,7 +112,7 @@ public class ColumnLayout implements LayoutManager {
 	 * @param columnWidths the column widths, in percent units, 0 for undefined.
 	 */
 	public ColumnLayout(final int[] columnWidths) {
-		this(columnWidths, null, 0, 0);
+		this(columnWidths, (CellAlignment[]) null, 0, 0);
 	}
 
 	/**
@@ -65,8 +121,20 @@ public class ColumnLayout implements LayoutManager {
 	 * @param columnWidths the column widths, in percent units, 0 for undefined.
 	 * @param columnAlignments the column alignments
 	 */
-	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments) {
+	public ColumnLayout(final int[] columnWidths, final CellAlignment[] columnAlignments) {
 		this(columnWidths, columnAlignments, 0, 0);
+	}
+
+	/**
+	 * Creates a ColumnLayout with the specified percentage column widths and column alignments.
+	 *
+	 * @param columnWidths the column widths, in percent units.
+	 * @param columnAlignments the column alignments
+	 *
+	 * @deprecated Use {@link ColumnLayout(int[], CellAlignment[])} instead.
+	 */
+	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments) {
+		this(columnWidths, Alignment.toCellAlignments(columnAlignments), 0, 0);
 	}
 
 	/**
@@ -77,7 +145,7 @@ public class ColumnLayout implements LayoutManager {
 	 * @param vgap the vertical gap between the rows, measured in pixels.
 	 */
 	public ColumnLayout(final int[] columnWidths, final int hgap, final int vgap) {
-		this(columnWidths, null, hgap, vgap);
+		this(columnWidths, (CellAlignment[]) null, hgap, vgap);
 	}
 
 	/**
@@ -87,8 +155,24 @@ public class ColumnLayout implements LayoutManager {
 	 * @param columnAlignments the column alignments
 	 * @param hgap the horizontal gap between the columns, measured in pixels.
 	 * @param vgap the vertical gap between the rows, measured in pixels.
+	 *
+	 * @deprecated Use {@link com.github.bordertech.wcomponents.layout.CellAlignment}
+	 *             instead of {@link com.github.bordertech.wcomponents.layout.ColumnLayout.Alignment}.
 	 */
 	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments, final int hgap,
+			final int vgap) {
+		this(columnWidths, Alignment.toCellAlignments(columnAlignments), hgap, vgap);
+	}
+
+	/**
+	 * Creates a ColumnLayout with the specified percentage column widths.
+	 *
+	 * @param columnWidths the column widths, in percent units.
+	 * @param columnAlignments the column alignments
+	 * @param hgap the horizontal gap between the columns, measured in pixels.
+	 * @param vgap the vertical gap between the rows, measured in pixels.
+	 */
+	public ColumnLayout(final int[] columnWidths, final CellAlignment[] columnAlignments, final int hgap,
 			final int vgap) {
 		if (columnWidths == null || columnWidths.length == 0) {
 			throw new IllegalArgumentException("ColumnWidths must be provided");
@@ -116,13 +200,13 @@ public class ColumnLayout implements LayoutManager {
 		}
 
 		this.columnWidths = columnWidths;
-		this.columnAlignments = new Alignment[columnWidths.length];
+		this.columnAlignments = new CellAlignment[columnWidths.length];
 
 		if (columnAlignments == null) {
-			Arrays.fill(this.columnAlignments, Alignment.LEFT);
+			Arrays.fill(this.columnAlignments, CellAlignment.LEFT);
 		} else {
 			for (int i = 0; i < columnAlignments.length; i++) {
-				this.columnAlignments[i] = columnAlignments[i] == null ? Alignment.LEFT : columnAlignments[i];
+				this.columnAlignments[i] = columnAlignments[i] == null ? CellAlignment.LEFT : columnAlignments[i];
 			}
 		}
 
@@ -135,9 +219,21 @@ public class ColumnLayout implements LayoutManager {
 	 *
 	 * @param col the index of the column to set the alignment of.
 	 * @param alignment the alignment to set.
+	 *
+	 * @deprecated Use {@link ColumnLayout#setCellAlignment(int, CellAlignment)} instead.
 	 */
 	public void setAlignment(final int col, final Alignment alignment) {
-		columnAlignments[col] = alignment == null ? Alignment.LEFT : alignment;
+		setCellAlignment(col, alignment.toCellAlignment());
+	}
+
+	/**
+	 * Sets the alignment of the given column. An IndexOutOfBoundsException will be thrown if col is out of bounds.
+	 *
+	 * @param col the index of the column to set the alignment of.
+	 * @param alignment the alignment to set.
+	 */
+	public void setCellAlignment(final int col, final CellAlignment alignment) {
+		columnAlignments[col] = alignment == null ? CellAlignment.LEFT : alignment;
 	}
 
 	/**
@@ -166,8 +262,18 @@ public class ColumnLayout implements LayoutManager {
 	 * @param columnIndex the index of the column to retrieve the alignment for.
 	 * @return the alignment of the given column.
 	 */
-	public Alignment getColumnAlignment(final int columnIndex) {
+	public CellAlignment getColumnCellAlignment(final int columnIndex) {
 		return columnAlignments[columnIndex];
+	}
+
+	/**
+	 * @param columnIndex the index of the column to retrieve the alignment for.
+	 * @return the alignment of the given column.
+	 *
+	 * @deprecated Use {@link ColumnLayout#getColumnCellAlignment(int)} instead.
+	 */
+	public Alignment getColumnAlignment(final int columnIndex) {
+		return Alignment.fromCellAlignment(getColumnCellAlignment(columnIndex));
 	}
 
 	/**

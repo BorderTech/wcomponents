@@ -12,6 +12,7 @@ import com.github.bordertech.wcomponents.WDataTable.SortMode;
 import com.github.bordertech.wcomponents.WTableColumn;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.layout.CellAlignment;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.io.IOException;
 import java.util.Arrays;
@@ -467,9 +468,9 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		table.addColumn(new WTableColumn(COL2_HEADING_TEST, WTextField.class));
 		table.addColumn(new WTableColumn(COL3_HEADING_TEST, WTextField.class));
 
-		table.getColumn(0).setAlign(WTableColumn.Alignment.LEFT);
-		table.getColumn(1).setAlign(WTableColumn.Alignment.CENTER);
-		table.getColumn(2).setAlign(WTableColumn.Alignment.RIGHT);
+		table.getColumn(0).setCellAlignment(CellAlignment.LEFT);
+		table.getColumn(1).setCellAlignment(CellAlignment.CENTER);
+		table.getColumn(2).setCellAlignment(CellAlignment.RIGHT);
 
 		TableDataModel tableModel = createTableModel();
 		table.setDataModel(tableModel);
