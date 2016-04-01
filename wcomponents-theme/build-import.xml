@@ -174,7 +174,8 @@
 				<include name="**/*.css"/>
 				<include name="**/*.xsl"/>
 				<include name="**/*.xml"/>
-				<contains text="${"/><!-- this would be much better as a regex-->
+				<containsregexp expression="\$\{[^\}]+\}"/>
+				<!--<contains text="${"/> this would be much better as a regex-->
 			</fileset>
 		</path>
 		<property name="unexpanded" refid="unexpanded.properties"/>
