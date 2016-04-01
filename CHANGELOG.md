@@ -1,8 +1,13 @@
 # Change log
 
-## API Changes
+# Release 1.0.5
 
-## Enhancements
+## Major Bug fixes
+For all bug fixes see [GitHub Issues](https://github.com/BorderTech/wcomponents/issues?q=is%3Aissue+is%3Aclosed+label%3Abug)
+
+* Fixed a bug which would prevent AJAX triggers from working in dialogs (#457).
+
+# Release 1.0.4
 
 ## Major Bug fixes
 For all bug fixes see [GitHub Issues](https://github.com/BorderTech/wcomponents/issues?q=is%3Aissue+is%3Aclosed+label%3Abug)
