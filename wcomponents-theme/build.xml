@@ -435,6 +435,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 			<stopwatch name="@{antFile}" action="start"/>
 			<ant antfile="${theme.core.dir}/@{antFile}" inheritAll="false" target="@{target}">
 				<property name="component.rootdir" location="${theme.core.dir}"/>
+				<property name="maven.plugin.classpath" value="${maven.plugin.classpath}"/>
 				<property name="basedir" location="${basedir}"/>
 				<property name="tmp.dir" location="${theme.tmp.dir}"/>
 				<property name="build.number" value="${project.version}"/>
