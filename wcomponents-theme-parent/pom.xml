@@ -168,6 +168,7 @@
 								<property name="build.number" value="${project.version}" />
 								<property name="build.rootdir" location="${theme.target.dir}" />
 								<property name="theme.skip.tests" value="true" />
+								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="build" />
 								</ant>
@@ -192,6 +193,7 @@
 								<property name="build.number" value="${project.version}" />
 								<property name="build.rootdir" location="${theme.target.dir}" />
 								<property name="theme.skip.tests" value="${skipOptionalTests}" />
+								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
 								<!--<property name="theme.skip.tests" value="${skipOptionalTests}" />-->
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="test" />
@@ -216,6 +218,7 @@
 								<property name="build.number" value="${project.version}" />
 								<property name="build.rootdir" location="${theme.target.dir}" />
 								<property name="theme.skip.tests" value="true" />
+								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="document" />
 								</ant>
@@ -227,6 +230,11 @@
 					</execution>
 				</executions>
 				<dependencies>
+					<dependency>
+						<groupId>com.vaadin</groupId>
+						<artifactId>vaadin-sass-compiler</artifactId>
+						<version>0.9.13</version>
+					</dependency>
 					<dependency>
 						<groupId>com.cathive.sass</groupId>
 						<artifactId>sass-java</artifactId>

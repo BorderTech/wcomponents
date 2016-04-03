@@ -120,6 +120,37 @@
 	</target>
 
 	<!--
+		Vaadin Sass Compiler is a pure Java Sass compiler.
+		It would be great if it worked but it does not support quite a few syntax features found in native Sass.
+		It would also be nice if we could point at source and dest directories rather than files.
+		A native Ant task would also be preferable.
+		I'm leaving this is place so that we can test newer versions as they come and hopefully switch to it later.
+	-->
+	<target name="compileScssVaadin">
+		<stopwatch name="compileScss" action="start" />
+		<foreach target="compileScssFileVaadin" param="scss.file">
+			<fileset dir="${sass.tmp.src.dir}">
+				<include name="*.scss"/>
+			</fileset>
+		</foreach>
+		<stopwatch name="compileScss" action="total" />
+	</target>
+
+	<!-- Helper for compileScssVaadin -->
+	<target name="compileScssFileVaadin">
+		<var name="scss.file.name" unset="true"/>
+		<basename property="scss.file.name" file="${scss.file}"/>
+		<echo>Compiling ${scss.file.name}</echo>
+		<java classname="com.vaadin.sass.SassCompiler" fork="true" failonerror="true">
+			<classpath>
+				<path refid="project.class.path"/>
+			</classpath>
+			<arg value="${scss.file}"/>
+			<arg value="${style.tmp.src.dir}/${scss.file.name}"/>
+		</java>
+	</target>
+
+	<!--
 		Make CSS out of SCSS.
 		While we'd like to use a true NodeJS module for this none-sass isn't it: it's a wrapper around
 		the native sass binaries which must be downloaded from the web for the build platform. All sorts
