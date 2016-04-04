@@ -7,32 +7,31 @@
 // WLink (incl WInternalLink, WContentLink)
 
 // Images in buttons and links are placed in a container so they can be positioned
-.wc_btn_img {
-	&n,
-	&s {
-		// Links with north/south images must be inline-block and centered.
-		display: inline-block;
-		text-align: center;
 
-		> img {
-			display: block;
-			margin: 0 auto;
-		}
-	}
+.wc_btn_imgn,
+.wc_btn_imgs {
+	// Links with north/south images must be inline-block and centered.
+	display: inline-block;
+	text-align: center;
 
-	&n > img {
-		@include margin(bottom);
+	> img {
+		display: block;
+		margin: 0 auto;
 	}
+}
 
-	&s > img {
-		@include margin(top);
-	}
+.wc_btn_imgn > img {
+	@include margin(bottom);
+}
 
-	&e > img {
-		@include margin(left);
-	}
+.wc_btn_imgs > img {
+	@include margin(top);
+}
 
-	&w > img {
-		@include margin(right);
-	}
+.wc_btn_imge > img {
+	@include margin(left);
+}
+
+.wc_btn_imgw > img {
+	@include margin(right);
 }

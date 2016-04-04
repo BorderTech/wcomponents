@@ -58,5 +58,7 @@ ul.wc-fieldlayout {
 }
 
 @include respond($size: 'not-small') {
-	@include wc-fld-layout-flat;
+	.flat > .wc-field {
+		@extend %wc-fld-layout-flat;
+	}
 }

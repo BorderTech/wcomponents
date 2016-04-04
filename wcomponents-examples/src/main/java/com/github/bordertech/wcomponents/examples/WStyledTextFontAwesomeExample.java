@@ -56,7 +56,7 @@ public class WStyledTextFontAwesomeExample extends WPanel {
 
 		text = new WStyledText("5x");
 		add(text);
-		text.setHtmlClass("fa fa-fort-awesome fa-5x");
+		text.setHtmlClass("fa fa-fort-awesome fa-500px fa-5x");
 
 		add(new WHeading(HeadingLevel.H2, "Animated icon"));
 
