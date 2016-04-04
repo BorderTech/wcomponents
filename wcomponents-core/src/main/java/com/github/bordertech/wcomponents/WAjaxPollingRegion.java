@@ -1,7 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * A "polling" AJAX control.
+ * A specific purpose implementation of {@link WAjaxControl} which provides a self-targeting "polling" control. This
+ * is used to make recurring AJAX requests to the server. The "polling" may be turned on and off using public methods.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -9,7 +10,7 @@ package com.github.bordertech.wcomponents;
 public class WAjaxPollingRegion extends WPanel {
 
 	/**
-	 * The ajax control to perform polling.
+	 * The {@link WAjaxControl} control to perform polling.
 	 */
 	private final WAjaxControl control;
 
