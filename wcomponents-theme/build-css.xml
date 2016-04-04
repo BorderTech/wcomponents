@@ -19,7 +19,7 @@
 	<property name="impl.sass.rootdir" location="${impl.src.main.dir}/sass" />
 	<property name="sass.tmp.src.dir" location="${tmp.dir}/sass" />
 
-	<target name="build" depends="init, copyCssSrc, compileScss, initExcludes, buildCss, minify" description="Builds CSS artifacts then minifies them"> </target>
+	<target name="build" depends="init, copyCssSrc, compileScssVaadin, initExcludes, buildCss, minify" description="Builds CSS artifacts then minifies them"> </target>
 
 	<target name="minify" unless="minifiy.resources.off" depends="imagesToDataUrl">
 		<stopwatch name="minifyCss" action="start" />
@@ -139,14 +139,15 @@
 	<!-- Helper for compileScssVaadin -->
 	<target name="compileScssFileVaadin">
 		<var name="scss.file.name" unset="true"/>
-		<basename property="scss.file.name" file="${scss.file}"/>
+		<basename property="scss.file.name" file="${scss.file}" suffix="scss"/>
 		<echo>Compiling ${scss.file.name}</echo>
 		<java classname="com.vaadin.sass.SassCompiler" fork="true" failonerror="true">
 			<classpath>
 				<path refid="project.class.path"/>
 			</classpath>
 			<arg value="${scss.file}"/>
-			<arg value="${style.tmp.src.dir}/${scss.file.name}"/>
+			<arg value="${style.tmp.src.dir}/${scss.file.name}.css"/>
+			<arg value="-urlMode:absolute"/>
 		</java>
 	</target>
 

@@ -2,7 +2,9 @@
 @import 'fieldLayout-mixins';
 
 // Flat is the most common use, but shouldn't be (due to a11y concerns which are not covered by WCAG 2.0)
-@include wc-fld-layout-flat;
+.flat > .wc-field {
+	@extend %wc-fld-layout-flat;
+}
 
 // @for $i from 1 through 100 {
 // 	$wc-fld-lblw: $i * 1%;
