@@ -230,11 +230,11 @@
 					</execution>
 				</executions>
 				<dependencies>
-<!--					<dependency>
-						<groupId>com.cathive.sass</groupId>
-						<artifactId>sass-java</artifactId>
-						<version>4.0.0</version>
-					</dependency>-->
+					<dependency>
+						<groupId>com.github.bordertech.wcomponents</groupId>
+						<artifactId>wcomponents-sass-compiler</artifactId>
+						<version>1.0.0</version>
+					</dependency>
 					<dependency>
 						<groupId>ant-contrib</groupId>
 						<artifactId>ant-contrib</artifactId>
@@ -285,11 +285,6 @@
 						<groupId>com.github.ricksbrown</groupId>
 						<artifactId>xslmin</artifactId>
 						<version>2.3.0</version>
-					</dependency>
-					<dependency>
-						<groupId>com.github.bordertech.wcomponents</groupId>
-						<artifactId>wcomponents-sass-compiler</artifactId>
-						<version>1.0.0</version>
 					</dependency>
 				</dependencies>
 			</plugin>
