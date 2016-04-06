@@ -34,12 +34,12 @@
 			</xsl:if>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:call-template name="ajaxTarget"/>
+			<xsl:variable name="mediaId" select="concat(@id, '-media')"/>
+			
 			<xsl:element name="{$elementType}">
-				<xsl:if test="@autoplay and not(@controls='none')"><!-- this is to avoid problems caused by not being able to switch off the media -->
-					<xsl:attribute name="autoplay">
-						<xsl:value-of select="@autoplay"/>
-					</xsl:attribute>
-				</xsl:if>
+				<xsl:attribute name="id">
+					<xsl:value-of select="$mediaId"/>
+				</xsl:attribute>
 				<xsl:attribute name="preload">
 					<xsl:choose>
 						<xsl:when test="@preload">
@@ -50,6 +50,11 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
+				<xsl:if test="@autoplay and not(@controls='none')"><!-- this is to avoid problems caused by not being able to switch off the media -->
+					<xsl:attribute name="autoplay">
+						<xsl:value-of select="@autoplay"/>
+					</xsl:attribute>
+				</xsl:if>
 				<xsl:if test="@mediagroup">
 					<xsl:attribute name="mediagroup">
 						<xsl:value-of select="@mediagroup"/>
@@ -101,6 +106,13 @@
 				<xsl:apply-templates select="ui:track"/>
 				<xsl:call-template name="mediaUnsupportedContent"/>
 			</xsl:element>
+			<xsl:if test="@controls='play'">
+				<button type="button" class="wc_btn_icon wc_av_play" aria-pressed="false" aria-controls="{$mediaId}">
+					<span class="wc_off">
+						<xsl:value-of select="$$${wc.ui.media.i18n.play}"/>
+					</span>
+				</button>
+			</xsl:if>
 		</span>
 	</xsl:template>
 </xsl:stylesheet>

@@ -10,3 +10,7 @@
 		margin-left: $hgap-normal;
 	}
 }
+
+video ~ .wc_av_play {
+	display: block;
+}
