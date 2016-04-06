@@ -1,10 +1,20 @@
 # Change log
 
 ## API Changes
+* WAudio and WVideo Controls.ALL, and Controls.DEFAULT have been **deprecated** as they no have no impact on the
+  controls (#503);
+* WAudio and WVideo Controls.NONE have been **deprecated** as they are not compatible with WCAG requirements that media
+  be able to be turned off. These were always incompatible with autoplay to prevent a11y failure. This means that any
+  media component with Controls.NONE has never been able to work and **will never** be able to work (#503).
 
 ## Enhancements
+* Re-instated client side support for disabled state in WAudio and WVideo but this only applies when Controls.PLAY_PAUSE
+  is used as there is no native disabled support in audio or video elements. The play/pause button **will not** be
+  disabled if autoplay is set as this causes an a11y failure.
 
 ## Major Bug fixes
+* Worked around an issue which prevented Sass from compiling on Linux with glibc below v13 and a related issue which
+  prevented Sass from compiling correctly on Windows (#494).
 
 # Release 1.1.0
 

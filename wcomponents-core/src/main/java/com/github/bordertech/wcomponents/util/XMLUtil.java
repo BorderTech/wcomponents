@@ -28,6 +28,7 @@ public final class XMLUtil {
 
 	/**
 	 * Doc Type to support nbsp.
+	 * @deprecated Make your XML be XML compliant!
 	 */
 	public static final String DOC_TYPE = "<!DOCTYPE validate [<!ENTITY nbsp \"&#160;\">]>";
 

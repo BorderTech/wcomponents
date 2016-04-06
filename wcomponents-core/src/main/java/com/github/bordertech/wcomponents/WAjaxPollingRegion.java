@@ -1,8 +1,16 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * A specific purpose implementation of {@link WAjaxControl} which provides a self-targeting "polling" control. This
- * is used to make recurring AJAX requests to the server. The "polling" may be turned on and off using public methods.
+ * A specific purpose implementation of {@link WPanel} which provides a self-targeting "polling" control using
+ * {@link WAjaxControl}. This is used to make recurring AJAX requests to the server until it is disabled.
+ *
+ * <p>
+ * <strong>NOTE:</strong>
+ * The polling region is a {@link WPanel} so can have layout, margin and type set. This <em>may</em> lead to unwanted
+ * consequences as the first (and possibly only) content child of this WPanel will be a component with no UI artefact.
+ * </p>
+ *
+ * <p>This component may be considered harmful.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
