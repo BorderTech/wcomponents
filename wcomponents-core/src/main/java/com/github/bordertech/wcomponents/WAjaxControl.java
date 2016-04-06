@@ -11,7 +11,6 @@ import java.util.List;
  * will result in an AJAX request being made on the 'onChange' event of the trigger element. The implication oft his is
  * that an AJAX trigger component <em>should</em> have an Action attached (usually via setActionOnChanged).
  * </p>
- *
  * <p>
  * During an AJAX request the  whole UI tree is serviced in the action phase but only the 'target' components related
  * by this control will be painted in the response.
@@ -23,24 +22,24 @@ import java.util.List;
 public class WAjaxControl extends AbstractWComponent {
 
 	/**
-	 * The component, that onChange, will trigger the AJAX request.
+	 * The component that will trigger the AJAX request.
 	 */
 	private final AjaxTrigger trigger;
 
 	/**
-	 * Constructor. Set the trigger for the AJAX control.
+	 * Create a WAjaxControl with a specified trigger component.
 	 *
-	 * @param trigger The WComponent that will fire the AJAX request on change.
+	 * @param trigger the WComponent that will fire the AJAX request on change
 	 */
 	public WAjaxControl(final AjaxTrigger trigger) {
 		this.trigger = trigger;
 	}
 
 	/**
-	 * Constructor. Set the trigger and a target for the AJAX control.
+	 * Create a WAjaxControl with specified trigger and target components.
 	 *
-	 * @param trigger The WComponent that will fire the AJAX request on change.
-	 * @param target The WComponent to be re-painted as a result of the AJAX request.
+	 * @param trigger the WComponent that will fire the AJAX request on change
+	 * @param target the WComponent to be re-painted as a result of the AJAX request
 	 */
 	public WAjaxControl(final AjaxTrigger trigger, final AjaxTarget target) {
 		this(trigger);
@@ -51,10 +50,10 @@ public class WAjaxControl extends AbstractWComponent {
 	}
 
 	/**
-	 * Constructor. Set the trigger and multiple targets for the AJAX control.
+	 * Create a WAjaxControl with specified trigger component and an array of target components.
 	 *
-	 * @param trigger The WComponent that will fire the AJAX request on change.
-	 * @param targets The WComponents to be re-painted in the AJAX response.
+	 * @param trigger the WComponent that will fire the AJAX request on change
+	 * @param targets the WComponents to be re-painted in the AJAX response
 	 */
 	public WAjaxControl(final AjaxTrigger trigger, final AjaxTarget[] targets) {
 		this(trigger);
@@ -65,10 +64,10 @@ public class WAjaxControl extends AbstractWComponent {
 	}
 
 	/**
-	 * Constructor. Set the trigger and multiple targets for the AJAX control.
+	 * Create a WAjaxControl with specified trigger component and a List of target components.
 	 *
-	 * @param trigger The WComponent that will fire the AJAX request on change.
-	 * @param targets The WComponents to be re-painted in the AJAX responses.
+	 * @param trigger the WComponent that will fire the AJAX request on change
+	 * @param targets the WComponents to be re-painted in the AJAX responses
 	 */
 	public WAjaxControl(final AjaxTrigger trigger, final List<? extends AjaxTarget> targets) {
 		this(trigger);
@@ -76,19 +75,18 @@ public class WAjaxControl extends AbstractWComponent {
 	}
 
 	/**
-	 * Get the {@link WComponent} that on change will trigger the client to make the AJAX request.
+	 * Get the component that will trigger the client to make the AJAX request.
 	 *
-	 * @return The AJAX trigger.
+	 * @return the AJAX trigger
 	 */
 	public AjaxTrigger getTrigger() {
 		return this.trigger;
 	}
 
 	/**
-	 * Add an AJAX target for this control. When the AJAX request is triggered only the target components will be
-	 * re-painted.
+	 * Add an array of target components that should be targets for this AJAX request.
 	 *
-	 * @param targets The UI components to be repainted in the AJAX response.
+	 * @param targets the components to be repainted in the AJAX response
 	 */
 	public void addTargets(final AjaxTarget[] targets) {
 		if (targets != null) {
@@ -97,9 +95,9 @@ public class WAjaxControl extends AbstractWComponent {
 	}
 
 	/**
-	 * Add target regions that should be repainted for this AJAX request.
+	 * Add a list of target components that should be targets for this AJAX request.
 	 *
-	 * @param targets The components that will be repainted for the AJAX request.
+	 * @param targets the components that will be repainted for the AJAX request
 	 */
 	public void addTargets(final List<? extends AjaxTarget> targets) {
 		if (targets != null) {
@@ -114,9 +112,9 @@ public class WAjaxControl extends AbstractWComponent {
 	}
 
 	/**
-	 * Add a WComponent that will be repainted after the AJAX request has been handled.
+	 * Add a single target WComponent to this AJAX control.
 	 *
-	 * @param target A WComponent to be repainted.
+	 * @param target a WComponent to be repainted
 	 */
 	public void addTarget(final AjaxTarget target) {
 		AjaxControlModel model = getOrCreateComponentModel();
@@ -131,7 +129,7 @@ public class WAjaxControl extends AbstractWComponent {
 	/**
 	 * Flag to indicate the the AJAX trigger should be fired once only.
 	 *
-	 * @param loadOnce if <code>true</code> the target AJAX trigger only once for a page.
+	 * @param loadOnce if <code>true</code> the target AJAX trigger only once for each load of a page
 	 */
 	public void setLoadOnce(final boolean loadOnce) {
 		if (loadOnce) {
@@ -142,14 +140,20 @@ public class WAjaxControl extends AbstractWComponent {
 	}
 
 	/**
-	 * @return <code>true</code> if the trigger should be fired once only for the page.
+	 * @return <code>true</code> if the trigger should be fired once only for each load of a page
 	 */
 	public boolean isLoadOnce() {
 		return getComponentModel().loadCount == 1;
 	}
 
 	/**
+	 * <p>
 	 * Set how many times the trigger should fire on a page.
+	 * </p>
+	 * <p>
+	 * <strong>Note</strong> a loadCount &gt; 0 will result in a WAjaxControl which can <strong>only fire once per page
+	 * load</strong>. This method is under review (see https://github.com/BorderTech/wcomponents/issues/495).
+	 * </p>
 	 *
 	 * @param loadCount The trigger count for this AJAX control.
 	 */
@@ -158,6 +162,14 @@ public class WAjaxControl extends AbstractWComponent {
 	}
 
 	/**
+	 * <p>
+	 * Retrieve the number of times a trigger <em>may</em> be able to fire each time a page is loaded.
+	 * </p>
+	 * <p>
+	 * <strong>Note</strong> a loadCount &gt; 0 will result in a WAjaxControl which can <strong>only fire once per page
+	 * load</strong>. This method is under review (see https://github.com/BorderTech/wcomponents/issues/495).
+	 * </p>
+	 *
 	 * @return how many times that trigger can fire on any given page.
 	 */
 	public int getLoadCount() {
@@ -165,10 +177,15 @@ public class WAjaxControl extends AbstractWComponent {
 	}
 
 	/**
-	 * Get the target WComponents that will be repainted as a consequence of the AJAX request. An empty list is returned
-	 * if no targets have been defined.
+	 * <p>
+	 * Get the target WComponents that will be repainted as a consequence of the AJAX request.
+	 * </p>
+	 * <p>
+	 * When the AJAX request is triggered only the target component(s) will be re-painted. An empty list is returned if
+	 * no targets have been defined.
+	 * </p>
 	 *
-	 * @return The target regions that are repainted in the AJAX response.
+	 * @return the target regions that are repainted in the AJAX response
 	 */
 	public List<AjaxTarget> getTargets() {
 		List<AjaxTarget> targets = getComponentModel().targets;
@@ -181,9 +198,15 @@ public class WAjaxControl extends AbstractWComponent {
 	}
 
 	/**
-	 * Returns the target WComponents as an array. If no targets have been registered then an empty array is returned.
+	 * <p>
+	 * Get the target WComponents as an array.
+	 * </p>
+	 * <p>
+	 * When the AJAX request is triggered only the target component(s) will be re-painted. If no targets have been
+	 * registered then an empty array is returned.
+	 * </p>
 	 *
-	 * @return An array of AJAX target components.
+	 * @return an array of AJAX target components
 	 */
 	public WComponent[] getTargetsArray() {
 		List<AjaxTarget> targets = getTargets();
@@ -191,14 +214,28 @@ public class WAjaxControl extends AbstractWComponent {
 	}
 
 	/**
-	 * @return the delay after page load before AJAX control triggered.
+	 * Get the delay period, in milliseconds, between the WAjaxControl being rendered in the view and it being
+	 * <em>automatically</em> triggered. A WAjaxControl with a delay &gt; 0 will result in a request being made
+	 * without a change to any {@link AjaxTrigger} component.
+	 *
+	 * @return the delay after page load before AJAX control triggered
 	 */
 	public int getDelay() {
 		return getComponentModel().delay;
 	}
 
 	/**
-	 * @param delay the delay after page load before AJAX control triggered.
+	 * <p>
+	 * Set a delay period, in milliseconds, between the WAjaxControl being rendered in the view and it being
+	 * <em>automatically</em> triggered. A WAjaxControl with a delay &gt; 0 will result in a request being made
+	 * without a change to any {@link AjaxTrigger} component.
+	 * </p>
+	 * <p>
+	 * The use of a delay may be useful for setting up a trigger which polls for changes in a part of a UI. See
+	 * {@link com.github.bordertech.wcomponents.WAjaxPollingRegion}.
+	 * </p>
+	 *
+	 * @param delay the delay after page load before AJAX control triggered
 	 */
 	public void setDelay(final int delay) {
 		getOrCreateComponentModel().delay = delay;
@@ -207,7 +244,7 @@ public class WAjaxControl extends AbstractWComponent {
 	/**
 	 * Override preparePaintComponent in order to register the components for the current request.
 	 *
-	 * @param request the request being responded to.
+	 * @param request the request being responded to
 	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
@@ -230,12 +267,11 @@ public class WAjaxControl extends AbstractWComponent {
 			} finally {
 				UIContextHolder.popContext();
 			}
-
 		}
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging purposes.
+	 * @return a String representation of this component
 	 */
 	@Override
 	public String toString() {
@@ -260,17 +296,17 @@ public class WAjaxControl extends AbstractWComponent {
 	}
 
 	/**
-	 * Creates a new Component model.
+	 * Creates a new Component model. For type safety only.
 	 *
 	 * @return a new AjaxControlModel.
 	 */
-	@Override // For type safety only
+	@Override
 	protected AjaxControlModel newComponentModel() {
 		return new AjaxControlModel();
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @return an AjaxControlModel; for type safety only
 	 */
 	@Override // For type safety only
 	protected AjaxControlModel getComponentModel() {
@@ -278,7 +314,7 @@ public class WAjaxControl extends AbstractWComponent {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @return an AjaxControlModel; for type safety only
 	 */
 	@Override // For type safety only
 	protected AjaxControlModel getOrCreateComponentModel() {
@@ -298,12 +334,17 @@ public class WAjaxControl extends AbstractWComponent {
 		private List<AjaxTarget> targets;
 
 		/**
-		 * Specifies how many times the AJAX trigger should be fired.
+		 * Specifies how many times the AJAX trigger should be fired. Zero or less represents no limit.
+		 * Note up to and including WComponents 1.1.0 a loadCount &gt; 0 will result in a WAjaxControl which can
+		 * <strong>only fire once per page load</strong>. This member is under review (see
+		 * https://github.com/BorderTech/wcomponents/issues/495).
 		 */
 		private int loadCount = -1;
 
 		/**
-		 * Delay after page load, in milliseconds.
+		 * Delay, in milliseconds, between the control loading in the view and an automatic request. If this is set, and
+		 * set to a value greater than 0, the WAjaxControl will fire without <em>any</em> {@link AjaxTrigger} being changed/
+		 * invoked. This can be used to set up a trigger which polls for changes.
 		 */
 		private int delay;
 	}

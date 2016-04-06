@@ -27,7 +27,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
- * AbstractWComponent is the parent class of all standard WComponents
+ * AbstractWComponent is the parent class of all standard WComponents.
  * </p>
  * <p>
  * WComponent trees (UIs) are intended to be shared between sessions in order to reduce their memory footprint. To
@@ -374,10 +374,8 @@ public abstract class AbstractWComponent implements WComponent {
 	}
 
 	/**
-	 * Clear the ID register.
-	 * <p>
-	 * Usually called when a naming context is being painted. This allows the IDs to be refreshed.
-	 * </p>
+	 * Clear the ID register. Usually called when a naming context is being painted. This allows the IDs to be
+	 * refreshed.
 	 */
 	void clearIdRegister() {
 		ComponentModel model = getOrCreateComponentModel();
@@ -394,7 +392,7 @@ public abstract class AbstractWComponent implements WComponent {
 	 * This method will return <code>null</code> if called outside of request processing.
 	 * </p>
 	 *
-	 * @return a map which can be used to temporarily cache data, or null.
+	 * @return a map which can be used to temporarily cache data, or null
 	 */
 	protected Map getScratchMap() {
 		UIContext uic = UIContextHolder.getCurrent();
@@ -1680,7 +1678,7 @@ public abstract class AbstractWComponent implements WComponent {
 	// ================================
 	// Debugging
 	/**
-	 * Creates a String representation of this component, for debugging purposes.
+	 * Creates a String representation of this component; usually for debugging purposes.
 	 *
 	 * @return a String representation of this component.
 	 */
@@ -1702,10 +1700,10 @@ public abstract class AbstractWComponent implements WComponent {
 	/**
 	 * Creates a String representation of this component, for debugging purposes.
 	 *
-	 * @param details some additional details to display in the output.
-	 * @param childStartIndex the start index of children to include in the output.
-	 * @param childEndIndex the end index of children to include in the output.
-	 * @return a String representation of this component.
+	 * @param details some additional details to display in the output
+	 * @param childStartIndex the start index of children to include in the output
+	 * @param childEndIndex the end index of children to include in the output
+	 * @return a String representation of this component
 	 */
 	final String toString(final String details, final int childStartIndex, final int childEndIndex) {
 		// The simple class name will be empty for anonymous subclasses,

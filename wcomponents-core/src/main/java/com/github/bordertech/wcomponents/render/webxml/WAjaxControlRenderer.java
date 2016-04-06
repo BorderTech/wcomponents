@@ -18,8 +18,8 @@ final class WAjaxControlRenderer extends AbstractWebXmlRenderer {
 	/**
 	 * Paints the given AjaxControl.
 	 *
-	 * @param component the AjaxControl to paint.
-	 * @param renderContext the RenderContext to paint to.
+	 * @param component the AjaxControl to paint
+	 * @param renderContext the RenderContext to paint to
 	 */
 	@Override
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
