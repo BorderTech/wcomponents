@@ -67,14 +67,16 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	 * redundant. Under most circumstances the UI will display their native audio controls. Where a particular WAudio
 	 * does not have any source which is able to be played by the client then links to all sources will be provided.
 	 * This enum is not worthless as the values NONE and PLAY_PAUSE are used to turn off native audio controls in the
-	 * client. It may be replaced in the future with a simple boolean (see
-	 * https://github.com/BorderTech/wcomponents/issues/503).
+	 * client. The value NONE however causes major problems and is incompatible with autoplay for a11y reasons so it
+	 * basically makes the media worthless. This enum may be replaced in the future with a simple boolean to trigger
+	 * native controls or play/pause only (see https://github.com/BorderTech/wcomponents/issues/503).
 	 * </p>
 	 */
 	public enum Controls {
 		/**
 		 * Do not display any controls. May be incompatible with either {@link #isAutoplay()} == true or
-		 * {@link #isLoop()} == true.
+		 * {@link #isLoop()} == true. If this is set then the WAudio control <strong>MAY NOT WORK</strong>.
+		 * @deprecated since 1.1.1 as this is incompatible with WCAG requirements.
 		 */
 		NONE,
 		/**
@@ -84,7 +86,6 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 		ALL,
 		/**
 		 * A combined play/pause button.
-		 * @deprecated since 1.1.1 as themes use native controls.
 		 */
 		PLAY_PAUSE,
 		/**
