@@ -234,6 +234,8 @@ public class WAjaxControl extends AbstractWComponent {
 	 * The use of a delay may be useful for setting up a trigger which polls for changes in a part of a UI. See
 	 * {@link com.github.bordertech.wcomponents.WAjaxPollingRegion}.
 	 * </p>
+	 * <p>If the trigger is part of a polling region (therefore it is itself updated and potentially re-triggers itself
+	 * possibly many times) then the delay <strong>must not</strong> be less than 334.</p>
 	 *
 	 * @param delay the delay after page load before AJAX control triggered
 	 */
