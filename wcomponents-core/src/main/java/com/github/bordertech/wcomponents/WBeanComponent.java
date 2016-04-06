@@ -52,17 +52,15 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 
 	/**
 	 * <p>
-	 * Retrieves the bean.</p>
-	 *
-	 * The following are searched in order:
+	 * Retrieves the bean. The following are searched in order:</p>
 	 * <ul>
-	 * <li>A bean set explicitly using <code>setBean</code></li>
-	 * <li>A bean cached in the scratch map</li>
-	 * <li>A bean provided by a BeanProvider (and subsequently cached in the scratch map)</li>
-	 * <li>A bean provided by a bean-aware parent component (and subsequently cached in the scratch map)</li>
+	 * <li>a bean set explicitly using <code>setBean</code>;</li>
+	 * <li>a bean cached in the scratch map;</li>
+	 * <li>a bean provided by a BeanProvider (and subsequently cached in the scratch map);</li>
+	 * <li>a bean provided by a bean-aware parent component (and subsequently cached in the scratch map).</li>
 	 * </ul>
 	 *
-	 * @return this component's bean for the given context.
+	 * @return this component's bean for the given context
 	 */
 	@Override
 	public Object getBean() {
@@ -125,7 +123,7 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	 * Sets the bean associated with this WBeanComponent. This method of bean association is discouraged, as the bean
 	 * will be stored in the user's session. A better alternative is to provide a BeanProvider and a Bean Id.
 	 *
-	 * @param bean the bean to associate.
+	 * @param bean the bean to associate
 	 */
 	@Override
 	public void setBean(final Object bean) {
@@ -153,7 +151,7 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	 *
 	 * @see BeanProviderBound
 	 *
-	 * @param beanId the bean id to associate.
+	 * @param beanId the bean id to associate
 	 */
 	@Override
 	public void setBeanId(final Object beanId) {
@@ -173,7 +171,7 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	 * Retrieves the bean id associated with this component. This method will be used by a {@link BeanProvider} to
 	 * retrieve the bean.
 	 *
-	 * @return the bean Id associated with this component.
+	 * @return the bean Id associated with this component
 	 */
 	@Override
 	public Object getBeanId() {
@@ -185,7 +183,7 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	 * Sets the bean property that this component is interested in. The bean property is expressed in Jakarta
 	 * PropertyUtils bean notation, with an extension of "." to indicate that the bean itself should be used.
 	 *
-	 * @param propertyName the bean property, in Jakarta PropertyUtils bean notation.
+	 * @param propertyName the bean property, in Jakarta PropertyUtils bean notation
 	 */
 	@Override
 	public void setBeanProperty(final String propertyName) {
@@ -195,7 +193,7 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	/**
 	 * Retrieves the bean property that this component is interested in.
 	 *
-	 * @return the bean property, in Jakarta PropertyUtils bean notation.
+	 * @return the bean property, in Jakarta PropertyUtils bean notation
 	 */
 	@Override
 	public String getBeanProperty() {
@@ -221,7 +219,7 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	 * Sets the {@link BeanProvider} associated with this WBeanComponent. The bean provider will be called to supply the
 	 * bean whenever necessary.
 	 *
-	 * @param beanProvider the bean provider to associate.
+	 * @param beanProvider the bean provider to associate
 	 */
 	@Override
 	public void setBeanProvider(final BeanProvider beanProvider) {
@@ -242,12 +240,12 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	/**
 	 * Returns the data for this component. The following are searched in order:
 	 * <ul>
-	 * <li>A value set explicitly in the ui context using {@link #setData(Object)}</li>
-	 * <li>If a bean is available; the bean's value.</li>
-	 * <li>The value set on the shared model.</li>
+	 * <li>a value set explicitly in the ui context using {@link #setData(Object)};</li>
+	 * <li>if a bean is available; the bean's value; or</li>
+	 * <li>the value set on the shared model.</li>
 	 * </ul>
 	 *
-	 * @return the current value of this component for the given context.
+	 * @return the current value of this component for the given context
 	 */
 	@Override
 	public Object getData() {
@@ -273,7 +271,7 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	/**
 	 * Retrieves the bean value. The value is (temporarily) cached in the scratch map to speed up subsequent accesses.
 	 *
-	 * @return the bean value, or null if no bean value is available.
+	 * @return the bean value, or null if no bean value is available
 	 */
 	@Override
 	public Object getBeanValue() {
@@ -323,7 +321,7 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	/**
 	 * Updates the bean value with the new value.
 	 *
-	 * @param value the new value to update the bean with
+	 * @param value the new value with which to update the bean
 	 */
 	protected void doUpdateBeanValue(final Object value) {
 		String beanProperty = getBeanProperty();
@@ -346,7 +344,7 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	 * Sets the data that this component displays/edits. For bean aware components, this should only be called from
 	 * handleRequest to set user-entered data.
 	 *
-	 * @param data the data to set.
+	 * @param data the data to set
 	 */
 	@Override
 	public void setData(final Object data) {
