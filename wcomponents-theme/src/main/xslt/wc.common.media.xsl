@@ -3,6 +3,7 @@
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.media.n.mediaUnsupportedContent.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
+	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<!--
 		Transforms for ui:audio from WAudio and ui:video from WVideo and their children.
 		
@@ -35,7 +36,7 @@
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:call-template name="ajaxTarget"/>
 			<xsl:variable name="mediaId" select="concat(@id, '-media')"/>
-			
+
 			<xsl:element name="{$elementType}">
 				<xsl:attribute name="id">
 					<xsl:value-of select="$mediaId"/>
@@ -108,6 +109,12 @@
 			</xsl:element>
 			<xsl:if test="@controls='play'">
 				<button type="button" class="wc_btn_icon wc_av_play" aria-pressed="false" aria-controls="{$mediaId}">
+					<xsl:if test="not(@autoplay)">
+						<!-- do not allow the button to be disabled if autoplay is on - the user MUST be able to stop/pause playback. -->
+						<xsl:call-template name="disabledElement">
+							<xsl:with-param name="isControl" select="1"/>
+						</xsl:call-template>
+					</xsl:if>
 					<span class="wc_off">
 						<xsl:value-of select="$$${wc.ui.media.i18n.play}"/>
 					</span>

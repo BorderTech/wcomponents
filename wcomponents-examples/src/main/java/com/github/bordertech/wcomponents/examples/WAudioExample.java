@@ -48,6 +48,11 @@ public class WAudioExample extends WContainer {
 	private final WCheckBox cbControls = new WCheckBox();
 
 	/**
+	 * Used to set the disabled option on audio.
+	 */
+	private final WCheckBox cbDisable = new WCheckBox();
+
+	/**
 	 * A button used to apply new settings to the audio component.
 	 */
 	private final WButton btnApply = new WButton("Apply settings");
@@ -88,8 +93,19 @@ public class WAudioExample extends WContainer {
 		add(layout);
 		layout.addField("Autoplay", cbAutoPlay);
 		layout.addField("Loop", cbLoop);
+		layout.addField("Disable", cbDisable);
 		layout.addField("Show only play/pause", cbControls);
 		layout.addField((WLabel) null, btnApply);
+
+		// enable disable option only when control PLAY_PAUSE is used.
+		WSubordinateControl control = new WSubordinateControl();
+		add(control);
+		Rule rule = new Rule();
+		rule.setCondition(new Equal(cbControls, Boolean.TRUE.toString()));
+		rule.addActionOnTrue(new Enable(cbDisable));
+		rule.addActionOnFalse(new Disable(cbDisable));
+		control.addRule(rule);
+
 		// allow config to change without reloading the whole page.
 		add(new WAjaxControl(btnApply, audio));
 
@@ -117,5 +133,6 @@ public class WAudioExample extends WContainer {
 		audio.setAutoplay(cbAutoPlay.isSelected());
 		audio.setLoop(!cbLoop.isDisabled() && cbLoop.isSelected());
 		audio.setControls(cbControls.isSelected() ? WAudio.Controls.PLAY_PAUSE : WAudio.Controls.NATIVE);
+		audio.setDisabled(cbControls.isSelected() && cbDisable.isSelected());
 	}
 }
