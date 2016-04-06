@@ -7,8 +7,7 @@ import com.github.bordertech.wcomponents.util.LookupTable;
  * The WAbbrText component represents an abbreviation or acronym and the full textual description for its (abbreviated)
  * text content.
  *
- * @author Kishan Bisht
- * @author Mark Reeves
+ * @author Kishan Bisht, Mark Reeves
  * @since 1.0.0
  */
 public class WAbbrText extends WText {
@@ -18,21 +17,27 @@ public class WAbbrText extends WText {
 	private static final LookupTable TABLE = Factory.newInstance(LookupTable.class);
 
 	/**
+	 * <p>
 	 * Creates an empty WAbbrText.
-	 *
+	 * </p>
+	 * <p>
 	 * An instance of WAbbrText created in this manner must have abbreviated display text and a toolTip (the full text
 	 * represented by the abbreviation) set to be useful.
+	 * </p>
 	 */
 	public WAbbrText() {
 	}
 
 	/**
+	 * <p>
 	 * Creates a WAbbrText with the specified abbreviated display text.
-	 *
+	 * </p>
+	 * <p>
 	 * An instance of WAbbrText created in this manner must have a toolTip (the full text represented by the
 	 * abbreviation) set to be useful.
+	 * </p>
 	 *
-	 * @param text The abbreviated text to display.
+	 * @param text The abbreviated text to display
 	 */
 	public WAbbrText(final String text) {
 		super(text);
@@ -41,8 +46,8 @@ public class WAbbrText extends WText {
 	/**
 	 * Creates a WAbbrText with the specified abbreviated display text and toolTip full expansion text.
 	 *
-	 * @param text The abbreviated text to display.
-	 * @param description The full text represented by the abbreviation.
+	 * @param text the abbreviated text to display
+	 * @param description the full text represented by the abbreviation
 	 */
 	public WAbbrText(final String text, final String description) {
 		this(text);
@@ -52,8 +57,8 @@ public class WAbbrText extends WText {
 	//================================
 	// Attributes
 	/**
-	 * @return the expanded text represented by the abbreviation.
-	 * @deprecated use {@link WComponent#getToolTip} instead.
+	 * @return the expanded text represented by the abbreviation
+	 * @deprecated as of WComponents 1.0.0, use {@link #getToolTip()} instead
 	 */
 	public String getAbbrText() {
 		return getToolTip();
@@ -61,10 +66,7 @@ public class WAbbrText extends WText {
 
 	/**
 	 * Loads the abbreviated text component from the given code reference table entry using the entry's code as the
-	 * visible (abbreviated) text.
-	 *
-	 * The display (abbreviated) text is set to the table entry's code. The toolTip is set to the table entry's
-	 * description.
+	 * visible (abbreviated) text and the entry's description as the abbreviation's expanded text toolTip.
 	 *
 	 * @param entry the CRT entry to use.
 	 */
@@ -76,22 +78,19 @@ public class WAbbrText extends WText {
 	/**
 	 * Sets the full text represented by the abbreviation.
 	 *
-	 * @param abbrText The full text represented by the abbreviation.
-	 * @deprecated use {@link AbstractWComponent#setToolTip} instead.
+	 * @param abbrText the full text (expansion) represented by the abbreviation
+	 * @deprecated As of WComponents 1.0.0, use {@link #setToolTip(String, Serializable...)} instead.
 	 */
 	public void setAbbrText(final String abbrText) {
 		setToolTip(abbrText);
 	}
 
 	/**
-	 * Loads the abbreviated text component from the given code reference table entry using the description as the
-	 * visible (abbreviated) text. You probably do not want this: you probably want
-	 * {@link #setTextWithCode(java.lang.Object)}.
+	 * Loads the abbreviated text component from the given code reference table entry using the entry's description as
+	 * the visible (abbreviated) text and the entry's code as the toolTip (expansion). You probably do not want this:
+	 * you probably want {@link #setTextWithCode(java.lang.Object)}.
 	 *
-	 * The display (abbreviated) text is set to the table entry's description. The toolTip is set to the table entry's
-	 * code.
-	 *
-	 * @param entry the CRT entry to use.
+	 * @param entry the CRT entry to use
 	 */
 	public void setTextWithDesc(final Object entry) {
 		setText(TABLE.getDescription(null, entry));
@@ -99,7 +98,9 @@ public class WAbbrText extends WText {
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging purposes.
+	 * Get a String representation of the component. This would normally only be required for debugging purposes.
+	 *
+	 * @return a String representation of this component
 	 */
 	@Override
 	public String toString() {

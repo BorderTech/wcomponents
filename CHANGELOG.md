@@ -6,6 +6,10 @@
 
 ## Major Bug fixes
 
+## Deprecations
+* WAudio Controls.ALL, Controls.PLAY_PAUSE and Controls.DEFAULT have all been deprecated as they no longer have any impact on the control.
+
+
 # Release 1.1.0
 
 ## API Changes

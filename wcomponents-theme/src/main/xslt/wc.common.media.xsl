@@ -10,6 +10,9 @@
 		VIDEO element. The native player's capabilities depend upon the user agent
 		employed. Where no support is available or the media is not able to be played
 		then a link will be created to each source and track.
+		
+		Every use of WAudio must comply with the requirements outlined here:
+ 		https://www.w3.org/TR/media-accessibility-reqs/
 	-->
 	<xsl:template match="ui:audio|ui:video">
 		<xsl:variable name="elementType">
