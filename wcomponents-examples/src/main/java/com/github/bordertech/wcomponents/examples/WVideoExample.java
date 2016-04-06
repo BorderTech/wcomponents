@@ -10,9 +10,9 @@ import com.github.bordertech.wcomponents.VideoResource;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WLabel;
-import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WVideo;
 import com.github.bordertech.wcomponents.subordinate.Disable;
 import com.github.bordertech.wcomponents.subordinate.Enable;
@@ -26,7 +26,7 @@ import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class WVideoExample extends WPanel {
+public class WVideoExample extends WContainer {
 
 	/**
 	 * The WVideo used in this example.
@@ -53,6 +53,11 @@ public class WVideoExample extends WPanel {
 	 * Used to set the controls option on video to PLAY_PAUSE.
 	 */
 	private final WCheckBox cbControls = new WCheckBox();
+
+	/**
+	 * Used to set the disabled option on video.
+	 */
+	private final WCheckBox cbDisable = new WCheckBox();
 
 	/**
 	 * A button used to apply new settings to the audio component.
@@ -98,19 +103,22 @@ public class WVideoExample extends WPanel {
 		layout.addField("Autoplay", cbAutoPlay);
 		layout.addField("Loop", cbLoop);
 		layout.addField("Mute", cbMute);
+		layout.addField("Disable", cbDisable);
 		layout.addField("Show separate play/pause", cbControls);
 		layout.addField((WLabel) null, btnApply);
 
 		// add the video to the UI
 		add(video);
 
-		// disable mute if PLAY_PAUSE is used
+		// disable mute and enable disable if PLAY_PAUSE is used
 		WSubordinateControl control = new WSubordinateControl();
 		add(control);
 		Rule rule = new Rule();
 		rule.setCondition(new Equal(cbControls, Boolean.TRUE.toString()));
 		rule.addActionOnTrue(new Disable(cbMute));
+		rule.addActionOnTrue(new Enable(cbDisable));
 		rule.addActionOnFalse(new Enable(cbMute));
+		rule.addActionOnFalse(new Disable(cbDisable));
 		control.addRule(rule);
 		// Allow the config to be updated without reloading the whole UI.
 		add(new WAjaxControl(btnApply, video));
@@ -139,5 +147,6 @@ public class WVideoExample extends WPanel {
 		video.setLoop(cbLoop.isSelected());
 		video.setMuted(!cbMute.isDisabled() && cbMute.isSelected());
 		video.setControls(cbControls.isSelected() ? WVideo.Controls.PLAY_PAUSE : WVideo.Controls.NATIVE);
+		video.setDisabled(cbControls.isSelected() && cbDisable.isSelected());
 	}
 }
