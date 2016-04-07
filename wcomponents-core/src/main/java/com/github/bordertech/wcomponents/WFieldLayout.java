@@ -180,6 +180,9 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 	 * @return the field which was added to the layout.
 	 */
 	public WField addField(final String label, final WComponent field) {
+		if (null == label) {
+			return addField((WLabel) null, field);
+		}
 		return addField(new WLabel(label), field);
 	}
 
