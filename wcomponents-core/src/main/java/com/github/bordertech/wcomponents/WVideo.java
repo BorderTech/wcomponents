@@ -55,14 +55,29 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 
 	/**
 	 * This is used to indicate which playback controls to display for the video.
+	 *
+	 * <p>
+	 * <strong>Note:</strong>
+	 * Advancements in video support in clients since this API was first implemented means that most of this is now
+	 * redundant. Under most circumstances the UI will display their native video controls. Where a particular WVideo
+	 * does not have any source which is able to be played by the client then links to all sources will be provided.
+	 * This enum is not worthless as the values NONE and PLAY_PAUSE are used to turn off native video controls in the
+	 * client. The value NONE however causes major problems and is incompatible with autoplay for a11y reasons so it
+	 * basically makes the media worthless. This enum may be replaced in the future with a simple boolean to trigger
+	 * native controls or play/pause only (see https://github.com/BorderTech/wcomponents/issues/503).
+	 * </p>
 	 */
 	public enum Controls {
 		/**
-		 * Do not display any controls - not recommended.
+		 * Do not display any controls: not recommended. May be incompatible with any of {@link #isAutoplay()} == true,
+		 * {@link #isMuted()} == true or {@link #isLoop()} == true. If this value is set then the WVideo control
+		 * <strong>MAY NOT WORK AT ALL</strong>.
+		 * @deprecated since 1.1.1 as this is incompatible with WCAG requirements.
 		 */
 		NONE,
 		/**
 		 * Display all controls.
+		 * @deprecated since 1.1.1 as themes use native video controls.
 		 */
 		ALL,
 		/**
@@ -71,6 +86,7 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 		PLAY_PAUSE,
 		/**
 		 * Displays the "default" set of controls for the theme.
+		 * @deprecated since 1.1.1 as themes use native video controls.
 		 */
 		DEFAULT,
 		/**
@@ -495,20 +511,23 @@ public class WVideo extends AbstractWComponent implements Targetable, AjaxTarget
 	public void handleRequest(final Request request) {
 		super.handleRequest(request);
 
-		if (isDisabled()) {
-			return;
-		}
 
 		String targ = request.getParameter(Environment.TARGET_ID);
 		boolean contentReqested = (targ != null && targ.equals(getTargetId()));
+
+		if (contentReqested && request.getParameter(POSTER_REQUEST_PARAM_KEY) != null) {
+			handlePosterRequest();
+		}
+
+		if (isDisabled()) {
+			return;
+		}
 
 		if (contentReqested) {
 			if (request.getParameter(VIDEO_INDEX_REQUEST_PARAM_KEY) != null) {
 				handleVideoRequest(request);
 			} else if (request.getParameter(TRACK_INDEX_REQUEST_PARAM_KEY) != null) {
 				handleTrackRequest(request);
-			} else if (request.getParameter(POSTER_REQUEST_PARAM_KEY) != null) {
-				handlePosterRequest();
 			}
 		}
 	}

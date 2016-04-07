@@ -1,26 +1,24 @@
 @import 'fieldLayout_vars';
 
-@mixin wc-fld-layout-flat {
-	.flat > .wc-field {
-		> label,
-		> span,
-		> div {
-			display: inline-block;
-			vertical-align: text-top;
+%wc-fld-layout-flat {
+	> label,
+	> span,
+	> div {
+		display: inline-block;
+		vertical-align: text-top;
 
-			&:first-child { //the first child is the label or stand-in or merely an empty placeholder/spacer
-				width: $label-width;
-			}
+		&:first-child { //the first child is the label or stand-in or merely an empty placeholder/spacer
+			width: $label-width;
 		}
+	}
 
-		> .wc-input {
-			max-width: $input-width;
-			width: $input-width;
-		}
+	> .wc-input {
+		max-width: $input-width;
+		width: $input-width;
+	}
 
-		.wc-input { // reset
-			margin-top: 0;
-		}
+	.wc-input { // reset
+		margin-top: 0;
 	}
 }
 

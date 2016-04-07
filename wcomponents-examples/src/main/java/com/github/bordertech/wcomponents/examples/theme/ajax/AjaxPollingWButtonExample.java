@@ -4,15 +4,13 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.BeanProvider;
 import com.github.bordertech.wcomponents.BeanProviderBound;
+import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WAjaxPollingRegion;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
-import com.github.bordertech.wcomponents.layout.FlowLayout;
-import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 import com.github.bordertech.wcomponents.util.Util;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class AjaxPollingWButtonExample extends WPanel {
+public class AjaxPollingWButtonExample extends WContainer {
 
 	/**
 	 * Polling interval in milliseconds. For a real app, do not set this as low as in this example.
@@ -64,7 +62,6 @@ public class AjaxPollingWButtonExample extends WPanel {
 	 * Creates a AjaxPollingWButtonExample.
 	 */
 	public AjaxPollingWButtonExample() {
-		setLayout(new FlowLayout(Alignment.VERTICAL, 0, 5));
 
 		WButton pollBtn = new WButton("Invoke service");
 		add(pollBtn);
@@ -79,6 +76,10 @@ public class AjaxPollingWButtonExample extends WPanel {
 			@Override
 			public void execute(final ActionEvent event) {
 				myDataComponent.setVisible(true);
+				if (null == poller.getMargin()) {
+					poller.setMargin(new Margin(12, 0, 0, 0)); // push the panel's content off of the button.
+				}
+
 				fakeServiceCall();
 			}
 		});

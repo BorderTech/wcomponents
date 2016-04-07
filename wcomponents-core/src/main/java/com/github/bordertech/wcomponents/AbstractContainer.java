@@ -3,8 +3,8 @@ package com.github.bordertech.wcomponents;
 import java.util.List;
 
 /**
- * This abstract impements the Container interface to expose methods for retrieving the contents of the container. This
- * class is extended by most WComponents which contain other components
+ * This abstract implements the {@link Container} interface to expose methods for retrieving the contents of the
+ * container. This class is extended by most WComponents which may contain other components.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0

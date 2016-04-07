@@ -1,14 +1,12 @@
 package com.github.bordertech.wcomponents;
 
 /**
- * This abstract container implements NamingContextable.
+ * This abstract container implements {@link NamingContextable}.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public abstract class AbstractNamingContextContainer extends AbstractContainer implements
-		NamingContextable {
-
+public abstract class AbstractNamingContextContainer extends AbstractContainer implements NamingContextable {
 	/**
 	 * A naming context is only considered active if it has been set active via {@link #setNamingContext(boolean)} and
 	 * also has an id name set via {@link #setIdName(String)}.
