@@ -8,18 +8,24 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
+ * <p>
  * WAudio provides a means to play audio content. For most uses this means a HTML audio element. If the client does not
  * implement the audio element or cannot play any of the supplied sources then an alternate means to access the sources
  * is provided.
- *
+ *</p>
+ * <p>
+ * Each WAudio component must have at least one {@link Audio} resource. Each such resource should be appropriate for
+ * delivery over the web and in a format suitable for the application's target browsers. If the application has a
+ * mixed browser matrix then it may be appropriate to attach multiple sources to each WAudio. It is <strong>strongly
+ * recommended</strong> that AVI files are <strong>never</strong> used as an Audio resource.
+ * </p>
  * <p>
  * Every use of WAudio <strong>must</strong> comply with the requirements outlined in
  * <a href="https://www.w3.org/TR/media-accessibility-reqs/">Media Accessibility User Requirements</a>, and meet
  * guidelines
- * <a href="https://www.w3.org/WAI/WCAG20/quickref/?showtechniques=123#media-equiv">1.2</a>,
- * <a href="https://www.w3.org/WAI/WCAG20/quickref/?showtechniques=123%2C133#visual-audio-contrast-dis-audio">1.4.2</a>
- * and
- * <a href="https://www.w3.org/WAI/WCAG20/quickref/?showtechniques=123%2C133&techniques=advisory#visual-audio-contrast-noaudio">1.4.7</a>.
+ * <a href="https://www.w3.org/WAI/WCAG20/quickref/#media-equiv">1.2</a>,
+ * <a href="https://www.w3.org/WAI/WCAG20/quickref/#visual-audio-contrast-dis-audio">1.4.2</a> and
+ * <a href="https://www.w3.org/WAI/WCAG20/quickref/#visual-audio-contrast-noaudio">1.4.7</a>.
  * </p>
  *
  * @author Yiannis Paschalidis
@@ -201,7 +207,15 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	}
 
 	/**
-	 * Sets whether the clip should play automatically.
+	 * <p>
+	 * Sets whether the clip should play automatically. It is <strong>recommended</strong> that this should not be set
+	 * true.
+	 * </p>
+	 * <p>
+	 * Each instance of WAudio which is set to auto-play must comply with
+	 * <a href="https://www.w3.org/WAI/WCAG20/quickref/#visual-audio-contrast-dis-audio">guideline 1.4.2</a>; therefore
+	 * this setting is ignored if the WAudio component uses {@link Controls#NONE}.
+	 *</p>
 	 *
 	 * @param autoplay true to start playing automatically, false for a manual start
 	 */
@@ -217,7 +231,7 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	}
 
 	/**
-	 * Sets the media group.
+	 * Sets the media group. Not currently implemented in the client due to lack of browser support.
 	 *
 	 * @param mediaGroup The media group name
 	 */
@@ -235,7 +249,8 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	}
 
 	/**
-	 * Sets whether the audio clip playback should loop or stop at the end.
+	 * Sets whether the audio clip playback should loop or stop at the end. It is <strong>recommended</strong>
+	 * that this not be set <code>true</code> as this could cause significant usability issues for some users.
 	 *
 	 * @param loop true to loop, false to stop at the end
 	 */
@@ -383,27 +398,30 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	}
 
 	/**
-	 * @param cacheKey the cacheKey to set.
+	 * Set a cache key to make the audio cacheable on the client. All audio which it is permissible to cache should have
+	 * a cache key set. Audio* which is never to be reproduced (such as an audio CAPTCHA) should not have a cache key
+	 * set.
+	 *
+	 * @param cacheKey the cacheKey to set
 	 */
 	public void setCacheKey(final String cacheKey) {
 		getOrCreateComponentModel().cacheKey = cacheKey;
 	}
 
 	/**
-	 * Indicates which playback controls (e.g. stop/start/pause) to display on the audio component.
+	 * Indicates which playback controls to display on the audio component.
 	 *
-	 * @return the playback controls to display.
+	 * @return the playback controls to display
 	 */
 	public Controls getControls() {
 		return getComponentModel().controls;
 	}
 
 	/**
-	 * Sets which playback controls (e.g. stop/start/pause) to display on the audio component. The values of
-	 * {@link Controls#NONE} and {@link Controls#ALL} take precedence over all other values. Passing a null or empty set
-	 * of controls will cause the client's default set of controls to be used.
+	 * Sets which playback controls to display on the audio component. Passing a null or empty set of controls will
+	 * cause the client's default set of controls to be used.
 	 *
-	 * @param controls the playback controls to display.
+	 * @param controls the playback controls to display
 	 */
 	public void setControls(final Controls controls) {
 		getOrCreateComponentModel().controls = controls;
@@ -412,7 +430,7 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	/**
 	 * Returns the id to use to target this component.
 	 *
-	 * @return this component's target id.
+	 * @return this component's target id
 	 */
 	@Override
 	public String getTargetId() {
@@ -420,7 +438,7 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging purposes.
+	 * @return a String representation of this component usually for debugging purposes
 	 */
 	@Override
 	public String toString() {
@@ -433,7 +451,7 @@ public class WAudio extends AbstractWComponent implements Targetable, AjaxTarget
 	/**
 	 * Creates a new component model appropriate for this component.
 	 *
-	 * @return a new AudioModel.
+	 * @return a new AudioModel
 	 */
 	@Override
 	protected AudioModel newComponentModel() {
