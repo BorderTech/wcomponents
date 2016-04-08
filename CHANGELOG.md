@@ -1,5 +1,7 @@
 # Change log
 
+# Release 1.1.1
+
 ## API Changes
 * WAudio and WVideo Controls.ALL, and Controls.DEFAULT have been **deprecated** as they no have no impact on the
   controls (#503);
