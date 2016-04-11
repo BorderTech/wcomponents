@@ -40,7 +40,7 @@
 					<xsl:text>error</xsl:text>
 				</xsl:attribute>
 				<xsl:attribute name="id">
-					<xsl:value-of select="concat($id,'${wc.ui.messageBox.id.inlineErrorBox.suffix}')"/>
+					<xsl:value-of select="concat($id,'_err')"/>
 				</xsl:attribute>
 				<xsl:apply-templates select="$errors" mode="inline"/>
 			</xsl:element>

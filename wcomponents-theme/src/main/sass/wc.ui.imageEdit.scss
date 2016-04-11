@@ -86,7 +86,7 @@
 	}
 }
 
-@include respond(small) {
+@include respond-phonelike {
 	.wc_img_editor {
 		.wc-row > div {
 			text-align: center;

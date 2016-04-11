@@ -29,7 +29,7 @@
 				<xsl:number value="1"/>
 			</xsl:if>
 		</xsl:variable>
-		<xsl:variable name="tickerId" select="concat(@id,'${wc.ui.maxLength.ticker.id.suffix}')"/>
+		<xsl:variable name="tickerId" select="concat(@id,'_tick')"/>
 		<xsl:variable name="myLabel" select="key('labelKey',$id)"/>
 		<xsl:choose>
 			<xsl:when test="$readOnly=1">

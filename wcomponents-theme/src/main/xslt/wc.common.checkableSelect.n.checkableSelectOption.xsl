@@ -13,7 +13,7 @@
 
 		NOTE:
 
-		This template assumes that the options in a WCheckBoxGroup or WRadioButtonGroup
+		This template assumes that the options in a WCheckBoxSelect or WRadioButtonSelect
 		are NEVER in an optgroup. This assumption may be flawed.
 
 		param name: The name to be applied to each option. This is based on the parent element's

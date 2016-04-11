@@ -3,7 +3,25 @@
 
 // Flat is the most common use, but shouldn't be (due to a11y concerns which are not covered by WCAG 2.0)
 .flat > .wc-field {
-	@extend %wc-fld-layout-flat;
+	> label,
+	> span,
+	> div {
+		display: inline-block;
+		vertical-align: text-top;
+
+		&:first-child { //the first child is the label or stand-in or merely an empty placeholder/spacer
+			width: $label-width;
+		}
+	}
+
+	> .wc-input {
+		max-width: $input-width;
+		width: $input-width;
+	}
+
+	.wc-input { // reset
+		margin-top: 0;
+	}
 }
 
 // @for $i from 1 through 100 {
@@ -36,26 +54,4 @@ $wc-fld-list: 33, 67;
 
 .#{$wc-input-width-slug}_66 .wc-input {
 	width: 67%;
-}
-
-@include respond(small) {
-	.wc-field {
-		// Important to override all the above gubbins without another thousand rules.
-		// scss-lint:disable ImportantRule
-		> :first-child,
-		> .wc-input {
-			display: block;
-			margin-left: 0 !important;
-			max-width: 100% !important;
-			width: 100% !important;
-		}
-
-		> .wc_fld_pl { //this is the placeholder for a null or moved label (moved for checkbox or radio). Remove on narrow viewports.
-			display: none !important;
-		}
-
-		> .wc-label + .wc-input {
-			margin-top: $vgap-small;
-		}
-	}
 }

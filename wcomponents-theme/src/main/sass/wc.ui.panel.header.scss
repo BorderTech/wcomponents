@@ -10,7 +10,7 @@
 	padding: $vgap-normal $hgap-normal;
 }
 
-@include respond(phonelike) {
+@include respond-phonelike {
 	[role='banner'] > :first-child {
 		@include flex($direction: row-reverse, $wrap: wrap, $justify: space-between, $align-items: center);
 	}

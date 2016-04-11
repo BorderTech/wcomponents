@@ -282,7 +282,7 @@ define(["wc/dom/attribute",
 					filesToAdd = (testObj.files ? testObj.files.length : 1);
 					maxFileInfo = checkMaxFiles(element, filesToAdd);
 					if (maxFileInfo.valid) {
-						editorId = element.getAttribute("data-editor");
+						editorId = element.getAttribute("data-wc-editor");
 						if (!suppressEdit && editorId) {
 							require(["wc/ui/imageEdit"], function(imageEdit) {
 								testObj.editorId = editorId;
@@ -502,14 +502,14 @@ define(["wc/dom/attribute",
 					oldFile = document.getElementById(fileId);
 				delete inflightXhrs[fileId];
 				if (oldFile) {
-					containerId = newFile.getAttribute("data-containerid");
+					containerId = newFile.getAttribute("data-wc-containerid");
 					if (containerId) {
 						resetAjaxAttribOnActivationLink(newFile, containerId);
 					}
 					oldFile.innerHTML = newFile.innerHTML;
 					// oldFile.parentNode.replaceChild(newFile, oldFile);  // Problems with importing node
 				}
-				else if ((containerId = newFile.getAttribute("data-containerid")) && (container = document.getElementById(containerId))) {
+				else if ((containerId = newFile.getAttribute("data-wc-containerid")) && (container = document.getElementById(containerId))) {
 					resetAjaxAttribOnActivationLink(newFile, containerId);
 					// This is an extreme edge case - if the fileWidget UI has been replaced during upload attempt to recover
 					container.insertAdjacentHTML("beforeend", newFile.outerHTML);

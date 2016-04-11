@@ -23,7 +23,7 @@
 	}
 }
 
-@include respond(small) {
+@include respond-phonelike {
 	.wc_table_top_controls {
 		display: block;
 

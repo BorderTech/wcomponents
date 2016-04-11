@@ -62,7 +62,7 @@
 					<xsl:value-of select="$$${wc.ui.table.string.rowSelection.label}"/>
 				</xsl:if>
 			</xsl:variable>
-			<xsl:variable name="bodyId" select="concat(../@id,'${wc.ui.table.id.body.suffix}')"/>
+			<xsl:variable name="bodyId" select="concat(../@id,'_tb')"/>
 			<xsl:call-template name="selectToggle">
 				<xsl:with-param name="for" select="$bodyId"/>
 				<xsl:with-param name="id" select="$bodyId"/>

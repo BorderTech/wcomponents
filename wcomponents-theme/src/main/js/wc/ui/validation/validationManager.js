@@ -97,7 +97,7 @@ define(["wc/dom/classList",
 				 * @constant
 				 * @type {String}
 				 * @private */
-				ERROR_BOX_SUFFIX = "${wc.ui.messageBox.id.inlineErrorBox.suffix}",
+				ERROR_BOX_SUFFIX = "_err",
 				/**
 				 * The description of the component which holds a list of WValidationErrors. Instantiated on first use.
 				 * @constant

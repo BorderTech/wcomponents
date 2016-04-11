@@ -48,17 +48,12 @@ ul.wc-fieldlayout {
 			}
 		}
 
+		> [type='password'],
 		> textarea,
 		> select,
 		> fieldset {
 			@include border-box;
 			width: 100%;
 		}
-	}
-}
-
-@include respond($size: 'not-small') {
-	.flat > .wc-field {
-		@extend %wc-fld-layout-flat;
 	}
 }

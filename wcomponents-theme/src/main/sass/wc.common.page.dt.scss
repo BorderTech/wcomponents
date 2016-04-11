@@ -3,9 +3,10 @@
 
 body {
 	font-size: $dt-font-size;
+}
 
-	// Make the (75%) text size bigger on really big screens because many people find it hard to read.
-	@include respond($size: large, $test: min-device-width) {
+@media only screen and (min-device-width: 1921px) {
+	body {
 		font-size: $bigscreen-font-size;
 	}
 }

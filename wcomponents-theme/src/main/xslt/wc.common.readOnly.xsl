@@ -36,11 +36,11 @@
 			WRadioButton.
 	-->
 	<xsl:template name="readOnlyControl">
-		<xsl:param name="class" select="''"/>
-		<xsl:param name="style" select="''"/>
-		<xsl:param name="applies" select="''"/>
+		<xsl:param name="class"/>
+		<xsl:param name="style"/>
+		<xsl:param name="applies"/>
 		<xsl:param name="useReadOnlyMode"/>
-		<xsl:param name="toolTip" select="''"/>
+		<xsl:param name="toolTip"/>
 		<xsl:param name="label"/>
 
 		<xsl:variable name="linkWithText">
@@ -69,7 +69,7 @@
 		<xsl:element name="{$elementName}">
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="class">
-					<xsl:text> wc_ro</xsl:text>
+					<xsl:text>wc_ro</xsl:text>
 					<xsl:if test="$class != ''">
 						<xsl:value-of select="concat(' ', $class)"/>
 					</xsl:if>
