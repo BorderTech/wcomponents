@@ -13,6 +13,10 @@
 @include respond-phonelike {
 	.wc-row {
 		display: block;
+
+		+ .wc-row {
+			margin-top: $vgap-small;
+		}
 	}
 
 	.wc-column {
@@ -23,5 +27,9 @@
 		padding-left: 0 !important;
 		padding-right: 0 !important;
 		width: 100% !important;
+
+		+ .wc-column {
+			margin-top: $vgap-small;
+		}
 	}
 }
