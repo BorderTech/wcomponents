@@ -10,10 +10,10 @@
 		<xsl:param name="parentIsClosed" select="0"/>
 		<xsl:param name="topRowIsStriped" select="0"/>
 		<xsl:param name="indent" select="0"/>
-		
+
 		<xsl:variable name="tableId" select="$myTable/@id"/>
 		<!--NOTE: aria-level the minimum is going to be level 2 -->
-		<tr id="{concat($tableId,'${wc.ui.table.id.subTr.content.suffix}',../../@rowIndex)}" role="row" aria-level="{count(ancestor::ui:subtr[ancestor::ui:table[1]/@id=$tableId]) + 1}">
+		<tr id="{concat($tableId,'_subc',../../@rowIndex)}" role="row" aria-level="{count(ancestor::ui:subtr[ancestor::ui:table[1]/@id=$tableId]) + 1}">
 			<xsl:if test="$parentIsClosed=1 or ancestor::ui:subtr[not(@open) or @open='false']">
 				<xsl:call-template name="hiddenElement"/>
 			</xsl:if>
@@ -25,7 +25,7 @@
 				</xsl:with-param>
 			</xsl:call-template>
 
-			<!-- 
+			<!--
 				subTr content is never individually selectable but must have the placeholder if the table has row
 				selection.
 			-->
@@ -35,7 +35,7 @@
 				</td>
 			</xsl:if>
 
-			<!-- 
+			<!--
 				subTr content is not itself expandable but must have the placeholder to position it correctly relative
 				to its parent row.
 			-->

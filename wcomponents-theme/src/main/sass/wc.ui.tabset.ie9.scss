@@ -13,7 +13,7 @@
 
 // only style left and right tabsets when we have a reasonable sized viewport.
 // TODO: maybe end support for left and right in older IEs.
-@include respond($size: 'not-small') {
+@include respond-not-small {
 	.wc-tabset {
 		&.wc_left,
 		&.wc_right {

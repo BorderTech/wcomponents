@@ -48,6 +48,7 @@ ul.wc-fieldlayout {
 			}
 		}
 
+		> [type='password'],
 		> textarea,
 		> select,
 		> fieldset {
@@ -57,7 +58,7 @@ ul.wc-fieldlayout {
 	}
 }
 
-@include respond($size: 'not-small') {
+@include respond-not-small {
 	.flat > .wc-field {
 		@extend %wc-fld-layout-flat;
 	}

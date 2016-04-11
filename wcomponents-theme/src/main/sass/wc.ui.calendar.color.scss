@@ -6,17 +6,17 @@
 
 
 // This is the calendar container.
-#wc-calbox {
+#wc_calbox {
 	background-color: $wc-ui-color-global-bg;
 }
 
 // The calendar table
-#wc-calendar th {
+#wc_calendar th {
 	background-color: $wc-ui-color-highlight-bg;
 	color: $wc-ui-color-highlight-fg;
 }
 
-#wc-caldaybox td {
+#wc_caldaybox td {
 	color: $wc-ui-color-disabled-fg;
 }
 

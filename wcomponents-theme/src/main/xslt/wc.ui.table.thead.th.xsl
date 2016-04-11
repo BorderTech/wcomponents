@@ -7,7 +7,7 @@
 
 		<xsl:variable name="tableId" select="../../@id"/>
 		
-		<th id="{concat($tableId,'${wc.ui.table.id.thead.th.suffix}', position())}" scope="col">
+		<th id="{concat($tableId,'_thh', position())}" scope="col">
 			<xsl:if test="$hasRole &gt; 0">
 				<xsl:attribute name="role">
 					<xsl:text>columnheader</xsl:text>

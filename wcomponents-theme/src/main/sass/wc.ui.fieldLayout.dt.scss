@@ -37,25 +37,3 @@ $wc-fld-list: 33, 67;
 .#{$wc-input-width-slug}_66 .wc-input {
 	width: 67%;
 }
-
-@include respond(small) {
-	.wc-field {
-		// Important to override all the above gubbins without another thousand rules.
-		// scss-lint:disable ImportantRule
-		> :first-child,
-		> .wc-input {
-			display: block;
-			margin-left: 0 !important;
-			max-width: 100% !important;
-			width: 100% !important;
-		}
-
-		> .wc_fld_pl { //this is the placeholder for a null or moved label (moved for checkbox or radio). Remove on narrow viewports.
-			display: none !important;
-		}
-
-		> .wc-label + .wc-input {
-			margin-top: $vgap-small;
-		}
-	}
-}

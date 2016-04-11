@@ -27,7 +27,7 @@
 	}
 }
 
-@include respond($size: 'not-small') {
+@include respond-not-small {
 	.wc-tabset {
 		&.wc_left {
 			-ms-flex-direction: row;

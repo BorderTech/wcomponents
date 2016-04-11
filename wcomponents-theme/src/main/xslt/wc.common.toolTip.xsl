@@ -20,7 +20,7 @@
 		<xsl:param name="ttAccessKey" select="@accessKey"/>
 		<xsl:param name="id" select="@id"/>
 		<xsl:if test="$ttAccessKey!=''">
-			<span id="{concat($id,'${wc.ui.accesskey.id.suffix}')}" role="tooltip" hidden="hidden">
+			<span id="{concat($id,'_wctt')}" role="tooltip" hidden="hidden">
 				<xsl:value-of select="$ttAccessKey"/>
 			</span>
 		</xsl:if>

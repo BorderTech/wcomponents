@@ -61,8 +61,8 @@
 					<xsl:if test="@for and @for!=''"><!-- this is an explicit 'for' and not for implied by nesting -->
 						<xsl:attribute name="for">
 							<xsl:value-of select="@for"/>
-							<xsl:if test="$localNameLabellable = 'textfield' or  $localNameLabellable = 'datefield' or $localNameLabellable = 'phonenumberfield' or $localNameLabellable = 'emailfield' or $localNameLabellable = 'numberfield' or $localNameLabellable = 'passwordfield'">
-								<xsl:text>-input</xsl:text>
+							<xsl:if test="$localNameLabellable = 'textfield' or $localNameLabellable = 'datefield' or $localNameLabellable = 'phonenumberfield' or $localNameLabellable = 'emailfield'">
+								<xsl:text>_input</xsl:text>
 							</xsl:if>
 						</xsl:attribute>
 					</xsl:if>

@@ -7,7 +7,7 @@ dialog > [aria-live] { // dialog content container
 	height: -webkit-fit-content;
 	// scss-lint:enable VendorPrefix
 
-	@include respond(small) {
-		height: 100%;
-	}
+	// @include respond-phonelike {
+	// 	height: 100%;
+	// }
 }
