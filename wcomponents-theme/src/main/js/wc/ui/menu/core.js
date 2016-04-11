@@ -1215,7 +1215,7 @@ define(["wc/has",
 			 * @type {Boolean}
 			 * @protected
 			 */
-			this.isMobile = has("device-mobile");
+			// this.isMobile = has("device-mobile");
 
 			/**
 			 * Indicates if the current window is on a screen with a max-device-width indicating it is likely to be a phone.
