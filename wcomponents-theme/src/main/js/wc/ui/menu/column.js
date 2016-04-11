@@ -4,16 +4,16 @@
  * @see {@link http://www.w3.org/TR/wai-aria-practices/#menu}
  * @module
  * @extends module:wc/ui/menu/core
+ * @requires module:wc/has
  * @requires module:wc/ui/menu/core
  * @requires module:wc/dom/keyWalker
  * @requires module:wc/dom/shed
  * @requires module:wc/dom/Widget
  * @requires module:wc/dom/initialise
- * @requires module:wc/ui/menu/menuItem
  */
-define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "wc/dom/initialise", "wc/ui/menu/menuItem"],
-	/** @param abstractMenu wc/ui/menu/core @param keyWalker wc/dom/keyWalker @param shed wc/dom/shed @param Widget wc/dom/Widget @param initialise wc/dom/initialise @ignore */
-	function(abstractMenu, keyWalker, shed, Widget, initialise) {
+define(["wc/has", "wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "wc/dom/initialise", "wc/ui/menu/menuItem"],
+	/** @param has @param abstractMenu @param keyWalker @param shed  @param Widget @param initialise @ignore */
+	function(has, abstractMenu, keyWalker, shed, Widget, initialise) {
 		"use strict";
 
 		/* Unused dependencies:
@@ -94,7 +94,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			this.updateMenusForMobile = function(element) {
 				var candidates,
 					MENU_FIXED = "data-wc-menufixed";
-				if (!this.isMobile) {
+				if (!this.isMobile || has("ipad")) {
 					return;
 				}
 				if (this.isSubMenu(element)) {
