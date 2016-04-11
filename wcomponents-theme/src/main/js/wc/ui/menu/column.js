@@ -94,7 +94,7 @@ define(["wc/has", "wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/
 			this.updateMenusForMobile = function(element) {
 				var candidates,
 					MENU_FIXED = "data-wc-menufixed";
-				if (!this.isMobile || has("ipad")) {
+				if (!this.isSmallScreen) {
 					return;
 				}
 				if (this.isSubMenu(element)) {
@@ -103,7 +103,8 @@ define(["wc/has", "wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/
 					}
 					return;
 				}
-				else if (this.isRoot(element)) {
+
+				if (this.isRoot(element)) {
 					candidates = [element];
 				}
 				else {

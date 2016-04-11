@@ -25,7 +25,7 @@
 	}
 }
 
-@include respond-not-small {
+@include respond-not-phone {
 	[role='menubar'] .wc-submenu,
 	.wc-menu.column {
 		position: relative;

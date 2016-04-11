@@ -243,7 +243,7 @@ define(["wc/has",
 			var target = $event.target,
 				root,
 				item;
-			if ($event.defaultPrevented || this.isMobile) {
+			if ($event.defaultPrevented || this.isSmallScreen) {
 				return;
 			}
 			if ((root = this.getRoot(target)) && this.isTransient(root) && root === this.getRoot(document.activeElement)/* element root is same as focus root */) {
@@ -806,7 +806,7 @@ define(["wc/has",
 		 * @param {Object} instance An instance of a subclass.
 		 */
 		function doCollisionDetection(submenu, instance) {
-			if (instance.isMobile) {
+			if (instance.isSmallScreen) {
 				return;
 			}
 			if (collisionTimer) {
@@ -901,7 +901,7 @@ define(["wc/has",
 				 * should do this AFTER making sure we have set all disabled and
 				 * selected states as required.*/
 				if (this.isSubMenu(element)) {
-					if (this.isTransient(root) && !this.isMobile) {
+					if (this.isTransient(root) && !this.isSmallScreen) {
 						doCollisionDetection(element, this);
 					}
 					if ((subItem = this.getFirstAvailableItem(element))) {
@@ -1001,7 +1001,7 @@ define(["wc/has",
 			var content, subItem;
 
 			if ((content = this.getSubMenu(branch, true))) {
-				if (this.isTransient(root) && !this.isMobile) {
+				if (this.isTransient(root) && !this.isSmallScreen) {
 					doCollisionDetection(content, this);
 				}
 				if ((subItem = this.getFirstAvailableItem(content))) {
@@ -1215,7 +1215,15 @@ define(["wc/has",
 			 * @type {Boolean}
 			 * @protected
 			 */
-			this.isMobile = has("ios") || has("android") || has("iemobile") || has("operamobi") || has("operamini") || has("bb");
+			this.isMobile = has("device-mobile");
+
+			/**
+			 * Indicates if the current window is on a screen with a max-device-width indicating it is likely to be a phone.
+			 * @var
+			 * @type {Boolean}
+			 * @protected
+			 */
+			this.isSmallScreen = has("small-screen");
 
 			/**
 			 * A function map to keep strings in sync used for changing key mappings. This uses the class var FUNC_MAP so
@@ -1548,7 +1556,7 @@ define(["wc/has",
 			if (!item || shed.isDisabled(item)) {
 				return false;
 			}
-			if (this.isMobile) {
+			if (this.isSmallScreen) {
 				CLOSE_BUTTON = CLOSE_BUTTON || new Widget(BUTTON, "closesubmenu", {"role": "menuitem"});
 				if (CLOSE_BUTTON.isOneOfMe(item)) {
 					this[FUNC_MAP.CLOSE_MY_BRANCH](item);
