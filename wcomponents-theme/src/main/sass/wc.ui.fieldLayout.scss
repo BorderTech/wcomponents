@@ -57,9 +57,3 @@ ul.wc-fieldlayout {
 		}
 	}
 }
-
-@include respond-not-small {
-	.flat > .wc-field {
-		@extend %wc-fld-layout-flat;
-	}
-}
