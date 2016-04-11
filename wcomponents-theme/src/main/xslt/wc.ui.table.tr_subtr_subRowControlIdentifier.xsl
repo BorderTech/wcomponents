@@ -7,7 +7,7 @@
 	-->
 	<xsl:template match="ui:tr" mode="subRowControlIdentifier">
 		<xsl:param name="tableId"/>
-		<xsl:value-of select="concat($tableId,'-',@rowIndex)"/>
+		<xsl:value-of select="concat($tableId,'_',@rowIndex)"/>
 		<xsl:if test="position()!=last()">
 			<xsl:value-of select="' '"/>
 		</xsl:if>

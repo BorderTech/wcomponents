@@ -10,7 +10,7 @@
 	@include flex-shrink(1);
 }
 
-@include respond(small) {
+@include respond-phonelike {
 	.wc-row {
 		display: block;
 	}

@@ -23,7 +23,7 @@
 		<xsl:param name="topRowIsStriped" select="0"/>
 
 		<xsl:variable name="tableId" select="$myTable/@id"/>
-		<xsl:variable name="rowId" select="concat($tableId,'-',@rowIndex)"/>
+		<xsl:variable name="rowId" select="concat($tableId,'_',@rowIndex)"/>
 
 		<xsl:variable name="tableRowSelection">
 			<xsl:if test="$myTable/ui:rowselection">
@@ -63,7 +63,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		
+
 		<xsl:variable name="rowIsSelectable">
 			<xsl:if test="$tableRowSelection=1 and not(@unselectable=$t)">
 				<xsl:number value="1"/>
@@ -125,10 +125,10 @@
 								</xsl:apply-templates>
 							</xsl:when>
 							<xsl:when test="ui:subtr/ui:content">
-								<xsl:value-of select="concat($tableId,'${wc.ui.table.id.subTr.content.suffix}',@rowIndex)"/>
+								<xsl:value-of select="concat($tableId,'_subc',@rowIndex)"/>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:value-of select="concat($tableId,'${wc.ui.table.id.subTr.suffix}',@rowIndex)"/>
+								<xsl:value-of select="concat($tableId,'_sub',@rowIndex)"/>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
@@ -236,7 +236,7 @@
 			<!--
 			rowSelection indicator wrapper
 
-			This cell is an empty cell which is used as a placeholder to display the secondary indicators of the row 
+			This cell is an empty cell which is used as a placeholder to display the secondary indicators of the row
 			selection mechanism and state. The primary indicators are the aria-selected state.
 			-->
 			<xsl:if test="$tableRowSelection=1">

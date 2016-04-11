@@ -55,7 +55,7 @@ dt {
 	}
 }
 
-@include respond(small) {
+@include respond-phonelike {
 	.column {
 		> dt,
 		> dd {
@@ -67,7 +67,6 @@ dt {
 		}
 	}
 }
-
 
 // type stacked
 .stacked {

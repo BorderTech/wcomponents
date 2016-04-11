@@ -60,11 +60,11 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 					function clickEvent($event) {
 						var img, uploader, file,
 							element = $event.target,
-							id = element.getAttribute("data-selector");
+							id = element.getAttribute("data-wc-selector");
 						if (id && element.localName === "button") {
 							uploader = document.getElementById(id);
 							if (uploader) {
-								img = document.getElementById(element.getAttribute("data-img"));
+								img = document.getElementById(element.getAttribute("data-wc-img"));
 								if (img) {
 									file = imgToFile(img);
 									multiFileUploader.upload(uploader, [file]);
@@ -72,7 +72,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 								else {
 									imageEdit.editFiles({
 										id: id,
-										name: element.getAttribute("data-editor")
+										name: element.getAttribute("data-wc-editor")
 									}).then(function(files) {
 										multiFileUploader.upload(uploader, files, true);
 									}, function(message) {
@@ -98,7 +98,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 			var editorId, result = registeredIds[obj.id] || registeredIds[obj.name];
 			if (!result) {
 				if ("getAttribute" in obj) {
-					editorId = obj.getAttribute("data-editor");
+					editorId = obj.getAttribute("data-wc-editor");
 				}
 				else {
 					editorId = obj.editorId;

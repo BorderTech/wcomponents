@@ -35,7 +35,7 @@
 			</xsl:if>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:call-template name="ajaxTarget"/>
-			<xsl:variable name="mediaId" select="concat(@id, '-media')"/>
+			<xsl:variable name="mediaId" select="concat(@id, '_media')"/>
 
 			<xsl:element name="{$elementType}">
 				<xsl:attribute name="id">

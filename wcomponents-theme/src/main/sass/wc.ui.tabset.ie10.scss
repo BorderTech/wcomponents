@@ -9,6 +9,14 @@
 	-ms-flex-direction: column;
 	-ms-flex-pack: justify;
 	-ms-flex-wrap: nowrap;
+
+	&.wc_left {
+		-ms-flex-direction: row;
+	}
+
+	&.wc_right {
+		-ms-flex-direction: row-reverse;
+	}
 }
 
 [role='tablist'] {
@@ -25,28 +33,14 @@
 	&[aria-multiselectable] {
 		-ms-flex-direction: column;
 	}
-}
 
-@include respond($size: 'not-small') {
-	.wc-tabset {
-		&.wc_left {
-			-ms-flex-direction: row;
-		}
+	.wc_left > &,
+	.wc_right > & {
+		-ms-flex: 0 1 auto;
+		-ms-flex-direction: column;
 
-		&.wc_right {
-			-ms-flex-direction: row-reverse;
-		}
-	}
-
-	[role='tablist'] {
-		.wc_left > &,
-		.wc_right > & {
-			-ms-flex: 0 1 auto;
-			-ms-flex-direction: column;
-
-			> [role='tab'] {
-				-ms-flex: 0 0 100%;
-			}
+		> [role='tab'] {
+			-ms-flex: 0 0 100%;
 		}
 	}
 }

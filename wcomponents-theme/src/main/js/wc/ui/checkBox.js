@@ -51,7 +51,7 @@ define(["wc/dom/initialise",
 			 */
 			function writeState(form, container) {
 				var cb;
-				CB_ALONE = CB_ALONE || CHECKBOX.extend("", { "${wc.ui.checkBox.attribute.standAlone}": null });
+				CB_ALONE = CB_ALONE || CHECKBOX.extend("wc-checkbox");
 				cb = CB_ALONE.findDescendants(form);
 
 				cb = Array.prototype.filter.call(cb, function (next) {

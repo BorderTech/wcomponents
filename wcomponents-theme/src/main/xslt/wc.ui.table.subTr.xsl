@@ -5,7 +5,7 @@
 		a ui:tr element. It should not be present if the table does not have
 		rowExpansion. In HTML these are siblings of their parent ui:tr which makes row
 		manipulation interesting.
-		
+
 		Warning
 		Client mode row expansion and client mode pagination are currently incompatible.
 	-->
@@ -15,15 +15,15 @@
 		<xsl:param name="topRowIsStriped" select="0"/>
 		<xsl:param name="indent" select="0"/>
 		<xsl:param name="hasRole" select="0"/>
-		
+
 		<!--
 		 We have to output content if:
-		 
+
 			* she subTr is open;
 			* the expansion mode is client;
 			* there is a ui:content child element; or
 			* there are ui:tr child elements.
-		 
+
 		 Otherwise we have to create a null content placeholder with the appropriate
 		 wires to make the expansion AJAX enabled or able to force a submit on open.
 		-->
@@ -39,7 +39,7 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:variable name="tableId" select="$myTable/@id"/>
-				<tr id="{concat($tableId,'${wc.ui.table.id.subTr.suffix}',../@rowIndex)}" hidden="hidden"></tr>
+				<tr id="{concat($tableId,'_sub',../@rowIndex)}" hidden="hidden"></tr>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
