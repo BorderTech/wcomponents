@@ -53,7 +53,7 @@ define(["wc/dom/classList",
 				BASE_CLASS = "wc_dragflow wc_resizeflow",
 				UNIT = "px",
 				repositionTimer,
-				notMobile = !has("device-mobile"),
+				notMobile = !has("small-screen"),
 				REJECT = {
 					ALREADY_OPEN: "Cannot open a dialog whilst another dialog is open",
 					CANNOT_BUILD: "Cannot create the dialog frame",
