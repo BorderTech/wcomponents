@@ -11,7 +11,7 @@
 		<xsl:variable name="id" select="@id" />
 		<xsl:variable name="isError" select="key('errorKey',$id)" />
 		<xsl:variable name="myLabel" select="key('labelKey',$id)"/>
-		<xsl:variable name="listId" select="concat($id, '${wc.ui.combo.id.list.suffix}')"/>
+		<xsl:variable name="listId" select="concat($id, '_l')"/>
 		<xsl:if test="not($myLabel)">
 			<xsl:call-template name="checkLabel">
 				<xsl:with-param name="force" select="1"/>

@@ -3,7 +3,7 @@
 
 	<xsl:template match="ui:tbody">
 		<xsl:param name="hasRole" select="0"/>
-		<tbody id="{concat(../@id,'${wc.ui.table.id.body.suffix}')}">
+		<tbody id="{concat(../@id,'_tb')}">
 			<xsl:if test="../@separators='both' or ../@separators='horizontal'">
 				<xsl:attribute name="class">wc_table_rowsep</xsl:attribute>
 			</xsl:if>

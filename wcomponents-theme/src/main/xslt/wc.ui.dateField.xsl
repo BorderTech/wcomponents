@@ -9,27 +9,27 @@
 		A dateField is a compound control consisting of a text input and a button used
 		to launch a date picker calendar. The text input allows for typeahead to
 		select a date as the user types and for the following shortcuts:
-		
+
 			* t = today
 			* y = yesterday
 			* m = tomorrow
 			* [+|-][1-9][0-9]\* increment/decrement today's date by the number of days
-		
+
 		We do not implement HTML input element types for dates (date, dateTime
 		etc) as their implementation is patchy and no current browser does a good
 		enough job on the date pickers. In addition the date format enforced in the
 		HTML5 date inputs is (whilst eminently reasonable and unambiguous) not one
 		which is commonly used by real people.
-		
+
 		The picker calendar is built in JavaScript based on an XML template. It is not
 		transformed here. A single calendar is used for every dateField in a form by
 		attachment.
-		
+
 	-->
 	<xsl:template match="ui:datefield">
 		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="pickId">
-			<xsl:value-of select="concat('${wc.ui.dateField.id.prefix.picker}', $id)"/>
+			<xsl:value-of select="concat($id, '_cal')"/>
 		</xsl:variable>
 		<xsl:variable name="isError" select="key('errorKey',$id)"/>
 		<xsl:variable name="myLabel" select="key('labelKey',$id)[1]"/>
@@ -80,7 +80,7 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:variable name="inputId">
-					<xsl:value-of select="concat($id,'-input')"/>
+					<xsl:value-of select="concat($id,'_input')"/>
 				</xsl:variable>
 				<xsl:if test="not($myLabel)">
 					<xsl:call-template name="checkLabel">
@@ -89,7 +89,7 @@
 					</xsl:call-template>
 				</xsl:if>
 				<!-- NOTE:
-					it would be nice to use a span for wrapping a date control which really is just an input and a button. 
+					it would be nice to use a span for wrapping a date control which really is just an input and a button.
 					The suggestion list used in WComponents is, however, a ul so the wrapper for date fields is a div by
 					necessity which changes its content type to non-phrase.
 				-->
@@ -110,7 +110,7 @@
 					</xsl:attribute>
 					<xsl:attribute name="data-wc-name">
 						<xsl:value-of select="@id"/>
-						<xsl:text>${wc.ui.dateField.name.suffix}</xsl:text>
+						<xsl:text>-date</xsl:text>
 					</xsl:attribute>
 					<xsl:if test="@date">
 						<xsl:attribute name="data-wc-value">
@@ -207,7 +207,7 @@
 						</xsl:call-template>
 					</xsl:element>
 					<!-- This is the date picker launch control element.
-						
+
 						Calendar needs an ID so that if the date input itself is the target of an AJAX
 						"replace" the calendar icon will get cleaned up by our duplicate ID prevention
 						logic (assumes the new date field has the same ID which in WComponents is always the case).

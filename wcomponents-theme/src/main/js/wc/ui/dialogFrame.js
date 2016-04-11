@@ -32,7 +32,7 @@ define(["wc/dom/classList",
 		 */
 		function DialogFrame() {
 			var TEMPLATE_NAME = "dialog.xml",
-				DIALOG_ID = "${wc.ui.dialog.id}",
+				DIALOG_ID = "wc_dlgid",
 				CONTENT_BASE_CLASS = "content",
 				INITIAL_TOP_PROPORTION = 0.33,  // when setting the initial position offset the dialog so that the gap at the top is this proportion of the difference between the dialog size and viewport size
 				openerId,

@@ -6,14 +6,14 @@
 	<xsl:key name="collapsibleGroupKey" match="//ui:collapsible[@groupName]" use="@groupName"/>
 
 	<!--
-		Output expand all and collapse all buttons. 
-		
+		Output expand all and collapse all buttons.
+
 		Called from ui:rowexpansion and ui:collapsibletoggle.
-		
+
 		param id: the id of the collapsing control's grouping component. Default @id.
-		
-		param for: The identifier of the component/group which is controlled by the expand/collapse all buttons. This 
-		could be an id (for a single controlled entity), a space delimited id list, or a groupName attribute. It could 
+
+		param for: The identifier of the component/group which is controlled by the expand/collapse all buttons. This
+		could be an id (for a single controlled entity), a space delimited id list, or a groupName attribute. It could
 		alse be empty for a WCollapsibleToggle which controls all WCollapsibles in a view. Default @groupName.
 	-->
 	<xsl:template name="collapsibleToggle">
@@ -34,9 +34,9 @@
 			</xsl:choose>
 		</xsl:variable>
 		<!--
-			WCollapsibleToggle has a mandatory groupName attribute. 
-			
-			This may not point to a CollapsibleGroup (which is odd and should change) and in this case the 
+			WCollapsibleToggle has a mandatory groupName attribute.
+
+			This may not point to a CollapsibleGroup (which is odd and should change) and in this case the
 			WCollapsibleToggle should toggle every WCollapsible on the page.
 		-->
 		<xsl:variable name="group" select="key('collapsibleGroupKey', $for)"/>
@@ -63,7 +63,7 @@
 			<li>
 				<xsl:call-template name="toggleElement">
 					<xsl:with-param name="mode" select="$mode"/>
-					<xsl:with-param name="id" select="concat($id,'${wc.common.toggles.id.expand}')"/>
+					<xsl:with-param name="id" select="concat($id,'_expand')"/>
 					<xsl:with-param name="for" select="$targetList"/>
 					<xsl:with-param name="name" select="$id"/>
 					<xsl:with-param name="value" select="'expand'"/>
@@ -74,7 +74,7 @@
 			<li>
 				<xsl:call-template name="toggleElement">
 					<xsl:with-param name="mode" select="'client'"/><!-- collapse all is never ajaxy or lame -->
-					<xsl:with-param name="id" select="concat($id,'${wc.common.toggles.id.collapse}')"/>
+					<xsl:with-param name="id" select="concat($id,'_collapse')"/>
 					<xsl:with-param name="for" select="$targetList"/>
 					<xsl:with-param name="name" select="$id"/>
 					<xsl:with-param name="value" select="'collapse'"/>

@@ -134,7 +134,7 @@
 				</xsl:call-template>
 			</xsl:if>
 			<!-- This is the submenu opener/label element. -->
-			<button type="button" id="{concat($id, '${wc.ui.menu.submenu.openerIdSuffix}')}" name="{$id}" class="wc_btn_nada wc_invite wc-submenu-o" aria-controls="{$id}">
+			<button type="button" id="{concat($id, '_o')}" name="{$id}" class="wc_btn_nada wc_invite wc-submenu-o" aria-controls="{$id}">
 				<xsl:if test="not($type='tree')">
 					<xsl:attribute name="aria-haspopup">
 						<xsl:copy-of select="$t"/>

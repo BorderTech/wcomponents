@@ -91,9 +91,6 @@
 						<xsl:attribute name="value">
 							<xsl:copy-of select="$t"/>
 						</xsl:attribute>
-						<xsl:attribute name="${wc.ui.checkBox.attribute.standAlone}">
-							<xsl:text>x</xsl:text>
-						</xsl:attribute>
 					</xsl:if>
 					<xsl:if test="@groupName and self::ui:checkbox">
 						<xsl:attribute name="data-wc-cbgroup">

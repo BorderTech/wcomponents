@@ -53,7 +53,7 @@
 					<xsl:call-template name="makeLegend">
 						<xsl:with-param name="myLabel" select="$myLabel"/>
 					</xsl:call-template>
-					<xsl:variable name="listId" select="concat($id,'${wc.ui.shuffler.id.list.suffix}')"/>
+					<xsl:variable name="listId" select="concat($id,'_l')"/>
 					<select id="{$listId}" class="wc_shuffler" multiple="multiple">
 						<xsl:call-template name="disabledElement">
 							<xsl:with-param name="isControl" select="1"/>
