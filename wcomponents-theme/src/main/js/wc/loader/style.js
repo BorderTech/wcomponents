@@ -358,7 +358,7 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has wc/has @param module 
 		 */
 		this.load = function() {
 			// add generic desktop styles before browser specific styles
-			if (!has("device-mobile")) { // TODO: load this using a media query if possible
+			if (!has("small-screen")) { // TODO: load this using a media query if possible
 				addStyle(CSS_FILE_NAME + "dt");
 			}
 
