@@ -13,9 +13,9 @@
  *
  * @todo check source order, document private members.
  */
-define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event", "wc/dom/initialise", "wc/dom/shed", "wc/timers"],
-	/** @param getViewportSize wc/dom/getViewportSize @param getBox wc/dom/getBox @param uid wc/dom/uid @param event wc/dom/event @param initialise wc/dom/initialise @param shed wc/dom/shed @param timers wc/timers @ignore */
-	function(getViewportSize, getBox, uid, event, initialise, shed, timers) {
+define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event", "wc/dom/initialise", "wc/dom/shed", "wc/timers", "wc/ui/resizeable"],
+	/** @param getViewportSize @param getBox @param uid @param event @param initialise @param shed @param timers @param resizeable @ignore */
+	function(getViewportSize, getBox, uid, event, initialise, shed, timers, resizeable) {
 		"use strict";
 
 		/**
@@ -25,10 +25,18 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 		 */
 		function Positionable() {
 			var UNIT = "px",
-				ZERO = "0px",
+				ZERO = "0" + UNIT,
 				positionedBySize = {"length": 0},
 				resizeTimeout,
-				RESIZE_TIME = 100;
+				/**
+				 * Delay before firing resize event helper. Used to prevent the handler firing continually whilst
+				 * dragging the window frame.
+				 * @var
+				 * @type Number
+				 * @private
+				 */
+				RESIZE_TIME = 100,
+				STORED_ATTRIB = "data-wc-storedposition";
 
 			/**
 			 * A bit map for positions. Allows any implementing class to use common references.
@@ -55,6 +63,9 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 
 			/**
 			 * Remove a key from the positionedBySize register when it is no longer needed.
+			 *
+			 * @function
+			 * @private
 			 * @param {String} key An element id.
 			 */
 			function clearPositionBySizeKey(key) {
@@ -63,25 +74,47 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 			}
 
 			/**
-			 * Helper for {@link module:wc/ui/positionable~resizeEvent}, to reposition any component which is
-			 * positioned relative to viewport when the viewport dimensions change.
+			 * An iterator function which will loop through all known elements which are positioned by size and
+			 * reposition them if they are visible.
+			 *
+			 * @function
+			 * @private
+			 * @param {String} key An object key from positionedBySize.
+			 */
+			function resizeIteratorFunc(key) {
+				var element, next, reStore;
+				if (key === "length") {
+					return;
+				}
+				next = positionedBySize[key];
+
+				if (!(next.conf && (element = document.getElementById(key))) || shed.isHidden(element)) {
+					return;
+				}
+
+				if (element.style.width) {
+					next.conf.width = element.style.width.replace(UNIT, "");
+					reStore = true;
+				}
+				if (element.style.height) {
+					next.conf.height = element.style.height.replace(UNIT, "");
+					reStore = true;
+				}
+				if (reStore) {
+					instance.storePosBySize(element, next.conf);
+				}
+				instance.setBySize(element, next.conf);
+			}
+
+			/**
+			 * Resize event helper to reposition any component which is positioned relative to viewport when the
+			 * viewport dimensions change.
+			 *
 			 * @function
 			 * @private
 			 */
 			function resizeEventHelper() {
-				var element;
-				Object.keys(positionedBySize).forEach(function(key) {
-					var next;
-					if (key !== "length") {
-						next = positionedBySize[key];
-						if ((element = document.getElementById(key)) && !(shed.isHidden(element))) {
-							instance.setBySize(element, next.conf);
-						}
-						else {
-							clearPositionBySizeKey(key);
-						}
-					}
-				});
+				Object.keys(positionedBySize).forEach(resizeIteratorFunc);
 			}
 
 			/**
@@ -94,7 +127,8 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 			 *    initial style is returned unchanged.
 			 */
 			function styleToStyle(pos, offset) {
-				var result = pos, _pos;
+				var result = pos,
+					_pos;
 				if (offset) {
 					_pos = result.replace(UNIT, "");
 					result = ((_pos ? parseFloat(_pos) : 0) + offset) + UNIT;
@@ -112,7 +146,8 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 			 * @param {type} hOffset The value of the horizontal offset in px.
 			 */
 			function applyOffset(element, vOffset, hOffset) {
-				var placement, style = element.style;
+				var placement,
+					style = element.style;
 				if (vOffset && (placement = style.top || style.bottom)) {
 					placement = styleToStyle(placement, vOffset);
 				}
@@ -121,9 +156,12 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 				}
 			}
 
-			/*
-			 * elements which are positioned relative to the viewport
-			 * should be repositioned if the viewport resizes.
+			/**
+			 * Elements which are positioned relative to the viewport should be repositioned if the viewport resizes.
+			 *
+			 * @function
+			 * @private
+			 * @param {Event} $event The resize event.
 			 */
 			function resizeEvent($event) {
 				if (positionedBySize.length) {
@@ -135,26 +173,9 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 			}
 
 			/**
-			 * When a component is hidden its link to the resize event is broken. This is so we do not try to resize
-			 * things which are no longer visible.
-			 * @function
-			 * @private
-			 * @param {Element} element The element being hidden.
-			 */
-			function shedSubscriber(element) {
-				Object.keys(positionedBySize).forEach(function(key) {
-					var target;
-					if (key && key !== "length") {
-						if (element.id === key || ((target = document.getElementById(key)) && !!(element.compareDocumentPosition(target) & Node.DOCUMENT_POSITION_CONTAINED_BY))) {
-							clearPositionBySizeKey(key);
-						}
-					}
-				});
-			}
-
-			/**
 			 * Sets the absolute position of an element.
 			 * @function module:wc/ui/positionable.setPosition
+			 * @public
 			 * @param {Element} element The element being positioned.
 			 * @param {float} left The position for the left edge of the element.
 			 * @param {float} top The position for the top edge of the element.
@@ -188,92 +209,11 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 			};
 
 			/**
-			 * This will PIN an element to another element (so long as that other element has a measurable
-			 * boundingClientRect)
-			 *
-			 * <p>Preconditions:</p><ul>
-			 * <li>element must already have a position style which is either absolute or fixed</li>
-			 * <li>element must have an explicit or notional z-index greater than that of relTo</li>
-			 * <li>relTo must not be hidden or have a boundingClientRect which cannot be measured</li></ul>
-			 * <p>NOTES</p><ul>
-			 * <li>ALWAYS pin top and left otherwise draggable and resizeable might go funny!!</li>
-			 * <li>If no config options are set then this will center element in/over relTo.</li>
-			 * <li>The NW, NE, SE, SW values of POS place element on the pointy corner if outside</li>
-			 * <li>The order of POS precedence is NW, NE, SE, SW then N has precedence over S and W precedence over E
-			 *    so if you try to be too clever and set POS.NORTH and POS.SOUTH you will just get NORTH.</li>
-			 * <li>If you want something tricky like inside relTo but 20% from the top and 8% from the left you have to
-			 *    use {@link module:wc/ui/positionable#setBySize}</li>
-			 * <li>If you want something really tricky like outside and not in any of the 16 static positions, tough
-			 *    extend this class!!</li></ul>
-			 *
-			 * @function module:wc/ui/positionable.pinTo
-			 * @public
-			 * @param {Element} element The element to move.
-			 * @param {Element} relTo The element we are pinning it to.
-			 * @param {module:wc/ui/positionable~pinToConfig} config A configuration object.
- 			 */
-			this.pinTo = function(element, relTo, config) {
-				var pos = config.pos,  // bitwise or of this.POS properties
-					outside = config.outside,  // boolean
-					vOffset = config.vOffset || 0,
-					hOffset = config.hOffset || 0;
-
-				if (!(outside || pos)) {
-					instance.setBySize(element, {relativeTo: relTo});
-				}
-				else if (!outside) {
-					pinInside(element, relTo, config);
-				}
-				else {
-					pinOutside(element, relTo, config);
-				}
-				// now offset if necessary
-				applyOffset(element, vOffset, hOffset);
-			};
-
-			/*
-			 * Positioning element outside of relTo.
+			 * Calculate the positioning object for a given bitmap.
 			 * @function
 			 * @private
-			 */
-			function pinOutside(element, relTo, config) {
-				var box, elBox,
-					style = element.style,
-					coords = calculatePos(config.pos);
-
-				if (coords.boxVert || coords.boxHoriz) {
-					box = getBox(relTo);
-				}
-
-				if (coords.offsetLeft || coords.offsetTop) {
-					elBox = getBox(element);
-				}
-				if (coords.boxVert && coords.boxHoriz) {
-					// setting both
-					style[coords.vertPos] = (coords.offsetTop ? (elBox.height * coords.offsetTop) : 0) + box[coords.boxVert] + UNIT;
-					style[coords.horizPos] = (coords.offsetLeft ? (elBox.width * coords.offsetLeft) : 0) + box[coords.boxHoriz] + UNIT;
-				}
-				else {
-					// this will center the element
-					instance.setBySize(element, {relativeTo: relTo});
-					// now we just need to move it
-					if (coords.boxVert) {
-						style[coords.vertPos] = (coords.offsetTop ? (elBox.height * coords.offsetTop) : 0) + box[coords.boxVert] + UNIT;
-					}
-					else {
-						// we now know boxHoriz is set
-						style[coords.horizPos] = (coords.offsetLeft ? (elBox.width * coords.offsetLeft) : 0) + box[coords.boxHoriz] + UNIT;
-					}
-				}
-			}
-
-			/*
-			 *
-			 * @function
-			 * @private
-			 *
-			 * @param pos A bitwise or of this.POS properties
-			 * @returns An object with the following possible properties: boxVert, boxHoriz, offsetTop, offsetLeft, vertPos, horizPos
+			 * @param {bitmap} pos A bitwise or of this.POS properties
+			 * @returns {Object} An object with the following possible properties: boxVert, boxHoriz, offsetTop, offsetLeft, vertPos, horizPos
 			 */
 			function calculatePos(pos) {
 				var TOP = "top", RIGHT = "right", BOTTOM = "bottom", LEFT = "left",
@@ -325,13 +265,18 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 				return result;
 			}
 
-			/*
+			/**
+			 * Put an element inside a container.
 			 *
+			 * @param {Element} element The element we are positioning.
+			 * @param {Element} relTo The element inside of which we are positiining.
+			 * @param {module:wc/ui/positionable~pinToConfig} config A dto providing positioning information.
 			 * @function
 			 * @private
 			 */
 			function pinInside(element, relTo, config) {
-				var vertPos, horizPos, pos = config.pos;  // bitwise or of this.POS properties;
+				var vertPos, horizPos,
+					pos = config.pos;  // bitwise or of this.POS properties;
 				if (instance.POS.NW & pos) {
 					vertPos = 0;
 					horizPos = 0;
@@ -367,10 +312,143 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 			}
 
 			/**
-			 * Position an element relative to another element or the viewport where the sise of the element being
+			 * Position an element to the outside of a container.
+			 * @function
+			 * @private
+			 * @param {Element} element The element being positioned.
+			 * @param {Element} relTo The element to which we are pinning.
+			 * @param {module:wc/ui/positionable~pinToConfig} config A configuration object.
+			 */
+			function pinOutside(element, relTo, config) {
+				var box, elBox,
+					style = element.style,
+					coords = calculatePos(config.pos);
+
+				if (coords.boxVert || coords.boxHoriz) {
+					box = getBox(relTo);
+				}
+
+				if (coords.offsetLeft || coords.offsetTop) {
+					elBox = getBox(element);
+				}
+				if (coords.boxVert && coords.boxHoriz) {
+					// setting both
+					style[coords.vertPos] = (coords.offsetTop ? (elBox.height * coords.offsetTop) : 0) + box[coords.boxVert] + UNIT;
+					style[coords.horizPos] = (coords.offsetLeft ? (elBox.width * coords.offsetLeft) : 0) + box[coords.boxHoriz] + UNIT;
+				}
+				else {
+					// this will center the element
+					instance.setBySize(element, {relativeTo: relTo});
+					// now we just need to move it
+					if (coords.boxVert) {
+						style[coords.vertPos] = (coords.offsetTop ? (elBox.height * coords.offsetTop) : 0) + box[coords.boxVert] + UNIT;
+					}
+					else {
+						// we now know boxHoriz is set
+						style[coords.horizPos] = (coords.offsetLeft ? (elBox.width * coords.offsetLeft) : 0) + box[coords.boxHoriz] + UNIT;
+					}
+				}
+			}
+
+			/**
+			 * This will PIN an element to another element (so long as that other element has a measurable
+			 * boundingClientRect)
+			 *
+			 * Preconditions:
+			 *
+			 * * element must already have a position style which is either absolute or fixed;
+			 * * element must have an explicit or notional z-index greater than that of relTo;
+			 * * `relTo` must not be hidden or have a boundingClientRect which cannot be measured.
+			 *
+			 * **NOTES**
+			 *
+			 * * ALWAYS pin top and left otherwise draggable and resizeable might go funny!
+			 * * If no config options are set then this will center element in/over relTo
+			 * * The NW, NE, SE, SW values of POS place element on the pointy corner if outside.
+			 * * The order of POS precedence is NW, NE, SE, SW then N has precedence over S and W precedence over E
+			 *    so if you try to be too clever and set POS.NORTH and POS.SOUTH you will just get NORTH.
+			 * * If you want something tricky like inside relTo but 20% from the top and 8% from the left you have to
+			 *    use {@link module:wc/ui/positionable#setBySize}
+			 * * If you want something really tricky like outside and not in any of the 16 static positions, tough:
+			 *    extend this class!
+			 *
+			 * @function module:wc/ui/positionable.pinTo
+			 * @public
+			 * @param {Element} element The element to move.
+			 * @param {Element} relTo The element we are pinning it to.
+			 * @param {module:wc/ui/positionable~pinToConfig} config A configuration object.
+ 			 */
+			this.pinTo = function(element, relTo, config) {
+				var pos = config.pos,  // bitwise or of this.POS properties
+					outside = config.outside,  // boolean
+					vOffset = config.vOffset || 0,
+					hOffset = config.hOffset || 0;
+
+				if (!(outside || pos)) {
+					instance.setBySize(element, {relativeTo: relTo});
+				}
+				else if (!outside) {
+					pinInside(element, relTo, config);
+				}
+				else {
+					pinOutside(element, relTo, config);
+				}
+				// now offset if necessary
+				applyOffset(element, vOffset, hOffset);
+			};
+
+			/**
+			 * Subscribe to {@link module:wc/ui/resizeable} to reposition components when they are resized.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element The element being resized.
+			 */
+			function resizeableSubscriber(element) {
+				var id = element.id,
+					key,
+					conf;
+
+				if (id && (key = positionedBySize[id]) && (conf = key.conf)) {
+					if (element.style.width) {
+						conf.width = element.style.width.replace(UNIT, "");
+					}
+					else {
+						delete conf.width;
+					}
+					if (element.style.height) {
+						conf.height = element.style.height.replace(UNIT, "");
+					}
+					else {
+						delete conf.height;
+					}
+					instance.storePosBySize(element, conf);
+					instance.setBySize(element, conf);
+				}
+			}
+
+			/**
+			 * Allow an external module to set a component as positioned by size without actually positioning it yet.
+			 *
+			 * @function module:wc/ui/positionable.storePosBySize
+			 * @public
+			 * @param {Element} element The element which will be positioned.
+			 * @param {module:wc/ui/positionable~setBySizeConfig} [conf] Position configuration.
+			 */
+			this.storePosBySize = function(element, conf) {
+				var id = element.id || (element.id = uid());
+				if (!positionedBySize[id]) {
+					++positionedBySize.length;
+				}
+				positionedBySize[id] = {id: id, conf: conf};
+			};
+
+			/**
+			 * Position an element relative to another element or the viewport where the size of the element being
 			 * positioned determines the location relative to the target.
 			 *
 			 * @function module:wc/ui/positionable.setBySize
+			 * @public
 			 * @param {Element} element The element to position.
 			 * @param {module:wc/ui/positionable~setBySizeConfig} conf The configuration for this
 			 *    position.
@@ -378,10 +456,10 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 			this.setBySize = function(element, conf) {
 				var _el = element.nodeType ? element : document.getElementById(element),
 					id = _el.id || (_el.id = uid()),
-					relativeTo,  // position relative (usually inside) another element
+					relativeTo, // position relative (usually inside) another element
 					relSize,
-					topOffset = 0.5,  // may be overridden by conf.topOffsetPC
-					leftOffset = 0.5,  // may be overridden by conf.leftOffsetPC
+					topOffset = 0.5, // may be overridden by conf.topOffsetPC
+					leftOffset = 0.5, // may be overridden by conf.leftOffsetPC
 					width, height, box, top, left,
 					func = "setPosition";
 
@@ -392,6 +470,7 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 					leftOffset = (conf.leftOffsetPC !== undefined) ? conf.leftOffsetPC : leftOffset;  // if the left offset is not specified then position the element so that it is in the middle of the relative component
 					relativeTo = conf.relativeTo;
 				}
+
 				if (relativeTo) {
 					relSize = getBox(relativeTo);
 				}
@@ -430,7 +509,7 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 					left = (relSize.width - width) * leftOffset;
 				}
 
-				instance[func](_el, left, top);
+				this[func](_el, left, top);
 			};
 
 			/**
@@ -472,16 +551,16 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 			};
 
 			/**
-			 * Resets all position related styles (top, bottom, left, right) to ZERO (0px).
-			 * @function module:wc/ui/positionable.reset
+			 * Removes position styles if they are ZERO.
+			 * @function module:wc/ui/positionable.clearZeros
 			 * @public
 			 * @param {Element} element The element to reset.
 			 * @param {Boolean} [ignoreTopLeft] If true then do not reset top or left, just bottom and right. Why?
 			 *    because we sometimes need to keep these as they are used rather a lot elsewhere. Why not bottom and
 			 *    right? Because they are only set during collision detection or explicit pinning and are never part
-			 *    of the underlying component's defaul position model.
+			 *    of the underlying component's default position model.
 			 */
-			this.reset = function(element, ignoreTopLeft) {
+			this.clearZeros = function(element, ignoreTopLeft) {
 				if (!ignoreTopLeft && element.style.top === ZERO) {
 					element.style.top = "";
 				}
@@ -497,13 +576,54 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 			};
 
 			/**
-			 * late initialisation to add shed HIDE subscriber.
+			 * Clear any current inline positioning style and optionally keep it for later use.
+			 *
+			 * @function module:wc/ui/positionable.clearPosition
+			 * @public
+			 * @param {Element} element The element to clear.
+			 * @param {boolean} [keep] If true store the position information for later use.
+			 */
+			this.clearPosition = function(element, keep) {
+				var style = element.style,
+					size = "";
+				if (keep) {
+					size = style.top + "," + style.right + "," + style.bottom + "," + style.left;
+					element.setAttribute(STORED_ATTRIB, size);
+				}
+				style.top = "";
+				style.right = "";
+				style.bottom = "";
+				style.left = "";
+			};
+
+			/**
+			 * Restore saved inline positioning styles.
+			 *
+			 * @function module:wc/ui/positionable.restorePosition
+			 * @public
+			 * @param {Element} element The element to clear.
+			 */
+			this.restorePosition = function(element) {
+				var size = element.getAttribute(STORED_ATTRIB),
+					style = element.style;
+				if (size) {
+					size = size.split(",");
+					style.top = size[0];
+					style.right = size[1];
+					style.bottom = size[2];
+					style.left = size[3];
+					element.removeAttribute(STORED_ATTRIB);
+				}
+			};
+
+			/**
+			 * Late initialisation to add resize event handler and subscriber to {@link module:wc/ui/resizeable}.
 			 * @function module:wc/ui/positionable.postInit
 			 * @public
 			 */
 			this.postInit = function() {
-				event.add(window, event.TYPE.resize, resizeEvent);
-				shed.subscribe(shed.actions.HIDE, shedSubscriber);
+				event.add(window, event.TYPE.resize, resizeEvent, 1);
+				resizeable.subscribe(resizeableSubscriber);
 			};
 
 			/**
@@ -530,7 +650,7 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 		 *
 		 * @typedef {Object} module:wc/ui/positionable~pinToConfig
 		 *
-		 * @property {int} pos description a bitwise OR of {@link module:wc/ui/positionable#POS} options.
+		 * @property {bitmap} pos description a bitwise OR of {@link module:wc/ui/positionable#POS} options.
 		 * @property {Boolean} [outside] Where to pin the element in the relative element. If rue it gets pinned to
 		 *    the outside of the relative element, otherwise it gets pinned within the relative element.
 		 * @property {int} [vOffset] The vertical offset to apply to the pined element relative to the requested

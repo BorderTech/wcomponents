@@ -3,11 +3,10 @@
  *
  * @typedef {Object} module:wc/ui/draggable.config() Optional module configuration
  * @property {int} step The number of pixels to move the draggable element per key press.
- * @default 6
+ * @default 8
  *
  * @module
  * @requires module:wc/dom/attribute
- * @requires module:wc/dom/classList
  * @requires module:wc/dom/clearSelection
  * @requires module:wc/dom/event
  * @requires module:wc/dom/getEventOffset
@@ -20,10 +19,10 @@
  * @requires module:wc/has
  * @requires module:wc/ui/ajax/processResponse
  * @requires module:wc/ui/positionable
- * @requires module:wc/ui/draggable
+ * @requires module:wc/ui/resizeable
+ * @requires module:wc/config
  */
 define(["wc/dom/attribute",
-		"wc/dom/classList",
 		"wc/dom/clearSelection",
 		"wc/dom/event",
 		"wc/dom/getEventOffset",
@@ -36,9 +35,10 @@ define(["wc/dom/attribute",
 		"wc/has",
 		"wc/ui/ajax/processResponse",
 		"wc/ui/positionable",
+		"wc/ui/resizeable",
 		"wc/config"],
 	/** @param attribute wc/dom/attribute @param classList wc/dom/classList @param clearSelection wc/dom/clearSelection @param event wc/dom/event @param getMouseEventOffset wc/dom/getEventOffset @param isAcceptableEventTarget wc/dom/isAcceptableTarget @param getBox wc/dom/getBox @param initialise wc/dom/initialise @param shed wc/dom/shed @param uid wc/dom/uid @param Widget wc/dom/Widget @param has wc/has @param processResponse wc/ui/ajax/processResponse @param positionable wc/ui/positionable @param wcconfig wc/config @ignore */
-	function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcceptableEventTarget, getBox, initialise, shed, uid, Widget, has, processResponse, positionable, wcconfig) {
+	function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableEventTarget, getBox, initialise, shed, uid, Widget, has, processResponse, positionable, resizeable, wcconfig) {
 		"use strict";
 
 		/**
@@ -49,44 +49,15 @@ define(["wc/dom/attribute",
 		function Draggable() {
 			var TRUE = "true",
 				DRAGGABLE = new Widget("", "", {"data-wc-draggable": TRUE}),
-				DRAGGABLE_HAS_ANIMATION_CLASS = "wc_dragflow",
-				CLASS_REMOVED_ATTRIB = "data_draggableremovedanimation",
 				ns = "wc.ui.draggable",
+				DRAGGABLE_ATTRIB = "data-wc-draggable",
+				DRAG_FOR_ATTRIB = "data-wc-dragfor",
 				dragging,
 				offsetX = {},
 				offsetY = {},
 				conf = wcconfig.get("wc/ui/draggable"),
-				KEY_MOVE = ((conf && conf.step) ? conf.step : 6),  // the number of pixels by which a draggable is moved by keyboard
-				BS = ns + ".inited",
-				MM_EVENT = ns + ".move.inited";
-
-			/**
-			 * Helper to turn off UI move animations.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} el The element being moved.
-			 */
-			function removeAminationClass(el) {
-				if (classList.contains(el, DRAGGABLE_HAS_ANIMATION_CLASS)) {
-					classList.remove(el, DRAGGABLE_HAS_ANIMATION_CLASS);
-					el.setAttribute(CLASS_REMOVED_ATTRIB, TRUE);
-				}
-			}
-
-			/**
-			 * Helper to turn on UI move animations.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} el The element to be tested.
-			 */
-			function replaceAnimationClass(el) {
-				if (el.getAttribute(CLASS_REMOVED_ATTRIB) === TRUE) {
-					classList.add(el, DRAGGABLE_HAS_ANIMATION_CLASS);
-					el.removeAttribute(CLASS_REMOVED_ATTRIB);
-				}
-			}
+				KEY_MOVE = ((conf && conf.step) ? conf.step : 8),  // the number of pixels by which a draggable is moved by keyboard
+				BS = ns + ".inited";
 
 			/**
 			 * We usually need to move a complex component but only want a sub-component to be the move handle. This
@@ -98,7 +69,7 @@ define(["wc/dom/attribute",
 			 * @returns {Element} The component we actually want to move.
 			 */
 			function getMoveTarget(element) {
-				var result = element, targetId = element.getAttribute("data-wc-dragfor");
+				var result = element, targetId = element.getAttribute(DRAG_FOR_ATTRIB);
 				if (targetId) {
 					result = document.getElementById(targetId);
 				}
@@ -121,12 +92,50 @@ define(["wc/dom/attribute",
 					position = getBox(moveTarget, true);
 					offsetX[id] = offset.X - position.left;
 					offsetY[id] = offset.Y - position.top;
-					removeAminationClass(moveTarget);
 				}
 			}
 
 			/**
-			 * keydown event listener. Provides keyboard driven move using arrow keys when a move target (or its
+			 * Helper for the keydown event to move the "draggable" item.
+			 *
+			 * @param {Element} element The draggable element.
+			 * @param {int} x The amount to move in the x axis.
+			 * @param {int} y The amount to move in the y axis.
+			 * @returns {Boolean} true if the move is able to take place.
+			 */
+			function keydownHelper(element, x, y) {
+				var moveTarget,
+					position,
+					animationsDisabled;
+
+				if (!(x || y)) {
+					return false;
+				}
+
+				moveTarget = getMoveTarget(element);
+				if (!moveTarget) {
+					return false;
+				}
+
+				try {
+					resizeable.disableAnimation(moveTarget); // do not animate key-bound move.
+					animationsDisabled = true;
+					x = x || 0;
+					y = y || 0;
+					position = getBox(moveTarget, true);
+					positionable.clearZeros(moveTarget, true);
+					positionable.setPositionInView(moveTarget, position.left + x, position.top + y);
+					return true;
+				}
+				finally {
+					if (animationsDisabled) {
+						resizeable.restoreAnimation(moveTarget);
+					}
+				}
+			}
+
+			/**
+			 * keydown event listener which provides keyboard driven move using arrow keys when a move target (or its
 			 * descendant) has focus.
 			 *
 			 * @function
@@ -134,42 +143,29 @@ define(["wc/dom/attribute",
 			 * @param {Event} $event The keydown event.
 			 */
 			function keydownEvent($event) {
-				var target = $event.target, element, result = false, x, y, keyCode = $event.keyCode, moveTarget, position;
-				try {
-					if (!$event.defaultPrevented && (element = DRAGGABLE.findAncestor(target))) {
-						switch (keyCode) {
-							case KeyEvent.DOM_VK_RIGHT:
-								x = KEY_MOVE;
-								break;
-							case KeyEvent.DOM_VK_LEFT:
-								x = 0 - KEY_MOVE;
-								break;
-							case KeyEvent.DOM_VK_DOWN:
-								y = KEY_MOVE;
-								break;
-							case KeyEvent.DOM_VK_UP:
-								y = 0 - KEY_MOVE;
-								break;
-						}
-						// this is the bit that does the key driven "drag"
-						if ((x || y) && (moveTarget = getMoveTarget(element))) {
-							removeAminationClass(moveTarget);
-							x = x || 0;
-							y = y || 0;
-							position = getBox(moveTarget, true);
-							positionable.reset(element, true);
-							positionable.setPositionInView(moveTarget, position.left + x, position.top + y);
-							result = true;
-						}
-					}
-					if (result) {
-						$event.preventDefault();
+				var target = $event.target,
+					element,
+					x,
+					y,
+					keyCode = $event.keyCode;
+				if (!$event.defaultPrevented && (element = DRAGGABLE.findAncestor(target))) {
+					switch (keyCode) {
+						case KeyEvent.DOM_VK_RIGHT:
+							x = KEY_MOVE;
+							break;
+						case KeyEvent.DOM_VK_LEFT:
+							x = 0 - KEY_MOVE;
+							break;
+						case KeyEvent.DOM_VK_DOWN:
+							y = KEY_MOVE;
+							break;
+						case KeyEvent.DOM_VK_UP:
+							y = 0 - KEY_MOVE;
+							break;
 					}
 				}
-				finally {
-					if (moveTarget) {
-						replaceAnimationClass(moveTarget);
-					}
+				if (keydownHelper(element, x, y)) {
+					$event.preventDefault();
 				}
 			}
 
@@ -197,7 +193,6 @@ define(["wc/dom/attribute",
 					id = moveTarget.id || (moveTarget.id = uid());
 					dragging = id;
 					position = getBox(moveTarget, true);
-					removeAminationClass(moveTarget);
 					offsetX[id] = touch.pageX - position.left;
 					offsetY[id] = touch.pageY - position.top;
 					$event.preventDefault();
@@ -211,35 +206,49 @@ define(["wc/dom/attribute",
 			 * @private
 			 */
 			function mouseupTouchendTouchcancelEvent() {
-				var element;
-				if (dragging && (element = document.getElementById(dragging))) {
-					replaceAnimationClass(element);
-				}
 				dragging = null;
 			}
-
 
 			/**
 			 * Moves an element as a helper for mousemove and touchmove.
 			 *
-			 *
+			 * @function
+			 * @private
 			 * @param {Element} element The component to move.
 			 * @param {float} x The amount to move the component on the x axis.
 			 * @param {float} y the amount to move the component on the y axis.
 			 */
 			function moveTo(element, x, y) {
 				var id = element.id,
-					top = Math.max((y - offsetY[id]), 0),
-					left = Math.max((x - offsetX[id]), 0);
-				if (id) {
+					top,
+					left,
+					animationsDisabled;
+
+				try {
+					if (!id) {
+						return;
+					}
+					// NOTE: looks like these were being calculated then ignored. X and Y cannot be negative because
+					// that would mean the drag/touch had gone out of viewport.
+					// top = Math.max((y - offsetY[id]), 0),
+					// left = Math.max((x - offsetX[id]), 0);
+
 					top = y - offsetY[id];
 					left = x - offsetX[id];
-					if ((top || left)) {
-						positionable.reset(element, true);
+
+					if (top || left) {
+						resizeable.disableAnimation(element);
+						animationsDisabled = true;
+						positionable.clearZeros(element, true);
 						positionable.setPositionInView(element, left, top);
 						positionable.clearPositionBySize(id);
 					}
+				}
+				finally {
 					clearSelection();
+					if (animationsDisabled) {
+						resizeable.restoreAnimation(element);
+					}
 				}
 			}
 
@@ -257,7 +266,6 @@ define(["wc/dom/attribute",
 				}
 
 				if ((element = document.getElementById(dragging))) {
-					removeAminationClass(element);
 					offset = getMouseEventOffset($event);
 					moveTo(element, offset.X, offset.Y);
 				}
@@ -283,48 +291,80 @@ define(["wc/dom/attribute",
 			}
 
 			/**
-			 * These are some heavy duty event handlers so only wire them up if the draggable is available to drag.
+			 * Add and remove events from a draggable element.
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} element The element which is draggable.
+			 * @param {Element} element The draggable element.
+			 * @param {boolean} remove If true then remove event listeners rather than adding them.
 			 */
-			function bootstrap(element) {
-				var body = document.body;
-				if (!(attribute.get(element, BS) || shed.isHidden(element)) || shed.hasHiddenAncestor(element)) {
-					attribute.set(element, BS, true);
-					event.add(element, event.TYPE.mousedown, mousedownEvent);
-					event.add(element, event.TYPE.keydown, keydownEvent);
+			function addRemoveEvents(element, remove) {
+				var func = remove ? "remove" : "add";
+
+				if (!remove && attribute.get(element, BS)) {
+					return; // do not add more than once
+				}
+				try {
+					event[func](element, event.TYPE.mousedown, mousedownEvent);
+					event[func](element, event.TYPE.keydown, keydownEvent);
 					if (has("event-ontouchstart")) {
-						event.add(element, event.TYPE.touchstart, touchstartEvent);
+						event[func](element, event.TYPE.touchstart, touchstartEvent);
 					}
 				}
-				if (!attribute.get(body, MM_EVENT)) {
-					attribute.set(body, MM_EVENT, true);
-					event.add(body, event.TYPE.mousemove, mousemoveEvent);
-
-					if ("ontouchmove" in window) {
-						event.add(body, event.TYPE.touchmove, touchmoveEvent);
-					}
+				finally {
+					func = remove ? "remove" : "set";
+					attribute[func](element, BS, true);
 				}
 			}
 
 			/**
-			 * {@link module:wc/ui/draggable~bootstrap} draggables on shed.SHOW or AJAX insert. NOTE: we are probably
+			 * Add and remove drag actions on show/hide. NOTE: we are probably
 			 * showing/inserting an ancestor of the actual draggable element.
 			 *
 			 * @function
 			 * @private
 			 * @param {Element} element the element being shown.
+			 * @param {String} action The shed action SHOW or HIDE.
 			 */
-			function shedAjaxSubscriber(element) {
+			function shedAjaxSubscriber(element, action) {
 				if (element) {
 					if (DRAGGABLE.isOneOfMe(element)) {
-						bootstrap(element);
+						addRemoveEvents(element);
 					}
-					Array.prototype.forEach.call(DRAGGABLE.findDescendants(element), bootstrap);
+					Array.prototype.forEach.call(DRAGGABLE.findDescendants(element), function (next) {
+						addRemoveEvents(next, action === shed.actions.HIDE);
+					});
 				}
 			}
+
+			/**
+			 * Make an element a drag control
+			 *
+			 * @function module:wc/ui/draggable.makeDraggable
+			 * @public
+			 * @param {Element} element The element which will be draggable.
+			 * @param {String} [forId] The id of the element which is actually being controlled if it is not `element`.
+			 */
+			this.makeDraggable = function(element, forId) {
+				element.setAttribute(DRAGGABLE_ATTRIB, TRUE);
+				addRemoveEvents(element);
+				if (forId) {
+					element.setAttribute(DRAG_FOR_ATTRIB, forId);
+				}
+			};
+
+			/**
+			 * Make an element no longer draggable.
+			 *
+			 * @function module:wc/ui/draggable.clearDraggable
+			 * @public
+			 * @param {Element} element The element to change.
+			 */
+			this.clearDraggable = function(element) {
+				element.removeAttribute(DRAGGABLE_ATTRIB);
+				addRemoveEvents(element, true);
+				element.removeAttribute(DRAG_FOR_ATTRIB);
+			};
 
 			/**
 			 * A subscriber to set up early event listeners.
@@ -334,11 +374,16 @@ define(["wc/dom/attribute",
 			 */
 			this.initialise = function(element) {
 				event.add(element, event.TYPE.mouseup, mouseupTouchendTouchcancelEvent);
+				event.add(element, event.TYPE.mousemove, mousemoveEvent);
+
+				if (has("event-ontouchmove")) {
+					event.add(element, event.TYPE.touchmove, touchmoveEvent);
+				}
 				if (has("event-ontouchend")) {
 					event.add(element, event.TYPE.touchend, mouseupTouchendTouchcancelEvent);
 				}
 				if (has("event-ontouchcancel")) {
-					event.add(document.body, event.TYPE.touchcancel, mouseupTouchendTouchcancelEvent);
+					event.add(element, event.TYPE.touchcancel, mouseupTouchendTouchcancelEvent);
 				}
 			};
 
@@ -347,8 +392,9 @@ define(["wc/dom/attribute",
 			 * @function module:wc/ui/draggable.postInit
 			 */
 			this.postInit = function() {
-				Array.prototype.forEach.call(DRAGGABLE.findDescendants(document.body), bootstrap);
+				Array.prototype.forEach.call(DRAGGABLE.findDescendants(document.body), addRemoveEvents);
 				shed.subscribe(shed.actions.SHOW, shedAjaxSubscriber);
+				shed.subscribe(shed.actions.HIDE, shedAjaxSubscriber);
 				processResponse.subscribe(shedAjaxSubscriber, true);
 			};
 		}

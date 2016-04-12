@@ -93,13 +93,13 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				LAST: "wc_cal_last"
 			},
 			LAUNCHER = dateField.getLaunchWidget(),
+			DATE_FIELD,
 			PICKABLE = new Widget("button", CLASS.DATE_BUTTON),
 			ROW,
 			CAL_BUTTON = new Widget("button", "wc_wdf_mv"),
 			CLOSE_BUTTON = new Widget("button", "wc_wdf_cls"),
 			isOpening = false,
 			yearChangedTimeout,
-			reposTimer,
 			refocusId,
 			MIN_ATTRIB = "min",
 			MAX_ATTRIB = "max",
@@ -366,7 +366,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 			// touching = null;
 			if (cal && !shed.isHidden(cal)) {
-
 				// focus the dateField if required
 				if (!ignoreFocusReset && (input = getInputForCalendar(cal))) {
 					refocusId = input.id;
@@ -374,7 +373,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				else {
 					refocusId = null;
 				}
-				cal.removeAttribute("style"); // remove any inline styles
 				shed.hide(cal);
 			}
 		}
@@ -1020,6 +1018,30 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			}
 		}
 
+		/**
+		 * Positions the calendar relative to its input element.
+		 * @param {Element} [element] The calendar element (if you already have it, otherwise we'll find it for you).
+		 */
+		function position(element) {
+			var input, box,
+				cal = element || getCal(),
+				fixed;
+			if (cal && !shed.isHidden(cal)) {
+				fixed = (window.getComputedStyle && window.getComputedStyle(cal).position === "fixed");
+				if (fixed) {
+					input = getInputForCalendar(cal);
+					if (input) {
+						box = getBox(input);
+						cal.style.top = box.bottom + "px";
+					}
+				}
+				else {
+					cal.style.top = "";
+				}
+				detectCollision(cal);
+			}
+		}
+
 		/*
 		 * strip aria- attributes on hide
 		 */
@@ -1029,9 +1051,10 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				if (action === shed.actions.HIDE) {
 					element.removeAttribute(CONTROL_ATTRIBUTE);
 					clearMinMaxYear();
-					classList.remove(element, CLASS.SOUTH);
 					classList.remove(element, CLASS.WEST);
 					element.style.left = "";
+					element.style.top = "";
+					element.removeAttribute("style"); // remove any inline styles
 					// touching = null;
 					if (refocusId) {
 						if ((input = document.getElementById(refocusId)) && focus.canFocus(input)) {
@@ -1061,30 +1084,20 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * The use can reopen it when they are done messing with the viewport.
 		 */
 		function reposEvent() {
-			if (reposTimer) {
-				timers.clearTimeout(reposTimer);
-			}
-			if (!isOpening) {
-				reposTimer = timers.setTimeout(position, 100);
-			}
+			hideCalendar();
 		}
 
-		/**
-		 * Positions the calendar relative to its input element.
-		 * @param {Element} [element] The calendar element (if you already have it, otherwise we'll find it for you).
-		 */
-		function position(element) {
-			var input, box, cal = element || getCal(), fixed;
-			if (cal && !shed.isHidden(cal)) {
-				fixed = (window.getComputedStyle && window.getComputedStyle(cal).position === "fixed");
-				if (fixed) {
-					input = getInputForCalendar(cal);
-					if (input) {
-						box = getBox(input);
-						cal.style.top = box.bottom + "px";
-					}
-				}
-				detectCollision(cal);
+		function focusEvent($event) {
+			var target = $event.target,
+				element;
+			DATE_FIELD = DATE_FIELD || dateField.getWidget();
+
+			if (DATE_FIELD && target) {
+				element = DATE_FIELD.findAncestor(target);
+			}
+
+			if (!element) {
+				hideCalendar(true);
 			}
 		}
 
@@ -1096,6 +1109,12 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @param {Element} element The element being initialised, usually document.body.
 		 */
 		this.initialise = function(element) {
+			if (event.canCapture) {
+				event.add(element, event.TYPE.focus, focusEvent, null, null, true);
+			}
+			else {
+				event.add(element, event.TYPE.focusin, focusEvent);
+			}
 			event.add(element, event.TYPE.click, clickEvent);
 			event.add(element, event.TYPE.keydown, keydownEvent);
 		};
@@ -1107,7 +1126,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 */
 		this.postInit = function() {
 			event.add(window, event.TYPE.resize, reposEvent);
-			// event.add(window, event.TYPE.scroll, reposEvent);  // this is bad if opening the calendar causes the page to scroll
 			shed.subscribe(shed.actions.SHOW, shedSubscriber);
 			shed.subscribe(shed.actions.HIDE, shedSubscriber);
 			loader.preload(TEMPLATE_NAME);

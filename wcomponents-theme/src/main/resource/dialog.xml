@@ -1,4 +1,4 @@
-<${wc.dom.html5.element.dialog} id="wc_dlgid" role="dialog" class="wc_dragflow wc_resizeflow">
+<${wc.dom.html5.element.dialog} id="wc_dlgid" role="dialog">
 <${wc.dom.html5.element.header} tabindex="0">
 <span>
 <button class="wc_maxcont wc_btn_icon" type="button" title="{{heading.maxRestore}}" aria-pressed="false" data-wc-resize="wc_dlgid"> </button>
