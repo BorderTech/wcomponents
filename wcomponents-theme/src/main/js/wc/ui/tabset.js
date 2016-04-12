@@ -475,12 +475,12 @@ define(["wc/dom/ariaAnalog",
 						tabs = tabs.unfiltered;
 						if (!selected.length) {
 							// no open tabs (or all individually disabled)
-							formUpdateManager.writeStateField(stateContainer, tabsetName, "");
+							formUpdateManager.writeStateField(stateContainer, tabsetName, "", false, true);
 						}
 						else {
 							selected.forEach(function(theTab) {
 								position = tabs.indexOf(theTab);
-								formUpdateManager.writeStateField(stateContainer, tabsetName, position);
+								formUpdateManager.writeStateField(stateContainer, tabsetName, position, false, true);
 							});
 						}
 					}
