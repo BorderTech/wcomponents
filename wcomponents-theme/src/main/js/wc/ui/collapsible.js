@@ -231,7 +231,7 @@ define(["wc/dom/event",
 			function writeState(container, stateContainer) {
 				function writeStateCollapsible($element) {
 					var val = shed.isExpanded($element) ? "open" : "closed";
-					formUpdateManager.writeStateField(stateContainer, $element.id, val);
+					formUpdateManager.writeStateField(stateContainer, $element.id, val, false, true);
 				}
 				Array.prototype.forEach.call(COLLAPSIBLE_CONTAINER.findDescendants(container), writeStateCollapsible);
 				if (COLLAPSIBLE_CONTAINER.isOneOfMe(container)) {

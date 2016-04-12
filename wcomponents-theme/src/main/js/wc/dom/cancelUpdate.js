@@ -62,7 +62,16 @@ define(["wc/i18n/i18n",
 			 * @returns {String} The serialized state of the form.
 			 */
 			function getCurrentState(form) {
-				return serialize.serialize(form, true, true);
+				return serialize.serialize(form, true, true, isDirty);
+			}
+
+			/**
+			 * Filters out "clean" elements from the serialization.
+			 * @param {Element} element A state field.
+			 * @returns {Boolean} false if the element should be vetoed.
+			 */
+			function isDirty(element) {
+				return !element.hasAttribute("data-wc-clean");
 			}
 
 			/**
@@ -316,7 +325,7 @@ define(["wc/i18n/i18n",
 				var form, nodeList, oldState, newState, newKeys, next, i;
 				if (element && (form = element.form) && form.id && (oldState = registry[form.id])) {
 					nodeList = [element];
-					newState = serialize.serialize(nodeList, true, true);
+					newState = serialize.serialize(nodeList, true, true, isDirty);
 					newKeys = Object.keys(newState);
 					for (i = 0; i < newKeys.length; i++) {
 						next = newKeys[i];
@@ -354,7 +363,7 @@ define(["wc/i18n/i18n",
 				var form, nodeList, oldState, delState, newKeys, next, i, nextVal, delIdx;
 				if (element && (form = element.form) && form.id && (oldState = registry[form.id])) {
 					nodeList = [element];
-					delState = serialize.serialize(nodeList, true, true);
+					delState = serialize.serialize(nodeList, true, true, isDirty);
 					newKeys = Object.keys(delState);
 					for (i = 0; i < newKeys.length; i++) {
 						next = newKeys[i];
