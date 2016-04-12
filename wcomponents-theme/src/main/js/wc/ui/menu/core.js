@@ -1127,7 +1127,7 @@ define(["wc/has",
 			}
 
 			if (name) {
-				formUpdateManager.writeStateField(toContainer, name + "${wc.ui.menu.submenu.nameSuffix}", TRUE);
+				formUpdateManager.writeStateField(toContainer, name + "${wc.ui.menu.submenu.nameSuffix}", TRUE, false, true);
 			}
 		}
 

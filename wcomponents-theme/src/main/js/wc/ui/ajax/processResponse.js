@@ -47,7 +47,7 @@ define(["wc/Observer",
 				var group = null;
 				observer = observer || new Observer();
 				if (after) {
-					group = {group: OBSERVER_GROUP};
+					group = { group: OBSERVER_GROUP };
 				}
 				return observer.subscribe(subscriber, group);
 			};

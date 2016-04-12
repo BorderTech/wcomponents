@@ -124,7 +124,7 @@ define(["wc/array/toArray",
 					if (shed.isExpanded(element) && !shed.isDisabled(element)) {
 						collapsibleTable = TABLE.findAncestor(element).parentElement; // the table id is on the table container
 						rowIndex = element.getAttribute("data-wc-rowindex");
-						formUpdateManager.writeStateField(stateContainer, collapsibleTable.id + ".expanded", rowIndex);
+						formUpdateManager.writeStateField(stateContainer, collapsibleTable.id + ".expanded", rowIndex, false, true);
 					}
 				});
 			}

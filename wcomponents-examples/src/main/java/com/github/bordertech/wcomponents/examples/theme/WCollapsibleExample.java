@@ -2,11 +2,13 @@ package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.CollapsibleGroup;
 import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.WCancelButton;
 import com.github.bordertech.wcomponents.WCollapsible;
 import com.github.bordertech.wcomponents.WCollapsibleToggle;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import java.util.Date;
@@ -25,7 +27,7 @@ public class WCollapsibleExample extends WPanel {
 	public WCollapsibleExample() {
 		setLayout(new FlowLayout(FlowLayout.Alignment.VERTICAL, 0, 12));
 
-		WText component3 = new WText() {
+		WTextField component3 = new WTextField() {
 			// We want some dynamic text to show that there's a trip to the server.
 			@Override
 			public String getText() {
@@ -86,5 +88,6 @@ public class WCollapsibleExample extends WPanel {
 				"Server Side Collapsible - initially expanded", WCollapsible.CollapsibleMode.SERVER);
 		collapsible2.setCollapsed(false);
 		add(collapsible2);
+		add(new WCancelButton("Cancel"));
 	}
 }

@@ -160,9 +160,11 @@ define(["wc/dom/tag", "wc/dom/isSuccessfulElement", "wc/dom/getFilteredGroup"],
 			 * @param {Boolean} [includeButtons] If true all button name:value pairs are included.
 			 * @param {Boolean} [returnAsObject] If true return an object not a string. Each property of the object
 			 *    represents name/value pair. The name/value pairs will be URI encoded.
+			 * @param {function} filter A funtion that will be passed an element and can veto inclusion in the serialization if it
+			 *    returns false.
 			 * @returns {string|Object.<string, string[]>}
 			 */
-			this.serialize = function (nodeList, includeButtons, returnAsObject) {
+			this.serialize = function (nodeList, includeButtons, returnAsObject, filter) {
 				var sb = [],
 					i,
 					len,
@@ -177,6 +179,14 @@ define(["wc/dom/tag", "wc/dom/isSuccessfulElement", "wc/dom/getFilteredGroup"],
 				}
 				for (i = 0, len = nodeList.length; i < len; i++) {
 					next = nodeList[i];
+					try {
+						if (filter && filter(next) === false) {
+							continue;
+						}
+					}
+					catch (ex) {
+						console.error(ex);
+					}
 					if (isSuccessfulElement(next, includeButtons)) {
 						if (next.tagName === tag.SELECT) {
 							items = getFilteredGroup(next);

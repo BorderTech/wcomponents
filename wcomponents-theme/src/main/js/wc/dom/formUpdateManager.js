@@ -304,15 +304,19 @@ define(["wc/dom/event",
 		 * @param {string} name The name of the parameter when the form is serialized.
 		 * @param {Variant} [value] The value of the parameter when the form is serialized.
 		 * @param {boolean} [unique] If true then state field must not already exist in container.
+		 * @param {boolean} [clean] If true then this state field is ignored for the purposes of determining "dirty" state (i.e. cancelUpdate).
 		 * @returns {?Element} The state field if it was created.
 		 */
-		FormUpdateManager.prototype.writeStateField = function(container, name, value, unique) {
+		FormUpdateManager.prototype.writeStateField = function(container, name, value, unique, clean) {
 			var state;
 			if (container && name) {
 				if (!unique || !(this.getStateField(container, name))) {
 					state = document.createElement("input");
 					state.type = "hidden";
 					state.name = name;
+					if (clean) {
+						state.setAttribute("data-wc-clean", clean);
+					}
 					if (value !== undefined && value !== null) {  // don't write null or undefined, really, don't
 						state.value = value;
 					}
