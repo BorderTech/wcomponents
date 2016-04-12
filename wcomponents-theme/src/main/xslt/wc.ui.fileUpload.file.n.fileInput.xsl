@@ -3,7 +3,7 @@
 	<xsl:import href="wc.ui.imageEdit.xsl"/>
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.title.xsl"/>
-	
+
 	<xsl:template name="fileInput">
 		<xsl:param name="id"/>
 		<xsl:variable name="maxFiles" select="@maxFiles"/>
@@ -27,11 +27,11 @@
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="@id"/><!-- If there is no dropzone we may as well default to the file widget container -->
-					</xsl:otherwise>					
+					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
 			<xsl:if test="@editor">
-				<xsl:attribute name="data-editor">
+				<xsl:attribute name="data-wc-editor">
 					<xsl:value-of select="@editor"/>
 				</xsl:attribute>
 			</xsl:if>

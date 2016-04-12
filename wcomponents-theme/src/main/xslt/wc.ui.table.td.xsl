@@ -9,7 +9,7 @@
 		<xsl:param name="myTable"/>
 		<xsl:param name="indent" select="0"/>
 		<xsl:param name="hasRole" select="0"/>
-		
+
 		<xsl:variable name="tableId" select="$myTable/@id"/>
 		<xsl:variable name="tbleColPos">
 			<xsl:value-of select="position()"/>
@@ -35,12 +35,12 @@
 				<xsl:attribute name="headers">
 					<xsl:variable name="colHeader">
 						<xsl:if test="$colHeaderElement">
-							<xsl:value-of select="concat($tableId,'${wc.ui.table.id.thead.th.suffix}',$tbleColPos)"/>
+							<xsl:value-of select="concat($tableId,'_thh',$tbleColPos)"/>
 						</xsl:if>
 					</xsl:variable>
 					<xsl:variable name="rowHeader">
 						<xsl:if test="$rowHeaderElement">
-							<xsl:value-of select="concat($tableId,'${wc.ui.table.id.tr.th.suffix}',../@rowIndex)"/>
+							<xsl:value-of select="concat($tableId,'_trh',../@rowIndex)"/>
 						</xsl:if>
 					</xsl:variable>
 					<xsl:value-of select="normalize-space(concat($colHeader,' ',$rowHeader))"/>

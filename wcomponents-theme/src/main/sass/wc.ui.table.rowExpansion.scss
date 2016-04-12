@@ -4,13 +4,9 @@
 
 .wc-rowexpansion {
 	@extend %expand-collapse-all;
-
-	// @include respond(small) {
-	// 	text-align: left;
-	// }
 }
 
-.wc_rowindent  {
+.wc_rowindent {
 	display: inline-block;
 	width: $table-hierarchic-indent;
 }

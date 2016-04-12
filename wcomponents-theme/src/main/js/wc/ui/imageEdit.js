@@ -1,6 +1,6 @@
-define(["wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/dom/shed",
-	"wc/loader/resource", "wc/i18n/i18n", "fabric", "Mustache", "wc/ui/dialogFrame"],
-function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustache, dialogFrame) {
+define(["wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/dom/shed", "wc/config",
+	"wc/loader/resource", "wc/i18n/i18n", "fabric", "Mustache", "wc/ui/dialogFrame", "getUserMedia"],
+function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabric, Mustache, dialogFrame, getUserMedia) {
 	var imageEdit = new ImageEdit();
 
 	/**
@@ -17,8 +17,8 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 			faceDetection = new FaceDetection(),
 			overlayUrl,
 			defaults = {
-				width: 300,
-				height: 400
+				width: 320,
+				height: 240
 			},
 			stateStack = [],
 			registeredIds = {},
@@ -60,11 +60,11 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 					function clickEvent($event) {
 						var img, uploader, file,
 							element = $event.target,
-							id = element.getAttribute("data-selector");
+							id = element.getAttribute("data-wc-selector");
 						if (id && element.localName === "button") {
 							uploader = document.getElementById(id);
 							if (uploader) {
-								img = document.getElementById(element.getAttribute("data-img"));
+								img = document.getElementById(element.getAttribute("data-wc-img"));
 								if (img) {
 									file = imgToFile(img);
 									multiFileUploader.upload(uploader, [file]);
@@ -72,7 +72,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 								else {
 									imageEdit.editFiles({
 										id: id,
-										name: element.getAttribute("data-editor")
+										name: element.getAttribute("data-wc-editor")
 									}).then(function(files) {
 										multiFileUploader.upload(uploader, files, true);
 									}, function(message) {
@@ -98,7 +98,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 			var editorId, result = registeredIds[obj.id] || registeredIds[obj.name];
 			if (!result) {
 				if ("getAttribute" in obj) {
-					editorId = obj.getAttribute("data-editor");
+					editorId = obj.getAttribute("data-wc-editor");
 				}
 				else {
 					editorId = obj.editorId;
@@ -135,12 +135,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 							}
 						}
 						else if (config.camera) {
-							if (has("rtc-gum")) {
-								promise = editFile(config, null).then(saveEditedFile, reject);
-							}
-							else {
-								reject(i18n.get("${wc.ui.imageEdit.message.nortcgum}"));
-							}
+							promise = editFile(config, null).then(saveEditedFile, reject);
 						}
 					}
 					catch (ex) {
@@ -205,8 +200,10 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 						fileReader.readAsDataURL(file);
 					}
 					else {
-						imageCapture.initialize(fbCanvas.getWidth(), fbCanvas.getHeight());
-						imageCapture.play();
+						imageCapture.play({
+							width: fbCanvas.getWidth(),
+							height: fbCanvas.getHeight()
+						});
 					}
 				});
 			});
@@ -220,13 +217,6 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 			loadImageFromDataUrl($event.target.result);
 		}
 
-		/*
-		 * Callback invoked when an img element has loaded.
-		 */
-		function imageLoaded($event) {
-			renderImage($event.target);
-		}
-
 		/**
 		 * Loads an image from a data URL into the editor.
 		 * @param {string} dataUrl An image encoded into a data url.
@@ -235,6 +225,13 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 			var imgObj = new Image();
 			imgObj.src = dataUrl;
 			imgObj.onload = imageLoaded;
+		}
+
+		/*
+		 * Callback invoked when an img element has loaded.
+		 */
+		function imageLoaded($event) {
+			renderImage($event.target);
 		}
 
 		/**
@@ -268,44 +265,62 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 
 		/*
 		 * Displays an img element in the image editor.
-		 * @param {Element} img An image element.
+		 * @param {Element|string} img An image element or a dataURL.
 		 */
-		function renderImage(img) {
+		function renderImage(img, callback) {
 			var minScaleLimit = 0.1,
 				width = fbCanvas.getWidth(),
 				height = fbCanvas.getHeight(),
 				imageWidth, imageHeight;
-			fbImage = new fabric.Image(img);
-			fbImage.set({
-				angle: 0,
-				top: 0,
-				left: 0,
-				lockScalingFlip: true,
-				lockUniScaling: true,
-				centeredScaling: true,
-				centeredRotation: true
-			});
-			imageWidth = fbImage.getWidth();
-			imageHeight = fbImage.getHeight();
-			if (imageWidth > imageHeight) {
-				fbImage.scaleToWidth(width).setCoords();
+			try {
+				if (img.nodeType) {
+					renderFabricImage(new fabric.Image(img));
+				}
+				else {
+					fabric.Image.fromURL(img, renderFabricImage);
+				}
 			}
-			else {
-				fbImage.scaleToHeight(height).setCoords();
+			catch (ex) {
+				console.warn(ex);
 			}
-			minScaleLimit = calcMinScale(width, height, imageWidth, imageHeight);
-			fbImage.minScaleLimit = minScaleLimit;
-			stateStack.length = 0;
-			fbCanvas.clear();
-			fbCanvas.add(fbImage);
-			if (overlayUrl) {
-				fbCanvas.setOverlayImage(overlayUrl, positionOverlay);
+			function renderFabricImage(fabricImage) {
+				fbImage = fabricImage;
+				fabricImage.set({
+					angle: 0,
+					top: 0,
+					left: 0,
+					lockScalingFlip: true,
+					lockUniScaling: true,
+					centeredScaling: true,
+					centeredRotation: true
+				});
+				imageWidth = fabricImage.getWidth();
+				imageHeight = fabricImage.getHeight();
+				if (imageWidth > imageHeight) {
+					fabricImage.scaleToWidth(width).setCoords();
+				}
+				else {
+					fabricImage.scaleToHeight(height).setCoords();
+				}
+				fabricImage.width = imageWidth;
+				fabricImage.height = imageHeight;
+				minScaleLimit = calcMinScale(width, height, imageWidth, imageHeight);
+				fabricImage.minScaleLimit = minScaleLimit;
+				stateStack.length = 0;
+				fbCanvas.clear();
+				fbCanvas.add(fabricImage);
+				if (overlayUrl) {
+					fbCanvas.setOverlayImage(overlayUrl, positionOverlay);
+				}
+				else {
+					fbCanvas.renderAll();
+				}
+				fabricImage.saveState();
+				stateStack.push(JSON.stringify(fabricImage.originalState));
+				if (callback) {
+					callback();
+				}
 			}
-			else {
-				fbCanvas.renderAll();
-			}
-			fbImage.saveState();
-			stateStack.push(JSON.stringify(fbImage.originalState));
 		}
 
 		/**
@@ -406,14 +421,9 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 					faceDetection.initControls(eventConfig, container);
 					// }
 					if (!file) {
-						if (has("rtc-gum")) {
-							classList.add(container, "wc_camenable");
-							classList.add(container, "wc_showcam");
-							imageCapture.snapshotControl(eventConfig, container);
-						}
-						else {
-							classList.add(container, "wc_nortc");
-						}
+						classList.add(container, "wc_camenable");
+						classList.add(container, "wc_showcam");
+						imageCapture.snapshotControl(eventConfig, container);
 					}
 					resolve(container);
 				}, reject);
@@ -749,12 +759,17 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 		 * @returns {File} The image as a binary File.
 		 */
 		function imgToFile(element) {
-			var file, fbImageTemp, dataUrl, blob, config = {
+			var scale = 1,
+				canvas = document.createElement("canvas"),
+				context, file, dataUrl, blob, config = {
 					name: element.id
 				};
 			if (element && element.src) {
-				fbImageTemp = new fabric.Image(element);
-				dataUrl = fbImageTemp.toDataURL();
+				canvas.width = element.width * scale;
+				canvas.height = element.height * scale;
+				context = canvas.getContext("2d");
+				context.drawImage(element, 0, 0);
+				dataUrl = canvas.toDataURL("image/png");
 				blob = dataURItoBlob(dataUrl);
 				file = blobToFile(blob, config);
 			}
@@ -909,80 +924,124 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 		 * @constructor
 		 */
 		function ImageCapture() {
-			var _stream,
+			var VIDEO_CONTAINER = "wc_img_video_container",
+				context,
+				canvas,
+				image,
 				streaming,
-				VIDEO_ID = "wc_img_video";
+				_stream,
+				pos = 0,
+				currentOptions,
+				defaultOptions = {
+					video: true,  // { facingMode: "user" },
+					audio: false,
+					extern: null,
+					append: true,
+					context: "",
+					swffile: window.require.toUrl("lib/getusermedia-js/fallback/jscam_canvas_only.swf"),
+					el: VIDEO_CONTAINER,
+					mode: "callback",
+					quality: 85,
+					onCapture: onCapture,
+					onSave: onSave
+				};
 
 			has.add("rtc-gum", function() {
 				return (gumWrapper());
 			});
 
 			/*
+			 * Flash event handler
+			 */
+			function onCapture() {
+//				context = fbCanvas.getContext("2d");
+//				context.clearRect(0, 0, currentOptions.width, currentOptions.height);
+//				image = context.getImageData(0, 0, currentOptions.width, currentOptions.height);
+				canvas = document.createElement("canvas");
+				canvas.height = currentOptions.height;
+				canvas.width = currentOptions.width;
+				context = canvas.getContext("2d");
+				context.clearRect(0, 0, currentOptions.width, currentOptions.height);
+				image = context.getImageData(0, 0, currentOptions.width, currentOptions.height);
+				currentOptions.save();
+			}
+
+			/*
+			 * Flash event handler
+			 */
+			function onSave(data) {
+				var col = data.split(";"),
+					tmp = null,
+					width = currentOptions.width,
+					height = currentOptions.height;
+				for (var i = 0; i < width; i++) {
+					tmp = parseInt(col[i], 10);
+					image.data[pos + 0] = (tmp >> 16) & 0xff;
+					image.data[pos + 1] = (tmp >> 8) & 0xff;
+					image.data[pos + 2] = tmp & 0xff;
+					image.data[pos + 3] = 0xff;
+					pos += 4;
+				}
+
+				if (pos >= 4 * width * height) {
+					// fbCanvas.getContext("2d").putImageData(image, 0, 0);
+					context.putImageData(image, 0, 0);
+					renderImage(canvas.toDataURL());
+					pos = 0;
+				}
+			}
+
+			/*
 			 * Wires up the "take photo" feature.
 			 */
 			this.snapshotControl = function (eventConfig, container) {
-				var click = eventConfig.click;
-				if (has("rtc-gum")) {
-					activateCameraControl(eventConfig, container);
-					click.snap = {
-						func: function() {
-							var dataUrl,
-								fbImageTemp,
-								video = document.getElementById(VIDEO_ID);
+				var click = eventConfig.click,
+					done = function(_video) {
+						var video = _video || getVideo();
+						classList.remove(container, "wc_showcam");
+						imageCapture.stop();
+						video.parentNode.removeChild(video);
+					};
+				activateCameraControl(eventConfig, container);
+				click.snap = {
+					func: function() {
+						var video, img;
+						if (currentOptions.context === "webrtc") {
+							video = getVideo();
 							if (video) {
-								fbImageTemp = new fabric.Image(video);
-								dataUrl = fbImageTemp.toDataURL();
-								loadImageFromDataUrl(dataUrl);
-								classList.remove(container, "wc_showcam");
-								imageCapture.stop(true);
+								video.pause();
+								img = videoToImage(video);
+								renderImage(img, done);
 							}
 						}
-					};
-				}
+						else if (currentOptions.context === "flash") {
+							currentOptions.capture();
+							classList.remove(container, "wc_showcam");
+						}
+						else {
+							alert("No context was supplied to getSnapshot()");
+						}
+					}
+				};
 			};
 
 			function activateCameraControl(eventConfig, container) {
 				var click = eventConfig.click;
-				if (has("rtc-gum")) {
-					click.camera = {
-						func: function() {
-							imageCapture.play();
-							classList.add(container, "wc_showcam");
-						}
-					};
-				}
-			}
-
-			/**
-			 * Initialize the video element.
-			 * Provide the width and the video height will be scaled to fit.
-			 * @param {number} width The width used to scale the video.
-			 * @param {number} [_height] Not used under normal circumstances.
-			 */
-			this.initialize = function(width, _height) {
-				var video = document.getElementById(VIDEO_ID);
-				video.setAttribute("width", width);
-				streaming = false;
-				video.addEventListener("canplay", function() {
-					var height;
-					if (!streaming) {
-						height = video.videoHeight / (video.videoWidth / width);
-
-						// Firefox currently has a bug where the height can't be read from the video
-						if (isNaN(height)) {
-							height = width / (width / _height);
-						}
-
-						video.setAttribute("width", width);
-						video.setAttribute("height", height);
-
-						streaming = true;
+				click.camera = {
+					func: function() {
+						imageCapture.play({
+							width: fbCanvas.getWidth(),
+							height: fbCanvas.getHeight()
+						});
+						classList.add(container, "wc_showcam");
 					}
-				}, false);
-			};
+				};
+			}
 
 			/*
 			 * Wraps the call to getUserMedia to hide the turmoil.
+			 * WARNING: call "gumWithFallback" instead - it will use native gum if found and fall back if necessary.
+			 *
 			 * Has the same signature and return as the native getUserMedia call EXCEPT if you call it with no args it's basically a feature test
 			 * and returns truthy if GUM is supported.
 			 */
@@ -1006,17 +1065,49 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 				return false;
 			};
 
+			/*
+			 * Entry point to gum.
+			 * Uses native getUserMedia if possible and falls back to plugins if it must.
+			 */
+			function gumWithFallback(constraints, playCb, errCb) {
+				if (getUserMedia && arguments.length === 3) {
+					getUserMedia(constraints, playCb, errCb);
+				}
+			}
+
 			function playCb(stream) {
-				var vendorURL, video = document.getElementById(VIDEO_ID);
+				var video, vendorURL;
 				_stream = stream;
-				if (navigator.mozGetUserMedia) {
-					video.mozSrcObject = stream;
-				}
-				else {
+				if (currentOptions.context === "webrtc") {
+
+					video = currentOptions.videoEl;
 					vendorURL = window.URL || window.webkitURL;
-					video.src = vendorURL.createObjectURL(stream);
+					video.src = vendorURL ? vendorURL.createObjectURL(stream) : stream;
+
+					video.onerror = function () {
+						stream.getVideoTracks()[0].stop();
+						errCb(arguments[0]);
+					};
+
+					video.setAttribute("width", currentOptions.width);
+					streaming = false;
+					video.addEventListener("canplay", function() {
+						var height;
+						if (!streaming) {
+							height = video.videoHeight / (video.videoWidth / currentOptions.width);
+
+							// Firefox currently has a bug where the height can't be read from the video
+							if (isNaN(height)) {
+								height = currentOptions.width / (currentOptions.width / currentOptions.height);
+							}
+
+							video.setAttribute("width", currentOptions.width);
+							video.setAttribute("height", height);
+
+							streaming = true;
+						}
+					}, false);
 				}
-				video.play();
 			}
 
 			function errCb(err) {
@@ -1027,7 +1118,7 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 			 * Close the web camera video stream.
 			 */
 			this.stop = function(pause) {
-				var i, track, tracks, video = document.getElementById(VIDEO_ID);
+				var i, track, tracks, video = getVideo();
 				if (video && !pause) {
 					video.src = "";
 				}
@@ -1052,16 +1143,69 @@ function(has, event, uid, classList, timers, shed, loader, i18n, fabric, Mustach
 
 			/**
 			 * Start the web camera video stream.
+			 * Any options not provided will be set to default values.
+			 * Default values may be globally overridden by "wc/config" options.
+			 * Option values provided to this function call override default and global option values.
+			 *
+			 * In other words:
+			 * 1. Options passed in argument trump all.
+			 * 2. Options set in wc/config trump defaults.
+			 * 3. Option defaults will be used if not set in any other way.
+			 *
+			 * To understand the options take a look at: https://github.com/addyosmani/getUserMedia.js and/or https://github.com/infusion/jQuery-webcam
 			 */
-			this.play = function() {
-				var constraints = {
-					video: true,// { facingMode: "user" },
-					audio: false
-				};
-				if (has("rtc-gum")) {
-					gumWrapper(constraints, playCb, errCb);
+			this.play = function(options) {
+				var globalOptions, globalConf = wcconfig.get("wc/ui/imageEdit");
+				if (globalConf && globalConf.options) {
+					globalOptions = globalConf.options;
 				}
+				else {
+					globalOptions = {};
+				}
+				currentOptions = Object.assign({}, defaultOptions, globalOptions, options);
+				currentOptions.width *= 1;
+				currentOptions.height *= 1;
+				window.webcam = currentOptions;  // Needed for flash fallback
+				if (!has("rtc-gum") && currentOptions.swffile === defaultOptions.swffile && (currentOptions.width !== 320 || currentOptions.height !== 240)) {
+					/*
+					 * The default swffile can only support 320 x 240.
+					 * Compile new swf files at different resolutions if you need them: https://github.com/infusion/jQuery-webcam
+					 * You can then change the swffile location in the options using wc/config
+					 */
+					console.warn("The default flash fallback only supports 320 x 240");
+					currentOptions.width = 320;
+					currentOptions.height = 240;
+				}
+				gumWithFallback(currentOptions, playCb, errCb);
 			};
+
+			function videoToDataUrl(video, scale) {
+				var _scale = scale || 1,
+					canvas = document.createElement("canvas");
+				canvas.width = video.videoWidth * _scale;
+				canvas.height = video.videoHeight * _scale;
+				canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+				return canvas.toDataURL();
+			}
+
+			function videoToImage(video, scale) {
+				var dataUrl = videoToDataUrl(video, scale),
+					img = new Image();
+				img.src = dataUrl;
+				return img;
+			}
+
+			/**
+			 * Gets the video element.
+			 * @returns {Element} The video element.
+			 */
+			function getVideo() {
+				var container = document.getElementById(VIDEO_CONTAINER);
+				if (!container) {
+					return null;
+				}
+				return container.querySelector("video");
+			}
 		}
 	}
 	return imageEdit;

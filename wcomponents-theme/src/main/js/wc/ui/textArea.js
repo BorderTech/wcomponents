@@ -239,7 +239,7 @@ define(["wc/dom/attribute",
 			 * @returns {?Element} The counter element associated with this field (if any).
 			 */
 			this.getCounter = function(element) {
-				return document.getElementById((element.id + "${wc.ui.maxLength.ticker.id.suffix}"));
+				return document.getElementById((element.id + "_tick"));
 			};
 
 			/**

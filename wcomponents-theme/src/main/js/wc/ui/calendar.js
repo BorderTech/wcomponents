@@ -79,10 +79,10 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 	function Calendar() {
 		var TEMPLATE_NAME = "wc.ui.dateField.calendar.html",
 			DATE_KEY = "date_key",
-			CONTAINER_ID = "wc-calbox",
-			DAY_CONTAINER_ID = "wc-caldaybox",
-			MONTH_SELECT_ID = "wc-calmonth",
-			YEAR_ELEMENT_ID = "wc-calyear",
+			CONTAINER_ID = "wc_calbox",
+			DAY_CONTAINER_ID = "wc_caldaybox",
+			MONTH_SELECT_ID = "wc_calmonth",
+			YEAR_ELEMENT_ID = "wc_calyear",
 			CONTROL_ATTRIBUTE = "aria-controls",
 			AUTO_VALIDATE_WAIT = 250,  // delay after year is changed before the calendar is refreshed
 			CLASS = {
@@ -90,7 +90,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				WEST: "wc_colwest",
 				TODAY: "wc_wdf_today",
 				DATE_BUTTON: "wc_wdf_pick",
-				LAST: "last"
+				LAST: "wc_cal_last"
 			},
 			LAUNCHER = dateField.getLaunchWidget(),
 			PICKABLE = new Widget("button", CLASS.DATE_BUTTON),

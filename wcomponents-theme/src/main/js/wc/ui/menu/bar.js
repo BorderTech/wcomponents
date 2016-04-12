@@ -304,7 +304,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 */
 			this.updateMenusForMobile = function (element) {
 				var candidates;
-				if (!this.isMobile || has("ipad")) {
+				if (!this.isSmallScreen) {
 					return;
 				}
 				if (this.isSubMenu(element)) {

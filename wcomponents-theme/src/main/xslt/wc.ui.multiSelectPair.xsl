@@ -75,7 +75,7 @@
 					</xsl:call-template>
 
 					<!-- AVAILABLE LIST -->
-					<xsl:variable name="availId" select="concat($id, '${wc.ui.multiSelectPair.id.suffix.available}')"/>
+					<xsl:variable name="availId" select="concat($id, '_a')"/>
 					<span>
 						<label for="{$availId}">
 							<xsl:value-of select="@fromListName"/>
@@ -112,7 +112,7 @@
 					</span>
 					<!-- SELECTED LIST -->
 					<xsl:variable name="toId">
-						<xsl:value-of select="concat($id, '${wc.ui.multiSelectPair.id.suffix.selected}')"/>
+						<xsl:value-of select="concat($id, '_s')"/>
 					</xsl:variable>
 					<span>
 						<label for="{$toId}">

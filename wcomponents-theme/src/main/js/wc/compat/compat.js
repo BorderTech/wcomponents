@@ -16,6 +16,7 @@
  *
  * @module
  * @private
+ * @param has @ignore
  */
 define(["wc/has"], function(has) {
 	"use strict";
@@ -176,6 +177,14 @@ define(["wc/has"], function(has) {
 			return !!g.Object.keys;
 		});
 
+		addtest("object-create", function(g) {
+			return (typeof g.Object.create === "function");
+		});
+
+		addtest("object-assign", function(g) {
+			return (typeof g.Object.assign === "function");
+		});
+
 		addtest("string-trim", function() {
 			/* jshint -W053 */
 			/* eslint-disable */
@@ -196,6 +205,15 @@ define(["wc/has"], function(has) {
 
 		addtest("device-mobile", function() {
 			return has("ios") || has("android") || has("iemobile") || has("operamobi") || has("operamini") || has("bb");
+		});
+
+		addtest("small-screen", function(g) {
+			var SMALL_SCREEN = 736; // max-device-width of most mobiles as per CSS.
+			if (typeof g.screen === "undefined") {
+				return false;
+			}
+
+			return g.screen.width <= SMALL_SCREEN;
 		});
 
 		addtest("element-datalist", function() {
@@ -322,6 +340,15 @@ define(["wc/has"], function(has) {
 	if (!has("object-keys")) {
 		result.push("wc/ecma5/Object.keys");
 	}
+
+	if (!has("object-create")) {
+		result.push("wc/ecma5/Object.create");
+	}
+
+	if (!has("object-assign")) {
+		result.push("wc/ecma6/Object.assign");
+	}
+
 
 	if (!has("date-now")) {
 		result.push("wc/ecma5/Date.now");

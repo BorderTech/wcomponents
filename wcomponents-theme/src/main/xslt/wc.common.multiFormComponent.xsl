@@ -41,7 +41,7 @@
 				<ul>
 					<xsl:call-template name="commonAttributes">
 						<xsl:with-param name="class">
-							<xsl:text> -wc_list_nb</xsl:text>
+							<xsl:text>wc_list_nb</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:if test="$myLabel">
@@ -66,7 +66,7 @@
 				<fieldset aria-relevant="additions removals" aria-atomic="false">
 					<xsl:call-template name="commonWrapperAttributes">
 						<xsl:with-param name="isError" select="$isError"/>
-						<xsl:with-param name="class">wc_mfc</xsl:with-param>
+						<xsl:with-param name="class" select="'wc_mfc'"/>
 					</xsl:call-template>
 					<xsl:if test="@min">
 						<xsl:attribute name="${wc.common.attrib.min}">

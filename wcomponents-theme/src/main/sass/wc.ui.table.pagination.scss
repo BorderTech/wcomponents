@@ -22,7 +22,7 @@
 	text-align: right;
 }
 
-@include respond(phonelike) {
+@include respond-phonelike {
 	.wc_table_pag_cont {
 		> span,
 		> label {
