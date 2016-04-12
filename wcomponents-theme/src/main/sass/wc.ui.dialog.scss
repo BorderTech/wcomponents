@@ -15,11 +15,11 @@ dialog {
 	width: 100%;
 	z-index: $z-index-dialog;
 
-	&[role="alertdialog"] {
-		height: 98%;
-		margin: 1%;
-		width: 98%;
-	}
+	// &[role="alertdialog"] {
+	// 	height: 98%;
+	// 	margin: 1%;
+	// 	width: 98%;
+	// }
 
 	> [aria-live] { // dialog content container
 		@include padded-box;

@@ -38,15 +38,6 @@
 	.wc-column:last-child {
 		text-align: right;
 	}
-
-	&.wc_colsth { // bottom collision
-		bottom: 110%;
-	}
-
-	&.wc_colwest { // right collision
-		left: 0;
-		right: auto;
-	}
 }
 
 // The calendar table
@@ -87,11 +78,21 @@
 // The main purpose of this CSS is to make the pop-up calendar full screen. We make all of the buttons bigger to make
 // them easier for fingers to push and finally add a close button to make up for the lack of an escape key.
 // The calendar container is a single generated element with a fixed id.
-@include respond-phonelike {
+@include respond-small-screen {
 	#wc_calbox {
 		// Important to overcome inline style of the collision detection routine which we want to ignore here.
 		// scss-lint:disable ImportantRule
 		left: 0 !important;
 		top: 0 !important;
+	}
+}
+
+// the top controls are row-column so will wrap at phoneline size.
+@include respond-phonelike {
+	#wc_calbox .wc-column {
+		&,
+		&:last-child {
+			text-align: center;
+		}
 	}
 }

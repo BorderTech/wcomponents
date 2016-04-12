@@ -1,5 +1,38 @@
-define(["wc/dom/classList",
-		"wc/dom/event",
+/**
+ * Provides a re-usable frame for floating dialog-like controls.
+ *
+ * * Implements WAI-ARIA practies for:
+ *   * [Modal dialogs](http://www.w3.org/TR/wai-aria-practices/#dialog_modal)
+ *   * [Non-modal dialogs](http://www.w3.org/TR/wai-aria-practices/#dialog_nonmodal)
+ * * Implements WAI-ARIA roles
+ *   * [dialog](http://www.w3.org/TR/wai-aria/roles#dialog) and
+ *   * [alertdialog](http://www.w3.org/TR/wai-aria/roles#alertdialog)
+ *
+ * Dialogs are positionable, resizeable and draggable (including keyboard driven facilities for each).
+ *
+ *
+ * @module
+ * @requires module:wc/dom/event
+ * @requires module:wc/dom/focus
+ * @requires module:wc/dom/initialise
+ * @requires module:wc/dom/tag
+ * @requires module:wc/dom/uid
+ * @requires module:wc/dom/Widget
+ * @requires module:wc/i18n/i18n
+ * @requires module:wc/loader/resource
+ * @requires module:wc/ui/ajax/processResponse
+ * @requires module:wc/ui/modalShim
+ * @requires module:wc/timers
+ * @requires module:wc/has
+ * @requires module:wc/ui/resizeable
+ * @requires module:wc/ui/positionable
+ * @requires module:wc/ui/draggable
+ * @requires module:wc/dom/role
+ * @requires module:wc/dom/getViewportSize
+ * @requires external:Moustache
+ */
+
+define(["wc/dom/event",
 		"wc/dom/focus",
 		"wc/dom/initialise",
 		"wc/dom/shed",
@@ -14,16 +47,14 @@ define(["wc/dom/classList",
 		"wc/has",
 		"wc/ui/resizeable",
 		"wc/ui/positionable",
+		"wc/ui/draggable",
 		"wc/dom/role",
-		"Mustache",
-		"wc/ui/draggable"],
-	function(classList, event, focus, initialise, shed, tag, uid, Widget, i18n, loader, processResponse,
-		modalShim, timers, has, resizeable, positionable, $role, Mustache) {
+		"wc/dom/getViewportSize",
+		"Mustache"],
+	/** @param event @param focus @param initialise @param shed @param tag @param uid @param Widget @param i18n @param loader @param processResponse @param modalShim @param timers @param has @param resizeable @param positionable @param draggable @param $role @param getViewportSize @param Mustache @ignore */
+	function(event, focus, initialise, shed, tag, uid, Widget, i18n, loader, processResponse,
+		modalShim, timers, has, resizeable, positionable, draggable, $role, getViewportSize, Mustache) {
 		"use strict";
-
-		/*
-		 * IMPLICIT dependencies when not mobile Dialog implements draggable but does not need to reference it.
-		 */
 
 		/**
 		 * @constructor
@@ -46,29 +77,28 @@ define(["wc/dom/classList",
 				RESIZERS,
 				RESIZE_WD,
 				MAX_BUTTON,
-				FOOTER,
 				HEADER_WD = new Widget("${wc.dom.html5.element.header}"),
 				TITLE_WD = new Widget("h1"),
 				FORM = new Widget("form"),
-				BASE_CLASS = "wc_dragflow wc_resizeflow",
 				UNIT = "px",
 				repositionTimer,
-				notMobile = !has("small-screen"),
 				REJECT = {
 					ALREADY_OPEN: "Cannot open a dialog whilst another dialog is open",
 					CANNOT_BUILD: "Cannot create the dialog frame",
 					NO_FORM: "Cannot find a form to which to attach the dialog",
 					UNKNOWN: "Failed to open dialog: readon unknown"
-				};
+				},
+				resizeTimeout,
+				/** The pixel cpount at which we make all dialog frames "full screen" */
+				FULL_SCREEN_POINT = 1000,
+				RESIZEABLE_ATTRIB = "data-wc-isresizeable";
 
 			TITLE_WD.descendFrom(HEADER_WD);
 			DIALOG_CONTENT_WRAPPER.descendFrom(DIALOG, true);
 
-			if (notMobile) {
-				RESIZERS = resizeable.getWidget();
-				RESIZE_WD = RESIZERS.handle;
-				MAX_BUTTON = RESIZERS.maximise;
-			}
+			RESIZERS = resizeable.getWidget();
+			RESIZE_WD = RESIZERS.handle;
+			MAX_BUTTON = RESIZERS.maximise;
 
 
 			/**
@@ -82,10 +112,22 @@ define(["wc/dom/classList",
 				return $role.get(dialog) === "alertdialog";
 			}
 
+			/**
+			 * Indicates if the dialogFrame may support move and resize based on viewport size.
+			 *
+			 * @function
+			 * @private
+			 * @returns {Boolean} true is move/resize are supportable.
+			 */
+			function canMoveResize() {
+				return getViewportSize().width > FULL_SCREEN_POINT;
+			}
 
 			/**
 			 * Get the form into which we want to place the dialog.
 			 *
+			 * @function
+			 * @private
 			 * @param {wc/ui/dialogFrame~dto} [dto] The config options for the dialog (if any).
 			 * @returns {?Element} The form element.
 			 */
@@ -113,7 +155,7 @@ define(["wc/dom/classList",
 			/**
 			 * Request a dialog be opened.
 			 *
-			 * @function
+			 * @function module:wc/ui/dialogFrame.open
 			 * @public
 			 * @param {module:wc/ui/dialogFrame~dto} dto The config options for the dialog to be opened.
 			 * @returns {Promise} The promise will be a rejection if the dialog is not able to be opened.
@@ -150,8 +192,7 @@ define(["wc/dom/classList",
 			 * @function
 			 */
 			function openDlgHelper(dto) {
-				var isModal,
-					dialog = instance.getDialog();
+				var dialog = instance.getDialog();
 
 				if (dialog && shed.isHidden(dialog)) {
 					if (dto && dto.openerId) {
@@ -160,19 +201,7 @@ define(["wc/dom/classList",
 					else {
 						openerId = document.activeElement ? document.activeElement.id : null;
 					}
-
 					reinitializeDialog(dialog, dto);
-
-					if (notMobile) {
-						// mobile browsers dialog is auto max'ed and not resizeable or positionable
-						initDialogControls(dialog, dto);
-						initDialogDimensions(dialog, dto);
-						isModal = (dto && typeof dto.modal !== "undefined") ? dto.modal : true;
-						setModality(dialog, isModal);
-					}
-					else {
-						setModality(dialog, true); // all dialogs are modal on mobile as non-modal dialogs make no sense when they are full screen
-					}
 					// show the dialog
 					shed.show(dialog);
 					initDialogPosition(dialog, dto);
@@ -207,14 +236,14 @@ define(["wc/dom/classList",
 			 *
 			 * @private
 			 * @function
-			 * @param dialog The dialog container.
-			 * @param {Object} obj The registry item that contains configuration data for this dialog.
+			 * @param {Element} dialog The dialog container.
+			 * @param {module:wc/ui/dialogFrame~dto} obj The registry item that contains configuration data for this dialog.
 			 */
 			function reinitializeDialog(dialog, obj) {
-				var title;
+				var title, isModal;
 
 				instance.unsetAllDimensions(dialog);
-				dialog.className = BASE_CLASS + ((obj && obj.className) ? (" " + obj.className) : "");
+				dialog.className = (obj && obj.className) ? obj.className : "";
 				instance.resetContent(false, (obj ? obj.id : "")) ;
 
 				// set the dialog title
@@ -223,6 +252,94 @@ define(["wc/dom/classList",
 					title.innerHTML = (obj && obj.title) ? obj.title : i18n.get("${wc.ui.dialog.title.noTitle}");
 				}
 				subscriber.close = obj.onclose;
+				initDialogControls(dialog, obj);
+				initDialogDimensions(dialog, obj);
+				isModal = (obj && typeof obj.modal !== "undefined") ? obj.modal : true;
+				setModality(dialog, isModal);
+			}
+
+			/**
+			 * Show and hide resizeable and draggable controls based on the dialogFrame's properties and the current
+			 * viewport size.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} dialog The dialogFrame being manipulated.
+			 */
+			function showHideResizeMoveControls(dialog) {
+				var isResizeable = dialog.getAttribute(RESIZEABLE_ATTRIB)=== "true",
+					allowMoveResize = canMoveResize(),
+					allowResize = isResizeable && allowMoveResize,
+					control;
+
+				// resize handle
+				if ((control = RESIZE_WD.findDescendant(dialog))) {
+					if (isResizeable) {
+						shed.show(control, true);
+					}
+					else {
+						shed.hide(control, true);
+					}
+				}
+
+				// maximise/restore button
+				if ((control = MAX_BUTTON.findDescendant(dialog))) {
+					if (isResizeable) {
+						shed.show(control, true);
+					}
+					else {
+						if (shed.isSelected(control)) {
+							shed.deselect(control);
+						}
+						shed.hide(control, true);
+					}
+				}
+				if ((control = HEADER_WD.findDescendant(dialog, true))) {
+					if (allowMoveResize) {
+						draggable.makeDraggable(control, DIALOG_ID);
+						if (allowResize) {
+							resizeable.setMaxBar(control);
+							resizeable.makeAnimatable(dialog);
+						}
+					}
+					else {
+						resizeable.clearAnimatable(dialog);
+						draggable.clearDraggable(control);
+						resizeable.clearMaxBar(control);
+					}
+
+				}
+			}
+
+			/**
+			 * Manipulate positionable and resizeable attributes based on viewport size.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} dialog The dialogFrame being manipulated.
+			 */
+			function setUnsetDimensionsPosition(dialog) {
+				var isResizeable = dialog.getAttribute(RESIZEABLE_ATTRIB)=== "true",
+					allowResizeMove = isResizeable && canMoveResize(),
+					animationsDisabled;
+
+				try {
+					if (allowResizeMove) {
+						positionable.restorePosition(dialog);
+						resizeable.resetSize(dialog);
+					}
+					else {
+						resizeable.disableAnimation(dialog);
+						animationsDisabled = true;
+						resizeable.clearSize(dialog, true);
+						positionable.clearPosition(dialog, true);
+					}
+				}
+				finally {
+					if (animationsDisabled) {
+						resizeable.restoreAnimation(dialog);
+					}
+				}
 
 			}
 
@@ -235,48 +352,15 @@ define(["wc/dom/classList",
 			 * @function
 			 */
 			function initDialogControls(dialog, obj) {
-				var control;
-				FOOTER = FOOTER || new Widget("${wc.dom.html5.element.footer}");
-				if ((control = FOOTER.findDescendant(dialog))) {
-					if (obj && obj.resizable) {
-						shed.show(control, true);
-					}
-					else {
-						shed.hide(control, true);
-					}
-				}
+				var control,
+					isResizeable = obj && obj.resizable,
+					val = isResizeable ? "true" : "false";
 
-				if (RESIZE_WD && (control = RESIZE_WD.findDescendant(dialog))) {
-					if (obj && obj.resizable) {
-						shed.show(control, true);
-					}
-					else {
-						shed.hide(control, true);
-					}
-				}
-
-				// maximise/restore button
-				if (MAX_BUTTON && (control = MAX_BUTTON.findDescendant(dialog))) {
-					if (obj && obj.resizable) {
-						shed.show(control, true);
-						if (obj.max) {
-							shed.select(control);
-						}
-					}
-					else {
-						shed.deselect(control);
-						shed.hide(control, true);
-					}
-				}
-				if ((control = HEADER_WD.findDescendant(dialog, true))) {
-					control.setAttribute("data-wc-draggable", "true");
-					control.setAttribute("data-wc-dragfor", DIALOG_ID);
-					// maximise restore double click on header
-					if (obj.resizable) {
-						resizeable.setMaxBar(control);
-					}
-					else {
-						resizeable.clearMaxBar(control);
+				dialog.setAttribute(RESIZEABLE_ATTRIB, val);
+				showHideResizeMoveControls(dialog);
+				if ((control = MAX_BUTTON.findDescendant(dialog)) && !shed.isHidden(control)) {
+					if (obj.max) {
+						shed.select(control);
 					}
 				}
 			}
@@ -332,38 +416,39 @@ define(["wc/dom/classList",
 					dialog.style.left = obj.left + UNIT;
 					dialog.style.margin = "0";
 				}
+				setUnsetDimensionsPosition(dialog);
 			}
 
 			/**
 			 * Helper for `openDlg`.
 			 * Positions the dialog immediately after it has been opened.
-			 * @param dialog The dialog container.
-			 * @param obj The registry item that contains configuration data for this dialog.
+			 *
 			 * @private
 			 * @function
+			 * @param {Element} dialog The dialog container.
+			 * @param { module:wc/ui/dialogFrame~dto} obj The registry item that contains configuration data for this
+			 *   dialog.
 			 */
 			function initDialogPosition(dialog, obj) {
-				var removeDragAnimClass,
-					removeResizeAnimClass;
-				if (notMobile && obj) {
-					// set the initial position. If the position (top, left) is set in the config object we do not need to calculate position.
-					if (!(obj.top || obj.left || obj.top === 0 || obj.left === 0)) {
-						if (obj.resizable && classList.contains(dialog, "wc_resizeflow")) {
-							removeResizeAnimClass = true;
-							classList.remove(dialog, "wc_resizeflow");
+				var disabledAnimations;
+				try {
+					if (obj) {
+						// set the initial position. If the position (top, left) is set in the config object we do not need to calculate position.
+						if (!(obj.top || obj.left || obj.top === 0 || obj.left === 0)) {
+							if (canMoveResize()) {
+								resizeable.disableAnimation(dialog);
+								disabledAnimations = true;
+								positionable.setBySize(dialog, {width: obj.width, height: obj.height, topOffsetPC: INITIAL_TOP_PROPORTION});
+							}
+							else {
+								positionable.storePosBySize(dialog, {width: obj.width, height: obj.height, topOffsetPC: INITIAL_TOP_PROPORTION});
+							}
 						}
-						if (classList.contains(dialog, "wc_dragflow")) {
-							removeDragAnimClass = true;
-							classList.remove(dialog, "wc_dragflow");
-						}
-						positionable.setBySize(dialog, {width: obj.width, height: obj.height, topOffsetPC: INITIAL_TOP_PROPORTION});
-
-						if (removeResizeAnimClass) {
-							classList.add(dialog, "wc_resizeflow");
-						}
-						if (removeDragAnimClass) {
-							classList.add(dialog, "wc_dragflow");
-						}
+					}
+				}
+				finally {
+					if (disabledAnimations) {
+						resizeable.restoreAnimation(dialog);
 					}
 				}
 			}
@@ -425,10 +510,15 @@ define(["wc/dom/classList",
 				});
 			}
 
-			/*
-			 * If a dialog with content is inserted via ajax we have to unshim any existing dialog before we insert the new
-			 * one. NOTE: the duplicate id check in processResponse will remove the dialog itself during its insert phase so
-			 * we do not have to do that here.
+			/**
+			 * If a dialog with content is inserted via ajax we have to unshim any existing dialog before we insert the
+			 * new one. NOTE: the duplicate id check in processResponse will remove the dialog itself during its insert
+			 * phase so we do not have to do that here.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element Not used here.
+			 * @param {documentFragment} docFragment The content of the AJAX response.
 			 */
 			function preOpenSubscriber(element, docFragment) {
 				var removeShim = false,
@@ -448,8 +538,10 @@ define(["wc/dom/classList",
 
 			/**
 			 * If there is an AJAX replace inside a dialog we may need to reposition the dialog.
+			 *
+			 * @function
+			 * @private
 			 * @param {Element} element The AJAX target element.
-			 * @returns {undefined}
 			 */
 			function ajaxSubscriber(element) {
 				var content, dialog;
@@ -467,54 +559,49 @@ define(["wc/dom/classList",
 			}
 
 			/**
-			 * Reposition an auto-size dialog after ajax.
-			 * @function
+			 * Ask to reposition a dialog frame (usually after Ajax).
+			 *
+			 * @function module:wc/ui/dialogFrame.reposition
 			 * @public
-			 * @param {int} width The widthof the dialog.
-			 * @param {int} height The widthof the dialog.
+			 * @param {int} [width] The width of the dialog.
+			 * @param {int} [height] The height of the dialog.
 			 */
 			this.reposition = function (width, height) {
-				var dialog = this.getDialog(),
-					removeResizeAnimClass,
-					removeDragAnimClass;
+				var dialog = this.getDialog();
+
+				if (repositionTimer) {
+					timers.clearTimeout(repositionTimer);
+					repositionTimer = null;
+				}
 				if (!dialog) {
 					return;
 				}
 
-				if (notMobile) {
-					if (repositionTimer) {
-						timers.clearTimeout(repositionTimer);
-						repositionTimer = null;
-					}
-
-					if (classList.contains(dialog, "wc_resizeflow")) {
-						removeResizeAnimClass = true;
-						classList.remove(dialog, "wc_resizeflow");
-					}
-					if (classList.contains(dialog, "wc_dragflow")) {
-						removeDragAnimClass = true;
-						classList.remove(dialog, "wc_dragflow");
-					}
-
+				if (canMoveResize()) {
 					repositionTimer = timers.setTimeout(function() {
-						positionable.setBySize(dialog, {width: width, height: height, topOffsetPC: INITIAL_TOP_PROPORTION});
-						if (removeResizeAnimClass) {
-							classList.add(dialog, "wc_resizeflow");
+						try {
+							resizeable.disableAnimation(dialog);
+							if (canMoveResize()) {
+								positionable.setBySize(dialog, {width: width, height: height, topOffsetPC: INITIAL_TOP_PROPORTION});
+							}
+							setUnsetDimensionsPosition(dialog);
+							showHideResizeMoveControls(dialog);
+							if (repainter) {
+								repainter.checkRepaint(dialog);
+							}
 						}
-						if (removeDragAnimClass) {
-							classList.add(dialog, "wc_dragflow");
-						}
-						if (repainter) {
-							repainter.checkRepaint(dialog);
+						finally {
+							resizeable.restoreAnimation(dialog);
 						}
 					}, 100);
 				}
 			};
 
 			/**
-			 * Close a dialog.
-			 * @function
+			 * Close a dialog frame.
+			 * @function module:wc/ui/dialogFrame.close
 			 * @public
+			 * @return {boolean} true if there is a dialog to hide.
 			 */
 			this.close = function() {
 				var dialog = this.getDialog();
@@ -547,7 +634,7 @@ define(["wc/dom/classList",
 						 * Maybe this should be added to the regObject so we can re-maximise on open on a dialog-by-dialog
 						 * basis.
 						 */
-						if (notMobile && MAX_BUTTON && (control = MAX_BUTTON.findDescendant(element)) && shed.isSelected(control)) {
+						if (MAX_BUTTON && (control = MAX_BUTTON.findDescendant(element)) && shed.isSelected(control)) {
 							shed.deselect(control);
 						}
 
@@ -586,6 +673,7 @@ define(["wc/dom/classList",
 
 			/**
 			 * Click listener for dialog opening buttons and controls within a dialog.
+			 *
 			 * @function
 			 * @private
 			 * @param {Event} $event a click event.
@@ -603,6 +691,7 @@ define(["wc/dom/classList",
 
 			/**
 			 * A focus filter helper for tabKeyHelper.
+			 *
 			 * @function
 			 * @private
 			 * @param {Node} node The Node being tested.
@@ -615,6 +704,8 @@ define(["wc/dom/classList",
 			/**
 			 * Helper for keydown on TAB.
 			 *
+			 * @function
+			 * @private
 			 * @param {Element} element The target element.
 			 * @param {Elelemt} dialog A dialog frame.
 			 * @param {Boolean} hasShift Was teh SHIFT key down during the event?
@@ -668,6 +759,41 @@ define(["wc/dom/classList",
 			}
 
 			/**
+			 * Do the heavy lifting of the resize event. Called in a timeout so we do not do constant updates as a
+			 * window frame is dragged.
+			 *
+			 * @function
+			 * @private
+			 */
+			function resizeEventHelper() {
+				var dialog = document.getElementById(DIALOG_ID);
+
+				if (!dialog || shed.isHidden(dialog)) {
+					return;
+				}
+				setUnsetDimensionsPosition(dialog);
+				showHideResizeMoveControls(dialog);
+			}
+
+			/**
+			 * Adjust dialog to the screen.
+			 *
+			 * @function
+			 * @private
+			 * @param {Event} $event The resize event.
+			 */
+			function resizeEvent($event) {
+				if ($event.defaultPrevented) {
+					return;
+				}
+
+				if (resizeTimeout) {
+					timers.clearTimeout(resizeTimeout);
+				}
+				resizeTimeout = timers.setTimeout(resizeEventHelper, 10);
+			}
+
+			/**
 			 * Component initialisation simply attaches a click event handler
 			 * @function module:wc/ui/dialogFrame.initialise
 			 * @public
@@ -675,6 +801,7 @@ define(["wc/dom/classList",
 			 */
 			this.initialise = function(element) {
 				event.add(element, event.TYPE.click, clickEvent);
+				event.add(window, event.TYPE.resize, resizeEvent, -1);
 			};
 
 			/**
@@ -694,7 +821,7 @@ define(["wc/dom/classList",
 			 * Get the widget which describes a dialog frame.
 			 * @function module:wc/ui/dialogFrame.getWidget
 			 * @public
-			 * @returns {module:wc/dom.Widget} The Widget describing a dialog frame.
+			 * @returns {module:wc/dom/Widget} The Widget describing a dialog frame.
 			 */
 			this.getWidget = function() {
 				return DIALOG;
@@ -711,7 +838,7 @@ define(["wc/dom/classList",
 			};
 
 			/**
-			 * Get the dialog content wrapper div.
+			 * Get the dialog content wrapper element.
 			 *
 			 * @function module:wc/ui/dialogFrame.getContent
 			 * @public
@@ -728,7 +855,7 @@ define(["wc/dom/classList",
 			/**
 			 * Reset the dialog content wrapper.
 			 *
-			 * @function
+			 * @function module:wc/ui/dialogFrame.resetContent
 			 * @public
 			 * @param {Boolean} [keepContent] Do we want to reset the content of the dialog?
 			 * @param {String} [id] The id to set on the content.
@@ -749,7 +876,7 @@ define(["wc/dom/classList",
 			};
 		}
 
-		var /** @alias module:wc/ui/dialog */ instance = new DialogFrame(),
+		var /** @alias module:wc/ui/dialogFrame */ instance = new DialogFrame(),
 			repainter;
 
 		initialise.register(instance);
