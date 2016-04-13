@@ -37,23 +37,44 @@ ul.wc-fieldlayout {
 				width: 100%;
 			}
 
-			//&.wc-datefield > input[type="date"] { // native date iput
-				// max-width: calc(100% - 2rem);
-				// width: initial;
-			//}
-
 			&[role='combobox'] > input[type] { // fake date input
 				max-width: calc(100% - 2rem);
-				// width: initial;
 			}
 		}
 
 		> [type='password'],
+		> [type='number'],
 		> textarea,
 		> select,
 		> fieldset {
 			@include border-box;
 			width: 100%;
+		}
+	}
+}
+
+@include respond-not-small {
+	// This block should be in fieldLayout.dt.css but is here to work around a Safari bug.
+	// Flat is the most common use, but shouldn't be (due to a11y concerns which are not adequately covered by WCAG 2.0)
+	.flat > .wc-field {
+		> label,
+		> span,
+		> div {
+			display: inline-block;
+			vertical-align: text-top;
+
+			&:first-child { //the first child is the label or stand-in or merely an empty placeholder/spacer
+				width: $label-width;
+			}
+		}
+
+		> .wc-input {
+			max-width: $input-width;
+			width: $input-width;
+		}
+
+		.wc-input { // reset
+			margin-top: 0;
 		}
 	}
 }
