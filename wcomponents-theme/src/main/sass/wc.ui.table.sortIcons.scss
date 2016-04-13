@@ -8,10 +8,10 @@ th {
 	}
 
 	&[sorted]:after {
-		content: $fa-var-caret-square-o-down;
+		content: $fa-var-caret-square-o-up;
 	}
 
 	&[sorted~='reversed']:after {
-		content: $fa-var-caret-square-o-up;
+		content: $fa-var-caret-square-o-down;
 	}
 }
