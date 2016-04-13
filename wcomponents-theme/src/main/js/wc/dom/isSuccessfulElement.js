@@ -58,7 +58,7 @@ define(["wc/dom/shed", "wc/dom/tag"], /** @param shed wc/dom/shed @param tag wc/
 	 */
 	isSuccessfulElement.getAll = function(element, buttonsAlwaysSucceed) {
 		var i, next, result = [], nextResult;
-		if (element) {
+		if (element && element.nodeType === Node.ELEMENT_NODE) {
 			if (isSuccessfulElement(element, buttonsAlwaysSucceed)) {
 				result.push(element);
 			}
