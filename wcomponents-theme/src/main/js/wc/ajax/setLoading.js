@@ -4,9 +4,10 @@
  *
  * @module
  * @requires module:wc/dom/getStyle
+ * @requires module:wc/dom/cancelUpdate
  */
-define(["wc/dom/getStyle"],
-	function(getStyle) {
+define(["wc/dom/getStyle", "wc/dom/cancelUpdate"],
+	function(getStyle, cancelUpdate) {
 		"use strict";
 		var /**
 			 * @constant {String} OLD_HEIGHT The name of the attribute used to hold the pre-ajax height of a target
@@ -67,6 +68,7 @@ define(["wc/dom/getStyle"],
 			var child;
 			if (setLoading.fixSize(element)) {
 				while ((child = element.firstChild)) {
+					cancelUpdate.removeElements(child);
 					element.removeChild(child);
 				}
 			}
