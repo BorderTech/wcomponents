@@ -65,7 +65,7 @@
 				</xsl:if>
 				<xsl:call-template name="hideElementIfHiddenSet" />
 				<xsl:call-template name="ajaxTarget" />
-				<xsl:if test=" not($layout = 'stacked') and ($isCheckRadio=1 or not(ui:label) or ui:label/@hidden)">
+				<xsl:if test="not($layout = 'stacked') and ($isCheckRadio=1 or not(ui:label) or ui:label/@hidden)">
 					<span class="wc_fld_pl">
 						<xsl:text>&#x00a0;</xsl:text>
 					</span>
