@@ -1087,18 +1087,31 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			hideCalendar();
 		}
 
+		/**
+		 * Focus handler to close the calendar is anything outside of the current dateField is focussed.
+		 *
+		 * @function
+		 * @private
+		 * @param {Event} $event A focus[in] event.
+		 */
 		function focusEvent($event) {
 			var target = $event.target,
-				element;
+				element, cal;
 			DATE_FIELD = DATE_FIELD || dateField.getWidget();
 
-			if (DATE_FIELD && target) {
+			if (DATE_FIELD && target && (cal = getCal()) && !shed.isHidden(cal)) {
 				element = DATE_FIELD.findAncestor(target);
+
+				if (!element) {
+					hideCalendar(true);
+				}
+				else {
+					if (element !== DATE_FIELD.findAncestor(getCal())) { // focussed a different date field
+						hideCalendar(true);
+					}
+				}
 			}
 
-			if (!element) {
-				hideCalendar(true);
-			}
 		}
 
 		/**
