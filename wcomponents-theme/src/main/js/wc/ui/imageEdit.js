@@ -214,24 +214,7 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 		 * Callback invoked when a FileReader instance has loaded.
 		 */
 		function filereaderLoaded($event) {
-			loadImageFromDataUrl($event.target.result);
-		}
-
-		/**
-		 * Loads an image from a data URL into the editor.
-		 * @param {string} dataUrl An image encoded into a data url.
-		 */
-		function loadImageFromDataUrl(dataUrl) {
-			var imgObj = new Image();
-			imgObj.src = dataUrl;
-			imgObj.onload = imageLoaded;
-		}
-
-		/*
-		 * Callback invoked when an img element has loaded.
-		 */
-		function imageLoaded($event) {
-			renderImage($event.target);
+			renderImage($event.target.result);
 		}
 
 		/**
@@ -707,8 +690,8 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 		 * @param {File} [file] The binary file being edited.
 		 */
 		function saveImage(editor, callbacks, cancel, file) {
-			var overlay, result, done = function() {
-					fbCanvas = fbImage = null;
+			var canvasElement, overlay, result, done = function() {
+					canvasElement = fbCanvas = fbImage = null;
 					imageCapture.stop();
 					editor.parentNode.removeChild(editor);
 				};
@@ -722,13 +705,15 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 					overlay = fbCanvas.overlayImage;
 					if (overlay) {
 						fbCanvas.overlayImage.visible = false;  // remove the overlay
+						fbCanvas.renderAll();
 					}
 					if (file && !hasChanged()) {
 						console.log("No changes made, using original file");
 						result = file;  // if the user has made no changes simply pass thru the original file.
 					}
 					else {
-						result = fbCanvas.toDataURL();
+						canvasElement = fbCanvas.getElement();
+						result = canvasElement.toDataURL();
 						result = dataURItoBlob(result);
 						result = blobToFile(result, file);
 					}
