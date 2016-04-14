@@ -18,7 +18,7 @@
 		"jsdoc": "~3.3.2",
 		"mustache": "~2.2.1",
 		"promise-polyfill": "~2.1.0",
-		"requirejs": "~2.1.20",
+		"requirejs": "~2.2.0",
 		"sprintf-js": "~1.0.3",
 		"systemjs": "~0.19.22",
 		"tinymce": "~4.2.5",
