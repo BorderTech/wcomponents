@@ -1,5 +1,10 @@
 # Change log
 
+# Release 1.1.2
+
+## Bug fixes
+* #517 #521 #523 #525 #526 #527 #528 #529 #530 #531 #532 #533 #534
+
 # Release 1.1.1
 
 ## API Changes
