@@ -157,12 +157,13 @@ define([ "wc/has", "wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/
 			 * @param {Element} element The HTML AUDIO or VIDEO element being established.
 			 */
 			function setupPlayer(element) {
-				var parent, playButton;
+				var parent,
+					playButton;
 				event.add(element, event.TYPE.ended, endedEvent);
 
 				if (element.getAttribute(LAME_CONTROLS) === "play") {
 					parent = element.parentElement;
-					if (playButton = PLAY_BUTTON.findDescendant(parent)) {
+					if ((playButton = PLAY_BUTTON.findDescendant(parent))) {
 						event.add(element, event.TYPE.play, playEvent);
 						event.add(element, event.TYPE.pause, pauseEvent);
 					}
