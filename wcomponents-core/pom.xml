@@ -13,7 +13,7 @@
 	</parent>
 
 	<packaging>jar</packaging>
-	
+
 	<description>
 		Core server-side WComponents.
 	</description>
@@ -21,7 +21,7 @@
 	<properties>
 		<wc.qa.skip>false</wc.qa.skip>
 	</properties>
-	
+
 	<profiles>
 		<profile>
 		<id>skipOptionalTests</id>
@@ -104,7 +104,7 @@
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
-			<version>3.2</version>
+			<version>3.2.2</version>
 		</dependency>
 
 		<dependency>
@@ -144,7 +144,7 @@
 			<artifactId>junitperf</artifactId>
 			<version>1.8</version>
 		</dependency>
-		
+
 		<dependency>
 			<!-- Needed for server side XSLT -->
 			<groupId>net.sourceforge.saxon</groupId>
@@ -152,7 +152,7 @@
 			<version>9.1.0.8</version>
 			<type>jar</type>
 		</dependency>
-		
+
 		<dependency>
 			<!-- Needed for server side XSLT -->
 			<groupId>net.sourceforge.saxon</groupId>
@@ -161,7 +161,7 @@
 			<classifier>dom</classifier>
 			<scope>runtime</scope>
 		</dependency>
-		
+
 		<!-- Handlebars template support. -->
 		<dependency>
 			<groupId>com.github.jknack</groupId>
@@ -173,7 +173,7 @@
 			<artifactId>handlebars-markdown</artifactId>
 			<version>4.0.3</version>
 		</dependency>
-		
+
 		<!-- Velocity template support. -->
 		<dependency>
 			<groupId>velocity</groupId>
@@ -201,7 +201,7 @@
 			<artifactId>management-model</artifactId>
 			<version>2.0.0</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
