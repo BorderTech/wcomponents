@@ -3,15 +3,15 @@
  *
  * @module
  *
+ * @requires module:wc/Observer
  * @requires module:wc/xml/xmlString
  * @requires module:wc/timers
  * @requires module:wc/has
  *
  * @todo Document private members
  */
-define(["wc/xml/xmlString", "wc/timers", "wc/has", "wc/dom/uid", "require"],
-/** @param xmlString wc/xml/xmlString @param timers wc/timers @param has wc/has @param uid wc/dom/uid @param require require @ignore */
-function(xmlString, timers, has, uid, require) {
+define(["wc/Observer", "wc/xml/xmlString", "wc/timers", "wc/has", "wc/dom/uid", "require"],
+function(Observer, xmlString, timers, has, uid, require) {
 	"use strict";
 	var global = window;
 
@@ -21,7 +21,15 @@ function(xmlString, timers, has, uid, require) {
 	 * @private
 	 */
 	function Ajax() {
-		var xBrowserRequest;
+		var observer, xBrowserRequest;
+
+		this.subscribe = function(subscriber) {
+			if (!observer) {
+				observer = new Observer();
+			}
+			return observer.subscribe(subscriber);
+		};
+
 		/**
 		 * Increments or decrements the pending count. Nothing else should write to the pending variable.
 		 *
@@ -33,7 +41,6 @@ function(xmlString, timers, has, uid, require) {
 		 * @param {boolean} [decrement] If true decrement the count, otherwise will be incremented.
 		 */
 		function updatePending(decrement) {
-			var element = document.body;
 			if (decrement) {
 				if (pending) {
 					pending--;
@@ -45,8 +52,8 @@ function(xmlString, timers, has, uid, require) {
 			else {
 				pending++;
 			}
-			if (element) {
-				element.setAttribute(PENDING_AJAX_FLAG, !!pending);
+			if (observer) {
+				observer.notify(!!pending);
 			}
 		}
 
@@ -498,13 +505,6 @@ function(xmlString, timers, has, uid, require) {
 		};
 	}
 	var getActiveX,
-		/**
-		 * This constant names an attribute which only exists to make life easier for performance testers.
-		 * @constant {String}
-		 * @private
-		 * @ignore
-		 */
-		PENDING_AJAX_FLAG = "data-wc-ajaxp",
 		W3C_IFACE = "XMLHttpRequest",
 		ieXmlHttpEngine,
 		/**
