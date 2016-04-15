@@ -1102,13 +1102,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			if (DATE_FIELD && target && (cal = getCal()) && !shed.isHidden(cal)) {
 				element = DATE_FIELD.findAncestor(target);
 
-				if (!element) {
+				if (!element || (element !== DATE_FIELD.findAncestor(getCal()))) { // second: focused a different date field
 					hideCalendar(true);
-				}
-				else {
-					if (element !== DATE_FIELD.findAncestor(getCal())) { // focussed a different date field
-						hideCalendar(true);
-					}
 				}
 			}
 

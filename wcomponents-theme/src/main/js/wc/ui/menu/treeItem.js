@@ -49,9 +49,9 @@ define(["wc/dom/ariaAnalog",
 			 * @returns {Boolean} true if the element may be activated.
 			 */
 			function isAcceptable (element, target) {
-				var root, result = isAcceptableTarget(element, target);
+				var result = isAcceptableTarget(element, target);
 
-				if (tree && (root = tree.getRoot(target))) {
+				if (tree && tree.getRoot(target)) {
 					if (tree.isInVOpen(target) || tree.isSubMenu(target) || tree.isRoot(target)) {
 						return false;
 					}
