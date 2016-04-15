@@ -44,6 +44,33 @@ define(["wc/dom/tag",
 			return result;
 		}
 
+		function getLabelsForWrapper(element, includeReadOnly) {
+			var result = [], _input;
+			if (includeReadOnly) {
+				result = doLabelQuery(element, result, true);
+			}
+			INPUT = INPUT || new Widget(tag.INPUT);
+			_input = INPUT.findDescendant(element);
+			if (_input) {
+				return doLabelQuery(_input, result);
+			}
+			return result;
+		}
+
+		function getAncestorLabel(element) {
+			var label;
+			LABEL = LABEL || new Widget(tag.LABEL);
+
+			if (!(label = LABEL.findAncestor(element))) {
+				return [];
+			}
+
+			if (!label.hasAttribute("for") || (label.getAttribute("for") === element.id)) {
+				return [label];
+			}
+			return [];
+		}
+
 		/**
 		 * Gets labelling element/s (label, legend or pseudo-label) for a control.
 		 *
@@ -56,28 +83,19 @@ define(["wc/dom/tag",
 		function getLabels(element, includeReadOnly) {
 			var result = [],
 				label,
-				tagName,
-				_input;
+				tagName;
 
 			FIELDSET = FIELDSET || new Widget(tag.FIELDSET);
 			WRAPPER = WRAPPER ||  new Widget("", "wc_input_wrapper");
 
 			if (WRAPPER.isOneOfMe(element)) {
-				if (includeReadOnly) {
-					result = doLabelQuery(element, result, true);
-				}
-				INPUT = INPUT || new Widget(tag.INPUT);
-				_input = INPUT.findDescendant(element);
-				if (_input) {
-					return doLabelQuery(_input, result);
-				}
-				return result;
+				return getLabelsForWrapper(element, includeReadOnly);
 			}
 
 			if (FIELDSET.isOneOfMe(element)) {
 				LEGEND = LEGEND || new Widget("legend");
 				if ((label = LEGEND.findDescendant(element, true))) {
-					result.push(label);
+					result = [label];
 				}
 			}
 
@@ -90,17 +108,10 @@ define(["wc/dom/tag",
 			// try getting an ancestor label element ONLY if element is input, textarea, select or progress.
 			tagName = element.tagName;
 			if (~LABELABLE.indexOf(tagName)) {
-				LABEL = LABEL || new Widget(tag.LABEL);
-
-				if (!(label = LABEL.findAncestor(element))) {
-					return [];
-				}
-
-				if (!label.hasAttribute("for") || (label.getAttribute("for") === element.id)) {
-					return [label];
-				}
+				return getAncestorLabel(element);
 			}
-			return result;
+
+			return [];
 		}
 
 		return getLabels;
