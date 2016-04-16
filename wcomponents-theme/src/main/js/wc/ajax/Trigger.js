@@ -517,6 +517,7 @@ define(["lib/sprintf",
 				request;
 
 			if (trigger.oneShot) {  // will be a negative number if it is not oneshot, therefore will equate to true
+				notify(trigger, "before");
 				promise = new Promise(function(resolve, reject) {
 					trigger.callback = function() {
 						var scope = this, cbresult;
@@ -529,6 +530,7 @@ define(["lib/sprintf",
 						});
 					};
 					trigger.onerror = function() {
+						notify(trigger);
 						if (trigger._onerror) {
 							trigger._onerror.apply(this, arguments);
 						}
@@ -818,7 +820,6 @@ define(["lib/sprintf",
 						}
 						pendingList.push(this);  // we must do this before sending cos we can't guarantee what AJAX will do (could be forced into synchronous mode)
 						trigger.profile.sent = Date.now();
-						notify(trigger, "before");
 						ajax.simpleRequest(this);
 					}
 					catch (ex) {
