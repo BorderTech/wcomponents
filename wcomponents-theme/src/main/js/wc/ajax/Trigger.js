@@ -275,15 +275,44 @@ define(["lib/sprintf",
 		/**
 		 * Subscribe to profile information.
 		 * This is for use by testing / monitoring tools and does not form a core part of the functionality of this module.
-		 * The subscriber will be notified when
+		 * The subscriber will be notified when after the response is received.
+		 * The first argument to the subscriber will be information about the trigger. The second will be a boolean, true if there are pending triggers, false if there are none.
 		 * @param {Function} subscriber
+		 * @param {number} [phase] If a negative number is provided the subscriber will be called when a trigger is fired.
 		 */
-		Trigger.subscribe = function (subscriber) {
+		Trigger.subscribe = function (subscriber, phase) {
+			var group = null;
+			if (phase && phase < 0) {
+				group = { group: "before" };
+			}
 			if (!observer) {
 				observer = new Observer();
 			}
-			return observer.subscribe(subscriber);
+			return observer.subscribe(subscriber, group);
 		};
+
+		/**
+		 * Related to the subscribe method above.
+		 * @param {Trigger} trigger The trigger that is firing.
+		 * @param {string} [groupName] The group to notify.
+		 */
+		function notify(trigger, groupName) {
+			var pending;
+			trigger.profile.received = Date.now();
+			if (observer) {
+				pending = !!pendingList.length;
+				if (groupName) {
+					observer.setFilter(groupName);
+				}
+				observer.notify({
+					profile: trigger.profile,
+					id: trigger.id,
+					alias: trigger.alias,
+					loads: trigger.loads,
+					url: trigger.url  // this will probably be null
+				}, pending);
+			}
+		}
 
 		/**
 		 * Find the url this trigger should use when sending ajax requests. This will remove the HASH for browsers with
@@ -488,6 +517,7 @@ define(["lib/sprintf",
 				request;
 
 			if (trigger.oneShot) {  // will be a negative number if it is not oneshot, therefore will equate to true
+				notify(trigger, "before");
 				promise = new Promise(function(resolve, reject) {
 					trigger.callback = function() {
 						var scope = this, cbresult;
@@ -500,6 +530,7 @@ define(["lib/sprintf",
 						});
 					};
 					trigger.onerror = function() {
+						notify(trigger);
 						if (trigger._onerror) {
 							trigger._onerror.apply(this, arguments);
 						}
@@ -722,6 +753,7 @@ define(["lib/sprintf",
 		function handleResponse($self, response, trigger, isError) {
 			var idx, cbresult, done = function() {
 					setLoading($self, true);
+					notify(trigger);
 				};
 			console.log("Got response for trigger", trigger.id);
 			if (!unloading) {
@@ -748,20 +780,10 @@ define(["lib/sprintf",
 						}
 						// Remove "aria-busy" AFTER the new content is loaded to avoid collapsing to zero pixels
 						// The Promise.resolve call allows us to "wait" for callbacks that return a promise.
-						Promise.resolve(cbresult).then(done);
+						Promise.resolve(cbresult).then(done, done);
 					}
 					catch (ex) {
 						console.error(ex);
-					}
-					trigger.profile.received = Date.now();
-					if (observer) {
-						observer.notify({
-							profile: trigger.profile,
-							id: trigger.id,
-							alias: trigger.alias,
-							loads: trigger.loads,
-							url: trigger.url  // this will probably be null
-						});
 					}
 				}
 				finally {
@@ -802,6 +824,7 @@ define(["lib/sprintf",
 					}
 					catch (ex) {
 						pendingList.pop();  // error so assume the request is not pending - pop it off the queue
+						notify(trigger);
 						console.error(ex);
 					}
 				}

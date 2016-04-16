@@ -60,11 +60,11 @@
 				<xsl:variable name="styleLoaderId" select="concat($scriptId,'-styleloader')"/>
 				<script type="text/javascript" id="{$styleLoaderId}">
 					<xsl:text>require(["wc/compat/compat!"], function() {</xsl:text>
-					<xsl:text>require(["wc/loader/style", "wc/dom/removeElement"</xsl:text>
+					<xsl:text>require(["wc/a8n", "wc/loader/style", "wc/dom/removeElement"</xsl:text>
 					<xsl:if test="$isDebug=1">
 						<xsl:text>,"wc/debug/consoleColor", "wc/debug/indicator"</xsl:text><!-- , "wc/debug/a11y" #533 -->
 					</xsl:if>
-					<xsl:text>], function(s, r){try{s.load();}finally{r("</xsl:text>
+					<xsl:text>], function(a, s, r){try{s.load();}finally{r("</xsl:text>
 					<xsl:value-of select="$styleLoaderId"/>
 					<xsl:text>", 250);}});</xsl:text>
 					<xsl:text>});</xsl:text>
@@ -82,6 +82,9 @@
 				<xsl:call-template name="wcBodyClass"/>
 			</xsl:variable>
 			<body>
+				<xsl:attribute name="data-wc-domready">
+					<xsl:text>false</xsl:text><!-- JS will set this to true - this is for automation testing tools -->
+				</xsl:attribute>
 				<xsl:if test="$bodyClass!=''">
 					<xsl:attribute name="class">
 						<xsl:value-of select="normalize-space($bodyClass)"/>

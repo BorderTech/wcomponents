@@ -31,9 +31,9 @@ define(function() {
 		 * PENDING_TIMEOUT_FLAG will be present and "true" if there are pending timeouts
 		 * This does not include intervals or timeouts greater than PENDING_TIMEOUT_THRESHOLD.
 		 */
-		var PENDING_TIMEOUT_THRESHOLD = 500,
+		var subscribers = [],
+			PENDING_TIMEOUT_THRESHOLD = 500,
 			CB_HANDLE_PROP = "wchandle",
-			PENDING_TIMEOUT_FLAG = "data-wc-timers",
 			pendingTimeouts = {},  // don't touch this
 			ignoreThreshold = 0;  // anything below this will be ignored.
 
@@ -61,10 +61,8 @@ define(function() {
 					pendingCount = Object.keys(pendingTimeouts);
 					pendingCount = pendingCount.length;
 					// console.log("Pending timeouts: ", pendingCount);
+					notify(!!pendingCount);
 					element = document.body;
-					if (element) {
-						element.setAttribute(PENDING_TIMEOUT_FLAG, !!pendingCount);
-					}
 				}
 				catch (ignore) {  // don't let errors here break everything else - this is just a testing hook
 					console.error(ignore);
@@ -125,6 +123,32 @@ define(function() {
 			};
 			return callbackWrapper;
 		}
+
+		/*
+		 * Helper for the _subscribe method.
+		 */
+		function notify(pending) {
+			var i, next;
+			for (i = 0; i < subscribers.length; i++) {
+				try {
+					next = subscribers[i];
+					next(pending);
+				}
+				catch (ex) {
+					console.error(ex);
+				}
+			}
+		}
+
+		/**
+		 * This is for internal use and forms part of the automation utilities provided to support automated testing.
+		 * @param {Function} subscriber Will be called with boolean, true means there are pending timeouts, false means there are none.
+		 */
+		this._subscribe = function(subscriber) {
+			if (subscriber) {
+				subscribers.push(subscriber);
+			}
+		};
 
 		/*
 		 * Don't ever use this!
