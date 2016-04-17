@@ -136,7 +136,8 @@ define(["wc/dom/event",
 				var trigger = triggerManager.getTrigger(element, ignoreAncestor),
 					alias,
 					loads,
-					id;
+					id,
+					controls;
 
 				if (!trigger) {
 					if (obj) {
@@ -145,7 +146,12 @@ define(["wc/dom/event",
 					else {
 						id = element.id;
 						alias = element.getAttribute(ALIAS);
-						loads = element.getAttribute("aria-controls").split(" ");
+						if ((controls = element.getAttribute("aria-controls"))) {
+							loads = controls.split(" ");
+						}
+						else {
+							loads = [id];
+						}
 						this.register({
 							id: id,
 							loads: loads,
