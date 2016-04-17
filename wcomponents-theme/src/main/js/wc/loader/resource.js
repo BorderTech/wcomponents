@@ -55,7 +55,7 @@ define(["wc/ajax/ajax", "wc/loader/prefetch", "wc/config", "module"],
 			 * @returns {string} The URL to the resource.
 			 */
 			this.getResourceUrl = function(fileName) {
-				var path, idx, cachebuster, config = getConfig();
+				var url, path, idx, cachebuster, config = getConfig();
 				if (config) {
 					path = config.resourceBaseUrl;
 					cachebuster = config.cachebuster;
@@ -67,7 +67,12 @@ define(["wc/ajax/ajax", "wc/loader/prefetch", "wc/config", "module"],
 				}
 
 				baseUrl = baseUrl || path || "";  // ${resource.target.dir.name}/";
-				var url = baseUrl + fileName + "?" + cachebuster;
+				if (fileName) {
+					url = baseUrl + fileName + "?" + cachebuster;
+				}
+				else {
+					url = baseUrl;
+				}
 				return url;
 			};
 

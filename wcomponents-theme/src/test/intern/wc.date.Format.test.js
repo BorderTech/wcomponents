@@ -73,6 +73,62 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					expected = "9",
 					actual = formatter.format(date);
 				assert.strictEqual(expected, actual);
+			},
+			testFormatTime: function () {
+				var mask = "dd/MM/yyyy HH:mm",
+					formatter = new Format(mask),
+					date = "2000-02-03T00:02",
+					expected = "03/02/2000 00:02",
+					actual = formatter.format(date);
+				assert.strictEqual(expected, actual);
+			},
+			testFormatTime12HrAM: function () {
+				var mask = "dd/MM/yyyy hh:mm",
+					formatter = new Format(mask),
+					date = "2000-02-03T00:02",
+					expected = "03/02/2000 12:02",
+					actual = formatter.format(date);
+				assert.strictEqual(expected, actual);
+			},
+			testFormatTime12HrPM: function () {
+				var mask = "dd/MM/yyyy hh:mm",
+					formatter = new Format(mask),
+					date = "2000-02-03T23:59",
+					expected = "03/02/2000 11:59",
+					actual = formatter.format(date);
+				assert.strictEqual(expected, actual);
+			},
+			testFormatTime12HrShort: function () {
+				var mask = "dd/MM/yyyy h:mm",
+					formatter = new Format(mask),
+					date = "2000-02-03T01:02",
+					expected = "03/02/2000 1:02",
+					actual = formatter.format(date);
+				assert.strictEqual(expected, actual);
+			},
+			testFormatTime12HrLong: function () {
+				var mask = "dd/MM/yyyy hh:mm",
+					formatter = new Format(mask),
+					date = "2000-02-03T01:02",
+					expected = "03/02/2000 01:02",
+					actual = formatter.format(date);
+				assert.strictEqual(expected, actual);
+			},
+			testFormatTime12HrAAAM: function () {
+				var mask = "dd/MM/yyyy hh:mm a",
+					formatter = new Format(mask),
+					date = "2000-02-03T00:02",
+					expected = "03/02/2000 12:02 AM",
+					actual = formatter.format(date);
+				assert.strictEqual(expected, actual);
+			},
+			testFormatTime12HrAAPM: function () {
+				var mask = "dd/MM/yyyy hh:mm a",
+					formatter = new Format(mask),
+					date = "2000-02-03T12:00",
+					expected = "03/02/2000 12:00 PM",
+					actual = formatter.format(date);
+				assert.strictEqual(expected, actual);
 			}
 		});
 	}

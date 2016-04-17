@@ -35,9 +35,9 @@ define(["wc/date/today", "lib/sprintf"],
 				NON_NUMERRIC_RE = /[^\d]/g,
 				dmPlaceholder = sprintf.sprintf("%'?2s", ""),
 				yPlaceholder = sprintf.sprintf("%'?4s", ""),
-				FULL_DATE_TEMPLATE = "${wc.date.interchange.full}",
-				PARTIAL_DATE_TEMPLATE = "${wc.date.interchange.partial}",
-				XFER_DATE_RE = /([\d\?]{4})-?([\d\?]{2})-?([\d\?]{2})/;
+				FULL_DATE_TEMPLATE = "%04d-%02d-%02d",
+				PARTIAL_DATE_TEMPLATE = "%04s-%02s-%02s",
+				XFER_DATE_RE = /([\d\?]{4})-?([\d\?]{2})-?([\d\?]{2})(?:T(\d{2}):(\d{2}))?/;
 
 			/**
 			 * Split the transfer format into its constituent parts. Any missing parts of the date will be replaced with
@@ -51,22 +51,27 @@ define(["wc/date/today", "lib/sprintf"],
 			 * @returns {Array} [YYYY, MM, DD]
 			 */
 			function splitXferDate(xfr, defaults) {
-				var result, day, month, year, today = $today.get(),  // the use of wc/date/today is to make this unit testable on boundary dates
+				var result, day, month, year, hour, minute, today = $today.get(),  // the use of wc/date/today is to make this unit testable on boundary dates
 					parsed = xfr.match(XFER_DATE_RE),
 					defaultValues = {
 						1: today.getFullYear(),
 						2: 1,
-						3: 1
+						3: 1,
+						4: 0,
+						5: 0
 					},
 					getVal = function (idx) {
-						return (parsed[idx].indexOf(PLACEHOLDER) < 0) ? parsed[idx] : (defaults ? defaultValues[idx] : null);
+						var next = parsed[idx];
+						return (next && next.indexOf(PLACEHOLDER) < 0) ? next : (defaults ? defaultValues[idx] : null);
 					};
 
 				if (parsed) {
 					year = getVal(1);
 					month = getVal(2);
 					day = getVal(3);
-					result = [year, month, day];
+					hour = getVal(4);
+					minute = getVal(5);
+					result = [year, month, day, hour, minute];
 				}
 				return result;
 			}
@@ -111,10 +116,12 @@ define(["wc/date/today", "lib/sprintf"],
 			 * @alias module:wc/date/interchange.fromDate
 			 * @static
 			 * @param {Date} date The date to convert.
+			 * @param {boolean} includeTime If true the time part of the date will be included.
 			 * @returns {String} The given date converted to a transfer date string.
 			 */
-			this.fromDate = function(date) {
-				return sprintf.sprintf(FULL_DATE_TEMPLATE, date.getFullYear(), (date.getMonth() + 1), date.getDate());
+			this.fromDate = function(date, includeTime) {
+				var template = includeTime ? "%04d-%02d-%02dT%02d:%02d" : FULL_DATE_TEMPLATE;
+				return sprintf.sprintf(template, date.getFullYear(), (date.getMonth() + 1), date.getDate(), date.getHours(), date.getMinutes());
 			};
 
 			/**
@@ -131,7 +138,7 @@ define(["wc/date/today", "lib/sprintf"],
 				var result,
 					parts = splitXferDate(xfr, true);
 				if (parts) {
-					result = new Date(parts[0], parts[1] - 1, parts[2]);
+					result = new Date(parts[0], parts[1] - 1, parts[2], parts[3], parts[4]);
 				}
 				return result;
 			};
@@ -170,7 +177,9 @@ define(["wc/date/today", "lib/sprintf"],
 					result = {
 						year: parts[0],
 						month: parts[1],
-						day: parts[2]
+						day: parts[2],
+						hour: parts[3],
+						minute: parts[4]
 					};
 				}
 				return result;
