@@ -129,7 +129,7 @@ define(["wc/dom/attribute",
 			 */
 			function filesChanged(id) {
 				var element = document.getElementById(id);
-				if (element) {
+				if (element && element.getAttribute("aria-controls")) {
 					ajaxRegion.requestLoad(element);
 				}
 			}

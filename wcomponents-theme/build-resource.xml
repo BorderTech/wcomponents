@@ -1,6 +1,6 @@
 <project name="BuildXML" default="build" >
 	<!--
-		Build the resource directory for a given implementation. 
+		Build the resource directory for a given implementation.
 	-->
 
 	<import file="build-import.xml" />
@@ -12,11 +12,11 @@
 		<property file="${properties.build.constants}" />
 	</target>
 
-	<!-- 
+	<!--
 		The copy of resources is done in two steps so that we can run a filter chain on text-like files and
 		not on binary-like files.
 	-->
-	<target name="build" depends="init, getTimezoneData" description="Builds resources">
+	<target name="build" depends="init" description="Builds resources">
 		<copy todir="${resource.build.target.dir}" overwrite="true" flatten="true">
 			<fileset dir="${resource.rootdir}" includes="*.xml, *.rdf, *.html, *.txt, *.svg" excludesfile="${excludesfile}" />
 			<fileset dir="${impl.resource.rootdir}" includes="*.xml, *.rdf, *.html, *.txt, *.svg" erroronmissingdir="false"/>
@@ -45,7 +45,7 @@
 		</copy>
 		<echo message="Done building xml" />
 	</target>
-	
+
 	<target name="getTimezoneData">
 		<mkdir dir="${resource.build.target.dir}/timezone"/>
 		<get src="${timezonedata.download.url}" dest="${tmp.dir}" tryGzipEncoding="true" skipexisting="true"/>
@@ -61,7 +61,7 @@
 					<comment value="#"/>
 				</striplinecomments>
 				<tokenfilter>
-					<ignoreblank/> 
+					<ignoreblank/>
 				</tokenfilter>
 			</filterchain>
 		</copy>
