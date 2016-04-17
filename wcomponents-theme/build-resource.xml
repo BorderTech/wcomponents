@@ -16,7 +16,7 @@
 		The copy of resources is done in two steps so that we can run a filter chain on text-like files and
 		not on binary-like files.
 	-->
-	<target name="build" depends="init" description="Builds resources">
+	<target name="build" depends="init, getTimezoneData" description="Builds resources">
 		<copy todir="${resource.build.target.dir}" overwrite="true" flatten="true">
 			<fileset dir="${resource.rootdir}" includes="*.xml, *.rdf, *.html, *.txt, *.svg" excludesfile="${excludesfile}" />
 			<fileset dir="${impl.resource.rootdir}" includes="*.xml, *.rdf, *.html, *.txt, *.svg" erroronmissingdir="false"/>
@@ -28,6 +28,7 @@
 				<striplinebreaks />
 			</filterchain>
 		</copy>
+
 		<copy todir="${resource.build.target.dir}" overwrite="true" flatten="true">
 			<fileset dir="${resource.rootdir}">
 				<include name="*" />
@@ -43,6 +44,27 @@
 			</fileset>
 		</copy>
 		<echo message="Done building xml" />
+	</target>
+	
+	<target name="getTimezoneData">
+		<mkdir dir="${resource.build.target.dir}/timezone"/>
+		<get src="${timezonedata.download.url}" dest="${tmp.dir}" tryGzipEncoding="true" skipexisting="true"/>
+		<gunzip src="${tmp.dir}/tzdata-latest.tar.gz" dest="${tmp.dir}"/>
+		<untar src="${tmp.dir}/tzdata-latest.tar" dest="${tmp.dir}/timezone/">
+			<!-- Add .txt because of this: https://github.com/BorderTech/wcomponents/issues/540 -->
+			<regexpmapper from="^([^\.]+)$" to="\1.txt"/>
+		</untar>
+		<copy todir="${resource.build.target.dir}/timezone" overwrite="true">
+			<fileset dir="${tmp.dir}/timezone" includes="*"/>
+			<filterchain>
+				<striplinecomments>
+					<comment value="#"/>
+				</striplinecomments>
+				<tokenfilter>
+					<ignoreblank/> 
+				</tokenfilter>
+			</filterchain>
+		</copy>
 	</target>
 
 	<target name="clean" description="Cleans up all artifacts produced by this build">
