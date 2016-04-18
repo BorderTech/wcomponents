@@ -368,7 +368,6 @@ public final class ServletUtil {
 		return !(Util.empty(name) // name must exist
 				|| name.contains("..") // prevent directory traversal
 				|| name.charAt(0) == '/' // all theme references should be relative
-				|| name.indexOf('.') == -1 // all files should have a file suffix
 				|| name.indexOf(':') != -1 // forbid use of protocols such as jar:, http: etc.
 				);
 	}
