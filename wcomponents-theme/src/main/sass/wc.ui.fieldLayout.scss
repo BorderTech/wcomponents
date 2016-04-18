@@ -10,10 +10,9 @@ ul.wc-fieldlayout {
 //scss-lint:enable QualifyingElement
 
 .wc-field {
-	> label,
-	> span {
-		display: block;
-	}
+	// > .wc-label {
+	// 	@include fit-content; // allows for better position of mandatory indicator.
+	// }
 
 	.wc_fld_pl { //this is the placeholder for a null or moved label (moved for checkbox or radio). Remove on narrow viewports.
 		display: none;
