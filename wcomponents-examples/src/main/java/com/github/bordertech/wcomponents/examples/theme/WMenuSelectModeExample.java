@@ -71,7 +71,7 @@ public class WMenuSelectModeExample extends WContainer {
 		/**
 		 * SubMenu 2 with group and nested subMenu.
 		 */
-		private final WSubMenu sub2 = new WSubMenu("S2 - sub2 (with group & sub)");
+		private final WSubMenu sub2 = new WSubMenu("S2sub2");
 		/**
 		 * SubMenu 3.
 		 */
@@ -151,11 +151,11 @@ public class WMenuSelectModeExample extends WContainer {
 		/**
 		 * SubMenu 3 - Item 1.
 		 */
-		private final WMenuItem s3Item1 = new WMenuItem("S3 - item1");
+		private final WMenuItem s3Item1 = new WMenuItem("S3 - item one");
 		/**
 		 * SubMenu 3 - Item 2.
 		 */
-		private final WMenuItem s3Item2 = new WMenuItem("S3 - item2");
+		private final WMenuItem s3Item2 = new WMenuItem("S3 - item two which is much longer than its ancestors");
 
 		/**
 		 * Menu - Item 1.
