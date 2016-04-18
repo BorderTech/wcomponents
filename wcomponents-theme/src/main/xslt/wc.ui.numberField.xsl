@@ -27,6 +27,9 @@
 					<xsl:attribute name="type">
 						<xsl:text>number</xsl:text>
 					</xsl:attribute>
+					<xsl:attribute name="value">
+						<xsl:value-of select="."/>
+					</xsl:attribute>
 					<!--
 						Turning off autocomplete is CRITICAL in Internet Explorer (8, others untested, but those
 						with a native HTML5 number field are probably going to be OK). It tooks me days to find this

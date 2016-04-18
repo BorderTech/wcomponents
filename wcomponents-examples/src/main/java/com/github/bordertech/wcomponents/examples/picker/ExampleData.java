@@ -48,6 +48,7 @@ import com.github.bordertech.wcomponents.examples.WImageExample;
 import com.github.bordertech.wcomponents.examples.WLinkActionExample;
 import com.github.bordertech.wcomponents.examples.WMultiFileWidgetAjaxExample;
 import com.github.bordertech.wcomponents.examples.WMultiSelectExample;
+import com.github.bordertech.wcomponents.examples.WNumberFieldExample;
 import com.github.bordertech.wcomponents.examples.WPanelExample;
 import com.github.bordertech.wcomponents.examples.WPopupExample;
 import com.github.bordertech.wcomponents.examples.WRadioButtonInRepeater;
@@ -61,6 +62,7 @@ import com.github.bordertech.wcomponents.examples.WStyledTextOptionsExample;
 import com.github.bordertech.wcomponents.examples.WSuggestionsExample;
 import com.github.bordertech.wcomponents.examples.WTemplateExample;
 import com.github.bordertech.wcomponents.examples.WTextExample;
+import com.github.bordertech.wcomponents.examples.WTextFieldExample;
 import com.github.bordertech.wcomponents.examples.WTimeoutWarningDefaultExample;
 import com.github.bordertech.wcomponents.examples.WTimeoutWarningExample;
 import com.github.bordertech.wcomponents.examples.WTimeoutWarningOptionsExample;
@@ -256,7 +258,9 @@ public final class ExampleData implements Serializable {
 		new ExampleData("Simple Cancel Button", SimpleCancelButtonExample.class),
 		new ExampleData("Single Select", WSingleSelectExample.class),
 		new ExampleData("Text Area", TextAreaExample.class),
-		new ExampleData("Text Field", TextFieldExample.class)
+		new ExampleData("Text Field", TextFieldExample.class),
+		new ExampleData("WTextField", WTextFieldExample.class),
+		new ExampleData("WNumberField", WNumberFieldExample.class)
 	};
 
 	/**
