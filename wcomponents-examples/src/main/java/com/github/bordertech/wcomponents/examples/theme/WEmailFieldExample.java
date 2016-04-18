@@ -43,6 +43,13 @@ public class WEmailFieldExample extends WContainer {
 		eField.setText("user@example.com");
 		eField.setReadOnly(true);
 		layout.addField("Read-only email address field with data", eField);
+
+
+
+		// constraints
+		eField = new WEmailField();
+		eField.setMaxLength(254);
+		layout.addField("Max length 254", eField);
 	}
 
 }
