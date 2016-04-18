@@ -5,6 +5,8 @@
 input,
 select,
 textarea {
+	// Border on select makes firefox OS X quite ugly but is better than any other option on all other UAs.
+	@include border($color: $wc-ui-color-border-form-control);
 	@include margin($size: 0);
 	font-family: inherit;
 	font-size: inherit;
@@ -18,9 +20,6 @@ textarea {
 
 input,
 textarea {
-	// Border on select breaks firefox OS X quite nastily so we only apply it to input and textarea.
-	// If you want a disabled border color you may want to also apply this to select and live with Firefox's ugliness.
-	@include border($color: $wc-ui-color-border-form-control);
 	padding: 1px;
 }
 
@@ -28,6 +27,7 @@ input {
 	&[type='checkbox'],
 	&[type='radio'] {
 		@include border($width: 0);
+		// NOTE: no need to remove the 1px padding.
 	}
 }
 
