@@ -162,7 +162,7 @@ define(["wc/dom/classList",
 					mandatorySpan.innerHTML = i18n.get("${wc.common.i18n.requiredPlaceholder}");
 					newLabellingElement.appendChild(mandatorySpan);
 				}
-				else if ((mandatorySpan = MANDATORY_SPAN.findDescendand(newLabellingElement))) {
+				else if ((mandatorySpan = MANDATORY_SPAN.findDescendant(newLabellingElement))) {
 					mandatorySpan.parentNode.removeChild(mandatorySpan);
 				}
 				newLabellingElement.id = label.id;
