@@ -73,6 +73,9 @@
 								<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
 							</xsl:attribute>
 						</xsl:if>
+						<xsl:call-template name="disabledElement">
+							<xsl:with-param name="isControl" select="1"/>
+						</xsl:call-template>
 						<xsl:variable name="list" select="@list"/>
 						<xsl:if test="$list">
 							<xsl:attribute name="role">
