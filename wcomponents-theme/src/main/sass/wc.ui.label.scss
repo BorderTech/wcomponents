@@ -6,12 +6,6 @@
 	@include label-hint;
 }
 
-// use inline-block on a label-dummy to prevent a required marker flying off the end
-//scss-lint:disable QualifyingElement
-span.wc-label {
-	display: inline-block;
-}
-
 // space between a checkable and its label
 [type='radio'] + label,
 [type='checkbox'] + label,
@@ -19,36 +13,36 @@ span.wc-label {
 	margin-left: $hgap-small;
 }
 
-// required markers
-.wc_req {
-	[type='radio'] + &:before,
-	[type='checkbox'] + &:before {
-		margin-right: $hgap-small;
-	}
-
-	[type='radio'] + &:after,
-	[type='checkbox'] + &:after {
-		display: none;
-	}
-}
-
-label.wc_req:after,
-.label.wc_req:after,
-input[type='radio'] +.wc_req:before,
-input[type='checkbox'] + .wc_req:before {
-	@include mandatory-indicator;
-}
-
+// use inline-block to prevent a required marker flying off the end
 .wc-label {
+	display: inline-block;
+
 	&.wc_req {
 		@include border-box;
+		@include fit-content; // allows for better position of mandatory indicator.
 		padding-right: 1em;
 		position: relative;
+
+		&:after,
+		input[type='checkbox'] + &:before,
+		input[type='radio'] + &:before {
+			@include mandatory-indicator;
+		}
 
 		&:after {
 			position: absolute;
 			right: $hgap-small;
 			top: 0;
+		}
+
+		[type='radio'] + &:before,
+		[type='checkbox'] + &:before {
+			margin-right: $hgap-small;
+		}
+
+		[type='radio'] + &:after,
+		[type='checkbox'] + &:after {
+			display: none;
 		}
 	}
 }

@@ -13,9 +13,6 @@ legend {
 	.wc_req > &:before {
 		@include mandatory-indicator;
 		float: right;
-	}
-
-	.wc_req.wc_notext > &:before {
-		content: '';
+		width: 0; // allow for wrapping legends.
 	}
 }
