@@ -1,5 +1,10 @@
 # Change log
 
+# Release 1.1.3
+
+## Bug fixes
+* #542 #543 #546 #548 #549 #552 #554 #556
+
 # Release 1.1.2
 
 ## Bug fixes
