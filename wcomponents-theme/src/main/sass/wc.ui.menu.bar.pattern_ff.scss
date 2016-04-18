@@ -1,8 +1,0 @@
-/* wc.ui.menu.bar.ff.scss */
-@import 'menu_vars';
-
-.wc-submenu [role="menu"][aria-expanded="true"] {
-	// FF cannot correctly calculate the width of a container if it is absolutely positioned
-	// scss-lint:disable VendorPrefix
-	width: -moz-max-content;
-}

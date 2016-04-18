@@ -18,29 +18,31 @@
 	overflow: auto;
 	position: fixed;
 	top: 0;
-	width: 100%;
 
 	> [role] {
 		font-size: 1.25rem;
 	}
 }
 
+
 @include respond-not-phone {
-	[role='menubar'] .wc-submenu,
-	.wc-menu.column {
+	[role^='menu'] .wc-submenu {
 		position: relative;
 	}
 
-	.wc-submenu > [aria-expanded='true'] {
+	[role='menu'][aria-expanded='true'] {
 		@include border;
 		// box-shadow: 3px 3px 3px $wc-ui-color-shadow;
 		height: auto; // override (mobile) default
-		left: 0;
 		min-width: 100%;
 		overflow: visible;
 		position: absolute;
 		top: 100%;
-		width: auto;
+
+		.wc-submenu > & {
+			// make more specific to override default [role] width in wc.ui.menu.scss
+			width: auto;
+		}
 
 		> [role] { // override (mobile) default.
 			font-size: inherit;
