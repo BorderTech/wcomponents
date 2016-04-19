@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.TreeUtil;
+import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -572,8 +573,16 @@ public final class WebUtilities {
 	public static String getContentType(final String fileName) {
 		Configuration config = Config.getInstance();
 
-		String suffix = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
-		String mimeType = config.getString("bordertech.wcomponents.mimeType." + suffix);
+		if (Util.empty(fileName)) {
+			return config.getString("bordertech.wcomponents.mimeType.defaultMimeType", "application/octet-stream");
+		}
+
+		String mimeType = null;
+
+		if (fileName.lastIndexOf('.') > -1) {
+			String suffix = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
+			mimeType = config.getString("bordertech.wcomponents.mimeType." + suffix);
+		}
 
 		if (mimeType == null) {
 			mimeType = URLConnection.guessContentTypeFromName(fileName);
