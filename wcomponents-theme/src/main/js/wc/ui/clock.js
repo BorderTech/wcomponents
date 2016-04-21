@@ -18,9 +18,9 @@ define(["lib/date", "wc/ajax/ajax", "wc/loader/resource", "wc/dom/textContent", 
 
 		date.timezone.transport = function(request) {
 			var url = request.url;
-			if (/\/[^\.]+$/.test(url)) {
-				request.url += ".txt";
-			}
+//			if (/\/[^\.]+$/.test(url)) {
+//				request.url += ".txt";
+//			}
 			request.cache = true;
 			request.responseType = ajax.responseType.TEXT;
 			request.onError = request.error;
