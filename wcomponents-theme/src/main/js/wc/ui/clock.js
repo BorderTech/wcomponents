@@ -58,6 +58,7 @@ define(["lib/date", "wc/ajax/ajax", "wc/loader/resource", "wc/dom/textContent", 
 						config.callback(dateString, result.date);
 					}
 					catch (ex) {
+						config.callback = null;
 						console.error(ex);
 					}
 				}
@@ -82,15 +83,6 @@ define(["lib/date", "wc/ajax/ajax", "wc/loader/resource", "wc/dom/textContent", 
 				next = clocks[i];
 				startTicking(next);
 			}
-		}
-
-		/**
-		 * Called on each tick to handle the parsed date.
-		 * @param {string} dateString The formatted date string.
-		 * @param {Date} date The JS date object.
-		 */
-		function callback(config, dateString, date) {
-
 		}
 
 		/**

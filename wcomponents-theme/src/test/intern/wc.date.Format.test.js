@@ -85,7 +85,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			testFormatTimeWithSeconds: function () {
 				var mask = "dd/MM/yyyy HH:mm:ss",
 					formatter = new Format(mask),
-					date = "2000-02-03T00:02:59:01",
+					date = "2000-02-03T00:02:59",
 					expected = "03/02/2000 00:02:59",
 					actual = formatter.format(date);
 				assert.strictEqual(expected, actual);
