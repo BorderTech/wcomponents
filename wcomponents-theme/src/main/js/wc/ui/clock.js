@@ -4,7 +4,8 @@
 define(["lib/date", "wc/ajax/ajax", "wc/loader/resource", "wc/dom/textContent", "wc/timers", "wc/config",
 	"wc/date/Format", "wc/date/interchange"],
 	function(date, ajax, resource, textContent, timers, wcconfig, Format, interchange) {
-		var defaultFormat = new Format("dd MMM yyyy, hh:mm a"),
+		var defaultFormat = "dd MMM yyyy, hh:mm a",
+			defaultFormatWithSeconds = "dd MMM yyyy, hh:mm:ss a",
 			instance = new Clock(),
 			config = wcconfig.get("wc/ui/clock");
 
@@ -17,7 +18,7 @@ define(["lib/date", "wc/ajax/ajax", "wc/loader/resource", "wc/dom/textContent", 
 		}
 
 		date.timezone.transport = function(request) {
-			var url = request.url;
+//			var url = request.url;
 //			if (/\/[^\.]+$/.test(url)) {
 //				request.url += ".txt";
 //			}
@@ -29,21 +30,46 @@ define(["lib/date", "wc/ajax/ajax", "wc/loader/resource", "wc/dom/textContent", 
 		};
 
 		function startTicking(config) {
-			var formatter = config.format || format,
+			var formatter,
 				start = config.start || Date.now(),
 				result = {
 					date: new date.Date(start, config.timezone),
 					timer: null
 				};
+			if (config.format) {
+				formatter = new Format(config.format);
+			}
+			else {
+				formatter = new Format(config.seconds ? defaultFormatWithSeconds : defaultFormat);
+			}
 			tick();
 			function tick() {
-				var nextTick, dateString, element = document.getElementById(config.id);
-				if (element) {
-					dateString = formatter(result.date);
+				var nextTick,
+					element,
+					parsed = interchange.fromDate(result.date, true),
+					dateString = formatter.format(parsed);
+
+				if (config.id && (element = document.getElementById(config.id))) {
 					textContent.set(element, dateString);
 				}
-				nextTick = 60 - result.date.getSeconds();
-				nextTick *= 1000;
+
+				if (config.callback) {
+					try {
+						config.callback(dateString, result.date);
+					}
+					catch (ex) {
+						console.error(ex);
+					}
+				}
+
+				if (config.seconds) {
+					nextTick = 1000;
+				}
+				else {
+					nextTick = 60 - result.date.getSeconds();
+					nextTick *= 1000;
+				}
+
 				result.date.setTime(result.date.getTime() + nextTick);
 				result.timer = timers.setTimeout(tick, nextTick);
 			}
@@ -59,14 +85,12 @@ define(["lib/date", "wc/ajax/ajax", "wc/loader/resource", "wc/dom/textContent", 
 		}
 
 		/**
-		 * Formats the date object into a human readable string.
-		 * @param {Date} date The date to format.
-		 * @returns {string} The formatted date.
+		 * Called on each tick to handle the parsed date.
+		 * @param {string} dateString The formatted date string.
+		 * @param {Date} date The JS date object.
 		 */
-		function format(date) {
-			var parsed = interchange.fromDate(date, true),
-				result = defaultFormat.format(parsed);
-			return result;
+		function callback(config, dateString, date) {
+
 		}
 
 		/**

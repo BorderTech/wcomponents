@@ -37,7 +37,7 @@ define(["wc/date/today", "lib/sprintf"],
 				yPlaceholder = sprintf.sprintf("%'?4s", ""),
 				FULL_DATE_TEMPLATE = "%04d-%02d-%02d",
 				PARTIAL_DATE_TEMPLATE = "%04s-%02s-%02s",
-				XFER_DATE_RE = /([\d\?]{4})-?([\d\?]{2})-?([\d\?]{2})(?:T(\d{2}):(\d{2}))?/;
+				XFER_DATE_RE = /([\d\?]{4})-?([\d\?]{2})-?([\d\?]{2})(?:T(\d{2}):(\d{2}):(\d{2}))?/;
 
 			/**
 			 * Split the transfer format into its constituent parts. Any missing parts of the date will be replaced with
@@ -51,14 +51,15 @@ define(["wc/date/today", "lib/sprintf"],
 			 * @returns {Array} [YYYY, MM, DD]
 			 */
 			function splitXferDate(xfr, defaults) {
-				var result, day, month, year, hour, minute, today = $today.get(),  // the use of wc/date/today is to make this unit testable on boundary dates
+				var result, day, month, year, hour, minute, second, today = $today.get(),  // the use of wc/date/today is to make this unit testable on boundary dates
 					parsed = xfr.match(XFER_DATE_RE),
 					defaultValues = {
 						1: today.getFullYear(),
 						2: 1,
 						3: 1,
 						4: 0,
-						5: 0
+						5: 0,
+						6: 0
 					},
 					getVal = function (idx) {
 						var next = parsed[idx];
@@ -71,7 +72,8 @@ define(["wc/date/today", "lib/sprintf"],
 					day = getVal(3);
 					hour = getVal(4);
 					minute = getVal(5);
-					result = [year, month, day, hour, minute];
+					second = getVal(6);
+					result = [year, month, day, hour, minute, second];
 				}
 				return result;
 			}
@@ -120,8 +122,8 @@ define(["wc/date/today", "lib/sprintf"],
 			 * @returns {String} The given date converted to a transfer date string.
 			 */
 			this.fromDate = function(date, includeTime) {
-				var template = includeTime ? "%04d-%02d-%02dT%02d:%02d" : FULL_DATE_TEMPLATE;
-				return sprintf.sprintf(template, date.getFullYear(), (date.getMonth() + 1), date.getDate(), date.getHours(), date.getMinutes());
+				var template = includeTime ? "%04d-%02d-%02dT%02d:%02d:%02d" : FULL_DATE_TEMPLATE;
+				return sprintf.sprintf(template, date.getFullYear(), (date.getMonth() + 1), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
 			};
 
 			/**
@@ -179,7 +181,8 @@ define(["wc/date/today", "lib/sprintf"],
 						month: parts[1],
 						day: parts[2],
 						hour: parts[3],
-						minute: parts[4]
+						minute: parts[4],
+						second: parts[5]
 					};
 				}
 				return result;
