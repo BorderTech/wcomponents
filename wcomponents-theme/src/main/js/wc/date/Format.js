@@ -7,7 +7,7 @@ define(["wc/date/interchange", "wc/date/monthName"],
 	/** @param interchange wc/date/interchange @param monthName wc/date/monthName @ignore */
 	function(interchange, monthName) {
 		"use strict";
-		var FORMAT_RE = /y{2,4}|d+|MON|M{2,4}|H+|m+|h+|a+/g,
+		var FORMAT_RE = /y{2,4}|d+|MON|M{2,4}|H+|m+|h+|a+|s+/g,
 			NORMALIZE_WHITESPACE_RE = /\s{2,}/g;
 
 		/**
@@ -109,6 +109,9 @@ define(["wc/date/interchange", "wc/date/monthName"],
 						break;
 					case "a":
 						result = (date.hour || date.hour === 0) ? (date.hour < 12 ? "AM" : "PM") : "";
+						break;
+					case "ss":
+						result = date.second;
 						break;
 					default:
 						failFlag = true;
