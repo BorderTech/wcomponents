@@ -4,7 +4,7 @@
 	<xs:include schemaLocation="attributeGroups.control.xsd" />
 	<xs:include schemaLocation="optgroup.xsd" />
 
-	<xs:element name="multiSelectPair">
+	<xs:element name="multiselectpair">
 		<xs:annotation>
 			<xs:documentation>
 				<p>WMultiSelectPair represents a compound multi-selection device with an option to set the "order" of the selected options.</p>

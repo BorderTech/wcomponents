@@ -1,6 +1,7 @@
 /* wc.ui.heading.scss */
-// This file is purposely left as a stub for easy over-ride
-@import 'vars_all.scss';
+// This file is purposely left as a stub for easy over-ride.
+// This is why this file has colors in it.
+@import 'mixins-common';
 
 h1,
 h2,
@@ -12,11 +13,15 @@ h6 {
 	margin: $vgap-normal 0;
 }
 
-section {
-	> h1,
-	> header h1 {
-		font-size: 1em;
-		font-weight: normal;
+h1,
+h2,
+h3,
+h4 {
+	.wc_nti {
+		vertical-align: text-bottom;
+
+		img {
+			vertical-align: middle;
+		}
 	}
 }
-/* end wc.ui.heading.scss */

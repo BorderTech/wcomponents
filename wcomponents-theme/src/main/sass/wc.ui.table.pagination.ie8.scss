@@ -1,15 +1,28 @@
 /* wc.ui.table.pagination.ie8.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
 .wc_table_pag_cont {
 	label,
 	select,
-	select + .wc_ibtn { // no first of type
+	select + button { // no first of type
 		margin-left: $hgap-large;
 	}
 
-	.wc_ibtn {
-		vertical-align: baseline;
+	button + button {
+		&:before {
+			content: $fa-var-angle-left;
+		}
+		// IE8 sucks, we need this nesting depth
+		//scss-lint:disable NestingDepth
+		+ button {
+			&:before {
+				content: $fa-var-angle-right;
+			}
+
+			+ button:before {
+				content: $fa-var-angle-double-right;
+			}
+
+		}
 	}
 }
-/* end wc.ui.table.pagination.ie8.scss */

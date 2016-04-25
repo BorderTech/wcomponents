@@ -4,8 +4,6 @@
 	<xsl:import href="wc.common.listSortControls.xsl"/>
 	<xsl:import href="wc.ui.multiSelectPair.n.multiSelectPairButton.xsl"/>
 	<xsl:import href="wc.common.makeLegend.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
 	<!--
 		Transform for WMultiSelectPair. This component is a mechanism to select 0 or
 		more options from a list. It is presented in a way which puts two lists side by
@@ -20,7 +18,7 @@
 		buttons to move options between the visible lists; and optionally a set of
 		buttons to change the order of selected options.
 	-->
-	<xsl:template match="ui:multiSelectPair">
+	<xsl:template match="ui:multiselectpair">
 		<xsl:variable name="id">
 			<xsl:value-of select="@id"/>
 		</xsl:variable>
@@ -77,7 +75,7 @@
 					</xsl:call-template>
 
 					<!-- AVAILABLE LIST -->
-					<xsl:variable name="availId" select="concat($id, '${wc.ui.multiSelectPair.id.suffix.available}')"/>
+					<xsl:variable name="availId" select="concat($id, '_a')"/>
 					<span>
 						<label for="{$availId}">
 							<xsl:value-of select="@fromListName"/>
@@ -94,6 +92,7 @@
 					</span>
 					<!-- BUTTONS -->
 					<span class="wc_msp_btncol">
+						<xsl:text>&#x00a0;</xsl:text>
 						<xsl:call-template name="multiSelectPairButton">
 							<xsl:with-param name="value" select="'add'"/>
 							<xsl:with-param name="buttonText" select="$$${wc.ui.multiSelectPair.i18n.button.add}"/>
@@ -113,7 +112,7 @@
 					</span>
 					<!-- SELECTED LIST -->
 					<xsl:variable name="toId">
-						<xsl:value-of select="concat($id, '${wc.ui.multiSelectPair.id.suffix.selected}')"/>
+						<xsl:value-of select="concat($id, '_s')"/>
 					</xsl:variable>
 					<span>
 						<label for="{$toId}">

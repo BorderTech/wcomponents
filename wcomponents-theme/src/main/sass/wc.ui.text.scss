@@ -1,23 +1,22 @@
 /* wc.ui.text.scss */
 //WStyledText - not WText
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
 .highPriority { //strong element
-	@include outline($color: $wc-ui-color-error-fg, $style: double, $width: 3px);
+	// @include outline($color: $wc-ui-color-error-fg, $style: double, $width: 3px);
 	background-color: $wc-ui-color-error-bg;
 	color: $wc-ui-color-error-fg;
 	padding: 0 $hgap-small;
 }
 
 .mediumPriority { //em element
-	@include outline($color: $wc-ui-color-warning-fg);
+	// @include outline($color: $wc-ui-color-warning-fg);
 	background-color: $wc-ui-color-global-bg;
 	color: $wc-ui-color-warning-fg;
 	padding: 0 $hgap-small;
 }
 
-.mandatory-indicator:after {
+.mandatoryIndicator:after {
 	@include mandatory-indicator;
 	margin-left: $hgap-small;
 }
-/* end wc.ui.text.scss */

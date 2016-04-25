@@ -111,16 +111,16 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/tag"],
 						}
 					}
 					else {  // it must be a DOM element
-						if ((id = ref.getAttribute(ALIAS))) {
-							console.log("Finding trigger by alias match");
-							result = this.getTrigger(id);
-						}
-						if (!result && (id = ref.id)) {  // try id
+						if ((id = ref.id)) {  // try id
 							console.log("Found trigger by element (id match)");
 							result = this.getTrigger(id);
 						}
 						if (!result && (id = ref.name)) {  // try name (esp. radio buttons)
 							console.log("Found trigger by element (name match)");
+							result = this.getTrigger(id);
+						}
+						if (!result && (id = ref.getAttribute(ALIAS))) {
+							console.log("Finding trigger by alias match");
 							result = this.getTrigger(id);
 						}
 						if (!result && !ignoreAncestor) {

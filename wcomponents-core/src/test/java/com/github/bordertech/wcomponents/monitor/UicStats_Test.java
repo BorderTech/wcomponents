@@ -1,14 +1,5 @@
 package com.github.bordertech.wcomponents.monitor;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
-import junit.framework.Assert;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import com.github.bordertech.wcomponents.AbstractWComponentTestCase;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextImpl;
@@ -17,154 +8,155 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.monitor.UicStats.Stat;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import junit.framework.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Unit tests for {@link UicStats}.
- * 
+ *
  * @author Anthony O'Connor
  * @since 1.0.0
  */
-public class UicStats_Test extends AbstractWComponentTestCase
-{
-    /** the uic to be studied. */
-    private UIContext uic;
+public class UicStats_Test extends AbstractWComponentTestCase {
 
-    /** the app for the uic. */
-    private WApplication app;
+	/**
+	 * the app for the uic.
+	 */
+	private WApplication app;
 
-    /** the button of the app. */
-    private WButton button;
+	/**
+	 * the button of the app.
+	 */
+	private WButton button;
 
-    /** the label of the app. */
-    private WLabel label;
+	/**
+	 * the label of the app.
+	 */
+	private WLabel label;
 
-    /** the stats produced. */
-    private UicStats stats;
+	/**
+	 * the stats produced.
+	 */
+	private UicStats stats;
 
-    @Before
-    public void setUp()
-    {
-        uic = new UIContextImpl();
-        setActiveContext(uic);
-        
-        app = new WApplication();
-        button = new WButton("PUSH");
-        app.add(button);
-        label = new WLabel("HERE");
-        app.add(label);
-        uic.setUI(app);
-        stats = new UicStats(uic);
-    }
+	@Before
+	public void setUp() {
+		UIContext uic;
+		uic = new UIContextImpl();
+		setActiveContext(uic);
 
-    /**
-     * Test getUI.
-     */
-    @Test
-    public void testGetUI()
-    {
-        WComponent resultComponent = stats.getUI();
-        Assert.assertEquals("should return component from constructor", app, resultComponent);
-    }
+		app = new WApplication();
+		button = new WButton("PUSH");
+		app.add(button);
+		label = new WLabel("HERE");
+		app.add(label);
+		uic.setUI(app);
+		stats = new UicStats(uic);
+	}
 
-    /**
-     * Test getRootWCs.
-     */
-    @Test
-    public void testGetRootWCs()
-    {
-        Set<WComponent> resultWcs = stats.getRootWCs();
+	/**
+	 * Test getUI.
+	 */
+	@Test
+	public void testGetUI() {
+		WComponent resultComponent = stats.getUI();
+		Assert.assertEquals("should return component from constructor", app, resultComponent);
+	}
 
-        Assert.assertNotNull("resultWcs cannot be null", resultWcs);
-        Assert.assertEquals("there should be 1 rootWc", 1, resultWcs.size());
-        Assert.assertTrue("the single rootWc should be App", resultWcs.contains(app));
-    }
+	/**
+	 * Test getRootWCs.
+	 */
+	@Test
+	public void testGetRootWCs() {
+		Set<WComponent> resultWcs = stats.getRootWCs();
 
-    /**
-     * Test getWCsAnalysed - when one has been analysed.
-     */
-    @Test
-    public void testGetWCsAnalysedForSpecificApp()
-    {
-        stats.analyseWC(app);
+		Assert.assertNotNull("resultWcs cannot be null", resultWcs);
+		Assert.assertEquals("there should be 1 rootWc", 1, resultWcs.size());
+		Assert.assertTrue("the single rootWc should be App", resultWcs.contains(app));
+	}
 
-        int expectedLoopCount = 1;
-        int loopCount = 0;
-        for (Iterator<WComponent> resultWcs = stats.getWCsAnalysed(); resultWcs.hasNext(); loopCount++)
-        {
-            WComponent resultComponent = resultWcs.next();
-            Assert.assertEquals("the analysed component should be app", app, resultComponent);
-        }
-        Assert.assertEquals("there should be only one analysed components", expectedLoopCount, loopCount);
-    }
+	/**
+	 * Test getWCsAnalysed - when one has been analysed.
+	 */
+	@Test
+	public void testGetWCsAnalysedForSpecificApp() {
+		stats.analyseWC(app);
 
-    /**
-     * Test getWCsAnalysed - when none have been analysed.
-     */
-    @Test
-    public void testGetWCsAnalysedForSpecificAppNull()
-    {
-        stats.analyseWC(null);
+		int expectedLoopCount = 1;
+		int loopCount = 0;
+		for (Iterator<WComponent> resultWcs = stats.getWCsAnalysed(); resultWcs.hasNext(); loopCount++) {
+			WComponent resultComponent = resultWcs.next();
+			Assert.assertEquals("the analysed component should be app", app, resultComponent);
+		}
+		Assert.assertEquals("there should be only one analysed components", expectedLoopCount,
+				loopCount);
+	}
 
-        int expectedLoopCount = 0;
-        int loopCount = 0;
-        for (Iterator<WComponent> resultWcs = stats.getWCsAnalysed(); resultWcs.hasNext(); loopCount++)
-        {
-            Assert.fail("there should be no analysed components");
-        }
-        Assert.assertEquals("there should be no analysed components", expectedLoopCount, loopCount);
-    }
+	/**
+	 * Test getWCsAnalysed - when none have been analysed.
+	 */
+	@Test
+	public void testGetWCsAnalysedForSpecificAppNull() {
+		stats.analyseWC(null);
 
-    /**
-     * Test getWCsAnalysed - when all rootWcs have been analysed.
-     */
-    @Test
-    public void testGetWCsAnalysedForAllRoots()
-    {
-        stats.analyseAllRootWCs();
+		int expectedLoopCount = 0;
+		int loopCount = 0;
+		for (Iterator<WComponent> resultWcs = stats.getWCsAnalysed(); resultWcs.hasNext(); loopCount++) {
+			Assert.fail("there should be no analysed components");
+		}
+		Assert.assertEquals("there should be no analysed components", expectedLoopCount, loopCount);
+	}
 
-        int expectedLoopCount = 1;
-        int loopCount = 0;
-        for (Iterator<WComponent> resultWcs = stats.getWCsAnalysed(); resultWcs.hasNext(); loopCount++)
-        {
-            WComponent resultComponent = resultWcs.next();
-            Assert.assertEquals("the analysed component should be app", app, resultComponent);
-        }
-        Assert.assertEquals("there should be only one analysed components", expectedLoopCount, loopCount);
-    }
+	/**
+	 * Test getWCsAnalysed - when all rootWcs have been analysed.
+	 */
+	@Test
+	public void testGetWCsAnalysedForAllRoots() {
+		stats.analyseAllRootWCs();
 
-    /**
-     * Test getWCTreeStats.
-     */
-    @Test
-    public void testGetWCTreeStats()
-    {
-        stats.analyseWC(app);
+		int expectedLoopCount = 1;
+		int loopCount = 0;
+		for (Iterator<WComponent> resultWcs = stats.getWCsAnalysed(); resultWcs.hasNext(); loopCount++) {
+			WComponent resultComponent = resultWcs.next();
+			Assert.assertEquals("the analysed component should be app", app, resultComponent);
+		}
+		Assert.assertEquals("there should be only one analysed components", expectedLoopCount,
+				loopCount);
+	}
 
-        Map<WComponent, Stat> resultStats = stats.getWCTreeStats(app);
+	/**
+	 * Test getWCTreeStats.
+	 */
+	@Test
+	public void testGetWCTreeStats() {
+		stats.analyseWC(app);
 
-        // expect to find the WComponent app, WButton button and the WLabel
-        // label
+		Map<WComponent, Stat> resultStats = stats.getWCTreeStats(app);
 
-        for (Map.Entry<WComponent, Stat> entry : resultStats.entrySet())
-        {
-            WComponent comp = entry.getKey();
-            Stat stat = entry.getValue();
+		// expect to find the WComponent app, WButton button and the WLabel
+		// label
+		for (Map.Entry<WComponent, Stat> entry : resultStats.entrySet()) {
+			WComponent comp = entry.getKey();
+			Stat stat = entry.getValue();
 
-            if (comp instanceof WLabel)
-            {
-                Assert.assertEquals("this should be the label created", label, comp);
-                Assert.assertEquals("stat should have correct label name", label.getId(), stat.name);
-            }
-            else if (comp instanceof WButton)
-            {
-                Assert.assertEquals("this should be the button in the app", button, comp);
-                Assert.assertEquals("stat should have correct button name", button.getId(), stat.name);
-            }
-            else if (comp instanceof WApplication)
-            {
-                Assert.assertEquals("this should be the app", app, comp);
-                Assert.assertEquals("stat should have correct app name", app.getId(), stat.name);
-            }
-        }
-    }
+			if (comp instanceof WLabel) {
+				Assert.assertEquals("this should be the label created", label, comp);
+				Assert.assertEquals("stat should have correct label name", label.getId(), stat.
+						getName());
+			} else if (comp instanceof WButton) {
+				Assert.assertEquals("this should be the button in the app", button, comp);
+				Assert.assertEquals("stat should have correct button name", button.getId(), stat.
+						getName());
+			} else if (comp instanceof WApplication) {
+				Assert.assertEquals("this should be the app", app, comp);
+				Assert.
+						assertEquals("stat should have correct app name", app.getId(), stat.
+								getName());
+			}
+		}
+	}
 }

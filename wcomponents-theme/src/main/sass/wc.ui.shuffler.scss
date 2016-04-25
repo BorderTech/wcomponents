@@ -1,8 +1,6 @@
 /* wc.ui.shuffler.scss */
 // Shuffler is a select element where the option order is able to be changed.
 // we have a bunch of buttons next to this component, we better make the select at least as high as the button tower.
-//scss-lint:disable QualifyingElement
-select.shuffler {
-	min-height: 8em;
+.wc-shuffler select {
+	min-height: 8rem;
 }
-/* end wc.ui.shuffler.scss */

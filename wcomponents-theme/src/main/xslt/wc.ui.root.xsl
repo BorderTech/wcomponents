@@ -6,15 +6,13 @@
 	<xsl:import href="wc.ui.root.n.externalScript.xsl"/>
 	<xsl:import href="wc.common.registrationScripts.xsl"/>
 	<xsl:import href="wc.ui.root.n.wcBodyClass.xsl"/>
-	
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
 	<!--
 		Some meta elements have to be VERY early to work reliably. Put them here.
-		
-		NOTE: If you need the old XSLT which enabled a WComponent application to be nested inside an existing HTML 
-		structure you will need to either rewrite it or retrieve it from the archives. It has gone because it was slow 
+
+		NOTE: If you need the old XSLT which enabled a WComponent application to be nested inside an existing HTML
+		structure you will need to either rewrite it or retrieve it from the archives. It has gone because it was slow
 		and no-one needs it anymore.
-		
+
 		$lang is a global attribute injected by the WComponent server application.
 	-->
 	<xsl:strip-space elements="*"/>
@@ -25,8 +23,7 @@
 				<title>
 					<xsl:value-of select="@title"/>
 				</title>
-				
-				
+
 				<link type="text/css" id="${wc_css_main_id}" rel="stylesheet">
 					<xsl:attribute name="href">
 						<xsl:value-of select="$resourceRoot"/>
@@ -39,46 +36,55 @@
 					</xsl:attribute>
 				</link>
 				
-				<!-- 
+				<xsl:apply-templates select="ui:application/ui:css" mode="inHead"/>
+				<xsl:apply-templates select=".//html:link[@rel='stylesheet']" mode="inHead"/>
+				
+				<!--
 					We need to set up the require config very early.
 				-->
 				<xsl:call-template name="makeRequireConfig"/>
 				
-				<xsl:if test="$isIE=1">
-					<!--
-						non-AMD compatible fixes for IE: things that need to be fixed before we can require anything but
-						have to be added after we have included requirejs/require.
-					-->
-					<xsl:call-template name="makeIE8CompatScripts"/>
-				</xsl:if>
-
-				<xsl:call-template name="externalScript">
-					<xsl:with-param name="scriptName" select="'requirejs/require'"/>
-				</xsl:call-template>
+				<!--
+					non-AMD compatible fixes for IE: things that need to be fixed before we can require anything but
+					have to be added after we have included requirejs/require.
+				-->
+				<xsl:call-template name="makeIE8CompatScripts"/>
 				
-				<!-- We can delete some script nodea after they have been used. To do this we need the script element to have an ID. -->
+				<xsl:call-template name="externalScript">
+					<xsl:with-param name="scriptName" select="'lib/require'"/>
+				</xsl:call-template>
+
+				<!-- We can delete some script nodes after they have been used. To do this we need the script element to have an ID. -->
 				<xsl:variable name="scriptId" select="generate-id()"/>
 				<!-- We want to load up the CSS as soon as we can, so do it immediately after loading require. -->
 				<xsl:variable name="styleLoaderId" select="concat($scriptId,'-styleloader')"/>
 				<script type="text/javascript" id="{$styleLoaderId}">
-					<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
-					<xsl:text>require(["wc/loader/style", "wc/dom/removeElement"], function(s, r){try{s.load();}finally{r("</xsl:text>
+					<xsl:text>require(["wc/compat/compat!"], function() {</xsl:text>
+					<xsl:text>require(["wc/a8n", "wc/loader/style", "wc/dom/removeElement"</xsl:text>
+					<xsl:if test="$isDebug=1">
+						<xsl:text>,"wc/debug/consoleColor", "wc/debug/indicator"</xsl:text><!-- , "wc/debug/a11y" #533 -->
+					</xsl:if>
+					<xsl:text>], function(a, s, r){try{s.load();}finally{r("</xsl:text>
 					<xsl:value-of select="$styleLoaderId"/>
 					<xsl:text>", 250);}});</xsl:text>
 					<xsl:text>});</xsl:text>
 				</script>
-				
+
 				<xsl:call-template name="registrationScripts"/>
 				<!--
-					We grab all base, meta and link elements from the content and place 
+					We grab all base, meta and link elements from the content and place
 					them in the head where they belong.
 				-->
-				<xsl:apply-templates select=".//html:base|.//html:link[not(@rel='icon' or @rel='shortcut icon')]|.//html:meta" mode="inHead"/>
+				<xsl:apply-templates select="ui:application/ui:js" mode="inHead"/>
+				<xsl:apply-templates select=".//html:base|.//html:link[not(@rel='icon' or @rel='shortcut icon' or @rel='stylesheet')]|.//html:meta" mode="inHead"/>
 			</head>
 			<xsl:variable name="bodyClass">
 				<xsl:call-template name="wcBodyClass"/>
 			</xsl:variable>
 			<body>
+				<xsl:attribute name="data-wc-domready">
+					<xsl:text>false</xsl:text><!-- JS will set this to true - this is for automation testing tools -->
+				</xsl:attribute>
 				<xsl:if test="$bodyClass!=''">
 					<xsl:attribute name="class">
 						<xsl:value-of select="normalize-space($bodyClass)"/>
@@ -92,8 +98,8 @@
 				</xsl:if>
 				<!--
 					loading indicator and shim
-					We show a loading indicator as we construct the page then remove it as part of post-initialisation. 
-					This helps to prevent users interacting with a page before it is ready. The modal shim is part of 
+					We show a loading indicator as we construct the page then remove it as part of post-initialisation.
+					This helps to prevent users interacting with a page before it is ready. The modal shim is part of
 					the page level loading indicator.
 				-->
 				<div id="wc_shim" class="wc_shim_loading">

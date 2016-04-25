@@ -7,14 +7,11 @@
 	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.common.required.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
-	<xsl:import href="wc.debug.common.contentCategory.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
 	<!--
-		This transform is reused by ui:listBox and ui:dropdown.
+		This transform is reused by ui:listbox and ui:dropdown.
 		See wc.ui.combo.xsl for ui:dropdown with @type="combo" and not @readOnly="true"
 	-->
-	<xsl:template match="ui:dropdown|ui:listBox">
+	<xsl:template match="ui:dropdown|ui:listbox">
 		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="myLabel" select="key('labelKey',$id)"/>
 		<xsl:choose>
@@ -25,14 +22,14 @@
 						<xsl:with-param name="force" select="1"/>
 					</xsl:call-template>
 				</xsl:if>
-				<xsl:element name="select">
+				<select>
 					<xsl:call-template name="commonControlAttributes">
 						<xsl:with-param name="isError" select="$isError"/>
 						<xsl:with-param name="name" select="$id"/>
 						<xsl:with-param name="live" select="'off'"/>
 						<xsl:with-param name="myLabel" select="$myLabel[1]"/>
 					</xsl:call-template>
-					<xsl:if test="self::ui:listBox and not(@single)">
+					<xsl:if test="self::ui:listbox and not(@single)">
 						<xsl:attribute name="multiple">
 							<xsl:text>multiple</xsl:text>
 						</xsl:attribute>
@@ -65,11 +62,11 @@
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:apply-templates mode="selectableList"/>
-				</xsl:element>
+				</select>
 				<xsl:call-template name="inlineError">
 					<xsl:with-param name="errors" select="$isError"/>
 				</xsl:call-template>
-				<xsl:if test="self::ui:listBox">
+				<xsl:if test="self::ui:listbox">
 					<xsl:call-template name="hField"/>
 				</xsl:if>
 			</xsl:when>
@@ -93,13 +90,12 @@
 				</xsl:call-template>
 			</xsl:when>
 			<xsl:when test=".//ui:option[@selected]">
-				<xsl:element name="ul">
-					<xsl:attribute name="id">
-						<xsl:value-of select="$id"/>
-					</xsl:attribute>
-					<xsl:attribute name="class">
-						<xsl:text>wc_list_nb</xsl:text>
-					</xsl:attribute>
+				<ul id="{$id}">
+					<xsl:call-template name="makeCommonClass">
+						<xsl:with-param name="additional">
+							<xsl:text> wc_list_nb</xsl:text>
+						</xsl:with-param>
+					</xsl:call-template>
 					<xsl:if test="$myLabel">
 						<xsl:attribute name="aria-labelledby">
 							<xsl:value-of select="$myLabel/@id"/>
@@ -107,16 +103,10 @@
 					</xsl:if>
 					<xsl:call-template name="hideElementIfHiddenSet"/>
 					<xsl:call-template name="ajaxTarget"/>
-					<xsl:if test="$isDebug=1">
-						<xsl:call-template name="debugAttributes"/>
-						<xsl:call-template name="thisIsNotAllowedHere-debug">
-							<xsl:with-param name="testForPhraseOnly" select="1"/>
-						</xsl:call-template>
-					</xsl:if>
 					<xsl:apply-templates select="ui:option[@selected]|ui:optgroup[ui:option[@selected]]" mode="readOnly">
 						<xsl:with-param name="single" select="0"/>
 					</xsl:apply-templates>
-				</xsl:element>
+				</ul>
 			</xsl:when>
 			<xsl:otherwise>
 				<!--  read only and no selected options -->

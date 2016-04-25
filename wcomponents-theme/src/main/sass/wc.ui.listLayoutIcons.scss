@@ -1,0 +1,10 @@
+/* wc.ui.listLayout.scss */
+@import 'mixins-common';
+
+.wc-listlayout.flat.dot > li + li:before { // dot bullets should be default but need pseudo-elements for flat lists.
+	@include wc-icon($fa-var-circle);
+	font-size: 6px;
+	line-height: 1;
+	margin-right: $hgap-normal;
+	vertical-align: 3px;
+}

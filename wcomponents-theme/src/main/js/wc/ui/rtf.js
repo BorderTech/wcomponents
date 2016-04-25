@@ -1,13 +1,17 @@
 /**
  * Provides a Rich Text Field implementation using tinyMCE.
  *
+ * Optional module configuration.
+ * The config member "initObj" can be set to an abject containing any tinyMCE cofiguration members **except**
+ * selector. This allows customised RTF per implementation. This should be added in the template
+ *
  * @module
  * @requires module:wc/dom/initialise
+ * @requires module:wc/config
  * @requires external:tinyMCE
  */
-define(["wc/dom/initialise", "tinyMCE"],
-	/** @param initialise wc/dom/initialise @param tinyMCE tinyMCE  @ignore */
-	function(initialise, tinyMCE) {
+define(["wc/dom/initialise", "wc/config", "tinyMCE"],
+	function(initialise, wcconfig, tinyMCE) {
 		"use strict";
 
 		/**
@@ -18,11 +22,13 @@ define(["wc/dom/initialise", "tinyMCE"],
 		 * @param {String[]} idArr An array of RTF ids.
 		 */
 		function processNow(idArr) {
-			var id;
+			var id, initObj = {}, config = wcconfig.get("wc/ui/rtf");
+			if (config) {
+				initObj = config.initObj || {};
+			}
 			while ((id = idArr.shift())) {
-				tinyMCE.init({
-					selector: ("textarea#" + id)
-				});
+				initObj["selector"] = "textarea#" + id;
+				tinyMCE.init(initObj);
 			}
 		}
 

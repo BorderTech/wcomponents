@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+
+	<xs:include schemaLocation="attributeGroups.control.xsd"/>
+	<xs:include schemaLocation="attributeGroups.tree.xsd"/>
+	<xs:include schemaLocation="treeItem.xsd"/>
+	<xs:include schemaLocation="margin.xsd"/>
+
+	<xs:element name="tree">
+		<xs:annotation>
+			<xs:documentation>
+				<p>WTree represents a tree view tool. You should note that a tree view tool is a selection toolas per 
+					<a href="http://www.w3.org/TR/2011/CR-wai-aria-20110118/roles#tree">WAI-ARIA Tree role</a>. It
+					is directly analogous to a HTML select element with the added enhancement of being able to support
+					nested groups of options.</p>
+				<table>
+					<caption>WTree expects that the POSTed form data contains</caption>
+					<thead>
+						<tr>
+							<th>Field name</th>
+							<th>Type</th>
+							<th>Mandatory</th>
+							<th>Value</th>
+							<th>Notes</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>@id + "-h"</td>
+							<td>String</td>
+							<td>yes</td>
+							<td>"x"</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>@id</td>
+							<td>String</td>
+							<td>no</td>
+							<td>list of selected tree item IDs.</td>
+							<td>Value POSTed only if there are selected WTreeItem(s) in the WTree.</td>
+						</tr>
+						<tr>
+							<td>@id.open</td>
+							<td>String</td>
+							<td>no</td>
+							<td>"true"</td>
+							<td>Value POSTed only if the WTree has one or more WTreeItems in the expanded state.</td>
+						</tr>
+					</tbody>
+				</table>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ui:margin" minOccurs="0"/>
+				<xs:element ref="ui:treeitem" maxOccurs="unbounded"/>
+			</xs:sequence>
+
+			<xs:attributeGroup ref="ui:interaction.attributes"/>
+
+			<xs:attributeGroup ref="ui:tree.mode.attributes">
+				<xs:annotation>
+					<xs:documentation>
+						<p>Indicates the open mode for branches in the tree.</p>
+						<p>The mode of 'server' is <strong>not</strong> to be implemented.</p>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attributeGroup>
+
+			<xs:attribute name="htree" type="xs:boolean" default="false">
+				<xs:annotation>
+					<xs:documentation>
+						"true" indicates that the tree represents a horizontal tree.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="multiple" type="xs:boolean" default="false">
+				<xs:annotation>
+					<xs:documentation>
+						Indicates that more than one item may be selected at a time in a manner similar to a group of 
+						check boxes.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="required" type="xs:boolean" default="false">
+				<xs:annotation>
+					<xs:documentation>
+						The component will be mandatory if "true".
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

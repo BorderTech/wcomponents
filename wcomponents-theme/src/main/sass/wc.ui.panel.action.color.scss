@@ -1,0 +1,21 @@
+/* wc.ui.panel.action.color.scss */
+// type ACTION
+// From the JavaDoc: 'An action panel is similar to CHROME but with a different appearance.'
+// OK, so not very useful. The panel will have an exposed title and some decoration (border and/or background).
+
+// It should be inferred that a WPanel of type ACTION will contain the aspect of the current screen which contains the
+// primary activity of the screen. If this is not able to be determined then this type should probably not be used.
+
+// This inference leads us to make the ACTION panel into a piece of sectioning content using a SECTION element and set
+// its title as the H1 of the section.
+@import 'panel_vars';
+
+.wc_pnl_action {
+	background-color: $wc-ui-color-panel-action-background;
+	border-color: $wc-ui-color-panel-action-border;
+
+	> h1 {
+		background-color: $wc-ui-color-panel-action-header-background;
+		color: $wc-ui-color-panel-action-header-foreground;
+	}
+}

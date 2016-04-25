@@ -1,0 +1,15 @@
+<${wc.dom.html5.element.dialog} id="wc_dlgid" role="dialog">
+<${wc.dom.html5.element.header} tabindex="0">
+<span>
+<button class="wc_maxcont wc_btn_icon" type="button" title="{{heading.maxRestore}}" aria-pressed="false" data-wc-resize="wc_dlgid"> </button>
+<button class="wc_dialog_close wc_btn_icon" type="button" title="{{heading.close}}"> </button>
+</span>
+<h1>&#x2002;</h1>
+</${wc.dom.html5.element.header}>
+<div class="content" aria-live="assertive">
+	{{message.loading}}
+</div>
+<${wc.dom.html5.element.footer}>
+<button class="wc_btn_nada wc_resize" data-wc-resize="wc_dlgid" type="button">&#x2002;</button>
+</${wc.dom.html5.element.footer}>
+</${wc.dom.html5.element.dialog}>

@@ -7,7 +7,7 @@ define(["wc/date/interchange", "wc/date/monthName"],
 	/** @param interchange wc/date/interchange @param monthName wc/date/monthName @ignore */
 	function(interchange, monthName) {
 		"use strict";
-		var FORMAT_RE = /y{2,4}|d+|MON|M{2,4}/g,
+		var FORMAT_RE = /y{2,4}|d+|MON|M{2,4}|H+|m+|h+|a+|s+/g,
 			NORMALIZE_WHITESPACE_RE = /\s{2,}/g;
 
 		/**
@@ -92,7 +92,26 @@ define(["wc/date/interchange", "wc/date/monthName"],
 					case "yy":
 						result = date.year ? date.year.substr(2) : null;
 						break;
-					case "yyyy": result = date.year;
+					case "yyyy":
+						result = date.year;
+						break;
+					case "HH":
+						result = getHour(date, false, false);
+						break;
+					case "h":
+						result = getHour(date, true, false);
+						break;
+					case "hh":
+						result = getHour(date, true, true);
+						break;
+					case "mm":
+						result = date.minute;
+						break;
+					case "a":
+						result = (date.hour || date.hour === 0) ? (date.hour < 12 ? "AM" : "PM") : "";
+						break;
+					case "ss":
+						result = date.second;
 						break;
 					default:
 						failFlag = true;
@@ -109,6 +128,27 @@ define(["wc/date/interchange", "wc/date/monthName"],
 			}
 			return result;
 		};
+
+		function getHour(date, twelve, pad) {
+			var result = date.hour;
+			if (result && (twelve || pad)) {
+				result *= 1;
+				if (result || result === 0) {
+					if (twelve) {
+						if (result > 12) {
+							result -= 12;
+						}
+						else if (result === 0) {
+							result = 12;
+						}
+					}
+					if (pad && result < 10) {
+						result = "0" + result;
+					}
+				}
+			}
+			return result;
+		}
 
 		return Format;
 	});

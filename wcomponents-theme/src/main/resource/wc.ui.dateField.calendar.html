@@ -1,0 +1,85 @@
+<div class="wc-row">
+	<div class="wc-column">
+		<select id="wc_calmonth" title="{{monthLabel}}"><!-- DON'T GIVE NAME! -->
+			{{#monthName}}
+			<option>{{.}}</option>
+			{{/monthName}}
+		</select>
+		<input id="wc_calyear" value="{{fullYear}}" autocomplete="off" type="number" title="{{yearLabel}}" min="1000" max="9999"/><!-- DON'T GIVE NAME! -->
+	</div>
+	<div class="wc-column">
+		<button type="button" class="wc_wdf_mv wc_btn_icon wc_invite" value="-1" title="{{lastMonth}}"> </button>
+		<button type="button" class="wc_wdf_mv wc_btn_icon wc_invite" value="t" title="{{today}}"> </button>
+		<button type="button" class="wc_wdf_mv wc_btn_icon wc_invite" value="1" title="{{nextMonth}}"> </button>
+	</div>
+	<div class="wc-column">
+		<button type="button" class="wc_wdf_cls wc_btn_icon wc_invite" title="{{closeLabel}}"></button>
+	</div>
+</div>
+<table id="wc_calendar" cellpadding="0" cellspacing="0" border="0">
+	<thead>
+		<tr>
+			{{#dayName}}
+			<th>
+				<abbr title="{{.}}">{{#firstChar}}{{.}}{{/firstChar}}</abbr>
+			</th>
+			{{/dayName}}
+		</tr>
+	</thead>
+	<tbody id="wc_caldaybox">
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>

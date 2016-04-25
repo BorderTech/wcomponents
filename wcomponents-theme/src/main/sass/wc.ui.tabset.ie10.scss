@@ -1,12 +1,46 @@
 /* wc.ui.tabset.ie10.scss */
+@import 'tabset_vars';
+
+// This is a IE10 only style-sheet
 //scss-lint:disable VendorPrefix
-.top > [role='tablist'] {
+.wc-tabset {
 	display: -ms-flexbox;
+	-ms-flex-align: start;
+	-ms-flex-direction: column;
+	-ms-flex-pack: justify;
+	-ms-flex-wrap: nowrap;
+
+	&.wc_left {
+		-ms-flex-direction: row;
+	}
+
+	&.wc_right {
+		-ms-flex-direction: row-reverse;
+	}
+}
+
+[role='tablist'] {
+	display: -ms-flexbox;
+	-ms-flex: 1 0 auto;
 	-ms-flex-pack: start;
 	-ms-flex-wrap: none;
 
 	> [role='tab'] {
 		-ms-flex: 0 1 auto;
 	}
+
+	// ACCORDION
+	&[aria-multiselectable] {
+		-ms-flex-direction: column;
+	}
+
+	.wc_left > &,
+	.wc_right > & {
+		-ms-flex: 0 1 auto;
+		-ms-flex-direction: column;
+
+		> [role='tab'] {
+			-ms-flex: 0 0 100%;
+		}
+	}
 }
-/* end wc.ui.tabset.ie10.scss */

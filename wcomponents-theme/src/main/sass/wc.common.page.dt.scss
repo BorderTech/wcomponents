@@ -1,0 +1,14 @@
+/* wc.common.page.dt.scss */
+@import 'mixins-common';
+
+@media only screen and (min-device-width: 1025px) {
+	body {
+		font-size: $dt-font-size;
+	}
+}
+
+@media only screen and (min-device-width: 1921px) {
+	body {
+		font-size: $bigscreen-font-size;
+	}
+}

@@ -1,7 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.toolTip.xsl"/>
-	<xsl:import href="wc.debug.common.bestPracticeHelpers.xsl"/>
 	<!--
 		Common helper template for generating the attributes for accessKey implementation
 		including the WAI-ARIA property to add extended description information.
@@ -9,8 +8,8 @@
 		Implementing components
 
 		Every input component implements accessKey and displays its toolTip on
-		its associated WLabel (see wc.ui.label.xsl)	element or a HTML Link 
-		element will implement accessKey directly and will output their own 
+		its associated WLabel (see wc.ui.label.xsl)	element or a HTML Link
+		element will implement accessKey directly and will output their own
 		toolTip within their HTML artefact.
 		wc.ui.button.xsl
 		wc.ui.fieldSet.xsl
@@ -31,17 +30,17 @@
 		on the element since the tooltip helper template will add content to the element.
 	-->
 	<xsl:template name="accessKey">
+		<xsl:param name="useToolTip" select="1"/>
 		<xsl:if test="@accessKey">
 			<xsl:attribute name="accesskey">
 				<xsl:value-of select="@accessKey"/>
 			</xsl:attribute>
-			<xsl:attribute name="aria-describedby">
-				<xsl:value-of select="concat(@id,'${wc.ui.accesskey.id.suffix}')"/>
-			</xsl:attribute>
-			<xsl:if test="$isDebug=1">
-				<xsl:call-template name="problematicAccessKeys"/>
+			<xsl:if test="$useToolTip=1">
+				<xsl:attribute name="aria-describedby">
+					<xsl:value-of select="concat(@id,'_wctt')"/>
+				</xsl:attribute>
+				<xsl:call-template name="tooltip"/>
 			</xsl:if>
-			<xsl:call-template name="tooltip"/>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

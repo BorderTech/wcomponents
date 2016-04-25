@@ -1,0 +1,37 @@
+/* wc.ui.panel.borderLayout.scss */
+@import 'panel_vars';
+
+.wc_borderlayout_middle {
+	@include flex($justify: space-between);
+
+	> div {
+		@include flex-grow(0);
+		@include flex-shrink(1);
+		@include min-content;
+
+		&:first-child:last-child {
+			width: 100%;
+		}
+	}
+
+	> .wc_borderlayout_middle50 {
+		@include flex-grow(1);
+		width: 50%;
+	}
+
+	> .wc-center {
+		@include flex-grow(1);
+		@include flex-shrink(0);
+		text-align: $preferred-alignment; // NOTE: the text align here is to overrule the generic .center class used in column alignment, table col alignment, flowLayout etc.
+
+		&:first-child,
+		&:last-child {
+			width: 75%;
+		}
+	}
+
+	> .wc-east {
+		@include flex-justify-content(flex-end);
+		text-align: right;
+	}
+}

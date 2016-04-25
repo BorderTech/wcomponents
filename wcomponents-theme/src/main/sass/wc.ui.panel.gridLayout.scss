@@ -1,0 +1,12 @@
+/* wc.ui.panel.gridLaout.scss */
+@import 'mixins-common';
+
+// We need to override the regular row flex model.
+.wc-gridlayout > .wc-row {
+	@include flex-justify-content($where: flex-start);
+
+	> .wc-column {
+		@include flex-grow(0);
+		@include flex-shrink(0);
+	}
+}

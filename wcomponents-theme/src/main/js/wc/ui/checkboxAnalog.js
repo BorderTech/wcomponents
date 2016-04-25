@@ -13,7 +13,7 @@
  * @requires module:wc/dom/formUpdateManager
  */
 define(["wc/dom/ariaAnalog", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed", "wc/dom/formUpdateManager"],
-	/** @param ariaAnalog wc/dom/ariaAnalog @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param shed wc/dom/shed @param formUpdateManager wc/dom/formUpdateManager @ignore */
+	/** @param ariaAnalog wc/dom/ariaAnalog @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param shed wc/dom/shed @param formUpdateManager wc/dom/formUpdateManager*/
 	function(ariaAnalog, initialise, Widget, shed, formUpdateManager) {
 		"use strict";
 
@@ -46,14 +46,12 @@ define(["wc/dom/ariaAnalog", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed"
 				var SELECTED_ITEM = this.ITEM.extend("", {"aria-checked": "true"}),
 					items = SELECTED_ITEM.findDescendants(form);
 
-				function writeItemState(next) {
-					if (next.hasAttribute("data-wc-value") && !shed.isDisabled(next)) {
-						formUpdateManager.writeStateField(container, next.getAttribute("data-wc-name"), next.getAttribute("data-wc-value"));
-					}
-				}
-
 				if (items.length) {
-					Array.prototype.forEach.call(items, writeItemState);
+					Array.prototype.forEach.call(items, function(next) {
+						if (next.hasAttribute("data-wc-value") && !shed.isDisabled(next)) {
+							formUpdateManager.writeStateField(container, next.getAttribute("data-wc-name"), next.getAttribute("data-wc-value"));
+						}
+					});
 				}
 			};
 		}

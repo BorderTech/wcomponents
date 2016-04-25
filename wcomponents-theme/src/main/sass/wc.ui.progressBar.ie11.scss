@@ -7,8 +7,7 @@
 // If you do remove this file, or remove the explicit width, then you should take a look at the faux-progress bars in
 // wc.ui.progressBar.ie9.css to make sure you have not proken them.
 progress {
-	height: 1em;
-	vertical-align: -0.2em;
-	width: 10em;
+	height: 1rem;
+	vertical-align: -0.2rem;
+	width: 10rem;
 }
-/* end wc.ui.progressBar.ie11.scss */

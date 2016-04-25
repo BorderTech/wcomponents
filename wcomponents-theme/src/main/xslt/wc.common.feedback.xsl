@@ -1,16 +1,16 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.constants.xsl"/>
-	<xsl:import href="wc.debug.common.contentCategory.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
-		Feedback comprises ui:messageBox and ui:validationErrors.
+		Feedback comprises ui:messagebox and ui:validationerrors.
 
-		Generates the feedback container/message box, its title and the message list
-		container then applies templates to generate the message list item(s).
+		Generates the feedback container/message box, its title and the message list container then applies templates to
+		generate the message list item(s).
 	-->
-	<xsl:template match="ui:messageBox|ui:validationErrors">
+	<xsl:template match="ui:messagebox|ui:validationerrors">
 		<xsl:variable name="type">
 			<xsl:choose>
-				<xsl:when test="self::ui:validationErrors">
+				<xsl:when test="self::ui:validationerrors">
 					<xsl:text>error</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
@@ -22,44 +22,36 @@
 			<xsl:attribute name="id">
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
-			<xsl:if test="$isDebug=1">
-				<xsl:call-template name="debugAttributes"/>
-				<xsl:call-template name="thisIsNotAllowedHere-debug">
-					<xsl:with-param name="testForPhraseOnly" select="1"/>
-					<xsl:with-param name="testForNoInteractive">
-						<xsl:choose>
-							<xsl:when test="self::ui:validationErrors">
-								<xsl:number value="1"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:number value="0"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:with-param>
-				</xsl:call-template>
-			</xsl:if>
-			<xsl:attribute name="class">
-				<xsl:value-of select="concat(local-name(.), ' wc_msgbox ', $type)"/>
-			</xsl:attribute>
-			<xsl:element name="h1">
-				<xsl:choose>
-					<xsl:when test="$type='error'">
-						<xsl:value-of select="$$${wc.ui.messageBox.title.error}"/>
-					</xsl:when>
-					<xsl:when test="$type='warn'">
-						<xsl:value-of select="$$${wc.ui.messageBox.title.warn}"/>
-					</xsl:when>
-					<xsl:when test="$type='info'">
-						<xsl:value-of select="$$${wc.ui.messageBox.title.info}"/>
-					</xsl:when>
-					<xsl:when test="$type='success'">
-						<xsl:value-of select="$$${wc.ui.messageBox.title.success}"/>
-					</xsl:when>
-				</xsl:choose>
-			</xsl:element>
-			<xsl:element name="ul">
-				<xsl:apply-templates/>
-			</xsl:element>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:value-of select="concat(' wc_msgbox ', $type)"/>
+				</xsl:with-param>
+			</xsl:call-template>
+
+			<h1>
+				<span>
+					<xsl:choose>
+						<xsl:when test="@title">
+							<xsl:value-of select="@title"/>
+						</xsl:when>
+						<xsl:when test="$type='error'">
+							<xsl:value-of select="$$${wc.ui.messageBox.title.error}"/>
+						</xsl:when>
+						<xsl:when test="$type='warn'">
+							<xsl:value-of select="$$${wc.ui.messageBox.title.warn}"/>
+						</xsl:when>
+						<xsl:when test="$type='info'">
+							<xsl:value-of select="$$${wc.ui.messageBox.title.info}"/>
+						</xsl:when>
+						<xsl:when test="$type='success'">
+							<xsl:value-of select="$$${wc.ui.messageBox.title.success}"/>
+						</xsl:when>
+					</xsl:choose>
+				</span>
+			</h1>
+			<ul>
+				<xsl:apply-templates />
+			</ul>
 		</xsl:element>
 	</xsl:template>
 </xsl:stylesheet>

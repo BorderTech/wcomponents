@@ -7,6 +7,7 @@
 	<xs:include schemaLocation="ajaxTrigger.xsd"/>
 	<xs:include schemaLocation="margin.xsd"/>
 	<xs:include schemaLocation="attributeGroups.control.xsd"/>
+	<xs:include schemaLocation="attributeGroups.tree.xsd"/>
 
 	<xs:element name="table">
 		<xs:annotation>
@@ -45,7 +46,7 @@
 							<td>@id + ".filters"</td>
 							<td>List</td>
 							<td>no</td>
-							<td>A list of filters in effect on the client.</td>
+							<td>A list of filters in effect on the client. WDataTable only. Will be removed.</td>
 						</tr>
 						<tr>
 							<td>@id + ".page"</td>
@@ -75,7 +76,7 @@
 				</table>
 			</xs:documentation>
 		</xs:annotation>
-		
+
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="ui:margin" minOccurs="0"/>
@@ -86,7 +87,7 @@
 					</xs:annotation>
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="rowsSelect" minOccurs="0">
+							<xs:element name="rowsselect" minOccurs="0">
 								<xs:annotation>
 									<xs:documentation>This sub element provides a means for the user to select how many rows per page they want to see. This selection is made from a limited list of options. The initial number of rows per page is represented in the rowsPerPage attribute of the pagination element.</xs:documentation>
 								</xs:annotation>
@@ -143,18 +144,42 @@
 								<xs:documentation>Indicates the page index of the page currently being shown.</xs:documentation>
 							</xs:annotation>
 						</xs:attribute>
+						<xs:attribute name="controls">
+							<xs:annotation>
+								<xs:documentation>Indicates the location of the pagination controls if they are required.</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:NMTOKEN">
+									<xs:enumeration value="top">
+										<xs:annotation>
+											<xs:documentation>The pagination controls should appear at the top of the table.</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="bottom">
+										<xs:annotation>
+											<xs:documentation>The pagination controls should appear at the bottom of the table.</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="both">
+										<xs:annotation>
+											<xs:documentation>The pagination controls should appear at both the top and the bottom of the table.</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:attribute>
 					</xs:complexType>
 				</xs:element>
 
 				<!--  Row selection control -->
-				<xs:element name="rowSelection" minOccurs="0">
+				<xs:element name="rowselection" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Provides information regarding table row selection. Presence of this element indicates that a table may have selectable rows.</xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
-						<xs:attribute name="multiple" type="xs:boolean">
+						<xs:attribute name="multiple" type="xs:boolean" default="false">
 							<xs:annotation>
-								<xs:documentation>Indicates that more than one row may be selected at a time in a manner similar to a group of check boxes. Not output if "false".</xs:documentation>
+								<xs:documentation>Indicates that more than one row may be selected at a time in a manner similar to a group of check boxes.</xs:documentation>
 							</xs:annotation>
 						</xs:attribute>
 						<xs:attribute name="groupName" type="xs:string">
@@ -182,45 +207,21 @@
 								</xs:restriction>
 							</xs:simpleType>
 						</xs:attribute>
+						<xs:attribute name="toggle" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>Indicates that a selectable row with selectable sub-rows should act as a select toggle for the sub-rows.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
 					</xs:complexType>
 				</xs:element>
-				
+
 				<!--  Row expansion control -->
-				<xs:element name="rowExpansion" minOccurs="0">
+				<xs:element name="rowexpansion" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Provides information regarding table row expansion. Presence of this element indicates that a table may have expandable rows.</xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
-						<xs:attribute name="mode" use="required">
-							<xs:annotation>
-								<xs:documentation>Provides the mode for expanding rows.</xs:documentation>
-							</xs:annotation>
-							<xs:simpleType>
-								<xs:restriction base="xs:NMTOKEN">
-									<xs:enumeration value="client">
-										<xs:annotation>
-											<xs:documentation>The content exists in the page and showing/hiding that content is purely a client-side process.</xs:documentation>
-										</xs:annotation>
-									</xs:enumeration>
-									<xs:enumeration value="dynamic">
-										<xs:annotation>
-											<xs:documentation>The content is fetched from the server using AJAX each time the content is displayed.</xs:documentation>
-										</xs:annotation>
-									</xs:enumeration>
-									<xs:enumeration value="lazy">
-										<xs:annotation>
-											<xs:documentation>The content is fetched from the server the first time the content is displayed then remains static for the rest fo the lifecycle of the page.</xs:documentation>
-										</xs:annotation>
-									</xs:enumeration>
-									<xs:enumeration value="server">
-										<xs:annotation>
-											<xs:documentation>The content is not part of the page's XML unless it is in a visible (open) state and a user action to display the content will result in the entire
-												application POSTing to the server application. This mode is deprecated and is available only for backwards compatibilty with a deprecated form of the table component.</xs:documentation>
-										</xs:annotation>
-									</xs:enumeration>
-								</xs:restriction>
-							</xs:simpleType>
-						</xs:attribute>
+						<xs:attributeGroup ref="ui:tree.mode.attributes"/>
 						<xs:attribute name="expandAll" type="xs:boolean">
 							<xs:annotation>
 								<xs:documentation>Indicates that a control should be provided to allow the user to expand or collapse all available expandable rows.</xs:documentation>
@@ -279,7 +280,7 @@
 								</xs:annotation>
 								<xs:complexType mixed="true">
 									<xs:sequence>
-										<xs:element ref="ui:decoratedLabel"/>
+										<xs:element ref="ui:decoratedlabel"/>
 									</xs:sequence>
 									<!-- No width means use default width. -->
 									<xs:attribute name="width">
@@ -304,7 +305,7 @@
 										</xs:annotation>
 										<xs:simpleType>
 											<xs:restriction base="xs:token">
-												<xs:enumeration value="left"/> 
+												<xs:enumeration value="left"/>
 												<xs:enumeration value="center"/>
 												<xs:enumeration value="right"/>
 											</xs:restriction>
@@ -323,7 +324,7 @@
 					</xs:annotation>
 					<xs:complexType>
 						<xs:choice>
-							<xs:element name="noData">
+							<xs:element name="nodata">
 								<xs:complexType mixed="true"/>
 							</xs:element>
 							<xs:element name="tr" type="ui:trType" maxOccurs="unbounded"/>
@@ -347,17 +348,17 @@
 									<xs:sequence>
 										<xs:element name="condition" minOccurs="0" maxOccurs="unbounded">
 											<xs:annotation>
-												<xs:documentation>Provides a rule which determines whether the action may  be processed based on row selection. Not applicable if the nearest ancestor ui:table does not have a ui:rowSelection child.</xs:documentation>
+												<xs:documentation>Provides a rule which determines whether the action may  be processed based on row selection. Not applicable if the nearest ancestor ui:table does not have a ui:rowselection child.</xs:documentation>
 											</xs:annotation>
 											<xs:complexType>
 												<xs:attribute name="minSelectedRows" type="xs:positiveInteger">
 													<xs:annotation>
-														<xs:documentation>Provides the minimum number of rows which must be selected before the action can be successfully invoked. If the ui:rowSelection/@multiple attribute is not true then a min of any number greater than one is meaningless.</xs:documentation>
+														<xs:documentation>Provides the minimum number of rows which must be selected before the action can be successfully invoked. If the ui:rowselection/@multiple attribute is not true then a min of any number greater than one is meaningless.</xs:documentation>
 													</xs:annotation>
 												</xs:attribute>
 												<xs:attribute name="maxSelectedRows" type="xs:positiveInteger">
 													<xs:annotation>
-														<xs:documentation>Provides the maximum number of rows which must be selected before the action can be successfully invoked. If the ui:rowSelection/@multiple attribute is not true then a max of any number greater than one is meaningless.</xs:documentation>
+														<xs:documentation>Provides the maximum number of rows which must be selected before the action can be successfully invoked. If the ui:rowselection/@multiple attribute is not true then a max of any number greater than one is meaningless.</xs:documentation>
 													</xs:annotation>
 												</xs:attribute>
 												<xs:attribute name="type">
@@ -388,7 +389,7 @@
 										</xs:element>
 										<xs:element ref="ui:button"/>
 										<!-- This must only be used for ui:buttons included in the actions -->
-										<xs:element ref="ui:ajaxTrigger" minOccurs="0"/>
+										<xs:element ref="ui:ajaxtrigger" minOccurs="0"/>
 									</xs:sequence>
 								</xs:complexType>
 							</xs:element>
@@ -441,9 +442,9 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="type">
+			<xs:attribute name="type" default="table">
 				<xs:annotation>
-					<xs:documentation>Determines the indentation mode of the table if it has expandable rows. No impact if the table does not have a ui:rowExpansion child element or if there are no expandible rows in the current view.</xs:documentation>
+					<xs:documentation>Determines the indentation mode of the table if it has expandable rows. No impact if the table does not have a ui:rowexpansion child element or if there are no expandible rows in the current view.</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:NMTOKEN">
@@ -469,26 +470,26 @@
 			<xs:element name="th" minOccurs="0">
 				<xs:complexType mixed="true">
 					<xs:sequence>
-						<xs:element ref="ui:decoratedLabel" minOccurs="0"/>
+						<xs:group ref="ui:contentGroup" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="td" minOccurs="1" maxOccurs="unbounded">
 				<xs:complexType mixed="true">
 					<xs:sequence>
-						<xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:group ref="ui:contentGroup" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="subTr" minOccurs="0">
+			<xs:element name="subtr" minOccurs="0">
 				<xs:complexType>
 				<!-- Temporary fix to allow for empty subTr. Waiting on fix from T&S in WC6 and then the empty subTr will not need to be rendered. -->
 					<xs:choice minOccurs="0">
 						<xs:element name="tr" type="ui:trType" maxOccurs="unbounded"/>
-						<xs:element name="content"> 
+						<xs:element name="content">
 							<xs:complexType mixed="true">
 								<xs:sequence>
-									<xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+									<xs:group ref="ui:contentGroup" minOccurs="0" maxOccurs="unbounded"/>
 								</xs:sequence>
 								<xs:attribute name="spanAllCols" type="xs:boolean"/>
 							</xs:complexType>

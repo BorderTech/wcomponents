@@ -12,7 +12,7 @@ define(["wc/dom/shed", "wc/dom/tag"], /** @param shed wc/dom/shed @param tag wc/
 	 * @function module:wc/dom/isSuccessfulElement
 	 * @param {Element} element A form control element.
 	 * @param {boolean} [buttonsAlwaysSucceed] If true and element is a button that meets other criteria for being
-	 * successful then the button will be successful.
+	 *    successful then the button will be successful.
 	 * @returns {boolean} true if the element is successful
 	 */
 	function isSuccessfulElement(element, buttonsAlwaysSucceed) {
@@ -48,5 +48,32 @@ define(["wc/dom/shed", "wc/dom/tag"], /** @param shed wc/dom/shed @param tag wc/
 		}
 		return true;
 	}
+
+	/**
+	 * Gets all "successful" elements in this DOM subtree (including "element" itself).
+	 * @param {Element} element A DOM element.
+	 * @param {boolean} [buttonsAlwaysSucceed] If true and element is a button that meets other criteria for being
+	 *    successful then the button will be successful.
+	 * @returns {Element[]} An array of successful elements found in this DOM subtree.
+	 */
+	isSuccessfulElement.getAll = function(element, buttonsAlwaysSucceed) {
+		var i, next, result = [], nextResult;
+		if (element && element.nodeType === Node.ELEMENT_NODE) {
+			if (isSuccessfulElement(element, buttonsAlwaysSucceed)) {
+				result.push(element);
+			}
+			else if (element.childNodes) {
+				for (i = 0; i < element.childNodes.length; i++) {
+					next = element.childNodes[i];
+					nextResult = isSuccessfulElement.getAll(next);
+					if (nextResult.length) {
+						result = result.concat(nextResult);
+					}
+				}
+			}
+		}
+		return result;
+	};
+
 	return isSuccessfulElement;
 });

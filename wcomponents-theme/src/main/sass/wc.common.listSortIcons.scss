@@ -1,0 +1,24 @@
+/* wc.common.listSortIcons.scss */
+
+// The list sort controls are the buttons used to reorder the options used by WMultiSelectPair and WShuffler
+@import 'mixins-common';
+/// Each individual shuffle control's iconography
+.wc_sorter {
+	&:before {
+		content: $fa-var-angle-double-up;
+	}
+
+	// NOTE this will need a .ie8.scss file if your implementation needs to support ie8.
+	&:nth-of-type(2)::before {
+		content: $fa-var-angle-up;
+	}
+
+	&:nth-of-type(3)::before {
+		content: $fa-var-angle-down;
+
+	}
+
+	&:last-of-type::before {
+		content: $fa-var-angle-double-down;
+	}
+}

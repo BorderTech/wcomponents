@@ -7,6 +7,7 @@
 	<property name="tmp.dir" location="${theme.tmp.dir}"/>
 	<property name="maven.project.name" value="${project.name}"/>
 	<property name="build.number" value="${project.version}"/>
+	<property name="npm.loglevel" value="warn"/>
 
 	<!-- INPUT PROPERTIES: relating to the artefacts used as inputs by this build -->
 	<property name="theme.src.dir" location="${component.rootdir}/src"/>
@@ -41,12 +42,10 @@
 	<property name="script.target.dir.name" value="scripts"/>
 	<property name="script.debug.target.dir.name" value="${script.target.dir.name}${debug.target.file.name.suffix}"/>
 	<property name="css.target.dir.name" value="style"/>
-	<property name="xml.target.dir.name" value="xml"/>
+	<property name="resource.target.dir.name" value="resource"/>
 	<property name="xslt.target.dir.name" value="xslt"/>
 	<property name="images.target.dir.name" value="images"/>
-	<property name="res.target.dir.name" value="resource"/>
 	<property name="examples.target.dir.name" value="examples"/>
-	<property name="plugins.target.dir.name" value="plugins"/>
 	<property name="excludesfile" location="${impl.src.dir}/excludes.txt"/>
 	<property name="style.build.target.dir" location="${target.rootdir}/${css.target.dir.name}"/>
 	<property name="script.debug.build.target.dir" location="${target.rootdir}/${script.debug.target.dir.name}"/>
@@ -58,9 +57,9 @@
 	<property name="script.core.target.file.name" value="all"/>
 	<property name="script.debug.target.file.name" value="wc.debug"/>
 	<property name="script.fix.ie.target.file.name.prefix" value="wc."/><!-- for example, wc.ie7.js will be created for ie7 fixes-->
-	<property name="css.target.file.name" value="screen"/>
-	<property name="css.target.file.name.print" value="print"/>
-	<property name="css.target.file.name.debug" value="debug"/>
+	<property name="css.target.file.name" value="wc"/>
+	<property name="css.target.file.name.print" value="wc-p"/>
+	<property name="css.target.file.name.debug" value="wc-debug"/>
 	<property name="xslt.target.file.name" value="all"/>
 	<property name="xslt.target.debug.file.name" value="debug.xsl"/>
 	<property name="coverage.target.file.name.suffix" value="-instrumented"/>
@@ -175,7 +174,8 @@
 				<include name="**/*.css"/>
 				<include name="**/*.xsl"/>
 				<include name="**/*.xml"/>
-				<contains text="${"/><!-- this would be much better as a regex-->
+				<containsregexp expression="\$\{[^\}]+\}"/>
+				<!--<contains text="${"/> this would be much better as a regex-->
 			</fileset>
 		</path>
 		<property name="unexpanded" refid="unexpanded.properties"/>
@@ -282,16 +282,6 @@
 	</macrodef>
 
 	<!--
-	PLUGINS
-	-->
-	<property name="common.src.plugin.dir" location="${common.src.rootdir}/plugins"/>
-	<property name="impl.src.plugin.dir" location="${impl.src.main.dir}/plugins"/>
-	<condition property="plugin.includesfile" value="${impl.src.dir}/plugins.include.txt" else="${component.rootdir}/plugins.include.txt">
-		<available file="${impl.src.dir}/plugins.include.txt"/>
-	</condition>
-	<property name="plugin.includesfile" location="${impl.src.dir}/plugins.include.txt"/>
-
-	<!--
 		Runs static analysis on javascript code.
 
 		Note we deliberately overwrite the config file so it's harder to change.
@@ -324,9 +314,10 @@
 		"no-debugger": 0,
 		"no-alert": 0,
 		"brace-style": [2, "stroustrup", { "allowSingleLine": false }],
+		"semi": [2, "always"],
 		"space-before-blocks": [2, "always"],
 		"spaced-comment": [2, "always"],
-		"space-after-keywords": [2, "always"],
+		"keyword-spacing": 2,
 		"indent": [2, "tab", { "SwitchCase": 1 } ],
 		"quotes": 0
 	},
@@ -336,10 +327,7 @@
 }
 </echo>
 			<echo file="${jshintignore}" force="true"># Only ignore third-party scripts
-**/dojo/**
-**/sprintf/**
-**/requirejs/**
-**/hasjs/**
+**/lib/**
 </echo>
 			<echo>
 				If the build fails here it means static analysis has detected Javascript issues.
@@ -414,7 +402,8 @@
 				<arguments>
 					<arg value="${npmjs.dir}/npm-cli.js"/>
 					<arg-elements />
-					<arg value="--verbose"/>
+					<arg value="--loglevel"/>
+					<arg value="${npm.loglevel}"/>
 				</arguments>
 			</nodejs.exec>
 		</sequential>

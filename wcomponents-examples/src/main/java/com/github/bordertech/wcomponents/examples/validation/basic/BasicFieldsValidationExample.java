@@ -1,14 +1,18 @@
-package com.github.bordertech.wcomponents.examples.validation.basic; 
+package com.github.bordertech.wcomponents.examples.validation.basic;
 
 import com.github.bordertech.wcomponents.examples.validation.ValidationContainer;
 
-/** 
- * @author Martin Shevchenko 
+/**
+ * Basic field validation example.
+ *
+ * @author Martin Shevchenko
  */
-public class BasicFieldsValidationExample extends ValidationContainer
-{
-    public BasicFieldsValidationExample()
-    {
-        super(new BasicFields());
-    }
+public class BasicFieldsValidationExample extends ValidationContainer {
+
+	/**
+	 * Construct example.
+	 */
+	public BasicFieldsValidationExample() {
+		super(new BasicFields());
+	}
 }

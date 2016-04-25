@@ -1,0 +1,8 @@
+/* wc.ui.fileUpload.scss */
+@import 'mixins-common';
+
+@include respond-not-small {
+	.wc-fileupload .wc_btn_camera {
+		display: inline-block;  // This should only be available on desktop browsers
+	}
+}

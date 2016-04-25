@@ -1,40 +1,27 @@
 /* wc.ui.table.rowSelection.scss */
-@import 'wc.ui.table.rowSelection_vars.scss';
+@import 'table_vars';
+@import 'menu_vars'; // for the menu background color.
 
-// only want to style ara-checked rows, nothing else!
-// scss-lint:disable QualifyingElement
-tr[aria-checked] {
-	&:hover,
-	&:focus {
-		@include row-invite;
-		cursor: pointer;
+.wc_table_sel_wrapper {
+	white-space: nowrap;
+
+	[role='menubar'] {
+		button { // override unnecessary .wc_seltog style.
+			margin-left: 0;
+			text-decoration: none;
+		}
+
+		.wc-submenu-o { // the is the submenu opener emulator for the sub-row toggle control
+			@include button($background: $wc-ui-color-menu-bg, $padding: 0, $width: 1em);
+			height: 1em;
+			position: relative;
+			top: 2px; // allow for the border.
+
+			&::after {
+				margin-left: 0; // remove submenu opener indicator margin
+				vertical-align: top;
+				width: 1em;
+			}
+		}
 	}
 }
-//scss-lint:enable QualifyingElement
-
-.wc_table_sel_wrapper::before {
-	display: block;
-	height: $line-size;
-	width: 1em;
-
-	[role='radio'] > & {
-		content: url('../images/radio.svg');
-	}
-
-	[role='radio'][aria-checked='true'] > & {
-		content: url('../images/radio-s.svg');
-	}
-
-	[role='checkbox'] > & {
-		content: url('../images/checkbox.svg');
-	}
-
-	[role='checkbox'][aria-checked='true'] > & {
-		content: url('../images/checkbox-s.svg');
-	}
-
-	[aria-checked][aria-disabled='true'] > & {
-		opacity: $row-disable-opacity;
-	}
-}
-/* end wc.ui.table.rowSelection.scss */

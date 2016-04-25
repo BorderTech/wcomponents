@@ -1,23 +1,17 @@
 /* wc.ui.messagesBox.scss */
-@import 'mixins_common.scss';
+@import 'messageBox_vars';
 
 .wc_msgbox {
 	@include border;
-	background-color: $wc-ui-color-global-bg;
+	@include flex;
 	min-height: 0;
-	padding: 0 0 $vgap-normal;
 
 	> h1 {
-		color: $std-color-white;
-		font-size: 1.25em;
+		font-size: $msg-box-header-size;
 		font-weight: normal;
-		margin-top: 0;
-		padding: $vgap-normal $hgap-small;
 
-		&:before {
-			display: inline-block;
-			margin-right: $hgap-small;
-			vertical-align: text-top;
+		> span {
+			@include offscreen;
 		}
 	}
 
@@ -25,57 +19,9 @@
 		padding: $vgap-normal $hgap-small;
 	}
 
-	// message types - there can only be one type per box
-	&.error {
-		border-color: $wc-ui-color-error-fg;
-
-		> h1 {
-			background-color: $wc-ui-color-error-fg;
-
-			&:before {
-				content: url('../images/error.png');
-			}
-		}
-	}
-
-	&.warn {
-		border-color: $wc-ui-color-warning-fg;
-
-		> h1 {
-			background-color: $wc-ui-color-warning-fg;
-
-			&:before {
-				content: url('../images/warning.png');
-			}
-		}
-	}
-
-	&.info {
-		border-color: $wc-ui-color-info-fg;
-
-		> h1 {
-			background-color: $wc-ui-color-info-fg;
-
-			&:before {
-				content: url('../images/information.png');
-			}
-		}
-	}
-
-	&.success {
-		border-color: $wc-ui-color-success-fg;
-
-		> h1 {
-			background-color: $wc-ui-color-success-fg;
-
-			&:before {
-				content: url('../images/success.png');
-			}
-		}
-	}
-
-	li { //maintain white space on messages.
-		white-space: pre-wrap;
+	> ul {
+		@include flex-align-self(center);
+		margin: $vgap-small 0;
+		padding-right: $hgap-small;
 	}
 }
-/* end wc.ui.messagesBox.scss */

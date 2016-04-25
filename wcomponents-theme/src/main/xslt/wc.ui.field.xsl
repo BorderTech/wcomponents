@@ -2,8 +2,8 @@
 	<xsl:import href="wc.constants.xsl" />
 	<xsl:import href="wc.common.ajax.xsl" />
 	<xsl:import href="wc.common.hide.xsl" />
-	<xsl:import href="wc.debug.debugInfo.xsl" />
 	<xsl:import href="wc.ui.field.n.isCheckRadio.xsl" />
+	<xsl:import href="wc.common.n.className.xsl"/>
 
 	<!--
 		Transform for WField. It is used to represent a label:control pair. WField is a
@@ -15,7 +15,7 @@
 		
 		We do not output a ui:field or its content if it is incorrectly parented. A
 		WField must be a child of a WFieldLayout and a ui:field must, therefore, be
-		either a child of a ui:fieldLayout or a child of a ui:ajaxTarget.
+		either a child of a ui:fieldlayout or a child of a ui:ajaxtarget.
 		
 		
 		
@@ -37,60 +37,43 @@
 	<xsl:template match="ui:field">
 		<xsl:param name="labelWidth" select="../@labelWidth" />
 		<xsl:param name="layout" select="../@layout" />
-		<xsl:if test="parent::ui:fieldLayout or parent::ui:ajaxTarget">
-			<!-- do not output a WField if it is incorrectly parented -->
-			<xsl:variable name="hasParentLayout" select="parent::ui:fieldLayout" />
+		<xsl:if test="parent::ui:fieldlayout or parent::ui:ajaxtarget">
 			<!--
  				If the child of the ui:input is a WCheckBox or WRadioButton then
  				the label must be placed after the control and any
- 				ui:fieldIndicator placed after the label.
+ 				ui:fieldindicator placed after the label.
 			-->
 			<xsl:variable name="isCheckRadio">
 				<xsl:call-template name="fieldIsCheckRadio" />
 			</xsl:variable>
-			<li id="{@id}" class="{local-name()}">
-				<xsl:attribute name="id">
-					<xsl:value-of select="@id" />
-				</xsl:attribute>
-				<xsl:attribute name="class">
-					<xsl:text>field</xsl:text>
-				</xsl:attribute>
+			<li id="{@id}">
+				<xsl:call-template name="makeCommonClass">
+					<xsl:with-param name="additional">
+						<xsl:if test="@inputWidth">
+							<xsl:value-of select="concat('wc_inputwidth wc_fld_inpw_', @inputWidth)"/>
+						</xsl:if>
+					</xsl:with-param>
+				</xsl:call-template>
 				<!--
-					If we are part of an ajaxResponse and we don't have a parent ui:fieldLayout we
+					If we are part of an ajaxResponse and we don't have a parent ui:fieldlayout we
 					need to add a transient attribute to act as a flag for the ajax subscriber
 				-->
-				<xsl:if test="not(parent::ui:fieldLayout)">
+				<xsl:if test="not(parent::ui:fieldlayout)">
 					<xsl:attribute name="data-wc-nop">
 						<xsl:copy-of select="$t" />
 					</xsl:attribute>
 				</xsl:if>
 				<xsl:call-template name="hideElementIfHiddenSet" />
 				<xsl:call-template name="ajaxTarget" />
-				<xsl:if test="$isDebug=1">
-					<xsl:call-template name="debugAttributes" />
-				</xsl:if>
-				<xsl:if test=" not($layout = 'stacked') and ($isCheckRadio=1 or not(ui:label))">
+				<xsl:if test="not($layout = 'stacked') and ($isCheckRadio=1 or not(ui:label) or ui:label/@hidden)">
 					<span class="wc_fld_pl">
-						<xsl:if test="$labelWidth!=''">
-							<xsl:attribute name="style">
-								<xsl:value-of select="concat('width:',$labelWidth,'%;')"/>
-							</xsl:attribute>
-						</xsl:if>
 						<xsl:text>&#x00a0;</xsl:text>
 					</span>
 				</xsl:if>
 				<xsl:if test="$isCheckRadio!=1">
-					<xsl:apply-templates select="ui:label">
-						<xsl:with-param name="style">
-							<xsl:if test="$labelWidth!='' and not($layout = 'stacked')">
-								<xsl:value-of select="concat('width:',$labelWidth,'%;')"/>
-							</xsl:if>
-						</xsl:with-param>
-					</xsl:apply-templates>
+					<xsl:apply-templates select="ui:label"/>
 				</xsl:if>
 				<xsl:apply-templates select="ui:input">
-					<xsl:with-param name="labelWidth" select="$labelWidth" />
-					<xsl:with-param name="parentLayout" select="$layout" />
 					<xsl:with-param name="isCheckRadio" select="$isCheckRadio" />
 				</xsl:apply-templates>
 			</li>

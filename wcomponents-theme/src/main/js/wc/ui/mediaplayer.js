@@ -11,10 +11,11 @@
  * @requires module:wc/dom/shed
  * @requires module:wc/dom/Widget
  * @requires module:wc/dom/uid
+ * @requires module:wc/ui/ajax/processResponse
  */
-define(["wc/i18n/i18n", "wc/has", "wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/dom/shed", "wc/dom/Widget", "wc/dom/uid"],
-	/** @param i18n wc/i18n/i18n @param has wc/has @param classList wc/dom/classList @param event wc/dom/event @param initialise wc/dom/initialise @param shed wc/dom/shed @param Widget wc/dom/Widget @param uid wc/dom/uid @ignore */
-	function(i18n, has, classList, event, initialise, shed, Widget, uid) {
+define([ "wc/has", "wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/dom/shed", "wc/dom/Widget", "wc/ui/ajax/processResponse"],
+	/** @param  has @param classList @param event @param initialise @param shed @param Widget @param processResponse @ignore */
+	function(has, classList, event, initialise, shed, Widget, processResponse) {
 		"use strict";
 
 		/**
@@ -28,6 +29,7 @@ define(["wc/i18n/i18n", "wc/has", "wc/dom/classList", "wc/dom/event", "wc/dom/in
 				SOURCE_LINK,
 				TRACK_LINK,
 				PLAY_BUTTON = new Widget("button", "wc_av_play"),
+				LAME_MEDIA = new Widget("", "", {"${wc.ui.media.attrib.lameControls}": null}),
 				AUDIO = new Widget("${wc.dom.html5.element.audio}"),
 				VIDEO = new Widget("${wc.dom.html5.element.video}"),
 				SOURCE,
@@ -147,7 +149,7 @@ define(["wc/i18n/i18n", "wc/has", "wc/dom/classList", "wc/dom/event", "wc/dom/in
 
 			/**
 			 * Initialisation helper.
-			 * Yes, this is a lot to happen in init, especially as it has to happen for every element but that is the
+			 * Yes, this is a lot to happen, especially as it has to happen for every media element but that is the
 			 * price we pay for rubbish support. Fortunately most of it will only run in those rare occasions where we
 			 * have controls='play' in the XML.
 			 * @function
@@ -155,24 +157,16 @@ define(["wc/i18n/i18n", "wc/has", "wc/dom/classList", "wc/dom/event", "wc/dom/in
 			 * @param {Element} element The HTML AUDIO or VIDEO element being established.
 			 */
 			function setupPlayer(element) {
-				var parent, playButton;
+				var parent,
+					playButton;
 				event.add(element, event.TYPE.ended, endedEvent);
 
 				if (element.getAttribute(LAME_CONTROLS) === "play") {
 					parent = element.parentElement;
-					playButton = document.createElement("button");
-					playButton.className = "wc_btn_nada wc_av_play";
-					playButton.title = i18n.get("${wc.ui.media.i18n.play}");
-					playButton.setAttribute("type", "button");
-					playButton.setAttribute("aria-pressed", "false");
-					playButton.setAttribute("aria-controls", (element.id || (element.id = uid())));
-					if (shed.isDisabled(parent)) {
-						shed.disable(playButton, true);
+					if ((playButton = PLAY_BUTTON.findDescendant(parent))) {
+						event.add(element, event.TYPE.play, playEvent);
+						event.add(element, event.TYPE.pause, pauseEvent);
 					}
-					playButton.innerHTML = "&#160;";
-					parent.appendChild(playButton);
-					event.add(element, event.TYPE.play, playEvent);
-					event.add(element, event.TYPE.pause, pauseEvent);
 					if (!subscribed) {
 						subscribed = true;
 						shed.subscribe(shed.actions.SELECT, shedSubscriber);
@@ -194,9 +188,7 @@ define(["wc/i18n/i18n", "wc/has", "wc/dom/classList", "wc/dom/event", "wc/dom/in
 					useNative = false;
 				}
 				else {
-					SOURCE = new Widget("${wc.dom.html5.element.source}");
 					event.add(element, event.TYPE.click, clickEvent);
-					Array.prototype.forEach.call(Widget.findDescendants(document.body, MEDIA), setupPlayer);
 				}
 			};
 
@@ -213,7 +205,7 @@ define(["wc/i18n/i18n", "wc/has", "wc/dom/classList", "wc/dom/event", "wc/dom/in
 					parent.appendChild(next);
 				}
 
-				// if we attached a play button during setupPlayer, but the media is not playable, then we need to remove the play button
+				// if we attached a play button because @controls='play' but the media is not playable, then we need to remove the play button
 				if ((playButton = PLAY_BUTTON.findDescendant(parent))) {
 					playButton.parentNode.removeChild(playButton);
 				}
@@ -274,10 +266,11 @@ define(["wc/i18n/i18n", "wc/has", "wc/dom/classList", "wc/dom/event", "wc/dom/in
 			 * @returns {Boolean} true if the media element has no playable sources in the current user agent.
 			 */
 			function cantPlay(media) {
-				var sources = SOURCE.findDescendants(media), j, len, nextSource,
-					type, result = true;
+				var sources, j, len, nextSource, type, result = true;
 
 				if (media.canPlayType) {
+					SOURCE = SOURCE || new Widget("${wc.dom.html5.element.source}");
+					sources = SOURCE.findDescendants(media);
 					for (j = 0, len = sources.length; j < len; ++j) {
 						nextSource = sources[j];
 
@@ -289,19 +282,32 @@ define(["wc/i18n/i18n", "wc/has", "wc/dom/classList", "wc/dom/event", "wc/dom/in
 				}
 				return result;
 			}
+
 			/**
-			 * Late initialisation: expose the source and track links for unplayable media.
-			 * @function  module:wc/ui/mediaplayer.postInit
-			 * @public
+			 * @function
+			 * @private
+			 * @param {Element} element A media element or container.
 			 */
-			this.postInit = function() {
-				var elements = Widget.findDescendants(document.body, MEDIA);
+			function setUpMediaControls(element) {
+				var elements = Widget.isOneOfMe(element, MEDIA) ? [element] : Widget.findDescendants(element, MEDIA),
+					crippledElements = LAME_MEDIA.isOneOfMe(element) ? [element] : LAME_MEDIA.findDescendants(element);
 				if (useNative) {
+					Array.prototype.forEach.call(crippledElements, setupPlayer); // set up play/pause before testing cantPlay.
 					Array.prototype.filter.call(elements, cantPlay).forEach(moveSourceLinks);
 				}
 				else {
 					Array.prototype.forEach.call(elements, moveSourceLinks);
 				}
+			}
+
+			/**
+			 * Late initialisation: expose the source and track links for unplayable media.
+			 * @function  module:wc/ui/mediaplayer.postInit
+			 * @public
+			 */
+			this.postInit = function(element) {
+				setUpMediaControls(element);
+				processResponse.subscribe(setUpMediaControls, true);
 			};
 		}
 

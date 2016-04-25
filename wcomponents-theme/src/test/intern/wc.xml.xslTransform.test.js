@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"], function (registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], function (registerSuite, assert, testutils) {
 	"use strict";
 	/**
 	 * A test almost exclusively for the benefit of Internet Explorer.
@@ -39,10 +39,10 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 		testOverrideGlobalParams: function() {
 			var result, inputs, name = "elephant";
 			result = controller.transform({xmlUri: myXmlUri, xslUri: myXslUri, params: {foo: name}});
-			result.then(function(frag) {
+			return result.then(function(frag) {
 				inputs = frag.querySelectorAll ? frag.querySelectorAll("input") : frag.getElementsByTagName("input");
 				assert.isTrue(inputs && inputs.length > 0, "not testing anything");
-				assert.strictEqual(inputs[0].name, name, "global param 'foo' not overridden");
+				return assert.strictEqual(inputs[0].name, name, "global param 'foo' not overridden");
 			});
 		},
 
@@ -55,9 +55,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				expected = 'This XML should be output verbatim:&lt;?xml version="1.0" encoding="UTF-16"?&gt;&lt;ns2:Envelope xmlns:ns2="http://schemas.xmlsoap.org/soap/envelope/"&gt;',
 				actual;
 
-			result.then(function(frag) {
+			return result.then(function(frag) {
 				actual = frag.querySelector("textarea").innerHTML;
-				assert.strictEqual(actual, expected);
+				return assert.strictEqual(actual, expected);
 			});
 		}
 	});

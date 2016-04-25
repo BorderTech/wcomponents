@@ -1,9 +1,9 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 		var testHolder,
 			impliedARIA,
-			urlResource = "../../target/test-classes/wcomponents-theme/intern/resources/domAria.html",
+			urlResource = "@RESOURCES@/domAria.html",
 			ANY_SEL_STATE = "${wc.common.helper.anySelectedState}";
 
 		function doNativeStateTest(elements, state, notThisState) {
@@ -23,11 +23,12 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 		registerSuite({
 			name: "impliedARIA",
 			setup: function() {
-				return testutils.setupHelper(["wc/dom/impliedARIA"], function(obj) {
-					impliedARIA = obj;
+				var result = testutils.setupHelper(["wc/dom/impliedARIA"]).then(function(arr) {
+					impliedARIA = arr[0];
 					testHolder = testutils.getTestHolder();
-					testutils.setUpExternalHTML(urlResource, testHolder);
+					return testutils.setUpExternalHTML(urlResource, testHolder);
 				});
+				return result;
 			},
 			teardown: function() {
 				if (testHolder) {

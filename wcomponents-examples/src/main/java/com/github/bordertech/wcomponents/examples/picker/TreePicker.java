@@ -1,22 +1,24 @@
 package com.github.bordertech.wcomponents.examples.picker;
 
-import java.util.List;
-
 import com.github.bordertech.wcomponents.ActionEvent;
-import com.github.bordertech.wcomponents.MessageContainer;
+import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WLabel;
-import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WSkipLinks;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.layout.ListLayout;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A component which enables users to pick an example to display.
@@ -24,236 +26,221 @@ import com.github.bordertech.wcomponents.validation.ValidatingAction;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class TreePicker extends WPanel implements MessageContainer
-{
-    /** the application header panel. This is just a nice to have */
-    private final WPanel headerPanel = new WPanel(WPanel.Type.HEADER);
+public class TreePicker extends WContainer {
 
-    /** The top-level messages instance for this UI. Examples may also have their own instance. */
-    private final WMessages messages = new WMessages();
+	/**
+	 * the application header panel. This is just a nice to have
+	 */
+	private final WPanel headerPanel = new WPanel(WPanel.Type.HEADER);
 
-    /** The panel which contains a menu to select the examples. */
-    private final MenuPanel menuPanel = new MenuPanel();
+	/**
+	 * The panel which contains a menu to select the examples.
+	 */
+	private final MenuPanel menuPanel = new MenuPanel();
 
-    /** The panel used to display an example. */
-    private final ExamplePanel examplePanel = new ExamplePanel();
+	/**
+	 * The panel used to display an example.
+	 */
+	private final ExampleSection exampleSection = new ExampleSection();
 
-    /** This text field can be used to directly select an example, using the class name or the example name. */
-    private final WTextField selectOther = new WTextField();
+	/**
+	 * When was the example last loaded?
+	 */
+	private final ExplanatoryText lastLoaded = new ExplanatoryText();
 
-    /** Resets the UIContext of the current example. */
-    private final WButton resetExampleButton = new WButton("Reset example");
+	/**
+	 * The main panel contains the menu and the currently selected example.
+	 */
+	private final WPanel mainPanel = new WPanel();
 
-    /** This button has no action, but causes a round trip. */
-    private final WButton refreshButton = new WButton("Refresh page");
-
-    /** The main panel contains the menu and the currently selected example. */
-    private final WPanel mainPanel = new WPanel();
-
-	/** column widths */
-	private static final int[] COL_WIDTH = {20,80};
-	/** column allignment */
+	/**
+	 * column widths.
+	 */
+	private static final int[] COL_WIDTH = {20, 80};
+	/**
+	 * column alignment.
+	 */
 	private static final ColumnLayout.Alignment[] COL_ALIGN = {ColumnLayout.Alignment.LEFT, ColumnLayout.Alignment.LEFT};
-	/** column hgap */
+	/**
+	 * column hgap.
+	 */
 	private static final int COL_HGAP = 12;
-	/** column vgap */
+	/**
+	 * column vgap.
+	 */
 	private static final int COL_VGAP = 0;
 
-    /**
-     * Creates a TreePicker.
-     */
-    public TreePicker()
-    {
-        add(headerPanel);
-        headerPanel.add(new WSkipLinks());
-        /* The utility bar contains the example selector and a bunch of buttons */
-        WPanel utilityBar = new WPanel();
-        headerPanel.add(utilityBar);
-        utilityBar.setLayout(new ListLayout(ListLayout.Type.FLAT,ListLayout.Alignment.RIGHT, ListLayout.Separator.NONE, false, COL_HGAP, 0));
+	/**
+	 * Creates a TreePicker.
+	 */
+	public TreePicker() {
+		// Set up the HEADER
 
+		mainPanel.setIdName("main_panel");
+		mainPanel.setLayout(new ColumnLayout(COL_WIDTH, COL_ALIGN, COL_HGAP, COL_VGAP));
+		mainPanel.setMargin(new Margin(COL_HGAP));
 
-        // Add an image for the banner
-        //WImage logo = new WImage("/com/github/bordertech/wcomponents/examples/picker/wclogo_small.gif", "WComponents examples");
-        //String version = Config.getInstance().getString("wcomponents-examples.version");
-        //logo.setCacheKey("wc.treepicker.logo." + version);
-        //add(logo, "logo");
-        headerPanel.add(new WHeading(WHeading.TITLE, "WComponents"));
+		buildUI();
+	}
 
-        add(messages, "messages");
+	/**
+	 * Add all the bits in the right order.
+	 */
+	private void buildUI() {
+		add(new WSkipLinks());
 
-        selectOther.setToolTip("Enter a partial name for one of the examples below, or a fully qualified class name for an arbitrary component.");
+		// the application header
+		add(headerPanel);
+		headerPanel.add(new UtilityBar());
+		headerPanel.add(new WHeading(HeadingLevel.H1, "WComponents"));
 
-        // Set a validating action on itself to avoid client side validation
-        resetExampleButton.setAction(new ValidatingAction(messages.getValidationErrors(), resetExampleButton)
-        {
-            @Override
-            public void executeOnValid(final ActionEvent event)
-            {
-                examplePanel.resetExample();
-            }
-        });
-        resetExampleButton.setImage("/image/cancel-w.png");
-        resetExampleButton.setRenderAsLink(true);
-        resetExampleButton.setToolTip("reset");
-        //resetExampleButton.setImagePosition(ImagePosition.EAST);
+		// mainPanel holds the menu and the actual example.
+		add(mainPanel);
+		mainPanel.add(menuPanel);
+		mainPanel.add(exampleSection);
 
-        WButton selectOtherButton = new WButton("Select");
-        selectOtherButton.setImage("/image/open-in-browser-w.png");
-        selectOtherButton.setRenderAsLink(true);
-        selectOtherButton.setToolTip("select other");
+		// An application footer?
+		WPanel footer = new WPanel(WPanel.Type.FOOTER);
+		footer.add(lastLoaded);
 
-        // Set a validating action on itself to avoid client side validation
-        selectOtherButton.setAction(new ValidatingAction(messages.getValidationErrors(), selectOtherButton)
-        {
-            @Override
-            public void executeOnValid(final ActionEvent event)
-            {
-                if (!Util.empty(selectOther.getText()))
-                {
-                    ExampleData example = menuPanel.getClosestMatch(selectOther.getText());
+		//what goes in a footer?
+		// footer.add(new ExplanatoryText("Copyright is not the answer."));
+		add(footer);
+	}
 
-                    if (example != null)
-                    {
-                         selectExample(example);
-                    }
-                }
-            }
-        });
-//
-//        WButton logoutButton = new WButton("Logout")
-//        {
-//            @Override
-//            public void handleRequest(final Request request)
-//            {
-//                super.handleRequest(request);
-//
-//                if (isPressed())
-//                {
-//                    request.logout();
-//                }
-//            }
-//        };
-//        // Set a validating action on itself to avoid client side validation
-//        logoutButton.setAction(new ValidatingAction(messages.getValidationErrors(), logoutButton)
-//        {
-//            @Override
-//            public void executeOnValid(final ActionEvent event)
-//            {
-//                // Do Nothing
-//            }
-//        });
+	/**
+	 *
+	 * @param date The date to format.
+	 * @return a readable date and time.
+	 */
+	private String getMeAReadableDate(final Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy, hh:mm aaa");
+		return sdf.format(null == date ? (new Date()) : date);
+	}
 
-        // Set a validating action on itself to avoid client side validation
-        refreshButton.setAction(new ValidatingAction(messages.getValidationErrors(), refreshButton)
-        {
-            @Override
-            public void executeOnValid(final ActionEvent event)
-            {
-                // Do Nothing
-            }
-        });
-        refreshButton.setImage("/image/refresh-w.png");
-        refreshButton.setRenderAsLink(true);
-        refreshButton.setToolTip("refresh");
-        //refreshButton.setImagePosition(ImagePosition.EAST);
+	/**
+	 * Adds a grouped set of examples to the menu.
+	 *
+	 * @param groupName the name of the group for the examples, or null to add to the menu directly.
+	 * @param entries the examples to add to the group.
+	 */
+	public void addExamples(final String groupName, final ExampleData[] entries) {
+		menuPanel.addExamples(groupName, entries);
+	}
 
-        utilityBar.setDefaultSubmitButton(selectOtherButton);
+	/**
+	 * <p>
+	 * Override handleRequest in order to perform custom processing for this component.</p>
+	 *
+	 * <p>
+	 * Normally, applications should not look at the request directly, but we look for an "example" parameter here so
+	 * that developers can bookmark particular examples which they are interested in.</p>
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+		String exampleStr = request.getParameter("example");
 
-        WContainer selectContainer = new WContainer();
-        selectContainer.add(new WLabel("Select other example\u00a0", selectOther));
-        selectContainer.add(selectOther);
-        selectContainer.add(selectOtherButton);
-        utilityBar.add(selectContainer);
-        utilityBar.add(resetExampleButton);
-        utilityBar.add(refreshButton);
-        //utilityBar.add(logoutButton);
-        mainPanel.setLayout(new ColumnLayout(COL_WIDTH, COL_ALIGN, COL_HGAP, COL_VGAP));
-		mainPanel.setMargin(new com.github.bordertech.wcomponents.Margin(COL_HGAP));
-        mainPanel.add(menuPanel);
-        mainPanel.add(examplePanel);
-        add(mainPanel, "mainPanel");
-    }
+		if (exampleStr != null) {
+			ExampleData example = menuPanel.getClosestMatch(exampleStr);
+			selectExample(example);
+		}
+	}
 
-    /**
-     * Adds a grouped set of examples to the menu.
-     *
-     * @param groupName the name of the group for the examples, or null to add to the menu directly.
-     * @param entries the examples to add to the group.
-     */
-    public void addExamples(final String groupName, final ExampleData[] entries)
-    {
-    	menuPanel.addExamples(groupName, entries);
-    }
+	/**
+	 * @return the panel which displays the examples.
+	 */
+//	public ExampleSection getExamplePanel() {
+//		return exampleSection;
+//	}
 
-    /**
-     * <p>Override handleRequest in order to perform custom processing
-     * for this component.</p>
-     *
-     * <p>Normally, applications should not look at the request directly,
-     * but we look for an "example" parameter here so that developers can
-     * bookmark particular examples which they are interested in.</p>
-     *
-     * @param request the request being responded to.
-     */
-     @Override
-    public void handleRequest(final Request request)
-    {
-        String exampleStr = request.getParameter("example");
+	/**
+	 * Selects an example.
+	 *
+	 * @param data the ExampleData of the example to select.
+	 */
+	public void selectExample(final ExampleData data) {
+		menuPanel.addToRecent(data);
+		exampleSection.selectExample(data);
+	}
 
-        if (exampleStr != null)
-        {
-            ExampleData example = menuPanel.getClosestMatch(exampleStr);
-            selectExample(example);
-        }
-    }
+	/**
+	 * Override preparePaintComponent in order to populate the recently accessed menu when a user accesses this panel
+	 * for the first time.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+		super.preparePaintComponent(request);
 
-    /** {@inheritDoc} */
-    @Override
-    public WMessages getMessages()
-    {
-        return messages;
-    }
+		if (!isInitialised()) {
+			List<ExampleData> recent = menuPanel.getRecent();
 
-    /**
-     * @return the panel which displays the examples.
-     */
-    public ExamplePanel getExamplePanel()
-    {
-        return examplePanel;
-    }
+			if (!recent.isEmpty()) {
+				selectExample(recent.get(0));
+			}
 
-    /**
-     * Selects an example.
-     *
-     * @param data the ExampleData of the example to select.
-     */
-    public void selectExample(final ExampleData data)
-    {
-        menuPanel.addToRecent(data);
-        examplePanel.selectExample(data);
-    }
+			setInitialised(true);
+		}
+		lastLoaded.setText("Last loaded on ".concat(getMeAReadableDate(new Date())));
+	}
 
-    /**
-     * Override preparePaintComponent in order to populate the recently accessed
-     * menu when a user accesses this panel for the first time.
-     *
-     * @param request the request being responded to.
-     */
-    @Override
-    protected void preparePaintComponent(final Request request)
-    {
-        super.preparePaintComponent(request);
+	/**
+	 * Represents a set of active components to place into the header.
+	 */
+	private class UtilityBar extends WPanel {
 
-        if (!isInitialised())
-        {
-            List<ExampleData> recent = menuPanel.getRecent();
+		/**
+		 * This text field can be used to directly select an example, using the class name or the example name.
+		 */
+		private final WTextField selectOther = new WTextField();
 
-            if (!recent.isEmpty())
-            {
-                selectExample(recent.get(0));
-            }
+		/**
+		 * Create a utility bar.
+		 */
+		public UtilityBar() {
+			selectOther.setToolTip("Enter the qualified name of an example.");
+			setUp();
+		}
 
-            setInitialised(true);
-        }
-    }
+		/**
+		 * Add the UI controls to the utility bar.
+		 */
+		private void setUp() {
+			setLayout(new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.RIGHT, ListLayout.Separator.NONE,
+					false));
+			// The select another example button.
+			final WButton selectOtherButton = new WButton("Select");
+			selectOtherButton.setImage("/image/open-in-browser-w.png");
+			selectOtherButton.setRenderAsLink(true);
+			selectOtherButton.setAction(new ValidatingAction(exampleSection.getMessages().getValidationErrors(),
+					selectOtherButton) {
+				@Override
+				public void executeOnValid(final ActionEvent event) {
+					if (!Util.empty(selectOther.getText())) {
+						ExampleData example = menuPanel.getClosestMatch(selectOther.getText());
+						if (example != null) {
+							selectExample(example);
+						}
+					}
+				}
+			});
+
+			setDefaultSubmitButton(selectOtherButton);
+			add(new WLabel("Qualified name", selectOther));
+			add(selectOther);
+			add(selectOtherButton);
+		}
+
+		/**
+		 * Get the field used to obtain the FQN of an example not in the menu.
+		 *
+		 * @return A text field.
+		 */
+		public WTextField getSelectOther() {
+			return selectOther;
+		}
+	}
 }

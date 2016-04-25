@@ -5,61 +5,61 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.examples.validation.ValidationContainer;
 import com.github.bordertech.wcomponents.subordinate.Equal;
 import com.github.bordertech.wcomponents.subordinate.Mandatory;
 import com.github.bordertech.wcomponents.subordinate.Optional;
 import com.github.bordertech.wcomponents.subordinate.Rule;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
 
-import com.github.bordertech.wcomponents.examples.validation.ValidationContainer;
-
 /**
  * Demonstrate using the Mandatory and Optional actions on the Subordinate Control.
- * 
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class SubordinateControlMandatoryExample extends ValidationContainer
-{
-    /** Creates a SubordinateControlMandatoryExample. */
-    public SubordinateControlMandatoryExample()
-    {
-        super(build());
-    }
+public class SubordinateControlMandatoryExample extends ValidationContainer {
 
-    /**
-     * Creates the component to be added to the validation container.
-     * This is doen in a static method because the component is passed into the superclass constructor. 
-     * @return the component to be added to the validation container.
-     */
-    private static WComponent build()
-    {
-        WContainer root = new WContainer();
+	/**
+	 * Creates a SubordinateControlMandatoryExample.
+	 */
+	public SubordinateControlMandatoryExample() {
+		super(build());
+	}
 
-        WSubordinateControl control = new WSubordinateControl();
-        root.add(control);
+	/**
+	 * Creates the component to be added to the validation container. This is doen in a static method because the
+	 * component is passed into the superclass constructor.
+	 *
+	 * @return the component to be added to the validation container.
+	 */
+	private static WComponent build() {
+		WContainer root = new WContainer();
 
-        WFieldLayout layout = new WFieldLayout();
-        layout.setLabelWidth(25);
-        layout.setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 12, 0));
-        WCheckBox checkBox = new WCheckBox();
-        layout.addField("Set Mandatory", checkBox);
+		WSubordinateControl control = new WSubordinateControl();
+		root.add(control);
 
-        WTextField text = new WTextField();
-        layout.addField("Might need this field", text);
+		WFieldLayout layout = new WFieldLayout();
+		layout.setLabelWidth(25);
+		layout.setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 12, 0));
+		WCheckBox checkBox = new WCheckBox();
+		layout.addField("Set Mandatory", checkBox);
 
-        WTextField mandatoryField = new WTextField();
-        layout.addField("Another field always mandatory",mandatoryField);
-        mandatoryField.setMandatory(true);
+		WTextField text = new WTextField();
+		layout.addField("Might need this field", text);
 
-        root.add(layout);
+		WTextField mandatoryField = new WTextField();
+		layout.addField("Another field always mandatory", mandatoryField);
+		mandatoryField.setMandatory(true);
 
-        Rule rule = new Rule();
-        rule.setCondition(new Equal(checkBox, Boolean.TRUE.toString()));
-        rule.addActionOnTrue(new Mandatory(text));
-        rule.addActionOnFalse(new Optional(text));
-        control.addRule(rule);
+		root.add(layout);
 
-        return root;
-    }
+		Rule rule = new Rule();
+		rule.setCondition(new Equal(checkBox, Boolean.TRUE.toString()));
+		rule.addActionOnTrue(new Mandatory(text));
+		rule.addActionOnFalse(new Optional(text));
+		control.addRule(rule);
+
+		return root;
+	}
 }

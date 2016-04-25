@@ -1,7 +1,7 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
-		/* eslint no-new-wrappers:0 */
+		/* eslint-disable no-new-wrappers */
 		var isNumeric;
 
 		registerSuite({
@@ -12,20 +12,20 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				});
 			},
 			testisNumericIntegerString: function () {
-				var arg = '666',
+				var arg = "666",
 					result = isNumeric(arg);
 				assert.strictEqual(true, result);
 			},
 			testisNumericFloatStringObject: function() {
-				var arg = new String('666.666'),
+				var arg = new String("666.666"),
 					result = isNumeric(arg);
 				assert.strictEqual(true, result);
 			},
 			testisNumericFloatStringObjectNoMutation: function() {
-				var arg = new String('666.666'),
+				var arg = new String("666.666"),
 					result = isNumeric(arg);
 				assert.strictEqual(true, result);
-				assert.strictEqual('666.666', arg.valueOf());  // not mutated
+				assert.strictEqual("666.666", arg.valueOf());  // not mutated
 			},
 			testisNumericInteger: function() {
 				var arg = 666,
@@ -43,7 +43,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				assert.strictEqual(true, result);
 			},
 			testisNumericNegativeStringFloat: function() {
-				var arg = '-666.666',
+				var arg = "-666.666",
 					result = isNumeric(arg);
 				assert.strictEqual(true, result);
 			},
@@ -53,7 +53,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				assert.strictEqual(false, result);
 			},
 			testisNumericNonNumericString: function() {
-				var arg = 'xyz333',
+				var arg = "xyz333",
 					result = isNumeric(arg);
 				assert.strictEqual(false, result);
 			},
@@ -80,5 +80,5 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				assert.strictEqual(666, arg.valueOf());  // not mutated
 			}
 		});
-		/* eslint no-new-wrappers:1 */
+		/* eslint-enable no-new-wrappers */
 	});

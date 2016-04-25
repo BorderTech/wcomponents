@@ -1,62 +1,36 @@
 /* wc.ui.menu.color.scss */
 // Colour styles common to all menus: made to ease theme overrides a little.
 // See wc.ui.menu.css for generic structure.
-@import 'wc.ui.menu_vars.scss';
-
-.menu {
-	[role],
-	[aria-expanded] > button {
-		color: $wc-ui-color-menu-fg;
-	}
-
-	[disabled],
-	[aria-disabled='true'] { // override default for disabled
-		//scss-lint:disable ImportantRule
-		color: $wc-ui-color-disabled-fg !important; // the important saves us a lot of override overhead
-	}
-}
+@import 'menu_vars';
 
 [role='menubar'].bar,
 [role='menu'] {
 	background-color: $wc-ui-color-menu-bg;
-}
+	color: $wc-ui-color-menu-fg;
 
-
-// selected elements
-// * TODO This could do with some significant optimization.
-// * WARNING: using the .class [role][aria-checked='true'] shorthand here will cause ANY element with an aria-checked
-// state to take on these styles. This shouldn't be a problem but I have left it with the longer form to allow for
-// odd/weird/stupid component nesting. Anyone want to put a WSelectToggle into a WMenuItem? it is possible...
-[role='menuitemradio'][aria-checked='true'],
-[role='menuitemcheckbox'][aria-checked='true'],
-[role='treeitem'][aria-selected='true'],
-.submenu[aria-selected='true'][aria-expanded] > button,
-.submenu[aria-checked='true'][aria-expanded] > button {
-	background-color: $wc-ui-color-invite-bg;
-	color: $wc-ui-color-invite-fg;
-}
-
-.submenu {
-	&[aria-selected='true'],
-	&[aria-checked='true'] {
-		background-color: transparent;
-		color: $wc-ui-color-menu-fg;
+	[aria-busy] {
+		// override aria-busy transparency
+		// scss-lint:disable ImportantRule
+		background-color: $wc-ui-color-menu-bg !important;
 	}
 }
 
-
-// hover
-// no ability to use the class shorthand for :hover otherwise we get a hover effect on branches (role='menuitem' etc)
-// and submenus (role='menu'/role='group') though we could override that I suppose_
-[role='menuitem']:hover,
-[role='menuitemradio']:hover,
-[role='menuitemcheckbox']:hover,
-[role='treeitem']:hover,
-.menu [aria-expanded] > button:hover,
-.menu [role]:focus,
-.menu [aria-expanded] > button:focus,
-[aria-expanded='true'] > button:hover {
-	background-color: $wc-ui-color-invite-bg;
-	color: $wc-ui-color-invite-fg;
+// selected elements
+// * WARNING: using the .class [role][aria-checked='true'] shorthand here will cause ANY element with an aria-checked
+// state to take on these styles. This shouldn't be a problem but I have left it with the longer form to allow for
+// odd/weird/stupid component nesting. Anyone want to put a WSelectToggle into a WMenuItem? it is possible...
+[role^='menuitem'][aria-checked='true'] {
+	background-color: $wc-ui-color-highlight-bg;
+	color: $wc-ui-color-highlight-fg;
 }
-/* end wc.ui.menu.color.scss */
+
+.wc-submenu[aria-checked='true'] {
+	background-color: transparent;
+	color: inherit;
+}
+
+//
+// @import 'panel_vars'; // for the header foreground color
+// [role='banner'] [data-wc-menufixed] > [role='menuitem']:first-child > button::after {
+// 	color: $wc-ui-color-panel-header-foreground;
+// }

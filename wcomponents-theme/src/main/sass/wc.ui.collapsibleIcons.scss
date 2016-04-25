@@ -1,0 +1,25 @@
+/* wc.ui.collapsibleIcons.scss */
+// WCollapsible is a component which consists of a header element and content. The content is shown or hidden according
+// to the state of the collapsible. This is a close map of the HTML5 details element in which the header is a summary
+// element.
+
+// We only have to style immediate child elements of the collapsible container. In an ideal world we would not even have
+// to do this but so far only webkit has native support for <details> and that is still flawed.
+
+// The styles here are purposely minimal and will give you a DETAILS element pretty much like a Chrome default.
+
+@import 'mixins-common';
+
+summary {
+	&:before {
+		@include wc-icon-fw($fa-var-caret-right, left);
+	}
+
+	[open] > &:before {
+		content: $fa-var-caret-down;
+	}
+}
+
+::-webkit-details-marker { // remove the default summary marker from webkit browsers
+	display: none;
+}

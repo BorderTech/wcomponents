@@ -1,0 +1,46 @@
+<div class="moustache-center-content">
+<div class="content-wrapper">
+{{content}}
+</div>
+</div>
+<style type="text/css" scoped="scoped">
+	.moustache-center-content {
+		display: -webkit-flex;
+		display: flex;
+		-webkit-align-items: center;
+		align-items: center;
+		-webkit-justify-content: center;
+		justify-content: center;
+		margin: 1em auto;
+		height: 100%;
+		min-height: 20em;
+		background-color: #e0e0e0;
+	}
+
+	.content-wrapper {
+		width: 30em;
+		max-width: 90%;
+		margin: 0 auto;
+	}
+
+	.content-wrapper > section {
+		background-color: #fff;
+	}
+
+	@media only-screen and (max-width: 768px) {
+		.moustache-center-content {
+			margin: 0;
+		}
+
+		.content-wrapper {
+			max-width: 100%;
+			margin: 0;
+		}
+	}
+
+	@media only-screen and (max-height: 640px) {
+		.moustache-center-content {
+			min-height: 0;
+		}
+	}
+</style>

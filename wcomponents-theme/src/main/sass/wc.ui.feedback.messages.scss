@@ -1,4 +1,5 @@
 /* wc.ui.feedback.messages.scss */
+@import 'mixins-common';
 
 // Common states for foreground aspects of messages
 // NOTE: the element selector is required here for error messages as we need to differentiate the message from the
@@ -8,9 +9,7 @@ ul {
 	&.info,
 	&.warn,
 	&.success {
+		@include tight-box;
 		list-style-type: none;
-		margin: 0;
-		padding: 0;
 	}
 }
-/* end wc.ui.feedback.messages.scss */

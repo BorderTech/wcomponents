@@ -55,9 +55,7 @@ define(["wc/xml/xpath", "wc/loader/resource"],
 			if (extension && extension.length) {
 				return extension[1].toLowerCase();
 			}
-			else {
-				return "";
-			}
+			return "";
 		}
 
 		/**
@@ -74,7 +72,7 @@ define(["wc/xml/xpath", "wc/loader/resource"],
 				result = [];
 				len = fileInfo.files.length;
 				for (i = 0; i < len; i++) {
-					next = fileInfo.files.item(i);
+					next = fileInfo.files[i];
 					ext = getExtension(next.name);
 					result[i] = {
 						mime: next.type,

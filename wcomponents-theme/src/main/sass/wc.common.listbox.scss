@@ -1,0 +1,23 @@
+/* wc.common.listbox.scss */
+// listbox for combo and datefield
+@import 'mixins-common';
+
+ul[role='listbox'] {
+	@include border;
+	@include tight-box;
+	display: none;
+	list-style-type: none;
+	position: absolute;
+	z-index: $z-index-common;
+
+	dialog & {
+		position: fixed;
+		z-index: $z-index-common-in-dialog;
+	}
+}
+
+li[role='option'] {
+	@include margin($size: 0);
+	min-height: 1em;
+	padding: $hgap-small;
+}

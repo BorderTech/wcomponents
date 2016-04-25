@@ -1,0 +1,7 @@
+/* wc.ui.htree.color.scss */
+@import 'tree-vars';
+
+.wc_branch_resize_handle {
+	background-color: $wc-ui-color-highlight-bg;
+	color: $wc-ui-color-highlight-fg;
+}

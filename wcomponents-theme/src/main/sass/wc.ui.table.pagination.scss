@@ -1,19 +1,48 @@
 /* wc.ui.table.pagination.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
 .wc_table_pag_cont {
-	text-align: right;
-	white-space: nowrap;
-
-	label,
-	select,
-	.wc_ibtn:first-of-type {
+	> span,
+	> label {
 		margin-left: $hgap-large;
+		white-space: nowrap;
+
+		&:first-child {
+			margin-left: 0;
+		}
+	}
+
+	label > select {
+		margin-left: $hgap-small;
 	}
 }
 
-.wc_table_pag_socbtn {
-	line-height: 1;
-	margin-left: $hgap-small;
+// This rule applies when the pagination controls are at the bottom of the table.
+.wc_table_bottom_controls > .wc_table_pag_cont {
+	text-align: right;
 }
-/* end wc.ui.table.pagination.scss */
+
+@include respond-phonelike {
+	.wc_table_pag_cont {
+		> span,
+		> label {
+			text-align: right;
+		}
+
+		> span {
+			display: block;
+		}
+
+		.wc_table_pag_rows {
+			margin-bottom: $vgap-small;
+		}
+
+		.wc_table_pag_btns {
+			margin-top: $vgap-small;
+		}
+
+		.wc_table_top_controls > & {
+			display: none;
+		}
+	}
+}

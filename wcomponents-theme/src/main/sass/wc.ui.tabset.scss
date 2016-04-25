@@ -1,156 +1,50 @@
 /* wc.ui.tabset.scss */
-@import 'mixins_common.scss';
-@import 'wc.ui.tabset_vars.scss';
+@import 'tabset_vars';
+
+.wc-tabset {
+	@include flex($direction: column);
+}
 
 [role='tablist'] {
-	&,
-	&[aria-disabled='true'] {
-		background-color: transparent;
-	}
+	@include flex; // the tablist display model
+	position: relative;
+	top: $border-width;
 
-	.top > & {
-		@include flex();
-		position: relative;
-		top: 1px;
-
-		[role='tab'] {
-			@include wc-ui-tabset-top-border-radius;
-
-			&[aria-selected='true'] {
-				border-bottom: 0 none;
-				position: static;
-			}
-		}
-
-		> [role] + [role] {
-			margin-left: $hgap-small;
-		}
+	> [role] + [role] {
+		margin-left: $hgap-small;
 	}
 
 	// ACCORDION
 	&[aria-multiselectable] {
-		@include border;
-		border-bottom: 0 none;
+		@include flex-direction(column);
 
-		> [role='tabpanel'] {
-			@include border($pos: bottom);
+		> [role] + [role] {
+			@include border($pos:top, $width: 0);
+			margin-left: 0;
 		}
 	}
-
-	> [role='tab'] {
-		// LEFT TABS
-		.left > & {
-			@include wc-ui-tabset-left-border-radius;
-			border-right: 0 none;
-			text-align: left;
-
-			&[aria-selected='true'] {
-				left: $border-width;
-			}
-		}
-
-		// RIGHT TABS
-		.right > & {
-			@include wc-ui-tabset-right-border-radius;
-			border-left: 0 none;
-			text-align: right;
-
-			&[aria-selected='true'] {
-				right: $border-width;
-			}
-		}
-	}
-
-
 }
 
 [role='tab'] {
-	@include padded-box();
-	background-color: $wc-ui-color-tab-inactive;
-	color: $wc-ui-color-global-fg;
-	cursor: pointer;
-	margin: 0;
+	@include fit-content($what: min-height);
+	@include padded-box;
+	overflow: hidden;
+
+	// accordion tabs are expanded, others are aria-selected.
+	&[aria-selected] {
+		@include wc-ui-tabset-top-border-radius;
+	}
 
 	&[aria-selected='true'] {
-		position: relative;
+		@include border($pos: bottom, $width: 0);
 	}
-
-	&:hover,
-	&:focus {
-		background-color: $wc-ui-color-tab-focus;
-	}
-
-	&[aria-selected='true'],
-	[aria-expanded='true'] {
-		background-color: $wc-ui-color-tab-active;
-	}
-
-	&[disabled] {
-		background-color: $wc-ui-color-disabled-bg;
-		color: $wc-ui-color-disabled-fg;
-	}
-
-	//accordion tabs are expanded
-	&[aria-expanded] {
-		// selector order to turn off default borders then set only bottom border.
-		//scss-lint:disable DeclarationOrder
-		border: 0 none;
-		@include border($pos: bottom);
-		//scss-lint:enable DeclarationOrder
-		display: block;
-		text-align: left;
-		width: 100%;
-	}
-
-	&[aria-expanded='true'] {
-		border-bottom: 0 none;
-	}
-}
-
-
-[role='tabpanel'],
-.tabset > [role='presentation'] {
-	background-color: $wc-ui-color-global-bg;
-}
-
-.tabset > [role='presentation'] {
-	@include border;
-	border-top: 0 none;
 }
 
 [role='tabpanel'] {
-	@include border($pos: top);
-	padding: $hgap-normal;
+	@include padded-box;
+	@include flex-grow(1);
 
 	&[aria-busy='true'] {
 		min-height: 16px;
 	}
 }
-
-// COMMON LEFT and RIGHT TABS
-// NOTE: we use display:table and table-cell here to ensure the tabPanel wrapper is at least as tall as the tablist.
-// Otherwise funny things happen when the tabPanel has little or no content.
-.wc_tab_lr {
-	border-collapse: collapse;
-	display: table;
-	width: 100%;
-
-	> [role] {
-		display: table-cell;
-		vertical-align: top;
-	}
-
-	> [role='tablist'] {
-		width: $wc-ui-tabset-left-right-tab-width;
-
-		> [role='tab'] {
-			display: block;
-			width: 100%;
-		}
-
-		> [role] + [role] {
-			margin-top: $vgap-small;
-		}
-	}
-}
-/* end wc.ui.tabset.scss */

@@ -11,7 +11,7 @@
 	Key to find all ajaxTriggers to determine if a control is an ajaxTrigger so that
 	it can be marked up with appropriate WAI-ARIA properties.
 -->
-	<xsl:key name="triggerKey" match="//ui:ajaxTrigger" use="@triggerId"/>
+	<xsl:key name="triggerKey" match="//ui:ajaxtrigger" use="@triggerId"/>
 	
 <!--
 	Creates an aria-controls attribute for any element which is an AJAX trigger.
@@ -48,7 +48,7 @@
 	<xsl:template name="ajaxTarget">
 		<xsl:param name="id" select="@id"/>
 		<xsl:param name="live" select="'polite'"/>
-		<xsl:if test="key('targetKey',$id) or parent::ui:ajaxTarget[@action='replace']">
+		<xsl:if test="key('targetKey',$id) or parent::ui:ajaxtarget[@action='replace']">
 			<xsl:call-template name="setARIALive">
 				<xsl:with-param name="live" select="$live"/>
 			</xsl:call-template>

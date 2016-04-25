@@ -2,7 +2,7 @@
 	<!--
 		Make the skipLink links to panels which have accessKey and title attributes set.
 	-->
-	<xsl:template match="ui:panel" mode="skipLinks">
+	<xsl:template match="ui:panel" mode="skiplinks">
 		<xsl:element name="a">
 			<xsl:attribute name="href">
 				<xsl:text>#</xsl:text>

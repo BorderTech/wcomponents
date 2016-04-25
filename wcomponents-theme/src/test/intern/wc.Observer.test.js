@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"], function(registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], function(registerSuite, assert, testutils) {
 	"use strict";
 
 	var ns = "An_observed_nameSpace",
@@ -10,8 +10,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 	registerSuite({
 		name: "Observer",
 		setup: function() {
-			return testutils.setupHelper(["wc/Observer"], function(o) {
-				Observer = o;
+			return testutils.setupHelper(["wc/Observer"]).then(function(arr) {
+				Observer = arr[0];
 				observer = new Observer();
 				testHolder = testutils.getTestHolder();
 				containerId = testHolder.id;
@@ -62,14 +62,14 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			observer.subscribe(subscriber);
 			observer.subscribe(subscriber);
 			observer.notify();
-			assert.strictEqual(count, 1, 'Should not be able to subscribe more than once.');
+			assert.strictEqual(count, 1, "Should not be able to subscribe more than once.");
 		},
 		testObserverSubscribeNoParams: function() {
 			try {
 				observer.subscribe();
 				assert.fail(!null, null, "Expected exception: Subscribing without a subscriber should have failed.");  // should not get here
 			}
-			catch(e) {
+			catch (e) {
 				assert.isTrue(true, "Error expected.");
 			}
 		},
@@ -91,7 +91,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			function subscriber() {}
 			assert.strictEqual(observer.subscribe(subscriber, {group: ns}), subscriber, "Subscribe with a group should return the subscriber.");
 		},
-		/* Tests of Observer context applied to a subscriber. The context supplied by a call to subscribe should be the 'this' of the subscriber when notified. */
+		/* Tests of Observer context applied to a subscriber. The context supplied by a call to subscribe should be the "this" of the subscriber when notified. */
 		testObserverSubscribeWithContext: function() {
 			var actualContext,
 				expectedContext = document.getElementById(containerId) || assert.fail(null, !null, "Cannot get context container.");
@@ -307,7 +307,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				observer.unsubscribe();  // Call unsubscribe() with no args
 				assert.fail(!null, null, "Error expected when unsubscribe called withoput args and more than one subscriber in group");
 			}
-			catch(error) {  // expected error
+			catch (error) {  // expected error
 				observer.notify();
 			}
 			finally {
@@ -328,7 +328,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				observer.unsubscribe();  // Call unsubscribe() with no params does not unsubscribe anything
 				observer.notify();  // should reach here as no error thrown.
 			}
-			catch(error) {
+			catch (error) {
 				assert.fail(error, null, "No error expected when unsubscribe called without params and exactly one subscriber in group");
 			}
 			finally {
@@ -546,7 +546,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 
 			observer.setFilter(ns);
 			observer.notify();
-			assert.isTrue(wasNotified, 'wasNotified should not have been set by subscriber not matching filter.');
+			assert.isTrue(wasNotified, "wasNotified should not have been set by subscriber not matching filter.");
 		},
 		testObserverFilterWildcard: function() {
 
@@ -577,7 +577,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				observer.notify();
 			}
 			finally {
-				assert.strictEqual(wasNotified, 2, 'wasNotified should only be incremented by each subscriber matching the wildcarded group name.');
+				assert.strictEqual(wasNotified, 2, "wasNotified should only be incremented by each subscriber matching the wildcarded group name.");
 				observer.reset(otherNs);
 				observer.reset(wildNs);
 			}
@@ -620,7 +620,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			observer.setFilter(filterFn);
 			observer.notify();
 
-			assert.strictEqual(wasNotified, 3, 'wasNotified should be adjusted only by functions in a group matching that set by the filter function');
+			assert.strictEqual(wasNotified, 3, "wasNotified should be adjusted only by functions in a group matching that set by the filter function");
 			observer.reset(localns);
 			observer.reset(otherNs);
 			observer.reset(thirdNs);
@@ -661,7 +661,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			// we expect JavaScript truthy/falsey not strictly boolean.
 			observer.notify();
 
-			assert.strictEqual(wasNotified, 7, 'wasNotified should be set by everything which does not return a falsey value');
+			assert.strictEqual(wasNotified, 7, "wasNotified should be set by everything which does not return a falsey value");
 			observer.reset(localns);
 			observer.reset(otherNs);
 			observer.reset(thirdNs);
@@ -683,11 +683,11 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			try {
 				observer.setFilter();  // try to call observer.setFilter with no filter defined should throw an error
 			}
-			catch(e) {
+			catch (e) {
 				observer.notify();
 			}
 			finally {
-				assert.strictEqual(wasNotified, 1, 'Call to notify should call subscribers in GLOBAL group since no filter was set');
+				assert.strictEqual(wasNotified, 1, "Call to notify should call subscribers in GLOBAL group since no filter was set");
 			}
 		},
 		testObserverFilterNotStringOrFunction: function() {
@@ -707,11 +707,11 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			try {
 				observer.setFilter(null);
 			}
-			catch(e) {
+			catch (e) {
 				observer.notify();
 			}
 			finally {
-				assert.strictEqual(wasNotified, 1, 'Call to notify should call subscribers in GLOBAL group since no filter was set');
+				assert.strictEqual(wasNotified, 1, "Call to notify should call subscribers in GLOBAL group since no filter was set");
 				observer.reset(ns);
 			}
 		},
@@ -733,7 +733,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			try {
 				observer.getGroupAsWildcardFilter(null);
 			}
-			catch(error) {
+			catch (error) {
 				hadError = true;
 			}
 			finally {
@@ -747,9 +747,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				hadError = false;
 
 			try {
-				observer.getGroupAsWildcardFilter(filter);  // nonsense filter, even if of the correct 'type', will throw an error
+				observer.getGroupAsWildcardFilter(filter);  // nonsense filter, even if of the correct "type", will throw an error
 			}
-			catch(error) {
+			catch (error) {
 				hadError = true;
 			}
 			finally {
@@ -801,7 +801,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			try {
 				observer.setCallback();  // this call should always result in an error
 			}
-			catch(error) {
+			catch (error) {
 				hadError = true;
 			}
 			finally {
@@ -836,7 +836,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				observer.subscribe(subscriber);
 				observer.setCallback(null);  // throws an error
 			}
-			catch(e) {
+			catch (e) {
 				observer.notify();
 			}
 			finally {

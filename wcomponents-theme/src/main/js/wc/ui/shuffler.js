@@ -29,8 +29,9 @@ define(["wc/dom/event",
 		 */
 		function Shuffler() {
 			var MOVE_BUTTON = new Widget("button", "wc_sorter"),
-				CONTAINER = new Widget("fieldset", "shuffler"),
-				SHUFFLER_SELECT = new Widget("select", "shuffler"),
+				FIELDSET = new Widget("fieldset"),
+				CONTAINER = FIELDSET.extend("wc-shuffler"),
+				SHUFFLER_SELECT,
 				UP = "up",
 				DOWN = "down",
 				TOP = "top",
@@ -42,16 +43,20 @@ define(["wc/dom/event",
 				 * IE ensure the correct options are selected/deselected in the submit element,
 				 * based on the selections made in the available/chosen elements.
 				 */
-				function _writeState(list) {
-					var options = list.options,	i, len, next;
-					if (!shed.isDisabled(list)) {
+				function _writeState(container) {
+					SHUFFLER_SELECT = SHUFFLER_SELECT || new Widget("select", "wc_shuffler");
+					var list = SHUFFLER_SELECT.findDescendant(container),
+						options, i, len, next;
+
+					if (list && !shed.isDisabled(list)) {
+						options = list.options;
 						for (i = 0, len = options.length; i < len; i++) {
 							next = options[i];
-							formUpdateManager.writeStateField(stateContainer, list.parentNode.id, next.value);
+							formUpdateManager.writeStateField(stateContainer, container.id, next.value);
 						}
 					}
 				}
-				Array.prototype.forEach.call(SHUFFLER_SELECT.findDescendants(form), _writeState);
+				Array.prototype.forEach.call(CONTAINER.findDescendants(form), _writeState);
 			}
 
 			/**
@@ -139,7 +144,7 @@ define(["wc/dom/event",
 						selected.forEach(_moveIt);
 					}
 				}
-				if (result && (container = CONTAINER.findAncestor(select)) && container.hasAttribute("data-wc-ajaxalias")) {
+				if (result && (container = FIELDSET.findAncestor(select)) && container.hasAttribute("data-wc-ajaxalias")) {
 					ajaxRegion.requestLoad(container);
 				}
 			}

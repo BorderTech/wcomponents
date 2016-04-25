@@ -1,0 +1,10 @@
+/* wc.ui.dialogIcons.scss */
+// The actual dialog. Its position is set on open such that it sits in the middle of the viewport. Margin:auto only
+// works in Chrome and Webkit.
+@import 'dialog_vars';
+
+// dialog close control
+// NOTE: for resize handle and max/restore control see wc.ui.resizeable.scss.
+.wc_dialog_close:before {
+	content: $fa-var-times;
+}

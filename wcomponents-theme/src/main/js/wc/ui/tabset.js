@@ -9,15 +9,18 @@
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/shed
  * @requires module:wc/dom/Widget
+ * @requires module:wc/ui/containerload
+ * @requires module:wc/ajax/setLoading
  */
 define(["wc/dom/ariaAnalog",
 		"wc/dom/formUpdateManager",
 		"wc/dom/getFilteredGroup",
 		"wc/dom/initialise",
 		"wc/dom/shed",
-		"wc/dom/Widget"],
-	/** @param ariaAnalog wc/dom/ariaAnalog @param formUpdateManager wc/dom/formUpdateManager @param getFilteredGroup wc/dom/getFilteredGroup @param initialise wc/dom/initialise @param shed wc/dom/shed @param Widget wc/dom/Widget @ignore */
-	function(ariaAnalog, formUpdateManager, getFilteredGroup, initialise, shed, Widget) {
+		"wc/dom/Widget",
+		"wc/ui/containerload",
+		"wc/ajax/setLoading"],
+	function(ariaAnalog, formUpdateManager, getFilteredGroup, initialise, shed, Widget, containerload, setLoading) {
 		"use strict";
 
 		/**
@@ -50,7 +53,24 @@ define(["wc/dom/ariaAnalog",
 				 * @type {module:wc/dom/Widget}
 				 * @private
 				 */
-				TABSET;
+				TABSET,
+
+				/**
+				 * The attribute on a TAB which points to its content tab panel.
+				 * @var
+				 * @type String
+				 * @private
+				 */
+				CONTENT_ATTRIB = "aria-controls",
+
+				/**
+				 * The ID of the last focused tab. This is needed to reset focusability to the open tab in a tabset
+				 * once focus leaves the tablist.
+				 * @var
+				 * @type String
+				 * @private
+				 */
+				lastTabId;
 
 			/**
 			 * The description of a tab control.
@@ -147,6 +167,158 @@ define(["wc/dom/ariaAnalog",
 				}
 			}
 
+
+			/**
+			 * Helper for shedObserver, called when there has been a EXPAND or COLLAPSE.
+			 * @param {string} action either shed.actions.EXPAND or shed.actions.COLLAPSE
+			 * @param {Element} element Guaranteed to pass `this.ITEM.isOneOfMe(element)`
+			 */
+			function onItemExpansion(action, element) {
+				var contentId,
+					content,
+					container;
+				if (action === shed.actions.EXPAND) {
+					instance.setFocusIndex(element);
+				}
+				container = instance.getGroupContainer(element);
+				if (container) {
+					if ((contentId = element.getAttribute(CONTENT_ATTRIB)) && (content = document.getElementById(contentId))) {
+						if (action === shed.actions.EXPAND) {
+							shed.show(content);
+							if (getAccordion(container) === "false") {
+								collapseOthers(element);
+							}
+						}
+						else if (action === shed.actions.COLLAPSE) {
+							shed.hide(content);
+
+						}
+					}
+				}
+			}
+
+
+			/**
+			 * Helper for shedObserver, called when there has been a SELECT or DESELECT.
+			 * @param {string} action either shed.actions.SELECT or shed.actions.DESELECT
+			 * @param {Element} element Guaranteed to pass `this.ITEM.isOneOfMe(element)`
+			 */
+			function onItemSelection(action, element) {
+				var contentId,
+					content,
+					contentContainer,
+					container;
+
+				if (action === shed.actions.SELECT) {
+					instance.setFocusIndex(element);
+					instance.constructor.prototype.shedObserver.call(instance, element, action);
+				}
+				container = instance.getGroupContainer(element);
+				if (container) {
+					if ((contentId = element.getAttribute(CONTENT_ATTRIB)) && (content = document.getElementById(contentId))) {
+						if (!getAccordion(container)) {
+							contentContainer = content.parentNode;
+						}
+						if (action === shed.actions.SELECT) {
+							shed.show(content, true);
+							containerload.onshow(content).then(function() {
+								setLoading.clearSize(contentContainer);
+							});
+						}
+						else if (action === shed.actions.DESELECT) {
+							if (contentContainer) {
+								setLoading.fixSize(contentContainer);  // TODO only do this if it's an AJAX tab
+							}
+							shed.hide(content);
+						}
+					}
+				}
+			}
+
+			/**
+			 * When disabling an open tab we may have to reset tabindexes. Helper for shedObserver.
+			 * @function
+			 * @private
+			 * @param {Element} element The element being disabled.
+			 */
+			function onItemDisabled(element) {
+				var container,
+					isAccordion,
+					group,
+					open;
+
+				if (element.tabIndex !== "0") { // We only care if we are disabling a focusable tab.
+					return;
+				}
+
+				container = instance.getGroupContainer(element);
+				if (!container) { // this should never happen...
+					return;
+				}
+
+				isAccordion = getAccordion(container);
+				open = isAccordion ? shed.isExpanded(element) : shed.isSelected(element);
+				if (!open) { // we really do not care if closed
+					return;
+				}
+
+				if (isAccordion) {
+					// are there any other open tabs?
+					group = getFilteredGroup(element, {filter: getFilteredGroup.FILTERS.enabled | getFilteredGroup.FILTERS.expanded, containerWd: TABLIST, itemWd: instance.ITEM});
+					if (group && group.length) {
+						return; // we have other open tabs.
+					}
+				}
+
+				group = getFilteredGroup(element, {filter: getFilteredGroup.FILTERS.enabled, containerWd: TABLIST, itemWd: instance.ITEM});
+				if (group && group.length) {
+					element.tabIndex = "-1";
+					group[0].tabIndex = "0";
+				}
+			}
+
+			/**
+			 * When disabling a tab we may have to fix tabIndex. Helper for shedObserver.
+			 * @function
+			 * @private
+			 * @param {Element} element The element being enabled.
+			 */
+			function onItemEnabled(element) {
+				var container,
+					isAccordion,
+					group,
+					open,
+					filter;
+
+				if (element.tabIndex !== "-1") { // if we have not made this tab unfocusable we don't care what it is, it should come out in the wash..
+					return;
+				}
+
+				container = instance.getGroupContainer(element);
+				if (!container) { // this should never happen...
+					return;
+				}
+
+				isAccordion = getAccordion(container);
+				open = isAccordion ? shed.isExpanded(element) : shed.isSelected(element);
+
+				if (open) { // if it is open set its tabIndec to 0 and exit.
+					element.tabIndex = "0";
+					return;
+				}
+
+				// Are there any open tabs?
+				filter = getFilteredGroup.FILTERS.enabled | (isAccordion ? getFilteredGroup.FILTERS.expanded : getFilteredGroup.FILTERS.selected);
+				group = getFilteredGroup(element, {filter: filter, containerWd: TABLIST, itemWd: instance.ITEM});
+				if (group && group.length) { // yes, we have an open tab so set this tabInde to -1 and exit.
+					element.tabIndex = "-1";
+					return;
+				}
+
+				// no other open tabs so this one may as well be focusable.
+				element.tabIndex = "0";
+			}
+
 			/**
 			 * A subscriber to {@link module:wc/dom/shed} to react to these pseudo-events.
 			 *
@@ -157,32 +329,33 @@ define(["wc/dom/ariaAnalog",
 			 * @param {String} action The type of shed event. One of EXPAND, COLLAPSE, SELECT or DESELECT.
 			 */
 			this.shedObserver = function (element, action) {
-				var contentId, content,
-					CONTENT_ATTRIB = "aria-controls",
-					container,
-					shedFunc,
-					accordion;
-
-				if (element && this.ITEM.isOneOfMe(element)) {
-					if (action === shed.actions.SELECT) {
-						this.constructor.prototype.shedObserver.call(this, element, action);
+				if (element) {
+					if (this.ITEM.isOneOfMe(element)) {
+						switch (action) {
+							case shed.actions.SELECT:
+							case shed.actions.DESELECT:
+								onItemSelection(action, element);
+								break;
+							case shed.actions.EXPAND:
+							case shed.actions.COLLAPSE:
+								onItemExpansion(action, element);
+								break;
+							case shed.actions.DISABLE:
+								onItemDisabled(element);
+								break;
+							case shed.actions.ENABLE:
+								onItemEnabled(element);
+								break;
+							default:
+								console.warn("Unknown action", action);
+								break;
+						}
 					}
-					if ((container = this.getGroupContainer(element))) {
-						accordion = getAccordion(container);
-						if (action === shed.actions.EXPAND && accordion && accordion !== "true") {
-							collapseOthers(element);
-						}
-						if ((contentId = element.getAttribute(CONTENT_ATTRIB)) && (content = document.getElementById(contentId))) {
-							if ((action === shed.actions.SELECT && !accordion) || (action === shed.actions.EXPAND && accordion)) {
-								shedFunc = "show";
-							}
-							else if ((action === shed.actions.DESELECT && !accordion) || (action === shed.actions.COLLAPSE && accordion)) {
-								shedFunc = "hide";
-							}
-							if (shedFunc) {
-								shed[shedFunc](content);
-							}
-						}
+					else if ((action === shed.actions.DISABLE || action === shed.actions.ENABLE) && TABLIST.isOneOfMe(element)) {
+						// if the tablist is disabled or enabled, diable/enable all the tabs.
+						Array.prototype.forEach.call(this.ITEM.findDescendants(element), function (next) {
+							shed[action](next);
+						});
 					}
 				}
 			};
@@ -219,42 +392,56 @@ define(["wc/dom/ariaAnalog",
 			 * @param {Element} stateContainer The element into which the state is being written.
 			 */
 			this.writeState = function(container, stateContainer) {
-				var tabsets = TABLIST.findDescendants(container);
-				/* NOTE:
-				 * next is a tablist. The tabset container element is the tablist's parent element.
-				 * If the tabset is disabled, the parent element has the aria-disabled="true" flag.
-				 */
-				function writeTabState(next) {
-					var tabs, selected, position, config = {asObject: true, filter: getFilteredGroup.FILTERS.enabled}, tabsetName = next.parentNode.id;
-					if (!(shed.isDisabled(next) || shed.isDisabled(next.parentElement))) {
-						if (getAccordion(next)) {
-							config.filter = config.filter | getFilteredGroup.FILTERS.expanded;
-						}
-						else {
-							config.filter = config.filter | getFilteredGroup.FILTERS.selected;
-						}
-						if ((tabs = getFilteredGroup(next, config))) {
-							selected = tabs.filtered;
-							tabs = tabs.unfiltered;
-							if (!selected.length) {
-								// no open tabs (or all individually disabled)
-								formUpdateManager.writeStateField(stateContainer, tabsetName, "");
-							}
-							else {
-								selected.forEach(function(theTab) {
-									position = tabs.indexOf(theTab);
-									formUpdateManager.writeStateField(stateContainer, tabsetName, position);
-								});
-							}
-						}
-					}
-				}
+				var tabsets = TABLIST.findDescendants(container),
+					writeTabState = writeTabStateHelper.bind(this, stateContainer);
 
 				if (tabsets.length) {
 					Array.prototype.forEach.call(tabsets, writeTabState);
 				}
 				if (this.ITEM.isOneOfMe(container)) {
 					writeTabState(TABLIST.findAncestor(container));
+				}
+			};
+
+			/**
+			 * In order to navigate a tablist we must set focusIndex as we go. Once we leave a tablist, however, we must
+			 * be sure that we reset the focus index so that the open tab is focussed if we TAB back into the list.
+			 * (http://www.w3.org/TR/wai-aria-practices/#tabpanel).
+			 *
+			 */
+			function resetFocusIndex() {
+				var tab, openTabs, isAccordion, filter;
+				try {
+					if (!(lastTabId && (tab = document.getElementById(lastTabId)))) {
+						return;
+					}
+					isAccordion = getAccordion(instance.getGroupContainer(tab));
+					filter = getFilteredGroup.FILTERS.enabled | (isAccordion ? getFilteredGroup.FILTERS.expanded : getFilteredGroup.FILTERS.selected);
+					openTabs = getFilteredGroup(tab, {filter: filter, containerWd: TABLIST, itemWd: instance.ITEM});
+					if (openTabs && openTabs.length) {
+						instance.setFocusIndex(openTabs[0]);
+					}
+				}
+				finally {
+					lastTabId = "";
+				}
+			}
+
+			this.focusEvent = function($event) {
+				var target = $event.target, tab, lastTab, lastTabList;
+				this.constructor.prototype.focusEvent.call(this, $event);
+
+				if ((tab = instance.ITEM.findAncestor(target))) {
+					if (lastTabId && (lastTab = document.getElementById(lastTabId))) {
+						lastTabList = TABLIST.findAncestor(lastTab);
+					}
+					if (lastTabList && lastTabList !== TABLIST.findAncestor(tab)) {
+						resetFocusIndex();
+					}
+					lastTabId = tab.id;
+				}
+				else if (lastTabId) {
+					resetFocusIndex();
 				}
 			};
 
@@ -266,7 +453,39 @@ define(["wc/dom/ariaAnalog",
 			this._extendedInitialisation = function() {
 				shed.subscribe(shed.actions.EXPAND, this.shedObserver.bind(this));
 				shed.subscribe(shed.actions.COLLAPSE, this.shedObserver.bind(this));
+				shed.subscribe(shed.actions.ENABLE, this.shedObserver.bind(this));
+				shed.subscribe(shed.actions.DISABLE, this.shedObserver.bind(this));
 			};
+
+			/* NOTE:
+			 * next is a tablist. The tabset container element is the tablist's parent element.
+			 * If the tabset is disabled, the parent element has the aria-disabled="true" flag.
+			 */
+			function writeTabStateHelper(stateContainer, next) {
+				var tabs, selected, position, config = {asObject: true, filter: getFilteredGroup.FILTERS.enabled}, tabsetName = next.parentNode.id;
+				if (!(shed.isDisabled(next) || shed.isDisabled(next.parentElement))) {
+					if (getAccordion(next)) {
+						config.filter = config.filter | getFilteredGroup.FILTERS.expanded;
+					}
+					else {
+						config.filter = config.filter | getFilteredGroup.FILTERS.selected;
+					}
+					if ((tabs = getFilteredGroup(next, config))) {
+						selected = tabs.filtered;
+						tabs = tabs.unfiltered;
+						if (!selected.length) {
+							// no open tabs (or all individually disabled)
+							formUpdateManager.writeStateField(stateContainer, tabsetName, "", false, true);
+						}
+						else {
+							selected.forEach(function(theTab) {
+								position = tabs.indexOf(theTab);
+								formUpdateManager.writeStateField(stateContainer, tabsetName, position, false, true);
+							});
+						}
+					}
+				}
+			}
 
 			/**
 			 * Gets the tab control which is the controller of the tab panel in which a given element exists.
@@ -286,7 +505,7 @@ define(["wc/dom/ariaAnalog",
 				TABPANEL = TABPANEL || new Widget("", "", {"role": "tabpanel"});
 
 				if ((panel = TABPANEL.findAncestor(element)) && (panelId = panel.id)) {
-					TABSET = TABSET || new Widget("", "tabset");
+					TABSET = TABSET || new Widget("", "wc-tabset");
 					if ((tabset = TABSET.findAncestor(panel))) {
 						tabWidget = instance.ITEM.extend("", {"aria-controls": panelId});
 						result = tabWidget.findDescendant(tabset);
@@ -306,8 +525,8 @@ define(["wc/dom/ariaAnalog",
 			 * @param {Event} $event The wrapped keydown event.
 			*/
 			this.keydownEvent = function($event) {
-				var keyCode,
-					target,
+				var keyCode = $event.keyCode,
+					target = $event.target,
 					tab,
 					targetTab,
 					direction;
@@ -317,13 +536,12 @@ define(["wc/dom/ariaAnalog",
 					return;
 				}
 
-				keyCode = $event.keyCode;
-				target = $event.target;
-
-				if ((keyCode === KeyEvent.DOM_VK_PAGE_UP || keyCode === KeyEvent.DOM_VK_PAGE_DOWN)) {
-					if ((tab = getTabFor(target))) {
+				if (keyCode === KeyEvent.DOM_VK_PAGE_UP || keyCode === KeyEvent.DOM_VK_PAGE_DOWN) {
+					tab = getTabFor(target);
+					if (tab) {
 						direction = (keyCode === KeyEvent.DOM_VK_PAGE_UP ? instance.KEY_DIRECTION.NEXT : instance.KEY_DIRECTION.PREVIOUS);
-						if ((targetTab = instance.navigate(tab, direction))) {
+						targetTab = instance.navigate(tab, direction);
+						if (targetTab) {
 							$event.preventDefault();
 							instance.activate(targetTab, false, true);
 						}

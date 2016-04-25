@@ -1,17 +1,5 @@
 package com.github.bordertech.wcomponents.servlet;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Locale;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import com.github.bordertech.wcomponents.AjaxHelper;
 import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.InternalResource;
@@ -20,6 +8,7 @@ import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContent;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.container.AjaxCleanupInterceptor;
 import com.github.bordertech.wcomponents.container.AjaxDebugStructureInterceptor;
 import com.github.bordertech.wcomponents.container.AjaxErrorInterceptor;
 import com.github.bordertech.wcomponents.container.AjaxInterceptor;
@@ -32,12 +21,14 @@ import com.github.bordertech.wcomponents.container.FormInterceptor;
 import com.github.bordertech.wcomponents.container.InterceptorComponent;
 import com.github.bordertech.wcomponents.container.PageShellInterceptor;
 import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor;
+import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor.CacheType;
 import com.github.bordertech.wcomponents.container.SessionTokenAjaxInterceptor;
 import com.github.bordertech.wcomponents.container.SessionTokenContentInterceptor;
 import com.github.bordertech.wcomponents.container.SessionTokenInterceptor;
 import com.github.bordertech.wcomponents.container.SubordinateControlInterceptor;
 import com.github.bordertech.wcomponents.container.TargetableErrorInterceptor;
 import com.github.bordertech.wcomponents.container.TargetableInterceptor;
+import com.github.bordertech.wcomponents.container.TransformXMLInterceptor;
 import com.github.bordertech.wcomponents.container.UIContextDumpInterceptor;
 import com.github.bordertech.wcomponents.container.ValidateXMLInterceptor;
 import com.github.bordertech.wcomponents.container.WWindowInterceptor;
@@ -45,13 +36,34 @@ import com.github.bordertech.wcomponents.container.WhitespaceFilterInterceptor;
 import com.github.bordertech.wcomponents.container.WrongStepAjaxInterceptor;
 import com.github.bordertech.wcomponents.container.WrongStepContentInterceptor;
 import com.github.bordertech.wcomponents.container.WrongStepServerInterceptor;
-import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor.CacheType;
-import com.github.bordertech.wcomponents.theme.ThemeUtil;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.util.RequestUtil;
 import com.github.bordertech.wcomponents.util.StreamUtil;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.ThemeUtil;
 import com.github.bordertech.wcomponents.util.Util;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Utility class to provide http servlet functionality.
@@ -59,429 +71,616 @@ import com.github.bordertech.wcomponents.util.Util;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public final class ServletUtil
-{
-    /** Don't let anyone instantiate this class. */
-    private ServletUtil()
-    {
-    }
+public final class ServletUtil {
 
-    /** The logger instance for this class. */
-    private static final Log log = LogFactory.getLog(ServletUtil.class);
+	/**
+	 * Don't let anyone instantiate this class.
+	 */
+	private ServletUtil() {
+	}
 
-    /** Theme resource path parameter. */
-    private static final String THEME_RESOURCE_PATH_PARAM = "/" + Environment.THEME_RESOURCE_PATH_NAME + "/";
+	/**
+	 * The logger instance for this class.
+	 */
+	private static final Log LOG = LogFactory.getLog(ServletUtil.class);
 
-    /**
-     * The key used to look up the {@link Config WComponent Configuration} flag for whether we should use enable
-     * sub-session support.
-     */
-    public static final String ENABLE_SUBSESSIONS = "bordertech.wcomponents.servlet.subsessions.enabled";
+	/**
+	 * Theme resource path parameter.
+	 */
+	private static final String THEME_RESOURCE_PATH_PARAM = "/" + Environment.THEME_RESOURCE_PATH_NAME + "/";
 
-    /** The key used to look up the {@link Config WComponent Configuration} flag for developer mode error handling. */
-    public static final String DEVELOPER_MODE_ERROR_HANDLING = "bordertech.wcomponents.developer.errorHandling.enabled";
+	/**
+	 * The parameters extracted from multi part saved on the request.
+	 */
+	private static final String REQUEST_PARAMETERS_KEY = "wc_req_params";
 
-    /**
-     * The key used to look up the {@link Config WComponent Configuration} flag for whether we should use the
-     * ErrorPageFactory.
-     */
-    public static final String HANDLE_ERROR_WITH_FATAL_ERROR_PAGE_FACTORY = WServlet.class.getName()
-                                                                            + ".handleErrorWithFatalErrorPageFactory";
+	/**
+	 * The parameters extracted from multi part saved on the request.
+	 */
+	private static final String REQUEST_FILES_KEY = "wc_req_files";
 
-    /**
-     * @return true if enable sub sessions
-     */
-    public static boolean isEnableSubSessions()
-    {
-        boolean enableSubSessions = Config.getInstance().getBoolean(ENABLE_SUBSESSIONS, false);
-        return enableSubSessions;
-    }
+	/**
+	 * The flag that the request has been processed allowing for multi part forms.
+	 */
+	private static final String REQUEST_PROCESSED_KEY = "wc_req_processed";
 
-    /**
-     * Check if the request is for a resource (eg static, theme...).
-     *
-     * @param request the http servlet request.
-     * @param response the http servlet response.
-     * @return true to continue processing
-     */
-    public static boolean checkResourceRequest(final HttpServletRequest request, final HttpServletResponse response)
-        throws ServletException, IOException
-    {
-        // Static resource
-        if (isStaticResourceRequest(request))
-        {
-            handleStaticResourceRequest(request, response);
-            return false;
-        }
-        // Theme resource
-        else if (isThemeResourceRequest(request))
-        {
-            handleThemeResourceRequest(request, response);
-            return false;
-        }
+	/**
+	 * The key used to look up the {@link Config WComponent Configuration} flag for whether we should use enable
+	 * sub-session support.
+	 */
+	public static final String ENABLE_SUBSESSIONS = "bordertech.wcomponents.servlet.subsessions.enabled";
 
-        String method = request.getMethod();
+	/**
+	 * The key used to look up the {@link Config WComponent Configuration} flag for developer mode error handling.
+	 */
+	public static final String DEVELOPER_MODE_ERROR_HANDLING = "bordertech.wcomponents.developer.errorHandling.enabled";
 
-        if ("HEAD".equals(method))
-        {
-            response.setContentType(WebUtilities.CONTENT_TYPE_XML);
-            return false;
-        }
-        else if (!"POST".equals(method) && !"GET".equals(method))
-        {
-            response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
-            return false;
-        }
+	/**
+	 * The key used to look up the {@link Config WComponent Configuration} flag for whether we should use the
+	 * ErrorPageFactory.
+	 */
+	public static final String HANDLE_ERROR_WITH_FATAL_ERROR_PAGE_FACTORY = WServlet.class.getName()
+			+ ".handleErrorWithFatalErrorPageFactory";
 
-        return true;
-    }
+	/**
+	 * @return true if enable sub sessions
+	 */
+	public static boolean isEnableSubSessions() {
+		boolean enableSubSessions = Config.getInstance().getBoolean(ENABLE_SUBSESSIONS, false);
+		return enableSubSessions;
+	}
 
-    /**
-     * This method does the real work in servicing the http request. It integrates wcomponents into a servlet
-     * environment via a servlet specific helper class.
-     *
-     * @param helper the servlet helper
-     * @param ui the application ui
-     * @param interceptorChain the chain of interceptors
-     */
-    public static void processRequest(final HttpServletHelper helper, final WComponent ui,
-                                      final InterceptorComponent interceptorChain) throws ServletException, IOException
-    {
+	/**
+	 * Check if the request is for a resource (eg static, theme...).
+	 *
+	 * @param request the http servlet request.
+	 * @param response the http servlet response.
+	 * @return true to continue processing
+	 * @throws ServletException a servlet exception
+	 * @throws IOException an IO Exception
+	 */
+	public static boolean checkResourceRequest(final HttpServletRequest request,
+			final HttpServletResponse response)
+			throws ServletException, IOException {
+		// Static resource
+		if (isStaticResourceRequest(request)) {
+			handleStaticResourceRequest(request, response);
+			return false;
+		} else if (isThemeResourceRequest(request)) {  // Theme resource
+			handleThemeResourceRequest(request, response);
+			return false;
+		}
 
-        // Check if processing AJAX
-        boolean ajax = helper.getBackingRequest().getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME) != null;
+		String method = request.getMethod();
 
-        try
-        {
-            // Tell the support container about the top most web component
-            // that will service the request/response.
-            if (interceptorChain == null)
-            {
-                helper.setWebComponent(ui);
-            }
-            else
-            {
-                interceptorChain.attachUI(ui);
-                helper.setWebComponent(interceptorChain);
-            }
+		if ("HEAD".equals(method)) {
+			response.setContentType(WebUtilities.CONTENT_TYPE_XML);
+			return false;
+		} else if (!"POST".equals(method) && !"GET".equals(method)) {
+			response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+			return false;
+		}
 
-            // Prepare user context
-            UIContext uic = helper.prepareUserContext();
+		return true;
+	}
 
-            synchronized (uic)
-            {
-                // Process the action phase.
-                helper.processAction();
+	/**
+	 * This method does the real work in servicing the http request. It integrates wcomponents into a servlet
+	 * environment via a servlet specific helper class.
+	 *
+	 * @param helper the servlet helper
+	 * @param ui the application ui
+	 * @param interceptorChain the chain of interceptors
+	 * @throws ServletException a servlet exception
+	 * @throws IOException an IO Exception
+	 */
+	public static void processRequest(final HttpServletHelper helper, final WComponent ui,
+			final InterceptorComponent interceptorChain) throws ServletException, IOException {
 
-                // Process the render phase.
-                helper.render();
-            }
-        }
-        finally
-        {
-            // cleanup
-            if (ajax)
-            {
-                // We need to ensure that the AJAX operation is cleared
-                // The interceptors can not guarantee this
-                // TODO: Investigate changing to not use a thread-local
-                AjaxHelper.clearCurrentOperationDetails();
-            }
-        }
-    }
+		try {
+			// Tell the support container about the top most web component
+			// that will service the request/response.
+			if (interceptorChain == null) {
+				helper.setWebComponent(ui);
+			} else {
+				interceptorChain.attachUI(ui);
+				helper.setWebComponent(interceptorChain);
+			}
 
-    /**
-     * @param req the request being processed
-     * @return true if requesting a static resource
-     */
-    public static boolean isStaticResourceRequest(final HttpServletRequest req)
-    {
-        return req.getParameter(WServlet.STATIC_RESOURCE_PARAM_NAME) != null;
-    }
+			// Prepare user context
+			UIContext uic = helper.prepareUserContext();
 
-    /**
-     * Handles a request for static resources.
-     *
-     * @param request the http request.
-     * @param response the http response.
-     */
-    public static void handleStaticResourceRequest(final HttpServletRequest request, final HttpServletResponse response)
-    {
-        String staticRequest = request.getParameter(WServlet.STATIC_RESOURCE_PARAM_NAME);
+			synchronized (uic) {
+				// Process the action phase.
+				helper.processAction();
 
-        try
-        {
-            InternalResource staticResource = InternalResourceMap.getResource(staticRequest);
-            boolean headersOnly = "HEAD".equals(request.getMethod());
+				// Process the render phase.
+				helper.render();
+			}
+		} finally {
+			// We need to ensure that the AJAX operation is cleared
+			// The interceptors can not guarantee this
+			// TODO: Investigate changing to not use a thread-local
+			AjaxHelper.clearCurrentOperationDetails();
+		}
+	}
 
-            if (staticResource == null)
-            {
-                log.warn("Static resource [" + staticRequest + "] not found.");
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                return;
-            }
+	/**
+	 * @param req the request being processed
+	 * @return true if requesting a static resource
+	 */
+	public static boolean isStaticResourceRequest(final HttpServletRequest req) {
+		return req.getParameter(WServlet.STATIC_RESOURCE_PARAM_NAME) != null;
+	}
 
-            InputStream resourceStream = staticResource.getStream();
-            if (resourceStream == null)
-            {
-                log.warn("Static resource [" + staticRequest + "] not found. Stream for content is null.");
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                return;
-            }
+	/**
+	 * Handles a request for static resources.
+	 *
+	 * @param request the http request.
+	 * @param response the http response.
+	 */
+	public static void handleStaticResourceRequest(final HttpServletRequest request,
+			final HttpServletResponse response) {
+		String staticRequest = request.getParameter(WServlet.STATIC_RESOURCE_PARAM_NAME);
 
-            int size = resourceStream.available();
-            String fileName = WebUtilities.encodeForContentDispositionHeader(staticRequest.substring(staticRequest
-                .lastIndexOf('/') + 1));
+		try {
+			InternalResource staticResource = InternalResourceMap.getResource(staticRequest);
+			boolean headersOnly = "HEAD".equals(request.getMethod());
 
-            if (size > 0)
-            {
-                response.setContentLength(size);
-            }
+			if (staticResource == null) {
+				LOG.warn("Static resource [" + staticRequest + "] not found.");
+				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+				return;
+			}
 
-            response.setContentType(WebUtilities.getContentType(staticRequest));
-            response.setHeader("Cache-Control", CacheType.CONTENT_CACHE.getSettings());
+			InputStream resourceStream = staticResource.getStream();
+			if (resourceStream == null) {
+				LOG.warn(
+						"Static resource [" + staticRequest + "] not found. Stream for content is null.");
+				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+				return;
+			}
 
-            String param = request.getParameter(WContent.URL_CONTENT_MODE_PARAMETER_KEY);
-            if ("inline".equals(param))
-            {
-                response.setHeader("Content-Disposition", "inline; filename=" + fileName);
-            }
-            else if ("attach".equals(param))
-            {
-                response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-            }
-            else
-            {
-                // added "filename=" to comply with https://tools.ietf.org/html/rfc6266
-                response.setHeader("Content-Disposition", "filename=" + fileName);
-            }
+			int size = resourceStream.available();
+			String fileName = WebUtilities.encodeForContentDispositionHeader(staticRequest.
+					substring(staticRequest
+							.lastIndexOf('/') + 1));
 
-            if (!headersOnly)
-            {
-                StreamUtil.copy(resourceStream, response.getOutputStream());
-            }
-        }
-        catch (IOException e)
-        {
-            log.warn("Could not process static resource [" + staticRequest + "]. ", e);
-            response.reset();
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-        }
-    }
+			if (size > 0) {
+				response.setContentLength(size);
+			}
 
-    /**
-     * @param req the request being processed
-     * @return true if requesting a theme resource
-     */
-    public static boolean isThemeResourceRequest(final HttpServletRequest req)
-    {
-        String path = req.getPathInfo();
-        return path != null && path.startsWith(THEME_RESOURCE_PATH_PARAM);
-    }
+			response.setContentType(WebUtilities.getContentType(staticRequest));
+			response.setHeader("Cache-Control", CacheType.CONTENT_CACHE.getSettings());
 
-    /**
-     * Serves up a file from the theme.
-     *
-     * @param req the request with the file name in parameter "f", or following the servlet path.
-     * @param resp the response to write to.
-     * @throws ServletException on error.
-     * @throws IOException if there is an error reading the file / writing the response.
-     */
-    public static void handleThemeResourceRequest(final HttpServletRequest req, final HttpServletResponse resp)
-        throws ServletException, IOException
-    {
+			String param = request.getParameter(WContent.URL_CONTENT_MODE_PARAMETER_KEY);
+			if ("inline".equals(param)) {
+				response.setHeader("Content-Disposition", "inline; filename=" + fileName);
+			} else if ("attach".equals(param)) {
+				response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+			} else {
+				// added "filename=" to comply with https://tools.ietf.org/html/rfc6266
+				response.setHeader("Content-Disposition", "filename=" + fileName);
+			}
 
-        if (req.getHeader("If-Modified-Since") != null)
-        {
-            resp.reset();
-            resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
-            return;
-        }
+			if (!headersOnly) {
+				StreamUtil.copy(resourceStream, response.getOutputStream());
+			}
+		} catch (IOException e) {
+			LOG.warn("Could not process static resource [" + staticRequest + "]. ", e);
+			response.reset();
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		}
+	}
 
-        String fileName = req.getParameter("f");
+	/**
+	 * @param req the request being processed
+	 * @return true if requesting a theme resource
+	 */
+	public static boolean isThemeResourceRequest(final HttpServletRequest req) {
+		String path = req.getPathInfo();
+		return path != null && path.startsWith(THEME_RESOURCE_PATH_PARAM);
+	}
 
-        String path = req.getPathInfo();
-        if (fileName == null && !Util.empty(path))
-        {
-            int offset = path.startsWith(THEME_RESOURCE_PATH_PARAM) ? THEME_RESOURCE_PATH_PARAM.length() : 1;
-            fileName = path.substring(offset);
-        }
+	/**
+	 * Serves up a file from the theme. In practice it is generally a bad idea to use this servlet to serve up static
+	 * resources. Instead it would make more sense to move CSS, JS, HTML resources to a CDN or similar.
+	 *
+	 *
+	 * @param req the request with the file name in parameter "f", or following the servlet path.
+	 * @param resp the response to write to.
+	 * @throws ServletException on error.
+	 * @throws IOException if there is an error reading the file / writing the response.
+	 */
+	public static void handleThemeResourceRequest(final HttpServletRequest req,
+			final HttpServletResponse resp)
+			throws ServletException, IOException {
 
-        if (fileName == null || !checkThemeFile(fileName))
-        {
-            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return;
-        }
+		if (req.getHeader("If-Modified-Since") != null) {
+			resp.reset();
+			resp.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+			return;
+		}
 
-        String resourceName = "/theme/" + ThemeUtil.getThemeName() + '/' + fileName;
+		String fileName = req.getParameter("f");
 
-        InputStream resourceStream = null;
+		String path = req.getPathInfo();
+		if (fileName == null && !Util.empty(path)) {
+			int offset = path.startsWith(THEME_RESOURCE_PATH_PARAM) ? THEME_RESOURCE_PATH_PARAM.
+					length() : 1;
+			fileName = path.substring(offset);
+		}
 
-        try
-        {
-            resourceStream = ThemeUtil.class.getResourceAsStream(resourceName);
+		if (fileName == null || !checkThemeFile(fileName)) {
+			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			return;
+		}
 
-            if (resourceStream == null)
-            {
-                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            }
-            else
-            {
-                int size = resourceStream.available();
-                String encodedName = WebUtilities.encodeForContentDispositionHeader(fileName.substring(fileName
-                    .lastIndexOf('/') + 1));
+		InputStream resourceStream = null;
 
-                if (size > 0)
-                {
-                    resp.setContentLength(size);
-                }
+		try {
+			String resourceName = ThemeUtil.getThemeBase() + fileName;
+			URL url = ServletUtil.class.getResource(resourceName);
 
-                resp.setContentType(WebUtilities.getContentType(fileName));
-                resp.setHeader("Cache-Control", CacheType.THEME_CACHE.getSettings());
-                resp.setHeader("Content-Disposition", "filename=" + encodedName);  // added "filename=" to comply with https://tools.ietf.org/html/rfc6266
-                resp.setHeader("Expires", "31536000");
-                resp.setHeader("ETag", "\"" + WebUtilities.getProjectVersion() + "\"");
-                // TODO: this is vital but needs a proper date
-                resp.setHeader("Last-Modified", "Mon, 02 Jan 2015 01:00:00 GMT");
-                StreamUtil.copy(resourceStream, resp.getOutputStream());
-            }
-        }
-        finally
-        {
-            StreamUtil.safeClose(resourceStream);
-        }
-    }
+			if (url == null) {
+				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			} else {
+				URLConnection connection = url.openConnection();
+				resourceStream = connection.getInputStream();
+				int size = resourceStream.available();
+				if (size > 0) {
+					resp.setContentLength(size);
+				}
 
-    /**
-     * Performs basic sanity checks on the file being requested.
-     *
-     * @param name the file name
-     * @return true if the requested file name is ok, false if not.
-     */
-    private static boolean checkThemeFile(final String name)
-    {
-        if (Util.empty(name) // name must exist
-            || name.indexOf("..") != -1 // prevent directory traversal
-            || name.charAt(0) == '/' // all theme references should be relative
-            || name.indexOf('.') == -1 // all files should have a file suffix
-            || name.indexOf(':') != -1 // forbid use of protocols such as jar:, http: etc.
-        )
-        {
-            return false;
-        }
+				/*
+				I have commented out the setting of the Content-Disposition on static theme resources because, well why is it there?
+				If this needs to be reinstated please provide a thorough justification comment here so the reasons are clear.
 
-        return true;
-    }
+				Note that setting this header breaks Polymer 1.0 when it is present on HTML imports.
 
-    /**
-     * Creates a new interceptor chain to handle the given request.
-     *
-     * @param request the request to handle
-     * @return a new interceptor chain for the request.
-     */
-    public static InterceptorComponent createInterceptorChain(final HttpServletRequest request)
-    {
-        InterceptorComponent[] chain = null;
+				String encodedName = WebUtilities.encodeForContentDispositionHeader(fileName.
+						substring(fileName
+								.lastIndexOf('/') + 1));
+				resp.setHeader("Content-Disposition", "filename=" + encodedName);  // "filename=" to comply with https://tools.ietf.org/html/rfc6266
+				 */
+				resp.setContentType(WebUtilities.getContentType(fileName));
+				resp.setHeader("Cache-Control", CacheType.THEME_CACHE.getSettings());
 
-        if (request.getParameter(WServlet.DATA_LIST_PARAM_NAME) != null)
-        {
-            chain = new InterceptorComponent[] { new DataListInterceptor() };
-        }
-        else if (request.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME) != null)
-        {
-            chain = new InterceptorComponent[] { new AjaxErrorInterceptor(), new SessionTokenAjaxInterceptor(),
-                                                new ResponseCacheInterceptor(CacheType.NO_CACHE),
-                                                new UIContextDumpInterceptor(), new AjaxSetupInterceptor(),
-                                                new WWindowInterceptor(true), new WrongStepAjaxInterceptor(),
-                                                new ContextCleanupInterceptor(), new ValidateXMLInterceptor(),
-                                                new WhitespaceFilterInterceptor(), new SubordinateControlInterceptor(),
-                                                new AjaxPageShellInterceptor(), new AjaxDebugStructureInterceptor(),
-                                                new AjaxInterceptor() };
-        }
-        else if (request.getParameter(WServlet.TARGET_ID_PARAM_NAME) != null)
-        {
-            chain = new InterceptorComponent[] { new TargetableErrorInterceptor(),
-                                                new SessionTokenContentInterceptor(), new UIContextDumpInterceptor(),
-                                                new TargetableInterceptor(), new WWindowInterceptor(false),
-                                                new WrongStepContentInterceptor() };
-        }
-        else
-        {
-            chain = new InterceptorComponent[] { new SessionTokenInterceptor(),
-                                                new ResponseCacheInterceptor(CacheType.NO_CACHE),
-                                                new UIContextDumpInterceptor(), new WWindowInterceptor(true),
-                                                new WrongStepServerInterceptor(), new ContextCleanupInterceptor(),
-                                                new ValidateXMLInterceptor(), new WhitespaceFilterInterceptor(),
-                                                new SubordinateControlInterceptor(), new PageShellInterceptor(),
-                                                new FormInterceptor(), new DebugStructureInterceptor() };
-        }
+				resp.setHeader("Expires", "31536000");
+				resp.setHeader("ETag", "\"" + WebUtilities.getProjectVersion() + "\"");
+				// resp.setHeader("Last-Modified", "Mon, 02 Jan 2015 01:00:00 GMT");
+				long modified = connection.getLastModified();
+				resp.setDateHeader("Last-Modified", modified);
+				StreamUtil.copy(resourceStream, resp.getOutputStream());
+			}
+		} finally {
+			StreamUtil.safeClose(resourceStream);
+		}
+	}
 
-        // Link the interceptors together in a chain.
-        for (int i = 0; i < chain.length - 1; i++)
-        {
-            chain[i].setBackingComponent(chain[i + 1]);
-        }
+	/**
+	 * Performs basic sanity checks on the file being requested.
+	 *
+	 * @param name the file name
+	 * @return true if the requested file name is ok, false if not.
+	 */
+	private static boolean checkThemeFile(final String name) {
+		return !(Util.empty(name) // name must exist
+				|| name.contains("..") // prevent directory traversal
+				|| name.charAt(0) == '/' // all theme references should be relative
+				|| name.indexOf(':') != -1 // forbid use of protocols such as jar:, http: etc.
+				);
+	}
 
-        // Return the top of the chain.
-        return chain[0];
-    }
+	/**
+	 * Creates a new interceptor chain to handle the given request.
+	 *
+	 * @param request the request to handle
+	 * @return a new interceptor chain for the request.
+	 */
+	public static InterceptorComponent createInterceptorChain(final HttpServletRequest request) {
 
-    /**
-     * Called if a Throwable is caught by the top-level service method. By default we display an error and terminate the
-     * session.
-     */
-    public static void handleError(final HttpServletHelper helper, final Throwable throwable) throws ServletException,
-        IOException
-    {
-        HttpServletRequest httpServletRequest = helper.getBackingRequest();
-        HttpServletResponse httpServletResponse = helper.getBackingResponse();
+		// Allow for multi part parameters
+		Map<String, String[]> parameters = getRequestParameters(request);
 
-        // Set error code for AJAX, Content or data requests
-        boolean dataRequest = httpServletRequest.getParameter(WServlet.DATA_LIST_PARAM_NAME) != null;
-        String target = httpServletRequest.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME);
-        if (target == null)
-        {
-            target = httpServletRequest.getParameter(WServlet.TARGET_ID_PARAM_NAME);
-        }
-        if (target != null || dataRequest)
-        {
-            httpServletResponse.sendError(500, "Internal Error");
-            return;
-        }
+		InterceptorComponent[] chain;
 
-        // Decide whether we should use the ErrorPageFactory.
-        boolean handleErrorWithFatalErrorPageFactory = Config.getInstance()
-            .getBoolean(HANDLE_ERROR_WITH_FATAL_ERROR_PAGE_FACTORY, false);
+		if (parameters.get(WServlet.DATA_LIST_PARAM_NAME) != null) { // Datalist
+			chain = new InterceptorComponent[]{new DataListInterceptor()};
 
-        if (handleErrorWithFatalErrorPageFactory)
-        // use the new technique and delegate to the ErrorPageFactory.
-        {
-            helper.handleError(throwable);
-            helper.dispose();
-        }
-        else
-        // use the old technique and just display a raw message.
-        {
-            // First, decide whether we are in friendly mode or not.
-            boolean friendly = Config.getInstance().getBoolean(DEVELOPER_MODE_ERROR_HANDLING, false);
+		} else if (parameters.get(WServlet.AJAX_TRIGGER_PARAM_NAME) != null) { // AJAX
+			chain = new InterceptorComponent[]{
+				new AjaxErrorInterceptor(),
+				new SessionTokenAjaxInterceptor(),
+				new ResponseCacheInterceptor(CacheType.NO_CACHE),
+				new UIContextDumpInterceptor(),
+				new AjaxSetupInterceptor(),
+				new WWindowInterceptor(true),
+				new WrongStepAjaxInterceptor(),
+				new ContextCleanupInterceptor(),
+				new TransformXMLInterceptor(),
+				new ValidateXMLInterceptor(),
+				new WhitespaceFilterInterceptor(),
+				new SubordinateControlInterceptor(),
+				new AjaxPageShellInterceptor(),
+				new AjaxDebugStructureInterceptor(),
+				new AjaxInterceptor()};
 
-            String message = InternalMessages.DEFAULT_SYSTEM_ERROR;
+		} else if (parameters.get(WServlet.TARGET_ID_PARAM_NAME) != null) { // Targetted Content
+			chain = new InterceptorComponent[]{
+				new TargetableErrorInterceptor(),
+				new SessionTokenContentInterceptor(),
+				new UIContextDumpInterceptor(),
+				new TargetableInterceptor(),
+				new WWindowInterceptor(false),
+				new WrongStepContentInterceptor()};
 
-            // If we are unfriendly, terminate the session
-            if (!friendly)
-            {
-                HttpSession session = httpServletRequest.getSession(true);
-                session.invalidate();
+		} else {
+			chain = new InterceptorComponent[]{ // Page submit
+				new SessionTokenInterceptor(),
+				new ResponseCacheInterceptor(CacheType.NO_CACHE),
+				new UIContextDumpInterceptor(),
+				new WWindowInterceptor(true),
+				new WrongStepServerInterceptor(),
+				new AjaxCleanupInterceptor(),
+				new ContextCleanupInterceptor(),
+				new TransformXMLInterceptor(),
+				new ValidateXMLInterceptor(),
+				new WhitespaceFilterInterceptor(),
+				new SubordinateControlInterceptor(),
+				new PageShellInterceptor(),
+				new FormInterceptor(),
+				new DebugStructureInterceptor()};
+		}
 
-                message = InternalMessages.DEFAULT_SYSTEM_ERROR_SEVERE;
-            }
+		// Link the interceptors together in a chain.
+		for (int i = 0; i < chain.length - 1; i++) {
+			chain[i].setBackingComponent(chain[i + 1]);
+		}
 
-            // Display an error to the user.
-            UIContext uic = helper.getUIContext();
-            Locale locale = uic == null ? null : uic.getLocale();
-            message = I18nUtilities.format(locale, message);
-            httpServletResponse.getWriter().println(message);
-        }
-    }
+		// Return the top of the chain.
+		return chain[0];
+	}
+
+	/**
+	 * Called if a Throwable is caught by the top-level service method. By default we display an error and terminate the
+	 * session.
+	 *
+	 * @param helper the current servlet helper
+	 * @param throwable the throwable
+	 * @throws ServletException a servlet exception
+	 * @throws IOException an IO Exception
+	 */
+	public static void handleError(final HttpServletHelper helper, final Throwable throwable) throws
+			ServletException,
+			IOException {
+		HttpServletRequest httpServletRequest = helper.getBackingRequest();
+		HttpServletResponse httpServletResponse = helper.getBackingResponse();
+
+		// Allow for multi part requests
+		Map<String, String[]> parameters = getRequestParameters(httpServletRequest);
+
+		// Set error code for AJAX, Content or data requests
+		boolean dataRequest = parameters.get(WServlet.DATA_LIST_PARAM_NAME) != null;
+		Object target = parameters.get(WServlet.AJAX_TRIGGER_PARAM_NAME);
+		if (target == null) {
+			target = parameters.get(WServlet.TARGET_ID_PARAM_NAME);
+		}
+		if (target != null || dataRequest) {
+			httpServletResponse.sendError(500, "Internal Error");
+			return;
+		}
+
+		// Decide whether we should use the ErrorPageFactory.
+		boolean handleErrorWithFatalErrorPageFactory = Config.getInstance()
+				.getBoolean(HANDLE_ERROR_WITH_FATAL_ERROR_PAGE_FACTORY, false);
+
+		// use the new technique and delegate to the ErrorPageFactory.
+		if (handleErrorWithFatalErrorPageFactory) {
+			helper.handleError(throwable);
+			helper.dispose();
+		} else { // use the old technique and just display a raw message.
+			// First, decide whether we are in friendly mode or not.
+			boolean friendly = Config.getInstance().getBoolean(DEVELOPER_MODE_ERROR_HANDLING, false);
+
+			String message = InternalMessages.DEFAULT_SYSTEM_ERROR;
+
+			// If we are unfriendly, terminate the session
+			if (!friendly) {
+				HttpSession session = httpServletRequest.getSession(true);
+				session.invalidate();
+
+				message = InternalMessages.DEFAULT_SYSTEM_ERROR_SEVERE;
+			}
+
+			// Display an error to the user.
+			UIContext uic = helper.getUIContext();
+			Locale locale = uic == null ? null : uic.getLocale();
+			message = I18nUtilities.format(locale, message);
+			httpServletResponse.getWriter().println(message);
+		}
+	}
+
+	/**
+	 * @param request the request being processed
+	 * @return true if a multi part form request
+	 */
+	public static boolean isMultipart(final HttpServletRequest request) {
+		String contentType = request.getContentType();
+		boolean isMultipart = (contentType != null && contentType.toLowerCase().startsWith(
+				"multipart/form-data"));
+		return isMultipart;
+	}
+
+	/**
+	 * Get a map of request parameters allowing for multi part form fields.
+	 *
+	 * @param request the request being processed
+	 * @return a map of parameters on the request
+	 */
+	public static Map<String, String[]> getRequestParameters(final HttpServletRequest request) {
+		if (request.getAttribute(REQUEST_PROCESSED_KEY) == null) {
+			setupRequestParameters(request);
+		}
+		return (Map<String, String[]>) request.getAttribute(REQUEST_PARAMETERS_KEY);
+	}
+
+	/**
+	 * Get a value for a request parameter allowing for multi part form fields.
+	 *
+	 * @param request the request being processed
+	 * @param key the parameter key to return
+	 * @return the parameter value
+	 */
+	public static String getRequestParameterValue(final HttpServletRequest request, final String key) {
+		String[] values = getRequestParameterValues(request, key);
+		return values == null || values.length == 0 ? null : values[0];
+	}
+
+	/**
+	 * Get the values for a request parameter allowing for multi part form fields.
+	 *
+	 * @param request the request being processed
+	 * @param key the parameter key to return
+	 * @return the parameter values
+	 */
+	public static String[] getRequestParameterValues(final HttpServletRequest request, final String key) {
+		return getRequestParameters(request).get(key);
+	}
+
+	/**
+	 * Get a map of file items in the request allowing for multi part form fields.
+	 *
+	 * @param request the request being processed
+	 * @return a map of files on the request
+	 */
+	public static Map<String, FileItem[]> getRequestFileItems(final HttpServletRequest request) {
+		if (request.getAttribute(REQUEST_PROCESSED_KEY) == null) {
+			setupRequestParameters(request);
+		}
+		return (Map<String, FileItem[]>) request.getAttribute(REQUEST_FILES_KEY);
+	}
+
+	/**
+	 * Get a file item value from the request allowing for multi part form fields.
+	 *
+	 * @param request the request being processed
+	 * @param key the file parameter key to return
+	 * @return the file item value
+	 */
+	public static FileItem getRequestFileItemValue(final HttpServletRequest request, final String key) {
+		FileItem[] values = getRequestFileItemValues(request, key);
+		return values == null || values.length == 0 ? null : values[0];
+	}
+
+	/**
+	 * Get file item values from the request allowing for multi part form fields.
+	 *
+	 * @param request the request being processed
+	 * @param key the file parameter key to return
+	 * @return the file item values
+	 */
+	public static FileItem[] getRequestFileItemValues(final HttpServletRequest request, final String key) {
+		return getRequestFileItems(request).get(key);
+	}
+
+	/**
+	 * Process the request parameters allowing for multi part form fields.
+	 *
+	 * @param request the request being processed
+	 */
+	public static void setupRequestParameters(final HttpServletRequest request) {
+
+		// Check already processed
+		if (request.getAttribute(REQUEST_PROCESSED_KEY) != null) {
+			return;
+		}
+
+		Map<String, String[]> parameters = new HashMap<>();
+		Map<String, FileItem[]> files = new HashMap<>();
+
+		extractParameterMap(request, parameters, files);
+
+		request.setAttribute(REQUEST_PROCESSED_KEY, "Y");
+		request.setAttribute(REQUEST_PARAMETERS_KEY, Collections.unmodifiableMap(parameters));
+		request.setAttribute(REQUEST_FILES_KEY, Collections.unmodifiableMap(files));
+	}
+
+	/**
+	 * Extract the parameters and file items allowing for multi part form fields.
+	 *
+	 * @param request the request being processed
+	 * @param parameters the map to store non-file request parameters in.
+	 * @param files the map to store the uploaded file parameters in.
+	 */
+	public static void extractParameterMap(final HttpServletRequest request, final Map<String, String[]> parameters, final Map<String, FileItem[]> files) {
+
+		if (isMultipart(request)) {
+			ServletFileUpload upload = new ServletFileUpload();
+			upload.setFileItemFactory(new DiskFileItemFactory());
+			try {
+				List fileItems = upload.parseRequest(request);
+
+				uploadFileItems(fileItems, parameters, files);
+			} catch (FileUploadException ex) {
+				throw new SystemException(ex);
+			}
+			// Include Query String Parameters (only if parameters were not included in the form fields)
+			for (Object entry : request.getParameterMap().entrySet()) {
+				Map.Entry<String, String[]> param = (Map.Entry<String, String[]>) entry;
+				if (!parameters.containsKey(param.getKey())) {
+					parameters.put(param.getKey(), param.getValue());
+				}
+			}
+		} else {
+			parameters.putAll(request.getParameterMap());
+		}
+	}
+
+	/**
+	 * <p>
+	 * {@link FileItem} classes (if attachements) will be kept as part of the request. The default behaviour of the file
+	 * item is to store the upload in memory until it reaches a certain size, after which the content is streamed to a
+	 * temp file.</p>
+	 *
+	 * <p>
+	 * If, in the future, performance of uploads becomes a focus we can instead look into using the Jakarta Commons
+	 * Streaming API. In this case, the content of the upload isn't stored anywhere. It will be up to the user to
+	 * read/store the content of the stream.</p>
+	 *
+	 * @param fileItems a list of {@link FileItem}s corresponding to POSTed form data.
+	 * @param parameters the map to store non-file request parameters in.
+	 * @param files the map to store the uploaded file parameters in.
+	 */
+	public static void uploadFileItems(final List<FileItem> fileItems, final Map<String, String[]> parameters,
+			final Map<String, FileItem[]> files) {
+
+		for (FileItem item : fileItems) {
+			String name = item.getFieldName();
+			boolean formField = item.isFormField();
+
+			if (LOG.isDebugEnabled()) {
+				LOG.debug(
+						"Uploading form " + (formField ? "field" : "attachment") + " \"" + name + "\"");
+			}
+
+			if (formField) {
+				String value;
+				try {
+					// Without specifying UTF-8, apache commons DiskFileItem defaults to ISO-8859-1.
+					value = item.getString("UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					throw new SystemException("Encoding error on formField item", e);
+				}
+				RequestUtil.addParameter(parameters, name, value);
+			} else {
+				// Form attachment
+				RequestUtil.addFileItem(files, name, item);
+				String value = item.getName();
+				RequestUtil.addParameter(parameters, name, value);
+			}
+		}
+
+	}
 
 }

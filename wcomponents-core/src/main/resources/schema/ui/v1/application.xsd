@@ -17,12 +17,20 @@
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="param" type="ui:param" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="css" type="ui:linkedResource" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="js" type="ui:linkedResource" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:group ref="ui:contentGroup" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 
 			<xs:attribute name="id" type="xs:ID" use="required">
 				<xs:annotation>
 					<xs:documentation>The unique identifier for the component.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="class" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Provides the ability to pass an HTML class attribute onto the root output element.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 
@@ -80,5 +88,12 @@
 
 		<xs:attribute name="name" use="required" type="xs:string" />
 		<xs:attribute name="value" use="required" type="xs:string" />
+	</xs:complexType>
+	
+	<xs:complexType name="linkedResource">
+		<xs:annotation>
+			<xs:documentation>Links to an application's custom CSS and JavaScript file(s).</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="url" use="required" type="xs:string" />
 	</xs:complexType>
 </xs:schema>

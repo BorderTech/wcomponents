@@ -5,100 +5,96 @@ import org.junit.Test;
 
 /**
  * Unit tests for {@link CartBean}.
- * 
+ *
  * @author Anthony O'Connor
  * @since 1.0.0
  */
-public class CartBean_Test
-{
-    /**
-     * Test constructor.
-     */
-    @Test
-    public void testConstructor()
-    {
-        final int testCountInit = 0;
-        final int testProductIdInit = 0;
+public class CartBean_Test {
 
-        CartBean bean = new CartBean();
+	/**
+	 * Test constructor.
+	 */
+	@Test
+	public void testConstructor() {
+		final int testCountInit = 0;
+		final int testProductIdInit = 0;
 
-        Assert.assertEquals("count should be default value", testCountInit, bean.getCount());
-        Assert.assertEquals("productId should be default value", testProductIdInit, bean.getProductId());
-    }
+		CartBean bean = new CartBean();
 
-    /**
-     * Test constructor - set productId and count.
-     */
-    @Test
-    public void testConstructorProductCount()
-    {
-        final int testCount = 42;
-        final int testProductId = 17;
+		Assert.assertEquals("count should be default value", testCountInit, bean.getCount());
+		Assert.assertEquals("productId should be default value", testProductIdInit, bean.
+				getProductId());
+	}
 
-        CartBean bean = new CartBean(testProductId, testCount);
+	/**
+	 * Test constructor - set productId and count.
+	 */
+	@Test
+	public void testConstructorProductCount() {
+		final int testCount = 42;
+		final int testProductId = 17;
 
-        Assert.assertEquals("count should be value set", testCount, bean.getCount());
-        Assert.assertEquals("productId should be value set", testProductId, bean.getProductId());
-    }
+		CartBean bean = new CartBean(testProductId, testCount);
 
-    /**
-     * Test setCount.
-     */
-    @Test
-    public void testSetCount()
-    {
-        final int testCount = 47;
+		Assert.assertEquals("count should be value set", testCount, bean.getCount());
+		Assert.assertEquals("productId should be value set", testProductId, bean.getProductId());
+	}
 
-        CartBean bean = new CartBean();
-        bean.setCount(testCount);
+	/**
+	 * Test setCount.
+	 */
+	@Test
+	public void testSetCount() {
+		final int testCount = 47;
 
-        Assert.assertEquals("count should be value set", testCount, bean.getCount());
-    }
+		CartBean bean = new CartBean();
+		bean.setCount(testCount);
 
-    /**
-     * Test setproductId.
-     */
-    @Test
-    public void testSetProductId()
-    {
-        final int testProductId = 49;
+		Assert.assertEquals("count should be value set", testCount, bean.getCount());
+	}
 
-        CartBean bean = new CartBean();
-        bean.setProductId(testProductId);
+	/**
+	 * Test setproductId.
+	 */
+	@Test
+	public void testSetProductId() {
+		final int testProductId = 49;
 
-        Assert.assertEquals("productId should be value set", testProductId, bean.getProductId());
-    }
+		CartBean bean = new CartBean();
+		bean.setProductId(testProductId);
 
-    /**
-     * Test getItem.
-     */
-    @Test
-    public void testGetItem()
-    {
-        final int testCount = 42;
-        final int testProductId = 2;
+		Assert.assertEquals("productId should be value set", testProductId, bean.getProductId());
+	}
 
-        CartBean bean = new CartBean(testProductId, testCount);
-        ProductBean productBean = bean.getItem();
+	/**
+	 * Test getItem.
+	 */
+	@Test
+	public void testGetItem() {
+		final int testCount = 42;
+		final int testProductId = 2;
 
-        Assert.assertEquals("should get product bean requested", testProductId, productBean.getId());
-    }
+		CartBean bean = new CartBean(testProductId, testCount);
+		ProductBean productBean = bean.getItem();
 
-    /**
-     * Test getSubTotal.
-     */
-    @Test
-    public void testGetSubTotal()
-    {
-        final int testCount = 1;
-        final int testProductId = 1;
+		Assert.assertEquals("should get product bean requested", testProductId, productBean.getId());
+	}
 
-        CartBean bean = new CartBean(testProductId, testCount);
-        int subTotal = bean.getSubTotal();
+	/**
+	 * Test getSubTotal.
+	 */
+	@Test
+	public void testGetSubTotal() {
+		final int testCount = 1;
+		final int testProductId = 1;
 
-        // one dog at $10.00 each - or 10000 cents in total
-        int expectedSubTotal = 10000;
+		CartBean bean = new CartBean(testProductId, testCount);
+		int subTotal = bean.getSubTotal();
 
-        Assert.assertEquals("should return subtotal for testCount number of testProductId item", expectedSubTotal, subTotal);
-    }
+		// one dog at $10.00 each - or 10000 cents in total
+		int expectedSubTotal = 10000;
+
+		Assert.assertEquals("should return subtotal for testCount number of testProductId item",
+				expectedSubTotal, subTotal);
+	}
 }

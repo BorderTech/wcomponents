@@ -1,4 +1,4 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"], function(registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], function(registerSuite, assert, testutils) {
 	"use strict";
 
 	var TEST_MODULE = "wc/file/getMimeType",
@@ -12,14 +12,14 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 			});
 		},
 		testGetMimeType: function() {
-			var element = new testutils.MockFileSelector('', '@HERE@\\resources\\note.txt', 'text/plain', 16),
+			var element = new testutils.MockFileSelector("", "@HERE@\\resources\\note.txt", "text/plain", 16),
 				result = controller(element)[0];
-			assert.strictEqual(result.mime, 'text/plain');
+			assert.strictEqual(result.mime, "text/plain");
 		},
 		testGetExtension: function() {
-			var element = new testutils.MockFileSelector('', '@HERE@\\resources\\note.txt', 'text/plain', 16),
+			var element = new testutils.MockFileSelector("", "@HERE@\\resources\\note.txt", "text/plain", 16),
 				result = controller(element)[0];
-			assert.strictEqual(result.ext, 'txt');
+			assert.strictEqual(result.ext, "txt");
 		}
 	});
 });

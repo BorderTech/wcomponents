@@ -51,12 +51,12 @@ define(["wc/dom/initialise",
 			 */
 			function writeState(form, container) {
 				var cb;
-				CB_ALONE = CB_ALONE || CHECKBOX.extend("", { "${wc.ui.checkBox.attribute.standAlone}": null });
+				CB_ALONE = CB_ALONE || CHECKBOX.extend("wc-checkbox");
 				cb = CB_ALONE.findDescendants(form);
 
 				cb = Array.prototype.filter.call(cb, function (next) {
-						return !(shed.isSelected(next) || shed.isDisabled(next));
-					});
+					return !(shed.isSelected(next) || shed.isDisabled(next));
+				});
 
 				cb.forEach(function (next) {
 					formUpdateManager.writeStateField(container, next.name, "");
@@ -84,7 +84,7 @@ define(["wc/dom/initialise",
 							localController = new Widget("", "", { "aria-controls": myId }),
 							refElementWd = CHECKBOX.extend("", { "data-wc-cbgroup": myGroupName });
 
-						// we are only interested in ui:checkBox which have a groupName
+						// we are only interested in ui:checkbox which have a groupName
 						// if I existed in the document prior to ajax I do not need to do anything
 						if (_el.type === "checkbox" && !document.getElementById(myId) && !localController.findDescendant(document.body)) {
 							// ok, so we need to get a handle on other checkboxes with my group name

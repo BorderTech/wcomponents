@@ -4,16 +4,16 @@
  * @see {@link http://www.w3.org/TR/wai-aria-practices/#menu}
  * @module
  * @extends module:wc/ui/menu/core
+ * @requires module:wc/has
  * @requires module:wc/ui/menu/core
  * @requires module:wc/dom/keyWalker
  * @requires module:wc/dom/shed
  * @requires module:wc/dom/Widget
  * @requires module:wc/dom/initialise
- * @requires module:wc/ui/menu/menuItem
  */
-define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "wc/dom/initialise", "wc/ui/menu/menuItem"],
-	/** @param abstractMenu wc/ui/menu/core @param keyWalker wc/dom/keyWalker @param shed wc/dom/shed @param Widget wc/dom/Widget @param initialise wc/dom/initialise @ignore */
-	function(abstractMenu, keyWalker, shed, Widget, initialise) {
+define(["wc/has", "wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "wc/dom/initialise", "wc/ui/menu/menuItem"],
+	/** @param has @param abstractMenu @param keyWalker @param shed  @param Widget @param initialise @ignore */
+	function(has, abstractMenu, keyWalker, shed, Widget, initialise) {
 		"use strict";
 
 		/* Unused dependencies:
@@ -51,11 +51,12 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 * @function
 			 * @protected
 			 * @override
-			 * @param {Element} element The menu item which has focus.
+			 * @param {Element} _element The menu item which has focus.
 			 */
-			this._remapKeys = function(element) {
+			this._remapKeys = function(_element) {
+				var element = _element;
 				if (this._isBranchOrOpener(element)) {
-					element = this._getBranch(element);
+					element = this._getBranchExpandableElement(element);
 					if (!shed.isExpanded(element)) {
 						this._keyMap["DOM_VK_RIGHT"] = this._FUNC_MAP.ACTION;
 					}
@@ -93,16 +94,17 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			this.updateMenusForMobile = function(element) {
 				var candidates,
 					MENU_FIXED = "data-wc-menufixed";
-				if (!this.isMobile) {
+				if (!this.isSmallScreen) {
 					return;
 				}
-				if (this._wd.submenu.isOneOfMe(element)) {
-					if (this.ROOT.findAncestor(element)) {
+				if (this.isSubMenu(element)) {
+					if (this.getRoot(element)) {
 						this.fixSubMenuContent(element);
 					}
 					return;
 				}
-				else if (this.ROOT.isOneOfMe(element)) {
+
+				if (this.isRoot(element)) {
 					candidates = [element];
 				}
 				else {
@@ -112,7 +114,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 				Array.prototype.forEach.call(candidates, function(next) {
 					if (!next.hasAttribute(MENU_FIXED)) {
 						next.setAttribute(MENU_FIXED, "true");
-						Array.prototype.forEach.call(this._wd.submenu.findDescendants(next), this.fixSubMenuContent, this);
+						Array.prototype.forEach.call(this.getSubMenu(next, true, true), this.fixSubMenuContent, this);
 					}
 				}, this);
 			};

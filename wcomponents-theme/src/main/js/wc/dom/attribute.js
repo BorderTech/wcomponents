@@ -31,140 +31,140 @@
  * @module
  */
 define(function() {
-		"use strict";
+	"use strict";
+	/**
+	 * Custom attribute model.
+	 * @constructor
+	 * @private
+	 * @alias module:wc/dom/attribute~CustomAttribute
+	 */
+	function CustomAttribute() {
+		var EXPANDO_NAME = "wc.dom.attribute",
+			UNDEFINED = "undefined";
+
 		/**
-		 * Custom attribute model.
-		 * @constructor
+		 * Get a function to get an attribute.
+		 *
+		 * @function
 		 * @private
-		 * @alias module:wc/dom/attribute~CustomAttribute
+		 * @returns {Function} A getter.
 		 */
-		function CustomAttribute() {
-			var EXPANDO_NAME = "wc.dom.attribute",
-				UNDEFINED = "undefined";
-
-			/**
-			 * Get a function to get an attribute.
-			 *
-			 * @function
-			 * @private
-			 * @returns {Function} A getter.
-			 */
-			function attributeGetterFactory() {
-				var data = {};
-				return function () {
-					return data;
-				};
-			}
-
-			/**
-			 * Set up an element to allow storage of custom attributes.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} element The element we are initialising.
-			 */
-			function initialise(element) {
-				var getter;
-				if (typeof element[EXPANDO_NAME] === UNDEFINED || element[EXPANDO_NAME] === null) {
-					getter = attributeGetterFactory();
-					if (Object.defineProperty) {
-						/*
-						 * Note, this will fail in Safari5's native implementation of Object.defineProperty.
-						 * That's because Safari 5 has implemented Object.defineProperty but only for POJOs
-						 * this is the EXACT opposite of IE8's implementation...
-						 * This code assumes and depends on Object.defineProperty being patched in Safari5.
-						 * See: wc/ecma5/Object.defineProperty
-						 */
-						Object.defineProperty(element, EXPANDO_NAME, {get: getter});
-					}
-					else {
-						// element[EXPANDO_NAME] = {};  // could just as easily do this for FF
-						element.__defineGetter__(EXPANDO_NAME, getter);
-					}
-				}
-			}
-
-			/**
-			 * Set a custom attribute.
-			 *
-			 * @function
-			 * @alias module:wc/dom/attribute.set
-			 * @param {Element} element The Element to which we add the attribute.
-			 * @param {string} name The lookup "key".
-			 * @param {*} value The value to store against the "key".
-			 * @returns {*} The value stored in the custom attribute.
-			 */
-			this.set = function(element, name, value) {
-				var result = null,
-					data;
-				initialise(element);
-				if (name) {
-					data = element[EXPANDO_NAME];
-					result = data[name] = value;
-				}
-				return result;
-			};
-
-			/**
-			 * Tests whether an element has a custom attribute set.
-			 *
-			 * @function
-			 * @alias module:wc/dom/attribute.has
-			 * @param {Element} element The Element to test.
-			 * @param {string} name The lookup "key".
-			 * @returns {boolean} true if the custom attribute has been set to any value at all.
-			 */
-			this.has = function(element, name) {
-				var result = false,
-					data;
-				if (name) {
-					data = element[EXPANDO_NAME];
-					if (data) {
-						result = (name in data);
-					}
-				}
-				return result;
-			};
-
-			/**
-			 * Get the value of a custom attribute for a particular element.
-			 *
-			 * @function
-			 * @alias module:wc/dom/attribute.get
-			 * @param {Element} element The Element to test.
-			 * @param {string} name The lookup "key".
-			 * @returns {?*} The value of the custom attribute or null if not found.
-			 */
-			this.get = function(element, name) {
-				var result = null,
-					data;
-				if (name) {
-					data = element[EXPANDO_NAME];
-					if (data) {
-						result = (name in data) ? data[name] : null;
-					}
-				}
-				return result;
-			};
-
-			/**
-			 * Removes a custom attribute from a particular element.
-			 *
-			 * @function
-			 * @alias module:wc/dom/attribute.remove
-			 * @param {Element} element The Element to test.
-			 * @param {string} name The lookup "key".
-			 * @returns {boolean} true if the attribute was deleted.
-			 */
-			this.remove = function(element, name) {
-				var result = false,
-					data;
-				data = element[EXPANDO_NAME];
-				if (data && name && typeof data[name] !== UNDEFINED) {
-					result = delete data[name];
-				}
-				return result;
+		function attributeGetterFactory() {
+			var data = {};
+			return function () {
+				return data;
 			};
 		}
-		return /** @alias module:wc/dom/attribute */ new CustomAttribute();
-	});
+
+		/**
+		 * Set up an element to allow storage of custom attributes.
+		 *
+		 * @function
+		 * @private
+		 * @param {Element} element The element we are initialising.
+		 */
+		function initialise(element) {
+			var getter;
+			if (typeof element[EXPANDO_NAME] === UNDEFINED || element[EXPANDO_NAME] === null) {
+				getter = attributeGetterFactory();
+				if (Object.defineProperty) {
+					/*
+					 * Note, this will fail in Safari5's native implementation of Object.defineProperty.
+					 * That's because Safari 5 has implemented Object.defineProperty but only for POJOs
+					 * this is the EXACT opposite of IE8's implementation...
+					 * This code assumes and depends on Object.defineProperty being patched in Safari5.
+					 * See: wc/ecma5/Object.defineProperty
+					 */
+					Object.defineProperty(element, EXPANDO_NAME, {get: getter});
+				}
+				else {
+					// element[EXPANDO_NAME] = {};  // could just as easily do this for FF
+					element.__defineGetter__(EXPANDO_NAME, getter);
+				}
+			}
+		}
+
+		/**
+		 * Set a custom attribute.
+		 *
+		 * @function
+		 * @alias module:wc/dom/attribute.set
+		 * @param {Element} element The Element to which we add the attribute.
+		 * @param {string} name The lookup "key".
+		 * @param {*} value The value to store against the "key".
+		 * @returns {*} The value stored in the custom attribute.
+		 */
+		this.set = function(element, name, value) {
+			var result = null,
+				data;
+			initialise(element);
+			if (name) {
+				data = element[EXPANDO_NAME];
+				result = data[name] = value;
+			}
+			return result;
+		};
+
+		/**
+		 * Tests whether an element has a custom attribute set.
+		 *
+		 * @function
+		 * @alias module:wc/dom/attribute.has
+		 * @param {Element} element The Element to test.
+		 * @param {string} name The lookup "key".
+		 * @returns {boolean} true if the custom attribute has been set to any value at all.
+		 */
+		this.has = function(element, name) {
+			var result = false,
+				data;
+			if (name) {
+				data = element[EXPANDO_NAME];
+				if (data) {
+					result = (name in data);
+				}
+			}
+			return result;
+		};
+
+		/**
+		 * Get the value of a custom attribute for a particular element.
+		 *
+		 * @function
+		 * @alias module:wc/dom/attribute.get
+		 * @param {Element} element The Element to test.
+		 * @param {string} name The lookup "key".
+		 * @returns {?*} The value of the custom attribute or null if not found.
+		 */
+		this.get = function(element, name) {
+			var result = null,
+				data;
+			if (name) {
+				data = element[EXPANDO_NAME];
+				if (data) {
+					result = (name in data) ? data[name] : null;
+				}
+			}
+			return result;
+		};
+
+		/**
+		 * Removes a custom attribute from a particular element.
+		 *
+		 * @function
+		 * @alias module:wc/dom/attribute.remove
+		 * @param {Element} element The Element to test.
+		 * @param {string} name The lookup "key".
+		 * @returns {boolean} true if the attribute was deleted.
+		 */
+		this.remove = function(element, name) {
+			var result = false,
+				data;
+			data = element[EXPANDO_NAME];
+			if (data && name && typeof data[name] !== UNDEFINED) {
+				result = delete data[name];
+			}
+			return result;
+		};
+	}
+	return /** @alias module:wc/dom/attribute */ new CustomAttribute();
+});

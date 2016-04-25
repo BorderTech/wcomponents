@@ -1,0 +1,19 @@
+/* wc.ui.table.rowExpansionIcons.scss */
+@import 'expand-collapse-allIcons';
+
+// ROW EXPANSION iconography and expand/collapse all iconography.
+tr[role='row'] {
+	> td[role='button']:before {
+		@include wc-icon-fw($fa-var-caret-right);
+	}
+
+	&[aria-expanded='true'] {
+		> td[role='button']:before {
+			content: $fa-var-caret-down;
+		}
+	}
+}
+
+.wc-rowexpansion {
+	@extend %expand-collapse-all-icons;
+}

@@ -3,11 +3,12 @@
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 	<xs:include schemaLocation="attributeGroups.control.xsd" />
 	<xs:include schemaLocation="optgroup.xsd" />
-	<xs:element name="listBox">
+	<xs:element name="listbox">
 		<xs:annotation>
 			<xs:documentation>
-				<p>WListBox represents a selection device using a common list box widget. It may be a single- or multi-selection component.</p>
-				<p>WListBox expects that the POSTed form data contains:</p>
+				<p>WSingleSelect and WMultiSelect represent selection devices using a common list box widget. WSingleSelect
+					is a single-seleciton component and WMultiSelect is a multi-selection component.</p>
+				<p>These components expect that the POSTed form data contains:</p>
 				<table>
 					<thead>
 						<tr>
@@ -20,7 +21,7 @@
 					<tbody>
 						<tr>
 							<td>@id</td>
-							<td>String[]</td>
+							<td>String|String[]</td>
 							<td>no</td>
 							<td>selected option(s)</td>
 						</tr>

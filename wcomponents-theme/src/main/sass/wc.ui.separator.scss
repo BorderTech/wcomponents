@@ -1,21 +1,25 @@
 /* wc.ui.separator.scss */
-@import 'mixins_common.scss';
+
+// @import 'mixins-common';
+@import 'menu_vars';
 
 [role='separator'] {
-	border: 0 none;
-	// rule order to set bottom border
-	// scss-lint:disable DeclarationOrder
-	@include border($pos: bottom);
+	// We need the important here otherwise we have to do a LOT of overriding of roles.
+	// scss-lint:disable ImportantRule
 	margin: 0;
 	padding: 0;
-	// scss-lint:enable DeclarationOrder
-
-	&[aria-orientation='vertical'] {
-		@include border($pos: left);
-		border-bottom: 0 none;
-		// important to override more explicit role display in menu css
-		// scss-lint:disable ImportantRule
-		display: inline !important;
-	}
 }
-/* end wc.ui.separator.scss */
+
+[role='separator'][aria-orientation='vertical'] {
+	@include border($pos: left);
+	border-bottom: 0 none;
+	display: inline;
+
+	// .flyout > & {
+	// 	padding: $wc-ui-menu-flyout-vseparator-pad;
+	// }
+	//
+	// .bar > & {
+	// 	padding: $wc-ui-menu-bar-vseparator-pad;
+	// }
+}

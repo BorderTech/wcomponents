@@ -1,5 +1,21 @@
 language: Java
 jdk:
   - oraclejdk7
-script: "mvn verify"
 
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "MAirt38nl74gOmupg6oWoghoXT8YDgjMJmPzrv6YcMLJ92tS8kv7PGtSfdM+BlxXwlvvXIlqXNwb2R+U4CnjsZUsL+28RGqFiKReAbDUON55Cucb/Yy0ZB+QC9NpCxM5LfC4BycDPI6HStx7ZmDy61/U9alogrbhiqomD/LlMTQ="
+
+addons:
+  coverity_scan:
+    project:
+      name: "BorderTech/wcomponents"
+      description: "Build submitted via Travis CI"
+    notification_email: jonoa4n@gmail.com
+    build_command_prepend: "mvn clean"
+    build_command: "mvn -DskipTests=true compile"
+    branch_pattern: coverity_scan
+
+script: "mvn verify"

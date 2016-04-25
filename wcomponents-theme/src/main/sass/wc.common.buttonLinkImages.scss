@@ -1,47 +1,37 @@
 /* wc.common.buttonLinkImages.scss */
+@import 'mixins-common';
 // Positioning of an image in a WButton or WLink based on the component's imagePosition property. XS:TOKENs for this
 // property are 'n','e','s','w'.
 // Used by:
 // WButton (incl WCancelButton, WConfirmButton, WPrintButton)
 // WLink (incl WInternalLink, WContentLink)
-@import 'vars_all.scss';
 
-// Links with north/south images must be inline-block and centered. Buttons have this for free
-//scss-lint:disable QualifyingElement
-a.wc_btn_img {
-	&n,
-	&s {
-		display: inline-block;
-		text-align: center;
-	}
-}
-//scss-lint:enable QualifyingElement
+// Images in buttons and links are placed in a container so they can be positioned
 
-//Images in buttons and links are placed in a container so they can be positioned
-.wc_btn_img {
-	&n,
-	&s {
-		> img {
-			display: block;
-			margin: 0 auto;
-		}
-	}
+.wc_btn_imgn,
+.wc_btn_imgs {
+	// Links with north/south images must be inline-block and centered.
+	display: inline-block;
+	text-align: center;
 
-	&n > img {
-		margin-bottom: $hgap-small;
-	}
-
-	&s > img {
-		margin-top: $hgap-small;
-	}
-
-	&e > img {
-		margin-left: $hgap-small;
-	}
-
-	&w > img {
-		margin-right: $hgap-small;
+	> img {
+		display: block;
+		margin: 0 auto;
 	}
 }
 
-/* end wc.common.buttonLinkImages.scss */
+.wc_btn_imgn > img {
+	@include margin(bottom);
+}
+
+.wc_btn_imgs > img {
+	@include margin(top);
+}
+
+.wc_btn_imge > img {
+	@include margin(left);
+}
+
+.wc_btn_imgw > img {
+	@include margin(right);
+}

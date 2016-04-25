@@ -1,0 +1,70 @@
+/* wc.ui.tree.scss */
+@import 'tree-vars';
+
+[role='tree'] {
+	[role='group'] {
+		display: none;
+		padding-left: $wc-tree-indent;
+
+		&.wc_tree_root {
+			display: block;
+			padding-left: 0;
+		}
+	}
+
+	[aria-expanded='true'] > [role='group'] {
+		display: block;
+	}
+}
+
+button[role='treeitem'],
+[role='treeitem'] > button {
+	width: 100%;
+}
+
+[role='treeitem'] {
+	@include border-box;
+	display: block;
+	width: 100%;
+
+	> .wc_leaf_vopener {
+		width: 1.25rem;
+
+		+ button {
+			width: calc(100% - 1.25rem);
+		}
+	}
+}
+
+.wc_leaf_vopener,
+.wc_leaf_img,
+.wc_leaf_hopener {
+	display: inline-block;
+	width: 1.25rem;
+}
+
+.wc_leaf_vopener { // the vertical opener button and its span placeholder equivalent.
+	@include border-box; // required for the span.
+	padding: $wc-tree-item-pad-t 0 $wc-tree-item-pad-b $wc-tree-item-pad-l;
+	text-align: left;
+}
+
+// The icon container
+.wc_leaf_img {
+	padding: $wc-tree-item-pad-t 0 $wc-tree-item-pad-b;
+
+	img {
+		max-height: 1rem;
+		max-width: 1rem;
+	}
+}
+
+.wc_leaf_name {
+	padding: $wc-tree-item-pad-t $wc-tree-item-pad-r $wc-tree-item-pad-b 0;
+}
+
+// htree branch opener.
+.wc_leaf_hopener {
+	display: none;
+	text-align: right;
+}

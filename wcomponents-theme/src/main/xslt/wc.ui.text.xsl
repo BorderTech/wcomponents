@@ -2,8 +2,7 @@
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.ui.text.n.WStyledTextGetElementFromType.xsl"/>
 	<xsl:import href="wc.ui.text.n.WStyledTextContent.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		WStyledText
 	
@@ -16,32 +15,36 @@
 	-->
 	<xsl:template match="ui:text">
 		<xsl:variable name="type" select="@type"/>
+		
+		<xsl:variable name="class">
+			<xsl:call-template name="commonClassHelper"/>
+		</xsl:variable>
 		<xsl:choose>
 			<xsl:when test="@space='paragraphs'">
-				<xsl:apply-templates select="text()" mode="space">
-					<xsl:with-param name="space" select="@space"/>
+				<xsl:apply-templates select="text()" mode="para">
 					<xsl:with-param name="type" select="$type"/>
+					<xsl:with-param name="class" select="$class"/>
 				</xsl:apply-templates>
 			</xsl:when>
 			<xsl:when test="@space">
-				<xsl:element name="pre">
-					<xsl:apply-templates mode="space">
-						<xsl:with-param name="space" select="@space"/>
+				<pre class="{$class}">
+					<xsl:apply-templates mode="pre">
 						<xsl:with-param name="type" select="$type"/>
 					</xsl:apply-templates>
-				</xsl:element>
-			</xsl:when>
-			<xsl:when test="not($type) or $type='plain'">
-				<xsl:apply-templates select="node()[not(self::ui:nl)]"/>
+				</pre>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:variable name="elementType">
-					<xsl:call-template name="WStyledTextGetElementFromType"/>
+					<xsl:call-template name="WStyledTextGetElementFromType">
+						<xsl:with-param name="type" select="$type"/>
+					</xsl:call-template>
 				</xsl:variable>
 				<xsl:element name="{$elementType}">
-					<xsl:attribute name="class">
-						<xsl:value-of select="$type"/>
-					</xsl:attribute>
+					<xsl:call-template name="makeCommonClass">
+						<xsl:with-param name="additional">
+							<xsl:value-of select="@type"/>
+						</xsl:with-param>
+					</xsl:call-template>
 					<xsl:apply-templates />
 				</xsl:element>
 			</xsl:otherwise>

@@ -19,8 +19,8 @@ define(["wc/has", "module"],
 		 * @ignore
 		 */
 		return function(doc) {
-			var i,
-				elements = (has("ie") < 9) ? module.config().elements : [];
+			var i, config = (window.System) ? window.System.config : module.config(),
+				elements = (has("ie") < 9) ? config.elements : [];
 			for (i = 0; i < elements.length; i++) {  // NOTE: do not be tempted by Array.forEach ... IE8 does not have it and it may not be loaded yet.
 				doc.createElement(elements[i]);
 			}

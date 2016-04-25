@@ -16,6 +16,10 @@
 			</xsl:otherwise>
 		</xsl:choose>
 		<xsl:text>"</xsl:text>
+		<xsl:if test="@class">
+			<xsl:text>,"className":</xsl:text>
+			<xsl:value-of select="@class"/>
+		</xsl:if>
 		<xsl:if test="@width">
 			<xsl:text>,"width":</xsl:text>
 			<xsl:value-of select="@width"/>

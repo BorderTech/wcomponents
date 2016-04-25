@@ -1,6 +1,6 @@
 /* wc.ui.panel.borderLayout.ie10.scss */
 //scss-lint:disable VendorPrefix
-.wc_borderLayout_middle {
+.wc_borderlayout_middle {
 	display: -ms-flexbox;
 	-ms-flex-align: start;
 	-ms-flex-direction: row;
@@ -9,8 +9,8 @@
 	> div {
 		-ms-flex: 1 1 25%;
 	}
-	
-	> .center {
+
+	> .wc-center {
 		-ms-flex: 1 1 50%;
 
 		&:first-child,
@@ -19,4 +19,3 @@
 		}
 	}
 }
-/* end wc.ui.panel.borderLayout.ie10.scss */

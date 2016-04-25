@@ -1,63 +1,64 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 
 		var getAncestorOrSelf,
 			testHolder,
-			urlResource = "../../target/test-classes/wcomponents-theme/intern/resources/domTest.html";
+			urlResource = "@RESOURCES@/domTest.html";
 
 		registerSuite({
 			name: "domGetAncestorOrSelf",
 			setup: function() {
-				return testutils.setupHelper(["wc/dom/getAncestorOrSelf"], function(obj) {
-					getAncestorOrSelf = obj;
+				var result = testutils.setupHelper(["wc/dom/getAncestorOrSelf"]).then(function(arr) {
+					getAncestorOrSelf = arr[0];
 					testHolder = testutils.getTestHolder();
-					testutils.setUpExternalHTML(urlResource, testHolder);
+					return testutils.setUpExternalHTML(urlResource, testHolder);
 				});
+				return result;
 			},
 			teardown: function() {
 				testHolder.innerHTML = "";
 			},
 			testGetAncestorOrSelfGetImmediateParent: function() {
-				var foo = document.getElementById('foo'),
-					result = getAncestorOrSelf(foo, 'div');
-				assert.strictEqual('subcontainer', result.id);
+				var foo = document.getElementById("foo"),
+					result = getAncestorOrSelf(foo, "div");
+				assert.strictEqual("subcontainer", result.id);
 			},
 			testGetAncestorOrSelfGetAncestor: function() {
-				var foo = document.getElementById('foo'),
-					result = getAncestorOrSelf(foo, 'ul');
-				assert.strictEqual('ul1', result.id);
+				var foo = document.getElementById("foo"),
+					result = getAncestorOrSelf(foo, "ul");
+				assert.strictEqual("ul1", result.id);
 			},
 			testGetAncestorOrSelfGetSelf: function() {
-				var foo = document.getElementById('foo'),
-					result = getAncestorOrSelf(foo, 'p');
+				var foo = document.getElementById("foo"),
+					result = getAncestorOrSelf(foo, "p");
 				assert.strictEqual(foo, result);
 			},
 			testGetAncestorOrSelfNotFound: function() {
-				var foo = document.getElementById('foo'),
-					result = getAncestorOrSelf(foo, 'span');
+				var foo = document.getElementById("foo"),
+					result = getAncestorOrSelf(foo, "span");
 				assert.isNull(result);
 			},
 			testGetAncestorOrSelfLimitNotFound: function() {
-				var foo = document.getElementById('innerTbody'),
-					result = getAncestorOrSelf(foo, 'tr', 'table');
+				var foo = document.getElementById("innerTbody"),
+					result = getAncestorOrSelf(foo, "tr", "table");
 				assert.isNull(result);
 			},
 			testGetAncestorOrSelfWrongLimitWrongTagnameNotFound: function() {
 				/* Real world errors */
 				var foo = document.getElementById("moocowDiv"),
-					result = getAncestorOrSelf(foo, 'blah', 'blah');
+					result = getAncestorOrSelf(foo, "blah", "blah");
 				assert.isNull(result);
 			},
 			testGetAncestorOrSelfLimitFound: function() {
-				var foo = document.getElementById('innerCell'),
-					result = getAncestorOrSelf(foo, 'tr', 'table');
-				assert.strictEqual('inner', result.id);
+				var foo = document.getElementById("innerCell"),
+					result = getAncestorOrSelf(foo, "tr", "table");
+				assert.strictEqual("inner", result.id);
 			},
 			testGetAncestorOrSelfClassName: function() {
-				var foo = document.getElementById('innerCell'),
-					result = getAncestorOrSelf(foo, null, 'body', 'outerContainer');
-				assert.strictEqual('outer', result.id);
+				var foo = document.getElementById("innerCell"),
+					result = getAncestorOrSelf(foo, null, "body", "outerContainer");
+				assert.strictEqual("outer", result.id);
 			},
 			testGetAncestorOrSelfClassNameWrongLimitNoMatch: function() {
 				/*
@@ -65,190 +66,190 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				 * test that if it walks all the way up to DOCUMENT_NODE it will not try to use classList on it
 				 */
 				var foo = document.getElementById("moocowDiv"),
-					result = getAncestorOrSelf(foo, null, 'table', 'outerContainer');
+					result = getAncestorOrSelf(foo, null, "table", "outerContainer");
 				assert.strictEqual(null, result);
 			},
 			testGetAncestorOrSelfElementAndClassName: function() {
-				var foo = document.getElementById('innerCell'),
-					result = getAncestorOrSelf(foo, 'tbody', 'body', 'outerContainer');
-				assert.strictEqual('outerTbody', result.id);
+				var foo = document.getElementById("innerCell"),
+					result = getAncestorOrSelf(foo, "tbody", "body", "outerContainer");
+				assert.strictEqual("outerTbody", result.id);
 			},
 			testGetAncestorOrSelfClassNameArray: function() {
-				var foo = document.getElementById('foo'),
-					result = getAncestorOrSelf(foo, null, 'body', ['cow', 'moo']);
+				var foo = document.getElementById("foo"),
+					result = getAncestorOrSelf(foo, null, "body", ["cow", "moo"]);
 				assert.strictEqual("moocowDiv", result.id);
 			},
 			testGetAncestorOrSelfElementAndClassNameArray: function() {
-				var foo = document.getElementById('foo'),
-					result = getAncestorOrSelf(foo, 'div', 'body', ['cow', 'moo']);
+				var foo = document.getElementById("foo"),
+					result = getAncestorOrSelf(foo, "div", "body", ["cow", "moo"]);
 				assert.strictEqual("moocowDiv", result.id);
 			},
 			testGetAncestorOrSelfClassNameArrayNoMatch: function() {
-				var foo = document.getElementById('foo'),
-					result = getAncestorOrSelf(foo, null, 'body', ['cow', 'moo', 'who']);
+				var foo = document.getElementById("foo"),
+					result = getAncestorOrSelf(foo, null, "body", ["cow", "moo", "who"]);
 				assert.isNull(result);
 			},
 			testGetAncestorOrSelfClassNameArrayWithSome: function() {
-				var foo = document.getElementById('foo'),
-					result = getAncestorOrSelf(foo, null, 'body', ['cow', 'moo'], 'some');
-				assert.strictEqual('mooDiv', result.id);
+				var foo = document.getElementById("foo"),
+					result = getAncestorOrSelf(foo, null, "body", ["cow", "moo"], "some");
+				assert.strictEqual("mooDiv", result.id);
 			},
 			testGetAncestorOrSelfElementAndClassNameArrayWithSome: function() {
-				var foo = document.getElementById('foo'),
-					result = getAncestorOrSelf(foo, 'div', 'body', ['cow', 'moo'], 'some');
-				assert.strictEqual('mooDiv', result.id);
+				var foo = document.getElementById("foo"),
+					result = getAncestorOrSelf(foo, "div", "body", ["cow", "moo"], "some");
+				assert.strictEqual("mooDiv", result.id);
 			},
 			testGetAncestorOrSelfClassNameArrayNoMatchWithSome: function() {
-				var foo = document.getElementById('foo'),
-					result = getAncestorOrSelf(foo, null, 'body', ['who'], 'some');
+				var foo = document.getElementById("foo"),
+					result = getAncestorOrSelf(foo, null, "body", ["who"], "some");
 				assert.isNull(result);
 			},
 			testGetAncestorOrSelfInvalidArgs: function() {
 				try {
-					var foo = document.getElementById('doesntExist');
-					getAncestorOrSelf(foo, 'p');
-					assert.fail('This line should not be executed');
+					var foo = document.getElementById("doesntExist");
+					getAncestorOrSelf(foo, "p");
+					assert.fail("This line should not be executed");
 				}
-				catch(ex) {
+				catch (ex) {
 					assert.isTrue(true);
 				}
 			},
 			testWithTagNameAndAttributes: function() {
-				var foo = document.getElementById('pinky'),
-					dto = {element: foo, tagName: 'A', attributes: {rel: 'static'}},
+				var foo = document.getElementById("pinky"),
+					dto = {element: foo, tagName: "A", attributes: {rel: "static"}},
 					result = getAncestorOrSelf(dto);
-				assert.strictEqual('inky', result.id);
+				assert.strictEqual("inky", result.id);
 			},
 			testWithTagNameAndAttributesMultiple: function() {
-				var foo = document.getElementById('pinky'),
-					dto = {element: foo, tagName: 'A', attributes: {rel: 'static', name: 'inky'}},
+				var foo = document.getElementById("pinky"),
+					dto = {element: foo, tagName: "A", attributes: {rel: "static", name: "inky"}},
 					result = getAncestorOrSelf(dto);
-				assert.strictEqual('inky', result.id);
+				assert.strictEqual("inky", result.id);
 			},
 			testWithTagNameAndAttributesMultipleNoMatchOne: function() {
-				var foo = document.getElementById('pinky'),
-					dto = {element: foo, tagName: 'A', attributes: {rel: 'static', name: 'pinky'}},
+				var foo = document.getElementById("pinky"),
+					dto = {element: foo, tagName: "A", attributes: {rel: "static", name: "pinky"}},
 					result = getAncestorOrSelf(dto);
 				assert.isNull(result);
 			},
 			testWithTagNameAndAttributesValueNoMatch: function() {
-				var foo = document.getElementById('pinky'),
-					dto = {element: foo, tagName: 'A', attributes: {rel: 'dynamic'}},
+				var foo = document.getElementById("pinky"),
+					dto = {element: foo, tagName: "A", attributes: {rel: "dynamic"}},
 					result = getAncestorOrSelf(dto);
 				assert.isNull(result);
 			},
 			testWithTagNameAndAttributesNameNoMatch: function() {
-				var foo = document.getElementById('pinky'),
-					dto = {element: foo, tagName: 'A', attributes: {href: 'static'}},
+				var foo = document.getElementById("pinky"),
+					dto = {element: foo, tagName: "A", attributes: {href: "static"}},
 					result = getAncestorOrSelf(dto);
 				assert.isNull(result);
 			},
 			testWithTagNameAndAttributePresent: function() {
-				var foo = document.getElementById('pinky'),
-					dto = {element: foo, tagName: 'A', attributes: {rel: null}},
+				var foo = document.getElementById("pinky"),
+					dto = {element: foo, tagName: "A", attributes: {rel: null}},
 					result = getAncestorOrSelf(dto);
-				assert.strictEqual('inky', result.id);
+				assert.strictEqual("inky", result.id);
 			},
 			testWithTagNameAndAttributesAndClassName: function() {
-				var foo = document.getElementById('pinky'),
+				var foo = document.getElementById("pinky"),
 					dto = {element: foo,
-						tagName: 'A',
-						attributes: {rel: 'static'},
-						className: 'daddyHadADonkey'},
+						tagName: "A",
+						attributes: {rel: "static"},
+						className: "daddyHadADonkey"},
 					result = getAncestorOrSelf(dto);
-				assert.strictEqual('inky', result.id);
+				assert.strictEqual("inky", result.id);
 			},
 			testWithTagNameAndAttributesAndClassNameNoMatchClass: function() {
-				var foo = document.getElementById('pinky'),
+				var foo = document.getElementById("pinky"),
 					dto = {element: foo,
-						tagName: 'A',
-						attributes: {rel: 'static'},
-						className: 'daddy'},
+						tagName: "A",
+						attributes: {rel: "static"},
+						className: "daddy"},
 					result = getAncestorOrSelf(dto);
 				assert.isNull(result);
 			},
 			testWithTagNameAndAttributesAndClassNameNoMatchAttr: function() {
-				var foo = document.getElementById('pinky'),
+				var foo = document.getElementById("pinky"),
 					dto = {element: foo,
-						tagName: 'A',
-						attributes: {rel: 'dynamic'},
-						className: 'daddyHadADonkey'},
+						tagName: "A",
+						attributes: {rel: "dynamic"},
+						className: "daddyHadADonkey"},
 					result = getAncestorOrSelf(dto);
 				assert.isNull(result);
 			},
 			testWithAttributesAndClassName: function() {
-				var foo = document.getElementById('pinky'),
+				var foo = document.getElementById("pinky"),
 					dto = {element: foo,
-						attributes: {rel: 'static'},
-						className: 'daddyHadADonkey'},
+						attributes: {rel: "static"},
+						className: "daddyHadADonkey"},
 					result = getAncestorOrSelf(dto);
-				assert.strictEqual('inky', result.id);
+				assert.strictEqual("inky", result.id);
 			},
 			testWithAttributesAndClassNameNoMatchClass: function() {
-				var foo = document.getElementById('pinky'),
+				var foo = document.getElementById("pinky"),
 					dto = {element: foo,
-						attributes: {rel: 'static'},
-						className: 'daddy'},
+						attributes: {rel: "static"},
+						className: "daddy"},
 					result = getAncestorOrSelf(dto);
 				assert.isNull(result);
 			},
 			testWithAttributesAndClassNameNoMatchAttr: function() {
-				var foo = document.getElementById('pinky'),
+				var foo = document.getElementById("pinky"),
 					dto = {element: foo,
-						attributes: {rel: 'dynamic'},
-						className: 'daddyHadADonkey'},
+						attributes: {rel: "dynamic"},
+						className: "daddyHadADonkey"},
 					result = getAncestorOrSelf(dto);
 				assert.isNull(result);
 			},
 			testWithTagNameAndAttributesAndClassNameAndLimit: function() {
-				var foo = document.getElementById('pinky'),
+				var foo = document.getElementById("pinky"),
 					dto = {element: foo,
-						tagName: 'A',
-						limitTagName: 'A',
-						attributes: {rel: 'static'},
-						className: 'daddyHadADonkey'},
+						tagName: "A",
+						limitTagName: "A",
+						attributes: {rel: "static"},
+						className: "daddyHadADonkey"},
 					result = getAncestorOrSelf(dto);
-				assert.strictEqual('inky', result.id);
+				assert.strictEqual("inky", result.id);
 			},
 			testWithTagNameAndAttributesAndClassNameAndLimitNoMatch: function() {
-				var foo = document.getElementById('pinky'),
+				var foo = document.getElementById("pinky"),
 					dto = {element: foo,
-						tagName: 'A',
-						limitTagName: 'SPAN',
-						attributes: {rel: 'static'},
-						className: 'daddyHadADonkey'},
+						tagName: "A",
+						limitTagName: "SPAN",
+						attributes: {rel: "static"},
+						className: "daddyHadADonkey"},
 					result = getAncestorOrSelf(dto);
 				assert.isNull(result);
 			},
 			testWithAttributesAndClassNameAndLimit: function() {
-				var foo = document.getElementById('pinky'),
+				var foo = document.getElementById("pinky"),
 					dto = {element: foo,
-						attributes: {rel: 'static'},
-						limitTagName: 'A',
-						className: 'daddyHadADonkey'},
+						attributes: {rel: "static"},
+						limitTagName: "A",
+						className: "daddyHadADonkey"},
 					result = getAncestorOrSelf(dto);
-				assert.strictEqual('inky', result.id);
+				assert.strictEqual("inky", result.id);
 			},
 			testWithAttributesAndClassNameAndLimitNoMatch: function() {
-				var foo = document.getElementById('pinky'),
+				var foo = document.getElementById("pinky"),
 					dto = {element: foo,
-						attributes: {rel: 'static'},
-						limitTagName: 'SPAN',
-						className: 'daddyHadADonkey'},
+						attributes: {rel: "static"},
+						limitTagName: "SPAN",
+						className: "daddyHadADonkey"},
 					result = getAncestorOrSelf(dto);
 				assert.isNull(result);
 			},
 			testTopLevel: function() {
-				var foo = document.getElementById('foo'),
-					dto = {element: foo, tagName: 'div', limitTagName: "${wc.dom.html5.element.section}", outermost: true},
+				var foo = document.getElementById("foo"),
+					dto = {element: foo, tagName: "div", limitTagName: "${wc.dom.html5.element.section}", outermost: true},
 					result = getAncestorOrSelf(dto);
 				assert.strictEqual("moocowDiv", result.id);
 			},
 			testTopLevelWithClassName: function() {
-				var foo = document.getElementById('outerStart'),
-					dto = {element: foo, tagName: 'div', className: 'hoo', outermost: true},
+				var foo = document.getElementById("outerStart"),
+					dto = {element: foo, tagName: "div", className: "hoo", outermost: true},
 					result = getAncestorOrSelf(dto);
-				assert.strictEqual('boo2', result.id);
+				assert.strictEqual("boo2", result.id);
 			},
 			testGetAncestorMultiAttributeSingleLookup: function() {
 				var start = document.getElementById("multistart"),

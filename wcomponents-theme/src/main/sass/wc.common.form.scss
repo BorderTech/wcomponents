@@ -1,69 +1,51 @@
 /* wc.common.form.scss */
 // This document contains general css styling for generic form components. Custom components have their own css files
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
-@mixin aria-disabled {
-	// important to reset menu button etc rules which are VERY specific
-	// scss-lint:disable ImportantRule
-	color: $wc-ui-color-disabled-fg; // NOTE do not set background-color here for your own sanity
-	cursor: default !important;
-	outline: none !important;
-	text-decoration: none !important;
-}
-
+input,
 select,
-%select { //placeholder just to make scss-lint stfu
-	@include border($color: $wc-ui-color-border-form-control); // breaks firefox OS X quite nastily but it is better than the other options with all other browsers
+textarea {
+	// Border on select makes firefox OS X quite ugly but is better than any other option on all other UAs.
+	@include border($color: $wc-ui-color-border-form-control);
+	@include margin($size: 0);
 	font-family: inherit;
 	font-size: inherit;
 	line-height: inherit;
-	margin: 0;
 	max-width: 100%;
 
-	&[aria-invalid='true'] {
-		background-color: $wc-ui-color-error-bg;
+	&[disabled] {
+		@include aria-disabled;
 	}
 }
 
 input,
 textarea {
-	@extend %select;
 	padding: 1px;
 }
 
-[type='checkbox'],
-[type='radio'] {
-	border: 0 none;
+input {
+	&[type='checkbox'],
+	&[type='radio'] {
+		@include border($width: 0);
+		// NOTE: no need to remove the 1px padding.
+	}
 }
 
-[aria-invalid='true'] {
-	@include outline($color: $wc-ui-color-error-fg);
-}
-
-[role='combobox'][aria-invalid='true'] > input {
-	background-color: $wc-ui-color-error-bg;
-}
-
-// DISABLED
+/// Disabled.
 [aria-disabled='true'] {
 	@include aria-disabled;
 }
 
-input,
-select,
-textarea {
-	&[disabled] {
-		@include aria-disabled;
-		background-color: $wc-ui-color-disabled-bg;
-		border-color: $wc-ui-color-disabled-border;
-	}
-}
-
-// Read-only: box sizing is to make them the same as the editable element (input, textarea or select).
+/// Read-only
+/// Display and box sizing is to make them the more akin to the editable element (input, textarea or select).
 .wc_ro {
 	@include border-box;
 	display: inline-block;
 	max-width: 100%;
 	word-wrap: break-word;
 }
-/* end wc.common.form.scss */
+
+// This wrapper is handy for positioning lists
+.wc_input_wrapper {
+	display: inline-block;
+}

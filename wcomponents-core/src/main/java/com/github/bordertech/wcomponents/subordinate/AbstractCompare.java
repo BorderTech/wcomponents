@@ -1,11 +1,5 @@
 package com.github.bordertech.wcomponents.subordinate;
 
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.github.bordertech.wcomponents.AbstractWMultiSelectList;
 import com.github.bordertech.wcomponents.AbstractWSelectList;
 import com.github.bordertech.wcomponents.AbstractWSingleSelectList;
@@ -20,373 +14,326 @@ import com.github.bordertech.wcomponents.WNumberField;
 import com.github.bordertech.wcomponents.WRadioButton;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A logical condition that compares the trigger and its compare value.
- * 
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public abstract class AbstractCompare extends AbstractCondition
-{
-    /** The first argument (trigger). */
-    private final SubordinateTrigger trigger;
+public abstract class AbstractCompare extends AbstractCondition {
 
-    /** The second argument (compare value). */
-    private final Object value;
+	/**
+	 * The first argument (trigger).
+	 */
+	private final SubordinateTrigger trigger;
 
-    /** This date format is used internally to exchange dates between the client and server. */
-    private static final String INTERNAL_DATE_FORMAT = "yyyy-MM-dd";
+	/**
+	 * The second argument (compare value).
+	 */
+	private final Object value;
 
-    /**
-     * Create a Compare condition with a trigger and compare value.
-     * 
-     * @param trigger the trigger input field.
-     * @param value the value to use in the compare.
-     */
-    public AbstractCompare(final SubordinateTrigger trigger, final Object value)
-    {
-        if (trigger == null)
-        {
-            throw new IllegalArgumentException("Trigger cannot be null.");
-        }
+	/**
+	 * This date format is used internally to exchange dates between the client and server.
+	 */
+	private static final String INTERNAL_DATE_FORMAT = "yyyy-MM-dd";
 
-        // Check Date and Number field trigger values
-        if (value != null && !CompareType.MATCH.equals(getCompareType()))
-        {
-            // WNumberField trigger value must be a BigDecimal
-            if (trigger instanceof WNumberField && !(value instanceof BigDecimal))
-            {
-                throw new IllegalArgumentException("The value for a WNumberField trigger must be null or a BigDecimal.");
-            }
+	/**
+	 * Create a Compare condition with a trigger and compare value.
+	 *
+	 * @param trigger the trigger input field.
+	 * @param value the value to use in the compare.
+	 */
+	public AbstractCompare(final SubordinateTrigger trigger, final Object value) {
+		if (trigger == null) {
+			throw new IllegalArgumentException("Trigger cannot be null.");
+		}
 
-            // WDateField trigger value must be a Date
-            if (trigger instanceof WDateField && !(value instanceof Date))
-            {
-                throw new IllegalArgumentException("The value for a WDateField trigger must be null or a Date.");
-            }
-        }
+		// Check Date and Number field trigger values
+		if (value != null && !CompareType.MATCH.equals(getCompareType())) {
+			// WNumberField trigger value must be a BigDecimal
+			if (trigger instanceof WNumberField && !(value instanceof BigDecimal)) {
+				throw new IllegalArgumentException(
+						"The value for a WNumberField trigger must be null or a BigDecimal.");
+			}
 
-        this.trigger = trigger;
-        this.value = value;
-    }
+			// WDateField trigger value must be a Date
+			if (trigger instanceof WDateField && !(value instanceof Date)) {
+				throw new IllegalArgumentException(
+						"The value for a WDateField trigger must be null or a Date.");
+			}
+		}
 
-    /**
-     * Determine the type of action.
-     * 
-     * @return the action type.
-     */
-    public abstract CompareType getCompareType();
+		this.trigger = trigger;
+		this.value = value;
+	}
 
-    /**
-     * Compare the trigger and compare value.
-     * 
-     * @return true if the trigger input's value compares to the compare value, otherwise false
-     */
-    @Override
-    protected boolean execute()
-    {
-        // Disabled triggers are always false
-        if ((trigger instanceof Disableable) && ((Disableable) trigger).isDisabled())
-        {
-            return false;
-        }
+	/**
+	 * Determine the type of action.
+	 *
+	 * @return the action type.
+	 */
+	public abstract CompareType getCompareType();
 
-        final Object triggerValue = getTriggerValue(null);
-        final Object compareValue = getCompareValue();
+	/**
+	 * Compare the trigger and compare value.
+	 *
+	 * @return true if the trigger input's value compares to the compare value, otherwise false
+	 */
+	@Override
+	protected boolean execute() {
+		// Disabled triggers are always false
+		if ((trigger instanceof Disableable) && ((Disableable) trigger).isDisabled()) {
+			return false;
+		}
 
-        return executeCompare(triggerValue, compareValue);
-    }
+		final Object triggerValue = getTriggerValue(null);
+		final Object compareValue = getCompareValue();
 
-    /**
-     * Compare the trigger value from the request and compare value.
-     * 
-     * @param request the request being processed.
-     * @return true if the trigger input's value compares to the compare value, otherwise false
-     */
-    @Override
-    protected boolean execute(final Request request)
-    {
-        // Disabled triggers are always false
-        if ((trigger instanceof Disableable) && ((Disableable) trigger).isDisabled())
-        {
-            return false;
-        }
+		return executeCompare(triggerValue, compareValue);
+	}
 
-        final Object triggerValue = getTriggerValue(request);
-        final Object compareValue = getCompareValue();
+	/**
+	 * Compare the trigger value from the request and compare value.
+	 *
+	 * @param request the request being processed.
+	 * @return true if the trigger input's value compares to the compare value, otherwise false
+	 */
+	@Override
+	protected boolean execute(final Request request) {
+		// Disabled triggers are always false
+		if ((trigger instanceof Disableable) && ((Disableable) trigger).isDisabled()) {
+			return false;
+		}
 
-        return executeCompare(triggerValue, compareValue);
-    }
+		final Object triggerValue = getTriggerValue(request);
+		final Object compareValue = getCompareValue();
 
-    /**
-     * @param triggerValue the trigger value
-     * @param compareValue the compare value
-     * @return true if the values compare, otherwise false
-     */
-    private boolean executeCompare(final Object triggerValue, final Object compareValue)
-    {
-        // If the trigger value is a list, check if any option in the list compares
-        if (triggerValue instanceof List<?>)
-        {
-            final List<?> selected = (List<?>) triggerValue;
-            for (Object option : selected)
-            {
-                if (doCompare(option, compareValue))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        else
-        {
-            return doCompare(triggerValue, compareValue);
-        }
-    }
+		return executeCompare(triggerValue, compareValue);
+	}
 
-    /**
-     * Return true if the two values compare.
-     * 
-     * @param aVal the trigger value
-     * @param bVal the compare value
-     * @return true if the values compare, otherwise false
-     */
-    protected abstract boolean doCompare(final Object aVal, final Object bVal);
+	/**
+	 * @param triggerValue the trigger value
+	 * @param compareValue the compare value
+	 * @return true if the values compare, otherwise false
+	 */
+	private boolean executeCompare(final Object triggerValue, final Object compareValue) {
+		// If the trigger value is a list, check if any option in the list compares
+		if (triggerValue instanceof List<?>) {
+			final List<?> selected = (List<?>) triggerValue;
+			for (Object option : selected) {
+				if (doCompare(option, compareValue)) {
+					return true;
+				}
+			}
+			return false;
+		} else {
+			return doCompare(triggerValue, compareValue);
+		}
+	}
 
-    /**
-     * Get the value for the trigger.
-     * <p>
-     * If no request is passed in, the current value of the trigger is used.
-     * </p>
-     * <p>
-     * It will return the same "value" the client would have used in its subordinate logic.
-     * </p>
-     * <p>
-     * The trigger value will either be (i) a date formatted String for WDateFields, (ii) a BigDecimal for WNumberFields
-     * or (iii) a List of String values for MultiSelect components or (iv) a String value.
-     * </p>
-     * 
-     * @param request the request being processed, can be null
-     * @return the value to be used for the trigger
-     */
-    protected Object getTriggerValue(final Request request)
-    {
-        // Date Compare (Use Date Formatted String - YYYY-MM-DD)
-        if (trigger instanceof WDateField)
-        {
-            final WDateField input = (WDateField) trigger;
-            Date date;
-            if (request == null)
-            {
-                date = input.getValue();
-            }
-            else
-            {
-                date = input.getRequestValue(request);
-            }
-            return date == null ? null : new SimpleDateFormat(INTERNAL_DATE_FORMAT).format(date);
-        }
+	/**
+	 * Return true if the two values compare.
+	 *
+	 * @param aVal the trigger value
+	 * @param bVal the compare value
+	 * @return true if the values compare, otherwise false
+	 */
+	protected abstract boolean doCompare(final Object aVal, final Object bVal);
 
-        // Number Compare (Use Number Object)
-        else if (trigger instanceof WNumberField)
-        {
-            final WNumberField input = (WNumberField) trigger;
-            if (request == null)
-            {
-                return input.getValue();
-            }
-            else
-            {
-                return input.getRequestValue(request);
-            }
-        }
+	/**
+	 * Get the value for the trigger.
+	 * <p>
+	 * If no request is passed in, the current value of the trigger is used.
+	 * </p>
+	 * <p>
+	 * It will return the same "value" the client would have used in its subordinate logic.
+	 * </p>
+	 * <p>
+	 * The trigger value will either be (i) a date formatted String for WDateFields, (ii) a BigDecimal for WNumberFields
+	 * or (iii) a List of String values for MultiSelect components or (iv) a String value.
+	 * </p>
+	 *
+	 * @param request the request being processed, can be null
+	 * @return the value to be used for the trigger
+	 */
+	protected Object getTriggerValue(final Request request) {
+		// Date Compare (Use Date Formatted String - YYYY-MM-DD)
+		if (trigger instanceof WDateField) {
+			final WDateField input = (WDateField) trigger;
+			Date date;
+			if (request == null) {
+				date = input.getValue();
+			} else {
+				date = input.getRequestValue(request);
+			}
+			return date == null ? null : new SimpleDateFormat(INTERNAL_DATE_FORMAT).format(date);
+		} else if (trigger instanceof WNumberField) { // Number Compare (Use Number Object)
+			final WNumberField input = (WNumberField) trigger;
+			if (request == null) {
+				return input.getValue();
+			} else {
+				return input.getRequestValue(request);
+			}
+		} else if (trigger instanceof AbstractWSingleSelectList) { // String Compare for Single Select Lists (Use the Option's Code)
+			final AbstractWSingleSelectList list = (AbstractWSingleSelectList) trigger;
+			final Object selected;
+			if (request == null) {
+				selected = list.getValue();
+			} else {
+				selected = list.getRequestValue(request);
+			}
+			// Convert selected option to its "code" (Should always have a value)
+			String code = list.optionToCode(selected);
+			return code;
+		} else if (trigger instanceof AbstractWMultiSelectList) { // String Compare for Multi Select Lists (Use the Option's Code)
+			final AbstractWMultiSelectList list = (AbstractWMultiSelectList) trigger;
+			final List<?> selected;
+			if (request == null) {
+				selected = list.getValue();
+			} else {
+				selected = list.getRequestValue(request);
+			}
+			// Empty is treated the same as null
+			if (selected == null || selected.isEmpty()) {
+				return null;
+			}
 
-        // String Compare for Single Select Lists (Use the Option's Code)
-        else if (trigger instanceof AbstractWSingleSelectList)
-        {
-            final AbstractWSingleSelectList list = (AbstractWSingleSelectList) trigger;
-            final Object selected;
-            if (request == null)
-            {
-                selected = list.getValue();
-            }
-            else
-            {
-                selected = list.getRequestValue(request);
-            }
-            // Convert selected option to its "code" (Should always have a value)
-            String code = list.optionToCode(selected);
-            return code;
-        }
+			// Convert selected options to their "code" (Should always have a value)
+			List<String> codes = new ArrayList<>(selected.size());
+			for (Object select : selected) {
+				String code = list.optionToCode(select);
+				codes.add(code);
+			}
+			return codes;
+		} else if (trigger instanceof Input) { // String Compare - Use the String Value of the Input
+			final Input input = (Input) trigger;
+			final Object inputValue;
+			if (request == null) {
+				inputValue = input.getValue();
+			} else {
+				inputValue = input.getRequestValue(request);
+			}
+			// Treat empty the same as null
+			return (inputValue == null || Util.empty(inputValue.toString())) ? null : inputValue.
+					toString();
+		} else {
+			throw new SystemException("Trigger is not a valid type.");
+		}
+	}
 
-        // String Compare for Multi Select Lists (Use the Option's Code)
-        else if (trigger instanceof AbstractWMultiSelectList)
-        {
-            final AbstractWMultiSelectList list = (AbstractWMultiSelectList) trigger;
-            final List<?> selected;
-            if (request == null)
-            {
-                selected = list.getValue();
-            }
-            else
-            {
-                selected = list.getRequestValue(request);
-            }
-            // Empty is treated the same as null
-            if (selected == null || selected.isEmpty())
-            {
-                return null;
-            }
+	/**
+	 * Get the value to use in the compare.
+	 * <p>
+	 * It will return the same "value" the client would have used in its subordinate logic.
+	 * </p>
+	 * <p>
+	 * The compare value will either be (i) a date formatted String for WDateFields, (ii) a BigDecimal for WNumberFields
+	 * or (iii) a String value.
+	 * </p>
+	 *
+	 * @return the value to be used for the compare.
+	 */
+	protected Object getCompareValue() {
+		// Date Compare (Use Date Formatted String - YYYY-MM-DD)
+		if (trigger instanceof WDateField) {
+			return value == null ? null : new SimpleDateFormat(INTERNAL_DATE_FORMAT).format(value);
+		} else if (trigger instanceof WNumberField) { // Number Compare (Use Number Object)
+			return value;
+		} else if (trigger instanceof AbstractWSelectList) {  // String Compare - List (Use the Option's Code)
+			final AbstractWSelectList listTrigger = (AbstractWSelectList) trigger;
+			final List<?> options = listTrigger.getOptions();
 
-            // Convert selected options to their "code" (Should always have a value)
-            List<String> codes = new ArrayList<String>(selected.size());
-            for (Object select : selected)
-            {
-                String code = list.optionToCode(select);
-                codes.add(code);
-            }
-            return codes;
-        }
+			// No options, just return the compare value (so that a test against null works correctly)
+			if (options == null || options.isEmpty()) {
+				return value == null ? null : value.toString();
+			}
 
-        // String Compare - Use the String Value of the Input
-        else if (trigger instanceof Input)
-        {
-            final Input input = (Input) trigger;
-            final Object inputValue;
-            if (request == null)
-            {
-                inputValue = input.getValue();
-            }
-            else
-            {
-                inputValue = input.getRequestValue(request);
-            }
-            // Treat empty the same as null
-            return (inputValue == null || Util.empty(inputValue.toString())) ? null : inputValue.toString();
-        }
+			// Check if the value is a valid option allowing for "Legacy" matching
+			if (SelectListUtil.containsOptionWithMatching(options, value)) {
+				Object option = SelectListUtil.getOptionWithMatching(options, value);
+				String code = listTrigger.optionToCode(option);
+				return code;
+			}
 
-        else
-        {
-            throw new SystemException("Trigger is not a valid type.");
-        }
-    }
+			// Return the value as a String - Treat empty the same as null
+			return (value == null || Util.empty(value.toString())) ? null : value.toString();
+		} else if (trigger instanceof RadioButtonGroup && value instanceof WRadioButton) {
+			// String Compare for RadioButtonGroup and value is WRadioButton (Use the button value)
+			// Note - This is only for backward compatibility where projects have used a radio button
+			// in the trigger. Projects should use the value expected, not the radio button.
+			// If the radio button passed into the compare is used in a repeater, then this compare will not work.
 
-    /**
-     * Get the value to use in the compare.
-     * <p>
-     * It will return the same "value" the client would have used in its subordinate logic.
-     * </p>
-     * <p>
-     * The compare value will either be (i) a date formatted String for WDateFields, (ii) a BigDecimal for WNumberFields
-     * or (iii) a String value.
-     * </p>
-     * 
-     * @return the value to be used for the compare.
-     */
-    protected Object getCompareValue()
-    {
-        // Date Compare (Use Date Formatted String - YYYY-MM-DD)
-        if (trigger instanceof WDateField)
-        {
-            return value == null ? null : new SimpleDateFormat(INTERNAL_DATE_FORMAT).format(value);
-        }
+			String data = ((WRadioButton) value).getValue();
+			// Treat empty the same as null
+			return Util.empty(data) ? null : data;
+		} else { // String Compare
+			// Treat empty the same as null
+			return (value == null || Util.empty(value.toString())) ? null : value.toString();
+		}
+	}
 
-        // Number Compare (Use Number Object)
-        else if (trigger instanceof WNumberField)
-        {
-            return value;
-        }
+	/**
+	 * Get the value to paint for the compare value.
+	 *
+	 * @return the value to paint for the compare value.
+	 */
+	public String getComparePaintValue() {
+		Object data = getCompareValue();
+		return data == null ? "" : data.toString();
+	}
 
-        // String Compare - List (Use the Option's Code)
-        else if (trigger instanceof AbstractWSelectList)
-        {
-            final AbstractWSelectList listTrigger = (AbstractWSelectList) trigger;
-            final List<?> options = listTrigger.getOptions();
+	/**
+	 * @return the trigger.
+	 */
+	public SubordinateTrigger getTrigger() {
+		return trigger;
+	}
 
-            // No options, just return the compare value (so that a test against null works correctly)
-            if (options == null || options.isEmpty())
-            {
-                return value == null ? null : value.toString();
-            }
+	/**
+	 * @return the value to use in the compare.
+	 */
+	public Object getValue() {
+		return value;
+	}
 
-            // Check if the value is a valid option allowing for "Legacy" matching
-            if (SelectListUtil.containsOptionWithMatching(options, value))
-            {
-                Object option = SelectListUtil.getOptionWithMatching(options, value);
-                String code = listTrigger.optionToCode(option);
-                return code;
-            }
-
-            // Return the value as a String - Treat empty the same as null
-            return (value == null || Util.empty(value.toString())) ? null : value.toString();
-        }
-        
-        // String Compare for RadioButtonGroup and value is WRadioButton (Use the button value)
-        // Note - This is only for backward compatibility where projects have used a radio button
-        // in the trigger. Projects should use the value expected, not the radio button.
-        // If the radio button passed into the compare is used in a repeater, then this compare will not work.
-        else if (trigger instanceof RadioButtonGroup && value instanceof WRadioButton)
-        {
-            String data = ((WRadioButton) value).getValue();
-            // Treat empty the same as null
-            return Util.empty(data) ? null : data;
-        }
-        
-        // String Compare
-        else
-        {
-            // Treat empty the same as null
-            return (value == null || Util.empty(value.toString())) ? null : value.toString();
-        }
-    }
-
-    /**
-     * Get the value to paint for the compare value.
-     * 
-     * @return the value to paint for the compare value.
-     */
-    public String getComparePaintValue()
-    {
-        Object data = getCompareValue();
-        return data == null ? "" : data.toString();
-    }
-
-    /**
-     * @return the trigger.
-     */
-    public SubordinateTrigger getTrigger()
-    {
-        return trigger;
-    }
-
-    /**
-     * @return the value to use in the compare.
-     */
-    public Object getValue()
-    {
-        return value;
-    }
-
-    /**
-     * An enumerated class for the type of compares.
-     */
-    public enum CompareType
-    {
-        /** Equal compare. */
-        EQUAL,
-        /** Not equal compare. */
-        NOT_EQUAL,
-        /** Less than compare. */
-        LESS_THAN,
-        /** Less than or equal compare. */
-        LESS_THAN_OR_EQUAL,
-        /** Greater than compare. */
-        GREATER_THAN,
-        /** Greater than or equal compare. */
-        GREATER_THAN_OR_EQUAL,
-        /** Regular expression compare. */
-        MATCH
-    }
+	/**
+	 * An enumerated class for the type of compares.
+	 */
+	public enum CompareType {
+		/**
+		 * Equal compare.
+		 */
+		EQUAL,
+		/**
+		 * Not equal compare.
+		 */
+		NOT_EQUAL,
+		/**
+		 * Less than compare.
+		 */
+		LESS_THAN,
+		/**
+		 * Less than or equal compare.
+		 */
+		LESS_THAN_OR_EQUAL,
+		/**
+		 * Greater than compare.
+		 */
+		GREATER_THAN,
+		/**
+		 * Greater than or equal compare.
+		 */
+		GREATER_THAN_OR_EQUAL,
+		/**
+		 * Regular expression compare.
+		 */
+		MATCH
+	}
 
 }

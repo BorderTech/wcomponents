@@ -1,321 +1,277 @@
 package com.github.bordertech.wcomponents.util.mock;
 
+import com.github.bordertech.wcomponents.AbstractRequest;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WButton;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-
-
 import org.apache.commons.fileupload.FileItem;
 
-import com.github.bordertech.wcomponents.AbstractRequest;
-import com.github.bordertech.wcomponents.UIContext;
-import com.github.bordertech.wcomponents.UIContextHolder;
-import com.github.bordertech.wcomponents.WButton;
-
 /**
- * A mock request is useful when you want to write junits and the like.
- * Normally the container running the components handles this, but in
- * the case of junits, you are the container, so you must supply a
- * request. MockRequest fills this requirement.
+ * A mock request is useful when you want to write junits and the like. Normally the container running the components
+ * handles this, but in the case of junits, you are the container, so you must supply a request. MockRequest fills this
+ * requirement.
  *
  * @author Martin Shevchenko
  * @author Rick Brown
  * @since 1.0.0
  */
-public class MockRequest extends AbstractRequest
-{
-    /** Stores the mock parameters for this request. */
-    private final Map<String, Object> parameters = new HashMap<String, Object>(0);
+public class MockRequest extends AbstractRequest {
 
-    /** Stores the mock uploaded files for this request. */
-    private final Map<String, FileItem> files = new HashMap<String, FileItem>(0);
+	/**
+	 * Stores the mock parameters for this request.
+	 */
+	private final Map<String, String[]> parameters = new HashMap<>(0);
 
-    /** A store of arbitrary, application-defined attributes. */
-    private final Map<String, Serializable> attributes = new HashMap<String, Serializable>();
+	/**
+	 * Stores the mock uploaded files for this request.
+	 */
+	private final Map<String, FileItem[]> files = new HashMap<>(0);
 
-    /** Since there's no backing HTTP session, the session attributes are just stored in a map. */
-    private final Map<String, Serializable> sessionAttributes = new HashMap<String, Serializable>();
+	/**
+	 * A store of arbitrary, application-defined attributes.
+	 */
+	private final Map<String, Serializable> attributes = new HashMap<>();
 
-    /** The set of roles which the user has. */
-    private final Set<String> userRoles = new HashSet<String>();
+	/**
+	 * Since there's no backing HTTP session, the session attributes are just stored in a map.
+	 */
+	private final Map<String, Serializable> sessionAttributes = new HashMap<>();
 
-    /** The mock request method. Defaults to POST. */
-    private String method = "POST";
+	/**
+	 * The set of roles which the user has.
+	 */
+	private final Set<String> userRoles = new HashSet<>();
 
-    /** The mock maxInactiveInterval. Defaults to -1 (no timeout) */
-    private int maxInactiveInterval = -1;
+	/**
+	 * The mock request method. Defaults to POST.
+	 */
+	private String method = "POST";
 
-    //=== Start MockRequest specific convenience methods ===
+	/**
+	 * The mock maxInactiveInterval. Defaults to -1 (no timeout)
+	 */
+	private int maxInactiveInterval = -1;
 
-    /**
-     * Sets a parameter.
-     *
-     * @param key the parameter key.
-     * @param value the parameter value.
-     */
-    public void setParameter(final String key, final String value)
-    {
-        parameters.put(key, value);
-    }
+	//=== Start MockRequest specific convenience methods ===
+	/**
+	 * Sets a parameter.
+	 *
+	 * @param key the parameter key.
+	 * @param value the parameter value.
+	 */
+	public void setParameter(final String key, final String value) {
+		parameters.put(key, new String[]{value});
+	}
 
-    /**
-     * Sets a parameter.
-     *
-     * @param key the parameter key.
-     * @param value the parameter values.
-     */
-    public void setParameter(final String key, final String[] value)
-    {
-        parameters.put(key, value);
-    }
+	/**
+	 * Sets a parameter.
+	 *
+	 * @param key the parameter key.
+	 * @param value the parameter values.
+	 */
+	public void setParameter(final String key, final String[] value) {
+		parameters.put(key, value);
+	}
 
-    /**
-     * Convenience method that adds a parameter emulating a button press.
-     *
-     * @param uic the current user's UIContext
-     * @param button the button to add a parameter for.
-     */
-    public void addParameterForButton(final UIContext uic, final WButton button)
-    {
-        UIContextHolder.pushContext(uic);
+	/**
+	 * Convenience method that adds a parameter emulating a button press.
+	 *
+	 * @param uic the current user's UIContext
+	 * @param button the button to add a parameter for.
+	 */
+	public void addParameterForButton(final UIContext uic, final WButton button) {
+		UIContextHolder.pushContext(uic);
+		try {
+			setParameter(button.getId(), "x");
+		} finally {
+			UIContextHolder.popContext();
+		}
+	}
 
-        try
-        {
-            parameters.put(button.getId(), "x");
-        }
-        finally
-        {
-            UIContextHolder.popContext();
-        }
-    }
+	/**
+	 * Sets mock file upload contents.
+	 *
+	 * @deprecated Because it appears unused
+	 * @param key the parameter key.
+	 * @param contents the file binary data.
+	 */
+	public void setFileContents(final String key, final byte[] contents) {
+		MockFileItem fileItem = new MockFileItem();
+		fileItem.set(contents);
+		files.put(key, new FileItem[]{fileItem});
+	}
 
-    /**
-     * Sets mock file upload contents.
-     * @deprecated Because it appears unused
-     * @param key the parameter key.
-     * @param contents the file binary data.
-     */
-    public void setFileContents(final String key, final byte[] contents)
-    {
-        MockFileItem fileItem = new MockFileItem();
-        fileItem.set(contents);
+	/**
+	 * Clears all the parameter, file, and attribute values.
+	 */
+	public void clearRequest() {
+		parameters.clear();
+		files.clear();
+		attributes.clear();
+	}
 
-        files.put(key, fileItem);
-    }
+	/**
+	 * Clears the session attributes.
+	 */
+	public void clearSession() {
+		sessionAttributes.clear();
+	}
 
-    /**
-     * Retrieves a mock file for the given parameter name.
-     * @param key the parameter name
-     * @return the MockFileItem with the given key.
-     */
-    @Override
-    public FileItem getFileItem(final String key)
-    {
-        return getFiles().get(key);
-    }
+	/**
+	 * Sets the roles which the user has for this request.
+	 *
+	 * @param userRoles the user roles to add.
+	 */
+	public void setUserRoles(final List<String> userRoles) {
+		this.userRoles.clear();
+		this.userRoles.addAll(userRoles);
+	}
 
-    /**
-     * Retrieves mock files for the given parameter name.
-     * @param key the parameter name
-     * @return the MockFileItems with the given key.
-     */
-    @Override
-    public FileItem[] getFileItems(final String key)
-    {
-        Object file = getFiles().get(key);
+	//=== End   MockRequest specific convenience methods ===
+	/**
+	 * @return the parameter map.
+	 */
+	@Override
+	public Map<String, String[]> getParameters() {
+		return parameters;
+	}
 
-        if (file == null)
-        {
-            return null;
-        }
+	/**
+	 * @return the file upload map.
+	 */
+	@Override
+	public Map<String, FileItem[]> getFiles() {
+		return files;
+	}
 
-        if (file instanceof FileItem)
-        {
-            return new FileItem[] { (FileItem) file };
-        }
-        return (FileItem[]) file;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Serializable getAttribute(final String key) {
+		return attributes.get(key);
+	}
 
-    /**
-     * Retrieves the contents of a mock file for the given parameter name.
-     * @param key the parameter name
-     * @return FileContents from the MockFileItem with the given key.
-     */
-    @Override
-    public byte[] getFileContents(final String key)
-    {
-        return getFiles().get(key).get();
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setAttribute(final String key, final Serializable value) {
+		attributes.put(key, value);
+	}
 
-    /**
-     * Clears all the parameter, file, and attribute values.
-     */
-    public void clearRequest()
-    {
-        parameters.clear();
-        files.clear();
-        attributes.clear();
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Serializable getSessionAttribute(final String key) {
+		return sessionAttributes.get(key);
+	}
 
-    /**
-     * Clears the session attributes.
-     */
-    public void clearSession()
-    {
-        sessionAttributes.clear();
-    }
+	/**
+	 * Note that this mock request just maps to the global session.
+	 *
+	 * @param key the attribute key
+	 * @return the value of the session attribute with the given key
+	 */
+	@Override
+	public Serializable getAppSessionAttribute(final String key) {
+		return getSessionAttribute(key);
+	}
 
-    /**
-     * Sets the roles which the user has for this request.
-     * @param userRoles the user roles to add.
-     */
-    public void setUserRoles(final List<String> userRoles)
-    {
-        this.userRoles.clear();
-        this.userRoles.addAll(userRoles);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setSessionAttribute(final String key, final Serializable value) {
+		sessionAttributes.put(key, value);
+	}
 
-    //=== End   MockRequest specific convenience methods ===
+	/**
+	 * Note that this mock request just maps to the global session.
+	 *
+	 * @param key the session attribute key
+	 * @param value the value of the session attribute
+	 */
+	@Override
+	public void setAppSessionAttribute(final String key, final Serializable value) {
+		setSessionAttribute(key, value);
+	}
 
-    /**
-     * @return the parameter map.
-     */
-    @Override
-    public Map<String, Object> getParameters()
-    {
-        return parameters;
-    }
+	/**
+	 * Support for Public Render Parameters in Portal. In a Servlet environment, this will be the same as the session.
+	 *
+	 * @param key The key for the parameter.
+	 * @param value The value of the parameter.
+	 * @since 1.0.0
+	 * @deprecated portal specific. user {@link #setSessionAttribute(String, Serializable)}
+	 */
+	@Override
+	public void setRenderParameter(final String key, final Serializable value) {
+		setSessionAttribute(key, value);
+	}
 
-    /**
-     * @return the file upload map.
-     */
-    @Override
-    public Map<String, FileItem> getFiles()
-    {
-        return files;
-    }
+	/**
+	 * Support for Public Render Parameters in Portal. In a Servlet environment, this will be the same as the session.
+	 *
+	 * @param key The key for the parameter.
+	 * @return The value of the parameter.
+	 * @since 1.0.0
+	 * @deprecated portal specific. user {@link #getSessionAttribute(String)}
+	 */
+	@Override
+	public Serializable getRenderParameter(final String key) {
+		return getSessionAttribute(key);
+	}
 
-    /** {@inheritDoc} */
-    public Serializable getAttribute(final String key)
-    {
-        return attributes.get(key);
-    }
+	/**
+	 * Returns true if the user is in the given role.
+	 *
+	 * @param role a String specifying the name of the role.
+	 * @return true if the user is in the given role, otherwise false.
+	 */
+	@Override
+	public boolean isUserInRole(final String role) {
+		return userRoles.contains(role);
+	}
 
-    /** {@inheritDoc} */
-    public void setAttribute(final String key, final Serializable value)
-    {
-        attributes.put(key, value);
-    }
+	/**
+	 * @return the name of the HTTP method with which this request was made, for example, GET, POST, or PUT.
+	 */
+	@Override
+	public String getMethod() {
+		return method;
+	}
 
-    /** {@inheritDoc} */
-    public Serializable getSessionAttribute(final String key)
-    {
-        return sessionAttributes.get(key);
-    }
+	/**
+	 * For a mock request, allow the method to be set.
+	 *
+	 * @param method the name of the HTTP method with which this request was made, for example, GET, POST, or PUT.
+	 */
+	public void setMethod(final String method) {
+		this.method = method;
+	}
 
-    /**
-     * Note that this mock request just maps to the global session.
-     *
-     * @param key the attribute key
-     * @return the value of the session attribute with the given key
-     */
-    public Serializable getAppSessionAttribute(final String key)
-    {
-        return getSessionAttribute(key);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getMaxInactiveInterval() {
+		return maxInactiveInterval;
+	}
 
-    /** {@inheritDoc} */
-    public void setSessionAttribute(final String key, final Serializable value)
-    {
-        sessionAttributes.put(key, value);
-    }
-
-    /**
-     * Note that this mock request just maps to the global session.
-     *
-     * @param key the session attribute key
-     * @param value the value of the session attribute
-     */
-    public void setAppSessionAttribute(final String key, final Serializable value)
-    {
-        setSessionAttribute(key, value);
-    }
-
-    /**
-     * Support for Public Render Parameters in Portal.
-     * In a Servlet environment, this will be the same as the session.
-     *
-     * @param key The key for the parameter.
-     * @param value The value of the parameter.
-     * @since 1.0.0
-     * @deprecated portal specific. user {@link #setSessionAttribute(String, Serializable)}
-     */
-    public void setRenderParameter(final String key, final Serializable value)
-    {
-        setSessionAttribute(key, value);
-    }
-
-    /**
-     * Support for Public Render Parameters in Portal.
-     * In a Servlet environment, this will be the same as the session.
-     *
-     * @param key The key for the parameter.
-     * @return The value of the parameter.
-     * @since 1.0.0
-     * @deprecated portal specific. user {@link #getSessionAttribute(String)}
-     */
-    public Serializable getRenderParameter(final String key)
-    {
-        return getSessionAttribute(key);
-    }
-
-    /**
-     * Returns true if the user is in the given role.
-     *
-     * @param role a String specifying the name of the role.
-     * @return true if the user is in the given role, otherwise false.
-     */
-    public boolean isUserInRole(final String role)
-    {
-        return userRoles.contains(role);
-    }
-
-    /**
-     * @return the name of the HTTP method with which this request was made, for example, GET, POST, or PUT.
-     */
-    public String getMethod()
-    {
-        return method;
-    }
-
-    /**
-     * For a mock request, allow the method to be set.
-     *
-     * @param method the name of the HTTP method with which this request was made, for example, GET, POST, or PUT.
-     */
-    public void setMethod(final String method)
-    {
-        this.method = method;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public int getMaxInactiveInterval()
-    {
-        return maxInactiveInterval;
-    }
-
-    /**
-     * Set the mock maxInactiveInterval
-     * @param interval the period in seconds to set as the maxInactiveInterval
-     */
-    public void setMaxInactiveInterval(final int interval)
-    {
-        this.maxInactiveInterval = interval;
-    }
+	/**
+	 * Set the mock maxInactiveInterval.
+	 *
+	 * @param interval the period in seconds to set as the maxInactiveInterval
+	 */
+	public void setMaxInactiveInterval(final int interval) {
+		this.maxInactiveInterval = interval;
+	}
 }

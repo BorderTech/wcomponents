@@ -8,29 +8,26 @@
 	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.common.required.xsl"/>
 	<xsl:import href="wc.common.missingLabel.xsl"/>
-	<xsl:import href="wc.debug.common.contentCategory.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
 	<!--
 		Checkable input controls
-	
+
 		Transform for WCheckBox and WRadioButton to a HTML input element of type
 		checkbox or radio (if editable) or a non-interactive representation if read-only.
 
 		When @readOnly is true the component will output a non-interactive graphical
 		representation of the control. This will be marked up to provide appropriate
 		text content.
-		
+
 		Checkable inputs currently support @submitOnChange. This is an issue with
 		WCAG 3.2.2 (http://www.w3.org/TR/WCAG20/#consistent-behavior-unpredictable-change).
 		Therefore where submitOnChange is true we must inform users that changing
 		selection will cause the form to submit. This must be done for all users. It is
 		strongly recommended that @submitOnChange never be used with one of	these components.
 	-->
-	<xsl:template match="ui:checkBox|ui:radioButton">
+	<xsl:template match="ui:checkbox|ui:radiobutton">
 		<xsl:variable name="type">
 			<xsl:choose>
-				<xsl:when test="self::ui:checkBox or not(@groupName)">
+				<xsl:when test="self::ui:checkbox or not(@groupName)">
 					<xsl:text>checkbox</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
@@ -43,7 +40,7 @@
 		</xsl:variable>
 		<xsl:variable name="name">
 			<xsl:choose>
-				<xsl:when test="@groupName and self::ui:radioButton">
+				<xsl:when test="@groupName and self::ui:radiobutton">
 					<xsl:value-of select="@groupName"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -56,9 +53,8 @@
 			<xsl:when test="@readOnly">
 				<xsl:call-template name="readOnlyControl">
 					<xsl:with-param name="class">
-						<xsl:value-of select="$type"/>
 						<xsl:if test="@selected">
-							<xsl:text> wc_ro_sel</xsl:text>
+							<xsl:text>wc_ro_sel</xsl:text>
 						</xsl:if>
 					</xsl:with-param>
 					<xsl:with-param name="toolTip">
@@ -89,17 +85,14 @@
 						<xsl:with-param name="myLabel" select="$myLabel[1]"/>
 					</xsl:call-template>
 					<!-- Fortunately commonControlAttributes will only output a value attribute if
-						the XSL element has a value attribute; so we can add the ui:checkBox value
+						the XML element has a value attribute; so we can add the ui:checkbox value
 						here without changing the called template. -->
-					<xsl:if test="self::ui:checkBox">
+					<xsl:if test="self::ui:checkbox">
 						<xsl:attribute name="value">
 							<xsl:copy-of select="$t"/>
 						</xsl:attribute>
-						<xsl:attribute name="${wc.ui.checkBox.attribute.standAlone}">
-							<xsl:text>x</xsl:text>
-						</xsl:attribute>
 					</xsl:if>
-					<xsl:if test="@groupName and self::ui:checkBox">
+					<xsl:if test="@groupName and self::ui:checkbox">
 						<xsl:attribute name="data-wc-cbgroup">
 							<xsl:value-of select="@groupName"/>
 						</xsl:attribute>
@@ -122,7 +115,7 @@
 						</xsl:call-template>
 					</xsl:otherwise>
 				</xsl:choose>
-				<xsl:if test="self::ui:radioButton">
+				<xsl:if test="self::ui:radiobutton">
 					<xsl:call-template name="hField">
 						<xsl:with-param name="name" select="$name"/>
 					</xsl:call-template>

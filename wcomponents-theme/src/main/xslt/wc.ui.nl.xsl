@@ -1,4 +1,7 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	<xsl:template match="ui:nl"/>
 	<!--
 		creates a newline character.
 		 
@@ -15,15 +18,8 @@
 		but maybe earlier), Opera (at least 11.61+ but maybe earlier) and Safari
 		(Windows 5.0.1+, maybe earlier) but should be tested on non-windows platforms. 
 	 -->
-	<xsl:template match="ui:nl" mode="space">
+
+	<xsl:template match="ui:nl" mode="pre">
 		<xsl:text>&#xD;&#xA;</xsl:text>
 	</xsl:template>
-	<!--
-		Template match="ui:nl"
-		
-		Usually thrown away. Only needed when @space='preserve' this is used to
-		separate paragraphs when @space='paragraphs' but does not itself have a UI
-		artefact in that context. Completely superfluous when @space is not set.
-	-->
-	<xsl:template match="ui:nl"/>
 </xsl:stylesheet>

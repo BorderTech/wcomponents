@@ -2,6 +2,12 @@
  * Provides a calendar based date chooser control for use by WDateFields when a native date control is not available
  * and WPartialDateFields in all cases.
  *
+ * @typedef {Object} module:wc/ui/calendar.config() Optional module configuration.
+ * @property {?int} min The minimum year to allow in the date picker.
+ * @default 1000
+ * @property {?int} max The maximum year to allow in the date picker.
+ * @default 9999.
+ *
  * @module
  * @requires module:wc/dom/attribute
  * @requires module:wc/date/addDays
@@ -22,11 +28,12 @@
  * @requires module:wc/dom/Widget
  * @requires module:wc/i18n/i18n
  * @requires module:wc/loader/resource
- * @requires external:sprintf/sprintf
  * @requires module:wc/isNumeric
  * @requires module:wc/ui/dateField
  * @requires module:wc/dom/initialise
  * @requires module:wc/timers
+ * @requires module:Mustache
+ * @requires module:wc/config
  *
  * @see {@link module:wc/ui/datefield}
  *
@@ -51,14 +58,16 @@ define(["wc/dom/attribute",
 		"wc/dom/Widget",
 		"wc/i18n/i18n",
 		"wc/loader/resource",
-		"sprintf/sprintf",
 		"wc/isNumeric",
 		"wc/ui/dateField",
 		"wc/dom/initialise",
-		"wc/timers"],
-/** @param attribute wc/dom/attribute @param addDays wc/date/addDays @param copy wc/date/copy @param dayName wc/date/dayName @param daysInMonth wc/date/daysInMonth @param getDifference wc/date/getDifference @param monthName wc/date/monthName @param today wc/date/today @param interchange wc/date/interchange @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param shed wc/dom/shed @param tag wc/dom/tag @param viewportCollision wc/dom/viewportCollision @param getBox wc/dom/getBox @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param loader wc/loader/resource @param sprintf sprintf/sprintf @param isNumeric wc/isNumeric @param dateField wc/ui/dateField @param initialise wc/dom/initialise @param timers wc/timers @ignore */
+		"wc/timers",
+		"Mustache",
+		"wc/config"],
+
 function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthName, today, interchange, classList, event,
-		focus, shed, tag, viewportCollision, getBox, Widget, i18n, loader, sprintf, isNumeric, dateField, initialise, timers) {
+		focus, shed, tag, viewportCollision, getBox, Widget, i18n, loader, isNumeric, dateField, initialise,
+		timers, Mustache, wcconfig) {
 
 	"use strict";
 
@@ -68,10 +77,12 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 	 * @private
 	 */
 	function Calendar() {
-		var DATE_KEY = "date_key", CONTAINER_ID = "wc-calbox",
-			DAY_CONTAINER_ID = "wc-caldaybox",
-			MONTH_SELECT_ID = "wc-calmonth",
-			YEAR_ELEMENT_ID = "wc-calyear",
+		var TEMPLATE_NAME = "wc.ui.dateField.calendar.html",
+			DATE_KEY = "date_key",
+			CONTAINER_ID = "wc_calbox",
+			DAY_CONTAINER_ID = "wc_caldaybox",
+			MONTH_SELECT_ID = "wc_calmonth",
+			YEAR_ELEMENT_ID = "wc_calyear",
 			CONTROL_ATTRIBUTE = "aria-controls",
 			AUTO_VALIDATE_WAIT = 250,  // delay after year is changed before the calendar is refreshed
 			CLASS = {
@@ -79,19 +90,22 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				WEST: "wc_colwest",
 				TODAY: "wc_wdf_today",
 				DATE_BUTTON: "wc_wdf_pick",
-				LAST: "last"
+				LAST: "wc_cal_last"
 			},
 			LAUNCHER = dateField.getLaunchWidget(),
+			DATE_FIELD,
 			PICKABLE = new Widget("button", CLASS.DATE_BUTTON),
 			ROW,
 			CAL_BUTTON = new Widget("button", "wc_wdf_mv"),
 			CLOSE_BUTTON = new Widget("button", "wc_wdf_cls"),
 			isOpening = false,
-			yearChangedTimeout, refocusId,
+			yearChangedTimeout,
+			refocusId,
 			MIN_ATTRIB = "min",
 			MAX_ATTRIB = "max",
-			MIN_YEAR = 1000,
-			MAX_YEAR = 9999;
+			conf = wcconfig.get("wc/ui/calendar"),
+			MIN_YEAR = ((conf && conf.min) ? conf.min : 1000),
+			MAX_YEAR = ((conf && conf.max) ? conf.max : 9999);
 
 
 		function findMonthSelect() {
@@ -106,7 +120,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * get the empty calendar sprintf base string
 		 */
 		function getEmptyCalendar() {
-			return loader.load("wc.ui.dateField.calendar.xml", true);
+			// TODO this needs to be made async
+			return loader.load(TEMPLATE_NAME, true);
 		}
 
 		function resetMonthPickerOptions(disable) {
@@ -206,80 +221,116 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 */
 		function refresh() {
 			var yearField = findYearField(),
-				monthSelect = findMonthSelect(),
+				input = getInputForCalendar(),
+				limit = getLimits(yearField, input),
 				year = getYearValueAsNumber(yearField),
-				month = monthSelect.selectedIndex,
+				month,
 				current,
-				newDate,
-				days,
-				maxDays,
-				minYear = yearField.getAttribute(MIN_ATTRIB),
-				maxYear = yearField.getAttribute(MAX_ATTRIB),
-				minMonth,
-				maxMonth,
-				minDay,
-				maxDay;
+				newDate;
 
 			// ignore invalid years
 			if (!isNaN(year)) {
 				current = retrieveDate();
-				newDate = copy(current);
-				newDate.setDate(1);  // ALWAYS set date to something less than 29 !!BEFORE!! calling setMonth
-				newDate.setFullYear(year);
 
-				if (minYear === year || maxYear === year) {
-					if (minYear === year) {
-						minMonth = getMinMaxMonthDay(getInputForCalendar());
-						if ((minMonth || minMonth === 0) && minMonth > month) {
-							newDate.setMonth(minMonth);
-							monthSelect.selectedIndex = minMonth;
+				newDate = setYear(current, year);  // YEAR
+				month = setMonth(newDate, year, limit);  // MONTH
+				setDay(current, newDate, year, month, limit);  // DAY
 
-						}
-						else {
-							newDate.setMonth(month);
-						}
-					}
-					if (maxYear === year) {
-						maxMonth = getMinMaxMonthDay(getInputForCalendar(), true);
-						if (maxMonth && maxMonth < month) {
-							newDate.setMonth(maxMonth);
-							monthSelect.selectedIndex = maxMonth;
-						}
-						else {
-							newDate.setMonth(month);
-						}
-					}
-				}
-				else {
-					newDate.setMonth(month);
-				}
-
-				// check if the date was rolled forward
-				// this can happen if we go from, say, 31 march back to feb
-				days = current.getDate();
-				maxDays = daysInMonth(newDate.getFullYear(), newDate.getMonth() + 1);
-
-				if (minYear === year || maxYear === year) {
-					if (minMonth === monthSelect.selectedIndex) {
-						minDay = getMinMaxMonthDay(getInputForCalendar(), false, true);
-						if (minDay > days) {
-							days = minDay;
-						}
-					}
-					else if (maxMonth === monthSelect.selectedIndex) {
-						maxDay = getMinMaxMonthDay(getInputForCalendar(), true, true);
-						if (maxDay < days) {
-							days = maxDay;
-						}
-					}
-				}
-				if (days > maxDays) {
-					newDate.setDate(maxDays);
-				}
-				else {
-					newDate.setDate(days);
-				}
 				setDate(newDate, false);
+			}
+		}
+
+		/*
+		 * Helper for refresh.
+		 * @private
+		 * @function
+		 */
+		function getLimits(yearField, input) {
+			var result = {
+				yearMin: yearField.getAttribute(MIN_ATTRIB),
+				yearMax: yearField.getAttribute(MAX_ATTRIB),
+				monthMin: getMinMaxMonthDay(input),
+				monthMax: getMinMaxMonthDay(input, true),
+				dayMin: getMinMaxMonthDay(input, false, true),
+				dayMax: getMinMaxMonthDay(input, true, true)
+			};
+			return result;
+		}
+
+		/*
+		 * Helper for refresh.
+		 * @private
+		 * @function
+		 */
+		function setYear(date, year) {
+			var newDate = copy(date);
+			newDate.setDate(1);  // ALWAYS set date to something less than 29 !!BEFORE!! calling setMonth
+			newDate.setFullYear(year);
+			return newDate;
+		}
+
+		/*
+		 * Helper for refresh.
+		 * @private
+		 * @function
+		 */
+		function setMonth(date, year, limit) {
+			var monthSelect = findMonthSelect(),
+				month = monthSelect.selectedIndex;
+			if (limit.yearMin === year || limit.yearMax === year) {
+				if (limit.yearMin === year) {
+					if ((limit.monthMin || limit.monthMin === 0) && limit.monthMin > month) {
+						date.setMonth(limit.monthMin);
+						monthSelect.selectedIndex = limit.monthMin;
+					}
+					else {
+						date.setMonth(month);
+					}
+				}
+				if (limit.yearMax === year) {
+					if (limit.monthMax && limit.monthMax < month) {
+						date.setMonth(limit.monthMax);
+						monthSelect.selectedIndex = limit.monthMax;
+					}
+					else {
+						date.setMonth(month);
+					}
+				}
+			}
+			else {
+				date.setMonth(month);
+			}
+			return monthSelect.selectedIndex;
+		}
+
+		/*
+		 * Helper for refresh.
+		 * @private
+		 * @function
+		 */
+		function setDay(current, date, year, month, limit) {
+			// check if the date was rolled forward
+			// this can happen if we go from, say, 31 march back to feb
+			var days = current.getDate(),
+				daysMax = daysInMonth(date.getFullYear(), date.getMonth() + 1);
+
+			if (limit.yearMin === year || limit.yearMax === year) {
+				if (limit.monthMin === month) {
+					if (limit.dayMin > days) {
+						days = limit.dayMin;
+					}
+				}
+				else if (limit.monthMax === month) {
+					if (limit.dayMax < days) {
+						days = limit.dayMax;
+					}
+				}
+			}
+			if (days > daysMax) {
+				date.setDate(daysMax);
+			}
+			else {
+				date.setDate(days);
 			}
 		}
 
@@ -310,12 +361,11 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * in order to bootstrap the field.
 		 */
 		function hideCalendar(ignoreFocusReset) {
-			var cal = getCal(true),
+			var cal = getCal(),
 				input;
 
 			// touching = null;
 			if (cal && !shed.isHidden(cal)) {
-
 				// focus the dateField if required
 				if (!ignoreFocusReset && (input = getInputForCalendar(cal))) {
 					refocusId = input.id;
@@ -323,9 +373,56 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				else {
 					refocusId = null;
 				}
-
 				shed.hide(cal);
 			}
+		}
+
+		/**
+		 * Helper for keydown event listener which handles key presses on year input.
+		 *
+		 * @function
+		 * @private
+		 * @param {Element} element The calendar's year input.
+		 * @param {int} keyCode The keydown event's keyCode.
+		 * @returns {Boolean} true if the event's default action is to be prevented.
+		 */
+		function keydownHelperChangeYear(element, keyCode) {
+			yearChanged(element);
+			if (keyCode === KeyEvent.DOM_VK_RETURN) { // do not submit on enter/return in year field
+				return true;
+			}
+			return false;
+		}
+
+		/**
+		 * Helper for keydown event listener which handles key presses on date pick buttons.
+		 *
+		 * @function
+		 * @private
+		 * @param {Element} element the target of the keydown event previously determined as a picker button.
+		 * @param {int} keyCode the keydown event's keyCode.
+		 * @param {Boolean} shiftKey was the SHIFT key down?
+		 * @returns {Boolean} true if the event is to have its default action prevented.
+		 */
+		function keydownHelperDateButton(element, keyCode, shiftKey) {
+			switch (keyCode) {
+				case KeyEvent.DOM_VK_LEFT:
+				case KeyEvent.DOM_VK_RIGHT:
+				case KeyEvent.DOM_VK_UP:
+				case KeyEvent.DOM_VK_DOWN:
+					navigateDayLeftRightUpDown(element, keyCode);
+					return true;
+				case KeyEvent.DOM_VK_T:
+					setDate(new Date(), true);
+					break;
+				case KeyEvent.DOM_VK_TAB:
+					if (!shiftKey && classList.contains(element, CLASS.LAST)) {  // tabbing fwd past last day
+						focus.setFocusRequest(findMonthSelect());  // move focus to first element
+						return true;
+					}
+					break;
+			}
+			return false;
 		}
 
 		/**
@@ -337,50 +434,35 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 */
 		function _calendarKeydownEvent($event) {
 			var buttons,
+				cal,
 				element = $event.target,
 				shiftKey = $event.shiftKey,
 				keyCode = $event.keyCode,
 				handled = false;
-			if (!$event.defaultPrevented) {
-				if (keyCode === KeyEvent.DOM_VK_ESCAPE) {
-					hideCalendar();
-					handled = true;  // if the date field is in a dialog, do not close dialog
-				}
-				else if (element.id === YEAR_ELEMENT_ID && keyCode !== KeyEvent.DOM_VK_TAB && keyCode !== KeyEvent.DOM_VK_SHIFT) {
-					yearChanged(element);
-					if ($event.keyCode === KeyEvent.DOM_VK_RETURN) {
-						// do not submit on enter/return in year field
-						handled = true;
-					}
-				}
-				else if (keyCode === KeyEvent.DOM_VK_TAB && shiftKey && element === findMonthSelect()) {  // tabbing back past month select
-					buttons = PICKABLE.findDescendants(getCal());
-					focus.setFocusRequest(buttons[buttons.length - 1]);  // move focus to last element
-					handled = true;
-				}
-				else if ((element = PICKABLE.findAncestor(element))) {
-					switch (keyCode) {
-						case KeyEvent.DOM_VK_LEFT:
-						case KeyEvent.DOM_VK_RIGHT:
-						case KeyEvent.DOM_VK_UP:
-						case KeyEvent.DOM_VK_DOWN:
-							navigateDayLeftRightUpDown(element, keyCode);
-							handled = true;
-							break;
-						case KeyEvent.DOM_VK_T:
-							setDate(new Date(), true);
-							break;
-						case KeyEvent.DOM_VK_TAB:
-							if (!shiftKey && classList.contains(element, CLASS.LAST)) {  // tabbing fwd past last day
-								focus.setFocusRequest(findMonthSelect());  // move focus to first element
-								handled = true;
-							}
-							break;
-					}
-				}
-				if (handled) {
-					$event.preventDefault();
-				}
+
+			if ($event.defaultPrevented) {
+				return;
+			}
+
+			if (keyCode === KeyEvent.DOM_VK_ESCAPE) {
+				hideCalendar();
+				handled = true;  // if the date field is in a dialog, do not close dialog
+			}
+			else if (element.id === YEAR_ELEMENT_ID && keyCode !== KeyEvent.DOM_VK_TAB && keyCode !== KeyEvent.DOM_VK_SHIFT) {
+				handled = keydownHelperChangeYear(element, keyCode);
+			}
+			else if (keyCode === KeyEvent.DOM_VK_TAB && shiftKey && element === findMonthSelect()) {  // tabbing back past month select
+				cal = cal || (getCal() || create());
+				buttons = PICKABLE.findDescendants(cal);
+				focus.setFocusRequest(buttons[buttons.length - 1]);  // move focus to last element
+				handled = true;
+			}
+			else if ((element = PICKABLE.findAncestor(element))) {
+				handled = keydownHelperDateButton(element, keyCode, shiftKey);
+			}
+
+			if (handled) {
+				$event.preventDefault();
 			}
 		}
 
@@ -410,31 +492,31 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * Builds the actual HTML calendar component
 		 */
 		function create() {
-			var days = dayName.get(),
-				_today = today.get(),
-				dayCellTemplate = "<th><abbr title=\"%s\">%1$.1s</abbr></th>",
-				daysOfWeek = [],
+			var _today = today.get(),
 				container,
-				calendar = getEmptyCalendar(),
-				i = 1;
+				calendarProps,
+				calendar,
+				template = getEmptyCalendar();
 
-			// build a string containing the html for the days of week row
-			do {
-				daysOfWeek[daysOfWeek.length] = sprintf.sprintf(dayCellTemplate, days[i %= 7]);
-			}
-			while (i++);
-			daysOfWeek = daysOfWeek.join("");
-			// put it all together
-			calendar = sprintf.sprintf(calendar,
-			/* 1 */(monthName.get()).join("</option><option>"),
-			/* 2 */_today.getFullYear(),
-			/* 3 */daysOfWeek,
-			/* 4 */i18n.get("${wc.ui.dateField.i18n.calendarMonthLabel}"),
-			/* 5 */i18n.get("${wc.ui.dateField.i18n.calendarYearLabel}"),
-			/* 6 */i18n.get("${wc.ui.dateField.i18n.lastMonth}"),
-			/* 7 */i18n.get("${wc.ui.dateField.i18n.today}"),
-			/* 8 */i18n.get("${wc.ui.dateField.i18n.nextMonth}"),
-			/* 9 */i18n.get("${wc.ui.dateField.i18n.close}"));
+			calendarProps = {
+				firstChar: function() {
+					/* Template helper, first character of text. */
+					return function(text, render) {
+						return render(text)[0];
+					};
+				},
+				dayName: dayName.get(true),
+				monthName: monthName.get(),
+				fullYear: _today.getFullYear(),
+				monthLabel: i18n.get("${wc.ui.dateField.i18n.calendarMonthLabel}"),
+				yearLabel: i18n.get("${wc.ui.dateField.i18n.calendarYearLabel}"),
+				lastMonth: i18n.get("${wc.ui.dateField.i18n.lastMonth}"),
+				today: i18n.get("${wc.ui.dateField.i18n.today}"),
+				nextMonth: i18n.get("${wc.ui.dateField.i18n.nextMonth}"),
+				closeLabel: i18n.get("${wc.ui.dateField.i18n.close}")
+			};
+
+			calendar = Mustache.to_html(template, calendarProps);
 
 			container = document.createElement("div");
 			container.id = CONTAINER_ID;
@@ -450,23 +532,18 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 		/**
 		 * Get the calendar's containing element.
-		 *
-		 * @param {Boolean} doNotCreate If true do not create the calendar if it is not found.
 		 * @returns {?Element} The calendar.
 		 */
-		function getCal(doNotCreate) {
-			var rval = document.getElementById(CONTAINER_ID);
-			if (!(rval || doNotCreate)) {
-				rval = create();
-			}
-			return rval;
+		function getCal() {
+			return document.getElementById(CONTAINER_ID);
 		}
 
 		/*
 		 * retrieve a stored date for a picker. If one has not been stored return the current date @returns a date object
 		 */
 		function retrieveDate() {
-			var millis = attribute.get(getCal(), DATE_KEY),
+			var cal = (getCal() || create()),
+				millis = attribute.get(cal, DATE_KEY),
 				dateObj;
 			if (millis || millis === 0) {
 				dateObj = new Date(millis);
@@ -477,7 +554,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 
 		function getInputForCalendar($cal) {
-			var cal = $cal || getCal(true),
+			var cal = ($cal || getCal()),
 				inputId,
 				result;
 			if (cal && (inputId = cal.getAttribute(CONTROL_ATTRIBUTE))) {
@@ -491,13 +568,14 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * the date object to store
 		 */
 		function storeDate(dateObj) {
-			var millis;
+			var millis, cal;
 			if (!dateObj || dateObj.constructor !== Date) {
 				throw new TypeError("storeDate expects a date object");
 			}
 			millis = dateObj.getTime();
 			console.log("storing date", new Date(millis));
-			attribute.set(getCal(), DATE_KEY, millis);
+			cal = getCal() || create();
+			attribute.set(cal, DATE_KEY, millis);
 		}
 
 		/*
@@ -507,7 +585,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * [setSelected] true to set the date as the current selection
 		 */
 		function setDate(date, setFocus, setSelected) {
-			var cal = getCal(),
+			var cal = (getCal() || create()),
 				_date = copy(date),  // do not change date
 				_today = new Date(),
 				monthIndex = _date.getMonth(),
@@ -601,7 +679,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				}
 			}
 			else {
-				resetMonthPickerOptions();  // make sure all months are enabled if the date field does not have min/max constraints
+				resetMonthPickerOptions();  // make sure all months are enabled if the date field does not have min/max limit
 			}
 
 			// build each week
@@ -626,7 +704,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					// if in current month make the element pickable
 					if (monthIndex === _date.getMonth()) {
 						inMonth = true;
-						button = '<button type="button" class="wc_btn_nada ' + CLASS.DATE_BUTTON + '" value="' + text + '">' + text + '</button>';
+						button = '<button type="button" class="wc_btn_nada wc_invite ' + CLASS.DATE_BUTTON + '" value="' + text + '">' + text + '</button>';
 						day.innerHTML = button;
 						button = day.firstChild;
 						lastDay = button;
@@ -715,7 +793,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				selectDate = false,
 				constrained;
 
-			cal = getCal();
+			cal = getCal() || create();
 			cal.setAttribute(CONTROL_ATTRIBUTE, input);
 
 			// get the date to use as the default. If there is a date in the input we use that,
@@ -769,28 +847,23 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			var collision = viewportCollision(cal),
 				initiallyCollideSouth = collision.s > 0,
 				initiallyCollideWest = collision.w < 0,
-				box, left;
+				box, left, top;
 
 			/*
-			 * NOTE: default open is below input field and lined up at the right edge of the combo so we do not been to
-			 * do north collision unless we reset due to a south collision. If a south collision fix causes a north
-			 * collision we just remove the south fix and allow the screen to grow. If fixing a west collision causes an
-			 * east collision we can move the calendar west until it is either fully in viewport OR touches the left
-			 * edge of the viewport leaving a horizontal scroll.
+			 * NOTE: default open is below input field and lined up at the right edge of the combo so we do not need to
+			 * do north collision. If fixing a west collision causes an east collision we can move the calendar west until
+			 * it is either fully in viewport OR touches the left edge of the viewport leaving a horizontal scroll.
 			 */
 			if (initiallyCollideSouth) {
-				classList.add(cal, CLASS.SOUTH);
+				top = cal.offsetTop;
+				if (!isNaN(top)) {
+					cal.style.top = (top - collision.s) + "px";
+				}
 			}
 			if (initiallyCollideWest) {
 				classList.add(cal, CLASS.WEST);
-			}
-			if (initiallyCollideSouth || initiallyCollideWest) {
 				collision = viewportCollision(cal);
-				if (initiallyCollideSouth && collision.n < 0) {
-					classList.remove(cal, CLASS.SOUTH);
-					// console.log("moving the calendar to avoid a south collision causes a north collision");
-				}
-				if (initiallyCollideWest && collision.e > 0) {
+				if (collision.e > 0) {
 					box = getBox(cal);
 					left = Math.min(box.left, collision.e);  // we have to move this far left to move the entire calendar into view
 					if (left > 0) {
@@ -829,51 +902,42 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 							monthList.selectedIndex = numberOfMonths - 1;
 						}
 					}
-					else {
-						if ((minYear = yearBox.getAttribute(MIN_ATTRIB)) && minYear === yearBox.value) {
-							if (getMinMaxMonthDay(getInputForCalendar()) < monthList.selectedIndex) {
-								monthList.selectedIndex = monthList.selectedIndex - 1;
-							}
-						}
-						else {
+					else if ((minYear = yearBox.getAttribute(MIN_ATTRIB)) && minYear === yearBox.value) {
+						if (getMinMaxMonthDay(getInputForCalendar()) < monthList.selectedIndex) {
 							monthList.selectedIndex = monthList.selectedIndex - 1;
 						}
 					}
+					else {
+						monthList.selectedIndex = monthList.selectedIndex - 1;
+					}
+				}
+				else if (monthList.selectedIndex === numberOfMonths - 1) { // go to next month
+					// change the year first. If we do not have a year set then default to this year then change
+					if (!(maxYear = yearBox.getAttribute(MAX_ATTRIB)) || parseInt(maxYear, 10) > yearBox.value) {
+						yearBox.value = currentYear + 1;
+						monthList.selectedIndex = 0;
+					}
+				}
+				else  if ((maxYear = yearBox.getAttribute(MAX_ATTRIB)) && maxYear === yearBox.value) { // if we have a max on the year input we have a max date, so we need to get the max month if the current year is equal to the max year
+					if (getMinMaxMonthDay(getInputForCalendar(), true) > monthList.selectedIndex) {
+						monthList.selectedIndex = monthList.selectedIndex + 1;
+					}
 				}
 				else {
-					// go to next month
-					if (monthList.selectedIndex === numberOfMonths - 1) {
-						// change the year first. If we do not have a year set then default to this year then change
-						if (!(maxYear = yearBox.getAttribute(MAX_ATTRIB)) || parseInt(maxYear, 10) > yearBox.value) {
-							yearBox.value = currentYear + 1;
-							monthList.selectedIndex = 0;
-						}
-					}
-					else {
-						// if we have a max on the year input we have a max date, so we need to get the max month if the current year is equal to the max year
-						if ((maxYear = yearBox.getAttribute(MAX_ATTRIB)) && maxYear === yearBox.value) {
-							if (getMinMaxMonthDay(getInputForCalendar(), true) > monthList.selectedIndex) {
-								monthList.selectedIndex = monthList.selectedIndex + 1;
-							}
-						}
-						else {
-							monthList.selectedIndex = monthList.selectedIndex + 1;
-						}
-					}
+					monthList.selectedIndex = monthList.selectedIndex + 1;
 				}
 				refresh();
 			}
 		}
 
 		/**
-		 * Actually does the work of the click event listener on a calendar launch button. Shows the calendar if it is
-		 * possible to do so.
+		 * Actually does the work of activating a calendar launch button. Shows the calendar if it is possible to do so.
+		 *
 		 * @function
 		 * @private
 		 * @param {Element} element The launch control button or date input.
-		 * @todo rename me as I am now also used in a chordal keydown ALT + DOWN_ARROW in a date input.
 		 */
-		function doLauncherClick(element) {
+		function doLaunch(element) {
 			try {
 				if (element && !isOpening && !shed.isDisabled(element)) {
 					isOpening = true;
@@ -892,7 +956,8 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @param {Element} dayElement The selected day.
 		 */
 		function selectDay(dayElement) {
-			var calendar = getCal(), day, date, sb, newValue, input = getInputForCalendar(calendar);
+			var calendar = (getCal() || create()),
+				day, date, sb, newValue, input = getInputForCalendar(calendar);
 
 			if (input && !shed.isDisabled(input)) {
 				day = dayElement.value;
@@ -921,20 +986,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			}
 		}
 
-		/**
-		 * A helper function for body focus. If a focus is not inside a calendar we can close the calendar
-		 * @function
-		 * @private
-		 * @param {Element} element The element receiving focus.
-		 * @todo Delete me - I belong in the focus listener!
-		 */
-		function focusHelper(element) {
-			var calendar = getCal(true);
-			if (calendar && ((element === window || element === document) || !(calendar.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY))) {
-				hideCalendar(true);
-			}
-		}
-
 		/*
 		 * Calendar icon click listener.
 		 */
@@ -942,9 +993,9 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			var element;
 			if (!$event.defaultPrevented) {
 				if ((element = LAUNCHER.findAncestor($event.target))) {
-					doLauncherClick(element);
+					doLaunch(element);
 				}
-				else if (getCal(true)) {  // by using getCal(true) we can by-pass a widget descriptor lookup if the calendar has never been opened as document.getElementById is very fast.
+				else if (getCal()) {  // by using getCal() we can by-pass a widget descriptor lookup if the calendar has never been opened as document.getElementById is very fast.
 					if ((element = PICKABLE.findAncestor($event.target))) {
 						selectDay(element);
 					}
@@ -958,19 +1009,36 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			}
 		}
 
-		function focusEvent($event) {
-			var element;
-			if (!$event.defaultPrevented && (element = $event.target)) {
-				focusHelper(element);
-			}
-		}
-
 		function keydownEvent($event) {
 			var target = $event.target,
 				keyCode = $event.keyCode,
 				launcher;
 			if (keyCode === KeyEvent.DOM_VK_DOWN && ($event.altKey || $event.metaKey) && dateField.isOneOfMe(target, false) && (launcher = LAUNCHER.findDescendant(target.parentNode))) {
-				doLauncherClick(launcher);
+				doLaunch(launcher);
+			}
+		}
+
+		/**
+		 * Positions the calendar relative to its input element.
+		 * @param {Element} [element] The calendar element (if you already have it, otherwise we'll find it for you).
+		 */
+		function position(element) {
+			var input, box,
+				cal = element || getCal(),
+				fixed;
+			if (cal && !shed.isHidden(cal)) {
+				fixed = (window.getComputedStyle && window.getComputedStyle(cal).position === "fixed");
+				if (fixed) {
+					input = getInputForCalendar(cal);
+					if (input) {
+						box = getBox(input);
+						cal.style.top = box.bottom + "px";
+					}
+				}
+				else {
+					cal.style.top = "";
+				}
+				detectCollision(cal);
 			}
 		}
 
@@ -983,9 +1051,10 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				if (action === shed.actions.HIDE) {
 					element.removeAttribute(CONTROL_ATTRIBUTE);
 					clearMinMaxYear();
-					classList.remove(element, CLASS.SOUTH);
 					classList.remove(element, CLASS.WEST);
 					element.style.left = "";
+					element.style.top = "";
+					element.removeAttribute("style"); // remove any inline styles
 					// touching = null;
 					if (refocusId) {
 						if ((input = document.getElementById(refocusId)) && focus.canFocus(input)) {
@@ -995,11 +1064,11 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					}
 				}
 				else if (action === shed.actions.SHOW) {
-					detectCollision(element);
+					position(element);
 					focus.focusFirstTabstop(element);
 				}
 			}
-			else if (action === shed.actions.HIDE && ((cal = getCal(true)) && !!(element.compareDocumentPosition(cal) & Node.DOCUMENT_POSITION_CONTAINS))) {  // if we are hiding something inside the calendar it is probably a row
+			else if (action === shed.actions.HIDE && ((cal = getCal()) && !!(element.compareDocumentPosition(cal) & Node.DOCUMENT_POSITION_CONTAINS))) {  // if we are hiding something inside the calendar it is probably a row
 				ROW = ROW || new Widget("tr");
 				if (ROW.isOneOfMe(element)) {
 					// we have to remove the pickable elements from any dates which are no longer in the visible calendar
@@ -1011,6 +1080,36 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		}
 
 		/**
+		 * If something causes (or may cause) the calendar to need repositioning the easiest thing to do is simple close it.
+		 * The use can reopen it when they are done messing with the viewport.
+		 */
+		function reposEvent() {
+			hideCalendar();
+		}
+
+		/**
+		 * Focus handler to close the calendar is anything outside of the current dateField is focussed.
+		 *
+		 * @function
+		 * @private
+		 * @param {Event} $event A focus[in] event.
+		 */
+		function focusEvent($event) {
+			var target = $event.target,
+				element, cal;
+			DATE_FIELD = DATE_FIELD || dateField.getWidget();
+
+			if (DATE_FIELD && target && (cal = getCal()) && !shed.isHidden(cal)) {
+				element = DATE_FIELD.findAncestor(target);
+
+				if (!element || (element !== DATE_FIELD.findAncestor(getCal()))) { // second: focused a different date field
+					hideCalendar(true);
+				}
+			}
+
+		}
+
+		/**
 		 * Event wire up on initialise.
 		 *
 		 * @function module:wc/ui/calendar.initialise
@@ -1019,7 +1118,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 */
 		this.initialise = function(element) {
 			if (event.canCapture) {
-				event.add(window, event.TYPE.focus, focusEvent, null, null, true);
+				event.add(element, event.TYPE.focus, focusEvent, null, null, true);
 			}
 			else {
 				event.add(element, event.TYPE.focusin, focusEvent);
@@ -1034,8 +1133,10 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * @public
 		 */
 		this.postInit = function() {
+			event.add(window, event.TYPE.resize, reposEvent);
 			shed.subscribe(shed.actions.SHOW, shedSubscriber);
 			shed.subscribe(shed.actions.HIDE, shedSubscriber);
+			loader.preload(TEMPLATE_NAME);
 		};
 
 		/**

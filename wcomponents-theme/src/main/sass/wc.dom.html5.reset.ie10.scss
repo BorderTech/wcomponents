@@ -1,0 +1,17 @@
+/* wc.dom.html5.reset.ie10.scss */
+// HTML 5 elements default styles.
+// DETAILS is in wc.ui.collapsible*.scss
+// SUMMARY is in wc.ui.collapsible*.scss
+// PROGRESS is in wc.ui.progressBar*.scss
+// DIALOG in wc.ui.dialog*.scss
+aside, // was debug info, temporarily unused
+section, // WSection, WPanel Type CHROME and ACTIOn
+header, // various
+footer, //WPanel type footer
+figure, // WFigure
+figcaption, //WFigure
+nav { // was WMenu, temporarily unused
+	display: block;
+	margin: 0;
+	padding: 0;
+}

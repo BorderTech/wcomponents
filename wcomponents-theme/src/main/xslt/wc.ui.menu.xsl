@@ -1,20 +1,18 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.ui.menu.n.hasStickyOpen.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuRoleIsSelectable.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuTabIndexHelper.xsl"/>
-	<xsl:import href="wc.debug.menu.xsl"/>
-	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.inlineError.xsl"/>
 	<xsl:import href="wc.common.invalid.xsl"/>
 	<xsl:import href="wc.common.hField.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		Transform for WMenu. Makes bar, tree and column menus.
 
 		Child Elements
 		* ui:submenu
-		* ui:menuItem
+		* ui:menuitem
 
 		Menus may not be nested.
 	-->
@@ -29,32 +27,18 @@
 			</xsl:if>
 		</xsl:variable>
 
-		<xsl:element name="div">
-			<xsl:attribute name="id">
-				<xsl:value-of select="$id"/>
-			</xsl:attribute>
-			<xsl:call-template name="ajaxTarget"/>
-
-			<xsl:apply-templates select="ui:margin"/>
-
-			<xsl:if test="$isDebug=1">
-				<xsl:call-template name="menu-debug">
-					<xsl:with-param name="id" select="$id"/>
-					<xsl:with-param name="type" select="$type"/>
-				</xsl:call-template>
-			</xsl:if>
+		<div>
 			<!--
 				NOTES on class:
-				We would like to be able to define all menu appearance and behaviour
-				solely using role. That is not, however, possible without a lot of
-				code duplication. This gets particularly heinous in the CSS since there
-				is no sensible reuse mechanism. So we base some instrinsic stuff on
-				the "menu" class and the important stuff on roles.
+				We would like to be able to define all menu appearance and behaviour solely using role. That is not, 
+				however, possible without a lot of code duplication. This gets particularly heinous in the CSS since 
+				there is no sensible reuse mechanism. So we base some instrinsic stuff on the "wc-menu" class and the 
+				important stuff on roles.
 			-->
-			<xsl:attribute name="class">
-				<xsl:value-of select="$type"/>
-				<xsl:text> menu</xsl:text>
-			</xsl:attribute>
+			<xsl:call-template name="commonAttributes">
+				<xsl:with-param name="class" select="@type"/>
+			</xsl:call-template>
+			<xsl:apply-templates select="ui:margin"/>
 
 			<!--
 				attribute role
@@ -64,7 +48,7 @@
 			-->
 			<xsl:attribute name="role">
 				<xsl:choose>
-					<xsl:when test="$type='tree'">
+					<xsl:when test="@type='tree'">
 						<xsl:text>tree</xsl:text>
 					</xsl:when>
 					<xsl:when test="$isBarFlyout=1">
@@ -75,9 +59,10 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
+			
 			<xsl:if test="@selectMode">
 				<xsl:choose>
-					<xsl:when test="$type='tree'">
+					<xsl:when test="@type='tree'">
 						<xsl:attribute name="aria-multiselectable">
 							<xsl:choose>
 								<xsl:when test="@selectMode='multiple'">
@@ -96,17 +81,17 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:if>
+
 			<xsl:if test="$isError">
 				<xsl:call-template name="invalid"/>
 			</xsl:if>
-			<xsl:call-template name="hideElementIfHiddenSet"/>
 
 			<xsl:apply-templates select="*"/>
+
 			<xsl:call-template name="inlineError">
 				<xsl:with-param name="errors" select="$isError"/>
 			</xsl:call-template>
-			<xsl:call-template name="hField"/>
-		</xsl:element>
+		</div>
 	</xsl:template>
 
 	<!--

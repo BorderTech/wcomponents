@@ -1,17 +1,18 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"], function(registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], function(registerSuite, assert, testutils) {
 	"use strict";
 
-	var getFilteredGroup, Widget, urlResource = "../../target/test-classes/wcomponents-theme/intern/resources/domUsefulDom.html",
+	var getFilteredGroup, Widget, urlResource = "@RESOURCES@/domUsefulDom.html",
 		testHolder;
 	registerSuite({
 		name: "getFilteredGroup",
 		setup: function() {
-			return testutils.setupHelper(["wc/dom/getFilteredGroup", "wc/dom/Widget"], function(g, W) {
-				getFilteredGroup = g;
-				Widget = W;
+			var result = testutils.setupHelper(["wc/dom/getFilteredGroup", "wc/dom/Widget"]).then(function(arr) {
+				getFilteredGroup = arr[0];
+				Widget = arr[1];
 				testHolder = testutils.getTestHolder();
-				testutils.setUpExternalHTML(urlResource, testHolder);
+				return testutils.setUpExternalHTML(urlResource, testHolder);
 			});
+			return result;
 		},
 		teardown: function() {
 			testHolder.innerHTML = "";

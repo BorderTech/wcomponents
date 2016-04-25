@@ -1,0 +1,25 @@
+/* wc.ui.section.color.scss */
+@import 'mixins-common';
+
+.wc-section > .wc-decoratedlabel {
+	background-color: $wc-ui-color-section-heading-bg;
+	color: $wc-ui-color-section-heading-fg;
+
+	> h1 {
+		color: $wc-ui-color-section-heading-fg;
+	}
+
+	// color links, link-like buttons and 'buttonless' buttons to make them visible.
+	.wc_btn_nada,
+	.wc_btn_link,
+	a,
+	a:visited {
+		color: $wc-ui-color-section-heading-fg;
+	}
+
+	.wc_btn_nada[disabled],
+	.wc_btn_nada[disabled],
+	a[aria-disabled='true'] {
+		color: $wc-ui-color-section-heading-fg-disabled;
+	}
+}

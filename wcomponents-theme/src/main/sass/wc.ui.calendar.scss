@@ -1,0 +1,98 @@
+/* wc.ui.calendar.scss */
+
+// We use a single ID'd component for all calendar date pickers and move it around to where it is needed.
+// scss-lint:disable IdSelector
+@import 'mixins-common';
+
+
+// This is the calendar container.
+#wc_calbox {
+	height: 100%;
+	left: 0;
+	overflow: auto;
+	position: fixed;
+	right: 0;
+	top: 0;
+	white-space: nowrap;
+	width: 100%;
+	z-index: $z-index-common;
+
+	dialog & {
+		z-index: $z-index-common-in-dialog;
+	}
+
+	.wc-row {
+		@include flex-align-items(baseline);
+		padding: $hgap-small;
+
+		button {
+			margin-left: $hgap-normal;
+		}
+
+		input { //year field:
+			margin: 0 $hgap-large;
+			width: 5rem; //  FF and IE do not size by max.
+		}
+	}
+
+	.wc-column:last-child {
+		text-align: right;
+	}
+}
+
+// The calendar table
+#wc_calendar {
+	font-size: 1.5rem;
+
+	thead {
+		@include border($pos: bottom);
+	}
+
+	th {
+		font-size: 1em; // reset from 1.5rem
+		padding: $vgap-small $hgap-small;
+		text-align: center;
+	}
+
+	abbr { // days of the week
+		@include border($width: 0);
+	}
+}
+
+#wc_caldaybox td {
+	padding: 0;
+	text-align: center;
+	vertical-align: middle;
+}
+
+// date picker buttons
+.wc_wdf_pick {
+	line-height: 2;
+	max-width: 100%;
+	min-width: 100%;
+	padding: $vgap-small $hgap-small;
+	text-align: center;
+	width: 3rem;
+}
+
+// The main purpose of this CSS is to make the pop-up calendar full screen. We make all of the buttons bigger to make
+// them easier for fingers to push and finally add a close button to make up for the lack of an escape key.
+// The calendar container is a single generated element with a fixed id.
+@include respond-small-screen {
+	#wc_calbox {
+		// Important to overcome inline style of the collision detection routine which we want to ignore here.
+		// scss-lint:disable ImportantRule
+		left: 0 !important;
+		top: 0 !important;
+	}
+}
+
+// the top controls are row-column so will wrap at phoneline size.
+@include respond-phonelike {
+	#wc_calbox .wc-column {
+		&,
+		&:last-child {
+			text-align: center;
+		}
+	}
+}

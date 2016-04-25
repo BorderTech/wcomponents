@@ -1,19 +1,103 @@
 /* wc.ui.menu.barColumn.scss */
 // for WMenu type BAR, type FLYOUT, type COLUMN
-@import 'wc.ui.menu_vars.scss';
+@import 'menu_vars';
 
-[role='menu'] { //this role is any part of a COLUMN menu and submenus of a BAR or FLYOUT
-	> [role],
-	> [aria-expanded] > button {
-		padding: $wc-ui-menu-bar-column-item-pad;
+[role='banner'] [data-wc-menufixed] {
+	display: inline-block;
+
+	> .wc-submenu > button {
+		padding: $hgap-small;
+	}
+}
+
+// full screen sub menus
+[role='menu'][aria-expanded='true'] {
+	@include border-box;
+	height: 100%;
+	left: 0;
+	overflow: auto;
+	position: fixed;
+	top: 0;
+
+	> [role] {
+		font-size: 1.25rem;
+	}
+}
+
+
+@include respond-not-phone {
+	[role^='menu'] .wc-submenu {
+		position: relative;
 	}
 
-	.submenu[aria-expanded='true'] > & {
-		z-index: 5;
+	[role='menu'][aria-expanded='true'] {
+		@include border;
+		// box-shadow: 3px 3px 3px $wc-ui-color-shadow;
+		height: auto; // override (mobile) default
+		min-width: 100%;
+		overflow: visible;
+		position: absolute;
+		top: 100%;
 
-		dialog & {
-			z-index: 25;
+		.wc-submenu > & {
+			// make more specific to override default [role] width in wc.ui.menu.scss
+			width: auto;
+		}
+
+		> [role] { // override (mobile) default.
+			font-size: inherit;
+		}
+	}
+
+	// Now for the collision detection...
+	[role='menubar'] [role='menu'] {
+		&.wc_colsth { //south collision
+			left: 100%;
+
+			&.wc_coleast { //collides both south and east
+				left: auto;
+				right: 100%;
+			}
+		}
+
+		&.wc_coleast.wc_colwest { //collides both east and west
+			max-width: 100%;
+		}
+
+		[role='menu'].wc_coleast.wc_colwest { //nested submenus which collide both east and west - this is a design flaw and I refuse to cater for it!
+			max-width: none;
+		}
+	}
+
+	[role='menu'] {
+		 // nested sub-menus. These must appear before the colision detection overrides below.
+		[role='menu'] {
+			left: 100%;
+			top: 0;
+
+			&.wc_coleast { // nested collisions
+				right: 100%;
+			}
+
+			&.wc_colwest {
+				right: 100%;
+			}
+		}
+
+		// viewport edge collisions
+		&.wc_coleast {
+			left: auto;
+			right: 0;
+		}
+
+		&.wc_colwest {
+			left: 100%;
+			right: auto;
+		}
+
+		&.wc_colsth {
+			bottom: 0;
+			top: auto;
 		}
 	}
 }
-/* end wc.ui.menu.barColumn.scss */

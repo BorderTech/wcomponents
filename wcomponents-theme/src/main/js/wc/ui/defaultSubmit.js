@@ -6,14 +6,13 @@
  * NOTE: we insist that button elements (of type submit) have a value attribute.
  *
  * @module
- * @requires module:wc/dom/classList
  * @requires module:wc/dom/event
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/Widget
  */
-define(["wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"],
-	/** @param classList wc/dom/classList @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @ignore */
-	function(classList, event, initialise, Widget) {
+define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"],
+	/** @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @ignore */
+	function(event, initialise, Widget) {
 		"use strict";
 
 		/**
@@ -22,13 +21,13 @@ define(["wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"
 		 * @private
 		 */
 		function DefaultSubmit() {
-			var CLASSNAME = "wc_btn_default",  // only used as a marker for possible future styling.
-				INPUT_WD = new Widget("input"),
+			var INPUT_WD = new Widget("input"),
 				FILE_WD = INPUT_WD.extend("", {"type": "file"}),
 				SUBMIT_CONTROL_WD = new Widget("button", "", {"type": "submit"}),
 				SUBMITTER = new Widget("", "", {"${wc.common.attribute.button}": null}),
-				SUBMIT_ATTRIB = "${wc.common.attribute.button}",
-				CURRENT_SUBMIT_ID;
+				SUBMIT_ATTRIB = "${wc.common.attribute.button}";
+				// CLASSNAME = "wc_btn_default",  // only used as a marker for possible future styling.
+				// CURRENT_SUBMIT_ID;
 
 
 			/**
@@ -40,12 +39,12 @@ define(["wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"
 			 */
 			this.initialise = function(element) {
 				event.add(element, event.TYPE.keypress, keyEvent, -10);
-				if (event.canCapture) {
-					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-				}
-				else {
-					event.add(element, event.TYPE.focusin, focusEvent);
-				}
+//				if (event.canCapture) {
+//					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
+//				}
+//				else {
+//					event.add(element, event.TYPE.focusin, focusEvent);
+//				}
 			};
 
 			/**
@@ -66,7 +65,7 @@ define(["wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"
 				}
 			}
 
-			/**
+			/*
 			 * When focusing an element, test if it is a potential submitter and go find its button. If the element is
 			 * not a potential submitting element clear any existing reference. All this does is mark the default
 			 * button with a class name for styling purposes. This class name is not used to find the submitting button
@@ -74,8 +73,7 @@ define(["wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"
 			 * @function
 			 * @private
 			 * @param {Event} $event The focus event.
-			 * @todo Why do we keep this?
-			 */
+			 *
 			function focusEvent($event) {
 				var element = $event.target, target;
 				if (!$event.defaultPrevented) {
@@ -90,7 +88,7 @@ define(["wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"
 						clearDefaultSubmit();
 					}
 				}
-			}
+			} */
 
 			/**
 			 * Determine if an element has a default submit behaviour.
@@ -113,26 +111,26 @@ define(["wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"
 			 * @private
 			 * @param {Element} button The default button for the focussed element.
 			 */
-			function activateButton(button) {
-				if (button && button.id && button.id !== CURRENT_SUBMIT_ID) {
-					clearDefaultSubmit();
-					classList.add(button, CLASSNAME);
-					CURRENT_SUBMIT_ID = button.id;
-				}
-			}
+//			function activateButton(button) {
+//				if (button && button.id && button.id !== CURRENT_SUBMIT_ID) {
+//					clearDefaultSubmit();
+//					classList.add(button, CLASSNAME);
+//					CURRENT_SUBMIT_ID = button.id;
+//				}
+//			}
 
 			/**
 			 * Remove the "default" submit class.
 			 * @function
 			 * @private
 			 */
-			function clearDefaultSubmit() {
-				var oldSubmit;
-				if (CURRENT_SUBMIT_ID && (oldSubmit = document.getElementById(CURRENT_SUBMIT_ID))) {
-					classList.remove(oldSubmit, CLASSNAME);
-				}
-				CURRENT_SUBMIT_ID = "";
-			}
+//			function clearDefaultSubmit() {
+//				var oldSubmit;
+//				if (CURRENT_SUBMIT_ID && (oldSubmit = document.getElementById(CURRENT_SUBMIT_ID))) {
+//					classList.remove(oldSubmit, CLASSNAME);
+//				}
+//				CURRENT_SUBMIT_ID = "";
+//			}
 
 			/**
 			 * Find the correct submit button to "click" when the ENTER key is pressed on element.

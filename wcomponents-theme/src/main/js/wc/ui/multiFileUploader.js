@@ -1,16 +1,15 @@
 /**
  * Provides functionality associated with uploading multiple files using a WMultiFileWidget.
  *
- * @todo rename as this is also used by single file uploads (file type and size checks).
- *
  * @module
  * @requires module:wc/dom/attribute
+ * @requires module:wc/loader/prefetch
  * @requires module:wc/dom/event
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/uid
  * @requires module:wc/ajax/Trigger
  * @requires module:wc/dom/classList
- * @requires external:sprintf/sprintf
+ * @requires external:lib/sprintf
  * @requires module:wc/has
  * @requires module:wc/i18n/i18n
  * @requires module:wc/file/getFileSize
@@ -27,12 +26,13 @@
  *
  */
 define(["wc/dom/attribute",
+		"wc/loader/prefetch",
 		"wc/dom/event",
 		"wc/dom/initialise",
 		"wc/dom/uid",
 		"wc/ajax/Trigger",
 		"wc/dom/classList",
-		"sprintf/sprintf",
+		"lib/sprintf",
 		"wc/has",
 		"wc/i18n/i18n",
 		"wc/file/getFileSize",
@@ -46,19 +46,18 @@ define(["wc/dom/attribute",
 		"wc/dom/focus",
 		"wc/isNumeric",
 		"wc/ui/ajaxRegion"],
-	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param uid wc/dom/uid @param Trigger wc/ajax/Trigger @param classList wc/dom/classList @param sprintf sprintf/sprintf @param has wc/has @param i18n wc/i18n/i18n @param getFileSize wc/file/getFileSize @param accepted wc/file/accepted @param Widget wc/dom/Widget @param formUpdateManager wc/file/formUpdateManager @param filedrop wc/file/filedrop @param ajax wc/ajax/ajax @param xslTransform wc/xml/xslTransform @param timers wc/timers @param focus wc/dom/focus @param isNumeric wc/isNumeric @param ajaxRegion wc/ui/ajaxRegion @ignore */
-	function(attribute, event, initialise, uid, Trigger, classList, sprintf, has, i18n, getFileSize,
+	function(attribute, prefetch, event, initialise, uid, Trigger, classList, sprintf, has, i18n, getFileSize,
 			accepted, Widget, formUpdateManager, filedrop, ajax, xslTransform, timers, focus, isNumeric, ajaxRegion) {
 		"use strict";
 
-		var /** @alias module:wc/ui/multiFileUpload */ instance = new MultiFileUploader(),
-			CLASS_NAME = "fileUpload",
+		var /** @alias module:wc/ui/multiFileUploader */ instance = new MultiFileUploader(),
+			CLASS_NAME = "wc-fileupload",
 			AJAX_ATTR = "data-wc-ajaxalias",
 			COL_ATTR = "data-wc-cols",
 			MAX_FILES_ATTR = "data-wc-maxfiles",
 			CLASS_NO_BULLET = "wc_list_nb",
 			CLASS_WRAPPER = "wc_files",
-			CLASS_FILE_INFO = "file",
+			CLASS_FILE_INFO = "wc-file",
 			CLASS_FILE_LIST = "wc_filelist",
 			messageTimer,
 			containerWd = new Widget("", CLASS_NAME),
@@ -108,6 +107,8 @@ define(["wc/dom/attribute",
 				MB = Math.pow(10, 6),
 				GB = Math.pow(10, 9);
 
+			prefetch.jsModule("wc/ui/imageEdit");
+
 			/**
 			 * Change event on the file input.
 			 * Somebody wants to upload a file...
@@ -128,7 +129,7 @@ define(["wc/dom/attribute",
 			 */
 			function filesChanged(id) {
 				var element = document.getElementById(id);
-				if (element) {
+				if (element && element.getAttribute(AJAX_ATTR)) {
 					ajaxRegion.requestLoad(element);
 				}
 			}
@@ -144,6 +145,7 @@ define(["wc/dom/attribute",
 				var fileInfo, container, trigger, proceed,
 					element = $event.target;
 				if (!$event.defaultPrevented) {
+					initialiseFileInput(element);
 					fileInfo = fileInfoWd.findAncestor(element);
 					if (fileInfo) {
 						if (removeButtonWd.isOneOfMe(element)) {
@@ -221,65 +223,48 @@ define(["wc/dom/attribute",
 			}
 
 			/**
+			 * This allows other code to request a file upload using a WMultiFileWidget.
+			 * For example file dropzones and imageedit.
+			 * @param {Element} element A file input or an element that contains a file input.
+			 * @param {File[]} files Binary file data.
+			 * @param {boolean} [suppressEdit] true if image editing should be bypassed regardless of whether it is configured or not.
+			 */
+			this.upload = function(element, files, suppressEdit) {
+				var input = inputElementWd.isOneOfMe(element) ? element : inputElementWd.findDescendant(element);
+				if (input) {
+					focus.setFocusRequest(input, function() {
+						/*
+						 * The focus is primarily necesary to bootstrap the file widget.
+						 * This is critical if the file widget is needs to be wired up by
+						 * other controllers such as ajax trigger.
+						 */
+						checkDoUpload(input, files, suppressEdit);
+					});
+				}
+			};
+			/**
 			 * Validate the file chosen and commence the asynchronous upload if all is well.
 			 * @function
 			 * @private
 			 * @param {Element} element A file input element.
 			 * @param {File[]} [files] A collection of File items to use instead of element.files.
+			 * @param {boolean} [suppressEdit] true if image editing should be bypassed regardless of whether it is configured or not.
 			 */
-			function checkDoUpload(element, files) {
-				var testObj, maxFileInfo, filesToAdd, maxFileSize, fileSizes, result = true,
-					maxFileSizeHR, fileSizeHR, roundTo, units, i, message,
-					fileIsToBig = function(size) {
-						return maxFileSize < size;
+			function checkDoUpload(element, files, suppressEdit) {
+				var editorId, testObj, maxFileInfo, filesToAdd, message,
+					useFilesArg = (!element.value && (files && files.length > 0)),
+					done = function() {
+						instance.clearInput(element);
 					},
-					useFilesArg = (!element.value && (files && files.length > 0));
-				if (element.value || useFilesArg) {
-					testObj = useFilesArg ? {files: files, name: element.name, value: element.value, accept: element.accept} : element;
-					filesToAdd = (testObj.files ? testObj.files.length : 1);
-					maxFileInfo = checkMaxFiles(element, filesToAdd);
-					if (maxFileInfo.valid) {
-						maxFileSize = parseInt(element.getAttribute("data-wc-maxfilesize"), 10);
-						fileSizes = getFileSize(testObj);
-						if (maxFileSize && fileSizes.length > 0 && fileSizes.some(fileIsToBig)) {
-							message = [];
-							for (i = 0; i < fileSizes.length; i++) {
-								if (fileIsToBig(fileSizes[i])) {
-									/* make the units human readable */
-									if (maxFileSize >= GB) {
-										roundTo = GB;
-										units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.gb}");
-									}
-									else if (maxFileSize >= MB) {
-										roundTo = MB;
-										units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.mb}");
-									}
-									else if (maxFileSize >= KB) {
-										roundTo = KB;
-										units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.kb}");
-									}
-
-									if (roundTo) {
-										maxFileSizeHR = round(maxFileSize / roundTo);
-										fileSizeHR = round(fileSizes[i] / roundTo);
-									}
-									else {
-										maxFileSizeHR = maxFileSize;
-										fileSizeHR = fileSizes[i];
-										units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size}");
-									}
-									message.push(sprintf.sprintf(i18n.get("${wc.ui.multiFileUploader.i18n.toolarge}"), fileSizeHR, maxFileSizeHR, units));
-									result = false;
-								}
+					checkAndUpload = function(files) {
+						try {
+							message = checkFileSize(element, testObj);
+							if (message) {
+								showMessage(message);
 							}
-							message = message.join("\n");
-							showMessage(message);
-						}
-						else {
-							if (!accepted(testObj)) {
+							else if (!accepted(testObj)) {
 								message = i18n.get("${wc.ui.multiFileUploader.i18n.wrongtype}", element.accept);
 								showMessage(message);
-								result = false;
 							}
 							else if (inputElementWd.isOneOfMe(element)) {
 								commenceUpload({
@@ -288,16 +273,82 @@ define(["wc/dom/attribute",
 								});
 							}
 						}
+						finally {
+							done();
+						}
+					};
+				if (element.value || useFilesArg) {
+					testObj = useFilesArg ? {files: files, name: element.name, value: element.value, accept: element.accept} : element;
+					filesToAdd = (testObj.files ? testObj.files.length : 1);
+					maxFileInfo = checkMaxFiles(element, filesToAdd);
+					if (maxFileInfo.valid) {
+						editorId = element.getAttribute("data-wc-editor");
+						if (!suppressEdit && editorId) {
+							require(["wc/ui/imageEdit"], function(imageEdit) {
+								testObj.editorId = editorId;
+								imageEdit.editFiles(testObj).then(checkAndUpload, done);
+							});
+						}
+						else {
+							checkAndUpload(testObj.files);
+						}
 					}
 					else {
 						message = i18n.get("${wc.ui.multiFileUploader.i18n.toomany}", filesToAdd, maxFileInfo.max, maxFileInfo.before);
 						showMessage(message);
-						result = false;
-					}
-					if (!result) {
-						instance.clearInput(element);
+						done();
 					}
 				}
+			}
+
+			/**
+			 * Check the file size and return an error message if there is a problem.
+			 * @function
+			 * @private
+			 * @param {Element} element A file input element.
+			 * @param {Object} testObj The pseudo-file element to pass to test functions.
+			 * @return {?string} An error message if there is a problem otherwise falsey.
+			 */
+			function checkFileSize(element, testObj) {
+				var i, message, roundTo, maxFileSizeHR, fileSizeHR, units,
+					maxFileSize = parseInt(element.getAttribute("data-wc-maxfilesize"), 10),
+					fileIsToBig = function(size) {
+						return maxFileSize < size;
+					},
+					fileSizes = getFileSize(testObj);
+				if (maxFileSize && fileSizes.length > 0 && fileSizes.some(fileIsToBig)) {
+					message = [];
+					for (i = 0; i < fileSizes.length; i++) {
+						if (fileIsToBig(fileSizes[i])) {
+							/* make the units human readable */
+							if (maxFileSize >= GB) {
+								roundTo = GB;
+								units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.gb}");
+							}
+							else if (maxFileSize >= MB) {
+								roundTo = MB;
+								units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.mb}");
+							}
+							else if (maxFileSize >= KB) {
+								roundTo = KB;
+								units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.kb}");
+							}
+
+							if (roundTo) {
+								maxFileSizeHR = round(maxFileSize / roundTo);
+								fileSizeHR = round(fileSizes[i] / roundTo);
+							}
+							else {
+								maxFileSizeHR = maxFileSize;
+								fileSizeHR = fileSizes[i];
+								units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size}");
+							}
+							message.push(sprintf.sprintf(i18n.get("${wc.ui.multiFileUploader.i18n.toolarge}"), fileSizeHR, maxFileSizeHR, units));
+						}
+					}
+					message = message.join("\n");
+				}
+				return message;
 			}
 
 			/**
@@ -451,14 +502,14 @@ define(["wc/dom/attribute",
 					oldFile = document.getElementById(fileId);
 				delete inflightXhrs[fileId];
 				if (oldFile) {
-					containerId = newFile.getAttribute("data-containerid");
+					containerId = newFile.getAttribute("data-wc-containerid");
 					if (containerId) {
 						resetAjaxAttribOnActivationLink(newFile, containerId);
 					}
 					oldFile.innerHTML = newFile.innerHTML;
 					// oldFile.parentNode.replaceChild(newFile, oldFile);  // Problems with importing node
 				}
-				else if ((containerId = newFile.getAttribute("data-containerid")) && (container = document.getElementById(containerId))) {
+				else if ((containerId = newFile.getAttribute("data-wc-containerid")) && (container = document.getElementById(containerId))) {
 					resetAjaxAttribOnActivationLink(newFile, containerId);
 					// This is an extreme edge case - if the fileWidget UI has been replaced during upload attempt to recover
 					container.insertAdjacentHTML("beforeend", newFile.outerHTML);
@@ -546,19 +597,10 @@ define(["wc/dom/attribute",
 					if (dropzoneId) {
 						input = null;
 						filedrop.register(dropzoneId, function(type, files) {
-							var input, className = "wc_dragging";
+							var className = "wc_dragging";
 							if (type === "drop") {
-								if ((input = inputElementWd.findDescendant(element))) {
-									focus.setFocusRequest(input, function() {
-										/*
-										 * The focus is primarily necesary to bootstrap the file widget.
-										 * This is critical if the file widget is needs to be wired up by
-										 * other controllers such as ajax trigger.
-										 */
-										checkDoUpload(input, files);
-										element.classList.remove(className);
-									});
-								}
+								instance.upload(element, files);
+								element.classList.remove(className);
 							}
 							else if (type === "dragstart") {
 								element.classList.add(className);
@@ -855,7 +897,7 @@ define(["wc/dom/attribute",
 					for (i = 0; i < dto.files.length; i++) {
 						file = dto.files[i];
 						id = instance.createFileInfo(container, file.name);
-						sendFile(dto.url, uploadName, id, dto.files[i], callbackWrapper(dto));
+						sendFile(dto.url, uploadName, id, file, callbackWrapper(dto));
 					}
 				}
 				finally {
@@ -906,7 +948,12 @@ define(["wc/dom/attribute",
 					onAbort = abortHandlerFactory(fileId);
 				formData.append("wc_target", uploadName);
 				formData.append("wc_fileid", fileId);
-				formData.append(uploadName, file);
+				/*
+				 * On the line below we specify the file name because some browsers do not support the File constructor.
+				 * In this case the file object is actually a Blob with the same duck type as a File.
+				 * The name, however, is a readonly property of blob and while we may appear to have overridden the value we probably haven't.
+				 */
+				formData.append(uploadName, file, file.name);
 
 				request = {
 					url: uri,

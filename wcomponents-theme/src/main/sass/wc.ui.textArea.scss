@@ -1,28 +1,23 @@
 /* wc.ui.textarea.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
 // the ticker
 textarea + output {
-	@include border($color: $wc-ui-color-border-form-control);
-	background-color: $wc-ui-color-disabled-bg;
-	border-top: 0 none;
-	color: $wc-ui-color-disabled-fg;
+	@include border($color: -1);
+	@include border($pos: top, $width: 0);
 	display: block;
 	margin-top: -$border-width;
 	padding: $hgap-small;
 	position: absolute;
-	z-index: 5;
+	z-index: $z-index-common;
 
 	&:before { // show the number of chars remaining
 		content: attr(value);
 		font-size: 85%;
 	}
-	&.wc_error { // show when the maxlength is exceeded
-		color: $wc-ui-color-error-fg;
-	}
 
 	dialog & {
-		z-index: 25;
+		z-index: $z-index-common-in-dialog;
 	}
 }
 
@@ -31,9 +26,8 @@ textarea + output {
 // defaults and set whitespace and wrapping to textarea-like settings.
 //scss-lint:disable QualifyingElement
 pre.wc_ro {
+	@include margin($size: 0);
 	font-family: inherit;
-	margin: 0;
 	white-space: pre-wrap;
 	word-wrap: break-word;
 }
-/* end wc.ui.textarea.scss */

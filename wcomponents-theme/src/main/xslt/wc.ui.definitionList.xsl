@@ -1,9 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:import href="wc.common.ajax.xsl"/>
-	<xsl:import href="wc.constants.xsl"/>
-	<xsl:import href="wc.debug.debugInfo.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
+	<xsl:import href="wc.common.attributeSets.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		Transform for WDefinitionList. This is a pretty straightforwards implementation
 		of a HTML definition list.
@@ -12,24 +9,19 @@
 		attribute. The default block layout is changed to inline-block if the type is
 		flat or column.
 	-->
-	<xsl:template match="ui:definitionList">
-		<xsl:element name="dl">
-			<xsl:attribute name="id">
-				<xsl:value-of select="@id"/>
-			</xsl:attribute>
-			<xsl:if test="@type">
-				<xsl:attribute name="class">
-					<xsl:value-of select="@type"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:apply-templates select="ui:margin"/>
-			<xsl:call-template name="ajaxTarget">
+	<xsl:template match="ui:definitionlist">
+		<dl>
+			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="live" select="'off'"/>
+				<xsl:with-param name="isWrapper" select="1"/>
 			</xsl:call-template>
-			<xsl:if test="$isDebug=1">
-				<xsl:call-template name="debugAttributes"/>
-			</xsl:if>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:value-of select="@type"/>
+				</xsl:with-param>
+			</xsl:call-template>
+			<xsl:apply-templates select="ui:margin"/>
 			<xsl:apply-templates select="ui:term"/>
-		</xsl:element>
+		</dl>
 	</xsl:template>
 </xsl:stylesheet>

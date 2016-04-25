@@ -1,12 +1,11 @@
 package com.github.bordertech.wcomponents;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.Factory;
 import com.github.bordertech.wcomponents.util.LookupTable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * WSuggestions represents a device for providing suggested input for a text-like input field. The suggestions may be a
@@ -28,325 +27,334 @@ import com.github.bordertech.wcomponents.util.LookupTable;
  * set a refresh action via {@link #setRefreshAction(Action)}. The text entered by the user that triggered the refresh
  * is provided by {@link #getAjaxFilter()}.
  * </p>
- * 
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WSuggestions extends AbstractWComponent implements AjaxTarget
-{
-    /** The Application-wide lookup-table to use. */
-    private static final LookupTable APPLICATION_LOOKUP_TABLE = Factory.newInstance(LookupTable.class);
+public class WSuggestions extends AbstractWComponent implements AjaxInternalTrigger, AjaxTarget {
 
-    /** AJAX refresh command. */
-    public static final String AJAX_REFRESH_ACTION_COMMAND = "Refresh";
+	/**
+	 * The Application-wide lookup-table to use.
+	 */
+	private static final LookupTable APPLICATION_LOOKUP_TABLE = Factory.newInstance(
+			LookupTable.class);
 
-    /**
-     * Create a WSuggestions.
-     */
-    public WSuggestions()
-    {
-        super();
-    }
+	/**
+	 * AJAX refresh command.
+	 */
+	public static final String AJAX_REFRESH_ACTION_COMMAND = "Refresh";
 
-    /**
-     * Creates a WSuggestions with predefined suggestions.
-     * 
-     * @param suggestions the list of suggestions.
-     */
-    public WSuggestions(final List<String> suggestions)
-    {
-        getComponentModel().setSuggestions(suggestions);
-    }
+	/**
+	 * The way in which the suggestion is provided to and selected by the user. Defaults to BOTH and should remain as
+	 * this for combobox implementations. LIST should be used for implementations which enforce selection of an existing
+	 * value. We may want to consider INLINE in the future but I see no reason for NONE since then it would not be a
+	 * combo.
+	 */
+	public enum Autocomplete {
+		/**
+		 * Indicates that autocomplete may be from the textbox or from the suggestion list.
+		 */
+		BOTH,
+		/**
+		 * Indicates the autocomplete must only be from the suggestion list.
+		 */
+		LIST
+	};
 
-    /**
-     * Creates a WSuggestions using a lookup table for the suggestions.
-     * 
-     * @param lookupTable the lookup table identifier to obtain the list of suggestions.
-     */
-    public WSuggestions(final Object lookupTable)
-    {
-        getComponentModel().setLookupTable(lookupTable);
-    }
+	/**
+	 * Create a WSuggestions.
+	 */
+	public WSuggestions() {
+		super();
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public void handleRequest(final Request request)
-    {
-        // Check if this suggestion list is the current AJAX trigger
-        if (AjaxHelper.isCurrentAjaxTrigger(this))
-        {
-            String filter = request.getParameter(getId());
-            setAjaxFilter(filter);
-            doHandleAjaxRefresh();
-        }
-    }
+	/**
+	 * Creates a WSuggestions with predefined suggestions.
+	 *
+	 * @param suggestions the list of suggestions.
+	 */
+	public WSuggestions(final List<String> suggestions) {
+		getComponentModel().setSuggestions(suggestions);
+	}
 
-    /**
-     * Handle the AJAX refresh request.
-     */
-    protected void doHandleAjaxRefresh()
-    {
-        final Action action = getRefreshAction();
-        if (action == null)
-        {
-            return;
-        }
+	/**
+	 * Creates a WSuggestions using a lookup table for the suggestions.
+	 *
+	 * @param lookupTable the lookup table identifier to obtain the list of suggestions.
+	 */
+	public WSuggestions(final Object lookupTable) {
+		getComponentModel().setLookupTable(lookupTable);
+	}
 
-        final ActionEvent event = new ActionEvent(this, AJAX_REFRESH_ACTION_COMMAND, getAjaxFilter());
-        Runnable later = new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                action.execute(event);
-            }
-        };
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+		// Check if this suggestion list is the current AJAX trigger
+		if (AjaxHelper.isCurrentAjaxTrigger(this)) {
+			String filter = request.getParameter(getId());
+			setAjaxFilter(filter);
+			doHandleAjaxRefresh();
+		}
+	}
 
-        invokeLater(later);
-    }
+	/**
+	 * Handle the AJAX refresh request.
+	 */
+	protected void doHandleAjaxRefresh() {
+		final Action action = getRefreshAction();
+		if (action == null) {
+			return;
+		}
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void preparePaintComponent(final Request request)
-    {
-        UIContext uic = UIContextHolder.getCurrent();
+		final ActionEvent event = new ActionEvent(this, AJAX_REFRESH_ACTION_COMMAND, getAjaxFilter());
+		Runnable later = new Runnable() {
+			@Override
+			public void run() {
+				action.execute(event);
+			}
+		};
 
-        // Register for AJAX if not using a cached list and have a refresh action.
-        if (uic.getUI() != null && getListCacheKey() == null && getRefreshAction() != null)
-        {
-            AjaxHelper.registerComponentTargetItself(getId(), request);
-        }
-    }
+		invokeLater(later);
+	}
 
-    /**
-     * Returns the complete list of suggestions available for selection for this user's session.
-     * 
-     * @return the list of suggestions available for the given user's session.
-     */
-    public List<String> getSuggestions()
-    {
-        // Lookup table
-        Object table = getLookupTable();
+	/**
+	 * Returns the complete list of suggestions available for selection for this user's session.
+	 *
+	 * @return the list of suggestions available for the given user's session.
+	 */
+	public List<String> getSuggestions() {
+		// Lookup table
+		Object table = getLookupTable();
 
-        if (table == null)
-        {
-            SuggestionsModel model = getComponentModel();
-            List<String> suggestions = model.getSuggestions();
-            return suggestions == null ? Collections.EMPTY_LIST : suggestions;
-        }
-        else
-        {
-            List<?> lookupSuggestions = APPLICATION_LOOKUP_TABLE.getTable(table);
-            if (lookupSuggestions == null || lookupSuggestions.isEmpty())
-            {
-                return Collections.EMPTY_LIST;
-            }
-            // Build list of String suggestions
-            List<String> suggestions = new ArrayList<String>(lookupSuggestions.size());
-            for (Object suggestion : lookupSuggestions)
-            {
-                String sugg = APPLICATION_LOOKUP_TABLE.getDescription(table, suggestion);
-                if (sugg != null)
-                {
-                    suggestions.add(sugg);
-                }
-            }
-            return Collections.unmodifiableList(suggestions);
-        }
-    }
+		if (table == null) {
+			SuggestionsModel model = getComponentModel();
+			List<String> suggestions = model.getSuggestions();
+			return suggestions == null ? Collections.EMPTY_LIST : suggestions;
+		} else {
+			List<?> lookupSuggestions = APPLICATION_LOOKUP_TABLE.getTable(table);
+			if (lookupSuggestions == null || lookupSuggestions.isEmpty()) {
+				return Collections.EMPTY_LIST;
+			}
+			// Build list of String suggestions
+			List<String> suggestions = new ArrayList<>(lookupSuggestions.size());
+			for (Object suggestion : lookupSuggestions) {
+				String sugg = APPLICATION_LOOKUP_TABLE.getDescription(table, suggestion);
+				if (sugg != null) {
+					suggestions.add(sugg);
+				}
+			}
+			return Collections.unmodifiableList(suggestions);
+		}
+	}
 
-    /**
-     * Retrieves the data list cache key for this component.
-     * 
-     * @return the cache key if client-side caching is enabled, null otherwise.
-     */
-    public String getListCacheKey()
-    {
-        Object table = getLookupTable();
+	/**
+	 * Retrieves the data list cache key for this component.
+	 *
+	 * @return the cache key if client-side caching is enabled, null otherwise.
+	 */
+	public String getListCacheKey() {
+		Object table = getLookupTable();
 
-        if (table != null && Config.getInstance().getBoolean(AbstractWSelectList.DATALIST_CACHING_PARAM_KEY, false))
-        {
-            String key = APPLICATION_LOOKUP_TABLE.getCacheKeyForTable(table);
-            return key;
-        }
+		if (table != null && Config.getInstance().getBoolean(
+				AbstractWSelectList.DATALIST_CACHING_PARAM_KEY, false)) {
+			String key = APPLICATION_LOOKUP_TABLE.getCacheKeyForTable(table);
+			return key;
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    /**
-     * Set the complete list of suggestions available for selection for this user's session.
-     * 
-     * @param suggestions the list of suggestions available to the user.
-     */
-    public void setSuggestions(final List<String> suggestions)
-    {
-        SuggestionsModel model = getOrCreateComponentModel();
-        model.setSuggestions(suggestions);
-    }
+	/**
+	 * Set the complete list of suggestions available for selection for this user's session.
+	 *
+	 * @param suggestions the list of suggestions available to the user.
+	 */
+	public void setSuggestions(final List<String> suggestions) {
+		SuggestionsModel model = getOrCreateComponentModel();
+		model.setSuggestions(suggestions);
+	}
 
-    /**
-     * Set the lookupTable for this user's session.
-     * 
-     * @param lookupTable the lookup table identifier to obtain the suggestions for the list.
-     */
-    public void setLookupTable(final Object lookupTable)
-    {
-        getOrCreateComponentModel().setLookupTable(lookupTable);
-    }
+	/**
+	 * Set the lookupTable for this user's session.
+	 *
+	 * @param lookupTable the lookup table identifier to obtain the suggestions for the list.
+	 */
+	public void setLookupTable(final Object lookupTable) {
+		getOrCreateComponentModel().setLookupTable(lookupTable);
+	}
 
-    /**
-     * Get the lookupTable for this user's session.
-     * 
-     * @return the lookupTable for the suggestions
-     */
-    public Object getLookupTable()
-    {
-        return getComponentModel().getLookupTable();
-    }
+	/**
+	 * Get the lookupTable for this user's session.
+	 *
+	 * @return the lookupTable for the suggestions
+	 */
+	public Object getLookupTable() {
+		return getComponentModel().getLookupTable();
+	}
 
-    /**
-     * @param action the refresh action. Ignored if using a lookup table.
-     */
-    public void setRefreshAction(final Action action)
-    {
-        getOrCreateComponentModel().action = action;
-    }
+	/**
+	 * @param action the refresh action. Ignored if using a lookup table.
+	 */
+	public void setRefreshAction(final Action action) {
+		getOrCreateComponentModel().action = action;
+	}
 
-    /**
-     * @return the refresh action. Ignored if using a lookup table.
-     */
-    public Action getRefreshAction()
-    {
-        return getComponentModel().action;
-    }
+	/**
+	 * @return the refresh action. Ignored if using a lookup table.
+	 */
+	public Action getRefreshAction() {
+		return getComponentModel().action;
+	}
 
-    /**
-     * @param filter the refresh filter value passed on the AJAX request.
-     */
-    protected void setAjaxFilter(final String filter)
-    {
-        getOrCreateComponentModel().filter = filter;
-    }
+	/**
+	 * @param filter the refresh filter value passed on the AJAX request.
+	 */
+	protected void setAjaxFilter(final String filter) {
+		getOrCreateComponentModel().filter = filter;
+	}
 
-    /**
-     * @return the refresh filter value passed on the AJAX request. Ignored if using a lookup table.
-     */
-    public String getAjaxFilter()
-    {
-        return getComponentModel().filter;
-    }
+	/**
+	 * @return the refresh filter value passed on the AJAX request. Ignored if using a lookup table.
+	 */
+	public String getAjaxFilter() {
+		return getComponentModel().filter;
+	}
 
-    /**
-     * The minimum number of characters entered before refreshing suggestions. A value of zero indicates to use the
-     * theme default, which is usually 3.
-     * 
-     * @param min the minimum number of characters entered before refreshing suggestions.
-     */
-    public void setMinRefresh(final int min)
-    {
-        if (min < 0)
-        {
-            throw new IllegalArgumentException(
-                                               "Minimum refresh value cannot be less than 0. Where zero indicates use the default value.");
-        }
-        getOrCreateComponentModel().min = min;
-    }
+	/**
+	 * @param autocomplete The Autocomplete to set for this instance.
+	 */
+	public void setAutocomplete(final Autocomplete autocomplete) {
+		getOrCreateComponentModel().autocomplete = autocomplete;
+	}
 
-    /**
-     * The minimum characters entered before triggering the refresh action.
-     * <p>
-     * A value of zero indicates the theme default will be used (usually 3).
-     * </p>
-     * 
-     * @return the minimum characters entered before triggering the refresh action.
-     */
-    public int getMinRefresh()
-    {
-        return getComponentModel().min;
-    }
+	/**
+	 * @return The autocomplete for this instance.
+	 */
+	public Autocomplete getAutocomplete() {
+		return getComponentModel().autocomplete;
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    // For type safety only
-    protected SuggestionsModel getComponentModel()
-    {
-        return (SuggestionsModel) super.getComponentModel();
-    }
+	/**
+	 * The minimum number of characters entered before refreshing suggestions. A value of zero indicates to use the
+	 * theme default, which is usually 3.
+	 *
+	 * @param min the minimum number of characters entered before refreshing suggestions.
+	 */
+	public void setMinRefresh(final int min) {
+		if (min < 0) {
+			throw new IllegalArgumentException(
+					"Minimum refresh value cannot be less than 0. Where zero indicates use the default value.");
+		}
+		getOrCreateComponentModel().min = min;
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    // For type safety only
-    protected SuggestionsModel getOrCreateComponentModel()
-    {
-        return (SuggestionsModel) super.getOrCreateComponentModel();
-    }
+	/**
+	 * The minimum characters entered before triggering the refresh action.
+	 * <p>
+	 * A value of zero indicates the theme default will be used (usually 3).
+	 * </p>
+	 *
+	 * @return the minimum characters entered before triggering the refresh action.
+	 */
+	public int getMinRefresh() {
+		return getComponentModel().min;
+	}
 
-    /**
-     * Creates a new component model appropriate for this component.
-     * 
-     * @return a new PanelModel.
-     */
-    @Override
-    protected SuggestionsModel newComponentModel()
-    {
-        return new SuggestionsModel();
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected SuggestionsModel getComponentModel() {
+		return (SuggestionsModel) super.getComponentModel();
+	}
 
-    /**
-     * A class used to hold the list of options for this component.
-     */
-    public static class SuggestionsModel extends ComponentModel
-    {
-        /** The suggestions for this list. */
-        private List<String> suggestions;
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected SuggestionsModel getOrCreateComponentModel() {
+		return (SuggestionsModel) super.getOrCreateComponentModel();
+	}
 
-        /** The name of the lookup table which will be used to obtain the list of suggestions. */
-        private Object lookupTable;
+	/**
+	 * Creates a new component model appropriate for this component.
+	 *
+	 * @return a new PanelModel.
+	 */
+	@Override
+	protected SuggestionsModel newComponentModel() {
+		return new SuggestionsModel();
+	}
 
-        /** Minimum characters entered before refresh suggestions. Zero means use theme default. */
-        private int min = 0;
+	/**
+	 * A class used to hold the list of options for this component.
+	 */
+	public static class SuggestionsModel extends ComponentModel {
 
-        /** Action when refresh requested via AJAX. */
-        private Action action;
+		/**
+		 * The suggestions for this list.
+		 */
+		private List<String> suggestions;
 
-        /** Filter value passed on the AJAX request. */
-        private String filter;
+		/**
+		 * The name of the lookup table which will be used to obtain the list of suggestions.
+		 */
+		private Object lookupTable;
 
-        /**
-         * @return returns the suggestions.
-         */
-        private List<String> getSuggestions()
-        {
-            return suggestions;
-        }
+		/**
+		 * Minimum characters entered before refresh suggestions. Zero means use theme default.
+		 */
+		private int min = 0;
 
-        /**
-         * @param suggestions the suggestions to set.
-         */
-        private void setSuggestions(final List<String> suggestions)
-        {
-            this.suggestions = suggestions == null ? null : Collections.unmodifiableList(suggestions);
-            lookupTable = null;
-        }
+		/**
+		 * Action when refresh requested via AJAX.
+		 */
+		private Action action;
 
-        /**
-         * @param lookupTable the lookup table name to set.
-         */
-        private void setLookupTable(final Object lookupTable)
-        {
-            this.lookupTable = lookupTable;
-            suggestions = null;
-        }
+		/**
+		 * Filter value passed on the AJAX request.
+		 */
+		private String filter;
 
-        /**
-         * @return the lookupTable.
-         */
-        private Object getLookupTable()
-        {
-            return lookupTable;
-        }
-    }
+		/**
+		 * @return returns the suggestions.
+		 */
+		private List<String> getSuggestions() {
+			return suggestions;
+		}
+
+		/**
+		 * The autocomplete model for the suggestions.
+		 */
+		private Autocomplete autocomplete = Autocomplete.BOTH;
+
+		/**
+		 * @param suggestions the suggestions to set.
+		 */
+		private void setSuggestions(final List<String> suggestions) {
+			this.suggestions = suggestions == null ? null : Collections.
+					unmodifiableList(suggestions);
+			lookupTable = null;
+		}
+
+		/**
+		 * @param lookupTable the lookup table name to set.
+		 */
+		private void setLookupTable(final Object lookupTable) {
+			this.lookupTable = lookupTable;
+			suggestions = null;
+		}
+
+		/**
+		 * @return the lookupTable.
+		 */
+		private Object getLookupTable() {
+			return lookupTable;
+		}
+	}
 
 }

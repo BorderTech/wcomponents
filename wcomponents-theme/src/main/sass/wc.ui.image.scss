@@ -1,0 +1,18 @@
+/* wc.ui.image.scss */
+@import 'mixins-common';
+
+img {
+	@include border($width: 0);
+
+	a &,
+	button & {
+		vertical-align: text-bottom;
+	}
+
+	figure & {
+		&,
+		+ button {
+			vertical-align: bottom;
+		}
+	}
+}

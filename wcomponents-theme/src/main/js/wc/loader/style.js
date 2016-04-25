@@ -1,10 +1,7 @@
 /**
  * Provides a means to load CSS files for particular user agents/platforms etc.
  *
- * The following extensions produce CSS which is always (conditionally) added:
- *
- * * 'mob' if mobile; or
- * * 'dt' if not mobile.
+ * The extension 'dt' produces CSS which is added if not mobile.
  *
  * You may be asking why I split IE out from "screen". It was simply to make changing the defaults easier.
  * For most browsers which aren't IE you only need one (or no) CSS overrides because old versions fall out of
@@ -49,8 +46,10 @@
  * @module
  * @requires module:wc/has
  * @todo Maybe allow load to accept an Object or Object[] arg so it can be called from within another module?
+ * @todo lib/dojo/sniff has been patched to include has("edge") but it not yet released. The include of fixes here is to
+ * include our has test for edge. It can be removed once lib/dojo/sniff is updated.
  */
-define(["wc/has", "module"], /** @param has wc/has @param module module @ignore */ function(has, module) {
+define(["wc/has", "wc/config", "wc/fixes"], /** @param has wc/has @param module module @ignore */ function(has, wcconfig) {
 	"use strict";
 	/**
 	 * @constructor
@@ -92,7 +91,7 @@ define(["wc/has", "module"], /** @param has wc/has @param module module @ignore 
 			 * <p><string>DO NOT include IE specific files here</strong>. IE versions (e.g. ie8 or ie9) are included in
 			 * {@link module:wc/loader/style~ieVersionsToSupport}.</p>
 			 *
-			 * <p>Some popular tests (see dojo/sniff for more):</p>
+			 * <p>Some popular tests (see lib/dojo/sniff for more):</p>
 			 * <ul><li>has("ios")</li>
 			 * <li>has("android")</li>
 			 * <li>has("safari")</li>
@@ -100,7 +99,6 @@ define(["wc/has", "module"], /** @param has wc/has @param module module @ignore 
 			 *
 			 * <p>Hard coded file name extensions used in WComponents default theme include:
 			 * "dt" for desktop (ie not mobile: included by default, no need to add these);
-			 * "mob" for generic mobile (also included by default);
 			 * "ios" for iOS specific CSS;
 			 * "safari" for Safari; or
 			 * "ff" for Firefox.</p>
@@ -110,7 +108,7 @@ define(["wc/has", "module"], /** @param has wc/has @param module module @ignore 
 			 * @private
 			 * @default {ff: "ff", safari: "safari", ios: "ios"}
 			 */
-			screenStylesToAdd = ((module.config && module.config().screen) ? module.config().css : null),
+			screenStylesToAdd = null,
 
 			/* NOTE TO SELF: the vars below which are only used once are used in a function which is called many times.
 			 * leave them here you twit!*/
@@ -121,28 +119,28 @@ define(["wc/has", "module"], /** @param has wc/has @param module module @ignore 
 			 * @type {String}
 			 * @private
 			 */
-			CSS_BASE_URL = module.config().cssBaseUrl,
+			CSS_BASE_URL = null,
 			/**
 			 * The query string of the XSLT url is used as the query string for the CSS as it contains the version number and cache buster.
 			 * @constant
 			 * @type {String}
 			 * @private
 			 */
-			CACHEBUSTER = module.config().cachebuster,
+			CACHEBUSTER = null,
 			/**
 			 * Indicates if we are in debug mode.
 			 * @var
 			 * @type {boolean}
 			 * @private
 			 */
-			isDebug = !!module.config().debug,
+			isDebug = false,
 			/**
 			 * The part of the CSS url which comes after the browser specific 'extension'.
 			 * @var
 			 * @type {String}
 			 * @private
 			 */
-			cssFileNameAndUrlExtension = (isDebug ? "${debug.target.file.name.suffix}" : "") + ".css" + (CACHEBUSTER ? ("?" + CACHEBUSTER) : ""),
+			cssFileNameAndUrlExtension = ".css",
 			/**
 			 * Used to access keys in the screenStylesToAdd JSON object.
 			 * @var
@@ -163,34 +161,52 @@ define(["wc/has", "module"], /** @param has wc/has @param module module @ignore 
 			 * @type {Node}
 			 * @private
 			 */
-			sibling = mainCss ? mainCss.nextSibling : null;
+			sibling = mainCss ? mainCss.nextSibling : null,
+			/**
+			 * The common file name used to build the CSS files with an additional DOT suffix.
+			 * The individual 'extension' extends this.;
+			 * @var
+			 * @type {String}
+			 * @private
+			 */
+			CSS_FILE_NAME = "${css.target.file.name}.";
 
-		// We want to sort the IE versions so that we apply fixes for older versions AFTER fixes for newer ones.
-		if (ieVersionsToSupport) {
-			ieVersionsToSupport = ieVersionsToSupport.split(",");
-			if (ieVersionsToSupport.length > 1) {
-				ieVersionsToSupport = ieVersionsToSupport.sort(function (a,b) {
-					var RX = /(\d+)$/,
-						aVer = parseInt(a.match(RX)[0]),
-						bVer = parseInt(b.match(RX)[0]);
-					return bVer - aVer;
-				});
+		initialise();
+
+		/**
+		 * Create a link element for a CSS file in the head element unless we already have one for this URL.
+		 *
+		 * @function
+		 * @private
+		 * @param {String} url The CSS url to add.
+		 * @param {String} [media] A CSS media query for the link element.
+		 */
+		function addLinkElement(url, media) {
+			var head = document.head || document.getElementsByTagName("head")[0],
+				el;
+			if (!head) { // you gotta be kidding me ...
+				return;
 			}
-		}
 
-		if (platformCSS.length && !screenStylesToAdd) {
-			platformCSS = platformCSS.split(",");
-			/* if(platformCSS.length > 1) {
-				// damn
-				// we want genericRenderingEngine then SpecificBrowser then SpecificPlatform
-				// for example: .webkit THEN .safari THEN .ios
-				// but .ff before .ios so reverse alphabet is not useful.
-				// which means we would be relying on case sensitivity to do unicode ordering - which is BAD!!
-			} */
-			screenStylesToAdd = {};
-			platformCSS.forEach(function(next) {
-				platformCSS[next] = next;
-			});
+			if (document.querySelector && document.querySelector("link[href='url']")) {
+				// Do not add the same link element twice. If the browser does not support querySelector then we do not
+				// really care if we add the link more than once but it is better to not do so.
+				return;
+			}
+
+			el = document.createElement("link");
+			el.type = "text/css";
+			el.setAttribute("rel", "stylesheet");
+			if (media) {
+				el.setAttribute("media", media);
+			}
+			el.setAttribute("href", url);
+			if (sibling) {
+				head.insertBefore(el, sibling);
+			}
+			else {
+				head.appendChild(el);
+			}
 		}
 
 		/**
@@ -201,128 +217,200 @@ define(["wc/has", "module"], /** @param has wc/has @param module module @ignore 
 		 * @param {String} [media] An optional media query.
 		 */
 		function addStyle(shortName, media) {
-			var id = "${wc_css_link_id_prefix}" + shortName,
-				el,
-				head;
+			addLinkElement(CSS_BASE_URL + shortName + cssFileNameAndUrlExtension, media);
+		}
 
-			if (!document.getElementById(id)) {
-				head = document.head || document.getElementsByTagName("head")[0];
-				if (!head) { // you gotta be kidding me...
-					return;
-				}
-				el = document.createElement("link");
-				el.id = id;
-				el.type = "text/css";
-				el.setAttribute("rel", "stylesheet");
-				if (media) {
-					el.setAttribute("media", media);
-				}
-				el.setAttribute("href", CSS_BASE_URL + shortName + cssFileNameAndUrlExtension);
-				if (sibling) {
-					head.insertBefore(el, sibling);
+		/**
+		 * Write link elements for all CSS files required by specific desktop browsers.
+		 * @private
+		 * @function
+		 */
+		function loadScreen() {
+			var key,
+				value,
+				media;
+			for (ext in screenStylesToAdd) {
+				key = value = media = null;
+
+				if (typeof screenStylesToAdd[ext] === "string") {
+					if (has(screenStylesToAdd[ext])) {
+						addStyle(CSS_FILE_NAME + ext);
+					}
 				}
 				else {
-					head.appendChild(el);
+					key = screenStylesToAdd[ext].test;
+					value = screenStylesToAdd[ext].version;
+					media = screenStylesToAdd[ext].media;
+					if (value || value === 0) {
+						if (has(key) <= value) {
+							addStyle(CSS_FILE_NAME + ext, media);
+						}
+					}
+					else if (has(key)) {
+						addStyle(CSS_FILE_NAME + ext, media);
+					}
 				}
 			}
 		}
 
 		/**
-		 * Write link elements for all required CSS files.
-		 * @function module:wc/loader/style.load
+		 * Write link elements for all CSS files required by the world's most "special" browser.
+		 * @private
+		 * @function
 		 */
-		this.load = function() {
-			var isMobile = has("ios") || has("android") || has("iemobile") || has("operamobi") || has("operamini") || has("bb"),
-				IE_PREFIX = "ie",
-				key,
-				value,
-				media,
-				CSS_FILE_NAME = "${css.target.file.name}.",// The common file name used to build the CSS files with an additional DOT suffix. The individual 'extension' extends this.
+		function loadIE() {
+			var IE_PREFIX = "ie",
 				i,
 				next,
 				vNum,
 				j,
 				version,
-				_v;  // I hate IE8! All these vars are for the array iteration because I cannot rely on forEach being loaded in time.
-
-			// add generic mobile or desktop styles before browser specific styles
-			if (isMobile) {
-				addStyle(CSS_FILE_NAME + "mob");
+				_v;  // I hate IE8! All these vars are for the array iteration because I cannot rely on forEach being loaded in time.;
+			/*
+			 * This module is loaded very early via XSLT and we cannot guarantee that IE8 has received, parsed and
+			 * processed the whole compat layer. This makes it hard to catch some things but mostly foreEach is
+			 * unreliable so I had to replace it with a simple iteration.
+			 */
+			for (i = 0; i < ieVersionsToSupport.length; ++i) {
+				next = ieVersionsToSupport[i];
+				vNum = next.match(/[0-9]{1,2}$/);
+				if (vNum) {
+					for (j = 0; j < vNum.length; ++j) {
+						version = vNum[j];
+						if (isNaN(version)) {
+							break;
+						}
+						_v = version * 1;
+						if (has("ie") && has("ie") <= _v) {
+							addStyle(CSS_FILE_NAME + IE_PREFIX + version);
+						}
+						else if (_v >= 10) {
+							/*
+							 * WARNING... DANGER WILL ROBINSON
+							 * ie10+ use trident version, which is non-linear compared to ieVerion but we are going
+							 * to assume ONLY ie10 and maybe 11 need special CSS... This is a BAD assumption.
+							 *
+							 * Later... turns out to be not so bad since MS Edge does not identify as trident.
+							 */
+							if (has("trident") < 7) {
+								addStyle(CSS_FILE_NAME + IE_PREFIX + "10");
+							}
+							else if (has("trident") <= _v - 4) {
+								addStyle(CSS_FILE_NAME + IE_PREFIX + version);
+							}
+							else if (_v >= 11) {
+								addStyle(CSS_FILE_NAME + IE_PREFIX + "11");
+							}
+						}
+					}
+				}
 			}
-			else {
+		}
+
+		function initialise() {
+			var config = wcconfig.get("wc/loader/style");
+			if (config) {
+				screenStylesToAdd = config.screen ? config.css : null;
+				CSS_BASE_URL = config.cssBaseUrl;
+				CACHEBUSTER = config.cachebuster;
+				isDebug = config.debug;
+				cssFileNameAndUrlExtension = (isDebug ? "${debug.target.file.name.suffix}" : "") + ".css" + (CACHEBUSTER ? ("?" + CACHEBUSTER) : "");
+				if (config.ie) {
+					ieVersionsToSupport = config.ie;
+				}
+			}
+
+			// We want to sort the IE versions so that we apply fixes for older versions AFTER fixes for newer ones.
+			if (ieVersionsToSupport) {
+				ieVersionsToSupport = ieVersionsToSupport.split(",");
+				if (ieVersionsToSupport.length > 1) {
+					ieVersionsToSupport = ieVersionsToSupport.sort(function (a,b) {
+						var RX = /(\d+)$/,
+							aVer = parseInt(a.match(RX)[0]),
+							bVer = parseInt(b.match(RX)[0]);
+						return bVer - aVer;
+					});
+				}
+			}
+
+			if (platformCSS.length && !screenStylesToAdd) {
+				platformCSS = platformCSS.split(",");
+				/* if(platformCSS.length > 1) {
+					// damn
+					// we want genericRenderingEngine then SpecificBrowser then SpecificPlatform
+					// for example: .webkit THEN .safari THEN .ios
+					// but .ff before .ios so reverse alphabet is not useful.
+					// which means we would be relying on case sensitivity to do unicode ordering - which is BAD!!
+				} */
+				screenStylesToAdd = {};
+				platformCSS.forEach(function(next) {
+					screenStylesToAdd[next] = next;
+				});
+			}
+		}
+
+		/**
+		 * Write link elements for all required CSS files. Should only be called from ui:root XSLT. To add CSS from a
+		 * module use {@link module:wc/loader/style.add}.
+		 *
+		 * @function module:wc/loader/style.load
+		 * @public
+		 */
+		this.load = function() {
+			// add generic desktop styles before browser specific styles
+			if (!has("small-screen")) { // TODO: load this using a media query if possible
 				addStyle(CSS_FILE_NAME + "dt");
 			}
 
 			if (has("ie") || has("trident")) {
-				if (module.config && module.config().ie) {
-					ieVersionsToSupport = module.config().ie;
-				}
-				/*
-				 * This module is loaded very early via XSLT and we cannot guarantee that IE8 has received, parsed and
-				 * processed the whole compat layer. This makes it hard to catch some things but mostly foreEach is
-				 * unreliable so I had to replace it with a simple iteration.
-				 */
-				for (i = 0; i < ieVersionsToSupport.length; ++i) {
-					next = ieVersionsToSupport[i];
-					vNum = next.match(/[0-9]{1,2}$/);
-					if (vNum) {
-						for (j = 0; j < vNum.length; ++j) {
-							version = vNum[j];
-							if (isNaN(version)) {
-								break;
-							}
-							_v = version * 1;
-							if (has("ie") && has("ie") <= _v) {
-								addStyle(CSS_FILE_NAME + IE_PREFIX + version);
-							}
-							else if (_v >= 10) {
-								/*
-								 * WARNING... DANGER WILL ROBINSON
-								 * ie10+ use trident version, which is non-linear compared to ieVerion but we are going
-								 * to assume ONLY ie10 and maybe 11 need special CSS... This is a BAD assumption.
-								 *
-								 * Later... turns out to be not so bad since MS Edge does not identify as trident.
-								 */
-								if (has("trident") < 7) {
-									addStyle(CSS_FILE_NAME + IE_PREFIX + "10");
-								}
-								else if (has("trident") <= _v - 4) {
-									addStyle(CSS_FILE_NAME + IE_PREFIX + version);
-								}
-								else if (_v >= 11) {
-									addStyle(CSS_FILE_NAME + IE_PREFIX + "11");
-								}
-							}
-						}
-					}
-				}
+				loadIE();
 			}
-			if (screenStylesToAdd) {
-				for (ext in screenStylesToAdd) {
-					key = value = media = null;
 
-					if (typeof screenStylesToAdd[ext] === "string") {
-						if (has(screenStylesToAdd[ext])) {
-							addStyle(CSS_FILE_NAME + ext);
-						}
-					}
-					else {
-						key = screenStylesToAdd[ext].test;
-						value = screenStylesToAdd[ext].version;
-						media = screenStylesToAdd[ext].media;
-						if (value || value === 0) {
-							if (has(key) <= value) {
-								addStyle(CSS_FILE_NAME + ext, media);
-							}
-						}
-						else if (has(key)) {
-							addStyle(CSS_FILE_NAME + ext, media);
-						}
-					}
-				}
+			if (screenStylesToAdd) {
+				loadScreen();
 			}
+
 			if (isDebug) {
-				addStyle("debug", "screen");
+				// load the debug css
+				addStyle("${css.target.file.name.debug}");
+			}
+		};
+
+		/**
+		 * Allow any module to load a CSS file. If your module wants to add custom CSS use this function.
+		 *
+		 * @function module:wc/loader/style.add
+		 * @public
+		 * @param {String} nameOrUrl The file name (with or without extension) or URL to a CSS file.
+		 *
+		 *   1. Supported URLs are of the form "//blah", "/blah", "http[s]://blah" or ".[.]/blah".
+		 *   2. If the String is not in one of the URL patterns we assume you are getting a CSS file built from yhour
+		 *     theme in the /style/ directory.
+		 *     1. If the String contains ".css" we do not add the extension or cache-buster.
+		 *     2. If the file name is not a URL and does not contain .css we add the extension (including the debug
+		 *       name extension if in debug mode) and the cache-buster.
+		 *
+		 *   Therefore we suggest using a URL (and _I recommend_ the `//blah` form) or a simple file name if you are
+		 *   building CSS files which are not able to be implemented using the _pattern and auto-loader mechanisms
+		 *   (including the ability to override the style loadre config). So in reality this is almost always going to
+		 *   be a URL unless you are particularly odd. Being particularly odd I tested this function using the debug CSS
+		 *   and loading it from {@link module:wc/debug/a11y}.
+		 *
+		 * @param {String} [media] A CSS media query appropriate to the link element.
+		 */
+		this.add = function(nameOrUrl, media) {
+			var isUrl = nameOrUrl.indexOf("/") === 0 || nameOrUrl.indexOf("http") === 0 || nameOrUrl.indexOf(".") === 0;
+
+			if (isUrl) {
+				// Huzzah we have a URL! Simply write the link element.
+				addLinkElement(nameOrUrl, media);
+			}
+			else if (nameOrUrl.indexOf(".css") > 0) {
+				// Name already has extension so we cannot add it using addStyle; it still needs the path though.
+				addLinkElement(CSS_BASE_URL + nameOrUrl, media);
+			}
+			else {
+				addStyle(nameOrUrl, media);
 			}
 		};
 	}

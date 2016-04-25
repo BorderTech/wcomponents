@@ -3,167 +3,37 @@
 // Styling specific to the date input component including the calendar.
 
 // We use a single ID'd component for all calendar date pickers and move it around to where it is needed.
-//scss-lint:disable IdSelector
-@import 'mixins_common.scss';
+// scss-lint:disable IdSelector
+@import 'mixins-common';
 
-.dateField {
-	display: inline-block;
+.wc-datefield {
 	position: relative;
-
-	&[role='combobox'] {//partial date field or no native support
-		@include border($color: $wc-ui-color-border-form-control);
-
-		&[aria-disabled='true'] {
-			background-color: $wc-ui-color-disabled-bg;
-		}
-	}
-}
-
-[role='combobox'] > input,
-.wc_wdf_cal {
-	vertical-align: middle;
-}
-
-[role='combobox'] {
-	> input {
-		// important to remove invalid state border
-		// scss-lint:disable ImportantRule
-		border: 0 none !important;
-	}
-
-	> [role='listbox'] {
-		@include border;
-		background-color: $wc-ui-color-global-bg;
-		left: $border-width * -1;
-		list-style-type: none;
-		margin: 0;
-		min-width: 100%;
-		padding: 0;
-		position: absolute;
-		z-index: 2;
-	}
-
-	&[aria-expanded='false'] > [role='listbox'] {
-		display: none;
-	}
-
-	li {
-		margin: 0;
-		min-height: 1em;
-		padding: 1px $hgap-small;
-	}
-
-	[role='option'] {
-		&:hover,
-		&:focus {
-			background-color: $wc-ui-color-invite-bg;
-			cursor: pointer;
-		}
-	}
-}
-
-dialog [role='combobox'] > [role='listbox'] {
-	z-index: 22;
 }
 
 // calendar launch button
 .wc_wdf_cal {
-	&:hover,
-	&:focus {
-		background-color: $wc-ui-color-invite-bg;
-	}
-
-	&:before {
-		content: url('../images/date.png');
-		position: relative;
-		top: 2px;
-	}
-
-	&[disabled]:before {
-		content: url('../images/date-d.png');
-	}
+	@include border($width: 0); // remove the generic wc_btn_icon border.
+	@include border($pos: left);
+	@include margin($pos: left);
 }
 
-// This is the calendar container. The important is to override hidden from being inside a closed combo.
-#wc-calbox {
-	background-color: $wc-ui-color-global-bg;
+[role='combobox'] { // NOTE: all of the nested rules apply to nested selectors. This differentiates datefield from combo.
 	white-space: nowrap;
-	z-index: 2;
 
-	&[hidden] { // override of override
-		//scss-lint:disable ImportantRule
-		display: none !important;
+	> input {
+		border: 0 none;
+		//max-width: calc(100% - 2rem); // allow for icon with button artefacts.
 	}
 
-	dialog & {
-		z-index: 22;
-	}
-}
+	&[aria-expanded='true'] > [role='listbox'] {
+		border: 0 none;
+		display: block;
+		left: $border-width * -1;
+		min-width: 100%;
 
-// The calendar table
-#wc-calendar {
-	thead {
-		@include border($pos: bottom);
-
-		td:last-child { // container of the close button
-			padding-right: 0;
-			text-align: right;
+		dialog & {
+			left: auto;
+			min-width: initial;
 		}
 	}
-
-	th {
-		background-color: $wc-ui-color-highlight-bg;
-		color: $wc-ui-color-highlight-fg;
-		padding: $vgap-small $hgap-small;
-		text-align: center;
-	}
-
-	input,
-	thead button:first-of-type {
-		margin-left: $hgap-large;
-	}
-
-	input { // year field: FF and IE do not size by max.
-		width: 5em;
-	}
-
-	abbr { // days of the week
-		border-bottom: 0 none;
-	}
 }
-
-#wc-caldaybox td {
-	color: $wc-ui-color-disabled-fg;
-	padding: 0;
-	text-align: center;
-	vertical-align: middle;
-}
-
-// date picker buttons
-.wc_wdf_pick {
-	color: $wc-ui-color-global-fg;
-	cursor: pointer;
-	padding: $vgap-small $hgap-small;
-	text-align: center;
-	width: 100%;
-
-	&:hover,
-	&:focus {
-		background-color: $wc-ui-color-invite-bg;
-	}
-
-	&[disabled] {
-		background-color: $wc-ui-color-disabled-bg;
-		color: $wc-ui-color-disabled-fg;
-	}
-
-	&[aria-pressed='true'] { // selected date
-		background-color: $wc-ui-color-highlight-bg;
-		color: $wc-ui-color-highlight-fg;
-	}
-}
-
-.wc_wdf_today { // today
-	@include outline();
-}
-/* end wc.ui.dateField.scss */

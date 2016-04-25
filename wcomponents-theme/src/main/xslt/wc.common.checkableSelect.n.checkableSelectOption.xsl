@@ -13,7 +13,7 @@
 
 		NOTE:
 
-		This template assumes that the options in a WCheckBoxGroup or WRadioButtonGroup
+		This template assumes that the options in a WCheckBoxSelect or WRadioButtonSelect
 		are NEVER in an optgroup. This assumption may be flawed.
 
 		param name: The name to be applied to each option. This is based on the parent element's
@@ -94,18 +94,15 @@
 							<xsl:with-param name="isControl" select="1"/>
 							<xsl:with-param name="field" select="parent::*"/>
 						</xsl:call-template>
-						<xsl:if test="parent::ui:radioButtonSelect">
+						<xsl:if test="parent::ui:radiobuttonselect">
 							<xsl:call-template name="requiredElement">
-								<xsl:with-param name="field" select="parent::ui:radioButtonSelect"/>
+								<xsl:with-param name="field" select="parent::ui:radiobuttonselect"/>
 							</xsl:call-template>
 						</xsl:if>
 					</xsl:element>
-					<xsl:element name="label">
-						<xsl:attribute name="for">
-							<xsl:value-of select="$uid"/>
-						</xsl:attribute>
+					<label for="{$uid}">
 						<xsl:call-template name="checkableSelectOptionLabel"/>
-					</xsl:element>
+					</label>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:element>

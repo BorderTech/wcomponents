@@ -1,5 +1,8 @@
 package com.github.bordertech.wcomponents.examples.petstore;
 
+import com.github.bordertech.wcomponents.util.LookupTable;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.Util;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,374 +15,377 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.github.bordertech.wcomponents.util.LookupTable;
-import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
-
 /**
- * A slightly more realistic example LookupTable implementation.
- * This implementation reads the table data from an external file.
+ * A slightly more realistic example LookupTable implementation. This implementation reads the table data from an
+ * external file.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class PetStoreLookupTable implements LookupTable
-{
-    /** The logger instance for this class. */
-    private static final Log log = LogFactory.getLog(PetStoreLookupTable.class);
+public class PetStoreLookupTable implements LookupTable {
 
-    /** A map to hold the relationship between the cache key and the source table. */
-    private static final Map<String, Object> cacheMap = Collections.synchronizedMap(new HashMap<String, Object>());
+	/**
+	 * The logger instance for this class.
+	 */
+	private static final Log LOG = LogFactory.getLog(PetStoreLookupTable.class);
 
-    /** {@inheritDoc} */
-    public List<Object> getTable(final Object tableIdentifier)
-    {
-        String tableName = String.valueOf(tableIdentifier);
-        List<TableEntry> tableData = CrtTableResource.getTable(tableName);
+	/**
+	 * A map to hold the relationship between the cache key and the source table.
+	 */
+	private static final Map<String, Object> CACHE_MAP = Collections.synchronizedMap(
+			new HashMap<String, Object>());
 
-        List<Object> table = new ArrayList<Object>();
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<Object> getTable(final Object tableIdentifier) {
+		String tableName = String.valueOf(tableIdentifier);
+		List<TableEntry> tableData = CrtTableResource.getTable(tableName);
 
-        // Only return entries which are currently effective
-        for (TableEntry entry : tableData)
-        {
-            Date now = new Date();
+		List<Object> table = new ArrayList<>();
 
-            if ((entry.getDateFrom() == null || entry.getDateFrom().before(now))
-                && (entry.getDateTo() == null || entry.getDateTo().after(now)))
-            {
-                table.add(entry);
-            }
-        }
+		// Only return entries which are currently effective
+		for (TableEntry entry : tableData) {
+			Date now = new Date();
 
-        return table;
-    }
+			if ((entry.getDateFrom() == null || entry.getDateFrom().before(now))
+					&& (entry.getDateTo() == null || entry.getDateTo().after(now))) {
+				table.add(entry);
+			}
+		}
 
-    /** {@inheritDoc} */
-    public String getCacheKeyForTable(final Object table)
-    {
-        String tableName = (String) table;
+		return table;
+	}
 
-        // Our cache keys are just the names of the tables,
-        // as the table data is immutable.
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getCacheKeyForTable(final Object table) {
+		String tableName = (String) table;
 
-        // Only the country list is cached only the client
-        if ("icao".equals(tableName))
-        {
-            String key = tableName + "VERSION#";
-            cacheMap.put(key, tableName);
-            return key;
-        }
+		// Our cache keys are just the names of the tables,
+		// as the table data is immutable.
+		// Only the country list is cached only the client
+		if ("icao".equals(tableName)) {
+			String key = tableName + "VERSION#";
+			CACHE_MAP.put(key, tableName);
+			return key;
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    public Object getTableForCacheKey(final String key)
-    {
-        Object table = cacheMap.get(key);
-        return table;
-    }
+	@Override
+	public Object getTableForCacheKey(final String key) {
+		Object table = CACHE_MAP.get(key);
+		return table;
+	}
 
-    /** {@inheritDoc} */
-    public String getCode(final Object table, final Object entry)
-    {
-        if (entry instanceof TableEntry)
-        {
-            return ((TableEntry) entry).getCode();
-        }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getCode(final Object table, final Object entry) {
+		if (entry instanceof TableEntry) {
+			return ((TableEntry) entry).getCode();
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    /** {@inheritDoc} */
-    public String getDescription(final Object table, final Object entry)
-    {
-        if (entry instanceof TableEntry)
-        {
-            return ((TableEntry) entry).getDesc();
-        }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getDescription(final Object table, final Object entry) {
+		if (entry instanceof TableEntry) {
+			return ((TableEntry) entry).getDesc();
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    /**
-     * Represents an entry in a table.
-     */
-    public static final class TableEntry
-    {
-        /** The table entry code. */
-        private final String code;
+	/**
+	 * Represents an entry in a table.
+	 */
+	public static final class TableEntry {
 
-        /** The table entry description. */
-        private final String desc;
+		/**
+		 * The table entry code.
+		 */
+		private final String code;
 
-        /** The table name. */
-        private final String tableName;
+		/**
+		 * The table entry description.
+		 */
+		private final String desc;
 
-        /** The valid from date. */
-        private final Date dateFrom;
+		/**
+		 * The table name.
+		 */
+		private final String tableName;
 
-        /** The valid to date. */
-        private final Date dateTo;
+		/**
+		 * The valid from date.
+		 */
+		private final Date dateFrom;
 
-        /**
-         * Creates a table entry.
-         *
-         * @param tableName the table name.
-         * @param code the entry code.
-         * @param desc the entry description.
-         * @param dateFrom the valid from date.
-         * @param dateTo the valid to date.
-         */
-        public TableEntry(final String tableName, final String code, final String desc, final Date dateFrom, final Date dateTo)
-        {
-            this.tableName = tableName;
-            this.code = code;
-            this.desc = desc;
-            this.dateFrom = dateFrom;
-            this.dateTo = dateTo;
-        }
+		/**
+		 * The valid to date.
+		 */
+		private final Date dateTo;
 
-        /** @return the description. */
-        public String getDesc()
-        {
-            return desc;
-        }
+		/**
+		 * Creates a table entry.
+		 *
+		 * @param tableName the table name.
+		 * @param code the entry code.
+		 * @param desc the entry description.
+		 * @param dateFrom the valid from date.
+		 * @param dateTo the valid to date.
+		 */
+		public TableEntry(final String tableName, final String code, final String desc,
+				final Date dateFrom, final Date dateTo) {
+			this.tableName = tableName;
+			this.code = code;
+			this.desc = desc;
+			this.dateFrom = dateFrom;
+			this.dateTo = dateTo;
+		}
 
-        /** @return the code. */
-        public String getCode()
-        {
-            return code;
-        }
+		/**
+		 * @return the description.
+		 */
+		public String getDesc() {
+			return desc;
+		}
 
-        /**
-         * Indicates whether the given object is equal to this one.
-         *
-         * @param obj the object to test for equality.
-         * @return true if the object is a TableEntry and has the same code as this one.
-         */
-        @Override
-        public boolean equals(final Object obj)
-        {
-            return (obj instanceof TableEntry) && Util.equals(code, ((TableEntry) obj).code);
-        }
+		/**
+		 * @return the code.
+		 */
+		public String getCode() {
+			return code;
+		}
 
-        /** @return this entry's hash code. */
-        @Override
-        public int hashCode()
-        {
-            return code == null ? 0 : code.hashCode();
-        }
+		/**
+		 * Indicates whether the given object is equal to this one.
+		 *
+		 * @param obj the object to test for equality.
+		 * @return true if the object is a TableEntry and has the same code as this one.
+		 */
+		@Override
+		public boolean equals(final Object obj) {
+			return (obj instanceof TableEntry) && Util.equals(code, ((TableEntry) obj).code);
+		}
 
-        /** {@inheritDoc} */
-        @Override
-        public String toString()
-        {
-            return desc;
-        }
+		/**
+		 * @return this entry's hash code.
+		 */
+		@Override
+		public int hashCode() {
+			return code == null ? 0 : code.hashCode();
+		}
 
-        /**
-         * @return the table name.
-         */
-        public String getTableName()
-        {
-            return tableName;
-        }
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public String toString() {
+			return desc;
+		}
 
-        /**
-         * @return the valid from date.
-         */
-        public Date getDateFrom()
-        {
-            return dateFrom;
-        }
+		/**
+		 * @return the table name.
+		 */
+		public String getTableName() {
+			return tableName;
+		}
 
-        /**
-         * @return Returns valid to date.
-         */
-        public Date getDateTo()
-        {
-            return dateTo;
-        }
-    }
+		/**
+		 * @return the valid from date.
+		 */
+		public Date getDateFrom() {
+			return dateFrom;
+		}
 
-    /**
-     * The CrtTableResource class handles reading table data from an external flat file.
-     */
-    private static final class CrtTableResource
-    {
-        /** The location of the file resource. */
-        public final static String RESOURCE_NAME = "/com/github/bordertech/wcomponents/examples/petstore/resources/crt/crt.data";
+		/**
+		 * @return Returns valid to date.
+		 */
+		public Date getDateTo() {
+			return dateTo;
+		}
+	}
 
-        /** Comment character used in the data file. */
-        private final static String COMMENT_STR = "#";
+	/**
+	 * The CrtTableResource class handles reading table data from an external flat file.
+	 */
+	private static final class CrtTableResource {
 
-        /** Attribute separator used in the data file. */
-        private final static String DELIMITER = "@";
+		/**
+		 * The location of the file resource.
+		 */
+		public static final String RESOURCE_NAME = "/com/github/bordertech/wcomponents/examples/petstore/resources/crt/crt.data";
 
-        /** The date format for dates stored in the data file. */
-        private final static String DATE_FORMAT = "yyyyMMdd";
+		/**
+		 * Comment character used in the data file.
+		 */
+		private static final String COMMENT_STR = "#";
 
-        /** Cached tables, to avoid having to read the data file from disk each time. */
-        private static final Map<String, List<TableEntry>> tables = Collections.synchronizedMap(new HashMap<String, List<TableEntry>>());
+		/**
+		 * Attribute separator used in the data file.
+		 */
+		private static final String DELIMITER = "@";
 
-        /** Prevent instantation of this utility class. */
-        private CrtTableResource()
-        {
-        }
+		/**
+		 * The date format for dates stored in the data file.
+		 */
+		private static final String DATE_FORMAT = "yyyyMMdd";
 
-        /**
-         * Retrieves a table from the flat file.
-         * Tables are cached in memory to avoid excess IO.
-         *
-         * @param tableName the table name.
-         * @return the contents of the given table.
-         */
-        public static List<TableEntry> getTable(final String tableName)
-        {
-            List<TableEntry> table = tables.get(tableName);
+		/**
+		 * Cached tables, to avoid having to read the data file from disk each time.
+		 */
+		private static final Map<String, List<TableEntry>> TABLES = Collections.synchronizedMap(
+				new HashMap<String, List<TableEntry>>());
 
-            if (table == null)
-            {
-                table = loadList(tableName);
-                tables.put(tableName, table);
-            }
+		/**
+		 * Prevent instantation of this utility class.
+		 */
+		private CrtTableResource() {
+		}
 
-            return table;
-        }
+		/**
+		 * Retrieves a table from the flat file. Tables are cached in memory to avoid excess IO.
+		 *
+		 * @param tableName the table name.
+		 * @return the contents of the given table.
+		 */
+		public static List<TableEntry> getTable(final String tableName) {
+			List<TableEntry> table = TABLES.get(tableName);
 
-        /**
-         * Loads a list from the CRT file.
-         * @param tableName the table name to read.
-         * @return the table.
-         */
-        private static List<TableEntry> loadList(final String tableName)
-        {
-            InputStream in = null;
+			if (table == null) {
+				table = loadList(tableName);
+				TABLES.put(tableName, table);
+			}
 
-            try
-            {
-                in = CrtTableResource.class.getResourceAsStream(RESOURCE_NAME);
+			return table;
+		}
 
-                if (in == null)
-                {
-                    throw new SystemException("The resource '" + RESOURCE_NAME
-                                              + "' cannot be found in the file system or classpath.");
-                }
+		/**
+		 * Loads a list from the CRT file.
+		 *
+		 * @param tableName the table name to read.
+		 * @return the table.
+		 */
+		private static List<TableEntry> loadList(final String tableName) {
+			InputStream in = null;
 
-                BufferedReader bufReader = new BufferedReader(new InputStreamReader(in));
-                List<TableEntry> list = readTable(bufReader, tableName);
+			try {
+				in = CrtTableResource.class.getResourceAsStream(RESOURCE_NAME);
 
-                return list;
-            }
-            catch (IOException ex)
-            {
-                throw new SystemException("Unable to load codesets from resource '" + RESOURCE_NAME + "'.", ex);
-            }
-            finally
-            {
-                try
-                {
-                    if (null != in)
-                    {
-                        in.close();
-                    }
-                }
-                catch (IOException ex)
-                {
-                    log.error("Unable to close resource '" + RESOURCE_NAME + "'.", ex);
-                }
-            }
-        }
+				if (in == null) {
+					throw new SystemException("The resource '" + RESOURCE_NAME
+							+ "' cannot be found in the file system or classpath.");
+				}
 
-        /**
-         * Loads a table from the flat file repository.
-         *
-         * @param bufReader the reader to read from
-         * @param tableName the table name
-         * @return the table.
-         * @throws IOException if there is an error reading from the reader.
-         */
-        private static List<TableEntry> readTable(final BufferedReader bufReader, final String tableName) throws IOException
-        {
-            log.debug("Loading CRT '" + tableName + "'.");
-            SimpleDateFormat dateFormatter = new SimpleDateFormat(DATE_FORMAT);
+				BufferedReader bufReader = new BufferedReader(new InputStreamReader(in));
+				List<TableEntry> list = readTable(bufReader, tableName);
 
-            List<TableEntry> list = new ArrayList<TableEntry>();
+				return list;
+			} catch (IOException ex) {
+				throw new SystemException(
+						"Unable to load codesets from resource '" + RESOURCE_NAME + "'.", ex);
+			} finally {
+				try {
+					if (null != in) {
+						in.close();
+					}
+				} catch (IOException ex) {
+					LOG.error("Unable to close resource '" + RESOURCE_NAME + "'.", ex);
+				}
+			}
+		}
 
-            for (String line = bufReader.readLine(); line != null; line = bufReader.readLine())
-            {
-                // Don't continue processing this line if it is a comment or it is empty.
-                if (line.startsWith(COMMENT_STR) || "".equals(line))
-                {
-                    continue;
-                }
+		/**
+		 * Loads a table from the flat file repository.
+		 *
+		 * @param bufReader the reader to read from
+		 * @param tableName the table name
+		 * @return the table.
+		 * @throws IOException if there is an error reading from the reader.
+		 */
+		private static List<TableEntry> readTable(final BufferedReader bufReader,
+				final String tableName) throws IOException {
+			LOG.debug("Loading CRT '" + tableName + "'.");
+			SimpleDateFormat dateFormatter = new SimpleDateFormat(DATE_FORMAT);
 
-                // Don't continue processing this line if it's not for the crt we're interested in.
-                if (!line.startsWith(tableName + DELIMITER))
-                {
-                    continue;
-                }
+			List<TableEntry> list = new ArrayList<>();
 
-                //
-                // Split the line into attributes.
-                //
-                String[] args = line.split(DELIMITER);
+			for (String line = bufReader.readLine(); line != null; line = bufReader.readLine()) {
+				// Don't continue processing this line if it is a comment or it is empty.
+				if (line.startsWith(COMMENT_STR) || "".equals(line)) {
+					continue;
+				}
 
-                if (args.length < 4)
-                {
-                    throw new IOException("Format of the file is invalid!" + "\nThe format of each line should be "
-                                          + "[crtname]" + DELIMITER + "[code]" + DELIMITER + "[datefrom]" + DELIMITER
-                                          + "[dateto]" + DELIMITER + "[description]"
-                                          + "\nThe line that cause the error is: " + line);
-                }
+				// Don't continue processing this line if it's not for the crt we're interested in.
+				if (!line.startsWith(tableName + DELIMITER)) {
+					continue;
+				}
 
-                String code = args[1];
-                String dateFromStr = args[2];
-                String dateToStr = args[3];
+				//
+				// Split the line into attributes.
+				//
+				String[] args = line.split(DELIMITER);
 
-                String desc = null;
-                if (args.length > 4)
-                {
-                    desc = args[4].replaceAll("\\\\n", "\n");
-                    desc = desc.length() == 0 ? null : desc;
-                }
+				if (args.length < 4) {
+					throw new IOException(
+							"Format of the file is invalid!" + "\nThe format of each line should be "
+							+ "[crtname]" + DELIMITER + "[code]" + DELIMITER + "[datefrom]" + DELIMITER
+							+ "[dateto]" + DELIMITER + "[description]"
+							+ "\nThe line that cause the error is: " + line);
+				}
 
-                //
-                // Convert the dates.
-                //
-                Date dateFrom = null;
-                Date dateTo = null;
-                try
-                {
-                    if (!Util.empty(dateFromStr))
-                    {
-                        dateFrom = dateFormatter.parse(dateFromStr);
-                    }
-                    if (!Util.empty(dateToStr))
-                    {
-                        dateTo = dateFormatter.parse(dateToStr);
-                    }
-                }
-                catch (ParseException ex)
-                {
-                    throw new SystemException("An invalid effective date range was encountered ("
-                                              + dateFromStr + " - " + dateToStr + ").", ex);
-                }
+				String code = args[1];
+				String dateFromStr = args[2];
+				String dateToStr = args[3];
 
-                //
-                // Make an entry.
-                //
-                TableEntry data = new TableEntry(tableName, code, desc, dateFrom, dateTo);
+				String desc = null;
+				if (args.length > 4) {
+					desc = args[4].replaceAll("\\\\n", "\n");
+					desc = desc.length() == 0 ? null : desc;
+				}
 
-                // Add the entry to the list.
-                list.add(data);
-            }
+				//
+				// Convert the dates.
+				//
+				Date dateFrom = null;
+				Date dateTo = null;
+				try {
+					if (!Util.empty(dateFromStr)) {
+						dateFrom = dateFormatter.parse(dateFromStr);
+					}
+					if (!Util.empty(dateToStr)) {
+						dateTo = dateFormatter.parse(dateToStr);
+					}
+				} catch (ParseException ex) {
+					throw new SystemException("An invalid effective date range was encountered ("
+							+ dateFromStr + " - " + dateToStr + ").", ex);
+				}
 
-            return list;
-        }
-    }
+				//
+				// Make an entry.
+				//
+				TableEntry data = new TableEntry(tableName, code, desc, dateFrom, dateTo);
+
+				// Add the entry to the list.
+				list.add(data);
+			}
+
+			return list;
+		}
+	}
 }

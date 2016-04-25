@@ -1,10 +1,8 @@
 /* wc.ui.panel.box.scss */
 // type BOX:
 // 'A box panel has a border.' therefore has a pad to remove the content from the border.
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
-.box {
-	@include border;
-	padding: $hgap-normal;
+.wc_pnl_box {
+	@include padded-box;
 }
-/* end wc.ui.panel.box.scss */

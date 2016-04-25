@@ -8,7 +8,7 @@
 
 // The styles here are purposely minimal and will give you a DETAILS element pretty much like a Chrome default.
 
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
 details,
 summary {
@@ -20,53 +20,28 @@ summary {
 	font-weight: bold;
 	padding: $hgap-normal 0;
 
-	&::before {
-		content: url('../images/next.png');
-		display: inline-block;
-		height: 0;
-		margin-right: $hgap-small;
-		vertical-align: top;
-	}
-
-	&::-webkit-details-marker { // remove the default summary marker from webkit browsers
-		display: none;
-	}
 	> h1,
 	> h2,
 	> h3,
 	> h4,
 	> h5,
 	> h6 {
-		color: $wc-ui-color-global-fg;
+		@include tight-box;
 		display: inline-block;
-		font-size: 1em;
+		font-size: inherit;
 		font-weight: bold;
-		margin: 0;
-		padding: 0;
 		vertical-align: text-top;
-		width: calc(100% - 2em);
+		width: calc(100% - 2rem); // allow for the iconography
 	}
 }
 
-// content of the collapsible NOTE: this is currently wrapped in a div but this could be > * with an override for
-// summary::first-of-type
-details {
-	> div {
+// content of the collapsible
+div[aria-describedby] {
+	details > & {
 		display: none;
 	}
 
-	&[open] {
-		> div {
-			display: block;
-
-			&[aria-busy='true'] {
-				min-height: 16px;
-			}
-		}
-
-		> summary::before {
-			content: url('../images/down.png');
-		}
+	[open] > & {
+		display: block;
 	}
 }
-/* end wc.ui.collapsible.scss */

@@ -4,11 +4,11 @@
 		Outputs a comma separated list of JSON objects required for registering
 		the selection controls. See wc.common.registrationScripts.xsl.
 	-->
-	<xsl:template match="ui:rowSelection" mode="JS">
+	<xsl:template match="ui:rowselection" mode="JS">
 		<xsl:text>{"identifier":"</xsl:text>
-		<xsl:value-of select="concat(../@id,'${wc.ui.table.id.body.suffix}','${wc.ui.selectToggle.id.suffix}')"/>
+		<xsl:value-of select="concat(../@id,'_tb','_st')"/>
 		<xsl:text>","groupName":"</xsl:text>
-		<xsl:value-of select="concat(../@id,'${wc.ui.table.id.body.suffix}')"/>
+		<xsl:value-of select="concat(../@id,'_tb')"/>
 		<xsl:text>"}</xsl:text>
 		<xsl:if test="position() != last()">
 			<xsl:text>,</xsl:text>

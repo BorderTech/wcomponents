@@ -1,58 +1,20 @@
 /* wc.ui.selectToggle.scss */
 // only text mode
 
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
 .wc_seltog {
-	span:first-child { // push the options off of the select keyword
-		margin-right: $hgap-normal;
-	}
+	> button {
+		cursor: pointer;
+		margin-left: $hgap-normal;
+		text-decoration: underline;
 
-	button {
-		&[aria-checked='true'] {
-			font-weight: bold;
-		}
-
-		+ button::before {
-			content: '|';
-			font-weight: normal;
-			margin: 0 $hgap-small;
+		&:first-child {
+			margin-left: 0;
 		}
 	}
 
-	&[role='checkbox'] { // Graphical representation of state when rendered as a control
-		&::before {
-			@include make-box($width: 1em, $height: 1em);
-			content: url('../images/checkbox.svg');
-			vertical-align: text-top; // ensure that the 1em 'checkbox' analog lines up with any surrounding inline text.
-		}
-
-		&[aria-checked='true']::before {
-			content: url('../images/checkbox-s.svg');
-		}
-
-		&[aria-checked='mixed']::before {
-			content: url('../images/checkbox-i.svg');
-		}
-
-		&[disabled] {
-			&::before {
-				content: url('../images/checkbox-d.svg');
-			}
-
-			&[aria-checked='mixed']::before {
-				content: url('../images/checkbox-i-d.svg');
-			}
-
-			&[aria-checked='true']::before {
-				content: url('../images/checkbox-s-d.svg');
-			}
-		}
-	}
-
-	+ label {
+	&[role='checkbox']  + label {
 		margin-left: $hgap-small;
 	}
 }
-
-/* end wc.ui.selectToggle.scss */

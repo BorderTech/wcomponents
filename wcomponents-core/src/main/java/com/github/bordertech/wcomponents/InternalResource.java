@@ -1,149 +1,150 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.servlet.WServlet;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.StreamUtil;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.github.bordertech.wcomponents.servlet.WServlet;
-import com.github.bordertech.wcomponents.util.Config;
-import com.github.bordertech.wcomponents.util.StreamUtil;
-
 /**
- * Provides a bridge to static resources which are present
- * in the class path, but not in the web application itself.
+ * Provides a bridge to static resources which are present in the class path, but not in the web application itself.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class InternalResource implements ContentStreamAccess
-{
-    /** The logger instance for this class. */
-    private static final Log log = LogFactory.getLog(InternalResource.class);
+public class InternalResource implements ContentStreamAccess {
 
-    /** The resource name. */
-    private final String resourceName;
+	/**
+	 * The logger instance for this class.
+	 */
+	private static final Log LOG = LogFactory.getLog(InternalResource.class);
 
-    /** The description of the resource. */
-    private final String description;
+	/**
+	 * The resource name.
+	 */
+	private final String resourceName;
 
-    /** An empty array to use when resource retrieval fails. */
-    private static final byte[] EMPTY = new byte[0];
+	/**
+	 * The description of the resource.
+	 */
+	private final String description;
 
-    /**
-     * Creates an InternalResource.
-     * @param resourceName the resource name.
-     * @param description the description of the resource (e.g. file name).
-     */
-    public InternalResource(final String resourceName, final String description)
-    {
-        this.resourceName = resourceName;
-        this.description = description;
-        InternalResourceMap.registerResource(this);
-    }
+	/**
+	 * An empty array to use when resource retrieval fails.
+	 */
+	private static final byte[] EMPTY = new byte[0];
 
-    /**
-     * @return the data from the resource, or an empty byte array.
-     */
-    public byte[] getBytes()
-    {
-        InputStream stream = null;
+	/**
+	 * Creates an InternalResource.
+	 *
+	 * @param resourceName the resource name.
+	 * @param description the description of the resource (e.g. file name).
+	 */
+	public InternalResource(final String resourceName, final String description) {
+		this.resourceName = resourceName;
+		this.description = description;
+		InternalResourceMap.registerResource(this);
+	}
 
-        try
-        {
-            stream = getClass().getResourceAsStream(resourceName);
-            return StreamUtil.getBytes(stream);
-        }
-        catch (Exception e)
-        {
-            log.error("Failed to read resource: " + resourceName, e);
-        }
-        finally
-        {
-            StreamUtil.safeClose(stream);
-        }
+	/**
+	 * @return the data from the resource, or an empty byte array.
+	 */
+	@Override
+	public byte[] getBytes() {
+		InputStream stream = null;
 
-        return EMPTY;
-    }
+		try {
+			stream = getClass().getResourceAsStream(resourceName);
+			return StreamUtil.getBytes(stream);
+		} catch (Exception e) {
+			LOG.error("Failed to read resource: " + resourceName, e);
+		} finally {
+			StreamUtil.safeClose(stream);
+		}
 
-    /** {@inheritDoc} */
-    public InputStream getStream() throws IOException
-    {
-        try
-        {
-            return getClass().getResourceAsStream(resourceName);
-        }
-        catch (Exception e)
-        {
-            log.error("Failed to read resource: " + resourceName, e);
-            return new ByteArrayInputStream(new byte[0]);
-        }
-    }
+		return EMPTY;
+	}
 
-    /** {@inheritDoc} */
-    public String getDescription()
-    {
-        return description;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public InputStream getStream() throws IOException {
+		try {
+			return getClass().getResourceAsStream(resourceName);
+		} catch (Exception e) {
+			LOG.error("Failed to read resource: " + resourceName, e);
+			return new ByteArrayInputStream(new byte[0]);
+		}
+	}
 
-    /** {@inheritDoc} */
-    public String getMimeType()
-    {
-        int index = resourceName.indexOf('.');
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getDescription() {
+		return description;
+	}
 
-        if (index != -1)
-        {
-            String extension = resourceName.substring(index + 1);
-            String fileMimeType =  Config.getInstance().getString("bordertech.wcomponents.mimeType." + extension.toLowerCase());
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getMimeType() {
+		int index = resourceName.indexOf('.');
 
-            if (fileMimeType != null)
-            {
-                return fileMimeType;
-            }
-        }
+		if (index != -1) {
+			String extension = resourceName.substring(index + 1);
+			String key = "bordertech.wcomponents.mimeType." + extension.toLowerCase();
+			String fileMimeType = Config.getInstance().getString(key);
 
-        return Config.getInstance().getString("bordertech.wcomponents.mimeType.defaultMimeType");
-    }
+			if (fileMimeType != null) {
+				return fileMimeType;
+			}
+		}
 
-    /** {@inheritDoc} */
-    @Override
-    public String toString()
-    {
-        return getClass().getSimpleName() + (resourceName == null ? "(null)" : "(\"" + resourceName + "\")");
-    }
+		return Config.getInstance().getString("bordertech.wcomponents.mimeType.defaultMimeType");
+	}
 
-    /** @return the name (path) of the resource. */
-    public String getResourceName()
-    {
-        return resourceName;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + (resourceName == null ? "(null)" : "(\"" + resourceName + "\")");
+	}
 
-    /**
-     * @return the URL which can be used to target this resource.
-     */
-    public String getTargetUrl()
-    {
-        UIContext uic = UIContextHolder.getCurrent();
+	/**
+	 * @return the name (path) of the resource.
+	 */
+	public String getResourceName() {
+		return resourceName;
+	}
 
-        if (uic == null)
-        {
-            return null;
-        }
+	/**
+	 * @return the URL which can be used to target this resource.
+	 */
+	public String getTargetUrl() {
+		UIContext uic = UIContextHolder.getCurrent();
 
-        String url = uic.getEnvironment().getWServletPath();
-        Map<String, String> parameters = new HashMap<String, String>();
-        String resourceCacheKey = InternalResourceMap.getResourceCacheKey(resourceName);
-        parameters.put(WServlet.STATIC_RESOURCE_PARAM_NAME, resourceName);
+		if (uic == null) {
+			return null;
+		}
 
-        if (resourceCacheKey != null)
-        {
-            parameters.put("cacheKey", resourceCacheKey);
-        }
+		String url = uic.getEnvironment().getWServletPath();
+		Map<String, String> parameters = new HashMap<>();
+		String resourceCacheKey = InternalResourceMap.getResourceCacheKey(resourceName);
+		parameters.put(WServlet.STATIC_RESOURCE_PARAM_NAME, resourceName);
 
-        return WebUtilities.getPath(url, parameters, true);
-    }
+		if (resourceCacheKey != null) {
+			parameters.put("cacheKey", resourceCacheKey);
+		}
+
+		return WebUtilities.getPath(url, parameters, true);
+	}
 }

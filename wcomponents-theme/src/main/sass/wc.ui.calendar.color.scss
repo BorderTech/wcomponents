@@ -1,0 +1,35 @@
+/* wc.ui.calendar.color.scss */
+
+// We use a single ID'd component for all calendar date pickers and move it around to where it is needed.
+// scss-lint:disable IdSelector
+@import 'mixins-common';
+
+
+// This is the calendar container.
+#wc_calbox {
+	background-color: $wc-ui-color-global-bg;
+}
+
+// The calendar table
+#wc_calendar th {
+	background-color: $wc-ui-color-highlight-bg;
+	color: $wc-ui-color-highlight-fg;
+}
+
+#wc_caldaybox td {
+	color: $wc-ui-color-disabled-fg;
+}
+
+// date picker buttons
+.wc_wdf_pick {
+	color: $wc-ui-color-global-fg;
+
+	&[aria-pressed='true'] { // selected date
+		background-color: $wc-ui-color-highlight-bg;
+		color: $wc-ui-color-highlight-fg;
+	}
+}
+
+.wc_wdf_today { // today
+	@include outline();
+}

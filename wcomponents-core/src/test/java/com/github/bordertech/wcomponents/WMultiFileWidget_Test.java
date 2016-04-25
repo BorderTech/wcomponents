@@ -1,25 +1,18 @@
 package com.github.bordertech.wcomponents;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import junit.framework.Assert;
-
-import org.apache.commons.fileupload.FileItem;
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.apache.commons.collections.CollectionUtils;
-
 import com.github.bordertech.wcomponents.WMultiFileWidget.FileWidgetUpload;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
-import com.github.bordertech.wcomponents.util.RequestUtil;
 import com.github.bordertech.wcomponents.util.mock.MockFileItem;
-import com.github.bordertech.wcomponents.util.mock.MockRequest;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import junit.framework.Assert;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.fileupload.FileItem;
+import org.junit.Test;
 
 /**
  * WMultiFileWidget_Test - unit test for {@link WMultiFileWidget}.
@@ -29,111 +22,122 @@ import com.github.bordertech.wcomponents.util.mock.MockRequest;
  * @author Rick Brown
  * @since 1.0.0
  */
-public class WMultiFileWidget_Test extends AbstractWComponentTestCase
-{
+public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 
-    /** Test file item 1. */
-    private static final FileItem TEST_FILE_ITEM1 = createFileItem("test1.bin", 10);
-    /** Test file item 2. */
-    private static final FileItem TEST_FILE_ITEM2 = createFileItem("test2.bin", 20);
+	/**
+	 * Test file item 1.
+	 */
+	private static final FileItem TEST_FILE_ITEM1 = createFileItem("test1.bin", 10);
+	/**
+	 * Test file item 2.
+	 */
+	private static final FileItem TEST_FILE_ITEM2 = createFileItem("test2.bin", 20);
 
-    private static final FileItem[] TEST_FILE_ITEM_1_2 = new FileItem[]{TEST_FILE_ITEM1, TEST_FILE_ITEM2};
+	/**
+	 * File item wrap for file item 1.
+	 */
+	private static final FileWidgetUpload TEST_FILE_ITEM_WRAP1 = new FileWidgetUpload("1",
+			new FileItemWrap(TEST_FILE_ITEM1));
 
-    /** File item wrap for file item 1. */
-    private static final FileWidgetUpload TEST_FILE_ITEM_WRAP1 = new FileWidgetUpload("1", new FileItemWrap(TEST_FILE_ITEM1));
+	/**
+	 * File item wrap for file item 2.
+	 */
+	private static final FileWidgetUpload TEST_FILE_ITEM_WRAP2 = new FileWidgetUpload("2",
+			new FileItemWrap(TEST_FILE_ITEM2));
 
-    /** File item wrap for file item 2. */
-    private static final FileWidgetUpload TEST_FILE_ITEM_WRAP2 = new FileWidgetUpload("2", new FileItemWrap(TEST_FILE_ITEM2));
+	/**
+	 * Selected Item 1.
+	 */
+	private static final List<FileWidgetUpload> UPLOADED_1 = Arrays.asList(TEST_FILE_ITEM_WRAP1);
 
-    /** Selected Item 1. */
-    private static final List<FileWidgetUpload> UPLOADED_1 = Arrays.asList(TEST_FILE_ITEM_WRAP1);
+	/**
+	 * Selected Item 1 and Item 2.
+	 */
+	private static final List<FileWidgetUpload> UPLOADED_1_2 = Arrays.asList(TEST_FILE_ITEM_WRAP1,
+			TEST_FILE_ITEM_WRAP2);
 
-    /** Selected Item 1 and Item 2. */
-    private static final List<FileWidgetUpload> UPLOADED_1_2 = Arrays.asList(TEST_FILE_ITEM_WRAP1, TEST_FILE_ITEM_WRAP2);
+	@Test
+	public void testGetValueAsString() {
+		WMultiFileWidget widget = new WMultiFileWidget();
+		widget.setLocked(true);
+		setActiveContext(createUIContext());
 
-    @Test
-    public void testGetValueAsString()
-    {
-        WMultiFileWidget widget = new WMultiFileWidget();
-        widget.setLocked(true);
-        setActiveContext(createUIContext());
+		// Null
+		Assert.assertNull("Value as String should be null", widget.getValueAsString());
 
-        // Null
-        Assert.assertNull("Value as String should be null", widget.getValueAsString());
+		// Upload file1
+		widget.setData(UPLOADED_1);
+		Assert.assertEquals("Value as String should be Item1", "name=" + TEST_FILE_ITEM1.getName(),
+				widget.getValueAsString());
 
-        // Upload file1
-        widget.setData(UPLOADED_1);
-        Assert.assertEquals("Value as String should be Item1", "name=" + TEST_FILE_ITEM1.getName(),
-                            widget.getValueAsString());
+		// Upload file1, file2
+		widget.setData(UPLOADED_1_2);
+		Assert.assertEquals("Value as String should be Item1, Item2", "name=" + TEST_FILE_ITEM1.
+				getName() + ", "
+				+ "name=" + TEST_FILE_ITEM2.getName(),
+				widget.getValueAsString());
+	}
 
-        // Upload file1, file2
-        widget.setData(UPLOADED_1_2);
-        Assert.assertEquals("Value as String should be Item1, Item2", "name=" + TEST_FILE_ITEM1.getName() + ", "
-                                                                      + "name=" + TEST_FILE_ITEM2.getName(),
-                            widget.getValueAsString());
-    }
+	@Test
+	public void testGetValue() {
+		WMultiFileWidget widget = new WMultiFileWidget();
+		widget.setLocked(true);
+		setActiveContext(createUIContext());
 
-    @Test
-    public void testGetValue()
-    {
-        WMultiFileWidget widget = new WMultiFileWidget();
-        widget.setLocked(true);
-        setActiveContext(createUIContext());
+		// Null
+		Assert.assertTrue("Value should be empty by default", widget.getValue().isEmpty());
 
-        // Null
-        Assert.assertTrue("Value should be empty by default", widget.getValue().isEmpty());
+		// Set file1, file2 as uploaded
+		widget.setData(UPLOADED_1_2);
+		Assert.assertEquals("Value should be list containing Item1, Item2", UPLOADED_1_2, widget.
+				getValue());
+	}
 
-        // Set file1, file2 as uploaded
-        widget.setData(UPLOADED_1_2);
-        Assert.assertEquals("Value should be list containing Item1, Item2", UPLOADED_1_2, widget.getValue());
-    }
+	@Test
+	public void testGetFiles() {
+		WMultiFileWidget widget = new WMultiFileWidget();
+		widget.setLocked(true);
+		setActiveContext(createUIContext());
 
-    @Test
-    public void testGetFiles()
-    {
-        WMultiFileWidget widget = new WMultiFileWidget();
-        widget.setLocked(true);
-        setActiveContext(createUIContext());
+		// Null
+		Assert.assertTrue("Files should be empty by default", widget.getFiles().isEmpty());
 
-        // Null
-        Assert.assertTrue("Files should be empty by default", widget.getFiles().isEmpty());
+		// Set file1, file2 as uploaded
+		widget.setData(UPLOADED_1_2);
+		Assert.assertEquals("Files should be list containing Item1, Item2", UPLOADED_1_2, widget.
+				getFiles());
+	}
 
-        // Set file1, file2 as uploaded
-        widget.setData(UPLOADED_1_2);
-        Assert.assertEquals("Files should be list containing Item1, Item2", UPLOADED_1_2, widget.getFiles());
-    }
+	@Test
+	public void testGetFile() {
+		WMultiFileWidget widget = new WMultiFileWidget();
+		widget.setLocked(true);
+		setActiveContext(createUIContext());
 
-    @Test
-    public void testGetFile()
-    {
-        WMultiFileWidget widget = new WMultiFileWidget();
-        widget.setLocked(true);
-        setActiveContext(createUIContext());
+		// Null
+		FileWidgetUpload file = widget.getFile("X");
+		Assert.assertNull("Shuld be null for invalid file id", file);
 
-        // Null
-        FileWidgetUpload file = widget.getFile("X");
-        Assert.assertNull("Shuld be null for invalid file id", file);
+		// Set file1, file2 as uploaded
+		widget.setData(UPLOADED_1_2);
+		Assert.assertEquals("File2 should be returned for index 1", TEST_FILE_ITEM_WRAP2, widget.
+				getFile("2"));
+	}
 
-        // Set file1, file2 as uploaded
-        widget.setData(UPLOADED_1_2);
-        Assert.assertEquals("File2 should be returned for index 1", TEST_FILE_ITEM_WRAP2, widget.getFile("2"));
-    }
+	@Test
+	public void testClearFiles() {
+		WMultiFileWidget widget = new WMultiFileWidget();
+		widget.setLocked(true);
+		setActiveContext(createUIContext());
 
-    @Test
-    public void testClearFiles()
-    {
-        WMultiFileWidget widget = new WMultiFileWidget();
-        widget.setLocked(true);
-        setActiveContext(createUIContext());
+		// Set file1, file2 as uploaded
+		widget.setData(UPLOADED_1_2);
 
-        // Set file1, file2 as uploaded
-        widget.setData(UPLOADED_1_2);
-
-        // Clear Files
-        widget.clearFiles();
-        Assert.assertTrue("Value should be empty by default", widget.getValue().isEmpty());
-        Assert.assertNull("Date should be null after clearing files", widget.getData());
-    }
+		// Clear Files
+		widget.clearFiles();
+		Assert.assertTrue("Value should be empty by default", widget.getValue().isEmpty());
+		Assert.assertNull("Date should be null after clearing files", widget.getData());
+	}
 
 //    @Test
 //    TODO reinstate a test that checks user contexts are not mixed up without checking that get returns the same instance as set
@@ -142,183 +146,179 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase
 //        assertAccessorsCorrect(new WMultiFileWidget(), "fileTypes", Collections.EMPTY_LIST,
 //                               Arrays.asList("text/plain", "image/gif"), Arrays.asList("image/jpeg"));
 //    }
+	@Test
+	public void testSetFileTypesAsArray() {
+		final String[] types1 = new String[]{"text/plain", "image/gif"};
 
-    @Test
-    public void testSetFileTypesAsArray()
-    {
-        final String[] types1 = new String[] { "text/plain", "image/gif" };
+		// Set as array
+		WMultiFileWidget widget = new WMultiFileWidget();
+		widget.setFileTypes(types1);
 
-        // Set as array
-        WMultiFileWidget widget = new WMultiFileWidget();
-        widget.setFileTypes(types1);
+		Assert.assertTrue("Incorrect file types returned", CollectionUtils.isEqualCollection(Arrays.
+				asList(types1), widget.getFileTypes()));
+	}
 
-        Assert.assertTrue("Incorrect file types returned", CollectionUtils.isEqualCollection(Arrays.asList(types1), widget.getFileTypes()));
-    }
+	@Test
+	public void testSetFileTypesAsList() {
+		List<String> types1 = new ArrayList<>();
+		types1.add("text/plain");
+		types1.add("image/*");
+		types1.add(".vis");
 
-    @Test
-    public void testSetFileTypesAsList()
-    {
-        List<String> types1 = new ArrayList<String>();
-        types1.add("text/plain");
-        types1.add("image/*");
-        types1.add(".vis");
+		// Set as array
+		WMultiFileWidget widget = new WMultiFileWidget();
+		widget.setFileTypes(types1);
 
-        // Set as array
-        WMultiFileWidget widget = new WMultiFileWidget();
-        widget.setFileTypes(types1);
+		Assert.assertTrue("Incorrect file types returned", CollectionUtils.isEqualCollection(types1,
+				widget.getFileTypes()));
+	}
 
-        Assert.assertTrue("Incorrect file types returned", CollectionUtils.isEqualCollection(types1, widget.getFileTypes()));
-    }
+	@Test
+	public void testSetFileTypesAsSet() {
+		Set<String> types1 = new HashSet<>();
+		types1.add("text/plain");
+		types1.add("image/*");
+		types1.add(".vis");
 
-    @Test
-    public void testSetFileTypesAsSet()
-    {
-        Set<String> types1 = new HashSet<String>();
-        types1.add("text/plain");
-        types1.add("image/*");
-        types1.add(".vis");
+		// Set as array
+		WMultiFileWidget widget = new WMultiFileWidget();
+		widget.setFileTypes(types1);
 
-        // Set as array
-        WMultiFileWidget widget = new WMultiFileWidget();
-        widget.setFileTypes(types1);
+		Assert.assertTrue("Incorrect file types returned", CollectionUtils.isEqualCollection(types1,
+				widget.getFileTypes()));
+	}
 
-        Assert.assertTrue("Incorrect file types returned", CollectionUtils.isEqualCollection(types1, widget.getFileTypes()));
-    }
+	@Test
+	public void testSetFileTypesWithDuplicates() {
+		List<String> types1 = new ArrayList<>();
+		types1.add("text/plain");
+		types1.add("image/*");
+		types1.add(".vis");
+		List<String> expected = new ArrayList<>(types1);
+		types1.add("text/plain");
+		types1.add("TEXT/PLAIN");
+		types1.add(".VIS");
 
-    @Test
-    public void testSetFileTypesWithDuplicates()
-    {
-        List<String> types1 = new ArrayList<String>();
-        types1.add("text/plain");
-        types1.add("image/*");
-        types1.add(".vis");
-        List<String> expected = new ArrayList<String>(types1);
-        types1.add("text/plain");
-        types1.add("TEXT/PLAIN");
-        types1.add(".VIS");
+		// Set as array
+		WMultiFileWidget widget = new WMultiFileWidget();
+		widget.setFileTypes(types1);
 
-        // Set as array
-        WMultiFileWidget widget = new WMultiFileWidget();
-        widget.setFileTypes(types1);
+		Assert.assertTrue("Duplicate file types should not be honored", CollectionUtils.
+				isEqualCollection(expected, widget.getFileTypes()));
+	}
 
-        Assert.assertTrue("Duplicate file types should not be honored", CollectionUtils.isEqualCollection(expected, widget.getFileTypes()));
-    }
+	@Test
+	public void testSetFileTypesClonesList() {
+		List<String> types1 = new ArrayList<>();
+		types1.add("text/plain");
+		types1.add("image/*");
+		types1.add(".vis");
+		List<String> expected = new ArrayList<>(types1);
 
-    @Test
-    public void testSetFileTypesClonesList()
-    {
-        List<String> types1 = new ArrayList<String>();
-        types1.add("text/plain");
-        types1.add("image/*");
-        types1.add(".vis");
-        List<String> expected = new ArrayList<String>(types1);
+		// Set as array
+		WMultiFileWidget widget = new WMultiFileWidget();
+		widget.setFileTypes(types1);
 
-        // Set as array
-        WMultiFileWidget widget = new WMultiFileWidget();
-        widget.setFileTypes(types1);
+		// add some more valid file types to the list we passed in
+		types1.add("text/javascript");
+		types1.add(".doc");
 
-        // add some more valid file types to the list we passed in
-        types1.add("text/javascript");
-        types1.add(".doc");
+		Assert.assertTrue("Modifiying the list after calling 'set' should not update state",
+				CollectionUtils.isEqualCollection(expected, widget.getFileTypes()));
+	}
 
-        Assert.assertTrue("Modifiying the list after calling 'set' should not update state", CollectionUtils.isEqualCollection(expected, widget.getFileTypes()));
-    }
+	@Test
+	public void testSetFileTypesClearsAll() {
+		List<String> types1 = new ArrayList<>();
+		types1.add("text/plain");
+		types1.add("image/*");
+		types1.add(".vis");
+		List<String> types2 = new ArrayList<>();
+		types2.add("text/javascript");
+		types2.add("image/*");
 
-    @Test
-    public void testSetFileTypesClearsAll()
-    {
-        List<String> types1 = new ArrayList<String>();
-        types1.add("text/plain");
-        types1.add("image/*");
-        types1.add(".vis");
-        List<String> types2 = new ArrayList<String>();
-        types2.add("text/javascript");
-        types2.add("image/*");
+		// Set as array
+		WMultiFileWidget widget = new WMultiFileWidget();
+		widget.setFileTypes(types1);
+		widget.setFileTypes(types2);  // this should not ADD to the existing acceepted file types, it should replace it
 
-        // Set as array
-        WMultiFileWidget widget = new WMultiFileWidget();
-        widget.setFileTypes(types1);
-        widget.setFileTypes(types2);  // this should not ADD to the existing acceepted file types, it should replace it
+		Assert.assertTrue("Calling set multiple times should not be additive", CollectionUtils.
+				isEqualCollection(types2, widget.getFileTypes()));
+	}
 
-        Assert.assertTrue("Calling set multiple times should not be additive", CollectionUtils.isEqualCollection(types2, widget.getFileTypes()));
-    }
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetFileTypesWithInvalidType() {
+		List<String> types1 = new ArrayList<>();
+		types1.add("*.txt");
 
-    @Test(expected=IllegalArgumentException.class)
-    public void testSetFileTypesWithInvalidType()
-    {
-        List<String> types1 = new ArrayList<String>();
-        types1.add("*.txt");
+		// Set as array
+		WMultiFileWidget widget = new WMultiFileWidget();
+		widget.setFileTypes(types1);
+	}
 
-        // Set as array
-        WMultiFileWidget widget = new WMultiFileWidget();
-        widget.setFileTypes(types1);
-    }
+	@Test
+	public void testSetFileTypesWithInvalidTypeNotModified() {
+		List<String> types1 = new ArrayList<>();
+		types1.add("text/plain");
 
-    @Test
-    public void testSetFileTypesWithInvalidTypeNotModified()
-    {
-        List<String> types1 = new ArrayList<String>();
-        types1.add("text/plain");
+		// Set as array
+		WMultiFileWidget widget = new WMultiFileWidget();
+		widget.setFileTypes(types1);
+		List<String> expected = widget.getFileTypes();
+		types1.add("image/*");
+		types1.add("*.txt");  // the invalid one should be in the middle to ensure the one before and the one after are not added before the exception
+		types1.add(".vis");
 
-        // Set as array
-        WMultiFileWidget widget = new WMultiFileWidget();
-        widget.setFileTypes(types1);
-        List<String> expected = widget.getFileTypes();
-        types1.add("image/*");
-        types1.add("*.txt");  // the invalid one should be in the middle to ensure the one before and the one after are not added before the exception
-        types1.add(".vis");
+		try {
+			widget.setFileTypes(types1);
+		} catch (IllegalArgumentException ignore) {
+			// ignore
+		}
+		Assert.assertTrue("Calling set with an invalid file type does not modify the widget",
+				CollectionUtils.isEqualCollection(expected, widget.getFileTypes()));
+	}
 
-        try
-        {
-            widget.setFileTypes(types1);
-        }
-        catch(IllegalArgumentException ignore)
-        {
-            // ignore
-        }
-        Assert.assertTrue("Calling set with an invalid file type does not modify the widget", CollectionUtils.isEqualCollection(expected, widget.getFileTypes()));
-    }
+	@Test
+	public void testSetFileTypesAsNullOrEmptyList() {
+		WMultiFileWidget widget = new WMultiFileWidget();
+		// Set types on widget
+		widget.setFileTypes(Arrays.asList("image/jpeg"));
 
-    @Test
-    public void testSetFileTypesAsNullOrEmptyList()
-    {
-        WMultiFileWidget widget = new WMultiFileWidget();
-        // Set types on widget
-        widget.setFileTypes(Arrays.asList("image/jpeg"));
+		// Set null array
+		widget.setFileTypes((String[]) null);
+		Assert.assertEquals("File types should be empty when set to null array",
+				Collections.EMPTY_LIST,
+				widget.getFileTypes());
 
-        // Set null array
-        widget.setFileTypes((String[]) null);
-        Assert.assertEquals("File types should be empty when set to null array", Collections.EMPTY_LIST,
-                            widget.getFileTypes());
+		// Set types on widget
+		widget.setFileTypes(Arrays.asList("image/jpeg"));
 
-        // Set types on widget
-        widget.setFileTypes(Arrays.asList("image/jpeg"));
+		// Set as null list
+		widget.setFileTypes((List<String>) null);
+		Assert.assertEquals("File types should be empty when set to null list",
+				Collections.EMPTY_LIST,
+				widget.getFileTypes());
 
-        // Set as null list
-        widget.setFileTypes((List<String>) null);
-        Assert.assertEquals("File types should be empty when set to null list", Collections.EMPTY_LIST,
-                            widget.getFileTypes());
+		// Set types on widget
+		widget.setFileTypes(Arrays.asList("image/jpeg"));
 
-        // Set types on widget
-        widget.setFileTypes(Arrays.asList("image/jpeg"));
+		// Set as empty list
+		widget.setFileTypes(new ArrayList<String>());
+		Assert.assertEquals("File types should be empty when set to empty list",
+				Collections.EMPTY_LIST,
+				widget.getFileTypes());
+	}
 
-        // Set as empty list
-        widget.setFileTypes(new ArrayList<String>());
-        Assert.assertEquals("File types should be empty when set to empty list", Collections.EMPTY_LIST,
-                            widget.getFileTypes());
-    }
+	@Test
+	public void testMaxFileSizeAccessors() {
+		assertAccessorsCorrect(new WMultiFileWidget(), "maxFileSize", (long) 10240000, (long) 1,
+				(long) 2);
+	}
 
-    @Test
-    public void testMaxFileSizeAccessors()
-    {
-        assertAccessorsCorrect(new WMultiFileWidget(), "maxFileSize", (long) 10240000, (long) 1, (long) 2);
-    }
-
-    @Test
-    public void testMaxFilesAccessors()
-    {
-        assertAccessorsCorrect(new WMultiFileWidget(), "maxFiles", 0, 1, 2);
-    }
+	@Test
+	public void testMaxFilesAccessors() {
+		assertAccessorsCorrect(new WMultiFileWidget(), "maxFiles", 0, 1, 2);
+	}
 
 //    @Test
 //    public void testDoHandleRequestAjaxUploadWithMultiFiles()
@@ -495,66 +495,48 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase
 //            AjaxHelper.clearCurrentOperationDetails();
 //        }
 //    }
+	/**
+	 * @param fileName the file name in the file item
+	 * @param size the size of the file in the file item
+	 * @return a file item
+	 */
+	private static FileItem createFileItem(final String fileName, final int size) {
+		final byte[] testFile = new byte[size];
+		for (int i = 0; i < testFile.length; i++) {
+			testFile[i] = (byte) (i & 0xff);
+		}
 
-    /**
-     * @param fileName the file name in the file item
-     * @param size the size of the file in the file item
-     * @return a file item
-     */
-    private static FileItem createFileItem(final String fileName, final int size)
-    {
-        final byte[] testFile = new byte[size];
-        for (int i = 0; i < testFile.length; i++)
-        {
-            testFile[i] = (byte) (i & 0xff);
-        }
+		MockFileItem fileItem = new MockFileItem();
+		fileItem.set(testFile);
+		fileItem.setName(fileName);
+		return fileItem;
+	}
+//
+//	/**
+//	 * @param widget the widget the file file item is for on the request
+//	 * @param fileItems the file items to include on the request
+//	 * @return a request containing the file item for the widget
+//	 */
+//	private static FileUploadMockRequest setupFileUploadRequest(final WMultiFileWidget widget,
+//			final FileItem[] fileItems) {
+//		final FileUploadMockRequest request = new FileUploadMockRequest();
+//		for (FileItem fileItem : fileItems) {
+//			fileItem.setFieldName(widget.getId());
+//			request.uploadFile(fileItem);
+//		}
+//		return request;
+//	}
 
-        MockFileItem fileItem = new MockFileItem();
-        fileItem.set(testFile);
-        fileItem.setName(fileName);
-        return fileItem;
-    }
-
-    /**
-     * @param widget the widget the file file item is for on the request
-     * @param fileItem the file item to include on the request
-     * @return a request containing the file item for the widget
-     */
-    private static FileUploadMockRequest setupFileUploadRequest(final WMultiFileWidget widget, final FileItem fileItem)
-    {
-        fileItem.setFieldName(widget.getId());
-
-        final FileUploadMockRequest request = new FileUploadMockRequest();
-        request.uploadFile(fileItem);
-
-        return request;
-    }
-
-    /**
-     * @param widget the widget the file file item is for on the request
-     * @param fileItems the file items to include on the request
-     * @return a request containing the file item for the widget
-     */
-    private static FileUploadMockRequest setupFileUploadRequest(final WMultiFileWidget widget, final FileItem[] fileItems)
-    {
-        final FileUploadMockRequest request = new FileUploadMockRequest();
-        for (FileItem fileItem : fileItems)
-        {
-            fileItem.setFieldName(widget.getId());
-            request.uploadFile(fileItem);
-        }
-        return request;
-    }
-
-    /**
-     * Extends MockRequest so that adding a file with a file name is possible.
-     */
-    private static final class FileUploadMockRequest extends MockRequest
-    {
-        public void uploadFile(final FileItem item)
-        {
-            RequestUtil.addFileItem(getFiles(), item.getFieldName(), item);
-        }
-    }
-
+//	/**
+//	 * Extends MockRequest so that adding a file with a file name is possible.
+//	 */
+//	private static final class FileUploadMockRequest extends MockRequest {
+//
+//		/**
+//		 * @param item the file item
+//		 */
+//		private void uploadFile(final FileItem item) {
+//			RequestUtil.addFileItem(getFiles(), item.getFieldName(), item);
+//		}
+//	}
 }

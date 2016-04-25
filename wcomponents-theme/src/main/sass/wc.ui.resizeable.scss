@@ -1,5 +1,5 @@
 /* wc.ui.resizeable.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
 .wc_max { // maximised:
 	// scss-lint:disable ImportantRule
@@ -14,6 +14,5 @@
 
 // the resize handle
 .wc_resize {
-	cursor: se-resize;
+	cursor: nwse-resize;
 }
-/* end wc.ui.resizeable.scss */

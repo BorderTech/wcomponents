@@ -1,23 +1,18 @@
 /* wc.ui.legend.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
 legend {
-
-	.noborder > & {
+	.wc_noborder > & {
 		padding-left: 0;
 	}
 
-	.notext > & {
+	.wc_notext > & {
 		@include offscreen();
 	}
 
 	.wc_req > &:before {
 		@include mandatory-indicator;
 		float: right;
-	}
-
-	.wc_req.notext > &:before {
-		content: '';
+		width: 0; // allow for wrapping legends.
 	}
 }
-/* end wc.ui.legend.scss */

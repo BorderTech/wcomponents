@@ -13,11 +13,12 @@
  * @requires module:wc/dom/Widget
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/uid
+ * @requires module:wc/i18n/i18n
  * @requires module:wc/ui/menu/menuItem
  */
-define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "wc/dom/initialise", "wc/dom/uid", "wc/ui/menu/menuItem"],
-	/** @param abstractMenu wc/ui/menu/core @param keyWalker wc/dom/keyWalker @param shed wc/dom/shed @param Widget wc/dom/Widget @param initialise wc/dom/initialise @param uid wc/dom/uid @ignore */
-	function(abstractMenu, keyWalker, shed, Widget, initialise, uid) {
+define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "wc/dom/initialise", "wc/dom/uid", "wc/i18n/i18n",  "wc/ui/menu/menuItem"],
+	/** @param abstractMenu @param keyWalker @param shed @param Widget @param initialise @param uid @param i18n @ignore */
+	function(abstractMenu, keyWalker, shed, Widget, initialise, uid, i18n) {
 		"use strict";
 
 		/* Unused dependencies:
@@ -73,21 +74,51 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 * @returns {Boolean} true if first/last item.
 			 */
 			function isFirstLastItem(element, root, isLast) {
-				var result = false,
-					target,
+				var target,
 					direction = isLast ? keyWalker.MOVE_TO.NEXT : keyWalker.MOVE_TO.PREVIOUS;
 
 				/* get the element which would be focussed if we were to use findFn without
 				 * allowing cycling and forcing depthFirstNavigation false. If we don't get anything then
 				 * the element passed in is the first/last*/
 				if ((target = instance._getTargetItem(element, direction, root, false))) {
-					result = element === target;  // if the target is the same as target then element is first &/or last
+					return element === target;  // if the target is the same as target then element is first &/or last
 				}
-				else {
-					result = true;  // there are no other elements so it MUST be the first & last!
-				}
-				return result;
+				return true;
 			}
+
+//
+//			function openTopLevelSibling(element, next) {
+//				var branch = element,
+//					result, target;
+//
+//				if (instance._isBranch(branch)) {
+//					result =  branch;
+//					branch = branch.parentNode;
+//				}
+//
+//				while (branch) {
+//					if ((branch = instance._getBranch(branch))) {
+//						result =  branch;
+//						branch = branch.parentNode;
+//					}
+//				}
+//
+//				if (result) {
+//					target = instance._getTargetItem(result, (next ? keyWalker.MOVE_TO.PREVIOUS : keyWalker.MOVE_TO.NEXT), instance.getRoot(result), true);
+//				}
+//
+//				if(target) {
+//					instance[instance._FUNC_MAP.ACTION](target);
+//				}
+//			}
+//
+//			this.openPreviousTopLevelSibling = function(element) {
+//				openTopLevelSibling(element);
+//			};
+//
+//			this.openNextTopLevelSibling = function (element) {
+//				openTopLevelSibling(element, true);
+//			};
 
 			/**
 			 * Reset the key map according to the currently focused item. In the top level the  left and right go to
@@ -101,21 +132,33 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 * @param {Element} root The root element of the current menu.
 			 */
 			this._remapKeys = function(item, root) {
-				var submenu = this._getSubMenu(item),
+				var submenu = this.getSubMenu(item),
 					VK_UP = "DOM_VK_UP",
 					VK_DOWN = "DOM_VK_DOWN",
 					VK_RIGHT = "DOM_VK_RIGHT",
-					VK_LEFT = "DOM_VK_LEFT";
+					VK_LEFT = "DOM_VK_LEFT",
+					branch, grandparent;
 
 				if (submenu) {
-					/* If a submenu left closes the current branch and right will
-					 * trigger the action if the item is a branch or opener but
-					 * otherwise do nothing. */
-					this._keyMap[VK_LEFT] = this._FUNC_MAP.CLOSE_MY_BRANCH;
+					if ((branch = this._getBranch(submenu)) && (grandparent = this.getSubMenu(branch))) {
+						// more than one level deep.
+						/* If a submenu left closes the current branch and right will
+						 * trigger the action if the item is a branch or opener but
+						 * otherwise do nothing. */
+						this._keyMap[VK_LEFT] = this._FUNC_MAP.CLOSE_MY_BRANCH;
+						this._keyMap[VK_UP] = keyWalker.MOVE_TO.PREVIOUS;
+						this._keyMap[VK_DOWN] = keyWalker.MOVE_TO.NEXT;
+					}
+					else {
+						// this._keyMap[VK_LEFT] = "openPreviousTopLevelSibling";
+						this._keyMap[VK_LEFT] = null;
+					}
+
 					if (this._isBranchOrOpener(item)) {
 						this._keyMap[VK_RIGHT] = this._FUNC_MAP.ACTION;
 					}
 					else {
+						// this._keyMap[VK_RIGHT] = "openNextTopLevelSibling";
 						this._keyMap[VK_RIGHT] = null;
 					}
 					/* Up and down is  a bit more convoluted.
@@ -123,12 +166,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 					 * menu. We can do this by getting the current branch and then
 					 * testing if *it* has an ancestor branch, if it does we are nested.
 					 */
-					if ((this._getSubMenu(submenu.parentNode))) {
-						// we are nested submenu in submenu so mapping is simple
-						this._keyMap[VK_UP] = keyWalker.MOVE_TO.PREVIOUS;
-						this._keyMap[VK_DOWN] = keyWalker.MOVE_TO.NEXT;
-					}
-					else {
+					if (!grandparent) {
 						// we are in a submenu under MENU
 						if (this._isBranchOrOpener(item)) {
 							item = this._getBranch(item);
@@ -160,7 +198,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 						item = this._getBranch(item);
 					}
 					if (this._isBranch(item)) {
-						if (shed.isExpanded(item)) {
+						if (shed.isExpanded(this._getBranchExpandableElement(item))) {
 							this._keyMap[VK_UP] = keyWalker.MOVE_TO.LAST_CHILD;  // "lastChildItem";
 							this._keyMap[VK_DOWN] = keyWalker.MOVE_TO.CHILD;
 						}
@@ -200,7 +238,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} nextMenu The menu or sub-menu to be processed.
+			 * @param {Element} nextMenu The menu to be processed.
 			 */
 			function processMenu(nextMenu) {
 				var branchElement,
@@ -222,22 +260,24 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 
 				if (childCount > 1 && BANNER.findAncestor(nextMenu)) {
 					branchElement = document.createElement("div");
-					branchElement.setAttribute(ROLE, "menuitem");
-					branchElement.className = "submenu";
-					branchElement.setAttribute("aria-expanded", "false");
+					branchElement.setAttribute(ROLE, "presentation");
+					branchElement.className = "wc-submenu";
+
 					button = document.createElement("button");
 					button.type = "button";
 					button.setAttribute("aria-haspopup", "true");
-					button.title = "open";
+					button.title = i18n.get("${wc.ui.menu.bar.i18n.submenuOpenLabelDefault}");
 					contentId = uid();
 					button.setAttribute("aria-controls", contentId);
-					button.className = "wc_btn_nada";
+					button.className = "wc_btn_nada wc-submenu-o";
+					button.setAttribute(ROLE, "menuitem");
 					branchElement.appendChild(button);
 
 					submenuContentElement = document.createElement("div");
-					submenuContentElement.className = "submenucontent";
+					submenuContentElement.className = "wc_submenucontent";
 					submenuContentElement.id = contentId;
 					submenuContentElement.setAttribute(ROLE, "menu");
+					submenuContentElement.setAttribute("aria-expanded", "false");
 					branchElement.appendChild(submenuContentElement);
 
 					while ((menuItem = nextMenu.firstChild)) {
@@ -249,7 +289,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 					branchElement = nextMenu;
 				}
 
-				Array.prototype.forEach.call(instance._wd.submenu.findDescendants(branchElement), instance.fixSubMenuContent);
+				Array.prototype.forEach.call(instance.getSubMenu(branchElement, true, true), instance.fixSubMenuContent);
 			}
 
 			/**
@@ -262,17 +302,17 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 * @param {Element} element The element which may be a menu, submenu or something containing a menu.
 			 */
 			this.updateMenusForMobile = function (element) {
-				var candidates = [];
-				if (!this.isMobile) {
+				var candidates;
+				if (!this.isSmallScreen) {
 					return;
 				}
-				if (this._wd.submenu.isOneOfMe(element)) {
-					if (this.ROOT.findAncestor(element)) {
+				if (this.isSubMenu(element)) {
+					if (this.getRoot(element)) {
 						this.fixSubMenuContent(element);
 					}
 					return;
 				}
-				else if (this.ROOT.isOneOfMe(element)) {
+				else if (this.isRoot(element)) {
 					candidates = [element];
 				}
 				else {

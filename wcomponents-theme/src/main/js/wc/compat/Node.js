@@ -17,7 +17,7 @@ define(["wc/has"],
 /** @param has wc/has @ignore */
 function(has) {
 	"use strict";
-	var global = this,
+	var global = window,
 		nodeList = {
 			ELEMENT_NODE: 1,
 			ATTRIBUTE_NODE: 2,

@@ -17,9 +17,10 @@
 		"no-debugger": 0,
 		"no-alert": 0,
 		"brace-style": [2, "stroustrup", { "allowSingleLine": false }],
+		"semi": [2, "always"],
 		"space-before-blocks": [2, "always"],
 		"spaced-comment": [2, "always"],
-		"space-after-keywords": [2, "always"],
+		"keyword-spacing": 2,
 		"indent": [2, "tab", { "SwitchCase": 1 } ],
 		"quotes": 0
 	},

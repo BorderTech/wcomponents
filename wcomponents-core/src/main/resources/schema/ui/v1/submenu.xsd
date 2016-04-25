@@ -12,10 +12,11 @@
 
 		<xs:annotation>
 			<xs:documentation>
-				<p>WSubMenu provides a grouping mechanism for a set of items with in a WMenu where those items have an intrinsic sematic group nature. In practice a submenu is a
-					hideable set of items which is indicated by a label and interacting with the label toggles the hidden state of the submenu's content.</p>
-				<p>WSubMenu expects that the POSTed form data contains:</p>
+				<p>WSubMenu provides a grouping mechanism for a set of items with in a WMenu where those items have an 
+					intrinsic semantic group nature. In practice a submenu is a hideable set of items which is indicated
+					by a label and interacting with the label toggles the hidden state of the submenu's content.</p>
 				<table>
+					<caption>WSubMenu expects that the POSTed form data contains these items.</caption>
 					<thead>
 						<tr>
 							<th>Field name</th>
@@ -26,13 +27,6 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>@id</td>
-							<td>String</td>
-							<td>no</td>
-							<td>"x"</td>
-							<td>Value POSTed only if the WSubMenu is the item causing the form submission (using mode server or as AJAX).</td>
-						</tr>
 						<tr>
 							<td>@id.open</td>
 							<td>Boolean</td>
@@ -54,7 +48,7 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="ui:decoratedLabel" />
+				<xs:element ref="ui:decoratedlabel" />
 				<xs:element name="content">
 					<xs:annotation>
 						<xs:documentation>Container for the items within the sub menu.</xs:documentation>
@@ -62,7 +56,7 @@
 					<xs:complexType>
 						<xs:choice minOccurs="0" maxOccurs="unbounded">
 							<xs:group ref="ui:menuComponentGroup" />
-							<xs:element ref="ui:menuGroup" />
+							<xs:element ref="ui:menugroup" />
 						</xs:choice>
 						<xs:attribute name="id" use="required" type="xs:ID">
 							<xs:annotation>
@@ -73,16 +67,11 @@
 				</xs:element>
 			</xs:sequence>
 
-			<xs:attributeGroup ref="ui:button.attributes">
-				<xs:annotation>
-					<xs:documentation><strong>NOTE:</strong> attribute @toolTip is not implemented before WComponents 14.</xs:documentation>
-				</xs:annotation>
-			</xs:attributeGroup>
+			<xs:attributeGroup ref="ui:button.attributes" />
 
 			<xs:attribute name="open" type="xs:boolean">
 				<xs:annotation>
-					<xs:documentation>True indicates the sub menu is to be rendered as open. Not output if false. Only supported if the nearest ancestor menu has @type set to
-						"tree"</xs:documentation>
+					<xs:documentation>True indicates the sub menu is to be rendered as open. Not output if false. Only supported if the nearest ancestor menu has @type set to "tree"</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 

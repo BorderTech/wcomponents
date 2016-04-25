@@ -51,7 +51,7 @@ define(["wc/dom/ariaAnalog",
 			 * @type {module:wc/dom/Widget}
 			 * @public
 			 */
-			this.CONTAINER = new Widget("fieldset", "checkBoxSelect");
+			this.CONTAINER = new Widget("fieldset", "wc-checkboxselect");
 
 			/**
 			 * The description of a group item.
@@ -80,7 +80,7 @@ define(["wc/dom/ariaAnalog",
 			 * @protected
 			 */
 			this._extendedInitialisation = function(/* element */) {
-				this.actionable.push(new Widget("input", "", {"type": "checkbox"}));
+				this.actionable.push(this.ITEM);
 			};
 
 			/**
@@ -169,7 +169,7 @@ define(["wc/dom/ariaAnalog",
 							if (start < unfiltered.length) {
 								end = Math.max(unfiltered.indexOf(element), unfiltered.indexOf(lastActivated));
 
-								while (shed.isSelected(unfiltered[end]) === isSelected) {
+								while (end >= 0 && shed.isSelected(unfiltered[end]) === isSelected) {
 									end--;
 								}
 

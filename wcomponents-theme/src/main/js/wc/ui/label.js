@@ -13,6 +13,7 @@
  * @requires module:wc/ui/ajax/processResponse
  * @requires module:wc/i18n/i18n
  * @requires module:wc/ui/internalLink
+ * @requires module:wc/dom/role
  */
 define(["wc/dom/classList",
 		"wc/dom/initialise",
@@ -22,9 +23,10 @@ define(["wc/dom/classList",
 		"wc/dom/getLabelsForElement",
 		"wc/ui/ajax/processResponse",
 		"wc/i18n/i18n",
+		"wc/dom/role",
 		"wc/ui/internalLink"],
-	/** @param classList wc/dom/classList @param initialise wc/dom/initialise @param shed wc/dom/shed @param tag wc/dom/tag @param Widget wc/dom/Widget @param getLabelsForElement wc/dom/getLabelsForElement @param processResponse wc/ui/ajax/processResponse @param i18n wc/i18n/i18n @ignore */
-	function(classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, i18n) {
+	/** @param classList wc/dom/classList @param initialise wc/dom/initialise @param shed wc/dom/shed @param tag wc/dom/tag @param Widget wc/dom/Widget @param getLabelsForElement wc/dom/getLabelsForElement @param processResponse wc/ui/ajax/processResponse @param i18n wc/i18n/i18n @param $role wc/dom/role @ignore */
+	function(classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, i18n, $role) {
 		"use strict";
 		/*
 		 * Implicit dependencies:
@@ -99,7 +101,7 @@ define(["wc/dom/classList",
 			function shedMandatorySubscriber(element, action) {
 				if (element && !(element.tagName === tag.INPUT && element.type === "radio")) {
 					// this does not apply to making a radio button mandatory (that just leads to confusion)
-					if (TAGS.indexOf(element.tagName) > -1 || element.getAttribute("role")) {
+					if (TAGS.indexOf(element.tagName) > -1 || $role.has(element)) {
 						// read-only components should not be mandatory/optional
 						mungeLabels(element, (action === shed.actions.OPTIONAL ? "remove" : "add"), "wc_req");
 					}
@@ -160,7 +162,7 @@ define(["wc/dom/classList",
 					mandatorySpan.innerHTML = i18n.get("${wc.common.i18n.requiredPlaceholder}");
 					newLabellingElement.appendChild(mandatorySpan);
 				}
-				else if ((mandatorySpan = MANDATORY_SPAN.findDescendand(newLabellingElement))) {
+				else if ((mandatorySpan = MANDATORY_SPAN.findDescendant(newLabellingElement))) {
 					mandatorySpan.parentNode.removeChild(mandatorySpan);
 				}
 				newLabellingElement.id = label.id;

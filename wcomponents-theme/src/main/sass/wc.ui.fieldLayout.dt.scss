@@ -1,0 +1,37 @@
+/* wc.ui.fieldLayout.dt.scss */
+@import 'fieldLayout-mixins';
+
+$wc-fld-list: 33, 67;
+
+@include respond-not-small {
+	// @for $i from 1 through 100 {
+	// 	$wc-fld-lblw: $i * 1%;
+	@for $i from 1 through 20 {
+		$j: $i * 5;
+		@include wc-fld-layout($j);
+	}
+
+	@each $w in $wc-fld-list {
+		@include wc-fld-layout($w);
+	}
+
+	// special case for 66: it _should_ be 67
+	.#{$wc-label-width-slug}_66 {
+		&.flat > .wc-field  > :first-child {
+			width: 67%;
+		}
+
+		&.stacked > .wc-field > .wc-input {
+			margin-left: 67%;
+		}
+
+		> .wc-field > .wc-input {
+			max-width: 33%;
+			width: 33%;
+		}
+	}
+
+	.#{$wc-input-width-slug}_66 .wc-input {
+		width: 67%;
+	}
+}

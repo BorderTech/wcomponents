@@ -1,5 +1,8 @@
 package com.github.bordertech.wcomponents.lde;
 
+import com.github.bordertech.wcomponents.servlet.WServlet;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.SystemException;
 import java.io.IOException;
 import java.net.BindException;
 import java.net.ConnectException;
@@ -11,13 +14,11 @@ import java.util.StringTokenizer;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
-
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.jetty.security.HashLoginService;
@@ -28,407 +29,374 @@ import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.webapp.WebAppContext;
 
-import com.github.bordertech.wcomponents.servlet.WServlet;
-import com.github.bordertech.wcomponents.util.Config;
-import com.github.bordertech.wcomponents.util.SystemException;
-
 /**
  * Enables WComponents to be run in a LDE environment.
- * 
+ *
  * @author James Gifford
  * @since 1.0.0
  */
-public abstract class TestServlet extends WServlet
-{    
-    /** The logger instance for this class. */
-    private static final Log log = LogFactory.getLog(TestServlet.class);
+public abstract class TestServlet extends WServlet {
 
-    /** This configuration parameter allows the developer to configure the LDE to use a different set of servlets. */
-    private static final String WEBDOCS_DIR_PARAM = "bordertech.wcomponents.lde.webdocs.dir";
-    
-    /** This configuration parameter allows the developer to configure the LDE to use an external theme. */
-    private static final String WEBDOCS_THEME_DIR_PARAM = "bordertech.wcomponents.lde.theme.dir";
-    
-    /** This configuration parameter allows the developer to configure the LDE to set a resources directory. */
-    private static final String WEBDOCS_RESOURCE_DIR_PARAM = "bordertech.wcomponents.lde.resource.dir";
-    
-    /** This configuration parameter sets which port the LDE runs on. */
-    private static final String JETTY_PORT_PARAM = "bordertech.wcomponents.lde.server.port";
-    
-    /** This configuration parameter sets up the Jetty realm file for authenticated access. */
-    private static final String JETTY_REALM_FILE_PARAM = "bordertech.wcomponents.lde.server.realm.file";
-    
-    /** This configuration parameter sets up the Jetty realm file for authenticated access. */
-    private static final String ENABLE_SHUTDOWN_PARAM = "bordertech.wcomponents.lde.shutdown.enabled";
+	/**
+	 * The logger instance for this class.
+	 */
+	private static final Log LOG = LogFactory.getLog(TestServlet.class);
 
-    /** This configuration parameter sets the Jetty session timeout interval. */
-    private static final String SESSION_TIMEOUT_PARAM = "bordertech.wcomponents.lde.session.inactive.interval";
-    
-    /** The default port to run the LDE on. */
-    private static final int DEFAULT_PORT = 8080;
+	/**
+	 * This configuration parameter allows the developer to configure the LDE to use a different set of servlets.
+	 */
+	private static final String WEBDOCS_DIR_PARAM = "bordertech.wcomponents.lde.webdocs.dir";
 
-    private final List<Resource> union = new ArrayList<Resource>();
+	/**
+	 * This configuration parameter allows the developer to configure the LDE to use an external theme.
+	 */
+	private static final String WEBDOCS_THEME_DIR_PARAM = "bordertech.wcomponents.lde.theme.dir";
 
-    /** The Jetty server instance for this VM. Only one LDE can be run per VM. */
-    private static Server server;
-    
-    /** The URL where this servlet can be accessed from. */
-    private String url;
+	/**
+	 * This configuration parameter allows the developer to configure the LDE to set a resources directory.
+	 */
+	private static final String WEBDOCS_RESOURCE_DIR_PARAM = "bordertech.wcomponents.lde.resource.dir";
 
-    /** 
-     * Runs the server.
-     * @throws Exception if the LDE fails to start. 
-     */
-    public void run() throws Exception
-    {
-        synchronized (TestServlet.class)
-        {
-            if (server != null)
-            {
-                stop();
-            }
-            
-            server = new Server();
-        }
-        
-        SocketConnector connector = new SocketConnector();
-        connector.setMaxIdleTime(0);
-        connector.setPort(getLdePort());
-        server.addConnector(connector);
+	/**
+	 * This configuration parameter sets which port the LDE runs on.
+	 */
+	private static final String JETTY_PORT_PARAM = "bordertech.wcomponents.lde.server.port";
 
-        WebAppContext webapp = createWebApp(server);
+	/**
+	 * This configuration parameter sets up the Jetty realm file for authenticated access.
+	 */
+	private static final String JETTY_REALM_FILE_PARAM = "bordertech.wcomponents.lde.server.realm.file";
 
-        try
-        {
-            server.start();
-        }
-        catch (BindException e)
-        {
-            if (isShutdownEnabled())
-            {
-                // The port is in use, possibly by another LDE instance.
-                // Attempt to shut down the other LDE and start up again.
-                log.info("Attempting remote shutdown of existing LDE");
-                shutDown();
-                
-                Thread.sleep(100); // give the OS a chance to release the port
-                server.start();
-            }
-            else
-            {
-                throw e;
-            }
-        }
-        catch (Exception e)
-        {
-            // Failed to start the server
-            server = null;
-            throw e;
-        }
+	/**
+	 * This configuration parameter sets up the Jetty realm file for authenticated access.
+	 */
+	private static final String ENABLE_SHUTDOWN_PARAM = "bordertech.wcomponents.lde.shutdown.enabled";
 
-        // We have to set the timeout after the server is started, as Jetty reads 
-        // the value from webdefault.xml during start-up.
-        int timeout = Config.getInstance().getInt(SESSION_TIMEOUT_PARAM, 0);
-        
-        if (timeout > 0)
-        {
-            webapp.getSessionHandler().getSessionManager().setMaxInactiveInterval(timeout);
-        }            
+	/**
+	 * This configuration parameter sets the Jetty session timeout interval.
+	 */
+	private static final String SESSION_TIMEOUT_PARAM = "bordertech.wcomponents.lde.session.inactive.interval";
 
-        // Server started successfully, log the URL for the LDE.
-        url = "http://localhost:" + connector.getLocalPort() + "/app";
-        log.info("URL  ==>  " + url);
-    }
-    
-    @Override
-    public void service(final ServletRequest req, final ServletResponse res) throws ServletException, IOException
-    {
-        if (req.getParameter("lde.shutdown") != null && isShutdownEnabled())
-        {
-            log.info("Received LDE shutdown request, stopping server.");
-            res.getOutputStream().close();
-            
-            try
-            {
-                stop();
-            }
-            catch (InterruptedException e)
-            {
-                log.error("Failed to shut down LDE server", e);
-            }
-            
-            return;
-        }
-        
-        super.service(req, res);
-    }
-    
-    /**
-     * Retrieves the port number which the LDE should run on.
-     * @return the LDE port.
-     */
-    private static int getLdePort()
-    {
-        int port = DEFAULT_PORT; 
-        
-        try
-        {
-            port = Config.getInstance().getInt(JETTY_PORT_PARAM, DEFAULT_PORT);
-        }
-        catch (Exception ignored)
-        {
-            log.error("Failed to read parameter " + JETTY_PORT_PARAM);
-        }
-        
-        return port;
-    }
-    
-    /**
-     * Attempts to shutdown an existing TestServlet, possibly in another VM.
-     */
-    protected void shutDown()
-    {
-        try
-        {
-            URL url = new URL("http://localhost:" + getLdePort() + "/app?lde.shutdown=true");
-            
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.getResponseCode();            
-        }
-        catch (ConnectException expected)
-        {
-            // This will be thrown if either the other LDE is not running,
-            // or it was running and this connection has caused it to terminate.
-            return;
-        }
-        catch (Exception e)
-        {
-            log.error("Failed to shut down other LDE instance", e);
-        }
-    }
-    
-    /**
-     * Creates the Web app context to use in the LDE.
-     * The context will be registered with the given server.
-     * 
-     * @param server the Jetty server.
-     * @return the newly created Web app context.
-     */
-    protected WebAppContext createWebApp(final Server server) throws Exception
-    {
-        String[] webdocs = getWebdocsDir();
-        String[] themeWebdocs = getThemeWebdocs();
-        String[] resourceDirs = getResourceDir();
-        
-        if (webdocs != null)
-        {
-            for (int i = 0; i < webdocs.length; i++)
-            {
-                union.add(Resource.newResource(webdocs[i]));
-            }
-        }
+	/**
+	 * The default port to run the LDE on.
+	 */
+	private static final int DEFAULT_PORT = 8080;
 
-        if (themeWebdocs != null)
-        {
-            for (int i = 0; i < themeWebdocs.length; i++)
-            {
-                union.add(Resource.newResource(themeWebdocs[i]));
-            }
-        }
+	private final List<Resource> union = new ArrayList<>();
 
-        if (resourceDirs != null)
-        {
-            for (int i = 0; i < resourceDirs.length; i++)
-            {
-                union.add(Resource.newResource(resourceDirs[i]));
-            }
-        }
-        
-        HandlerCollection handlers = new HandlerCollection();
-        WebAppContext webapp = null;
+	/**
+	 * The Jetty server instance for this VM. Only one LDE can be run per VM.
+	 */
+	private static Server server;
 
-        // If there is no external web.xml override, register the default servlets
-        if (webdocs == null)
-        {
-            webapp = new WebAppContext();
-            webapp.setContextPath("/");
-            registerServlets(webapp);
-        }
-        else
-        {
-            webapp = new WebAppContext(webdocs[0], "/");
-        }
-        
-        // Must have at least one resource
-        if (union.isEmpty())
-        {
-            webapp.setResourceBase(".");
-        }
-        else
-        {
-            webapp.setBaseResource(new ResourceCollection(union.toArray(new Resource[union.size()])));
-        }
+	/**
+	 * The URL where this servlet can be accessed from.
+	 */
+	private String url;
 
-        webapp.addServlet(getClass().getName(), "/app/*");
-        
-        // This is required if projects define their own web.xml,
-        // we still need to serve up the theme from inside a jar 
-        // file using the theme servlet. 
-        if (themeWebdocs == null)
-        {
-            WebAppContext themeWebapp = new WebAppContext();
-            themeWebapp.setContextPath("/theme");
-            themeWebapp.addServlet("com.github.bordertech.wcomponents.servlet.ThemeServlet", "/*");
-            themeWebapp.setResourceBase(".");
-            handlers.addHandler(themeWebapp);
-        }
-        else
-        {
-            WebAppContext themeWebapp = new WebAppContext();
-            themeWebapp.setContextPath("/theme");
-            themeWebapp.setResourceBase(themeWebdocs[0]);
-            handlers.addHandler(themeWebapp);
-        }
+	/**
+	 * Runs the server.
+	 *
+	 * @throws Exception if the LDE fails to start.
+	 */
+	public void run() throws Exception {
+		synchronized (TestServlet.class) {
+			if (server != null) {
+				stop();
+			}
 
-        // Initialise security
-        String realmFile = Config.getInstance().getString(JETTY_REALM_FILE_PARAM);
-        
-        if (realmFile != null)
-        {
-            HashLoginService loginService = new HashLoginService("LdeRunner", realmFile);
-            webapp.getSecurityHandler().setLoginService(loginService);
-        }
-        
-        handlers.addHandler(webapp);
-        server.setHandler(handlers);
-        
-        return webapp;
-    }
+			server = new Server();
+		}
 
-    /**
-     * Stops the server.
-     */
-    public void stop() throws InterruptedException
-    {
-        synchronized(TestServlet.class)
-        {
-            if (server != null)
-            {
-                try
-                {
-                    server.stop();
-                }
-                catch (Exception e)
-                {
-                    log.warn("Failed to stop server", e);
-                }
-                
-                server = null;
-            }
-        }
-    }
-    
-    /**
-     * @return the URL where this servlet can be accessed from.
-     */
-    protected String getUrl()
-    {
-        return url;
-    }    
+		SocketConnector connector = new SocketConnector();
+		connector.setMaxIdleTime(0);
+		connector.setPort(getLdePort());
+		server.addConnector(connector);
 
-    public void addIndirectJar(final String jarname)
-    {
-        try
-        {
-            JarFile jarfile = new JarFile(jarname);
-            Manifest man = jarfile.getManifest();
-            Attributes atts = man.getMainAttributes();
-            String jarlist = atts.getValue("Class-Path");
-            StringTokenizer tokenizer = new StringTokenizer(jarlist, " ", false);
-            while (tokenizer.hasMoreTokens())
-            {
-                String url = tokenizer.nextToken();
-                union.add(Resource.newResource("jar:" + url + "!/"));
-                log.info("Added webdocs at " + url);
-            }
-        }
-        catch (IOException ex)
-        {
-            throw new SystemException("Could handle indirect jar " + jarname,
-                ex);
-        }
-    }
+		WebAppContext webapp = createWebApp(server);
 
-    /**
-     * @return the webdocs directory, or null if not defined.
-     */
-    protected String[] getWebdocsDir()
-    {
-        String[] docs = Config.getInstance().getStringArray(WEBDOCS_DIR_PARAM);        
-        return docs == null || docs.length == 0 ? null : docs;
-    }
+		try {
+			server.start();
+		} catch (BindException e) {
+			if (isShutdownEnabled()) {
+				// The port is in use, possibly by another LDE instance.
+				// Attempt to shut down the other LDE and start up again.
+				LOG.info("Attempting remote shutdown of existing LDE");
+				shutDown();
 
-    /**
-     * @return the theme webdocs directory, or null if not defined.
-     */
-    protected String[] getThemeWebdocs()
-    {
-        String[] docs = Config.getInstance().getStringArray(WEBDOCS_THEME_DIR_PARAM);
-        return docs == null || docs.length == 0 ? null : docs;
-    }
+				Thread.sleep(100); // give the OS a chance to release the port
+				server.start();
+			} else {
+				throw e;
+			}
+		} catch (Exception e) {
+			// Failed to start the server
+			server = null;
+			throw e;
+		}
 
-    /**
-     * @return the resource directory, or null if not defined.
-     */
-    protected String[] getResourceDir()
-    {
-        String[] docs = Config.getInstance().getStringArray(WEBDOCS_RESOURCE_DIR_PARAM);
-        return docs == null || docs.length == 0 ? null : docs;
-    }
-    
-    /**
-     * Override service in order to support persistant sessions.
-     */
-    @Override
-    protected void service(final HttpServletRequest request, final HttpServletResponse response) 
-        throws ServletException, IOException
-    {
-        if (request.getSession(false) == null)
-        {
-            // This is a new session, do we want to load a persisted session?
-            if (LdeSessionUtil.isLoadPersistedSessionEnabled())
-            {
-                getUI(request); // need to ensure that the UI has been loaded
-                LdeSessionUtil.deserializeSessionAttributes(request.getSession(true));
-            }
-        }
+		// We have to set the timeout after the server is started, as Jetty reads
+		// the value from webdefault.xml during start-up.
+		int timeout = Config.getInstance().getInt(SESSION_TIMEOUT_PARAM, 0);
 
-        super.service(request, response);
-        
-        // Persist the session if necessary.
-        if (LdeSessionUtil.isPersistSessionEnabled())
-        {
-            LdeSessionUtil.serializeSessionAttributes(request.getSession());
-        }
-    }
-    
-    /**
-     * Subclasses may override this to register additional servlets with the server.
-     * 
-     * @param webapp the webapp to register the servlets with.
-     * @throws Exception if there is an error registering a servlet.
-     */
-    protected void registerServlets(final WebAppContext webapp)
-    {
-        //webapp.addServlet("themeServlet", "/theme/*", "com.github.bordertech.wcomponents.lde.LdeThemeServlet");
-    }
-    
-    /**
-     * Indicates whether remote LDE shutdown is enabled.
-     * @return true if shutdown is enabled, false otherwise.
-     */
-    protected boolean isShutdownEnabled()
-    {
-        return Config.getInstance().getBoolean(ENABLE_SHUTDOWN_PARAM, false);
-    }
+		if (timeout > 0) {
+			webapp.getSessionHandler().getSessionManager().setMaxInactiveInterval(timeout);
+		}
+
+		// Server started successfully, log the URL for the LDE.
+		url = "http://localhost:" + connector.getLocalPort() + "/app";
+		LOG.info("URL  ==>  " + url);
+	}
+
+	@Override
+	public void service(final ServletRequest req, final ServletResponse res) throws ServletException,
+			IOException {
+		if (req.getParameter("lde.shutdown") != null && isShutdownEnabled()) {
+			LOG.info("Received LDE shutdown request, stopping server.");
+			res.getOutputStream().close();
+
+			try {
+				stop();
+			} catch (InterruptedException e) {
+				LOG.error("Failed to shut down LDE server", e);
+			}
+
+			return;
+		}
+
+		super.service(req, res);
+	}
+
+	/**
+	 * Retrieves the port number which the LDE should run on.
+	 *
+	 * @return the LDE port.
+	 */
+	private static int getLdePort() {
+		int port = DEFAULT_PORT;
+
+		try {
+			port = Config.getInstance().getInt(JETTY_PORT_PARAM, DEFAULT_PORT);
+		} catch (Exception ignored) {
+			LOG.error("Failed to read parameter " + JETTY_PORT_PARAM);
+		}
+
+		return port;
+	}
+
+	/**
+	 * Attempts to shutdown an existing TestServlet, possibly in another VM.
+	 */
+	protected void shutDown() {
+		try {
+			URL shutdownUrl = new URL("http://localhost:" + getLdePort()
+					+ "/app?lde.shutdown=true");
+
+			HttpURLConnection conn = (HttpURLConnection) shutdownUrl.openConnection();
+			conn.getResponseCode();
+		} catch (ConnectException expected) {
+			// This will be thrown if either the other LDE is not running,
+			// or it was running and this connection has caused it to terminate.
+			return;
+		} catch (Exception e) {
+			LOG.error("Failed to shut down other LDE instance", e);
+		}
+	}
+
+	/**
+	 * Creates the Web app context to use in the LDE. The context will be registered with the given server.
+	 *
+	 * @param srv the Jetty server.
+	 * @return the newly created Web app context.
+	 * @throws Exception an exception
+	 */
+	protected WebAppContext createWebApp(final Server srv) throws Exception {
+		String[] webdocs = getWebdocsDir();
+		String[] themeWebdocs = getThemeWebdocs();
+		String[] resourceDirs = getResourceDir();
+
+		if (webdocs != null) {
+			for (int i = 0; i < webdocs.length; i++) {
+				union.add(Resource.newResource(webdocs[i]));
+			}
+		}
+
+		if (themeWebdocs != null) {
+			for (int i = 0; i < themeWebdocs.length; i++) {
+				union.add(Resource.newResource(themeWebdocs[i]));
+			}
+		}
+
+		if (resourceDirs != null) {
+			for (int i = 0; i < resourceDirs.length; i++) {
+				union.add(Resource.newResource(resourceDirs[i]));
+			}
+		}
+
+		HandlerCollection handlers = new HandlerCollection();
+		WebAppContext webapp = null;
+
+		// If there is no external web.xml override, register the default servlets
+		if (webdocs == null) {
+			webapp = new WebAppContext();
+			webapp.setContextPath("/");
+			registerServlets(webapp);
+		} else {
+			webapp = new WebAppContext(webdocs[0], "/");
+		}
+
+		// Must have at least one resource
+		if (union.isEmpty()) {
+			webapp.setResourceBase(".");
+		} else {
+			webapp.setBaseResource(
+					new ResourceCollection(union.toArray(new Resource[union.size()])));
+		}
+
+		webapp.addServlet(getClass().getName(), "/app/*");
+
+		// This is required if projects define their own web.xml,
+		// we still need to serve up the theme from inside a jar
+		// file using the theme servlet.
+		if (themeWebdocs == null) {
+			WebAppContext themeWebapp = new WebAppContext();
+			themeWebapp.setContextPath("/theme");
+			themeWebapp.addServlet("com.github.bordertech.wcomponents.servlet.ThemeServlet", "/*");
+			themeWebapp.setResourceBase(".");
+			handlers.addHandler(themeWebapp);
+		} else {
+			WebAppContext themeWebapp = new WebAppContext();
+			themeWebapp.setContextPath("/theme");
+			themeWebapp.setResourceBase(themeWebdocs[0]);
+			handlers.addHandler(themeWebapp);
+		}
+
+		// Initialise security
+		String realmFile = Config.getInstance().getString(JETTY_REALM_FILE_PARAM);
+
+		if (realmFile != null) {
+			HashLoginService loginService = new HashLoginService("LdeRunner", realmFile);
+			webapp.getSecurityHandler().setLoginService(loginService);
+		}
+
+		handlers.addHandler(webapp);
+		srv.setHandler(handlers);
+
+		return webapp;
+	}
+
+	/**
+	 * Stops the server.
+	 *
+	 * @throws java.lang.InterruptedException an interrupted exception
+	 */
+	public void stop() throws InterruptedException {
+		synchronized (TestServlet.class) {
+			if (server != null) {
+				try {
+					server.stop();
+				} catch (Exception e) {
+					LOG.warn("Failed to stop server", e);
+				}
+
+				server = null;
+			}
+		}
+	}
+
+	/**
+	 * @return the URL where this servlet can be accessed from.
+	 */
+	protected String getUrl() {
+		return url;
+	}
+
+	/**
+	 * @param jarname the jar name to add
+	 */
+	public void addIndirectJar(final String jarname) {
+
+		try (JarFile jarfile = new JarFile(jarname)) {
+			Manifest man = jarfile.getManifest();
+			Attributes atts = man.getMainAttributes();
+			String jarlist = atts.getValue("Class-Path");
+			StringTokenizer tokenizer = new StringTokenizer(jarlist, " ", false);
+			while (tokenizer.hasMoreTokens()) {
+				String tokenUrl = tokenizer.nextToken();
+				union.add(Resource.newResource("jar:" + tokenUrl + "!/"));
+				LOG.info("Added webdocs at " + tokenUrl);
+			}
+		} catch (IOException ex) {
+			throw new SystemException("Could handle indirect jar " + jarname,
+					ex);
+		}
+	}
+
+	/**
+	 * @return the webdocs directory, or null if not defined.
+	 */
+	protected String[] getWebdocsDir() {
+		String[] docs = Config.getInstance().getStringArray(WEBDOCS_DIR_PARAM);
+		return docs == null || docs.length == 0 ? null : docs;
+	}
+
+	/**
+	 * @return the theme webdocs directory, or null if not defined.
+	 */
+	protected String[] getThemeWebdocs() {
+		String[] docs = Config.getInstance().getStringArray(WEBDOCS_THEME_DIR_PARAM);
+		return docs == null || docs.length == 0 ? null : docs;
+	}
+
+	/**
+	 * @return the resource directory, or null if not defined.
+	 */
+	protected String[] getResourceDir() {
+		String[] docs = Config.getInstance().getStringArray(WEBDOCS_RESOURCE_DIR_PARAM);
+		return docs == null || docs.length == 0 ? null : docs;
+	}
+
+	/**
+	 * Override service in order to support persistant sessions.
+	 *
+	 * @param request the request being processed
+	 * @param response the response
+	 * @throws javax.servlet.ServletException a servlet exception
+	 * @throws java.io.IOException an IO exception
+	 */
+	@Override
+	protected void service(final HttpServletRequest request, final HttpServletResponse response)
+			throws ServletException, IOException {
+		// This is a new session, do we want to load a persisted session?
+		if (request.getSession(false) == null && LdeSessionUtil.isLoadPersistedSessionEnabled()) {
+			getUI(request); // need to ensure that the UI has been loaded
+			LdeSessionUtil.deserializeSessionAttributes(request.getSession(true));
+		}
+
+		super.service(request, response);
+
+		// Persist the session if necessary.
+		if (LdeSessionUtil.isPersistSessionEnabled()) {
+			LdeSessionUtil.serializeSessionAttributes(request.getSession());
+		}
+	}
+
+	/**
+	 * Subclasses may override this to register additional servlets with the server.
+	 *
+	 * @param webapp the webapp to register the servlets with.
+	 */
+	protected void registerServlets(final WebAppContext webapp) {
+		//webapp.addServlet("themeServlet", "/theme/*",
+		// "com.github.bordertech.wcomponents.lde.LdeThemeServlet");
+	}
+
+	/**
+	 * Indicates whether remote LDE shutdown is enabled.
+	 *
+	 * @return true if shutdown is enabled, false otherwise.
+	 */
+	protected boolean isShutdownEnabled() {
+		return Config.getInstance().getBoolean(ENABLE_SHUTDOWN_PARAM, false);
+	}
 }

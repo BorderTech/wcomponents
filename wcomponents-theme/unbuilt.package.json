@@ -4,21 +4,25 @@
 	"description": "Client side code for WComponent UI tool kit.",
 	"private": true,
 	"optionalDependencies": {
-		"chromedriver": "^2.15.0",
-		"intern": "^2.2.2",
-		"jsdoc-oblivion": "^0.0.4"
+		"jsdoc-oblivion": "~0.0.4"
 	},
 	"devDependencies": {
-		"accessibility-developer-tools": "^2.7.1-rc.1",
-		"clean-css": "^3.3.7",
-		"css-b64-images": "^0.2.5",
-		"dojo": "^1.10.4",
-		"eslint": "^1.1.0",
-		"jsdoc": "^3.3.0-beta3",
-		"node-sass": "^3.2.0",
-		"promise-polyfill": "^2.1.0",
-		"requirejs": "^2.1.17",
-		"sprintf-js": "^1.0.2",
-		"tinymce": "^4.1.10"
+		"accessibility-developer-tools": "2.10.0",
+		"axe-core": "~1.1.1",
+		"clean-css": "~3.4.3",
+		"css-b64-images": "~0.2.5",
+		"dojo": "~1.10.4",
+		"eslint": "~2.2.0",
+		"getusermedia-js": "^1.0.0",
+		"intern": "~3.0.6",
+		"jsdoc": "~3.3.2",
+		"mustache": "~2.2.1",
+		"promise-polyfill": "~2.1.0",
+		"requirejs": "~2.2.0",
+		"sprintf-js": "~1.0.3",
+		"systemjs": "~0.19.22",
+		"timezone-js": "~0.4.13",
+		"tinymce": "~4.2.5",
+		"tracking": "~1.1.2"
 	}
 }

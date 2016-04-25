@@ -11,7 +11,7 @@
 	<xsl:template name="multiSelectPairButton">
 		<xsl:param name="value"/>
 		<xsl:param name="buttonText"/>
-		<button type="button" value="{$value}" title="{$buttonText}" class="wc_ibtn" aria-controls="{concat(@id, '${wc.ui.multiSelectPair.id.suffix.available}',' ',@id, '${wc.ui.multiSelectPair.id.suffix.selected}')}">
+		<button type="button" value="{$value}" title="{$buttonText}" class="wc_btn_icon" aria-controls="{concat(@id, '_a',' ',@id, '_s')}">
 			<xsl:call-template name="disabledElement">
 				<xsl:with-param name="isControl" select="1"/>
 			</xsl:call-template>

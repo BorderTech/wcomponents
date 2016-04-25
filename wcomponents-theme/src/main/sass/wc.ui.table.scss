@@ -1,12 +1,8 @@
 /* wc.ui.table.scss */
 // This is the core of the table CSS. The other CSS files are used for functional images and other items which are less
 // likely to be implementation specific
-@import 'wc.ui.table_vars.scss';
-@import 'mixins_common.scss';
-
-.table.wc_error {
-	@include outline($color: $wc-ui-color-error-fg, $offset: -1px);
-}
+@import 'table_vars';
+@import 'mixins-common';
 
 table {
 	@include border;
@@ -20,37 +16,16 @@ table {
 	table-layout: fixed;
 }
 
-thead {
-	background-color: $wc-ui-color-table-head-bg;
-	color: $wc-ui-color-table-head-fg;
-
-	[disabled] {
-		// override normal disabled state. TODO this important may not be needed!
-		// scss-lint:disable ImportantRule
-		color: $wc-ui-color-table-head-disabled !important;
-	}
-}
-
-tfoot {
-	background-color: $wc-ui-color-table-foot-bg;
-	color: $wc-ui-color-table-foot-fg;
-}
-
 th,
 td {
 	padding: $table-cell-padding;
-}
-
-tbody {
-	td,
-	th {
-		vertical-align: top;
-	}
+	text-align: $preferred-alignment;
+	vertical-align: top;
 }
 
 .wc_table_rowexp_container,
 .wc_table_sel_wrapper {
-	text-align: center;
+	// text-align: center;
 	vertical-align: text-top;
 }
 
@@ -62,14 +37,5 @@ th.wc_table_sel_wrapper { // reset the vertical alignment of th with these class
 }
 
 .wc_table_colauto {
-	max-width: $line-size;
-	width: $line-size;
+	width: 0.5rem; // actually anything small but more than zero.
 }
-
-// Column Striping.
-// Row striping: You'd think tr:nth-child(even) would be enough. You'd be wrong - that does not account for sub rows.
-col.wc_table_stripe,
-tr.wc_table_stripe {
-	background-color: $wc-ui-color-highlight-bg;
-}
-/* end wc.ui.table.scss */

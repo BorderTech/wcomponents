@@ -36,14 +36,24 @@
 								<xs:documentation>The unique identifier for the column.</xs:documentation>
 							</xs:annotation>
 						</xs:attribute>
-						<xs:attribute name="width" use="required">
+						<xs:attribute name="class" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Provides the ability to pass an HTML class attribute onto the root output element.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="track" type="xs:boolean">
+							<xs:annotation>
+								<xs:documentation>Indicates that the component should take part in web analytics tracking.</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="width">
 							<xs:annotation>
 								<xs:documentation>The width attribute int is deemed to be a percentage where the width of the column (not allowing for hgap) is @width% of the width
-									of the row. </xs:documentation>
+									of the row. A width of 0 is not output but means the column width is defined elsewhere (hopefully in application specific CSS).</xs:documentation>
 							</xs:annotation>
 							<xs:simpleType>
 								<xs:restriction base="xs:int">
-									<xs:minInclusive value="1" />
+									<xs:minInclusive value="0" />
 									<xs:maxInclusive value="100" />
 								</xs:restriction>
 							</xs:simpleType>

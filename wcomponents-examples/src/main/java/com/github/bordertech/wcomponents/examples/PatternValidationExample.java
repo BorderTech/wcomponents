@@ -1,8 +1,5 @@
 package com.github.bordertech.wcomponents.examples;
 
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
-
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
@@ -15,105 +12,99 @@ import com.github.bordertech.wcomponents.WPhoneNumberField;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Demonstrate how patterns can be used to validate text fields.
- * 
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class PatternValidationExample extends WContainer
-{
-    /** Width of labels. */
-    private static final int LABEL_WIDTH = 25;
+public class PatternValidationExample extends WContainer {
 
-    /**
-     * Construct the example.
-     */
-    public PatternValidationExample()
-    {
-        final WMessages messages = new WMessages();
-        final WTextField textField = new WTextField();
-        final WPhoneNumberField phoneNumberField = new WPhoneNumberField();
-        final WMultiTextField multiTextField = new WMultiTextField();
+	/**
+	 * Width of labels.
+	 */
+	private static final int LABEL_WIDTH = 25;
 
-        add(messages);
+	/**
+	 * Construct the example.
+	 */
+	public PatternValidationExample() {
+		final WMessages messages = new WMessages();
+		final WTextField textField = new WTextField();
+		final WPhoneNumberField phoneNumberField = new WPhoneNumberField();
+		final WMultiTextField multiTextField = new WMultiTextField();
 
-        WPanel applyPanel = new WPanel();
-        add(applyPanel);
+		add(messages);
 
-        WFieldLayout applyLayout = new WFieldLayout();
-        applyLayout.setLabelWidth(LABEL_WIDTH);
-        applyPanel.add(applyLayout);
+		WPanel applyPanel = new WPanel();
+		add(applyPanel);
 
-        final WTextField pattern = new WTextField()
-        {
-            @Override
-            protected void validateComponent(final java.util.List<Diagnostic> diags)
-            {
-                super.validateComponent(diags);
-                if (!isEmpty())
-                {
-                    try
-                    {
-                        Pattern.compile(getText());
-                    }
-                    catch (PatternSyntaxException e)
-                    {
-                        diags.add(createErrorDiagnostic("Invalid pattern syntax (" + e.getMessage() + ")"));
-                    }
-                }
-            }
-        };
-        applyLayout.addField("Pattern for the text fields", pattern);
+		WFieldLayout applyLayout = new WFieldLayout();
+		applyLayout.setLabelWidth(LABEL_WIDTH);
+		applyPanel.add(applyLayout);
 
-        WButton apply = new WButton("apply");
-        add(apply);
-        applyPanel.setDefaultSubmitButton(apply);
+		final WTextField pattern = new WTextField() {
+			@Override
+			protected void validateComponent(final java.util.List<Diagnostic> diags) {
+				super.validateComponent(diags);
+				if (!isEmpty()) {
+					try {
+						Pattern.compile(getText());
+					} catch (PatternSyntaxException e) {
+						diags.add(createErrorDiagnostic(
+								"Invalid pattern syntax (" + e.getMessage() + ")"));
+					}
+				}
+			}
+		};
+		applyLayout.addField("Pattern for the text fields", pattern);
 
-        apply.setAction(new ValidatingAction(messages.getValidationErrors(), applyLayout)
-        {
-            @Override
-            public void executeOnValid(final ActionEvent event)
-            {
-                String regex = pattern.getText();
+		WButton apply = new WButton("apply");
+		add(apply);
+		applyPanel.setDefaultSubmitButton(apply);
 
-                textField.setPattern(regex);
-                textField.getLabel().setHint(regex);
+		apply.setAction(new ValidatingAction(messages.getValidationErrors(), applyLayout) {
+			@Override
+			public void executeOnValid(final ActionEvent event) {
+				String regex = pattern.getText();
 
-                phoneNumberField.setPattern(regex);
-                phoneNumberField.getLabel().setHint(regex);
+				textField.setPattern(regex);
+				textField.getLabel().setHint(regex);
 
-                multiTextField.setPattern(regex);
-                multiTextField.getLabel().setHint(regex);
-            }
-        });
+				phoneNumberField.setPattern(regex);
+				phoneNumberField.getLabel().setHint(regex);
 
-        add(new WHorizontalRule());
+				multiTextField.setPattern(regex);
+				multiTextField.getLabel().setHint(regex);
+			}
+		});
 
-        WPanel fieldsPanel = new WPanel();
-        add(fieldsPanel);
+		add(new WHorizontalRule());
 
-        WFieldLayout fields = new WFieldLayout();
-        fields.setLabelWidth(LABEL_WIDTH);
-        fieldsPanel.add(fields);
+		WPanel fieldsPanel = new WPanel();
+		add(fieldsPanel);
 
-        fields.addField("Text Field", textField);
-        fields.addField("Phone Number", phoneNumberField);
-        fields.addField("Multi Text", multiTextField);
+		WFieldLayout fields = new WFieldLayout();
+		fields.setLabelWidth(LABEL_WIDTH);
+		fieldsPanel.add(fields);
 
-        WButton validate = new WButton("Validate");
-        add(validate);
-        fieldsPanel.setDefaultSubmitButton(validate);
+		fields.addField("Text Field", textField);
+		fields.addField("Phone Number", phoneNumberField);
+		fields.addField("Multi Text", multiTextField);
 
-        validate.setAction(new ValidatingAction(messages.getValidationErrors(), fields)
-        {
-            @Override
-            public void executeOnValid(final ActionEvent event)
-            {
-                messages.success("All the fields are valid.");
-            }
-        });
+		WButton validate = new WButton("Validate");
+		add(validate);
+		fieldsPanel.setDefaultSubmitButton(validate);
 
-    }
+		validate.setAction(new ValidatingAction(messages.getValidationErrors(), fields) {
+			@Override
+			public void executeOnValid(final ActionEvent event) {
+				messages.success("All the fields are valid.");
+			}
+		});
+
+	}
 }

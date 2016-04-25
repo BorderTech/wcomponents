@@ -1,17 +1,18 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.WContent.DisplayMode;
+import com.github.bordertech.wcomponents.WLink.WindowAttributes;
 import java.io.Serializable;
 import java.text.MessageFormat;
 
-import com.github.bordertech.wcomponents.WContent.DisplayMode;
-import com.github.bordertech.wcomponents.WLink.WindowAttributes;
-
 /**
- * <p>WContentLink is a convenience class to configure a {@link WLink} to display content, such as a pdf, 
- * that is rendered by {@link WContent}. By default, the content is displayed in a new window.</p>
- * 
- * <p>Be warned that this link does not post the entire form, as the client will opens the content directly via a "get" request. 
- * For situations where it is important to post the form, use a combination of {@link WButton} and
+ * <p>
+ * WContentLink is a convenience class to configure a {@link WLink} to display content, such as a pdf, that is rendered
+ * by {@link WContent}. By default, the content is displayed in a new window.</p>
+ *
+ * <p>
+ * Be warned that this link does not post the entire form, as the client will opens the content directly via a "get"
+ * request. For situations where it is important to post the form, use a combination of {@link WButton} and
  * {@link WContent}.
  * </p>
  * <p>
@@ -29,17 +30,17 @@ import com.github.bordertech.wcomponents.WLink.WindowAttributes;
  * Below is an example of the code required to use WContentLink:-
  * </p>
  * <blockquote>
- * 
+ *
  * <pre>
  * private final WContentLink contentLink = new WContentLink(&quot;link to content&quot;);
- * 
+ *
  * public SampleConstructor()
  * {
  *     ....
  *     add(contentLink);
  *     ....
  * }
- * 
+ *
  * protected void preparePaintComponent(Request request)
  * {
  *     ....
@@ -47,7 +48,7 @@ import com.github.bordertech.wcomponents.WLink.WindowAttributes;
  *     ....
  * }
  * </pre>
- * 
+ *
  * </blockquote>
  * <p>
  * WContentLink provides basic configuration options, but if more advanced configuration is required, then a
@@ -55,11 +56,11 @@ import com.github.bordertech.wcomponents.WLink.WindowAttributes;
  * required to use a WLink in combination with WContent:-
  * </p>
  * <blockquote>
- * 
+ *
  * <pre>
  * private final WLink link = new WLink();
  * private final WContent content = new WContent();
- * 
+ *
  * public SampleConstructor()
  * {
  *     ....
@@ -70,7 +71,7 @@ import com.github.bordertech.wcomponents.WLink.WindowAttributes;
  *     add(content);
  *     ....
  * }
- * 
+ *
  * protected void preparePaintComponent(Request request)
  * {
  *     ....
@@ -79,284 +80,272 @@ import com.github.bordertech.wcomponents.WLink.WindowAttributes;
  *     ....
  * }
  * </pre>
- * 
+ *
  * </blockquote>
- * 
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WContentLink extends AbstractContainer implements Disableable
-{
-    /** Default height for the content window. */
-    private static final int DEFAULT_HEIGHT = 600;
+public class WContentLink extends AbstractContainer implements Disableable {
 
-    /** Default width for the content window. */
-    private static final int DEFAULT_WIDTH = 800;
+	/**
+	 * Default height for the content window.
+	 */
+	private static final int DEFAULT_HEIGHT = 600;
 
-    /** Default name for the content window. */
-    private static final String DEFAULT_NAME = "window";
-    
-    /** The content to be displayed in the window. */
-    private final WContent content = new WContent();
+	/**
+	 * Default width for the content window.
+	 */
+	private static final int DEFAULT_WIDTH = 800;
 
-    /** The link used to open the window containing the content. */
-    private final WLink link = new WLink()
-    {
-        @Override
-        public String getUrl()
-        {
-            return content.getUrl();
-        };
-    };
+	/**
+	 * Default name for the content window.
+	 */
+	private static final String DEFAULT_NAME = "window";
 
-    /**
-     * Construct the WContentLink.
-     */
-    public WContentLink()
-    {
-        WindowAttributes attr = new WindowAttributes();
-        attr.setHeight(DEFAULT_HEIGHT);
-        attr.setWidth(DEFAULT_WIDTH);
-        attr.setWindowName(DEFAULT_NAME);
-        attr.setResizable(true);
-        link.setWindowAttrs(attr);
-        link.setOpenNewWindow(true);
-        add(link);
-        add(content);
-    }
+	/**
+	 * The content to be displayed in the window.
+	 */
+	private final WContent content = new WContent();
 
-    /**
-     * Creates a WContentLink with the given text.
-     * 
-     * @param aText the link text.
-     */
-    public WContentLink(final String aText)
-    {
-        this();
-        link.setText(aText);
-    }
+	/**
+	 * The link used to open the window containing the content.
+	 */
+	private final WLink link = new WLink() {
+		@Override
+		public String getUrl() {
+			return content.getUrl();
+		}
+	};
 
-    /**
-     * Creates a WContentLink with the given text and access key.
-     * 
-     * @param aText the link text.
-     * @param accessKey the link access key.
-     */
-    public WContentLink(final String aText, final char accessKey)
-    {
-        this(aText);
-        link.setAccessKey(accessKey);
-    }
+	/**
+	 * Construct the WContentLink.
+	 */
+	public WContentLink() {
+		WindowAttributes attr = new WindowAttributes();
+		attr.setHeight(DEFAULT_HEIGHT);
+		attr.setWidth(DEFAULT_WIDTH);
+		attr.setWindowName(DEFAULT_NAME);
+		attr.setResizable(true);
+		link.setWindowAttrs(attr);
+		link.setOpenNewWindow(true);
+		add(link);
+		add(content);
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public boolean isHidden()
-    {
-        return link.isHidden();
-    }
+	/**
+	 * Creates a WContentLink with the given text.
+	 *
+	 * @param aText the link text.
+	 */
+	public WContentLink(final String aText) {
+		this();
+		link.setText(aText);
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public void setHidden(final boolean flag)
-    {
-        link.setHidden(flag);
-    }
+	/**
+	 * Creates a WContentLink with the given text and access key.
+	 *
+	 * @param aText the link text.
+	 * @param accessKey the link access key.
+	 */
+	public WContentLink(final String aText, final char accessKey) {
+		this(aText);
+		link.setAccessKey(accessKey);
+	}
 
-    /**
-     * Indicates whether this link is disabled in the given context.
-     * 
-     * @return true if this link is disabled, otherwise false.
-     */
-    public boolean isDisabled()
-    {
-        return link.isDisabled();
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isHidden() {
+		return link.isHidden();
+	}
 
-    /**
-     * Sets whether this link is disabled.
-     * 
-     * @param disabled if true, this link is disabled. If false, it is enabled.
-     */
-    public void setDisabled(final boolean disabled)
-    {
-        link.setDisabled(disabled);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setHidden(final boolean flag) {
+		link.setHidden(flag);
+	}
 
-    /**
-     * @return the text to be displayed on the link.
-     */
-    public String getText()
-    {
-        return link.getText();
-    }
+	/**
+	 * Indicates whether this link is disabled in the given context.
+	 *
+	 * @return true if this link is disabled, otherwise false.
+	 */
+	@Override
+	public boolean isDisabled() {
+		return link.isDisabled();
+	}
 
-    /**
-     * Sets the text displayed on the link.
-     * 
-     * @param text the link text, using {@link MessageFormat} syntax.
-     * @param args optional arguments for the message format string. 
-     */
-    public void setText(final String text, final Serializable... args)
-    {
-        link.setText(text, args);
-    }
+	/**
+	 * Sets whether this link is disabled.
+	 *
+	 * @param disabled if true, this link is disabled. If false, it is enabled.
+	 */
+	@Override
+	public void setDisabled(final boolean disabled) {
+		link.setDisabled(disabled);
+	}
 
-    /**
-     * Indicates whether this link should render as a button.
-     * 
-     * @return true if this link should render as a button, false for a hyperlink.
-     */
-    public boolean isRenderAsButton()
-    {
-        return link.isRenderAsButton();
-    }
+	/**
+	 * @return the text to be displayed on the link.
+	 */
+	public String getText() {
+		return link.getText();
+	}
 
-    /**
-     * Sets whether this link should render as a button.
-     * 
-     * @param renderAsButton true if this link should render as a button, false for a hyperlink.
-     */
-    public void setRenderAsButton(final boolean renderAsButton)
-    {
-        link.setRenderAsButton(renderAsButton);
-    }
-    
-    /**
-     * Retrieves the attributes for new windows which are opened.
-     * <p>
-     * To change attributes for individual users, set a new {@link WindowAttributes} object for each user.
-     * </p>
-     * 
-     * @return the attributes for new windows.
-     */
-    public WindowAttributes getWindowAttrs()
-    {
-        return link.getWindowAttrs();
-    }
+	/**
+	 * Sets the text displayed on the link.
+	 *
+	 * @param text the link text, using {@link MessageFormat} syntax.
+	 * @param args optional arguments for the message format string.
+	 */
+	public void setText(final String text, final Serializable... args) {
+		link.setText(text, args);
+	}
 
-    /**
-     * @param windowAttrs the attributes for new windows which are opened.
-     */
-    public void setWindowAttrs(final WindowAttributes windowAttrs)
-    {
-        link.setWindowAttrs(windowAttrs);
-    }
+	/**
+	 * Indicates whether this link should render as a button.
+	 *
+	 * @return true if this link should render as a button, false for a hyperlink.
+	 */
+	public boolean isRenderAsButton() {
+		return link.isRenderAsButton();
+	}
 
-    /**
-     * @return The height of the window containing the content.
-     * @deprecated use {@link #getWindowAttrs()} to access window attributes.
-     */
-    @Deprecated
-    public int getHeight()
-    {
-        return getWindowAttrs().getHeight();
-    }
+	/**
+	 * Sets whether this link should render as a button.
+	 *
+	 * @param renderAsButton true if this link should render as a button, false for a hyperlink.
+	 */
+	public void setRenderAsButton(final boolean renderAsButton) {
+		link.setRenderAsButton(renderAsButton);
+	}
 
-    /**
-     * @param height The height of the window containing the content.
-     * @deprecated use {@link #getWindowAttrs()} to access window attributes.
-     */
-    @Deprecated
-    public void setHeight(final int height)
-    {
-        getWindowAttrs().setHeight(height);
-    }
+	/**
+	 * Retrieves the attributes for new windows which are opened.
+	 * <p>
+	 * To change attributes for individual users, set a new {@link WindowAttributes} object for each user.
+	 * </p>
+	 *
+	 * @return the attributes for new windows.
+	 */
+	public WindowAttributes getWindowAttrs() {
+		return link.getWindowAttrs();
+	}
 
-    /**
-     * @return Returns true if the window is resizable.
-     * @deprecated use {@link #getWindowAttrs()} to access window attributes.
-     */
-    @Deprecated
-    public boolean isResizable()
-    {
-        return getWindowAttrs().isResizable();
-    }
+	/**
+	 * @param windowAttrs the attributes for new windows which are opened.
+	 */
+	public void setWindowAttrs(final WindowAttributes windowAttrs) {
+		link.setWindowAttrs(windowAttrs);
+	}
 
-    /**
-     * @param resizable Should the window be resizable.
-     * @deprecated use {@link #getWindowAttrs()} to access window attributes.
-     */
-    @Deprecated
-    public void setResizable(final boolean resizable)
-    {
-        getWindowAttrs().setResizable(resizable);
-    }
+	/**
+	 * @return The height of the window containing the content.
+	 * @deprecated use {@link #getWindowAttrs()} to access window attributes.
+	 */
+	@Deprecated
+	public int getHeight() {
+		return getWindowAttrs().getHeight();
+	}
 
-    /**
-     * @return The width of the window containing the content.
-     * @deprecated use {@link #getWindowAttrs()} to access window attributes.
-     */
-    @Deprecated
-    public int getWidth()
-    {
-        return getWindowAttrs().getWidth();
-    }
+	/**
+	 * @param height The height of the window containing the content.
+	 * @deprecated use {@link #getWindowAttrs()} to access window attributes.
+	 */
+	@Deprecated
+	public void setHeight(final int height) {
+		getWindowAttrs().setHeight(height);
+	}
 
-    /**
-     * @param width The width of the window containing the document content.
-     * @deprecated use {@link #getWindowAttrs()} to access window attributes.
-     */
-    @Deprecated
-    public void setWidth(final int width)
-    {
-        getWindowAttrs().setWidth(width);
-    }
+	/**
+	 * @return Returns true if the window is resizable.
+	 * @deprecated use {@link #getWindowAttrs()} to access window attributes.
+	 */
+	@Deprecated
+	public boolean isResizable() {
+		return getWindowAttrs().isResizable();
+	}
 
-    /**
-     * Supply this component with access to the document content to be displayed.
-     * 
-     * @param contentAccess the ContentAccess which will supply the content.
-     */
-    public void setContentAccess(final ContentAccess contentAccess)
-    {
-        content.setContentAccess(contentAccess);
-    }
+	/**
+	 * @param resizable Should the window be resizable.
+	 * @deprecated use {@link #getWindowAttrs()} to access window attributes.
+	 */
+	@Deprecated
+	public void setResizable(final boolean resizable) {
+		getWindowAttrs().setResizable(resizable);
+	}
 
-    /**
-     * @return the ContentAccess which will supply the content.
-     */
-    public ContentAccess getContentAccess()
-    {
-        return content.getContentAccess();
-    }
+	/**
+	 * @return The width of the window containing the content.
+	 * @deprecated use {@link #getWindowAttrs()} to access window attributes.
+	 */
+	@Deprecated
+	public int getWidth() {
+		return getWindowAttrs().getWidth();
+	}
 
-    /**
-     * @return the cacheKey
-     */
-    public String getCacheKey()
-    {
-        return content.getCacheKey();
-    }
+	/**
+	 * @param width The width of the window containing the document content.
+	 * @deprecated use {@link #getWindowAttrs()} to access window attributes.
+	 */
+	@Deprecated
+	public void setWidth(final int width) {
+		getWindowAttrs().setWidth(width);
+	}
 
-    /**
-     * @param cacheKey the cacheKey to set.
-     */
-    public void setCacheKey(final String cacheKey)
-    {
-        content.setCacheKey(cacheKey);
-    }
+	/**
+	 * Supply this component with access to the document content to be displayed.
+	 *
+	 * @param contentAccess the ContentAccess which will supply the content.
+	 */
+	public void setContentAccess(final ContentAccess contentAccess) {
+		content.setContentAccess(contentAccess);
+	}
 
-    /**
-     * Sets the content display mode. Note that the window attributes will
-     * be ignored if the mode is changed to something other than 
-     * {@link WContent.DisplayMode#OPEN_NEW_WINDOW}.
-     * 
-     * @param displayMode the content display mode to set.
-     */
-    public void setDisplayMode(final DisplayMode displayMode)
-    {
-        content.setDisplayMode(displayMode);        
-        link.setOpenNewWindow(DisplayMode.OPEN_NEW_WINDOW.equals(content.getDisplayMode()));
-    }
-    
-    /**
-     * @return a String representation of this component, for debugging purposes.
-     */
-    @Override
-    public String toString()
-    {
-        String text = getText();
-        text = text == null ? "null" : ('"' + text + '"'); 
-        return toString(text, -1, -1);
-    }
+	/**
+	 * @return the ContentAccess which will supply the content.
+	 */
+	public ContentAccess getContentAccess() {
+		return content.getContentAccess();
+	}
+
+	/**
+	 * @return the cacheKey
+	 */
+	public String getCacheKey() {
+		return content.getCacheKey();
+	}
+
+	/**
+	 * @param cacheKey the cacheKey to set.
+	 */
+	public void setCacheKey(final String cacheKey) {
+		content.setCacheKey(cacheKey);
+	}
+
+	/**
+	 * Sets the content display mode. Note that the window attributes will be ignored if the mode is changed to
+	 * something other than {@link WContent.DisplayMode#OPEN_NEW_WINDOW}.
+	 *
+	 * @param displayMode the content display mode to set.
+	 */
+	public void setDisplayMode(final DisplayMode displayMode) {
+		content.setDisplayMode(displayMode);
+		link.setOpenNewWindow(DisplayMode.OPEN_NEW_WINDOW.equals(content.getDisplayMode()));
+	}
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+		String text = getText();
+		text = text == null ? "null" : '"' + text + '"';
+		return toString(text, -1, -1);
+	}
 }

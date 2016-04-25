@@ -17,11 +17,11 @@
  *
  * @module
  * @requires module:wc/date/today
- * @requires external:sprintf/sprintf
+ * @requires external:lib/sprintf
  * @todo port all of our date utils to work with xfer date strings unless they exclusively work with full dates only.
  */
-define(["wc/date/today", "sprintf/sprintf"],
-	/** @param $today wc/date/today @param sprintf sprintf/sprintf @ignore */
+define(["wc/date/today", "lib/sprintf"],
+	/** @param $today wc/date/today @param sprintf lib/sprintf @ignore */
 	function($today, sprintf) {
 		"use strict";
 
@@ -35,9 +35,9 @@ define(["wc/date/today", "sprintf/sprintf"],
 				NON_NUMERRIC_RE = /[^\d]/g,
 				dmPlaceholder = sprintf.sprintf("%'?2s", ""),
 				yPlaceholder = sprintf.sprintf("%'?4s", ""),
-				FULL_DATE_TEMPLATE = "${wc.date.interchange.full}",
-				PARTIAL_DATE_TEMPLATE = "${wc.date.interchange.partial}",
-				XFER_DATE_RE = /([\d\?]{4})-?([\d\?]{2})-?([\d\?]{2})/;
+				FULL_DATE_TEMPLATE = "%04d-%02d-%02d",
+				PARTIAL_DATE_TEMPLATE = "%04s-%02s-%02s",
+				XFER_DATE_RE = /([\d\?]{4})-?([\d\?]{2})-?([\d\?]{2})(?:T(\d{2}):(\d{2}):(\d{2}))?/;
 
 			/**
 			 * Split the transfer format into its constituent parts. Any missing parts of the date will be replaced with
@@ -51,13 +51,29 @@ define(["wc/date/today", "sprintf/sprintf"],
 			 * @returns {Array} [YYYY, MM, DD]
 			 */
 			function splitXferDate(xfr, defaults) {
-				var result, day, month, year, today = $today.get(),  // the use of wc/date/today is to make this unit testable on boundary dates
-					parsed = xfr.match(XFER_DATE_RE);
+				var result, day, month, year, hour, minute, second, today = $today.get(),  // the use of wc/date/today is to make this unit testable on boundary dates
+					parsed = xfr.match(XFER_DATE_RE),
+					defaultValues = {
+						1: today.getFullYear(),
+						2: 1,
+						3: 1,
+						4: 0,
+						5: 0,
+						6: 0
+					},
+					getVal = function (idx) {
+						var next = parsed[idx];
+						return (next && next.indexOf(PLACEHOLDER) < 0) ? next : (defaults ? defaultValues[idx] : null);
+					};
+
 				if (parsed) {
-					year = (parsed[1].indexOf(PLACEHOLDER) < 0) ? parsed[1] : (defaults ? today.getFullYear() : null);
-					month = (parsed[2].indexOf(PLACEHOLDER) < 0) ? parsed[2] : (defaults ? 1 : null);
-					day = (parsed[3].indexOf(PLACEHOLDER) < 0) ? parsed[3] : (defaults ? 1 : null);
-					result = [year, month, day];
+					year = getVal(1);
+					month = getVal(2);
+					day = getVal(3);
+					hour = getVal(4);
+					minute = getVal(5);
+					second = getVal(6);
+					result = [year, month, day, hour, minute, second];
 				}
 				return result;
 			}
@@ -102,10 +118,12 @@ define(["wc/date/today", "sprintf/sprintf"],
 			 * @alias module:wc/date/interchange.fromDate
 			 * @static
 			 * @param {Date} date The date to convert.
+			 * @param {boolean} includeTime If true the time part of the date will be included.
 			 * @returns {String} The given date converted to a transfer date string.
 			 */
-			this.fromDate = function(date) {
-				return sprintf.sprintf(FULL_DATE_TEMPLATE, date.getFullYear(), (date.getMonth() + 1), date.getDate());
+			this.fromDate = function(date, includeTime) {
+				var template = includeTime ? "%04d-%02d-%02dT%02d:%02d:%02d" : FULL_DATE_TEMPLATE;
+				return sprintf.sprintf(template, date.getFullYear(), (date.getMonth() + 1), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
 			};
 
 			/**
@@ -122,7 +140,7 @@ define(["wc/date/today", "sprintf/sprintf"],
 				var result,
 					parts = splitXferDate(xfr, true);
 				if (parts) {
-					result = new Date(parts[0], parts[1] - 1, parts[2]);
+					result = new Date(parts[0], parts[1] - 1, parts[2], parts[3], parts[4]);
 				}
 				return result;
 			};
@@ -136,7 +154,6 @@ define(["wc/date/today", "sprintf/sprintf"],
 			 * @param {module:wc/date/interchange~dateFromValuesObject} obj The object containing values to be
 			 *    converted to a transfer format date.
 			 * @returns {String} The given object's values converted to a transfer date string.
-			 * @todo Allow for year 0 (though we do not condone Pol Pot).
 			 */
 			this.fromValues = function(obj) {
 				var y = obj.year || yPlaceholder,  // there is no year zero
@@ -162,7 +179,10 @@ define(["wc/date/today", "sprintf/sprintf"],
 					result = {
 						year: parts[0],
 						month: parts[1],
-						day: parts[2]
+						day: parts[2],
+						hour: parts[3],
+						minute: parts[4],
+						second: parts[5]
 					};
 				}
 				return result;

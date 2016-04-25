@@ -1,41 +1,12 @@
 /* wc.ui.table.rowExpansion.scss */
-@import 'mixins_common.scss';
+@import 'table_vars';
+@import 'expand-collapse-all';
 
-thead .rowExpansion {
-	&[role='radiogroup'] {
-		list-style-type: none;
-		margin: 0;
-		padding: 0;
-		text-align: right;
-	}
-
-	> li {
-		display: inline-block;
-		width: auto;
-
-		+ li {
-			margin-left: $hgap-small;
-		}
-
-	}
+.wc-rowexpansion {
+	@extend %expand-collapse-all;
 }
 
-// ROW EXPANSION iconography and expand/collapse all iconography.
-// .wc_table_rowexp_container is the expandable row's expander holding cell or header*/
-.rowExpansion button {
-	&:before {
-		@include use-symbol-font;
-		content: '\229e';
-		font-size: 1.25em;
-		line-height: 0;
-	}
-
-	&[data-wc-value='collapse']:before {
-		content: '\229f';
-	}
+.wc_rowindent {
+	display: inline-block;
+	width: $table-hierarchic-indent;
 }
-
-[aria-disabled='true'] > .wc_table_rowexp_container button:before {
-	opacity: 0.5;
-}
-/* end wc.ui.table.rowExpansion.scss */

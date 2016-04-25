@@ -2,7 +2,7 @@
 	<xsl:import href="wc.ui.label.n.makeLabel.xsl"/>
 	<!--
 		A Label for a WRadioButton or WCheckBox. This template mode is called
-		from the transforms of ui:checkBox and ui:radioButton to ensure that the
+		from the transforms of ui:checkbox and ui:radiobutton to ensure that the
 		label immediately follows the checkbox/radiobutton as per WCAG requirements.
 		See wc.common.checkableInput.xsl.
 	-->

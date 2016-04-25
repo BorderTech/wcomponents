@@ -5,6 +5,7 @@
  */
 define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 	"use strict";
+	var global = window;
 	/* #################################################################################################################
 	 * Don't change this code.
 	 * The bug is in your code, not here.
@@ -13,7 +14,6 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 	 * implementations as well as this implementation.
 	 * ################################################################################################################ */
 
-	var global = this;
 	if (!has("global-nodefilter")) {
 		var nodeFilter = {
 			FILTER_ACCEPT: 1,
@@ -127,16 +127,13 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 				if (filterResult === null) {
 					filterResult = 0; // case for first time run - filterResult is null
 				}
-				else {
-					// if this nodeType matches whatToShow then we pass it through the filter function
-					if (nodeTypeMap[node.nodeType] & whatToShow) {
-						filterResult = filter ? filter.acceptNode(node) : FILTER_ACCEPT;
-					}
-					else { // 'hop' over/into this node
-						filterResult = FILTER_SKIP;
-					}
-					// TODO typeheck filterResult
+				else if (nodeTypeMap[node.nodeType] & whatToShow) { // if this nodeType matches whatToShow then we pass it through the filter function
+					filterResult = filter ? filter.acceptNode(node) : FILTER_ACCEPT;
 				}
+				else { // 'hop' over/into this node
+					filterResult = FILTER_SKIP;
+				}
+				// TODO typecheck filterResult
 
 				// isLastChild and previousSibling stop traversing when a parentNode is accepted
 				if (!isPreviousNode && parent) {

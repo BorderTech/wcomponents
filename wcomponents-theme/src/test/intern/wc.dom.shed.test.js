@@ -1,9 +1,9 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 	function(registerSuite, assert, testutils) {
 		"use strict";
 
 		var controller, testHolder,
-			urlResource = "../../target/test-classes/wcomponents-theme/intern/resources/domShed.html";
+			urlResource = "@RESOURCES@/domShed.html";
 
 		function _withSubscribeHelper(id, action) {
 			var element = document.getElementById(id),
@@ -26,36 +26,38 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 		registerSuite({
 			name: "Shed",
 			setup: function() {
-				return testutils.setupHelper(["wc/dom/shed"], function(obj) {
-					controller = obj;
+				var result = testutils.setupHelper(["wc/dom/shed"]).then(function(arr) {
+					controller = arr[0];
 					testHolder = testutils.getTestHolder();
-					testutils.setUpExternalHTML(urlResource, testHolder);
+					return testutils.setUpExternalHTML(urlResource, testHolder);
 				});
+				return result;
+
 			},
 			teardown: function() {
 				testHolder.innerHTML = "";
 			},
 			testIsDisabledInput: function() {
-				assert.isTrue(controller.isDisabled(document.getElementById('inp1')));
+				assert.isTrue(controller.isDisabled(document.getElementById("inp1")));
 			},
 			testIsDisabledInputNotXML: function() {
 				testHolder.insertAdjacentHTML("afterBegin", "<input id='inp2' disabled>");
-				assert.isTrue(controller.isDisabled(document.getElementById('inp2')));
+				assert.isTrue(controller.isDisabled(document.getElementById("inp2")));
 			},
 			testIsNotDisabledInput: function() {
-				assert.isFalse(controller.isDisabled(document.getElementById('inp3')));
+				assert.isFalse(controller.isDisabled(document.getElementById("inp3")));
 			},
 			testIsDisabledAnchor: function() {
-				assert.isTrue(controller.isDisabled(document.getElementById('anchor2')));
+				assert.isTrue(controller.isDisabled(document.getElementById("anchor2")));
 			},
 			testIsNotDisabledAnchor: function() {
-				assert.isFalse(controller.isDisabled(document.getElementById('anchor1')));
+				assert.isFalse(controller.isDisabled(document.getElementById("anchor1")));
 			},
 			testIsNotDisabledSelect: function() {
-				assert.isFalse(controller.isDisabled(document.getElementById('select1')));
+				assert.isFalse(controller.isDisabled(document.getElementById("select1")));
 			},
 			testIsDisabledSelect: function() {
-				assert.isTrue(controller.isDisabled(document.getElementById('select2')));
+				assert.isTrue(controller.isDisabled(document.getElementById("select2")));
 			},
 			testIsDisabledElementNotDisableable: function() {
 				assert.isFalse(controller.isDisabled(document.getElementById("subscriberDiv1")));
@@ -64,13 +66,13 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				assert.isTrue(controller.isDisabled(document.getElementById("fauxChk4")));
 			},
 			testDisableInput: function() {
-				var element = document.getElementById('inp3');
+				var element = document.getElementById("inp3");
 				assert.isFalse(controller.isDisabled(element), "element not should be disabled");
 				controller.disable(element);
 				assert.isTrue(controller.isDisabled(element), "element should be disabled");
 			},
 			testDisableSelect: function() {
-				var element = document.getElementById('select1');
+				var element = document.getElementById("select1");
 				assert.isFalse(controller.isDisabled(element), "element not should be disabled");
 				controller.disable(element);
 				assert.isTrue(controller.isDisabled(element), "element should be disabled");
@@ -88,7 +90,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				assert.isTrue(controller.isDisabled(element));
 			},
 			testEnableInput: function() {
-				var element = document.getElementById('inp1');
+				var element = document.getElementById("inp1");
 				assert.isTrue(controller.isDisabled(element), "element should be disabled");
 				controller.enable(element);
 				assert.isFalse(controller.isDisabled(element), "element should not be disabled");
@@ -307,19 +309,19 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
 				assert.notStrictEqual(controller.isHidden(element), hidden);
 			},
 			testIsHiddenFalse: function() {
-				assert.isFalse(controller.isHidden(document.getElementById('hide1')));
+				assert.isFalse(controller.isHidden(document.getElementById("hide1")));
 			},
 			testIsHiddenTrue: function() {
-				assert.isTrue(controller.isHidden(document.getElementById('hide2')));
+				assert.isTrue(controller.isHidden(document.getElementById("hide2")));
 			},
 			testHide: function() {
-				var element = document.getElementById('hide1');
+				var element = document.getElementById("hide1");
 				assert.isFalse(controller.isHidden(element));
 				controller.hide(element);
 				assert.isTrue(controller.isHidden(element));
 			},
 			testShow: function() {
-				var element = document.getElementById('hide2');
+				var element = document.getElementById("hide2");
 				assert.isTrue(controller.isHidden(element));
 				controller.show(element);
 				assert.isFalse(controller.isHidden(element));

@@ -1,16 +1,9 @@
 /* wc.ui.selectboxSearch.scss */
-@import 'vars_all.scss';
+@import 'vars';
 
 .wc_selsch {
-	background-color: $wc-ui-color-highlight-bg;
-	color: $wc-ui-color-highlight-fg;
 	display: block;
 	margin-top: -1.25em;
 	padding: 0 $hgap-small;
 	position: absolute;
-
-	&.wc_selsch_notfound {
-		color: $wc-ui-color-error-fg;
-	}
 }
-/* end wc.ui.selectboxSearch.scss */

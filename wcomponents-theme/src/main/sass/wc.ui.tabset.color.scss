@@ -1,0 +1,16 @@
+/* wc.ui.tabset.color.scss */
+@import 'tabset_vars';
+
+[role='tab'] {
+	background-color: $wc-ui-color-tab-inactive;
+	color: $wc-ui-color-global-fg;
+
+	&[aria-selected='true'],
+	&[aria-expanded='true'] {
+		background-color: $wc-ui-color-tab-active;
+	}
+}
+
+[role='tabpanel'] {
+	background-color: $wc-ui-color-global-bg;
+}

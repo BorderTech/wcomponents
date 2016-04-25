@@ -1,13 +1,34 @@
 /* wc.ui.fileUpload.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
-.fileUpload {
+.wc-fileupload {
+	a {
+		@include flex-grow(1);
+		@include flex-shrink(1);
+		display: inline-block;
+		max-width: calc(100% - 2em);
+
+		img {
+			max-width: 100%;
+		}
+
+		~ button {
+			@include flex-shrink(0);
+			display: inline-block;
+			margin-left: $hgap-small;
+		}
+	}
+
 	> .wc_filelist {
 		display: table-cell;  // horrendously wrong no doubt but fixes columns
-		margin-top: $hgap-small;
+		padding-top: $hgap-small;
+
+		.wc-file + .wc-file {
+			margin-top: $vgap-normal;
+		}
 
 		&.wc_list_flat {
-			.file {
+			.wc-file {
 				display: inline-block;
 				margin-right: $hgap-small;
 				margin-top: $hgap-small;
@@ -24,10 +45,6 @@
 				width: auto;
 			}
 		}
-
-		> .file + .file {
-			margin-top: $vgap-normal;
-		}
 	}
 
 	&[data-wc-cols] {
@@ -38,42 +55,39 @@
 
 		ul {
 			@include flex-grow(1);
+
+			+ ul {
+				margin-left: $hgap-small;
+			}
+		}
+
+		li + li {
+			margin-top: $hgap-small;
 		}
 	}
 
-	.file {
-		@include border;
-		background-color: $wc-ui-color-highlight-bg;
-		color: $wc-ui-color-highlight-fg;
-		padding: $hgap-normal;
-		white-space: nowrap;
-	}
+	input[type='file'][data-wc-editor] {
+		max-width: calc(100% - 2em); // leave room for the edit button.
 
-	&.wc_dragging [type=file] {
-		background-color: $wc-ui-color-invite-bg;  //#c0ffee
-		outline: 2px dotted $wc-ui-color-invite-fg;
-	}
-
-	button {
-		margin-left: $hgap-small;
-
-		&:before {
-			content: url('../images/edit-delete-2.png');
-		}
-
-		&[disabled]:before {
-			content: url('../images/edit-delete-2-d.png');
+		&,
+		+ button {
+			vertical-align: bottom;
 		}
 	}
 
-	a,
-	a ~ button {
-		display: inline-block;
-		vertical-align: top;
-	}
-
-	a {
-		width: calc(100% - #{$line-size});
+	.wc_btn_camera {
+		display: none;  // This should only be available on desktop browsers
 	}
 }
-/* end wc.ui.fileUpload.scss */
+
+.wc-file {
+	@include flex($justify: space-between, $align-items: flex-start);
+	@include border;
+	padding: $hgap-small;
+	word-wrap: break-word;
+}
+
+input[type='file']::-webkit-file-upload-button {
+	@include button($border: 0);
+	@include border($pos: right);
+}

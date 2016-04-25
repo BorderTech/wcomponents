@@ -1,0 +1,22 @@
+/* wc.ui.calendarIcons.scss */
+@import 'mixins-common';
+
+// use a single identified artefact for calendars
+//scss-lint:disable IdSelector
+#wc_calbox .wc-column button {
+	&:before {
+		content: $fa-var-calendar-times-o;
+	}
+
+	&[value = '-1']:before {
+		content: $fa-var-calendar-minus-o;
+	}
+
+	&[value = 't']:before {
+		content: $fa-var-calendar-o;
+	}
+
+	&[value = '1']:before {
+		content: $fa-var-calendar-plus-o;
+	}
+}

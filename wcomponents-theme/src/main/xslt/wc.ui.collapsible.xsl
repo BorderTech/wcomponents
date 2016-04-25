@@ -2,9 +2,7 @@
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.aria.live.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
-	<xsl:import href="wc.debug.collapsible.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 <!--
 	WCollapsible is a container with hideable content.
 
@@ -24,6 +22,7 @@
 			<xsl:attribute name="id">
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
+			<xsl:call-template name="makeCommonClass"/>
 			<xsl:if test="$collapsed != 1">
 				<xsl:attribute name="open">
 					<xsl:text>open</xsl:text>
@@ -43,9 +42,6 @@
 			</xsl:call-template>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:apply-templates select="ui:margin"/>
-			<xsl:if test="$isDebug=1">
-				<xsl:call-template name="collapsible-debug"/>
-			</xsl:if>
 			<xsl:element name="${wc.dom.html5.element.summary}">
 				<xsl:attribute name="tabIndex">
 					<xsl:text>0</xsl:text>
@@ -53,15 +49,41 @@
 				<xsl:choose>
 					<xsl:when test="@level">
 						<xsl:element name="h{@level}">
-							<xsl:apply-templates select="ui:decoratedLabel"/>
+							<xsl:apply-templates select="ui:decoratedlabel"/>
 						</xsl:element>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:apply-templates select="ui:decoratedLabel"/>
+						<xsl:apply-templates select="ui:decoratedlabel"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:element>
-			<xsl:apply-templates select="ui:content" mode="collapsible"/>
+			
+			<xsl:variable name="isAjax">
+				<xsl:if test="@mode='dynamic' or @mode='eager' or (@mode='lazy' and @collapsed)">
+					<xsl:number value="1"/>
+				</xsl:if>
+			</xsl:variable>
+			<xsl:apply-templates select="ui:content">
+				<xsl:with-param name="class">
+					<xsl:choose>
+						<xsl:when test="$isAjax=1">
+							<xsl:text>wc_magic</xsl:text>
+							<xsl:if test="@mode='dynamic'">
+								<xsl:text> wc_dynamic</xsl:text>
+							</xsl:if>
+						</xsl:when>
+						<xsl:when test="@mode='server'">
+							<xsl:text>wc_lame</xsl:text>
+						</xsl:when>
+					</xsl:choose>
+				</xsl:with-param>
+				<xsl:with-param name="ajaxId">
+					<xsl:if test="$isAjax = 1">
+						<xsl:value-of select="@id"/>
+					</xsl:if>
+				</xsl:with-param>
+				<xsl:with-param name="labelId" select="ui:decoratedlabel/@id"/>
+			</xsl:apply-templates>
 		</xsl:element>
 	</xsl:template>
 </xsl:stylesheet>

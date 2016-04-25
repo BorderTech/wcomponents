@@ -55,13 +55,14 @@ define(["wc/has",
 			getFilteredGroup,
 			focus,
 			genericAnalog,
+			gridWidgets,
 			keyWalkerConfig;  // we only need one keywalker for all group based walking with aria-analogs
 
 		/* circular dependencies */
 		require(["wc/dom/getFilteredGroup", "wc/dom/focus"], function($getFilteredGroup, $focus) {
-				getFilteredGroup = $getFilteredGroup;
-				focus = $focus;
-			});
+			getFilteredGroup = $getFilteredGroup;
+			focus = $focus;
+		});
 
 		/**
 		 * Deselect all elements in a group except any defined by the arg except.
@@ -286,6 +287,16 @@ define(["wc/has",
 		AriaAnalog.prototype.ctrlAllowsDeselect = false;
 
 		/**
+		 * This property indicates that a particular type of mixed-mode multi selectable thing works like a check box
+		 * rather than an option. This is currently only implemented in row.
+		 * @var
+		 * @type Boolean
+		 * @default false
+		 * @protected
+		 */
+		AriaAnalog.prototype.simpleSelection = false;
+
+		/**
 		 * Allow subclasses to add extended initialisation.
 		 *
 		 * @var
@@ -317,7 +328,7 @@ define(["wc/has",
 		 * @param {String} action The select or deselect action.
 		 */
 		AriaAnalog.prototype.shedObserver = function(element, action) {
-			var _group, container, deselectOthers = false;
+			var _group, container, deselectOthers = false, config;
 			if (action === shed.actions.SELECT && this.ITEM.isOneOfMe(element)) {
 				if (this.exclusiveSelect === this.SELECT_MODE.SINGLE) {
 					deselectOthers = true;
@@ -330,7 +341,10 @@ define(["wc/has",
 					}
 				}
 				if (deselectOthers) {
-					if ((_group = getFilteredGroup(element)) && _group.length) {
+					if (this.CONTAINER) {
+						config = {"itemWd": this.ITEM, "containerWd": this.CONTAINER};
+					}
+					if ((_group = getFilteredGroup(element, config)) && _group.length) {
 						deselect(_group, element, container, this);
 					}
 				}
@@ -357,11 +371,12 @@ define(["wc/has",
 
 			if (event.canCapture) {
 				event.add(element, event.TYPE.focus, eventWrapper.bind(this), null, null, true);
+				event.add(element, event.TYPE.click, eventWrapper.bind(this), null, null, true);
 			}
 			else {
 				event.add(element, event.TYPE.focusin, eventWrapper.bind(this));
+				event.add(element, event.TYPE.click, eventWrapper.bind(this));
 			}
-			event.add(element, event.TYPE.click, eventWrapper.bind(this));
 			event.add(element, event.TYPE.keydown, eventWrapper.bind(this));
 			shed.subscribe(shed.actions.SELECT, this.shedObserver.bind(this));
 			shed.subscribe(shed.actions.DESELECT, this.shedObserver.bind(this));
@@ -385,15 +400,13 @@ define(["wc/has",
 			var selectedItems,
 				items = this.ITEM.findDescendants(form);
 
-			function writeItemState(next) {
-				if (next.hasAttribute("data-wc-value") && !shed.isDisabled(next)) {
-					formUpdateManager.writeStateField(container, next.getAttribute("data-wc-name"), next.getAttribute("data-wc-value"));
-				}
-			}
-
 			if (items.length) {
 				selectedItems = getFilteredGroup(toArray(items));
-				selectedItems.forEach(writeItemState);
+				selectedItems.forEach(function (next) {
+					if (next.hasAttribute("data-wc-value") && !shed.isDisabled(next)) {
+						formUpdateManager.writeStateField(container, next.getAttribute("data-wc-name"), next.getAttribute("data-wc-value"));
+					}
+				});
 			}
 		};
 
@@ -403,7 +416,6 @@ define(["wc/has",
 		 * @function
 		 * @protected
 		 * @param {Event} $event The focus event.
-		 * @todo Fix up the nested if.
 		 */
 		AriaAnalog.prototype.focusEvent = function($event) {
 			var element = $event.target;
@@ -438,23 +450,8 @@ define(["wc/has",
 		AriaAnalog.prototype.keydownEvent = function($event) {
 			var element, keyCode = $event.keyCode, target = $event.target, moveTo, preventDefaultAction = false;
 			if (!$event.defaultPrevented && !$event.altKey && (element = this.getActivableFromTarget(target))) {
-				if (this.groupNavigation && (keyCode === KeyEvent.DOM_VK_HOME || keyCode === KeyEvent.DOM_VK_END || keyCode >= KeyEvent.DOM_VK_LEFT && keyCode <= KeyEvent.DOM_VK_DOWN)) {
-					switch (keyCode) {
-						case KeyEvent.DOM_VK_HOME:
-							moveTo = this.KEY_DIRECTION.FIRST;
-							break;
-						case KeyEvent.DOM_VK_END:
-							moveTo = this.KEY_DIRECTION.LAST;
-							break;
-						case KeyEvent.DOM_VK_LEFT:
-						case KeyEvent.DOM_VK_UP:
-							moveTo = this.KEY_DIRECTION.PREVIOUS;
-							break;
-						case KeyEvent.DOM_VK_RIGHT:
-						case KeyEvent.DOM_VK_DOWN:
-							moveTo = this.KEY_DIRECTION.NEXT;
-							break;
-					}
+				if (this.groupNavigation && isDirectionKey(keyCode)) {
+					moveTo = calcMoveTo(this, keyCode);
 					if (moveTo && (target = this.navigate(element, moveTo))) {
 						if (this.selectOnNavigate && !($event.ctrlKey || $event.metaKey)) {
 							this.activate(target, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
@@ -475,6 +472,49 @@ define(["wc/has",
 				}
 			}
 		};
+
+		/**
+		 * Helper for keydownEvent.
+		 * Determine if the user has pressed an arrow key or similar.
+		 * @param {Number} keyCode The key pressed.
+		 * @returns {boolean} true if it's a direction key
+		 * @function
+		 * @private
+		 */
+		function isDirectionKey(keyCode) {
+			return (keyCode === KeyEvent.DOM_VK_HOME || keyCode === KeyEvent.DOM_VK_END ||
+					keyCode >= KeyEvent.DOM_VK_LEFT && keyCode <= KeyEvent.DOM_VK_DOWN);
+		}
+
+		/**
+		 * Helper for keydownEvent.
+		 * Calculates where to move based on the key pressed by the user.
+		 * @param {AriaAnalog} instance The AriaAnalog controller.
+		 * @param {Number} keyCode The key pressed.
+		 * @returns {instance.KEY_DIRECTION.NEXT|instance.KEY_DIRECTION.LAST|instance.KEY_DIRECTION.FIRST|instance.KEY_DIRECTION.PREVIOUS}
+		 * @function
+		 * @private
+		 */
+		function calcMoveTo(instance, keyCode) {
+			var moveTo;
+			switch (keyCode) {
+				case KeyEvent.DOM_VK_HOME:
+					moveTo = instance.KEY_DIRECTION.FIRST;
+					break;
+				case KeyEvent.DOM_VK_END:
+					moveTo = instance.KEY_DIRECTION.LAST;
+					break;
+				case KeyEvent.DOM_VK_LEFT:
+				case KeyEvent.DOM_VK_UP:
+					moveTo = instance.KEY_DIRECTION.PREVIOUS;
+					break;
+				case KeyEvent.DOM_VK_RIGHT:
+				case KeyEvent.DOM_VK_DOWN:
+					moveTo = instance.KEY_DIRECTION.NEXT;
+					break;
+			}
+			return moveTo;
+		}
 
 		/**
 		 * key navigation for simple linear groups.
@@ -540,6 +580,48 @@ define(["wc/has",
 		};
 
 		/**
+		 * A helper for activate which deals with selection of single-selects.
+		 *
+		 * @function
+		 * @private
+		 * @param {Element} element The element being activated.
+		 * @param {boolean} CTRL Indicates the Ctrl key was depressed during activation.
+		 * @param {Object} instance The current analog module.
+		 */
+		function singleSelectActivateHelper(element, CTRL, instance) {
+			if (instance.simpleSelection || (CTRL && instance.ctrlAllowsDeselect)) {
+				shed.toggle(element, shed.actions.SELECT);
+			}
+			else {
+				shed.select(element, shed.isSelected(element)); // do not publish a re-select selected / failed de-select.
+			}
+		}
+
+		/**
+		 * A helper for activate which deals with multi-selects with the SHIFT control depressed.
+		 *
+		 * @function
+		 * @private
+		 * @param {Element} element The element being activated.
+		 * @param {Element} container The analog container.
+		 * @param {boolean} CTRL Indicates the Ctrl key was depressed during activation.
+		 * @param {Object} instance The current analog module.
+		 * @returns {Boolean} true unless a group selection is undertaken.
+		 */
+		function multiSelectWithShiftHelper(element, container, CTRL, instance) {
+			var lastActivated;
+
+			if (instance.lastActivated && instance.lastActivated[container.id]) {
+				lastActivated = document.getElementById(instance.lastActivated[container.id]);
+			}
+			if (lastActivated) {
+				instance.doGroupSelect(element, lastActivated, CTRL);
+				return false;
+			}
+			shed.toggle(element, shed.actions.SELECT);
+			return true;
+		}
+		/**
 		 * Activate the element, that is SELECT or DESELECT it.
 		 *
 		 * @function
@@ -551,7 +633,6 @@ define(["wc/has",
 		 */
 		AriaAnalog.prototype.activate = function(element, SHIFT, CTRL) {
 			var container,
-				lastActivated,
 				selectMode,
 				isMultiSelect,
 				setLastActivated = true;
@@ -561,7 +642,7 @@ define(["wc/has",
 				isMultiSelect = container ? container.getAttribute("aria-multiselectable") : false;
 				if (this.exclusiveSelect === this.SELECT_MODE.MIXED && isMultiSelect === "true") {
 					selectMode = this.exclusiveSelect;
-					if (SHIFT || CTRL) {
+					if (this.simpleSelection || SHIFT || CTRL) {
 						this.exclusiveSelect = this.SELECT_MODE.MULTIPLE;
 					}
 					else {
@@ -569,29 +650,16 @@ define(["wc/has",
 					}
 				}
 
-				if (this.exclusiveSelect === this.SELECT_MODE.SINGLE || ((this.exclusiveSelect === this.SELECT_MODE.MIXED && isMultiSelect !== "true"))) {
-					if (CTRL && this.ctrlAllowsDeselect) {
-						shed.toggle(element, shed.actions.SELECT);
-					}
-					else {
-						shed.select(element);
-					}
+				if (this.exclusiveSelect === this.SELECT_MODE.SINGLE || this.exclusiveSelect === this.SELECT_MODE.MIXED) {
+					singleSelectActivateHelper(element, CTRL, this);
 				}
 				else if (SHIFT && container) {
-					if (this.lastActivated && this.lastActivated[container.id]) {
-						lastActivated = document.getElementById(this.lastActivated[container.id]);
-					}
-					if (lastActivated) {
-						this.doGroupSelect(element, lastActivated, CTRL);
-						setLastActivated = false;
-					}
-					else {
-						shed.toggle(element, shed.actions.SELECT);
-					}
+					setLastActivated = multiSelectWithShiftHelper(element, container, CTRL, this);
 				}
 				else {
 					shed.toggle(element, shed.actions.SELECT);
 				}
+
 				if (setLastActivated && this.lastActivated) {
 					this.setLastActivated(element, container);
 				}
@@ -635,16 +703,18 @@ define(["wc/has",
 				groupAction = shed.select;
 			}
 			filter = getFilteredGroup.FILTERS.visible | getFilteredGroup.FILTERS.enabled;
-			filtered = getFilteredGroup(element, {filter: (filter | selectedFilter)});
-			unfiltered = getFilteredGroup(element, {filter: filter});
+			filtered = getFilteredGroup(element, {filter: (filter | selectedFilter), containerWd: this.CONTAINER, itemWd: (this.CONTAINER ? this.ITEM : null)});
+			unfiltered = getFilteredGroup(element, {filter: filter, containerWd: this.CONTAINER, itemWd: (this.CONTAINER ? this.ITEM : null)});
 
 			if (filtered && filtered.length) {
 				start = Math.min(unfiltered.indexOf(element), unfiltered.indexOf(lastActivated));
 				end = Math.max(unfiltered.indexOf(element), unfiltered.indexOf(lastActivated));
 				for (i = 0; i < unfiltered.length; ++i) {
 					next = unfiltered[i];
-					if (start <= unfiltered.indexOf(next) && end >= unfiltered.indexOf(next) && ~filtered.indexOf(next)) {
-						groupAction(next);
+					if (start <= unfiltered.indexOf(next) && end >= unfiltered.indexOf(next)) {
+						if (~filtered.indexOf(next)) {
+							groupAction(next);
+						}
 					}
 					else if (!CTRL && selectedFilter === getFilteredGroup.FILTERS.deselected && next !== lastActivated && shed.isSelected(next)) {
 						shed.deselect(next);
@@ -684,17 +754,34 @@ define(["wc/has",
 		 * @returns {Boolean} true if the item is the first active analog found in the ancestor tree.
 		 */
 		AriaAnalog.prototype.isActiveAnalog = function(target, item) {
-			var firstAnalog,
+			var firstAnalog, gridContainer,
 				IGNORE_ROLES = ["presentation", "banner", "application",
 					"alert", "tablist", "tabpanel",
-					"group", "heading", "row",
-					"separator"],
-				ROLE_ATTRIB = "role";
+					"group", "heading", "rowheading", "columnheading",
+					"separator"], skip = false;
 
 			firstAnalog = genericAnalog.findAncestor(target);
+			if (firstAnalog === null || firstAnalog === item) {
+				return true;
+			}
 
-			while (firstAnalog && ~IGNORE_ROLES.indexOf(firstAnalog.getAttribute(ROLE_ATTRIB)) && firstAnalog.parentNode) {
-				firstAnalog = genericAnalog.findAncestor(firstAnalog.parentNode);
+			while (firstAnalog && firstAnalog.parentNode) {
+				skip = false;
+				if (IGNORE_ROLES.indexOf(firstAnalog.getAttribute("role")) > -1 || firstAnalog.getAttribute("aria-readonly") === "true" || shed.isDisabled(firstAnalog)) {
+					skip = true;
+				}
+
+				// ignore role gridcell if the nearest containing grid/treegid is aria-readonly as this state is inherited.
+				gridWidgets = gridWidgets || [new Widget("","",{"role": "grid"}), new Widget("","",{"role": "treegrid"})];
+				if (firstAnalog.getAttribute("role") === "gridcell" && (gridContainer = Widget.findAncestor(firstAnalog, gridWidgets)) && gridContainer.getAttribute("aria-readonly") === "true") {
+					skip = true;
+				}
+
+				if (skip) {
+					firstAnalog = genericAnalog.findAncestor(firstAnalog.parentNode);
+					continue;
+				}
+				break;
 			}
 			return (firstAnalog === null || firstAnalog === item);
 		};
@@ -712,8 +799,8 @@ define(["wc/has",
 
 			if (_group && _group.length > 1) {
 				_group.forEach(function(next) {
-									next.tabIndex = "-1";
-								});
+					next.tabIndex = "-1";
+				});
 				element.tabIndex = "0";
 			}
 		};

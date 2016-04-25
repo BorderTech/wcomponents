@@ -1,0 +1,13 @@
+/* wc.ui.menu.tree.icon.scss */
+// tree menu branch indicators
+@import 'menu_vars';
+
+.wc-menu [role='treeitem'] {
+	&[aria-expanded] > button:before {
+		@include wc-icon-fw($fa-var-caret-right, $text-align: left, $width: $wc-ui-menu-tree-iconwidth);
+	}
+
+	&[aria-expanded='true'] > button:before {
+		content: $fa-var-caret-down;
+	}
+}

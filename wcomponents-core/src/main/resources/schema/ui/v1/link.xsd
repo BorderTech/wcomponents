@@ -21,7 +21,7 @@
 								where if any of these attributes is set true then all implicit false attributes will be enforced as false.</p></xs:documentation>
 					</xs:annotation>
 					<xs:complexType>
-						
+
 						<xs:attribute name="name" type="xs:NMTOKEN" use="required">
 							<xs:annotation>
 								<xs:documentation>A machine readable name for the target window. There are a few reserved words in the HTML specification and some user agents have
@@ -36,7 +36,6 @@
 								<xs:documentation>Not implemented: obsolete and no modern browser support.</xs:documentation>
 							</xs:annotation>
 						</xs:attribute>
-
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
@@ -52,7 +51,7 @@
 				<xs:annotation>
 					<xs:documentation>Descibes the relationship between the document containing the hyperlink and the destination resource. If not set then there is no special
 						relationship between the current document and the linked resource. If this is set then it should be set as per the HTML specification and limited to any one
-						of, or a space separated list of: 
+						of, or a space separated list of:
 						<ul>
 							<li>alternate</li>
 							<li>author</li>

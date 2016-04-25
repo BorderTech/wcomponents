@@ -1,286 +1,364 @@
 package com.github.bordertech.wcomponents;
 
-import java.io.Serializable;
-
-import junit.framework.Assert;
-
-import org.junit.Test;
-
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
+import junit.framework.Assert;
+import org.junit.Test;
 
 /**
  * WSubMenu_Test - Unit tests for {@link WSubMenu}.
- * 
+ *
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class WSubMenu_Test extends AbstractWComponentTestCase
-{
-    /** Test text. */
-    private static final String TEST_TEXT = "WSubMenu_Test.testText";
-    
-    @Test
-    public void testAddSubMenu()
-    {
-        WSubMenu subMenu = new WSubMenu("");        
-        WSubMenu subSubMenu = new WSubMenu("submenu");
-        subMenu.add(subSubMenu);
-        
-        Assert.assertSame("Sub-menu should be ancestor of sub-sub-menu", subMenu, WebUtilities.getTop(subSubMenu));
-    }
-    
-    @Test
-    public void testAddMenuItem()
-    {
-        WSubMenu subMenu = new WSubMenu("");        
-        WMenuItem menuItem = new WMenuItem("item");
-        subMenu.add(menuItem);
-        
-        Assert.assertSame("Sub-menu should be ancestor of menu item", subMenu, WebUtilities.getTop(menuItem));
-    }
-    
-    @Test
-    public void testIsTopLevelMenu()
-    {
-        WMenu menu = new WMenu();
-        WSubMenu subMenu = new WSubMenu("a");
-        WSubMenu subSubMenu = new WSubMenu("b");
-        
-        Assert.assertFalse("Should not be a top-level menu when there is no parent", subMenu.isTopLevelMenu());
-        
-        menu.add(subMenu);
-        subMenu.add(subSubMenu);
-        
-        Assert.assertTrue("isTopLevel should be true for top-level sub-menu", subMenu.isTopLevelMenu());
-        Assert.assertFalse("isTopLevel should be false for second-level sub-menu", subSubMenu.isTopLevelMenu());
-    }
+public class WSubMenu_Test extends AbstractWComponentTestCase {
 
-    @Test
-    public void testSetDisabled()
-    {
-        WSubMenu subMenu = new WSubMenu(TEST_TEXT);
-        Assert.assertFalse("Should not be disabled by default", subMenu.isDisabled()); 
+	/**
+	 * Test text.
+	 */
+	private static final String TEST_TEXT = "WSubMenu_Test.testText";
 
-        subMenu.setLocked(true);
-        setActiveContext(createUIContext());
-        subMenu.setDisabled(true);
+	@Test
+	public void testConstructor1() {
+		String text = "A";
+		WSubMenu subMenu = new WSubMenu(text);
+		Assert.assertEquals("Incorrect text set by constructor", text, subMenu.getText());
+	}
 
-        Assert.assertTrue("Should be disabled in session ", subMenu.isDisabled());
-        
-        resetContext();
-        Assert.assertFalse("Should not be disabled by default", subMenu.isDisabled());
-    }
-    
-    @Test
-    public void testSetAccessKey()
-    {
-        final char accessKey = 'X';
+	@Test
+	public void testConstructor2() {
+		WDecoratedLabel label = new WDecoratedLabel();
+		WSubMenu subMenu = new WSubMenu(label);
+		Assert.assertEquals("Incorrect label set by constructor", label, subMenu.getDecoratedLabel());
+	}
 
-        WSubMenu subMenu = new WSubMenu(TEST_TEXT);
-        Assert.assertNull("Default access key should be null", subMenu.getAccessKeyAsString());
+	@Test
+	public void testConstructor3() {
+		String text = "A";
+		char key = 'S';
+		WSubMenu subMenu = new WSubMenu(text, key);
+		Assert.assertEquals("Incorrect text set by constructor", text, subMenu.getText());
+		Assert.assertEquals("Incorrect accessKey set by constructor", key, subMenu.getAccessKey());
+	}
 
-        subMenu.setAccessKey(accessKey);
-        Assert.assertEquals("Incorrect access key returned", accessKey, subMenu.getAccessKey());
-    }
+	@Test
+	public void testModeAccessors() {
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "mode", WSubMenu.MenuMode.CLIENT, WSubMenu.MenuMode.DYNAMIC, WSubMenu.MenuMode.EAGER);
+	}
 
-    @Test
-    public void testGetText() throws Exception
-    {
-        WSubMenu subMenu = new WSubMenu(TEST_TEXT);
-        String userText = "WSubMenu_Test.testGetText.userText";
+	@Test
+	public void testIsTopLevelMenu() {
+		WMenu menu = new WMenu();
+		WSubMenu subMenu = new WSubMenu("a");
+		WSubMenu subSubMenu = new WSubMenu("b");
 
-        Assert.assertEquals("Incorrect default text", TEST_TEXT, subMenu.getText());
-        
-        // Set test for a users session
-        subMenu.setLocked(true);
-        setActiveContext(createUIContext());
-        subMenu.setText(userText);
-        Assert.assertEquals("Should have session text", userText, subMenu.getText());
-        
-        resetContext();
-        Assert.assertEquals("Should have default text", TEST_TEXT, subMenu.getText());
-        
-        //Test nulls
-        subMenu.setText("");
-        Assert.assertEquals("text should be empty string", "", subMenu.getText());
-        subMenu.setText(null);
-        Assert.assertNull("text should be null", subMenu.getText());
-    }
-    
-    @Test
-    public void testSetSelectable()
-    {
-        WSubMenu subMenu = new WSubMenu(TEST_TEXT);
-        Assert.assertNull("Should not be selectable by default", subMenu.isSelectable());
+		Assert.assertFalse("Should not be a top-level menu when there is no parent", subMenu.
+				isTopLevelMenu());
 
-        subMenu.setLocked(true);
-        setActiveContext(createUIContext());
-        subMenu.setSelectable(true);
+		menu.add(subMenu);
+		subMenu.add(subSubMenu);
 
-        Assert.assertTrue("in uic1 should be selectable", subMenu.isSelectable());
-        
-        resetContext();
-        Assert.assertNull("Default selectable flag should not have changed", subMenu.isSelectable());
-    }
-    
-    @Test
-    public void testSetMultipleSelection()
-    {
-        WSubMenu subMenu = new WSubMenu(TEST_TEXT);
-        Assert.assertFalse("Should be single select by default", subMenu.isMultipleSelection());
+		Assert.assertTrue("isTopLevel should be true for top-level sub-menu", subMenu.
+				isTopLevelMenu());
+		Assert.assertFalse("isTopLevel should be false for second-level sub-menu", subSubMenu.
+				isTopLevelMenu());
+	}
 
-        subMenu.setLocked(true);
-        setActiveContext(createUIContext());
-        subMenu.setMultipleSelection(true);
+	@Test
+	public void testAddSeparator1() {
+		WSubMenu subMenu = new WSubMenu("");
+		subMenu.addSeparator();
+		Assert.assertTrue("Sub menu should contain a seperator", subMenu.getMenuItems().get(0) instanceof WSeparator);
+	}
 
-        Assert.assertTrue("in uic1 should be muli-selectable", subMenu.isMultipleSelection());
-        
-        resetContext();
-        Assert.assertFalse("Default multi-select flag should not have changed", subMenu.isMultipleSelection());
-    }
-    
-    /**
-     * Test setSelectMode.
-     */
-    @Test
-    public void testSetSelectMode()
-    {
-        WSubMenu subMenu = new WSubMenu("sub");
-        Assert.assertEquals("Should default to select mode none", WMenu.SelectMode.NONE, subMenu.getSelectMode());
+	@Test
+	public void testAddSeparator2() {
+		WSubMenu subMenu = new WSubMenu("");
+		WSeparator separator = new WSeparator();
+		subMenu.add(separator);
+		Assert.assertTrue("Separator should have been added to sub menu", subMenu.getMenuItems().contains(separator));
+	}
 
-        subMenu.setSelectMode(WMenu.SelectMode.SINGLE);
-        
-        subMenu.setLocked(true);
-        setActiveContext(createUIContext());
-        subMenu.setSelectMode(WMenu.SelectMode.MULTIPLE);
+	@Test
+	public void testAddMenuItem() {
+		WSubMenu subMenu = new WSubMenu("");
+		WMenuItem menuItem = new WMenuItem("item");
+		subMenu.add(menuItem);
+		Assert.assertTrue("Menu item should have been added to sub menu", subMenu.getMenuItems().contains(menuItem));
+	}
 
-        Assert.assertEquals("in uic1 should be multiple select mode", WMenu.SelectMode.MULTIPLE, subMenu.getSelectMode());
-        
-        resetContext();
-        Assert.assertEquals("Default be single select mode", WMenu.SelectMode.SINGLE, subMenu.getSelectMode());
-    }
-    
-    @Test
-    public void testSetActionCommand()
-    {
-        String sharedValue = "WSubMenu_Test.testSetActionCommand.sharedValue";
-        String value = "WSubMenu_Test.testSetActionCommand.value";
+	@Test
+	public void testAddMenuItemGroup1() {
+		WSubMenu subMenu = new WSubMenu("");
+		WMenuItemGroup group = new WMenuItemGroup("");
+		subMenu.addMenuItemGroup(group);
+		Assert.assertTrue("Group item should have been added to sub menu", subMenu.getMenuItems().contains(group));
+	}
 
-        WSubMenu subMenu = new WSubMenu(TEST_TEXT);
-        Assert.assertNull("Action command should be null by default", subMenu.getActionCommand());
+	@Test
+	public void testAddMenuItemGroup2() {
+		WSubMenu subMenu = new WSubMenu("");
+		WMenuItemGroup group = new WMenuItemGroup("");
+		subMenu.add(group);
+		Assert.assertTrue("Group item should have been added to sub menu", subMenu.getMenuItems().contains(group));
+	}
 
-        subMenu.setActionCommand(sharedValue);
-        Assert.assertEquals("Incorrect shared action command returned", sharedValue, subMenu.getActionCommand());
+	@Test
+	public void testAddSubMenu() {
+		WSubMenu subMenu = new WSubMenu("");
+		WSubMenu subSubMenu = new WSubMenu("submenu");
+		subMenu.add(subSubMenu);
+		Assert.assertTrue("Sub-menu should have been added to sub menu", subMenu.getMenuItems().contains(subSubMenu));
+	}
 
-        subMenu.setLocked(true);
-        setActiveContext(createUIContext());
-        subMenu.setActionCommand(value);
-        Assert.assertEquals("Uic 1 action command should be returned for uic 1", value, subMenu.getActionCommand());
+	@Test
+	public void testAddItem() {
+		WSubMenu subMenu = new WSubMenu(TEST_TEXT);
+		WMenuItem menuItem = new WMenuItem("item");
+		subMenu.addMenuItem(menuItem);
+		Assert.assertTrue("Menu item should have been added to menu bar", subMenu.getMenuItems().contains(menuItem));
+	}
 
-        resetContext();
-        Assert.assertEquals("Incorrect shared action command returned", sharedValue, subMenu.getActionCommand());
-    }
+	@Test
+	public void testRemoveItem() {
 
-    @Test
-    public void testSetActionObject()
-    {
-        Serializable sharedValue = "WSubMenu_Test.testSetActionCommand.sharedValue";
-        Serializable value = "WSubMenu_Test.testSetActionCommand.value";
+		WSubMenu subMenu = new WSubMenu("");
+		Assert.assertTrue("Menu item list should be empty by default", subMenu.getMenuItems().isEmpty());
 
-        WSubMenu subMenu = new WSubMenu(TEST_TEXT);
-        Assert.assertNull("Action object should be null by default", subMenu.getActionObject());
+		// Add items
+		WMenuItem item1 = new WMenuItem("item1");
+		WMenuItem item2 = new WMenuItem("item2");
+		subMenu.add(item1);
+		subMenu.add(item2);
+		Assert.assertTrue("Menu item1 should have been added to menu bar", subMenu.getMenuItems().contains(item1));
+		Assert.assertTrue("Menu item2 should have been added to menu bar", subMenu.getMenuItems().contains(item2));
 
-        subMenu.setActionObject(sharedValue);
-        Assert.assertEquals("Incorrect shared action object returned", sharedValue, subMenu.getActionObject());
+		// Remove item
+		subMenu.removeMenuItem(item1);
+		Assert.assertFalse("Menu item1 should not been in items list after being removed", subMenu.getMenuItems().contains(item1));
+		Assert.assertTrue("Menu item2 should be in the items list", subMenu.getMenuItems().contains(item2));
+	}
 
-        subMenu.setLocked(true);
-        setActiveContext(createUIContext());
-        subMenu.setActionObject(value);
-        Assert.assertEquals("Uic 1 action object should be returned for uic 1", value, subMenu.getActionObject());
+	@Test
+	public void testRemoveAllItems() {
 
-        resetContext();
-        Assert.assertEquals("Incorrect shared action object returned", sharedValue, subMenu.getActionObject());
-    }
- 
-    @Test
-    public void testHandleRequest()
-    {
-        TestAction action = new TestAction();
-        WMenu menu = new WMenu();
-        WSubMenu subMenu = new WSubMenu(TEST_TEXT);
-        subMenu.setAction(action);
-        menu.add(subMenu);
-        
-        setActiveContext(createUIContext());
+		WSubMenu subMenu = new WSubMenu("");
+		Assert.assertTrue("Menu item list should be empty by default", subMenu.getMenuItems().isEmpty());
 
-        // Menu not in Request
-        MockRequest request = new MockRequest();
-        menu.serviceRequest(request);
-        Assert.assertFalse("Action should not have been called when sub-menu was not selected", action.wasTriggered());
+		// Add items
+		WMenuItem item1 = new WMenuItem("item1");
+		WMenuItem item2 = new WMenuItem("item2");
+		subMenu.add(item1);
+		subMenu.add(item2);
+		Assert.assertEquals("Menu items list should have 2 items", 2, subMenu.getMenuItems().size());
 
-        // Menu in Request but submenu not selected
-        request = new MockRequest();
-        request.setParameter(menu.getId() + "-h", "x");
-        menu.serviceRequest(request);
-        Assert.assertFalse("Action should not have been called when sub-menu was not selected", action.wasTriggered());
-        
-        // Menu in Request and submenu selected
-        request = new MockRequest();
-        request.setParameter(menu.getId() + "-h", "x");
-        request.setParameter(subMenu.getId(), "x");
-        menu.serviceRequest(request);
-        Assert.assertTrue("Action should have been called when sub-menu is selected", action.wasTriggered());
-    }
-    
-    @Test
-    public void testHandleRequestSubMenuOpen()
-    {
-        WMenu menu = new WMenu();
-        WSubMenu subMenu = new WSubMenu(TEST_TEXT);
-        menu.add(subMenu);
-        
-        setActiveContext(createUIContext());
+		// Remove item
+		subMenu.removeAllMenuItems();
+		Assert.assertTrue("Menu items should be empty", subMenu.getMenuItems().isEmpty());
+	}
 
-        // Menu not in Request
-        MockRequest request = new MockRequest();
-        menu.serviceRequest(request);
-        Assert.assertFalse("Submenu should not be open", subMenu.isOpen());
+	@Test
+	public void testGetItems() {
+		WSubMenu subMenu = new WSubMenu(TEST_TEXT);
+		WMenuItem menuItem = new WMenuItem("item");
+		subMenu.add(menuItem);
 
-        // Menu in Request but submenu not open
-        request = new MockRequest();
-        request.setParameter(menu.getId() + "-h", "x");
-        menu.serviceRequest(request);
-        Assert.assertFalse("Submenu should not be open", subMenu.isOpen());
-        
-        // Menu in Request and submenu open
-        request = new MockRequest();
-        request.setParameter(menu.getId() + "-h", "x");
-        request.setParameter(subMenu.getId(), "x");
-        request.setParameter(subMenu.getId() + ".open", "true");
-        menu.serviceRequest(request);
-        Assert.assertTrue("Submenu should be open", subMenu.isOpen());
-    }
-    
-    @Test
-    public void testHandleRequestWhenDisabled()
-    {
-        TestAction action = new TestAction();
-        WMenu menu = new WMenu();
-        WSubMenu subMenu = new WSubMenu(TEST_TEXT);
-        subMenu.setAction(action);
-        menu.add(subMenu);
-        
-        setActiveContext(createUIContext());
-        subMenu.setDisabled(true);
-        
-        MockRequest request = new MockRequest();
-        request.setParameter(menu.getId() + "-h", "x");
-                
-        menu.serviceRequest(request);
-        Assert.assertFalse("Action should not have been called when sub-menu was not selected", action.wasTriggered());
+		// Add submenu with a child item
+		WSubMenu subMenu2 = new WSubMenu("sub");
+		subMenu.add(subMenu2);
+		WMenuItem subItem = new WMenuItem("subItem");
+		subMenu2.add(subItem);
 
-        request.setParameter(subMenu.getId(), "x");
-        menu.serviceRequest(request);
-        Assert.assertFalse("Action should not have been called on a disabled sub-menu", action.wasTriggered());
-    }
+		Assert.assertEquals("Items list should have two items", 2, subMenu.getMenuItems().size());
+		Assert.assertTrue("Items list should contain the menu item", subMenu.getMenuItems().contains(menuItem));
+		Assert.assertTrue("Items list should contain the sub menu item", subMenu.getMenuItems().contains(menuItem));
+	}
+
+	@Test
+	public void testDisabledAccessors() {
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "disabled", false, true, false);
+	}
+
+	@Test
+	public void testAccessKeyAccessors() {
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "accessKey", '\0', 'a', 'b');
+	}
+
+	@Test
+	public void testGetAccessKeyAsString() {
+		WSubMenu subMenu = new WSubMenu("");
+		Assert.assertNull("Incorrect acesskey as string", subMenu.getAccessKeyAsString());
+
+		subMenu.setAccessKey('C');
+		Assert.assertEquals("Incorrect acesskey as string", "C", subMenu.getAccessKeyAsString());
+
+		subMenu.setAccessKey('\0');
+		Assert.assertNull("Incorrect acesskey as string", subMenu.getAccessKeyAsString());
+	}
+
+	@Test
+	public void testTextAccessors() throws Exception {
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "text", TEST_TEXT, "A", "B");
+	}
+
+	@Test
+	public void testSelectabilityAccessors() {
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "selectability", null, true, false);
+	}
+
+	@Test
+	public void testMultipleSelectionAccessors() {
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "multipleSelection", false, true, false);
+	}
+
+	@Test
+	public void testSelectModeAccessors() {
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "selectMode", WMenu.SelectMode.NONE, WMenu.SelectMode.MULTIPLE,
+				WMenu.SelectMode.SINGLE);
+	}
+
+	@Test
+	public void testSelectionModeAccessors() {
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "selectionMode", MenuSelectContainer.SelectionMode.NONE, MenuSelectContainer.SelectionMode.MULTIPLE,
+				MenuSelectContainer.SelectionMode.SINGLE);
+	}
+
+	@Test
+	public void testActionCommandAccessors() {
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "actionCommand", null, "A", "B");
+	}
+
+	@Test
+	public void testActionObjectAccessors() {
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "actionObject", null, "A", "B");
+	}
+
+	@Test
+	public void testOpenAccessors() {
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "open", false, true, false);
+	}
+
+	@Test
+	public void testSelectableAccessors() {
+		WSubMenu item = new WSubMenu("");
+		Assert.assertNull("Selectable should be null by default", item.isSelectable());
+
+		item.setSelectable(Boolean.FALSE);
+		item.setLocked(true);
+		setActiveContext(createUIContext());
+		item.setSelectable(Boolean.TRUE);
+
+		Assert.assertTrue("Should be selectable in session", item.isSelectable());
+
+		resetContext();
+		Assert.assertFalse("Default should not be selectable", item.isSelectable());
+	}
+
+	@Test
+	public void testIsSelected() {
+		WMenu menu = new WMenu();
+		WSubMenu subMenu = new WSubMenu(TEST_TEXT);
+		menu.add(subMenu);
+
+		// Not selected
+		Assert.assertFalse("Sub menu should not be selected by default", subMenu.isSelected());
+
+		// Set as selected
+		menu.setSelectedItem(subMenu);
+		Assert.assertTrue("Sub menu should be selected by default", subMenu.isSelected());
+
+	}
+
+	@Test
+	public void testHandleRequest() {
+		TestAction action = new TestAction();
+		WMenu menu = new WMenu();
+		WSubMenu subMenu = new WSubMenu(TEST_TEXT);
+		subMenu.setAction(action);
+		menu.add(subMenu);
+
+		setActiveContext(createUIContext());
+
+		// Menu not in Request
+		MockRequest request = new MockRequest();
+		menu.serviceRequest(request);
+		Assert.assertFalse("Action should not have been called when sub-menu was not selected",
+				action.wasTriggered());
+
+		// Menu in Request but submenu not current AJAX Trigger
+		request = new MockRequest();
+		request.setParameter(menu.getId() + "-h", "x");
+		menu.serviceRequest(request);
+		Assert.assertFalse("Action should not have been called when sub-menu was not selected",
+				action.wasTriggered());
+
+		// Menu in Request and submenu is the current ajax triiger
+		request = new MockRequest();
+		request.setParameter(menu.getId() + "-h", "x");
+		request.setParameter(subMenu.getId(), "x");
+
+		try {
+			// Setup AJAX Operation trigger by the submenu
+			AjaxHelper.setCurrentOperationDetails(new AjaxOperation(subMenu.getId(), subMenu.getId()),
+					null);
+
+			menu.serviceRequest(request);
+		} finally {
+			AjaxHelper.clearCurrentOperationDetails();
+		}
+		Assert.assertTrue("Action should have been called when sub-menu is selected", action.
+				wasTriggered());
+	}
+
+	@Test
+	public void testHandleRequestSubMenuOpen() {
+		WMenu menu = new WMenu();
+		WSubMenu subMenu = new WSubMenu(TEST_TEXT);
+		menu.add(subMenu);
+
+		setActiveContext(createUIContext());
+
+		// Menu not in Request
+		MockRequest request = new MockRequest();
+		menu.serviceRequest(request);
+		Assert.assertFalse("Submenu should not be open", subMenu.isOpen());
+
+		// Menu in Request but submenu not open
+		request = new MockRequest();
+		request.setParameter(menu.getId() + "-h", "x");
+		menu.serviceRequest(request);
+		Assert.assertFalse("Submenu should not be open", subMenu.isOpen());
+
+		// Menu in Request and submenu open
+		request = new MockRequest();
+		request.setParameter(menu.getId() + "-h", "x");
+		request.setParameter(subMenu.getId(), "x");
+		request.setParameter(subMenu.getId() + ".open", "true");
+		menu.serviceRequest(request);
+		Assert.assertTrue("Submenu should be open", subMenu.isOpen());
+	}
+
+	@Test
+	public void testHandleRequestWhenDisabled() {
+		TestAction action = new TestAction();
+		WMenu menu = new WMenu();
+		WSubMenu subMenu = new WSubMenu(TEST_TEXT);
+		subMenu.setAction(action);
+		menu.add(subMenu);
+
+		setActiveContext(createUIContext());
+		subMenu.setDisabled(true);
+
+		MockRequest request = new MockRequest();
+		request.setParameter(menu.getId() + "-h", "x");
+
+		menu.serviceRequest(request);
+		Assert.assertFalse("Action should not have been called when sub-menu was not selected",
+				action.wasTriggered());
+
+		request.setParameter(subMenu.getId(), "x");
+		menu.serviceRequest(request);
+		Assert.assertFalse("Action should not have been called on a disabled sub-menu", action.
+				wasTriggered());
+	}
+
 }

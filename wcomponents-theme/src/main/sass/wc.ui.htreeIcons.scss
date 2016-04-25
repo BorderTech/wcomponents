@@ -1,0 +1,14 @@
+/* wc.ui.htreeIcons.scss */
+@import 'tree-vars';
+
+.wc_leaf_hopener:before {
+	content: $fa-var-caret-right;
+}
+
+.wc_branch_resize_handle.wc_resize {
+	cursor: ew-resize;
+
+	&:before {
+		content: $fa-var-arrows-h;
+	}
+}

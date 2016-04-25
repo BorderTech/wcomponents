@@ -1,23 +1,35 @@
 /* wc.ui.menu.tree.scss */
-@import 'wc.ui.menu_vars.scss';
+@import 'menu_vars';
 
-[role='tree'] [role='treeitem'],
-[role='treeitem'][aria-expanded] > button {
-	padding: $wc-ui-menu-tree-item-pad;
+// TODO: try to work WMenu Type TREE to be more like WTree so we can get rid of this.
+.wc-menu[role="tree"] {
+	[role='treeitem'] {
+		padding: $wc-tree-item-pad;
+	}
+
+	.wc-submenu-o {
+		padding: $wc-tree-item-pad;
+
+		> .wc-decoratedlabel {
+			display: inline-table;
+			width: calc(100% - #{$wc-ui-menu-tree-iconwidth}); // allow for icon.
+		}
+	}
+
+	.wc-decoratedlabel {
+		display: table-row;
+		width: 100%;
+	}
+
+	.wc_dlbl_seg {
+		display: table-cell;
+
+		+ .wc_dlbl_seg {
+			padding-left: $hgap-small;
+		}
+	}
+
+	.wc-labelbody {
+		width: 100%;
+	}
 }
-
-[role='treeitem'] {
-	[role] {
-		display: table;
-	}
-
-	> [role='group'] {
-		display: block;
-		padding: 0 0 0 $wc-ui-menu-tree-indent;
-	}
-
-	&.submenu:hover {
-		background-color: inherit;
-	}
-}
-/* end wc.ui.menu.tree.scss */

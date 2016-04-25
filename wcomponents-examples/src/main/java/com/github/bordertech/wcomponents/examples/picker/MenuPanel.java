@@ -1,5 +1,15 @@
 package com.github.bordertech.wcomponents.examples.picker;
 
+import com.github.bordertech.wcomponents.Container;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WAbbrText;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WDecoratedLabel;
+import com.github.bordertech.wcomponents.WMenu;
+import com.github.bordertech.wcomponents.WMenuItem;
+import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.WSubMenu;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
@@ -14,366 +24,305 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
 import org.apache.commons.logging.LogFactory;
-
-import com.github.bordertech.wcomponents.Container;
-import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.UIContext;
-import com.github.bordertech.wcomponents.UIContextHolder;
-import com.github.bordertech.wcomponents.WAbbrText;
-import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WDecoratedLabel;
-import com.github.bordertech.wcomponents.WMenu;
-import com.github.bordertech.wcomponents.WMenuItem;
-import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.WSubMenu;
 
 /**
  * Displays a menu of examples which the user can choose an example from.
- * 
+ *
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-final class MenuPanel extends WPanel
-{
-    /** The file to store recently accessed examples in. */
-    private static final String RECENT_FILE_NAME = "recent.dat";
+final class MenuPanel extends WPanel {
 
-    /** The maximum number of items to keep the recently accessed menu. */
-    private static final int MAX_RECENT_ITEMS = 20;
+	/**
+	 * The file to store recently accessed examples in.
+	 */
+	private static final String RECENT_FILE_NAME = "recent.dat";
 
-    /** The list of recently accessed examples, in order of most recently used. */
-    private final List<ExampleData> recent = new ArrayList<ExampleData>();
+	/**
+	 * The maximum number of items to keep the recently accessed menu.
+	 */
+	private static final int MAX_RECENT_ITEMS = 20;
 
-    /** The menu contained in this panel. */
-    private final WMenu menu = new WMenu(WMenu.MenuType.TREE);
+	/**
+	 * The list of recently accessed examples, in order of most recently used.
+	 */
+	private final List<ExampleData> recent = new ArrayList<>();
 
-    /** A sub-menu containing recently accessed examples. */
-    private final WSubMenu recentMenu = new WSubMenu("Recently accessed");
+	/**
+	 * The menu contained in this panel.
+	 */
+	private final WMenu menu = new WMenu(WMenu.MenuType.TREE);
 
-    /**
-     * Creates a MenuPanel.
-     */
-    public MenuPanel()
-    {
-        super(Type.CHROME);
-        setTitleText("Menu");
-        loadRecentList();
+	/**
+	 * A sub-menu containing recently accessed examples.
+	 */
+	private final WSubMenu recentMenu = new WSubMenu("Recently accessed");
 
-        add(menu);
-        menu.setSelectMode(WMenu.SelectMode.SINGLE);
+	/**
+	 * Creates a MenuPanel.
+	 */
+	MenuPanel() {
+		super(Type.CHROME);
+		setTitleText("Menu");
+		loadRecentList();
 
-        menu.add(recentMenu);
-        menu.addSeparator();
+		add(menu);
+		menu.setSelectMode(WMenu.SelectMode.SINGLE);
 
-        addExamples("AJAX", ExampleData.AJAX_EXAMPLES);
-        addExamples("Form controls", ExampleData.FORM_CONTROLS);
-        addExamples("Feedback and indicators", ExampleData.FEEDBACK_AND_INDICATORS);
-        addExamples("Layout", ExampleData.LAYOUT_EXAMPLES);
-        addExamples("Menus", ExampleData.MENU_EXAMPLES);
-        addExamples("Links", ExampleData.LINK_EXAMPLES);
-        addExamples("Popups / dialogs", ExampleData.POPUP_EXAMPLES);
-        addExamples("Subordinate", ExampleData.SUBORDINATE_EXAMPLES);
-        addExamples("Tabs", ExampleData.TABSET_EXAMPLES);
-        addExamples("Tables", ExampleData.WTABLE_EXAMPLES);
-        addExamples("Validation", ExampleData.VALIDATION_EXAMPLES);
+		menu.add(recentMenu);
+		menu.addSeparator();
 
-        menu.addSeparator();
-        addExamples("Other examples (uncategorised)", ExampleData.MISC_EXAMPLES);
-        
-        menu.addSeparator();
-        addExamples("DataTable (deprecated)", ExampleData.WDATATABLE_EXAMPLES);
-        
-    }
+		addExamples("AJAX", ExampleData.AJAX_EXAMPLES);
+		addExamples("Form controls", ExampleData.FORM_CONTROLS);
+		addExamples("Feedback and indicators", ExampleData.FEEDBACK_AND_INDICATORS);
+		addExamples("Layout", ExampleData.LAYOUT_EXAMPLES);
+		addExamples("Menus", ExampleData.MENU_EXAMPLES);
+		addExamples("Links", ExampleData.LINK_EXAMPLES);
+		addExamples("Popups / dialogs", ExampleData.POPUP_EXAMPLES);
+		addExamples("Subordinate", ExampleData.SUBORDINATE_EXAMPLES);
+		addExamples("Tabs", ExampleData.TABSET_EXAMPLES);
+		addExamples("Tables", ExampleData.WTABLE_EXAMPLES);
+		addExamples("Validation", ExampleData.VALIDATION_EXAMPLES);
 
-    /**
-     * Adds a grouped set of examples to the menu.
-     * 
-     * @param groupName the name of the group for the examples, or null to add to the menu directly.
-     * @param entries the examples to add to the group.
-     */
-    public void addExamples(final String groupName, final ExampleData[] entries)
-    {
-        WComponent componentToAddTo = menu;
+		menu.addSeparator();
+		addExamples("Other examples (uncategorised)", ExampleData.MISC_EXAMPLES);
 
-        if (groupName != null)
-        {
-            WSubMenu subMenu = new WSubMenu(groupName);
-            subMenu.setSelectMode(WMenu.SelectMode.SINGLE);
-            menu.add(subMenu);
-            componentToAddTo = subMenu;
-        }
+		menu.addSeparator();
+		addExamples("DataTable (deprecated)", ExampleData.WDATATABLE_EXAMPLES);
 
-        for (ExampleData entry : entries)
-        {
-            WDecoratedLabel label = new WDecoratedLabel(new WAbbrText(entry.getExampleName(), entry.getExampleClass()
-                .getName()));
-            WMenuItem item = new WMenuItem(label, new SelectExampleAction());
-            item.setActionObject(entry);
-            entry.setExampleGroupName(groupName);
-            if (componentToAddTo instanceof WSubMenu)
-            {
-                ((WSubMenu) componentToAddTo).add(item);
-            }
-            else
-            {
-                ((WMenu) componentToAddTo).add(item);
-            }
-        }
-    }
+	}
 
-    /**
-     * Adds an example to a menu/sub-menu.
-     * 
-     * @param text the text to display.
-     * @param data the example data instance.
-     */
-    private void addExample(final String text, final ExampleData data)
-    {
-        WDecoratedLabel label = new WDecoratedLabel(new WAbbrText(text, data.getExampleClass().getName()));
-        WMenuItem item = new WMenuItem(label, new SelectExampleAction());
-        item.setActionObject(data);
-        recentMenu.add(item);
-    }
+	/**
+	 * Adds a grouped set of examples to the menu.
+	 *
+	 * @param groupName the name of the group for the examples, or null to add to the menu directly.
+	 * @param entries the examples to add to the group.
+	 */
+	public void addExamples(final String groupName, final ExampleData[] entries) {
+		WComponent componentToAddTo = menu;
 
-    /**
-     * Retrieves the closest known match to a WComponent (or example) which this MenuPanel knows about. A fully
-     * qualified class name or partial name may be provided. A fully qualified match is returned in preference to a
-     * partial one. Partial name matching is case-insensitivie, for example "prog" will match "WProgressBarExample".
-     * 
-     * @param className the component class name to search for.
-     * @return the class for the given name, or null if not found.
-     */
-    public ExampleData getClosestMatch(final String className)
-    {
-        // First try a fully qualified match to an example contained in the menu.
-        ExampleData result = getMatch(menu, className, false);
+		if (groupName != null) {
+			WSubMenu subMenu = new WSubMenu(groupName);
+			subMenu.setSelectMode(WMenu.SelectMode.SINGLE);
+			menu.add(subMenu);
+			componentToAddTo = subMenu;
+		}
 
-        if (result == null)
-        {
-            // Try a fully qualified name that may not be in the list of examples.
-            try
-            {
-                Class clazz = Class.forName(className);
+		for (ExampleData entry : entries) {
+			WDecoratedLabel label = new WDecoratedLabel(new WAbbrText(entry.getExampleName(), entry.
+					getExampleClass()
+					.getName()));
+			WMenuItem item = new WMenuItem(label, new SelectExampleAction());
+			item.setActionObject(entry);
+			entry.setExampleGroupName(groupName);
+			if (componentToAddTo instanceof WSubMenu) {
+				((WSubMenu) componentToAddTo).add(item);
+			} else {
+				((WMenu) componentToAddTo).add(item);
+			}
+		}
+	}
 
-                if (WComponent.class.isAssignableFrom(clazz))
-                {
-                    ExampleData data = new ExampleData(clazz.getSimpleName(), clazz);
+	/**
+	 * Adds an example to a menu/sub-menu.
+	 *
+	 * @param text the text to display.
+	 * @param data the example data instance.
+	 */
+	private void addExample(final String text, final ExampleData data) {
+		WDecoratedLabel label = new WDecoratedLabel(new WAbbrText(text, data.getExampleClass().
+				getName()));
+		WMenuItem item = new WMenuItem(label, new SelectExampleAction());
+		item.setActionObject(data);
+		recentMenu.add(item);
+	}
 
-                    return data;
-                }
-            }
-            catch (ClassNotFoundException ignored)
-            {
-                // Just keep searching.
-            }
-            catch (NoClassDefFoundError ignored)
-            {
-                // Just keep searching.
-            }
-        }
+	/**
+	 * Retrieves the closest known match to a WComponent (or example) which this MenuPanel knows about. A fully
+	 * qualified class name or partial name may be provided. A fully qualified match is returned in preference to a
+	 * partial one. Partial name matching is case-insensitivie, for example "prog" will match "WProgressBarExample".
+	 *
+	 * @param className the component class name to search for.
+	 * @return the class for the given name, or null if not found.
+	 */
+	public ExampleData getClosestMatch(final String className) {
+		// First try a fully qualified match to an example contained in the menu.
+		ExampleData result = getMatch(menu, className, false);
 
-        if (result == null)
-        {
-            // Ok, definitely not a fully qualified class name, try a partial match.
-            result = getMatch(menu, className, true);
-        }
+		if (result == null) {
+			// Try a fully qualified name that may not be in the list of examples.
+			try {
+				Class clazz = Class.forName(className);
 
-        return result;
-    }
+				if (WComponent.class.isAssignableFrom(clazz)) {
+					ExampleData data = new ExampleData(clazz.getSimpleName(), clazz);
 
-    /**
-     * Recursively searches the menu for a match to a WComponent with the given name.
-     * 
-     * @param node the current node in the menu being searched.
-     * @param name the component class name to search for.
-     * @param partial if true, perform a case-insensitive partial name search.
-     * @return the class for the given name, or null if not found.
-     */
-    private ExampleData getMatch(final WComponent node, final String name, final boolean partial)
-    {
-        if (node instanceof WMenuItem)
-        {
-            ExampleData data = (ExampleData) ((WMenuItem) node).getActionObject();
+					return data;
+				}
+			} catch (ClassNotFoundException ignored) {
+				// Just keep searching.
+			} catch (NoClassDefFoundError ignored) {
+				// Just keep searching.
+			}
+		}
 
-            Class<? extends WComponent> clazz = data.getExampleClass();
+		if (result == null) {
+			// Ok, definitely not a fully qualified class name, try a partial match.
+			result = getMatch(menu, className, true);
+		}
 
-            if (clazz.getName().equals(name) || data.getExampleName().equals(name)
-                || (partial && clazz.getSimpleName().toLowerCase().contains(name.toLowerCase()))
-                || (partial && data.getExampleName().toLowerCase().contains(name.toLowerCase())))
-            {
-                return data;
-            }
-        }
+		return result;
+	}
 
-        else if (node instanceof Container)
-        {
-            for (int i = 0; i < ((Container) node).getChildCount(); i++)
-            {
-                ExampleData result = getMatch(((Container) node).getChildAt(i), name, partial);
+	/**
+	 * Recursively searches the menu for a match to a WComponent with the given name.
+	 *
+	 * @param node the current node in the menu being searched.
+	 * @param name the component class name to search for.
+	 * @param partial if true, perform a case-insensitive partial name search.
+	 * @return the class for the given name, or null if not found.
+	 */
+	private ExampleData getMatch(final WComponent node, final String name, final boolean partial) {
+		if (node instanceof WMenuItem) {
+			ExampleData data = (ExampleData) ((WMenuItem) node).getActionObject();
 
-                if (result != null)
-                {
-                    return result;
-                }
-            }
-        }
+			Class<? extends WComponent> clazz = data.getExampleClass();
 
-        return null;
-    }
+			if (clazz.getName().equals(name) || data.getExampleName().equals(name)
+					|| (partial && clazz.getSimpleName().toLowerCase().contains(name.toLowerCase()))
+					|| (partial && data.getExampleName().toLowerCase().contains(name.toLowerCase()))) {
+				return data;
+			}
+		} else if (node instanceof Container) {
+			for (int i = 0; i < ((Container) node).getChildCount(); i++) {
+				ExampleData result = getMatch(((Container) node).getChildAt(i), name, partial);
 
-    /**
-     * Reads the list of recently selected examples from a file on the file system.
-     */
-    private void loadRecentList()
-    {
-        recent.clear();
-        File file = new File(RECENT_FILE_NAME);
+				if (result != null) {
+					return result;
+				}
+			}
+		}
 
-        if (file.exists())
-        {
-            try
-            {
-                InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+		return null;
+	}
 
-                XMLDecoder decoder = new XMLDecoder(inputStream);
-                List result = (List) decoder.readObject();
-                decoder.close();
-                for (Object obj : result)
-                {
-                    if (obj instanceof ExampleData)
-                    {
-                        recent.add((ExampleData) obj);
-                    }
-                }
-            }
-            catch (IOException ex)
-            {
-                LogFactory.getLog(getClass()).error("Unable to load recent list", ex);
-            }
-        }
-    }
+	/**
+	 * Reads the list of recently selected examples from a file on the file system.
+	 */
+	private void loadRecentList() {
+		recent.clear();
+		File file = new File(RECENT_FILE_NAME);
 
-    /**
-     * Writes the list of recent selections to a file on the file system.
-     */
-    private void storeRecentList()
-    {
-        synchronized (recent)
-        {
-            try
-            {
-                OutputStream out = new BufferedOutputStream(new FileOutputStream(RECENT_FILE_NAME));
-                XMLEncoder encoder = new XMLEncoder(out);
-                encoder.writeObject(recent);
-                encoder.close();
-            }
-            catch (IOException ex)
-            {
-                LogFactory.getLog(getClass()).error("Unable to save recent list", ex);
-            }
-        }
-    }
+		if (file.exists()) {
+			try {
+				InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
 
-    /**
-     * Adds an example to the list of recently accessed examples. The list of recently examples will be persisted to the
-     * file system.
-     * 
-     * @param data the data for the recently accessed example.
-     */
-    public void addToRecent(final ExampleData data)
-    {
-        synchronized (recent)
-        {
-            recent.remove(data); // only add it once
-            recent.add(0, data);
+				XMLDecoder decoder = new XMLDecoder(inputStream);
+				List result = (List) decoder.readObject();
+				decoder.close();
+				for (Object obj : result) {
+					if (obj instanceof ExampleData) {
+						recent.add((ExampleData) obj);
+					}
+				}
+			} catch (IOException ex) {
+				LogFactory.getLog(getClass()).error("Unable to load recent list", ex);
+			}
+		}
+	}
 
-            // Only keep the last few entries.
-            while (recent.size() > MAX_RECENT_ITEMS)
-            {
-                recent.remove(MAX_RECENT_ITEMS);
-            }
+	/**
+	 * Writes the list of recent selections to a file on the file system.
+	 */
+	private void storeRecentList() {
+		synchronized (recent) {
+			try {
+				OutputStream out = new BufferedOutputStream(new FileOutputStream(RECENT_FILE_NAME));
+				XMLEncoder encoder = new XMLEncoder(out);
+				encoder.writeObject(recent);
+				encoder.close();
+			} catch (IOException ex) {
+				LogFactory.getLog(getClass()).error("Unable to save recent list", ex);
+			}
+		}
+	}
 
-            storeRecentList();
-            setInitialised(false);
-        }
-    }
+	/**
+	 * Adds an example to the list of recently accessed examples. The list of recently examples will be persisted to the
+	 * file system.
+	 *
+	 * @param data the data for the recently accessed example.
+	 */
+	public void addToRecent(final ExampleData data) {
+		synchronized (recent) {
+			recent.remove(data); // only add it once
+			recent.add(0, data);
 
-    /**
-     * Updates the entries in the "Recent" sub-menu.
-     */
-    private void updateRecentMenu()
-    {
-        for (int i = recentMenu.getChildCount() - 1; i >= 0; i--)
-        {
-            WComponent child = recentMenu.getChildAt(i);
+			// Only keep the last few entries.
+			while (recent.size() > MAX_RECENT_ITEMS) {
+				recent.remove(MAX_RECENT_ITEMS);
+			}
 
-            if (child instanceof WMenuItem)
-            {
-                recentMenu.remove(child);
-            }
-        }
+			storeRecentList();
+			setInitialised(false);
+		}
+	}
 
-        int index = 1;
+	/**
+	 * Updates the entries in the "Recent" sub-menu.
+	 */
+	private void updateRecentMenu() {
+		recentMenu.removeAllMenuItems();
 
-        for (Iterator<ExampleData> i = recent.iterator(); i.hasNext();)
-        {
-            ExampleData data = i.next();
+		int index = 1;
 
-            try
-            {
-                StringBuilder builder = new StringBuilder(Integer.toString(index++)).append(". ");
+		for (Iterator<ExampleData> i = recent.iterator(); i.hasNext();) {
+			ExampleData data = i.next();
 
-                if (data.getExampleGroupName() != null)
-                {
-                    builder.append(data.getExampleGroupName()).append(" - ");
-                }
+			try {
+				StringBuilder builder = new StringBuilder(Integer.toString(index++)).append(". ");
 
-                builder.append(data.getExampleName());
+				if (data.getExampleGroupName() != null) {
+					builder.append(data.getExampleGroupName()).append(" - ");
+				}
 
-                addExample(builder.toString(), data);
-            }
-            catch (Exception e)
-            {
-                i.remove();
-                LogFactory.getLog(getClass()).error("Unable to read recent class: " + data.getExampleName());
-            }
-        }
-    }
+				builder.append(data.getExampleName());
 
-    /**
-     * Override preparePaintComponent in order to populate the recently accessed menu when a user accesses this panel
-     * for the first time.
-     * 
-     * @param request the request being responded to.
-     */
-    @Override
-    protected void preparePaintComponent(final Request request)
-    {
-        super.preparePaintComponent(request);
+				addExample(builder.toString(), data);
+			} catch (Exception e) {
+				i.remove();
+				LogFactory.getLog(getClass()).error("Unable to read recent class: " + data.
+						getExampleName());
+			}
+		}
+	}
 
-        if (!isInitialised())
-        {
-            updateRecentMenu();
-            setInitialised(true);
-        }
-        
-        WComponent selectedItem = menu.getSelectedItem();
-        if(null != selectedItem) 
-        {
-            if(null == UIContextHolder.getCurrent().getFocussed())
-            {
-                selectedItem.setFocussed();
-            }
-        }
-    }
+	/**
+	 * Override preparePaintComponent in order to populate the recently accessed menu when a user accesses this panel
+	 * for the first time.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+		super.preparePaintComponent(request);
 
-    /**
-     * @return a read-only copy of the most recently accessed examples.
-     */
-    public List<ExampleData> getRecent()
-    {
-        return Collections.unmodifiableList(recent);
-    }
+		if (!isInitialised()) {
+			updateRecentMenu();
+			setInitialised(true);
+		}
+
+		WComponent selectedItem = menu.getSelectedItem();
+		if (selectedItem != null && UIContextHolder.getCurrent().getFocussed() == null) {
+			selectedItem.setFocussed();
+		}
+	}
+
+	/**
+	 * @return a read-only copy of the most recently accessed examples.
+	 */
+	public List<ExampleData> getRecent() {
+		return Collections.unmodifiableList(recent);
+	}
 }

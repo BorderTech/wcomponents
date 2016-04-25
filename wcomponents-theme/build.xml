@@ -233,15 +233,59 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 			<property name="impl.src.dir" location="@{rootDir}/@{implName}"/>
 			<var name="prototype.name" unset="true"/>
 			<loadfile property="prototype.name" srcFile="${impl.src.dir}/inherit.txt"/>
+
+			<var name="prototype.dir" unset="true"/>
+			<var name="merge.impl.dir" unset="true"/>
+
+			<if>
+				<isset property="prototype.name"/>
+				<then>
+					<if>
+						<and>
+							<available file="${prototype.name}" type="file"/>
+							<matches string="${prototype.name}" pattern="\.zip$" casesensitive="false"/>
+						</and>
+						<then>
+							<echo>Found prototype zip file ${prototype.name}</echo>
+							<property name="prototype.dir" location="${tmp.dir}/parent"/>
+							<delete dir="${prototype.dir}"/>
+							<!-- unzip the zip and set the path -->
+							<unzip src="${prototype.name}" dest="${prototype.dir}" overwrite="true" failOnEmptyArchive="true">
+								<patternset>
+									<include name="*/**"/>
+								</patternset>
+							</unzip>
+						</then>
+						<elseif>
+							<and>
+								<matches string="${prototype.name}" pattern="\/"/>
+								<available file="${prototype.name}" type="dir"/>
+							</and>
+							<then>
+								<echo>Found prototype directory named ${prototype.name}</echo>
+								<property name="prototype.dir" location="${prototype.name}"/>
+							</then>
+						</elseif>
+						<elseif>
+							<available file="${impl.src.rootdir}/${prototype.name}" type="dir"/>
+							<then>
+								<property name="prototype.dir" location="${impl.src.rootdir}/${prototype.name}"/>
+								<echo>Using simple fallback prototype ${prototype.dir}</echo>
+							</then>
+						</elseif>
+						<else>
+							<fail message="Could not find prototype implementation ${prototype.name}"/>
+						</else>
+					</if>
+				</then>
+			</if>
+
 			<if>
 				<and>
-					<isset property="prototype.name"/>
-					<available file="${impl.src.rootdir}/${prototype.name}" type="dir"/>
+					<isset property="prototype.dir"/>
+					<available file="${prototype.dir}" type="dir"/>
 				</and>
 				<then>
-					<var name="prototype.dir" unset="true"/>
-					<var name="merge.impl.dir" unset="true"/>
-					<property name="prototype.dir" location="${impl.src.rootdir}/${prototype.name}"/>
 					<property name="merge.impl.dir" location="${sub.impl.dir}/@{implName}"/>
 					<delete dir="${merge.impl.dir}"/>
 					<echo>Copying sub-implementation files from: ${impl.src.dir} to ${merge.impl.dir}</echo>
@@ -282,50 +326,53 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 					-->
 					<echo>Copying parent implementation files from: ${prototype.dir} to ${merge.impl.dir}</echo>
 					<copy todir="${merge.impl.dir}/src/main/properties/parentImplementation" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/properties" includes="*">
+						<fileset dir="${prototype.dir}/src/main/properties" includes="*" erroronmissingdir="false">
 							<present present="srconly" targetdir="${merge.impl.dir}/src/main/properties"/>
 						</fileset>
 					</copy>
 					<copy todir="${merge.impl.dir}/src/main/css" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/css" includes="**/*.css" excludesfile="${impl.src.dir}/excludes.txt">
+						<fileset dir="${prototype.dir}/src/main/css" includes="**/*.css" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
 							<present present="srconly" targetdir="${merge.impl.dir}/src/main/css"/>
 						</fileset>
 					</copy>
 					<copy todir="${merge.impl.dir}/src/main/sass" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/sass" includes="**/*.scss" excludesfile="${impl.src.dir}/excludes.txt">
+						<fileset dir="${prototype.dir}/src/main/sass" includes="**/*.scss" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
 							<present present="srconly" targetdir="${merge.impl.dir}/src/main/scss"/>
 						</fileset>
 					</copy>
 					<copy todir="${merge.impl.dir}/src/main/xslt" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/xslt" includes="**/*.xsl" excludesfile="${impl.src.dir}/excludes.txt">
+						<fileset dir="${prototype.dir}/src/main/xslt" includes="**/*.xsl" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
 							<present present="srconly" targetdir="${merge.impl.dir}/src/main/xslt"/>
 						</fileset>
 					</copy>
 					<copy todir="${merge.impl.dir}/src/main/i18n/parentImplementation" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/i18n" includes="**/*.properties" excludesfile="${impl.src.dir}/excludes.txt">
+						<fileset dir="${prototype.dir}/src/main/i18n" includes="**/*.properties" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
 							<present present="srconly" targetdir="${merge.impl.dir}/src/main/i18n"/>
 						</fileset>
 					</copy>
 					<copy todir="${merge.impl.dir}/src/main/images" overwrite="false">
-							<fileset dir="${prototype.dir}/src/main/images" includes="**/*" excludesfile="${impl.src.dir}/excludes.txt">
-								<present present="srconly" targetdir="${merge.impl.dir}/src/main/images"/>
-							</fileset>
+						<fileset dir="${prototype.dir}/src/main/images" includes="**/*" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
+							<present present="srconly" targetdir="${merge.impl.dir}/src/main/images"/>
+						</fileset>
 					</copy>
 					<copy todir="${merge.impl.dir}/src/main/js" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/js" includes="**/*.js" excludesfile="${impl.src.dir}/excludes.txt">
+						<fileset dir="${prototype.dir}/src/main/js" includes="**/*.js" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
 							<present present="srconly" targetdir="${merge.impl.dir}/src/main/js"/>
 						</fileset>
 					</copy>
-					<copy todir="${merge.impl.dir}/src/main/xml" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/xml" includes="**/*" excludesfile="${impl.src.dir}/excludes.txt">
+					<copy todir="${merge.impl.dir}/src/main/resource" overwrite="false">
+						<fileset dir="${prototype.dir}/src/main/resource" includes="**/*" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
 							<present present="srconly" targetdir="${merge.impl.dir}/src/main/xml"/>
 						</fileset>
 					</copy>
 					<delete file="${merge.impl.dir}/inherit.txt"/><!-- EEEK! Make sure to prevent infinite looping -->
 				</then>
-				<else>
-					<fail message="Could not find prototype implementation ${prototype.name}"/>
-				</else>
+				<elseif>
+					<isset property="prototype.dir"/>
+					<then>
+						<fail message="Could not find prototype directory ${prototype.dir}"/>
+					</then>
+				</elseif>
 			</if>
 		</sequential>
 	</macrodef>
@@ -371,7 +418,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 			-->
 			<callant antFile="build-properties.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
 			<callant antFile="build-images.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
-			<callant antFile="build-xml.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
+			<callant antFile="build-resource.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
 			<callant antFile="build-css.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/><!-- build after images -->
 			<callant antFile="build-i18n.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
 			<callant antFile="build-xslt.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/><!-- Build after i18n -->
@@ -388,6 +435,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 			<stopwatch name="@{antFile}" action="start"/>
 			<ant antfile="${theme.core.dir}/@{antFile}" inheritAll="false" target="@{target}">
 				<property name="component.rootdir" location="${theme.core.dir}"/>
+				<property name="maven.plugin.classpath" value="${maven.plugin.classpath}"/>
 				<property name="basedir" location="${basedir}"/>
 				<property name="tmp.dir" location="${theme.tmp.dir}"/>
 				<property name="build.number" value="${project.version}"/>
@@ -476,25 +524,18 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 	<macrodef name="writeVersionInfo">
 		<!--
 			This is largely superfluous and a legacy of debugging builds many years in the past.
+			It used to dump many different properties.
 			HOWEVER one part of it has found new life (in ThemeUtils.java) and therefore this
 			file must continue to:
 
 			1. Be named version.properties
 			2. Dump the "build.number" property.
+
+			TODO can we ditch this entirely?
 		-->
 		<attribute name="implName"/>
 		<sequential>
-			<var name="build.name" unset="true" value="@{implName}"/>
-			<var name="build.user.name" unset="true" value="${env.USERNAME}"/>
-			<var name="build.user.host" unset="true" value="${env.COMPUTERNAME}"/>
-			<property name="build.name" value="@{implName}"/>
-			<property name="build.user.name" value="${env.USERNAME}"/>
-			<property name="build.user.host" value="${env.COMPUTERNAME}"/>
-			<echoproperties destfile="${output.dir}/@{implName}/version.properties">
-				<propertyset>
-					<propertyref regex="^build\.*"/>
-				</propertyset>
-			</echoproperties>
+			<echo file="${output.dir}/@{implName}/version.properties">build.number=${build.number}</echo>
 		</sequential>
 	</macrodef>
 </project>

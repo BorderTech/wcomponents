@@ -1,6 +1,6 @@
 /* wc.ui.progressBar.scss */
 
-// styling for WProgressBar/ui:progressBar component
+// styling for WProgressBar/ui:progressbar component
 // We use a PROGRESS with a nested faux-progress span
 //
 // NOTE on width/min-width etc
@@ -30,7 +30,6 @@ progress {
 	max-width: 100%;
 
 	&.small {
-		font-size: 0.67em;
+		font-size: 0.67rem;
 	}
 }
-/* end wc.ui.progressBar.scss */

@@ -1,6 +1,13 @@
-/* wc.ui.dialog.safari.scss */
-//scss-lint:disable QualifyingElement
-dialog[open] > [aria-live] {
-	height: auto;
+/* wc.ui.dialog.pattern_safari.scss */
+@import 'dialog_vars';
+
+dialog > [aria-live] { // dialog content container
+	// need to work around a Safari-OSX bug but not for full screen dialogs.
+	// scss-lint:disable VendorPrefix
+	height: -webkit-fit-content;
+	// scss-lint:enable VendorPrefix
+
+	// @include respond-phonelike {
+	// 	height: 100%;
+	// }
 }
-/* end wc.ui.dialog.safari.scss */

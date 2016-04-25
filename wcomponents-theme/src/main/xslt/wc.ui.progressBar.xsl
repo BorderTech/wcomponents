@@ -1,14 +1,16 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml"
 	version="1.0">
+	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
-	<xsl:import href="wc.debug.debugInfo.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
+	<xsl:import href="wc.common.hide.xsl"/>
 	<!--
 		Transform for WProgressBar. 
 		This component generates a graphical indicator of static progess, not a timer.
 	-->
-	<xsl:template match="ui:progressBar">
+	<xsl:template match="ui:progressbar">
 		<xsl:variable name="percentage" select="round(100 * (@value div @max))"/>
 		<xsl:variable name="barText">
 			<xsl:choose>
@@ -21,30 +23,22 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:element name="${wc.dom.html5.element.progress}">
-			<xsl:attribute name="id">
-				<xsl:value-of select="@id"/>
-			</xsl:attribute>
+			<xsl:call-template name="commonAttributes">
+				<xsl:with-param name="isWrapper" select="1"/>
+			</xsl:call-template>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:value-of select="@type"/>
+				</xsl:with-param>
+			</xsl:call-template>
+			<xsl:call-template name="title"/>
+
 			<xsl:attribute name="value">
 				<xsl:value-of select="@value"/>
 			</xsl:attribute>
 			<xsl:attribute name="max">
 				<xsl:value-of select="@max"/>
 			</xsl:attribute>
-			<xsl:if test="@toolTip">
-				<xsl:attribute name="title">
-					<xsl:value-of select="@toolTip"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:if test="@type">
-				<xsl:attribute name="class">
-					<xsl:value-of select="@type"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:call-template name="ajaxTarget"/>
-			<xsl:call-template name="hideElementIfHiddenSet"/>
-			<xsl:if test="$isDebug=1">
-				<xsl:call-template name="debugAttributes"/>
-			</xsl:if>
 			<xsl:element name="span">
 				<xsl:attribute name="role">
 					<xsl:text>progressbar</xsl:text>

@@ -1,6 +1,6 @@
 define(["wc/has"], function(has) {
 	"use strict";
-	var global = this;
+	var global = window;
 	/*
 	 * Taken from here BUT modified to fix what seems to be a bug in their code:
 	 * https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/bind

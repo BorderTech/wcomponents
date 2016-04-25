@@ -1,5 +1,4 @@
-/* wc.ui.table.rowSelection.ie8.scss */
-@import 'wc.ui.table.rowSelection_vars.scss';
+/* wc.ui.table.rowSelection.scss */
 
 // IE9 bug: in IE9 we have to reset the width of the selector cell to auto because when it is 1em the cell takes over
 // all available space in the table, so in IE8 and below we have to reset it.
@@ -8,38 +7,3 @@
 	text-align: left;
 	width: 0.25em;
 }
-
-[role='radio'] {
-	> .wc_table_sel_wrapper:before {
-		content: url('../images/radio.ie8.png');
-	}
-
-	&[aria-checked='true'] > .wc_table_sel_wrapper:before {
-		content: url('../images/radio-s.ie8.png');
-	}
-
-	&[aria-disabled='true'] > .wc_table_sel_wrapper:before { //note: no selected disabled radio indicator
-		content: url('../images/radio-d.ie8.png');
-	}
-}
-
-[role='checkbox'] {
-	> .wc_table_sel_wrapper:before {
-		content: url('../images/checkbox.ie8.png');
-	}
-
-	&[aria-checked='true'] > .wc_table_sel_wrapper:before {
-		content: url('../images/checkbox-s.ie8.png');
-	}
-
-	&[aria-disabled='true'] {
-		> .wc_table_sel_wrapper:before {
-			content: url('../images/checkbox-d.ie8.png');
-		}
-
-		&[aria-checked='true'] > .wc_table_sel_wrapper:before {
-			content: url('../images/checkbox-s-d.ie8.png');
-		}
-	}
-}
-/* end wc.ui.table.rowSelection.ie8.scss */

@@ -1,0 +1,112 @@
+/* wc.ui.imageEdit.scss */
+@import 'mixins-common';
+
+.wc_img_editor {
+	.wc_img_canvas,
+	.wc_img_cap,
+	.wc_img_editpane {
+		@include border;
+	}
+
+	.wc_img_cap,
+	.wc_img_nocap {
+		display: none;
+	}
+
+	&.wc_nortc .wc_img_nocap {
+		display: block;
+	}
+
+	&.wc_showcam .wc_img_cap {
+		display: block;
+	}
+
+	&.wc_showcam .wc_img_canvas {
+		display: none;
+	}
+
+	.wc_img_capture {
+		display: none;
+	}
+
+	&.wc_camenable .wc_img_capture {
+		display: block;
+	}
+
+	&.wc_showcam.wc_camenable .wc_img_capture {
+		display: none;
+	}
+
+	button {
+		margin: 0 $hgap-small;
+
+		&:first-of-type {
+			margin-left: 0;
+		}
+
+		&:last-of-type {
+			margin-right: 0;
+		}
+
+		&.wc_btn_up,
+		&.wc_btn_down {
+			display: block;
+		}
+
+		&.wc_btn_up {
+			margin: 0 auto $hgap-small;
+		}
+
+		&.wc_btn_down {
+			margin: $hgap-small auto 0;
+		}
+
+		&.wc_btn_snap {
+			display: block;
+			margin: $hgap-small auto 0;
+		}
+	}
+
+	.wc_img_controls {
+		> div,
+		> fieldset {
+			margin: $hgap-normal $hgap-small;
+			text-align: center;
+		}
+
+		> :first-child {
+			margin-top: 0;
+		}
+
+	}
+
+	input[type='range'] {
+		margin-left: $hgap-small;
+		vertical-align: middle;
+	}
+}
+
+@include respond-phonelike {
+	.wc_img_editor {
+		.wc-row > div {
+			text-align: center;
+		}
+
+		.wc_img_controls {
+			@include flex($wrap: wrap, $align-content: space-between);
+
+			> div,
+			> fieldset {
+				margin: $hgap-small;
+
+				&:first-child {
+					margin-left: 0;
+				}
+
+				&:last-child {
+					margin-right: 0;
+				}
+			}
+		}
+	}
+}

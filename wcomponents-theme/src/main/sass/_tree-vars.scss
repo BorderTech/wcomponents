@@ -1,0 +1,19 @@
+// WTree and WMenu type TREE
+@import 'mixins-common';
+$wc-tree-indent: 0.75rem;
+// The bi-modal nature of the tree expander button means we
+// have to pad the inner components rather than the button.
+// It _may_ be worth puttiing in another content wrapper...
+$wc-tree-item-pad-l: $hgap-small;
+$wc-tree-item-pad-r: $hgap-small;
+$wc-tree-item-pad-t: $hgap-small;
+$wc-tree-item-pad-b: $hgap-small;
+
+// the right border of each level in a tree: helps to see where the levels occur.
+$wc-htree-branch-right-border-width: $hgap-small;
+
+// used for WMenu type TREE. Under review.
+$wc-tree-item-pad: $hgap-small 0;
+
+// the start width of a htree group when the browser is rubbish.
+$wc-htree-branch-width-lame: 10rem;

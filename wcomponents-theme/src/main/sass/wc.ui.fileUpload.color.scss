@@ -1,0 +1,12 @@
+/* wc.ui.fileUpload.color.scss */
+@import 'mixins-common';
+
+.wc-fileupload.wc_dragging [type=file] {
+	@include outline($color: $wc-ui-color-invite-fg, $style: dotted, $width: 2px);
+	background-color: $wc-ui-color-invite-bg;  //#c0ffee
+}
+
+.wc-file {
+	background-color: $wc-ui-color-highlight-bg;
+	color: $wc-ui-color-highlight-fg;
+}

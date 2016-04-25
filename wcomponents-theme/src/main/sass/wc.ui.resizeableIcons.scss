@@ -1,0 +1,19 @@
+/* wc.ui.resizeableIcons.scss */
+@import 'mixins-common';
+
+.wc_resize:before {
+	@include wc-icon($fa-var-arrows-alt);
+	opacity: 0.5;
+}
+
+// This button selector is required to prevent styling a max/restore header bar
+// scss-lint:disable QualifyingElement
+button.wc_maxcont {
+	&:before {
+		content: $fa-var-plus;
+	}
+
+	&[aria-pressed='true']:before {
+		content: $fa-var-minus;
+	}
+}

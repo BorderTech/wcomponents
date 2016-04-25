@@ -1,61 +1,14 @@
 /* wc.common.listSort.scss */
 // The list sort controls are the buttons used to reorder the options used by WMultiSelectPair and WShuffler
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
+/// The container for the list shuffle controls.
 .wc_sortcont {
 	display: inline-block;
 	vertical-align: top;
-}
 
-// The excessive depth here is to make this stuff IE8 compatible since we do not have access to nth-child.
-// scss-lint:disable NestingDepth
-.wc_sorter {
-	display: block;
-	padding: 3px;
-
-	&:before {
-		content: url('../images/top.png');
-		position: relative;
-		top: 1px;
-	}
-
-	+ .wc_sorter {
-		&:before {
-			content: url('../images/up.png');
-		}
-
-		+ .wc_sorter {
-			&:before {
-				content: url('../images/down.png');
-			}
-
-			+ .wc_sorter:before {
-				content: url('../images/bottom.png');
-			}
-		}
-	}
-
-	&[disabled] {
-		&:before {
-			content: url('../images/top-d.png');
-		}
-
-		+ .wc_sorter {
-			&:before {
-				content: url('../images/up-d.png');
-			}
-
-			+ .wc_sorter {
-				&:before {
-					content: url('../images/down-d.png');
-				}
-
-				+ .wc_sorter:before {
-					content: url('../images/bottom-d.png');
-				}
-			}
-		}
+	/// Each individual shuffle control
+	button {
+		display: block;
 	}
 }
-// scss-lint:enable NestingDepth
-/* end wc.common.listSort.scss */

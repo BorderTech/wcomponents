@@ -40,15 +40,13 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/popup", "wc
 					if (CANCEL_LINK.isOneOfMe(element) && (form = FORM.findAncestor(element)) && cancelUpdate.cancelSubmission(form)) {
 						$event.preventDefault();
 					}
+					else if (redirect.isLaunchUrl(url)) {
+						$event.preventDefault();  // since we have prevented the link action we're going to have to do it ourselves
+						redirect.register(url);  // redirect (poorly named) knows how to "do stuff" with URLs.
+					}
 					else {
-						if (redirect.isLaunchUrl(url)) {
-							$event.preventDefault();  // since we have prevented the link action we're going to have to do it ourselves
-							redirect.register(url);  // redirect (poorly named) knows how to "do stuff" with URLs.
-						}
-						else {
-							window.location.href = url;
-							$event.preventDefault();
-						}
+						window.location.href = url;
+						$event.preventDefault();
 					}
 				}
 			}

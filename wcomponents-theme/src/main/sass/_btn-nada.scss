@@ -1,0 +1,13 @@
+// CLASS wc_btn_nada has all style stripped.
+@import 'mixins-common';
+
+%wc_btn_nada {
+	@include button($border: 0, $padding: 0, $text-align: inherit);
+	color: inherit;
+	// cursor: pointer;
+
+	// &[disabled] {
+	// 	color: $wc-ui-color-disabled-fg;
+	// 	cursor: auto;
+	// }
+}

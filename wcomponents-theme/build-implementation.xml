@@ -6,30 +6,29 @@
 		This means no third party tools can be used, for example no ant-contrib.
 	-->
 	<import file="build-import-overrides.xml"/>
-	
+
 	<target name="init">
 		<condition property="impl.src.rootdir.exists">
 			<available file="${impl.src.rootdir}" type="dir"/>
 		</condition>
 	</target>
-	
+
 	<target name="failDirNotFound" unless="impl.src.rootdir.exists">
 		<fail>Does not exist or property not set: ${impl.src.rootdir} (see notes in user.xml file)</fail>
 	</target>
-	
+
 	<target name="build" depends="init, failDirNotFound, getImplName" description="Creates the bare bones skeleton of a new implementation.">
 		<mkdir dir="${impl.src.rootdir}/${new.impl.name}/src/main/css"/>
 		<mkdir dir="${impl.src.rootdir}/${new.impl.name}/src/main/images"/>
 		<mkdir dir="${impl.src.rootdir}/${new.impl.name}/src/main/js"/>
 		<mkdir dir="${impl.src.rootdir}/${new.impl.name}/src/main/properties"/>
 		<mkdir dir="${impl.src.rootdir}/${new.impl.name}/src/main/xslt"/>
-		<mkdir dir="${impl.src.rootdir}/${new.impl.name}/src/main/xml"/>
+		<mkdir dir="${impl.src.rootdir}/${new.impl.name}/src/main/resource"/>
 		<mkdir dir="${impl.src.rootdir}/${new.impl.name}/src/main/i18n"/>
-		<mkdir dir="${impl.src.rootdir}/${new.impl.name}/src/main/plugins"/>
 		<mkdir dir="${impl.src.rootdir}/${new.impl.name}/src/test/intern/resources"/>
 		<echo file="${impl.src.rootdir}/${new.impl.name}/excludes.txt"> </echo>
 	</target>
-	
+
 	<target name="getImplName" unless="new.impl.name">
 		<input message="Enter the name for the new implementation:" addproperty="new.impl.name"/>
 	</target>

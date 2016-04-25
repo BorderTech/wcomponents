@@ -1,0 +1,22 @@
+/* wc.ui.multiSelectPairIcons.scss */
+@import 'mixins-common';
+
+.wc_msp_btncol button {
+	&:before {
+		content: $fa-var-angle-right;
+		width: 1rem;
+	}
+
+	// NOTE this will need a .ie8.scss file if your implementation needs to support ie8.
+	&:nth-of-type(2)::before {
+		content: $fa-var-angle-double-right;
+	}
+
+	&:nth-of-type(3)::before {
+		content: $fa-var-angle-left;
+	}
+
+	&:last-of-type::before {
+		content: $fa-var-angle-double-left;
+	}
+}

@@ -1,50 +1,55 @@
 /* wc.ui.listLayout.scss */
+@import 'mixins-common';
 
-// NOTE: we do not output the separator as a class when the list is ordered.
-@import 'mixins_common.scss';
+.wc-listlayout {
+	@include tight-box;
 
-// need qualifiying element to differentiate from unordered listLayout
-// scss-lint:disable QualifyingElement
-ol.listLayout {
-	margin: 0 0 0 2em;
+	&.bar,
+	&.flat,
+	&.none {
+		list-style-type: none;
+	}
 
-	&.flat { // flat ordered lists use a pseudo-element with a counter
-		counter-reset: li;
+	// separators
+	// NOTE: we do not output the separator as a class when the list is ordered (except NONE) so all of this is safe.
+	&.bar { // bar bullets
+		> li {
+			> * {
+				display: inline-block; // otherwise the marker wraps
+				vertical-align: middle;
+				width: calc(100% - #{$hgap-normal} - 0.5em);
+			}
 
-		> li:before {
-			content: counter(li) '.';
-			counter-increment: li;
-			margin-right: $hgap-small;
+			&:before {
+				content: '|';
+				display: inline-block;
+				margin-right: $hgap-normal;
+				text-align: right;
+				width: 0.5em;
+			}
 		}
 
-		&.none > li:before { // remove the counter if the separator is none
-			content: '';
+		&.flat > li {
+			&:before {
+				display: inline;
+			}
+
+			&:first-child:before {
+				content: '';
+			}
 		}
 	}
-}
 
-ul.listLayout {
-	margin: 0;
-}
+	&.dot { // 'normal' bullets
+		margin-left: $list-layout-dot-spacing;
 
-.listLayout {
-	padding: 0;
-
-	&.dot {
-		margin-left: 1.5em;
-
-		&.flat {
+		&.flat,
+		&.right {
 			margin-left: 0;
 		}
 	}
 
-	&.none,
-	&.flat,
-	&.bar {
-		list-style-type: none;
-		margin: 0;
-	}
-
+	// Layouts
 	&.flat { // horizontal list
 		> li {
 			display: inline-block;
@@ -58,39 +63,37 @@ ul.listLayout {
 			+ li {
 				margin-left: $hgap-normal;
 			}
-
-			.bar,
-			&.dot {
-				// It would be cumbersome to unpick this
-				// scss-lint:disable NestingDepth
-				> li + li {
-					margin-left: 0;
-				}
-				// scss-lint:enable NestingDepth
-			}
-		}
-
-		&.dot > li + li:before { // dot bullets should be default but need pseudo-elements for flat lists.
-			content: '\25cf';
-			margin: 0 $hgap-normal;
 		}
 	}
 
-	&.bar { // bar bullets
-		> li:before {
-			content: '|';
-			margin-right: $hgap-normal;
-		}
-
-		&.flat > li:first-child:before {
-			content: '';
-			margin-right: 0;
-		}
-	}
-
-	&.striped > :nth-child(odd) {
-		background-color: $wc-ui-color-highlight-bg;
-		color: $wc-ui-color-highlight-fg;
+	&.center,
+	&.right {
+		list-style-position: inside;
+		margin-left: 0;
 	}
 }
-/* end wc.ui.listLayout.scss */
+
+// need qualifiying element to differentiate from unordered listLayout
+// scss-lint:disable QualifyingElement
+ol.wc-listlayout {
+	margin-left: $list-layout-ordered-spacing;
+
+	&.none {
+		margin-left: 0;
+	}
+
+	&.flat { // flat ordered lists use a pseudo-element with a counter
+		counter-reset: li;
+		margin-left: 0;
+
+		> li:before {
+			content: counter(li) '.';
+			counter-increment: li;
+			margin-right: $hgap-small;
+		}
+
+		&.none > li:before { // remove the counter if the separator is none
+			content: '';
+		}
+	}
+}

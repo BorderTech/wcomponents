@@ -19,13 +19,14 @@ define(["wc/ui/ajax/processResponse", "wc/dom/Widget", "wc/dom/initialise", "wc/
 		 * @private
 		 */
 		function FieldAjaxSubscriber() {
-			var FIELD = new Widget("li", "field"),
-				NO_PARENT_ATTRIB = "data-wc-nop";
+			var FIELD = new Widget("", "wc-field"),
+				NO_PARENT_ATTRIB = "data-wc-nop",
+				PLACEHOLDER;
 
 			/**
 			 * Before inserting a container into the DOM we may need to manipulate some properties which are not
 			 * available to the XSLT as they are ancestor dependent. This will only be the case if the element being
-			 * acted upon is the output of ui:field without a ui:fieldLayout parent.
+			 * acted upon is the output of ui:field without a ui:fieldlayout parent.
 			 *
 			 * @function
 			 * @private
@@ -35,46 +36,35 @@ define(["wc/ui/ajax/processResponse", "wc/dom/Widget", "wc/dom/initialise", "wc/
 			function ajaxSubscriber(element, documentFragment) {
 				var fieldElement,
 					layout,
-					labelWidth,
-					inputContainer,
-					labelContainer,
-					isStacked,
-					PC = "%";
+					pl;
 
-				if (element && FIELD.isOneOfMe(element)) {
-					// we have to have a field layout to reference, it should be element's parent element and we only care if it has a data-wc-labelwidth attribute
-					if (!(((layout = element.parentNode)) && (labelWidth = layout.getAttribute("data-wc-labelwidth")))) {
-						return;
-					}
+				if (!(element && FIELD.isOneOfMe(element))) {
+					return;
+				}
 
-					labelWidth = parseInt(labelWidth, 10);
-					if (!labelWidth || isNaN(labelWidth)) {
-						return;
-					}
+				// we have to have a field layout to reference, it should be element's parent element and we only care if it has a data-wc-labelwidth attribute
+				if (!(layout = element.parentNode)) {
+					return;
+				}
 
-					if (documentFragment.getElementById) {
-						// IE, perhaps some others
-						fieldElement = documentFragment.getElementById(element.id);
-					}
-					else if (documentFragment.querySelector) {
-						fieldElement = documentFragment.querySelector("#" + element.id);
-					}
+				if (documentFragment.getElementById) {
+					// IE, perhaps some others
+					fieldElement = documentFragment.getElementById(element.id);
+				}
+				else if (documentFragment.querySelector) {
+					fieldElement = documentFragment.querySelector("#" + element.id);
+				}
 
-					if (fieldElement && fieldElement.getAttribute(NO_PARENT_ATTRIB) === "true") {
-						fieldElement.removeAttribute(NO_PARENT_ATTRIB);
-						isStacked = classList.contains(layout, "stacked");
+				if (!fieldElement) {
+					return;
+				}
 
-						if (!isStacked && (labelContainer = fieldElement.firstChild)) {
-							labelContainer.style.width = labelWidth + PC;
-						}
-
-						if ((inputContainer = fieldElement.lastChild)) {
-							inputContainer.style.width = (100 - labelWidth) + PC;
-							inputContainer.style.maxWidth = (100 - labelWidth) + PC;
-							// stacked field layouts or inputs where the label is rendered off-screen need a left margin.
-							if (isStacked || (labelContainer && classList.contains(labelContainer, "wc_off"))) {
-								inputContainer.style.marginLeft = labelWidth + PC;
-							}
+				if (fieldElement.getAttribute(NO_PARENT_ATTRIB) === "true") {
+					fieldElement.removeAttribute(NO_PARENT_ATTRIB);
+					if (classList.contains(layout, "stacked")) {
+						PLACEHOLDER = PLACEHOLDER || new Widget("", "wc_fld_pl");
+						if ((pl = PLACEHOLDER.findDescendant(fieldElement))) {
+							pl.parentElement.removeChild(pl);
 						}
 					}
 				}

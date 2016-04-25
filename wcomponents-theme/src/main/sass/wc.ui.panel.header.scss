@@ -1,23 +1,17 @@
 /* wc.ui.panel.header.scss */
 // This contains CSS for WPanel Type.HEADER which is used to make the page header (role banner) and is most commonly
 // over-ridden.
-@import 'wc.ui.panel_vars.scss';
+@import 'panel_vars';
 
-[role='banner'] {
-	background-color: $wc-ui-color-panel-header-background;
-	color: $wc-ui-color-panel-header-foreground;
+[role='banner'] h1 {
+	font-size: 2.25rem;
+	font-weight: lighter;
+	margin: 0;
+	padding: $vgap-normal $hgap-normal;
+}
 
-	h1 {
-		color: $wc-ui-color-panel-header-foreground;
-		font-size: 3em;
-		font-weight: lighter;
-		margin: 0;
-		padding: 0.25em 0.3333em;
-	}
-
-	a,
-	a:visited {
-		color: $wc-ui-color-panel-header-foreground;
+@include respond-phonelike {
+	[role='banner'] > :first-child {
+		@include flex($direction: row-reverse, $wrap: wrap, $justify: space-between, $align-items: center);
 	}
 }
-/* end wc.ui.panel.header.scss */

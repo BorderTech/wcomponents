@@ -1,9 +1,9 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"], function(registerSuite, assert, testutils) {
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], function(registerSuite, assert, testutils) {
 	"use strict";
 
 	var TEST_MODULE = "wc/dom/keyWalker",
 		controller, testHolder,
-		urlResource = "../../target/test-classes/wcomponents-theme/intern/resources/domKeyWalker.html",
+		urlResource = "@RESOURCES@/domKeyWalker.html",
 		groupedElements,
 		treeRoot;
 
@@ -47,11 +47,12 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 	registerSuite({
 		name: TEST_MODULE,
 		setup: function() {
-			return testutils.setupHelper([TEST_MODULE], function(obj) {
-				controller = obj;
+			var result = testutils.setupHelper([TEST_MODULE]).then(function(arr) {
+				controller = arr[0];
 				testHolder = testutils.getTestHolder();
-				testutils.setUpExternalHTML(urlResource, testHolder);
+				return testutils.setUpExternalHTML(urlResource, testHolder);
 			});
+			return result;
 		},
 		beforeEach: function() {
 			if (!groupedElements) {
@@ -155,9 +156,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 					if (el.getAttribute("aria-hidden") === "true" || el.getAttribute("aria-disabled") === "true") {
 						return NodeFilter.FILTER_REJECT;
 					}
-					else {
-						return NodeFilter.FILTER_ACCEPT;
-					}
+					return NodeFilter.FILTER_ACCEPT;
 				},
 				actual = controller.getTarget(makeGroupConfig(false, _filter), start, controller.MOVE_TO.LAST);
 			assert.strictEqual(actual, expected, "getTarget LAST with filter should skip the filtered items.");
@@ -169,9 +168,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 					if (el.id === "domKeyWalkerGroupR1") {
 						return NodeFilter.FILTER_REJECT;
 					}
-					else {
-						return NodeFilter.FILTER_ACCEPT;
-					}
+					return NodeFilter.FILTER_ACCEPT;
 				},
 				actual = controller.getTarget(makeGroupConfig(false, _filter), start, controller.MOVE_TO.FIRST);
 			assert.strictEqual(actual, expected, "getTarget LAST with filter should skip the filtered items.");
@@ -182,7 +179,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				controller.getTarget(makeGroupConfig(), start, controller.MOVE_TO.PARENT);
 				assert.fail(null, !null, "controller.MOVE_TO.PARENT should throw a ReferenceError");
 			}
-			catch(e) {
+			catch (e) {
 				assert.isTrue(true);
 			}
 		},
@@ -192,7 +189,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				controller.getTarget(makeGroupConfig(), start, controller.MOVE_TO.CHILD);
 				assert.fail(null, !null, "controller.MOVE_TO.CHILD should throw a ReferenceError");
 			}
-			catch(e) {
+			catch (e) {
 				assert.isTrue(true);
 			}
 		},
@@ -202,7 +199,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				controller.getTarget(makeGroupConfig(), start, controller.MOVE_TO.LAST_CHILD);
 				assert.fail(null, !null, "controller.MOVE_TO.LAST_CHILD should throw a ReferenceError");
 			}
-			catch(e) {
+			catch (e) {
 				assert.isTrue(true);
 			}
 		},
@@ -452,7 +449,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				controller.getTarget(makeTreeConfig(), start, -1);
 				assert.fail(null, !null, "direction -1 should throw a ReferenceError");
 			}
-			catch(e) {
+			catch (e) {
 				assert.isTrue(true);
 			}
 		}

@@ -1,0 +1,34 @@
+/* wc.ui.treeIcons.scss */
+@import 'tree-vars';
+
+.wc_leaf_vopener,
+.wc_leaf_noimg,
+.wc_leaf_hopener {
+	&:before {
+		@include wc-icon-fw($text-align: left);
+	}
+}
+
+.wc_leaf_vopener:before {
+	[aria-expanded] > & {
+		content: $fa-var-caret-right;
+	}
+
+	[aria-expanded='true'] > & {
+		content: $fa-var-caret-down;
+	}
+}
+
+.wc_leaf_noimg:before { // placeholder image
+	content: $fa-var-file-o;
+
+	button > & {
+		[aria-expanded] > & {
+			content: $fa-var-folder-o;
+		}
+
+		[aria-expanded='true'] > & {
+			content: $fa-var-folder-open-o;
+		}
+	}
+}

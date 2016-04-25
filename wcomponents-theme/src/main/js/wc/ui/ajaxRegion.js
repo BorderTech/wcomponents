@@ -129,30 +129,40 @@ define(["wc/dom/event",
 			 * @function module:wc/ui/ajaxRegion.requestLoad
 			 * @public
 			 * @param {Element} element The element which is being changed.
+			 * @param {Object} [obj] A trigger definition dto.
+			 * @param {Boolean} [ignoreAncestor] Indicates to not look up the tree when trying to find a trigger.
 			 */
-			this.requestLoad = function(element) {
-				var trigger,
+			this.requestLoad = function(element, obj, ignoreAncestor) {
+				var trigger = triggerManager.getTrigger(element, ignoreAncestor),
 					alias,
 					loads,
-					id = element.id;
-				if (element.hasAttribute("aria-controls")) {
-					alias = element.getAttribute(ALIAS);
-					trigger = triggerManager.getTrigger(element);
+					id,
+					controls;
 
-					if (!trigger) {
-						loads = element.getAttribute("aria-controls").split(" ");
-
+				if (!trigger) {
+					if (obj) {
+						this.register(obj);
+					}
+					else {
+						id = element.id;
+						alias = element.getAttribute(ALIAS);
+						if ((controls = element.getAttribute("aria-controls"))) {
+							loads = controls.split(" ");
+						}
+						else {
+							loads = [id];
+						}
 						this.register({
 							id: id,
 							loads: loads,
 							alias: alias});
-
-						trigger = triggerManager.getTrigger(element);
 					}
 
-					if (trigger) {
-						fireThisTrigger(element, trigger);
-					}
+					trigger = triggerManager.getTrigger(element);
+				}
+
+				if (trigger) {
+					fireThisTrigger(element, trigger);
 				}
 			};
 

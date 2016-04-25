@@ -1,12 +1,12 @@
-define(["intern!object", "intern/chai!assert", "./resources/test.utils"],
+define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 		function (registerSuite, assert, testutils) {
 			"use strict";
 			var controller;
 			registerSuite({
 				name: "ArrayUnique",
 				setup: function() {
-					return testutils.setupHelper(["wc/array/unique"], function(obj) {
-						controller = obj;
+					return testutils.setupHelper(["wc/array/unique"]).then(function(arr) {
+						controller = arr[0];
 					});
 				},
 				testArrayUnique: function () {

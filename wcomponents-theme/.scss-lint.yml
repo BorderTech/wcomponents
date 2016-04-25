@@ -1,9 +1,13 @@
+scss_files: 'src/main/sass/*.scss'
+
+exclude: 'src/main/sass/libs/**'
+
 linters:
 # inherit defaults except:
 
   Comment:
     enabled: true
-    allowed: '^\/\*(:? [e|E]nd)? wc\.[a-zA-Z0-9\._]+\.scss \*\/$' # allow file name in head and tail comment.
+    allowed: '^\/\* [a-zA-Z0-9\.\-_]+\.scss \*\/$' # allow file name in head comment.
 
   DisableLinterReason:
     enabled: true
@@ -12,12 +16,6 @@ linters:
     enabled: true
     # default same_line which does not align with our eslint rules and is slightly less readable.
     style: new_line
-
-  ImportPath:
-    enabled: true
-    leading_underscore: false
-    # default false - this should be easy enough to fix but does not gel with IDE autocomplete.
-    filename_extension: true
 
   Indentation:
     enabled: true
@@ -37,9 +35,18 @@ linters:
     enabled: true
     max_depth: 4 # default 3
 
+  # Allow element qualifiers with attribute selectors. We use a lot of attribute selectors and using an element
+  # qualifier on a pure attribute selector improves CSS performance.
+  QualifyingElement:
+    enabled: true #default true
+    allow_element_with_attribute: true # default false
+
   SelectorDepth:
     enabled: true
     max_depth: 4 # default 3
 
   SelectorFormat:
     enabled: false # selectors include XML element and attribute values in camelCase. We may review this.
+
+  PseudoElement:
+      enabled: false

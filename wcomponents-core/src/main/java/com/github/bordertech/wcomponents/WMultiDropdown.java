@@ -1,9 +1,8 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.Util;
 import java.util.Arrays;
 import java.util.List;
-
-import com.github.bordertech.wcomponents.util.Util;
 
 /**
  * <p>
@@ -17,109 +16,99 @@ import com.github.bordertech.wcomponents.util.Util;
  * </p>
  * <p>
  * The following attributes can be set on WMultiDropdown:
+ * </p>
  * <ul>
  * <li>maxInputs: The maximum number of text inputs the user can add to the component. Client-side functionality will
  * stop users adding more than the allowable number of inputs via the UI. This class chops off any excess inputs if an
  * attempt is made to add them programmatically.</li>
  * </ul>
- * </p>
- * 
+ *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WMultiDropdown extends AbstractWMultiSelectList implements AjaxTrigger, AjaxTarget, SubordinateTarget
-{
-    /**
-     * Creates an empty WMultiDropdown.
-     */
-    public WMultiDropdown()
-    {
-        this((List) null);
-    }
+public class WMultiDropdown extends AbstractWMultiSelectList implements AjaxTrigger, AjaxTarget,
+		SubordinateTarget {
 
-    /**
-     * Creates a WMultiDropdown with the specified list of options.
-     * 
-     * @param aList the list of available options.
-     */
-    public WMultiDropdown(final List aList)
-    {
-        super(aList, false);
-    }
+	/**
+	 * Creates an empty WMultiDropdown.
+	 */
+	public WMultiDropdown() {
+		this((List) null);
+	}
 
-    /**
-     * Creates a WMultiDropdown with the specified list of options.
-     * 
-     * @param options the list of available options.
-     */
-    public WMultiDropdown(final Object[] options)
-    {
-        super(Arrays.asList(options), false);
-    }
+	/**
+	 * Creates a WMultiDropdown with the specified list of options.
+	 *
+	 * @param aList the list of available options.
+	 */
+	public WMultiDropdown(final List aList) {
+		super(aList, false);
+	}
 
-    /**
-     * Creates a WMultiDropdown with the options provided by the given table.
-     * 
-     * @param table the table to obtain the list's options from.
-     */
-    public WMultiDropdown(final Object table)
-    {
-        super(table, false);
-    }
+	/**
+	 * Creates a WMultiDropdown with the specified list of options.
+	 *
+	 * @param options the list of available options.
+	 */
+	public WMultiDropdown(final Object[] options) {
+		super(Arrays.asList(options), false);
+	}
 
-    /**
-     * Sets the maximum allowable number of inputs.
-     * 
-     * @param maxInputs the maximum allowable number of inputs, or &lt;=0 for unlimited inputs.
-     * @deprecated Use {{@link #setMaxSelect(int)} instead
-     */
-    @Deprecated
-    public void setMaxInputs(final int maxInputs)
-    {
-        setMaxSelect(maxInputs);
-    }
+	/**
+	 * Creates a WMultiDropdown with the options provided by the given table.
+	 *
+	 * @param table the table to obtain the list's options from.
+	 */
+	public WMultiDropdown(final Object table) {
+		super(table, false);
+	}
 
-    /**
-     * @return the maximum allowable number of inputs
-     * @deprecated Use {{@link #getMaxSelect()} instead
-     */
-    @Deprecated
-    public int getMaxInputs()
-    {
-        return getMaxSelect();
-    }
+	/**
+	 * Sets the maximum allowable number of inputs.
+	 *
+	 * @param maxInputs the maximum allowable number of inputs, or &lt;=0 for unlimited inputs.
+	 * @deprecated Use {{@link #setMaxSelect(int)} instead
+	 */
+	@Deprecated
+	public void setMaxInputs(final int maxInputs) {
+		setMaxSelect(maxInputs);
+	}
 
-    /**
-     * Override getNewSelections to ensure that the max number of inputs is honoured and that there are no duplicates.
-     * This should not normally occur, as the client side js should prevent it.
-     * 
-     * @param request the current request
-     * @return a list of selections that have been added in the given request.
-     */
-    @Override
-    protected List getNewSelections(final Request request)
-    {
-        List selections = super.getNewSelections(request);
+	/**
+	 * @return the maximum allowable number of inputs
+	 * @deprecated Use {{@link #getMaxSelect()} instead
+	 */
+	@Deprecated
+	public int getMaxInputs() {
+		return getMaxSelect();
+	}
 
-        if (selections != null)
-        {
-            // Ensure that there are no duplicates
-            for (int i = 0; i < selections.size(); i++)
-            {
-                Object selection = selections.get(i);
+	/**
+	 * Override getNewSelections to ensure that the max number of inputs is honoured and that there are no duplicates.
+	 * This should not normally occur, as the client side js should prevent it.
+	 *
+	 * @param request the current request
+	 * @return a list of selections that have been added in the given request.
+	 */
+	@Override
+	protected List getNewSelections(final Request request) {
+		List selections = super.getNewSelections(request);
 
-                for (int j = i + 1; j < selections.size(); j++)
-                {
-                    if (Util.equals(selection, selections.get(j)))
-                    {
-                        selections.remove(j--);
-                    }
-                }
-            }
-        }
+		if (selections != null) {
+			// Ensure that there are no duplicates
+			for (int i = 0; i < selections.size(); i++) {
+				Object selection = selections.get(i);
 
-        return selections;
-    }
+				for (int j = i + 1; j < selections.size(); j++) {
+					if (Util.equals(selection, selections.get(j))) {
+						selections.remove(j--);
+					}
+				}
+			}
+		}
+
+		return selections;
+	}
 
 }

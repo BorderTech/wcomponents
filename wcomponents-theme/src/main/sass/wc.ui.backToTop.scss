@@ -1,20 +1,23 @@
 /* wc.ui.backToTop.scss */
-@import 'mixins_common.scss';
+@import 'mixins-common';
 
+/// The back to top of page link.
 .wc_btt {
-	bottom: 1em;
+	bottom: 1rem;
+	opacity: 0.5;
 	position: fixed;
-	right: 1em;
+	right: 1rem;
+	text-decoration: none;
 
 	&:before {
-		content: url('../images/backToTop.svg');
 		display: block;
-		height: 4em;
-		width: 4em;
+		font-size: 1.5rem;
+		line-height: inherit;
+		text-align: center;
+		vertical-align: middle;
 	}
 
 	> span {
-		@include offscreen();
+		@include offscreen;
 	}
 }
-/* end wc.ui.backToTop.scss */

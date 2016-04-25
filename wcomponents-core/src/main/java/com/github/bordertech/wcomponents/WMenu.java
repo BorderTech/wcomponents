@@ -1,509 +1,643 @@
-package com.github.bordertech.wcomponents; 
+package com.github.bordertech.wcomponents;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * <p>This component enables rendering of a menuing system for an application.
- * A menu bar consists of a collection of either "Menu Items" (see {@link WMenuItem} 
- * or "Sub Menus" (see {@link WSubMenu}).</p>
- * 
- * @author Adam Millard 
+ * <p>
+ * This component enables rendering of a menuing system for an application. A menu bar consists of a collection of
+ * either "Menu Items" (see {@link WMenuItem} or "Sub Menus" (see {@link WSubMenu}).</p>
+ *
+ * @author Adam Millard
  * @author Yiannis Paschalidis
+ * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WMenu extends AbstractNamingContextContainer implements Disableable, AjaxTarget, Marginable
-{
-    /**
-     * The available types of client-side menus. 
-     * @author Yiannis Paschalidis
-     */
-    public static enum MenuType 
-    {
-        /** The menu is displayed as a horizontal bar, similar to menu bars in desktop applications. */
-        BAR, 
-        /** The menu is displayed as a series of buttons. This is most commonly used to display a single submenu as a button. */
-        FLYOUT, 
-        /** The menu is displayed as a tree structure. */
-        TREE, 
-        /** 
-         * The menu is displayed columns from left to right. This menu type supports 
-         * multiple selections of menu items and sub-menus. 
-         */
-        COLUMN
-    };
-    
-    /**
-     * The available types of selection mode for the items in a menu.
-     */
-    public static enum SelectMode 
-    {
-        /** No items can be selected. */
-        NONE, 
-        /** A single item can be selected. */
-        SINGLE, 
-        /** Multiple items can be selected. */
-        MULTIPLE
-    };
-    
-    /** The type of menu. */
-    private final MenuType type;
+public class WMenu extends AbstractNamingContextContainer implements Disableable, AjaxTarget,
+		Marginable, MenuSelectContainer {
 
-    /**
-     * Creates a WMenu which is displayed as a menu bar.
-     */
-    public WMenu()
-    {
-        this(MenuType.BAR);
-    }
+	/**
+	 * The available types of client-side menus.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+	public enum MenuType {
+		/**
+		 * The menu is displayed as a horizontal bar, similar to menu bars in desktop applications.
+		 */
+		BAR,
+		/**
+		 * The menu is displayed as a series of buttons. This is most commonly used to display a single submenu as a
+		 * button.
+		 */
+		FLYOUT,
+		/**
+		 * The menu is displayed as a tree structure.
+		 * @deprecated use {@link com.github.bordertech.wcomponents.WTree}
+		 */
+		TREE,
+		/**
+		 * The menu is displayed columns from left to right. This menu type supports multiple selections of menu items
+		 * and sub-menus.
+		 */
+		COLUMN
+	};
 
-    /**
-     * Creates a WMenu of the given type.
-     * 
-     * @param type the type of WMenu to create.
-     */
-    public WMenu(final MenuType type)
-    {
-        this.type = type;
-    }
-    
-    /**
-     * @return the menu type.
-     */
-    public MenuType getType() 
-    {
-        return type;
-    }
-    
-    /**
-     * @return the number of rows to display for a column menu.
-     */
-    public int getRows()
-    {
-        return getComponentModel().rows;
-    }
+	/**
+	 * The available types of selection mode for the items in a menu.
+	 *
+	 * @deprecated Use {@link MenuSelectContainer#getSelectionMode()} instead.
+	 */
+	@Deprecated
+	public enum SelectMode {
+		/**
+		 * No items can be selected.
+		 */
+		NONE,
+		/**
+		 * A single item can be selected.
+		 */
+		SINGLE,
+		/**
+		 * Multiple items can be selected.
+		 */
+		MULTIPLE
+	};
 
-    /**
-     * Sets the number of rows to display for a column menu.
-     * @param rows The rows to set.
-     */
-    public void setRows(final int rows)
-    {
-        getOrCreateComponentModel().rows = rows;
-    }
-    
-    /** {@inheritDoc} */
-    @Override
-    public void setMargin(final Margin margin)
-    {
-        getOrCreateComponentModel().margin = margin;
-    }
+	/**
+	 * The type of menu.
+	 */
+	private final MenuType type;
 
-    /** {@inheritDoc} */
-    @Override
-    public Margin getMargin()
-    {
-        return getComponentModel().margin;
-    }
-    
-    /**
-     * @return the select mode for the items in this subMenu.
-     */
-    public SelectMode getSelectMode()
-    {
-        return getComponentModel().selectMode;
-    }
+	/**
+	 * Hold the menu's items.
+	 */
+	private final WContainer content = new WContainer();
 
-    /**
-     * @param selectMode the select mode for the items in this subMenu.
-     */
-    public void setSelectMode(final SelectMode selectMode)
-    {
-        getOrCreateComponentModel().selectMode = selectMode;
-    }
-    
-    /**
-     * Adds a separator to the end of the menu.
-     */
-    public void addSeparator()
-    {
-        add(new WSeparator());
-    }
+	/**
+	 * Creates a WMenu which is displayed as a menu bar.
+	 */
+	public WMenu() {
+		this(MenuType.BAR);
+	}
 
-    /**
-     * Indicates whether this menu is disabled.
-     * 
-     * @return true if this menu is disabled.
-     */
-    @Override
-    public boolean isDisabled()
-    {
-        return isFlagSet(ComponentModel.DISABLED_FLAG);
-    }
+	/**
+	 * Creates a WMenu of the given type.
+	 *
+	 * @param type the type of WMenu to create.
+	 */
+	public WMenu(final MenuType type) {
+		this.type = type;
+		add(content);
+	}
 
-    /**
-     * Sets whether this menu is disabled.
-     * @param disabled if true, the menu will be disabled.
-     */
-    @Override
-    public void setDisabled(final boolean disabled)
-    {
-        setFlag(ComponentModel.DISABLED_FLAG, disabled);
-    }
-    
-    /**
-     * Adds the given menu item to this component.
-     * 
-     * @param item the item to add.
-     */
-    public void add(final WMenuItem item)
-    {
-        super.add(item);
-    }
-    
-    /**
-     * Adds the given sub-menu as a child of this component.
-     * 
-     * @param item the sub-menu to add.
-     */
-    public void add(final WSubMenu item)
-    {
-        super.add(item);
-    }
+	/**
+	 * @return the menu type.
+	 */
+	public MenuType getType() {
+		return type;
+	}
 
-    /**
-     * Adds the given group as a child of this component.
-     * 
-     * @param item group the group to add.
-     */
-    public void add(final WMenuItemGroup item)
-    {
-        super.add(item);
-    }
-    
-    /**
-     * Adds the given separator as a child of this component.
-     * 
-     * @param separator the separator to add.
-     */
-    public void add(final WSeparator separator)
-    {
-        super.add(separator);
-    }
+	/**
+	 * @return the number of rows to display for a column menu.
+	 * @deprecated No longer supported, no Java alternative. If this is required use application level CSS.
+	 */
+	public int getRows() {
+		return getComponentModel().rows;
+	}
 
-    /** {@inheritDoc} */
-    @Override // to make public
-    public void remove(final WComponent child)
-    {
-        super.remove(child);
-    }
-    
-    /**
-     * Returns the selected item (WMenUItem/WSubMenu, depending on the menu type) in the given context.
-     * 
-     * @return the selected item, or null if no item has been selected.
-     */
-    public WComponent getSelectedItem()
-    {
-        List<WComponent> selectedItems = getSelectedItems();
-        if (selectedItems.isEmpty())
-        {
-            return null;
-        }
-        else
-        {
-            return selectedItems.get(0);
-        }
-    }
+	/**
+	 * Sets the number of rows to display for a column menu.
+	 *
+	 * @deprecated No longer supported, no Java alternative. If this is required use application level CSS.
+	 * @param rows The rows to set.
+	 */
+	public void setRows(final int rows) {
+		getOrCreateComponentModel().rows = rows;
+	}
 
-    /**
-     * Returns the selected items (WMenUItems/WSubMenus, depending on the menu type) in the given context.
-     * 
-     * @return the selected items, or an empty list if nothing is selected.
-     */
-    public List<WComponent> getSelectedItems()
-    {
-        List<WComponent> selectedItems = getComponentModel().selectedItems; 
-        
-        if (selectedItems == null)
-        {
-            selectedItems = Collections.emptyList();
-        }
-        else
-        {
-            selectedItems = Collections.unmodifiableList(selectedItems);
-        }
-        
-        return selectedItems;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Margin getMargin() {
+		return getComponentModel().margin;
+	}
 
-    /**
-     * Sets the selected items (WMenuItems or WSubMenus, depending on the menu type).
-     * @param selectedItems the selected items.
-     */
-    public void setSelectedItems(final List<WComponent> selectedItems)
-    {
-        MenuModel model = getOrCreateComponentModel();
-        model.selectedItems = new ArrayList<WComponent>(selectedItems);
-    }
-    
-    /**
-     * Clears an existing list of selected items.
-     */
-    public void clearSelectedItems()
-    {
-        MenuModel model = getOrCreateComponentModel();
-        model.selectedItems = null;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setMargin(final Margin margin) {
+		getOrCreateComponentModel().margin = margin;
+	}
 
-    /**
-     * Sets the selected item (WMenuItem and/or WSubMenu, depending on the menu type).
-     * @param selectedItem the selected item.
-     */
-    public void setSelectedItem(final WComponent selectedItem)
-    {
-        MenuModel model = getOrCreateComponentModel();
-        
-        if (model.selectedItems == null)
-        {
-            model.selectedItems = new ArrayList<WComponent>();
-        }
-        
-        model.selectedItems.clear();
-        model.selectedItems.add(selectedItem);
-    }
+	/**
+	 * @return the selection mode of the container
+	 * @deprecated Use {@link #getSelectionMode()} instead.
+	 */
+	@Deprecated
+	public SelectMode getSelectMode() {
+		switch (getSelectionMode()) {
+			case MULTIPLE:
+				return SelectMode.MULTIPLE;
 
-    /**
-     * Override handleRequest in order to perform processing specific to WMenu.
-     * 
-     * @param request the request being handled.
-     */
-    @Override
-    public void handleRequest(final Request request)
-    {
-        if (isDisabled())
-        {
-            // Protect against client-side tampering of disabled/read-only fields.
-            return;
-        }
-        
-        if (isPresent(request))
-        {
-            List<WComponent> selections = new ArrayList<WComponent>();
-            // Unfortunately, we need to recurse through all the menu/sub-menus
-            findSelections(request, this, selections);
-            setSelectedItems(selections);
-        }
-    }
+			case SINGLE:
+				return SelectMode.SINGLE;
+			default:
+				return SelectMode.NONE;
+		}
+	}
 
-    /**
-     * Determine if this WMenu is on the Request.
-     * 
-     * @param request the request being responded to.
-     * @return true if this WMenu is on the Request, otherwise return false.
-     */
-    protected boolean isPresent(final Request request)
-    {
-        return request.getParameter(getId() + "-h") != null;
-    }
-    
-    /**
-     * Finds the selected items in a menu for a request.
-     * 
-     * @param request the request being handled
-     * @param component the menu or sub-menu
-     * @param selections the current set of selections
-     */
-    private void findSelections(final Request request, final Container component,
-                                final List<WComponent> selections)
-    {
-        // Don't bother checking disabled or invisible components
-        if (!component.isVisible()
-            || (component instanceof Disableable && ((Disableable) component).isDisabled()))
-        {
-            return;
-        }
+	/**
+	 * @param selectMode the selection mode for the items in this menu container.
+	 *
+	 * @deprecated Use {@link #setSelectionMode(com.github.bordertech.wcomponents.MenuSelectContainer.SelectionMode)} instead.
+	 */
+	@Deprecated
+	public void setSelectMode(final SelectMode selectMode) {
+		if (selectMode == null) {
+			setSelectionMode(null);
+		} else {
+			switch (selectMode) {
+				case MULTIPLE:
+					setSelectionMode(SelectionMode.MULTIPLE);
+					break;
+				case SINGLE:
+					setSelectionMode(SelectionMode.SINGLE);
+					break;
+				default:
+					setSelectionMode(SelectionMode.NONE);
+			}
+		}
+	}
 
-        final SelectMode selectMode;
-        if (component instanceof WMenu)
-        {
-            selectMode = ((WMenu) component).getSelectMode();
-        }
-        else
-        {
-            selectMode = ((WSubMenu) component).getSelectMode();
-        }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public SelectionMode getSelectionMode() {
+		return getComponentModel().selectionMode;
+	}
 
-        // Get any selectable children of this menu/sub-menu
-        List<WComponent> selectableChildren = getSelectableChildren(component, selectMode);
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setSelectionMode(final SelectionMode selectionMode) {
+		getOrCreateComponentModel().selectionMode = selectionMode == null ? SelectionMode.NONE : selectionMode;
+	}
 
-        // Now add the selections
-        if (selectableChildren != null)
-        {
-            for (WComponent selectableItem : selectableChildren)
-            {
-                if (request.getParameter(selectableItem.getId() + ".selected") != null)
-                {
-                    selections.add(selectableItem);
+	/**
+	 * Indicates whether this menu is disabled.
+	 *
+	 * @return true if this menu is disabled.
+	 */
+	@Override
+	public boolean isDisabled() {
+		return isFlagSet(ComponentModel.DISABLED_FLAG);
+	}
 
-                    if (SelectMode.SINGLE.equals(selectMode))
-                    {
-                        // Only select the first item at this level.
-                        // We still need to check other levels of the menu for selection.
-                        break;
-                    }
-                }
-            }
-        }
+	/**
+	 * Sets whether this menu is disabled.
+	 *
+	 * @param disabled if true, the menu will be disabled.
+	 */
+	@Override
+	public void setDisabled(final boolean disabled) {
+		setFlag(ComponentModel.DISABLED_FLAG, disabled);
+	}
 
-        // We need to recurse through any sub-menus in this menu/sub-menu
-        final int childCount = component.getChildCount();
-        
-        for (int i = 0; i < childCount; i++)
-        {
-            WComponent child = component.getChildAt(i);
-            
-            if (child instanceof WMenuItemGroup)
-            {
-                WMenuItemGroup group = (WMenuItemGroup) child;
-                final int groupChildCount = group.getChildCount();
-                
-                for (int j = 0; j < groupChildCount; j++)
-                {
-                    if (group.getChildAt(j) instanceof WSubMenu)
-                    {
-                        findSelections(request, (WSubMenu) group.getChildAt(j), selections);
-                    }
-                }
-            }
-            else if (child instanceof WSubMenu)
-            {
-                findSelections(request, (WSubMenu) child, selections);
-            }
-        }
-    }
+	/**
+	 * Adds a separator to the end of the menu.
+	 */
+	public void addSeparator() {
+		addMenuItem(new WSeparator());
+	}
 
-    /**
-     * Retrieves the selectable children for the given component.
-     * 
-     * @param parent the component to search within.
-     * @param parentSelectMode the select mode of the current menu/sub-menu
-     * @return the list of selectable children for the given component. May be empty.
-     */
-    private List<WComponent> getSelectableChildren(final Container parent,
-                                                   final SelectMode parentSelectMode)
-    {
-        List<WComponent> result = new ArrayList<WComponent>(parent.getChildCount());
+	/**
+	 * @param item add a {@link WSeparator}
+	 */
+	public void add(final WSeparator item) {
+		addMenuItem(item);
+	}
 
-        for (int i = 0; i < parent.getChildCount(); i++)
-        {
-            WComponent child = parent.getChildAt(i);
-            
-            if (child instanceof WMenuItemGroup)
-            {
-                WMenuItemGroup group = (WMenuItemGroup) child;
-                
-                // Grouping doesn't affect selectability.
-                // Groups can not be nested, so just loop through the group's children.
-                for (int j = 0; j < group.getChildCount(); j++)
-                {
-                    WComponent groupedChild = group.getChildAt(j);
-                    
-                    if (isSelectable(groupedChild, parentSelectMode))
-                    {
-                        result.add(groupedChild);
-                    }
-                }
-            }
-            else if (isSelectable(child, parentSelectMode))
-            {
-                result.add(child);
-            }
-        }
+	/**
+	 * @param item add a {@link WMenuItem}
+	 */
+	public void add(final WMenuItem item) {
+		addMenuItem(item);
+	}
 
-        return result;
-    }
+	/**
+	 * @param item add a {@link WMenuItemGroup}
+	 * @deprecated menu groups are not compatible with WCAG 2.0.
+	 */
+	@Deprecated
+	public void add(final WMenuItemGroup item) {
+		addMenuItem(item);
+	}
 
-    /**
-     * Indicates whether the given component is selectable.
-     * 
-     * @param component the component to check.
-     * @param parentSelectMode the select mode of the current menu/sub-menu
-     * @return true if the component is selectable, false otherwise.
-     */
-    private boolean isSelectable(final WComponent component, final SelectMode parentSelectMode)
-    {
-        if (!component.isVisible()
-            || (component instanceof Disableable && ((Disableable) component).isDisabled()))
-        {
-            return false;
-        }
+	/**
+	 * @param item add a {@link WSubMenu}
+	 */
+	public void add(final WSubMenu item) {
+		addMenuItem(item);
+	}
 
-        boolean parentSupportsSelection = SelectMode.SINGLE.equals(parentSelectMode)
-                                          || SelectMode.MULTIPLE.equals(parentSelectMode);
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void addMenuItem(final MenuItem item) {
+		getContent().add(item);
+	}
 
-        if (component instanceof WMenuItem)
-        {
-            WMenuItem menuItem = (WMenuItem) component;
-            Boolean itemSelectable = menuItem.isSelectable();
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @deprecated Use {@link #removeMenuItem(com.github.bordertech.wcomponents.MenuItem)} instead.
+	 */
+	@Deprecated
+	@Override
+	public void remove(final WComponent item) {
+		if (item instanceof MenuItem) {
+			removeMenuItem((MenuItem) item);
+		}
+	}
 
-            return Boolean.TRUE.equals(itemSelectable)
-                   || (parentSupportsSelection && !Boolean.FALSE.equals(itemSelectable));
-        }
-        else if (component instanceof WSubMenu && MenuType.COLUMN.equals(type)) // sub-menus are only selectable in a
-                                                                                // column menu
-        {
-            WSubMenu subMenu = (WSubMenu) component;
-            Boolean itemSelectable = subMenu.isSelectable();
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void removeMenuItem(final MenuItem item) {
+		getContent().remove(item);
+	}
 
-            return Boolean.TRUE.equals(itemSelectable)
-                   || (parentSupportsSelection && !Boolean.FALSE.equals(itemSelectable));
-        }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void removeAllMenuItems() {
+		getContent().removeAll();
+	}
 
-        return false;
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List<MenuItem> getMenuItems() {
+		List<MenuItem> items = new ArrayList(getContent().getChildren());
+		return Collections.unmodifiableList(items);
+	}
 
-    /**
-     * Creates a new component model.
-     * @return a new MenuModel.
-     */
-    @Override
-    protected MenuModel newComponentModel()
-    {
-        return new MenuModel();
-    }
-    
-    /** {@inheritDoc} */
-    @Override
-    protected MenuModel getComponentModel()
-    {
-        return (MenuModel) super.getComponentModel();
-    }
+	/**
+	 * @param recurse true if recurse into child items that are menu containers (ie group items and submenus).
+	 * @return the list of menu items
+	 */
+	public List<MenuItem> getMenuItems(final boolean recurse) {
+		List<MenuItem> items = new ArrayList();
+		getChildMenuItems(items, recurse, this);
+		return Collections.unmodifiableList(items);
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    protected MenuModel getOrCreateComponentModel()
-    {
-        return (MenuModel) super.getOrCreateComponentModel();
-    }    
-    
-    /**
-     * Holds the state information for a WMenu.
-     * @author Yiannis Paschalidis 
-     */
-    public static class MenuModel extends ComponentModel
-    {
-        /** The list of selected items. */
-        private List<WComponent> selectedItems;
-        
-        /** The select mode of the menu. */
-        private SelectMode selectMode = SelectMode.NONE;
-        
-        /** The number of rows to display for a column menu. */
-        private int rows;
-        
-        /** The margins to be used on the menu. */
-        private Margin margin;
-    }
+	/**
+	 * Returns the selected item (WMenUItem/WSubMenu, depending on the menu type) in the given context.
+	 *
+	 * @return the selected item, or null if no item has been selected.
+	 * @deprecated Use {@link #getSelectedMenuItem()} instead.
+	 */
+	@Deprecated
+	public WComponent getSelectedItem() {
+		return getSelectedMenuItem();
+	}
+
+	/**
+	 * Sets the selected item (WMenuItem and/or WSubMenu, depending on the menu type).
+	 *
+	 * @param selectedItem the selected item.
+	 * @deprecated Use {@link #setSelectedMenuItem(com.github.bordertech.wcomponents.MenuItemSelectable)} instead.
+	 */
+	@Deprecated
+	public void setSelectedItem(final WComponent selectedItem) {
+		setSelectedMenuItem((MenuItemSelectable) selectedItem);
+	}
+
+	/**
+	 * Returns the selected items (WMenUItems/WSubMenus, depending on the menu type) in the given context.
+	 *
+	 * @return the selected items, or an empty list if nothing is selected.
+	 * @deprecated Use {@link #getSelectedMenuItems()} instead.
+	 */
+	@Deprecated
+	public List<WComponent> getSelectedItems() {
+		List<WComponent> items = new ArrayList(getSelectedMenuItems());
+		return Collections.unmodifiableList(items);
+	}
+
+	/**
+	 * Sets the selected items (WMenuItems or WSubMenus, depending on the menu type).
+	 *
+	 * @param selectedItems the selected items.
+	 * @deprecated Use {@link #setSelectedMenuItems(java.util.List)} instead.
+	 */
+	@Deprecated
+	public void setSelectedItems(final List<WComponent> selectedItems) {
+		if (selectedItems == null || selectedItems.isEmpty()) {
+			setSelectedMenuItems(null);
+		} else {
+			List<MenuItemSelectable> items = new ArrayList(selectedItems);
+			setSelectedMenuItems(items);
+		}
+	}
+
+	/**
+	 * Clears an existing list of selected items.
+	 *
+	 * @deprecated Use {@link #clearSelectedMenuItems()} instead.
+	 */
+	@Deprecated
+	public void clearSelectedItems() {
+		clearSelectedMenuItems();
+	}
+
+	/**
+	 * Returns the selected item (WMenUItem/WSubMenu, depending on the menu type) in the given context.
+	 *
+	 * @return the selected item, or null if no item has been selected.
+	 */
+	public MenuItemSelectable getSelectedMenuItem() {
+		List<MenuItemSelectable> selectedItems = getSelectedMenuItems();
+		if (selectedItems.isEmpty()) {
+			return null;
+		} else {
+			return selectedItems.get(0);
+		}
+	}
+
+	/**
+	 * Sets the selected item (WMenuItem and/or WSubMenu, depending on the menu type).
+	 *
+	 * @param selectedItem the selected item.
+	 */
+	public void setSelectedMenuItem(final MenuItemSelectable selectedItem) {
+		MenuModel model = getOrCreateComponentModel();
+		if (selectedItem == null) {
+			model.selectedMenuItems = null;
+		} else {
+			if (model.selectedMenuItems == null) {
+				model.selectedMenuItems = new ArrayList<>();
+			} else {
+				model.selectedMenuItems.clear();
+			}
+			model.selectedMenuItems.add(selectedItem);
+		}
+	}
+
+	/**
+	 * Returns the selected items (WMenUItems/WSubMenus, depending on the menu type) in the given context.
+	 *
+	 * @return the selected items, or an empty list if nothing is selected.
+	 */
+	public List<MenuItemSelectable> getSelectedMenuItems() {
+		List<MenuItemSelectable> selectedItems = getComponentModel().selectedMenuItems;
+		if (selectedItems == null || selectedItems.isEmpty()) {
+			return Collections.emptyList();
+		} else {
+			return Collections.unmodifiableList(selectedItems);
+		}
+	}
+
+	/**
+	 * Sets the selected items (WMenuItems or WSubMenus, depending on the menu type).
+	 *
+	 * @param selectedItems the selected items.
+	 */
+	public void setSelectedMenuItems(final List<? extends MenuItemSelectable> selectedItems) {
+		MenuModel model = getOrCreateComponentModel();
+		if (selectedItems == null || selectedItems.isEmpty()) {
+			model.selectedMenuItems = null;
+		} else {
+			model.selectedMenuItems = new ArrayList<>(selectedItems);
+		}
+	}
+
+	/**
+	 * Clears an existing list of selected items.
+	 */
+	public void clearSelectedMenuItems() {
+		MenuModel model = getOrCreateComponentModel();
+		model.selectedMenuItems = null;
+	}
+
+	/**
+	 * Override handleRequest in order to perform processing specific to WMenu.
+	 *
+	 * @param request the request being handled.
+	 */
+	@Override
+	public void handleRequest(final Request request) {
+		if (isDisabled()) {
+			// Protect against client-side tampering of disabled/read-only fields.
+			return;
+		}
+
+		if (isPresent(request)) {
+			List<MenuItemSelectable> selectedItems = new ArrayList<>();
+			// Unfortunately, we need to recurse through all the menu/sub-menus
+			findSelections(request, this, selectedItems);
+			setSelectedMenuItems(selectedItems);
+		}
+	}
+
+	/**
+	 * Determine if this WMenu is on the Request.
+	 *
+	 * @param request the request being responded to.
+	 * @return true if this WMenu is on the Request, otherwise return false.
+	 */
+	protected boolean isPresent(final Request request) {
+		return request.getParameter(getId() + "-h") != null;
+	}
+
+	/**
+	 * Finds the selected items in a menu for a request.
+	 *
+	 * @param request the request being handled
+	 * @param selectContainer the menu or sub-menu
+	 * @param selections the current set of selections
+	 */
+	private void findSelections(final Request request, final MenuSelectContainer selectContainer,
+			final List<MenuItemSelectable> selections) {
+
+		// Don't bother checking disabled or invisible containers
+		if (!selectContainer.isVisible()
+				|| (selectContainer instanceof Disableable && ((Disableable) selectContainer).isDisabled())) {
+			return;
+		}
+
+		// Get any selectable children of this container
+		List<MenuItemSelectable> selectableItems = getSelectableItems(selectContainer);
+
+		// Now add the selections (if in the request)
+		for (MenuItemSelectable selectableItem : selectableItems) {
+			// Check if the item is on the request
+			if (request.getParameter(selectableItem.getId() + ".selected") != null) {
+				selections.add(selectableItem);
+				if (SelectionMode.SINGLE.equals(selectContainer.getSelectionMode())) {
+					// Only select the first item at this level.
+					// We still need to check other levels of the menu for selection.
+					break;
+				}
+			}
+		}
+
+		// We need to recurse through and check for other selectable containers
+		for (MenuItem item : selectContainer.getMenuItems()) {
+			if (item instanceof MenuItemGroup) {
+				for (MenuItem groupItem : ((MenuItemGroup) item).getMenuItems()) {
+					if (groupItem instanceof MenuSelectContainer) {
+						findSelections(request, (MenuSelectContainer) groupItem, selections);
+					}
+				}
+			} else if (item instanceof MenuSelectContainer) {
+				findSelections(request, (MenuSelectContainer) item, selections);
+			}
+		}
+	}
+
+	/**
+	 * Retrieves the selectable items for the given container.
+	 *
+	 * @param selectContainer the component to search within.
+	 * @return the list of selectable items for the given component. May be empty.
+	 */
+	private List<MenuItemSelectable> getSelectableItems(final MenuSelectContainer selectContainer) {
+		List<MenuItemSelectable> result = new ArrayList<>(selectContainer.getMenuItems().size());
+
+		SelectionMode selectionMode = selectContainer.getSelectionMode();
+
+		for (MenuItem item : selectContainer.getMenuItems()) {
+			if (item instanceof MenuItemGroup) {
+				for (MenuItem groupItem : ((MenuItemGroup) item).getMenuItems()) {
+					if (isSelectable(groupItem, selectionMode)) {
+						result.add((MenuItemSelectable) groupItem);
+					}
+				}
+			} else if (isSelectable(item, selectionMode)) {
+				result.add((MenuItemSelectable) item);
+			}
+		}
+
+		return result;
+	}
+
+	/**
+	 * Indicates whether the given menu item is selectable.
+	 *
+	 * @param item the menu item to check.
+	 * @param selectionMode the select mode of the current menu/sub-menu
+	 * @return true if the meu item is selectable, false otherwise.
+	 */
+	private boolean isSelectable(final MenuItem item, final SelectionMode selectionMode) {
+
+		if (!(item instanceof MenuItemSelectable) || !item.isVisible()
+				|| (item instanceof Disableable && ((Disableable) item).isDisabled())) {
+			return false;
+		}
+
+		// SubMenus are only selectable in a column menu type
+		if (item instanceof WSubMenu && !MenuType.COLUMN.equals(getType())) {
+			return false;
+		}
+
+		// Item is specificially set to selectable/unselectable
+		Boolean itemSelectable = ((MenuItemSelectable) item).getSelectability();
+		if (itemSelectable != null) {
+			return itemSelectable;
+		}
+
+		// Container has selection turned on
+		return SelectionMode.SINGLE.equals(selectionMode) || SelectionMode.MULTIPLE.equals(selectionMode);
+
+	}
+
+	/**
+	 * @param items the list of menu items
+	 * @param recurse true if recurse into child items that are menu containers
+	 * @param container the current container
+	 */
+	private void getChildMenuItems(final List<MenuItem> items, final boolean recurse, final MenuContainer container) {
+
+		for (MenuItem item : container.getMenuItems()) {
+			items.add(item);
+			if (recurse && item instanceof MenuContainer) {
+				getChildMenuItems(items, recurse, (MenuContainer) item);
+			}
+		}
+	}
+
+	/**
+	 * @return the container holding the menu items
+	 */
+	private WContainer getContent() {
+		return content;
+	}
+
+	/**
+	 * Creates a new component model.
+	 *
+	 * @return a new MenuModel.
+	 */
+	@Override
+	protected MenuModel newComponentModel() {
+		return new MenuModel();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected MenuModel getComponentModel() {
+		return (MenuModel) super.getComponentModel();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected MenuModel getOrCreateComponentModel() {
+		return (MenuModel) super.getOrCreateComponentModel();
+	}
+
+	/**
+	 * Holds the state information for a WMenu.
+	 *
+	 * @author Yiannis Paschalidis
+	 */
+	public static class MenuModel extends ComponentModel {
+
+		/**
+		 * The list of selected items.
+		 */
+		private List<MenuItemSelectable> selectedMenuItems;
+
+		/**
+		 * The select mode of the menu.
+		 */
+		private SelectionMode selectionMode = SelectionMode.NONE;
+
+		/**
+		 * The number of rows to display for a column menu.
+		 * @deprecated No longer supported.
+		 */
+		private int rows;
+
+		/**
+		 * The margins to be used on the menu.
+		 */
+		private Margin margin;
+	}
+
 }

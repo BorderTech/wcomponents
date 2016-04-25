@@ -1,0 +1,28 @@
+/* wc.ui.table.paginationIcons.scss */
+@import 'mixins-common';
+
+// The deep nesting and repition here is necessitated by IE8's (and earlier)) lack of nth-child
+.wc_table_pag_cont button {
+	&::before {
+		content: $fa-var-angle-double-left;
+		min-width: 1rem;
+	}
+
+	&:nth-of-type(2) {
+		&::before {
+			content: $fa-var-angle-left;
+		}
+	}
+
+	&:nth-of-type(3) {
+		&::before {
+			content: $fa-var-angle-right;
+		}
+	}
+
+	&:last-of-type {
+		&::before {
+			content: $fa-var-angle-double-right;
+		}
+	}
+}

@@ -1,5 +1,5 @@
 define(["wc/dom/formUpdateManager",
-		"sprintf/sprintf",
+		"lib/sprintf",
 		"wc/i18n/i18n",
 		"wc/dom/event",
 		"wc/dom/Widget",

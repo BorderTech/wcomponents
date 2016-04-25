@@ -1,0 +1,3 @@
+<script type="text/javascript" defer="defer">
+require(["wc/ui/validation/all"]);
+</script>

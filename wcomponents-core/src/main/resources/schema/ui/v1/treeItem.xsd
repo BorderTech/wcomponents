@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	elementFormDefault="qualified" 
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+
+	<xs:element name="treeitem">
+		<xs:complexType>
+			<xs:annotation>
+				<xs:documentation>
+					<p>WTreeItem provides a single intem within a WTree. The item can be used to invoke commands or 
+						provide a selection mechanism, or both. If the tree item contains other tree items it also acts
+						as a control to show/hide these child elements.</p>
+					<table>
+						<caption>WTreeItem expects that the POSTed form data contains:</caption>
+						<thead>
+							<tr>
+								<th>Field name</th>
+								<th>Type</th>
+								<th>Mandatory</th>
+								<th>Value</th>
+								<th>Notes</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>@id</td>
+								<td>String</td>
+								<td>no</td>
+								<td>"x"</td>
+								<td>Value POSTed only if the WTreeItem is the item causing the form submission (ajax mode open).</td>
+							</tr>
+						</tbody>
+					</table>
+				</xs:documentation>
+			</xs:annotation>
+
+			<xs:sequence>
+				<xs:element ref="ui:treeitem" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			
+			<xs:attribute name="id" type="xs:ID" use="required">
+				<xs:annotation>
+					<xs:documentation>
+						The unique identifier for the component.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+			<xs:attribute name="label" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>
+						The text label of the tree item.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+			<xs:attribute name="imageUrl" type="xs:anyURI">
+				<xs:annotation>
+					<xs:documentation>The location of an image to display in the control.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+			<xs:attribute name="selected" type="xs:boolean" default="false">
+				<xs:annotation>
+					<xs:documentation>
+						"true" indicates that the submenu is selected.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+			<xs:attribute name="expandable" type="xs:boolean" default="false">
+				<xs:annotation>
+					<xs:documentation>
+						Indicates that the treeitem is exapndable: either has treeitem children or has AJAX children.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+			<xs:attribute name="open" type="xs:boolean" default="false">
+				<xs:annotation>
+					<xs:documentation>
+						"true" indicates that the submenu is expanded. Not output if "false". Only valid if the treeItem
+						has one or more child elements.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

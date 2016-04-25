@@ -1,6 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.title.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		Common helper template to output the readOnly state of many form control components.
 		This template must never be excluded.
@@ -35,21 +36,21 @@
 			WRadioButton.
 	-->
 	<xsl:template name="readOnlyControl">
-		<xsl:param name="class" select="''"/>
-		<xsl:param name="style" select="''"/>
-		<xsl:param name="applies" select="''"/>
+		<xsl:param name="class"/>
+		<xsl:param name="style"/>
+		<xsl:param name="applies"/>
 		<xsl:param name="useReadOnlyMode"/>
-		<xsl:param name="toolTip" select="''"/>
+		<xsl:param name="toolTip"/>
 		<xsl:param name="label"/>
 
 		<xsl:variable name="linkWithText">
-			<xsl:if test="text() and (self::ui:phoneNumberField or self::ui:emailField)">
+			<xsl:if test="text() and (self::ui:phonenumberfield or self::ui:emailfield)">
 				<xsl:number value="1"/>
 			</xsl:if>
 		</xsl:variable>
 		<xsl:variable name="elementName">
 			<xsl:choose>
-				<xsl:when test="self::ui:textArea">
+				<xsl:when test="self::ui:textarea">
 					<!--
 						This is really only needed by IE due to it stripping whitepace in other elements when we use
 						htmlToDocumentElement in JavaScript. See wc/xml/xslTransform.js, PRE does not cause issues in
@@ -66,16 +67,17 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:element name="{$elementName}">
-			<xsl:call-template name="commonAttributes"/>
+			<xsl:call-template name="commonAttributes">
+				<xsl:with-param name="class">
+					<xsl:text>wc_ro</xsl:text>
+					<xsl:if test="$class != ''">
+						<xsl:value-of select="concat(' ', $class)"/>
+					</xsl:if>
+				</xsl:with-param>
+			</xsl:call-template>
 			<xsl:call-template name="title">
 				<xsl:with-param name="title" select="$toolTip"/>
 			</xsl:call-template>
-			<xsl:attribute name="class">
-				<xsl:text>wc_ro</xsl:text>
-				<xsl:if test="$class != ''">
-					<xsl:value-of select="concat(' ',$class)"/>
-				</xsl:if>
-			</xsl:attribute>
 			<xsl:if test="$style!=''">
 				<xsl:attribute name="style">
 					<xsl:value-of select="$style"/>
@@ -89,7 +91,7 @@
 			<xsl:if test="$linkWithText=1">
 				<xsl:attribute name="href">
 					<xsl:choose>
-						<xsl:when test="self::ui:emailField">
+						<xsl:when test="self::ui:emailfield">
 							<xsl:text>mailto:</xsl:text>
 						</xsl:when>
 						<xsl:otherwise>

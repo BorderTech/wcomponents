@@ -1,113 +1,109 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
-import java.io.IOException;
-
-import junit.framework.Assert;
-
-import org.custommonkey.xmlunit.exceptions.XpathException;
-import org.junit.Test;
-import org.xml.sax.SAXException;
-
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WPasswordField;
+import java.io.IOException;
+import junit.framework.Assert;
+import org.custommonkey.xmlunit.exceptions.XpathException;
+import org.junit.Test;
+import org.xml.sax.SAXException;
 
 /**
  * Junit test case for {@link WPasswordFieldRenderer}.
- * 
- * @author Yiannis Paschalidis 
+ *
+ * @author Yiannis Paschalidis
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WPasswordFieldRenderer_Test extends AbstractWebXmlRendererTestCase
-{
-    @Test
-    public void testRendererCorrectlyConfigured()
-    {
-        WPasswordField field = new WPasswordField();
-        Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(field) instanceof WPasswordFieldRenderer);
-    }    
-    
-    @Test
-    public void testDoPaint() throws IOException, SAXException, XpathException
-    {
-        WPasswordField field = new WPasswordField();
-        WButton button = new WButton();
-        
-        WContainer root = new WContainer();
-        root.add(field);
-        root.add(button);
+public class WPasswordFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 
-        assertSchemaMatch(field);
+	@Test
+	public void testRendererCorrectlyConfigured() {
+		WPasswordField field = new WPasswordField();
+		Assert.assertTrue("Incorrect renderer supplied",
+				getWebXmlRenderer(field) instanceof WPasswordFieldRenderer);
+	}
 
-        assertSchemaMatch(field);
-        assertXpathEvaluatesTo(field.getId(), "//ui:passwordField/@id", field);
-        assertXpathNotExists("//ui:passwordField/@disabled", field);
-        assertXpathNotExists("//ui:passwordField/@hidden", field);
-        assertXpathNotExists("//ui:passwordField/@required", field);
-        assertXpathNotExists("//ui:passwordField/@readOnly", field);
-        assertXpathNotExists("//ui:passwordField/@minLength", field);
-        assertXpathNotExists("//ui:passwordField/@maxLength", field);
-        assertXpathNotExists("//ui:passwordField/@toolTip", field);
-        assertXpathNotExists("//ui:passwordField/@accessibleText", field);
-        assertXpathNotExists("//ui:passwordField/@size", field);
-        assertXpathNotExists("//ui:passwordField/@buttonId", field);
+	@Test
+	public void testDoPaint() throws IOException, SAXException, XpathException {
+		WPasswordField field = new WPasswordField();
+		WButton button = new WButton();
 
-        field.setDisabled(true);
-        assertSchemaMatch(field);
-        assertXpathEvaluatesTo("true", "//ui:passwordField/@disabled", field);
+		WContainer root = new WContainer();
+		root.add(field);
+		root.add(button);
 
-        setFlag(field, ComponentModel.HIDE_FLAG, true);
-        assertSchemaMatch(field);
-        assertXpathEvaluatesTo("true", "//ui:passwordField/@hidden", field);
+		assertSchemaMatch(field);
 
-        field.setMandatory(true);
-        assertSchemaMatch(field);
-        assertXpathEvaluatesTo("true", "//ui:passwordField/@required", field);
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo(field.getId(), "//ui:passwordfield/@id", field);
+		assertXpathNotExists("//ui:passwordfield/@disabled", field);
+		assertXpathNotExists("//ui:passwordfield/@hidden", field);
+		assertXpathNotExists("//ui:passwordfield/@required", field);
+		assertXpathNotExists("//ui:passwordfield/@readOnly", field);
+		assertXpathNotExists("//ui:passwordfield/@minLength", field);
+		assertXpathNotExists("//ui:passwordfield/@maxLength", field);
+		assertXpathNotExists("//ui:passwordfield/@toolTip", field);
+		assertXpathNotExists("//ui:passwordfield/@accessibleText", field);
+		assertXpathNotExists("//ui:passwordfield/@size", field);
+		assertXpathNotExists("//ui:passwordfield/@buttonId", field);
 
-        field.setReadOnly(true);
-        assertSchemaMatch(field);
-        assertXpathEvaluatesTo("true", "//ui:passwordField/@readOnly", field);
+		field.setDisabled(true);
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo("true", "//ui:passwordfield/@disabled", field);
 
-        field.setMinLength(45);
-        assertSchemaMatch(field);
-        assertXpathEvaluatesTo("45", "//ui:passwordField/@minLength", field);
+		setFlag(field, ComponentModel.HIDE_FLAG, true);
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo("true", "//ui:passwordfield/@hidden", field);
 
-        field.setMaxLength(50);
-        assertSchemaMatch(field);
-        assertXpathEvaluatesTo("50", "//ui:passwordField/@maxLength", field);
+		field.setMandatory(true);
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo("true", "//ui:passwordfield/@required", field);
 
-        field.setToolTip("tooltip");
-        assertSchemaMatch(field);
-        assertXpathEvaluatesTo(field.getToolTip(), "//ui:passwordField/@toolTip", field);
+		field.setReadOnly(true);
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo("true", "//ui:passwordfield/@readOnly", field);
 
-        field.setAccessibleText("accessible");
-        assertSchemaMatch(field);
-        assertXpathEvaluatesTo(field.getAccessibleText(), "//ui:passwordField/@accessibleText", field);
+		field.setMinLength(45);
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo("45", "//ui:passwordfield/@minLength", field);
 
-        field.setColumns(40);
-        assertSchemaMatch(field);
-        assertXpathEvaluatesTo("40", "//ui:passwordField/@size", field);
+		field.setMaxLength(50);
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo("50", "//ui:passwordfield/@maxLength", field);
 
-        field.setDefaultSubmitButton(button);
-        assertSchemaMatch(field);
-        assertXpathEvaluatesTo(button.getId(), "//ui:passwordField/@buttonId", field);
+		field.setToolTip("tooltip");
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo(field.getToolTip(), "//ui:passwordfield/@toolTip", field);
 
-        field.setText("Hello");
-        assertSchemaMatch(field);
-        assertXpathEvaluatesTo("", "normalize-space(//ui:passwordField)", field);        
-    }
+		field.setAccessibleText("accessible");
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo(field.getAccessibleText(), "//ui:passwordfield/@accessibleText",
+				field);
 
-    @Test
-    public void testXssEscaping() throws IOException, SAXException, XpathException
-    {
-        WPasswordField field = new WPasswordField();
-        
-        field.setToolTip(getMaliciousAttribute("ui:passwordField"));
-        assertSafeContent(field);
-        
-        field.setAccessibleText(getMaliciousAttribute("ui:passwordField"));
-        assertSafeContent(field);
-    }
+		field.setColumns(40);
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo("40", "//ui:passwordfield/@size", field);
+
+		field.setDefaultSubmitButton(button);
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo(button.getId(), "//ui:passwordfield/@buttonId", field);
+
+		field.setText("Hello");
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo("", "normalize-space(//ui:passwordfield)", field);
+	}
+
+	@Test
+	public void testXssEscaping() throws IOException, SAXException, XpathException {
+		WPasswordField field = new WPasswordField();
+
+		field.setToolTip(getMaliciousAttribute("ui:passwordfield"));
+		assertSafeContent(field);
+
+		field.setAccessibleText(getMaliciousAttribute("ui:passwordfield"));
+		assertSafeContent(field);
+	}
 }

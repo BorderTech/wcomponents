@@ -1,11 +1,10 @@
 package com.github.bordertech.wcomponents.examples;
 
-import javax.servlet.http.HttpSession;
-
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WTimeoutWarning;
-
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
+import javax.servlet.http.HttpSession;
+
 /**
  * Demonstrate WTimeoutWarning
  * <p>
@@ -16,22 +15,24 @@ import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
  * The timeout value is usually set to the session timeout {@link HttpSession#getMaxInactiveInterval()}, but to
  * demonstrate the messages, the timeout has been set to 120 seconds.
  * </p>
- * 
+ *
  * @author Mark Reeves
  * @since 1.0.0
  */
-public class WTimeoutWarningExample extends WContainer
-{
+public class WTimeoutWarningExample extends WContainer {
 
-    private static final int TIMEOUT_PERIOD = 120;
-    
-    private static final int WARNING_PERIOD = 30;
-    
-    public WTimeoutWarningExample()
-    {
-        add(new WTimeoutWarning(TIMEOUT_PERIOD, WARNING_PERIOD));
-        
-        add(new ExplanatoryText("This is a demonstration of the 'session timeout' warning. It will display a warning message after 90 seconds and a session timeout message after 120 seconds. It does not actually end your session."));
-    }
+	private static final int TIMEOUT_PERIOD = 120;
+
+	private static final int WARNING_PERIOD = 30;
+
+	/**
+	 * Construct example.
+	 */
+	public WTimeoutWarningExample() {
+		add(new WTimeoutWarning(TIMEOUT_PERIOD, WARNING_PERIOD));
+
+		add(new ExplanatoryText(
+				"This is a demonstration of the 'session timeout' warning. It will display a warning message after 90 seconds and a session timeout message after 120 seconds. It does not actually end your session."));
+	}
 
 }

@@ -3,71 +3,27 @@
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
-	<xsl:import href="wc.debug.common.contentCategory.xsl"/>
 	<xsl:import href="wc.common.makeLegend.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
 	<!--
 		Checkable selection controls
 
-		Transforms for WRadioButtonSelect and WCheckBoxSelect to generate radio buttons
-		or checkboxes output in lists
-
-		Top level element:
-		An editable checkable group in HTML is output wrapped in a FIELDSET element.
-		When there is a WLabel for the checkable group (as there should always be) then
-		it is used to generate the content of the FIELDSET's LEGEND. When @readOnly
-		is "true" the top level element is a DIV and the component has no heading
-		element.
-
-		Heading element:
-		A fieldset has a mandatory legend child element. If the component is read only
-		then no heading element is used.
-		The content of the heading element is calculated thus:
-			* if there is a WLabel "for" the component then the heading content is that
-			label; else
-			* if the component has its toolTip attribute set then the heading content is
-			that text; else
-			* if the component has its accessibleText attribute set then the heading
-			content is that text; otherwise
-			the heading text will consist of a warning message
-
-		Columns:
-		Only applied when @layout = "column". The @layoutColumnCount attribute is
-		used to attempt to place the elements into columns. Where the number of options
-		is greater than the number of columns the options are ordered down then across
-		with the number of options per column being the ceiling of options/columns.
-		This row conversion is what is passed into the option templates.
-
-		Checkable groups currently support @submitOnChange. This is an issue with
-		WCAG 3.2.2 (http://www.w3.org/TR/WCAG20/#consistent-behavior-unpredictable-change).
-		Therefore where submitOnChange is true we must inform users that changing
-		selection will cause the form to submit. This must be done for all users.
-		It is strongly recommended that @submitOnChange never be used with one of
-		these components.
-
-		Child elements: ui:option
+		Transforms for WRadioButtonSelect and WCheckBoxSelect to generate radio buttons or checkboxes output in lists.
 
 		NOTE: optgroups
-		Due to an unfortunate assumption in the JAVA API it appears that WCheckBoxSelect
-		and WRadioButtonSelect support optgroup child elements.  However, these make
-		no sense in the context of a group of radio buttons or checkboxen so we are
-		not going to support them in the default theme. If you use optgroup in this
-		context prepare for this XSLT to fail. This API issue is an error which
-		will be rectified in a future release. Until then we can only remind our JAVA
-		application developers that WCheckBoxSelect and WRadioButtonSelect do not support
-		optgroups.
-
+		Due to an unfortunate assumption in the JAVA API it appears that WCheckBoxSelect and WRadioButtonSelect support 
+		optgroup child elements.  However, these make no sense in the context of a group of radio buttons or checkboxen 
+		so we are not going to support them in the default theme. If you use optgroup in this context prepare for this 
+		XSLT to fail. This API issue is an error which will be rectified in a future release.
 
 
 		This template creates the outer containing HTML element for the checkableGroup
 		and where necessary the header element. It then sets up the structures for
 		applying the options dependent upon the read only status and number of columns.
 	-->
-	<xsl:template match="ui:checkBoxSelect|ui:radioButtonSelect">
+	<xsl:template match="ui:checkboxselect|ui:radiobuttonselect">
 		<xsl:variable name="inputType">
 			<xsl:choose>
-				<xsl:when test="self::ui:checkBoxSelect">
+				<xsl:when test="self::ui:checkboxselect">
 					<xsl:text>checkbox</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
@@ -95,7 +51,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
 		<xsl:variable name="id">
 			<xsl:value-of select="@id"/>
 		</xsl:variable>
@@ -116,7 +71,7 @@
 						<xsl:when test="@toolTip ">
 							<xsl:value-of select="normalize-space(@toolTip)"/>
 						</xsl:when>
-						<xsl:when test="@required and self::ui:checkBoxSelect">
+						<xsl:when test="@required and self::ui:checkboxselect">
 							<xsl:value-of select="$$${wc.ui.checkBoxSelect.defaultRequiredTooltip}"/>
 						</xsl:when>
 						<xsl:when test="@required">
@@ -141,13 +96,6 @@
 							</xsl:if>
 						</xsl:with-param>
 					</xsl:call-template>
-					<xsl:if test="$readOnly=0">
-						<xsl:if test="$inputType = 'radio'">
-							<xsl:call-template name="requiredElement">
-								<xsl:with-param name="useNative" select="0"/>
-							</xsl:call-template>
-						</xsl:if>
-					</xsl:if>
 
 					<xsl:if test="$title!=''">
 						<xsl:attribute name="title">
@@ -240,13 +188,15 @@
 							</xsl:apply-templates>
 						</xsl:when>
 						<xsl:when test="$readOnly=1">
-							<xsl:apply-templates select="ui:option[@selected][position() mod $rows = 1]" mode="checkableGroup">
-								<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
-								<xsl:with-param name="inputName" select="$id"/>
-								<xsl:with-param name="type" select="$inputType"/>
-								<xsl:with-param name="readOnly" select="$readOnly"/>
-								<xsl:with-param name="rows" select="$rows"/>
-							</xsl:apply-templates>
+							<div class="wc-row">
+								<xsl:apply-templates select="ui:option[@selected][position() mod $rows = 1]" mode="checkableGroup">
+									<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
+									<xsl:with-param name="inputName" select="$id"/>
+									<xsl:with-param name="type" select="$inputType"/>
+									<xsl:with-param name="readOnly" select="$readOnly"/>
+									<xsl:with-param name="rows" select="$rows"/>
+								</xsl:apply-templates>
+							</div>
 						</xsl:when>
 						<xsl:when test="$rows=0 and ui:option">
 							<xsl:element name="div">
@@ -271,13 +221,15 @@
 							</xsl:apply-templates>
 						</xsl:when>
 						<xsl:when test="ui:option">
-							<xsl:apply-templates select="ui:option[position() mod $rows = 1]" mode="checkableGroup">
-								<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
-								<xsl:with-param name="inputName" select="$id"/>
-								<xsl:with-param name="type" select="$inputType"/>
-								<xsl:with-param name="readOnly" select="$readOnly"/>
-								<xsl:with-param name="rows" select="$rows"/>
-							</xsl:apply-templates>
+							<div class="wc-row">
+								<xsl:apply-templates select="ui:option[position() mod $rows = 1]" mode="checkableGroup">
+									<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
+									<xsl:with-param name="inputName" select="$id"/>
+									<xsl:with-param name="type" select="$inputType"/>
+									<xsl:with-param name="readOnly" select="$readOnly"/>
+									<xsl:with-param name="rows" select="$rows"/>
+								</xsl:apply-templates>
+							</div>
 						</xsl:when>
 					</xsl:choose>
 					<xsl:if test="$readOnly=0">

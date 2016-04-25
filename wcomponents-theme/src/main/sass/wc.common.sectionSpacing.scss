@@ -1,0 +1,64 @@
+@import 'mixins-common';
+
+section {
+	@include border;
+
+	> h1,
+	> header h1 {
+		@include margin($size: 0);
+		font-size: 1rem;
+		font-weight: normal;
+	}
+
+	// First the header. There are two options. a header element for WSection, a H1 for WPanel
+	// WSection
+	> header {
+		display: table;
+		width: 100%;
+
+		> .wc_dlbl_seg {
+			display: table-cell;
+			padding: $section-header-spacing;
+		}
+
+		> h1 {
+			width: 100%;
+		}
+
+		> div {
+			white-space: nowrap;
+			width: 0;
+		}
+	}
+
+	// WPanel types CHROME and ACTION
+	> h1 {
+		padding: $section-header-spacing;
+	}
+
+	// now the content
+	// WSection is easy: its content is a wpanel.
+	> .wc-panel {
+		margin: $section-content-spacing;
+		padding: 0;
+	}
+
+	// WPanel content and layouts.
+	> div, // the WPanel child of WSection is a div but the rule above overrides this.
+	> .wc-listlayout {
+		padding: $section-content-spacing;
+	}
+
+	// Docking a Bar menu
+	// If you have a WPanel of type CHROME or ACTION or a WSection containing a plain WPanel
+	// and the WPanel does not have a layout then add a WMenu Type BAR to the content of the
+	// WPanel then we can 'dock' the menu to the panel/section header.
+	&,
+	> .wc-panel {
+		> .wc-content > .bar:first-child {
+			// the negative margin must be 0 - the padding of WSection content.
+			$neg-margin: -$section-content-spacing;
+			margin: $neg-margin $neg-margin $section-content-spacing;
+		}
+	}
+}

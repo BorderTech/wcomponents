@@ -1,7 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.selectToggle.xsl"/>
-	<xsl:output method="html" doctype-public="XSLT-compat" encoding="UTF-8" indent="no" omit-xml-declaration="yes"/>
-	<xsl:strip-space elements="*"/>
 	<!--
 		Transform for WSelectToggle. This transform creates either:
 			* A single control to toggle selection of the target(s); or
@@ -10,7 +8,7 @@
 		As far as we are concerned these controls are all buttons and differ only in
 		visual appearance and what they claim to be in WAI-ARIA.
 	-->
-	<xsl:template match="ui:selectToggle">
+	<xsl:template match="ui:selecttoggle">
 		<!--
 			see wc.common.selectToggle.xsl
 		-->

@@ -8,10 +8,14 @@
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="xs:string">
-					<xs:attribute name="description" type="xs:string">
+					<xs:attribute name="class" type="xs:string">
 						<xs:annotation>
-							<xs:documentation>The description attribute contains the expansion of the abbreviation/acronym. This should be required since an
-								abbreviation without an expansion is meaningless.</xs:documentation>
+							<xs:documentation>Provides the ability to pass an HTML class attribute onto the root output element.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="toolTip" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Provides the expansion of the abbreviation/acronym. This should be required since an abbreviation without an expansion is meaningless.</xs:documentation>
 						</xs:annotation>
 					</xs:attribute>
 				</xs:extension>

@@ -1,0 +1,76 @@
+/* wc.ui.imageEditIcons.scss */
+@import 'mixins-common';
+
+button[data-wc-img][data-wc-editor]:before {
+	content: $fa-var-picture-o;
+}
+
+.wc_img_editor {
+	button:before {
+		min-width: 1rem;
+	}
+
+	.wc_btn_anticlock:before {
+		content: $fa-var-undo;
+	}
+
+	.wc_btn_anticlock90:before {
+		content: $fa-var-reply;
+	}
+
+	.wc_btn_camera:before {
+		content: $fa-var-camera;
+	}
+
+	.wc_btn_cancel:before {
+		content: $fa-var-trash;
+	}
+
+	.wc_btn_clock:before {
+		content: $fa-var-repeat;
+	}
+
+	.wc_btn_clock90:before {
+		content: $fa-var-share;
+	}
+
+	.wc_btn_down:before {
+		content: $fa-var-caret-down;
+	}
+
+	.wc_btn_face:before {
+		content: $fa-var-user;
+	}
+
+	.wc_btn_in:before {
+		content: $fa-var-search-plus;
+	}
+
+	.wc_btn_left:before {
+		content: $fa-var-caret-left;
+	}
+
+	.wc_btn_out:before {
+		content: $fa-var-search-minus;
+	}
+
+	.wc_btn_reset:before {
+		content: $fa-var-history;
+	}
+
+	.wc_btn_right:before {
+		content: $fa-var-caret-right;
+	}
+
+	.wc_btn_save:before {
+		content: $fa-var-floppy-o;
+	}
+
+	.wc_btn_snap:before {
+		content: $fa-var-camera;
+	}
+
+	.wc_btn_up:before {
+		content: $fa-var-caret-up;
+	}
+}

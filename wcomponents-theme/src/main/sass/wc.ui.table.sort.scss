@@ -1,51 +1,11 @@
 /* wc.ui.table.sort.scss */
+@import 'mixins-common';
 
-// Column sorting relate to the sorting of data in sortable tables.
-// This css covers control elements in the heading cells and the rendering of
-// sorted columns.
+th[aria-sort] {
+	cursor: pointer;
 
-// TODO: the direction of sort is an attribute of the th element now so it should be used instead of the aria-pressed
-// state of the control.
-@import 'mixins_common.scss';
-
-[aria-sort] > .decoratedLabel {
-	display: table-cell;
-	vertical-align: middle;
-}
-
-// sorting controls
-.wc_table_sort_container {
-	display: table-cell;
-	padding-left: $hgap-large;
-	vertical-align: middle;
-
-	button { //sort control buttons
-		@include make-box($display: block);
-		line-height: 1;
-		text-align: center;
-
-		&:before { //up
-			content: '\25b3';
-			height: $line-size;
-			line-height: 1;
-			position: relative;
-			top: 0.25em;
-		}
-
-		+ button:before { //down
-			content: '\25bd';
-			top: -0.25em;
-		}
-	}
-
-	[aria-pressed]:before { //the single control in a column which is already sorted
-		content: '\25b2'; //sorted asc has a sort desc button
-		top: -0.25em;
-		vertical-align: middle;
-	}
-
-	[aria-pressed='true']:before { //sorted desc has a sort asc button
-		content: '\25bc';
+	> .wc-decoratedlabel {
+		display: inline-block;
+		width: calc(100% - 2em); // allow for sort icon
 	}
 }
-/* end wc.ui.table.sort.scss */

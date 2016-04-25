@@ -8,15 +8,19 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.1.4-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<packaging>jar</packaging>
-	
+
 	<description>
 		Core server-side WComponents.
 	</description>
+
+	<properties>
+		<wc.qa.skip>false</wc.qa.skip>
+	</properties>
 
 	<profiles>
 		<profile>
@@ -58,11 +62,13 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.12.4</version>
+				<version>${surefire.version}</version>
 				<configuration>
-					<excludedGroups>${excludedTestGroups}</excludedGroups>  
+					<!-- Arg set by jacoco. -->
+					<argLine>${surefireArgLine}</argLine>
+					<excludedGroups>${excludedTestGroups}</excludedGroups>
 					<includes>
-						<include>com/github/bordertech/wcomponents/WComponent_Suite.java</include>
+						<include>com/github/bordertech/wcomponents/WComponentsTest_Suite.java</include>
 					</includes>
 				</configuration>
 			</plugin>
@@ -98,7 +104,7 @@
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
-			<version>3.2</version>
+			<version>3.2.2</version>
 		</dependency>
 
 		<dependency>
@@ -121,12 +127,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>velocity</groupId>
-			<artifactId>velocity</artifactId>
-			<version>1.4</version>
-		</dependency>
-
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
@@ -143,6 +143,69 @@
 			<groupId>junitperf</groupId>
 			<artifactId>junitperf</artifactId>
 			<version>1.8</version>
+		</dependency>
+
+		<dependency>
+			<!-- Needed for server side XSLT -->
+			<groupId>net.sourceforge.saxon</groupId>
+			<artifactId>saxon</artifactId>
+			<version>9.1.0.8</version>
+			<type>jar</type>
+		</dependency>
+
+		<dependency>
+			<!-- Needed for server side XSLT -->
+			<groupId>net.sourceforge.saxon</groupId>
+			<artifactId>saxon</artifactId>
+			<version>9.1.0.8</version>
+			<classifier>dom</classifier>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Handlebars template support. -->
+		<dependency>
+			<groupId>com.github.jknack</groupId>
+			<artifactId>handlebars</artifactId>
+			<version>4.0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.jknack</groupId>
+			<artifactId>handlebars-markdown</artifactId>
+			<version>4.0.3</version>
+		</dependency>
+
+		<!-- Velocity template support. -->
+		<dependency>
+			<groupId>velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+		<!-- Caching API. -->
+		<dependency>
+			<groupId>javax.cache</groupId>
+			<artifactId>cache-api</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+
+		<!-- JSR107 Caching provider. -->
+		<dependency>
+			<scope>test</scope>
+			<groupId>org.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>3.0.0.m4</version>
+		</dependency>
+		<dependency>
+			<scope>test</scope>
+			<groupId>org.terracotta</groupId>
+			<artifactId>management-model</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.6.2</version>
 		</dependency>
 
 	</dependencies>

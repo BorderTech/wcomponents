@@ -45,11 +45,6 @@ define(["wc/string/escapeRe", "wc/date/pattern"],
 				pattern,
 				patternAsRe;
 
-			// TODO: this is superfluous as we do simple testing of strictSequence.
-			if (strictSequence === undefined) {
-				strictSequence = false;
-			}
-
 			// loop matching all regular expressions and keeping the earliest longest match
 			while (true) {
 				next = null;

@@ -21,11 +21,11 @@
  */
 define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 	"use strict";
-	var global = this,
 		/**
 		 * @var {String[]} methods The function names of console methods we have to add.
 		 * @private
 		 */
+	var global = window,
 		methods = ["log", "debug", "info", "warn", "error"],
 		$console,
 		timers,

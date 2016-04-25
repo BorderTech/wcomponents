@@ -1,45 +1,24 @@
 /* wc.ui.checkableSelect.scss */
 // CSS for WCheckBoxSelect and WRadioButtonSelect
-@import 'mixins_common.scss';
-
-.wc_chkgrp {
-	&_bdr {
-		&,
-		&.noborder {
-			@include border;
-			padding: 1px;
-		}
-	}
-
-	> .column {
-		display: inline-block;
-		vertical-align: top;
-
-		@include respond(phone) {
-			display: block;
-		}
-
-		+ .column {
-			padding-left: $hgap-large;
-
-			@include respond(phone) {
-				padding-left: 0;
-			}
-		}
-	}
+@import 'mixins-common';
 
 	// For flat layouts we do not control the wrap point so we use a right margin because it stops the odd left margin effect
 	// on wrap. The inline block display is to keep the input with its label at wrap points.
-	> .flat {
-		> span,
-		> li {
-			display: inline-block;
-			margin-right: $hgap-normal;
-		}
+.wc_chkgrp > .flat {
+	> span,
+	> li {
+		display: inline-block;
+		margin-right: $hgap-normal;
+	}
 
-		> :last-of-type {
-			margin-right: 0;
-		}
+	> :last-of-type {
+		margin-right: 0;
 	}
 }
-/* end wc.ui.checkableSelect.scss */
+
+.wc_chkgrp_bdr {
+	&,
+	&.wc_noborder {
+		@include padded-box(1px);
+	}
+}

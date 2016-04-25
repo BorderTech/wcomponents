@@ -373,9 +373,11 @@ define([
 				store = this.store,
 				key, val;
 			for (key in store) {
-				val = store[key];
-				rval += val;
-				rval += "|";
+				if (store.hasOwnProperty(key)) {
+					val = store[key];
+					rval += val;
+					rval += "|";
+				}
 			}
 			rval = rval.replace(/\|$/, "");
 			return rval;

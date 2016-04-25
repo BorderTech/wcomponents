@@ -1,0 +1,240 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+		"-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+		"http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+
+<!--
+
+  Checkstyle configuration that checks the sun coding conventions from:
+
+	- the Java Language Specification at
+	  http://java.sun.com/docs/books/jls/second_edition/html/index.html
+
+	- the Sun Code Conventions at http://java.sun.com/docs/codeconv/
+
+	- the Javadoc guidelines at
+	  http://java.sun.com/j2se/javadoc/writingdoccomments/index.html
+
+	- the JDK Api documentation http://java.sun.com/j2se/docs/api/index.html
+
+	- some best practices
+
+  Checkstyle is very configurable. Be sure to read the documentation at
+  http://checkstyle.sf.net (or in your downloaded distribution).
+
+  Most Checks are configurable, be sure to consult the documentation.
+
+  To completely disable a check, just comment it out or delete it from the file.
+
+  Finally, it is worth reading the documentation.
+
+-->
+
+<module name="Checker">
+	<!--
+		If you set the basedir property below, then all reported file
+		names will be relative to the specified directory. See
+		http://checkstyle.sourceforge.net/5.x/config.html#Checker
+
+		<property name="basedir" value="${basedir}"/>
+	-->
+	
+	<!-- WC Filter out Checkstyle warnings that have been suppressed with the @SuppressWarnings annotation -->
+	<module name="SuppressWarningsFilter" />
+
+<!-- WC
+	<property name="fileExtensions" value="java, properties, xml"/>
+-->
+	<property name="fileExtensions" value="java"/>
+
+	<!-- Checks that a package-info.java file exists for each package.     -->
+	<!-- See http://checkstyle.sf.net/config_javadoc.html#JavadocPackage -->
+	<module name="JavadocPackage"/>
+
+	<!-- Checks whether files end with a new line.                        -->
+	<!-- See http://checkstyle.sf.net/config_misc.html#NewlineAtEndOfFile -->
+	<module name="NewlineAtEndOfFile">
+		<!-- WC
+			Choosing "lf" should allow eof to be either "LF" or "CRLF" (both end with "LF").
+			This is more permissive and more predicatable than the default "enforce whatever line separator is default on the current platform".
+			When fetching code via git newlines are usually normalized anyway.
+		-->
+		<property name="lineSeparator" value="lf"/>
+	</module>
+
+	<!-- Checks that property files contain the same keys.         -->
+	<!-- See http://checkstyle.sf.net/config_misc.html#Translation -->
+	<module name="Translation"/>
+
+	<!-- Checks for Size Violations.                    -->
+	<!-- See http://checkstyle.sf.net/config_sizes.html -->
+	<module name="FileLength">
+		<property name="severity" value="warning" />
+	</module>
+
+	<!-- Checks for whitespace                               -->
+	<!-- See http://checkstyle.sf.net/config_whitespace.html -->
+	<!--
+	<module name="FileTabCharacter"/>
+	-->
+	<module name="RegexpSingleline">
+			<property name="format" value="^(\t*( +\t*(?! \*|\S))|(  ))"/>
+			<property name="message" value="Indentation should be tabs."/>
+			<property name="maximum" value="10"/>
+	</module>
+
+	<!-- Miscellaneous other checks.                   -->
+	<!-- See http://checkstyle.sf.net/config_misc.html -->
+	<module name="RegexpSingleline">
+	   <property name="format" value="\s+$"/>
+	   <property name="maximum" value="10"/>
+	   <property name="message" value="Line has trailing spaces."/>
+	</module>
+
+	<!-- Checks for Headers                                -->
+	<!-- See http://checkstyle.sf.net/config_header.html   -->
+	<!-- <module name="Header"> -->
+	<!--   <property name="headerFile" value="${checkstyle.header.file}"/> -->
+	<!--   <property name="fileExtensions" value="java"/> -->
+	<!-- </module> -->
+
+	<module name="TreeWalker">
+		<!-- WC -->
+		<property name="tabWidth" value="4"/>
+		
+		<!-- WC Make the @SuppressWarnings annotations available to Checkstyle -->
+		<module name="SuppressWarningsHolder" />
+
+		<!-- Checks for Javadoc comments.                     -->
+		<!-- See http://checkstyle.sf.net/config_javadoc.html -->
+		<module name="JavadocMethod">
+			<property name="allowedAnnotations" value="Override,Test,Before,After,BeforeClass,AfterClass"/>
+		</module>
+		<module name="JavadocType"/>
+		<module name="JavadocVariable">
+			<property name="scope" value="protected"/>
+		</module>
+		<module name="JavadocStyle"/>
+
+		<!-- Checks for Naming Conventions.                  -->
+		<!-- See http://checkstyle.sf.net/config_naming.html -->
+		<module name="ConstantName" />
+		<module name="LocalFinalVariableName"/>
+		<module name="LocalVariableName"/>
+		<module name="MemberName"/>
+		<module name="MethodName"/>
+		<module name="PackageName"/>
+		<module name="ParameterName"/>
+		<module name="StaticVariableName"/>
+		<module name="TypeName">
+			<!-- WC -->
+			<property name="format" value="^[A-Z][a-zA-Z0-9]*(_Test|_Suite)?$"/>
+		</module>
+		<!-- Checks for imports                              -->
+		<!-- See http://checkstyle.sf.net/config_import.html -->
+		<module name="AvoidStarImport"/>
+		<module name="IllegalImport"/> <!-- defaults to sun.* packages -->
+		<module name="RedundantImport"/>
+		<module name="UnusedImports">
+			<!-- WC -->
+			<property name="processJavadoc" value="true" />
+		</module>
+
+		<!-- Checks for Size Violations.                    -->
+		<!-- See http://checkstyle.sf.net/config_sizes.html -->
+		<module name="LineLength">
+			<!-- WC -->
+			<property name="max" value="150" />
+			<property name="severity" value="warning" />
+		</module>
+		<module name="MethodLength">
+			<property name="severity" value="warning" />
+		</module>
+		<module name="ParameterNumber">
+			<property name="severity" value="warning" />
+		</module>
+
+		<!-- Checks for whitespace                               -->
+		<!-- See http://checkstyle.sf.net/config_whitespace.html -->
+		<module name="EmptyForIteratorPad"/>
+		<module name="GenericWhitespace"/>
+		<module name="MethodParamPad"/>
+		<module name="NoWhitespaceAfter">
+			<!-- WC -->
+			<property name="tokens" value="BNOT,DEC,DOT,INC,LNOT,UNARY_MINUS,UNARY_PLUS"/>
+		</module>
+		<module name="NoWhitespaceBefore"/>
+		<module name="OperatorWrap"/>
+		<module name="ParenPad"/>
+		<module name="TypecastParenPad"/>
+		<module name="WhitespaceAfter"/>
+		<module name="WhitespaceAround"/>
+
+		<!-- Modifier Checks                                    -->
+		<!-- See http://checkstyle.sf.net/config_modifiers.html -->
+		<module name="ModifierOrder"/>
+		<module name="RedundantModifier"/>
+
+		<!-- Checks for blocks. You know, those {}'s         -->
+		<!-- See http://checkstyle.sf.net/config_blocks.html -->
+		<module name="AvoidNestedBlocks">
+			<!-- WC -->
+			<property name="allowInSwitchCase" value="true"/>
+		</module>
+		<module name="EmptyBlock">
+			<property name="severity" value="warning" />
+		</module>
+		<module name="LeftCurly"/>
+		<module name="NeedBraces"/>
+		<module name="RightCurly"/>
+
+		<!-- Checks for common coding problems               -->
+		<!-- See http://checkstyle.sf.net/config_coding.html -->
+		<!-- WC
+		<module name="AvoidInlineConditionals"/>
+		-->
+		<module name="EmptyStatement">
+			<property name="severity" value="warning" />
+		</module>
+		<module name="EqualsHashCode"/>
+		<module name="HiddenField">
+			<!-- WC -->
+			<property name="ignoreSetter" value="true"/>
+			<property name="ignoreConstructorParameter" value="true"/>
+			<property name="ignoreAbstractMethods" value="true"/>
+		</module>
+		<module name="IllegalInstantiation"/>
+		<module name="InnerAssignment"/>
+		<module name="MagicNumber">
+			<property name="severity" value="ignore" />
+		</module>
+		<module name="MissingSwitchDefault">
+			<property name="severity" value="warning" />
+		</module>
+		<module name="SimplifyBooleanExpression"/>
+		<module name="SimplifyBooleanReturn"/>
+
+		<!-- Checks for class design                         -->
+		<!-- See http://checkstyle.sf.net/config_design.html -->
+		<!-- WC
+		<module name="DesignForExtension"/>
+		-->
+		<module name="FinalClass"/>
+		<module name="HideUtilityClassConstructor"/>
+		<module name="InterfaceIsType"/>
+		<module name="VisibilityModifier"/>
+
+		<!-- Miscellaneous other checks.                   -->
+		<!-- See http://checkstyle.sf.net/config_misc.html -->
+		<!-- 
+		<module name="ArrayTypeStyle"/>
+		 -->
+		<module name="FinalParameters"/>
+		<module name="TodoComment">
+			<property name="severity" value="warning" />
+		</module>
+		<module name="UpperEll"/>
+
+	</module>
+
+</module>

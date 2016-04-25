@@ -5,16 +5,16 @@
  * @requires module:wc/array/toArray
  * @requires module:wc/dom/aria
  * @requires module:wc/dom/Widget
- * @requires module:wc/dom/impliedARIA
+ * @requires module:wc/dom/role
  *
  * @todo document private members, clean up code.
  */
 define(["wc/array/toArray",
 		"wc/dom/aria",
 		"wc/dom/Widget",
-		"wc/dom/impliedARIA"],
-	/** @param toArray wc/array/toArray @param aria wc/dom/aria @param Widget wc/dom/Widget @param impliedAria wc/dom/impliedARIA @ignore */
-	function(toArray, aria, Widget, impliedAria) {
+		"wc/dom/role"],
+	/** @param toArray wc/array/toArray @param aria wc/dom/aria @param Widget wc/dom/Widget @param $role wc/dom/r4ole @ignore */
+	function(toArray, aria, Widget, $role) {
 		"use strict";
 
 		/**
@@ -82,7 +82,7 @@ define(["wc/array/toArray",
 			 */
 			this.getGroup = function (element, role, ignoreInnerGroups) {
 				var container,
-					_role = role || getRole(element),
+					_role = role || $role.get(element, true),
 					containerWd,
 					scopedRoles,
 					candidates,
@@ -109,7 +109,7 @@ define(["wc/array/toArray",
 				if (container) {
 
 					if (rescope) {
-						_role = getRole(container);
+						_role = $role.get(container, true);
 						scopedRoles = aria.getMustContain(_role);
 						if (!scopedRoles.length) {
 							scopedRoles = aria.getScopedTo(_role);
@@ -164,7 +164,7 @@ define(["wc/array/toArray",
 					if (containerWd) {
 						result = containerWd.findAncestor(element);
 					}
-					else if ((role = getRole(element))) {
+					else if ((role = $role.get(element, true))) {
 						scope = aria.getScope(role);
 						if (!(scope && scope.length)) {
 							scope = aria.getScopedBy(role);
@@ -215,23 +215,6 @@ define(["wc/array/toArray",
 					});
 				}
 				return widgets;
-			}
-
-			/**
-			 * Get the role of an element. This will return the implied role of an element with a native equivalent.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} element The element from which to get the role.
-			 * @returns {String} The role.
-			 *
-			 * @example  // given an element (el) with role 'tab'
-			 * getRole(el);  // returns "tab"
-			 * @example  // Implied role: given an input element (el) with type "text":
-			 * getRole(el);  // returns "textbox"
-			 */
-			function getRole(element) {
-				return element.getAttribute("role") || impliedAria.getImpliedRole(element);
 			}
 		}
 		return /** @alias module:wc/dom/ariaGroup */ new AriaGroup();

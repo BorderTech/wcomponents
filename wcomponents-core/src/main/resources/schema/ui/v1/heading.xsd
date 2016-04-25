@@ -12,12 +12,18 @@
 		<xs:complexType mixed="true">
 			<xs:sequence>
 				<xs:element ref="ui:margin" minOccurs="0" />
-				<xs:element ref="ui:decoratedLabel" minOccurs="0" />
+				<xs:element ref="ui:decoratedlabel" minOccurs="0" />
 			</xs:sequence>
 
 			<xs:attribute name="id" type="xs:ID" use="required">
 				<xs:annotation>
 					<xs:documentation>The unique identifier for the component.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="class" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Provides the ability to pass an HTML class attribute onto the root output element.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 

@@ -1,7 +1,5 @@
 package com.github.bordertech.wcomponents.examples.theme.ajax;
 
-import java.util.Arrays;
-
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
@@ -21,182 +19,181 @@ import com.github.bordertech.wcomponents.WRadioButtonSelect;
 import com.github.bordertech.wcomponents.WShuffler;
 import com.github.bordertech.wcomponents.WSingleSelect;
 import com.github.bordertech.wcomponents.WTextField;
+import java.util.Arrays;
 
 /**
  * This example is for internal testing. It comprises a set of controls which are each a trigger for a WAjaxControl.
  * There is then another WAjaxControl which replaces each of these original controls. The point of this is to ensure
  * that an ajax trigger remains an ajax trigger after it is replaced.
- * 
+ *
  * @author Mark Reeves
  * @since 1.0.0
  */
-public class AjaxReplaceControllerExample extends WPanel
-{
-    /** a text field to act as an ajax target for the controller. */
-    private final WTextField textField = new WTextField();
-    /** a button to replace the controller with itself. */
-    private final WButton ajaxButton = new WButton("Refresh controller control");
+public class AjaxReplaceControllerExample extends WPanel {
 
-    /** data for the list controls. */
-    private static final String[] DATA = new String[] { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
-                                                       "Friday", "Saturday" };
+	/**
+	 * a text field to act as an ajax target for the controller.
+	 */
+	private final WTextField textField = new WTextField();
+	/**
+	 * a button to replace the controller with itself.
+	 */
+	private final WButton ajaxButton = new WButton("Refresh controller control");
 
-    /**
-     * Creates an AjaxReplaceControllerExample.
-     */
-    public AjaxReplaceControllerExample()
-    {
+	/**
+	 * data for the list controls.
+	 */
+	private static final String[] DATA = new String[]{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
+		"Friday", "Saturday"};
 
-        /** WShuffler was the orignal reason this test was created */
-        final WShuffler controller = new WShuffler(Arrays.asList(DATA));
-        controller.setActionOnChange(new Action()
-        {
+	/**
+	 * Creates an AjaxReplaceControllerExample.
+	 */
+	public AjaxReplaceControllerExample() {
 
-            public void execute(final ActionEvent event)
-            {
-                textField.setText(controller.getValueAsString());
-            }
-        });
-        // add the ajax control for the controller
-        add(new WAjaxControl(controller, textField));
+		/**
+		 * WShuffler was the orignal reason this test was created
+		 */
+		final WShuffler controller = new WShuffler(Arrays.asList(DATA));
+		controller.setActionOnChange(new Action() {
 
-        final WMultiSelect controller2 = new WMultiSelect(DATA);
-        controller2.setActionOnChange(new Action()
-        {
+			@Override
+			public void execute(final ActionEvent event) {
+				textField.setText("WShuffler: " + controller.getValueAsString());
+			}
+		});
+		// add the ajax control for the controller
+		add(new WAjaxControl(controller, textField));
 
-            public void execute(final ActionEvent event)
-            {
-                textField.setText(controller2.getValueAsString());
-            }
-        });
-        // add the ajax control for the controller
-        add(new WAjaxControl(controller2, textField));
-        final WSingleSelect controller3 = new WSingleSelect(DATA);
-        controller3.setActionOnChange(new Action()
-        {
+		final WMultiSelect controller2 = new WMultiSelect(DATA);
+		controller2.setActionOnChange(new Action() {
 
-            public void execute(final ActionEvent event)
-            {
-                textField.setText(controller3.getValueAsString());
-            }
-        });
-        // add the ajax control for the controller
-        add(new WAjaxControl(controller3, textField));
-        final WMultiSelectPair controller4 = new WMultiSelectPair(DATA);
-        controller4.setActionOnChange(new Action()
-        {
+			@Override
+			public void execute(final ActionEvent event) {
+				textField.setText("WMultiSelect: " + controller2.getValueAsString());
+			}
+		});
+		// add the ajax control for the controller
+		add(new WAjaxControl(controller2, textField));
+		final WSingleSelect controller3 = new WSingleSelect(DATA);
+		controller3.setActionOnChange(new Action() {
 
-            public void execute(final ActionEvent event)
-            {
-                textField.setText(controller4.getValueAsString());
-            }
-        });
-        // add the ajax control for the controller
-        add(new WAjaxControl(controller4, textField));
+			@Override
+			public void execute(final ActionEvent event) {
+				textField.setText("WSingleSelect: " + controller3.getValueAsString());
+			}
+		});
+		// add the ajax control for the controller
+		add(new WAjaxControl(controller3, textField));
+		final WMultiSelectPair controller4 = new WMultiSelectPair(DATA);
+		controller4.setShuffle(true);
+		controller4.setActionOnChange(new Action() {
 
-        final WMultiDropdown controller5 = new WMultiDropdown(DATA);
-        controller5.setActionOnChange(new Action()
-        {
+			@Override
+			public void execute(final ActionEvent event) {
+				textField.setText("WMultiSelectPair: " + controller4.getValueAsString());
+			}
+		});
+		// add the ajax control for the controller
+		add(new WAjaxControl(controller4, textField));
 
-            public void execute(final ActionEvent event)
-            {
-                textField.setText(controller5.getValueAsString());
-            }
-        });
-        // add the ajax control for the controller
-        add(new WAjaxControl(controller5, textField));
+		final WMultiDropdown controller5 = new WMultiDropdown(DATA);
+		controller5.setActionOnChange(new Action() {
 
-        final WRadioButtonSelect controller6 = new WRadioButtonSelect(DATA);
-        controller6.setActionOnChange(new Action()
-        {
+			@Override
+			public void execute(final ActionEvent event) {
+				textField.setText("WMultiDropdown: " + controller5.getValueAsString());
+			}
+		});
+		// add the ajax control for the controller
+		add(new WAjaxControl(controller5, textField));
 
-            public void execute(final ActionEvent event)
-            {
-                textField.setText(controller6.getValueAsString());
-            }
-        });
-        // add the ajax control for the controller
-        add(new WAjaxControl(controller6, textField));
+		final WRadioButtonSelect controller6 = new WRadioButtonSelect(DATA);
+		controller6.setActionOnChange(new Action() {
 
-        final WCheckBoxSelect controller7 = new WCheckBoxSelect(DATA);
-        controller7.setActionOnChange(new Action()
-        {
+			@Override
+			public void execute(final ActionEvent event) {
+				textField.setText("WRadioButtonSelect: " + controller6.getValueAsString());
+			}
+		});
+		// add the ajax control for the controller
+		add(new WAjaxControl(controller6, textField));
 
-            public void execute(final ActionEvent event)
-            {
-                textField.setText(controller7.getValueAsString());
-            }
-        });
-        // add the ajax control for the controller
-        add(new WAjaxControl(controller7, textField));
+		final WCheckBoxSelect controller7 = new WCheckBoxSelect(DATA);
+		controller7.setActionOnChange(new Action() {
 
-        final WDropdown controller8 = new WDropdown(DATA);
-        controller8.setActionOnChange(new Action()
-        {
+			@Override
+			public void execute(final ActionEvent event) {
+				textField.setText("WCheckBoxSelect: " + controller7.getValueAsString());
+			}
+		});
+		// add the ajax control for the controller
+		add(new WAjaxControl(controller7, textField));
 
-            public void execute(final ActionEvent event)
-            {
-                textField.setText(controller8.getValueAsString());
-            }
-        });
-        // add the ajax control for the controller
-        add(new WAjaxControl(controller8, textField));
+		final WDropdown controller8 = new WDropdown(DATA);
+		controller8.setActionOnChange(new Action() {
 
-        final WMultiTextField controller9 = new WMultiTextField();
-        controller9.setActionOnChange(new Action()
-        {
+			@Override
+			public void execute(final ActionEvent event) {
+				textField.setText("WDropdown: " + controller8.getValueAsString());
+			}
+		});
+		// add the ajax control for the controller
+		add(new WAjaxControl(controller8, textField));
 
-            public void execute(final ActionEvent event)
-            {
-                textField.setText(controller9.getValueAsString());
-            }
-        });
-        // add the ajax control for the controller
-        add(new WAjaxControl(controller9, textField));
+		final WMultiTextField controller9 = new WMultiTextField();
+		controller9.setActionOnChange(new Action() {
 
-        final WDateField controller10 = new WDateField();
-        controller10.setActionOnChange(new Action()
-        {
+			@Override
+			public void execute(final ActionEvent event) {
+				textField.setText("WMultiTextField: " + controller9.getValueAsString());
+			}
+		});
+		// add the ajax control for the controller
+		add(new WAjaxControl(controller9, textField));
 
-            public void execute(final ActionEvent event)
-            {
-                textField.setText(controller10.getValueAsString());
-            }
-        });
-        // add the ajax control for the controller
-        add(new WAjaxControl(controller10, textField));
+		final WDateField controller10 = new WDateField();
+		controller10.setActionOnChange(new Action() {
 
-        // the text field really just needs to be read only
-        textField.setReadOnly(true);
+			@Override
+			public void execute(final ActionEvent event) {
+				textField.setText("WDateField: " + controller10.getValueAsString());
+			}
+		});
+		// add the ajax control for the controller
+		add(new WAjaxControl(controller10, textField));
 
-        // the second ajax control is a button
-        ajaxButton.setAction(new Action()
-        {
-            public void execute(final ActionEvent event)
-            {
-                // I don't care what this does so lets reset so we can start all over again
-                reset();
-            }
-        });
-        add(new WAjaxControl(ajaxButton, new AjaxTarget[] { controller, controller2, controller3, controller4,
-                                                           controller5, controller6, controller7, controller8,
-                                                           controller9, controller10 }));
+		// the text field really just needs to be read only
+		textField.setReadOnly(true);
 
-        // do the layout
-        final WFieldLayout layout = new WFieldLayout();
-        add(layout);
-        layout.addField("Make a selection", controller);
-        layout.addField("Make a selection", controller2);
-        layout.addField("Make a selection", controller3);
-        layout.addField("Make a selection", controller4);
-        layout.addField("Make a selection", controller5);
-        layout.addField("Make a selection", controller6);
-        layout.addField("Make a selection", controller7);
-        layout.addField("Make a selection", controller8);
-        layout.addField("Enter some text", controller9);
-        layout.addField("Enter a date", controller10);
-        layout.addField("Output", textField);
-        layout.addField((WLabel) null, ajaxButton);
+		// the second ajax control is a button
+		ajaxButton.setAction(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				// I don't care what this does so lets reset so we can start all over again
+				reset();
+			}
+		});
+		add(new WAjaxControl(ajaxButton,
+				new AjaxTarget[]{controller, controller2, controller3, controller4,
+					controller5, controller6, controller7, controller8,
+					controller9, controller10}));
 
-    }
+		// do the layout
+		final WFieldLayout layout = new WFieldLayout();
+		add(layout);
+		layout.addField("Make a selection", controller);
+		layout.addField("Make a selection", controller2);
+		layout.addField("Make a selection", controller3);
+		layout.addField("Make a selection", controller4);
+		layout.addField("Make a selection", controller5);
+		layout.addField("Make a selection", controller6);
+		layout.addField("Make a selection", controller7);
+		layout.addField("Make a selection", controller8);
+		layout.addField("Enter some text", controller9);
+		layout.addField("Enter a date", controller10);
+		layout.addField("Output", textField);
+		layout.addField((WLabel) null, ajaxButton);
+
+	}
 }

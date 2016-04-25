@@ -16,22 +16,30 @@
  * @todo Integrate this with autofocus attribute (note: autofocus does not fire focus events yet).
  * @todo document private members, check source order.
  *
+ * @typedef {object} module:wc/ui/onloadFocusControl.config() Optional module configuration
+ * @property {boolean} rescroll If the document must scroll to bring the focussed element into the viewport this
+ * property determines whether the focussed element is scrolled to teh top (or closest to) of teh viewport (true) or
+ * uses the user agent default - usually to scroll only far enough to bring the element into the viewport.
+ * @default false
+ *
  * @module
  * @requires module:wc/dom/focus
  * @requires module:wc/dom/initialise
  * @requires module:wc/ui/ajax/processResponse
  * @requires module:wc/timers
+ * @requires module:wc/config
  *
  * @todo Document private members, check source order.
  */
-define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/timers"],
-	/** @param focus wc/dom/focus @param initialise wc/dom/initialise @param processResponse wc/ui/ajax/processResponse @param timers wc/timers @ignore */
-	function(focus, initialise, processResponse, timers) {
+define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/timers", "wc/config"],
+	/** @param focus wc/dom/focus @param initialise wc/dom/initialise @param processResponse wc/ui/ajax/processResponse @param timers wc/timers @param wcconfig wc/config @ignore */
+	function(focus, initialise, processResponse, timers, wcconfig) {
 		"use strict";
 		/** @alias module:wc/ui/onloadFocusControl */
 		function OnloadFocusControl() {
 			var focusId,
-				SCROLL_TO_TOP = false,  // true to turn on scroll to top of viewport on load focus, false will apply user agent default (usually scroll to just in view)
+				conf = wcconfig.get("wc/ui/onloadFocusControl"),
+				SCROLL_TO_TOP = (conf ? conf.rescroll : false),  // true to turn on scroll to top of viewport on load focus, false will apply user agent default (usually scroll to just in view)
 				FOCUS_DELAY = null;  // if set to a non-negstive integer this will delay focus requests to allow native autofocus to work. Native autofocus is currently problematic since it does not fire a focus event.
 
 
@@ -68,8 +76,12 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 					if (focus.canFocus(element)) {
 						focus.setFocusRequest(element, focusCallback);
 					}
-					else if (element.children && element.children.length) {  // yep children, not childNodes
+					else if (focus.canFocusInside(element)) { // try focusing inside the target
 						focus.focusFirstTabstop(element, focusCallback);
+					}
+					// as a last resort try focusing the nearest focusable ancestor of element if element has no dimensions
+					else if (element.clientHeight === 0 && element.clientWidth === 0 && (element = focus.getFocusableAncestor(element))) {
+						focus.setFocusRequest(element, focusCallback);
 					}
 				}
 			}
