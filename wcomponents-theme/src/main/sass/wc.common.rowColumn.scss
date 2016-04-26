@@ -2,12 +2,7 @@
 @import 'mixins-common';
 
 .wc-row {
-	@include flex($justify: space-between);
-}
-
-.wc-column {
-	@include flex-grow(1);
-	@include flex-shrink(1);
+	@include flex;
 }
 
 @include respond-phonelike {
