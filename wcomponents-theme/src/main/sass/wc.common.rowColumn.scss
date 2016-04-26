@@ -3,6 +3,14 @@
 
 .wc-row {
 	@include flex;
+
+	.wc_chkgrp & {
+		@include flex-justify-content(space-between);
+	}
+}
+
+.wc-column {
+	@include border-box;
 }
 
 @include respond-phonelike {
