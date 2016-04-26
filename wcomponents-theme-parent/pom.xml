@@ -24,7 +24,6 @@
 		<npm.download.root>http://registry.npmjs.org/npm/-/</npm.download.root>
 		<!--<node.sass.download.root>https://github.com/sass/node-sass/releases/download</node.sass.download.root>-->
 		<phantomjs.download.root>https://repo1.maven.org/maven2/com/github/klieber/phantomjs/2.0.0</phantomjs.download.root>
-		<timezonedata.download.url>ftp://ftp.iana.org/tz/tzdata-latest.tar.gz</timezonedata.download.url>
 		<theme.dir>${basedir}</theme.dir>
 		<theme.default.name>wcomponents-theme</theme.default.name>
 		<theme.unpacked.name>theme_unpacked</theme.unpacked.name>
@@ -42,6 +41,8 @@
 		<wc.project.version>${project.version}</wc.project.version><!-- Child projects should override this to the version of WComponents they use -->
 		<xsltjson.download.url>https://github.com/bramstein/xsltjson/archive/master.zip</xsltjson.download.url>
 		<xsltjson.dir>${project.build.directory}/xsltjson</xsltjson.dir><!-- Convert XML to JSON at build time -->
+		<timezonedata.download.url>http://www.iana.org/time-zones/repository/tzdata-latest.tar.gz</timezonedata.download.url>
+		<timezone.dir>${project.build.directory}/timezone</timezone.dir><!-- Fetch Timezone Database -->
 	</properties>
 
 	<build>
@@ -142,10 +143,23 @@
 							<goal>wget</goal>
 						</goals>
 						<configuration>
-							<skip>${mobile.skip.executions}</skip>
+							<skip>${theme.skip.antrun}</skip>
 							<url>${xsltjson.download.url}</url>
 							<unpack>false</unpack>
 							<outputDirectory>${xsltjson.dir}</outputDirectory>
+						</configuration>
+					</execution>
+					<execution>
+						<id>fetch-timezonedb</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+						<configuration>
+							<skip>${theme.skip.antrun}</skip>
+							<url>${timezonedata.download.url}</url>
+							<unpack>true</unpack>
+							<outputDirectory>${timezone.dir}</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
@@ -169,7 +183,6 @@
 								<property name="build.rootdir" location="${theme.target.dir}" />
 								<property name="theme.skip.tests" value="true" />
 								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
-								<property name="timezonedata.download.url" value="${timezonedata.download.url}" />
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="build" />
 								</ant>
@@ -196,7 +209,6 @@
 								<property name="theme.skip.tests" value="${skipOptionalTests}" />
 								<property name="maven.plugin.classpath" refid="maven.plugin.classpath" />
 								<!--<property name="theme.skip.tests" value="${skipOptionalTests}" />-->
-								<property name="timezonedata.download.url" value="${timezonedata.download.url}" />
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="test" />
 								</ant>
