@@ -16,7 +16,7 @@
 		The copy of resources is done in two steps so that we can run a filter chain on text-like files and
 		not on binary-like files.
 	-->
-	<target name="build" depends="init" description="Builds resources">
+	<target name="build" depends="init, getTimezoneData" description="Builds resources">
 		<copy todir="${resource.build.target.dir}" overwrite="true" flatten="true">
 			<fileset dir="${resource.rootdir}" includes="*.xml, *.rdf, *.html, *.txt, *.svg" excludesfile="${excludesfile}" />
 			<fileset dir="${impl.resource.rootdir}" includes="*.xml, *.rdf, *.html, *.txt, *.svg" erroronmissingdir="false"/>
@@ -46,16 +46,24 @@
 		<echo message="Done building xml" />
 	</target>
 
+	<!--
+		This target makes the IANA timezone database available to code which may need it.
+
+		For example this may be used to determine the local time in a particular political
+		region at a specific point in time.
+	-->
 	<target name="getTimezoneData">
+		<property name="timezone.dir" location="${build.rootdir}/timezone"/>
 		<mkdir dir="${resource.build.target.dir}/timezone"/>
-		<get src="${timezonedata.download.url}" dest="${tmp.dir}" tryGzipEncoding="true" skipexisting="true"/>
-		<gunzip src="${tmp.dir}/tzdata-latest.tar.gz" dest="${tmp.dir}"/>
-		<untar src="${tmp.dir}/tzdata-latest.tar" dest="${tmp.dir}/timezone/">
-			<!-- Add .txt because of this: https://github.com/BorderTech/wcomponents/issues/540 -->
+		<!--
+		<gunzip src="${timezone.dir}/tzdata-latest.tar.gz" dest="${timezone.dir}"/>
+		<untar src="${timezone.dir}/tzdata-latest.tar" dest="${timezone.dir}/unzipped/">
+			 Add .txt because of this: https://github.com/BorderTech/wcomponents/issues/540 
 			<regexpmapper from="^([^\.]+)$" to="\1.txt"/>
 		</untar>
+		-->
 		<copy todir="${resource.build.target.dir}/timezone" overwrite="true">
-			<fileset dir="${tmp.dir}/timezone" includes="*"/>
+			<fileset dir="${timezone.dir}" includes="*"/>
 			<filterchain>
 				<striplinecomments>
 					<comment value="#"/>

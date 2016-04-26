@@ -448,7 +448,6 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 				<property name="npmjs.dir" location="${npmjs.dir}"/>
 				<property name="npm.registry.url" value="${npm.registry.url}"/>
 				<property name="phantomjs.binary" value="${phantomjs.binary}"/>
-				<property name="timezonedata.download.url" value="${timezonedata.download.url}"/>
 			</ant>
 			<stopwatch name="@{antFile}" action="total"/>
 		</sequential>
