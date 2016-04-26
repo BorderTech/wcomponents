@@ -331,8 +331,13 @@ define(["wc/dom/event",
 					else {
 						resizeable.disableAnimation(dialog);
 						animationsDisabled = true;
-						resizeable.clearSize(dialog, true);
-						positionable.clearPosition(dialog, true);
+						if (isResizeable) {
+							resizeable.clearSize(dialog, true);
+							positionable.clearPosition(dialog, true);
+						}
+						else { // non-resizeable dialog just needs to be re-centered.
+							positionable.setBySize(dialog, {topOffsetPC: INITIAL_TOP_PROPORTION});
+						}
 					}
 				}
 				finally {

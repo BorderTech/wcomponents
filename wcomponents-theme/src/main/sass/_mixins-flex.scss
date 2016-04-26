@@ -3,7 +3,7 @@
 // maybe we have a reason for IE10 flexbox mixins if anyone could be bothered making them.
 
 // Vendor prefixes still required for Safari. All other modern browsers seem OK.
-// scss-lint:disable VendorPrefix
+// scss-lint:disable VendorPrefix DuplicateProperty
 
 /// Set a flex display mode with its associated gubbins.
 /// @param {flex-direction} $direction [row] The flex-direction.
@@ -12,7 +12,7 @@
 /// @param {align-items} $align-items [stretch] The item alignment model to apply.
 /// @param {align-content} $align-content [stretch] The item content alignment model to set.
 @mixin flex($direction: row, $wrap: nowrap, $justify: flex-start, $align-items: stretch, $align-content: stretch) {
-	display: block;  // See issue #561
+	display: block; // See issue #561
 	display: -webkit-flex;
 	-webkit-flex-direction: $direction;
 	-webkit-flex-wrap: $wrap;
