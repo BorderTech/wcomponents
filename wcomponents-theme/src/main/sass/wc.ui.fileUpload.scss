@@ -15,23 +15,23 @@
 		~ button {
 			@include flex-shrink(0);
 			display: inline-block;
-			margin-left: $hgap-small;
+			margin-left: $wc-gap-small;
 		}
 	}
 
 	> .wc_filelist {
 		display: table-cell;  // horrendously wrong no doubt but fixes columns
-		padding-top: $hgap-small;
+		padding-top: $wc-gap-small;
 
 		.wc-file + .wc-file {
-			margin-top: $vgap-normal;
+			margin-top: $wc-gap-normal;
 		}
 
 		&.wc_list_flat {
 			.wc-file {
 				display: inline-block;
-				margin-right: $hgap-small;
-				margin-top: $hgap-small;
+				margin-right: $wc-gap-small;
+				margin-top: $wc-gap-small;
 
 				// The excessive depth here could be re-written I suppose...
 				// scss-lint:disable NestingDepth
@@ -50,19 +50,19 @@
 	&[data-wc-cols] {
 		> div {
 			@include flex($justify: space-between);
-			margin-top: $hgap-small;
+			margin-top: $wc-gap-small;
 		}
 
 		ul {
 			@include flex-grow(1);
 
 			+ ul {
-				margin-left: $hgap-small;
+				margin-left: $wc-gap-small;
 			}
 		}
 
 		li + li {
-			margin-top: $hgap-small;
+			margin-top: $wc-gap-small;
 		}
 	}
 
@@ -83,7 +83,7 @@
 .wc-file {
 	@include flex($justify: space-between, $align-items: flex-start);
 	@include border;
-	padding: $hgap-small;
+	padding: $wc-gap-small;
 	word-wrap: break-word;
 }
 

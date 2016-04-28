@@ -47,9 +47,12 @@
 		starts to look weird).
 	-->
 	<xsl:template match="ui:columnlayout">
-		<xsl:element name="div">
+		<div>
 			<xsl:attribute name="class">
 				<xsl:text>wc-columnlayout</xsl:text>
+				<xsl:call-template name="getHVGapClass">
+					<xsl:with-param name="isVGap" select="1"/>
+				</xsl:call-template>
 			</xsl:attribute>
 			<xsl:variable name="width">
 				<xsl:choose>
@@ -61,24 +64,12 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-			<xsl:variable name="hgap">
-				<xsl:call-template name="getHVGap">
-					<xsl:with-param name="divisor" select="2"/>
-				</xsl:call-template>
-			</xsl:variable>
-			<xsl:variable name="vgap">
-				<xsl:call-template name="getHVGap">
-					<xsl:with-param name="gap" select="@vgap"/>
-				</xsl:call-template>
-			</xsl:variable>
 			<xsl:variable name="cols" select="count(ui:column)"/>
 			<xsl:choose>
 				<xsl:when test="$cols=1"><!-- I don't know why people do this, but they do -->
 					<xsl:apply-templates select="ui:cell" mode="clRow">
 						<xsl:with-param name="align" select="ui:column[1]/@align"/>
 						<xsl:with-param name="width" select="$width"/>
-						<xsl:with-param name="hgap" select="$hgap"/>
-						<xsl:with-param name="vgap" select="$vgap"/>
 						<xsl:with-param name="cols" select="$cols"/>
 					</xsl:apply-templates>
 				</xsl:when>
@@ -86,12 +77,10 @@
 					<xsl:apply-templates select="ui:cell[position() mod $cols = 1]" mode="clRow">
 						<xsl:with-param name="align" select="ui:column[1]/@align"/>
 						<xsl:with-param name="width" select="$width"/>
-						<xsl:with-param name="hgap" select="$hgap"/>
-						<xsl:with-param name="vgap" select="$vgap"/>
 						<xsl:with-param name="cols" select="$cols"/>
 					</xsl:apply-templates>
 				</xsl:otherwise>
 			</xsl:choose>
-		</xsl:element>
+		</div>
 	</xsl:template>
 </xsl:stylesheet>

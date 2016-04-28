@@ -20,11 +20,11 @@ dl {
 		}
 
 		> dt ~ dt { // any dt with a preceding sibling gets margin-left
-			margin-left: $hgap-normal;
+			margin-left: $wc-gap-normal;
 		}
 
 		> dd { // all dds must have a preceding sibling so they all get margin-left
-			margin-left: $hgap-small;
+			margin-left: $wc-gap-small;
 		}
 	}
 }

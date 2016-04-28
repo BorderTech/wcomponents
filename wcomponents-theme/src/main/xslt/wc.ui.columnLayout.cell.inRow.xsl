@@ -7,7 +7,6 @@
 param hgap: the horizontal space (if any) between columns.
 -->
 	<xsl:template match="ui:cell" mode="clInRow">
-		<xsl:param name="hgap"/>
 		<!--
 			variable colPos
 			This variable is used to find the ui:column which holds the meta-data pertinent
@@ -24,20 +23,9 @@ param hgap: the horizontal space (if any) between columns.
  			to the parent element equal to the value of $colPos calculated above.
 		-->
 		<xsl:variable name="myColumn" select="../ui:column[position() = $colPos]"/>
-		<xsl:variable name="width">
-			<xsl:choose>
-				<xsl:when test="$myColumn/@width">
-					<xsl:value-of select="$myColumn/@width"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:number value="0"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
 		<xsl:call-template name="column">
 			<xsl:with-param name="align" select="$myColumn/@align"/>
-			<xsl:with-param name="width" select="$width"/>
-			<xsl:with-param name="hgap" select="$hgap"/>
+			<xsl:with-param name="width" select="$myColumn/@width"/>
 		</xsl:call-template>
 	</xsl:template>
 </xsl:stylesheet>

@@ -6,7 +6,7 @@
 .wc_seltog {
 	> button {
 		cursor: pointer;
-		margin-left: $hgap-normal;
+		margin-left: $wc-gap-normal;
 		text-decoration: underline;
 
 		&:first-child {
@@ -15,6 +15,6 @@
 	}
 
 	&[role='checkbox']  + label {
-		margin-left: $hgap-small;
+		margin-left: $wc-gap-small;
 	}
 }

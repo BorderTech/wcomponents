@@ -139,8 +139,8 @@
 /// Apply a simple margin to an element.
 /// @param {String} $pos [all] Where to apply the margin. If 'all' then the margin is placed around all sides of the
 /// element; otherwise any one of top, right, bottom, left to set a margin only on that side of the element.
-/// @param {dimension} $size [$hgap-small] The size of the margin to apply.
-@mixin margin ($pos: all, $size: $hgap-small) {
+/// @param {dimension} $size [$wc-gap-small] The size of the margin to apply.
+@mixin margin ($pos: all, $size: $wc-gap-small) {
 	@if ($pos == all) {
 		margin: $size;
 	}
@@ -196,11 +196,11 @@
 }
 
 /// Make a container into a simple padded box with a standard border.
-/// @param {dimaension} $pad [$hgap-normal] The amount of padding.
+/// @param {dimaension} $pad [$wc-gap-normal] The amount of padding.
 /// @param {color} $border [$wc-ui-color-border] The border color.
 /// @param {color|-1} $color [-1] The foreground color. Set to -1 (default) to not set this rule.
 /// @param {color|-1} $bg-color [-1] The background color. Set to -1 (default) to not set this rule.
-@mixin padded-box($pad: $hgap-normal, $border: $wc-ui-color-border, $color: -1, $bg-color: -1) {
+@mixin padded-box($pad: $wc-gap-normal, $border: $wc-ui-color-border, $color: -1, $bg-color: -1) {
 	@include border($color: $border);
 	padding: $pad;
 	@if ($bg-color != -1) {

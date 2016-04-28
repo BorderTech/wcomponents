@@ -4,36 +4,35 @@
 .wc-flowlayout {
 	@include flex($wrap: wrap, $justify: flex-start, $align-items: flex-start, $align-content: flex-start);
 
-	&.baseline {
-		@include flex-align-items(baseline);
-	}
-
-	&.bottom {
-		@include flex-align-items(flex-end);
-	}
-
-	&.center {
-		@include flex-justify-content(center);
-		text-align: $preferred-alignment;
-	}
-
-	&.middle { // vertical align middle of the flow
-		@include flex-align-items(center);
-	}
-
-	&.right {
-		@include flex-justify-content(flex-end);
-	}
-
-	&.vertical {
-		&,
-		& > div {
-			display: block;
-		}
-	}
-
 	> div {
 		display: inline-block;
 		max-width: 100%;
+	}
+}
+
+.wc_fl_baseline {
+	@include flex-align-items(baseline);
+}
+
+.wc_fl_bottom {
+	@include flex-align-items(flex-end);
+}
+
+.wc_fl_center {
+	@include flex-justify-content(center);
+}
+
+.wc_fl_middle { // vertical align middle of the flow
+	@include flex-align-items(center);
+}
+
+.wc_fl_right {
+	@include flex-justify-content(flex-end);
+}
+
+.wc_fl_vertical {
+	&,
+	& > div {
+		display: block;
 	}
 }

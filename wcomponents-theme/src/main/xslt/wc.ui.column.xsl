@@ -11,11 +11,8 @@
 		see wc.ui.columnLayout.xsl
 	-->
 	<xsl:template match="ui:column">
-		<xsl:param name="hgap"/>
 		<xsl:if test="parent::ui:row or parent::ui:ajaxtarget"><!-- do not allow randomly nested columns -->
-			<xsl:call-template name="column">
-				<xsl:with-param name="hgap" select="$hgap"/>
-			</xsl:call-template>
+			<xsl:call-template name="column"/>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

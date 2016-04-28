@@ -27,7 +27,7 @@
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="isWrapper" select="1"/>
 				<xsl:with-param name="class">
-					<xsl:value-of select="@layout"/>
+					<xsl:value-of select="concat('wc_fld_', @layout)"/>
 					<xsl:if test="@labelWidth">
 						<xsl:value-of select="concat(' wc_fld_lblwth_',@labelWidth)"/>
 					</xsl:if>

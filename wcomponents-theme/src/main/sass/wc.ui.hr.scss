@@ -5,5 +5,5 @@ hr {
 	//we want  to reset the border then set it only on the bottom.
 	@include border($width: 0);
 	@include border($pos: bottom);
-	margin: $vgap-normal 0;
+	margin: $wc-gap-normal 0;
 }

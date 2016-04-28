@@ -2,7 +2,7 @@
 @import 'mixins-common';
 
 fieldset {
-	@include padded-box($pad: $hgap-small);
+	@include padded-box($pad: $wc-gap-small);
 	@include margin($size: 0);
 
 	&.wc_noborder { //it is pretty common to remove borders from fieldsets.
