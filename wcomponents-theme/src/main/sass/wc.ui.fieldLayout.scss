@@ -9,12 +9,12 @@
 // }
 //scss-lint:enable QualifyingElement
 
-// Vertical space between WFieldLayouts.
-// .wc-fieldlayout + .wc-fieldlayout {
-// 	margin-top: $wc-gap-normal;
-// }
+Vertical space between WFieldLayouts.
+.wc-fieldlayout + .wc-fieldlayout {
+	margin-top: $wc-gap-normal;
+}
 
-// Verticl space between fields in a WFieldLayout.
+// Vertical space between fields in a WFieldLayout.
 .wc-field  + .wc-field {
 	margin-top: $wc-gap-normal;
 }
