@@ -30,7 +30,7 @@
 		display: block;
 
 		&[value='rem'] { //a small gap between the add and remove buttons
-			margin-top: $vgap-normal;
+			margin-top: $wc-gap-normal;
 		}
 	}
 }

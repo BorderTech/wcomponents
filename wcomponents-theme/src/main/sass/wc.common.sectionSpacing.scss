@@ -1,4 +1,7 @@
 @import 'mixins-common';
+// Spacing for WSection and WPanel Types CHROME and ACTION.
+$section-content-spacing: $wc-gap-normal !default;
+$section-header-spacing: $wc-gap-normal !default;
 
 section {
 	@include border;

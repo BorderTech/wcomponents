@@ -3,20 +3,19 @@
 	<xsl:import href="wc.common.getHVGap.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
-		WRow is used to make rows (yep, really) and it contains ui:column.
+		WRow is used to make rows (yes, really) and it contains ui:column (guess what that makes?).
 	-->
 	<xsl:template match="ui:row">
+		<xsl:variable name="hgap">
+			<xsl:call-template name="getHVGapClass"/>
+		</xsl:variable>
 		<div id="{@id}">
-			<xsl:call-template name="makeCommonClass"/>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional" select="$hgap"/>
+			</xsl:call-template>
 			<xsl:call-template name="ajaxTarget"/>
 			<xsl:apply-templates select="ui:margin"/>
-			<xsl:apply-templates select="ui:column">
-				<xsl:with-param name="hgap">
-					<xsl:call-template name="getHVGap">
-						<xsl:with-param name="divisor" select="2"/>
-					</xsl:call-template>
-				</xsl:with-param>
-			</xsl:apply-templates>
+			<xsl:apply-templates select="ui:column"/>
 		</div>
 	</xsl:template>
 </xsl:stylesheet>

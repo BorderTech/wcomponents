@@ -188,7 +188,7 @@
 							</xsl:apply-templates>
 						</xsl:when>
 						<xsl:when test="$readOnly=1">
-							<div class="wc-row">
+							<div class="wc-row wc_hgap_sm">
 								<xsl:apply-templates select="ui:option[@selected][position() mod $rows = 1]" mode="checkableGroup">
 									<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
 									<xsl:with-param name="inputName" select="$id"/>
@@ -199,17 +199,14 @@
 							</div>
 						</xsl:when>
 						<xsl:when test="$rows=0 and ui:option">
-							<xsl:element name="div">
-								<xsl:attribute name="class">
-									<xsl:value-of select="$layout"/>
-								</xsl:attribute>
+							<div class="{$layout}">
 								<xsl:apply-templates select="ui:option" mode="checkableGroupInList">
 									<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
 									<xsl:with-param name="inputName" select="$id"/>
 									<xsl:with-param name="type" select="$inputType"/>
 									<xsl:with-param name="readOnly" select="$readOnly"/>
 								</xsl:apply-templates>
-							</xsl:element>
+							</div>
 						</xsl:when>
 						<xsl:when test="$rows=1 and  ui:option">
 							<xsl:apply-templates select="ui:option" mode="checkableGroup">
@@ -221,7 +218,7 @@
 							</xsl:apply-templates>
 						</xsl:when>
 						<xsl:when test="ui:option">
-							<div class="wc-row">
+							<div class="wc-row wc_hgap_sm">
 								<xsl:apply-templates select="ui:option[position() mod $rows = 1]" mode="checkableGroup">
 									<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
 									<xsl:with-param name="inputName" select="$id"/>

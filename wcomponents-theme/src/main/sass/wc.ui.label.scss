@@ -10,7 +10,7 @@
 [type='radio'] + label,
 [type='checkbox'] + label,
 .wc_ro + .wc-label {
-	margin-left: $hgap-small;
+	margin-left: $wc-gap-small;
 }
 
 // use inline-block to prevent a required marker flying off the end
@@ -31,13 +31,13 @@
 
 		&:after {
 			position: absolute;
-			right: $hgap-small;
+			right: $wc-gap-small;
 			top: 0;
 		}
 
 		[type='radio'] + &:before,
 		[type='checkbox'] + &:before {
-			margin-right: $hgap-small;
+			margin-right: $wc-gap-small;
 		}
 
 		[type='radio'] + &:after,

@@ -38,7 +38,7 @@
 	}
 
 	button {
-		margin: 0 $hgap-small;
+		margin: 0 $wc-gap-small;
 
 		&:first-of-type {
 			margin-left: 0;
@@ -54,23 +54,23 @@
 		}
 
 		&.wc_btn_up {
-			margin: 0 auto $hgap-small;
+			margin: 0 auto $wc-gap-small;
 		}
 
 		&.wc_btn_down {
-			margin: $hgap-small auto 0;
+			margin: $wc-gap-small auto 0;
 		}
 
 		&.wc_btn_snap {
 			display: block;
-			margin: $hgap-small auto 0;
+			margin: $wc-gap-small auto 0;
 		}
 	}
 
 	.wc_img_controls {
 		> div,
 		> fieldset {
-			margin: $hgap-normal $hgap-small;
+			margin: $wc-gap-normal $wc-gap-small;
 			text-align: center;
 		}
 
@@ -81,7 +81,7 @@
 	}
 
 	input[type='range'] {
-		margin-left: $hgap-small;
+		margin-left: $wc-gap-small;
 		vertical-align: middle;
 	}
 }
@@ -97,7 +97,7 @@
 
 			> div,
 			> fieldset {
-				margin: $hgap-small;
+				margin: $wc-gap-small;
 
 				&:first-child {
 					margin-left: 0;

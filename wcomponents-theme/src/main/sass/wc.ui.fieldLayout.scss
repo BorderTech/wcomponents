@@ -9,13 +9,14 @@
 // }
 //scss-lint:enable QualifyingElement
 
-// Vertical space between fields in a WFieldLayout.
-.wc-fieldlayout + .wc-fieldlayout {
-	margin-top: $vgap-normal;
-}
+// Vertical space between WFieldLayouts.
+// .wc-fieldlayout + .wc-fieldlayout {
+// 	margin-top: $wc-gap-normal;
+// }
 
-.wc-field + .wc-field {
-	margin-top: $vgap-normal;
+// Verticl space between fields in a WFieldLayout.
+.wc-field  + .wc-field {
+	margin-top: $wc-gap-normal;
 }
 
 .wc_ordered {
@@ -62,7 +63,7 @@
 
 // The input container div.
 .wc-input {
-	margin-top: $vgap-small; // push off of the label.
+	margin-top: $wc-gap-small; // push off of the label.
 
 	// InputWidth class is added to the field to signify that an inputWidth is in use so we can size the components.
 	.wc_inputwidth > & {
@@ -88,12 +89,19 @@
 			width: 100%;
 		}
 	}
+
+	> .wc_input_wrapper,
+	> input,
+	> select,
+	> textarea {
+		max-width: 100%;
+	}
 }
 
 @include respond-not-small {
 	// This block should be in fieldLayout.dt.css but is here to work around a Safari bug.
 	// Flat is the most common use, but shouldn't be (due to a11y concerns which are not adequately covered by WCAG 2.0)
-	.flat > .wc-field {
+	.wc_fld_flat > .wc-field {
 		> label,
 		> span,
 		> div {

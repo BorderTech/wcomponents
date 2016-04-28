@@ -7,19 +7,19 @@
 	-ms-flex-pack: start;
 	-ms-flex-wrap: wrap;
 
-	&.baseline {
-		-ms-flex-align: baseline;
-	}
-
-	&.bottom {
-		-ms-flex-align: end;
-	}
-
-	&.middle {
-		-ms-flex-align: center;
-	}
-
 	> div {
 		-ms-flex: 0 1 auto;
 	}
+}
+
+.wc_fl_baseline {
+	-ms-flex-align: baseline;
+}
+
+.wc_fl_bottom {
+	-ms-flex-align: end;
+}
+
+.wc_fl_middle {
+	-ms-flex-align: center;
 }

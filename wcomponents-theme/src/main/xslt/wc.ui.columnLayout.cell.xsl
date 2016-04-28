@@ -1,5 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.column.xsl"/>
+	<xsl:import href="wc.common.getHVGap.xsl"/>
 	<!--
 		This template creates each row and the first column in the row. It then applies
 		templates selecting the following-sibling::ui:cell[position &lt; $cols] to
@@ -16,28 +17,20 @@
 	<xsl:template match="ui:cell" mode="clRow">
 		<xsl:param name="align"/>
 		<xsl:param name="width"/>
-		<xsl:param name="hgap"/>
-		<xsl:param name="vgap"/>
 		<xsl:param name="cols"/>
-		<div class="wc-row">
-			<xsl:if test="position() &gt; 1 and $vgap !=0">
-				<xsl:attribute name="style">
-					<xsl:text>margin-top:</xsl:text>
-					<xsl:value-of select="$vgap"/>
-					<xsl:text>;</xsl:text>
-				</xsl:attribute>
-			</xsl:if>
-
+		<div>
+			<xsl:attribute name="class">
+				<xsl:text>wc-row</xsl:text>
+				<xsl:call-template name="getHVGapClass">
+					<xsl:with-param name="gap" select="../@hgap"/>
+				</xsl:call-template>
+			</xsl:attribute>
 			<xsl:call-template name="column">
 				<xsl:with-param name="align" select="$align"/>
 				<xsl:with-param name="width" select="$width"/>
-				<xsl:with-param name="hgap" select="$hgap"/>
-				<xsl:with-param name="ignoreLeftGap" select="1"/>
 			</xsl:call-template>
 			<xsl:if test="$cols &gt; 1">
-				<xsl:apply-templates select="following-sibling::ui:cell[position() &lt; $cols]" mode="clInRow">
-					<xsl:with-param name="hgap" select="$hgap"/>
-				</xsl:apply-templates>
+				<xsl:apply-templates select="following-sibling::ui:cell[position() &lt; $cols]" mode="clInRow"/>
 			</xsl:if>
 		</div>
 	</xsl:template>

@@ -7,7 +7,7 @@
 #wc_ui_loading {
 	position: fixed;
 	text-align: center;
-	top: $vgap-normal;
+	top: $wc-gap-normal;
 	vertical-align: middle;
 	width: 100%;
 	z-index: $z-index-unloading-message;
@@ -16,12 +16,12 @@
 		// background-repeat: no-repeat;
 		display: inline-block;
 		margin: 0 auto;
-		padding: $hgap-large;
+		padding: $wc-gap-large;
 		vertical-align: middle;
 		width: auto;
 
 		&:before {
-			margin-right: $hgap-normal;
+			margin-right: $wc-gap-normal;
 		}
 	}
 }

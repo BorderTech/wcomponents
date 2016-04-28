@@ -1,13 +1,5 @@
 // Common spacing variables
-$hgap-small: 0.25rem; //0.1875rem
-$hgap-normal: 0.5rem; //0.375rem
-$hgap-large: 1rem; //0.75rem
-$vgap-small: $hgap-small;
-$vgap-normal: $hgap-normal;
-$vgap-large: $hgap-large;
-
-$section-content-spacing: $hgap-normal;
-$section-header-spacing: $hgap-normal;
-
-$list-layout-dot-spacing: 1.5rem;
-$list-layout-ordered-spacing: 2rem;
+$wc-gap-small: 0.25rem; //0.1875rem
+$wc-gap-normal: 0.5rem; //0.375rem
+$wc-gap-large: 1rem; //0.75rem
+$wc-gap-xl: 1.5rem;

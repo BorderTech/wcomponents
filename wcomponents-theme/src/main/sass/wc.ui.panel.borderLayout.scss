@@ -1,37 +1,38 @@
 /* wc.ui.panel.borderLayout.scss */
 @import 'panel_vars';
 
-.wc_borderlayout_middle {
+.wc_bl_mid {
 	@include flex($justify: space-between);
+	// NOTE: the justification should be moot but keep it here
+}
 
-	> div {
-		@include flex-grow(0);
-		@include flex-shrink(1);
-		@include min-content;
+.wc-center,
+.wc-east,
+.wc-west {
+	@include border-box;
+	@include flex-grow(1);
+	@include flex-shrink(1);
 
-		&:first-child:last-child {
-			width: 100%;
-		}
+	&:first-child:last-child {
+		width: 100%;
 	}
+}
 
-	> .wc_borderlayout_middle50 {
-		@include flex-grow(1);
-		width: 50%;
+.wc-center {
+	min-width: 50%;
+
+	&:first-child,
+	&:last-child {
+		width: 75%;
 	}
+}
 
-	> .wc-center {
-		@include flex-grow(1);
-		@include flex-shrink(0);
-		text-align: $preferred-alignment; // NOTE: the text align here is to overrule the generic .center class used in column alignment, table col alignment, flowLayout etc.
+.wc-east,
+.wc-west {
+	@include min-content;
+}
 
-		&:first-child,
-		&:last-child {
-			width: 75%;
-		}
-	}
-
-	> .wc-east {
-		@include flex-justify-content(flex-end);
-		text-align: right;
-	}
+.wc-east {
+	@include flex-justify-content(flex-end);
+	text-align: right; // TODO really?
 }

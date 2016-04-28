@@ -62,13 +62,13 @@
 	@include border-box;
 	display: none;
 	height: 1.5rem; // allow size for the absolutely positioned iconic button.
-	margin-top: $hgap-small;
+	margin-top: $wc-gap-small;
 	width: 100%;
 }
 
 // htree resize handles.
 .wc_branch_resize_handle {
-	@include padded-box($pad: 0 $hgap-small);
+	@include padded-box($pad: 0 $wc-gap-small);
 	bottom: 0;
 	position: absolute;
 	right: 0;
