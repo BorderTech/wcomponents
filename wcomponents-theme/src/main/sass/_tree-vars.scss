@@ -4,16 +4,16 @@ $wc-tree-indent: 0.75rem;
 // The bi-modal nature of the tree expander button means we
 // have to pad the inner components rather than the button.
 // It _may_ be worth puttiing in another content wrapper...
-$wc-tree-item-pad-l: $hgap-small;
-$wc-tree-item-pad-r: $hgap-small;
-$wc-tree-item-pad-t: $hgap-small;
-$wc-tree-item-pad-b: $hgap-small;
+$wc-tree-item-pad-l: $wc-gap-small;
+$wc-tree-item-pad-r: $wc-gap-small;
+$wc-tree-item-pad-t: $wc-gap-small;
+$wc-tree-item-pad-b: $wc-gap-small;
 
 // the right border of each level in a tree: helps to see where the levels occur.
-$wc-htree-branch-right-border-width: $hgap-small;
+$wc-htree-branch-right-border-width: $wc-gap-small;
 
 // used for WMenu type TREE. Under review.
-$wc-tree-item-pad: $hgap-small 0;
+$wc-tree-item-pad: $wc-gap-small 0;
 
 // the start width of a htree group when the browser is rubbish.
 $wc-htree-branch-width-lame: 10rem;

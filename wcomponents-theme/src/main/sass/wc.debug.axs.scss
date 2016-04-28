@@ -5,10 +5,10 @@
 
 .wc_a11y {
 	@include border;
-	@include margin($size: $hgap-large);
+	@include margin($size: $wc-gap-large);
 
 	> a {
-		margin: 0 $hgap-small;
+		margin: 0 $wc-gap-small;
 	}
 
 	&.warning { // I have never seen a warning level issue in WComponents which has NOT been a false negative.
@@ -36,8 +36,8 @@
 			color: $std-color-white;
 			display: block;
 			font-weight: bold;
-			margin-bottom: $hgap-normal;
-			padding: $hgap-small;
+			margin-bottom: $wc-gap-normal;
+			padding: $wc-gap-small;
 			text-align: center;
 			width: 100%;
 		}

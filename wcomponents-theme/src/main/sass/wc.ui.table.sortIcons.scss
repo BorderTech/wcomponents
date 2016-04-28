@@ -4,7 +4,7 @@
 th {
 	&[aria-sort]:after {
 		@include wc-icon($fa-var-caret-down);
-		margin-left: $hgap-small;
+		margin-left: $wc-gap-small;
 	}
 
 	&[sorted]:after {

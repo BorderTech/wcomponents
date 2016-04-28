@@ -17,7 +17,7 @@
 .info {
 	> li:before {
 		@include wc-icon($fa-var-minus-circle);
-		margin-right: $hgap-small;
+		margin-right: $wc-gap-small;
 	}
 }
 

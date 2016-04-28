@@ -1,6 +1,7 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.getHVGap.xsl"/>
-	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		ui:borderlayout is a layout mode of WPanel which consists of one or more containers displayed in a particular 
 		pattern. This is a rough CSS based emulation of AWT BorderLayout. 
@@ -9,51 +10,28 @@
 		and ui:east then a wrapper is provided for them before they are applied.
 	-->
 	<xsl:template match="ui:borderlayout">
-		<xsl:variable name="vgap">
-			<xsl:call-template name="getHVGap">
-				<xsl:with-param name="gap" select="@vgap"/>
-			</xsl:call-template>
-		</xsl:variable>
-		<xsl:element name="div">
-			<xsl:call-template name="makeCommonClass"/>
+		<div>
+			<xsl:attribute name="class">
+				<xsl:text>wc-borderlayout</xsl:text>
+				<xsl:call-template name="getHVGapClass">
+					<xsl:with-param name="isVGap" select="1"/>
+				</xsl:call-template>
+			</xsl:attribute>
 			<xsl:apply-templates select="ui:north"/>
 			<xsl:variable name="colCount" select="count(ui:west|ui:center|ui:east)"/>
 			<xsl:if test="$colCount &gt;0">
-				<xsl:element name="div">
+				<div>
 					<xsl:attribute name="class">
-						<xsl:text>wc_borderlayout_middle</xsl:text>
+						<xsl:text>wc_bl_mid</xsl:text>
+						<xsl:call-template name="getHVGapClass"/>
 					</xsl:attribute>
-					<xsl:if test="ui:north and ($vgap != 0)">
-						<xsl:attribute name="style">
-							<xsl:value-of select="concat('margin-top:',$vgap,';')" />
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:variable name="hgap">
-						<xsl:choose>
-							<xsl:when test="not(@hgap) or @hgap='0' or $colCount=1">
-								<xsl:number value="0"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:call-template name="getHVGap">
-									<xsl:with-param name="divisor" select="2"/>
-								</xsl:call-template>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:variable>
-					<xsl:apply-templates select="ui:west">
-						<xsl:with-param name="hgap" select="$hgap"/>
-					</xsl:apply-templates>
-					<xsl:apply-templates select="ui:center">
-						<xsl:with-param name="hgap" select="$hgap"/>
-					</xsl:apply-templates>
-					<xsl:apply-templates select="ui:east">
-						<xsl:with-param name="hgap" select="$hgap"/>
-					</xsl:apply-templates>
-				</xsl:element>
+					<xsl:apply-templates select="ui:west"/>
+					<xsl:apply-templates select="ui:center"/>
+					<xsl:apply-templates select="ui:east"/>
+					
+				</div>
 			</xsl:if>
-			<xsl:apply-templates select="ui:south">
-				<xsl:with-param name="vgap" select="$vgap"/>
-			</xsl:apply-templates>
-		</xsl:element>
+			<xsl:apply-templates select="ui:south"/>
+		</div>
 	</xsl:template>
 </xsl:stylesheet>

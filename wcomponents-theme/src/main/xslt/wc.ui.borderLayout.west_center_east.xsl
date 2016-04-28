@@ -1,26 +1,36 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:import href="wc.ui.borderLayout.n.borderLayoutCell.xsl"/>
 	<!--
-	
 		The transform for west, center and east elements within a ui:borderlayout.
-		
-		The space between the cells is set by the parent ui:borderlayout's hgap
-		attribute. If set this is set half as a left margin on all but the leftmost 
-		(in ltr	languages) cell and half as a right margin on all but the rightmost.
 	-->
 	<xsl:template match="ui:east|ui:west|ui:center">
-		<xsl:param name="hgap" select="0"/>
-		<xsl:call-template name="borderLayoutCell">
-			<xsl:with-param name="hgap">
+		<div>
+			<xsl:attribute name="class">
+				<xsl:value-of select="concat('wc-',local-name(.))"/>
+				<!-- 
+					IE8 needs more help because it does not know about last child or flex layouts. We should be able to
+					remove all this stuff (eventually) when flex-grow: 3 differs from flex-grow: 1 on all target
+					browsers (wishful thinking?).
+				-->
+				<xsl:variable name="colCount" select="count(../ui:west|../ui:east|../ui:center)"/>
+				<xsl:variable name="classPrefix">
+					<xsl:text> wc_bl_mid</xsl:text>
+				</xsl:variable>
 				<xsl:choose>
-					<xsl:when test="$hgap = 0 or count(../ui:west|../ui:center|../ui:east) &gt; 1">
-						<xsl:value-of select="$hgap"/>
+					<xsl:when test = "$colCount = 1">
+						<xsl:value-of select="concat($classPrefix, '100')"/>
 					</xsl:when>
-					<xsl:otherwise>
-						<xsl:number value="0"/>
-					</xsl:otherwise>
+					<xsl:when test="(self::ui:west or self::ui:east) and ../ui:center">
+						<xsl:value-of select="concat($classPrefix, '25')"/>
+					</xsl:when>
+					<xsl:when test="(self::ui:east and (../ui:west)) or (self::ui:west and (../ui:east)) or ($colCount = 3 and self::ui:center)">
+						<xsl:value-of select="concat($classPrefix, '50')"/>
+					</xsl:when>
+					<xsl:when test="self::ui:center">
+						<xsl:value-of select="concat($classPrefix, '75')"/>
+					</xsl:when>
 				</xsl:choose>
-			</xsl:with-param>
-		</xsl:call-template>
+			</xsl:attribute>
+			<xsl:apply-templates/>
+		</div>
 	</xsl:template>
 </xsl:stylesheet>

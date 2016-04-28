@@ -1,7 +1,9 @@
 package com.github.bordertech.wcomponents.examples.layout;
 
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
@@ -43,8 +45,9 @@ public class GridLayoutOptionsExample extends WContainer {
 
 	/**
 	 * the container for holding the grid layout instances.
+	 * This has been converted to a WPanel to allow it to be an ajax target
 	 */
-	private final WContainer container = new WContainer();
+	private final WPanel container = new WPanel();
 
 	/**
 	 * the number field for retrieving the number of columns required.
@@ -84,9 +87,7 @@ public class GridLayoutOptionsExample extends WContainer {
 		WValidationErrors errors = new WValidationErrors();
 		add(errors);
 		add(getLayoutControls(errors));
-		add(new WHorizontalRule());
 		this.add(container);
-		add(new WHorizontalRule());
 	}
 
 	/**
@@ -140,6 +141,9 @@ public class GridLayoutOptionsExample extends WContainer {
 		});
 
 		fieldSet.add(apply);
+
+		fieldSet.add(new WAjaxControl(apply, container));
+		fieldSet.setMargin(new Margin(0, 0, 12, 0));
 		return fieldSet;
 	}
 

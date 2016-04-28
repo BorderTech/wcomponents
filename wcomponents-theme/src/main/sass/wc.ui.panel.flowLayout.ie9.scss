@@ -1,31 +1,30 @@
 /* wc.ui.panel.flowLayout.ie9.scss */
 
-
-.wc-flowlayout {
-	> div {
+div {
+	.wc-flowlayout > & {
 		vertical-align: text-top;
 		width: auto;
 	}
 
-	&.baseline > div {
+	.wc_fl_baseline > & {
 		vertical-align: baseline;
 	}
 
-	&.bottom > div {
+	.wc_fl_bottom > & {
 		vertical-align: bottom;
 	}
 
-	&.center {
-		text-align: center;
-	}
-
-	&.middle > div {
+	.wc_fl_middle > & {
 		vertical-align: middle;
 	}
 
-	&.vertical > div {
+	.wc_fl_vertical > & {
 		display: block;
 		vertical-align: inherit;
 		width: initial;
 	}
+}
+
+.wc_fl_center {
+	text-align: center;
 }

@@ -2,5 +2,5 @@
 @import 'mixins-common';
 
 .wc_table_actions button + button {
-	margin-left: $hgap-small;
+	margin-left: $wc-gap-small;
 }

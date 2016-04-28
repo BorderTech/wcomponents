@@ -1,12 +1,113 @@
-/* wc.ui.panel.gridLaout.scss */
+/* wc.ui.panel.gridLayout.scss */
 @import 'mixins-common';
 
-// We need to override the regular row flex model.
-.wc-gridlayout > .wc-row {
-	@include flex-justify-content($where: flex-start);
+// **READ THIS FIRST.**
+// GridLayout was first implemented as a CSS variation on a Java Swing
+// or AWT GridLayout. It is not a general purpose layout tool and is considered
+// "legacy" and is best avoided.
+// See https://github.com/BorderTech/wcomponents/wiki/WPanel-GridLayout
 
-	> .wc-column {
-		@include flex-grow(0);
-		@include flex-shrink(0);
+// The styles in this file assume we do **not** allow nested grids or grids with
+// other nested layouts.
+//
+// If nested layouts are allowed you should add a .wc-row and child combiners
+// between .wc-gridlayout and .wc cell. For example the rule:
+// `.wc_col_#{$pc} .wc-cell`
+// would become:
+// .wc_col_#{$pc} > .wc-row > .wc-cell
+
+// What do we do with excess content in a grid?
+// Hidden is recommended if the grid is important to the design.
+// $grid-overflow-rule: hidden !default;
+// Auto is a bad choice if form controls are going to be put into the grid.
+// If form controls are not going to be put into the grid then why are you using
+// GridLayout (actually "WHY is GridLayout being used at all?" is a really good question).
+// $grid-overflow-rule: auto !default;
+// Visible is, it could be argues, the worst of all possible rules but it happens to be the
+// default from 2005 so it is still the default.
+$grid-overflow-rule: visible !default;
+
+@mixin col-width-pc($pc) {
+	.wc_col_#{$pc} .wc-cell {
+		width: percentage(1 / $pc);
 	}
 }
+
+.wc-gridlayout {
+	// When there is only one column we do not have rows.
+	> .wc-cell {
+		display: block;
+		width: 100%;
+	}
+
+	@if $grid-overflow-rule != visible {
+		.wc-cell {
+			overflow: $grid-overflow-rule;
+		}
+	}
+
+	.wc-row {
+		@include flex(); // override default (block) for rows on small screens.
+	}
+}
+
+// Width of grid cells for various numbers of columns.
+@for $i from 1 through 12 {
+	@include col-width-pc($i);
+}
+
+// This large block comment is a suggestion for forcing wider cells when grids
+// are presented on small screens. It may cause more trouble than it is worth.
+// If you implement something like this then you may want to remove the rules above
+// which set widths for 1 - 12 cols and merge other rules where appropriate.
+//
+// Oh, and you _will_ have problems with hgap and vgap. Good luck!
+//
+// scss-lint:disable Comment
+/*
+
+	$grid-max-cols-phone: 4 !default;
+	$grid-min-cols-small: 1 + $grid-max-cols-phone;
+	$grid-max-cols-small: 8 !default;
+	$grid-min-cols-big: 1 + $grid-max-cols-small;
+
+	.wc-gridlayout {
+		.wc-row {
+			// override default for columns on small screens.
+			// allow wrapping so a row with (eg) 12 cols can appear as
+			// more-or-less 4 rows.
+			@include flex($wrap: wrap);
+		}
+
+		// Attempt to make all grids of <= 12 cols behave as no more than $grid-max-cols-phone
+		// columns on phone-like screens (assumed default).
+		.wc-cell {
+			width: percentage(1 / $grid-max-cols-phone);
+		}
+	}
+
+	@include respond-not-phonelike {
+		.wc-gridlayout {
+			// Default width on smallish screens for columns $grid-min-cols-big - 12.
+			// This must appear before the $grid-min-cols-small - $grid-max-cols-small loop.
+			.wc-cell {
+				width: percentage(1 / $grid-max-cols-small);
+			}
+		}
+
+		@for $i from $grid-min-cols-small through $grid-max-cols-small {
+			@include col-width-pc($i);
+		}
+	}
+
+	@for $i from 1 through $grid-max-cols-phone {
+		@include col-width-pc($i);
+	}
+
+	@include respond-not-small {
+		@for $i from $grid-min-cols-big through 12 {
+			@include col-width-pc($i);
+		}
+	}
+*/
+// scss-lint:enable Comment

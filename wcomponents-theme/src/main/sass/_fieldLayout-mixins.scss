@@ -8,11 +8,11 @@ $wc-input-width-slug: wc_fld_inpw;
 	$iw: 100% - $lw;
 
 	.#{$wc-label-width-slug}_#{$lwdth} {
-		&.flat > .wc-field > :first-child {
+		&.wc_fld_flat > .wc-field > :first-child {
 			width: $lw;
 		}
 
-		&.stacked > .wc-field > .wc-input {
+		&.wc_fld_stacked > .wc-field > .wc-input {
 			margin-left: $lw;
 		}
 
