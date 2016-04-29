@@ -46,7 +46,7 @@
 			<xsl:variable name="isCheckRadio">
 				<xsl:call-template name="fieldIsCheckRadio" />
 			</xsl:variable>
-			<li id="{@id}">
+			<div id="{@id}">
 				<xsl:call-template name="makeCommonClass">
 					<xsl:with-param name="additional">
 						<xsl:if test="@inputWidth">
@@ -76,7 +76,7 @@
 				<xsl:apply-templates select="ui:input">
 					<xsl:with-param name="isCheckRadio" select="$isCheckRadio" />
 				</xsl:apply-templates>
-			</li>
+			</div>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>
