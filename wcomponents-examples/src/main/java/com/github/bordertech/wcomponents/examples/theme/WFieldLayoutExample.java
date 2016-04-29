@@ -66,16 +66,27 @@ public class WFieldLayoutExample extends WPanel {
 		layout.addField("WCheckBox", new WCheckBox());
 		add(layout);
 
-		add(new WHorizontalRule());
-		add(new WHeading(HeadingLevel.H2, "Using labelWidth"));
+		heading = new WHeading(HeadingLevel.H2, "\'Ordered\' WFieldLayout with offset 6");
+		add(heading);
 
-		add(new WHeading(HeadingLevel.H3, "Flat with labelWidth=33"));
 		layout = new WFieldLayout();
-		layout.setLabelWidth(33);
+		layout.setOrdered(true);
+		layout.setOrderedOffset(6);
 		layout.addField("WTextField 1", new WTextField());
 		layout.addField("WTextField 2", new WTextField());
 		layout.addField("WCheckBox", new WCheckBox());
 		add(layout);
+//
+//		add(new WHorizontalRule());
+//		add(new WHeading(HeadingLevel.H2, "Using labelWidth"));
+//
+//		add(new WHeading(HeadingLevel.H3, "Flat with labelWidth=33"));
+//		layout = new WFieldLayout();
+//		layout.setLabelWidth(33);
+//		layout.addField("WTextField 1", new WTextField());
+//		layout.addField("WTextField 2", new WTextField());
+//		layout.addField("WCheckBox", new WCheckBox());
+//		add(layout);
 
 		add(new WHeading(HeadingLevel.H3, "Flat with labelWidth=50"));
 		layout = new WFieldLayout();
@@ -165,13 +176,13 @@ public class WFieldLayoutExample extends WPanel {
 		layout.addField("WCheckBox", new WCheckBox());
 		add(layout);
 
-		add(new WHorizontalRule());
-		add(new WHeading(HeadingLevel.H2, "Ordered with 'legal' numbering"));
-		add(legalNumberedPanel);
-		legalNumberedPanel.add(cssText);
-		cssText.setEncodeText(false);
-		legalNumberedPanel.add(recursiveFieldLayout(0, 1));
-		legalNumberedPanel.add(recursiveFieldLayout(0, 6));
+		add(new WHeading(HeadingLevel.H2, "Nested ordered layouts"));
+		add(recursiveFieldLayout(0, 1));
+		add(recursiveFieldLayout(0, 6));
+
+		add(new WHeading(HeadingLevel.H2, "Nested mixed layouts"));
+		add(recursiveFieldLayout(true, 0, 1));
+		add(recursiveFieldLayout(true, 0, 6));
 	}
 
 	/**
@@ -187,10 +198,9 @@ public class WFieldLayoutExample extends WPanel {
 
 		if (curr == 0 && startAt == 0) {
 			innerLayout.setMargin(new Margin(12, 0, 0, 0));
-		} else if (curr == 0) {
-			innerLayout.setMargin(new Margin(6, 0, 0, 0));
 		}
 		innerLayout.setOrdered(true);
+
 		if (startAt > 1) {
 			innerLayout.setOrderedOffset(startAt);
 		}
@@ -201,34 +211,43 @@ public class WFieldLayoutExample extends WPanel {
 				new WTextField());
 		if (curr < 4) {
 			int next = curr + 1;
-			innerLayout.addField("indent level " + String.valueOf(next), recursiveFieldLayout(next,
-					0));
+			innerLayout.addField("indent level " + String.valueOf(next), recursiveFieldLayout(next, 0));
 		}
 		innerLayout.addField("Test after nest", new WTextField());
 		return innerLayout;
 	}
 
-	@Override
-	protected void preparePaintComponent(final Request request) {
-		super.preparePaintComponent(request); //To change body of generated methods, choose Tools | Templates.
-		if (!isInitialised()) {
-			String id = legalNumberedPanel.getId();
-			cssText.setText("<style type='text/css'>#" + id + " ol.wc-fieldlayout {"
-					+ "counter-reset: field;"
-					+ "}\n"
-					+ "#" + id + " ol.wc-fieldlayout > li {\n"
-					+ "counter-increment: field;\n"
-					+ "}\n"
-					+ "#" + id + " ol.wc-fieldlayout ol.wc-fieldlayout {\n"
-					+ "list-style-type: none;\n"
-					+ "padding-left: 0;\n"
-					+ "}\n"
-					+ "#" + id + " ol.wc-fieldlayout ol.wc-fieldlayout > li > :first-child:before {\n"
-					+ "content: counters(field, \".\") \" \";\n"
-					+ "margin-right: 0.25em;\n"
-					+ "}</style>");
-			setInitialised(true);
-		}
-	}
+	/**
+	 * Create a recursive field layout.
+	 *
+	 * @param ordered true if all nested layouts are ordered.
+	 * @param curr recursion index
+	 * @param startAt the ordered offset
+	 * @return the recursive field layout.
+	 */
+	private WFieldLayout recursiveFieldLayout(final boolean ordered, final int curr, final int startAt) {
+		WFieldLayout innerLayout = new WFieldLayout();
+		innerLayout.setLabelWidth(20);
 
+		if (curr == 0 && startAt == 0) {
+			innerLayout.setMargin(new Margin(12, 0, 0, 0));
+		}
+		innerLayout.setOrdered(ordered);
+
+		if (ordered && startAt > 1) {
+			innerLayout.setOrderedOffset(startAt);
+		}
+		innerLayout.addField("Test " + String.valueOf(startAt > 1 ? startAt : 1), new WTextField());
+		innerLayout.addField("Test " + String.valueOf(startAt > 1 ? startAt + 1 : 2),
+				new WTextField());
+		innerLayout.addField("Test " + String.valueOf(startAt > 1 ? startAt + 2 : 2),
+				new WTextField());
+		if (curr < 4) {
+			int next = curr + 1;
+			innerLayout.addField("indent level " + String.valueOf(next), recursiveFieldLayout(curr % 2 == 1, next,
+					0));
+		}
+		innerLayout.addField("Test after nest", new WTextField());
+		return innerLayout;
+	}
 }

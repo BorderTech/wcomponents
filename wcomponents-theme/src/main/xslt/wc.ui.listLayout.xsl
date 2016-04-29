@@ -1,5 +1,6 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:import href="wc.constants.xsl"/>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.getHVGap.xsl"/>
 	<!--
 		Transform for ui:listlayout which is one of the possible child elements of ui:panel.
@@ -22,7 +23,7 @@
 	<xsl:template match="ui:listlayout">
 		<xsl:variable name="listElement">
 			<xsl:choose>
-				<xsl:when test="@ordered=$t">
+				<xsl:when test="@ordered">
 					<xsl:text>ol</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
@@ -32,34 +33,28 @@
 		</xsl:variable>
 		<xsl:element name="{$listElement}">
 			<xsl:attribute name="class">
-				<xsl:value-of select="normalize-space(concat('wc-listlayout ',@type,' ', @align))"/>
+				<xsl:value-of select="normalize-space(concat('wc-listlayout wc_ll_',@type,' ', @align))"/>
 				<xsl:if test="not(@align)">
 					<xsl:text> ${wc.common.align.std}</xsl:text>
 				</xsl:if>
 				<xsl:choose>
-					<xsl:when test="@ordered=$t and (not(@separator) or @separator='none')">
-						<xsl:text> none</xsl:text>
+					<xsl:when test="not(@separator) or @separator='none'">
+						<xsl:text> wc_list_nb</xsl:text>
 					</xsl:when>
-					<xsl:when test="not(@ordered=$t) and @separator">
-						<xsl:value-of select="concat(' ',@separator)"/>
-					</xsl:when>
-					<xsl:when test="not(@ordered=$t)">
-						<xsl:text> none</xsl:text>
+					<xsl:when test="not(@ordered)">
+						<xsl:value-of select="concat(' wc_ll_', @separator)"/>
 					</xsl:when>
 				</xsl:choose>
-			</xsl:attribute>
-			<xsl:variable name="hgap">
-				<xsl:call-template name="getHVGap"/>
-			</xsl:variable>
-			<xsl:variable name="vgap">
-				<xsl:call-template name="getHVGap">
-					<xsl:with-param name="gap" select="@vgap"/>
+				<xsl:call-template name="getHVGapClass">
+					<xsl:with-param name="isVGap">
+						<xsl:choose>
+							<xsl:when test="@type='flat'">0</xsl:when>
+							<xsl:otherwise>1</xsl:otherwise>
+						</xsl:choose>
+					</xsl:with-param>
 				</xsl:call-template>
-			</xsl:variable>
-			<xsl:apply-templates mode="ll">
-				<xsl:with-param name="hgap" select="$hgap"/>
-				<xsl:with-param name="vgap" select="$vgap"/>
-			</xsl:apply-templates>
+			</xsl:attribute>
+			<xsl:apply-templates mode="ll"/>
 		</xsl:element>
 	</xsl:template>
 </xsl:stylesheet>

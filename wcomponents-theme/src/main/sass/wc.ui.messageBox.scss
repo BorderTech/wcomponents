@@ -16,12 +16,12 @@
 	}
 
 	> button {
-		padding: $vgap-normal $hgap-small;
+		padding: $wc-gap-normal $wc-gap-small;
 	}
 
 	> ul {
 		@include flex-align-self(center);
-		margin: $vgap-small 0;
-		padding-right: $hgap-small;
+		margin: $wc-gap-small 0;
+		padding-right: $wc-gap-small;
 	}
 }

@@ -15,7 +15,7 @@ body {
 		color: $wc-ui-color-highlight-fg;
 		content: 'Client debug/diagnostic mode: document has ' attr(data-wc-nodeCount) ' elements.';
 		display: block;
-		padding: $hgap-normal;
+		padding: $wc-gap-normal;
 	}
 
 	&.wc_loggedwarn {

@@ -13,33 +13,26 @@
 		* ui:field
 	-->
 	<xsl:template match="ui:fieldlayout">
-		<xsl:variable name="element">
-			<xsl:choose>
-				<xsl:when test="@ordered">
-					<xsl:text>ol</xsl:text>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:text>ul</xsl:text>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:element name="{$element}">
+		<div role="presentation">
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="isWrapper" select="1"/>
 				<xsl:with-param name="class">
-					<xsl:value-of select="@layout"/>
+					<xsl:value-of select="concat('wc_fld_', @layout)"/>
 					<xsl:if test="@labelWidth">
 						<xsl:value-of select="concat(' wc_fld_lblwth_',@labelWidth)"/>
 					</xsl:if>
+					<xsl:if test="@ordered">
+						<xsl:text> wc_ordered</xsl:text>
+					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
-			<xsl:if test="@ordered and @ordered &gt; 1">
-				<xsl:attribute name="start">
-					<xsl:value-of select="@ordered"/>
+			<xsl:if test="@ordered and @ordered != 1">
+				<xsl:attribute name="style">
+					<xsl:value-of select="concat('counter-reset: wcfld ', @ordered - 1)"/>
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:apply-templates select="ui:margin"/>
 			<xsl:apply-templates select="ui:field"/>
-		</xsl:element>
+		</div>
 	</xsl:template>
 </xsl:stylesheet>

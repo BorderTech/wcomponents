@@ -4,7 +4,7 @@
 .wc_table_pag_cont {
 	> span,
 	> label {
-		margin-left: $hgap-large;
+		margin-left: $wc-gap-large;
 		white-space: nowrap;
 
 		&:first-child {
@@ -13,7 +13,7 @@
 	}
 
 	label > select {
-		margin-left: $hgap-small;
+		margin-left: $wc-gap-small;
 	}
 }
 
@@ -34,11 +34,11 @@
 		}
 
 		.wc_table_pag_rows {
-			margin-bottom: $vgap-small;
+			margin-bottom: $wc-gap-small;
 		}
 
 		.wc_table_pag_btns {
-			margin-top: $vgap-small;
+			margin-top: $wc-gap-small;
 		}
 
 		.wc_table_top_controls > & {

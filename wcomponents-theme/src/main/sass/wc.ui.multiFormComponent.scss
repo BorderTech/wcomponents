@@ -6,7 +6,7 @@
 	white-space: nowrap;
 
 	button {
-		margin-left: $hgap-small;
+		margin-left: $wc-gap-small;
 	}
 
 	input,
@@ -24,6 +24,6 @@
 	}
 
 	li + li {
-		margin-top: $vgap-small;
+		margin-top: $wc-gap-small;
 	}
 }

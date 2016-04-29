@@ -1,9 +1,12 @@
 /* wc.ui.comboIcons.scss */
 @import 'mixins-common';
 
-.wc_list_wrapper:before {
-	@include wc-icon-fw($fa-var-caret-down);
-	position: absolute;
-	right: 0.25rem; // The fixed icon width div 4 - it works!
-	top: 0.25rem;
+input[role='combobox'] { // not the combo wrapper of datefield.
+	background-image: url('../images/down.png');
+	background-position: 98% 50%;
+	background-repeat: no-repeat;
+
+	&[disabled] {
+		background-image: none;
+	}
 }

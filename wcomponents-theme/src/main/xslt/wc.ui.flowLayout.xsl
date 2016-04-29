@@ -21,29 +21,18 @@
 		addressable. For this reason we do not need to output any empty cells.
 	-->
 	<xsl:template match="ui:flowlayout">
-		<xsl:element name="div">
+		<div>
 			<xsl:attribute name="class">
-				<xsl:value-of select="concat('wc-flowlayout ', @align)"/>
+				<xsl:value-of select="concat('wc-flowlayout wc_fl_', @align)"/>
 				<xsl:if test="@valign">
-					<xsl:value-of select="concat(' ', @valign)"/>
+					<xsl:value-of select="concat('  wc_fl_', @valign)"/>
 				</xsl:if>
-			</xsl:attribute>
-			<xsl:variable name="hgap">
-				<xsl:call-template name="getHVGap"/>
-			</xsl:variable>
-			<xsl:variable name="vgap">
-				<xsl:call-template name="getHVGap">
-					<xsl:with-param name="gap" select="@vgap"/>
+				<xsl:call-template name="getHVGapClass"/>
+				<xsl:call-template name="getHVGapClass">
+					<xsl:with-param name="isVGap" select="1"/>
 				</xsl:call-template>
-			</xsl:variable>
-			<xsl:variable name="align">
-				<xsl:value-of select="@align"/>
-			</xsl:variable>
-			<xsl:apply-templates select="ui:cell[node()]" mode="fl">
-				<xsl:with-param name="align" select="$align"/>
-				<xsl:with-param name="hgap" select="$hgap"/>
-				<xsl:with-param name="vgap" select="$vgap"/>
-			</xsl:apply-templates>
-		</xsl:element>
+			</xsl:attribute>
+			<xsl:apply-templates select="ui:cell[node()]" mode="fl"/>
+		</div>
 	</xsl:template>
 </xsl:stylesheet>

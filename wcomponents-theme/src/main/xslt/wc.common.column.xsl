@@ -7,23 +7,7 @@
 	<xsl:template name="column">
 		<xsl:param name="align" select="@align"/>
 		<xsl:param name="width" select="@width"/>
-		<xsl:param name="hgap" select="0"/>
-		<xsl:param name="ignoreLeftGap" select="0" />
-	
-		<xsl:variable name="style">
-			<xsl:if test="$width and $width != 0">
-				<xsl:value-of select="concat('width:',$width,'%;')"/>
-			</xsl:if>
-			<xsl:if test="$hgap != 0">
-				<xsl:if test="(self::ui:cell and $ignoreLeftGap = 0) or (self:: ui:column and position() &gt; 1)">
-					<xsl:value-of select="concat('padding-left:',$hgap,';')"/>
-				</xsl:if>
-				<xsl:if test="(self::ui:cell and $ignoreLeftGap = 1) or position() != last()">
-					<xsl:value-of select="concat('padding-right:',$hgap,';')"/>
-				</xsl:if>
-			</xsl:if>
-		</xsl:variable>
-	
+
 		<div>
 			<xsl:if test="self::ui:column">
 				<xsl:attribute name="id">
@@ -33,22 +17,18 @@
 			</xsl:if>
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
-					<xsl:choose>
-						<xsl:when test="$align">
-							<xsl:value-of select="concat(' ',$align)"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:text> ${wc.common.align.std}</xsl:text>
-						</xsl:otherwise>
-					</xsl:choose>
+					<xsl:value-of select="$align"/>
+					<xsl:if test="not($align) or $align = ''">
+						<xsl:text>${wc.common.align.std}</xsl:text>
+					</xsl:if>
 					<xsl:if test="not(self::ui:column)">
 						<xsl:text> wc-column</xsl:text>
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
-			<xsl:if test="$style != ''">
+			<xsl:if test="$width and $width != 0">
 				<xsl:attribute name="style">
-					<xsl:value-of select="$style"/>
+					<xsl:value-of select="concat('width:',$width,'%;')"/>
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:apply-templates/>

@@ -11,7 +11,7 @@
 	top: $border-width;
 
 	> [role] + [role] {
-		margin-left: $hgap-small;
+		margin-left: $wc-gap-small;
 	}
 
 	// ACCORDION

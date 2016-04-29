@@ -22,7 +22,7 @@
 
 .closesubmenu::before {
 	@include wc-icon($fa-var-caret-left);
-	margin-right: $hgap-normal;
+	margin-right: $wc-gap-normal;
 }
 
 [role='banner'] [data-wc-menufixed] > .wc-submenu > button::before {
