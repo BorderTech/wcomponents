@@ -3,7 +3,7 @@
 // See wc.ui.menu.css for generic structure.
 @import 'menu_vars';
 
-[role='menubar'].bar,
+[role='menubar'].wc_mn_bar,
 [role='menu'] {
 	background-color: $wc-ui-color-menu-bg;
 	color: $wc-ui-color-menu-fg;
