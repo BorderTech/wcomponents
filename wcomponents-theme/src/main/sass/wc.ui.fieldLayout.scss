@@ -30,7 +30,7 @@
 
 		> :first-child::before {
 			content: counter(wcfld) '. ';
-			margin-right: $hgap-small;
+			margin-right: $wc-gap-small;
 
 			.wc_ordered & {
 				content: counters(wcfld, '.') ' ';
@@ -41,7 +41,7 @@
 	&.stacked > .wc-field {
 		&::before {
 			content: counter(wcfld) '. ';
-			margin-right: $hgap-small;
+			margin-right: $wc-gap-small;
 
 			.wc_ordered & {
 				content: counters(wcfld, '.') ' ';
