@@ -208,7 +208,9 @@ define(["wc/dom/tag",
 					element = getElement(id),
 					selectedItems;
 				if (element && !shed.isDisabled(element)) {
-					selectedItems = getSelectedOptions(element);
+					if (shed.isSelectable(element)) {
+						selectedItems = getSelectedOptions(element);
+					}
 					if (selectedItems) {
 						if (selectedItems.length > 0) {
 							result = testElementValue(selectedItems, testValue, operator);
