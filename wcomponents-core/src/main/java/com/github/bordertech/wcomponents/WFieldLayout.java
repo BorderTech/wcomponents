@@ -201,6 +201,18 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 	}
 
 	/**
+	 * Add a field consisting of a WButton with a null label.
+	 *
+	 * @param button the WButton to add to the layout.
+	 * @return the field added to the layout.
+	 */
+	public WField addField(final WButton button) {
+		WField field = new WField((WLabel) null, button);
+		add(field);
+		return field;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override // to make public
