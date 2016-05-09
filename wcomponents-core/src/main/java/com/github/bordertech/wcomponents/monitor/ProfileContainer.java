@@ -39,15 +39,12 @@ public class ProfileContainer extends AbstractMutableContainer {
 		stats.analyseWC(this);
 
 		if (renderContext instanceof WebXmlRenderContext) {
-			// TODO: This must not emit mark-up
 			PrintWriter writer = ((WebXmlRenderContext) renderContext).getWriter();
 
-			writer.println("<hr />");
 			writer.println("<h2>Serialization Profile of UIC</h2>");
 			UicStatsAsHtml.write(writer, stats);
 
 			// ObjectProfiler
-			writer.println("<hr />");
 			writer.println("<h2>ObjectProfiler - " + getClass().getName() + "</h2>");
 			writer.println("<pre>");
 

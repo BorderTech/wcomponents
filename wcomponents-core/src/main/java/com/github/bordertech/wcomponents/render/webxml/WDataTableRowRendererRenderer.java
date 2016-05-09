@@ -85,8 +85,6 @@ final class WDataTableRowRendererRenderer extends AbstractWebXmlRenderer {
 			TableTreeNode node = treeModel.getNodeAtLine(rowIndex);
 
 			if (!node.isLeaf()) {
-				// TODO Do not paint empty subtr. Made temporary change to table.xsd to allow empty subtr. Waiting for a
-				// fix in T&S in WC6.
 				xml.appendTagOpen("ui:subtr");
 				xml.appendOptionalAttribute("open", node.isExpanded(), "true");
 				xml.appendClose();

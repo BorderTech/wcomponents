@@ -150,7 +150,7 @@ public class HandlebarsRendererImpl implements TemplateRenderer {
 		}
 
 		// Use markdown
-		// TODO: Disabled temporarilly for issues # 565
+		// Disabled temporarily for issues # 565
 		/*value = options.get(MARKDOWN);
 		if (value != null && "true".equalsIgnoreCase(value.toString())) {
 			handlebars.registerHelper("md", new MarkdownHelper());

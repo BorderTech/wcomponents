@@ -72,7 +72,8 @@ final class WMultiSelectPairRenderer extends AbstractWebXmlRenderer {
 	}
 
 	/**
-	 * Renders the options in selection order.
+	 * Renders the options in selection order. Note, though, that this does not support the legacy allowNull or
+	 * setSelected using String representations.
 	 *
 	 * @param multiSelectPair the WMultiSelectPair to paint.
 	 * @param options the options to render
@@ -82,8 +83,6 @@ final class WMultiSelectPairRenderer extends AbstractWebXmlRenderer {
 	 * @param encode true if the option description should be encoded, false if not.
 	 *
 	 * @return the number of options painted.
-	 *
-	 * TODO: This does not support the legacy allowNull or setSelected using String representations.
 	 */
 	private int renderOrderedOptions(final WMultiSelectPair multiSelectPair, final List<?> options,
 			final int startIndex, final XmlStringBuilder xml,

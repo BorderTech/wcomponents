@@ -424,7 +424,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
-	 * Sets the active tab using tab content. TODO: this is stupid! setActiveTab should use the WTab not its content!
+	 * Sets the active tab using tab content.
 	 *
 	 * @param content the active tab's content.
 	 */

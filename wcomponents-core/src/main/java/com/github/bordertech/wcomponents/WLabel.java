@@ -217,17 +217,6 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	}
 
 	/**
-	 * Sets the client visibility of this label. This method should only ever be called to hide labels which are
-	 * intended for use by screen-readers.
-	 *
-	 * @param hidden true for hidden, false for displayed.
-	 */
-	@Override
-	public void setHidden(final boolean hidden) {
-		super.setHidden(hidden);
-	}
-
-	/**
 	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override

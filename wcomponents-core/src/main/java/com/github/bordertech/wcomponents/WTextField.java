@@ -95,7 +95,8 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	/**
-	 * Sets the width of the input field in characters.
+	 * Sets the width of the input field more-or-less in characters. The actual width of the input will vary from
+	 * browser to browser bit will be in the region of 1.4 × columns.
 	 *
 	 * @param columns the number of characters to display.
 	 */

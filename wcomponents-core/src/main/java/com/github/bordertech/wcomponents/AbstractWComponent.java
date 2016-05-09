@@ -927,12 +927,12 @@ public abstract class AbstractWComponent implements WComponent {
 	/**
 	 * <p>
 	 * Sets the client visibility of this component. Hidden components take part in event handling and painting, but are
-	 * not visible on the client.
+	 * not <a href="https://html.spec.whatwg.org/multipage/dom.html#palpable-content-2">palpable</a> on the client.
 	 * <p>
 	 *
 	 * @param hidden true for hidden, false for displayed.
 	 */
-	void setHidden(final boolean hidden) {
+	public void setHidden(final boolean hidden) {
 		setFlag(ComponentModel.HIDE_FLAG, hidden);
 	}
 
@@ -1034,7 +1034,6 @@ public abstract class AbstractWComponent implements WComponent {
 	 */
 	@Override
 	public int getTabIndex() {
-		// TODO figure out how this works
 		return 0;
 	}
 
