@@ -6,8 +6,9 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WFileWidget;
+import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WLabel;
-import com.github.bordertech.wcomponents.WTextArea;
+import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.util.Util;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +23,7 @@ public class SimpleFileUpload extends WContainer {
 
 	private final WFileWidget fileWidget;
 	private final WFileWidget imageWidget;
-	private final WTextArea console;
+	private final WTextField console;
 
 	/**
 	 * Creates a SimpleFileUpload example.
@@ -36,25 +37,11 @@ public class SimpleFileUpload extends WContainer {
 		add(layout);
 		layout.addField(fileLabel, fileWidget);
 
-		imageWidget = new WFileWidget();
-
-		imageWidget.setFileTypes(new ArrayList<>(Arrays.asList("image/jpeg",
-				"image/png",
-				"image/gif",
-				"image/jpg")));
-		layout.addField("Image file upload", imageWidget);
-
-		WFileWidget constrainedWidget = new WFileWidget();
-		constrainedWidget.setMaxFileSize(2048);
-		layout.addField("FIle up to 2k", constrainedWidget);
-
-		console = new WTextArea();
-		console.setColumns(80);
-		console.setRows(12);
-
-		layout.addField("Output", console);
+		console = new WTextField();
+		console.setReadOnly(true);
 
 		WButton uploadBtn = new WButton("Upload");
+
 		uploadBtn.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
@@ -63,15 +50,30 @@ public class SimpleFileUpload extends WContainer {
 				if (Util.empty(fileWidget.getFileName())) {
 					fileText = "nothing uploaded";
 				} else {
-					byte[] fileBytes = fileWidget.getBytes();
-					fileText = new String(fileBytes);
+					fileText = fileWidget.getFile().getMimeType();
 				}
 
 				console.setText(fileText);
 			}
 		});
+		layout.addField(uploadBtn);
+		layout.addField("Uploaded mime type", console);
 
-		// TODO: This is bad - use a layout instead
-		add(uploadBtn);
+		add(new WHorizontalRule());
+		layout = new WFieldLayout();
+		layout.setLabelWidth(25);
+		add(layout);
+		imageWidget = new WFileWidget();
+		imageWidget.setFileTypes(new ArrayList<>(Arrays.asList("image/jpeg",
+				"image/png",
+				"image/gif",
+				"image/jpg")));
+		layout.addField("Image file upload", imageWidget).getLabel().setHint("png, jpg, gif only.");
+
+		WFileWidget constrainedWidget = new WFileWidget();
+		constrainedWidget.setMaxFileSize(2000);
+		layout.addField("File up to 2k", constrainedWidget);
+		uploadBtn = new WButton("Upload constrained files");
+		layout.addField(uploadBtn);
 	}
 }
