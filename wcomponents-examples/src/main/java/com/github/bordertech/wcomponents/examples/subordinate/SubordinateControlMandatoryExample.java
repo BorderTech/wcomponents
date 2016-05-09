@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
+import com.github.bordertech.wcomponents.WRadioButtonSelect;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.examples.validation.ValidationContainer;
 import com.github.bordertech.wcomponents.subordinate.Equal;
@@ -52,12 +53,18 @@ public class SubordinateControlMandatoryExample extends ValidationContainer {
 		layout.addField("Another field always mandatory", mandatoryField);
 		mandatoryField.setMandatory(true);
 
+
+		final WRadioButtonSelect rbSelect = new WRadioButtonSelect("australian_state");
+		layout.addField("Select a state", rbSelect);
+
 		root.add(layout);
 
 		Rule rule = new Rule();
 		rule.setCondition(new Equal(checkBox, Boolean.TRUE.toString()));
 		rule.addActionOnTrue(new Mandatory(text));
 		rule.addActionOnFalse(new Optional(text));
+		rule.addActionOnTrue(new Mandatory(rbSelect));
+		rule.addActionOnFalse(new Optional(rbSelect));
 		control.addRule(rule);
 
 		return root;
