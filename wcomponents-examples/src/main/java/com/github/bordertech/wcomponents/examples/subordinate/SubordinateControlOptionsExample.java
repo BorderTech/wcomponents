@@ -746,6 +746,7 @@ public class SubordinateControlOptionsExample extends WContainer {
 
 			case TextArea:
 				trigger = new WTextArea();
+				((WTextArea) trigger).setMaxLength(1000);
 				break;
 
 			case TextField:
