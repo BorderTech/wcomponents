@@ -88,4 +88,39 @@ public class WFieldLayout_Test extends AbstractWComponentTestCase {
 		layout.setOrderedOffset(0);
 	}
 
+	@Test
+	public void testAddFieldWithStringLabel() {
+		WFieldLayout layout = new WFieldLayout();
+		WField field = layout.addField("Test", new WTextField());
+		Assert.assertNotNull(field);
+	}
+
+	@Test
+	public void testAddFieldWithStringLabelCreatesWLabel() {
+		WFieldLayout layout = new WFieldLayout();
+		WField field = layout.addField("Test", new WTextField());
+		Assert.assertEquals("Expect a WLabel", field.getLabel().getClass(), WLabel.class);
+	}
+
+	@Test
+	public void testAddFieldWithWLabel() {
+		WFieldLayout layout = new WFieldLayout();
+		WField field = layout.addField(new WLabel("Test"), new WTextField());
+		Assert.assertNotNull(field);
+	}
+
+	@Test
+	public void testAddFieldWithWButton() {
+		WFieldLayout layout = new WFieldLayout();
+		WField field = layout.addField(new WButton("Test"));
+		Assert.assertNotNull(field);
+	}
+
+	@Test
+	public void testAddFieldWithWButtonNullLabel() {
+		WFieldLayout layout = new WFieldLayout();
+		WField field = layout.addField(new WButton("Test"));
+		Assert.assertNull(field.getLabel());
+	}
+
 }
