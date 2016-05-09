@@ -33,7 +33,7 @@ public class ProfileContainer_Test extends AbstractWComponentTestCase {
 	/**
 	 * template for second line of expected text from afterPaint.
 	 */
-	private static final String PROFILER_LINE2 = "<b>Number of components in tree:</b> <<NUM_COMPONENTS>>";
+	private static final String PROFILER_LINE2 = "<strong>Number of components in tree:</strong> <<NUM_COMPONENTS>>";
 
 	/**
 	 * template for third line of expected text from afterPaint.

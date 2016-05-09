@@ -1,10 +1,12 @@
 package com.github.bordertech.wcomponents.subordinate;
 
-import com.github.bordertech.wcomponents.InternalSubordinateUtil;
+import com.github.bordertech.wcomponents.AbstractWComponent;
 import com.github.bordertech.wcomponents.SubordinateTarget;
 
 /**
- * An "action function" that sets the visibility on a WComponent or group of WComponents.
+ * An "action function" that sets the `hidden` state on a WComponent or group of WComponents. A component which is
+ * hidden is rendered but not <a href="https://html.spec.whatwg.org/multipage/dom.html#palpable-content-2">palpable</a>
+ * in the UI.
  *
  * @author Martin Shevchenko
  * @author Jonathan Austin
@@ -30,6 +32,10 @@ public abstract class AbstractSetVisible extends AbstractAction {
 	 */
 	@Override
 	protected void applyAction(final SubordinateTarget target, final Object value) {
-		InternalSubordinateUtil.applyAction(this, target, value);
+		if (value instanceof Boolean) {
+			boolean visible = ((Boolean) value);
+			target.setValidate(visible);
+			((AbstractWComponent) target).setHidden(!visible);
+		}
 	}
 }

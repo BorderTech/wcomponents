@@ -15,6 +15,8 @@ import java.util.TreeMap;
  * UIContext will be displayed after the button.
  *
  * @author Ming Gao
+ *
+ * @deprecated 1.1.4 This is NOT a core component and will be deleted ASAP.
  */
 public class UicProfileButton extends WButton {
 
@@ -44,7 +46,6 @@ public class UicProfileButton extends WButton {
 		super.afterPaint(renderContext);
 
 		if (this.isPressed() && renderContext instanceof WebXmlRenderContext) {
-			// TODO: This must not emit mark-up
 			PrintWriter writer = ((WebXmlRenderContext) renderContext).getWriter();
 
 			StringBuffer temp = dumpAll();
@@ -69,16 +70,16 @@ public class UicProfileButton extends WButton {
 
 		String className = root.getClass().getName();
 
-		out.append("<b>The root of the WComponent tree is:</b>\n<br/>").append(className).append(
-				"\n<br/>");
+		out.append("<strong>The root of the WComponent tree is:</strong><br/>").append(className).append(
+				"<br/>");
 
 		tally(root, compTallyByClass, compDataOverall, out);
 
-		out.append("<b>WComponent usage overall:</b>\n<br/> ");
-		out.append(compDataOverall.total).append(" WComponent(s) in the WComponent tree.\n<br/>");
+		out.append("<strong>WComponent usage overall:</strong><br/> ");
+		out.append(compDataOverall.total).append(" WComponent(s) in the WComponent tree.<br/>");
 
 		if (compDataOverall.total > 0) {
-			out.append("<b>WComponent usage by class:</b><br/>");
+			out.append("<strong>WComponent usage by class:</strong><br/>");
 
 			for (Map.Entry<String, GroupData> entry : compTallyByClass.entrySet()) {
 				className = entry.getKey();
@@ -136,7 +137,7 @@ public class UicProfileButton extends WButton {
 		Map<String, ProfileData> profileByClass = new TreeMap<>();
 		Set<WComponent> topComponents = new HashSet<>();
 
-		out.append("\n<b>UIContext details:\n</b>"
+		out.append("\n<strong>UIContext details:\n</strong>"
 				+ "\n<br/>\n<table border=\"1\">\n<tr>\n<th>Class Name</th>\n"
 				+ "\n<th>ID</th>\n"
 				+ "\n<th>Is Serialisable</th>\n"
@@ -154,8 +155,8 @@ public class UicProfileButton extends WButton {
 				ProfileDetailsData profile = new ProfileDetailsData();
 				profile.id = comp.getId();
 
-				profile.isSerializable = true; // TODO: implement this properly
-				profile.size = 0; // TODO: implement this properly
+				profile.isSerializable = true;
+				profile.size = 0;
 
 				out.append("\n<tr>\n<td>");
 				out.append(className);
@@ -195,7 +196,7 @@ public class UicProfileButton extends WButton {
 		}
 
 		out.append("\n</table>\n<br/><hr/>"
-				+ "<b>WComponent session usage overall:</b>\n<br/> ");
+				+ "<strong>WComponent session usage overall:</strong>\n<br/> ");
 
 		out.append(dataOverall.total).append(" WComponent(s) storing data in the session.\n<br/>");
 
@@ -207,7 +208,7 @@ public class UicProfileButton extends WButton {
 							dataOverall.total - dataOverall.unnecessaryCount)
 					.append(" WComponent(s) actually need(s) to store data in the session.<br/>");
 
-			out.append("<b>WComponent session usage by class:</b><br/>");
+			out.append("<strong>WComponent session usage by class:</strong><br/>");
 
 			for (Map.Entry<String, GroupData> entry : tallyByClass.entrySet()) {
 				String className = entry.getKey();

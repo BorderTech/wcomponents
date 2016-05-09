@@ -168,18 +168,19 @@ public class AbstractTreeNode_Test {
 		node.remove(getNode(node, "D"));
 		Assert.assertEquals("Incorrect tree after remove of all children", "A", treeToString(node));
 	}
-// TODO Review test
-//	@Test
-//	public void testRemoveAll() {
-//		TreeNode node = buildTestTree();
-//
-//		// Test remove when there are no children, should not alter tree.
-//		getNode(node, "C").removeAll();
-//		Assert.assertEquals("Incorrect tree after remove of all children", "ABCDEFGH", treeToString(node));
-//
-//		getNode(node, "B").removeAll();
-//		Assert.assertEquals("Incorrect tree after remove of all children", "ACDG", treeToString(node));
-//	}
+
+	@Test
+	public void testRemoveAll() {
+		TreeNode node = buildTestTree();
+
+		// Test remove when there are no children, should not alter tree.
+		getNode(node, "C").removeAll();
+		Assert.assertEquals("Incorrect tree after remove of all children", "ABCDEFGH", treeToString(node));
+
+		// removeAll with children does not remove the `parent` node.
+		getNode(node, "B").removeAll();
+		Assert.assertEquals("Incorrect tree after remove of all children", "ABCDG", treeToString(node));
+	}
 
 	/**
 	 * Handy testing method for returning a String representation of the tree, using a breadth-first iteration.

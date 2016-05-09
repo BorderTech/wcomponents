@@ -337,8 +337,6 @@ public class ComponentModel implements WebModel, Externalizable {
 	/**
 	 * Creates a copy of mutable data, to ensure updates to one component model do not update the other.
 	 *
-	 * TODO: We might need to add other collections/arrays later
-	 *
 	 * @param data the data to copy
 	 * @return a copy of the data, if it is mutable, otherwise the original data.
 	 */

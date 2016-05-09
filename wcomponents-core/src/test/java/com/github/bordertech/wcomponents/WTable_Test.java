@@ -544,7 +544,6 @@ public final class WTable_Test extends AbstractWComponentTestCase {
 				.getSelectedRows().isEmpty());
 	}
 
-	// TODO check sort test???
 	@Test
 	public void testHandleSortRequest() {
 
