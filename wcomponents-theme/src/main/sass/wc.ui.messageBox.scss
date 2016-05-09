@@ -23,9 +23,5 @@
 		@include flex-align-self(center);
 		margin: $wc-gap-small 0;
 		padding-right: $wc-gap-small;
-
-		> li {
-			white-space: pre-wrap;
-		}
 	}
 }
