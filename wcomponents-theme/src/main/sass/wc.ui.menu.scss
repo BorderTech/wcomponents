@@ -28,6 +28,10 @@
 		padding: $wc-ui-menu-bar-column-item-pad;
 	}
 
+	.wc_hbgr { // the hamburger icon. This is here to override wc-submenu-o above.
+		padding: $wc-gap-small;
+	}
+
 	[role='separator'] {
 		padding: 0;
 

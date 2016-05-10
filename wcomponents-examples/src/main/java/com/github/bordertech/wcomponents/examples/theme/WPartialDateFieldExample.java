@@ -36,7 +36,7 @@ public class WPartialDateFieldExample extends WPanel {
 		layout.setLabelWidth(30);
 		text.setReadOnly(true);
 
-		layout.addField("Enter any part(s) of a date", dateField);
+		layout.addField("Enter any part(s) of a date", dateField).setInputWidth(100);
 		layout.addField("Text from entered date", text);
 		add(layout);
 

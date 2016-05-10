@@ -18,6 +18,10 @@
 		display: table-cell;
 		padding-left: $wc-ui-menu-bar-column-opener-indicator-before-after;
 	}
+
+	&.wc_hbgr:after { // the hambirger icon
+		margin-left: $wc-gap-small;
+	}
 }
 
 .closesubmenu::before {
@@ -25,6 +29,6 @@
 	margin-right: $wc-gap-normal;
 }
 
-[role='banner'] [data-wc-menufixed] > .wc-submenu > button::before {
+.wc_hbgr::before {
 	@include wc-icon($fa-var-bars);
 }

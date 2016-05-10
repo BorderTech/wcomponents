@@ -23,6 +23,11 @@ import com.github.bordertech.wcomponents.WText;
 public class MenuFlyoutExample extends WPanel {
 
 	/**
+	 * A menu to be used by other examples.
+	 */
+	private WMenu menu;
+
+	/**
 	 * Creates a MenuFlyoutExample.
 	 */
 	public MenuFlyoutExample() {
@@ -32,6 +37,22 @@ public class MenuFlyoutExample extends WPanel {
 		content.add(selectedMenuText);
 		add(content);
 		add(buildMenu(selectedMenuText));
+	}
+
+	/**
+	 * Create a MenuFlyoutExample with an existing selectedItem reporter.
+	 * @param selectedMenuText The container to report the selected item.
+	 */
+	public MenuFlyoutExample(final WText selectedMenuText) {
+		menu = buildMenu(selectedMenuText);
+	}
+
+	/**
+	 * Allow an external example to get a menu from this example.
+	 * @return the WMenu.
+	 */
+	public WMenu getMenu() {
+		return menu;
 	}
 
 	/**

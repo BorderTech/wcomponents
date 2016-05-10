@@ -144,7 +144,7 @@ define(["wc/dom/classList",
 				if (fromActive) {
 					newLabellingElement = document.createElement("span");
 					newLabellingElement.className = "label";
-					newLabellingElement.setAttribute("${wc.ui.label.attribute.readonlyFor}", element.id);
+					newLabellingElement.setAttribute("data-wc-rofor", element.id);
 				}
 				else {
 					newLabellingElement = document.createElement("label");
