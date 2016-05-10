@@ -4,16 +4,15 @@
  * @see {@link http://www.w3.org/TR/wai-aria-practices/#menu}
  * @module
  * @extends module:wc/ui/menu/core
- * @requires module:wc/has
  * @requires module:wc/ui/menu/core
  * @requires module:wc/dom/keyWalker
  * @requires module:wc/dom/shed
  * @requires module:wc/dom/Widget
  * @requires module:wc/dom/initialise
  */
-define(["wc/has", "wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "wc/dom/initialise", "wc/ui/menu/menuItem"],
-	/** @param has @param abstractMenu @param keyWalker @param shed  @param Widget @param initialise @ignore */
-	function(has, abstractMenu, keyWalker, shed, Widget, initialise) {
+define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "wc/dom/initialise", "wc/ui/menu/menuItem"],
+	/** @param abstractMenu @param keyWalker @param shed  @param Widget @param initialise @ignore */
+	function(abstractMenu, keyWalker, shed, Widget, initialise) {
 		"use strict";
 
 		/* Unused dependencies:
@@ -43,7 +42,7 @@ define(["wc/has", "wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/
 			 * @public
 			 * @override
 			 */
-			this.ROOT = new Widget("", "column", {role: "menu"});
+			this.ROOT = new Widget("", "wc_mn_column", {role: "menu"});
 
 			/**
 			 * Reset the key map based on the type and/or state of the menu item passed in.
