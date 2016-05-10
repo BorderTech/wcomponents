@@ -23,12 +23,10 @@
 						<xsl:with-param name="name" select="@id"/>
 						<xsl:with-param name="live" select="'off'"/>
 						<xsl:with-param name="myLabel" select="$myLabel"/>
+						<xsl:with-param name="value" select="text()"/>
 					</xsl:call-template>
 					<xsl:attribute name="type">
 						<xsl:text>number</xsl:text>
-					</xsl:attribute>
-					<xsl:attribute name="value">
-						<xsl:value-of select="."/>
 					</xsl:attribute>
 					<!--
 						Turning off autocomplete is CRITICAL in Internet Explorer (8, others untested, but those

@@ -67,19 +67,9 @@
 
 	// InputWidth class is added to the field to signify that an inputWidth is in use so we can size the components.
 	.wc_inputwidth > & {
-		> .wc_input_wrapper {
-			width: 100%;
-
-			> input {
-				@include border-box;
-				width: 100%;
-			}
-
-			&[role='combobox'] > input[type] { // fake date input
-				max-width: calc(100% - 2rem);
-			}
-		}
-
+		> [type='email'],
+		> [type='text'],
+		> [type='tel'],
 		> [type='password'],
 		> [type='number'],
 		> textarea,
@@ -90,7 +80,6 @@
 		}
 	}
 
-	> .wc_input_wrapper,
 	> input,
 	> select,
 	> textarea {
