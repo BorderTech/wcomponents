@@ -35,7 +35,7 @@ define(["wc/dom/tag",
 				query = "label[for=\"" + id + "\"],[data-wc-for=\"" + id + "\"]";
 
 			if (readOnly) {
-				query += ",[${wc.ui.label.attribute.readonlyFor}=\"" + id + "\"]";
+				query += ",[data-wc-rofor=\"" + id + "\"]";
 			}
 			if (id) {
 				result = result.concat(toArray(document.querySelectorAll(query)));
