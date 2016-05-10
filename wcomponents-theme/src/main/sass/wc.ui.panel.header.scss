@@ -10,8 +10,19 @@
 	padding: $wc-gap-normal;
 }
 
+// This is just a sample suggestion which you should ignore (really).
+// It tries to put the content into a row but reverses it to put a potentially iconified menu bar
+// at the beginning. I have no idea what you want, this is just a demo.
 @include respond-phonelike {
-	[role='banner'] > :first-child {
-		@include flex($direction: row-reverse, $wrap: wrap, $justify: space-between, $align-items: center);
+	[role='banner'] {
+		> :first-child { // in an ideal world this would be .wc-content but since when do we live there?
+			@include flex($direction: row-reverse, $wrap: wrap, $justify: space-between, $align-items: flex-end);
+		}
+
+		h1 {
+			font-size: 1.25rem;
+			max-width: calc(100% - 3.5rem); // allow room for an iconified menu.
+			padding: $wc-gap-small;
+		}
 	}
 }

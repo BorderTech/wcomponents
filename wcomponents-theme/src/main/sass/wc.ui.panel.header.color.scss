@@ -6,6 +6,8 @@
 [role='banner'] {
 	background-color: $wc-ui-color-panel-header-background;
 
+	// Set the foreground colour of components which have their own defined colour so will not inherit from the
+	// container.
 	&,
 	h1,
 	.wc_btn_link,
