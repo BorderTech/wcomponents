@@ -19,7 +19,7 @@
 				<xsl:with-param name="additional">
 					<xsl:value-of select="$align"/>
 					<xsl:if test="not($align) or $align = ''">
-						<xsl:text>${wc.common.align.std}</xsl:text>
+						<xsl:text>left</xsl:text>
 					</xsl:if>
 					<xsl:if test="not(self::ui:column)">
 						<xsl:text> wc-column</xsl:text>
