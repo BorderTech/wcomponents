@@ -24,8 +24,8 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"],
 			var INPUT_WD = new Widget("input"),
 				FILE_WD = INPUT_WD.extend("", {"type": "file"}),
 				SUBMIT_CONTROL_WD = new Widget("button", "", {"type": "submit"}),
-				SUBMITTER = new Widget("", "", {"${wc.common.attribute.button}": null}),
-				SUBMIT_ATTRIB = "${wc.common.attribute.button}";
+				SUBMITTER = new Widget("", "", {"data-wc-submit": null}),
+				SUBMIT_ATTRIB = "data-wc-submit";
 				// CLASSNAME = "wc_btn_default",  // only used as a marker for possible future styling.
 				// CURRENT_SUBMIT_ID;
 

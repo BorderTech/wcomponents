@@ -141,7 +141,7 @@ define(["wc/dom/tag"], /** @param tag wc/dom/tag @ignore */ function(tag) {
 				case "required":
 					result = supportsRequired(element);
 					break;
-				case "${wc.common.helper.anySelectedState}":
+				case "any":
 					result = supportsSelected(element) || supportsChecked(element);
 					break;
 				case "checked":
