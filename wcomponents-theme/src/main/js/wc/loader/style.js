@@ -154,7 +154,7 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has wc/has @param module 
 			 * @type {String}
 			 * @private
 			 */
-			mainCss = document.getElementById("${wc_css_main_id}"),
+			mainCss = document.getElementById("wc_css_screen"),
 			/**
 			 * The DOM node immediately following the main CSS link element produced in the XSLT.
 			 * @var
