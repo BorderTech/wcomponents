@@ -8,7 +8,7 @@
 	<!--
 		WPanel is the basic layout component in the framework. Genreally output as
 		a "block" container (usually div).
-	
+
 		Child elements
 		optional ui:margin and exactly one of:
 			* ui:borderlayout
@@ -21,7 +21,7 @@
 	<xsl:template match="ui:panel">
 		<xsl:param name="type" select="@type"/>
 		<xsl:variable name="id" select="@id"/>
-		
+
 		<xsl:variable name="containerElement">
 			<xsl:call-template name="WPanelContainerElement"/>
 		</xsl:variable>
@@ -35,7 +35,7 @@
 				</xsl:call-template>
 			</xsl:attribute>
 			<xsl:if test="@buttonId">
-				<xsl:attribute name="${wc.common.attribute.button}">
+				<xsl:attribute name="data-wc-submit">
 					<xsl:value-of select="@buttonId"/>
 				</xsl:attribute>
 			</xsl:if>

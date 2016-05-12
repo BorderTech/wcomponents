@@ -4,7 +4,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 		var testHolder,
 			impliedARIA,
 			urlResource = "@RESOURCES@/domAria.html",
-			ANY_SEL_STATE = "${wc.common.helper.anySelectedState}";
+			ANY_SEL_STATE = "any";
 
 		function doNativeStateTest(elements, state, notThisState) {
 			var i, len, next;

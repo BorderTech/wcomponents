@@ -14,13 +14,7 @@
 		You really don't want to be here.
 	-->
 	<xsl:template name="makeRequireConfig">
-		<xsl:element name="script">
-			<xsl:attribute name="type">
-				<xsl:text>text/javascript</xsl:text>
-			</xsl:attribute>
-			<xsl:attribute name="class">
-				<xsl:text>${wc.global.config}</xsl:text>
-			</xsl:attribute>
+		<script type="text/javascript" class="wcconfig"><!-- todo: I think this class is no longer required -->
 			<!-- Yes, we are defining a global require here. We are not using window.require = {} because the doco says this can cause problems in IE. -->
 			<xsl:text>(function(){
 	var wcconfig, timing,
@@ -116,6 +110,6 @@
 	else if(window.requirejs) window.requirejs.config(config);
 	else require = config;
 })();</xsl:text>
-		</xsl:element>
+		</script>
 	</xsl:template>
 </xsl:stylesheet>
