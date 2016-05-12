@@ -2,13 +2,13 @@
 @import 'colorscheme';
 
 // disabled colours are special They are harder to get 4.5:1 and still look disabled!
-$wc-ui-color-disabled-fg: #696969;
-$wc-ui-color-disabled-bg: #f3f3f3;
+$wc-ui-color-disabled-fg: #696969 !default;
+$wc-ui-color-disabled-bg: #f3f3f3 !default;
 // disabled border notused in the default theme.
-$wc-ui-color-disabled-border: $std-color-lines; // same as regular border in this case: it is not important and can cause inconsistencies
+$wc-ui-color-disabled-border: $std-color-lines !default; // same as regular border in this case: it is not important and can cause inconsistencies
 //disabled controls in the banner, WSection headers, dialog headers etc
-$wc-color-primary-disabled: #ccc;
-// $wc-ui-color-primary-disabled-bg: #333; //may be unnecessary
+$wc-color-primary-disabled: #ccc !default;
+// $wc-ui-color-primary-disabled-bg: #333 !default; //may be unnecessary
 
 // Commonly used colors
 // ====================
@@ -17,47 +17,47 @@ $wc-color-primary-disabled: #ccc;
 // scheme colour defined above.
 
 // Global colours
-$wc-ui-color-global-fg: $std-color-black;
-$wc-ui-color-global-bg: $std-color-white;
+$wc-ui-color-global-fg: $std-color-black !default;
+$wc-ui-color-global-bg: $std-color-white !default;
 // Inverse colours when we need to reverse: these should be the exact reverse of the above
-$wc-ui-color-inverse-fg: $std-color-white;
-$wc-ui-color-inverse-bg: $std-color-black;
+$wc-ui-color-inverse-fg: $std-color-white !default;
+$wc-ui-color-inverse-bg: $std-color-black !default;
 
 // highlights colours
-$wc-ui-color-highlight-bg: $std-color-highlight-bg;
-$wc-ui-color-highlight-fg: $std-color-highlight-fg;
-$wc-ui-color-highlight-bg-rgba: $std-color-highlight-bg-rgba;
+$wc-ui-color-highlight-bg: $std-color-highlight-bg !default;
+$wc-ui-color-highlight-fg: $std-color-highlight-fg !default;
+$wc-ui-color-highlight-bg-rgba: $std-color-highlight-bg-rgba !default;
 
 // generic hover/focus
-$wc-ui-color-invite-bg: $std-color-invite-bg;
-$wc-ui-color-invite-fg: $std-color-invite-fg;
+$wc-ui-color-invite-bg: $std-color-invite-bg !default;
+$wc-ui-color-invite-fg: $std-color-invite-fg !default;
 // where translucent invites are acceptable (eg table rows)
-$wc-ui-color-invite-bg-rgba: $std-color-invite-bg-rgba;
+$wc-ui-color-invite-bg-rgba: $std-color-invite-bg-rgba !default;
 
 // links and headings
-$wc-ui-color-link: $std-color-primary;
-$wc-ui-color-link-visited: $std-color-secondary;
-$wc-ui-color-heading: $std-color-primary;
+$wc-ui-color-link: $std-color-primary !default;
+$wc-ui-color-link-visited: $std-color-secondary !default;
+$wc-ui-color-heading: $std-color-primary !default;
 
 // border colours - including active element indicator
-$wc-ui-color-border: $std-color-lines;
-$wc-ui-color-border-form-control: $std-color-lines;
+$wc-ui-color-border: $std-color-lines !default;
+$wc-ui-color-border-form-control: $std-color-lines !default;
 
 // required field marker
-$wc-ui-color-required-marker: $std-color-secondary;
+$wc-ui-color-required-marker: $std-color-secondary !default;
 
 // drop shadows
-$wc-ui-color-shadow: $std-color-shadow;
+$wc-ui-color-shadow: $std-color-shadow !default;
 
 // error indicators
-$wc-ui-color-error-fg: $std-color-error-fg;
-$wc-ui-color-error-bg: $std-color-error-bg;
+$wc-ui-color-error-fg: $std-color-error-fg !default;
+$wc-ui-color-error-bg: $std-color-error-bg !default;
 // other feedback
-$wc-ui-color-info-fg: $std-color-primary;
-$wc-ui-color-success-fg: $std-color-success-fg;
-$wc-ui-color-warning-fg: $std-color-warning-fg;
+$wc-ui-color-info-fg: $std-color-primary !default;
+$wc-ui-color-success-fg: $std-color-success-fg !default;
+$wc-ui-color-warning-fg: $std-color-warning-fg !default;
 
 // Section headers (WSection)
-$wc-ui-color-section-heading-bg: $std-color-primary;
-$wc-ui-color-section-heading-fg: $std-color-primary-accent;
-$wc-ui-color-section-heading-fg-disabled: $wc-color-primary-disabled;
+$wc-ui-color-section-heading-bg: $std-color-primary !default;
+$wc-ui-color-section-heading-fg: $std-color-primary-accent !default;
+$wc-ui-color-section-heading-fg-disabled: $wc-color-primary-disabled !default;
