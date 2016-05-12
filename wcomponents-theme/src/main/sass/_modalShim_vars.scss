@@ -1,4 +1,4 @@
 // Variables for the modal shim
 @import 'vars';
-$wc-ui-color-modal-shim: $std-color-shim;
-$wc-ui-color-modal-shim-foreground: $wc-ui-color-inverse-fg;
+$wc-ui-color-modal-shim: $std-color-shim !default;
+$wc-ui-color-modal-shim-foreground: $wc-ui-color-inverse-fg !default;

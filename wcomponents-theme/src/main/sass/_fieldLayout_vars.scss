@@ -1,5 +1,5 @@
 @import 'mixins-common';
 
-$default-label-width: 50;
+$default-label-width: 50 !default;
 $label-width: $default-label-width * 1%;
 $input-width: 100% - $label-width;

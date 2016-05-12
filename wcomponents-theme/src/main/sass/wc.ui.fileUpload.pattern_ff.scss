@@ -2,7 +2,6 @@
 @import 'mixins-common';
 
 // Firefox file uploads.
-//scss-lint:disable VendorPrefix
 input[type='file'] {
 	@include border($width: 0);
 	padding: 0;

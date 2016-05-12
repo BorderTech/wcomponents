@@ -1,7 +1,7 @@
 @import 'fieldLayout_vars';
 
-$wc-label-width-slug: wc_fld_lblwth;
-$wc-input-width-slug: wc_fld_inpw;
+$wc-label-width-slug: wc_fld_lblwth !default;
+$wc-input-width-slug: wc_fld_inpw !default;
 
 @mixin wc-fld-layout($lwdth) {
 	$lw: $lwdth * 1%;
