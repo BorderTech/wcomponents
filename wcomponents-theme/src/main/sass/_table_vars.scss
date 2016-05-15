@@ -1,16 +1,16 @@
 @import 'mixins-common';
 
-$wc-ui-color-table-head-bg: $std-color-primary;
-$wc-ui-color-table-head-fg: $std-color-primary-accent;
-$wc-ui-color-table-head-disabled: $wc-color-primary-disabled;
+$wc-ui-color-table-head-bg: $std-color-primary !default;
+$wc-ui-color-table-head-fg: $std-color-primary-accent !default;
+$wc-ui-color-table-head-disabled: $wc-color-primary-disabled !default;
 
-$wc-ui-color-table-foot-bg: $std-color-primary;
-$wc-ui-color-table-foot-fg: $std-color-primary-accent;
-$wc-color-table-foot-disabled: $wc-ui-color-disabled-fg;
+$wc-ui-color-table-foot-bg: $std-color-primary !default;
+$wc-ui-color-table-foot-fg: $std-color-primary-accent !default;
+$wc-color-table-foot-disabled: $wc-ui-color-disabled-fg !default;
 // all cells
-$table-cell-padding-top-bottom: $wc-gap-small;
-$table-cell-padding-left-right: $wc-gap-small;
-$table-cell-padding: $table-cell-padding-top-bottom;
+$table-cell-padding-top-bottom: $wc-gap-small !default;
+$table-cell-padding-left-right: $wc-gap-small !default;
+$table-cell-padding: $table-cell-padding-top-bottom !default;
 
 // the amount of the indent for hierarchic tables
-$table-hierarchic-indent: 1rem;
+$table-hierarchic-indent: 1rem !default;

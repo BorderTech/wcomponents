@@ -1,16 +1,16 @@
 @import 'mixins-common';
 
-$wc-ui-color-panel-action-header-background: $std-color-secondary;
-$wc-ui-color-panel-action-header-foreground: $std-color-secondary-accent;
-$wc-ui-color-panel-action-background: $std-color-white;
-$wc-ui-color-panel-action-border: $std-color-secondary;
+$wc-ui-color-panel-action-header-background: $std-color-secondary !default;
+$wc-ui-color-panel-action-header-foreground: $std-color-secondary-accent !default;
+$wc-ui-color-panel-action-background: $std-color-white !default;
+$wc-ui-color-panel-action-border: $std-color-secondary !default;
 // Type.CHROME uses section colours.
 // Type.FEATURE
-$wc-ui-color-panel-feature-background: $std-color-tertiary;
-$wc-ui-color-panel-feature-foreground: $std-color-tertiary-accent;
+$wc-ui-color-panel-feature-background: $std-color-tertiary !default;
+$wc-ui-color-panel-feature-foreground: $std-color-tertiary-accent !default;
 // Type.FOOTER
-$wc-ui-color-panel-footer-background: $std-color-tertiary;
-$wc-ui-color-panel-footer-foreground: $std-color-tertiary-accent;
+$wc-ui-color-panel-footer-background: $std-color-tertiary !default;
+$wc-ui-color-panel-footer-foreground: $std-color-tertiary-accent !default;
 // Type.HEADER
-$wc-ui-color-panel-header-background: $std-color-primary;
-$wc-ui-color-panel-header-foreground: $std-color-primary-accent;
+$wc-ui-color-panel-header-background: $std-color-primary !default;
+$wc-ui-color-panel-header-foreground: $std-color-primary-accent !default;

@@ -2,12 +2,13 @@
 
 // How wide are the tabs left or right?
 // This _should_ be a percentage, otherwise you will have to manipulate the IE9 Sass.
-$wc-ui-tabset-left-right-tab-width: 15%;
+$wc-ui-tabset-left-right-tab-width: 15% !default;
 
 // colors
-$wc-ui-color-tab-inactive: $std-color-tertiary;
-$wc-ui-color-tab-active: $std-color-white;
+$wc-ui-color-tab-inactive: $std-color-tertiary !default;
+$wc-ui-color-tab-active: $std-color-white !default;
 
+// TODO: these margin numbers could be vars?
 @mixin wc-ui-tabset-top-border-radius {
 	border-top-left-radius: 0.33em;
 	border-top-right-radius: 0.33em;
