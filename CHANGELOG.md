@@ -1,5 +1,11 @@
 # Change log
 
+
+# Release 1.1.4
+## Bug fixes
+* #610 #611 #612 #613 #616
+  (Issues)[https://github.com/BorderTech/wcomponents/issues?q=milestone%3A1.1.5]
+
 # Release 1.1.4
 
 ## Bug fixes
