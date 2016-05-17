@@ -25,11 +25,12 @@ define(["lib/sprintf", "wc/array/toArray", "wc/array/unique", "wc/config"],
 			/**
 			 * Resolves when this module is initialized.
 			 * @param config Configuration options.
+			 * @param {Function} [parentRequire] If calling as an AMD loader plugin provide a parentRequire.
 			 * @returns Promise
 			 */
-			this.initialize = function(config) {
+			this.initialize = function(config, parentRequire) {
 				i18nConfig = config || {};
-				return loadJs();
+				return loadJs(parentRequire);
 			};
 
 			/**
@@ -49,8 +50,9 @@ define(["lib/sprintf", "wc/array/toArray", "wc/array/unique", "wc/config"],
 			/*
 			 * Loads a resource bundle containing messages for the given locale.
 			 * Will attempt to fall back to default locales if possible.
+			 * @param {Function} [parentRequire] If calling as an AMD loader plugin provide a parentRequire.
 			 */
-			function loadJs() {
+			function loadJs(parentRequire) {
 				var result = new Promise(function(resolve, reject) {
 					var attempted = [],
 						locales =[],
@@ -64,7 +66,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/array/unique", "wc/config"],
 								nextLocale = locales.shift();
 								attempted.push(nextLocale);
 								console.log("Attempting to load locale", nextLocale);
-								loadLocale(nextLocale).then(win, tryLoadNext);
+								loadLocale(nextLocale, parentRequire || require, win, tryLoadNext);
 							}
 							else {
 								reject("Could not find any i18n resource bundles " + attempted.join());
@@ -105,30 +107,31 @@ define(["lib/sprintf", "wc/array/toArray", "wc/array/unique", "wc/config"],
 			/**
 			 * Attempts to load  a resource bundle for the given locale.
 			 *
+			 * WARNING - DO NOT PROMISIFY THIS FUNCTION: returning a promise created huge problems on iOS
+			 *
 			 * @param {string} locale The locale name.
-			 * @returns {Promise} resolved with the resource bundle if found. Rejected if not found.
+			 * @param {Function} require The AMD loader to use.
+			 * @param {Function} success Will be called with the locale bundle if loaded.
+			 * @param {Function} fail Will be called if the locale bundle was not loaded.
 			 */
-			function loadLocale(locale) {
-				var promise = new Promise(function(resolve, reject) {
-					var lose = function() {
-						console.info("Could not find i18n bundle for ", locale);
-						reject(locale);
-					};
-					if (locale) {
-						require(["wc/i18n/" + locale], function(obj) {
-							if (obj) {
-								resolve(obj);
-							}
-							else {
-								lose();
-							}
-						}, lose);
-					}
-					else {
-						reject("Can not load null locale");
-					}
-				});
-				return promise;
+			function loadLocale(locale, require, success, fail) {
+				var lose = function() {
+					console.info("Could not find i18n bundle for ", locale);
+					fail(locale);
+				};
+				if (locale) {
+					require(["wc/i18n/" + locale], function(obj) {
+						if (obj) {
+							success(obj);
+						}
+						else {
+							lose();
+						}
+					}, lose);
+				}
+				else {
+					fail("Can not load null locale");
+				}
 			}
 
 			/**
@@ -160,7 +163,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/array/unique", "wc/config"],
 			 */
 			this.load = function (id, parentRequire, callback, config) {
 				if (!config || !config.isBuild) {
-					instance.initialize(wcconfig.get("wc/i18n/i18n")).then(callback);
+					instance.initialize(wcconfig.get("wc/i18n/i18n"), parentRequire).then(callback);
 				}
 				else {
 					callback();

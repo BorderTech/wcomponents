@@ -47,7 +47,7 @@ define(function() {
 		request: function(href, as) {
 			try {
 				addLink(href, as);
-				addLink(href, as, "subresource");
+				// addLink(href, as, "subresource");  // This should not be necessary anymore - use standard method or nothing
 			}
 			catch (ex) {
 				console.warn(ex);  // don't die on prefetch exceptions, log 'em and move on
