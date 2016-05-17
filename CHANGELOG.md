@@ -1,5 +1,7 @@
 # Change log
 
+## Bug fixes
+* #629
 
 # Release 1.1.4
 ## Bug fixes
