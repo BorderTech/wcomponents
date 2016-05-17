@@ -23,14 +23,14 @@
 
 	.wc-row {
 		@include flex-align-items(baseline);
-		padding: $hgap-small;
+		padding: $wc-gap-small;
 
 		button {
-			margin-left: $hgap-normal;
+			margin-left: $wc-gap-normal;
 		}
 
 		input { //year field:
-			margin: 0 $hgap-large;
+			margin: 0 $wc-gap-large;
 			width: 5rem; //  FF and IE do not size by max.
 		}
 	}
@@ -50,7 +50,7 @@
 
 	th {
 		font-size: 1em; // reset from 1.5rem
-		padding: $vgap-small $hgap-small;
+		padding: $wc-gap-small;
 		text-align: center;
 	}
 
@@ -70,7 +70,7 @@
 	line-height: 2;
 	max-width: 100%;
 	min-width: 100%;
-	padding: $vgap-small $hgap-small;
+	padding: $wc-gap-small;
 	text-align: center;
 	width: 3rem;
 }

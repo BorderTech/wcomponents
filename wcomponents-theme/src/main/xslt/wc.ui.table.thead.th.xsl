@@ -19,7 +19,7 @@
 						<xsl:value-of select="@align"/>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:text>${wc.common.align.std}</xsl:text>
+						<xsl:text>left</xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>

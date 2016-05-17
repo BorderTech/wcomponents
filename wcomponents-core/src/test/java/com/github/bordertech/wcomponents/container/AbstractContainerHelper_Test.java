@@ -161,8 +161,6 @@ public class AbstractContainerHelper_Test {
 
 		helper.render();
 		Assert.assertTrue("Helper should be disposed after render", helper.isDisposed());
-		// TODO: Remove the use of Escape. This test no longer works (22/9/2009).
-		//assertTrue("Escape should have been called during render phase", escape.escapeCalled);
 	}
 
 	@Test

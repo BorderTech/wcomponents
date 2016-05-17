@@ -13,20 +13,15 @@
 		<xsl:param name="class"/>
 		<xsl:choose>
 			<xsl:when test="$space='paragraphs'">
-				<xsl:element name="p">
-					<xsl:attribute name="class">
-						<xsl:value-of select="$class"/>
-					</xsl:attribute>
+				<p class="{$class}">
 					<xsl:call-template name="WStyledTextContent">
 						<xsl:with-param name="type" select="$type"/>
-						<xsl:with-param name="space" select="$space"/>
 					</xsl:call-template>
-				</xsl:element>
+				</p>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:call-template name="WStyledTextContent">
 					<xsl:with-param name="type" select="$type"/>
-					<xsl:with-param name="space" select="$space"/>
 				</xsl:call-template>
 			</xsl:otherwise>
 		</xsl:choose>

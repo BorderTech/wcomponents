@@ -30,7 +30,7 @@ public final class UicStatsAsHtml {
 	 * @param stats the stats to write.
 	 */
 	public static void write(final PrintWriter writer, final UicStats stats) {
-		writer.println("<dl class=\"column\">");
+		writer.println("<dl>");
 
 		writer.print("<dt>Total root wcomponents found in UIC</dt>");
 		writer.println("<dd>" + stats.getRootWCs().size() + "</dd>");
@@ -47,8 +47,8 @@ public final class UicStatsAsHtml {
 			WComponent comp = it.next();
 			Map<WComponent, UicStats.Stat> treeStats = stats.getWCTreeStats(comp);
 
-			writer.println("<br /><b>Analysed component:</b> " + comp);
-			writer.println("<br /><b>Number of components in tree:</b> " + treeStats.size());
+			writer.println("<br /><strong>Analysed component:</strong> " + comp);
+			writer.println("<br /><strong>Number of components in tree:</strong> " + treeStats.size());
 
 			writeHeader(writer);
 			writeProfileForTree(writer, treeStats);
@@ -100,7 +100,7 @@ public final class UicStatsAsHtml {
 	 * @param writer the writer to write the header to
 	 */
 	private static void writeHeader(final PrintWriter writer) {
-		writer.println("<table border=\"1\">");
+		writer.println("<table>");
 		writer.println("<thead>");
 		writer.print("<tr>");
 		writer.print("<th>Class</th>");

@@ -132,7 +132,6 @@ public class WHeading extends WText implements Container, AjaxTarget, Marginable
 	 * Setup the label.
 	 */
 	private void setupLabel() {
-		// TODO: WHeading should no longer extend WText.
 		// To retain compatibility with the WText API, create a WText for this component,
 		// which gets added to the label body.
 		WText textBody = new WText() {

@@ -45,7 +45,7 @@ define(["wc/dom/classList",
 			var LABEL,
 				LEGEND,
 				FAUX,
-				TAGS = [tag.INPUT, tag.TEXTAREA, tag.SELECT, tag.PROGRESS],
+				TAGS = [tag.INPUT, tag.TEXTAREA, tag.SELECT, tag.PROGRESS, tag.FIELDSET],
 				MANDATORY_SPAN = new Widget("span", "wc_off");
 
 			/**
@@ -61,7 +61,7 @@ define(["wc/dom/classList",
 			function mungeLabels(element, func, _arg, includeReadOnly) {
 				var labels = getLabelsForElement(element, includeReadOnly);
 
-				function _doItToMeBaby(next) {
+				function _doIt(next) {
 					var mandatorySpan;
 					if (next.tagName !== tag.LEGEND) {
 						if (_arg) {
@@ -87,7 +87,7 @@ define(["wc/dom/classList",
 					}
 				}
 				if (labels && labels.length) {
-					Array.prototype.forEach.call(labels, _doItToMeBaby);
+					Array.prototype.forEach.call(labels, _doIt);
 				}
 			}
 
@@ -144,7 +144,7 @@ define(["wc/dom/classList",
 				if (fromActive) {
 					newLabellingElement = document.createElement("span");
 					newLabellingElement.className = "label";
-					newLabellingElement.setAttribute("${wc.ui.label.attribute.readonlyFor}", element.id);
+					newLabellingElement.setAttribute("data-wc-rofor", element.id);
 				}
 				else {
 					newLabellingElement = document.createElement("label");

@@ -12,33 +12,7 @@ param hgap: the horizontal space between cells in a horizontal flow (if any) .
 param vgap: the vertical space between cells in a vertical flow (if any).
 -->
 	<xsl:template match="ui:cell" mode="fl">
-		<xsl:param name="align"/>
-		<xsl:param name="hgap"/>
-		<xsl:param name="vgap"/>
-		<xsl:variable name="style">
-			<xsl:if test="position() &gt; 1">
-				<xsl:choose>
-					<xsl:when test="$align = 'vertical'">
-						<xsl:if test="$vgap !=0">
-							<xsl:text>margin-top:</xsl:text>
-							<xsl:value-of select="$vgap"/>
-							<xsl:text>;</xsl:text>
-						</xsl:if>
-					</xsl:when>
-					<xsl:when test="$hgap != 0">
-						<xsl:text>margin-left:</xsl:text>
-						<xsl:value-of select="$hgap"/>
-						<xsl:text>;</xsl:text>
-					</xsl:when>
-				</xsl:choose>
-			</xsl:if>
-		</xsl:variable>
-		<div class="{local-name(.)}">
-			<xsl:if test="$style != ''">
-				<xsl:attribute name="style">
-					<xsl:value-of select="$style"/>
-				</xsl:attribute>
-			</xsl:if>
+		<div class="wc-cell">
 			<xsl:apply-templates/>
 		</div>
 	</xsl:template>

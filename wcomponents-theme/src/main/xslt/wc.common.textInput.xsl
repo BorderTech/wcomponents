@@ -5,10 +5,17 @@
 	<!--
 		Single line input controls which may be associated with a datalist.
    -->
-	<xsl:template match="ui:textfield|ui:phonenumberfield|ui:emailfield">
+	<xsl:template match="ui:textfield|ui:phonenumberfield|ui:emailfield|ui:passwordfield">
 		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="myLabel" select="key('labelKey',$id)[1]"/>
 		<xsl:choose>
+			<xsl:when test="self::ui:passwordfield and @readOnly">
+				<xsl:call-template name="readOnlyControl">
+					<xsl:with-param name="label" select="$myLabel"/>
+					<xsl:with-param name="applies" select="'none'"/><!-- NEVER allow text content to appear as it is a value. -->
+				</xsl:call-template>
+			</xsl:when>
+			
 			<xsl:when test="@readOnly">
 				<xsl:call-template name="readOnlyControl">
 					<xsl:with-param name="label" select="$myLabel"/>
@@ -21,62 +28,40 @@
 						<xsl:with-param name="force" select="1"/>
 					</xsl:call-template>
 				</xsl:if>
-				<span>
-					<xsl:call-template name="commonAttributes">
-						<xsl:with-param name="isWrapper" select="1"/>
+				<xsl:variable name="list" select="@list"/>
+				<xsl:element name="input">
+					<xsl:call-template name="commonControlAttributes">
+						<xsl:with-param name="isError" select="$isError"/>
+						<xsl:with-param name="name" select="@id"/>
 						<xsl:with-param name="live" select="'off'"/>
-						<xsl:with-param name="class">
-							<xsl:text>wc_input_wrapper</xsl:text>
-							<xsl:if test="@list">
-								<xsl:text> wc_list_wrapper</xsl:text>
-							</xsl:if>
-						</xsl:with-param>
+						<xsl:with-param name="myLabel" select="$myLabel"/>
+						<xsl:with-param name="value" select="text()"/>
 					</xsl:call-template>
-					<xsl:element name="input">
-						<xsl:attribute name="id">
-							<xsl:value-of select="concat($id, '_input')"/>
-						</xsl:attribute>
-						<xsl:attribute name="type">
-							<xsl:choose>
-								<xsl:when test="self::ui:textfield">
-									<xsl:text>text</xsl:text>
-								</xsl:when>
-								<xsl:when test="self::ui:emailfield">
-									<xsl:text>email</xsl:text>
-								</xsl:when>
-								<xsl:when test="self::ui:phonenumberfield">
-									<xsl:text>tel</xsl:text>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:text>text</xsl:text>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:attribute>
-						<xsl:attribute name="name">
-							<xsl:value-of select="@id"/>
-						</xsl:attribute>
-						<xsl:attribute name="value">
-							<xsl:value-of select="."/>
-						</xsl:attribute>
-						<xsl:call-template name="title"/>
-						<xsl:call-template name="requiredElement"/>
-						<xsl:if test="$isError and $isError !=''">
-							<xsl:call-template name="invalid"/>
-						</xsl:if>
-						<xsl:if test="@maxLength">
-							<xsl:attribute name="maxLength">
-								<xsl:value-of select="@maxLength"/>
-							</xsl:attribute>
-						</xsl:if>
+					<xsl:attribute name="type">
+						<xsl:choose>
+							<xsl:when test="self::ui:textfield">
+								<xsl:text>text</xsl:text>
+							</xsl:when>
+							<xsl:when test="self::ui:emailfield">
+								<xsl:text>email</xsl:text>
+							</xsl:when>
+							<xsl:when test="self::ui:passwordfield">
+								<xsl:text>password</xsl:text>
+							</xsl:when>
+							<xsl:when test="self::ui:phonenumberfield">
+								<xsl:text>tel</xsl:text>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:text>text</xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+					<xsl:if test="not(self::ui:passwordfield)">
 						<xsl:if test="@required">
 							<xsl:attribute name="placeholder">
 								<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
 							</xsl:attribute>
 						</xsl:if>
-						<xsl:call-template name="disabledElement">
-							<xsl:with-param name="isControl" select="1"/>
-						</xsl:call-template>
-						<xsl:variable name="list" select="@list"/>
 						<xsl:if test="$list">
 							<xsl:attribute name="role">
 								<xsl:text>combobox</xsl:text>
@@ -100,29 +85,32 @@
 								</xsl:choose>
 							</xsl:attribute>
 						</xsl:if>
-						<xsl:if test="@size">
-							<xsl:attribute name="size">
-								<xsl:value-of select="@size"/>
-							</xsl:attribute>
-						</xsl:if>
-						<xsl:if test="@minLength">
-							<xsl:attribute name="${wc.ui.textField.attrib.minLength}">
-								<xsl:value-of select="@minLength"/>
-							</xsl:attribute>
-						</xsl:if>
-						<xsl:if test="@pattern">
-							<xsl:attribute name="pattern">
-								<xsl:value-of select="@pattern"/>
-							</xsl:attribute>
-						</xsl:if>
-						<xsl:if test="not($myLabel)">
-							<xsl:call-template name="ariaLabel"/>
-						</xsl:if>
-					</xsl:element>
-					<xsl:call-template name="inlineError">
-						<xsl:with-param name="errors" select="$isError"/>
-					</xsl:call-template>
-				</span>
+					</xsl:if>
+					<xsl:if test="@size">
+						<xsl:attribute name="size">
+							<xsl:value-of select="@size"/>
+						</xsl:attribute>
+					</xsl:if>
+					<xsl:if test="@maxLength">
+						<xsl:attribute name="maxLength">
+							<xsl:value-of select="@maxLength"/>
+						</xsl:attribute>
+					</xsl:if>
+					<xsl:if test="@minLength">
+						<xsl:attribute name="${wc.ui.textField.attrib.minLength}">
+							<xsl:value-of select="@minLength"/>
+						</xsl:attribute>
+					</xsl:if>
+					<xsl:if test="@pattern">
+						<xsl:attribute name="pattern">
+							<xsl:value-of select="@pattern"/>
+						</xsl:attribute>
+					</xsl:if>
+				</xsl:element>
+				
+				<xsl:call-template name="inlineError">
+					<xsl:with-param name="errors" select="$isError"/>
+				</xsl:call-template>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

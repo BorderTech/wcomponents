@@ -1,0 +1,71 @@
+/* wc.common.hvgap.scss */
+@import 'mixins-common';
+// The styles which create hgap and vgap.
+// See xslt/wc.common.getHVGap.xsl for changing the number of options or the pixel values at which the various classes
+// get set.
+
+// NOTE: Most layouts and WRow have div children. ListLayout/WList has li children.
+// We can (at the moment) safely use the universal selector here but maybe not into the future. Even so, it has
+// terrible performance so we are probably better off without it.
+
+// hgap
+// Vaadin Scss compiler cannot handle multiple assignment so the simple each below has to be done a bit more verbosely.
+// @each $gap, $size in (sm: $vhap-small, med: $wc-gap-normal, lg: $wc-gap-large, xl: $wc-gap-xl) {
+// 	.wc_hgap_#{$gap} > * {
+// 		padding-left: $size / 2;
+// 		padding-right: $size / 2;
+// 	}
+//
+// 	.wc_vgap_#{$gap} {
+// 		> div + div,
+// 		> li + li {
+// 			margin-top: $size;
+// 		}
+// 	}
+// }
+
+// The list of class suffixes
+$wc-gap-suffix-list: sm, med, lg, xl !default;
+
+@each $cl in $wc-gap-suffix-list {
+	@if ($cl == sm) {
+		$size: $wc-gap-small;
+	}
+	@else if  ($cl == med) {
+		$size: $wc-gap-normal;
+	}
+	@else if  ($cl == lg) {
+		$size: $wc-gap-large;
+	}
+	@else {
+		$size: $wc-gap-xl;
+	}
+
+	.wc_hgap_#{$cl} {
+		> div,
+		> li {
+			padding-left: $size / 2;
+			padding-right: $size / 2;
+		 }
+	}
+
+	.wc_vgap_#{$cl} {
+		> div + div,
+		> li + li {
+			margin-top: $size;
+		 }
+	}
+}
+
+.wc_hgap_sm,
+.wc_hgap_med,
+.wc_hgap_lg,
+.wc_hgap_xl {
+	> :first-child {
+		padding-left: 0;
+	}
+
+	> :last-child {
+		padding-right: 0;
+	}
+}

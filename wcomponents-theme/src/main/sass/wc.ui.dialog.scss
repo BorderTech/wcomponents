@@ -15,12 +15,6 @@ dialog {
 	width: 100%;
 	z-index: $z-index-dialog;
 
-	// &[role="alertdialog"] {
-	// 	height: 98%;
-	// 	margin: 1%;
-	// 	width: 98%;
-	// }
-
 	> [aria-live] { // dialog content container
 		@include padded-box;
 		height: 100%;
@@ -45,13 +39,13 @@ dialog {
 		@include flex-shrink(0);
 
 		button:before {
-			padding: $hgap-small;
+			padding: $wc-gap-small;
 		}
 	}
 
 	> header {
 		@include flex($direction: row-reverse, $wrap: wrap, $justify: space-between, $align-items: center);
-		padding: $vgap-small 0 $vgap-small $hgap-small;
+		padding: $wc-gap-small 0 $wc-gap-small $wc-gap-small;
 
 		> h1 { // the title
 			@include flex-grow(1);
@@ -62,11 +56,11 @@ dialog {
 		> span { // the header control 'block'
 			@include flex-align-self(flex-start);
 			line-height: 0;
-			margin-right: $hgap-small;
+			margin-right: $wc-gap-small;
 		}
 
 		.wc_btn_icon + button {
-			margin-left: $hgap-small;
+			margin-left: $wc-gap-small;
 		}
 
 		.wc_maxcont {

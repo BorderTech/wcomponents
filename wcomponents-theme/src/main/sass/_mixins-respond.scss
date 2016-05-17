@@ -2,11 +2,11 @@
 // design mixins as required.
 
 //how big is a small screen?
-$small-screen: 1000px;
+$small-screen: 1000px !default;
 //and a common/medium screen?
-$medium-screen: 1280px;
+$medium-screen: 1280px !default;
 //how about a BIG screen?
-$large-screen: 1921px;//bigger than 1080p
+$large-screen: 1921px !default;//bigger than 1080p
 
 // guess what this is for!
 $bigger-than-small-screen: $small-screen + 1px;
@@ -82,25 +82,25 @@ $bigger-than-small-screen: $small-screen + 1px;
 // END of mixin broken by Vaadin Sass-Compiler/
 
 @mixin respond-phone {
-	@media only screen and (max-device-width: 736px) {
+	@media only screen and (max-device-width: 773px) {
 		@content;
 	}
 }
 
 @mixin respond-not-phone {
-	@media only screen and (min-device-width: 737px) {
+	@media only screen and (min-device-width: 774px) {
 		@content;
 	}
 }
 
 @mixin respond-phonelike {
-	@media only screen and (max-width : 736px) {
+	@media only screen and (max-width : 773px) {
 		@content;
 	}
 }
 
 @mixin respond-not-phonelike {
-	@media only screen and (min-width: 737px) {
+	@media only screen and (min-width: 774px) {
 		@content;
 	}
 }

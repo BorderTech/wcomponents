@@ -16,7 +16,7 @@
 
 		&:focus {
 			display: inline-block;
-			padding: $hgap-normal;
+			padding: $wc-gap-normal;
 			position: static;
 			z-index: $z-index-common; // never found in dialogs.
 		}

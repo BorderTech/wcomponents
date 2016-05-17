@@ -131,7 +131,7 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	/**
 	 * A simple DTO to pass back the results of the render to the calling test.
 	 */
-	private class TestResult {
+	private final class TestResult {
 
 		private String result;
 		private String contentType;

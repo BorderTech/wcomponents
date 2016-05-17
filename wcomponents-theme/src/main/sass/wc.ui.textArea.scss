@@ -7,7 +7,7 @@ textarea + output {
 	@include border($pos: top, $width: 0);
 	display: block;
 	margin-top: -$border-width;
-	padding: $hgap-small;
+	padding: $wc-gap-small;
 	position: absolute;
 	z-index: $z-index-common;
 

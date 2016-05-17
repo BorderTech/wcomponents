@@ -14,11 +14,12 @@
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/uid
  * @requires module:wc/i18n/i18n
+ * @requires module:wc/dom/classList
  * @requires module:wc/ui/menu/menuItem
  */
-define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "wc/dom/initialise", "wc/dom/uid", "wc/i18n/i18n",  "wc/ui/menu/menuItem"],
-	/** @param abstractMenu @param keyWalker @param shed @param Widget @param initialise @param uid @param i18n @ignore */
-	function(abstractMenu, keyWalker, shed, Widget, initialise, uid, i18n) {
+define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "wc/dom/initialise", "wc/dom/uid", "wc/i18n/i18n", "wc/dom/classList", "wc/ui/menu/menuItem"],
+	/** @param abstractMenu @param keyWalker @param shed @param Widget @param initialise @param uid @param i18n@param classList @ignore */
+	function(abstractMenu, keyWalker, shed, Widget, initialise, uid, i18n, classList) {
 		"use strict";
 
 		/* Unused dependencies:
@@ -258,7 +259,8 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 				// only do this if the menu contains more than one child
 				childCount = typeof nextMenu.children !== "undefined" ? nextMenu.children.length : (typeof nextMenu.childNodes !== "undefined" ? nextMenu.childNodes.length : 0);
 
-				if (childCount > 1 && BANNER.findAncestor(nextMenu)) {
+				if (childCount > 1 && BANNER.findAncestor(nextMenu) && !classList.contains(nextMenu, "wc_mn_flyout")) {
+
 					branchElement = document.createElement("div");
 					branchElement.setAttribute(ROLE, "presentation");
 					branchElement.className = "wc-submenu";
@@ -269,7 +271,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 					button.title = i18n.get("${wc.ui.menu.bar.i18n.submenuOpenLabelDefault}");
 					contentId = uid();
 					button.setAttribute("aria-controls", contentId);
-					button.className = "wc_btn_nada wc-submenu-o";
+					button.className = "wc_btn_nada wc-submenu-o wc_hbgr";
 					button.setAttribute(ROLE, "menuitem");
 					branchElement.appendChild(button);
 

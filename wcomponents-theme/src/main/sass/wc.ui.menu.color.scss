@@ -3,7 +3,7 @@
 // See wc.ui.menu.css for generic structure.
 @import 'menu_vars';
 
-[role='menubar'].bar,
+[role='menubar'].wc_mn_bar,
 [role='menu'] {
 	background-color: $wc-ui-color-menu-bg;
 	color: $wc-ui-color-menu-fg;
@@ -28,9 +28,3 @@
 	background-color: transparent;
 	color: inherit;
 }
-
-//
-// @import 'panel_vars'; // for the header foreground color
-// [role='banner'] [data-wc-menufixed] > [role='menuitem']:first-child > button::after {
-// 	color: $wc-ui-color-panel-header-foreground;
-// }

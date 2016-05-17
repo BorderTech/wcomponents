@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.WDataTable.ActionConstraint;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 import java.util.Arrays;
@@ -55,7 +54,6 @@ public class AllComponents extends WApplication {
 		add(new WContainer());
 		add(new WContent());
 		//add(new WContentLink("Content link text")); // TODO: need to set content and cache key so that rendering is predictable
-		add(createDataTable());
 		add(new WDateField());
 		add(new WDecoratedLabel("Decorated label text"));
 		add(new WDefinitionList());
@@ -66,7 +64,7 @@ public class AllComponents extends WApplication {
 		add(new WFieldSet("Field set title"));
 		add(new WFileWidget());
 		add(new WFilterText("search", "replace"));
-		add(new WHeading(WHeading.SECTION, "WHeading title"));
+		add(new WHeading(HeadingLevel.H3, "WHeading title"));
 		add(new WHorizontalRule());
 		add(new WImage("/image/x1.gif", "example image"));
 		add(new WInternalLink("Internal link text", this));
@@ -164,33 +162,6 @@ public class AllComponents extends WApplication {
 		return container;
 	}
 
-	/**
-	 * Creates a simple table with a data model set.
-	 *
-	 * @return a new table with content.
-	 */
-	private static WDataTable createDataTable() {
-		WDataTable table = new WDataTable();
-		table.addColumn(new WTableColumn("Column 1", WText.class));
-		table.addColumn(new WTableColumn("Column 2", new WTextField()));
-
-		table.setDataModel(new SimpleTableDataModel(new String[][]{
-			{"row1col1", "row1col2"},
-			{"row2col1", "row2col2"},
-			{"row3col1", "row3col2"},
-			{"row4col1", "row4col2"},
-			{"row5col1", "row5col2"}
-		}));
-
-		table.setSelectMode(WDataTable.SelectMode.SINGLE);
-
-		WButton action = new WButton("Action");
-		table.addAction(action);
-		table.addActionConstraint(action, new ActionConstraint(1, -1, true,
-				"At least one row must be selected to use this function"));
-
-		return table;
-	}
 
 	/**
 	 * Creates a field layout with a couple of fields.
@@ -211,7 +182,7 @@ public class AllComponents extends WApplication {
 	 * @return a new menu with content.
 	 */
 	private static WMenu createMenu() {
-		WMenu menu = new WMenu(WMenu.MenuType.TREE);
+		WMenu menu = new WMenu(WMenu.MenuType.BAR);
 		menu.add(new WMenuItem("top-level menu item", new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
@@ -251,11 +222,6 @@ public class AllComponents extends WApplication {
 		WTabSet tabSet = new WTabSet();
 
 		for (WTabSet.TabMode mode : WTabSet.TabMode.values()) {
-			if (tabSet.getTotalTabs() == 1) {
-				// Add a single separator
-				tabSet.addSeparator();
-			}
-
 			tabSet.addTab(new WText(mode + " content"), mode + " tab", mode);
 		}
 

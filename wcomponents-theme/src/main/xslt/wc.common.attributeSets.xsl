@@ -79,7 +79,7 @@
 			</xsl:with-param>
 		</xsl:call-template>
 		<xsl:if test="@buttonId">
-			<xsl:attribute name="${wc.common.attribute.button}">
+			<xsl:attribute name="data-wc-submit">
 				<xsl:value-of select="@buttonId" />
 			</xsl:attribute>
 		</xsl:if>

@@ -2,20 +2,19 @@ package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WFieldSet;
-import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WMessageBox;
-import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WRadioButtonSelect;
 import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.WTextField;
-import com.github.bordertech.wcomponents.layout.FlowLayout;
-import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 import com.github.bordertech.wcomponents.util.Util;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,7 @@ import java.util.List;
  * @author Adam Millard
  * @author Yiannis Paschalidis
  */
-public class WMessageBoxExample extends WPanel {
+public class WMessageBoxExample extends WContainer {
 
 	/**
 	 * The message box to demonstrate.
@@ -78,10 +77,8 @@ public class WMessageBoxExample extends WPanel {
 	 * Creates a WMessageBoxExample.
 	 */
 	public WMessageBoxExample() {
-		setLayout(new FlowLayout(Alignment.VERTICAL, 0, 10));
 
 		add(messageBox);
-		add(new WHorizontalRule());
 
 		WFieldSet fieldSet = new WFieldSet("Configuration");
 		WFieldLayout fieldLayout = new WFieldLayout();
@@ -107,37 +104,33 @@ public class WMessageBoxExample extends WPanel {
 		fieldSet.add(apply);
 		add(fieldSet);
 
-		// add message panel.
-		WPanel addPanel = new WPanel();
-		addPanel.setLayout(new FlowLayout(Alignment.LEFT, 5, 0));
-		addPanel.add(txtAdd);
 		WButton btnAddMessage = new WButton("Add new Message");
-		addPanel.add(btnAddMessage, "btnAddMessage");
-		fieldLayout.addField("Add new message", addPanel);
+		fieldLayout.addField("Add new message", txtAdd);
+		fieldLayout.addField(btnAddMessage);
 		btnAddMessage.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
 				String txt = txtAdd.getText();
 				if (!Util.empty(txt)) {
-					messageBox.addMessage(txt.trim());
+					// NOTE: one would NOT usually unencode content from a user input: this is VERY dangerous.
+					messageBox.addMessage(false, txt.trim());
 					applySettings();
 				}
 			}
 		});
 
-		WPanel removePanel = new WPanel();
-		removePanel.setLayout(new FlowLayout(Alignment.LEFT, 5, 0));
-		removePanel.add(selRemove);
-		removePanel.add(btnRemove);
-		removePanel.add(btnRemoveAll);
-		fieldLayout.addField("Remove message", removePanel);
+		fieldLayout.addField("Remove message", selRemove);
+		fieldLayout.addField(btnRemoveAll);
 
-		btnRemove.setAction(new Action() {
+		selRemove.setActionOnChange(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				int sel = messageList.indexOf(selRemove.getSelected());
-				messageBox.removeMessages(sel);
-				applySettings();
+				if (!"".equals(selRemove.getSelected())) {
+					int sel = messageList.indexOf(selRemove.getSelected());
+
+					messageBox.removeMessages(sel - 1);
+					applySettings();
+				}
 			}
 		});
 
@@ -148,13 +141,18 @@ public class WMessageBoxExample extends WPanel {
 				applySettings();
 			}
 		});
+
+		add(new WAjaxControl(selRemove, new AjaxTarget[]{messageBox, fieldLayout}));
 	}
+
 
 	/**
 	 * applySettings is used to apply the setting to the various controls on the page.
 	 */
 	public void applySettings() {
 		messageList.clear();
+
+		messageList.add("");
 
 		for (int i = 1; messageBox.getMessages().size() >= i; i++) {
 			messageList.add(String.valueOf(i));

@@ -5,6 +5,10 @@ package com.github.bordertech.wcomponents.layout;
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
+ * @deprecated WComponents 1.1.4. Use {@link com.github.bordertech.wcomponents.WRow} and
+ * {@link com.github.bordertech.wcomponents.WColumn} or {@link com.github.bordertech.wcomponents.layout.ColumnLayout} instead.
+ * It is preferred that an application use {@link com.github.bordertech.wcomponents.WTemplate} for layout as this
+ * provides for lighter payloads and more responsive UIs.
  */
 public class BorderLayout implements LayoutManager {
 

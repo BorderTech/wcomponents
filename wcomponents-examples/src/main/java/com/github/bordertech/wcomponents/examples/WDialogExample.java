@@ -214,6 +214,18 @@ public class WDialogExample extends WPanel implements MessageContainer {
 				"Show dialog which is not resizeable"));
 		fixedSizeDialog.setResizable(false);
 		/*
+		 * NOT RESIZEABLE with fixed dimensions
+		 * A WDialog is resizeable by the user unless resizing is explicitly
+		 * disabled: you usually don't want to do this as it may cause usability
+		 * problems.
+		 */
+		final WDialog fixedSizeDialog2 = new WDialog(new ViewPersonList(), new WButton(
+				"Show dialog with size but not resizeable"));
+		fixedSizeDialog2.setResizable(false);
+		fixedSizeDialog2.setWidth(300);
+		fixedSizeDialog2.setHeight(150);
+
+		/*
 		 * SET THE WIDTH of a dialog
 		 * If not set explicitly, the initial width of a dialog is determined by the UI theme.
 		 */
@@ -243,6 +255,7 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		add(dialogWithWidth);
 		add(dialogWithHeight);
 		add(dialogWithMode);
+		add(fixedSizeDialog2);
 
 		add(new WHeading(WHeading.MAJOR, "Dialogs which open without page reload"));
 		//remember the button of an immediate is part of the dialog: it will be place into the UI wherever the dialog is placed

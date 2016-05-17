@@ -1,43 +1,62 @@
 /* wc.ui.fieldLayout.scss */
 @import 'fieldLayout-mixins';
 
-// field layouts may be an ordered list, in which case we want to expose the numbers so need the element qualifier
-//scss-lint:disable QualifyingElement
-ul.wc-fieldlayout {
-	@include tight-box;
-	list-style-type: none;
+.wc-fieldlayout + .wc-fieldlayout, // Vertical space between consecutive WFieldLayouts.
+.wc-field  + .wc-field { // Vertical space between fields in a WFieldLayout.
+	margin-top: $wc-gap-normal;
 }
-//scss-lint:enable QualifyingElement
+
+.wc_ordered {
+	&,
+	.wc-fieldlayout {
+		counter-reset: wcfld;
+	}
+
+	> .wc-field {
+		counter-increment: wcfld;
+
+		> :first-child::before {
+			content: counter(wcfld) '. ';
+			margin-right: $wc-gap-small;
+
+			.wc_ordered & {
+				content: counters(wcfld, '.') ' ';
+			}
+		}
+	}
+
+	&.stacked > .wc-field {
+		&::before {
+			content: counter(wcfld) '. ';
+			margin-right: $wc-gap-small;
+
+			.wc_ordered & {
+				content: counters(wcfld, '.') ' ';
+			}
+		}
+
+		> :first-child::before {
+			content: '';
+			display: none;
+			margin-right: 0;
+		}
+	}
+}
 
 // This is the placeholder for a null or moved label (moved for checkbox or radio). Not shown on narrow viewports.
 .wc_fld_pl {
 	display: none;
 }
 
-// Verticl space between fields in a WFieldLayout.
-.wc-field  + .wc-field {
-	margin-top: $vgap-normal;
-}
-
 // The input container div.
 .wc-input {
-	margin-top: $vgap-small; // push off of the label.
+	margin-top: $wc-gap-small; // push off of the label.
 
 	// InputWidth class is added to the field to signify that an inputWidth is in use so we can size the components.
 	.wc_inputwidth > & {
-		> .wc_input_wrapper {
-			width: 100%;
-
-			> input {
-				@include border-box;
-				width: 100%;
-			}
-
-			&[role='combobox'] > input[type] { // fake date input
-				max-width: calc(100% - 2rem);
-			}
-		}
-
+		> [type='email'],
+		> [type='text'],
+		> [type='tel'],
 		> [type='password'],
 		> [type='number'],
 		> textarea,
@@ -47,12 +66,18 @@ ul.wc-fieldlayout {
 			width: 100%;
 		}
 	}
+
+	> input,
+	> select,
+	> textarea {
+		max-width: 100%;
+	}
 }
 
 @include respond-not-small {
 	// This block should be in fieldLayout.dt.css but is here to work around a Safari bug.
 	// Flat is the most common use, but shouldn't be (due to a11y concerns which are not adequately covered by WCAG 2.0)
-	.flat > .wc-field {
+	.wc_fld_flat > .wc-field {
 		> label,
 		> span,
 		> div {

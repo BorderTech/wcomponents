@@ -17,59 +17,57 @@
 				<xsl:with-param name="force" select="1"/>
 			</xsl:call-template>
 		</xsl:if>
-		<div id="{concat($id, '-wrapper')}" class="wc_input_wrapper wc_list_wrapper"><!-- the id is for removal during AJAX -->
-			<xsl:element name="input">
-				<xsl:attribute name="type">
-					<xsl:text>text</xsl:text>
+		<xsl:element name="input">
+			<xsl:attribute name="type">
+				<xsl:text>text</xsl:text>
+			</xsl:attribute>
+			<xsl:attribute name="role">
+				<xsl:text>combobox</xsl:text>
+			</xsl:attribute>
+			<xsl:attribute name="aria-autocomplete">
+				<xsl:text>both</xsl:text>
+			</xsl:attribute>
+			<xsl:attribute name="aria-owns">
+				<xsl:value-of select="$listId" />
+			</xsl:attribute>
+			<!-- every input that implements combo should have autocomplete turned off -->
+			<xsl:attribute name="autocomplete">
+				<xsl:text>off</xsl:text>
+			</xsl:attribute>
+			<xsl:if test="@optionWidth">
+				<xsl:attribute name="size">
+					<xsl:value-of select="@optionWidth" />
 				</xsl:attribute>
-				<xsl:attribute name="role">
-					<xsl:text>combobox</xsl:text>
+			</xsl:if>
+			<xsl:if test="@data">
+				<xsl:attribute name="${wc.ui.selectLoader.attribute.dataListId}">
+					<xsl:value-of select="@data" />
 				</xsl:attribute>
-				<xsl:attribute name="aria-autocomplete">
-					<xsl:text>both</xsl:text>
+			</xsl:if>
+			<xsl:call-template name="commonControlAttributes">
+				<xsl:with-param name="isError" select="$isError" />
+				<xsl:with-param name="name" select="$id" />
+				<xsl:with-param name="live" select="'off'" />
+				<xsl:with-param name="value">
+					<xsl:choose>
+						<xsl:when test="@data">
+							<xsl:apply-templates select="ui:option[1]" mode="comboValue" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:apply-templates select=".//ui:option[@selected][1]" mode="comboValue" />
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:with-param>
+				<xsl:with-param name="myLabel" select="$myLabel[1]"/>
+			</xsl:call-template>
+		</xsl:element>
+		<ul id="{$listId}" role="listbox" aria-controls="{$id}" hidden="hidden">
+			<xsl:if test="not(*)">
+				<xsl:attribute name="aria-busy">
+					<xsl:copy-of select="$t"/>
 				</xsl:attribute>
-				<xsl:attribute name="aria-owns">
-					<xsl:value-of select="$listId" />
-				</xsl:attribute>
-				<!-- every input that implements combo should have autocomplete turned off -->
-				<xsl:attribute name="autocomplete">
-					<xsl:text>off</xsl:text>
-				</xsl:attribute>
-				<xsl:if test="@optionWidth">
-					<xsl:attribute name="size">
-						<xsl:value-of select="@optionWidth" />
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="@data">
-					<xsl:attribute name="${wc.ui.selectLoader.attribute.dataListId}">
-						<xsl:value-of select="@data" />
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:call-template name="commonControlAttributes">
-					<xsl:with-param name="isError" select="$isError" />
-					<xsl:with-param name="name" select="$id" />
-					<xsl:with-param name="live" select="'off'" />
-					<xsl:with-param name="value">
-						<xsl:choose>
-							<xsl:when test="@data">
-								<xsl:apply-templates select="ui:option[1]" mode="comboValue" />
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:apply-templates select=".//ui:option[@selected][1]" mode="comboValue" />
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:with-param>
-					<xsl:with-param name="myLabel" select="$myLabel[1]"/>
-				</xsl:call-template>
-			</xsl:element>
-			<ul id="{$listId}" role="listbox" aria-controls="{$id}" hidden="hidden">
-				<xsl:if test="not(*)">
-					<xsl:attribute name="aria-busy">
-						<xsl:copy-of select="$t"/>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:apply-templates mode="comboDataList" />
-			</ul>
-		</div>
+			</xsl:if>
+			<xsl:apply-templates mode="comboDataList" />
+		</ul>
 	</xsl:template>
 </xsl:stylesheet>

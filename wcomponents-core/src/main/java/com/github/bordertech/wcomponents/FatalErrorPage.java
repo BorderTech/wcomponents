@@ -55,7 +55,6 @@ public class FatalErrorPage extends AbstractWComponent implements ErrorPage {
 			writer.println(getMessage());
 
 			if (developerFriendly) {
-				// TODO: This should not emit mark-up
 				writer.println("<pre style=\"background: lightgrey\">");
 				writer.println("Additional details for the developer:");
 				writer.println();

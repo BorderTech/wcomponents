@@ -35,7 +35,7 @@
 
 			<xsl:choose>
 				<xsl:when test="$readOnly=1">
-					<xsl:attribute name="${wc.ui.label.attribute.readonlyFor}">
+					<xsl:attribute name="data-wc-rofor">
 						<xsl:value-of select="@for"/>
 					</xsl:attribute>
 				</xsl:when>
