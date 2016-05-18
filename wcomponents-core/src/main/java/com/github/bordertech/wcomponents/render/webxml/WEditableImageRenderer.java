@@ -24,6 +24,12 @@ final class WEditableImageRenderer extends AbstractWebXmlRenderer {
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		WEditableImage editableImage = (WEditableImage) component;
 		XmlStringBuilder xml = renderContext.getWriter();
+		
+		// No image set
+		if (editableImage.getImage() == null && editableImage.getImageUrl() == null) {
+			return;
+		}
+		
 		WImageRenderer.renderTagOpen(editableImage, xml);
 		WComponent uploader = editableImage.getEditUploader();
 		if (uploader != null) {
