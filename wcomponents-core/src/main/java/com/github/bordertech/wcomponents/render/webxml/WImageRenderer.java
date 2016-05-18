@@ -35,11 +35,6 @@ final class WImageRenderer extends AbstractWebXmlRenderer {
 	 */
 	protected static void renderTagOpen(final WImage imageComponent, final XmlStringBuilder xml) {
 
-		// No image set
-		if (imageComponent.getImage() == null && imageComponent.getImageUrl() == null) {
-			return;
-		}
-
 		// Check for alternative text on the image
 		String alternativeText = imageComponent.getAlternativeText();
 		if (alternativeText == null) {
@@ -80,6 +75,12 @@ final class WImageRenderer extends AbstractWebXmlRenderer {
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		WImage imageComponent = (WImage) component;
 		XmlStringBuilder xml = renderContext.getWriter();
+		
+		// No image set
+		if (imageComponent.getImage() == null && imageComponent.getImageUrl() == null) {
+			return;
+		}
+		
 		renderTagOpen(imageComponent, xml);
 		xml.appendEnd();
 	}
