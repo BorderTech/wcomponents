@@ -27,10 +27,16 @@
 				<xsl:if test="@valign">
 					<xsl:value-of select="concat('  wc_fl_', @valign)"/>
 				</xsl:if>
-				<xsl:call-template name="getHVGapClass"/>
-				<xsl:call-template name="getHVGapClass">
-					<xsl:with-param name="isVGap" select="1"/>
-				</xsl:call-template>
+				<xsl:choose>
+					<xsl:when test="@align='vertical'">
+						<xsl:call-template name="getHVGapClass">
+							<xsl:with-param name="isVGap" select="1"/>
+						</xsl:call-template>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:call-template name="getHVGapClass"/>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:attribute>
 			<xsl:apply-templates select="ui:cell[node()]" mode="fl"/>
 		</div>
