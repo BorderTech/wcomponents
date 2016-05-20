@@ -87,7 +87,7 @@ define(["wc/dom/attribute",
 					return 1;
 				}
 				if (totalPages - currentPage <= NUM_BEFORE_AFTER_CURRENT_PAGE_OPTIONS) {
-					return totalPages - NUM_PAGE_OPTIONS + 2;
+					return Math.max(totalPages - NUM_PAGE_OPTIONS + 2, 1);
 				}
 				return currentPage - NUM_BEFORE_AFTER_CURRENT_PAGE_OPTIONS;
 			}
