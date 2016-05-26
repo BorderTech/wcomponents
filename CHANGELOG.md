@@ -1,5 +1,11 @@
 # Change log
 
+# Release 1.1.7
+## Bug fixes
+* Table pagination select mis-calculation #641
+* Fix multiformcomponent plus icon #644
+  (Issues)[https://github.com/BorderTech/wcomponents/issues?q=milestone%3A1.1.7]
+
 # Release 1.1.6
 ## Bug fixes
 * #626, #629, #631, #634, #635
