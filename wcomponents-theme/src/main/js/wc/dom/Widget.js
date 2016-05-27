@@ -388,6 +388,14 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 	};
 
 	/**
+	 * Creates a clone of this widget.
+	 * @returns {module:wc/dom/Widget} A clone of this widget.
+	 */
+	Widget.prototype.clone = function() {
+		return this.extend("", {});
+	};
+
+	/**
 	 * Test an element against a Widget (or Widget array) to determine if the element is described by a Widget. This
 	 * Allows us to test an element against many Widgets at once rather than having to test individually against many
 	 * instances of Widget.

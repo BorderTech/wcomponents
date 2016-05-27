@@ -44,7 +44,7 @@ define(["wc/dom/initialise",
 			 */
 			var TABLE_WRAPPER = common.WRAPPER,
 				SORTABLE_TABLE = common.TABLE.extend("", {"sortable": null}),
-				THEAD = common.THEAD,
+				THEAD = common.THEAD.clone(),
 				SORT_CONTROL = common.TH.extend("", {"aria-sort": null}),
 				ID_EXTENDER = "_thh",
 				BOOTSTRAPPED = "wc.ui.table.sort.BS",

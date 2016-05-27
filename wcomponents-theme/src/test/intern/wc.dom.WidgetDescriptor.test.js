@@ -705,6 +705,18 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				expected = "input[required][type~=\"" + types[i] + "\"]";
 				assert.strictEqual(inputs[i].toString(), expected, "Widget.toString not as expected");
 			}
+		},
+
+		testClone : function() {
+			var widget = new Widget("div"),
+				widgetClone = widget.clone();
+
+			assert.equal(widgetClone.toString(), widget.toString(), "original and clone should have same QS");
+
+			widgetClone.descendFrom(fooDiv);
+
+			assert.equal(widget.toString(), "div", "original widget should not be modified");
+			assert.notEqual(widgetClone.toString(), "div", "clone widget should be modified");
 		}
 	});
 });
