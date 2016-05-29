@@ -3,7 +3,7 @@
 # Release 1.1.8
 ## Bug fixes
 * Table constraints enforced #647
-  [Issues]([https://github.com/BorderTech/wcomponents/issues?q=milestone%3A1.1.8)
+  [Issues](https://github.com/BorderTech/wcomponents/issues?q=milestone%3A1.1.8)
 
 # Release 1.1.7
 ## Bug fixes
