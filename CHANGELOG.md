@@ -1,5 +1,18 @@
 # Change log
 
+# API Changes
+* Added constructors to FlowLayout:
+  * FlowLayout(Alignment, int) and
+  * FlowLayout(Alignment, int, ContentAlignment).
+* Deprecated constructor FlowLayout(Alignment, int, int) in favour of FlowLayout(Alignment, int).
+* Deprecated constructor FlowLayout(Alignment, int, int, ContentAlignment) in favour of
+  FlowLayout(Alignment, int, ContentAlignment).
+
+# Bug Fixes
+* FlowLayoutRenderer #636
+
+*
+
 # Release 1.1.8
 ## Bug fixes
 * Table constraints enforced #647
