@@ -1084,7 +1084,22 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * The use can reopen it when they are done messing with the viewport.
 		 */
 		function reposEvent() {
-			hideCalendar();
+			var cal,
+				getCompStyle = window.getComputedStyle,
+				top,
+				left;
+			if (!getCompStyle) {
+				hideCalendar();
+			}
+
+			if ((cal = getCal())) {
+				top = getCompStyle(cal)["top"];
+				left = getCompStyle(cal)["left"];
+
+				if (!(top === "0px" && left === "0px")) {
+					hideCalendar();
+				}
+			}
 		}
 
 		/**
