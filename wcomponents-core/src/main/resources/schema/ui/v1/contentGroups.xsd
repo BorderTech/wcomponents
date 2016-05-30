@@ -74,7 +74,6 @@ The XML schema for a WComponent page.
 			<xs:element ref="ui:text" />
 			<xs:element ref="ui:textarea" />
 			<xs:element ref="ui:textfield" />
-			<xs:element ref="ui:tracking" />
 			<xs:element ref="ui:tree" />
 			<xs:element ref="ui:validationerrors" />
 			<xs:element ref="ui:version" />
