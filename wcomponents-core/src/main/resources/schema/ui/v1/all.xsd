@@ -68,7 +68,7 @@
 	<xs:include schemaLocation="text.xsd" />
 	<xs:include schemaLocation="textArea.xsd" />
 	<xs:include schemaLocation="textField.xsd" />
-	<xs:include schemaLocation="tracking.xsd"/>
+	<xs:include schemaLocation="analytic.xsd"/>
 	<xs:include schemaLocation="tree.xsd"/>
 	<xs:include schemaLocation="validationErrors.xsd" />
 	<xs:include schemaLocation="version.xsd" />
