@@ -6,6 +6,7 @@
 	<xsl:import href="wc.ui.root.n.externalScript.xsl"/>
 	<xsl:import href="wc.common.registrationScripts.xsl"/>
 	<xsl:import href="wc.ui.root.n.wcBodyClass.xsl"/>
+	<xsl:import href="wc.ui.root.n.webAnalytics.xsl"/>
 	<!--
 		Some meta elements have to be VERY early to work reliably. Put them here.
 
@@ -77,6 +78,7 @@
 				-->
 				<xsl:apply-templates select="ui:application/ui:js" mode="inHead"/>
 				<xsl:apply-templates select=".//html:base|.//html:link[not(@rel='icon' or @rel='shortcut icon' or @rel='stylesheet')]|.//html:meta" mode="inHead"/>
+				<xsl:call-template name="webAnalytics"/>
 			</head>
 			<xsl:variable name="bodyClass">
 				<xsl:call-template name="wcBodyClass"/>
