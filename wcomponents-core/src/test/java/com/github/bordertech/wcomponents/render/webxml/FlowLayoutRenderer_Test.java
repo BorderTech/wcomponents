@@ -11,10 +11,12 @@ import org.xml.sax.SAXException;
 /**
  * Junit test case for {@link FlowLayoutRenderer}.
  *
- * @author Yiannis Paschalidis
+ * @author Yiannis Paschalidis, Mark Reeves
  * @since 1.0.0
  */
 public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
+
+	private static final int GAP = 12;
 
 	@Test
 	public void testDoRenderWhenEmpty() throws IOException, SAXException, XpathException {
@@ -35,13 +37,8 @@ public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		final String text2 = "FlowRenderer_Test.testPaint.text2";
 
 		WPanel panel = new WPanel();
-		panel.setLayout(new FlowLayout(FlowLayout.Alignment.LEFT, 3, 4));
+		panel.setLayout(new FlowLayout(FlowLayout.Alignment.LEFT));
 		assertSchemaMatch(panel);
-
-		assertXpathEvaluatesTo("3", "//ui:panel/ui:flowlayout/@hgap", panel);
-		assertXpathEvaluatesTo("4", "//ui:panel/ui:flowlayout/@vgap", panel);
-		assertXpathEvaluatesTo("left", "//ui:panel/ui:flowlayout/@align", panel);
-		assertXpathNotExists("//ui:panel/ui:flowlayout/ui:cell", panel);
 
 		panel.add(new WText(text1));
 		panel.add(new WText(text2));
@@ -108,4 +105,81 @@ public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("bottom", "//ui:panel/ui:flowlayout/@valign", panel);
 	}
 
+	@Test
+	public void testHGapNoDefault() throws IOException, SAXException, XpathException {
+		WPanel panel = new WPanel();
+		panel.setLayout(new FlowLayout());
+		assertXpathNotExists("//ui:panel/ui:flowlayout/@hgap", panel);
+	}
+
+	@Test
+	public void testHGapLeft() throws IOException, SAXException, XpathException {
+		WPanel panel = new WPanel();
+		panel.setLayout(new FlowLayout(FlowLayout.Alignment.LEFT, GAP, 0));
+		assertSchemaMatch(panel);
+		assertXpathEvaluatesTo(String.valueOf(GAP), "//ui:panel/ui:flowlayout/@hgap", panel);
+	}
+
+	@Test
+	public void testHGapCenter() throws IOException, SAXException, XpathException {
+		WPanel panel = new WPanel();
+		panel.setLayout(new FlowLayout(FlowLayout.Alignment.CENTER, GAP, 0));
+		assertSchemaMatch(panel);
+		assertXpathEvaluatesTo(String.valueOf(GAP), "//ui:panel/ui:flowlayout/@hgap", panel);
+	}
+
+	@Test
+	public void testHGapRight() throws IOException, SAXException, XpathException {
+		WPanel panel = new WPanel();
+		panel.setLayout(new FlowLayout(FlowLayout.Alignment.RIGHT, GAP, 0));
+		assertSchemaMatch(panel);
+		assertXpathEvaluatesTo(String.valueOf(GAP), "//ui:panel/ui:flowlayout/@hgap", panel);
+	}
+
+	@Test
+	public void testHGapVertical() throws IOException, SAXException, XpathException {
+		WPanel panel = new WPanel();
+		panel.setLayout(new FlowLayout(FlowLayout.Alignment.VERTICAL, GAP, 0));
+		assertSchemaMatch(panel);
+		assertXpathNotExists("//ui:panel/ui:flowlayout/@hgap", panel);
+	}
+
+	@Test
+	public void testVGapNoDefault() throws IOException, SAXException, XpathException {
+		WPanel panel = new WPanel();
+		panel.setLayout(new FlowLayout());
+		assertXpathNotExists("//ui:panel/ui:flowlayout/@vgap", panel);
+	}
+
+	@Test
+	public void testVGapLeft() throws IOException, SAXException, XpathException {
+		WPanel panel = new WPanel();
+		panel.setLayout(new FlowLayout(FlowLayout.Alignment.LEFT, 0, GAP));
+		assertSchemaMatch(panel);
+		assertXpathNotExists("//ui:panel/ui:flowlayout/@vgap", panel);
+	}
+
+	@Test
+	public void testVGapCenter() throws IOException, SAXException, XpathException {
+		WPanel panel = new WPanel();
+		panel.setLayout(new FlowLayout(FlowLayout.Alignment.CENTER, 0, GAP));
+		assertSchemaMatch(panel);
+		assertXpathNotExists("//ui:panel/ui:flowlayout/@vgap", panel);
+	}
+
+	@Test
+	public void testVGapRight() throws IOException, SAXException, XpathException {
+		WPanel panel = new WPanel();
+		panel.setLayout(new FlowLayout(FlowLayout.Alignment.RIGHT, 0, GAP));
+		assertSchemaMatch(panel);
+		assertXpathNotExists("//ui:panel/ui:flowlayout/@vgap", panel);
+	}
+
+	@Test
+	public void testVGapVertical() throws IOException, SAXException, XpathException {
+		WPanel panel = new WPanel();
+		panel.setLayout(new FlowLayout(FlowLayout.Alignment.VERTICAL, 0, GAP));
+		assertSchemaMatch(panel);
+		assertXpathEvaluatesTo(String.valueOf(GAP), "//ui:panel/ui:flowlayout/@vgap", panel);
+	}
 }

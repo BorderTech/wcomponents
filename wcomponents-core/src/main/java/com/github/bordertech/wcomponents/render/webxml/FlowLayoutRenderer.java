@@ -28,13 +28,14 @@ final class FlowLayoutRenderer extends AbstractWebXmlRenderer {
 		FlowLayout layout = (FlowLayout) panel.getLayout();
 		int hgap = layout.getHgap();
 		int vgap = layout.getVgap();
+		FlowLayout.Alignment align = layout.getAlignment();
 
 		xml.appendTagOpen("ui:flowlayout");
 
-		xml.appendOptionalAttribute("hgap", hgap > 0, hgap);
-		xml.appendOptionalAttribute("vgap", vgap > 0, vgap);
+		xml.appendOptionalAttribute("hgap", align != FlowLayout.Alignment.VERTICAL && hgap > 0, hgap);
+		xml.appendOptionalAttribute("vgap", align == FlowLayout.Alignment.VERTICAL && vgap > 0, vgap);
 
-		switch (layout.getAlignment()) {
+		switch (align) {
 			case RIGHT: {
 				xml.appendAttribute("align", "right");
 				break;
