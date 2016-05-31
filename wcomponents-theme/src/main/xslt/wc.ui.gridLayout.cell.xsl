@@ -25,7 +25,7 @@
 			<xsl:otherwise>
 				<div>
 					<xsl:attribute name="class">
-						<xsl:text>wc-row</xsl:text>
+						<xsl:text>wc_gl_row</xsl:text>
 						<xsl:call-template name="getHVGapClass">
 							<xsl:with-param name="gap" select="$hgap"/>
 						</xsl:call-template>
