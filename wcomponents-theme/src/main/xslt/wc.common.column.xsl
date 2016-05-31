@@ -24,13 +24,11 @@
 					<xsl:if test="not(self::ui:column)">
 						<xsl:text> wc-column</xsl:text>
 					</xsl:if>
+					<xsl:if test="$width and $width != 0">
+						<xsl:value-of select="concat(' wc_col_',$width)"/>
+					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
-			<xsl:if test="$width and $width != 0">
-				<xsl:attribute name="style">
-					<xsl:value-of select="concat('width:',$width,'%;')"/>
-				</xsl:attribute>
-			</xsl:if>
 			<xsl:apply-templates/>
 		</div>
 	</xsl:template>

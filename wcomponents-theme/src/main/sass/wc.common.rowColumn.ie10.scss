@@ -2,6 +2,5 @@
 @import 'mixins-common';
 
 .wc-column {
-	@include border-box;
 	vertical-align: top;
 }
