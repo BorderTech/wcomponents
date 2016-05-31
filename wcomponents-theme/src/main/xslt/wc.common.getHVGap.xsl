@@ -20,11 +20,14 @@
 				<xsl:when test="$gap != ''">
 					<xsl:value-of select="$gap"/>
 				</xsl:when>
-				<xsl:when test="$isVGap = 0">
+				<xsl:when test="@gap">
+					<xsl:value-of select="@gap"/>
+				</xsl:when>
+				<xsl:when test="$isVGap = 1">
 					<xsl:value-of select="@hgap"/>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="@vgap"/>
+					<xsl:value-of select="@hgap"/>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
@@ -32,11 +35,11 @@
 		<xsl:if test="$mygap and $mygap != '' and $mygap != '0'">
 			<xsl:text> wc_</xsl:text>
 			<xsl:choose>
-				<xsl:when test="$isVGap = 0">
-					<xsl:text>h</xsl:text>
+				<xsl:when test="$isVGap = 1">
+					<xsl:text>v</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:text>v</xsl:text>
+					<xsl:text>h</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
 			<xsl:text>gap_</xsl:text>

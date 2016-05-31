@@ -11,11 +11,22 @@ import org.xml.sax.SAXException;
 /**
  * Junit test case for {@link FlowLayoutRenderer}.
  *
- * @author Yiannis Paschalidis
+ * @author Yiannis Paschalidis, Mark Reeves
  * @since 1.0.0
  */
 public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 
+	/**
+	 * A space between components.
+	 */
+	private static final int GAP = 12;
+
+	/**
+	 * A different space used to differentiate the (now deprecated) hgap and vgap in the two-gap constructors.
+	 */
+	private static final int BIG_GAP = 24;
+
+	// The expected render of the default constructor.
 	@Test
 	public void testDoRenderWhenEmpty() throws IOException, SAXException, XpathException {
 		WPanel panel = new WPanel();
@@ -23,10 +34,10 @@ public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(panel);
 
 		assertXpathExists("//ui:panel/ui:flowlayout", panel);
-		assertXpathNotExists("//ui:panel/ui:flowlayout/ui:cell", panel);
-		assertXpathNotExists("//ui:panel/ui:flowlayout/@hgap", panel);
-		assertXpathNotExists("//ui:panel/ui:flowlayout/@vgap", panel);
 		assertXpathEvaluatesTo("center", "//ui:panel/ui:flowlayout/@align", panel);
+		assertXpathNotExists("//ui:panel/ui:flowlayout/ui:cell", panel);
+		assertXpathNotExists("//ui:panel/ui:flowlayout/@gap", panel);
+		assertXpathNotExists("//ui:panel/ui:flowlayout/@valign", panel);
 	}
 
 	@Test
@@ -35,13 +46,8 @@ public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		final String text2 = "FlowRenderer_Test.testPaint.text2";
 
 		WPanel panel = new WPanel();
-		panel.setLayout(new FlowLayout(FlowLayout.Alignment.LEFT, 3, 4));
+		panel.setLayout(new FlowLayout());
 		assertSchemaMatch(panel);
-
-		assertXpathEvaluatesTo("3", "//ui:panel/ui:flowlayout/@hgap", panel);
-		assertXpathEvaluatesTo("4", "//ui:panel/ui:flowlayout/@vgap", panel);
-		assertXpathEvaluatesTo("left", "//ui:panel/ui:flowlayout/@align", panel);
-		assertXpathNotExists("//ui:panel/ui:flowlayout/ui:cell", panel);
 
 		panel.add(new WText(text1));
 		panel.add(new WText(text2));
@@ -52,60 +58,80 @@ public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testRenderAlignmentOptions() throws IOException, SAXException, XpathException {
+	public void testRenderAlignment() throws IOException, SAXException, XpathException {
 		WPanel panel = new WPanel();
-		panel.setLayout(new FlowLayout());
-		assertSchemaMatch(panel);
+		String expected;
 
-		assertXpathExists("//ui:panel/ui:flowlayout", panel);
-		assertXpathEvaluatesTo("center", "//ui:panel/ui:flowlayout/@align", panel);
-
-		panel.setLayout(new FlowLayout(FlowLayout.Alignment.CENTER));
-		assertSchemaMatch(panel);
-		assertXpathEvaluatesTo("center", "//ui:panel/ui:flowlayout/@align", panel);
-
-		panel.setLayout(new FlowLayout(FlowLayout.Alignment.RIGHT));
-		assertSchemaMatch(panel);
-		assertXpathEvaluatesTo("right", "//ui:panel/ui:flowlayout/@align", panel);
-
-		panel.setLayout(new FlowLayout(FlowLayout.Alignment.LEFT));
-		assertSchemaMatch(panel);
-		assertXpathEvaluatesTo("left", "//ui:panel/ui:flowlayout/@align", panel);
-
-		panel.setLayout(new FlowLayout(FlowLayout.Alignment.VERTICAL));
-		assertSchemaMatch(panel);
-		assertXpathEvaluatesTo("vertical", "//ui:panel/ui:flowlayout/@align", panel);
+		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
+			panel.setLayout(new FlowLayout(a));
+			assertSchemaMatch(panel);
+			assertXpathExists("//ui:panel/ui:flowlayout", panel);
+			expected = a.toString().toLowerCase();
+			assertXpathEvaluatesTo(expected, "//ui:panel/ui:flowlayout/@align", panel);
+		}
 	}
 
 	@Test
-	public void testRenderContentAlignmentOptions() throws IOException, SAXException, XpathException {
+	public void testRenderContentAlignment() throws IOException, SAXException, XpathException {
 		WPanel panel = new WPanel();
-		panel.setLayout(new FlowLayout());
-		assertSchemaMatch(panel);
+		String expected;
 
-		assertXpathExists("//ui:panel/ui:flowlayout", panel);
-		assertXpathEvaluatesTo("center", "//ui:panel/ui:flowlayout/@align", panel);
+		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
+			for (FlowLayout.ContentAlignment c : FlowLayout.ContentAlignment.values()) {
+				panel.setLayout(new FlowLayout(a, c));
+				assertSchemaMatch(panel);
+				assertXpathExists("//ui:panel/ui:flowlayout", panel);
+				expected = a.toString().toLowerCase();
+				assertXpathEvaluatesTo(expected, "//ui:panel/ui:flowlayout/@align", panel);
 
-		panel.
-				setLayout(new FlowLayout(FlowLayout.Alignment.CENTER,
-						FlowLayout.ContentAlignment.TOP));
-		assertSchemaMatch(panel);
-		assertXpathEvaluatesTo("top", "//ui:panel/ui:flowlayout/@valign", panel);
+				if (a == FlowLayout.VERTICAL) {
+					assertXpathNotExists("//ui:panel/ui:flowlayout/@valign", panel);
+				} else {
+					expected = c.toString().toLowerCase();
+					assertXpathEvaluatesTo(expected, "//ui:panel/ui:flowlayout/@valign", panel);
+				}
+			}
+		}
+	}
 
-		panel.setLayout(new FlowLayout(FlowLayout.Alignment.CENTER,
-				FlowLayout.ContentAlignment.MIDDLE));
-		assertSchemaMatch(panel);
-		assertXpathEvaluatesTo("middle", "//ui:panel/ui:flowlayout/@valign", panel);
+	@Test
+	public void testRenderGap() throws IOException, SAXException, XpathException {
+		WPanel panel = new WPanel();
 
-		panel.setLayout(new FlowLayout(FlowLayout.Alignment.CENTER,
-				FlowLayout.ContentAlignment.BASELINE));
-		assertSchemaMatch(panel);
-		assertXpathEvaluatesTo("baseline", "//ui:panel/ui:flowlayout/@valign", panel);
+		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
+			panel.setLayout(new FlowLayout(a, GAP));
+			assertSchemaMatch(panel);
+			assertXpathEvaluatesTo(String.valueOf(GAP), "//ui:panel/ui:flowlayout/@gap", panel);
+		}
+	}
 
-		panel.setLayout(new FlowLayout(FlowLayout.Alignment.CENTER,
-				FlowLayout.ContentAlignment.BOTTOM));
-		assertSchemaMatch(panel);
-		assertXpathEvaluatesTo("bottom", "//ui:panel/ui:flowlayout/@valign", panel);
+	// Test that use of deprecated two-gap constructors output the expected gap
+	@Test
+	public void testHVGaps() throws IOException, SAXException, XpathException {
+		WPanel panel = new WPanel();
+		String expected;
+
+		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
+			panel.setLayout(new FlowLayout(a, GAP, BIG_GAP));
+			assertSchemaMatch(panel);
+			expected = a == FlowLayout.VERTICAL ? String.valueOf(BIG_GAP) : String.valueOf(GAP);
+			assertXpathEvaluatesTo(expected, "//ui:panel/ui:flowlayout/@gap", panel);
+		}
+	}
+
+	@Test
+	public void testHVGapsWithContentAlign() throws IOException, SAXException, XpathException {
+		WPanel panel = new WPanel();
+		String expected;
+
+		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
+			for (FlowLayout.ContentAlignment c : FlowLayout.ContentAlignment.values()) {
+				panel.setLayout(new FlowLayout(a, GAP, BIG_GAP, c));
+				assertSchemaMatch(panel);
+				expected = a == FlowLayout.VERTICAL ? String.valueOf(BIG_GAP) : String.valueOf(GAP);
+				assertXpathEvaluatesTo(expected, "//ui:panel/ui:flowlayout/@gap", panel);
+			}
+		}
 	}
 
 }
