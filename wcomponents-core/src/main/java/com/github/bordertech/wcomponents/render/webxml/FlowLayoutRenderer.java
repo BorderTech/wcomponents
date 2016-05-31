@@ -26,14 +26,10 @@ final class FlowLayoutRenderer extends AbstractWebXmlRenderer {
 		WPanel panel = (WPanel) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 		FlowLayout layout = (FlowLayout) panel.getLayout();
-		int hgap = layout.getHgap();
-		int vgap = layout.getVgap();
+		int gap = layout.getGap();
 		FlowLayout.Alignment align = layout.getAlignment();
 
 		xml.appendTagOpen("ui:flowlayout");
-
-		xml.appendOptionalAttribute("hgap", align != FlowLayout.Alignment.VERTICAL && hgap > 0, hgap);
-		xml.appendOptionalAttribute("vgap", align == FlowLayout.Alignment.VERTICAL && vgap > 0, vgap);
 
 		switch (align) {
 			case RIGHT: {
@@ -81,6 +77,7 @@ final class FlowLayoutRenderer extends AbstractWebXmlRenderer {
 							getContentAlignment());
 			}
 		}
+		xml.appendOptionalAttribute("gap", gap > 0, gap);
 
 		xml.appendClose();
 

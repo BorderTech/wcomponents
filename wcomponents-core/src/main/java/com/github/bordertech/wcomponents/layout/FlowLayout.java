@@ -1,4 +1,5 @@
 package com.github.bordertech.wcomponents.layout;
+import com.github.bordertech.wcomponents.WPanel;
 
 /**
  * FlowLayout is a {@link LayoutManager} that allows components to be added to a {@link WPanel} in an arrangement
@@ -86,16 +87,10 @@ public class FlowLayout implements LayoutManager {
 	private final Alignment alignment;
 
 	/**
-	 * The horizontal gap between the cells, measured in pixels. This is not used if the FlowLayout's Alignment is
-	 * VERTICAL.
+	 * The space between components added to the FlowLayout. The direction of the space is determined by the
+	 * FlowLayout's Alignment.
 	 */
-	private final int hgap;
-
-	/**
-	 * The vertical gap between the cells, measured in pixels. This is only used if the FlowLayout's Alignment is
-	 * VERTICAL.
-	 */
-	private final int vgap;
+	private final int gap;
 
 	/**
 	 * The relative vertical alignment of content in each cell.
@@ -177,18 +172,17 @@ public class FlowLayout implements LayoutManager {
 	 * alignment of content in the cells. The gap is applied as a vertical gap if the alignment is VERTICAL otherwise it
 	 * is applied as a horizontal gap. The content alignment is applied only if alignment is <em>not</em> VERTICAL.
 	 *
-	 * @param alignment the required alignment.
-	 * @param gap the required gap between components in the layout.
-	 * @param contentAlignment the alignment of the content in each cell when alignment is not vertical.
+	 * @param alignment the required alignment
+	 * @param gap the required gap between components in the layout
+	 * @param contentAlignment the alignment of the content in each cell when alignment is not vertical
 	 */
 	public FlowLayout(final Alignment alignment, final int gap, final ContentAlignment contentAlignment) {
 		if (alignment == null) {
 			throw new IllegalArgumentException("Alignment must be provided.");
 		}
 		this.alignment = alignment;
-		this.hgap = alignment == VERTICAL ? 0 : gap;
-		this.vgap = alignment == VERTICAL ? gap : 0;
-		this.contentAlignment = contentAlignment;
+		this.gap = gap;
+		this.contentAlignment = alignment == VERTICAL ? null : contentAlignment;
 	}
 
 	/**
@@ -200,16 +194,32 @@ public class FlowLayout implements LayoutManager {
 
 	/**
 	 * @return the horizontal gap between the cells, measured in pixels.
+	 * @deprecated use {@link #getGap}
 	 */
 	public int getHgap() {
-		return hgap;
+		if (this.alignment == Alignment.VERTICAL) {
+			return 0;
+		}
+		return gap;
 	}
 
 	/**
 	 * @return the vertical gap between the cells, measured in pixels.
+	 * @deprecated use {@link #getGap}
 	 */
 	public int getVgap() {
-		return vgap;
+		if (this.alignment == Alignment.VERTICAL) {
+			return gap;
+		}
+		return 0;
+	}
+
+
+	/**
+	 * @return the gap between the components added to the FlowLayout.
+	 */
+	public int getGap() {
+		return gap;
 	}
 
 	/**
