@@ -10,23 +10,12 @@
 		WMultiTextField
 		WRadioButtonSelect
 
-	Creates a legend element. If the component has a WLabel associated with it then
-	the legend is created by the transform for that WLabel using the explicit param.
+	Creates a legend element. If the component has a WLabel associated with it then the legend is created by the 
+	transform for that WLabel using the explicit param. If the component does not have a WLabel then its legend is
+	populated using a text equivalent fallback @accessibleText or @toolTip.
 
-	Otherwise a legend element is created and populated as follows:
-
-		1 if the element has its accessibleText property set then the legend uses
-		this text as its content and is moved out of viewport; otherwise
-
-		2 the legend has the default label text as its content and is left on
-		screen as this is an error state for WComponents as it contravenes our
-		attempts to implement accessibility guidelines. Whilst a fieldset is not a
-		labellable element it does require a legend (in HTML5) and the most
-		appropriate means to create a legend is by using a WLabel.
-
-	param myLabel: the WLabel "for" the calling component, if any. This will have already
-	been determined before calling this template so we do not have to re-interrogate the
-	label key.
+	param myLabel: the WLabel "for" the calling component, if any. This will have already been determined before calling
+	this template so we do not have to re-interrogate the label key.
 -->
 	<xsl:template name="makeLegend">
 		<xsl:param name="myLabel"/>
@@ -36,17 +25,17 @@
 					<xsl:with-param name="labelableElement" select="."/>
 				</xsl:apply-templates>
 			</xsl:when>
-			<xsl:when test="@toolTip">
-				<xsl:call-template name="makeTextLegend">
-					<xsl:with-param name="content">
-						<xsl:value-of select="normalize-space(@toolTip)"/>
-					</xsl:with-param>
-				</xsl:call-template>
-			</xsl:when>
 			<xsl:when test="@accessibleText">
 				<xsl:call-template name="makeTextLegend">
 					<xsl:with-param name="content">
 						<xsl:value-of select="normalize-space(@accessibleText)"/>
+					</xsl:with-param>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="@toolTip">
+				<xsl:call-template name="makeTextLegend">
+					<xsl:with-param name="content">
+						<xsl:value-of select="normalize-space(@toolTip)"/>
 					</xsl:with-param>
 				</xsl:call-template>
 			</xsl:when>

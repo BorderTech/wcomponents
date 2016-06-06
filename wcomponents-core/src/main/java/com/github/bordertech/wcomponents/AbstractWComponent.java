@@ -1636,8 +1636,6 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @deprecated use setToolTip
 	 */
 	@Override
 	public void setAccessibleText(final String text, final Serializable... args) {
@@ -1647,8 +1645,6 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @deprecated use getToolTip
 	 */
 	@Override
 	public String getAccessibleText() {
