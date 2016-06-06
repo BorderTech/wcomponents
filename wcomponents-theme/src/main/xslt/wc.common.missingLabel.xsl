@@ -3,13 +3,7 @@
 		A labelable component must be associated with one of:
 			WLabel
 			toolTip
-			accessibleText (deprecated in favour of toolTip)
-
-		If the component does not have a label or toolTip and is not part of
-		an ajaxResponse then we test for the presence of the accessibleText
-		attribute If this attribute is set we use it to create a label for the
-		component. If the accessibleText attribute is not set then a placeholder
-		warning label will be created if the component.
+			accessibleText
 
 		param id:
 		The component id, defaults to @id
