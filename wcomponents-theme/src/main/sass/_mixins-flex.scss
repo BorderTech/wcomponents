@@ -69,6 +69,13 @@
 	flex-direction: $direction;
 }
 
+/// Apply  _only_the flex display rule to an element.
+@mixin flex-display {
+	display: block; // See issue #561
+	display: -webkit-flex;
+	display: flex;
+}
+
 /// Apply a flex-wrap rule. This assumes a flex display is already set.
 /// @param {flex-wrap} $wrap [nowrap] The wrap type to set.
 @mixin flex-wrap($wrap: nowrap) {

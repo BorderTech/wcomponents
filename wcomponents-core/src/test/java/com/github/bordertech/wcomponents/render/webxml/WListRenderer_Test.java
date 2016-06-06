@@ -13,10 +13,20 @@ import org.xml.sax.SAXException;
 /**
  * Junit test case for {@link WListRenderer}.
  *
- * @author Yiannis Paschalidis
+ * @author Yiannis Paschalidis, Mark Reeves
  * @since 1.0.0
  */
 public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
+
+	/**
+	 * A reusable gap value.
+	 */
+	private static final int GAP = 12;
+
+	/**
+	 * A different reusable gap value. This is used to differentiate the (now deprecated) hgap and vgap properties.
+	 */
+	private static final int BIG_GAP = 18;
 
 	@Test
 	public void testLayoutCorrectlyConfigured() {
@@ -30,35 +40,24 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// empty list, no border
 		WList list = new WList(WList.Type.STRIPED);
 		list.setRepeatedComponent(new WText());
-		assertSchemaMatch(list);
-		assertXpathEvaluatesTo("striped", "//ui:listlayout/@type", list);
-		assertXpathNotExists("//ui:listlayout/@separator", list);
-		assertXpathNotExists("//ui:panel/@type", list);
 
-		list.setType(WList.Type.FLAT);
-		assertXpathEvaluatesTo("flat", "//ui:listlayout/@type", list);
-		assertXpathNotExists("//ui:listlayout/@separator", list);
-		assertXpathNotExists("//ui:panel/@type", list);
+		for (WList.Type t : WList.Type.values()) {
+			list.setType(t);
+			assertSchemaMatch(list);
+			assertXpathEvaluatesTo(t.toString().toLowerCase(), "//ui:listlayout/@type", list);
+			assertXpathNotExists("//ui:listlayout/@separator", list);
+			assertXpathNotExists("//ui:panel/@type", list);
+		}
 
-		list.setType(WList.Type.STACKED);
-		assertXpathEvaluatesTo("stacked", "//ui:listlayout/@type", list);
-		assertXpathNotExists("//ui:listlayout/@separator", list);
-		assertXpathNotExists("//ui:panel/@type", list);
-
-		list.setSeparator(WList.Separator.NONE);
-		assertXpathEvaluatesTo("stacked", "//ui:listlayout/@type", list);
-		assertXpathNotExists("//ui:listlayout/@separator", list);
-		assertXpathNotExists("//ui:panel/@type", list);
-
-		list.setSeparator(WList.Separator.BAR);
-		assertXpathEvaluatesTo("stacked", "//ui:listlayout/@type", list);
-		assertXpathEvaluatesTo("bar", "//ui:listlayout/@separator", list);
-		assertXpathNotExists("//ui:panel/@type", list);
-
-		list.setSeparator(WList.Separator.DOT);
-		assertXpathEvaluatesTo("stacked", "//ui:listlayout/@type", list);
-		assertXpathEvaluatesTo("dot", "//ui:listlayout/@separator", list);
-		assertXpathNotExists("//ui:listlayout[@type='box']", list);
+		for (WList.Separator s : WList.Separator.values()) {
+			list.setSeparator(s);
+			assertSchemaMatch(list);
+			if (s == WList.Separator.NONE) {
+				assertXpathNotExists("//ui:listlayout/@separator", list);
+			} else {
+				assertXpathEvaluatesTo(s.toString().toLowerCase(), "//ui:listlayout/@separator", list);
+			}
+		}
 	}
 
 	@Test
@@ -97,24 +96,24 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(list);
 	}
 
+
 	@Test
-	public void testRenderedFormatHgapVgap() throws IOException, SAXException, XpathException {
+	public void testRenderedFormaGap() throws IOException, SAXException, XpathException {
 		// No hgap, vgap
 		WList list = new WList(WList.Type.STRIPED);
 		list.setRepeatedComponent(new WText());
 		list.setData(Arrays.asList(new String[]{"row1", "row2", "row3"}));
 		assertSchemaMatch(list);
-		assertXpathNotExists("//ui:panel/ui:listlayout/@hgap", list);
-		assertXpathNotExists("//ui:panel/ui:listlayout/@vgap", list);
+		assertXpathNotExists("//ui:panel/ui:listlayout/@gap", list);
 
-		// With hgap, vgap
-		list = new WList(WList.Type.STRIPED, 1, 2);
+		// With gap
+		list = new WList(WList.Type.STRIPED, GAP);
 		list.setRepeatedComponent(new WText());
 		list.setData(Arrays.asList(new String[]{"row1", "row2", "row3"}));
 		assertSchemaMatch(list);
-		assertXpathEvaluatesTo("1", "//ui:panel/ui:listlayout/@hgap", list);
-		assertXpathEvaluatesTo("2", "//ui:panel/ui:listlayout/@vgap", list);
+		assertXpathEvaluatesTo(String.valueOf(GAP), "//ui:panel/ui:listlayout/@gap", list);
 	}
+
 
 	@Test
 	public void testRenderedWithMargins() throws IOException, SAXException, XpathException {
@@ -126,10 +125,10 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 		list.setMargin(margin);
 		assertXpathNotExists("//ui:panel/ui:margin", list);
 
-		margin = new Margin(1);
+		margin = new Margin(GAP);
 		list.setMargin(margin);
 		assertSchemaMatch(list);
-		assertXpathEvaluatesTo("1", "//ui:panel/ui:margin/@all", list);
+		assertXpathEvaluatesTo(String.valueOf(GAP), "//ui:panel/ui:margin/@all", list);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@north", list);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@east", list);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@south", list);
@@ -143,6 +142,27 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("2", "//ui:panel/ui:margin/@east", list);
 		assertXpathEvaluatesTo("3", "//ui:panel/ui:margin/@south", list);
 		assertXpathEvaluatesTo("4", "//ui:panel/ui:margin/@west", list);
+	}
+
+
+
+	// deprecated hgap vgap constructor render
+	@Test
+	public void testRenderedFormatHgapVgap() throws IOException, SAXException, XpathException {
+		WList list;
+
+		for (WList.Type t : WList.Type.values()) {
+			list = new WList(t, GAP, BIG_GAP);
+			list.setRepeatedComponent(new WText());
+			list.setData(Arrays.asList(new String[]{"row1", "row2", "row3"}));
+			assertSchemaMatch(list);
+
+			if (t == WList.Type.FLAT) {
+				assertXpathEvaluatesTo(String.valueOf(GAP), "//ui:panel/ui:listlayout/@gap", list);
+			} else {
+				assertXpathEvaluatesTo(String.valueOf(BIG_GAP), "//ui:panel/ui:listlayout/@gap", list);
+			}
+		}
 	}
 
 }
