@@ -174,8 +174,6 @@ public class ComponentModel implements WebModel, Externalizable {
 
 	/**
 	 * Adds extra textual information to describe a component. This is intended for screen-readers only.
-	 *
-	 * @deprecated use toolTip
 	 */
 	private Serializable accessibleText;
 
@@ -523,7 +521,6 @@ public class ComponentModel implements WebModel, Externalizable {
 
 	/**
 	 * @return Returns the accessible text.
-	 * @deprecated use getToolTip
 	 */
 	protected Serializable getAccessibleText() {
 		return accessibleText;
@@ -532,7 +529,6 @@ public class ComponentModel implements WebModel, Externalizable {
 	/**
 	 * @param text The accessible text to set.
 	 * @param args optional message format arguments.
-	 * @deprecated use setToolTip
 	 */
 	protected void setAccessibleText(final String text, final Serializable... args) {
 		this.accessibleText = I18nUtilities.asMessage(text, args);
