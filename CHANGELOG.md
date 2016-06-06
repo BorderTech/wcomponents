@@ -1,26 +1,31 @@
 # Change log
 
+# Release 1.1.8
+## Bug fixes
+* Table constraints enforced #647
+  [Issues](https://github.com/BorderTech/wcomponents/issues?q=milestone%3A1.1.8)
+
 # Release 1.1.7
 ## Bug fixes
 * Table pagination select mis-calculation #641
 * Fix multiformcomponent plus icon #644
-  (Issues)[https://github.com/BorderTech/wcomponents/issues?q=milestone%3A1.1.7]
+  [Issues]([https://github.com/BorderTech/wcomponents/issues?q=milestone%3A1.1.7)
 
 # Release 1.1.6
 ## Bug fixes
 * #626, #629, #631, #634, #635
-  (Issues)[https://github.com/BorderTech/wcomponents/issues?q=milestone%3A1.1.6]
+  [Issues](https://github.com/BorderTech/wcomponents/issues?q=milestone%3A1.1.6)
 
 # Release 1.1.5
 ## Bug fixes
 * #610 #611 #612 #613 #616
-  (Issues)[https://github.com/BorderTech/wcomponents/issues?q=milestone%3A1.1.5]
+  [Issues](https://github.com/BorderTech/wcomponents/issues?q=milestone%3A1.1.5)
 
 # Release 1.1.4
 
 ## Bug fixes
 * #562 #567 #574 #576 #577 #579 #583 #586 #588 #590 #592 #593 #601
-  (Issues)[https://github.com/BorderTech/wcomponents/issues?utf8=✓&q=is%3Aissue+milestone%3A1.1.4+]
+  [Issues](https://github.com/BorderTech/wcomponents/issues?utf8=✓&q=is%3Aissue+milestone%3A1.1.4+)
 
 # Release 1.1.3
 
