@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WLink;
 import com.github.bordertech.wcomponents.WLink.ImagePosition;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
@@ -65,6 +66,14 @@ final class WLinkRenderer extends AbstractWebXmlRenderer {
 						break;
 					default:
 						throw new SystemException("Unknown image position: " + imagePosition);
+				}
+			}
+			// we have an image. We must have a text equivalent
+			if (Util.empty(text) && Util.empty(link.getToolTip()) && Util.empty(link.getAccessibleText())) {
+				// If the link has an umageUrl but no text equivalent get the text equivalent off of the image
+				WImage linkImage = link.getImageHolder();
+				if (null != linkImage) {
+					xml.appendOptionalAttribute("toolTip", linkImage.getAlternativeText());
 				}
 			}
 		}

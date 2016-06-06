@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WFieldSet;
 import com.github.bordertech.wcomponents.WHorizontalRule;
+import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WLink;
 import com.github.bordertech.wcomponents.WLink.ImagePosition;
 import com.github.bordertech.wcomponents.WPanel;
@@ -176,7 +177,8 @@ public class LinkOptionsExample extends WPanel {
 		exampleLink.setText(tfLinkLabel.getText());
 
 		if (cbSetImage.isSelected()) {
-			exampleLink.setImage("/image/attachment.png");
+			WImage linkImage = new WImage("/image/attachment.png", "Add attachment");
+			exampleLink.setImage(linkImage.getImage());
 			exampleLink.setImagePosition((ImagePosition) ddImagePosition.getSelected());
 		}
 

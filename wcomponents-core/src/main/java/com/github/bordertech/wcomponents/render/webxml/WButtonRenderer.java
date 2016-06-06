@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WButton.ImagePosition;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.SystemException;
@@ -71,6 +72,14 @@ class WButtonRenderer extends AbstractWebXmlRenderer {
 						break;
 					default:
 						throw new SystemException("Unknown image position: " + imagePosition);
+				}
+			}
+
+			if (Util.empty(text) && Util.empty(button.getToolTip()) && Util.empty(button.getAccessibleText())) {
+				// If the button has an umageUrl but no text equivalent get the text equivalent off of the image
+				WImage imgHolder = button.getImageHolder();
+				if (null != imgHolder) {
+					xml.appendOptionalAttribute("toolTip", imgHolder.getAlternativeText());
 				}
 			}
 		}
