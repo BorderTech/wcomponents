@@ -11,6 +11,7 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
+import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WMessageBox;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
@@ -123,6 +124,12 @@ public class WButtonExample extends WPanel implements MessageContainer {
 				+ "If you are creating a button containing only an image you should be careful as it may not be obvious to the application user that the 'image' is actually a 'button'."
 				+ "The button must still have text content to adequately explain the button's purpose."));
 		add(makeImageButton("Save", true));
+
+		add(new ExplanatoryText("Button using a WImage description as the text equivalent."));
+		WButton button = new WButton();
+		WImage buttonImage = new WImage("/image/tick.png", "Mark as OK");
+		button.setImage(buttonImage.getImage());
+		add(button);
 
 		add(new WHeading(HeadingLevel.H3, "Image and text"));
 		add(new ExplanatoryText(
@@ -312,7 +319,7 @@ public class WButtonExample extends WPanel implements MessageContainer {
 		add(new ExplanatoryText("A button without a text label is very bad"));
 
 		add(new WHeading(HeadingLevel.H3, "WButton with a WImage but without a good label"));
-		WButton button = new WButton("\u00a0");
+		WButton button = new WButton("");
 		button.setImage("/image/help.png");
 		add(button);
 		add(new ExplanatoryText(
