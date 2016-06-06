@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.test.selenium.driver;
+package com.github.bordertech.wcomponents.test.selenium.element;
 
 import java.util.List;
 import org.openqa.selenium.By;
@@ -29,6 +29,9 @@ public class WComponentWebElement implements WebElement {
 	 * @param element the backing element.
 	 */
 	public WComponentWebElement(final WebElement element) {
+		if (element == null) {
+			throw new IllegalArgumentException("WComponetWebElement cannot wrap a null element.");
+		}
 		this.element = element;
 	}
 

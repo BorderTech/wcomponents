@@ -1,6 +1,8 @@
 package com.github.bordertech.wcomponents.test.selenium.driver;
 
+import com.github.bordertech.wcomponents.test.selenium.element.WComponentWebElement;
 import com.github.bordertech.wcomponents.test.selenium.WComponentSelenium;
+import com.github.bordertech.wcomponents.test.selenium.element.WDialogWebElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -52,6 +54,24 @@ public class WComponentWebDriver<T extends WebDriver> implements WebDriver, Take
 	 */
 	public T getDriver() {
 		return driver;
+	}
+
+	/**
+	 * Is there an open dialog on the screen?
+	 *
+	 * @return true if an open dialog exists, else false.
+	 */
+	public boolean isOpenDialog() {
+		return WComponentSelenium.isOpenDialog(this);
+	}
+
+	/**
+	 * Get the dialog.
+	 *
+	 * @return the dialog component.
+	 */
+	public WDialogWebElement getDialog() {
+		return WComponentSelenium.getDialog(this);
 	}
 
 	/**

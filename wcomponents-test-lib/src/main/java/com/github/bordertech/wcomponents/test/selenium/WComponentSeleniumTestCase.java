@@ -21,7 +21,7 @@ import org.openqa.selenium.WebDriver;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class WComponentSeleniumTestCase extends WComponentTestCase {
+public abstract class WComponentSeleniumTestCase extends WComponentTestCase {
 
 	/**
 	 * The logger instance for this class.

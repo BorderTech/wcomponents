@@ -1,10 +1,12 @@
 package com.github.bordertech.wcomponents.test.selenium;
 
+import com.github.bordertech.wcomponents.test.selenium.element.WDialogWebElement;
 import com.github.bordertech.wcomponents.util.Config;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.BooleanUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -133,6 +135,33 @@ public final class WComponentSelenium {
 		WebDriverWait wait = new WebDriverWait(driver, timeoutSeconds);
 		wait.pollingEvery(pollingMilliseconds, TimeUnit.MILLISECONDS);
 		wait.until(getPageReadyCondition());
+	}
+
+	/**
+	 * Is there an open dialog on the screen?
+	 *
+	 * @param driver the WebDriver.
+	 * @return true if an open dialog exists, else false.
+	 */
+	public static boolean isOpenDialog(final WebDriver driver) {
+		try {
+			driver.findElement(By.cssSelector(WDialogWebElement.getOpenDialogCssSelector()));
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Get the screen's dialog, whether it is open or not.
+	 *
+	 * @param driver the WebDriver.
+	 *
+	 * @return a WDialogWebElement for the dialog.
+	 */
+	public static WDialogWebElement getDialog(final WebDriver driver) {
+		WebElement dialog = driver.findElement(By.cssSelector(WDialogWebElement.getDialogCssSelector()));
+		return new WDialogWebElement(dialog);
 	}
 
 	/**
