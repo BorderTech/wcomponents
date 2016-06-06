@@ -6,7 +6,7 @@
 	-->
 	<xsl:template name="gridCell">
 		<xsl:param name="width" />
-		<div class="wc-cell wc-column">
+		<div class="wc-cell">
 			<xsl:if test="$width!=''">
 				<xsl:attribute name="style">
 					<xsl:value-of select="concat('width:',$width,';')"/>

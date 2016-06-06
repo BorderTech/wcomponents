@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples.layout;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
@@ -8,6 +9,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.GridLayout;
 
 /**
@@ -18,6 +20,16 @@ import com.github.bordertech.wcomponents.layout.GridLayout;
  * @since 1.0.0
  */
 public class GridLayoutExample extends WContainer {
+
+	/**
+	 * A small gap between components.
+	 */
+	private static final int SMALL_GAP = 8;
+
+	/**
+	 * A larger gap between components.
+	 */
+	private static final int LARGE_GAP = 8;
 
 	/**
 	 * Creates a GridLayoutExample.
@@ -36,7 +48,7 @@ public class GridLayoutExample extends WContainer {
 		WPanel simplePanel = new WPanel();
 		simplePanel.setLayout(new GridLayout(0, 3));
 
-		add(new WHeading(WHeading.MAJOR, "Grid layout - 3 cols, mixed size content"));
+		add(new WHeading(HeadingLevel.H2, "Grid layout - 3 cols, mixed size content"));
 		add(simplePanel);
 
 		simplePanel.add(new WText("WText"));
@@ -45,10 +57,10 @@ public class GridLayoutExample extends WContainer {
 		simplePanel.add(textLabel);
 		simplePanel.add(textField);
 
-		simplePanel.add(new WText(
+		simplePanel.add(new ExplanatoryText(
 				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada orci non diam dictum iaculis. "
-				+ "Curabitur nunc lectus, malesuada sit amet semper sed, facilisis sed erat. Curabitur in ipsum lacus. Quisque dictum "
-				+ "rhoncus mauris eget pellentesque. Mauris vel quam non magna pellentesque gravida. Mauris a placerat risus. Integer "
+				+ "Curabitur nunc lectus, malesuada sit amet semper sed, facilisis sed erat. \nCurabitur in ipsum lacus. Quisque dictum "
+				+ "rhoncus mauris eget pellentesque. Mauris vel quam non magna pellentesque gravida. Mauris a placerat risus. \nInteger "
 				+ "egestas orci orci, et tristique neque bibendum eu. In in pellentesque urna. Etiam ultrices id nunc ut tristique. "
 				+ "Suspendisse accumsan auctor bibendum."));
 
@@ -65,7 +77,7 @@ public class GridLayoutExample extends WContainer {
 			gridLayoutPanel.setLayout(new GridLayout(0, i));
 
 			add(new WHorizontalRule());
-			add(new WHeading(WHeading.SECTION, "Grid layout - " + i + " cols"));
+			add(new WHeading(HeadingLevel.H3, "Grid layout - " + i + " cols"));
 			add(gridLayoutPanel);
 			addBoxes(gridLayoutPanel, i * 3 - i % 3); // give approx 3 rows, with a different number of boxes on the final row
 		}
@@ -74,7 +86,7 @@ public class GridLayoutExample extends WContainer {
 		gridLayoutPanel.setLayout(new GridLayout(2, 0));
 
 		add(new WHorizontalRule());
-		add(new WHeading(WHeading.SECTION, "Grid layout - 2 rows"));
+		add(new WHeading(HeadingLevel.H3, "Grid layout - 2 rows"));
 		add(gridLayoutPanel);
 		addBoxes(gridLayoutPanel, 12);
 
@@ -82,31 +94,31 @@ public class GridLayoutExample extends WContainer {
 		gridLayoutPanel.setLayout(new GridLayout(5, 0));
 
 		add(new WHorizontalRule());
-		add(new WHeading(WHeading.SECTION, "Grid layout - 5 rows, only enough components for 3"));
+		add(new WHeading(HeadingLevel.H3, "Grid layout - 5 rows, only enough components for 3"));
 		add(gridLayoutPanel);
 		addBoxes(gridLayoutPanel, 6);
 
-		gridLayoutPanel = new WPanel();
-		gridLayoutPanel.setLayout(new GridLayout(3, 12, 5, 0));
-
 		add(new WHorizontalRule());
-		add(new WHeading(WHeading.SECTION, "Grid layout - Horizontal gap of 5px"));
+		add(new WHeading(HeadingLevel.H3, "3 x 12 grid with horizontal gap"));
+
+		gridLayoutPanel = new WPanel();
+		gridLayoutPanel.setLayout(new GridLayout(3, 12, SMALL_GAP, 0));
 		add(gridLayoutPanel);
 		addBoxes(gridLayoutPanel, 36);
 
-		gridLayoutPanel = new WPanel();
-		gridLayoutPanel.setLayout(new GridLayout(3, 12, 0, 5));
 
 		add(new WHorizontalRule());
-		add(new WHeading(WHeading.SECTION, "Grid layout - Vertical gap of 5px"));
+		add(new WHeading(HeadingLevel.H3, "3 x 12 grid with vertical gap"));
+		gridLayoutPanel = new WPanel();
+		gridLayoutPanel.setLayout(new GridLayout(3, 12, 0, SMALL_GAP));
 		add(gridLayoutPanel);
 		addBoxes(gridLayoutPanel, 36);
 
-		gridLayoutPanel = new WPanel();
-		gridLayoutPanel.setLayout(new GridLayout(3, 12, 5, 5));
 
 		add(new WHorizontalRule());
-		add(new WHeading(WHeading.SECTION, "Grid layout - Horizontal and vertical gap of 5px"));
+		add(new WHeading(HeadingLevel.H3, "3 x 12 grid with horizontal and vertical gaps"));
+		gridLayoutPanel = new WPanel();
+		gridLayoutPanel.setLayout(new GridLayout(3, 12, SMALL_GAP, LARGE_GAP));
 		add(gridLayoutPanel);
 		addBoxes(gridLayoutPanel, 36);
 	}

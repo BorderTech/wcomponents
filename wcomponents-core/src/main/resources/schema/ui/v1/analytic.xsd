@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" 
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+
+	<xs:element name="analytic">
+		<xs:annotation>
+			<xs:documentation>
+				Screen level web analytics. This is used in ui:application to set page view tracking parameters and
+				configuration.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:attribute name="clientId" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>
+						All common enterprise level tools have some form of client identification. In most cases this
+						identifier can be set once in the theme at compile time and left alone but we have put this
+						attribute in so that many applications can use a common theme and set individual client
+						identifiers. Obviously it could even change per page view but that would be unusual.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="cd" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						<p><u>C</u>ookie <u>D</u>omain. This attribute maps to a domain (not a URI) which is used as
+						part of the configuration of tracking software. Each common tracking tool calls this property
+						something different but all of them use some form of domain identifier used to set and get
+						tracking cookies.</p>
+						<p>For most real uses this can be set once in the WComponent theme at compile time and
+						forgotten. It is not likely that an application would have to switch its cookie domain at run
+						time.</p>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="dcd" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						<p><u>D</u>ata <u>C</u>ollection <u>D</u>omain. This attribute maps to a domain
+						(not a URI) which is used as part of the configuration of tracking software. This is probably
+						not used by any sensible analytics tool but is required to provide support for IBM Web
+						Analytics (formerly IBM Core Metrics).</p>
+						<p>For most real uses this can be set once in the WComponent theme at compile time and
+						forgotten. It is not likely that an application would have to switch its data collection domain 
+						at run time.</p>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>
+						A human readable name for the trackable component. If this is not set then the page tracking
+						will use the component's id attribute which may or may not be desirable.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

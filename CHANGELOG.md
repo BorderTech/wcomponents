@@ -1,5 +1,21 @@
 # Change log
 
+## API Changes
+* FlowLayout API modified as part of fixing #636. This was required to remove ambiguity from the API.
+  * Added constructors to FlowLayout:
+    * `FlowLayout(Alignment, int)` and
+    * `FlowLayout(Alignment, int, ContentAlignment)`.
+  * Deprecated constructor `FlowLayout(Alignment, int, int)` in favour of `FlowLayout(Alignment, int)`.
+  * Deprecated constructor `FlowLayout(Alignment, int, int, ContentAlignment)` in favour of
+    `FlowLayout(Alignment, int, ContentAlignment)`.
+  * Deprecated `getHGap()` and `getVGap()` in favour of `getGap()`.
+
+## Bug Fixes
+* FlowLayoutRenderer output the hgap or vgap relevant to the Alignment #636.
+
+## Enhancements
+* Re-implemented basic support for theme-level inclusion of web analytics #398.
+
 # Release 1.1.8
 ## Bug fixes
 * Table constraints enforced #647
