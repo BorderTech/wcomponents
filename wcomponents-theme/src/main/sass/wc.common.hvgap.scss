@@ -57,6 +57,37 @@ $wc-gap-suffix-list: sm, med, lg, xl !default;
 	}
 }
 
+@include respond-phonelike { // reduce the gaps.
+	@each $cl in $wc-gap-suffix-list {
+		@if ($cl == sm) {
+			$size: 0;
+		}
+		@else if  ($cl == med) {
+			$size: $wc-gap-small;
+		}
+		@else {
+			$size: $wc-gap-normal;
+		}
+
+		.wc_hgap_#{$cl} {
+			> div,
+			> li {
+				padding-left: $size / 2;
+				padding-right: $size / 2;
+			 }
+		}
+
+		@if ($cl != sm) {
+			.wc_vgap_#{$cl} {
+				> div + div,
+				> li + li {
+					margin-top: $wc-gap-small;
+				 }
+			}
+		}
+	}
+}
+
 .wc_hgap_sm,
 .wc_hgap_med,
 .wc_hgap_lg,

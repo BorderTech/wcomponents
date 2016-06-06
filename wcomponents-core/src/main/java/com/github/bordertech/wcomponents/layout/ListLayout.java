@@ -3,13 +3,14 @@ package com.github.bordertech.wcomponents.layout;
 /**
  * ListLayout renders out its items in a list.
  *
- * @author Yiannis Paschalidis
+ * @author Yiannis Paschalidis, Mark Reeves
  * @since 1.0.0
  */
 public class ListLayout implements LayoutManager {
 
 	/**
-	 * An enumeration of possible values for horizontal alignment of column content.
+	 * An enumeration of possible values for horizontal alignment of the components added to the layout relative to the
+	 * containing WPanel.
 	 */
 	public enum Alignment {
 		/**
@@ -17,7 +18,7 @@ public class ListLayout implements LayoutManager {
 		 */
 		LEFT,
 		/**
-		 * Indicates that content should be horizontally centered in the column.
+		 * Indicates that content should be horizontally centered in the WPanel.
 		 */
 		CENTER,
 		/**
@@ -45,7 +46,8 @@ public class ListLayout implements LayoutManager {
 	}
 
 	/**
-	 * An enumeration of possible values for the item separator.
+	 * An enumeration of possible values for the item separator. When the ListLayout is ordered the separator is the
+	 * default ordering separator unless specifically set to Separator.NONE.
 	 */
 	public enum Separator {
 		/**
@@ -53,11 +55,11 @@ public class ListLayout implements LayoutManager {
 		 */
 		NONE,
 		/**
-		 * Indicates that the separator should be a bar (vertical line).
+		 * Indicates that the separator should be a bar (vertical line). Not used when the ListLayout is ordered.
 		 */
 		BAR,
 		/**
-		 * Indicates that the separator should be a dot.
+		 * Indicates that the separator should be a dot. Not used when the ListLayout is ordered.
 		 */
 		DOT
 	}
@@ -83,26 +85,44 @@ public class ListLayout implements LayoutManager {
 	private final boolean ordered;
 
 	/**
-	 * The horizontal gap between the list items, measured in pixels.
+	 * The gap between the components added to the layout.
 	 */
-	private final int hgap;
+	private final int gap;
 
 	/**
-	 * The vertical gap between the list items, measured in pixels.
+	 * Default constructor creates an unordered, LEFT aligned, DOT separated, STACKED list - i.e. a pretty much default
+	 * HTML list.
 	 */
-	private final int vgap;
+	public ListLayout() {
+		this(Type.STACKED, Alignment.LEFT, Separator.DOT, false, 0);
+	}
 
 	/**
-	 * Creates a ListLayout with the specified attributes.
-	 *
-	 * @param type the list type.
-	 * @param alignment the item alignment.
-	 * @param separator the separator to display between items.
-	 * @param ordered whether the list is an ordered list.
+	 * Creates a ListLayout with a specified type. The ListLayout will be unordered, leftAligned, and DOT separated.
+	 * @param type The type of list to create.
 	 */
-	public ListLayout(final Type type, final Alignment alignment, final Separator separator,
-			final boolean ordered) {
-		this(type, alignment, separator, ordered, 0, 0);
+	public ListLayout(final Type type) {
+		this(type, Alignment.LEFT, Separator.DOT, false, 0);
+	}
+
+	/**
+	 * Creates a stacked ListLayout with a specified ordered setting. The ListLayout will be stacked, left aligned, and
+	 * DOT separated (if not ordered) or numbered (if ordered).
+	 * @param ordered true to create an ordered list.
+	 */
+	public ListLayout(final boolean ordered) {
+		this(Type.STACKED, Alignment.LEFT, Separator.DOT, ordered, 0);
+	}
+
+
+
+	/**
+	 * Creates a ListLayout with a specified type. The ListLayout will be unordered, leftAligned, and DOT separated.
+	 * @param type he type of list to create
+	 * @param alignment the alignment of the list relative to its containing WPanel.
+	 */
+	public ListLayout(final Type type, final Alignment alignment) {
+		this(type, alignment, Separator.DOT, false, 0);
 	}
 
 	/**
@@ -112,17 +132,47 @@ public class ListLayout implements LayoutManager {
 	 * @param alignment the item alignment.
 	 * @param separator the separator to display between items.
 	 * @param ordered whether the list is an ordered list.
-	 * @param hgap the horizontal gap between the list items, measured in pixels.
-	 * @param vgap the vertical gap between the list items, measured in pixels.
+	 */
+	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered) {
+		this(type, alignment, separator, ordered, 0);
+	}
+
+	/**
+	 * Creates a ListLayout with the specified attributes.
+	 *
+	 * @param type the list type.
+	 * @param alignment the item alignment.
+	 * @param separator the separator to display between items.
+	 * @param ordered whether the list is an ordered list.
+	 * @param hgap The horizontal gap between the list items, measured in pixels. Used only when type is Type.FLAT.
+	 * @param vgap The vertical gap between the list items, measured in pixels. Used only when type is not Type.FLAT.
+	 *
+	 * @deprecated use {@link #ListLayout(Type, Alignment, Separator, boolean, int)}
 	 */
 	public ListLayout(final Type type, final Alignment alignment, final Separator separator,
 			final boolean ordered, final int hgap, final int vgap) {
+		this(type, alignment, separator, ordered, type == Type.FLAT ? hgap : vgap);
+	}
+
+	/**
+	 * Creates a ListLayout with the specified attributes.
+	 *
+	 * @param type the list type.
+	 * @param alignment the item alignment.
+	 * @param separator the separator to display between items.
+	 * @param ordered whether the list is an ordered list.
+	 * @param gap the gap between the components added to the layouts.
+	 */
+	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered,
+			final int gap) {
+		if (type == null) {
+			throw new IllegalArgumentException("Type must be provided.");
+		}
 		this.type = type;
 		this.alignment = alignment;
 		this.separator = separator;
 		this.ordered = ordered;
-		this.hgap = hgap;
-		this.vgap = vgap;
+		this.gap = gap;
 	}
 
 	/**
@@ -155,15 +205,30 @@ public class ListLayout implements LayoutManager {
 
 	/**
 	 * @return the horizontal gap between the list items, measured in pixels.
+	 * @deprecated use {@link #getGap()}
 	 */
 	public int getHgap() {
-		return hgap;
+		if (this.type == Type.FLAT) {
+			return gap;
+		}
+		return 0;
 	}
 
 	/**
 	 * @return the vertical gap between the list items, measured in pixels.
+	 * @deprecated use {@link #getGap()}
 	 */
 	public int getVgap() {
-		return vgap;
+		if (this.type == Type.FLAT) {
+			return 0;
+		}
+		return gap;
+	}
+
+	/**
+	 * @return the space between the components added to the layout.
+	 */
+	public int getGap() {
+		return gap;
 	}
 }

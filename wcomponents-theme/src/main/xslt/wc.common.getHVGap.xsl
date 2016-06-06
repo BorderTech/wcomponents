@@ -15,6 +15,7 @@
 	<xsl:template name="getHVGapClass">
 		<xsl:param name="gap"/>
 		<xsl:param name="isVGap" select="0"/>
+		
 		<xsl:variable name="mygap">
 			<xsl:choose>
 				<xsl:when test="$gap != ''">
@@ -24,7 +25,7 @@
 					<xsl:value-of select="@gap"/>
 				</xsl:when>
 				<xsl:when test="$isVGap = 1">
-					<xsl:value-of select="@hgap"/>
+					<xsl:value-of select="@vgap"/>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:value-of select="@hgap"/>
