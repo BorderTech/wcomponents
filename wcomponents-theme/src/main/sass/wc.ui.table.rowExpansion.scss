@@ -10,23 +10,23 @@
 .wc_table_rowexp_container {
 	+ td,
 	+ th {
-		tr[aria-level='2'] > & {
+		.wc_tbl_hierarchic > tr[aria-level='2'] > & {
 			padding-left: $table-cell-padding-left-right + $table-hierarchic-indent;
 		}
 
-		tr[aria-level='3'] > & {
+		.wc_tbl_hierarchic > tr[aria-level='3'] > & {
 			padding-left: $table-cell-padding-left-right + (2 * $table-hierarchic-indent);
 		}
 
-		tr[aria-level='4'] > & {
+		.wc_tbl_hierarchic > tr[aria-level='4'] > & {
 			padding-left: $table-cell-padding-left-right + (3 * $table-hierarchic-indent);
 		}
 
-		tr[aria-level='5'] > & {
+		.wc_tbl_hierarchic > tr[aria-level='5'] > & {
 			padding-left: $table-cell-padding-left-right + (4 * $table-hierarchic-indent);
 		}
 
-		tr[aria-level='6'] > & {
+		.wc_tbl_hierarchic > tr[aria-level='6'] > & {
 			padding-left: $table-cell-padding-left-right + (5 * $table-hierarchic-indent);
 		}
 		// Want more? add 'em yourself!
