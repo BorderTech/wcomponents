@@ -1,7 +1,8 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl" />
-	<xsl:import href="wc.ui.table.n.xsl"/>
 	<!--
 		Transform for ui:content child of a ui:subtr.
 	-->
@@ -21,6 +22,9 @@
 				<xsl:with-param name="additional">
 					<xsl:if test="$topRowIsStriped=1">
 						<xsl:text>wc_table_stripe</xsl:text>
+					</xsl:if>
+					<xsl:if test="$indent &gt; 0">
+						<xsl:value-of select="concat(' wc_tbl_indent_', $indent)"/>
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
@@ -48,11 +52,6 @@
 					<xsl:attribute name="colspan">
 						<xsl:value-of select="count(../../*) -1"/><!-- -1 because we do not count the ui:subtr -->
 					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="$indent &gt; 0">
-					<xsl:call-template name="cellIndentationHelper">
-						<xsl:with-param name="indent" select="$indent"/>
-					</xsl:call-template>
 				</xsl:if>
 				<xsl:apply-templates/>
 			</td>

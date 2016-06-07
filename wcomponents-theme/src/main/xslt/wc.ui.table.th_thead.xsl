@@ -1,41 +1,36 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:import href="wc.ui.table.n.xsl"/>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	<xsl:import href="wc.ui.table.n.tableAjaxController.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl" />
 	
 	<xsl:template match="ui:th" mode="thead">
 		<xsl:param name="hasRole" select="0"/>
 
 		<xsl:variable name="tableId" select="../../@id"/>
 		
-		<th id="{concat($tableId,'_thh', position())}" scope="col">
+		<th id="{concat($tableId,'_thh', position())}" scope="col" data-wc-columnidx="{position() - 1}">
 			<xsl:if test="$hasRole &gt; 0">
 				<xsl:attribute name="role">
 					<xsl:text>columnheader</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:attribute name="class">
-				<xsl:choose>
-					<xsl:when test="@align">
-						<xsl:value-of select="@align"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>left</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:attribute>
-			<xsl:attribute name="data-wc-columnidx">
-				<xsl:value-of select="position() - 1"/>
-			</xsl:attribute>
-			
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:value-of select="@align"/>
+				</xsl:with-param>
+			</xsl:call-template>
+
 			<xsl:if test="@sortable=$t">
 				<xsl:variable name="sortControl" select="../../ui:sort"/>
-				
+
 				<xsl:if test="$sortControl">
 					<xsl:attribute name="tabindex">0</xsl:attribute>
-					
+
 					<xsl:variable name="sortDesc" select="$sortControl/@descending"/>
 					<xsl:variable name="sortCol" select="$sortControl/@col"/>
-					
+
 					<xsl:variable name="isSorted">
 						<xsl:choose>
 							<xsl:when test="position()-1 = $sortCol">
@@ -46,7 +41,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:variable>
-					
+
 					<xsl:if test="$isSorted=1">
 						<xsl:attribute name="sorted">
 							<xsl:if test="$sortDesc=$t">
@@ -55,7 +50,7 @@
 							<xsl:text>1</xsl:text>
 						</xsl:attribute>
 					</xsl:if>
-					
+
 					<xsl:attribute name="aria-sort">
 						<xsl:choose>
 							<xsl:when test="$isSorted=0">
@@ -69,21 +64,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
-					
-					<xsl:attribute name="title">
-						<xsl:choose>
-							<xsl:when test="$isSorted=0">
-								<xsl:value-of select="$$${wc.ui.table.string.notSorted}"/>
-							</xsl:when>
-							<xsl:when test="$sortDesc=$t">
-								<xsl:value-of select="$$${wc.ui.table.string.sortedDesc}"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="$$${wc.ui.table.string.sortedAsc}"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:attribute>
-					
+
 					<xsl:variable name="sortMode">
 						<xsl:choose>
 							<xsl:when test="$sortControl/@mode">
@@ -94,7 +75,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:variable>
-					
+
 					<xsl:if test="$sortMode='dynamic'">
 						<xsl:call-template name="tableAjaxController">
 							<xsl:with-param name="tableId" select="$tableId"/>

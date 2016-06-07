@@ -7,7 +7,6 @@
 	<xsl:import href="wc.common.hField.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
-	<xsl:import href="wc.ui.table.n.xsl"/>
 	<xsl:import href="wc.ui.table.n.caption.xsl"/>
 	<xsl:import href="wc.ui.table.n.tableBottomControls.xsl"/>
 	<xsl:import href="wc.ui.table.n.topControls.xsl"/>
