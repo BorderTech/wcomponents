@@ -49,3 +49,16 @@ pre {
 	width: extend-to-zoom;
 	zoom: 1;
 }
+
+
+@include respond-med-device {
+	body {
+		font-size: $dt-font-size;
+	}
+}
+
+@include respond-large-device {
+	body {
+		font-size: $bigscreen-font-size;
+	}
+}

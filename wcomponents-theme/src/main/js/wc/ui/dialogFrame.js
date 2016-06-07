@@ -384,8 +384,6 @@ define(["wc/dom/event",
 					dialog.style.height = "";
 					dialog.style.top = "";
 					dialog.style.left = "";
-					dialog.style.minWidth = "";
-					dialog.style.minHeight = "";
 					dialog.style.margin = "";
 				}
 			};
@@ -405,14 +403,6 @@ define(["wc/dom/event",
 				}
 				if (obj.height) {
 					dialog.style.height = obj.height + UNIT;
-				}
-				if (!"${wc.ui.dialog.allowSmallerThanInitial}") {
-					if (obj.initWidth || obj.initWidth === 0) {
-						dialog.style.minWidth = obj.initWidth + UNIT;
-					}
-					if (obj.initHeight || obj.initHeight === 0) {
-						dialog.style.minHeight = obj.initHeight + UNIT;
-					}
 				}
 				if (obj.top || obj.top === 0) {
 					dialog.style.top = obj.top + UNIT;
