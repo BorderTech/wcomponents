@@ -47,7 +47,7 @@ define(["wc/has",
 		"wc/dom/keyWalker",
 		"wc/dom/isEventInLabel",
 		"wc/dom/isAcceptableTarget"],
-	/** @param has wc/has @param clearSelection wc/dom/clearSelection @param event wc/dom/event @param group wc/dom/group @param shed wc/dom/shed @param uid wc/dom/uid @param Widget wc/dom/Widget @param toArray wc/array/toArray @param formUpdateManager wc/dom/formUpdateManager @param keyWalker wc/dom/keyWalker @param isEventInLabel wc/dom/isEventInLabel @param isAcceptableEventTarget wc/dom/isAcceptableTarget @ignore */
+	/** @param has  @param clearSelection @param event  @param group @param shed @param uid @param Widget @param toArray @param formUpdateManager @param keyWalker @param isEventInLabel @param isAcceptableEventTarget @ignore */
 	function(has, clearSelection, event, group, shed, uid, Widget, toArray, formUpdateManager, keyWalker, isEventInLabel, isAcceptableEventTarget) {
 		"use strict";
 
@@ -56,7 +56,9 @@ define(["wc/has",
 			focus,
 			genericAnalog,
 			gridWidgets,
-			keyWalkerConfig;  // we only need one keywalker for all group based walking with aria-analogs
+			keyWalkerConfig,  // we only need one keywalker for all group based walking with aria-analogs
+			IGNORE_ROLES,
+			TRUE = "true";
 
 		/* circular dependencies */
 		require(["wc/dom/getFilteredGroup", "wc/dom/focus"], function($getFilteredGroup, $focus) {
@@ -100,6 +102,17 @@ define(["wc/has",
 					doneException = true;
 				}
 			}
+		}
+
+		/**
+		 * Is an analog in a read-only state?
+		 *
+		 * @function isReadOnly
+		 * @param {Element} element The element to test.
+		 * @returns {Boolean} true if element has attribute aria-readonly = "true".
+		 */
+		function isReadOnly(element) {
+			return element.getAttribute("aria-readonly") === TRUE;
 		}
 
 		/**
@@ -335,7 +348,7 @@ define(["wc/has",
 				}
 				else if (this.exclusiveSelect === this.SELECT_MODE.MIXED) {
 					if ((container = this.getGroupContainer(element))) {
-						if (container.getAttribute("aria-multiselectable") !== "true") {
+						if (container.getAttribute("aria-multiselectable") !== TRUE) {
 							deselectOthers = true;
 						}
 					}
@@ -435,7 +448,7 @@ define(["wc/has",
 		 */
 		AriaAnalog.prototype.clickEvent = function($event) {
 			var target = $event.target, element;
-			if (!$event.defaultPrevented && (element = this.getActivableFromTarget(target)) && !shed.isDisabled(element) && isAcceptableEventTarget(element, target)) {
+			if (!$event.defaultPrevented && (element = this.getActivableFromTarget(target)) && isAcceptableEventTarget(element, target)) {
 				this.activate(element, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
 			}
 		};
@@ -640,7 +653,7 @@ define(["wc/has",
 			try {
 				container = this.getGroupContainer(element);
 				isMultiSelect = container ? container.getAttribute("aria-multiselectable") : false;
-				if (this.exclusiveSelect === this.SELECT_MODE.MIXED && isMultiSelect === "true") {
+				if (this.exclusiveSelect === this.SELECT_MODE.MIXED && isMultiSelect === TRUE) {
 					selectMode = this.exclusiveSelect;
 					if (this.simpleSelection || SHIFT || CTRL) {
 						this.exclusiveSelect = this.SELECT_MODE.MULTIPLE;
@@ -743,9 +756,11 @@ define(["wc/has",
 		};
 
 		/**
-		 * determines if the "this" item found in an event listener is the first aria analog. This is a rudimentary
-		 * check to overcome the issue of all aria analogs listening for the same events with an ancestor lookup to
-		 * determine if they are the target. This results in multiple analogs responding if nested.
+		 * Determines if the "this" item found in an event listener is the closest actiave aria analog to the event (as
+		 * if we were handling the event on capture for all events). This is to overcome the issue of all aria analogs
+		 * listening for the same events with an ancestor lookup to determine if they are the target. This results in
+		 * multiple analogs responding if nested as we cannot rely on preventDefault() because we cannot rely on the
+		 * order in which the analogs handle an event.
 		 *
 		 * @function
 		 * @protected
@@ -754,27 +769,48 @@ define(["wc/has",
 		 * @returns {Boolean} true if the item is the first active analog found in the ancestor tree.
 		 */
 		AriaAnalog.prototype.isActiveAnalog = function(target, item) {
-			var firstAnalog, gridContainer,
-				IGNORE_ROLES = ["presentation", "banner", "application",
-					"alert", "tablist", "tabpanel",
-					"group", "heading", "rowheading", "columnheading",
-					"separator"], skip = false;
+			var firstAnalog, gridContainer, skip;
+
+			if (shed.isDisabled(item)) { // A disabled item cannot be an active analog.
+				return false;
+			}
+
+			// NOTE: We should not use focus.getFocusableAncestor or isAcceptableTarget here because we are only
+			// interested in whether the analog is the nearest analog. To see a case where isAcceptableTarget here would
+			// break something look at wc/ui/menu/MenuItem~clickEventHelper which gets an alternative activable element
+			// if the expected item is a menuitem but is not an acceptable event target if the menuitem contains a
+			// submenu and the click was on the submenu opener.
 
 			firstAnalog = genericAnalog.findAncestor(target);
-			if (firstAnalog === null || firstAnalog === item) {
+			if (!firstAnalog) {
 				return true;
 			}
 
+			if (firstAnalog === item && !isReadOnly(item)) {
+				return true;
+			}
+
+			IGNORE_ROLES = IGNORE_ROLES || ["presentation", "banner", "application", "alert", "tablist", "tabpanel", "group", "heading", "rowheader", "separator"];
+
 			while (firstAnalog && firstAnalog.parentNode) {
 				skip = false;
-				if (IGNORE_ROLES.indexOf(firstAnalog.getAttribute("role")) > -1 || firstAnalog.getAttribute("aria-readonly") === "true" || shed.isDisabled(firstAnalog)) {
+
+				if (IGNORE_ROLES.indexOf(firstAnalog.getAttribute("role")) > -1 || isReadOnly(firstAnalog) || shed.isDisabled(firstAnalog)) {
 					skip = true;
 				}
 
-				// ignore role gridcell if the nearest containing grid/treegid is aria-readonly as this state is inherited.
-				gridWidgets = gridWidgets || [new Widget("","",{"role": "grid"}), new Widget("","",{"role": "treegrid"})];
-				if (firstAnalog.getAttribute("role") === "gridcell" && (gridContainer = Widget.findAncestor(firstAnalog, gridWidgets)) && gridContainer.getAttribute("aria-readonly") === "true") {
-					skip = true;
+				// A column header is active if the column is sortable.
+				if (!skip && firstAnalog.getAttribute("role") === "columnheader") {
+					skip = !firstAnalog.getAttribute("aria-sort");
+				}
+				// NOTE: be aware we may eventually want to do the same with row header if we ever build row based sort.
+
+				if (!skip && firstAnalog.getAttribute("role") === "gridcell") {
+					// ignore role gridcell if the nearest containing grid/treegid is aria-readonly as this state is inherited.
+					gridWidgets = gridWidgets || [new Widget("","",{"role": "grid"}), new Widget("","",{"role": "treegrid"})];
+					if ((gridContainer = Widget.findAncestor(firstAnalog, gridWidgets)) && isReadOnly(gridContainer)) {
+						skip = true;
+					}
 				}
 
 				if (skip) {
@@ -783,7 +819,7 @@ define(["wc/has",
 				}
 				break;
 			}
-			return (firstAnalog === null || firstAnalog === item);
+			return (!firstAnalog || firstAnalog === item);
 		};
 
 		/**
@@ -826,14 +862,20 @@ define(["wc/has",
 		 * @returns {?Element} The activable aria analog ancestor of target.
 		 */
 		AriaAnalog.prototype.getActivableFromTarget = function(target) {
-			var element;
-			if (!isEventInLabel(target)) {
-				element = this.ITEM.findAncestor(target);
-				if (element && (shed.isDisabled(element) || !this.isActiveAnalog(target, element))) {
-					element = null;
-				}
+			var item;
+			if (isEventInLabel(target)) {
+				return null;
 			}
-			return element;
+
+			item = this.ITEM.findAncestor(target);
+			if (!item) {
+				return null;
+			}
+
+			if (this.isActiveAnalog(target, item)) {
+				return item;
+			}
+			return null;
 		};
 
 

@@ -19,7 +19,7 @@
 		
 		<xsl:variable name="hasRowSelection">
 			<xsl:choose>
-				<xsl:when test="ui:rowselection[@selectAll='text'] and ..//ui:tr[not(@unselectable=$t) and ancestor::ui:table[1]/@id=$id]">
+				<xsl:when test="ui:rowselection[@selectAll] and ..//ui:tr[not(@unselectable=$t) and ancestor::ui:table[1]/@id=$id]">
 					<xsl:number value="1"/>
 				</xsl:when>
 				<xsl:otherwise>

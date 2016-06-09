@@ -23,22 +23,19 @@
 	}
 }
 
-@include respond-phonelike {
-	.wc_table_top_controls {
-		display: block;
+@include respond-phone {
+	.wc-respond {
+		> .wc_table_top_controls {
+			@include flex-direction(column);
 
-		> div {
-			display: block;
-			text-align: left;
-			width: 100%;
+			> div {
+				@include flex-shrink(1);
 
-			+ div {
-				margin-top: $wc-gap-small;
+				&:last-child {
+					@include flex-justify-content(flex-start);
+					text-align: left;
+				}
 			}
-		}
-
-		> .wc_table_exp_cont {
-			text-align: left;
 		}
 	}
 }

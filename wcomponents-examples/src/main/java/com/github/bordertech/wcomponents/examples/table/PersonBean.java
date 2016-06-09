@@ -44,7 +44,12 @@ public final class PersonBean implements Serializable {
 	private List<TravelDoc> documents;
 
 	/**
-	 * Creates a PersonBean.
+	 * Is this item selectable when selection is on?
+	 */
+	private boolean selectable;
+
+	/**
+	 * Creates a selectable PersonBean.
 	 *
 	 * @param personId the person's unique id
 	 * @param firstName the person's first name.
@@ -53,10 +58,25 @@ public final class PersonBean implements Serializable {
 	 */
 	public PersonBean(final String personId, final String firstName, final String lastName,
 			final Date dateOfBirth) {
+		this(personId, firstName, lastName, dateOfBirth, true);
+	}
+
+	/**
+	 * Creates a PersonBean.
+	 *
+	 * @param personId the person's unique id
+	 * @param firstName the person's first name.
+	 * @param lastName the person's last name.
+	 * @param dateOfBirth the person's date of birth.
+	 * @param selectable the person is selectable.
+	 */
+	public PersonBean(final String personId, final String firstName, final String lastName,
+			final Date dateOfBirth, final boolean selectable) {
 		this.personId = personId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.dateOfBirth = dateOfBirth;
+		this.selectable = selectable;
 	}
 
 	/**
@@ -106,6 +126,20 @@ public final class PersonBean implements Serializable {
 	 */
 	public void setDateOfBirth(final Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
+	}
+
+	/**
+	 * @return true if the person is selectable.
+	 */
+	public boolean isSelectable() {
+		return selectable;
+	}
+
+	/**
+	 * @param selectable Indicates if this person may be selected.
+	 */
+	public void setSelectable(final boolean selectable) {
+		this.selectable = selectable;
 	}
 
 	/**

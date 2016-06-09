@@ -200,7 +200,7 @@ define(["wc/dom/ariaAnalog",
 			 */
 			this.clickEvent = function($event) {
 				var target = $event.target, element;
-				if (!$event.defaultPrevented && (element = this.getActivableFromTarget(target)) && !shed.isDisabled(element)) {
+				if (!$event.defaultPrevented && (element = this.getActivableFromTarget(target))) {
 					if (isAcceptable(element, target)) {
 						this.activate(element, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
 					}
