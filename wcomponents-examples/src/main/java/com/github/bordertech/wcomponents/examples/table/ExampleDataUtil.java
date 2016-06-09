@@ -34,18 +34,18 @@ public final class ExampleDataUtil {
 		data.add(new PersonBean("ID1", "Joe", "Bloggs", DateUtilities.createDate(1, 2, 1973)));
 		data.add(new PersonBean("ID2", "Richard", "Starkey", DateUtilities.createDate(4, 8, 1976)));
 		data.add(new PersonBean("ID3", "Peter", "Sellers", DateUtilities.createDate(21, 12, 1999)));
-		data.add(new PersonBean("ID4", "Tom", "Smith", DateUtilities.createDate(16, 9, 1963)));
+		data.add(new PersonBean("ID4", "Tom", "Smith", DateUtilities.createDate(16, 9, 1963), false));
 		data.add(new PersonBean("ID5", "Mary", "Jane", DateUtilities.createDate(2, 4, 1972)));
 		data.add(new PersonBean("ID6", "John", "Bonham", DateUtilities.createDate(5, 3, 1952)));
 		data.add(new PersonBean("ID7", "Nick", "Mason", DateUtilities.createDate(3, 5, 1946)));
-		data.add(new PersonBean("ID8", "James", "Osterberg", DateUtilities.createDate(4, 6, 1974)));
+		data.add(new PersonBean("ID8", "James", "Osterberg", DateUtilities.createDate(4, 6, 1974), false));
 		data.add(new PersonBean("ID9", "Kate", "Pierson", DateUtilities.createDate(7, 11, 1965)));
 		data.add(new PersonBean("ID10", "Saul", "Hudson", DateUtilities.createDate(5, 3, 1978)));
 		data.add(new PersonBean("ID11", "Kim", "Sung", DateUtilities.createDate(1, 10, 1945)));
 		data.add(new PersonBean("ID12", "Ahmed", "McCarthur", DateUtilities.createDate(15, 7, 1985)));
 		data.add(new PersonBean("ID13", "Nicholai", "Smith", DateUtilities.createDate(29, 4, 1996)));
 		data.add(new PersonBean("ID14", "Polly", "Vinyl", DateUtilities.createDate(15, 8, 1978)));
-		data.add(new PersonBean("ID15", "Ron", "Donald", DateUtilities.createDate(1, 1, 1923)));
+		data.add(new PersonBean("ID15", "Ron", "Donald", DateUtilities.createDate(1, 1, 1923), false));
 		data.add(new PersonBean("ID16", "Tom", "Smith", DateUtilities.createDate(5, 8, 1932)));
 
 		// Add documents

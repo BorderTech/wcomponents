@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.SimpleBeanBoundTableModel.LevelDetails;
 import com.github.bordertech.wcomponents.WBeanContainer;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDateField;
 import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WField;
@@ -43,7 +44,7 @@ import java.util.Set;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WTableOptionsExample extends WBeanContainer {
+public class WTableOptionsExample extends WContainer {
 
 	/**
 	 * Messages.
@@ -160,6 +161,11 @@ public class WTableOptionsExample extends WBeanContainer {
 	private final WCheckBox cbHasRowHeaders = new WCheckBox();
 
 	/**
+	 * Turn on responsive tables using the CSS class "wc-respond".
+	 */
+	private final WCheckBox cbEnableRespond = new WCheckBox();
+
+	/**
 	 * Construct the example.
 	 */
 	public WTableOptionsExample() {
@@ -244,6 +250,7 @@ public class WTableOptionsExample extends WBeanContainer {
 
 		layout.addField("Caption", tfCaption);
 		layout.addField("Use row headers", cbHasRowHeaders);
+		layout.addField("Enable responsive design for phones", cbEnableRespond);
 
 		// Apply Button
 		WButton apply = new WButton("Apply");
@@ -314,14 +321,13 @@ public class WTableOptionsExample extends WBeanContainer {
 		table.setBeanProperty(".");
 
 		// Setup model with column properties
-		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(
+		MyBeanBoundTableModel model = new MyBeanBoundTableModel(
 				new String[]{"firstName", "lastName",
 					"dateOfBirth"});
 		model.setSelectable(true);
 		model.setEditable(true);
 		model.setComparator(0, SimpleBeanBoundTableModel.COMPARABLE_COMPARATOR);
 		model.setComparator(1, SimpleBeanBoundTableModel.COMPARABLE_COMPARATOR);
-
 		table.setTableModel(model);
 
 		return table;
@@ -343,9 +349,8 @@ public class WTableOptionsExample extends WBeanContainer {
 		LevelDetails level1 = new LevelDetails("documents", TravelDocPanel.class);
 
 		// Setup model with column properties and the "expandable" level
-		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(
-				new String[]{"firstName", "lastName",
-					"dateOfBirth"}, level1);
+		MyBeanBoundTableModel model = new MyBeanBoundTableModel(new String[]{"firstName", "lastName", "dateOfBirth"},
+				level1);
 
 		model.setSelectable(true);
 		model.setEditable(true);
@@ -370,7 +375,7 @@ public class WTableOptionsExample extends WBeanContainer {
 		table.setBeanProperty(".");
 
 		// Setup model with column properties and the "level" to iterate on (ie more details)
-		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(
+		MyBeanBoundTableModel model = new MyBeanBoundTableModel(
 				new String[]{"firstName", "lastName",
 					"dateOfBirth"}, "more");
 
@@ -482,6 +487,7 @@ public class WTableOptionsExample extends WBeanContainer {
 	 */
 	private void applyTableSettings(final WTable table) {
 		table.setSelectMode(rbsSelect.getSelected());
+
 		table.setSelectAllMode(rbsSelectAll.getSelected());
 		table.setExpandMode(rbsExpand.getSelected());
 		table.setSortMode(rbsSorting.getSelected());
@@ -511,8 +517,7 @@ public class WTableOptionsExample extends WBeanContainer {
 			table.setPaginationLocation(WTable.PaginationLocation.AUTO);
 		} else {
 			// Options
-			table.setRowsPerPageOptions(
-					chbRowsPerPageOptions.isSelected() ? DEFAULT_ROWS_OPTIONS : null);
+			table.setRowsPerPageOptions(chbRowsPerPageOptions.isSelected() ? DEFAULT_ROWS_OPTIONS : null);
 			// Rows
 			int rows;
 			if (numRowsPerPage.isEmpty() || numRowsPerPage.getNumber().intValue() < 1) {
@@ -527,6 +532,8 @@ public class WTableOptionsExample extends WBeanContainer {
 			table.setRowsPerPage(rows);
 			table.setPaginationLocation(paginationControlsLocation.getSelected());
 		}
+		// enable responsive design for phones.
+		table.setHtmlClass(cbEnableRespond.isSelected() ? "wc-respond" : "");
 
 		List<COLUMN> cols = (List<COLUMN>) columnOrder.getSelected();
 		int[] order = new int[cols.size()];
@@ -540,7 +547,7 @@ public class WTableOptionsExample extends WBeanContainer {
 	/**
 	 * An example component to display travel document details. Expects that the supplied bean is a {@link TravelDoc}.
 	 */
-	public static final class TravelDocPanel extends WBeanContainer {
+	public static final class TravelDocPanel extends WContainer {
 
 		/**
 		 * Creates a TravelDocPanel.
@@ -663,6 +670,62 @@ public class WTableOptionsExample extends WBeanContainer {
 			return desc;
 		}
 
+	}
+
+	/**
+	 * A simple extension of SimpleBeanBoundTableModel to allow for individual rows to be selectable.
+	 */
+	private class MyBeanBoundTableModel extends SimpleBeanBoundTableModel {
+
+		/**
+		 * Create a Bean bound table model.
+		 * @param columnBeanProperties the column properties in this model.
+		 */
+		public MyBeanBoundTableModel(final String[] columnBeanProperties) {
+			super(columnBeanProperties);
+		}
+
+		/**
+		 * Define the column bean properties for the top level along with the expandable levels.
+		 *
+		 * @param columnBeanProperties the top level column bean properties
+		 * @param levels the expandable levels
+		 */
+		public MyBeanBoundTableModel(final String[] columnBeanProperties, final LevelDetails... levels) {
+			super(columnBeanProperties, levels);
+		}
+
+		/**
+		 * Define the column bean properties for the top level along with the bean property of the first expandable
+		 * level.
+		 *
+		 * @param columnBeanProperties the column bean properties
+		 * @param levelBeanProperty the bean property for the expandable level
+		 */
+		public MyBeanBoundTableModel(final String[] columnBeanProperties, final String levelBeanProperty) {
+			super(columnBeanProperties, new LevelDetails(levelBeanProperty, columnBeanProperties));
+		}
+
+
+		/**
+		 * Is a given row selectable?
+		 * @param row The row to test.
+		 * @return true if the row is selectable.
+		 */
+		@Override
+		public boolean isSelectable(final List<Integer> row) {
+			if (null == row || row.isEmpty()) {
+				return super.isSelectable(row); // let it be handled by super, we don't need to worry about this.
+			}
+			if (!super.isSelectable(row)) { // in the super implementation we determine if the table as a whole is selectable.
+				return false;
+			}
+			Object bean = getRowBean(row);
+			if (null == bean) {
+				return false;
+			}
+			return ((PersonBean) bean).isSelectable();
+		}
 	}
 
 }

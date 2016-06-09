@@ -7,28 +7,11 @@
 }
 
 // The next lot does indentation of "child" rows when the table type is 'heirarchic'
-.wc_table_rowexp_container {
-	+ td,
-	+ th {
-		.wc_tbl_hierarchic > tr[aria-level='2'] > & {
-			padding-left: $table-cell-padding-left-right + $table-hierarchic-indent;
+@for $i from 2 to 6 {
+	.wc_tbl_hierarchic > [aria-level='#{$i}'] > .wc_table_rowexp_container {
+		+ td,
+		+ th {
+			padding-left: ($i - 1) * $table-hierarchic-indent;
 		}
-
-		.wc_tbl_hierarchic > tr[aria-level='3'] > & {
-			padding-left: $table-cell-padding-left-right + (2 * $table-hierarchic-indent);
-		}
-
-		.wc_tbl_hierarchic > tr[aria-level='4'] > & {
-			padding-left: $table-cell-padding-left-right + (3 * $table-hierarchic-indent);
-		}
-
-		.wc_tbl_hierarchic > tr[aria-level='5'] > & {
-			padding-left: $table-cell-padding-left-right + (4 * $table-hierarchic-indent);
-		}
-
-		.wc_tbl_hierarchic > tr[aria-level='6'] > & {
-			padding-left: $table-cell-padding-left-right + (5 * $table-hierarchic-indent);
-		}
-		// Want more? add 'em yourself!
 	}
 }

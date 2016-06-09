@@ -13,4 +13,5 @@ $table-cell-padding-left-right: $wc-gap-small !default;
 $table-cell-padding: $table-cell-padding-top-bottom !default;
 
 // the amount of the indent for hierarchic tables
-$table-hierarchic-indent: 1rem !default;
+$table-hierarchic-indent: $wc-gap-large !default;
+$table-hierarchic-indent-small: $wc-gap-normal !default;

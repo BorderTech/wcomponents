@@ -4,15 +4,10 @@
 
 .wc-row {
 	@include flex;
-
-	.wc_chkgrp & {
-		@include flex-justify-content(space-between);
-	}
 }
 
 .wc-column {
 	@include border-box;
-	// display: inline-block; // with implied width auto I think this is needed for IE 11 but cannot be loaded later
 }
 
 @for $i from 2 through 100 {

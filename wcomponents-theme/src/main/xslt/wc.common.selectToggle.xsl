@@ -206,6 +206,22 @@
 				</span>
 			</xsl:when>
 			<xsl:otherwise>
+				<xsl:variable name="textEquivalent">
+					<xsl:choose>
+						<xsl:when test="$label!=''">
+							<xsl:value-of select="$label"/>
+						</xsl:when>
+						<xsl:when test="self::ui:rowselection">
+							<xsl:value-of select="$$${wc.common.toggles.i18n.selectAll.a11y}"/>
+						</xsl:when>
+						<xsl:when test="$myLabel">
+							<xsl:apply-templates select="$myLabel" mode="selectToggle"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$$${wc.common.toggles.i18n.selectAll.a11y}"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
 				<button id="{$toggleId}" role="checkbox" aria-controls="{$targetList}">
 					<xsl:attribute name="type">
 						<xsl:choose>
@@ -250,22 +266,11 @@
 							<xsl:text>wc_seltog wc_btn_nada</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
-					<xsl:attribute name="title">
-						<xsl:choose>
-							<xsl:when test="$label!=''">
-								<xsl:value-of select="$label"/>
-							</xsl:when>
-							<xsl:when test="self::ui:rowselection">
-								<xsl:value-of select="$$${wc.common.toggles.i18n.selectAll.a11y}"/>
-							</xsl:when>
-							<xsl:when test="$myLabel">
-								<xsl:apply-templates select="$myLabel" mode="selectToggle"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="$$${wc.common.toggles.i18n.selectAll.a11y}"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:attribute>
+					<xsl:if test="self::ui:selecttoggle">
+						<xsl:attribute name="title">
+							<xsl:value-of select="$textEquivalent"/>
+						</xsl:attribute>
+					</xsl:if>
 					<xsl:choose>
 						<xsl:when test="self::ui:selecttoggle">
 							<xsl:call-template name="disabledElement">
@@ -283,6 +288,12 @@
 						<xsl:attribute name="data-wc-cbgroup">
 							<xsl:value-of select="$thisGroupName"/>
 						</xsl:attribute>
+					</xsl:if>
+					<!-- ADDING TEXT CONTENT - NO MORE ATTRIBUTES AFTER THIS COMMENT -->
+					<xsl:if test="self::ui:rowselection">
+						<span>
+							<xsl:value-of select="$textEquivalent"/>
+						</span>
 					</xsl:if>
 				</button>
 			</xsl:otherwise>
