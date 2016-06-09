@@ -7,15 +7,13 @@
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/Widget"
  * @requires module:wc/dom/isAcceptableTarget
- * @requires module:wc/dom/shed
  */
 define(["wc/dom/ariaAnalog",
 		"wc/dom/initialise",
 		"wc/dom/Widget",
-		"wc/dom/isAcceptableTarget",
-		"wc/dom/shed"],
-	/** @param ariaAnalog wc/dom/ariaAnalog @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param isAcceptableEventTarget wc/dom/isAcceptableTarget @param shed wc/dom/shed @ignore */
-	function(ariaAnalog, initialise, Widget, isAcceptableEventTarget, shed) {
+		"wc/dom/isAcceptableTarget"],
+	/** @param ariaAnalog @param initialise @param Widget @param isAcceptableEventTarget @ignore */
+	function(ariaAnalog, initialise, Widget, isAcceptableEventTarget) {
 		"use strict";
 
 		var opener;
@@ -35,7 +33,7 @@ define(["wc/dom/ariaAnalog",
 			 */
 			function clickEventHelper($event, instance) {
 				var target = $event.target, element;
-				if (!$event.defaultPrevented && (element = instance.getActivableFromTarget(target)) && !shed.isDisabled(element)) {
+				if (!$event.defaultPrevented && (element = instance.getActivableFromTarget(target))) {
 					opener = opener || new Widget("button", "wc-submenu-o");
 					/* a menu item (checkbox|radio) can be toggled if it is itself an acceptable element OR
 					 * if the click event is on a branch opener button, which would normally render the menu

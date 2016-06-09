@@ -33,3 +33,21 @@ tr.wc_invite {
 		background-color: $wc-ui-color-disabled-bg;
 	}
 }
+
+@include respond-phone {
+	.wc-table.wc-respond {
+		tr[aria-selected='true'] {
+			&,
+			&.wc_invite:hover,
+			&.wc_invite:focus {
+				background-color: $wc-ui-color-selected-bg;
+			}
+
+			> th,
+			> td {
+				color: $wc-ui-color-selected-fg;
+				// WARNING: you _may_ want to add overrides for coloured elements eg, headings.
+			}
+		}
+	}
+}

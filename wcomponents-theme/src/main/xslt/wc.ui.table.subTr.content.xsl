@@ -34,7 +34,7 @@
 				selection.
 			-->
 			<xsl:if test="$myTable/ui:rowselection">
-				<td role="gridcell">
+				<td class="wc_table_sel_wrapper" role="gridcell">
 					<xsl:text>&#x2002;</xsl:text>
 				</td>
 			</xsl:if>
