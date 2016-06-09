@@ -11,6 +11,7 @@
  * @requires module:wc/dom/Widget
  * @requires module:wc/ui/containerload
  * @requires module:wc/ajax/setLoading
+ * @requires module:wc/dom/focus
  */
 define(["wc/dom/ariaAnalog",
 		"wc/dom/formUpdateManager",
@@ -19,8 +20,9 @@ define(["wc/dom/ariaAnalog",
 		"wc/dom/shed",
 		"wc/dom/Widget",
 		"wc/ui/containerload",
-		"wc/ajax/setLoading"],
-	function(ariaAnalog, formUpdateManager, getFilteredGroup, initialise, shed, Widget, containerload, setLoading) {
+		"wc/ajax/setLoading",
+		"wc/dom/focus"],
+	function(ariaAnalog, formUpdateManager, getFilteredGroup, initialise, shed, Widget, containerload, setLoading, focus) {
 		"use strict";
 
 		/**
@@ -502,6 +504,10 @@ define(["wc/dom/ariaAnalog",
 					tabWidget,
 					tabset;
 
+				if (instance.ITEM.findAncestor(element)) {
+					return null;
+				}
+
 				TABPANEL = TABPANEL || new Widget("", "", {"role": "tabpanel"});
 
 				if ((panel = TABPANEL.findAncestor(element)) && (panelId = panel.id)) {
@@ -545,6 +551,13 @@ define(["wc/dom/ariaAnalog",
 							$event.preventDefault();
 							instance.activate(targetTab, false, true);
 						}
+					}
+				}
+				else if (keyCode === KeyEvent.DOM_VK_UP) {
+					tab = getTabFor(target);
+					if (tab) {
+						$event.preventDefault();
+						focus.setFocusRequest(tab);
 					}
 				}
 				else {
