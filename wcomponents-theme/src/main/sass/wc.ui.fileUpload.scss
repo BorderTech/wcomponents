@@ -19,6 +19,15 @@
 		}
 	}
 
+	button.wc_btn_abort {
+		margin-right: $wc-gap-small;
+	}
+
+	progress {
+		margin-right: $wc-gap-small;
+		margin-left: $wc-gap-small;
+	}
+
 	> .wc_filelist {
 		display: table-cell;  // horrendously wrong no doubt but fixes columns
 		padding-top: $wc-gap-small;
