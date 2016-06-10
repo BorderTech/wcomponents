@@ -1,5 +1,10 @@
 # Change log
 
+# Release 1.1.9
+## Bug fixes
+* File upload edge cases #675
+  [Issues](https://github.com/BorderTech/wcomponents/issues?q=milestone%3A1.1.9)
+
 # Release 1.1.8
 ## Bug fixes
 * Table constraints enforced #647
