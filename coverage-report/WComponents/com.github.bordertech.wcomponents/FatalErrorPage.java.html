@@ -55,14 +55,13 @@ public class FatalErrorPage extends AbstractWComponent implements ErrorPage {
 <span class="fc" id="L55">			writer.println(getMessage());</span>
 
 <span class="fc bfc" id="L57" title="All 2 branches covered.">			if (developerFriendly) {</span>
-				// TODO: This should not emit mark-up
-<span class="fc" id="L59">				writer.println(&quot;&lt;pre style=\&quot;background: lightgrey\&quot;&gt;&quot;);</span>
-<span class="fc" id="L60">				writer.println(&quot;Additional details for the developer:&quot;);</span>
-<span class="fc" id="L61">				writer.println();</span>
-<span class="fc" id="L62">				error.printStackTrace(writer);</span>
-<span class="fc" id="L63">				writer.println(&quot;&lt;/pre&gt;&quot;);</span>
+<span class="fc" id="L58">				writer.println(&quot;&lt;pre style=\&quot;background: lightgrey\&quot;&gt;&quot;);</span>
+<span class="fc" id="L59">				writer.println(&quot;Additional details for the developer:&quot;);</span>
+<span class="fc" id="L60">				writer.println();</span>
+<span class="fc" id="L61">				error.printStackTrace(writer);</span>
+<span class="fc" id="L62">				writer.println(&quot;&lt;/pre&gt;&quot;);</span>
 			}
 		}
-<span class="fc" id="L66">	}</span>
+<span class="fc" id="L65">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

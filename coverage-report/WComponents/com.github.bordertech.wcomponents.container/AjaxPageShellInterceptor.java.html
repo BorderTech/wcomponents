@@ -60,7 +60,7 @@ import com.github.bordertech.wcomponents.util.XMLUtil;
 
 <span class="fc" id="L61">		xml.append(XMLUtil.getXMLDeclarationWithThemeXslt(uic));</span>
 <span class="fc" id="L62">		xml.append(XMLUtil.DOC_TYPE);  // It is possible that the AJAX response contains XHTML including &amp;nbsp;</span>
-<span class="fc" id="L63">		xml.appendTagOpen(&quot;ui:ajaxResponse&quot;);</span>
+<span class="fc" id="L63">		xml.appendTagOpen(&quot;ui:ajaxresponse&quot;);</span>
 <span class="fc" id="L64">		xml.append(XMLUtil.STANDARD_NAMESPACES);</span>
 <span class="pc bpc" id="L65" title="2 of 4 branches missed.">		xml.appendOptionalAttribute(&quot;defaultFocusId&quot;, uic.isFocusRequired() &amp;&amp; !Util.empty(focusId),</span>
 				focusId);
@@ -68,7 +68,7 @@ import com.github.bordertech.wcomponents.util.XMLUtil;
 
 <span class="fc" id="L69">		getBackingComponent().paint(renderContext);</span>
 
-<span class="fc" id="L71">		xml.appendEndTag(&quot;ui:ajaxResponse&quot;);</span>
+<span class="fc" id="L71">		xml.appendEndTag(&quot;ui:ajaxresponse&quot;);</span>
 <span class="fc" id="L72">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

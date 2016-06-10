@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>VelocityRendererImpl.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.template</a> &gt; <span class="el_source">VelocityRendererImpl.java</span></div><h1>VelocityRendererImpl.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.template;
+
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.SystemException;
+import java.io.Writer;
+import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.runtime.RuntimeConstants;
+
+/**
+ * Velocity template renderer.
+ * &lt;p&gt;
+ * Has no engine options.
+ * &lt;/p&gt;
+ *
+ * @author Jonathan Austin
+ * @since 1.0.3
+ */
+<span class="fc" id="L27">public class VelocityRendererImpl implements TemplateRenderer {</span>
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L32">	private static final Log LOG = LogFactory.getLog(VelocityRendererImpl.class);</span>
+
+	/**
+	 * The singleton VelocityEngine instance associated with this factory.
+	 */
+	private static VelocityEngine engine;
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void renderTemplate(final String templateName, final Map&lt;String, Object&gt; context, final Map&lt;String, WComponent&gt; taggedComponents, final Writer writer, final Map&lt;String, Object&gt; options) {
+
+<span class="fc" id="L45">		LOG.debug(&quot;Rendering velocity template [&quot; + templateName + &quot;].&quot;);</span>
+
+		// Velocity uses a ClassLoader so dont use an absolute path.
+<span class="pc bpc" id="L48" title="1 of 2 branches missed.">		String name = templateName.startsWith(&quot;/&quot;) ? templateName.substring(1) : templateName;</span>
+
+		try {
+
+			// Load template
+<span class="fc" id="L53">			Template template = getVelocityEngine().getTemplate(name);</span>
+
+			// Map the tagged components to be used in the replace writer
+<span class="fc" id="L56">			Map&lt;String, WComponent&gt; componentsByKey = TemplateUtil.mapTaggedComponents(context, taggedComponents);</span>
+
+			// Setup context
+<span class="fc" id="L59">			VelocityContext velocityContext = new VelocityContext();</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">			for (Map.Entry&lt;String, Object&gt; entry : context.entrySet()) {</span>
+<span class="fc" id="L61">				velocityContext.put(entry.getKey(), entry.getValue());</span>
+<span class="fc" id="L62">			}</span>
+
+			// Write template
+<span class="fc" id="L65">			UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="pc" id="L66">			try (TemplateWriter velocityWriter = new TemplateWriter(writer, componentsByKey, uic)) {</span>
+<span class="fc" id="L67">				template.merge(velocityContext, velocityWriter);</span>
+<span class="pc bpc" id="L68" title="6 of 8 branches missed.">			}</span>
+<span class="fc" id="L69">		} catch (ResourceNotFoundException e) {</span>
+<span class="fc" id="L70">			throw new SystemException(&quot;Could not find velocity template [&quot; + templateName + &quot;]. &quot; + e.getMessage(), e);</span>
+<span class="nc" id="L71">		} catch (Exception e) {</span>
+<span class="nc" id="L72">			throw new SystemException(&quot;Problems with velocity template [&quot; + templateName + &quot;]. &quot; + e.getMessage(), e);</span>
+<span class="fc" id="L73">		}</span>
+<span class="fc" id="L74">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void renderInline(final String templateInline, final Map&lt;String, Object&gt; context, final Map&lt;String, WComponent&gt; taggedComponents, final Writer writer, final Map&lt;String, Object&gt; options) {
+
+<span class="fc" id="L82">		LOG.debug(&quot;Rendering inline velocity template.&quot;);</span>
+
+		try {
+
+			// Map the tagged components to be used in the replace writer
+<span class="fc" id="L87">			Map&lt;String, WComponent&gt; componentsByKey = TemplateUtil.mapTaggedComponents(context, taggedComponents);</span>
+
+			// Setup context
+<span class="fc" id="L90">			VelocityContext velocityContext = new VelocityContext();</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">			for (Map.Entry&lt;String, Object&gt; entry : context.entrySet()) {</span>
+<span class="fc" id="L92">				velocityContext.put(entry.getKey(), entry.getValue());</span>
+<span class="fc" id="L93">			}</span>
+
+			// Write inline template
+<span class="fc" id="L96">			UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="pc" id="L97">			try (TemplateWriter velocityWriter = new TemplateWriter(writer, componentsByKey, uic)) {</span>
+<span class="fc" id="L98">				getVelocityEngine().evaluate(velocityContext, velocityWriter, templateInline, templateInline);</span>
+<span class="pc bpc" id="L99" title="6 of 8 branches missed.">			}</span>
+
+<span class="nc" id="L101">		} catch (Exception e) {</span>
+<span class="nc" id="L102">			throw new SystemException(&quot;Problems with inline velocity template.&quot; + e.getMessage(), e);</span>
+<span class="fc" id="L103">		}</span>
+<span class="fc" id="L104">	}</span>
+
+	/**
+	 * &lt;p&gt;
+	 * Returns the VelocityEngine associated with this factory. If this is the first time we are using the engine,
+	 * create it and initialise it.&lt;/p&gt;
+	 *
+	 * &lt;p&gt;
+	 * Note that velocity engines are hugely resource intensive, so we don't want too many of them. For the time being
+	 * we have a single instance stored as a static variable. This would only be a problem if the VelocityLayout class
+	 * ever wanted to use different engine configurations (unlikely).&lt;/p&gt;
+	 *
+	 * @return the VelocityEngine associated with this factory.
+	 */
+	public static synchronized VelocityEngine getVelocityEngine() {
+<span class="fc bfc" id="L119" title="All 2 branches covered.">		if (engine == null) {</span>
+<span class="fc" id="L120">			VelocityEngine newEngine = new VelocityEngine();</span>
+
+			// Class Loader
+<span class="fc" id="L123">			newEngine.addProperty(&quot;resource.loader&quot;, &quot;class&quot;);</span>
+<span class="fc" id="L124">			newEngine.addProperty(&quot;class.resource.loader.class&quot;,</span>
+					&quot;org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader&quot;);
+
+			// Caching
+<span class="pc bpc" id="L128" title="1 of 2 branches missed.">			if (isCaching()) {</span>
+<span class="fc" id="L129">				newEngine.addProperty(&quot;class.resource.loader.cache&quot;, &quot;true&quot;);</span>
+<span class="fc" id="L130">				newEngine.addProperty(RuntimeConstants.RESOURCE_MANAGER_CACHE_CLASS,</span>
+						&quot;com.github.bordertech.wcomponents.template.VelocityCacheImpl&quot;);
+			} else {
+<span class="nc" id="L133">				newEngine.addProperty(&quot;class.resource.loader.cache&quot;, &quot;false&quot;);</span>
+			}
+
+			// Logging
+<span class="fc" id="L137">			newEngine.addProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,</span>
+					&quot;com.github.bordertech.wcomponents.velocity.VelocityLogger&quot;);
+
+			try {
+<span class="fc" id="L141">				newEngine.init();</span>
+<span class="nc" id="L142">			} catch (Exception ex) {</span>
+<span class="nc" id="L143">				throw new SystemException(&quot;Failed to configure VelocityEngine&quot;, ex);</span>
+<span class="fc" id="L144">			}</span>
+<span class="fc" id="L145">			engine = newEngine;</span>
+		}
+
+<span class="fc" id="L148">		return engine;</span>
+	}
+
+	/**
+	 * @return true if use caching
+	 */
+	public static boolean isCaching() {
+<span class="fc" id="L155">		return Config.getInstance().getBoolean(&quot;bordertech.wcomponents.velocity.cache.enabled&quot;, Boolean.TRUE);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -2,17 +2,11 @@
 
 import com.github.bordertech.wcomponents.AbstractRequest;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.util.SystemException;
 import java.io.Serializable;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.FileItem;
 
 /**
  * An implementation of {@link Request} using HttpServletRequests.
@@ -23,12 +17,18 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 public class ServletRequest extends AbstractRequest {
 
 	/**
+	 * Stores the parameters for this request.
+	 */
+	private final Map&lt;String, String[]&gt; parameters;
+
+	/**
+	 * Stores the uploaded files for this request.
+	 */
+	private final Map&lt;String, FileItem[]&gt; files;
+	/**
 	 * The backing servlet request.
 	 */
 	private final HttpServletRequest backing;
-
-<span class="fc" id="L30">	private final Map parameters = new HashMap();</span>
-<span class="fc" id="L31">	private final Map files = new HashMap();</span>
 
 	/**
 	 * Creates a ServletRequest.
@@ -37,19 +37,24 @@ public class ServletRequest extends AbstractRequest {
 	 */
 <span class="fc" id="L38">	public ServletRequest(final HttpServletRequest aBacking) {</span>
 <span class="fc" id="L39">		backing = aBacking;</span>
+<span class="fc" id="L40">		parameters = ServletUtil.getRequestParameters(backing);</span>
+<span class="fc" id="L41">		files = ServletUtil.getRequestFileItems(backing);</span>
+<span class="fc" id="L42">	}</span>
 
-		// Take a copy of the parameter map now, so that we don't depend on the request being stable.
-<span class="fc" id="L42">		getParameterMap(aBacking);</span>
-<span class="fc" id="L43">	}</span>
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public Map getParameters() {
-<span class="fc" id="L47">		return parameters;</span>
+	public Map&lt;String, String[]&gt; getParameters() {
+<span class="fc" id="L49">		return parameters;</span>
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public Map getFiles() {
-<span class="fc" id="L52">		return files;</span>
+	public Map&lt;String, FileItem[]&gt; getFiles() {
+<span class="fc" id="L57">		return files;</span>
 	}
 
 	/**
@@ -57,7 +62,7 @@ public class ServletRequest extends AbstractRequest {
 	 */
 	@Override
 	public Serializable getAttribute(final String key) {
-<span class="fc" id="L60">		return (Serializable) backing.getAttribute(key);</span>
+<span class="fc" id="L65">		return (Serializable) backing.getAttribute(key);</span>
 	}
 
 	/**
@@ -65,21 +70,21 @@ public class ServletRequest extends AbstractRequest {
 	 */
 	@Override
 	public void setAttribute(final String key, final Serializable value) {
-<span class="fc" id="L68">		backing.setAttribute(key, value);</span>
-<span class="fc" id="L69">	}</span>
+<span class="fc" id="L73">		backing.setAttribute(key, value);</span>
+<span class="fc" id="L74">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public Serializable getSessionAttribute(final String key) {
-<span class="fc" id="L76">		HttpSession session = backing.getSession(false);</span>
+<span class="fc" id="L81">		HttpSession session = backing.getSession(false);</span>
 
-<span class="fc bfc" id="L78" title="All 2 branches covered.">		if (session == null) {</span>
-<span class="fc" id="L79">			return null;</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">		if (session == null) {</span>
+<span class="fc" id="L84">			return null;</span>
 		}
 
-<span class="fc" id="L82">		return (Serializable) session.getAttribute(key);</span>
+<span class="fc" id="L87">		return (Serializable) session.getAttribute(key);</span>
 	}
 
 	/**
@@ -87,7 +92,7 @@ public class ServletRequest extends AbstractRequest {
 	 */
 	@Override
 	public Serializable getAppSessionAttribute(final String key) {
-<span class="fc" id="L90">		return getSessionAttribute(key);</span>
+<span class="fc" id="L95">		return getSessionAttribute(key);</span>
 	}
 
 	/**
@@ -95,69 +100,17 @@ public class ServletRequest extends AbstractRequest {
 	 */
 	@Override
 	public void setSessionAttribute(final String key, final Serializable value) {
-<span class="fc" id="L98">		HttpSession session = backing.getSession(true);</span>
-<span class="fc" id="L99">		session.setAttribute(key, value);</span>
-<span class="fc" id="L100">	}</span>
+<span class="fc" id="L103">		HttpSession session = backing.getSession(true);</span>
+<span class="fc" id="L104">		session.setAttribute(key, value);</span>
+<span class="fc" id="L105">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void setAppSessionAttribute(final String key, final Serializable value) {
-<span class="fc" id="L107">		setSessionAttribute(key, value);</span>
-<span class="fc" id="L108">	}</span>
-
-	/**
-	 * @param backingReq the backing request
-	 */
-	private void getParameterMap(final HttpServletRequest backingReq) {
-<span class="fc" id="L114">		parameters.clear();</span>
-<span class="fc" id="L115">		files.clear();</span>
-
-<span class="fc" id="L117">		String contentType = backingReq.getContentType();</span>
-
-		// Can't use the HttpServletRequest.getParameterMap because it's not in Servlet 2.2
-<span class="pc bpc" id="L120" title="1 of 4 branches missed.">		boolean isMultipart = (contentType != null &amp;&amp; contentType.toLowerCase().startsWith(</span>
-				&quot;multipart/form-data&quot;));
-
-<span class="fc bfc" id="L123" title="All 2 branches covered.">		if (!isMultipart) {</span>
-<span class="fc bfc" id="L124" title="All 2 branches covered.">			for (Enumeration en = backingReq.getParameterNames(); en.hasMoreElements();) {</span>
-<span class="fc" id="L125">				String key = (String) en.nextElement();</span>
-<span class="fc" id="L126">				String[] values = backingReq.getParameterValues(key);</span>
-
-<span class="pc bpc" id="L128" title="1 of 2 branches missed.">				if (values != null) {</span>
-<span class="pc bpc" id="L129" title="1 of 2 branches missed.">					if (values.length == 1) {</span>
-<span class="fc" id="L130">						parameters.put(key, values[0]);</span>
-					} else {
-<span class="nc" id="L132">						parameters.put(key, values);</span>
-					}
-				}
-<span class="fc" id="L135">			}</span>
-		} else {
-<span class="fc" id="L137">			ServletFileUpload upload = new ServletFileUpload();</span>
-<span class="fc" id="L138">			upload.setFileItemFactory(new DiskFileItemFactory());</span>
-
-			try {
-<span class="fc" id="L141">				List fileItems = upload.parseRequest(backingReq);</span>
-
-<span class="fc" id="L143">				uploadFileItems(fileItems, parameters, files);</span>
-<span class="nc" id="L144">			} catch (FileUploadException ex) {</span>
-<span class="nc" id="L145">				throw new SystemException(ex);</span>
-<span class="fc" id="L146">			}</span>
-			// Include Query String Parameters (only if parameters were not included in the form fields)
-<span class="fc bfc" id="L148" title="All 2 branches covered.">			for (Enumeration en = backingReq.getParameterNames(); en.hasMoreElements();) {</span>
-<span class="fc" id="L149">				String key = (String) en.nextElement();</span>
-<span class="fc" id="L150">				String[] values = backingReq.getParameterValues(key);</span>
-<span class="pc bpc" id="L151" title="2 of 4 branches missed.">				if (values != null &amp;&amp; !parameters.containsKey(key)) {</span>
-<span class="pc bpc" id="L152" title="1 of 2 branches missed.">					if (values.length == 1) {</span>
-<span class="fc" id="L153">						parameters.put(key, values[0]);</span>
-					} else {
-<span class="nc" id="L155">						parameters.put(key, values);</span>
-					}
-				}
-<span class="fc" id="L158">			}</span>
-		}
-<span class="fc" id="L160">	}</span>
+<span class="fc" id="L112">		setSessionAttribute(key, value);</span>
+<span class="fc" id="L113">	}</span>
 
 	/**
 	 * Support for Public Render Parameters in Portal. In a Servlet environment, this will be the same as the session.
@@ -169,8 +122,8 @@ public class ServletRequest extends AbstractRequest {
 	 */
 	@Override
 	public void setRenderParameter(final String key, final Serializable value) {
-<span class="fc" id="L172">		setSessionAttribute(key, value);</span>
-<span class="fc" id="L173">	}</span>
+<span class="fc" id="L125">		setSessionAttribute(key, value);</span>
+<span class="fc" id="L126">	}</span>
 
 	/**
 	 * Support for Public Render Parameters in Portal. In a Servlet environment, this will be the same as the session.
@@ -182,7 +135,7 @@ public class ServletRequest extends AbstractRequest {
 	 */
 	@Override
 	public Serializable getRenderParameter(final String key) {
-<span class="fc" id="L185">		return getSessionAttribute(key);</span>
+<span class="fc" id="L138">		return getSessionAttribute(key);</span>
 	}
 
 	/**
@@ -198,7 +151,7 @@ public class ServletRequest extends AbstractRequest {
 	 */
 	@Override
 	public boolean isUserInRole(final String role) {
-<span class="nc" id="L201">		return backing.isUserInRole(role);</span>
+<span class="nc" id="L154">		return backing.isUserInRole(role);</span>
 	}
 
 	/**
@@ -206,7 +159,7 @@ public class ServletRequest extends AbstractRequest {
 	 */
 	@Override
 	public String getMethod() {
-<span class="fc" id="L209">		return backing.getMethod();</span>
+<span class="fc" id="L162">		return backing.getMethod();</span>
 	}
 
 	/**
@@ -214,11 +167,11 @@ public class ServletRequest extends AbstractRequest {
 	 */
 	@Override
 	public int getMaxInactiveInterval() {
-<span class="nc" id="L217">		HttpSession session = backing.getSession(false);</span>
-<span class="nc bnc" id="L218" title="All 2 branches missed.">		if (session == null) {</span>
-<span class="nc" id="L219">			return -1;</span>
+<span class="nc" id="L170">		HttpSession session = backing.getSession(false);</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">		if (session == null) {</span>
+<span class="nc" id="L172">			return -1;</span>
 		}
-<span class="nc" id="L221">		return session.getMaxInactiveInterval();</span>
+<span class="nc" id="L174">		return session.getMaxInactiveInterval();</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

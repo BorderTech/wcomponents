@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.SystemException;
@@ -57,7 +58,9 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  *
  * @author James Gifford
  * @since 1.0.0
+ * @deprecated USe {@link WTemplate} instead.
  */
+@Deprecated
 public final class VelocityRenderer implements Renderer {
 
 	private static final String NO_TEMPLATE_LAYOUT = &quot;com/github/bordertech/wcomponents/velocity/NoTemplateLayout.vm&quot;;
@@ -65,7 +68,7 @@ public final class VelocityRenderer implements Renderer {
 	/**
 	 * The logger instance for this class.
 	 */
-<span class="fc" id="L68">	private static final Log LOG = LogFactory.getLog(VelocityRenderer.class);</span>
+<span class="fc" id="L71">	private static final Log LOG = LogFactory.getLog(VelocityRenderer.class);</span>
 
 	/**
 	 * Parameter names ending with this suffix will be treated as lists.
@@ -81,9 +84,9 @@ public final class VelocityRenderer implements Renderer {
 	/**
 	 * Creates a VelocityRenderer where the template is determined during rendering.
 	 */
-<span class="fc" id="L84">	public VelocityRenderer() {</span>
-<span class="fc" id="L85">		url = null;</span>
-<span class="fc" id="L86">	}</span>
+<span class="fc" id="L87">	public VelocityRenderer() {</span>
+<span class="fc" id="L88">		url = null;</span>
+<span class="fc" id="L89">	}</span>
 
 	/**
 	 * Creates a VelocityRenderer with a pre-defined template.
@@ -93,13 +96,13 @@ public final class VelocityRenderer implements Renderer {
 	 * @deprecated do not construct velocity renderers with specific templates
 	 */
 	@Deprecated
-<span class="fc" id="L96">	public VelocityRenderer(final String templateUrl) {</span>
-<span class="fc" id="L97">		url = templateUrl;</span>
+<span class="fc" id="L99">	public VelocityRenderer(final String templateUrl) {</span>
+<span class="fc" id="L100">		url = templateUrl;</span>
 
-<span class="pc bpc" id="L99" title="1 of 2 branches missed.">		if (LOG.isDebugEnabled()) {</span>
-<span class="nc" id="L100">			LOG.debug(&quot;VelocityLayout url : &quot; + url);</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">		if (LOG.isDebugEnabled()) {</span>
+<span class="nc" id="L103">			LOG.debug(&quot;VelocityLayout url : &quot; + url);</span>
 		}
-<span class="fc" id="L102">	}</span>
+<span class="fc" id="L105">	}</span>
 
 	/**
 	 * @return the URL of the velocity template to use when rendering.
@@ -107,7 +110,7 @@ public final class VelocityRenderer implements Renderer {
 	 */
 	@Deprecated
 	public String getUrl() {
-<span class="fc" id="L110">		return url;</span>
+<span class="fc" id="L113">		return url;</span>
 	}
 
 	/**
@@ -118,27 +121,27 @@ public final class VelocityRenderer implements Renderer {
 	 */
 	@Override
 	public void render(final WComponent component, final RenderContext context) {
-<span class="fc" id="L121">		PrintWriter out = ((WebXmlRenderContext) context).getWriter();</span>
+<span class="fc" id="L124">		PrintWriter out = ((WebXmlRenderContext) context).getWriter();</span>
 
 		// If we are debugging the layout, write markers so that the html
 		// designer can see where templates start and end.
-<span class="fc" id="L125">		boolean debugLayout = Config.getInstance().getBoolean(</span>
+<span class="fc" id="L128">		boolean debugLayout = Config.getInstance().getBoolean(</span>
 				&quot;bordertech.wcomponents.velocity.debugLayout&quot;, false);
 
-<span class="fc bfc" id="L128" title="All 2 branches covered.">		if (debugLayout) {</span>
-<span class="fc" id="L129">			String templateUrl = url;</span>
+<span class="fc bfc" id="L131" title="All 2 branches covered.">		if (debugLayout) {</span>
+<span class="fc" id="L132">			String templateUrl = url;</span>
 
-<span class="pc bpc" id="L131" title="3 of 4 branches missed.">			if (url == null &amp;&amp; component instanceof AbstractWComponent) {</span>
-<span class="nc" id="L132">				templateUrl = ((AbstractWComponent) component).getTemplate();</span>
+<span class="pc bpc" id="L134" title="3 of 4 branches missed.">			if (url == null &amp;&amp; component instanceof AbstractWComponent) {</span>
+<span class="nc" id="L135">				templateUrl = ((AbstractWComponent) component).getTemplate();</span>
 			}
 
-<span class="fc" id="L135">			out.println(&quot;&lt;!-- Start &quot; + templateUrl + &quot; --&gt;&quot;);</span>
-<span class="fc" id="L136">			paintXml(component, out);</span>
-<span class="fc" id="L137">			out.println(&quot;&lt;!-- End   &quot; + templateUrl + &quot; --&gt;&quot;);</span>
-<span class="fc" id="L138">		} else {</span>
+<span class="fc" id="L138">			out.println(&quot;&lt;!-- Start &quot; + templateUrl + &quot; --&gt;&quot;);</span>
 <span class="fc" id="L139">			paintXml(component, out);</span>
+<span class="fc" id="L140">			out.println(&quot;&lt;!-- End   &quot; + templateUrl + &quot; --&gt;&quot;);</span>
+<span class="fc" id="L141">		} else {</span>
+<span class="fc" id="L142">			paintXml(component, out);</span>
 		}
-<span class="fc" id="L141">	}</span>
+<span class="fc" id="L144">	}</span>
 
 	/**
 	 * Paints the component in XML using the Velocity Template.
@@ -147,66 +150,66 @@ public final class VelocityRenderer implements Renderer {
 	 * @param writer the writer to send the HTML output to.
 	 */
 	public void paintXml(final WComponent component, final Writer writer) {
-<span class="pc bpc" id="L150" title="1 of 2 branches missed.">		if (LOG.isDebugEnabled()) {</span>
-<span class="nc" id="L151">			LOG.debug(&quot;paintXml called for component class &quot; + component.getClass());</span>
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">		if (LOG.isDebugEnabled()) {</span>
+<span class="nc" id="L154">			LOG.debug(&quot;paintXml called for component class &quot; + component.getClass());</span>
 		}
 
-<span class="fc" id="L154">		String templateText = null;</span>
+<span class="fc" id="L157">		String templateText = null;</span>
 
-<span class="pc bpc" id="L156" title="1 of 2 branches missed.">		if (component instanceof AbstractWComponent) {</span>
-<span class="fc" id="L157">			AbstractWComponent abstractComp = ((AbstractWComponent) component);</span>
-<span class="fc" id="L158">			templateText = abstractComp.getTemplateMarkUp();</span>
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">		if (component instanceof AbstractWComponent) {</span>
+<span class="fc" id="L160">			AbstractWComponent abstractComp = ((AbstractWComponent) component);</span>
+<span class="fc" id="L161">			templateText = abstractComp.getTemplateMarkUp();</span>
 		}
 
 		try {
-<span class="fc" id="L162">			Map&lt;String, WComponent&gt; componentsByKey = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L163">			VelocityContext context = new VelocityContext();</span>
-<span class="fc" id="L164">			fillContext(component, context, componentsByKey);</span>
+<span class="fc" id="L165">			Map&lt;String, WComponent&gt; componentsByKey = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L166">			VelocityContext context = new VelocityContext();</span>
+<span class="fc" id="L167">			fillContext(component, context, componentsByKey);</span>
 
-<span class="fc" id="L166">			VelocityWriter velocityWriter = new VelocityWriter(writer, componentsByKey,</span>
-<span class="fc" id="L167">					UIContextHolder.getCurrent());</span>
+<span class="fc" id="L169">			VelocityWriter velocityWriter = new VelocityWriter(writer, componentsByKey,</span>
+<span class="fc" id="L170">					UIContextHolder.getCurrent());</span>
 
-<span class="pc bpc" id="L169" title="1 of 2 branches missed.">			if (templateText != null) {</span>
-<span class="nc" id="L170">				VelocityEngine engine = VelocityEngineFactory.getVelocityEngine();</span>
-<span class="nc" id="L171">				engine.evaluate(context, velocityWriter, component.getClass().getSimpleName(),</span>
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">			if (templateText != null) {</span>
+<span class="nc" id="L173">				VelocityEngine engine = VelocityEngineFactory.getVelocityEngine();</span>
+<span class="nc" id="L174">				engine.evaluate(context, velocityWriter, component.getClass().getSimpleName(),</span>
 						templateText);
-<span class="nc" id="L173">			} else {</span>
-<span class="fc" id="L174">				Template template = getTemplate(component);</span>
+<span class="nc" id="L176">			} else {</span>
+<span class="fc" id="L177">				Template template = getTemplate(component);</span>
 
-<span class="pc bpc" id="L176" title="1 of 2 branches missed.">				if (template == null) {</span>
-<span class="nc" id="L177">					LOG.warn(</span>
+<span class="pc bpc" id="L179" title="1 of 2 branches missed.">				if (template == null) {</span>
+<span class="nc" id="L180">					LOG.warn(</span>
 							&quot;VelocityRenderer invoked for a component with no template: &quot; + component.
-<span class="nc" id="L179">							getClass().getName());</span>
+<span class="nc" id="L182">							getClass().getName());</span>
 				} else {
-<span class="fc" id="L181">					template.merge(context, velocityWriter);</span>
+<span class="fc" id="L184">					template.merge(context, velocityWriter);</span>
 				}
 			}
 
-<span class="fc" id="L185">			velocityWriter.close();</span>
+<span class="fc" id="L188">			velocityWriter.close();</span>
 
-<span class="fc bfc" id="L187" title="All 2 branches covered.">			if (component instanceof VelocityProperties) {</span>
-<span class="fc" id="L188">				((VelocityProperties) component).mapUsed();</span>
+<span class="fc bfc" id="L190" title="All 2 branches covered.">			if (component instanceof VelocityProperties) {</span>
+<span class="fc" id="L191">				((VelocityProperties) component).mapUsed();</span>
 			}
-<span class="nc" id="L190">		} catch (ResourceNotFoundException rnfe) {</span>
-<span class="nc" id="L191">			LOG.error(&quot;Could not find template '&quot; + url + &quot;' for component &quot; + component.getClass().</span>
-<span class="nc" id="L192">					getName(), rnfe);</span>
-<span class="nc" id="L193">		} catch (ParseErrorException pee) {</span>
+<span class="nc" id="L193">		} catch (ResourceNotFoundException rnfe) {</span>
+<span class="nc" id="L194">			LOG.error(&quot;Could not find template '&quot; + url + &quot;' for component &quot; + component.getClass().</span>
+<span class="nc" id="L195">					getName(), rnfe);</span>
+<span class="nc" id="L196">		} catch (ParseErrorException pee) {</span>
 			// syntax error : problem parsing the template
-<span class="nc" id="L195">			LOG.error(&quot;Parse problems&quot;, pee);</span>
-<span class="nc" id="L196">		} catch (MethodInvocationException mie) {</span>
+<span class="nc" id="L198">			LOG.error(&quot;Parse problems&quot;, pee);</span>
+<span class="nc" id="L199">		} catch (MethodInvocationException mie) {</span>
 			// something invoked in the template
 			// threw an exception
-<span class="nc" id="L199">			Throwable wrapped = mie.getWrappedThrowable();</span>
+<span class="nc" id="L202">			Throwable wrapped = mie.getWrappedThrowable();</span>
 
-<span class="nc" id="L201">			LOG.error(&quot;Problems with velocity&quot;, mie);</span>
+<span class="nc" id="L204">			LOG.error(&quot;Problems with velocity&quot;, mie);</span>
 
-<span class="nc bnc" id="L203" title="All 2 branches missed.">			if (wrapped != null) {</span>
-<span class="nc" id="L204">				LOG.error(&quot;Wrapped exception...&quot;, wrapped);</span>
+<span class="nc bnc" id="L206" title="All 2 branches missed.">			if (wrapped != null) {</span>
+<span class="nc" id="L207">				LOG.error(&quot;Wrapped exception...&quot;, wrapped);</span>
 			}
-<span class="nc" id="L206">		} catch (Exception e) {</span>
-<span class="nc" id="L207">			LOG.error(&quot;Problems with velocity&quot;, e);</span>
-<span class="pc" id="L208">		}</span>
-<span class="fc" id="L209">	}</span>
+<span class="nc" id="L209">		} catch (Exception e) {</span>
+<span class="nc" id="L210">			LOG.error(&quot;Problems with velocity&quot;, e);</span>
+<span class="pc" id="L211">		}</span>
+<span class="fc" id="L212">	}</span>
 
 	/**
 	 * Fills the given velocity context with data from the component which is being rendered. A map of components is
@@ -219,63 +222,63 @@ public final class VelocityRenderer implements Renderer {
 	private void fillContext(final WComponent component,
 			final VelocityContext context, final Map&lt;String, WComponent&gt; componentsByKey) {
 		// Also make the component available under the &quot;this&quot; key.
-<span class="fc" id="L222">		context.put(&quot;this&quot;, component);</span>
+<span class="fc" id="L225">		context.put(&quot;this&quot;, component);</span>
 
 		// Make the UIContext available under the &quot;uicontext&quot; key.
-<span class="fc" id="L225">		UIContext uic = UIContextHolder.getCurrent();</span>
-<span class="fc" id="L226">		context.put(&quot;uicontext&quot;, uic);</span>
-<span class="fc" id="L227">		context.put(&quot;uic&quot;, uic);</span>
+<span class="fc" id="L228">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc" id="L229">		context.put(&quot;uicontext&quot;, uic);</span>
+<span class="fc" id="L230">		context.put(&quot;uic&quot;, uic);</span>
 
-<span class="fc bfc" id="L229" title="All 2 branches covered.">		if (component instanceof VelocityProperties) {</span>
-<span class="fc" id="L230">			Map&lt;?, ?&gt; map = ((VelocityProperties) component).getVelocityMap();</span>
+<span class="fc bfc" id="L232" title="All 2 branches covered.">		if (component instanceof VelocityProperties) {</span>
+<span class="fc" id="L233">			Map&lt;?, ?&gt; map = ((VelocityProperties) component).getVelocityMap();</span>
 
-<span class="fc bfc" id="L232" title="All 2 branches covered.">			for (Map.Entry&lt;?, ?&gt; entry : map.entrySet()) {</span>
-<span class="fc" id="L233">				String key = (String) entry.getKey();</span>
-<span class="fc" id="L234">				Object value = entry.getValue();</span>
-<span class="fc" id="L235">				context.put(key, value);</span>
-<span class="fc" id="L236">			}</span>
+<span class="fc bfc" id="L235" title="All 2 branches covered.">			for (Map.Entry&lt;?, ?&gt; entry : map.entrySet()) {</span>
+<span class="fc" id="L236">				String key = (String) entry.getKey();</span>
+<span class="fc" id="L237">				Object value = entry.getValue();</span>
+<span class="fc" id="L238">				context.put(key, value);</span>
+<span class="fc" id="L239">			}</span>
 		}
 
-<span class="pc bpc" id="L239" title="1 of 2 branches missed.">		if (LOG.isDebugEnabled()) {</span>
-<span class="nc" id="L240">			LOG.debug(&quot;Handling children&quot;);</span>
+<span class="pc bpc" id="L242" title="1 of 2 branches missed.">		if (LOG.isDebugEnabled()) {</span>
+<span class="nc" id="L243">			LOG.debug(&quot;Handling children&quot;);</span>
 		}
 
 		// As well as going into their own named slots, visible children are also
 		// placed into a list called children
-<span class="fc" id="L245">		ArrayList&lt;String&gt; children = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L248">		ArrayList&lt;String&gt; children = new ArrayList&lt;&gt;();</span>
 
-<span class="pc bpc" id="L247" title="1 of 2 branches missed.">		if (component instanceof Container) {</span>
-<span class="fc" id="L248">			Container container = (Container) component;</span>
+<span class="pc bpc" id="L250" title="1 of 2 branches missed.">		if (component instanceof Container) {</span>
+<span class="fc" id="L251">			Container container = (Container) component;</span>
 
-<span class="fc bfc" id="L250" title="All 2 branches covered.">			for (int i = 0; i &lt; container.getChildCount(); i++) {</span>
-<span class="fc" id="L251">				WComponent child = container.getChildAt(i);</span>
-<span class="fc" id="L252">				String tag = child.getTag();</span>
+<span class="fc bfc" id="L253" title="All 2 branches covered.">			for (int i = 0; i &lt; container.getChildCount(); i++) {</span>
+<span class="fc" id="L254">				WComponent child = container.getChildAt(i);</span>
+<span class="fc" id="L255">				String tag = child.getTag();</span>
 
-<span class="pc bpc" id="L254" title="3 of 4 branches missed.">				if (tag != null || child.isVisible()) {</span>
+<span class="pc bpc" id="L257" title="3 of 4 branches missed.">				if (tag != null || child.isVisible()) {</span>
 					// The key needs to be something which would never be output by a Velocity template.
-<span class="fc" id="L256">					String key = &quot;&lt;VelocityLayout&quot; + child.getId() + &quot;/&gt;&quot;;</span>
-<span class="fc" id="L257">					componentsByKey.put(key, child);</span>
+<span class="fc" id="L259">					String key = &quot;&lt;VelocityLayout&quot; + child.getId() + &quot;/&gt;&quot;;</span>
+<span class="fc" id="L260">					componentsByKey.put(key, child);</span>
 
-<span class="pc bpc" id="L259" title="1 of 2 branches missed.">					if (tag != null) {</span>
-<span class="pc bpc" id="L260" title="1 of 2 branches missed.">						if (LOG.isDebugEnabled()) {</span>
-<span class="nc" id="L261">							LOG.debug(&quot;Adding child &quot; + tag + &quot; to context&quot;);</span>
+<span class="pc bpc" id="L262" title="1 of 2 branches missed.">					if (tag != null) {</span>
+<span class="pc bpc" id="L263" title="1 of 2 branches missed.">						if (LOG.isDebugEnabled()) {</span>
+<span class="nc" id="L264">							LOG.debug(&quot;Adding child &quot; + tag + &quot; to context&quot;);</span>
 						}
 
-<span class="fc" id="L264">						addToContext(context, tag, key);</span>
+<span class="fc" id="L267">						addToContext(context, tag, key);</span>
 					}
 
-<span class="pc bpc" id="L267" title="1 of 2 branches missed.">					if (child.isVisible()) {</span>
-<span class="fc" id="L268">						children.add(key);</span>
+<span class="pc bpc" id="L270" title="1 of 2 branches missed.">					if (child.isVisible()) {</span>
+<span class="fc" id="L271">						children.add(key);</span>
 					}
 				}
 			}
 
-<span class="fc" id="L273">			context.put(&quot;children&quot;, children);</span>
+<span class="fc" id="L276">			context.put(&quot;children&quot;, children);</span>
 		}
 
 		// Put the context in the context
-<span class="fc" id="L277">		context.put(&quot;context&quot;, context);</span>
-<span class="fc" id="L278">	}</span>
+<span class="fc" id="L280">		context.put(&quot;context&quot;, context);</span>
+<span class="fc" id="L281">	}</span>
 
 	/**
 	 * Adds a name/value pair to the Velocity context. If the name parameter ends with {@link #LIST_SUFFIX}
@@ -285,26 +288,26 @@ public final class VelocityRenderer implements Renderer {
 	 * @param value the value
 	 */
 	private void addToContext(final VelocityContext context, final String name, final Object value) {
-<span class="fc bfc" id="L288" title="All 2 branches covered.">		if (name.endsWith(LIST_SUFFIX)) {</span>
+<span class="fc bfc" id="L291" title="All 2 branches covered.">		if (name.endsWith(LIST_SUFFIX)) {</span>
 			// We want to use lists
-<span class="fc" id="L290">			Object already = context.get(name);</span>
-<span class="pc bpc" id="L291" title="1 of 4 branches missed.">			if (already != null &amp;&amp; !(already instanceof List)) {</span>
-<span class="nc" id="L292">				throw new SystemException(</span>
+<span class="fc" id="L293">			Object already = context.get(name);</span>
+<span class="pc bpc" id="L294" title="1 of 4 branches missed.">			if (already != null &amp;&amp; !(already instanceof List)) {</span>
+<span class="nc" id="L295">				throw new SystemException(</span>
 						&quot;VelocityContext contained &quot; + already + &quot; instead of List under &quot; + name);
 			}
 
-<span class="fc" id="L296">			List list = (List) context.get(name);</span>
+<span class="fc" id="L299">			List list = (List) context.get(name);</span>
 
-<span class="fc bfc" id="L298" title="All 2 branches covered.">			if (list == null) {</span>
-<span class="fc" id="L299">				list = new ArrayList();</span>
-<span class="fc" id="L300">				context.put(name, list);</span>
+<span class="fc bfc" id="L301" title="All 2 branches covered.">			if (list == null) {</span>
+<span class="fc" id="L302">				list = new ArrayList();</span>
+<span class="fc" id="L303">				context.put(name, list);</span>
 			}
 
-<span class="fc" id="L303">			list.add(value);</span>
-<span class="fc" id="L304">		} else {</span>
-<span class="fc" id="L305">			context.put(name, value);</span>
+<span class="fc" id="L306">			list.add(value);</span>
+<span class="fc" id="L307">		} else {</span>
+<span class="fc" id="L308">			context.put(name, value);</span>
 		}
-<span class="fc" id="L307">	}</span>
+<span class="fc" id="L310">	}</span>
 
 	/**
 	 * Paints the component in HTML using the NoTemplateLayout.
@@ -317,20 +320,20 @@ public final class VelocityRenderer implements Renderer {
 	@Deprecated
 	protected void noTemplatePaintHtml(final WComponent component, final Writer writer) {
 		try {
-<span class="nc" id="L320">			writer.write(&quot;&lt;!-- Start &quot; + url + &quot; not found --&gt;\n&quot;);</span>
-<span class="nc" id="L321">			new VelocityRenderer(NO_TEMPLATE_LAYOUT).paintXml(component, writer);</span>
-<span class="nc" id="L322">			writer.write(&quot;&lt;!-- End &quot; + url + &quot; (template not found) --&gt;\n&quot;);</span>
-<span class="nc" id="L323">		} catch (IOException e) {</span>
-<span class="nc" id="L324">			LOG.error(&quot;Failed to paint component&quot;, e);</span>
-<span class="nc" id="L325">		}</span>
-<span class="nc" id="L326">	}</span>
+<span class="nc" id="L323">			writer.write(&quot;&lt;!-- Start &quot; + url + &quot; not found --&gt;\n&quot;);</span>
+<span class="nc" id="L324">			new VelocityRenderer(NO_TEMPLATE_LAYOUT).paintXml(component, writer);</span>
+<span class="nc" id="L325">			writer.write(&quot;&lt;!-- End &quot; + url + &quot; (template not found) --&gt;\n&quot;);</span>
+<span class="nc" id="L326">		} catch (IOException e) {</span>
+<span class="nc" id="L327">			LOG.error(&quot;Failed to paint component&quot;, e);</span>
+<span class="nc" id="L328">		}</span>
+<span class="nc" id="L329">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {
-<span class="nc" id="L333">		return &quot;VelocityLayout: &quot; + url;</span>
+<span class="nc" id="L336">		return &quot;VelocityLayout: &quot; + url;</span>
 	}
 
 	/**
@@ -340,30 +343,30 @@ public final class VelocityRenderer implements Renderer {
 	 * @return the template for the given component, or null if there is no template.
 	 */
 	private Template getTemplate(final WComponent component) {
-<span class="fc" id="L343">		String templateUrl = url;</span>
+<span class="fc" id="L346">		String templateUrl = url;</span>
 
-<span class="pc bpc" id="L345" title="1 of 4 branches missed.">		if (templateUrl == null &amp;&amp; component instanceof AbstractWComponent) {</span>
-<span class="fc" id="L346">			templateUrl = ((AbstractWComponent) component).getTemplate();</span>
+<span class="pc bpc" id="L348" title="1 of 4 branches missed.">		if (templateUrl == null &amp;&amp; component instanceof AbstractWComponent) {</span>
+<span class="fc" id="L349">			templateUrl = ((AbstractWComponent) component).getTemplate();</span>
 		}
 
-<span class="pc bpc" id="L349" title="1 of 2 branches missed.">		if (templateUrl != null) {</span>
+<span class="pc bpc" id="L352" title="1 of 2 branches missed.">		if (templateUrl != null) {</span>
 			try {
-<span class="fc" id="L351">				return VelocityEngineFactory.getVelocityEngine().getTemplate(templateUrl);</span>
-<span class="fc" id="L352">			} catch (Exception ex) {</span>
+<span class="fc" id="L354">				return VelocityEngineFactory.getVelocityEngine().getTemplate(templateUrl);</span>
+<span class="fc" id="L355">			} catch (Exception ex) {</span>
 				// If the resource is not available (eg if the template does not
 				// exist), paint using a default layout and inform the user
 				// of what's going on in the html comments.
-<span class="fc" id="L356">				LOG.warn(&quot;Could not open &quot; + templateUrl, ex);</span>
+<span class="fc" id="L359">				LOG.warn(&quot;Could not open &quot; + templateUrl, ex);</span>
 
 				try {
-<span class="fc" id="L359">					return VelocityEngineFactory.getVelocityEngine().getTemplate(NO_TEMPLATE_LAYOUT);</span>
-<span class="nc" id="L360">				} catch (Exception e) {</span>
-<span class="nc" id="L361">					LOG.error(&quot;Failed to read no template layout&quot;, e);</span>
+<span class="fc" id="L362">					return VelocityEngineFactory.getVelocityEngine().getTemplate(NO_TEMPLATE_LAYOUT);</span>
+<span class="nc" id="L363">				} catch (Exception e) {</span>
+<span class="nc" id="L364">					LOG.error(&quot;Failed to read no template layout&quot;, e);</span>
 				}
 			}
 		}
 
-<span class="nc" id="L366">		return null;</span>
+<span class="nc" id="L369">		return null;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

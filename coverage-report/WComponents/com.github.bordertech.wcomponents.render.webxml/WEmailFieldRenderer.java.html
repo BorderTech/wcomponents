@@ -33,7 +33,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 <span class="fc" id="L33">		WComponent submitControl = field.getDefaultSubmitButton();</span>
 <span class="fc bfc" id="L34" title="All 2 branches covered.">		String submitControlId = submitControl == null ? null : submitControl.getId();</span>
 
-<span class="fc" id="L36">		xml.appendTagOpen(&quot;ui:emailField&quot;);</span>
+<span class="fc" id="L36">		xml.appendTagOpen(&quot;ui:emailfield&quot;);</span>
 <span class="fc" id="L37">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
 <span class="fc" id="L38">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
 <span class="fc" id="L39">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
@@ -52,7 +52,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 
 <span class="fc" id="L53">		xml.appendEscaped(field.getText());</span>
 
-<span class="fc" id="L55">		xml.appendEndTag(&quot;ui:emailField&quot;);</span>
+<span class="fc" id="L55">		xml.appendEndTag(&quot;ui:emailfield&quot;);</span>
 <span class="fc" id="L56">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

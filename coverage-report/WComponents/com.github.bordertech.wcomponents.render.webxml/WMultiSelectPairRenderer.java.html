@@ -36,7 +36,7 @@ import java.util.Map;
 <span class="fc" id="L36">		int min = multiSelectPair.getMinSelect();</span>
 <span class="fc" id="L37">		int max = multiSelectPair.getMaxSelect();</span>
 
-<span class="fc" id="L39">		xml.appendTagOpen(&quot;ui:multiSelectPair&quot;);</span>
+<span class="fc" id="L39">		xml.appendTagOpen(&quot;ui:multiselectpair&quot;);</span>
 <span class="fc" id="L40">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
 <span class="fc" id="L41">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
 <span class="fc" id="L42">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
@@ -68,11 +68,12 @@ import java.util.Map;
 			}
 		}
 
-<span class="fc" id="L71">		xml.appendEndTag(&quot;ui:multiSelectPair&quot;);</span>
+<span class="fc" id="L71">		xml.appendEndTag(&quot;ui:multiselectpair&quot;);</span>
 <span class="fc" id="L72">	}</span>
 
 	/**
-	 * Renders the options in selection order.
+	 * Renders the options in selection order. Note, though, that this does not support the legacy allowNull or
+	 * setSelected using String representations.
 	 *
 	 * @param multiSelectPair the WMultiSelectPair to paint.
 	 * @param options the options to render
@@ -82,15 +83,13 @@ import java.util.Map;
 	 * @param encode true if the option description should be encoded, false if not.
 	 *
 	 * @return the number of options painted.
-	 *
-	 * TODO: This does not support the legacy allowNull or setSelected using String representations.
 	 */
 	private int renderOrderedOptions(final WMultiSelectPair multiSelectPair, final List&lt;?&gt; options,
 			final int startIndex, final XmlStringBuilder xml,
 			final boolean renderSelectionsOnly, final boolean encode) {
 
-<span class="fc" id="L92">		List&lt;?&gt; selections = multiSelectPair.getSelected();</span>
-<span class="fc" id="L93">		int optionIndex = startIndex;</span>
+<span class="fc" id="L91">		List&lt;?&gt; selections = multiSelectPair.getSelected();</span>
+<span class="fc" id="L92">		int optionIndex = startIndex;</span>
 
 		// We can't just render all the unselected options followed by the selected ones
 		// in the order they are given to us, as unselected/selected may be intermingled
@@ -101,46 +100,46 @@ import java.util.Map;
 		//     - keep track of the selected ones (index within the selection list + index within the option list)
 		// - Once all the unselected items have been rendered, we render the selections
 		// This maps selection indices to option indices for the current group
-<span class="fc" id="L104">		Map&lt;Integer, Integer&gt; currentSelectionIndices = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L103">		Map&lt;Integer, Integer&gt; currentSelectionIndices = new HashMap&lt;&gt;();</span>
 
-<span class="fc bfc" id="L106" title="All 2 branches covered.">		for (Object option : options) {</span>
-<span class="fc bfc" id="L107" title="All 2 branches covered.">			if (option instanceof OptionGroup) {</span>
-<span class="fc" id="L108">				xml.appendTagOpen(&quot;ui:optgroup&quot;);</span>
-<span class="fc" id="L109">				xml.appendAttribute(&quot;label&quot;, ((OptionGroup) option).getDesc());</span>
-<span class="fc" id="L110">				xml.appendClose();</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">		for (Object option : options) {</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">			if (option instanceof OptionGroup) {</span>
+<span class="fc" id="L107">				xml.appendTagOpen(&quot;ui:optgroup&quot;);</span>
+<span class="fc" id="L108">				xml.appendAttribute(&quot;label&quot;, ((OptionGroup) option).getDesc());</span>
+<span class="fc" id="L109">				xml.appendClose();</span>
 
 				// Recurse to render options inside option groups.
-<span class="fc" id="L113">				List&lt;?&gt; nestedOptions = ((OptionGroup) option).getOptions();</span>
-<span class="fc" id="L114">				optionIndex += renderOrderedOptions(multiSelectPair, nestedOptions, optionIndex, xml,</span>
+<span class="fc" id="L112">				List&lt;?&gt; nestedOptions = ((OptionGroup) option).getOptions();</span>
+<span class="fc" id="L113">				optionIndex += renderOrderedOptions(multiSelectPair, nestedOptions, optionIndex, xml,</span>
 						renderSelectionsOnly, encode);
 
-<span class="fc" id="L117">				xml.appendEndTag(&quot;ui:optgroup&quot;);</span>
-<span class="fc" id="L118">			} else {</span>
-<span class="fc" id="L119">				int index = selections.indexOf(option);</span>
+<span class="fc" id="L116">				xml.appendEndTag(&quot;ui:optgroup&quot;);</span>
+<span class="fc" id="L117">			} else {</span>
+<span class="fc" id="L118">				int index = selections.indexOf(option);</span>
 
-<span class="fc bfc" id="L121" title="All 2 branches covered.">				if (index == -1) {</span>
-<span class="fc" id="L122">					renderOption(multiSelectPair, option, optionIndex++, xml, selections,</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">				if (index == -1) {</span>
+<span class="fc" id="L121">					renderOption(multiSelectPair, option, optionIndex++, xml, selections,</span>
 							renderSelectionsOnly, encode);
 				} else {
-<span class="fc" id="L125">					currentSelectionIndices.put(index, optionIndex++);</span>
+<span class="fc" id="L124">					currentSelectionIndices.put(index, optionIndex++);</span>
 				}
 			}
-<span class="fc" id="L128">		}</span>
+<span class="fc" id="L127">		}</span>
 
-<span class="fc bfc" id="L130" title="All 2 branches covered.">		if (!currentSelectionIndices.isEmpty()) {</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">		if (!currentSelectionIndices.isEmpty()) {</span>
 			// Now sort the selected item's indices and render them in the correct order.
-<span class="fc" id="L132">			List&lt;Integer&gt; sortedSelectedIndices = new ArrayList&lt;&gt;(currentSelectionIndices.keySet());</span>
-<span class="fc" id="L133">			Collections.sort(sortedSelectedIndices);</span>
+<span class="fc" id="L131">			List&lt;Integer&gt; sortedSelectedIndices = new ArrayList&lt;&gt;(currentSelectionIndices.keySet());</span>
+<span class="fc" id="L132">			Collections.sort(sortedSelectedIndices);</span>
 
-<span class="fc bfc" id="L135" title="All 2 branches covered.">			for (int selectionIndex : sortedSelectedIndices) {</span>
-<span class="fc" id="L136">				int selectionOptionIndex = currentSelectionIndices.get(selectionIndex);</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">			for (int selectionIndex : sortedSelectedIndices) {</span>
+<span class="fc" id="L135">				int selectionOptionIndex = currentSelectionIndices.get(selectionIndex);</span>
 
-<span class="fc" id="L138">				renderOption(multiSelectPair, selections.get(selectionIndex), selectionOptionIndex,</span>
+<span class="fc" id="L137">				renderOption(multiSelectPair, selections.get(selectionIndex), selectionOptionIndex,</span>
 						xml, selections, renderSelectionsOnly, encode);
-<span class="fc" id="L140">			}</span>
+<span class="fc" id="L139">			}</span>
 		}
 
-<span class="fc" id="L143">		return optionIndex - startIndex;</span>
+<span class="fc" id="L142">		return optionIndex - startIndex;</span>
 	}
 
 	/**
@@ -158,28 +157,28 @@ import java.util.Map;
 	private int renderUnorderedOptions(final WMultiSelectPair multiSelectPair, final List&lt;?&gt; options,
 			final int startIndex,
 			final XmlStringBuilder xml, final boolean renderSelectionsOnly, final boolean encode) {
-<span class="fc" id="L161">		List&lt;?&gt; selections = multiSelectPair.getSelected();</span>
-<span class="fc" id="L162">		int optionIndex = startIndex;</span>
+<span class="fc" id="L160">		List&lt;?&gt; selections = multiSelectPair.getSelected();</span>
+<span class="fc" id="L161">		int optionIndex = startIndex;</span>
 
-<span class="fc bfc" id="L164" title="All 2 branches covered.">		for (Object option : options) {</span>
-<span class="fc bfc" id="L165" title="All 2 branches covered.">			if (option instanceof OptionGroup) {</span>
-<span class="fc" id="L166">				xml.appendTagOpen(&quot;ui:optgroup&quot;);</span>
-<span class="fc" id="L167">				xml.appendAttribute(&quot;label&quot;, ((OptionGroup) option).getDesc());</span>
-<span class="fc" id="L168">				xml.appendClose();</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">		for (Object option : options) {</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">			if (option instanceof OptionGroup) {</span>
+<span class="fc" id="L165">				xml.appendTagOpen(&quot;ui:optgroup&quot;);</span>
+<span class="fc" id="L166">				xml.appendAttribute(&quot;label&quot;, ((OptionGroup) option).getDesc());</span>
+<span class="fc" id="L167">				xml.appendClose();</span>
 
 				// Recurse to render options inside option groups.
-<span class="fc" id="L171">				List&lt;?&gt; nestedOptions = ((OptionGroup) option).getOptions();</span>
-<span class="fc" id="L172">				optionIndex += renderUnorderedOptions(multiSelectPair, nestedOptions, optionIndex,</span>
+<span class="fc" id="L170">				List&lt;?&gt; nestedOptions = ((OptionGroup) option).getOptions();</span>
+<span class="fc" id="L171">				optionIndex += renderUnorderedOptions(multiSelectPair, nestedOptions, optionIndex,</span>
 						xml, renderSelectionsOnly, encode);
 
-<span class="fc" id="L175">				xml.appendEndTag(&quot;ui:optgroup&quot;);</span>
-<span class="fc" id="L176">			} else {</span>
-<span class="fc" id="L177">				renderOption(multiSelectPair, option, optionIndex++, xml, selections,</span>
+<span class="fc" id="L174">				xml.appendEndTag(&quot;ui:optgroup&quot;);</span>
+<span class="fc" id="L175">			} else {</span>
+<span class="fc" id="L176">				renderOption(multiSelectPair, option, optionIndex++, xml, selections,</span>
 						renderSelectionsOnly, encode);
 			}
-<span class="fc" id="L180">		}</span>
+<span class="fc" id="L179">		}</span>
 
-<span class="fc" id="L182">		return optionIndex - startIndex;</span>
+<span class="fc" id="L181">		return optionIndex - startIndex;</span>
 	}
 
 	/**
@@ -196,21 +195,21 @@ import java.util.Map;
 	private void renderOption(final WMultiSelectPair multiSelectPair, final Object option,
 			final int optionIndex, final XmlStringBuilder html, final List&lt;?&gt; selections,
 			final boolean renderSelectionsOnly, final boolean encode) {
-<span class="fc" id="L199">		boolean selected = selections.contains(option);</span>
+<span class="fc" id="L198">		boolean selected = selections.contains(option);</span>
 
-<span class="fc bfc" id="L201" title="All 4 branches covered.">		if (selected || !renderSelectionsOnly) {</span>
+<span class="fc bfc" id="L200" title="All 4 branches covered.">		if (selected || !renderSelectionsOnly) {</span>
 			// Get Code and Desc
-<span class="fc" id="L203">			String code = multiSelectPair.getCode(option, optionIndex);</span>
-<span class="fc" id="L204">			String desc = multiSelectPair.getDesc(option, optionIndex);</span>
+<span class="fc" id="L202">			String code = multiSelectPair.getCode(option, optionIndex);</span>
+<span class="fc" id="L203">			String desc = multiSelectPair.getDesc(option, optionIndex);</span>
 
 			// Render Option
-<span class="fc" id="L207">			html.appendTagOpen(&quot;ui:option&quot;);</span>
-<span class="fc" id="L208">			html.appendAttribute(&quot;value&quot;, code);</span>
-<span class="fc" id="L209">			html.appendOptionalAttribute(&quot;selected&quot;, selected, &quot;true&quot;);</span>
-<span class="fc" id="L210">			html.appendClose();</span>
-<span class="fc" id="L211">			html.append(desc, encode);</span>
-<span class="fc" id="L212">			html.appendEndTag(&quot;ui:option&quot;);</span>
+<span class="fc" id="L206">			html.appendTagOpen(&quot;ui:option&quot;);</span>
+<span class="fc" id="L207">			html.appendAttribute(&quot;value&quot;, code);</span>
+<span class="fc" id="L208">			html.appendOptionalAttribute(&quot;selected&quot;, selected, &quot;true&quot;);</span>
+<span class="fc" id="L209">			html.appendClose();</span>
+<span class="fc" id="L210">			html.append(desc, encode);</span>
+<span class="fc" id="L211">			html.appendEndTag(&quot;ui:option&quot;);</span>
 		}
-<span class="fc" id="L214">	}</span>
+<span class="fc" id="L213">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>HandlebarsRendererImpl.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.template</a> &gt; <span class="el_source">HandlebarsRendererImpl.java</span></div><h1>HandlebarsRendererImpl.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.template;
+
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.jknack.handlebars.Context;
+import com.github.jknack.handlebars.EscapingStrategy;
+import com.github.jknack.handlebars.Handlebars;
+//import com.github.jknack.handlebars.MarkdownHelper;
+import com.github.jknack.handlebars.Template;
+import com.github.jknack.handlebars.cache.TemplateCache;
+import com.github.jknack.handlebars.context.JavaBeanValueResolver;
+import com.github.jknack.handlebars.context.MapValueResolver;
+import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
+import com.github.jknack.handlebars.io.TemplateLoader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Map;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * Handlebars template renderer.
+ * &lt;p&gt;
+ * Has the following engine options:-
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;{@link #PRETTY_PRINT} - Include with value &quot;true&quot; to activate&lt;/li&gt;
+ * &lt;li&gt;{@link #MARKDOWN} - Include with value &quot;true&quot; to activate&lt;/li&gt;
+ * &lt;li&gt;{@link #ESCAPING_STRATEGY} - Include with {@link EscapingStrategy} as the value&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @author Jonathan Austin
+ * @since 1.0.3
+ */
+<span class="fc" id="L39">public class HandlebarsRendererImpl implements TemplateRenderer {</span>
+
+	/**
+	 * Pretty print option.
+	 */
+	public static final String PRETTY_PRINT = &quot;PRETTY_PRINT&quot;;
+
+	/**
+	 * Markdown option.
+	 */
+	public static final String MARKDOWN = &quot;MARKDOWN&quot;;
+
+	/**
+	 * Escaping strategy option.
+	 */
+	public static final String ESCAPING_STRATEGY = &quot;ESCAPING_STRATEGY&quot;;
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L59">	private static final Log LOG = LogFactory.getLog(HandlebarsRendererImpl.class);</span>
+
+	/**
+	 * The handlebars cache instance.
+	 */
+<span class="fc" id="L64">	private static final TemplateCache CACHE = new HandlebarsCacheImpl();</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void renderTemplate(final String templateName, final Map&lt;String, Object&gt; context, final Map&lt;String, WComponent&gt; taggedComponents, final Writer writer, final Map&lt;String, Object&gt; options) {
+
+<span class="fc" id="L72">		LOG.debug(&quot;Rendering handlebars template &quot; + templateName);</span>
+
+		try {
+
+			// Map the tagged components to be used in the replace writer
+<span class="fc" id="L77">			Map&lt;String, WComponent&gt; componentsByKey = TemplateUtil.mapTaggedComponents(context, taggedComponents);</span>
+
+			// Get Engine
+<span class="fc" id="L80">			Handlebars handlebars = getHandlebarsEngine(options);</span>
+
+			// Load template (Handlebars loader makes the template name &quot;absolute&quot;)
+<span class="fc" id="L83">			Template template = handlebars.compile(templateName);</span>
+
+			// Setup handlebars context
+<span class="fc" id="L86">			Context handlebarsContext = createContext(context);</span>
+
+			// Render
+<span class="fc" id="L89">			writeTemplate(template, handlebarsContext, componentsByKey, writer);</span>
+<span class="fc" id="L90">		} catch (FileNotFoundException e) {</span>
+<span class="fc" id="L91">			throw new SystemException(&quot;Could not find handlebars template [&quot; + templateName + &quot;]. &quot; + e.getMessage(), e);</span>
+<span class="nc" id="L92">		} catch (Exception e) {</span>
+<span class="nc" id="L93">			throw new SystemException(&quot;Problems with handlebars template [&quot; + templateName + &quot;]. &quot; + e.getMessage(), e);</span>
+<span class="fc" id="L94">		}</span>
+<span class="fc" id="L95">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void renderInline(final String templateInline, final Map&lt;String, Object&gt; context, final Map&lt;String, WComponent&gt; taggedComponents, final Writer writer, final Map&lt;String, Object&gt; options) {
+
+<span class="fc" id="L103">		LOG.debug(&quot;Rendering handlebars inline template.&quot;);</span>
+
+		try {
+
+			// Map the tagged components to be used in the replace writer
+<span class="fc" id="L108">			Map&lt;String, WComponent&gt; componentsByKey = TemplateUtil.mapTaggedComponents(context, taggedComponents);</span>
+
+			// Get Engine
+<span class="fc" id="L111">			Handlebars handlebars = getHandlebarsEngine(options);</span>
+
+			// Compile inline
+<span class="fc" id="L114">			Template template = handlebars.compileInline(templateInline);</span>
+
+			// Setup handlebars context
+<span class="fc" id="L117">			Context handlebarsContext = createContext(context);</span>
+
+			// Write template
+<span class="fc" id="L120">			writeTemplate(template, handlebarsContext, componentsByKey, writer);</span>
+
+<span class="nc" id="L122">		} catch (Exception e) {</span>
+<span class="nc" id="L123">			throw new SystemException(&quot;Problems with handlebars inline template. &quot; + e.getMessage(), e);</span>
+<span class="fc" id="L124">		}</span>
+<span class="fc" id="L125">	}</span>
+
+	/**
+	 *
+	 * @param options the engine options
+	 * @return the handlebars engine
+	 */
+	protected Handlebars getHandlebarsEngine(final Map&lt;String, Object&gt; options) {
+		// Setup handlebars
+<span class="fc" id="L134">		TemplateLoader loader = new ClassPathTemplateLoader();</span>
+		// Clear the suffix so the file name does not default the file type to &quot;.hbs&quot;
+<span class="fc" id="L136">		loader.setSuffix(&quot;&quot;);</span>
+
+<span class="fc" id="L138">		Handlebars handlebars = new Handlebars(loader);</span>
+
+		// Pretty Print
+<span class="fc" id="L141">		Object value = options.get(PRETTY_PRINT);</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">		if (value != null) {</span>
+<span class="nc" id="L143">			handlebars.setPrettyPrint(&quot;true&quot;.equalsIgnoreCase(value.toString()));</span>
+		}
+
+		// Escaping Strategy
+<span class="fc" id="L147">		value = options.get(ESCAPING_STRATEGY);</span>
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">		if (value instanceof EscapingStrategy) {</span>
+<span class="nc" id="L149">			handlebars.with((EscapingStrategy) value);</span>
+		}
+
+		// Use markdown
+		// Disabled temporarily for issues # 565
+		/*value = options.get(MARKDOWN);
+		if (value != null &amp;&amp; &quot;true&quot;.equalsIgnoreCase(value.toString())) {
+			handlebars.registerHelper(&quot;md&quot;, new MarkdownHelper());
+		}*/
+
+		// Caching
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">		if (isCaching()) {</span>
+<span class="fc" id="L161">			handlebars.with(CACHE);</span>
+		}
+
+<span class="fc" id="L164">		return handlebars;</span>
+	}
+
+	/**
+	 *
+	 * @param componentContext the component context
+	 * @return the handlebars context
+	 */
+	protected Context createContext(final Map&lt;String, Object&gt; componentContext) {
+<span class="fc" id="L173">		Context handlebarsContext = Context.newBuilder(componentContext)</span>
+<span class="fc" id="L174">				.resolver(MapValueResolver.INSTANCE, JavaBeanValueResolver.INSTANCE).build();</span>
+<span class="fc" id="L175">		return handlebarsContext;</span>
+	}
+
+	/**
+	 *
+	 * @param template the handlebars template
+	 * @param handlebarsContext the handlebars context
+	 * @param componentsByKey the map of child components
+	 * @param writer the writer for the output
+	 * @throws IOException an IOException applying the template
+	 */
+	protected void writeTemplate(final Template template, final Context handlebarsContext, final Map&lt;String, WComponent&gt; componentsByKey, final Writer writer) throws IOException {
+		// Apply template
+<span class="fc" id="L188">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="pc" id="L189">		try (TemplateWriter templateWriter = new TemplateWriter(writer, componentsByKey, uic)) {</span>
+<span class="fc" id="L190">			template.apply(handlebarsContext, templateWriter);</span>
+<span class="pc bpc" id="L191" title="6 of 8 branches missed.">		}</span>
+<span class="fc" id="L192">	}</span>
+
+	/**
+	 * @return true if use caching
+	 */
+	protected boolean isCaching() {
+<span class="fc" id="L198">		return Config.getInstance().getBoolean(&quot;bordertech.wcomponents.handlebars.cache.enabled&quot;, Boolean.TRUE);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

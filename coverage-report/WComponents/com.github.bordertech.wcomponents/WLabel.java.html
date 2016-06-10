@@ -217,24 +217,13 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 <span class="nc" id="L217">	}</span>
 
 	/**
-	 * Sets the client visibility of this label. This method should only ever be called to hide labels which are
-	 * intended for use by screen-readers.
-	 *
-	 * @param hidden true for hidden, false for displayed.
-	 */
-	@Override
-	public void setHidden(final boolean hidden) {
-<span class="nc" id="L227">		super.setHidden(hidden);</span>
-<span class="nc" id="L228">	}</span>
-
-	/**
 	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {
-<span class="fc" id="L235">		String text = getText();</span>
-<span class="pc bpc" id="L236" title="1 of 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
-<span class="fc" id="L237">		return toString(text, 1, 1);</span>
+<span class="fc" id="L224">		String text = getText();</span>
+<span class="pc bpc" id="L225" title="1 of 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="fc" id="L226">		return toString(text, 1, 1);</span>
 	}
 
 	// --------------------------------
@@ -246,7 +235,7 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	 */
 	@Override
 	protected LabelModel newComponentModel() {
-<span class="fc" id="L249">		return new LabelModel();</span>
+<span class="fc" id="L238">		return new LabelModel();</span>
 	}
 
 	/**
@@ -254,7 +243,7 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	 */
 	@Override // For type safety only
 	protected LabelModel getComponentModel() {
-<span class="fc" id="L257">		return (LabelModel) super.getComponentModel();</span>
+<span class="fc" id="L246">		return (LabelModel) super.getComponentModel();</span>
 	}
 
 	/**
@@ -262,13 +251,13 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	 */
 	@Override // For type safety only
 	protected LabelModel getOrCreateComponentModel() {
-<span class="fc" id="L265">		return (LabelModel) super.getOrCreateComponentModel();</span>
+<span class="fc" id="L254">		return (LabelModel) super.getOrCreateComponentModel();</span>
 	}
 
 	/**
 	 * Holds the extrinsic state information of a WLabel.
 	 */
-<span class="fc" id="L271">	public static class LabelModel extends ComponentModel {</span>
+<span class="fc" id="L260">	public static class LabelModel extends ComponentModel {</span>
 
 		/**
 		 * The label text.
@@ -288,7 +277,7 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 		/**
 		 * The key shortcut that activates the label's &lt;code&gt;forComponent&lt;/code&gt;.
 		 */
-<span class="fc" id="L291">		private char accessKey = '\0';</span>
+<span class="fc" id="L280">		private char accessKey = '\0';</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

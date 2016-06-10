@@ -110,14 +110,14 @@
 <a class="jxr_linenumber" name="L102" href="#L102">102</a> 		<strong class="jxr_keyword">this</strong>.httpServletRequest = httpServletRequest;
 <a class="jxr_linenumber" name="L103" href="#L103">103</a> 		<strong class="jxr_keyword">this</strong>.httpServletResponse = httpServletResponse;
 <a class="jxr_linenumber" name="L104" href="#L104">104</a> 
-<a class="jxr_linenumber" name="L105" href="#L105">105</a> 		dataRequest = httpServletRequest.getParameter(WServlet.DATA_LIST_PARAM_NAME) != <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="L106" href="#L106">106</a> 
-<a class="jxr_linenumber" name="L107" href="#L107">107</a> 		String target = httpServletRequest.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME);
-<a class="jxr_linenumber" name="L108" href="#L108">108</a> 		<strong class="jxr_keyword">if</strong> (target == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L109" href="#L109">109</a> 			target = httpServletRequest.getParameter(WServlet.TARGET_ID_PARAM_NAME);
-<a class="jxr_linenumber" name="L110" href="#L110">110</a> 		}
-<a class="jxr_linenumber" name="L111" href="#L111">111</a> 
-<a class="jxr_linenumber" name="L112" href="#L112">112</a> 		<strong class="jxr_keyword">this</strong>.targetComponentId = target;
+<a class="jxr_linenumber" name="L105" href="#L105">105</a> 		Map&lt;String, String[]&gt; parameters = ServletUtil.getRequestParameters(httpServletRequest);
+<a class="jxr_linenumber" name="L106" href="#L106">106</a> 		dataRequest = parameters.get(WServlet.DATA_LIST_PARAM_NAME) != <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> 
+<a class="jxr_linenumber" name="L108" href="#L108">108</a> 		String[] target = parameters.get(WServlet.AJAX_TRIGGER_PARAM_NAME);
+<a class="jxr_linenumber" name="L109" href="#L109">109</a> 		<strong class="jxr_keyword">if</strong> (target == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L110" href="#L110">110</a> 			target = parameters.get(WServlet.TARGET_ID_PARAM_NAME);
+<a class="jxr_linenumber" name="L111" href="#L111">111</a> 		}
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> 		<strong class="jxr_keyword">this</strong>.targetComponentId = target == <strong class="jxr_keyword">null</strong> ? <strong class="jxr_keyword">null</strong> : target[0];
 <a class="jxr_linenumber" name="L113" href="#L113">113</a> 	}
 <a class="jxr_linenumber" name="L114" href="#L114">114</a> 
 <a class="jxr_linenumber" name="L115" href="#L115">115</a> 	<em class="jxr_javadoccomment">/**</em>

@@ -26,8 +26,8 @@
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>  	<em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L19" href="#L19">19</a>  <em class="jxr_javadoccomment">	 * Paints the given AjaxControl.</em>
 <a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment">	 * @param component the AjaxControl to paint.</em>
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment">	 * @param renderContext the RenderContext to paint to.</em>
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment">	 * @param component the AjaxControl to paint</em>
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <em class="jxr_javadoccomment">	 * @param renderContext the RenderContext to paint to</em>
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>  <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>  	@Override
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> doRender(<strong class="jxr_keyword">final</strong> <a href="../../../../../../com/github/bordertech/wcomponents/WComponent.html">WComponent</a> component, <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/github/bordertech/wcomponents/servlet/WebXmlRenderContext.html">WebXmlRenderContext</a> renderContext) {
@@ -43,7 +43,7 @@
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>  		}
 <a class="jxr_linenumber" name="L36" href="#L36">36</a>  
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>  		<em class="jxr_comment">// Start tag</em>
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>  		xml.appendTagOpen(<span class="jxr_string">"ui:ajaxTrigger"</span>);
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  		xml.appendTagOpen(<span class="jxr_string">"ui:ajaxtrigger"</span>);
 <a class="jxr_linenumber" name="L39" href="#L39">39</a>  		xml.appendAttribute(<span class="jxr_string">"triggerId"</span>, trigger.getId());
 <a class="jxr_linenumber" name="L40" href="#L40">40</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"allowedUses"</span>, loadCount &gt; 0, loadCount);
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"delay"</span>, delay &gt; 0, delay);
@@ -51,13 +51,13 @@
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  
 <a class="jxr_linenumber" name="L44" href="#L44">44</a>  		<em class="jxr_comment">// Targets</em>
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  		<strong class="jxr_keyword">for</strong> (AjaxTarget target : ajaxControl.getTargets()) {
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>  			xml.appendTagOpen(<span class="jxr_string">"ui:ajaxTargetId"</span>);
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  			xml.appendTagOpen(<span class="jxr_string">"ui:ajaxtargetid"</span>);
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  			xml.appendAttribute(<span class="jxr_string">"targetId"</span>, target.getId());
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  			xml.appendEnd();
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>  		}
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>  		<em class="jxr_comment">// End tag</em>
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>  		xml.appendEndTag(<span class="jxr_string">"ui:ajaxTrigger"</span>);
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  		xml.appendEndTag(<span class="jxr_string">"ui:ajaxtrigger"</span>);
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>  	}
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>  
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>  }

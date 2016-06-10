@@ -138,7 +138,7 @@
 <a class="jxr_linenumber" name="L130" href="#L130">130</a> 		<strong class="jxr_keyword">if</strong> (table.getSelectMode() != SelectMode.NONE) {
 <a class="jxr_linenumber" name="L131" href="#L131">131</a> 			<strong class="jxr_keyword">boolean</strong> multiple = table.getSelectMode() == SelectMode.MULTIPLE;
 <a class="jxr_linenumber" name="L132" href="#L132">132</a> 
-<a class="jxr_linenumber" name="L133" href="#L133">133</a> 			xml.appendTagOpen(<span class="jxr_string">"ui:rowSelection"</span>);
+<a class="jxr_linenumber" name="L133" href="#L133">133</a> 			xml.appendTagOpen(<span class="jxr_string">"ui:rowselection"</span>);
 <a class="jxr_linenumber" name="L134" href="#L134">134</a> 			xml.appendOptionalAttribute(<span class="jxr_string">"multiple"</span>, multiple, <span class="jxr_string">"true"</span>);
 <a class="jxr_linenumber" name="L135" href="#L135">135</a> 
 <a class="jxr_linenumber" name="L136" href="#L136">136</a> 			<strong class="jxr_keyword">if</strong> (multiple) {
@@ -163,7 +163,7 @@
 <a class="jxr_linenumber" name="L155" href="#L155">155</a> 		}
 <a class="jxr_linenumber" name="L156" href="#L156">156</a> 
 <a class="jxr_linenumber" name="L157" href="#L157">157</a> 		<strong class="jxr_keyword">if</strong> (table.getExpandMode() != ExpandMode.NONE) {
-<a class="jxr_linenumber" name="L158" href="#L158">158</a> 			xml.appendTagOpen(<span class="jxr_string">"ui:rowExpansion"</span>);
+<a class="jxr_linenumber" name="L158" href="#L158">158</a> 			xml.appendTagOpen(<span class="jxr_string">"ui:rowexpansion"</span>);
 <a class="jxr_linenumber" name="L159" href="#L159">159</a> 
 <a class="jxr_linenumber" name="L160" href="#L160">160</a> 			<strong class="jxr_keyword">switch</strong> (table.getExpandMode()) {
 <a class="jxr_linenumber" name="L161" href="#L161">161</a> 				<strong class="jxr_keyword">case</strong> CLIENT:
@@ -287,9 +287,9 @@
 <a class="jxr_linenumber" name="L279" href="#L279">279</a> 		xml.appendClose();
 <a class="jxr_linenumber" name="L280" href="#L280">280</a> 
 <a class="jxr_linenumber" name="L281" href="#L281">281</a> 		<strong class="jxr_keyword">if</strong> (model.getRowCount() == 0) {
-<a class="jxr_linenumber" name="L282" href="#L282">282</a> 			xml.appendTag(<span class="jxr_string">"ui:noData"</span>);
+<a class="jxr_linenumber" name="L282" href="#L282">282</a> 			xml.appendTag(<span class="jxr_string">"ui:nodata"</span>);
 <a class="jxr_linenumber" name="L283" href="#L283">283</a> 			xml.appendEscaped(table.getNoDataMessage());
-<a class="jxr_linenumber" name="L284" href="#L284">284</a> 			xml.appendEndTag(<span class="jxr_string">"ui:noData"</span>);
+<a class="jxr_linenumber" name="L284" href="#L284">284</a> 			xml.appendEndTag(<span class="jxr_string">"ui:nodata"</span>);
 <a class="jxr_linenumber" name="L285" href="#L285">285</a> 		} <strong class="jxr_keyword">else</strong> {
 <a class="jxr_linenumber" name="L286" href="#L286">286</a> 			<em class="jxr_comment">// If has at least one visible col, paint the rows.</em>
 <a class="jxr_linenumber" name="L287" href="#L287">287</a> 			<strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> columnCount = table.getColumnCount();

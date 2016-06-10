@@ -19,13 +19,16 @@ import org.apache.velocity.exception.ResourceNotFoundException;
  *
  * @author Martin Shevchenko
  * @since 1.0.0
+ * @deprecated Do not require a template for an interceptor. Write a custom interceptor that extends
+ * {@link InterceptorComponent}.
  */
-<span class="fc" id="L23">public class VelocityInterceptor extends InterceptorComponent {</span>
+@Deprecated
+<span class="fc" id="L26">public class VelocityInterceptor extends InterceptorComponent {</span>
 
 	/**
 	 * The logger instance for this class.
 	 */
-<span class="fc" id="L28">	private static final Log LOG = LogFactory.getLog(VelocityInterceptor.class);</span>
+<span class="fc" id="L31">	private static final Log LOG = LogFactory.getLog(VelocityInterceptor.class);</span>
 
 	/**
 	 * The velocity template's URL.
@@ -38,8 +41,8 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 	 * @param url the template URL.
 	 */
 	public void setTemplate(final String url) {
-<span class="fc" id="L41">		this.templateUrl = url;</span>
-<span class="fc" id="L42">	}</span>
+<span class="fc" id="L44">		this.templateUrl = url;</span>
+<span class="fc" id="L45">	}</span>
 
 	/**
 	 * Sets the template url, based on a component's class name. e.g.
@@ -49,8 +52,8 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 	 * @param clazz the component class.
 	 */
 	public void setTemplate(final Class&lt;?&gt; clazz) {
-<span class="nc" id="L52">		this.templateUrl = VelocityTemplateManager.toTemplateResourceName(clazz);</span>
-<span class="nc" id="L53">	}</span>
+<span class="nc" id="L55">		this.templateUrl = VelocityTemplateManager.toTemplateResourceName(clazz);</span>
+<span class="nc" id="L56">	}</span>
 
 	/**
 	 * Renders the component using the velocity template which has been provided.
@@ -63,48 +66,48 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 		// runtime exceptions else we can get stuck.
 		// Eg. com.github.bordertech.wcomponents.examples.ErrorGenerator - paintComponent.
 
-<span class="pc bpc" id="L66" title="1 of 2 branches missed.">		if (!(renderContext instanceof WebXmlRenderContext)) {</span>
-<span class="nc" id="L67">			throw new SystemException(&quot;Unable to render to &quot; + renderContext);</span>
+<span class="pc bpc" id="L69" title="1 of 2 branches missed.">		if (!(renderContext instanceof WebXmlRenderContext)) {</span>
+<span class="nc" id="L70">			throw new SystemException(&quot;Unable to render to &quot; + renderContext);</span>
 		}
 
-<span class="fc" id="L70">		PrintWriter writer = ((WebXmlRenderContext) renderContext).getWriter();</span>
+<span class="fc" id="L73">		PrintWriter writer = ((WebXmlRenderContext) renderContext).getWriter();</span>
 
-<span class="fc" id="L72">		Template template = null;</span>
-
-		try {
-<span class="fc" id="L75">			template = VelocityEngineFactory.getVelocityEngine().getTemplate(templateUrl);</span>
-<span class="nc" id="L76">		} catch (Exception ex) {</span>
-<span class="nc" id="L77">			String message = &quot;Could not open velocity template \&quot;&quot; + templateUrl + &quot;\&quot; for \&quot;&quot; + this.</span>
-<span class="nc" id="L78">					getClass().getName() + &quot;\&quot;&quot;;</span>
-<span class="nc" id="L79">			LOG.error(message, ex);</span>
-<span class="nc" id="L80">			writer.println(message);</span>
-<span class="nc" id="L81">			return;</span>
-<span class="fc" id="L82">		}</span>
+<span class="fc" id="L75">		Template template = null;</span>
 
 		try {
-<span class="fc" id="L85">			VelocityContext context = new VelocityContext();</span>
-<span class="fc" id="L86">			fillContext(context);</span>
+<span class="fc" id="L78">			template = VelocityEngineFactory.getVelocityEngine().getTemplate(templateUrl);</span>
+<span class="nc" id="L79">		} catch (Exception ex) {</span>
+<span class="nc" id="L80">			String message = &quot;Could not open velocity template \&quot;&quot; + templateUrl + &quot;\&quot; for \&quot;&quot; + this.</span>
+<span class="nc" id="L81">					getClass().getName() + &quot;\&quot;&quot;;</span>
+<span class="nc" id="L82">			LOG.error(message, ex);</span>
+<span class="nc" id="L83">			writer.println(message);</span>
+<span class="nc" id="L84">			return;</span>
+<span class="fc" id="L85">		}</span>
 
-<span class="fc" id="L88">			template.merge(context, writer);</span>
-<span class="fc" id="L89">		} catch (ResourceNotFoundException rnfe) {</span>
-<span class="fc" id="L90">			LOG.error(&quot;Could not find template &quot; + templateUrl, rnfe);</span>
-<span class="nc" id="L91">		} catch (ParseErrorException pee) {</span>
+		try {
+<span class="fc" id="L88">			VelocityContext context = new VelocityContext();</span>
+<span class="fc" id="L89">			fillContext(context);</span>
+
+<span class="fc" id="L91">			template.merge(context, writer);</span>
+<span class="fc" id="L92">		} catch (ResourceNotFoundException rnfe) {</span>
+<span class="fc" id="L93">			LOG.error(&quot;Could not find template &quot; + templateUrl, rnfe);</span>
+<span class="nc" id="L94">		} catch (ParseErrorException pee) {</span>
 			// syntax error : problem parsing the template
-<span class="nc" id="L93">			LOG.error(&quot;Parse problems&quot;, pee);</span>
-<span class="fc" id="L94">		} catch (MethodInvocationException mie) {</span>
+<span class="nc" id="L96">			LOG.error(&quot;Parse problems&quot;, pee);</span>
+<span class="fc" id="L97">		} catch (MethodInvocationException mie) {</span>
 			// something invoked in the template
 			// threw an exception
-<span class="fc" id="L97">			Throwable wrapped = mie.getWrappedThrowable();</span>
+<span class="fc" id="L100">			Throwable wrapped = mie.getWrappedThrowable();</span>
 
-<span class="fc" id="L99">			LOG.error(&quot;Problems with velocity&quot;, mie);</span>
+<span class="fc" id="L102">			LOG.error(&quot;Problems with velocity&quot;, mie);</span>
 
-<span class="pc bpc" id="L101" title="1 of 2 branches missed.">			if (wrapped != null) {</span>
-<span class="fc" id="L102">				LOG.error(&quot;Wrapped exception...&quot;, wrapped);</span>
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">			if (wrapped != null) {</span>
+<span class="fc" id="L105">				LOG.error(&quot;Wrapped exception...&quot;, wrapped);</span>
 			}
-<span class="nc" id="L104">		} catch (Exception e) {</span>
-<span class="nc" id="L105">			LOG.error(&quot;Problems with velocity&quot;, e);</span>
-<span class="pc" id="L106">		}</span>
-<span class="fc" id="L107">	}</span>
+<span class="nc" id="L107">		} catch (Exception e) {</span>
+<span class="nc" id="L108">			LOG.error(&quot;Problems with velocity&quot;, e);</span>
+<span class="pc" id="L109">		}</span>
+<span class="fc" id="L110">	}</span>
 
 	/**
 	 * Subclasses can override this method in order to add more parameters to the context.
@@ -113,6 +116,6 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 	 */
 	protected void fillContext(final VelocityContext context) {
 		// NOP
-<span class="fc" id="L116">	}</span>
+<span class="fc" id="L119">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

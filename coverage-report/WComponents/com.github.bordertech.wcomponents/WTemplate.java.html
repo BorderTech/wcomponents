@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WTemplate.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WTemplate.java</span></div><h1>WTemplate.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.template.TemplateRenderer;
+import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
+import com.github.bordertech.wcomponents.util.Util;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Allows the use of custom templates to layout components, insert custom css and javascript.
+ * &lt;p&gt;
+ * Using a template is the preferred method in implementing a responsive design.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * WComponents comes configured for
+ * {@link com.github.bordertech.wcomponents.template.TemplateRendererFactory.TemplateEngine#VELOCITY Velocity}, {@link com.github.bordertech.wcomponents.template.TemplateRendererFactory.TemplateEngine#HANDLEBARS Handlebars}
+ * and {@link com.github.bordertech.wcomponents.template.TemplateRendererFactory.TemplateEngine#PLAINTEXT Plain Text}
+ * templates.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Components can be included in a template by adding the component via
+ * {@link #addTaggedComponent(java.lang.String, com.github.bordertech.wcomponents.WComponent) addTaggedComponent(tag, component)}.
+ * These components will be rendered in place of the corresponding tag in the template.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Parameters can be passed into a template via
+ * {@link #addParameter(java.lang.String, java.lang.Object) addParameter(tag, value)}. The instance of WTemplate is
+ * passed in as a parameter with a key of &quot;wc&quot;. The getter methods of WTemplate can be accessed via the bean notation in
+ * the templates. For example &quot;wc.id&quot; to access the WTemplate id or &quot;wc.bean&quot; to access the bean (if set).
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * If no template engine is set on WTemplate then the default templating engine is used. The default template engine is
+ * set via the parameter &quot;bordertech.wcomponents.template.renderer&quot;. For example:-
+ * &lt;code&gt;bordertech.wcomponents.template.renderer=velocity&lt;/code&gt;
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * To override the default engine for a particular instance of WTemplate, set the chosen template engine via
+ * {@link #setEngineName(com.github.bordertech.wcomponents.template.TemplateRendererFactory.TemplateEngine) setEngineName(TemplateEngine.Type)}.
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;
+ * Other templating engines can be implemented by projects by setting a custom engine name via
+ * {@link #setEngineName(java.lang.String) setEngineName(name)}. The engine name must be correctly configured as per the
+ * {@link TemplateRendererFactory} requirements and have the necessary implementation of {@link TemplateRenderer}.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Configuration options can also be passed to the template engines via
+ * {@link #addEngineOption(java.lang.String, java.lang.Object) addEngineOption(key, value)}. The options are determined
+ * by the {@link TemplateRenderer} implementation.
+ * &lt;/p&gt;
+ *
+ * @see TemplateRenderer
+ * @see TemplateRendererFactory
+ *
+ * @author Jonathan Austin
+ * @since 1.0.3
+ */
+public class WTemplate extends WBeanComponent implements Container, NamingContextable {
+
+	/**
+	 * Construct WTemplate.
+	 */
+<span class="fc" id="L65">	public WTemplate() {</span>
+<span class="fc" id="L66">	}</span>
+
+	/**
+	 * @param templateName the template file name
+	 */
+	public WTemplate(final String templateName) {
+<span class="fc" id="L72">		this(templateName, (String) null);</span>
+<span class="fc" id="L73">	}</span>
+
+	/**
+	 * @param templateName the template file name and path
+	 * @param engine the template engine
+	 */
+	public WTemplate(final String templateName, final TemplateRendererFactory.TemplateEngine engine) {
+<span class="fc" id="L80">		this(templateName, engine.getEngineName());</span>
+<span class="fc" id="L81">	}</span>
+
+	/**
+	 * @param templateName the template file name and path
+	 * @param engineName the template engine
+	 */
+<span class="fc" id="L87">	public WTemplate(final String templateName, final String engineName) {</span>
+<span class="fc" id="L88">		setTemplateName(templateName);</span>
+<span class="fc" id="L89">		setEngineName(engineName);</span>
+<span class="fc" id="L90">	}</span>
+
+	/**
+	 * @param templateName the template file name and path
+	 */
+	public void setTemplateName(final String templateName) {
+<span class="fc" id="L96">		TemplateModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L97">		model.templateName = templateName;</span>
+<span class="fc" id="L98">		model.inlineTemplate = null;</span>
+<span class="fc" id="L99">	}</span>
+
+	/**
+	 * @return the template file name and path
+	 */
+	public String getTemplateName() {
+<span class="fc" id="L105">		return getComponentModel().templateName;</span>
+	}
+
+	/**
+	 * @param inlineTemplate the inline template
+	 */
+	public void setInlineTemplate(final String inlineTemplate) {
+<span class="fc" id="L112">		TemplateModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L113">		model.inlineTemplate = inlineTemplate;</span>
+<span class="fc" id="L114">		model.templateName = null;</span>
+<span class="fc" id="L115">	}</span>
+
+	/**
+	 * @return the inline template
+	 */
+	public String getInlineTemplate() {
+<span class="fc" id="L121">		return getComponentModel().inlineTemplate;</span>
+	}
+
+	/**
+	 * Add a tagged component to be included in the template. The component will be rendered in place of the
+	 * corresponding tag in the template.
+	 *
+	 * @param tag the tag for this component in the template
+	 * @param component the component to add
+	 */
+	public void addTaggedComponent(final String tag, final WComponent component) {
+<span class="fc bfc" id="L132" title="All 2 branches covered.">		if (Util.empty(tag)) {</span>
+<span class="fc" id="L133">			throw new IllegalArgumentException(&quot;A tag must be provided.&quot;);</span>
+		}
+<span class="fc bfc" id="L135" title="All 2 branches covered.">		if (component == null) {</span>
+<span class="fc" id="L136">			throw new IllegalArgumentException(&quot;A component must be provided.&quot;);</span>
+		}
+
+<span class="fc" id="L139">		TemplateModel model = getOrCreateComponentModel();</span>
+<span class="fc bfc" id="L140" title="All 2 branches covered.">		if (model.taggedComponents == null) {</span>
+<span class="fc" id="L141">			model.taggedComponents = new HashMap&lt;&gt;();</span>
+		} else {
+<span class="fc bfc" id="L143" title="All 2 branches covered.">			if (model.taggedComponents.containsKey(tag)) {</span>
+<span class="fc" id="L144">				throw new IllegalArgumentException(&quot;The tag [&quot; + tag + &quot;] has already been added.&quot;);</span>
+			}
+<span class="fc bfc" id="L146" title="All 2 branches covered.">			if (model.taggedComponents.containsValue(component)) {</span>
+<span class="fc" id="L147">				throw new IllegalArgumentException(&quot;Component has already been added.&quot;);</span>
+			}
+		}
+<span class="fc" id="L150">		model.taggedComponents.put(tag, component);</span>
+<span class="fc" id="L151">		add(component);</span>
+<span class="fc" id="L152">	}</span>
+
+	/**
+	 * Remove a tagged component via the component instance.
+	 *
+	 * @param component the tagged component to remove
+	 */
+	public void removeTaggedComponent(final WComponent component) {
+<span class="fc" id="L160">		TemplateModel model = getOrCreateComponentModel();</span>
+<span class="pc bpc" id="L161" title="1 of 2 branches missed.">		if (model.taggedComponents != null) {</span>
+			// Find tag
+<span class="fc" id="L163">			String tag = null;</span>
+<span class="pc bpc" id="L164" title="1 of 2 branches missed.">			for (Map.Entry&lt;String, WComponent&gt; entry : model.taggedComponents.entrySet()) {</span>
+<span class="pc bpc" id="L165" title="1 of 2 branches missed.">				if (entry.getValue().equals(component)) {</span>
+<span class="fc" id="L166">					tag = entry.getKey();</span>
+<span class="fc" id="L167">					break;</span>
+				}
+<span class="nc" id="L169">			}</span>
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">			if (tag != null) {</span>
+<span class="fc" id="L171">				removeTaggedComponent(tag);</span>
+			}
+		}
+<span class="fc" id="L174">	}</span>
+
+	/**
+	 * Remove a tagged component by its tag.
+	 *
+	 * @param tag the tag of the component to remove
+	 */
+	public void removeTaggedComponent(final String tag) {
+<span class="fc" id="L182">		TemplateModel model = getOrCreateComponentModel();</span>
+<span class="pc bpc" id="L183" title="1 of 2 branches missed.">		if (model.taggedComponents != null) {</span>
+<span class="fc" id="L184">			WComponent component = model.taggedComponents.remove(tag);</span>
+<span class="pc bpc" id="L185" title="1 of 2 branches missed.">			if (model.taggedComponents.isEmpty()) {</span>
+<span class="fc" id="L186">				model.taggedComponents = null;</span>
+			}
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">			if (component != null) {</span>
+<span class="fc" id="L189">				remove(component);</span>
+			}
+		}
+<span class="fc" id="L192">	}</span>
+
+	/**
+	 * Remove all tagged components.
+	 */
+	public void removeAllTaggedComponents() {
+<span class="fc" id="L198">		TemplateModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L199">		model.taggedComponents = null;</span>
+<span class="fc" id="L200">		removeAll();</span>
+<span class="fc" id="L201">	}</span>
+
+	/**
+	 *
+	 * @return the tagged components
+	 */
+	public Map&lt;String, WComponent&gt; getTaggedComponents() {
+<span class="fc" id="L208">		Map&lt;String, WComponent&gt; tagged = getComponentModel().taggedComponents;</span>
+<span class="fc bfc" id="L209" title="All 2 branches covered.">		if (tagged == null) {</span>
+<span class="fc" id="L210">			return Collections.EMPTY_MAP;</span>
+		} else {
+<span class="fc" id="L212">			return Collections.unmodifiableMap(tagged);</span>
+		}
+	}
+
+	/**
+	 * Add a template parameter.
+	 *
+	 * @param tag the tag for the template parameter
+	 * @param value the value for the template parameter
+	 */
+	public void addParameter(final String tag, final Object value) {
+<span class="fc bfc" id="L223" title="All 2 branches covered.">		if (Util.empty(tag)) {</span>
+<span class="fc" id="L224">			throw new IllegalArgumentException(&quot;A tag must be provided&quot;);</span>
+		}
+
+<span class="fc" id="L227">		TemplateModel model = getOrCreateComponentModel();</span>
+<span class="fc bfc" id="L228" title="All 2 branches covered.">		if (model.parameters == null) {</span>
+<span class="fc" id="L229">			model.parameters = new HashMap&lt;&gt;();</span>
+		}
+<span class="fc" id="L231">		model.parameters.put(tag, value);</span>
+<span class="fc" id="L232">	}</span>
+
+	/**
+	 *
+	 * Remove a template parameter.
+	 *
+	 * @param tag the tag of the template parameter to remove
+	 */
+	public void removeParameter(final String tag) {
+<span class="fc" id="L241">		TemplateModel model = getOrCreateComponentModel();</span>
+<span class="pc bpc" id="L242" title="1 of 2 branches missed.">		if (model.parameters != null) {</span>
+<span class="fc" id="L243">			model.parameters.remove(tag);</span>
+<span class="pc bpc" id="L244" title="1 of 2 branches missed.">			if (model.parameters.isEmpty()) {</span>
+<span class="fc" id="L245">				model.parameters = null;</span>
+			}
+		}
+<span class="fc" id="L248">	}</span>
+
+	/**
+	 * Remove all template parameters.
+	 */
+	public void removeAllParameters() {
+<span class="fc" id="L254">		TemplateModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L255">		model.parameters = null;</span>
+<span class="fc" id="L256">	}</span>
+
+	/**
+	 *
+	 * @return the template parameters
+	 */
+	public Map&lt;String, Object&gt; getParameters() {
+<span class="fc" id="L263">		Map&lt;String, Object&gt; params = getComponentModel().parameters;</span>
+<span class="fc bfc" id="L264" title="All 2 branches covered.">		if (params == null) {</span>
+<span class="fc" id="L265">			return Collections.EMPTY_MAP;</span>
+		} else {
+<span class="fc" id="L267">			return Collections.unmodifiableMap(params);</span>
+		}
+	}
+
+	/**
+	 * Set a predefined template engine. If null then the default engine is used.
+	 *
+	 * @param templateEngine the provided template engine or null to use the default engine
+	 */
+	public void setEngineName(final TemplateRendererFactory.TemplateEngine templateEngine) {
+<span class="pc bpc" id="L277" title="1 of 2 branches missed.">		setEngineName(templateEngine == null ? null : templateEngine.getEngineName());</span>
+<span class="fc" id="L278">	}</span>
+
+	/**
+	 * Set a template engine. If null then the default engine is used.
+	 * &lt;p&gt;
+	 * The engine name must be supported by {@link TemplateRendererFactory} and correctly configured as per the factory
+	 * requirements and have the necessary implementation of {@link TemplateRenderer}.
+	 * &lt;/p&gt;
+	 *
+	 * @param engineName the template engine name
+	 */
+	public void setEngineName(final String engineName) {
+<span class="fc" id="L290">		getOrCreateComponentModel().engineName = engineName;</span>
+<span class="fc" id="L291">	}</span>
+
+	/**
+	 * @return the template engine name
+	 */
+	public String getEngineName() {
+<span class="fc" id="L297">		return getComponentModel().engineName;</span>
+	}
+
+	/**
+	 * Pass configuration options to the template engine.
+	 * &lt;p&gt;
+	 * The options are determined by the {@link TemplateRenderer} implementation for the template engine.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * The {@link TemplateRenderer} implemented is determined by the {@link TemplateRendererFactory}.
+	 * &lt;/p&gt;
+	 *
+	 * @param key the engine option key
+	 * @param value the engine option value
+	 */
+	public void addEngineOption(final String key, final Object value) {
+<span class="fc bfc" id="L313" title="All 2 branches covered.">		if (Util.empty(key)) {</span>
+<span class="fc" id="L314">			throw new IllegalArgumentException(&quot;A key must be provided&quot;);</span>
+		}
+<span class="fc" id="L316">		TemplateModel model = getOrCreateComponentModel();</span>
+<span class="fc bfc" id="L317" title="All 2 branches covered.">		if (model.engineOptions == null) {</span>
+<span class="fc" id="L318">			model.engineOptions = new HashMap&lt;&gt;();</span>
+		}
+<span class="fc" id="L320">		model.engineOptions.put(key, value);</span>
+<span class="fc" id="L321">	}</span>
+
+	/**
+	 * Remove a template engine option.
+	 *
+	 * @param key the engine option to remove
+	 */
+	public void removeEngineOption(final String key) {
+<span class="fc" id="L329">		TemplateModel model = getOrCreateComponentModel();</span>
+<span class="pc bpc" id="L330" title="1 of 2 branches missed.">		if (model.engineOptions != null) {</span>
+<span class="fc" id="L331">			model.engineOptions.remove(key);</span>
+		}
+<span class="fc" id="L333">	}</span>
+
+	/**
+	 * Remove all template engine options.
+	 */
+	public void removeAllEngineOptions() {
+<span class="fc" id="L339">		TemplateModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L340">		model.engineOptions = null;</span>
+<span class="fc" id="L341">	}</span>
+
+	/**
+	 *
+	 * @return the engine options
+	 */
+	public Map&lt;String, Object&gt; getEngineOptions() {
+<span class="fc" id="L348">		TemplateModel model = getComponentModel();</span>
+<span class="fc bfc" id="L349" title="All 2 branches covered.">		if (model.engineOptions == null) {</span>
+<span class="fc" id="L350">			return Collections.EMPTY_MAP;</span>
+		} else {
+<span class="fc" id="L352">			return Collections.unmodifiableMap(model.engineOptions);</span>
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // to make public
+	public int getChildCount() {
+<span class="fc" id="L361">		return super.getChildCount();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // to make public
+	public WComponent getChildAt(final int index) {
+<span class="fc" id="L369">		return super.getChildAt(index);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // to make public
+	public int getIndexOfChild(final WComponent childComponent) {
+<span class="nc" id="L377">		return super.getIndexOfChild(childComponent);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public List&lt;WComponent&gt; getChildren() {
+<span class="nc" id="L385">		return super.getChildren();</span>
+	}
+
+	/**
+	 * A naming context is only considered active if it has been set active via {@link #setNamingContext(boolean)} and
+	 * also has an id name set via {@link #setIdName(String)}.
+	 *
+	 * @param context set true if this is a naming context.
+	 */
+	public void setNamingContext(final boolean context) {
+<span class="fc" id="L395">		setFlag(ComponentModel.NAMING_CONTEXT_FLAG, context);</span>
+<span class="fc" id="L396">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isNamingContext() {
+<span class="fc" id="L403">		return isFlagSet(ComponentModel.NAMING_CONTEXT_FLAG);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getNamingContextId() {
+<span class="nc" id="L411">		return getId();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected TemplateModel getComponentModel() {
+<span class="fc" id="L420">		return (TemplateModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// For type safety only
+	protected TemplateModel getOrCreateComponentModel() {
+<span class="fc" id="L429">		return (TemplateModel) super.getOrCreateComponentModel();</span>
+	}
+
+	/**
+	 * Creates a new component model appropriate for this component.
+	 *
+	 * @return a new PanelModel.
+	 */
+	@Override
+	protected TemplateModel newComponentModel() {
+<span class="fc" id="L439">		return new TemplateModel();</span>
+	}
+
+	/**
+	 * A class used to hold the list of options for this component.
+	 *
+	 * @author Jonathan Austin
+	 */
+<span class="fc" id="L447">	public static class TemplateModel extends BeanAndProviderBoundComponentModel {</span>
+
+		/**
+		 * The template name.
+		 */
+		private String templateName;
+
+		/**
+		 * Inline template.
+		 */
+		private String inlineTemplate;
+
+		/**
+		 * Template engine name.
+		 */
+		private String engineName;
+
+		/**
+		 * Engine options.
+		 */
+		private Map&lt;String, Object&gt; engineOptions;
+
+		/**
+		 * Map of tagged components.
+		 */
+		private Map&lt;String, WComponent&gt; taggedComponents;
+
+		/**
+		 * Map of template parameters.
+		 */
+		private Map&lt;String, Object&gt; parameters;
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

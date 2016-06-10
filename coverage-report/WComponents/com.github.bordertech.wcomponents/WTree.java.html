@@ -1,0 +1,940 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WTree.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WTree.java</span></div><h1>WTree.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.TreeItemUtil;
+import com.github.bordertech.wcomponents.util.Util;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * WTree represents a tree view selection control.
+ *
+ * @author Jonathan Austin
+ * @since 1.1.0
+ */
+public class WTree extends AbstractInput
+		implements AjaxInternalTrigger, AjaxTarget, AjaxTrigger, SubordinateTrigger, SubordinateTarget,
+		Marginable, Targetable {
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="nc" id="L28">	private static final Log LOG = LogFactory.getLog(WTree.class);</span>
+
+	/**
+	 * Tree item request key.
+	 */
+	private static final String ITEM_REQUEST_KEY = &quot;wc_tiid&quot;;
+
+	/**
+	 * Scratch map key for the map between an item id and its row index.
+	 */
+	private static final String INDEX_MAPPING_SCRATCH_MAP_KEY = &quot;itemIdMap&quot;;
+
+	/**
+	 * Scratch map key for the map between an item id and its custom tree node.
+	 */
+	private static final String CUSTOM_IDS_SCRATCH_MAP_KEY = &quot;customIdMap&quot;;
+
+	/**
+	 * Construct the WTree.
+	 */
+	public WTree() {
+<span class="nc" id="L49">		this(Type.VERTICAL);</span>
+<span class="nc" id="L50">	}</span>
+
+	/**
+	 * @param type the tree type.
+	 */
+<span class="nc" id="L55">	public WTree(final Type type) {</span>
+<span class="nc" id="L56">		setType(type);</span>
+<span class="nc" id="L57">	}</span>
+
+	/**
+	 * This is used to indicate the type of tree.
+	 */
+<span class="nc" id="L62">	public enum Type {</span>
+		/**
+		 * Horizontal tree.
+		 */
+<span class="nc" id="L66">		HORIZONTAL,</span>
+		/**
+		 * Vertical tree.
+		 */
+<span class="nc" id="L70">		VERTICAL</span>
+	};
+
+	/**
+	 * This is used to control how row selection should work.
+	 */
+<span class="nc" id="L76">	public enum SelectMode {</span>
+		/**
+		 * Indicates that only a single row may be selected.
+		 */
+<span class="nc" id="L80">		SINGLE,</span>
+		/**
+		 * Indicates that multiple rows may be selected.
+		 */
+<span class="nc" id="L84">		MULTIPLE</span>
+	};
+
+	/**
+	 * This is used to control how row expansion should work.
+	 */
+<span class="nc" id="L90">	public enum ExpandMode {</span>
+		/**
+		 * Indicates that row expansion occurs on the client.
+		 */
+<span class="nc" id="L94">		CLIENT,</span>
+		/**
+		 * Indicates that row expansion occurs once, via AJAX.
+		 */
+<span class="nc" id="L98">		LAZY,</span>
+		/**
+		 * Indicates that row expansion should make an AJAX call every time.
+		 */
+<span class="nc" id="L102">		DYNAMIC</span>
+	};
+
+	/**
+	 * Returns a {@link Set} of the selected options. If no options have been selected, then it returns an empty list.
+	 * &lt;p&gt;
+	 * As getValue calls {@link #getData()} for the currently selected options, it usually expects getData to return
+	 * null (for no selection) or a {@link List} of selected options. If the data returned by getData is not null and is
+	 * not a List, then setData will either (1) if the data is an array, convert the array to a List or (2) create a
+	 * List and add the data as the selected option.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * getValue will verify the selected option/s are valid. If a selected option does not exist, then it will throw an
+	 * {@link IllegalArgumentException}.
+	 * &lt;/p&gt;
+	 *
+	 * @return the selected options in the given UI context.
+	 */
+	@Override
+	public Set&lt;String&gt; getValue() {
+		// Convert data to a set (if necessary)
+<span class="nc" id="L123">		Set&lt;String&gt; data = TreeItemUtil.convertDataToSet(getData());</span>
+<span class="nc bnc" id="L124" title="All 4 branches missed.">		if (data == null || data.isEmpty()) {</span>
+<span class="nc" id="L125">			return Collections.EMPTY_SET;</span>
+		}
+<span class="nc" id="L127">		return data;</span>
+	}
+
+	/**
+	 * Returns a string value of the selected item for this users session. If multiple selections have been made, this
+	 * will be a comma separated list of string values. If no value is selected, null is returned.
+	 *
+	 * @return the selected item value as a rendered String
+	 */
+	@Override
+	public String getValueAsString() {
+<span class="nc" id="L138">		Set&lt;String&gt; selected = getValue();</span>
+<span class="nc bnc" id="L139" title="All 4 branches missed.">		if (selected == null || selected.isEmpty()) {</span>
+<span class="nc" id="L140">			return null;</span>
+		}
+
+<span class="nc" id="L143">		StringBuilder stringValues = new StringBuilder();</span>
+<span class="nc" id="L144">		boolean first = true;</span>
+
+<span class="nc bnc" id="L146" title="All 2 branches missed.">		for (String item : selected) {</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">			if (!first) {</span>
+<span class="nc" id="L148">				stringValues.append(&quot;, &quot;);</span>
+			}
+<span class="nc" id="L150">			stringValues.append(item);</span>
+<span class="nc" id="L151">			first = false;</span>
+<span class="nc" id="L152">		}</span>
+
+<span class="nc" id="L154">		return stringValues.toString();</span>
+	}
+
+	/**
+	 * @return true if nothing selected
+	 */
+	@Override
+	public boolean isEmpty() {
+<span class="nc" id="L162">		Set&lt;String&gt; selected = getValue();</span>
+<span class="nc bnc" id="L163" title="All 4 branches missed.">		return (selected == null || selected.isEmpty());</span>
+	}
+
+	/**
+	 *
+	 * @return the tree type.
+	 */
+	public Type getType() {
+<span class="nc" id="L171">		return getComponentModel().type;</span>
+	}
+
+	/**
+	 * @param type the tree type
+	 */
+	public void setType(final Type type) {
+<span class="nc bnc" id="L178" title="All 2 branches missed.">		getOrCreateComponentModel().type = type == null ? Type.VERTICAL : type;</span>
+<span class="nc" id="L179">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Margin getMargin() {
+<span class="nc" id="L186">		return getComponentModel().margin;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setMargin(final Margin margin) {
+<span class="nc" id="L194">		getOrCreateComponentModel().margin = margin;</span>
+<span class="nc" id="L195">	}</span>
+
+	/**
+	 * @return the tree model
+	 */
+	public TreeItemModel getTreeModel() {
+<span class="nc" id="L201">		return getComponentModel().treeModel;</span>
+	}
+
+	/**
+	 * Sets the tree model which provides row data.
+	 *
+	 * @param treeModel the tree model.
+	 */
+	public void setTreeModel(final TreeItemModel treeModel) {
+<span class="nc" id="L210">		getOrCreateComponentModel().treeModel = treeModel;</span>
+<span class="nc" id="L211">		clearItemIdIndexMap();</span>
+<span class="nc" id="L212">		setSelectedRows(null);</span>
+<span class="nc" id="L213">		setExpandedRows(null);</span>
+<span class="nc" id="L214">	}</span>
+
+	/**
+	 * @return true if allow the client to shuffle items
+	 */
+	public boolean isShuffle() {
+<span class="nc" id="L220">		return getComponentModel().shuffle;</span>
+	}
+
+	/**
+	 *
+	 * @param shuffle true if allow the client to shuffle items
+	 */
+	public void setShuffle(final boolean shuffle) {
+<span class="nc" id="L228">		getOrCreateComponentModel().shuffle = shuffle;</span>
+<span class="nc" id="L229">	}</span>
+
+	/**
+	 * The action used when the tree items are shuffled on the client.
+	 *
+	 * @return the shuffle action
+	 */
+	public Action getShuffleAction() {
+<span class="nc" id="L237">		return getComponentModel().shuffleAction;</span>
+	}
+
+	/**
+	 * The action used when the tree items are shuffled on the client.
+	 *
+	 * @param action the shuffle action
+	 */
+	public void setShuffleAction(final Action action) {
+<span class="nc" id="L246">		getOrCreateComponentModel().shuffleAction = action;</span>
+<span class="nc" id="L247">	}</span>
+
+	/**
+	 * @return the root node of a custom tree structure
+	 */
+	public TreeItemIdNode getCustomTree() {
+<span class="nc" id="L253">		return getComponentModel().customTree;</span>
+	}
+
+	/**
+	 * @param json the json representing a custom tree structure
+	 */
+	public void setCustomTree(final String json) {
+<span class="nc" id="L260">		TreeItemIdNode root = TreeItemUtil.convertJsonToTree(json);</span>
+<span class="nc" id="L261">		setCustomTree(root);</span>
+<span class="nc" id="L262">	}</span>
+
+	/**
+	 * @param customTree the root node of a custom tree structure
+	 */
+	public void setCustomTree(final TreeItemIdNode customTree) {
+<span class="nc" id="L268">		getOrCreateComponentModel().customTree = customTree;</span>
+<span class="nc" id="L269">		clearCustomIdMap();</span>
+<span class="nc" id="L270">	}</span>
+
+	/**
+	 * @return the row selection mode.
+	 */
+	public SelectMode getSelectMode() {
+<span class="nc" id="L276">		return getComponentModel().selectMode;</span>
+	}
+
+	/**
+	 * Sets the row selection mode.
+	 *
+	 * @param selectMode the row selection mode to set.
+	 */
+	public void setSelectMode(final SelectMode selectMode) {
+<span class="nc bnc" id="L285" title="All 2 branches missed.">		getOrCreateComponentModel().selectMode = selectMode == null ? SelectMode.SINGLE : selectMode;</span>
+<span class="nc" id="L286">	}</span>
+
+	/**
+	 * @return the row expansion mode.
+	 */
+	public ExpandMode getExpandMode() {
+<span class="nc" id="L292">		return getComponentModel().expandMode;</span>
+	}
+
+	/**
+	 * Sets the row expansion mode.
+	 *
+	 * @param expandMode the expand mode to set.
+	 */
+	public void setExpandMode(final ExpandMode expandMode) {
+<span class="nc bnc" id="L301" title="All 2 branches missed.">		getOrCreateComponentModel().expandMode = expandMode == null ? ExpandMode.CLIENT : expandMode;</span>
+<span class="nc" id="L302">	}</span>
+
+	/**
+	 * Retrieve the row keys that are selected.
+	 * &lt;p&gt;
+	 * A row key uniquely identifies each row and is determined by the {@link TreeItemModel}. Refer to
+	 * {@link TreeItemModel#getItemId(List)}.
+	 * &lt;/p&gt;
+	 *
+	 * @return the selected row keys.
+	 */
+	public Set&lt;String&gt; getSelectedRows() {
+<span class="nc" id="L314">		return getValue();</span>
+	}
+
+	/**
+	 * Set the row keys that are selected.
+	 * &lt;p&gt;
+	 * A row key uniquely identifies each row and is determined by the {@link TreeItemModel}. Refer to
+	 * {@link TreeItemModel#getItemId(List)}.
+	 * &lt;/p&gt;
+	 *
+	 * @param itemIds the keys of selected rows.
+	 */
+	public void setSelectedRows(final Set&lt;String&gt; itemIds) {
+<span class="nc" id="L327">		setData(itemIds);</span>
+<span class="nc" id="L328">	}</span>
+
+	/**
+	 * Retrieve the row keys that are expanded.
+	 * &lt;p&gt;
+	 * A row key uniquely identifies each row and is determined by the {@link TreeItemModel}. Refer to
+	 * {@link TreeItemModel#getItemId(List)}.
+	 * &lt;/p&gt;
+	 *
+	 * @return the expanded row keys.
+	 */
+	public Set&lt;String&gt; getExpandedRows() {
+<span class="nc" id="L340">		Set&lt;String&gt; keys = getComponentModel().expandedRows;</span>
+<span class="nc bnc" id="L341" title="All 2 branches missed.">		if (keys == null) {</span>
+<span class="nc" id="L342">			return Collections.emptySet();</span>
+		} else {
+<span class="nc" id="L344">			return Collections.unmodifiableSet(keys);</span>
+		}
+	}
+
+	/**
+	 * Set the row keys that are expanded.
+	 * &lt;p&gt;
+	 * A row key uniquely identifies each row and is determined by the {@link TreeItemModel}. Refer to
+	 * {@link TreeItemModel#getItemId(List)}.
+	 * &lt;/p&gt;
+	 *
+	 * @param itemIds the keys of expanded rows.
+	 */
+	public void setExpandedRows(final Set&lt;String&gt; itemIds) {
+<span class="nc" id="L358">		getOrCreateComponentModel().expandedRows = itemIds;</span>
+<span class="nc" id="L359">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getTargetId() {
+<span class="nc" id="L366">		return getId();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Set&lt;String&gt; getRequestValue(final Request request) {
+<span class="nc bnc" id="L374" title="All 2 branches missed.">		if (isPresent(request)) {</span>
+<span class="nc" id="L375">			return getNewSelections(request);</span>
+		} else {
+<span class="nc" id="L377">			return getValue();</span>
+		}
+	}
+
+	/**
+	 * Retrieves a URL for the tree item image.
+	 *
+	 * @param item the tree item
+	 * @param itemId the tree item id
+	 * @return the URL to access the tree item image.
+	 */
+	public String getItemImageUrl(final TreeItemImage item, final String itemId) {
+
+<span class="nc bnc" id="L390" title="All 2 branches missed.">		if (item == null) {</span>
+<span class="nc" id="L391">			return null;</span>
+		}
+
+		// Check if has image url
+<span class="nc" id="L395">		String url = item.getUrl();</span>
+<span class="nc bnc" id="L396" title="All 2 branches missed.">		if (!Util.empty(url)) {</span>
+<span class="nc" id="L397">			return url;</span>
+		}
+
+		// Check if has image
+<span class="nc" id="L401">		Image image = item.getImage();</span>
+<span class="nc bnc" id="L402" title="All 2 branches missed.">		if (image == null) {</span>
+<span class="nc" id="L403">			return null;</span>
+		}
+
+		// Check static resource
+<span class="nc bnc" id="L407" title="All 2 branches missed.">		if (image instanceof InternalResource) {</span>
+<span class="nc" id="L408">			return ((InternalResource) image).getTargetUrl();</span>
+		}
+
+		// Build targetted url
+<span class="nc" id="L412">		Environment env = getEnvironment();</span>
+<span class="nc" id="L413">		Map&lt;String, String&gt; parameters = env.getHiddenParameters();</span>
+<span class="nc" id="L414">		parameters.put(Environment.TARGET_ID, getTargetId());</span>
+
+<span class="nc" id="L416">		String cacheKey = item.getImageCacheKey();</span>
+
+<span class="nc bnc" id="L418" title="All 2 branches missed.">		if (Util.empty(cacheKey)) {</span>
+			// Add some randomness to the URL to prevent caching
+<span class="nc" id="L420">			String random = WebUtilities.generateRandom();</span>
+<span class="nc" id="L421">			parameters.put(Environment.UNIQUE_RANDOM_PARAM, random);</span>
+<span class="nc" id="L422">		} else {</span>
+			// Remove step counter as not required for cached content
+<span class="nc" id="L424">			parameters.remove(Environment.STEP_VARIABLE);</span>
+<span class="nc" id="L425">			parameters.remove(Environment.SESSION_TOKEN_VARIABLE);</span>
+			// Add the cache key
+<span class="nc" id="L427">			parameters.put(Environment.CONTENT_CACHE_KEY, cacheKey);</span>
+		}
+
+		// Item id
+<span class="nc" id="L431">		parameters.put(ITEM_REQUEST_KEY, itemId);</span>
+
+		// The targetable path needs to be configured for the portal environment.
+<span class="nc" id="L434">		url = env.getWServletPath();</span>
+
+		// Note the last parameter. In javascript we don't want to encode &quot;&amp;&quot;.
+<span class="nc" id="L437">		return WebUtilities.getPath(url, parameters, true);</span>
+	}
+
+	/**
+	 *
+	 * @return the prefix to use on the tree item ids
+	 */
+	public String getItemIdPrefix() {
+<span class="nc" id="L445">		return getId() + &quot;-&quot;;</span>
+	}
+
+	/**
+	 * Clear the map holding the mapping between custom item ids and their node item.
+	 */
+	public void clearCustomIdMap() {
+<span class="nc" id="L452">		getScratchMap().remove(CUSTOM_IDS_SCRATCH_MAP_KEY);</span>
+<span class="nc" id="L453">	}</span>
+
+	/**
+	 * @return the map between the custom item ids and their node item.
+	 */
+	public Map&lt;String, TreeItemIdNode&gt; getCustomIdMap() {
+<span class="nc" id="L459">		Map&lt;String, TreeItemIdNode&gt; map = (Map&lt;String, TreeItemIdNode&gt;) getScratchMap().get(CUSTOM_IDS_SCRATCH_MAP_KEY);</span>
+<span class="nc bnc" id="L460" title="All 2 branches missed.">		if (map == null) {</span>
+<span class="nc" id="L461">			map = TreeItemUtil.createCustomIdMap(getCustomTree());</span>
+<span class="nc" id="L462">			getScratchMap().put(CUSTOM_IDS_SCRATCH_MAP_KEY, map);</span>
+		}
+<span class="nc" id="L464">		return map;</span>
+	}
+
+	/**
+	 * Clear the map holding the mapping between an item id and its row index.
+	 */
+	public void clearItemIdIndexMap() {
+<span class="nc" id="L471">		getScratchMap().remove(INDEX_MAPPING_SCRATCH_MAP_KEY);</span>
+<span class="nc" id="L472">	}</span>
+
+	/**
+	 * @return the mapping between an item id and its row index.
+	 */
+	public Map&lt;String, List&lt;Integer&gt;&gt; getItemIdIndexMap() {
+<span class="nc" id="L478">		Map&lt;String, List&lt;Integer&gt;&gt; map = (Map&lt;String, List&lt;Integer&gt;&gt;) getScratchMap().get(INDEX_MAPPING_SCRATCH_MAP_KEY);</span>
+<span class="nc bnc" id="L479" title="All 2 branches missed.">		if (map == null) {</span>
+<span class="nc" id="L480">			map = TreeItemUtil.createItemIdIndexMap(this);</span>
+<span class="nc" id="L481">			getScratchMap().put(INDEX_MAPPING_SCRATCH_MAP_KEY, map);</span>
+		}
+<span class="nc" id="L483">		return map;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void initialiseComponentModel() {
+<span class="nc" id="L491">		super.initialiseComponentModel();</span>
+		// Copy the custom tree (if set) to allow the nodes to be updated per user
+<span class="nc" id="L493">		TreeItemIdNode custom = getCustomTree();</span>
+<span class="nc bnc" id="L494" title="All 2 branches missed.">		if (custom != null) {</span>
+<span class="nc" id="L495">			TreeItemIdNode copy = TreeItemUtil.copyTreeNode(custom);</span>
+<span class="nc" id="L496">			setCustomTree(copy);</span>
+		}
+<span class="nc" id="L498">	}</span>
+
+	/**
+	 * Override preparePaint to register an AJAX operation.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	protected void preparePaintComponent(final Request request) {
+<span class="nc" id="L507">		super.preparePaintComponent(request);</span>
+
+		// Check if this is open item request
+<span class="nc bnc" id="L510" title="All 2 branches missed.">		if (isOpenItemRequest(request)) {</span>
+<span class="nc" id="L511">			handleOpenItemRequest(request);</span>
+		}
+
+<span class="nc bnc" id="L514" title="All 2 branches missed.">		if (AjaxHelper.isCurrentAjaxTrigger(this)) {</span>
+<span class="nc" id="L515">			AjaxOperation operation = AjaxHelper.getCurrentOperation();</span>
+<span class="nc bnc" id="L516" title="All 2 branches missed.">			if (operation.isInternalAjaxRequest()) {</span>
+<span class="nc" id="L517">				operation.setAction(AjaxOperation.AjaxAction.IN);</span>
+			}
+		}
+
+		// Update custom tree nodes (if needed)
+<span class="nc" id="L522">		TreeItemIdNode custom = getCustomTree();</span>
+<span class="nc bnc" id="L523" title="All 2 branches missed.">		if (custom != null) {</span>
+<span class="nc" id="L524">			TreeItemUtil.updateCustomTreeNodes(this);</span>
+<span class="nc" id="L525">			clearCustomIdMap();</span>
+		}
+<span class="nc" id="L527">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean beforeHandleRequest(final Request request) {
+
+		// Check if is targeted request (ie item image)
+<span class="nc" id="L536">		String targetParam = request.getParameter(Environment.TARGET_ID);</span>
+<span class="nc bnc" id="L537" title="All 4 branches missed.">		boolean targetted = (targetParam != null &amp;&amp; targetParam.equals(getTargetId()));</span>
+<span class="nc bnc" id="L538" title="All 2 branches missed.">		if (targetted) {</span>
+<span class="nc" id="L539">			handleItemImageRequest(request);</span>
+<span class="nc" id="L540">			return false;</span>
+		}
+
+		// If is open item request, dont continue handle request processing.
+<span class="nc bnc" id="L544" title="All 2 branches missed.">		return !isOpenItemRequest(request);</span>
+	}
+
+	/**
+	 * @param request the request being processed
+	 * @return true if its an open item request
+	 */
+	protected boolean isOpenItemRequest(final Request request) {
+<span class="nc bnc" id="L552" title="All 4 branches missed.">		return AjaxHelper.isCurrentAjaxTrigger(this) &amp;&amp; request.getParameter(ITEM_REQUEST_KEY) != null;</span>
+	}
+
+	/**
+	 * Set the inputs based on the incoming request. The text input values are set as an array of strings on the
+	 * parameter with this name {@link #getName()}. Any empty strings will be ignored.
+	 *
+	 * @param request the current request.
+	 * @return true if the inputs have changed, otherwise return false
+	 */
+	@Override
+	protected boolean doHandleRequest(final Request request) {
+
+<span class="nc" id="L565">		Set&lt;String&gt; values = getRequestValue(request);</span>
+<span class="nc" id="L566">		Set&lt;String&gt; current = getValue();</span>
+
+<span class="nc bnc" id="L568" title="All 2 branches missed.">		boolean changed = !selectionsEqual(values, current);</span>
+
+<span class="nc bnc" id="L570" title="All 2 branches missed.">		if (changed) {</span>
+<span class="nc" id="L571">			setData(values);</span>
+		}
+
+<span class="nc bnc" id="L574" title="All 2 branches missed.">		if (isShuffle()) {</span>
+<span class="nc" id="L575">			handleShuffleRequest(request);</span>
+		}
+<span class="nc" id="L577">		handleExpansionRequest(request);</span>
+
+<span class="nc" id="L579">		return changed;</span>
+	}
+
+	/**
+	 * &lt;p&gt;
+	 * Indicates whether this tree was present in the request.
+	 * &lt;/p&gt;
+	 *
+	 * @param request the request being responded to.
+	 * @return true if this tree was present in the request, false if not.
+	 */
+	@Override
+	protected boolean isPresent(final Request request) {
+<span class="nc bnc" id="L592" title="All 2 branches missed.">		return request.getParameter(getId() + &quot;-h&quot;) != null;</span>
+	}
+
+	/**
+	 * Handles a request containing row selection data.
+	 *
+	 * @param request the request containing row selection data.
+	 * @return the set of selected item ids.
+	 */
+	private Set&lt;String&gt; getNewSelections(final Request request) {
+
+<span class="nc" id="L603">		String[] paramValue = request.getParameterValues(getId());</span>
+<span class="nc bnc" id="L604" title="All 2 branches missed.">		if (paramValue == null) {</span>
+<span class="nc" id="L605">			paramValue = new String[0];</span>
+		}
+
+<span class="nc" id="L608">		String[] selectedRowIds = removeEmptyStrings(paramValue);</span>
+<span class="nc" id="L609">		Set&lt;String&gt; newSelectionIds = new HashSet&lt;&gt;();</span>
+
+<span class="nc bnc" id="L611" title="All 2 branches missed.">		boolean singleSelect = getSelectMode() == SelectMode.SINGLE;</span>
+
+<span class="nc bnc" id="L613" title="All 2 branches missed.">		if (selectedRowIds != null) {</span>
+<span class="nc" id="L614">			int offset = getItemIdPrefix().length();</span>
+<span class="nc bnc" id="L615" title="All 2 branches missed.">			for (String selectedRowId : selectedRowIds) {</span>
+<span class="nc" id="L616">				String itemId = selectedRowId.substring(offset);</span>
+<span class="nc bnc" id="L617" title="All 2 branches missed.">				if (isValidTreeItem(itemId)) {</span>
+<span class="nc" id="L618">					newSelectionIds.add(itemId);</span>
+<span class="nc bnc" id="L619" title="All 2 branches missed.">					if (singleSelect) {</span>
+<span class="nc" id="L620">						break;</span>
+					}
+				}
+			}
+		}
+
+<span class="nc" id="L626">		return newSelectionIds;</span>
+	}
+
+	/**
+	 * Selection lists are considered equal if they have the same items (order is not important). An empty list is
+	 * considered equal to a null list.
+	 *
+	 * @param set1 the first list to check.
+	 * @param set2 the second list to check.
+	 * @return true if the lists are equal, false otherwise.
+	 */
+	private boolean selectionsEqual(final Set&lt;?&gt; set1, final Set&lt;?&gt; set2) {
+		// Empty or null lists
+<span class="nc bnc" id="L639" title="All 8 branches missed.">		if ((set1 == null || set1.isEmpty()) &amp;&amp; (set2 == null || set2.isEmpty())) {</span>
+<span class="nc" id="L640">			return true;</span>
+		}
+
+		// Same size and contain same entries
+<span class="nc bnc" id="L644" title="All 6 branches missed.">		return set1 != null &amp;&amp; set2 != null &amp;&amp; set1.size() == set2.size() &amp;&amp; set1.</span>
+<span class="nc bnc" id="L645" title="All 2 branches missed.">				containsAll(set2);</span>
+	}
+
+	/**
+	 * Handle a targeted request to retrieve the tree item image.
+	 *
+	 * @param request the request being processed
+	 */
+	private void handleItemImageRequest(final Request request) {
+
+		// Check for tree item id
+<span class="nc" id="L656">		String itemId = request.getParameter(ITEM_REQUEST_KEY);</span>
+<span class="nc bnc" id="L657" title="All 2 branches missed.">		if (itemId == null) {</span>
+<span class="nc" id="L658">			throw new SystemException(&quot;No tree item id provided for image request.&quot;);</span>
+		}
+
+		// Check valid item id
+<span class="nc bnc" id="L662" title="All 2 branches missed.">		if (!isValidTreeItem(itemId)) {</span>
+<span class="nc" id="L663">			throw new SystemException(&quot;Tree item id [&quot; + itemId + &quot;] is not valid.&quot;);</span>
+		}
+
+<span class="nc" id="L666">		List&lt;Integer&gt; index = getItemIdIndexMap().get(itemId);</span>
+<span class="nc" id="L667">		TreeItemImage image = getTreeModel().getItemImage(index);</span>
+
+<span class="nc" id="L669">		ContentEscape escape = new ContentEscape(image.getImage());</span>
+<span class="nc" id="L670">		throw escape;</span>
+	}
+
+	/**
+	 * Handles a request containing row expansion data.
+	 *
+	 * @param request the request containing row expansion data.
+	 */
+	private void handleExpansionRequest(final Request request) {
+
+<span class="nc" id="L680">		String[] paramValue = request.getParameterValues(getId() + &quot;.open&quot;);</span>
+<span class="nc bnc" id="L681" title="All 2 branches missed.">		if (paramValue == null) {</span>
+<span class="nc" id="L682">			paramValue = new String[0];</span>
+		}
+
+<span class="nc" id="L685">		String[] expandedRowIds = removeEmptyStrings(paramValue);</span>
+<span class="nc" id="L686">		Set&lt;String&gt; newExpansionIds = new HashSet&lt;&gt;();</span>
+
+<span class="nc bnc" id="L688" title="All 2 branches missed.">		if (expandedRowIds != null) {</span>
+<span class="nc" id="L689">			int offset = getItemIdPrefix().length();</span>
+<span class="nc bnc" id="L690" title="All 2 branches missed.">			for (String expandedRowId : expandedRowIds) {</span>
+<span class="nc" id="L691">				String itemId = expandedRowId.substring(offset);</span>
+<span class="nc bnc" id="L692" title="All 2 branches missed.">				if (isValidTreeItem(itemId)) {</span>
+<span class="nc" id="L693">					newExpansionIds.add(itemId);</span>
+				}
+			}
+		}
+<span class="nc" id="L697">		setExpandedRows(newExpansionIds);</span>
+<span class="nc" id="L698">	}</span>
+
+	/**
+	 * Handles a request containing an open request.
+	 *
+	 * @param request the request containing row open request.
+	 */
+	private void handleOpenItemRequest(final Request request) {
+
+		// Check for tree item id
+<span class="nc" id="L708">		String param = request.getParameter(ITEM_REQUEST_KEY);</span>
+<span class="nc bnc" id="L709" title="All 2 branches missed.">		if (param == null) {</span>
+<span class="nc" id="L710">			throw new SystemException(&quot;No tree item id provided for open request.&quot;);</span>
+		}
+
+<span class="nc" id="L713">		int offset = getItemIdPrefix().length();</span>
+<span class="nc" id="L714">		String itemId = param.substring(offset);</span>
+
+		// Check valid item id
+<span class="nc bnc" id="L717" title="All 2 branches missed.">		if (!isValidTreeItem(itemId)) {</span>
+<span class="nc" id="L718">			throw new SystemException(&quot;Tree item id [&quot; + itemId + &quot;] is not valid.&quot;);</span>
+		}
+
+<span class="nc" id="L721">		List&lt;Integer&gt; rowIndex = getItemIdIndexMap().get(itemId);</span>
+<span class="nc bnc" id="L722" title="All 2 branches missed.">		if (!getTreeModel().isExpandable(rowIndex)) {</span>
+<span class="nc" id="L723">			throw new SystemException(&quot;Tree item id [&quot; + itemId + &quot;] is not expandable.&quot;);</span>
+		}
+
+		// Add itemId to expanded
+<span class="nc" id="L727">		Set&lt;String&gt; rowIds = new HashSet&lt;&gt;(getExpandedRows());</span>
+<span class="nc" id="L728">		rowIds.add(itemId);</span>
+<span class="nc" id="L729">		setExpandedRows(rowIds);</span>
+
+<span class="nc" id="L731">		setOpenRequestItemId(itemId);</span>
+<span class="nc" id="L732">	}</span>
+
+	/**
+	 * Handle the tree items that have been shuffled by the client.
+	 *
+	 * @param request the request being processed
+	 */
+	private void handleShuffleRequest(final Request request) {
+
+<span class="nc" id="L741">		String json = request.getParameter(getId() + &quot;.shuffle&quot;);</span>
+<span class="nc bnc" id="L742" title="All 2 branches missed.">		if (Util.empty(json)) {</span>
+<span class="nc" id="L743">			return;</span>
+		}
+
+		// New
+		TreeItemIdNode newTree;
+		try {
+<span class="nc" id="L749">			newTree = TreeItemUtil.convertJsonToTree(json);</span>
+<span class="nc" id="L750">		} catch (Exception e) {</span>
+<span class="nc" id="L751">			LOG.warn(&quot;Could not parse JSON for shuffle tree items. &quot; + e.getMessage());</span>
+<span class="nc" id="L752">			return;</span>
+<span class="nc" id="L753">		}</span>
+
+		// Current
+<span class="nc" id="L756">		TreeItemIdNode currentTree = getCustomTree();</span>
+
+<span class="nc bnc" id="L758" title="All 2 branches missed.">		boolean changed = !TreeItemUtil.isTreeSame(newTree, currentTree);</span>
+
+<span class="nc bnc" id="L760" title="All 2 branches missed.">		if (changed) {</span>
+<span class="nc" id="L761">			setCustomTree(newTree);</span>
+			// Run the shuffle action (if set)
+<span class="nc" id="L763">			final Action action = getShuffleAction();</span>
+<span class="nc bnc" id="L764" title="All 2 branches missed.">			if (action != null) {</span>
+				// Set the selected file id as the action object
+<span class="nc" id="L766">				final ActionEvent event = new ActionEvent(this, &quot;shuffle&quot;);</span>
+<span class="nc" id="L767">				Runnable later = new Runnable() {</span>
+					@Override
+					public void run() {
+<span class="nc" id="L770">						action.execute(event);</span>
+<span class="nc" id="L771">					}</span>
+				};
+<span class="nc" id="L773">				invokeLater(later);</span>
+			}
+		}
+<span class="nc" id="L776">	}</span>
+
+	/**
+	 * Helper that removes empty/null string from the &lt;code&gt;original&lt;/code&gt; string array.
+	 *
+	 * @param originals The string array from which the null/empty strings should be removed from.
+	 * @return Array of non empty strings from the &lt;code&gt;original&lt;/code&gt; string array.
+	 */
+	private String[] removeEmptyStrings(final String[] originals) {
+<span class="nc bnc" id="L785" title="All 2 branches missed.">		if (originals == null) {</span>
+<span class="nc" id="L786">			return null;</span>
+		} else {
+<span class="nc" id="L788">			List&lt;String&gt; parsed = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L790" title="All 2 branches missed.">			for (String original : originals) {</span>
+<span class="nc bnc" id="L791" title="All 4 branches missed.">				if (original != null &amp;&amp; original.length() &gt; 0) {</span>
+<span class="nc" id="L792">					parsed.add(original);</span>
+				}
+			}
+
+<span class="nc" id="L796">			return parsed.toArray(new String[parsed.size()]);</span>
+		}
+	}
+
+	/**
+	 *
+	 * @param itemId the item id to check
+	 * @return true if this item id is valid.
+	 */
+	private boolean isValidTreeItem(final String itemId) {
+
+		// Check for custom tree
+<span class="nc" id="L808">		TreeItemIdNode custom = getCustomTree();</span>
+<span class="nc bnc" id="L809" title="All 4 branches missed.">		if (custom != null &amp;&amp; !getCustomIdMap().containsKey(itemId)) {</span>
+<span class="nc" id="L810">			return false;</span>
+		}
+
+		// Check is still a valid item
+<span class="nc" id="L814">		List&lt;Integer&gt; index = getItemIdIndexMap().get(itemId);</span>
+<span class="nc bnc" id="L815" title="All 2 branches missed.">		if (index == null) {</span>
+<span class="nc" id="L816">			return false;</span>
+		}
+
+<span class="nc" id="L819">		String id = getTreeModel().getItemId(index);</span>
+<span class="nc bnc" id="L820" title="All 2 branches missed.">		if (id == null) {</span>
+<span class="nc" id="L821">			return false;</span>
+		}
+
+		// Check integrity
+<span class="nc bnc" id="L825" title="All 2 branches missed.">		if (!Util.equals(id, itemId)) {</span>
+<span class="nc" id="L826">			throw new SystemException(&quot;Invalid tree item returned from model for index [&quot; + index + &quot;]. Expected id [&quot; + itemId + &quot;] but received id [&quot; + id + &quot;].&quot;);</span>
+		}
+
+<span class="nc" id="L829">		return true;</span>
+	}
+
+	/**
+	 * @param itemId the item id to open
+	 */
+	private void setOpenRequestItemId(final String itemId) {
+<span class="nc" id="L836">		getScratchMap().put(&quot;openid&quot;, itemId);</span>
+<span class="nc" id="L837">	}</span>
+
+	/**
+	 * @return the item id to open. or null
+	 */
+	public String getOpenRequestItemId() {
+<span class="nc" id="L843">		return (String) getScratchMap().get(&quot;openid&quot;);</span>
+	}
+
+	/**
+	 * @return a String representation of this component, for debugging purposes.
+	 */
+	@Override
+	public String toString() {
+<span class="nc" id="L851">		TreeItemModel model = getTreeModel();</span>
+<span class="nc" id="L852">		return toString(model.getClass().getSimpleName(), -1, -1);</span>
+	}
+
+	/**
+	 * Creates a new component model.
+	 *
+	 * @return a new WTreeComponentModel.
+	 */
+	@Override
+	protected WTreeComponentModel newComponentModel() {
+<span class="nc" id="L862">		return new WTreeComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// for type safety only
+	protected WTreeComponentModel getComponentModel() {
+<span class="nc" id="L871">		return (WTreeComponentModel) super.getComponentModel();</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	// for type safety only
+	protected WTreeComponentModel getOrCreateComponentModel() {
+<span class="nc" id="L880">		return (WTreeComponentModel) super.getOrCreateComponentModel();</span>
+
+	}
+
+	/**
+	 * Contains the tree's UI state.
+	 *
+	 * @author Jonathan Austin
+	 * @since 1.1.0
+	 */
+<span class="nc" id="L890">	public static final class WTreeComponentModel extends InputModel {</span>
+
+		/**
+		 * The type of tree.
+		 */
+		private Type type;
+
+		/**
+		 * The margins to be used on the tree.
+		 */
+		private Margin margin;
+
+		/**
+		 * The data model for the tree.
+		 */
+<span class="nc" id="L905">		private TreeItemModel treeModel = EmptyTreeItemModel.INSTANCE;</span>
+
+		// Selection
+		/**
+		 * Indicates how row selection should function.
+		 */
+<span class="nc" id="L911">		private SelectMode selectMode = SelectMode.SINGLE;</span>
+
+		/**
+		 * Indicates how row expansion should function.
+		 */
+<span class="nc" id="L916">		private ExpandMode expandMode = ExpandMode.CLIENT;</span>
+
+		/**
+		 * Holds the keys of currently expanded rows.
+		 */
+		private Set&lt;String&gt; expandedRows;
+
+		/**
+		 * Allow the rows to be shuffled.
+		 */
+		private boolean shuffle;
+
+		/**
+		 * Shuffle action.
+		 */
+		private Action shuffleAction;
+
+		/**
+		 * This is used to allow a user to have a different tree of nodes.
+		 */
+		private TreeItemIdNode customTree;
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

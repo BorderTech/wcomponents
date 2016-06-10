@@ -39,26 +39,23 @@ import org.apache.commons.logging.LogFactory;
 <span class="fc" id="L39">		stats.analyseWC(this);</span>
 
 <span class="pc bpc" id="L41" title="1 of 2 branches missed.">		if (renderContext instanceof WebXmlRenderContext) {</span>
-			// TODO: This must not emit mark-up
-<span class="fc" id="L43">			PrintWriter writer = ((WebXmlRenderContext) renderContext).getWriter();</span>
+<span class="fc" id="L42">			PrintWriter writer = ((WebXmlRenderContext) renderContext).getWriter();</span>
 
-<span class="fc" id="L45">			writer.println(&quot;&lt;hr /&gt;&quot;);</span>
-<span class="fc" id="L46">			writer.println(&quot;&lt;h2&gt;Serialization Profile of UIC&lt;/h2&gt;&quot;);</span>
-<span class="fc" id="L47">			UicStatsAsHtml.write(writer, stats);</span>
+<span class="fc" id="L44">			writer.println(&quot;&lt;h2&gt;Serialization Profile of UIC&lt;/h2&gt;&quot;);</span>
+<span class="fc" id="L45">			UicStatsAsHtml.write(writer, stats);</span>
 
 			// ObjectProfiler
-<span class="fc" id="L50">			writer.println(&quot;&lt;hr /&gt;&quot;);</span>
-<span class="fc" id="L51">			writer.println(&quot;&lt;h2&gt;ObjectProfiler - &quot; + getClass().getName() + &quot;&lt;/h2&gt;&quot;);</span>
-<span class="fc" id="L52">			writer.println(&quot;&lt;pre&gt;&quot;);</span>
+<span class="fc" id="L48">			writer.println(&quot;&lt;h2&gt;ObjectProfiler - &quot; + getClass().getName() + &quot;&lt;/h2&gt;&quot;);</span>
+<span class="fc" id="L49">			writer.println(&quot;&lt;pre&gt;&quot;);</span>
 
 			try {
-<span class="fc" id="L55">				writer.println(ObjectGraphDump.dump(this).toFlatSummary());</span>
-<span class="nc" id="L56">			} catch (Exception e) {</span>
-<span class="nc" id="L57">				LOG.error(&quot;Failed to dump component&quot;, e);</span>
-<span class="fc" id="L58">			}</span>
+<span class="fc" id="L52">				writer.println(ObjectGraphDump.dump(this).toFlatSummary());</span>
+<span class="nc" id="L53">			} catch (Exception e) {</span>
+<span class="nc" id="L54">				LOG.error(&quot;Failed to dump component&quot;, e);</span>
+<span class="fc" id="L55">			}</span>
 
-<span class="fc" id="L60">			writer.println(&quot;&lt;/pre&gt;&quot;);</span>
+<span class="fc" id="L57">			writer.println(&quot;&lt;/pre&gt;&quot;);</span>
 		}
-<span class="fc" id="L62">	}</span>
+<span class="fc" id="L59">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

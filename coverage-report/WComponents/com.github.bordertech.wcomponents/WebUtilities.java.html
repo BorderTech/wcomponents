@@ -5,9 +5,11 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.TreeUtil;
+import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.URLConnection;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
@@ -71,7 +73,7 @@ public final class WebUtilities {
 	/**
 	 * Counter used in combination with a timestamp to make random string.
 	 */
-<span class="fc" id="L74">	private static final AtomicLong ATOMIC_COUNT = new AtomicLong();</span>
+<span class="fc" id="L76">	private static final AtomicLong ATOMIC_COUNT = new AtomicLong();</span>
 
 	/**
 	 * The parameter for the current project version.
@@ -81,18 +83,18 @@ public final class WebUtilities {
 	/**
 	 * Prevent instantiation of this class.
 	 */
-<span class="nc" id="L84">	private WebUtilities() {</span>
-<span class="nc" id="L85">	}</span>
+<span class="nc" id="L86">	private WebUtilities() {</span>
+<span class="nc" id="L87">	}</span>
 
 	/**
 	 * @return the project version of WComponents.
 	 */
 	public static String getProjectVersion() {
-<span class="fc" id="L91">		String version = Config.getInstance().getString(PROJECT_VERSION_PARAMETER_KEY);</span>
-<span class="fc bfc" id="L92" title="All 2 branches covered.">		if (version == null) {</span>
-<span class="fc" id="L93">			throw new SystemException(&quot;The project version parameter has not been defined.&quot;);</span>
+<span class="fc" id="L93">		String version = Config.getInstance().getString(PROJECT_VERSION_PARAMETER_KEY);</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">		if (version == null) {</span>
+<span class="fc" id="L95">			throw new SystemException(&quot;The project version parameter has not been defined.&quot;);</span>
 		}
-<span class="fc" id="L95">		return version;</span>
+<span class="fc" id="L97">		return version;</span>
 	}
 
 	/**
@@ -103,17 +105,17 @@ public final class WebUtilities {
 	 * @return a &quot;path&quot; of class names from the component to the root.
 	 */
 	public static String getPathToRoot(final WComponent component) {
-<span class="nc" id="L106">		StringBuffer buf = new StringBuffer();</span>
+<span class="nc" id="L108">		StringBuffer buf = new StringBuffer();</span>
 
-<span class="nc bnc" id="L108" title="All 2 branches missed.">		for (WComponent node = component; node != null; node = node.getParent()) {</span>
-<span class="nc bnc" id="L109" title="All 2 branches missed.">			if (buf.length() != 0) {</span>
-<span class="nc" id="L110">				buf.insert(0, '\n');</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">		for (WComponent node = component; node != null; node = node.getParent()) {</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">			if (buf.length() != 0) {</span>
+<span class="nc" id="L112">				buf.insert(0, '\n');</span>
 			}
 
-<span class="nc" id="L113">			buf.insert(0, node.getClass().getName());</span>
+<span class="nc" id="L115">			buf.insert(0, node.getClass().getName());</span>
 		}
 
-<span class="nc" id="L116">		return buf.toString();</span>
+<span class="nc" id="L118">		return buf.toString();</span>
 	}
 
 	/**
@@ -127,19 +129,19 @@ public final class WebUtilities {
 	 * @param &lt;T&gt; the ancestor class
 	 */
 	public static &lt;T&gt; T getAncestorOfClass(final Class&lt;T&gt; clazz, final WComponent comp) {
-<span class="pc bpc" id="L130" title="1 of 4 branches missed.">		if (comp == null || clazz == null) {</span>
-<span class="fc" id="L131">			return null;</span>
+<span class="pc bpc" id="L132" title="1 of 4 branches missed.">		if (comp == null || clazz == null) {</span>
+<span class="fc" id="L133">			return null;</span>
 		}
 
-<span class="fc" id="L134">		WComponent parent = comp.getParent();</span>
-<span class="fc bfc" id="L135" title="All 2 branches covered.">		while (parent != null) {</span>
-<span class="fc bfc" id="L136" title="All 2 branches covered.">			if (clazz.isInstance(parent)) {</span>
-<span class="fc" id="L137">				return (T) parent;</span>
+<span class="fc" id="L136">		WComponent parent = comp.getParent();</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">		while (parent != null) {</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">			if (clazz.isInstance(parent)) {</span>
+<span class="fc" id="L139">				return (T) parent;</span>
 			}
-<span class="fc" id="L139">			parent = parent.getParent();</span>
+<span class="fc" id="L141">			parent = parent.getParent();</span>
 		}
 
-<span class="fc" id="L142">		return null;</span>
+<span class="fc" id="L144">		return null;</span>
 	}
 
 	/**
@@ -152,15 +154,15 @@ public final class WebUtilities {
 	 * @param &lt;T&gt; the class to find
 	 */
 	public static &lt;T&gt; T getClosestOfClass(final Class&lt;T&gt; clazz, final WComponent comp) {
-<span class="fc bfc" id="L155" title="All 2 branches covered.">		if (comp == null) {</span>
-<span class="fc" id="L156">			return null;</span>
+<span class="fc bfc" id="L157" title="All 2 branches covered.">		if (comp == null) {</span>
+<span class="fc" id="L158">			return null;</span>
 		}
 
-<span class="fc bfc" id="L159" title="All 2 branches covered.">		if (clazz.isInstance(comp)) {</span>
-<span class="fc" id="L160">			return (T) comp;</span>
+<span class="fc bfc" id="L161" title="All 2 branches covered.">		if (clazz.isInstance(comp)) {</span>
+<span class="fc" id="L162">			return (T) comp;</span>
 		}
 
-<span class="fc" id="L163">		return getAncestorOfClass(clazz, comp);</span>
+<span class="fc" id="L165">		return getAncestorOfClass(clazz, comp);</span>
 	}
 
 	/**
@@ -170,13 +172,13 @@ public final class WebUtilities {
 	 * @return the top-level WComponent in the tree.
 	 */
 	public static WComponent getTop(final WComponent comp) {
-<span class="fc" id="L173">		WComponent top = comp;</span>
+<span class="fc" id="L175">		WComponent top = comp;</span>
 
-<span class="fc bfc" id="L175" title="All 2 branches covered.">		for (WComponent parent = top.getParent(); parent != null; parent = parent.getParent()) {</span>
-<span class="fc" id="L176">			top = parent;</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">		for (WComponent parent = top.getParent(); parent != null; parent = parent.getParent()) {</span>
+<span class="fc" id="L178">			top = parent;</span>
 		}
 
-<span class="fc" id="L179">		return top;</span>
+<span class="fc" id="L181">		return top;</span>
 	}
 
 	/**
@@ -186,38 +188,38 @@ public final class WebUtilities {
 	 * @return an escaped copy of the string.
 	 */
 	public static String escapeForUrl(final String input) {
-<span class="fc bfc" id="L189" title="All 4 branches covered.">		if (input == null || input.length() == 0) {</span>
-<span class="fc" id="L190">			return input;</span>
+<span class="fc bfc" id="L191" title="All 4 branches covered.">		if (input == null || input.length() == 0) {</span>
+<span class="fc" id="L192">			return input;</span>
 		}
 
-<span class="fc" id="L193">		final StringBuffer buffer = new StringBuffer(input.length() * 2); // worst-case</span>
+<span class="fc" id="L195">		final StringBuffer buffer = new StringBuffer(input.length() * 2); // worst-case</span>
 
-<span class="fc bfc" id="L195" title="All 2 branches covered.">		for (int i = 0; i &lt; input.length(); ++i) {</span>
-<span class="fc" id="L196">			final char ch = input.charAt(i);</span>
+<span class="fc bfc" id="L197" title="All 2 branches covered.">		for (int i = 0; i &lt; input.length(); ++i) {</span>
+<span class="fc" id="L198">			final char ch = input.charAt(i);</span>
 
 			// Section 2.3 - Unreserved chars
-<span class="pc bpc" id="L199" title="1 of 20 branches missed.">			if ((ch &gt;= 'A' &amp;&amp; ch &lt;= 'Z') || (ch &gt;= 'a' &amp;&amp; ch &lt;= 'z') || (ch &gt;= '0' &amp;&amp; ch &lt;= '9')</span>
+<span class="pc bpc" id="L201" title="1 of 20 branches missed.">			if ((ch &gt;= 'A' &amp;&amp; ch &lt;= 'Z') || (ch &gt;= 'a' &amp;&amp; ch &lt;= 'z') || (ch &gt;= '0' &amp;&amp; ch &lt;= '9')</span>
 					|| ch == '-' || ch == '_' || ch == '.' || ch == '~') {
-<span class="fc" id="L201">				buffer.append(ch);</span>
-<span class="fc bfc" id="L202" title="All 2 branches covered.">			} else if (ch &lt;= 127) { // Other ASCII characters must be escaped</span>
-<span class="fc" id="L203">				final String hexString = Integer.toHexString(ch);</span>
+<span class="fc" id="L203">				buffer.append(ch);</span>
+<span class="fc bfc" id="L204" title="All 2 branches covered.">			} else if (ch &lt;= 127) { // Other ASCII characters must be escaped</span>
+<span class="fc" id="L205">				final String hexString = Integer.toHexString(ch);</span>
 
-<span class="pc bpc" id="L205" title="1 of 2 branches missed.">				if (hexString.length() == 1) {</span>
-<span class="nc" id="L206">					buffer.append(&quot;%0&quot;).append(hexString);</span>
+<span class="pc bpc" id="L207" title="1 of 2 branches missed.">				if (hexString.length() == 1) {</span>
+<span class="nc" id="L208">					buffer.append(&quot;%0&quot;).append(hexString);</span>
 				} else {
-<span class="fc" id="L208">					buffer.append('%').append(hexString);</span>
+<span class="fc" id="L210">					buffer.append('%').append(hexString);</span>
 				}
-<span class="fc bfc" id="L210" title="All 2 branches covered.">			} else if (ch &lt;= 0x07FF) { // Other non-ASCII chars must be UTF-8 encoded</span>
-<span class="fc" id="L211">				buffer.append('%').append(Integer.toHexString(0xc0 | (ch &gt;&gt; 6)));</span>
-<span class="fc" id="L212">				buffer.append('%').append(Integer.toHexString(0x80 | (ch &amp; 0x3F)));</span>
+<span class="fc bfc" id="L212" title="All 2 branches covered.">			} else if (ch &lt;= 0x07FF) { // Other non-ASCII chars must be UTF-8 encoded</span>
+<span class="fc" id="L213">				buffer.append('%').append(Integer.toHexString(0xc0 | (ch &gt;&gt; 6)));</span>
+<span class="fc" id="L214">				buffer.append('%').append(Integer.toHexString(0x80 | (ch &amp; 0x3F)));</span>
 			} else {
-<span class="fc" id="L214">				buffer.append('%').append(Integer.toHexString(0xe0 | (ch &gt;&gt; 12)));</span>
-<span class="fc" id="L215">				buffer.append('%').append(Integer.toHexString(0x80 | ((ch &gt;&gt; 6) &amp; 0x3F)));</span>
-<span class="fc" id="L216">				buffer.append('%').append(Integer.toHexString(0x80 | (ch &amp; 0x3F)));</span>
+<span class="fc" id="L216">				buffer.append('%').append(Integer.toHexString(0xe0 | (ch &gt;&gt; 12)));</span>
+<span class="fc" id="L217">				buffer.append('%').append(Integer.toHexString(0x80 | ((ch &gt;&gt; 6) &amp; 0x3F)));</span>
+<span class="fc" id="L218">				buffer.append('%').append(Integer.toHexString(0x80 | (ch &amp; 0x3F)));</span>
 			}
 		}
 
-<span class="fc" id="L220">		return buffer.toString();</span>
+<span class="fc" id="L222">		return buffer.toString();</span>
 	}
 
 	/**
@@ -229,31 +231,31 @@ public final class WebUtilities {
 	 * @return an encoded copy of the input String.
 	 */
 	public static String encode(final String input) {
-<span class="fc bfc" id="L232" title="All 4 branches covered.">		if (input == null || input.length() == 0) {</span>
-<span class="fc" id="L233">			return input;</span>
+<span class="fc bfc" id="L234" title="All 4 branches covered.">		if (input == null || input.length() == 0) {</span>
+<span class="fc" id="L235">			return input;</span>
 		}
 
-<span class="fc" id="L236">		StringBuffer buffer = new StringBuffer(input.length());</span>
+<span class="fc" id="L238">		StringBuffer buffer = new StringBuffer(input.length());</span>
 
-<span class="fc bfc" id="L238" title="All 2 branches covered.">		for (int i = 0; i &lt; input.length(); i++) {</span>
-<span class="fc" id="L239">			char c = input.charAt(i);</span>
+<span class="fc bfc" id="L240" title="All 2 branches covered.">		for (int i = 0; i &lt; input.length(); i++) {</span>
+<span class="fc" id="L241">			char c = input.charAt(i);</span>
 
-<span class="fc bfc" id="L241" title="All 2 branches covered.">			if (c == '&lt;') {</span>
-<span class="fc" id="L242">				buffer.append(LT_ESCAPE);</span>
-<span class="fc bfc" id="L243" title="All 2 branches covered.">			} else if (c == '&gt;') {</span>
-<span class="fc" id="L244">				buffer.append(GT_ESCAPE);</span>
-<span class="fc bfc" id="L245" title="All 2 branches covered.">			} else if (c == '&amp;') {</span>
-<span class="fc" id="L246">				buffer.append(AMP_ESCAPE);</span>
-<span class="fc bfc" id="L247" title="All 2 branches covered.">			} else if (c == '&quot;') {</span>
-<span class="fc" id="L248">				buffer.append(QUOT_ESCAPE);</span>
-<span class="pc bpc" id="L249" title="1 of 8 branches missed.">			} else if (c &gt;= 32 || c == '\n' || c == '\r' || c == '\t') {</span>
+<span class="fc bfc" id="L243" title="All 2 branches covered.">			if (c == '&lt;') {</span>
+<span class="fc" id="L244">				buffer.append(LT_ESCAPE);</span>
+<span class="fc bfc" id="L245" title="All 2 branches covered.">			} else if (c == '&gt;') {</span>
+<span class="fc" id="L246">				buffer.append(GT_ESCAPE);</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">			} else if (c == '&amp;') {</span>
+<span class="fc" id="L248">				buffer.append(AMP_ESCAPE);</span>
+<span class="fc bfc" id="L249" title="All 2 branches covered.">			} else if (c == '&quot;') {</span>
+<span class="fc" id="L250">				buffer.append(QUOT_ESCAPE);</span>
+<span class="pc bpc" id="L251" title="1 of 8 branches missed.">			} else if (c &gt;= 32 || c == '\n' || c == '\r' || c == '\t') {</span>
 				// All other unicode characters can be sent as is, with the
 				// exception of control codes, which are illegal
-<span class="fc" id="L252">				buffer.append(c);</span>
+<span class="fc" id="L254">				buffer.append(c);</span>
 			}
 		}
 
-<span class="fc" id="L256">		return buffer.toString();</span>
+<span class="fc" id="L258">		return buffer.toString();</span>
 	}
 
 	/**
@@ -269,7 +271,7 @@ public final class WebUtilities {
 	 * @return the encoded file name.
 	 */
 	public static String encodeForContentDispositionHeader(final String fileName) {
-<span class="fc" id="L272">		return fileName.replaceAll(&quot;[^A-Za-z0-9_\\. -]&quot;, &quot;_&quot;);</span>
+<span class="fc" id="L274">		return fileName.replaceAll(&quot;[^A-Za-z0-9_\\. -]&quot;, &quot;_&quot;);</span>
 	}
 
 	/**
@@ -284,16 +286,16 @@ public final class WebUtilities {
 	 * @return a decoded copy of the input String.
 	 */
 	public static String decode(final String encoded) {
-<span class="fc bfc" id="L287" title="All 6 branches covered.">		if (encoded == null || encoded.length() == 0 || encoded.indexOf('&amp;') == -1) {</span>
-<span class="fc" id="L288">			return encoded;</span>
+<span class="fc bfc" id="L289" title="All 6 branches covered.">		if (encoded == null || encoded.length() == 0 || encoded.indexOf('&amp;') == -1) {</span>
+<span class="fc" id="L290">			return encoded;</span>
 		}
 
-<span class="fc" id="L291">		String decoded = encoded.replaceAll(LT_ESCAPE, &quot;&lt;&quot;)</span>
-<span class="fc" id="L292">				.replaceAll(GT_ESCAPE, &quot;&gt;&quot;)</span>
-<span class="fc" id="L293">				.replaceAll(AMP_ESCAPE, &quot;&amp;&quot;)</span>
-<span class="fc" id="L294">				.replaceAll(QUOT_ESCAPE, &quot;\&quot;&quot;);</span>
+<span class="fc" id="L293">		String decoded = encoded.replaceAll(LT_ESCAPE, &quot;&lt;&quot;)</span>
+<span class="fc" id="L294">				.replaceAll(GT_ESCAPE, &quot;&gt;&quot;)</span>
+<span class="fc" id="L295">				.replaceAll(AMP_ESCAPE, &quot;&amp;&quot;)</span>
+<span class="fc" id="L296">				.replaceAll(QUOT_ESCAPE, &quot;\&quot;&quot;);</span>
 
-<span class="fc" id="L296">		return decoded;</span>
+<span class="fc" id="L298">		return decoded;</span>
 	}
 
 	/**
@@ -304,7 +306,7 @@ public final class WebUtilities {
 	 * @return the complete url eg http://localhost/app?step=1
 	 */
 	public static String getPath(final String url, final Map&lt;String, String&gt; parameters) {
-<span class="fc" id="L307">		return getPath(url, parameters, false);</span>
+<span class="fc" id="L309">		return getPath(url, parameters, false);</span>
 	}
 
 	/**
@@ -318,31 +320,31 @@ public final class WebUtilities {
 	public static String getPath(final String url, final Map&lt;String, String&gt; parameters,
 			final boolean javascript) {
 		// Have we already got some parameters?
-<span class="fc" id="L321">		int index = url.indexOf('?');</span>
-<span class="fc" id="L322">		boolean hasVars = false;</span>
+<span class="fc" id="L323">		int index = url.indexOf('?');</span>
+<span class="fc" id="L324">		boolean hasVars = false;</span>
 
-<span class="fc bfc" id="L324" title="All 2 branches covered.">		if (index != -1) {</span>
-<span class="fc" id="L325">			hasVars = true;</span>
+<span class="fc bfc" id="L326" title="All 2 branches covered.">		if (index != -1) {</span>
+<span class="fc" id="L327">			hasVars = true;</span>
 		}
 
-<span class="fc" id="L328">		StringBuffer vars = new StringBuffer();</span>
+<span class="fc" id="L330">		StringBuffer vars = new StringBuffer();</span>
 
-<span class="fc bfc" id="L330" title="All 2 branches covered.">		if (parameters != null) {</span>
-<span class="fc bfc" id="L331" title="All 2 branches covered.">			for (Map.Entry&lt;String, String&gt; entry : parameters.entrySet()) {</span>
-<span class="fc" id="L332">				String key = entry.getKey();</span>
-<span class="fc" id="L333">				String value = entry.getValue();</span>
+<span class="fc bfc" id="L332" title="All 2 branches covered.">		if (parameters != null) {</span>
+<span class="fc bfc" id="L333" title="All 2 branches covered.">			for (Map.Entry&lt;String, String&gt; entry : parameters.entrySet()) {</span>
+<span class="fc" id="L334">				String key = entry.getKey();</span>
+<span class="fc" id="L335">				String value = entry.getValue();</span>
 
-<span class="fc bfc" id="L335" title="All 2 branches covered.">				if (javascript) {</span>
-<span class="fc" id="L336">					appendGetParamForJavascript(key, value, vars, hasVars);</span>
+<span class="fc bfc" id="L337" title="All 2 branches covered.">				if (javascript) {</span>
+<span class="fc" id="L338">					appendGetParamForJavascript(key, value, vars, hasVars);</span>
 				} else {
-<span class="fc" id="L338">					appendGetParam(key, value, vars, hasVars);</span>
+<span class="fc" id="L340">					appendGetParam(key, value, vars, hasVars);</span>
 				}
 
-<span class="fc" id="L341">				hasVars = true;</span>
-<span class="fc" id="L342">			}</span>
+<span class="fc" id="L343">				hasVars = true;</span>
+<span class="fc" id="L344">			}</span>
 		}
 
-<span class="fc" id="L345">		return url + vars.toString();</span>
+<span class="fc" id="L347">		return url + vars.toString();</span>
 	}
 
 	/**
@@ -356,9 +358,9 @@ public final class WebUtilities {
 	 */
 	public static void appendGetParamForJavascript(final String key, final String value,
 			final StringBuffer vars, final boolean existingVars) {
-<span class="fc bfc" id="L359" title="All 2 branches covered.">		vars.append(existingVars ? '&amp;' : '?');</span>
-<span class="fc" id="L360">		vars.append(key).append('=').append(WebUtilities.escapeForUrl(value));</span>
-<span class="fc" id="L361">	}</span>
+<span class="fc bfc" id="L361" title="All 2 branches covered.">		vars.append(existingVars ? '&amp;' : '?');</span>
+<span class="fc" id="L362">		vars.append(key).append('=').append(WebUtilities.escapeForUrl(value));</span>
+<span class="fc" id="L363">	}</span>
 
 	/**
 	 * &lt;p&gt;
@@ -376,9 +378,9 @@ public final class WebUtilities {
 	 */
 	public static void appendGetParam(final String key, final String value,
 			final StringBuffer vars, final boolean existingVars) {
-<span class="fc bfc" id="L379" title="All 2 branches covered.">		vars.append(existingVars ? &quot;&amp;amp;&quot; : &quot;?&quot;);</span>
-<span class="fc" id="L380">		vars.append(key).append('=').append(WebUtilities.escapeForUrl(value));</span>
-<span class="fc" id="L381">	}</span>
+<span class="fc bfc" id="L381" title="All 2 branches covered.">		vars.append(existingVars ? &quot;&amp;amp;&quot; : &quot;?&quot;);</span>
+<span class="fc" id="L382">		vars.append(key).append('=').append(WebUtilities.escapeForUrl(value));</span>
+<span class="fc" id="L383">	}</span>
 
 	/**
 	 * Generates a random String. Can be useful for creating unique URLs by adding the String as a query parameter to
@@ -387,10 +389,10 @@ public final class WebUtilities {
 	 * @return a random string
 	 */
 	public static String generateRandom() {
-<span class="fc" id="L390">		long next = ATOMIC_COUNT.incrementAndGet();</span>
-<span class="fc" id="L391">		StringBuffer random = new StringBuffer();</span>
-<span class="fc" id="L392">		random.append(new Date().getTime()).append('-').append(next);</span>
-<span class="fc" id="L393">		return random.toString();</span>
+<span class="fc" id="L392">		long next = ATOMIC_COUNT.incrementAndGet();</span>
+<span class="fc" id="L393">		StringBuffer random = new StringBuffer();</span>
+<span class="fc" id="L394">		random.append(new Date().getTime()).append('-').append(next);</span>
+<span class="fc" id="L395">		return random.toString();</span>
 	}
 
 	/**
@@ -401,13 +403,13 @@ public final class WebUtilities {
 	 * @return true if &lt;code&gt;component1&lt;/code&gt; is an ancestor of &lt;code&gt;component2&lt;/code&gt;, false otherwise.
 	 */
 	public static boolean isAncestor(final WComponent component1, final WComponent component2) {
-<span class="nc bnc" id="L404" title="All 2 branches missed.">		for (WComponent parent = component2.getParent(); parent != null; parent = parent.getParent()) {</span>
-<span class="nc bnc" id="L405" title="All 2 branches missed.">			if (parent == component1) {</span>
-<span class="nc" id="L406">				return true;</span>
+<span class="nc bnc" id="L406" title="All 2 branches missed.">		for (WComponent parent = component2.getParent(); parent != null; parent = parent.getParent()) {</span>
+<span class="nc bnc" id="L407" title="All 2 branches missed.">			if (parent == component1) {</span>
+<span class="nc" id="L408">				return true;</span>
 			}
 		}
 
-<span class="nc" id="L410">		return false;</span>
+<span class="nc" id="L412">		return false;</span>
 	}
 
 	/**
@@ -418,7 +420,7 @@ public final class WebUtilities {
 	 * @return true if &lt;code&gt;component1&lt;/code&gt; is a descendant of &lt;code&gt;component2&lt;/code&gt;, false otherwise.
 	 */
 	public static boolean isDescendant(final WComponent component1, final WComponent component2) {
-<span class="nc" id="L421">		return isAncestor(component2, component1);</span>
+<span class="nc" id="L423">		return isAncestor(component2, component1);</span>
 	}
 
 	/**
@@ -429,13 +431,13 @@ public final class WebUtilities {
 	 * @return the primary context for the given component.
 	 */
 	public static UIContext getPrimaryContext(final UIContext uic, final WComponent component) {
-<span class="fc" id="L432">		UIContext result = uic;</span>
+<span class="fc" id="L434">		UIContext result = uic;</span>
 
-<span class="pc bpc" id="L434" title="3 of 4 branches missed.">		while (result instanceof SubUIContext &amp;&amp; !((SubUIContext) result).isInContext(component)) {</span>
-<span class="nc" id="L435">			result = ((SubUIContext) result).getBacking();</span>
+<span class="pc bpc" id="L436" title="3 of 4 branches missed.">		while (result instanceof SubUIContext &amp;&amp; !((SubUIContext) result).isInContext(component)) {</span>
+<span class="nc" id="L437">			result = ((SubUIContext) result).getBacking();</span>
 		}
 
-<span class="fc" id="L438">		return result;</span>
+<span class="fc" id="L440">		return result;</span>
 	}
 
 	/**
@@ -448,7 +450,7 @@ public final class WebUtilities {
 	 * @return the component and context for the given id, or null if not found.
 	 */
 	public static ComponentWithContext getComponentById(final String id) {
-<span class="fc" id="L451">		return getComponentById(id, false);</span>
+<span class="fc" id="L453">		return getComponentById(id, false);</span>
 	}
 
 	/**
@@ -459,10 +461,10 @@ public final class WebUtilities {
 	 * @return the component and context for the given id, or null if not found.
 	 */
 	public static ComponentWithContext getComponentById(final String id, final boolean visibleOnly) {
-<span class="fc" id="L462">		UIContext uic = UIContextHolder.getCurrent();</span>
-<span class="fc" id="L463">		WComponent root = uic.getUI();</span>
-<span class="fc" id="L464">		ComponentWithContext comp = TreeUtil.getComponentWithContextForId(root, id, visibleOnly);</span>
-<span class="fc" id="L465">		return comp;</span>
+<span class="fc" id="L464">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc" id="L465">		WComponent root = uic.getUI();</span>
+<span class="fc" id="L466">		ComponentWithContext comp = TreeUtil.getComponentWithContextForId(root, id, visibleOnly);</span>
+<span class="fc" id="L467">		return comp;</span>
 	}
 
 	/**
@@ -473,10 +475,10 @@ public final class WebUtilities {
 	 * @return the component and context for the given id, or null if not found.
 	 */
 	public static UIContext findClosestContext(final String id) {
-<span class="fc" id="L476">		UIContext uic = UIContextHolder.getCurrent();</span>
-<span class="fc" id="L477">		WComponent root = uic.getUI();</span>
-<span class="fc" id="L478">		UIContext closest = TreeUtil.getClosestContextForId(root, id);</span>
-<span class="fc" id="L479">		return closest;</span>
+<span class="fc" id="L478">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc" id="L479">		WComponent root = uic.getUI();</span>
+<span class="fc" id="L480">		UIContext closest = TreeUtil.getClosestContextForId(root, id);</span>
+<span class="fc" id="L481">		return closest;</span>
 	}
 
 	/**
@@ -487,26 +489,26 @@ public final class WebUtilities {
 	 */
 	public static void updateBeanValue(final WComponent component, final boolean visibleOnly) {
 		// Do not process if component is invisble and ignore visible is true. Will ignore entire branch from this point.
-<span class="nc bnc" id="L490" title="All 4 branches missed.">		if (!component.isVisible() &amp;&amp; visibleOnly) {</span>
-<span class="nc" id="L491">			return;</span>
+<span class="nc bnc" id="L492" title="All 4 branches missed.">		if (!component.isVisible() &amp;&amp; visibleOnly) {</span>
+<span class="nc" id="L493">			return;</span>
 		}
 
-<span class="nc bnc" id="L494" title="All 2 branches missed.">		if (component instanceof WBeanComponent) {</span>
-<span class="nc" id="L495">			((WBeanComponent) component).updateBeanValue();</span>
+<span class="nc bnc" id="L496" title="All 2 branches missed.">		if (component instanceof WBeanComponent) {</span>
+<span class="nc" id="L497">			((WBeanComponent) component).updateBeanValue();</span>
 		}
 
 		// These components recursively update bean values themselves,
 		// as they have special requirements due to repeating data.
-<span class="nc bnc" id="L500" title="All 6 branches missed.">		if (component instanceof WDataTable || component instanceof WTable || component instanceof WRepeater) {</span>
-<span class="nc" id="L501">			return;</span>
+<span class="nc bnc" id="L502" title="All 6 branches missed.">		if (component instanceof WDataTable || component instanceof WTable || component instanceof WRepeater) {</span>
+<span class="nc" id="L503">			return;</span>
 		}
 
-<span class="nc bnc" id="L504" title="All 2 branches missed.">		if (component instanceof Container) {</span>
-<span class="nc bnc" id="L505" title="All 2 branches missed.">			for (int i = ((Container) component).getChildCount() - 1; i &gt;= 0; i--) {</span>
-<span class="nc" id="L506">				updateBeanValue(((Container) component).getChildAt(i), visibleOnly);</span>
+<span class="nc bnc" id="L506" title="All 2 branches missed.">		if (component instanceof Container) {</span>
+<span class="nc bnc" id="L507" title="All 2 branches missed.">			for (int i = ((Container) component).getChildCount() - 1; i &gt;= 0; i--) {</span>
+<span class="nc" id="L508">				updateBeanValue(((Container) component).getChildAt(i), visibleOnly);</span>
 			}
 		}
-<span class="nc" id="L509">	}</span>
+<span class="nc" id="L511">	}</span>
 
 	/**
 	 * Updates the bean value with the current value of the component and all its bean-bound children. By default this
@@ -515,8 +517,8 @@ public final class WebUtilities {
 	 * @param component the component whose contents need to be copied to the bean.
 	 */
 	public static void updateBeanValue(final WComponent component) {
-<span class="nc" id="L518">		updateBeanValue(component, true);</span>
-<span class="nc" id="L519">	}</span>
+<span class="nc" id="L520">		updateBeanValue(component, true);</span>
+<span class="nc" id="L521">	}</span>
 
 	/**
 	 * Renders the given WComponent to a String outside of the context of a Servlet. This is good for getting hold of
@@ -527,7 +529,7 @@ public final class WebUtilities {
 	 * @return the rendered output as a String.
 	 */
 	public static String render(final WComponent component) {
-<span class="fc" id="L530">		return render(new MockRequest(), component);</span>
+<span class="fc" id="L532">		return render(new MockRequest(), component);</span>
 	}
 
 	/**
@@ -540,24 +542,24 @@ public final class WebUtilities {
 	 * @return the rendered output as a String.
 	 */
 	public static String render(final Request request, final WComponent component) {
-<span class="pc bpc" id="L543" title="1 of 2 branches missed.">		boolean needsContext = UIContextHolder.getCurrent() == null;</span>
+<span class="pc bpc" id="L545" title="1 of 2 branches missed.">		boolean needsContext = UIContextHolder.getCurrent() == null;</span>
 
-<span class="pc bpc" id="L545" title="1 of 2 branches missed.">		if (needsContext) {</span>
-<span class="nc" id="L546">			UIContextHolder.pushContext(new UIContextImpl());</span>
+<span class="pc bpc" id="L547" title="1 of 2 branches missed.">		if (needsContext) {</span>
+<span class="nc" id="L548">			UIContextHolder.pushContext(new UIContextImpl());</span>
 		}
 
 		try {
-<span class="fc" id="L550">			StringWriter buffer = new StringWriter();</span>
+<span class="fc" id="L552">			StringWriter buffer = new StringWriter();</span>
 
-<span class="fc" id="L552">			component.preparePaint(request);</span>
-<span class="fc" id="L553">			PrintWriter writer = new PrintWriter(buffer);</span>
-<span class="fc" id="L554">			component.paint(new WebXmlRenderContext(writer));</span>
-<span class="fc" id="L555">			writer.close();</span>
+<span class="fc" id="L554">			component.preparePaint(request);</span>
+<span class="fc" id="L555">			PrintWriter writer = new PrintWriter(buffer);</span>
+<span class="fc" id="L556">			component.paint(new WebXmlRenderContext(writer));</span>
+<span class="fc" id="L557">			writer.close();</span>
 
-<span class="fc" id="L557">			return buffer.toString();</span>
+<span class="fc" id="L559">			return buffer.toString();</span>
 		} finally {
-<span class="pc bpc" id="L559" title="3 of 4 branches missed.">			if (needsContext) {</span>
-<span class="pc" id="L560">				UIContextHolder.popContext();</span>
+<span class="pc bpc" id="L561" title="3 of 4 branches missed.">			if (needsContext) {</span>
+<span class="pc" id="L562">				UIContextHolder.popContext();</span>
 			}
 		}
 	}
@@ -569,17 +571,27 @@ public final class WebUtilities {
 	 * @return the content-type for the given fileName, or a generic type if unknown.
 	 */
 	public static String getContentType(final String fileName) {
-<span class="fc" id="L572">		Configuration config = Config.getInstance();</span>
+<span class="fc" id="L574">		Configuration config = Config.getInstance();</span>
 
-<span class="fc" id="L574">		String suffix = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();</span>
-<span class="fc" id="L575">		String mimeType = config.getString(&quot;bordertech.wcomponents.mimeType.&quot; + suffix);</span>
-
-<span class="pc bpc" id="L577" title="1 of 2 branches missed.">		if (mimeType == null) {</span>
-<span class="nc" id="L578">			mimeType = config.getString(&quot;bordertech.wcomponents.mimeType.defaultMimeType&quot;,</span>
-					&quot;application/octet-stream&quot;);
+<span class="pc bpc" id="L576" title="1 of 2 branches missed.">		if (Util.empty(fileName)) {</span>
+<span class="nc" id="L577">			return config.getString(&quot;bordertech.wcomponents.mimeType.defaultMimeType&quot;, &quot;application/octet-stream&quot;);</span>
 		}
 
-<span class="fc" id="L582">		return mimeType;</span>
+<span class="fc" id="L580">		String mimeType = null;</span>
+
+<span class="pc bpc" id="L582" title="1 of 2 branches missed.">		if (fileName.lastIndexOf('.') &gt; -1) {</span>
+<span class="fc" id="L583">			String suffix = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();</span>
+<span class="fc" id="L584">			mimeType = config.getString(&quot;bordertech.wcomponents.mimeType.&quot; + suffix);</span>
+		}
+
+<span class="pc bpc" id="L587" title="1 of 2 branches missed.">		if (mimeType == null) {</span>
+<span class="nc" id="L588">			mimeType = URLConnection.guessContentTypeFromName(fileName);</span>
+<span class="nc bnc" id="L589" title="All 2 branches missed.">			if (mimeType == null) {</span>
+<span class="nc" id="L590">				mimeType = config.getString(&quot;bordertech.wcomponents.mimeType.defaultMimeType&quot;, &quot;application/octet-stream&quot;);</span>
+			}
+		}
+
+<span class="fc" id="L594">		return mimeType;</span>
 	}
 
 	/**
@@ -592,12 +604,12 @@ public final class WebUtilities {
 	 * @return true if component is an active naming context
 	 */
 	public static boolean isActiveNamingContext(final WComponent component) {
-<span class="fc bfc" id="L595" title="All 2 branches covered.">		if (component instanceof NamingContextable) {</span>
-<span class="fc" id="L596">			NamingContextable naming = (NamingContextable) component;</span>
-<span class="fc bfc" id="L597" title="All 4 branches covered.">			boolean active = naming.isNamingContext() &amp;&amp; naming.getIdName() != null;</span>
-<span class="fc" id="L598">			return active;</span>
+<span class="fc bfc" id="L607" title="All 2 branches covered.">		if (component instanceof NamingContextable) {</span>
+<span class="fc" id="L608">			NamingContextable naming = (NamingContextable) component;</span>
+<span class="fc bfc" id="L609" title="All 4 branches covered.">			boolean active = naming.isNamingContext() &amp;&amp; naming.getIdName() != null;</span>
+<span class="fc" id="L610">			return active;</span>
 		}
-<span class="fc" id="L600">		return false;</span>
+<span class="fc" id="L612">		return false;</span>
 	}
 
 	/**
@@ -607,26 +619,26 @@ public final class WebUtilities {
 	 * @return true the parent naming context or null
 	 */
 	public static NamingContextable getParentNamingContext(final WComponent component) {
-<span class="pc bpc" id="L610" title="1 of 2 branches missed.">		if (component == null) {</span>
-<span class="nc" id="L611">			return null;</span>
+<span class="pc bpc" id="L622" title="1 of 2 branches missed.">		if (component == null) {</span>
+<span class="nc" id="L623">			return null;</span>
 		}
 
-<span class="fc" id="L614">		WComponent child = component;</span>
-<span class="fc" id="L615">		NamingContextable parent = null;</span>
+<span class="fc" id="L626">		WComponent child = component;</span>
+<span class="fc" id="L627">		NamingContextable parent = null;</span>
 		while (true) {
-<span class="fc" id="L617">			NamingContextable naming = WebUtilities.getAncestorOfClass(NamingContextable.class,</span>
+<span class="fc" id="L629">			NamingContextable naming = WebUtilities.getAncestorOfClass(NamingContextable.class,</span>
 					child);
-<span class="fc bfc" id="L619" title="All 2 branches covered.">			if (naming == null) {</span>
-<span class="fc" id="L620">				break;</span>
+<span class="fc bfc" id="L631" title="All 2 branches covered.">			if (naming == null) {</span>
+<span class="fc" id="L632">				break;</span>
 			}
-<span class="fc bfc" id="L622" title="All 2 branches covered.">			if (WebUtilities.isActiveNamingContext(naming)) {</span>
-<span class="fc" id="L623">				parent = naming;</span>
-<span class="fc" id="L624">				break;</span>
+<span class="fc bfc" id="L634" title="All 2 branches covered.">			if (WebUtilities.isActiveNamingContext(naming)) {</span>
+<span class="fc" id="L635">				parent = naming;</span>
+<span class="fc" id="L636">				break;</span>
 			}
-<span class="fc" id="L626">			child = naming;</span>
-<span class="fc" id="L627">		}</span>
+<span class="fc" id="L638">			child = naming;</span>
+<span class="fc" id="L639">		}</span>
 
-<span class="fc" id="L629">		return parent;</span>
+<span class="fc" id="L641">		return parent;</span>
 	}
 
 }

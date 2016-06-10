@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>TreeItemModel.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">TreeItemModel.java</span></div><h1>TreeItemModel.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * Provides the data and details of the tree items used in a {@link WTree}.
+ *
+ * @author Jonathan Austin
+ * @since 1.1.0
+ */
+public interface TreeItemModel extends Serializable {
+
+	/**
+	 * A type to indicate how a tree item can be shuffled.
+	 */
+<span class="nc" id="L17">	enum ShuffleType {</span>
+		/**
+		 * Used as a branch only.
+		 */
+<span class="nc" id="L21">		BRANCH,</span>
+		/**
+		 * Used as a leaf only.
+		 */
+<span class="nc" id="L25">		LEAF,</span>
+		/**
+		 * Used as a leaf or branch.
+		 */
+<span class="nc" id="L29">		BOTH</span>
+	}
+
+	/**
+	 * Indicates whether the given row is disabled.
+	 *
+	 * @param row the row index
+	 * @return true if the row is disabled, false otherwise.
+	 */
+	boolean isDisabled(final List&lt;Integer&gt; row);
+
+	/**
+	 * Retrieves the value at the given row and column.
+	 *
+	 * @param row - the row index.
+	 * @return the value at the given row and column.
+	 */
+	String getItemLabel(final List&lt;Integer&gt; row);
+
+	/**
+	 * Retrieves the value at the given row and column.
+	 *
+	 * @param row - the row index.
+	 * @return the value at the given row and column.
+	 */
+	String getItemId(final List&lt;Integer&gt; row);
+
+	/**
+	 * Retrieves the value at the given row and column.
+	 *
+	 * @param row - the row index.
+	 * @return the value at the given row and column.
+	 */
+	TreeItemImage getItemImage(final List&lt;Integer&gt; row);
+
+	/**
+	 * @param row the row index
+	 * @return the shuffle type for this item
+	 */
+	ShuffleType getItemShuffleType(final List&lt;Integer&gt; row);
+
+	/**
+	 * Indicates whether the given row is expandable.
+	 *
+	 * @param row the row index
+	 * @return true if the row is expandable, false otherwise.
+	 */
+	boolean isExpandable(final List&lt;Integer&gt; row);
+
+	/**
+	 * Retrieves the number of rows for the root (ie top) level.
+	 *
+	 * @return the number of rows in the model for the root (ie top) level.
+	 */
+	int getRowCount();
+
+	/**
+	 * Allows the model to report if the row has children without actually having to determine the number of children
+	 * (as it might not be known).
+	 *
+	 * @param row the row index
+	 * @return true if the row has children
+	 */
+	boolean hasChildren(final List&lt;Integer&gt; row);
+
+	/**
+	 * Retrieves the number of children a row has.
+	 *
+	 * @param row the row index
+	 * @return the number of rows in the model for this level.
+	 */
+	int getChildCount(final List&lt;Integer&gt; row);
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

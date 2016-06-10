@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>TemplateUtil.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.template</a> &gt; <span class="el_source">TemplateUtil.java</span></div><h1>TemplateUtil.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.template;
+
+import com.github.bordertech.wcomponents.WComponent;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Utility class for template renderers.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.3
+ */
+public final class TemplateUtil {
+
+	/**
+	 * Prevent instantiation.
+	 */
+<span class="nc" id="L18">	private TemplateUtil() {</span>
+<span class="nc" id="L19">	}</span>
+
+	/**
+	 * Replace each component tag with the key so it can be used in the replace writer.
+	 *
+	 * @param context the context to modify.
+	 * @param taggedComponents the tagged components
+	 *
+	 * @return the keyed components
+	 */
+	public static Map&lt;String, WComponent&gt; mapTaggedComponents(final Map&lt;String, Object&gt; context, final Map&lt;String, WComponent&gt; taggedComponents) {
+
+<span class="fc" id="L31">		Map&lt;String, WComponent&gt; componentsByKey = new HashMap&lt;&gt;();</span>
+
+		// Replace each component tag with the key so it can be used in the replace writer
+<span class="fc bfc" id="L34" title="All 2 branches covered.">		for (Map.Entry&lt;String, WComponent&gt; tagged : taggedComponents.entrySet()) {</span>
+<span class="fc" id="L35">			String tag = tagged.getKey();</span>
+<span class="fc" id="L36">			WComponent comp = tagged.getValue();</span>
+
+			// The key needs to be something which would never be output by a Template.
+<span class="fc" id="L39">			String key = &quot;[WC-TemplateLayout-&quot; + tag + &quot;]&quot;;</span>
+<span class="fc" id="L40">			componentsByKey.put(key, comp);</span>
+
+			// Map the tag to the key in the context
+<span class="fc" id="L43">			context.put(tag, key);</span>
+<span class="fc" id="L44">		}</span>
+
+<span class="fc" id="L46">		return componentsByKey;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

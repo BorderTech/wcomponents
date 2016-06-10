@@ -22,7 +22,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Martin Shevchenko
  * @since 1.0.0
  */
-public class WLink extends WBeanComponent implements Container, Disableable, AjaxTarget,
+public class WLink extends WBeanComponent implements Container, Disableable, AjaxInternalTrigger, AjaxTarget,
 		SubordinateTarget {
 
 	/**
@@ -419,19 +419,17 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 <span class="fc" id="L419">		final AjaxTarget[] actionTargets = getActionTargets();</span>
 
 <span class="pc bpc" id="L421" title="1 of 4 branches missed.">		if (action != null &amp;&amp; uic.getUI() != null) {</span>
-<span class="nc bnc" id="L422" title="All 4 branches missed.">			if (actionTargets != null &amp;&amp; actionTargets.length &gt; 0) {</span>
-<span class="nc" id="L423">				List&lt;String&gt; targetIds = new ArrayList&lt;&gt;();</span>
-<span class="nc bnc" id="L424" title="All 2 branches missed.">				for (AjaxTarget target : actionTargets) {</span>
-<span class="nc" id="L425">					targetIds.add(target.getId());</span>
+			// Register AJAX operation if AJAX targets are set, otherwise rely on InternalAjax request
+<span class="nc bnc" id="L423" title="All 4 branches missed.">			if (actionTargets != null &amp;&amp; actionTargets.length &gt; 0) {</span>
+<span class="nc" id="L424">				List&lt;String&gt; targetIds = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L425" title="All 2 branches missed.">				for (AjaxTarget target : actionTargets) {</span>
+<span class="nc" id="L426">					targetIds.add(target.getId());</span>
 				}
 				// Register the action targets
-<span class="nc" id="L428">				AjaxHelper.registerComponents(targetIds, request, getId());</span>
-<span class="nc" id="L429">			} else {</span>
-				// If no action targets set, then register the link itself as the target
-<span class="nc" id="L431">				AjaxHelper.registerComponentTargetItself(this.getId(), request);</span>
+<span class="nc" id="L429">				AjaxHelper.registerComponents(targetIds, request, getId());</span>
 			}
 		}
-<span class="fc" id="L434">	}</span>
+<span class="fc" id="L432">	}</span>
 
 	/**
 	 * Return the image to display on the link.
@@ -439,7 +437,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	 * @return the image.
 	 */
 	public Image getImage() {
-<span class="fc" id="L442">		return getComponentModel().image;</span>
+<span class="fc" id="L440">		return getComponentModel().image;</span>
 	}
 
 	/**
@@ -448,10 +446,10 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	 * @param image the image, or null for no image.
 	 */
 	public void setImage(final Image image) {
-<span class="fc" id="L451">		LinkModel model = getOrCreateComponentModel();</span>
-<span class="fc" id="L452">		model.image = image;</span>
-<span class="fc" id="L453">		model.imageUrl = null;</span>
-<span class="fc" id="L454">	}</span>
+<span class="fc" id="L449">		LinkModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L450">		model.image = image;</span>
+<span class="fc" id="L451">		model.imageUrl = null;</span>
+<span class="fc" id="L452">	}</span>
 
 	/**
 	 * Sets the image to display on the link. The image will be read from the application's class path rather than from
@@ -460,8 +458,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	 * @param image the relative path to the image resource, or null for no image.
 	 */
 	public void setImage(final String image) {
-<span class="nc" id="L463">		setImage(new ImageResource(image));</span>
-<span class="nc" id="L464">	}</span>
+<span class="nc" id="L461">		setImage(new ImageResource(image));</span>
+<span class="nc" id="L462">	}</span>
 
 	/**
 	 * Return the {@link WImage} used by this link to hold the {@link Image} resource.
@@ -472,7 +470,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	 * @return the WImage holding the Image resource, or null if the link is not using an Image resource.
 	 */
 	public WImage getImageHolder() {
-<span class="nc bnc" id="L475" title="All 2 branches missed.">		return getImage() == null ? null : linkImage;</span>
+<span class="nc bnc" id="L473" title="All 2 branches missed.">		return getImage() == null ? null : linkImage;</span>
 	}
 
 	/**
@@ -481,7 +479,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	 * @return the image url.
 	 */
 	public String getImageUrl() {
-<span class="pc bpc" id="L484" title="1 of 2 branches missed.">		return getImage() == null ? getComponentModel().imageUrl : getImageHolder().getTargetUrl();</span>
+<span class="pc bpc" id="L482" title="1 of 2 branches missed.">		return getImage() == null ? getComponentModel().imageUrl : getImageHolder().getTargetUrl();</span>
 	}
 
 	/**
@@ -490,16 +488,16 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	 * @param imageUrl the image url, or null for no image.
 	 */
 	public void setImageUrl(final String imageUrl) {
-<span class="fc" id="L493">		LinkModel model = getOrCreateComponentModel();</span>
-<span class="fc" id="L494">		model.imageUrl = imageUrl;</span>
-<span class="fc" id="L495">		model.image = null;</span>
-<span class="fc" id="L496">	}</span>
+<span class="fc" id="L491">		LinkModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L492">		model.imageUrl = imageUrl;</span>
+<span class="fc" id="L493">		model.image = null;</span>
+<span class="fc" id="L494">	}</span>
 
 	/**
 	 * @return the position of the image
 	 */
 	public ImagePosition getImagePosition() {
-<span class="fc" id="L502">		return getComponentModel().imagePosition;</span>
+<span class="fc" id="L500">		return getComponentModel().imagePosition;</span>
 	}
 
 	/**
@@ -508,17 +506,17 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	 * @param imagePosition the position of the image
 	 */
 	public void setImagePosition(final ImagePosition imagePosition) {
-<span class="fc" id="L511">		getOrCreateComponentModel().imagePosition = imagePosition;</span>
-<span class="fc" id="L512">	}</span>
+<span class="fc" id="L509">		getOrCreateComponentModel().imagePosition = imagePosition;</span>
+<span class="fc" id="L510">	}</span>
 
 	/**
 	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {
-<span class="nc" id="L519">		String text = getText();</span>
-<span class="nc bnc" id="L520" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
-<span class="nc" id="L521">		return toString(text, 1, 1);</span>
+<span class="nc" id="L517">		String text = getText();</span>
+<span class="nc bnc" id="L518" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="nc" id="L519">		return toString(text, 1, 1);</span>
 	}
 
 	/**
@@ -527,7 +525,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	@Override
 	// to make public
 	public int getChildCount() {
-<span class="fc" id="L530">		return super.getChildCount();</span>
+<span class="fc" id="L528">		return super.getChildCount();</span>
 	}
 
 	/**
@@ -536,7 +534,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	@Override
 	// to make public
 	public WComponent getChildAt(final int index) {
-<span class="fc" id="L539">		return super.getChildAt(index);</span>
+<span class="fc" id="L537">		return super.getChildAt(index);</span>
 	}
 
 	/**
@@ -545,7 +543,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	@Override
 	// to make public
 	public int getIndexOfChild(final WComponent childComponent) {
-<span class="nc" id="L548">		return super.getIndexOfChild(childComponent);</span>
+<span class="nc" id="L546">		return super.getIndexOfChild(childComponent);</span>
 	}
 
 	/**
@@ -553,7 +551,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	 */
 	@Override
 	public List&lt;WComponent&gt; getChildren() {
-<span class="nc" id="L556">		return super.getChildren();</span>
+<span class="nc" id="L554">		return super.getChildren();</span>
 	}
 
 	// --------------------------------
@@ -565,7 +563,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	 */
 	@Override
 	protected LinkModel newComponentModel() {
-<span class="fc" id="L568">		return new LinkModel();</span>
+<span class="fc" id="L566">		return new LinkModel();</span>
 	}
 
 	/**
@@ -574,7 +572,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	@Override
 	// For type safety only
 	protected LinkModel getComponentModel() {
-<span class="fc" id="L577">		return (LinkModel) super.getComponentModel();</span>
+<span class="fc" id="L575">		return (LinkModel) super.getComponentModel();</span>
 	}
 
 	/**
@@ -583,13 +581,13 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	@Override
 	// For type safety only
 	protected LinkModel getOrCreateComponentModel() {
-<span class="fc" id="L586">		return (LinkModel) super.getOrCreateComponentModel();</span>
+<span class="fc" id="L584">		return (LinkModel) super.getOrCreateComponentModel();</span>
 	}
 
 	/**
 	 * Holds the extrinsic state information of a WLink.
 	 */
-<span class="fc" id="L592">	public static class LinkModel extends BeanAndProviderBoundComponentModel {</span>
+<span class="fc" id="L590">	public static class LinkModel extends BeanAndProviderBoundComponentModel {</span>
 
 		/**
 		 * The text for the link.
@@ -604,17 +602,17 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		/**
 		 * The window name for the link.
 		 */
-<span class="fc" id="L607">		private String targetWindowName = &quot;somename&quot;;</span>
+<span class="fc" id="L605">		private String targetWindowName = &quot;somename&quot;;</span>
 
 		/**
 		 * Indicates whether the link should open in a new window.
 		 */
-<span class="fc" id="L612">		private boolean openNewWindow = true;</span>
+<span class="fc" id="L610">		private boolean openNewWindow = true;</span>
 
 		/**
 		 * The key shortcut which activates the input element.
 		 */
-<span class="fc" id="L617">		private char accessKey = '\0';</span>
+<span class="fc" id="L615">		private char accessKey = '\0';</span>
 
 		/**
 		 * Relationship to the current page.
@@ -624,7 +622,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		/**
 		 * Render the link as a button.
 		 */
-<span class="fc" id="L627">		private boolean renderAsButton = false;</span>
+<span class="fc" id="L625">		private boolean renderAsButton = false;</span>
 
 		/**
 		 * The attributes of the window if the url will be opened in a new window.
@@ -682,9 +680,9 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		 *
 		 * @param link the owning link.
 		 */
-<span class="fc" id="L685">		private LinkImage(final WLink link) {</span>
-<span class="fc" id="L686">			this.link = link;</span>
-<span class="fc" id="L687">		}</span>
+<span class="fc" id="L683">		private LinkImage(final WLink link) {</span>
+<span class="fc" id="L684">			this.link = link;</span>
+<span class="fc" id="L685">		}</span>
 
 		/**
 		 * Override isVisible to only return true if the link has an image.
@@ -693,7 +691,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		 */
 		@Override
 		public boolean isVisible() {
-<span class="pc bpc" id="L696" title="1 of 2 branches missed.">			return link.getImage() != null;</span>
+<span class="pc bpc" id="L694" title="1 of 2 branches missed.">			return link.getImage() != null;</span>
 		}
 
 		/**
@@ -703,7 +701,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		 */
 		@Override
 		public Image getImage() {
-<span class="nc" id="L706">			return link.getImage();</span>
+<span class="nc" id="L704">			return link.getImage();</span>
 		}
 	};
 
@@ -712,7 +710,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-<span class="fc" id="L715">	public static final class WindowAttributes implements Serializable, Cloneable {</span>
+<span class="fc" id="L713">	public static final class WindowAttributes implements Serializable, Cloneable {</span>
 
 		/**
 		 * The link which these window attributes belong to. Used to enforce locking.
@@ -762,197 +760,197 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		/**
 		 * The x-coordinate of the new window.
 		 */
-<span class="fc" id="L765">		private int left = -1;</span>
+<span class="fc" id="L763">		private int left = -1;</span>
 
 		/**
 		 * The y-coordinate of the new window.
 		 */
-<span class="fc" id="L770">		private int top = -1;</span>
+<span class="fc" id="L768">		private int top = -1;</span>
 
 		/**
 		 * The width of the new window.
 		 */
-<span class="fc" id="L775">		private int width = -1;</span>
+<span class="fc" id="L773">		private int width = -1;</span>
 
 		/**
 		 * The height of the new window.
 		 */
-<span class="fc" id="L780">		private int height = -1;</span>
+<span class="fc" id="L778">		private int height = -1;</span>
 
 		/**
 		 * @return Returns the windowName.
 		 */
 		public String getWindowName() {
-<span class="fc" id="L786">			return windowName;</span>
+<span class="fc" id="L784">			return windowName;</span>
 		}
 
 		/**
 		 * @param windowName The windowName to set.
 		 */
 		public void setWindowName(final String windowName) {
-<span class="fc" id="L793">			this.windowName = windowName;</span>
-<span class="fc" id="L794">		}</span>
+<span class="fc" id="L791">			this.windowName = windowName;</span>
+<span class="fc" id="L792">		}</span>
 
 		/**
 		 * @return Returns the resizable.
 		 */
 		public boolean isResizable() {
-<span class="fc" id="L800">			return resizable;</span>
+<span class="fc" id="L798">			return resizable;</span>
 		}
 
 		/**
 		 * @param resizable The resizable to set.
 		 */
 		public void setResizable(final boolean resizable) {
-<span class="fc" id="L807">			this.resizable = resizable;</span>
-<span class="fc" id="L808">		}</span>
+<span class="fc" id="L805">			this.resizable = resizable;</span>
+<span class="fc" id="L806">		}</span>
 
 		/**
 		 * @return Returns the scrollbars.
 		 */
 		public boolean isScrollbars() {
-<span class="fc" id="L814">			return scrollbars;</span>
+<span class="fc" id="L812">			return scrollbars;</span>
 		}
 
 		/**
 		 * @param scrollbars The scrollbars to set.
 		 */
 		public void setScrollbars(final boolean scrollbars) {
-<span class="fc" id="L821">			this.scrollbars = scrollbars;</span>
-<span class="fc" id="L822">		}</span>
+<span class="fc" id="L819">			this.scrollbars = scrollbars;</span>
+<span class="fc" id="L820">		}</span>
 
 		/**
 		 * @return Returns the toolbars.
 		 */
 		public boolean isToolbars() {
-<span class="fc" id="L828">			return toolbars;</span>
+<span class="fc" id="L826">			return toolbars;</span>
 		}
 
 		/**
 		 * @param toolbars The toolbars to set.
 		 */
 		public void setToolbars(final boolean toolbars) {
-<span class="fc" id="L835">			this.toolbars = toolbars;</span>
-<span class="fc" id="L836">		}</span>
+<span class="fc" id="L833">			this.toolbars = toolbars;</span>
+<span class="fc" id="L834">		}</span>
 
 		/**
 		 * @return Returns the location.
 		 */
 		public boolean isLocation() {
-<span class="fc" id="L842">			return location;</span>
+<span class="fc" id="L840">			return location;</span>
 		}
 
 		/**
 		 * @param location The location to set.
 		 */
 		public void setLocation(final boolean location) {
-<span class="fc" id="L849">			this.location = location;</span>
-<span class="fc" id="L850">		}</span>
+<span class="fc" id="L847">			this.location = location;</span>
+<span class="fc" id="L848">		}</span>
 
 		/**
 		 * @return Returns the directories.
 		 */
 		public boolean isDirectories() {
-<span class="fc" id="L856">			return directories;</span>
+<span class="fc" id="L854">			return directories;</span>
 		}
 
 		/**
 		 * @param directories The directories to set.
 		 */
 		public void setDirectories(final boolean directories) {
-<span class="fc" id="L863">			this.directories = directories;</span>
-<span class="fc" id="L864">		}</span>
+<span class="fc" id="L861">			this.directories = directories;</span>
+<span class="fc" id="L862">		}</span>
 
 		/**
 		 * @return Returns the status.
 		 */
 		public boolean isStatus() {
-<span class="fc" id="L870">			return status;</span>
+<span class="fc" id="L868">			return status;</span>
 		}
 
 		/**
 		 * @param status The status to set.
 		 */
 		public void setStatus(final boolean status) {
-<span class="fc" id="L877">			this.status = status;</span>
-<span class="fc" id="L878">		}</span>
+<span class="fc" id="L875">			this.status = status;</span>
+<span class="fc" id="L876">		}</span>
 
 		/**
 		 * @return Returns the menubar.
 		 */
 		public boolean isMenubar() {
-<span class="fc" id="L884">			return menubar;</span>
+<span class="fc" id="L882">			return menubar;</span>
 		}
 
 		/**
 		 * @param menubar The menubar to set.
 		 */
 		public void setMenubar(final boolean menubar) {
-<span class="fc" id="L891">			this.menubar = menubar;</span>
-<span class="fc" id="L892">		}</span>
+<span class="fc" id="L889">			this.menubar = menubar;</span>
+<span class="fc" id="L890">		}</span>
 
 		/**
 		 * @return Returns the left.
 		 */
 		public int getLeft() {
-<span class="fc" id="L898">			return left;</span>
+<span class="fc" id="L896">			return left;</span>
 		}
 
 		/**
 		 * @param left The left to set.
 		 */
 		public void setLeft(final int left) {
-<span class="fc" id="L905">			this.left = left;</span>
-<span class="fc" id="L906">		}</span>
+<span class="fc" id="L903">			this.left = left;</span>
+<span class="fc" id="L904">		}</span>
 
 		/**
 		 * @return Returns the top.
 		 */
 		public int getTop() {
-<span class="fc" id="L912">			return top;</span>
+<span class="fc" id="L910">			return top;</span>
 		}
 
 		/**
 		 * @param top The top to set.
 		 */
 		public void setTop(final int top) {
-<span class="fc" id="L919">			this.top = top;</span>
-<span class="fc" id="L920">		}</span>
+<span class="fc" id="L917">			this.top = top;</span>
+<span class="fc" id="L918">		}</span>
 
 		/**
 		 * @return Returns the width.
 		 */
 		public int getWidth() {
-<span class="fc" id="L926">			return width;</span>
+<span class="fc" id="L924">			return width;</span>
 		}
 
 		/**
 		 * @param width The width to set.
 		 */
 		public void setWidth(final int width) {
-<span class="fc" id="L933">			this.width = width;</span>
-<span class="fc" id="L934">		}</span>
+<span class="fc" id="L931">			this.width = width;</span>
+<span class="fc" id="L932">		}</span>
 
 		/**
 		 * @return Returns the height.
 		 */
 		public int getHeight() {
-<span class="fc" id="L940">			return height;</span>
+<span class="fc" id="L938">			return height;</span>
 		}
 
 		/**
 		 * @param height The height to set.
 		 */
 		public void setHeight(final int height) {
-<span class="fc" id="L947">			this.height = height;</span>
-<span class="fc" id="L948">		}</span>
+<span class="fc" id="L945">			this.height = height;</span>
+<span class="fc" id="L946">		}</span>
 
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
 		public WindowAttributes clone() throws CloneNotSupportedException {
-<span class="fc" id="L955">			return (WindowAttributes) super.clone();</span>
+<span class="fc" id="L953">			return (WindowAttributes) super.clone();</span>
 		}
 	}
 
@@ -984,14 +982,14 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		/**
 		 * The link's window attributes.
 		 */
-<span class="fc" id="L987">		private final WindowAttributes windowAttrs = new WindowAttributes();</span>
+<span class="fc" id="L985">		private final WindowAttributes windowAttrs = new WindowAttributes();</span>
 
 		/**
 		 * Creates a builder with no attributes set.
 		 */
 		public Builder() {
-<span class="fc" id="L993">			this(null, null);</span>
-<span class="fc" id="L994">		}</span>
+<span class="fc" id="L991">			this(null, null);</span>
+<span class="fc" id="L992">		}</span>
 
 		/**
 		 * Creates a builder preconfigured with the given link text and URL.
@@ -999,10 +997,10 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		 * @param text the link text.
 		 * @param url the link url.
 		 */
-<span class="fc" id="L1002">		public Builder(final String text, final String url) {</span>
-<span class="fc" id="L1003">			this.text = text;</span>
-<span class="fc" id="L1004">			this.url = url;</span>
-<span class="fc" id="L1005">		}</span>
+<span class="fc" id="L1000">		public Builder(final String text, final String url) {</span>
+<span class="fc" id="L1001">			this.text = text;</span>
+<span class="fc" id="L1002">			this.url = url;</span>
+<span class="fc" id="L1003">		}</span>
 
 		/**
 		 * Sets the target window name.
@@ -1011,8 +1009,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		 * @return this builder.
 		 */
 		public Builder windowName(final String windowName) {
-<span class="fc" id="L1014">			windowAttrs.setWindowName(windowName);</span>
-<span class="fc" id="L1015">			return this;</span>
+<span class="fc" id="L1012">			windowAttrs.setWindowName(windowName);</span>
+<span class="fc" id="L1013">			return this;</span>
 		}
 
 		/**
@@ -1022,8 +1020,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		 * @return this builder.
 		 */
 		public Builder width(final int width) {
-<span class="fc" id="L1025">			windowAttrs.setWidth(width);</span>
-<span class="fc" id="L1026">			return this;</span>
+<span class="fc" id="L1023">			windowAttrs.setWidth(width);</span>
+<span class="fc" id="L1024">			return this;</span>
 		}
 
 		/**
@@ -1033,8 +1031,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		 * @return this builder.
 		 */
 		public Builder height(final int height) {
-<span class="fc" id="L1036">			windowAttrs.setHeight(height);</span>
-<span class="fc" id="L1037">			return this;</span>
+<span class="fc" id="L1034">			windowAttrs.setHeight(height);</span>
+<span class="fc" id="L1035">			return this;</span>
 		}
 
 		/**
@@ -1044,8 +1042,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		 * @return this builder.
 		 */
 		public Builder resizable(final boolean val) {
-<span class="fc" id="L1047">			windowAttrs.setResizable(val);</span>
-<span class="fc" id="L1048">			return this;</span>
+<span class="fc" id="L1045">			windowAttrs.setResizable(val);</span>
+<span class="fc" id="L1046">			return this;</span>
 		}
 
 		/**
@@ -1055,8 +1053,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		 * @return this builder.
 		 */
 		public Builder scrollbars(final boolean val) {
-<span class="fc" id="L1058">			windowAttrs.setScrollbars(val);</span>
-<span class="fc" id="L1059">			return this;</span>
+<span class="fc" id="L1056">			windowAttrs.setScrollbars(val);</span>
+<span class="fc" id="L1057">			return this;</span>
 		}
 
 		/**
@@ -1066,8 +1064,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		 * @return this builder.
 		 */
 		public Builder toolbar(final boolean val) {
-<span class="fc" id="L1069">			windowAttrs.setToolbars(val);</span>
-<span class="fc" id="L1070">			return this;</span>
+<span class="fc" id="L1067">			windowAttrs.setToolbars(val);</span>
+<span class="fc" id="L1068">			return this;</span>
 		}
 
 		/**
@@ -1077,8 +1075,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		 * @return this builder.
 		 */
 		public Builder location(final boolean val) {
-<span class="fc" id="L1080">			windowAttrs.setLocation(val);</span>
-<span class="fc" id="L1081">			return this;</span>
+<span class="fc" id="L1078">			windowAttrs.setLocation(val);</span>
+<span class="fc" id="L1079">			return this;</span>
 		}
 
 		/**
@@ -1088,8 +1086,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		 * @return this builder.
 		 */
 		public Builder directories(final boolean val) {
-<span class="fc" id="L1091">			windowAttrs.setDirectories(val);</span>
-<span class="fc" id="L1092">			return this;</span>
+<span class="fc" id="L1089">			windowAttrs.setDirectories(val);</span>
+<span class="fc" id="L1090">			return this;</span>
 		}
 
 		/**
@@ -1099,8 +1097,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		 * @return this builder.
 		 */
 		public Builder status(final boolean val) {
-<span class="fc" id="L1102">			windowAttrs.setStatus(val);</span>
-<span class="fc" id="L1103">			return this;</span>
+<span class="fc" id="L1100">			windowAttrs.setStatus(val);</span>
+<span class="fc" id="L1101">			return this;</span>
 		}
 
 		/**
@@ -1110,8 +1108,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		 * @return this builder.
 		 */
 		public Builder menubar(final boolean val) {
-<span class="fc" id="L1113">			windowAttrs.setMenubar(val);</span>
-<span class="fc" id="L1114">			return this;</span>
+<span class="fc" id="L1111">			windowAttrs.setMenubar(val);</span>
+<span class="fc" id="L1112">			return this;</span>
 		}
 
 		/**
@@ -1121,8 +1119,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		 * @return this builder.
 		 */
 		public Builder left(final int val) {
-<span class="fc" id="L1124">			windowAttrs.setLeft(val);</span>
-<span class="fc" id="L1125">			return this;</span>
+<span class="fc" id="L1122">			windowAttrs.setLeft(val);</span>
+<span class="fc" id="L1123">			return this;</span>
 		}
 
 		/**
@@ -1132,8 +1130,8 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		 * @return this builder.
 		 */
 		public Builder top(final int val) {
-<span class="fc" id="L1135">			windowAttrs.setTop(val);</span>
-<span class="fc" id="L1136">			return this;</span>
+<span class="fc" id="L1133">			windowAttrs.setTop(val);</span>
+<span class="fc" id="L1134">			return this;</span>
 		}
 
 		/**
@@ -1143,15 +1141,15 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 		 */
 		public WLink build() {
 			// add a default unique name for the window if not provided
-<span class="fc bfc" id="L1146" title="All 2 branches covered.">			if (Util.empty(windowAttrs.getWindowName())) {</span>
-<span class="fc" id="L1147">				windowName(&quot;myWindow&quot;);</span>
+<span class="fc bfc" id="L1144" title="All 2 branches covered.">			if (Util.empty(windowAttrs.getWindowName())) {</span>
+<span class="fc" id="L1145">				windowName(&quot;myWindow&quot;);</span>
 			}
 
 			try {
-<span class="fc" id="L1151">				return new WLink(text, url, windowAttrs.clone());</span>
-<span class="nc" id="L1152">			} catch (CloneNotSupportedException e) {</span>
+<span class="fc" id="L1149">				return new WLink(text, url, windowAttrs.clone());</span>
+<span class="nc" id="L1150">			} catch (CloneNotSupportedException e) {</span>
 				// Impossible, this class implements cloneable
-<span class="nc" id="L1154">				throw new SystemException(&quot;Failed to clone WLink.Builder&quot;, e);</span>
+<span class="nc" id="L1152">				throw new SystemException(&quot;Failed to clone WLink.Builder&quot;, e);</span>
 			}
 		}
 	}

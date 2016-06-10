@@ -35,7 +35,7 @@
 <a class="jxr_linenumber" name="L27" href="#L27">27</a>  		XmlStringBuilder xml = renderContext.getWriter();
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>  
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>  		<strong class="jxr_keyword">if</strong> (messageBox.hasMessages()) {
-<a class="jxr_linenumber" name="L30" href="#L30">30</a>  			xml.appendTagOpen(<span class="jxr_string">"ui:messageBox"</span>);
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  			xml.appendTagOpen(<span class="jxr_string">"ui:messagebox"</span>);
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>  			xml.appendAttribute(<span class="jxr_string">"id"</span>, component.getId());
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"class"</span>, component.getHtmlClass());
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"track"</span>, component.isTracking(), <span class="jxr_string">"true"</span>);
@@ -69,7 +69,7 @@
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>  				xml.appendEndTag(<span class="jxr_string">"ui:message"</span>);
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>  			}
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>  
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>  			xml.appendEndTag(<span class="jxr_string">"ui:messageBox"</span>);
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  			xml.appendEndTag(<span class="jxr_string">"ui:messagebox"</span>);
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>  		}
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>  	}
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>  }

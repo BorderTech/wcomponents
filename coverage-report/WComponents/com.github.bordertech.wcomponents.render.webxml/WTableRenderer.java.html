@@ -134,20 +134,20 @@ import java.util.List;
 
 			// Rows per page options
 <span class="fc bfc" id="L136" title="All 2 branches covered.">			if (table.getRowsPerPageOptions() != null) {</span>
-<span class="fc" id="L137">				xml.appendTag(&quot;ui:rowsSelect&quot;);</span>
+<span class="fc" id="L137">				xml.appendTag(&quot;ui:rowsselect&quot;);</span>
 <span class="fc bfc" id="L138" title="All 2 branches covered.">				for (Integer option : table.getRowsPerPageOptions()) {</span>
 <span class="fc" id="L139">					xml.appendTagOpen(&quot;ui:option&quot;);</span>
 <span class="fc" id="L140">					xml.appendAttribute(&quot;value&quot;, option);</span>
 <span class="fc" id="L141">					xml.appendEnd();</span>
 <span class="fc" id="L142">				}</span>
-<span class="fc" id="L143">				xml.appendEndTag(&quot;ui:rowsSelect&quot;);</span>
+<span class="fc" id="L143">				xml.appendEndTag(&quot;ui:rowsselect&quot;);</span>
 			}
 <span class="fc" id="L145">			xml.appendEndTag(&quot;ui:pagination&quot;);</span>
 		}
 
 <span class="fc bfc" id="L148" title="All 2 branches covered.">		if (table.getSelectMode() != SelectMode.NONE) {</span>
 <span class="fc bfc" id="L149" title="All 2 branches covered.">			boolean multiple = table.getSelectMode() == SelectMode.MULTIPLE;</span>
-<span class="fc" id="L150">			xml.appendTagOpen(&quot;ui:rowSelection&quot;);</span>
+<span class="fc" id="L150">			xml.appendTagOpen(&quot;ui:rowselection&quot;);</span>
 <span class="fc" id="L151">			xml.appendOptionalAttribute(&quot;multiple&quot;, multiple, &quot;true&quot;);</span>
 
 <span class="fc bfc" id="L153" title="All 4 branches covered.">			boolean toggleSubRows = multiple &amp;&amp; table.isToggleSubRowSelection()</span>
@@ -172,7 +172,7 @@ import java.util.List;
 		}
 
 <span class="fc bfc" id="L174" title="All 2 branches covered.">		if (table.getExpandMode() != ExpandMode.NONE) {</span>
-<span class="fc" id="L175">			xml.appendTagOpen(&quot;ui:rowExpansion&quot;);</span>
+<span class="fc" id="L175">			xml.appendTagOpen(&quot;ui:rowexpansion&quot;);</span>
 
 <span class="pc bpc" id="L177" title="2 of 5 branches missed.">			switch (table.getExpandMode()) {</span>
 				case CLIENT:
@@ -313,9 +313,9 @@ import java.util.List;
 <span class="fc" id="L313">		xml.appendClose();</span>
 
 <span class="fc bfc" id="L315" title="All 2 branches covered.">		if (model.getRowCount() == 0) {</span>
-<span class="fc" id="L316">			xml.appendTag(&quot;ui:noData&quot;);</span>
+<span class="fc" id="L316">			xml.appendTag(&quot;ui:nodata&quot;);</span>
 <span class="fc" id="L317">			xml.appendEscaped(table.getNoDataMessage());</span>
-<span class="fc" id="L318">			xml.appendEndTag(&quot;ui:noData&quot;);</span>
+<span class="fc" id="L318">			xml.appendEndTag(&quot;ui:nodata&quot;);</span>
 		} else {
 			// If has at least one visible col, paint the rows.
 <span class="fc" id="L321">			final int columnCount = table.getColumnCount();</span>

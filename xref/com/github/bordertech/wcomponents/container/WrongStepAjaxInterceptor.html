@@ -156,16 +156,16 @@
 <a class="jxr_linenumber" name="L148" href="#L148">148</a> 
 <a class="jxr_linenumber" name="L149" href="#L149">149</a> 			writer.write(XMLUtil.getXMLDeclarationWithThemeXslt(uic));
 <a class="jxr_linenumber" name="L150" href="#L150">150</a> 
-<a class="jxr_linenumber" name="L151" href="#L151">151</a> 			writer.print(<span class="jxr_string">"&lt;ui:ajaxResponse "</span>);
+<a class="jxr_linenumber" name="L151" href="#L151">151</a> 			writer.print(<span class="jxr_string">"&lt;ui:ajaxresponse "</span>);
 <a class="jxr_linenumber" name="L152" href="#L152">152</a> 			writer.print(XMLUtil.UI_NAMESPACE);
 <a class="jxr_linenumber" name="L153" href="#L153">153</a> 			writer.print(<span class="jxr_string">"&gt;"</span>);
-<a class="jxr_linenumber" name="L154" href="#L154">154</a> 			writer.print(<span class="jxr_string">"&lt;ui:ajaxTarget id=\&quot;"</span> + targetId + <span class="jxr_string">"\&quot; action=\&quot;replace\&quot;&gt;"</span>);
+<a class="jxr_linenumber" name="L154" href="#L154">154</a> 			writer.print(<span class="jxr_string">"&lt;ui:ajaxtarget id=\&quot;"</span> + targetId + <span class="jxr_string">"\&quot; action=\&quot;replace\&quot;&gt;"</span>);
 <a class="jxr_linenumber" name="L155" href="#L155">155</a> 
 <a class="jxr_linenumber" name="L156" href="#L156">156</a> 			<em class="jxr_comment">// Redirect URL</em>
 <a class="jxr_linenumber" name="L157" href="#L157">157</a> 			writer.print(<span class="jxr_string">"&lt;ui:redirect url=\&quot;"</span> + url + <span class="jxr_string">"\&quot; /&gt;"</span>);
 <a class="jxr_linenumber" name="L158" href="#L158">158</a> 
-<a class="jxr_linenumber" name="L159" href="#L159">159</a> 			writer.print(<span class="jxr_string">"&lt;/ui:ajaxTarget&gt;"</span>);
-<a class="jxr_linenumber" name="L160" href="#L160">160</a> 			writer.print(<span class="jxr_string">"&lt;/ui:ajaxResponse&gt;"</span>);
+<a class="jxr_linenumber" name="L159" href="#L159">159</a> 			writer.print(<span class="jxr_string">"&lt;/ui:ajaxtarget&gt;"</span>);
+<a class="jxr_linenumber" name="L160" href="#L160">160</a> 			writer.print(<span class="jxr_string">"&lt;/ui:ajaxresponse&gt;"</span>);
 <a class="jxr_linenumber" name="L161" href="#L161">161</a> 		} <strong class="jxr_keyword">catch</strong> (IOException e) {
 <a class="jxr_linenumber" name="L162" href="#L162">162</a> 			<strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../com/github/bordertech/wcomponents/util/SystemException.html">SystemException</a>(<span class="jxr_string">"Error writing redirect for ajax wrong step interceptor"</span>, e);
 <a class="jxr_linenumber" name="L163" href="#L163">163</a> 		}

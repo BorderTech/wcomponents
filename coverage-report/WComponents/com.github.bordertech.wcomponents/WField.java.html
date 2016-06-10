@@ -54,7 +54,7 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 <span class="fc" id="L54">		this.label = label;</span>
 <span class="fc" id="L55">		this.field = field;</span>
 
-<span class="pc bpc" id="L57" title="1 of 2 branches missed.">		if (label != null) {</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">		if (label != null) {</span>
 <span class="fc" id="L58">			add(label);</span>
 		}
 
@@ -64,7 +64,7 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 <span class="fc" id="L64">		WComponent labelField = findComponentForLabel(field);</span>
 
 		// Check if we need to associate the label to the labelField
-<span class="pc bpc" id="L67" title="2 of 6 branches missed.">		if (label != null &amp;&amp; label.getForComponent() == null &amp;&amp; labelField != null) {</span>
+<span class="pc bpc" id="L67" title="1 of 6 branches missed.">		if (label != null &amp;&amp; label.getForComponent() == null &amp;&amp; labelField != null) {</span>
 			// Save the original label (in case the field is in a nested WField)
 <span class="fc" id="L69">			WLabel origLabel = labelField.getLabel();</span>
 <span class="fc" id="L70">			label.setForComponent(labelField);</span>

@@ -12,6 +12,7 @@ com.github.bordertech.wcomponents.render.webxml
 com.github.bordertech.wcomponents.servlet
 com.github.bordertech.wcomponents.subordinate
 com.github.bordertech.wcomponents.subordinate.builder
+com.github.bordertech.wcomponents.template
 com.github.bordertech.wcomponents.test
 com.github.bordertech.wcomponents.test.example
 com.github.bordertech.wcomponents.test.selenium

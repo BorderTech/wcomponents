@@ -131,26 +131,26 @@
 <a class="jxr_linenumber" name="L123" href="#L123">123</a> 		AjaxTarget[] actionTargets = link.getActionTargets();
 <a class="jxr_linenumber" name="L124" href="#L124">124</a> 
 <a class="jxr_linenumber" name="L125" href="#L125">125</a> 		<em class="jxr_comment">// Start tag</em>
-<a class="jxr_linenumber" name="L126" href="#L126">126</a> 		xml.appendTagOpen(<span class="jxr_string">"ui:ajaxTrigger"</span>);
+<a class="jxr_linenumber" name="L126" href="#L126">126</a> 		xml.appendTagOpen(<span class="jxr_string">"ui:ajaxtrigger"</span>);
 <a class="jxr_linenumber" name="L127" href="#L127">127</a> 		xml.appendAttribute(<span class="jxr_string">"triggerId"</span>, link.getId());
 <a class="jxr_linenumber" name="L128" href="#L128">128</a> 		xml.appendClose();
 <a class="jxr_linenumber" name="L129" href="#L129">129</a> 
 <a class="jxr_linenumber" name="L130" href="#L130">130</a> 		<strong class="jxr_keyword">if</strong> (actionTargets != <strong class="jxr_keyword">null</strong> &amp;&amp; actionTargets.length &gt; 0) {
 <a class="jxr_linenumber" name="L131" href="#L131">131</a> 			<em class="jxr_comment">// Targets</em>
 <a class="jxr_linenumber" name="L132" href="#L132">132</a> 			<strong class="jxr_keyword">for</strong> (AjaxTarget target : actionTargets) {
-<a class="jxr_linenumber" name="L133" href="#L133">133</a> 				xml.appendTagOpen(<span class="jxr_string">"ui:ajaxTargetId"</span>);
+<a class="jxr_linenumber" name="L133" href="#L133">133</a> 				xml.appendTagOpen(<span class="jxr_string">"ui:ajaxtargetid"</span>);
 <a class="jxr_linenumber" name="L134" href="#L134">134</a> 				xml.appendAttribute(<span class="jxr_string">"targetId"</span>, target.getId());
 <a class="jxr_linenumber" name="L135" href="#L135">135</a> 				xml.appendEnd();
 <a class="jxr_linenumber" name="L136" href="#L136">136</a> 			}
 <a class="jxr_linenumber" name="L137" href="#L137">137</a> 		} <strong class="jxr_keyword">else</strong> {
 <a class="jxr_linenumber" name="L138" href="#L138">138</a> 			<em class="jxr_comment">// Target itself</em>
-<a class="jxr_linenumber" name="L139" href="#L139">139</a> 			xml.appendTagOpen(<span class="jxr_string">"ui:ajaxTargetId"</span>);
+<a class="jxr_linenumber" name="L139" href="#L139">139</a> 			xml.appendTagOpen(<span class="jxr_string">"ui:ajaxtargetid"</span>);
 <a class="jxr_linenumber" name="L140" href="#L140">140</a> 			xml.appendAttribute(<span class="jxr_string">"targetId"</span>, link.getId());
 <a class="jxr_linenumber" name="L141" href="#L141">141</a> 			xml.appendEnd();
 <a class="jxr_linenumber" name="L142" href="#L142">142</a> 		}
 <a class="jxr_linenumber" name="L143" href="#L143">143</a> 
 <a class="jxr_linenumber" name="L144" href="#L144">144</a> 		<em class="jxr_comment">// End tag</em>
-<a class="jxr_linenumber" name="L145" href="#L145">145</a> 		xml.appendEndTag(<span class="jxr_string">"ui:ajaxTrigger"</span>);
+<a class="jxr_linenumber" name="L145" href="#L145">145</a> 		xml.appendEndTag(<span class="jxr_string">"ui:ajaxtrigger"</span>);
 <a class="jxr_linenumber" name="L146" href="#L146">146</a> 	}
 <a class="jxr_linenumber" name="L147" href="#L147">147</a> }
 </pre>

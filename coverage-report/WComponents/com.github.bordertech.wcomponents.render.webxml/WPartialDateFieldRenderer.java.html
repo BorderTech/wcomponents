@@ -29,7 +29,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 <span class="fc bfc" id="L29" title="All 2 branches covered.">		String submitControlId = submitControl == null ? null : submitControl.getId();</span>
 <span class="fc" id="L30">		String date = formatDate(dateField);</span>
 
-<span class="fc" id="L32">		xml.appendTagOpen(&quot;ui:dateField&quot;);</span>
+<span class="fc" id="L32">		xml.appendTagOpen(&quot;ui:datefield&quot;);</span>
 <span class="fc" id="L33">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
 <span class="fc" id="L34">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
 <span class="fc" id="L35">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
@@ -50,7 +50,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 <span class="fc" id="L50">			xml.appendEscaped(dateField.getText());</span>
 		}
 
-<span class="fc" id="L53">		xml.appendEndTag(&quot;ui:dateField&quot;);</span>
+<span class="fc" id="L53">		xml.appendEndTag(&quot;ui:datefield&quot;);</span>
 <span class="fc" id="L54">	}</span>
 
 	/**

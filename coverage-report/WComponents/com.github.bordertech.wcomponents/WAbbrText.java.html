@@ -7,107 +7,110 @@ import com.github.bordertech.wcomponents.util.LookupTable;
  * The WAbbrText component represents an abbreviation or acronym and the full textual description for its (abbreviated)
  * text content.
  *
- * @author Kishan Bisht
- * @author Mark Reeves
+ * @author Kishan Bisht, Mark Reeves
  * @since 1.0.0
  */
 public class WAbbrText extends WText {
-
 	/**
 	 * The lookup table instance for this application.
 	 */
-<span class="fc" id="L19">	private static final LookupTable TABLE = Factory.newInstance(LookupTable.class);</span>
+<span class="fc" id="L17">	private static final LookupTable TABLE = Factory.newInstance(LookupTable.class);</span>
 
 	/**
+	 * &lt;p&gt;
 	 * Creates an empty WAbbrText.
-	 *
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
 	 * An instance of WAbbrText created in this manner must have abbreviated display text and a toolTip (the full text
 	 * represented by the abbreviation) set to be useful.
+	 * &lt;/p&gt;
 	 */
-<span class="fc" id="L27">	public WAbbrText() {</span>
-<span class="fc" id="L28">	}</span>
+<span class="fc" id="L28">	public WAbbrText() {</span>
+<span class="fc" id="L29">	}</span>
 
 	/**
+	 * &lt;p&gt;
 	 * Creates a WAbbrText with the specified abbreviated display text.
-	 *
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
 	 * An instance of WAbbrText created in this manner must have a toolTip (the full text represented by the
 	 * abbreviation) set to be useful.
+	 * &lt;/p&gt;
 	 *
-	 * @param text The abbreviated text to display.
+	 * @param text The abbreviated text to display
 	 */
 	public WAbbrText(final String text) {
-<span class="fc" id="L39">		super(text);</span>
-<span class="fc" id="L40">	}</span>
+<span class="fc" id="L43">		super(text);</span>
+<span class="fc" id="L44">	}</span>
 
 	/**
 	 * Creates a WAbbrText with the specified abbreviated display text and toolTip full expansion text.
 	 *
-	 * @param text The abbreviated text to display.
-	 * @param description The full text represented by the abbreviation.
+	 * @param text the abbreviated text to display
+	 * @param description the full text represented by the abbreviation
 	 */
 	public WAbbrText(final String text, final String description) {
-<span class="fc" id="L49">		this(text);</span>
-<span class="fc" id="L50">		setToolTip(description);</span>
-<span class="fc" id="L51">	}</span>
+<span class="fc" id="L53">		this(text);</span>
+<span class="fc" id="L54">		setToolTip(description);</span>
+<span class="fc" id="L55">	}</span>
 
 	//================================
 	// Attributes
 	/**
-	 * @return the expanded text represented by the abbreviation.
-	 * @deprecated use getToolTip instead.
+	 * @return the expanded text represented by the abbreviation
+	 * @deprecated as of WComponents 1.0.0, use {@link #getToolTip()} instead
 	 */
 	public String getAbbrText() {
-<span class="fc" id="L60">		return getToolTip();</span>
+<span class="fc" id="L64">		return getToolTip();</span>
 	}
 
 	/**
-	 * Sets the full text represented by the abbreviation.
-	 *
-	 * @param abbrText The full text represented by the abbreviation.
-	 * @deprecated use setToolTip instead.
-	 */
-	public void setAbbrText(final String abbrText) {
-<span class="fc" id="L70">		setToolTip(abbrText);</span>
-<span class="fc" id="L71">	}</span>
-
-	/**
-	 * Loads the abbreviated text component from the given code reference table entry.
-	 *
-	 * The display (abbreviated) text is set to the table entry's description. The toolTip is set to the table entry's
-	 * code.
-	 *
-	 * @param entry the CRT entry to use.
-	 */
-	public void setTextWithDesc(final Object entry) {
-<span class="fc" id="L82">		setText(TABLE.getDescription(null, entry));</span>
-<span class="fc" id="L83">		setToolTip(TABLE.getCode(null, entry));</span>
-<span class="fc" id="L84">	}</span>
-
-	/**
-	 * Loads the abbreviated text component from the given code reference table entry.
-	 *
-	 * The display (abbreviated) text is set to the table entry's code. The toolTip is set to the table entry's
-	 * description.
+	 * Loads the abbreviated text component from the given code reference table entry using the entry's code as the
+	 * visible (abbreviated) text and the entry's description as the abbreviation's expanded text toolTip.
 	 *
 	 * @param entry the CRT entry to use.
 	 */
 	public void setTextWithCode(final Object entry) {
-<span class="fc" id="L95">		setText(TABLE.getCode(null, entry));</span>
-<span class="fc" id="L96">		setToolTip(TABLE.getDescription(null, entry));</span>
-<span class="fc" id="L97">	}</span>
+<span class="fc" id="L74">		setText(TABLE.getCode(null, entry));</span>
+<span class="fc" id="L75">		setToolTip(TABLE.getDescription(null, entry));</span>
+<span class="fc" id="L76">	}</span>
 
 	/**
-	 * @return a String representation of this component, for debugging purposes.
+	 * Sets the full text represented by the abbreviation.
+	 *
+	 * @param abbrText the full text (expansion) represented by the abbreviation
+	 * @deprecated As of WComponents 1.0.0, use {@link #setToolTip(String, Serializable...)} instead.
+	 */
+	public void setAbbrText(final String abbrText) {
+<span class="fc" id="L85">		setToolTip(abbrText);</span>
+<span class="fc" id="L86">	}</span>
+
+	/**
+	 * Loads the abbreviated text component from the given code reference table entry using the entry's description as
+	 * the visible (abbreviated) text and the entry's code as the toolTip (expansion). You probably do not want this:
+	 * you probably want {@link #setTextWithCode(java.lang.Object)}.
+	 *
+	 * @param entry the CRT entry to use
+	 */
+	public void setTextWithDesc(final Object entry) {
+<span class="fc" id="L96">		setText(TABLE.getDescription(null, entry));</span>
+<span class="fc" id="L97">		setToolTip(TABLE.getCode(null, entry));</span>
+<span class="fc" id="L98">	}</span>
+
+	/**
+	 * Get a String representation of the component. This would normally only be required for debugging purposes.
+	 *
+	 * @return a String representation of this component
 	 */
 	@Override
 	public String toString() {
-<span class="nc" id="L104">		String text = getText();</span>
-<span class="nc bnc" id="L105" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : '&quot;' + text + '&quot;';</span>
+<span class="nc" id="L107">		String text = getText();</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : '&quot;' + text + '&quot;';</span>
 
-<span class="nc" id="L107">		String expandedText = getToolTip();</span>
-<span class="nc bnc" id="L108" title="All 2 branches missed.">		expandedText = expandedText == null ? &quot;null&quot; : '&quot;' + expandedText + '&quot;';</span>
+<span class="nc" id="L110">		String expandedText = getToolTip();</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">		expandedText = expandedText == null ? &quot;null&quot; : '&quot;' + expandedText + '&quot;';</span>
 
-<span class="nc" id="L110">		return toString(&quot;text=&quot; + text + &quot;, toolTip=&quot; + expandedText);</span>
+<span class="nc" id="L113">		return toString(&quot;text=&quot; + text + &quot;, toolTip=&quot; + expandedText);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

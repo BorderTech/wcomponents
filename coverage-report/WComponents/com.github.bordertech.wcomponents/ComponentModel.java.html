@@ -174,6 +174,7 @@ import org.apache.commons.logging.LogFactory;
 
 	/**
 	 * Adds extra textual information to describe a component. This is intended for screen-readers only.
+	 *
 	 * @deprecated use toolTip
 	 */
 	private Serializable accessibleText;
@@ -212,12 +213,12 @@ import org.apache.commons.logging.LogFactory;
 	 * @param value the attribute value
 	 */
 	public void setAttribute(final String key, final Serializable value) {
-<span class="fc bfc" id="L215" title="All 2 branches covered.">		if (attributes == null) {</span>
-<span class="fc" id="L216">			attributes = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L216" title="All 2 branches covered.">		if (attributes == null) {</span>
+<span class="fc" id="L217">			attributes = new HashMap&lt;&gt;();</span>
 		}
 
-<span class="fc" id="L219">		attributes.put(key, value);</span>
-<span class="fc" id="L220">	}</span>
+<span class="fc" id="L220">		attributes.put(key, value);</span>
+<span class="fc" id="L221">	}</span>
 
 	/**
 	 * Retrieves an attribute.
@@ -226,11 +227,11 @@ import org.apache.commons.logging.LogFactory;
 	 * @return the value of the attribute, or null if the attribute does not exist.
 	 */
 	public Serializable getAttribute(final String key) {
-<span class="fc bfc" id="L229" title="All 2 branches covered.">		if (attributes == null) {</span>
-<span class="fc" id="L230">			return null;</span>
+<span class="fc bfc" id="L230" title="All 2 branches covered.">		if (attributes == null) {</span>
+<span class="fc" id="L231">			return null;</span>
 		}
 
-<span class="fc" id="L233">		return attributes.get(key);</span>
+<span class="fc" id="L234">		return attributes.get(key);</span>
 	}
 
 	/**
@@ -240,11 +241,11 @@ import org.apache.commons.logging.LogFactory;
 	 * @return the value of the attribute that was removed, or null if the attribute did not exist.
 	 */
 	public Serializable removeAttribute(final String key) {
-<span class="fc bfc" id="L243" title="All 2 branches covered.">		if (attributes == null) {</span>
-<span class="fc" id="L244">			return null;</span>
+<span class="fc bfc" id="L244" title="All 2 branches covered.">		if (attributes == null) {</span>
+<span class="fc" id="L245">			return null;</span>
 		}
 
-<span class="fc" id="L247">		return attributes.remove(key);</span>
+<span class="fc" id="L248">		return attributes.remove(key);</span>
 	}
 
 	/**
@@ -257,34 +258,34 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	@Override
 	public boolean equals(final Object obj) {
-<span class="pc bpc" id="L260" title="1 of 2 branches missed.">		if (obj == null) {</span>
-<span class="nc" id="L261">			return false;</span>
-<span class="fc bfc" id="L262" title="All 2 branches covered.">		} else if (obj == this) {</span>
+<span class="pc bpc" id="L261" title="1 of 2 branches missed.">		if (obj == null) {</span>
+<span class="nc" id="L262">			return false;</span>
+<span class="fc bfc" id="L263" title="All 2 branches covered.">		} else if (obj == this) {</span>
 			// Trivial case
-<span class="fc" id="L264">			return true;</span>
-<span class="pc bpc" id="L265" title="1 of 2 branches missed.">		} else if (!getClass().equals(obj.getClass())) {</span>
+<span class="fc" id="L265">			return true;</span>
+<span class="pc bpc" id="L266" title="1 of 2 branches missed.">		} else if (!getClass().equals(obj.getClass())) {</span>
 			// Can't be equal if we're not the same model class
-<span class="nc" id="L267">			return false;</span>
+<span class="nc" id="L268">			return false;</span>
 		} else {
 			// Check all fields - this saves subclasses having to override
 			// equals and remembering to call super.equals.
-<span class="fc" id="L271">			final Field[] fields = getFields(this);</span>
+<span class="fc" id="L272">			final Field[] fields = getFields(this);</span>
 
 			try {
-<span class="fc bfc" id="L274" title="All 2 branches covered.">				for (int i = fields.length - 1; i &gt;= 0; i--) {</span>
-<span class="fc" id="L275">					Object value = fields[i].get(this);</span>
-<span class="fc" id="L276">					Object otherValue = fields[i].get(obj);</span>
+<span class="fc bfc" id="L275" title="All 2 branches covered.">				for (int i = fields.length - 1; i &gt;= 0; i--) {</span>
+<span class="fc" id="L276">					Object value = fields[i].get(this);</span>
+<span class="fc" id="L277">					Object otherValue = fields[i].get(obj);</span>
 
-<span class="fc bfc" id="L278" title="All 2 branches covered.">					if (!Util.equals(value, otherValue)) {</span>
-<span class="fc" id="L279">						return false;</span>
+<span class="fc bfc" id="L279" title="All 2 branches covered.">					if (!Util.equals(value, otherValue)) {</span>
+<span class="fc" id="L280">						return false;</span>
 					}
 				}
-<span class="nc" id="L282">			} catch (IllegalAccessException e) {</span>
-<span class="nc" id="L283">				LOG.error(&quot;Failed to read field&quot;, e);</span>
-<span class="nc" id="L284">				return false;</span>
-<span class="fc" id="L285">			}</span>
+<span class="nc" id="L283">			} catch (IllegalAccessException e) {</span>
+<span class="nc" id="L284">				LOG.error(&quot;Failed to read field&quot;, e);</span>
+<span class="nc" id="L285">				return false;</span>
+<span class="fc" id="L286">			}</span>
 
-<span class="fc" id="L287">			return true;</span>
+<span class="fc" id="L288">			return true;</span>
 		}
 	}
 
@@ -295,14 +296,14 @@ import org.apache.commons.logging.LogFactory;
 	public int hashCode() {
 		//TODO: Do we need a better implementation of hashCode using all fields from subclasses?
 
-<span class="nc bnc" id="L298" title="All 2 branches missed.">		return getClass().getName().hashCode()</span>
+<span class="nc bnc" id="L299" title="All 2 branches missed.">		return getClass().getName().hashCode()</span>
 				+ flags
-<span class="nc bnc" id="L300" title="All 2 branches missed.">				+ (children == null ? 0 : children.hashCode())</span>
-<span class="nc bnc" id="L301" title="All 2 branches missed.">				+ (attributes == null ? 0 : attributes.hashCode())</span>
-<span class="nc bnc" id="L302" title="All 2 branches missed.">				+ (parent == null ? 0 : parent.hashCode())</span>
-<span class="nc bnc" id="L303" title="All 2 branches missed.">				+ (tag == null ? 0 : tag.hashCode())</span>
-<span class="nc bnc" id="L304" title="All 2 branches missed.">				+ (toolTip == null ? 0 : toolTip.hashCode())</span>
-<span class="nc" id="L305">				+ (templateUrl == null ? 0 : templateUrl.hashCode());</span>
+<span class="nc bnc" id="L301" title="All 2 branches missed.">				+ (children == null ? 0 : children.hashCode())</span>
+<span class="nc bnc" id="L302" title="All 2 branches missed.">				+ (attributes == null ? 0 : attributes.hashCode())</span>
+<span class="nc bnc" id="L303" title="All 2 branches missed.">				+ (parent == null ? 0 : parent.hashCode())</span>
+<span class="nc bnc" id="L304" title="All 2 branches missed.">				+ (tag == null ? 0 : tag.hashCode())</span>
+<span class="nc bnc" id="L305" title="All 2 branches missed.">				+ (toolTip == null ? 0 : toolTip.hashCode())</span>
+<span class="nc" id="L306">				+ (templateUrl == null ? 0 : templateUrl.hashCode());</span>
 	}
 
 	/**
@@ -311,32 +312,30 @@ import org.apache.commons.logging.LogFactory;
 	 * @param sharedModel the shared ComponentModel
 	 */
 	protected final void setSharedModel(final ComponentModel sharedModel) {
-<span class="fc" id="L314">		this.sharedModel = sharedModel;</span>
+<span class="fc" id="L315">		this.sharedModel = sharedModel;</span>
 
-<span class="pc bpc" id="L316" title="1 of 2 branches missed.">		if (unsetFields != null) {</span>
+<span class="pc bpc" id="L317" title="1 of 2 branches missed.">		if (unsetFields != null) {</span>
 			// Copy the data from the shared model
-<span class="fc bfc" id="L318" title="All 2 branches covered.">			for (Field field : unsetFields) {</span>
+<span class="fc bfc" id="L319" title="All 2 branches covered.">			for (Field field : unsetFields) {</span>
 				try {
-<span class="fc" id="L320">					Object sharedValue = field.get(sharedModel);</span>
-<span class="fc" id="L321">					Object sessionValue = copyData(sharedValue);</span>
-<span class="fc" id="L322">					field.set(this, sessionValue);</span>
-<span class="nc" id="L323">				} catch (IllegalAccessException e) {</span>
-<span class="nc" id="L324">					LOG.error(&quot;Failed to set field &quot; + field.getName() + &quot; on &quot; + getClass().</span>
-<span class="nc" id="L325">							getName(), e);</span>
-<span class="nc" id="L326">				} catch (IllegalArgumentException e) {</span>
-<span class="nc" id="L327">					LOG.error(&quot;Failed to set field &quot; + field.getName() + &quot; on &quot; + getClass().</span>
-<span class="nc" id="L328">							getName(), e);</span>
-<span class="pc" id="L329">				}</span>
-<span class="fc" id="L330">			}</span>
+<span class="fc" id="L321">					Object sharedValue = field.get(sharedModel);</span>
+<span class="fc" id="L322">					Object sessionValue = copyData(sharedValue);</span>
+<span class="fc" id="L323">					field.set(this, sessionValue);</span>
+<span class="nc" id="L324">				} catch (IllegalAccessException e) {</span>
+<span class="nc" id="L325">					LOG.error(&quot;Failed to set field &quot; + field.getName() + &quot; on &quot; + getClass().</span>
+<span class="nc" id="L326">							getName(), e);</span>
+<span class="nc" id="L327">				} catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L328">					LOG.error(&quot;Failed to set field &quot; + field.getName() + &quot; on &quot; + getClass().</span>
+<span class="nc" id="L329">							getName(), e);</span>
+<span class="pc" id="L330">				}</span>
+<span class="fc" id="L331">			}</span>
 
-<span class="fc" id="L332">			unsetFields = null;</span>
+<span class="fc" id="L333">			unsetFields = null;</span>
 		}
-<span class="fc" id="L334">	}</span>
+<span class="fc" id="L335">	}</span>
 
 	/**
 	 * Creates a copy of mutable data, to ensure updates to one component model do not update the other.
-	 *
-	 * TODO: We might need to add other collections/arrays later
 	 *
 	 * @param data the data to copy
 	 * @return a copy of the data, if it is mutable, otherwise the original data.
@@ -344,162 +343,174 @@ import org.apache.commons.logging.LogFactory;
 	protected Object copyData(final Object data) {
 		// For mutable objects, we perform a shallow copy
 		// so that we don't change the state of the shared value
-<span class="fc bfc" id="L347" title="All 2 branches covered.">		if (data instanceof List) {</span>
-<span class="fc" id="L348">			return new ArrayList((List) data);</span>
-<span class="pc bpc" id="L349" title="1 of 2 branches missed.">		} else if (data instanceof Hashtable) {</span>
-<span class="nc" id="L350">			return new Hashtable((Hashtable) data);</span>
-<span class="fc bfc" id="L351" title="All 2 branches covered.">		} else if (data instanceof Map) {</span>
-<span class="fc" id="L352">			return new HashMap((Map) data);</span>
-<span class="fc bfc" id="L353" title="All 2 branches covered.">		} else if (data instanceof Set) {</span>
-<span class="fc" id="L354">			return new HashSet((Set) data);</span>
-<span class="fc bfc" id="L355" title="All 2 branches covered.">		} else if (data instanceof String[]) {</span>
-<span class="fc" id="L356">			String[] array = (String[]) data;</span>
-<span class="fc" id="L357">			String[] copy = new String[array.length];</span>
-<span class="fc" id="L358">			System.arraycopy(array, 0, copy, 0, copy.length);</span>
-<span class="fc" id="L359">			return copy;</span>
-<span class="fc bfc" id="L360" title="All 2 branches covered.">		} else if (data instanceof int[]) {</span>
-<span class="fc" id="L361">			int[] array = (int[]) data;</span>
-<span class="fc" id="L362">			int[] copy = new int[array.length];</span>
-<span class="fc" id="L363">			System.arraycopy(array, 0, copy, 0, copy.length);</span>
-<span class="fc" id="L364">			return copy;</span>
-<span class="pc bpc" id="L365" title="1 of 2 branches missed.">		} else if (data instanceof long[]) {</span>
-<span class="nc" id="L366">			long[] array = (long[]) data;</span>
-<span class="nc" id="L367">			long[] copy = new long[array.length];</span>
-<span class="nc" id="L368">			System.arraycopy(array, 0, copy, 0, copy.length);</span>
-<span class="nc" id="L369">			return copy;</span>
-<span class="pc bpc" id="L370" title="1 of 2 branches missed.">		} else if (data instanceof float[]) {</span>
-<span class="nc" id="L371">			float[] array = (float[]) data;</span>
-<span class="nc" id="L372">			float[] copy = new float[array.length];</span>
-<span class="nc" id="L373">			System.arraycopy(array, 0, copy, 0, copy.length);</span>
-<span class="nc" id="L374">			return copy;</span>
-<span class="pc bpc" id="L375" title="1 of 2 branches missed.">		} else if (data instanceof double[]) {</span>
-<span class="nc" id="L376">			double[] array = (double[]) data;</span>
-<span class="nc" id="L377">			double[] copy = new double[array.length];</span>
-<span class="nc" id="L378">			System.arraycopy(array, 0, copy, 0, copy.length);</span>
-<span class="nc" id="L379">			return copy;</span>
-<span class="pc bpc" id="L380" title="1 of 2 branches missed.">		} else if (data instanceof boolean[]) {</span>
-<span class="nc" id="L381">			boolean[] array = (boolean[]) data;</span>
-<span class="nc" id="L382">			boolean[] copy = new boolean[array.length];</span>
-<span class="nc" id="L383">			System.arraycopy(array, 0, copy, 0, copy.length);</span>
-<span class="nc" id="L384">			return copy;</span>
-<span class="pc bpc" id="L385" title="1 of 2 branches missed.">		} else if (data instanceof char[]) {</span>
-<span class="nc" id="L386">			char[] array = (char[]) data;</span>
-<span class="nc" id="L387">			char[] copy = new char[array.length];</span>
-<span class="nc" id="L388">			System.arraycopy(array, 0, copy, 0, copy.length);</span>
-<span class="nc" id="L389">			return copy;</span>
-<span class="pc bpc" id="L390" title="1 of 2 branches missed.">		} else if (data instanceof Object[]) {</span>
-<span class="nc" id="L391">			Class&lt;?&gt; componentClass = data.getClass().getComponentType();</span>
-<span class="nc" id="L392">			Object[] copy = (Object[]) Array.newInstance(componentClass, ((Object[]) data).length);</span>
-<span class="nc" id="L393">			System.arraycopy(data, 0, copy, 0, copy.length);</span>
-<span class="nc" id="L394">			return copy;</span>
+<span class="fc bfc" id="L346" title="All 2 branches covered.">		if (data instanceof List) {</span>
+<span class="fc" id="L347">			return new ArrayList((List) data);</span>
+<span class="pc bpc" id="L348" title="1 of 2 branches missed.">		} else if (data instanceof Hashtable) {</span>
+<span class="nc" id="L349">			return new Hashtable((Hashtable) data);</span>
+<span class="fc bfc" id="L350" title="All 2 branches covered.">		} else if (data instanceof Map) {</span>
+<span class="fc" id="L351">			return new HashMap((Map) data);</span>
+<span class="fc bfc" id="L352" title="All 2 branches covered.">		} else if (data instanceof Set) {</span>
+<span class="fc" id="L353">			return new HashSet((Set) data);</span>
+<span class="fc bfc" id="L354" title="All 2 branches covered.">		} else if (data instanceof String[]) {</span>
+<span class="fc" id="L355">			String[] array = (String[]) data;</span>
+<span class="fc" id="L356">			String[] copy = new String[array.length];</span>
+<span class="fc" id="L357">			System.arraycopy(array, 0, copy, 0, copy.length);</span>
+<span class="fc" id="L358">			return copy;</span>
+<span class="fc bfc" id="L359" title="All 2 branches covered.">		} else if (data instanceof int[]) {</span>
+<span class="fc" id="L360">			int[] array = (int[]) data;</span>
+<span class="fc" id="L361">			int[] copy = new int[array.length];</span>
+<span class="fc" id="L362">			System.arraycopy(array, 0, copy, 0, copy.length);</span>
+<span class="fc" id="L363">			return copy;</span>
+<span class="pc bpc" id="L364" title="1 of 2 branches missed.">		} else if (data instanceof long[]) {</span>
+<span class="nc" id="L365">			long[] array = (long[]) data;</span>
+<span class="nc" id="L366">			long[] copy = new long[array.length];</span>
+<span class="nc" id="L367">			System.arraycopy(array, 0, copy, 0, copy.length);</span>
+<span class="nc" id="L368">			return copy;</span>
+<span class="pc bpc" id="L369" title="1 of 2 branches missed.">		} else if (data instanceof float[]) {</span>
+<span class="nc" id="L370">			float[] array = (float[]) data;</span>
+<span class="nc" id="L371">			float[] copy = new float[array.length];</span>
+<span class="nc" id="L372">			System.arraycopy(array, 0, copy, 0, copy.length);</span>
+<span class="nc" id="L373">			return copy;</span>
+<span class="pc bpc" id="L374" title="1 of 2 branches missed.">		} else if (data instanceof double[]) {</span>
+<span class="nc" id="L375">			double[] array = (double[]) data;</span>
+<span class="nc" id="L376">			double[] copy = new double[array.length];</span>
+<span class="nc" id="L377">			System.arraycopy(array, 0, copy, 0, copy.length);</span>
+<span class="nc" id="L378">			return copy;</span>
+<span class="pc bpc" id="L379" title="1 of 2 branches missed.">		} else if (data instanceof boolean[]) {</span>
+<span class="nc" id="L380">			boolean[] array = (boolean[]) data;</span>
+<span class="nc" id="L381">			boolean[] copy = new boolean[array.length];</span>
+<span class="nc" id="L382">			System.arraycopy(array, 0, copy, 0, copy.length);</span>
+<span class="nc" id="L383">			return copy;</span>
+<span class="pc bpc" id="L384" title="1 of 2 branches missed.">		} else if (data instanceof char[]) {</span>
+<span class="nc" id="L385">			char[] array = (char[]) data;</span>
+<span class="nc" id="L386">			char[] copy = new char[array.length];</span>
+<span class="nc" id="L387">			System.arraycopy(array, 0, copy, 0, copy.length);</span>
+<span class="nc" id="L388">			return copy;</span>
+<span class="pc bpc" id="L389" title="1 of 2 branches missed.">		} else if (data instanceof Object[]) {</span>
+<span class="nc" id="L390">			Class&lt;?&gt; componentClass = data.getClass().getComponentType();</span>
+<span class="nc" id="L391">			Object[] copy = (Object[]) Array.newInstance(componentClass, ((Object[]) data).length);</span>
+<span class="nc" id="L392">			System.arraycopy(data, 0, copy, 0, copy.length);</span>
+<span class="nc" id="L393">			return copy;</span>
 		}
 
-<span class="fc" id="L397">		return data;</span>
+<span class="fc" id="L396">		return data;</span>
 	}
 
 	/**
 	 * @return Returns the attributes.
 	 */
 	protected Map&lt;String, Serializable&gt; getAttributes() {
-<span class="nc" id="L404">		return attributes;</span>
+<span class="nc" id="L403">		return attributes;</span>
 	}
 
 	/**
 	 * @param attributes The attributes to set.
 	 */
 	protected void setAttributes(final Map&lt;String, Serializable&gt; attributes) {
-<span class="nc" id="L411">		this.attributes = attributes;</span>
-<span class="nc" id="L412">	}</span>
+<span class="nc" id="L410">		this.attributes = attributes;</span>
+<span class="nc" id="L411">	}</span>
 
 	/**
 	 * @return Returns the children.
 	 */
 	protected List&lt;WComponent&gt; getChildren() {
-<span class="fc" id="L418">		return children;</span>
+<span class="fc" id="L417">		return children;</span>
 	}
 
 	/**
 	 * @param children The children to set.
 	 */
 	protected void setChildren(final List&lt;WComponent&gt; children) {
-<span class="fc" id="L425">		this.children = children;</span>
-<span class="fc" id="L426">	}</span>
+<span class="fc" id="L424">		this.children = children;</span>
+<span class="fc" id="L425">	}</span>
 
 	/**
 	 * @return Returns the flags.
 	 */
 	protected int getFlags() {
-<span class="fc" id="L432">		return flags;</span>
+<span class="fc" id="L431">		return flags;</span>
 	}
 
 	/**
 	 * @param flags The flags to set.
 	 */
 	protected void setFlags(final int flags) {
-<span class="fc" id="L439">		this.flags = flags;</span>
-<span class="fc" id="L440">	}</span>
+<span class="fc" id="L438">		this.flags = flags;</span>
+<span class="fc" id="L439">	}</span>
 
 	/**
 	 * @return Returns the parent.
 	 */
 	protected Container getParent() {
-<span class="fc" id="L446">		return parent;</span>
+<span class="fc" id="L445">		return parent;</span>
 	}
 
 	/**
 	 * @param parent The parent to set.
 	 */
 	protected void setParent(final Container parent) {
-<span class="fc" id="L453">		this.parent = parent;</span>
-<span class="fc" id="L454">	}</span>
+<span class="fc" id="L452">		this.parent = parent;</span>
+<span class="fc" id="L453">	}</span>
 
 	/**
 	 * @return Returns the tag.
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	protected String getTag() {
-<span class="fc" id="L460">		return tag;</span>
+<span class="fc" id="L461">		return tag;</span>
 	}
 
 	/**
 	 * @param tag The tag to set.
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	protected void setTag(final String tag) {
-<span class="fc" id="L467">		this.tag = tag;</span>
-<span class="fc" id="L468">	}</span>
+<span class="fc" id="L470">		this.tag = tag;</span>
+<span class="fc" id="L471">	}</span>
 
 	/**
 	 * @return Returns the templateUrl.
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	public String getTemplateUrl() {
-<span class="fc" id="L474">		return templateUrl;</span>
+<span class="fc" id="L479">		return templateUrl;</span>
 	}
 
 	/**
 	 * @param templateUrl The templateUrl to set.
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	public void setTemplateUrl(final String templateUrl) {
-<span class="fc" id="L481">		this.templateUrl = templateUrl;</span>
-<span class="fc" id="L482">	}</span>
+<span class="fc" id="L488">		this.templateUrl = templateUrl;</span>
+<span class="fc" id="L489">	}</span>
 
 	/**
 	 * @return Returns the template mark-up.
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	public String getTemplateMarkUp() {
-<span class="fc" id="L488">		return templateMarkUp;</span>
+<span class="fc" id="L497">		return templateMarkUp;</span>
 	}
 
 	/**
 	 * @param templateMarkUp The template mark-up to set.
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	public void setTemplateMarkUp(final String templateMarkUp) {
-<span class="nc" id="L495">		this.templateMarkUp = templateMarkUp;</span>
-<span class="nc" id="L496">	}</span>
+<span class="nc" id="L506">		this.templateMarkUp = templateMarkUp;</span>
+<span class="nc" id="L507">	}</span>
 
 	/**
 	 * @return Returns the tool tip text.
 	 */
 	protected Serializable getToolTip() {
-<span class="fc" id="L502">		return toolTip;</span>
+<span class="fc" id="L513">		return toolTip;</span>
 	}
 
 	/**
@@ -507,15 +518,15 @@ import org.apache.commons.logging.LogFactory;
 	 * @param args optional message format arguments.
 	 */
 	protected void setToolTip(final String text, final Serializable... args) {
-<span class="fc" id="L510">		this.toolTip = I18nUtilities.asMessage(text, args);</span>
-<span class="fc" id="L511">	}</span>
+<span class="fc" id="L521">		this.toolTip = I18nUtilities.asMessage(text, args);</span>
+<span class="fc" id="L522">	}</span>
 
 	/**
 	 * @return Returns the accessible text.
 	 * @deprecated use getToolTip
 	 */
 	protected Serializable getAccessibleText() {
-<span class="fc" id="L518">		return accessibleText;</span>
+<span class="fc" id="L529">		return accessibleText;</span>
 	}
 
 	/**
@@ -524,14 +535,14 @@ import org.apache.commons.logging.LogFactory;
 	 * @deprecated use setToolTip
 	 */
 	protected void setAccessibleText(final String text, final Serializable... args) {
-<span class="fc" id="L527">		this.accessibleText = I18nUtilities.asMessage(text, args);</span>
-<span class="fc" id="L528">	}</span>
+<span class="fc" id="L538">		this.accessibleText = I18nUtilities.asMessage(text, args);</span>
+<span class="fc" id="L539">	}</span>
 
 	/**
 	 * @return Returns the HTML class.
 	 */
 	protected Serializable getHtmlClass() {
-<span class="fc" id="L534">		return htmlClass;</span>
+<span class="fc" id="L545">		return htmlClass;</span>
 	}
 
 	/**
@@ -539,14 +550,14 @@ import org.apache.commons.logging.LogFactory;
 	 * @param args optional message format arguments.
 	 */
 	protected void setHtmlClass(final String text, final Serializable... args) {
-<span class="fc" id="L542">		this.htmlClass = I18nUtilities.asMessage(text, args);</span>
-<span class="fc" id="L543">	}</span>
+<span class="fc" id="L553">		this.htmlClass = I18nUtilities.asMessage(text, args);</span>
+<span class="fc" id="L554">	}</span>
 
 	/**
 	 * @return the label associated with this component.
 	 */
 	public WLabel getLabel() {
-<span class="fc" id="L549">		return label;</span>
+<span class="fc" id="L560">		return label;</span>
 	}
 
 	/**
@@ -555,43 +566,43 @@ import org.apache.commons.logging.LogFactory;
 	 * @param label the label to associate with this component.
 	 */
 	public void setLabel(final WLabel label) {
-<span class="fc" id="L558">		this.label = label;</span>
-<span class="fc" id="L559">	}</span>
+<span class="fc" id="L569">		this.label = label;</span>
+<span class="fc" id="L570">	}</span>
 
 	/**
 	 * @return Returns the sharedModel.
 	 */
 	protected ComponentModel getSharedModel() {
-<span class="fc" id="L565">		return sharedModel;</span>
+<span class="fc" id="L576">		return sharedModel;</span>
 	}
 
 	/**
 	 * @return the id name.
 	 */
 	protected String getIdName() {
-<span class="fc" id="L572">		return idName;</span>
+<span class="fc" id="L583">		return idName;</span>
 	}
 
 	/**
 	 * @param idName the id name to set.
 	 */
 	protected void setIdName(final String idName) {
-<span class="fc" id="L579">		this.idName = idName;</span>
-<span class="fc" id="L580">	}</span>
+<span class="fc" id="L590">		this.idName = idName;</span>
+<span class="fc" id="L591">	}</span>
 
 	/**
 	 * @return the map of registered ids for the naming context
 	 */
 	protected Map&lt;String, WComponent&gt; getContextIds() {
-<span class="fc" id="L586">		return this.contextIds;</span>
+<span class="fc" id="L597">		return this.contextIds;</span>
 	}
 
 	/**
 	 * @param contextIds the map holding the registered ids for the naming context
 	 */
 	protected void setContextIds(final Map&lt;String, WComponent&gt; contextIds) {
-<span class="fc" id="L593">		this.contextIds = contextIds;</span>
-<span class="fc" id="L594">	}</span>
+<span class="fc" id="L604">		this.contextIds = contextIds;</span>
+<span class="fc" id="L605">	}</span>
 
 	/**
 	 * &lt;p&gt;
@@ -613,24 +624,24 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	@Override
 	public void readExternal(final ObjectInput in) throws IOException, ClassNotFoundException {
-<span class="fc" id="L616">		Field[] fields = getFields(this);</span>
-<span class="fc" id="L617">		unsetFields = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L627">		Field[] fields = getFields(this);</span>
+<span class="fc" id="L628">		unsetFields = new ArrayList&lt;&gt;();</span>
 
-<span class="fc bfc" id="L619" title="All 2 branches covered.">		for (Field field : fields) {</span>
+<span class="fc bfc" id="L630" title="All 2 branches covered.">		for (Field field : fields) {</span>
 			try {
-<span class="fc" id="L621">				Object value = in.readObject();</span>
+<span class="fc" id="L632">				Object value = in.readObject();</span>
 
-<span class="fc bfc" id="L623" title="All 2 branches covered.">				if (value instanceof NoOverride) {</span>
+<span class="fc bfc" id="L634" title="All 2 branches covered.">				if (value instanceof NoOverride) {</span>
 					// No override, so remember for later
-<span class="fc" id="L625">					unsetFields.add(field);</span>
+<span class="fc" id="L636">					unsetFields.add(field);</span>
 				} else {
-<span class="fc" id="L627">					field.set(this, value);</span>
+<span class="fc" id="L638">					field.set(this, value);</span>
 				}
-<span class="nc" id="L629">			} catch (IllegalAccessException e) {</span>
-<span class="nc" id="L630">				LOG.error(&quot;Failed to read field &quot; + field.getName(), e);</span>
-<span class="fc" id="L631">			}</span>
+<span class="nc" id="L640">			} catch (IllegalAccessException e) {</span>
+<span class="nc" id="L641">				LOG.error(&quot;Failed to read field &quot; + field.getName(), e);</span>
+<span class="fc" id="L642">			}</span>
 		}
-<span class="fc" id="L633">	}</span>
+<span class="fc" id="L644">	}</span>
 
 	/**
 	 * &lt;p&gt;
@@ -647,34 +658,34 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	@Override
 	public void writeExternal(final ObjectOutput out) throws IOException {
-<span class="fc" id="L650">		Field[] fields = getFields(this);</span>
+<span class="fc" id="L661">		Field[] fields = getFields(this);</span>
 
-<span class="fc bfc" id="L652" title="All 2 branches covered.">		for (Field field : fields) {</span>
+<span class="fc bfc" id="L663" title="All 2 branches covered.">		for (Field field : fields) {</span>
 			try {
-<span class="fc bfc" id="L654" title="All 2 branches covered.">				if (sharedModel == null) {</span>
+<span class="fc bfc" id="L665" title="All 2 branches covered.">				if (sharedModel == null) {</span>
 					// Support serialization of the static model,
 					// even though this should not occur.
-<span class="fc" id="L657">					Object value = field.get(this);</span>
-<span class="fc" id="L658">					out.writeObject(value);</span>
-<span class="pc bpc" id="L659" title="3 of 4 branches missed.">				} else if (unsetFields != null &amp;&amp; unsetFields.contains(field)) {</span>
+<span class="fc" id="L668">					Object value = field.get(this);</span>
+<span class="fc" id="L669">					out.writeObject(value);</span>
+<span class="pc bpc" id="L670" title="3 of 4 branches missed.">				} else if (unsetFields != null &amp;&amp; unsetFields.contains(field)) {</span>
 					// Support the unlikely case being deserialized/serialized
 					// in short succession without the shared model being set.
-<span class="nc" id="L662">					out.writeObject(NoOverride.INSTANCE);</span>
+<span class="nc" id="L673">					out.writeObject(NoOverride.INSTANCE);</span>
 				} else {
-<span class="fc" id="L664">					Object sharedValue = field.get(sharedModel);</span>
-<span class="fc" id="L665">					Object value = field.get(this);</span>
+<span class="fc" id="L675">					Object sharedValue = field.get(sharedModel);</span>
+<span class="fc" id="L676">					Object value = field.get(this);</span>
 
-<span class="fc bfc" id="L667" title="All 2 branches covered.">					if (Util.equals(value, sharedValue)) {</span>
-<span class="fc" id="L668">						out.writeObject(NoOverride.INSTANCE);</span>
+<span class="fc bfc" id="L678" title="All 2 branches covered.">					if (Util.equals(value, sharedValue)) {</span>
+<span class="fc" id="L679">						out.writeObject(NoOverride.INSTANCE);</span>
 					} else {
-<span class="fc" id="L670">						out.writeObject(value);</span>
+<span class="fc" id="L681">						out.writeObject(value);</span>
 					}
 				}
-<span class="nc" id="L673">			} catch (IllegalAccessException e) {</span>
-<span class="nc" id="L674">				LOG.error(&quot;Failed to write field &quot; + field.getName(), e);</span>
-<span class="fc" id="L675">			}</span>
+<span class="nc" id="L684">			} catch (IllegalAccessException e) {</span>
+<span class="nc" id="L685">				LOG.error(&quot;Failed to write field &quot; + field.getName(), e);</span>
+<span class="fc" id="L686">			}</span>
 		}
-<span class="fc" id="L677">	}</span>
+<span class="fc" id="L688">	}</span>
 
 	/**
 	 * Returns the list of fields for the given ComponentModel.
@@ -683,22 +694,22 @@ import org.apache.commons.logging.LogFactory;
 	 * @return an array of fields for the given model.
 	 */
 	private static Field[] getFields(final ComponentModel model) {
-<span class="fc" id="L686">		Class modelClass = model.getClass();</span>
+<span class="fc" id="L697">		Class modelClass = model.getClass();</span>
 		Field[] fields;
 
-<span class="fc" id="L689">		synchronized (FIELDS_BY_CLASS) {</span>
-<span class="fc" id="L690">			fields = FIELDS_BY_CLASS.get(modelClass);</span>
+<span class="fc" id="L700">		synchronized (FIELDS_BY_CLASS) {</span>
+<span class="fc" id="L701">			fields = FIELDS_BY_CLASS.get(modelClass);</span>
 
-<span class="fc bfc" id="L692" title="All 2 branches covered.">			if (fields == null) {</span>
-<span class="fc" id="L693">				List fieldList = ReflectionUtil.getAllFields(model, true, true);</span>
-<span class="fc" id="L694">				Collections.sort(fieldList, new FieldComparator());</span>
+<span class="fc bfc" id="L703" title="All 2 branches covered.">			if (fields == null) {</span>
+<span class="fc" id="L704">				List fieldList = ReflectionUtil.getAllFields(model, true, true);</span>
+<span class="fc" id="L705">				Collections.sort(fieldList, new FieldComparator());</span>
 
-<span class="fc" id="L696">				fields = (Field[]) fieldList.toArray(new Field[fieldList.size()]);</span>
-<span class="fc" id="L697">				FIELDS_BY_CLASS.put(modelClass, fields);</span>
+<span class="fc" id="L707">				fields = (Field[]) fieldList.toArray(new Field[fieldList.size()]);</span>
+<span class="fc" id="L708">				FIELDS_BY_CLASS.put(modelClass, fields);</span>
 			}
-<span class="pc" id="L699">		}</span>
+<span class="pc" id="L710">		}</span>
 
-<span class="fc" id="L701">		return fields;</span>
+<span class="fc" id="L712">		return fields;</span>
 	}
 
 	/**
@@ -712,13 +723,13 @@ import org.apache.commons.logging.LogFactory;
 		/**
 		 * Singleton instance.
 		 */
-<span class="fc" id="L715">		public static final NoOverride INSTANCE = new NoOverride();</span>
+<span class="fc" id="L726">		public static final NoOverride INSTANCE = new NoOverride();</span>
 
 		/**
 		 * Don't allow instantiation from outside of this class.
 		 */
-<span class="fc" id="L720">		private NoOverride() {</span>
-<span class="fc" id="L721">		}</span>
+<span class="fc" id="L731">		private NoOverride() {</span>
+<span class="fc" id="L732">		}</span>
 	}
 
 	/**
@@ -727,7 +738,7 @@ import org.apache.commons.logging.LogFactory;
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-<span class="fc" id="L730">	private static final class FieldComparator implements Comparator&lt;Field&gt;, Serializable {</span>
+<span class="fc" id="L741">	private static final class FieldComparator implements Comparator&lt;Field&gt;, Serializable {</span>
 
 		/**
 		 * Compares two objects for order. Returns a negative integer, zero, or a positive integer as the first object
@@ -740,10 +751,10 @@ import org.apache.commons.logging.LogFactory;
 		 */
 		@Override
 		public int compare(final Field field1, final Field field2) {
-<span class="fc" id="L743">			String field1Str = field1.getDeclaringClass().getName() + '.' + field1.getName();</span>
-<span class="fc" id="L744">			String field2Str = field2.getDeclaringClass().getName() + '.' + field2.getName();</span>
+<span class="fc" id="L754">			String field1Str = field1.getDeclaringClass().getName() + '.' + field1.getName();</span>
+<span class="fc" id="L755">			String field2Str = field2.getDeclaringClass().getName() + '.' + field2.getName();</span>
 
-<span class="fc" id="L746">			return field1Str.compareTo(field2Str);</span>
+<span class="fc" id="L757">			return field1Str.compareTo(field2Str);</span>
 		}
 	}
 }

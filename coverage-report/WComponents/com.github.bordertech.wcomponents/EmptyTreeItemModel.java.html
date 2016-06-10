@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>EmptyTreeItemModel.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">EmptyTreeItemModel.java</span></div><h1>EmptyTreeItemModel.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
+
+import java.util.List;
+
+/**
+ * An empty data model implementation, the default model used by {@link WTree}.
+ *
+ * @author Jonathan Austin
+ * @since 1.1.0
+ */
+public final class EmptyTreeItemModel extends AbstractTreeItemModel {
+
+	/**
+	 * The singleton instance.
+	 */
+<span class="nc" id="L16">	public static final EmptyTreeItemModel INSTANCE = new EmptyTreeItemModel();</span>
+
+	/**
+	 * Prevent external instantiation of this class.
+	 */
+<span class="nc" id="L21">	private EmptyTreeItemModel() {</span>
+<span class="nc" id="L22">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getRowCount() {
+<span class="nc" id="L29">		return 0;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int getChildCount(final List&lt;Integer&gt; row) {
+<span class="nc" id="L37">		return 0;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getItemLabel(final List&lt;Integer&gt; row) {
+<span class="nc" id="L45">		return null;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

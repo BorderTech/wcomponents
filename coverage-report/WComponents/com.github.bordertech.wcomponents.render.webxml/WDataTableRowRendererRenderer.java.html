@@ -85,76 +85,74 @@ import java.util.List;
 <span class="nc" id="L85">			TableTreeNode node = treeModel.getNodeAtLine(rowIndex);</span>
 
 <span class="nc bnc" id="L87" title="All 2 branches missed.">			if (!node.isLeaf()) {</span>
-				// TODO Do not paint empty subtr. Made temporary change to table.xsd to allow empty subtr. Waiting for a
-				// fix in T&amp;S in WC6.
-<span class="nc" id="L90">				xml.appendTagOpen(&quot;ui:subTr&quot;);</span>
-<span class="nc" id="L91">				xml.appendOptionalAttribute(&quot;open&quot;, node.isExpanded(), &quot;true&quot;);</span>
-<span class="nc" id="L92">				xml.appendClose();</span>
+<span class="nc" id="L88">				xml.appendTagOpen(&quot;ui:subtr&quot;);</span>
+<span class="nc" id="L89">				xml.appendOptionalAttribute(&quot;open&quot;, node.isExpanded(), &quot;true&quot;);</span>
+<span class="nc" id="L90">				xml.appendClose();</span>
 
-<span class="nc bnc" id="L94" title="All 4 branches missed.">				if (node.isExpanded() || table.getExpandMode() == ExpandMode.CLIENT) {</span>
-<span class="nc" id="L95">					WRepeater repeater = table.getRepeater();</span>
+<span class="nc bnc" id="L92" title="All 4 branches missed.">				if (node.isExpanded() || table.getExpandMode() == ExpandMode.CLIENT) {</span>
+<span class="nc" id="L93">					WRepeater repeater = table.getRepeater();</span>
 
 					// If there a renderer specified by any child, we only paint content that has a specified renderer
-<span class="nc" id="L98">					boolean rendererPresent = false;</span>
+<span class="nc" id="L96">					boolean rendererPresent = false;</span>
 
-<span class="nc bnc" id="L100" title="All 4 branches missed.">					for (Iterator&lt;TreeNode&gt; i = node.children(); !rendererPresent &amp;&amp; i.hasNext();) {</span>
-<span class="nc" id="L101">						TableTreeNode child = (TableTreeNode) i.next();</span>
+<span class="nc bnc" id="L98" title="All 4 branches missed.">					for (Iterator&lt;TreeNode&gt; i = node.children(); !rendererPresent &amp;&amp; i.hasNext();) {</span>
+<span class="nc" id="L99">						TableTreeNode child = (TableTreeNode) i.next();</span>
 
-<span class="nc bnc" id="L103" title="All 2 branches missed.">						if (child.getRendererClass() != null) {</span>
-<span class="nc" id="L104">							rendererPresent = true;</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">						if (child.getRendererClass() != null) {</span>
+<span class="nc" id="L102">							rendererPresent = true;</span>
 						}
-<span class="nc" id="L106">					}</span>
+<span class="nc" id="L104">					}</span>
 
 					// Paint immediate children only.
-<span class="nc bnc" id="L109" title="All 2 branches missed.">					if (rendererPresent) {</span>
-<span class="nc" id="L110">						xml.appendTagOpen(&quot;ui:content&quot;);</span>
-<span class="nc" id="L111">						xml.appendOptionalAttribute(&quot;spanAllCols&quot;, node.isRendererSpansAllCols(),</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">					if (rendererPresent) {</span>
+<span class="nc" id="L108">						xml.appendTagOpen(&quot;ui:content&quot;);</span>
+<span class="nc" id="L109">						xml.appendOptionalAttribute(&quot;spanAllCols&quot;, node.isRendererSpansAllCols(),</span>
 								&quot;true&quot;);
-<span class="nc" id="L113">						xml.appendClose();</span>
+<span class="nc" id="L111">						xml.appendClose();</span>
 
-<span class="nc bnc" id="L115" title="All 2 branches missed.">						for (Iterator&lt;TreeNode&gt; i = node.children(); i.hasNext();) {</span>
-<span class="nc" id="L116">							TableTreeNode child = (TableTreeNode) i.next();</span>
-<span class="nc" id="L117">							Integer rowId = child.getRowIndex() - 1;</span>
-<span class="nc" id="L118">							UIContext nodeContext = repeater.getRowContext(rowId);</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">						for (Iterator&lt;TreeNode&gt; i = node.children(); i.hasNext();) {</span>
+<span class="nc" id="L114">							TableTreeNode child = (TableTreeNode) i.next();</span>
+<span class="nc" id="L115">							Integer rowId = child.getRowIndex() - 1;</span>
+<span class="nc" id="L116">							UIContext nodeContext = repeater.getRowContext(rowId);</span>
 
-<span class="nc" id="L120">							WComponent expandedRenderer = renderer.getExpandedTreeNodeRenderer(</span>
-<span class="nc" id="L121">									child.getRendererClass());</span>
+<span class="nc" id="L118">							WComponent expandedRenderer = renderer.getExpandedTreeNodeRenderer(</span>
+<span class="nc" id="L119">									child.getRendererClass());</span>
 
-<span class="nc bnc" id="L123" title="All 2 branches missed.">							if (expandedRenderer != null) {</span>
-<span class="nc" id="L124">								UIContextHolder.pushContext(nodeContext);</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">							if (expandedRenderer != null) {</span>
+<span class="nc" id="L122">								UIContextHolder.pushContext(nodeContext);</span>
 
 								try {
-<span class="nc" id="L127">									expandedRenderer.paint(renderContext);</span>
+<span class="nc" id="L125">									expandedRenderer.paint(renderContext);</span>
 								} finally {
-<span class="nc" id="L129">									UIContextHolder.popContext();</span>
-<span class="nc" id="L130">								}</span>
+<span class="nc" id="L127">									UIContextHolder.popContext();</span>
+<span class="nc" id="L128">								}</span>
 							}
-<span class="nc" id="L132">						}</span>
+<span class="nc" id="L130">						}</span>
 
-<span class="nc" id="L134">						xml.appendEndTag(&quot;ui:content&quot;);</span>
+<span class="nc" id="L132">						xml.appendEndTag(&quot;ui:content&quot;);</span>
 					} else {
-<span class="nc bnc" id="L136" title="All 2 branches missed.">						for (Iterator&lt;TreeNode&gt; i = node.children(); i.hasNext();) {</span>
-<span class="nc" id="L137">							TableTreeNode child = (TableTreeNode) i.next();</span>
-<span class="nc" id="L138">							Integer rowId = child.getRowIndex() - 1;</span>
-<span class="nc" id="L139">							UIContext nodeContext = repeater.getRowContext(rowId);</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">						for (Iterator&lt;TreeNode&gt; i = node.children(); i.hasNext();) {</span>
+<span class="nc" id="L135">							TableTreeNode child = (TableTreeNode) i.next();</span>
+<span class="nc" id="L136">							Integer rowId = child.getRowIndex() - 1;</span>
+<span class="nc" id="L137">							UIContext nodeContext = repeater.getRowContext(rowId);</span>
 
-<span class="nc" id="L141">							UIContextHolder.pushContext(nodeContext);</span>
+<span class="nc" id="L139">							UIContextHolder.pushContext(nodeContext);</span>
 
 							try {
-<span class="nc" id="L144">								render(component, renderContext);</span>
+<span class="nc" id="L142">								render(component, renderContext);</span>
 							} finally {
-<span class="nc" id="L146">								UIContextHolder.popContext();</span>
-<span class="nc" id="L147">							}</span>
-<span class="nc" id="L148">						}</span>
+<span class="nc" id="L144">								UIContextHolder.popContext();</span>
+<span class="nc" id="L145">							}</span>
+<span class="nc" id="L146">						}</span>
 					}
 				}
 
-<span class="nc" id="L152">				xml.appendEndTag(&quot;ui:subTr&quot;);</span>
+<span class="nc" id="L150">				xml.appendEndTag(&quot;ui:subtr&quot;);</span>
 			}
 		}
 
-<span class="fc" id="L156">		xml.appendEndTag(&quot;ui:tr&quot;);</span>
-<span class="fc" id="L157">	}</span>
+<span class="fc" id="L154">		xml.appendEndTag(&quot;ui:tr&quot;);</span>
+<span class="fc" id="L155">	}</span>
 
 	/**
 	 * Retrieves the filter values for the given row in the data model, as a comma-separated string.
@@ -164,20 +162,20 @@ import java.util.List;
 	 * @return the filter values string.
 	 */
 	private String getFilterValues(final TableDataModel dataModel, final int rowIndex) {
-<span class="fc" id="L167">		List&lt;String&gt; filterValues = dataModel.getFilterValues(rowIndex);</span>
+<span class="fc" id="L165">		List&lt;String&gt; filterValues = dataModel.getFilterValues(rowIndex);</span>
 
-<span class="pc bpc" id="L169" title="3 of 4 branches missed.">		if (filterValues == null || filterValues.isEmpty()) {</span>
-<span class="fc" id="L170">			return null;</span>
+<span class="pc bpc" id="L167" title="3 of 4 branches missed.">		if (filterValues == null || filterValues.isEmpty()) {</span>
+<span class="fc" id="L168">			return null;</span>
 		}
 
-<span class="nc" id="L173">		StringBuffer buf = new StringBuffer(filterValues.get(0));</span>
+<span class="nc" id="L171">		StringBuffer buf = new StringBuffer(filterValues.get(0));</span>
 
-<span class="nc bnc" id="L175" title="All 2 branches missed.">		for (int i = 1; i &lt; filterValues.size(); i++) {</span>
-<span class="nc" id="L176">			buf.append(&quot;, &quot;);</span>
-<span class="nc" id="L177">			buf.append(filterValues.get(i));</span>
+<span class="nc bnc" id="L173" title="All 2 branches missed.">		for (int i = 1; i &lt; filterValues.size(); i++) {</span>
+<span class="nc" id="L174">			buf.append(&quot;, &quot;);</span>
+<span class="nc" id="L175">			buf.append(filterValues.get(i));</span>
 		}
 
-<span class="nc" id="L180">		return buf.toString();</span>
+<span class="nc" id="L178">		return buf.toString();</span>
 	}
 
 	/**
@@ -187,7 +185,7 @@ import java.util.List;
 	 */
 	private int getRowIndex(final WDataTable table, final SubUIContext uic) {
 		// SubUIContext does not cater for pagination
-<span class="fc" id="L190">		return (Integer) table.getRepeater().getBeanList().get(uic.getRowIndex());</span>
+<span class="fc" id="L188">		return (Integer) table.getRepeater().getBeanList().get(uic.getRowIndex());</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

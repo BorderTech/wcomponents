@@ -64,31 +64,38 @@ import java.util.List;
 <span class="pc bpc" id="L64" title="3 of 4 branches missed.">		xml.appendOptionalAttribute(&quot;expandable&quot;, rowExpandable &amp;&amp; !rowExpanded, &quot;true&quot;);</span>
 <span class="fc" id="L65">		xml.appendClose();</span>
 
-<span class="fc bfc" id="L67" title="All 2 branches covered.">		for (int i = 0; i &lt; numCols; i++) {</span>
-<span class="pc bpc" id="L68" title="1 of 2 branches missed.">			int colIndex = columnOrder == null ? i : columnOrder[i];</span>
-<span class="fc" id="L69">			WTableColumn col = table.getColumn(colIndex);</span>
+		// wrote the column cell.
+<span class="fc" id="L68">		boolean isRowHeader = table.isRowHeaders(); // need this before we get into the loop</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">		for (int i = 0; i &lt; numCols; i++) {</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">			int colIndex = columnOrder == null ? i : columnOrder[i];</span>
+<span class="fc" id="L71">			WTableColumn col = table.getColumn(colIndex);</span>
+<span class="fc" id="L72">			String cellTag = &quot;ui:td&quot;;</span>
 
-<span class="fc bfc" id="L71" title="All 2 branches covered.">			if (col.isVisible()) {</span>
-<span class="fc" id="L72">				xml.appendTag(&quot;ui:td&quot;);</span>
-<span class="fc" id="L73">				renderer.getRenderer(colIndex).paint(renderContext);</span>
-<span class="fc" id="L74">				xml.appendEndTag(&quot;ui:td&quot;);</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">			if (col.isVisible()) {</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">				if (isRowHeader) { // The first rendered column will be the row header.</span>
+<span class="fc" id="L76">					cellTag = &quot;ui:th&quot;;</span>
+<span class="fc" id="L77">					isRowHeader = false; // only set one col as the row header.</span>
+				}
+<span class="fc" id="L79">				xml.appendTag(cellTag);</span>
+<span class="fc" id="L80">				renderer.getRenderer(colIndex).paint(renderContext);</span>
+<span class="fc" id="L81">				xml.appendEndTag(cellTag);</span>
 			}
 		}
 
-<span class="pc bpc" id="L78" title="1 of 2 branches missed.">		if (rowExpandable) {</span>
-<span class="nc" id="L79">			xml.appendTagOpen(&quot;ui:subTr&quot;);</span>
-<span class="nc" id="L80">			xml.appendOptionalAttribute(&quot;open&quot;, rowExpanded, &quot;true&quot;);</span>
-<span class="nc" id="L81">			xml.appendClose();</span>
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">		if (rowExpandable) {</span>
+<span class="nc" id="L86">			xml.appendTagOpen(&quot;ui:subtr&quot;);</span>
+<span class="nc" id="L87">			xml.appendOptionalAttribute(&quot;open&quot;, rowExpanded, &quot;true&quot;);</span>
+<span class="nc" id="L88">			xml.appendClose();</span>
 
-<span class="nc bnc" id="L83" title="All 4 branches missed.">			if (rowExpanded || table.getExpandMode() == ExpandMode.CLIENT) {</span>
-<span class="nc" id="L84">				renderChildren(renderer, renderContext, wrapper.getChildren());</span>
+<span class="nc bnc" id="L90" title="All 4 branches missed.">			if (rowExpanded || table.getExpandMode() == ExpandMode.CLIENT) {</span>
+<span class="nc" id="L91">				renderChildren(renderer, renderContext, wrapper.getChildren());</span>
 			}
 
-<span class="nc" id="L87">			xml.appendEndTag(&quot;ui:subTr&quot;);</span>
+<span class="nc" id="L94">			xml.appendEndTag(&quot;ui:subtr&quot;);</span>
 		}
 
-<span class="fc" id="L90">		xml.appendEndTag(&quot;ui:tr&quot;);</span>
-<span class="fc" id="L91">	}</span>
+<span class="fc" id="L97">		xml.appendEndTag(&quot;ui:tr&quot;);</span>
+<span class="fc" id="L98">	}</span>
 
 	/**
 	 * @param renderer the WTableRowRenderer to paint.
@@ -98,62 +105,62 @@ import java.util.List;
 	private void renderChildren(final WTableRowRenderer renderer,
 			final WebXmlRenderContext renderContext,
 			final List&lt;RowIdWrapper&gt; children) {
-<span class="nc" id="L101">		XmlStringBuilder xml = renderContext.getWriter();</span>
+<span class="nc" id="L108">		XmlStringBuilder xml = renderContext.getWriter();</span>
 
-<span class="nc" id="L103">		WTable table = renderer.getTable();</span>
-<span class="nc" id="L104">		WRepeater repeater = table.getRepeater();</span>
-<span class="nc" id="L105">		TableModel dataModel = table.getTableModel();</span>
+<span class="nc" id="L110">		WTable table = renderer.getTable();</span>
+<span class="nc" id="L111">		WRepeater repeater = table.getRepeater();</span>
+<span class="nc" id="L112">		TableModel dataModel = table.getTableModel();</span>
 
 		// If there is a renderer specified by any child, we only paint content that has a specified renderer
-<span class="nc" id="L108">		boolean rendererPresent = false;</span>
-<span class="nc bnc" id="L109" title="All 2 branches missed.">		for (RowIdWrapper child : children) {</span>
-<span class="nc bnc" id="L110" title="All 2 branches missed.">			if (dataModel.getRendererClass(child.getRowIndex()) != null) {</span>
-<span class="nc" id="L111">				rendererPresent = true;</span>
-<span class="nc" id="L112">				break;</span>
+<span class="nc" id="L115">		boolean rendererPresent = false;</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">		for (RowIdWrapper child : children) {</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">			if (dataModel.getRendererClass(child.getRowIndex()) != null) {</span>
+<span class="nc" id="L118">				rendererPresent = true;</span>
+<span class="nc" id="L119">				break;</span>
 			}
-<span class="nc" id="L114">		}</span>
+<span class="nc" id="L121">		}</span>
 
 		// Paint immediate children only.
-<span class="nc bnc" id="L117" title="All 2 branches missed.">		if (rendererPresent) {</span>
-<span class="nc" id="L118">			xml.appendTagOpen(&quot;ui:content&quot;);</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">		if (rendererPresent) {</span>
+<span class="nc" id="L125">			xml.appendTagOpen(&quot;ui:content&quot;);</span>
 			// Always span all columns
-<span class="nc" id="L120">			xml.appendAttribute(&quot;spanAllCols&quot;, &quot;true&quot;);</span>
-<span class="nc" id="L121">			xml.appendClose();</span>
+<span class="nc" id="L127">			xml.appendAttribute(&quot;spanAllCols&quot;, &quot;true&quot;);</span>
+<span class="nc" id="L128">			xml.appendClose();</span>
 
-<span class="nc bnc" id="L123" title="All 2 branches missed.">			for (RowIdWrapper child : children) {</span>
-<span class="nc" id="L124">				UIContext nodeContext = repeater.getRowContext(child, child.getPosition());</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">			for (RowIdWrapper child : children) {</span>
+<span class="nc" id="L131">				UIContext nodeContext = repeater.getRowContext(child, child.getPosition());</span>
 
-<span class="nc" id="L126">				WComponent expandedRenderer = renderer.getExpandedTreeNodeRenderer(dataModel.</span>
-<span class="nc" id="L127">						getRendererClass(child</span>
-<span class="nc" id="L128">								.getRowIndex()));</span>
+<span class="nc" id="L133">				WComponent expandedRenderer = renderer.getExpandedTreeNodeRenderer(dataModel.</span>
+<span class="nc" id="L134">						getRendererClass(child</span>
+<span class="nc" id="L135">								.getRowIndex()));</span>
 
-<span class="nc bnc" id="L130" title="All 2 branches missed.">				if (expandedRenderer != null) {</span>
-<span class="nc" id="L131">					UIContextHolder.pushContext(nodeContext);</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">				if (expandedRenderer != null) {</span>
+<span class="nc" id="L138">					UIContextHolder.pushContext(nodeContext);</span>
 
 					try {
-<span class="nc" id="L134">						expandedRenderer.paint(renderContext);</span>
+<span class="nc" id="L141">						expandedRenderer.paint(renderContext);</span>
 					} finally {
-<span class="nc" id="L136">						UIContextHolder.popContext();</span>
-<span class="nc" id="L137">					}</span>
+<span class="nc" id="L143">						UIContextHolder.popContext();</span>
+<span class="nc" id="L144">					}</span>
 				}
-<span class="nc" id="L139">			}</span>
+<span class="nc" id="L146">			}</span>
 
-<span class="nc" id="L141">			xml.appendEndTag(&quot;ui:content&quot;);</span>
+<span class="nc" id="L148">			xml.appendEndTag(&quot;ui:content&quot;);</span>
 		} else {
-<span class="nc bnc" id="L143" title="All 2 branches missed.">			for (RowIdWrapper child : children) {</span>
-<span class="nc" id="L144">				UIContext nodeContext = repeater.getRowContext(child, child.getPosition());</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">			for (RowIdWrapper child : children) {</span>
+<span class="nc" id="L151">				UIContext nodeContext = repeater.getRowContext(child, child.getPosition());</span>
 
-<span class="nc" id="L146">				UIContextHolder.pushContext(nodeContext);</span>
+<span class="nc" id="L153">				UIContextHolder.pushContext(nodeContext);</span>
 
 				try {
-<span class="nc" id="L149">					render(renderer, renderContext);</span>
+<span class="nc" id="L156">					render(renderer, renderContext);</span>
 				} finally {
-<span class="nc" id="L151">					UIContextHolder.popContext();</span>
-<span class="nc" id="L152">				}</span>
-<span class="nc" id="L153">			}</span>
+<span class="nc" id="L158">					UIContextHolder.popContext();</span>
+<span class="nc" id="L159">				}</span>
+<span class="nc" id="L160">			}</span>
 		}
 
-<span class="nc" id="L156">	}</span>
+<span class="nc" id="L163">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

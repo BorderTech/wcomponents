@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WTreeRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">WTreeRenderer.java</span></div><h1>WTreeRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.TreeItemIdNode;
+import com.github.bordertech.wcomponents.TreeItemImage;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WTree;
+import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import com.github.bordertech.wcomponents.TreeItemModel;
+
+/**
+ * The Renderer for the {@link WTree} component.
+ *
+ * @author Jonathan Austin
+ * @since 1.1.0
+ */
+<span class="nc" id="L22">final class WTreeRenderer extends AbstractWebXmlRenderer {</span>
+
+	/**
+	 * Paints the given WTree.
+	 *
+	 * @param component the WTree to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+
+<span class="nc" id="L33">		WTree tree = (WTree) component;</span>
+<span class="nc" id="L34">		XmlStringBuilder xml = renderContext.getWriter();</span>
+
+		// Check if rendering an open item request
+<span class="nc" id="L37">		String openId = tree.getOpenRequestItemId();</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">		if (openId != null) {</span>
+<span class="nc" id="L39">			handleOpenItemRequest(tree, xml, openId);</span>
+<span class="nc" id="L40">			return;</span>
+		}
+
+<span class="nc" id="L43">		xml.appendTagOpen(&quot;ui:tree&quot;);</span>
+<span class="nc" id="L44">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
+<span class="nc" id="L45">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
+<span class="nc" id="L46">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">		xml.appendOptionalAttribute(&quot;htree&quot;, WTree.Type.HORIZONTAL == tree.getType(), &quot;true&quot;);</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">		xml.appendOptionalAttribute(&quot;multiple&quot;, WTree.SelectMode.MULTIPLE == tree.getSelectMode(), &quot;true&quot;);</span>
+<span class="nc" id="L49">		xml.appendOptionalAttribute(&quot;disabled&quot;, tree.isDisabled(), &quot;true&quot;);</span>
+<span class="nc" id="L50">		xml.appendOptionalAttribute(&quot;hidden&quot;, tree.isHidden(), &quot;true&quot;);</span>
+<span class="nc" id="L51">		xml.appendOptionalAttribute(&quot;required&quot;, tree.isMandatory(), &quot;true&quot;);</span>
+
+<span class="nc bnc" id="L53" title="All 4 branches missed.">		switch (tree.getExpandMode()) {</span>
+			case CLIENT:
+<span class="nc" id="L55">				xml.appendAttribute(&quot;mode&quot;, &quot;client&quot;);</span>
+<span class="nc" id="L56">				break;</span>
+
+			case DYNAMIC:
+<span class="nc" id="L59">				xml.appendAttribute(&quot;mode&quot;, &quot;dynamic&quot;);</span>
+<span class="nc" id="L60">				break;</span>
+
+			case LAZY:
+<span class="nc" id="L63">				xml.appendAttribute(&quot;mode&quot;, &quot;lazy&quot;);</span>
+<span class="nc" id="L64">				break;</span>
+
+			default:
+<span class="nc" id="L67">				throw new IllegalStateException(&quot;Invalid expand mode: &quot; + tree.getType());</span>
+		}
+<span class="nc" id="L69">		xml.appendClose();</span>
+
+		// Render margin
+<span class="nc" id="L72">		MarginRendererUtil.renderMargin(tree, renderContext);</span>
+
+<span class="nc bnc" id="L74" title="All 2 branches missed.">		if (tree.getCustomTree() == null) {</span>
+<span class="nc" id="L75">			handlePaintItems(tree, xml);</span>
+		} else {
+<span class="nc" id="L77">			handlePaintCustom(tree, xml);</span>
+		}
+
+<span class="nc" id="L80">		xml.appendEndTag(&quot;ui:tree&quot;);</span>
+<span class="nc" id="L81">	}</span>
+
+	/**
+	 * Paint the item that was on the open request.
+	 *
+	 * @param tree the WTree to render
+	 * @param xml the XML string builder
+	 * @param itemId the item id to open
+	 */
+	protected void handleOpenItemRequest(final WTree tree, final XmlStringBuilder xml, final String itemId) {
+<span class="nc" id="L91">		TreeItemModel model = tree.getTreeModel();</span>
+<span class="nc" id="L92">		Set&lt;String&gt; selectedRows = new HashSet(tree.getSelectedRows());</span>
+<span class="nc" id="L93">		Set&lt;String&gt; expandedRows = new HashSet(tree.getExpandedRows());</span>
+<span class="nc" id="L94">		WTree.ExpandMode mode = tree.getExpandMode();</span>
+
+<span class="nc bnc" id="L96" title="All 2 branches missed.">		if (tree.getCustomTree() == null) {</span>
+<span class="nc" id="L97">			List&lt;Integer&gt; rowIndex = tree.getItemIdIndexMap().get(itemId);</span>
+<span class="nc" id="L98">			paintItem(tree, mode, model, rowIndex, xml, selectedRows, expandedRows);</span>
+<span class="nc" id="L99">		} else {</span>
+<span class="nc" id="L100">			Map&lt;String, List&lt;Integer&gt;&gt; mapIndex = tree.getItemIdIndexMap();</span>
+<span class="nc" id="L101">			TreeItemIdNode node = tree.getCustomIdMap().get(itemId);</span>
+<span class="nc" id="L102">			paintCustomItem(tree, mode, model, node, xml, selectedRows, expandedRows, mapIndex);</span>
+		}
+<span class="nc" id="L104">	}</span>
+
+	/**
+	 * Paint the tree items.
+	 *
+	 * @param tree the WTree to render
+	 * @param xml the XML string builder
+	 */
+	protected void handlePaintItems(final WTree tree, final XmlStringBuilder xml) {
+<span class="nc" id="L113">		TreeItemModel model = tree.getTreeModel();</span>
+<span class="nc" id="L114">		int rows = model.getRowCount();</span>
+
+<span class="nc bnc" id="L116" title="All 2 branches missed.">		if (rows &gt; 0) {</span>
+<span class="nc" id="L117">			Set&lt;String&gt; selectedRows = new HashSet(tree.getSelectedRows());</span>
+<span class="nc" id="L118">			Set&lt;String&gt; expandedRows = new HashSet(tree.getExpandedRows());</span>
+<span class="nc" id="L119">			WTree.ExpandMode mode = tree.getExpandMode();</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">			for (int i = 0; i &lt; rows; i++) {</span>
+<span class="nc" id="L121">				List&lt;Integer&gt; rowIndex = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L122">				rowIndex.add(i);</span>
+<span class="nc" id="L123">				paintItem(tree, mode, model, rowIndex, xml, selectedRows, expandedRows);</span>
+			}
+		}
+
+<span class="nc" id="L127">	}</span>
+
+	/**
+	 * Iterate of over the rows to render the tree items.
+	 *
+	 * @param tree the WTree to render
+	 * @param mode the expand mode
+	 * @param model the tree model
+	 * @param rowIndex the current row index
+	 * @param xml the XML string builder
+	 * @param selectedRows the set of selected rows
+	 * @param expandedRows the set of expanded rows
+	 */
+	protected void paintItem(final WTree tree, final WTree.ExpandMode mode, final TreeItemModel model, final List&lt;Integer&gt; rowIndex, final XmlStringBuilder xml, final Set&lt;String&gt; selectedRows, final Set&lt;String&gt; expandedRows) {
+
+<span class="nc" id="L142">		String itemId = model.getItemId(rowIndex);</span>
+
+<span class="nc" id="L144">		boolean selected = selectedRows.remove(itemId);</span>
+
+<span class="nc bnc" id="L146" title="All 4 branches missed.">		boolean expandable = model.isExpandable(rowIndex) &amp;&amp; model.hasChildren(rowIndex);</span>
+<span class="nc" id="L147">		boolean expanded = expandedRows.remove(itemId);</span>
+
+<span class="nc" id="L149">		TreeItemImage image = model.getItemImage(rowIndex);</span>
+<span class="nc" id="L150">		String url = null;</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">		if (image != null) {</span>
+<span class="nc" id="L152">			url = tree.getItemImageUrl(image, itemId);</span>
+		}
+
+<span class="nc" id="L155">		xml.appendTagOpen(&quot;ui:treeitem&quot;);</span>
+<span class="nc" id="L156">		xml.appendAttribute(&quot;id&quot;, tree.getItemIdPrefix() + itemId);</span>
+<span class="nc" id="L157">		xml.appendAttribute(&quot;label&quot;, model.getItemLabel(rowIndex));</span>
+<span class="nc" id="L158">		xml.appendOptionalAttribute(&quot;imageUrl&quot;, url);</span>
+<span class="nc" id="L159">		xml.appendOptionalAttribute(&quot;selected&quot;, selected, &quot;true&quot;);</span>
+<span class="nc" id="L160">		xml.appendOptionalAttribute(&quot;expandable&quot;, expandable, &quot;true&quot;);</span>
+<span class="nc bnc" id="L161" title="All 4 branches missed.">		xml.appendOptionalAttribute(&quot;open&quot;, expandable &amp;&amp; expanded, &quot;true&quot;);</span>
+<span class="nc" id="L162">		xml.appendClose();</span>
+
+<span class="nc bnc" id="L164" title="All 6 branches missed.">		if (expandable &amp;&amp; (mode == WTree.ExpandMode.CLIENT || expanded)) {</span>
+			// Get actual child count
+<span class="nc" id="L166">			int children = model.getChildCount(rowIndex);</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">			if (children &gt; 0) {</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">				for (int i = 0; i &lt; children; i++) {</span>
+					// Add next level
+<span class="nc" id="L170">					List&lt;Integer&gt; nextRow = new ArrayList&lt;&gt;(rowIndex);</span>
+<span class="nc" id="L171">					nextRow.add(i);</span>
+<span class="nc" id="L172">					paintItem(tree, mode, model, nextRow, xml, selectedRows, expandedRows);</span>
+				}
+			}
+
+		}
+
+<span class="nc" id="L178">		xml.appendEndTag(&quot;ui:treeitem&quot;);</span>
+
+<span class="nc" id="L180">	}</span>
+
+	/**
+	 * Paint the custom tree layout.
+	 *
+	 * @param tree the WTree to render
+	 * @param xml the XML string builder
+	 */
+	protected void handlePaintCustom(final WTree tree, final XmlStringBuilder xml) {
+<span class="nc" id="L189">		TreeItemModel model = tree.getTreeModel();</span>
+<span class="nc" id="L190">		TreeItemIdNode root = tree.getCustomTree();</span>
+
+<span class="nc" id="L192">		Set&lt;String&gt; selectedRows = new HashSet(tree.getSelectedRows());</span>
+<span class="nc" id="L193">		Set&lt;String&gt; expandedRows = new HashSet(tree.getExpandedRows());</span>
+<span class="nc" id="L194">		Map&lt;String, List&lt;Integer&gt;&gt; mapIndex = tree.getItemIdIndexMap();</span>
+<span class="nc" id="L195">		WTree.ExpandMode mode = tree.getExpandMode();</span>
+
+		// Process root nodes
+<span class="nc bnc" id="L198" title="All 2 branches missed.">		for (TreeItemIdNode node : root.getChildren()) {</span>
+<span class="nc" id="L199">			paintCustomItem(tree, mode, model, node, xml, selectedRows, expandedRows, mapIndex);</span>
+<span class="nc" id="L200">		}</span>
+<span class="nc" id="L201">	}</span>
+
+	/**
+	 * Iterate of over the nodes to render the custom layout of the tree items.
+	 *
+	 * @param tree the WTree to render
+	 * @param mode the expand mode
+	 * @param model the tree model
+	 * @param node the current node in the custom tree layout
+	 * @param xml the XML string builder
+	 * @param selectedRows the set of selected rows
+	 * @param expandedRows the set of expanded rows
+	 * @param mapIndex the map between item ids and their rowIndex
+	 */
+	protected void paintCustomItem(final WTree tree, final WTree.ExpandMode mode, final TreeItemModel model, final TreeItemIdNode node, final XmlStringBuilder xml, final Set&lt;String&gt; selectedRows, final Set&lt;String&gt; expandedRows, final Map&lt;String, List&lt;Integer&gt;&gt; mapIndex) {
+
+<span class="nc" id="L217">		String itemId = node.getItemId();</span>
+<span class="nc" id="L218">		List&lt;Integer&gt; rowIndex = mapIndex.get(itemId);</span>
+
+<span class="nc" id="L220">		boolean selected = selectedRows.remove(itemId);</span>
+
+<span class="nc bnc" id="L222" title="All 4 branches missed.">		boolean expandable = model.isExpandable(rowIndex) &amp;&amp; node.hasChildren();</span>
+<span class="nc" id="L223">		boolean expanded = expandedRows.remove(itemId);</span>
+
+<span class="nc" id="L225">		TreeItemImage image = model.getItemImage(rowIndex);</span>
+<span class="nc" id="L226">		String url = null;</span>
+<span class="nc bnc" id="L227" title="All 2 branches missed.">		if (image != null) {</span>
+<span class="nc" id="L228">			url = tree.getItemImageUrl(image, itemId);</span>
+		}
+
+<span class="nc" id="L231">		xml.appendTagOpen(&quot;ui:treeitem&quot;);</span>
+<span class="nc" id="L232">		xml.appendAttribute(&quot;id&quot;, tree.getItemIdPrefix() + itemId);</span>
+<span class="nc" id="L233">		xml.appendAttribute(&quot;label&quot;, model.getItemLabel(rowIndex));</span>
+<span class="nc" id="L234">		xml.appendOptionalAttribute(&quot;imageUrl&quot;, url);</span>
+<span class="nc" id="L235">		xml.appendOptionalAttribute(&quot;selected&quot;, selected, &quot;true&quot;);</span>
+<span class="nc" id="L236">		xml.appendOptionalAttribute(&quot;expandable&quot;, expandable, &quot;true&quot;);</span>
+<span class="nc bnc" id="L237" title="All 4 branches missed.">		xml.appendOptionalAttribute(&quot;open&quot;, expandable &amp;&amp; expanded, &quot;true&quot;);</span>
+<span class="nc" id="L238">		xml.appendClose();</span>
+
+		// Paint child items
+<span class="nc bnc" id="L241" title="All 6 branches missed.">		if (expandable &amp;&amp; (mode == WTree.ExpandMode.CLIENT || expanded)) {</span>
+<span class="nc bnc" id="L242" title="All 2 branches missed.">			for (TreeItemIdNode childNode : node.getChildren()) {</span>
+<span class="nc" id="L243">				paintCustomItem(tree, mode, model, childNode, xml, selectedRows, expandedRows, mapIndex);</span>
+<span class="nc" id="L244">			}</span>
+		}
+
+<span class="nc" id="L247">		xml.appendEndTag(&quot;ui:treeitem&quot;);</span>
+
+<span class="nc" id="L249">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

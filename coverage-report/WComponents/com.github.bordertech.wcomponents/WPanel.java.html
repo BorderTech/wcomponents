@@ -21,7 +21,7 @@ import java.util.Map;
  * @since 1.0.0
  * @author Yiannis Paschalidis
  */
-public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget, Marginable,
+public class WPanel extends WContainer implements AjaxInternalTrigger, AjaxTarget, SubordinateTarget, Marginable,
 		DropZone {
 
 	/**
@@ -146,35 +146,19 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 <span class="fc" id="L146">	}</span>
 
 	/**
-	 * Override preparePaintComponent in order to validate the configuration.
-	 *
-	 * @param request the request being responded to
-	 */
-	@Override
-	protected void preparePaintComponent(final Request request) {
-<span class="fc" id="L155">		UIContext uic = UIContextHolder.getCurrent();</span>
-
-		// Register panel for AJAX
-<span class="fc bfc" id="L158" title="All 4 branches covered.">		if (uic.getUI() != null &amp;&amp; getMode() != null) {</span>
-<span class="fc" id="L159">			AjaxHelper.registerComponentTargetItself(getId(), request);</span>
-		}
-
-<span class="fc" id="L162">	}</span>
-
-	/**
 	 * Set the accesskey (shortcut key) that will activate the panel.
 	 *
 	 * @param accessKey The key which activates this panel.
 	 */
 	public void setAccessKey(final char accessKey) {
-<span class="fc" id="L170">		getOrCreateComponentModel().accessKey = accessKey;</span>
-<span class="fc" id="L171">	}</span>
+<span class="fc" id="L154">		getOrCreateComponentModel().accessKey = accessKey;</span>
+<span class="fc" id="L155">	}</span>
 
 	/**
 	 * @return the shortcut key that will focus the panel when used.
 	 */
 	public char getAccessKey() {
-<span class="fc" id="L177">		return getComponentModel().accessKey;</span>
+<span class="fc" id="L161">		return getComponentModel().accessKey;</span>
 	}
 
 	/**
@@ -184,13 +168,13 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 	 * @return The accesskey character as a String (may be &lt;code&gt;null&lt;/code&gt;).
 	 */
 	public String getAccessKeyAsString() {
-<span class="fc" id="L187">		char accessKey = getAccessKey();</span>
+<span class="fc" id="L171">		char accessKey = getAccessKey();</span>
 
-<span class="fc bfc" id="L189" title="All 2 branches covered.">		if (Character.isLetterOrDigit(accessKey)) {</span>
-<span class="fc" id="L190">			return String.valueOf(accessKey);</span>
+<span class="fc bfc" id="L173" title="All 2 branches covered.">		if (Character.isLetterOrDigit(accessKey)) {</span>
+<span class="fc" id="L174">			return String.valueOf(accessKey);</span>
 		}
 
-<span class="fc" id="L193">		return null;</span>
+<span class="fc" id="L177">		return null;</span>
 	}
 
 	/**
@@ -200,15 +184,15 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 	 * @param args optional arguments for the message format string.
 	 */
 	public void setTitleText(final String title, final Serializable... args) {
-<span class="fc" id="L203">		PanelModel model = getOrCreateComponentModel();</span>
-<span class="fc" id="L204">		model.title = I18nUtilities.asMessage(title, args);</span>
-<span class="fc" id="L205">	}</span>
+<span class="fc" id="L187">		PanelModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L188">		model.title = I18nUtilities.asMessage(title, args);</span>
+<span class="fc" id="L189">	}</span>
 
 	/**
 	 * @return the panel title.
 	 */
 	public String getTitleText() {
-<span class="fc" id="L211">		return I18nUtilities.format(null, getComponentModel().title);</span>
+<span class="fc" id="L195">		return I18nUtilities.format(null, getComponentModel().title);</span>
 	}
 
 	/**
@@ -216,15 +200,15 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 	 */
 	@Override
 	public void setMargin(final com.github.bordertech.wcomponents.Margin margin) {
-<span class="fc" id="L219">		getOrCreateComponentModel().margin = margin;</span>
-<span class="fc" id="L220">	}</span>
+<span class="fc" id="L203">		getOrCreateComponentModel().margin = margin;</span>
+<span class="fc" id="L204">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public com.github.bordertech.wcomponents.Margin getMargin() {
-<span class="fc" id="L227">		return getComponentModel().margin;</span>
+<span class="fc" id="L211">		return getComponentModel().margin;</span>
 	}
 
 	/**
@@ -233,14 +217,14 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 	 * @param layout the panel layout manager.
 	 */
 	public void setLayout(final LayoutManager layout) {
-<span class="fc" id="L236">		getOrCreateComponentModel().layout = layout;</span>
-<span class="fc" id="L237">	}</span>
+<span class="fc" id="L220">		getOrCreateComponentModel().layout = layout;</span>
+<span class="fc" id="L221">	}</span>
 
 	/**
 	 * @return the panel layout manager.
 	 */
 	public LayoutManager getLayout() {
-<span class="fc" id="L243">		return getComponentModel().layout;</span>
+<span class="fc" id="L227">		return getComponentModel().layout;</span>
 	}
 
 	/**
@@ -252,18 +236,18 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 	 * @param constraints the layout constraints
 	 */
 	public void add(final WComponent component, final Serializable... constraints) {
-<span class="fc" id="L255">		add(component);</span>
+<span class="fc" id="L239">		add(component);</span>
 
-<span class="pc bpc" id="L257" title="2 of 4 branches missed.">		if (constraints != null &amp;&amp; constraints.length &gt; 0) {</span>
-<span class="fc" id="L258">			PanelModel model = getOrCreateComponentModel();</span>
+<span class="pc bpc" id="L241" title="2 of 4 branches missed.">		if (constraints != null &amp;&amp; constraints.length &gt; 0) {</span>
+<span class="fc" id="L242">			PanelModel model = getOrCreateComponentModel();</span>
 
-<span class="fc bfc" id="L260" title="All 2 branches covered.">			if (model.layoutConstraints == null) {</span>
-<span class="fc" id="L261">				model.layoutConstraints = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L244" title="All 2 branches covered.">			if (model.layoutConstraints == null) {</span>
+<span class="fc" id="L245">				model.layoutConstraints = new HashMap&lt;&gt;();</span>
 			}
 
-<span class="fc" id="L264">			model.layoutConstraints.put(component, constraints);</span>
+<span class="fc" id="L248">			model.layoutConstraints.put(component, constraints);</span>
 		}
-<span class="fc" id="L266">	}</span>
+<span class="fc" id="L250">	}</span>
 
 	/**
 	 * &lt;p&gt;
@@ -274,16 +258,16 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 	 * @param constraints the layout constraints
 	 */
 	public void add(final WComponent component, final Serializable constraints) {
-<span class="fc" id="L277">		add(component);</span>
+<span class="fc" id="L261">		add(component);</span>
 
-<span class="fc" id="L279">		PanelModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L263">		PanelModel model = getOrCreateComponentModel();</span>
 
-<span class="fc bfc" id="L281" title="All 2 branches covered.">		if (model.layoutConstraints == null) {</span>
-<span class="fc" id="L282">			model.layoutConstraints = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L265" title="All 2 branches covered.">		if (model.layoutConstraints == null) {</span>
+<span class="fc" id="L266">			model.layoutConstraints = new HashMap&lt;&gt;();</span>
 		}
 
-<span class="fc" id="L285">		model.layoutConstraints.put(component, constraints);</span>
-<span class="fc" id="L286">	}</span>
+<span class="fc" id="L269">		model.layoutConstraints.put(component, constraints);</span>
+<span class="fc" id="L270">	}</span>
 
 	/**
 	 * Removes the given component from this component's list of children. This method has been overriden to remove any
@@ -293,34 +277,34 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 	 */
 	@Override
 	public void remove(final WComponent aChild) {
-<span class="nc" id="L296">		super.remove(aChild);</span>
-<span class="nc" id="L297">		PanelModel model = getOrCreateComponentModel();</span>
+<span class="nc" id="L280">		super.remove(aChild);</span>
+<span class="nc" id="L281">		PanelModel model = getOrCreateComponentModel();</span>
 
-<span class="nc bnc" id="L299" title="All 2 branches missed.">		if (model.layoutConstraints == null) {</span>
-<span class="nc" id="L300">			Map&lt;WComponent, Serializable&gt; defaultConstraints = ((PanelModel) getDefaultModel()).layoutConstraints;</span>
+<span class="nc bnc" id="L283" title="All 2 branches missed.">		if (model.layoutConstraints == null) {</span>
+<span class="nc" id="L284">			Map&lt;WComponent, Serializable&gt; defaultConstraints = ((PanelModel) getDefaultModel()).layoutConstraints;</span>
 
-<span class="nc bnc" id="L302" title="All 2 branches missed.">			if (defaultConstraints != null) {</span>
-<span class="nc" id="L303">				model.layoutConstraints = new HashMap&lt;&gt;(defaultConstraints);</span>
+<span class="nc bnc" id="L286" title="All 2 branches missed.">			if (defaultConstraints != null) {</span>
+<span class="nc" id="L287">				model.layoutConstraints = new HashMap&lt;&gt;(defaultConstraints);</span>
 			}
 		}
 
-<span class="nc bnc" id="L307" title="All 2 branches missed.">		if (model.layoutConstraints != null) {</span>
-<span class="nc" id="L308">			model.layoutConstraints.remove(aChild);</span>
+<span class="nc bnc" id="L291" title="All 2 branches missed.">		if (model.layoutConstraints != null) {</span>
+<span class="nc" id="L292">			model.layoutConstraints.remove(aChild);</span>
 
 			// Deallocate constraints list if possible, to reduce session size.
-<span class="nc bnc" id="L311" title="All 2 branches missed.">			if (model.layoutConstraints.isEmpty()) {</span>
-<span class="nc" id="L312">				model.layoutConstraints = null;</span>
+<span class="nc bnc" id="L295" title="All 2 branches missed.">			if (model.layoutConstraints.isEmpty()) {</span>
+<span class="nc" id="L296">				model.layoutConstraints = null;</span>
 			}
 		}
-<span class="nc" id="L315">	}</span>
+<span class="nc" id="L299">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public String toString() {
-<span class="nc" id="L322">		Type type = getType();</span>
-<span class="nc bnc" id="L323" title="All 2 branches missed.">		return toString(type == null ? null : type.toString());</span>
+<span class="nc" id="L306">		Type type = getType();</span>
+<span class="nc bnc" id="L307" title="All 2 branches missed.">		return toString(type == null ? null : type.toString());</span>
 	}
 
 	/**
@@ -330,13 +314,13 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 	 * @return the layout constraints for the given child, if set.
 	 */
 	public Serializable getLayoutConstraints(final WComponent child) {
-<span class="fc" id="L333">		PanelModel model = getComponentModel();</span>
+<span class="fc" id="L317">		PanelModel model = getComponentModel();</span>
 
-<span class="fc bfc" id="L335" title="All 2 branches covered.">		if (model.layoutConstraints != null) {</span>
-<span class="fc" id="L336">			return model.layoutConstraints.get(child);</span>
+<span class="fc bfc" id="L319" title="All 2 branches covered.">		if (model.layoutConstraints != null) {</span>
+<span class="fc" id="L320">			return model.layoutConstraints.get(child);</span>
 		}
 
-<span class="fc" id="L339">		return null;</span>
+<span class="fc" id="L323">		return null;</span>
 	}
 
 	/**
@@ -345,7 +329,7 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 	@Override
 	// For type safety only
 	protected PanelModel getComponentModel() {
-<span class="fc" id="L348">		return (PanelModel) super.getComponentModel();</span>
+<span class="fc" id="L332">		return (PanelModel) super.getComponentModel();</span>
 	}
 
 	/**
@@ -354,7 +338,7 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 	@Override
 	// For type safety only
 	protected PanelModel getOrCreateComponentModel() {
-<span class="fc" id="L357">		return (PanelModel) super.getOrCreateComponentModel();</span>
+<span class="fc" id="L341">		return (PanelModel) super.getOrCreateComponentModel();</span>
 	}
 
 	/**
@@ -364,7 +348,7 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 	 */
 	@Override
 	protected PanelModel newComponentModel() {
-<span class="fc" id="L367">		return new PanelModel();</span>
+<span class="fc" id="L351">		return new PanelModel();</span>
 	}
 
 	/**
@@ -372,7 +356,7 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 	 *
 	 * @author Jonathan Austin
 	 */
-<span class="fc" id="L375">	public static class PanelModel extends BeanAndProviderBoundComponentModel {</span>
+<span class="fc" id="L359">	public static class PanelModel extends BeanAndProviderBoundComponentModel {</span>
 
 		/**
 		 * The type of panel.
@@ -392,7 +376,7 @@ public class WPanel extends WContainer implements AjaxTarget, SubordinateTarget,
 		/**
 		 * The key shortcut that activates the panel.
 		 */
-<span class="fc" id="L395">		private char accessKey = '\0';</span>
+<span class="fc" id="L379">		private char accessKey = '\0';</span>
 
 		/**
 		 * The button to trigger when cursor inside div.

@@ -2,6 +2,7 @@
 
 import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.RendererFactory;
+import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.util.SystemException;
 
 /**
@@ -21,23 +22,23 @@ public class RendererFactoryImpl implements RendererFactory {
 	/**
 	 * Creates the RendererFactory.
 	 */
-<span class="fc" id="L24">	public RendererFactoryImpl() {</span>
-<span class="fc" id="L25">		String qualifiedClassName = getClass().getName();</span>
-<span class="fc" id="L26">		String packageName = qualifiedClassName.substring(0, qualifiedClassName.lastIndexOf('.'));</span>
-<span class="fc" id="L27">		packagePrefix = packageName + '.';</span>
-<span class="fc" id="L28">	}</span>
+<span class="fc" id="L25">	public RendererFactoryImpl() {</span>
+<span class="fc" id="L26">		String qualifiedClassName = getClass().getName();</span>
+<span class="fc" id="L27">		String packageName = qualifiedClassName.substring(0, qualifiedClassName.lastIndexOf('.'));</span>
+<span class="fc" id="L28">		packagePrefix = packageName + '.';</span>
+<span class="fc" id="L29">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public Renderer getRenderer(final Class&lt;?&gt; clazz) {
-<span class="fc" id="L35">		String qualifiedClassName = clazz.getName();</span>
-<span class="fc" id="L36">		String unqualifiedClassName = qualifiedClassName.substring(qualifiedClassName.lastIndexOf(</span>
+<span class="fc" id="L36">		String qualifiedClassName = clazz.getName();</span>
+<span class="fc" id="L37">		String unqualifiedClassName = qualifiedClassName.substring(qualifiedClassName.lastIndexOf(</span>
 				'.') + 1);
-<span class="fc" id="L38">		String rendererName = packagePrefix + unqualifiedClassName + &quot;Renderer&quot;;</span>
+<span class="fc" id="L39">		String rendererName = packagePrefix + unqualifiedClassName + &quot;Renderer&quot;;</span>
 
-<span class="fc" id="L40">		return createRenderer(rendererName);</span>
+<span class="fc" id="L41">		return createRenderer(rendererName);</span>
 	}
 
 	/**
@@ -48,30 +49,33 @@ public class RendererFactoryImpl implements RendererFactory {
 	 */
 	private Renderer createRenderer(final String rendererName) {
 		try {
-<span class="fc" id="L51">			Class&lt;?&gt; managerClass = Class.forName(rendererName);</span>
-<span class="fc" id="L52">			Object manager = managerClass.newInstance();</span>
+<span class="fc" id="L52">			Class&lt;?&gt; managerClass = Class.forName(rendererName);</span>
+<span class="fc" id="L53">			Object manager = managerClass.newInstance();</span>
 
-<span class="pc bpc" id="L54" title="1 of 2 branches missed.">			if (!(manager instanceof Renderer)) {</span>
-<span class="nc" id="L55">				throw new SystemException(rendererName + &quot; is not a Renderer&quot;);</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">			if (!(manager instanceof Renderer)) {</span>
+<span class="nc" id="L56">				throw new SystemException(rendererName + &quot; is not a Renderer&quot;);</span>
 			}
 
-<span class="fc" id="L58">			return (Renderer) manager;</span>
-<span class="fc" id="L59">		} catch (ClassNotFoundException e) {</span>
+<span class="fc" id="L59">			return (Renderer) manager;</span>
+<span class="fc" id="L60">		} catch (ClassNotFoundException e) {</span>
 			// Legal - there might not a renderer implementation for the component in this format
-<span class="fc" id="L61">			return null;</span>
-<span class="nc" id="L62">		} catch (InstantiationException e) {</span>
-<span class="nc" id="L63">			throw new SystemException(&quot;Failed to instantiate &quot; + rendererName, e);</span>
-<span class="nc" id="L64">		} catch (IllegalAccessException e) {</span>
-<span class="nc" id="L65">			throw new SystemException(&quot;Failed to access &quot; + rendererName, e);</span>
+<span class="fc" id="L62">			return null;</span>
+<span class="nc" id="L63">		} catch (InstantiationException e) {</span>
+<span class="nc" id="L64">			throw new SystemException(&quot;Failed to instantiate &quot; + rendererName, e);</span>
+<span class="nc" id="L65">		} catch (IllegalAccessException e) {</span>
+<span class="nc" id="L66">			throw new SystemException(&quot;Failed to access &quot; + rendererName, e);</span>
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	@Override
 	public Renderer getTemplateRenderer() {
-<span class="fc" id="L74">		return new VelocityRenderer();</span>
+<span class="fc" id="L78">		return new VelocityRenderer();</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

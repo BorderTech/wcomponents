@@ -1,34 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AbstractRequest.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">AbstractRequest.java</span></div><h1>AbstractRequest.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.servlet.ServletUtil;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.Enumerator;
-import com.github.bordertech.wcomponents.util.RequestUtil;
-import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.StreamUtil;
 import com.github.bordertech.wcomponents.util.Util;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * This abstract class is intended to support all the various request implementations.
  *
  * @author Martin Shevchenko
  */
-<span class="fc" id="L26">public abstract class AbstractRequest implements Request {</span>
-
-	/**
-	 * The logger instance for this class.
-	 */
-<span class="fc" id="L31">	private static final Log LOG = LogFactory.getLog(AbstractRequest.class);</span>
+<span class="fc" id="L22">public abstract class AbstractRequest implements Request {</span>
 
 	private boolean logout;
 
@@ -37,23 +28,8 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	@Override
 	public String getParameter(final String key) {
-<span class="fc" id="L40">		Object value = getParameters().get(key);</span>
-
-<span class="fc bfc" id="L42" title="All 2 branches covered.">		if (value == null) {</span>
-<span class="fc" id="L43">			return null;</span>
-		}
-
-<span class="fc bfc" id="L46" title="All 2 branches covered.">		if (value.getClass().isArray()) {</span>
-<span class="fc" id="L47">			String[] values = (String[]) value;</span>
-
-<span class="pc bpc" id="L49" title="1 of 2 branches missed.">			if (values.length == 0) {</span>
-<span class="nc" id="L50">				return null;</span>
-			}
-
-<span class="fc" id="L53">			return values[0];</span>
-		}
-
-<span class="fc" id="L56">		return (String) value;</span>
+<span class="fc" id="L31">		String[] value = getParameters().get(key);</span>
+<span class="pc bpc" id="L32" title="1 of 4 branches missed.">		return value == null || value.length == 0 ? null : value[0];</span>
 	}
 
 	/**
@@ -61,17 +37,7 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	@Override
 	public String[] getParameterValues(final String key) {
-<span class="fc" id="L64">		Object value = getParameters().get(key);</span>
-
-<span class="fc bfc" id="L66" title="All 2 branches covered.">		if (value == null) {</span>
-<span class="fc" id="L67">			return null;</span>
-		}
-
-<span class="fc bfc" id="L70" title="All 2 branches covered.">		if (value instanceof String) {</span>
-<span class="fc" id="L71">			return new String[]{(String) value};</span>
-		}
-
-<span class="fc" id="L74">		return (String[]) value;</span>
+<span class="fc" id="L40">		return getParameters().get(key);</span>
 	}
 
 	/**
@@ -79,8 +45,8 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	@Override
 	public byte[] getFileContents(final String key) {
-<span class="fc" id="L82">		FileItem file = (FileItem) getFiles().get(key);</span>
-<span class="fc" id="L83">		return file.get();</span>
+<span class="fc" id="L48">		FileItem file = getFileItem(key);</span>
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">		return file == null ? null : file.get();</span>
 	}
 
 	/**
@@ -88,16 +54,7 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	@Override
 	public FileItem[] getFileItems(final String key) {
-<span class="nc" id="L91">		Object file = getFiles().get(key);</span>
-
-<span class="nc bnc" id="L93" title="All 2 branches missed.">		if (file == null) {</span>
-<span class="nc" id="L94">			return null;</span>
-		}
-
-<span class="nc bnc" id="L97" title="All 2 branches missed.">		if (file instanceof FileItem) {</span>
-<span class="nc" id="L98">			return new FileItem[]{(FileItem) file};</span>
-		}
-<span class="nc" id="L100">		return (FileItem[]) file;</span>
+<span class="nc" id="L57">		return getFiles().get(key);</span>
 	}
 
 	/**
@@ -105,12 +62,8 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	@Override
 	public FileItem getFileItem(final String key) {
-<span class="nc" id="L108">		Object file = getFiles().get(key);</span>
-<span class="nc bnc" id="L109" title="All 2 branches missed.">		if (file instanceof FileItem[]) {</span>
-			// For backwards compatibility we ignore multiple files and simply return one of them.
-<span class="nc" id="L111">			return ((FileItem[]) file)[0];</span>
-		}
-<span class="nc" id="L113">		return (FileItem) file;</span>
+<span class="fc" id="L65">		FileItem[] value = getFiles().get(key);</span>
+<span class="pc bpc" id="L66" title="1 of 4 branches missed.">		return value == null || value.length == 0 ? null : value[0];</span>
 	}
 
 	/**
@@ -118,35 +71,21 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	@Override
 	public Enumeration getParameterNames() {
-<span class="nc" id="L121">		return new Enumerator(getParameters().keySet().iterator());</span>
+<span class="nc" id="L74">		return new Enumerator(getParameters().keySet().iterator());</span>
 	}
-
-	/**
-	 * @return the complete list of parameters contained in this request. If the request contains no parameters, the
-	 * method returns an empty &lt;code&gt;Map&lt;/code&gt;.
-	 */
-	@Override
-	public abstract Map getParameters();
-
-	/**
-	 * Retrieves the files which were uploaded in this request.
-	 *
-	 * @return the uploaded files.
-	 */
-	public abstract Map getFiles();
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean containsSameData(final Request other) {
-<span class="nc bnc" id="L143" title="All 2 branches missed.">		if (!(other instanceof AbstractRequest)) {</span>
-<span class="nc" id="L144">			return false;</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">		if (!(other instanceof AbstractRequest)) {</span>
+<span class="nc" id="L83">			return false;</span>
 		}
 
-<span class="nc" id="L147">		Map ours = getParameters();</span>
-<span class="nc" id="L148">		Map theirs = ((AbstractRequest) other).getParameters();</span>
-<span class="nc" id="L149">		return Util.equals(ours, theirs);</span>
+<span class="nc" id="L86">		Map ours = getParameters();</span>
+<span class="nc" id="L87">		Map theirs = ((AbstractRequest) other).getParameters();</span>
+<span class="nc" id="L88">		return Util.equals(ours, theirs);</span>
 	}
 
 	/**
@@ -154,7 +93,7 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	@Override
 	public String getAppPreferenceParameter(final String key) {
-<span class="nc" id="L157">		return Config.getInstance().getString(key);</span>
+<span class="nc" id="L96">		return Config.getInstance().getString(key);</span>
 	}
 
 	/**
@@ -162,15 +101,15 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	@Override
 	public void logout() {
-<span class="nc" id="L165">		logout = true;</span>
-<span class="nc" id="L166">	}</span>
+<span class="nc" id="L104">		logout = true;</span>
+<span class="nc" id="L105">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean isLogout() {
-<span class="fc" id="L173">		return logout;</span>
+<span class="fc" id="L112">		return logout;</span>
 	}
 
 	/**
@@ -187,36 +126,13 @@ import org.apache.commons.logging.LogFactory;
 	 * @param fileItems a list of {@link FileItem}s corresponding to POSTed form data.
 	 * @param parameters the map to store non-file request parameters in.
 	 * @param files the map to store the uploaded file parameters in.
+	 * @deprecated Use {@link ServletUtil#uploadFileItems(java.util.List, java.util.Map, java.util.Map)} instead.
 	 */
-	protected static void uploadFileItems(final List fileItems, final Map parameters,
-			final Map files) {
-<span class="fc bfc" id="L193" title="All 2 branches covered.">		for (int i = 0; i &lt; fileItems.size(); i++) {</span>
-<span class="fc" id="L194">			FileItem item = (FileItem) fileItems.get(i);</span>
-<span class="fc" id="L195">			String name = item.getFieldName();</span>
-<span class="fc" id="L196">			boolean formField = item.isFormField();</span>
-
-<span class="pc bpc" id="L198" title="1 of 2 branches missed.">			if (LOG.isDebugEnabled()) {</span>
-<span class="nc bnc" id="L199" title="All 2 branches missed.">				LOG.debug(</span>
-						&quot;Uploading form &quot; + (formField ? &quot;field&quot; : &quot;attachment&quot;) + &quot; \&quot;&quot; + name + &quot;\&quot;&quot;);
-			}
-
-<span class="fc bfc" id="L203" title="All 2 branches covered.">			if (formField) {</span>
-				String value;
-				try {
-					// Without specifying UTF-8, apache commons DiskFileItem defaults to ISO-8859-1.
-<span class="fc" id="L207">					value = item.getString(&quot;UTF-8&quot;);</span>
-<span class="nc" id="L208">				} catch (UnsupportedEncodingException e) {</span>
-<span class="nc" id="L209">					throw new SystemException(&quot;Encoding error on formField item&quot;, e);</span>
-<span class="fc" id="L210">				}</span>
-<span class="fc" id="L211">				RequestUtil.addParameter(parameters, name, value);</span>
-<span class="fc" id="L212">			} else {</span>
-				// Form attachment
-<span class="fc" id="L214">				RequestUtil.addFileItem(files, name, item);</span>
-<span class="fc" id="L215">				String value = item.getName();</span>
-<span class="fc" id="L216">				RequestUtil.addParameter(parameters, name, value);</span>
-			}
-		}
-<span class="fc" id="L219">	}</span>
+	@Deprecated
+	protected static void uploadFileItems(final List fileItems, final Map&lt;String, String[]&gt; parameters,
+			final Map&lt;String, FileItem[]&gt; files) {
+<span class="nc" id="L134">		ServletUtil.uploadFileItems(fileItems, parameters, files);</span>
+<span class="nc" id="L135">	}</span>
 
 	/**
 	 * Returns a byte array containing all the information contained in the given input stream.
@@ -224,23 +140,11 @@ import org.apache.commons.logging.LogFactory;
 	 * @param stream the input stream to read from.
 	 * @return the stream contents as a byte array.
 	 * @throws IOException if there is an error reading from the stream.
+	 * @deprecated Use {@link StreamUtil#getBytes(java.io.InputStream)} instead.
 	 */
+	@Deprecated
 	protected static byte[] readBytes(final InputStream stream) throws IOException {
-		// Load stuff into a byte array
-<span class="nc" id="L230">		ByteArrayOutputStream buffOut = new ByteArrayOutputStream();</span>
-
-<span class="nc bnc" id="L232" title="All 2 branches missed.">		while (stream.available() &gt; 0) {</span>
-<span class="nc" id="L233">			byte[] buff = new byte[stream.available()];</span>
-<span class="nc" id="L234">			int size = stream.read(buff);</span>
-
-<span class="nc bnc" id="L236" title="All 2 branches missed.">			if (size != -1) {</span>
-<span class="nc" id="L237">				buffOut.write(buff, 0, size);</span>
-			}
-<span class="nc" id="L239">		}</span>
-
-<span class="nc" id="L241">		stream.close();</span>
-<span class="nc" id="L242">		byte[] buff = buffOut.toByteArray();</span>
-<span class="nc" id="L243">		return buff;</span>
+<span class="nc" id="L147">		return StreamUtil.getBytes(stream);</span>
 	}
 
 	/**
@@ -256,7 +160,7 @@ import org.apache.commons.logging.LogFactory;
 	@Override
 	public void setEvent(final String actionName, final String parameter, final Serializable value) {
 		// default behaviour is to do nothing
-<span class="nc" id="L259">	}</span>
+<span class="nc" id="L163">	}</span>
 
 	/**
 	 * This method contains no logic. Subclasses which need to perform event handling logic (eg.
@@ -270,6 +174,6 @@ import org.apache.commons.logging.LogFactory;
 	@Override
 	public void setEvent(final String action, final HashMap&lt;String, Serializable&gt; eventMap) {
 		// default behaviour is to do nothing
-<span class="nc" id="L273">	}</span>
+<span class="nc" id="L177">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

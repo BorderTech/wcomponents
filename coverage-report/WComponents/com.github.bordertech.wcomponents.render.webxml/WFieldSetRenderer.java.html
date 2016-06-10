@@ -25,7 +25,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 <span class="fc" id="L25">		WFieldSet fieldSet = (WFieldSet) component;</span>
 <span class="fc" id="L26">		XmlStringBuilder xml = renderContext.getWriter();</span>
 
-<span class="fc" id="L28">		xml.appendTagOpen(&quot;ui:fieldSet&quot;);</span>
+<span class="fc" id="L28">		xml.appendTagOpen(&quot;ui:fieldset&quot;);</span>
 <span class="fc" id="L29">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
 <span class="fc" id="L30">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
 <span class="fc" id="L31">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
@@ -73,7 +73,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 		}
 
 <span class="fc" id="L75">		xml.appendEndTag(&quot;ui:content&quot;);</span>
-<span class="fc" id="L76">		xml.appendEndTag(&quot;ui:fieldSet&quot;);</span>
+<span class="fc" id="L76">		xml.appendEndTag(&quot;ui:fieldset&quot;);</span>
 <span class="fc" id="L77">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

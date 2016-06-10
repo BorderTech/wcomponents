@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.RendererFactory;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WTemplate;
 
 /**
  * The layout factory for the nil renderer package. This factory produces a renderer which doesn't do anything, and is
@@ -12,33 +13,36 @@ import com.github.bordertech.wcomponents.WComponent;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-<span class="fc" id="L15">public final class RendererFactoryImpl implements RendererFactory {</span>
+<span class="fc" id="L16">public final class RendererFactoryImpl implements RendererFactory {</span>
 
 	/**
 	 * The singleton NullRenderer instance.
 	 */
-<span class="fc" id="L20">	private static final Renderer NULL_RENDERER = new NullRenderer();</span>
+<span class="fc" id="L21">	private static final Renderer NULL_RENDERER = new NullRenderer();</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public Renderer getRenderer(final Class&lt;?&gt; clazz) {
-<span class="fc" id="L27">		return NULL_RENDERER;</span>
+<span class="fc" id="L28">		return NULL_RENDERER;</span>
 	}
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	@Override
 	public Renderer getTemplateRenderer() {
-<span class="nc" id="L35">		return NULL_RENDERER;</span>
+<span class="nc" id="L39">		return NULL_RENDERER;</span>
 	}
 
 	/**
 	 * A no-op renderer.
 	 */
-<span class="fc" id="L41">	private static final class NullRenderer implements Renderer {</span>
+<span class="fc" id="L45">	private static final class NullRenderer implements Renderer {</span>
 
 		/**
 		 * Doesn't do anything.
@@ -49,7 +53,7 @@ import com.github.bordertech.wcomponents.WComponent;
 		@Override
 		public void render(final WComponent component, final RenderContext renderContext) {
 			// NO-OP
-<span class="fc" id="L52">		}</span>
+<span class="fc" id="L56">		}</span>
 	};
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

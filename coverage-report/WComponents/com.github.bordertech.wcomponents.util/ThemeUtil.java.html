@@ -46,73 +46,92 @@ public final class ThemeUtil {
 	 */
 	private static final String THEME_WC_BUILD_NUMBER_PARAM = &quot;wc.project.version&quot;;
 
+	private static final String THEME_NAME;
+
+	/**
+	 * The base
+	 * This assumes theme names do not change on the fly and a restart is acceptable if they do.
+	 */
+	private static final String THEME_BASE;
+
 	static {
-		// Get theme name
-<span class="fc" id="L51">		String name = getThemeName();</span>
+<span class="fc" id="L58">		THEME_NAME = Config.getInstance().getString(THEME_PARAM);</span>
+<span class="fc" id="L59">		THEME_BASE = &quot;/theme/&quot; + THEME_NAME + '/';</span>
 
 		// Load theme build (depends on the theme name)
-<span class="fc" id="L54">		String resourceName = &quot;/theme/&quot; + name + '/' + THEME_VERSION_FILE_NAME;</span>
+<span class="fc" id="L62">		String resourceName = THEME_BASE + THEME_VERSION_FILE_NAME;</span>
 
 		// Get theme version property file (if in classpath)
-<span class="fc" id="L57">		InputStream resourceStream = null;</span>
-<span class="fc" id="L58">		Properties prop = new Properties();</span>
-<span class="fc" id="L59">		String themeBuild = null;</span>
-<span class="fc" id="L60">		String themeWcVersion = null;</span>
+<span class="fc" id="L65">		InputStream resourceStream = null;</span>
+<span class="fc" id="L66">		Properties prop = new Properties();</span>
+<span class="fc" id="L67">		String themeBuild = null;</span>
+<span class="fc" id="L68">		String themeWcVersion = null;</span>
 		try {
-<span class="fc" id="L62">			resourceStream = ThemeUtil.class.getResourceAsStream(resourceName);</span>
-<span class="fc" id="L63">			prop.load(resourceStream);</span>
+<span class="fc" id="L70">			resourceStream = ThemeUtil.class.getResourceAsStream(resourceName);</span>
+<span class="fc" id="L71">			prop.load(resourceStream);</span>
 			// Theme build property
-<span class="fc" id="L65">			themeBuild = prop.getProperty(THEME_BUILD_NUMBER_PARAM);</span>
+<span class="fc" id="L73">			themeBuild = prop.getProperty(THEME_BUILD_NUMBER_PARAM);</span>
 			// WComponent build theme depends on property
-<span class="fc" id="L67">			themeWcVersion = prop.getProperty(THEME_WC_BUILD_NUMBER_PARAM);</span>
-<span class="fc" id="L68">		} catch (Exception e) {</span>
-<span class="fc" id="L69">			LOG.warn(&quot;Could not load theme version properties file \&quot;&quot; + resourceName + &quot;\&quot;&quot;);</span>
+<span class="fc" id="L75">			themeWcVersion = prop.getProperty(THEME_WC_BUILD_NUMBER_PARAM);</span>
+<span class="fc" id="L76">		} catch (Exception e) {</span>
+<span class="fc" id="L77">			LOG.warn(&quot;Could not load theme version properties file \&quot;&quot; + resourceName + &quot;\&quot;&quot;);</span>
 		} finally {
-<span class="pc" id="L71">			StreamUtil.safeClose(resourceStream);</span>
-<span class="fc" id="L72">		}</span>
+<span class="pc" id="L79">			StreamUtil.safeClose(resourceStream);</span>
+<span class="fc" id="L80">		}</span>
 
 		// If theme build not available, then use the wcomponents project version
-<span class="fc bfc" id="L75" title="All 2 branches covered.">		if (themeBuild == null) {</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">		if (themeBuild == null) {</span>
 			// The theme build number is used to &quot;bust&quot; the cache. As the theme build may not always be available in the
 			// classpath (ie the theme is served up from a different server) we at least want to use the wcomponent
 			// version to try and bust the cache. However, most projects will have the theme in the classpath.
-<span class="fc" id="L79">			LOG.warn(THEME_BUILD_NUMBER_PARAM + &quot; property not found in \&quot;&quot; + resourceName</span>
+<span class="fc" id="L87">			LOG.warn(THEME_BUILD_NUMBER_PARAM + &quot; property not found in \&quot;&quot; + resourceName</span>
 					+ &quot;\&quot;. Will use wcomponent project version.&quot;);
-<span class="fc" id="L81">			THEME_BUILD = &quot;wc-&quot; + WebUtilities.getProjectVersion();</span>
+<span class="fc" id="L89">			THEME_BUILD = &quot;wc-&quot; + WebUtilities.getProjectVersion();</span>
 		} else {
-<span class="fc" id="L83">			THEME_BUILD = themeBuild;</span>
+<span class="fc" id="L91">			THEME_BUILD = themeBuild;</span>
 		}
 
-<span class="fc" id="L86">		LOG.info(&quot;Using theme \&quot;&quot; + name + &quot;\&quot;&quot; + &quot; build \&quot;&quot; + THEME_BUILD + &quot;\&quot;&quot;);</span>
+<span class="fc" id="L94">		LOG.info(&quot;Using theme \&quot;&quot; + THEME_NAME + &quot;\&quot;&quot; + &quot; build \&quot;&quot; + THEME_BUILD + &quot;\&quot;&quot;);</span>
 
 		// Check the theme wcomponent version against the project wcomponent version
-<span class="fc bfc" id="L89" title="All 2 branches covered.">		if (themeWcVersion != null) {</span>
-<span class="fc" id="L90">			String wcProject = WebUtilities.getProjectVersion();</span>
-<span class="pc bpc" id="L91" title="1 of 2 branches missed.">			if (!Util.equals(themeWcVersion, wcProject)) {</span>
-<span class="fc" id="L92">				LOG.warn(&quot;The theme wcomponent version \&quot;&quot; + themeWcVersion</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">		if (themeWcVersion != null) {</span>
+<span class="fc" id="L98">			String wcProject = WebUtilities.getProjectVersion();</span>
+<span class="pc bpc" id="L99" title="1 of 2 branches missed.">			if (!Util.equals(themeWcVersion, wcProject)) {</span>
+<span class="fc" id="L100">				LOG.warn(&quot;The theme wcomponent version \&quot;&quot; + themeWcVersion</span>
 						+ &quot;\&quot; does not match the project wcomponent version \&quot;&quot; + wcProject + &quot;\&quot;.&quot;);
 			}
 		}
-<span class="fc" id="L96">	}</span>
+<span class="fc" id="L104">	}</span>
 
 	/**
 	 * Prevent instantiation of this class.
 	 */
-<span class="nc" id="L101">	private ThemeUtil() {</span>
-<span class="nc" id="L102">	}</span>
+<span class="nc" id="L109">	private ThemeUtil() {</span>
+<span class="nc" id="L110">	}</span>
 
 	/**
+	 * The theme name as determined on instantiation.
+	 * Changes require a restart.
 	 * @return the current theme name
 	 */
 	public static String getThemeName() {
-<span class="fc" id="L108">		return Config.getInstance().getString(THEME_PARAM);</span>
+<span class="fc" id="L118">		return THEME_NAME;</span>
 	}
 
 	/**
 	 * @return the current theme build
 	 */
 	public static String getThemeBuild() {
-<span class="fc" id="L115">		return THEME_BUILD;</span>
+<span class="fc" id="L125">		return THEME_BUILD;</span>
+	}
+
+	/**
+	 * Gets the base path of the theme resources.
+	 * Note that this path will end with a forward slash.
+	 * @return The theme resource path.
+	 */
+	public static String getThemeBase() {
+<span class="fc" id="L134">		return THEME_BASE;</span>
 	}
 
 	/**
@@ -128,25 +147,22 @@ public final class ThemeUtil {
 	 * @return the theme XSLT.
 	 */
 	public static String getThemeXslt(final UIContext uic) {
-<span class="fc" id="L131">		String themePath = uic.getEnvironment().getThemePath();</span>
-<span class="fc" id="L132">		StringBuffer path = new StringBuffer(themePath.length() + 20);</span>
+<span class="fc" id="L150">		String themePath = uic.getEnvironment().getThemePath();</span>
+<span class="fc" id="L151">		StringBuffer path = new StringBuffer(themePath.length() + 20);</span>
 
 		// Path
-<span class="fc" id="L135">		path.append(themePath);</span>
-<span class="pc bpc" id="L136" title="1 of 4 branches missed.">		if (themePath.length() &gt; 0 &amp;&amp; !themePath.endsWith(&quot;/&quot;)) {</span>
-<span class="fc" id="L137">			path.append('/');</span>
+<span class="fc" id="L154">		path.append(themePath);</span>
+<span class="pc bpc" id="L155" title="1 of 4 branches missed.">		if (themePath.length() &gt; 0 &amp;&amp; !themePath.endsWith(&quot;/&quot;)) {</span>
+<span class="fc" id="L156">			path.append('/');</span>
 		}
-<span class="fc" id="L139">		path.append(&quot;xslt/&quot;);</span>
-<span class="fc" id="L140">		path.append(getThemeXsltName(uic));</span>
+<span class="fc" id="L158">		path.append(&quot;xslt/&quot;);</span>
+<span class="fc" id="L159">		path.append(getThemeXsltName(uic));</span>
 
 		// Add cache busting suffix
-<span class="fc" id="L143">		String build = getThemeBuild();</span>
-<span class="fc" id="L144">		String themeName = getThemeName();</span>
+<span class="fc" id="L162">		path.append(&quot;?build=&quot;).append(WebUtilities.escapeForUrl(THEME_BUILD))</span>
+<span class="fc" id="L163">				.append(&quot;&amp;theme=&quot;).append(WebUtilities.escapeForUrl(THEME_NAME));</span>
 
-<span class="fc" id="L146">		path.append(&quot;?build=&quot;).append(WebUtilities.escapeForUrl(build))</span>
-<span class="fc" id="L147">				.append(&quot;&amp;theme=&quot;).append(WebUtilities.escapeForUrl(themeName));</span>
-
-<span class="fc" id="L149">		return path.toString();</span>
+<span class="fc" id="L165">		return path.toString();</span>
 	}
 
 	/**
@@ -155,33 +171,33 @@ public final class ThemeUtil {
 	 * @return The name of the XSLT file without any path or cachebuster.
 	 */
 	public static String getThemeXsltName(final UIContext uic) {
-<span class="fc" id="L158">		Locale locale = uic.getLocale();</span>
-<span class="fc" id="L159">		StringBuffer xsltName = new StringBuffer(20);</span>
+<span class="fc" id="L174">		Locale locale = uic.getLocale();</span>
+<span class="fc" id="L175">		StringBuffer xsltName = new StringBuffer(20);</span>
 
 		// Base file name
-<span class="fc" id="L162">		xsltName.append(&quot;all&quot;);</span>
+<span class="fc" id="L178">		xsltName.append(&quot;all&quot;);</span>
 
 		// Locale
-<span class="fc bfc" id="L165" title="All 2 branches covered.">		if (locale != null) {</span>
-<span class="fc" id="L166">			xsltName.append('_').append(locale.getLanguage());</span>
+<span class="fc bfc" id="L181" title="All 2 branches covered.">		if (locale != null) {</span>
+<span class="fc" id="L182">			xsltName.append('_').append(locale.getLanguage());</span>
 
-<span class="fc bfc" id="L168" title="All 2 branches covered.">			if (!Util.empty(locale.getCountry())) {</span>
-<span class="fc" id="L169">				xsltName.append('-').append(locale.getCountry());</span>
+<span class="fc bfc" id="L184" title="All 2 branches covered.">			if (!Util.empty(locale.getCountry())) {</span>
+<span class="fc" id="L185">				xsltName.append('-').append(locale.getCountry());</span>
 
-<span class="pc bpc" id="L171" title="1 of 2 branches missed.">				if (!Util.empty(locale.getVariant())) {</span>
-<span class="nc" id="L172">					xsltName.append('-').append(locale.getVariant());</span>
+<span class="pc bpc" id="L187" title="1 of 2 branches missed.">				if (!Util.empty(locale.getVariant())) {</span>
+<span class="nc" id="L188">					xsltName.append('-').append(locale.getVariant());</span>
 				}
 			}
 		}
 
 		// Debug
-<span class="fc bfc" id="L178" title="All 2 branches covered.">		if (DebugUtil.isDebugStructureEnabled()) {</span>
-<span class="fc" id="L179">			xsltName.append(&quot;_debug&quot;);</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">		if (DebugUtil.isDebugStructureEnabled()) {</span>
+<span class="fc" id="L195">			xsltName.append(&quot;_debug&quot;);</span>
 		}
 
 		// xsl
-<span class="fc" id="L183">		xsltName.append(&quot;.xsl&quot;);</span>
-<span class="fc" id="L184">		return xsltName.toString();</span>
+<span class="fc" id="L199">		xsltName.append(&quot;.xsl&quot;);</span>
+<span class="fc" id="L200">		return xsltName.toString();</span>
 	}
 
 }

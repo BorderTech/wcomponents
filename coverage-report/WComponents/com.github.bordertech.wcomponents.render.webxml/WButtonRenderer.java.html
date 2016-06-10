@@ -107,17 +107,17 @@ import com.github.bordertech.wcomponents.validation.ValidatingAction;
 	 */
 	private void paintAjax(final WButton button, final XmlStringBuilder xml) {
 		// Start tag
-<span class="fc" id="L110">		xml.appendTagOpen(&quot;ui:ajaxTrigger&quot;);</span>
+<span class="fc" id="L110">		xml.appendTagOpen(&quot;ui:ajaxtrigger&quot;);</span>
 <span class="fc" id="L111">		xml.appendAttribute(&quot;triggerId&quot;, button.getId());</span>
 <span class="fc" id="L112">		xml.appendClose();</span>
 
 		// Target
-<span class="fc" id="L115">		xml.appendTagOpen(&quot;ui:ajaxTargetId&quot;);</span>
+<span class="fc" id="L115">		xml.appendTagOpen(&quot;ui:ajaxtargetid&quot;);</span>
 <span class="fc" id="L116">		xml.appendAttribute(&quot;targetId&quot;, button.getAjaxTarget().getId());</span>
 <span class="fc" id="L117">		xml.appendEnd();</span>
 
 		// End tag
-<span class="fc" id="L120">		xml.appendEndTag(&quot;ui:ajaxTrigger&quot;);</span>
+<span class="fc" id="L120">		xml.appendEndTag(&quot;ui:ajaxtrigger&quot;);</span>
 <span class="fc" id="L121">	}</span>
 
 	/**

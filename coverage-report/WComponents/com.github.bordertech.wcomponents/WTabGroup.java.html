@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.WTabSet.TabMode;
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
+ * @deprecated No replacement: must not be used as causes accessibility failure.
  */
 public class WTabGroup extends AbstractContainer implements Disableable {
 
@@ -16,24 +17,24 @@ public class WTabGroup extends AbstractContainer implements Disableable {
 	 * @param groupName the tab group name.
 	 */
 	public WTabGroup(final String groupName) {
-<span class="fc" id="L19">		this(new WDecoratedLabel(groupName));</span>
-<span class="fc" id="L20">	}</span>
+<span class="fc" id="L20">		this(new WDecoratedLabel(groupName));</span>
+<span class="fc" id="L21">	}</span>
 
 	/**
 	 * Creates a WTabGroup.
 	 *
 	 * @param label the tab group label.
 	 */
-<span class="fc" id="L27">	public WTabGroup(final WDecoratedLabel label) {</span>
-<span class="fc" id="L28">		add(label);</span>
-<span class="fc" id="L29">	}</span>
+<span class="fc" id="L28">	public WTabGroup(final WDecoratedLabel label) {</span>
+<span class="fc" id="L29">		add(label);</span>
+<span class="fc" id="L30">	}</span>
 
 	/**
 	 * Adds a separator to the tab group.
 	 */
 	public void addSeparator() {
-<span class="fc" id="L35">		add(new WSeparator());</span>
-<span class="fc" id="L36">	}</span>
+<span class="fc" id="L36">		add(new WSeparator());</span>
+<span class="fc" id="L37">	}</span>
 
 	/**
 	 * Indicates whether the WTabSet is disabled.
@@ -42,7 +43,7 @@ public class WTabGroup extends AbstractContainer implements Disableable {
 	 */
 	@Override
 	public boolean isDisabled() {
-<span class="fc" id="L45">		return isFlagSet(ComponentModel.DISABLED_FLAG);</span>
+<span class="fc" id="L46">		return isFlagSet(ComponentModel.DISABLED_FLAG);</span>
 	}
 
 	/**
@@ -52,8 +53,8 @@ public class WTabGroup extends AbstractContainer implements Disableable {
 	 */
 	@Override
 	public void setDisabled(final boolean disabled) {
-<span class="fc" id="L55">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
-<span class="fc" id="L56">	}</span>
+<span class="fc" id="L56">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
+<span class="fc" id="L57">	}</span>
 
 	/**
 	 * Adds a tab to the tab set.
@@ -64,10 +65,10 @@ public class WTabGroup extends AbstractContainer implements Disableable {
 	 * @return the tab which was added to the group.
 	 */
 	public WTab addTab(final WComponent content, final String tabName, final TabMode mode) {
-<span class="fc" id="L67">		WTab tab = new WTab(content, tabName, mode);</span>
-<span class="fc" id="L68">		add(tab);</span>
+<span class="fc" id="L68">		WTab tab = new WTab(content, tabName, mode);</span>
+<span class="fc" id="L69">		add(tab);</span>
 
-<span class="fc" id="L70">		return tab;</span>
+<span class="fc" id="L71">		return tab;</span>
 	}
 
 	/**
@@ -81,10 +82,10 @@ public class WTabGroup extends AbstractContainer implements Disableable {
 	 */
 	public WTab addTab(final WComponent content, final String tabName, final TabMode mode,
 			final char accessKey) {
-<span class="nc" id="L84">		WTab tab = new WTab(content, tabName, mode, accessKey);</span>
-<span class="nc" id="L85">		add(tab);</span>
+<span class="nc" id="L85">		WTab tab = new WTab(content, tabName, mode, accessKey);</span>
+<span class="nc" id="L86">		add(tab);</span>
 
-<span class="nc" id="L87">		return tab;</span>
+<span class="nc" id="L88">		return tab;</span>
 	}
 
 	/**
@@ -96,10 +97,10 @@ public class WTabGroup extends AbstractContainer implements Disableable {
 	 * @return the tab which was added to the group.
 	 */
 	public WTab addTab(final WComponent content, final WDecoratedLabel label, final TabMode mode) {
-<span class="nc" id="L99">		WTab tab = new WTab(content, label, mode);</span>
-<span class="nc" id="L100">		add(tab);</span>
+<span class="nc" id="L100">		WTab tab = new WTab(content, label, mode);</span>
+<span class="nc" id="L101">		add(tab);</span>
 
-<span class="nc" id="L102">		return tab;</span>
+<span class="nc" id="L103">		return tab;</span>
 	}
 
 	/**
@@ -113,10 +114,10 @@ public class WTabGroup extends AbstractContainer implements Disableable {
 	 */
 	public WTab addTab(final WComponent content, final WDecoratedLabel label, final TabMode mode,
 			final char accessKey) {
-<span class="nc" id="L116">		WTab tab = new WTab(content, label, mode, accessKey);</span>
-<span class="nc" id="L117">		add(tab);</span>
+<span class="nc" id="L117">		WTab tab = new WTab(content, label, mode, accessKey);</span>
+<span class="nc" id="L118">		add(tab);</span>
 
-<span class="nc" id="L119">		return tab;</span>
+<span class="nc" id="L120">		return tab;</span>
 	}
 
 	/**
@@ -127,25 +128,25 @@ public class WTabGroup extends AbstractContainer implements Disableable {
 	 */
 	@Deprecated
 	public void add(final WTab tab) {
-<span class="fc" id="L130">		super.add(tab);</span>
-<span class="fc" id="L131">	}</span>
+<span class="fc" id="L131">		super.add(tab);</span>
+<span class="fc" id="L132">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override // to make public
 	public void remove(final WComponent child) {
-<span class="nc" id="L138">		super.remove(child);</span>
-<span class="nc" id="L139">	}</span>
+<span class="nc" id="L139">		super.remove(child);</span>
+<span class="nc" id="L140">	}</span>
 
 	/**
 	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {
-<span class="nc" id="L146">		String text = ((WDecoratedLabel) getChildAt(0)).getText();</span>
-<span class="nc bnc" id="L147" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
-<span class="nc" id="L148">		return toString(text, 1, getChildCount() - 1);</span>
+<span class="nc" id="L147">		String text = ((WDecoratedLabel) getChildAt(0)).getText();</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="nc" id="L149">		return toString(text, 1, getChildCount() - 1);</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

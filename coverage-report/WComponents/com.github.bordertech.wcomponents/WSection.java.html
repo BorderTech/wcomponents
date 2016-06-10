@@ -13,7 +13,7 @@
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WSection extends AbstractNamingContextContainer implements AjaxTarget,
+public class WSection extends AbstractNamingContextContainer implements AjaxInternalTrigger, AjaxTarget,
 		SubordinateTarget, Marginable, DropZone {
 
 	/**
@@ -127,31 +127,13 @@ public class WSection extends AbstractNamingContextContainer implements AjaxTarg
 	}
 
 	/**
-	 * Override preparePaintComponent in order to toggle the visibility of the content, or to register the appropriate
-	 * ajax operation.
-	 *
-	 * @param request the request being responded to
-	 */
-	@Override
-	protected void preparePaintComponent(final Request request) {
-<span class="fc" id="L137">		super.preparePaintComponent(request);</span>
-
-<span class="fc" id="L139">		UIContext uic = UIContextHolder.getCurrent();</span>
-
-		// Register section for AJAX
-<span class="pc bpc" id="L142" title="1 of 4 branches missed.">		if (uic.getUI() != null &amp;&amp; getMode() != null) {</span>
-<span class="fc" id="L143">			AjaxHelper.registerComponentTargetItself(getId(), request);</span>
-		}
-<span class="fc" id="L145">	}</span>
-
-	/**
 	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {
-<span class="nc bnc" id="L152" title="All 2 branches missed.">		String text = label == null ? null : label.getText();</span>
-<span class="nc bnc" id="L153" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
-<span class="nc" id="L154">		return toString(text, 1, 1);</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">		String text = label == null ? null : label.getText();</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="nc" id="L136">		return toString(text, 1, 1);</span>
 	}
 
 	/**
@@ -161,7 +143,7 @@ public class WSection extends AbstractNamingContextContainer implements AjaxTarg
 	 */
 	@Override
 	protected SectionModel newComponentModel() {
-<span class="fc" id="L164">		return new SectionModel();</span>
+<span class="fc" id="L146">		return new SectionModel();</span>
 	}
 
 	/**
@@ -170,7 +152,7 @@ public class WSection extends AbstractNamingContextContainer implements AjaxTarg
 	@Override
 	// For type safety only
 	protected SectionModel getComponentModel() {
-<span class="fc" id="L173">		return (SectionModel) super.getComponentModel();</span>
+<span class="fc" id="L155">		return (SectionModel) super.getComponentModel();</span>
 	}
 
 	/**
@@ -179,13 +161,13 @@ public class WSection extends AbstractNamingContextContainer implements AjaxTarg
 	@Override
 	// For type safety only
 	protected SectionModel getOrCreateComponentModel() {
-<span class="fc" id="L182">		return (SectionModel) super.getOrCreateComponentModel();</span>
+<span class="fc" id="L164">		return (SectionModel) super.getOrCreateComponentModel();</span>
 	}
 
 	/**
 	 * Holds the extrinsic state information of a WSection.
 	 */
-<span class="fc" id="L188">	public static class SectionModel extends ComponentModel {</span>
+<span class="fc" id="L170">	public static class SectionModel extends ComponentModel {</span>
 
 		/**
 		 * Indicates how the section should operate.

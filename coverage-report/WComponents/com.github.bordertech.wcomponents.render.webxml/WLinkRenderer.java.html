@@ -123,26 +123,26 @@ import com.github.bordertech.wcomponents.util.Util;
 <span class="fc" id="L123">		AjaxTarget[] actionTargets = link.getActionTargets();</span>
 
 		// Start tag
-<span class="fc" id="L126">		xml.appendTagOpen(&quot;ui:ajaxTrigger&quot;);</span>
+<span class="fc" id="L126">		xml.appendTagOpen(&quot;ui:ajaxtrigger&quot;);</span>
 <span class="fc" id="L127">		xml.appendAttribute(&quot;triggerId&quot;, link.getId());</span>
 <span class="fc" id="L128">		xml.appendClose();</span>
 
 <span class="pc bpc" id="L130" title="1 of 4 branches missed.">		if (actionTargets != null &amp;&amp; actionTargets.length &gt; 0) {</span>
 			// Targets
 <span class="fc bfc" id="L132" title="All 2 branches covered.">			for (AjaxTarget target : actionTargets) {</span>
-<span class="fc" id="L133">				xml.appendTagOpen(&quot;ui:ajaxTargetId&quot;);</span>
+<span class="fc" id="L133">				xml.appendTagOpen(&quot;ui:ajaxtargetid&quot;);</span>
 <span class="fc" id="L134">				xml.appendAttribute(&quot;targetId&quot;, target.getId());</span>
 <span class="fc" id="L135">				xml.appendEnd();</span>
 			}
 		} else {
 			// Target itself
-<span class="fc" id="L139">			xml.appendTagOpen(&quot;ui:ajaxTargetId&quot;);</span>
+<span class="fc" id="L139">			xml.appendTagOpen(&quot;ui:ajaxtargetid&quot;);</span>
 <span class="fc" id="L140">			xml.appendAttribute(&quot;targetId&quot;, link.getId());</span>
 <span class="fc" id="L141">			xml.appendEnd();</span>
 		}
 
 		// End tag
-<span class="fc" id="L145">		xml.appendEndTag(&quot;ui:ajaxTrigger&quot;);</span>
+<span class="fc" id="L145">		xml.appendEndTag(&quot;ui:ajaxtrigger&quot;);</span>
 <span class="fc" id="L146">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

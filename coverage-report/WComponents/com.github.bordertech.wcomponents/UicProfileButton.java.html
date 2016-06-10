@@ -15,6 +15,8 @@ import java.util.TreeMap;
  * UIContext will be displayed after the button.
  *
  * @author Ming Gao
+ *
+ * @deprecated 1.1.4 This is NOT a core component and will be deleted ASAP.
  */
 public class UicProfileButton extends WButton {
 
@@ -22,8 +24,8 @@ public class UicProfileButton extends WButton {
 	 * Creates a UicProfileButton.
 	 */
 	public UicProfileButton() {
-<span class="fc" id="L25">		super();</span>
-<span class="fc" id="L26">	}</span>
+<span class="fc" id="L27">		super();</span>
+<span class="fc" id="L28">	}</span>
 
 	/**
 	 * Creates a UicProfileButton with the given button caption.
@@ -31,8 +33,8 @@ public class UicProfileButton extends WButton {
 	 * @param caption the button caption.
 	 */
 	public UicProfileButton(final String caption) {
-<span class="fc" id="L34">		super(caption);</span>
-<span class="fc" id="L35">	}</span>
+<span class="fc" id="L36">		super(caption);</span>
+<span class="fc" id="L37">	}</span>
 
 	/**
 	 * Override afterPaint to paint the profile information if the button has been pressed.
@@ -41,17 +43,16 @@ public class UicProfileButton extends WButton {
 	 */
 	@Override
 	protected void afterPaint(final RenderContext renderContext) {
-<span class="fc" id="L44">		super.afterPaint(renderContext);</span>
+<span class="fc" id="L46">		super.afterPaint(renderContext);</span>
 
-<span class="pc bpc" id="L46" title="1 of 4 branches missed.">		if (this.isPressed() &amp;&amp; renderContext instanceof WebXmlRenderContext) {</span>
-			// TODO: This must not emit mark-up
-<span class="fc" id="L48">			PrintWriter writer = ((WebXmlRenderContext) renderContext).getWriter();</span>
+<span class="pc bpc" id="L48" title="1 of 4 branches missed.">		if (this.isPressed() &amp;&amp; renderContext instanceof WebXmlRenderContext) {</span>
+<span class="fc" id="L49">			PrintWriter writer = ((WebXmlRenderContext) renderContext).getWriter();</span>
 
-<span class="fc" id="L50">			StringBuffer temp = dumpAll();</span>
-<span class="fc" id="L51">			writer.println(&quot;&lt;br/&gt;&lt;br/&gt;&quot;);</span>
-<span class="fc" id="L52">			writer.println(temp);</span>
+<span class="fc" id="L51">			StringBuffer temp = dumpAll();</span>
+<span class="fc" id="L52">			writer.println(&quot;&lt;br/&gt;&lt;br/&gt;&quot;);</span>
+<span class="fc" id="L53">			writer.println(temp);</span>
 		}
-<span class="fc" id="L54">	}</span>
+<span class="fc" id="L55">	}</span>
 
 	/**
 	 * Dumps all the profiling information in textual format to a StringBuffer.
@@ -59,40 +60,40 @@ public class UicProfileButton extends WButton {
 	 * @return the profiling information in textual format.
 	 */
 	public StringBuffer dumpAll() {
-<span class="fc" id="L62">		WComponent root = WebUtilities.getTop(this);</span>
+<span class="fc" id="L63">		WComponent root = WebUtilities.getTop(this);</span>
 
-<span class="fc" id="L64">		Map&lt;String, GroupData&gt; compTallyByClass = new TreeMap&lt;&gt;();</span>
+<span class="fc" id="L65">		Map&lt;String, GroupData&gt; compTallyByClass = new TreeMap&lt;&gt;();</span>
 
-<span class="fc" id="L66">		GroupData compDataOverall = new GroupData();</span>
+<span class="fc" id="L67">		GroupData compDataOverall = new GroupData();</span>
 
-<span class="fc" id="L68">		StringBuffer out = new StringBuffer();</span>
+<span class="fc" id="L69">		StringBuffer out = new StringBuffer();</span>
 
-<span class="fc" id="L70">		String className = root.getClass().getName();</span>
+<span class="fc" id="L71">		String className = root.getClass().getName();</span>
 
-<span class="fc" id="L72">		out.append(&quot;&lt;b&gt;The root of the WComponent tree is:&lt;/b&gt;\n&lt;br/&gt;&quot;).append(className).append(</span>
-				&quot;\n&lt;br/&gt;&quot;);
+<span class="fc" id="L73">		out.append(&quot;&lt;strong&gt;The root of the WComponent tree is:&lt;/strong&gt;&lt;br/&gt;&quot;).append(className).append(</span>
+				&quot;&lt;br/&gt;&quot;);
 
-<span class="fc" id="L75">		tally(root, compTallyByClass, compDataOverall, out);</span>
+<span class="fc" id="L76">		tally(root, compTallyByClass, compDataOverall, out);</span>
 
-<span class="fc" id="L77">		out.append(&quot;&lt;b&gt;WComponent usage overall:&lt;/b&gt;\n&lt;br/&gt; &quot;);</span>
-<span class="fc" id="L78">		out.append(compDataOverall.total).append(&quot; WComponent(s) in the WComponent tree.\n&lt;br/&gt;&quot;);</span>
+<span class="fc" id="L78">		out.append(&quot;&lt;strong&gt;WComponent usage overall:&lt;/strong&gt;&lt;br/&gt; &quot;);</span>
+<span class="fc" id="L79">		out.append(compDataOverall.total).append(&quot; WComponent(s) in the WComponent tree.&lt;br/&gt;&quot;);</span>
 
-<span class="pc bpc" id="L80" title="1 of 2 branches missed.">		if (compDataOverall.total &gt; 0) {</span>
-<span class="fc" id="L81">			out.append(&quot;&lt;b&gt;WComponent usage by class:&lt;/b&gt;&lt;br/&gt;&quot;);</span>
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">		if (compDataOverall.total &gt; 0) {</span>
+<span class="fc" id="L82">			out.append(&quot;&lt;strong&gt;WComponent usage by class:&lt;/strong&gt;&lt;br/&gt;&quot;);</span>
 
-<span class="fc bfc" id="L83" title="All 2 branches covered.">			for (Map.Entry&lt;String, GroupData&gt; entry : compTallyByClass.entrySet()) {</span>
-<span class="fc" id="L84">				className = entry.getKey();</span>
-<span class="fc" id="L85">				GroupData dataForClass = entry.getValue();</span>
-<span class="fc" id="L86">				out.append(' ').append(dataForClass.total).append(&quot;  &quot;).append(className).append(</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">			for (Map.Entry&lt;String, GroupData&gt; entry : compTallyByClass.entrySet()) {</span>
+<span class="fc" id="L85">				className = entry.getKey();</span>
+<span class="fc" id="L86">				GroupData dataForClass = entry.getValue();</span>
+<span class="fc" id="L87">				out.append(' ').append(dataForClass.total).append(&quot;  &quot;).append(className).append(</span>
 						&quot;&lt;br/&gt;&quot;);
-<span class="fc" id="L88">			}</span>
+<span class="fc" id="L89">			}</span>
 
-<span class="fc" id="L90">			out.append(&quot;&lt;br/&gt;&lt;hr/&gt;&quot;);</span>
+<span class="fc" id="L91">			out.append(&quot;&lt;br/&gt;&lt;hr/&gt;&quot;);</span>
 		}
 
-<span class="fc" id="L93">		processUic(out);</span>
+<span class="fc" id="L94">		processUic(out);</span>
 
-<span class="fc" id="L95">		return out;</span>
+<span class="fc" id="L96">		return out;</span>
 	}
 
 	/**
@@ -103,148 +104,148 @@ public class UicProfileButton extends WButton {
 	 */
 	private void tally(final WComponent component, final Map&lt;String, GroupData&gt; map,
 			final GroupData compDataOverall, final StringBuffer out) {
-<span class="fc" id="L106">		String classKey = component.getClass().getName();</span>
-<span class="fc" id="L107">		GroupData dataForClass = map.get(classKey);</span>
+<span class="fc" id="L107">		String classKey = component.getClass().getName();</span>
+<span class="fc" id="L108">		GroupData dataForClass = map.get(classKey);</span>
 
-<span class="pc bpc" id="L109" title="1 of 2 branches missed.">		if (dataForClass == null) {</span>
-<span class="fc" id="L110">			dataForClass = new GroupData();</span>
-<span class="fc" id="L111">			map.put(classKey, dataForClass);</span>
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">		if (dataForClass == null) {</span>
+<span class="fc" id="L111">			dataForClass = new GroupData();</span>
+<span class="fc" id="L112">			map.put(classKey, dataForClass);</span>
 		}
 
-<span class="fc" id="L114">		dataForClass.total++;</span>
-<span class="fc" id="L115">		compDataOverall.total++;</span>
+<span class="fc" id="L115">		dataForClass.total++;</span>
+<span class="fc" id="L116">		compDataOverall.total++;</span>
 
-<span class="fc bfc" id="L117" title="All 2 branches covered.">		if (component instanceof Container) {</span>
-<span class="fc" id="L118">			int count = ((Container) component).getChildCount();</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">		if (component instanceof Container) {</span>
+<span class="fc" id="L119">			int count = ((Container) component).getChildCount();</span>
 
-<span class="fc bfc" id="L120" title="All 2 branches covered.">			for (int i = 0; i &lt; count; i++) {</span>
-<span class="fc" id="L121">				WComponent child = ((Container) component).getChildAt(i);</span>
-<span class="fc" id="L122">				tally(child, map, compDataOverall, out);</span>
+<span class="fc bfc" id="L121" title="All 2 branches covered.">			for (int i = 0; i &lt; count; i++) {</span>
+<span class="fc" id="L122">				WComponent child = ((Container) component).getChildAt(i);</span>
+<span class="fc" id="L123">				tally(child, map, compDataOverall, out);</span>
 			}
 		}
-<span class="fc" id="L125">	}</span>
+<span class="fc" id="L126">	}</span>
 
 	/**
 	 * @param out the current buffer
 	 */
 	private void processUic(final StringBuffer out) {
-<span class="fc" id="L131">		Set components = UIContextHolder.getCurrent().getComponents();</span>
+<span class="fc" id="L132">		Set components = UIContextHolder.getCurrent().getComponents();</span>
 
 		// Variables that will contain the stats collected.
-<span class="fc" id="L134">		GroupData dataOverall = new GroupData();</span>
-<span class="fc" id="L135">		Map&lt;String, GroupData&gt; tallyByClass = new TreeMap&lt;&gt;();</span>
-<span class="fc" id="L136">		Map&lt;String, ProfileData&gt; profileByClass = new TreeMap&lt;&gt;();</span>
-<span class="fc" id="L137">		Set&lt;WComponent&gt; topComponents = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L135">		GroupData dataOverall = new GroupData();</span>
+<span class="fc" id="L136">		Map&lt;String, GroupData&gt; tallyByClass = new TreeMap&lt;&gt;();</span>
+<span class="fc" id="L137">		Map&lt;String, ProfileData&gt; profileByClass = new TreeMap&lt;&gt;();</span>
+<span class="fc" id="L138">		Set&lt;WComponent&gt; topComponents = new HashSet&lt;&gt;();</span>
 
-<span class="fc" id="L139">		out.append(&quot;\n&lt;b&gt;UIContext details:\n&lt;/b&gt;&quot;</span>
+<span class="fc" id="L140">		out.append(&quot;\n&lt;strong&gt;UIContext details:\n&lt;/strong&gt;&quot;</span>
 				+ &quot;\n&lt;br/&gt;\n&lt;table border=\&quot;1\&quot;&gt;\n&lt;tr&gt;\n&lt;th&gt;Class Name&lt;/th&gt;\n&quot;
 				+ &quot;\n&lt;th&gt;ID&lt;/th&gt;\n&quot;
 				+ &quot;\n&lt;th&gt;Is Serialisable&lt;/th&gt;\n&quot;
 				+ &quot;\n&lt;th&gt;Size&lt;/th&gt;&lt;/tr&gt;\n&quot;);
 
-<span class="fc bfc" id="L145" title="All 2 branches covered.">		for (Iterator iter = components.iterator(); iter.hasNext();) {</span>
-<span class="fc" id="L146">			WComponent comp = (WComponent) iter.next();</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">		for (Iterator iter = components.iterator(); iter.hasNext();) {</span>
+<span class="fc" id="L147">			WComponent comp = (WComponent) iter.next();</span>
 			// processData(comp);
 
-<span class="fc" id="L149">			String className = comp.getClass().getName();</span>
+<span class="fc" id="L150">			String className = comp.getClass().getName();</span>
 
-<span class="fc" id="L151">			ProfileData profileForClass = profileByClass.get(className);</span>
+<span class="fc" id="L152">			ProfileData profileForClass = profileByClass.get(className);</span>
 
-<span class="pc bpc" id="L153" title="1 of 2 branches missed.">			if (!comp.isDefaultState()) {</span>
-<span class="fc" id="L154">				ProfileDetailsData profile = new ProfileDetailsData();</span>
-<span class="fc" id="L155">				profile.id = comp.getId();</span>
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">			if (!comp.isDefaultState()) {</span>
+<span class="fc" id="L155">				ProfileDetailsData profile = new ProfileDetailsData();</span>
+<span class="fc" id="L156">				profile.id = comp.getId();</span>
 
-<span class="fc" id="L157">				profile.isSerializable = true; // TODO: implement this properly</span>
-<span class="fc" id="L158">				profile.size = 0; // TODO: implement this properly</span>
+<span class="fc" id="L158">				profile.isSerializable = true;</span>
+<span class="fc" id="L159">				profile.size = 0;</span>
 
-<span class="fc" id="L160">				out.append(&quot;\n&lt;tr&gt;\n&lt;td&gt;&quot;);</span>
-<span class="fc" id="L161">				out.append(className);</span>
-<span class="fc" id="L162">				out.append(&quot;&lt;/td&gt;\n\n&lt;td&gt;&quot;);</span>
-<span class="fc" id="L163">				out.append(profile.id);</span>
-<span class="fc" id="L164">				out.append(&quot;&lt;/td&gt;\n\n&lt;td&gt;&quot;);</span>
-<span class="fc" id="L165">				out.append(profile.isSerializable);</span>
-<span class="fc" id="L166">				out.append(&quot;&lt;/td&gt;\n\n&lt;td&gt;&quot;);</span>
-<span class="fc" id="L167">				out.append(profile.size);</span>
-<span class="fc" id="L168">				out.append(&quot;&lt;/td&gt;&lt;/tr&gt;\n&quot;);</span>
+<span class="fc" id="L161">				out.append(&quot;\n&lt;tr&gt;\n&lt;td&gt;&quot;);</span>
+<span class="fc" id="L162">				out.append(className);</span>
+<span class="fc" id="L163">				out.append(&quot;&lt;/td&gt;\n\n&lt;td&gt;&quot;);</span>
+<span class="fc" id="L164">				out.append(profile.id);</span>
+<span class="fc" id="L165">				out.append(&quot;&lt;/td&gt;\n\n&lt;td&gt;&quot;);</span>
+<span class="fc" id="L166">				out.append(profile.isSerializable);</span>
+<span class="fc" id="L167">				out.append(&quot;&lt;/td&gt;\n\n&lt;td&gt;&quot;);</span>
+<span class="fc" id="L168">				out.append(profile.size);</span>
+<span class="fc" id="L169">				out.append(&quot;&lt;/td&gt;&lt;/tr&gt;\n&quot;);</span>
 
-<span class="pc bpc" id="L170" title="1 of 2 branches missed.">				if (profileForClass == null) {</span>
-<span class="fc" id="L171">					profileForClass = new ProfileData();</span>
-<span class="fc" id="L172">					profileByClass.put(className, profileForClass);</span>
+<span class="pc bpc" id="L171" title="1 of 2 branches missed.">				if (profileForClass == null) {</span>
+<span class="fc" id="L172">					profileForClass = new ProfileData();</span>
+<span class="fc" id="L173">					profileByClass.put(className, profileForClass);</span>
 				}
 
-<span class="fc" id="L175">				profileForClass.profiles.add(profile);</span>
+<span class="fc" id="L176">				profileForClass.profiles.add(profile);</span>
 			}
 
-<span class="fc" id="L178">			GroupData dataForClass = tallyByClass.get(className);</span>
+<span class="fc" id="L179">			GroupData dataForClass = tallyByClass.get(className);</span>
 
-<span class="pc bpc" id="L180" title="1 of 2 branches missed.">			if (dataForClass == null) {</span>
-<span class="fc" id="L181">				dataForClass = new GroupData();</span>
-<span class="fc" id="L182">				tallyByClass.put(className, dataForClass);</span>
+<span class="pc bpc" id="L181" title="1 of 2 branches missed.">			if (dataForClass == null) {</span>
+<span class="fc" id="L182">				dataForClass = new GroupData();</span>
+<span class="fc" id="L183">				tallyByClass.put(className, dataForClass);</span>
 			}
 
-<span class="fc" id="L185">			dataForClass.total++;</span>
-<span class="fc" id="L186">			dataOverall.total++;</span>
+<span class="fc" id="L186">			dataForClass.total++;</span>
+<span class="fc" id="L187">			dataOverall.total++;</span>
 
-<span class="pc bpc" id="L188" title="1 of 2 branches missed.">			if (comp.isDefaultState()) {</span>
-<span class="nc" id="L189">				dataForClass.unnecessaryCount++;</span>
-<span class="nc" id="L190">				dataOverall.unnecessaryCount++;</span>
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">			if (comp.isDefaultState()) {</span>
+<span class="nc" id="L190">				dataForClass.unnecessaryCount++;</span>
+<span class="nc" id="L191">				dataOverall.unnecessaryCount++;</span>
 			}
 
-<span class="fc" id="L193">			WComponent top = WebUtilities.getTop(comp);</span>
-<span class="fc" id="L194">			topComponents.add(top);</span>
-<span class="fc" id="L195">		}</span>
+<span class="fc" id="L194">			WComponent top = WebUtilities.getTop(comp);</span>
+<span class="fc" id="L195">			topComponents.add(top);</span>
+<span class="fc" id="L196">		}</span>
 
-<span class="fc" id="L197">		out.append(&quot;\n&lt;/table&gt;\n&lt;br/&gt;&lt;hr/&gt;&quot;</span>
-				+ &quot;&lt;b&gt;WComponent session usage overall:&lt;/b&gt;\n&lt;br/&gt; &quot;);
+<span class="fc" id="L198">		out.append(&quot;\n&lt;/table&gt;\n&lt;br/&gt;&lt;hr/&gt;&quot;</span>
+				+ &quot;&lt;strong&gt;WComponent session usage overall:&lt;/strong&gt;\n&lt;br/&gt; &quot;);
 
-<span class="fc" id="L200">		out.append(dataOverall.total).append(&quot; WComponent(s) storing data in the session.\n&lt;br/&gt;&quot;);</span>
+<span class="fc" id="L201">		out.append(dataOverall.total).append(&quot; WComponent(s) storing data in the session.\n&lt;br/&gt;&quot;);</span>
 
-<span class="pc bpc" id="L202" title="1 of 2 branches missed.">		if (dataOverall.total &gt; 0) {</span>
-<span class="fc" id="L203">			out.append('[')</span>
-<span class="fc" id="L204">					.append(dataOverall.unnecessaryCount)</span>
-<span class="fc" id="L205">					.append(&quot;] WComponent(s) in default state. WComponents in default state do not need to store data in the session.&lt;br/&gt;&quot;</span>
-<span class="fc" id="L206">							+ &quot; Therefore, only &quot;).append(</span>
-<span class="fc" id="L207">							dataOverall.total - dataOverall.unnecessaryCount)</span>
-<span class="fc" id="L208">					.append(&quot; WComponent(s) actually need(s) to store data in the session.&lt;br/&gt;&quot;);</span>
+<span class="pc bpc" id="L203" title="1 of 2 branches missed.">		if (dataOverall.total &gt; 0) {</span>
+<span class="fc" id="L204">			out.append('[')</span>
+<span class="fc" id="L205">					.append(dataOverall.unnecessaryCount)</span>
+<span class="fc" id="L206">					.append(&quot;] WComponent(s) in default state. WComponents in default state do not need to store data in the session.&lt;br/&gt;&quot;</span>
+<span class="fc" id="L207">							+ &quot; Therefore, only &quot;).append(</span>
+<span class="fc" id="L208">							dataOverall.total - dataOverall.unnecessaryCount)</span>
+<span class="fc" id="L209">					.append(&quot; WComponent(s) actually need(s) to store data in the session.&lt;br/&gt;&quot;);</span>
 
-<span class="fc" id="L210">			out.append(&quot;&lt;b&gt;WComponent session usage by class:&lt;/b&gt;&lt;br/&gt;&quot;);</span>
+<span class="fc" id="L211">			out.append(&quot;&lt;strong&gt;WComponent session usage by class:&lt;/strong&gt;&lt;br/&gt;&quot;);</span>
 
-<span class="fc bfc" id="L212" title="All 2 branches covered.">			for (Map.Entry&lt;String, GroupData&gt; entry : tallyByClass.entrySet()) {</span>
-<span class="fc" id="L213">				String className = entry.getKey();</span>
-<span class="fc" id="L214">				GroupData dataForClass = entry.getValue();</span>
+<span class="fc bfc" id="L213" title="All 2 branches covered.">			for (Map.Entry&lt;String, GroupData&gt; entry : tallyByClass.entrySet()) {</span>
+<span class="fc" id="L214">				String className = entry.getKey();</span>
+<span class="fc" id="L215">				GroupData dataForClass = entry.getValue();</span>
 
-<span class="fc" id="L216">				out.append(' ').append(dataForClass.total).append(&quot; [&quot;).append(</span>
-<span class="fc" id="L217">						dataForClass.unnecessaryCount).append(&quot;] &quot;)</span>
-<span class="fc" id="L218">						.append(className).append(&quot;&lt;br/&gt;&quot;);</span>
-<span class="fc" id="L219">			}</span>
+<span class="fc" id="L217">				out.append(' ').append(dataForClass.total).append(&quot; [&quot;).append(</span>
+<span class="fc" id="L218">						dataForClass.unnecessaryCount).append(&quot;] &quot;)</span>
+<span class="fc" id="L219">						.append(className).append(&quot;&lt;br/&gt;&quot;);</span>
+<span class="fc" id="L220">			}</span>
 
-<span class="fc" id="L221">			out.append(&quot;Found &quot;).append(topComponents.size()).append(&quot; top component(s).&lt;br/&gt;&lt;hr/&gt;&quot;);</span>
+<span class="fc" id="L222">			out.append(&quot;Found &quot;).append(topComponents.size()).append(&quot; top component(s).&lt;br/&gt;&lt;hr/&gt;&quot;);</span>
 		}
-<span class="fc" id="L223">	}</span>
+<span class="fc" id="L224">	}</span>
 
 	/**
 	 * Holds statistics for a single WComponent class.
 	 *
 	 * @author Ming Gao
 	 */
-<span class="fc" id="L230">	private static final class GroupData {</span>
+<span class="fc" id="L231">	private static final class GroupData {</span>
 
 		/**
 		 * The count of instances of the particular WComponent class with a component model in the context/session.
 		 */
-<span class="fc" id="L235">		private int total = 0;</span>
+<span class="fc" id="L236">		private int total = 0;</span>
 
 		/**
 		 * The count of instances of the particular WComponent class with a component model in the context/session which
 		 * doesn't need to be there.
 		 */
-<span class="fc" id="L241">		private int unnecessaryCount = 0;</span>
+<span class="fc" id="L242">		private int unnecessaryCount = 0;</span>
 	}
 
 	/**
 	 * @author Ming Gao
 	 */
-<span class="fc" id="L247">	private static final class ProfileDetailsData {</span>
+<span class="fc" id="L248">	private static final class ProfileDetailsData {</span>
 
 		private int size;
 
@@ -256,9 +257,9 @@ public class UicProfileButton extends WButton {
 	/**
 	 * @author Ming Gao
 	 */
-<span class="fc" id="L259">	private static final class ProfileData {</span>
+<span class="fc" id="L260">	private static final class ProfileData {</span>
 
-<span class="fc" id="L261">		private final List&lt;ProfileDetailsData&gt; profiles = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L262">		private final List&lt;ProfileDetailsData&gt; profiles = new ArrayList&lt;&gt;();</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

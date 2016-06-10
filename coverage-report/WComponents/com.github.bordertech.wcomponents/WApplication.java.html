@@ -4,91 +4,99 @@ import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  * &lt;p&gt;
  * This component must be used as the top level component for an application. It provides application-wide state
- * information, such as unsaved changes.&lt;/p&gt;
- *
- * Applications can not be nested, but multiple applications can be present on a single screen, usually in a Portlet
- * environment.
+ * information, such as unsaved changes. Applications cannot be nested but multiple applications can be present on a
+ * single screen.
+ * &lt;/p&gt;
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-<span class="fc" id="L22">public class WApplication extends AbstractMutableContainer implements AjaxTarget, DropZone {</span>
+<span class="fc" id="L21">public class WApplication extends AbstractMutableContainer implements AjaxTarget, DropZone {</span>
 
 	/**
 	 * The application icon url.
 	 */
-<span class="fc" id="L27">	private static final String ICON_URL = Config.getInstance().getString(</span>
+<span class="fc" id="L26">	private static final String ICON_URL = Config.getInstance().getString(</span>
 			&quot;bordertech.wcomponents.application.icon.url&quot;);
 
 	/**
 	 * Indicates whether the application has unsaved changes.
 	 *
-	 * @return true if there are unsaved changes, otherwise false.
+	 * @return true if there are unsaved changes, otherwise false
 	 */
 	public boolean hasUnsavedChanges() {
-<span class="fc" id="L36">		return getComponentModel().unsavedChanges;</span>
+<span class="fc" id="L35">		return getComponentModel().unsavedChanges;</span>
 	}
 
 	/**
 	 * &lt;p&gt;
-	 * Sets the unsavedChanges flag.&lt;/p&gt;
-	 *
-	 * &lt;p&gt;
-	 * The unsavedChanges flag is used by the Themes to display a warning message if the user tries to navigate away and
-	 * the flag is set to true.&lt;/p&gt;
+	 * Sets the unsavedChanges flag. The unsavedChanges flag is used by the Themes to display a warning message if the
+	 * user invokes a cancel button and the flag is set to true.
+	 * &lt;/p&gt;
 	 *
 	 * @param unsavedChanges true if there are unsavedChanges
 	 */
 	public void setUnsavedChanges(final boolean unsavedChanges) {
-<span class="fc" id="L50">		getOrCreateComponentModel().unsavedChanges = unsavedChanges;</span>
-<span class="fc" id="L51">	}</span>
+<span class="fc" id="L47">		getOrCreateComponentModel().unsavedChanges = unsavedChanges;</span>
+<span class="fc" id="L48">	}</span>
 
 	/**
 	 * Returns the application's title.
 	 *
-	 * @return the title.
+	 * @return the applications's title
 	 */
 	public String getTitle() {
-<span class="fc" id="L59">		return I18nUtilities.format(null, getComponentModel().title);</span>
+<span class="fc" id="L56">		return I18nUtilities.format(null, getComponentModel().title);</span>
 	}
 
 	/**
-	 * Sets the application title.
+	 * Sets the application title. The title of the first application in a view is used as the content of the page's
+	 * TITLE element
 	 *
 	 * @param title The title to set.
 	 */
 	public void setTitle(final String title) {
-<span class="fc" id="L68">		getOrCreateComponentModel().title = title;</span>
-<span class="fc" id="L69">	}</span>
+<span class="fc" id="L66">		getOrCreateComponentModel().title = title;</span>
+<span class="fc" id="L67">	}</span>
 
 	/**
-	 * @return true if append application ID to IDs, otherwise false.
+	 * @return true if append application ID to IDs, otherwise false
 	 */
 	public boolean isAppendID() {
-<span class="fc" id="L75">		return getComponentModel().appendID;</span>
+<span class="fc" id="L73">		return getComponentModel().appendID;</span>
 	}
 
 	/**
-	 * @param appendID set rue if append application ID to IDs
+	 * &lt;p&gt;Sets a flag to include the WApplication's ID as part of its descendant components' IDs. This is used to determine
+	 * if the application's components should include the application's ID in their own ID.&lt;/p&gt;
+	 *
+	 * &lt;p&gt;Examples of where this could be useful include: &lt;/p&gt;
+	 * &lt;ul&gt;
+	 * &lt;li&gt;where there are multiple applications in a single view and there is a risk of IDs clashing; or
+	 * &lt;li&gt;where the application ID is useful for separating IDs for external purposes such as implementing web
+	 * analytics.
+	 * &lt;/ul&gt;
+	 *
+	 * @param appendID set true if append application ID to IDs
 	 */
 	public void setAppendID(final boolean appendID) {
-<span class="fc" id="L82">		getOrCreateComponentModel().appendID = appendID;</span>
-<span class="fc" id="L83">	}</span>
+<span class="fc" id="L90">		getOrCreateComponentModel().appendID = appendID;</span>
+<span class="fc" id="L91">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public String getIdName() {
-<span class="fc" id="L90">		String name = super.getIdName();</span>
-<span class="fc bfc" id="L91" title="All 2 branches covered.">		return name == null ? DEFAULT_APPLICATION_ID : name;</span>
+<span class="fc" id="L98">		String name = super.getIdName();</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">		return name == null ? DEFAULT_APPLICATION_ID : name;</span>
 	}
 
 	/**
@@ -96,7 +104,7 @@ import java.util.Set;
 	 */
 	@Override
 	public boolean isNamingContext() {
-<span class="fc" id="L99">		return true;</span>
+<span class="fc" id="L107">		return true;</span>
 	}
 
 	/**
@@ -104,151 +112,155 @@ import java.util.Set;
 	 */
 	@Override
 	public String getNamingContextId() {
-<span class="fc" id="L107">		boolean append = isAppendID();</span>
+<span class="fc" id="L115">		boolean append = isAppendID();</span>
 
-<span class="fc bfc" id="L109" title="All 2 branches covered.">		if (!append) {</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">		if (!append) {</span>
 			// Check if this is the top level name context
-<span class="fc" id="L111">			NamingContextable top = WebUtilities.getParentNamingContext(this);</span>
-<span class="fc bfc" id="L112" title="All 2 branches covered.">			if (top != null) {</span>
+<span class="fc" id="L119">			NamingContextable top = WebUtilities.getParentNamingContext(this);</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">			if (top != null) {</span>
 				// Not top context, so always append
-<span class="fc" id="L114">				append = true;</span>
+<span class="fc" id="L122">				append = true;</span>
 			}
 		}
 
-<span class="fc bfc" id="L118" title="All 2 branches covered.">		if (append) {</span>
-<span class="fc" id="L119">			return getId();</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">		if (append) {</span>
+<span class="fc" id="L127">			return getId();</span>
 		} else {
-<span class="fc" id="L121">			return &quot;&quot;;</span>
+<span class="fc" id="L129">			return &quot;&quot;;</span>
 		}
 	}
 
 	/**
 	 * &lt;p&gt;
 	 * This method is called when a wrong step error has occurred, for example as a result of the user using the
-	 * browser's navigation controls..&lt;/p&gt;
+	 * browser's navigation controls.
+	 * &lt;/p&gt;
 	 *
 	 * &lt;p&gt;
 	 * The method can be overridden to allow projects to handle the step error in a manner appropriate to their
-	 * Application.&lt;/p&gt;
+	 * Application.
+	 * &lt;/p&gt;
 	 */
 	public void handleStepError() {
 		// No Action
-<span class="fc" id="L136">	}</span>
+<span class="fc" id="L146">	}</span>
 
 	/**
 	 * Returns the closest WApplication instance (ancestor component) from the given base component.
 	 *
-	 * @param base the component from which we start scanning up the tree for a WApplication instance.
-	 * @return the closest WApplication instance from the given base component.
+	 * @param base the component from which we start scanning up the tree for a WApplication instance
+	 * @return the closest WApplication instance from the given base component
 	 */
 	public static WApplication instance(final WComponent base) {
-<span class="nc" id="L145">		WApplication appl = WebUtilities.getClosestOfClass(WApplication.class, base);</span>
-<span class="nc" id="L146">		return appl;</span>
+<span class="nc" id="L155">		WApplication appl = WebUtilities.getClosestOfClass(WApplication.class, base);</span>
+<span class="nc" id="L156">		return appl;</span>
 	}
 
 	/**
 	 * Add custom javaScript located at the specified URL to be used by the Application.
 	 *
 	 * @param url URL to a javaScript resource
-	 * @return the application resource the URL details are held in
+	 * @return the application resource in which the URL details are held
 	 */
 	public ApplicationResource addJsUrl(final String url) {
-<span class="fc bfc" id="L156" title="All 2 branches covered.">		if (Util.empty(url)) {</span>
-<span class="fc" id="L157">			throw new IllegalArgumentException(&quot;A URL must be provided.&quot;);</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">		if (Util.empty(url)) {</span>
+<span class="fc" id="L167">			throw new IllegalArgumentException(&quot;A URL must be provided.&quot;);</span>
 		}
-<span class="fc" id="L159">		ApplicationResource res = new ApplicationResource(url);</span>
-<span class="fc" id="L160">		addJsResource(res);</span>
-<span class="fc" id="L161">		return res;</span>
+<span class="fc" id="L169">		ApplicationResource res = new ApplicationResource(url);</span>
+<span class="fc" id="L170">		addJsResource(res);</span>
+<span class="fc" id="L171">		return res;</span>
 	}
 
 	/**
-	 * Add custom javaScript held as an internal resource to be used by the application.
+	 * Add custom JavaScript held as an internal resource to be used by the application.
 	 *
-	 * @param fileName the javaScript file name.
-	 * @return the application resource the resource details are held in
+	 * @param fileName the JavaScript file name
+	 * @return the application resource in which the resource details are held
 	 */
 	public ApplicationResource addJsFile(final String fileName) {
-<span class="fc bfc" id="L171" title="All 2 branches covered.">		if (Util.empty(fileName)) {</span>
-<span class="fc" id="L172">			throw new IllegalArgumentException(&quot;A file name must be provided.&quot;);</span>
+<span class="fc bfc" id="L181" title="All 2 branches covered.">		if (Util.empty(fileName)) {</span>
+<span class="fc" id="L182">			throw new IllegalArgumentException(&quot;A file name must be provided.&quot;);</span>
 		}
-<span class="fc" id="L174">		InternalResource resource = new InternalResource(fileName, fileName);</span>
-<span class="fc" id="L175">		ApplicationResource res = new ApplicationResource(resource);</span>
-<span class="fc" id="L176">		addJsResource(res);</span>
-<span class="fc" id="L177">		return res;</span>
+<span class="fc" id="L184">		InternalResource resource = new InternalResource(fileName, fileName);</span>
+<span class="fc" id="L185">		ApplicationResource res = new ApplicationResource(resource);</span>
+<span class="fc" id="L186">		addJsResource(res);</span>
+<span class="fc" id="L187">		return res;</span>
 	}
 
 	/**
 	 * Add a custom javaScript resource that is to be loaded and used by the application.
 	 *
-	 * @param resource the javaScript resource
+	 * @param resource the JavaScript resource
 	 */
 	public void addJsResource(final ApplicationResource resource) {
-<span class="fc" id="L186">		WApplicationModel model = getOrCreateComponentModel();</span>
-<span class="fc bfc" id="L187" title="All 2 branches covered.">		if (model.jsResources == null) {</span>
-<span class="fc" id="L188">			model.jsResources = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L196">		WApplicationModel model = getOrCreateComponentModel();</span>
+<span class="fc bfc" id="L197" title="All 2 branches covered.">		if (model.jsResources == null) {</span>
+<span class="fc" id="L198">			model.jsResources = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L199" title="All 2 branches covered.">		} else if (model.jsResources.contains(resource)) {</span>
+<span class="fc" id="L200">			return;</span>
 		}
-<span class="fc" id="L190">		model.jsResources.add(resource);</span>
-<span class="fc" id="L191">	}</span>
+<span class="fc" id="L202">		model.jsResources.add(resource);</span>
+<span class="fc" id="L203">	}</span>
 
 	/**
-	 * Remove all custom javaScript resources.
+	 * Remove all custom JavaScript resources.
 	 */
 	public void removeAllJsResources() {
-<span class="fc" id="L197">		getOrCreateComponentModel().jsResources = null;</span>
-<span class="fc" id="L198">	}</span>
-
-	/**
-	 * Remove a custom javaScript resource.
-	 *
-	 * @param resource the javaScript resource to remove.
-	 */
-	public void removeJsResource(final ApplicationResource resource) {
-<span class="fc" id="L206">		WApplicationModel model = getOrCreateComponentModel();</span>
-<span class="pc bpc" id="L207" title="1 of 2 branches missed.">		if (model.jsResources != null) {</span>
-<span class="fc" id="L208">			model.jsResources.remove(resource);</span>
-		}
+<span class="fc" id="L209">		getOrCreateComponentModel().jsResources = null;</span>
 <span class="fc" id="L210">	}</span>
 
 	/**
-	 * @return the set of custom javaScript application resources
+	 * Remove a custom JavaScript resource.
+	 *
+	 * @param resource the javaScript resource to remove
 	 */
-	public Set&lt;ApplicationResource&gt; getJsResources() {
-<span class="fc" id="L216">		WApplicationModel model = getComponentModel();</span>
-<span class="fc bfc" id="L217" title="All 2 branches covered.">		if (model.jsResources == null) {</span>
-<span class="fc" id="L218">			return Collections.EMPTY_SET;</span>
+	public void removeJsResource(final ApplicationResource resource) {
+<span class="fc" id="L218">		WApplicationModel model = getOrCreateComponentModel();</span>
+<span class="pc bpc" id="L219" title="1 of 2 branches missed.">		if (model.jsResources != null) {</span>
+<span class="fc" id="L220">			model.jsResources.remove(resource);</span>
 		}
-<span class="fc" id="L220">		return Collections.unmodifiableSet(model.jsResources);</span>
+<span class="fc" id="L222">	}</span>
+
+	/**
+	 * @return the set of custom JavaScript application resources
+	 */
+	public List&lt;ApplicationResource&gt; getJsResources() {
+<span class="fc" id="L228">		WApplicationModel model = getComponentModel();</span>
+<span class="fc bfc" id="L229" title="All 2 branches covered.">		if (model.jsResources == null) {</span>
+<span class="fc" id="L230">			return Collections.EMPTY_LIST;</span>
+		}
+<span class="fc" id="L232">		return Collections.unmodifiableList(model.jsResources);</span>
 	}
 
 	/**
 	 * Add custom CSS located at the specified URL to be used by the Application.
 	 *
 	 * @param url URL to a CSS resource
-	 * @return the application resource the URL details are held in
+	 * @return the application resource in which the URL details are held
 	 */
 	public ApplicationResource addCssUrl(final String url) {
-<span class="fc bfc" id="L230" title="All 2 branches covered.">		if (Util.empty(url)) {</span>
-<span class="fc" id="L231">			throw new IllegalArgumentException(&quot;A URL must be provided.&quot;);</span>
+<span class="fc bfc" id="L242" title="All 2 branches covered.">		if (Util.empty(url)) {</span>
+<span class="fc" id="L243">			throw new IllegalArgumentException(&quot;A URL must be provided.&quot;);</span>
 		}
-<span class="fc" id="L233">		ApplicationResource res = new ApplicationResource(url);</span>
-<span class="fc" id="L234">		addCssResource(res);</span>
-<span class="fc" id="L235">		return res;</span>
+<span class="fc" id="L245">		ApplicationResource res = new ApplicationResource(url);</span>
+<span class="fc" id="L246">		addCssResource(res);</span>
+<span class="fc" id="L247">		return res;</span>
 	}
 
 	/**
 	 * Add custom CSS held as an internal resource to be used by the Application.
 	 *
-	 * @param fileName the CSS file name.
-	 * @return the application resource the resource details are held in
+	 * @param fileName the CSS file name
+	 * @return the application resource in which the resource details are held
 	 */
 	public ApplicationResource addCssFile(final String fileName) {
-<span class="fc bfc" id="L245" title="All 2 branches covered.">		if (Util.empty(fileName)) {</span>
-<span class="fc" id="L246">			throw new IllegalArgumentException(&quot;A file name must be provided.&quot;);</span>
+<span class="fc bfc" id="L257" title="All 2 branches covered.">		if (Util.empty(fileName)) {</span>
+<span class="fc" id="L258">			throw new IllegalArgumentException(&quot;A file name must be provided.&quot;);</span>
 		}
-<span class="fc" id="L248">		InternalResource resource = new InternalResource(fileName, fileName);</span>
-<span class="fc" id="L249">		ApplicationResource res = new ApplicationResource(resource);</span>
-<span class="fc" id="L250">		addCssResource(res);</span>
-<span class="fc" id="L251">		return res;</span>
+<span class="fc" id="L260">		InternalResource resource = new InternalResource(fileName, fileName);</span>
+<span class="fc" id="L261">		ApplicationResource res = new ApplicationResource(resource);</span>
+<span class="fc" id="L262">		addCssResource(res);</span>
+<span class="fc" id="L263">		return res;</span>
 	}
 
 	/**
@@ -257,58 +269,60 @@ import java.util.Set;
 	 * @param resource the CSS resource
 	 */
 	public void addCssResource(final ApplicationResource resource) {
-<span class="fc" id="L260">		WApplicationModel model = getOrCreateComponentModel();</span>
-<span class="fc bfc" id="L261" title="All 2 branches covered.">		if (model.cssResources == null) {</span>
-<span class="fc" id="L262">			model.cssResources = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L272">		WApplicationModel model = getOrCreateComponentModel();</span>
+<span class="fc bfc" id="L273" title="All 2 branches covered.">		if (model.cssResources == null) {</span>
+<span class="fc" id="L274">			model.cssResources = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L275" title="All 2 branches covered.">		} else if (model.cssResources.contains(resource)) {</span>
+<span class="fc" id="L276">			return;</span>
 		}
-<span class="fc" id="L264">		model.cssResources.add(resource);</span>
-<span class="fc" id="L265">	}</span>
+<span class="fc" id="L278">		model.cssResources.add(resource);</span>
+<span class="fc" id="L279">	}</span>
 
 	/**
 	 * Remove all custom CSS resources.
 	 */
 	public void removeAllCssResources() {
-<span class="fc" id="L271">		getOrCreateComponentModel().cssResources = null;</span>
-<span class="fc" id="L272">	}</span>
+<span class="fc" id="L285">		getOrCreateComponentModel().cssResources = null;</span>
+<span class="fc" id="L286">	}</span>
 
 	/**
 	 * Remove a custom CSS resource.
 	 *
-	 * @param resource the CSS resource to remove.
+	 * @param resource the CSS resource to remove
 	 */
 	public void removeCssResource(final ApplicationResource resource) {
-<span class="fc" id="L280">		WApplicationModel model = getOrCreateComponentModel();</span>
-<span class="pc bpc" id="L281" title="1 of 2 branches missed.">		if (model.cssResources != null) {</span>
-<span class="fc" id="L282">			model.cssResources.remove(resource);</span>
+<span class="fc" id="L294">		WApplicationModel model = getOrCreateComponentModel();</span>
+<span class="pc bpc" id="L295" title="1 of 2 branches missed.">		if (model.cssResources != null) {</span>
+<span class="fc" id="L296">			model.cssResources.remove(resource);</span>
 		}
-<span class="fc" id="L284">	}</span>
+<span class="fc" id="L298">	}</span>
 
 	/**
 	 * @return the list of custom CSS resources
 	 */
-	public Set&lt;ApplicationResource&gt; getCssResources() {
-<span class="fc" id="L290">		WApplicationModel model = getComponentModel();</span>
-<span class="fc bfc" id="L291" title="All 2 branches covered.">		if (model.cssResources == null) {</span>
-<span class="fc" id="L292">			return Collections.EMPTY_SET;</span>
+	public List&lt;ApplicationResource&gt; getCssResources() {
+<span class="fc" id="L304">		WApplicationModel model = getComponentModel();</span>
+<span class="fc bfc" id="L305" title="All 2 branches covered.">		if (model.cssResources == null) {</span>
+<span class="fc" id="L306">			return Collections.EMPTY_LIST;</span>
 		}
-<span class="fc" id="L294">		return Collections.unmodifiableSet(model.cssResources);</span>
+<span class="fc" id="L308">		return Collections.unmodifiableList(model.cssResources);</span>
 	}
 
 	/**
-	 * @return a String representation of this component, for debugging purposes.
+	 * @return a String representation of this component for debugging purposes
 	 */
 	@Override
 	public String toString() {
-<span class="fc" id="L302">		String text = getTitle();</span>
-<span class="pc bpc" id="L303" title="1 of 2 branches missed.">		text = text == null ? &quot;null&quot; : '&quot;' + text + '&quot;';</span>
-<span class="fc" id="L304">		return toString(text);</span>
+<span class="fc" id="L316">		String text = getTitle();</span>
+<span class="pc bpc" id="L317" title="1 of 2 branches missed.">		text = text == null ? &quot;null&quot; : '&quot;' + text + '&quot;';</span>
+<span class="fc" id="L318">		return toString(text);</span>
 	}
 
 	/**
-	 * @return the application icon URL or null if not set
+	 * @return the application icon URL
 	 */
 	public static String getIcon() {
-<span class="fc" id="L311">		return ICON_URL;</span>
+<span class="fc" id="L325">		return ICON_URL;</span>
 	}
 
 	// --------------------------------
@@ -316,11 +330,11 @@ import java.util.Set;
 	/**
 	 * Creates a new model appropriate for this component.
 	 *
-	 * @return a new {@link WApplicationModel}.
+	 * @return a new {@link WApplicationModel}
 	 */
 	@Override
 	protected WApplicationModel newComponentModel() {
-<span class="fc" id="L323">		return new WApplicationModel();</span>
+<span class="fc" id="L337">		return new WApplicationModel();</span>
 	}
 
 	/**
@@ -328,7 +342,7 @@ import java.util.Set;
 	 */
 	@Override
 	protected WApplicationModel getComponentModel() {
-<span class="fc" id="L331">		return (WApplicationModel) super.getComponentModel();</span>
+<span class="fc" id="L345">		return (WApplicationModel) super.getComponentModel();</span>
 	}
 
 	/**
@@ -336,13 +350,13 @@ import java.util.Set;
 	 */
 	@Override
 	protected WApplicationModel getOrCreateComponentModel() {
-<span class="fc" id="L339">		return (WApplicationModel) super.getOrCreateComponentModel();</span>
+<span class="fc" id="L353">		return (WApplicationModel) super.getOrCreateComponentModel();</span>
 	}
 
 	/**
 	 * Holds the extrinsic state information of a WApplication.
 	 */
-<span class="fc" id="L345">	public static class WApplicationModel extends ComponentModel {</span>
+<span class="fc" id="L359">	public static class WApplicationModel extends ComponentModel {</span>
 
 		/**
 		 * Indicates whether the application has unsaved changes.
@@ -360,20 +374,20 @@ import java.util.Set;
 		private boolean appendID;
 
 		/**
-		 * Set of custom javaScript resources.
+		 * List of custom javaScript resources.
 		 */
-		private Set&lt;ApplicationResource&gt; jsResources;
+		private ArrayList&lt;ApplicationResource&gt; jsResources;
 
 		/**
-		 * Set of custom CSS resources.
+		 * List of custom CSS resources.
 		 */
-		private Set&lt;ApplicationResource&gt; cssResources;
+		private ArrayList&lt;ApplicationResource&gt; cssResources;
 	}
 
 	/**
 	 * Holds the details of CSS and JS custom resources.
 	 */
-<span class="fc" id="L376">	public static class ApplicationResource implements Serializable {</span>
+<span class="fc" id="L390">	public static class ApplicationResource implements Serializable {</span>
 
 		/**
 		 * Unique resource id.
@@ -393,39 +407,39 @@ import java.util.Set;
 		/**
 		 * @param url URL to a resource
 		 */
-<span class="fc" id="L396">		public ApplicationResource(final String url) {</span>
-<span class="pc bpc" id="L397" title="1 of 2 branches missed.">			if (Util.empty(url)) {</span>
-<span class="nc" id="L398">				throw new IllegalArgumentException(&quot;A URL must be provided.&quot;);</span>
+<span class="fc" id="L410">		public ApplicationResource(final String url) {</span>
+<span class="pc bpc" id="L411" title="1 of 2 branches missed.">			if (Util.empty(url)) {</span>
+<span class="nc" id="L412">				throw new IllegalArgumentException(&quot;A URL must be provided.&quot;);</span>
 			}
-<span class="fc" id="L400">			this.resourceId = &quot;url:&quot; + url;</span>
-<span class="fc" id="L401">			this.url = url;</span>
-<span class="fc" id="L402">			this.resource = null;</span>
-<span class="fc" id="L403">		}</span>
+<span class="fc" id="L414">			this.resourceId = &quot;url:&quot; + url;</span>
+<span class="fc" id="L415">			this.url = url;</span>
+<span class="fc" id="L416">			this.resource = null;</span>
+<span class="fc" id="L417">		}</span>
 
 		/**
 		 * @param resource internal resource
 		 */
-<span class="fc" id="L408">		public ApplicationResource(final InternalResource resource) {</span>
-<span class="pc bpc" id="L409" title="1 of 2 branches missed.">			if (resource == null) {</span>
-<span class="nc" id="L410">				throw new IllegalArgumentException(&quot;A resource must be provided.&quot;);</span>
+<span class="fc" id="L422">		public ApplicationResource(final InternalResource resource) {</span>
+<span class="pc bpc" id="L423" title="1 of 2 branches missed.">			if (resource == null) {</span>
+<span class="nc" id="L424">				throw new IllegalArgumentException(&quot;A resource must be provided.&quot;);</span>
 			}
-<span class="fc" id="L412">			this.resourceId = &quot;file:&quot; + resource.getResourceName();</span>
-<span class="fc" id="L413">			this.url = null;</span>
-<span class="fc" id="L414">			this.resource = resource;</span>
-<span class="fc" id="L415">		}</span>
+<span class="fc" id="L426">			this.resourceId = &quot;file:&quot; + resource.getResourceName();</span>
+<span class="fc" id="L427">			this.url = null;</span>
+<span class="fc" id="L428">			this.resource = resource;</span>
+<span class="fc" id="L429">		}</span>
 
 		/**
 		 * @return the resource id
 		 */
 		public String getResourceId() {
-<span class="fc" id="L421">			return resourceId;</span>
+<span class="fc" id="L435">			return resourceId;</span>
 		}
 
 		/**
 		 * @return the resource URL
 		 */
 		public String getUrl() {
-<span class="fc" id="L428">			return url;</span>
+<span class="fc" id="L442">			return url;</span>
 		}
 
 		/**
@@ -433,14 +447,14 @@ import java.util.Set;
 		 * @return the internal resource
 		 */
 		public InternalResource getResource() {
-<span class="fc" id="L436">			return resource;</span>
+<span class="fc" id="L450">			return resource;</span>
 		}
 
 		/**
 		 * @return the target URL of the resource
 		 */
 		public String getTargetUrl() {
-<span class="pc bpc" id="L443" title="1 of 2 branches missed.">			return url == null ? resource.getTargetUrl() : url;</span>
+<span class="pc bpc" id="L457" title="1 of 2 branches missed.">			return url == null ? resource.getTargetUrl() : url;</span>
 		}
 
 		/**
@@ -448,7 +462,7 @@ import java.util.Set;
 		 */
 		@Override
 		public boolean equals(final Object obj) {
-<span class="pc bpc" id="L451" title="2 of 4 branches missed.">			return obj instanceof ApplicationResource &amp;&amp; resourceId.equals(((ApplicationResource) obj).getResourceId());</span>
+<span class="pc bpc" id="L465" title="1 of 4 branches missed.">			return obj instanceof ApplicationResource &amp;&amp; resourceId.equals(((ApplicationResource) obj).getResourceId());</span>
 		}
 
 		/**
@@ -456,10 +470,8 @@ import java.util.Set;
 		 */
 		@Override
 		public int hashCode() {
-<span class="fc" id="L459">			return resourceId.hashCode();</span>
+<span class="nc" id="L473">			return resourceId.hashCode();</span>
 		}
-
 	}
-
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

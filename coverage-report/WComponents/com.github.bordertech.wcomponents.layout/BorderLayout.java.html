@@ -5,58 +5,62 @@
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
+ * @deprecated WComponents 1.1.4. Use {@link com.github.bordertech.wcomponents.WRow} and
+ * {@link com.github.bordertech.wcomponents.WColumn} or {@link com.github.bordertech.wcomponents.layout.ColumnLayout} instead.
+ * It is preferred that an application use {@link com.github.bordertech.wcomponents.WTemplate} for layout as this
+ * provides for lighter payloads and more responsive UIs.
  */
 public class BorderLayout implements LayoutManager {
 
 	/**
 	 * The north layout constraint (top of container).
 	 */
-<span class="fc" id="L14">	public static final BorderLayoutConstraint NORTH = BorderLayoutConstraint.NORTH;</span>
+<span class="fc" id="L18">	public static final BorderLayoutConstraint NORTH = BorderLayoutConstraint.NORTH;</span>
 
 	/**
 	 * The south layout constraint (bottom of container).
 	 */
-<span class="fc" id="L19">	public static final BorderLayoutConstraint SOUTH = BorderLayoutConstraint.SOUTH;</span>
+<span class="fc" id="L23">	public static final BorderLayoutConstraint SOUTH = BorderLayoutConstraint.SOUTH;</span>
 
 	/**
 	 * The east layout constraint (right side of container).
 	 */
-<span class="fc" id="L24">	public static final BorderLayoutConstraint EAST = BorderLayoutConstraint.EAST;</span>
+<span class="fc" id="L28">	public static final BorderLayoutConstraint EAST = BorderLayoutConstraint.EAST;</span>
 
 	/**
 	 * The west layout constraint (left side of container).
 	 */
-<span class="fc" id="L29">	public static final BorderLayoutConstraint WEST = BorderLayoutConstraint.WEST;</span>
+<span class="fc" id="L33">	public static final BorderLayoutConstraint WEST = BorderLayoutConstraint.WEST;</span>
 
 	/**
 	 * The center layout constraint (middle of container).
 	 */
-<span class="fc" id="L34">	public static final BorderLayoutConstraint CENTER = BorderLayoutConstraint.CENTER;</span>
+<span class="fc" id="L38">	public static final BorderLayoutConstraint CENTER = BorderLayoutConstraint.CENTER;</span>
 
 	/**
 	 * An enumeration of the possible locations for content within a border layout.
 	 */
-<span class="pc" id="L39">	public enum BorderLayoutConstraint {</span>
+<span class="pc" id="L43">	public enum BorderLayoutConstraint {</span>
 		/**
 		 * North (top) positioning.
 		 */
-<span class="fc" id="L43">		NORTH,</span>
+<span class="fc" id="L47">		NORTH,</span>
 		/**
 		 * South (bottom) positioning.
 		 */
-<span class="fc" id="L47">		SOUTH,</span>
+<span class="fc" id="L51">		SOUTH,</span>
 		/**
 		 * East (right) positioning.
 		 */
-<span class="fc" id="L51">		EAST,</span>
+<span class="fc" id="L55">		EAST,</span>
 		/**
 		 * West (left) positioning.
 		 */
-<span class="fc" id="L55">		WEST,</span>
+<span class="fc" id="L59">		WEST,</span>
 		/**
 		 * Center positioning.
 		 */
-<span class="fc" id="L59">		CENTER</span>
+<span class="fc" id="L63">		CENTER</span>
 	};
 
 	/**
@@ -73,8 +77,8 @@ public class BorderLayout implements LayoutManager {
 	 * Creates a border layout.
 	 */
 	public BorderLayout() {
-<span class="fc" id="L76">		this(0, 0);</span>
-<span class="fc" id="L77">	}</span>
+<span class="fc" id="L80">		this(0, 0);</span>
+<span class="fc" id="L81">	}</span>
 
 	/**
 	 * Creates a border layout with the gap between component areas.
@@ -88,31 +92,31 @@ public class BorderLayout implements LayoutManager {
 	 * @param hgap the horizontal gap between the west, center and east cells, measured in pixels.
 	 * @param vgap the vertical gap between the north cell, middle row and south cell, measured in pixels
 	 */
-<span class="fc" id="L91">	public BorderLayout(final int hgap, final int vgap) {</span>
-<span class="fc bfc" id="L92" title="All 2 branches covered.">		if (hgap &lt; 0) {</span>
-<span class="fc" id="L93">			throw new IllegalArgumentException(&quot;Hgap must be greater than or equal to zero&quot;);</span>
+<span class="fc" id="L95">	public BorderLayout(final int hgap, final int vgap) {</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">		if (hgap &lt; 0) {</span>
+<span class="fc" id="L97">			throw new IllegalArgumentException(&quot;Hgap must be greater than or equal to zero&quot;);</span>
 		}
 
-<span class="fc bfc" id="L96" title="All 2 branches covered.">		if (vgap &lt; 0) {</span>
-<span class="fc" id="L97">			throw new IllegalArgumentException(&quot;Vgap must be greater than or equal to zero&quot;);</span>
+<span class="fc bfc" id="L100" title="All 2 branches covered.">		if (vgap &lt; 0) {</span>
+<span class="fc" id="L101">			throw new IllegalArgumentException(&quot;Vgap must be greater than or equal to zero&quot;);</span>
 		}
 
-<span class="fc" id="L100">		this.hgap = hgap;</span>
-<span class="fc" id="L101">		this.vgap = vgap;</span>
-<span class="fc" id="L102">	}</span>
+<span class="fc" id="L104">		this.hgap = hgap;</span>
+<span class="fc" id="L105">		this.vgap = vgap;</span>
+<span class="fc" id="L106">	}</span>
 
 	/**
 	 * @return Returns the horizontal gap between the cells, measured in pixels.
 	 */
 	public int getHgap() {
-<span class="fc" id="L108">		return hgap;</span>
+<span class="fc" id="L112">		return hgap;</span>
 	}
 
 	/**
 	 * @return Returns the vertical gap between the cells, measured in pixels.
 	 */
 	public int getVgap() {
-<span class="fc" id="L115">		return vgap;</span>
+<span class="fc" id="L119">		return vgap;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

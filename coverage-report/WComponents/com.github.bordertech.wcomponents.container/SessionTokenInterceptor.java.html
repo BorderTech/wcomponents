@@ -49,15 +49,20 @@ import org.apache.commons.logging.LogFactory;
 			// Process request
 <span class="fc" id="L50">			getBackingComponent().serviceRequest(request);</span>
 		} else {  // Invalid token
-<span class="fc" id="L52">			LOG.error(</span>
-					&quot;Wrong session token detected for servlet request. Expected token [&quot; + expected
-					+ &quot;] but got token [&quot; + got + &quot;].&quot;);
-<span class="fc" id="L55">			String message = I18nUtilities.format(uic.getLocale(),</span>
+			String msg;
+<span class="pc bpc" id="L53" title="1 of 4 branches missed.">			if (expected == null &amp;&amp; got != null) {</span>
+<span class="fc" id="L54">				msg = &quot;Session for token [&quot; + got + &quot;] is no longer valid or timed out.&quot;;</span>
+			} else {
+<span class="fc" id="L56">				msg = &quot;Wrong session token detected for servlet request. Expected token [&quot; + expected</span>
+						+ &quot;] but got token [&quot; + got + &quot;].&quot;;
+			}
+<span class="fc" id="L59">			LOG.error(msg);</span>
+<span class="fc" id="L60">			String message = I18nUtilities.format(uic.getLocale(),</span>
 					InternalMessages.DEFAULT_SESSION_TOKEN_ERROR);
-<span class="fc" id="L57">			throw new SystemException(message);</span>
+<span class="fc" id="L62">			throw new SystemException(message);</span>
 		}
 
-<span class="fc" id="L60">	}</span>
+<span class="fc" id="L65">	}</span>
 
 	/**
 	 * {@inheritDoc}
@@ -65,12 +70,12 @@ import org.apache.commons.logging.LogFactory;
 	@Override
 	public void preparePaint(final Request request) {
 		// Set session token
-<span class="fc" id="L68">		UIContext uic = UIContextHolder.getCurrent();</span>
-<span class="fc bfc" id="L69" title="All 2 branches covered.">		if (uic.getEnvironment().getSessionToken() == null) {</span>
-<span class="fc" id="L70">			uic.getEnvironment().setSessionToken(UUID.randomUUID().toString());</span>
+<span class="fc" id="L73">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">		if (uic.getEnvironment().getSessionToken() == null) {</span>
+<span class="fc" id="L75">			uic.getEnvironment().setSessionToken(UUID.randomUUID().toString());</span>
 		}
-<span class="fc" id="L72">		super.preparePaint(request);</span>
-<span class="fc" id="L73">	}</span>
+<span class="fc" id="L77">		super.preparePaint(request);</span>
+<span class="fc" id="L78">	}</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

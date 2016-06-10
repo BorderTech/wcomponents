@@ -100,26 +100,28 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 
 	/**
 	 * @return the number of rows to display for a column menu.
+	 * @deprecated No longer supported, no Java alternative. If this is required use application level CSS.
 	 */
 	public int getRows() {
-<span class="fc" id="L105">		return getComponentModel().rows;</span>
+<span class="fc" id="L106">		return getComponentModel().rows;</span>
 	}
 
 	/**
 	 * Sets the number of rows to display for a column menu.
 	 *
+	 * @deprecated No longer supported, no Java alternative. If this is required use application level CSS.
 	 * @param rows The rows to set.
 	 */
 	public void setRows(final int rows) {
-<span class="fc" id="L114">		getOrCreateComponentModel().rows = rows;</span>
-<span class="fc" id="L115">	}</span>
+<span class="fc" id="L116">		getOrCreateComponentModel().rows = rows;</span>
+<span class="fc" id="L117">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public Margin getMargin() {
-<span class="fc" id="L122">		return getComponentModel().margin;</span>
+<span class="fc" id="L124">		return getComponentModel().margin;</span>
 	}
 
 	/**
@@ -127,8 +129,8 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	@Override
 	public void setMargin(final Margin margin) {
-<span class="fc" id="L130">		getOrCreateComponentModel().margin = margin;</span>
-<span class="fc" id="L131">	}</span>
+<span class="fc" id="L132">		getOrCreateComponentModel().margin = margin;</span>
+<span class="fc" id="L133">	}</span>
 
 	/**
 	 * @return the selection mode of the container
@@ -136,14 +138,14 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	@Deprecated
 	public SelectMode getSelectMode() {
-<span class="pc bfc" id="L139" title="All 3 branches covered.">		switch (getSelectionMode()) {</span>
+<span class="pc bfc" id="L141" title="All 3 branches covered.">		switch (getSelectionMode()) {</span>
 			case MULTIPLE:
-<span class="fc" id="L141">				return SelectMode.MULTIPLE;</span>
+<span class="fc" id="L143">				return SelectMode.MULTIPLE;</span>
 
 			case SINGLE:
-<span class="fc" id="L144">				return SelectMode.SINGLE;</span>
+<span class="fc" id="L146">				return SelectMode.SINGLE;</span>
 			default:
-<span class="fc" id="L146">				return SelectMode.NONE;</span>
+<span class="fc" id="L148">				return SelectMode.NONE;</span>
 		}
 	}
 
@@ -154,28 +156,28 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	@Deprecated
 	public void setSelectMode(final SelectMode selectMode) {
-<span class="pc bpc" id="L157" title="1 of 2 branches missed.">		if (selectMode == null) {</span>
-<span class="nc" id="L158">			setSelectionMode(null);</span>
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">		if (selectMode == null) {</span>
+<span class="nc" id="L160">			setSelectionMode(null);</span>
 		} else {
-<span class="pc bpc" id="L160" title="1 of 3 branches missed.">			switch (selectMode) {</span>
+<span class="pc bpc" id="L162" title="1 of 3 branches missed.">			switch (selectMode) {</span>
 				case MULTIPLE:
-<span class="fc" id="L162">					setSelectionMode(SelectionMode.MULTIPLE);</span>
-<span class="fc" id="L163">					break;</span>
+<span class="fc" id="L164">					setSelectionMode(SelectionMode.MULTIPLE);</span>
+<span class="fc" id="L165">					break;</span>
 				case SINGLE:
-<span class="fc" id="L165">					setSelectionMode(SelectionMode.SINGLE);</span>
-<span class="fc" id="L166">					break;</span>
+<span class="fc" id="L167">					setSelectionMode(SelectionMode.SINGLE);</span>
+<span class="fc" id="L168">					break;</span>
 				default:
-<span class="nc" id="L168">					setSelectionMode(SelectionMode.NONE);</span>
+<span class="nc" id="L170">					setSelectionMode(SelectionMode.NONE);</span>
 			}
 		}
-<span class="fc" id="L171">	}</span>
+<span class="fc" id="L173">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public SelectionMode getSelectionMode() {
-<span class="fc" id="L178">		return getComponentModel().selectionMode;</span>
+<span class="fc" id="L180">		return getComponentModel().selectionMode;</span>
 	}
 
 	/**
@@ -183,8 +185,8 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	@Override
 	public void setSelectionMode(final SelectionMode selectionMode) {
-<span class="pc bpc" id="L186" title="1 of 2 branches missed.">		getOrCreateComponentModel().selectionMode = selectionMode == null ? SelectionMode.NONE : selectionMode;</span>
-<span class="fc" id="L187">	}</span>
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">		getOrCreateComponentModel().selectionMode = selectionMode == null ? SelectionMode.NONE : selectionMode;</span>
+<span class="fc" id="L189">	}</span>
 
 	/**
 	 * Indicates whether this menu is disabled.
@@ -193,7 +195,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	@Override
 	public boolean isDisabled() {
-<span class="fc" id="L196">		return isFlagSet(ComponentModel.DISABLED_FLAG);</span>
+<span class="fc" id="L198">		return isFlagSet(ComponentModel.DISABLED_FLAG);</span>
 	}
 
 	/**
@@ -203,29 +205,29 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	@Override
 	public void setDisabled(final boolean disabled) {
-<span class="fc" id="L206">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
-<span class="fc" id="L207">	}</span>
+<span class="fc" id="L208">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
+<span class="fc" id="L209">	}</span>
 
 	/**
 	 * Adds a separator to the end of the menu.
 	 */
 	public void addSeparator() {
-<span class="fc" id="L213">		addMenuItem(new WSeparator());</span>
-<span class="fc" id="L214">	}</span>
+<span class="fc" id="L215">		addMenuItem(new WSeparator());</span>
+<span class="fc" id="L216">	}</span>
 
 	/**
 	 * @param item add a {@link WSeparator}
 	 */
 	public void add(final WSeparator item) {
-<span class="fc" id="L220">		addMenuItem(item);</span>
-<span class="fc" id="L221">	}</span>
+<span class="fc" id="L222">		addMenuItem(item);</span>
+<span class="fc" id="L223">	}</span>
 
 	/**
 	 * @param item add a {@link WMenuItem}
 	 */
 	public void add(final WMenuItem item) {
-<span class="fc" id="L227">		addMenuItem(item);</span>
-<span class="fc" id="L228">	}</span>
+<span class="fc" id="L229">		addMenuItem(item);</span>
+<span class="fc" id="L230">	}</span>
 
 	/**
 	 * @param item add a {@link WMenuItemGroup}
@@ -233,23 +235,23 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	@Deprecated
 	public void add(final WMenuItemGroup item) {
-<span class="fc" id="L236">		addMenuItem(item);</span>
-<span class="fc" id="L237">	}</span>
+<span class="fc" id="L238">		addMenuItem(item);</span>
+<span class="fc" id="L239">	}</span>
 
 	/**
 	 * @param item add a {@link WSubMenu}
 	 */
 	public void add(final WSubMenu item) {
-<span class="fc" id="L243">		addMenuItem(item);</span>
-<span class="fc" id="L244">	}</span>
+<span class="fc" id="L245">		addMenuItem(item);</span>
+<span class="fc" id="L246">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void addMenuItem(final MenuItem item) {
-<span class="fc" id="L251">		getContent().add(item);</span>
-<span class="fc" id="L252">	}</span>
+<span class="fc" id="L253">		getContent().add(item);</span>
+<span class="fc" id="L254">	}</span>
 
 	/**
 	 * {@inheritDoc}
@@ -259,34 +261,34 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	@Deprecated
 	@Override
 	public void remove(final WComponent item) {
-<span class="nc bnc" id="L262" title="All 2 branches missed.">		if (item instanceof MenuItem) {</span>
-<span class="nc" id="L263">			removeMenuItem((MenuItem) item);</span>
+<span class="nc bnc" id="L264" title="All 2 branches missed.">		if (item instanceof MenuItem) {</span>
+<span class="nc" id="L265">			removeMenuItem((MenuItem) item);</span>
 		}
-<span class="nc" id="L265">	}</span>
+<span class="nc" id="L267">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void removeMenuItem(final MenuItem item) {
-<span class="fc" id="L272">		getContent().remove(item);</span>
-<span class="fc" id="L273">	}</span>
+<span class="fc" id="L274">		getContent().remove(item);</span>
+<span class="fc" id="L275">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void removeAllMenuItems() {
-<span class="fc" id="L280">		getContent().removeAll();</span>
-<span class="fc" id="L281">	}</span>
+<span class="fc" id="L282">		getContent().removeAll();</span>
+<span class="fc" id="L283">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public List&lt;MenuItem&gt; getMenuItems() {
-<span class="fc" id="L288">		List&lt;MenuItem&gt; items = new ArrayList(getContent().getChildren());</span>
-<span class="fc" id="L289">		return Collections.unmodifiableList(items);</span>
+<span class="fc" id="L290">		List&lt;MenuItem&gt; items = new ArrayList(getContent().getChildren());</span>
+<span class="fc" id="L291">		return Collections.unmodifiableList(items);</span>
 	}
 
 	/**
@@ -294,9 +296,9 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 * @return the list of menu items
 	 */
 	public List&lt;MenuItem&gt; getMenuItems(final boolean recurse) {
-<span class="fc" id="L297">		List&lt;MenuItem&gt; items = new ArrayList();</span>
-<span class="fc" id="L298">		getChildMenuItems(items, recurse, this);</span>
-<span class="fc" id="L299">		return Collections.unmodifiableList(items);</span>
+<span class="fc" id="L299">		List&lt;MenuItem&gt; items = new ArrayList();</span>
+<span class="fc" id="L300">		getChildMenuItems(items, recurse, this);</span>
+<span class="fc" id="L301">		return Collections.unmodifiableList(items);</span>
 	}
 
 	/**
@@ -307,7 +309,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	@Deprecated
 	public WComponent getSelectedItem() {
-<span class="fc" id="L310">		return getSelectedMenuItem();</span>
+<span class="fc" id="L312">		return getSelectedMenuItem();</span>
 	}
 
 	/**
@@ -318,8 +320,8 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	@Deprecated
 	public void setSelectedItem(final WComponent selectedItem) {
-<span class="fc" id="L321">		setSelectedMenuItem((MenuItemSelectable) selectedItem);</span>
-<span class="fc" id="L322">	}</span>
+<span class="fc" id="L323">		setSelectedMenuItem((MenuItemSelectable) selectedItem);</span>
+<span class="fc" id="L324">	}</span>
 
 	/**
 	 * Returns the selected items (WMenUItems/WSubMenus, depending on the menu type) in the given context.
@@ -329,8 +331,8 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	@Deprecated
 	public List&lt;WComponent&gt; getSelectedItems() {
-<span class="fc" id="L332">		List&lt;WComponent&gt; items = new ArrayList(getSelectedMenuItems());</span>
-<span class="fc" id="L333">		return Collections.unmodifiableList(items);</span>
+<span class="fc" id="L334">		List&lt;WComponent&gt; items = new ArrayList(getSelectedMenuItems());</span>
+<span class="fc" id="L335">		return Collections.unmodifiableList(items);</span>
 	}
 
 	/**
@@ -341,13 +343,13 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	@Deprecated
 	public void setSelectedItems(final List&lt;WComponent&gt; selectedItems) {
-<span class="pc bpc" id="L344" title="2 of 4 branches missed.">		if (selectedItems == null || selectedItems.isEmpty()) {</span>
-<span class="nc" id="L345">			setSelectedMenuItems(null);</span>
+<span class="pc bpc" id="L346" title="2 of 4 branches missed.">		if (selectedItems == null || selectedItems.isEmpty()) {</span>
+<span class="nc" id="L347">			setSelectedMenuItems(null);</span>
 		} else {
-<span class="fc" id="L347">			List&lt;MenuItemSelectable&gt; items = new ArrayList(selectedItems);</span>
-<span class="fc" id="L348">			setSelectedMenuItems(items);</span>
+<span class="fc" id="L349">			List&lt;MenuItemSelectable&gt; items = new ArrayList(selectedItems);</span>
+<span class="fc" id="L350">			setSelectedMenuItems(items);</span>
 		}
-<span class="fc" id="L350">	}</span>
+<span class="fc" id="L352">	}</span>
 
 	/**
 	 * Clears an existing list of selected items.
@@ -356,8 +358,8 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	@Deprecated
 	public void clearSelectedItems() {
-<span class="fc" id="L359">		clearSelectedMenuItems();</span>
-<span class="fc" id="L360">	}</span>
+<span class="fc" id="L361">		clearSelectedMenuItems();</span>
+<span class="fc" id="L362">	}</span>
 
 	/**
 	 * Returns the selected item (WMenUItem/WSubMenu, depending on the menu type) in the given context.
@@ -365,11 +367,11 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 * @return the selected item, or null if no item has been selected.
 	 */
 	public MenuItemSelectable getSelectedMenuItem() {
-<span class="fc" id="L368">		List&lt;MenuItemSelectable&gt; selectedItems = getSelectedMenuItems();</span>
-<span class="fc bfc" id="L369" title="All 2 branches covered.">		if (selectedItems.isEmpty()) {</span>
-<span class="fc" id="L370">			return null;</span>
+<span class="fc" id="L370">		List&lt;MenuItemSelectable&gt; selectedItems = getSelectedMenuItems();</span>
+<span class="fc bfc" id="L371" title="All 2 branches covered.">		if (selectedItems.isEmpty()) {</span>
+<span class="fc" id="L372">			return null;</span>
 		} else {
-<span class="fc" id="L372">			return selectedItems.get(0);</span>
+<span class="fc" id="L374">			return selectedItems.get(0);</span>
 		}
 	}
 
@@ -379,18 +381,18 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 * @param selectedItem the selected item.
 	 */
 	public void setSelectedMenuItem(final MenuItemSelectable selectedItem) {
-<span class="fc" id="L382">		MenuModel model = getOrCreateComponentModel();</span>
-<span class="pc bpc" id="L383" title="1 of 2 branches missed.">		if (selectedItem == null) {</span>
-<span class="nc" id="L384">			model.selectedMenuItems = null;</span>
+<span class="fc" id="L384">		MenuModel model = getOrCreateComponentModel();</span>
+<span class="pc bpc" id="L385" title="1 of 2 branches missed.">		if (selectedItem == null) {</span>
+<span class="nc" id="L386">			model.selectedMenuItems = null;</span>
 		} else {
-<span class="fc bfc" id="L386" title="All 2 branches covered.">			if (model.selectedMenuItems == null) {</span>
-<span class="fc" id="L387">				model.selectedMenuItems = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L388" title="All 2 branches covered.">			if (model.selectedMenuItems == null) {</span>
+<span class="fc" id="L389">				model.selectedMenuItems = new ArrayList&lt;&gt;();</span>
 			} else {
-<span class="fc" id="L389">				model.selectedMenuItems.clear();</span>
+<span class="fc" id="L391">				model.selectedMenuItems.clear();</span>
 			}
-<span class="fc" id="L391">			model.selectedMenuItems.add(selectedItem);</span>
+<span class="fc" id="L393">			model.selectedMenuItems.add(selectedItem);</span>
 		}
-<span class="fc" id="L393">	}</span>
+<span class="fc" id="L395">	}</span>
 
 	/**
 	 * Returns the selected items (WMenUItems/WSubMenus, depending on the menu type) in the given context.
@@ -398,11 +400,11 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 * @return the selected items, or an empty list if nothing is selected.
 	 */
 	public List&lt;MenuItemSelectable&gt; getSelectedMenuItems() {
-<span class="fc" id="L401">		List&lt;MenuItemSelectable&gt; selectedItems = getComponentModel().selectedMenuItems;</span>
-<span class="pc bpc" id="L402" title="1 of 4 branches missed.">		if (selectedItems == null || selectedItems.isEmpty()) {</span>
-<span class="fc" id="L403">			return Collections.emptyList();</span>
+<span class="fc" id="L403">		List&lt;MenuItemSelectable&gt; selectedItems = getComponentModel().selectedMenuItems;</span>
+<span class="pc bpc" id="L404" title="1 of 4 branches missed.">		if (selectedItems == null || selectedItems.isEmpty()) {</span>
+<span class="fc" id="L405">			return Collections.emptyList();</span>
 		} else {
-<span class="fc" id="L405">			return Collections.unmodifiableList(selectedItems);</span>
+<span class="fc" id="L407">			return Collections.unmodifiableList(selectedItems);</span>
 		}
 	}
 
@@ -412,21 +414,21 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 * @param selectedItems the selected items.
 	 */
 	public void setSelectedMenuItems(final List&lt;? extends MenuItemSelectable&gt; selectedItems) {
-<span class="fc" id="L415">		MenuModel model = getOrCreateComponentModel();</span>
-<span class="pc bpc" id="L416" title="1 of 4 branches missed.">		if (selectedItems == null || selectedItems.isEmpty()) {</span>
-<span class="fc" id="L417">			model.selectedMenuItems = null;</span>
+<span class="fc" id="L417">		MenuModel model = getOrCreateComponentModel();</span>
+<span class="pc bpc" id="L418" title="1 of 4 branches missed.">		if (selectedItems == null || selectedItems.isEmpty()) {</span>
+<span class="fc" id="L419">			model.selectedMenuItems = null;</span>
 		} else {
-<span class="fc" id="L419">			model.selectedMenuItems = new ArrayList&lt;&gt;(selectedItems);</span>
+<span class="fc" id="L421">			model.selectedMenuItems = new ArrayList&lt;&gt;(selectedItems);</span>
 		}
-<span class="fc" id="L421">	}</span>
+<span class="fc" id="L423">	}</span>
 
 	/**
 	 * Clears an existing list of selected items.
 	 */
 	public void clearSelectedMenuItems() {
-<span class="fc" id="L427">		MenuModel model = getOrCreateComponentModel();</span>
-<span class="fc" id="L428">		model.selectedMenuItems = null;</span>
-<span class="fc" id="L429">	}</span>
+<span class="fc" id="L429">		MenuModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L430">		model.selectedMenuItems = null;</span>
+<span class="fc" id="L431">	}</span>
 
 	/**
 	 * Override handleRequest in order to perform processing specific to WMenu.
@@ -435,18 +437,18 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	@Override
 	public void handleRequest(final Request request) {
-<span class="fc bfc" id="L438" title="All 2 branches covered.">		if (isDisabled()) {</span>
+<span class="fc bfc" id="L440" title="All 2 branches covered.">		if (isDisabled()) {</span>
 			// Protect against client-side tampering of disabled/read-only fields.
-<span class="fc" id="L440">			return;</span>
+<span class="fc" id="L442">			return;</span>
 		}
 
-<span class="fc bfc" id="L443" title="All 2 branches covered.">		if (isPresent(request)) {</span>
-<span class="fc" id="L444">			List&lt;MenuItemSelectable&gt; selectedItems = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L445" title="All 2 branches covered.">		if (isPresent(request)) {</span>
+<span class="fc" id="L446">			List&lt;MenuItemSelectable&gt; selectedItems = new ArrayList&lt;&gt;();</span>
 			// Unfortunately, we need to recurse through all the menu/sub-menus
-<span class="fc" id="L446">			findSelections(request, this, selectedItems);</span>
-<span class="fc" id="L447">			setSelectedMenuItems(selectedItems);</span>
+<span class="fc" id="L448">			findSelections(request, this, selectedItems);</span>
+<span class="fc" id="L449">			setSelectedMenuItems(selectedItems);</span>
 		}
-<span class="fc" id="L449">	}</span>
+<span class="fc" id="L451">	}</span>
 
 	/**
 	 * Determine if this WMenu is on the Request.
@@ -455,7 +457,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 * @return true if this WMenu is on the Request, otherwise return false.
 	 */
 	protected boolean isPresent(final Request request) {
-<span class="fc bfc" id="L458" title="All 2 branches covered.">		return request.getParameter(getId() + &quot;-h&quot;) != null;</span>
+<span class="fc bfc" id="L460" title="All 2 branches covered.">		return request.getParameter(getId() + &quot;-h&quot;) != null;</span>
 	}
 
 	/**
@@ -469,40 +471,40 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 			final List&lt;MenuItemSelectable&gt; selections) {
 
 		// Don't bother checking disabled or invisible containers
-<span class="pc bpc" id="L472" title="2 of 4 branches missed.">		if (!selectContainer.isVisible()</span>
-<span class="fc bfc" id="L473" title="All 2 branches covered.">				|| (selectContainer instanceof Disableable &amp;&amp; ((Disableable) selectContainer).isDisabled())) {</span>
-<span class="fc" id="L474">			return;</span>
+<span class="pc bpc" id="L474" title="2 of 4 branches missed.">		if (!selectContainer.isVisible()</span>
+<span class="fc bfc" id="L475" title="All 2 branches covered.">				|| (selectContainer instanceof Disableable &amp;&amp; ((Disableable) selectContainer).isDisabled())) {</span>
+<span class="fc" id="L476">			return;</span>
 		}
 
 		// Get any selectable children of this container
-<span class="fc" id="L478">		List&lt;MenuItemSelectable&gt; selectableItems = getSelectableItems(selectContainer);</span>
+<span class="fc" id="L480">		List&lt;MenuItemSelectable&gt; selectableItems = getSelectableItems(selectContainer);</span>
 
 		// Now add the selections (if in the request)
-<span class="fc bfc" id="L481" title="All 2 branches covered.">		for (MenuItemSelectable selectableItem : selectableItems) {</span>
+<span class="fc bfc" id="L483" title="All 2 branches covered.">		for (MenuItemSelectable selectableItem : selectableItems) {</span>
 			// Check if the item is on the request
-<span class="pc bpc" id="L483" title="1 of 2 branches missed.">			if (request.getParameter(selectableItem.getId() + &quot;.selected&quot;) != null) {</span>
-<span class="fc" id="L484">				selections.add(selectableItem);</span>
-<span class="fc bfc" id="L485" title="All 2 branches covered.">				if (SelectionMode.SINGLE.equals(selectContainer.getSelectionMode())) {</span>
+<span class="pc bpc" id="L485" title="1 of 2 branches missed.">			if (request.getParameter(selectableItem.getId() + &quot;.selected&quot;) != null) {</span>
+<span class="fc" id="L486">				selections.add(selectableItem);</span>
+<span class="fc bfc" id="L487" title="All 2 branches covered.">				if (SelectionMode.SINGLE.equals(selectContainer.getSelectionMode())) {</span>
 					// Only select the first item at this level.
 					// We still need to check other levels of the menu for selection.
-<span class="fc" id="L488">					break;</span>
+<span class="fc" id="L490">					break;</span>
 				}
 			}
-<span class="fc" id="L491">		}</span>
+<span class="fc" id="L493">		}</span>
 
 		// We need to recurse through and check for other selectable containers
-<span class="fc bfc" id="L494" title="All 2 branches covered.">		for (MenuItem item : selectContainer.getMenuItems()) {</span>
-<span class="pc bpc" id="L495" title="1 of 2 branches missed.">			if (item instanceof MenuItemGroup) {</span>
-<span class="nc bnc" id="L496" title="All 2 branches missed.">				for (MenuItem groupItem : ((MenuItemGroup) item).getMenuItems()) {</span>
-<span class="nc bnc" id="L497" title="All 2 branches missed.">					if (groupItem instanceof MenuSelectContainer) {</span>
-<span class="nc" id="L498">						findSelections(request, (MenuSelectContainer) groupItem, selections);</span>
+<span class="fc bfc" id="L496" title="All 2 branches covered.">		for (MenuItem item : selectContainer.getMenuItems()) {</span>
+<span class="pc bpc" id="L497" title="1 of 2 branches missed.">			if (item instanceof MenuItemGroup) {</span>
+<span class="nc bnc" id="L498" title="All 2 branches missed.">				for (MenuItem groupItem : ((MenuItemGroup) item).getMenuItems()) {</span>
+<span class="nc bnc" id="L499" title="All 2 branches missed.">					if (groupItem instanceof MenuSelectContainer) {</span>
+<span class="nc" id="L500">						findSelections(request, (MenuSelectContainer) groupItem, selections);</span>
 					}
-<span class="nc" id="L500">				}</span>
-<span class="fc bfc" id="L501" title="All 2 branches covered.">			} else if (item instanceof MenuSelectContainer) {</span>
-<span class="fc" id="L502">				findSelections(request, (MenuSelectContainer) item, selections);</span>
+<span class="nc" id="L502">				}</span>
+<span class="fc bfc" id="L503" title="All 2 branches covered.">			} else if (item instanceof MenuSelectContainer) {</span>
+<span class="fc" id="L504">				findSelections(request, (MenuSelectContainer) item, selections);</span>
 			}
-<span class="fc" id="L504">		}</span>
-<span class="fc" id="L505">	}</span>
+<span class="fc" id="L506">		}</span>
+<span class="fc" id="L507">	}</span>
 
 	/**
 	 * Retrieves the selectable items for the given container.
@@ -511,23 +513,23 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 * @return the list of selectable items for the given component. May be empty.
 	 */
 	private List&lt;MenuItemSelectable&gt; getSelectableItems(final MenuSelectContainer selectContainer) {
-<span class="fc" id="L514">		List&lt;MenuItemSelectable&gt; result = new ArrayList&lt;&gt;(selectContainer.getMenuItems().size());</span>
+<span class="fc" id="L516">		List&lt;MenuItemSelectable&gt; result = new ArrayList&lt;&gt;(selectContainer.getMenuItems().size());</span>
 
-<span class="fc" id="L516">		SelectionMode selectionMode = selectContainer.getSelectionMode();</span>
+<span class="fc" id="L518">		SelectionMode selectionMode = selectContainer.getSelectionMode();</span>
 
-<span class="fc bfc" id="L518" title="All 2 branches covered.">		for (MenuItem item : selectContainer.getMenuItems()) {</span>
-<span class="pc bpc" id="L519" title="1 of 2 branches missed.">			if (item instanceof MenuItemGroup) {</span>
-<span class="nc bnc" id="L520" title="All 2 branches missed.">				for (MenuItem groupItem : ((MenuItemGroup) item).getMenuItems()) {</span>
-<span class="nc bnc" id="L521" title="All 2 branches missed.">					if (isSelectable(groupItem, selectionMode)) {</span>
-<span class="nc" id="L522">						result.add((MenuItemSelectable) groupItem);</span>
+<span class="fc bfc" id="L520" title="All 2 branches covered.">		for (MenuItem item : selectContainer.getMenuItems()) {</span>
+<span class="pc bpc" id="L521" title="1 of 2 branches missed.">			if (item instanceof MenuItemGroup) {</span>
+<span class="nc bnc" id="L522" title="All 2 branches missed.">				for (MenuItem groupItem : ((MenuItemGroup) item).getMenuItems()) {</span>
+<span class="nc bnc" id="L523" title="All 2 branches missed.">					if (isSelectable(groupItem, selectionMode)) {</span>
+<span class="nc" id="L524">						result.add((MenuItemSelectable) groupItem);</span>
 					}
-<span class="nc" id="L524">				}</span>
-<span class="fc bfc" id="L525" title="All 2 branches covered.">			} else if (isSelectable(item, selectionMode)) {</span>
-<span class="fc" id="L526">				result.add((MenuItemSelectable) item);</span>
+<span class="nc" id="L526">				}</span>
+<span class="fc bfc" id="L527" title="All 2 branches covered.">			} else if (isSelectable(item, selectionMode)) {</span>
+<span class="fc" id="L528">				result.add((MenuItemSelectable) item);</span>
 			}
-<span class="fc" id="L528">		}</span>
+<span class="fc" id="L530">		}</span>
 
-<span class="fc" id="L530">		return result;</span>
+<span class="fc" id="L532">		return result;</span>
 	}
 
 	/**
@@ -539,24 +541,24 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	private boolean isSelectable(final MenuItem item, final SelectionMode selectionMode) {
 
-<span class="pc bpc" id="L542" title="3 of 6 branches missed.">		if (!(item instanceof MenuItemSelectable) || !item.isVisible()</span>
-<span class="fc bfc" id="L543" title="All 2 branches covered.">				|| (item instanceof Disableable &amp;&amp; ((Disableable) item).isDisabled())) {</span>
-<span class="fc" id="L544">			return false;</span>
+<span class="pc bpc" id="L544" title="3 of 6 branches missed.">		if (!(item instanceof MenuItemSelectable) || !item.isVisible()</span>
+<span class="fc bfc" id="L545" title="All 2 branches covered.">				|| (item instanceof Disableable &amp;&amp; ((Disableable) item).isDisabled())) {</span>
+<span class="fc" id="L546">			return false;</span>
 		}
 
 		// SubMenus are only selectable in a column menu type
-<span class="pc bpc" id="L548" title="1 of 4 branches missed.">		if (item instanceof WSubMenu &amp;&amp; !MenuType.COLUMN.equals(getType())) {</span>
-<span class="fc" id="L549">			return false;</span>
+<span class="pc bpc" id="L550" title="1 of 4 branches missed.">		if (item instanceof WSubMenu &amp;&amp; !MenuType.COLUMN.equals(getType())) {</span>
+<span class="fc" id="L551">			return false;</span>
 		}
 
 		// Item is specificially set to selectable/unselectable
-<span class="fc" id="L553">		Boolean itemSelectable = ((MenuItemSelectable) item).getSelectability();</span>
-<span class="fc bfc" id="L554" title="All 2 branches covered.">		if (itemSelectable != null) {</span>
-<span class="fc" id="L555">			return itemSelectable;</span>
+<span class="fc" id="L555">		Boolean itemSelectable = ((MenuItemSelectable) item).getSelectability();</span>
+<span class="fc bfc" id="L556" title="All 2 branches covered.">		if (itemSelectable != null) {</span>
+<span class="fc" id="L557">			return itemSelectable;</span>
 		}
 
 		// Container has selection turned on
-<span class="pc bpc" id="L559" title="1 of 4 branches missed.">		return SelectionMode.SINGLE.equals(selectionMode) || SelectionMode.MULTIPLE.equals(selectionMode);</span>
+<span class="pc bpc" id="L561" title="1 of 4 branches missed.">		return SelectionMode.SINGLE.equals(selectionMode) || SelectionMode.MULTIPLE.equals(selectionMode);</span>
 
 	}
 
@@ -567,19 +569,19 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	private void getChildMenuItems(final List&lt;MenuItem&gt; items, final boolean recurse, final MenuContainer container) {
 
-<span class="fc bfc" id="L570" title="All 2 branches covered.">		for (MenuItem item : container.getMenuItems()) {</span>
-<span class="fc" id="L571">			items.add(item);</span>
-<span class="fc bfc" id="L572" title="All 4 branches covered.">			if (recurse &amp;&amp; item instanceof MenuContainer) {</span>
-<span class="fc" id="L573">				getChildMenuItems(items, recurse, (MenuContainer) item);</span>
+<span class="fc bfc" id="L572" title="All 2 branches covered.">		for (MenuItem item : container.getMenuItems()) {</span>
+<span class="fc" id="L573">			items.add(item);</span>
+<span class="fc bfc" id="L574" title="All 4 branches covered.">			if (recurse &amp;&amp; item instanceof MenuContainer) {</span>
+<span class="fc" id="L575">				getChildMenuItems(items, recurse, (MenuContainer) item);</span>
 			}
-<span class="fc" id="L575">		}</span>
-<span class="fc" id="L576">	}</span>
+<span class="fc" id="L577">		}</span>
+<span class="fc" id="L578">	}</span>
 
 	/**
 	 * @return the container holding the menu items
 	 */
 	private WContainer getContent() {
-<span class="fc" id="L582">		return content;</span>
+<span class="fc" id="L584">		return content;</span>
 	}
 
 	/**
@@ -589,7 +591,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	@Override
 	protected MenuModel newComponentModel() {
-<span class="fc" id="L592">		return new MenuModel();</span>
+<span class="fc" id="L594">		return new MenuModel();</span>
 	}
 
 	/**
@@ -597,7 +599,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	@Override
 	protected MenuModel getComponentModel() {
-<span class="fc" id="L600">		return (MenuModel) super.getComponentModel();</span>
+<span class="fc" id="L602">		return (MenuModel) super.getComponentModel();</span>
 	}
 
 	/**
@@ -605,7 +607,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 */
 	@Override
 	protected MenuModel getOrCreateComponentModel() {
-<span class="fc" id="L608">		return (MenuModel) super.getOrCreateComponentModel();</span>
+<span class="fc" id="L610">		return (MenuModel) super.getOrCreateComponentModel();</span>
 	}
 
 	/**
@@ -613,7 +615,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-<span class="fc" id="L616">	public static class MenuModel extends ComponentModel {</span>
+<span class="fc" id="L618">	public static class MenuModel extends ComponentModel {</span>
 
 		/**
 		 * The list of selected items.
@@ -623,10 +625,11 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 		/**
 		 * The select mode of the menu.
 		 */
-<span class="fc" id="L626">		private SelectionMode selectionMode = SelectionMode.NONE;</span>
+<span class="fc" id="L628">		private SelectionMode selectionMode = SelectionMode.NONE;</span>
 
 		/**
 		 * The number of rows to display for a column menu.
+		 * @deprecated No longer supported.
 		 */
 		private int rows;
 

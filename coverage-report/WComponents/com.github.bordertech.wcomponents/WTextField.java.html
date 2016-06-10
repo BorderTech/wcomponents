@@ -95,19 +95,20 @@ import java.util.regex.Pattern;
 	}
 
 	/**
-	 * Sets the width of the input field in characters.
+	 * Sets the width of the input field more-or-less in characters. The actual width of the input will vary from
+	 * browser to browser bit will be in the region of 1.4 × columns.
 	 *
 	 * @param columns the number of characters to display.
 	 */
 	public void setColumns(final int columns) {
-<span class="fc" id="L103">		getOrCreateComponentModel().columns = columns;</span>
-<span class="fc" id="L104">	}</span>
+<span class="fc" id="L104">		getOrCreateComponentModel().columns = columns;</span>
+<span class="fc" id="L105">	}</span>
 
 	/**
 	 * @return the minimum number of characters that the user can enter into the text field.
 	 */
 	public int getMinLength() {
-<span class="fc" id="L110">		return getComponentModel().minLength;</span>
+<span class="fc" id="L111">		return getComponentModel().minLength;</span>
 	}
 
 	/**
@@ -123,14 +124,14 @@ import java.util.regex.Pattern;
 	 * @param minLength the minimum number of characters to allow.
 	 */
 	public void setMinLength(final int minLength) {
-<span class="fc" id="L126">		getOrCreateComponentModel().minLength = minLength;</span>
-<span class="fc" id="L127">	}</span>
+<span class="fc" id="L127">		getOrCreateComponentModel().minLength = minLength;</span>
+<span class="fc" id="L128">	}</span>
 
 	/**
 	 * @return the maximum number of characters that the user can enter into the text field.
 	 */
 	public int getMaxLength() {
-<span class="fc" id="L133">		return getComponentModel().maxLength;</span>
+<span class="fc" id="L134">		return getComponentModel().maxLength;</span>
 	}
 
 	/**
@@ -139,8 +140,8 @@ import java.util.regex.Pattern;
 	 * @param maxLength the maximum number of characters to allow.
 	 */
 	public final void setMaxLength(final int maxLength) {
-<span class="fc" id="L142">		getOrCreateComponentModel().maxLength = maxLength;</span>
-<span class="fc" id="L143">	}</span>
+<span class="fc" id="L143">		getOrCreateComponentModel().maxLength = maxLength;</span>
+<span class="fc" id="L144">	}</span>
 
 	/**
 	 * The pattern to validate against.
@@ -154,22 +155,22 @@ import java.util.regex.Pattern;
 	 * @param pattern the pattern to validate against.
 	 */
 	public final void setPattern(final String pattern) {
-<span class="pc bpc" id="L157" title="1 of 2 branches missed.">		getOrCreateComponentModel().pattern = pattern == null ? null : Pattern.compile(pattern);</span>
-<span class="fc" id="L158">	}</span>
+<span class="pc bpc" id="L158" title="1 of 2 branches missed.">		getOrCreateComponentModel().pattern = pattern == null ? null : Pattern.compile(pattern);</span>
+<span class="fc" id="L159">	}</span>
 
 	/**
 	 * @return the pattern to validate against.
 	 */
 	public String getPattern() {
-<span class="fc" id="L164">		Pattern pattern = getComponentModel().pattern;</span>
-<span class="fc bfc" id="L165" title="All 2 branches covered.">		return pattern == null ? null : pattern.toString();</span>
+<span class="fc" id="L165">		Pattern pattern = getComponentModel().pattern;</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">		return pattern == null ? null : pattern.toString();</span>
 	}
 
 	/**
 	 * @return the {@link WSuggestions} for this textfield.
 	 */
 	public WSuggestions getSuggestions() {
-<span class="fc" id="L172">		return getComponentModel().suggestions;</span>
+<span class="fc" id="L173">		return getComponentModel().suggestions;</span>
 	}
 
 	/**
@@ -178,8 +179,8 @@ import java.util.regex.Pattern;
 	 * @param suggestions the {@link WSuggestions} for this textfield
 	 */
 	public final void setSuggestions(final WSuggestions suggestions) {
-<span class="fc" id="L181">		getOrCreateComponentModel().suggestions = suggestions;</span>
-<span class="fc" id="L182">	}</span>
+<span class="fc" id="L182">		getOrCreateComponentModel().suggestions = suggestions;</span>
+<span class="fc" id="L183">	}</span>
 
 	/**
 	 * Override validateComponent to perform further validation.
@@ -188,42 +189,42 @@ import java.util.regex.Pattern;
 	 */
 	@Override
 	protected void validateComponent(final List&lt;Diagnostic&gt; diags) {
-<span class="fc" id="L191">		super.validateComponent(diags);</span>
+<span class="fc" id="L192">		super.validateComponent(diags);</span>
 
-<span class="fc bfc" id="L193" title="All 2 branches covered.">		if (!isEmpty()) {</span>
-<span class="fc" id="L194">			String value = getValueAsString();</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">		if (!isEmpty()) {</span>
+<span class="fc" id="L195">			String value = getValueAsString();</span>
 
 			// Maximum Length
-<span class="fc" id="L197">			int max = getMaxLength();</span>
+<span class="fc" id="L198">			int max = getMaxLength();</span>
 
-<span class="fc bfc" id="L199" title="All 4 branches covered.">			if (max &gt; 0 &amp;&amp; value.length() &gt; max) {</span>
-<span class="fc" id="L200">				diags.add(</span>
-<span class="fc" id="L201">						createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_MAX_LENGTH,</span>
+<span class="fc bfc" id="L200" title="All 4 branches covered.">			if (max &gt; 0 &amp;&amp; value.length() &gt; max) {</span>
+<span class="fc" id="L201">				diags.add(</span>
+<span class="fc" id="L202">						createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_MAX_LENGTH,</span>
 								this,
-<span class="fc" id="L203">								String.valueOf(max)));</span>
+<span class="fc" id="L204">								String.valueOf(max)));</span>
 			}
 
 			// Minimum Length
-<span class="fc" id="L207">			int min = getMinLength();</span>
+<span class="fc" id="L208">			int min = getMinLength();</span>
 
-<span class="fc bfc" id="L209" title="All 4 branches covered.">			if (min &gt; 0 &amp;&amp; value.length() &lt; min) {</span>
-<span class="fc" id="L210">				diags.add(</span>
-<span class="fc" id="L211">						createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_MIN_LENGTH,</span>
+<span class="fc bfc" id="L210" title="All 4 branches covered.">			if (min &gt; 0 &amp;&amp; value.length() &lt; min) {</span>
+<span class="fc" id="L211">				diags.add(</span>
+<span class="fc" id="L212">						createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_MIN_LENGTH,</span>
 								this,
-<span class="fc" id="L213">								String.valueOf(min)));</span>
+<span class="fc" id="L214">								String.valueOf(min)));</span>
 			}
 
 			// Pattern
-<span class="fc" id="L217">			Pattern pattern = getComponentModel().pattern;</span>
-<span class="fc bfc" id="L218" title="All 2 branches covered.">			if (pattern != null) {</span>
-<span class="fc" id="L219">				Matcher matcher = pattern.matcher(value);</span>
-<span class="fc bfc" id="L220" title="All 2 branches covered.">				if (!matcher.matches()) {</span>
-<span class="fc" id="L221">					diags.add(createErrorDiagnostic(</span>
+<span class="fc" id="L218">			Pattern pattern = getComponentModel().pattern;</span>
+<span class="fc bfc" id="L219" title="All 2 branches covered.">			if (pattern != null) {</span>
+<span class="fc" id="L220">				Matcher matcher = pattern.matcher(value);</span>
+<span class="fc bfc" id="L221" title="All 2 branches covered.">				if (!matcher.matches()) {</span>
+<span class="fc" id="L222">					diags.add(createErrorDiagnostic(</span>
 							InternalMessages.DEFAULT_VALIDATION_ERROR_INVALID_PATTERN, this));
 				}
 			}
 		}
-<span class="fc" id="L226">	}</span>
+<span class="fc" id="L227">	}</span>
 
 	/**
 	 * Creates a new TextFieldModel holds Extrinsic state management of the field.
@@ -232,7 +233,7 @@ import java.util.regex.Pattern;
 	 */
 	@Override
 	protected TextFieldModel newComponentModel() {
-<span class="fc" id="L235">		return new TextFieldModel();</span>
+<span class="fc" id="L236">		return new TextFieldModel();</span>
 	}
 
 	/**
@@ -241,7 +242,7 @@ import java.util.regex.Pattern;
 	@Override
 	// For type safety only
 	protected TextFieldModel getComponentModel() {
-<span class="fc" id="L244">		return (TextFieldModel) super.getComponentModel();</span>
+<span class="fc" id="L245">		return (TextFieldModel) super.getComponentModel();</span>
 	}
 
 	/**
@@ -250,7 +251,7 @@ import java.util.regex.Pattern;
 	@Override
 	// For type safety only
 	protected TextFieldModel getOrCreateComponentModel() {
-<span class="fc" id="L253">		return (TextFieldModel) super.getOrCreateComponentModel();</span>
+<span class="fc" id="L254">		return (TextFieldModel) super.getOrCreateComponentModel();</span>
 	}
 
 	/**
@@ -258,7 +259,7 @@ import java.util.regex.Pattern;
 	 *
 	 * @author Martin Shevchenko
 	 */
-<span class="fc" id="L261">	public static class TextFieldModel extends InputModel {</span>
+<span class="fc" id="L262">	public static class TextFieldModel extends InputModel {</span>
 
 		/**
 		 * The number of columns to display for the field.

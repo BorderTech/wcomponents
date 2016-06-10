@@ -40,7 +40,7 @@
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>  		<strong class="jxr_keyword">boolean</strong> encode = rbSelect.getDescEncode();
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  		<strong class="jxr_keyword">boolean</strong> readOnly = rbSelect.isReadOnly();
 <a class="jxr_linenumber" name="L34" href="#L34">34</a>  
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>  		xml.appendTagOpen(<span class="jxr_string">"ui:radioButtonSelect"</span>);
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  		xml.appendTagOpen(<span class="jxr_string">"ui:radiobuttonselect"</span>);
 <a class="jxr_linenumber" name="L36" href="#L36">36</a>  		xml.appendAttribute(<span class="jxr_string">"id"</span>, component.getId());
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"class"</span>, component.getHtmlClass());
 <a class="jxr_linenumber" name="L38" href="#L38">38</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"track"</span>, component.isTracking(), <span class="jxr_string">"true"</span>);
@@ -90,7 +90,7 @@
 <a class="jxr_linenumber" name="L82" href="#L82">82</a>  			}
 <a class="jxr_linenumber" name="L83" href="#L83">83</a>  		}
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>  
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>  		xml.appendEndTag(<span class="jxr_string">"ui:radioButtonSelect"</span>);
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>  		xml.appendEndTag(<span class="jxr_string">"ui:radiobuttonselect"</span>);
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>  
 <a class="jxr_linenumber" name="L87" href="#L87">87</a>  		<strong class="jxr_keyword">if</strong> (rbSelect.isAjax()) {
 <a class="jxr_linenumber" name="L88" href="#L88">88</a>  			paintAjax(rbSelect, xml);
@@ -141,17 +141,17 @@
 <a class="jxr_linenumber" name="L133" href="#L133">133</a> <em class="jxr_javadoccomment">	 */</em>
 <a class="jxr_linenumber" name="L134" href="#L134">134</a> 	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> paintAjax(<strong class="jxr_keyword">final</strong> <a href="../../../../../../com/github/bordertech/wcomponents/WRadioButtonSelect.html">WRadioButtonSelect</a> rbSelect, <strong class="jxr_keyword">final</strong> <a href="../../../../../../com/github/bordertech/wcomponents/XmlStringBuilder.html">XmlStringBuilder</a> xml) {
 <a class="jxr_linenumber" name="L135" href="#L135">135</a> 		<em class="jxr_comment">// Start tag</em>
-<a class="jxr_linenumber" name="L136" href="#L136">136</a> 		xml.appendTagOpen(<span class="jxr_string">"ui:ajaxTrigger"</span>);
+<a class="jxr_linenumber" name="L136" href="#L136">136</a> 		xml.appendTagOpen(<span class="jxr_string">"ui:ajaxtrigger"</span>);
 <a class="jxr_linenumber" name="L137" href="#L137">137</a> 		xml.appendAttribute(<span class="jxr_string">"triggerId"</span>, rbSelect.getId());
 <a class="jxr_linenumber" name="L138" href="#L138">138</a> 		xml.appendClose();
 <a class="jxr_linenumber" name="L139" href="#L139">139</a> 
 <a class="jxr_linenumber" name="L140" href="#L140">140</a> 		<em class="jxr_comment">// Target</em>
-<a class="jxr_linenumber" name="L141" href="#L141">141</a> 		xml.appendTagOpen(<span class="jxr_string">"ui:ajaxTargetId"</span>);
+<a class="jxr_linenumber" name="L141" href="#L141">141</a> 		xml.appendTagOpen(<span class="jxr_string">"ui:ajaxtargetid"</span>);
 <a class="jxr_linenumber" name="L142" href="#L142">142</a> 		xml.appendAttribute(<span class="jxr_string">"targetId"</span>, rbSelect.getAjaxTarget().getId());
 <a class="jxr_linenumber" name="L143" href="#L143">143</a> 		xml.appendEnd();
 <a class="jxr_linenumber" name="L144" href="#L144">144</a> 
 <a class="jxr_linenumber" name="L145" href="#L145">145</a> 		<em class="jxr_comment">// End tag</em>
-<a class="jxr_linenumber" name="L146" href="#L146">146</a> 		xml.appendEndTag(<span class="jxr_string">"ui:ajaxTrigger"</span>);
+<a class="jxr_linenumber" name="L146" href="#L146">146</a> 		xml.appendEndTag(<span class="jxr_string">"ui:ajaxtrigger"</span>);
 <a class="jxr_linenumber" name="L147" href="#L147">147</a> 	}
 <a class="jxr_linenumber" name="L148" href="#L148">148</a> }
 </pre>

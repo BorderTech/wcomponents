@@ -38,7 +38,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 		 * Indicates that a round-trip should be made whenever the menu is opened.
 		 *
 		 * @deprecated Use MenuMode DYNAMIC instead as a like-for-like replacement or any other mode if it is more
-		 * appropriate to the individual use case.
+		 * appropriate to the individual use case. NOTE: this will not work for any WMenu type other than TREE.
 		 */
 <span class="fc" id="L43">		SERVER,</span>
 		/**
@@ -386,25 +386,27 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 
 	/**
 	 * {@inheritDoc}
+	 * @deprecated WSubMenu should only be selectable if the WMenu Type is TREE and Type TREE is deprecated.
 	 */
 	@Override
 	public SelectionMode getSelectionMode() {
-<span class="fc" id="L392">		return getComponentModel().selectionMode;</span>
+<span class="fc" id="L393">		return getComponentModel().selectionMode;</span>
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * @deprecated WSubMenu should only be selectable if the WMenu Type is TREE and Type TREE is deprecated.
 	 */
 	@Override
 	public void setSelectionMode(final SelectionMode selectionMode) {
-<span class="fc" id="L400">		getOrCreateComponentModel().selectionMode = selectionMode;</span>
-<span class="fc" id="L401">	}</span>
+<span class="fc" id="L402">		getOrCreateComponentModel().selectionMode = selectionMode;</span>
+<span class="fc" id="L403">	}</span>
 
 	/**
 	 * @return the sub-menu's action, or null if there is no action specified.
 	 */
 	public Action getAction() {
-<span class="fc" id="L407">		return getComponentModel().action;</span>
+<span class="fc" id="L409">		return getComponentModel().action;</span>
 	}
 
 	/**
@@ -414,8 +416,8 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 * @param action the menu item's action.
 	 */
 	public void setAction(final Action action) {
-<span class="fc" id="L417">		getOrCreateComponentModel().action = action;</span>
-<span class="fc" id="L418">	}</span>
+<span class="fc" id="L419">		getOrCreateComponentModel().action = action;</span>
+<span class="fc" id="L420">	}</span>
 
 	/**
 	 * Retrieves this sub-menu's &quot;default&quot; action command.
@@ -423,7 +425,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 * @return the actionCommand.
 	 */
 	public String getActionCommand() {
-<span class="fc" id="L426">		return getComponentModel().actionCommand;</span>
+<span class="fc" id="L428">		return getComponentModel().actionCommand;</span>
 	}
 
 	/**
@@ -432,8 +434,8 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 * @param actionCommand The actionCommand to set.
 	 */
 	public void setActionCommand(final String actionCommand) {
-<span class="fc" id="L435">		getOrCreateComponentModel().actionCommand = actionCommand;</span>
-<span class="fc" id="L436">	}</span>
+<span class="fc" id="L437">		getOrCreateComponentModel().actionCommand = actionCommand;</span>
+<span class="fc" id="L438">	}</span>
 
 	/**
 	 * Retrieves this sub-menu's &quot;default&quot; action object.
@@ -441,7 +443,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 * @return the actionObject.
 	 */
 	public Serializable getActionObject() {
-<span class="fc" id="L444">		return getComponentModel().actionObject;</span>
+<span class="fc" id="L446">		return getComponentModel().actionObject;</span>
 	}
 
 	/**
@@ -450,8 +452,8 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 * @param actionObject The actionObject to set.
 	 */
 	public void setActionObject(final Serializable actionObject) {
-<span class="fc" id="L453">		getOrCreateComponentModel().actionObject = actionObject;</span>
-<span class="fc" id="L454">	}</span>
+<span class="fc" id="L455">		getOrCreateComponentModel().actionObject = actionObject;</span>
+<span class="fc" id="L456">	}</span>
 
 	/**
 	 * Sets whether this menu is open. Only has an effect for some menu types.
@@ -459,8 +461,8 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 * @param open true if the menu should be open, false for closed.
 	 */
 	public void setOpen(final boolean open) {
-<span class="fc" id="L462">		getOrCreateComponentModel().open = open;</span>
-<span class="fc" id="L463">	}</span>
+<span class="fc" id="L464">		getOrCreateComponentModel().open = open;</span>
+<span class="fc" id="L465">	}</span>
 
 	/**
 	 * Indicates whether this sub-menu is open in the given context.
@@ -468,14 +470,14 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 * @return true if this menu is open in the given context, false otherwise.
 	 */
 	public boolean isOpen() {
-<span class="fc" id="L471">		return getComponentModel().open;</span>
+<span class="fc" id="L473">		return getComponentModel().open;</span>
 	}
 
 	/**
 	 * @return the sub menu's decorated label.
 	 */
 	public WDecoratedLabel getDecoratedLabel() {
-<span class="fc" id="L478">		return label;</span>
+<span class="fc" id="L480">		return label;</span>
 	}
 
 	/**
@@ -487,13 +489,13 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	@Deprecated
 	@Override
 	public boolean isSelected() {
-<span class="fc" id="L490">		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);</span>
+<span class="fc" id="L492">		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);</span>
 
-<span class="pc bpc" id="L492" title="1 of 2 branches missed.">		if (menu != null) {</span>
-<span class="fc" id="L493">			return menu.getSelectedMenuItems().contains(this);</span>
+<span class="pc bpc" id="L494" title="1 of 2 branches missed.">		if (menu != null) {</span>
+<span class="fc" id="L495">			return menu.getSelectedMenuItems().contains(this);</span>
 		}
 
-<span class="nc" id="L496">		return false;</span>
+<span class="nc" id="L498">		return false;</span>
 	}
 
 	/**
@@ -504,39 +506,39 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 */
 	@Override
 	public void handleRequest(final Request request) {
-<span class="fc bfc" id="L507" title="All 2 branches covered.">		if (isDisabled()) {</span>
+<span class="fc bfc" id="L509" title="All 2 branches covered.">		if (isDisabled()) {</span>
 			// Protect against client-side tampering of disabled/read-only fields.
-<span class="fc" id="L509">			return;</span>
+<span class="fc" id="L511">			return;</span>
 		}
 
-<span class="fc bfc" id="L512" title="All 2 branches covered.">		if (isMenuPresent(request)) {</span>
+<span class="fc bfc" id="L514" title="All 2 branches covered.">		if (isMenuPresent(request)) {</span>
 			// If current ajax trigger, process menu for current selections
-<span class="fc bfc" id="L514" title="All 2 branches covered.">			if (AjaxHelper.isCurrentAjaxTrigger(this)) {</span>
-<span class="fc" id="L515">				WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);</span>
-<span class="fc" id="L516">				menu.handleRequest(request);</span>
+<span class="fc bfc" id="L516" title="All 2 branches covered.">			if (AjaxHelper.isCurrentAjaxTrigger(this)) {</span>
+<span class="fc" id="L517">				WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);</span>
+<span class="fc" id="L518">				menu.handleRequest(request);</span>
 
 				// Execute associated action, if set
-<span class="fc" id="L519">				final Action action = getAction();</span>
+<span class="fc" id="L521">				final Action action = getAction();</span>
 
-<span class="pc bpc" id="L521" title="1 of 2 branches missed.">				if (action != null) {</span>
-<span class="fc" id="L522">					final ActionEvent event = new ActionEvent(this, this.getActionCommand(),</span>
-<span class="fc" id="L523">							this.getActionObject());</span>
+<span class="pc bpc" id="L523" title="1 of 2 branches missed.">				if (action != null) {</span>
+<span class="fc" id="L524">					final ActionEvent event = new ActionEvent(this, this.getActionCommand(),</span>
+<span class="fc" id="L525">							this.getActionObject());</span>
 
-<span class="fc" id="L525">					Runnable later = new Runnable() {</span>
+<span class="fc" id="L527">					Runnable later = new Runnable() {</span>
 						@Override
 						public void run() {
-<span class="fc" id="L528">							action.execute(event);</span>
-<span class="fc" id="L529">						}</span>
+<span class="fc" id="L530">							action.execute(event);</span>
+<span class="fc" id="L531">						}</span>
 					};
 
-<span class="fc" id="L532">					invokeLater(later);</span>
+<span class="fc" id="L534">					invokeLater(later);</span>
 				}
 			}
 
-<span class="fc" id="L536">			boolean openState = &quot;true&quot;.equals(request.getParameter(getId() + &quot;.open&quot;));</span>
-<span class="fc" id="L537">			setOpen(openState);</span>
+<span class="fc" id="L538">			boolean openState = &quot;true&quot;.equals(request.getParameter(getId() + &quot;.open&quot;));</span>
+<span class="fc" id="L539">			setOpen(openState);</span>
 		}
-<span class="fc" id="L539">	}</span>
+<span class="fc" id="L541">	}</span>
 
 	/**
 	 * Determine if this WMenuItem's parent WMenu is on the Request.
@@ -545,8 +547,8 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 * @return true if this WMenuItem's WMenu is on the Request, otherwise return false.
 	 */
 	protected boolean isMenuPresent(final Request request) {
-<span class="fc" id="L548">		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);</span>
-<span class="pc bpc" id="L549" title="1 of 4 branches missed.">		return menu != null &amp;&amp; menu.isPresent(request);</span>
+<span class="fc" id="L550">		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);</span>
+<span class="pc bpc" id="L551" title="1 of 4 branches missed.">		return menu != null &amp;&amp; menu.isPresent(request);</span>
 	}
 
 	/**
@@ -557,39 +559,39 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
-<span class="fc" id="L560">		super.preparePaintComponent(request);</span>
+<span class="fc" id="L562">		super.preparePaintComponent(request);</span>
 
-<span class="fc" id="L562">		String targetId = getContent().getId();</span>
-<span class="fc" id="L563">		String contentId = getId() + &quot;-content&quot;;</span>
+<span class="fc" id="L564">		String targetId = getContent().getId();</span>
+<span class="fc" id="L565">		String contentId = getId() + &quot;-content&quot;;</span>
 
-<span class="pc bfc" id="L565" title="All 5 branches covered.">		switch (getComponentModel().mode) {</span>
+<span class="pc bfc" id="L567" title="All 5 branches covered.">		switch (getComponentModel().mode) {</span>
 			case LAZY: {
-<span class="fc" id="L567">				getContent().setVisible(isOpen());</span>
-<span class="pc bpc" id="L568" title="1 of 2 branches missed.">				if (!isOpen()) {</span>
-<span class="nc" id="L569">					AjaxHelper.registerContainer(getId(), contentId, targetId, request);</span>
+<span class="fc" id="L569">				getContent().setVisible(isOpen());</span>
+<span class="pc bpc" id="L570" title="1 of 2 branches missed.">				if (!isOpen()) {</span>
+<span class="nc" id="L571">					AjaxHelper.registerContainer(getId(), contentId, targetId, request);</span>
 				}
 				break;
 			}
 			case DYNAMIC: {
-<span class="fc" id="L574">				AjaxHelper.registerContainer(getId(), contentId, targetId, request);</span>
-<span class="fc" id="L575">				getContent().setVisible(isOpen());</span>
-<span class="fc" id="L576">				break;</span>
+<span class="fc" id="L576">				AjaxHelper.registerContainer(getId(), contentId, targetId, request);</span>
+<span class="fc" id="L577">				getContent().setVisible(isOpen());</span>
+<span class="fc" id="L578">				break;</span>
 			}
 			case EAGER: {
-<span class="fc" id="L579">				AjaxHelper.registerContainer(getId(), contentId, targetId, request);</span>
+<span class="fc" id="L581">				AjaxHelper.registerContainer(getId(), contentId, targetId, request);</span>
 				// Will always be visible
-<span class="fc" id="L581">				break;</span>
+<span class="fc" id="L583">				break;</span>
 			}
 			case SERVER: {
-<span class="fc" id="L584">				getContent().setVisible(isOpen());</span>
-<span class="fc" id="L585">				break;</span>
+<span class="fc" id="L586">				getContent().setVisible(isOpen());</span>
+<span class="fc" id="L587">				break;</span>
 			}
 			case CLIENT: {
 				// Will always be visible
 				break;
 			}
 		}
-<span class="fc" id="L592">	}</span>
+<span class="fc" id="L594">	}</span>
 
 	/**
 	 * Paint the menu items.
@@ -597,24 +599,24 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 * @param renderContext the render context
 	 */
 	public void paintMenuItems(final RenderContext renderContext) {
-<span class="fc" id="L600">		getContent().paint(renderContext);</span>
-<span class="fc" id="L601">	}</span>
+<span class="fc" id="L602">		getContent().paint(renderContext);</span>
+<span class="fc" id="L603">	}</span>
 
 	/**
 	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {
-<span class="nc" id="L608">		String text = getText();</span>
-<span class="nc bnc" id="L609" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
-<span class="nc" id="L610">		return getContent().toString(text, -1, -1);</span>
+<span class="nc" id="L610">		String text = getText();</span>
+<span class="nc bnc" id="L611" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="nc" id="L612">		return getContent().toString(text, -1, -1);</span>
 	}
 
 	/**
 	 * @return the container holding the menu items
 	 */
 	private WContainer getContent() {
-<span class="fc" id="L617">		return content;</span>
+<span class="fc" id="L619">		return content;</span>
 	}
 
 	/**
@@ -624,7 +626,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 */
 	@Override
 	protected SubMenuModel newComponentModel() {
-<span class="fc" id="L627">		return new SubMenuModel();</span>
+<span class="fc" id="L629">		return new SubMenuModel();</span>
 	}
 
 	/**
@@ -632,7 +634,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 */
 	@Override // For type safety only
 	protected SubMenuModel getComponentModel() {
-<span class="fc" id="L635">		return (SubMenuModel) super.getComponentModel();</span>
+<span class="fc" id="L637">		return (SubMenuModel) super.getComponentModel();</span>
 	}
 
 	/**
@@ -640,7 +642,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 */
 	@Override // For type safety only
 	protected SubMenuModel getOrCreateComponentModel() {
-<span class="fc" id="L643">		return (SubMenuModel) super.getOrCreateComponentModel();</span>
+<span class="fc" id="L645">		return (SubMenuModel) super.getOrCreateComponentModel();</span>
 	}
 
 	/**
@@ -649,7 +651,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 * @author Yiannis Paschalidis
 	 * @since 1.0.0
 	 */
-<span class="fc" id="L652">	public static class SubMenuModel extends ComponentModel {</span>
+<span class="fc" id="L654">	public static class SubMenuModel extends ComponentModel {</span>
 
 		/**
 		 * Indicates whether the sub-menu is in an open-state.
@@ -659,7 +661,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 		/**
 		 * Indicates whether the sub-menu supports selection of multiple menu-items.
 		 */
-<span class="fc" id="L662">		private SelectionMode selectionMode = SelectionMode.NONE;</span>
+<span class="fc" id="L664">		private SelectionMode selectionMode = SelectionMode.NONE;</span>
 
 		/**
 		 * Indicates whether the sub-menu itself can be selected (e.g. for column menus).
@@ -684,12 +686,12 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 		/**
 		 * The key shortcut that activates the menu.
 		 */
-<span class="fc" id="L687">		private char accesskey = '\0';</span>
+<span class="fc" id="L689">		private char accesskey = '\0';</span>
 
 		/**
 		 * The {@link MenuMode | ajax mode}.
 		 */
-<span class="fc" id="L692">		private MenuMode mode = MenuMode.CLIENT;</span>
+<span class="fc" id="L694">		private MenuMode mode = MenuMode.CLIENT;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

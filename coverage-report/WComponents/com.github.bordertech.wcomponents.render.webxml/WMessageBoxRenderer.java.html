@@ -27,7 +27,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 <span class="fc" id="L27">		XmlStringBuilder xml = renderContext.getWriter();</span>
 
 <span class="fc bfc" id="L29" title="All 2 branches covered.">		if (messageBox.hasMessages()) {</span>
-<span class="fc" id="L30">			xml.appendTagOpen(&quot;ui:messageBox&quot;);</span>
+<span class="fc" id="L30">			xml.appendTagOpen(&quot;ui:messagebox&quot;);</span>
 <span class="fc" id="L31">			xml.appendAttribute(&quot;id&quot;, component.getId());</span>
 <span class="fc" id="L32">			xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
 <span class="fc" id="L33">			xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
@@ -61,7 +61,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 <span class="fc" id="L61">				xml.appendEndTag(&quot;ui:message&quot;);</span>
 <span class="fc" id="L62">			}</span>
 
-<span class="fc" id="L64">			xml.appendEndTag(&quot;ui:messageBox&quot;);</span>
+<span class="fc" id="L64">			xml.appendEndTag(&quot;ui:messagebox&quot;);</span>
 		}
 <span class="fc" id="L66">	}</span>
 }

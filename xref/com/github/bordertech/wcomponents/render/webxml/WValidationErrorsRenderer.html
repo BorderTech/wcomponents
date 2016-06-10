@@ -39,7 +39,7 @@
 <a class="jxr_linenumber" name="L31" href="#L31">31</a>  		XmlStringBuilder xml = renderContext.getWriter();
 <a class="jxr_linenumber" name="L32" href="#L32">32</a>  
 <a class="jxr_linenumber" name="L33" href="#L33">33</a>  		<strong class="jxr_keyword">if</strong> (errors.hasErrors()) {
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>  			xml.appendTagOpen(<span class="jxr_string">"ui:validationErrors"</span>);
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  			xml.appendTagOpen(<span class="jxr_string">"ui:validationerrors"</span>);
 <a class="jxr_linenumber" name="L35" href="#L35">35</a>  			xml.appendAttribute(<span class="jxr_string">"id"</span>, component.getId());
 <a class="jxr_linenumber" name="L36" href="#L36">36</a>  		xml.appendOptionalAttribute(<span class="jxr_string">"class"</span>, component.getHtmlClass());
 <a class="jxr_linenumber" name="L37" href="#L37">37</a>  			xml.appendOptionalAttribute(<span class="jxr_string">"track"</span>, component.isTracking(), <span class="jxr_string">"true"</span>);
@@ -90,7 +90,7 @@
 <a class="jxr_linenumber" name="L82" href="#L82">82</a>  				}
 <a class="jxr_linenumber" name="L83" href="#L83">83</a>  			}
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>  
-<a class="jxr_linenumber" name="L85" href="#L85">85</a>  			xml.appendEndTag(<span class="jxr_string">"ui:validationErrors"</span>);
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>  			xml.appendEndTag(<span class="jxr_string">"ui:validationerrors"</span>);
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>  		}
 <a class="jxr_linenumber" name="L87" href="#L87">87</a>  	}
 <a class="jxr_linenumber" name="L88" href="#L88">88</a>  }

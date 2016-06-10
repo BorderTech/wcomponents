@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WAjaxPollingRegion.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">WAjaxPollingRegion.java</span></div><h1>WAjaxPollingRegion.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
 
 /**
- * A &quot;polling&quot; AJAX control.
+ * A specific purpose implementation of {@link WPanel} which provides a self-targeting &quot;polling&quot; control using
+ * {@link WAjaxControl}. This is used to make recurring AJAX requests to the server until it is disabled.
+ *
+ * &lt;p&gt;
+ * &lt;strong&gt;NOTE:&lt;/strong&gt;
+ * The polling region is a {@link WPanel} so can have layout, margin and type set. This &lt;em&gt;may&lt;/em&gt; lead to unwanted
+ * consequences as the first (and possibly only) content child of this WPanel will be a component with no UI artefact.
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;This component may be considered harmful.&lt;/p&gt;
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -9,7 +18,7 @@
 public class WAjaxPollingRegion extends WPanel {
 
 	/**
-	 * The ajax control to perform polling.
+	 * The {@link WAjaxControl} control to perform polling.
 	 */
 	private final WAjaxControl control;
 
@@ -18,25 +27,25 @@ public class WAjaxPollingRegion extends WPanel {
 	 *
 	 * @param pollingInterval the polling interval, in milliseconds.
 	 */
-<span class="nc" id="L21">	public WAjaxPollingRegion(final int pollingInterval) {</span>
-<span class="nc" id="L22">		control = new WAjaxControl(null, this);</span>
-<span class="nc" id="L23">		control.setDelay(pollingInterval);</span>
-<span class="nc" id="L24">		control.setVisible(false);</span>
-<span class="nc" id="L25">		add(control);</span>
-<span class="nc" id="L26">	}</span>
+<span class="nc" id="L30">	public WAjaxPollingRegion(final int pollingInterval) {</span>
+<span class="nc" id="L31">		control = new WAjaxControl(null, this);</span>
+<span class="nc" id="L32">		control.setDelay(pollingInterval);</span>
+<span class="nc" id="L33">		control.setVisible(false);</span>
+<span class="nc" id="L34">		add(control);</span>
+<span class="nc" id="L35">	}</span>
 
 	/**
 	 * Enables polling.
 	 */
 	public void enablePoll() {
-<span class="nc" id="L32">		control.setVisible(true);</span>
-<span class="nc" id="L33">	}</span>
+<span class="nc" id="L41">		control.setVisible(true);</span>
+<span class="nc" id="L42">	}</span>
 
 	/**
 	 * Disables polling.
 	 */
 	public void disablePoll() {
-<span class="nc" id="L39">		control.setVisible(false);</span>
-<span class="nc" id="L40">	}</span>
+<span class="nc" id="L48">		control.setVisible(false);</span>
+<span class="nc" id="L49">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

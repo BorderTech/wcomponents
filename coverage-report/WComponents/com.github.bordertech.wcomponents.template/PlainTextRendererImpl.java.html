@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>PlainTextRendererImpl.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.template</a> &gt; <span class="el_source">PlainTextRendererImpl.java</span></div><h1>PlainTextRendererImpl.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.template;
+
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.StreamUtil;
+import com.github.bordertech.wcomponents.util.SystemException;
+import java.io.InputStream;
+import java.io.Writer;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import javax.cache.Cache;
+import javax.cache.CacheManager;
+import javax.cache.Caching;
+import javax.cache.configuration.MutableConfiguration;
+import javax.cache.expiry.AccessedExpiryPolicy;
+import javax.cache.expiry.Duration;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * Plain text template renderer.
+ * &lt;p&gt;
+ * Used for templates that require no processing (ie static) and have no tagged components or parameters.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Has the following engine options:-
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ * &lt;li&gt;{@link #XML_ENCODE} - Include to activate&lt;/li&gt;
+ * &lt;/ul&gt;
+ *
+ * @author Jonathan Austin
+ * @since 1.0.3
+ */
+<span class="fc" id="L36">public class PlainTextRendererImpl implements TemplateRenderer {</span>
+
+	/**
+	 * Cache name.
+	 */
+	private static final String CACHE_NAME = &quot;wc-plaintext-templates&quot;;
+
+	/**
+	 * XML encode the template engine option.
+	 */
+	public static final String XML_ENCODE = &quot;encode&quot;;
+
+	/**
+	 * The logger instance for this class.
+	 */
+<span class="fc" id="L51">	private static final Log LOG = LogFactory.getLog(PlainTextRendererImpl.class);</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void renderTemplate(final String templateName, final Map&lt;String, Object&gt; context, final Map&lt;String, WComponent&gt; taggedComponents, final Writer writer, final Map&lt;String, Object&gt; options) {
+
+<span class="fc" id="L59">		LOG.debug(&quot;Rendering plain text template &quot; + templateName);</span>
+
+		// Expects path to be absolute.
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">		String name = templateName.startsWith(&quot;/&quot;) ? templateName : &quot;/&quot; + templateName;</span>
+
+<span class="fc" id="L64">		boolean xmlEncode = options.containsKey(XML_ENCODE);</span>
+
+<span class="fc" id="L66">		String cacheKey = templateName + &quot;-&quot; + xmlEncode;</span>
+<span class="fc" id="L67">		InputStream stream = null;</span>
+
+		try {
+<span class="fc" id="L70">			String output = null;</span>
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">			if (isCaching()) {</span>
+<span class="fc" id="L72">				output = getCache().get(cacheKey);</span>
+			}
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">			if (output == null) {</span>
+<span class="fc" id="L75">				stream = getClass().getResourceAsStream(name);</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">				if (stream == null) {</span>
+<span class="fc" id="L77">					throw new SystemException(&quot;Could not find plain text template [&quot; + templateName + &quot;].&quot;);</span>
+				}
+<span class="fc" id="L79">				output = new String(StreamUtil.getBytes(stream));</span>
+<span class="pc bpc" id="L80" title="1 of 2 branches missed.">				if (xmlEncode) {</span>
+<span class="nc" id="L81">					output = WebUtilities.encode(output);</span>
+				}
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">				if (isCaching()) {</span>
+<span class="fc" id="L84">					getCache().put(cacheKey, output);</span>
+				}
+			}
+<span class="fc" id="L87">			writer.write(output);</span>
+<span class="fc" id="L88">		} catch (SystemException e) {</span>
+<span class="fc" id="L89">			throw e;</span>
+<span class="nc" id="L90">		} catch (Exception e) {</span>
+<span class="nc" id="L91">			throw new SystemException(&quot;Problems with plain text template [&quot; + templateName + &quot;]. &quot; + e.getMessage(), e);</span>
+		} finally {
+<span class="fc" id="L93">			StreamUtil.safeClose(stream);</span>
+<span class="fc" id="L94">		}</span>
+
+<span class="fc" id="L96">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void renderInline(final String templateInline, final Map&lt;String, Object&gt; context, final Map&lt;String, WComponent&gt; taggedComponents, final Writer writer, final Map&lt;String, Object&gt; options) {
+
+<span class="fc" id="L104">		LOG.debug(&quot;Rendering inline plain text template.&quot;);</span>
+
+<span class="fc" id="L106">		boolean xmlEncode = options.containsKey(XML_ENCODE);</span>
+
+		try {
+<span class="fc" id="L109">			String output = templateInline;</span>
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">			if (xmlEncode) {</span>
+<span class="nc" id="L111">				output = WebUtilities.encode(output);</span>
+			}
+<span class="fc" id="L113">			writer.write(output);</span>
+<span class="nc" id="L114">		} catch (Exception e) {</span>
+<span class="nc" id="L115">			throw new SystemException(&quot;Problems with inline plain text template. &quot; + e.getMessage(), e);</span>
+<span class="fc" id="L116">		}</span>
+<span class="fc" id="L117">	}</span>
+
+	/**
+	 * @return the cache instance
+	 */
+	protected synchronized Cache&lt;String, String&gt; getCache() {
+<span class="fc" id="L123">		Cache&lt;String, String&gt; cache = Caching.getCache(CACHE_NAME, String.class, String.class);</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">		if (cache == null) {</span>
+<span class="fc" id="L125">			final CacheManager mgr = Caching.getCachingProvider().getCacheManager();</span>
+<span class="fc" id="L126">			MutableConfiguration&lt;String, String&gt; config = new MutableConfiguration&lt;&gt;();</span>
+<span class="fc" id="L127">			config.setTypes(String.class, String.class);</span>
+<span class="fc" id="L128">			config.setExpiryPolicyFactory(AccessedExpiryPolicy.factoryOf(new Duration(TimeUnit.HOURS, 12)));</span>
+			// No need to serialize the result
+<span class="fc" id="L130">			config.setStoreByValue(false);</span>
+<span class="fc" id="L131">			cache = mgr.createCache(CACHE_NAME, config);</span>
+		}
+<span class="fc" id="L133">		return cache;</span>
+	}
+
+	/**
+	 * @return true if use caching
+	 */
+	protected boolean isCaching() {
+<span class="fc" id="L140">		return Config.getInstance().getBoolean(&quot;bordertech.wcomponents.plaintext.cache.enabled&quot;, Boolean.TRUE);</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

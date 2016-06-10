@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AbstractMutableContainer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">AbstractMutableContainer.java</span></div><h1>AbstractMutableContainer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
 
 /**
- * This abstract class extends AbstractContainer and implements the MutableContainer interface to expose methods for
- * modifying the contents of a container. This class is extended by other container classes which allow arbitrary
+ * This abstract class extends AbstractContainer and implements the {@link MutableContainer} interface to expose methods
+ * for modifying the contents of a container. This class is extended by other container classes which allow arbitrary
  * content.
  *
  * @author Yiannis Paschalidis
@@ -27,11 +27,13 @@
 	 *
 	 * @param component the component to add.
 	 * @param tag the tag used to identify the component.
+	 * @deprecated Use {@link WTemplate} instead
 	 */
+	@Deprecated
 	@Override
 	public void add(final WComponent component, final String tag) {
-<span class="nc" id="L33">		super.add(component, tag);</span>
-<span class="nc" id="L34">	}</span>
+<span class="nc" id="L35">		super.add(component, tag);</span>
+<span class="nc" id="L36">	}</span>
 
 	/**
 	 * Removes the given component from this component.
@@ -40,15 +42,15 @@
 	 */
 	@Override
 	public void remove(final WComponent aChild) {
-<span class="fc" id="L43">		super.remove(aChild);</span>
-<span class="fc" id="L44">	}</span>
+<span class="fc" id="L45">		super.remove(aChild);</span>
+<span class="fc" id="L46">	}</span>
 
 	/**
 	 * Removes all the child components from this component.
 	 */
 	@Override
 	public void removeAll() {
-<span class="fc" id="L51">		super.removeAll();</span>
-<span class="fc" id="L52">	}</span>
+<span class="fc" id="L53">		super.removeAll();</span>
+<span class="fc" id="L54">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

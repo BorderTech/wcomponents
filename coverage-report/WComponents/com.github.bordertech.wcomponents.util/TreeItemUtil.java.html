@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>TreeItemUtil.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.util</a> &gt; <span class="el_source">TreeItemUtil.java</span></div><h1>TreeItemUtil.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.util;
+
+import com.github.bordertech.wcomponents.TreeItemIdNode;
+import com.github.bordertech.wcomponents.WTree;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import com.github.bordertech.wcomponents.TreeItemModel;
+
+/**
+ * Utility methods for {@link WTree} and its tree items.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.3
+ */
+public final class TreeItemUtil {
+
+	/**
+	 * Prevent instantiation of utility class.
+	 */
+<span class="nc" id="L29">	private TreeItemUtil() {</span>
+<span class="nc" id="L30">	}</span>
+
+	/**
+	 * @param jsonString the string of JSON to convert to a custom tree of nodes
+	 * @return the custom tree structure of item ids
+	 */
+	public static TreeItemIdNode convertJsonToTree(final String jsonString) {
+
+<span class="nc" id="L38">		JsonParser parser = new JsonParser();</span>
+<span class="nc" id="L39">		JsonObject json = parser.parse(jsonString).getAsJsonObject();</span>
+
+<span class="nc" id="L41">		TreeItemIdNode root = new TreeItemIdNode(null);</span>
+
+<span class="nc" id="L43">		JsonArray children = json.getAsJsonArray(&quot;root&quot;);</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">		for (int i = 0; i &lt; children.size(); i++) {</span>
+<span class="nc" id="L45">			JsonObject child = children.get(i).getAsJsonObject();</span>
+<span class="nc" id="L46">			processJsonToTree(root, child);</span>
+		}
+
+<span class="nc" id="L49">		return root;</span>
+	}
+
+	/**
+	 * Iterate over the JSON objects to create the tree structure.
+	 *
+	 * @param parentNode the parent node
+	 * @param json the current JSON object
+	 */
+	private static void processJsonToTree(final TreeItemIdNode parentNode, final JsonObject json) {
+
+<span class="nc" id="L60">		String id = json.getAsJsonPrimitive(&quot;id&quot;).getAsString();</span>
+
+<span class="nc" id="L62">		TreeItemIdNode node = new TreeItemIdNode(id);</span>
+<span class="nc" id="L63">		parentNode.addChild(node);</span>
+
+<span class="nc" id="L65">		JsonArray children = json.getAsJsonArray(&quot;items&quot;);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">		for (int i = 0; i &lt; children.size(); i++) {</span>
+<span class="nc" id="L67">			JsonObject child = children.get(i).getAsJsonObject();</span>
+<span class="nc" id="L68">			processJsonToTree(node, child);</span>
+		}
+<span class="nc" id="L70">	}</span>
+
+	/**
+	 *
+	 * @param tree1 the first tree to compare
+	 * @param tree2 the second tree to compare
+	 * @return true if the trees match
+	 */
+	public static boolean isTreeSame(final TreeItemIdNode tree1, final TreeItemIdNode tree2) {
+
+		// Check IDs match
+<span class="nc bnc" id="L81" title="All 2 branches missed.">		if (!Util.equals(tree1.getItemId(), tree2.getItemId())) {</span>
+<span class="nc" id="L82">			return false;</span>
+		}
+
+		// Check have same number of children
+<span class="nc bnc" id="L86" title="All 2 branches missed.">		if (tree1.getChildren().size() != tree2.getChildren().size()) {</span>
+<span class="nc" id="L87">			return false;</span>
+		}
+
+		// Check child IDs match
+<span class="nc bnc" id="L91" title="All 2 branches missed.">		for (int i = 0; i &lt; tree1.getChildren().size(); i++) {</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">			if (!isTreeSame(tree1.getChildren().get(i), tree2.getChildren().get(i))) {</span>
+<span class="nc" id="L93">				return false;</span>
+			}
+		}
+<span class="nc" id="L96">		return true;</span>
+	}
+
+	/**
+	 * @param node the node to copy
+	 * @return a copy of the node
+	 */
+	public static TreeItemIdNode copyTreeNode(final TreeItemIdNode node) {
+<span class="nc" id="L104">		TreeItemIdNode copy = new TreeItemIdNode(node.getItemId());</span>
+<span class="nc" id="L105">		copy.setHasChildren(node.hasChildren());</span>
+
+<span class="nc bnc" id="L107" title="All 2 branches missed.">		for (TreeItemIdNode childItem : node.getChildren()) {</span>
+<span class="nc" id="L108">			TreeItemIdNode childCopy = copyTreeNode(childItem);</span>
+<span class="nc" id="L109">			copy.addChild(childCopy);</span>
+<span class="nc" id="L110">		}</span>
+<span class="nc" id="L111">		return copy;</span>
+	}
+
+	/**
+	 * Convert the data to a set (if necessary).
+	 *
+	 * @param data the data to convert to a set
+	 * @return the data converted to a set
+	 */
+	public static Set&lt;String&gt; convertDataToSet(final Object data) {
+<span class="nc bnc" id="L121" title="All 2 branches missed.">		if (data == null) {</span>
+<span class="nc" id="L122">			return null;</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">		} else if (data instanceof Set) {</span>
+<span class="nc" id="L124">			return (Set&lt;String&gt;) data;</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">		} else if (data instanceof Collection) {</span>
+<span class="nc" id="L126">			Collection items = (Collection) data;</span>
+<span class="nc" id="L127">			Set&lt;String&gt; set = new HashSet&lt;&gt;();</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">			for (Object item : items) {</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">				if (item != null) {</span>
+<span class="nc" id="L130">					set.add(item.toString());</span>
+				}
+<span class="nc" id="L132">			}</span>
+<span class="nc" id="L133">			return set;</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">		} else if (data instanceof Object[]) {</span>
+<span class="nc" id="L135">			Object[] items = (Object[]) data;</span>
+<span class="nc" id="L136">			Set&lt;String&gt; set = new HashSet&lt;&gt;();</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">			for (Object item : items) {</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">				if (item != null) {</span>
+<span class="nc" id="L139">					set.add(item.toString());</span>
+				}
+			}
+<span class="nc" id="L142">			return set;</span>
+		} else {
+<span class="nc" id="L144">			Set&lt;String&gt; set = new HashSet&lt;&gt;();</span>
+<span class="nc" id="L145">			set.add(data.toString());</span>
+<span class="nc" id="L146">			return set;</span>
+		}
+	}
+
+	/**
+	 * @param custom the custom root node.
+	 *
+	 * @return the map containing the map of custom items to their node in the tree
+	 */
+	public static Map&lt;String, TreeItemIdNode&gt; createCustomIdMap(final TreeItemIdNode custom) {
+<span class="nc" id="L156">		Map&lt;String, TreeItemIdNode&gt; map = new HashMap&lt;&gt;();</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">		if (custom != null) {</span>
+<span class="nc" id="L158">			processCustomIdMapping(map, custom);</span>
+		}
+<span class="nc" id="L160">		return Collections.unmodifiableMap(map);</span>
+	}
+
+	/**
+	 * Iterate over the custom tree structure to add entries to the map.
+	 *
+	 * @param map the map of custom items and their node
+	 * @param node the current node being processed
+	 */
+	private static void processCustomIdMapping(final Map&lt;String, TreeItemIdNode&gt; map, final TreeItemIdNode node) {
+<span class="nc" id="L170">		String itemId = node.getItemId();</span>
+<span class="nc bnc" id="L171" title="All 2 branches missed.">		if (!Util.empty(itemId)) {</span>
+<span class="nc" id="L172">			map.put(itemId, node);</span>
+		}
+
+<span class="nc bnc" id="L175" title="All 2 branches missed.">		for (TreeItemIdNode childItem : node.getChildren()) {</span>
+<span class="nc" id="L176">			processCustomIdMapping(map, childItem);</span>
+<span class="nc" id="L177">		}</span>
+<span class="nc" id="L178">	}</span>
+
+	/**
+	 * @param tree the tree component to create a map of item ids
+	 * @return the map of item ids to their row index.
+	 */
+	public static Map&lt;String, List&lt;Integer&gt;&gt; createItemIdIndexMap(final WTree tree) {
+<span class="nc" id="L185">		Map&lt;String, List&lt;Integer&gt;&gt; map = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L186">		TreeItemModel treeModel = tree.getTreeModel();</span>
+<span class="nc" id="L187">		int rows = treeModel.getRowCount();</span>
+<span class="nc" id="L188">		Set&lt;String&gt; expanded = tree.getExpandedRows();</span>
+<span class="nc" id="L189">		WTree.ExpandMode mode = tree.getExpandMode();</span>
+
+<span class="nc bnc" id="L191" title="All 2 branches missed.">		for (int i = 0; i &lt; rows; i++) {</span>
+<span class="nc" id="L192">			List&lt;Integer&gt; index = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L193">			index.add(i);</span>
+<span class="nc" id="L194">			processItemIdIndexMapping(map, index, treeModel, mode, expanded);</span>
+		}
+<span class="nc" id="L196">		return Collections.unmodifiableMap(map);</span>
+	}
+
+	/**
+	 * Iterate through the table model to add the item ids and their row index.
+	 *
+	 * @param map the map of item ids
+	 * @param rowIndex the current row index
+	 * @param treeModel the tree model
+	 * @param mode the expand mode
+	 * @param expandedRows the set of expanded rows
+	 */
+	private static void processItemIdIndexMapping(final Map&lt;String, List&lt;Integer&gt;&gt; map, final List&lt;Integer&gt; rowIndex, final TreeItemModel treeModel, final WTree.ExpandMode mode, final Set&lt;String&gt; expandedRows) {
+
+		// Add current item
+<span class="nc" id="L211">		String id = treeModel.getItemId(rowIndex);</span>
+<span class="nc bnc" id="L212" title="All 2 branches missed.">		if (id == null) {</span>
+<span class="nc" id="L213">			return;</span>
+		}
+<span class="nc" id="L215">		map.put(id, rowIndex);</span>
+
+		// Check row is expandable
+<span class="nc bnc" id="L218" title="All 2 branches missed.">		if (!treeModel.isExpandable(rowIndex)) {</span>
+<span class="nc" id="L219">			return;</span>
+		}
+
+		// Check has children
+<span class="nc bnc" id="L223" title="All 2 branches missed.">		if (!treeModel.hasChildren(rowIndex)) {</span>
+<span class="nc" id="L224">			return;</span>
+		}
+
+		// Always add children if CLIENT mode or row is expanded
+<span class="nc bnc" id="L228" title="All 6 branches missed.">		boolean addChildren = (mode == WTree.ExpandMode.CLIENT) || (expandedRows != null &amp;&amp; expandedRows.contains(</span>
+				id));
+<span class="nc bnc" id="L230" title="All 2 branches missed.">		if (!addChildren) {</span>
+<span class="nc" id="L231">			return;</span>
+		}
+
+		// Get actual child count
+<span class="nc" id="L235">		int children = treeModel.getChildCount(rowIndex);</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">		if (children == 0) {</span>
+			// Could be there are no children even though hasChildren returned true
+<span class="nc" id="L238">			return;</span>
+		}
+
+		// Add children by processing each child row
+<span class="nc bnc" id="L242" title="All 2 branches missed.">		for (int i = 0; i &lt; children; i++) {</span>
+			// Add next level
+<span class="nc" id="L244">			List&lt;Integer&gt; nextRow = new ArrayList&lt;&gt;(rowIndex);</span>
+<span class="nc" id="L245">			nextRow.add(i);</span>
+<span class="nc" id="L246">			processItemIdIndexMapping(map, nextRow, treeModel, mode, expandedRows);</span>
+		}
+<span class="nc" id="L248">	}</span>
+
+	/**
+	 * Update the custom tree node to make sure any nodes that dont have any children in the custom layout have their
+	 * children loaded from the tree model (if they have any).
+	 *
+	 * @param tree the tree component to update its custom tree nodes.
+	 */
+	public static void updateCustomTreeNodes(final WTree tree) {
+<span class="nc" id="L257">		processCustomTreeNodes(tree.getCustomTree(), tree.getTreeModel(), tree.getExpandMode(), tree.getExpandedRows(), tree.getItemIdIndexMap());</span>
+<span class="nc" id="L258">	}</span>
+
+	/**
+	 * Update the custom tree node to make sure any nodes that dont have any children in the custom layout have their
+	 * children loaded from the tree model (if they have any).
+	 *
+	 * @param node the current node.
+	 * @param treeModel the tree model
+	 * @param mode the expand mode
+	 * @param expandedRows the set of expanded rows
+	 * @param mapItemIds the map of item ids to row index
+	 */
+	private static void processCustomTreeNodes(final TreeItemIdNode node, final TreeItemModel treeModel, final WTree.ExpandMode mode, final Set&lt;String&gt; expandedRows, final Map&lt;String, List&lt;Integer&gt;&gt; mapItemIds) {
+
+		// Node has no children so check if they need to be loaded from the tree model
+<span class="nc bnc" id="L273" title="All 2 branches missed.">		if (node.getChildren().isEmpty()) {</span>
+<span class="nc" id="L274">			List&lt;Integer&gt; rowIndex = mapItemIds.get(node.getItemId());</span>
+<span class="nc" id="L275">			loadCustomNodesFromModel(node, rowIndex, treeModel, mode, expandedRows);</span>
+<span class="nc" id="L276">		} else {</span>
+			// Check children
+<span class="nc bnc" id="L278" title="All 2 branches missed.">			for (TreeItemIdNode child : node.getChildren()) {</span>
+<span class="nc" id="L279">				processCustomTreeNodes(child, treeModel, mode, expandedRows, mapItemIds);</span>
+<span class="nc" id="L280">			}</span>
+		}
+<span class="nc" id="L282">	}</span>
+
+	/**
+	 * Load the child items from the tree model onto the custom node.
+	 *
+	 * @param node the node to update
+	 * @param rowIndex the current row index
+	 * @param treeModel the tree model
+	 * @param mode the expand mode
+	 * @param expandedRows the set of expanded rows
+	 */
+	private static void loadCustomNodesFromModel(final TreeItemIdNode node, final List&lt;Integer&gt; rowIndex, final TreeItemModel treeModel, final WTree.ExpandMode mode, final Set&lt;String&gt; expandedRows) {
+
+		// Defualt to no children
+<span class="nc" id="L296">		node.setHasChildren(false);</span>
+
+		// Row is not expandable
+<span class="nc bnc" id="L299" title="All 2 branches missed.">		if (!treeModel.isExpandable(rowIndex)) {</span>
+<span class="nc" id="L300">			return;</span>
+		}
+
+		// Row has no children
+<span class="nc bnc" id="L304" title="All 2 branches missed.">		if (!treeModel.hasChildren(rowIndex)) {</span>
+<span class="nc" id="L305">			return;</span>
+		}
+
+		// OK. So has children
+<span class="nc" id="L309">		node.setHasChildren(true);</span>
+
+		// Always add children if CLIENT mode or row is expanded
+<span class="nc bnc" id="L312" title="All 6 branches missed.">		boolean addChildren = (mode == WTree.ExpandMode.CLIENT) || (expandedRows != null &amp;&amp; expandedRows.contains(node.getItemId()));</span>
+<span class="nc bnc" id="L313" title="All 2 branches missed.">		if (!addChildren) {</span>
+<span class="nc" id="L314">			return;</span>
+		}
+
+		// Get actual child count
+<span class="nc" id="L318">		int children = treeModel.getChildCount(rowIndex);</span>
+<span class="nc bnc" id="L319" title="All 2 branches missed.">		if (children == 0) {</span>
+			// Could be there are no children even though hasChildren returned true
+<span class="nc" id="L321">			node.setHasChildren(false);</span>
+<span class="nc" id="L322">			return;</span>
+		}
+
+		// Add children by processing each child row
+<span class="nc bnc" id="L326" title="All 2 branches missed.">		for (int i = 0; i &lt; children; i++) {</span>
+			// Calc next level index
+<span class="nc" id="L328">			List&lt;Integer&gt; nextRow = new ArrayList&lt;&gt;(rowIndex);</span>
+<span class="nc" id="L329">			nextRow.add(i);</span>
+			// Get child item id
+<span class="nc" id="L331">			String nextId = treeModel.getItemId(nextRow);</span>
+			// Add child node
+<span class="nc" id="L333">			TreeItemIdNode childNode = new TreeItemIdNode(nextId);</span>
+<span class="nc" id="L334">			node.addChild(childNode);</span>
+			// Process this child node
+<span class="nc" id="L336">			loadCustomNodesFromModel(childNode, nextRow, treeModel, mode, expandedRows);</span>
+		}
+
+<span class="nc" id="L339">	}</span>
+
+	/**
+	 * Convert the row index to its string representation.
+	 *
+	 * @param row the row index
+	 * @return the string representation of the row index
+	 */
+	public static String rowIndexListToString(final List&lt;Integer&gt; row) {
+<span class="nc bnc" id="L348" title="All 4 branches missed.">		if (row == null || row.isEmpty()) {</span>
+<span class="nc" id="L349">			return null;</span>
+		}
+
+<span class="nc" id="L352">		StringBuilder index = new StringBuilder();</span>
+<span class="nc" id="L353">		boolean addDelimiter = false;</span>
+
+<span class="nc bnc" id="L355" title="All 2 branches missed.">		for (Integer lvl : row) {</span>
+<span class="nc bnc" id="L356" title="All 2 branches missed.">			if (addDelimiter) {</span>
+<span class="nc" id="L357">				index.append('-');</span>
+			}
+<span class="nc" id="L359">			index.append(lvl);</span>
+<span class="nc" id="L360">			addDelimiter = true;</span>
+<span class="nc" id="L361">		}</span>
+
+<span class="nc" id="L363">		return index.toString();</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

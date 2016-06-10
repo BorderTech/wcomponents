@@ -30,7 +30,7 @@ public final class UicStatsAsHtml {
 	 * @param stats the stats to write.
 	 */
 	public static void write(final PrintWriter writer, final UicStats stats) {
-<span class="fc" id="L33">		writer.println(&quot;&lt;dl class=\&quot;column\&quot;&gt;&quot;);</span>
+<span class="fc" id="L33">		writer.println(&quot;&lt;dl&gt;&quot;);</span>
 
 <span class="fc" id="L35">		writer.print(&quot;&lt;dt&gt;Total root wcomponents found in UIC&lt;/dt&gt;&quot;);</span>
 <span class="fc" id="L36">		writer.println(&quot;&lt;dd&gt;&quot; + stats.getRootWCs().size() + &quot;&lt;/dd&gt;&quot;);</span>
@@ -47,8 +47,8 @@ public final class UicStatsAsHtml {
 <span class="fc" id="L47">			WComponent comp = it.next();</span>
 <span class="fc" id="L48">			Map&lt;WComponent, UicStats.Stat&gt; treeStats = stats.getWCTreeStats(comp);</span>
 
-<span class="fc" id="L50">			writer.println(&quot;&lt;br /&gt;&lt;b&gt;Analysed component:&lt;/b&gt; &quot; + comp);</span>
-<span class="fc" id="L51">			writer.println(&quot;&lt;br /&gt;&lt;b&gt;Number of components in tree:&lt;/b&gt; &quot; + treeStats.size());</span>
+<span class="fc" id="L50">			writer.println(&quot;&lt;br /&gt;&lt;strong&gt;Analysed component:&lt;/strong&gt; &quot; + comp);</span>
+<span class="fc" id="L51">			writer.println(&quot;&lt;br /&gt;&lt;strong&gt;Number of components in tree:&lt;/strong&gt; &quot; + treeStats.size());</span>
 
 <span class="fc" id="L53">			writeHeader(writer);</span>
 <span class="fc" id="L54">			writeProfileForTree(writer, treeStats);</span>
@@ -100,7 +100,7 @@ public final class UicStatsAsHtml {
 	 * @param writer the writer to write the header to
 	 */
 	private static void writeHeader(final PrintWriter writer) {
-<span class="fc" id="L103">		writer.println(&quot;&lt;table border=\&quot;1\&quot;&gt;&quot;);</span>
+<span class="fc" id="L103">		writer.println(&quot;&lt;table&gt;&quot;);</span>
 <span class="fc" id="L104">		writer.println(&quot;&lt;thead&gt;&quot;);</span>
 <span class="fc" id="L105">		writer.print(&quot;&lt;tr&gt;&quot;);</span>
 <span class="fc" id="L106">		writer.print(&quot;&lt;th&gt;Class&lt;/th&gt;&quot;);</span>

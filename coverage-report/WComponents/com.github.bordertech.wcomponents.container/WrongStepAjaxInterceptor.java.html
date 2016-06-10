@@ -148,16 +148,16 @@ import org.apache.commons.logging.LogFactory;
 
 <span class="fc" id="L149">			writer.write(XMLUtil.getXMLDeclarationWithThemeXslt(uic));</span>
 
-<span class="fc" id="L151">			writer.print(&quot;&lt;ui:ajaxResponse &quot;);</span>
+<span class="fc" id="L151">			writer.print(&quot;&lt;ui:ajaxresponse &quot;);</span>
 <span class="fc" id="L152">			writer.print(XMLUtil.UI_NAMESPACE);</span>
 <span class="fc" id="L153">			writer.print(&quot;&gt;&quot;);</span>
-<span class="fc" id="L154">			writer.print(&quot;&lt;ui:ajaxTarget id=\&quot;&quot; + targetId + &quot;\&quot; action=\&quot;replace\&quot;&gt;&quot;);</span>
+<span class="fc" id="L154">			writer.print(&quot;&lt;ui:ajaxtarget id=\&quot;&quot; + targetId + &quot;\&quot; action=\&quot;replace\&quot;&gt;&quot;);</span>
 
 			// Redirect URL
 <span class="fc" id="L157">			writer.print(&quot;&lt;ui:redirect url=\&quot;&quot; + url + &quot;\&quot; /&gt;&quot;);</span>
 
-<span class="fc" id="L159">			writer.print(&quot;&lt;/ui:ajaxTarget&gt;&quot;);</span>
-<span class="fc" id="L160">			writer.print(&quot;&lt;/ui:ajaxResponse&gt;&quot;);</span>
+<span class="fc" id="L159">			writer.print(&quot;&lt;/ui:ajaxtarget&gt;&quot;);</span>
+<span class="fc" id="L160">			writer.print(&quot;&lt;/ui:ajaxresponse&gt;&quot;);</span>
 <span class="nc" id="L161">		} catch (IOException e) {</span>
 <span class="nc" id="L162">			throw new SystemException(&quot;Error writing redirect for ajax wrong step interceptor&quot;, e);</span>
 <span class="fc" id="L163">		}</span>

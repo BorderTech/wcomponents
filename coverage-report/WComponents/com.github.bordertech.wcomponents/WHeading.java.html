@@ -132,33 +132,32 @@ public class WHeading extends WText implements Container, AjaxTarget, Marginable
 	 * Setup the label.
 	 */
 	private void setupLabel() {
-		// TODO: WHeading should no longer extend WText.
 		// To retain compatibility with the WText API, create a WText for this component,
 		// which gets added to the label body.
-<span class="fc" id="L138">		WText textBody = new WText() {</span>
+<span class="fc" id="L137">		WText textBody = new WText() {</span>
 			@Override
 			public boolean isEncodeText() {
-<span class="fc" id="L141">				return WHeading.this.isEncodeText();</span>
+<span class="fc" id="L140">				return WHeading.this.isEncodeText();</span>
 			}
 
 			@Override
 			public String getText() {
-<span class="fc" id="L146">				return WHeading.this.getText();</span>
+<span class="fc" id="L145">				return WHeading.this.getText();</span>
 			}
 		};
 
-<span class="pc bpc" id="L150" title="1 of 2 branches missed.">		if (label.getBody() == null) {</span>
-<span class="nc" id="L151">			label.setBody(textBody);</span>
+<span class="pc bpc" id="L149" title="1 of 2 branches missed.">		if (label.getBody() == null) {</span>
+<span class="nc" id="L150">			label.setBody(textBody);</span>
 		} else {
-<span class="fc" id="L153">			WComponent oldBody = label.getBody();</span>
+<span class="fc" id="L152">			WComponent oldBody = label.getBody();</span>
 
-<span class="fc" id="L155">			WContainer newBody = new WContainer();</span>
-<span class="fc" id="L156">			label.setBody(newBody);</span>
+<span class="fc" id="L154">			WContainer newBody = new WContainer();</span>
+<span class="fc" id="L155">			label.setBody(newBody);</span>
 
-<span class="fc" id="L158">			newBody.add(textBody);</span>
-<span class="fc" id="L159">			newBody.add(oldBody);</span>
+<span class="fc" id="L157">			newBody.add(textBody);</span>
+<span class="fc" id="L158">			newBody.add(oldBody);</span>
 		}
-<span class="fc" id="L161">	}</span>
+<span class="fc" id="L160">	}</span>
 
 	/**
 	 * @return the heading type.
@@ -166,31 +165,31 @@ public class WHeading extends WText implements Container, AjaxTarget, Marginable
 	 */
 	@Deprecated
 	public int getType() {
-<span class="fc" id="L169">		return getHeadingLevel().getLevel();</span>
+<span class="fc" id="L168">		return getHeadingLevel().getLevel();</span>
 	}
 
 	/**
 	 * @return the heading level
 	 */
 	public HeadingLevel getHeadingLevel() {
-<span class="fc" id="L176">		return getComponentModel().headingLevel;</span>
+<span class="fc" id="L175">		return getComponentModel().headingLevel;</span>
 	}
 
 	/**
 	 * @param headingLevel the heading level
 	 */
 	public void setHeadingLevel(final HeadingLevel headingLevel) {
-<span class="pc bpc" id="L183" title="1 of 2 branches missed.">		if (headingLevel == null) {</span>
-<span class="nc" id="L184">			throw new IllegalArgumentException(&quot;Cannot set a null heading level.&quot;);</span>
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">		if (headingLevel == null) {</span>
+<span class="nc" id="L183">			throw new IllegalArgumentException(&quot;Cannot set a null heading level.&quot;);</span>
 		}
-<span class="fc" id="L186">		getOrCreateComponentModel().headingLevel = headingLevel;</span>
-<span class="fc" id="L187">	}</span>
+<span class="fc" id="L185">		getOrCreateComponentModel().headingLevel = headingLevel;</span>
+<span class="fc" id="L186">	}</span>
 
 	/**
 	 * @return the decorated label which displays the heading's text/icon etc.
 	 */
 	public WDecoratedLabel getDecoratedLabel() {
-<span class="fc" id="L193">		return label;</span>
+<span class="fc" id="L192">		return label;</span>
 	}
 
 	/**
@@ -198,15 +197,15 @@ public class WHeading extends WText implements Container, AjaxTarget, Marginable
 	 */
 	@Override
 	public void setMargin(final Margin margin) {
-<span class="fc" id="L201">		getOrCreateComponentModel().margin = margin;</span>
-<span class="fc" id="L202">	}</span>
+<span class="fc" id="L200">		getOrCreateComponentModel().margin = margin;</span>
+<span class="fc" id="L201">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public Margin getMargin() {
-<span class="fc" id="L209">		return getComponentModel().margin;</span>
+<span class="fc" id="L208">		return getComponentModel().margin;</span>
 	}
 
 	/**
@@ -215,7 +214,7 @@ public class WHeading extends WText implements Container, AjaxTarget, Marginable
 	@Override
 	// to make public
 	public int getChildCount() {
-<span class="fc" id="L218">		return super.getChildCount();</span>
+<span class="fc" id="L217">		return super.getChildCount();</span>
 	}
 
 	/**
@@ -224,7 +223,7 @@ public class WHeading extends WText implements Container, AjaxTarget, Marginable
 	@Override
 	// to make public
 	public WComponent getChildAt(final int index) {
-<span class="nc" id="L227">		return super.getChildAt(index);</span>
+<span class="nc" id="L226">		return super.getChildAt(index);</span>
 	}
 
 	/**
@@ -233,7 +232,7 @@ public class WHeading extends WText implements Container, AjaxTarget, Marginable
 	@Override
 	// to make public
 	public int getIndexOfChild(final WComponent childComponent) {
-<span class="fc" id="L236">		return super.getIndexOfChild(childComponent);</span>
+<span class="fc" id="L235">		return super.getIndexOfChild(childComponent);</span>
 	}
 
 	/**
@@ -241,7 +240,7 @@ public class WHeading extends WText implements Container, AjaxTarget, Marginable
 	 */
 	@Override
 	public List&lt;WComponent&gt; getChildren() {
-<span class="nc" id="L244">		return super.getChildren();</span>
+<span class="nc" id="L243">		return super.getChildren();</span>
 	}
 
 	/**
@@ -249,9 +248,9 @@ public class WHeading extends WText implements Container, AjaxTarget, Marginable
 	 */
 	@Override
 	public String toString() {
-<span class="nc" id="L252">		String text = getText();</span>
-<span class="nc bnc" id="L253" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
-<span class="nc" id="L254">		return toString(text, -1, -1);</span>
+<span class="nc" id="L251">		String text = getText();</span>
+<span class="nc bnc" id="L252" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="nc" id="L253">		return toString(text, -1, -1);</span>
 	}
 
 	/**
@@ -262,7 +261,7 @@ public class WHeading extends WText implements Container, AjaxTarget, Marginable
 	@Override
 	// For type safety only
 	protected HeadingModel newComponentModel() {
-<span class="fc" id="L265">		return new HeadingModel();</span>
+<span class="fc" id="L264">		return new HeadingModel();</span>
 	}
 
 	/**
@@ -271,7 +270,7 @@ public class WHeading extends WText implements Container, AjaxTarget, Marginable
 	@Override
 	// For type safety only
 	protected HeadingModel getComponentModel() {
-<span class="fc" id="L274">		return (HeadingModel) super.getComponentModel();</span>
+<span class="fc" id="L273">		return (HeadingModel) super.getComponentModel();</span>
 	}
 
 	/**
@@ -280,13 +279,13 @@ public class WHeading extends WText implements Container, AjaxTarget, Marginable
 	@Override
 	// For type safety only
 	protected HeadingModel getOrCreateComponentModel() {
-<span class="fc" id="L283">		return (HeadingModel) super.getOrCreateComponentModel();</span>
+<span class="fc" id="L282">		return (HeadingModel) super.getOrCreateComponentModel();</span>
 	}
 
 	/**
 	 * Holds the extrinsic state information of the component.
 	 */
-<span class="fc" id="L289">	public static class HeadingModel extends BeanAndProviderBoundComponentModel {</span>
+<span class="fc" id="L288">	public static class HeadingModel extends BeanAndProviderBoundComponentModel {</span>
 
 		/**
 		 * The margins to be used on the heading.

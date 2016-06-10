@@ -36,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
  * @deprecated Use {@link WTable} instead.
  */
 @Deprecated
-public class WDataTable extends WBeanComponent implements Disableable, Container, AjaxTarget,
+public class WDataTable extends WBeanComponent implements Disableable, Container, AjaxInternalTrigger, AjaxTarget,
 		SubordinateTarget, NamingContextable {
 
 	/**
@@ -114,129 +114,132 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 <span class="fc" id="L114">		CLIENT,</span>
 		/**
 		 * Indicates that row expansion occurs on the server (round-trip).
+		 *
 		 * @deprecated use ExpandMode.DYNAMIC instead.
 		 */
-<span class="fc" id="L119">		SERVER,</span>
+<span class="fc" id="L120">		SERVER,</span>
 		/**
 		 * Indicates that row expansion occurs once, via AJAX.
 		 */
-<span class="fc" id="L123">		LAZY,</span>
+<span class="fc" id="L124">		LAZY,</span>
 		/**
 		 * Indicates that row expansion should make an AJAX call every time.
 		 */
-<span class="fc" id="L127">		DYNAMIC</span>
+<span class="fc" id="L128">		DYNAMIC</span>
 	};
 
 	/**
 	 * This is used to control how pagination should work.
 	 */
-<span class="pc" id="L133">	public enum PaginationMode {</span>
+<span class="pc" id="L134">	public enum PaginationMode {</span>
 		/**
 		 * Indicates that pagination is not supported, all data will be displayed in the one page.
 		 */
-<span class="fc" id="L137">		NONE,</span>
+<span class="fc" id="L138">		NONE,</span>
 		/**
 		 * Indicates that pagination occurs using a round-trip to the server (no longer implemented). NOTE: no longer
 		 * supported in theme as it causes an a11y failure. Setting this mode will, in effect, set
 		 * PaginationMode.DYNAMIC.
+		 *
 		 * @deprecated use PaginationMode.DYNAMIC instead.
 		 */
-<span class="fc" id="L144">		SERVER,</span>
+<span class="fc" id="L146">		SERVER,</span>
 		/**
 		 * Indicates that pagination occurs on the client. All data will be sent at once.
 		 */
-<span class="fc" id="L148">		CLIENT,</span>
+<span class="fc" id="L150">		CLIENT,</span>
 		/**
 		 * Indicates that pagination occurs via AJAX calls to the server.
 		 */
-<span class="fc" id="L152">		DYNAMIC</span>
+<span class="fc" id="L154">		DYNAMIC</span>
 	};
 
 	/**
 	 * This is used to control the type of striping used, if any.
 	 */
-<span class="pc" id="L158">	public enum StripingType {</span>
+<span class="pc" id="L160">	public enum StripingType {</span>
 		/**
 		 * Indicates that no zebra striping should be used.
 		 */
-<span class="fc" id="L162">		NONE,</span>
+<span class="fc" id="L164">		NONE,</span>
 		/**
 		 * Indicates that zebra striping should be used to highlight rows.
 		 */
-<span class="fc" id="L166">		ROWS,</span>
+<span class="fc" id="L168">		ROWS,</span>
 		/**
 		 * Indicates that zebra striping should be used to highlight columns.
 		 */
-<span class="fc" id="L170">		COLUMNS</span>
+<span class="fc" id="L172">		COLUMNS</span>
 	};
 
 	/**
 	 * This is used to control the type of striping used, if any.
 	 */
-<span class="pc" id="L176">	public enum SeparatorType {</span>
+<span class="pc" id="L178">	public enum SeparatorType {</span>
 		/**
 		 * Indicates that no separators should be displayed.
 		 */
-<span class="fc" id="L180">		NONE,</span>
+<span class="fc" id="L182">		NONE,</span>
 		/**
 		 * Indicates that horizontal separators should be displayed.
 		 */
-<span class="fc" id="L184">		HORIZONTAL,</span>
+<span class="fc" id="L186">		HORIZONTAL,</span>
 		/**
 		 * Indicates that vertical separators should be displayed.
 		 */
-<span class="fc" id="L188">		VERTICAL,</span>
+<span class="fc" id="L190">		VERTICAL,</span>
 		/**
 		 * Indicates that both horizontal and vertical separators should be displayed.
 		 */
-<span class="fc" id="L192">		BOTH</span>
+<span class="fc" id="L194">		BOTH</span>
 	};
 
 	/**
 	 * This is used to control how sorting should work.
 	 */
-<span class="pc" id="L198">	public enum SortMode {</span>
+<span class="pc" id="L200">	public enum SortMode {</span>
 		/**
 		 * Indicates that sorting should be disabled.
 		 */
-<span class="fc" id="L202">		NONE,</span>
+<span class="fc" id="L204">		NONE,</span>
 		/**
 		 * Indicates that sorting occurs using a round-trip to the server.
+		 *
 		 * @deprecated use SortMode.DYNAMIC instead.
 		 */
-<span class="fc" id="L207">		SERVER,</span>
+<span class="fc" id="L210">		SERVER,</span>
 		/**
 		 * Indicates that sorting is via AJAX calls.
 		 */
-<span class="fc" id="L211">		DYNAMIC</span>
+<span class="fc" id="L214">		DYNAMIC</span>
 	};
 
 	/**
 	 * This is used to control how table data should be displayed.
 	 */
-<span class="pc" id="L217">	public enum Type {</span>
+<span class="pc" id="L220">	public enum Type {</span>
 		/**
 		 * Indicates that the table should be displayed as a normal table.
 		 */
-<span class="fc" id="L221">		TABLE,</span>
+<span class="fc" id="L224">		TABLE,</span>
 		/**
 		 * Indicates that the table should be displayed as a hierarchical list.
 		 */
-<span class="fc" id="L225">		HIERARCHIC</span>
+<span class="fc" id="L228">		HIERARCHIC</span>
 	};
 
 	/**
 	 * Creates a WDataTable.
 	 */
-<span class="fc" id="L231">	public WDataTable() {</span>
-<span class="fc" id="L232">		add(rowHeaderColumn);</span>
-<span class="fc" id="L233">		add(columns);</span>
-<span class="fc" id="L234">		add(repeater);</span>
-<span class="fc" id="L235">		add(actions);</span>
+<span class="fc" id="L234">	public WDataTable() {</span>
+<span class="fc" id="L235">		add(rowHeaderColumn);</span>
+<span class="fc" id="L236">		add(columns);</span>
+<span class="fc" id="L237">		add(repeater);</span>
+<span class="fc" id="L238">		add(actions);</span>
 
-<span class="fc" id="L237">		repeater.setRepeatedComponent(new WDataTableRowRenderer(this));</span>
-<span class="fc" id="L238">		repeater.setBeanProvider(new DataModelBeanProvider(this));</span>
-<span class="fc" id="L239">	}</span>
+<span class="fc" id="L240">		repeater.setRepeatedComponent(new WDataTableRowRenderer(this));</span>
+<span class="fc" id="L241">		repeater.setBeanProvider(new DataModelBeanProvider(this));</span>
+<span class="fc" id="L242">	}</span>
 
 	/**
 	 * Adds a column to the table.
@@ -244,10 +247,10 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param column the column to add.
 	 */
 	public void addColumn(final WTableColumn column) {
-<span class="fc" id="L247">		columns.add(column);</span>
-<span class="fc" id="L248">		WDataTableRowRenderer renderer = (WDataTableRowRenderer) repeater.getRepeatedComponent();</span>
-<span class="fc" id="L249">		renderer.addColumn(column, columns.getChildCount() - 1);</span>
-<span class="fc" id="L250">	}</span>
+<span class="fc" id="L250">		columns.add(column);</span>
+<span class="fc" id="L251">		WDataTableRowRenderer renderer = (WDataTableRowRenderer) repeater.getRepeatedComponent();</span>
+<span class="fc" id="L252">		renderer.addColumn(column, columns.getChildCount() - 1);</span>
+<span class="fc" id="L253">	}</span>
 
 	/**
 	 * Retrieves the column at the specified index. Bounds checking is not performed, see {@link #getColumnCount()}.
@@ -256,7 +259,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @return the column at the specified index.
 	 */
 	public WTableColumn getColumn(final int index) {
-<span class="fc" id="L259">		return (WTableColumn) columns.getChildAt(index);</span>
+<span class="fc" id="L262">		return (WTableColumn) columns.getChildAt(index);</span>
 	}
 
 	/**
@@ -265,21 +268,21 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @return the number of columns contained in this table.
 	 */
 	public int getColumnCount() {
-<span class="fc" id="L268">		return columns.getChildCount();</span>
+<span class="fc" id="L271">		return columns.getChildCount();</span>
 	}
 
 	/**
 	 * @return the repeater used to render table rows.
 	 */
 	public WRepeater getRepeater() {
-<span class="fc" id="L275">		return repeater;</span>
+<span class="fc" id="L278">		return repeater;</span>
 	}
 
 	/**
 	 * @return the table column used to display row headers.
 	 */
 	public WTableColumn getRowHeaderColumn() {
-<span class="nc" id="L282">		return rowHeaderColumn;</span>
+<span class="nc" id="L285">		return rowHeaderColumn;</span>
 	}
 
 	/**
@@ -289,7 +292,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 */
 	@Override
 	public boolean isDisabled() {
-<span class="fc" id="L292">		return isFlagSet(ComponentModel.DISABLED_FLAG);</span>
+<span class="fc" id="L295">		return isFlagSet(ComponentModel.DISABLED_FLAG);</span>
 	}
 
 	/**
@@ -299,14 +302,14 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 */
 	@Override
 	public void setDisabled(final boolean disabled) {
-<span class="fc" id="L302">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
-<span class="fc" id="L303">	}</span>
+<span class="fc" id="L305">		setFlag(ComponentModel.DISABLED_FLAG, disabled);</span>
+<span class="fc" id="L306">	}</span>
 
 	/**
 	 * @return Returns the dataModel.
 	 */
 	public TableDataModel getDataModel() {
-<span class="fc" id="L309">		return getComponentModel().dataModel;</span>
+<span class="fc" id="L312">		return getComponentModel().dataModel;</span>
 	}
 
 	/**
@@ -315,88 +318,88 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param dataModel The dataModel to set.
 	 */
 	public void setDataModel(final TableDataModel dataModel) {
-<span class="fc" id="L318">		getOrCreateComponentModel().dataModel = dataModel;</span>
-<span class="fc" id="L319">		getOrCreateComponentModel().rowIndexMapping = null;</span>
+<span class="fc" id="L321">		getOrCreateComponentModel().dataModel = dataModel;</span>
+<span class="fc" id="L322">		getOrCreateComponentModel().rowIndexMapping = null;</span>
 
-<span class="fc bfc" id="L321" title="All 2 branches covered.">		if (dataModel instanceof BeanTableDataModel) {</span>
-<span class="fc" id="L322">			((BeanTableDataModel) dataModel).setBeanProvider(new DataTableBeanProvider(this));</span>
-<span class="fc" id="L323">			((BeanTableDataModel) dataModel).setBeanProperty(&quot;.&quot;);</span>
+<span class="fc bfc" id="L324" title="All 2 branches covered.">		if (dataModel instanceof BeanTableDataModel) {</span>
+<span class="fc" id="L325">			((BeanTableDataModel) dataModel).setBeanProvider(new DataTableBeanProvider(this));</span>
+<span class="fc" id="L326">			((BeanTableDataModel) dataModel).setBeanProperty(&quot;.&quot;);</span>
 		}
 
-<span class="pc bpc" id="L326" title="1 of 2 branches missed.">		if (dataModel instanceof ScrollableTableDataModel) {</span>
-<span class="nc" id="L327">			int startIndex = getCurrentPage() * getRowsPerPage();</span>
-<span class="nc" id="L328">			int endIndex = startIndex + getRowsPerPage() - 1;</span>
-<span class="nc" id="L329">			((ScrollableTableDataModel) dataModel).setCurrentRows(startIndex, endIndex);</span>
+<span class="pc bpc" id="L329" title="1 of 2 branches missed.">		if (dataModel instanceof ScrollableTableDataModel) {</span>
+<span class="nc" id="L330">			int startIndex = getCurrentPage() * getRowsPerPage();</span>
+<span class="nc" id="L331">			int endIndex = startIndex + getRowsPerPage() - 1;</span>
+<span class="nc" id="L332">			((ScrollableTableDataModel) dataModel).setCurrentRows(startIndex, endIndex);</span>
 		}
 
 		// Flush the repeater's row contexts and scratch maps
-<span class="fc" id="L333">		repeater.reset();</span>
-<span class="fc" id="L334">	}</span>
+<span class="fc" id="L336">		repeater.reset();</span>
+<span class="fc" id="L337">	}</span>
 
 	/**
 	 * Updates the bean using the table data model's {@link TableDataModel#setValueAt(Object, int, int)} method.
 	 */
 	@Override
 	public void updateBeanValue() {
-<span class="nc" id="L341">		TableDataModel model = getDataModel();</span>
+<span class="nc" id="L344">		TableDataModel model = getDataModel();</span>
 
-<span class="nc bnc" id="L343" title="All 2 branches missed.">		if (model instanceof ScrollableTableDataModel) {</span>
-<span class="nc" id="L344">			LOG.warn(&quot;UpdateBeanValue only updating the current page for ScrollableTableDataModel&quot;);</span>
-<span class="nc" id="L345">			updateBeanValueCurrentPageOnly();</span>
-<span class="nc bnc" id="L346" title="All 2 branches missed.">		} else if (model.getRowCount() &gt; 0) {</span>
+<span class="nc bnc" id="L346" title="All 2 branches missed.">		if (model instanceof ScrollableTableDataModel) {</span>
+<span class="nc" id="L347">			LOG.warn(&quot;UpdateBeanValue only updating the current page for ScrollableTableDataModel&quot;);</span>
+<span class="nc" id="L348">			updateBeanValueCurrentPageOnly();</span>
+<span class="nc bnc" id="L349" title="All 2 branches missed.">		} else if (model.getRowCount() &gt; 0) {</span>
 			// Temporarily widen the pagination on the repeater to hold all rows
 			// Calling setBean with a non-null value overrides the DataTableBeanProvider
-<span class="nc" id="L349">			repeater.setBean(new RowIdList(0, model.getRowCount() - 1));</span>
-<span class="nc" id="L350">			updateBeanValueCurrentPageOnly();</span>
-<span class="nc" id="L351">			repeater.setBean(null);</span>
+<span class="nc" id="L352">			repeater.setBean(new RowIdList(0, model.getRowCount() - 1));</span>
+<span class="nc" id="L353">			updateBeanValueCurrentPageOnly();</span>
+<span class="nc" id="L354">			repeater.setBean(null);</span>
 		}
-<span class="nc" id="L353">	}</span>
+<span class="nc" id="L356">	}</span>
 
 	/**
 	 * Updates the bean using the table data model's {@link TableDataModel#setValueAt(Object, int, int)} method. This
 	 * method only updates the data for the current page.
 	 */
 	private void updateBeanValueCurrentPageOnly() {
-<span class="nc" id="L360">		WDataTableRowRenderer rowRenderer = (WDataTableRowRenderer) repeater.getRepeatedComponent();</span>
-<span class="nc" id="L361">		TableDataModel model = getDataModel();</span>
+<span class="nc" id="L363">		WDataTableRowRenderer rowRenderer = (WDataTableRowRenderer) repeater.getRepeatedComponent();</span>
+<span class="nc" id="L364">		TableDataModel model = getDataModel();</span>
 
 		// The bean list for the repeater is a list of Integer row indices
-<span class="nc bnc" id="L364" title="All 2 branches missed.">		for (Integer rowBean : (List&lt;Integer&gt;) repeater.getBeanList()) {</span>
-<span class="nc" id="L365">			int row = rowBean;</span>
-<span class="nc" id="L366">			UIContext rowContext = repeater.getRowContext(rowBean, row);</span>
-<span class="nc" id="L367">			final int columnCount = getColumnCount();</span>
+<span class="nc bnc" id="L367" title="All 2 branches missed.">		for (Integer rowBean : (List&lt;Integer&gt;) repeater.getBeanList()) {</span>
+<span class="nc" id="L368">			int row = rowBean;</span>
+<span class="nc" id="L369">			UIContext rowContext = repeater.getRowContext(rowBean, row);</span>
+<span class="nc" id="L370">			final int columnCount = getColumnCount();</span>
 
-<span class="nc bnc" id="L369" title="All 2 branches missed.">			for (int col = 0; col &lt; columnCount; col++) {</span>
-<span class="nc bnc" id="L370" title="All 2 branches missed.">				if (model.isCellEditable(row, col)) {</span>
+<span class="nc bnc" id="L372" title="All 2 branches missed.">			for (int col = 0; col &lt; columnCount; col++) {</span>
+<span class="nc bnc" id="L373" title="All 2 branches missed.">				if (model.isCellEditable(row, col)) {</span>
 					// The actual component is wrapped in a renderer wrapper, so we have to fetch it from that
-<span class="nc" id="L372">					WComponent renderer = ((Container) rowRenderer.getRenderer(col)).getChildAt(0);</span>
+<span class="nc" id="L375">					WComponent renderer = ((Container) rowRenderer.getRenderer(col)).getChildAt(0);</span>
 
-<span class="nc bnc" id="L374" title="All 2 branches missed.">					if (renderer instanceof DataBound) {</span>
-<span class="nc" id="L375">						Object oldValue = model.getValueAt(row, col);</span>
+<span class="nc bnc" id="L377" title="All 2 branches missed.">					if (renderer instanceof DataBound) {</span>
+<span class="nc" id="L378">						Object oldValue = model.getValueAt(row, col);</span>
 
-<span class="nc" id="L377">						UIContextHolder.pushContext(rowContext);</span>
-<span class="nc" id="L378">						Object newValue = null;</span>
+<span class="nc" id="L380">						UIContextHolder.pushContext(rowContext);</span>
+<span class="nc" id="L381">						Object newValue = null;</span>
 
 						try {
-<span class="nc" id="L381">							newValue = ((DataBound) renderer).getData();</span>
+<span class="nc" id="L384">							newValue = ((DataBound) renderer).getData();</span>
 						} finally {
-<span class="nc" id="L383">							UIContextHolder.popContext();</span>
-<span class="nc" id="L384">						}</span>
+<span class="nc" id="L386">							UIContextHolder.popContext();</span>
+<span class="nc" id="L387">						}</span>
 
-<span class="nc bnc" id="L386" title="All 2 branches missed.">						if (!Util.equals(oldValue, newValue)) {</span>
-<span class="nc" id="L387">							model.setValueAt(newValue, row, col);</span>
+<span class="nc bnc" id="L389" title="All 2 branches missed.">						if (!Util.equals(oldValue, newValue)) {</span>
+<span class="nc" id="L390">							model.setValueAt(newValue, row, col);</span>
 						}
 					}
 				}
 			}
-<span class="nc" id="L392">		}</span>
-<span class="nc" id="L393">	}</span>
+<span class="nc" id="L395">		}</span>
+<span class="nc" id="L396">	}</span>
 
 	/**
 	 * @return the separator type.
 	 */
 	public SeparatorType getSeparatorType() {
-<span class="fc" id="L399">		return getComponentModel().separatorType;</span>
+<span class="fc" id="L402">		return getComponentModel().separatorType;</span>
 	}
 
 	/**
@@ -405,14 +408,14 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param separatorType The separator type to set.
 	 */
 	public void setSeparatorType(final SeparatorType separatorType) {
-<span class="fc" id="L408">		getOrCreateComponentModel().separatorType = separatorType;</span>
-<span class="fc" id="L409">	}</span>
+<span class="fc" id="L411">		getOrCreateComponentModel().separatorType = separatorType;</span>
+<span class="fc" id="L412">	}</span>
 
 	/**
 	 * @return Returns the striping type.
 	 */
 	public StripingType getStripingType() {
-<span class="fc" id="L415">		return getComponentModel().stripingType;</span>
+<span class="fc" id="L418">		return getComponentModel().stripingType;</span>
 	}
 
 	/**
@@ -421,8 +424,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param stripingType The striping type to set.
 	 */
 	public void setStripingType(final StripingType stripingType) {
-<span class="fc" id="L424">		getOrCreateComponentModel().stripingType = stripingType;</span>
-<span class="fc" id="L425">	}</span>
+<span class="fc" id="L427">		getOrCreateComponentModel().stripingType = stripingType;</span>
+<span class="fc" id="L428">	}</span>
 
 	/**
 	 * Indicates whether table column headers should be displayed.
@@ -430,7 +433,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @return true if column headers should be displayed, false otherwise.
 	 */
 	public boolean isShowColumnHeaders() {
-<span class="fc" id="L433">		return getComponentModel().showColumnHeaders;</span>
+<span class="fc" id="L436">		return getComponentModel().showColumnHeaders;</span>
 	}
 
 	/**
@@ -439,8 +442,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param showColumnHeaders true to display table column headers, false otherwise.
 	 */
 	public void setShowColumnHeaders(final boolean showColumnHeaders) {
-<span class="fc" id="L442">		getOrCreateComponentModel().showColumnHeaders = showColumnHeaders;</span>
-<span class="fc" id="L443">	}</span>
+<span class="fc" id="L445">		getOrCreateComponentModel().showColumnHeaders = showColumnHeaders;</span>
+<span class="fc" id="L446">	}</span>
 
 	/**
 	 * Indicates whether row headers should be displayed.
@@ -448,7 +451,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @return true if row headers should be displayed, false otherwise.
 	 */
 	public boolean isShowRowHeaders() {
-<span class="fc" id="L451">		return getComponentModel().showRowHeaders;</span>
+<span class="fc" id="L454">		return getComponentModel().showRowHeaders;</span>
 	}
 
 	/**
@@ -462,8 +465,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param showRowHeaders true to show row headers, false otherwise.
 	 */
 	public void setShowRowHeaders(final boolean showRowHeaders) {
-<span class="fc" id="L465">		getOrCreateComponentModel().showRowHeaders = showRowHeaders;</span>
-<span class="fc" id="L466">	}</span>
+<span class="fc" id="L468">		getOrCreateComponentModel().showRowHeaders = showRowHeaders;</span>
+<span class="fc" id="L469">	}</span>
 
 	/**
 	 * Indicates whether row indices should be displayed.
@@ -471,7 +474,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @return true if row indices should be displayed, false otherwise.
 	 */
 	public boolean isShowRowIndices() {
-<span class="fc" id="L474">		return getComponentModel().showRowIndices;</span>
+<span class="fc" id="L477">		return getComponentModel().showRowIndices;</span>
 	}
 
 	/**
@@ -480,8 +483,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param showRowIndices true if row indices should be displayed, false otherwise.
 	 */
 	public void setShowRowIndices(final boolean showRowIndices) {
-<span class="fc" id="L483">		getOrCreateComponentModel().showRowIndices = showRowIndices;</span>
-<span class="fc" id="L484">	}</span>
+<span class="fc" id="L486">		getOrCreateComponentModel().showRowIndices = showRowIndices;</span>
+<span class="fc" id="L487">	}</span>
 
 	/**
 	 * Indicates whether the form should submit whenever the row selection changes.
@@ -489,7 +492,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @return true if form submission should occur on row selection change, false otherwise.
 	 */
 	public boolean isSubmitOnRowSelect() {
-<span class="fc" id="L492">		return getComponentModel().submitOnRowSelect;</span>
+<span class="fc" id="L495">		return getComponentModel().submitOnRowSelect;</span>
 	}
 
 	/**
@@ -498,8 +501,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param submitOnRowSelect true if form submission should occur on row selection change, false otherwise.
 	 */
 	public void setSubmitOnRowSelect(final boolean submitOnRowSelect) {
-<span class="fc" id="L501">		getOrCreateComponentModel().submitOnRowSelect = submitOnRowSelect;</span>
-<span class="fc" id="L502">	}</span>
+<span class="fc" id="L504">		getOrCreateComponentModel().submitOnRowSelect = submitOnRowSelect;</span>
+<span class="fc" id="L505">	}</span>
 
 	/**
 	 * Indicates whether filtering is enabled.
@@ -507,7 +510,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @return true if filtering is enabled, false otherwise.
 	 */
 	public boolean isFilterable() {
-<span class="fc" id="L510">		return getComponentModel().filterable;</span>
+<span class="fc" id="L513">		return getComponentModel().filterable;</span>
 	}
 
 	/**
@@ -516,8 +519,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param filterable true to enable filtering, false otherwise.
 	 */
 	public void setFilterable(final boolean filterable) {
-<span class="fc" id="L519">		getOrCreateComponentModel().filterable = filterable;</span>
-<span class="fc" id="L520">	}</span>
+<span class="fc" id="L522">		getOrCreateComponentModel().filterable = filterable;</span>
+<span class="fc" id="L523">	}</span>
 
 	/**
 	 * Sets the active filters.
@@ -525,21 +528,21 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param activeFilters The active filters to set.
 	 */
 	public void setActiveFilters(final List&lt;String&gt; activeFilters) {
-<span class="fc" id="L528">		getOrCreateComponentModel().activeFilters = activeFilters;</span>
-<span class="fc" id="L529">	}</span>
+<span class="fc" id="L531">		getOrCreateComponentModel().activeFilters = activeFilters;</span>
+<span class="fc" id="L532">	}</span>
 
 	/**
 	 * @return the active filters.
 	 */
 	public List&lt;String&gt; getActiveFilters() {
-<span class="fc" id="L535">		return getComponentModel().getActiveFilters();</span>
+<span class="fc" id="L538">		return getComponentModel().getActiveFilters();</span>
 	}
 
 	/**
 	 * @return the action to execute when row selection changes.
 	 */
 	public Action getSelectionChangeAction() {
-<span class="fc" id="L542">		return getComponentModel().selectionChangeAction;</span>
+<span class="fc" id="L545">		return getComponentModel().selectionChangeAction;</span>
 	}
 
 	/**
@@ -548,14 +551,14 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param selectionChangeAction the action to execute on row selection change.
 	 */
 	public void setSelectionChangeAction(final Action selectionChangeAction) {
-<span class="fc" id="L551">		getOrCreateComponentModel().selectionChangeAction = selectionChangeAction;</span>
-<span class="fc" id="L552">	}</span>
+<span class="fc" id="L554">		getOrCreateComponentModel().selectionChangeAction = selectionChangeAction;</span>
+<span class="fc" id="L555">	}</span>
 
 	/**
 	 * @return the message to display when the table contains no rows.
 	 */
 	public String getNoDataMessage() {
-<span class="fc" id="L558">		return I18nUtilities.format(null, getComponentModel().noDataMessage);</span>
+<span class="fc" id="L561">		return I18nUtilities.format(null, getComponentModel().noDataMessage);</span>
 	}
 
 	/**
@@ -564,14 +567,14 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param noDataMessage the no data message.
 	 */
 	public void setNoDataMessage(final String noDataMessage) {
-<span class="fc" id="L567">		getOrCreateComponentModel().noDataMessage = noDataMessage;</span>
-<span class="fc" id="L568">	}</span>
+<span class="fc" id="L570">		getOrCreateComponentModel().noDataMessage = noDataMessage;</span>
+<span class="fc" id="L571">	}</span>
 
 	/**
 	 * @return the table summary text.
 	 */
 	public String getSummary() {
-<span class="fc" id="L574">		return I18nUtilities.format(null, getComponentModel().summary);</span>
+<span class="fc" id="L577">		return I18nUtilities.format(null, getComponentModel().summary);</span>
 	}
 
 	/**
@@ -580,14 +583,14 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param summary The summary to set.
 	 */
 	public void setSummary(final String summary) {
-<span class="fc" id="L583">		getOrCreateComponentModel().summary = summary;</span>
-<span class="fc" id="L584">	}</span>
+<span class="fc" id="L586">		getOrCreateComponentModel().summary = summary;</span>
+<span class="fc" id="L587">	}</span>
 
 	/**
 	 * @return the table caption text.
 	 */
 	public String getCaption() {
-<span class="fc" id="L590">		return I18nUtilities.format(null, getComponentModel().caption);</span>
+<span class="fc" id="L593">		return I18nUtilities.format(null, getComponentModel().caption);</span>
 	}
 
 	/**
@@ -596,33 +599,33 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param caption The caption to set.
 	 */
 	public void setCaption(final String caption) {
-<span class="fc" id="L599">		getOrCreateComponentModel().caption = caption;</span>
-<span class="fc" id="L600">	}</span>
+<span class="fc" id="L602">		getOrCreateComponentModel().caption = caption;</span>
+<span class="fc" id="L603">	}</span>
 
 	/**
 	 * @return the column order, or null if the default ordering is to be used.
 	 */
 	public int[] getColumnOrder() {
-<span class="fc" id="L606">		return getComponentModel().columnOrder;</span>
+<span class="fc" id="L609">		return getComponentModel().columnOrder;</span>
 	}
 
 	/**
 	 * @param columnOrder the column order to set, or null to use default ordering.
 	 */
 	public void setColumnOrder(final int[] columnOrder) {
-<span class="fc bfc" id="L613" title="All 2 branches covered.">		if (columnOrder.length != getColumnCount()) {</span>
-<span class="fc" id="L614">			throw new IllegalArgumentException(</span>
+<span class="fc bfc" id="L616" title="All 2 branches covered.">		if (columnOrder.length != getColumnCount()) {</span>
+<span class="fc" id="L617">			throw new IllegalArgumentException(</span>
 					&quot;Number of column order indices must match the number of table columns&quot;);
 		}
 
-<span class="fc" id="L618">		getOrCreateComponentModel().columnOrder = columnOrder;</span>
-<span class="fc" id="L619">	}</span>
+<span class="fc" id="L621">		getOrCreateComponentModel().columnOrder = columnOrder;</span>
+<span class="fc" id="L622">	}</span>
 
 	/**
 	 * @return the pagination mode.
 	 */
 	public PaginationMode getPaginationMode() {
-<span class="fc" id="L625">		return getComponentModel().paginationMode;</span>
+<span class="fc" id="L628">		return getComponentModel().paginationMode;</span>
 	}
 
 	/**
@@ -631,14 +634,14 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param paginationMode The paginationMode to set.
 	 */
 	public void setPaginationMode(final PaginationMode paginationMode) {
-<span class="fc" id="L634">		getOrCreateComponentModel().paginationMode = paginationMode;</span>
-<span class="fc" id="L635">	}</span>
+<span class="fc" id="L637">		getOrCreateComponentModel().paginationMode = paginationMode;</span>
+<span class="fc" id="L638">	}</span>
 
 	/**
 	 * @return the number of rows to display per page.
 	 */
 	public int getRowsPerPage() {
-<span class="fc" id="L641">		return getComponentModel().rowsPerPage;</span>
+<span class="fc" id="L644">		return getComponentModel().rowsPerPage;</span>
 	}
 
 	/**
@@ -647,19 +650,19 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param rowsPerPage The rowsPerPage to set, greater than zero.
 	 */
 	public void setRowsPerPage(final int rowsPerPage) {
-<span class="fc bfc" id="L650" title="All 2 branches covered.">		if (rowsPerPage &lt; 1) {</span>
-<span class="fc" id="L651">			throw new IllegalArgumentException(</span>
+<span class="fc bfc" id="L653" title="All 2 branches covered.">		if (rowsPerPage &lt; 1) {</span>
+<span class="fc" id="L654">			throw new IllegalArgumentException(</span>
 					&quot;Rows per page must be greater than 0, but got: &quot; + rowsPerPage);
 		}
 
-<span class="fc" id="L655">		getOrCreateComponentModel().rowsPerPage = rowsPerPage;</span>
-<span class="fc" id="L656">	}</span>
+<span class="fc" id="L658">		getOrCreateComponentModel().rowsPerPage = rowsPerPage;</span>
+<span class="fc" id="L659">	}</span>
 
 	/**
 	 * @return the row selection mode..
 	 */
 	public SelectMode getSelectMode() {
-<span class="fc" id="L662">		return getComponentModel().selectMode;</span>
+<span class="fc" id="L665">		return getComponentModel().selectMode;</span>
 	}
 
 	/**
@@ -668,28 +671,28 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param selectMode The select mode to set.
 	 */
 	public void setSelectMode(final SelectMode selectMode) {
-<span class="fc" id="L671">		getOrCreateComponentModel().selectMode = selectMode;</span>
-<span class="fc" id="L672">	}</span>
+<span class="fc" id="L674">		getOrCreateComponentModel().selectMode = selectMode;</span>
+<span class="fc" id="L675">	}</span>
 
 	/**
 	 * @return Returns the selectGroup.
 	 */
 	public String getSelectGroup() {
-<span class="fc" id="L678">		return getComponentModel().selectGroup;</span>
+<span class="fc" id="L681">		return getComponentModel().selectGroup;</span>
 	}
 
 	/**
 	 * @param selectGroup The selectGroup to set.
 	 */
 	public void setSelectGroup(final String selectGroup) {
-<span class="fc" id="L685">		getOrCreateComponentModel().selectGroup = selectGroup;</span>
-<span class="fc" id="L686">	}</span>
+<span class="fc" id="L688">		getOrCreateComponentModel().selectGroup = selectGroup;</span>
+<span class="fc" id="L689">	}</span>
 
 	/**
 	 * @return Returns the sort mode.
 	 */
 	public SortMode getSortMode() {
-<span class="fc" id="L692">		return getComponentModel().sortMode;</span>
+<span class="fc" id="L695">		return getComponentModel().sortMode;</span>
 	}
 
 	/**
@@ -698,14 +701,14 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param sortMode The sort mode to set.
 	 */
 	public void setSortMode(final SortMode sortMode) {
-<span class="fc" id="L701">		getOrCreateComponentModel().sortMode = sortMode;</span>
-<span class="fc" id="L702">	}</span>
+<span class="fc" id="L704">		getOrCreateComponentModel().sortMode = sortMode;</span>
+<span class="fc" id="L705">	}</span>
 
 	/**
 	 * @return the table type.
 	 */
 	public Type getType() {
-<span class="fc" id="L708">		return getComponentModel().type;</span>
+<span class="fc" id="L711">		return getComponentModel().type;</span>
 	}
 
 	/**
@@ -714,8 +717,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param type the table type to set.
 	 */
 	public void setType(final Type type) {
-<span class="fc" id="L717">		getOrCreateComponentModel().type = type;</span>
-<span class="fc" id="L718">	}</span>
+<span class="fc" id="L720">		getOrCreateComponentModel().type = type;</span>
+<span class="fc" id="L721">	}</span>
 
 	/**
 	 * Indicates how the table row &quot;select all&quot; function should be displayed.
@@ -723,7 +726,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @return Returns the select all mode.
 	 */
 	public SelectAllType getSelectAllMode() {
-<span class="fc" id="L726">		return getComponentModel().selectAllMode;</span>
+<span class="fc" id="L729">		return getComponentModel().selectAllMode;</span>
 	}
 
 	/**
@@ -732,14 +735,14 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param selectAllMode The select all mode to set.
 	 */
 	public void setSelectAllMode(final SelectAllType selectAllMode) {
-<span class="fc" id="L735">		getOrCreateComponentModel().selectAllMode = selectAllMode;</span>
-<span class="fc" id="L736">	}</span>
+<span class="fc" id="L738">		getOrCreateComponentModel().selectAllMode = selectAllMode;</span>
+<span class="fc" id="L739">	}</span>
 
 	/**
 	 * @return the row expansion mode.
 	 */
 	public ExpandMode getExpandMode() {
-<span class="fc" id="L742">		return getComponentModel().expandMode;</span>
+<span class="fc" id="L745">		return getComponentModel().expandMode;</span>
 	}
 
 	/**
@@ -748,8 +751,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param expandMode The expand mode to set.
 	 */
 	public void setExpandMode(final ExpandMode expandMode) {
-<span class="fc" id="L751">		getOrCreateComponentModel().expandMode = expandMode;</span>
-<span class="fc" id="L752">	}</span>
+<span class="fc" id="L754">		getOrCreateComponentModel().expandMode = expandMode;</span>
+<span class="fc" id="L755">	}</span>
 
 	/**
 	 * Indicates whether the &quot;expand all&quot; control should be available.
@@ -757,7 +760,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @return true if the expand all control should be available, false if not.
 	 */
 	public boolean isExpandAll() {
-<span class="fc" id="L760">		return getComponentModel().expandAll;</span>
+<span class="fc" id="L763">		return getComponentModel().expandAll;</span>
 	}
 
 	/**
@@ -766,79 +769,79 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param expandAll true if the expand-all control should be available, false if not.
 	 */
 	public void setExpandAll(final boolean expandAll) {
-<span class="fc" id="L769">		getOrCreateComponentModel().expandAll = expandAll;</span>
-<span class="fc" id="L770">	}</span>
+<span class="fc" id="L772">		getOrCreateComponentModel().expandAll = expandAll;</span>
+<span class="fc" id="L773">	}</span>
 
 	/**
 	 * @return the current page.
 	 */
 	public int getCurrentPage() {
 		// Table data may have changed.
-<span class="fc" id="L777">		int currentPage = getComponentModel().currentPage;</span>
-<span class="fc" id="L778">		int maxPage = getComponentModel().getMaxPage();</span>
+<span class="fc" id="L780">		int currentPage = getComponentModel().currentPage;</span>
+<span class="fc" id="L781">		int maxPage = getComponentModel().getMaxPage();</span>
 
-<span class="pc bpc" id="L780" title="1 of 2 branches missed.">		if (currentPage &gt; maxPage) {</span>
-<span class="nc" id="L781">			currentPage = maxPage;</span>
-<span class="nc" id="L782">			setCurrentPage(maxPage);</span>
+<span class="pc bpc" id="L783" title="1 of 2 branches missed.">		if (currentPage &gt; maxPage) {</span>
+<span class="nc" id="L784">			currentPage = maxPage;</span>
+<span class="nc" id="L785">			setCurrentPage(maxPage);</span>
 		}
 
-<span class="fc" id="L785">		return currentPage;</span>
+<span class="fc" id="L788">		return currentPage;</span>
 	}
 
 	/**
 	 * @param currentPage The currentPage to set.
 	 */
 	public void setCurrentPage(final int currentPage) {
-<span class="fc bfc" id="L792" title="All 2 branches covered.">		if (currentPage &lt; 0) {</span>
-<span class="fc" id="L793">			throw new IllegalArgumentException(&quot;Page number must be greater than or equal to zero.&quot;);</span>
+<span class="fc bfc" id="L795" title="All 2 branches covered.">		if (currentPage &lt; 0) {</span>
+<span class="fc" id="L796">			throw new IllegalArgumentException(&quot;Page number must be greater than or equal to zero.&quot;);</span>
 		}
 
-<span class="fc" id="L796">		TableModel model = getOrCreateComponentModel();</span>
-<span class="fc" id="L797">		model.currentPage = Math.min(model.getMaxPage(), currentPage);</span>
+<span class="fc" id="L799">		TableModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L800">		model.currentPage = Math.min(model.getMaxPage(), currentPage);</span>
 
 		// Notify the table model that the page has changed
-<span class="fc" id="L800">		TableDataModel dataModel = getDataModel();</span>
+<span class="fc" id="L803">		TableDataModel dataModel = getDataModel();</span>
 
-<span class="pc bpc" id="L802" title="1 of 2 branches missed.">		if (dataModel instanceof ScrollableTableDataModel) {</span>
-<span class="nc" id="L803">			int startIndex = getCurrentPage() * getRowsPerPage();</span>
-<span class="nc" id="L804">			int endIndex = Math.min(dataModel.getRowCount() - 1, startIndex + getRowsPerPage() - 1);</span>
-<span class="nc" id="L805">			((ScrollableTableDataModel) dataModel).setCurrentRows(startIndex, endIndex);</span>
+<span class="pc bpc" id="L805" title="1 of 2 branches missed.">		if (dataModel instanceof ScrollableTableDataModel) {</span>
+<span class="nc" id="L806">			int startIndex = getCurrentPage() * getRowsPerPage();</span>
+<span class="nc" id="L807">			int endIndex = Math.min(dataModel.getRowCount() - 1, startIndex + getRowsPerPage() - 1);</span>
+<span class="nc" id="L808">			((ScrollableTableDataModel) dataModel).setCurrentRows(startIndex, endIndex);</span>
 		}
-<span class="fc" id="L807">	}</span>
+<span class="fc" id="L810">	}</span>
 
 	/**
 	 * @param expandedRows The expandedRows to set.
 	 */
 	public void setExpandedRows(final List&lt;Integer&gt; expandedRows) {
-<span class="fc" id="L813">		getOrCreateComponentModel().expandedRows = expandedRows;</span>
-<span class="fc" id="L814">	}</span>
+<span class="fc" id="L816">		getOrCreateComponentModel().expandedRows = expandedRows;</span>
+<span class="fc" id="L817">	}</span>
 
 	/**
 	 * @return Returns the expandedRows.
 	 */
 	public List&lt;Integer&gt; getExpandedRows() {
-<span class="fc" id="L820">		return getComponentModel().getExpandedRows();</span>
+<span class="fc" id="L823">		return getComponentModel().getExpandedRows();</span>
 	}
 
 	/**
 	 * @param selectedRows The selectedRows to set.
 	 */
 	public void setSelectedRows(final List&lt;Integer&gt; selectedRows) {
-<span class="fc" id="L827">		TableModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L830">		TableModel model = getOrCreateComponentModel();</span>
 
-<span class="fc bfc" id="L829" title="All 2 branches covered.">		if (selectedRows == null) {</span>
-<span class="fc" id="L830">			model.selectedRows = null;</span>
+<span class="fc bfc" id="L832" title="All 2 branches covered.">		if (selectedRows == null) {</span>
+<span class="fc" id="L833">			model.selectedRows = null;</span>
 		} else {
-<span class="fc" id="L832">			model.selectedRows = new ArrayList&lt;&gt;(selectedRows);</span>
-<span class="fc" id="L833">			Collections.sort(model.selectedRows);</span>
+<span class="fc" id="L835">			model.selectedRows = new ArrayList&lt;&gt;(selectedRows);</span>
+<span class="fc" id="L836">			Collections.sort(model.selectedRows);</span>
 		}
-<span class="fc" id="L835">	}</span>
+<span class="fc" id="L838">	}</span>
 
 	/**
 	 * @return the list of selected row indices, will not be null.
 	 */
 	public List&lt;Integer&gt; getSelectedRows() {
-<span class="fc" id="L841">		return getComponentModel().getSelectedRows();</span>
+<span class="fc" id="L844">		return getComponentModel().getSelectedRows();</span>
 	}
 
 	/**
@@ -848,23 +851,23 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param ascending true for ascending order, false for descending
 	 */
 	protected void setSort(final int index, final boolean ascending) {
-<span class="fc" id="L851">		TableModel model = getOrCreateComponentModel();</span>
-<span class="fc" id="L852">		model.sortColIndex = index;</span>
-<span class="fc" id="L853">		model.sortAscending = ascending;</span>
-<span class="fc" id="L854">	}</span>
+<span class="fc" id="L854">		TableModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L855">		model.sortColIndex = index;</span>
+<span class="fc" id="L856">		model.sortAscending = ascending;</span>
+<span class="fc" id="L857">	}</span>
 
 	/**
 	 * @return true if the table is currently sorted
 	 */
 	public boolean isSorted() {
-<span class="fc bfc" id="L860" title="All 2 branches covered.">		return getComponentModel().sortColIndex &gt;= 0;</span>
+<span class="fc bfc" id="L863" title="All 2 branches covered.">		return getComponentModel().sortColIndex &gt;= 0;</span>
 	}
 
 	/**
 	 * @return the index of the column the table is sorted by.
 	 */
 	public int getSortColumnIndex() {
-<span class="fc" id="L867">		return getComponentModel().sortColIndex;</span>
+<span class="fc" id="L870">		return getComponentModel().sortColIndex;</span>
 	}
 
 	/**
@@ -874,7 +877,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @return true if the sort order is ascending, false for descending.
 	 */
 	public boolean isSortAscending() {
-<span class="fc" id="L877">		return getComponentModel().sortAscending;</span>
+<span class="fc" id="L880">		return getComponentModel().sortAscending;</span>
 	}
 
 	/**
@@ -884,21 +887,21 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 */
 	public boolean isSortable() {
 		// First check global override which turns sorting off
-<span class="pc bpc" id="L887" title="1 of 2 branches missed.">		if (getSortMode() == SortMode.NONE) {</span>
-<span class="nc" id="L888">			return false;</span>
+<span class="pc bpc" id="L890" title="1 of 2 branches missed.">		if (getSortMode() == SortMode.NONE) {</span>
+<span class="nc" id="L891">			return false;</span>
 		}
 
 		// Otherwise, the table is sortable if at least one column is sortable.
-<span class="fc" id="L892">		TableDataModel dataModel = getDataModel();</span>
-<span class="fc" id="L893">		final int columnCount = getColumnCount();</span>
+<span class="fc" id="L895">		TableDataModel dataModel = getDataModel();</span>
+<span class="fc" id="L896">		final int columnCount = getColumnCount();</span>
 
-<span class="fc bfc" id="L895" title="All 2 branches covered.">		for (int i = 0; i &lt; columnCount; i++) {</span>
-<span class="fc bfc" id="L896" title="All 2 branches covered.">			if (dataModel.isSortable(i)) {</span>
-<span class="fc" id="L897">				return true;</span>
+<span class="fc bfc" id="L898" title="All 2 branches covered.">		for (int i = 0; i &lt; columnCount; i++) {</span>
+<span class="fc bfc" id="L899" title="All 2 branches covered.">			if (dataModel.isSortable(i)) {</span>
+<span class="fc" id="L900">				return true;</span>
 			}
 		}
 
-<span class="fc" id="L901">		return false;</span>
+<span class="fc" id="L904">		return false;</span>
 	}
 
 	/**
@@ -907,15 +910,15 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @return the list of table actions
 	 */
 	public List&lt;WButton&gt; getActions() {
-<span class="fc" id="L910">		final int numActions = actions.getChildCount();</span>
-<span class="fc" id="L911">		List&lt;WButton&gt; buttons = new ArrayList&lt;&gt;(numActions);</span>
+<span class="fc" id="L913">		final int numActions = actions.getChildCount();</span>
+<span class="fc" id="L914">		List&lt;WButton&gt; buttons = new ArrayList&lt;&gt;(numActions);</span>
 
-<span class="fc bfc" id="L913" title="All 2 branches covered.">		for (int i = 0; i &lt; numActions; i++) {</span>
-<span class="fc" id="L914">			WButton button = (WButton) actions.getChildAt(i);</span>
-<span class="fc" id="L915">			buttons.add(button);</span>
+<span class="fc bfc" id="L916" title="All 2 branches covered.">		for (int i = 0; i &lt; numActions; i++) {</span>
+<span class="fc" id="L917">			WButton button = (WButton) actions.getChildAt(i);</span>
+<span class="fc" id="L918">			buttons.add(button);</span>
 		}
 
-<span class="fc" id="L918">		return Collections.unmodifiableList(buttons);</span>
+<span class="fc" id="L921">		return Collections.unmodifiableList(buttons);</span>
 	}
 
 	/**
@@ -924,8 +927,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param button the button to add.
 	 */
 	public void addAction(final WButton button) {
-<span class="fc" id="L927">		actions.add(button);</span>
-<span class="fc" id="L928">	}</span>
+<span class="fc" id="L930">		actions.add(button);</span>
+<span class="fc" id="L931">	}</span>
 
 	/**
 	 * Adds a constraint to when the given action can be used.
@@ -934,13 +937,13 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param constraint the constraint to add.
 	 */
 	public void addActionConstraint(final WButton button, final ActionConstraint constraint) {
-<span class="fc bfc" id="L937" title="All 2 branches covered.">		if (button.getParent() != actions) {</span>
-<span class="fc" id="L938">			throw new IllegalArgumentException(</span>
+<span class="fc bfc" id="L940" title="All 2 branches covered.">		if (button.getParent() != actions) {</span>
+<span class="fc" id="L941">			throw new IllegalArgumentException(</span>
 					&quot;Can only add a constraint to a button which is in this table's actions&quot;);
 		}
 
-<span class="fc" id="L942">		getOrCreateComponentModel().addActionConstraint(button, constraint);</span>
-<span class="fc" id="L943">	}</span>
+<span class="fc" id="L945">		getOrCreateComponentModel().addActionConstraint(button, constraint);</span>
+<span class="fc" id="L946">	}</span>
 
 	/**
 	 * Retrieves the constraints for the given action.
@@ -949,8 +952,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @return the constraints for the given action, or null if there are no constraints.
 	 */
 	public List&lt;ActionConstraint&gt; getActionConstraints(final WButton button) {
-<span class="fc" id="L952">		List&lt;ActionConstraint&gt; constraints = getComponentModel().actionConstraints.get(button);</span>
-<span class="fc bfc" id="L953" title="All 2 branches covered.">		return constraints == null ? null : Collections.unmodifiableList(constraints);</span>
+<span class="fc" id="L955">		List&lt;ActionConstraint&gt; constraints = getComponentModel().actionConstraints.get(button);</span>
+<span class="fc bfc" id="L956" title="All 2 branches covered.">		return constraints == null ? null : Collections.unmodifiableList(constraints);</span>
 	}
 
 	/**
@@ -960,30 +963,30 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 */
 	@Override
 	public void handleRequest(final Request request) {
-<span class="fc" id="L963">		super.handleRequest(request);</span>
+<span class="fc" id="L966">		super.handleRequest(request);</span>
 
-<span class="pc bpc" id="L965" title="1 of 2 branches missed.">		if (isPresent(request)) {</span>
-<span class="fc bfc" id="L966" title="All 2 branches covered.">			if (getExpandMode() != ExpandMode.NONE) {</span>
-<span class="fc" id="L967">				handleExpansionRequest(request);</span>
+<span class="pc bpc" id="L968" title="1 of 2 branches missed.">		if (isPresent(request)) {</span>
+<span class="fc bfc" id="L969" title="All 2 branches covered.">			if (getExpandMode() != ExpandMode.NONE) {</span>
+<span class="fc" id="L970">				handleExpansionRequest(request);</span>
 			}
 
-<span class="fc bfc" id="L970" title="All 2 branches covered.">			if (getSelectMode() != SelectMode.NONE) {</span>
-<span class="fc" id="L971">				handleSelectionRequest(request);</span>
+<span class="fc bfc" id="L973" title="All 2 branches covered.">			if (getSelectMode() != SelectMode.NONE) {</span>
+<span class="fc" id="L974">				handleSelectionRequest(request);</span>
 			}
 
-<span class="fc bfc" id="L974" title="All 2 branches covered.">			if (getPaginationMode() != PaginationMode.NONE) {</span>
-<span class="fc" id="L975">				handlePaginationRequest(request);</span>
+<span class="fc bfc" id="L977" title="All 2 branches covered.">			if (getPaginationMode() != PaginationMode.NONE) {</span>
+<span class="fc" id="L978">				handlePaginationRequest(request);</span>
 			}
 
-<span class="fc bfc" id="L978" title="All 2 branches covered.">			if (isFilterable()) {</span>
-<span class="fc" id="L979">				handleFilterRequest(request);</span>
+<span class="fc bfc" id="L981" title="All 2 branches covered.">			if (isFilterable()) {</span>
+<span class="fc" id="L982">				handleFilterRequest(request);</span>
 			}
 
-<span class="fc bfc" id="L982" title="All 2 branches covered.">			if (isSortable()) {</span>
-<span class="fc" id="L983">				handleSortRequest(request);</span>
+<span class="fc bfc" id="L985" title="All 2 branches covered.">			if (isSortable()) {</span>
+<span class="fc" id="L986">				handleSortRequest(request);</span>
 			}
 		}
-<span class="fc" id="L986">	}</span>
+<span class="fc" id="L989">	}</span>
 
 	/**
 	 * Indicates whether this table was present in the request.
@@ -992,7 +995,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @return true if this table was present in the request, false if not.
 	 */
 	protected boolean isPresent(final Request request) {
-<span class="pc bpc" id="L995" title="1 of 2 branches missed.">		return request.getParameter(getId() + &quot;-h&quot;) != null;</span>
+<span class="pc bpc" id="L998" title="1 of 2 branches missed.">		return request.getParameter(getId() + &quot;-h&quot;) != null;</span>
 	}
 
 	/**
@@ -1001,30 +1004,30 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param request the request containing sort instruction data.
 	 */
 	private void handleSortRequest(final Request request) {
-<span class="fc" id="L1004">		String sortColStr = request.getParameter(getId() + &quot;.sort&quot;);</span>
-<span class="fc" id="L1005">		String sortDescStr = request.getParameter(getId() + &quot;.sortDesc&quot;);</span>
+<span class="fc" id="L1007">		String sortColStr = request.getParameter(getId() + &quot;.sort&quot;);</span>
+<span class="fc" id="L1008">		String sortDescStr = request.getParameter(getId() + &quot;.sortDesc&quot;);</span>
 
-<span class="pc bpc" id="L1007" title="1 of 2 branches missed.">		if (sortColStr != null) {</span>
-<span class="pc bpc" id="L1008" title="1 of 2 branches missed.">			if (&quot;&quot;.equals(sortColStr)) {</span>
+<span class="pc bpc" id="L1010" title="1 of 2 branches missed.">		if (sortColStr != null) {</span>
+<span class="pc bpc" id="L1011" title="1 of 2 branches missed.">			if (&quot;&quot;.equals(sortColStr)) {</span>
 				// Reset sort
-<span class="nc" id="L1010">				setSort(-1, false);</span>
-<span class="nc" id="L1011">				getOrCreateComponentModel().rowIndexMapping = null;</span>
+<span class="nc" id="L1013">				setSort(-1, false);</span>
+<span class="nc" id="L1014">				getOrCreateComponentModel().rowIndexMapping = null;</span>
 			} else {
 				try {
-<span class="fc" id="L1014">					int sortCol = Integer.parseInt(sortColStr);</span>
-<span class="fc bfc" id="L1015" title="All 2 branches covered.">					boolean sortAsc = !&quot;true&quot;.equalsIgnoreCase(sortDescStr);</span>
+<span class="fc" id="L1017">					int sortCol = Integer.parseInt(sortColStr);</span>
+<span class="fc bfc" id="L1018" title="All 2 branches covered.">					boolean sortAsc = !&quot;true&quot;.equalsIgnoreCase(sortDescStr);</span>
 
 					// Only process the sort request if it differs from the current sort order
-<span class="pc bpc" id="L1018" title="3 of 4 branches missed.">					if (sortCol != getSortColumnIndex() || sortAsc != isSortAscending()) {</span>
-<span class="fc" id="L1019">						sort(sortCol, sortAsc);</span>
-<span class="fc" id="L1020">						setFocussed();</span>
+<span class="pc bpc" id="L1021" title="3 of 4 branches missed.">					if (sortCol != getSortColumnIndex() || sortAsc != isSortAscending()) {</span>
+<span class="fc" id="L1022">						sort(sortCol, sortAsc);</span>
+<span class="fc" id="L1023">						setFocussed();</span>
 					}
-<span class="nc" id="L1022">				} catch (NumberFormatException e) {</span>
-<span class="nc" id="L1023">					LOG.warn(&quot;Invalid sort column: &quot; + sortColStr);</span>
-<span class="fc" id="L1024">				}</span>
+<span class="nc" id="L1025">				} catch (NumberFormatException e) {</span>
+<span class="nc" id="L1026">					LOG.warn(&quot;Invalid sort column: &quot; + sortColStr);</span>
+<span class="fc" id="L1027">				}</span>
 			}
 		}
-<span class="fc" id="L1027">	}</span>
+<span class="fc" id="L1030">	}</span>
 
 	/**
 	 * Sort the table data by the specified column.
@@ -1033,18 +1036,18 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param sortAsc true if sort ascending, otherwise sort descending
 	 */
 	public void sort(final int sortCol, final boolean sortAsc) {
-<span class="fc" id="L1036">		int[] rowIndexMappings = getDataModel().sort(sortCol, sortAsc);</span>
-<span class="fc" id="L1037">		getOrCreateComponentModel().rowIndexMapping = rowIndexMappings;</span>
+<span class="fc" id="L1039">		int[] rowIndexMappings = getDataModel().sort(sortCol, sortAsc);</span>
+<span class="fc" id="L1040">		getOrCreateComponentModel().rowIndexMapping = rowIndexMappings;</span>
 
-<span class="fc" id="L1039">		setSort(sortCol, sortAsc);</span>
+<span class="fc" id="L1042">		setSort(sortCol, sortAsc);</span>
 
-<span class="pc bpc" id="L1041" title="1 of 2 branches missed.">		if (rowIndexMappings == null) {</span>
+<span class="pc bpc" id="L1044" title="1 of 2 branches missed.">		if (rowIndexMappings == null) {</span>
 			// There's no way to correlate the previously selected row indices
 			// with the new order of rows, so we need to clear out the selection.
-<span class="nc" id="L1044">			setSelectedRows(null);</span>
-<span class="nc" id="L1045">			setExpandedRows(null);</span>
+<span class="nc" id="L1047">			setSelectedRows(null);</span>
+<span class="nc" id="L1048">			setExpandedRows(null);</span>
 		}
-<span class="fc" id="L1047">	}</span>
+<span class="fc" id="L1050">	}</span>
 
 	/**
 	 * Handles a request containing filtering data.
@@ -1052,15 +1055,15 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param request the request containing filtering data.
 	 */
 	private void handleFilterRequest(final Request request) {
-<span class="fc" id="L1055">		String[] paramValues = request.getParameterValues(getId() + &quot;.filters&quot;);</span>
+<span class="fc" id="L1058">		String[] paramValues = request.getParameterValues(getId() + &quot;.filters&quot;);</span>
 
-<span class="fc bfc" id="L1057" title="All 2 branches covered.">		if (paramValues == null) {</span>
-<span class="fc" id="L1058">			setActiveFilters(new ArrayList&lt;String&gt;(0));</span>
+<span class="fc bfc" id="L1060" title="All 2 branches covered.">		if (paramValues == null) {</span>
+<span class="fc" id="L1061">			setActiveFilters(new ArrayList&lt;String&gt;(0));</span>
 		} else {
-<span class="fc" id="L1060">			List&lt;String&gt; filters = Arrays.asList(paramValues);</span>
-<span class="fc" id="L1061">			setActiveFilters(filters);</span>
+<span class="fc" id="L1063">			List&lt;String&gt; filters = Arrays.asList(paramValues);</span>
+<span class="fc" id="L1064">			setActiveFilters(filters);</span>
 		}
-<span class="fc" id="L1063">	}</span>
+<span class="fc" id="L1066">	}</span>
 
 	/**
 	 * Handles a request containing row selection data.
@@ -1068,58 +1071,58 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param request the request containing row selection data.
 	 */
 	private void handleSelectionRequest(final Request request) {
-<span class="fc" id="L1071">		String[] paramValue = request.getParameterValues(getId() + &quot;.selected&quot;);</span>
+<span class="fc" id="L1074">		String[] paramValue = request.getParameterValues(getId() + &quot;.selected&quot;);</span>
 
-<span class="fc bfc" id="L1073" title="All 2 branches covered.">		if (paramValue == null) {</span>
-<span class="fc" id="L1074">			paramValue = new String[0];</span>
+<span class="fc bfc" id="L1076" title="All 2 branches covered.">		if (paramValue == null) {</span>
+<span class="fc" id="L1077">			paramValue = new String[0];</span>
 		}
 
-<span class="fc" id="L1077">		String[] selectedRows = removeEmptyStrings(paramValue);</span>
-<span class="fc" id="L1078">		List&lt;Integer&gt; oldSelections = getSelectedRows();</span>
+<span class="fc" id="L1080">		String[] selectedRows = removeEmptyStrings(paramValue);</span>
+<span class="fc" id="L1081">		List&lt;Integer&gt; oldSelections = getSelectedRows();</span>
 		List&lt;Integer&gt; newSelections;
 
-<span class="fc" id="L1081">		boolean singleSelect = SelectMode.SINGLE.equals(getSelectMode());</span>
+<span class="fc" id="L1084">		boolean singleSelect = SelectMode.SINGLE.equals(getSelectMode());</span>
 
-<span class="pc bpc" id="L1083" title="1 of 2 branches missed.">		if (getDataModel().getRowCount() == 0) {</span>
-<span class="nc" id="L1084">			newSelections = new ArrayList&lt;&gt;();</span>
-<span class="nc" id="L1085">			selectedRows = new String[0];</span>
-<span class="fc bfc" id="L1086" title="All 2 branches covered.">		} else if (getPaginationMode() == PaginationMode.NONE</span>
-<span class="pc bpc" id="L1087" title="2 of 4 branches missed.">				|| getPaginationMode() == PaginationMode.CLIENT</span>
+<span class="pc bpc" id="L1086" title="1 of 2 branches missed.">		if (getDataModel().getRowCount() == 0) {</span>
+<span class="nc" id="L1087">			newSelections = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L1088">			selectedRows = new String[0];</span>
+<span class="fc bfc" id="L1089" title="All 2 branches covered.">		} else if (getPaginationMode() == PaginationMode.NONE</span>
+<span class="pc bpc" id="L1090" title="2 of 4 branches missed.">				|| getPaginationMode() == PaginationMode.CLIENT</span>
 				|| oldSelections == null) {
-<span class="fc" id="L1089">			newSelections = new ArrayList&lt;&gt;(selectedRows.length);</span>
-<span class="pc bpc" id="L1090" title="3 of 4 branches missed.">		} else if (singleSelect &amp;&amp; selectedRows.length &gt; 0) {</span>
+<span class="fc" id="L1092">			newSelections = new ArrayList&lt;&gt;(selectedRows.length);</span>
+<span class="pc bpc" id="L1093" title="3 of 4 branches missed.">		} else if (singleSelect &amp;&amp; selectedRows.length &gt; 0) {</span>
 			// For single-select, we need to remove the old entries
-<span class="nc" id="L1092">			newSelections = new ArrayList&lt;&gt;(1);</span>
+<span class="nc" id="L1095">			newSelections = new ArrayList&lt;&gt;(1);</span>
 		} else {
 			// For multi-select, we need to entries for the current page only
-<span class="fc" id="L1095">			newSelections = new ArrayList&lt;&gt;(oldSelections);</span>
+<span class="fc" id="L1098">			newSelections = new ArrayList&lt;&gt;(oldSelections);</span>
 
-<span class="fc" id="L1097">			int startRow = getCurrentPageStartRow();</span>
-<span class="fc" id="L1098">			int endRow = getCurrentPageEndRow();</span>
-<span class="fc" id="L1099">			newSelections.removeAll(getRowIds(startRow, endRow));</span>
+<span class="fc" id="L1100">			int startRow = getCurrentPageStartRow();</span>
+<span class="fc" id="L1101">			int endRow = getCurrentPageEndRow();</span>
+<span class="fc" id="L1102">			newSelections.removeAll(getRowIds(startRow, endRow));</span>
 		}
 
-<span class="fc bfc" id="L1102" title="All 2 branches covered.">		for (String selectedRow : selectedRows) {</span>
+<span class="fc bfc" id="L1105" title="All 2 branches covered.">		for (String selectedRow : selectedRows) {</span>
 			try {
-<span class="fc" id="L1104">				newSelections.add(Integer.parseInt(selectedRow));</span>
+<span class="fc" id="L1107">				newSelections.add(Integer.parseInt(selectedRow));</span>
 
-<span class="fc bfc" id="L1106" title="All 2 branches covered.">				if (singleSelect) {</span>
-<span class="fc" id="L1107">					break;</span>
+<span class="fc bfc" id="L1109" title="All 2 branches covered.">				if (singleSelect) {</span>
+<span class="fc" id="L1110">					break;</span>
 				}
-<span class="nc" id="L1109">			} catch (NumberFormatException e) {</span>
-<span class="nc" id="L1110">				LOG.warn(&quot;Invalid row id for selection: &quot; + selectedRow);</span>
-<span class="fc" id="L1111">			}</span>
+<span class="nc" id="L1112">			} catch (NumberFormatException e) {</span>
+<span class="nc" id="L1113">				LOG.warn(&quot;Invalid row id for selection: &quot; + selectedRow);</span>
+<span class="fc" id="L1114">			}</span>
 		}
 
-<span class="fc" id="L1114">		setSelectedRows(newSelections);</span>
+<span class="fc" id="L1117">		setSelectedRows(newSelections);</span>
 
 		// If there is a selection change action specified, it may need to be fired
-<span class="fc" id="L1117">		Action selectionChangeAction = getSelectionChangeAction();</span>
+<span class="fc" id="L1120">		Action selectionChangeAction = getSelectionChangeAction();</span>
 
-<span class="pc bpc" id="L1119" title="3 of 4 branches missed.">		if (selectionChangeAction != null &amp;&amp; !newSelections.equals(oldSelections)) {</span>
-<span class="nc" id="L1120">			selectionChangeAction.execute(new ActionEvent(this, &quot;selection&quot;));</span>
+<span class="pc bpc" id="L1122" title="3 of 4 branches missed.">		if (selectionChangeAction != null &amp;&amp; !newSelections.equals(oldSelections)) {</span>
+<span class="nc" id="L1123">			selectionChangeAction.execute(new ActionEvent(this, &quot;selection&quot;));</span>
 		}
-<span class="fc" id="L1122">	}</span>
+<span class="fc" id="L1125">	}</span>
 
 	/**
 	 * Retrieves the starting row index for the current page. Will always return zero for tables which are not
@@ -1128,27 +1131,27 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @return the starting row index for the current page.
 	 */
 	private int getCurrentPageStartRow() {
-<span class="fc" id="L1131">		int startRow = 0;</span>
+<span class="fc" id="L1134">		int startRow = 0;</span>
 
-<span class="pc bpc" id="L1133" title="1 of 2 branches missed.">		if (getPaginationMode() != PaginationMode.NONE) {</span>
-<span class="fc" id="L1134">			int rowsPerPage = getRowsPerPage();</span>
-<span class="fc" id="L1135">			TableDataModel model = getDataModel();</span>
+<span class="pc bpc" id="L1136" title="1 of 2 branches missed.">		if (getPaginationMode() != PaginationMode.NONE) {</span>
+<span class="fc" id="L1137">			int rowsPerPage = getRowsPerPage();</span>
+<span class="fc" id="L1138">			TableDataModel model = getDataModel();</span>
 
-<span class="pc bpc" id="L1137" title="1 of 2 branches missed.">			if (model instanceof TreeTableDataModel) {</span>
+<span class="pc bpc" id="L1140" title="1 of 2 branches missed.">			if (model instanceof TreeTableDataModel) {</span>
 				// For tree tables, pagination only occurs on first-level nodes (ie. those
 				// underneath the root node), however they might not be consecutively
 				// numbered. Therefore, the start and end row indices need to be adjusted.
-<span class="nc" id="L1141">				TreeTableDataModel treeModel = (TreeTableDataModel) model;</span>
-<span class="nc" id="L1142">				TreeNode root = treeModel.getNodeAtLine(0).getRoot();</span>
+<span class="nc" id="L1144">				TreeTableDataModel treeModel = (TreeTableDataModel) model;</span>
+<span class="nc" id="L1145">				TreeNode root = treeModel.getNodeAtLine(0).getRoot();</span>
 
-<span class="nc" id="L1144">				int startNode = getCurrentPage() * rowsPerPage;</span>
-<span class="nc" id="L1145">				startRow = ((TableTreeNode) root.getChildAt(startNode)).getRowIndex() - 1; // -1 as the root is not included in the table</span>
-<span class="nc" id="L1146">			} else {</span>
-<span class="fc" id="L1147">				startRow = getCurrentPage() * rowsPerPage;</span>
+<span class="nc" id="L1147">				int startNode = getCurrentPage() * rowsPerPage;</span>
+<span class="nc" id="L1148">				startRow = ((TableTreeNode) root.getChildAt(startNode)).getRowIndex() - 1; // -1 as the root is not included in the table</span>
+<span class="nc" id="L1149">			} else {</span>
+<span class="fc" id="L1150">				startRow = getCurrentPage() * rowsPerPage;</span>
 			}
 		}
 
-<span class="fc" id="L1151">		return startRow;</span>
+<span class="fc" id="L1154">		return startRow;</span>
 	}
 
 	/**
@@ -1158,29 +1161,29 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @return the starting row index for the current page.
 	 */
 	private int getCurrentPageEndRow() {
-<span class="fc" id="L1161">		TableDataModel model = getDataModel();</span>
-<span class="fc" id="L1162">		int rowsPerPage = getRowsPerPage();</span>
-<span class="fc" id="L1163">		int endRow = model.getRowCount() - 1;</span>
+<span class="fc" id="L1164">		TableDataModel model = getDataModel();</span>
+<span class="fc" id="L1165">		int rowsPerPage = getRowsPerPage();</span>
+<span class="fc" id="L1166">		int endRow = model.getRowCount() - 1;</span>
 
-<span class="pc bpc" id="L1165" title="1 of 2 branches missed.">		if (getPaginationMode() != PaginationMode.NONE) {</span>
-<span class="pc bpc" id="L1166" title="1 of 2 branches missed.">			if (model instanceof TreeTableDataModel) {</span>
+<span class="pc bpc" id="L1168" title="1 of 2 branches missed.">		if (getPaginationMode() != PaginationMode.NONE) {</span>
+<span class="pc bpc" id="L1169" title="1 of 2 branches missed.">			if (model instanceof TreeTableDataModel) {</span>
 				// For tree tables, pagination only occurs on first-level nodes (ie. those
 				// underneath the root node), however they might not be consecutively
 				// numbered. Therefore, the start and end row indices need to be adjusted.
-<span class="nc" id="L1170">				TreeTableDataModel treeModel = (TreeTableDataModel) model;</span>
-<span class="nc" id="L1171">				TreeNode root = treeModel.getNodeAtLine(0).getRoot();</span>
+<span class="nc" id="L1173">				TreeTableDataModel treeModel = (TreeTableDataModel) model;</span>
+<span class="nc" id="L1174">				TreeNode root = treeModel.getNodeAtLine(0).getRoot();</span>
 
-<span class="nc" id="L1173">				int endNode = Math.min(root.getChildCount() - 1,</span>
-<span class="nc" id="L1174">						(getCurrentPage() + 1) * rowsPerPage - 1);</span>
+<span class="nc" id="L1176">				int endNode = Math.min(root.getChildCount() - 1,</span>
+<span class="nc" id="L1177">						(getCurrentPage() + 1) * rowsPerPage - 1);</span>
 
-<span class="nc" id="L1176">				endRow = ((TableTreeNode) root.getChildAt(endNode)).getRowIndex() - 1 // -1 as the root is not included in the table</span>
-<span class="nc" id="L1177">						+ ((TableTreeNode) root.getChildAt(endNode)).getNodeCount();</span>
-<span class="nc" id="L1178">			} else {</span>
-<span class="fc" id="L1179">				endRow = Math.min(model.getRowCount() - 1, (getCurrentPage() + 1) * rowsPerPage - 1);</span>
+<span class="nc" id="L1179">				endRow = ((TableTreeNode) root.getChildAt(endNode)).getRowIndex() - 1 // -1 as the root is not included in the table</span>
+<span class="nc" id="L1180">						+ ((TableTreeNode) root.getChildAt(endNode)).getNodeCount();</span>
+<span class="nc" id="L1181">			} else {</span>
+<span class="fc" id="L1182">				endRow = Math.min(model.getRowCount() - 1, (getCurrentPage() + 1) * rowsPerPage - 1);</span>
 			}
 		}
 
-<span class="fc" id="L1183">		return endRow;</span>
+<span class="fc" id="L1186">		return endRow;</span>
 	}
 
 	/**
@@ -1189,64 +1192,64 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param request the request containing row expansion data.
 	 */
 	private void handleExpansionRequest(final Request request) {
-<span class="fc" id="L1192">		String[] paramValue = request.getParameterValues(getId() + &quot;.expanded&quot;);</span>
+<span class="fc" id="L1195">		String[] paramValue = request.getParameterValues(getId() + &quot;.expanded&quot;);</span>
 
-<span class="fc bfc" id="L1194" title="All 2 branches covered.">		if (paramValue == null) {</span>
-<span class="fc" id="L1195">			paramValue = new String[0];</span>
+<span class="fc bfc" id="L1197" title="All 2 branches covered.">		if (paramValue == null) {</span>
+<span class="fc" id="L1198">			paramValue = new String[0];</span>
 		}
 
-<span class="fc" id="L1198">		String[] expandedRows = removeEmptyStrings(paramValue);</span>
+<span class="fc" id="L1201">		String[] expandedRows = removeEmptyStrings(paramValue);</span>
 
-<span class="fc" id="L1200">		List&lt;Integer&gt; oldExpansions = getExpandedRows();</span>
+<span class="fc" id="L1203">		List&lt;Integer&gt; oldExpansions = getExpandedRows();</span>
 		List&lt;Integer&gt; expansions;
 
-<span class="fc" id="L1203">		TableDataModel model = getDataModel();</span>
+<span class="fc" id="L1206">		TableDataModel model = getDataModel();</span>
 
-<span class="pc bpc" id="L1205" title="1 of 2 branches missed.">		if (model.getRowCount() == 0) {</span>
-<span class="nc" id="L1206">			setExpandedRows(new ArrayList&lt;Integer&gt;());</span>
-<span class="nc" id="L1207">			return;</span>
-<span class="pc bpc" id="L1208" title="1 of 2 branches missed.">		} else if (getPaginationMode() == PaginationMode.NONE</span>
-<span class="nc bnc" id="L1209" title="All 4 branches missed.">				|| getPaginationMode() == PaginationMode.CLIENT</span>
+<span class="pc bpc" id="L1208" title="1 of 2 branches missed.">		if (model.getRowCount() == 0) {</span>
+<span class="nc" id="L1209">			setExpandedRows(new ArrayList&lt;Integer&gt;());</span>
+<span class="nc" id="L1210">			return;</span>
+<span class="pc bpc" id="L1211" title="1 of 2 branches missed.">		} else if (getPaginationMode() == PaginationMode.NONE</span>
+<span class="nc bnc" id="L1212" title="All 4 branches missed.">				|| getPaginationMode() == PaginationMode.CLIENT</span>
 				|| oldExpansions == null) {
-<span class="fc" id="L1211">			expansions = new ArrayList&lt;&gt;(expandedRows.length);</span>
+<span class="fc" id="L1214">			expansions = new ArrayList&lt;&gt;(expandedRows.length);</span>
 		} else {
 			// row expansions only apply to the current page
-<span class="nc" id="L1214">			expansions = new ArrayList&lt;&gt;(oldExpansions);</span>
+<span class="nc" id="L1217">			expansions = new ArrayList&lt;&gt;(oldExpansions);</span>
 
-<span class="nc" id="L1216">			int startRow = getCurrentPageStartRow();</span>
-<span class="nc" id="L1217">			int endRow = getCurrentPageEndRow();</span>
-<span class="nc" id="L1218">			expansions.removeAll(getRowIds(startRow, endRow));</span>
+<span class="nc" id="L1219">			int startRow = getCurrentPageStartRow();</span>
+<span class="nc" id="L1220">			int endRow = getCurrentPageEndRow();</span>
+<span class="nc" id="L1221">			expansions.removeAll(getRowIds(startRow, endRow));</span>
 		}
 
-<span class="fc bfc" id="L1221" title="All 2 branches covered.">		for (String expandedRow : expandedRows) {</span>
+<span class="fc bfc" id="L1224" title="All 2 branches covered.">		for (String expandedRow : expandedRows) {</span>
 			try {
-<span class="fc" id="L1223">				expansions.add(Integer.parseInt(expandedRow));</span>
-<span class="nc" id="L1224">			} catch (NumberFormatException e) {</span>
-<span class="nc" id="L1225">				LOG.warn(&quot;Invalid row id for expansion: &quot; + expandedRow);</span>
-<span class="fc" id="L1226">			}</span>
+<span class="fc" id="L1226">				expansions.add(Integer.parseInt(expandedRow));</span>
+<span class="nc" id="L1227">			} catch (NumberFormatException e) {</span>
+<span class="nc" id="L1228">				LOG.warn(&quot;Invalid row id for expansion: &quot; + expandedRow);</span>
+<span class="fc" id="L1229">			}</span>
 		}
 
 		// For tree tables, we also have to tell the nodes to expand themselves
-<span class="pc bpc" id="L1230" title="1 of 2 branches missed.">		if (model instanceof TreeTableDataModel) {</span>
-<span class="nc" id="L1231">			TreeTableDataModel treeModel = (TreeTableDataModel) model;</span>
+<span class="pc bpc" id="L1233" title="1 of 2 branches missed.">		if (model instanceof TreeTableDataModel) {</span>
+<span class="nc" id="L1234">			TreeTableDataModel treeModel = (TreeTableDataModel) model;</span>
 
 			// We need the expanded indices sorted, as expanding/collapsing sections alters row indices
-<span class="nc" id="L1234">			Collections.sort(expansions);</span>
+<span class="nc" id="L1237">			Collections.sort(expansions);</span>
 
-<span class="nc bnc" id="L1236" title="All 2 branches missed.">			for (int row = 0; row &lt; treeModel.getRowCount(); row++) {</span>
-<span class="nc bnc" id="L1237" title="All 2 branches missed.">				for (Iterator&lt;TreeNode&gt; i = treeModel.getNodeAtLine(row).depthFirst(); i.hasNext();) {</span>
-<span class="nc" id="L1238">					TableTreeNode node = (TableTreeNode) i.next();</span>
-<span class="nc" id="L1239">					node.setExpanded(false);</span>
-<span class="nc" id="L1240">				}</span>
+<span class="nc bnc" id="L1239" title="All 2 branches missed.">			for (int row = 0; row &lt; treeModel.getRowCount(); row++) {</span>
+<span class="nc bnc" id="L1240" title="All 2 branches missed.">				for (Iterator&lt;TreeNode&gt; i = treeModel.getNodeAtLine(row).depthFirst(); i.hasNext();) {</span>
+<span class="nc" id="L1241">					TableTreeNode node = (TableTreeNode) i.next();</span>
+<span class="nc" id="L1242">					node.setExpanded(false);</span>
+<span class="nc" id="L1243">				}</span>
 			}
 
-<span class="nc bnc" id="L1243" title="All 2 branches missed.">			for (int i = expansions.size() - 1; i &gt;= 0; i--) {</span>
-<span class="nc" id="L1244">				treeModel.getNodeAtLine(expansions.get(i)).setExpanded(true);</span>
+<span class="nc bnc" id="L1246" title="All 2 branches missed.">			for (int i = expansions.size() - 1; i &gt;= 0; i--) {</span>
+<span class="nc" id="L1247">				treeModel.getNodeAtLine(expansions.get(i)).setExpanded(true);</span>
 			}
 		}
 
-<span class="fc" id="L1248">		setExpandedRows(expansions);</span>
-<span class="fc" id="L1249">	}</span>
+<span class="fc" id="L1251">		setExpandedRows(expansions);</span>
+<span class="fc" id="L1252">	}</span>
 
 	/**
 	 * Handles a request containing pagination data.
@@ -1254,19 +1257,19 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param request the request containing a pagination data.
 	 */
 	private void handlePaginationRequest(final Request request) {
-<span class="fc" id="L1257">		String pageStr = request.getParameter(getId() + &quot;.page&quot;);</span>
+<span class="fc" id="L1260">		String pageStr = request.getParameter(getId() + &quot;.page&quot;);</span>
 
-<span class="fc bfc" id="L1259" title="All 2 branches covered.">		if (pageStr == null) {</span>
-<span class="fc" id="L1260">			setCurrentPage(0);</span>
+<span class="fc bfc" id="L1262" title="All 2 branches covered.">		if (pageStr == null) {</span>
+<span class="fc" id="L1263">			setCurrentPage(0);</span>
 		} else {
 			try {
-<span class="fc" id="L1263">				int pageNum = Integer.parseInt(pageStr);</span>
-<span class="fc" id="L1264">				setCurrentPage(pageNum);</span>
-<span class="nc" id="L1265">			} catch (NumberFormatException e) {</span>
-<span class="nc" id="L1266">				LOG.warn(&quot;Invalid page number: &quot; + pageStr);</span>
-<span class="fc" id="L1267">			}</span>
+<span class="fc" id="L1266">				int pageNum = Integer.parseInt(pageStr);</span>
+<span class="fc" id="L1267">				setCurrentPage(pageNum);</span>
+<span class="nc" id="L1268">			} catch (NumberFormatException e) {</span>
+<span class="nc" id="L1269">				LOG.warn(&quot;Invalid page number: &quot; + pageStr);</span>
+<span class="fc" id="L1270">			}</span>
 		}
-<span class="fc" id="L1269">	}</span>
+<span class="fc" id="L1272">	}</span>
 
 	/**
 	 * Helper that removes empty/null string from the &lt;code&gt;original&lt;/code&gt; string array.
@@ -1275,36 +1278,19 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @return Array of non empty strings from the &lt;code&gt;original&lt;/code&gt; string array.
 	 */
 	private String[] removeEmptyStrings(final String[] originals) {
-<span class="pc bpc" id="L1278" title="1 of 2 branches missed.">		if (originals == null) {</span>
-<span class="nc" id="L1279">			return null;</span>
+<span class="pc bpc" id="L1281" title="1 of 2 branches missed.">		if (originals == null) {</span>
+<span class="nc" id="L1282">			return null;</span>
 		} else {
-<span class="fc" id="L1281">			List&lt;String&gt; parsed = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L1282" title="All 2 branches covered.">			for (String original : originals) {</span>
-<span class="pc bpc" id="L1283" title="2 of 4 branches missed.">				if (original != null &amp;&amp; original.length() &gt; 0) {</span>
-<span class="fc" id="L1284">					parsed.add(original);</span>
+<span class="fc" id="L1284">			List&lt;String&gt; parsed = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L1285" title="All 2 branches covered.">			for (String original : originals) {</span>
+<span class="pc bpc" id="L1286" title="2 of 4 branches missed.">				if (original != null &amp;&amp; original.length() &gt; 0) {</span>
+<span class="fc" id="L1287">					parsed.add(original);</span>
 				}
 			}
 
-<span class="fc" id="L1288">			return parsed.toArray(new String[parsed.size()]);</span>
+<span class="fc" id="L1291">			return parsed.toArray(new String[parsed.size()]);</span>
 		}
 	}
-
-	/**
-	 * Override preparePaint to register an AJAX operation if necessary.
-	 *
-	 * @param request the request being responded to.
-	 */
-	@Override
-	protected void preparePaintComponent(final Request request) {
-<span class="fc" id="L1299">		super.preparePaintComponent(request);</span>
-
-<span class="fc bfc" id="L1301" title="All 2 branches covered.">		if (PaginationMode.DYNAMIC.equals(getPaginationMode())</span>
-<span class="fc bfc" id="L1302" title="All 2 branches covered.">				|| SortMode.DYNAMIC.equals(getSortMode())</span>
-<span class="fc bfc" id="L1303" title="All 2 branches covered.">				|| ExpandMode.DYNAMIC.equals(getExpandMode())</span>
-<span class="fc bfc" id="L1304" title="All 2 branches covered.">				|| ExpandMode.LAZY.equals(getExpandMode())) {</span>
-<span class="fc" id="L1305">			AjaxHelper.registerComponentTargetItself(getId(), request);</span>
-		}
-<span class="fc" id="L1307">	}</span>
 
 	/**
 	 * A naming context is only considered active if it has been set active via {@link #setNamingContext(boolean)} and
@@ -1313,15 +1299,15 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param context set true if this is a naming context.
 	 */
 	public void setNamingContext(final boolean context) {
-<span class="fc" id="L1316">		setFlag(ComponentModel.NAMING_CONTEXT_FLAG, context);</span>
-<span class="fc" id="L1317">	}</span>
+<span class="fc" id="L1302">		setFlag(ComponentModel.NAMING_CONTEXT_FLAG, context);</span>
+<span class="fc" id="L1303">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean isNamingContext() {
-<span class="fc" id="L1324">		return isFlagSet(ComponentModel.NAMING_CONTEXT_FLAG);</span>
+<span class="fc" id="L1310">		return isFlagSet(ComponentModel.NAMING_CONTEXT_FLAG);</span>
 	}
 
 	/**
@@ -1329,7 +1315,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 */
 	@Override
 	public String getNamingContextId() {
-<span class="fc" id="L1332">		return getId();</span>
+<span class="fc" id="L1318">		return getId();</span>
 	}
 
 	/**
@@ -1370,12 +1356,12 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		 * @param message the message to display when the constraint is not met.
 		 */
 		public ActionConstraint(final int minSelectedRowCount, final int maxSelectedRowCount,
-<span class="fc" id="L1373">				final boolean error, final String message) {</span>
-<span class="fc" id="L1374">			this.minSelectedRowCount = minSelectedRowCount;</span>
-<span class="fc" id="L1375">			this.maxSelectedRowCount = maxSelectedRowCount;</span>
-<span class="fc" id="L1376">			this.error = error;</span>
-<span class="fc" id="L1377">			this.message = message;</span>
-<span class="fc" id="L1378">		}</span>
+<span class="fc" id="L1359">				final boolean error, final String message) {</span>
+<span class="fc" id="L1360">			this.minSelectedRowCount = minSelectedRowCount;</span>
+<span class="fc" id="L1361">			this.maxSelectedRowCount = maxSelectedRowCount;</span>
+<span class="fc" id="L1362">			this.error = error;</span>
+<span class="fc" id="L1363">			this.message = message;</span>
+<span class="fc" id="L1364">		}</span>
 
 		/**
 		 * Indicates the minimum number of rows which must be selected for the error/warning not to occur.
@@ -1383,15 +1369,15 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		 * @return the minimum selected row count.
 		 */
 		public int getMinSelectedRowCount() {
-<span class="fc" id="L1386">			return minSelectedRowCount;</span>
+<span class="fc" id="L1372">			return minSelectedRowCount;</span>
 		}
 
 		/**
 		 * @param minSelectedRowCount The minimum selected row count to set.
 		 */
 		public void setMinSelectedRowCount(final int minSelectedRowCount) {
-<span class="fc" id="L1393">			this.minSelectedRowCount = minSelectedRowCount;</span>
-<span class="fc" id="L1394">		}</span>
+<span class="fc" id="L1379">			this.minSelectedRowCount = minSelectedRowCount;</span>
+<span class="fc" id="L1380">		}</span>
 
 		/**
 		 * Indicates the maximum number of rows which can be selected for the error/warning not to occur.
@@ -1399,15 +1385,15 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		 * @return the maximum selected row count.
 		 */
 		public int getMaxSelectedRowCount() {
-<span class="fc" id="L1402">			return maxSelectedRowCount;</span>
+<span class="fc" id="L1388">			return maxSelectedRowCount;</span>
 		}
 
 		/**
 		 * @param maxSelectedRowCount The maximum selected row count to set.
 		 */
 		public void setMaxSelectedRowCount(final int maxSelectedRowCount) {
-<span class="fc" id="L1409">			this.maxSelectedRowCount = maxSelectedRowCount;</span>
-<span class="fc" id="L1410">		}</span>
+<span class="fc" id="L1395">			this.maxSelectedRowCount = maxSelectedRowCount;</span>
+<span class="fc" id="L1396">		}</span>
 
 		/**
 		 * Indicates whether the constraint is an error or warning.
@@ -1415,7 +1401,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		 * @return true if the constaint is an error, false for a warning.
 		 */
 		public boolean isError() {
-<span class="fc" id="L1418">			return error;</span>
+<span class="fc" id="L1404">			return error;</span>
 		}
 
 		/**
@@ -1424,22 +1410,22 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		 * @param error true if the constaint is an error, false for a warning.
 		 */
 		public void setError(final boolean error) {
-<span class="fc" id="L1427">			this.error = error;</span>
-<span class="fc" id="L1428">		}</span>
+<span class="fc" id="L1413">			this.error = error;</span>
+<span class="fc" id="L1414">		}</span>
 
 		/**
 		 * @return Returns the message.
 		 */
 		public String getMessage() {
-<span class="fc" id="L1434">			return message;</span>
+<span class="fc" id="L1420">			return message;</span>
 		}
 
 		/**
 		 * @param message The message to set.
 		 */
 		public void setMessage(final String message) {
-<span class="fc" id="L1441">			this.message = message;</span>
-<span class="fc" id="L1442">		}</span>
+<span class="fc" id="L1427">			this.message = message;</span>
+<span class="fc" id="L1428">		}</span>
 	}
 
 	/**
@@ -1452,16 +1438,16 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		/**
 		 * @param table the parent table
 		 */
-<span class="fc" id="L1455">		private DataTableBeanProvider(final WDataTable table) {</span>
-<span class="fc" id="L1456">			this.table = table;</span>
-<span class="fc" id="L1457">		}</span>
+<span class="fc" id="L1441">		private DataTableBeanProvider(final WDataTable table) {</span>
+<span class="fc" id="L1442">			this.table = table;</span>
+<span class="fc" id="L1443">		}</span>
 
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
 		public Object getBean(final BeanProviderBound beanProviderBound) {
-<span class="fc" id="L1464">			return table.getBeanValue();</span>
+<span class="fc" id="L1450">			return table.getBeanValue();</span>
 		}
 	}
 
@@ -1476,55 +1462,55 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		/**
 		 * @param table the parent table
 		 */
-<span class="fc" id="L1479">		private DataModelBeanProvider(final WDataTable table) {</span>
-<span class="fc" id="L1480">			this.table = table;</span>
-<span class="fc" id="L1481">		}</span>
+<span class="fc" id="L1465">		private DataModelBeanProvider(final WDataTable table) {</span>
+<span class="fc" id="L1466">			this.table = table;</span>
+<span class="fc" id="L1467">		}</span>
 
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
 		public Object getBean(final BeanProviderBound beanProviderBound) {
-<span class="fc" id="L1488">			TableDataModel dataModel = table.getDataModel();</span>
+<span class="fc" id="L1474">			TableDataModel dataModel = table.getDataModel();</span>
 
-<span class="fc bfc" id="L1490" title="All 2 branches covered.">			if (dataModel.getRowCount() == 0) {</span>
-<span class="fc" id="L1491">				return Collections.emptyList();</span>
+<span class="fc bfc" id="L1476" title="All 2 branches covered.">			if (dataModel.getRowCount() == 0) {</span>
+<span class="fc" id="L1477">				return Collections.emptyList();</span>
 			}
 
-<span class="fc" id="L1494">			int startIndex = 0;</span>
-<span class="fc" id="L1495">			int endIndex = dataModel.getRowCount() - 1;</span>
+<span class="fc" id="L1480">			int startIndex = 0;</span>
+<span class="fc" id="L1481">			int endIndex = dataModel.getRowCount() - 1;</span>
 
-<span class="pc bfc" id="L1497" title="All 2 branches covered.">			switch (table.getPaginationMode()) {</span>
+<span class="pc bfc" id="L1483" title="All 2 branches covered.">			switch (table.getPaginationMode()) {</span>
 				case DYNAMIC:
 				case SERVER: {
-<span class="fc" id="L1500">					int rowsPerPage = table.getRowsPerPage();</span>
-<span class="fc" id="L1501">					int currentPage = table.getCurrentPage();</span>
-<span class="fc" id="L1502">					int rowCount = table.getComponentModel().getPaginationRowCount();</span>
+<span class="fc" id="L1486">					int rowsPerPage = table.getRowsPerPage();</span>
+<span class="fc" id="L1487">					int currentPage = table.getCurrentPage();</span>
+<span class="fc" id="L1488">					int rowCount = table.getComponentModel().getPaginationRowCount();</span>
 
-<span class="fc" id="L1504">					startIndex = Math.min(currentPage * rowsPerPage,</span>
+<span class="fc" id="L1490">					startIndex = Math.min(currentPage * rowsPerPage,</span>
 							rowCount - (rowCount % rowsPerPage));
-<span class="fc" id="L1506">					endIndex = Math.min(startIndex + rowsPerPage, rowCount) - 1;</span>
+<span class="fc" id="L1492">					endIndex = Math.min(startIndex + rowsPerPage, rowCount) - 1;</span>
 
-<span class="pc bpc" id="L1508" title="1 of 2 branches missed.">					if (dataModel instanceof TreeTableDataModel) {</span>
+<span class="pc bpc" id="L1494" title="1 of 2 branches missed.">					if (dataModel instanceof TreeTableDataModel) {</span>
 						// Adjust indices (child node index --&gt; table row index).
-<span class="nc" id="L1510">						TreeNode rootNode = ((TreeTableDataModel) dataModel).getNodeAtLine(0).</span>
-<span class="nc" id="L1511">								getParent();</span>
-<span class="nc" id="L1512">						TableTreeNode startNode = (TableTreeNode) rootNode.getChildAt(startIndex);</span>
-<span class="nc" id="L1513">						TableTreeNode endNode = (TableTreeNode) rootNode.getChildAt(endIndex);</span>
-<span class="nc" id="L1514">						startIndex = startNode.getRowIndex() - 1;</span>
-<span class="nc" id="L1515">						endIndex = endNode.getRowIndex() + endNode.getNodeCount() - 1;</span>
-<span class="nc" id="L1516">					}</span>
+<span class="nc" id="L1496">						TreeNode rootNode = ((TreeTableDataModel) dataModel).getNodeAtLine(0).</span>
+<span class="nc" id="L1497">								getParent();</span>
+<span class="nc" id="L1498">						TableTreeNode startNode = (TableTreeNode) rootNode.getChildAt(startIndex);</span>
+<span class="nc" id="L1499">						TableTreeNode endNode = (TableTreeNode) rootNode.getChildAt(endIndex);</span>
+<span class="nc" id="L1500">						startIndex = startNode.getRowIndex() - 1;</span>
+<span class="nc" id="L1501">						endIndex = endNode.getRowIndex() + endNode.getNodeCount() - 1;</span>
+<span class="nc" id="L1502">					}</span>
 
 					break;
 				}
 			}
 
-<span class="pc bpc" id="L1522" title="1 of 2 branches missed.">			if (endIndex &lt; startIndex) {</span>
+<span class="pc bpc" id="L1508" title="1 of 2 branches missed.">			if (endIndex &lt; startIndex) {</span>
 				// No data
-<span class="nc" id="L1524">				return Collections.EMPTY_LIST;</span>
+<span class="nc" id="L1510">				return Collections.EMPTY_LIST;</span>
 			}
 
-<span class="fc" id="L1527">			return table.getRowIds(startIndex, endIndex);</span>
+<span class="fc" id="L1513">			return table.getRowIds(startIndex, endIndex);</span>
 		}
 	}
 
@@ -1537,26 +1523,26 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 */
 	private List&lt;Integer&gt; getRowIds(final int startIndex, final int endIndex) {
 		// If the table is sorted, we may require a mapping for table row index &lt;--&gt; data model index.
-<span class="fc" id="L1540">		int[] rowIndexMapping = getComponentModel().rowIndexMapping;</span>
+<span class="fc" id="L1526">		int[] rowIndexMapping = getComponentModel().rowIndexMapping;</span>
 
 		// Check if sort mapping needs updating
-<span class="pc bpc" id="L1543" title="1 of 4 branches missed.">		if (isSorted() &amp;&amp; rowIndexMapping != null &amp;&amp; rowIndexMapping.length != getDataModel().</span>
-<span class="pc bpc" id="L1544" title="1 of 2 branches missed.">				getRowCount()) {</span>
-<span class="nc" id="L1545">			rowIndexMapping = getDataModel().sort(getSortColumnIndex(), isSortAscending());</span>
-<span class="nc" id="L1546">			getOrCreateComponentModel().rowIndexMapping = rowIndexMapping;</span>
+<span class="pc bpc" id="L1529" title="1 of 4 branches missed.">		if (isSorted() &amp;&amp; rowIndexMapping != null &amp;&amp; rowIndexMapping.length != getDataModel().</span>
+<span class="pc bpc" id="L1530" title="1 of 2 branches missed.">				getRowCount()) {</span>
+<span class="nc" id="L1531">			rowIndexMapping = getDataModel().sort(getSortColumnIndex(), isSortAscending());</span>
+<span class="nc" id="L1532">			getOrCreateComponentModel().rowIndexMapping = rowIndexMapping;</span>
 		}
 
-<span class="fc bfc" id="L1549" title="All 2 branches covered.">		if (rowIndexMapping == null) {</span>
+<span class="fc bfc" id="L1535" title="All 2 branches covered.">		if (rowIndexMapping == null) {</span>
 			// No mapping, return from startIndex to endIndex
-<span class="fc" id="L1551">			return new RowIdList(startIndex, endIndex);</span>
+<span class="fc" id="L1537">			return new RowIdList(startIndex, endIndex);</span>
 		} else {
-<span class="fc" id="L1553">			List&lt;Integer&gt; rowIds = new ArrayList&lt;&gt;(endIndex - startIndex + 1);</span>
+<span class="fc" id="L1539">			List&lt;Integer&gt; rowIds = new ArrayList&lt;&gt;(endIndex - startIndex + 1);</span>
 
-<span class="fc bfc" id="L1555" title="All 2 branches covered.">			for (int i = startIndex; i &lt;= endIndex; i++) {</span>
-<span class="fc" id="L1556">				rowIds.add(rowIndexMapping[i]);</span>
+<span class="fc bfc" id="L1541" title="All 2 branches covered.">			for (int i = startIndex; i &lt;= endIndex; i++) {</span>
+<span class="fc" id="L1542">				rowIds.add(rowIndexMapping[i]);</span>
 			}
 
-<span class="fc" id="L1559">			return rowIds;</span>
+<span class="fc" id="L1545">			return rowIds;</span>
 		}
 
 	}
@@ -1566,42 +1552,42 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-<span class="fc" id="L1569">	public static final class TableModel extends BeanAndProviderBoundComponentModel {</span>
+<span class="fc" id="L1555">	public static final class TableModel extends BeanAndProviderBoundComponentModel {</span>
 
 		/**
 		 * This controls how sorting should function. Sortability is determined by the data model.
 		 */
-<span class="fc" id="L1574">		private SortMode sortMode = SortMode.SERVER;</span>
+<span class="fc" id="L1560">		private SortMode sortMode = SortMode.SERVER;</span>
 
 		/**
 		 * The data model for the table.
 		 */
-<span class="fc" id="L1579">		private TableDataModel dataModel = EmptyTableDataModel.INSTANCE;</span>
+<span class="fc" id="L1565">		private TableDataModel dataModel = EmptyTableDataModel.INSTANCE;</span>
 
 		/**
 		 * Controls whether backgound striping is used to distinguish rows/columns from each other.
 		 */
-<span class="fc" id="L1584">		private StripingType stripingType = StripingType.NONE;</span>
+<span class="fc" id="L1570">		private StripingType stripingType = StripingType.NONE;</span>
 
 		/**
 		 * Controls whether a visual separator is used to distinguish rows/columns from each other.
 		 */
-<span class="fc" id="L1589">		private SeparatorType separatorType = SeparatorType.NONE;</span>
+<span class="fc" id="L1575">		private SeparatorType separatorType = SeparatorType.NONE;</span>
 
 		/**
 		 * This flag indicates whether row headers should be displayed.
 		 */
-<span class="fc" id="L1594">		private boolean showRowHeaders = false;</span>
+<span class="fc" id="L1580">		private boolean showRowHeaders = false;</span>
 
 		/**
 		 * This flag indicates whether column headers should be displayed.
 		 */
-<span class="fc" id="L1599">		private boolean showColumnHeaders = true;</span>
+<span class="fc" id="L1585">		private boolean showColumnHeaders = true;</span>
 
 		/**
 		 * This flag indicates whether row indices should be displayed.
 		 */
-<span class="fc" id="L1604">		private boolean showRowIndices = false;</span>
+<span class="fc" id="L1590">		private boolean showRowIndices = false;</span>
 
 		/**
 		 * The action to execute when the table's row selection changes.
@@ -1611,7 +1597,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		/**
 		 * The text to display when the table contains no data.
 		 */
-<span class="fc" id="L1614">		private String noDataMessage = InternalMessages.DEFAULT_NO_TABLE_DATA;</span>
+<span class="fc" id="L1600">		private String noDataMessage = InternalMessages.DEFAULT_NO_TABLE_DATA;</span>
 
 		/**
 		 * The table summary text.
@@ -1631,18 +1617,18 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		/**
 		 * This is used to control how table data should be displayed.
 		 */
-<span class="fc" id="L1634">		private Type type = Type.TABLE;</span>
+<span class="fc" id="L1620">		private Type type = Type.TABLE;</span>
 
 		// Pagination
 		/**
 		 * Indicates how pagination should occur.
 		 */
-<span class="fc" id="L1640">		private PaginationMode paginationMode = PaginationMode.NONE;</span>
+<span class="fc" id="L1626">		private PaginationMode paginationMode = PaginationMode.NONE;</span>
 
 		/**
 		 * Indicates how many rows to display per page.
 		 */
-<span class="fc" id="L1645">		private int rowsPerPage = 10;</span>
+<span class="fc" id="L1631">		private int rowsPerPage = 10;</span>
 
 		/**
 		 * Stores the current page index.
@@ -1653,7 +1639,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		/**
 		 * Indicates how row selection should function.
 		 */
-<span class="fc" id="L1656">		private SelectMode selectMode = SelectMode.NONE;</span>
+<span class="fc" id="L1642">		private SelectMode selectMode = SelectMode.NONE;</span>
 		/**
 		 * The select group.
 		 */
@@ -1662,7 +1648,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		/**
 		 * Indicates how the &quot;select all&quot; control should appear.
 		 */
-<span class="fc" id="L1665">		private SelectAllType selectAllMode = SelectAllType.TEXT;</span>
+<span class="fc" id="L1651">		private SelectAllType selectAllMode = SelectAllType.TEXT;</span>
 
 		/**
 		 * Holds the currently selected row indices.
@@ -1672,18 +1658,18 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		/**
 		 * Indicates whether the client should round-trip every time a row is selected.
 		 */
-<span class="fc" id="L1675">		private boolean submitOnRowSelect = false;</span>
+<span class="fc" id="L1661">		private boolean submitOnRowSelect = false;</span>
 
 		// Row expansion
 		/**
 		 * Indicates how row epansion should function.
 		 */
-<span class="fc" id="L1681">		private ExpandMode expandMode = ExpandMode.NONE;</span>
+<span class="fc" id="L1667">		private ExpandMode expandMode = ExpandMode.NONE;</span>
 
 		/**
 		 * Indicates whether a &quot;expand/collapse all&quot; control should be displayed.
 		 */
-<span class="fc" id="L1686">		private boolean expandAll = false;</span>
+<span class="fc" id="L1672">		private boolean expandAll = false;</span>
 
 		/**
 		 * Holds the currently expanded row indices.
@@ -1694,7 +1680,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		/**
 		 * Indicates whether the table should allow client-side filtering of rows.
 		 */
-<span class="fc" id="L1697">		private boolean filterable = false;</span>
+<span class="fc" id="L1683">		private boolean filterable = false;</span>
 
 		/**
 		 * Holds the currently active row filters.
@@ -1705,7 +1691,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		/**
 		 * Holds the currently sorted column index. A value of -1 indicates no active sort.
 		 */
-<span class="fc" id="L1708">		private int sortColIndex = -1;</span>
+<span class="fc" id="L1694">		private int sortColIndex = -1;</span>
 
 		/**
 		 * Indicates whether the sort is ascending (true) or descending (false).
@@ -1722,18 +1708,18 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		/**
 		 * This map holds the action constraints per table action (button).
 		 */
-<span class="fc" id="L1725">		private final Map&lt;WComponent, List&lt;ActionConstraint&gt;&gt; actionConstraints = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L1711">		private final Map&lt;WComponent, List&lt;ActionConstraint&gt;&gt; actionConstraints = new HashMap&lt;&gt;();</span>
 
 		/**
 		 * @return the maximum page number.
 		 */
 		private int getMaxPage() {
-<span class="fc" id="L1731">			int rowCount = getPaginationRowCount();</span>
+<span class="fc" id="L1717">			int rowCount = getPaginationRowCount();</span>
 
-<span class="fc bfc" id="L1733" title="All 2 branches covered.">			if (rowCount == 0) {</span>
-<span class="fc" id="L1734">				return 0;</span>
+<span class="fc bfc" id="L1719" title="All 2 branches covered.">			if (rowCount == 0) {</span>
+<span class="fc" id="L1720">				return 0;</span>
 			} else {
-<span class="fc bfc" id="L1736" title="All 2 branches covered.">				return rowCount / rowsPerPage - (rowCount % rowsPerPage == 0 ? 1 : 0);</span>
+<span class="fc bfc" id="L1722" title="All 2 branches covered.">				return rowCount / rowsPerPage - (rowCount % rowsPerPage == 0 ? 1 : 0);</span>
 			}
 		}
 
@@ -1744,12 +1730,12 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		 * @return the row count for pagination
 		 */
 		private int getPaginationRowCount() {
-<span class="pc bpc" id="L1747" title="1 of 2 branches missed.">			if (dataModel instanceof TreeTableDataModel) {</span>
+<span class="pc bpc" id="L1733" title="1 of 2 branches missed.">			if (dataModel instanceof TreeTableDataModel) {</span>
 				// For tree tables, we only include top-level nodes for pagination.
-<span class="nc" id="L1749">				TreeNode firstNode = ((TreeTableDataModel) dataModel).getNodeAtLine(0);</span>
-<span class="nc bnc" id="L1750" title="All 2 branches missed.">				return firstNode == null ? 0 : firstNode.getParent().getChildCount();</span>
+<span class="nc" id="L1735">				TreeNode firstNode = ((TreeTableDataModel) dataModel).getNodeAtLine(0);</span>
+<span class="nc bnc" id="L1736" title="All 2 branches missed.">				return firstNode == null ? 0 : firstNode.getParent().getChildCount();</span>
 			} else {
-<span class="fc" id="L1752">				return dataModel.getRowCount();</span>
+<span class="fc" id="L1738">				return dataModel.getRowCount();</span>
 			}
 		}
 
@@ -1760,24 +1746,24 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		 * @param constraint the constraint to add.
 		 */
 		public void addActionConstraint(final WButton button, final ActionConstraint constraint) {
-<span class="fc" id="L1763">			List&lt;ActionConstraint&gt; constraintForComponent = actionConstraints.get(button);</span>
+<span class="fc" id="L1749">			List&lt;ActionConstraint&gt; constraintForComponent = actionConstraints.get(button);</span>
 
-<span class="fc bfc" id="L1765" title="All 2 branches covered.">			if (constraintForComponent == null) {</span>
-<span class="fc" id="L1766">				constraintForComponent = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L1767">				actionConstraints.put(button, constraintForComponent);</span>
+<span class="fc bfc" id="L1751" title="All 2 branches covered.">			if (constraintForComponent == null) {</span>
+<span class="fc" id="L1752">				constraintForComponent = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L1753">				actionConstraints.put(button, constraintForComponent);</span>
 			}
 
-<span class="fc" id="L1770">			constraintForComponent.add(constraint);</span>
-<span class="fc" id="L1771">		}</span>
+<span class="fc" id="L1756">			constraintForComponent.add(constraint);</span>
+<span class="fc" id="L1757">		}</span>
 
 		/**
 		 * @return a list of expanded row indices, will not be null.
 		 */
 		private List&lt;Integer&gt; getExpandedRows() {
-<span class="fc bfc" id="L1777" title="All 2 branches covered.">			if (expandedRows == null) {</span>
-<span class="fc" id="L1778">				return Collections.emptyList();</span>
+<span class="fc bfc" id="L1763" title="All 2 branches covered.">			if (expandedRows == null) {</span>
+<span class="fc" id="L1764">				return Collections.emptyList();</span>
 			} else {
-<span class="fc" id="L1780">				return Collections.unmodifiableList(expandedRows);</span>
+<span class="fc" id="L1766">				return Collections.unmodifiableList(expandedRows);</span>
 			}
 		}
 
@@ -1785,10 +1771,10 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		 * @return a list of selected row indices, will not be null.
 		 */
 		private List&lt;Integer&gt; getSelectedRows() {
-<span class="fc bfc" id="L1788" title="All 2 branches covered.">			if (selectedRows == null) {</span>
-<span class="fc" id="L1789">				return Collections.emptyList();</span>
+<span class="fc bfc" id="L1774" title="All 2 branches covered.">			if (selectedRows == null) {</span>
+<span class="fc" id="L1775">				return Collections.emptyList();</span>
 			} else {
-<span class="fc" id="L1791">				return Collections.unmodifiableList(selectedRows);</span>
+<span class="fc" id="L1777">				return Collections.unmodifiableList(selectedRows);</span>
 			}
 		}
 
@@ -1796,10 +1782,10 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		 * @return a list of active filters, will not be null.
 		 */
 		private List&lt;String&gt; getActiveFilters() {
-<span class="fc bfc" id="L1799" title="All 2 branches covered.">			if (activeFilters == null) {</span>
-<span class="fc" id="L1800">				return Collections.emptyList();</span>
+<span class="fc bfc" id="L1785" title="All 2 branches covered.">			if (activeFilters == null) {</span>
+<span class="fc" id="L1786">				return Collections.emptyList();</span>
 			} else {
-<span class="fc" id="L1802">				return Collections.unmodifiableList(activeFilters);</span>
+<span class="fc" id="L1788">				return Collections.unmodifiableList(activeFilters);</span>
 			}
 		}
 	}
@@ -1809,7 +1795,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 */
 	@Override // to make public
 	public int getChildCount() {
-<span class="fc" id="L1812">		return super.getChildCount();</span>
+<span class="fc" id="L1798">		return super.getChildCount();</span>
 	}
 
 	/**
@@ -1817,7 +1803,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 */
 	@Override // to make public
 	public WComponent getChildAt(final int index) {
-<span class="fc" id="L1820">		return super.getChildAt(index);</span>
+<span class="fc" id="L1806">		return super.getChildAt(index);</span>
 	}
 
 	/**
@@ -1825,12 +1811,12 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 */
 	@Override // to make public
 	public int getIndexOfChild(final WComponent childComponent) {
-<span class="fc" id="L1828">		return super.getIndexOfChild(childComponent);</span>
+<span class="fc" id="L1814">		return super.getIndexOfChild(childComponent);</span>
 	}
 
 	@Override
 	public List&lt;WComponent&gt; getChildren() {
-<span class="nc" id="L1833">		return super.getChildren();</span>
+<span class="nc" id="L1819">		return super.getChildren();</span>
 	}
 
 	/**
@@ -1838,8 +1824,8 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 */
 	@Override
 	public String toString() {
-<span class="nc" id="L1841">		TableDataModel model = getDataModel();</span>
-<span class="nc" id="L1842">		return toString(model.getClass().getSimpleName() + &quot;, &quot; + model.getRowCount() + &quot; rows&quot;, -1,</span>
+<span class="nc" id="L1827">		TableDataModel model = getDataModel();</span>
+<span class="nc" id="L1828">		return toString(model.getClass().getSimpleName() + &quot;, &quot; + model.getRowCount() + &quot; rows&quot;, -1,</span>
 				-1);
 	}
 
@@ -1850,7 +1836,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 */
 	@Override
 	protected TableModel newComponentModel() {
-<span class="fc" id="L1853">		return new TableModel();</span>
+<span class="fc" id="L1839">		return new TableModel();</span>
 	}
 
 	/**
@@ -1858,7 +1844,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 */
 	@Override // for type safety only
 	protected TableModel getComponentModel() {
-<span class="fc" id="L1861">		return (TableModel) super.getComponentModel();</span>
+<span class="fc" id="L1847">		return (TableModel) super.getComponentModel();</span>
 	}
 
 	/**
@@ -1866,7 +1852,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 */
 	@Override // for type safety only
 	protected TableModel getOrCreateComponentModel() {
-<span class="fc" id="L1869">		return (TableModel) super.getOrCreateComponentModel();</span>
+<span class="fc" id="L1855">		return (TableModel) super.getOrCreateComponentModel();</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

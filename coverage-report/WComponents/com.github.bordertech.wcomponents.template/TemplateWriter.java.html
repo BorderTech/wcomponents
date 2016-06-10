@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>TemplateWriter.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.template</a> &gt; <span class="el_source">TemplateWriter.java</span></div><h1>TemplateWriter.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.template;
+
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.AbstractSearchReplaceWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+/**
+ * TemplateWriter extends SearchReplaceWriter to defer rendering of WComponents when using a template.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public class TemplateWriter extends AbstractSearchReplaceWriter {
+
+	/**
+	 * The components, keyed by a marker that will be output by the template.
+	 */
+	private final SortedMap&lt;String, WComponent&gt; componentsByKey;
+
+	/**
+	 * The user's UIContext to use when painting the components.
+	 */
+	private final UIContext uic;
+
+	/**
+	 * Creates a TemplateWriter/.
+	 *
+	 * @param backing the underlying writer where output will be sent to.
+	 * @param componentsByKey a map of WComponents, keyed by a marker that will be output by the template.
+	 * @param uic the user's UIContext that will be used when painting the components.
+	 */
+	public TemplateWriter(final Writer backing, final Map&lt;String, WComponent&gt; componentsByKey,
+			final UIContext uic) {
+<span class="fc" id="L41">		super(componentsByKey.keySet().toArray(new String[componentsByKey.size()]), backing);</span>
+
+<span class="fc" id="L43">		this.uic = uic;</span>
+<span class="fc" id="L44">		this.componentsByKey = new TreeMap&lt;&gt;(componentsByKey);</span>
+<span class="fc" id="L45">	}</span>
+
+	/**
+	 * Replaces the search string by rendering the corresponding component.
+	 *
+	 * @param search the search String that was matched.
+	 * @param backing the underlying writer to write the replacement to.
+	 */
+	@Override
+	protected void doReplace(final String search, final Writer backing) {
+<span class="fc" id="L55">		WComponent component = componentsByKey.get(search);</span>
+<span class="fc" id="L56">		UIContextHolder.pushContext(uic);</span>
+
+		try {
+<span class="fc" id="L59">			component.paint(new WebXmlRenderContext((PrintWriter) backing));</span>
+		} finally {
+<span class="pc" id="L61">			UIContextHolder.popContext();</span>
+<span class="fc" id="L62">		}</span>
+<span class="fc" id="L63">	}</span>
+
+	/**
+	 * @return false - the backing should not be closed.
+	 */
+	@Override
+	protected boolean closeBackingOnClose() {
+<span class="fc" id="L70">		return false;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -18,8 +18,8 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 	/**
 	 * Paints the given AjaxControl.
 	 *
-	 * @param component the AjaxControl to paint.
-	 * @param renderContext the RenderContext to paint to.
+	 * @param component the AjaxControl to paint
+	 * @param renderContext the RenderContext to paint to
 	 */
 	@Override
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
@@ -35,7 +35,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 		}
 
 		// Start tag
-<span class="fc" id="L38">		xml.appendTagOpen(&quot;ui:ajaxTrigger&quot;);</span>
+<span class="fc" id="L38">		xml.appendTagOpen(&quot;ui:ajaxtrigger&quot;);</span>
 <span class="fc" id="L39">		xml.appendAttribute(&quot;triggerId&quot;, trigger.getId());</span>
 <span class="fc bfc" id="L40" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;allowedUses&quot;, loadCount &gt; 0, loadCount);</span>
 <span class="fc bfc" id="L41" title="All 2 branches covered.">		xml.appendOptionalAttribute(&quot;delay&quot;, delay &gt; 0, delay);</span>
@@ -43,13 +43,13 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 
 		// Targets
 <span class="fc bfc" id="L45" title="All 2 branches covered.">		for (AjaxTarget target : ajaxControl.getTargets()) {</span>
-<span class="fc" id="L46">			xml.appendTagOpen(&quot;ui:ajaxTargetId&quot;);</span>
+<span class="fc" id="L46">			xml.appendTagOpen(&quot;ui:ajaxtargetid&quot;);</span>
 <span class="fc" id="L47">			xml.appendAttribute(&quot;targetId&quot;, target.getId());</span>
 <span class="fc" id="L48">			xml.appendEnd();</span>
 <span class="fc" id="L49">		}</span>
 
 		// End tag
-<span class="fc" id="L52">		xml.appendEndTag(&quot;ui:ajaxTrigger&quot;);</span>
+<span class="fc" id="L52">		xml.appendEndTag(&quot;ui:ajaxtrigger&quot;);</span>
 <span class="fc" id="L53">	}</span>
 
 }

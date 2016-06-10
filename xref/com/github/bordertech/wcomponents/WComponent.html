@@ -374,149 +374,153 @@
 <a class="jxr_linenumber" name="L366" href="#L366">366</a> <em class="jxr_javadoccomment">	 * Retrieves the tag used to identify this component in a Velocity template.</em>
 <a class="jxr_linenumber" name="L367" href="#L367">367</a> <em class="jxr_javadoccomment">	 *</em>
 <a class="jxr_linenumber" name="L368" href="#L368">368</a> <em class="jxr_javadoccomment">	 * @return the component's tag.</em>
-<a class="jxr_linenumber" name="L369" href="#L369">369</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L370" href="#L370">370</a> 	String getTag();
-<a class="jxr_linenumber" name="L371" href="#L371">371</a> 
-<a class="jxr_linenumber" name="L372" href="#L372">372</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L373" href="#L373">373</a> <em class="jxr_javadoccomment">	 * Sets the tag used to identify this component in a Velocity template.</em>
-<a class="jxr_linenumber" name="L374" href="#L374">374</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L375" href="#L375">375</a> <em class="jxr_javadoccomment">	 * @param tag the component's tag to set.</em>
-<a class="jxr_linenumber" name="L376" href="#L376">376</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L377" href="#L377">377</a> 	<strong class="jxr_keyword">void</strong> setTag(<strong class="jxr_keyword">final</strong> String tag);
-<a class="jxr_linenumber" name="L378" href="#L378">378</a> 
-<a class="jxr_linenumber" name="L379" href="#L379">379</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L380" href="#L380">380</a> <em class="jxr_javadoccomment">	 * Retrieves the environment for the current session. If there is no environment for the session, a dummy</em>
-<a class="jxr_linenumber" name="L381" href="#L381">381</a> <em class="jxr_javadoccomment">	 * environment is returned.</em>
-<a class="jxr_linenumber" name="L382" href="#L382">382</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L383" href="#L383">383</a> <em class="jxr_javadoccomment">	 * @return the environment for the user session.</em>
-<a class="jxr_linenumber" name="L384" href="#L384">384</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L385" href="#L385">385</a> 	Environment getEnvironment();
-<a class="jxr_linenumber" name="L386" href="#L386">386</a> 
-<a class="jxr_linenumber" name="L387" href="#L387">387</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L388" href="#L388">388</a> <em class="jxr_javadoccomment">	 * Sets the environment.</em>
-<a class="jxr_linenumber" name="L389" href="#L389">389</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L390" href="#L390">390</a> <em class="jxr_javadoccomment">	 * @param environment the environment to set.</em>
-<a class="jxr_linenumber" name="L391" href="#L391">391</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L392" href="#L392">392</a> 	<strong class="jxr_keyword">void</strong> setEnvironment(<strong class="jxr_keyword">final</strong> <a href="../../../../com/github/bordertech/wcomponents/Environment.html">Environment</a> environment);
-<a class="jxr_linenumber" name="L393" href="#L393">393</a> 
-<a class="jxr_linenumber" name="L394" href="#L394">394</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L395" href="#L395">395</a> <em class="jxr_javadoccomment">	 * Retrieves the headers.</em>
-<a class="jxr_linenumber" name="L396" href="#L396">396</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L397" href="#L397">397</a> <em class="jxr_javadoccomment">	 * @return the headers.</em>
-<a class="jxr_linenumber" name="L398" href="#L398">398</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L399" href="#L399">399</a> 	Headers getHeaders();
-<a class="jxr_linenumber" name="L400" href="#L400">400</a> 
-<a class="jxr_linenumber" name="L401" href="#L401">401</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L402" href="#L402">402</a> <em class="jxr_javadoccomment">	 * Exposes the base URL for this environment. Renderers can call this method to construct URIs to sub-resources.</em>
-<a class="jxr_linenumber" name="L403" href="#L403">403</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L404" href="#L404">404</a> <em class="jxr_javadoccomment">	 * The baseurl is ultimately derived from com.github.bordertech.wcomponents.Environment</em>
-<a class="jxr_linenumber" name="L405" href="#L405">405</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L406" href="#L406">406</a> <em class="jxr_javadoccomment">	 * @return the base URL</em>
-<a class="jxr_linenumber" name="L407" href="#L407">407</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L408" href="#L408">408</a> 	String getBaseUrl();
-<a class="jxr_linenumber" name="L409" href="#L409">409</a> 
-<a class="jxr_linenumber" name="L410" href="#L410">410</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L411" href="#L411">411</a> <em class="jxr_javadoccomment">	 * Associates an arbitrary attribute with this component.</em>
-<a class="jxr_linenumber" name="L412" href="#L412">412</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L413" href="#L413">413</a> <em class="jxr_javadoccomment">	 * @param key the attribute key.</em>
-<a class="jxr_linenumber" name="L414" href="#L414">414</a> <em class="jxr_javadoccomment">	 * @param value the attribute value.</em>
-<a class="jxr_linenumber" name="L415" href="#L415">415</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L416" href="#L416">416</a> 	<strong class="jxr_keyword">void</strong> setAttribute(<strong class="jxr_keyword">final</strong> String key, <strong class="jxr_keyword">final</strong> Serializable value);
-<a class="jxr_linenumber" name="L417" href="#L417">417</a> 
-<a class="jxr_linenumber" name="L418" href="#L418">418</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L419" href="#L419">419</a> <em class="jxr_javadoccomment">	 * Retrieves an arbitrary attribute which has been previously associated with this component.</em>
-<a class="jxr_linenumber" name="L420" href="#L420">420</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L421" href="#L421">421</a> <em class="jxr_javadoccomment">	 * @param key the attribute key.</em>
-<a class="jxr_linenumber" name="L422" href="#L422">422</a> <em class="jxr_javadoccomment">	 * @return value the attribute value if set, otherwise null.</em>
-<a class="jxr_linenumber" name="L423" href="#L423">423</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L424" href="#L424">424</a> 	Serializable getAttribute(<strong class="jxr_keyword">final</strong> String key);
-<a class="jxr_linenumber" name="L425" href="#L425">425</a> 
-<a class="jxr_linenumber" name="L426" href="#L426">426</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L427" href="#L427">427</a> <em class="jxr_javadoccomment">	 * Removes an arbitrary attribute.</em>
-<a class="jxr_linenumber" name="L428" href="#L428">428</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L429" href="#L429">429</a> <em class="jxr_javadoccomment">	 * @param key the attribute key.</em>
-<a class="jxr_linenumber" name="L430" href="#L430">430</a> <em class="jxr_javadoccomment">	 * @return the value for the attribute which was removed, or null if no attribute was found with the given key.</em>
-<a class="jxr_linenumber" name="L431" href="#L431">431</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L432" href="#L432">432</a> 	Serializable removeAttribute(<strong class="jxr_keyword">final</strong> String key);
-<a class="jxr_linenumber" name="L433" href="#L433">433</a> 
-<a class="jxr_linenumber" name="L434" href="#L434">434</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L435" href="#L435">435</a> <em class="jxr_javadoccomment">	 * Sets the component's tool tip. Note that not all components support displaying tool tips.</em>
-<a class="jxr_linenumber" name="L436" href="#L436">436</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L437" href="#L437">437</a> <em class="jxr_javadoccomment">	 * @param text the tool tip text, using {@link MessageFormat} syntax.</em>
-<a class="jxr_linenumber" name="L438" href="#L438">438</a> <em class="jxr_javadoccomment">	 * @param args optional arguments for the message format string.</em>
-<a class="jxr_linenumber" name="L439" href="#L439">439</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L440" href="#L440">440</a> 	<strong class="jxr_keyword">void</strong> setToolTip(<strong class="jxr_keyword">final</strong> String text, Serializable... args);
-<a class="jxr_linenumber" name="L441" href="#L441">441</a> 
-<a class="jxr_linenumber" name="L442" href="#L442">442</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L443" href="#L443">443</a> <em class="jxr_javadoccomment">	 * Retrieves the component's tool tip.</em>
-<a class="jxr_linenumber" name="L444" href="#L444">444</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L445" href="#L445">445</a> <em class="jxr_javadoccomment">	 * @return the component's tool tip.</em>
-<a class="jxr_linenumber" name="L446" href="#L446">446</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L447" href="#L447">447</a> 	String getToolTip();
-<a class="jxr_linenumber" name="L448" href="#L448">448</a> 
-<a class="jxr_linenumber" name="L449" href="#L449">449</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L450" href="#L450">450</a> <em class="jxr_javadoccomment">	 * Sets the text used by screen readers to describe the component.</em>
-<a class="jxr_linenumber" name="L451" href="#L451">451</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L452" href="#L452">452</a> <em class="jxr_javadoccomment">	 * @param text the screen reader text, using {@link MessageFormat} syntax.</em>
-<a class="jxr_linenumber" name="L453" href="#L453">453</a> <em class="jxr_javadoccomment">	 * @param args optional arguments for the message format string.</em>
-<a class="jxr_linenumber" name="L454" href="#L454">454</a> <em class="jxr_javadoccomment">	 * @deprecated use setToolTip</em>
-<a class="jxr_linenumber" name="L455" href="#L455">455</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L456" href="#L456">456</a> 	<strong class="jxr_keyword">void</strong> setAccessibleText(<strong class="jxr_keyword">final</strong> String text, Serializable... args);
-<a class="jxr_linenumber" name="L457" href="#L457">457</a> 
-<a class="jxr_linenumber" name="L458" href="#L458">458</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L459" href="#L459">459</a> <em class="jxr_javadoccomment">	 * Retrieves the text used by screen readers to describe the component.</em>
-<a class="jxr_linenumber" name="L460" href="#L460">460</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L461" href="#L461">461</a> <em class="jxr_javadoccomment">	 * @return the screen reader text.</em>
-<a class="jxr_linenumber" name="L462" href="#L462">462</a> <em class="jxr_javadoccomment">	 * @deprecated use getToolTip</em>
-<a class="jxr_linenumber" name="L463" href="#L463">463</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L464" href="#L464">464</a> 	String getAccessibleText();
-<a class="jxr_linenumber" name="L465" href="#L465">465</a> 
-<a class="jxr_linenumber" name="L466" href="#L466">466</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L467" href="#L467">467</a> <em class="jxr_javadoccomment">	 * Sets the flag if tracking is enabled for this component. This flag is used by {@link #isTracking()}.</em>
-<a class="jxr_linenumber" name="L468" href="#L468">468</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L469" href="#L469">469</a> <em class="jxr_javadoccomment">	 * @param track set true if tracking is enabled for this component.</em>
-<a class="jxr_linenumber" name="L470" href="#L470">470</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L471" href="#L471">471</a> 	<strong class="jxr_keyword">void</strong> setTrackingEnabled(<strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> track);
-<a class="jxr_linenumber" name="L472" href="#L472">472</a> 
-<a class="jxr_linenumber" name="L473" href="#L473">473</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L474" href="#L474">474</a> <em class="jxr_javadoccomment">	 * Returns true if tracking is enabled for this component.This flag is used by {@link #isTracking()}.</em>
-<a class="jxr_linenumber" name="L475" href="#L475">475</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L476" href="#L476">476</a> <em class="jxr_javadoccomment">	 * @return true if tracking is enabled for this component.</em>
-<a class="jxr_linenumber" name="L477" href="#L477">477</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L478" href="#L478">478</a> 	<strong class="jxr_keyword">boolean</strong> isTrackingEnabled();
-<a class="jxr_linenumber" name="L479" href="#L479">479</a> 
-<a class="jxr_linenumber" name="L480" href="#L480">480</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L481" href="#L481">481</a> <em class="jxr_javadoccomment">	 * Returns true if this component should be tracked.</em>
-<a class="jxr_linenumber" name="L482" href="#L482">482</a> <em class="jxr_javadoccomment">	 * &lt;p&gt;</em>
-<a class="jxr_linenumber" name="L483" href="#L483">483</a> <em class="jxr_javadoccomment">	 * A component will only be tracked if {@link #setTrackingEnabled(boolean)} is set true and the component has an id</em>
-<a class="jxr_linenumber" name="L484" href="#L484">484</a> <em class="jxr_javadoccomment">	 * set via {@link #setIdName(String)}. If the id has not been set, then the id used for tracking will be dynamic and</em>
-<a class="jxr_linenumber" name="L485" href="#L485">485</a> <em class="jxr_javadoccomment">	 * constantly changing which makes it useless for analysing.</em>
-<a class="jxr_linenumber" name="L486" href="#L486">486</a> <em class="jxr_javadoccomment">	 * &lt;/p&gt;</em>
-<a class="jxr_linenumber" name="L487" href="#L487">487</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L488" href="#L488">488</a> <em class="jxr_javadoccomment">	 * @return true if this component should be tracked.</em>
-<a class="jxr_linenumber" name="L489" href="#L489">489</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L490" href="#L490">490</a> 	<strong class="jxr_keyword">boolean</strong> isTracking();
-<a class="jxr_linenumber" name="L491" href="#L491">491</a> 
-<a class="jxr_linenumber" name="L492" href="#L492">492</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L493" href="#L493">493</a> <em class="jxr_javadoccomment">	 * Sets additional HTML class name string for this component. Multiple HTML class names may be added to an instance</em>
-<a class="jxr_linenumber" name="L494" href="#L494">494</a> <em class="jxr_javadoccomment">	 * of a component using a space separated string. Some values in the HTML class name attribute are determined in the</em>
-<a class="jxr_linenumber" name="L495" href="#L495">495</a> <em class="jxr_javadoccomment">	 * theme and are used for core functionality and styling.</em>
-<a class="jxr_linenumber" name="L496" href="#L496">496</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L497" href="#L497">497</a> <em class="jxr_javadoccomment">	 * @param className the HTML class attribute's value to add to the component.</em>
-<a class="jxr_linenumber" name="L498" href="#L498">498</a> <em class="jxr_javadoccomment">	 * @param args optional arguments for the message format string.</em>
-<a class="jxr_linenumber" name="L499" href="#L499">499</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L500" href="#L500">500</a> 	<strong class="jxr_keyword">void</strong> setHtmlClass(<strong class="jxr_keyword">final</strong> String className, Serializable... args);
-<a class="jxr_linenumber" name="L501" href="#L501">501</a> 
-<a class="jxr_linenumber" name="L502" href="#L502">502</a> 	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L503" href="#L503">503</a> <em class="jxr_javadoccomment">	 * Returns the HTML class name string to apply to a component. Some values in the HTML class name attribute are</em>
-<a class="jxr_linenumber" name="L504" href="#L504">504</a> <em class="jxr_javadoccomment">	 * determined in the theme and are used for core functionality and styling. This method will only return class name</em>
-<a class="jxr_linenumber" name="L505" href="#L505">505</a> <em class="jxr_javadoccomment">	 * values which are added in the application, it has no knowledge of theme's class names.</em>
-<a class="jxr_linenumber" name="L506" href="#L506">506</a> <em class="jxr_javadoccomment">	 *</em>
-<a class="jxr_linenumber" name="L507" href="#L507">507</a> <em class="jxr_javadoccomment">	 * @return the value to add to the HTML class attribute of the output component.</em>
-<a class="jxr_linenumber" name="L508" href="#L508">508</a> <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L509" href="#L509">509</a> 	String getHtmlClass();
-<a class="jxr_linenumber" name="L510" href="#L510">510</a> 
-<a class="jxr_linenumber" name="L511" href="#L511">511</a> }
+<a class="jxr_linenumber" name="L369" href="#L369">369</a> <em class="jxr_javadoccomment">	 * @deprecated Use {@link WTemplate} instead.</em>
+<a class="jxr_linenumber" name="L370" href="#L370">370</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L371" href="#L371">371</a> 	@Deprecated
+<a class="jxr_linenumber" name="L372" href="#L372">372</a> 	String getTag();
+<a class="jxr_linenumber" name="L373" href="#L373">373</a> 
+<a class="jxr_linenumber" name="L374" href="#L374">374</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L375" href="#L375">375</a> <em class="jxr_javadoccomment">	 * Sets the tag used to identify this component in a Velocity template.</em>
+<a class="jxr_linenumber" name="L376" href="#L376">376</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L377" href="#L377">377</a> <em class="jxr_javadoccomment">	 * @param tag the component's tag to set.</em>
+<a class="jxr_linenumber" name="L378" href="#L378">378</a> <em class="jxr_javadoccomment">	 * @deprecated Use {@link WTemplate} instead.</em>
+<a class="jxr_linenumber" name="L379" href="#L379">379</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L380" href="#L380">380</a> 	@Deprecated
+<a class="jxr_linenumber" name="L381" href="#L381">381</a> 	<strong class="jxr_keyword">void</strong> setTag(<strong class="jxr_keyword">final</strong> String tag);
+<a class="jxr_linenumber" name="L382" href="#L382">382</a> 
+<a class="jxr_linenumber" name="L383" href="#L383">383</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L384" href="#L384">384</a> <em class="jxr_javadoccomment">	 * Retrieves the environment for the current session. If there is no environment for the session, a dummy</em>
+<a class="jxr_linenumber" name="L385" href="#L385">385</a> <em class="jxr_javadoccomment">	 * environment is returned.</em>
+<a class="jxr_linenumber" name="L386" href="#L386">386</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L387" href="#L387">387</a> <em class="jxr_javadoccomment">	 * @return the environment for the user session.</em>
+<a class="jxr_linenumber" name="L388" href="#L388">388</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L389" href="#L389">389</a> 	Environment getEnvironment();
+<a class="jxr_linenumber" name="L390" href="#L390">390</a> 
+<a class="jxr_linenumber" name="L391" href="#L391">391</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L392" href="#L392">392</a> <em class="jxr_javadoccomment">	 * Sets the environment.</em>
+<a class="jxr_linenumber" name="L393" href="#L393">393</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L394" href="#L394">394</a> <em class="jxr_javadoccomment">	 * @param environment the environment to set.</em>
+<a class="jxr_linenumber" name="L395" href="#L395">395</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L396" href="#L396">396</a> 	<strong class="jxr_keyword">void</strong> setEnvironment(<strong class="jxr_keyword">final</strong> <a href="../../../../com/github/bordertech/wcomponents/Environment.html">Environment</a> environment);
+<a class="jxr_linenumber" name="L397" href="#L397">397</a> 
+<a class="jxr_linenumber" name="L398" href="#L398">398</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L399" href="#L399">399</a> <em class="jxr_javadoccomment">	 * Retrieves the headers.</em>
+<a class="jxr_linenumber" name="L400" href="#L400">400</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L401" href="#L401">401</a> <em class="jxr_javadoccomment">	 * @return the headers.</em>
+<a class="jxr_linenumber" name="L402" href="#L402">402</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L403" href="#L403">403</a> 	Headers getHeaders();
+<a class="jxr_linenumber" name="L404" href="#L404">404</a> 
+<a class="jxr_linenumber" name="L405" href="#L405">405</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L406" href="#L406">406</a> <em class="jxr_javadoccomment">	 * Exposes the base URL for this environment. Renderers can call this method to construct URIs to sub-resources.</em>
+<a class="jxr_linenumber" name="L407" href="#L407">407</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L408" href="#L408">408</a> <em class="jxr_javadoccomment">	 * The baseurl is ultimately derived from com.github.bordertech.wcomponents.Environment</em>
+<a class="jxr_linenumber" name="L409" href="#L409">409</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L410" href="#L410">410</a> <em class="jxr_javadoccomment">	 * @return the base URL</em>
+<a class="jxr_linenumber" name="L411" href="#L411">411</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L412" href="#L412">412</a> 	String getBaseUrl();
+<a class="jxr_linenumber" name="L413" href="#L413">413</a> 
+<a class="jxr_linenumber" name="L414" href="#L414">414</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L415" href="#L415">415</a> <em class="jxr_javadoccomment">	 * Associates an arbitrary attribute with this component.</em>
+<a class="jxr_linenumber" name="L416" href="#L416">416</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L417" href="#L417">417</a> <em class="jxr_javadoccomment">	 * @param key the attribute key.</em>
+<a class="jxr_linenumber" name="L418" href="#L418">418</a> <em class="jxr_javadoccomment">	 * @param value the attribute value.</em>
+<a class="jxr_linenumber" name="L419" href="#L419">419</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L420" href="#L420">420</a> 	<strong class="jxr_keyword">void</strong> setAttribute(<strong class="jxr_keyword">final</strong> String key, <strong class="jxr_keyword">final</strong> Serializable value);
+<a class="jxr_linenumber" name="L421" href="#L421">421</a> 
+<a class="jxr_linenumber" name="L422" href="#L422">422</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L423" href="#L423">423</a> <em class="jxr_javadoccomment">	 * Retrieves an arbitrary attribute which has been previously associated with this component.</em>
+<a class="jxr_linenumber" name="L424" href="#L424">424</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L425" href="#L425">425</a> <em class="jxr_javadoccomment">	 * @param key the attribute key.</em>
+<a class="jxr_linenumber" name="L426" href="#L426">426</a> <em class="jxr_javadoccomment">	 * @return value the attribute value if set, otherwise null.</em>
+<a class="jxr_linenumber" name="L427" href="#L427">427</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L428" href="#L428">428</a> 	Serializable getAttribute(<strong class="jxr_keyword">final</strong> String key);
+<a class="jxr_linenumber" name="L429" href="#L429">429</a> 
+<a class="jxr_linenumber" name="L430" href="#L430">430</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L431" href="#L431">431</a> <em class="jxr_javadoccomment">	 * Removes an arbitrary attribute.</em>
+<a class="jxr_linenumber" name="L432" href="#L432">432</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L433" href="#L433">433</a> <em class="jxr_javadoccomment">	 * @param key the attribute key.</em>
+<a class="jxr_linenumber" name="L434" href="#L434">434</a> <em class="jxr_javadoccomment">	 * @return the value for the attribute which was removed, or null if no attribute was found with the given key.</em>
+<a class="jxr_linenumber" name="L435" href="#L435">435</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L436" href="#L436">436</a> 	Serializable removeAttribute(<strong class="jxr_keyword">final</strong> String key);
+<a class="jxr_linenumber" name="L437" href="#L437">437</a> 
+<a class="jxr_linenumber" name="L438" href="#L438">438</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L439" href="#L439">439</a> <em class="jxr_javadoccomment">	 * Sets the component's tool tip. Note that not all components support displaying tool tips.</em>
+<a class="jxr_linenumber" name="L440" href="#L440">440</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L441" href="#L441">441</a> <em class="jxr_javadoccomment">	 * @param text the tool tip text, using {@link MessageFormat} syntax.</em>
+<a class="jxr_linenumber" name="L442" href="#L442">442</a> <em class="jxr_javadoccomment">	 * @param args optional arguments for the message format string.</em>
+<a class="jxr_linenumber" name="L443" href="#L443">443</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L444" href="#L444">444</a> 	<strong class="jxr_keyword">void</strong> setToolTip(<strong class="jxr_keyword">final</strong> String text, Serializable... args);
+<a class="jxr_linenumber" name="L445" href="#L445">445</a> 
+<a class="jxr_linenumber" name="L446" href="#L446">446</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L447" href="#L447">447</a> <em class="jxr_javadoccomment">	 * Retrieves the component's tool tip.</em>
+<a class="jxr_linenumber" name="L448" href="#L448">448</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L449" href="#L449">449</a> <em class="jxr_javadoccomment">	 * @return the component's tool tip.</em>
+<a class="jxr_linenumber" name="L450" href="#L450">450</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L451" href="#L451">451</a> 	String getToolTip();
+<a class="jxr_linenumber" name="L452" href="#L452">452</a> 
+<a class="jxr_linenumber" name="L453" href="#L453">453</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L454" href="#L454">454</a> <em class="jxr_javadoccomment">	 * Sets the text used by screen readers to describe the component.</em>
+<a class="jxr_linenumber" name="L455" href="#L455">455</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L456" href="#L456">456</a> <em class="jxr_javadoccomment">	 * @param text the screen reader text, using {@link MessageFormat} syntax.</em>
+<a class="jxr_linenumber" name="L457" href="#L457">457</a> <em class="jxr_javadoccomment">	 * @param args optional arguments for the message format string.</em>
+<a class="jxr_linenumber" name="L458" href="#L458">458</a> <em class="jxr_javadoccomment">	 * @deprecated use setToolTip</em>
+<a class="jxr_linenumber" name="L459" href="#L459">459</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L460" href="#L460">460</a> 	<strong class="jxr_keyword">void</strong> setAccessibleText(<strong class="jxr_keyword">final</strong> String text, Serializable... args);
+<a class="jxr_linenumber" name="L461" href="#L461">461</a> 
+<a class="jxr_linenumber" name="L462" href="#L462">462</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L463" href="#L463">463</a> <em class="jxr_javadoccomment">	 * Retrieves the text used by screen readers to describe the component.</em>
+<a class="jxr_linenumber" name="L464" href="#L464">464</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L465" href="#L465">465</a> <em class="jxr_javadoccomment">	 * @return the screen reader text.</em>
+<a class="jxr_linenumber" name="L466" href="#L466">466</a> <em class="jxr_javadoccomment">	 * @deprecated use getToolTip</em>
+<a class="jxr_linenumber" name="L467" href="#L467">467</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L468" href="#L468">468</a> 	String getAccessibleText();
+<a class="jxr_linenumber" name="L469" href="#L469">469</a> 
+<a class="jxr_linenumber" name="L470" href="#L470">470</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L471" href="#L471">471</a> <em class="jxr_javadoccomment">	 * Sets the flag if tracking is enabled for this component. This flag is used by {@link #isTracking()}.</em>
+<a class="jxr_linenumber" name="L472" href="#L472">472</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L473" href="#L473">473</a> <em class="jxr_javadoccomment">	 * @param track set true if tracking is enabled for this component.</em>
+<a class="jxr_linenumber" name="L474" href="#L474">474</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L475" href="#L475">475</a> 	<strong class="jxr_keyword">void</strong> setTrackingEnabled(<strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> track);
+<a class="jxr_linenumber" name="L476" href="#L476">476</a> 
+<a class="jxr_linenumber" name="L477" href="#L477">477</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L478" href="#L478">478</a> <em class="jxr_javadoccomment">	 * Returns true if tracking is enabled for this component.This flag is used by {@link #isTracking()}.</em>
+<a class="jxr_linenumber" name="L479" href="#L479">479</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L480" href="#L480">480</a> <em class="jxr_javadoccomment">	 * @return true if tracking is enabled for this component.</em>
+<a class="jxr_linenumber" name="L481" href="#L481">481</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L482" href="#L482">482</a> 	<strong class="jxr_keyword">boolean</strong> isTrackingEnabled();
+<a class="jxr_linenumber" name="L483" href="#L483">483</a> 
+<a class="jxr_linenumber" name="L484" href="#L484">484</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L485" href="#L485">485</a> <em class="jxr_javadoccomment">	 * Returns true if this component should be tracked.</em>
+<a class="jxr_linenumber" name="L486" href="#L486">486</a> <em class="jxr_javadoccomment">	 * &lt;p&gt;</em>
+<a class="jxr_linenumber" name="L487" href="#L487">487</a> <em class="jxr_javadoccomment">	 * A component will only be tracked if {@link #setTrackingEnabled(boolean)} is set true and the component has an id</em>
+<a class="jxr_linenumber" name="L488" href="#L488">488</a> <em class="jxr_javadoccomment">	 * set via {@link #setIdName(String)}. If the id has not been set, then the id used for tracking will be dynamic and</em>
+<a class="jxr_linenumber" name="L489" href="#L489">489</a> <em class="jxr_javadoccomment">	 * constantly changing which makes it useless for analysing.</em>
+<a class="jxr_linenumber" name="L490" href="#L490">490</a> <em class="jxr_javadoccomment">	 * &lt;/p&gt;</em>
+<a class="jxr_linenumber" name="L491" href="#L491">491</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L492" href="#L492">492</a> <em class="jxr_javadoccomment">	 * @return true if this component should be tracked.</em>
+<a class="jxr_linenumber" name="L493" href="#L493">493</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L494" href="#L494">494</a> 	<strong class="jxr_keyword">boolean</strong> isTracking();
+<a class="jxr_linenumber" name="L495" href="#L495">495</a> 
+<a class="jxr_linenumber" name="L496" href="#L496">496</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L497" href="#L497">497</a> <em class="jxr_javadoccomment">	 * Sets additional HTML class name string for this component. Multiple HTML class names may be added to an instance</em>
+<a class="jxr_linenumber" name="L498" href="#L498">498</a> <em class="jxr_javadoccomment">	 * of a component using a space separated string. Some values in the HTML class name attribute are determined in the</em>
+<a class="jxr_linenumber" name="L499" href="#L499">499</a> <em class="jxr_javadoccomment">	 * theme and are used for core functionality and styling.</em>
+<a class="jxr_linenumber" name="L500" href="#L500">500</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L501" href="#L501">501</a> <em class="jxr_javadoccomment">	 * @param className the HTML class attribute's value to add to the component.</em>
+<a class="jxr_linenumber" name="L502" href="#L502">502</a> <em class="jxr_javadoccomment">	 * @param args optional arguments for the message format string.</em>
+<a class="jxr_linenumber" name="L503" href="#L503">503</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L504" href="#L504">504</a> 	<strong class="jxr_keyword">void</strong> setHtmlClass(<strong class="jxr_keyword">final</strong> String className, Serializable... args);
+<a class="jxr_linenumber" name="L505" href="#L505">505</a> 
+<a class="jxr_linenumber" name="L506" href="#L506">506</a> 	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L507" href="#L507">507</a> <em class="jxr_javadoccomment">	 * Returns the HTML class name string to apply to a component. Some values in the HTML class name attribute are</em>
+<a class="jxr_linenumber" name="L508" href="#L508">508</a> <em class="jxr_javadoccomment">	 * determined in the theme and are used for core functionality and styling. This method will only return class name</em>
+<a class="jxr_linenumber" name="L509" href="#L509">509</a> <em class="jxr_javadoccomment">	 * values which are added in the application, it has no knowledge of theme's class names.</em>
+<a class="jxr_linenumber" name="L510" href="#L510">510</a> <em class="jxr_javadoccomment">	 *</em>
+<a class="jxr_linenumber" name="L511" href="#L511">511</a> <em class="jxr_javadoccomment">	 * @return the value to add to the HTML class attribute of the output component.</em>
+<a class="jxr_linenumber" name="L512" href="#L512">512</a> <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L513" href="#L513">513</a> 	String getHtmlClass();
+<a class="jxr_linenumber" name="L514" href="#L514">514</a> 
+<a class="jxr_linenumber" name="L515" href="#L515">515</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2016. All rights reserved.</div>

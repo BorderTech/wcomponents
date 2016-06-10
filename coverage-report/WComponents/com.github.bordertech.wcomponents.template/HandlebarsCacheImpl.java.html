@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>HandlebarsCacheImpl.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.template</a> &gt; <span class="el_source">HandlebarsCacheImpl.java</span></div><h1>HandlebarsCacheImpl.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.template;
+
+import com.github.jknack.handlebars.Parser;
+import com.github.jknack.handlebars.Template;
+import com.github.jknack.handlebars.cache.TemplateCache;
+import com.github.jknack.handlebars.io.TemplateSource;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+import javax.cache.Cache;
+import javax.cache.CacheManager;
+import javax.cache.Caching;
+import javax.cache.configuration.MutableConfiguration;
+import javax.cache.expiry.AccessedExpiryPolicy;
+import javax.cache.expiry.Duration;
+
+/**
+ * Handlebars caching implementation.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.3
+ */
+<span class="fc" id="L22">public class HandlebarsCacheImpl implements TemplateCache {</span>
+
+	/**
+	 * Cache name.
+	 */
+	private static final String CACHE_NAME = &quot;wc-handlebars-templates&quot;;
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void clear() {
+<span class="nc" id="L34">		getCache().clear();</span>
+<span class="nc" id="L35">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void evict(final TemplateSource source) {
+<span class="nc" id="L42">		getCache().remove(source);</span>
+<span class="nc" id="L43">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Template get(final TemplateSource source, final Parser parser) throws IOException {
+<span class="fc" id="L50">		Template template = getCache().get(source);</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">		if (template == null) {</span>
+<span class="fc" id="L52">			template = parser.parse(source);</span>
+<span class="fc" id="L53">			getCache().put(source, template);</span>
+		}
+<span class="fc" id="L55">		return template;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public TemplateCache setReload(final boolean reload) {
+		// Dont need to support auto reload
+<span class="nc" id="L64">		return this;</span>
+	}
+
+	/**
+	 * @return the cache instance
+	 */
+	protected synchronized Cache&lt;TemplateSource, Template&gt; getCache() {
+<span class="fc" id="L71">		Cache&lt;TemplateSource, Template&gt; cache = Caching.getCache(CACHE_NAME, TemplateSource.class, Template.class);</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">		if (cache == null) {</span>
+<span class="fc" id="L73">			final CacheManager mgr = Caching.getCachingProvider().getCacheManager();</span>
+<span class="fc" id="L74">			MutableConfiguration&lt;TemplateSource, Template&gt; config = new MutableConfiguration&lt;&gt;();</span>
+<span class="fc" id="L75">			config.setTypes(TemplateSource.class, Template.class);</span>
+<span class="fc" id="L76">			config.setExpiryPolicyFactory(AccessedExpiryPolicy.factoryOf(new Duration(TimeUnit.HOURS, 12)));</span>
+			// Handlebars template classes are not serializable so use by ref.
+<span class="fc" id="L78">			config.setStoreByValue(false);</span>
+<span class="fc" id="L79">			cache = mgr.createCache(CACHE_NAME, config);</span>
+		}
+<span class="fc" id="L81">		return cache;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

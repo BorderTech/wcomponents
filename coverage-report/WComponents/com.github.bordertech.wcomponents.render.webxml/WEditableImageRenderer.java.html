@@ -24,12 +24,18 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 <span class="nc" id="L25">		WEditableImage editableImage = (WEditableImage) component;</span>
 <span class="nc" id="L26">		XmlStringBuilder xml = renderContext.getWriter();</span>
-<span class="nc" id="L27">		WImageRenderer.renderTagOpen(editableImage, xml);</span>
-<span class="nc" id="L28">		WComponent uploader = editableImage.getEditUploader();</span>
-<span class="nc bnc" id="L29" title="All 2 branches missed.">		if (uploader != null) {</span>
-<span class="nc" id="L30">			xml.appendAttribute(&quot;editor&quot;, uploader.getId());</span>
+		
+		// No image set
+<span class="nc bnc" id="L29" title="All 4 branches missed.">		if (editableImage.getImage() == null &amp;&amp; editableImage.getImageUrl() == null) {</span>
+<span class="nc" id="L30">			return;</span>
 		}
-<span class="nc" id="L32">		xml.appendEnd();</span>
-<span class="nc" id="L33">	}</span>
+		
+<span class="nc" id="L33">		WImageRenderer.renderTagOpen(editableImage, xml);</span>
+<span class="nc" id="L34">		WComponent uploader = editableImage.getEditUploader();</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">		if (uploader != null) {</span>
+<span class="nc" id="L36">			xml.appendAttribute(&quot;editor&quot;, uploader.getId());</span>
+		}
+<span class="nc" id="L38">		xml.appendEnd();</span>
+<span class="nc" id="L39">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

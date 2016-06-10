@@ -28,7 +28,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 <span class="fc" id="L28">		WComponent body = label.getBody();</span>
 <span class="fc" id="L29">		WComponent tail = label.getTail();</span>
 
-<span class="fc" id="L31">		xml.appendTagOpen(&quot;ui:decoratedLabel&quot;);</span>
+<span class="fc" id="L31">		xml.appendTagOpen(&quot;ui:decoratedlabel&quot;);</span>
 <span class="fc" id="L32">		xml.appendAttribute(&quot;id&quot;, component.getId());</span>
 <span class="fc" id="L33">		xml.appendOptionalAttribute(&quot;class&quot;, component.getHtmlClass());</span>
 <span class="fc" id="L34">		xml.appendOptionalAttribute(&quot;track&quot;, component.isTracking(), &quot;true&quot;);</span>
@@ -36,28 +36,28 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 <span class="fc" id="L36">		xml.appendClose();</span>
 
 <span class="pc bpc" id="L38" title="1 of 4 branches missed.">		if (head != null &amp;&amp; head.isVisible()) {</span>
-<span class="fc" id="L39">			xml.appendTagOpen(&quot;ui:labelHead&quot;);</span>
+<span class="fc" id="L39">			xml.appendTagOpen(&quot;ui:labelhead&quot;);</span>
 <span class="fc" id="L40">			xml.appendAttribute(&quot;id&quot;, label.getId() + &quot;-head&quot;);</span>
 <span class="fc" id="L41">			xml.appendClose();</span>
 <span class="fc" id="L42">			head.paint(renderContext);</span>
-<span class="fc" id="L43">			xml.appendEndTag(&quot;ui:labelHead&quot;);</span>
+<span class="fc" id="L43">			xml.appendEndTag(&quot;ui:labelhead&quot;);</span>
 		}
 
-<span class="fc" id="L46">		xml.appendTagOpen(&quot;ui:labelBody&quot;);</span>
+<span class="fc" id="L46">		xml.appendTagOpen(&quot;ui:labelbody&quot;);</span>
 <span class="fc" id="L47">		xml.appendAttribute(&quot;id&quot;, label.getId() + &quot;-body&quot;);</span>
 <span class="fc" id="L48">		xml.appendClose();</span>
 <span class="fc" id="L49">		body.paint(renderContext);</span>
-<span class="fc" id="L50">		xml.appendEndTag(&quot;ui:labelBody&quot;);</span>
+<span class="fc" id="L50">		xml.appendEndTag(&quot;ui:labelbody&quot;);</span>
 
 <span class="pc bpc" id="L52" title="1 of 4 branches missed.">		if (tail != null &amp;&amp; tail.isVisible()) {</span>
-<span class="fc" id="L53">			xml.appendTagOpen(&quot;ui:labelTail&quot;);</span>
+<span class="fc" id="L53">			xml.appendTagOpen(&quot;ui:labeltail&quot;);</span>
 <span class="fc" id="L54">			xml.appendAttribute(&quot;id&quot;, label.getId() + &quot;-tail&quot;);</span>
 <span class="fc" id="L55">			xml.appendClose();</span>
 <span class="fc" id="L56">			tail.paint(renderContext);</span>
-<span class="fc" id="L57">			xml.appendEndTag(&quot;ui:labelTail&quot;);</span>
+<span class="fc" id="L57">			xml.appendEndTag(&quot;ui:labeltail&quot;);</span>
 		}
 
-<span class="fc" id="L60">		xml.appendEndTag(&quot;ui:decoratedLabel&quot;);</span>
+<span class="fc" id="L60">		xml.appendEndTag(&quot;ui:decoratedlabel&quot;);</span>
 <span class="fc" id="L61">	}</span>
 
 }

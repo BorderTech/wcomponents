@@ -12,7 +12,7 @@
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WFigure extends AbstractNamingContextContainer implements AjaxTarget, SubordinateTarget,
+public class WFigure extends AbstractNamingContextContainer implements AjaxInternalTrigger, AjaxTarget, SubordinateTarget,
 		Marginable {
 
 	/**
@@ -117,31 +117,13 @@ public class WFigure extends AbstractNamingContextContainer implements AjaxTarge
 	}
 
 	/**
-	 * Override preparePaintComponent in order to toggle the visibility of the content, or to register the appropriate
-	 * ajax operation.
-	 *
-	 * @param request the request being responded to
-	 */
-	@Override
-	protected void preparePaintComponent(final Request request) {
-<span class="fc" id="L127">		super.preparePaintComponent(request);</span>
-
-<span class="fc" id="L129">		UIContext uic = UIContextHolder.getCurrent();</span>
-
-		// Register figure for AJAX
-<span class="pc bpc" id="L132" title="1 of 4 branches missed.">		if (uic.getUI() != null &amp;&amp; getMode() != null) {</span>
-<span class="fc" id="L133">			AjaxHelper.registerComponentTargetItself(getId(), request);</span>
-		}
-<span class="fc" id="L135">	}</span>
-
-	/**
 	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {
-<span class="nc bnc" id="L142" title="All 2 branches missed.">		String text = label == null ? null : label.getText();</span>
-<span class="nc bnc" id="L143" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
-<span class="nc" id="L144">		return toString(text, 1, 1);</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">		String text = label == null ? null : label.getText();</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">		text = text == null ? &quot;null&quot; : ('&quot;' + text + '&quot;');</span>
+<span class="nc" id="L126">		return toString(text, 1, 1);</span>
 	}
 
 	/**
@@ -151,7 +133,7 @@ public class WFigure extends AbstractNamingContextContainer implements AjaxTarge
 	 */
 	@Override
 	protected FigureModel newComponentModel() {
-<span class="fc" id="L154">		return new FigureModel();</span>
+<span class="fc" id="L136">		return new FigureModel();</span>
 	}
 
 	/**
@@ -160,7 +142,7 @@ public class WFigure extends AbstractNamingContextContainer implements AjaxTarge
 	@Override
 	// For type safety only
 	protected FigureModel getComponentModel() {
-<span class="fc" id="L163">		return (FigureModel) super.getComponentModel();</span>
+<span class="fc" id="L145">		return (FigureModel) super.getComponentModel();</span>
 	}
 
 	/**
@@ -169,13 +151,13 @@ public class WFigure extends AbstractNamingContextContainer implements AjaxTarge
 	@Override
 	// For type safety only
 	protected FigureModel getOrCreateComponentModel() {
-<span class="fc" id="L172">		return (FigureModel) super.getOrCreateComponentModel();</span>
+<span class="fc" id="L154">		return (FigureModel) super.getOrCreateComponentModel();</span>
 	}
 
 	/**
 	 * Holds the extrinsic state information of a WFigure.
 	 */
-<span class="fc" id="L178">	public static class FigureModel extends ComponentModel {</span>
+<span class="fc" id="L160">	public static class FigureModel extends ComponentModel {</span>
 
 		/**
 		 * Indicates how the WFigure should operate.

@@ -27,7 +27,7 @@
 <a class="jxr_linenumber" name="L19" href="#L19">19</a>  	<em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L20" href="#L20">20</a>  <em class="jxr_javadoccomment">	 * The layout options.</em>
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>  <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L22" href="#L22">22</a>  	<strong class="jxr_keyword">public</strong> enum <a href="../../../../com/github/bordertech/wcomponents/WTable.html">Type</a> {
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  	<strong class="jxr_keyword">public</strong> enum <a href="../../../../com/github/bordertech/wcomponents/WTree.html">Type</a> {
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>  		<em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L24" href="#L24">24</a>  <em class="jxr_javadoccomment">		 * A layout where elements are placed on the same line.</em>
 <a class="jxr_linenumber" name="L25" href="#L25">25</a>  <em class="jxr_javadoccomment">		 */</em>
@@ -63,7 +63,7 @@
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment">	 *</em>
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment">	 * @param type the layout type.</em>
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>  <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L58" href="#L58">58</a>  	<strong class="jxr_keyword">public</strong> <a href="../../../../com/github/bordertech/wcomponents/WDefinitionList.html">WDefinitionList</a>(<strong class="jxr_keyword">final</strong> <a href="../../../../com/github/bordertech/wcomponents/WTable.html">Type</a> type) {
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  	<strong class="jxr_keyword">public</strong> <a href="../../../../com/github/bordertech/wcomponents/WDefinitionList.html">WDefinitionList</a>(<strong class="jxr_keyword">final</strong> <a href="../../../../com/github/bordertech/wcomponents/WTree.html">Type</a> type) {
 <a class="jxr_linenumber" name="L59" href="#L59">59</a>  		add(content);
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>  		getComponentModel().type = type;
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>  	}
@@ -71,7 +71,7 @@
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>  	<em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L64" href="#L64">64</a>  <em class="jxr_javadoccomment">	 * @return the layout type.</em>
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>  <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L66" href="#L66">66</a>  	<strong class="jxr_keyword">public</strong> <a href="../../../../com/github/bordertech/wcomponents/WTable.html">Type</a> getType() {
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  	<strong class="jxr_keyword">public</strong> <a href="../../../../com/github/bordertech/wcomponents/WTree.html">Type</a> getType() {
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>  		<strong class="jxr_keyword">return</strong> getComponentModel().type;
 <a class="jxr_linenumber" name="L68" href="#L68">68</a>  	}
 <a class="jxr_linenumber" name="L69" href="#L69">69</a>  
@@ -80,7 +80,7 @@
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>  <em class="jxr_javadoccomment">	 *</em>
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>  <em class="jxr_javadoccomment">	 * @param layout The layout to set.</em>
 <a class="jxr_linenumber" name="L74" href="#L74">74</a>  <em class="jxr_javadoccomment">	 */</em>
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setType(<strong class="jxr_keyword">final</strong> <a href="../../../../com/github/bordertech/wcomponents/WTable.html">Type</a> layout) {
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setType(<strong class="jxr_keyword">final</strong> <a href="../../../../com/github/bordertech/wcomponents/WTree.html">Type</a> layout) {
 <a class="jxr_linenumber" name="L76" href="#L76">76</a>  		getOrCreateComponentModel().type = layout;
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>  	}
 <a class="jxr_linenumber" name="L78" href="#L78">78</a>  
@@ -230,7 +230,7 @@
 <a class="jxr_linenumber" name="L222" href="#L222">222</a> 		<em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L223" href="#L223">223</a> <em class="jxr_javadoccomment">		 * The layout.</em>
 <a class="jxr_linenumber" name="L224" href="#L224">224</a> <em class="jxr_javadoccomment">		 */</em>
-<a class="jxr_linenumber" name="L225" href="#L225">225</a> 		<strong class="jxr_keyword">private</strong> <a href="../../../../com/github/bordertech/wcomponents/WTable.html">Type</a> type = Type.NORMAL;
+<a class="jxr_linenumber" name="L225" href="#L225">225</a> 		<strong class="jxr_keyword">private</strong> <a href="../../../../com/github/bordertech/wcomponents/WTree.html">Type</a> type = Type.NORMAL;
 <a class="jxr_linenumber" name="L226" href="#L226">226</a> 
 <a class="jxr_linenumber" name="L227" href="#L227">227</a> 		<em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L228" href="#L228">228</a> <em class="jxr_javadoccomment">		 * The margins to be used on the defintion list.</em>

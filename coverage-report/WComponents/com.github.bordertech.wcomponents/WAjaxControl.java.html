@@ -7,15 +7,13 @@ import java.util.List;
 
 /**
  * &lt;p&gt;
- * The WAjaxControl links an ajax trigger component with one or more ajax target components. Creating an ajax trigger
- * will result in an ajax request being made on the 'onChange' event of the trigger element. For an ajax request the
- * whole UI tree is serviced in the action phase but only the 'target' components related by this control will be
- * painted in the response. Repainting only small parts of the UI aims to improve client response times.
+ * The WAjaxControl links an AJAX trigger component with one or more AJAX target components. Creating an AJAX trigger
+ * will result in an AJAX request being made on the 'onChange' event of the trigger element. The implication oft his is
+ * that an AJAX trigger component &lt;em&gt;should&lt;/em&gt; have an Action attached (usually via setActionOnChanged).
  * &lt;/p&gt;
  * &lt;p&gt;
- * On the client-side, an AJAX target region must have a single html element as its parent and this element &lt;b&gt;must&lt;/b&gt;
- * have an id. In the AJAX response the whole element is replaced by the response. Components which do not implement the
- * {@link AjaxTarget} interface can be wrapped in a {@link com.github.bordertech.wcomponents.WPanel}.
+ * During an AJAX request the  whole UI tree is serviced in the action phase but only the 'target' components related
+ * by this control will be painted in the response.
  * &lt;/p&gt;
  *
  * @author Christina Harris
@@ -24,266 +22,305 @@ import java.util.List;
 public class WAjaxControl extends AbstractWComponent {
 
 	/**
-	 * The component, that onChange, will trigger the ajax request.
+	 * The component that will trigger the AJAX request.
 	 */
 	private final AjaxTrigger trigger;
 
 	/**
-	 * Constructor. Set the trigger for the ajax control.
+	 * Create a WAjaxControl with a specified trigger component.
 	 *
-	 * @param trigger The WComponent that will fire the ajax request on change.
+	 * @param trigger the WComponent that will fire the AJAX request on change
 	 */
-<span class="fc" id="L36">	public WAjaxControl(final AjaxTrigger trigger) {</span>
-<span class="fc" id="L37">		this.trigger = trigger;</span>
-<span class="fc" id="L38">	}</span>
+<span class="fc" id="L34">	public WAjaxControl(final AjaxTrigger trigger) {</span>
+<span class="fc" id="L35">		this.trigger = trigger;</span>
+<span class="fc" id="L36">	}</span>
 
 	/**
-	 * Constructor. Set the trigger and a target for the ajax control.
+	 * Create a WAjaxControl with specified trigger and target components.
 	 *
-	 * @param trigger The WComponent that will fire the ajax request on change.
-	 * @param target The WComponent to be re-painted as a result of the ajax request.
+	 * @param trigger the WComponent that will fire the AJAX request on change
+	 * @param target the WComponent to be re-painted as a result of the AJAX request
 	 */
 	public WAjaxControl(final AjaxTrigger trigger, final AjaxTarget target) {
-<span class="fc" id="L47">		this(trigger);</span>
+<span class="fc" id="L45">		this(trigger);</span>
 
-<span class="fc" id="L49">		List&lt;AjaxTarget&gt; targets = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L50">		targets.add(target);</span>
-<span class="fc" id="L51">		getComponentModel().targets = targets;</span>
-<span class="fc" id="L52">	}</span>
+<span class="fc" id="L47">		List&lt;AjaxTarget&gt; targets = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L48">		targets.add(target);</span>
+<span class="fc" id="L49">		getComponentModel().targets = targets;</span>
+<span class="fc" id="L50">	}</span>
 
 	/**
-	 * Constructor. Set the trigger and multiple targets for the ajax control.
+	 * Create a WAjaxControl with specified trigger component and an array of target components.
 	 *
-	 * @param trigger The WComponent that will fire the ajax request on change.
-	 * @param targets The WComponents to be re-painted in the ajax response.
+	 * @param trigger the WComponent that will fire the AJAX request on change
+	 * @param targets the WComponents to be re-painted in the AJAX response
 	 */
 	public WAjaxControl(final AjaxTrigger trigger, final AjaxTarget[] targets) {
-<span class="fc" id="L61">		this(trigger);</span>
+<span class="fc" id="L59">		this(trigger);</span>
 
-<span class="fc" id="L63">		List&lt;AjaxTarget&gt; targetList = new ArrayList&lt;&gt;();</span>
-<span class="fc" id="L64">		targetList.addAll(Arrays.asList(targets));</span>
-<span class="fc" id="L65">		getComponentModel().targets = targetList;</span>
-<span class="fc" id="L66">	}</span>
+<span class="fc" id="L61">		List&lt;AjaxTarget&gt; targetList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L62">		targetList.addAll(Arrays.asList(targets));</span>
+<span class="fc" id="L63">		getComponentModel().targets = targetList;</span>
+<span class="fc" id="L64">	}</span>
 
 	/**
-	 * Constructor. Set the trigger and multiple targets for the ajax control.
+	 * Create a WAjaxControl with specified trigger component and a List of target components.
 	 *
-	 * @param trigger The WComponent that will fire the ajax request on change.
-	 * @param targets The WComponents to be re-painted in the ajax responses.
+	 * @param trigger the WComponent that will fire the AJAX request on change
+	 * @param targets the WComponents to be re-painted in the AJAX responses
 	 */
 	public WAjaxControl(final AjaxTrigger trigger, final List&lt;? extends AjaxTarget&gt; targets) {
-<span class="fc" id="L75">		this(trigger);</span>
-<span class="fc" id="L76">		getComponentModel().targets = new ArrayList&lt;&gt;(targets);</span>
-<span class="fc" id="L77">	}</span>
+<span class="fc" id="L73">		this(trigger);</span>
+<span class="fc" id="L74">		getComponentModel().targets = new ArrayList&lt;&gt;(targets);</span>
+<span class="fc" id="L75">	}</span>
 
 	/**
-	 * Get the {@link WComponent} that on change will trigger the cient to make the ajax request.
+	 * Get the component that will trigger the client to make the AJAX request.
 	 *
-	 * @return The AJAX trigger.
+	 * @return the AJAX trigger
 	 */
 	public AjaxTrigger getTrigger() {
-<span class="fc" id="L85">		return this.trigger;</span>
+<span class="fc" id="L83">		return this.trigger;</span>
 	}
 
 	/**
-	 * Add an ajax target for this control. When the ajax request is triggered only the target components will be
-	 * re-painted.
+	 * Add an array of target components that should be targets for this AJAX request.
 	 *
-	 * @param targets The UI components to be repainted in the ajax response.
+	 * @param targets the components to be repainted in the AJAX response
 	 */
 	public void addTargets(final AjaxTarget[] targets) {
-<span class="pc bpc" id="L95" title="1 of 2 branches missed.">		if (targets != null) {</span>
-<span class="fc" id="L96">			addTargets(Arrays.asList(targets));</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">		if (targets != null) {</span>
+<span class="fc" id="L93">			addTargets(Arrays.asList(targets));</span>
 		}
-<span class="fc" id="L98">	}</span>
+<span class="fc" id="L95">	}</span>
 
 	/**
-	 * Add target regions that should be repainted for this ajax request.
+	 * Add a list of target components that should be targets for this AJAX request.
 	 *
-	 * @param targets The components that will be repainted for the ajax request.
+	 * @param targets the components that will be repainted for the AJAX request
 	 */
 	public void addTargets(final List&lt;? extends AjaxTarget&gt; targets) {
-<span class="pc bpc" id="L106" title="1 of 2 branches missed.">		if (targets != null) {</span>
-<span class="fc" id="L107">			AjaxControlModel model = getOrCreateComponentModel();</span>
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">		if (targets != null) {</span>
+<span class="fc" id="L104">			AjaxControlModel model = getOrCreateComponentModel();</span>
 
-<span class="fc bfc" id="L109" title="All 2 branches covered.">			if (model.targets == null) {</span>
-<span class="fc" id="L110">				model.targets = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">			if (model.targets == null) {</span>
+<span class="fc" id="L107">				model.targets = new ArrayList&lt;&gt;();</span>
 			}
 
-<span class="fc" id="L113">			model.targets.addAll(targets);</span>
+<span class="fc" id="L110">			model.targets.addAll(targets);</span>
 		}
-<span class="fc" id="L115">	}</span>
+<span class="fc" id="L112">	}</span>
 
 	/**
-	 * Add a WComponent that will be repainted after the ajax request has been handled.
+	 * Add a single target WComponent to this AJAX control.
 	 *
-	 * @param target A WComponent to be repainted.
+	 * @param target a WComponent to be repainted
 	 */
 	public void addTarget(final AjaxTarget target) {
-<span class="fc" id="L123">		AjaxControlModel model = getOrCreateComponentModel();</span>
+<span class="fc" id="L120">		AjaxControlModel model = getOrCreateComponentModel();</span>
 
-<span class="fc bfc" id="L125" title="All 2 branches covered.">		if (model.targets == null) {</span>
-<span class="fc" id="L126">			model.targets = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">		if (model.targets == null) {</span>
+<span class="fc" id="L123">			model.targets = new ArrayList&lt;&gt;();</span>
 		}
 
-<span class="fc" id="L129">		model.targets.add(target);</span>
-<span class="fc" id="L130">	}</span>
+<span class="fc" id="L126">		model.targets.add(target);</span>
+<span class="fc" id="L127">	}</span>
 
 	/**
-	 * Flag to indicate the the ajax trigger should be fired once only.
+	 * Flag to indicate the the AJAX trigger should be fired once only.
 	 *
-	 * @param loadOnce if &lt;code&gt;true&lt;/code&gt; the target ajax trigger only once for a page.
+	 * @param loadOnce if &lt;code&gt;true&lt;/code&gt; the target AJAX trigger only once for each load of a page
 	 */
 	public void setLoadOnce(final boolean loadOnce) {
-<span class="fc bfc" id="L138" title="All 2 branches covered.">		if (loadOnce) {</span>
-<span class="fc" id="L139">			getOrCreateComponentModel().loadCount = 1;</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">		if (loadOnce) {</span>
+<span class="fc" id="L136">			getOrCreateComponentModel().loadCount = 1;</span>
 		} else {
-<span class="fc" id="L141">			getOrCreateComponentModel().loadCount = -1;</span>
+<span class="fc" id="L138">			getOrCreateComponentModel().loadCount = -1;</span>
 		}
-<span class="fc" id="L143">	}</span>
+<span class="fc" id="L140">	}</span>
 
 	/**
-	 * @return &lt;code&gt;true&lt;/code&gt; if the trigger should be fired once only for the page.
+	 * @return &lt;code&gt;true&lt;/code&gt; if the trigger should be fired once only for each load of a page
 	 */
 	public boolean isLoadOnce() {
-<span class="fc bfc" id="L149" title="All 2 branches covered.">		return getComponentModel().loadCount == 1;</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">		return getComponentModel().loadCount == 1;</span>
 	}
 
 	/**
+	 * &lt;p&gt;
 	 * Set how many times the trigger should fire on a page.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * &lt;strong&gt;Note&lt;/strong&gt; a loadCount &amp;gt; 0 will result in a WAjaxControl which can &lt;strong&gt;only fire once per page
+	 * load&lt;/strong&gt;. This method is under review (see https://github.com/BorderTech/wcomponents/issues/495).
+	 * &lt;/p&gt;
 	 *
-	 * @param loadCount The trigger count for this ajax control.
+	 * @param loadCount The trigger count for this AJAX control.
 	 */
 	public void setLoadCount(final int loadCount) {
-<span class="fc" id="L158">		getOrCreateComponentModel().loadCount = loadCount;</span>
-<span class="fc" id="L159">	}</span>
+<span class="fc" id="L161">		getOrCreateComponentModel().loadCount = loadCount;</span>
+<span class="fc" id="L162">	}</span>
 
 	/**
+	 * &lt;p&gt;
+	 * Retrieve the number of times a trigger &lt;em&gt;may&lt;/em&gt; be able to fire each time a page is loaded.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * &lt;strong&gt;Note&lt;/strong&gt; a loadCount &amp;gt; 0 will result in a WAjaxControl which can &lt;strong&gt;only fire once per page
+	 * load&lt;/strong&gt;. This method is under review (see https://github.com/BorderTech/wcomponents/issues/495).
+	 * &lt;/p&gt;
+	 *
 	 * @return how many times that trigger can fire on any given page.
 	 */
 	public int getLoadCount() {
-<span class="fc" id="L165">		return getComponentModel().loadCount;</span>
+<span class="fc" id="L176">		return getComponentModel().loadCount;</span>
 	}
 
 	/**
-	 * Get the target WComponents that will be repainted as a consequence of the AJAX request. An empty list is returned
-	 * if no targets have been defined.
+	 * &lt;p&gt;
+	 * Get the target WComponents that will be repainted as a consequence of the AJAX request.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * When the AJAX request is triggered only the target component(s) will be re-painted. An empty list is returned if
+	 * no targets have been defined.
+	 * &lt;/p&gt;
 	 *
-	 * @return The target regions that are repainted in the ajax response.
+	 * @return the target regions that are repainted in the AJAX response
 	 */
 	public List&lt;AjaxTarget&gt; getTargets() {
-<span class="fc" id="L175">		List&lt;AjaxTarget&gt; targets = getComponentModel().targets;</span>
+<span class="fc" id="L191">		List&lt;AjaxTarget&gt; targets = getComponentModel().targets;</span>
 
-<span class="fc bfc" id="L177" title="All 2 branches covered.">		if (targets == null) {</span>
-<span class="fc" id="L178">			return Collections.emptyList();</span>
+<span class="fc bfc" id="L193" title="All 2 branches covered.">		if (targets == null) {</span>
+<span class="fc" id="L194">			return Collections.emptyList();</span>
 		}
 
-<span class="fc" id="L181">		return Collections.unmodifiableList(targets);</span>
+<span class="fc" id="L197">		return Collections.unmodifiableList(targets);</span>
 	}
 
 	/**
-	 * Returns the target WComponents as an array. If no targets have been registered then an empty array is returned.
+	 * &lt;p&gt;
+	 * Get the target WComponents as an array.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * When the AJAX request is triggered only the target component(s) will be re-painted. If no targets have been
+	 * registered then an empty array is returned.
+	 * &lt;/p&gt;
 	 *
-	 * @return An array of ajax target components.
+	 * @return an array of AJAX target components
 	 */
 	public WComponent[] getTargetsArray() {
-<span class="fc" id="L190">		List&lt;AjaxTarget&gt; targets = getTargets();</span>
-<span class="fc" id="L191">		return targets.toArray(new WComponent[targets.size()]);</span>
+<span class="fc" id="L212">		List&lt;AjaxTarget&gt; targets = getTargets();</span>
+<span class="fc" id="L213">		return targets.toArray(new WComponent[targets.size()]);</span>
 	}
 
 	/**
-	 * @return the delay after page load before ajax control triggered.
+	 * Get the delay period, in milliseconds, between the WAjaxControl being rendered in the view and it being
+	 * &lt;em&gt;automatically&lt;/em&gt; triggered. A WAjaxControl with a delay &amp;gt; 0 will result in a request being made
+	 * without a change to any {@link AjaxTrigger} component.
+	 *
+	 * @return the delay after page load before AJAX control triggered
 	 */
 	public int getDelay() {
-<span class="fc" id="L198">		return getComponentModel().delay;</span>
+<span class="fc" id="L224">		return getComponentModel().delay;</span>
 	}
 
 	/**
-	 * @param delay the delay after page load before ajax control triggered.
+	 * &lt;p&gt;
+	 * Set a delay period, in milliseconds, between the WAjaxControl being rendered in the view and it being
+	 * &lt;em&gt;automatically&lt;/em&gt; triggered. A WAjaxControl with a delay &amp;gt; 0 will result in a request being made
+	 * without a change to any {@link AjaxTrigger} component.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;
+	 * The use of a delay may be useful for setting up a trigger which polls for changes in a part of a UI. See
+	 * {@link com.github.bordertech.wcomponents.WAjaxPollingRegion}.
+	 * &lt;/p&gt;
+	 * &lt;p&gt;If the trigger is part of a polling region (therefore it is itself updated and potentially re-triggers itself
+	 * possibly many times) then the delay &lt;strong&gt;must not&lt;/strong&gt; be less than 334.&lt;/p&gt;
+	 *
+	 * @param delay the delay after page load before AJAX control triggered
 	 */
 	public void setDelay(final int delay) {
-<span class="fc" id="L205">		getOrCreateComponentModel().delay = delay;</span>
-<span class="fc" id="L206">	}</span>
+<span class="fc" id="L243">		getOrCreateComponentModel().delay = delay;</span>
+<span class="fc" id="L244">	}</span>
 
 	/**
 	 * Override preparePaintComponent in order to register the components for the current request.
 	 *
-	 * @param request the request being responded to.
+	 * @param request the request being responded to
 	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
-<span class="fc" id="L215">		super.preparePaintComponent(request);</span>
+<span class="fc" id="L253">		super.preparePaintComponent(request);</span>
 
-<span class="fc" id="L217">		List&lt;AjaxTarget&gt; targets = getTargets();</span>
-<span class="pc bpc" id="L218" title="1 of 4 branches missed.">		if (targets != null &amp;&amp; !targets.isEmpty()) {</span>
-<span class="pc bpc" id="L219" title="1 of 2 branches missed.">			WComponent triggerComponent = trigger == null ? this : trigger;</span>
+<span class="fc" id="L255">		List&lt;AjaxTarget&gt; targets = getTargets();</span>
+<span class="pc bpc" id="L256" title="1 of 4 branches missed.">		if (targets != null &amp;&amp; !targets.isEmpty()) {</span>
+<span class="pc bpc" id="L257" title="1 of 2 branches missed.">			WComponent triggerComponent = trigger == null ? this : trigger;</span>
 
-<span class="fc" id="L221">			UIContext triggerContext = WebUtilities.getPrimaryContext(UIContextHolder.getCurrent(),</span>
+<span class="fc" id="L259">			UIContext triggerContext = WebUtilities.getPrimaryContext(UIContextHolder.getCurrent(),</span>
 					triggerComponent);
-<span class="fc" id="L223">			UIContextHolder.pushContext(triggerContext);</span>
+<span class="fc" id="L261">			UIContextHolder.pushContext(triggerContext);</span>
 
 			try {
-<span class="fc" id="L226">				List&lt;String&gt; targetIds = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L227" title="All 2 branches covered.">				for (AjaxTarget target : getTargets()) {</span>
-<span class="fc" id="L228">					targetIds.add(target.getId());</span>
-<span class="fc" id="L229">				}</span>
-<span class="fc" id="L230">				AjaxHelper.registerComponents(targetIds, request, triggerComponent.getId());</span>
+<span class="fc" id="L264">				List&lt;String&gt; targetIds = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L265" title="All 2 branches covered.">				for (AjaxTarget target : getTargets()) {</span>
+<span class="fc" id="L266">					targetIds.add(target.getId());</span>
+<span class="fc" id="L267">				}</span>
+<span class="fc" id="L268">				AjaxHelper.registerComponents(targetIds, request, triggerComponent.getId());</span>
 			} finally {
-<span class="pc" id="L232">				UIContextHolder.popContext();</span>
-<span class="fc" id="L233">			}</span>
-
+<span class="pc" id="L270">				UIContextHolder.popContext();</span>
+<span class="fc" id="L271">			}</span>
 		}
-<span class="fc" id="L236">	}</span>
+<span class="fc" id="L273">	}</span>
 
 	/**
-	 * @return a String representation of this component, for debugging purposes.
+	 * @return a String representation of this component
 	 */
 	@Override
 	public String toString() {
-<span class="nc" id="L243">		StringBuffer buf = new StringBuffer();</span>
-<span class="nc" id="L244">		List&lt;AjaxTarget&gt; targets = getTargets();</span>
+<span class="nc" id="L280">		StringBuffer buf = new StringBuffer();</span>
+<span class="nc" id="L281">		List&lt;AjaxTarget&gt; targets = getTargets();</span>
 
-<span class="nc bnc" id="L246" title="All 2 branches missed.">		buf.append(&quot;trigger=&quot;).append(trigger == null ? &quot;null&quot; : trigger.getClass().getSimpleName());</span>
-<span class="nc" id="L247">		buf.append(&quot;, targets=[&quot;);</span>
+<span class="nc bnc" id="L283" title="All 2 branches missed.">		buf.append(&quot;trigger=&quot;).append(trigger == null ? &quot;null&quot; : trigger.getClass().getSimpleName());</span>
+<span class="nc" id="L284">		buf.append(&quot;, targets=[&quot;);</span>
 
-<span class="nc bnc" id="L249" title="All 2 branches missed.">		for (int i = 0; i &lt; targets.size(); i++) {</span>
-<span class="nc bnc" id="L250" title="All 2 branches missed.">			if (i &gt; 0) {</span>
-<span class="nc" id="L251">				buf.append(&quot;, &quot;);</span>
+<span class="nc bnc" id="L286" title="All 2 branches missed.">		for (int i = 0; i &lt; targets.size(); i++) {</span>
+<span class="nc bnc" id="L287" title="All 2 branches missed.">			if (i &gt; 0) {</span>
+<span class="nc" id="L288">				buf.append(&quot;, &quot;);</span>
 			}
 
-<span class="nc" id="L254">			AjaxTarget target = targets.get(i);</span>
-<span class="nc bnc" id="L255" title="All 2 branches missed.">			buf.append(target == null ? &quot;null&quot; : target.getClass().getSimpleName());</span>
+<span class="nc" id="L291">			AjaxTarget target = targets.get(i);</span>
+<span class="nc bnc" id="L292" title="All 2 branches missed.">			buf.append(target == null ? &quot;null&quot; : target.getClass().getSimpleName());</span>
 		}
 
-<span class="nc" id="L258">		buf.append(']');</span>
+<span class="nc" id="L295">		buf.append(']');</span>
 
-<span class="nc" id="L260">		return toString(buf.toString());</span>
+<span class="nc" id="L297">		return toString(buf.toString());</span>
 	}
 
 	/**
-	 * Creates a new Component model.
+	 * Creates a new Component model. For type safety only.
 	 *
 	 * @return a new AjaxControlModel.
 	 */
-	@Override // For type safety only
+	@Override
 	protected AjaxControlModel newComponentModel() {
-<span class="fc" id="L270">		return new AjaxControlModel();</span>
+<span class="fc" id="L307">		return new AjaxControlModel();</span>
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @return an AjaxControlModel; for type safety only
 	 */
 	@Override // For type safety only
 	protected AjaxControlModel getComponentModel() {
-<span class="fc" id="L278">		return (AjaxControlModel) super.getComponentModel();</span>
+<span class="fc" id="L315">		return (AjaxControlModel) super.getComponentModel();</span>
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @return an AjaxControlModel; for type safety only
 	 */
 	@Override // For type safety only
 	protected AjaxControlModel getOrCreateComponentModel() {
-<span class="fc" id="L286">		return (AjaxControlModel) super.getOrCreateComponentModel();</span>
+<span class="fc" id="L323">		return (AjaxControlModel) super.getOrCreateComponentModel();</span>
 	}
 
 	/**
@@ -291,20 +328,25 @@ public class WAjaxControl extends AbstractWComponent {
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-<span class="fc" id="L294">	public static class AjaxControlModel extends ComponentModel {</span>
+<span class="fc" id="L331">	public static class AjaxControlModel extends ComponentModel {</span>
 
 		/**
-		 * The components that will be repainted by the ajax request.
+		 * The components that will be repainted by the AJAX request.
 		 */
 		private List&lt;AjaxTarget&gt; targets;
 
 		/**
-		 * Specifies how many times the ajax trigger should be fired.
+		 * Specifies how many times the AJAX trigger should be fired. Zero or less represents no limit.
+		 * Note up to and including WComponents 1.1.0 a loadCount &amp;gt; 0 will result in a WAjaxControl which can
+		 * &lt;strong&gt;only fire once per page load&lt;/strong&gt;. This member is under review (see
+		 * https://github.com/BorderTech/wcomponents/issues/495).
 		 */
-<span class="fc" id="L304">		private int loadCount = -1;</span>
+<span class="fc" id="L344">		private int loadCount = -1;</span>
 
 		/**
-		 * Delay after page load, in milliseconds.
+		 * Delay, in milliseconds, between the control loading in the view and an automatic request. If this is set, and
+		 * set to a value greater than 0, the WAjaxControl will fire without &lt;em&gt;any&lt;/em&gt; {@link AjaxTrigger} being changed/
+		 * invoked. This can be used to set up a trigger which polls for changes.
 		 */
 		private int delay;
 	}

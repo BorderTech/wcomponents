@@ -180,7 +180,10 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 	 * @return the field which was added to the layout.
 	 */
 	public WField addField(final String label, final WComponent field) {
-<span class="fc" id="L183">		return addField(new WLabel(label), field);</span>
+<span class="pc bpc" id="L183" title="1 of 2 branches missed.">		if (null == label) {</span>
+<span class="nc" id="L184">			return addField((WLabel) null, field);</span>
+		}
+<span class="fc" id="L186">		return addField(new WLabel(label), field);</span>
 	}
 
 	/**
@@ -191,10 +194,22 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 	 * @return the field which was added to the layout.
 	 */
 	public WField addField(final WLabel label, final WComponent field) {
-<span class="fc" id="L194">		WField wField = new WField(label, field);</span>
-<span class="fc" id="L195">		add(wField);</span>
+<span class="fc" id="L197">		WField wField = new WField(label, field);</span>
+<span class="fc" id="L198">		add(wField);</span>
 
-<span class="fc" id="L197">		return wField;</span>
+<span class="fc" id="L200">		return wField;</span>
+	}
+
+	/**
+	 * Add a field consisting of a WButton with a null label.
+	 *
+	 * @param button the WButton to add to the layout.
+	 * @return the field added to the layout.
+	 */
+	public WField addField(final WButton button) {
+<span class="fc" id="L210">		WField field = new WField((WLabel) null, button);</span>
+<span class="fc" id="L211">		add(field);</span>
+<span class="fc" id="L212">		return field;</span>
 	}
 
 	/**
@@ -202,15 +217,15 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 	 */
 	@Override // to make public
 	public void remove(final WComponent child) {
-<span class="nc" id="L205">		super.remove(child);</span>
-<span class="nc" id="L206">	}</span>
+<span class="nc" id="L220">		super.remove(child);</span>
+<span class="nc" id="L221">	}</span>
 
 	/**
 	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
 	public String toString() {
-<span class="nc" id="L213">		return toString(getLayoutType());</span>
+<span class="nc" id="L228">		return toString(getLayoutType());</span>
 	}
 
 	/**
@@ -220,7 +235,7 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 	 */
 	@Override // For type safety only
 	protected FieldLayoutModel newComponentModel() {
-<span class="fc" id="L223">		return new FieldLayoutModel();</span>
+<span class="fc" id="L238">		return new FieldLayoutModel();</span>
 	}
 
 	/**
@@ -228,7 +243,7 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 	 */
 	@Override // For type safety only
 	protected FieldLayoutModel getComponentModel() {
-<span class="fc" id="L231">		return (FieldLayoutModel) super.getComponentModel();</span>
+<span class="fc" id="L246">		return (FieldLayoutModel) super.getComponentModel();</span>
 	}
 
 	/**
@@ -236,7 +251,7 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 	 */
 	@Override // For type safety only
 	protected FieldLayoutModel getOrCreateComponentModel() {
-<span class="fc" id="L239">		return (FieldLayoutModel) super.getOrCreateComponentModel();</span>
+<span class="fc" id="L254">		return (FieldLayoutModel) super.getOrCreateComponentModel();</span>
 	}
 
 	/**
@@ -244,7 +259,7 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-<span class="fc" id="L247">	public static class FieldLayoutModel extends ComponentModel {</span>
+<span class="fc" id="L262">	public static class FieldLayoutModel extends ComponentModel {</span>
 
 		/**
 		 * Optional title for the field layout.
@@ -274,7 +289,7 @@ public class WFieldLayout extends AbstractNamingContextContainer implements Ajax
 		/**
 		 * Ordered layout starting offset.
 		 */
-<span class="fc" id="L277">		private int orderedOffset = 1;</span>
+<span class="fc" id="L292">		private int orderedOffset = 1;</span>
 
 	}
 }

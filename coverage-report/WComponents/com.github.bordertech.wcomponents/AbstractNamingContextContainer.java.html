@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>AbstractNamingContextContainer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents</a> &gt; <span class="el_source">AbstractNamingContextContainer.java</span></div><h1>AbstractNamingContextContainer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents;
 
 /**
- * This abstract container implements NamingContextable.
+ * This abstract container implements {@link NamingContextable}.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-<span class="fc" id="L9">public abstract class AbstractNamingContextContainer extends AbstractContainer implements</span>
-		NamingContextable {
-
+<span class="fc" id="L9">public abstract class AbstractNamingContextContainer extends AbstractContainer implements NamingContextable {</span>
 	/**
 	 * A naming context is only considered active if it has been set active via {@link #setNamingContext(boolean)} and
 	 * also has an id name set via {@link #setIdName(String)}.
@@ -16,15 +14,15 @@
 	 * @param context set true if this is a naming context.
 	 */
 	public void setNamingContext(final boolean context) {
-<span class="fc" id="L19">		setFlag(ComponentModel.NAMING_CONTEXT_FLAG, context);</span>
-<span class="fc" id="L20">	}</span>
+<span class="fc" id="L17">		setFlag(ComponentModel.NAMING_CONTEXT_FLAG, context);</span>
+<span class="fc" id="L18">	}</span>
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean isNamingContext() {
-<span class="fc" id="L27">		return isFlagSet(ComponentModel.NAMING_CONTEXT_FLAG);</span>
+<span class="fc" id="L25">		return isFlagSet(ComponentModel.NAMING_CONTEXT_FLAG);</span>
 	}
 
 	/**
@@ -32,7 +30,7 @@
 	 */
 	@Override
 	public String getNamingContextId() {
-<span class="fc" id="L35">		return getId();</span>
+<span class="fc" id="L33">		return getId();</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

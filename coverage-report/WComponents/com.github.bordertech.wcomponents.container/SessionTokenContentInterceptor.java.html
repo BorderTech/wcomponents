@@ -9,7 +9,6 @@ import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.StepCountUtil;
-import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
@@ -25,12 +24,12 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-<span class="nc" id="L28">public class SessionTokenContentInterceptor extends InterceptorComponent {</span>
+<span class="nc" id="L27">public class SessionTokenContentInterceptor extends InterceptorComponent {</span>
 
 	/**
 	 * The logger instance for this class.
 	 */
-<span class="nc" id="L33">	private static final Log LOG = LogFactory.getLog(SessionTokenContentInterceptor.class);</span>
+<span class="nc" id="L32">	private static final Log LOG = LogFactory.getLog(SessionTokenContentInterceptor.class);</span>
 
 	/**
 	 * Override to check whether the session token variable in the incoming request matches what we expect.
@@ -40,41 +39,41 @@ import org.apache.commons.logging.LogFactory;
 	@Override
 	public void serviceRequest(final Request request) {
 		// Get the expected session token
-<span class="nc" id="L43">		UIContext uic = UIContextHolder.getCurrent();</span>
-<span class="nc" id="L44">		String expected = uic.getEnvironment().getSessionToken();</span>
+<span class="nc" id="L42">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="nc" id="L43">		String expected = uic.getEnvironment().getSessionToken();</span>
 
 		// Session token should already be set
-<span class="nc bnc" id="L47" title="All 2 branches missed.">		if (expected == null) {</span>
-<span class="nc" id="L48">			throw new SystemException(</span>
-					&quot;Session token should already be set on the session before content request.&quot;);
+<span class="nc bnc" id="L46" title="All 2 branches missed.">		if (expected == null) {</span>
+<span class="nc" id="L47">			LOG.error(&quot;Session token should already be set on the session before content request. Can be due to the session timing out.&quot;);</span>
+<span class="nc" id="L48">			handleError();</span>
 		}
 
 		// Get the session token from the request
-<span class="nc" id="L53">		String got = request.getParameter(Environment.SESSION_TOKEN_VARIABLE);</span>
+<span class="nc" id="L52">		String got = request.getParameter(Environment.SESSION_TOKEN_VARIABLE);</span>
 
 		// Check tokens match (both must be provided)
-<span class="nc bnc" id="L56" title="All 2 branches missed.">		if (Util.equals(expected, got)) {</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">		if (Util.equals(expected, got)) {</span>
 			// Process Service Request
-<span class="nc" id="L58">			getBackingComponent().serviceRequest(request);</span>
-<span class="nc bnc" id="L59" title="All 4 branches missed.">		} else if (got == null &amp;&amp; StepCountUtil.isCachedContentRequest(request)) {  // Check cached content (no session token on request)</span>
+<span class="nc" id="L57">			getBackingComponent().serviceRequest(request);</span>
+<span class="nc bnc" id="L58" title="All 4 branches missed.">		} else if (got == null &amp;&amp; StepCountUtil.isCachedContentRequest(request)) {  // Check cached content (no session token on request)</span>
 			// Process Service Request
-<span class="nc" id="L61">			getBackingComponent().serviceRequest(request);</span>
+<span class="nc" id="L60">			getBackingComponent().serviceRequest(request);</span>
 		} else {  // Invalid token
 			// Set an error code
-<span class="nc" id="L64">			LOG.warn(&quot;Wrong session token detected for content request. Expected token [&quot; + expected</span>
+<span class="nc" id="L63">			LOG.warn(&quot;Wrong session token detected for content request. Expected token [&quot; + expected</span>
 					+ &quot;] but got token [&quot; + got + &quot;].&quot;);
-<span class="nc" id="L66">			handleError();</span>
+<span class="nc" id="L65">			handleError();</span>
 		}
 
-<span class="nc" id="L69">	}</span>
+<span class="nc" id="L68">	}</span>
 
 	/**
 	 * Throw the default error code.
 	 */
 	private void handleError() {
-<span class="nc" id="L75">		String msg = I18nUtilities.format(UIContextHolder.getCurrent().getLocale(),</span>
+<span class="nc" id="L74">		String msg = I18nUtilities.format(UIContextHolder.getCurrent().getLocale(),</span>
 				InternalMessages.DEFAULT_SESSION_TOKEN_ERROR);
-<span class="nc" id="L77">		throw new ErrorCodeEscape(HttpServletResponse.SC_BAD_REQUEST, msg);</span>
+<span class="nc" id="L76">		throw new ErrorCodeEscape(HttpServletResponse.SC_BAD_REQUEST, msg);</span>
 	}
 
 }

@@ -424,7 +424,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 <span class="fc" id="L424">	}</span>
 
 	/**
-	 * Sets the active tab using tab content. TODO: this is stupid! setActiveTab should use the WTab not its content!
+	 * Sets the active tab using tab content.
 	 *
 	 * @param content the active tab's content.
 	 */
@@ -571,7 +571,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 		// Remember which client side tab we were on.
 <span class="fc" id="L572">		String[] indicesStr = request.getParameterValues(getId());</span>
 
-<span class="pc bpc" id="L574" title="2 of 4 branches missed.">		if (indicesStr != null &amp;&amp; indicesStr.length &gt; 0) {</span>
+<span class="pc bpc" id="L574" title="1 of 4 branches missed.">		if (indicesStr != null &amp;&amp; indicesStr.length &gt; 0) {</span>
 <span class="fc" id="L575">			List&lt;Integer&gt; oldIndices = getActiveIndices();</span>
 <span class="fc" id="L576">			List&lt;Integer&gt; changes = new ArrayList&lt;&gt;(1);</span>
 <span class="fc" id="L577">			int[] indices = new int[indicesStr.length];</span>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>VelocityCacheImpl.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.template</a> &gt; <span class="el_source">VelocityCacheImpl.java</span></div><h1>VelocityCacheImpl.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.template;
+
+import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
+import javax.cache.Cache;
+import javax.cache.CacheManager;
+import javax.cache.Caching;
+import javax.cache.configuration.MutableConfiguration;
+import javax.cache.expiry.AccessedExpiryPolicy;
+import javax.cache.expiry.Duration;
+import org.apache.velocity.runtime.RuntimeServices;
+import org.apache.velocity.runtime.resource.Resource;
+import org.apache.velocity.runtime.resource.ResourceCache;
+
+/**
+ * Velocity caching implementation.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.3
+ */
+<span class="fc" id="L21">public class VelocityCacheImpl implements ResourceCache {</span>
+
+	/**
+	 * Cache name.
+	 */
+	private static final String CACHE_NAME = &quot;wc-velocity-templates&quot;;
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void initialize(final RuntimeServices rs) {
+		// Do nothing
+<span class="fc" id="L34">	}</span>
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Resource get(final Object resourceKey) {
+<span class="fc" id="L41">		return getCache().get(resourceKey);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Resource put(final Object resourceKey, final Resource resource) {
+<span class="fc" id="L49">		getCache().put(resourceKey, resource);</span>
+<span class="fc" id="L50">		return resource;</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Resource remove(final Object resourceKey) {
+<span class="nc" id="L58">		return getCache().getAndRemove(resourceKey);</span>
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Iterator enumerateKeys() {
+<span class="nc" id="L66">		return getCache().iterator();</span>
+	}
+
+	/**
+	 * @return the cache instance
+	 */
+	protected synchronized Cache&lt;Object, Resource&gt; getCache() {
+<span class="fc" id="L73">		Cache&lt;Object, Resource&gt; cache = Caching.getCache(CACHE_NAME, Object.class, Resource.class);</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">		if (cache == null) {</span>
+<span class="fc" id="L75">			final CacheManager mgr = Caching.getCachingProvider().getCacheManager();</span>
+<span class="fc" id="L76">			MutableConfiguration&lt;Object, Resource&gt; config = new MutableConfiguration&lt;&gt;();</span>
+<span class="fc" id="L77">			config.setTypes(Object.class, Resource.class);</span>
+<span class="fc" id="L78">			config.setExpiryPolicyFactory(AccessedExpiryPolicy.factoryOf(new Duration(TimeUnit.HOURS, 12)));</span>
+			// Velocity template classes are not serializable so use by ref.
+<span class="fc" id="L80">			config.setStoreByValue(false);</span>
+<span class="fc" id="L81">			cache = mgr.createCache(CACHE_NAME, config);</span>
+		}
+<span class="fc" id="L83">		return cache;</span>
+	}
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>TransformXMLInterceptor.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.container</a> &gt; <span class="el_source">TransformXMLInterceptor.java</span></div><h1>TransformXMLInterceptor.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.container;
 
+import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Response;
 import com.github.bordertech.wcomponents.UIContext;
@@ -9,6 +10,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.ThemeUtil;
+import com.github.bordertech.wcomponents.util.Util;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,17 +31,30 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This interceptor is used to perform server-side XSLT so that HTML is delivered to the client instead of XML.
- * This works by buffering the response in memory and then transforming it before sending the response to the client.
- * This will use more memory and CPU on the server. If this becomes a problem it may be better to perform the transform
- * on an appliance (or the client).
+ * This interceptor is used to perform server-side XSLT so that HTML is delivered to the client instead of XML. This
+ * works by buffering the response in memory and then transforming it before sending the response to the client. This
+ * will use more memory and CPU on the server. If this becomes a problem it may be better to perform the transform on an
+ * appliance (or the client).
  *
+ * &lt;p&gt;
  * It is enabled by setting the &quot;bordertech.wcomponents.xslt.enabled&quot; to true.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * However, projects may not always have the theme resources in the classpath and want to load them from a static
+ * resource (eg from a different web server or resources defined in their war file). To load resources from a static
+ * resource, projects set a theme content path via the &quot;bordertech.wcomponents.theme.content.path=theme/myTheme&quot;
+ * parameter.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * So if a project sets the theme content path then server side transforms become meaningless and will not be performed.
+ * This will allow the client agent to do the transform using the theme loaded from the theme content path.
+ * &lt;/p&gt;
  *
  * @author Rick Brown
  * @since 1.0.0
  */
-<span class="fc" id="L42">public class TransformXMLInterceptor extends InterceptorComponent {</span>
+<span class="fc" id="L56">public class TransformXMLInterceptor extends InterceptorComponent {</span>
+
 	/**
 	 * The key used to look up the enable flag in the current {@link Config configuration}.
 	 */
@@ -48,12 +63,12 @@ import org.apache.commons.logging.LogFactory;
 	/**
 	 * Cache compiled XSLT stylesheets.
 	 */
-<span class="fc" id="L51">	private static final Map&lt;String, Templates&gt; CACHE = new HashMap();</span>
+<span class="fc" id="L66">	private static final Map&lt;String, Templates&gt; CACHE = new HashMap();</span>
 
 	/**
 	 * The logger instance for this class.
 	 */
-<span class="fc" id="L56">	private static final Log LOG = LogFactory.getLog(TransformXMLInterceptor.class);</span>
+<span class="fc" id="L71">	private static final Log LOG = LogFactory.getLog(TransformXMLInterceptor.class);</span>
 
 	/**
 	 * Override paint to perform XML to HTML transformation.
@@ -62,32 +77,32 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	@Override
 	public void paint(final RenderContext renderContext) {
-<span class="fc" id="L65">		boolean doTransform = Config.getInstance().getBoolean(PARAMETERS_KEY, true);</span>
-<span class="fc bfc" id="L66" title="All 2 branches covered.">		if (!doTransform) {</span>
-<span class="fc" id="L67">			super.paint(renderContext);</span>
-<span class="fc" id="L68">			return;</span>
+
+<span class="fc bfc" id="L81" title="All 2 branches covered.">		if (!isPerformTransform()) {</span>
+<span class="fc" id="L82">			super.paint(renderContext);</span>
+<span class="fc" id="L83">			return;</span>
 		}
 
-<span class="pc bpc" id="L71" title="1 of 2 branches missed.">		if (!(renderContext instanceof WebXmlRenderContext)) {</span>
-<span class="nc" id="L72">			LOG.warn(&quot;Unable to transform a &quot; + renderContext);</span>
-<span class="nc" id="L73">			super.paint(renderContext);</span>
-<span class="nc" id="L74">			return;</span>
+<span class="pc bpc" id="L86" title="1 of 2 branches missed.">		if (!(renderContext instanceof WebXmlRenderContext)) {</span>
+<span class="nc" id="L87">			LOG.warn(&quot;Unable to transform a &quot; + renderContext);</span>
+<span class="nc" id="L88">			super.paint(renderContext);</span>
+<span class="nc" id="L89">			return;</span>
 		}
-<span class="fc" id="L76">		LOG.debug(&quot;Transform XML Interceptor: Start&quot;);</span>
+<span class="fc" id="L91">		LOG.debug(&quot;Transform XML Interceptor: Start&quot;);</span>
 
-<span class="fc" id="L78">		UIContext uic = UIContextHolder.getCurrent();</span>
+<span class="fc" id="L93">		UIContext uic = UIContextHolder.getCurrent();</span>
 
 		// Set up a render context to buffer the XML payload.
-<span class="fc" id="L81">		StringWriter xmlBuffer = new StringWriter();</span>
-<span class="fc" id="L82">		PrintWriter xmlWriter = new PrintWriter(xmlBuffer);</span>
+<span class="fc" id="L96">		StringWriter xmlBuffer = new StringWriter();</span>
+<span class="fc" id="L97">		PrintWriter xmlWriter = new PrintWriter(xmlBuffer);</span>
 
-<span class="fc" id="L84">		WebXmlRenderContext xmlContext = new WebXmlRenderContext(xmlWriter, uic.getLocale());</span>
+<span class="fc" id="L99">		WebXmlRenderContext xmlContext = new WebXmlRenderContext(xmlWriter, uic.getLocale());</span>
 
-<span class="fc" id="L86">		super.paint(xmlContext);  // write the XML to the buffer</span>
+<span class="fc" id="L101">		super.paint(xmlContext);  // write the XML to the buffer</span>
 
 		// Get a handle to the true PrintWriter.
-<span class="fc" id="L89">		WebXmlRenderContext webRenderContext = (WebXmlRenderContext) renderContext;</span>
-<span class="fc" id="L90">		PrintWriter writer = webRenderContext.getWriter();</span>
+<span class="fc" id="L104">		WebXmlRenderContext webRenderContext = (WebXmlRenderContext) renderContext;</span>
+<span class="fc" id="L105">		PrintWriter writer = webRenderContext.getWriter();</span>
 
 		/*
 		 * Switch the response content-type to HTML.
@@ -95,15 +110,28 @@ import org.apache.commons.logging.LogFactory;
 		 *    write a new interceptor &quot;ContentTypeInterceptor&quot; which attempts to sniff payloads and choose the correct
 		 *    content-type. This is exactly the kind of thing IE6 loved to do, so perhaps it's a bad idea.
 		 */
-<span class="fc" id="L98">		Response response = getResponse();</span>
-<span class="fc" id="L99">		response.setContentType(WebUtilities.CONTENT_TYPE_HTML);</span>
+<span class="fc" id="L113">		Response response = getResponse();</span>
+<span class="fc" id="L114">		response.setContentType(WebUtilities.CONTENT_TYPE_HTML);</span>
 
 		// Perform the transformation and write the result.
-<span class="fc" id="L102">		String xml = xmlBuffer.toString();</span>
-<span class="fc" id="L103">		transform(xml, uic, writer);</span>
+<span class="fc" id="L117">		String xml = xmlBuffer.toString();</span>
+<span class="fc" id="L118">		transform(xml, uic, writer);</span>
 
-<span class="fc" id="L105">		LOG.debug(&quot;Transform XML Interceptor: Finished&quot;);</span>
-<span class="fc" id="L106">	}</span>
+<span class="fc" id="L120">		LOG.debug(&quot;Transform XML Interceptor: Finished&quot;);</span>
+<span class="fc" id="L121">	}</span>
+
+	/**
+	 * @return true if transform flag is set true and a theme content path has not been set.
+	 */
+	private boolean isPerformTransform() {
+<span class="fc" id="L127">		boolean transform = Config.getInstance().getBoolean(PARAMETERS_KEY, false);</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">		if (transform) {</span>
+			// Check a theme content path has not been set.
+<span class="fc" id="L130">			String themePath = Config.getInstance().getString(Environment.THEME_CONTENT_PATH);</span>
+<span class="fc" id="L131">			return Util.empty(themePath);</span>
+		}
+<span class="fc" id="L133">		return false;</span>
+	}
 
 	/**
 	 * Transform the UI XML to HTML using the correct XSLT from the classpath.
@@ -113,23 +141,23 @@ import org.apache.commons.logging.LogFactory;
 	 * @param writer The result of the transformation will be written to this writer.
 	 */
 	private void transform(final String xml, final UIContext uic, final PrintWriter writer) {
-<span class="fc" id="L116">		String xsltName = ThemeUtil.getThemeXsltName(uic);</span>
-<span class="fc" id="L117">		String resourceName = &quot;/theme/&quot; + ThemeUtil.getThemeName() + &quot;/xslt/&quot; + xsltName;</span>
-<span class="fc" id="L118">		Transformer transformer = newTransformer(resourceName);</span>
+<span class="fc" id="L144">		String xsltName = ThemeUtil.getThemeXsltName(uic);</span>
+<span class="fc" id="L145">		String resourceName = ThemeUtil.getThemeBase() + &quot;xslt/&quot; + xsltName;</span>
+<span class="fc" id="L146">		Transformer transformer = newTransformer(resourceName);</span>
 		Source inputXml;
 		try {
-<span class="fc" id="L121">			inputXml = new StreamSource(new ByteArrayInputStream(xml.getBytes(&quot;utf-8&quot;)));</span>
-<span class="fc" id="L122">			StreamResult result = new StreamResult(writer);</span>
-<span class="fc" id="L123">			transformer.transform(inputXml, result);</span>
-<span class="nc" id="L124">		} catch (UnsupportedEncodingException | TransformerException ex) {</span>
-<span class="nc" id="L125">			throw new SystemException(&quot;Could not transform xml&quot;, ex);</span>
-<span class="fc" id="L126">		}</span>
-<span class="fc" id="L127">	}</span>
+<span class="fc" id="L149">			inputXml = new StreamSource(new ByteArrayInputStream(xml.getBytes(&quot;utf-8&quot;)));</span>
+<span class="fc" id="L150">			StreamResult result = new StreamResult(writer);</span>
+<span class="fc" id="L151">			transformer.transform(inputXml, result);</span>
+<span class="nc" id="L152">		} catch (UnsupportedEncodingException | TransformerException ex) {</span>
+<span class="nc" id="L153">			throw new SystemException(&quot;Could not transform xml&quot;, ex);</span>
+<span class="fc" id="L154">		}</span>
+<span class="fc" id="L155">	}</span>
 
 	/**
-	 * Creates a new Transformer instance using cached XSLT stylesheets.
-	 * There will be one cached stylesheet per locale, so this is unlikely to ever use much memory but will certainly
-	 *    use less CPU not having to compile the complex XSLT each time.
+	 * Creates a new Transformer instance using cached XSLT stylesheets. There will be one cached stylesheet per locale,
+	 * so this is unlikely to ever use much memory but will certainly use less CPU not having to compile the complex
+	 * XSLT each time.
 	 *
 	 * Transformer instances are not thread-safe and cannot be reused (they can after the transformation is complete).
 	 *
@@ -137,24 +165,24 @@ import org.apache.commons.logging.LogFactory;
 	 * @return A new Transformer instance.
 	 */
 	private static synchronized Transformer newTransformer(final String resourceName) {
-<span class="fc" id="L140">		Templates templates = CACHE.get(resourceName);</span>
+<span class="fc" id="L168">		Templates templates = CACHE.get(resourceName);</span>
 		try {
-<span class="pc bpc" id="L142" title="1 of 2 branches missed.">			if (templates == null) {</span>
-<span class="fc" id="L143">				URL xsltURL = ThemeUtil.class.getResource(resourceName);</span>
-<span class="pc bpc" id="L144" title="1 of 2 branches missed.">				if (xsltURL != null) {</span>
-<span class="fc" id="L145">					Source xsltSource = new StreamSource(xsltURL.openStream(), xsltURL.toExternalForm());</span>
-<span class="fc" id="L146">					TransformerFactory factory = TransformerFactory.newInstance();</span>
-<span class="fc" id="L147">					templates = factory.newTemplates(xsltSource);</span>
-<span class="fc" id="L148">					CACHE.put(resourceName, templates);</span>
-<span class="fc" id="L149">					LOG.debug(&quot;Cached xslt: &quot; + resourceName);</span>
-<span class="fc" id="L150">				} else {</span>
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">			if (templates == null) {</span>
+<span class="fc" id="L171">				URL xsltURL = ThemeUtil.class.getResource(resourceName);</span>
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">				if (xsltURL != null) {</span>
+<span class="fc" id="L173">					Source xsltSource = new StreamSource(xsltURL.openStream(), xsltURL.toExternalForm());</span>
+<span class="fc" id="L174">					TransformerFactory factory = TransformerFactory.newInstance();</span>
+<span class="fc" id="L175">					templates = factory.newTemplates(xsltSource);</span>
+<span class="fc" id="L176">					CACHE.put(resourceName, templates);</span>
+<span class="fc" id="L177">					LOG.debug(&quot;Cached xslt: &quot; + resourceName);</span>
+<span class="fc" id="L178">				} else {</span>
 					// Perhaps we should disable this interceptor if we end up here and fall back to serving raw XML?
-<span class="nc" id="L152">					throw new IllegalStateException(PARAMETERS_KEY + &quot; true but &quot; + resourceName + &quot; not on classpath&quot;);</span>
+<span class="nc" id="L180">					throw new IllegalStateException(PARAMETERS_KEY + &quot; true but &quot; + resourceName + &quot; not on classpath&quot;);</span>
 				}
 			}
-<span class="fc" id="L155">			return templates.newTransformer();</span>
-<span class="nc" id="L156">		} catch (IOException | TransformerConfigurationException ex) {</span>
-<span class="nc" id="L157">			throw new SystemException(&quot;Could not create transformer for &quot; + resourceName, ex);</span>
+<span class="fc" id="L183">			return templates.newTransformer();</span>
+<span class="nc" id="L184">		} catch (IOException | TransformerConfigurationException ex) {</span>
+<span class="nc" id="L185">			throw new SystemException(&quot;Could not create transformer for &quot; + resourceName, ex);</span>
 		}
 	}
 }

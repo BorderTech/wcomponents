@@ -35,15 +35,24 @@ public final class AjaxHelper {
 <span class="nc" id="L35">	}</span>
 
 	/**
+	 * Clear the registered AJAX operations.
+	 *
+	 * @param request the current request being responded to.
+	 */
+	public static void clearAllRegisteredOperations(final Request request) {
+<span class="fc" id="L43">		request.setSessionAttribute(AJAX_OPERATIONS_SESSION_KEY, null);</span>
+<span class="fc" id="L44">	}</span>
+
+	/**
 	 * @param trigger the AJAX trigger to check
 	 * @return true if this is the current AJAX trigger
 	 */
 	public static boolean isCurrentAjaxTrigger(final WComponent trigger) {
-<span class="pc bpc" id="L42" title="1 of 2 branches missed.">		if (trigger == null) {</span>
-<span class="nc" id="L43">			return false;</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">		if (trigger == null) {</span>
+<span class="nc" id="L52">			return false;</span>
 		}
-<span class="fc" id="L45">		AjaxOperation operation = AjaxHelper.getCurrentOperation();</span>
-<span class="fc bfc" id="L46" title="All 4 branches covered.">		return operation != null &amp;&amp; operation.getTriggerId().equals(trigger.getId());</span>
+<span class="fc" id="L54">		AjaxOperation operation = AjaxHelper.getCurrentOperation();</span>
+<span class="fc bfc" id="L55" title="All 4 branches covered.">		return operation != null &amp;&amp; operation.getTriggerId().equals(trigger.getId());</span>
 	}
 
 	/**
@@ -54,40 +63,40 @@ public final class AjaxHelper {
 	 */
 	public static void setCurrentOperationDetails(final AjaxOperation operation,
 			final ComponentWithContext trigger) {
-<span class="pc bpc" id="L57" title="1 of 2 branches missed.">		if (operation == null) {</span>
-<span class="nc" id="L58">			THREAD_LOCAL_OPERATION.remove();</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">		if (operation == null) {</span>
+<span class="nc" id="L67">			THREAD_LOCAL_OPERATION.remove();</span>
 		} else {
-<span class="fc" id="L60">			THREAD_LOCAL_OPERATION.set(operation);</span>
+<span class="fc" id="L69">			THREAD_LOCAL_OPERATION.set(operation);</span>
 		}
 
-<span class="fc bfc" id="L63" title="All 2 branches covered.">		if (trigger == null) {</span>
-<span class="fc" id="L64">			THREAD_LOCAL_COMPONENT_WITH_CONTEXT.remove();</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">		if (trigger == null) {</span>
+<span class="fc" id="L73">			THREAD_LOCAL_COMPONENT_WITH_CONTEXT.remove();</span>
 		} else {
-<span class="fc" id="L66">			THREAD_LOCAL_COMPONENT_WITH_CONTEXT.set(trigger);</span>
+<span class="fc" id="L75">			THREAD_LOCAL_COMPONENT_WITH_CONTEXT.set(trigger);</span>
 		}
-<span class="fc" id="L68">	}</span>
+<span class="fc" id="L77">	}</span>
 
 	/**
 	 * @return the current Ajax operation (if any).
 	 */
 	public static AjaxOperation getCurrentOperation() {
-<span class="fc" id="L74">		return THREAD_LOCAL_OPERATION.get();</span>
+<span class="fc" id="L83">		return THREAD_LOCAL_OPERATION.get();</span>
 	}
 
 	/**
 	 * @return the current AJAX trigger component and its context.
 	 */
 	public static ComponentWithContext getCurrentTriggerAndContext() {
-<span class="fc" id="L81">		return THREAD_LOCAL_COMPONENT_WITH_CONTEXT.get();</span>
+<span class="fc" id="L90">		return THREAD_LOCAL_COMPONENT_WITH_CONTEXT.get();</span>
 	}
 
 	/**
 	 * Clear the details of the current AJAX operation on the thread.
 	 */
 	public static void clearCurrentOperationDetails() {
-<span class="fc" id="L88">		THREAD_LOCAL_COMPONENT_WITH_CONTEXT.remove();</span>
-<span class="fc" id="L89">		THREAD_LOCAL_OPERATION.remove();</span>
-<span class="fc" id="L90">	}</span>
+<span class="fc" id="L97">		THREAD_LOCAL_COMPONENT_WITH_CONTEXT.remove();</span>
+<span class="fc" id="L98">		THREAD_LOCAL_OPERATION.remove();</span>
+<span class="fc" id="L99">	}</span>
 
 	/**
 	 * Registers one or more components as being AJAX capable.
@@ -100,9 +109,9 @@ public final class AjaxHelper {
 	public static AjaxOperation registerComponents(final List&lt;String&gt; targetIds,
 			final Request request,
 			final String triggerId) {
-<span class="fc" id="L103">		AjaxOperation operation = new AjaxOperation(triggerId, targetIds);</span>
-<span class="fc" id="L104">		registerAjaxOperation(operation, request);</span>
-<span class="fc" id="L105">		return operation;</span>
+<span class="fc" id="L112">		AjaxOperation operation = new AjaxOperation(triggerId, targetIds);</span>
+<span class="fc" id="L113">		registerAjaxOperation(operation, request);</span>
+<span class="fc" id="L114">		return operation;</span>
 	}
 
 	/**
@@ -115,23 +124,9 @@ public final class AjaxHelper {
 	 */
 	public static AjaxOperation registerComponent(final String targetId, final Request request,
 			final String triggerId) {
-<span class="fc" id="L118">		AjaxOperation operation = new AjaxOperation(triggerId, targetId);</span>
-<span class="fc" id="L119">		registerAjaxOperation(operation, request);</span>
-<span class="fc" id="L120">		return operation;</span>
-	}
-
-	/**
-	 * Registers a single component as being AJAX capable and target itself.
-	 *
-	 * @param triggerId the component to register. The component will be re-painted when the trigger occurs.
-	 * @param request the current request being responded to.
-	 * @return the AjaxOperation control configuration object.
-	 */
-	public static AjaxOperation registerComponentTargetItself(final String triggerId,
-			final Request request) {
-<span class="fc" id="L132">		AjaxOperation operation = new AjaxOperation(triggerId, triggerId);</span>
-<span class="fc" id="L133">		registerAjaxOperation(operation, request);</span>
-<span class="fc" id="L134">		return operation;</span>
+<span class="fc" id="L127">		AjaxOperation operation = new AjaxOperation(triggerId, targetId);</span>
+<span class="fc" id="L128">		registerAjaxOperation(operation, request);</span>
+<span class="fc" id="L129">		return operation;</span>
 	}
 
 	/**
@@ -146,11 +141,12 @@ public final class AjaxHelper {
 	 */
 	static AjaxOperation registerContainer(final String triggerId, final String containerId,
 			final String containerContentId, final Request request) {
-<span class="fc" id="L149">		AjaxOperation operation = new AjaxOperation(triggerId, containerContentId);</span>
-<span class="fc" id="L150">		operation.setTargetContainerId(containerId);</span>
-<span class="fc" id="L151">		registerAjaxOperation(operation, request);</span>
+<span class="fc" id="L144">		AjaxOperation operation = new AjaxOperation(triggerId, containerContentId);</span>
+<span class="fc" id="L145">		operation.setTargetContainerId(containerId);</span>
+<span class="fc" id="L146">		operation.setAction(AjaxOperation.AjaxAction.REPLACE_CONTENT);</span>
+<span class="fc" id="L147">		registerAjaxOperation(operation, request);</span>
 
-<span class="fc" id="L153">		return operation;</span>
+<span class="fc" id="L149">		return operation;</span>
 	}
 
 	/**
@@ -165,11 +161,12 @@ public final class AjaxHelper {
 	 */
 	static AjaxOperation registerContainer(final String triggerId, final String containerId,
 			final List&lt;String&gt; containerContentIds, final Request request) {
-<span class="nc" id="L168">		AjaxOperation operation = new AjaxOperation(triggerId, containerContentIds);</span>
-<span class="nc" id="L169">		operation.setTargetContainerId(containerId);</span>
-<span class="nc" id="L170">		registerAjaxOperation(operation, request);</span>
+<span class="nc" id="L164">		AjaxOperation operation = new AjaxOperation(triggerId, containerContentIds);</span>
+<span class="nc" id="L165">		operation.setTargetContainerId(containerId);</span>
+<span class="nc" id="L166">		operation.setAction(AjaxOperation.AjaxAction.REPLACE_CONTENT);</span>
+<span class="nc" id="L167">		registerAjaxOperation(operation, request);</span>
 
-<span class="nc" id="L172">		return operation;</span>
+<span class="nc" id="L169">		return operation;</span>
 	}
 
 	/**
@@ -181,14 +178,14 @@ public final class AjaxHelper {
 	 * @return the AjaxOperation corresponding to the trigger id.
 	 */
 	public static AjaxOperation getAjaxOperation(final String triggerId, final Request request) {
-<span class="fc" id="L184">		HashMap&lt;String, AjaxOperation&gt; operations = (HashMap&lt;String, AjaxOperation&gt;) request</span>
-<span class="fc" id="L185">				.getSessionAttribute(AJAX_OPERATIONS_SESSION_KEY);</span>
+<span class="fc" id="L181">		HashMap&lt;String, AjaxOperation&gt; operations = (HashMap&lt;String, AjaxOperation&gt;) request</span>
+<span class="fc" id="L182">				.getSessionAttribute(AJAX_OPERATIONS_SESSION_KEY);</span>
 
-<span class="pc bpc" id="L187" title="1 of 2 branches missed.">		if (operations != null) {</span>
-<span class="fc" id="L188">			return operations.get(triggerId);</span>
+<span class="pc bpc" id="L184" title="1 of 2 branches missed.">		if (operations != null) {</span>
+<span class="fc" id="L185">			return operations.get(triggerId);</span>
 		}
 
-<span class="nc" id="L191">		return null;</span>
+<span class="nc" id="L188">		return null;</span>
 	}
 
 	/**
@@ -201,15 +198,15 @@ public final class AjaxHelper {
 	 */
 	private static void registerAjaxOperation(final AjaxOperation operation, final Request request) {
 		// Add operation to backing session
-<span class="fc" id="L204">		HashMap&lt;String, AjaxOperation&gt; operations = (HashMap&lt;String, AjaxOperation&gt;) request</span>
-<span class="fc" id="L205">				.getSessionAttribute(AJAX_OPERATIONS_SESSION_KEY);</span>
+<span class="fc" id="L201">		HashMap&lt;String, AjaxOperation&gt; operations = (HashMap&lt;String, AjaxOperation&gt;) request</span>
+<span class="fc" id="L202">				.getSessionAttribute(AJAX_OPERATIONS_SESSION_KEY);</span>
 
-<span class="fc bfc" id="L207" title="All 2 branches covered.">		if (operations == null) {</span>
-<span class="fc" id="L208">			operations = new HashMap&lt;&gt;();</span>
-<span class="fc" id="L209">			request.setSessionAttribute(AJAX_OPERATIONS_SESSION_KEY, operations);</span>
+<span class="fc bfc" id="L204" title="All 2 branches covered.">		if (operations == null) {</span>
+<span class="fc" id="L205">			operations = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L206">			request.setSessionAttribute(AJAX_OPERATIONS_SESSION_KEY, operations);</span>
 		}
 
-<span class="fc" id="L212">		operations.put(operation.getTriggerId(), operation);</span>
-<span class="fc" id="L213">	}</span>
+<span class="fc" id="L209">		operations.put(operation.getTriggerId(), operation);</span>
+<span class="fc" id="L210">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -102,14 +102,14 @@ public class HttpServletHelper extends AbstractContainerHelper {
 <span class="fc" id="L102">		this.httpServletRequest = httpServletRequest;</span>
 <span class="fc" id="L103">		this.httpServletResponse = httpServletResponse;</span>
 
-<span class="pc bpc" id="L105" title="1 of 2 branches missed.">		dataRequest = httpServletRequest.getParameter(WServlet.DATA_LIST_PARAM_NAME) != null;</span>
+<span class="fc" id="L105">		Map&lt;String, String[]&gt; parameters = ServletUtil.getRequestParameters(httpServletRequest);</span>
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">		dataRequest = parameters.get(WServlet.DATA_LIST_PARAM_NAME) != null;</span>
 
-<span class="fc" id="L107">		String target = httpServletRequest.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME);</span>
-<span class="pc bpc" id="L108" title="1 of 2 branches missed.">		if (target == null) {</span>
-<span class="fc" id="L109">			target = httpServletRequest.getParameter(WServlet.TARGET_ID_PARAM_NAME);</span>
+<span class="fc" id="L108">		String[] target = parameters.get(WServlet.AJAX_TRIGGER_PARAM_NAME);</span>
+<span class="pc bpc" id="L109" title="1 of 2 branches missed.">		if (target == null) {</span>
+<span class="fc" id="L110">			target = parameters.get(WServlet.TARGET_ID_PARAM_NAME);</span>
 		}
-
-<span class="fc" id="L112">		this.targetComponentId = target;</span>
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">		this.targetComponentId = target == null ? null : target[0];</span>
 <span class="fc" id="L113">	}</span>
 
 	/**

@@ -31,9 +31,9 @@
 <p>Project: 
 			wcomponents-core</p>
 <h2>Metrics</h2>
-<p>48623 lines of code analyzed,
-	in 1481 classes, 
-	in 49 packages.</p>
+<p>50731 lines of code analyzed,
+	in 1537 classes, 
+	in 50 packages.</p>
 <table width="500" cellpadding="5" cellspacing="2">
 <tr class="tableheader">
 <th align="left">Metric</th>
@@ -52,18 +52,18 @@
 </tr>
 <tr class="tablerow1">
 <td>Low Priority Warnings</td>
-<td align="right">182</td>
-<td align="right">3.74</td>
+<td align="right">185</td>
+<td align="right">3.65</td>
 </tr>
 <tr class="$totalClass">
 <td>
 <b>Total Warnings</b>
 </td>
 <td align="right">
-<b>184</b>
+<b>187</b>
 </td>
 <td align="right">
-<b>3.78</b>
+<b>3.69</b>
 </td>
 </tr>
 </table>
@@ -90,7 +90,7 @@
 <td>
 <a href="#Warnings_I18N">Internationalization Warnings</a>
 </td>
-<td align="right">7</td>
+<td align="right">8</td>
 </tr>
 <tr class="tablerow0">
 <td>
@@ -108,20 +108,20 @@
 <td>
 <a href="#Warnings_PERFORMANCE">Performance Warnings</a>
 </td>
-<td align="right">12</td>
+<td align="right">13</td>
 </tr>
 <tr class="tablerow1">
 <td>
 <a href="#Warnings_STYLE">Dodgy code Warnings</a>
 </td>
-<td align="right">142</td>
+<td align="right">143</td>
 </tr>
 <tr class="tablerow0">
 <td>
 <b>Total</b>
 </td>
 <td align="right">
-<b>184</b>
+<b>187</b>
 </td>
 </tr>
 </table>
@@ -374,8 +374,8 @@
 <br/>
 <br/>In file WHeading.java,
 					
-						lines 138
-						    to 146<br/>In class com.github.bordertech.wcomponents.WHeading$1<br/>At WHeading.java:[lines 138-146]</p>
+						lines 137
+						    to 145<br/>In class com.github.bordertech.wcomponents.WHeading$1<br/>At WHeading.java:[lines 137-145]</p>
 </td>
 </tr>
 <tr class="tablerow0">
@@ -439,14 +439,27 @@
 </td>
 <td width="10%" valign="top">Low</td>
 <td width="70%">
-<p>Use of non-localized String.toUpperCase() or String.toLowerCase() in com.github.bordertech.wcomponents.servlet.ServletRequest.getParameterMap(HttpServletRequest)<br/>
+<p>Use of non-localized String.toUpperCase() or String.toLowerCase() in com.github.bordertech.wcomponents.servlet.ServletUtil.isMultipart(HttpServletRequest)<br/>
 <br/>
-<br/>In file ServletRequest.java,
+<br/>In file ServletUtil.java,
 					
-						line 120<br/>In class com.github.bordertech.wcomponents.servlet.ServletRequest<br/>In method com.github.bordertech.wcomponents.servlet.ServletRequest.getParameterMap(HttpServletRequest)<br/>At ServletRequest.java:[line 120]</p>
+						line 510<br/>In class com.github.bordertech.wcomponents.servlet.ServletUtil<br/>In method com.github.bordertech.wcomponents.servlet.ServletUtil.isMultipart(HttpServletRequest)<br/>At ServletUtil.java:[line 510]</p>
 </td>
 </tr>
 <tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#DM_CONVERT_CASE">Consider using Locale parameterized version of invoked method</a>
+</td>
+<td width="10%" valign="top">Low</td>
+<td width="70%">
+<p>Use of non-localized String.toUpperCase() or String.toLowerCase() in com.github.bordertech.wcomponents.template.TemplateRendererFactory$TemplateEngine.getEngineName()<br/>
+<br/>
+<br/>In file TemplateRendererFactory.java,
+					
+						line 64<br/>In class com.github.bordertech.wcomponents.template.TemplateRendererFactory$TemplateEngine<br/>In method com.github.bordertech.wcomponents.template.TemplateRendererFactory$TemplateEngine.getEngineName()<br/>At TemplateRendererFactory.java:[line 64]</p>
+</td>
+</tr>
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#DM_CONVERT_CASE">Consider using Locale parameterized version of invoked method</a>
 </td>
@@ -459,7 +472,7 @@
 						line 142<br/>In class com.github.bordertech.wcomponents.util.ReflectionUtil<br/>In method com.github.bordertech.wcomponents.util.ReflectionUtil.getProperty(Object, String)<br/>At ReflectionUtil.java:[line 142]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#DM_CONVERT_CASE">Consider using Locale parameterized version of invoked method</a>
 </td>
@@ -472,7 +485,7 @@
 						line 126<br/>In class com.github.bordertech.wcomponents.util.ReflectionUtil<br/>In method com.github.bordertech.wcomponents.util.ReflectionUtil.setProperty(Object, String, Class, Object)<br/>At ReflectionUtil.java:[line 126]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#DM_CONVERT_CASE">Consider using Locale parameterized version of invoked method</a>
 </td>
@@ -485,7 +498,7 @@
 						line 86<br/>In class com.github.bordertech.wcomponents.util.Util<br/>In method com.github.bordertech.wcomponents.util.Util.upperCase(String)<br/>At Util.java:[line 86]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#DM_CONVERT_CASE">Consider using Locale parameterized version of invoked method</a>
 </td>
@@ -495,10 +508,10 @@
 <br/>
 <br/>In file WebUtilities.java,
 					
-						line 574<br/>In class com.github.bordertech.wcomponents.WebUtilities<br/>In method com.github.bordertech.wcomponents.WebUtilities.getContentType(String)<br/>At WebUtilities.java:[line 574]</p>
+						line 583<br/>In class com.github.bordertech.wcomponents.WebUtilities<br/>In method com.github.bordertech.wcomponents.WebUtilities.getContentType(String)<br/>At WebUtilities.java:[line 583]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#DM_CONVERT_CASE">Consider using Locale parameterized version of invoked method</a>
 </td>
@@ -615,8 +628,8 @@
 <br/>
 <br/>In file AbstractWComponent.java,
 					
-						lines 495
-						    to 498<br/>In class com.github.bordertech.wcomponents.AbstractWComponent$1<br/>At AbstractWComponent.java:[lines 495-498]</p>
+						lines 493
+						    to 496<br/>In class com.github.bordertech.wcomponents.AbstractWComponent$1<br/>At AbstractWComponent.java:[lines 493-496]</p>
 </td>
 </tr>
 <tr class="tablerow0">
@@ -713,8 +726,8 @@
 <br/>
 <br/>In file WMultiFileWidget.java,
 					
-						lines 591
-						    to 595<br/>In class com.github.bordertech.wcomponents.WMultiFileWidget$1<br/>At WMultiFileWidget.java:[lines 591-595]</p>
+						lines 577
+						    to 581<br/>In class com.github.bordertech.wcomponents.WMultiFileWidget$1<br/>At WMultiFileWidget.java:[lines 577-581]</p>
 </td>
 </tr>
 <tr class="tablerow1">
@@ -741,8 +754,8 @@
 <br/>
 <br/>In file WSubMenu.java,
 					
-						lines 525
-						    to 529<br/>In class com.github.bordertech.wcomponents.WSubMenu$1<br/>At WSubMenu.java:[lines 525-529]</p>
+						lines 527
+						    to 531<br/>In class com.github.bordertech.wcomponents.WSubMenu$1<br/>At WSubMenu.java:[lines 527-531]</p>
 </td>
 </tr>
 <tr class="tablerow1">
@@ -755,8 +768,8 @@
 <br/>
 <br/>In file WSuggestions.java,
 					
-						lines 95
-						    to 99<br/>In class com.github.bordertech.wcomponents.WSuggestions$1<br/>At WSuggestions.java:[lines 95-99]</p>
+						lines 112
+						    to 116<br/>In class com.github.bordertech.wcomponents.WSuggestions$1<br/>At WSuggestions.java:[lines 112-116]</p>
 </td>
 </tr>
 <tr class="tablerow0">
@@ -771,6 +784,20 @@
 					
 						lines 610
 						    to 614<br/>In class com.github.bordertech.wcomponents.WTabSet$1<br/>At WTabSet.java:[lines 610-614]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#SIC_INNER_SHOULD_BE_STATIC_ANON">Could be refactored into a named static inner class</a>
+</td>
+<td width="10%" valign="top">Low</td>
+<td width="70%">
+<p>The class com.github.bordertech.wcomponents.WTree$1 could be refactored into a named _static_ inner class<br/>
+<br/>
+<br/>In file WTree.java,
+					
+						lines 767
+						    to 771<br/>In class com.github.bordertech.wcomponents.WTree$1<br/>At WTree.java:[lines 767-771]</p>
 </td>
 </tr>
 </table>
@@ -928,7 +955,7 @@
 <br/>
 <br/>In file VelocityRenderer.java,
 					
-						line 121<br/>In class com.github.bordertech.wcomponents.render.webxml.VelocityRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.VelocityRenderer.render(WComponent, RenderContext)<br/>Actual type com.github.bordertech.wcomponents.RenderContext<br/>Expected com.github.bordertech.wcomponents.servlet.WebXmlRenderContext<br/>Value loaded from context<br/>At VelocityRenderer.java:[line 121]</p>
+						line 124<br/>In class com.github.bordertech.wcomponents.render.webxml.VelocityRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.VelocityRenderer.render(WComponent, RenderContext)<br/>Actual type com.github.bordertech.wcomponents.RenderContext<br/>Expected com.github.bordertech.wcomponents.servlet.WebXmlRenderContext<br/>Value loaded from context<br/>At VelocityRenderer.java:[line 124]</p>
 </td>
 </tr>
 <tr class="tablerow0">
@@ -1275,19 +1302,6 @@
 </td>
 <td width="10%" valign="top">Low</td>
 <td width="70%">
-<p>Unchecked/unconfirmed cast from com.github.bordertech.wcomponents.WComponent to com.github.bordertech.wcomponents.WFilterControl in com.github.bordertech.wcomponents.render.webxml.WFilterControlRenderer.doRender(WComponent, WebXmlRenderContext)<br/>
-<br/>
-<br/>In file WFilterControlRenderer.java,
-					
-						line 25<br/>In class com.github.bordertech.wcomponents.render.webxml.WFilterControlRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WFilterControlRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WFilterControl<br/>Value loaded from component<br/>At WFilterControlRenderer.java:[line 25]</p>
-</td>
-</tr>
-<tr class="tablerow1">
-<td width="20%" valign="top">
-<a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
-</td>
-<td width="10%" valign="top">Low</td>
-<td width="70%">
 <p>Unchecked/unconfirmed cast from com.github.bordertech.wcomponents.WComponent to com.github.bordertech.wcomponents.WHeading in com.github.bordertech.wcomponents.render.webxml.WHeadingRenderer.doRender(WComponent, WebXmlRenderContext)<br/>
 <br/>
 <br/>In file WHeadingRenderer.java,
@@ -1295,7 +1309,7 @@
 						line 25<br/>In class com.github.bordertech.wcomponents.render.webxml.WHeadingRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WHeadingRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WHeading<br/>Value loaded from component<br/>At WHeadingRenderer.java:[line 25]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1308,7 +1322,7 @@
 						line 26<br/>In class com.github.bordertech.wcomponents.render.webxml.WHiddenCommentRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WHiddenCommentRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WHiddenComment<br/>Value loaded from component<br/>At WHiddenCommentRenderer.java:[line 26]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1321,7 +1335,7 @@
 						line 26<br/>In class com.github.bordertech.wcomponents.render.webxml.WImageEditorRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WImageEditorRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WImageEditor<br/>Value loaded from component<br/>At WImageEditorRenderer.java:[line 26]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1331,10 +1345,10 @@
 <br/>
 <br/>In file WImageRenderer.java,
 					
-						line 81<br/>In class com.github.bordertech.wcomponents.render.webxml.WImageRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WImageRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WImage<br/>Value loaded from component<br/>At WImageRenderer.java:[line 81]</p>
+						line 76<br/>In class com.github.bordertech.wcomponents.render.webxml.WImageRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WImageRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WImage<br/>Value loaded from component<br/>At WImageRenderer.java:[line 76]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1347,7 +1361,7 @@
 						line 25<br/>In class com.github.bordertech.wcomponents.render.webxml.WInternalLinkRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WInternalLinkRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WInternalLink<br/>Value loaded from component<br/>At WInternalLinkRenderer.java:[line 25]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1360,7 +1374,7 @@
 						line 25<br/>In class com.github.bordertech.wcomponents.render.webxml.WLabelRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WLabelRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WLabel<br/>Value loaded from component<br/>At WLabelRenderer.java:[line 25]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1373,7 +1387,7 @@
 						line 29<br/>In class com.github.bordertech.wcomponents.render.webxml.WLinkRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WLinkRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WLink<br/>Value loaded from component<br/>At WLinkRenderer.java:[line 29]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1386,7 +1400,7 @@
 						line 28<br/>In class com.github.bordertech.wcomponents.render.webxml.WListRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WListRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WList<br/>Value loaded from component<br/>At WListRenderer.java:[line 28]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1399,7 +1413,7 @@
 						line 24<br/>In class com.github.bordertech.wcomponents.render.webxml.WMenuItemGroupRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WMenuItemGroupRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WMenuItemGroup<br/>Value loaded from component<br/>At WMenuItemGroupRenderer.java:[line 24]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1412,7 +1426,7 @@
 						line 25<br/>In class com.github.bordertech.wcomponents.render.webxml.WMenuItemRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WMenuItemRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WMenuItem<br/>Value loaded from component<br/>At WMenuItemRenderer.java:[line 25]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1425,7 +1439,7 @@
 						line 24<br/>In class com.github.bordertech.wcomponents.render.webxml.WMenuRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WMenuRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WMenu<br/>Value loaded from component<br/>At WMenuRenderer.java:[line 24]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1438,7 +1452,7 @@
 						line 26<br/>In class com.github.bordertech.wcomponents.render.webxml.WMessageBoxRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WMessageBoxRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WMessageBox<br/>Value loaded from component<br/>At WMessageBoxRenderer.java:[line 26]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1451,7 +1465,7 @@
 						line 27<br/>In class com.github.bordertech.wcomponents.render.webxml.WMultiDropdownRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WMultiDropdownRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WMultiDropdown<br/>Value loaded from component<br/>At WMultiDropdownRenderer.java:[line 27]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1464,7 +1478,7 @@
 						line 28<br/>In class com.github.bordertech.wcomponents.render.webxml.WMultiFileWidgetRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WMultiFileWidgetRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WMultiFileWidget<br/>Value loaded from component<br/>At WMultiFileWidgetRenderer.java:[line 28]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1477,7 +1491,7 @@
 						line 31<br/>In class com.github.bordertech.wcomponents.render.webxml.WMultiSelectPairRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WMultiSelectPairRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WMultiSelectPair<br/>Value loaded from component<br/>At WMultiSelectPairRenderer.java:[line 31]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1490,7 +1504,7 @@
 						line 26<br/>In class com.github.bordertech.wcomponents.render.webxml.WMultiSelectRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WMultiSelectRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WMultiSelect<br/>Value loaded from component<br/>At WMultiSelectRenderer.java:[line 26]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1503,7 +1517,7 @@
 						line 26<br/>In class com.github.bordertech.wcomponents.render.webxml.WMultiTextFieldRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WMultiTextFieldRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WMultiTextField<br/>Value loaded from component<br/>At WMultiTextFieldRenderer.java:[line 26]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1516,7 +1530,7 @@
 						line 25<br/>In class com.github.bordertech.wcomponents.render.webxml.WNumberFieldRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WNumberFieldRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WNumberField<br/>Value loaded from component<br/>At WNumberFieldRenderer.java:[line 25]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1529,7 +1543,7 @@
 						line 30<br/>In class com.github.bordertech.wcomponents.render.webxml.WPanelRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WPanelRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WPanel<br/>Value loaded from component<br/>At WPanelRenderer.java:[line 30]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1542,7 +1556,7 @@
 						line 25<br/>In class com.github.bordertech.wcomponents.render.webxml.WPartialDateFieldRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WPartialDateFieldRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WPartialDateField<br/>Value loaded from component<br/>At WPartialDateFieldRenderer.java:[line 25]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1555,7 +1569,7 @@
 						line 24<br/>In class com.github.bordertech.wcomponents.render.webxml.WPasswordFieldRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WPasswordFieldRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WPasswordField<br/>Value loaded from component<br/>At WPasswordFieldRenderer.java:[line 24]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1568,7 +1582,7 @@
 						line 26<br/>In class com.github.bordertech.wcomponents.render.webxml.WPhoneNumberFieldRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WPhoneNumberFieldRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WPhoneNumberField<br/>Value loaded from component<br/>At WPhoneNumberFieldRenderer.java:[line 26]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1581,7 +1595,7 @@
 						line 26<br/>In class com.github.bordertech.wcomponents.render.webxml.WPopupRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WPopupRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WPopup<br/>Value loaded from component<br/>At WPopupRenderer.java:[line 26]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1594,7 +1608,7 @@
 						line 28<br/>In class com.github.bordertech.wcomponents.render.webxml.WProgressBarRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WProgressBarRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WProgressBar<br/>Value loaded from component<br/>At WProgressBarRenderer.java:[line 28]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1607,7 +1621,7 @@
 						line 26<br/>In class com.github.bordertech.wcomponents.render.webxml.WRadioButtonRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WRadioButtonRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WRadioButton<br/>Value loaded from component<br/>At WRadioButtonRenderer.java:[line 26]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1620,7 +1634,7 @@
 						line 28<br/>In class com.github.bordertech.wcomponents.render.webxml.WRadioButtonSelectRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WRadioButtonSelectRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WRadioButtonSelect<br/>Value loaded from component<br/>At WRadioButtonSelectRenderer.java:[line 28]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1633,7 +1647,7 @@
 						line 27<br/>In class com.github.bordertech.wcomponents.render.webxml.WRepeaterRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WRepeaterRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WRepeater<br/>Value loaded from component<br/>At WRepeaterRenderer.java:[line 27]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1646,7 +1660,7 @@
 						line 25<br/>In class com.github.bordertech.wcomponents.render.webxml.WRowRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WRowRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WRow<br/>Value loaded from component<br/>At WRowRenderer.java:[line 25]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1659,7 +1673,7 @@
 						line 27<br/>In class com.github.bordertech.wcomponents.render.webxml.WSectionRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WSectionRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WSection<br/>Value loaded from component<br/>At WSectionRenderer.java:[line 27]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1672,7 +1686,7 @@
 						line 25<br/>In class com.github.bordertech.wcomponents.render.webxml.WSelectToggleRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WSelectToggleRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WSelectToggle<br/>Value loaded from component<br/>At WSelectToggleRenderer.java:[line 25]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1685,7 +1699,7 @@
 						line 26<br/>In class com.github.bordertech.wcomponents.render.webxml.WShufflerRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WShufflerRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WShuffler<br/>Value loaded from component<br/>At WShufflerRenderer.java:[line 26]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1698,7 +1712,7 @@
 						line 27<br/>In class com.github.bordertech.wcomponents.render.webxml.WSingleSelectRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WSingleSelectRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WSingleSelect<br/>Value loaded from component<br/>At WSingleSelectRenderer.java:[line 27]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1711,7 +1725,7 @@
 						line 27<br/>In class com.github.bordertech.wcomponents.render.webxml.WStyledTextRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WStyledTextRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WStyledText<br/>Value loaded from component<br/>At WStyledTextRenderer.java:[line 27]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1724,7 +1738,7 @@
 						line 28<br/>In class com.github.bordertech.wcomponents.render.webxml.WSubMenuRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WSubMenuRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WSubMenu<br/>Value loaded from component<br/>At WSubMenuRenderer.java:[line 28]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1737,7 +1751,7 @@
 						line 37<br/>In class com.github.bordertech.wcomponents.render.webxml.WSubordinateControlRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WSubordinateControlRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.subordinate.WSubordinateControl<br/>Value loaded from component<br/>At WSubordinateControlRenderer.java:[line 37]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1750,7 +1764,7 @@
 						line 26<br/>In class com.github.bordertech.wcomponents.render.webxml.WSuggestionsRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WSuggestionsRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WSuggestions<br/>Value loaded from component<br/>At WSuggestionsRenderer.java:[line 26]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1763,7 +1777,7 @@
 						line 25<br/>In class com.github.bordertech.wcomponents.render.webxml.WTabGroupRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WTabGroupRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WTabGroup<br/>Value loaded from component<br/>At WTabGroupRenderer.java:[line 25]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1776,7 +1790,7 @@
 						line 39<br/>In class com.github.bordertech.wcomponents.render.webxml.WTableRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WTableRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WTable<br/>Value loaded from component<br/>At WTableRenderer.java:[line 39]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1789,7 +1803,7 @@
 						line 36<br/>In class com.github.bordertech.wcomponents.render.webxml.WTableRowRendererRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WTableRowRendererRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WTableRowRenderer<br/>Value loaded from component<br/>At WTableRowRendererRenderer.java:[line 36]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1802,7 +1816,7 @@
 						line 28<br/>In class com.github.bordertech.wcomponents.render.webxml.WTabRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WTabRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WTab<br/>Value loaded from component<br/>At WTabRenderer.java:[line 28]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1813,6 +1827,19 @@
 <br/>In file WTabSetRenderer.java,
 					
 						line 26<br/>In class com.github.bordertech.wcomponents.render.webxml.WTabSetRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WTabSetRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WTabSet<br/>Value loaded from component<br/>At WTabSetRenderer.java:[line 26]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
+</td>
+<td width="10%" valign="top">Low</td>
+<td width="70%">
+<p>Unchecked/unconfirmed cast from com.github.bordertech.wcomponents.WComponent to com.github.bordertech.wcomponents.WTemplate in com.github.bordertech.wcomponents.render.webxml.WTemplateRenderer.doRender(WComponent, WebXmlRenderContext)<br/>
+<br/>
+<br/>In file WTemplateRenderer.java,
+					
+						line 29<br/>In class com.github.bordertech.wcomponents.render.webxml.WTemplateRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WTemplateRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WTemplate<br/>Value loaded from component<br/>At WTemplateRenderer.java:[line 29]</p>
 </td>
 </tr>
 <tr class="tablerow0">
@@ -1873,6 +1900,19 @@
 </td>
 <td width="10%" valign="top">Low</td>
 <td width="70%">
+<p>Unchecked/unconfirmed cast from com.github.bordertech.wcomponents.WComponent to com.github.bordertech.wcomponents.WTree in com.github.bordertech.wcomponents.render.webxml.WTreeRenderer.doRender(WComponent, WebXmlRenderContext)<br/>
+<br/>
+<br/>In file WTreeRenderer.java,
+					
+						line 33<br/>In class com.github.bordertech.wcomponents.render.webxml.WTreeRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WTreeRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WTree<br/>Value loaded from component<br/>At WTreeRenderer.java:[line 33]</p>
+</td>
+</tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
+</td>
+<td width="10%" valign="top">Low</td>
+<td width="70%">
 <p>Unchecked/unconfirmed cast from com.github.bordertech.wcomponents.WComponent to com.github.bordertech.wcomponents.validation.WValidationErrors in com.github.bordertech.wcomponents.render.webxml.WValidationErrorsRenderer.doRender(WComponent, WebXmlRenderContext)<br/>
 <br/>
 <br/>In file WValidationErrorsRenderer.java,
@@ -1880,7 +1920,7 @@
 						line 30<br/>In class com.github.bordertech.wcomponents.render.webxml.WValidationErrorsRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WValidationErrorsRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.validation.WValidationErrors<br/>Value loaded from component<br/>At WValidationErrorsRenderer.java:[line 30]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1893,7 +1933,7 @@
 						line 35<br/>In class com.github.bordertech.wcomponents.render.webxml.WVideoRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WVideoRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.WVideo<br/>Value loaded from component<br/>At WVideoRenderer.java:[line 35]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1906,7 +1946,7 @@
 						line 237<br/>In class com.github.bordertech.wcomponents.TableTreeNode<br/>In method com.github.bordertech.wcomponents.TableTreeNode.add(TreeNode)<br/>Actual type com.github.bordertech.wcomponents.util.TreeNode<br/>Expected com.github.bordertech.wcomponents.TableTreeNode<br/>Value loaded from node<br/>At TableTreeNode.java:[line 237]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1919,7 +1959,7 @@
 						line 246<br/>In class com.github.bordertech.wcomponents.TableTreeNode<br/>In method com.github.bordertech.wcomponents.TableTreeNode.remove(TreeNode)<br/>Actual type com.github.bordertech.wcomponents.util.TreeNode<br/>Expected com.github.bordertech.wcomponents.TableTreeNode<br/>Value loaded from node<br/>At TableTreeNode.java:[line 246]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1932,7 +1972,7 @@
 						line 274<br/>In class com.github.bordertech.wcomponents.WDataTableRowRenderer$RendererWrapper<br/>In method com.github.bordertech.wcomponents.WDataTableRowRenderer$RendererWrapper.getBean(BeanProviderBound)<br/>Actual type com.github.bordertech.wcomponents.BeanProviderBound<br/>Expected com.github.bordertech.wcomponents.WComponent<br/>Value loaded from beanProviderBound<br/>At WDataTableRowRenderer.java:[line 274]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1942,10 +1982,10 @@
 <br/>
 <br/>In file WMenu.java,
 					
-						line 321<br/>In class com.github.bordertech.wcomponents.WMenu<br/>In method com.github.bordertech.wcomponents.WMenu.setSelectedItem(WComponent)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.MenuItemSelectable<br/>Value loaded from selectedItem<br/>At WMenu.java:[line 321]</p>
+						line 323<br/>In class com.github.bordertech.wcomponents.WMenu<br/>In method com.github.bordertech.wcomponents.WMenu.setSelectedItem(WComponent)<br/>Actual type com.github.bordertech.wcomponents.WComponent<br/>Expected com.github.bordertech.wcomponents.MenuItemSelectable<br/>Value loaded from selectedItem<br/>At WMenu.java:[line 323]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#BC_UNCONFIRMED_CAST">Unchecked/unconfirmed cast</a>
 </td>
@@ -1958,7 +1998,7 @@
 						line 257<br/>In class com.github.bordertech.wcomponents.WTableRowRenderer$RendererWrapper<br/>In method com.github.bordertech.wcomponents.WTableRowRenderer$RendererWrapper.getBean(BeanProviderBound)<br/>Actual type com.github.bordertech.wcomponents.BeanProviderBound<br/>Expected com.github.bordertech.wcomponents.WComponent<br/>Value loaded from beanProviderBound<br/>At WTableRowRenderer.java:[line 257]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#DB_DUPLICATE_SWITCH_CLAUSES">Method uses the same code for two switch clauses</a>
 </td>
@@ -1971,7 +2011,7 @@
 						line 46<br/>In class com.github.bordertech.wcomponents.velocity.VelocityLogger<br/>In method com.github.bordertech.wcomponents.velocity.VelocityLogger.logVelocityMessage(int, String)<br/>At VelocityLogger.java:[lines 46-47]<br/>At VelocityLogger.java:[line 52]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#DLS_DEAD_LOCAL_STORE">Dead store to local variable</a>
 </td>
@@ -1984,7 +2024,7 @@
 						line 82<br/>In class com.github.bordertech.wcomponents.test.selenium.ByWComponent<br/>In method com.github.bordertech.wcomponents.test.selenium.ByWComponent.findElements(SearchContext)<br/>Local variable named result<br/>At ByWComponent.java:[line 82]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#MTIA_SUSPECT_SERVLET_INSTANCE_FIELD">Class extends Servlet class and uses instance variables</a>
 </td>
@@ -1997,7 +2037,7 @@
 						line 83<br/>Field com.github.bordertech.wcomponents.lde.PlainLauncher.sharedUI<br/>In class com.github.bordertech.wcomponents.lde.PlainLauncher<br/>At PlainLauncher.java:[line 83]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#MTIA_SUSPECT_SERVLET_INSTANCE_FIELD">Class extends Servlet class and uses instance variables</a>
 </td>
@@ -2010,7 +2050,7 @@
 						line 79<br/>Field com.github.bordertech.wcomponents.lde.PlainLauncher.uiClassName<br/>In class com.github.bordertech.wcomponents.lde.PlainLauncher<br/>At PlainLauncher.java:[line 79]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#MTIA_SUSPECT_SERVLET_INSTANCE_FIELD">Class extends Servlet class and uses instance variables</a>
 </td>
@@ -2023,7 +2063,7 @@
 						line 147<br/>Field com.github.bordertech.wcomponents.lde.TestServlet.url<br/>In class com.github.bordertech.wcomponents.lde.TestServlet<br/>At TestServlet.java:[line 147]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#PZLA_PREFER_ZERO_LENGTH_ARRAYS">Consider returning a zero length array rather than null</a>
 </td>
@@ -2036,33 +2076,7 @@
 						line 38<br/>In class com.github.bordertech.wcomponents.AbstractBasicTableModel<br/>In method com.github.bordertech.wcomponents.AbstractBasicTableModel.sort(int, boolean)<br/>At AbstractBasicTableModel.java:[line 38]</p>
 </td>
 </tr>
-<tr class="tablerow1">
-<td width="20%" valign="top">
-<a href="#PZLA_PREFER_ZERO_LENGTH_ARRAYS">Consider returning a zero length array rather than null</a>
-</td>
-<td width="10%" valign="top">Low</td>
-<td width="70%">
-<p>Should com.github.bordertech.wcomponents.AbstractRequest.getFileItems(String) return a zero length array rather than null?<br/>
-<br/>
-<br/>In file AbstractRequest.java,
-					
-						line 94<br/>In class com.github.bordertech.wcomponents.AbstractRequest<br/>In method com.github.bordertech.wcomponents.AbstractRequest.getFileItems(String)<br/>At AbstractRequest.java:[line 94]</p>
-</td>
-</tr>
 <tr class="tablerow0">
-<td width="20%" valign="top">
-<a href="#PZLA_PREFER_ZERO_LENGTH_ARRAYS">Consider returning a zero length array rather than null</a>
-</td>
-<td width="10%" valign="top">Low</td>
-<td width="70%">
-<p>Should com.github.bordertech.wcomponents.AbstractRequest.getParameterValues(String) return a zero length array rather than null?<br/>
-<br/>
-<br/>In file AbstractRequest.java,
-					
-						line 67<br/>In class com.github.bordertech.wcomponents.AbstractRequest<br/>In method com.github.bordertech.wcomponents.AbstractRequest.getParameterValues(String)<br/>At AbstractRequest.java:[line 67]</p>
-</td>
-</tr>
-<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#PZLA_PREFER_ZERO_LENGTH_ARRAYS">Consider returning a zero length array rather than null</a>
 </td>
@@ -2075,7 +2089,7 @@
 						line 41<br/>In class com.github.bordertech.wcomponents.AbstractTableDataModel<br/>In method com.github.bordertech.wcomponents.AbstractTableDataModel.sort(int, boolean)<br/>At AbstractTableDataModel.java:[line 41]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#PZLA_PREFER_ZERO_LENGTH_ARRAYS">Consider returning a zero length array rather than null</a>
 </td>
@@ -2088,7 +2102,7 @@
 						line 45<br/>In class com.github.bordertech.wcomponents.AbstractTableModel<br/>In method com.github.bordertech.wcomponents.AbstractTableModel.sort(int, boolean)<br/>At AbstractTableModel.java:[line 45]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#PZLA_PREFER_ZERO_LENGTH_ARRAYS">Consider returning a zero length array rather than null</a>
 </td>
@@ -2101,7 +2115,7 @@
 						line 96<br/>In class com.github.bordertech.wcomponents.AbstractTreeTableDataModel<br/>In method com.github.bordertech.wcomponents.AbstractTreeTableDataModel.sort(int, boolean)<br/>At AbstractTreeTableDataModel.java:[line 96]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#PZLA_PREFER_ZERO_LENGTH_ARRAYS">Consider returning a zero length array rather than null</a>
 </td>
@@ -2114,7 +2128,7 @@
 						line 209<br/>In class com.github.bordertech.wcomponents.SimpleBeanTreeTableDataModel<br/>In method com.github.bordertech.wcomponents.SimpleBeanTreeTableDataModel.sort(int, boolean)<br/>At SimpleBeanTreeTableDataModel.java:[line 209]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#PZLA_PREFER_ZERO_LENGTH_ARRAYS">Consider returning a zero length array rather than null</a>
 </td>
@@ -2127,7 +2141,7 @@
 						line 260<br/>In class com.github.bordertech.wcomponents.util.AbstractTreeNode<br/>In method com.github.bordertech.wcomponents.util.AbstractTreeNode.getPathToRoot(TreeNode, int)<br/>At AbstractTreeNode.java:[line 260]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#PZLA_PREFER_ZERO_LENGTH_ARRAYS">Consider returning a zero length array rather than null</a>
 </td>
@@ -2138,19 +2152,6 @@
 <br/>In file MockFileItem.java,
 					
 						line 77<br/>In class com.github.bordertech.wcomponents.util.mock.MockFileItem<br/>In method com.github.bordertech.wcomponents.util.mock.MockFileItem.get()<br/>At MockFileItem.java:[line 77]</p>
-</td>
-</tr>
-<tr class="tablerow1">
-<td width="20%" valign="top">
-<a href="#PZLA_PREFER_ZERO_LENGTH_ARRAYS">Consider returning a zero length array rather than null</a>
-</td>
-<td width="10%" valign="top">Low</td>
-<td width="70%">
-<p>Should com.github.bordertech.wcomponents.util.mock.MockRequest.getFileItems(String) return a zero length array rather than null?<br/>
-<br/>
-<br/>In file MockRequest.java,
-					
-						line 135<br/>In class com.github.bordertech.wcomponents.util.mock.MockRequest<br/>In method com.github.bordertech.wcomponents.util.mock.MockRequest.getFileItems(String)<br/>At MockRequest.java:[line 135]</p>
 </td>
 </tr>
 <tr class="tablerow0">
@@ -2215,7 +2216,7 @@
 <br/>
 <br/>In file WAudio.java,
 					
-						line 260<br/>In class com.github.bordertech.wcomponents.WAudio<br/>In method com.github.bordertech.wcomponents.WAudio.getAudioUrls()<br/>At WAudio.java:[line 260]</p>
+						line 306<br/>In class com.github.bordertech.wcomponents.WAudio<br/>In method com.github.bordertech.wcomponents.WAudio.getAudioUrls()<br/>At WAudio.java:[line 306]</p>
 </td>
 </tr>
 <tr class="tablerow1">
@@ -2228,7 +2229,7 @@
 <br/>
 <br/>In file WDataTable.java,
 					
-						line 1279<br/>In class com.github.bordertech.wcomponents.WDataTable<br/>In method com.github.bordertech.wcomponents.WDataTable.removeEmptyStrings(String[])<br/>At WDataTable.java:[line 1279]</p>
+						line 1282<br/>In class com.github.bordertech.wcomponents.WDataTable<br/>In method com.github.bordertech.wcomponents.WDataTable.removeEmptyStrings(String[])<br/>At WDataTable.java:[line 1282]</p>
 </td>
 </tr>
 <tr class="tablerow0">
@@ -2280,10 +2281,23 @@
 <br/>
 <br/>In file WTable.java,
 					
-						line 1474<br/>In class com.github.bordertech.wcomponents.WTable<br/>In method com.github.bordertech.wcomponents.WTable.removeEmptyStrings(String[])<br/>At WTable.java:[line 1474]</p>
+						line 1490<br/>In class com.github.bordertech.wcomponents.WTable<br/>In method com.github.bordertech.wcomponents.WTable.removeEmptyStrings(String[])<br/>At WTable.java:[line 1490]</p>
 </td>
 </tr>
 <tr class="tablerow0">
+<td width="20%" valign="top">
+<a href="#PZLA_PREFER_ZERO_LENGTH_ARRAYS">Consider returning a zero length array rather than null</a>
+</td>
+<td width="10%" valign="top">Low</td>
+<td width="70%">
+<p>Should com.github.bordertech.wcomponents.WTree.removeEmptyStrings(String[]) return a zero length array rather than null?<br/>
+<br/>
+<br/>In file WTree.java,
+					
+						line 786<br/>In class com.github.bordertech.wcomponents.WTree<br/>In method com.github.bordertech.wcomponents.WTree.removeEmptyStrings(String[])<br/>At WTree.java:[line 786]</p>
+</td>
+</tr>
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#PZLA_PREFER_ZERO_LENGTH_ARRAYS">Consider returning a zero length array rather than null</a>
 </td>
@@ -2293,10 +2307,10 @@
 <br/>
 <br/>In file WVideo.java,
 					
-						line 409<br/>In class com.github.bordertech.wcomponents.WVideo<br/>In method com.github.bordertech.wcomponents.WVideo.getTrackUrls()<br/>At WVideo.java:[line 409]</p>
+						line 425<br/>In class com.github.bordertech.wcomponents.WVideo<br/>In method com.github.bordertech.wcomponents.WVideo.getTrackUrls()<br/>At WVideo.java:[line 425]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#PZLA_PREFER_ZERO_LENGTH_ARRAYS">Consider returning a zero length array rather than null</a>
 </td>
@@ -2306,10 +2320,10 @@
 <br/>
 <br/>In file WVideo.java,
 					
-						line 381<br/>In class com.github.bordertech.wcomponents.WVideo<br/>In method com.github.bordertech.wcomponents.WVideo.getVideoUrls()<br/>At WVideo.java:[line 381]</p>
+						line 397<br/>In class com.github.bordertech.wcomponents.WVideo<br/>In method com.github.bordertech.wcomponents.WVideo.getVideoUrls()<br/>At WVideo.java:[line 397]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE">Redundant nullcheck of value known to be non-null</a>
 </td>
@@ -2322,7 +2336,7 @@
 						line 33<br/>In class com.github.bordertech.wcomponents.render.webxml.AbstractWFieldIndicatorRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.AbstractWFieldIndicatorRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Value loaded from diags<br/>Return value of com.github.bordertech.wcomponents.validation.AbstractWFieldIndicator.getDiagnostics() of type java.util.List<br/>Redundant null check at AbstractWFieldIndicatorRenderer.java:[line 33]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE">Redundant nullcheck of value known to be non-null</a>
 </td>
@@ -2335,7 +2349,7 @@
 						line 29<br/>In class com.github.bordertech.wcomponents.render.webxml.WComponentGroupRenderer<br/>In method com.github.bordertech.wcomponents.render.webxml.WComponentGroupRenderer.doRender(WComponent, WebXmlRenderContext)<br/>Value loaded from components<br/>Return value of com.github.bordertech.wcomponents.WComponentGroup.getComponents() of type java.util.List<br/>Redundant null check at WComponentGroupRenderer.java:[line 29]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE">Redundant nullcheck of value known to be non-null</a>
 </td>
@@ -2348,7 +2362,7 @@
 						line 406<br/>In class com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletResponse<br/>In method com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletResponse.getOutput()<br/>Value loaded from string<br/>Return value of java.io.StringWriter.toString() of type String<br/>Redundant null check at MockHttpServletResponse.java:[line 406]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE">Redundant nullcheck of value known to be non-null</a>
 </td>
@@ -2361,7 +2375,7 @@
 						line 435<br/>In class com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletResponse<br/>In method com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletResponse.getOutputAsString()<br/>Value loaded from bytes<br/>Return value of com.github.bordertech.wcomponents.util.mock.servlet.MockServletOutputStream.getOutput() of type byte[]<br/>Redundant null check at MockHttpServletResponse.java:[line 435]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#REC_CATCH_EXCEPTION">Exception is caught when Exception is not thrown</a>
 </td>
@@ -2374,7 +2388,7 @@
 						line 102<br/>In class com.github.bordertech.wcomponents.InternalResourceMap<br/>In method com.github.bordertech.wcomponents.InternalResourceMap.computeHash(InternalResource)<br/>At InternalResourceMap.java:[line 102]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#REC_CATCH_EXCEPTION">Exception is caught when Exception is not thrown</a>
 </td>
@@ -2384,10 +2398,10 @@
 <br/>
 <br/>In file UIManager.java,
 					
-						line 236<br/>In class com.github.bordertech.wcomponents.layout.UIManager<br/>In method com.github.bordertech.wcomponents.layout.UIManager.findRendererFactory(String)<br/>At UIManager.java:[line 236]</p>
+						line 241<br/>In class com.github.bordertech.wcomponents.layout.UIManager<br/>In method com.github.bordertech.wcomponents.layout.UIManager.findRendererFactory(String)<br/>At UIManager.java:[line 241]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#REC_CATCH_EXCEPTION">Exception is caught when Exception is not thrown</a>
 </td>
@@ -2400,7 +2414,7 @@
 						line 77<br/>In class com.github.bordertech.wcomponents.lde.LdeSessionUtil<br/>In method com.github.bordertech.wcomponents.lde.LdeSessionUtil.deserializeSessionAttributes(HttpSession)<br/>At LdeSessionUtil.java:[line 77]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#REC_CATCH_EXCEPTION">Exception is caught when Exception is not thrown</a>
 </td>
@@ -2413,7 +2427,7 @@
 						line 241<br/>In class com.github.bordertech.wcomponents.monitor.UicStats<br/>In method com.github.bordertech.wcomponents.monitor.UicStats.addSerializationStat(ComponentModel, UicStats$Stat)<br/>At UicStats.java:[line 241]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#REC_CATCH_EXCEPTION">Exception is caught when Exception is not thrown</a>
 </td>
@@ -2426,7 +2440,7 @@
 						line 122<br/>In class com.github.bordertech.wcomponents.registry.UIRegistryAmicableImpl<br/>In method com.github.bordertech.wcomponents.registry.UIRegistryAmicableImpl.loadUI(String)<br/>At UIRegistryAmicableImpl.java:[line 122]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#REC_CATCH_EXCEPTION">Exception is caught when Exception is not thrown</a>
 </td>
@@ -2439,7 +2453,33 @@
 						line 105<br/>In class com.github.bordertech.wcomponents.registry.UIRegistryClassLoaderImpl<br/>In method com.github.bordertech.wcomponents.registry.UIRegistryClassLoaderImpl.loadUI(String)<br/>At UIRegistryClassLoaderImpl.java:[line 105]</p>
 </td>
 </tr>
+<tr class="tablerow1">
+<td width="20%" valign="top">
+<a href="#REC_CATCH_EXCEPTION">Exception is caught when Exception is not thrown</a>
+</td>
+<td width="10%" valign="top">Low</td>
+<td width="70%">
+<p>Exception is caught when Exception is not thrown in com.github.bordertech.wcomponents.template.TemplateRendererFactory.newInstance(String)<br/>
+<br/>
+<br/>In file TemplateRendererFactory.java,
+					
+						line 120<br/>In class com.github.bordertech.wcomponents.template.TemplateRendererFactory<br/>In method com.github.bordertech.wcomponents.template.TemplateRendererFactory.newInstance(String)<br/>At TemplateRendererFactory.java:[line 120]</p>
+</td>
+</tr>
 <tr class="tablerow0">
+<td width="20%" valign="top">
+<a href="#REC_CATCH_EXCEPTION">Exception is caught when Exception is not thrown</a>
+</td>
+<td width="10%" valign="top">Low</td>
+<td width="70%">
+<p>Exception is caught when Exception is not thrown in com.github.bordertech.wcomponents.template.VelocityRendererImpl.renderInline(String, Map, Map, Writer, Map)<br/>
+<br/>
+<br/>In file VelocityRendererImpl.java,
+					
+						line 101<br/>In class com.github.bordertech.wcomponents.template.VelocityRendererImpl<br/>In method com.github.bordertech.wcomponents.template.VelocityRendererImpl.renderInline(String, Map, Map, Writer, Map)<br/>At VelocityRendererImpl.java:[line 101]</p>
+</td>
+</tr>
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#REC_CATCH_EXCEPTION">Exception is caught when Exception is not thrown</a>
 </td>
@@ -2452,7 +2492,7 @@
 						line 359<br/>In class com.github.bordertech.wcomponents.test.selenium.SeleniumTestServlet$ScriptInterceptor<br/>In method com.github.bordertech.wcomponents.test.selenium.SeleniumTestServlet$ScriptInterceptor.paint(RenderContext)<br/>At SeleniumTestServlet.java:[line 359]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#REC_CATCH_EXCEPTION">Exception is caught when Exception is not thrown</a>
 </td>
@@ -2465,7 +2505,7 @@
 						line 39<br/>In class com.github.bordertech.wcomponents.util.SerializationUtil<br/>In method com.github.bordertech.wcomponents.util.SerializationUtil.pipe(Object)<br/>At SerializationUtil.java:[line 39]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#REC_CATCH_EXCEPTION">Exception is caught when Exception is not thrown</a>
 </td>
@@ -2475,10 +2515,10 @@
 <br/>
 <br/>In file WBeanComponent.java,
 					
-						line 338<br/>In class com.github.bordertech.wcomponents.WBeanComponent<br/>In method com.github.bordertech.wcomponents.WBeanComponent.doUpdateBeanValue(Object)<br/>At WBeanComponent.java:[line 338]</p>
+						line 336<br/>In class com.github.bordertech.wcomponents.WBeanComponent<br/>In method com.github.bordertech.wcomponents.WBeanComponent.doUpdateBeanValue(Object)<br/>At WBeanComponent.java:[line 336]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#REC_CATCH_EXCEPTION">Exception is caught when Exception is not thrown</a>
 </td>
@@ -2491,7 +2531,7 @@
 						line 213<br/>In class com.github.bordertech.wcomponents.WDataTableRowRenderer$RendererWrapper<br/>In method new com.github.bordertech.wcomponents.WDataTableRowRenderer$RendererWrapper(WDataTableRowRenderer, Class, int)<br/>At WDataTableRowRenderer.java:[line 213]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#REC_CATCH_EXCEPTION">Exception is caught when Exception is not thrown</a>
 </td>
@@ -2504,7 +2544,7 @@
 						line 521<br/>In class com.github.bordertech.wcomponents.WRepeater<br/>In method com.github.bordertech.wcomponents.WRepeater.getRowContext(Object, int)<br/>At WRepeater.java:[line 521]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#REC_CATCH_EXCEPTION">Exception is caught when Exception is not thrown</a>
 </td>
@@ -2517,7 +2557,7 @@
 						line 196<br/>In class com.github.bordertech.wcomponents.WTableRowRenderer$RendererWrapper<br/>In method new com.github.bordertech.wcomponents.WTableRowRenderer$RendererWrapper(WTableRowRenderer, Class, int)<br/>At WTableRowRenderer.java:[line 196]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#RI_REDUNDANT_INTERFACES">Class implements same interface as superclass</a>
 </td>
@@ -2531,7 +2571,7 @@
 						    to 45<br/>In class com.github.bordertech.wcomponents.WDropdown$DropdownType<br/>Interface java.io.Serializable<br/>At WDropdown.java:[lines 35-45]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#RI_REDUNDANT_INTERFACES">Class implements same interface as superclass</a>
 </td>
@@ -2545,7 +2585,7 @@
 						    to 143<br/>In class com.github.bordertech.wcomponents.WMultiSelectPair<br/>Interface com.github.bordertech.wcomponents.AjaxTarget<br/>Interface com.github.bordertech.wcomponents.AjaxTrigger<br/>Interface com.github.bordertech.wcomponents.SubordinateTarget<br/>At WMultiSelectPair.java:[lines 15-143]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD">Write to static field from instance method</a>
 </td>
@@ -2558,7 +2598,7 @@
 						line 108<br/>In class com.github.bordertech.wcomponents.lde.TestServlet<br/>In method com.github.bordertech.wcomponents.lde.TestServlet.run()<br/>Field com.github.bordertech.wcomponents.lde.TestServlet.server<br/>At TestServlet.java:[line 108]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD">Write to static field from instance method</a>
 </td>
@@ -2571,7 +2611,7 @@
 						line 80<br/>In class com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase<br/>In method new com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase(WComponent)<br/>Field com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase.testSequenceNumber<br/>At WComponentSeleniumTestCase.java:[line 80]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#UC_USELESS_CONDITION">Condition has no effect</a>
 </td>
@@ -2584,7 +2624,7 @@
 						line 245<br/>In class com.github.bordertech.wcomponents.WDialog<br/>In method com.github.bordertech.wcomponents.WDialog.handleRequest(Request)<br/>Value ajaxTargeted == false<br/>At WDialog.java:[line 245]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR">Field not initialized in constructor but dereferenced without null check</a>
 </td>
@@ -2597,7 +2637,7 @@
 						line 162<br/>In class com.github.bordertech.wcomponents.SimpleTableDataModel<br/>Field com.github.bordertech.wcomponents.SimpleTableDataModel.comparators<br/>In method com.github.bordertech.wcomponents.SimpleTableDataModel.sort(int, boolean)<br/>At SimpleTableDataModel.java:[line 162]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR">Field not initialized in constructor but dereferenced without null check</a>
 </td>
@@ -2610,7 +2650,7 @@
 						line 169<br/>In class com.github.bordertech.wcomponents.SimpleTableModel<br/>Field com.github.bordertech.wcomponents.SimpleTableModel.comparators<br/>In method com.github.bordertech.wcomponents.SimpleTableModel.sort(int, boolean)<br/>At SimpleTableModel.java:[line 169]</p>
 </td>
 </tr>
-<tr class="tablerow1">
+<tr class="tablerow0">
 <td width="20%" valign="top">
 <a href="#UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR">Field not initialized in constructor but dereferenced without null check</a>
 </td>
@@ -2623,7 +2663,7 @@
 						line 61<br/>In class com.github.bordertech.wcomponents.subordinate.builder.MutableExpression<br/>Field com.github.bordertech.wcomponents.subordinate.builder.MutableExpression.expression<br/>In method com.github.bordertech.wcomponents.subordinate.builder.MutableExpression.build()<br/>At MutableExpression.java:[line 61]</p>
 </td>
 </tr>
-<tr class="tablerow0">
+<tr class="tablerow1">
 <td width="20%" valign="top">
 <a href="#UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR">Field not initialized in constructor but dereferenced without null check</a>
 </td>

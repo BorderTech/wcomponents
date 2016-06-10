@@ -168,12 +168,12 @@ public class WTab extends AbstractNamingContextContainer implements Disableable,
 	@Override
 	public void handleRequest(final Request request) {
 		// If is LAZY or DYNAMIC and is the current trigger, then process the WTabSet for the correct open/closed tabs
-<span class="nc bnc" id="L171" title="All 4 branches missed.">		if ((TabMode.LAZY.equals(getMode()) || TabMode.DYNAMIC.equals(getMode())) &amp;&amp; AjaxHelper.</span>
-<span class="nc bnc" id="L172" title="All 2 branches missed.">				isCurrentAjaxTrigger(this)) {</span>
-<span class="nc" id="L173">			WTabSet tabSet = (WTabSet) getParent();</span>
-<span class="nc" id="L174">			tabSet.handleRequest(request);</span>
+<span class="pc bpc" id="L171" title="2 of 4 branches missed.">		if ((TabMode.LAZY.equals(getMode()) || TabMode.DYNAMIC.equals(getMode())) &amp;&amp; AjaxHelper.</span>
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">				isCurrentAjaxTrigger(this)) {</span>
+<span class="fc" id="L173">			WTabSet tabSet = (WTabSet) WebUtilities.getAncestorOfClass(WTabSet.class, this);</span>
+<span class="fc" id="L174">			tabSet.handleRequest(request);</span>
 		}
-<span class="nc" id="L176">	}</span>
+<span class="fc" id="L176">	}</span>
 
 	/**
 	 * Override preparePaintComponent in order to correct the visibility of the tab's content before it is rendered.

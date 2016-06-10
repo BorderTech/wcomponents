@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../resources/report.gif" type="image/gif"/><title>WTemplateRenderer.java</title><link rel="stylesheet" href="../../resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">WComponents Coverage</a> &gt; <a href="../index.html" class="el_bundle">WComponents</a> &gt; <a href="index.source.html" class="el_package">com.github.bordertech.wcomponents.render.webxml</a> &gt; <span class="el_source">WTemplateRenderer.java</span></div><h1>WTemplateRenderer.java</h1><pre class="source lang-java linenums">package com.github.bordertech.wcomponents.render.webxml;
+
+import com.github.bordertech.wcomponents.Renderer;
+import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WTemplate;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.template.TemplateRenderer;
+import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
+import com.github.bordertech.wcomponents.util.Util;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * {@link Renderer} for the {@link WTemplate} component.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.3
+ */
+<span class="fc" id="L19">final class WTemplateRenderer extends AbstractWebXmlRenderer {</span>
+
+	/**
+	 * Paints the given WTemplate.
+	 *
+	 * @param component the WTemplate to paint.
+	 * @param renderContext the RenderContext to paint to.
+	 */
+	@Override
+	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
+<span class="fc" id="L29">		WTemplate template = (WTemplate) component;</span>
+
+		// Setup the context
+<span class="fc" id="L32">		Map&lt;String, Object&gt; context = new HashMap&lt;&gt;();</span>
+		// Make the component available under the &quot;wc&quot; key.
+<span class="fc" id="L34">		context.put(&quot;wc&quot;, template);</span>
+		// Load the parameters
+<span class="fc" id="L36">		context.putAll(template.getParameters());</span>
+
+		// Get template renderer for the engine
+<span class="fc" id="L39">		String engine = template.getEngineName();</span>
+<span class="pc bpc" id="L40" title="1 of 2 branches missed.">		if (Util.empty(engine)) {</span>
+<span class="nc" id="L41">			engine = TemplateRendererFactory.DEFAULT_ENGINE_NAME;</span>
+		}
+<span class="fc" id="L43">		TemplateRenderer templateRenderer = TemplateRendererFactory.newInstance(engine);</span>
+
+		// Render
+<span class="fc bfc" id="L46" title="All 2 branches covered.">		if (!Util.empty(template.getTemplateName())) {</span>
+			// Render the template
+<span class="fc" id="L48">			templateRenderer.renderTemplate(template.getTemplateName(), context, template.getTaggedComponents(), renderContext.getWriter(), template.getEngineOptions());</span>
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">		} else if (!Util.empty(template.getInlineTemplate())) {</span>
+			// Render inline
+<span class="fc" id="L51">			templateRenderer.renderInline(template.getInlineTemplate(), context, template.getTaggedComponents(), renderContext.getWriter(), template.getEngineOptions());</span>
+		}
+<span class="fc" id="L53">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -40,23 +40,26 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 <span class="fc" id="L40">				getMinRefresh());</span>
 <span class="fc" id="L41">		xml.appendOptionalAttribute(&quot;ajax&quot;, useAjax, &quot;true&quot;);</span>
 <span class="fc" id="L42">		xml.appendOptionalAttribute(&quot;data&quot;, dataKey);</span>
-<span class="fc" id="L43">		xml.appendClose();</span>
+<span class="fc" id="L43">		WSuggestions.Autocomplete autocomplete = suggestions.getAutocomplete();</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">		if (autocomplete == WSuggestions.Autocomplete.LIST) {</span>
+<span class="fc" id="L45">			xml.appendOptionalAttribute(&quot;autocomplete&quot;, &quot;list&quot;);</span>
+		}
+<span class="fc" id="L47">		xml.appendClose();</span>
 
 		// Check if this is the current AJAX trigger
-<span class="fc bfc" id="L46" title="All 4 branches covered.">		boolean isTrigger = useAjax &amp;&amp; AjaxHelper.isCurrentAjaxTrigger(suggestions);</span>
+<span class="fc bfc" id="L50" title="All 4 branches covered.">		boolean isTrigger = useAjax &amp;&amp; AjaxHelper.isCurrentAjaxTrigger(suggestions);</span>
 
 		// Render suggestions
-<span class="fc bfc" id="L49" title="All 6 branches covered.">		if (isTrigger || (dataKey == null &amp;&amp; !useAjax)) {</span>
-<span class="fc bfc" id="L50" title="All 2 branches covered.">			for (String suggestion : suggestions.getSuggestions()) {</span>
-<span class="fc" id="L51">				xml.appendTagOpen(&quot;ui:suggestion&quot;);</span>
-<span class="fc" id="L52">				xml.appendAttribute(&quot;value&quot;, suggestion);</span>
-<span class="fc" id="L53">				xml.appendEnd();</span>
-<span class="fc" id="L54">			}</span>
+<span class="fc bfc" id="L53" title="All 6 branches covered.">		if (isTrigger || (dataKey == null &amp;&amp; !useAjax)) {</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">			for (String suggestion : suggestions.getSuggestions()) {</span>
+<span class="fc" id="L55">				xml.appendTagOpen(&quot;ui:suggestion&quot;);</span>
+<span class="fc" id="L56">				xml.appendAttribute(&quot;value&quot;, suggestion);</span>
+<span class="fc" id="L57">				xml.appendEnd();</span>
+<span class="fc" id="L58">			}</span>
 		}
 
 		// End tag
-<span class="fc" id="L58">		xml.appendEndTag(&quot;ui:suggestions&quot;);</span>
-<span class="fc" id="L59">	}</span>
-
+<span class="fc" id="L62">		xml.appendEndTag(&quot;ui:suggestions&quot;);</span>
+<span class="fc" id="L63">	}</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

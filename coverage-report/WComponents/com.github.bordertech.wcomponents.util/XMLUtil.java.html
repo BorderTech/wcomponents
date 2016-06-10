@@ -28,6 +28,7 @@ public final class XMLUtil {
 
 	/**
 	 * Doc Type to support nbsp.
+	 * @deprecated Make your XML be XML compliant!
 	 */
 	public static final String DOC_TYPE = &quot;&lt;!DOCTYPE validate [&lt;!ENTITY nbsp \&quot;&amp;#160;\&quot;&gt;]&gt;&quot;;
 
@@ -50,18 +51,18 @@ public final class XMLUtil {
 	/**
 	 * Prevent instantiation of utility class.
 	 */
-<span class="nc" id="L53">	private XMLUtil() {</span>
+<span class="nc" id="L54">	private XMLUtil() {</span>
 		// Do nothing
-<span class="nc" id="L55">	}</span>
+<span class="nc" id="L56">	}</span>
 
 	/**
 	 * @param uic the current user context
 	 * @return the xml declaration with the theme processing instruction
 	 */
 	public static String getXMLDeclarationWithThemeXslt(final UIContext uic) {
-<span class="fc" id="L62">		String theme = WebUtilities.encode(ThemeUtil.getThemeXslt(uic));</span>
-<span class="fc" id="L63">		String dec = XML_DECLERATION + &quot;\n&lt;?xml-stylesheet type=\&quot;text/xsl\&quot; href=\&quot;&quot; + theme + &quot;\&quot;?&gt;&quot;;</span>
-<span class="fc" id="L64">		return dec;</span>
+<span class="fc" id="L63">		String theme = WebUtilities.encode(ThemeUtil.getThemeXslt(uic));</span>
+<span class="fc" id="L64">		String dec = XML_DECLERATION + &quot;\n&lt;?xml-stylesheet type=\&quot;text/xsl\&quot; href=\&quot;&quot; + theme + &quot;\&quot;?&gt;&quot;;</span>
+<span class="fc" id="L65">		return dec;</span>
 	}
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

@@ -70,7 +70,7 @@ import com.github.bordertech.wcomponents.util.SystemException;
 		// Paint content
 <span class="fc" id="L71">		WComponent content = tab.getContent();</span>
 
-<span class="fc" id="L73">		xml.appendTagOpen(&quot;ui:tabContent&quot;);</span>
+<span class="fc" id="L73">		xml.appendTagOpen(&quot;ui:tabcontent&quot;);</span>
 <span class="fc" id="L74">		xml.appendAttribute(&quot;id&quot;, tab.getId() + &quot;-content&quot;);</span>
 <span class="fc" id="L75">		xml.appendClose();</span>
 
@@ -81,7 +81,7 @@ import com.github.bordertech.wcomponents.util.SystemException;
 <span class="fc" id="L81">			content.paint(renderContext);</span>
 		}
 
-<span class="fc" id="L84">		xml.appendEndTag(&quot;ui:tabContent&quot;);</span>
+<span class="fc" id="L84">		xml.appendEndTag(&quot;ui:tabcontent&quot;);</span>
 
 <span class="fc" id="L86">		xml.appendEndTag(&quot;ui:tab&quot;);</span>
 <span class="fc" id="L87">	}</span>
