@@ -40,12 +40,17 @@ public class WRowExample extends WPanel {
 		add(createRow(0, new int[]{20, 20, 20, 20, 20}));
 
 		add(new WHeading(HeadingLevel.H2, "WRow / WCol with hgap=5"));
-		add(createRow(5, new int[]{33, 33, 33}));
-		add(createRow(5, new int[]{25, 25, 25, 25}));
-		add(createRow(5, new int[]{20, 20, 20, 20, 20}));
+		add(createRow(8, new int[]{33, 33, 33}));
+		add(createRow(8, new int[]{25, 25, 25, 25}));
+		add(createRow(8, new int[]{20, 20, 20, 20, 20}));
 		add(new WHeading(HeadingLevel.H2, "WRow / WCol undefined width"));
 		add(createRow(0, new int[]{0, 0, 0}));
 		addAppLevelCSSExample();
+
+		// WRow with no responsive design
+		WRow unresponsiveRow = createRow(8, new int[]{25, 25, 25, 25});
+		add(unresponsiveRow);
+		unresponsiveRow.setHtmlClass("wc-norespond");
 	}
 
 	/**

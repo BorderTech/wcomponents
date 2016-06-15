@@ -25,7 +25,7 @@
 		}
 	}
 
-	&.stacked > .wc-field {
+	&.wc-layout-stacked > .wc-field {
 		&::before {
 			content: counter(wcfld) '. ';
 			margin-right: $wc-gap-small;
@@ -77,7 +77,7 @@
 @include respond-not-small {
 	// This block should be in fieldLayout.dt.css but is here to work around a Safari bug.
 	// Flat is the most common use, but shouldn't be (due to a11y concerns which are not adequately covered by WCAG 2.0)
-	.wc_fld_flat > .wc-field {
+	.wc-layout-flat > .wc-field {
 		> label,
 		> span,
 		> div {

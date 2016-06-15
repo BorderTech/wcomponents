@@ -58,7 +58,7 @@ section {
 	// WPanel then we can 'dock' the menu to the panel/section header.
 	&,
 	> .wc-panel {
-		> .wc-content > .wc_mn_bar:first-child {
+		> .wc-content > .wc-menu-type-bar:first-child {
 			// the negative margin must be 0 - the padding of WSection content.
 			$neg-margin: -$section-content-spacing;
 			margin: $neg-margin $neg-margin $section-content-spacing;

@@ -21,7 +21,8 @@
 
 	> ul {
 		@include flex-align-self(center);
-		margin: $wc-gap-small 0;
+		margin: $wc-gap-small;
+		margin-right: 0;
 		padding-right: $wc-gap-small;
 	}
 }

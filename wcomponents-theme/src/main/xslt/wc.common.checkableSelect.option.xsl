@@ -59,11 +59,15 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="class">
-			<xsl:if test="$layout = 'column'">
-				<xsl:text>wc-column</xsl:text>
-			</xsl:if>
+			<xsl:text>wc_checkableselect_option_wrapper</xsl:text>
 			<xsl:if test="$elementName='ul'">
 				<xsl:text> wc_list_nb</xsl:text>
+			</xsl:if>
+			<xsl:if test="$layout = 'column'">
+				<xsl:text> wc-column</xsl:text>
+			</xsl:if>
+			<xsl:if test="not($layout = 'flat')">
+				<xsl:text> wc_vgap_sm</xsl:text>
 			</xsl:if>
 		</xsl:variable>
 		<xsl:element name="{$elementName}">

@@ -19,3 +19,7 @@ a {
 		color: $wc-ui-color-disabled-fg;
 	}
 }
+
+.wc_error { // show when the maxlength is exceeded in a textarea or when a label (or equivalent) is not provided
+	color: $wc-ui-color-error-fg;
+}

@@ -5,12 +5,13 @@
 progress {
 	display: inline-block;
 	min-width: 10em;
-
-	&.small {
-		min-width: 6.7em;
-	}
 }
 
+.wc-progressbar-type-small {
+	min-width: 6.7em;
+}
+
+// WAI-ARIA attributes used to create a fake progress bar inside the progress element.
 [role='progressbar'] {
 	@include border;
 	background-color: $wc-ui-color-progress-bg;

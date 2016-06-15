@@ -1,6 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
+	<xsl:import href="wc.common.title.xsl"/>
 	<!--
 	Helper template to make a fieldset legend. Used by the following components:
 		WCheckBoxSelect
@@ -21,11 +22,13 @@
 		<xsl:param name="myLabel"/>
 		<xsl:choose>
 			<xsl:when test="$myLabel">
+				<xsl:call-template name="title"/>
 				<xsl:apply-templates select="$myLabel" mode="legend">
 					<xsl:with-param name="labelableElement" select="."/>
 				</xsl:apply-templates>
 			</xsl:when>
 			<xsl:when test="@accessibleText">
+				<xsl:call-template name="title"/>
 				<xsl:call-template name="makeTextLegend">
 					<xsl:with-param name="content">
 						<xsl:value-of select="normalize-space(@accessibleText)"/>
@@ -40,11 +43,9 @@
 				</xsl:call-template>
 			</xsl:when>
 			<xsl:when test="not(ancestor::ui:ajaxtarget)">
-				<xsl:call-template name="makeTextLegend">
-					<xsl:with-param name="content">
-						<xsl:value-of select="$$${wc.common.i18n.requiredLabel}"/>
-					</xsl:with-param>
-				</xsl:call-template>
+				<legend class="wc_error">
+					<xsl:value-of select="$$${wc.common.i18n.requiredLabel}"/>
+				</legend>
 			</xsl:when>
 		</xsl:choose>
 	</xsl:template>

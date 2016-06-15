@@ -140,8 +140,13 @@
 						<xsl:apply-templates mode="multiselectPair"/>
 					</select>
 					<xsl:call-template name="hField"/>
+					
+					<xsl:call-template name="inlineError">
+						<xsl:with-param name="errors" select="$isError"/>
+					</xsl:call-template>
 				</xsl:when>
 				<xsl:when test="count(.//ui:option[@selected]) &gt; 0">
+					<xsl:call-template name="title"/>
 					<ul class="wc_list_nb">
 						<xsl:apply-templates select="ui:option[@selected]|ui:optgroup[ui:option[@selected]]" mode="multiselectPair">
 							<xsl:with-param name="readOnly" select="1"/>
@@ -150,11 +155,6 @@
 					</ul>
 				</xsl:when>
 			</xsl:choose>
-			<xsl:if test="$readOnly!=1">
-				<xsl:call-template name="inlineError">
-					<xsl:with-param name="errors" select="$isError"/>
-				</xsl:call-template>
-			</xsl:if>
 		</xsl:element>
 	</xsl:template>
 </xsl:stylesheet>

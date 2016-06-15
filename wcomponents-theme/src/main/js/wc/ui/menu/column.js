@@ -42,7 +42,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 * @public
 			 * @override
 			 */
-			this.ROOT = new Widget("", "wc_mn_column", {role: "menu"});
+			this.ROOT = new Widget("", "wc-menu-type-column", {role: "menu"});
 
 			/**
 			 * Reset the key map based on the type and/or state of the menu item passed in.

@@ -53,10 +53,7 @@
 				<xsl:with-param name="isWrapper" select="1"/>
 				<xsl:with-param name="class">
 					<xsl:if test="$frame='noborder' or $frame='none'">
-						<xsl:text> wc_noborder</xsl:text>
-					</xsl:if>
-					<xsl:if test="$frame='notext' or $frame='none'">
-						<xsl:text> wc_notext</xsl:text>
+						<xsl:text>wc_noborder</xsl:text>
 					</xsl:if>
 					<xsl:if test="@required">
 						<xsl:text> wc_req</xsl:text>
@@ -97,6 +94,11 @@
 				The legend will always be output but may be rendered out of viewport by the frame attribute.
 			-->
 			<legend>
+				<xsl:if test="$frame='notext' or $frame='none'">
+					<xsl:attribute name="class">
+						<xsl:text>wc_off</xsl:text>
+					</xsl:attribute>
+				</xsl:if>
 				<xsl:call-template name="accessKey"/>
 				<xsl:apply-templates select="ui:decoratedlabel"/>
 				<xsl:if test="normalize-space(ui:decoratedlabel/*)='' and not(ui:decoratedlabel//ui:image)">

@@ -21,7 +21,7 @@
 			</xsl:if>
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
-					<xsl:value-of select="$colHeaderElement/@align"/>
+					<xsl:value-of select="concat('wc-align-',$colHeaderElement/@align)"/>
 				</xsl:with-param>
 			</xsl:call-template>
 

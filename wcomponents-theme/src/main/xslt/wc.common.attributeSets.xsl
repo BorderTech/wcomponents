@@ -13,6 +13,7 @@
 	<xsl:import href="wc.common.title.xsl" />
 	<xsl:import href="wc.common.aria.label.xsl" />
 	<xsl:import href="wc.common.n.className.xsl" />
+	<xsl:import href="wc.common.makeLegend.xsl"/>
 
 	<!--
 		TODO: these need a good clean up.
@@ -118,7 +119,7 @@
 			<xsl:with-param name="isWrapper" select="1" />
 			<xsl:with-param name="class">
 				<xsl:if test="not(@readOnly)">
-					<xsl:text> wc_notext wc_noborder</xsl:text>
+					<xsl:text> wc_noborder</xsl:text>
 					<xsl:if test="@required">
 						<xsl:text> wc_req</xsl:text>
 					</xsl:if>
@@ -155,18 +156,16 @@
 		<xsl:param name="isControl" select="0" />
 		<xsl:param name="readOnly" select="@readOnly" />
 		<xsl:param name="isWrapper" select="0" />
-		<xsl:param name="class" select="0" />
+		<xsl:param name="class" select="''" />
 
 		<xsl:attribute name="id">
 			<xsl:value-of select="$id" />
 		</xsl:attribute>
-		<xsl:if test="$class != 0">
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
-					<xsl:value-of select="$class" />
-				</xsl:with-param>
-			</xsl:call-template>
-		</xsl:if>
+		<xsl:call-template name="makeCommonClass">
+			<xsl:with-param name="additional">
+				<xsl:value-of select="$class" />
+			</xsl:with-param>
+		</xsl:call-template>
 		<xsl:call-template name="hideElementIfHiddenSet" />
 		<xsl:call-template name="ajaxTarget">
 			<xsl:with-param name="live" select="$live" />

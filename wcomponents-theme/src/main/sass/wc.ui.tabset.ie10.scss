@@ -10,11 +10,11 @@
 	-ms-flex-pack: justify;
 	-ms-flex-wrap: nowrap;
 
-	&.wc_left {
+	&.wc-tabset-left {
 		-ms-flex-direction: row;
 	}
 
-	&.wc_right {
+	&.wc-tabset-right {
 		-ms-flex-direction: row-reverse;
 	}
 }
@@ -34,8 +34,8 @@
 		-ms-flex-direction: column;
 	}
 
-	.wc_left > &,
-	.wc_right > & {
+	.wc-tabset-left > &,
+	.wc-tabset-right > & {
 		-ms-flex: 0 1 auto;
 		-ms-flex-direction: column;
 

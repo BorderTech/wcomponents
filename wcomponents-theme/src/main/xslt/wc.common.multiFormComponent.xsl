@@ -3,7 +3,6 @@
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.inlineError.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
-	<xsl:import href="wc.common.title.xsl"/>
 	<xsl:import href="wc.ui.multiTextField.n.multiTextFieldContentRenderer.xsl"/>
 	<xsl:import href="wc.ui.multiDropdown.n.multiDropDownContentRenderer.xsl"/>
 	<xsl:import href="wc.common.makeLegend.xsl"/>
@@ -64,10 +63,6 @@
 			<xsl:otherwise>
 				<xsl:variable name="isError" select="key('errorKey',$id)"/>
 				<fieldset aria-relevant="additions removals" aria-atomic="false">
-					<xsl:call-template name="commonWrapperAttributes">
-						<xsl:with-param name="isError" select="$isError"/>
-						<xsl:with-param name="class" select="'wc_mfc'"/>
-					</xsl:call-template>
 					<xsl:if test="@min">
 						<xsl:attribute name="${wc.common.attrib.min}">
 							<xsl:value-of select="@min"/>
@@ -78,6 +73,10 @@
 							<xsl:value-of select="@max"/>
 						</xsl:attribute>
 					</xsl:if>
+					<xsl:call-template name="commonWrapperAttributes">
+						<xsl:with-param name="isError" select="$isError"/>
+						<xsl:with-param name="class" select="'wc_mfc'"/>
+					</xsl:call-template>
 					<xsl:call-template name="makeLegend">
 						<xsl:with-param name="myLabel" select="$myLabel"/>
 					</xsl:call-template>

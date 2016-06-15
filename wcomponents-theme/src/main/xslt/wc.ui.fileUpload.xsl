@@ -77,22 +77,26 @@
 					<xsl:attribute name="data-wc-cols">
 						<xsl:value-of select="$cols"/>
 					</xsl:attribute>
-					<xsl:if test="$readOnly!=1">
-						<xsl:call-template name="makeLegend">
-							<xsl:with-param name="myLabel" select="$myLabel"/>
-						</xsl:call-template>
-
-						<xsl:variable name="inputId" select="concat($id,'_input')"/>
-						<label class="wc_off" for="{$inputId}">
-							<xsl:value-of select="$$${wc.ui.multiFileUploader.i18n.inputLabel}"/>
-						</label>
-						<xsl:call-template name="fileInput">
-							<xsl:with-param name="id" select="$inputId"/>
-						</xsl:call-template>
-						<xsl:call-template name="inlineError">
-							<xsl:with-param name="errors" select="$isError"/>
-						</xsl:call-template>
-					</xsl:if>
+					<xsl:choose>
+						<xsl:when test="$readOnly = 1">
+							<xsl:call-template name="title"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:call-template name="makeLegend">
+								<xsl:with-param name="myLabel" select="$myLabel"/>
+							</xsl:call-template>
+							<xsl:variable name="inputId" select="concat($id,'_input')"/>
+							<label class="wc_off" for="{$inputId}">
+								<xsl:value-of select="$$${wc.ui.multiFileUploader.i18n.inputLabel}"/>
+							</label>
+							<xsl:call-template name="fileInput">
+								<xsl:with-param name="id" select="$inputId"/>
+							</xsl:call-template>
+							<xsl:call-template name="inlineError">
+								<xsl:with-param name="errors" select="$isError"/>
+							</xsl:call-template>
+						</xsl:otherwise>
+					</xsl:choose>
 					<xsl:if test="ui:file">
 						<xsl:variable name="numFiles" select="count(ui:file)"/>
 						<xsl:choose>
