@@ -1,15 +1,10 @@
 /* wc.ui.feedback.messages.scss */
+// WFieldWarningIndicator
+// WFieldErrorIndicator
+// WValidationErrors (server side validation) when "inline"
+// Client side validation error messages if plugin included
 @import 'mixins-common';
 
-// Common states for foreground aspects of messages
-// NOTE: the element selector is required here for error messages as we need to differentiate the message from the
-// element in an error state when both have the same class.
-ul {
-	&.error,
-	&.info,
-	&.warn,
-	&.success {
-		@include tight-box;
-		list-style-type: none;
-	}
+.wc-fieldindicator {
+	margin-top: $wc-gap-small;
 }

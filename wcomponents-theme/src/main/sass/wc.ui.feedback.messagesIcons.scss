@@ -1,36 +1,22 @@
 /* wc.ui.feedback.messagesIcons.scss */
-//    WFieldWarningIndicator
-//    WFieldErrorIndicator
-//    WMessageBox/WMessages
-//    WValidationErrors (server side validation)
-//    Client side validation error messages if plugin enabled
-
 // Iconography for inline messages
-// This is split out from the main feedback CSS for ease of overriding as it is a lot of
-// CSS to do a very small job and overriding the whole lot in an implementation would require all
-// this just to turn off the pseudo elements plus the styling needed for the indicators.
 @import 'mixins-common';
 
-.error,
-.success,
-.warn,
-.info {
-	> li:before {
+li:first-of-type:before {
+	.wc-fieldindicator > & {
 		@include wc-icon($fa-var-minus-circle);
 		margin-right: $wc-gap-small;
 	}
-}
 
-li:before {
-	.warn > & {
+	.wc-fieldindicator-type-warn > & {
 		content: $fa-var-exclamation-triangle;
 	}
 
-	.info > & {
+	.wc-fieldindicator-type-info > & {
 		content: $fa-var-info-circle;
 	}
 
-	.success > & {
+	.wc-fieldindicator-type-success > & {
 		content: $fa-var-check-circle;
 	}
 }

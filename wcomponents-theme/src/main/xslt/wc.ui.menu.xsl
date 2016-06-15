@@ -36,8 +36,8 @@
 				important stuff on roles.
 			-->
 			<xsl:call-template name="commonAttributes">
-				<xsl:with-param name="class" select="concat('wc_mn_', @type)"/>
 			</xsl:call-template>
+			
 			<xsl:apply-templates select="ui:margin"/>
 
 			<!--

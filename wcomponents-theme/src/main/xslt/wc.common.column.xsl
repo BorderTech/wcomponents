@@ -17,9 +17,8 @@
 			</xsl:if>
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
-					<xsl:value-of select="$align"/>
 					<xsl:if test="not($align) or $align = ''">
-						<xsl:text>left</xsl:text>
+						<xsl:text>wc-align-left</xsl:text>
 					</xsl:if>
 					<xsl:if test="not(self::ui:column)">
 						<xsl:text> wc-column</xsl:text>

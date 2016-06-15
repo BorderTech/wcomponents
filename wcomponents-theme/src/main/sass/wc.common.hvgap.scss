@@ -43,7 +43,9 @@ $wc-gap-suffix-list: sm, med, lg, xl !default;
 
 	.wc_hgap_#{$cl} {
 		> div,
-		> li {
+		> li,
+		> ul,
+		> span {
 			padding-left: $size / 2;
 			padding-right: $size / 2;
 		 }
@@ -71,7 +73,9 @@ $wc-gap-suffix-list: sm, med, lg, xl !default;
 
 		.wc_hgap_#{$cl} {
 			> div,
-			> li {
+			> ul,
+			> li,
+			> span {
 				padding-left: $size / 2;
 				padding-right: $size / 2;
 			 }

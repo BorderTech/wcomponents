@@ -14,8 +14,8 @@
 // only style left and right tabsets when we have a reasonable sized viewport.
 // TODO: maybe end support for left and right in older IEs.
 .wc-tabset {
-	&.wc_left,
-	&.wc_right {
+	&.wc-tabset-left,
+	&.wc-tabset-right {
 		vertical-align: top;
 
 		> [role='tablist'] {
@@ -28,7 +28,7 @@
 		}
 	}
 
-	&.wc_right > [role='tablist'] {// NOTE: no support for wc_right in old browsers. Make then look like left.
+	&.wc-tabset-right > [role='tablist'] {// NOTE: no support for wc_right in old browsers. Make then look like left.
 		left: $border-width;
 		right: auto;
 

@@ -16,6 +16,7 @@
  * @requires module:wc/dom/Widget
  * @requires module:wc/dom/isAcceptableTarget
  * @requires module:wc/dom/shed
+ * @requires module:wc/dom/getFilteredGroup
  */
 define(["wc/dom/ariaAnalog",
 		"wc/dom/initialise",

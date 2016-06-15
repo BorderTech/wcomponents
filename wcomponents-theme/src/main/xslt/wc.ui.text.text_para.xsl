@@ -9,14 +9,10 @@
 	-->
 	<xsl:template match="text()" mode="para">
 		<xsl:param name="type" select="'plain'"/>
-		<xsl:param name="class"/>
-		<xsl:element name="p">
-			<xsl:attribute name="class">
-				<xsl:value-of select="$class"/>
-			</xsl:attribute>
+		<p>
 			<xsl:call-template name="WStyledTextContent">
 				<xsl:with-param name="type" select="$type"/>
 			</xsl:call-template>
-		</xsl:element>
+		</p>
 	</xsl:template>
 </xsl:stylesheet>

@@ -1,21 +1,21 @@
 /* wc.ui.messagesBoxIcons.scss */
 @import 'messageBox_vars';
 
-.wc_msgbox {
-	> h1:before {
-		@include wc-icon-fw($fa-var-minus-circle, $width: 1.25rem);
+h1:before {
+	.wc_msgbox > & {
+		@include wc-icon-fw($fa-var-minus-circle, $width: 1.25rem); // default error box
 		vertical-align: middle;
 	}
 
-	&.warn  > h1:before {
+	.wc-messagebox-type-warn  > & {
 		content: $fa-var-exclamation-triangle;
 	}
 
-	&.info  > h1:before {
+	.wc-messagebox-type-info  > & {
 		content: $fa-var-info-circle;
 	}
 
-	&.success > h1:before {
+	.wc-messagebox-type-success > & {
 		content: $fa-var-check-circle;
 	}
 }

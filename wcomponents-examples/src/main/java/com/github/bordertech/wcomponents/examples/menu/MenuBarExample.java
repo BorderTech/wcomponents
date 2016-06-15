@@ -68,6 +68,7 @@ public class MenuBarExample extends WContainer {
 		// The Colours menu just shows simple text
 		WSubMenu colourMenu = new WSubMenu("Colours");
 		colourMenu.setMode(WSubMenu.MenuMode.LAZY);
+		colourMenu.setAccessKey('C');
 		addMenuItem(colourMenu, "Red", selectedMenuText);
 		addMenuItem(colourMenu, "Green", selectedMenuText);
 		addMenuItem(colourMenu, "Blue", selectedMenuText);
@@ -77,6 +78,7 @@ public class MenuBarExample extends WContainer {
 
 		// The Shapes menu shows grouping of items
 		WSubMenu shapeMenu = new WSubMenu("Shapes");
+		shapeMenu.setAccessKey('S');
 		addMenuItem(shapeMenu, "Circle", selectedMenuText);
 
 		WMenuItemGroup triangleGroup = new WMenuItemGroup("Triangles");

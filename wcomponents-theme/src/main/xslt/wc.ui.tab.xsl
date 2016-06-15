@@ -51,7 +51,6 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
-			
 			<!--
 				We set tabindex -1 on closed tabs only if there is at least one tab open and not disabled.
 			-->
@@ -65,7 +64,6 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
-
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
 					<xsl:text>wc_invite</xsl:text>

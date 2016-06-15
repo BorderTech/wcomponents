@@ -2,8 +2,44 @@
 // styles for WLabel and the label emulators
 @import 'label_vars';
 
-.hint {// .hint is additional text for labels that describe other information for the related form element
+.wc-label-hint { // hint is additional text for labels that describe other information for the related form element
 	@include label-hint;
+}
+
+
+// use inline-block to prevent a required marker flying off the end
+.wc-label {
+	display: inline-block;
+	font-weight: bold;
+
+	&.wc_req {
+		@include border-box;
+		@include fit-content; // allows for better position of mandatory indicator.
+		max-width: 100%; // do not allow fit-content to grow too big.
+		padding-right: 1em;
+		position: relative; // for the placing of the mandatory indicator.
+
+		&:after {
+			@include mandatory-indicator;
+			position: absolute;
+			right: $wc-gap-small;
+			top: 0;
+		}
+	}
+}
+
+[type='radio'],
+[type='radio'] {
+	+ .wc_req {
+		&:before {
+			@include mandatory-indicator;
+			margin-right: $wc-gap-small;
+		}
+
+		&:after {
+			display: none;
+		}
+	}
 }
 
 // space between a checkable and its label
@@ -11,39 +47,6 @@
 [type='checkbox'] + label,
 .wc_ro + .wc-label {
 	display: inline; // .wc-label's inline-block can cause the label to fall under the input when there is not enough room for the label
+	font-weight: normal;
 	margin-left: $wc-gap-small;
-}
-
-// use inline-block to prevent a required marker flying off the end
-.wc-label {
-	display: inline-block;
-
-	&.wc_req {
-		@include border-box;
-		@include fit-content; // allows for better position of mandatory indicator.
-		padding-right: 1em;
-		position: relative;
-
-		&:after,
-		input[type='checkbox'] + &:before,
-		input[type='radio'] + &:before {
-			@include mandatory-indicator;
-		}
-
-		&:after {
-			position: absolute;
-			right: $wc-gap-small;
-			top: 0;
-		}
-
-		[type='radio'] + &:before,
-		[type='checkbox'] + &:before {
-			margin-right: $wc-gap-small;
-		}
-
-		[type='radio'] + &:after,
-		[type='checkbox'] + &:after {
-			display: none;
-		}
-	}
 }

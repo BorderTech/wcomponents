@@ -153,6 +153,7 @@ public class TreeMenuExample extends WPanel {
 				"/image/settings.png", "settings"));
 		WSubMenu settings = new WSubMenu(dLabel);
 		settings.setMode(WSubMenu.MenuMode.LAZY);
+		settings.setAccessKey('S');
 		menu.add(settings);
 		settings.add(new WMenuItem(new WDecoratedLabel(null, new WText("Account Settings"),
 				new WImage("/image/user-properties.png", "user properties"))));

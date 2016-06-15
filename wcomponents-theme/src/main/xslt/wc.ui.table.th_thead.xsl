@@ -16,11 +16,7 @@
 					<xsl:text>columnheader</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
-					<xsl:value-of select="@align"/>
-				</xsl:with-param>
-			</xsl:call-template>
+			<xsl:call-template name="makeCommonClass"/>
 
 			<xsl:if test="@sortable=$t">
 				<xsl:variable name="sortControl" select="../../ui:sort"/>

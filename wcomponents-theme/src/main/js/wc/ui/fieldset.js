@@ -35,7 +35,7 @@ define(["wc/i18n/i18n",
 		 */
 		/**
 		 * @constructor
-		 * @alias module:wc/ui.fieldset~Fieldset
+		 * @alias module:wc/ui/fieldset~Fieldset
 		 * @private
 		 */
 		function Fieldset() {
@@ -98,7 +98,7 @@ define(["wc/i18n/i18n",
 			/**
 			 * Gets the {@link module:wc/dom/Widget} descriptor for a fieldset element.
 			 *
-			 * @function module:wc/ui.fieldset.getWidget
+			 * @function module:wc/ui/fieldset.getWidget
 			 * @public
 			 * @returns {module:wc/dom/Widget} The description of a fieldset.
 			 */
@@ -110,7 +110,7 @@ define(["wc/i18n/i18n",
 			 * Initialiser callback to wire in subscribers for AJAX and shed and to set the initial state of controls
 			 * inside any disabled fieldsets.
 			 *
-			 * @function module:wc/ui.fieldset.postInit
+			 * @function module:wc/ui/fieldset.postInit
 			 * @public
 			 */
 			this.postInit = function() {
@@ -118,7 +118,7 @@ define(["wc/i18n/i18n",
 				processResponse.subscribe(ajaxSubscriber);
 			};
 		}
-		var /** @alias module:wc/ui.fieldset */ instance = new Fieldset();
+		var /** @alias module:wc/ui/fieldset */ instance = new Fieldset();
 		initialise.register(instance);
 		return instance;
 	});

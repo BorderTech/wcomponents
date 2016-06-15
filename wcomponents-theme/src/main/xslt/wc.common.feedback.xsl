@@ -24,7 +24,7 @@
 			</xsl:attribute>
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
-					<xsl:value-of select="concat(' wc_msgbox ', $type)"/>
+					<xsl:text>wc_msgbox</xsl:text>
 				</xsl:with-param>
 			</xsl:call-template>
 
@@ -49,7 +49,7 @@
 					</xsl:choose>
 				</span>
 			</h1>
-			<ul>
+			<ul class="wc_list_nb">
 				<xsl:apply-templates />
 			</ul>
 		</xsl:element>
