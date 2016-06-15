@@ -4,17 +4,17 @@
 @include respond-not-small {
 	// only style left and right tabsets when we have a reasonable sized viewport.
 
-	.wc-tabset-left {
+	.wc-tabset-type-left {
 		@include flex-direction(row);
 	}
 
-	.wc-tabset-right {
+	.wc-tabset-type-right {
 		@include flex-direction(row-reverse);
 	}
 
 	[role='tablist'] {
-		.wc-tabset-left > &,
-		.wc-tabset-right > & {
+		.wc-tabset-type-left > &,
+		.wc-tabset-type-right > & {
 			@include flex-direction(column);
 			max-width: $wc-ui-tabset-left-right-tab-width;
 			top: 0;
@@ -29,7 +29,7 @@
 			}
 		}
 
-		.wc-tabset-left > & {
+		.wc-tabset-type-left > & {
 			left: $border-width;
 
 			[role='tab'] {
@@ -42,7 +42,7 @@
 
 		}
 
-		.wc-tabset-right & {
+		.wc-tabset-type-right & {
 			right: $border-width;
 
 			[role='tab'] {
