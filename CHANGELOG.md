@@ -9,11 +9,40 @@
   * Deprecated constructor `FlowLayout(Alignment, int, int, ContentAlignment)` in favour of
     `FlowLayout(Alignment, int, ContentAlignment)`.
   * Deprecated `getHGap()` and `getVGap()` in favour of `getGap()`.
+* ListLayout API modified as part of fixing #655. This was required to remove ambiguity from the API.
+  * Added convenience constructors to ListLayout:
+    * `ListLayout()`;
+    * `ListLayout(final Type type)`;
+    * `ListLayout(final boolean ordered)`; and
+    * `ListLayout(final Type type, final Alignment alignment)`.
+  * Added constructor `ListLayout(final Type type, final Alignment alignment, final Separator separator,
+    final boolean ordered, final int gap)`
+  * Deprecated constructor `ListLayout(final Type type, final Alignment alignment, final Separator separator,
+    final boolean ordered, final int hgap, final int vgap)` in favour of `ListLayout(final Type type,
+    final Alignment alignment, final Separator separator, final boolean ordered, final int gap)`.
+  * Deprecated `getHGap()` and `getVGap()` in favour of `getGap()`.
+* WList API modified as part of fixing #655. This was required to remove ambiguity from the API.
+  * Added constructor `WList(final Type type, final int gap)` and deprecated constructor `WList(final Type type,
+    final int hgap, final int vgap)` in favour of the new constructor.
+  * Deprecated `getHGap()` and `getVGap()` in favour of `getGap()`.
 
 ## Bug Fixes
+* Fixed a bug which prevented themes overriding font sizes and gaps in any unit other than rems #685.
+* Ensure missing label warning is in viewport #681.
+* Various table bugs fixed #666, #667, #670.
+* Removed flash on page load in slower browsers #664.
+* Ensure WDialog is not opened larger than viewport #663
 * FlowLayoutRenderer output the hgap or vgap relevant to the Alignment #636.
+* ListLayoutRenderer output the hgap or vgap relevant to the Alignment #655.
+* WSubMenu MenuMode.SERVER is internally mapped to MenuMode.DYNAMIC #687.
+* WButtonRenderer and WLinkRenderer updated to look for WImage description as fall-back if no text equivalent is set
+  #650.
+* Fixed GridLayout cell alignment on small screens #652
 
 ## Enhancements
+* Enhanced separation of labels and inputs to improve a11y #683.
+* Some responsive design improvements #671, #656
+* Updated the tranform of WTab to allow rich content in the tab "button" #669
 * Re-implemented basic support for theme-level inclusion of web analytics #398.
 
 # Release 1.1.8

@@ -20,25 +20,23 @@ import java.util.List;
  * <li>Menu separators (see {@link #addSeparator()})</li>
  * </ul>
  *
- * <p>
- * Actions on sub-menus are only supported for {@link WMenu.MenuType#COLUMN} menus.</p>
  *
  * @author Adam Millard
  * @author Yiannis Paschalidis - re-written to not extend WButton.
+ * @author Mark Reeves
  */
 public class WSubMenu extends AbstractNamingContextContainer implements Disableable, MenuSelectContainer, MenuItemSelectable {
 
 	/**
 	 * The available types of operation.
 	 *
-	 * @author Yiannis Paschalidis
+	 * @author Yiannis Paschalidis, Mark Reeves
 	 */
 	public enum MenuMode {
 		/**
 		 * Indicates that a round-trip should be made whenever the menu is opened.
 		 *
-		 * @deprecated Use MenuMode DYNAMIC instead as a like-for-like replacement or any other mode if it is more
-		 * appropriate to the individual use case. NOTE: this will not work for any WMenu type other than TREE.
+		 * @deprecated Mapped to MenuMode.DYMANIC as per https://github.com/BorderTech/wcomponents/issues/687
 		 */
 		SERVER,
 		/**
@@ -101,12 +99,13 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	}
 
 	/**
-	 * Sets the menu mode.
+	 * Sets the menu mode. See <a href="https://github.com/BorderTech/wcomponents/issues/687">#687</a>.
 	 *
 	 * @param mode the menu mode.
 	 */
 	public void setMode(final MenuMode mode) {
-		getOrCreateComponentModel().mode = mode;
+		// mode server mapped to mode dynamic as per https://github.com/BorderTech/wcomponents/issues/687
+		getOrCreateComponentModel().mode = mode == MenuMode.SERVER ? MenuMode.DYNAMIC : mode;
 	}
 
 	/**
@@ -316,8 +315,6 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @deprecated submenus should not be selectable.
 	 */
 	@Override
 	public Boolean getSelectability() {
@@ -326,7 +323,6 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 
 	/**
 	 * @param selectability true if this item is selectable, false if not, or null to default to the container.
-	 * @deprecated submenus should not be selectable.
 	 */
 	@Override
 	public void setSelectability(final Boolean selectability) {
@@ -344,7 +340,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 
 	/**
 	 * @param multipleSelection The multipleSelection to set.
-	 * @deprecated Use {{@link com.github.bordertech.wcomponents.MenuSelectContainer#setSelectionMode(com.github.bordertech.wcomponents.MenuSelectContainer.SelectionMode)}.
+	 * @deprecated Use {@link com.github.bordertech.wcomponents.MenuSelectContainer#setSelectionMode(com.github.bordertech.wcomponents.MenuSelectContainer.SelectionMode)}.
 	 */
 	@Deprecated
 	public void setMultipleSelection(final boolean multipleSelection) {
@@ -386,7 +382,6 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 
 	/**
 	 * {@inheritDoc}
-	 * @deprecated WSubMenu should only be selectable if the WMenu Type is TREE and Type TREE is deprecated.
 	 */
 	@Override
 	public SelectionMode getSelectionMode() {
@@ -395,7 +390,6 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 
 	/**
 	 * {@inheritDoc}
-	 * @deprecated WSubMenu should only be selectable if the WMenu Type is TREE and Type TREE is deprecated.
 	 */
 	@Override
 	public void setSelectionMode(final SelectionMode selectionMode) {
@@ -410,8 +404,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	}
 
 	/**
-	 * Sets the action to execute when the sub-menu is selected. Note that actions are currently only supported for
-	 * {@link WMenu.MenuType#COLUMN} menus.
+	 * Sets the action to execute when the sub-menu is selected.
 	 *
 	 * @param action the menu item's action.
 	 */
@@ -481,12 +474,10 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	}
 
 	/**
-	 * Indicates whether this sub-menuis selected (for menu types which support sub-menu selection).
+	 * Indicates whether this sub-menu is selected (for menu types which support sub-menu selection).
 	 *
 	 * @return true if this sub-menu is selected, false otherwise.
-	 * @deprecated submenus should not be selectable
 	 */
-	@Deprecated
 	@Override
 	public boolean isSelected() {
 		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);
