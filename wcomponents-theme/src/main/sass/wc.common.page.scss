@@ -9,16 +9,16 @@ html {
 
 body {
 	@include tight-box;
-	font-family: $default-font;
-	font-size: $default-font-size;
+	font-family: $wc-default-font;
+	font-size: $wc-default-font-size;
 	height: 100%; // body to fill viewport for event propagation.
 }
 
 pre {
-	font-family: $mono-font;
+	font-family: $wc-mono-font;
 }
 
-.wc_off {
+.wc-off {
 	@include offscreen;
 }
 
@@ -35,7 +35,7 @@ pre {
 	@include align(center);
 }
 
-// [hidden] hides content. Class .wc_off moves the content so it is still available to assistive technologies but is not
+// [hidden] hides content. Class .wc-off moves the content so it is still available to assistive technologies but is not
 // visible on screen. Applying this to [hidden] is redundant but needed because of irregular hidden support. It is
 // important to override more specific selectors for individual components. Again, this is needed for re-applying hidden
 // after it has been removed.
@@ -53,12 +53,12 @@ pre {
 
 @include respond-med-device {
 	body {
-		font-size: $dt-font-size;
+		font-size: $wc-desktop-font-size;
 	}
 }
 
 @include respond-large-device {
 	body {
-		font-size: $bigscreen-font-size;
+		font-size: $wc-bigscreen-font-size;
 	}
 }

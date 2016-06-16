@@ -3,7 +3,7 @@
 // .wc_table_rowsep is applied to the tbody
 // .wc_table_colsep is applied to the colgroup
 @import 'mixins-common';
-@import 'table_vars';
+@import 'mixins-common';
 
 .wc_table_rowsep > tr + tr {
 	@include border($pos: top);

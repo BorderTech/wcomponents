@@ -1,7 +1,8 @@
 /* wc.ui.dialog.scss */
 // The actual dialog. Its position is set on open such that it sits in the middle of the viewport. Margin:auto only
 // works in Chrome and Webkit.
-@import 'dialog_vars';
+@import 'mixins-common';
+
 
 dialog {
 	@include border($width: 0); // oh chrome, you try so hard to annoy me
@@ -13,7 +14,7 @@ dialog {
 	position: fixed;
 	top: 0;
 	width: 100%;
-	z-index: $z-index-dialog;
+	z-index: $wc-z-index-dialog;
 
 	> [aria-live] { // dialog content container
 		@include padded-box;
@@ -50,7 +51,7 @@ dialog {
 		> h1 { // the title
 			@include flex-grow(1);
 			@include margin($size: 0);
-			font-size: 1rem;
+			font-size: $wc-dialog-header-size;
 		}
 
 		> span { // the header control 'block'

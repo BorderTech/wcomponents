@@ -1,11 +1,11 @@
 /* wc.ui.menu.barColumn.icon.scss */
 // The opener iconoiography for WMenu type BAR, type FLYOUT, type COLUMN.
-@import 'menu_vars';
+@import 'mixins-common';
 
 .wc-submenu-o {
 	[role='menubar'] &:after {
 		@include wc-icon($fa-var-caret-down);
-		margin-left: $wc-ui-menu-bar-column-opener-indicator-before-after;
+		margin-left: $wc-menu-bar-column-opener-indicator-before-after;
 	}
 
 	[role='menu'] &:after {
@@ -16,7 +16,7 @@
 	[role='menu'] & > .wc-decoratedlabel:after {
 		@include wc-icon($fa-var-caret-right);
 		display: table-cell;
-		padding-left: $wc-ui-menu-bar-column-opener-indicator-before-after;
+		padding-left: $wc-menu-bar-column-opener-indicator-before-after;
 	}
 
 	&.wc_hbgr:after { // the hambirger icon

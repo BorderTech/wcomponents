@@ -23,7 +23,7 @@
 							shown (using subordinate) then the label will remain out of viewport but will become available to users
 							of supporting AT. This is outlined in more detail in wc.ui.label.xsl.
 						-->
-						<xsl:text> wc_off</xsl:text>
+						<xsl:text> wc-off</xsl:text>
 					</xsl:if>
 					<xsl:if test="$readOnly!=1 and $element and $element/@required">
 						<xsl:text> wc_req</xsl:text>

@@ -7,8 +7,8 @@
 // We use button of type submit rather than input of type submit to create form submission controls. This is to divorce
 // value from the visible text but is also more convenient for styling.
 // We have two styles for buttons which are not to appear like buttons:
-//  * [wc_btn_link] make the button look like a link
-//  * [wc_btn_nada] give the button no style at all
+//  * [wc-linkbutton] make the button look like a link
+//  * [wc-nobutton] give the button no style at all
 
 // Why would we use a button which looks like a link? Why not just use a link?
 // Well, links are for linking (navigation) these link-like buttons are for undertaking non-navigation behaviour. Using
@@ -19,14 +19,14 @@
 // mixed. It may be more appropriate to not have a button which disguises itself as a link but to use the noStyle
 // variant.
 @import 'mixins-common';
-@import 'btn_common';
+@import 'btn-common';
 
 /// User agent button styles are the bane of our lives. The _main_ problem is hard coded font styles rather than
 /// allowing them to inherit.
 button {
 	@include margin($size: 0);
 	// Uncomment the following to inherit text styles. This will improve consistency across platforms.
-	// If you add this you can remove the specific rule for ec_btn_link & wc_btn_nada below.
+	// If you add this you can remove the specific rule for wc-linkbutton & wc-nobutton below.
 	// @extend %button-like-text;
 }
 
@@ -34,19 +34,19 @@ button {
 @import 'btn-link';
 @import 'btn-icon';
 
-.wc_btn_link,
-.wc_btn_nada {
+.wc-linkbutton,
+.wc-nobutton {
 	@extend %button-like-text;
 }
 
 // A button stripped of its button nature.
-.wc_btn_nada {
-	@extend %wc_btn_nada;
+.wc-nobutton {
+	@extend %wc-nobutton;
 }
 
-// A button disguised as a link. These will normally also have the class wc_btn_nada.
-.wc_btn_link {
-	@extend %wc_btn_link;
+// A button disguised as a link. These will normally also have the class wc-nobutton.
+.wc-linkbutton {
+	@extend %wc-linkbutton;
 }
 
 // A common class for buttons which only contain icons.

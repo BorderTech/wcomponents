@@ -1,5 +1,5 @@
 /* wc.ui.htreeIcons.scss */
-@import 'tree-vars';
+@import 'mixins-common';
 
 .wc_leaf_hopener:before {
 	content: $fa-var-caret-right;

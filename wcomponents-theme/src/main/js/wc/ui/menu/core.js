@@ -118,7 +118,7 @@ define(["wc/has",
 			return {
 				TABSTOP: new Widget("", "", { "tabIndex": "0" }),  // used to get the current tabstop in any menu
 				GENERIC_ROOT: [new Widget("", "wc-menu"), new Widget("", "", {"role" : "tree"})],
-				OFFSCREEN: new Widget("", "wc_off")
+				OFFSCREEN: new Widget("", "wc-off")
 			};
 		}
 
@@ -2065,7 +2065,7 @@ define(["wc/has",
 
 			closeMenuButton.setAttribute(ROLE_ATTRIB, MENUITEM_ROLE);
 			closeMenuButton.type = BUTTON;
-			closeMenuButton.className = CLOSER_CLASS + " wc_btn_nada";
+			closeMenuButton.className = CLOSER_CLASS + " wc-nobutton";
 
 			openerContent = opener ? textContent.get(opener) : "";
 			closeMenuButton.innerHTML = openerContent || (DEFAULT_CLOSE_LABEL = DEFAULT_CLOSE_LABEL || i18n.get("${wc.ui.menu.bar.i18n.submenuCloseLabelDefault}"));

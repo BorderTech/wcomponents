@@ -24,7 +24,7 @@
 
 // Width of grid cells for various numbers of columns.
 @for $i from 1 through 12 {
-	.wc_col_#{$i} > .wc_gl_row > .wc-cell {
+	.wc-gridlayout-col-#{$i} > .wc_gl_row > .wc-cell {
 		width: percentage(1 / $i);
 	}
 }

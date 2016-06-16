@@ -2,14 +2,14 @@
 // design mixins as required.
 
 //how big is a small screen?
-$small-screen: 1000px !default;
+$wc-small-screen: 1000px !default;
 //and a common/medium screen?
-$medium-screen: 1280px !default;
+$wc-medium-screen: 1280px !default;
 //how about a BIG screen?
-$large-screen: 1921px !default;//bigger than 1080p
+$wc-large-screen: 1921px !default;//bigger than 1080p
 
 // guess what this is for!
-$bigger-than-small-screen: $small-screen + 1px;
+$wc-bigger-than-small-screen: $wc-small-screen + 1px;
 
 // NOTE: This  does not work with Vaadin Sass-compiler. See separate mixins below.
 @mixin respond($size, $test: max-width) {
@@ -29,22 +29,22 @@ $bigger-than-small-screen: $small-screen + 1px;
 		}
 	}
 	@else if($size == small) {
-		@media only screen and (#{$test}: $small-screen) {
+		@media only screen and (#{$test}: $wc-small-screen) {
 			@content;
 		}
 	}
 	@else if($size == 'not-small') {
-		@media only screen and (min-width: $bigger-than-small-screen) {
+		@media only screen and (min-width: $wc-bigger-than-small-screen) {
 			@content;
 		}
 	}
 	@else if($size == medium) {
-		@media only screen and (#{$test}: $medium-screen) {
+		@media only screen and (#{$test}: $wc-medium-screen) {
 			@content;
 		}
 	}
 	@else if($size == large) {
-		@media only screen and (#{$test}: $large-screen) {
+		@media only screen and (#{$test}: $wc-large-screen) {
 			@content;
 		}
 	}

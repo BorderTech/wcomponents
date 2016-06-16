@@ -8,7 +8,7 @@
 
 // This inference leads us to make the ACTION panel into a piece of sectioning content using a SECTION element and set
 // its title as the H1 of the section.
-@import 'panel_vars';
+@import 'mixins-common';
 
 .wc-panel-type-action {
 	background-color: $wc-ui-color-panel-action-background;

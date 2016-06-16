@@ -3,6 +3,7 @@
 
 // FontAwesome mixins and vars...
 @import 'mixins-animate';
+@import 'common';
 @import 'libs/fa/variables';
 @import 'libs/fa/mixins';
 
@@ -15,7 +16,7 @@
 }
 
 /// Make a fixed-width icon.
-@mixin wc-icon-fw ($icon: -1, $text-align: center, $width: 1rem) {
+@mixin wc-icon-fw ($icon: -1, $text-align: center, $width: $wc-icon-normal) {
 	@include wc-icon($icon);
 	text-align: $text-align;
 	width: $width;

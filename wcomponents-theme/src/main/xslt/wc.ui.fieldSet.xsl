@@ -96,7 +96,7 @@
 			<legend>
 				<xsl:if test="$frame='notext' or $frame='none'">
 					<xsl:attribute name="class">
-						<xsl:text>wc_off</xsl:text>
+						<xsl:text>wc-off</xsl:text>
 					</xsl:attribute>
 				</xsl:if>
 				<xsl:call-template name="accessKey"/>

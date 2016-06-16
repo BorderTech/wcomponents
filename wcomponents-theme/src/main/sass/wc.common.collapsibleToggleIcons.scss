@@ -1,6 +1,9 @@
+/* wc.common.collapsibleToggleIcons.scss */
+// Common for WCollapsoibleToggle and WTable's RowExpansion's expandAll.
+
 @import 'mixins-common';
 
-%expand-collapse-all-icons {
+.wc_coltog {
 	button:before {
 		@include wc-icon($fa-var-plus-square-o);
 		@include margin($pos: right);

@@ -3,15 +3,15 @@
 
 /// The back to top of page link.
 .wc_btt {
-	bottom: 1rem;
+	bottom: $wc-gap-large;
 	opacity: 0.5;
 	position: fixed;
-	right: 1rem;
+	right: $wc-gap-large;
 	text-decoration: none;
 
 	&:before {
 		display: block;
-		font-size: 1.5rem;
+		font-size: $wc-btt-normal;
 		line-height: inherit;
 		text-align: center;
 		vertical-align: middle;

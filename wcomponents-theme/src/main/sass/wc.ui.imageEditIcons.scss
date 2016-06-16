@@ -7,7 +7,7 @@ button[data-wc-img][data-wc-editor]:before {
 
 .wc_img_editor {
 	button:before {
-		min-width: 1rem;
+		min-width: $wc-icon-normal;
 	}
 
 	.wc_btn_anticlock:before {

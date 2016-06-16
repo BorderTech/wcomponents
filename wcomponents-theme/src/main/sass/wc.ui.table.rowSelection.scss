@@ -1,6 +1,6 @@
 /* wc.ui.table.rowSelection.scss */
-@import 'table_vars';
-@import 'menu_vars'; // for the menu background color.
+@import 'mixins-common';
+@import 'mixins-common'; // for the menu background color.
 
 .wc_table_sel_wrapper {
 	white-space: nowrap;

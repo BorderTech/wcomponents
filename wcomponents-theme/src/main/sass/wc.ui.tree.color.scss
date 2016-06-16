@@ -1,5 +1,5 @@
 /* wc.ui.tree.color.scss */
-@import 'tree-vars';
+@import 'mixins-common';
 
 [role='tree'] {
 	[aria-selected='true'] {

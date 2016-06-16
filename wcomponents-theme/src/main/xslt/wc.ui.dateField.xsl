@@ -212,7 +212,7 @@
 						"replace" the calendar icon will get cleaned up by our duplicate ID prevention
 						logic (assumes the new date field has the same ID which in WComponents is always the case).
 						-->
-					<button value="{$inputId}" tabindex="-1" id="{$pickId}" type="button" aria-haspopup="true" class="wc_wdf_cal wc_btn_icon wc_invite">
+					<button value="{$inputId}" tabindex="-1" id="{$pickId}" type="button" aria-haspopup="true" class="wc_wdf_cal wc_btn_icon wc-invite">
 						<xsl:call-template name="disabledElement">
 							<xsl:with-param name="isControl" select="1"/>
 						</xsl:call-template>

@@ -1,5 +1,10 @@
 /* wc.ui.dialogue.ie9.scss */
-@import 'dialog_vars';
+@import 'mixins-common';
+// This basically rebuilds dialogs for a pretty dodgy emulation without using flex.
+$wc-dialog-ie9-head-size: 12px !default;
+$wc-dialog-ie9-headfootheight: 16px !default;
+$wc-dialog-ie9-headpad: 3px !default;
+$wc-dialog-ie9-contentpad: 2 * ($wc-dialog-ie9-headfootheight + $wc-dialog-ie9-headpad);
 
 dialog {
 	&[open] {
@@ -9,26 +14,30 @@ dialog {
 
 	> [aria-live] {
 		@include border-box;
-		padding: 2rem $wc-gap-normal;
+		padding: $wc-dialog-ie9-contentpad $wc-gap-normal;
 	}
 
 	> header,
 	> footer {
+		height: $wc-dialog-ie9-headfootheight;
+		overflow: hidden;
 		position: absolute;
 		width: 100%;
 	}
 
 	> header {
-		height: 16px;
-		overflow: hidden;
-		padding: 3px 0;
+		padding: $wc-dialog-ie9-headpad 0;
 		top: 0;
 
 		> span {
 			margin-right: 0;
 			position: absolute;
-			right: 3px;
-			top: 3px;
+			right: $wc-dialog-ie9-headpad;
+			top: $wc-dialog-ie9-headpad;
+		}
+
+		> h1 {
+			font-size: $wc-dialog-ie9-head-size;
 		}
 	}
 
