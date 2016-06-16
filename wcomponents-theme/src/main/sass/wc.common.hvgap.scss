@@ -24,7 +24,7 @@
 // 	}
 // }
 
-// The list of class suffixes
+// The list of class suffixes. There is no point rewriting this unless you rewrite the XSLT.
 $wc-gap-suffix-list: sm, med, lg, xl !default;
 
 @each $cl in $wc-gap-suffix-list {

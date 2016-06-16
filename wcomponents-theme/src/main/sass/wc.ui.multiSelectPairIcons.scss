@@ -4,7 +4,7 @@
 .wc_msp_btncol button {
 	&:before {
 		content: $fa-var-angle-right;
-		width: 1rem;
+		width: $wc-icon-normal;
 	}
 
 	// NOTE this will need a .ie8.scss file if your implementation needs to support ie8.

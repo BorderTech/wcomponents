@@ -1,5 +1,5 @@
 /* wc.ui.tabset.color.scss */
-@import 'tabset_vars';
+@import 'tabset-mixins';
 
 [role='tab'] {
 	background-color: $wc-ui-color-tab-inactive;

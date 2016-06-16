@@ -1,9 +1,9 @@
 /* wc.ui.messagesBoxIcons.scss */
-@import 'messageBox_vars';
+@import 'mixins-common';
 
 h1:before {
-	.wc_msgbox > & {
-		@include wc-icon-fw($fa-var-minus-circle, $width: 1.25rem); // default error box
+	.wc_msgbox > & { // Use error box as default.
+		@include wc-icon-fw($fa-var-minus-circle, $width: $wc-icon-wider);
 		vertical-align: middle;
 	}
 

@@ -1,6 +1,8 @@
 /* wc.ui.fieldLayout.dt.scss */
 @import 'fieldLayout-mixins';
 
+// If you _really_ want to support all possible labelWidths you can ignore this and just use
+// @for $i from 1 through 100 as shown below.
 $wc-fld-list: 16, 33, 34, 66, 67, 83 !default;
 
 @include respond-not-small {

@@ -1,6 +1,4 @@
 // Meta Module to import all common variables.
-//You can (probably) safely import this file rather than trying to work out which common vars files you need
+@import 'implementation_vars'; // used to override WComponents defaults. Must always be improted first.
 @import 'colors';
 @import 'common';
-@import 'fonts';
-@import 'spacing';

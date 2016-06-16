@@ -1,5 +1,5 @@
 /* wc.ui.table.rowExpansionIcons.scss */
-@import 'expand-collapse-allIcons';
+@import 'mixins-common';
 
 // ROW EXPANSION iconography and expand/collapse all iconography.
 tr[role='row'] {
@@ -12,8 +12,4 @@ tr[role='row'] {
 			content: $fa-var-caret-down;
 		}
 	}
-}
-
-.wc-rowexpansion {
-	@extend %expand-collapse-all-icons;
 }

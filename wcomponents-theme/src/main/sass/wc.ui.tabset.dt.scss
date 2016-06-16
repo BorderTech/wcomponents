@@ -1,5 +1,5 @@
 /* wc.ui.tabset.dt.scss */
-@import 'tabset_vars';
+@import 'tabset-mixins';
 
 @include respond-not-small {
 	// only style left and right tabsets when we have a reasonable sized viewport.
@@ -16,7 +16,7 @@
 		.wc-tabset-type-left > &,
 		.wc-tabset-type-right > & {
 			@include flex-direction(column);
-			max-width: $wc-ui-tabset-left-right-tab-width;
+			max-width: $wc-tabset-left-right-tab-width;
 			top: 0;
 
 			> [role] + [role] {
@@ -30,7 +30,7 @@
 		}
 
 		.wc-tabset-type-left > & {
-			left: $border-width;
+			left: $wc-border-width;
 
 			[role='tab'] {
 				@include wc-ui-tabset-left-border-radius;
@@ -43,7 +43,7 @@
 		}
 
 		.wc-tabset-type-right & {
-			right: $border-width;
+			right: $wc-border-width;
 
 			[role='tab'] {
 				@include wc-ui-tabset-right-border-radius;

@@ -1,17 +1,12 @@
 /* wc.ui.table.rowExpansion.scss */
-@import 'table_vars';
-@import 'expand-collapse-all';
-
-.wc-rowexpansion {
-	@extend %expand-collapse-all;
-}
+@import 'mixins-common';
 
 // The next lot does indentation of "child" rows when the table type is 'heirarchic'
 @for $i from 2 to 6 {
 	.wc_tbl_hierarchic > [aria-level='#{$i}'] > .wc_table_rowexp_container {
 		+ td,
 		+ th {
-			padding-left: ($i - 1) * $table-hierarchic-indent;
+			padding-left: ($i - 1) * $wc-gap-large;
 		}
 	}
 }

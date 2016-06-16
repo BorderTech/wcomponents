@@ -48,7 +48,7 @@
 				<xsl:attribute name="class">
 					<xsl:text>wc-gridlayout</xsl:text><!-- prefixed local name -->
 					<xsl:if test="$useCols &lt;= 12">
-						<xsl:value-of select="concat(' wc_col_', $useCols)"/>
+						<xsl:value-of select="concat(' wc-gridlayout-col-', $useCols)"/>
 					</xsl:if>
 					<xsl:call-template name="getHVGapClass">
 						<xsl:with-param name="isVGap" select="1"/>

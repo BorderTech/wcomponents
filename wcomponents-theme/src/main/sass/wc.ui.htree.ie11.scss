@@ -1,5 +1,5 @@
 /* wc.ui.htree.scss */
-@import 'tree-vars';
+@import 'mixins-common';
 
 // htree extends and replaces parts of tree.scss
 [role='tree'].wc_htree [role='group'] {

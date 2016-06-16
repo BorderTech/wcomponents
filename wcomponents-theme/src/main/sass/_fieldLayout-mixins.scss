@@ -1,7 +1,8 @@
-@import 'fieldLayout_vars';
+// I recommend this never be overridden as it is purely structural and a bit of a pain.
+@import 'mixins-common';
 
-$wc-label-width-slug: wc_fld_lblwth !default;
-$wc-input-width-slug: wc_fld_inpw !default;
+$wc-label-width-slug: wc_fld_lblwth; // DO NOT CHANGE
+$wc-input-width-slug: wc_fld_inpw; //DO NOT CHANGE
 
 @mixin wc-fld-layout($lwdth) {
 	$lw: $lwdth * 1%;

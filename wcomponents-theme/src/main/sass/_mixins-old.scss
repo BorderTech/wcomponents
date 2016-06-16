@@ -2,7 +2,6 @@
 
 // You will have to manually add the import for these, they are not part of mixins-common.
 // If you use this in a view which does not use _mixins-common or _vars you will also have to manually import one.
-$symbol-font: 'Lucida Sans Unicode', 'Arial Unicode MS' !default;
 
 //$line-height: 1.33333;
 // This variable is used to construct boxes where the width of the box is equal to the line height of the text.
@@ -64,7 +63,8 @@ $symbol-font: 'Lucida Sans Unicode', 'Arial Unicode MS' !default;
 	}
 }
 
+// $symbol-font: 'Lucida Sans Unicode', 'Arial Unicode MS' !default;
 /// Use the symbol font as the font family for the element.
 @mixin use-symbol-font {
-	font-family: $symbol-font;
+	font-family: 'Lucida Sans Unicode', 'Arial Unicode MS';
 }

@@ -92,7 +92,7 @@
 						</xsl:when>
 					</xsl:choose>
 					<xsl:if test="$rowIsSelectable = 1">
-						<xsl:text> wc_invite</xsl:text>
+						<xsl:text> wc-invite</xsl:text>
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
@@ -256,7 +256,7 @@
 						-->
 							<div class="wc-menu wc_mn_flyout" role="menubar" id="{$subRowToggleControlId}">
 								<div class="wc-submenu" role="presentation">
-									<button type="button" aria-haspopup="true" class="wc_btn_nada wc_invite wc-submenu-o" id="{$subRowToggleControlButtonId}" aria-controls="{$subRowToggleControlContentId}">
+									<button type="button" aria-haspopup="true" class="wc-nobutton wc-invite wc-submenu-o" id="{$subRowToggleControlButtonId}" aria-controls="{$subRowToggleControlContentId}">
 										<xsl:call-template name="offscreenSpan">
 											<xsl:with-param name="text" select="$$${wc.ui.table.string.rowSelection.label}"/>
 										</xsl:call-template>
@@ -270,7 +270,7 @@
 												<xsl:with-param name="tableId" select="$tableId"/>
 											</xsl:apply-templates>
 										</xsl:variable>
-										<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc_btn_nada wc_invite" aria-controls="{$subRowControlList}" data-wc-value="all">
+										<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc-nobutton wc-invite" aria-controls="{$subRowControlList}" data-wc-value="all">
 											<xsl:attribute name="aria-checked">
 												<xsl:choose>
 													<xsl:when test="$allUnselectedSubRows = 0">
@@ -285,7 +285,7 @@
 												<xsl:with-param name="text" select="$$${wc.common.toggles.i18n.selectAll.a11y}"/>
 											</xsl:call-template>
 										</button>
-										<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc_btn_nada wc_invite" aria-controls="{$subRowControlList}"  data-wc-value="none">
+										<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc-nobutton wc-invite" aria-controls="{$subRowControlList}"  data-wc-value="none">
 											<xsl:attribute name="aria-checked">
 												<xsl:choose>
 													<xsl:when test="$allSelectableSubRows = $allUnselectedSubRows">

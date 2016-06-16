@@ -86,7 +86,7 @@
 								<xsl:with-param name="myLabel" select="$myLabel"/>
 							</xsl:call-template>
 							<xsl:variable name="inputId" select="concat($id,'_input')"/>
-							<label class="wc_off" for="{$inputId}">
+							<label class="wc-off" for="{$inputId}">
 								<xsl:value-of select="$$${wc.ui.multiFileUploader.i18n.inputLabel}"/>
 							</label>
 							<xsl:call-template name="fileInput">

@@ -1,5 +1,5 @@
 /* wc.ui.messagesBox.color.scss */
-@import 'messageBox_vars';
+@import 'mixins-common';
 
 .wc_msgbox {
 	background-color: $wc-ui-color-global-bg;
@@ -7,7 +7,7 @@
 
 	> h1 {
 		background-color: $wc-ui-color-error-fg; // default error box
-		color: $std-color-white;
+		color: $wc-ui-color-msgbox-header-fg;
 	}
 }
 

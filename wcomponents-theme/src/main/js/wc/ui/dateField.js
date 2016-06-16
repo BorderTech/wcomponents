@@ -325,7 +325,7 @@ define(["wc/has",
 				for (i = 0; i < suggestions.length; i++) {
 					tabIndex = i === 0 ? "0" : "-1";
 					suggestions[i].attributes = suggestions[i].attributes || "";
-					suggestions[i].attributes += " role='option' class='wc_invite' " + VALUE_ATTRIB + "='" + suggestions[i].html + "' tabindex='" + tabIndex + "'";
+					suggestions[i].attributes += " role='option' class='wc-invite' " + VALUE_ATTRIB + "='" + suggestions[i].html + "' tabindex='" + tabIndex + "'";
 
 					html.push(tag.toTag(DATE_FIELD_TAGNAME, false, suggestions[i].attributes));
 					html.push(suggestions[i].html);

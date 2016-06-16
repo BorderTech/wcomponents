@@ -31,7 +31,7 @@
 					</xsl:attribute>
 				</xsl:otherwise>
 			</xsl:choose>
-			<span class="wc_off">
+			<span class="wc-off">
 				<xsl:value-of select="$text"/>
 			</span>
 		</button>

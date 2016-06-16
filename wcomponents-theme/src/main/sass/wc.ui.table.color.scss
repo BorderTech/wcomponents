@@ -1,5 +1,5 @@
 /* wc.ui.table.color.scss */
-@import 'table_vars';
+@import 'mixins-common';
 
 thead {
 	background-color: $wc-ui-color-table-head-bg;
@@ -20,7 +20,7 @@ tr.wc_table_stripe {
 	background-color: $wc-ui-color-highlight-bg-rgba;
 }
 
-tr.wc_invite {
+tr.wc-invite {
 	&:hover,
 	&:focus {
 		background-color: $wc-ui-color-invite-bg-rgba;
@@ -38,8 +38,8 @@ tr.wc_invite {
 	.wc-table.wc-respond {
 		tr[aria-selected='true'] {
 			&,
-			&.wc_invite:hover,
-			&.wc_invite:focus {
+			&.wc-invite:hover,
+			&.wc-invite:focus {
 				background-color: $wc-ui-color-selected-bg;
 			}
 

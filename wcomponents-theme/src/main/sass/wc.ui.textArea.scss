@@ -6,10 +6,10 @@ textarea + output {
 	@include border($color: -1);
 	@include border($pos: top, $width: 0);
 	display: block;
-	margin-top: -$border-width;
+	margin-top: -$wc-border-width;
 	padding: $wc-gap-small;
 	position: absolute;
-	z-index: $z-index-common;
+	z-index: $wc-z-index-common;
 
 	&:before { // show the number of chars remaining
 		content: attr(value);
@@ -17,7 +17,7 @@ textarea + output {
 	}
 
 	dialog & {
-		z-index: $z-index-common-in-dialog;
+		z-index: $wc-z-index-common-in-dialog;
 	}
 }
 

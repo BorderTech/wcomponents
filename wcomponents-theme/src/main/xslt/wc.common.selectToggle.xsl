@@ -170,7 +170,7 @@
 					
 					<xsl:variable name="subClass">
 						<xsl:value-of select="concat('wc_', local-name(.))"/>
-						<xsl:text> wc_seltog</xsl:text>
+						<xsl:text> wc_seltog wc-linkbutton</xsl:text>
 					</xsl:variable>
 					<xsl:call-template name="toggleElement">
 						<xsl:with-param name="mode" select="$mode"/>
@@ -263,7 +263,7 @@
 					</xsl:if>
 					<xsl:call-template name="makeCommonClass">
 						<xsl:with-param name="additional">
-							<xsl:text>wc_seltog wc_btn_nada</xsl:text>
+							<xsl:text>wc_seltog wc-nobutton</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:if test="self::ui:selecttoggle">

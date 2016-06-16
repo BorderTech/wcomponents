@@ -1,6 +1,9 @@
 /* wc.ui.fieldLayout.scss */
 @import 'fieldLayout-mixins';
 
+$wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width; // Do not change
+
+
 .wc-fieldlayout + .wc-fieldlayout, // Vertical space between consecutive WFieldLayouts.
 .wc-field  + .wc-field { // Vertical space between fields in a WFieldLayout.
 	margin-top: $wc-gap-normal;
@@ -85,14 +88,14 @@
 			vertical-align: text-top;
 
 			&:first-child { //The first child is the label or stand-in or merely an empty placeholder/spacer.
-				width: $label-width;
+				width: $wc-fieldlayout-default-label-width;
 			}
 		}
 
 		> .wc-input {
 			margin-top: 0; // Remove stacked margin.
-			max-width: $input-width;
-			width: $input-width;
+			max-width: $wc-fieldlayout-input-width;
+			width: $wc-fieldlayout-input-width;
 		}
 	}
 }

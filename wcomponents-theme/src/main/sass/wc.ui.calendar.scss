@@ -15,10 +15,10 @@
 	top: 0;
 	white-space: nowrap;
 	width: 100%;
-	z-index: $z-index-common;
+	z-index: $wc-z-index-common;
 
 	dialog & {
-		z-index: $z-index-common-in-dialog;
+		z-index: $wc-z-index-common-in-dialog;
 	}
 
 	.wc-row {
@@ -31,7 +31,7 @@
 
 		input { //year field:
 			margin: 0 $wc-gap-large;
-			width: 5rem; //  FF and IE do not size by max.
+			width: 5em; //  FF and IE do not size by max.
 		}
 	}
 
@@ -42,15 +42,13 @@
 
 // The calendar table
 #wc_calendar {
-	font-size: 1.5rem;
+	font-size: $wc-font-larger;
 
 	thead {
 		@include border($pos: bottom);
 	}
 
 	th {
-		font-size: 1em; // reset from 1.5rem
-		padding: $wc-gap-small;
 		text-align: center;
 	}
 
@@ -72,7 +70,7 @@
 	min-width: 100%;
 	padding: $wc-gap-small;
 	text-align: center;
-	width: 3rem;
+	width: 100%;
 }
 
 // The main purpose of this CSS is to make the pop-up calendar full screen. We make all of the buttons bigger to make
