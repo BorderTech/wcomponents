@@ -57,7 +57,7 @@
 						</xsl:if>
 					</xsl:if>
 					<xsl:if test="@type = 'link'">
-						<xsl:text> wc_btn_nada wc_btn_link</xsl:text>
+						<xsl:text> wc-nobutton wc-linkbutton</xsl:text>
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>

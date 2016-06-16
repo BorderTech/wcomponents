@@ -34,7 +34,7 @@
 							<xsl:text>wc_error</xsl:text>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:text>wc_off</xsl:text>
+							<xsl:text>wc-off</xsl:text>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:with-param>

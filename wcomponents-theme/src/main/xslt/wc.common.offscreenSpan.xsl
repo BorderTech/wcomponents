@@ -10,7 +10,7 @@
 		<xsl:if test="$text!=''">
 			<span>
 				<xsl:attribute name="class">
-					<xsl:text>wc_off</xsl:text>
+					<xsl:text>wc-off</xsl:text>
 					<xsl:if test="$class!=''">
 						<xsl:value-of select="concat(' ', $class)"/>
 					</xsl:if>

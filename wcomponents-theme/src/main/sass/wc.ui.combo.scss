@@ -8,13 +8,13 @@ datalist {
 
 input[role='combobox'] { // not the combo wrapper of datefield.
 	@include border-box;
-	padding-right: 1rem; // allow for icon
+	padding-right: $wc-icon-normal; // allow for icon
 
 	&[aria-expanded = 'true'] ~ [role='listbox'] {
 		display: block;
 		// allow for up to approx seven visible options. The factor 1.25 is a rough line-height
 		// Chrome & Safari on OS - X use 1.125 whereas FF appears to use 1.0625.
-		max-height: (7 * 1.125 * (1rem + (2 * $wc-gap-small)));
+		max-height: (7 * 1.125 * (1 + (2 * $wc-gap-small)));
 		max-width: 100%;
 		overflow: auto;
 	}

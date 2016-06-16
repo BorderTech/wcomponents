@@ -41,7 +41,7 @@
 				<xsl:with-param name="isControl" select="$isButton"/>
 				<xsl:with-param name="class">
 					<xsl:if test="$isButton=1">
-						<xsl:text>wc_btn_nada wc_invite</xsl:text>
+						<xsl:text>wc-nobutton wc-invite</xsl:text>
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
@@ -103,11 +103,11 @@
 					<xsl:variable name="nameButtonId">
 							<xsl:value-of select="concat(@id, '-branch-name')"/>
 					</xsl:variable>
-					<button class="wc_btn_nada wc_invite wc_leaf_vopener" aria-hidden="true" type="button" tabindex="-1">
+					<button class="wc-nobutton wc-invite wc_leaf_vopener" aria-hidden="true" type="button" tabindex="-1">
 						<xsl:text>&#x0a;</xsl:text>
 					</button>
 					<!-- leave tabindex="0" on this button, it is used as a short-hand to find focusable controls in the core menu JavaScript. -->
-					<button type="button" class="wc_btn_nada wc_invite wc_leaf" id="{$nameButtonId}" aria-controls="{@id}" tabindex="0">
+					<button type="button" class="wc-nobutton wc-invite wc_leaf" id="{$nameButtonId}" aria-controls="{@id}" tabindex="0">
 						<xsl:call-template name="title"/>
 						<xsl:call-template name="treeitemContent"/>
 					</button>
@@ -130,8 +130,10 @@
 							</xsl:with-param>
 						</xsl:apply-templates>
 						<span class="wc_branch_resizer" aria-hidden="true">
-							<button type="button" class="wc_btn_nada wc_btn_icon wc_invite wc_resize wc_branch_resize_handle" data-wc-resize="{$groupId}" role="presentation">
-								<span class="wc_off">resize handle</span>
+							<button type="button" class="wc-nobutton wc_btn_icon wc-invite wc_resize wc_branch_resize_handle" data-wc-resize="{$groupId}" role="presentation">
+								<xsl:call-template name="offscreenSpan">
+									<xsl:with-param name="text" select="'resize handle'"></xsl:with-param>
+								</xsl:call-template>
 							</button>
 						</span>
 					</div>

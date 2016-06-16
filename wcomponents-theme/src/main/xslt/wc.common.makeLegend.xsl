@@ -52,7 +52,7 @@
 
 	<xsl:template name="makeTextLegend">
 		<xsl:param name="content"/>
-		<legend class="wc_off">
+		<legend class="wc-off">
 			<xsl:value-of select="$content"/>
 			<xsl:if test="@required">
 				<xsl:call-template name="offscreenSpan">

@@ -58,7 +58,7 @@ define(["wc/dom/initialise",
 					item = document.createElement("li");
 					item.setAttribute("data-wc-value", next.innerHTML);
 					item.setAttribute("role", "option");
-					item.className = "wc_invite";
+					item.className = "wc-invite";
 					item.innerHTML = next.innerHTML;
 					item.tabIndex = "0";
 					optionList.appendChild(item);

@@ -1,5 +1,5 @@
 /* wc.ui.menu.tree.scss */
-@import 'menu_vars';
+@import 'mixins-common';
 
 // TODO: try to work WMenu Type TREE to be more like WTree so we can get rid of this.
 .wc-menu[role="tree"] {
@@ -12,7 +12,7 @@
 
 		> .wc-decoratedlabel {
 			display: inline-table;
-			width: calc(100% - #{$wc-ui-menu-tree-iconwidth}); // allow for icon.
+			width: calc(100% - #{$wc-menu-tree-iconwidth}); // allow for icon.
 		}
 	}
 

@@ -1,7 +1,7 @@
 /* wc.ui.table.scss */
 // This is the core of the table CSS. The other CSS files are used for functional images and other items which are less
 // likely to be implementation specific
-@import 'table_vars';
+@import 'mixins-common';
 
 table {
 	@include border;
@@ -17,8 +17,8 @@ table {
 
 th,
 td {
-	padding: $table-cell-padding;
-	text-align: $preferred-alignment;
+	padding: $wc-gap-small;
+	text-align: left; // use TableColumn.Alignment to change this.
 	vertical-align: top;
 }
 
@@ -36,7 +36,7 @@ th.wc_table_sel_wrapper { // reset the vertical alignment of th with these class
 }
 
 .wc_table_colauto {
-	width: 0.5rem; // actually anything small but more than zero.
+	width: $wc-gap-normal; // actually anything small but more than zero.
 }
 
 @include respond-phone {
@@ -84,13 +84,13 @@ th.wc_table_sel_wrapper { // reset the vertical alignment of th with these class
 			+ .wc-td {
 				display: inline-block;
 				padding-left: 0;
-				width: calc(100% - 1rem);
+				width: calc(100% - $wc-icon-normal);
 			}
 		}
 
 		@for $i from 2 to 6 {
 			.wc_tbl_hierarchic > [aria-level='#{$i}'] {
-				padding-left: $i * $table-hierarchic-indent-small;
+				padding-left: $i * $wc-gap-normal;
 
 
 				> th,

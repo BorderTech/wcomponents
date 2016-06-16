@@ -8,11 +8,11 @@ ul[role='listbox'] {
 	display: none;
 	list-style-type: none;
 	position: absolute;
-	z-index: $z-index-common;
+	z-index: $wc-z-index-common;
 
 	dialog & {
 		position: fixed;
-		z-index: $z-index-common-in-dialog;
+		z-index: $wc-z-index-common-in-dialog;
 	}
 }
 

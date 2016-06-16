@@ -2,12 +2,16 @@
 @import 'mixins-common';
 
 .wc_seltog {
-	&[data-wc-value]:before,
-	&[role='checkbox']:before {
-		@include wc-icon-fw($fa-var-square-o, left);
-	}
+	// &[data-wc-value]:before,
+	// &[role='checkbox']:before {
+	// 	@include wc-icon-fw($fa-var-square-o, left);
+	// }
 
 	&[role='checkbox'] { // Rendered as a control
+		&:before {
+			@include wc-icon-fw($fa-var-square-o, left);
+		}
+
 		&[aria-checked='true']:before {
 			content: $fa-var-check-square-o;
 		}
@@ -17,10 +21,10 @@
 		}
 	}
 
-	&[data-wc-value='all']:before {
-		content: $fa-var-check-square-o;
-	}
-
+	// &[data-wc-value='all']:before {
+	// 	content: $fa-var-check-square-o;
+	// }
+	//
 	&[data-wc-value][aria-checked='true'] {
 		font-weight: bold;
 	}

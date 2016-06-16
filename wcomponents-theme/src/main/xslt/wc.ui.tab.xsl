@@ -66,7 +66,7 @@
 			</xsl:attribute>
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
-					<xsl:text>wc_invite</xsl:text>
+					<xsl:text>wc-invite</xsl:text>
 				</xsl:with-param>
 			</xsl:call-template>
 

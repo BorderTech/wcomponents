@@ -67,9 +67,9 @@
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="isControl" select="$isButton"/>
 				<xsl:with-param name="class">
-					<xsl:text>wc_invite</xsl:text>
+					<xsl:text>wc-invite</xsl:text>
 					<xsl:if test="$actionType &gt; 0">
-						<xsl:text> wc_btn_nada</xsl:text>
+						<xsl:text> wc-nobutton</xsl:text>
 						<xsl:if test="@cancel">
 							<xsl:text> wc_btn_cancel</xsl:text>
 						</xsl:if>

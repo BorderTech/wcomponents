@@ -23,13 +23,12 @@
 
 	> input {
 		border: 0 none;
-		//max-width: calc(100% - 2rem); // allow for icon with button artefacts.
 	}
 
 	&[aria-expanded='true'] > [role='listbox'] {
 		border: 0 none;
 		display: block;
-		left: $border-width * -1;
+		left: $wc-border-width * -1;
 		min-width: 100%;
 
 		dialog & {

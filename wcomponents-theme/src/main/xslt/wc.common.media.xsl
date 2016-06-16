@@ -115,7 +115,7 @@
 							<xsl:with-param name="isControl" select="1"/>
 						</xsl:call-template>
 					</xsl:if>
-					<span class="wc_off">
+					<span class="wc-off">
 						<xsl:value-of select="$$${wc.ui.media.i18n.play}"/>
 					</span>
 				</button>

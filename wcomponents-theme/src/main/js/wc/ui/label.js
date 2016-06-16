@@ -46,7 +46,8 @@ define(["wc/dom/classList",
 				LEGEND,
 				FAUX,
 				TAGS = [tag.INPUT, tag.TEXTAREA, tag.SELECT, tag.PROGRESS, tag.FIELDSET],
-				MANDATORY_SPAN = new Widget("span", "wc_off");
+				CLASS_OFF = "wc-off",
+				MANDATORY_SPAN = new Widget("span", CLASS_OFF);
 
 			/**
 			 * Function to do label manipulation when a labelled element is shed'ed.
@@ -76,7 +77,7 @@ define(["wc/dom/classList",
 						if (func === "add") {
 							if (!mandatorySpan) {
 								mandatorySpan = document.createElement("span");
-								mandatorySpan.className = "wc_off";
+								mandatorySpan.className = CLASS_OFF;
 								mandatorySpan.innerHTML = i18n.get("${wc.common.i18n.requiredPlaceholder}");
 								next.appendChild(mandatorySpan);
 							}
@@ -158,7 +159,7 @@ define(["wc/dom/classList",
 
 				newLabellingElement.innerHTML = label.innerHTML;
 				if (mandatorySpan) {
-					mandatorySpan.className = "wc_off";
+					mandatorySpan.className = CLASS_OFF;
 					mandatorySpan.innerHTML = i18n.get("${wc.common.i18n.requiredPlaceholder}");
 					newLabellingElement.appendChild(mandatorySpan);
 				}
@@ -170,8 +171,8 @@ define(["wc/dom/classList",
 				if (shed.isHidden(element)) {
 					shed.hide(newLabellingElement, true);  // nothing depends on the hidden state of a label and we are replicating a load-time state.
 				}
-				if (classList.contains(label, "wc_off")) {
-					classList.add(newLabellingElement, "wc_off");
+				if (classList.contains(label, CLASS_OFF)) {
+					classList.add(newLabellingElement, CLASS_OFF);
 				}
 				if ((style = label.getAttribute(STYLE))) {
 					newLabellingElement.setAttribute(STYLE, style);

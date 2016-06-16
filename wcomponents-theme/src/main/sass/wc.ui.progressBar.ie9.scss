@@ -1,10 +1,12 @@
 /* wc.ui.progressBar.ie9.scss */
 // Description: Show the fake progress bar spans
-@import 'progress_vars';
+@import 'mixins-common';
 
 progress {
 	display: inline-block;
+	height: 1em;
 	min-width: 10em;
+	width: 10em;
 }
 
 .wc-progressbar-type-small {

@@ -4,6 +4,6 @@
 /// The back to top of page link.
 @include respond-not-small {
 	.wc_btt:before {
-		font-size: 4rem;
+		font-size: $wc-btt-large;
 	}
 }

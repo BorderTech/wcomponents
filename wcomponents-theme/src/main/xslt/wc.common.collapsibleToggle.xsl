@@ -58,7 +58,11 @@
 			<xsl:value-of select="concat('wc_', local-name(.))"/>
 		</xsl:variable>
 		<ul id="{$id}" role="radiogroup">
-			<xsl:call-template name="makeCommonClass"/>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:text>wc_coltog</xsl:text>
+				</xsl:with-param>
+			</xsl:call-template>
 			<xsl:call-template name="ajaxTarget"/>
 			<li>
 				<xsl:call-template name="toggleElement">
