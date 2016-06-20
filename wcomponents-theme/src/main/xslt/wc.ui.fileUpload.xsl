@@ -1,4 +1,6 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.ui.fileUpload.file.n.fileInput.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
@@ -120,9 +122,9 @@
 							<xsl:otherwise>
 								<ul>
 									<xsl:attribute name="class">
-										<xsl:text>wwc_list_nb wc_filelist</xsl:text>
+										<xsl:text>wc_list_nb wc_filelist</xsl:text>
 										<xsl:if test="$cols = 0">
-											<xsl:text> wc_list_flat</xsl:text>
+											<xsl:text> wc-listlayout-type-flat</xsl:text>
 										</xsl:if>
 									</xsl:attribute>
 									<xsl:apply-templates select="ui:file"/>
