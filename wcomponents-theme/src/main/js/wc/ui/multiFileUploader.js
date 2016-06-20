@@ -718,7 +718,7 @@ define(["wc/dom/attribute",
 				}
 				else if (cols === "0" && !itemContainers.length) {
 					col = document.createElement(fileInfoContainerWd.tagName);
-					col.className = CLASS_NO_BULLET + " wc_list_flat " + CLASS_FILE_LIST;
+					col.className = CLASS_NO_BULLET + " wc-listlayout-type-flat " + CLASS_FILE_LIST;
 					container.appendChild(col);
 					itemContainers = fileInfoContainerWd.findDescendants(container);
 				}
