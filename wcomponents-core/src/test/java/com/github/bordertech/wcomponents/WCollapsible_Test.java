@@ -118,4 +118,11 @@ public class WCollapsible_Test extends AbstractWComponentTestCase {
 		assertAccessorsCorrect(collapsible, "headingLevel", null, HeadingLevel.H1, HeadingLevel.H2);
 	}
 
+	@Test
+	public void testModeAccessors() {
+		WCollapsible collapsible = new WCollapsible(new WText(""), "",
+				WCollapsible.CollapsibleMode.CLIENT);
+		assertAccessorsCorrect(collapsible, "mode", WCollapsible.CollapsibleMode.CLIENT, WCollapsible.CollapsibleMode.LAZY, WCollapsible.CollapsibleMode.DYNAMIC);
+	}
+
 }
