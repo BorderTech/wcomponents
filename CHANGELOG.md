@@ -29,8 +29,10 @@
   fixing a11y problems in TabMode.SERVER as per #692.
 * WCollapsible updated setMode(CollapsibleMode) to set CollapsibleMode.DYNAMIC if the mode being set is
   CollapsibleMode.SERVER. This is required for fixing a11y problems in CollapsibleMode.SERVER as per #694.
+* WDialog.isResizeable will always return true as part of fixing #606
 
 ## Bug Fixes
+* Fixed accessibility problems in WDialog #606.
 * Fixed accessibility problems in WCollapsible #692.
 * Fixed accessibility problems in WTabSet #692.
 * Fixed a bug which prevented themes overriding font sizes and gaps in any unit other than rems #685.
@@ -43,12 +45,12 @@
 * WSubMenu MenuMode.SERVER is internally mapped to MenuMode.DYNAMIC #687.
 * WButtonRenderer and WLinkRenderer updated to look for WImage description as fall-back if no text equivalent is set
   #650.
-* Fixed GridLayout cell alignment on small screens #652
+* Fixed GridLayout cell alignment on small screens #652.
 
 ## Enhancements
 * Enhanced separation of labels and inputs to improve a11y #683.
-* Some responsive design improvements #671, #656
-* Updated the tranform of WTab to allow rich content in the tab "button" #669
+* Some responsive design improvements #671, #656.
+* Updated the transform of WTab to allow rich content in the tab "button" #669.
 * Re-implemented basic support for theme-level inclusion of web analytics #398.
 
 # Release 1.1.8
