@@ -40,7 +40,8 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WCollapsible collapsible = new WCollapsible(new WText(COLLAPSIBLE_CONTENT),
 				COLLAPSIBLE_HEADING, WCollapsible.CollapsibleMode.SERVER);
 		assertSchemaMatch(collapsible);
-		assertXpathEvaluatesTo("server", "//ui:collapsible/@mode", collapsible);
+		// see https://github.com/BorderTech/wcomponents/issues/694
+		assertXpathEvaluatesTo("dynamic", "//ui:collapsible/@mode", collapsible);
 		assertRenderContentCorrectly(collapsible, false, true);
 	}
 
