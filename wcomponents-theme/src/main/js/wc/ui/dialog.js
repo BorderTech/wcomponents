@@ -83,7 +83,6 @@ define(["wc/dom/classList",
 						height: dialogObj.height,
 						initWidth: dialogObj.width,  // useful if we do not allow resize below initial size
 						initHeight: dialogObj.height,
-						resizable: dialogObj.resizable || false,
 						modal: dialogObj.modal || false,
 						title: dialogObj.title || i18n.get("${wc.ui.dialog.title.noTitle}")
 					};
@@ -324,7 +323,6 @@ define(["wc/dom/classList",
 		 * @property {int} [initHeight] The dialog height in px as set by the Java. This is used if the theme allows
 		 *    resizing but prevents a dialog being made smaller than its intial size. This property is not in the
 		 *    registration object passed in to the module.
-		 * @property {Boolean} [resizeable] Is the dialog resizeable?
 		 * @property {Boolean} [modal] Is the dialog modal?
 		 * @property {String} [title] The WDialog title. If not set a default title is used.
 		 * @property {Boolean} [open] If true then the dialog is to be open on page load. This is passed in as part of
