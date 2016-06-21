@@ -22,9 +22,6 @@
 		<div id="{@id}" role="tabpanel">
 			<xsl:attribute name="class">
 				<xsl:text>wc-tabcontent</xsl:text>
-				<xsl:if test="$mode='server'">
-					<xsl:text> wc_lame</xsl:text>
-				</xsl:if>
 				<xsl:choose>
 					<xsl:when test="$open=1">
 						<xsl:if test="$mode='dynamic'">

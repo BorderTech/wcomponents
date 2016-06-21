@@ -83,19 +83,23 @@ define(["wc/dom/ariaAnalog",
 			 */
 			this.ITEM = new Widget("", "", {"role": "tab"});
 
+
 			/**
-			 * Do not automatically select a tab when navigating with the keyboard. NOTE: this directly contravenes the
-			 * WAI-ARIA keyboard guidelines for a Tab Panel widget but automatically activating a tab on navigate causes
-			 * all sorts of usability problems.
-			 *
-			 * @see {@link http://www.w3.org/TR/wai-aria-practices/#tabpanel}
-			 * @constant
-			 * @type {Boolean}
+			 * Select items immediately on navigation.
+			 * @function
 			 * @protected
+			 * @param {Element} element the tab being navigated to
+			 * @returns {Boolean} true unless the tab is in an accordion.
 			 * @override
-			 * @default false
 			 */
-			this.selectOnNavigate = false;
+			this.selectOnNavigate = function(element) {
+				var container = this.getGroupContainer(element);
+
+				if (container && container.getAttribute("aria-multiselectable")) {
+					return false;
+				}
+				return true;
+			};
 
 			/**
 			 * The selection mode for the group of tabs context. The select mode is mixed as accordions may be
