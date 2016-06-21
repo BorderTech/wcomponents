@@ -3,7 +3,7 @@
 		Outputs an A element linking to a source file.
 	-->
 	<xsl:template match="ui:src" mode="link">
-		<a href="{@uri}" class="wc-src">
+		<a href="{@uri}" class="wc-src wc-icon">
 			<xsl:attribute name="${wc.common.attrib.attach}">
 				<xsl:text>${wc.common.attrib.attach}</xsl:text>
 			</xsl:attribute>

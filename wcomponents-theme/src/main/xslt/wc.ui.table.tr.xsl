@@ -241,7 +241,7 @@
 			selection mechanism and state. The primary indicators are the aria-selected state.
 			-->
 			<xsl:if test="$tableRowSelection=1">
-				<td class="wc_table_sel_wrapper">
+				<td class="wc_table_sel_wrapper wc-icon">
 					<xsl:choose>
 						<xsl:when test="$hasRowExpansion + $tableRowSelection = 2 and $myTable/ui:rowselection/@toggle and ui:subtr/ui:tr[not(@unselectable)]">
 							<xsl:attribute name="role">
@@ -321,7 +321,7 @@
 			-->
 			<xsl:if test="$myTable/ui:rowexpansion">
 				<!-- The rowExpansion cell will hold the expansion control (if any) -->
-				<td class="wc_table_rowexp_container">
+				<td class="wc_table_rowexp_container wc-icon">
 					<xsl:if test="ui:subtr">
 						<xsl:attribute name="role">button</xsl:attribute>
 						<xsl:attribute name="aria-controls">

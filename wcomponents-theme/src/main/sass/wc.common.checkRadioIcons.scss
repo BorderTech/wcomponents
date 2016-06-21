@@ -1,17 +1,15 @@
 /* wc.common.checkRadioIcons.scss */
 @import 'mixins-common';
 
-/// WCheckBox and WRadioButton in read-only mode.
-.wc-checkbox,
-.wc-radiobutton {
+/// read-only WCheckBox.
+.wc-checkbox {
 	&.wc_ro:before {
-		@include wc-icon($fa-var-square-o);
+		content: $fa-var-square-o;
 	}
-}
 
-/// Selected, read-only WCheckBox.
-.wc-checkbox.wc_ro_sel:before {
-	content: $fa-var-check-square-o;
+	&.wc_ro_sel:before {
+		content: $fa-var-check-square-o;
+	}
 }
 
 /// read-only WRadioButton.

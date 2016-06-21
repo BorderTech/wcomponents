@@ -108,7 +108,7 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 				if (show) {
 					if (!link) {
 						link = document.createElement("a");
-						link.className = "wc_btt";
+						link.className = "wc_btt wc-icon";
 						link.href = "#";
 						link.innerHTML = "<span>" + i18n.get("${wc.ui.backToTop.i18n.text}") + "</span>";
 						document.body.appendChild(link);

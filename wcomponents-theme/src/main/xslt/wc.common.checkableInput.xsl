@@ -53,8 +53,9 @@
 			<xsl:when test="@readOnly">
 				<xsl:call-template name="readOnlyControl">
 					<xsl:with-param name="class">
+						<xsl:text>wc-icon</xsl:text>
 						<xsl:if test="@selected">
-							<xsl:text>wc_ro_sel</xsl:text>
+							<xsl:text> wc_ro_sel</xsl:text>
 						</xsl:if>
 					</xsl:with-param>
 					<xsl:with-param name="toolTip">

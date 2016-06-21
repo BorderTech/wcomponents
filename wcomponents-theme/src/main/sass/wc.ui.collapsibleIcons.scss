@@ -12,7 +12,7 @@
 
 summary {
 	&:before {
-		@include wc-icon-fw($fa-var-caret-right, left);
+		@include wc-icon-fw-content($fa-var-caret-right, left);
 	}
 
 	[open] > &:before {

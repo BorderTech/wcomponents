@@ -113,7 +113,7 @@
 					</noscript>
 				</div>
 				<div id="wc_ui_loading">
-					<div tabindex="0">
+					<div tabindex="0" class="wc-icon">
 						<xsl:value-of select="$$${wc.ui.loading.loadMessage}"/>
 					</div>
 				</div>
