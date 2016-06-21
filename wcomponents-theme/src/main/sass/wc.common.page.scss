@@ -35,6 +35,16 @@ pre {
 	@include align(center);
 }
 
+.wc-icon:before,
+.wc-icon-right:before {
+	@include wc-icon;
+}
+
+.wc-icon-right:before {
+	float: right;
+	margin-left: $wc-gap-small;
+}
+
 // [hidden] hides content. Class .wc-off moves the content so it is still available to assistive technologies but is not
 // visible on screen. Applying this to [hidden] is redundant but needed because of irregular hidden support. It is
 // important to override more specific selectors for individual components. Again, this is needed for re-applying hidden

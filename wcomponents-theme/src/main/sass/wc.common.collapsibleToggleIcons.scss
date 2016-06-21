@@ -5,8 +5,8 @@
 
 .wc_coltog {
 	button:before {
-		@include wc-icon($fa-var-plus-square-o);
 		@include margin($pos: right);
+		content: $fa-var-plus-square-o;
 	}
 
 	[data-wc-value='collapse']:before {

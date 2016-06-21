@@ -49,7 +49,7 @@
 			<xsl:attribute name="role">
 				<xsl:text>treeitem</xsl:text>
 			</xsl:attribute>
-			
+
 			<xsl:attribute name="aria-selected">
 				<xsl:choose>
 					<xsl:when test="@selected">
@@ -78,13 +78,13 @@
 					<xsl:attribute name="type">
 						<xsl:text>button</xsl:text>
 					</xsl:attribute>
-					
+
 					<!-- leave tabindex on this butten, it is used as a short-hand to find fousable controls in the core menu JavaScript. -->
 					<xsl:attribute name="tabindex">
 						<xsl:text>0</xsl:text>
 					</xsl:attribute>
 					<xsl:call-template name="title"/>
-					<span class="wc_leaf_vopener" aria-hidden="true">
+					<span class="wc_leaf_vopener wc-icon" aria-hidden="true">
 						<xsl:text>&#x0a;</xsl:text>
 					</span>
 					<xsl:call-template name="treeitemContent"/>
@@ -103,7 +103,7 @@
 					<xsl:variable name="nameButtonId">
 							<xsl:value-of select="concat(@id, '-branch-name')"/>
 					</xsl:variable>
-					<button class="wc-nobutton wc-invite wc_leaf_vopener" aria-hidden="true" type="button" tabindex="-1">
+					<button class="wc-nobutton wc-invite wc_leaf_vopener wc-icon" aria-hidden="true" type="button" tabindex="-1">
 						<xsl:text>&#x0a;</xsl:text>
 					</button>
 					<!-- leave tabindex="0" on this button, it is used as a short-hand to find focusable controls in the core menu JavaScript. -->
@@ -130,7 +130,7 @@
 							</xsl:with-param>
 						</xsl:apply-templates>
 						<span class="wc_branch_resizer" aria-hidden="true">
-							<button type="button" class="wc-nobutton wc_btn_icon wc-invite wc_resize wc_branch_resize_handle" data-wc-resize="{$groupId}" role="presentation">
+							<button type="button" class="wc-nobutton wc_btn_icon wc-invite wc_resize wc_branch_resize_handle wc-icon" data-wc-resize="{$groupId}" role="presentation">
 								<xsl:call-template name="offscreenSpan">
 									<xsl:with-param name="text" select="'resize handle'"></xsl:with-param>
 								</xsl:call-template>
@@ -147,7 +147,7 @@
 			<xsl:attribute name="class">
 				<xsl:text>wc_leaf_img</xsl:text>
 				<xsl:if test="not(@imageUrl)">
-					<xsl:text> wc_leaf_noimg</xsl:text>
+					<xsl:text> wc_leaf_noimg wc-icon</xsl:text>
 				</xsl:if>
 			</xsl:attribute>
 			<xsl:if test="@imageUrl">
@@ -157,7 +157,7 @@
 		<span class="wc_leaf_name">
 			<xsl:value-of select="@label"/>
 		</span>
-		<span class="wc_leaf_hopener" aria-hidden="true">
+		<span class="wc_leaf_hopener wc-icon" aria-hidden="true">
 			<xsl:text>&#x0a;</xsl:text>
 		</span>
 	</xsl:template>

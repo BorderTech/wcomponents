@@ -88,8 +88,10 @@ final class ExampleSection extends WSection implements MessageContainer {
 		tabset.addTab(source, new WDecoratedLabel(srcImage), WTabSet.TAB_MODE_LAZY).setToolTip("View Source");
 
 		// The refresh current view button.
-		WButton refreshButton = new WButton("Refresh");
-		refreshButton.setImage("/image/refresh-w.png");
+		WButton refreshButton = new WButton("\u200b");
+		refreshButton.setToolTip("Refresh");
+		refreshButton.setHtmlClass("wc-icon fa-refresh");
+		//refreshButton.setImage("/image/refresh-w.png");
 		refreshButton.setRenderAsLink(true);
 		refreshButton.setAction(new ValidatingAction(messages.getValidationErrors(), refreshButton) {
 			@Override
@@ -99,8 +101,10 @@ final class ExampleSection extends WSection implements MessageContainer {
 		});
 
 		// The reset example button.
-		final WButton resetButton = new WButton("Reset");
-		resetButton.setImage("/image/cancel-w.png");
+		final WButton resetButton = new WButton("\u200b");
+		resetButton.setToolTip("Reset");
+		resetButton.setHtmlClass("wc-icon fa-times-circle");
+		//resetButton.setImage("/image/cancel-w.png");
 		resetButton.setRenderAsLink(true);
 		resetButton.setAction(new ValidatingAction(messages.getValidationErrors(), resetButton) {
 			@Override

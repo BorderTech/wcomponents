@@ -263,7 +263,7 @@
 					</xsl:if>
 					<xsl:call-template name="makeCommonClass">
 						<xsl:with-param name="additional">
-							<xsl:text>wc_seltog wc-nobutton</xsl:text>
+							<xsl:text>wc_seltog wc-nobutton wc-icon</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:if test="self::ui:selecttoggle">

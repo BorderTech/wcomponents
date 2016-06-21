@@ -32,7 +32,7 @@
 					<xsl:value-of select="@mode"/>
 				</xsl:attribute>
 			</xsl:if>
-	
+
 			<xsl:call-template name="requiredElement"/>
 			<xsl:call-template name="ajaxController"/>
 
@@ -41,14 +41,14 @@
 			<xsl:if test="$isError">
 				<xsl:call-template name="invalid"/>
 			</xsl:if>
-			
+
 			<xsl:variable name="groupId" select="concat(@id, '-content')"/>
 			<div role="group" class="wc_tree_root" id="{$groupId}" data-wc-resizedirection="h">
 				<xsl:apply-templates select="ui:treeitem">
 					<xsl:with-param name="disabled" select="@disabled"/>
 				</xsl:apply-templates>
 				<span class="wc_branch_resizer" aria-hidden="true">
-					<button type="button" class="wc-nobutton wc_btn_icon wc-invite wc_resize wc_branch_resize_handle" data-wc-resize="{$groupId}" role="presentation">
+					<button type="button" class="wc-nobutton wc_btn_icon wc-invite wc_resize wc_branch_resize_handle wc-icon" data-wc-resize="{$groupId}" role="presentation">
 						<xsl:call-template name="offscreenSpan">
 							<xsl:with-param name="text" select="'resize handle'"></xsl:with-param>
 						</xsl:call-template>

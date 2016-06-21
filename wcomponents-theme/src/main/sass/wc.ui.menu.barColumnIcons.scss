@@ -19,16 +19,16 @@
 		padding-left: $wc-menu-bar-column-opener-indicator-before-after;
 	}
 
-	&.wc_hbgr:after { // the hambirger icon
-		margin-left: $wc-gap-small;
+	&.wc_hbgr:after { // the hamburger icon,
+		display: none;
 	}
 }
 
 .closesubmenu::before {
-	@include wc-icon($fa-var-caret-left);
+	content: $fa-var-caret-left;
 	margin-right: $wc-gap-normal;
 }
 
 .wc_hbgr::before {
-	@include wc-icon($fa-var-bars);
+	content: $fa-var-bars;
 }

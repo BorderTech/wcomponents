@@ -2,6 +2,8 @@ package com.github.bordertech.wcomponents.examples.table;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.MenuItemSelectable;
+import com.github.bordertech.wcomponents.MenuSelectContainer;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.SimpleBeanBoundTableModel;
 import com.github.bordertech.wcomponents.WAjaxControl;
@@ -43,7 +45,7 @@ public class FilterableTableExample extends WContainer {
 	/**
 	 * The bean properties used to populate the table.
 	 */
-	private static String[] beanProperties = new String[]{"firstName", "lastName", "dateOfBirth"};
+	private static final String[] BEAN_PROPERTIES = new String[]{"firstName", "lastName", "dateOfBirth"};
 
 	/**
 	 * column index for the first name column.
@@ -88,7 +90,7 @@ public class FilterableTableExample extends WContainer {
 	/**
 	 * filter mode: SINGLE or MULTIPLE.
 	 */
-	private static final WMenu.SelectMode SELECT_MODE = WMenu.SelectMode.MULTIPLE;
+	private static final MenuSelectContainer.SelectionMode SELECTION_MODE = MenuSelectContainer.SelectionMode.MULTIPLE;
 
 	/**
 	 * a button to clear all filters from all columns at once.
@@ -180,7 +182,7 @@ public class FilterableTableExample extends WContainer {
 		super.preparePaintComponent(request);
 		if (!isInitialised()) {
 			// Setup model
-			FilterableBeanBoundDataModel model = new FilterableBeanBoundDataModel(beanProperties);
+			FilterableBeanBoundDataModel model = new FilterableBeanBoundDataModel(BEAN_PROPERTIES);
 			table.setTableModel(model);
 			// Set the data as the bean on the table
 			table.setBean(ExampleDataUtil.createExampleData());
@@ -188,9 +190,9 @@ public class FilterableTableExample extends WContainer {
 			buildFilterMenus();
 
 			String caption = "Use the menus in the column headers to show only the rows where the column value matches the value"
-					+ ((SELECT_MODE == WMenu.SelectMode.MULTIPLE) ? "s " : " ")
+					+ ((SELECTION_MODE == MenuSelectContainer.SelectionMode.MULTIPLE) ? "s " : " ")
 					+ " of the selected option"
-					+ ((SELECT_MODE == WMenu.SelectMode.MULTIPLE) ? "s." : ".");
+					+ ((SELECTION_MODE == MenuSelectContainer.SelectionMode.MULTIPLE) ? "s." : ".");
 			if (getFilterableTableModel().isCaseInsensitiveMatch()) {
 				caption += " The case of the text is ignored.";
 			}
@@ -262,18 +264,20 @@ public class FilterableTableExample extends WContainer {
 
 		final List<String> found = new ArrayList<>();
 
-		final WImage filterImage = new WImage("/image/view-filter.png",
-				"Filter table using this column");
-		filterImage.setCacheKey("filterImage");
-		final WDecoratedLabel filterSubMenuLabel = new WDecoratedLabel(filterImage);
+//		final WImage filterImage = new WImage("/image/view-filter.png",
+//				"Filter table using this column");
+//		filterImage.setCacheKey("filterImage");
+		final WDecoratedLabel filterSubMenuLabel = new WDecoratedLabel(new WText("\u200b"));
+		filterSubMenuLabel.setToolTip("Filter this column");
+		filterSubMenuLabel.setHtmlClass("wc-icon fa-filter");
 		final WSubMenu submenu = new WSubMenu(filterSubMenuLabel);
-		submenu.setSelectMode(SELECT_MODE);
+		submenu.setSelectionMode(SELECTION_MODE);
 		menu.add(submenu);
 
 		WMenuItem item = new WMenuItem(CLEAR_ALL, new ClearFilterAction());
 		submenu.add(item);
 		item.setActionObject(item);
-		item.setSelectable(false);
+		item.setSelectability(false);
 		add(new WAjaxControl(item, table));
 
 		Object cellObject;
@@ -282,9 +286,11 @@ public class FilterableTableExample extends WContainer {
 
 		for (int i = 0; i < rows; ++i) {
 			bean = beanList.get(i);
+			if (bean == null) {
+				continue;
+			}
 
-			cellObject = getFilterableTableModel().getBeanPropertyValueFullList(
-					beanProperties[column], bean);
+			cellObject = getFilterableTableModel().getBeanPropertyValueFullList(BEAN_PROPERTIES[column], bean);
 			if (cellObject == null) {
 				continue; //nothing to add to the sub menu
 			}
@@ -347,7 +353,7 @@ public class FilterableTableExample extends WContainer {
 			}
 			WMenuItem target = (WMenuItem) event.getActionObject();
 			WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, target);
-			menu.clearSelectedItems();
+			menu.clearSelectedMenuItems();
 			getFilterableTableModel().filterBeanList();
 		}
 	}
@@ -496,7 +502,8 @@ public class FilterableTableExample extends WContainer {
 		}
 
 		/**
-		 * Determines if a given bean matches any applied filters.
+		 * Determines if a given bean matches any applied filters. This is a poorly formed function just as a proof of
+		 * concept. Do not copy this, use it as inspiration to write better Java than the CSS guy!
 		 *
 		 * @param bean the bean to test
 		 * @return the bean if it matches all applied filters or null if it does not.
@@ -506,7 +513,7 @@ public class FilterableTableExample extends WContainer {
 				return null;
 			}
 
-			List<WComponent> selectedItems;
+			List<MenuItemSelectable> selectedItems;
 			Object testBean;
 			String itemText;
 			String beanText;
@@ -514,7 +521,7 @@ public class FilterableTableExample extends WContainer {
 
 			/* AND filter: do each one */
 			if (firstNameFilterMenu.isVisible()) {
-				selectedItems = firstNameFilterMenu.getSelectedItems();
+				selectedItems = firstNameFilterMenu.getSelectedMenuItems();
 				if (selectedItems != null && !selectedItems.isEmpty()) {
 					testBean = getBeanPropertyValue("firstName", bean);
 					if (testBean == null) {
@@ -551,7 +558,7 @@ public class FilterableTableExample extends WContainer {
 			}
 
 			if (lastNameFilterMenu.isVisible()) {
-				selectedItems = lastNameFilterMenu.getSelectedItems();
+				selectedItems = lastNameFilterMenu.getSelectedMenuItems();
 				if (selectedItems != null && !selectedItems.isEmpty()) {
 					testBean = getBeanPropertyValue("lastName", bean);
 					if (testBean == null) {
@@ -586,7 +593,7 @@ public class FilterableTableExample extends WContainer {
 			}
 
 			if (dobFilterMenu.isVisible()) {
-				selectedItems = dobFilterMenu.getSelectedItems();
+				selectedItems = dobFilterMenu.getSelectedMenuItems();
 				if (selectedItems != null && !selectedItems.isEmpty()) {
 					testBean = getBeanPropertyValue("dateOfBirth", bean);
 					if (testBean == null) {
