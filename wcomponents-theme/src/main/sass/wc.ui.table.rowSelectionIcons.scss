@@ -4,7 +4,7 @@
 // only want to style aria-selected rows, nothing else
 .wc_table_sel_wrapper:before {
 	tr[aria-selected] > & {
-		@include wc-icon-fw($fa-var-circle-o, left);
+		@include wc-icon-fw-content($fa-var-circle-o, left);
 	}
 
 	tr[aria-selected='true'] > & {

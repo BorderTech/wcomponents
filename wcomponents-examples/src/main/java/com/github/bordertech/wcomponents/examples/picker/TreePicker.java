@@ -209,11 +209,14 @@ public class TreePicker extends WContainer {
 		 * Add the UI controls to the utility bar.
 		 */
 		private void setUp() {
+			setMargin(new Margin(0, 8, 0, 0));
 			setLayout(new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.RIGHT, ListLayout.Separator.NONE,
 					false));
 			// The select another example button.
-			final WButton selectOtherButton = new WButton("Select");
-			selectOtherButton.setImage("/image/open-in-browser-w.png");
+			final WButton selectOtherButton = new WButton("\u200b");
+			selectOtherButton.setToolTip("Select");
+			//selectOtherButton.setImage("/image/open-in-browser-w.png");
+			selectOtherButton.setHtmlClass("wc-icon fa-file-code-o");
 			selectOtherButton.setRenderAsLink(true);
 			selectOtherButton.setAction(new ValidatingAction(exampleSection.getMessages().getValidationErrors(),
 					selectOtherButton) {

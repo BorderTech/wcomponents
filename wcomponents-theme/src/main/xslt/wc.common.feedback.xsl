@@ -28,7 +28,7 @@
 				</xsl:with-param>
 			</xsl:call-template>
 
-			<h1>
+			<h1 class="wc-icon">
 				<span>
 					<xsl:choose>
 						<xsl:when test="@title">

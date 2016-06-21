@@ -163,6 +163,21 @@ public class WButtonExample extends WPanel implements MessageContainer {
 				true));
 		buttonLayoutPanel.add(makeImageButtonWithPosition("Image on the West", ImagePosition.WEST,
 				true));
+
+		add(new WHeading(HeadingLevel.H4, "Using theme icons"));
+		add(new ExplanatoryText("This example shows ways to add a Font-Awesome icon to a button."));
+		WButton iconButton = new WButton("\u200b"); // \u200b is a zero-width space.
+		iconButton.setToolTip("Open Menu");
+		iconButton.setHtmlClass("wc-icon fa-bars");
+		add(iconButton);
+
+		iconButton = new WButton(" With text content");
+		iconButton.setHtmlClass("wc-icon fa-hand-o-left");
+		add(iconButton);
+
+		iconButton = new WButton("Right icon with text content");
+		iconButton.setHtmlClass("wc-icon-right fa-hand-o-right");
+		add(iconButton);
 	}
 
 	/**

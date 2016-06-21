@@ -271,7 +271,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 					button.title = i18n.get("${wc.ui.menu.bar.i18n.submenuOpenLabelDefault}");
 					contentId = uid();
 					button.setAttribute("aria-controls", contentId);
-					button.className = "wc-nobutton wc-submenu-o wc_hbgr";
+					button.className = "wc-nobutton wc-submenu-o wc_hbgr wc-icon";
 					button.setAttribute(ROLE, "menuitem");
 					branchElement.appendChild(button);
 

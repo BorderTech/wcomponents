@@ -4,9 +4,9 @@
 
 // loading indicator is generated and identified
 //scss-lint:disable IdSelector
-#wc_ui_loading  div:before {
-	@include wc-icon($fa-var-spinner);
+#wc_ui_loading div:before {
 	@include wc-spin; // fa do not yet have a mixin for this.
+	content: $fa-var-spinner;
 	font-size: $wc-icon-large;
 }
 

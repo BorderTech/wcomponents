@@ -72,7 +72,8 @@ define(["wc/has",
 				COLLIDE_SOUTH: "wc_colsth",
 				// no collide north...
 				DEFAULT_DIRECTION: i18n.get("${wc.ui.menu.i18n.defaultDirection}"),
-				AGAINST_DEFAULT: i18n.get("${wc.ui.menu.i18n.otherDirection}")
+				AGAINST_DEFAULT: i18n.get("${wc.ui.menu.i18n.otherDirection}"),
+				CLOSER: "closesubmenu"
 			},
 			/**
 			 * This object is used to map functions to particular event conditions.
@@ -1557,7 +1558,7 @@ define(["wc/has",
 				return false;
 			}
 			if (this.isSmallScreen) {
-				CLOSE_BUTTON = CLOSE_BUTTON || new Widget(BUTTON, "closesubmenu", {"role": "menuitem"});
+				CLOSE_BUTTON = CLOSE_BUTTON || new Widget(BUTTON, CLASS.CLOSER, {"role": "menuitem"});
 				if (CLOSE_BUTTON.isOneOfMe(item)) {
 					this[FUNC_MAP.CLOSE_MY_BRANCH](item);
 					return true;
@@ -2048,10 +2049,9 @@ define(["wc/has",
 		AbstractMenu.prototype.fixSubMenuContent = function(nextSubmenu) {
 			var closeMenuButton = document.createElement(BUTTON),
 				opener = nextSubmenu.previousSibling,
-				openerContent,
-				CLOSER_CLASS = "closesubmenu";
+				openerContent;
 
-			CLOSE_BUTTON = CLOSE_BUTTON || new Widget(BUTTON, CLOSER_CLASS, {"role": MENUITEM_ROLE});
+			CLOSE_BUTTON = CLOSE_BUTTON || new Widget(BUTTON, CLASS.CLOSER, {"role": MENUITEM_ROLE});
 
 			if (nextSubmenu.firstChild) {
 				if (CLOSE_BUTTON.isOneOfMe(nextSubmenu.firstChild)) {
@@ -2065,7 +2065,7 @@ define(["wc/has",
 
 			closeMenuButton.setAttribute(ROLE_ATTRIB, MENUITEM_ROLE);
 			closeMenuButton.type = BUTTON;
-			closeMenuButton.className = CLOSER_CLASS + " wc-nobutton";
+			closeMenuButton.className = CLASS.CLOSER + " wc-nobutton wc-icon";
 
 			openerContent = opener ? textContent.get(opener) : "";
 			closeMenuButton.innerHTML = openerContent || (DEFAULT_CLOSE_LABEL = DEFAULT_CLOSE_LABEL || i18n.get("${wc.ui.menu.bar.i18n.submenuCloseLabelDefault}"));
