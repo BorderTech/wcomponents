@@ -27,9 +27,12 @@
   * Deprecated `getHGap()` and `getVGap()` in favour of `getGap()`.
 * WTab updated setMode(TabMode) to set TabMode.DYNAMIC if the mode being set is TabMode.SERVER. This is required for
   fixing a11y problems in TabMode.SERVER as per #692.
+* WCollapsible updated setMode(CollapsibleMode) to set CollapsibleMode.DYNAMIC if the mode being set is
+  CollapsibleMode.SERVER. This is required for fixing a11y problems in CollapsibleMode.SERVER as per #694.
 
 ## Bug Fixes
-* Fixed accessibility problems in tabsets #692.
+* Fixed accessibility problems in WCollapsible #692.
+* Fixed accessibility problems in WTabSet #692.
 * Fixed a bug which prevented themes overriding font sizes and gaps in any unit other than rems #685.
 * Ensure missing label warning is in viewport #681.
 * Various table bugs fixed #666, #667, #670.
