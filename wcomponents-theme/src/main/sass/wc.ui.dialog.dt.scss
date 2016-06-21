@@ -5,6 +5,7 @@
 @include respond-not-small {
 	dialog {
 		left: auto;
+		max-height: 100%;
 		max-width: 100%;
 		min-height: $wc-ui-dialog-min-height;
 		min-width: $wc-ui-dialog-min-width;
