@@ -25,8 +25,11 @@
   * Added constructor `WList(final Type type, final int gap)` and deprecated constructor `WList(final Type type,
     final int hgap, final int vgap)` in favour of the new constructor.
   * Deprecated `getHGap()` and `getVGap()` in favour of `getGap()`.
+* WTab updated setMode(TabMode) to set TabMode.DYNAMIC if the mode being set is TabMode.SERVER. This is required for
+  fixing a11y problems in TabMode.SERVER as per #692.
 
 ## Bug Fixes
+* Fixed accessibility problems in tabsets #692.
 * Fixed a bug which prevented themes overriding font sizes and gaps in any unit other than rems #685.
 * Ensure missing label warning is in viewport #681.
 * Various table bugs fixed #666, #667, #670.

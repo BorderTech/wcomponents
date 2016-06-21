@@ -62,7 +62,8 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 		 */
 		ACCORDION,
 		/**
-		 * A styled version of the Left TabSet, where tabs do not contain any content.
+		 * An undefined tabset determined per theme.
+		 * @deprecated 1.2.0
 		 */
 		APPLICATION
 	};
@@ -74,7 +75,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 */
 	public enum TabMode {
 		/**
-		 * Indicates that a round-trip should be made whenever the tab is selected.
+		 * Synonym for DYNAMIC.
 		 *
 		 * @deprecated Use TabMode DYNAMIC instead as a like-for-like replacement or any other mode if it is more
 		 * appropriate to the individual use case.
@@ -115,12 +116,13 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 */
 	public static final TabSetType TYPE_ACCORDION = TabSetType.ACCORDION;
 	/**
-	 * An "application" type tab-set, that supports having multiple open tabs.
+	 * An "application" type tab-set, defined only in a theme.
+	 * @deprecated 1.2.0
 	 */
 	public static final TabSetType TYPE_APPLICATION = TabSetType.APPLICATION;
 
 	/**
-	 * A tab mode where invoking the tab will always perform a round-trip to the server.
+	 * A synonym for TabMode.TAB_MODE_DYNAMIC.
 	 *
 	 * @deprecated Use TAB_MODE_DYNAMIC instead as a like-for-like replacement or any other mode if it is more
 	 * appropriate to the individual use case.
