@@ -248,12 +248,13 @@ define(["wc/has",
 		/**
 		 * Indicates whether navigating with the keyboard selects items.
 		 *
-		 * @var
-		 * @type Boolean
-		 * @default false
+		 * @function
 		 * @protected
+		 * @param {Element} [element] The element being navigated to. Not used by default.
 		 */
-		AriaAnalog.prototype.selectOnNavigate = false;
+		AriaAnalog.prototype.selectOnNavigate = function (element) {
+			return false;
+		};
 
 		/**
 		 * Indicates whether  only one item can be selected at a time. Must be a
@@ -466,7 +467,7 @@ define(["wc/has",
 				if (this.groupNavigation && isDirectionKey(keyCode)) {
 					moveTo = calcMoveTo(this, keyCode);
 					if (moveTo && (target = this.navigate(element, moveTo))) {
-						if (this.selectOnNavigate && !($event.ctrlKey || $event.metaKey)) {
+						if (this.selectOnNavigate(target) && !($event.ctrlKey || $event.metaKey)) {
 							this.activate(target, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
 						}
 						preventDefaultAction = true;

@@ -34,13 +34,13 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		WComponent tab2 = new WLabel();
 		WComponent tab3 = new WLabel();
 
-		tabset.addTab(tab1, "tab1", WTabSet.TAB_MODE_SERVER);
-		tabset.addTab(tab2, "tab2", WTabSet.TAB_MODE_SERVER);
+		tabset.addTab(tab1, "tab1", WTabSet.TAB_MODE_DYNAMIC);
+		tabset.addTab(tab2, "tab2", WTabSet.TAB_MODE_DYNAMIC);
 
 		// dynamically add tab3
 		tabset.setLocked(true);
 		setActiveContext(createUIContext());
-		tabset.addTab(tab3, "tab3", WTabSet.TAB_MODE_SERVER);
+		tabset.addTab(tab3, "tab3", WTabSet.TAB_MODE_DYNAMIC);
 
 		Assert.assertEquals("Incorrect number of tabs", 3, tabset.getTotalTabs());
 		Assert.assertEquals("Incorrect static tab index for 1st tab", 0, tabset.getTabIndex(tab1));
@@ -62,18 +62,18 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		WComponent tab4 = new WLabel();
 		WComponent tab5 = new WLabel();
 
-		tabset.addTab(tab1, "tab1", WTabSet.TAB_MODE_SERVER);
-		tabset.addTab(tab2, "tab2", WTabSet.TAB_MODE_SERVER);
+		tabset.addTab(tab1, "tab1", WTabSet.TAB_MODE_DYNAMIC);
+		tabset.addTab(tab2, "tab2", WTabSet.TAB_MODE_DYNAMIC);
 
 		WTabGroup group = new WTabGroup("Group");
-		group.addTab(tab3, "tab3", WTabSet.TAB_MODE_SERVER);
-		group.addTab(tab4, "tab4", WTabSet.TAB_MODE_SERVER);
+		group.addTab(tab3, "tab3", WTabSet.TAB_MODE_DYNAMIC);
+		group.addTab(tab4, "tab4", WTabSet.TAB_MODE_DYNAMIC);
 		tabset.add(group);
 
 		// Dynamically add tab5
 		tabset.setLocked(true);
 		setActiveContext(createUIContext());
-		tabset.addTab(tab5, "tab5", WTabSet.TAB_MODE_SERVER);
+		tabset.addTab(tab5, "tab5", WTabSet.TAB_MODE_DYNAMIC);
 
 		Assert.assertEquals("Incorrect number of tabs", 5, tabset.getTotalTabs());
 		Assert.assertEquals("Incorrect tab index for 1st tab", 0, tabset.getTabIndex(tab1));
@@ -91,13 +91,13 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	public void testGetTabByIndex() {
 		WTabSet tabset = new WTabSet();
 
-		WTab tab1 = tabset.addTab(new WLabel(), "tab1", WTabSet.TAB_MODE_SERVER);
-		WTab tab2 = tabset.addTab(new WLabel(), "tab2", WTabSet.TAB_MODE_SERVER);
+		WTab tab1 = tabset.addTab(new WLabel(), "tab1", WTabSet.TAB_MODE_DYNAMIC);
+		WTab tab2 = tabset.addTab(new WLabel(), "tab2", WTabSet.TAB_MODE_DYNAMIC);
 
 		// Dynamically add tab3
 		tabset.setLocked(true);
 		setActiveContext(createUIContext());
-		WTab tab3 = tabset.addTab(new WLabel(), "tab3", WTabSet.TAB_MODE_SERVER);
+		WTab tab3 = tabset.addTab(new WLabel(), "tab3", WTabSet.TAB_MODE_DYNAMIC);
 
 		Assert.assertEquals("Incorrect number of tabs", 3, tabset.getTotalTabs());
 		Assert.assertEquals("Incorrect 1st tab", tab1, tabset.getTab(0));
@@ -112,11 +112,11 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	public void testGetTabByIndexWithTabGroup() {
 		WTabSet tabset = new WTabSet();
 
-		WTab tab1 = new WTab(new WLabel(), "tab1", WTabSet.TAB_MODE_SERVER);
-		WTab tab2 = new WTab(new WLabel(), "tab2", WTabSet.TAB_MODE_SERVER);
-		WTab tab3 = new WTab(new WLabel(), "tab3", WTabSet.TAB_MODE_SERVER);
-		WTab tab4 = new WTab(new WLabel(), "tab4", WTabSet.TAB_MODE_SERVER);
-		WTab tab5 = new WTab(new WLabel(), "tab5", WTabSet.TAB_MODE_SERVER);
+		WTab tab1 = new WTab(new WLabel(), "tab1", WTabSet.TAB_MODE_DYNAMIC);
+		WTab tab2 = new WTab(new WLabel(), "tab2", WTabSet.TAB_MODE_DYNAMIC);
+		WTab tab3 = new WTab(new WLabel(), "tab3", WTabSet.TAB_MODE_DYNAMIC);
+		WTab tab4 = new WTab(new WLabel(), "tab4", WTabSet.TAB_MODE_DYNAMIC);
+		WTab tab5 = new WTab(new WLabel(), "tab5", WTabSet.TAB_MODE_DYNAMIC);
 
 		tabset.add(tab1);
 		tabset.add(tab2);
@@ -149,9 +149,9 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		WComponent tab2 = new WLabel("label2");
 		WComponent tab3 = new WLabel("label3");
 
-		tabset.addTab(tab1, "tab1", WTabSet.TAB_MODE_SERVER);
-		tabset.addTab(tab2, "tab2", WTabSet.TAB_MODE_SERVER);
-		tabset.addTab(tab3, "tab3", WTabSet.TAB_MODE_SERVER);
+		tabset.addTab(tab1, "tab1", WTabSet.TAB_MODE_DYNAMIC);
+		tabset.addTab(tab2, "tab2", WTabSet.TAB_MODE_DYNAMIC);
+		tabset.addTab(tab3, "tab3", WTabSet.TAB_MODE_DYNAMIC);
 
 		tabset.setLocked(true);
 		setActiveContext(createUIContext());
@@ -171,9 +171,9 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testActiveIndexAccessors() {
 		WTabSet tabset = new WTabSet();
-		tabset.addTab(new WLabel("tab1"), "tab1", WTabSet.TAB_MODE_SERVER);
-		tabset.addTab(new WLabel("tab2"), "tab2", WTabSet.TAB_MODE_SERVER);
-		tabset.addTab(new WLabel("tab3"), "tab3", WTabSet.TAB_MODE_SERVER);
+		tabset.addTab(new WLabel("tab1"), "tab1", WTabSet.TAB_MODE_DYNAMIC);
+		tabset.addTab(new WLabel("tab2"), "tab2", WTabSet.TAB_MODE_DYNAMIC);
+		tabset.addTab(new WLabel("tab3"), "tab3", WTabSet.TAB_MODE_DYNAMIC);
 
 		assertAccessorsCorrect(tabset, "activeIndex", 0, 1, 2);
 	}
@@ -186,8 +186,8 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetTabVisible() {
 		WTabSet tabset = new WTabSet();
-		tabset.addTab(new WLabel("tab1"), "tab1", WTabSet.TAB_MODE_SERVER);
-		tabset.addTab(new WLabel("tab2"), "tab2", WTabSet.TAB_MODE_SERVER);
+		tabset.addTab(new WLabel("tab1"), "tab1", WTabSet.TAB_MODE_DYNAMIC);
+		tabset.addTab(new WLabel("tab2"), "tab2", WTabSet.TAB_MODE_DYNAMIC);
 
 		Assert.assertTrue("Tab should be visible by default", tabset.isTabVisible(0));
 		Assert.assertTrue("Tab should be visible by default", tabset.isTabVisible(1));
@@ -212,8 +212,8 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testHandleRequest() {
 		WTabSet tabset = new WTabSet();
-		tabset.addTab(new WLabel("tab1"), "tab1", WTabSet.TAB_MODE_SERVER);
-		tabset.addTab(new WLabel("tab2"), "tab2", WTabSet.TAB_MODE_SERVER);
+		tabset.addTab(new WLabel("tab1"), "tab1", WTabSet.TAB_MODE_DYNAMIC);
+		tabset.addTab(new WLabel("tab2"), "tab2", WTabSet.TAB_MODE_DYNAMIC);
 		tabset.addTab(new WLabel("tab3"), "tab3", WTabSet.TAB_MODE_CLIENT);
 
 		tabset.setLocked(true);
@@ -256,15 +256,15 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testHandleRequestWithInvisibleTabAndTabGroup() {
-		WTabSet tabset = new WTabSet(WTabSet.TabSetType.APPLICATION);
-		tabset.addTab(new WLabel("tab1"), "tab1", WTabSet.TAB_MODE_SERVER);
+		WTabSet tabset = new WTabSet(WTabSet.TabSetType.TOP);
+		tabset.addTab(new WLabel("tab1"), "tab1", WTabSet.TAB_MODE_DYNAMIC);
 		WTabGroup group = new WTabGroup("group1");
-		group.addTab(new WLabel("tab2"), "tab2", WTabSet.TAB_MODE_SERVER);
+		group.addTab(new WLabel("tab2"), "tab2", WTabSet.TAB_MODE_DYNAMIC);
 		group.addTab(new WLabel("tab3"), "tab3", WTabSet.TAB_MODE_CLIENT);
 		group.addTab(new WLabel("tab4"), "tab4", WTabSet.TAB_MODE_CLIENT);
 		group.addTab(new WLabel("tab5"), "tab5", WTabSet.TAB_MODE_CLIENT);
 		tabset.add(group);
-		tabset.addTab(new WLabel("tab6"), "tab6", WTabSet.TAB_MODE_SERVER);
+		tabset.addTab(new WLabel("tab6"), "tab6", WTabSet.TAB_MODE_DYNAMIC);
 
 		// Make tab5 not visible
 		tabset.setTabVisible(4, false);
@@ -308,7 +308,7 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		// Tab1 - Content, String label, mode
 		WComponent content1 = new DefaultWComponent();
 		String label1 = "label1";
-		WTabSet.TabMode mode1 = WTabSet.TabMode.SERVER;
+		WTabSet.TabMode mode1 = WTabSet.TabMode.DYNAMIC;
 		tabset.addTab(content1, label1, mode1);
 
 		Assert.
@@ -322,7 +322,7 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		// Tab2 - Content, String label, mode, accessKey
 		WComponent content2 = new DefaultWComponent();
 		String label2 = "label2";
-		WTabSet.TabMode mode2 = WTabSet.TabMode.SERVER;
+		WTabSet.TabMode mode2 = WTabSet.TabMode.DYNAMIC;
 		char accessKey2 = 'X';
 		tabset.addTab(content2, label2, mode2, accessKey2);
 
@@ -337,12 +337,10 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		// Tab3 - Content, label, mode
 		WComponent content3 = new DefaultWComponent();
 		WDecoratedLabel label3 = new WDecoratedLabel("label3");
-		WTabSet.TabMode mode3 = WTabSet.TabMode.SERVER;
+		WTabSet.TabMode mode3 = WTabSet.TabMode.DYNAMIC;
 		tabset.addTab(content3, label3, mode3);
 
-		Assert.
-				assertEquals("third tab has correct content", content3, tabset.getTab(2).
-						getContent());
+		Assert.assertEquals("third tab has correct content", content3, tabset.getTab(2).getContent());
 		Assert.assertEquals("third tab has correct label", label3, tabset.getTab(2).getTabLabel());
 		Assert.assertEquals("third tab has correct mode", mode3, tabset.getTab(2).getMode());
 		Assert.assertEquals("third tab has correct accessKey", 0, tabset.getTab(2).getAccessKey());
@@ -350,16 +348,14 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		// Tab4 - Content, label, mode, accessKey
 		WComponent content4 = new DefaultWComponent();
 		WDecoratedLabel label4 = new WDecoratedLabel("label4");
-		WTabSet.TabMode mode4 = WTabSet.TabMode.SERVER;
+		WTabSet.TabMode mode4 = WTabSet.TabMode.DYNAMIC;
 		char accessKey4 = 'X';
 		tabset.addTab(content4, label4, mode4, accessKey4);
 
-		Assert.assertEquals("fourth tab has correct content", content4, tabset.getTab(3).
-				getContent());
+		Assert.assertEquals("fourth tab has correct content", content4, tabset.getTab(3).getContent());
 		Assert.assertEquals("fourth tab has correct label", label4, tabset.getTab(3).getTabLabel());
 		Assert.assertEquals("fourth tab has correct mode", mode4, tabset.getTab(3).getMode());
-		Assert.assertEquals("fourth tab has correct accessKey", accessKey4, tabset.getTab(3).
-				getAccessKey());
+		Assert.assertEquals("fourth tab has correct accessKey", accessKey4, tabset.getTab(3).getAccessKey());
 	}
 
 	/**
@@ -370,7 +366,7 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		WTabSet tabset = new WTabSet();
 		WComponent content = new DefaultWComponent();
 		WDecoratedLabel label = new WDecoratedLabel("label");
-		WTabSet.TabMode mode = WTabSet.TabMode.SERVER;
+		WTabSet.TabMode mode = WTabSet.TabMode.DYNAMIC;
 		tabset.addTab(content, label, mode);
 
 		Assert.
@@ -389,7 +385,7 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testGetActiveIndex() {
 		WTabSet tabset = new WTabSet();
-		WTabSet.TabMode mode = WTabSet.TabMode.SERVER;
+		WTabSet.TabMode mode = WTabSet.TabMode.DYNAMIC;
 
 		// no tabs in tabset
 		int indexExpected = 0;
@@ -428,7 +424,7 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testGetActiveIndicesWhenSomeInvisisible() {
 		WTabSet tabset = new WTabSet();
-		WTabSet.TabMode mode = WTabSet.TabMode.SERVER;
+		WTabSet.TabMode mode = WTabSet.TabMode.DYNAMIC;
 
 		WComponent content1 = new DefaultWComponent();
 		WDecoratedLabel label1 = new WDecoratedLabel("label1");
@@ -487,7 +483,7 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetActiveTabWhenNotThere() {
 		WTabSet tabset = new WTabSet();
-		WTabSet.TabMode mode = WTabSet.TabMode.SERVER;
+		WTabSet.TabMode mode = WTabSet.TabMode.DYNAMIC;
 
 		WComponent content0 = new DefaultWComponent();
 		WComponent content1 = new DefaultWComponent();
@@ -520,7 +516,7 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testSetTabVisibleByContent() {
 		WTabSet tabset = new WTabSet();
-		WTabSet.TabMode mode = WTabSet.TabMode.SERVER;
+		WTabSet.TabMode mode = WTabSet.TabMode.DYNAMIC;
 		WComponent content1 = new DefaultWComponent();
 		WDecoratedLabel label1 = new WDecoratedLabel("label1");
 		tabset.addTab(content1, label1, mode);
@@ -550,7 +546,7 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testIsActive() {
 		WTabSet tabset = new WTabSet();
-		WTabSet.TabMode mode = WTabSet.TabMode.SERVER;
+		WTabSet.TabMode mode = WTabSet.TabMode.DYNAMIC;
 
 		WComponent content1 = new DefaultWComponent();
 		WDecoratedLabel label1 = new WDecoratedLabel("label1");
@@ -569,7 +565,7 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testGetTabIndexByContent() {
 		WTabSet tabset = new WTabSet();
-		WTabSet.TabMode mode = WTabSet.TabMode.SERVER;
+		WTabSet.TabMode mode = WTabSet.TabMode.DYNAMIC;
 
 		WComponent content1 = new DefaultWComponent();
 		WDecoratedLabel label1 = new WDecoratedLabel("label1");
