@@ -36,8 +36,10 @@
   StringEscapeUtils. It adds exacly one (static) method `unescapeToXML(String)` which will convert HTML character
   entities to their unicode characters but will not unescape the five basic XML character entities. Very handy for
   converting HTML to valid XML! Needed for #620.
+* WAjaxControl: deprecated set/getLoadCount. In future use set/isLoadOnce.
 
 ## Bug Fixes
+* WAjaxControl addressed API errors by
 * Added HTML sanitizer character entity converter #620.
 * Fixed accessibility problems in WDialog #606.
 * Fixed accessibility problems in WCollapsible #692.
