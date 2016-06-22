@@ -30,7 +30,7 @@
 	<xsl:template match="ui:ajaxtrigger" mode="JS">
 		<xsl:text>{"oneShot":</xsl:text>
 		<xsl:choose>
-			<xsl:when test="not(@allowedUses)">
+			<xsl:when test="not(@loadOnce)">
 				<xsl:text>false</xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
