@@ -1,5 +1,9 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.HtmlSanitizer;
+import com.github.bordertech.wcomponents.util.StringEscapeHTMLToXML;
+import com.github.bordertech.wcomponents.util.Util;
+
 /**
  * <p>
  * A WTextArea is a wcomponent used to display a html textarea. It is very much like WTextField except that it has
@@ -62,6 +66,30 @@ public class WTextArea extends WTextField {
 	@Override // For type safety only
 	protected TextAreaModel getComponentModel() {
 		return (TextAreaModel) super.getComponentModel();
+	}
+
+	/**
+	 * Unescape any HTML character entities in the input stream if we are in a rich text input.
+	 * @param data the input data.
+	 */
+	@Override
+	public void setData(final Object data) {
+		if (!this.isRichTextArea() || data == null) {
+			super.setData(data);
+		} else {
+			String dataString = data.toString();
+			if (Util.empty(dataString)) {
+				super.setData(data);
+			} else {
+				try {
+					dataString = HtmlSanitizer.sanitize(dataString);
+					super.setData(StringEscapeHTMLToXML.unescapeToXML(dataString));
+				} catch (Exception e) {
+					// If the Sanitizer throws an error we are not able to sanitize so we will encode everything.
+					super.setData(StringEscapeHTMLToXML.escapeXml10(StringEscapeHTMLToXML.unescapeToXML(dataString)));
+				}
+			}
+		}
 	}
 
 	/**

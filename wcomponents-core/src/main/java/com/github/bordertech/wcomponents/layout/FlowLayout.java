@@ -194,7 +194,7 @@ public class FlowLayout implements LayoutManager {
 
 	/**
 	 * @return the horizontal gap between the cells, measured in pixels.
-	 * @deprecated use {@link #getGap}
+	 * @deprecated use {@link #getGap()}
 	 */
 	public int getHgap() {
 		if (this.alignment == Alignment.VERTICAL) {
@@ -205,7 +205,7 @@ public class FlowLayout implements LayoutManager {
 
 	/**
 	 * @return the vertical gap between the cells, measured in pixels.
-	 * @deprecated use {@link #getGap}
+	 * @deprecated use {@link #getGap()}
 	 */
 	public int getVgap() {
 		if (this.alignment == Alignment.VERTICAL) {

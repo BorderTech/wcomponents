@@ -50,6 +50,9 @@
 		</xsl:variable>
 		<xsl:variable name="elementName">
 			<xsl:choose>
+				<xsl:when test="self::ui:textarea and ./ui:rtf">
+					<xsl:text>div</xsl:text>
+				</xsl:when>
 				<xsl:when test="self::ui:textarea">
 					<!--
 						This is really only needed by IE due to it stripping whitepace in other elements when we use
@@ -103,6 +106,9 @@
 			</xsl:if>
 			<xsl:if test="$applies!='none'">
 				<xsl:choose>
+					<xsl:when test="self::ui:textarea">
+						<xsl:apply-templates xml:space="preserve"/>
+					</xsl:when>
 					<xsl:when test="$applies!='' and $useReadOnlyMode=1">
 						<xsl:apply-templates select="$applies" mode="readOnly"/>
 					</xsl:when>

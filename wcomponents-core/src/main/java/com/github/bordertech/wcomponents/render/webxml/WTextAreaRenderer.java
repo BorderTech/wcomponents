@@ -49,8 +49,6 @@ final class WTextAreaRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("buttonId", submitControlId);
 		xml.appendClose();
 
-		// TODO Pattern is not supported on the client for TextArea, and will not be rendered. Consider making WTextArea
-		// no longer extend WTextField.
 		if (textArea.isRichTextArea()) {
 			/*
 			 * This is a nested element instead of an attribute to cater for future enhancements
@@ -60,7 +58,10 @@ final class WTextAreaRenderer extends AbstractWebXmlRenderer {
 			xml.append("<ui:rtf />");
 		}
 
-		xml.appendEscaped(textArea.getText());
+		String textString = textArea.getText();
+		if (textString != null) {
+			xml.append(textString, !(textArea.isReadOnly() && textArea.isRichTextArea()));
+		}
 
 		xml.appendEndTag("ui:textarea");
 	}
