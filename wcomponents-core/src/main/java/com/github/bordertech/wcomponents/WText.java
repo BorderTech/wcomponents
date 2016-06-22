@@ -79,6 +79,10 @@ public class WText extends WBeanComponent {
 		setData(I18nUtilities.asMessage(text, args));
 	}
 
+	/**
+	 * Unescape any HTML character entities in the input stream if the WText is not encoded.
+	 * @param data the input data
+	 */
 	@Override
 	public void setData(final Object data) {
 		if (this.isEncodeText() || data == null) { // we do not care about HTML entities if the text is going to be encoded.
@@ -93,8 +97,6 @@ public class WText extends WBeanComponent {
 		}
 
 	}
-
-
 
 	/**
 	 * Indicates whether the heading text needs to be encoded.

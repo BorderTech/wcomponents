@@ -44,7 +44,7 @@ public class WTextArea extends WTextField {
 	/**
 	 * Pass true to put the field into rich text mode.
 	 *
-	 * @param richTextArea the number of rows.
+	 * @param richTextArea the number of rows
 	 */
 	public void setRichTextArea(final boolean richTextArea) {
 		getOrCreateComponentModel().richTextArea = richTextArea;
@@ -70,7 +70,7 @@ public class WTextArea extends WTextField {
 
 	/**
 	 * Unescape any HTML character entities in the input stream if we are in a rich text input.
-	 * @param data the input data.
+	 * @param data the input data
 	 */
 	@Override
 	public void setData(final Object data) {
