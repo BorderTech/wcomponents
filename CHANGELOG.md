@@ -36,10 +36,10 @@
   StringEscapeUtils. It adds exacly one (static) method `unescapeToXML(String)` which will convert HTML character
   entities to their unicode characters but will not unescape the five basic XML character entities. Very handy for
   converting HTML to valid XML! Needed for #620.
-* WAjaxControl: deprecated set/getLoadCount. In future use set/isLoadOnce.
+* WAjaxControl: deprecated set/getLoadCount. In future use set/isLoadOnce. Required for #495.
 
 ## Bug Fixes
-* WAjaxControl addressed API errors by
+* WAjaxControl addressed API errors #495
 * Added HTML sanitizer character entity converter #620.
 * Fixed accessibility problems in WDialog #606.
 * Fixed accessibility problems in WCollapsible #692.
@@ -57,6 +57,10 @@
 * Fixed GridLayout cell alignment on small screens #652.
 
 ## Enhancements
+* Added a default margin style for p elements. This was addded during testing of the fix for #620 to improve consistency
+  of output.
+* WTextArea in rich text mode will now honour this mode when read-only. Added as part of #620.
+* WText, when encoding is off, will correctly handle HTML entities which are not XML entities. Added as part of #620.
 * Enhanced separation of labels and inputs to improve a11y #683.
 * Some responsive design improvements #671, #656.
 * Updated the transform of WTab to allow rich content in the tab "button" #669.
