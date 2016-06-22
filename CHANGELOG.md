@@ -32,8 +32,8 @@
 * WDialog.isResizeable will always return true as part of fixing #606
 * New utility class `com.github.bordertech.wcomponents.util.HtmlSanitizer` which can be used to sanitize HTML input
   (as shown in WTextArea). Needed for #620.
-* New utility class `com.github.bordertech.wcomponents.util.StringEscapeHTMLToXML` which extends apache-commons.lang3
-  StringEscapeUtils. It adds exacly one (static) method `unescapeToXML(String)` which will convert HTML character
+* New utility class `com.github.bordertech.wcomponents.util.StringEscapeHTMLToXML` which extends apache-commons lang3
+  StringEscapeUtils. It adds exactly one (static) method `unescapeToXML(String)` which will convert HTML character
   entities to their unicode characters but will not unescape the five basic XML character entities. Very handy for
   converting HTML to valid XML! Needed for #620.
 * WAjaxControl: deprecated set/getLoadCount. In future use set/isLoadOnce. Required for #495.
