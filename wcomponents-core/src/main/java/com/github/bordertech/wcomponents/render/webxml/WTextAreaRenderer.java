@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.StringEscapeHTMLToXMLUtil;
 
 /**
  * The Renderer for WTextArea.
@@ -60,7 +61,12 @@ final class WTextAreaRenderer extends AbstractWebXmlRenderer {
 
 		String textString = textArea.getText();
 		if (textString != null) {
-			xml.append(textString, !(textArea.isReadOnly() && textArea.isRichTextArea()));
+			if (!(textArea.isReadOnly() && textArea.isRichTextArea())) {
+				xml.appendEscaped(textString);
+			} else {
+				// read only we want to output unescaped, but it must still be XML valid.
+				xml.write(StringEscapeHTMLToXMLUtil.unescapeToXML(textString));
+			}
 		}
 
 		xml.appendEndTag("ui:textarea");
