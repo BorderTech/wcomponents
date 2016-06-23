@@ -1,5 +1,12 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.HTMLSanitizerException;
+import com.github.bordertech.wcomponents.util.HtmlSanitizerUtil;
+import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.owasp.validator.html.PolicyException;
+import org.owasp.validator.html.ScanException;
+
 /**
  * <p>
  * A WTextArea is a wcomponent used to display a html textarea. It is very much like WTextField except that it has
@@ -40,7 +47,7 @@ public class WTextArea extends WTextField {
 	/**
 	 * Pass true to put the field into rich text mode.
 	 *
-	 * @param richTextArea the number of rows.
+	 * @param richTextArea the number of rows
 	 */
 	public void setRichTextArea(final boolean richTextArea) {
 		getOrCreateComponentModel().richTextArea = richTextArea;
@@ -62,6 +69,33 @@ public class WTextArea extends WTextField {
 	@Override // For type safety only
 	protected TextAreaModel getComponentModel() {
 		return (TextAreaModel) super.getComponentModel();
+	}
+
+	/**
+	 * The the data for this WTextArea. If the text area is not rich text its output is XML escaped so we can ignore
+	 * sanitization. If the text area is a rich text area then we have to
+	 * @return The data for this WTextArea. This should be an instanceof String.
+	 */
+	@Override
+	public Object getData() {
+		Object data = super.getData();
+		if (!(data instanceof String && this.isRichTextArea())) {
+			return data;
+		}
+
+		String dataString = (String) data;
+		if (Util.empty(dataString)) {
+			// no need to sanitize an empty string.
+			return data;
+		}
+
+		try {
+			// first sanitize input to get rid of potentially harmful HTML.
+			return HtmlSanitizerUtil.sanitize(dataString);
+		} catch (ScanException | PolicyException | HTMLSanitizerException e) {
+			// If the Sanitizer throws an error we are not able to sanitize so we will encode everything just in case.
+			return StringEscapeUtils.escapeXml10(dataString);
+		}
 	}
 
 	/**

@@ -106,4 +106,6 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+	
+	<xsl:template match="ui:rtf"/>
 </xsl:stylesheet>
