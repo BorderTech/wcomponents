@@ -8,15 +8,16 @@ import java.util.List;
 /**
  * <p>
  * The WAjaxControl links an AJAX trigger component with one or more AJAX target components. Creating an AJAX trigger
- * will result in an AJAX request being made on the 'onChange' event of the trigger element. The implication oft his is
+ * will result in an AJAX request being made on the 'onChange' event of the trigger element. The implication of this is
  * that an AJAX trigger component <em>should</em> have an Action attached (usually via setActionOnChanged).
  * </p>
  * <p>
- * During an AJAX request the  whole UI tree is serviced in the action phase but only the 'target' components related
- * by this control will be painted in the response.
+ * During an AJAX request the  whole UI tree is serviced in the action phase but only the 'target' components of this
+ * control will be painted in the response.
  * </p>
  *
  * @author Christina Harris
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WAjaxControl extends AbstractWComponent {
@@ -132,48 +133,38 @@ public class WAjaxControl extends AbstractWComponent {
 	 * @param loadOnce if <code>true</code> the target AJAX trigger only once for each load of a page
 	 */
 	public void setLoadOnce(final boolean loadOnce) {
-		if (loadOnce) {
-			getOrCreateComponentModel().loadCount = 1;
-		} else {
-			getOrCreateComponentModel().loadCount = -1;
-		}
+		getOrCreateComponentModel().loadOnce = loadOnce;
 	}
 
 	/**
 	 * @return <code>true</code> if the trigger should be fired once only for each load of a page
 	 */
 	public boolean isLoadOnce() {
-		return getComponentModel().loadCount == 1;
+		return getComponentModel().loadOnce;
 	}
 
 	/**
-	 * <p>
-	 * Set how many times the trigger should fire on a page.
-	 * </p>
-	 * <p>
-	 * <strong>Note</strong> a loadCount &gt; 0 will result in a WAjaxControl which can <strong>only fire once per page
-	 * load</strong>. This method is under review (see https://github.com/BorderTech/wcomponents/issues/495).
-	 * </p>
+	 * Set whether the trigger may fire once or an unlimited number of times. Any value &gt; 0 will result in a
+	 * trigger which can only fire once per page. See
+	 * <a href="https://github.com/BorderTech/wcomponents/issues/495">#495</a>.
 	 *
 	 * @param loadCount The trigger count for this AJAX control.
+	 * @deprecated 1.2.0 use {@link #setLoadOnce(boolean)}.
 	 */
 	public void setLoadCount(final int loadCount) {
-		getOrCreateComponentModel().loadCount = loadCount;
+		getOrCreateComponentModel().loadOnce = loadCount > 0;
 	}
 
 	/**
-	 * <p>
-	 * Retrieve the number of times a trigger <em>may</em> be able to fire each time a page is loaded.
-	 * </p>
-	 * <p>
-	 * <strong>Note</strong> a loadCount &gt; 0 will result in a WAjaxControl which can <strong>only fire once per page
-	 * load</strong>. This method is under review (see https://github.com/BorderTech/wcomponents/issues/495).
-	 * </p>
+	 * Get the indicator of whether a trigger may fire once or an unlimited number of times. If loadCount
+	 * &gt; 0 the WAjaxControl may <strong>only fire once per page load</strong>. See
+	 * <a href="https://github.com/BorderTech/wcomponents/issues/495">#495</a>.
 	 *
-	 * @return how many times that trigger can fire on any given page.
+	 * @return 1 if the trigger may only load once, otherwise -1
+	 * @deprecated 1.2.0 use {@link #isLoadOnce()}.
 	 */
 	public int getLoadCount() {
-		return getComponentModel().loadCount;
+		return getComponentModel().loadOnce ? 1 : -1;
 	}
 
 	/**
@@ -336,17 +327,15 @@ public class WAjaxControl extends AbstractWComponent {
 		private List<AjaxTarget> targets;
 
 		/**
-		 * Specifies how many times the AJAX trigger should be fired. Zero or less represents no limit.
-		 * Note up to and including WComponents 1.1.0 a loadCount &gt; 0 will result in a WAjaxControl which can
-		 * <strong>only fire once per page load</strong>. This member is under review (see
-		 * https://github.com/BorderTech/wcomponents/issues/495).
+		 * Specifies that the WAjaxControl may only fire once per load. If false then there is no limit on the number
+		 * of times the trigger may fire.
 		 */
-		private int loadCount = -1;
+		private boolean loadOnce = false;
 
 		/**
-		 * Delay, in milliseconds, between the control loading in the view and an automatic request. If this is set, and
-		 * set to a value greater than 0, the WAjaxControl will fire without <em>any</em> {@link AjaxTrigger} being changed/
-		 * invoked. This can be used to set up a trigger which polls for changes.
+		 * Delay, in milliseconds, between the control loading in the view and an automatic request. If this is set,
+		 * and set to a value greater than 0, the WAjaxControl will fire without <em>any</em> {@link AjaxTrigger}
+		 * being changed/invoked. This can be used to set up a trigger which polls for changes.
 		 */
 		private int delay;
 	}

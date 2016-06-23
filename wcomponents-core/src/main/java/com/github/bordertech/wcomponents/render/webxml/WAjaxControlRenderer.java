@@ -27,7 +27,6 @@ final class WAjaxControlRenderer extends AbstractWebXmlRenderer {
 		XmlStringBuilder xml = renderContext.getWriter();
 		WComponent trigger = ajaxControl.getTrigger() == null ? ajaxControl : ajaxControl.
 				getTrigger();
-		int loadCount = ajaxControl.getLoadCount();
 		int delay = ajaxControl.getDelay();
 
 		if (ajaxControl.getTargets() == null || ajaxControl.getTargets().isEmpty()) {
@@ -37,7 +36,7 @@ final class WAjaxControlRenderer extends AbstractWebXmlRenderer {
 		// Start tag
 		xml.appendTagOpen("ui:ajaxtrigger");
 		xml.appendAttribute("triggerId", trigger.getId());
-		xml.appendOptionalAttribute("allowedUses", loadCount > 0, loadCount);
+		xml.appendOptionalAttribute("loadOnce", ajaxControl.isLoadOnce(), "true");
 		xml.appendOptionalAttribute("delay", delay > 0, delay);
 		xml.appendClose();
 

@@ -3,7 +3,30 @@
 
 thead {
 	background-color: $wc-ui-color-table-head-bg;
-	color: $wc-ui-color-table-head-fg;
+
+	&,
+	.wc-nobutton,
+	.wc-linkbutton,
+	a,
+	a:visited {
+		color: $wc-ui-color-table-head-fg;
+	}
+
+	th[aria-disabled='true'],
+	.wc-nobutton[disabled],
+	.wc-nobutton[disabled],
+	a[aria-disabled='true'] {
+		color: $wc-ui-color-table-head-disabled;
+	}
+
+	th[sorted] {
+		&[aria-disabled='true'],
+		.wc-nobutton[disabled],
+		.wc-nobutton[disabled],
+		a[aria-disabled='true'] {
+			color: $wc-ui-color-disabled-fg;
+		}
+	}
 }
 
 .wc_table_bottom_controls {

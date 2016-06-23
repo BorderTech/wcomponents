@@ -71,7 +71,7 @@ public class WList extends WRepeater implements Marginable {
 	 * @param type the list type.
 	 * @param hgap the horizontal gap between the list items, used only if type is Type.FLAT
 	 * @param vgap the vertical gap between the list items,  used only if type is not Type.FLAT
-	 * @deprecated use {@link #WList(Type, int)
+	 * @deprecated use {@link #WList(Type, int)}
 	 */
 	public WList(final Type type, final int hgap, final int vgap) {
 		this(type, type == Type.FLAT ? hgap : vgap);
@@ -156,7 +156,7 @@ public class WList extends WRepeater implements Marginable {
 
 	/**
 	 * @return Returns the horizontal gap between the cells.
-	 * @deprecated use {@link getGap()}
+	 * @deprecated use {@link #getGap()}
 	 */
 	public int getHgap() {
 		if (getType() == Type.FLAT) {
@@ -167,7 +167,7 @@ public class WList extends WRepeater implements Marginable {
 
 	/**
 	 * @return Returns the vertical gap between the cells.
-	 * @deprecated use {@link getGap()}
+	 * @deprecated use {@link #getGap()}
 	 */
 	public int getVgap() {
 		if (getType() == Type.FLAT) {

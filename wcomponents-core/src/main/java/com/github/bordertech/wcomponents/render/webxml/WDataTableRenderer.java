@@ -150,7 +150,6 @@ final class WDataTableRenderer extends AbstractWebXmlRenderer {
 			}
 
 			xml.appendOptionalAttribute("groupName", table.getSelectGroup());
-			xml.appendOptionalAttribute("submitOnChange", table.isSubmitOnRowSelect(), "true");
 			xml.appendEnd();
 		}
 
@@ -161,12 +160,10 @@ final class WDataTableRenderer extends AbstractWebXmlRenderer {
 				case CLIENT:
 					xml.appendAttribute("mode", "client");
 					break;
-				case SERVER:
-					xml.appendAttribute("mode", "server");
-					break;
 				case LAZY:
 					xml.appendAttribute("mode", "lazy");
 					break;
+				case SERVER:
 				case DYNAMIC:
 					xml.appendAttribute("mode", "dynamic");
 					break;
@@ -190,11 +187,9 @@ final class WDataTableRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("descending", col >= 0 && !ascending, "true");
 
 			switch (table.getSortMode()) {
+				case SERVER:
 				case DYNAMIC:
 					xml.appendAttribute("mode", "dynamic");
-					break;
-				case SERVER:
-					xml.appendAttribute("mode", "server");
 					break;
 				default:
 					throw new SystemException("Unknown sort mode: " + table.getSortMode());

@@ -4,16 +4,19 @@
  *
  * @module
  * @requires module:wc/dom/initialise
- * @requires module:wc/dom/Widget
-		"wc/dom/event",
-		"wc/dom/formUpdateManager",
-		"wc/dom/attribute",
+ * @requires module:wc/dom/event
+ * @requires module:wc/dom/formUpdateManager
+ * @requires module:wc/dom/attribute
+ * @requires module:wc/dom/group
  * @requires module:wc/ui/ajaxRegion
  * @requires module:wc/ui/ajax/processResponse
  * @requires module:wc/ui/onloadFocusControl
+ * @requires module:wc/dom/isEventInLabel
+ * @requires module:wc/dom/isAcceptableTarget
+ * @requires module:wc/dom/shed
+ * @requires module:wc/ui/table/common
  */
 define(["wc/dom/initialise",
-		"wc/dom/Widget",
 		"wc/dom/event",
 		"wc/dom/formUpdateManager",
 		"wc/dom/attribute",
@@ -23,10 +26,10 @@ define(["wc/dom/initialise",
 		"wc/ui/onloadFocusControl",
 		"wc/dom/isEventInLabel",
 		"wc/dom/isAcceptableTarget",
-		"wc/timers",
+		"wc/dom/shed",
 		"wc/ui/table/common"],
-	/** @param initialise @param Widget @param event @param formUpdateManager @param attribute @param ajaxRegion @param processResponse @param onloadFocusControl @param isEventInLabel @param isAcceptableEventTarget @param timers @param common @ignore */
-	function(initialise, Widget, event, formUpdateManager, attribute, group, ajaxRegion, processResponse, onloadFocusControl, isEventInLabel, isAcceptableEventTarget, timers, common) {
+	/** @param initialise @param event @param formUpdateManager @param attribute @param ajaxRegion @param processResponse @param onloadFocusControl @param isEventInLabel @param isAcceptableEventTarget @param shed @param common @ignore */
+	function(initialise, event, formUpdateManager, attribute, group, ajaxRegion, processResponse, onloadFocusControl, isEventInLabel, isAcceptableEventTarget, shed, common) {
 		"use strict";
 
 		/**
@@ -50,8 +53,7 @@ define(["wc/dom/initialise",
 				BOOTSTRAPPED = "wc.ui.table.sort.BS",
 				SORT_ATTRIB = "sorted",
 				ARIA_SORT_ATTRIB = "aria-sort",
-				SORTED_COL = SORT_CONTROL.extend("", {"sorted": null}),
-				FORM;
+				SORTED_COL = SORT_CONTROL.extend("", {"sorted": null});
 
 			THEAD.descendFrom(SORTABLE_TABLE, true);
 			SORT_CONTROL.descendFrom(THEAD);
@@ -94,10 +96,9 @@ define(["wc/dom/initialise",
 				var target = $event.target,
 					alias,
 					id = element.id,
-					form,
 					sorted,
 					controlGroup;
-				if (element === target || (!isEventInLabel(target) && isAcceptableEventTarget(element, target))) {
+				if ((element === target || (!isEventInLabel(target) && isAcceptableEventTarget(element, target))) && !shed.isDisabled(element)) {
 					sorted = element.getAttribute(SORT_ATTRIB);
 
 					if (!sorted || sorted.indexOf("reversed") > -1) {
@@ -128,12 +129,6 @@ define(["wc/dom/initialise",
 						});
 
 						ajaxRegion.requestLoad(element);
-					}
-					else {
-						FORM = FORM || new Widget("form");
-						if ((form = FORM.findAncestor(element))) {
-							timers.setTimeout(event.fire, 0, form, event.TYPE.submit);
-						}
 					}
 				}
 			}
@@ -168,7 +163,8 @@ define(["wc/dom/initialise",
 						tableId = container.id,
 						sortedColumn;
 
-					if ((sortedColumn = SORTED_COL.findDescendant(next)) && next === SORTABLE_TABLE.findAncestor(sortedColumn)) { // we need to do the reverse to allow for the possibility of nested tables.
+					// we need to do the reverse look-up to allow for the possibility of nested tables.
+					if ((sortedColumn = SORTED_COL.findDescendant(next)) && next === SORTABLE_TABLE.findAncestor(sortedColumn)) {
 						formUpdateManager.writeStateField(stateContainer, tableId + ".sort", sortedColumn.getAttribute("data-wc-columnidx"));
 						if (sortedColumn.getAttribute("sorted").indexOf("reversed") > -1) {
 							formUpdateManager.writeStateField(stateContainer, tableId + ".sortDesc", "true");

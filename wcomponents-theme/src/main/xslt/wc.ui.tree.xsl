@@ -36,8 +36,6 @@
 			<xsl:call-template name="requiredElement"/>
 			<xsl:call-template name="ajaxController"/>
 
-			<xsl:apply-templates select="ui:margin"/>
-
 			<xsl:if test="$isError">
 				<xsl:call-template name="invalid"/>
 			</xsl:if>

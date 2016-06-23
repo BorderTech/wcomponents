@@ -15,14 +15,19 @@ XML schema for ajax triggers
 			<xs:sequence>
 				<xs:element name="ajaxtargetid" minOccurs="1" maxOccurs="unbounded">
 					<xs:annotation>
-						<xs:documentation> Used to identify the components which will be targetted by the AJAX request's response. This is required before the request is made so
-							that the targets can be identified as WAI-ARIA live regions for improved accessibilty. </xs:documentation>
+						<xs:documentation> 
+							Used to identify the components which will be targetted by the AJAX request's response. 
+							This is required before the request is made so that the targets can be identified as 
+							WAI-ARIA live regions for improved accessibilty. 
+						</xs:documentation>
 					</xs:annotation>
 
 					<xs:complexType>
 						<xs:attribute name="targetId" type="xs:NMTOKEN" use="required">
 							<xs:annotation>
-								<xs:documentation> The value of the id attribute of the target component. </xs:documentation>
+								<xs:documentation> 
+									The value of the id attribute of the target component. 
+								</xs:documentation>
 							</xs:annotation>
 						</xs:attribute>
 					</xs:complexType>
@@ -35,17 +40,22 @@ XML schema for ajax triggers
 				</xs:annotation>
 			</xs:attribute>
 
-			<xs:attribute name="allowedUses" type="xs:positiveInteger">
+			<xs:attribute name="loadOnce" type="xs:boolean" default="false">
 				<xs:annotation>
-					<xs:documentation> The number of times a trigger can be used. If absent infinity assumed. Really only useful for a value of "1" and by default this is the only
-						supported value. </xs:documentation>
+					<xs:documentation>
+						Indicates the trigger may fire only once. If not true then the trigger may be fired an 
+						unlimited number of times.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 
 			<xs:attribute name="delay" type="xs:positiveInteger">
 				<xs:annotation>
-					<xs:documentation>This is a delay in MILLISECONDS after which the trigger will fire (without further user intervention). Users will probably not notice any
-						delay &lt; 100 if there are no other pending ajax requests. </xs:documentation>
+					<xs:documentation>
+						This is a delay in MILLISECONDS after which the trigger will fire (without further user 
+						intervention). Users will probably not notice any delay &lt; 100 if there are no other pending 
+						ajax requests. 
+					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 		</xs:complexType>

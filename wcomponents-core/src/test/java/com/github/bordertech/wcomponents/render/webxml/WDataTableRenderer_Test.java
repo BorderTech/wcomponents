@@ -372,7 +372,6 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("control", "//ui:table/ui:rowselection/@selectAll", component);
 		assertXpathEvaluatesTo(component.getSelectGroup(), "//ui:table/ui:rowselection/@groupName",
 				component);
-		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:rowselection/@submitOnChange", component);
 	}
 
 	@Test
@@ -391,6 +390,7 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("client", "//ui:table/ui:rowexpansion/@mode", component);
 	}
 
+	// SERVER outputs "dynamic" see https://github.com/BorderTech/wcomponents/issues/701
 	@Test
 	public void testDoPaintExpandModeServer() throws IOException, SAXException, XpathException {
 		WDataTable component = new WDataTable();
@@ -404,7 +404,7 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setExpandMode(ExpandMode.SERVER);
 
 		assertSchemaMatch(component);
-		assertXpathEvaluatesTo("server", "//ui:table/ui:rowexpansion/@mode", component);
+		assertXpathEvaluatesTo("dynamic", "//ui:table/ui:rowexpansion/@mode", component);
 	}
 
 	@Test
@@ -501,6 +501,7 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("100", "//ui:table/ui:thead/ui:th[3]/@width", table);
 	}
 
+	// SERVER outputs "dynamic" see https://github.com/BorderTech/wcomponents/issues/701
 	@Test
 	public void testDoPaintSortableSortModeServer() throws IOException, SAXException, XpathException {
 		WDataTable component = new WDataTable();
@@ -514,7 +515,7 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		component.setSortMode(SortMode.SERVER);
 
 		assertSchemaMatch(component);
-		assertXpathEvaluatesTo("server", "//ui:table/ui:sort/@mode", component);
+		assertXpathEvaluatesTo("dynamic", "//ui:table/ui:sort/@mode", component);
 		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:thead/ui:th[1]/@sortable", component);
 		assertXpathNotExists("//ui:table/ui:thead/ui:th[2]/@sortable", component);
 		assertXpathEvaluatesTo(TRUE, "//ui:table/ui:thead/ui:th[3]/@sortable", component);
