@@ -69,6 +69,8 @@
 * Some responsive design improvements #671, #656.
 * Updated the transform of WTab to allow rich content in the tab "button" #669.
 * Re-implemented basic support for theme-level inclusion of web analytics #398.
+* Updated Margin output in line with hgap/vgap to improve responsiveness and improve style guide compliance
+  enforceability.
 
 # Release 1.1.8
 ## Bug fixes

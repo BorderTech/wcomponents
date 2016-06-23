@@ -1,7 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:import href="wc.common.getHVGap.vars.xsl"/><!-- contains the gap limit definitions -->
+	<xsl:import href="wc.common.getSpace.vars.xsl"/><!-- contains the gap limit definitions -->
 
 	<!--
 		Template to convert an integer (pixel) hgap or vgap to a class attribute value. If this template returns 
@@ -44,20 +44,9 @@
 				</xsl:otherwise>
 			</xsl:choose>
 			<xsl:text>gap_</xsl:text>
-			<xsl:choose>
-				<xsl:when test="$mygap &lt;= $smallgap">
-					<xsl:text>sm</xsl:text>
-				</xsl:when>
-				<xsl:when test="$mygap &lt;= $medgap">
-					<xsl:text>med</xsl:text>
-				</xsl:when>
-				<xsl:when test="$mygap &lt;= $lggap">
-					<xsl:text>lg</xsl:text>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:text>xl</xsl:text>
-				</xsl:otherwise>
-			</xsl:choose>
+			<xsl:call-template name="getSizeClassExtension">
+				<xsl:with-param name="gap" select="$mygap"/>
+			</xsl:call-template>
 		</xsl:if>
 	</xsl:template>
 

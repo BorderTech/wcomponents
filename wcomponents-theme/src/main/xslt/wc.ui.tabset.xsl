@@ -17,8 +17,6 @@
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:call-template name="ajaxTarget"/>
 
-			<xsl:apply-templates select="ui:margin"/>
-			
 			<div role="tablist">
 				<xsl:if test="@type='accordion'">
 					<xsl:attribute name="aria-multiselectable">

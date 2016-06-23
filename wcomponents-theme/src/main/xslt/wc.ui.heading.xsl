@@ -20,7 +20,6 @@
 			</xsl:attribute>
 			<xsl:call-template name="makeCommonClass"/>
 			<xsl:call-template name="ajaxTarget"/>
-			<xsl:apply-templates select="ui:margin"/>
 			<xsl:choose>
 				<xsl:when test="ui:decoratedlabel">
 					<xsl:apply-templates select="ui:decoratedlabel"/>
