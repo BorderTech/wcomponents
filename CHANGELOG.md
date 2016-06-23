@@ -37,8 +37,12 @@
   entities to their unicode characters but will not unescape the five basic XML character entities. Very handy for
   converting HTML to valid XML! Needed for #620.
 * WAjaxControl: deprecated set/getLoadCount. In future use set/isLoadOnce. Required for #495.
+* WDataTable PaginationMode.SERVER remapped to PaginationMode.DYNAMIC (has been enforced in client for over 2 years);
+  removed submitOnRowSelect (never supported in client); SortMode.SERVER mapped to SortMode.DYNAMIC;
+  ExpansionMode.SERVER mapped to ExpansionMode.DYNAMIC. These were all required as part of #701.
 
 ## Bug Fixes
+* Fixed accessibility problems in WDataTable #701.
 * WAjaxControl addressed API errors #495
 * Added HTML sanitizer character entity converter #620.
 * Fixed accessibility problems in WDialog #606.

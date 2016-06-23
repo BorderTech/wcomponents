@@ -45,7 +45,6 @@
 		<xsl:param name="name"/>
 		<xsl:param name="for"/>
 		<xsl:param name="selected"/>
-		<xsl:param name="roundTrip"/>
 		<xsl:param name="label"/><!--not set for ui:selecttoggle -->
 		<xsl:param name="type" select="'text'"/>
 
@@ -58,7 +57,7 @@
 
 		<xsl:variable name="mode">
 			<xsl:choose>
-				<xsl:when test="$roundTrip=$t">
+				<xsl:when test="self::ui:selectToggle and @roundTrip">
 					<xsl:text>server</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>

@@ -68,7 +68,6 @@
 				<xsl:with-param name="id" select="$bodyId"/>
 				<xsl:with-param name="selected" select="$selected"/>
 				<xsl:with-param name="label" select="$controlLabel"/>
-				<xsl:with-param name="roundTrip" select="@submitOnChange"/>
 				<xsl:with-param name="type" select="@selectAll"/>
 			</xsl:call-template>
 		</xsl:if>

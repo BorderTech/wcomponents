@@ -355,7 +355,7 @@ public class DataTableOptionsExample extends WContainer {
 			rbsPaging.setSelected(WDataTable.PaginationMode.DYNAMIC);
 			rbsStriping.setSelected(WDataTable.StripingType.NONE);
 			rbsSeparator.setSelected(WDataTable.SeparatorType.NONE);
-			rbsSorting.setSelected(WDataTable.SortMode.SERVER);
+			rbsSorting.setSelected(WDataTable.SortMode.DYNAMIC);
 			showColHeaders.setSelected(true);
 			applySettings();
 			setInitialised(true);
