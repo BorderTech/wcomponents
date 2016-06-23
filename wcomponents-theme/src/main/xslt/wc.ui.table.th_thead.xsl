@@ -59,27 +59,16 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
-
-					<xsl:variable name="sortMode">
-						<xsl:choose>
-							<xsl:when test="$sortControl/@mode">
-								<xsl:value-of select="$sortControl/@mode"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:text>dynamic</xsl:text>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:variable>
-
-					<xsl:if test="$sortMode='dynamic'">
-						<xsl:call-template name="tableAjaxController">
-							<xsl:with-param name="tableId" select="$tableId"/>
-						</xsl:call-template>
+					
+					<xsl:call-template name="tableAjaxController">
+						<xsl:with-param name="tableId" select="$tableId"/>
+					</xsl:call-template>
+					
+					<xsl:if test="../../@disabled"><!-- WDataTable only: to be removed. -->
+						<xsl:attribute name="aria-disabled">
+							<xsl:value-of select="$t"/>
+						</xsl:attribute>
 					</xsl:if>
-
-					<xsl:attribute name="data-wc-sortmode">
-						<xsl:value-of select="$sortMode"/>
-					</xsl:attribute>
 				</xsl:if>
 			</xsl:if>
 			<xsl:apply-templates select="ui:decoratedlabel">

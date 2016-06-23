@@ -15,7 +15,6 @@
 		<xsl:call-template name="selectToggle">
 			<xsl:with-param name="for" select="@target"/>
 			<xsl:with-param name="name" select="@id"/>
-			<xsl:with-param name="roundTrip" select="@roundTrip"/>
 			<xsl:with-param name="selected" select="@selected"/>
 			<xsl:with-param name="type">
 				<xsl:choose>
