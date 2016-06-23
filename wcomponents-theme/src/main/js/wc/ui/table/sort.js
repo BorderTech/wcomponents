@@ -98,7 +98,7 @@ define(["wc/dom/initialise",
 					id = element.id,
 					sorted,
 					controlGroup;
-				if (element === target || (!isEventInLabel(target) && isAcceptableEventTarget(element, target)) && !shed.isDisabled(element)) {
+				if ((element === target || (!isEventInLabel(target) && isAcceptableEventTarget(element, target))) && !shed.isDisabled(element)) {
 					sorted = element.getAttribute(SORT_ATTRIB);
 
 					if (!sorted || sorted.indexOf("reversed") > -1) {
