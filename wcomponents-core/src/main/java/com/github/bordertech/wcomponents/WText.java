@@ -1,8 +1,6 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.I18nUtilities;
-import com.github.bordertech.wcomponents.util.StringEscapeHTMLToXML;
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.text.MessageFormat;
 
@@ -77,25 +75,6 @@ public class WText extends WBeanComponent {
 	 */
 	public void setText(final String text, final Serializable... args) {
 		setData(I18nUtilities.asMessage(text, args));
-	}
-
-	/**
-	 * Unescape any HTML character entities in the input stream if the WText is not encoded.
-	 * @param data the input data
-	 */
-	@Override
-	public void setData(final Object data) {
-		if (this.isEncodeText() || data == null) { // we do not care about HTML entities if the text is going to be encoded.
-			super.setData(data);
-		} else {
-			String dataString = data.toString();
-			if (Util.empty(dataString)) {
-				super.setData(data);
-			} else {
-				super.setData(StringEscapeHTMLToXML.unescapeToXML(dataString));
-			}
-		}
-
 	}
 
 	/**

@@ -22,11 +22,11 @@ import org.owasp.validator.html.ScanException;
  * @author Mark Reeves
  * @since 1.2.0
  */
-public final class HtmlSanitizer {
+public final class HtmlSanitizerUtil {
 	/**
 	 * The log for this instance.
 	 */
-	private static final Log LOG = LogFactory.getLog(HtmlSanitizer.class);
+	private static final Log LOG = LogFactory.getLog(HtmlSanitizerUtil.class);
 
 	/**
 	 * The AntiSamy instance used by this class. Everything is static because we really want this to be a singleton.
@@ -38,17 +38,25 @@ public final class HtmlSanitizer {
 	 */
 	private static final String CONFIG_PARAM = "com.github.bordertech.wcomponents.AntiSamy.config";
 
+	/**
+	 * We may catch an exception in the static construction phase but ignore it until
+	 * the {@link #sanitize(java.lang.String) method is called. This will allow us to
+	 * retrieve the exception for later processing.
+	 */
+	private static Exception exception;
+
 	static {
 		String path = Config.getInstance().getString(CONFIG_PARAM,
 				"com/github/bordertech/wcomponents/sanitizers/antisamy-wc.xml");
 		AntiSamy antiLocal = null;
 
 		try {
-			File config = new File(HtmlSanitizer.class.getClassLoader().getResource(path).toURI());
+			File config = new File(HtmlSanitizerUtil.class.getClassLoader().getResource(path).toURI());
 			Policy policy = Policy.getInstance(config);
 			antiLocal = new AntiSamy(policy);
 		} catch (PolicyException | URISyntaxException ex) {
 			LOG.error("Could not create AntiSamy Policy. ", ex);
+			exception = ex;
 		}
 
 		if (antiLocal == null) {
@@ -60,7 +68,7 @@ public final class HtmlSanitizer {
 	/**
 	 * Prevent instantiation of this class.
 	 */
-	private HtmlSanitizer() {
+	private HtmlSanitizerUtil() {
 	}
 
 	/**
@@ -68,17 +76,18 @@ public final class HtmlSanitizer {
 	 *
 	 * @param input the (potentially) tainted HTML to sanitize
 	 * @return sanitized HTML
-	 * @throws NullPointerException thrown if AntiSamy instance is not correctly instantiated.
-	 * @throws Exception thrown if the AntiSamy scan fails.
+	 * @throws ScanException thrown if the AntiSamy scan fails
+	 * @throws PolicyException thrown if sanitization fails due to AntiSamy policy problem
+	 * @throws HTMLSanitizerException thrown if AntiSamy instance is not correctly instantiated
 	 */
-	public static String sanitize(final String input) throws NullPointerException, Exception {
+	public static String sanitize(final String input) throws ScanException, PolicyException, HTMLSanitizerException {
 		if (Util.empty(input)) {
 			return input;
 		}
 
 		if (ANTISAMY == null) {
 			LOG.error("AntiSamy instance not created.");
-			throw new NullPointerException("Attempt to use uninstantiated instance of AntiSamy sanitizer.");
+			throw new HTMLSanitizerException("Cannot sanitize: AntiSamy not initialised.", exception);
 		}
 
 		try {
@@ -92,9 +101,12 @@ public final class HtmlSanitizer {
 
 			LOG.debug("Sanitization time: " + String.valueOf(results.getScanTime()));
 			return results.getCleanHTML();
-		} catch (ScanException | PolicyException ex) {
-			LOG.error("Cannot sanitize HTML: ", ex);
-			throw new Exception("Cannot sanitize input HTML", ex);
+		} catch (ScanException ex) {
+			LOG.error("Cannot sanitize HTML due to AntiSamy scan exception.", ex);
+			throw new ScanException(ex);
+		} catch (PolicyException ex) {
+			LOG.error("Cannot sanitize HTML due to AntiSamy policy exception.", ex);
+			throw new PolicyException(ex);
 		}
 	}
 }

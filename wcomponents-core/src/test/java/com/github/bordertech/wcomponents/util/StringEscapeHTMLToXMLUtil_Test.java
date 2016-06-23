@@ -4,105 +4,105 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 /**
- * Tests for {@link StringEscapeHTMLToXML}.
+ * Tests for {@link StringEscapeHTMLToXMLUtil}.
  * @author Mark Reeves
  * @since 1.2.0
  */
-public class StringEscaper_Test {
+public class StringEscapeHTMLToXMLUtil_Test {
 
 	@Test
 	public void testNoConvertLt() {
 		String testString = "&lt;";
-		Assert.assertEquals(testString, StringEscapeHTMLToXML.unescapeToXML(testString));
+		Assert.assertEquals(testString, StringEscapeHTMLToXMLUtil.unescapeToXML(testString));
 	}
 
 	@Test
 	public void testNoConvertGt() {
 		String testString = "&gt;";
 
-		Assert.assertEquals(testString, StringEscapeHTMLToXML.unescapeToXML(testString));
+		Assert.assertEquals(testString, StringEscapeHTMLToXMLUtil.unescapeToXML(testString));
 	}
 
 	@Test
 	public void testNoConvertQuote() {
 		String testString = "&quot;";
-		Assert.assertEquals(testString, StringEscapeHTMLToXML.unescapeToXML(testString));
+		Assert.assertEquals(testString, StringEscapeHTMLToXMLUtil.unescapeToXML(testString));
 	}
 
 	@Test
 	public void testNoConvertAmpersand() {
 		String testString = "&amp;";
-		Assert.assertEquals(testString, StringEscapeHTMLToXML.unescapeToXML(testString));
+		Assert.assertEquals(testString, StringEscapeHTMLToXMLUtil.unescapeToXML(testString));
 	}
 
 	// We explicitly include <code>&apos;</code> so we better test it.
 	@Test
 	public void testConvertApos() {
 		String testString = "&apos;";
-		Assert.assertEquals("'", StringEscapeHTMLToXML.unescapeToXML(testString));
+		Assert.assertEquals("'", StringEscapeHTMLToXMLUtil.unescapeToXML(testString));
 	}
 
 	// We really don't want to test ALL of the HTML4 extended or ISO8859_1 chars so I cherry picked.
 	@Test
 	public void testConvertDot() {
 		String testString = "&bull;";
-		Assert.assertEquals("•", StringEscapeHTMLToXML.unescapeToXML(testString));
+		Assert.assertEquals("•", StringEscapeHTMLToXMLUtil.unescapeToXML(testString));
 	}
 
 	@Test
 	public void testConvertNBSP() {
 		String testString = "&nbsp;";
-		Assert.assertEquals("\u00a0", StringEscapeHTMLToXML.unescapeToXML(testString));
+		Assert.assertEquals("\u00a0", StringEscapeHTMLToXMLUtil.unescapeToXML(testString));
 	}
 
 	@Test
 	public void testConvertNBSPDec() {
 		String testString = "&#160;";
-		Assert.assertEquals("\u00a0", StringEscapeHTMLToXML.unescapeToXML(testString));
+		Assert.assertEquals("\u00a0", StringEscapeHTMLToXMLUtil.unescapeToXML(testString));
 	}
 
 	@Test
 	public void testConvertNBSPHex() {
 		String testString = "&#x00a0;";
-		Assert.assertEquals("\u00a0", StringEscapeHTMLToXML.unescapeToXML(testString));
+		Assert.assertEquals("\u00a0", StringEscapeHTMLToXMLUtil.unescapeToXML(testString));
 	}
 
 	@Test
 	public void testConvertNBSPHexShort() {
 		String testString = "&#xa0;";
-		Assert.assertEquals("\u00a0", StringEscapeHTMLToXML.unescapeToXML(testString));
+		Assert.assertEquals("\u00a0", StringEscapeHTMLToXMLUtil.unescapeToXML(testString));
 	}
 
 	// Being a bit paranoid, better make sure we are not accidentally encoding XML entities.
 	@Test
 	public void testNoUnConvertLt() {
 		String testString = "<";
-		Assert.assertEquals(testString, StringEscapeHTMLToXML.unescapeToXML(testString));
+		Assert.assertEquals(testString, StringEscapeHTMLToXMLUtil.unescapeToXML(testString));
 	}
 
 	@Test
 	public void testNoUnConvertGt() {
 		String testString = ">";
 
-		Assert.assertEquals(testString, StringEscapeHTMLToXML.unescapeToXML(testString));
+		Assert.assertEquals(testString, StringEscapeHTMLToXMLUtil.unescapeToXML(testString));
 	}
 
 	@Test
 	public void testNoUnConvertQuote() {
 		String testString = "\"";
-		Assert.assertEquals(testString, StringEscapeHTMLToXML.unescapeToXML(testString));
+		Assert.assertEquals(testString, StringEscapeHTMLToXMLUtil.unescapeToXML(testString));
 	}
 
 	@Test
 	public void testNoUnConvertAmpersand() {
 		String testString = "&";
-		Assert.assertEquals(testString, StringEscapeHTMLToXML.unescapeToXML(testString));
+		Assert.assertEquals(testString, StringEscapeHTMLToXMLUtil.unescapeToXML(testString));
 	}
 
 	// We explicitly include <code>&apos;</code> so we better test it.
 	@Test
 	public void testNoUnConvertApos() {
 		String testString = "'";
-		Assert.assertEquals(testString, StringEscapeHTMLToXML.unescapeToXML(testString));
+		Assert.assertEquals(testString, StringEscapeHTMLToXMLUtil.unescapeToXML(testString));
 	}
 }

@@ -1,8 +1,11 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.HtmlSanitizer;
-import com.github.bordertech.wcomponents.util.StringEscapeHTMLToXML;
+import com.github.bordertech.wcomponents.util.HTMLSanitizerException;
+import com.github.bordertech.wcomponents.util.HtmlSanitizerUtil;
 import com.github.bordertech.wcomponents.util.Util;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.owasp.validator.html.PolicyException;
+import org.owasp.validator.html.ScanException;
 
 /**
  * <p>
@@ -69,26 +72,29 @@ public class WTextArea extends WTextField {
 	}
 
 	/**
-	 * Unescape any HTML character entities in the input stream if we are in a rich text input.
-	 * @param data the input data
+	 * The the data for this WTextArea. If the text area is not rich text its output is XML escaped so we can ignore
+	 * sanitization. If the text area is a rich text area then we have to
+	 * @return The data for this WTextArea. This should be an instanceof String.
 	 */
 	@Override
-	public void setData(final Object data) {
-		if (!this.isRichTextArea() || data == null) {
-			super.setData(data);
-		} else {
-			String dataString = data.toString();
-			if (Util.empty(dataString)) {
-				super.setData(data);
-			} else {
-				try {
-					dataString = HtmlSanitizer.sanitize(dataString);
-					super.setData(StringEscapeHTMLToXML.unescapeToXML(dataString));
-				} catch (Exception e) {
-					// If the Sanitizer throws an error we are not able to sanitize so we will encode everything.
-					super.setData(StringEscapeHTMLToXML.escapeXml10(StringEscapeHTMLToXML.unescapeToXML(dataString)));
-				}
-			}
+	public Object getData() {
+		Object data = super.getData();
+		if (!(data instanceof String && this.isRichTextArea())) {
+			return data;
+		}
+
+		String dataString = (String) data;
+		if (Util.empty(dataString)) {
+			// no need to sanitize an empty string.
+			return data;
+		}
+
+		try {
+			// first sanitize input to get rid of potentially harmful HTML.
+			return HtmlSanitizerUtil.sanitize(dataString);
+		} catch (ScanException | PolicyException | HTMLSanitizerException e) {
+			// If the Sanitizer throws an error we are not able to sanitize so we will encode everything just in case.
+			return StringEscapeUtils.escapeXml10(dataString);
 		}
 	}
 

@@ -104,9 +104,9 @@ public class WTextExample extends WPanel {
 
 
 		add(new WHeading(HeadingLevel.H2, "Encoded text containing a HTML character entity"));
-		add(new WText("&dot;"));
+		add(new WText("&bull;"));
 		add(new WHeading(HeadingLevel.H2, "Unencoded text containing a HTML character entity"));
-		WText unescapedWithEntity = new WText("&dot;");
+		WText unescapedWithEntity = new WText("&bull;");
 		unescapedWithEntity.setEncodeText(false);
 		add(unescapedWithEntity);
 
