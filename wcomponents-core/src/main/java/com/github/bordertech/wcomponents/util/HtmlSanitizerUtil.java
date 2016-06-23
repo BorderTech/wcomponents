@@ -2,9 +2,6 @@ package com.github.bordertech.wcomponents.util;
 
 import java.io.File;
 import java.net.URISyntaxException;
-import java.util.List;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.owasp.validator.html.AntiSamy;
 import org.owasp.validator.html.Policy;
 import org.owasp.validator.html.PolicyException;
@@ -92,14 +89,6 @@ public final class HtmlSanitizerUtil {
 
 		try {
 			CleanResults results = ANTISAMY.scan(input);
-
-			List<String> errors = results.getErrorMessages();
-			if (CollectionUtils.isNotEmpty(errors)) {
-				LOG.info("Errors encountered while sanitizing HTML input/output: "
-						+ StringUtils.join(results.getErrorMessages(), "\n"));
-			}
-
-			LOG.debug("Sanitization time: " + String.valueOf(results.getScanTime()));
 			return results.getCleanHTML();
 		} catch (ScanException ex) {
 			LOG.error("Cannot sanitize HTML due to AntiSamy scan exception.", ex);
