@@ -30,8 +30,21 @@
 * WCollapsible updated setMode(CollapsibleMode) to set CollapsibleMode.DYNAMIC if the mode being set is
   CollapsibleMode.SERVER. This is required for fixing a11y problems in CollapsibleMode.SERVER as per #694.
 * WDialog.isResizeable will always return true as part of fixing #606
+* New utility class `com.github.bordertech.wcomponents.util.HtmlSanitizer` which can be used to sanitize HTML input
+  (as shown in WTextArea). Needed for #620.
+* New utility class `com.github.bordertech.wcomponents.util.StringEscapeHTMLToXML` which extends apache-commons lang3
+  StringEscapeUtils. It adds exactly one (static) method `unescapeToXML(String)` which will convert HTML character
+  entities to their unicode characters but will not unescape the five basic XML character entities. Very handy for
+  converting HTML to valid XML! Needed for #620.
+* WAjaxControl: deprecated set/getLoadCount. In future use set/isLoadOnce. Required for #495.
+* WDataTable PaginationMode.SERVER remapped to PaginationMode.DYNAMIC (has been enforced in client for over 2 years);
+  removed submitOnRowSelect (never supported in client); SortMode.SERVER mapped to SortMode.DYNAMIC;
+  ExpansionMode.SERVER mapped to ExpansionMode.DYNAMIC. These were all required as part of #701.
 
 ## Bug Fixes
+* Fixed accessibility problems in WDataTable #701.
+* WAjaxControl addressed API errors #495
+* Added HTML sanitizer character entity converter #620.
 * Fixed accessibility problems in WDialog #606.
 * Fixed accessibility problems in WCollapsible #692.
 * Fixed accessibility problems in WTabSet #692.
@@ -48,6 +61,10 @@
 * Fixed GridLayout cell alignment on small screens #652.
 
 ## Enhancements
+* Added a default margin style for p elements. This was addded during testing of the fix for #620 to improve consistency
+  of output.
+* WTextArea in rich text mode will now honour this mode when read-only. Added as part of #620.
+* WText, when encoding is off, will correctly handle HTML entities which are not XML entities. Added as part of #620.
 * Enhanced separation of labels and inputs to improve a11y #683.
 * Some responsive design improvements #671, #656.
 * Updated the transform of WTab to allow rich content in the tab "button" #669.

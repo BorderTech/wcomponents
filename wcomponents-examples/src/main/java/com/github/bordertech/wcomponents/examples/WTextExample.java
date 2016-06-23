@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.BeanProvider;
 import com.github.bordertech.wcomponents.BeanProviderBound;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WHeading;
@@ -61,17 +62,17 @@ public class WTextExample extends WPanel {
 		setLayout(new FlowLayout(Alignment.VERTICAL));
 
 		// Static text example
-		add(new WHeading(WHeading.MAJOR, "The following line of text is from the static model."));
+		add(new WHeading(HeadingLevel.H2, "The following line of text is from the static model."));
 		add(sharedOnlyText);
 		add(new WHorizontalRule());
 
 		// Dynamic text example
-		add(new WHeading(WHeading.MAJOR, "The following line of text is from the dynamic model."));
+		add(new WHeading(HeadingLevel.H2, "The following line of text is from the dynamic model."));
 		add(dynamicText);
 		add(new WHorizontalRule());
 
 		// Bean-bound example
-		add(new WHeading(WHeading.MAJOR, "The following line of text is from a Bean."));
+		add(new WHeading(HeadingLevel.H2, "The following line of text is from a Bean."));
 		add(beanBoundText);
 		WButton button1 = new WButton("Load Bean bound bean");
 		add(button1);
@@ -87,7 +88,7 @@ public class WTextExample extends WPanel {
 		add(new WHorizontalRule());
 
 		// Bean provider-bound example
-		add(new WHeading(WHeading.MAJOR, "The following line of text is from a BeanProvider."));
+		add(new WHeading(HeadingLevel.H2, "The following line of text is from a BeanProvider."));
 		add(beanProviderBoundText);
 		WButton button2 = new WButton("Load BeanProvider bound bean");
 		add(button2);
@@ -100,6 +101,14 @@ public class WTextExample extends WPanel {
 				beanProviderBoundText.setBeanId("123456");
 			}
 		});
+
+
+		add(new WHeading(HeadingLevel.H2, "Encoded text containing a HTML character entity"));
+		add(new WText("&bull;"));
+		add(new WHeading(HeadingLevel.H2, "Unencoded text containing a HTML character entity"));
+		WText unescapedWithEntity = new WText("&bull;");
+		unescapedWithEntity.setEncodeText(false);
+		add(unescapedWithEntity);
 
 		// A button that just causes a trip to the server (no action)
 		add(new WHorizontalRule());
