@@ -42,6 +42,7 @@
   ExpansionMode.SERVER mapped to ExpansionMode.DYNAMIC. These were all required as part of #701.
 
 ## Bug Fixes
+* Fixed issue which caused WTextarea to not include changes in AJAX posts when in rich-text mode #700.
 * Fixed accessibility problems in WDataTable #701.
 * WAjaxControl addressed API errors #495
 * Added HTML sanitizer character entity converter #620.

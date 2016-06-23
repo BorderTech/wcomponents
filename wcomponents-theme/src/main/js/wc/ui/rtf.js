@@ -28,6 +28,13 @@ define(["wc/dom/initialise", "wc/config", "tinyMCE"],
 			}
 			while ((id = idArr.shift())) {
 				initObj["selector"] = "textarea#" + id;
+				if (!initObj["setup"]) {
+					initObj["setup"] = function (editor) {
+						editor.on("change", function () {
+							editor.save();
+						});
+					};
+				}
 				tinyMCE.init(initObj);
 			}
 		}
