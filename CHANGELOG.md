@@ -30,8 +30,15 @@
 * WCollapsible updated setMode(CollapsibleMode) to set CollapsibleMode.DYNAMIC if the mode being set is
   CollapsibleMode.SERVER. This is required for fixing a11y problems in CollapsibleMode.SERVER as per #694.
 * WDialog.isResizeable will always return true as part of fixing #606
+* New utility class `com.github.bordertech.wcomponents.util.HtmlSanitizer` which can be used to sanitize HTML input
+  (as shown in WTextArea). Needed for #620.
+* New utility class `com.github.bordertech.wcomponents.util.StringEscapeHTMLToXML` which extends apache-commons.lang3
+  StringEscapeUtils. It adds exacly one (static) method `unescapeToXML(String)` which will convert HTML character
+  entities to their unicode characters but will not unescape the five basic XML character entities. Very handy for
+  converting HTML to valid XML! Needed for #620.
 
 ## Bug Fixes
+* Added HTML sanitizer character entity converter #620.
 * Fixed accessibility problems in WDialog #606.
 * Fixed accessibility problems in WCollapsible #692.
 * Fixed accessibility problems in WTabSet #692.
