@@ -18,7 +18,6 @@
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
-			<xsl:apply-templates select="ui:margin"/>
 			
 			<xsl:if test="ui:decoratedlabel">
 				<xsl:attribute name="aria-labelledby">

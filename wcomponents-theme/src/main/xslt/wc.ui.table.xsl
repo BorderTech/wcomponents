@@ -59,8 +59,6 @@
 			<xsl:if test="ui:pagination[@mode='dynamic' or @mode='client'] or ui:rowexpansion[@mode='lazy' or @mode='dynamic'] or ui:sort[@mode='dynamic'] or key('targetKey',$id) or parent::ui:ajaxtarget[@action='replace']">
 				<xsl:call-template name="setARIALive"/>
 			</xsl:if>
-
-			<xsl:apply-templates select="ui:margin"/>
 			<!--
 				Disabled state: WDataTable only
 

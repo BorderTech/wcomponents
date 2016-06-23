@@ -57,12 +57,32 @@ $wc-gap-suffix-list: sm, med, lg, xl !default;
 			margin-top: $size;
 		 }
 	}
+
+	.wc-margin-all-#{$cl} {
+		margin: $size;
+	}
+
+	.wc-margin-n-#{$cl} {
+		margin-top: $size;
+	}
+
+	.wc-margin-e-#{$cl} {
+		margin-right: $size;
+	}
+
+	.wc-margin-s-#{$cl} {
+		margin-bottom: $size;
+	}
+
+	.wc-margin-w-#{$cl} {
+		margin-left: $size;
+	}
 }
 
 @include respond-phonelike { // reduce the gaps.
 	@each $cl in $wc-gap-suffix-list {
 		@if ($cl == sm) {
-			$size: 0;
+			$size: $wc-gap-small / 2;
 		}
 		@else if  ($cl == med) {
 			$size: $wc-gap-small;
@@ -88,6 +108,26 @@ $wc-gap-suffix-list: sm, med, lg, xl !default;
 					margin-top: $wc-gap-small;
 				 }
 			}
+		}
+
+		.wc-margin-all-#{$cl} {
+			margin: $size;
+		}
+
+		.wc-margin-n-#{$cl} {
+			margin-top: $size;
+		}
+
+		.wc-margin-e-#{$cl} {
+			margin-right: $size;
+		}
+
+		.wc-margin-s-#{$cl} {
+			margin-bottom: $size;
+		}
+
+		.wc-margin-w-#{$cl} {
+			margin-left: $size;
 		}
 	}
 }

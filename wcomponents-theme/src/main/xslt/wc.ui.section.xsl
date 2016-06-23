@@ -20,7 +20,6 @@
 			<xsl:attribute name="class">
 				<xsl:call-template name="WSectionClass"/>
 			</xsl:attribute>
-			<xsl:apply-templates select="ui:margin"/>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:if test="*[not(self::ui:margin)] or not($mode='eager')">
 				<xsl:apply-templates select="ui:decoratedlabel" mode="section"/>
