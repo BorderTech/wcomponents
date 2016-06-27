@@ -28,7 +28,6 @@ final class WMultiDropdownRenderer extends AbstractWebXmlRenderer {
 		XmlStringBuilder xml = renderContext.getWriter();
 		String dataKey = dropdown.getListCacheKey();
 		int tabIndex = dropdown.getTabIndex();
-		boolean encode = dropdown.getDescEncode();
 		boolean readOnly = dropdown.isReadOnly();
 		int min = dropdown.getMinSelect();
 		int max = dropdown.getMaxSelect();
@@ -67,13 +66,13 @@ final class WMultiDropdownRenderer extends AbstractWebXmlRenderer {
 
 					for (Object nestedOption : ((OptionGroup) option).getOptions()) {
 						renderOption(dropdown, nestedOption, optionIndex++, xml, selections,
-								renderSelectionsOnly, encode);
+								renderSelectionsOnly);
 					}
 
 					xml.appendEndTag("ui:optgroup");
 				} else {
 					renderOption(dropdown, option, optionIndex++, xml, selections,
-							renderSelectionsOnly, encode);
+							renderSelectionsOnly);
 				}
 			}
 		}
@@ -91,12 +90,10 @@ final class WMultiDropdownRenderer extends AbstractWebXmlRenderer {
 	 * @param html the XmlStringBuilder to paint to.
 	 * @param selections the list of selected options.
 	 * @param renderSelectionsOnly true to only render selected options, false to render all options.
-	 * @param encode true if the option description should be encoded, false if not.
 	 */
 	private void renderOption(final WMultiDropdown dropdown, final Object option,
 			final int optionIndex, final XmlStringBuilder html,
-			final List<?> selections, final boolean renderSelectionsOnly,
-			final boolean encode) {
+			final List<?> selections, final boolean renderSelectionsOnly) {
 		boolean selected = (selections != null && selections.contains(option));
 
 		if (selected || !renderSelectionsOnly) {
@@ -113,7 +110,7 @@ final class WMultiDropdownRenderer extends AbstractWebXmlRenderer {
 			html.appendOptionalAttribute("selected", selected, "true");
 			html.appendOptionalAttribute("isNull", isNull, "true");
 			html.appendClose();
-			html.append(desc, encode);
+			html.append(desc, true);
 			html.appendEndTag("ui:option");
 		}
 	}

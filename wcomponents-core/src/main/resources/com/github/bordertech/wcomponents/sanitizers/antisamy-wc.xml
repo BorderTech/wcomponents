@@ -174,16 +174,7 @@
 		<tag name="a" action="validate">
 			<attribute name="href" onInvalid="filterTag" />
 
-			<attribute name="nohref">
-
-				<literal-list>
-					<literal value="nohref" />
-					<literal value="" />
-				</literal-list>
-			</attribute>
-
 			<attribute name="rel">
-
 				<literal-list>
 					<literal value="nofollow" />
 				</literal-list>

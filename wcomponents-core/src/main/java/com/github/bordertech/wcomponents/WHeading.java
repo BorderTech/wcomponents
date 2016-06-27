@@ -285,7 +285,7 @@ public class WHeading extends WText implements Container, AjaxTarget, Marginable
 	/**
 	 * Holds the extrinsic state information of the component.
 	 */
-	public static class HeadingModel extends BeanAndProviderBoundComponentModel {
+	public static class HeadingModel extends TextModel {
 
 		/**
 		 * The margins to be used on the heading.

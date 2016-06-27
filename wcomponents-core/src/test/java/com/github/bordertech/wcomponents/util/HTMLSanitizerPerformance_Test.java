@@ -88,7 +88,7 @@ public class HTMLSanitizerPerformance_Test extends AbstractWComponentTestCase {
 				for (int i = 0; i < count; i++) {
 					try {
 						HtmlSanitizerUtil.sanitize(LONG_HTML);
-					} catch (ScanException | PolicyException | HTMLSanitizerException e) {
+					} catch (ScanException | PolicyException e) {
 						throw new SystemException(e);
 					}
 				}

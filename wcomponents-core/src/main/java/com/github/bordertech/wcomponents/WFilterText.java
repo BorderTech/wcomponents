@@ -118,7 +118,7 @@ public class WFilterText extends WText {
 	/**
 	 * FilterTextModel holds Extrinsic state management of the component.
 	 */
-	public static class FilterTextModel extends BeanAndProviderBoundComponentModel {
+	public static class FilterTextModel extends TextModel {
 
 		/**
 		 * The search regexp.
