@@ -99,8 +99,6 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 				application);
 		assertXpathEvaluatesTo(environment.getWServletPath(), "//ui:application/@ajaxUrl",
 				application);
-		assertXpathEvaluatesTo(environment.getWServletPath(), "//ui:application/@dataUrl",
-				application);
 		assertXpathNotExists("//ui:application/@defaultFocusId", application);
 	}
 
@@ -128,8 +126,6 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(WComponent.DEFAULT_APPLICATION_ID, "//ui:application/@id",
 				application);
 		assertXpathEvaluatesTo(environment.getWServletPath(), "//ui:application/@ajaxUrl",
-				application);
-		assertXpathEvaluatesTo(environment.getWServletPath(), "//ui:application/@dataUrl",
 				application);
 		assertXpathEvaluatesTo(focussedComponent.getId(), "//ui:application/@defaultFocusId",
 				application);

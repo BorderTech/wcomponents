@@ -62,9 +62,6 @@ public class VelocityInterceptor extends InterceptorComponent {
 	 */
 	@Override
 	public void paint(final RenderContext renderContext) {
-		// TODO: I think that some of the velocity errors should bubble up as
-		// runtime exceptions else we can get stuck.
-		// Eg. com.github.bordertech.wcomponents.examples.ErrorGenerator - paintComponent.
 
 		if (!(renderContext instanceof WebXmlRenderContext)) {
 			throw new SystemException("Unable to render to " + renderContext);

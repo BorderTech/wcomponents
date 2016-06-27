@@ -67,7 +67,8 @@ public class HandlebarsRendererImpl implements TemplateRenderer {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void renderTemplate(final String templateName, final Map<String, Object> context, final Map<String, WComponent> taggedComponents, final Writer writer, final Map<String, Object> options) {
+	public void renderTemplate(final String templateName, final Map<String, Object> context, final Map<String, WComponent> taggedComponents,
+			final Writer writer, final Map<String, Object> options) {
 
 		LOG.debug("Rendering handlebars template " + templateName);
 
@@ -98,7 +99,8 @@ public class HandlebarsRendererImpl implements TemplateRenderer {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void renderInline(final String templateInline, final Map<String, Object> context, final Map<String, WComponent> taggedComponents, final Writer writer, final Map<String, Object> options) {
+	public void renderInline(final String templateInline, final Map<String, Object> context, final Map<String, WComponent> taggedComponents,
+			final Writer writer, final Map<String, Object> options) {
 
 		LOG.debug("Rendering handlebars inline template.");
 
@@ -183,7 +185,8 @@ public class HandlebarsRendererImpl implements TemplateRenderer {
 	 * @param writer the writer for the output
 	 * @throws IOException an IOException applying the template
 	 */
-	protected void writeTemplate(final Template template, final Context handlebarsContext, final Map<String, WComponent> componentsByKey, final Writer writer) throws IOException {
+	protected void writeTemplate(final Template template, final Context handlebarsContext, final Map<String, WComponent> componentsByKey,
+			final Writer writer) throws IOException {
 		// Apply template
 		UIContext uic = UIContextHolder.getCurrent();
 		try (TemplateWriter templateWriter = new TemplateWriter(writer, componentsByKey, uic)) {

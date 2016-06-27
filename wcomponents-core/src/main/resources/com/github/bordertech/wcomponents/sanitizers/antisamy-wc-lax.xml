@@ -73,9 +73,6 @@ http://www.w3.org/TR/html401/struct/global.html
 		<!--  This is for ID selectors (ex: #myId { ... } -->
 		<regexp name="cssIDSelector" value="#[a-zA-Z0-9-_]+"/>
 
-		<!--  This is to list out any IDs that are *not* valid - FIXME: What should the default be to avoid div hijacking? *? -->
-		<regexp name="cssIDExclusion" value=""/>
-
 		<!--  This is for pseudo-element selector (ex. foo:pseudo-element { ... } -->
 		<regexp name="cssPseudoElementSelector" value=":[a-zA-Z0-9\-_]+"/>
 
