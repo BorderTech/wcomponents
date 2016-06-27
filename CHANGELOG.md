@@ -32,16 +32,16 @@
 * WDialog.isResizeable will always return true as part of fixing #606
 * New utility class `com.github.bordertech.wcomponents.util.HtmlSanitizer` which can be used to sanitize HTML input
   (as shown in WTextArea). Needed for #620.
-* New utility class `com.github.bordertech.wcomponents.util.StringEscapeHTMLToXML` which extends apache-commons lang3
-  StringEscapeUtils. It adds exactly one (static) method `unescapeToXML(String)` which will convert HTML character
-  entities to their unicode characters but will not unescape the five basic XML character entities. Very handy for
-  converting HTML to valid XML! Needed for #620.
+* New utility class `com.github.bordertech.wcomponents.util.StringEscapeHTMLToXML`. It adds exactly one (static) method
+  `unescapeToXML(String)` which will convert HTML character entities to their unicode characters but will not unescape
+  the five basic XML character entities. Very handy for converting HTML to valid XML! Needed for #620.
 * WAjaxControl: deprecated set/getLoadCount. In future use set/isLoadOnce. Required for #495.
 * WDataTable PaginationMode.SERVER remapped to PaginationMode.DYNAMIC (has been enforced in client for over 2 years);
   removed submitOnRowSelect (never supported in client); SortMode.SERVER mapped to SortMode.DYNAMIC;
   ExpansionMode.SERVER mapped to ExpansionMode.DYNAMIC. These were all required as part of #701.
 
 ## Bug Fixes
+* Fixed bug which could result in messages causing XML validation failure #707.
 * Fixed issue which caused WTextarea to not include changes in AJAX posts when in rich-text mode #700.
 * Fixed accessibility problems in WDataTable #701.
 * WAjaxControl addressed API errors #495
