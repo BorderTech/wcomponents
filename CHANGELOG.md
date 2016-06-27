@@ -40,6 +40,7 @@
   will always return true; method `setDescEncode(boolean)` has been deprecated, made final and is now a no-op.
 
 ## Bug Fixes
+* Fixed bug which could result in messages causing XML validation failure #707.
 * Fixed issue which caused WTextarea to not include changes in AJAX posts when in rich-text mode #700.
 * Fixed accessibility problems in WDataTable #701.
 * WAjaxControl addressed API errors #495
