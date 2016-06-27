@@ -340,7 +340,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 
 	/**
 	 * @param multipleSelection The multipleSelection to set.
-	 * @deprecated Use {@link com.github.bordertech.wcomponents.MenuSelectContainer#setSelectionMode(com.github.bordertech.wcomponents.MenuSelectContainer.SelectionMode)}.
+	 * @deprecated Use {@link com.github.bordertech.wcomponents.MenuSelectContainer#setSelectionMode(SelectionMode)}.
 	 */
 	@Deprecated
 	public void setMultipleSelection(final boolean multipleSelection) {
@@ -365,7 +365,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	/**
 	 * @param selectMode the selection mode for the items in this menu container.
 	 *
-	 * @deprecated Use {@link com.github.bordertech.wcomponents.MenuSelectContainer#setSelectionMode(com.github.bordertech.wcomponents.MenuSelectContainer.SelectionMode)} instead.
+	 * @deprecated Use {@link com.github.bordertech.wcomponents.MenuSelectContainer#setSelectionMode(SelectionMode)} instead.
 	 */
 	public void setSelectMode(final SelectMode selectMode) {
 		switch (selectMode) {
@@ -581,6 +581,10 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 				// Will always be visible
 				break;
 			}
+
+			default:
+				// do nothing.
+				break;
 		}
 	}
 

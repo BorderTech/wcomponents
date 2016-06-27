@@ -40,7 +40,6 @@ final class WDataTableRenderer extends AbstractWebXmlRenderer {
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		WDataTable table = (WDataTable) component;
 		XmlStringBuilder xml = renderContext.getWriter();
-		TableDataModel model = table.getDataModel();
 
 		xml.appendTagOpen("ui:table");
 		xml.appendAttribute("id", component.getId());
@@ -95,7 +94,36 @@ final class WDataTableRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		if (table.getPaginationMode() != PaginationMode.NONE) {
-			xml.appendTagOpen("ui:pagination");
+			paintPaginationElement(table, xml);
+		}
+
+		if (table.getSelectMode() != SelectMode.NONE) {
+			paintRowSelectionElement(table, xml);
+		}
+
+		if (table.getExpandMode() != ExpandMode.NONE) {
+			paintRowExpansionElement(table, xml);
+		}
+
+		if (table.isSortable()) {
+			paintSortElement(table, xml);
+		}
+
+		paintColumnHeadings(table, renderContext);
+		paintRows(table, renderContext);
+		paintTableActions(table, renderContext);
+
+		xml.appendEndTag("ui:table");
+	}
+
+	/**
+	 * Paint the pagination aspects of the WDataTable.
+	 * @param table the WDataTable being rendered
+	 * @param xml the string builder in use
+	 */
+	private void paintPaginationElement(final WDataTable table, final XmlStringBuilder xml) {
+		TableDataModel model = table.getDataModel();
+		xml.appendTagOpen("ui:pagination");
 
 			if (model instanceof TreeTableDataModel) {
 				// For tree tables, we only include top-level nodes for pagination.
@@ -125,86 +153,93 @@ final class WDataTableRenderer extends AbstractWebXmlRenderer {
 			}
 
 			xml.appendEnd();
-		}
+	}
 
-		if (table.getSelectMode() != SelectMode.NONE) {
-			boolean multiple = table.getSelectMode() == SelectMode.MULTIPLE;
+	/**
+	 * Paint the rowSelection aspects of the WDataTable.
+	 * @param table the WDataTable being rendered
+	 * @param xml the string builder in use
+	 */
+	private void paintRowSelectionElement(final WDataTable table, final XmlStringBuilder xml) {
+		boolean multiple = table.getSelectMode() == SelectMode.MULTIPLE;
 
-			xml.appendTagOpen("ui:rowselection");
-			xml.appendOptionalAttribute("multiple", multiple, "true");
+		xml.appendTagOpen("ui:rowselection");
+		xml.appendOptionalAttribute("multiple", multiple, "true");
 
-			if (multiple) {
-				switch (table.getSelectAllMode()) {
-					case CONTROL:
-						xml.appendAttribute("selectAll", "control");
-						break;
-					case TEXT:
-						xml.appendAttribute("selectAll", "text");
-						break;
-					case NONE:
-						break;
-					default:
-						throw new SystemException("Unknown select-all mode: " + table.
-								getSelectAllMode());
-				}
-			}
-
-			xml.appendOptionalAttribute("groupName", table.getSelectGroup());
-			xml.appendEnd();
-		}
-
-		if (table.getExpandMode() != ExpandMode.NONE) {
-			xml.appendTagOpen("ui:rowexpansion");
-
-			switch (table.getExpandMode()) {
-				case CLIENT:
-					xml.appendAttribute("mode", "client");
+		if (multiple) {
+			switch (table.getSelectAllMode()) {
+				case CONTROL:
+					xml.appendAttribute("selectAll", "control");
 					break;
-				case LAZY:
-					xml.appendAttribute("mode", "lazy");
-					break;
-				case SERVER:
-				case DYNAMIC:
-					xml.appendAttribute("mode", "dynamic");
+				case TEXT:
+					xml.appendAttribute("selectAll", "text");
 					break;
 				case NONE:
 					break;
 				default:
-					throw new SystemException("Unknown expand mode: " + table.getExpandMode());
+					throw new SystemException("Unknown select-all mode: " + table.
+							getSelectAllMode());
 			}
-
-			xml.appendOptionalAttribute("expandAll", table.isExpandAll(), "true");
-
-			xml.appendEnd();
 		}
 
-		if (table.isSortable()) {
-			int col = table.getSortColumnIndex();
-			boolean ascending = table.isSortAscending();
-
-			xml.appendTagOpen("ui:sort");
-			xml.appendOptionalAttribute("col", col >= 0, col);
-			xml.appendOptionalAttribute("descending", col >= 0 && !ascending, "true");
-
-			switch (table.getSortMode()) {
-				case SERVER:
-				case DYNAMIC:
-					xml.appendAttribute("mode", "dynamic");
-					break;
-				default:
-					throw new SystemException("Unknown sort mode: " + table.getSortMode());
-			}
-
-			xml.appendEnd();
-		}
-
-		paintColumnHeadings(table, renderContext);
-		paintRows(table, renderContext);
-		paintTableActions(table, renderContext);
-
-		xml.appendEndTag("ui:table");
+		xml.appendOptionalAttribute("groupName", table.getSelectGroup());
+		xml.appendEnd();
 	}
 
+	/**
+	 * Paint the rowSelection aspects of the WDataTable.
+	 * @param table the WDataTable being rendered
+	 * @param xml the string builder in use
+	 */
+	private void paintRowExpansionElement(final WDataTable table, final XmlStringBuilder xml) {
+		xml.appendTagOpen("ui:rowexpansion");
+
+		switch (table.getExpandMode()) {
+			case CLIENT:
+				xml.appendAttribute("mode", "client");
+				break;
+			case LAZY:
+				xml.appendAttribute("mode", "lazy");
+				break;
+			case SERVER:
+			case DYNAMIC:
+				xml.appendAttribute("mode", "dynamic");
+				break;
+			case NONE:
+				break;
+			default:
+				throw new SystemException("Unknown expand mode: " + table.getExpandMode());
+		}
+
+		xml.appendOptionalAttribute("expandAll", table.isExpandAll(), "true");
+
+		xml.appendEnd();
+	}
+
+	/**
+	 * Paint the rowSelection aspects of the WDataTable.
+	 * @param table the WDataTable being rendered
+	 * @param xml the string builder in use
+	 */
+	private void paintSortElement(final WDataTable table, final XmlStringBuilder xml) {
+		int col = table.getSortColumnIndex();
+		boolean ascending = table.isSortAscending();
+
+		xml.appendTagOpen("ui:sort");
+		xml.appendOptionalAttribute("col", col >= 0, col);
+		xml.appendOptionalAttribute("descending", col >= 0 && !ascending, "true");
+
+		switch (table.getSortMode()) {
+			case SERVER:
+			case DYNAMIC:
+				xml.appendAttribute("mode", "dynamic");
+				break;
+			default:
+				throw new SystemException("Unknown sort mode: " + table.getSortMode());
+		}
+
+		xml.appendEnd();
+	}
 	/**
 	 * Paints the table actions of the table.
 	 *
