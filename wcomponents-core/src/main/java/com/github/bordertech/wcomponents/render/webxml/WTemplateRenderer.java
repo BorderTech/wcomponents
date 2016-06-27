@@ -45,10 +45,12 @@ final class WTemplateRenderer extends AbstractWebXmlRenderer {
 		// Render
 		if (!Util.empty(template.getTemplateName())) {
 			// Render the template
-			templateRenderer.renderTemplate(template.getTemplateName(), context, template.getTaggedComponents(), renderContext.getWriter(), template.getEngineOptions());
+			templateRenderer.renderTemplate(template.getTemplateName(), context, template.getTaggedComponents(), renderContext.getWriter(),
+					template.getEngineOptions());
 		} else if (!Util.empty(template.getInlineTemplate())) {
 			// Render inline
-			templateRenderer.renderInline(template.getInlineTemplate(), context, template.getTaggedComponents(), renderContext.getWriter(), template.getEngineOptions());
+			templateRenderer.renderInline(template.getInlineTemplate(), context, template.getTaggedComponents(), renderContext.getWriter(),
+					template.getEngineOptions());
 		}
 	}
 

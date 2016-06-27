@@ -40,7 +40,8 @@ public class VelocityRendererImpl implements TemplateRenderer {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void renderTemplate(final String templateName, final Map<String, Object> context, final Map<String, WComponent> taggedComponents, final Writer writer, final Map<String, Object> options) {
+	public void renderTemplate(final String templateName, final Map<String, Object> context, final Map<String, WComponent> taggedComponents,
+			final Writer writer, final Map<String, Object> options) {
 
 		LOG.debug("Rendering velocity template [" + templateName + "].");
 
@@ -77,7 +78,8 @@ public class VelocityRendererImpl implements TemplateRenderer {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void renderInline(final String templateInline, final Map<String, Object> context, final Map<String, WComponent> taggedComponents, final Writer writer, final Map<String, Object> options) {
+	public void renderInline(final String templateInline, final Map<String, Object> context, final Map<String, WComponent> taggedComponents,
+			final Writer writer, final Map<String, Object> options) {
 
 		LOG.debug("Rendering inline velocity template.");
 

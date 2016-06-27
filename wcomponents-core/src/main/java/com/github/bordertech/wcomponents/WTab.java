@@ -220,6 +220,10 @@ public class WTab extends AbstractNamingContextContainer implements Disableable,
 					content.setVisible(true);
 					break;
 				}
+
+				default:
+					// do nothing.
+					break;
 			}
 		}
 	}

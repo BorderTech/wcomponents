@@ -823,7 +823,8 @@ public class WTree extends AbstractInput
 
 		// Check integrity
 		if (!Util.equals(id, itemId)) {
-			throw new SystemException("Invalid tree item returned from model for index [" + index + "]. Expected id [" + itemId + "] but received id [" + id + "].");
+			throw new SystemException("Invalid tree item returned from model for index [" + index + "]. Expected id [" + itemId
+					+ "] but received id [" + id + "].");
 		}
 
 		return true;

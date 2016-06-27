@@ -1511,6 +1511,10 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 
 					break;
 				}
+
+				default:
+					// do nothing.
+					break;
 			}
 
 			if (endIndex < startIndex) {
