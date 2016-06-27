@@ -1,8 +1,12 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.HtmlSanitizerUtil;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import java.io.Serializable;
 import java.text.MessageFormat;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.owasp.validator.html.PolicyException;
+import org.owasp.validator.html.ScanException;
 
 /**
  * <p>
@@ -41,6 +45,24 @@ public class WText extends WBeanComponent {
 	public WText(final String text, final Serializable... args) {
 		getComponentModel().setData(I18nUtilities.asMessage(text, args));
 	}
+
+	@Override
+	public Object getData() {
+		Object data = super.getData();
+		if (this.isEncodeText() || !this.isSanitizeOnOutput() || !(data instanceof String)) {
+			return data;
+		}
+		String dataString = (String) data;
+
+		try {
+			return HtmlSanitizerUtil.sanitize(dataString, true);
+		} catch (PolicyException | ScanException ex) {
+			// If the Sanitizer throws an error we are not able to sanitize so we will encode everything just in case.
+			return StringEscapeUtils.escapeXml10(dataString);
+		}
+	}
+
+
 
 	//================================
 	// Attributes
@@ -113,6 +135,22 @@ public class WText extends WBeanComponent {
 	}
 
 	/**
+	 * Pass true if you need to run the HTML sanitizer on <em>any</em> output. This is only needed if the text is
+	 * not encoded as other cases the output will be XML encoded.
+	 * @param sanitize true if output sanitization is required.
+	 */
+	public void setSanitizeOnOutput(final boolean sanitize) {
+		getOrCreateComponentModel().sanitizeOnOutput = sanitize;
+	}
+
+	/**
+	 * @return true if this text area is to be sanitized on output.
+	 */
+	public boolean isSanitizeOnOutput() {
+		return getComponentModel().sanitizeOnOutput;
+	}
+
+	/**
 	 * @return a String representation of this component, for debugging purposes.
 	 */
 	@Override
@@ -120,5 +158,44 @@ public class WText extends WBeanComponent {
 		String text = getText();
 		text = text == null ? "null" : ('"' + text + '"');
 		return toString(text);
+	}
+
+	/**
+	 * Creates a new component model appropriate for this component.
+	 *
+	 * @return a TextModel
+	 */
+	@Override
+	protected TextModel newComponentModel() {
+		return new TextModel();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // for type safety
+	protected TextModel getOrCreateComponentModel() {
+		return (TextModel) super.getOrCreateComponentModel();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override // for type safety
+	protected TextModel getComponentModel() {
+		return (TextModel) super.getComponentModel();
+	}
+
+	/**
+	 * Component model for WText.
+	 * @author Mark Reeves
+	 * @since 1.2.0
+	 */
+	public static class TextModel extends BeanAndProviderBoundComponentModel {
+		/**
+		 * Indicates if the text should be HTML sanitized. This only needs to be true if the text content is HTML
+		 * <strong>and</strong> of unknown provenance.
+		 */
+		private boolean sanitizeOnOutput;
 	}
 }

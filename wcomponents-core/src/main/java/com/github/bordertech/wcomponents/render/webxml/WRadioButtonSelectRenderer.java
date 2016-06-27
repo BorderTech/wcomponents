@@ -29,7 +29,6 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 		XmlStringBuilder xml = renderContext.getWriter();
 		int tabIndex = rbSelect.getTabIndex();
 		int cols = rbSelect.getButtonColumns();
-		boolean encode = rbSelect.getDescEncode();
 		boolean readOnly = rbSelect.isReadOnly();
 
 		xml.appendTagOpen("ui:radiobuttonselect");
@@ -77,7 +76,7 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 					throw new SystemException("Option groups not supported in WRadioButtonSelect.");
 				} else {
 					renderOption(rbSelect, option, optionIndex++, xml, selectedOption,
-							renderSelectionsOnly, encode);
+							renderSelectionsOnly);
 				}
 			}
 		}
@@ -98,12 +97,10 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 	 * @param html the XmlStringBuilder to paint to.
 	 * @param selectedOption the selected option
 	 * @param renderSelectionsOnly true to only render selected options, false to render all options.
-	 * @param encode true if the option description should be encoded, false if not.
 	 */
 	private void renderOption(final WRadioButtonSelect rbSelect, final Object option,
 			final int optionIndex, final XmlStringBuilder html,
-			final Object selectedOption, final boolean renderSelectionsOnly,
-			final boolean encode) {
+			final Object selectedOption, final boolean renderSelectionsOnly) {
 		boolean selected = Util.equals(option, selectedOption);
 
 		if (selected || !renderSelectionsOnly) {
@@ -120,7 +117,7 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 			html.appendOptionalAttribute("selected", selected, "true");
 			html.appendOptionalAttribute("isNull", isNull, "true");
 			html.appendClose();
-			html.append(desc, encode);
+			html.append(desc, true);
 			html.appendEndTag("ui:option");
 		}
 	}

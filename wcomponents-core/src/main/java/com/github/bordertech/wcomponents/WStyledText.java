@@ -139,7 +139,7 @@ public class WStyledText extends WText {
 	 *
 	 * @author Yiannis Paschalidis
 	 */
-	public static class StyledTextModel extends BeanAndProviderBoundComponentModel {
+	public static class StyledTextModel extends TextModel {
 
 		/**
 		 * The type of styling to use.

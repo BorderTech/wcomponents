@@ -79,4 +79,27 @@ public class WLabel_Test extends AbstractWComponentTestCase {
 		lbl.setHint(hint);
 		Assert.assertEquals("hint accessors incorrect", hint, lbl.getHint());
 	}
+
+	@Test
+	public void testSanitizeOnOutputAccessors() {
+		assertAccessorsCorrect(new WLabel("test"), "sanitizeOnOutput", false, true, false);
+	}
+
+	// sanitizeOnOutput runs a lax HTML sanitizer rule set but only if encodeText is false. FORM elements are always
+	// filtered.
+	@Test
+	public void testNoSanitizeOnOutput() {
+		String input = "<form>content</form>";
+		WLabel label = new WLabel(input);
+		label.setEncodeText(false);
+		Assert.assertEquals("Expect output to not be sanitized", input, label.getText());
+	}
+
+	@Test
+	public void testSanitizeOnOutput() {
+		WLabel label = new WLabel("<form>content</form>");
+		label.setSanitizeOnOutput(true);
+		label.setEncodeText(false);
+		Assert.assertEquals("Expect output to be sanitized", "content", label.getText());
+	}
 }
