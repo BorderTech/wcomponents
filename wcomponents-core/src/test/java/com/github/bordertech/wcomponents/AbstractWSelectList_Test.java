@@ -83,11 +83,6 @@ public class AbstractWSelectList_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
-	public void testSetDescEncode() {
-		assertAccessorsCorrect(new MyWSelectList(null, true), "descEncode", true, false, true);
-	}
-
-	@Test
 	public void testOptionsAccessors() {
 		List<String> list1 = Arrays.asList("A", "B");
 		List<String> list2 = Arrays.asList("X", "Y");

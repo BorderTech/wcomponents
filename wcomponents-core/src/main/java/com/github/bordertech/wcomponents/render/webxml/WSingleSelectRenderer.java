@@ -27,7 +27,6 @@ final class WSingleSelectRenderer extends AbstractWebXmlRenderer {
 		WSingleSelect listBox = (WSingleSelect) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 		String dataKey = listBox.getListCacheKey();
-		boolean encode = listBox.getDescEncode();
 		boolean readOnly = listBox.isReadOnly();
 		int rows = listBox.getRows();
 
@@ -65,13 +64,13 @@ final class WSingleSelectRenderer extends AbstractWebXmlRenderer {
 
 					for (Object nestedOption : ((OptionGroup) option).getOptions()) {
 						renderOption(listBox, nestedOption, optionIndex++, xml, selectedOption,
-								renderSelectionsOnly, encode);
+								renderSelectionsOnly);
 					}
 
 					xml.appendEndTag("ui:optgroup");
 				} else {
 					renderOption(listBox, option, optionIndex++, xml, selectedOption,
-							renderSelectionsOnly, encode);
+							renderSelectionsOnly);
 				}
 			}
 		}
@@ -88,12 +87,10 @@ final class WSingleSelectRenderer extends AbstractWebXmlRenderer {
 	 * @param html the XmlStringBuilder to paint to.
 	 * @param selectedOption the selected option.
 	 * @param renderSelectionsOnly true to only render selected options, false to render all options.
-	 * @param encode true if option descriptions should be encoded, false if not.
 	 */
 	private void renderOption(final WSingleSelect listBox, final Object option,
 			final int optionIndex, final XmlStringBuilder html,
-			final Object selectedOption, final boolean renderSelectionsOnly,
-			final boolean encode) {
+			final Object selectedOption, final boolean renderSelectionsOnly) {
 		boolean selected = Util.equals(option, selectedOption);
 
 		if (selected || !renderSelectionsOnly) {
@@ -110,7 +107,7 @@ final class WSingleSelectRenderer extends AbstractWebXmlRenderer {
 			html.appendOptionalAttribute("selected", selected, "true");
 			html.appendOptionalAttribute("isNull", isNull, "true");
 			html.appendClose();
-			html.append(desc, encode);
+			html.append(desc, true);
 			html.appendEndTag("ui:option");
 		}
 	}

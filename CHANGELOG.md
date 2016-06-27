@@ -25,27 +25,25 @@
   * Added constructor `WList(final Type type, final int gap)` and deprecated constructor `WList(final Type type,
     final int hgap, final int vgap)` in favour of the new constructor.
   * Deprecated `getHGap()` and `getVGap()` in favour of `getGap()`.
-* WTab updated setMode(TabMode) to set TabMode.DYNAMIC if the mode being set is TabMode.SERVER. This is required for
+* WTab updated `setMode(TabMode)` to set TabMode.DYNAMIC if the mode being set is TabMode.SERVER. This is required for
   fixing a11y problems in TabMode.SERVER as per #692.
 * WCollapsible updated setMode(CollapsibleMode) to set CollapsibleMode.DYNAMIC if the mode being set is
   CollapsibleMode.SERVER. This is required for fixing a11y problems in CollapsibleMode.SERVER as per #694.
 * WDialog.isResizeable will always return true as part of fixing #606
-* New utility class `com.github.bordertech.wcomponents.util.HtmlSanitizer` which can be used to sanitize HTML input
-  (as shown in WTextArea). Needed for #620.
-* New utility class `com.github.bordertech.wcomponents.util.StringEscapeHTMLToXML` which extends apache-commons lang3
-  StringEscapeUtils. It adds exactly one (static) method `unescapeToXML(String)` which will convert HTML character
-  entities to their unicode characters but will not unescape the five basic XML character entities. Very handy for
-  converting HTML to valid XML! Needed for #620.
 * WAjaxControl: deprecated set/getLoadCount. In future use set/isLoadOnce. Required for #495.
 * WDataTable PaginationMode.SERVER remapped to PaginationMode.DYNAMIC (has been enforced in client for over 2 years);
   removed submitOnRowSelect (never supported in client); SortMode.SERVER mapped to SortMode.DYNAMIC;
   ExpansionMode.SERVER mapped to ExpansionMode.DYNAMIC. These were all required as part of #701.
+* Removed support for unencoded options in WCheckBoxSelect, WDropdown, WMultiDropdown, WMultiSelectPair, WMultiSelect,
+  WRadioButtonSelect and WSingleSelect. In all cases except WCheckBoxSelect using unencoded text could result in
+  catastrophic failure as these must not contain HTML. Method `getDescEncode()` has been deprecated, made final and
+  will always return true; method `setDescEncode(boolean)` has been deprecated, made final and is now a no-op.
 
 ## Bug Fixes
 * Fixed issue which caused WTextarea to not include changes in AJAX posts when in rich-text mode #700.
 * Fixed accessibility problems in WDataTable #701.
 * WAjaxControl addressed API errors #495
-* Added HTML sanitizer character entity converter #620.
+* Added HTML sanitizer and character entity unescaoer #620.
 * Fixed accessibility problems in WDialog #606.
 * Fixed accessibility problems in WCollapsible #692.
 * Fixed accessibility problems in WTabSet #692.
@@ -62,7 +60,19 @@
 * Fixed GridLayout cell alignment on small screens #652.
 
 ## Enhancements
-* Added a default margin style for p elements. This was addded during testing of the fix for #620 to improve consistency
+* Added new boolean property `sanitizeOnOutput` to WComponents which can output unencoded HTML (WText, WTextArea,
+  WLabel). This defaults to false. If set true then the content of the component will be run through the HTML
+  sanitizer using the lax policy. This is a necessary extension of #620.
+* New utility class `com.github.bordertech.wcomponents.util.HtmlSanitizer` which can be used to sanitize HTML input
+  (as shown in WTextArea). Needed for #620.
+  * method `sanitize(String)` sanitizes using a strict policy.
+  * method `sanitize(String, boolean)` sanitizes using an optional lax policy.
+  * Policy definition files may be overridden using properties.
+* New utility class `com.github.bordertech.wcomponents.util.StringEscapeHTMLToXML` which extends apache-commons lang3
+  StringEscapeUtils. It adds exactly one (static) method `unescapeToXML(String)` which will convert HTML character
+  entities to their unicode characters but will not unescape the five basic XML character entities. Very handy for
+  converting HTML to valid XML! Needed for #620.
+* Added a default margin style for p elements. This was added during testing of the fix for #620 to improve consistency
   of output.
 * WTextArea in rich text mode will now honour this mode when read-only. Added as part of #620.
 * WText, when encoding is off, will correctly handle HTML entities which are not XML entities. Added as part of #620.
