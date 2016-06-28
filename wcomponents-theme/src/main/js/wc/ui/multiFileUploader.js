@@ -823,7 +823,7 @@ define(["wc/dom/attribute",
 			}
 //			qs = urlParser.parse(result);
 //			qs = qs ? qs.search : "";
-//			result += (qs ? "&" : "?") + "${wc.ui.ajax.parameter.triggerId}=" + element.name;
+//			result += (qs ? "&" : "?") + "wc_ajax=" + element.name;
 			return result;
 		}
 

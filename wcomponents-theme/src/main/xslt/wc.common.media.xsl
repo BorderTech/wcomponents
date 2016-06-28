@@ -6,12 +6,12 @@
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<!--
 		Transforms for ui:audio from WAudio and ui:video from WVideo and their children.
-		
+
 		The media elements are output as a HTML SPAN element containing a HTML5 AUDIO or
 		VIDEO element. The native player's capabilities depend upon the user agent
 		employed. Where no support is available or the media is not able to be played
 		then a link will be created to each source and track.
-		
+
 		Every use of WAudio must comply with the requirements outlined here:
  		https://www.w3.org/TR/media-accessibility-reqs/
 	-->
@@ -72,7 +72,7 @@
 					</xsl:attribute>
 				</xsl:if>
 				<xsl:if test="@alt">
-					<xsl:attribute name="${wc.ui.media.attrib.alt}">
+					<xsl:attribute name="data-wc-alt">
 						<xsl:value-of select="@alt"/>
 					</xsl:attribute>
 				</xsl:if>
@@ -83,7 +83,7 @@
 						</xsl:attribute>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:attribute name="${wc.ui.media.attrib.lameControls}">
+						<xsl:attribute name="data-wc-mediacontrols">
 							<xsl:value-of select="@controls"/>
 						</xsl:attribute>
 					</xsl:otherwise>

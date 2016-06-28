@@ -255,7 +255,7 @@ define(["wc/has",
 					return;
 				}
 
-				min = list.getAttribute("${wc.ui.combo.list.attrib.minChars}") || DEFAULT_CHARS;
+				min = list.getAttribute("data-wc-minchars") || DEFAULT_CHARS;
 				if (element.value.length >= min) {
 					if (!shed.isExpanded(element)) {
 						shed.expand(element);

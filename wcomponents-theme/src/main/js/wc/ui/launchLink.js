@@ -41,7 +41,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/redirect"],
 			function getHref(element) {
 				var result;
 				if (element) {
-					result = element.href || element.getAttribute("${wc.ui.link.attrib.url.standin}");
+					result = element.href || element.getAttribute("data-wc-url");
 				}
 				return result || "";
 			}
@@ -109,10 +109,10 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/redirect"],
 		}
 
 		var /** @alias module:wc/ui/launchLink */ instance = new LaunchLink(),
-			CONTENT_ATTRIB = "${wc.common.attrib.attach}",
+			CONTENT_ATTRIB = "data-wc-attach",
 			INLINE_CONTENT_FLAG = "wc_content=inline",
 			ANCHOR_WD = new Widget("a"),
-			FAKE_ANCHOR_WD = new Widget("", "", {"${wc.ui.link.attrib.url.standin}": null});
+			FAKE_ANCHOR_WD = new Widget("", "", {"data-wc-url": null});
 
 		initialise.addBodyListener(instance);
 

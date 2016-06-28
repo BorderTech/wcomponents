@@ -35,7 +35,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/uid", "wc/dom/Widget", "wc/
 				NAME_INDEX = 1,
 				SPECS_INDEX = 2,
 				SPACE,
-				POPPER = new Widget("button", "", {"aria-haspopup": "true", "${wc.ui.link.attrib.url.standin}": null});
+				POPPER = new Widget("button", "", {"aria-haspopup": "true", "data-wc-url": null});
 
 			/**
 			 * Does the popup, includes an IE sanity check on window name.
@@ -81,8 +81,8 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/uid", "wc/dom/Widget", "wc/
 			 */
 			function popupNow(element) {
 				var url;
-				if ((url = element.getAttribute("${wc.ui.link.attrib.url.standin}"))) {
-					_open([url, element.getAttribute("${wc.ui.link.attrib.window}"), element.getAttribute("${wc.ui.link.attrib.specs}")]);
+				if ((url = element.getAttribute("data-wc-url"))) {
+					_open([url, element.getAttribute("data-wc-window"), element.getAttribute("data-wc-specs")]);
 				}
 				else {
 					console.warn("Could not find popup URL ", element.id);

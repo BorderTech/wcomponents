@@ -80,7 +80,7 @@
 					<xsl:attribute name="type">
 						<xsl:text>button</xsl:text>
 					</xsl:attribute>
-					<xsl:attribute name="${wc.ui.link.attrib.url.standin}">
+					<xsl:attribute name="data-wc-url">
 						<xsl:value-of select="@url"/>
 					</xsl:attribute>
 				</xsl:otherwise>

@@ -20,7 +20,7 @@
 				<xsl:attribute name="selected">selected</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="@isNull">
-				<xsl:attribute name="${wc.common.attribute.optionIsNull}">
+				<xsl:attribute name="data-wc-null">
 					<xsl:text>1</xsl:text>
 				</xsl:attribute>
 			</xsl:if>

@@ -68,12 +68,12 @@
 						<xsl:with-param name="class" select="'wc_mfc'"/>
 					</xsl:call-template>
 					<xsl:if test="@min">
-						<xsl:attribute name="${wc.common.attrib.min}">
+						<xsl:attribute name="data-wc-min">
 							<xsl:value-of select="@min"/>
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:if test="@max">
-						<xsl:attribute name="${wc.common.attrib.max}">
+						<xsl:attribute name="data-wc-max">
 							<xsl:value-of select="@max"/>
 						</xsl:attribute>
 					</xsl:if>

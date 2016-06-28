@@ -1128,14 +1128,14 @@ define(["wc/has",
 			}
 
 			if (name) {
-				formUpdateManager.writeStateField(toContainer, name + "${wc.ui.menu.submenu.nameSuffix}", TRUE, false, true);
+				formUpdateManager.writeStateField(toContainer, name + ".open", TRUE, false, true);
 			}
 		}
 
 		function writeSelectedState(nextSelectedItem, toContainer) {
 			var root = this.getRoot(nextSelectedItem);
 			if (root && root === getFirstMenuAncestor(nextSelectedItem)) {
-				formUpdateManager.writeStateField(toContainer, nextSelectedItem.id + "${wc.ui.menu.selectable.nameSuffix}", "x");
+				formUpdateManager.writeStateField(toContainer, nextSelectedItem.id + ".selected", "x");
 			}
 		}
 
