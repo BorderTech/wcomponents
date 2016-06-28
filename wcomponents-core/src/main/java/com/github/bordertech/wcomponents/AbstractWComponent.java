@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.layout.UIManager;
 import com.github.bordertech.wcomponents.registry.UIRegistry;
 import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.HtmlClassUtil;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
@@ -1656,9 +1657,18 @@ public abstract class AbstractWComponent implements WComponent {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setHtmlClass(final String text, final Serializable... args) {
+	public void setHtmlClass(final String text) {
 		ComponentModel model = getOrCreateComponentModel();
-		model.setHtmlClass(text, args);
+		model.setHtmlClass(text);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setHtmlClass(final HtmlClassUtil.HtmlClassName className) {
+		ComponentModel model = getOrCreateComponentModel();
+		model.setHtmlClass(className);
 	}
 
 	/**

@@ -5,7 +5,7 @@
 		Helper template for WColumn and ColumnLayout cells.
 	-->
 	<xsl:template name="column">
-		<xsl:param name="align" select="@align"/>
+		<xsl:param name="align" select="''"/>
 		<xsl:param name="width" select="@width"/>
 
 		<div>
@@ -17,12 +17,24 @@
 			</xsl:if>
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
-					<xsl:if test="not($align) or $align = ''">
-						<xsl:text>wc-align-left</xsl:text>
-					</xsl:if>
-					<xsl:if test="not(self::ui:column)">
-						<xsl:text> wc-column</xsl:text>
-					</xsl:if>
+					<xsl:choose>
+						<xsl:when test="self::ui:column">
+							<xsl:if test="not(@align)">
+								<xsl:text>wc-align-left</xsl:text>
+							</xsl:if>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>wc-column</xsl:text>
+							<xsl:choose>
+								<xsl:when test="not($align) or $align = ''">
+									<xsl:text> wc-align-left</xsl:text>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="concat(' wc-align-', $align)"/>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:otherwise>
+					</xsl:choose>
 					<xsl:if test="$width and $width != 0">
 						<xsl:value-of select="concat(' wc_col_',$width)"/>
 					</xsl:if>

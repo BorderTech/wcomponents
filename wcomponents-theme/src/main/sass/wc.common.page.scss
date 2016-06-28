@@ -39,12 +39,18 @@ pre {
 	@include align(center);
 }
 
+
 .wc-icon:before,
-.wc-icon-right:before {
+.wc-icon-before:before,
+.wc-icon-after:before {
 	@include wc-icon;
 }
 
-.wc-icon-right:before {
+.wc-icon-before:before {
+	margin-right: $wc-gap-small;
+}
+
+.wc-icon-after:before {
 	float: right;
 	margin-left: $wc-gap-small;
 }

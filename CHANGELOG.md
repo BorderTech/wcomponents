@@ -61,6 +61,8 @@
 * Fixed GridLayout cell alignment on small screens #652.
 
 ## Enhancements
+* Added utility class `com.github.bordertech.wcomponents.util.HtmlClassUtil` which provides an enum of HTML class
+  attribute values which may be used in `setHtmlClass`. Part of #682.
 * Added new boolean property `sanitizeOnOutput` to WComponents which can output unencoded HTML (WText, WTextArea,
   WLabel). This defaults to false. If set true then the content of the component will be run through the HTML
   sanitizer using the lax policy. This is a necessary extension of #620.

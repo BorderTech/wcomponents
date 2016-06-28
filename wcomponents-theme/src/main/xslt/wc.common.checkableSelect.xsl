@@ -152,6 +152,10 @@
 						particular positions from this template and use those options to apply the
 						rest of the options in that column.
 					-->
+					
+					<xsl:variable name="rowClass">
+						<xsl:text>wc-row wc_hgap_med wc-respond</xsl:text>
+					</xsl:variable>
 					<xsl:choose>
 						<xsl:when test="$readOnly=1 and $rows=0">
 							<ul>
@@ -184,7 +188,7 @@
 							</xsl:apply-templates>
 						</xsl:when>
 						<xsl:when test="$readOnly=1">
-							<div class="wc-row wc_hgap_med">
+							<div class="{$rowClass}">
 								<xsl:apply-templates select="ui:option[@selected][position() mod $rows = 1]" mode="checkableGroup">
 									<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
 									<xsl:with-param name="inputName" select="$id"/>
@@ -224,7 +228,7 @@
 							</xsl:apply-templates>
 						</xsl:when>
 						<xsl:when test="ui:option">
-							<div class="wc-row wc_hgap_med">
+							<div class="{$rowClass}">
 								<xsl:apply-templates select="ui:option[position() mod $rows = 1]" mode="checkableGroup">
 									<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
 									<xsl:with-param name="inputName" select="$id"/>

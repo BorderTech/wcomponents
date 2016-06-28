@@ -6,16 +6,7 @@
 // layout tool and is considered "legacy" and is best avoided. See https://github.com/BorderTech/wcomponents/wiki/WPanel-GridLayout
 
 // The styles in this file assume we allow nested grids or grids with other nested layouts. It would make less CSS if
-// we did not assume this as we could get of the intermediate row class in the the width settings.
-//
-
-// .wc-gridlayout {
-// 	// When there is only one column we do not have rows.
-// 	> .wc-cell {
-// 		display: block;
-// 		width: 100%;
-// 	}
-// }
+// we did not assume this as we could get of the intermediate row class in the  width settings.
 
 // rows in the GridLayout.
 .wc_gl_row {
@@ -28,3 +19,5 @@
 		width: percentage(1 / $i);
 	}
 }
+
+@import 'gridLayout.respond';
