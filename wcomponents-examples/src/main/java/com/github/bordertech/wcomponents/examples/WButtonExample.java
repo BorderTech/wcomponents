@@ -19,6 +19,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
+import com.github.bordertech.wcomponents.util.HtmlClassUtil;
 
 /**
  * <p>
@@ -165,18 +166,34 @@ public class WButtonExample extends WPanel implements MessageContainer {
 				true));
 
 		add(new WHeading(HeadingLevel.H4, "Using theme icons"));
-		add(new ExplanatoryText("This example shows ways to add a Font-Awesome icon to a button."));
+
+		add(new ExplanatoryText("These examples show ways to add an icon to a button using 'HtmlClassUtil'."));
+
 		WButton iconButton = new WButton("\u200b"); // \u200b is a zero-width space.
+		iconButton.setToolTip("Edit");
+		iconButton.setHtmlClass(HtmlClassUtil.HtmlClassName.ICON_EDIT);
+		add(iconButton);
+
+		iconButton = new WButton("Save");
+		iconButton.setHtmlClass(HtmlClassUtil.HtmlClassName.ICON_SAVE_BEFORE);
+		add(iconButton);
+
+		iconButton = new WButton("Search");
+		iconButton.setHtmlClass(HtmlClassUtil.HtmlClassName.ICON_SEARCH_AFTER);
+		add(iconButton);
+
+		add(new ExplanatoryText("These examples show ways to add a Font-Awesome icon to a button using 'setHtmlClass(String)'."));
+		iconButton = new WButton("\u200b"); // \u200b is a zero-width space.
 		iconButton.setToolTip("Open Menu");
 		iconButton.setHtmlClass("wc-icon fa-bars");
 		add(iconButton);
 
-		iconButton = new WButton(" With text content");
-		iconButton.setHtmlClass("wc-icon fa-hand-o-left");
+		iconButton = new WButton("With text content");
+		iconButton.setHtmlClass("wc-icon-before fa-hand-o-left");
 		add(iconButton);
 
 		iconButton = new WButton("Right icon with text content");
-		iconButton.setHtmlClass("wc-icon-right fa-hand-o-right");
+		iconButton.setHtmlClass("wc-icon-after fa-hand-o-right");
 		add(iconButton);
 	}
 

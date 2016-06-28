@@ -33,30 +33,4 @@
 // 	}
 // }
 
-
-@include respond-phonelike {
-	.wc-row:not(.wc-norespond),
-	.wc-panel:not(.wc-norespond) > .wc-columnlayout > .wc-row {
-		display: block;
-
-		> .wc-column {
-			display: block;
-			// width is set inline for WColumn and ColumnLayout. Important to override this inline css.
-			// TODO: Fix this at least for common widths as per WFieldLayout.
-			// scss-lint:disable ImportantRule
-			width: 100%;
-
-			+ .wc-column {
-				margin-top: $wc-gap-small;
-			}
-
-			&,
-			.wc_hgap_sm > &, // see wc.common.hvgap.scss
-			.wc_hgap_med > &,
-			.wc_hgap_lg > & {
-				padding-left: 0;
-				padding-right: 0;
-			}
-		}
-	}
-}
+@import 'rowColumn.respond';
