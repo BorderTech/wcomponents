@@ -1,11 +1,14 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
+import com.github.bordertech.wcomponents.test.selenium.WComponentSelenium;
+import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.Rectangle;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
@@ -24,15 +27,32 @@ public class WComponentWebElement implements WebElement {
 	private final WebElement element;
 
 	/**
+	 * The driver.
+	 */
+	private final WebDriver driver;
+
+	/**
 	 * Creates a WebElementWrapper.
 	 *
 	 * @param element the backing element.
+	 * @param driver the WComponentWebDriver.
 	 */
-	public WComponentWebElement(final WebElement element) {
+	public WComponentWebElement(final WebElement element, final WebDriver driver) {
 		if (element == null) {
 			throw new IllegalArgumentException("WComponetWebElement cannot wrap a null element.");
 		}
+		if (driver == null) {
+			throw new IllegalArgumentException("driver must not be null.");
+		}
 		this.element = element;
+		this.driver = driver;
+	}
+
+	/**
+	 * @return the driver.
+	 */
+	protected WebDriver getDriver() {
+		return driver;
 	}
 
 	/**
@@ -49,14 +69,15 @@ public class WComponentWebElement implements WebElement {
 	@Override
 	public void click() {
 		element.click();
+		WComponentSelenium.waitForPageReady(driver);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public WebElement findElement(final By by) {
-		return element.findElement(by);
+	public WComponentWebElement findElement(final By by) {
+		return new WComponentWebElement(element.findElement(by), driver);
 	}
 
 	/**
@@ -64,7 +85,12 @@ public class WComponentWebElement implements WebElement {
 	 */
 	@Override
 	public List<WebElement> findElements(final By by) {
-		return element.findElements(by);
+		List<WebElement> elements = new ArrayList<>();
+		for (WebElement e : element.findElements(by)) {
+			elements.add(new WComponentWebElement(e, driver));
+		}
+
+		return elements;
 	}
 
 	/**

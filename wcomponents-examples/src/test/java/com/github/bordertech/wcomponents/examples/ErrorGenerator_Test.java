@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.examples;
 
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
 import java.util.Arrays;
 import java.util.List;
 import junit.framework.Assert;
@@ -19,7 +18,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(value = Parameterized.class)
-public class ErrorGenerator_Test extends WComponentSeleniumTestCase {
+public class ErrorGenerator_Test extends WComponentExamplesTestCase{
 
 	/**
 	 * The error message displayed when an unhandled error occurs. Obtained from DefaultSystemFailureMapper.

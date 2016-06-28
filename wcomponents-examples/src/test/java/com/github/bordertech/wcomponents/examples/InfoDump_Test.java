@@ -17,7 +17,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class InfoDump_Test extends WComponentSeleniumTestCase {
+public class InfoDump_Test extends WComponentExamplesTestCase{
 
 	/**
 	 * Creates a new InfoDump_Test.

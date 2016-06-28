@@ -15,7 +15,15 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  * @author Joshua Barclay
  * @since 1.2.0
  */
-public class InternetExplorerWebDriverType implements WebDriverType<InternetExplorerDriver> {
+public class InternetExplorerWebDriverType extends WebDriverType<InternetExplorerDriver> {
+
+	/**
+	 * {@inheritDoc}.
+	 */
+	@Override
+	public String getDriverTypeName() {
+		return "ie";
+	}
 
 	/**
 	 * {@inheritDoc}.
@@ -36,13 +44,11 @@ public class InternetExplorerWebDriverType implements WebDriverType<InternetExpl
 	}
 
 	/**
-	 * Get the Capabilities to use. Exists to allow subclasses to override.
-	 *
-	 * @return the default Internet Explorer capabilities.
+	 * {@inheritDoc}.
 	 */
-	public DesiredCapabilities getCapabilities() {
+	@Override
+	public DesiredCapabilities getDefaultDriverCapabilities() {
 		return DesiredCapabilities.internetExplorer();
-
 	}
 
 }

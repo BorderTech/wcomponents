@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.test.selenium.element;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
@@ -59,10 +60,11 @@ public class WDialogWebElement extends WComponentWebElement {
 	 * Construct a dialog for the given component.
 	 *
 	 * @param element the dialog element.
+	 * @param driver the WComponentWebDriver
 	 */
-	public WDialogWebElement(final WebElement element) {
+	public WDialogWebElement(final WebElement element, final WebDriver driver) {
 
-		super(element);
+		super(element, driver);
 
 		if (!element.getTagName().equals(DIALOG_TAG)) {
 
@@ -76,7 +78,7 @@ public class WDialogWebElement extends WComponentWebElement {
 	 * @return the button to maximize/restore the dialog.
 	 */
 	public WComponentWebElement getMaximizeRestoreButton() {
-		return new WComponentWebElement(super.findElement(By.cssSelector("button." + MAXIMIZE_RESTORE_CLASS)));
+		return super.findElement(By.cssSelector("button." + MAXIMIZE_RESTORE_CLASS));
 	}
 
 	/**
@@ -85,7 +87,14 @@ public class WDialogWebElement extends WComponentWebElement {
 	 * @return the button to close the dialog.
 	 */
 	public WComponentWebElement getCloseButton() {
-		return new WComponentWebElement(super.findElement(By.cssSelector("button." + CLOSE_CLASS)));
+		return super.findElement(By.cssSelector("button." + CLOSE_CLASS));
+	}
+
+	/**
+	 * Close the dialog.
+	 */
+	public void close() {
+		getCloseButton().click();
 	}
 
 	/**
@@ -94,7 +103,7 @@ public class WDialogWebElement extends WComponentWebElement {
 	 * @return the element containing the content.
 	 */
 	public WComponentWebElement getContent() {
-		return new WComponentWebElement(super.findElement(By.cssSelector("." + CONTENT_CLASS)));
+		return super.findElement(By.cssSelector("." + CONTENT_CLASS));
 	}
 
 	/**
@@ -112,7 +121,7 @@ public class WDialogWebElement extends WComponentWebElement {
 	 * @return the heading element.
 	 */
 	public WComponentWebElement getHeading() {
-		return new WComponentWebElement(super.findElement(By.cssSelector("header > h1")));
+		return super.findElement(By.cssSelector("header > h1"));
 	}
 
 	/**

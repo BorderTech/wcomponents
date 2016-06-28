@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.test.selenium.driver;
 
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
-import org.openqa.selenium.safari.SafariOptions;
 
 /**
  *
@@ -14,24 +14,30 @@ import org.openqa.selenium.safari.SafariOptions;
  * @author Joshua Barclay
  * @since 1.2.0
  */
-public class SafariWebDriverType implements WebDriverType<SafariDriver> {
+public class SafariWebDriverType extends WebDriverType<SafariDriver> {
+
+	/**
+	 * {@inheritDoc}.
+	 */
+	@Override
+	public String getDriverTypeName() {
+		return "safari";
+	}
 
 	/**
 	 * {@inheritDoc}.
 	 */
 	@Override
 	public SafariDriver getDriverImplementation() {
-		return new SafariDriver(getOptions());
+		return new SafariDriver(getCapabilities());
 	}
 
 	/**
-	 * Get the Options to use. Exists to allow subclasses to override.
-	 *
-	 * @return the default Safari options.
+	 * {@inheritDoc}.
 	 */
-	public SafariOptions getOptions() {
-		return new SafariOptions();
-
+	@Override
+	public DesiredCapabilities getDefaultDriverCapabilities() {
+		return DesiredCapabilities.safari();
 	}
 
 }

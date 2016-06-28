@@ -16,7 +16,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class WRadioButtonTriggerActionExample_Test extends WComponentSeleniumTestCase {
+public class WRadioButtonTriggerActionExample_Test extends WComponentExamplesTestCase{
 
 	/**
 	 * Creates a new WRadioButtonTriggerActionExample_Test.

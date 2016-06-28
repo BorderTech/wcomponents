@@ -1,27 +1,24 @@
 package com.github.bordertech.wcomponents.test.selenium;
 
-import com.github.bordertech.wcomponents.UIContext;
-import com.github.bordertech.wcomponents.UIContextHolder;
-import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.test.WComponentTestCase;
+import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverCache;
+import com.github.bordertech.wcomponents.test.selenium.driver.ParameterizedWebDriverType;
+import com.github.bordertech.wcomponents.test.selenium.driver.WComponentWebDriver;
+import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverType;
+import com.github.bordertech.wcomponents.test.selenium.server.ServerCache;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.SystemException;
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 
 /**
- * A WComponent test case which tests the UI using Selenium to drive a web
- * browser.
+ * A WComponent test case which tests the UI using Selenium to drive a web browser.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public abstract class WComponentSeleniumTestCase extends WComponentTestCase {
+public abstract class WComponentSeleniumTestCase {
 
 	/**
 	 * The logger instance for this class.
@@ -29,181 +26,280 @@ public abstract class WComponentSeleniumTestCase extends WComponentTestCase {
 	private static final Log LOG = LogFactory.getLog(WComponentSeleniumTestCase.class);
 
 	/**
-	 * How long to implicitly wait for elements to appear, in milliseconds. If
-	 * an element does not appear after this delay, Selenium will throw a
-	 * NoSuchElementException.
+	 * Parameter for whether to start the server (opposed to hitting an existing URL).
 	 */
-	private static final int IMPLICIT_WAIT = 1000;
+	private static final String START_SERVER_PARAM = "bordertech.wcomponents.test.selenium.launch_server";
 
 	/**
-	 * The driver to use in testing.
+	 * Parameter for the URL of the existing server (opposed to starting a new one).
 	 */
-	private WebDriver driver;
+	private static final String SERVER_URL = "bordertech.wcomponents.test.selenium.server_url";
 
 	/**
-	 * The browser to use to run the test.
+	 * The WebDriverType to use for this test instance.
 	 */
-	private String browser;
+	private WebDriverType driverType;
 
 	/**
-	 * A sequence used to generate the {@link #testId} field.
+	 * The (optional) unique id of the driver for multiple concurrent instances of the same driver type.
 	 */
-	private static int testSequenceNumber = 0;
+	private String driverId = null;
 
 	/**
-	 * The unique test identifier.
+	 * The URL of the server.
 	 */
-	private final String testId;
+	private String url;
 
 	/**
-	 * Creates a WComponentSeleniumTestCase.
-	 *
-	 * @param ui the UI to test.
+	 * Whether the driver has been launched.
 	 */
-	public WComponentSeleniumTestCase(final WComponent ui) {
-		super(ui);
+	private boolean driverLaunched = false;
 
-		synchronized (WComponentSeleniumTestCase.class) {
-			testId = getClass().getSimpleName() + '.' + testSequenceNumber++;
-		}
+	/**
+	 * <p>
+	 * Creates a WComponentSeleniumTestCase.</p>
+	 * <p>
+	 * Most tests should use this constructor to get the default WebDriverType.</p>
+	 */
+	public WComponentSeleniumTestCase() {
+		this(true);
 	}
 
 	/**
-	 * Called before each test method to refresh the user session and launch a
-	 * new browser.
+	 * <p>
+	 * Creates a WComponentSeleniumTestCase.</p>
+	 * <p>
+	 * Most tests should use a 'true' value to get the default WebDriverType.</p>
+	 * <p>
+	 * The driver will be launched if the driverType is set and the Url is set or configured.</p>
+	 * <p>
+	 * Tests using the MultiBrowserRunner must use a 'false' parameter so the creation is deferred until the test is
+	 * run.</p>
+	 *
+	 * @param useDefaultDriver - if true, a default ParameterizedWebDriverType will be used. If false, the driver must
+	 * be set after the constructor.
 	 */
-	@Before
-	public void setUp() {
-		UIContext uic = getUIContext();
-		SeleniumTestServlet.setUiContext(testId, uic);
-		UIContextHolder.reset();
-		UIContextHolder.pushContext(uic);
+	public WComponentSeleniumTestCase(final boolean useDefaultDriver) {
+		this(useDefaultDriver, null);
+	}
 
-		// Ensure the browser has hit the test servlet,
-		// otherwise the UIContext will not have been properly initialised.
-		int oldCount = SeleniumTestServlet.getServiceCount();
-		driver = launchBrowser();
+	/**
+	 * <p>
+	 * Creates a WComponentSeleniumTestCase.</p>
+	 * <p>
+	 * Most tests should use a 'true' value to get the default WebDriverType.</p>
+	 * <p>
+	 * A non-null URL parameter specifies that the server has already been launched at the given URL.</p>
+	 * <p>
+	 * The driver will be launched if the driverType is set and the Url is set or configured.</p>
+	 * <p>
+	 * Tests using the MultiBrowserRunner must use a 'false' parameter so the creation is deferred until the test is
+	 * run.</p>
+	 *
+	 * @param useDefaultDriver - if true, a default ParameterizedWebDriverType will be used. If false, the driver must
+	 * be set after the constructor.
+	 * @param url the url of the server. A non-null URL will prevent a server from being launched.
+	 */
+	public WComponentSeleniumTestCase(final boolean useDefaultDriver, final String url) {
 
-		long end = System.currentTimeMillis() + IMPLICIT_WAIT;
+		if (useDefaultDriver) {
+			//Can't call the other constructor as we need 'this' to be available.
+			driverType = new ParameterizedWebDriverType(this.getClass().getName());
+		}
+		this.url = url;
+		configureUrlAndServerFromConfig();
+	}
 
-		while (System.currentTimeMillis() < end && oldCount == SeleniumTestServlet.getServiceCount()) {
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException ignored) {
-				// Something's interrupted the test, so there's no point waiting any more.
-				break;
+	/**
+	 * <p>
+	 * Creates a WComponentSeleniumTestCase with the given driver type.</p>
+	 * <p>
+	 * The driver will be launched if the driverType is set and the Url is set or configured.</p>
+	 *
+	 * @param driverType the type of WebDriver to use.
+	 */
+	public WComponentSeleniumTestCase(final WebDriverType driverType) {
+		this(driverType, null);
+	}
+
+	/**
+	 * <p>
+	 * Creates a WComponentSeleniumTestCase with the given driver type.</p>
+	 * <p>
+	 * The driver will be launched if the driverType is set and the Url is set or configured.</p>
+	 *
+	 * @param driverType the type of WebDriver to use.
+	 * @param driverId - the id to use to separate multiple instances of the same driver.
+	 */
+	public WComponentSeleniumTestCase(final WebDriverType driverType, final String driverId) {
+		this(driverType, driverId, null);
+	}
+
+	/**
+	 * <p>
+	 * Creates a WComponentSeleniumTestCase with the given driver type.</p>
+	 * <p>
+	 * A non-null URL parameter specifies that the server has already been launched at the given URL.</p>
+	 * <p>
+	 *
+	 * @param driverType the type of WebDriver to use.
+	 * @param driverId - the id to use to separate multiple instances of the same driver.
+	 * @param url the url of the server. A non-null URL will prevent a server from being launched.
+	 */
+	public WComponentSeleniumTestCase(final WebDriverType driverType, final String driverId, final String url) {
+		if (driverType == null) {
+			throw new IllegalArgumentException("driverType must not be null");
+		}
+
+		this.driverType = driverType;
+		this.driverId = driverId;
+		this.url = url;
+		configureUrlAndServerFromConfig();
+	}
+
+	/**
+	 * <p>
+	 * Whether to use the Config to set the URL and launch the server.</p>
+	 *
+	 * @return true if config should be used, else false.
+	 */
+	private boolean isConfigureUrlFromConfig() {
+
+		return StringUtils.isBlank(url);
+	}
+
+	/**
+	 * Configures the URL from parameters if it has not been set.
+	 */
+	private void configureUrlAndServerFromConfig() {
+
+		if (!isConfigureUrlFromConfig()) {
+			return;
+		}
+
+		final String testClassName = this.getClass().getName();
+		Boolean startServer = Config.getInstance().getBoolean(START_SERVER_PARAM + "." + testClassName, null);
+		if (startServer == null) {
+			startServer = Config.getInstance().getBoolean(START_SERVER_PARAM, null);
+		}
+
+		if (BooleanUtils.isTrue(startServer)) {
+			ServerCache.startServer();
+			url = ServerCache.getUrl();
+		} else {
+			String paramUrl = Config.getInstance().getString(SERVER_URL + "." + testClassName);
+			if (paramUrl == null) {
+				paramUrl = Config.getInstance().getString(SERVER_URL);
 			}
+
+			//Might be null at this stage - assume it will be manually assigned later.
+			url = paramUrl;
 		}
 	}
 
 	/**
-	 * Called after each test method to clear the user session and close the
-	 * browser window.
+	 * Launch the driver against the configured Url, but only if configuration is complete.
 	 */
-	@After
-	public void tearDown() {
-		resetUIContext();
-		SeleniumTestServlet.removeUiContext(testId);
-		UIContextHolder.reset();
-		driver.quit();
-		driver = null;
+	private void launchDriver() {
+		if (!driverLaunched) {
+			if (driverType == null) {
+				throw new SystemException("Attempted to launch driver prior to configuring the driverType.");
+			}
+
+			if (StringUtils.isBlank(url)) {
+				throw new SystemException("Attempted to launch driver prior to configuring the url.");
+			}
+
+			WComponentWebDriver driver = getDriverWithoutLaunching();
+			if (driver.hasSession()) {
+				driver.newSession(getUrl());
+			} else {
+				driver.get(getUrl());
+			}
+			driverLaunched = true;
+		}
 	}
 
 	/**
-	 * Called once before any test methods, to start the Selenium test LDE if it
-	 * is not already running.
-	 */
-	@BeforeClass
-	public static void startLde() {
-		SeleniumTestSetup.startLde();
-	}
-
-	/**
-	 * Called once after all test methods have completed, to stop the Selenium
-	 * test LDE if it is the last test being run.
-	 */
-	@AfterClass
-	public static void stopLde() {
-		SeleniumTestSetup.stopLde();
-	}
-
-	/**
-	 * Sets the browser to use to run the test.
+	 * <p>
+	 * Set the driver type and ID for this test.</p>
+	 * <p>
+	 * Use a null driverId if not using multiple drivers of the same type.</p>
 	 *
-	 * @param browser the browser to use.
+	 * @param driverType the WebDriverType to use.
+	 * @param driverId OPTIONAL the driver Id to use.
 	 */
-	public void setBrowser(final String browser) {
-		this.browser = browser;
+	public void setDriver(final WebDriverType driverType, final String driverId) {
+		if (driverType == null) {
+			throw new IllegalArgumentException("driverType must not be null");
+		}
+
+		this.driverType = driverType;
+		this.driverId = driverId;
+
+		driverLaunched = false;
 	}
 
 	/**
-	 * Retrieves the current driver instance. Subclasses should use this to
-	 * obtain a driver instance for their tests. Note that the driver is
-	 * disposed of between tests, so it should not be cached in the test
-	 * classes.
+	 * Set the URL to use for the test.
+	 *
+	 * @param url the URL to set.
+	 */
+	public void setUrl(final String url) {
+		this.url = url;
+
+		driverLaunched = false;
+	}
+
+	/**
+	 * @return the URL.
+	 */
+	public String getUrl() {
+		return url;
+	}
+
+	/**
+	 * <p>
+	 * Retrieves the current driver instance, launching it for the URL if it is not already running. Subclasses should
+	 * use this to obtain a driver instance for their tests. Note that the driver is retained between tests unless
+	 * explicitly closed.</p>
+	 * <p>
+	 * If not already running, the driver will attempt to load the configured Url. An exception will be thrown if the
+	 * driver or URL is not configured.</p>
 	 *
 	 * @return the driver to use during testing.
 	 */
-	protected final WebDriver getDriver() {
-		return driver;
+	public WComponentWebDriver getDriver() {
+
+		if (driverType == null) {
+			throw new IllegalArgumentException("driverType must not be null."
+					+ " Ensure the correct constructor was called or the setter has been invoked.");
+		}
+
+		launchDriver();
+
+		return getDriverWithoutLaunching();
 	}
 
 	/**
-	 * Opens the Web Browser to the WComponent being tested.
+	 * <p>
+	 * Retrieve the driver without launching it.</p>
+	 * <p>
+	 * An exception will be thrown if the driverType has not been configured.</p>
 	 *
 	 * @return the driver to use during testing.
 	 */
-	private WebDriver launchBrowser() {
-		driver = getDriver();
-		driver.get(SeleniumTestServlet.getServletUrl() + "/" + WebUtilities.escapeForUrl(testId)
-				+ "?selenium-ts=" + System.currentTimeMillis()); // cache buster
+	public WComponentWebDriver getDriverWithoutLaunching() {
+		if (driverType == null) {
+			throw new IllegalArgumentException("driverType must not be null."
+					+ " Ensure the correct constructor was called or the setter has been invoked.");
+		}
 
-		return driver;
+		if (StringUtils.isBlank(driverId)) {
+			return WebDriverCache.getDriver(driverType);
+		}
+
+		return WebDriverCache.getDriver(driverType, driverId);
 	}
 
-	/**
-	 * Convenience method to create a By search criteria using a WComponent
-	 * path.
-	 *
-	 * @param path the WComponent path, see {@link ByWComponentPath} for syntax.
-	 * @return the By search criteria for the given path.
-	 */
-	protected By byWComponentPath(final String path) {
-		return new ByWComponentPath(getWrappedUi(), getUIContext(), path);
-	}
-
-	/**
-	 * Convenience method to create a By search criteria using a WComponent.
-	 *
-	 * @param component the WComponent to search for.
-	 * @return the By search criteria for the given path.
-	 */
-	protected By byWComponent(final WComponent component) {
-		return new ByWComponent(component, getUIContext());
-	}
-
-	/**
-	 * Convenience method to create a By search criteria using a WComponent
-	 * path.
-	 *
-	 * @param path the WComponent path, see {@link ByWComponentPath} for syntax.
-	 * @param value the optional value to narrow the search by (for e.g.
-	 * drop-down lists).
-	 * @return the By search criteria for the given path.
-	 */
-	protected By byWComponentPath(final String path, final Object value) {
-		return new ByWComponentPath(getWrappedUi(), getUIContext(), path, value);
-	}
-
-	/**
-	 * Convenience method to create a By search criteria using a WComponent.
-	 *
-	 * @param component the WComponent to search for.
-	 * @param value the optional value to narrow the search by (for e.g.
-	 * drop-down lists).
-	 * @return the By search criteria for the given path.
-	 */
-	protected By byWComponent(final WComponent component, final Object value) {
-		return new ByWComponent(component, getUIContext(), value);
-	}
 }

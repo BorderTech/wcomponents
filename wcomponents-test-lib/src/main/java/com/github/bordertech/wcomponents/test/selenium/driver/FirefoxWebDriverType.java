@@ -16,7 +16,15 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  * @author Joshua Barclay
  * @since 1.2.0
  */
-public class FirefoxWebDriverType implements WebDriverType<FirefoxDriver> {
+public class FirefoxWebDriverType extends WebDriverType<FirefoxDriver> {
+
+	/**
+	 * {@inheritDoc}.
+	 */
+	@Override
+	public String getDriverTypeName() {
+		return "firefox";
+	}
 
 	/**
 	 * {@inheritDoc}.
@@ -36,11 +44,10 @@ public class FirefoxWebDriverType implements WebDriverType<FirefoxDriver> {
 	}
 
 	/**
-	 * Get the Capabilities to use. Exists to allow subclasses to override.
-	 *
-	 * @return the default Firefox capabilities.
+	 * {@inheritDoc}.
 	 */
-	public DesiredCapabilities getCapabilities() {
+	@Override
+	public DesiredCapabilities getDefaultDriverCapabilities() {
 		return DesiredCapabilities.firefox();
 	}
 

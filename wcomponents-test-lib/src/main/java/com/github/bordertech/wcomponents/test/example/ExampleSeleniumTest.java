@@ -7,6 +7,8 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WTabSet;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
+import com.github.bordertech.wcomponents.test.selenium.ByWComponentPath;
 import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -15,8 +17,9 @@ import org.openqa.selenium.WebDriver;
 
 /**
  * <p>
- * This class is an example showing various ways of testing a WComponent UI using Selenium. The same UI is tested
- * multiple times using different approaches.</p>
+ * This class is an example showing various ways of testing a WComponent UI
+ * using Selenium. The same UI is tested multiple times using different
+ * approaches.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -24,19 +27,28 @@ import org.openqa.selenium.WebDriver;
 public class ExampleSeleniumTest extends WComponentSeleniumTestCase {
 
 	/**
-	 * Creates a ExampleSeleniumTest. The WComponent which is passed to the superclass's constructor is the UI to be
-	 * tested. Small sections of application code may need to be wrapped in a shell which puts them in the correct
-	 * state.
+	 * A handle to the WComponents UI. Does not need to be the same JVM as the
+	 * application being tested.
+	 */
+	private final ExampleUI ui = new ExampleUI();
+
+	/**
+	 * Creates a ExampleSeleniumTest. The WComponent which is passed to the
+	 * superclass's constructor is the UI to be tested. Small sections of
+	 * application code may need to be wrapped in a shell which puts them in the
+	 * correct state.
 	 */
 	public ExampleSeleniumTest() {
-		super(new ExampleUI());
+		super();
 	}
 
 	/**
-	 * This test implementation uses ByWComponentPath to find the HTML controls. A ByWComponentPath is built using a
-	 * full or partial set of classes which describe a path through the WComponent Tree structure. This is the preferred
-	 * method of testing WComponent UIs, as it should be stable between releases, and does not require applications to
-	 * expose UI structure via getters.
+	 * This test implementation uses ByWComponentPath to find the HTML controls.
+	 * A ByWComponentPath is built using a full or partial set of classes which
+	 * describe a path through the WComponent Tree structure. This is the
+	 * preferred method of testing WComponent UIs, as it should be stable
+	 * between releases, and does not require applications to expose UI
+	 * structure via getters.
 	 *
 	 * The UI structure tree structure used in this example is as follows:
 	 * <pre>
@@ -54,7 +66,8 @@ public class ExampleSeleniumTest extends WComponentSeleniumTestCase {
 	 *              WButton
 	 * </pre>
 	 *
-	 * So to obtain the first WTextField, any of the following paths could be used:
+	 * So to obtain the first WTextField, any of the following paths could be
+	 * used:
 	 *
 	 * <dl>
 	 * <dt>Full path, including tab index</dt>
@@ -73,9 +86,11 @@ public class ExampleSeleniumTest extends WComponentSeleniumTestCase {
 	 * <dd>WTextField</dd>
 	 * </dl>
 	 *
-	 * The amount of detail you will need to specify for the paths in your tests will depend on how your UI is
-	 * structured. If you have created reusable application components (e.g. a "NamePanel"), you will be able to match
-	 * on this directly in the path rather than having to look for the WComponent[x]/WComponent[y]/WComponent[z].
+	 * The amount of detail you will need to specify for the paths in your tests
+	 * will depend on how your UI is structured. If you have created reusable
+	 * application components (e.g. a "NamePanel"), you will be able to match on
+	 * this directly in the path rather than having to look for the
+	 * WComponent[x]/WComponent[y]/WComponent[z].
 	 */
 	@Test
 	public void testDuplicatorWithNoGettersWComponentPathImpl() {
@@ -83,26 +98,28 @@ public class ExampleSeleniumTest extends WComponentSeleniumTestCase {
 		WebDriver driver = getDriver();
 
 		// Paths to frequently used components
-		By textFieldPath = byWComponentPath("ExampleSeleniumTest$TextDuplicator/WTextField");
+		By textFieldPath = new ByWComponentPath(ui, "ExampleSeleniumTest$TextDuplicator/WTextField");
 
 		// Enter some text and use the duplicate button
 		driver.findElement(textFieldPath).sendKeys("dummy");
-		driver.findElement(byWComponentPath("ExampleSeleniumTest$TextDuplicator/WButton[0]"))
+		driver.findElement(new ByWComponentPath(ui, "ExampleSeleniumTest$TextDuplicator/WButton[0]"))
 				.click();
 		Assert.assertEquals("Incorrect text field text after duplicate", "dummydummy",
 				driver.findElement(textFieldPath).getAttribute("value"));
 
 		// Clear the text
-		driver.findElement(byWComponentPath("ExampleSeleniumTest$TextDuplicator/WButton[1]"))
+		driver.findElement(new ByWComponentPath(ui, "ExampleSeleniumTest$TextDuplicator/WButton[1]"))
 				.click();
 		Assert.assertEquals("Incorrect text field text after clear", "",
 				driver.findElement(textFieldPath).getAttribute("value"));
 	}
 
 	/**
-	 * This test implementation uses a 'traditional' Selenium approach, matching on HTML elements. This method should
-	 * not generally be used for testing WComponent applications, as the HTML output can change without notice between
-	 * different theme versions; the rendered HTML is transform-dependant, not WComponent-dependant.
+	 * This test implementation uses a 'traditional' Selenium approach, matching
+	 * on HTML elements. This method should not generally be used for testing
+	 * WComponent applications, as the HTML output can change without notice
+	 * between different theme versions; the rendered HTML is
+	 * transform-dependant, not WComponent-dependant.
 	 */
 	@Test
 	public void testDuplicatorWithNoGettersHtmlImpl() {
@@ -122,8 +139,9 @@ public class ExampleSeleniumTest extends WComponentSeleniumTestCase {
 	}
 
 	/**
-	 * This test implementation uses ByWComponentPath to find the HTML controls. See
-	 * {@link #testDuplicatorWithNoGettersWComponentPathImpl()} for an explanation of how the paths function.
+	 * This test implementation uses ByWComponentPath to find the HTML controls.
+	 * See {@link #testDuplicatorWithNoGettersWComponentPathImpl()} for an
+	 * explanation of how the paths function.
 	 */
 	@Test
 	public void testDuplicatorWithGettersWComponentPathImpl() {
@@ -131,35 +149,36 @@ public class ExampleSeleniumTest extends WComponentSeleniumTestCase {
 		WebDriver driver = getDriver();
 
 		// Paths to frequently used components
-		By textFieldPath = byWComponentPath(
+		By textFieldPath = new ByWComponentPath(ui, 
 				"ExampleSeleniumTest$TextDuplicatorWithGetters/WTextField");
 
 		// Select the 2nd tab
-		driver.findElement(byWComponentPath("WTab[1]")).click();
+		driver.findElement(new ByWComponentPath(ui, "WTab[1]")).click();
 
 		// Enter some text and use the duplicate button
 		driver.findElement(textFieldPath).sendKeys("dummy");
-		driver.findElement(byWComponentPath(
+		driver.findElement(new ByWComponentPath(ui, 
 				"ExampleSeleniumTest$TextDuplicatorWithGetters/WButton[0]")).click();
 		Assert.assertEquals("Incorrect text field text after duplicate", "dummydummy",
 				driver.findElement(textFieldPath).getAttribute("value"));
 
 		// Clear the text
-		driver.findElement(byWComponentPath(
+		driver.findElement(new ByWComponentPath(ui, 
 				"ExampleSeleniumTest$TextDuplicatorWithGetters/WButton[1]")).click();
 		Assert.assertEquals("Incorrect text field text after clear", "",
 				driver.findElement(textFieldPath).getAttribute("value"));
 	}
 
 	/**
-	 * This test implementation uses ByWComponent to find the HTML controls. This is the easiest approach to use, but
-	 * requires that the UI being tested has been built with getters for every control, which is not usually practical.
+	 * This test implementation uses ByWComponent to find the HTML controls.
+	 * This is the easiest approach to use, but requires that the UI being
+	 * tested has been built with getters for every control, which is not
+	 * usually practical.
 	 */
 	@Test
 	public void testDuplicatorWithGettersWComponentImpl() {
 		// Launch the web browser to the LDE
 		WebDriver driver = getDriver();
-		ExampleUI ui = (ExampleUI) getUi();
 
 		// UI components
 		WTextField textField = ui.getTextDuplicatorWithGetters().getTextField();
@@ -167,28 +186,29 @@ public class ExampleSeleniumTest extends WComponentSeleniumTestCase {
 		WButton clearButton = ui.getTextDuplicatorWithGetters().getClearButton();
 
 		// Select the 2nd tab
-		driver.findElement(byWComponentPath("WTab[1]")).click();
+		driver.findElement(new ByWComponentPath(ui, "WTab[1]")).click();
 
 		// Enter some text and use the duplicate button
-		driver.findElement(byWComponent(textField)).sendKeys("dummy");
-		driver.findElement(byWComponent(duplicateButton)).click();
+		driver.findElement(new ByWComponent(textField)).sendKeys("dummy");
+		driver.findElement(new ByWComponent(duplicateButton)).click();
 		Assert.assertEquals("Incorrect text field text after duplicate", "dummydummy",
-				driver.findElement(byWComponent(textField)).getAttribute("value"));
+				driver.findElement(new ByWComponent(textField)).getAttribute("value"));
 
 		// Clear the text
-		driver.findElement(byWComponent(clearButton)).click();
+		driver.findElement(new ByWComponent(clearButton)).click();
 		Assert.assertEquals("Incorrect text field text after clear", "",
-				driver.findElement(byWComponent(textField)).getAttribute("value"));
+				driver.findElement(new ByWComponent(textField)).getAttribute("value"));
 	}
 
 	/**
 	 * <p>
-	 * A simple UI to test, which contains a WTabSet with two tabs. The first tab is client-side, so is always present.
-	 * The second tab is lazy-loaded via AJAX.</p>
+	 * A simple UI to test, which contains a WTabSet with two tabs. The first
+	 * tab is client-side, so is always present. The second tab is lazy-loaded
+	 * via AJAX.</p>
 	 *
 	 * <p>
-	 * The first tab contains an example where the fields are not exposed via getters. The second tab contains the same
-	 * example, but with getters.</p>
+	 * The first tab contains an example where the fields are not exposed via
+	 * getters. The second tab contains the same example, but with getters.</p>
 	 */
 	private static final class ExampleUI extends WContainer {
 

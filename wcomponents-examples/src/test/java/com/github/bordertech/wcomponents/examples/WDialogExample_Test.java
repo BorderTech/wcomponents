@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
+import com.github.bordertech.wcomponents.test.selenium.driver.WComponentWebDriver;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -17,7 +17,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class WDialogExample_Test extends WComponentSeleniumTestCase {
+public class WDialogExample_Test extends WComponentExamplesTestCase {
 
 	/**
 	 * Creates a new WDialogExample_Test.
@@ -54,7 +54,7 @@ public class WDialogExample_Test extends WComponentSeleniumTestCase {
 	@Test
 	public void testModalDialogCloseOnCancel() {
 		// Launch the web browser to the LDE
-		WebDriver driver = getDriver();
+		WComponentWebDriver driver = getDriver();
 		WDialogExample example = (WDialogExample) getUi();
 		String expectedText = example.getModalText();
 		final WButton testButton = example.getModalButton();
@@ -62,9 +62,11 @@ public class WDialogExample_Test extends WComponentSeleniumTestCase {
 		// Display the modal dialog
 		driver.findElement(byWComponent(testButton)).click();
 
-		// Cancel the dialog
-		driver.findElement(byWComponentPath("WDialogExample$SelectPersonPanel/WCancelButton[0]")).
-				click();
+		Assert.assertTrue("Dialog must be open.", driver.getDialog().isOpen());
+		
+		driver.getDialog().close();
+		
+		Assert.assertFalse("Should not be displaying the dialog", driver.isOpenDialog());
 		Assert.assertFalse("Should not be displaying the dialog", driver.getPageSource().contains(
 				expectedText));
 	}

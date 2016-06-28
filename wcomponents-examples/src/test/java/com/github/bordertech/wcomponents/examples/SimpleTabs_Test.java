@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.examples;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -19,7 +18,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class SimpleTabs_Test extends WComponentSeleniumTestCase {
+public class SimpleTabs_Test extends WComponentExamplesTestCase {
 
 	/**
 	 * Creates a new SimpleTabs_Test.
@@ -32,6 +31,7 @@ public class SimpleTabs_Test extends WComponentSeleniumTestCase {
 	 * @return a simple tabs for testing.
 	 */
 	private static WComponent createSimpleTabs() {
+
 		SimpleTabs tabs = new SimpleTabs();
 
 		tabs.addTab(new WText("tab1content"), "tab1name");
@@ -70,20 +70,19 @@ public class SimpleTabs_Test extends WComponentSeleniumTestCase {
 	private void assertTabVisible(final int index) {
 		WebDriver driver = getDriver();
 
+		String pageSource = driver.getPageSource();
 		for (int i = 1; i <= 3; i++) {
 			String tabHeading = "[tab" + i + "name]:";
 			String tabContent = "tab" + i + "content";
 
 			if (i == index) {
-				Assert.assertTrue("Tab " + i + " heading should be visible", driver.getPageSource().
+				Assert.assertTrue("Tab " + i + " heading should be visible", pageSource.
 						contains(tabHeading));
-				Assert.assertTrue("Tab " + i + " content should be visible", driver.getPageSource().
+				Assert.assertTrue("Tab " + i + " content should be visible", pageSource.
 						contains(tabContent));
 			} else {
-				Assert.assertFalse("Tab " + i + " heading should not be visible", driver.
-						getPageSource().contains(tabHeading));
-				Assert.assertFalse("Tab " + i + " content should not be visible", driver.
-						getPageSource().contains(tabContent));
+				Assert.assertFalse("Tab " + i + " heading should not be visible", pageSource.contains(tabHeading));
+				Assert.assertFalse("Tab " + i + " content should not be visible", pageSource.contains(tabContent));
 			}
 		}
 	}

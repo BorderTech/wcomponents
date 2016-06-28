@@ -15,12 +15,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 /**
  *
  * <p>
- * Utility class containing convenience methods for testing WComponents with
- * Selenium.</p>
+ * Utility class containing convenience methods for testing WComponents with Selenium.</p>
  * <p>
- * Logic has been extracted into this utility class for any consumers who cannot
- * extend WComponentSeleniumTestCase due to a different test class
- * hierarchy.</p>
+ * Logic has been extracted into this utility class for any consumers who cannot extend WComponentSeleniumTestCase due
+ * to a different test class hierarchy.</p>
  *
  * @author Joshua Barclay
  * @since 1.2.0
@@ -30,7 +28,7 @@ public final class WComponentSelenium {
 	/**
 	 * Prefix for parameters used by this class.
 	 */
-	private static final String PARAM_PREFIX = "com.github.bordertech.wcomponents.test.selenium.";
+	private static final String PARAM_PREFIX = "bordertech.wcomponents.test.selenium.";
 	/**
 	 * The body tag indicating the page is ready.
 	 */
@@ -80,7 +78,9 @@ public final class WComponentSelenium {
 
 			WebElement body = driver.findElement(By.tagName("body"));
 			String domReadyAttr = body.getAttribute(DATA_READY_TAG);
-			final boolean domReady = BooleanUtils.isTrue(BooleanUtils.toBooleanObject(domReadyAttr));
+			// If value is 'true' or the tag does not exist, the dom is ready.
+			// The tag will only not exist if there has been an error, and the page is not actual WComponents.
+			boolean domReady = BooleanUtils.isNotFalse(BooleanUtils.toBooleanObject(domReadyAttr));
 
 			return domReady;
 
@@ -99,12 +99,12 @@ public final class WComponentSelenium {
 
 		driver.manage().timeouts().implicitlyWait(IMPLICIT_WAIT_SECONDS, TimeUnit.SECONDS);
 		driver.manage().window().setSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-		driver.manage().window().fullscreen();
+//		driver.manage().window().fullscreen();
 	}
 
 	/**
-	 * Wait for the page to have loaded, including all AJAX and JavaScript. Uses
-	 * default values for timeout and polling interval.
+	 * Wait for the page to have loaded, including all AJAX and JavaScript. Uses default values for timeout and polling
+	 * interval.
 	 *
 	 * @param driver the WebDriver.
 	 */
@@ -121,10 +121,8 @@ public final class WComponentSelenium {
 	 * Wait for the page to have loaded, including all AJAX and JavaScript.
 	 *
 	 * @param driver the WebDriver.
-	 * @param timeoutSeconds - the number of seconds after which the 'wait' will
-	 * time out.
-	 * @param pollingMilliseconds - the number of milliseconds to wait between
-	 * each poll attempt.
+	 * @param timeoutSeconds - the number of seconds after which the 'wait' will time out.
+	 * @param pollingMilliseconds - the number of milliseconds to wait between each poll attempt.
 	 */
 	public static void waitForPageReady(final WebDriver driver, final int timeoutSeconds, final long pollingMilliseconds) {
 
@@ -161,12 +159,11 @@ public final class WComponentSelenium {
 	 */
 	public static WDialogWebElement getDialog(final WebDriver driver) {
 		WebElement dialog = driver.findElement(By.cssSelector(WDialogWebElement.getDialogCssSelector()));
-		return new WDialogWebElement(dialog);
+		return new WDialogWebElement(dialog, driver);
 	}
 
 	/**
-	 * Get the ExpectedCondition for waiting for the WComponents page to be
-	 * ready.
+	 * Get the ExpectedCondition for waiting for the WComponents page to be ready.
 	 *
 	 * @return the WaitCondition for page ready.
 	 */

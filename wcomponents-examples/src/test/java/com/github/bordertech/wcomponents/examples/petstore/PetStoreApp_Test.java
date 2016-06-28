@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.examples.petstore;
 
 import com.github.bordertech.wcomponents.examples.SeleniumTests;
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
+import com.github.bordertech.wcomponents.examples.WComponentExamplesTestCase;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -16,7 +16,7 @@ import org.openqa.selenium.WebElement;
  * @since 1.0.0
  */
 @Category(SeleniumTests.class)
-public class PetStoreApp_Test extends WComponentSeleniumTestCase {
+public class PetStoreApp_Test extends WComponentExamplesTestCase{
 
 	/**
 	 * Construct test.
@@ -31,8 +31,7 @@ public class PetStoreApp_Test extends WComponentSeleniumTestCase {
 
 		String source = driver.getPageSource();
 
-		Assert.assertTrue("Incorrect default page - should have product listing", source.indexOf(
-				"Product listing.") != -1);
+		Assert.assertTrue("Incorrect default page - should have product listing", source.contains("Product listing."));
 	}
 
 	@Test

@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.test.selenium.driver;
 
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
  *
@@ -15,14 +15,22 @@ import org.openqa.selenium.chrome.ChromeOptions;
  * @author Joshua Barclay
  * @since 1.2.0
  */
-public class ChromeWebDriverType implements WebDriverType<ChromeDriver> {
+public class ChromeWebDriverType extends WebDriverType<ChromeDriver> {
+
+	/**
+	 * {@inheritDoc}.
+	 */
+	@Override
+	public String getDriverTypeName() {
+		return "chrome";
+	}
 
 	/**
 	 * {@inheritDoc}.
 	 */
 	@Override
 	public ChromeDriver getDriverImplementation() {
-		return new ChromeDriver(getChromeDriverService(), getChromeOptions());
+		return new ChromeDriver(getChromeDriverService(), getCapabilities());
 	}
 
 	/**
@@ -36,12 +44,11 @@ public class ChromeWebDriverType implements WebDriverType<ChromeDriver> {
 	}
 
 	/**
-	 * Get the ChromeOptions to use. Exists to allow subclasses to override.
-	 *
-	 * @return the default chrome options.
+	 * {@inheritDoc}.
 	 */
-	public ChromeOptions getChromeOptions() {
-		return new ChromeOptions();
+	@Override
+	protected DesiredCapabilities getDefaultDriverCapabilities() {
+		return DesiredCapabilities.chrome();
 	}
 
 }

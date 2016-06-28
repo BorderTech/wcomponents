@@ -3,18 +3,18 @@ package com.github.bordertech.wcomponents.examples;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
-import javax.servlet.http.HttpSession;
 
 /**
  * Demonstrate using the "ui:session" element.
  * <p>
- * If the theme has been setup to use the "ui:session" element, the theme will display a "warning" message to the user
- * that their session will soon expire. Once the session timeout has elapsed, an "expired" message will be displayed to
- * the user.
+ * If the theme has been setup to use the "ui:session" element, the theme will
+ * display a "warning" message to the user that their session will soon expire.
+ * Once the session timeout has elapsed, an "expired" message will be displayed
+ * to the user.
  * </p>
  * <p>
- * The timeout value is usually set to the session timeout {@link HttpSession#getMaxInactiveInterval()}, but to
- * demonstrate the messages, the timeout has been set to 180 seconds.
+ * The timeout value is usually set to the session timeout, but to demonstrate
+ * the messages, the timeout has been set to 180 seconds.
  * </p>
  *
  * @author Jonathan Austin

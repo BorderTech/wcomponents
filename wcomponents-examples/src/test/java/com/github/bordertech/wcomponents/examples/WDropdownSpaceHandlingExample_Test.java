@@ -20,7 +20,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class WDropdownSpaceHandlingExample_Test extends WComponentSeleniumTestCase {
+public class WDropdownSpaceHandlingExample_Test extends WComponentExamplesTestCase{
 
 	/**
 	 * Construct test.

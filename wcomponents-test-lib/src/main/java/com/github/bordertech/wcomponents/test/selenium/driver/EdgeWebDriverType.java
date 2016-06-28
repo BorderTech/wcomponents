@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.test.selenium.driver;
 
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeDriverService;
-import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
  *
@@ -15,19 +15,26 @@ import org.openqa.selenium.edge.EdgeOptions;
  * @author Joshua Barclay
  * @since 1.2.0
  */
-public class EdgeWebDriverType implements WebDriverType<EdgeDriver> {
+public class EdgeWebDriverType extends WebDriverType<EdgeDriver> {
+
+	/**
+	 * {@inheritDoc}.
+	 */
+	@Override
+	public String getDriverTypeName() {
+		return "edge";
+	}
 
 	/**
 	 * {@inheritDoc}.
 	 */
 	@Override
 	public EdgeDriver getDriverImplementation() {
-		return new EdgeDriver(getEdgeDriverService(), getOptions());
+		return new EdgeDriver(getEdgeDriverService(), getCapabilities());
 	}
 
 	/**
-	 * Get the EdgeDriverService to use. Exists to allow subclasses
-	 * to override.
+	 * Get the EdgeDriverService to use. Exists to allow subclasses to override.
 	 *
 	 * @return the default Edge service.
 	 */
@@ -36,13 +43,11 @@ public class EdgeWebDriverType implements WebDriverType<EdgeDriver> {
 	}
 
 	/**
-	 * Get the Options to use. Exists to allow subclasses to override.
-	 *
-	 * @return the default Edge options.
+	 * {@inheritDoc}.
 	 */
-	public EdgeOptions getOptions() {
-		return new EdgeOptions();
-
+	@Override
+	public DesiredCapabilities getDefaultDriverCapabilities() {
+		return DesiredCapabilities.edge();
 	}
 
 }
