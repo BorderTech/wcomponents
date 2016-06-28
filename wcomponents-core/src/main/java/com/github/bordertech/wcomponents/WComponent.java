@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.HtmlClassUtil;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import java.io.Serializable;
@@ -499,9 +500,15 @@ public interface WComponent extends WebComponent {
 	 * theme and are used for core functionality and styling.
 	 *
 	 * @param className the HTML class attribute's value to add to the component.
-	 * @param args optional arguments for the message format string.
 	 */
-	void setHtmlClass(final String className, Serializable... args);
+	void setHtmlClass(final String className);
+
+	/**
+	 * Sets additional HTML class name for this component from a set of preset values.
+	 *
+	 * @param className the HTML class attribute's value to add to the component derived from the utility enum
+	 */
+	void setHtmlClass(final HtmlClassUtil.HtmlClassName className);
 
 	/**
 	 * Returns the HTML class name string to apply to a component. Some values in the HTML class name attribute are

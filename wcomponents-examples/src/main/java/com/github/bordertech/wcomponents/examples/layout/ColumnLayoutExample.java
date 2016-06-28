@@ -1,7 +1,12 @@
 package com.github.bordertech.wcomponents.examples.layout;
 
+import com.github.bordertech.wcomponents.Action;
+import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.WButton;
+import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
+import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WPanel;
@@ -9,6 +14,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.layout.ColumnLayout.Alignment;
+import com.github.bordertech.wcomponents.util.HtmlClassUtil;
 
 /**
  * Example showing how to use the {@link ColumnLayout} component.
@@ -34,7 +40,6 @@ public class ColumnLayoutExample extends WContainer {
 	 * Creates a ColumnLayoutExample.
 	 */
 	public ColumnLayoutExample() {
-
 		for (int[] colWidths : EXAMPLE_COLUMN_WIDTHS) {
 			addExample(colWidths);
 		}
@@ -44,6 +49,7 @@ public class ColumnLayoutExample extends WContainer {
 		addAlignmentExample();
 		addAutoWidthExample();
 		addAppLevelCSSExample();
+		addResponsiveExample();
 	}
 
 	/**
@@ -53,7 +59,7 @@ public class ColumnLayoutExample extends WContainer {
 	 */
 	private void addExample(final int[] colWidths) {
 
-		add(new WHeading(WHeading.SECTION, getTitle(colWidths)));
+		add(new WHeading(HeadingLevel.H2, getTitle(colWidths)));
 
 		WPanel panel = new WPanel();
 		panel.setLayout(new ColumnLayout(colWidths));
@@ -62,7 +68,26 @@ public class ColumnLayoutExample extends WContainer {
 		for (int i = 0; i < colWidths.length; i++) {
 			panel.add(new BoxComponent(colWidths[i] + "%"));
 		}
-		add(new WHorizontalRule());
+	}
+
+	/**
+	 * Add a column layout which will change its rendering on small screens.
+	 */
+	private void addResponsiveExample() {
+		add(new WHeading(HeadingLevel.H2, "Default responsive design"));
+		add(new ExplanatoryText("This example applies the theme's default responsive design rules for ColumnLayout.\n "
+				+ "The columns have width and alignment and there is also a hgap and a vgap."));
+				WPanel panel = new WPanel();
+		panel.setLayout(new ColumnLayout(new int[]{33, 33, 33},
+				new Alignment[]{Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT}, 12, 18));
+		panel.setHtmlClass(HtmlClassUtil.HtmlClassName.RESPOND);
+		add(panel);
+		panel.add(new BoxComponent("Left"));
+		panel.add(new BoxComponent("Center"));
+		panel.add(new BoxComponent("Right"));
+		panel.add(new BoxComponent("Left"));
+		panel.add(new BoxComponent("Center"));
+		panel.add(new BoxComponent("Right"));
 	}
 
 	/**
@@ -122,6 +147,9 @@ public class ColumnLayoutExample extends WContainer {
 		add(new WHorizontalRule());
 	}
 
+	/**
+	 * This example shows a column which does not have widths set in Java. This is a "good thing": widths should be set in CSS.
+	 */
 	private void addAutoWidthExample() {
 		add(new WHeading(HeadingLevel.H2, "Automatic (app defined) widths"));
 		add(new ExplanatoryText("This example shows what happens if you use undefined (0) column width and do not then define them in CSS."));
