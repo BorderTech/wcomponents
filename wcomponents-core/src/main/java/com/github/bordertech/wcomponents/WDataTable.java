@@ -640,7 +640,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param paginationMode The paginationMode to set.
 	 */
 	public void setPaginationMode(final PaginationMode paginationMode) {
-		getOrCreateComponentModel().paginationMode = paginationMode == PaginationMode.SERVER ? PaginationMode.DYNAMIC
+		getOrCreateComponentModel().paginationMode = PaginationMode.SERVER.equals(paginationMode) ? PaginationMode.DYNAMIC
 				: paginationMode;
 	}
 
@@ -708,7 +708,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param sortMode The sort mode to set.
 	 */
 	public void setSortMode(final SortMode sortMode) {
-		getOrCreateComponentModel().sortMode = sortMode == SortMode.SERVER ? SortMode.DYNAMIC : sortMode;
+		getOrCreateComponentModel().sortMode = SortMode.SERVER.equals(sortMode) ? SortMode.DYNAMIC : sortMode;
 	}
 
 	/**
@@ -758,7 +758,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param expandMode The expand mode to set.
 	 */
 	public void setExpandMode(final ExpandMode expandMode) {
-		getOrCreateComponentModel().expandMode = expandMode == ExpandMode.SERVER ? ExpandMode.DYNAMIC
+		getOrCreateComponentModel().expandMode = ExpandMode.SERVER.equals(expandMode) ? ExpandMode.DYNAMIC
 				: expandMode;
 	}
 

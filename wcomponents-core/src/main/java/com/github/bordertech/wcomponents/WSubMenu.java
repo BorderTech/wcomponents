@@ -105,7 +105,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 */
 	public void setMode(final MenuMode mode) {
 		// mode server mapped to mode dynamic as per https://github.com/BorderTech/wcomponents/issues/687
-		getOrCreateComponentModel().mode = mode == MenuMode.SERVER ? MenuMode.DYNAMIC : mode;
+		getOrCreateComponentModel().mode = MenuMode.SERVER.equals(mode) ? MenuMode.DYNAMIC : mode;
 	}
 
 	/**

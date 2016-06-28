@@ -131,7 +131,7 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 			final CollapsibleMode mode,
 			final CollapsibleGroup group) {
 		// see https://github.com/BorderTech/wcomponents/issues/694
-		getComponentModel().mode = mode == CollapsibleMode.SERVER ? CollapsibleMode.DYNAMIC : mode;
+		getComponentModel().mode = CollapsibleMode.SERVER.equals(mode) ? CollapsibleMode.DYNAMIC : mode;
 		this.content = content;
 		this.label = label;
 		add(label);
@@ -156,7 +156,7 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 	 * @param mode the mode of operation.
 	 */
 	public void setMode(final CollapsibleMode mode) {
-		getOrCreateComponentModel().mode = mode == CollapsibleMode.SERVER ? CollapsibleMode.DYNAMIC : mode;
+		getOrCreateComponentModel().mode = CollapsibleMode.SERVER.equals(mode) ? CollapsibleMode.DYNAMIC : mode;
 	}
 
 	/**
