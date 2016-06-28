@@ -131,21 +131,19 @@ define(["wc/has", "wc/dom/cookie"],
 							cookie.erase(key);
 						}
 					}
+					else if (hasLocalStorage) {
+						try {
+							delete window.localStorage[key];
+						}
+						catch (ex) {
+							// IE8
+							if (typeof window.localStorage[key] !== "undefined") {
+								window.localStorage[key] = "";
+							}
+						}
+					}
 					else {
-						if (hasLocalStorage) {
-							try {
-								delete window.localStorage[key];
-							}
-							catch (ex) {
-								// IE8
-								if (typeof window.localStorage[key] !== "undefined") {
-									window.localStorage[key] = "";
-								}
-							}
-						}
-						else {
-							cookie.erase(key);
-						}
+						cookie.erase(key);
 					}
 				}
 			};

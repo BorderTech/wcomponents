@@ -135,7 +135,7 @@ public class FlowLayout implements LayoutManager {
 	 * @deprecated use {@link #FlowLayout(Alignment, int)}
 	 */
 	public FlowLayout(final Alignment alignment, final int hgap, final int vgap) {
-		this(alignment, alignment == VERTICAL ? vgap : hgap, null);
+		this(alignment, VERTICAL.equals(alignment) ? vgap : hgap, null);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class FlowLayout implements LayoutManager {
 	 * @param gap the required gap between components in the layout
 	 */
 	public FlowLayout(final Alignment alignment, final int gap) {
-		this(alignment, alignment == VERTICAL ? 0 : gap, alignment == VERTICAL ? gap : 0, null);
+		this(alignment, VERTICAL.equals(alignment) ? 0 : gap, VERTICAL.equals(alignment) ? gap : 0, null);
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class FlowLayout implements LayoutManager {
 	 */
 	public FlowLayout(final Alignment alignment, final int hgap, final int vgap,
 			final ContentAlignment contentAlignment) {
-		this(alignment, alignment == VERTICAL ? vgap : hgap, alignment == VERTICAL ? null : contentAlignment);
+		this(alignment, VERTICAL.equals(alignment) ? vgap : hgap, VERTICAL.equals(alignment) ? null : contentAlignment);
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class FlowLayout implements LayoutManager {
 		}
 		this.alignment = alignment;
 		this.gap = gap;
-		this.contentAlignment = alignment == VERTICAL ? null : contentAlignment;
+		this.contentAlignment = VERTICAL.equals(alignment) ? null : contentAlignment;
 	}
 
 	/**
@@ -197,10 +197,7 @@ public class FlowLayout implements LayoutManager {
 	 * @deprecated use {@link #getGap()}
 	 */
 	public int getHgap() {
-		if (this.alignment == Alignment.VERTICAL) {
-			return 0;
-		}
-		return gap;
+		return VERTICAL.equals(alignment) ? 0 : gap;
 	}
 
 	/**
@@ -208,10 +205,7 @@ public class FlowLayout implements LayoutManager {
 	 * @deprecated use {@link #getGap()}
 	 */
 	public int getVgap() {
-		if (this.alignment == Alignment.VERTICAL) {
-			return gap;
-		}
-		return 0;
+		return VERTICAL.equals(alignment) ? gap : 0;
 	}
 
 

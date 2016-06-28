@@ -22,18 +22,22 @@ define(["wc/dom/initialise", "wc/config", "tinyMCE"],
 		 * @param {String[]} idArr An array of RTF ids.
 		 */
 		function processNow(idArr) {
-			var id, initObj = {}, config = wcconfig.get("wc/ui/rtf");
+			var id,
+				initObj = {},
+				config = wcconfig.get("wc/ui/rtf"),
+				setupFunc = function (editor) {
+					editor.on("change", function () {
+						editor.save();
+					});
+				};
 			if (config) {
 				initObj = config.initObj || {};
 			}
+
 			while ((id = idArr.shift())) {
 				initObj["selector"] = "textarea#" + id;
 				if (!initObj["setup"]) {
-					initObj["setup"] = function (editor) {
-						editor.on("change", function () {
-							editor.save();
-						});
-					};
+					initObj["setup"] = setupFunc;
 				}
 				tinyMCE.init(initObj);
 			}

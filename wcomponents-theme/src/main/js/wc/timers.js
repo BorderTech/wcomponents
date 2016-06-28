@@ -38,7 +38,7 @@ define(function() {
 			ignoreThreshold = 0;  // anything below this will be ignored.
 
 		/**
-		 * Keeps track of pending timeouts to facilitate autmoated testing.
+		 * Keeps track of pending timeouts to facilitate automated testing.
 		 * Tools can programatically determine if there are pending timeouts to help determine if the page
 		 * is "ready". This will normally include the document ready state, short running timeouts and pending
 		 * ajax calls.
@@ -48,8 +48,7 @@ define(function() {
 		 * @param {boolean} clear If true the timeout has completed or has been cleared.
 		 */
 		function updatePending(handle, clear) {
-			var element,
-				pendingCount;
+			var pendingCount;
 			if (handle || handle === 0) {
 				try {
 					if (clear) {
@@ -62,7 +61,6 @@ define(function() {
 					pendingCount = pendingCount.length;
 					// console.log("Pending timeouts: ", pendingCount);
 					notify(!!pendingCount);
-					element = document.body;
 				}
 				catch (ignore) {  // don't let errors here break everything else - this is just a testing hook
 					console.error(ignore);
