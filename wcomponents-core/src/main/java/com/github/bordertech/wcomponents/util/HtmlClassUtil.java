@@ -86,7 +86,7 @@ public class HtmlClassUtil {
 	 * Provides a set of HTML class attribute values which can be used in
 	 * {@link com.github.bordertech.wcomponents.WComponent.setHtmlClass(HtmlClassName)}.
 	 */
-	public static enum HtmlClassName {
+	public enum HtmlClassName {
 
 		/**
 		 * Center align the content of any component.
