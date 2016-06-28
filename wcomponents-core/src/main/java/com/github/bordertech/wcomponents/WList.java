@@ -52,13 +52,9 @@ public class WList extends WRepeater implements Marginable {
 	}
 
 	/**
-	 * The horizontal gap between the list items, measured in pixels.
+	 * The gap between the components in the list.
 	 */
-	private final int hgap;
-	/**
-	 * The vertical gap between the list items, measured in pixels.
-	 */
-	private final int vgap;
+	private final int gap;
 
 	/**
 	 * Creates a WList of the given type.
@@ -66,20 +62,30 @@ public class WList extends WRepeater implements Marginable {
 	 * @param type the list type.
 	 */
 	public WList(final Type type) {
-		this(type, 0, 0);
+		this(type, 0);
 	}
 
 	/**
 	 * Creates a WList of the given type.
 	 *
 	 * @param type the list type.
-	 * @param hgap the horizontal gap between the list items, measured in pixels.
-	 * @param vgap the vertical gap between the list items, measured in pixels.
+	 * @param hgap the horizontal gap between the list items, used only if type is Type.FLAT
+	 * @param vgap the vertical gap between the list items,  used only if type is not Type.FLAT
+	 * @deprecated use {@link #WList(Type, int)}
 	 */
 	public WList(final Type type, final int hgap, final int vgap) {
+		this(type, type == Type.FLAT ? hgap : vgap);
+	}
+
+	/**
+	 * Creates a WList of the given type with the specified gap between items.
+	 *
+	 * @param type the list type.
+	 * @param gap the gap between the list items
+	 */
+	public WList(final Type type, final int gap) {
 		getComponentModel().type = type;
-		this.hgap = hgap;
-		this.vgap = vgap;
+		this.gap = gap;
 	}
 
 	/**
@@ -149,17 +155,32 @@ public class WList extends WRepeater implements Marginable {
 	}
 
 	/**
-	 * @return Returns the horizontal gap between the cells, measured in pixels.
+	 * @return Returns the horizontal gap between the cells.
+	 * @deprecated use {@link #getGap()}
 	 */
 	public int getHgap() {
-		return hgap;
+		if (getType() == Type.FLAT) {
+			return gap;
+		}
+		return 0;
 	}
 
 	/**
-	 * @return Returns the vertical gap between the cells, measured in pixels.
+	 * @return Returns the vertical gap between the cells.
+	 * @deprecated use {@link #getGap()}
 	 */
 	public int getVgap() {
-		return vgap;
+		if (getType() == Type.FLAT) {
+			return 0;
+		}
+		return gap;
+	}
+
+	/**
+	 * @return the gap between items in the List.
+	 */
+	public int getGap() {
+		return gap;
 	}
 
 	/**
@@ -201,7 +222,7 @@ public class WList extends WRepeater implements Marginable {
 		private boolean renderBorder;
 
 		/**
-		 * The seperator used to separate items in the list.
+		 * The separator used to separate items in the list.
 		 */
 		private Separator separator;
 

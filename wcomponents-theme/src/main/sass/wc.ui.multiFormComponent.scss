@@ -14,14 +14,10 @@
 		max-width: calc(100% - 2em);
 	}
 
-	ul {
-		&.error,
-		&.warn,
-		&.info,
-		&.success {
-			white-space: normal;
-		}
+	.wc-fieldindicator {
+		white-space: normal;
 	}
+
 
 	li + li {
 		margin-top: $wc-gap-small;

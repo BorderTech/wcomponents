@@ -27,7 +27,7 @@
 		<ul id="{@id}">
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
-					<xsl:value-of select="@type"/>
+					<xsl:text>wc_list_nb</xsl:text>
 				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:apply-templates/>

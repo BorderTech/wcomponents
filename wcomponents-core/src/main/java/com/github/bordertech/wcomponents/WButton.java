@@ -252,8 +252,6 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 		focusMe();
 	}
 
-	// TODO: Remove this as it commonly results in accessibility errors so should be removed ASAP. Initial focus should
-	// be determined on a case-by-case basis not in this abstract manner.
 	/**
 	 * Sets the focus back to this button unless explicity set elsewhere.
 	 */

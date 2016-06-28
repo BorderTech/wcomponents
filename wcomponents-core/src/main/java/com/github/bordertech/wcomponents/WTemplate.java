@@ -15,7 +15,8 @@ import java.util.Map;
  * </p>
  * <p>
  * WComponents comes configured for
- * {@link com.github.bordertech.wcomponents.template.TemplateRendererFactory.TemplateEngine#VELOCITY Velocity}, {@link com.github.bordertech.wcomponents.template.TemplateRendererFactory.TemplateEngine#HANDLEBARS Handlebars}
+ * {@link com.github.bordertech.wcomponents.template.TemplateRendererFactory.TemplateEngine#VELOCITY Velocity},
+ * {@link com.github.bordertech.wcomponents.template.TemplateRendererFactory.TemplateEngine#HANDLEBARS Handlebars}
  * and {@link com.github.bordertech.wcomponents.template.TemplateRendererFactory.TemplateEngine#PLAINTEXT Plain Text}
  * templates.
  * </p>

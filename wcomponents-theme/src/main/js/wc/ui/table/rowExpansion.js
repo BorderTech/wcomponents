@@ -54,9 +54,10 @@ define(["wc/array/toArray",
 				TABLE = common.TABLE.extend("", {"role": "treegrid"}),
 				EXPAND_COLLAPSE_ALL = new Widget("button", "wc_rowexpansion"),
 				BOOTSTRAPPED = "wc.ui.table.rowExpansion.bootStrapped",
+				NO_AJAX = "data-wc-tablenoajax",
+				ALIAS = "data-wc-ajaxalias",
 				TRUE = "true",
 				FALSE = "false";
-
 
 			/**
 			 * Get the list of elements controlled by an expander.
@@ -148,8 +149,8 @@ define(["wc/array/toArray",
 				if (row) {
 					show = shed.isExpanded(row) ? FALSE : TRUE;
 					if (show === TRUE && !shed.isDisabled(row)) {
-						if (ignoreAjax && row.hasAttribute("data-wc-ajaxalias")) {
-							row.setAttribute("${wc.ui.table.rowExpansion.attribute.ignoreAjax}", TRUE);
+						if (ignoreAjax && row.hasAttribute(ALIAS)) {
+							row.setAttribute(NO_AJAX, TRUE);
 						}
 						shed.expand(row);
 					}
@@ -190,7 +191,7 @@ define(["wc/array/toArray",
 						toggleRow(next, true);
 					});
 
-					if (open && (alias = element.getAttribute("data-wc-ajaxalias"))) {
+					if (open && (alias = element.getAttribute(ALIAS))) {
 						ajaxRegion.register(getTriggerDTO(element, alias));
 					}
 				}
@@ -230,9 +231,9 @@ define(["wc/array/toArray",
 			function shedObserver(element, action) {
 				var alias;
 				if (element && TBL_EXPANDABLE_ROW.isOneOfMe(element)) {
-					if (action === shed.actions.EXPAND && (alias = element.getAttribute("data-wc-ajaxalias"))) {
-						if (element.getAttribute("${wc.ui.table.rowExpansion.attribute.ignoreAjax}") === TRUE) {
-							element.removeAttribute("${wc.ui.table.rowExpansion.attribute.ignoreAjax}");
+					if (action === shed.actions.EXPAND && (alias = element.getAttribute(ALIAS))) {
+						if (element.getAttribute(NO_AJAX) === TRUE) {
+							element.removeAttribute(NO_AJAX);
 						}
 						else {
 							ajaxRegion.requestLoad(element, getTriggerDTO(element, alias));

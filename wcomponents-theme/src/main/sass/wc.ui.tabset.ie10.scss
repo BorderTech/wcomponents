@@ -1,5 +1,5 @@
 /* wc.ui.tabset.ie10.scss */
-@import 'tabset_vars';
+@import 'tabset-mixins';
 
 // This is a IE10 only style-sheet
 //scss-lint:disable VendorPrefix
@@ -10,11 +10,11 @@
 	-ms-flex-pack: justify;
 	-ms-flex-wrap: nowrap;
 
-	&.wc_left {
+	&.wc-tabset-type-left {
 		-ms-flex-direction: row;
 	}
 
-	&.wc_right {
+	&.wc-tabset-type-right {
 		-ms-flex-direction: row-reverse;
 	}
 }
@@ -34,8 +34,8 @@
 		-ms-flex-direction: column;
 	}
 
-	.wc_left > &,
-	.wc_right > & {
+	.wc-tabset-type-left > &,
+	.wc-tabset-type-right > & {
 		-ms-flex: 0 1 auto;
 		-ms-flex-direction: column;
 

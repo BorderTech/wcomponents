@@ -17,7 +17,7 @@ $std-color-tertiary: #f3f3f3 !default;
 // Main colour accents are used as background/foreground combo (or vice versa) and must meet 4.5:1 contrast ratio with
 // the main colour definitions above
 $std-color-primary-accent: $std-color-white !default;
-$std-color-secondary-accent:$std-color-white !default;
+$std-color-secondary-accent: $std-color-white !default;
 $std-color-tertiary-accent: $std-color-primary !default;
 
 // Transient and specific purpose accents
@@ -27,6 +27,10 @@ $std-color-invite-bg: #bbd6ff !default;
 $std-color-invite-fg: $std-color-black !default;
 // Table row focus must be translucent with alpha no greater than 0.5.
 $std-color-invite-bg-rgba: rgba(204, 229, 255, 0.5) !default;
+
+// Selected containers and aria analogs
+$std-color-selected-bg: #6a6a6a !default;
+$std-color-selected-fg: #fafafa !default;
 //
 // Background highlighting accents (not focus/hover) such as zebra striping.
 $std-color-highlight-bg: #f2f2f2 !default;

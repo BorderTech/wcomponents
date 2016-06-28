@@ -35,17 +35,6 @@
 			</xsl:with-param>
 		</xsl:call-template>
 
-		<!-- 
-			commonAttributes will disable the component if it is itself disabled.
-			TODO: this block can be removed when we drop WDataTable.
-		-->
-		<xsl:if test="self::ui:button and not(@disabled) and parent::ui:action">
-			<xsl:call-template name="disabledElement">
-				<xsl:with-param name="field" select="ancestor::ui:table[1]"/>
-				<xsl:with-param name="isControl" select="1"/>
-			</xsl:call-template>
-		</xsl:if>
-
 		<xsl:call-template name="title"/>
 		<xsl:call-template name="ajaxController"/>
 		
@@ -61,10 +50,10 @@
 			</xsl:attribute>
 
 			<xsl:if test="$linkHasPopup=1">
-				<xsl:attribute name="${wc.ui.link.attrib.specs}">
+				<xsl:attribute name="data-wc-specs">
 					<xsl:apply-templates select="ui:windowAttributes" mode="specs"/>
 				</xsl:attribute>
-				<xsl:attribute name="${wc.ui.link.attrib.window}">
+				<xsl:attribute name="data-wc-window">
 					<xsl:value-of select="ui:windowAttributes/@name"/>
 				</xsl:attribute>
 			</xsl:if>

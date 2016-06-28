@@ -1,2 +1,5 @@
+// Make sure WCompoennts vars are included before lib vars are declared.
+@import 'vars';
+
 // include font-awesome
 @import 'libs/fa/font-awesome';

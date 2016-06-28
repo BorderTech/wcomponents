@@ -4,6 +4,7 @@
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<xsl:import href="wc.common.required.xsl"/>
 	<xsl:import href="wc.common.checkableSelect.n.checkableSelectOptionLabel.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 
 	<!--
 		This template transforms the content of an option to a list item and the
@@ -54,6 +55,7 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:element name="{$elementName}">
+			<xsl:call-template name="makeCommonClass"/>
 			<xsl:choose>
 				<xsl:when test="$readOnly=1">
 					<xsl:call-template name="checkableSelectOptionLabel"/>
@@ -78,7 +80,7 @@
 							</xsl:attribute>
 						</xsl:if>
 						<xsl:if test="@isNull and $optionType='radio'">
-							<xsl:attribute name="${wc.common.attribute.optionIsNull}">
+							<xsl:attribute name="data-wc-null">
 								<xsl:text>1</xsl:text>
 							</xsl:attribute>
 						</xsl:if>

@@ -3,9 +3,9 @@
 		Outputs an A element linking to a source file.
 	-->
 	<xsl:template match="ui:src" mode="link">
-		<a href="{@uri}" class="wc-src">
-			<xsl:attribute name="${wc.common.attrib.attach}">
-				<xsl:text>${wc.common.attrib.attach}</xsl:text>
+		<a href="{@uri}" class="wc-src wc-icon">
+			<xsl:attribute name="data-wc-attach">
+				<xsl:text>data-wc-attach</xsl:text>
 			</xsl:attribute>
 			<xsl:if test="@type">
 				<xsl:attribute name="title">

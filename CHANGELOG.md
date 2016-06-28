@@ -9,12 +9,91 @@
   * Deprecated constructor `FlowLayout(Alignment, int, int, ContentAlignment)` in favour of
     `FlowLayout(Alignment, int, ContentAlignment)`.
   * Deprecated `getHGap()` and `getVGap()` in favour of `getGap()`.
+* ListLayout API modified as part of fixing #655. This was required to remove ambiguity from the API.
+  * Added convenience constructors to ListLayout:
+    * `ListLayout()`;
+    * `ListLayout(final Type type)`;
+    * `ListLayout(final boolean ordered)`; and
+    * `ListLayout(final Type type, final Alignment alignment)`.
+  * Added constructor `ListLayout(final Type type, final Alignment alignment, final Separator separator,
+    final boolean ordered, final int gap)`
+  * Deprecated constructor `ListLayout(final Type type, final Alignment alignment, final Separator separator,
+    final boolean ordered, final int hgap, final int vgap)` in favour of `ListLayout(final Type type,
+    final Alignment alignment, final Separator separator, final boolean ordered, final int gap)`.
+  * Deprecated `getHGap()` and `getVGap()` in favour of `getGap()`.
+* WList API modified as part of fixing #655. This was required to remove ambiguity from the API.
+  * Added constructor `WList(final Type type, final int gap)` and deprecated constructor `WList(final Type type,
+    final int hgap, final int vgap)` in favour of the new constructor.
+  * Deprecated `getHGap()` and `getVGap()` in favour of `getGap()`.
+* WTab updated `setMode(TabMode)` to set TabMode.DYNAMIC if the mode being set is TabMode.SERVER. This is required for
+  fixing a11y problems in TabMode.SERVER as per #692.
+* WCollapsible updated setMode(CollapsibleMode) to set CollapsibleMode.DYNAMIC if the mode being set is
+  CollapsibleMode.SERVER. This is required for fixing a11y problems in CollapsibleMode.SERVER as per #694.
+* WDialog.isResizeable will always return true as part of fixing #606
+* WAjaxControl: deprecated set/getLoadCount. In future use set/isLoadOnce. Required for #495.
+* WDataTable PaginationMode.SERVER remapped to PaginationMode.DYNAMIC (has been enforced in client for over 2 years);
+  removed submitOnRowSelect (never supported in client); SortMode.SERVER mapped to SortMode.DYNAMIC;
+  ExpansionMode.SERVER mapped to ExpansionMode.DYNAMIC. These were all required as part of #701.
+* Removed support for unencoded options in WCheckBoxSelect, WDropdown, WMultiDropdown, WMultiSelectPair, WMultiSelect,
+  WRadioButtonSelect and WSingleSelect. In all cases except WCheckBoxSelect using unencoded text could result in
+  catastrophic failure as these must not contain HTML. Method `getDescEncode()` has been deprecated, made final and
+  will always return true; method `setDescEncode(boolean)` has been deprecated, made final and is now a no-op.
 
 ## Bug Fixes
+* Fixed bug which could result in messages causing XML validation failure #707.
+* Fixed issue which caused WTextarea to not include changes in AJAX posts when in rich-text mode #700.
+* Fixed accessibility problems in WDataTable #701.
+* WAjaxControl addressed API errors #495
+* Added HTML sanitizer and character entity unescaoer #620.
+* Fixed accessibility problems in WDialog #606.
+* Fixed accessibility problems in WCollapsible #692.
+* Fixed accessibility problems in WTabSet #692.
+* Fixed a bug which prevented themes overriding font sizes and gaps in any unit other than rems #685.
+* Ensure missing label warning is in viewport #681.
+* Various table bugs fixed #666, #667, #670.
+* Removed flash on page load in slower browsers #664.
+* Ensure WDialog is not opened larger than viewport #663
 * FlowLayoutRenderer output the hgap or vgap relevant to the Alignment #636.
+* ListLayoutRenderer output the hgap or vgap relevant to the Alignment #655.
+* WSubMenu MenuMode.SERVER is internally mapped to MenuMode.DYNAMIC #687.
+* WButtonRenderer and WLinkRenderer updated to look for WImage description as fall-back if no text equivalent is set
+  #650.
+* Fixed GridLayout cell alignment on small screens #652.
 
 ## Enhancements
+* Reversed the date input polyfill used by WDateField. Previously we created all of the UI artefacts needed to support
+  the polyfill and removed them if the browser supported native date inputs. This has been reversed to output a wrapper
+  and input in XSLT and add the other artefacts if native date inputs are not supported. This significantly improves
+  the use of WDateField on mobile devices and removes a flicker caused by removing elements. In some cases the calendar
+  launch button was seen to persist in the view after being removed from the component. THis change also fixes that
+  artefaction issue. #698.
+* Made layout responsive design opt-in to prevent issues with unwanted collapsing columns and grids #682. To make a
+  WRow (and its WColumns), or WPanel with either ColumnLayout or GridLayout invoke the default responsive design use
+  `setHtmlClass(HtmlClassUtil.htmlClassName.RESPOND)`.
+* Added utility class `com.github.bordertech.wcomponents.util.HtmlClassUtil` which provides an enum of HTML class
+  attribute values which may be used in `setHtmlClass`. Part of #682.
+* Added new boolean property `sanitizeOnOutput` to WComponents which can output unencoded HTML (WText, WTextArea,
+  WLabel). This defaults to false. If set true then the content of the component will be run through the HTML
+  sanitizer using the lax policy. This is a necessary extension of #620.
+* New utility class `com.github.bordertech.wcomponents.util.HtmlSanitizer` which can be used to sanitize HTML input
+  (as shown in WTextArea). Needed for #620.
+  * method `sanitize(String)` sanitizes using a strict policy.
+  * method `sanitize(String, boolean)` sanitizes using an optional lax policy.
+  * Policy definition files may be overridden using properties.
+* New utility class `com.github.bordertech.wcomponents.util.StringEscapeHTMLToXML` which extends apache-commons lang3
+  StringEscapeUtils. It adds exactly one (static) method `unescapeToXML(String)` which will convert HTML character
+  entities to their unicode characters but will not unescape the five basic XML character entities. Very handy for
+  converting HTML to valid XML! Needed for #620.
+* Added a default margin style for p elements. This was added during testing of the fix for #620 to improve consistency
+  of output.
+* WTextArea in rich text mode will now honour this mode when read-only. Added as part of #620.
+* WText, when encoding is off, will correctly handle HTML entities which are not XML entities. Added as part of #620.
+* Enhanced separation of labels and inputs to improve a11y #683.
+* Some responsive design improvements #671, #656.
+* Updated the transform of WTab to allow rich content in the tab "button" #669.
 * Re-implemented basic support for theme-level inclusion of web analytics #398.
+* Updated Margin output in line with hgap/vgap to improve responsiveness and improve style guide compliance
+  enforceability.
 
 # Release 1.1.8
 ## Bug fixes

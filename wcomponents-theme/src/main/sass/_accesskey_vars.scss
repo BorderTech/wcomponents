@@ -1,10 +1,5 @@
 // variables used in accessKey indicators
 @import 'mixins-common';
-$wc-ui-color-tooltip-fg: $wc-ui-color-highlight-fg !default;
-$wc-ui-color-tooltip-bg: $wc-ui-color-highlight-bg !default;
-
-// Border color is needed for the callout triangles.
-$wc-ui-color-tooltip-border: $wc-ui-color-border !default;
 
 @mixin accesskey-border {
 	@include border($color: $wc-ui-color-tooltip-border);

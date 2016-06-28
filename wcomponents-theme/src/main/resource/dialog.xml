@@ -10,6 +10,6 @@
 	{{message.loading}}
 </div>
 <${wc.dom.html5.element.footer}>
-<button class="wc_btn_nada wc_resize" data-wc-resize="wc_dlgid" type="button">&#x2002;</button>
+<button class="wc-nobutton wc_resize wc-icon" data-wc-resize="wc_dlgid" type="button">&#x2002;</button>
 </${wc.dom.html5.element.footer}>
 </${wc.dom.html5.element.dialog}>

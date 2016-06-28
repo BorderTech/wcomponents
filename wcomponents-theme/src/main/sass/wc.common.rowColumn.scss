@@ -1,41 +1,36 @@
 /* wc.ui.row.scss */
 @import 'mixins-common';
 
+
 .wc-row {
 	@include flex;
-
-	.wc_chkgrp & {
-		@include flex-justify-content(space-between);
-	}
 }
 
 .wc-column {
 	@include border-box;
-	display: inline-block; // with implied width auto
 }
 
-@include respond-phonelike {
-	.wc-row {
-		display: block;
-	}
-
-	.wc-column {
-		display: block;
-		// width is set inline for WColumn and ColumnLayout. Important to override this inline css.
-		// TODO: Fix this at least for common widths as per WFieldLayout.
-		// scss-lint:disable ImportantRule
-		width: 100% !important;
-
-		+ .wc-column {
-			margin-top: $wc-gap-small;
-		}
-
-		&,
-		.wc_hgap_sm > &, // see wc.common.hvgap.scss
-		.wc_hgap_med > &,
-		.wc_hgap_lg > & {
-			padding-left: 0;
-			padding-right: 0;
-		}
+@for $i from 2 through 100 {
+	.wc_col_#{$i} {
+		width: percentage($i / 100);
 	}
 }
+
+// Alternative for less CSS if we only want to support some column widths.
+// $supported-column-widths:  16, 33, 34, 66, 67, 83 !default;
+//
+// @for $i from 1 through 20 {
+// 	$w: $i * 5;
+//
+// 	.wc_col_#{$w} {
+// 		width: percentage($w / 100);
+// 	}
+// }
+//
+// @each $w in $supported-column-widths {
+// 	.wc_col_#{$w} {
+// 		width: percentage($w / 100);
+// 	}
+// }
+
+@import 'rowColumn.respond';

@@ -2,12 +2,10 @@
 @import 'mixins-common';
 
 legend {
+	font-weight: bold;
+
 	.wc_noborder > & {
 		padding-left: 0;
-	}
-
-	.wc_notext > & {
-		@include offscreen();
 	}
 
 	.wc_req > &:before {

@@ -24,8 +24,8 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 	 */
 	public enum CollapsibleMode {
 		/**
-		 * Indicates that expanding/collapsing involves a round-trip to the server. The collapsible content will be
-		 * rendered only when the collapsible is open.
+		 * Synonym of CollapsibleMode.DYNAMIC. Mapped to CollapsibleMode.DYNAMIC in order to prevent an a11y issue as
+		 * per <a href="https://github.com/BorderTech/wcomponents/issues/694">#694</a>.
 		 *
 		 * @deprecated Use CollapsibleMode DYNAMIC instead as a like-for-like replacement or any other mode if it is
 		 * more appropriate to the individual use case.
@@ -130,7 +130,8 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 	public WCollapsible(final WComponent content, final WDecoratedLabel label,
 			final CollapsibleMode mode,
 			final CollapsibleGroup group) {
-		getComponentModel().mode = mode;
+		// see https://github.com/BorderTech/wcomponents/issues/694
+		getComponentModel().mode = CollapsibleMode.SERVER.equals(mode) ? CollapsibleMode.DYNAMIC : mode;
 		this.content = content;
 		this.label = label;
 		add(label);
@@ -149,12 +150,13 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 	}
 
 	/**
-	 * Sets this WCollapsible's mode of operation.
+	 * Sets this WCollapsible's mode of operation. CollapsibleMode.SERVER is mapped to CollapsibleMode.DYNAMIC in order
+	 * to prevent an a11y issue as per <a href="https://github.com/BorderTech/wcomponents/issues/694">#694</a>.
 	 *
 	 * @param mode the mode of operation.
 	 */
 	public void setMode(final CollapsibleMode mode) {
-		getOrCreateComponentModel().mode = mode;
+		getOrCreateComponentModel().mode = CollapsibleMode.SERVER.equals(mode) ? CollapsibleMode.DYNAMIC : mode;
 	}
 
 	/**

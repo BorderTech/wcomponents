@@ -61,12 +61,12 @@
 			<xsl:choose>
 				<xsl:when test="$readOnly!=1">
 					<xsl:if test="@min">
-						<xsl:attribute name="${wc.common.attrib.min}">
+						<xsl:attribute name="data-wc-min">
 							<xsl:value-of select="@min"/>
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:if test="@max">
-						<xsl:attribute name="${wc.common.attrib.max}">
+						<xsl:attribute name="data-wc-max">
 							<xsl:value-of select="@max"/>
 						</xsl:attribute>
 					</xsl:if>
@@ -140,8 +140,13 @@
 						<xsl:apply-templates mode="multiselectPair"/>
 					</select>
 					<xsl:call-template name="hField"/>
+					
+					<xsl:call-template name="inlineError">
+						<xsl:with-param name="errors" select="$isError"/>
+					</xsl:call-template>
 				</xsl:when>
 				<xsl:when test="count(.//ui:option[@selected]) &gt; 0">
+					<xsl:call-template name="title"/>
 					<ul class="wc_list_nb">
 						<xsl:apply-templates select="ui:option[@selected]|ui:optgroup[ui:option[@selected]]" mode="multiselectPair">
 							<xsl:with-param name="readOnly" select="1"/>
@@ -150,11 +155,6 @@
 					</ul>
 				</xsl:when>
 			</xsl:choose>
-			<xsl:if test="$readOnly!=1">
-				<xsl:call-template name="inlineError">
-					<xsl:with-param name="errors" select="$isError"/>
-				</xsl:call-template>
-			</xsl:if>
 		</xsl:element>
 	</xsl:template>
 </xsl:stylesheet>

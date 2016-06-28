@@ -35,15 +35,15 @@
 		<xsl:param name="errors"/>
 		<xsl:param name="id" select="@id"/>
 		<xsl:if test="$errors">
-			<xsl:element name="ul">
+			<ul>
 				<xsl:attribute name="class">
-					<xsl:text>error</xsl:text>
+					<xsl:text>wc-fieldindicator wc-fieldindicator-type-error wc_list_nb</xsl:text>
 				</xsl:attribute>
 				<xsl:attribute name="id">
 					<xsl:value-of select="concat($id,'_err')"/>
 				</xsl:attribute>
 				<xsl:apply-templates select="$errors" mode="inline"/>
-			</xsl:element>
+			</ul>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

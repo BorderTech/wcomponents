@@ -1,0 +1,15 @@
+/* wc.common.collapsibleToggleIcons.scss */
+// Common for WCollapsoibleToggle and WTable's RowExpansion's expandAll.
+
+@import 'mixins-common';
+
+.wc_coltog {
+	button:before {
+		@include margin($pos: right);
+		content: $fa-var-plus-square-o;
+	}
+
+	[data-wc-value='collapse']:before {
+		content: $fa-var-minus-square-o;
+	}
+}

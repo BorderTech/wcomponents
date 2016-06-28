@@ -328,19 +328,10 @@ define(["wc/has", "wc/ajax/ajax", "wc/xml/xmlString", "wc/xml/xpath", "wc/array/
 							promises.push(promise);
 							// result.xsl = ajax.loadXmlDoc(result.xsl);
 						}
-						else if ((result.uri = $this.getXslUrl())) {
-							if ("${wc.xml.xslTransform.allowCache}") {
-								if (!(result.xsl = xslFileCache[result.uri])) {
-									promise = loadXml(result.uri);
-									promises.push(promise.then(store(result, "xsl")));
-									promises.push(promise.then(store(xslFileCache, result.uri)));
-								}
-							}
-							else {
-								console.log("xsl from default xsl url");
-								promise = loadXml(result.uri).then(store(result, "xsl"));
-								promises.push(promise);
-							}
+						else if ((result.uri = $this.getXslUrl()) && !(result.xsl = xslFileCache[result.uri])) {
+							promise = loadXml(result.uri);
+							promises.push(promise.then(store(result, "xsl")));
+							promises.push(promise.then(store(xslFileCache, result.uri)));
 						}
 					}
 					else {

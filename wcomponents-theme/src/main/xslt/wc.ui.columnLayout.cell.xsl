@@ -1,4 +1,6 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.column.xsl"/>
 	<xsl:import href="wc.common.getHVGap.xsl"/>
 	<!--
@@ -24,6 +26,9 @@
 				<xsl:call-template name="getHVGapClass">
 					<xsl:with-param name="gap" select="../@hgap"/>
 				</xsl:call-template>
+				<xsl:if test="contains(ancestor::ui:panel[1]/@class, 'wc-respond')">
+					<xsl:text> wc-respond</xsl:text>
+				</xsl:if>
 			</xsl:attribute>
 			<xsl:call-template name="column">
 				<xsl:with-param name="align" select="$align"/>

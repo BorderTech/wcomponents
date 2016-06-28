@@ -12,6 +12,9 @@
 			<xsl:when test="$value!='' or @hint">
 				<xsl:value-of select="normalize-space(concat($value,' ',@hint))"/>
 			</xsl:when>
+			<xsl:when test="@accessibleText">
+				<xsl:value-of select="@accessibleText"/>
+			</xsl:when>
 			<xsl:when test="@toolTip">
 				<xsl:value-of select="@toolTip"/>
 			</xsl:when>

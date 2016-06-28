@@ -53,7 +53,6 @@
 				</xsl:if>
 			</xsl:if>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
-			<xsl:apply-templates select="ui:margin"/>
 			<xsl:if test="*[not(self::ui:margin)]/node() or not(@mode='eager')">
 				<!-- WPanelVisiblePanelTitle template outputs a visible title, not a title attribute -->
 				<xsl:call-template name="WPanelVisiblePanelTitle"/>

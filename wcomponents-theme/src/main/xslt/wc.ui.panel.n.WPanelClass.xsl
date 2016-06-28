@@ -6,9 +6,6 @@
 		<xsl:param name="type" />
 		<xsl:call-template name="commonClassHelper">
 			<xsl:with-param name="additional">
-				<xsl:if test="$type and $type != ''">
-					<xsl:value-of select="concat(' wc_pnl_', $type)" />
-				</xsl:if>
 				<xsl:choose>
 					<xsl:when test="(@mode='lazy' and @hidden)"><xsl:text> wc_magic</xsl:text></xsl:when>
 					<xsl:when test="@mode='dynamic'"><xsl:text> wc_magic wc_dynamic</xsl:text></xsl:when>

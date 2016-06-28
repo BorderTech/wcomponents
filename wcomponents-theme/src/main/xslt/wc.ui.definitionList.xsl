@@ -15,12 +15,6 @@
 				<xsl:with-param name="live" select="'off'"/>
 				<xsl:with-param name="isWrapper" select="1"/>
 			</xsl:call-template>
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
-					<xsl:value-of select="@type"/>
-				</xsl:with-param>
-			</xsl:call-template>
-			<xsl:apply-templates select="ui:margin"/>
 			<xsl:apply-templates select="ui:term"/>
 		</dl>
 	</xsl:template>

@@ -21,7 +21,6 @@ public class WAjaxControl_Test extends AbstractWComponentTestCase {
 
 		Assert.assertSame("Incorrect trigger", trigger, control.getTrigger());
 		Assert.assertFalse("Should not be load once", control.isLoadOnce());
-		Assert.assertEquals("Load count should not be set", -1, control.getLoadCount());
 		Assert.assertTrue("Targets should be empty", control.getTargets().isEmpty());
 		Assert.assertEquals("Delay should not be set", 0, control.getDelay());
 	}
@@ -34,7 +33,6 @@ public class WAjaxControl_Test extends AbstractWComponentTestCase {
 
 		Assert.assertSame("Incorrect trigger", trigger, control.getTrigger());
 		Assert.assertFalse("Should not be load once", control.isLoadOnce());
-		Assert.assertEquals("Load count should not be set", -1, control.getLoadCount());
 		Assert.assertEquals("Delay should not be set", 0, control.getDelay());
 		Assert.assertEquals("Incorrect target", Arrays.asList(target), control.getTargets());
 	}
@@ -47,7 +45,6 @@ public class WAjaxControl_Test extends AbstractWComponentTestCase {
 
 		Assert.assertSame("Incorrect trigger", trigger, control.getTrigger());
 		Assert.assertFalse("Should not be load once", control.isLoadOnce());
-		Assert.assertEquals("Load count should not be set", -1, control.getLoadCount());
 		Assert.assertEquals("Delay should not be set", 0, control.getDelay());
 		Assert.assertEquals("Incorrect targets list", Arrays.asList(targets), control.getTargets());
 		Assert.assertTrue("Incorrect targets array", Arrays.equals(targets, control.
@@ -62,7 +59,6 @@ public class WAjaxControl_Test extends AbstractWComponentTestCase {
 
 		Assert.assertSame("Incorrect trigger", trigger, control.getTrigger());
 		Assert.assertFalse("Should not be load once", control.isLoadOnce());
-		Assert.assertEquals("Load count should not be set", -1, control.getLoadCount());
 		Assert.assertEquals("Delay should not be set", 0, control.getDelay());
 		Assert.assertEquals("Incorrect targets", targets, control.getTargets());
 	}
@@ -71,15 +67,6 @@ public class WAjaxControl_Test extends AbstractWComponentTestCase {
 	public void testLoadOnceAccessors() {
 		WAjaxControl control = new WAjaxControl(new WButton());
 		assertAccessorsCorrect(control, "loadOnce", Boolean.FALSE, Boolean.TRUE, Boolean.FALSE);
-
-		control.setLoadCount(0);
-		Assert.assertFalse(control.isLoadOnce());
-
-		control.setLoadCount(1);
-		Assert.assertTrue(control.isLoadOnce());
-
-		control.setLoadCount(2);
-		Assert.assertFalse(control.isLoadOnce());
 	}
 
 	@Test
@@ -162,14 +149,24 @@ public class WAjaxControl_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
-	public void testLoadCountAccessors() {
-		WAjaxControl control = new WAjaxControl(new WCheckBox());
-		assertAccessorsCorrect(control, "loadCount", -1, 1, 2);
-	}
-
-	@Test
 	public void testDelayAccessors() {
 		WAjaxControl control = new WAjaxControl(new WCheckBox());
 		assertAccessorsCorrect(control, "delay", 0, 1, 2);
+	}
+
+	// This tests that the old setLoadCount method correctly sets loadOnce.
+	@Test
+	public void testLoadOnceFromDeprecatedLoadCount() {
+		WAjaxControl control = new WAjaxControl(new WCheckBox());
+		Assert.assertFalse(control.isLoadOnce()); // default is false.
+
+		control.setLoadCount(1);
+		Assert.assertTrue(control.isLoadOnce());
+
+		control.setLoadCount(0);
+		Assert.assertFalse(control.isLoadOnce());
+
+		control.setLoadCount(2);
+		Assert.assertTrue(control.isLoadOnce());
 	}
 }

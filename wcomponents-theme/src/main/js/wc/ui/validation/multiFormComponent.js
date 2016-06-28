@@ -61,7 +61,7 @@ define(["wc/dom/attribute",
 			function selectValidOptionFilter(select) {
 				var result = select.selectedIndex > -1;
 				if (result) {
-					result = !select.options[select.selectedIndex].hasAttribute("${wc.common.attribute.optionIsNull}");
+					result = !select.options[select.selectedIndex].hasAttribute("data-wc-null");
 				}
 				return result;
 			}
@@ -77,8 +77,8 @@ define(["wc/dom/attribute",
 			 */
 			function filter(next) {
 				// added parseInt because for a while these values were being compared to non-numeric objects
-				var min = window.parseInt(next.getAttribute("${wc.common.attrib.min}")),
-					max = window.parseInt(next.getAttribute("${wc.common.attrib.max}")),
+				var min = window.parseInt(next.getAttribute("data-wc-min")),
+					max = window.parseInt(next.getAttribute("data-wc-max")),
 					underFlag = "${validation.core.i18n.selectableUnderMin}",
 					overFlag = "${validation.core.i18n.selectableOverMax}",
 					isInvalid = false,

@@ -16,8 +16,6 @@
 		NOTE: ANCESTOR TABSET
 		WTab does not implement AjaxTarget therefore the ui:tab can never be an ajax target. Therefore we can
 		always rely on finding a tabset ancestor.
-		
-		
 	-->
 	<xsl:template match="ui:tab">
 		<xsl:param name="tabset"/>
@@ -42,7 +40,7 @@
 			</xsl:choose>
 		</xsl:variable>
 
-		<button id="{@id}" role="tab" aria-controls="{ui:tabcontent/@id}" type="button">
+		<div id="{@id}" role="tab" aria-controls="{ui:tabcontent/@id}">
 			<xsl:attribute name="{$expandSelectAttrib}">
 				<xsl:choose>
 					<xsl:when test="@open">
@@ -53,19 +51,22 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
-			
 			<!--
 				We set tabindex -1 on closed tabs only if there is at least one tab open and not disabled.
 			-->
-			<xsl:if test="$numAvailTabs &gt; 0 and not(@open)">
-				<xsl:attribute name="tabindex">
-					<xsl:text>-1</xsl:text>
-				</xsl:attribute>
-			</xsl:if>
-
+			<xsl:attribute name="tabindex">
+				<xsl:choose>
+					<xsl:when test="($numAvailTabs &gt; 0 and not(@open)) or @disabled">
+						<xsl:text>-1</xsl:text>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:text>0</xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:attribute>
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
-					<xsl:text>wc_btn_nada wc_invite</xsl:text>
+					<xsl:text>wc-invite</xsl:text>
 				</xsl:with-param>
 			</xsl:call-template>
 
@@ -75,8 +76,8 @@
 				This is cheaper than calling template disabledElement for the tab, the tabGroup and the tabset in turn
 			-->
 			<xsl:if test="$isDisabled=1">
-				<xsl:attribute name="disabled">
-					<xsl:text>disabled</xsl:text>
+				<xsl:attribute name="aria-disabled">
+					<xsl:text>true</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
 
@@ -86,8 +87,10 @@
 			</xsl:if>
 
 			<xsl:call-template name="accessKey"/>
-			<xsl:apply-templates select="ui:decoratedlabel"/>
-		</button>
+			<xsl:apply-templates select="ui:decoratedlabel">
+				<xsl:with-param name="output" select="'span'"/>
+			</xsl:apply-templates>
+		</div>
 		<xsl:if test="$type='accordion'">
 			<xsl:apply-templates select="ui:tabcontent">
 				<xsl:with-param name="tabset" select="$tabset"/>

@@ -16,6 +16,7 @@
  * @requires module:wc/dom/Widget
  * @requires module:wc/dom/isAcceptableTarget
  * @requires module:wc/dom/shed
+ * @requires module:wc/dom/getFilteredGroup
  */
 define(["wc/dom/ariaAnalog",
 		"wc/dom/initialise",
@@ -200,7 +201,7 @@ define(["wc/dom/ariaAnalog",
 			 */
 			this.clickEvent = function($event) {
 				var target = $event.target, element;
-				if (!$event.defaultPrevented && (element = this.getActivableFromTarget(target)) && !shed.isDisabled(element)) {
+				if (!$event.defaultPrevented && (element = this.getActivableFromTarget(target))) {
 					if (isAcceptable(element, target)) {
 						this.activate(element, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
 					}

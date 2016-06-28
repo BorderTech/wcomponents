@@ -37,7 +37,6 @@ final class WDialogRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("track", component.isTracking(), "true");
 			xml.appendOptionalAttribute("width", width > 0, width);
 			xml.appendOptionalAttribute("height", height > 0, height);
-			xml.appendOptionalAttribute("resizable", dialog.isResizable(), "true");
 			xml.appendOptionalAttribute("modal", dialog.getMode() == WDialog.MODAL, "true");
 			xml.appendOptionalAttribute("open", dialog.getState() == WDialog.ACTIVE_STATE, "true");
 			xml.appendOptionalAttribute("title", title);

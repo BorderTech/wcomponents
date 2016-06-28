@@ -1,4 +1,6 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.ui.fileUpload.file.n.fileInput.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
@@ -77,22 +79,26 @@
 					<xsl:attribute name="data-wc-cols">
 						<xsl:value-of select="$cols"/>
 					</xsl:attribute>
-					<xsl:if test="$readOnly!=1">
-						<xsl:call-template name="makeLegend">
-							<xsl:with-param name="myLabel" select="$myLabel"/>
-						</xsl:call-template>
-
-						<xsl:variable name="inputId" select="concat($id,'_input')"/>
-						<label class="wc_off" for="{$inputId}">
-							<xsl:value-of select="$$${wc.ui.multiFileUploader.i18n.inputLabel}"/>
-						</label>
-						<xsl:call-template name="fileInput">
-							<xsl:with-param name="id" select="$inputId"/>
-						</xsl:call-template>
-						<xsl:call-template name="inlineError">
-							<xsl:with-param name="errors" select="$isError"/>
-						</xsl:call-template>
-					</xsl:if>
+					<xsl:choose>
+						<xsl:when test="$readOnly = 1">
+							<xsl:call-template name="title"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:call-template name="makeLegend">
+								<xsl:with-param name="myLabel" select="$myLabel"/>
+							</xsl:call-template>
+							<xsl:variable name="inputId" select="concat($id,'_input')"/>
+							<label class="wc-off" for="{$inputId}">
+								<xsl:value-of select="$$${wc.ui.multiFileUploader.i18n.inputLabel}"/>
+							</label>
+							<xsl:call-template name="fileInput">
+								<xsl:with-param name="id" select="$inputId"/>
+							</xsl:call-template>
+							<xsl:call-template name="inlineError">
+								<xsl:with-param name="errors" select="$isError"/>
+							</xsl:call-template>
+						</xsl:otherwise>
+					</xsl:choose>
 					<xsl:if test="ui:file">
 						<xsl:variable name="numFiles" select="count(ui:file)"/>
 						<xsl:choose>
@@ -116,9 +122,9 @@
 							<xsl:otherwise>
 								<ul>
 									<xsl:attribute name="class">
-										<xsl:text>wwc_list_nb wc_filelist</xsl:text>
+										<xsl:text>wc_list_nb wc_filelist</xsl:text>
 										<xsl:if test="$cols = 0">
-											<xsl:text> wc_list_flat</xsl:text>
+											<xsl:text> wc-listlayout-type-flat</xsl:text>
 										</xsl:if>
 									</xsl:attribute>
 									<xsl:apply-templates select="ui:file"/>

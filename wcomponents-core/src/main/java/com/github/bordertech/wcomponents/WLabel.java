@@ -1,8 +1,12 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.HtmlSanitizerUtil;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import java.io.Serializable;
 import java.text.MessageFormat;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.owasp.validator.html.PolicyException;
+import org.owasp.validator.html.ScanException;
 
 /**
  * <p>
@@ -84,7 +88,16 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	 * @return the label text.
 	 */
 	public String getText() {
-		return I18nUtilities.format(null, getComponentModel().text);
+		String text = I18nUtilities.format(null, getComponentModel().text);
+		if (!isEncodeText() && isSanitizeOnOutput()) {
+			try {
+				return HtmlSanitizerUtil.sanitize(text, true);
+			} catch (ScanException | PolicyException e) {
+				// if cannot sanitize assume bad and escape everything.
+				return StringEscapeUtils.escapeXml10(text);
+			}
+		}
+		return text;
 	}
 
 	/**
@@ -226,6 +239,22 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 		return toString(text, 1, 1);
 	}
 
+	/**
+	 * Pass true if you need to run the HTML sanitizer on <em>any</em> output. This is only needed if the text is
+	 * not encoded as other cases the output will be XML encoded.
+	 * @param sanitize true if output sanitization is required.
+	 */
+	public void setSanitizeOnOutput(final boolean sanitize) {
+		getOrCreateComponentModel().sanitizeOnOutput = sanitize;
+	}
+
+	/**
+	 * @return true if this text area is to be sanitized on output.
+	 */
+	public boolean isSanitizeOnOutput() {
+		return getComponentModel().sanitizeOnOutput;
+	}
+
 	// --------------------------------
 	// Extrinsic state management
 	/**
@@ -278,5 +307,11 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 		 * The key shortcut that activates the label's <code>forComponent</code>.
 		 */
 		private char accessKey = '\0';
+
+		/**
+		 * Indicates if the label should be HTML sanitized. This only needs to be true if the content is HTML
+		 * <strong>and</strong> of unknown provenance.
+		 */
+		private boolean sanitizeOnOutput;
 	}
 }

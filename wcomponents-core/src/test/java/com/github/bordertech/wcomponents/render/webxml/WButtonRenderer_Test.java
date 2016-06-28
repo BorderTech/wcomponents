@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WButton.ImagePosition;
 import com.github.bordertech.wcomponents.WContainer;
+import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.util.SystemException;
@@ -19,7 +20,7 @@ import org.xml.sax.SAXException;
 /**
  * Junit test case for {@link WButtonRenderer}.
  *
- * @author Jonathan Austin
+ * @author Jonathan Austin, Mark Reeves
  * @since 1.0.0
  */
 public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
@@ -123,5 +124,14 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		button.setAccessibleText(getMaliciousAttribute("ui:button"));
 		assertSafeContent(button);
+	}
+
+	@Test
+	public void testButtonImageToolTipRender() throws IOException, SAXException, XpathException {
+		WButton button = new WButton();
+		String expected = "alt text";
+		WImage buttonImage = new WImage("http://localhost/image.png", expected);
+		button.setImage(buttonImage.getImage());
+		assertXpathEvaluatesTo(expected, "//ui:button/@toolTip", button);
 	}
 }

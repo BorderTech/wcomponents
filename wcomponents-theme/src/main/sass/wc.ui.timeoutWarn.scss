@@ -10,10 +10,10 @@
 	max-width: 100%;
 	position: fixed;
 	right: 0;
-	z-index: $z-index-unloading-message; // z-index needs to be above dialogs, unloading shims etc
+	z-index: $wc-z-index-unloading-message; // z-index needs to be above dialogs, unloading shims etc
 
 	ul {
 		list-style-type: none;
-		padding-left: $wc-gap-small; 
+		padding-left: $wc-gap-small;
 	}
 }

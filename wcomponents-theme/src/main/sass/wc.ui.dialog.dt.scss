@@ -1,9 +1,11 @@
 /* wc.ui.dialog.dt.scss */
-@import 'dialog_vars';
+@import 'mixins-common';
+
 
 @include respond-not-small {
 	dialog {
 		left: auto;
+		max-height: 100%;
 		max-width: 100%;
 		min-height: $wc-ui-dialog-min-height;
 		min-width: $wc-ui-dialog-min-width;
@@ -20,6 +22,7 @@
 		> footer {
 			display: block;
 			line-height: 0;
+			padding: 0;
 			text-align: right;
 		}
 
@@ -29,7 +32,7 @@
 	}
 }
 
-// This is only here to make iPads work with the dialogFrame animations.
+// This is only here to make iPads work with the dialogFrame animations (i.e. not work at all).
 @media only screen and (min-width: 1025px) {
 	.wc_resizeflow { // keyboard and resize event initiated drag and resize animation
 		transition-delay: $wc-ui-dialog-transition-delay;

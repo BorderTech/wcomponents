@@ -2,6 +2,6 @@
 @import 'mixins-common';
 
 .wc-column {
-	@include border-box;
+	display: inline-block; // with implied width auto
 	vertical-align: top;
 }

@@ -68,13 +68,14 @@ define(["wc/has",
 		function DateInput() {
 			var parsers,  // this will store the Parser instances when first needed
 				formatter,
-				isNative = has("native-dateinput"),
-				BOOTSTRAPPED = "wc/ui/dateField_bootstrapped",
-				DATE_FIELD = new Widget("div", "wc-datefield"),
-				DATE_FIELD_RO = new Widget("", "wc_datero"),
-				DATE = new Widget("input", "", {"type": "date"}),
-				DATE_PARTIAL = new Widget("input", "", {"type": "text"}),
-				DATE_INPUTS = [DATE, DATE_PARTIAL],
+				FIELD_CLASS = "wc-datefield",
+				hasNative = has("native-dateinput"),
+				BOOTSTRAPPED = "wc.ui.dateField_bootstrapped",
+				DATE_FIELD = new Widget("div", FIELD_CLASS), // note div for editable.
+				DATE_FIELD_RO = new Widget("", [FIELD_CLASS, "wc_ro"]),
+				INPUT = new Widget("input"),
+				DATE = INPUT.extend("", {"type": "date"}),
+				DATE_PARTIAL = INPUT.extend("", {"type": "text"}),
 				SUGGESTION_LIST = new Widget("ul", "", {"role": "listbox"}),
 				OPTION_WD,
 				VALUE_ATTRIB = "data-wc-value",
@@ -85,6 +86,7 @@ define(["wc/has",
 				openDateCombo = "",  // {string} the id of the currently open date field (if any)
 				IETimeout = (has("ie") === 8) ? 50 : 0;  // IE cannot update itself fast enough to focus a newly opened list
 
+			INPUT.descendFrom(DATE_FIELD, true);
 			DATE.descendFrom(DATE_FIELD, true);
 			DATE_PARTIAL.descendFrom(DATE_FIELD, true);
 			SUGGESTION_LIST.descendFrom(DATE_FIELD, true);
@@ -122,49 +124,59 @@ define(["wc/has",
 				return result;
 			}
 
+			function isPartial(dateField) {
+				return DATE_FIELD.isOneOfMe(dateField) && !DATE.findDescendant(dateField);
+			}
+
 			/**
-			 * Set native value and remove elements and attributes from the date field wrapper not needed by native
-			 * date input controls.
-			 * @function
-			 * @private
-			 * @param {Element} element The WDateField to clean up.
+			 * Polyfill for input type date.
+			 * @param {Element} element the WDateField wrapper.
 			 */
-			function cleanUpNative(element) {
-				var childEl, value;
+			function fixLameDateField(element) {
+				var childEl,
+					value,
+					launcherHtml,
+					id;
 				childEl = instance.getTextBox(element);
 				if (!childEl) {
 					return;
 				}
-				if ((value = element.getAttribute("data-wc-value"))) {
-					childEl.value = value;
+
+				id = element.id;
+				if ((value = element.getAttribute(VALUE_ATTRIB))) {
 					if (document.activeElement === childEl) {
-						startVal[element.id] = value;
+						startVal[id] = value;
 						onchangeSubmit.ignoreNextChange();
 						ajaxRegion.ignoreNextChange();
 					}
 				}
-				element.removeAttribute("role");
-				element.removeAttribute("aria-expanded");
-				element.removeAttribute("aria-autocomplete");
-				element.removeAttribute("data-wc-value");
-				if (element.getAttribute("aria-required")) {
-					childEl.setAttribute("required", "required");
-					element.removeAttribute("aria-required");
+
+				// Add the calendar launch button.
+				if (!(LAUNCHER.findDescendant(element))) {
+					launcherHtml = "<button value='" + id + "_input' tabindex='-1' id='" + id +
+							"_cal' type='button' aria-haspopup='true' class='wc_wdf_cal wc_btn_icon wc-invite' " +
+							"title='" + i18n.get("${wc.ui.dateField.i18n.calendarLaunchButton}") + "'";
+					if (shed.isDisabled(childEl)) {
+						launcherHtml += " disabled='disabled'";
+					}
+					launcherHtml += "></button>";
+
+					element.insertAdjacentHTML("beforeend", launcherHtml);
 				}
-				if (element.getAttribute("aria-disabled")) {
-					childEl.setAttribute("disabled", "disabled");
-					element.removeAttribute("aria-disabled");
+				// Then add the suggestion list holder to make the combobox role valid.
+				if (!(getSuggestionList(element, -1))) {
+					element.insertAdjacentHTML("beforeend", "<ul role='listbox' aria-busy='true'></ul>");
 				}
-				childEl.removeAttribute("autocomplete");
-				if (!childEl.getAttribute("required")) {
-					childEl.removeAttribute("placeholder");
-				}
-				childEl.removeAttribute("aria-owns");
-				if ((childEl = getSuggestionList(element, -1))) {
-					childEl.parentElement.removeChild(childEl);
-				}
-				if ((childEl = LAUNCHER.findDescendant(element))) {
-					childEl.parentElement.removeChild(childEl);
+
+				element.setAttribute("role", "combobox");
+				element.setAttribute("aria-expanded", "false");
+				element.setAttribute("aria-autocomplete", "both");
+				childEl.setAttribute("autocomplete", "off");
+				childEl.setAttribute("aria-owns", id + "_cal");
+
+				// set the value of the input control.
+				if ((value = childEl.value)) {
+					instance.acceptFirstMatch(childEl);
 				}
 			}
 
@@ -259,7 +271,7 @@ define(["wc/has",
 			 * @returns {Boolean} true if the element is a date field's input element.
 			 */
 			function isDateInput(element) {
-				return Widget.isOneOfMe(element, DATE_INPUTS);
+				return INPUT.isOneOfMe(element);
 			}
 
 			/**
@@ -325,7 +337,7 @@ define(["wc/has",
 				for (i = 0; i < suggestions.length; i++) {
 					tabIndex = i === 0 ? "0" : "-1";
 					suggestions[i].attributes = suggestions[i].attributes || "";
-					suggestions[i].attributes += " role='option' class='wc_invite' " + VALUE_ATTRIB + "='" + suggestions[i].html + "' tabindex='" + tabIndex + "'";
+					suggestions[i].attributes += " role='option' class='wc-invite' " + VALUE_ATTRIB + "='" + suggestions[i].html + "' tabindex='" + tabIndex + "'";
 
 					html.push(tag.toTag(DATE_FIELD_TAGNAME, false, suggestions[i].attributes));
 					html.push(suggestions[i].html);
@@ -550,24 +562,39 @@ define(["wc/has",
 			 */
 			function setUpDateFields(container) {
 				var _container = container || document.body,
-					fields,
-					RO = [DATE_FIELD, DATE_FIELD_RO];
+					fields;
 
-				if (container && Widget.isOneOfMe(container, RO)) {
+				if (container && DATE_FIELD.isOneOfMe(container)) {
 					fields = [container];
 				}
 				else {
-					fields = Widget.findDescendants(_container, RO);
+					fields = DATE_FIELD.findDescendants(_container);
 				}
 
 				Array.prototype.forEach.call(fields, function(next) {
-					if (instance.isNativeInput(next)) {
-						cleanUpNative(next);
+					if (instance.isLameDateField(next)) {
+						fixLameDateField(next);
 					}
-					else {
+					else if (isPartial(next)) {
 						setInputValue(next);
 					}
+					else { // proper date inputs
+						next.removeAttribute(VALUE_ATTRIB);
+					}
 				});
+
+				// read only fields
+				if (container && DATE_FIELD_RO.isOneOfMe(container)) {
+					fields = [container];
+				}
+				else {
+					fields = DATE_FIELD_RO.findDescendants(_container);
+				}
+
+				Array.prototype.forEach.call(fields, function(next) {
+					setInputValue(next);
+				});
+
 				cancelUpdate.resetAllFormState();
 			}
 
@@ -665,17 +692,20 @@ define(["wc/has",
 			 * @param {Element} stateContainer The element into which the state fields are written.
 			 */
 			function writeState(form, stateContainer) {
-				var dateFields = DATE_FIELD.findDescendants(form), i, next, numVal, textBox;
+				var dateFields = DATE_FIELD.findDescendants(form),
+					i, next, numVal, textBox,
+					nameSuffix = "-date", name;
 				for (i = 0; i < dateFields.length; i++) {
 					next = dateFields[i];
+					name = next.id + nameSuffix;
 					if (!shed.isDisabled(next)) {
-						if (instance.isNativeInput(next)) {
+						if (instance.hasNativeInput(next)) {
 							if ((textBox = instance.getTextBox(next)) && textBox.value) {
-								formUpdateManager.writeStateField(stateContainer, next.getAttribute("data-wc-name"), textBox.value);
+								formUpdateManager.writeStateField(stateContainer, name, textBox.value);
 							}
 						}
 						else if ((numVal = instance.getValue(next))) {
-							formUpdateManager.writeStateField(stateContainer, next.getAttribute("data-wc-name"), numVal);
+							formUpdateManager.writeStateField(stateContainer, name, numVal);
 						}
 					}
 				}
@@ -693,7 +723,7 @@ define(["wc/has",
 				var element = $event.target,
 					dateField;
 
-				if (instance.isNativeInput(element, true)) {
+				if (instance.hasNativeInput(element, true)) {
 					return;
 				}
 
@@ -716,8 +746,8 @@ define(["wc/has",
 				if ($event.defaultPrevented) {
 					return;
 				}
-				if (instance.isNativeInput(element, true)) {
-					// if the input has an initial value then some mthods of changing the value may fire immediate change events in some browsers.
+				if (instance.hasNativeInput(element, true)) {
+					// if the input has an initial value then some methods of changing the value may fire immediate change events in some browsers.
 					startVal[element.id] = element.value;
 					onchangeSubmit.ignoreNextChange();
 					ajaxRegion.ignoreNextChange();
@@ -743,7 +773,7 @@ define(["wc/has",
 				if ($event.defaultPrevented) {
 					return;
 				}
-				if (instance.isNativeInput(element, true)) {
+				if (instance.hasNativeInput(element, true)) {
 					onchangeSubmit.clearIgnoreChange();
 					ajaxRegion.clearIgnoreChange();
 					if (startVal[element.id] !== element.value) {
@@ -762,7 +792,7 @@ define(["wc/has",
 			 */
 			function clickEvent($event) {
 				var target = $event.target, dateField;
-				if ($event.defaultPrevented || instance.isNativeInput(target, true)) {
+				if ($event.defaultPrevented || instance.hasNativeInput(target, true)) {
 					return;
 				}
 				if ((dateField = DATE_FIELD.findAncestor(target)) && !shed.isDisabled(dateField) && getSuggestionList(target, 1)) {
@@ -804,7 +834,7 @@ define(["wc/has",
 					suggestionList,
 					preventDefault;
 
-				if (instance.isNativeInput(target, true)) {
+				if (instance.hasNativeInput(target, true)) {
 					return;
 				}
 
@@ -912,7 +942,7 @@ define(["wc/has",
 			 */
 			this.acceptFirstMatch = function(element) {
 				var matches, dateField, _value, _matches;
-				if (this.isNativeInput(element)) {
+				if (this.hasNativeInput(element)) {
 					return;
 				}
 				if ((matches = getMatches(element)) && matches.length && (dateField = DATE_FIELD.findAncestor(element))) {
@@ -960,7 +990,7 @@ define(["wc/has",
 			 * @returns {Element} The input element of the dateField.
 			 */
 			this.getTextBox = function (element) {
-				return Widget.findDescendant(element, DATE_INPUTS);
+				return INPUT.findDescendant(element);
 			};
 
 			/**
@@ -979,7 +1009,7 @@ define(["wc/has",
 						return result;
 					}
 
-					if (this.isNativeInput(element) && (result = element.value)) {
+					if (this.hasNativeInput(element) && (result = element.value)) {
 						return result;
 					}
 
@@ -1025,15 +1055,15 @@ define(["wc/has",
 
 			/**
 			 * Is a particular date field or input a native date input?
-			 * @function module:wc/ui/dateField.isNativeInput
+			 * @function module:wc/ui/dateField.hasNativeInput
 			 * @public
 			 * @param {Element} el The element to test.
 			 * @param {Boolean} [forceInput] Set true if we know we are calling with an input element to save a test.
 			 * @returns {Boolean} True if el is a native date input (or the datefield wrapper of one).
 			 */
-			this.isNativeInput = function (el, forceInput) {
+			this.hasNativeInput = function (el, forceInput) {
 				var textBox;
-				if (isNative) {
+				if (hasNative) {
 					if (forceInput) {
 						textBox = el;
 					}
@@ -1043,6 +1073,14 @@ define(["wc/has",
 					return DATE.isOneOfMe(textBox);
 				}
 				return false;
+			};
+
+
+			this.isLameDateField = function(dateField) {
+				if (hasNative) {
+					return false;
+				}
+				return !!DATE.findDescendant(dateField);
 			};
 
 			/**
@@ -1061,10 +1099,10 @@ define(["wc/has",
 					result = DATE_FIELD.isOneOfMe(element);
 				}
 				else if (onlyContainer === false) {
-					result = Widget.isOneOfMe(element, DATE_INPUTS);
+					result = INPUT.isOneOfMe(element);
 				}
 				else {
-					result = Widget.isOneOfMe(element, [DATE, DATE_PARTIAL, DATE_FIELD]);
+					result = Widget.isOneOfMe(element, [INPUT, DATE_FIELD]);
 				}
 				return result;
 			};

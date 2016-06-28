@@ -1,9 +1,32 @@
 /* wc.ui.table.color.scss */
-@import 'table_vars';
+@import 'mixins-common';
 
 thead {
 	background-color: $wc-ui-color-table-head-bg;
-	color: $wc-ui-color-table-head-fg;
+
+	&,
+	.wc-nobutton,
+	.wc-linkbutton,
+	a,
+	a:visited {
+		color: $wc-ui-color-table-head-fg;
+	}
+
+	th[aria-disabled='true'],
+	.wc-nobutton[disabled],
+	.wc-nobutton[disabled],
+	a[aria-disabled='true'] {
+		color: $wc-ui-color-table-head-disabled;
+	}
+
+	th[sorted] {
+		&[aria-disabled='true'],
+		.wc-nobutton[disabled],
+		.wc-nobutton[disabled],
+		a[aria-disabled='true'] {
+			color: $wc-ui-color-disabled-fg;
+		}
+	}
 }
 
 .wc_table_bottom_controls {
@@ -20,7 +43,7 @@ tr.wc_table_stripe {
 	background-color: $wc-ui-color-highlight-bg-rgba;
 }
 
-tr.wc_invite {
+tr.wc-invite {
 	&:hover,
 	&:focus {
 		background-color: $wc-ui-color-invite-bg-rgba;
@@ -31,5 +54,23 @@ tr.wc_invite {
 	&[disabled],
 	&[aria-disabled='true'] {
 		background-color: $wc-ui-color-disabled-bg;
+	}
+}
+
+@include respond-phone {
+	.wc-table.wc-respond {
+		tr[aria-selected='true'] {
+			&,
+			&.wc-invite:hover,
+			&.wc-invite:focus {
+				background-color: $wc-ui-color-selected-bg;
+			}
+
+			> th,
+			> td {
+				color: $wc-ui-color-selected-fg;
+				// WARNING: you _may_ want to add overrides for coloured elements eg, headings.
+			}
+		}
 	}
 }

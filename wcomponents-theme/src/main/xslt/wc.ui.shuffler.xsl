@@ -20,7 +20,7 @@
 		<xsl:variable name="myLabel" select="key('labelKey',$id)[1]"/>
 		<xsl:choose>
 			<xsl:when test="@readOnly">
-				<ul id="{$id}">
+				<ul>
 					<xsl:call-template name="commonAttributes">
 						<xsl:with-param name="isWrapper" select="1"/>
 						<xsl:with-param name="live" select="'off'"/>
@@ -43,13 +43,8 @@
 			<xsl:otherwise>
 				<fieldset>
 					<xsl:call-template name="commonWrapperAttributes">
-						<xsl:with-param name="isControl" select="1"/>
 						<xsl:with-param name="myLabel" select="$myLabel"/>
 					</xsl:call-template>
-					<!-- if there is a label we can have a title, otherwise @toolTip is used to make the legend. -->
-					<xsl:if test="$myLabel">
-						<xsl:call-template name="title"/>
-					</xsl:if>
 					<xsl:call-template name="makeLegend">
 						<xsl:with-param name="myLabel" select="$myLabel"/>
 					</xsl:call-template>

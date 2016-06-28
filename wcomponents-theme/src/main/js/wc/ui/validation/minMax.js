@@ -25,8 +25,8 @@ define(["wc/ui/getFirstLabelForElement",
 		 * @returns {boolean} true if the tested component meets its constraints (incuding if their are no constraints).
 		 */
 		function minMax(conf) {
-			var MIN = "${wc.common.attrib.min}",
-				MAX = "${wc.common.attrib.max}",
+			var MIN = "data-wc-min",
+				MAX = "data-wc-max",
 				container = conf.container,
 				widget = conf.widget,
 				selectedFunc = conf.selectedFunc,

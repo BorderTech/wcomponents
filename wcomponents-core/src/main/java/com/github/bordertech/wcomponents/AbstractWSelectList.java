@@ -86,19 +86,22 @@ public abstract class AbstractWSelectList extends AbstractInput {
 	}
 
 	/**
-	 * A flag if set to true the option description will be encoded. Defaults to <code>true</code>.
+	 * No longer supported. To be deleted.
 	 *
-	 * @param encode If <code>true</code>, option descriptions will be encoded.
+	 * @param encode ignored
+	 * @deprecated 1.2.0 do not use
 	 */
-	public void setDescEncode(final boolean encode) {
-		setFlag(ComponentModel.ENCODE_TEXT_FLAG, encode);
+	public final void setDescEncode(final boolean encode) {
+		// NO OP
 	}
 
 	/**
+	 * No longer supported. To be deleted.
 	 * @return Flag indicating if option descriptions are to be encoded.
+	 * @deprecated 1.2.0 do not use
 	 */
-	public boolean getDescEncode() {
-		return isFlagSet(ComponentModel.ENCODE_TEXT_FLAG);
+	public final boolean getDescEncode() {
+		return true;
 	}
 
 	/**

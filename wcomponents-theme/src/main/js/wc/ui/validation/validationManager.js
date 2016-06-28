@@ -61,13 +61,13 @@ define(["wc/dom/classList",
 				 * @constant
 				 * @type {String}
 				 * @private */
-				ERROR = "error",
+				ERROR = "wc-fieldindicator-type-error",
 				/**
 				 * The class used to indicate a success: the type attribute of the ui:messageBox for success.
 				 * @constant
 				 * @type {String}
 				 * @private */
-				SUCCESS = "success",
+				SUCCESS = "wc-fieldindicator-type-success",
 				/**
 				 * The description of the component used to hold a validation error/success message. Instantiated on
 				 * first use.
@@ -258,7 +258,7 @@ define(["wc/dom/classList",
 				}
 				else {
 					errorBoxId = element.id + ERROR_BOX_SUFFIX;
-					errorBox = "<ul id='" + errorBoxId + "' class='error'><li>" + message + "</li></ul>";
+					errorBox = "<ul id='" + errorBoxId + "' class='wc-fieldindicator "+ ERROR +" wc_list_nb'><li>" + message + "</li></ul>";
 					attachTo.insertAdjacentHTML(position, errorBox);
 					element.setAttribute(INVALID, TRUE);
 					if ((labelledBy = element.getAttribute(LABEL_ATTRIB))) {

@@ -7,8 +7,6 @@
 // Really, just don't otherwise you will have to put some of it back again and that is a PITA.
 @import 'mixins-common';
 
-$wc-ui-color-debug-fg: $std-color-primary !default;
-
 body {
 	&::before { // I no longer care about IE8.
 		background-color: $wc-ui-color-highlight-bg;

@@ -3,7 +3,7 @@
 // 1. ensure has("mac") works; and
 // 2. set buttons to something approaching a consistent appearance in OS X.
 
-@import 'btn_common';
+@import 'btn-common';
 
 button {
 	@extend %button-like-text;

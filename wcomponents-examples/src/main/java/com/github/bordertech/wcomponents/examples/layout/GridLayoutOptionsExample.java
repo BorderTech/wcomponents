@@ -13,6 +13,7 @@ import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WNumberField;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.layout.GridLayout;
+import com.github.bordertech.wcomponents.util.HtmlClassUtil;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
@@ -80,6 +81,11 @@ public class GridLayoutOptionsExample extends WContainer {
 	private final WCheckBox cbVisible = new WCheckBox(true);
 
 	/**
+	 * Turn on responsive design.
+	 */
+	private final WCheckBox cbResponsive = new WCheckBox();
+
+	/**
 	 * Creates a GridLayoutExample.
 	 */
 	public GridLayoutOptionsExample() {
@@ -130,6 +136,7 @@ public class GridLayoutOptionsExample extends WContainer {
 		layout.addField("Number of Boxes", boxCount);
 
 		layout.addField("Visible", cbVisible);
+		layout.addField("Allow responsive design", cbResponsive);
 
 		// Apply Button
 		WButton apply = new WButton("Apply");
@@ -140,7 +147,7 @@ public class GridLayoutOptionsExample extends WContainer {
 			}
 		});
 
-		fieldSet.add(apply);
+		layout.addField(apply);
 
 		fieldSet.add(new WAjaxControl(apply, container));
 		fieldSet.setMargin(new Margin(0, 0, 12, 0));
@@ -155,6 +162,11 @@ public class GridLayoutOptionsExample extends WContainer {
 		// Now show an example of the number of different columns
 
 		WPanel gridLayoutPanel = new WPanel();
+
+		if (cbResponsive.isSelected()) {
+			gridLayoutPanel.setHtmlClass(HtmlClassUtil.HtmlClassName.RESPOND);
+		}
+
 		GridLayout layout = new GridLayout(rowCount.getValue().intValue(), columnCount.getValue()
 				.intValue(),
 				hGap.getValue().intValue(),

@@ -1,4 +1,6 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.toggleElement.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
@@ -22,7 +24,7 @@
 
 		<xsl:variable name="mode">
 			<xsl:choose>
-				<xsl:when test="@roundTrip or @mode='server'">
+				<xsl:when test="@roundTrip"><!-- WCollapsibleToggle, to be removed. -->
 					<xsl:text>server</xsl:text>
 				</xsl:when>
 				<xsl:when test="@mode='dynamic' or @mode='lazy'">
@@ -42,23 +44,27 @@
 		<xsl:variable name="group" select="key('collapsibleGroupKey', $for)"/>
 		<xsl:variable name="targetList">
 			<xsl:choose>
-				<xsl:when test="$mode='server'"><!--server mode does not need a target list, the expansion is done on the server -->
-					<xsl:value-of select="''"/>
-				</xsl:when>
 				<xsl:when test="self::ui:rowexpansion"><!-- a table's rowExpansion always targets the table -->
 					<xsl:value-of select="$for"/>
 				</xsl:when>
 				<xsl:when test="$group">
 					<xsl:apply-templates select="$group" mode="getIdList"/>
 				</xsl:when>
-				<!-- Do not need otherwise as implicit in this is when self::ui:collapsibleToggle and not($group) the value is '' -->
+				<!-- 
+					Do not need otherwise as implicit in this is when self::ui:collapsibleToggle and not($group) the 
+					value is '' 
+				-->
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="toggleClass">
-			<xsl:value-of select="concat('wc_', local-name(.))"/>
+			<xsl:value-of select="concat('wc-icon wc_', local-name(.))"/>
 		</xsl:variable>
 		<ul id="{$id}" role="radiogroup">
-			<xsl:call-template name="makeCommonClass"/>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:text>wc_coltog</xsl:text>
+				</xsl:with-param>
+			</xsl:call-template>
 			<xsl:call-template name="ajaxTarget"/>
 			<li>
 				<xsl:call-template name="toggleElement">

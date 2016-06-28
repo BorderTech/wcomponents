@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.HtmlClassUtil;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.ReflectionUtil;
 import com.github.bordertech.wcomponents.util.Util;
@@ -174,8 +175,6 @@ public class ComponentModel implements WebModel, Externalizable {
 
 	/**
 	 * Adds extra textual information to describe a component. This is intended for screen-readers only.
-	 *
-	 * @deprecated use toolTip
 	 */
 	private Serializable accessibleText;
 
@@ -321,10 +320,7 @@ public class ComponentModel implements WebModel, Externalizable {
 					Object sharedValue = field.get(sharedModel);
 					Object sessionValue = copyData(sharedValue);
 					field.set(this, sessionValue);
-				} catch (IllegalAccessException e) {
-					LOG.error("Failed to set field " + field.getName() + " on " + getClass().
-							getName(), e);
-				} catch (IllegalArgumentException e) {
+				} catch (IllegalAccessException | IllegalArgumentException e) {
 					LOG.error("Failed to set field " + field.getName() + " on " + getClass().
 							getName(), e);
 				}
@@ -523,7 +519,6 @@ public class ComponentModel implements WebModel, Externalizable {
 
 	/**
 	 * @return Returns the accessible text.
-	 * @deprecated use getToolTip
 	 */
 	protected Serializable getAccessibleText() {
 		return accessibleText;
@@ -532,7 +527,6 @@ public class ComponentModel implements WebModel, Externalizable {
 	/**
 	 * @param text The accessible text to set.
 	 * @param args optional message format arguments.
-	 * @deprecated use setToolTip
 	 */
 	protected void setAccessibleText(final String text, final Serializable... args) {
 		this.accessibleText = I18nUtilities.asMessage(text, args);
@@ -547,10 +541,16 @@ public class ComponentModel implements WebModel, Externalizable {
 
 	/**
 	 * @param text The HTML class name text to set.
-	 * @param args optional message format arguments.
 	 */
-	protected void setHtmlClass(final String text, final Serializable... args) {
-		this.htmlClass = I18nUtilities.asMessage(text, args);
+	protected void setHtmlClass(final String text) {
+		this.htmlClass = text;
+	}
+
+	/**
+	 * @param className The HTML class name to set.
+	 */
+	protected void setHtmlClass(final HtmlClassUtil.HtmlClassName className) {
+		this.htmlClass = className.toString();
 	}
 
 	/**

@@ -1,15 +1,12 @@
 /* wc.ui.listLayout.scss */
 @import 'mixins-common';
 
-// These are a bit odd but are here to make the lists look OK across most browsers.
-$list-layout-dot-spacing: 1.5rem !default;
-$list-layout-ordered-spacing: 2rem !default;
 
 .wc-listlayout {
 	@include tight-box;
 
-	&.center,
-	&.right {
+	&.wc-align-center,
+	&.wc-align-right {
 		list-style-position: inside;
 		margin-left: 0;
 	}
@@ -18,13 +15,13 @@ $list-layout-ordered-spacing: 2rem !default;
 // need qualifiying element to differentiate from unordered listLayout
 // scss-lint:disable QualifyingElement
 ol.wc-listlayout {
-	margin-left: $list-layout-ordered-spacing;
+	margin-left: $wc-list-layout-ordered-spacing;
 
 	&.wc_list_nb {
 		margin-left: 0;
 	}
 
-	&.wc_ll_flat { // flat ordered lists use a pseudo-element with a counter
+	&.wc-listlayout-type-flat { // flat ordered lists use a pseudo-element with a counter
 		counter-reset: li;
 		margin-left: 0;
 
@@ -40,17 +37,17 @@ ol.wc-listlayout {
 	}
 }
 
-.wc_ll_bar,
-.wc_ll_flat {
+.wc-listlayout-separator-bar,
+.wc-listlayout-type-flat {
 	list-style-type: none;
 }
 
-.wc_ll_bar { // bar bullets
+.wc-listlayout-separator-bar { // bar bullets
 	> li {
 		> * {
 			display: inline-block; // otherwise the marker wraps
 			vertical-align: middle;
-			width: calc(100% - #{$wc-gap-normal} - 0.5em);
+			width: calc(100% - #{$wc-list-layout-bar-width-offset});
 		}
 
 		&:before {
@@ -62,7 +59,7 @@ ol.wc-listlayout {
 		}
 	}
 
-	&.wc_ll_flat > li {
+	&.wc-listlayout-type-flat > li {
 		&:before {
 			display: inline;
 		}
@@ -73,16 +70,16 @@ ol.wc-listlayout {
 	}
 }
 
-.wc_ll_dot { // 'normal' bullets
-	margin-left: $list-layout-dot-spacing;
+.wc-listlayout-separator-dot { // 'normal' bullets
+	margin-left: $wc-list-layout-dot-spacing;
 
-	&.wc_ll_flat,
-	&.right {
+	&.wc-listlayout-type-flat,
+	&.wc-align-right {
 		margin-left: 0;
 	}
 }
 
-.wc_ll_flat { // horizontal list
+.wc-listlayout-type-flat { // horizontal list
 	> li {
 		display: inline-block;
 		width: auto;

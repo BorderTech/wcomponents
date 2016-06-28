@@ -54,4 +54,27 @@ public class WText_Test extends AbstractWComponentTestCase {
 		Assert.assertTrue("Should be in default state after setting text to default text", wtf.
 				isDefaultState());
 	}
+
+	@Test
+	public void testSanitizeOnOutputAccessors() {
+		assertAccessorsCorrect(new WText(), "sanitizeOnOutput", false, true, false);
+	}
+
+	// sanitizeOnOutput runs a lax HTML sanitizer rule set but only if encodeTexrt is false. FORM elements are always
+	// filtered.
+	@Test
+	public void testNoSanitizeOnOutput() {
+		String input = "<form>content</form>";
+		WText text = new WText(input);
+		text.setEncodeText(false);
+		Assert.assertEquals("Expect output to not be sanitized", input, text.getText());
+	}
+
+	@Test
+	public void testSanitizeOnOutput() {
+		WText text = new WText("<form>content</form>");
+		text.setSanitizeOnOutput(true);
+		text.setEncodeText(false);
+		Assert.assertEquals("Expect output to be sanitized", "content", text.getText());
+	}
 }

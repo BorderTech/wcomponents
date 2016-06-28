@@ -1,5 +1,5 @@
 /* wc.ui.htree.scss */
-@import 'tree-vars';
+@import 'mixins-common';
 
 // htree extends and replaces parts of tree.scss
 
@@ -10,8 +10,8 @@
 	[role='group'] {
 		@include max-content;
 		@include fit-content($what: 'min-width');
-		@include border($pos: right, $width: $wc-htree-branch-right-border-width);
-		left: calc(100% + #{$wc-htree-branch-right-border-width});
+		@include border($pos: right, $width: $wc-gap-small); // the right border of each level in a tree: helps to see where the levels occur.
+		left: calc(100% + #{$wc-gap-small});
 		min-height: 100%;
 		padding-left: 0;
 		position: absolute;
@@ -61,8 +61,8 @@
 .wc_branch_resizer {
 	@include border-box;
 	display: none;
-	height: 1.5rem; // allow size for the absolutely positioned iconic button.
-	margin-top: $wc-gap-small;
+	height: $wc-icon-normal; // allow size for the absolutely positioned iconic button.
+	// margin-top: $wc-gap-small;
 	width: 100%;
 }
 

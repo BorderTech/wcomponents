@@ -1,5 +1,5 @@
 /* wc.ui.menu.scss */
-@import 'menu_vars';
+@import 'mixins-common';
 // Structural styles common to all menus.
 
 // When styling the items set sizes on elements (buttons, links) and visual styles on the role (menuitem etc) as this
@@ -25,7 +25,7 @@
 [role^='menu'] {
 	[role],
 	.wc-submenu-o {
-		padding: $wc-ui-menu-bar-column-item-pad;
+		padding: $wc-menu-bar-column-item-pad;
 	}
 
 	.wc_hbgr { // the hamburger icon. This is here to override wc-submenu-o above.
@@ -36,7 +36,7 @@
 		padding: 0;
 
 		&[aria-orientation='vertical'] {
-			padding: $wc-ui-menu-bar-vseparator-pad;
+			padding: $wc-menu-bar-vseparator-pad;
 		}
 	}
 }
@@ -70,10 +70,10 @@
 
 
 	&[aria-expanded='true'] {
-		z-index: $z-index-common;
+		z-index: $wc-z-index-common;
 
 		dialog & {
-			z-index: $z-index-common-in-dialog;
+			z-index: $wc-z-index-common-in-dialog;
 		}
 	}
 
@@ -100,6 +100,6 @@
 	@include border-box;
 }
 
-.wc_mn_flyout {
+.wc-menu-type-flyout {
 	display: inline-block;
 }

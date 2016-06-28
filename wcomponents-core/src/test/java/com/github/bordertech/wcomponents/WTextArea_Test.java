@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import junit.framework.Assert;
 import org.junit.Test;
 
 /**
@@ -21,4 +22,28 @@ public class WTextArea_Test extends AbstractWComponentTestCase {
 		assertAccessorsCorrect(new WTextArea(), "richTextArea", false, true, false);
 	}
 
+	@Test
+	public void testSanitizeOnOutputAccessors() {
+		assertAccessorsCorrect(new WTextArea(), "sanitizeOnOutput", false, true, false);
+	}
+
+	@Test
+	public void testNoSanitizeOnOutput() {
+		String input = "<form>content</form>";
+		WTextArea textArea = new WTextArea();
+		textArea.setData(input);
+		// do not setRichText until after setData otherwise content will be sanitized on setData
+		textArea.setRichTextArea(true);
+		Assert.assertEquals("Expect output to not be sanitized", input, textArea.getText());
+	}
+
+	@Test
+	public void testSanitizeOnOutput() {
+		WTextArea textArea = new WTextArea();
+		textArea.setData("<form>content</form>");
+		textArea.setSanitizeOnOutput(true);
+		// do not setRichText until after setData otherwise content will be sanitized on setData
+		textArea.setRichTextArea(true);
+		Assert.assertEquals("Expect output to be sanitized", "content", textArea.getText());
+	}
 }

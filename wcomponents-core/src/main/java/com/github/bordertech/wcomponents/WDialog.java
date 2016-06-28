@@ -144,14 +144,16 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 	}
 
 	/**
-	 * @return The height of the dialog. The default is 600 pixels.
+	 * @return The height of the dialog. The default is unspecified and therefore the dialog will autosize to fit its
+	 * content or the viewport, whichever is smaller.
 	 */
 	public int getHeight() {
 		return getComponentModel().height;
 	}
 
 	/**
-	 * Sets the dialog height. A value of &lt;=0 means "unspecified".
+	 * Sets the dialog height. A value of &lt;=0 means "unspecified". If not set the dialog will attempt to autosize to
+	 * fit its content or the viewport, whichever is smaller.
 	 *
 	 * @param height The height of the dialog, in pixels.
 	 */
@@ -176,19 +178,24 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 	}
 
 	/**
+	 * Dialogs must always be resizeable in order to meet accessibility requirements. See <a
+	 * href="https://github.com/BorderTech/wcomponents/issues/606">#606</a>.
 	 * @return true if the dialog is resizable.
+	 * @deprecated 1.2.0 as dialogs must always be resizeable.
 	 */
-	public boolean isResizable() {
-		return getComponentModel().resizable;
+	public final boolean isResizable() {
+		return true;
 	}
 
 	/**
-	 * Sets whether the dialog is resizable.
+	 * Sets whether the dialog is resizable. Dialogs must always be resizeable in order to meet accessibility
+	 * requirements. See <a href="https://github.com/BorderTech/wcomponents/issues/606">#606</a>.
 	 *
 	 * @param resizable true if the dialog should be resizable, false if not.
+	 * @deprecated 1.2.0 as dialogs must always be resizeable.
 	 */
-	public void setResizable(final boolean resizable) {
-		getOrCreateComponentModel().resizable = resizable;
+	public final void setResizable(final boolean resizable) {
+		// No Op.
 	}
 
 	/**
@@ -388,11 +395,6 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 		 * The dialog height, in pixels.
 		 */
 		private int height = 0;
-
-		/**
-		 * Indicates whether the dialog should be resizable.
-		 */
-		private boolean resizable = true;
 
 		/**
 		 * The content to be displayed in the dialog.

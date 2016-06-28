@@ -156,7 +156,7 @@ define(["wc/dom/formUpdateManager",
 				if (!result && callback) {
 					action = getUploadUrl(element);
 					if (action) {
-						formHTML = '${wc.ui.multiFileUploader.html.form}';
+						formHTML = '<form target="%s" enctype="multipart/form-data" action="%s" method="POST" name="%s" id="%3$s" style="display:none;"><input name="wc_target" value="%s" /></form>';
 						iframeId = getHiddenIframe(element, function() {
 							result.innerHTML = "";
 							callback();

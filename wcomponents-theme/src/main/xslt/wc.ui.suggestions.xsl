@@ -13,12 +13,12 @@
 		<ul id="{@id}" role="listbox" hidden="hidden">
 			<xsl:call-template name="makeCommonClass"/>
 			<xsl:if test="@min">
-				<xsl:attribute name="${wc.ui.combo.list.attrib.minChars}">
+				<xsl:attribute name="data-wc-minchars">
 					<xsl:value-of select="@min"/>
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="@data">
-				<xsl:attribute name="${wc.ui.selectLoader.attribute.dataListId}">
+				<xsl:attribute name="data-wc-list">
 					<xsl:value-of select="@data"/>
 				</xsl:attribute>
 			</xsl:if>

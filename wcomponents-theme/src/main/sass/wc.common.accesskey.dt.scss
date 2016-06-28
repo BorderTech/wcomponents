@@ -19,10 +19,10 @@
 
 ///	Accesskey Tooltips
 ///	Styling for the callout (shows when ALT is held down).
-span[role='tooltip'] {
+[role='tooltip'] {
 	// important to over-ride menu rules which may also apply.
 	// scss-lint:disable ImportantRule
-	font-weight: bold !important;
+	font-weight: bold;
 	margin-top: -2.25rem;
 	padding: $wc-gap-small !important;
 	position: absolute;
@@ -44,7 +44,6 @@ span[role='tooltip'] {
 
 	// Callout display needs a particularly explicit selector to override menu [role] position but cannot use !important
 	// because we cannot guarantee that the hidden selector is more specific.
-	//TODO: check this is still the case!
 	&,
 	.wc-menu [role] & {
 		display: inline-block;

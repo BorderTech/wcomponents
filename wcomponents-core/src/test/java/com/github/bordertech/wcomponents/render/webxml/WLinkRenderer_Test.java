@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.TestAction;
 import com.github.bordertech.wcomponents.WContainer;
+import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WLink;
 import com.github.bordertech.wcomponents.WPanel;
 import java.io.IOException;
@@ -201,6 +202,17 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 				root);
 		assertXpathEvaluatesTo(target2.getId(), "//ui:ajaxtrigger/ui:ajaxtargetid[2]/@targetId",
 				root);
+	}
+
+
+
+	@Test
+	public void testButtonImageToolTipRender() throws IOException, SAXException, XpathException {
+		WLink link = new WLink();
+		String expected = "alt text";
+		WImage buttonImage = new WImage("http://localhost/image.png", expected);
+		link.setImage(buttonImage.getImage());
+		assertXpathEvaluatesTo(expected, "//ui:link/@toolTip", link);
 	}
 
 }

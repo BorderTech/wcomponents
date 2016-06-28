@@ -97,26 +97,11 @@
 					<xsl:call-template name="makeCommonClass">
 						<xsl:with-param name="additional">
 							<xsl:text>wc_input_wrapper</xsl:text>
+							<xsl:if test="@allowPartial">
+								<xsl:text> wc_datefield_partial</xsl:text>
+							</xsl:if>
 						</xsl:with-param>
 					</xsl:call-template>
-					<xsl:attribute name="role">
-						<xsl:text>combobox</xsl:text>
-					</xsl:attribute>
-					<xsl:attribute name="aria-autocomplete">
-						<xsl:text>both</xsl:text>
-					</xsl:attribute>
-					<xsl:attribute name="aria-expanded">
-						<xsl:text>false</xsl:text>
-					</xsl:attribute>
-					<xsl:attribute name="data-wc-name">
-						<xsl:value-of select="@id"/>
-						<xsl:text>-date</xsl:text>
-					</xsl:attribute>
-					<xsl:if test="@date">
-						<xsl:attribute name="data-wc-value">
-							<xsl:value-of select="@date"/>
-						</xsl:attribute>
-					</xsl:if>
 					<xsl:call-template name="hideElementIfHiddenSet"/>
 					<xsl:call-template name="ajaxTarget">
 						<xsl:with-param name="live" select="'off'"/>
@@ -127,6 +112,22 @@
 					<xsl:call-template name="requiredElement">
 						<xsl:with-param name="useNative" select="0"/>
 					</xsl:call-template>
+					<xsl:if test="@allowPartial">
+						<xsl:attribute name="role">
+							<xsl:text>combobox</xsl:text>
+						</xsl:attribute>
+						<xsl:attribute name="aria-autocomplete">
+							<xsl:text>both</xsl:text>
+						</xsl:attribute>
+						<xsl:attribute name="aria-expanded">
+							<xsl:text>false</xsl:text>
+						</xsl:attribute>
+						<xsl:if test="@date">
+							<xsl:attribute name="data-wc-value">
+								<xsl:value-of select="@date"/>
+							</xsl:attribute>
+						</xsl:if>
+					</xsl:if>
 					<xsl:if test="$isError">
 						<xsl:call-template name="invalid"/>
 					</xsl:if>
@@ -134,7 +135,6 @@
 						<xsl:call-template name="ariaLabel"/>
 					</xsl:if>
 					<xsl:element name="input">
-						<!-- type is currently a property whilst HTML5 date fields mature -->
 						<xsl:attribute name="type">
 							<xsl:choose>
 								<xsl:when test="@allowPartial">
@@ -151,48 +151,43 @@
 						<xsl:attribute name="name">
 							<xsl:value-of select="$id"/>
 						</xsl:attribute>
-						<xsl:if test="not(@date)">
-							<xsl:attribute name="value">
-								<xsl:value-of select="."/>
-							</xsl:attribute>
-						</xsl:if>
-
-						<!-- every input that implements combo should have autocomplete turned off -->
-						<xsl:attribute name="autocomplete">
-							<xsl:text>off</xsl:text>
-						</xsl:attribute>
-						<xsl:attribute name="aria-owns">
-							<xsl:value-of select="$pickId"/>
-						</xsl:attribute>
-
-						<xsl:if test="@min">
+						<xsl:attribute name="value">
 							<xsl:choose>
-								<xsl:when test="@allowPartial">
-									<xsl:attribute name="${wc.common.attrib.min}">
-										<xsl:value-of select="@min"/>
-									</xsl:attribute>
+								<xsl:when test="@date">
+									<xsl:value-of select="@date"/>
 								</xsl:when>
-								<xsl:otherwise>
+								<xsl:when test="@allowPartial">
+									<xsl:value-of select="."/>
+								</xsl:when>
+							</xsl:choose>
+						</xsl:attribute>
+						<xsl:choose>
+							<xsl:when test="@allowPartial">
+								<!-- every input that implements combo should have autocomplete turned off -->
+								<xsl:attribute name="autocomplete">
+									<xsl:text>off</xsl:text>
+								</xsl:attribute>
+								<xsl:attribute name="aria-owns">
+									<xsl:value-of select="$pickId"/>
+								</xsl:attribute>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:if test="@min">
 									<xsl:attribute name="min">
 										<xsl:value-of select="@min"/>
 									</xsl:attribute>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:if>
-						<xsl:if test="@max">
-							<xsl:choose>
-								<xsl:when test="@allowPartial">
-									<xsl:attribute name="${wc.common.attrib.max}">
-										<xsl:value-of select="@max"/>
-									</xsl:attribute>
-								</xsl:when>
-								<xsl:otherwise>
+								</xsl:if>
+								<xsl:if test="@max">
 									<xsl:attribute name="max">
 										<xsl:value-of select="@max"/>
 									</xsl:attribute>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:if>
+								</xsl:if>
+							</xsl:otherwise>
+						</xsl:choose>
+
+						<xsl:call-template name="requiredElement">
+							<xsl:with-param name="useNative" select="1"/>
+						</xsl:call-template>
 						<xsl:if test="@required">
 							<xsl:attribute name="placeholder">
 								<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
@@ -206,21 +201,23 @@
 							<xsl:with-param name="isControl" select="1"/>
 						</xsl:call-template>
 					</xsl:element>
-					<!-- This is the date picker launch control element.
+					<xsl:if test="@allowPartial">
+						<!-- This is the date picker launch control element.
 
 						Calendar needs an ID so that if the date input itself is the target of an AJAX
 						"replace" the calendar icon will get cleaned up by our duplicate ID prevention
 						logic (assumes the new date field has the same ID which in WComponents is always the case).
 						-->
-					<button value="{$inputId}" tabindex="-1" id="{$pickId}" type="button" aria-haspopup="true" class="wc_wdf_cal wc_btn_icon wc_invite">
-						<xsl:call-template name="disabledElement">
-							<xsl:with-param name="isControl" select="1"/>
-						</xsl:call-template>
-						<xsl:attribute name="title">
-							<xsl:value-of select="$$${wc.ui.dateField.i18n.calendarLaunchButton}"/>
-						</xsl:attribute>
-					</button>
-					<ul role="listbox" aria-busy="true"></ul>
+						<button value="{$inputId}" tabindex="-1" id="{$pickId}" type="button" aria-haspopup="true" class="wc_wdf_cal wc_btn_icon wc-invite">
+							<xsl:call-template name="disabledElement">
+								<xsl:with-param name="isControl" select="1"/>
+							</xsl:call-template>
+							<xsl:attribute name="title">
+								<xsl:value-of select="$$${wc.ui.dateField.i18n.calendarLaunchButton}"/>
+							</xsl:attribute>
+						</button>
+						<ul role="listbox" aria-busy="true"></ul>
+					</xsl:if>
 				</div>
 				<xsl:call-template name="inlineError">
 					<xsl:with-param name="errors" select="$isError"/>

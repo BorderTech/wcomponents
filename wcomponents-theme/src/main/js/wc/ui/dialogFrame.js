@@ -90,8 +90,7 @@ define(["wc/dom/event",
 				},
 				resizeTimeout,
 				/** The pixel cpount at which we make all dialog frames "full screen" */
-				FULL_SCREEN_POINT = 1000,
-				RESIZEABLE_ATTRIB = "data-wc-isresizeable";
+				FULL_SCREEN_POINT = 1000;
 
 			TITLE_WD.descendFrom(HEADER_WD);
 			DIALOG_CONTENT_WRAPPER.descendFrom(DIALOG, true);
@@ -266,41 +265,14 @@ define(["wc/dom/event",
 			 * @private
 			 * @param {Element} dialog The dialogFrame being manipulated.
 			 */
-			function showHideResizeMoveControls(dialog) {
-				var isResizeable = dialog.getAttribute(RESIZEABLE_ATTRIB)=== "true",
-					allowMoveResize = canMoveResize(),
-					allowResize = isResizeable && allowMoveResize,
-					control;
+			function setUpMoveResizeControls(dialog) {
+				var control;
 
-				// resize handle
-				if ((control = RESIZE_WD.findDescendant(dialog))) {
-					if (isResizeable) {
-						shed.show(control, true);
-					}
-					else {
-						shed.hide(control, true);
-					}
-				}
-
-				// maximise/restore button
-				if ((control = MAX_BUTTON.findDescendant(dialog))) {
-					if (isResizeable) {
-						shed.show(control, true);
-					}
-					else {
-						if (shed.isSelected(control)) {
-							shed.deselect(control);
-						}
-						shed.hide(control, true);
-					}
-				}
 				if ((control = HEADER_WD.findDescendant(dialog, true))) {
-					if (allowMoveResize) {
+					if (canMoveResize()) {
 						draggable.makeDraggable(control, DIALOG_ID);
-						if (allowResize) {
-							resizeable.setMaxBar(control);
-							resizeable.makeAnimatable(dialog);
-						}
+						resizeable.setMaxBar(control);
+						resizeable.makeAnimatable(dialog);
 					}
 					else {
 						resizeable.clearAnimatable(dialog);
@@ -319,25 +291,18 @@ define(["wc/dom/event",
 			 * @param {Element} dialog The dialogFrame being manipulated.
 			 */
 			function setUnsetDimensionsPosition(dialog) {
-				var isResizeable = dialog.getAttribute(RESIZEABLE_ATTRIB)=== "true",
-					allowResizeMove = isResizeable && canMoveResize(),
-					animationsDisabled;
+				var animationsDisabled;
 
 				try {
-					if (allowResizeMove) {
+					if (canMoveResize()) {
 						positionable.restorePosition(dialog);
 						resizeable.resetSize(dialog);
 					}
 					else {
 						resizeable.disableAnimation(dialog);
 						animationsDisabled = true;
-						if (isResizeable) {
-							resizeable.clearSize(dialog, true);
-							positionable.clearPosition(dialog, true);
-						}
-						else { // non-resizeable dialog just needs to be re-centered.
-							positionable.setBySize(dialog, {topOffsetPC: INITIAL_TOP_PROPORTION});
-						}
+						resizeable.clearSize(dialog, true);
+						positionable.clearPosition(dialog, true);
 					}
 				}
 				finally {
@@ -357,12 +322,9 @@ define(["wc/dom/event",
 			 * @function
 			 */
 			function initDialogControls(dialog, obj) {
-				var control,
-					isResizeable = obj && obj.resizable,
-					val = isResizeable ? "true" : "false";
+				var control;
 
-				dialog.setAttribute(RESIZEABLE_ATTRIB, val);
-				showHideResizeMoveControls(dialog);
+				setUpMoveResizeControls(dialog);
 				if ((control = MAX_BUTTON.findDescendant(dialog)) && !shed.isHidden(control)) {
 					if (obj.max) {
 						shed.select(control);
@@ -384,8 +346,6 @@ define(["wc/dom/event",
 					dialog.style.height = "";
 					dialog.style.top = "";
 					dialog.style.left = "";
-					dialog.style.minWidth = "";
-					dialog.style.minHeight = "";
 					dialog.style.margin = "";
 				}
 			};
@@ -405,14 +365,6 @@ define(["wc/dom/event",
 				}
 				if (obj.height) {
 					dialog.style.height = obj.height + UNIT;
-				}
-				if (!"${wc.ui.dialog.allowSmallerThanInitial}") {
-					if (obj.initWidth || obj.initWidth === 0) {
-						dialog.style.minWidth = obj.initWidth + UNIT;
-					}
-					if (obj.initHeight || obj.initHeight === 0) {
-						dialog.style.minHeight = obj.initHeight + UNIT;
-					}
 				}
 				if (obj.top || obj.top === 0) {
 					dialog.style.top = obj.top + UNIT;
@@ -563,6 +515,32 @@ define(["wc/dom/event",
 				}
 			}
 
+
+			/**
+			 * Helper for reposition. Called from a timeout to reposition the dialog frame.
+			 * @param {Element} element the dialog frame to reposition.
+			 * @param {Object} obj A description of the dialog.
+			 * @param {int} [obj.width] The dialog width
+			 * @param {int} [obj.height] The dialog height
+			 * @param {int} [obj.topOffsetPC] The offset from the top of the dialog.
+			 * @returns {undefined}
+			 */
+			function setBySize(element, obj) {
+				try {
+					resizeable.disableAnimation(element);
+					if (canMoveResize()) {
+						positionable.setBySize(element, obj);
+					}
+					setUnsetDimensionsPosition(element);
+					setUpMoveResizeControls(element);
+					if (repainter) {
+						repainter.checkRepaint(element);
+					}
+				}
+				finally {
+					resizeable.restoreAnimation(element);
+				}
+			}
 			/**
 			 * Ask to reposition a dialog frame (usually after Ajax).
 			 *
@@ -583,22 +561,8 @@ define(["wc/dom/event",
 				}
 
 				if (canMoveResize()) {
-					repositionTimer = timers.setTimeout(function() {
-						try {
-							resizeable.disableAnimation(dialog);
-							if (canMoveResize()) {
-								positionable.setBySize(dialog, {width: width, height: height, topOffsetPC: INITIAL_TOP_PROPORTION});
-							}
-							setUnsetDimensionsPosition(dialog);
-							showHideResizeMoveControls(dialog);
-							if (repainter) {
-								repainter.checkRepaint(dialog);
-							}
-						}
-						finally {
-							resizeable.restoreAnimation(dialog);
-						}
-					}, 100);
+					repositionTimer = timers.setTimeout(setBySize, 100, dialog,
+						{width: width, height: height, topOffsetPC: INITIAL_TOP_PROPORTION});
 				}
 			};
 
@@ -777,7 +741,7 @@ define(["wc/dom/event",
 					return;
 				}
 				setUnsetDimensionsPosition(dialog);
-				showHideResizeMoveControls(dialog);
+				setUpMoveResizeControls(dialog);
 			}
 
 			/**
@@ -869,7 +833,7 @@ define(["wc/dom/event",
 				var content = this.getContent();
 
 				if (content) {
-					content.removeAttribute("${wc.ui.ajax.attribute.getData}");
+					content.removeAttribute("data-wc-get");
 					content.id = id || "";
 					content.className = CONTENT_BASE_CLASS;
 

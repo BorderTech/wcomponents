@@ -4,15 +4,10 @@
 
 	// For flat layouts we do not control the wrap point so we use a right margin because it stops the odd left margin effect
 	// on wrap. The inline block display is to keep the input with its label at wrap points.
-.wc_chkgrp > .flat {
-	> span,
-	> li {
+.wc_chkgrp.wc-layout-flat {
+	span,
+	li {
 		display: inline-block;
-		margin-right: $wc-gap-normal;
-	}
-
-	> :last-of-type {
-		margin-right: 0;
 	}
 }
 
@@ -20,5 +15,28 @@
 	&,
 	&.wc_noborder {
 		@include padded-box(1px);
+	}
+}
+
+// Normally rows/columns collapse at phonelike size. For checkable selects with columns we collapse
+// at small-screen size to make the groups more usable
+@include respond-small-screen {
+	.wc_chkgrp {
+		.wc-row {
+			@include flex-wrap(wrap);
+		}
+
+		.wc-column {
+			@include flex-grow(1);
+			margin-top: $wc-gap-small;
+			padding-left: 0;
+			padding-right: 0;
+			width: 50%;
+
+			&:first-of-type,
+			&:nth-of-type(2) {
+				margin-top: 0;
+			}
+		}
 	}
 }

@@ -1,5 +1,5 @@
 /* wc.ui.tabset.scss */
-@import 'tabset_vars';
+@import 'tabset-mixins';
 
 .wc-tabset {
 	@include flex($direction: column);
@@ -8,7 +8,7 @@
 [role='tablist'] {
 	@include flex; // the tablist display model
 	position: relative;
-	top: $border-width;
+	top: $wc-border-width;
 
 	> [role] + [role] {
 		margin-left: $wc-gap-small;

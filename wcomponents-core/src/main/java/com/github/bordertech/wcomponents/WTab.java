@@ -111,10 +111,12 @@ public class WTab extends AbstractNamingContextContainer implements Disableable,
 	}
 
 	/**
+	 * Set the mode of operation for this tab.
+	 * See <a href="https://github.com/BorderTech/wcomponents/issues/692">#692</a>.
 	 * @param mode the tab mode.
 	 */
 	public void setMode(final TabMode mode) {
-		getOrCreateComponentModel().mode = mode;
+		getOrCreateComponentModel().mode = TabMode.SERVER.equals(mode) ? TabMode.DYNAMIC : mode;
 	}
 
 	/**
@@ -218,6 +220,10 @@ public class WTab extends AbstractNamingContextContainer implements Disableable,
 					content.setVisible(true);
 					break;
 				}
+
+				default:
+					// do nothing.
+					break;
 			}
 		}
 	}

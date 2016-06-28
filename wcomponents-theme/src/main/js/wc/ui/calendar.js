@@ -704,7 +704,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					// if in current month make the element pickable
 					if (monthIndex === _date.getMonth()) {
 						inMonth = true;
-						button = '<button type="button" class="wc_btn_nada wc_invite ' + CLASS.DATE_BUTTON + '" value="' + text + '">' + text + '</button>';
+						button = '<button type="button" class="wc-nobutton wc-invite ' + CLASS.DATE_BUTTON + '" value="' + text + '">' + text + '</button>';
 						day.innerHTML = button;
 						button = day.firstChild;
 						lastDay = button;

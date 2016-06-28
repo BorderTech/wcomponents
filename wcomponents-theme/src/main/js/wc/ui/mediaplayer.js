@@ -25,11 +25,11 @@ define([ "wc/has", "wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/
 		 */
 		function MediaPlayer() {
 			var useNative = true,
-				LAME_CONTROLS = "${wc.ui.media.attrib.lameControls}",
+				LAME_CONTROLS = "data-wc-mediacontrols",
 				SOURCE_LINK,
 				TRACK_LINK,
 				PLAY_BUTTON = new Widget("button", "wc_av_play"),
-				LAME_MEDIA = new Widget("", "", {"${wc.ui.media.attrib.lameControls}": null}),
+				LAME_MEDIA = new Widget("", "", {"data-wc-mediacontrols": null}),
 				AUDIO = new Widget("${wc.dom.html5.element.audio}"),
 				VIDEO = new Widget("${wc.dom.html5.element.video}"),
 				SOURCE,
@@ -128,7 +128,7 @@ define([ "wc/has", "wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/
 					HEIGHT = "height",
 					width = media.getAttribute(WIDTH),
 					height = media.getAttribute(HEIGHT),
-					alt = media.getAttribute("${wc.ui.media.attrib.alt}") || media.getAttribute("title"),
+					alt = media.getAttribute("data-wc-alt") || media.getAttribute("title"),
 					img = document.createElement("img");
 
 				img.src = poster;
@@ -157,13 +157,12 @@ define([ "wc/has", "wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/
 			 * @param {Element} element The HTML AUDIO or VIDEO element being established.
 			 */
 			function setupPlayer(element) {
-				var parent,
-					playButton;
+				var parent;
 				event.add(element, event.TYPE.ended, endedEvent);
 
 				if (element.getAttribute(LAME_CONTROLS) === "play") {
 					parent = element.parentElement;
-					if ((playButton = PLAY_BUTTON.findDescendant(parent))) {
+					if (PLAY_BUTTON.findDescendant(parent)) {
 						event.add(element, event.TYPE.play, playEvent);
 						event.add(element, event.TYPE.pause, pauseEvent);
 					}

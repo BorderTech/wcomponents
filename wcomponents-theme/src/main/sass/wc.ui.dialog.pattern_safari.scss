@@ -1,5 +1,6 @@
 /* wc.ui.dialog.pattern_safari.scss */
-@import 'dialog_vars';
+@import 'mixins-common';
+
 
 dialog > [aria-live] { // dialog content container
 	// need to work around a Safari-OSX bug but not for full screen dialogs.
