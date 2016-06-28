@@ -1,22 +1,20 @@
 /**
- * Table actions are WButtons which are bound to a particular WDataTable and are usually constrained such that the
+ * Table actions are WButtons which are bound to a particular WTable and are usually constrained such that the
  * action can only be invoked if the table has row selection and the number of rows selected is within set bounds.
  * It is not invalid to have table actions without constraints or event without row selection, but it would be unusual.
  *
  * @module
- * @requires module:wc/dom/event
  * @requires module:wc/dom/getFilteredGroup
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/shed
  * @requires module:wc/ui/table/common
  */
-define(["wc/dom/event",
-		"wc/dom/getFilteredGroup",
+define(["wc/dom/getFilteredGroup",
 		"wc/dom/initialise",
 		"wc/dom/shed",
 		"wc/ui/table/common"],
-	/** @param event wc/dom/event @param getFilteredGroup wc/dom/getFilteredGroup @param initialise wc/dom/initialise @param shed wc/dom/shed @param common @ignore */
-	function(event, getFilteredGroup, initialise, shed, common) {
+	/** @param getFilteredGroup @param initialise  @param shed @param common @ignore */
+	function(getFilteredGroup, initialise, shed, common) {
 		"use strict";
 
 		/**
@@ -27,9 +25,7 @@ define(["wc/dom/event",
 		function Action() {
 			var ACTION_BUTTON = common.BUTTON.extend("wc_table_cond"),
 				ACTION_TABLE = common.WRAPPER,
-				ROW_CONTAINER = common.TBODY,
-				ACTION = { WARN: "warning",
-					ERR: "error" };
+				ROW_CONTAINER = common.TBODY;
 
 			/**
 			 * Determines if an action condition is met.
@@ -40,39 +36,27 @@ define(["wc/dom/event",
 			 * @param {Object} condition The action condition.
 			 * @returns {Boolean} true if the condition is met, or the button is not a table action.
 			 */
-			function isButtonConditionMet(button, condition) {
+			function isConditionMet(button, condition) {
 				var min,
 					max,
 					table,
-					message,
-					actionType,
-					selected = 0,
-					result = true;
+					selected = 0;
 
-				table = ACTION_TABLE.findAncestor(button);
-
-				if (table) {
+				if ((table = ACTION_TABLE.findAncestor(button))) {
 					min = condition.min;
 					max = condition.max;
-					message = condition.message;
-					actionType = condition.type;
+
+					if (!(min || max)) { // no condition worth testing.
+						return true;
+					}
 
 					selected = (getFilteredGroup(ROW_CONTAINER.findDescendant(table))).length;
 
-					if ((min === "" && max === "") || (min !== "" && selected < parseInt(min, 10)) || (max !== "" && selected > parseInt(max, 10))) {
-						result = false;
-					}
-					if (!result && message) {
-						if (actionType === ACTION.WARN) {
-							result = window.confirm(message);
-						}
-						else if (actionType === ACTION.ERR) {
-							window.alert(message);
-							result = false;
-						}
+					if ((min && selected < parseInt(min, 10)) || (max && selected > parseInt(max, 10))) {
+						return false;
 					}
 				}
-				return result;
+				return true;
 			}
 
 			/**
@@ -84,66 +68,91 @@ define(["wc/dom/event",
 			 * @returns {Object} The action conditions as a JSON object.
 			 */
 			function parseConditions(button) {
-				var result, conditions = button.getAttribute("${wc.ui.table.actions.attribute.conditions}");
+				var conditions = button.getAttribute("data-wc-condition");
 				if (conditions) {
-					result = window.JSON.parse(conditions);
+					return window.JSON.parse(conditions);
 				}
-				return result;
+				return null;
 			}
 
 			/**
-			 * Test whether a table action can proceed/
-			 *
+			 * Test if an action button can be enabled.
 			 * @function
 			 * @private
-			 * @param {Element} button The table action invoking button.
-			 * @returns {Boolean} true if the button has no conditions or if all conditions are met.
+			 * @param {Element} button
+			 * @returns {Boolean} true if the conditions of the button are met.
 			 */
-			function checkSubmit(button) {
-				var result = true, conditions, i, len, next;
+			function canEnableButton(button) {
+				var conditions;
 				if ((conditions = parseConditions(button))) {
-					for (i = 0, len = conditions.length; i < len; ++i) {
-						next = conditions[i];
-						if (!(result = isButtonConditionMet(button, next))) {
-							break;
-						}
-					}
+					return Array.prototype.every.call(conditions, function (next) {
+						return isConditionMet(button, next);
+					});
 				}
-				return result;
+				return true;
 			}
 
 			/**
-			 * Click listener for table actions. Invokes the test of conditions before allowing the submit button's
-			 * normal action.
-			 *
+			 * Helper to actually toggle the disabled state.
 			 * @function
 			 * @private
-			 * @param {Event} $event The click event.
+			 * @param {Element} button the button which we are disabling/enabling.
 			 */
-			function clickEvent($event) {
-				var target;
-				if ($event.defaultPrevented) {
-					return;
-				}
-				target = ACTION_BUTTON.findAncestor($event.target);
-				if (target && !shed.isDisabled(target) && !checkSubmit(target)) {
-					$event.preventDefault();
+			function enableDisableButton(button) {
+				var func = canEnableButton(button) ? "enable" : "disable";
+				shed[func](button);
+			}
+
+			/**
+			 * Set the initial state of action buttons when a page/ajax arrives.
+			 * @function
+			 * @private
+			 * @param {Element} container the page or ajax response.
+			 */
+			function setUp(container) {
+				var _container = container || document.body;
+				Array.prototype.forEach.call(ACTION_BUTTON.findDescendants(_container), function(next) {
+					enableDisableButton(next);
+				});
+			}
+
+			/**
+			 * Subscriber to row select/deselect which is the trigger for changing the button's disabled state.
+			 * @function
+			 * @private
+			 * @param {Element} element the element being selected/deselected.
+			 */
+			function shedSubscriber(element) {
+				var table;
+
+				if (element && common.ROW.isOneOfMe(element) && (table = ACTION_TABLE.findAncestor(element))) {
+					Array.prototype.forEach.call(ACTION_BUTTON.findDescendants(table), function(next) {
+						if (ACTION_TABLE.findAncestor(next) !== table) {
+							return; // not in the same table.
+						}
+						enableDisableButton(next);
+					});
 				}
 			}
+
+			// Add an initialise callback to set up the initial state of the buttons.
+			initialise.addCallback(function(element) {
+				setUp(element);
+			});
 
 			/**
 			 * Initial set up for table action.
 			 *
-			 * @function module:wc/action.initialise
+			 * @function module:wc/ui/table/action.postInit
 			 * @public
-			 * @param {Element} element The element being initialised, usually document.body.
 			 */
-			this.initialise = function(element) {
-				event.add(element, event.TYPE.click, clickEvent, -50);
+			this.postInit = function() {
+				shed.subscribe(shed.actions.SELECT, shedSubscriber);
+				shed.subscribe(shed.actions.DESELECT, shedSubscriber);
 			};
 		}
 
-		var /** @alias module:wc/action */ instance = new Action();
+		var /** @alias module:wc/ui/table/action */ instance = new Action();
 		initialise.register(instance);
 		return instance;
 	});

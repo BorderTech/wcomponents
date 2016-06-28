@@ -61,6 +61,15 @@
 * Fixed GridLayout cell alignment on small screens #652.
 
 ## Enhancements
+* Reversed the date input polyfill used by WDateField. Previously we created all of the UI artefacts needed to support
+  the polyfill and removed them if the browser supported native date inputs. This has been reversed to output a wrapper
+  and input in XSLT and add the other artefacts if native date inputs are not supported. This significantly improves
+  the use of WDateField on mobile devices and removes a flicker caused by removing elements. In some cases the calendar
+  launch button was seen to persist in the view after being removed from the component. THis change also fixes that
+  artefaction issue. #698.
+* Made layout responsive design opt-in to prevent issues with unwanted collapsing columns and grids #682. To make a
+  WRow (and its WColumns), or WPanel with either ColumnLayout or GridLayout invoke the default responsive design use
+  `setHtmlClass(HtmlClassUtil.htmlClassName.RESPOND)`.
 * Added utility class `com.github.bordertech.wcomponents.util.HtmlClassUtil` which provides an enum of HTML class
   attribute values which may be used in `setHtmlClass`. Part of #682.
 * Added new boolean property `sanitizeOnOutput` to WComponents which can output unencoded HTML (WText, WTextArea,

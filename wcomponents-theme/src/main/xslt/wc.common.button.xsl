@@ -118,7 +118,7 @@
 							<xsl:apply-templates select="../ui:condition" mode="action" />
 						</xsl:variable>
 						<xsl:if test="$conditions != ''">
-							<xsl:attribute name="${wc.ui.table.actions.attribute.conditions}">
+							<xsl:attribute name="data-wc-condition">
 								<xsl:text>[</xsl:text>
 								<xsl:value-of select="$conditions" />
 								<xsl:text>]</xsl:text>
