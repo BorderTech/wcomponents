@@ -52,7 +52,7 @@
 						<xsl:with-param name="myLabel" select="$myLabel[1]"/>
 					</xsl:call-template>
 					<xsl:if test="@maxLength">
-						<xsl:attribute name="${wc.ui.maxLength.attribute.maxlength}">
+						<xsl:attribute name="data-wc-maxlength">
 							<xsl:value-of select="@maxLength"/>
 						</xsl:attribute>
 						<xsl:attribute name="aria-owns">
@@ -60,7 +60,7 @@
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:if test="@minLength">
-						<xsl:attribute name="${wc.common.attrib.min}">
+						<xsl:attribute name="data-wc-min">
 							<xsl:value-of select="@minLength"/>
 						</xsl:attribute>
 					</xsl:if>

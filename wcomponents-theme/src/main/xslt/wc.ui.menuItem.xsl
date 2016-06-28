@@ -86,11 +86,11 @@
 					<xsl:attribute name="type">
 						<xsl:text>button</xsl:text>
 					</xsl:attribute>
-					<xsl:attribute name="${wc.ui.link.attrib.url.standin}">
+					<xsl:attribute name="data-wc-url">
 						<xsl:value-of select="@url"/>
 					</xsl:attribute>
 					<xsl:if test="@targetWindow">
-						<xsl:attribute name="${wc.ui.link.attrib.window}">
+						<xsl:attribute name="data-wc-window">
 							<xsl:value-of select="@targetWindow"/>
 						</xsl:attribute>
 						<xsl:attribute name="aria-haspopup">
@@ -121,7 +121,7 @@
 							</xsl:attribute>
 						</xsl:when>
 						<xsl:when test="@validates">
-							<xsl:attribute name="${wc.ui.button.attribute.validates}">
+							<xsl:attribute name="data-wc-validate">
 								<xsl:value-of select="@validates"/>
 							</xsl:attribute>
 						</xsl:when>
@@ -134,7 +134,7 @@
 				</xsl:when>
 			</xsl:choose>
 			<xsl:if test="@msg">
-				<xsl:attribute name="${wc.ui.button.attrib.confirmMessage}">
+				<xsl:attribute name="data-wc-btnmsg">
 					<xsl:value-of select="@msg"/>
 				</xsl:attribute>
 			</xsl:if>

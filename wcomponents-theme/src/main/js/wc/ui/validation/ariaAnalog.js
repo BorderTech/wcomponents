@@ -65,7 +65,7 @@ define(["wc/dom/group",
 		function isCompleteFilter(next) {
 			var _result = shed.isSelected(next);
 			if (_result && this.exclusiveSelect === this.SELECT_MODE.SINGLE) {
-				_result = !next.getAttribute("${wc.common.attribute.optionIsNull}");
+				_result = !next.getAttribute("data-wc-null");
 			}
 			return _result;
 		}

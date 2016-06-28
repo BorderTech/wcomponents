@@ -17,7 +17,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/cancelButto
 		 * @private
 		 */
 		function Confirm() {
-			var CONFIRM_WD = new Widget("button", "", {"${wc.ui.button.attrib.confirmMessage}": null}),
+			var CONFIRM_WD = new Widget("button", "", {"data-wc-btnmsg": null}),
 				CANCEL_BUTTON = cancelButton.getWidget();
 
 			/**
@@ -29,7 +29,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/cancelButto
 			function clickEvent($event) {
 				var target, message;
 				if (!$event.defaultPrevented && (target = CONFIRM_WD.findAncestor($event.target)) && !CANCEL_BUTTON.isOneOfMe(target) && focus.canFocus(target)) {
-					message = target.getAttribute("${wc.ui.button.attrib.confirmMessage}");
+					message = target.getAttribute("data-wc-btnmsg");
 					if (message) {
 						var doContinue = window.confirm(message);
 						if (!doContinue) {

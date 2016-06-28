@@ -76,7 +76,7 @@
 			<!-- nothing else applies to print buttons -->
 			<xsl:if test="self::ui:button">
 				<xsl:if test="@msg">
-					<xsl:attribute name="${wc.ui.button.attrib.confirmMessage}">
+					<xsl:attribute name="data-wc-btnmsg">
 						<xsl:value-of select="@msg" />
 					</xsl:attribute>
 				</xsl:if>
@@ -93,7 +93,7 @@
 						</xsl:attribute>
 					</xsl:when>
 					<xsl:when test="@validates">
-						<xsl:attribute name="${wc.ui.button.attribute.validates}">
+						<xsl:attribute name="data-wc-validate">
 							<xsl:value-of select="@validates" />
 						</xsl:attribute>
 					</xsl:when>

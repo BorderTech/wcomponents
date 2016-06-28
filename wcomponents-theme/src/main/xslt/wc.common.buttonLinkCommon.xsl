@@ -50,10 +50,10 @@
 			</xsl:attribute>
 
 			<xsl:if test="$linkHasPopup=1">
-				<xsl:attribute name="${wc.ui.link.attrib.specs}">
+				<xsl:attribute name="data-wc-specs">
 					<xsl:apply-templates select="ui:windowAttributes" mode="specs"/>
 				</xsl:attribute>
-				<xsl:attribute name="${wc.ui.link.attrib.window}">
+				<xsl:attribute name="data-wc-window">
 					<xsl:value-of select="ui:windowAttributes/@name"/>
 				</xsl:attribute>
 			</xsl:if>

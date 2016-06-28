@@ -24,7 +24,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/popup", "wc
 		 * @private
 		 */
 		function NavigationButton() {
-			var BUTTON = new Widget("button", "", {"${wc.ui.link.attrib.url.standin}": null}),
+			var BUTTON = new Widget("button", "", {"data-wc-url": null}),
 				CANCEL_LINK = BUTTON.extend("wc_btn_cancel"),
 				FORM = new Widget("form");
 
@@ -36,7 +36,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/popup", "wc
 			 */
 			function clickEvent($event) {
 				var element, url, form;
-				if (!$event.defaultPrevented && (element = BUTTON.findAncestor($event.target)) && !shed.isDisabled(element) && (url = element.getAttribute("${wc.ui.link.attrib.url.standin}")) && !popup.isOneOfMe(element) && !launchLink.isInlineLink(element)) {
+				if (!$event.defaultPrevented && (element = BUTTON.findAncestor($event.target)) && !shed.isDisabled(element) && (url = element.getAttribute("data-wc-url")) && !popup.isOneOfMe(element) && !launchLink.isInlineLink(element)) {
 					if (CANCEL_LINK.isOneOfMe(element) && (form = FORM.findAncestor(element)) && cancelUpdate.cancelSubmission(form)) {
 						$event.preventDefault();
 					}

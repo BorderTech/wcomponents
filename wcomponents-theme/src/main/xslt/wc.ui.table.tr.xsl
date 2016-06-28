@@ -1,5 +1,5 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.aria.live.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
@@ -209,7 +209,7 @@
 				</xsl:attribute>
 
 				<xsl:attribute name="data-wc-name">
-					<xsl:value-of select="concat($tableId,'${wc.ui.table.rowSelect.state.suffix}')"/>
+					<xsl:value-of select="concat($tableId,'.selected')"/>
 				</xsl:attribute>
 
 				<xsl:attribute name="data-wc-value">
