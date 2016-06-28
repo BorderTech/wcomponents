@@ -1,0 +1,24 @@
+@import 'mixins-common';
+
+@mixin wc-ui-tabset-top-border-radius {
+	@if ($wc-tabset-border-radius > 0) {
+		border-top-left-radius: $wc-tabset-border-radius;
+		border-top-right-radius: $wc-tabset-border-radius;
+	}
+}
+
+// left inherits top.
+@mixin wc-ui-tabset-left-border-radius {
+	@if ($wc-tabset-border-radius > 0) {
+		border-bottom-left-radius: $wc-tabset-border-radius;
+		border-top-right-radius: 0;
+	}
+}
+
+// right inherits top
+@mixin wc-ui-tabset-right-border-radius {
+	@if ($wc-tabset-border-radius > 0) {
+		border-bottom-right-radius: $wc-tabset-border-radius;
+		border-top-left-radius: 0;
+	}
+}

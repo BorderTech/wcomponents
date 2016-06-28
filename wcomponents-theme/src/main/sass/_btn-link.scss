@@ -1,7 +1,7 @@
-// CLASS wc_btn_link is made to look like a link.
+// CLASS wc-linkbutton is made to look like a link.
 @import 'mixins-common';
 
-%wc_btn_link {
+%wc-linkbutton {
 	color: $wc-ui-color-link;
 	cursor: pointer;
 	text-decoration: underline;

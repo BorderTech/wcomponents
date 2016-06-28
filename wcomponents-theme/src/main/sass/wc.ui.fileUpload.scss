@@ -19,27 +19,21 @@
 		}
 	}
 
+	.wc_btn_abort {
+		margin-right: $wc-gap-small;
+	}
+
+	progress {
+		margin-left: $wc-gap-small;
+		margin-right: $wc-gap-small;
+	}
+
 	> .wc_filelist {
 		display: table-cell;  // horrendously wrong no doubt but fixes columns
 		padding-top: $wc-gap-small;
 
-		.wc-file + .wc-file {
-			margin-top: $wc-gap-normal;
-		}
-
-		&.wc_list_flat {
-			.wc-file {
-				display: inline-block;
-				margin-right: $wc-gap-small;
-				margin-top: $wc-gap-small;
-
-				// The excessive depth here could be re-written I suppose...
-				// scss-lint:disable NestingDepth
-				&:last-child {
-					margin-right: 0;
-				}
-				// scss-lint:enable NestingDepth
-			}
+		&.wc-listlayout-type-flat {
+			padding-top: 0;
 
 			a {
 				width: auto;

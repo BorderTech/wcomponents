@@ -137,7 +137,8 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 	 * @param selectedRows the set of selected rows
 	 * @param expandedRows the set of expanded rows
 	 */
-	protected void paintItem(final WTree tree, final WTree.ExpandMode mode, final TreeItemModel model, final List<Integer> rowIndex, final XmlStringBuilder xml, final Set<String> selectedRows, final Set<String> expandedRows) {
+	protected void paintItem(final WTree tree, final WTree.ExpandMode mode, final TreeItemModel model, final List<Integer> rowIndex,
+			final XmlStringBuilder xml, final Set<String> selectedRows, final Set<String> expandedRows) {
 
 		String itemId = model.getItemId(rowIndex);
 
@@ -212,7 +213,8 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 	 * @param expandedRows the set of expanded rows
 	 * @param mapIndex the map between item ids and their rowIndex
 	 */
-	protected void paintCustomItem(final WTree tree, final WTree.ExpandMode mode, final TreeItemModel model, final TreeItemIdNode node, final XmlStringBuilder xml, final Set<String> selectedRows, final Set<String> expandedRows, final Map<String, List<Integer>> mapIndex) {
+	protected void paintCustomItem(final WTree tree, final WTree.ExpandMode mode, final TreeItemModel model, final TreeItemIdNode node,
+			final XmlStringBuilder xml, final Set<String> selectedRows, final Set<String> expandedRows, final Map<String, List<Integer>> mapIndex) {
 
 		String itemId = node.getItemId();
 		List<Integer> rowIndex = mapIndex.get(itemId);

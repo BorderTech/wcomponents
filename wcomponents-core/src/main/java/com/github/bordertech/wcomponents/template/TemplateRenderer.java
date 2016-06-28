@@ -51,7 +51,8 @@ public interface TemplateRenderer {
 	 * @param writer the writer
 	 * @param options the engine options
 	 */
-	void renderTemplate(final String templateName, final Map<String, Object> context, final Map<String, WComponent> taggedComponents, final Writer writer, final Map<String, Object> options);
+	void renderTemplate(final String templateName, final Map<String, Object> context, final Map<String, WComponent> taggedComponents,
+			final Writer writer, final Map<String, Object> options);
 
 	/**
 	 * Render an inline template.
@@ -62,6 +63,7 @@ public interface TemplateRenderer {
 	 * @param writer the writer
 	 * @param options the engine options
 	 */
-	void renderInline(final String templateInline, final Map<String, Object> context, final Map<String, WComponent> taggedComponents, final Writer writer, final Map<String, Object> options);
+	void renderInline(final String templateInline, final Map<String, Object> context, final Map<String, WComponent> taggedComponents,
+			final Writer writer, final Map<String, Object> options);
 
 }

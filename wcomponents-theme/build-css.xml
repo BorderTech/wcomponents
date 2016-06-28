@@ -223,12 +223,17 @@
 		<attribute name="destFile" />
 		<sequential>
 			<property name="cleancss.executable" location="${basedir}/node_modules/clean-css/bin/cleancss"/>
-			<echo>node ${cleancss.executable} --skip-rebase --skip-import --rounding-precision -1 -o @{destFile} @{sourceFile}</echo>
+			<echo>node ${cleancss.executable} --skip-import --skip-aggressive-merging --skip-rebase --rounding-precision -1 -o @{destFile} @{sourceFile}</echo>
 			<nodejs.exec failonerror="true" cwd="${target.rootdir}">
 				<arguments>
 					<arg value="${cleancss.executable}"/>
-					<arg value="--skip-rebase"/>
 					<arg value="--skip-import"/>
+<!--					<arg value="-\-skip-advanced"/>-->
+					<arg value="--skip-aggressive-merging"/>
+<!--					<arg value="-\-skip-media-merging"/>-->
+					<arg value="--skip-rebase"/>
+<!--					<arg value="-\-skip-restructuring"/>
+					<arg value="-\-skip-shorthand-compacting"/> -->
 					<arg value="--rounding-precision"/>
 					<arg value="-1"/>
 					<arg value="-o"/>
@@ -243,8 +248,9 @@
 	<target name="imagesToDataUrl" description="Convert images urls to base64 data urls in CSS files">
 		<if>
 			<and>
-				<available file="${images.tmp.src.dir}" type="dir" />
+				<istrue value="${build.optimise.http1}"/>
 				<istrue value="${images.to.base64.dataurls}" />
+				<available file="${images.tmp.src.dir}" type="dir" />
 			</and>
 			<then>
 				<stopwatch name="imagesToDataUrl" action="start" />

@@ -2,14 +2,15 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
@@ -50,16 +51,29 @@ public class TextAreaExample extends WPanel {
 		setLayout(new FlowLayout(Alignment.VERTICAL));
 
 		WFieldLayout layout = new WFieldLayout();
-		WHeading heading = new WHeading(WHeading.MAJOR, "Default");
+		WHeading heading = new WHeading(HeadingLevel.H2, "Default");
 		add(heading);
 
 		ta1 = new WTextArea();
 		layout.addField("Default", ta1);
+		final WTextArea readOnlyReflector1 = new WTextArea();
+		readOnlyReflector1.setReadOnly(true);
+		layout.addField("Read only reflection of normal WTextArea", readOnlyReflector1);
+		WButton showReadOnlyContentButton = new WButton("Copy as read only");
+		layout.addField(showReadOnlyContentButton);
 		add(layout);
+
+		showReadOnlyContentButton.setAction(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				readOnlyReflector1.setData(ta1.getData());
+			}
+		});
+		add(new WAjaxControl(showReadOnlyContentButton, readOnlyReflector1));
 		add(new WHorizontalRule());
 
 		layout = new WFieldLayout();
-		heading = new WHeading(WHeading.MAJOR, "Size 40x4, maxlength 200");
+		heading = new WHeading(HeadingLevel.H2, "Size 40x4, maxlength 200");
 		add(heading);
 		ta2 = new WTextArea();
 		ta2.setColumns(40);
@@ -67,11 +81,12 @@ public class TextAreaExample extends WPanel {
 		ta2.setMaxLength(200);
 		layout.addField("Size and Length Limited", ta2);
 
+
 		add(layout);
 		add(new WHorizontalRule());
 
 		layout = new WFieldLayout();
-		heading = new WHeading(WHeading.MAJOR, "Read only");
+		heading = new WHeading(HeadingLevel.H2, "Read only");
 		add(heading);
 		ta3 = new WTextArea();
 		ta3.setReadOnly(true);
@@ -81,7 +96,7 @@ public class TextAreaExample extends WPanel {
 		add(new WHorizontalRule());
 
 		layout = new WFieldLayout();
-		heading = new WHeading(WHeading.MAJOR, "Disabled");
+		heading = new WHeading(HeadingLevel.H2, "Disabled");
 		add(heading);
 
 		ta4 = new WTextArea();
@@ -101,40 +116,38 @@ public class TextAreaExample extends WPanel {
 		add(new WHorizontalRule());
 
 		layout = new WFieldLayout();
-		heading = new WHeading(WHeading.MAJOR, "Rich Text");
+		heading = new WHeading(HeadingLevel.H2, "Rich Text");
 		add(heading);
+		add(layout);
 
 		ta5 = new WTextArea();
 		ta5.setRichTextArea(true);
 		layout.addField("Rich Text", ta5);
-		add(layout);
-		// add(new WHorizontalRule());
 
+		final WTextArea richReadOnly = new WTextArea();
+		richReadOnly.setReadOnly(true);
+		richReadOnly.setRichTextArea(true);
+
+		final Action setDataAction = new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				richReadOnly.setData(ta5.getValue());
+			}
+		};
+		WContainer buttonContainer = new WContainer();
+		layout.addField((String) null, buttonContainer);
+		layout.addField("read only reflection of the rich text area.", richReadOnly);
+
+		// The buttons to show read only versions.
 		final WButton rtfButton = new WButton("Round Trip Show Rich Text");
+		rtfButton.setAction(setDataAction);
+		buttonContainer.add(rtfButton);
+
 		final WButton rtAjaxButton = new WButton("AJAX Show Rich Text");
-		final WText rtfOutput = new WText();
-		rtfOutput.setEncodeText(false);
-		add(rtfButton);
-		add(rtAjaxButton);
-		WPanel rtfOutputPanel = new WPanel();
-		add(rtfOutputPanel);
-		rtfOutputPanel.add(rtfOutput);
+		buttonContainer.add(rtAjaxButton);
+		rtAjaxButton.setAction(setDataAction);
 
-		rtAjaxButton.setAction(new Action() {
-			@Override
-			public void execute(final ActionEvent event) {
-				rtfOutput.setText(ta5.getValue());
-			}
-		});
-		WAjaxControl ajaxControl = new WAjaxControl(rtAjaxButton, rtfOutputPanel);
-		add(ajaxControl);
-
-		rtfButton.setAction(new Action() {
-			@Override
-			public void execute(final ActionEvent event) {
-				rtfOutput.setText(ta5.getValue());
-			}
-		});
+		add(new WAjaxControl(rtAjaxButton, richReadOnly));
 	}
 
 	/**

@@ -11,6 +11,7 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
+import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WMessageBox;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
@@ -18,6 +19,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
+import com.github.bordertech.wcomponents.util.HtmlClassUtil;
 
 /**
  * <p>
@@ -124,6 +126,12 @@ public class WButtonExample extends WPanel implements MessageContainer {
 				+ "The button must still have text content to adequately explain the button's purpose."));
 		add(makeImageButton("Save", true));
 
+		add(new ExplanatoryText("Button using a WImage description as the text equivalent."));
+		WButton button = new WButton();
+		WImage buttonImage = new WImage("/image/tick.png", "Mark as OK");
+		button.setImage(buttonImage.getImage());
+		add(button);
+
 		add(new WHeading(HeadingLevel.H3, "Image and text"));
 		add(new ExplanatoryText(
 				"This example shows how to use an image and text as the content of a button."));
@@ -156,6 +164,37 @@ public class WButtonExample extends WPanel implements MessageContainer {
 				true));
 		buttonLayoutPanel.add(makeImageButtonWithPosition("Image on the West", ImagePosition.WEST,
 				true));
+
+		add(new WHeading(HeadingLevel.H4, "Using theme icons"));
+
+		add(new ExplanatoryText("These examples show ways to add an icon to a button using 'HtmlClassUtil'."));
+
+		WButton iconButton = new WButton("\u200b"); // \u200b is a zero-width space.
+		iconButton.setToolTip("Edit");
+		iconButton.setHtmlClass(HtmlClassUtil.HtmlClassName.ICON_EDIT);
+		add(iconButton);
+
+		iconButton = new WButton("Save");
+		iconButton.setHtmlClass(HtmlClassUtil.HtmlClassName.ICON_SAVE_BEFORE);
+		add(iconButton);
+
+		iconButton = new WButton("Search");
+		iconButton.setHtmlClass(HtmlClassUtil.HtmlClassName.ICON_SEARCH_AFTER);
+		add(iconButton);
+
+		add(new ExplanatoryText("These examples show ways to add a Font-Awesome icon to a button using 'setHtmlClass(String)'."));
+		iconButton = new WButton("\u200b"); // \u200b is a zero-width space.
+		iconButton.setToolTip("Open Menu");
+		iconButton.setHtmlClass("wc-icon fa-bars");
+		add(iconButton);
+
+		iconButton = new WButton("With text content");
+		iconButton.setHtmlClass("wc-icon-before fa-hand-o-left");
+		add(iconButton);
+
+		iconButton = new WButton("Right icon with text content");
+		iconButton.setHtmlClass("wc-icon-after fa-hand-o-right");
+		add(iconButton);
 	}
 
 	/**
@@ -312,7 +351,7 @@ public class WButtonExample extends WPanel implements MessageContainer {
 		add(new ExplanatoryText("A button without a text label is very bad"));
 
 		add(new WHeading(HeadingLevel.H3, "WButton with a WImage but without a good label"));
-		WButton button = new WButton("\u00a0");
+		WButton button = new WButton("");
 		button.setImage("/image/help.png");
 		add(button);
 		add(new ExplanatoryText(

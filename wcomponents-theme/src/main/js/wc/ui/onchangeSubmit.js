@@ -33,7 +33,7 @@ define(["wc/dom/attribute", "wc/dom/event", "wc/dom/initialise", "wc/dom/shed",
 		function OnchangeSubmit() {
 			var submitting = false,  // this is a safety net to prevent double submits if both the change event and shed subscriber fire.
 				SUBMITTER = new Widget("", "wc_soc"),
-				LOAD_SELECT = SUBMITTER.extend("", {"${wc.ui.selectLoader.attribute.dataListId}": null}),
+				LOAD_SELECT = SUBMITTER.extend("", {"data-wc-list": null}),
 				TRIGGERS = [SUBMITTER.extend("", {"type": "checkbox"}),
 							SUBMITTER.extend("", {"type": "radio"}),
 							SUBMITTER.extend("", {"role": "checkbox"}),

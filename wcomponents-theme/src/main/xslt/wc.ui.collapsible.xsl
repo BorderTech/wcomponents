@@ -41,8 +41,10 @@
 				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
-			<xsl:apply-templates select="ui:margin"/>
 			<xsl:element name="${wc.dom.html5.element.summary}">
+				<xsl:attribute name="class">
+					<xsl:text>wc-icon</xsl:text>
+				</xsl:attribute>
 				<xsl:attribute name="tabIndex">
 					<xsl:text>0</xsl:text>
 				</xsl:attribute>

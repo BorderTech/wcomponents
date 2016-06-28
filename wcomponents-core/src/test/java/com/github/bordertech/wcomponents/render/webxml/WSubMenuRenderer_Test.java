@@ -87,9 +87,10 @@ public class WSubMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(menu);
 		assertXpathEvaluatesTo("dynamic", "//ui:submenu/@mode", menu);
 
+		// mode server mapped to mode dynamic as per https://github.com/BorderTech/wcomponents/issues/687
 		subMenu.setMode(WSubMenu.MenuMode.SERVER);
 		assertSchemaMatch(menu);
-		assertXpathEvaluatesTo("server", "//ui:submenu/@mode", menu);
+		assertXpathEvaluatesTo("dynamic", "//ui:submenu/@mode", menu);
 	}
 
 	@Test

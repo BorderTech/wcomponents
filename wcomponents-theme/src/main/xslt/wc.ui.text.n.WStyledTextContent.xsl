@@ -19,9 +19,6 @@
 			</xsl:when>
 			<xsl:when test="$innerElem !=''">
 				<xsl:element name="{$innerElem}">
-					<xsl:attribute name="class">
-						<xsl:value-of select="$type"/>
-					</xsl:attribute>
 					<xsl:value-of select="."/>
 				</xsl:element>
 			</xsl:when>

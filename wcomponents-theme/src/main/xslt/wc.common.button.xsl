@@ -57,7 +57,7 @@
 						</xsl:if>
 					</xsl:if>
 					<xsl:if test="@type = 'link'">
-						<xsl:text> wc_btn_nada wc_btn_link</xsl:text>
+						<xsl:text> wc-nobutton wc-linkbutton</xsl:text>
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
@@ -76,7 +76,7 @@
 			<!-- nothing else applies to print buttons -->
 			<xsl:if test="self::ui:button">
 				<xsl:if test="@msg">
-					<xsl:attribute name="${wc.ui.button.attrib.confirmMessage}">
+					<xsl:attribute name="data-wc-btnmsg">
 						<xsl:value-of select="@msg" />
 					</xsl:attribute>
 				</xsl:if>
@@ -93,7 +93,7 @@
 						</xsl:attribute>
 					</xsl:when>
 					<xsl:when test="@validates">
-						<xsl:attribute name="${wc.ui.button.attribute.validates}">
+						<xsl:attribute name="data-wc-validate">
 							<xsl:value-of select="@validates" />
 						</xsl:attribute>
 					</xsl:when>
@@ -118,7 +118,7 @@
 							<xsl:apply-templates select="../ui:condition" mode="action" />
 						</xsl:variable>
 						<xsl:if test="$conditions != ''">
-							<xsl:attribute name="${wc.ui.table.actions.attribute.conditions}">
+							<xsl:attribute name="data-wc-condition">
 								<xsl:text>[</xsl:text>
 								<xsl:value-of select="$conditions" />
 								<xsl:text>]</xsl:text>

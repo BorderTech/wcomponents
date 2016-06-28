@@ -187,7 +187,6 @@
 								<xs:documentation>Provides a link with a WSelectToggle so that the WSelectToggle can include row selection in its target group. Only applicable if @multiple is "true".</xs:documentation>
 							</xs:annotation>
 						</xs:attribute>
-						<xs:attributeGroup ref="ui:submitOnChange.attributes"/>
 						<xs:attribute name="selectAll">
 							<xs:annotation>
 								<xs:documentation>Indicates that the user should be provided with control(s) to select and deselect all selectable rows. Only applicable if @multiple is "true".</xs:documentation>
@@ -268,7 +267,7 @@
 					</xs:complexType>
 				</xs:element>
 
-				<xs:element name="thead" minOccurs="0">
+				<xs:element name="thead">
 					<xs:annotation>
 						<xs:documentation>Represents table head information and holds a set of column headers.</xs:documentation>
 					</xs:annotation>

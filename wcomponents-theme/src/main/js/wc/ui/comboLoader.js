@@ -58,7 +58,7 @@ define(["wc/dom/initialise",
 					item = document.createElement("li");
 					item.setAttribute("data-wc-value", next.innerHTML);
 					item.setAttribute("role", "option");
-					item.className = "wc_invite";
+					item.className = "wc-invite";
 					item.innerHTML = next.innerHTML;
 					item.tabIndex = "0";
 					optionList.appendChild(item);
@@ -87,7 +87,7 @@ define(["wc/dom/initialise",
 			function processNow(idArr) {
 				var id, element, onsuccess,
 					dataId, optionList,
-					DATA_LIST_ATTRIB = "${wc.ui.selectLoader.attribute.dataListId}";
+					DATA_LIST_ATTRIB = "data-wc-list";
 
 				while ((id = idArr.shift())) {
 					if ((element = document.getElementById(id))) {

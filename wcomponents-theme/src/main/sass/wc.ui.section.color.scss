@@ -10,15 +10,15 @@
 	}
 
 	// color links, link-like buttons and 'buttonless' buttons to make them visible.
-	.wc_btn_nada,
-	.wc_btn_link,
+	.wc-nobutton,
+	.wc-linkbutton,
 	a,
 	a:visited {
 		color: $wc-ui-color-section-heading-fg;
 	}
 
-	.wc_btn_nada[disabled],
-	.wc_btn_nada[disabled],
+	.wc-nobutton[disabled],
+	.wc-nobutton[disabled],
 	a[aria-disabled='true'] {
 		color: $wc-ui-color-section-heading-fg-disabled;
 	}

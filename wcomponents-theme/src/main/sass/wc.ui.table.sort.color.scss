@@ -1,7 +1,7 @@
 /* wc.ui.table.sort.color.scss */
 // Column sorting relate to the sorting of data in sortable tables.
 // This css covers control elements in the heading cells and the rendering of sorted columns.
-@import 'table_vars';
+@import 'mixins-common';
 
 // differentiate col from row.
 // scss-lint:disable QualifyingElement

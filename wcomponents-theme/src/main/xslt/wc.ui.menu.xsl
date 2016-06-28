@@ -28,18 +28,7 @@
 		</xsl:variable>
 
 		<div>
-			<!--
-				NOTES on class:
-				We would like to be able to define all menu appearance and behaviour solely using role. That is not, 
-				however, possible without a lot of code duplication. This gets particularly heinous in the CSS since 
-				there is no sensible reuse mechanism. So we base some instrinsic stuff on the "wc-menu" class and the 
-				important stuff on roles.
-			-->
-			<xsl:call-template name="commonAttributes">
-				<xsl:with-param name="class" select="concat('wc_mn_', @type)"/>
-			</xsl:call-template>
-			<xsl:apply-templates select="ui:margin"/>
-
+			<xsl:call-template name="commonAttributes"/>
 			<!--
 				attribute role
 				ARIA specifies three menu roles: tree, menu and menubar. The difference is in the

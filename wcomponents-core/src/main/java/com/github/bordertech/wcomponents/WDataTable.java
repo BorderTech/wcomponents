@@ -487,21 +487,27 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * Indicates whether the form should submit whenever the row selection changes.
+	 * Indicates whether the form should submit whenever the row selection changes. This <strong>must</strong> be
+	 * <code>false</code> and would be removed if this class was not already deprecated. See
+	 * <a href="https://github.com/BorderTech/wcomponents/issues/701">#701</a>.
 	 *
-	 * @return true if form submission should occur on row selection change, false otherwise.
+	 * @return false
+	 * @deprecated 1.2.0
 	 */
 	public boolean isSubmitOnRowSelect() {
-		return getComponentModel().submitOnRowSelect;
+		return false;
 	}
 
 	/**
-	 * Sets whether the form should submit whenever the row selection changes.
+	 * Sets whether the form should submit whenever the row selection changes. This <strong>must</strong> be
+	 * <code>false</code> and would be removed if this class was not already deprecated. See
+	 * <a href="https://github.com/BorderTech/wcomponents/issues/701">#701</a>.
 	 *
 	 * @param submitOnRowSelect true if form submission should occur on row selection change, false otherwise.
+	 * @deprecated 1.2.0
 	 */
 	public void setSubmitOnRowSelect(final boolean submitOnRowSelect) {
-		getOrCreateComponentModel().submitOnRowSelect = submitOnRowSelect;
+		// No Op
 	}
 
 	/**
@@ -629,12 +635,13 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * Sets the pagination mode.
+	 * Sets the pagination mode. Mode.SERVER mapped to Mode.DYNAMIC to overcome accessibility problem.
 	 *
 	 * @param paginationMode The paginationMode to set.
 	 */
 	public void setPaginationMode(final PaginationMode paginationMode) {
-		getOrCreateComponentModel().paginationMode = paginationMode;
+		getOrCreateComponentModel().paginationMode = PaginationMode.SERVER.equals(paginationMode) ? PaginationMode.DYNAMIC
+				: paginationMode;
 	}
 
 	/**
@@ -701,7 +708,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	 * @param sortMode The sort mode to set.
 	 */
 	public void setSortMode(final SortMode sortMode) {
-		getOrCreateComponentModel().sortMode = sortMode;
+		getOrCreateComponentModel().sortMode = SortMode.SERVER.equals(sortMode) ? SortMode.DYNAMIC : sortMode;
 	}
 
 	/**
@@ -746,12 +753,13 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 	}
 
 	/**
-	 * Sets the row expansion mode.
+	 * Sets the row expansion mode. ExpandMode.SERVER mapped to ExpandMode.DYNAMIC to overcome accessibility problems.
 	 *
 	 * @param expandMode The expand mode to set.
 	 */
 	public void setExpandMode(final ExpandMode expandMode) {
-		getOrCreateComponentModel().expandMode = expandMode;
+		getOrCreateComponentModel().expandMode = ExpandMode.SERVER.equals(expandMode) ? ExpandMode.DYNAMIC
+				: expandMode;
 	}
 
 	/**
@@ -1503,6 +1511,10 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 
 					break;
 				}
+
+				default:
+					// do nothing.
+					break;
 			}
 
 			if (endIndex < startIndex) {
@@ -1557,7 +1569,7 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		/**
 		 * This controls how sorting should function. Sortability is determined by the data model.
 		 */
-		private SortMode sortMode = SortMode.SERVER;
+		private SortMode sortMode = SortMode.DYNAMIC;
 
 		/**
 		 * The data model for the table.
@@ -1654,11 +1666,6 @@ public class WDataTable extends WBeanComponent implements Disableable, Container
 		 * Holds the currently selected row indices.
 		 */
 		private List<Integer> selectedRows;
-
-		/**
-		 * Indicates whether the client should round-trip every time a row is selected.
-		 */
-		private boolean submitOnRowSelect = false;
 
 		// Row expansion
 		/**

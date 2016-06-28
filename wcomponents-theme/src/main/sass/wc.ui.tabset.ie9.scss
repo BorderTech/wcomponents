@@ -1,5 +1,5 @@
 /* wc.ui.tabset.ie9.scss */
-@import 'tabset_vars';
+@import 'tabset-mixins';
 
 [role='tablist'] {
 	overflow: hidden;
@@ -14,13 +14,13 @@
 // only style left and right tabsets when we have a reasonable sized viewport.
 // TODO: maybe end support for left and right in older IEs.
 .wc-tabset {
-	&.wc_left,
-	&.wc_right {
+	&.wc-tabset-type-left,
+	&.wc-tabset-type-right {
 		vertical-align: top;
 
 		> [role='tablist'] {
 			display: inline-block;
-			width: $wc-ui-tabset-left-right-tab-width;
+			width: $wc-tabset-left-right-tab-width;
 
 			> [role] {
 				display: block;
@@ -28,8 +28,8 @@
 		}
 	}
 
-	&.wc_right > [role='tablist'] {// NOTE: no support for wc_right in old browsers. Make then look like left.
-		left: $border-width;
+	&.wc-tabset-type-right > [role='tablist'] {// NOTE: no support for wc_right in old browsers. Make then look like left.
+		left: $wc-border-width;
 		right: auto;
 
 		[role='tab'] {

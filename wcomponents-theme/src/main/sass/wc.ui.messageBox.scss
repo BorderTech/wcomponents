@@ -1,27 +1,17 @@
 /* wc.ui.messagesBox.scss */
-@import 'messageBox_vars';
+@import 'mixins-common';
 
 .wc_msgbox {
 	@include border;
 	@include flex;
 	min-height: 0;
 
-	> h1 {
-		font-size: $msg-box-header-size;
-		font-weight: normal;
-
-		> span {
-			@include offscreen;
-		}
-	}
-
-	> button {
-		padding: $wc-gap-normal $wc-gap-small;
+	> h1 > span {
+		@include offscreen;
 	}
 
 	> ul {
 		@include flex-align-self(center);
-		margin: $wc-gap-small 0;
-		padding-right: $wc-gap-small;
+		margin: $wc-gap-small;
 	}
 }

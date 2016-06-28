@@ -613,7 +613,8 @@ public final class ServletUtil {
 	 * @param parameters the map to store non-file request parameters in.
 	 * @param files the map to store the uploaded file parameters in.
 	 */
-	public static void extractParameterMap(final HttpServletRequest request, final Map<String, String[]> parameters, final Map<String, FileItem[]> files) {
+	public static void extractParameterMap(final HttpServletRequest request, final Map<String, String[]> parameters,
+			final Map<String, FileItem[]> files) {
 
 		if (isMultipart(request)) {
 			ServletFileUpload upload = new ServletFileUpload();

@@ -7,8 +7,8 @@
 @import 'mixins-icon'; // in-built iconography.
 
 /// Set the elements text-align property. I am not convinced this is a useful mixin.
-/// @param {alignment} $align [$preferred-alignment] The horizontal alignment to set.
-@mixin align($align: $preferred-alignment) {
+/// @param {alignment} $align [left] The horizontal alignment to set.
+@mixin align($align: left) {
 	text-align: $align;
 }
 
@@ -30,9 +30,9 @@
 /// @param {String} $pos [all] The border to set. one of 'all' or a border gragment 'top', 'right', 'bottom' or 'left'.
 ///   When set to 'all' a complete border is set, otherwise only the element edge specified by this param.
 /// @param {color} $color [$wc-ui-color-border] The color of the border. Ignored if $width is 0. Set to -1 to not set.
-/// @param {border-style} $style [$border-style] The style of the border. Ignored if $width is 0.
-/// @param {dimension} $width [$border-width] The width of the border. If 0 then the border will be unset and its style set to none.
-@mixin border($pos: all, $color: $wc-ui-color-border, $style: $border-style, $width: $border-width) {
+/// @param {border-style} $style [$wc-border-style] The style of the border. Ignored if $width is 0.
+/// @param {dimension} $width [$wc-border-width] The width of the border. If 0 then the border will be unset and its style set to none.
+@mixin border($pos: all, $color: $wc-ui-color-border, $style: $wc-border-style, $width: $wc-border-width) {
 	@if ($pos == all) {
 		@if ($width == 0) {
 			border: 0 none;
@@ -186,9 +186,9 @@
 /// * offset - 0.
 /// @param {color} $color [$wc-ui-color-border] The color of the outline.
 /// @param {outline-style} $style [solid] The style of the outline.
-/// @param {dimension} $width [$border-width] the width of the outline.
+/// @param {dimension} $width [$wc-border-width] the width of the outline.
 /// @param {int} $offset [0] The outline offset (if any).
-@mixin outline($color: $wc-ui-color-border, $style: solid, $width: $border-width, $offset: 0) {
+@mixin outline($color: $wc-ui-color-border, $style: solid, $width: $wc-border-width, $offset: 0) {
 	outline: $width $style $color;
 	@if ($offset != 0) {
 		outline-offset: $offset;

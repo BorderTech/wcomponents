@@ -47,13 +47,6 @@
 				</xs:annotation>
 			</xs:attribute>
 
-			<xs:attribute name="dataUrl" type="xs:anyURI" use="required">
-				<xs:annotation>
-					<xs:documentation>The URL to which the AJAX requests for data lists are sent. <strong>NOTE:</strong> this attribute is under review as it is now the same as
-						ajaxUrl.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-
 			<xs:attribute name="unsavedChanges" type="xs:boolean">
 				<xs:annotation>
 					<xs:documentation>Set true if there are unsaved changes within the current session process; if, for example, part way through a multi-page form. This allows

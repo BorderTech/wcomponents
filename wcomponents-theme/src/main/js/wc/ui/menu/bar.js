@@ -259,7 +259,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 				// only do this if the menu contains more than one child
 				childCount = typeof nextMenu.children !== "undefined" ? nextMenu.children.length : (typeof nextMenu.childNodes !== "undefined" ? nextMenu.childNodes.length : 0);
 
-				if (childCount > 1 && BANNER.findAncestor(nextMenu) && !classList.contains(nextMenu, "wc_mn_flyout")) {
+				if (childCount > 1 && BANNER.findAncestor(nextMenu) && !classList.contains(nextMenu, "wc-menu-type-flyout")) {
 
 					branchElement = document.createElement("div");
 					branchElement.setAttribute(ROLE, "presentation");
@@ -271,7 +271,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 					button.title = i18n.get("${wc.ui.menu.bar.i18n.submenuOpenLabelDefault}");
 					contentId = uid();
 					button.setAttribute("aria-controls", contentId);
-					button.className = "wc_btn_nada wc-submenu-o wc_hbgr";
+					button.className = "wc-nobutton wc-submenu-o wc_hbgr wc-icon";
 					button.setAttribute(ROLE, "menuitem");
 					branchElement.appendChild(button);
 

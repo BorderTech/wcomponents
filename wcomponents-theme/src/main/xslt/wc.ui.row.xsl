@@ -14,7 +14,6 @@
 				<xsl:with-param name="additional" select="$hgap"/>
 			</xsl:call-template>
 			<xsl:call-template name="ajaxTarget"/>
-			<xsl:apply-templates select="ui:margin"/>
 			<xsl:apply-templates select="ui:column"/>
 		</div>
 	</xsl:template>

@@ -4,7 +4,7 @@
 .wc_seltog {
 	&[role='checkbox'] { // Rendered as a control
 		&:before {
-			@include wc-icon-fw($fa-var-square-o, left);
+			@include wc-icon-fw-content($fa-var-square-o, left);
 		}
 
 		&[aria-checked='true']:before {
@@ -14,5 +14,9 @@
 		&[aria-checked='mixed']:before {
 			content: $fa-var-square;
 		}
+	}
+
+	&[data-wc-value][aria-checked='true'] {
+		font-weight: bold;
 	}
 }

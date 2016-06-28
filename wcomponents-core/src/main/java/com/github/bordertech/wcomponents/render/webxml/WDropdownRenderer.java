@@ -67,7 +67,6 @@ final class WDropdownRenderer extends AbstractWebXmlRenderer {
 
 		if (options != null) {
 			int optionIndex = 0;
-			boolean encode = dropdown.getDescEncode();
 			boolean renderSelectionsOnly = readOnly || dataKey != null;
 
 			for (Object option : options) {
@@ -78,13 +77,13 @@ final class WDropdownRenderer extends AbstractWebXmlRenderer {
 
 					for (Object nestedOption : ((OptionGroup) option).getOptions()) {
 						renderOption(dropdown, nestedOption, optionIndex++, xml, selectedOption,
-								renderSelectionsOnly, encode);
+								renderSelectionsOnly);
 					}
 
 					xml.appendEndTag("ui:optgroup");
 				} else {
 					renderOption(dropdown, option, optionIndex++, xml, selectedOption,
-							renderSelectionsOnly, encode);
+							renderSelectionsOnly);
 				}
 			}
 		}
@@ -102,11 +101,10 @@ final class WDropdownRenderer extends AbstractWebXmlRenderer {
 	 * @param html the XmlStringBuilder to paint to.
 	 * @param selectedOption the dropdown's selected option.
 	 * @param renderSelectionsOnly true to only render selected options, false to render all options.
-	 * @param encode true if the option description should be encoded, false if not.
 	 */
 	private void renderOption(final WDropdown dropdown, final Object option,
 			final int optionIndex, final XmlStringBuilder html, final Object selectedOption,
-			final boolean renderSelectionsOnly, final boolean encode) {
+			final boolean renderSelectionsOnly) {
 		boolean selected = Util.equals(option, selectedOption);
 
 		if (selected || !renderSelectionsOnly) {
@@ -123,7 +121,7 @@ final class WDropdownRenderer extends AbstractWebXmlRenderer {
 			html.appendOptionalAttribute("selected", selected, "true");
 			html.appendOptionalAttribute("isNull", isNull, "true");
 			html.appendClose();
-			html.append(desc, encode);
+			html.append(desc, true);
 			html.appendEndTag("ui:option");
 		}
 	}

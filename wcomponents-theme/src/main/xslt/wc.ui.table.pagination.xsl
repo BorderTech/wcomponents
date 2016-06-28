@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.ui.table.pagination.n.paginationDescription.xsl"/>
-	<xsl:import href="wc.ui.table.n.xsl"/>
+	<xsl:import href="wc.ui.table.n.tableAjaxController.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<!--
 		This template creates the pagination controls. It is called specifically from 

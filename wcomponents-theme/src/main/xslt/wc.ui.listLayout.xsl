@@ -2,6 +2,7 @@
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.getHVGap.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		Transform for ui:listlayout which is one of the possible child elements of ui:panel.
 
@@ -31,29 +32,33 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
+		<xsl:variable name="additionalClasses">
+			<xsl:if test="not(@align)">
+				<xsl:text>wc-align-left</xsl:text>
+			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="not(@separator) or @separator='none'">
+					<xsl:text> wc_list_nb</xsl:text>
+				</xsl:when>
+				<xsl:when test="not(@ordered)">
+					<xsl:value-of select="concat(' wc-listlayout-separator-', @separator)"/>
+				</xsl:when>
+			</xsl:choose>
+			<xsl:call-template name="getHVGapClass">
+				<xsl:with-param name="isVGap">
+					<xsl:choose>
+						<xsl:when test="@type='flat'">0</xsl:when>
+						<xsl:otherwise>1</xsl:otherwise>
+					</xsl:choose>
+				</xsl:with-param>
+			</xsl:call-template>
+		</xsl:variable>
 		<xsl:element name="{$listElement}">
-			<xsl:attribute name="class">
-				<xsl:value-of select="normalize-space(concat('wc-listlayout wc_ll_',@type,' ', @align))"/>
-				<xsl:if test="not(@align)">
-					<xsl:text> left</xsl:text>
-				</xsl:if>
-				<xsl:choose>
-					<xsl:when test="not(@separator) or @separator='none'">
-						<xsl:text> wc_list_nb</xsl:text>
-					</xsl:when>
-					<xsl:when test="not(@ordered)">
-						<xsl:value-of select="concat(' wc_ll_', @separator)"/>
-					</xsl:when>
-				</xsl:choose>
-				<xsl:call-template name="getHVGapClass">
-					<xsl:with-param name="isVGap">
-						<xsl:choose>
-							<xsl:when test="@type='flat'">0</xsl:when>
-							<xsl:otherwise>1</xsl:otherwise>
-						</xsl:choose>
-					</xsl:with-param>
-				</xsl:call-template>
-			</xsl:attribute>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:value-of select="$additionalClasses"/>
+				</xsl:with-param>
+			</xsl:call-template>
 			<xsl:apply-templates mode="ll"/>
 		</xsl:element>
 	</xsl:template>

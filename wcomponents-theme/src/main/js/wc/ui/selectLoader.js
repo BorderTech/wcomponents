@@ -208,7 +208,7 @@ define(["wc/ui/listLoader",
 					lose = errorCallbackFactory(id);
 				if (element) {
 					element.setAttribute("aria-busy", true);
-					listLoader.load(element.getAttribute("${wc.ui.selectLoader.attribute.dataListId}"), element, false).then(win, lose);
+					listLoader.load(element.getAttribute("data-wc-list"), element, false).then(win, lose);
 				}
 			};
 		}

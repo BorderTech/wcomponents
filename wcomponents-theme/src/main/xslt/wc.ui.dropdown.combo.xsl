@@ -40,7 +40,7 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="@data">
-				<xsl:attribute name="${wc.ui.selectLoader.attribute.dataListId}">
+				<xsl:attribute name="data-wc-list">
 					<xsl:value-of select="@data" />
 				</xsl:attribute>
 			</xsl:if>

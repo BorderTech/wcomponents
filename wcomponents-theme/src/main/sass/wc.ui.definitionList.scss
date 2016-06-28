@@ -5,36 +5,35 @@
 // LAYOUT attribute in XML
 dl {
 	@include margin($size: 0);
-
-	//type flat
-	&.flat {
-		vertical-align: text-top;
-
-		> dt,
-		> dd {
-			display: inline-block;
-			margin-left: 0;
-			padding-left: 0;
-			vertical-align: top;
-			width: auto;
-		}
-
-		> dt ~ dt { // any dt with a preceding sibling gets margin-left
-			margin-left: $wc-gap-normal;
-		}
-
-		> dd { // all dds must have a preceding sibling so they all get margin-left
-			margin-left: $wc-gap-small;
-		}
-	}
 }
 
 dt {
 	font-weight: bold;
 }
 
+.wc-definitionlist-type-flat {
+	vertical-align: text-top;
+
+	> dt,
+	> dd {
+		display: inline-block;
+		margin-left: 0;
+		padding-left: 0;
+		vertical-align: top;
+		width: auto;
+	}
+
+	> dt ~ dt { // any dt with a preceding sibling gets margin-left
+		margin-left: $wc-gap-normal;
+	}
+
+	> dd { // all dds must have a preceding sibling so they all get margin-left
+		margin-left: $wc-gap-small;
+	}
+}
+
 // type column
-.column {
+.wc-definitionlist-type-column {
 	> dt {
 		display: inline-block;
 		margin-right: 0.5%;
@@ -55,8 +54,18 @@ dt {
 	}
 }
 
+// type stacked
+.wc-definitionlist-type-stacked {
+	> dt,
+	> dd {
+		display: block;
+		margin-left: 0;
+		padding-left: 0;
+	}
+}
+
 @include respond-phonelike {
-	.column {
+	.wc-definitionlist-type-column {
 		> dt,
 		> dd {
 			@include border-box;
@@ -65,15 +74,5 @@ dt {
 			margin-right: 0;
 			width: 100%;
 		}
-	}
-}
-
-// type stacked
-.stacked {
-	> dt,
-	> dd {
-		display: block;
-		margin-left: 0;
-		padding-left: 0;
 	}
 }

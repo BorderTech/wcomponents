@@ -18,7 +18,7 @@
 			display: inline-block;
 			padding: $wc-gap-normal;
 			position: static;
-			z-index: $z-index-common; // never found in dialogs.
+			z-index: $wc-z-index-common; // never found in dialogs.
 		}
 	}
 }

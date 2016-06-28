@@ -3,6 +3,14 @@
 
 	<import file="build-import-overrides.xml" optional="true"/>
 
+	<!--
+		Eventually this build will optimise for http2 unless this property is true. Also eventually the default for
+		this property will be false.
+
+		As a first cut, if this property is "false" then we will not base64 encode images into the CSS.
+	-->
+	<property name="build.optimise.http1" value="true"/>
+
 	<!-- GLOBAL PROPERTIES: used in both input and output tasks -->
 	<property name="tmp.dir" location="${theme.tmp.dir}"/>
 	<property name="maven.project.name" value="${project.name}"/>

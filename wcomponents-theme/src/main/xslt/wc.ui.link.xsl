@@ -51,7 +51,7 @@
 				<xsl:with-param name="elementType" select="$elementType"/>
 				<xsl:with-param name="class">
 					<xsl:if test="$elementType='button' and not($type='button')">
-						<xsl:text> wc_btn_nada wc_btn_link</xsl:text>
+						<xsl:text> wc-nobutton wc-linkbutton</xsl:text>
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
@@ -80,7 +80,7 @@
 					<xsl:attribute name="type">
 						<xsl:text>button</xsl:text>
 					</xsl:attribute>
-					<xsl:attribute name="${wc.ui.link.attrib.url.standin}">
+					<xsl:attribute name="data-wc-url">
 						<xsl:value-of select="@url"/>
 					</xsl:attribute>
 				</xsl:otherwise>

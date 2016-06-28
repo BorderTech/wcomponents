@@ -39,14 +39,17 @@ define(["wc/dom/ariaAnalog", "wc/dom/initialise", "wc/dom/Widget"],
 			 */
 			this.ITEM = new Widget("", "", {"role": "radio"});
 
+
 			/**
 			 * Select items immediately on navigation.
-			 * @var
+			 * @function
 			 * @protected
-			 * @type Boolean
+			 * @returns {Boolean} always true for this analog.
 			 * @override
 			 */
-			this.selectOnNavigate = true;
+			this.selectOnNavigate = function() {
+				return true;
+			};
 
 			/**
 			 * The selection mode is single.

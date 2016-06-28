@@ -22,14 +22,6 @@ define(["wc/dom/ariaAnalog",
 		 */
 		function RowAnalog() {
 			/**
-			 * Select items immediately on navigation.
-			 * @var
-			 * @protected
-			 * @type Boolean
-			 * @override
-			 */
-			this.selectOnNavigate = false;
-			/**
 			 * The selection mode is mixed: list boxes may be single or multiple as per select elements.
 			 * @var
 			 * @protected

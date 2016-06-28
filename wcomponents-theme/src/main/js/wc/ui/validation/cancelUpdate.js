@@ -39,7 +39,7 @@ define(["wc/dom/event",
 			 * @returns {boolean} true if the form (or sub-form) is invalid.
 			 */
 			function isInvalid(submitter, form) {
-				var validationId = submitter.getAttribute("${wc.ui.button.attribute.validates}"),
+				var validationId = submitter.getAttribute("data-wc-validate"),
 					validationContainer;
 				if (validationId) {
 					validationContainer = document.getElementById(validationId);

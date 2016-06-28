@@ -59,7 +59,8 @@ final class WSubMenuRenderer extends AbstractWebXmlRenderer {
 				xml.appendAttribute("mode", "dynamic");
 				break;
 			case SERVER:
-				xml.appendAttribute("mode", "server");
+				// mode server mapped to mode dynamic as per https://github.com/BorderTech/wcomponents/issues/687
+				xml.appendAttribute("mode", "dynamic");
 				break;
 			default:
 				throw new SystemException("Unknown menu mode: " + menu.getMode());

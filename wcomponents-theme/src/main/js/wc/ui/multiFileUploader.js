@@ -45,9 +45,10 @@ define(["wc/dom/attribute",
 		"wc/timers",
 		"wc/dom/focus",
 		"wc/isNumeric",
-		"wc/ui/ajaxRegion"],
+		"wc/ui/ajaxRegion",
+		"wc/config"],
 	function(attribute, prefetch, event, initialise, uid, Trigger, classList, sprintf, has, i18n, getFileSize,
-			accepted, Widget, formUpdateManager, filedrop, ajax, xslTransform, timers, focus, isNumeric, ajaxRegion) {
+			accepted, Widget, formUpdateManager, filedrop, ajax, xslTransform, timers, focus, isNumeric, ajaxRegion, wcconfig) {
 		"use strict";
 
 		var /** @alias module:wc/ui/multiFileUploader */ instance = new MultiFileUploader(),
@@ -717,7 +718,7 @@ define(["wc/dom/attribute",
 				}
 				else if (cols === "0" && !itemContainers.length) {
 					col = document.createElement(fileInfoContainerWd.tagName);
-					col.className = CLASS_NO_BULLET + " wc_list_flat " + CLASS_FILE_LIST;
+					col.className = CLASS_NO_BULLET + " wc-listlayout-type-flat " + CLASS_FILE_LIST;
 					container.appendChild(col);
 					itemContainers = fileInfoContainerWd.findDescendants(container);
 				}
@@ -760,8 +761,8 @@ define(["wc/dom/attribute",
 				item.className = CLASS_FILE_INFO;
 				removeButton = document.createElement(removeButtonWd.tagName);
 				removeButton.setAttribute("type", "button");  // .type causes issues in legacy IE
-				removeButton.className = "wc_btn_nada";  // turn off button styles
-				removeButton.value = "Cancel uploading: " + fileName;
+				removeButton.className = "wc_btn_icon wc_btn_abort";
+				removeButton.value = i18n.get("${wc.ui.multiFileUploader.i18n.abort}", fileName);
 				item.appendChild(removeButton);
 				item.appendChild(document.createTextNode(fileName));
 				progress = item.appendChild(document.createElement("${wc.dom.html5.element.progress}"));
@@ -822,7 +823,7 @@ define(["wc/dom/attribute",
 			}
 //			qs = urlParser.parse(result);
 //			qs = qs ? qs.search : "";
-//			result += (qs ? "&" : "?") + "${wc.ui.ajax.parameter.triggerId}=" + element.name;
+//			result += (qs ? "&" : "?") + "wc_ajax=" + element.name;
 			return result;
 		}
 
@@ -845,18 +846,76 @@ define(["wc/dom/attribute",
 
 		/**
 		 * If something goes wrong with the upload then tell the user about it and do some cleanup.
-		 * TODO error presentation needs to be more "shiny", maybe borrow errorbox from validation manager?
 		 * @param {string} fileInfoId The ID of the widget tracking the upload in the DOM.
 		 */
 		function errorHandlerFactory(fileInfoId) {
 			return function() {
-				var fileInfo = document.getElementById(fileInfoId);
+				var message, fileInfo = document.getElementById(fileInfoId);
 				delete inflightXhrs[fileInfoId];
 				if (fileInfo) {
-					fileInfo.appendChild(document.createTextNode("An error occured!"));
+					message = getErrorElement(this);
+					fileInfo.appendChild(message);
 				}
 				console.log("Error in file upload:", fileInfoId);
 			};
+		}
+		/**
+		 * gets an error message to display to the user.
+		 * @param {XHR} response An XHR response.
+		 * @returns {Element} An error message.
+		 */
+		function getErrorElement(response) {
+			var element = document.createElement("span"),
+				message = getErrorMessage(response);
+			element.setAttribute("role", "alert");
+			element.setAttribute("class", "highPriority");
+			element.appendChild(document.createTextNode(message));
+			return element;
+		}
+
+		/**
+		 * Get an error message for the given response.
+		 * Allows for customized error messages based on HTTP status code by setting a config object like so:
+		 * @example
+			require(["wc/config"], function(wcconfig){
+				wcconfig.set({ messages: {
+						403:"Oh noes! A 403 occurred!",
+						404: "I can't find it!",
+						200: "Some gateway proxies don't know basic HTTP",
+						error: "An error occurred and I have not set a specific message for it!"
+					}
+				},"wc/ui/multiFileUploader");
+			});
+		 *
+		 * @param {XHR} response An XHR response.
+		 * @returns {string} An error message, in order of preference:
+		 * - A custom message specific to the status code returned
+		 * - A custom default error message
+		 * - The response "statusText"
+		 * - The default WComponents error message for this.
+		 */
+		function getErrorMessage(response) {
+			var message, msgs, config = wcconfig.get("wc/ui/multiFileUploader");
+			if (response) {
+				if (response.status && config && (msgs = config.messages)) {
+					message = msgs[response.status];
+					if (!message) {
+						message = msgs.error;
+					}
+				}
+				/*
+				 * The response could be 200 if a badly configured gateway rejects the file but sends a 200 response.
+				 * While this is not really our problem we do need to tell the user something.
+				 * The something we tell them should not be "OK" or "Success".
+				 */
+				if (!message && response.statusText && response.status !== 200) {
+					message = response.statusText;
+				}
+			}
+			if (!message) {
+				message = i18n.get("${wc.ui.multiFileUploader.i18n.errormsg}");
+			}
+			return message;
 		}
 
 		/**
@@ -897,7 +956,7 @@ define(["wc/dom/attribute",
 					for (i = 0; i < dto.files.length; i++) {
 						file = dto.files[i];
 						id = instance.createFileInfo(container, file.name);
-						sendFile(dto.url, uploadName, id, file, callbackWrapper(dto));
+						sendFile(dto.url, uploadName, id, file, callbackWrapper(dto, id));
 					}
 				}
 				finally {
@@ -908,18 +967,23 @@ define(["wc/dom/attribute",
 			/**
 			 * Returns a callback for sendFile.
 			 * @param {module:wc/file/MultiFileUploader~fileInfo} dto
+			 * @param {string} fileId A unique ID by which to track this particular file upload.
 			 * @returns {Function} The callback wrapper.
 			 */
-			function callbackWrapper(dto) {
+			function callbackWrapper(dto, fileId) {
 				return function(srcTree) {
 					processResponse({
 						dto: dto,
-						srcTree: srcTree
-					});
+						srcTree: srcTree,
+						xhr: this
+					}, fileId);
 				};
 			}
 
-			function processResponse(response) {
+			function processResponse(response, fileId) {
+				var onError = function() {
+					errorHandlerFactory(fileId).call(response.xhr);
+				};
 				xslTransform.transform({ xmlDoc: response.srcTree }).then(function(df) {
 					var dto = response.dto,
 						inflight,
@@ -930,7 +994,10 @@ define(["wc/dom/attribute",
 					if (inflight.length === 0) {
 						dto.complete(dto.container.id);
 					}
-				});
+					if (!container.innerHTML) {
+						onError();
+					}
+				}, onError);
 			}
 
 			/**

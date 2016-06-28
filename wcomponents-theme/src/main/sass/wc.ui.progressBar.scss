@@ -28,8 +28,8 @@
 
 progress {
 	max-width: 100%;
+}
 
-	&.small {
-		font-size: 0.67rem;
-	}
+.wc-progressbar-type-small {
+	font-size: 67%;
 }

@@ -38,7 +38,7 @@
 					<xsl:with-param name="field" select="$ancestorMDD"/>
 				</xsl:call-template>
 				<xsl:if test="$ancestorMDD/@data">
-					<xsl:attribute name="${wc.ui.selectLoader.attribute.dataListId}">
+					<xsl:attribute name="data-wc-list">
 						<xsl:value-of select="$ancestorMDD/@data"/>
 					</xsl:attribute>
 				</xsl:if>

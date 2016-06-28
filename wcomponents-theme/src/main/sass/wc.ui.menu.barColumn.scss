@@ -1,9 +1,9 @@
 /* wc.ui.menu.barColumn.scss */
 // for WMenu type BAR, type FLYOUT, type COLUMN
-@import 'menu_vars';
+@import 'mixins-common';
 
 // The collapsed bar menu in a header.
-[role='banner'] .wc_mn_bar[data-wc-menufixed] {
+[role='banner'] .wc-menu-type-bar[data-wc-menufixed] {
 	display: inline-block;
 }
 
@@ -18,7 +18,7 @@
 	width: 100%;
 
 	> [role] {
-		font-size: 1.25rem;
+		font-size: $wc-font-larger;
 	}
 }
 

@@ -58,16 +58,24 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
+		<xsl:variable name="class">
+			<xsl:text>wc_checkableselect_option_wrapper</xsl:text>
+			<xsl:if test="$elementName='ul'">
+				<xsl:text> wc_list_nb</xsl:text>
+			</xsl:if>
+			<xsl:if test="$layout = 'column'">
+				<xsl:text> wc-column</xsl:text>
+			</xsl:if>
+			<xsl:if test="not($layout = 'flat')">
+				<xsl:text> wc_vgap_sm</xsl:text>
+			</xsl:if>
+		</xsl:variable>
 		<xsl:element name="{$elementName}">
-			<xsl:attribute name="class">
-				<xsl:value-of select="$layout"/>
-				<xsl:if test="$layout = 'column'">
-					<xsl:text> wc-column</xsl:text>
-				</xsl:if>
-				<xsl:if test="$elementName='ul'">
-					<xsl:text> wc_list_nb</xsl:text>
-				</xsl:if>
-			</xsl:attribute>
+			<xsl:if test="$class != ''">
+				<xsl:attribute name="class">
+					<xsl:value-of select="normalize-space($class)"/>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:call-template name="checkableSelectOption">
 				<xsl:with-param name="optionName" select="$inputName"/>
 				<xsl:with-param name="optionType" select="$type"/>

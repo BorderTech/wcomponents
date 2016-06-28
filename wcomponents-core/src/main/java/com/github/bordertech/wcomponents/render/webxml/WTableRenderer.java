@@ -38,7 +38,6 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		WTable table = (WTable) component;
 		XmlStringBuilder xml = renderContext.getWriter();
-		TableModel model = table.getTableModel();
 
 		xml.appendTagOpen("ui:table");
 		xml.appendAttribute("id", component.getId());
@@ -93,109 +92,19 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 		MarginRendererUtil.renderMargin(table, renderContext);
 
 		if (table.getPaginationMode() != PaginationMode.NONE) {
-			xml.appendTagOpen("ui:pagination");
-
-			xml.appendAttribute("rows", model.getRowCount());
-			xml.appendOptionalAttribute("rowsPerPage", table.getRowsPerPage() > 0, table.
-					getRowsPerPage());
-			xml.appendAttribute("currentPage", table.getCurrentPage());
-
-			switch (table.getPaginationMode()) {
-				case CLIENT:
-					xml.appendAttribute("mode", "client");
-					break;
-				case DYNAMIC:
-					xml.appendAttribute("mode", "dynamic");
-					break;
-				case NONE:
-					break;
-				default:
-					throw new SystemException("Unknown pagination mode: " + table.
-							getPaginationMode());
-			}
-
-			if (table.getPaginationLocation() != WTable.PaginationLocation.AUTO) {
-				switch (table.getPaginationLocation()) {
-					case TOP:
-						xml.appendAttribute("controls", "top");
-						break;
-					case BOTTOM:
-						xml.appendAttribute("controls", "bottom");
-						break;
-					case BOTH:
-						xml.appendAttribute("controls", "both");
-						break;
-					default:
-						throw new SystemException("Unknown pagination control location: " + table.getPaginationLocation());
-				}
-			}
-
-			xml.appendClose();
-
-			// Rows per page options
-			if (table.getRowsPerPageOptions() != null) {
-				xml.appendTag("ui:rowsselect");
-				for (Integer option : table.getRowsPerPageOptions()) {
-					xml.appendTagOpen("ui:option");
-					xml.appendAttribute("value", option);
-					xml.appendEnd();
-				}
-				xml.appendEndTag("ui:rowsselect");
-			}
-			xml.appendEndTag("ui:pagination");
+			paintPaginationDetails(table, xml);
 		}
 
 		if (table.getSelectMode() != SelectMode.NONE) {
-			boolean multiple = table.getSelectMode() == SelectMode.MULTIPLE;
-			xml.appendTagOpen("ui:rowselection");
-			xml.appendOptionalAttribute("multiple", multiple, "true");
-
-			boolean toggleSubRows = multiple && table.isToggleSubRowSelection()
-					&& WTable.ExpandMode.NONE != table.getExpandMode();
-			xml.appendOptionalAttribute("toggle", toggleSubRows, "true");
-			if (multiple) {
-				switch (table.getSelectAllMode()) {
-					case CONTROL:
-						xml.appendAttribute("selectAll", "control");
-						break;
-					case TEXT:
-						xml.appendAttribute("selectAll", "text");
-						break;
-					case NONE:
-						break;
-					default:
-						throw new SystemException("Unknown select-all mode: " + table.
-								getSelectAllMode());
-				}
-			}
-			xml.appendEnd();
+			paintSelectionDetails(table, xml);
 		}
 
 		if (table.getExpandMode() != ExpandMode.NONE) {
-			xml.appendTagOpen("ui:rowexpansion");
-
-			switch (table.getExpandMode()) {
-				case CLIENT:
-					xml.appendAttribute("mode", "client");
-					break;
-				case LAZY:
-					xml.appendAttribute("mode", "lazy");
-					break;
-				case DYNAMIC:
-					xml.appendAttribute("mode", "dynamic");
-					break;
-				case NONE:
-					break;
-				default:
-					throw new SystemException("Unknown expand mode: " + table.getExpandMode());
-			}
-
-			xml.appendOptionalAttribute("expandAll", table.isExpandAll(), "true");
-			xml.appendEnd();
+			paintExpansionDetails(table, xml);
 		}
 
 		if (table.isSortable()) {
-			paintSortDetails(table, renderContext);
+			paintSortDetails(table, xml);
 		}
 
 		paintColumnHeadings(table, renderContext);
@@ -206,13 +115,130 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 	}
 
 	/**
+	 * Paint the pagination aspects of the table.
+	 * @param table the WDataTable being rendered
+	 * @param xml the string builder in use
+	 */
+	private void paintPaginationDetails(final WTable table, final XmlStringBuilder xml) {
+		TableModel model = table.getTableModel();
+
+		xml.appendTagOpen("ui:pagination");
+
+		xml.appendAttribute("rows", model.getRowCount());
+		xml.appendOptionalAttribute("rowsPerPage", table.getRowsPerPage() > 0, table.
+				getRowsPerPage());
+		xml.appendAttribute("currentPage", table.getCurrentPage());
+
+		switch (table.getPaginationMode()) {
+			case CLIENT:
+				xml.appendAttribute("mode", "client");
+				break;
+			case DYNAMIC:
+				xml.appendAttribute("mode", "dynamic");
+				break;
+			case NONE:
+				break;
+			default:
+				throw new SystemException("Unknown pagination mode: " + table.
+						getPaginationMode());
+		}
+
+		if (table.getPaginationLocation() != WTable.PaginationLocation.AUTO) {
+			switch (table.getPaginationLocation()) {
+				case TOP:
+					xml.appendAttribute("controls", "top");
+					break;
+				case BOTTOM:
+					xml.appendAttribute("controls", "bottom");
+					break;
+				case BOTH:
+					xml.appendAttribute("controls", "both");
+					break;
+				default:
+					throw new SystemException("Unknown pagination control location: " + table.getPaginationLocation());
+			}
+		}
+		xml.appendClose();
+		// Rows per page options
+		if (table.getRowsPerPageOptions() != null) {
+			xml.appendTag("ui:rowsselect");
+			for (Integer option : table.getRowsPerPageOptions()) {
+				xml.appendTagOpen("ui:option");
+				xml.appendAttribute("value", option);
+				xml.appendEnd();
+			}
+			xml.appendEndTag("ui:rowsselect");
+		}
+		xml.appendEndTag("ui:pagination");
+
+	}
+
+	/**
+	 * Paint the row selection aspects of the table.
+	 * @param table the WDataTable being rendered
+	 * @param xml the string builder in use
+	 */
+	private void paintSelectionDetails(final WTable table, final XmlStringBuilder xml) {
+		boolean multiple = table.getSelectMode() == SelectMode.MULTIPLE;
+		xml.appendTagOpen("ui:rowselection");
+		xml.appendOptionalAttribute("multiple", multiple, "true");
+
+		boolean toggleSubRows = multiple && table.isToggleSubRowSelection()
+				&& WTable.ExpandMode.NONE != table.getExpandMode();
+		xml.appendOptionalAttribute("toggle", toggleSubRows, "true");
+		if (multiple) {
+			switch (table.getSelectAllMode()) {
+				case CONTROL:
+					xml.appendAttribute("selectAll", "control");
+					break;
+				case TEXT:
+					xml.appendAttribute("selectAll", "text");
+					break;
+				case NONE:
+					break;
+				default:
+					throw new SystemException("Unknown select-all mode: " + table.
+							getSelectAllMode());
+			}
+		}
+		xml.appendEnd();
+	}
+
+	/**
+	 * Paint the row selection aspects of the table.
+	 * @param table the WDataTable being rendered
+	 * @param xml the string builder in use
+	 */
+	private void paintExpansionDetails(final WTable table, final XmlStringBuilder xml) {
+		xml.appendTagOpen("ui:rowexpansion");
+
+		switch (table.getExpandMode()) {
+			case CLIENT:
+				xml.appendAttribute("mode", "client");
+				break;
+			case LAZY:
+				xml.appendAttribute("mode", "lazy");
+				break;
+			case DYNAMIC:
+				xml.appendAttribute("mode", "dynamic");
+				break;
+			case NONE:
+				break;
+			default:
+				throw new SystemException("Unknown expand mode: " + table.getExpandMode());
+		}
+
+		xml.appendOptionalAttribute("expandAll", table.isExpandAll(), "true");
+		xml.appendEnd();
+	}
+
+	/**
 	 * Paints the sort details.
 	 *
-	 * @param table the table to paint the sort details for.
-	 * @param renderContext the RenderContext to paint to.
+	 * @param table the table being rendered
+	 * @param xml the string builder in use
 	 */
-	private void paintSortDetails(final WTable table, final WebXmlRenderContext renderContext) {
-		XmlStringBuilder xml = renderContext.getWriter();
+	private void paintSortDetails(final WTable table, final XmlStringBuilder xml) {
 
 		int col = table.getSortColumnIndex();
 		boolean ascending = table.isSortAscending();

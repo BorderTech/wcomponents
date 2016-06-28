@@ -1,22 +1,8 @@
 /* wc.ui.text.scss */
-//WStyledText - not WText
+// WStyledText - not WText. This default style sheet only mandatory-indicator is styled.
 @import 'mixins-common';
 
-.highPriority { //strong element
-	// @include outline($color: $wc-ui-color-error-fg, $style: double, $width: 3px);
-	background-color: $wc-ui-color-error-bg;
-	color: $wc-ui-color-error-fg;
-	padding: 0 $wc-gap-small;
-}
-
-.mediumPriority { //em element
-	// @include outline($color: $wc-ui-color-warning-fg);
-	background-color: $wc-ui-color-global-bg;
-	color: $wc-ui-color-warning-fg;
-	padding: 0 $wc-gap-small;
-}
-
-.mandatoryIndicator:after {
+.wc-text-type-mandatoryIndicator:after {
 	@include mandatory-indicator;
 	margin-left: $wc-gap-small;
 }

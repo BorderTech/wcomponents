@@ -15,21 +15,8 @@
 					</xsl:attribute>
 				</xsl:if>
 				<xsl:if test="../ui:rowselection">
-					<th class="wc_table_sel_wrapper" scope="col">
-						<xsl:if test="$hasRole &gt; 0">
-							<xsl:attribute name="role">
-								<xsl:text>columnheader</xsl:text>
-							</xsl:attribute>
-						</xsl:if>
-						<xsl:choose>
-							<xsl:when test="../ui:rowselection/@selectAll = 'control'">
-								<xsl:apply-templates select="../ui:rowselection"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:attribute name="aria-hidden">true</xsl:attribute>
-								<xsl:text>&#xa0;</xsl:text>
-							</xsl:otherwise>
-						</xsl:choose>
+					<th class="wc_table_sel_wrapper" scope="col" aria-hidden="true">
+						<xsl:text>&#xa0;</xsl:text>
 					</th>
 				</xsl:if>
 				<xsl:if test="../ui:rowexpansion">

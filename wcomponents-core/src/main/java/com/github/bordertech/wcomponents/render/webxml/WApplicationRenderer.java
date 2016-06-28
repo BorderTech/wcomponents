@@ -50,7 +50,6 @@ final class WApplicationRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendAttribute("applicationUrl", uic.getEnvironment().getPostPath());
 		xml.appendAttribute("ajaxUrl", uic.getEnvironment().getWServletPath());
-		xml.appendAttribute("dataUrl", uic.getEnvironment().getWServletPath()); // TODO: Rationalise this
 		xml.appendOptionalAttribute("unsavedChanges", application.hasUnsavedChanges(), "true");
 		xml.appendOptionalAttribute("title", application.getTitle());
 		xml.appendOptionalAttribute("defaultFocusId", uic.isFocusRequired() && !Util.empty(focusId),

@@ -49,17 +49,22 @@ public class WDateFieldExample extends WContainer {
 	 * Creates a WDateFieldExample.
 	 */
 	public WDateFieldExample() {
-		/* The readOnly state of WDateField is used to output non-interactive
-		 * content. It is still an input though and should usually have a label
-		 * of some kind. In this example all of the fields are aded to a
-		 * WFieldLayout.*/
+		/* The readOnly state of WDateField is used to output non-interactive content. It is still an input though and should usually have a label
+		 * of some kind. In this example all of the fields are added to a WFieldLayout.*/
 		dateFieldReadOnly.setReadOnly(true);
+
+		dateField.setActionOnChange(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				dateFieldReadOnly.setData(dateField.getData());
+			}
+		});
 
 		final WTextField textField = new WTextField();
 		textField.setColumns(40);
 		textField.setDisabled(true);
 
-		WButton copyDateBtn = new WButton("Copy text from 'Date' to 'Text output'");
+		WButton copyDateBtn = new WButton("Copy text");
 		copyDateBtn.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
@@ -68,7 +73,7 @@ public class WDateFieldExample extends WContainer {
 		});
 		copyDateBtn.setAjaxTarget(textField);
 
-		WButton copyJavaDateBtn = new WButton("Copy date value from 'Date' to 'Text output'");
+		WButton copyJavaDateBtn = new WButton("Copy date value");
 		copyJavaDateBtn.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
@@ -99,7 +104,7 @@ public class WDateFieldExample extends WContainer {
 				"populated from the editable date field above");
 
 		/*
-         * WDateFields with a date on load.
+		 * WDateFields with a date on load.
 		 */
 		WDateField todayDF = new WDateField();
 		todayDF.setDate(new Date());
@@ -209,15 +214,5 @@ public class WDateFieldExample extends WContainer {
 		constrainedDateField = new WDateField();
 		constrainedDateField.setMaxDate(new Date());
 		layout.addField("Maximum date today", constrainedDateField);
-	}
-
-	/**
-	 * Reflect the value of dateField in the read only version.
-	 *
-	 * @param request the request being processed
-	 */
-	@Override
-	protected void preparePaintComponent(final Request request) {
-		dateFieldReadOnly.setDate(dateField.getDate());
 	}
 }

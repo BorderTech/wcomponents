@@ -1,7 +1,4 @@
 @import 'mixins-common';
-// Spacing for WSection and WPanel Types CHROME and ACTION.
-$section-content-spacing: $wc-gap-normal !default;
-$section-header-spacing: $wc-gap-normal !default;
 
 section {
 	@include border;
@@ -9,7 +6,7 @@ section {
 	> h1,
 	> header h1 {
 		@include margin($size: 0);
-		font-size: 1rem;
+		font-size: $wc-section-header-size;
 		font-weight: normal;
 	}
 
@@ -21,7 +18,7 @@ section {
 
 		> .wc_dlbl_seg {
 			display: table-cell;
-			padding: $section-header-spacing;
+			padding: $wc-gap-normal;
 		}
 
 		> h1 {
@@ -36,20 +33,20 @@ section {
 
 	// WPanel types CHROME and ACTION
 	> h1 {
-		padding: $section-header-spacing;
+		padding: $wc-gap-normal;
 	}
 
 	// now the content
 	// WSection is easy: its content is a wpanel.
 	> .wc-panel {
-		margin: $section-content-spacing;
+		margin: $wc-gap-normal;
 		padding: 0;
 	}
 
 	// WPanel content and layouts.
 	> div, // the WPanel child of WSection is a div but the rule above overrides this.
 	> .wc-listlayout {
-		padding: $section-content-spacing;
+		padding: $wc-gap-normal;
 	}
 
 	// Docking a Bar menu
@@ -58,10 +55,10 @@ section {
 	// WPanel then we can 'dock' the menu to the panel/section header.
 	&,
 	> .wc-panel {
-		> .wc-content > .wc_mn_bar:first-child {
+		> .wc-content > .wc-menu-type-bar:first-child {
 			// the negative margin must be 0 - the padding of WSection content.
-			$neg-margin: -$section-content-spacing;
-			margin: $neg-margin $neg-margin $section-content-spacing;
+			$neg-margin: -$wc-gap-normal;
+			margin: $neg-margin $neg-margin $wc-gap-normal;
 		}
 	}
 }

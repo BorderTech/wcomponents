@@ -3,9 +3,16 @@
 		Creates a caption element if required. Called from the transform for ui:table.
 	-->
 	<xsl:template name="caption">
-		<xsl:if test="@caption and not(@caption='')">
+		<xsl:if test="@caption and not(@caption='') or ui:tbody/ui:nodata">
 			<caption>
-				<xsl:value-of select="@caption"/>	
+				<xsl:choose>
+					<xsl:when test="ui:tbody/ui:nodata">
+						<xsl:apply-templates select="ui:tbody/ui:nodata"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="@caption"/>	
+					</xsl:otherwise>
+				</xsl:choose>
 			</caption>
 		</xsl:if>
 	</xsl:template>

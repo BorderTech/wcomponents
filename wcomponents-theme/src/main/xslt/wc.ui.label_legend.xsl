@@ -2,6 +2,7 @@
 	<xsl:import href="wc.common.accessKey.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.ui.label.n.WLabelHint.xsl"/>
+	<xsl:import href="wc.common.n.className.xsl"/>
 
 	<!--
 		This is used to generate a legend for a component which has a fieldset wrapper. The component element is passed
@@ -21,19 +22,23 @@
 			</xsl:if>
 		</xsl:variable>
 		<xsl:variable name="isEmpty">
-			<xsl:if test="normalize-space(.)='' and not(.//ui:image)">
+			<xsl:if test="normalize-space(.)='' and not(.//ui:image) and not(@hint)">
 				<xsl:number value="1"/>
 			</xsl:if>
 		</xsl:variable>
-		<xsl:variable name="className">
-			<xsl:choose>
-				<xsl:when test="$isEmpty = 1">
-					<xsl:text>wc_error</xsl:text>
-				</xsl:when>
-				<xsl:otherwise>wc_off</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<legend class="{$className}">
+		<legend>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:choose>
+						<xsl:when test="$isEmpty = 1">
+							<xsl:text>wc_error</xsl:text>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>wc-off</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:with-param>
+			</xsl:call-template>
 			<xsl:call-template name="accessKey"/>
 			<xsl:if test="$isEmpty = 1">
 				<xsl:value-of select="$$${wc.common.i18n.requiredLabel}"/>

@@ -6,8 +6,4 @@ textarea + output {
 	background-color: $wc-ui-color-disabled-bg;
 	border-color: $wc-ui-color-border-form-control;
 	color: $wc-ui-color-disabled-fg;
-
-	&.wc_error { // show when the maxlength is exceeded
-		color: $wc-ui-color-error-fg;
-	}
 }

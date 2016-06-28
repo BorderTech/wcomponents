@@ -205,7 +205,8 @@ public final class TreeItemUtil {
 	 * @param mode the expand mode
 	 * @param expandedRows the set of expanded rows
 	 */
-	private static void processItemIdIndexMapping(final Map<String, List<Integer>> map, final List<Integer> rowIndex, final TreeItemModel treeModel, final WTree.ExpandMode mode, final Set<String> expandedRows) {
+	private static void processItemIdIndexMapping(final Map<String, List<Integer>> map, final List<Integer> rowIndex, final TreeItemModel treeModel,
+			final WTree.ExpandMode mode, final Set<String> expandedRows) {
 
 		// Add current item
 		String id = treeModel.getItemId(rowIndex);
@@ -267,7 +268,8 @@ public final class TreeItemUtil {
 	 * @param expandedRows the set of expanded rows
 	 * @param mapItemIds the map of item ids to row index
 	 */
-	private static void processCustomTreeNodes(final TreeItemIdNode node, final TreeItemModel treeModel, final WTree.ExpandMode mode, final Set<String> expandedRows, final Map<String, List<Integer>> mapItemIds) {
+	private static void processCustomTreeNodes(final TreeItemIdNode node, final TreeItemModel treeModel, final WTree.ExpandMode mode,
+			final Set<String> expandedRows, final Map<String, List<Integer>> mapItemIds) {
 
 		// Node has no children so check if they need to be loaded from the tree model
 		if (node.getChildren().isEmpty()) {
@@ -290,7 +292,8 @@ public final class TreeItemUtil {
 	 * @param mode the expand mode
 	 * @param expandedRows the set of expanded rows
 	 */
-	private static void loadCustomNodesFromModel(final TreeItemIdNode node, final List<Integer> rowIndex, final TreeItemModel treeModel, final WTree.ExpandMode mode, final Set<String> expandedRows) {
+	private static void loadCustomNodesFromModel(final TreeItemIdNode node, final List<Integer> rowIndex, final TreeItemModel treeModel,
+			final WTree.ExpandMode mode, final Set<String> expandedRows) {
 
 		// Defualt to no children
 		node.setHasChildren(false);

@@ -1,10 +1,11 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.aria.live.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
-	<xsl:import href="wc.ui.table.n.xsl"/>
 	<xsl:import href="wc.ui.table.tr.n.clientRowClosedHelper.xsl"/>
 	<!--
 		Transform for each row in the WTable. The row itself transforms to a HTML tr element. It may also output another
@@ -91,7 +92,7 @@
 						</xsl:when>
 					</xsl:choose>
 					<xsl:if test="$rowIsSelectable = 1">
-						<xsl:text> wc_invite</xsl:text>
+						<xsl:text> wc-invite</xsl:text>
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
@@ -208,7 +209,7 @@
 				</xsl:attribute>
 
 				<xsl:attribute name="data-wc-name">
-					<xsl:value-of select="concat($tableId,'${wc.ui.table.rowSelect.state.suffix}')"/>
+					<xsl:value-of select="concat($tableId,'.selected')"/>
 				</xsl:attribute>
 
 				<xsl:attribute name="data-wc-value">
@@ -240,7 +241,7 @@
 			selection mechanism and state. The primary indicators are the aria-selected state.
 			-->
 			<xsl:if test="$tableRowSelection=1">
-				<td class="wc_table_sel_wrapper">
+				<td class="wc_table_sel_wrapper wc-icon">
 					<xsl:choose>
 						<xsl:when test="$hasRowExpansion + $tableRowSelection = 2 and $myTable/ui:rowselection/@toggle and ui:subtr/ui:tr[not(@unselectable)]">
 							<xsl:attribute name="role">
@@ -251,12 +252,14 @@
 							<xsl:variable name="subRowToggleControlContentId" select="concat($subRowToggleControlId, '_content')"/>
 							<!--
 							THIS IS HORRID but necessary - it has to be a complete emulation of a flyout menu but I have nothing to
-							apply to make the submenu and menu ite,s so I cannot even make the menu template into a named template.
+							apply to make the submenu and menu items so I cannot even make the menu template into a named template.
 						-->
-							<div class="wc-menu flyout" role="menubar" id="{$subRowToggleControlId}">
+							<div class="wc-menu wc_mn_flyout" role="menubar" id="{$subRowToggleControlId}">
 								<div class="wc-submenu" role="presentation">
-									<button type="button" aria-haspopup="true" class="wc_btn_nada wc_invite wc-submenu-o" id="{$subRowToggleControlButtonId}" aria-controls="{$subRowToggleControlContentId}">
-										<span class="wc_off"><xsl:value-of select="$$${wc.ui.table.string.rowSelection.label}"/></span>
+									<button type="button" aria-haspopup="true" class="wc-nobutton wc-invite wc-submenu-o" id="{$subRowToggleControlButtonId}" aria-controls="{$subRowToggleControlContentId}">
+										<xsl:call-template name="offscreenSpan">
+											<xsl:with-param name="text" select="$$${wc.ui.table.string.rowSelection.label}"/>
+										</xsl:call-template>
 									</button>
 									<div class="wc_submenucontent wc_seltog" role="menu" aria-expanded="false" id="{$subRowToggleControlContentId}" aria-labelledby="{$subRowToggleControlButtonId}">
 										<xsl:variable name="allSelectableSubRows" select="count(.//ui:subtr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable)])"/>
@@ -267,7 +270,7 @@
 												<xsl:with-param name="tableId" select="$tableId"/>
 											</xsl:apply-templates>
 										</xsl:variable>
-										<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc_btn_nada wc_invite" aria-controls="{$subRowControlList}" data-wc-value="all">
+										<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc-nobutton wc-invite" aria-controls="{$subRowControlList}" data-wc-value="all">
 											<xsl:attribute name="aria-checked">
 												<xsl:choose>
 													<xsl:when test="$allUnselectedSubRows = 0">
@@ -278,10 +281,11 @@
 													</xsl:otherwise>
 												</xsl:choose>
 											</xsl:attribute>
-											<span class="wc_off"><xsl:value-of select="$$${wc.common.toggles.i18n.select.label}"/> </span>
-											<xsl:value-of select="$$${wc.common.toggles.i18n.selectAll}"/>
+											<xsl:call-template name="offscreenSpan">
+												<xsl:with-param name="text" select="$$${wc.common.toggles.i18n.selectAll.a11y}"/>
+											</xsl:call-template>
 										</button>
-										<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc_btn_nada wc_invite" aria-controls="{$subRowControlList}"  data-wc-value="none">
+										<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc-nobutton wc-invite" aria-controls="{$subRowControlList}"  data-wc-value="none">
 											<xsl:attribute name="aria-checked">
 												<xsl:choose>
 													<xsl:when test="$allSelectableSubRows = $allUnselectedSubRows">
@@ -292,8 +296,9 @@
 													</xsl:otherwise>
 												</xsl:choose>
 											</xsl:attribute>
-											<span class="wc_off"><xsl:value-of select="$$${wc.common.toggles.i18n.select.label}"/> </span>
-											<xsl:value-of select="$$${wc.common.toggles.i18n.selectNone}"/>
+											<xsl:call-template name="offscreenSpan">
+												<xsl:with-param name="text" select="$$${wc.common.toggles.i18n.selectNone.a11y}"/>
+											</xsl:call-template>
 										</button>
 									</div>
 								</div>
@@ -316,7 +321,7 @@
 			-->
 			<xsl:if test="$myTable/ui:rowexpansion">
 				<!-- The rowExpansion cell will hold the expansion control (if any) -->
-				<td class="wc_table_rowexp_container">
+				<td class="wc_table_rowexp_container wc-icon">
 					<xsl:if test="ui:subtr">
 						<xsl:attribute name="role">button</xsl:attribute>
 						<xsl:attribute name="aria-controls">

@@ -1,7 +1,8 @@
 /* wc.ui.listLayoutIcons.scss */
 @import 'mixins-common';
 
-.wc_ll_flat.wc_ll_dot > li + li:before { // dot bullets should be default but need pseudo-elements for flat lists.
+// dot bullets should be default but need pseudo-elements for flat lists.
+.wc-listlayout-type-flat.wc-listlayout-separator-dot > li + li:before { // dot bullets should be default but need pseudo-elements for flat lists.
 	@include wc-icon($fa-var-circle);
 	font-size: 6px;
 	line-height: 1;

@@ -31,7 +31,7 @@ summary {
 		font-size: inherit;
 		font-weight: bold;
 		vertical-align: text-top;
-		width: calc(100% - 2rem); // allow for the iconography
+		width: calc(100% - $wc-icon-normal); // allow for the iconography
 	}
 }
 

@@ -56,6 +56,7 @@ public class ColumnMenuExample extends WPanel {
 		mapColumnHierarchy(menu, root, selectedMenuText);
 
 		// Demonstrate different menu modes
+		getSubMenuByText("Australia", menu).setAccessKey('A');
 		getSubMenuByText("NSW", menu).setMode(MenuMode.CLIENT);
 		getSubMenuByText("Branch 1", menu).setMode(MenuMode.DYNAMIC);
 		getSubMenuByText("VIC", menu).setMode(MenuMode.LAZY);

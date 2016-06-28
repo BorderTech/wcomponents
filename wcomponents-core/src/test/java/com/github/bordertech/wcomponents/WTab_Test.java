@@ -22,7 +22,7 @@ public class WTab_Test extends AbstractWComponentTestCase {
 	public void testConstructor() {
 		WComponent component = new DefaultWComponent();
 		WDecoratedLabel label = new WDecoratedLabel("label");
-		WTab tab = new WTab(component, label, WTabSet.TabMode.SERVER);
+		WTab tab = new WTab(component, label, WTabSet.TabMode.DYNAMIC);
 
 		Assert.assertEquals("label should be added as first tab content", label, tab.getChildAt(0));
 		Assert.assertEquals("label should be added as second tab content", component, tab.
@@ -35,7 +35,7 @@ public class WTab_Test extends AbstractWComponentTestCase {
 		WDecoratedLabel label = null;
 
 		try {
-			WTab tab = new WTab(component, label, WTabSet.TabMode.SERVER);
+			WTab tab = new WTab(component, label, WTabSet.TabMode.DYNAMIC);
 			Assert.fail("should throw IllegalArgumentException - not get tab - " + tab.getId());
 		} catch (Exception e) {
 			Assert.assertEquals("should get message expected", ILLEGAL_LABEL_ERROR, e.getMessage());
@@ -49,7 +49,7 @@ public class WTab_Test extends AbstractWComponentTestCase {
 	public void testSetContentNonNullToNonNull() {
 		WComponent component = new DefaultWComponent();
 		WDecoratedLabel label = new WDecoratedLabel("label");
-		WTab tab = new WTab(component, label, WTabSet.TabMode.SERVER);
+		WTab tab = new WTab(component, label, WTabSet.TabMode.DYNAMIC);
 		Assert.assertEquals("should be content as set in constructor", component, tab.getContent());
 
 		WComponent component2 = new DefaultWComponent();
@@ -64,7 +64,7 @@ public class WTab_Test extends AbstractWComponentTestCase {
 	public void testSetContentNonNullToNull() {
 		WComponent component = new DefaultWComponent();
 		WDecoratedLabel label = new WDecoratedLabel("label");
-		WTab tab = new WTab(component, label, WTabSet.TabMode.SERVER);
+		WTab tab = new WTab(component, label, WTabSet.TabMode.DYNAMIC);
 		Assert.assertEquals("should be content as set in constructor", component, tab.getContent());
 
 		tab.setContent(null);
@@ -81,7 +81,7 @@ public class WTab_Test extends AbstractWComponentTestCase {
 	public void testSetContentNullToNonNull() {
 		WComponent component = new DefaultWComponent();
 		WDecoratedLabel label = new WDecoratedLabel("label");
-		WTab tab = new WTab(component, label, WTabSet.TabMode.SERVER);
+		WTab tab = new WTab(component, label, WTabSet.TabMode.DYNAMIC);
 		Assert.assertEquals("should be content as set in constructor", component, tab.getContent());
 
 		WComponent component2 = null;
@@ -96,7 +96,7 @@ public class WTab_Test extends AbstractWComponentTestCase {
 	public void testSetContentNullToNull() {
 		WComponent component = new DefaultWComponent();
 		WDecoratedLabel label = new WDecoratedLabel("label");
-		WTab tab = new WTab(component, label, WTabSet.TabMode.SERVER);
+		WTab tab = new WTab(component, label, WTabSet.TabMode.DYNAMIC);
 		Assert.assertEquals("should be content as set in constructor", component, tab.getContent());
 
 		tab.setContent(null);
@@ -111,7 +111,7 @@ public class WTab_Test extends AbstractWComponentTestCase {
 	 */
 	@Test
 	public void testSetDisabled() {
-		WTab tab = new WTab(new DefaultWComponent(), "tab", WTabSet.TabMode.SERVER);
+		WTab tab = new WTab(new DefaultWComponent(), "tab", WTabSet.TabMode.DYNAMIC);
 		Assert.assertFalse("Should not be disabled by default", tab.isDisabled());
 
 		tab.setLocked(true);
@@ -236,13 +236,13 @@ public class WTab_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Test preparePaintComponent - tabMode SERVER.
+	 * Test preparePaintComponent - tabMode DYNAMIC.
 	 */
 	@Test
 	public void testPreparePaintComponentServer() {
 		// Tab - Server
 		WComponent component = new WText("this is some text");
-		WTab tab = new WTab(component, "label", WTabSet.TabMode.SERVER);
+		WTab tab = new WTab(component, "label", WTabSet.TabMode.DYNAMIC);
 
 		WTabSet tabSet = new WTabSet();
 		tabSet.addTab(new WText(), "test", WTabSet.TAB_MODE_CLIENT);
@@ -326,7 +326,7 @@ public class WTab_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testModeAccessors() {
 		WTab tab = new WTab(new WContainer(), "test", WTabSet.TabMode.CLIENT);
-		assertAccessorsCorrect(tab, "mode", TabMode.CLIENT, TabMode.DYNAMIC, TabMode.SERVER);
+		assertAccessorsCorrect(tab, "mode", TabMode.CLIENT, TabMode.DYNAMIC, TabMode.LAZY);
 	}
 
 	@Test

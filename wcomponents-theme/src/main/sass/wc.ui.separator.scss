@@ -1,7 +1,7 @@
 /* wc.ui.separator.scss */
 
 // @import 'mixins-common';
-@import 'menu_vars';
+@import 'mixins-common';
 
 [role='separator'] {
 	// We need the important here otherwise we have to do a LOT of overriding of roles.
@@ -15,11 +15,11 @@
 	border-bottom: 0 none;
 	display: inline;
 
-	// .wc_mn_flyout > & {
-	// 	padding: $wc-ui-menu-flyout-vseparator-pad;
+	// .wc-menu-type-flyout > & {
+	// 	padding: $wc-menu-flyout-vseparator-pad;
 	// }
 	//
-	// .wc_mn_bar > & {
-	// 	padding: $wc-ui-menu-bar-vseparator-pad;
+	// .wc-menu-type-bar > & {
+	// 	padding: $wc-menu-bar-vseparator-pad;
 	// }
 }

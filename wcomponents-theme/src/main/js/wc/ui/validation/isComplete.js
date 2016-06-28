@@ -31,7 +31,7 @@ define(["wc/Observer",
 				CONTROLS,
 				ANALOGS,
 				OBSERVER_GROUP = "completeness",
-				NULL_OPTION_ATTRIBUTE = "${wc.common.attribute.optionIsNull}";
+				NULL_OPTION_ATTRIBUTE = "data-wc-null";
 
 			/**
 			 * Allow components to subscribe to this module so that they can look after their own notions of

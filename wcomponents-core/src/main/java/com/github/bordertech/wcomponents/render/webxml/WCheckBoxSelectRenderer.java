@@ -29,7 +29,6 @@ final class WCheckBoxSelectRenderer extends AbstractWebXmlRenderer {
 		XmlStringBuilder xml = renderContext.getWriter();
 		int tabIndex = select.getTabIndex();
 		int cols = select.getButtonColumns();
-		boolean encode = select.getDescEncode();
 		boolean readOnly = select.isReadOnly();
 		int min = select.getMinSelect();
 		int max = select.getMaxSelect();
@@ -81,7 +80,7 @@ final class WCheckBoxSelectRenderer extends AbstractWebXmlRenderer {
 					throw new SystemException("Option groups not supported in WCheckBoxSelect.");
 				} else {
 					renderOption(select, option, optionIndex++, xml, selections,
-							renderSelectionsOnly, encode);
+							renderSelectionsOnly);
 				}
 			}
 		}
@@ -98,12 +97,11 @@ final class WCheckBoxSelectRenderer extends AbstractWebXmlRenderer {
 	 * @param html the XmlStringBuilder to paint to.
 	 * @param selections the list of selected options.
 	 * @param renderSelectionsOnly true to only render selected options, false to render all options.
-	 * @param encode true if the option description should be encoded, false if not.
 	 */
 	private void renderOption(final WCheckBoxSelect select, final Object option,
 			final int optionIndex,
 			final XmlStringBuilder html, final List<?> selections,
-			final boolean renderSelectionsOnly, final boolean encode) {
+			final boolean renderSelectionsOnly) {
 		boolean selected = selections.contains(option);
 
 		if (selected || !renderSelectionsOnly) {
@@ -116,7 +114,7 @@ final class WCheckBoxSelectRenderer extends AbstractWebXmlRenderer {
 			html.appendAttribute("value", code);
 			html.appendOptionalAttribute("selected", selected, "true");
 			html.appendClose();
-			html.append(desc, encode);
+			html.append(desc, true);
 			html.appendEndTag("ui:option");
 		}
 	}
