@@ -608,7 +608,7 @@ define(["lib/sprintf",
 					triggerId = this.id;
 				}
 				triggerId = encodeURIComponent(triggerId);
-				result = addToQueryString(result, sprintf.sprintf("%s=%s", "${wc.ui.ajax.parameter.triggerId}", triggerId));
+				result = addToQueryString(result, sprintf.sprintf("%s=%s", "wc_ajax", triggerId));
 			}
 			finally {
 				this._submitTriggerElement = false;  // reset, the idea is the next click event will set to true

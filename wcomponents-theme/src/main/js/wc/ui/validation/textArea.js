@@ -76,7 +76,7 @@ define(["wc/dom/attribute",
 						result = true;
 						flag = i18n.get("${validation.maxlength.i18n.error}", "%s", mask, value.length);
 					}
-					else if ((mask = element.getAttribute("${wc.common.attrib.min}")) && value.length < mask) {
+					else if ((mask = element.getAttribute("data-wc-min")) && value.length < mask) {
 						result = true;
 						flag = i18n.get("${validation.textField.i18n.minLength}", "%s", mask);
 					}

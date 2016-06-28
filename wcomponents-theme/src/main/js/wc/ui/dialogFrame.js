@@ -833,7 +833,7 @@ define(["wc/dom/event",
 				var content = this.getContent();
 
 				if (content) {
-					content.removeAttribute("${wc.ui.ajax.attribute.getData}");
+					content.removeAttribute("data-wc-get");
 					content.id = id || "";
 					content.className = CONTENT_BASE_CLASS;
 

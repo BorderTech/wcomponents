@@ -37,7 +37,7 @@ define(["wc/dom/shed",
 				MAGIC_CONTAINER = new Widget("", MAGIC_CLASS),
 				DYNAMIC_CONTAINER = MAGIC_CONTAINER.extend("wc_dynamic"),
 				LAME_CONTAINER = new Widget("", "wc_lame"),
-				GET_ATTRIB = "${wc.ui.ajax.attribute.getData}",
+				GET_ATTRIB = "data-wc-get",
 				FORM,
 				inited;
 
