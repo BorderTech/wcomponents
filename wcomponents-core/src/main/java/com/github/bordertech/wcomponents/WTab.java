@@ -116,7 +116,7 @@ public class WTab extends AbstractNamingContextContainer implements Disableable,
 	 * @param mode the tab mode.
 	 */
 	public void setMode(final TabMode mode) {
-		getOrCreateComponentModel().mode = mode == TabMode.SERVER ? TabMode.DYNAMIC : mode;
+		getOrCreateComponentModel().mode = TabMode.SERVER.equals(mode) ? TabMode.DYNAMIC : mode;
 	}
 
 	/**

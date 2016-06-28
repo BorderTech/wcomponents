@@ -135,7 +135,7 @@ public class FlowLayout implements LayoutManager {
 	 * @deprecated use {@link #FlowLayout(Alignment, int)}
 	 */
 	public FlowLayout(final Alignment alignment, final int hgap, final int vgap) {
-		this(alignment, VERTICAL.equals(alignment) ? vgap : hgap, null);
+		this(alignment, Alignment.VERTICAL.equals(alignment) ? vgap : hgap, null);
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class FlowLayout implements LayoutManager {
 	 * @param gap the required gap between components in the layout
 	 */
 	public FlowLayout(final Alignment alignment, final int gap) {
-		this(alignment, VERTICAL.equals(alignment) ? 0 : gap, VERTICAL.equals(alignment) ? gap : 0, null);
+		this(alignment, Alignment.VERTICAL.equals(alignment) ? 0 : gap, Alignment.VERTICAL.equals(alignment) ? gap : 0, null);
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class FlowLayout implements LayoutManager {
 	 */
 	public FlowLayout(final Alignment alignment, final int hgap, final int vgap,
 			final ContentAlignment contentAlignment) {
-		this(alignment, VERTICAL.equals(alignment) ? vgap : hgap, VERTICAL.equals(alignment) ? null : contentAlignment);
+		this(alignment, Alignment.VERTICAL.equals(alignment) ? vgap : hgap, Alignment.VERTICAL.equals(alignment) ? null : contentAlignment);
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class FlowLayout implements LayoutManager {
 		}
 		this.alignment = alignment;
 		this.gap = gap;
-		this.contentAlignment = VERTICAL.equals(alignment) ? null : contentAlignment;
+		this.contentAlignment = Alignment.VERTICAL.equals(alignment) ? null : contentAlignment;
 	}
 
 	/**
@@ -197,7 +197,7 @@ public class FlowLayout implements LayoutManager {
 	 * @deprecated use {@link #getGap()}
 	 */
 	public int getHgap() {
-		return VERTICAL.equals(alignment) ? 0 : gap;
+		return Alignment.VERTICAL.equals(alignment) ? 0 : gap;
 	}
 
 	/**
@@ -205,7 +205,7 @@ public class FlowLayout implements LayoutManager {
 	 * @deprecated use {@link #getGap()}
 	 */
 	public int getVgap() {
-		return VERTICAL.equals(alignment) ? gap : 0;
+		return Alignment.VERTICAL.equals(alignment) ? gap : 0;
 	}
 
 
