@@ -83,8 +83,7 @@ public class HtmlClassUtil {
 	private static final String EDIT_ICON = CONFIG.getString("com.github.bordertech.wcomponents.HtmlClass.icon.edit", "fa-pencil");
 
 	/**
-	 * Provides a set of HTML class attribute values which can be used in
-	 * {@link com.github.bordertech.wcomponents.WComponent.setHtmlClass(HtmlClassName)}.
+	 * Provides a set of HTML class attribute values.
 	 */
 	public enum HtmlClassName {
 
