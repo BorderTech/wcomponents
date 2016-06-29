@@ -280,7 +280,7 @@ define(["lib/sprintf",
 		 * @param {Function} subscriber
 		 * @param {number} [phase] If a negative number is provided the subscriber will be called when a trigger is fired.
 		 */
-		Trigger.subscribe = function (subscriber, phase) {
+		Trigger.subscribe = function(subscriber, phase) {
 			var group = null;
 			if (phase && phase < 0) {
 				group = { group: "before" };
@@ -292,6 +292,16 @@ define(["lib/sprintf",
 		};
 
 		/**
+		 * Remove ALL subscribers.
+		 */
+		Trigger.clearSubscribers = function() {
+			if (observer) {
+				observer.reset();
+				observer.reset("before");
+			}
+		};
+
+		/**
 		 * Related to the subscribe method above.
 		 * @param {Trigger} trigger The trigger that is firing.
 		 * @param {string} [groupName] The group to notify.
@@ -300,9 +310,13 @@ define(["lib/sprintf",
 			var pending;
 			trigger.profile.received = Date.now();
 			if (observer) {
-				pending = !!pendingList.length;
+				pending = pendingList.length > 0;
 				if (groupName) {
 					observer.setFilter(groupName);
+					if (groupName === "before") {
+						// This special case is not ideal but necessary.
+						pending = true;
+					}
 				}
 				observer.notify({
 					profile: trigger.profile,
@@ -325,7 +339,7 @@ define(["lib/sprintf",
 		 *	 for finding the ajax URL.
 		 * @returns {String} The url.
 		 */
-		Trigger.getUrl = function (trigger) {
+		Trigger.getUrl = function(trigger) {
 			var url,
 				ampCheckRE	=	/\&amp;/gi,
 				fragmentRe	=	/#.+$/g;
@@ -399,7 +413,7 @@ define(["lib/sprintf",
 		 * @returns {module:wc/ajax/Trigger~Request[]} An array of requests which update the id. If none found will
 		 *	 return an empty array.
 		 */
-		Trigger.prototype.getTriggersFor = function (id, requests, stopAtFirstMatch) {
+		Trigger.prototype.getTriggersFor = function(id, requests, stopAtFirstMatch) {
 			var result = [],
 				len = requests.length,
 				trigger,
@@ -510,7 +524,7 @@ define(["lib/sprintf",
 		 * @function
 		 * @public
 		 */
-		Trigger.prototype.fire = function () {
+		Trigger.prototype.fire = function() {
 			var promise,
 				trigger = this,
 				endOfQueue,
@@ -579,7 +593,7 @@ define(["lib/sprintf",
 		 * @public
 		 * @returns {String} The serialized parameters or "".
 		 */
-		Trigger.prototype.getParams = function () {
+		Trigger.prototype.getParams = function() {
 			var result = "",
 				triggerId,
 				element = getElement(this);

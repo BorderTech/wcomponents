@@ -8,7 +8,11 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 			instance = {
 				preInit: preInit,
 				postInit: postInit,
-				subscribe: subscribe
+				subscribe: subscribe,
+				unsubscribe: unsubscribe,
+				clearSubscribers: clearSubscribers,
+				isReady: isFlaggedReady,
+				attr: "data-wc-domready"
 			},
 			flags = {
 				AJAX: 1,
@@ -72,27 +76,38 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 					globalPending &= ~flag;
 				}
 			}
-			checkNotify();
+			var result = new Promise(function(resolve, reject) {
+				try {
+					checkNotify(resolve);
+				}
+				catch (ex) {
+					reject(ex);
+				}
+			});
+			return result;
 		}
 
-		function checkNotify() {
-			var attr = "data-wc-domready",
-				delay, notify, currentState, isReady,
+		function checkNotify(callback) {
+			var delay, notify, currentState, isReady,
 				element = document.body;
 			if (element) {
 				isReady = !globalPending;
-				currentState = (element.getAttribute(attr) === "true");
+				currentState = instance.isReady();
 				if (isReady !== currentState) {
 					if (timer) {
 						window.clearTimeout(timer);
 					}
-					notify = stateChangeFactory(element, attr);
+					notify = stateChangeFactory(element, instance.attr);
 					if (!isReady) {  // If the DOM is busy we want to notify ASAP
 						notify();
+						callback();
 					}
 					else {  // If the DOM is ready notify "soon" in case another action is about to start
 						delay = storage.get("wc.a8n.delay") || 501;  // String should be ok without casting...
-						timer = window.setTimeout(notify, delay);
+						timer = window.setTimeout(function() {
+							notify();
+							callback();
+						}, delay);
 					}
 				}
 			}
@@ -111,19 +126,48 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 			};
 		}
 
+		/**
+		 * Determine if the page is "ready"
+		 * @returns {Boolean} true if the page is ready
+		 */
+		function isFlaggedReady() {
+			var element = document.body;
+			return (element && element.getAttribute(instance.attr) === "true");
+		}
+
 		/*
 		 * Called before initialisation rotuines run.
 		 */
 		function preInit() {
-			pendingUpdated(true, flags.DOM_READY);
+			return pendingUpdated(true, flags.DOM_READY);
 		}
 
 		/*
 		 * Called after initialisation rotuines run.
 		 */
 		function postInit() {
-			pendingUpdated(false, flags.DOM_READY);
+			return pendingUpdated(false, flags.DOM_READY);
 		}
+
+		/**
+		 * Remove ALL subscribers.
+		 */
+		function clearSubscribers() {
+			if (observer) {
+				observer.reset();
+			}
+		};
+
+		/**
+		 * Remove this specific subscriber.
+		 * @param {Function} subscriber
+		 */
+		function unsubscribe(subscriber) {
+			if (!subscriber || !observer) {
+				return;
+			}
+			return observer.unsubscribe(subscriber);
+		};
 
 		/**
 		 * Subscribers will be called any time the global ready state changes.
@@ -140,6 +184,14 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 			return observer.subscribe(subscriber);
 		}
 
+		try {
+			if (Object.freeze) {
+				Object.freeze(instance);
+			}
+		}
+		catch (ex) {
+			console.warn(ex);
+		}
 		initialise.register(instance);
 		return instance;
 	});
