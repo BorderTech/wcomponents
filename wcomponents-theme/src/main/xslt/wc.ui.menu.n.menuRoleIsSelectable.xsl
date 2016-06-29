@@ -1,4 +1,6 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<!--
 		This template is used to determine if a WMenuItem or WSubMenu (if
@@ -16,19 +18,11 @@
 			<xsl:when test="@selectable='false'">
 				<xsl:number value="0"/>
 			</xsl:when>
-			<!--In a tree a treeItem is only selectable if the tree supports selection.
-					remember: if we do not have a context menu we do not have $type -->
-			<xsl:when test="type='tree' and $myAncestorMenu/@selectMode">
-				<xsl:number value="1"/>
-			</xsl:when>
-			<xsl:when test="type='tree'">
-				<xsl:number value="0"/>
-			</xsl:when>
-			<!-- in menus which aren't trees then selection is granular -->
 			<xsl:when test="@selectable">
 				<xsl:number value="1"/>
 			</xsl:when>
-			<!-- if we do not have a context menu at all then let the ajax subscriber javascript worry about selection mode based on the transient attribute set from @selectable-->
+			<!-- if we do not have a context menu at all then let the ajax subscriber javascript worry about selection 
+				mode based on the transient attribute set from @selectable-->
 			<xsl:when test="not($myAncestorMenu or $myAncestorSubmenu)">
 				<xsl:number value="0"/>
 			</xsl:when>
