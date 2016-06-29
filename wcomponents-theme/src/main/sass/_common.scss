@@ -110,7 +110,7 @@ $wc-menu-bar-column-item-pad: $wc-menu-item-pad-topbottom !default;
 // FLYOUT menu top level items
 $wc-menu-flyout-top-level-item-pad: $wc-gap-small !default;
 // padding of WSeparator at the top level of a BAR or FLYOUT menu (orientation='vertical')
-$wc-menu-bar-vseparator-pad: $wc-gap-normal 0 !default;
+$wc-menu-bar-vseparator-pad: (2 * $wc-menu-item-pad-topbottom) 0 0 0 !default;
 $wc-menu-flyout-vseparator-pad: $wc-gap-small 0 !default;
 // the gap bewtten the text label of a sub menu and its 'opener' image
 $wc-menu-bar-column-opener-indicator-before-after: $wc-gap-small !default;

@@ -1,4 +1,6 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.ui.menu.n.hasStickyOpen.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuRoleIsSelectable.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuTabIndexHelper.xsl"/>
@@ -17,7 +19,8 @@
 	-->
 	<xsl:template match="ui:menuitem">
 		<xsl:variable name="myAncestorMenu" select="ancestor::ui:menu[1]"/>
-		<xsl:variable name="myAncestorSubmenu" select="ancestor::ui:submenu[ancestor::ui:menu[1]=$myAncestorMenu or not($myAncestorMenu)][1]"/>
+		<xsl:variable name="myAncestorSubmenu" 
+			select="ancestor::ui:submenu[ancestor::ui:menu[1]=$myAncestorMenu or not($myAncestorMenu)][1]"/>
 		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="menuType" select="$myAncestorMenu/@type"/>
 		<!-- this is a test for ui:menuitem in an ajax response without its context menu -->
@@ -155,10 +158,9 @@
 					</xsl:variable>
 					<xsl:attribute name="role">
 						<xsl:choose>
-							<xsl:when test="$menuType='tree'">
-								<xsl:text>treeitem</xsl:text>
-							</xsl:when>
-							<xsl:when test="$isSelectable=1 and ($myAncestorSubmenu[not(@selectMode='single')] or (not($myAncestorSubmenu) and $myAncestorMenu[not(@selectMode='single')]))">
+							<xsl:when test="$isSelectable=1 and 
+								($myAncestorSubmenu[not(@selectMode='single')] or 
+								(not($myAncestorSubmenu) and $myAncestorMenu[not(@selectMode='single')]))">
 								<xsl:text>menuitemcheckbox</xsl:text>
 							</xsl:when>
 							<xsl:when test="$isSelectable=1">
@@ -170,17 +172,7 @@
 						</xsl:choose>
 					</xsl:attribute>
 					<xsl:if test="$isSelectable=1">
-						<xsl:variable name="selectionAttribute">
-							<xsl:choose>
-								<xsl:when test="$menuType='tree'">
-									<xsl:text>aria-selected</xsl:text>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:text>aria-checked</xsl:text>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:variable>
-						<xsl:attribute name="{$selectionAttribute}">
+						<xsl:attribute name="aria-checked">
 							<xsl:choose>
 								<xsl:when test="@selected">
 									<xsl:copy-of select="$t"/>
@@ -212,7 +204,8 @@
 						-->
 						<xsl:variable name="disabledAncestor" select="ancestor::*[@disabled and
 							(($noContextMenu=1 and self::ui:submenu) or
-							($myAncestorMenu and (self::ui:menu[.=$myAncestorMenu] or self::ui:submenu[ancestor::ui:menu[1]=$myAncestorMenu])))]"/>
+							($myAncestorMenu and (self::ui:menu[.=$myAncestorMenu] or 
+							self::ui:submenu[ancestor::ui:menu[1]=$myAncestorMenu])))]"/>
 						<xsl:if test="$disabledAncestor">
 							<xsl:call-template name="disabledElement">
 								<xsl:with-param name="field" select="$disabledAncestor"/>

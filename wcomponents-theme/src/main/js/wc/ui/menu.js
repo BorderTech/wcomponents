@@ -14,7 +14,7 @@
  * @requires module:wc/ui/menu/tree
  * @requires module:wc/ui/navigationButton
  */
-define(["wc/ui/menu/bar", "wc/ui/menu/column", "wc/ui/menu/tree", "wc/ui/navigationButton"],
+define(["wc/ui/menu/bar", "wc/ui/menu/column", "wc/ui/menu/tree", "wc/ui/menu/treemenu", "wc/ui/navigationButton"],
 	function() {
 		"use strict";
 		return 1;
