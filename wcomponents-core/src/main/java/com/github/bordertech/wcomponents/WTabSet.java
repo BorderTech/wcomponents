@@ -592,8 +592,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 					if (!oldIndices.contains(tabIndex)) {
 						// Check for a server mode tab and set focus
 						WTab tab = getTab(tabIndex);
-						if (TabMode.SERVER == tab.getMode() && UIContextHolder.getCurrent().
-								getFocussed() == null) {
+						if (TabMode.SERVER.equals(tab.getMode()) && UIContextHolder.getCurrent().getFocussed() == null) {
 							tab.setFocussed();
 						}
 						changes.add(tabIndex);

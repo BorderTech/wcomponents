@@ -44,7 +44,7 @@ define(["wc/has",
 		 */
 		function MultiFormComponent() {
 			var BUTTON_TYPE = {add: 0, remove: 1},
-				MAX = "${wc.common.attrib.max}",
+				MAX = "data-wc-max",
 				queueTimer,
 				CONTAINER = new Widget("fieldset", "wc_mfc"),
 				FIELD = new Widget("li"),

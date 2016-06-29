@@ -56,8 +56,8 @@ define(["wc/date/interchange",
 					comparisonDate,
 					label,
 					LABEL_PLACEHOLDER = "%s",
-					minAttrib = "${wc.common.attrib.min}",
-					maxAttrib = "${wc.common.attrib.max}";
+					minAttrib = "data-wc-min",
+					maxAttrib = "data-wc-max";
 
 				if (!textbox || dateField.getPartialDateWidget().isOneOfMe(textbox)) {
 					return false;  // do not apply constraint validation to partial date fields, even if the date entered is a full date.

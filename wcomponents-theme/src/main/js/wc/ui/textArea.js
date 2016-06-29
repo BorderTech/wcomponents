@@ -55,8 +55,8 @@ define(["wc/dom/attribute",
 			var INITED_KEY = "__maxlength_inited__",
 				TEXTAREA = new Widget("textarea"),
 				TEXTAREA_MAXLENGTH = TEXTAREA.extend("", {"maxLength": null}),
-				TEXTAREA_MAXLENGTH_FAUX = TEXTAREA.extend("", {"${wc.ui.maxLength.attribute.maxlength}": null}),
-				TEXTAREA_CONSTRAINED = [TEXTAREA_MAXLENGTH, TEXTAREA_MAXLENGTH_FAUX, TEXTAREA.extend("", {"${wc.common.attrib.min}": null})],
+				TEXTAREA_MAXLENGTH_FAUX = TEXTAREA.extend("", {"data-wc-maxlength": null}),
+				TEXTAREA_CONSTRAINED = [TEXTAREA_MAXLENGTH, TEXTAREA_MAXLENGTH_FAUX, TEXTAREA.extend("", {"data-wc-min": null})],
 				TICKER_DELAY = 250,
 				tickerTimeout;
 
@@ -249,7 +249,7 @@ define(["wc/dom/attribute",
 			 * @returns {number} The maximum character count for this textarea or 0 if it is not constrained.
 			 */
 			this.getMaxlength = function(element) {
-				var result = element.getAttribute("maxLength") || element.getAttribute("${wc.ui.maxLength.attribute.maxlength}");
+				var result = element.getAttribute("maxLength") || element.getAttribute("data-wc-maxlength");
 				if (result) {
 					result = parseInt(result);
 				}

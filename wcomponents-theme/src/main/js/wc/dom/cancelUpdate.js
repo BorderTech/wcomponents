@@ -178,7 +178,7 @@ define(["wc/i18n/i18n",
 					formTitle,
 					msg;
 				if (!loading) {
-					msg = (submitter ? submitter.getAttribute("${wc.ui.button.attrib.confirmMessage}") : "");
+					msg = (submitter ? submitter.getAttribute("data-wc-btnmsg") : "");
 					if (!msg) {
 						MESSAGE = MESSAGE || "'%s' " + i18n.get("${wc.dom.cancelUpdate.i18n.message}");
 						if ((form = FORM.findAncestor(element)) && (formTitle = form.getAttribute("title"))) {

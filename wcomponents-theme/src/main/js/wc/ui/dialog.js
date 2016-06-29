@@ -48,7 +48,7 @@ define(["wc/dom/classList",
 				keepContentOnClose = false,
 				openOnLoadTimer,
 				openThisDialog,
-				GET_ATTRIB = "${wc.ui.ajax.attribute.getData}";
+				GET_ATTRIB = "data-wc-get";
 
 			/**
 			 * Opens a dialog on page load.
