@@ -5,8 +5,6 @@
 .wc-menu-type-tree .wc-submenu-o {
 	> .wc-decoratedlabel:before {
 		@include wc-icon-fw($fa-var-caret-right, $text-align: left, $width: $wc-menu-tree-iconwidth);
-		display: table-cell;
-		padding-right: $wc-gap-small;
 	}
 
 	&[aria-pressed='true'] > .wc-decoratedlabel:before {
