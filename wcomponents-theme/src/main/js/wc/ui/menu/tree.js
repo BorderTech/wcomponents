@@ -1,5 +1,8 @@
 /**
- * Menu controller extension for WMenu of type TREE. Provides a tree-like menu structure.
+ * Menu controller extension for WTree.
+ *
+ * WTree uses the menu controller because it has the same key-walking, brancho opening, selection and activation
+ * mechanisms.
  *
  * @see {@link http://www.w3.org/TR/wai-aria-practices/#TreeView}
  *
@@ -17,6 +20,8 @@
  * @requires module:wc/dom/classList
  * @requires module:wc/dom/formUpdateManager
  * @requires module:wc/dom/getFilteredGroup
+ * @requires module:wc/ui/ajaxRegion
+ * @requires module:wc/timers
  */
 define(["wc/ui/menu/core",
 		"wc/dom/keyWalker",
@@ -31,8 +36,13 @@ define(["wc/ui/menu/core",
 		"wc/dom/getFilteredGroup",
 		"wc/ui/ajaxRegion",
 		"wc/timers"],
-	/** @param abstractMenu @param keyWalker @param shed @param Widget @param toArray  @param treeItem @param initialise @param has s @param classList @param formUpdateManager @param getFilteredGroup @param ajaxRegion @param timers @ignore */
-	function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, has, classList, formUpdateManager, getFilteredGroup, ajaxRegion, timers) {
+	/**
+	 * @param abstractMenu @param keyWalker @param shed @param Widget @param toArray  @param treeItem
+	 * @param initialise @param has s @param classList @param formUpdateManager @param getFilteredGroup
+	 * @param ajaxRegion @param timers @ignore
+	 */
+	function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, has, classList, formUpdateManager,
+	getFilteredGroup, ajaxRegion, timers) {
 		"use strict";
 
 		/**
@@ -42,9 +52,7 @@ define(["wc/ui/menu/core",
 		 * @extends module:wc/ui/menu/core~AbstractMenu
 		 * @private */
 		function Tree() {
-			var SUBMENU_CONTENT,
-				DUMMY_BRANCH,
-				VOPENER,
+			var VOPENER,
 				LEAF_WD,
 				ajaxTimer;
 
@@ -53,18 +61,12 @@ define(["wc/ui/menu/core",
 				require(["wc/fix/inlineBlock_ie8"]);
 			}
 
-			function isWMenu(root) {
-				return classList.contains(root, "wc-menu");
-			}
-
 			this.isHTree = function(root) {
+				if (!root) {
+					return false;
+				}
 				return classList.contains(root, "wc_htree");
 			};
-
-			this.isHTreeOrMenu = function(root) {
-				return this.isHTree(root) || isWMenu(root);
-			};
-
 
 			this.isInVOpen = function(element) {
 				VOPENER = VOPENER || new Widget ("", "wc_leaf_vopener");
@@ -113,7 +115,7 @@ define(["wc/ui/menu/core",
 				var _root;
 
 				if (!element) {
-					throw new ReferenceError("Argument 'root' is required.");
+					throw new ReferenceError("Argument 'element' is required.");
 				}
 
 				_root = instance.isRoot(element) ? element : instance.getRoot(element);
@@ -122,7 +124,6 @@ define(["wc/ui/menu/core",
 				}
 				return _root;
 			}
-
 
 			/**
 			 * Indicates if  a particular tree supports multiple open branches. Vertical trees allow multiple branches
@@ -136,26 +137,18 @@ define(["wc/ui/menu/core",
 			 */
 			this._oneOpen = function(element) {
 				var _root = getRootHelper(element);
-
-				if (isWMenu(_root)) {
-					return false; // WMenu trees are always vertical and always multi-openable.
-				}
-
 				return this.isHTree(_root);
 			};
-
 
 			/**
 			 * Trees do not require a branch item to be seleted when a branch is opened.
 			 *
-			 * @function
+			 * @var
+			 * @type Boolean
 			 * @protected
 			 * @override
-			 * @returns {Boolean} false for all trees.
 			 */
-			this.enterOnOpen = function() {
-				return false;
-			};
+			this.enterOnOpen = false;
 
 			/**
 			 * When keyboard navigating a tree we go into open submenus before going to the next option at the current
@@ -168,22 +161,10 @@ define(["wc/ui/menu/core",
 			 * @returns {Boolean} true if treeWalker should traverse depth first.
 			 */
 			this._treeWalkDepthFirst = function(root) {
-				var _root = getRootHelper(root);
-
-				if (isWMenu(_root)) {
-					return true; // WMenu trees are always vertical and always depth-first.
-				}
-
 				return !this.isHTree(root); // horizontal trees are never depth-first.
 			};
 
 			this._openOnSelect = function(root) {
-				var _root = getRootHelper(root);
-
-				if (isWMenu(_root)) {
-					return false; // WMenu trees are always vertical and always multi-openable.
-				}
-
 				return this.isHTree(root);
 			};
 
@@ -200,13 +181,12 @@ define(["wc/ui/menu/core",
 			/**
 			 * Trees are not transient.
 			 *
-			 * @function
+			 * @var
+			 * @type boolean
+			 * @override
 			 * @public
-			 * @return {boolean} true if the current menu has transient sub-menu artefacts.
 			 */
-			this.isTransient = function() {
-				return false;
-			};
+			this.isTransient = false;
 
 			/**
 			 * Trees automatically select selectable treeitems on navigation.
@@ -248,60 +228,6 @@ define(["wc/ui/menu/core",
 			};
 
 			/**
-			 * Fix the role and other attributes in a submenu which has been inserted via AJAX. We default all the XSLT
-			 * to menu-like properties if we do not have the top level menu context because menus are more common than
-			 * trees.
-			 *
-			 * @function
-			 * @protected
-			 * @override
-			 * @param {DocumentFragment} container The documentFragment returned from the ajax subsystem. This is
-			 * a submenu.
-			 */
-			this._fixSubmenuContentInAjaxResponse = function(container) {
-				var EXP_ATTRIB = "aria-expanded";
-				// generic (role-less) submenu content container is needed because the role is still incorrect
-				SUBMENU_CONTENT = SUBMENU_CONTENT || new Widget("", "wc_submenucontent");
-				DUMMY_BRANCH = DUMMY_BRANCH || new Widget("", "wc-submenu");
-
-				Array.prototype.forEach.call(SUBMENU_CONTENT.findDescendants(container), function (nextSubmenuContent) {
-					var branch, opener, isOpen;
-
-					nextSubmenuContent.setAttribute("role", "group");
-					isOpen = nextSubmenuContent.getAttribute(EXP_ATTRIB) || "false"; // we need this for the branch ...
-					nextSubmenuContent.removeAttribute(EXP_ATTRIB);
-
-					// now fix up the branch container
-					if ((branch = DUMMY_BRANCH.findAncestor(nextSubmenuContent))) {
-						branch.removeAttribute("data-wc-selectmode");
-						if ((opener = this._getBranchOpener(branch))) {
-							opener.removeAttribute("aria-haspopup");
-							opener.removeAttribute("role");
-						}
-						if (!branch.getAttribute(EXP_ATTRIB)) {
-							branch.setAttribute(EXP_ATTRIB, isOpen);
-						}
-					}
-				}, this);
-			};
-
-			/**
-			 * "Animation" of open/close branch. This needs to explicitly remap keys after open.
-			 *
-			 * @function
-			 * @protected
-			 * @override
-			 * @param {Object} item The branch being opened/closed.
-			 * @param {Object} [open] If true branch is being opened, otherwise its being closed.
-			 * @returns {Boolean} true if any non-false-equivalent value for item is passed in.
-			 */
-			this._animateBranch = function(item, open) {
-				var result = this.constructor.prototype._animateBranch.call(this, item, open);
-				this._remapKeys(item);
-				return result;
-			};
-
-			/**
 			 * Resets this._keyMap based on the type and/or state of the menu item passed in. In the top level the left
 			 * and right go to siblings and down goes to child in sub menus up and down go to siblings, right to child
 			 * and left to parent.
@@ -319,7 +245,7 @@ define(["wc/ui/menu/core",
 					VK_RIGHT = "DOM_VK_RIGHT",
 					VK_RETURN = "DOM_VK_RETURN",
 					VK_SPACE = "DOM_VK_SPACE",
-					isHTree;// = this.isHTree(root);
+					isHTree;
 
 				if (!root) {
 					return;
@@ -337,7 +263,7 @@ define(["wc/ui/menu/core",
 					}
 
 					if (item) {
-						if (!this.isHTreeOrMenu(root)) {
+						if (!this.isHTree(root)) {
 							this._keyMap[VK_RETURN] = this._FUNC_MAP.ACTION;
 							this._keyMap[VK_SPACE] = this._FUNC_MAP.ACTION;
 						}
@@ -399,8 +325,13 @@ define(["wc/ui/menu/core",
 			 * @param {Element} from the start point for opening all branches
 			 */
 			this._openAllBranches = function(from) {
-				var root, allBranchOpeners;
-				if ((root = this.getRoot(from)) && (allBranchOpeners = this._wd.opener.findDescendants(root)) && allBranchOpeners.length) {
+				var root = this.getRoot(from),
+					allBranchOpeners;
+				if (!root || this.isHTree(root)) {
+					return;
+				}
+
+				if ((allBranchOpeners = this._wd.opener.findDescendants(root)) && allBranchOpeners.length) {
 					/* NOTE: Array.prototype.reverse.call does not work in IE8 so I have
 					 * to convert the nodeList to a real array then reverse it*/
 					allBranchOpeners = toArray(allBranchOpeners);
@@ -410,38 +341,24 @@ define(["wc/ui/menu/core",
 			};
 
 			/**
-			 * Pre-insertion ajax subscriber helper used to set the correct role for tree items.
+			 * No op.
 			 *
 			 * @protected
 			 * @override
-			 * @param {Element} component The component which was brought in with AJAX.
 			 */
-			this._setMenuItemRole = function(component) {
-				var opener;
-				component.setAttribute("role", this._role.LEAF.noSelection);
-				component.removeAttribute("data-wc-selectable");
-
-				if (this._isBranch(component) && (opener = this._getBranchOpener(component))) {
-					opener.removeAttribute("role");
-					opener.removeAttribute("aria-haspopup");
-				}
+			this._setMenuItemRole = function() {
+				/* no op */
 			};
 
 			/**
-			 * Resets any seleted state after an item is replaced via ajax.
+			 * No op.
 			 *
 			 * @function
 			 * @protected
 			 * @override
-			 * @param {Element} component The component which was brought in with AJAX.
 			 */
-			this._selectAfterAjax = function(component) {
-				if (this._isLeaf(component)) {
-					this.constructor.prototype._selectAfterAjax.call(this, component);
-				}
-				else {
-					component.removeAttribute("data-wc-selected");
-				}
+			this._selectAfterAjax = function() {
+				/* no op */
 			};
 
 			/**
@@ -490,11 +407,6 @@ define(["wc/ui/menu/core",
 				}
 
 				if ((root = this.getRoot(target))) {
-					if (isWMenu(root)) {
-						this.constructor.prototype.clickEvent.call(this, $event);
-						return;
-					}
-
 					if (this.isHTree(root)) { // htree completely driven by select.
 						return;
 					}
@@ -503,7 +415,6 @@ define(["wc/ui/menu/core",
 						return; // do nothing, do not prevent default, do not pass go.
 					}
 				}
-				// if we get here things are odd....
 				this.constructor.prototype.clickEvent.call(this, $event);
 			};
 
@@ -519,12 +430,7 @@ define(["wc/ui/menu/core",
 				if (!root) {
 					return;
 				}
-				if (isWMenu(root)) { // WMenu trees expect different POST values from WTree trees. Greate eh?
-					this.constructor.prototype.writeMenuState.call(this, next, toContainer);
-					return;
-				}
 
-				// now for the WTree trees ...
 				rootId = root.id;
 
 				// expanded branches
@@ -551,7 +457,6 @@ define(["wc/ui/menu/core",
 				}, this);
 				formUpdateManager.writeStateField(toContainer, rootId + "-h", "x");
 			};
-
 
 			/**
 			 * Determines if a given element is the last selected item at its level of the tree.
@@ -606,8 +511,7 @@ define(["wc/ui/menu/core",
 			this.shedSubscriber = function(element, action) {
 				var root;
 
-				if (!element || !(root = this.getRoot(element)) || isWMenu(root)) {
-					// we are only concerned with htree here. Vertical trees are fine.
+				if (!element || !(root = this.getRoot(element))) {
 					this.constructor.prototype.shedSubscriber.call(this, element, action);
 					return;
 				}
@@ -680,10 +584,6 @@ define(["wc/ui/menu/core",
 			this.textMatchFilter = function(textNode) {
 				var parent = textNode.parentNode;
 
-				if (isWMenu(this.getRoot(parent))) {
-					return this.constructor.prototype.textMatchFilter.call(this, parent);
-				}
-
 				if (!classList.contains(parent, "wc_leaf_name")) {
 					return  NodeFilter.FILTER_SKIP;
 				}
@@ -693,32 +593,6 @@ define(["wc/ui/menu/core",
 				}
 
 				return NodeFilter.FILTER_SKIP;
-			};
-
-			this.enableDisable = function(element, action, root) {
-				var shedFunc;
-				if (this._isBranch(element)) {
-					shedFunc = action === shed.actions.DISABLE ? "disable" : "enable";
-					// dis/en-able the opener
-					shed[shedFunc](instance._getBranchOpener(element));
-					// disable or re-enable stuff inside the submenu
-					this.disableInBranch(element, shedFunc);
-				}
-				// branches and items when disabled: may have to change default tabstop
-				if (action === shed.actions.DISABLE) {
-					this.hideDisableHelper(element, root);
-				}
-			};
-
-			/**
-			 * Find all submenus inside a given element.
-			 * @function
-			 * @public
-			 * @param {Element} element The start element. Should probably be a tree or treeitem.
-			 * @returns {?NodeList} a NodeList containing all submenus inside element.
-			 */
-			this.getSubMenus = function(element) {
-				return this._wd.submenu.findDescendants(element);
 			};
 		}
 

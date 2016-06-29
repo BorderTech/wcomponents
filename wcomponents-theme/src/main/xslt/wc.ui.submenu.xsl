@@ -63,7 +63,7 @@
 			</xsl:choose>
 		</xsl:variable>
 
-		<div id="{$id}">
+		<div id="{$id}" role="presentation">
 			<!--
 				We try not to tie functionality or display to classes when we have suitable ARIA
 				attributes but the need to differentiate functionality based on whether an
@@ -77,36 +77,11 @@
 			-->
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:call-template name="makeCommonClass"/>
-			<xsl:if test="$type='tree'">
-				<xsl:attribute name="aria-expanded">
-					<xsl:choose>
-						<xsl:when test="$open=1">
-							<xsl:copy-of select="$t"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:text>false</xsl:text>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:if test="@selectMode and not($type='tree')">
+			<xsl:if test="@selectMode">
 				<xsl:attribute name="data-wc-selectmode">
 					<xsl:value-of select="@selectMode"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:attribute name="role">
-				<xsl:choose>
-					<xsl:when test="$type='tree'"><!-- this will only be met if we can get to the ancestor menu -->
-						<xsl:text>treeitem</xsl:text>
-					</xsl:when>
-					<xsl:when test="$myAncestorMenu">
-						<xsl:text>presentation</xsl:text>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>${wc.ui.menu.dummyRole}</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:attribute>
 			<!--
 				Determination of disabled state
 
@@ -126,7 +101,9 @@
 			<xsl:variable name="this" select="."/>
 			<xsl:variable name="disabledAncestor" select="ancestor-or-self::*[@disabled and
 									(self::ui:submenu[.=$this] or
-									($myAncestorMenu and (self::ui:menu[.=$myAncestorMenu] or self::ui:submenu[ancestor::ui:menu[1]=$myAncestorMenu])) or
+									($myAncestorMenu and 
+										(self::ui:menu[.=$myAncestorMenu] or 
+										self::ui:submenu[ancestor::ui:menu[1]=$myAncestorMenu])) or
 									($noContextMenu=1 and self::ui:submenu))]"/>
 			<xsl:if test="$disabledAncestor">
 				<xsl:call-template name="disabledElement">
@@ -134,13 +111,13 @@
 				</xsl:call-template>
 			</xsl:if>
 			<!-- This is the submenu opener/label element. -->
-			<button type="button" id="{concat($id, '_o')}" name="{$id}" class="wc-nobutton wc-invite wc-submenu-o" aria-controls="{$id}">
-				<xsl:if test="not($type='tree')">
-					<xsl:attribute name="aria-haspopup">
-						<xsl:copy-of select="$t"/>
-					</xsl:attribute>
-					<xsl:attribute name="role">menuitem</xsl:attribute>
-				</xsl:if>
+			<button type="button" id="{concat($id, '_o')}" name="{$id}" class="wc-nobutton wc-invite wc-submenu-o" aria-controls="{$id}" aria-haspopup="true">
+				<xsl:attribute name="aria-pressed">
+					<xsl:choose>
+						<xsl:when test="$open = 1">true</xsl:when>
+						<xsl:otherwise>false</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
 				<xsl:call-template name="title"/>
 				<!-- see above for how we determine disabled state: it is ugly -->
 				<xsl:if test="$disabledAncestor">

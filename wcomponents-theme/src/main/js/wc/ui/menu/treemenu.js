@@ -1,5 +1,6 @@
 /**
- * Menu controller extension for WMenu of type COLUMN. This represents a vertical menu with optional flyout submenus.
+ * Menu controller extension for WMenu of type TREE. This represents a vertical menu with optional sliding submenus
+ * which may be indented. See WTree which produces a WAI-ARIA tree widget which is a selection tool.
  *
  * @see {@link http://www.w3.org/TR/wai-aria-practices/#menu}
  * @module
@@ -15,19 +16,14 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 	function(abstractMenu, keyWalker, shed, Widget, initialise) {
 		"use strict";
 
-		/* Unused dependencies:
-		 * We will need ["wc/ui/menu/menuItem" if we have any selectable items so we get it just in case rather than doing a
-		 * convoluted XPath lookup in XSLT.
-		 */
-
 		/**
-		 * Extends menu functionality to provide a specific implementation of a vertical menu with optional flyout sub-menus.
+		 * Extends menu functionality to provide a tree-like menu.
 		 * @constructor
-		 * @alias module:wc/ui/menu/column~Column
+		 * @alias module:wc/ui/menu/treemenu~TreeMenu
 		 * @extends module:wc/ui/menu/core~AbstractMenu
 		 * @private
 		 */
-		function Column() {
+		function TreeMenu() {
 			/**
 			 * The descriptors for this menu type.
 			 * @type {module:wc/dom/Widget}
@@ -42,7 +38,60 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 * @public
 			 * @override
 			 */
-			this.ROOT = new Widget("", "wc-menu-type-column");
+			this.ROOT = new Widget("", "wc-menu-type-tree");
+
+			/**
+			 * Trees do not cycle siblings.
+			 *
+			 * @var
+			 * @type {Boolean}
+			 * @protected
+			 * @override
+			 */
+			this._cycleSiblings = false;
+
+			/**
+			 * Trees do not enter on open.
+			 *
+			 * @var
+			 * @type {Boolean}
+			 * @protected
+			 * @override
+			 */
+			this.enterOnOpen = false;
+
+			/**
+			 * Trees are not transient.
+			 *
+			 * @var
+			 * @type boolean
+			 * @public
+			 */
+			this.isTransient = false;
+
+			/**
+			 * Tree menu allows multiple submenus to be open.
+			 *
+			 * @function
+			 * @protected
+			 * @override
+			 * @returns {Boolean} true if only one branch may be open at a time.
+			 */
+			this._oneOpen = function() {
+				return false;
+			};
+
+			/**
+			 * Keyboard walking of the tree.
+			 *
+			 * @function
+			 * @protected
+			 * @override
+			 * @returns {Boolean} true.
+			 */
+			this._treeWalkDepthFirst = function() {
+				return true;
+			};
 
 			/**
 			 * Reset the key map based on the type and/or state of the menu item passed in.
@@ -80,49 +129,12 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 					"DOM_VK_ESCAPE": this._FUNC_MAP.CLOSE_MY_BRANCH
 				};
 			};
-
-			/**
-			 * When a mobile device is used add a close button to the top of every submenu content as the submenus are
-			 * shown near full screen and there is (usually) no ESCAPE key.
-			 *
-			 * @function
-			 * @protected
-			 * @override
-			 * @param {Element} element The element which may be a menu, submenu or something containing a menu.
-			 */
-			this.updateMenusForMobile = function(element) {
-				var candidates,
-					MENU_FIXED = "data-wc-menufixed";
-				if (!this.isSmallScreen) {
-					return;
-				}
-				if (this.isSubMenu(element)) {
-					if (this.getRoot(element)) {
-						this.fixSubMenuContent(element);
-					}
-					return;
-				}
-
-				if (this.isRoot(element)) {
-					candidates = [element];
-				}
-				else {
-					candidates = this.ROOT.findDescendants(element);
-				}
-
-				Array.prototype.forEach.call(candidates, function(next) {
-					if (!next.hasAttribute(MENU_FIXED)) {
-						next.setAttribute(MENU_FIXED, "true");
-						Array.prototype.forEach.call(this.getSubMenu(next, true, true), this.fixSubMenuContent, this);
-					}
-				}, this);
-			};
 		}
 
-		var /** @alias module:wc/ui/menu/column */instance;
-		Column.prototype = abstractMenu;
-		instance = new Column();
-		instance.constructor = Column;
+		var /** @alias module:wc/ui/menu/treemenu */instance;
+		TreeMenu.prototype = abstractMenu;
+		instance = new TreeMenu();
+		instance.constructor = TreeMenu;
 		initialise.register(instance);
 		return instance;
 	});

@@ -28,7 +28,11 @@
 		</xsl:variable>
 
 		<div>
-			<xsl:call-template name="commonAttributes"/>
+			<xsl:call-template name="commonAttributes">
+				<xsl:with-param name="class">
+					<xsl:if test="$isBarFlyout=1">wc_menu_bar</xsl:if>
+				</xsl:with-param>
+			</xsl:call-template>
 			<!--
 				attribute role
 				ARIA specifies three menu roles: tree, menu and menubar. The difference is in the
@@ -37,9 +41,6 @@
 			-->
 			<xsl:attribute name="role">
 				<xsl:choose>
-					<xsl:when test="@type='tree'">
-						<xsl:text>tree</xsl:text>
-					</xsl:when>
 					<xsl:when test="$isBarFlyout=1">
 						<xsl:text>menubar</xsl:text>
 					</xsl:when>
@@ -50,25 +51,9 @@
 			</xsl:attribute>
 			
 			<xsl:if test="@selectMode">
-				<xsl:choose>
-					<xsl:when test="@type='tree'">
-						<xsl:attribute name="aria-multiselectable">
-							<xsl:choose>
-								<xsl:when test="@selectMode='multiple'">
-									<xsl:copy-of select="$t"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:text>false</xsl:text>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:attribute>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:attribute name="data-wc-selectmode">
-							<xsl:value-of select="@selectMode"/>
-						</xsl:attribute>
-					</xsl:otherwise>
-				</xsl:choose>
+				<xsl:attribute name="data-wc-selectmode">
+					<xsl:value-of select="@selectMode"/>
+				</xsl:attribute>
 			</xsl:if>
 
 			<xsl:if test="$isError">

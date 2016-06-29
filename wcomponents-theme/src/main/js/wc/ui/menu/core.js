@@ -119,7 +119,8 @@ define(["wc/has",
 			return {
 				TABSTOP: new Widget("", "", { "tabIndex": "0" }),  // used to get the current tabstop in any menu
 				GENERIC_ROOT: [new Widget("", "wc-menu"), new Widget("", "", {"role" : "tree"})],
-				OFFSCREEN: new Widget("", "wc-off")
+				OFFSCREEN: new Widget("", "wc-off"),
+				SUBMENU: new Widget("", "wc_submenucontent")
 			};
 		}
 
@@ -247,7 +248,7 @@ define(["wc/has",
 			if ($event.defaultPrevented || this.isSmallScreen) {
 				return;
 			}
-			if ((root = this.getRoot(target)) && this.isTransient(root) && root === this.getRoot(document.activeElement)/* element root is same as focus root */) {
+			if ((root = this.getRoot(target)) && this.isTransient && root === this.getRoot(document.activeElement)/* element root is same as focus root */) {
 				item = this.getItem(target);
 				if (!item || shed.isDisabled(item)) {
 					return;
@@ -632,13 +633,12 @@ define(["wc/has",
 		 * @this An instance of a sub-class menu.
 		 */
 		function ajaxSubscriber(element, documentFragment/* , action */) {
-			var root,
-				opener;
+			var root;
 			/*
 			 * helper to update attributes in the content of an ajaxed-in branch/submenuContent
 			 */
 			function fixBranchContent(nextBranch, useThisContent, inst) {
-				var myContent = useThisContent || inst.getSubMenu(nextBranch, true),
+				var myContent = useThisContent || getFixedWidgets().SUBMENU.findDescendant(nextBranch, true),
 					immediate = true;
 				if (!myContent) {
 					// I would worry if I had no content since a content holder is always created
@@ -646,7 +646,7 @@ define(["wc/has",
 					return;
 				}
 
-				if (myContent.nodeType !== Node.ELEMENT_NODE) {
+				if (myContent.nodeType !== Node.ELEMENT_NODE) { // documentFragment
 					immediate = false;
 				}
 				// fix up the menu items in this branch
@@ -675,12 +675,6 @@ define(["wc/has",
 				 * because the content is not directly addressable in the JAVA API.
 				 */
 				if (this.isSubMenu(element)) {
-					/* submenu content may have the wrong role
-					 * NOTE: this only needs to be done in tree menus because
-					 * the fallback role is menu. */
-					if (this._fixSubmenuContentInAjaxResponse) {
-						this._fixSubmenuContentInAjaxResponse(documentFragment);
-					}
 					/* Now work on branches within the submenu content we are inserting.
 					 * Remember, the submenu content is itself a child of a branch so all branches
 					 * will have a branch ancestor */
@@ -701,9 +695,6 @@ define(["wc/has",
 						 */
 						var submenuContext = (this.getSubMenu(nextBranch) || element);
 						this._setMenuItemRole(nextBranch, this._getBranch(submenuContext));
-						if (this.isTransient(root) && (opener = this._getBranchOpener(nextBranch))) {
-							opener.setAttribute("aria-haspopup", TRUE);
-						}
 						fixBranchContent(nextBranch, null, this);
 					}, this);
 
@@ -902,7 +893,7 @@ define(["wc/has",
 				 * should do this AFTER making sure we have set all disabled and
 				 * selected states as required.*/
 				if (this.isSubMenu(element)) {
-					if (this.isTransient(root) && !this.isSmallScreen) {
+					if (this.isTransient && !this.isSmallScreen) {
 						doCollisionDetection(element, this);
 					}
 					if ((subItem = this.getFirstAvailableItem(element))) {
@@ -1002,7 +993,7 @@ define(["wc/has",
 			var content, subItem;
 
 			if ((content = this.getSubMenu(branch, true))) {
-				if (this.isTransient(root) && !this.isSmallScreen) {
+				if (this.isTransient && !this.isSmallScreen) {
 					doCollisionDetection(content, this);
 				}
 				if ((subItem = this.getFirstAvailableItem(content))) {
@@ -1035,7 +1026,7 @@ define(["wc/has",
 				this.hideDisableHelper(element, root);
 				return;
 			}
-			if (this.isTransient(root)) { // collision detection on branch open
+			if (this.isTransient) { // collision detection on branch open
 				if (action === shed.actions.EXPAND || action === shed.actions.COLLAPSE) {
 					if (this.isSubMenu(element) && (branch = this._getBranch(element))) {
 						expandCollapseTransientBranch(branch, action, root, this);
@@ -1043,7 +1034,7 @@ define(["wc/has",
 				}
 				return;
 			}
-			else if (action === shed.actions.EXPAND && this.enterOnOpen(root)) {
+			else if (action === shed.actions.EXPAND && this.enterOnOpen) {
 				if (this._isBranch(element)) {
 					this.expand(element, root);
 				}
@@ -1100,10 +1091,14 @@ define(["wc/has",
 		 */
 		AbstractMenu.prototype.enableDisable = function(element, action, root) {
 			var shedFunc, branch;
+
+			if (this.getRoot(element) !== root) {
+				return;
+			}
 			if (this._isBranch(element)) {
 				shedFunc = action === shed.actions.DISABLE ? "disable" : "enable";
 				// close the submenu
-				if (action === shed.actions.DISABLE && (branch = this._getBranchExpandableElement(element)) && shed.isExpanded(branch)) {
+				if (action === shed.actions.DISABLE && this.isTransient && (branch = this._getBranchExpandableElement(element)) && shed.isExpanded(branch)) {
 					shed.collapse(branch); // do not call this[FUNC_MAP.CLOSE] because we don't want all the animate gubbins
 				}
 				// dis/en-able the opener
@@ -1280,18 +1275,11 @@ define(["wc/has",
 		 * and invoke viewport collision. These are all facted of menus which do not have sticky open-ness. Defaults to
 		 * true.
 		 *
-		 * @function
+		 * @var
+		 * @type boolean
 		 * @public
-		 * @param {Element} element An element in a menu. Not used in the default implementation but may be required by
-		 * some sub-classes.
-		 * @return {boolean} true if the current menu has transient sub-menu artefacts.
 		 */
-		AbstractMenu.prototype.isTransient = function(element) {
-			if (!element) {
-				throw new TypeError("Argument must not be null");
-			}
-			return true;
-		};
+		AbstractMenu.prototype.isTransient = true;
 
 		/**
 		 * Indicates the method for finding "next" and "previous" when tree walking.
@@ -1368,19 +1356,12 @@ define(["wc/has",
 		};
 
 		/**
-		 * Does the menu expect to focus the sub menu when it is opened?
-		 * @function
+		 * Does the menu expect to focus the sub menu when it is opened? By default, yes.
+		 * @var
+		 * @type boolean
 		 * @protected
-		 * @param {Element} element Any element in the menu. Not used in the default implementation but required by TREEs
-		 * multiple modes so should always be passed to the function.
-		 * @returns {Boolean}
 		 */
-		AbstractMenu.prototype.enterOnOpen = function(element) {
-			if (!element) {
-				throw new TypeError("Argument must not be null");
-			}
-			return true;
-		};
+		AbstractMenu.prototype.enterOnOpen = true;
 
 		/**
 		 * Roles for the parts of the menu which change. Tree menu will over-ride all of these, all other menus will
@@ -1549,7 +1530,9 @@ define(["wc/has",
 		 */
 		AbstractMenu.prototype._actionItem = function(element) {
 			var root = this.getRoot(element),
-				item, branchOrContent;
+				item,
+				branchOrContent,
+				opener;
 			if (!root) {
 				return false;
 			}
@@ -1565,14 +1548,18 @@ define(["wc/has",
 				}
 			}
 			if (this._isBranch(item)) {
+				opener = this._getBranchOpener(item);
 				// trees: the treeitem gets expanded, menus: the menu gets expanded.
 				branchOrContent = this._getBranchExpandableElement(item);
-				this._animateBranch(branchOrContent, !shed.isExpanded(branchOrContent));
-				if (this._oneOpen(root)) {
-					this.closeAllPaths(root, item);
+				if (this._animateBranch(branchOrContent, !shed.isExpanded(branchOrContent))) {
+					shed.toggle(opener, shed.actions.SELECT, true);
+
+					if (this._oneOpen(root)) {
+						this.closeAllPaths(root, item);
+					}
+					this._remapKeys(item);
+					return true;
 				}
-				this._remapKeys(item);
-				return true;
 			}
 			return false;
 		};
@@ -1588,7 +1575,7 @@ define(["wc/has",
 		AbstractMenu.prototype._escape = function(item) {
 			var branch,
 				root = this.getRoot(item);
-			if (root && this.isTransient(root) && (branch = this[this._FUNC_MAP.CLOSE_MY_BRANCH](item)) && branch.parentNode) {
+			if (root && this.isTransient && (branch = this[this._FUNC_MAP.CLOSE_MY_BRANCH](item)) && branch.parentNode) {
 				// if we have successfully closed a submenu at the top of the menu then remove the hover flag
 				branch = this._getBranch(branch.parentNode);
 				if (!branch || (branch === root)) {
@@ -1733,7 +1720,7 @@ define(["wc/has",
 					}
 				};
 
-				if (this.isTransient(root)) {
+				if (this.isTransient) {
 					// Close any open branches except the path to the current item
 					this.closeAllPaths(root, item);
 				}
@@ -1882,7 +1869,7 @@ define(["wc/has",
 				if (openMenu && (localOpenMenu = document.getElementById(openMenu)) && localOpenMenu !== root) {
 					this.closeOpenMenu(localOpenMenu, target);
 				}
-				if (this.isTransient(root)) {
+				if (this.isTransient) {
 					if (!attribute.get(root, BOOTSTRAPPED)) {
 						attribute.set(root, BOOTSTRAPPED, true);
 						event.add(root, event.TYPE.mouseover, mouseoverEvent.bind(this));
@@ -1923,7 +1910,7 @@ define(["wc/has",
 							this.closeOpenMenu(localOpenMenu, target);
 						}
 						this[FUNC_MAP.ACTION](target);
-						if (this.isTransient(root)) {
+						if (this.isTransient) {
 							if (this._isBranch(item)) {
 								activateOnHover = shed.isExpanded(this._getBranchExpandableElement(item)) ? root.id : null;
 							}
@@ -2032,7 +2019,7 @@ define(["wc/has",
 				this._select(component);
 			}
 			else if (shed.isSelected(component)) {
-				shed.deselect(component, true);  // quietly deselect because this item should never have been selected and no one knows it was yet!!
+				shed.deselect(component, true); // quietly deselect because this item should never have been selected and no one knows it was yet!!
 			}
 			component.removeAttribute(TRANSIENT_SELECTED_ATTRIB);
 		};

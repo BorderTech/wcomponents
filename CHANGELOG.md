@@ -40,6 +40,7 @@
   will always return true; method `setDescEncode(boolean)` has been deprecated, made final and is now a no-op.
 
 ## Bug Fixes
+* Changed output of WMenu Type TREE from role tree to role menu #619.
 * Fixed bug which could result in messages causing XML validation failure #707.
 * Fixed issue which caused WTextarea to not include changes in AJAX posts when in rich-text mode #700.
 * Fixed accessibility problems in WDataTable #701.
@@ -61,6 +62,8 @@
 * Fixed GridLayout cell alignment on small screens #652.
 
 ## Enhancements
+* Changed the client handling of WTable Actions with constraints to make the action button disabled if the constraints
+  aren't met rather than outputting an error alert. #618
 * Reversed the date input polyfill used by WDateField. Previously we created all of the UI artefacts needed to support
   the polyfill and removed them if the browser supported native date inputs. This has been reversed to output a wrapper
   and input in XSLT and add the other artefacts if native date inputs are not supported. This significantly improves

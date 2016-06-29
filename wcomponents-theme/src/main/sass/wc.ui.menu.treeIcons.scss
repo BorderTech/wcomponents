@@ -2,12 +2,12 @@
 // tree menu branch indicators
 @import 'mixins-common';
 
-.wc-menu [role='treeitem'] {
-	&[aria-expanded] > button:before {
+.wc-menu-type-tree .wc-submenu-o {
+	> .wc-decoratedlabel:before {
 		@include wc-icon-fw($fa-var-caret-right, $text-align: left, $width: $wc-menu-tree-iconwidth);
 	}
 
-	&[aria-expanded='true'] > button:before {
+	&[aria-pressed='true'] > .wc-decoratedlabel:before {
 		content: $fa-var-caret-down;
 	}
 }

@@ -110,12 +110,12 @@ $wc-menu-bar-column-item-pad: $wc-menu-item-pad-topbottom !default;
 // FLYOUT menu top level items
 $wc-menu-flyout-top-level-item-pad: $wc-gap-small !default;
 // padding of WSeparator at the top level of a BAR or FLYOUT menu (orientation='vertical')
-$wc-menu-bar-vseparator-pad: $wc-gap-normal 0 !default;
+$wc-menu-bar-vseparator-pad: (2 * $wc-menu-item-pad-topbottom) 0 0 0 !default;
 $wc-menu-flyout-vseparator-pad: $wc-gap-small 0 !default;
 // the gap bewtten the text label of a sub menu and its 'opener' image
 $wc-menu-bar-column-opener-indicator-before-after: $wc-gap-small !default;
 // width of the open state icon in WMenu type TREE
-$wc-menu-tree-iconwidth: $wc-icon-wider !default;
+$wc-menu-tree-iconwidth: $wc-icon-normal !default;
 
 // WFieldLayout
 $wc-fieldlayout-default-label-width: 50%; // Must be a percent between 0 and 100. 25, 33, 50 are recommended options
