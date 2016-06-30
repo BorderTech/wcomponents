@@ -122,20 +122,22 @@ public class HtmlClassUtil {
 		ALIGN_RIGHT ("wc-align-center"),
 
 		/**
+		 * Make a container scroll horizontally if its content does not fit. Probably only really useful for
+		 * {@link com.github.bordertech.wcomponents.WTable}. Using this on any component which contains menus or date fields may have unexpected
+		 * consequences.
+		 */
+		HORIZONTAL_SCROLL ("wc-hscroll"),
+
+		/**
 		 * Move a component out of the viewport but leave it available for accessibility purposes. This is most useful for
 		 * {@link com.github.bordertech.wcomponents.WHeading} to set accessibility markers but can be used for other explanatory components.
-		 *
-		 * <p>For example one could use this with {@link com.github.bordertech.wcomponents.WStyledText} with whitespace PARAGRAPHS to add some
-		 * explanatory information for visually impaired users if one's UI design is dependent on visual context.</p>
 		 */
 		OFF_SCREEN ("wc-off"),
 
 		/**
 		 * Indicates that this component will opt-in to responsive design options. This is usually relevant to layout components such as
-		 * {@link com.github.bordertech.wcomponents.WPanel} or {@link com.github.bordertech.wcomponents.WRow}
-		 *//**
-		 * Indicates that this component will opt-in to responsive design options. This is usually relevant to layout components such as
-		 * {@link com.github.bordertech.wcomponents.WPanel} or {@link com.github.bordertech.wcomponents.WRow}
+		 * {@link com.github.bordertech.wcomponents.WPanel}, {@link com.github.bordertech.wcomponents.WTable} or
+		 * {@link com.github.bordertech.wcomponents.WRow}
 		 */
 		RESPOND ("wc-respond"),
 
