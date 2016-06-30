@@ -11,9 +11,17 @@
 * @requires module:wc/timers
 * @requires module:wc/ui/radioAnalog
 */
-define(["wc/array/toArray", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed", "wc/timers", "wc/ui/radioAnalog"],
-	/** @param toArray wc/array/toArray @param event wc/dom/event @param focus wc/dom/focus @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param shed wc/dom/shed @param timers wc/timers @ignore */
-	function(toArray, event, focus, initialise, Widget, shed, timers) {
+define(["wc/array/toArray",
+	"wc/dom/event",
+	"wc/dom/focus",
+	"wc/dom/initialise",
+	"wc/dom/Widget",
+	"wc/dom/shed",
+	"wc/timers",
+	"wc/ui/tabset",
+	"wc/ui/radioAnalog"],
+	/** @param toArray @param event @param focus @param initialise @param Widget @param shed @param timers@param tabset @ignore */
+	function(toArray, event, focus, initialise, Widget, shed, timers, tabset) {
 		"use strict";
 		/*
 		 * IMPLICIT dependencies:
@@ -32,6 +40,8 @@ define(["wc/array/toArray", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise",
 		function CollapsibleToggle() {
 			var EXPAND_COLLAPSE_ALL = new Widget("button", "wc_collapsibletoggle"),
 				COLLAPSIBLE = new Widget("details"),
+				TABSET = new Widget("","wc-tabset-type-accordion"),
+				TAB = tabset.ITEM,
 				COLLAPSIBLE_TRIGGER,
 				EXPAND = "expand";
 
@@ -43,11 +53,11 @@ define(["wc/array/toArray", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise",
 			 * @param {Element} controller The WCollapsibleToggle control.
 			 * @param {String} action A {@link module:wc/dom/shed} action expand or collapse.
 			 */
-			function areAllInState(controller, action) {
+			function areAllInExpandedState(controller, action) {
 				var result = false,
 					controlled = controller.getAttribute("aria-controls"),
 					test = (action === shed.actions.EXPAND),
-					candidates, i;
+					candidates, i, next;
 
 				if (controlled) {
 					controlled = controlled.split(" ");
@@ -56,15 +66,22 @@ define(["wc/array/toArray", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise",
 					});
 				}
 				else {
+					// do not include accordions in ungrouped collapsible controllers.
 					candidates = COLLAPSIBLE.findDescendants(document.body);
 				}
 
 				if (candidates && candidates.length) {
 					result = true;
 					for (i = 0; i < candidates.length; ++i) {
-						if (shed.isExpanded(candidates[i]) !== test) {
-							result = false;
-							break;
+						next = candidates[i];
+						if (TABSET.isOneOfMe(next)) {
+							result = tabset.areAllInExpandedState(next, test);
+							if (!result) {
+								return false;
+							}
+						}
+						else if (shed.isExpanded(next) !== test) {
+							return false;
 						}
 					}
 				}
@@ -80,15 +97,23 @@ define(["wc/array/toArray", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise",
 			 * @param {boolean} [open] true means open the collapsible/expand the row.
 			 */
 			function toggleThisCollapsible(collapsible, open) {
-				var collapser, OPEN = "open";
+				var collapser;
 
 				if (COLLAPSIBLE.isOneOfMe(collapsible)) {
 					if (!COLLAPSIBLE_TRIGGER) {
 						COLLAPSIBLE_TRIGGER = new Widget("${wc.dom.html5.element.summary}");
 						COLLAPSIBLE_TRIGGER.descendFrom(COLLAPSIBLE, true);
 					}
-					if (open !== collapsible.hasAttribute(OPEN) && (collapser = COLLAPSIBLE_TRIGGER.findDescendant(collapsible))) {
+					if (open !== collapsible.hasAttribute("open") && (collapser = COLLAPSIBLE_TRIGGER.findDescendant(collapsible))) {
 						event.fire(collapser, event.TYPE.click);
+					}
+				}
+				else if (TABSET.isOneOfMe(collapsible)) {
+					if (open) {
+						tabset.expandAll(collapsible);
+					}
+					else {
+						tabset.collapseAll(collapsible);
 					}
 				}
 			}
@@ -173,16 +198,39 @@ define(["wc/array/toArray", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise",
 			 * @param {String} action The {@link module:wc/dom/shed} action.
 			 */
 			function collapsibleObserver(element, action) {
-				if (element && COLLAPSIBLE.isOneOfMe(element)) {
-					getControllers(element.id).forEach(function(next) {
-						var testVal = action === shed.actions.EXPAND ? "collapse" : EXPAND;
-						if (next.getAttribute("data-wc-value") === testVal) {
-							shed.deselect(next, true);  // no need to publish
+				var _tabset, accordion;
+				if (element) {
+					if (COLLAPSIBLE.isOneOfMe(element)) {
+						getControllers(element.id).forEach(function(next) {
+							var testVal = action === shed.actions.EXPAND ? "collapse" : EXPAND;
+							if (next.getAttribute("data-wc-value") === testVal) {
+								shed.deselect(next, true);  // no need to publish
+							}
+							else if (areAllInExpandedState(next, action)) {
+								shed.select(next, true);  // no need to publish
+							}
+						});
+					}
+					else if (TAB.isOneOfMe(element)) {
+						_tabset = TABSET.findAncestor(element);
+
+						if (!_tabset || !(accordion = _tabset.getAttribute("aria-multiselectable"))) {
+							return; // not interested in this.
 						}
-						else if (areAllInState(next, action)) {
-							shed.select(next, true);  // no need to publish
-						}
-					});
+						getControllers(_tabset.id).forEach(function(next) {
+							var testVal = action === shed.actions.EXPAND ? "collapse" : EXPAND;
+							if (accordion !== "true" && action === shed.actions.EXPAND) {
+								// single open accordion can never have all open.
+								shed.deselect(next, true);
+							}
+							else if (next.getAttribute("data-wc-value") === testVal) {
+								shed.deselect(next, true);  // no need to publish
+							}
+							else if (areAllInExpandedState(next, action)) {
+								shed.select(next, true);  // no need to publish
+							}
+						});
+					}
 				}
 			}
 

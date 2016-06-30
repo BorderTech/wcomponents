@@ -96,6 +96,11 @@
 						content without scrolling.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+			<xs:attribute name="groupName" type="xs:NMTOKEN">
+				<xs:annotation>
+					<xs:documentation>Indicates that the collapsible is part of a group of collapsibles the open state of which is controlled by a WCollapsibleToggle.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 

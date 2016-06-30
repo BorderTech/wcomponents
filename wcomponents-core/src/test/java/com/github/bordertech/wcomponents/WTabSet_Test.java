@@ -632,4 +632,30 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 		assertAccessorsCorrect(new WTabSet(), "single", false, true, false);
 	}
 
+	@Test
+	public void testSetGroup() {
+		CollapsibleGroup group = new CollapsibleGroup();
+		WTabSet tabset = new WTabSet(WTabSet.TYPE_ACCORDION);
+		tabset.setGroup(group);
+		Assert.assertNotNull(tabset.getGroupName());
+	}
+
+	@Test
+	public void testGetGroupName() {
+		CollapsibleGroup group = new CollapsibleGroup();
+		WCollapsibleToggle toggle = new WCollapsibleToggle();
+		group.setCollapsibleToggle(toggle);
+		WTabSet tabset = new WTabSet(WTabSet.TYPE_ACCORDION);
+		tabset.setGroup(group);
+		Assert.assertEquals(group.getGroupName(), tabset.getGroupName());
+	}
+
+	@Test
+	public void testSetGroupNotAccordion() {
+		CollapsibleGroup group = new CollapsibleGroup();
+		WTabSet tabset = new WTabSet(WTabSet.TYPE_TOP);
+		tabset.setGroup(group);
+		Assert.assertNull(tabset.getGroupName());
+	}
+
 }

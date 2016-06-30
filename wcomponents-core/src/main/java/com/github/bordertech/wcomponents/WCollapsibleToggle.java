@@ -106,12 +106,17 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 						UIContext uic = UIContextHolder.getCurrent();
 
 						// if no group is defined then just find all the collapsibles in the ui
-						List<WCollapsible> collapsibles = (group == null) ? findAllCollapsibles(
-								uic.getUI(), new ArrayList<WCollapsible>()) : group.
+						List<WComponent> collapsibles = (group == null) ? findAllCollapsibles(
+								uic.getUI(), new ArrayList<WComponent>()) : group.
 								getAllCollapsibles();
 
-						for (WCollapsible next : collapsibles) {
-							setCollapsed(next, collapse);
+						for (WComponent next : collapsibles) {
+							if (next instanceof WCollapsible) {
+								setCollapsed((WCollapsible) next, collapse);
+							} else if (next instanceof WTabSet) {
+								setCollapsed((WTabSet) next, collapse);
+							}
+
 						}
 
 						if (uic.getFocussed() == null) {
@@ -138,6 +143,18 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 	}
 
 	/**
+	 * Expands/collapses the given collapsibles, taking into account any repeaters present in the UI hierarchy.
+	 *
+	 * @param collapsible the collapsible whose state will be changed.
+	 * @param collapsed true if the collapsible is to be collapsed, false if it is to be expanded.
+	 */
+	private static void setCollapsed(final WTabSet collapsible, final boolean collapsed) {
+		List<WRepeater> repeaters = new ArrayList<>();
+		findRepeaters(collapsible, repeaters);
+		setCollapsed(repeaters, collapsible, collapsed);
+	}
+
+	/**
 	 * Expands/collapses the given collapsible under the given nested repeaters.
 	 *
 	 * @param collapsible the collapsible whose state will be changed.
@@ -150,6 +167,47 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 			// If the collapsible's state differs from the current operation, change it.
 			if (collapsed != collapsible.isCollapsed()) {
 				collapsible.setCollapsed(collapsed);
+			}
+		} else {
+			// Recurse for all rows of the current repeater
+			WRepeater repeater = repeaters.get(0);
+			List<WRepeater> childRepeaters = repeaters.subList(1, repeaters.size());
+
+			for (UIContext subContext : repeater.getRowContexts()) {
+				UIContextHolder.pushContext(subContext);
+
+				try {
+					setCollapsed(childRepeaters, collapsible, collapsed);
+				} finally {
+					UIContextHolder.popContext();
+				}
+			}
+		}
+	}
+
+	/**
+	 * Expands/collapses the given collapsible under the given nested repeaters.
+	 *
+	 * @param collapsible the collapsible whose state will be changed.
+	 * @param repeaters the list of nested repeaters, parent-first.
+	 * @param collapsed true if the collapsible is to be collapsed, false if it is to be expanded.
+	 */
+	private static void setCollapsed(final List<WRepeater> repeaters,
+			final WTabSet collapsible, final boolean collapsed) {
+
+		if (repeaters.isEmpty()) {
+			// If the collapsible's state differs from the current operation, change it.
+			if (WTabSet.TabSetType.ACCORDION.equals(collapsible.getType())) {
+				if (collapsed) {
+					collapsible.setActiveTab(null);
+				} else if (!collapsible.isSingle()) {
+					final int count = collapsible.getTotalTabs();
+					int[] activeTabs = new int[count];
+					for (int i = 0; i < count; i++) {
+						activeTabs[i] = i;
+					}
+					collapsible.setActiveIndices(activeTabs);
+				}
 			}
 		} else {
 			// Recurse for all rows of the current repeater
@@ -191,10 +249,14 @@ public class WCollapsibleToggle extends AbstractWComponent implements AjaxTarget
 	 * @param results the list to receive all the collapsibles in the ui tree rooted at <code>comp</code>.
 	 * @return The <code>results</code> parameter.
 	 */
-	private static List<WCollapsible> findAllCollapsibles(final WComponent comp,
-			final List<WCollapsible> results) {
+	private static List<WComponent> findAllCollapsibles(final WComponent comp,
+			final List<WComponent> results) {
 		if (comp instanceof WCollapsible) {
 			results.add((WCollapsible) comp);
+		}
+
+		if (comp instanceof WTabSet) {
+			results.add((WTabSet) comp);
 		}
 
 		if (comp instanceof Container) {

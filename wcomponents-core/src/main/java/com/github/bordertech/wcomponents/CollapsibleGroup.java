@@ -7,14 +7,16 @@ import java.util.List;
 
 /**
  * <p>
- * This class is used to group multiple {@link WCollapsible} components and one {@link WCollapsibleToggle} component
+ * This class is used to group multiple {@link WCollapsible} or [@link WTabSet} components and one {@link WCollapsibleToggle} component
  * together. Each collapsible component in the same group has the same name.</p>
  *
  * <p>
  * The <code>WCollapsibleToggle</code> component of the group applies to only the <code>collapsible</code> components in
- * the same group.</p>
+ * the same group. A WTabSet of type accordion is considered a collapsible component <strong>unless its single property is set</strong>.
+ * </p>
  *
  * @author Christina Harris
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class CollapsibleGroup implements Serializable {
@@ -27,10 +29,10 @@ public class CollapsibleGroup implements Serializable {
 	/**
 	 * The list of collapsibles in this group.
 	 */
-	private final List<WCollapsible> collapsibleList = new ArrayList<>();
+	private final List<WComponent> collapsibleList = new ArrayList<>();
 
 	/**
-	 * The Collapsbile toggle for this group.
+	 * The Collapsible toggle for this group.
 	 */
 	private WCollapsibleToggle collapsibleToggle;
 
@@ -63,9 +65,17 @@ public class CollapsibleGroup implements Serializable {
 	}
 
 	/**
+	 * Adds a {@link WTabSet} to this group. Only really useful for accordions.
+	 * @param collapsible the WTabSet to add to the group.
+	 */
+	public void addCollapsible(final WTabSet collapsible) {
+		collapsibleList.add(collapsible);
+	}
+
+	/**
 	 * @return a list of all collapsible components for this group.
 	 */
-	public List<WCollapsible> getAllCollapsibles() {
+	public List<WComponent> getAllCollapsibles() {
 		return Collections.unmodifiableList(collapsibleList);
 	}
 

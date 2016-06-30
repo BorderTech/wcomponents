@@ -83,7 +83,6 @@ define(["wc/dom/ariaAnalog",
 			 */
 			this.ITEM = new Widget("", "", {"role": "tab"});
 
-
 			/**
 			 * Select items immediately on navigation.
 			 * @function
@@ -142,14 +141,13 @@ define(["wc/dom/ariaAnalog",
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} tabset The tabset to test.
+			 * @param {Element} tablist The tablist to test.
 			 * @returns {String} The value of the aria-multiselectable attribute "true" or "false" (or undefined if not
 			 *    an accordion).
 			 */
-			function getAccordion(tabset) {
-				return tabset.getAttribute("aria-multiselectable");
+			function getAccordion(tablist) {
+				return tablist.getAttribute("aria-multiselectable");
 			}
-
 
 			/**
 			 * Collapse single-select accordion tabs when a particular tab is opened. NOTE: this is required because
@@ -173,6 +171,60 @@ define(["wc/dom/ariaAnalog",
 				}
 			}
 
+			function expandCollapseAll(tabset, expand) {
+				var list = TABLIST.findDescendant(tabset),
+					func,
+					accordion;
+
+				if (!list) {
+					return;
+				}
+
+				accordion = getAccordion(list);
+				if (!accordion || (expand && accordion !== "true")) {
+					return;
+				}
+
+				func = expand ? "expand" : "collapse";
+
+				Array.prototype.forEach.call(instance.ITEM.findDescendants(list), function(next) {
+					if (shed.isExpanded(next) !== expand) {
+						shed[func](next);
+					}
+				});
+			}
+
+			this.collapseAll = function(tabset) {
+				expandCollapseAll(tabset, false);
+			};
+
+			this.expandAll = function(tabset) {
+				expandCollapseAll(tabset, true);
+			};
+
+			/**
+			 * Are all tabs in a tabset inthe same expanded state?
+			 * @param {Element} tabset The tabset to test
+			 * @param {boolean} expanded true is testing for
+			 * @returns {Boolean}
+			 */
+			this.areAllInExpandedState = function(tabset, expanded) {
+				var list = TABLIST.findDescendant(tabset), accordion;
+
+				if (!(list && (accordion = getAccordion(list)))) { // only accordions can have all items in a state.
+					return false;
+				}
+
+				if (accordion === "false" && expanded) {
+					return false; // single accordion all in the same state only if collapsed.
+				}
+
+				return Array.prototype.every.call(this.ITEM.findDescendants(list), function(next) {
+					if (shed.isExpanded(next) === expanded) {
+						return true;
+					}
+				});
+			};
 
 			/**
 			 * Helper for shedObserver, called when there has been a EXPAND or COLLAPSE.
@@ -202,7 +254,6 @@ define(["wc/dom/ariaAnalog",
 					}
 				}
 			}
-
 
 			/**
 			 * Helper for shedObserver, called when there has been a SELECT or DESELECT.
