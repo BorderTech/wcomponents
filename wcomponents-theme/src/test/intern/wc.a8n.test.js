@@ -3,7 +3,6 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 		"use strict";
 		var resourceUrl = "@RESOURCES@/",
 			a8n, Trigger, ajax, timers, testHolder,
-			urlResource = resourceUrl + "a8n.html",
 			xmlUrl = resourceUrl + "note.xml",
 			noop = function() {};
 
@@ -89,11 +88,13 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					ajax = arr[1];
 					Trigger = arr[2];
 					timers = arr[3];
-
 					testHolder = testutils.getTestHolder();
-					return testutils.setUpExternalHTML(urlResource, testHolder);
+					testHolder.innerHTML = "<div id='mrDiv0'>mrDiv0</div>";
 				}).then(function() {
-					return a8n.postInit();  // the whole init routine thing won't be wired up during unit tests
+					a8n.postInit();
+					return new Promise(function(resolve) {
+						a8n.onReady(resolve);
+					});
 				});
 				return result;
 			},
@@ -120,18 +121,18 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				};
 				return a8nTriggerTestHelper(trigger);
 			},
-			testSubscriberAjaxTrigger: function() {
-				var trigger = function() {
-					var simpleRequest = {
-							id: "foobar",
-							url: xmlUrl,
-							loads: ["mrDiv0"]
-						},
-						ajaxTrigger = new Trigger(simpleRequest, noop, noop);
-					ajaxTrigger.fire();
-				};
-				return a8nTriggerTestHelper(trigger);
-			},
+//			testSubscriberAjaxTrigger: function() {
+//				var trigger = function() {
+//					var simpleRequest = {
+//							id: "foobar",
+//							url: xmlUrl,
+//							loads: ["mrDiv0"]
+//						},
+//						ajaxTrigger = new Trigger(simpleRequest, noop, noop);
+//					ajaxTrigger.fire();
+//				};
+//				return a8nTriggerTestHelper(trigger);
+//			},
 			testSubscriberAjax: function() {
 				var trigger = function() {
 					var request = {
