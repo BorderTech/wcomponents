@@ -1,12 +1,8 @@
 package com.github.bordertech.wcomponents.examples;
 
-import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
 import java.util.Set;
 import junit.framework.Assert;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -15,9 +11,9 @@ import org.openqa.selenium.WebDriver;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-@Category(SeleniumTests.class)
-@RunWith(MultiBrowserRunner.class)
-public class WPopupExample_Test extends WComponentExamplesTestCase{
+//@Category(SeleniumTests.class)
+//@RunWith(MultiBrowserRunner.class)
+public class WPopupExample_Test extends WComponentExamplesTestCase {
 
 	/**
 	 * Creates a new WPopupExample_Test.
@@ -26,34 +22,25 @@ public class WPopupExample_Test extends WComponentExamplesTestCase{
 		super(new WPopupExample());
 	}
 
-	@Test
+	// Joshua-Barclay: Deactivate this test as the requirement to access an external website is not ideal for repeatable testing.
+	//	@Test
 	public void testExample() {
 		// Launch the web browser to the LDE
 		WebDriver driver = getDriver();
 
 		Set<String> oldWindows = driver.getWindowHandles();
-		String newWindowName = null;
 
 		driver.findElement(byWComponentPath("WButton[0]")).click();
+		Set<String> newWindows = driver.getWindowHandles();
+		newWindows.removeAll(oldWindows);
 
-		// Wait for theme JS to pop-up new window (100ms polling interval, 10s max)
-		for (int i = 0; i < 100; i++) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				break;
-			}
+		Assert.assertEquals("Unexpected number of windows", 1, newWindows.size());
+		String newWindowName = newWindows.iterator().next();
 
-			Set<String> newWindows = driver.getWindowHandles();
-			newWindows.removeAll(oldWindows);
-
-			if (newWindows.size() == 1) {
-				newWindowName = newWindows.iterator().next();
-				break;
-			}
-		}
-
-		String url = driver.switchTo().window(newWindowName).getCurrentUrl();
-		Assert.assertTrue("Incorrect popup URL", url.startsWith("http://www.ubuntu.com/"));
+		WebDriver newWindowDriver = driver.switchTo().window(newWindowName);
+		//Force the driver to wait until an element is present.
+		newWindowDriver.findElement(By.tagName("html")).click();
+		String url = newWindowDriver.getCurrentUrl();
+		Assert.assertTrue("Incorrect popup URL: " + url, url.startsWith("http://www.ubuntu.com/"));
 	}
 }

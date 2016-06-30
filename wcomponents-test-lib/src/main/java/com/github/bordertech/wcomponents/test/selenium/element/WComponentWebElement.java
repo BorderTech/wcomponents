@@ -73,6 +73,16 @@ public class WComponentWebElement implements WebElement {
 	}
 
 	/**
+	 * <p>
+	 * Perform a click action without waiting for the WComponent ready status</p>
+	 * <p>
+	 * Used when the click will result in a non-WComponents page.</p>
+	 */
+	public void clickNoWait() {
+		element.click();
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override

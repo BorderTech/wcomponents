@@ -12,8 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This class extends PlainLauncher to manage sessions and UIContext for
- * Selenium.
+ * This class extends PlainLauncher to manage sessions and UIContext for Selenium.
  *
  * @author Joshua Barclay
  * @since 1.2.0
@@ -50,6 +49,15 @@ public class SeleniumLauncher extends PlainLauncher {
 	}
 
 	/**
+	 * Remove any cached context for the given session. This method should be used when switching sessions.
+	 *
+	 * @param sessionId the sessionId to destroy the context.
+	 */
+	public static void destroyContextForSession(final String sessionId) {
+		CONTEXTS.remove(sessionId);
+	}
+
+	/**
 	 * {@inheritDoc}.
 	 */
 	@Override
@@ -58,8 +66,7 @@ public class SeleniumLauncher extends PlainLauncher {
 	}
 
 	/**
-	 * Selenium specific ServletHelper to ensure the UIContext is available in
-	 * the JVM at all times.
+	 * Selenium specific ServletHelper to ensure the UIContext is available in the JVM at all times.
 	 */
 	private static final class SeleniumServletHelper extends WServletHelper {
 

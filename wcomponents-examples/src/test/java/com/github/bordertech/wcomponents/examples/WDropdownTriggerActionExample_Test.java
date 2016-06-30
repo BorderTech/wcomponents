@@ -1,11 +1,13 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
+import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
+import com.github.bordertech.wcomponents.test.selenium.driver.WComponentWebDriver;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.WebDriver;
 
 /**
  * Selenium unit tests for {@link WDropdownTriggerActionExample}.
@@ -15,7 +17,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class WDropdownTriggerActionExample_Test extends WComponentExamplesTestCase{
+public class WDropdownTriggerActionExample_Test extends WComponentExamplesTestCase {
 
 	/**
 	 * Creates a new WDropdownTriggerActionExample_Test.
@@ -27,7 +29,7 @@ public class WDropdownTriggerActionExample_Test extends WComponentExamplesTestCa
 	@Test
 	public void testExample() {
 		// Launch the web browser to the LDE
-		WebDriver driver = getDriver();
+		WComponentWebDriver driver = getDriver();
 
 		WDropdownTriggerActionExample ui = (WDropdownTriggerActionExample) getUi();
 
@@ -36,6 +38,9 @@ public class WDropdownTriggerActionExample_Test extends WComponentExamplesTestCa
 		Assert.assertTrue("Incorrect region selection on client", driver.findElement(byWComponent(
 				ui.getRegionDropdown(), "")).isSelected());
 
+		// Context is required for in-JVM calls to work.
+		// This is generally not a good test, as it relies on the JVM not on the servlet.
+		UIContextHolder.pushContext(SeleniumLauncher.getContextForSession(driver.getSessionId()));
 		// Should have round-tripped, check server and client-side states
 		Assert.assertEquals("Incorrect state selection on server", "ACT", ui.getStateDropdown().
 				getSelected());
@@ -68,5 +73,6 @@ public class WDropdownTriggerActionExample_Test extends WComponentExamplesTestCa
 		driver.findElement(byWComponent(ui.getSuburbDropdown(), "Blackburn")).click();
 		Assert.assertTrue("Incorrect suburb selection on client", driver.findElement(byWComponent(
 				ui.getSuburbDropdown(), "Blackburn")).isSelected());
+		UIContextHolder.popContext();
 	}
 }

@@ -3,9 +3,10 @@ package com.github.bordertech.wcomponents.examples;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WLabel;
+import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 
 /**
  * Same idea as {@link TextDuplicator}, but with a velocity template to pretty things up.
@@ -13,7 +14,7 @@ import com.github.bordertech.wcomponents.WTextField;
  * @author Martin Shevchenko
  * @since 1.0.0
  */
-public class TextDuplicatorVelocityImpl extends WContainer {
+public class TextDuplicatorVelocityImpl extends WTemplate {
 
 	/**
 	 * The text field which the actions modify the state of.
@@ -24,29 +25,30 @@ public class TextDuplicatorVelocityImpl extends WContainer {
 	 * Creates a TextDuplicator_VelocityImpl with the default label text.
 	 */
 	public TextDuplicatorVelocityImpl() {
-		this("Pretty Duplicator");
+		this("com/github/bordertech/wcomponents/examples/TextDuplicator_VelocityImpl.vm", "Pretty Duplicator");
 	}
 
 	/**
 	 * Creates a TextDuplicator_VelocityImpl with the specified label text.
 	 *
+	 * @param templateName the VM template name.
 	 * @param name the name label text
 	 */
-	public TextDuplicatorVelocityImpl(final String name) {
+	public TextDuplicatorVelocityImpl(final String templateName, final String name) {
 		// This is the line of code that associates this component with a
 		// velocity template.  A simple mapping is applied to the given class
 		// to derive the name of a velocity template.
 		// In this case, com.github.bordertech.wcomponents.examples.TextDuplicatorPretty
 		// maps to the template com/github/bordertech/wcomponents/examples/TextDuplicator_VelocityImpl.vm
-		setTemplate(TextDuplicatorVelocityImpl.class);
+		super(templateName, TemplateRendererFactory.TemplateEngine.VELOCITY);
 
 		WButton dupBtn = new WButton("Duplicate");
 		WButton clrBtn = new WButton("Clear");
 
-		add(new WLabel(name, textFld), "label");
-		add(textFld, "text");
-		add(dupBtn, "duplicateButton");
-		add(clrBtn, "clearButton");
+		addTaggedComponent("label", new WLabel(name, textFld));
+		addTaggedComponent("text", textFld);
+		addTaggedComponent("duplicateButton", dupBtn);
+		addTaggedComponent("clearButton", clrBtn);
 
 		dupBtn.setAction(new DuplicateAction());
 		clrBtn.setAction(new ClearAction());

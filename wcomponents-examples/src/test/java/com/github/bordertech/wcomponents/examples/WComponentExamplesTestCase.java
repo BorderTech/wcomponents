@@ -28,11 +28,12 @@ public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestC
 	 * @param ui the UI being tested.
 	 */
 	public WComponentExamplesTestCase(final WComponent ui) {
-		this.ui = ui;
 
 		TestLauncher launcher = ServerCache.getLauncher();
 		if (launcher instanceof DynamicLauncher) {
-			((DynamicLauncher) launcher).setComponentToLaunch(ui);
+			this.ui = ((DynamicLauncher) launcher).setComponentToLaunch(this.getClass().getName(), ui);
+		} else {
+			this.ui = ui;
 		}
 		ServerCache.startServer();
 		super.setUrl(ServerCache.getUrl());

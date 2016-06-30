@@ -21,9 +21,8 @@ import org.junit.runners.model.RunnerScheduler;
 import org.junit.runners.model.Statement;
 
 /**
- * MultiBrowserRunner is a jUnit Suite which will run a single
- * {@link WComponentSeleniumTestCase} using multiple browsers. It should only be
- * used as follows:
+ * MultiBrowserRunner is a jUnit Suite which will run a single {@link WComponentSeleniumTestCase} using multiple
+ * browsers. It should only be used as follows:
  *
  * <pre>
  *   &#64;RunWith(MultiBrowserRunner.class)
@@ -49,8 +48,7 @@ public class MultiBrowserRunner extends Suite {
 	private static final String DRIVERS_PARAM_KEY = "bordertech.wcomponents.test.selenium.driver_types";
 
 	/**
-	 * The configuration parameter key for whether to run the browser tests in
-	 * parallel.
+	 * The configuration parameter key for whether to run the browser tests in parallel.
 	 */
 	private static final String RUN_PARALLEL_PARAM_KEY = "bordertech.wcomponents.test.selenium.runParallel";
 
@@ -77,6 +75,8 @@ public class MultiBrowserRunner extends Suite {
 					+ DRIVERS_PARAM_KEY + "] or test-specific param [" + testSpecificDriversParam + "]");
 		}
 
+		boolean runParallel = Config.getInstance().getBoolean(RUN_PARALLEL_PARAM_KEY, false);
+
 		for (String driverClassName : drivers) {
 			try {
 				Class<?> driverClass = Class.forName(driverClassName);
@@ -86,14 +86,14 @@ public class MultiBrowserRunner extends Suite {
 				}
 
 				WebDriverType driverType = ((Class<WebDriverType>) driverClass).newInstance();
-				runners.add(new TestClassRunnerForBrowser(getTestClass().getJavaClass(), driverType, UUID.randomUUID().toString()));
+				//Reuse the driver between tests if not parallel.
+				String driverId = runParallel ? UUID.randomUUID().toString() : null;
+				runners.add(new TestClassRunnerForBrowser(getTestClass().getJavaClass(), driverType, driverId));
 			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
 				throw new SystemException("class parameter defined WebDriverType could not be instantiated. driverClassName=["
 						+ driverClassName + "]", ex);
 			}
 		}
-
-		boolean runParallel = Config.getInstance().getBoolean(RUN_PARALLEL_PARAM_KEY, false);
 
 		if (runParallel) {
 			setScheduler(new ThreadPoolScheduler());
@@ -109,8 +109,7 @@ public class MultiBrowserRunner extends Suite {
 	}
 
 	/**
-	 * This class will run all the tests for a given test class using a single
-	 * browsers.
+	 * This class will run all the tests for a given test class using a single browsers.
 	 */
 	private static final class TestClassRunnerForBrowser extends BlockJUnit4ClassRunner {
 

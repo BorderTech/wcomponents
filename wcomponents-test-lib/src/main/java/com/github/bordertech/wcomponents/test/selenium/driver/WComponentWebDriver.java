@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
 import com.github.bordertech.wcomponents.test.selenium.element.WComponentWebElement;
 import com.github.bordertech.wcomponents.test.selenium.WComponentSelenium;
 import com.github.bordertech.wcomponents.test.selenium.element.WDialogWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.WTextAreaWebElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -168,6 +169,16 @@ public class WComponentWebDriver<T extends WebDriver> implements WebDriver, Take
 	public String getTitle() {
 		waitForPageReady();
 		return driver.getTitle();
+	}
+
+	/**
+	 * Find a WTextArea by the given criteria.
+	 *
+	 * @param by the By selector.
+	 * @return the WTextAreaWebElement or null if not found.
+	 */
+	public WTextAreaWebElement findWTextArea(final By by) {
+		return new WTextAreaWebElement(findElement(by), this);
 	}
 
 	/**
