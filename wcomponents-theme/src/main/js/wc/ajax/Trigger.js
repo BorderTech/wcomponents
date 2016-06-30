@@ -292,12 +292,18 @@ define(["lib/sprintf",
 		};
 
 		/**
-		 * Remove ALL subscribers.
+		 * Unsubscribe from profile information.
+		 * This is for use by testing / monitoring tools and does not form a core part of the functionality of this module.
+		 * @param {Function} subscriber
+		 * @param {number} [phase] If a negative number is provided the subscriber will be removed from the "before" phase.
 		 */
-		Trigger.clearSubscribers = function() {
+		Trigger.unsubscribe = function(subscriber, phase) {
+			var group;
 			if (observer) {
-				observer.reset();
-				observer.reset("before");
+				if (phase && phase < 0) {
+					group = "before";
+				}
+				observer.unsubscribe(subscriber, group);
 			}
 		};
 
