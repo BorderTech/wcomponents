@@ -12,6 +12,10 @@
 
 	> ul {
 		@include flex-align-self(center);
-		margin: $wc-gap-small;
+		margin: $wc-gap-normal;
+
+		> li + li {
+			margin-top: $wc-gap-small;
+		}
 	}
 }

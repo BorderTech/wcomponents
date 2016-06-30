@@ -13,15 +13,12 @@
 	.wc_menu_bar > .wc-submenu > & {
 		content: $fa-var-caret-down;
 	}
-
 }
 
 .wc_hbgr.wc-submenu-o > .wc-decoratedlabel:after { // the hamburger icon,
 	display: none;
 	margin-left: 0;
 }
-
-
 
 .closesubmenu::before {
 	content: $fa-var-caret-left;

@@ -13,11 +13,14 @@
 // would no longer need to submit. It is handy for other clickable/focusable/disableable goodness though.
 
 // TODO (wishful thinking): Where the WMenu type allows use the menu element in the popup mode and its label/button.
-
+.wc-menuitem {
+	// 'div' menu items need explicit border box, buttons have it by default.
+	@include border-box;
+	display: block;
+}
 
 .wc-menuitem,
 .wc-submenu {
-	display: block;
 	width: 100%;
 
 	.wc_menu_bar > & {
@@ -30,8 +33,6 @@
 
 .wc-menuitem,
 .wc-submenu-o {
-	// Div menu items need explicit border box.
-	@include border-box;
 	padding: $wc-menu-bar-column-item-pad;
 
 	.wc-decoratedlabel {
@@ -86,5 +87,4 @@
 			z-index: $wc-z-index-common-in-dialog;
 		}
 	}
-
 }

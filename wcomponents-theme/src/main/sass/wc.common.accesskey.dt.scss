@@ -1,5 +1,5 @@
 /* wc.common.accesskey.dt.scss */
-@import 'accesskey_vars';
+@import 'accesskey-mixins';
 // Provides the styling for the accesskey indicator for componentd which implement the @accessKey XML attribute.
 
 // The accesskey character and callout will be in a label, legend, link or button.
