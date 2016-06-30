@@ -39,6 +39,10 @@ pre {
 	@include align(center);
 }
 
+.wc-hscroll {
+	max-width: 100%;
+	overflow-x: auto;
+}
 
 .wc-icon:before,
 .wc-icon-before:before,

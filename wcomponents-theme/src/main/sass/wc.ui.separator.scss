@@ -4,8 +4,6 @@
 @import 'mixins-common';
 
 [role='separator'] {
-	// We need the important here otherwise we have to do a LOT of overriding of roles.
-	// scss-lint:disable ImportantRule
 	margin: 0;
 	padding: 0;
 }
@@ -14,12 +12,4 @@
 	@include border($pos: left);
 	border-bottom: 0 none;
 	display: inline;
-
-	// .wc-menu-type-flyout > & {
-	// 	padding: $wc-menu-flyout-vseparator-pad;
-	// }
-	//
-	// .wc-menu-type-bar > & {
-	// 	padding: $wc-menu-bar-vseparator-pad;
-	// }
 }

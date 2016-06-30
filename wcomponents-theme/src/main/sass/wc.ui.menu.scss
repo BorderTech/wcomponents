@@ -13,69 +13,27 @@
 // would no longer need to submit. It is handy for other clickable/focusable/disableable goodness though.
 
 // TODO (wishful thinking): Where the WMenu type allows use the menu element in the popup mode and its label/button.
-
-
-.wc-submenu,
-[role='menu'] {
-	// We need the important here otherwise we have to do a LOT of overriding of roles.
-	// scss-lint:disable ImportantRule
-	padding: 0 !important;
+.wc-menuitem {
+	// 'div' menu items need explicit border box, buttons have it by default.
+	@include border-box;
+	display: block;
 }
 
-[role^='menu'] {
-	[role],
-	.wc-submenu-o {
-		padding: $wc-menu-bar-column-item-pad;
-	}
+.wc-menuitem,
+.wc-submenu {
+	width: 100%;
 
-	.wc_hbgr { // the hamburger icon. This is here to override wc-submenu-o above.
-		padding: $wc-gap-small;
-	}
-
-	[role='separator'] {
-		padding: 0;
-
-		&[aria-orientation='vertical'] {
-			padding: $wc-menu-bar-vseparator-pad;
-		}
-	}
-}
-
-[role='menubar'] {
-	[role],
-	.wc-decoratedlabel {
+	.wc_menu_bar > & {
 		display: inline-block;
+		vertical-align: text-top;
 		white-space: nowrap;
+		width: auto;
 	}
 }
 
-//this role is any part of a COLUMN menu and submenus of a BAR or FLYOUT
-[role='menu'] {
-	// Do not make hidden by dfault and show on aria-expanded='true' as this will hide the root of Type.COLUMN.
-	&[aria-expanded='false'] {
-		// Save some long selector overrides
-		// scss-lint:disable ImportantRule
-		display: none !important;
-	}
-
-	[role^='menu'] & {
-		white-space: nowrap;
-	}
-
-	[role],
-	.wc-submenu-o {
-		display: block;
-		width: 100%;
-	}
-
-
-	&[aria-expanded='true'] {
-		z-index: $wc-z-index-common;
-
-		dialog & {
-			z-index: $wc-z-index-common-in-dialog;
-		}
-	}
+.wc-menuitem,
+.wc-submenu-o {
+	padding: $wc-menu-bar-column-item-pad;
 
 	.wc-decoratedlabel {
 		display: table-row;
@@ -95,11 +53,38 @@
 	}
 }
 
-// Div menu items need explicit border box.
-[role^='menuitem'] {
-	@include border-box;
+// the hamburger icon. This is here to override wc-submenu-o above.
+.wc_hbgr {
+	padding: $wc-gap-small;
 }
 
-.wc-menu-type-flyout {
-	display: inline-block;
+.wc-menu [role='separator'] {
+	padding: 0;
+
+	&[aria-orientation='vertical'] {
+		padding: $wc-menu-bar-vseparator-pad;
+		vertical-align: bottom;
+	}
+}
+
+.wc_submenucontent {
+	display: none;
+	white-space: nowrap;
+
+	&[aria-expanded='true'] {
+		display: block;
+	}
+
+	.wc-menu-type-tree & {
+		white-space: normal;
+	}
+
+	.wc_menu_bar &,
+	.wc-menu-type-column & {
+		z-index: $wc-z-index-common;
+
+		dialog & {
+			z-index: $wc-z-index-common-in-dialog;
+		}
+	}
 }

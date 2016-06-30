@@ -64,4 +64,14 @@ public class CollapsibleGroup_Test {
 		group.setCollapsibleToggle(toggle);
 		Assert.assertSame("Incorrect collapsible toggle", toggle, group.getCollapsibleToggle());
 	}
+
+	@Test
+	public void testAddTabSet() {
+		CollapsibleGroup group = new CollapsibleGroup();
+		Assert.assertTrue(0 == group.getAllCollapsibles().size());
+		WTabSet tabset = new WTabSet(WTabSet.TabSetType.ACCORDION);
+		group.addCollapsible(tabset);
+		Assert.assertTrue(1 == group.getAllCollapsibles().size());
+		Assert.assertSame("Incorrect collapsible", tabset, group.getAllCollapsibles().get(0));
+	}
 }

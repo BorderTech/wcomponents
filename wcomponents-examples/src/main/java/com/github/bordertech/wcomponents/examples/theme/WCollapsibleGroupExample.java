@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.WCollapsible;
 import com.github.bordertech.wcomponents.WCollapsibleToggle;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.WTabSet;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.GridLayout;
 
@@ -79,5 +80,14 @@ public class WCollapsibleGroupExample extends WPanel {
 				WCollapsible.CollapsibleMode.CLIENT);
 		collapsible5.setCollapsed(true);
 		add(collapsible5);
+
+
+		WTabSet accordion = new WTabSet(WTabSet.TabSetType.ACCORDION);
+		add(accordion);
+		accordion.setGroup(group2);
+		accordion.addTab(new WText("Tab 1 content"), "Tab 1", WTabSet.TabMode.CLIENT);
+		accordion.addTab(new WText("Tab 2 content"), "Tab 2", WTabSet.TabMode.CLIENT);
+		accordion.addTab(new WText("Tab 3 content"), "Tab 3", WTabSet.TabMode.CLIENT);
+		accordion.addTab(new WText("Tab 4 content"), "Tab 4", WTabSet.TabMode.CLIENT);
 	}
 }

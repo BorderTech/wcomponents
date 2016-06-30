@@ -7,4 +7,10 @@
 .wc-panel-type-chrome > h1 {
 	background-color: $wc-ui-color-section-heading-bg;
 	color: $wc-ui-color-section-heading-fg;
+
+	.wc-linkbutton,
+	a,
+	a:visited {
+		color: $wc-ui-color-section-heading-fg;
+	}
 }

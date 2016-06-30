@@ -741,6 +741,31 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	public boolean isSingle() {
 		return getComponentModel().single;
 	}
+	/**
+	 * The "collapsible" group name that this tabset belongs to.
+	 *
+	 * @return the collapsible group name
+	 */
+	public String getGroupName() {
+		if (TabSetType.ACCORDION.equals(getType())) {
+			CollapsibleGroup group = getComponentModel().group;
+			return (group == null ? null : group.getGroupName());
+		}
+		return null;
+	}
+
+	/**
+	 * Set the {@link com.github.bordertech.wcomponents.CollapsibleGroup} that this component belongs to. This will enable a
+	 * {@link com.github.bordertech.wcomponents.WCollapsibleToggle} component to target the tabset as part of the group.
+	 *
+	 * @param group the group to set
+	 */
+	public void setGroup(final CollapsibleGroup group) {
+		if (TabSetType.ACCORDION.equals(getType())) {
+			getOrCreateComponentModel().group = group;
+			group.addCollapsible(this);
+		}
+	}
 
 	/**
 	 * @return a String representation of this component, for debugging purposes.
@@ -820,5 +845,11 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 		 * Accordion tab only opens one tab at a time.
 		 */
 		private boolean single;
+
+		/**
+		 * The CollapsibleGroup, primarily used with a {@link com.github.bordertech.wcomponents.WCollapsibleToggle} to toggle a group of collapsibles
+		 * and/or accordion tabs at once. Only applies to Type.ACCORDION.
+		 */
+		private CollapsibleGroup group;
 	}
 }

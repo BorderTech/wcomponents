@@ -6,6 +6,6 @@ th[aria-sort] {
 
 	> .wc-decoratedlabel {
 		display: inline-block;
-		width: calc(100% - 2em); // allow for sort icon
+		width: calc(100% - $wc-icon-small); // allow for sort icon
 	}
 }

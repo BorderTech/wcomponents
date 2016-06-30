@@ -38,6 +38,9 @@ final class WTabSetRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("single",
 				TabSetType.ACCORDION.equals(tabSet.getType()) && tabSet.isSingle(),
 				"true");
+		if (WTabSet.TabSetType.ACCORDION.equals(tabSet.getType())) {
+			xml.appendOptionalAttribute("groupName", tabSet.getGroupName());
+		}
 		xml.appendClose();
 
 		// Render margin
