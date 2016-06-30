@@ -5,7 +5,7 @@
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<!-- Key used by collapsibleToggle to get the list of controlled collapsibles -->
-	<xsl:key name="collapsibleGroupKey" match="//ui:collapsible[@groupName]" use="@groupName"/>
+	<xsl:key name="collapsibleGroupKey" match="//ui:collapsible[@groupName]|//ui:tabset[@groupName]" use="@groupName"/>
 
 	<!--
 		Output expand all and collapse all buttons.
