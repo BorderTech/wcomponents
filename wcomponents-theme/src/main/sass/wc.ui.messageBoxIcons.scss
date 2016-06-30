@@ -4,7 +4,6 @@
 h1:before {
 	.wc_msgbox > & { // Use error box as default.
 		@include wc-icon-fw-content($fa-var-minus-circle, $width: $wc-icon-wider);
-		vertical-align: middle;
 	}
 
 	.wc-messagebox-type-warn  > & {

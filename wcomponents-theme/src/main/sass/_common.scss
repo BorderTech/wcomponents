@@ -1,28 +1,26 @@
-// Override Font Awesoe font path.
+// Override Font Awesome font path.
 $fa-font-path: '../resource';
 
-// FONTS
+//*****************************************************************************
+// FONTS.
+//*****************************************************************************
 $wc-default-font: sans-serif !default;
 $wc-mono-font: monospace !default;
-
 // Font size for mobile and small screens (< 1024px). This is the default because mobile is king!
 $wc-default-font-size: 100% !default;
 // sizes for not-mobile screens >= 1024px
 $wc-desktop-font-size: 100% !default;
-// font size on really learge, dense monitors (eg Apple cinema and thunderbolt displays) where small fonts become too
-// tiny to be useful.
+// font size on really large, dense monitors (eg Apple cinema and thunderbolt
+// displays) where small fonts become too tiny to be useful.
 $wc-bigscreen-font-size: 100% !default;
-
-// mobile menus - make the buttons bigger
+// mobile menus - used only to make the menu items bigger for easier touch use.
 $wc-font-larger: 1.5rem;
 
-/// REM SIZES AND SPACING
-/// If you change any of these you are probably going to want to change all of them as they may be involved in Sass calculations.
-// h1 in WSection, WPanel Types CHROME and SECTION, WMessageBox, WValidationErrors
-$wc-section-header-size: 1rem !default;
-$wc-dialog-header-size: $wc-section-header-size !default; // h1 in dialogs
-$wc-header-h1-size-full: 2.25rem !default; // h1 in the screen header
-$wc-header-h1-size-small: $wc-section-header-size !default; // h1 in the screen header on small screens.
+//*****************************************************************************
+// SPACING and REM SIZES
+//*****************************************************************************
+/// If you change any of these you are probably going to want to change all of
+// them as they may be involved in Sass calculations.
 
 // Common spacing variables
 $wc-gap-small: 0.25rem !default;
@@ -30,6 +28,26 @@ $wc-gap-normal: 0.5rem !default;
 $wc-gap-large: 1rem !default;
 $wc-gap-xl: 1.5rem !default;
 
+// Some fixed sizes for iconography place holders
+$wc-icon-small: 0.75rem !default; // about 12px in any unit
+$wc-icon-normal: 1rem !default; // min 16px in any unit
+$wc-icon-wider: 1.25rem !default;  //recommend min 20px in any unit - this will allow for wider glyphs.
+$wc-icon-large: 2rem !default; // really big icons. So far only for the full-screen loading indicator.
+
+// h1 in WSection, WPanel Types CHROME and SECTION, WMessageBox, WValidationErrors
+$wc-section-header-size: 1rem !default;
+// h1 in dialogs
+$wc-dialog-header-size: $wc-section-header-size !default;
+// h1 in the screen header (WPanel Type HEADER)
+$wc-header-h1-size-full: 2.25rem !default;
+// h1 in the screen header on small screens.
+$wc-header-h1-size-small: $wc-section-header-size !default;
+
+
+//*****************************************************************************
+// Generic items added to various components.
+// It would be unusual to have to change these
+//*****************************************************************************
 // BORDERS
 // Many things have borders and it is nice to have a common look to all of them. You may want to cross reference this to
 // the mixins makeBorder and makePartBorder which use these as default values but allow override.
@@ -57,30 +75,67 @@ $wc-z-index-common-in-dialog: $wc-z-index-common + $wc-z-index-dialog;
 $wc-z-index-unloading-shim: 99 !default;
 $wc-z-index-unloading-message: $wc-z-index-unloading-shim + 1;
 
-// Some fixed sizes for iconography place holders
-$wc-icon-normal: 1rem !default; // min 16px in any unit
-$wc-icon-wider: 1.25rem !default;  //recommend min 20px in any unit - this will allow for wider glyphs.
-$wc-icon-large: 2rem !default; // really big icons. So far only for the full-screen loading indicator.
 
-// ################### START COMPONENT SPECIFIC VARS ###################################################################
+//*****************************************************************************
+// Variables for specific components
+//*****************************************************************************
 
-// ListLayout spacing. These are a bit odd but are here to make the lists look OK across most browsers.
+//*****************************************************************************
+// ListLayout
+//*****************************************************************************
+// ListLayout marker spacing. These are a bit odd but are here to make the lists look OK across most browsers.
 $wc-list-layout-dot-spacing: 1.5rem !default;
 $wc-list-layout-ordered-spacing: 2rem !default;
 $wc-list-layout-bar-width-offset: 2 * $wc-gap-normal !default;
 
+//*****************************************************************************
+// Back to top link
+//*****************************************************************************
 // Back to top
 $wc-btt-normal: 1.5rem !default; // size of back-to-top link's 'icon' Should be big enough to hit on a mobile.
 $wc-btt-large: 4rem !default;
 
-// Dialogs
+//*****************************************************************************
+// Dialogs - WDialog, Image editor.
+//*****************************************************************************
 $wc-ui-dialog-min-width: 15rem !default;
 $wc-ui-dialog-min-height: 7rem !default;
 
 $wc-ui-dialog-transition-delay: 0s !default;
 $wc-ui-dialog-transition-duration: 0.5s !default;
 
+//*****************************************************************************
+// WFieldLayout
+//*****************************************************************************
+$wc-fieldlayout-default-label-width: 50%; // Must be a percent between 0 and 100. 25, 33, 50 are recommended options
+
+//*****************************************************************************
+// WMenu
+//*****************************************************************************
+// generic menu structure
+$wc-menu-item-pad-topbottom: $wc-gap-normal !default;
+// menu type BAR and FLYOUT structure
+// padding of items
+$wc-menu-bar-column-item-pad: $wc-menu-item-pad-topbottom !default;
+// padding of WSeparator at the top level of a BAR or FLYOUT menu (orientation='vertical')
+$wc-menu-bar-vseparator-pad: (2 * $wc-menu-item-pad-topbottom) 0 0 0 !default;
+// the gap bewtten the text label of a sub menu and its 'opener' image
+$wc-menu-bar-column-opener-indicator-before-after: $wc-gap-small !default;
+// width of the open state icon in WMenu type TREE
+$wc-menu-tree-iconwidth: $wc-icon-normal !default;
+
+//*****************************************************************************
+// WTabSet
+//*****************************************************************************
+// The width of the tab in left/right TabSets.
+// This _should_ be a percentage, otherwise you will have to manipulate the IE9 Sass.
+$wc-tabset-left-right-tab-width: 15% !default;
+$wc-tabset-border-radius: $wc-gap-small !default;
+
+//*****************************************************************************
 // WTree
+//*****************************************************************************
+// indent of branches in the tree - also applies to WMenu Type TREE.
 $wc-tree-indent: 0.75rem !default;
 // The bi-modal nature of the tree expander button means we
 // have to pad the inner components rather than the button.
@@ -89,33 +144,7 @@ $wc-tree-item-pad-l: $wc-gap-small !default;
 $wc-tree-item-pad-r: $wc-gap-small !default;
 $wc-tree-item-pad-t: $wc-gap-small !default;
 $wc-tree-item-pad-b: $wc-gap-small !default;
-
-// used for WMenu type TREE.
+// padding of each tree item. Also used for WMenu type TREE.
 $wc-tree-item-pad: $wc-gap-small 0 !default;
-
 // the start width of a htree group when the browser is rubbish.
 $wc-htree-branch-width-lame: 10rem !default;
-
-// WTabSet
-// This _should_ be a percentage, otherwise you will have to manipulate the IE9 Sass.
-$wc-tabset-left-right-tab-width: 15% !default;
-$wc-tabset-border-radius: $wc-gap-small !default;
-
-// WMenu
-// generic menu structure
-$wc-menu-item-pad-topbottom: $wc-gap-normal !default;
-// menu type BAR and FLYOUT structure
-// padding of items
-$wc-menu-bar-column-item-pad: $wc-menu-item-pad-topbottom !default;
-// FLYOUT menu top level items
-$wc-menu-flyout-top-level-item-pad: $wc-gap-small !default;
-// padding of WSeparator at the top level of a BAR or FLYOUT menu (orientation='vertical')
-$wc-menu-bar-vseparator-pad: (2 * $wc-menu-item-pad-topbottom) 0 0 0 !default;
-$wc-menu-flyout-vseparator-pad: $wc-gap-small 0 !default;
-// the gap bewtten the text label of a sub menu and its 'opener' image
-$wc-menu-bar-column-opener-indicator-before-after: $wc-gap-small !default;
-// width of the open state icon in WMenu type TREE
-$wc-menu-tree-iconwidth: $wc-icon-normal !default;
-
-// WFieldLayout
-$wc-fieldlayout-default-label-width: 50%; // Must be a percent between 0 and 100. 25, 33, 50 are recommended options
