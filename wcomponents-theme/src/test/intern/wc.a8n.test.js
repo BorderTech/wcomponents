@@ -121,25 +121,27 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				};
 				return a8nTriggerTestHelper(trigger);
 			},
-//			testSubscriberAjaxTrigger: function() {
-//				var trigger = function() {
-//					var simpleRequest = {
-//							id: "foobar",
-//							url: xmlUrl,
-//							loads: ["mrDiv0"]
-//						},
-//						ajaxTrigger = new Trigger(simpleRequest, noop, noop);
-//					ajaxTrigger.fire();
-//				};
-//				return a8nTriggerTestHelper(trigger);
-//			},
+			testSubscriberAjaxTrigger: function() {
+				var trigger = function() {
+					var simpleRequest = {
+							id: "foobar",
+							url: xmlUrl,
+							loads: ["mrDiv0"],
+							method: "get"
+						},
+						ajaxTrigger = new Trigger(simpleRequest, noop, noop);
+					ajaxTrigger.fire();
+				};
+				return a8nTriggerTestHelper(trigger);
+			},
 			testSubscriberAjax: function() {
 				var trigger = function() {
 					var request = {
 						url: xmlUrl,
 						callback: noop,
 						cache: false,
-						async: true
+						async: true,
+						method: "get"
 					};
 					ajax.simpleRequest(request);
 				};
