@@ -8,7 +8,6 @@
  *
  * @module
  *
- * @requires external:lib/sprintf
  * @requires module:wc/dom/tag
  * @requires module:wc/dom/event
  * @requires module:wc/dom/serialize
@@ -22,8 +21,7 @@
  * @requires module:wc/ajax/setLoading
  * @requires module:wc/Observer
  */
-define(["lib/sprintf",
-	"wc/dom/tag",
+define(["wc/dom/tag",
 	"wc/dom/event",
 	"wc/dom/serialize",
 	"wc/dom/Widget",
@@ -35,8 +33,8 @@ define(["lib/sprintf",
 	"wc/timers",
 	"wc/ajax/setLoading",
 	"wc/Observer"],
-	/** @param sprintf lib/sprintf @param tag wc/dom/tag @param event wc/dom/event @param serialize wc/dom/serialize @param Widget wc/dom/Widget @param getAncestorOrSelf wc/dom/getAncestorOrSelf @param ajax wc/ajax/ajax@param formUpdateManager wc/dom/formUpdateManager @param has wc/has @param initialise wc/dom/initialise @param timers wc/timers @param setLoading wc/ajax/setLoading @param Observer wc/Observer @ignore*/
-	function(sprintf, tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManager, has, initialise, timers, setLoading, Observer) {
+	/** @param tag wc/dom/tag @param event wc/dom/event @param serialize wc/dom/serialize @param Widget wc/dom/Widget @param getAncestorOrSelf wc/dom/getAncestorOrSelf @param ajax wc/ajax/ajax@param formUpdateManager wc/dom/formUpdateManager @param has wc/has @param initialise wc/dom/initialise @param timers wc/timers @param setLoading wc/ajax/setLoading @param Observer wc/Observer @ignore*/
+	function(tag, event, serialize, Widget, getAncestorOrSelf, ajax, formUpdateManager, has, initialise, timers, setLoading, Observer) {
 		"use strict";
 
 		var
@@ -112,9 +110,17 @@ define(["lib/sprintf",
 			 */
 			observer;
 
+		initialise.addInitRoutine(function() {
+			var afterCallback = function(trigger) {
+				setLoading({
+					trigger: trigger
+				}, true);
+			};
+			Trigger.subscribe(afterCallback, 1);
+		});
 		// add an early initialisation
 		initialise.addBodyListener({initialise: function () {
-			busyWd = new Widget("", "", {"aria-busy": "true"});
+			busyWd = new Widget("", "", { "aria-busy": "true" });
 			if (has("ie") && has("ie") < 10) {
 				event.add(window, event.TYPE.beforeunload,
 					/**
@@ -234,8 +240,31 @@ define(["lib/sprintf",
 				this.alias = (typeof obj.alias === UNDEFINED) ? null : obj.alias;
 				this.successful = (typeof obj.successful === UNDEFINED) ? null : obj.successful;
 				this.formRegion = obj.formRegion;
-				this._callback = onsuccess;
-				this._onerror = onerror;
+				this.callback = function() {
+					var scope = this, cbresult;
+					try {
+						if (onsuccess) {
+							cbresult = onsuccess.apply(scope, arguments);
+						}
+					}
+					finally {
+						// The purpose of the Promise.resolve here is to WAIT for the callback to complete, ESPECIALLY if the callback returns a promise itself
+						Promise.resolve(cbresult).then(function(result) {
+							notify(scope, "after", { success: result });
+						});
+					}
+				};
+				this.onerror = function(err) {
+					var trigger = this;
+					try {
+						if (onerror) {
+							onerror.apply(trigger, arguments);
+						}
+					}
+					finally {
+						notify(trigger, "after", { error: err });
+					}
+				};
 				this.urlFromForm = (typeof obj.urlFromForm === UNDEFINED) ? null : obj.urlFromForm;
 				this.url = (typeof obj.url === UNDEFINED) ? null : obj.url;
 				this.getData = obj.getData;
@@ -274,16 +303,23 @@ define(["lib/sprintf",
 
 		/**
 		 * Subscribe to profile information.
-		 * This is for use by testing / monitoring tools and does not form a core part of the functionality of this module.
-		 * The subscriber will be notified when after the response is received.
-		 * The first argument to the subscriber will be information about the trigger. The second will be a boolean, true if there are pending triggers, false if there are none.
+		 * The first argument to the subscriber will be the firing trigger, do not modify it or its properties unless you know what you are doing.
+		 * The second will be a boolean, true if there are pending triggers, false if there are none.
 		 * @param {Function} subscriber
-		 * @param {number} [phase] If a negative number is provided the subscriber will be called when a trigger is fired.
+		 * @param {number} [phase] Subscriber will be called:
+		 *	if phase is a negative number when a trigger is fired
+		 *	if phase is falsey then after the response is received
+		 *	if positive number then after the response callback has been called
 		 */
 		Trigger.subscribe = function(subscriber, phase) {
 			var group = null;
-			if (phase && phase < 0) {
-				group = { group: "before" };
+			if (phase) {
+				if (phase < 0) {
+					group = { group: "before" };
+				}
+				else {
+					group = { group: "after" };
+				}
 			}
 			if (!observer) {
 				observer = new Observer();
@@ -300,8 +336,13 @@ define(["lib/sprintf",
 		Trigger.unsubscribe = function(subscriber, phase) {
 			var group;
 			if (observer) {
-				if (phase && phase < 0) {
-					group = "before";
+				if (phase) {
+					if (phase < 0) {
+						group = "before";
+					}
+					else {
+						group = "after";
+					}
 				}
 				observer.unsubscribe(subscriber, group);
 			}
@@ -311,9 +352,10 @@ define(["lib/sprintf",
 		 * Related to the subscribe method above.
 		 * @param {Trigger} trigger The trigger that is firing.
 		 * @param {string} [groupName] The group to notify.
+		 * @param {object} [cbresult] The result of the trigger callback, if relevant to this phase.
 		 */
-		function notify(trigger, groupName) {
-			var pending;
+		function notify(trigger, groupName, cbresult) {
+			var pending, proxyObj;
 			trigger.profile.received = Date.now();
 			if (observer) {
 				pending = pendingList.length > 0;
@@ -324,13 +366,9 @@ define(["lib/sprintf",
 						pending = true;
 					}
 				}
-				observer.notify({
-					profile: trigger.profile,
-					id: trigger.id,
-					alias: trigger.alias,
-					loads: trigger.loads,
-					url: trigger.url  // this will probably be null
-				}, pending);
+				proxyObj = Object.create(trigger);
+				proxyObj.cbresult = cbresult;
+				observer.notify(proxyObj, pending);
 			}
 		}
 
@@ -538,47 +576,50 @@ define(["lib/sprintf",
 
 			if (trigger.oneShot) {  // will be a negative number if it is not oneshot, therefore will equate to true
 				notify(trigger, "before");
-				promise = new Promise(function(resolve, reject) {
-					trigger.callback = function() {
-						var scope = this, cbresult;
-						if (trigger._callback) {
-							cbresult = trigger._callback.apply(scope, arguments);
-						}
-						// The purpose of the Promise.resolve here is to WAIT for the callback to complete, ESPECIALLY if the callback returns a promise itself
-						return Promise.resolve(cbresult).then(function() {
-							resolve.apply(scope, arguments);
-						});
-					};
-					trigger.onerror = function() {
-						notify(trigger);
-						if (trigger._onerror) {
-							trigger._onerror.apply(this, arguments);
-						}
-						reject.apply(this, arguments);
-					};
-					if (trigger.oneShot > 0) {
-						trigger.oneShot--;
-					}
-					// queueRequest();
-					endOfQueue = (requestBuffer.length - 1);
-					trigger.profile.fired = Date.now();
-					request = new Request(trigger);
-					if (!requestBuffer[endOfQueue] || requestBuffer[endOfQueue].trigger.id !== trigger.id) {  // yes, use id for equality
-						requestBuffer.push(request);
-						setLoading(request);  // do this AFTER the form has been serialized (because it will disable stuff)
-					}
-					else {
-						requestBuffer[endOfQueue] = request;
-						console.log("Cancelling consecutive request for ", trigger.id);
-					}
-					trigger.scheduleQueueProcessing();
-				});
+				if (trigger.oneShot > 0) {
+					trigger.oneShot--;
+				}
+				// queueRequest();
+				endOfQueue = (requestBuffer.length - 1);
+				trigger.profile.fired = Date.now();
+				request = new Request(trigger);
+				if (!requestBuffer[endOfQueue] || requestBuffer[endOfQueue].trigger.id !== trigger.id) {  // yes, use id for equality
+					requestBuffer.push(request);
+					setLoading(request);  // do this AFTER the form has been serialized (because it will disable stuff)
+				}
+				else {
+					requestBuffer[endOfQueue] = request;
+					console.log("Cancelling consecutive request for ", trigger.id);
+				}
+				trigger.scheduleQueueProcessing();
+				promise = getFirePromise(trigger);
 			}
 			else {
 				promise = Promise.reject("Trigger has no more shots left: " + trigger.id);
 			}
 			return promise;
 		};
+
+		function getFirePromise(trigger) {
+			return new Promise(function(resolve, reject) {
+				var subscriber = function(triggerArg) {
+					var result;
+					if (triggerArg && trigger.id === triggerArg.id) {
+						Trigger.unsubscribe(subscriber, 1);
+						result = triggerArg.cbresult;
+						if (result) {
+							if (result.error) {
+								reject(result.error);
+							}
+							else {
+								resolve(result.success);
+							}
+						}
+					}
+				};
+				Trigger.subscribe(subscriber, 1);
+			});
+		}
 
 		/**
 		 * Returns the data that should be sent in the AJAX request. Includes the following:
@@ -628,7 +669,7 @@ define(["lib/sprintf",
 					triggerId = this.id;
 				}
 				triggerId = encodeURIComponent(triggerId);
-				result = addToQueryString(result, sprintf.sprintf("%s=%s", "wc_ajax", triggerId));
+				result = addToQueryString(result, "wc_ajax=" + triggerId);
 			}
 			finally {
 				this._submitTriggerElement = false;  // reset, the idea is the next click event will set to true
@@ -771,8 +812,7 @@ define(["lib/sprintf",
 		}
 
 		function handleResponse($self, response, trigger, isError) {
-			var idx, cbresult, done = function() {
-					setLoading($self, true);
+			var idx, done = function() {
 					notify(trigger);
 				};
 			console.log("Got response for trigger", trigger.id);
@@ -793,14 +833,13 @@ define(["lib/sprintf",
 					}
 					try {
 						if (!isError) {
-							cbresult = trigger.callback(response, trigger);
+							trigger.callback(response, trigger);
 						}
 						else if (trigger.onerror) {
-							cbresult = trigger.onerror(response, trigger);
+							trigger.onerror(response, trigger);
 						}
 						// Remove "aria-busy" AFTER the new content is loaded to avoid collapsing to zero pixels
-						// The Promise.resolve call allows us to "wait" for callbacks that return a promise.
-						Promise.resolve(cbresult).then(done, done);
+						done();
 					}
 					catch (ex) {
 						console.error(ex);
