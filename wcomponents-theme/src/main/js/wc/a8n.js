@@ -12,6 +12,7 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 				unsubscribe: unsubscribe,
 				clearSubscribers: clearSubscribers,
 				isReady: isFlaggedReady,
+				onReady: onReady,
 				attr: "data-wc-domready"
 			},
 			flags = {
@@ -76,18 +77,10 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 					globalPending &= ~flag;
 				}
 			}
-			var result = new Promise(function(resolve, reject) {
-				try {
-					checkNotify(resolve);
-				}
-				catch (ex) {
-					reject(ex);
-				}
-			});
-			return result;
+			checkNotify();
 		}
 
-		function checkNotify(callback) {
+		function checkNotify() {
 			var delay, notify, currentState, isReady,
 				element = document.body;
 			if (element) {
@@ -100,13 +93,11 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 					notify = stateChangeFactory(element, instance.attr);
 					if (!isReady) {  // If the DOM is busy we want to notify ASAP
 						notify();
-						callback();
 					}
 					else {  // If the DOM is ready notify "soon" in case another action is about to start
 						delay = storage.get("wc.a8n.delay") || 501;  // String should be ok without casting...
 						timer = window.setTimeout(function() {
 							notify();
-							callback();
 						}, delay);
 					}
 				}
@@ -122,6 +113,11 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 				element.setAttribute(attr, isReady);
 				if (observer) {
 					observer.notify(isReady);
+					if (isReady) {
+						observer.setFilter("onready");
+						observer.notify();
+						observer.reset("onready");  // this is a one-shot group
+					}
 				}
 			};
 		}
@@ -139,14 +135,14 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 		 * Called before initialisation rotuines run.
 		 */
 		function preInit() {
-			return pendingUpdated(true, flags.DOM_READY);
+			pendingUpdated(true, flags.DOM_READY);
 		}
 
 		/*
 		 * Called after initialisation rotuines run.
 		 */
 		function postInit() {
-			return pendingUpdated(false, flags.DOM_READY);
+			pendingUpdated(false, flags.DOM_READY);
 		}
 
 		/**
@@ -155,6 +151,7 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 		function clearSubscribers() {
 			if (observer) {
 				observer.reset();
+				observer.reset("onready");
 			}
 		};
 
@@ -168,6 +165,25 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 			}
 			return observer.unsubscribe(subscriber);
 		};
+
+		/**
+		 * This is a "one shot" subscribe - your callback will be called when a8n is next "ready" and then discarded.
+		 * If a8n is ready now the callback will be called  without waiting for any further state changes.
+		 * @param {Function} callback The function to call on ready.
+		 */
+		function onReady(callback) {
+			if (callback) {
+				if (instance.isReady()) {
+					window.setTimeout(callback, 0);
+				}
+				else {
+					if (!observer) {
+						observer = new Observer();
+					}
+					observer.subscribe(callback, { group: "onready" });
+				}
+			}
+		}
 
 		/**
 		 * Subscribers will be called any time the global ready state changes.
