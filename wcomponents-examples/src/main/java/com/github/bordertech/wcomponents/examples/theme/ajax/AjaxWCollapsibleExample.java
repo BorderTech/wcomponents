@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.examples.theme.ajax;
 
 import com.github.bordertech.wcomponents.CollapsibleGroup;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WCollapsible;
 import com.github.bordertech.wcomponents.WCollapsibleToggle;
 import com.github.bordertech.wcomponents.WContainer;
@@ -20,11 +21,8 @@ public class AjaxWCollapsibleExample extends WContainer {
 	 * Creates an AjaxWCollapsibleExample.
 	 */
 	public AjaxWCollapsibleExample() {
-		add(new WHeading(WHeading.MAJOR, "Client Side Toggle and Collapsibles with Ajax Content."));
-		add(new CollapsibleExample(true));
-
-		add(new WHeading(WHeading.MAJOR, "Server Side Toggle and Collapsibles with Ajax Content."));
-		add(new CollapsibleExample(false));
+		add(new WHeading(HeadingLevel.H2, "Collapsible Toggle and Collapsibles with Ajax Content."));
+		add(new CollapsibleExample());
 	}
 
 	/**
@@ -34,14 +32,11 @@ public class AjaxWCollapsibleExample extends WContainer {
 
 		/**
 		 * Creates a CollapsibleExample.
-		 *
-		 * @param clientSide true for client-side collapsible, false for server-side.
 		 */
-		private CollapsibleExample(final boolean clientSide) {
+		private CollapsibleExample() {
 
 			CollapsibleGroup group = new CollapsibleGroup();
-			WCollapsibleToggle wct = new WCollapsibleToggle(clientSide);
-			wct.setGroup(group);
+			WCollapsibleToggle wct = new WCollapsibleToggle(group);
 			add(wct);
 
 			WText component1 = new WText("Here is some text that is collapsible via ajax.");

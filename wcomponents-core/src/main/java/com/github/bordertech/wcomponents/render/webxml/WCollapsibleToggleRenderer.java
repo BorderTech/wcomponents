@@ -29,7 +29,6 @@ final class WCollapsibleToggleRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendAttribute("groupName", toggle.getGroupName());
-		xml.appendOptionalAttribute("roundTrip", !toggle.isClientSideToggleable(), "true");
 		xml.appendEnd();
 	}
 }

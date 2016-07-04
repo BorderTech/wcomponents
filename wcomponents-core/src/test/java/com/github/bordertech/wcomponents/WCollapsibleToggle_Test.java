@@ -1,8 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import junit.framework.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -13,94 +11,69 @@ import org.junit.Test;
  */
 public class WCollapsibleToggle_Test extends AbstractWComponentTestCase {
 
-	private WPanel panel;
-	private WCollapsible initiallyOpenCollapsible;
-	private WCollapsible initiallyCollapsedCollapsible;
-	private CollapsibleGroup group;
-	private WCollapsibleToggle toggle;
+	@Test
+	public void testConstructorSetGroup() {
+		WCollapsibleToggle toggle = new WCollapsibleToggle();
+		toggle.setIdName("myToggle");
+		CollapsibleGroup group = new CollapsibleGroup();
+		group.setCollapsibleToggle(toggle);
+		Assert.assertSame(toggle, group.getCollapsibleToggle());
+		Assert.assertEquals("myToggle", group.getGroupName());
+	}
 
-	@Before
-	public void setUp() {
-		panel = new WPanel();
+	@Test
+	public void testConstructorBooleanDoesNothing() {
+		WCollapsibleToggle toggle = new WCollapsibleToggle(true);
+		CollapsibleGroup group = new CollapsibleGroup();
+		group.setCollapsibleToggle(toggle);
+		Assert.assertSame(toggle, group.getCollapsibleToggle());
+		Assert.assertEquals(toggle.getId(), group.getGroupName());
+	}
 
+	@Test
+	public void testConstructorWithGroup() {
+		CollapsibleGroup group = new CollapsibleGroup();
+		WCollapsibleToggle toggle = new WCollapsibleToggle(group);
+		Assert.assertSame(toggle, group.getCollapsibleToggle());
+	}
+
+	@Test
+	public void testGetGroup() {
+		CollapsibleGroup group = new CollapsibleGroup();
+		WCollapsibleToggle toggle = new WCollapsibleToggle(group);
+		Assert.assertSame(group, toggle.getGroup());
+	}
+
+	@Test
+	public void testGetGroupNoGroup() {
+		WCollapsibleToggle toggle = new WCollapsibleToggle();
+		Assert.assertNull(toggle.getGroup());
+	}
+
+	@Test
+	public void testGetGroupName() {
+		CollapsibleGroup group = new CollapsibleGroup();
+		WCollapsibleToggle toggle = new WCollapsibleToggle(group);
+		String expected = "expected";
+		toggle.setIdName(expected);
+		Assert.assertEquals(expected, toggle.getGroupName());
+	}
+	@Test
+	public void testGetGroupNameNoGroup() {
+		WCollapsibleToggle toggle = new WCollapsibleToggle();
+		String expected = "expected";
+		toggle.setIdName(expected);
+		Assert.assertEquals(expected, toggle.getGroupName());
+	}
+
+	// pointless test to make sure no-one re-introduces server mode.
+	@Test
+	public void testClientSideAlwaysTrue() {
+		WCollapsibleToggle toggle = new WCollapsibleToggle();
+		Assert.assertTrue(toggle.isClientSideToggleable());
 		toggle = new WCollapsibleToggle(false);
-		panel.add(toggle);
-
-		initiallyOpenCollapsible = new WCollapsible(new WText("1"), "1");
-		initiallyCollapsedCollapsible = new WCollapsible(new WText("2"), "2");
-		panel.add(initiallyOpenCollapsible);
-
-		initiallyOpenCollapsible.setCollapsed(false);
-		initiallyCollapsedCollapsible.setCollapsed(true);
-
-		group = new CollapsibleGroup();
-		group.addCollapsible(initiallyOpenCollapsible);
-		group.addCollapsible(initiallyCollapsedCollapsible);
-
-		UIContext uic = createUIContext();
-		uic.setUI(panel);
-		setActiveContext(uic);
-
-		panel.add(initiallyCollapsedCollapsible);
-	}
-
-	@Test
-	public void testExpandAllNoGroup() {
-		expandAll();
-
-		Assert.assertFalse("Open collapsible should have stayed open", initiallyOpenCollapsible.
-				isCollapsed());
-		Assert.assertFalse("Collapsed collapsible should have opened",
-				initiallyCollapsedCollapsible.isCollapsed());
-	}
-
-	@Test
-	public void testCollapseAllNoGroup() {
-		collapseAll();
-
-		Assert.assertTrue("Open collapsible should have collapsed", initiallyOpenCollapsible.
-				isCollapsed());
-		Assert.assertTrue("Collapsed collapsible should have stayed collapsed",
-				initiallyCollapsedCollapsible.isCollapsed());
-	}
-
-	@Test
-	public void testCollapseAllWithGroup() {
-		toggle.setGroup(group);
-		collapseAll();
-
-		Assert.assertTrue("Open collapsible should have collapsed", initiallyOpenCollapsible.
-				isCollapsed());
-		Assert.assertTrue("Collapsed collapsible should have stayed collapsed",
-				initiallyCollapsedCollapsible.isCollapsed());
-	}
-
-	@Test
-	public void testExpandAllWithGroup() {
-		toggle.setGroup(group);
-		expandAll();
-
-		Assert.assertFalse("Open collapsible should have stayed open", initiallyOpenCollapsible.
-				isCollapsed());
-		Assert.assertFalse("Collapsed collapsible should have opened",
-				initiallyCollapsedCollapsible.isCollapsed());
-	}
-
-	/**
-	 * Runs the "Collapse all" button's action.
-	 */
-	private void collapseAll() {
-		MockRequest request = new MockRequest();
-		request.setParameter(toggle.getId(), "collapse");
-		panel.serviceRequest(request);
-	}
-
-	/**
-	 * Runs the "Expand all" button's action.
-	 */
-	private void expandAll() {
-		MockRequest request = new MockRequest();
-		request.setParameter(toggle.getId(), "expand");
-		panel.serviceRequest(request);
+		Assert.assertTrue(toggle.isClientSideToggleable());
+		toggle = new WCollapsibleToggle(true);
+		Assert.assertTrue(toggle.isClientSideToggleable());
 	}
 }
