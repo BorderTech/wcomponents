@@ -1,15 +1,14 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.selectToggle.xsl"/>
 	<!--
-		This template creates the rowSelection (select all, select none) controls if required. It is called explicitly from
-		the template match for ui:thead. If there are no selectable rows then nothing is output.
-	
+		This template creates the rowSelection (select all, select none) controls if required. It is called explicitly 
+		from the template named `topControls`. If there are no selectable rows then nothing is output.
+
 		NOTE: This template does not make the individual rows selectable. That is done in the transform of ui:tr.
-	
-		NOTE 2: Removed support for ui:rowselection/@submitOnChange due to usability and accessibility failure. If the
-		selection mode is single selection there is no way to select a row more than 1 row from the currently selected row
-		without using a pointing device of some kind. The attribute ui:rowselection/@submitOnChange is still used to create
-		round-trip mode select/deselect all controls.
+
+		Structural: do not override.
 	-->
 	<xsl:template match="ui:rowselection">
 		<xsl:variable name="tableId" select="../@id"/>
@@ -23,13 +22,11 @@
 					</xsl:when>
 					<xsl:when test="@toggle">
 						<!-- 
-							When in parent row is a select toggle mode:
-							* any row which is selected but 
-							* has descendant rows (in the same table)  which are not selected
-							* is **deemed to be unselected**.
-							
+							When in parent row is a select toggle mode any row which is selected but has descendant rows
+							(in the same table)  which are not selected is **deemed to be unselected**.
+
 							This is a horrible calculation and I wish I did not have to do it.
-							-->
+						-->
 						<xsl:variable name="numberUnselectedParentRows" 
 							select="count(..//ui:tr[@selected and 
 								ancestor::ui:table[1]/@id = $tableId and 
@@ -70,6 +67,21 @@
 				<xsl:with-param name="label" select="$controlLabel"/>
 				<xsl:with-param name="type" select="@selectAll"/>
 			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
+
+	<!--
+		Outputs a comma separated list of JSON objects required for registering
+		the selection controls. See wc.common.registrationScripts.xsl.
+	-->
+	<xsl:template match="ui:rowselection" mode="JS">
+		<xsl:text>{"identifier":"</xsl:text>
+		<xsl:value-of select="concat(../@id,'_tb','_st')"/>
+		<xsl:text>","groupName":"</xsl:text>
+		<xsl:value-of select="concat(../@id,'_tb')"/>
+		<xsl:text>"}</xsl:text>
+		<xsl:if test="position() != last()">
+			<xsl:text>,</xsl:text>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

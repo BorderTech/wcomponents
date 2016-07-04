@@ -5,7 +5,7 @@
 .wc_table_sel_wrapper {
 	white-space: nowrap;
 
-	[role='menubar'] {
+	.wc-menu-type-flyout {
 		button { // override unnecessary .wc_seltog style.
 			margin-left: 0;
 			text-decoration: none;
@@ -14,12 +14,11 @@
 		.wc-submenu-o { // the is the submenu opener emulator for the sub-row toggle control
 			@include button($background: $wc-ui-color-menu-bg, $padding: 0, $width: 1em);
 			height: 1em;
-			position: relative;
-			top: 2px; // allow for the border.
+			vertical-align: top;
 
-			&::after {
-				margin-left: 0; // remove submenu opener indicator margin
-				vertical-align: top;
+			> .wc-decoratedlabel::after {
+				display: inline-block;
+				padding-left: 0; // remove submenu opener indicator margin
 				width: 1em;
 			}
 		}
