@@ -14,6 +14,9 @@ package com.github.bordertech.wcomponents;
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
+ * @deprecated 1.2.0 This component is too abstract which leads to severe accessibility issues under common conditions and should have been an
+ * implementation example. See
+ * <a href="https://github.com/BorderTech/wcomponents/wiki/WAjaxPollingRegion">https://github.com/BorderTech/wcomponents/wiki/WAjaxPollingRegion</a>.
  */
 public class WAjaxPollingRegion extends WPanel {
 
