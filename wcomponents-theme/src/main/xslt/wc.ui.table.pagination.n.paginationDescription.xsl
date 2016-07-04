@@ -1,9 +1,12 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<!-- 
-		Required by a11y and i18n requirements. very nasty.
+		Required by a11y and i18n requirements. Very nasty.
 	
-		If your implementation takes a more sensible approach to a11y and pagination control
-		labelling then you may not need this, or may have a much simpler template.
+		If your implementation takes a more sensible approach to a11y and pagination control labelling then you may not
+		need this, or may have a much simpler template.
+		
+		If you do change this, however, ou will want to look at the pagination JavaScript which references these UI
+		segments if pagination mode is `client`.
 	-->
 	<xsl:template name="paginationDescription">
 		<xsl:variable name="rpp" select="@rowsPerPage"/>
