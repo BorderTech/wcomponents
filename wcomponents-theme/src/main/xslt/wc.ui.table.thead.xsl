@@ -2,8 +2,10 @@
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
 
 	<!--
-		Template for ui:thead. Simple generation of the HTML thead element. If the table needs row selection or expansion
-		columns these are added then the ui:th elements are applied.
+		Template for ui:thead. Simple generation of the HTML thead element. If the table needs row selection or 
+		expansion columns these are added then the ui:th elements are applied.
+		
+		Structural: do not override.
 	-->
 	<xsl:template match="ui:thead">
 		<xsl:param name="hasRole" select="0"/>

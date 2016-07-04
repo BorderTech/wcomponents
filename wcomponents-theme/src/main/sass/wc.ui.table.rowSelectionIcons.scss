@@ -37,3 +37,13 @@
 		}
 	}
 }
+
+.wc_table_sel_wrapper .wc-menuitem {
+	&:before {
+		content: $fa-var-square-o;
+	}
+
+	&[data-wc-value='all']:before {
+		content: $fa-var-check-square-o;
+	}
+}
