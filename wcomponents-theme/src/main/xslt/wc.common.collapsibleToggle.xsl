@@ -24,9 +24,6 @@
 
 		<xsl:variable name="mode">
 			<xsl:choose>
-				<xsl:when test="@roundTrip"><!-- WCollapsibleToggle, to be removed. -->
-					<xsl:text>server</xsl:text>
-				</xsl:when>
 				<xsl:when test="@mode='dynamic' or @mode='lazy'">
 					<xsl:value-of select="@mode"/>
 				</xsl:when>
@@ -79,7 +76,7 @@
 			</li>
 			<li>
 				<xsl:call-template name="toggleElement">
-					<xsl:with-param name="mode" select="'client'"/><!-- collapse all is never ajaxy or lame -->
+					<xsl:with-param name="mode" select="'client'"/><!-- collapse all is never ajaxy -->
 					<xsl:with-param name="id" select="concat($id,'_collapse')"/>
 					<xsl:with-param name="for" select="$targetList"/>
 					<xsl:with-param name="name" select="$id"/>

@@ -25,6 +25,10 @@
 		<xsl:value-of select="@minSelectedRows"/>
 		<xsl:text>","max":"</xsl:text>
 		<xsl:value-of select="@maxSelectedRows"/>
+		<xsl:text>","type":"</xsl:text>
+		<xsl:value-of select="@type"/>
+		<xsl:text>","message":"</xsl:text>
+		<xsl:value-of select="@message"/>
 		<xsl:text>"}</xsl:text>
 		<xsl:if test="position()!=last()">
 			<xsl:text>,</xsl:text>

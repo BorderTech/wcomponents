@@ -13,6 +13,7 @@ import com.github.bordertech.wcomponents.WTable.ActionConstraint;
 import com.github.bordertech.wcomponents.WTable.SelectMode;
 import com.github.bordertech.wcomponents.WTableColumn;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 
 /**
  * This example demonstrates a simple {@link WTable} that is bean bound and has row selection.
@@ -34,6 +35,13 @@ public class SimpleSelectableTableExample extends WPanel {
 	 * Create example.
 	 */
 	public SimpleSelectableTableExample() {
+		add(new ExplanatoryText("This example shows a simple selection mechanism. The table actions show some variations on how to set up constrained"
+				+ " actions. The delete and edit buttons do nothing in this example: they are merely there to show how to wire up different "
+				+ "constraint types.\n The select button shows how to add an error constrain to prevent the action unless at least one row is "
+				+ "selected. The delete button shows how to add an error constraint and a warning constraint to the same action to limit the action "
+				+ "to at least one row but warn the user if the action would be applied to more than one row. The edit button shows how to add an "
+				+ "error constraint to limit the action to exactly one selected row."));
+
 		add(table);
 		table.addColumn(new WTableColumn("First name", new WText()));
 		table.addColumn(new WTableColumn("Last name", new WText()));
@@ -56,6 +64,18 @@ public class SimpleSelectableTableExample extends WPanel {
 		// An action constraint is used so that a row must be selected before using the "Select" button
 		table.addActionConstraint(selectButton, new ActionConstraint(1, 0, true,
 				"One or more rows must be selected"));
+
+		WButton deleteWithWarningCondition = new WButton("Delete");
+		table.addAction(deleteWithWarningCondition);
+		// prevent the action if fewer than one row is selected.
+		table.addActionConstraint(deleteWithWarningCondition, new ActionConstraint(1, 0, true, "At least one row must be selected"));
+		// warn the user if more thanone row is selected but do not prevent the action unless the user bails.
+		table.addActionConstraint(deleteWithWarningCondition, new ActionConstraint(0, 1, false, "Are you sure you wish to delete these rows?"));
+
+		WButton editButton = new WButton("Edit");
+		table.addAction(editButton);
+		// prevent the action unless exactly one row is selected.
+		table.addActionConstraint(editButton, new ActionConstraint(1, 1, true, "Exactly one row must be selected"));
 
 		final WStyledText selectionText = new WStyledText();
 		selectionText.setWhitespaceMode(WStyledText.WhitespaceMode.PRESERVE);

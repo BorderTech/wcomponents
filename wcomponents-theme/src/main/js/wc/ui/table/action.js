@@ -4,17 +4,19 @@
  * It is not invalid to have table actions without constraints or event without row selection, but it would be unusual.
  *
  * @module
+ * @requires module:wc/dom/event
  * @requires module:wc/dom/getFilteredGroup
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/shed
  * @requires module:wc/ui/table/common
  */
-define(["wc/dom/getFilteredGroup",
+define(["wc/dom/event",
+		"wc/dom/getFilteredGroup",
 		"wc/dom/initialise",
 		"wc/dom/shed",
 		"wc/ui/table/common"],
-	/** @param getFilteredGroup @param initialise  @param shed @param common @ignore */
-	function(getFilteredGroup, initialise, shed, common) {
+	/** @param event @param getFilteredGroup @param initialise  @param shed @param common @ignore */
+	function(event, getFilteredGroup, initialise, shed, common) {
 		"use strict";
 
 		/**
@@ -74,7 +76,6 @@ define(["wc/dom/getFilteredGroup",
 				}
 				return null;
 			}
-
 			/**
 			 * Test if an action button can be enabled.
 			 * @function
@@ -86,7 +87,10 @@ define(["wc/dom/getFilteredGroup",
 				var conditions;
 				if ((conditions = parseConditions(button))) {
 					return Array.prototype.every.call(conditions, function (next) {
-						return isConditionMet(button, next);
+						if (next.type === "error") {
+							return isConditionMet(button, next);
+						}
+						return true;
 					});
 				}
 				return true;
@@ -101,6 +105,45 @@ define(["wc/dom/getFilteredGroup",
 			function enableDisableButton(button) {
 				var func = canEnableButton(button) ? "enable" : "disable";
 				shed[func](button);
+			}
+
+			function canSubmit (button) {
+				var conditions;
+
+				if (!canEnableButton(button)) {
+					return false;
+				}
+
+				if ((conditions = parseConditions(button))) {
+					return Array.prototype.every.call(conditions, function(next) {
+						if (next.type === "error") {
+							return isConditionMet(button, next);
+						}
+						if (!isConditionMet(button, next)) {
+							return window.confirm(next.message);
+						}
+						return true;
+					});
+				}
+			}
+
+			/**
+			 * Click listener for table actions. Invokes the test of conditions before allowing the submit button's
+			 * normal action.
+			 *
+			 * @function
+			 * @private
+			 * @param {Event} $event The click event.
+			 */
+			function clickEvent($event) {
+				var target;
+				if ($event.defaultPrevented) {
+					return;
+				}
+				target = ACTION_BUTTON.findAncestor($event.target);
+				if (target && !shed.isDisabled(target) && !canSubmit(target)) {
+					$event.preventDefault();
+				}
 			}
 
 			/**
@@ -149,6 +192,17 @@ define(["wc/dom/getFilteredGroup",
 			this.postInit = function() {
 				shed.subscribe(shed.actions.SELECT, shedSubscriber);
 				shed.subscribe(shed.actions.DESELECT, shedSubscriber);
+			};
+
+			/**
+			 * Initial set up for table action.
+			 *
+			 * @function module:wc/action.initialise
+			 * @public
+			 * @param {Element} element The element being initialised, usually document.body.
+			 */
+			this.initialise = function(element) {
+				event.add(element, event.TYPE.click, clickEvent, -50);
 			};
 		}
 
