@@ -4,26 +4,25 @@
 // disabled colours are special They are harder to get 4.5:1 and still look disabled!
 $wc-ui-color-disabled-fg: #696969 !default;
 $wc-ui-color-disabled-bg: #f3f3f3 !default;
-// disabled border notused in the default theme.
-$wc-ui-color-disabled-border: $std-color-lines !default; // same as regular border in this case: it is not important and can cause inconsistencies
-//disabled controls in the banner, WSection headers, dialog headers etc
-$wc-color-primary-disabled: #ccc !default;
-// $wc-ui-color-primary-disabled-bg: #333 !default; //may be unnecessary
+// Disabled controls in the banner, WSection headers, dialog headers etc
+// Must pass 4.5:1 against $std-color-primary.
+$wc-ui-color-primary-disabled: #ccc !default;
 
+//*****************************************************************************
 // Commonly used colors
-// ====================
-// This section has definitions in two formats. Where an $wc-* colour variabe is set to an ANT property then this
-// colour is also used in SVG and must remain in the ANT properties. Otherwise we set a commonly used color to a
-// scheme colour defined above.
+// You can sometimes turn off setting colour styles by setting a colour to -1.
+// This will, eventually, be implemented throughout the entire Sass codebase.
+// Each component will indicate which, if any, colours can be 'turned off' in
+// this manner.
+//*****************************************************************************
 
+//*****************************************************************************
 // Global colours
 $wc-ui-color-global-fg: $std-color-black !default;
 $wc-ui-color-global-bg: $std-color-white !default;
-// Inverse colours when we need to reverse: these should be the exact reverse of the above
-$wc-ui-color-inverse-fg: $std-color-white !default;
-$wc-ui-color-inverse-bg: $std-color-black !default;
 
-// highlights colours
+// highlights colours. This is for sections of the UI which should **subtlely**
+// stand out as different
 $wc-ui-color-highlight-bg: $std-color-highlight-bg !default;
 $wc-ui-color-highlight-fg: $std-color-highlight-fg !default;
 $wc-ui-color-highlight-bg-rgba: $std-color-highlight-bg-rgba !default;
@@ -31,8 +30,6 @@ $wc-ui-color-highlight-bg-rgba: $std-color-highlight-bg-rgba !default;
 // generic hover/focus
 $wc-ui-color-invite-bg: $std-color-invite-bg !default;
 $wc-ui-color-invite-fg: $std-color-invite-fg !default;
-// where translucent invites are acceptable (eg table rows)
-$wc-ui-color-invite-bg-rgba: $std-color-invite-bg-rgba !default;
 
 // Generic selected
 $wc-ui-color-selected-bg: $std-color-selected-bg !default;
@@ -52,7 +49,11 @@ $wc-ui-color-required-marker: $std-color-secondary !default;
 
 // drop shadows
 $wc-ui-color-shadow: $std-color-shadow !default;
+//*****************************************************************************
 
+//*****************************************************************************
+// FEEDBACK
+//*****************************************************************************
 // error indicators
 $wc-ui-color-error-fg: $std-color-error-fg !default;
 $wc-ui-color-error-bg: $std-color-error-bg !default;
@@ -60,30 +61,48 @@ $wc-ui-color-error-bg: $std-color-error-bg !default;
 $wc-ui-color-info-fg: $std-color-primary !default;
 $wc-ui-color-success-fg: $std-color-success-fg !default;
 $wc-ui-color-warning-fg: $std-color-warning-fg !default;
-
-// Section headers (WSection)
-$wc-ui-color-section-heading-bg: $std-color-primary !default;
-$wc-ui-color-section-heading-fg: $std-color-primary-accent !default;
-$wc-ui-color-section-heading-fg-disabled: $wc-color-primary-disabled !default;
-
-// Dialog frames (WDialog, image editor)
-$wc-ui-color-dialog-head-bg: $std-color-primary !default;
-$wc-ui-color-dialog-head-fg: $std-color-primary-accent !default;
-
 // Message box WMessageBox, WValidationErrors
 $wc-ui-color-msgbox-header-fg: $std-color-white !default;
 
+//*****************************************************************************
+// Section headers: WSection, WPanel Type.CHROME
+//*****************************************************************************
+$wc-ui-color-section-heading-bg: $std-color-primary !default;
+$wc-ui-color-section-heading-fg: $std-color-primary-accent !default;
+$wc-ui-color-section-heading-fg-disabled: $wc-ui-color-primary-disabled !default;
+
+//*****************************************************************************
+// Dialog frames (WDialog, image editor)
+//*****************************************************************************
+$wc-ui-color-dialog-head-bg: $std-color-primary !default;
+$wc-ui-color-dialog-head-fg: $std-color-primary-accent !default;
+
+//*****************************************************************************
 // Accesskey pop-up
+//*****************************************************************************
 $wc-ui-color-tooltip-fg: $wc-ui-color-highlight-fg !default;
 $wc-ui-color-tooltip-bg: $wc-ui-color-highlight-bg !default;
 // Border color is needed for the callout triangles.
 $wc-ui-color-tooltip-border: $wc-ui-color-border !default;
 
+//*****************************************************************************
 // modal shim
+//*****************************************************************************
 $wc-ui-color-modal-shim: $std-color-shim !default;
-$wc-ui-color-modal-shim-foreground: $wc-ui-color-inverse-fg !default;
+$wc-ui-color-modal-shim-foreground: $std-color-black !default;
 
+//*****************************************************************************
+// WMenu
+//*****************************************************************************
+//generic menu colours
+$wc-ui-color-menu-bg: $std-color-tertiary !default;
+$wc-ui-color-menu-fg: $wc-ui-color-global-fg !default;
+//NOTE: hover and focus effects use the global invite colours.
+
+//*****************************************************************************
 //WPanel
+//*****************************************************************************
+// Type.ACTION
 $wc-ui-color-panel-action-header-background: $std-color-secondary !default;
 $wc-ui-color-panel-action-header-foreground: $std-color-secondary-accent !default;
 $wc-ui-color-panel-action-background: $std-color-white !default;
@@ -99,25 +118,45 @@ $wc-ui-color-panel-footer-foreground: $std-color-tertiary-accent !default;
 $wc-ui-color-panel-header-background: $std-color-primary !default;
 $wc-ui-color-panel-header-foreground: $std-color-primary-accent !default;
 
+//*****************************************************************************
 // WProgressBar
+//*****************************************************************************
 $wc-ui-color-progress-bg: $std-color-white !default;
 $wc-ui-color-progress-fg: $std-color-primary !default;
 
+//*****************************************************************************
 // WTable
+//*****************************************************************************
+// apply to all WTables
+// turn off by setting to -1
+// your _really_ should set neither or both.
+$wc-ui-color-table-bg: -1 !default;
+$wc-ui-color-table-fg: -1 !default;
+// header colours
+// ALL header colours can be turned off by setting $wc-ui-color-table-head-bg to -1
 $wc-ui-color-table-head-bg: $std-color-primary !default;
 $wc-ui-color-table-head-fg: $std-color-primary-accent !default;
-$wc-ui-color-table-head-disabled: $wc-color-primary-disabled !default;
-
+$wc-ui-color-table-head-disabled: $wc-ui-color-primary-disabled !default;
+// sorted th colours
+// can be turned off by setting $wc-ui-color-table-head-sorted-bg to -1
+$wc-ui-color-table-head-sorted-bg: $wc-ui-color-highlight-bg !default;
+$wc-ui-color-table-head-sorted-fg: $wc-ui-color-highlight-fg !default;
+$wc-ui-color-table-head-sorted-disabled-fg: $wc-ui-color-disabled-fg !default;
+// footer colours
+// turn off by setting $wc-ui-color-table-foot-bg to -1
 $wc-ui-color-table-foot-bg: $std-color-primary !default;
 $wc-ui-color-table-foot-fg: $std-color-primary-accent !default;
 $wc-color-table-foot-disabled: $wc-ui-color-disabled-fg !default;
+// row and column striping - do not turn this off, just use the Java API!
+// however setting this to -1 will prevent the colours being set.
+$wc-ui-color-table-zebra-bg: $wc-ui-color-highlight-bg-rgba !default;
+// sorted column colour, set to -1 to not set.
+$wc-ui-color-table-col-sorted-bg: $wc-ui-color-highlight-bg-rgba !default;
+// row hover/focus colour, set to -1 to not set
+$wc-ui-color-table-invite-bg: $std-color-invite-bg-rgba !default;
 
+//*****************************************************************************
 // WTabSet
+//*****************************************************************************
 $wc-ui-color-tab-inactive: $std-color-tertiary !default;
 $wc-ui-color-tab-active: $std-color-white !default;
-
-// WMenu
-//generic menu colours
-$wc-ui-color-menu-bg: $std-color-tertiary !default;
-$wc-ui-color-menu-fg: $wc-ui-color-global-fg !default;
-//NOTE: hover and focus effects use the global invite colours.

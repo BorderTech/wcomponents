@@ -3,7 +3,7 @@
 
 th {
 	&[aria-sort]:after {
-		@include wc-icon-fw ($icon: $fa-var-caret-down, $text-align: right, $width: $wc-icon-small);
+		content: $fa-var-caret-down;
 	}
 
 	&[sorted]:after {
