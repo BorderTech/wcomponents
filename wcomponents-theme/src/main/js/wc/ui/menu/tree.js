@@ -1,10 +1,8 @@
 /**
- * Menu controller extension for WTree.
+ * Menu controller extension for WTree. WTree uses the menu controller because it has the same key-walking, brancho
+ * opening, selection and activation mechanisms.
  *
- * WTree uses the menu controller because it has the same key-walking, brancho opening, selection and activation
- * mechanisms.
- *
- * @see {@link http://www.w3.org/TR/wai-aria-practices/#TreeView}
+ * @see <a href="http://www.w3.org/TR/wai-aria-practices/#TreeView">TreeView</a>
  *
  * @module
  * @extends module:wc/ui/menu/core
@@ -57,7 +55,7 @@ define(["wc/ui/menu/core",
 				ajaxTimer;
 
 			if (has("ie") === 8) {
-				// IE8 fails to repaint tree branch closes in a timely manner when closing if the repainter is not included explicitly.
+				// IE8 fails to repaint closes in a timely manner if the repainter is not included explicitly.
 				require(["wc/fix/inlineBlock_ie8"]);
 			}
 
@@ -148,7 +146,7 @@ define(["wc/ui/menu/core",
 			 * @protected
 			 * @override
 			 */
-			this.enterOnOpen = false;
+			this._enterOnOpen = false;
 
 			/**
 			 * When keyboard navigating a tree we go into open submenus before going to the next option at the current
@@ -245,7 +243,8 @@ define(["wc/ui/menu/core",
 					VK_RIGHT = "DOM_VK_RIGHT",
 					VK_RETURN = "DOM_VK_RETURN",
 					VK_SPACE = "DOM_VK_SPACE",
-					isHTree;
+					isHTree,
+					expandable;
 
 				if (!root) {
 					return;
@@ -267,8 +266,9 @@ define(["wc/ui/menu/core",
 							this._keyMap[VK_RETURN] = this._FUNC_MAP.ACTION;
 							this._keyMap[VK_SPACE] = this._FUNC_MAP.ACTION;
 						}
+						expandable = this._getBranchExpandableElement(item);
 
-						if (shed.isExpanded(this._getBranchExpandableElement(item))) {
+						if (expandable && shed.isExpanded(expandable)) {
 							if (isHTree) {
 								this._keyMap[VK_RIGHT] = keyWalker.MOVE_TO.CHILD;
 								this._keyMap[VK_LEFT] = keyWalker.MOVE_TO.PARENT;
@@ -362,27 +362,26 @@ define(["wc/ui/menu/core",
 			};
 
 			/**
-			 * Get the menu element which is able to be "aria-expanded". This is the WSubMenu's content in most menus but
-			 * is the WSubMenu itself in trees.
+			 * Get the menu element which is able to be "aria-expanded". This is the WSubMenu's content in most menus
+			 * but is the WSubMenu itself in trees.
 			 *
 			 * @function
 			 * @override
 			 * @param {Element} item The start point for the search. This will normally be a 'branch'.
-			 * @returns {?Element} The "expandable" element. This is usually the branch content but is the branch in trees.
+			 * @returns {?Element} The "expandable" element. This is usually the branch content but is the branch in
+			 * trees.
 			 */
 			this._getBranchExpandableElement = function (item) {
-				var myBranch;
-
 				if (!item) {
-					throw new TypeError("Item must not be falsey.");
+					throw new TypeError("Item must be defined.");
 				}
 
 				if (this._isBranch(item)) {
 					return item;
 				}
 
-				if ((this.isSubMenu(item) || this._isOpener(item)) && (myBranch = this._getBranch(item))) {
-					return myBranch;
+				if (this.isSubMenu(item) || this._isOpener(item)) {
+					return this._getBranch(item);
 				}
 
 				throw new TypeError("Item must be a branch, submenu or branch opener element.");
@@ -402,22 +401,26 @@ define(["wc/ui/menu/core",
 			this.clickEvent = function($event) {
 				var target = $event.target,
 					root;
-				if ($event.defaultPrevented || target === window) {
+				if ($event.defaultPrevented || target === window || !(root = this.getRoot(target))) {
 					return;
 				}
 
-				if ((root = this.getRoot(target))) {
-					if (this.isHTree(root)) { // htree completely driven by select.
-						return;
-					}
+				if (this.isHTree(root)) { // htree completely driven by select.
+					return;
+				}
 
-					if (!this.isInVOpen(target)) {
-						return; // do nothing, do not prevent default, do not pass go.
-					}
+				if (!this.isInVOpen(target)) {
+					return; // do nothing, do not prevent default, do not pass go.
 				}
 				this.constructor.prototype.clickEvent.call(this, $event);
 			};
 
+			/**
+			 * Write the state of WTree.
+			 *
+			 * @param {Element} the WTree root element
+			 * @param {Element} toContainer the state container
+			 */
 			this.writeMenuState = function(next, toContainer) {
 				var root, rootId;
 
@@ -435,7 +438,11 @@ define(["wc/ui/menu/core",
 
 				// expanded branches
 				(toArray(this._wd.branch.findDescendants(next))).filter(function(nextBranch) {
-					return !shed.isDisabled(nextBranch) && shed.isExpanded(this._getBranchExpandableElement(nextBranch));
+					var expandable = this._getBranchExpandableElement(nextBranch);
+					if (!expandable) {
+						return false;
+					}
+					return !shed.isDisabled(nextBranch) && shed.isExpanded(expandable);
 				}, this).forEach(function(nextBranch) {
 					var name;
 
@@ -473,7 +480,7 @@ define(["wc/ui/menu/core",
 			}
 
 			/**
-			 * Helper for shedSubscriber which undertakes an ajax loadwhen a branch is opened if required.
+			 * Helper for _shedSubscriber which undertakes an ajax loadwhen a branch is opened if required.
 			 *
 			 * @param {Element} element The branch being opened.
 			 * @param {Element} root The root of the currect tree.
@@ -508,11 +515,10 @@ define(["wc/ui/menu/core",
 			 * @param {Element} element The element being acted upon.
 			 * @param {String} action The action being taken.
 			 */
-			this.shedSubscriber = function(element, action) {
+			this._shedSubscriber = function(element, action) {
 				var root;
 
-				if (!element || !(root = this.getRoot(element))) {
-					this.constructor.prototype.shedSubscriber.call(this, element, action);
+				if (!(element && (root = this.getRoot(element)))) {
 					return;
 				}
 
@@ -538,12 +544,12 @@ define(["wc/ui/menu/core",
 				}
 
 				if (action === shed.actions.EXPAND) {
-					this.constructor.prototype.shedSubscriber.call(this, element, action);
+					this.constructor.prototype._shedSubscriber.call(this, element, action);
 					this.ajaxExpand(element, root);
 					return;
 				}
 
-				this.constructor.prototype.shedSubscriber.call(this, element, action);
+				this.constructor.prototype._shedSubscriber.call(this, element, action);
 			};
 
 			/**
@@ -554,23 +560,26 @@ define(["wc/ui/menu/core",
 			 * @protected
 			 * @param {Object} item The branch being opened/closed.
 			 * @param {Object} open If true branch is being opened, otherwise its being closed.
-			 * @returns {Boolean} true if any non-false-equivalent value for item is passed in.
+			 * @returns {Boolean} true if the branch is able to animate.
 			 */
 			this._animateBranch = function(item, open) {
-				var root;
+				var root = this.getRoot(item);
 
-				if (!open) {
-					return this.constructor.prototype._animateBranch.call(this, item, open);
+				if (!(item && (root = this.getRoot(item)))) {
+					return false;
 				}
 
-				if (item && (root = this.getRoot(item)) && this.isHTree(root)) {
+				if (open && this.isHTree(root)) {
 					if (isLastSelectedItemAtLevel(item, root)) {
 						shed.expand(item);
 						this._remapKeys(item);
 					}
 					return true;
 				}
-				return this.constructor.prototype._animateBranch.call(this, item, open);
+
+				shed[open ? "expand" : "collapse"](item);
+				this._remapKeys(item);
+				return true;
 			};
 
 			/**
@@ -581,7 +590,7 @@ define(["wc/ui/menu/core",
 			 * @param {Node} textNode The node being tested.
 			 * @returns {Number}
 			 */
-			this.textMatchFilter = function(textNode) {
+			this._textMatchFilter = function(textNode) {
 				var parent = textNode.parentNode;
 
 				if (!classList.contains(parent, "wc_leaf_name")) {
@@ -593,6 +602,38 @@ define(["wc/ui/menu/core",
 				}
 
 				return NodeFilter.FILTER_SKIP;
+			};
+
+
+			/**
+			 * Helper for shed collapse subscriber. This function is concerned with deselecting items in collapsing
+			 * branches and possibly selecting i
+			 * @function
+			 * @protected
+			 * @override
+			 * @param {Element} element the branch beng collapsed.
+			 * @param {Element} [root] the tree's root
+			 */
+			this._shedCollapseHelper = function (element, root) {
+				var group,
+					groupContainer,
+					_root = root || this.getRoot(element);
+
+				if (!_root) {
+					return;
+				}
+
+				if (element && this._isBranch(element)) {
+					groupContainer = this.getSubMenu(element, true);
+					if (groupContainer && (group = getFilteredGroup(groupContainer, {itemWd: this._wd.leaf[0]})) && group.length) {
+						group.forEach(function(next) {
+							shed.deselect(next);
+						});
+						if (!this.isHTree(_root)) {
+							shed.select(element);
+						}
+					}
+				}
 			};
 		}
 
