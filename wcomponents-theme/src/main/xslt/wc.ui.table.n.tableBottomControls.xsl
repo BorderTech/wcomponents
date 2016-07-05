@@ -1,7 +1,11 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<!--
-		Creates a container for controls at the bottom of a table. You probably do not need to override this.
-		See transform for ui:table in wc.ui.table.xsl for information about the parameters.
+		Creates a container for controls at the bottom of a table. 
+
+		You probably do not need to override this but it should be safe to do so so long as any hard-coded
+		class attribute values are left in place.
 	-->
 	<xsl:template name="tableBottomControls">
 		<xsl:variable name="showPagination">

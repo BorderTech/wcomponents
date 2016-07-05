@@ -6,40 +6,21 @@
 	<xsl:import href="wc.common.invalid.xsl"/>
 	<xsl:import href="wc.common.hField.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
-	<xsl:import href="wc.common.n.className.xsl"/>
+	<xsl:import href="wc.ui.table.n.className.xsl"/>
 	<xsl:import href="wc.ui.table.n.caption.xsl"/>
 	<xsl:import href="wc.ui.table.n.tableBottomControls.xsl"/>
 	<xsl:import href="wc.ui.table.n.topControls.xsl"/>
-	<xsl:import href="wc.ui.table.n.autocol.xsl"/>
-	
+
 	<!--
 		WTable (and WDataTable)
 
 		This is long but reasonably straight-forward generation of HTML tables.
 
-		There are two modes of table which differ in how nested rows (ui:subtrs)
-		are treated. Type "table" (assumed if attribute not present) makes all rows sit
-		directly under each other. Type "hierarchic" indents child rows. This causes a
-		few issues since the rows are not actual children but siblings.
+		The HTML TABLE element itself is wrapped in a DIV. This is to provide somewhere to attach messages as a WTable
+		can be in an error state (yes, really). As a side-effect it makes it really easy to create more-or-les 
+		accessible horizontal scrolling.
 
-		The HTML TABLE element is actually wrapped in a DIV. This is to provide
-		somewhere to attach messages as a WTable can be in an error state (yes, really).
-
-		Common XSLT parameters
-
-		Individual element transforms may require to reference the ancestor table. To
-		facilitate this without doing an ancestor:: lookup for each cell we pass certain
-		information about the table down through all descendant element transforms.
-
-		addCols
-		This is the number of columns in the table in addition to the content columns.
-		This is an integor from 0 to 1 and represents the sum of the existance of row
-		selection and row expansion columns.
-
-		NOTE: there is a current bug in Chrome which is very interesting. If the transform is done in
-		javascript xsl:number value="count(nodeList)" returns nothing but xsl:value-of select="count(nodeList)"
-		returns the expected value. This needs further investigation when we have time. So where we are counting
-		we use value-of and where we have simple numbers we use number.
+		Structural: do not override.
 	-->
 	<xsl:template match="ui:table">
 		<xsl:variable name="id" select="@id"/>
@@ -49,26 +30,21 @@
 			Now it is pretty plain that a table cannot be in an error mode. The table is not, after all, intrinsically
 			interactive. The error indicator is used to provide visual indication that there is an error somewhere in
 			the table. As such it is pretty appalling!
+			
+			It is, therefore, assumed that a table will be in an error state only if the rowselection is in an 
+			error state.
 		-->
 		<xsl:variable name="isError" select="key('errorKey',$id)"/>
 
 		<div id="{$id}">
-			<xsl:call-template name="makeCommonClass"/>
+			<xsl:call-template name="wtableClassName"/>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 
-			<xsl:if test="ui:pagination[@mode='dynamic' or @mode='client'] or ui:rowexpansion[@mode='lazy' or @mode='dynamic'] or ui:sort[@mode='dynamic'] or key('targetKey',$id) or parent::ui:ajaxtarget[@action='replace']">
+			<xsl:if test="ui:pagination[@mode='dynamic' or @mode='client'] or 
+				ui:rowexpansion[@mode='lazy' or @mode='dynamic'] or ui:sort[@mode='dynamic'] or key('targetKey',$id) or
+				parent::ui:ajaxtarget[@action='replace']">
 				<xsl:call-template name="setARIALive"/>
 			</xsl:if>
-			<!--
-				Disabled state: WDataTable only
-
-				The disabled state is not strictly required on the table wrapper since we do
-				not do ancestor-or-self lookups in determining disabled controls. It is used to
-				disable table functionality: actions, rowExpansion, sorting and rowSelection.
-			<xsl:call-template name="disabledElement"/>
-			-->
-
-			<!-- THIS IS WHERE THE DIV's CONTENT STARTS NO MORE ATTRIBUTES AFTER THIS POINT THANK YOU! -->
 
 			<xsl:variable name="rowExpansion">
 				<xsl:choose>
@@ -94,9 +70,11 @@
 
 			<xsl:variable name="hasRole" select="$rowExpansion + $rowSelection"/>
 
+			<!-- THIS IS WHERE THE DIV's CONTENT STARTS NO MORE ATTRIBUTES AFTER THIS POINT THANK YOU! -->
 			<!--
-				Add table controls which do not form part of the table structure but which control and reference
-				the table.
+				Add table controls which do not form part of the table structure but which control and reference the 
+				table. The default are the select/deselect all, expand/collapse all and pagination controls (if position
+				is TOP or BOTH).
 			-->
 			<xsl:call-template name="topControls"/>
 
@@ -160,11 +138,11 @@
 					</xsl:if>
 
 					<xsl:if test="$rowSelection=1">
-						<xsl:call-template name="autocol"/>
+						<col class="wc_table_colauto"></col>
 					</xsl:if>
 
 					<xsl:if test="$rowExpansion=1">
-						<xsl:call-template name="autocol"/>
+						<col class="wc_table_colauto"></col>
 					</xsl:if>
 
 					<xsl:choose>
@@ -199,7 +177,10 @@
 					<xsl:with-param name="hasRole" select="$hasRole"/>
 				</xsl:apply-templates>
 			</table>
-
+			<!--
+				Add table controls which do not form part of the table structure but which control and reference the 
+				table. The default are actions and the pagination controls (if position is unsset, BOTTOM or BOTH).
+			-->
 			<xsl:call-template name="tableBottomControls">
 				<xsl:with-param name="addCols" select="$hasRole"/>
 			</xsl:call-template>
@@ -208,5 +189,85 @@
 			</xsl:call-template>
 			<xsl:call-template name="hField"/>
 		</div>
+	</xsl:template>
+
+	<!--
+		Transform for the noData child of a tbody. This is a String so just needs to be wrapped up properly.
+	-->
+	<xsl:template match="ui:nodata">
+		<div class="wc-nodata">
+			<xsl:value-of select="."/>
+		</div>
+	</xsl:template>
+
+	<!--
+		Table Actions
+	-->
+	<xsl:template match="ui:actions">
+		<xsl:apply-templates select="ui:action"/>
+	</xsl:template>
+
+	<xsl:template match="ui:action">
+		<xsl:apply-templates select="ui:button"/>
+	</xsl:template>
+
+	<!--
+		Outputs a comma separated list of JSON objects stored in a button attribute which is used to determine whether 
+		the action's conditions are met before undertaking the action.
+	-->
+	<xsl:template match="ui:condition" mode="action">
+		<xsl:text>{"min":"</xsl:text>
+		<xsl:value-of select="@minSelectedRows"/>
+		<xsl:text>","max":"</xsl:text>
+		<xsl:value-of select="@maxSelectedRows"/>
+		<xsl:text>","type":"</xsl:text>
+		<xsl:value-of select="@type"/>
+		<xsl:text>","message":"</xsl:text>
+		<xsl:value-of select="@message"/>
+		<xsl:text>"}</xsl:text>
+		<xsl:if test="position()!=last()">
+			<xsl:text>,</xsl:text>
+		</xsl:if>
+	</xsl:template>
+
+	<!--
+		1. Guard wrapper for action conditions. These are not output in place but are part of the sibling button's 
+		attribute data. The ui:action part of the match is to differentiate from ui:subordinate's ui:condition.
+		
+		2. Null template for ui:sort. The sort indicators are generated in the ui:table column generation and sort 
+		controls in ui:thead/ui:th. The ui:sort element itself contains metaData only and does not generate a usable 
+		HTML artefact.
+	-->
+	<xsl:template match="ui:action/ui:condition|ui:sort"/>
+
+	<!--
+		Creates each col element in the colgroup created in the transform of the table.
+	
+		param stripe: 1 if the table has column striping.
+		param sortCol: The 0 indexed column which is currently sorted (if any).
+	-->
+	<xsl:template match="ui:th|ui:td" mode="col">
+		<xsl:param name="stripe"/>
+		<xsl:param name="sortCol"/>
+		<xsl:variable name="class">
+			<xsl:if test="$stripe=1 and position() mod 2 = 0">
+				<xsl:text>wc_table_stripe</xsl:text>
+			</xsl:if>
+			<xsl:if test="$sortCol and position() = $sortCol + 1">
+				<xsl:text> wc_table_sort_sorted</xsl:text>
+			</xsl:if>
+		</xsl:variable>
+		<col>
+			<xsl:if test="$class !=''">
+				<xsl:attribute name="class">
+					<xsl:value-of select="normalize-space($class)"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@width">
+				<xsl:attribute name="style">
+					<xsl:value-of select="concat('width:',@width,'%')"/>
+				</xsl:attribute>
+			</xsl:if>
+		</col>
 	</xsl:template>
 </xsl:stylesheet>

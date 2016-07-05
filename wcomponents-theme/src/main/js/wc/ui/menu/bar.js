@@ -130,17 +130,21 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 * @protected
 			 * @override
 			 * @param {Element} item The item which has focus.
-			 * @param {Element} root The root element of the current menu.
 			 */
-			this._remapKeys = function(item, root) {
-				var submenu = this.getSubMenu(item),
+			this._remapKeys = function(item) {
+				var submenu,
+					_item = item,
 					VK_UP = "DOM_VK_UP",
 					VK_DOWN = "DOM_VK_DOWN",
 					VK_RIGHT = "DOM_VK_RIGHT",
 					VK_LEFT = "DOM_VK_LEFT",
-					branch, grandparent;
+					branch, grandparent,
+					root = this.getRoot(_item);
 
-				if (submenu) {
+				if (!root) {
+					return;
+				}
+				if ((submenu = this.getSubMenu(_item))) {
 					if ((branch = this._getBranch(submenu)) && (grandparent = this.getSubMenu(branch))) {
 						// more than one level deep.
 						/* If a submenu left closes the current branch and right will
@@ -155,7 +159,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 						this._keyMap[VK_LEFT] = null;
 					}
 
-					if (this._isBranchOrOpener(item)) {
+					if (this._isBranchOrOpener(_item)) {
 						this._keyMap[VK_RIGHT] = this._FUNC_MAP.ACTION;
 					}
 					else {
@@ -169,11 +173,11 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 					 */
 					if (!grandparent) {
 						// we are in a submenu under MENU
-						if (this._isBranchOrOpener(item)) {
-							item = this._getBranch(item);
+						if (this._isBranchOrOpener(_item)) {
+							_item = this._getBranch(_item);
 						}
-						if (item) {
-							if (isFirstLastItem(item, root)) {
+						if (_item) {
+							if (isFirstLastItem(_item, root)) {
 								// If I am the first submenu item UP should go to the opener
 								this._keyMap[VK_UP] = keyWalker.MOVE_TO.PARENT;
 							}
@@ -181,7 +185,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 								this._keyMap[VK_UP] = keyWalker.MOVE_TO.PREVIOUS;
 							}
 							// this is no an else if because an item can be both first and last
-							if (isFirstLastItem(item, root, true)) {
+							if (isFirstLastItem(_item, root, true)) {
 								// If I am the last submenu item then DOWN should go to the opener
 								this._keyMap[VK_DOWN] = keyWalker.MOVE_TO.PARENT;
 							}
@@ -195,12 +199,12 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 					this._keyMap[VK_LEFT] = keyWalker.MOVE_TO.PREVIOUS;
 					this._keyMap[VK_RIGHT] = keyWalker.MOVE_TO.NEXT;
 					// if I am a branch/opener and the menu is open then I have to cycle through my children
-					if (this._isOpener(item)) {
-						item = this._getBranch(item);
+					if (this._isOpener(_item)) {
+						_item = this._getBranch(_item);
 					}
-					if (this._isBranch(item)) {
-						if (shed.isExpanded(this._getBranchExpandableElement(item))) {
-							this._keyMap[VK_UP] = keyWalker.MOVE_TO.LAST_CHILD;  // "lastChildItem";
+					if (this._isBranch(_item) && (_item = this._getBranchExpandableElement(_item))) {
+						if (shed.isExpanded(_item)) {
+							this._keyMap[VK_UP] = keyWalker.MOVE_TO.LAST_CHILD; // "lastChildItem";
 							this._keyMap[VK_DOWN] = keyWalker.MOVE_TO.CHILD;
 						}
 						else {
@@ -232,7 +236,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			};
 
 			/**
-			 * Array iterator function for {@link module:wc/ui/menu/bar~updateMenusForMobile} which processes each
+			 * Array iterator function for {@link module:wc/ui/menu/bar~_updateMenusForMobile} which processes each
 			 * menu found and manipulates it for improved display and usability on mobile devices. Each sub-menu has a
 			 * close button added to the top and when the BAR menu is in the HEADER panel (role "banner") we collapse
 			 * the entire menu into a sub-menu and add a launcher to where the top-level items used to be.
@@ -291,7 +295,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 					branchElement = nextMenu;
 				}
 
-				Array.prototype.forEach.call(instance.getSubMenu(branchElement, true, true), instance.fixSubMenuContent);
+				Array.prototype.forEach.call(instance.getSubMenu(branchElement, true, true), instance._fixSubMenuContent);
 			}
 
 			/**
@@ -303,14 +307,14 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 * @override
 			 * @param {Element} element The element which may be a menu, submenu or something containing a menu.
 			 */
-			this.updateMenusForMobile = function (element) {
+			this._updateMenusForMobile = function (element) {
 				var candidates;
-				if (!this.isSmallScreen) {
+				if (!this._isSmallScreen) {
 					return;
 				}
 				if (this.isSubMenu(element)) {
 					if (this.getRoot(element)) {
-						this.fixSubMenuContent(element);
+						this._fixSubMenuContent(element);
 					}
 					return;
 				}

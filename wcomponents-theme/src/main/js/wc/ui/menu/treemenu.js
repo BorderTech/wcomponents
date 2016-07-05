@@ -58,7 +58,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 * @protected
 			 * @override
 			 */
-			this.enterOnOpen = false;
+			this._enterOnOpen = false;
 
 			/**
 			 * Trees are not transient.
@@ -99,10 +99,15 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 * @function
 			 * @protected
 			 * @override
-			 * @param {Element} _element The menu item which has focus.
+			 * @param {Element} item The menu item which has focus.
 			 */
-			this._remapKeys = function(_element) {
-				var element = _element;
+			this._remapKeys = function(item) {
+				var element = item,
+					root = this.getRoot(item);
+
+				if (!root) {
+					return;
+				}
 				if (this._isBranchOrOpener(element)) {
 					element = this._getBranchExpandableElement(element);
 					if (!shed.isExpanded(element)) {

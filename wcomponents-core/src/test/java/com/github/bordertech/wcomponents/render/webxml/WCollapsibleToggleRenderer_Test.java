@@ -35,6 +35,6 @@ public class WCollapsibleToggleRenderer_Test extends AbstractWebXmlRendererTestC
 		// Server-side
 		toggle = new WCollapsibleToggle(false);
 		assertSchemaMatch(toggle);
-		assertXpathEvaluatesTo("true", "//ui:collapsibletoggle/@roundTrip", toggle);
+		assertXpathNotExists("//ui:collapsibletoggle/@roundTrip", toggle);
 	}
 }

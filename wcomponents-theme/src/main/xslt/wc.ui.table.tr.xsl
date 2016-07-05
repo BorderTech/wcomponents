@@ -6,7 +6,6 @@
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
-	<xsl:import href="wc.ui.table.tr.n.clientRowClosedHelper.xsl"/>
 	<!--
 		Transform for each row in the WTable. The row itself transforms to a HTML tr element. It may also output another
 		row if it has a ui:subtr child.
@@ -16,6 +15,8 @@
 		ancestor::ui:table[1] lookups.
 
 		param parentIsClosed default 0, 1 indicates that the row's parent row exists and is in a collapsed state.
+
+		Structural: do not override (please!).
 	-->
 	<xsl:template match="ui:tr">
 		<xsl:param name="myTable"/>
@@ -27,15 +28,25 @@
 		<xsl:variable name="rowId" select="concat($tableId,'_',@rowIndex)"/>
 
 		<xsl:variable name="tableRowSelection">
-			<xsl:if test="$myTable/ui:rowselection">
-				<xsl:value-of select="1"/>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="$myTable/ui:rowselection">
+					<xsl:number value="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:number value="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
 
 		<xsl:variable name="hasRowExpansion">
-			<xsl:if test="$myTable/ui:rowexpansion">
-				<xsl:value-of select="1"/>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="$myTable/ui:rowexpansion">
+					<xsl:number value="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:number value="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
 
 		<xsl:variable name="indent">
@@ -112,12 +123,6 @@
 
 					<xsl:variable name="expMode" select="$myTable/ui:rowexpansion/@mode"/>
 
-					<xsl:variable name="isOpen">
-						<xsl:if test="ui:subtr/@open=$t">
-							<xsl:value-of select="1"/>
-						</xsl:if>
-					</xsl:variable>
-
 					<xsl:attribute name="aria-controls">
 						<xsl:choose>
 							<xsl:when test="ui:subtr/ui:tr">
@@ -136,7 +141,7 @@
 
 					<xsl:variable name="expansionMode">
 						<xsl:choose>
-							<xsl:when test="($expMode='lazy' or $expMode='eager') and $isOpen=1">
+							<xsl:when test="($expMode='lazy' or $expMode='eager') and ui:subtr/@open=$t">
 								<xsl:text>client</xsl:text>
 							</xsl:when>
 							<xsl:when test="$expMode='eager'">
@@ -243,7 +248,7 @@
 			<xsl:if test="$tableRowSelection=1">
 				<td class="wc_table_sel_wrapper wc-icon">
 					<xsl:choose>
-						<xsl:when test="$hasRowExpansion + $tableRowSelection = 2 and $myTable/ui:rowselection/@toggle and ui:subtr/ui:tr[not(@unselectable)]">
+						<xsl:when test="($hasRowExpansion + $tableRowSelection = 2) and $myTable/ui:rowselection/@toggle and ui:subtr/ui:tr[not(@unselectable)]">
 							<xsl:attribute name="role">
 								<xsl:text>presentation</xsl:text>
 							</xsl:attribute>
@@ -251,15 +256,18 @@
 							<xsl:variable name="subRowToggleControlButtonId" select="concat($subRowToggleControlId, '_showbtn')"/>
 							<xsl:variable name="subRowToggleControlContentId" select="concat($subRowToggleControlId, '_content')"/>
 							<!--
-							THIS IS HORRID but necessary - it has to be a complete emulation of a flyout menu but I have nothing to
-							apply to make the submenu and menu items so I cannot even make the menu template into a named template.
-						-->
-							<div class="wc-menu wc_mn_flyout" role="menubar" id="{$subRowToggleControlId}">
+								THIS IS HORRID but necessary - it has to be a complete emulation of a flyout menu but I have nothing to
+								apply to make the submenu and menu items so I cannot even make the menu template into a named template.
+							-->
+							<div class="wc-menu wc-menu-type-flyout wc_menu_bar" role="menubar" id="{$subRowToggleControlId}">
 								<div class="wc-submenu" role="presentation">
 									<button type="button" aria-haspopup="true" class="wc-nobutton wc-invite wc-submenu-o" id="{$subRowToggleControlButtonId}" aria-controls="{$subRowToggleControlContentId}">
-										<xsl:call-template name="offscreenSpan">
-											<xsl:with-param name="text" select="$$${wc.ui.table.string.rowSelection.label}"/>
-										</xsl:call-template>
+										<span class="wc-decoratedlabel">
+											<xsl:call-template name="offscreenSpan">
+												<xsl:with-param name="class" select="'wc-labelbody'"/>
+												<xsl:with-param name="text" select="$$${wc.ui.table.string.rowSelection.label}"/>
+											</xsl:call-template>
+										</span>
 									</button>
 									<div class="wc_submenucontent wc_seltog" role="menu" aria-expanded="false" id="{$subRowToggleControlContentId}" aria-labelledby="{$subRowToggleControlButtonId}">
 										<xsl:variable name="allSelectableSubRows" select="count(.//ui:subtr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable)])"/>
@@ -270,7 +278,7 @@
 												<xsl:with-param name="tableId" select="$tableId"/>
 											</xsl:apply-templates>
 										</xsl:variable>
-										<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc-nobutton wc-invite" aria-controls="{$subRowControlList}" data-wc-value="all">
+										<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc-nobutton wc-invite wc-icon" aria-controls="{$subRowControlList}" data-wc-value="all">
 											<xsl:attribute name="aria-checked">
 												<xsl:choose>
 													<xsl:when test="$allUnselectedSubRows = 0">
@@ -285,7 +293,7 @@
 												<xsl:with-param name="text" select="$$${wc.common.toggles.i18n.selectAll.a11y}"/>
 											</xsl:call-template>
 										</button>
-										<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc-nobutton wc-invite" aria-controls="{$subRowControlList}"  data-wc-value="none">
+										<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc-nobutton wc-invite wc-icon" aria-controls="{$subRowControlList}"  data-wc-value="none">
 											<xsl:attribute name="aria-checked">
 												<xsl:choose>
 													<xsl:when test="$allSelectableSubRows = $allUnselectedSubRows">
@@ -363,5 +371,47 @@
 			</xsl:with-param>
 			<xsl:with-param name="hasRole" select="$hasRole"/>
 		</xsl:apply-templates>
+	</xsl:template>
+
+	<!--
+		A row expander control needs to know what it controls. This could be a set of rows, including other	subRows. 
+		Since the rows are siblings they must be controlled individually. This template outputs ids of all rows which 
+		are controlled by a rowExpansion control. This is also used by WAI-ARIA to indicate the DOM nodes controlled by 
+		the expander. The list is space separated.
+	-->
+	<xsl:template match="ui:tr" mode="subRowControlIdentifier">
+		<xsl:param name="tableId"/>
+		<xsl:value-of select="concat($tableId,'_',@rowIndex)"/>
+		<xsl:if test="position()!=last()">
+			<xsl:value-of select="' '"/>
+		</xsl:if>
+	</xsl:template>
+
+	<!-- 
+		Determine if a row is closed when rowExpansion is in client mode.
+	-->
+	<xsl:template name="clientRowClosedHelper">
+		<xsl:param name="myTable"/>
+		<xsl:variable name="clientPaginationRows">
+			<xsl:choose>
+				<xsl:when test="$myTable/ui:pagination/@rowsPerPage">
+					<xsl:value-of select="$myTable/ui:pagination/@rowsPerPage"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$myTable/ui:pagination/@rows"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="tableCurrentPage" select="$myTable/ui:pagination/@currentPage"/>
+		<xsl:variable name="myPosition" select="count(preceding-sibling::ui:tr) + 1"/>
+		<xsl:variable name="activeStart" select="($clientPaginationRows * $tableCurrentPage) + 1"/>
+		<xsl:choose>
+			<xsl:when test="(($myPosition &lt; $activeStart) or ($myPosition >= ($activeStart + $clientPaginationRows)))">
+				<xsl:value-of select="1"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="0"/>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 </xsl:stylesheet>

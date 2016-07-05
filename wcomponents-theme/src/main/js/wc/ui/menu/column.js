@@ -50,10 +50,15 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 * @function
 			 * @protected
 			 * @override
-			 * @param {Element} _element The menu item which has focus.
+			 * @param {Element} item The menu item which has focus.
 			 */
-			this._remapKeys = function(_element) {
-				var element = _element;
+			this._remapKeys = function(item) {
+				var element = item,
+					root = this.getRoot(item);
+
+				if (!root) {
+					return;
+				}
 				if (this._isBranchOrOpener(element)) {
 					element = this._getBranchExpandableElement(element);
 					if (!shed.isExpanded(element)) {
@@ -90,15 +95,15 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 * @override
 			 * @param {Element} element The element which may be a menu, submenu or something containing a menu.
 			 */
-			this.updateMenusForMobile = function(element) {
+			this._updateMenusForMobile = function(element) {
 				var candidates,
 					MENU_FIXED = "data-wc-menufixed";
-				if (!this.isSmallScreen) {
+				if (!this._isSmallScreen) {
 					return;
 				}
 				if (this.isSubMenu(element)) {
 					if (this.getRoot(element)) {
-						this.fixSubMenuContent(element);
+						this._fixSubMenuContent(element);
 					}
 					return;
 				}
@@ -113,7 +118,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 				Array.prototype.forEach.call(candidates, function(next) {
 					if (!next.hasAttribute(MENU_FIXED)) {
 						next.setAttribute(MENU_FIXED, "true");
-						Array.prototype.forEach.call(this.getSubMenu(next, true, true), this.fixSubMenuContent, this);
+						Array.prototype.forEach.call(this.getSubMenu(next, true, true), this._fixSubMenuContent, this);
 					}
 				}, this);
 			};

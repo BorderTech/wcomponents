@@ -38,8 +38,14 @@
   WRadioButtonSelect and WSingleSelect. In all cases except WCheckBoxSelect using unencoded text could result in
   catastrophic failure as these must not contain HTML. Method `getDescEncode()` has been deprecated, made final and
   will always return true; method `setDescEncode(boolean)` has been deprecated, made final and is now a no-op.
+* Removed "round trip" mode WCollapsibleToggle. Constructor `WCollapsibleToggle(boolean)` has been deprecated in favour
+  of `WCollapsibleToggle)`. Constructor `WCollapsibleToggle(boolean, CollapsibleGroup )` has been deprecated in favour
+  of `WCollapsibleToggle(CollapsibleGroup)` Method `isClientSide()` deprecated as it will always return true #598.
+* Deprecated WAjaxPollingRegion #500.
 
 ## Bug Fixes
+* Fixed an accessibility error caused by unexpected side effects of WCollapsibleToggle #598.
+* Fixed accessibility issue in WCollapsible #694.
 * Changed output of WMenu Type TREE from role tree to role menu #619.
 * Fixed bug which could result in messages causing XML validation failure #707.
 * Fixed issue which caused WTextarea to not include changes in AJAX posts when in rich-text mode #700.
@@ -62,8 +68,10 @@
 * Fixed GridLayout cell alignment on small screens #652.
 
 ## Enhancements
-* Changed the client handling of WTable Actions with constraints to make the action button disabled if the constraints
-  aren't met rather than outputting an error alert. #618
+* Added WTabSet as a potential target of WCollapsibleToggle. This is only effective if the WTabSet is of TabSetType
+  ACCORDION #627.
+* Changed the client handling of WTable Actions with constraints to make the action button disabled if "error" level
+  constraints aren't met rather than outputting an error alert #618.
 * Reversed the date input polyfill used by WDateField. Previously we created all of the UI artefacts needed to support
   the polyfill and removed them if the browser supported native date inputs. This has been reversed to output a wrapper
   and input in XSLT and add the other artefacts if native date inputs are not supported. This significantly improves

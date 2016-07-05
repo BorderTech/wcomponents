@@ -3,6 +3,8 @@
 	<xsl:import href="wc.constants.xsl"/>
 	<!--
 		The transform for data cells within the table. These are a 1:1 map with a HTML td element.
+
+		Structural: do not override.
 	-->
 	<xsl:template match="ui:td">
 		<xsl:param name="myTable"/>
@@ -13,15 +15,16 @@
 			<xsl:value-of select="position()"/>
 		</xsl:variable>
 		<xsl:variable name="colHeaderElement" select="$myTable/ui:thead/ui:th[position()=$tbleColPos]"/>
-		<xsl:variable name="rowHeaderElement" select="../ui:th[1]"/>
-		<!-- the one is redundant -->
+		<xsl:variable name="rowHeaderElement" select="../ui:th[1]"/><!-- the one is redundant -->
 		<td>
 			<xsl:if test="$hasRole &gt; 0">
 				<xsl:attribute name="role">gridcell</xsl:attribute>
 			</xsl:if>
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
-					<xsl:value-of select="concat('wc-align-',$colHeaderElement/@align)"/>
+					<xsl:if test="$colHeaderElement/@align">
+						<xsl:value-of select="concat('wc-align-',$colHeaderElement/@align)"/>
+					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
 

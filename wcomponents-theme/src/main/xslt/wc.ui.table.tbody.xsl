@@ -4,6 +4,11 @@
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
 
+	<!-- 
+		Transform of ui:tbody to tbody.
+
+		Structural: do not override.
+	-->
 	<xsl:template match="ui:tbody">
 		<xsl:param name="hasRole" select="0"/>
 		<tbody id="{concat(../@id,'_tb')}">

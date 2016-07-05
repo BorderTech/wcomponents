@@ -1,7 +1,8 @@
 define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
-		var TEST_MODULE = "wc/ajax/Trigger",
+		var subscribers = [],
+			TEST_MODULE = "wc/ajax/Trigger",
 			resourceUrl = "@RESOURCES@/",
 			Controller, testHolder,
 			urlResource = resourceUrl + "ajaxTrigger.html",
@@ -9,8 +10,17 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			simpleRequest = {
 				id: "foobar",
 				url: xmlUrl,
-				loads: ["mrDiv0", "mrDiv2"]
+				loads: ["mrDiv0", "mrDiv2"],
+				method: "get"
 			};
+
+		/*
+		 * WARNING!
+		 *
+		 * THESE TESTS FAIL ON SAUCELABS TUNNELS IF YOU USE "POST".
+		 * Make sure you use "GET".
+		 *
+		 */
 
 		/*
 		 * trigger callback for simple (synchronous) busy tests
@@ -40,6 +50,15 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			}
 		}
 
+		function clearSubscribers() {
+			var next;
+			while (subscribers.length) {
+				next = subscribers.pop();
+				Controller.unsubscribe(next);
+				Controller.unsubscribe(next, -1);
+			}
+		}
+
 		/*
 		 * Same as testBusy but returns a promise which is resolved when the test is complete.
 		 */
@@ -57,6 +76,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 						lose(ex);
 					}
 				};
+				subscribers.push(subscriber);
 				Controller.subscribe(subscriber);
 			});
 			return promise;
@@ -86,7 +106,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				testHolder.innerHTML = "";
 			},
 			afterEach: function() {
-				Controller.clearSubscribers();
+				clearSubscribers();
 			},
 			testSetAriaBusy: function() {
 				var trigger = new Controller(simpleRequest, function() {
@@ -106,7 +126,10 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			},
 			testSingleResponse: function() {
 				var hitCount = 0,
-					trigger = new Controller(simpleRequest, function() {
+					trigger = new Controller(simpleRequest, function(payload) {
+						assert.isDefined(payload, "response should contain a payload");
+						assert.isDefined(payload.documentElement, "response should be an XML document");
+						assert.strictEqual(payload.documentElement.nodeName, "note", "documentElement should be 'note'");
 						// "Fire causes only one response"
 						assert.strictEqual(0, hitCount++, "response received too many times");
 					}, errCallback);
@@ -124,7 +147,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 						id: "foobar",
 						url: xmlUrl,
 						loads: ["mrDiv1", "mrDiv2"],
-						formRegion:"mrDiv1"
+						formRegion:"mrDiv1",
+						method: "get"
 					},
 					trigger = new Controller(_request, dummyCallback, errCallback);
 				var promise = testBusyPromise(trigger.loads);
@@ -149,6 +173,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 						oneShot: true,
 						id: "foobar",
 						url: xmlUrl,
+						method: "get",
 						loads: ["mrDiv0", "mrDiv2"]},
 					trigger = new Controller(request, dummyCallback);
 				var promise = new Promise(function(win, lose) {
@@ -178,6 +203,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 							lose();
 						}
 					};
+					subscribers.push(subscriber);
 					Controller.subscribe(subscriber, -1);
 				});
 				trigger.fire();
@@ -196,7 +222,32 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 							lose();
 						}
 					};
+					subscribers.push(subscriber);
 					Controller.subscribe(subscriber);
+				});
+				trigger.fire();
+				return promise;
+			},
+			testSubscribeAfterCallback: function() {
+				var callbackCalled = false,
+					trigger = new Controller(simpleRequest, function() {
+						callbackCalled = true;
+						return "foobar";
+					}, errCallback);
+				var promise = new Promise(function(win, lose) {
+					var subscriber = function(instance, pending) {
+						try {
+							assert.isTrue(callbackCalled, "The callback should have been called by now");
+							assert.strictEqual(trigger.id, instance.id, "first argument to subscriber should be trigger");
+							assert.isFalse(pending, "when the last Trigger has fired pending must be false");
+							win();
+						}
+						catch (ex) {
+							lose();
+						}
+					};
+					subscribers.push(subscriber);
+					Controller.subscribe(subscriber, 1);
 				});
 				trigger.fire();
 				return promise;
@@ -206,9 +257,10 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 						errCallback("This should never be called");
 					},
 					trigger = new Controller(simpleRequest, dummyCallback, errCallback);
+				subscribers.push(onerr);
 				Controller.subscribe(onerr);
 				Controller.subscribe(onerr, -1);
-				Controller.clearSubscribers();
+				clearSubscribers();
 				var promise = trigger.fire();
 				return promise;
 			}

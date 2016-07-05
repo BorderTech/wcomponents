@@ -7,6 +7,8 @@
 		the tfoot template. Nothing is output if the table consists of only one page.
 		
 		Pagination controls consist of a labelled SELECT element and four buttons.
+
+		Structural: do not override.
 	-->
 	<xsl:template match="ui:pagination">
 		<xsl:param name="idSuffix"/>
@@ -159,4 +161,53 @@
 		</button>
 	</xsl:template>
 
+	<!--
+		The rows per page selector.
+	-->
+	<xsl:template match="ui:rowsselect">
+		<xsl:param name="tableId"/>
+		<xsl:param name="idSuffix"/>
+		<xsl:variable name="rppChooserName">
+			<xsl:value-of select="concat($tableId,'.rows', $idSuffix)"/>
+		</xsl:variable>
+		<label for="{$rppChooserName}">
+			<xsl:value-of select="$$${wc.ui.table.string.pagination.label.chooseRowsPerPage}"/>
+			<select id="{$rppChooserName}" class="wc_table_pag_rpp">
+				<!-- NOTE: do not use name or data-wc-name as we do not want to trigger an unsaved changes warning -->
+				<xsl:call-template name="tableAjaxController">
+					<xsl:with-param name="tableId" select="$tableId"/>
+				</xsl:call-template>
+				<xsl:call-template name="disabledElement">
+					<xsl:with-param name="field" select="ancestor::ui:table[1]"/>
+					<xsl:with-param name="isControl" select="1"/>
+				</xsl:call-template>
+				<xsl:apply-templates select="ui:option" mode="rowsPerPage">
+					<xsl:with-param name="rowsPerPage" select="../@rowsPerPage"/>
+				</xsl:apply-templates>
+			</select>
+		</label>
+	</xsl:template>
+
+	<!--
+		The rows per page options.
+	-->
+	<xsl:template match="ui:option" mode="rowsPerPage">
+		<xsl:param name="rowsPerPage"/>
+		<xsl:variable name="value" select="@value"/>
+		<option value="{$value}">
+			<xsl:if test="$rowsPerPage=$value">
+				<xsl:attribute name="selected">
+					<xsl:text>selected</xsl:text>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="$value='0'">
+					<xsl:value-of select="$$${wc.ui.table.string.pagination.label.chooseAllRowsPerPage}"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$value"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</option>
+	</xsl:template>
 </xsl:stylesheet>
