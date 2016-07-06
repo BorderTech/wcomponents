@@ -154,7 +154,7 @@
 					-->
 					
 					<xsl:variable name="rowClass">
-						<xsl:text>wc-row wc_hgap_med wc-respond</xsl:text>
+						<xsl:text>wc-row wc-hgap-med wc-respond</xsl:text>
 					</xsl:variable>
 					<xsl:choose>
 						<xsl:when test="$readOnly=1 and $rows=0">
@@ -163,7 +163,7 @@
 									<xsl:text>wc_list_nb</xsl:text>
 									<xsl:choose>
 										<xsl:when test="$layout='flat'">
-											<xsl:text> wc_hgap_med</xsl:text>
+											<xsl:text> wc-hgap-med</xsl:text>
 										</xsl:when>
 										<xsl:otherwise>
 											<xsl:text> wc_vgap_sm</xsl:text>
@@ -203,7 +203,7 @@
 								<xsl:attribute name="class">
 									<xsl:choose>
 										<xsl:when test="$layout='flat'">
-											<xsl:text>wc_hgap_med</xsl:text>
+											<xsl:text>wc-hgap-med</xsl:text>
 										</xsl:when>
 										<xsl:otherwise>
 											<xsl:text>wc_vgap_sm</xsl:text>
