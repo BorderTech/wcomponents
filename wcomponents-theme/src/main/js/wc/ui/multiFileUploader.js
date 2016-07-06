@@ -803,9 +803,11 @@ define(["wc/dom/attribute",
 				var myClone;
 				element.value = "";
 				if (element.value !== "") {
-					myClone = element.cloneNode(false);
-					element.parentNode.replaceChild(myClone, element);
-					initialiseFileInput(myClone);
+					if (element.parentNode) {  // IE10 somehow gets in here with an element wiht no parent
+						myClone = element.cloneNode(false);
+						element.parentNode.replaceChild(myClone, element);
+						initialiseFileInput(myClone);
+					}
 				}
 			};
 		}
