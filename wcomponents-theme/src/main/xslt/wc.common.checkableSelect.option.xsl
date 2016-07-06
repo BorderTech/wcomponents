@@ -67,7 +67,7 @@
 				<xsl:text> wc-column</xsl:text>
 			</xsl:if>
 			<xsl:if test="not($layout = 'flat')">
-				<xsl:text> wc_vgap_sm</xsl:text>
+				<xsl:text> wc-vgap-sm</xsl:text>
 			</xsl:if>
 		</xsl:variable>
 		<xsl:element name="{$elementName}">

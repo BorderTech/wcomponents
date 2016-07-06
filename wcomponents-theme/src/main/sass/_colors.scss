@@ -56,6 +56,8 @@ $wc-ui-color-shadow: $std-color-shadow !default;
 //*****************************************************************************
 // error indicators
 $wc-ui-color-error-fg: $std-color-error-fg !default;
+// background of items in an error state (input, textarea, select)
+// set to -1 to disable error backgrounds.
 $wc-ui-color-error-bg: $std-color-error-bg !default;
 // other feedback
 $wc-ui-color-info-fg: $std-color-primary !default;
