@@ -42,6 +42,7 @@
 
 // The calendar table
 #wc_calendar {
+	@include border($width: 0);
 	font-size: $wc-font-larger;
 
 	thead {

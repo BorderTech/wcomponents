@@ -37,10 +37,9 @@
 	}
 }
 
-@include respond-not-phone {
+@include respond-not-phonelike {
 	.wc-menu-type-column,
 	.wc_menu_bar {
-
 		.wc-submenu {
 			position: relative;
 		}
@@ -114,5 +113,9 @@
 			bottom: 0;
 			top: auto;
 		}
+	}
+
+	.wc_closesubmenu {
+		display: none;
 	}
 }

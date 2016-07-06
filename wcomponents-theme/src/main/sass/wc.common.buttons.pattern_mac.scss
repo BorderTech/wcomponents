@@ -4,7 +4,8 @@
 // 2. set buttons to something approaching a consistent appearance in OS X.
 
 @import 'btn-common';
-
-button {
-	@extend %button-like-text;
+@if ($wc-button-rationalise-text-styles != 1 and $wc-button-rationalise-text-styles-mac == 1) {
+	button {
+		@extend %button-like-text;
+	}
 }

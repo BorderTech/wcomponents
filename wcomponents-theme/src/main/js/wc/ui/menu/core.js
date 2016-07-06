@@ -73,7 +73,7 @@ define(["wc/has",
 				// no collide north...
 				DEFAULT_DIRECTION: i18n.get("${wc.ui.menu.i18n.defaultDirection}"),
 				AGAINST_DEFAULT: i18n.get("${wc.ui.menu.i18n.otherDirection}"),
-				CLOSER: "closesubmenu"
+				CLOSER: "wc_closesubmenu"
 			},
 			/**
 			 * This object is used to map functions to particular event conditions.
