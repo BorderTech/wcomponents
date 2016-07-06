@@ -20,7 +20,7 @@
 	margin-left: 0;
 }
 
-.closesubmenu::before {
+.wc_closesubmenu::before {
 	content: $fa-var-caret-left;
 	margin-right: $wc-gap-normal;
 }
