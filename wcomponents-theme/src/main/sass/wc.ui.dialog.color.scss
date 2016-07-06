@@ -26,8 +26,8 @@ dialog {
 			color: $wc-ui-color-dialog-head-fg;
 		}
 
-		.wc_btn_icon {
-			border-color: $wc-ui-color-dialog-head-fg;
+		button {
+			@include border($color: $wc-ui-color-dialog-head-fg);
 		}
 	}
 }

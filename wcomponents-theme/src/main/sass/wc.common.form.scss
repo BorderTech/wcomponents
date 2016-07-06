@@ -5,22 +5,35 @@
 input,
 select,
 textarea {
-	// Border on select makes firefox OS X quite ugly but is better than any other option on all other UAs.
-	@include border($color: $wc-ui-color-border-form-control);
 	@include margin($size: 0);
 	font-family: inherit;
 	font-size: inherit;
 	line-height: inherit;
 	max-width: 100%;
 
+	@if ($wc-ui-color-error-bg != -1) {
+		&[aria-invalid='true'] {
+			background-color: $wc-ui-color-error-bg;
+		}
+	}
+
 	&[disabled] {
-		@include aria-disabled;
+		background-color: $wc-ui-color-disabled-bg;
 	}
 }
 
 input,
 textarea {
+	// Border on select makes firefox OS X quite ugly but is better than any other option on all other UAs.
+	@include border($color: $wc-ui-color-border-form-control);
 	padding: 1px;
+}
+
+select {
+	&[multiple],
+	&[size] {
+		@include border($color: $wc-ui-color-border-form-control);
+	}
 }
 
 input {
@@ -31,7 +44,13 @@ input {
 	}
 }
 
+/// invalid
+[aria-invalid='true'] {
+	@include outline($color: $wc-ui-color-error-fg);
+}
+
 /// Disabled.
+[disabled],
 [aria-disabled='true'] {
 	@include aria-disabled;
 }

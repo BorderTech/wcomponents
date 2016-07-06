@@ -10,9 +10,4 @@
 	&.wc_nti {
 		text-decoration: none;
 	}
-
-	&[disabled],
-	&[aria-disabled='true'] {
-		cursor: auto;
-	}
 }

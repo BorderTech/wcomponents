@@ -45,6 +45,7 @@
 // space between a checkable and its label
 input + label,
 .wc-selecttoggle + label,
+input + .wc-label,
 .wc_ro + .wc-label {
 	display: inline; // .wc-label's inline-block can cause the label to fall under the input when there is not enough room for the label
 	font-weight: normal;

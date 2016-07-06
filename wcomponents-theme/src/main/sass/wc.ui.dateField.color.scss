@@ -14,7 +14,9 @@
 	}
 }
 
-// The whole combo is invalid but we only want to apply the background color to the textbox.
-[role='combobox'][aria-invalid='true'] > input {
-	background-color: $wc-ui-color-error-bg;
+@if ($wc-ui-color-error-bg != -1) {
+	// The whole combo is invalid but we only want to apply the background color to the textbox.
+	[role='combobox'][aria-invalid='true'] > input {
+		background-color: $wc-ui-color-error-bg;
+	}
 }

@@ -9,13 +9,27 @@ $wc-mono-font: monospace !default;
 // Font size for mobile and small screens (< 1024px). This is the default because mobile is king!
 $wc-default-font-size: 100% !default;
 // sizes for not-mobile screens >= 1024px
-$wc-desktop-font-size: 100% !default;
+$wc-desktop-font-size: 75% !default;
 // font size on really large, dense monitors (eg Apple cinema and thunderbolt
 // displays) where small fonts become too tiny to be useful.
 $wc-bigscreen-font-size: 100% !default;
 // mobile menus - used only to make the menu items bigger for easier touch use.
 $wc-font-larger: 1.5rem;
-
+//*****************************************************************************
+// Button style
+//*****************************************************************************
+// If this is set to 1 then _all_ buttons will inherit font metrics.
+// You may find this useful in getting cross-browser and cross-platform
+// consistency but it _may_ make your buttons ugly if you are a hard-core OS X
+// user. We recommend setting this to 1 - it will save you some grief.
+$wc-button-rationalise-text-styles: 1;
+// If this next var == 1 and the previous var is not == 1 you can apply
+// inherited font metrics _just_ to OS X.
+$wc-button-rationalise-text-styles-mac: 0;
+// Set to 1 top turn on "invite" styles for all buttons.
+// If you do this you _will_ want to set borders and default backgrounds
+// because this will add hover/focus backgrounds.
+$wc-button-use-invite: 0;
 //*****************************************************************************
 // SPACING and REM SIZES
 //*****************************************************************************
