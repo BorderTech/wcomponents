@@ -14,7 +14,7 @@ $wc-desktop-font-size: 75% !default;
 // displays) where small fonts become too tiny to be useful.
 $wc-bigscreen-font-size: 100% !default;
 // mobile menus - used only to make the menu items bigger for easier touch use.
-$wc-font-larger: 1.5rem;
+$wc-font-larger: 1.5rem !default;
 //*****************************************************************************
 // Button style
 //*****************************************************************************
@@ -22,14 +22,14 @@ $wc-font-larger: 1.5rem;
 // You may find this useful in getting cross-browser and cross-platform
 // consistency but it _may_ make your buttons ugly if you are a hard-core OS X
 // user. We recommend setting this to 1 - it will save you some grief.
-$wc-button-rationalise-text-styles: 1;
+$wc-button-rationalise-text-styles: 1 !default;
 // If this next var == 1 and the previous var is not == 1 you can apply
 // inherited font metrics _just_ to OS X.
-$wc-button-rationalise-text-styles-mac: 0;
+$wc-button-rationalise-text-styles-mac: 0 !default;
 // Set to 1 top turn on "invite" styles for all buttons.
 // If you do this you _will_ want to set borders and default backgrounds
 // because this will add hover/focus backgrounds.
-$wc-button-use-invite: 0;
+$wc-button-use-invite: 0 !default;
 //*****************************************************************************
 // SPACING and REM SIZES
 //*****************************************************************************
@@ -121,7 +121,8 @@ $wc-ui-dialog-transition-duration: 0.5s !default;
 //*****************************************************************************
 // WFieldLayout
 //*****************************************************************************
-$wc-fieldlayout-default-label-width: 50%; // Must be a percent between 0 and 100. 25, 33, 50 are recommended options
+// Must be a percent between 0 and 100. 25, 33, 50 are recommended options
+$wc-fieldlayout-default-label-width: 50% !default;
 
 //*****************************************************************************
 // WMenu
