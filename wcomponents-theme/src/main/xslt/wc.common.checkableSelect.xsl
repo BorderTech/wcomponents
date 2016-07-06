@@ -166,7 +166,7 @@
 											<xsl:text> wc-hgap-med</xsl:text>
 										</xsl:when>
 										<xsl:otherwise>
-											<xsl:text> wc_vgap_sm</xsl:text>
+											<xsl:text> wc-vgap-sm</xsl:text>
 										</xsl:otherwise>
 									</xsl:choose>
 								</xsl:attribute>
@@ -206,7 +206,7 @@
 											<xsl:text>wc-hgap-med</xsl:text>
 										</xsl:when>
 										<xsl:otherwise>
-											<xsl:text>wc_vgap_sm</xsl:text>
+											<xsl:text>wc-vgap-sm</xsl:text>
 										</xsl:otherwise>
 									</xsl:choose>
 								</xsl:attribute>

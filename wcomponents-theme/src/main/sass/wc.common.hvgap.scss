@@ -16,7 +16,7 @@
 // 		padding-right: $size / 2;
 // 	}
 //
-// 	.wc_vgap_#{$gap} {
+// 	.wc-vgap-#{$gap} {
 // 		> div + div,
 // 		> li + li {
 // 			margin-top: $size;
@@ -51,7 +51,7 @@ $wc-gap-suffix-list: sm, med, lg, xl !default;
 		 }
 	}
 
-	.wc_vgap_#{$cl} {
+	.wc-vgap-#{$cl} {
 		> div + div,
 		> li + li {
 			margin-top: $size;
@@ -102,7 +102,7 @@ $wc-gap-suffix-list: sm, med, lg, xl !default;
 		}
 
 		@if ($cl != sm) {
-			.wc_vgap_#{$cl} {
+			.wc-vgap-#{$cl} {
 				> div + div,
 				> li + li {
 					margin-top: $wc-gap-small;
