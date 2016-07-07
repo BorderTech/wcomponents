@@ -2,14 +2,13 @@
 @import 'mixins-common';
 
 // ROW EXPANSION iconography and expand/collapse all iconography.
-tr[role='row'] {
-	> td[role='button']:before {
-		@include wc-icon-fw-content($fa-var-caret-right);
+
+td[role='button']:before {
+	[role='row'] > & {
+		content: $fa-var-caret-right;
 	}
 
-	&[aria-expanded='true'] {
-		> td[role='button']:before {
-			content: $fa-var-caret-down;
-		}
+	[aria-expanded='true'] > & {
+		content: $fa-var-caret-down;
 	}
 }

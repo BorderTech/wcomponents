@@ -34,7 +34,7 @@
 		</xsl:variable>
 		
 		<xsl:if test="$mygap and $mygap != '' and $mygap != '0'">
-			<xsl:text> wc_</xsl:text>
+			<xsl:text> wc-</xsl:text>
 			<xsl:choose>
 				<xsl:when test="$isVGap = 1">
 					<xsl:text>v</xsl:text>
@@ -43,7 +43,7 @@
 					<xsl:text>h</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
-			<xsl:text>gap_</xsl:text>
+			<xsl:text>gap-</xsl:text>
 			<xsl:call-template name="getSizeClassExtension">
 				<xsl:with-param name="gap" select="$mygap"/>
 			</xsl:call-template>

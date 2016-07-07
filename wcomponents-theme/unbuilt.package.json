@@ -7,6 +7,7 @@
 		"jsdoc-oblivion": "~0.0.4"
 	},
 	"devDependencies": {
+		"grunt": "~0.4.0",
 		"accessibility-developer-tools": "2.10.0",
 		"axe-core": "~1.1.1",
 		"clean-css": "~3.4.3",

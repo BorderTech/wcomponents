@@ -3,11 +3,17 @@
 // over-ridden.
 @import 'mixins-common';
 
-[role='banner'] h1 {
-	font-size: $wc-header-h1-size-full;
-	font-weight: lighter;
-	margin: 0;
-	padding: $wc-gap-normal;
+[role='banner'] {
+	h1 {
+		font-size: $wc-header-h1-size-full;
+		font-weight: lighter;
+		margin: 0;
+		padding: $wc-gap-normal;
+	}
+
+	.wc-label {
+		font-weight: normal;
+	}
 }
 
 // This is just a sample suggestion which you should ignore (really).

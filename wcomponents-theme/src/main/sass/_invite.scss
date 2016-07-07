@@ -1,0 +1,19 @@
+@import 'mixins-common';
+
+%wc-invite {
+	cursor: pointer;
+
+	&:hover,
+	&:focus {
+		background-color: $wc-ui-color-invite-bg;
+		color: $wc-ui-color-invite-fg;
+	}
+
+	&[disabled],
+	&[aria-disabled='true'] {
+		&:hover {
+			background-color: $wc-ui-color-disabled-bg;
+			color: $wc-ui-color-disabled-fg;
+		}
+	}
+}

@@ -2,15 +2,13 @@
 // Common styles for buttons which are always iconic.
 
 %wc_btn_icon {
-	@include button;
+	@include button; // To use regular platform buttons: ($background: -1, $border: false);
+	@if ($wc-button-rationalise-text-styles != 1) {
+		@extend %button-like-text;
+	}
 	color: inherit;
 
 	&:before {
 		@include wc-icon;
-	}
-
-	&[disabled] {
-		background-color: $wc-ui-color-disabled-bg;
-		color: $wc-ui-color-disabled-fg;
 	}
 }

@@ -20,7 +20,7 @@
 @mixin aria-disabled {
 	// important to reset menu button etc rules which are VERY specific
 	// scss-lint:disable ImportantRule
-	// color: $wc-ui-color-disabled-fg; // NOTE for your own sanity do not set background-color here
+	color: $wc-ui-color-disabled-fg; // NOTE for your own sanity do not set background-color here!
 	cursor: default !important;
 	outline: none !important;
 	text-decoration: none !important;
