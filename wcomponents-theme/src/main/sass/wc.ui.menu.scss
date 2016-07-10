@@ -17,6 +17,7 @@
 	// 'div' menu items need explicit border box, buttons have it by default.
 	@include border-box;
 	display: block;
+	vertical-align: bottom;
 }
 
 .wc-menuitem,
@@ -25,7 +26,7 @@
 
 	.wc_menu_bar > & {
 		display: inline-block;
-		vertical-align: text-top;
+		// vertical-align: text-top;
 		white-space: nowrap;
 		width: auto;
 	}
