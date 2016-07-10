@@ -152,9 +152,9 @@ function(Observer, xmlString, timers, has, uid, require) {
 		 * @returns {XMLHTTPRequest} A Microsoft proprietary XML HTTPRequest.
 		 */
 		function getMsRequest() {
-			var result, supported;
+			var result, supported, ieVersion = has("ie");
 			if (ieXmlHttpEngine === undefined) {
-				if (has("ie") && (supported = getActiveX("Msxml2.XMLHTTP", ["6.0", "3.0"]))) {
+				if (ieVersion && ieVersion < 10 && (supported = getActiveX("Msxml2.XMLHTTP", ["6.0", "3.0"]))) {
 					// This is intended for IE9 and earlier - ActiveX is better in ancient IE
 					ieXmlHttpEngine = supported.engine;
 				}
