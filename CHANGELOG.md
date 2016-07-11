@@ -1,5 +1,11 @@
 # Change log
+## API Changes
 
+## Bug Fixes
+
+## Enhancements
+
+# Release 1.2.0
 ## API Changes
 * FlowLayout API modified as part of fixing #636. This was required to remove ambiguity from the API.
   * Added constructors to FlowLayout:
