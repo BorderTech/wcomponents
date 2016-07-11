@@ -20,6 +20,7 @@
 ///	Accesskey Tooltips
 ///	Styling for the callout (shows when ALT is held down).
 [role='tooltip'] {
+	display: inline;
 	// important to over-ride menu rules which may also apply.
 	// scss-lint:disable ImportantRule
 	font-weight: bold;
