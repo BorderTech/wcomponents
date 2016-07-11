@@ -82,8 +82,13 @@ define(["wc/ajax/ajax",
 								promiseDone(groupLose, err);
 							},
 							callback: function(srcTree) {
-								var promise = xslTransform.transform({ xmlDoc: srcTree });
-								promise.then(promiseDone.bind(this, groupWin), this.onError);
+								if (srcTree === null && this.responseText) {
+									promiseDone(groupWin, xslTransform.htmlToDocumentFragment(this.responseText));
+								}
+								else {
+									var promise = xslTransform.transform({ xmlDoc: srcTree });
+									promise.then(promiseDone.bind(this, groupWin), this.onError);
+								}
 							},
 							cache: true,  // cache should be forever, cache is broken by changing URL (querystring)
 							responseType: ajax.responseType.XML
