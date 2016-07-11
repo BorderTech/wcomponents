@@ -33,6 +33,9 @@
 	// accordion tabs are expanded, others are aria-selected.
 	&[aria-selected] {
 		@include wc-ui-tabset-top-border-radius;
+	}
+
+	&[aria-selected='true'] {
 		@include border($pos: bottom, $width: 0);
 	}
 }
