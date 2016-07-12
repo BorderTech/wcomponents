@@ -37,7 +37,7 @@ public final class WComponentSelenium {
 	/**
 	 * The default page-ready timeout duration.
 	 */
-	private static final int PAGE_READY_WAIT_TIMEOUT = Config.getInstance().getInt(PARAM_PREFIX + "page_ready_timeout", 5);
+	private static final int PAGE_READY_WAIT_TIMEOUT = Config.getInstance().getInt(PARAM_PREFIX + "page_ready_timeout", 10);
 
 	/**
 	 * The default page-ready poll interval (milliseconds).
