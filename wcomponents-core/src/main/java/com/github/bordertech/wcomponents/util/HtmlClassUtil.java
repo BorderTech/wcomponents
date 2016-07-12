@@ -119,7 +119,7 @@ public class HtmlClassUtil {
 		 * have the ability to set alignment intrinsically to the component/layout.
 		 * </p>
 		 */
-		ALIGN_RIGHT ("wc-align-center"),
+		ALIGN_RIGHT ("wc-align-right"),
 
 		/**
 		 * Make a container scroll horizontally if its content does not fit. Probably only really useful for
