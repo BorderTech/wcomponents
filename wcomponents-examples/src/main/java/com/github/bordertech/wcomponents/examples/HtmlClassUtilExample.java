@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.util.HtmlClassUtil;
+import com.github.bordertech.wcomponents.util.HtmlIconClassUtil;
 
 /**
  * An example showing how to use {@link HtmlClassUtil}.
@@ -208,5 +209,20 @@ public class HtmlClassUtilExample extends WPanel {
 		add(text);
 		text.setHtmlClass(HtmlClassUtil.HtmlClassName.ICON.toString() + " fa-fort-awesome");
 
+
+		// using the icon helpers
+		String cogIcon = "fa-cog";
+		add(new WHeading(HeadingLevel.H3, "Cog icons"));
+		button = new WButton("\u200b"); // \u200b is a zero-width space.
+		button.setToolTip("Settings");
+		button.setHtmlClass(HtmlIconClassUtil.getIconClasses(cogIcon));
+		add(button);
+		button = new WButton("Settings");
+		button.setHtmlClass(HtmlIconClassUtil.getIconClasses(cogIcon, HtmlIconClassUtil.IconPosition.BEFORE));
+		add(button);
+		button = new WButton("Settings");
+		button.setHtmlClass(HtmlIconClassUtil.getIconClasses(cogIcon, HtmlIconClassUtil.IconPosition.AFTER));
+		add(button);
+		//
 	}
 }
