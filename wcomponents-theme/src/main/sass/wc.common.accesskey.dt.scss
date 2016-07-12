@@ -24,7 +24,7 @@
 	// important to over-ride menu rules which may also apply.
 	// scss-lint:disable ImportantRule
 	font-weight: bold;
-	margin-top: -2.25rem;
+	margin-top: (-2 - $wc-gap-small);
 	padding: $wc-gap-small !important;
 	position: absolute;
 	text-align: center;
@@ -34,12 +34,12 @@
 	&:before,
 	&:after {
 		border-style: solid;
-		border-width: 0.5rem 0.25rem 0;
+		border-width: $wc-gap-normal $wc-gap-small 0;
 		bottom: 0;
 		content: '';
 		display: inline-block;
 		left: 30%;
-		margin-bottom: -0.5rem;
+		margin-bottom: -#{$wc-gap-normal};
 		position: absolute;
 	}
 
