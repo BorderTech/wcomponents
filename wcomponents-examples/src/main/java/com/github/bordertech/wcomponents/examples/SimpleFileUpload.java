@@ -50,7 +50,7 @@ public class SimpleFileUpload extends WContainer {
 				if (Util.empty(fileWidget.getFileName())) {
 					fileText = "nothing uploaded";
 				} else {
-					fileText = fileWidget.getFile().getMimeType();
+					fileText = new String(fileWidget.getFile().getBytes());
 				}
 
 				console.setText(fileText);

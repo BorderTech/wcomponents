@@ -25,6 +25,7 @@ import org.eclipse.jetty.security.HashLoginService;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.bio.SocketConnector;
 import org.eclipse.jetty.server.handler.HandlerCollection;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.webapp.WebAppContext;
@@ -35,7 +36,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
  * @author James Gifford
  * @since 1.0.0
  */
-public abstract class TestServlet extends WServlet {
+public abstract class TestServlet extends WServlet implements TestLauncher {
 
 	/**
 	 * The logger instance for this class.
@@ -43,17 +44,20 @@ public abstract class TestServlet extends WServlet {
 	private static final Log LOG = LogFactory.getLog(TestServlet.class);
 
 	/**
-	 * This configuration parameter allows the developer to configure the LDE to use a different set of servlets.
+	 * This configuration parameter allows the developer to configure the LDE to
+	 * use a different set of servlets.
 	 */
 	private static final String WEBDOCS_DIR_PARAM = "bordertech.wcomponents.lde.webdocs.dir";
 
 	/**
-	 * This configuration parameter allows the developer to configure the LDE to use an external theme.
+	 * This configuration parameter allows the developer to configure the LDE to
+	 * use an external theme.
 	 */
 	private static final String WEBDOCS_THEME_DIR_PARAM = "bordertech.wcomponents.lde.theme.dir";
 
 	/**
-	 * This configuration parameter allows the developer to configure the LDE to set a resources directory.
+	 * This configuration parameter allows the developer to configure the LDE to
+	 * set a resources directory.
 	 */
 	private static final String WEBDOCS_RESOURCE_DIR_PARAM = "bordertech.wcomponents.lde.resource.dir";
 
@@ -63,12 +67,14 @@ public abstract class TestServlet extends WServlet {
 	private static final String JETTY_PORT_PARAM = "bordertech.wcomponents.lde.server.port";
 
 	/**
-	 * This configuration parameter sets up the Jetty realm file for authenticated access.
+	 * This configuration parameter sets up the Jetty realm file for
+	 * authenticated access.
 	 */
 	private static final String JETTY_REALM_FILE_PARAM = "bordertech.wcomponents.lde.server.realm.file";
 
 	/**
-	 * This configuration parameter sets up the Jetty realm file for authenticated access.
+	 * This configuration parameter sets up the Jetty realm file for
+	 * authenticated access.
 	 */
 	private static final String ENABLE_SHUTDOWN_PARAM = "bordertech.wcomponents.lde.shutdown.enabled";
 
@@ -99,6 +105,7 @@ public abstract class TestServlet extends WServlet {
 	 *
 	 * @throws Exception if the LDE fails to start.
 	 */
+	@Override
 	public void run() throws Exception {
 		synchronized (TestServlet.class) {
 			if (server != null) {
@@ -204,7 +211,8 @@ public abstract class TestServlet extends WServlet {
 	}
 
 	/**
-	 * Creates the Web app context to use in the LDE. The context will be registered with the given server.
+	 * Creates the Web app context to use in the LDE. The context will be
+	 * registered with the given server.
 	 *
 	 * @param srv the Jetty server.
 	 * @return the newly created Web app context.
@@ -253,7 +261,7 @@ public abstract class TestServlet extends WServlet {
 					new ResourceCollection(union.toArray(new Resource[union.size()])));
 		}
 
-		webapp.addServlet(getClass().getName(), "/app/*");
+		webapp.addServlet(new ServletHolder(this), "/app/*");
 
 		// This is required if projects define their own web.xml,
 		// we still need to serve up the theme from inside a jar
@@ -290,6 +298,7 @@ public abstract class TestServlet extends WServlet {
 	 *
 	 * @throws java.lang.InterruptedException an interrupted exception
 	 */
+	@Override
 	public void stop() throws InterruptedException {
 		synchronized (TestServlet.class) {
 			if (server != null) {
@@ -305,9 +314,18 @@ public abstract class TestServlet extends WServlet {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isRunning() {
+		return server != null && server.isRunning();
+	}
+
+	/**
 	 * @return the URL where this servlet can be accessed from.
 	 */
-	protected String getUrl() {
+	@Override
+	public String getUrl() {
 		return url;
 	}
 
@@ -382,7 +400,8 @@ public abstract class TestServlet extends WServlet {
 	}
 
 	/**
-	 * Subclasses may override this to register additional servlets with the server.
+	 * Subclasses may override this to register additional servlets with the
+	 * server.
 	 *
 	 * @param webapp the webapp to register the servlets with.
 	 */

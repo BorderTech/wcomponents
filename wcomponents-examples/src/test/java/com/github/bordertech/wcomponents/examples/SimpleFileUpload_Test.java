@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,7 +21,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class SimpleFileUpload_Test extends WComponentSeleniumTestCase {
+public class SimpleFileUpload_Test extends WComponentExamplesTestCase {
 
 	/**
 	 * Creates a new SimpleFileUpload_Test.
@@ -37,12 +36,12 @@ public class SimpleFileUpload_Test extends WComponentSeleniumTestCase {
 		WebDriver driver = getDriver();
 
 		Assert.assertEquals("Incorrect default text", "", driver.findElement(byWComponentPath(
-				"WTextArea")).getText());
+				"WTextField")).getText());
 
 		// Upload nothing
 		driver.findElement(byWComponentPath("WButton")).click();
 		Assert.assertEquals("Should not have uploaded", "nothing uploaded", driver.findElement(
-				byWComponentPath("WTextArea")).getText());
+				byWComponentPath("WTextField")).getText());
 
 		// Upload a file
 		String testText = "SimpleFileUpload_Test.testExample. The time is: " + new Date();
@@ -54,7 +53,7 @@ public class SimpleFileUpload_Test extends WComponentSeleniumTestCase {
 
 		driver.findElement(byWComponentPath("WButton")).click();
 		Assert.assertEquals("Incorrect data uploaded", testText, driver.findElement(
-				byWComponentPath("WTextArea")).getText());
+				byWComponentPath("WTextField")).getText());
 	}
 
 	/**
@@ -69,7 +68,7 @@ public class SimpleFileUpload_Test extends WComponentSeleniumTestCase {
 		tempFile.deleteOnExit();
 
 		OutputStream out = new FileOutputStream(tempFile);
-		out.write(content.getBytes("UTF-8"));
+		out.write(content.getBytes());
 		out.close();
 
 		return tempFile;

@@ -19,7 +19,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class WDropdownSpecialCharHandlingExample_Test extends WComponentSeleniumTestCase {
+public class WDropdownSpecialCharHandlingExample_Test extends WComponentExamplesTestCase{
 
 	/**
 	 * Construct test.

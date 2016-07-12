@@ -3,17 +3,17 @@ package com.github.bordertech.wcomponents.examples;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WTimeoutWarning;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
-import javax.servlet.http.HttpSession;
 
 /**
  * Demonstrate WTimeoutWarning
  * <p>
- * The UI will display a "warning" message to the user that their session will soon expire. Once the session timeout has
- * elapsed, an "expired" message will be displayed to the user.
+ * The UI will display a "warning" message to the user that their session will
+ * soon expire. Once the session timeout has elapsed, an "expired" message will
+ * be displayed to the user.
  * </p>
  * <p>
- * The timeout value is usually set to the session timeout {@link HttpSession#getMaxInactiveInterval()}, but to
- * demonstrate the messages, the timeout has been set to 120 seconds.
+ * The timeout value is usually set to the session timeout, but to demonstrate
+ * the messages, the timeout has been set to 120 seconds.
  * </p>
  *
  * @author Mark Reeves

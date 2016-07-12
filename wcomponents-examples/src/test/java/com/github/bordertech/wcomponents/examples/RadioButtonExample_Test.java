@@ -16,7 +16,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class RadioButtonExample_Test extends WComponentSeleniumTestCase {
+public class RadioButtonExample_Test extends WComponentExamplesTestCase{
 
 	/**
 	 * Creates a new RadioButtonExample_Test.
