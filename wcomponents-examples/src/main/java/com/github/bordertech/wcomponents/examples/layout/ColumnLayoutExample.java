@@ -1,12 +1,7 @@
 package com.github.bordertech.wcomponents.examples.layout;
 
-import com.github.bordertech.wcomponents.Action;
-import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.HeadingLevel;
-import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WPanel;

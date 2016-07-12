@@ -6,12 +6,10 @@ import org.apache.commons.configuration.Configuration;
  * Provides an enum which can be used to add HTML class attribute values to components.
  *
  * <p>
- * Included are a set of helpers to attach icons. By default these will apply icons from the
- * <a href="http://fontawesome.io/icons/">Font Awesome</a>
- * library included with the default theme. Each icon may be individually overridden using a configuration property.
- * Each overrideable icon includes documentation of the configuration parameter used to set the icon's HTML class
- * attribute value. If the default icons are changed your theme must include a way to ensure the new icon is available.
- * This is safest if simply changing to an alternate
+ * Included are values representing common icons. By default these will apply icons from the <a href="http://fontawesome.io/icons/">Font Awesome</a>
+ * library included with the default theme. Each icon may be individually overridden using a configuration property. Each overrideable icon
+ * includes documentation of the configuration parameter used to set the icon's HTML class attribute value. If the default icons are changed your
+ * theme must include a way to ensure the new icon is available. This is safest if simply changing to an alternate
  * <a href="http://fontawesome.io/icons/">Font Awesome</a> icon.
  * </p>
  *
@@ -89,6 +87,11 @@ public class HtmlClassUtil {
 	 * The edit icon. Defaults to a <a href="http://fontawesome.io/icons/">Font Awesome</a> icon.
 	 */
 	private static final String EDIT_ICON = CONFIG.getString("com.github.bordertech.wcomponents.HtmlClass.icon.edit", "fa-pencil");
+
+	/**
+	 * The menu icon. Defaults to a <a href="http://fontawesome.io/icons/">Font Awesome</a> icon.
+	 */
+	private static final String MENU_ICON = CONFIG.getString("com.github.bordertech.wcomponents.HtmlClass.icon.menu", "fa-bars");
 
 	/**
 	 * Provides a set of HTML class attribute values.
@@ -417,8 +420,25 @@ public class HtmlClassUtil {
 		 * <p>
 		 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.cancel".</p>
 		 */
-		ICON_CANCEL_BEFORE("wc-icon-before " + CANCEL_ICON);
+		ICON_CANCEL_BEFORE ("wc-icon-before " + CANCEL_ICON),
 
+		/**
+		 * Add a "menu" icon.
+		 * <p>To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.menu".</p>
+		 */
+		ICON_MENU ("wc-icon " + MENU_ICON),
+
+		/**
+		 * Add a "menu" icon to the end of a component.
+		 * <p>To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.menu".</p>
+		 */
+		ICON_MENU_AFTER ("wc-icon-after " + MENU_ICON),
+
+		/**
+		 * Add a "menu" icon to the beginning of a component.
+		 * <p>To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.menu".</p>
+		 */
+		ICON_MENU_BEFORE ("wc-icon-before " + MENU_ICON);
 		// END OF ICONS
 		private final String className;
 

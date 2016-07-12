@@ -5,6 +5,10 @@
 * Updated DataListInterceptor and ServletUtil to allow DataLists to be sent as HTML rather than XML (#747).
 
 ## Enhancements
+* Updated HtmlClassUtil to:
+  * expose helpers for setting icon classes as Strings;
+  * add a menu icon to the `HtmlClassName` enum;
+  * provide getters to get the full WComponents icon setting HTML classNames for any provided Font Awesome icon name.
 
 # Release 1.2.0
 ## API Changes
