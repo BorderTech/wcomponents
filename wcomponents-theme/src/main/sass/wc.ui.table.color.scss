@@ -29,6 +29,10 @@ table {
 		a[aria-disabled='true'] {
 			color: $wc-ui-color-table-head-disabled;
 		}
+
+		.wc-submenu .wc-menuitem {
+			color: $wc-ui-color-menu-fg;
+		}
 	}
 
 	@if ($wc-ui-color-table-head-sorted-bg != 1) {

@@ -386,7 +386,8 @@ public final class ServletUtil {
 		InterceptorComponent[] chain;
 
 		if (parameters.get(WServlet.DATA_LIST_PARAM_NAME) != null) { // Datalist
-			chain = new InterceptorComponent[]{new DataListInterceptor()};
+			chain = new InterceptorComponent[]{new TransformXMLInterceptor(),
+                                                           new DataListInterceptor()};
 
 		} else if (parameters.get(WServlet.AJAX_TRIGGER_PARAM_NAME) != null) { // AJAX
 			chain = new InterceptorComponent[]{

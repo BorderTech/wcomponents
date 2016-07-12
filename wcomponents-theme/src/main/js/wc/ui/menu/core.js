@@ -246,7 +246,7 @@ define(["wc/has",
 				root,
 				item,
 				expandable;
-			if ($event.defaultPrevented || this._isSmallScreen) {
+			if ($event.defaultPrevented) {
 				return;
 			}
 			if ((root = this.getRoot(target)) && this.isTransient && root === this.getRoot(document.activeElement)/* element root is same as focus root */) {
@@ -800,9 +800,6 @@ define(["wc/has",
 		 * @param {Object} instance An instance of a subclass.
 		 */
 		function doCollisionDetection(submenu, instance) {
-			if (instance._isSmallScreen) {
-				return;
-			}
 			if (collisionTimer) {
 				timers.clearTimeout(collisionTimer);
 				collisionTimer = null;

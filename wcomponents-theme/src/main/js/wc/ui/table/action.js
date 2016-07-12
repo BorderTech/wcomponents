@@ -93,6 +93,7 @@ define(["wc/dom/event",
 						return true;
 					});
 				}
+				// if no conditions we can always be enabled.
 				return true;
 			}
 
@@ -125,6 +126,8 @@ define(["wc/dom/event",
 						return true;
 					});
 				}
+				// if no conditions we can always submit.
+				return true;
 			}
 
 			/**

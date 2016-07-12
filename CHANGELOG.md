@@ -1,5 +1,12 @@
 # Change log
+## API Changes
 
+## Bug Fixes
+* Updated DataListInterceptor and ServletUtil to allow DataLists to be sent as HTML rather than XML (#747).
+
+## Enhancements
+
+# Release 1.2.0
 ## API Changes
 * FlowLayout API modified as part of fixing #636. This was required to remove ambiguity from the API.
   * Added constructors to FlowLayout:

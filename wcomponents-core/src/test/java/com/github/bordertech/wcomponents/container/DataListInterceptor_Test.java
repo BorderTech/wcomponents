@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.servlet.WServlet;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Factory;
 import com.github.bordertech.wcomponents.util.LookupTable;
-import com.github.bordertech.wcomponents.util.NullWriter;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import java.io.IOException;
@@ -42,7 +41,7 @@ public class DataListInterceptor_Test extends AbstractWebXmlRendererTestCase {
 		// Render phase
 		MockResponse response = new MockResponse();
 		interceptor.attachResponse(response);
-		interceptor.paint(new WebXmlRenderContext(new PrintWriter(new NullWriter()))); // interceptor renders directly to response
+		interceptor.paint(new WebXmlRenderContext(new PrintWriter(response.getWriter())));
 
 		String xml = response.getWriterOutput();
 
@@ -77,7 +76,7 @@ public class DataListInterceptor_Test extends AbstractWebXmlRendererTestCase {
 		// Render phase
 		MockResponse response = new MockResponse();
 		interceptor.attachResponse(response);
-		interceptor.paint(new WebXmlRenderContext(new PrintWriter(new NullWriter()))); // interceptor renders directly to response
+		interceptor.paint(new WebXmlRenderContext(new PrintWriter(response.getWriter())));
 
 		String xml = response.getWriterOutput();
 
