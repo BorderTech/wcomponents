@@ -14,11 +14,10 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.util.HtmlClassUtil;
 
 /**
- * An example showing how to use {@link WStyledText} to create icons using
- * <a href="https://fortawesome.github.io/Font-Awesome/">Font Awesome</a>.
+ * An example showing how to use {@link HtmlClassUtil}.
  *
  * @author Mark Reeves
- * @since 2016-03-01
+ * @since 1.2.1
  */
 public class HtmlClassUtilExample extends WPanel {
 
