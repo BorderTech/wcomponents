@@ -7,6 +7,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -76,11 +77,20 @@ public final class WComponentSelenium {
 				throw new IllegalArgumentException("a driver must be provided.");
 			}
 
-			WebElement body = driver.findElement(By.tagName("body"));
-			String domReadyAttr = body.getAttribute(DATA_READY_TAG);
-			// If value is 'true' or the tag does not exist, the dom is ready.
-			// The tag will only not exist if there has been an error, and the page is not actual WComponents.
-			boolean domReady = BooleanUtils.isNotFalse(BooleanUtils.toBooleanObject(domReadyAttr));
+			boolean domReady;
+			try {
+				WebElement body = driver.findElement(By.tagName("body"));
+				String domReadyAttr = body.getAttribute(DATA_READY_TAG);
+				// If value is 'true' or the tag does not exist, the dom is ready.
+				// The tag will only not exist if there has been an error, and the page is not actual WComponents.
+				domReady = BooleanUtils.isNotFalse(BooleanUtils.toBooleanObject(domReadyAttr));
+			} catch (final StaleElementReferenceException e) {
+
+				// It's possible the test got in too quick between loads.
+				// The element is stale if the page has been reloaded
+				// Run the test again with the new page.
+				domReady = false;
+			}
 
 			return domReady;
 
