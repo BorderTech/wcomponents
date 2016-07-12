@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.examples.petstore.beanprovider;
 
 import com.github.bordertech.wcomponents.BeanProvider;
 import com.github.bordertech.wcomponents.BeanProviderBound;
-import com.github.bordertech.wcomponents.util.Factory;
+import com.github.bordertech.wcomponents.examples.petstore.PetStoreLookupTable;
 import com.github.bordertech.wcomponents.util.LookupTable;
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class CrtBeanProvider implements BeanProvider {
+public class PetStoreLookupTableCrtBeanProvider implements BeanProvider {
 
 	/**
 	 * The name of the lookup table that will be used to look up the value.
@@ -26,12 +26,19 @@ public class CrtBeanProvider implements BeanProvider {
 	private final String tableCode;
 
 	/**
+	 * Singleton instance of the PetStoreLookupTable. This would normally be handled by
+	 * factory.newInstance(LookupTable), but we don't want to pollute tests with the specific property for the
+	 * PetSToreLookupTable.
+	 */
+	private static final LookupTable table = new PetStoreLookupTable();
+
+	/**
 	 * Creates a CrtBeanProvider that will use the given Crt, and the code from the bound component. The value returned
 	 * by this provided will vary depending on the Crt and bound component.
 	 *
 	 * @param lookupTableName the crt name.
 	 */
-	public CrtBeanProvider(final String lookupTableName) {
+	public PetStoreLookupTableCrtBeanProvider(final String lookupTableName) {
 		this(lookupTableName, null);
 	}
 
@@ -42,7 +49,7 @@ public class CrtBeanProvider implements BeanProvider {
 	 * @param lookupTableName the Crt name.
 	 * @param tableCode the Crt key that will be use to look up the value.
 	 */
-	public CrtBeanProvider(final String lookupTableName, final String tableCode) {
+	public PetStoreLookupTableCrtBeanProvider(final String lookupTableName, final String tableCode) {
 		this.lookupTableName = lookupTableName;
 		this.tableCode = tableCode;
 	}
@@ -56,7 +63,6 @@ public class CrtBeanProvider implements BeanProvider {
 	@Override
 	public Object getBean(final BeanProviderBound beanProviderBound) {
 		if (lookupTableName != null) {
-			LookupTable table = Factory.newInstance(LookupTable.class);
 			List<?> entries = table.getTable(lookupTableName);
 			String code = tableCode;
 			String desc = null;

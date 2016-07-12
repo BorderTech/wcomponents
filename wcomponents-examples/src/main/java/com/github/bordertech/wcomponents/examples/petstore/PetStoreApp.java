@@ -12,19 +12,15 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WRow;
 import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WText;
-import com.github.bordertech.wcomponents.examples.petstore.beanprovider.CrtBeanProvider;
+import com.github.bordertech.wcomponents.examples.petstore.beanprovider.PetStoreLookupTableCrtBeanProvider;
 import com.github.bordertech.wcomponents.examples.petstore.model.CartBean;
 import com.github.bordertech.wcomponents.examples.petstore.model.ConfirmOrderBean;
 import com.github.bordertech.wcomponents.examples.petstore.model.PlaceOrderService;
 import com.github.bordertech.wcomponents.examples.petstore.model.PlaceOrderService.OrderStatus;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
-import com.github.bordertech.wcomponents.util.Config;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
-import org.apache.commons.configuration.CompositeConfiguration;
-import org.apache.commons.configuration.MapConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -81,28 +77,6 @@ public class PetStoreApp extends WApplication implements MessageContainer {
 	 */
 	private final ConfirmOrderPanel confirmOrder = new ConfirmOrderPanel();
 
-	static {
-		// Normally, applications include a main "wcomponents-app.properties" file
-		// at the top-level of their jar(s), which includes other application
-		// property files.
-		//
-		// Since this example is normally run in the LDE we add in the PetStore
-		// properties manually, so developers don't have to fiddle with their
-		// local_app.properties.
-
-		try {
-			Properties properties = new Properties();
-			properties.load(PetStoreApp.class.getResourceAsStream(
-					"/com/github/bordertech/wcomponents/examples/petstore/resources/petstore.properties"));
-
-			CompositeConfiguration config = new CompositeConfiguration(Config.getInstance());
-			config.addConfiguration(new MapConfiguration(properties));
-			Config.setConfiguration(config);
-		} catch (Exception e) {
-			LOG.error("Failed to load PetStoreApp properties", e);
-		}
-	}
-
 	/**
 	 * Creates a PetStoreApp.
 	 */
@@ -125,7 +99,7 @@ public class PetStoreApp extends WApplication implements MessageContainer {
 		// Motd
 		WStyledText motd = new WStyledText();
 		motd.setWhitespaceMode(WStyledText.WhitespaceMode.PARAGRAPHS);
-		motd.setBeanProvider(new CrtBeanProvider("message_of_the_day", "DEFAULT"));
+		motd.setBeanProvider(new PetStoreLookupTableCrtBeanProvider("message_of_the_day", "DEFAULT"));
 		mainPanel.add(motd);
 
 		mainPanel.add(new WHorizontalRule());
