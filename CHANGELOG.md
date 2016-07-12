@@ -2,6 +2,7 @@
 ## API Changes
 
 ## Bug Fixes
+* Updated DataListInterceptor and ServletUtil to allow DataLists to be sent as HTML rather than XML (#747).
 
 ## Enhancements
 

@@ -7,10 +7,10 @@ import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor.CacheType;
 import com.github.bordertech.wcomponents.servlet.WServlet;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Factory;
 import com.github.bordertech.wcomponents.util.LookupTable;
 import com.github.bordertech.wcomponents.util.XMLUtil;
-import java.io.IOException;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -59,40 +59,35 @@ public class DataListInterceptor extends InterceptorComponent {
 			return;
 		}
 
-		try {
+		Response response = getResponse();
 
-			Response response = getResponse();
+		Object table = LOOKUP_TABLE.getTableForCacheKey(key);
+		List<?> data = LOOKUP_TABLE.getTable(table);
+		response.setContentType(WebUtilities.CONTENT_TYPE_XML);
+		response.setHeader("Cache-Control", CacheType.DATALIST_CACHE.getSettings());
 
-			Object table = LOOKUP_TABLE.getTableForCacheKey(key);
-			List<?> data = LOOKUP_TABLE.getTable(table);
-			response.setContentType(WebUtilities.CONTENT_TYPE_XML);
-			response.setHeader("Cache-Control", CacheType.DATALIST_CACHE.getSettings());
+		XmlStringBuilder xml = new XmlStringBuilder(((WebXmlRenderContext) renderContext).getWriter());
+		xml.write(XMLUtil.XML_DECLERATION);
 
-			XmlStringBuilder xml = new XmlStringBuilder(response.getWriter());
-			xml.write(XMLUtil.XML_DECLERATION);
+		if (data != null) {
+			xml.appendTagOpen("ui:datalist");
+			xml.append(XMLUtil.UI_NAMESPACE);
+			xml.appendAttribute("id", key);
+			xml.appendClose();
 
-			if (data != null) {
-				xml.appendTagOpen("ui:datalist");
-				xml.append(XMLUtil.UI_NAMESPACE);
-				xml.appendAttribute("id", key);
+			for (Object item : data) {
+				// Check for null option (ie null or empty). Match isEmpty() logic.
+				boolean isNull = item == null ? true : (item.toString().length() == 0);
+
+				xml.appendTagOpen("ui:option");
+				xml.appendAttribute("value", LOOKUP_TABLE.getCode(table, item));
+				xml.appendOptionalAttribute("isNull", isNull, "true");
 				xml.appendClose();
-
-				for (Object item : data) {
-					// Check for null option (ie null or empty). Match isEmpty() logic.
-					boolean isNull = item == null ? true : (item.toString().length() == 0);
-
-					xml.appendTagOpen("ui:option");
-					xml.appendAttribute("value", LOOKUP_TABLE.getCode(table, item));
-					xml.appendOptionalAttribute("isNull", isNull, "true");
-					xml.appendClose();
-					xml.append(WebUtilities.encode(LOOKUP_TABLE.getDescription(table, item)));
-					xml.appendEndTag("ui:option");
-				}
-
-				xml.appendEndTag("ui:datalist");
+				xml.append(WebUtilities.encode(LOOKUP_TABLE.getDescription(table, item)));
+				xml.appendEndTag("ui:option");
 			}
-		} catch (IOException e) {
-			LOG.error("Failed to write data list", e);
+
+			xml.appendEndTag("ui:datalist");
 		}
 	}
 }
