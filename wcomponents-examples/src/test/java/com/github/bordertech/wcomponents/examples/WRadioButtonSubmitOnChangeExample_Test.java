@@ -16,7 +16,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class WRadioButtonSubmitOnChangeExample_Test extends WComponentSeleniumTestCase {
+public class WRadioButtonSubmitOnChangeExample_Test extends WComponentExamplesTestCase{
 
 	/**
 	 * Creates a new WRadioButtonSubmitOnChangeExample_Test.

@@ -199,9 +199,7 @@
 		<module name="EqualsHashCode"/>
 		<module name="HiddenField">
 			<!-- WC -->
-			<property name="ignoreSetter" value="true"/>
-			<property name="ignoreConstructorParameter" value="true"/>
-			<property name="ignoreAbstractMethods" value="true"/>
+			<property name="severity" value="ignore" />
 		</module>
 		<module name="IllegalInstantiation"/>
 		<module name="InnerAssignment"/>

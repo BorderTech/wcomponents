@@ -17,7 +17,7 @@ import org.openqa.selenium.WebElement;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class WButtonExample_Test extends WComponentSeleniumTestCase {
+public class WButtonExample_Test extends WComponentExamplesTestCase{
 
 	/**
 	 * Creates a new WButtonExample_Test.

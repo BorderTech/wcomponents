@@ -1,12 +1,11 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
+import com.github.bordertech.wcomponents.test.selenium.driver.WComponentWebDriver;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.WebDriver;
 
 /**
  * Selenium unit tests for {@link TextAreaExample}.
@@ -16,7 +15,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class TextAreaExample_Test extends WComponentSeleniumTestCase {
+public class TextAreaExample_Test extends WComponentExamplesTestCase {
 
 	/**
 	 * Creates a new TextAreaExample_Test.
@@ -28,24 +27,30 @@ public class TextAreaExample_Test extends WComponentSeleniumTestCase {
 	@Test
 	public void testExample() {
 		// Launch the web browser to the LDE
-		WebDriver driver = getDriver();
+		WComponentWebDriver driver = getDriver();
 
 		Assert.assertTrue("First TextArea should be enabled",
-				driver.findElement(byWComponentPath("WTextArea[0]")).isEnabled());
+				driver.findWTextArea(byWComponentPath("WTextArea[0]")).isEnabled());
 
-		Assert.assertTrue("Second TextArea should be enabled",
-				driver.findElement(byWComponentPath("WTextArea[1]")).isEnabled());
+		Assert.assertTrue("Second TextArea should be read-only",
+				driver.findWTextArea(byWComponentPath("WTextArea[1]")).isReadOnly());
 
-		Assert.assertEquals("Third TextArea should be read only",
+		Assert.assertTrue("Third TextArea should be editable",
+				driver.findWTextArea(byWComponentPath("WTextArea[2]")).isEnabled());
+
+		Assert.assertTrue("Fourth TextArea should be read only",
+				driver.findWTextArea(byWComponentPath("WTextArea[3]")).isReadOnly());
+
+		Assert.assertEquals("Fourth TextArea should be read only",
 				"This is read only.",
-				driver.findElement(byWComponentPath("WTextArea[2]")).getText());
+				driver.findWTextArea(byWComponentPath("WTextArea[3]")).getText());
 
-		Assert.assertFalse("Fourth TextArea should be disabled",
-				driver.findElement(byWComponentPath("WTextArea[3]")).isEnabled());
+		Assert.assertFalse("Fifth TextArea should be disabled",
+				driver.findWTextArea(byWComponentPath("WTextArea[4]")).isEnabled());
 
-		driver.findElement(byWComponentPath("WButton")).click();
+		driver.findElement(byWComponentPath("WButton[1]")).click();
 
-		Assert.assertTrue("Fourth TextArea should be enabled",
-				driver.findElement(byWComponentPath("WTextArea[3]")).isEnabled());
+		Assert.assertTrue("Fifth TextArea should be enabled",
+				driver.findWTextArea(byWComponentPath("WTextArea[4]")).isEnabled());
 	}
 }

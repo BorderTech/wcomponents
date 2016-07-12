@@ -16,7 +16,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class WCheckBoxTriggerActionExample_Test extends WComponentSeleniumTestCase {
+public class WCheckBoxTriggerActionExample_Test extends WComponentExamplesTestCase{
 
 	/**
 	 * Creates a new WCheckBoxTriggerActionExample_Test.

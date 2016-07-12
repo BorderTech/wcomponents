@@ -18,13 +18,10 @@
 		<profile>
 			<id>skipOptionalTests</id>
 			<activation>
-				<!-- TODO reinstate the selenium tests
 				<property>
 					<name>skipOptionalTests</name>
 					<value>true</value>
 				</property>
-				-->
-				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
 				<excludedTestGroups>com.github.bordertech.wcomponents.examples.SeleniumTests</excludedTestGroups>
@@ -45,13 +42,6 @@
 			<artifactId>commons-validator</artifactId>
 			<version>1.4.0</version>
 		</dependency>
-
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.4</version>
-			<scope>provided</scope>
-		</dependency>
 		
 		<dependency>
 			<scope>test</scope>
@@ -67,6 +57,20 @@
 			<version>${project.version}</version>
 		</dependency>
 
+		<!-- JSR107 Caching provider. -->
+		<dependency>
+			<scope>test</scope>
+			<groupId>org.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+			<version>3.0.0.m4</version>
+		</dependency>
+		<dependency>
+			<scope>test</scope>
+			<groupId>org.terracotta</groupId>
+			<artifactId>management-model</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
@@ -99,9 +103,6 @@
 					<!-- Arg set by jacoco. -->
 					<argLine>${surefireArgLine}</argLine>
 					<excludedGroups>${excludedTestGroups}</excludedGroups>
-					<includes>
-						<include>com/github/bordertech/wcomponents/examples/WComponent_Example_Suite.java</include>
-					</includes>
 				</configuration>
 			</plugin>
 		</plugins>

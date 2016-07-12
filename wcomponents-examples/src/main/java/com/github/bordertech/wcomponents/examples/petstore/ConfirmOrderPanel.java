@@ -19,7 +19,7 @@ import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.examples.petstore.beanprovider.CrtBeanProvider;
+import com.github.bordertech.wcomponents.examples.petstore.beanprovider.PetStoreLookupTableCrtBeanProvider;
 import com.github.bordertech.wcomponents.examples.petstore.model.CartBean;
 import com.github.bordertech.wcomponents.examples.petstore.model.InventoryBean;
 import com.github.bordertech.wcomponents.examples.petstore.model.PetStoreDao;
@@ -140,7 +140,7 @@ public class ConfirmOrderPanel extends WBeanContainer {
 		// Terms and conditions
 		WStyledText termsAndConditions = new WStyledText();
 		termsAndConditions.setWhitespaceMode(WStyledText.WhitespaceMode.PARAGRAPHS);
-		termsAndConditions.setBeanProvider(new CrtBeanProvider("terms_conditions", "DEFAULT"));
+		termsAndConditions.setBeanProvider(new PetStoreLookupTableCrtBeanProvider("terms_conditions", "DEFAULT"));
 
 		mainPanel.add(new WHeading(WHeading.SUB_SUB_HEADING, "Terms & conditions"));
 		mainPanel.add(termsAndConditions);

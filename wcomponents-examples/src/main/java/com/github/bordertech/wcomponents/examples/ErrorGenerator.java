@@ -6,7 +6,8 @@ import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.layout.FlowLayout;
 
 /**
  * Demonstrates application behaviour when errors occur at certain parts of the WComponent workflow.
@@ -14,7 +15,7 @@ import com.github.bordertech.wcomponents.WText;
  * @author Martin Shevchenko
  * @since 1.0.0
  */
-public class ErrorGenerator extends WContainer {
+public class ErrorGenerator extends WPanel {
 
 	/**
 	 * A button to generate an exception in the action phase.
@@ -39,6 +40,8 @@ public class ErrorGenerator extends WContainer {
 	 * Creates an ErrorGenerator.
 	 */
 	public ErrorGenerator() {
+		setLayout(new FlowLayout(FlowLayout.VERTICAL, 24));
+
 		actionErrorBtn.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
@@ -48,15 +51,12 @@ public class ErrorGenerator extends WContainer {
 
 		add(new TextDuplicator());
 
-		// TODO: This is bad - use a layout instead
-		WText lineBreak = new WText("<br />");
-		lineBreak.setEncodeText(false);
-		add(lineBreak);
-
-		add(actionErrorBtn);
-		add(handleRequestErrorBtn);
-		add(preparePaintComponentErrorBtn);
-		add(paintComponentErrorBtn);
+		WContainer buttonContainer = new WContainer();
+		add(buttonContainer);
+		buttonContainer.add(actionErrorBtn);
+		buttonContainer.add(handleRequestErrorBtn);
+		buttonContainer.add(preparePaintComponentErrorBtn);
+		buttonContainer.add(paintComponentErrorBtn);
 	}
 
 	/**

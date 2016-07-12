@@ -16,7 +16,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class WTextExample_Test extends WComponentSeleniumTestCase {
+public class WTextExample_Test extends WComponentExamplesTestCase{
 
 	/**
 	 * Creates a new WTextExample_Test.

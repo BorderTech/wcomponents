@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
 import com.github.bordertech.wcomponents.util.Config;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -17,7 +16,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class AppPreferenceParameterExample_Test extends WComponentSeleniumTestCase {
+public class AppPreferenceParameterExample_Test extends WComponentExamplesTestCase{
 
 	/**
 	 * Creates a new AppPreferenceParameterExample_Test.

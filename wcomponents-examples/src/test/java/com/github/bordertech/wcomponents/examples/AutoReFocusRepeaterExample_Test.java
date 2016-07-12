@@ -2,13 +2,10 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WDropdown;
-import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
 import com.github.bordertech.wcomponents.util.TreeUtil;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -18,8 +15,7 @@ import org.openqa.selenium.WebDriver;
  * @since 1.0.0
  */
 @Category(SeleniumTests.class)
-@RunWith(MultiBrowserRunner.class)
-public class AutoReFocusRepeaterExample_Test extends WComponentSeleniumTestCase {
+public class AutoReFocusRepeaterExample_Test extends WComponentExamplesTestCase {
 
 	/**
 	 * Creates a new AutoReFocusRepeaterExample_Test.
@@ -30,12 +26,13 @@ public class AutoReFocusRepeaterExample_Test extends WComponentSeleniumTestCase 
 
 	@Test
 	public void testAutoReFocus() {
+		String rootPath = "AutoReFocusRepeaterExample/WRepeater/AutoReFocusRepeaterExample$FocusRepeatRenderer";
 		String[] paths
 				= {
-					"WDropdownTriggerActionExample[0]/WDropdown",
-					"WDropdownTriggerActionExample[1]/WDropdown",
-					"WRadioButtonTriggerActionExample[0]/WRadioButton",
-					"WRadioButtonTriggerActionExample[1]/WRadioButton"
+					rootPath + "[0]/WDropdownTriggerActionExample/WDropdown",
+					rootPath + "[1]/WDropdownTriggerActionExample/WDropdown",
+					rootPath + "[0]/WRadioButtonTriggerActionExample/WRadioButton",
+					rootPath + "[1]/WRadioButtonTriggerActionExample/WRadioButton"
 				};
 
 		// Launch the web browser to the LDE

@@ -14,7 +14,7 @@ import org.openqa.selenium.WebDriver;
  * @since 1.0.0
  */
 @Category(SeleniumTests.class)
-public class WRadioButtonSelectExample_Test extends WComponentSeleniumTestCase {
+public class WRadioButtonSelectExample_Test extends WComponentExamplesTestCase{
 
 	/**
 	 * Creates a new WRadioButtonSelectExample_Test.

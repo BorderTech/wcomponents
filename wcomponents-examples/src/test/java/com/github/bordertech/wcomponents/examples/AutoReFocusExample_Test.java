@@ -19,7 +19,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class AutoReFocusExample_Test extends WComponentSeleniumTestCase {
+public class AutoReFocusExample_Test extends WComponentExamplesTestCase{
 
 	/**
 	 * Creates a new AutoReFocusExample_Test.

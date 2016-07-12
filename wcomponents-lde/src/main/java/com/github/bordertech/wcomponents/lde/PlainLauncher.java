@@ -14,16 +14,16 @@ import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.configuration.Configuration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This class enables easy running of a shared WComponent instance in a Jetty servlet container for development and
- * testing purposes.
+ * This class enables easy running of a shared WComponent instance in a Jetty
+ * servlet container for development and testing purposes.
  * <p>
- * You need to set the class name of the WComponent you want to run. Do this by setting the parameter
- * "bordertech.wcomponents.lde.component.to.launch" in your "local_app.properties" file. E.g.
+ * You need to set the class name of the WComponent you want to run. Do this by
+ * setting the parameter "bordertech.wcomponents.lde.component.to.launch" in
+ * your "local_app.properties" file. E.g.
  *
  * <pre>
  * ui.web.component.to.launch = com.github.bordertech.wcomponents.examples.picker.ExamplePicker
@@ -40,12 +40,14 @@ public class PlainLauncher extends TestServlet {
 	private static final Log LOG = LogFactory.getLog(PlainLauncher.class);
 
 	/**
-	 * The {@link Config configuration} property key for which component to launch.
+	 * The {@link Config configuration} property key for which component to
+	 * launch.
 	 */
 	public static final String COMPONENT_TO_LAUNCH_PARAM_KEY = "bordertech.wcomponents.lde.component.to.launch";
 
 	/**
-	 * The {@link Config configuration} property key for whether to display the memory profile.
+	 * The {@link Config configuration} property key for whether to display the
+	 * memory profile.
 	 */
 	protected static final String SHOW_MEMORY_PROFILE_PARAM_KEY = "bordertech.wcomponents.lde.show.memory.profile";
 
@@ -55,7 +57,8 @@ public class PlainLauncher extends TestServlet {
 	private WApplication sharedUI;
 
 	/**
-	 * The fully qualified name of the WComponent class which is being served as the UI.
+	 * The fully qualified name of the WComponent class which is being served as
+	 * the UI.
 	 */
 	private String uiClassName;
 
@@ -72,8 +75,7 @@ public class PlainLauncher extends TestServlet {
 	 */
 	@Override
 	public synchronized WComponent getUI(final Object httpServletRequest) {
-		String configuredUIClassName = Config.getInstance()
-				.getString(COMPONENT_TO_LAUNCH_PARAM_KEY);
+		String configuredUIClassName = getComponentToLaunchClassName();
 
 		if (sharedUI == null || !Util.equals(configuredUIClassName, uiClassName)) {
 			uiClassName = configuredUIClassName;
@@ -143,8 +145,8 @@ public class PlainLauncher extends TestServlet {
 	}
 
 	/**
-	 * Creates the UI which the launcher displays. If there is misconfiguration or error, a UI containing an error
-	 * message is returned.
+	 * Creates the UI which the launcher displays. If there is misconfiguration
+	 * or error, a UI containing an error message is returned.
 	 *
 	 * @return the UI which the launcher displays.
 	 */
@@ -154,8 +156,7 @@ public class PlainLauncher extends TestServlet {
 
 		WComponent sharedApp = null;
 
-		Configuration config = Config.getInstance();
-		uiClassName = config.getString(COMPONENT_TO_LAUNCH_PARAM_KEY);
+		uiClassName = getComponentToLaunchClassName();
 
 		if (uiClassName == null) {
 			sharedApp = new WText(
@@ -187,6 +188,14 @@ public class PlainLauncher extends TestServlet {
 		}
 
 		return sharedApp;
+	}
+
+	/**
+	 * @return the class name of the component to launch.
+	 */
+	protected String getComponentToLaunchClassName() {
+		return Config.getInstance()
+				.getString(COMPONENT_TO_LAUNCH_PARAM_KEY);
 	}
 
 	/**
