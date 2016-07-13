@@ -13,7 +13,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * A WComponent test case which tests the UI using Selenium to drive a web browser.
+ * <p>
+ * An abstract class which provides convenience methods to test the UI using Selenium to drive a web browser.</p>
+ * <p>
+ * The implementation of various features (ServerCache, WebDriverCache) has been extracted out to static utility classes
+ * for applications that cannot extend this class for tests.
+ * </p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -28,12 +33,12 @@ public abstract class WComponentSeleniumTestCase {
 	/**
 	 * Parameter for whether to start the server (opposed to hitting an existing URL).
 	 */
-	private static final String START_SERVER_PARAM = "bordertech.wcomponents.test.selenium.launch_server";
+	private static final String START_SERVER_PARAM = "bordertech.wcomponents.test.selenium.launchServer";
 
 	/**
 	 * Parameter for the URL of the existing server (opposed to starting a new one).
 	 */
-	private static final String SERVER_URL = "bordertech.wcomponents.test.selenium.server_url";
+	private static final String SERVER_URL = "bordertech.wcomponents.test.selenium.serverUrl";
 
 	/**
 	 * The WebDriverType to use for this test instance.

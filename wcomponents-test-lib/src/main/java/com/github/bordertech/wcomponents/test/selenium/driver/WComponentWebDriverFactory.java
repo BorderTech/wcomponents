@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.test.selenium.driver;
 
-import com.github.bordertech.wcomponents.test.selenium.WComponentSelenium;
+import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
@@ -29,7 +29,7 @@ public final class WComponentWebDriverFactory {
 	 * @return a WComponentWebDriver wrapping the given backing driver.
 	 */
 	public static <T extends WebDriver> WComponentWebDriver<T> createDriver(final T backingDriver) {
-		WComponentSelenium.configureDriver(backingDriver);
+		WComponentSeleniumUtil.configureDriver(backingDriver);
 		return new WComponentWebDriver<>(backingDriver);
 	}
 

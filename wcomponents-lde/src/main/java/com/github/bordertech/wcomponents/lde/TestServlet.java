@@ -36,7 +36,7 @@ import org.eclipse.jetty.webapp.WebAppContext;
  * @author James Gifford
  * @since 1.0.0
  */
-public abstract class TestServlet extends WServlet implements TestLauncher {
+public abstract class TestServlet extends WServlet implements LdeLauncher {
 
 	/**
 	 * The logger instance for this class.
