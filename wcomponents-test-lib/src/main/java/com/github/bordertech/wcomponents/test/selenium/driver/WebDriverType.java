@@ -20,7 +20,7 @@ public abstract class WebDriverType<T extends WebDriver> {
 	/**
 	 * The driver capabilities parameter name in the configuration.
 	 */
-	public static final String DRIVER_CAPABILITIES_PARAM_NAME = "bordertech.wcomponents.test.selenium.web_driver.{0}.capabilities";
+	public static final String DRIVER_CAPABILITIES_PARAM_NAME = "bordertech.wcomponents.test.selenium.webdriver.{0}.capabilities";
 
 	/**
 	 * <p>

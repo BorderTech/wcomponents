@@ -2,15 +2,20 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.test.selenium.DynamicLauncher;
-import com.github.bordertech.wcomponents.lde.TestLauncher;
 import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
 import com.github.bordertech.wcomponents.test.selenium.ByWComponentPath;
 import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
 import com.github.bordertech.wcomponents.test.selenium.server.ServerCache;
+import com.github.bordertech.wcomponents.lde.LdeLauncher;
 
 /**
- * Abstract Test class for WComponents examples tests. Demonstrates convenience methods that applications may want to
- * implement in their abstract test.
+ * <p>
+ * Abstract Test class for WComponents examples tests. Provides convenience methods for testing when the server is in
+ * the same JVM as the Selenium test.</p>
+ * <p>
+ * This class demonstrates the 'quick and nasty' way of writing Selenium tests. These tests rely on the server running
+ * in the same JVM and therefore cannot be used against other environments.
+ * </p>
  *
  * @author Joshua Barclay
  * @since 1.2.0
@@ -29,12 +34,15 @@ public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestC
 	 */
 	public WComponentExamplesTestCase(final WComponent ui) {
 
-		TestLauncher launcher = ServerCache.getLauncher();
+		// Retrieve the launcher from the server 
+		LdeLauncher launcher = ServerCache.getLauncher();
+		// If a DynamicLauncher is being used, set the UI to match this component.
 		if (launcher instanceof DynamicLauncher) {
 			this.ui = ((DynamicLauncher) launcher).setComponentToLaunch(this.getClass().getName(), ui);
 		} else {
 			this.ui = ui;
 		}
+		// Start the server (if not started).
 		ServerCache.startServer();
 		super.setUrl(ServerCache.getUrl());
 	}
