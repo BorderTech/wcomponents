@@ -1,15 +1,6 @@
 /* wc.ui.treeIcons.scss */
 @import 'mixins-common';
 
-.wc_leaf_vopener,
-.wc_leaf_noimg,
-.wc_leaf_hopener {
-	&:before {
-		text-align: left;
-		width: $wc-icon-normal;
-	}
-}
-
 .wc_leaf_vopener:before {
 	[aria-expanded] > & {
 		content: $fa-var-caret-right;

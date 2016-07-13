@@ -40,8 +40,18 @@ button[role='treeitem'],
 .wc_leaf_img,
 .wc_leaf_hopener {
 	display: inline-block;
-	width: $wc-icon-wider;
 }
+
+.wc_leaf_vopener,
+.wc_leaf_noimg {
+	width: $wc-icon-wider;
+
+	&:before {
+		text-align: left;
+		width: $wc-icon-normal;
+	}
+}
+
 
 .wc_leaf_vopener { // the vertical opener button and its span placeholder equivalent.
 	@include border-box; // required for the span.
@@ -67,4 +77,8 @@ button[role='treeitem'],
 .wc_leaf_hopener {
 	display: none;
 	text-align: right;
+
+	// &:before {
+	// 	text-align: right;
+	// }
 }

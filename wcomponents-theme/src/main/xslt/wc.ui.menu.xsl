@@ -60,7 +60,7 @@
 				<xsl:call-template name="invalid"/>
 			</xsl:if>
 
-			<xsl:apply-templates select="*"/>
+			<xsl:apply-templates select="*[not(self::ui:margin)]"/>
 
 			<xsl:call-template name="inlineError">
 				<xsl:with-param name="errors" select="$isError"/>
