@@ -11,9 +11,8 @@
 	-->
 	<xsl:template match="ui:flowlayout">
 		<xsl:variable name="class">
-			<xsl:value-of select="concat('wc_fl_', @align)"/>
 			<xsl:if test="@valign">
-				<xsl:value-of select="concat('  wc_fl_', @valign)"/>
+				<xsl:value-of select="concat('wc_fl_', @valign)"/>
 			</xsl:if>
 			<xsl:call-template name="getHVGapClass">
 				<xsl:with-param name="isVGap">
