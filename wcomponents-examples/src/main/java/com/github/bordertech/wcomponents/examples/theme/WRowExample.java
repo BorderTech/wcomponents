@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
-import com.github.bordertech.wcomponents.util.HtmlClassUtil;
+import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 
 /**
  * Example showing how to use the {@link WRow} component.
@@ -51,7 +51,7 @@ public class WRowExample extends WPanel {
 		// create a WRow with responsive design turned on.
 		add(new WHeading(HeadingLevel.H2, "WRow with default responsive design"));
 		WRow responsiveRow = createRow(16, new int[]{20, 50, 30});
-		responsiveRow.setHtmlClass(HtmlClassUtil.HtmlClassName.RESPOND);
+		responsiveRow.setHtmlClass(HtmlClassProperties.RESPOND);
 		add(responsiveRow);
 
 		((WColumn) responsiveRow.getChildAt(responsiveRow.getChildCount() - 1)).setAlignment(WColumn.Alignment.RIGHT);

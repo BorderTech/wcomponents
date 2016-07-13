@@ -1,5 +1,10 @@
 # Change log
 ## API Changes
+* The new (in 1.2.0) class HtmlClassUtil has been refactored to a properties enum and is now HtmlClassProperties (same
+  package). If you have already started using `HtmlClassUtil.HtmlClassName` should be replaced with
+  `HtmlClassProperties`.
+* Added a util class `com.github.bordertech.wcomponents.util.HtmlIconUtil` which supplies helpers to attach the ICON
+  classNames supplied by `HtmlClassProperties` and icons from Font Awesome which are not part of the common set.
 
 ## Bug Fixes
 * Updated DataListInterceptor and ServletUtil to allow DataLists to be sent as HTML rather than XML (#747).

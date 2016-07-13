@@ -12,7 +12,7 @@ import com.github.bordertech.wcomponents.WFieldSet;
 import com.github.bordertech.wcomponents.WNumberField;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.layout.GridLayout;
-import com.github.bordertech.wcomponents.util.HtmlClassUtil;
+import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
@@ -163,7 +163,7 @@ public class GridLayoutOptionsExample extends WContainer {
 		WPanel gridLayoutPanel = new WPanel();
 
 		if (cbResponsive.isSelected()) {
-			gridLayoutPanel.setHtmlClass(HtmlClassUtil.HtmlClassName.RESPOND);
+			gridLayoutPanel.setHtmlClass(HtmlClassProperties.RESPOND);
 		}
 
 		GridLayout layout = new GridLayout(rowCount.getValue().intValue(), columnCount.getValue()
