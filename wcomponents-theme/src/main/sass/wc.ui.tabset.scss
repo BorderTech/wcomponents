@@ -17,6 +17,7 @@
 	// ACCORDION
 	&[aria-multiselectable] {
 		@include flex-direction(column);
+		position: static;
 
 		> [role] + [role] {
 			@include border($pos:top, $width: 0);

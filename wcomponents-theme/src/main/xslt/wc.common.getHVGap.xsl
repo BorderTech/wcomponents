@@ -34,7 +34,7 @@
 		</xsl:variable>
 		
 		<xsl:if test="$mygap and $mygap != '' and $mygap != '0'">
-			<xsl:text> wc-</xsl:text>
+			<xsl:text> wc-</xsl:text><!-- leading space is important -->
 			<xsl:choose>
 				<xsl:when test="$isVGap = 1">
 					<xsl:text>v</xsl:text>

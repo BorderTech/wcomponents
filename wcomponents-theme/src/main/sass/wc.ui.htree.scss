@@ -9,23 +9,33 @@
 
 	[role='group'] {
 		@include max-content;
-		@include fit-content($what: 'min-width');
-		@include border($pos: right, $width: $wc-gap-small); // the right border of each level in a tree: helps to see where the levels occur.
-		left: calc(100% + #{$wc-gap-small});
+		// @include fit-content($what: 'min-width');
+		@include border($pos: left, $width: $wc-gap-small); // the right border of each level in a tree: helps to see where the levels occur.
+		left: 100%; // calc(100% + #{$wc-gap-small});
 		min-height: 100%;
 		padding-left: 0;
 		position: absolute;
 		top: 0;
 
+		> :first-child {
+			padding-left: $wc-gap-small;
+			padding-right: $wc-gap-large;
+		}
+
 		&.wc_tree_root {
+			@include border($pos: left, $width: 0);
+			display: table;
 			left: 0;
 			position: relative;
+
+			> :first-child {
+				padding-left: 0;
+			}
 		}
 	}
 
 	[aria-expanded='true'] > [role='group'] {
-		max-height: 100%;
-		overflow-y: scroll;
+		display: table-cell;
 	}
 
 	[aria-expanded] > .wc_leaf {
@@ -69,7 +79,9 @@
 // htree resize handles.
 .wc_branch_resize_handle {
 	@include padded-box($pad: 0 $wc-gap-small);
-	bottom: 0;
+	// bottom: 0;
 	position: absolute;
-	right: 0;
+	//right: 0;
+	right: -#{$wc-gap-normal};
+	top: 0;
 }
