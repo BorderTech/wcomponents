@@ -7,15 +7,6 @@ env:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
    - secure: "MAirt38nl74gOmupg6oWoghoXT8YDgjMJmPzrv6YcMLJ92tS8kv7PGtSfdM+BlxXwlvvXIlqXNwb2R+U4CnjsZUsL+28RGqFiKReAbDUON55Cucb/Yy0ZB+QC9NpCxM5LfC4BycDPI6HStx7ZmDy61/U9alogrbhiqomD/LlMTQ="
-
-before_install:
-  - "phantomjs --version"
-  - "export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH"
-  - "phantomjs --version"
-  - "if [ $(phantomjs --version) != '2.1.1' ]; then rm -rf $PWD/travis_phantomjs; mkdir -p $PWD/travis_phantomjs; fi"
-  - "if [ $(phantomjs --version) != '2.1.1' ]; then wget https://assets.membergetmember.co/software/phantomjs-2.1.1-linux-x86_64.tar.bz2 -O $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2; fi"
-  - "if [ $(phantomjs --version) != '2.1.1' ]; then tar -xvf $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C $PWD/travis_phantomjs; fi"
-  - "phantomjs --version"
   
 addons:
   coverity_scan:

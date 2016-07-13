@@ -1,11 +1,12 @@
 package com.github.bordertech.wcomponents.lde;
 
 /**
+ * Interface for classes that can launch an LDE, e.g. Jetty.
  *
  * @author Joshua Barclay
  * @since 1.2.0
  */
-public interface TestLauncher {
+public interface LdeLauncher {
 
 	/**
 	 * Runs the server.

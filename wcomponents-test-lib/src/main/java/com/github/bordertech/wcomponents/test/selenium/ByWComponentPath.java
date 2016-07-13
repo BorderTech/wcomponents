@@ -14,19 +14,19 @@ import org.openqa.selenium.WebElement;
 
 /**
  * <p>
- * An implementation of By which can find HTML elements which correspond to
- * (most) WComponents. Only WComponents which emit elements with ids can be
- * searched on. This means that components such as WText and "WComponent" itself
- * can not be used in a search path.</p>
+ * This By implementation will only work if the servlet is running in the same JVM as the test. While this is the
+ * easiest way to write tests, those tests will not be reusable for verifying environments.</p>
+ * <p>
+ * An implementation of By which can find HTML elements which correspond to (most) WComponents. Only WComponents which
+ * emit elements with ids can be searched on. This means that components such as WText and "WComponent" itself can not
+ * be used in a search path.</p>
  *
  * <p>
- * <b>Note:</b> Since there's no mapping from XHTML to the WComponent XML
- * schema, this {@link By} implementation will always search from the root
- * component, no matter what the search context is.</p>
+ * <b>Note:</b> Since there's no mapping from XHTML to the WComponent XML schema, this {@link By} implementation will
+ * always search from the root component, no matter what the search context is.</p>
  *
  * <p>
- * See {@link TreeUtil#findWComponents(WComponent, String[])} for details on the
- * path syntax.</p>
+ * See {@link TreeUtil#findWComponents(WComponent, String[])} for details on the path syntax.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -67,8 +67,7 @@ public class ByWComponentPath extends ByWComponent {
 	 * Creates a ByWComponentPath which searches for a path to a component.
 	 *
 	 * @param component the component instance to search for.
-	 * @param context the context to search in, use null for the default
-	 * context.
+	 * @param context the context to search in, use null for the default context.
 	 * @param path the path to traverse.
 	 */
 	public ByWComponentPath(final WComponent component, final UIContext context, final String path) {
@@ -79,11 +78,9 @@ public class ByWComponentPath extends ByWComponent {
 	 * Creates a ByWComponentPath which searches for a path to a component.
 	 *
 	 * @param component the component instance to search for.
-	 * @param context the context to search in, use null for the default
-	 * context.
+	 * @param context the context to search in, use null for the default context.
 	 * @param path the path to traverse.
-	 * @param value If not null, narrow the search by value for e.g. list or
-	 * drop-down entries.
+	 * @param value If not null, narrow the search by value for e.g. list or drop-down entries.
 	 */
 	public ByWComponentPath(final WComponent component, final UIContext context, final String path,
 			final Object value) {

@@ -12,7 +12,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This class extends PlainLauncher to manage sessions and UIContext for Selenium.
+ * <p>
+ * This class extends PlainLauncher to manage sessions and UIContext for Selenium.</p>
+ * <p>
+ * This launcher (or subclass) must be used to search using ByWComponent or ByWComponentPath.</p>
  *
  * @author Joshua Barclay
  * @since 1.2.0

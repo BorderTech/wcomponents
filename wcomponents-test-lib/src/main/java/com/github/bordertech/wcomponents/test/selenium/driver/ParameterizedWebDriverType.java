@@ -24,12 +24,12 @@ public class ParameterizedWebDriverType extends WebDriverType<WebDriver> {
 	/**
 	 * The driver class parameter name in the configuration.
 	 */
-	public static final String DRIVER_PARAM_NAME = "bordertech.wcomponents.test.selenium.web_driver";
+	public static final String DRIVER_PARAM_NAME = "bordertech.wcomponents.test.selenium.webdriver";
 
 	/**
 	 * The system properties parameter name.
 	 */
-	public static final String DRIVER_SYS_PROPERTIES_PARAM_NAME = "bordertech.wcomponents.test.selenium.system_properties";
+	public static final String DRIVER_SYS_PROPERTIES_PARAM_NAME = "bordertech.wcomponents.test.selenium.systemProperties";
 
 	/**
 	 * An optional String for the name of the current test.

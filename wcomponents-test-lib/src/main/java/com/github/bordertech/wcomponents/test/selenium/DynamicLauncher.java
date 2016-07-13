@@ -5,8 +5,8 @@ import com.github.bordertech.wcomponents.registry.UIRegistry;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * This class extends PlainLauncher to allow the launcher UI to be determined (and reconfigured) at runtime via the
- * setUI method.
+ * This class extends SeleniumLauncher to allow the launched UI to be determined (and reconfigured) at runtime via the
+ * setComponentToLaunch method.
  *
  * @author Joshua Barclay
  * @since 1.2.0
