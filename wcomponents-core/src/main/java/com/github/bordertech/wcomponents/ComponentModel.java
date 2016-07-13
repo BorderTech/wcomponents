@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.HtmlClassUtil;
+import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.ReflectionUtil;
 import com.github.bordertech.wcomponents.util.Util;
@@ -549,7 +549,7 @@ public class ComponentModel implements WebModel, Externalizable {
 	/**
 	 * @param className The HTML class name to set.
 	 */
-	protected void setHtmlClass(final HtmlClassUtil.HtmlClassName className) {
+	protected void setHtmlClass(final HtmlClassProperties className) {
 		this.htmlClass = className.toString();
 	}
 

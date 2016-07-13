@@ -14,7 +14,7 @@ import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.layout.ListLayout;
-import com.github.bordertech.wcomponents.util.HtmlClassUtil;
+import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import java.text.SimpleDateFormat;
@@ -80,7 +80,7 @@ public class TreePicker extends WContainer {
 		mainPanel.setIdName("main_panel");
 		mainPanel.setLayout(new ColumnLayout(COL_WIDTH, COL_ALIGN, COL_HGAP, COL_VGAP));
 		mainPanel.setMargin(new Margin(COL_HGAP));
-		mainPanel.setHtmlClass(HtmlClassUtil.HtmlClassName.RESPOND);
+		mainPanel.setHtmlClass(HtmlClassProperties.RESPOND);
 
 		buildUI();
 	}
