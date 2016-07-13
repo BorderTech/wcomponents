@@ -19,7 +19,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
-import com.github.bordertech.wcomponents.util.HtmlClassUtil;
+import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 
 /**
  * <p>
@@ -171,15 +171,15 @@ public class WButtonExample extends WPanel implements MessageContainer {
 
 		WButton iconButton = new WButton("\u200b"); // \u200b is a zero-width space.
 		iconButton.setToolTip("Edit");
-		iconButton.setHtmlClass(HtmlClassUtil.HtmlClassName.ICON_EDIT);
+		iconButton.setHtmlClass(HtmlClassProperties.ICON_EDIT);
 		add(iconButton);
 
 		iconButton = new WButton("Save");
-		iconButton.setHtmlClass(HtmlClassUtil.HtmlClassName.ICON_SAVE_BEFORE);
+		iconButton.setHtmlClass(HtmlClassProperties.ICON_SAVE_BEFORE);
 		add(iconButton);
 
 		iconButton = new WButton("Search");
-		iconButton.setHtmlClass(HtmlClassUtil.HtmlClassName.ICON_SEARCH_AFTER);
+		iconButton.setHtmlClass(HtmlClassProperties.ICON_SEARCH_AFTER);
 		add(iconButton);
 
 		add(new ExplanatoryText("These examples show ways to add a Font-Awesome icon to a button using 'setHtmlClass(String)'."));
