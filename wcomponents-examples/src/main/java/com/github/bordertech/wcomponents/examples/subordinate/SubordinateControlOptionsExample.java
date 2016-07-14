@@ -236,6 +236,11 @@ public class SubordinateControlOptionsExample extends WContainer {
 	private final WCheckBox cbDisableTrigger = new WCheckBox();
 
 	/**
+	 * Client side disable/enable trigger.
+	 */
+	private final WCheckBox cbClientDisableTrigger = new WCheckBox();
+
+	/**
 	 * Readonly trigger.
 	 */
 	private final WCheckBox cbReadOnlyTrigger = new WCheckBox();
@@ -497,6 +502,8 @@ public class SubordinateControlOptionsExample extends WContainer {
 		triggerConfigSet.add(triggerConfigLayout);
 		triggerConfigLayout.addField("Disable Trigger", cbDisableTrigger);
 		triggerConfigLayout.addField("ReadOnly Trigger", cbReadOnlyTrigger);
+
+		triggerConfigLayout.addField("client disable trigger", cbClientDisableTrigger);
 		triggerConfigLayout.setLabelWidth(LABEL_WIDTH);
 
 		// Build Panel for Control/Target
@@ -657,6 +664,10 @@ public class SubordinateControlOptionsExample extends WContainer {
 			targetCollapsible.getDecoratedLabel().setTail(new WText(control.toString()));
 		}
 
+		control = new WSubordinateControl();
+		rule = new Rule(new Equal(cbClientDisableTrigger, true), new Disable((SubordinateTarget) trigger), new Enable((SubordinateTarget) trigger));
+		control.addRule(rule);
+		buildControlPanel.add(control);
 	}
 
 	/**
@@ -756,7 +767,6 @@ public class SubordinateControlOptionsExample extends WContainer {
 			default:
 				throw new SystemException("Trigger type not valid");
 		}
-
 		layout.addField(label, trigger);
 	}
 

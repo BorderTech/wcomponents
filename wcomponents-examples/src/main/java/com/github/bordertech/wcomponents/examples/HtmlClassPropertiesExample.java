@@ -4,8 +4,8 @@ import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.util.HtmlIconUtil;
 
@@ -194,25 +194,22 @@ public class HtmlClassPropertiesExample extends WPanel {
 		button.setHtmlClass(HtmlClassProperties.ICON_CANCEL_AFTER);
 		add(button);
 
+		add(new WHeading(HeadingLevel.H3, "Menu icons"));
+		button = new WButton("\u200b"); // \u200b is a zero-width space.
+		button.setToolTip("Menu");
+		button.setHtmlClass(HtmlClassProperties.ICON_MENU);
+		add(button);
+		button = new WButton("Menu");
+		button.setHtmlClass(HtmlClassProperties.ICON_MENU_BEFORE);
+		add(button);
+		button = new WButton("Menu");
+		button.setHtmlClass(HtmlClassProperties.ICON_MENU_AFTER);
+		add(button);
 
 		add(new WHeading(HeadingLevel.H2, "Non-standard icons"));
-		add(new WHeading(HeadingLevel.H3, "Before text content"));
-		WStyledText text = new WStyledText("Fort Awesome");
-		add(text);
-		text.setHtmlClass(HtmlClassProperties.ICON_BEFORE.toString() + " fa-fort-awesome");
-		add(new WHeading(HeadingLevel.H3, "After text content"));
-		text = new WStyledText("Fort Awesome");
-		add(text);
-		text.setHtmlClass(HtmlClassProperties.ICON_AFTER.toString() + " fa-fort-awesome");
-		add(new WHeading(HeadingLevel.H3, "As content"));
-		text = new WStyledText("\u200b");
-		add(text);
-		text.setHtmlClass(HtmlClassProperties.ICON.toString() + " fa-fort-awesome");
-
-
+		add(new ExplanatoryText("This example shows how to add a Font Awesome icon not in the set exposed by HtmlClassProperties."));
 		// using the icon helpers
 		String cogIcon = "fa-cog";
-		add(new WHeading(HeadingLevel.H3, "Cog icons"));
 		button = new WButton("\u200b"); // \u200b is a zero-width space.
 		button.setToolTip("Settings");
 		button.setHtmlClass(HtmlIconUtil.getIconClasses(cogIcon));

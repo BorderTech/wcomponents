@@ -26,7 +26,7 @@
 		<xsl:if test="@class">
 			<xsl:value-of select="concat(' ', @class)"/>
 		</xsl:if>
-		<xsl:apply-templates select="ui:margin"/>
+		<xsl:apply-templates select="ui:margin" mode="class" />
 	</xsl:template>
 	
 	<xsl:template name="makeCommonClass">
