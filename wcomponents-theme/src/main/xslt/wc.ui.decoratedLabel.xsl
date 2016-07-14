@@ -21,13 +21,25 @@
 	-->
 	<xsl:template match="ui:decoratedlabel">
 		<xsl:param name="output" select="'span'"/>
+		<xsl:param name="useId" select="1"/>
 		<xsl:element name="{$output}">
 			<xsl:call-template name="commonAttributes">
+				<xsl:with-param name="id">
+					<xsl:choose>
+						<xsl:when test="$useId=1">
+							<xsl:value-of select="@id"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="''"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:with-param>
 				<xsl:with-param name="live" select="'off'"/>
 				<xsl:with-param name="isWrapper" select="1"/>
 			</xsl:call-template>
 			<xsl:apply-templates select="*">
 				<xsl:with-param name="output" select="$output"/>
+				<xsl:with-param name="useId" select="$useId"/>
 			</xsl:apply-templates>
 		</xsl:element>
 	</xsl:template>

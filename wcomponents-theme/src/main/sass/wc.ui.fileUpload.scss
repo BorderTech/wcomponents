@@ -85,3 +85,9 @@ input[type='file']::-webkit-file-upload-button {
 	@include button($border: 0);
 	@include border($pos: right);
 }
+
+@include respond-not-small {
+	.wc-fileupload .wc_btn_camera {
+		display: inline-block;  // This should only be available on desktop browsers
+	}
+}

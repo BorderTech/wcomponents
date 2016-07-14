@@ -21,3 +21,9 @@
 		@include offscreen;
 	}
 }
+
+@include respond-not-small {
+	.wc_btt:before {
+		font-size: $wc-btt-large;
+	}
+}
