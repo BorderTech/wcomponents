@@ -1075,7 +1075,12 @@ define(["wc/has",
 				return false;
 			};
 
-
+			/**
+			 * Is a particular field a native date input?
+			 *
+			 * @param {Element} dateField a date field container.
+			 * @returns {Boolean}
+			 */
 			this.isLameDateField = function(dateField) {
 				if (hasNative) {
 					return false;
