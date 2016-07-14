@@ -158,9 +158,11 @@
 		<xsl:param name="isWrapper" select="0" />
 		<xsl:param name="class" select="''" />
 
-		<xsl:attribute name="id">
-			<xsl:value-of select="$id" />
-		</xsl:attribute>
+		<xsl:if test="$id !=''">
+			<xsl:attribute name="id">
+				<xsl:value-of select="$id" />
+			</xsl:attribute>
+		</xsl:if>
 		<xsl:call-template name="makeCommonClass">
 			<xsl:with-param name="additional">
 				<xsl:value-of select="$class" />

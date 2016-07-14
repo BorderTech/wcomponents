@@ -1,8 +1,6 @@
 /**
  * Provides a means to load CSS files for particular user agents/platforms etc.
  *
- * The extension 'dt' produces CSS which is added if not mobile.
- *
  * You may be asking why I split IE out from "screen". It was simply to make changing the defaults easier.
  * For most browsers which aren't IE you only need one (or no) CSS overrides because old versions fall out of
  * usage pretty quickly and have been generally pretty good at CSS for a long time. This allows us to use simple
@@ -49,7 +47,7 @@
  * @todo lib/dojo/sniff has been patched to include has("edge") but it not yet released. The include of fixes here is to
  * include our has test for edge. It can be removed once lib/dojo/sniff is updated.
  */
-define(["wc/has", "wc/config", "wc/fixes"], /** @param has wc/has @param module module @ignore */ function(has, wcconfig) {
+define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @ignore */ function(has, wcconfig) {
 	"use strict";
 	/**
 	 * @constructor
@@ -357,10 +355,6 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has wc/has @param module 
 		 * @public
 		 */
 		this.load = function() {
-			// add generic desktop styles before browser specific styles
-			if (!has("small-screen")) { // TODO: load this using a media query if possible
-				addStyle(CSS_FILE_NAME + "dt");
-			}
 
 			if (has("ie") || has("trident")) {
 				loadIE();

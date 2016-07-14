@@ -114,8 +114,13 @@
 			top: auto;
 		}
 	}
+}
 
-	.wc_closesubmenu {
-		display: none;
+@include respond-phonelike {
+	.wc-menu-type-column,
+	.wc_menu_bar {
+		.wc_closesubmenu {
+			display: none;
+		}
 	}
 }
