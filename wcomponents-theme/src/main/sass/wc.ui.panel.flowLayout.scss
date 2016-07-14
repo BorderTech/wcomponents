@@ -7,6 +7,22 @@
 	> div {
 		display: inline-block;
 		max-width: 100%;
+		text-align: left;
+	}
+
+	&.wc-align-center {
+		@include flex-justify-content(center);
+	}
+
+	&.wc-align-right {
+		@include flex-justify-content(flex-end);
+	}
+
+	&.wc-align-vertical {
+		&,
+		& > div {
+			display: block;
+		}
 	}
 }
 
@@ -18,21 +34,6 @@
 	@include flex-align-items(flex-end);
 }
 
-.wc_fl_center {
-	@include flex-justify-content(center);
-}
-
 .wc_fl_middle { // vertical align middle of the flow
 	@include flex-align-items(center);
-}
-
-.wc_fl_right {
-	@include flex-justify-content(flex-end);
-}
-
-.wc_fl_vertical {
-	&,
-	& > div {
-		display: block;
-	}
 }

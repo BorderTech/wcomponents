@@ -45,7 +45,7 @@ public class MultiBrowserRunner extends Suite {
 	/**
 	 * The configuration parameter key for which browsers to use.
 	 */
-	private static final String DRIVERS_PARAM_KEY = "bordertech.wcomponents.test.selenium.driver_types";
+	private static final String DRIVERS_PARAM_KEY = "bordertech.wcomponents.test.selenium.driverTypes";
 
 	/**
 	 * The configuration parameter key for whether to run the browser tests in parallel.

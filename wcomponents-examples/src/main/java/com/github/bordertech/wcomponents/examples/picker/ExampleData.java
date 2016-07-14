@@ -8,6 +8,7 @@ import com.github.bordertech.wcomponents.examples.ButtonOptionsExample;
 import com.github.bordertech.wcomponents.examples.EntryFieldExample;
 import com.github.bordertech.wcomponents.examples.ErrorGenerator;
 import com.github.bordertech.wcomponents.examples.ForwardExample;
+import com.github.bordertech.wcomponents.examples.HtmlClassPropertiesExample;
 import com.github.bordertech.wcomponents.examples.HtmlInjector;
 import com.github.bordertech.wcomponents.examples.I18nExample;
 import com.github.bordertech.wcomponents.examples.InfoDump;
@@ -280,6 +281,7 @@ public final class ExampleData implements Serializable {
 		// new ExampleData("Session timeout", WSessionExample.class),
 		new ExampleData("Styled Text options", WStyledTextOptionsExample.class),
 		new ExampleData("Icons with WStyledText", WStyledTextFontAwesomeExample.class),
+		new ExampleData("HTML class properties", HtmlClassPropertiesExample.class),
 		new ExampleData("Text", WTextExample.class),
 		new ExampleData("Timeout Warning", WTimeoutWarningExample.class),
 		new ExampleData("Timeout Warning default options", WTimeoutWarningDefaultExample.class),

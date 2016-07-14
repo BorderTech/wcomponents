@@ -1,8 +1,0 @@
-/* wc.ui.listLayout.ie8.scss */
-//striped lists need an extra class as :nth-child is not supported.
-@import 'vars';
-
-.wc_iestripe {
-	background-color: $wc-ui-color-highlight-bg;
-	color: $wc-ui-color-highlight-fg;
-}

@@ -1,0 +1,7 @@
+.wc-linkbutton {
+	&.wc-icon,
+	&.wc-icon-after:before,
+	&.wc-icon-before:before {
+		text-decoration: none;
+	}
+}

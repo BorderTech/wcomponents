@@ -160,20 +160,20 @@ define(["wc/date/interchange",
 				}
 				Array.prototype.forEach.call(candidates, function(next) {
 					var textBox;
-					if (dateField.isNativeInput(next)) {
+					if (dateField.isLameDateField(next)) {
+						if (!next.getAttribute("aria-required")) {
+							return;
+						}
+						if (!dateField.getValue(next)) {
+							incomplete.push(next);
+						}
+					}
+					else {
 						textBox = dateField.getTextBox(next);
 						if (!textBox.getAttribute("required")) {
 							return;
 						}
 						if (!textBox.value) {
-							incomplete.push(next);
-						}
-					}
-					else {
-						if (!next.getAttribute("aria-required")) {
-							return;
-						}
-						if (!dateField.getValue(next)) {
 							incomplete.push(next);
 						}
 					}

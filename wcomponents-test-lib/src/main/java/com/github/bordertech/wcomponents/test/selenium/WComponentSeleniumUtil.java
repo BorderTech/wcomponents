@@ -24,7 +24,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * @author Joshua Barclay
  * @since 1.2.0
  */
-public final class WComponentSelenium {
+public final class WComponentSeleniumUtil {
 
 	/**
 	 * Prefix for parameters used by this class.
@@ -33,32 +33,32 @@ public final class WComponentSelenium {
 	/**
 	 * The body tag indicating the page is ready.
 	 */
-	private static final String DATA_READY_TAG = Config.getInstance().getString(PARAM_PREFIX + "page_ready_attribute", "data-wc-domready");
+	private static final String DATA_READY_TAG = Config.getInstance().getString(PARAM_PREFIX + "pageReadyAttribute", "data-wc-domready");
 
 	/**
 	 * The default page-ready timeout duration.
 	 */
-	private static final int PAGE_READY_WAIT_TIMEOUT = Config.getInstance().getInt(PARAM_PREFIX + "page_ready_timeout", 10);
+	private static final int PAGE_READY_WAIT_TIMEOUT = Config.getInstance().getInt(PARAM_PREFIX + "pageReadyTimeout", 10);
 
 	/**
 	 * The default page-ready poll interval (milliseconds).
 	 */
-	private static final long PAGE_READY_POLL_INTERVAL = Config.getInstance().getLong(PARAM_PREFIX + "page_ready_poll_interval", 50);
+	private static final long PAGE_READY_POLL_INTERVAL = Config.getInstance().getLong(PARAM_PREFIX + "pageReadyPollInterval", 50);
 
 	/**
 	 * The number of seconds to wait for an element to be available.
 	 */
-	private static final long IMPLICIT_WAIT_SECONDS = Config.getInstance().getLong(PARAM_PREFIX + "implicit_wait", 5);
+	private static final long IMPLICIT_WAIT_SECONDS = Config.getInstance().getLong(PARAM_PREFIX + "implicitWait", 5);
 
 	/**
 	 * The screen width in pixels.
 	 */
-	private static final int SCREEN_WIDTH = Config.getInstance().getInt(PARAM_PREFIX + "screen_width", 1920);
+	private static final int SCREEN_WIDTH = Config.getInstance().getInt(PARAM_PREFIX + "screenWidth", 1920);
 
 	/**
 	 * The screen height in pixels.
 	 */
-	private static final int SCREEN_HEIGHT = Config.getInstance().getInt(PARAM_PREFIX + "screen_height", 1080);
+	private static final int SCREEN_HEIGHT = Config.getInstance().getInt(PARAM_PREFIX + "screenHeight", 1080);
 
 	/**
 	 * The expected condition for a page being ready.
@@ -124,7 +124,7 @@ public final class WComponentSelenium {
 			throw new IllegalArgumentException("a driver must be provided.");
 		}
 
-		WComponentSelenium.waitForPageReady(driver, PAGE_READY_WAIT_TIMEOUT, PAGE_READY_POLL_INTERVAL);
+		WComponentSeleniumUtil.waitForPageReady(driver, PAGE_READY_WAIT_TIMEOUT, PAGE_READY_POLL_INTERVAL);
 	}
 
 	/**
@@ -184,7 +184,7 @@ public final class WComponentSelenium {
 	/**
 	 * Default constructor is hidden. Static utility class.
 	 */
-	private WComponentSelenium() {
+	private WComponentSeleniumUtil() {
 		//No impl
 	}
 

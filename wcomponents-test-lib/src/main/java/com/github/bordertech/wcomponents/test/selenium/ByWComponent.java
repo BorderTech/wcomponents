@@ -18,10 +18,13 @@ import org.openqa.selenium.internal.FindsByName;
 import org.openqa.selenium.internal.FindsByXPath;
 
 /**
- * An implementation of By which can find HTML elements which correspond to
- * (most) WComponents. Only WComponents which emit elements with ids can be
- * searched on. This means that components such as WText and "WComponent" itself
- * can not be searched for.
+ * <p>
+ * This By implementation will only work if the servlet is running in the same JVM as the test. While this is the
+ * easiest way to write tests, those tests will not be reusable for verifying environments.</p>
+ * <p>
+ * An implementation of By which can find HTML elements which correspond to (most) WComponents. Only WComponents which
+ * emit elements with ids can be searched on. This means that components such as WText and "WComponent" itself can not
+ * be searched for.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
@@ -44,10 +47,8 @@ public class ByWComponent extends By {
 	private final Object value;
 
 	/**
-	 * Creates a ByWComponent which searches for a component instance in the
-	 * given context. If searching for a repeated component, the
-	 * <code>context</code> should be the row context for the row you want to
-	 * return.
+	 * Creates a ByWComponent which searches for a component instance in the given context. If searching for a repeated
+	 * component, the <code>context</code> should be the row context for the row you want to return.
 	 *
 	 * @param componentWithContext the component to search for.
 	 */
@@ -65,30 +66,23 @@ public class ByWComponent extends By {
 	}
 
 	/**
-	 * Creates a ByWComponent which searches for a component instance in the
-	 * given context. If searching for a repeated component, the
-	 * <code>context</code> should be the row context for the row you want to
-	 * return.
+	 * Creates a ByWComponent which searches for a component instance in the given context. If searching for a repeated
+	 * component, the <code>context</code> should be the row context for the row you want to return.
 	 *
 	 * @param component the component instance to search for.
-	 * @param context the context to search in, use null for the default
-	 * context.
+	 * @param context the context to search in, use null for the default context.
 	 */
 	public ByWComponent(final WComponent component, final UIContext context) {
 		this(component, context, null);
 	}
 
 	/**
-	 * Creates a ByWComponent which searches for a component instance in the
-	 * given context. If searching for a repeated component, the
-	 * <code>context</code> should be the row context for the row you want to
-	 * return.
+	 * Creates a ByWComponent which searches for a component instance in the given context. If searching for a repeated
+	 * component, the <code>context</code> should be the row context for the row you want to return.
 	 *
 	 * @param component the component instance to search for.
-	 * @param context the context to search in, use null for the default
-	 * context.
-	 * @param value If not null, narrow the search by value for e.g. list or
-	 * drop-down entries.
+	 * @param context the context to search in, use null for the default context.
+	 * @param value If not null, narrow the search by value for e.g. list or drop-down entries.
 	 */
 	public ByWComponent(final WComponent component, final UIContext context, final Object value) {
 		this.component = component;
@@ -238,10 +232,9 @@ public class ByWComponent extends By {
 	}
 
 	/**
-	 * Narrows the results of a search using the given value. A search is
-	 * performed under each search result for an element with the given value.
-	 * Existing results are either replaced or removed, depending on whether a
-	 * match was found.
+	 * Narrows the results of a search using the given value. A search is performed under each search result for an
+	 * element with the given value. Existing results are either replaced or removed, depending on whether a match was
+	 * found.
 	 *
 	 * @param results the search results to modify.
 	 * @param component the component.

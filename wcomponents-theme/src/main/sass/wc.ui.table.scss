@@ -176,7 +176,7 @@ caption {
 	}
 
 	> .wc_table_colauto { // The first col after the last auto generated col is the first data col and cannot have a left border
-		border-left: 0 none;
+		@include border($pos: left, $width: 0);
 	}
 }
 

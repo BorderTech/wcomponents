@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.layout.ColumnLayout.Alignment;
-import com.github.bordertech.wcomponents.util.HtmlClassUtil;
+import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 
 /**
  * Example showing how to use the {@link ColumnLayout} component.
@@ -75,7 +75,7 @@ public class ColumnLayoutExample extends WContainer {
 				WPanel panel = new WPanel();
 		panel.setLayout(new ColumnLayout(new int[]{33, 33, 33},
 				new Alignment[]{Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT}, 12, 18));
-		panel.setHtmlClass(HtmlClassUtil.HtmlClassName.RESPOND);
+		panel.setHtmlClass(HtmlClassProperties.RESPOND);
 		add(panel);
 		panel.add(new BoxComponent("Left"));
 		panel.add(new BoxComponent("Center"));

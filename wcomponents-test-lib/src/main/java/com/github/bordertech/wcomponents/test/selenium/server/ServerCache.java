@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.test.selenium.server;
 
-import com.github.bordertech.wcomponents.lde.TestLauncher;
 import com.github.bordertech.wcomponents.util.Factory;
 import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.lde.LdeLauncher;
 
 /**
  * <p>
@@ -24,7 +24,7 @@ public final class ServerCache {
 	/**
 	 * The servlet launcher for testing.
 	 */
-	private static final TestLauncher LAUNCHER = Factory.newInstance(TestLauncher.class);
+	private static final LdeLauncher LAUNCHER = Factory.newInstance(LdeLauncher.class);
 
 	/**
 	 * <p>
@@ -36,7 +36,7 @@ public final class ServerCache {
 	 *
 	 * @return the TestLauncher.
 	 */
-	public static TestLauncher getLauncher() {
+	public static LdeLauncher getLauncher() {
 		return LAUNCHER;
 	}
 

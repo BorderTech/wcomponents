@@ -78,7 +78,7 @@ public class WDialogWebElement extends WComponentWebElement {
 	 * @return the button to maximize/restore the dialog.
 	 */
 	public WComponentWebElement getMaximizeRestoreButton() {
-		return super.findElement(By.cssSelector("button." + MAXIMIZE_RESTORE_CLASS));
+		return findElement(By.cssSelector("button." + MAXIMIZE_RESTORE_CLASS));
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class WDialogWebElement extends WComponentWebElement {
 	 * @return the button to close the dialog.
 	 */
 	public WComponentWebElement getCloseButton() {
-		return super.findElement(By.cssSelector("button." + CLOSE_CLASS));
+		return findElement(By.cssSelector("button." + CLOSE_CLASS));
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class WDialogWebElement extends WComponentWebElement {
 	 * @return the element containing the content.
 	 */
 	public WComponentWebElement getContent() {
-		return super.findElement(By.cssSelector("." + CONTENT_CLASS));
+		return findElement(By.cssSelector("." + CONTENT_CLASS));
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class WDialogWebElement extends WComponentWebElement {
 	 * @return the heading element.
 	 */
 	public WComponentWebElement getHeading() {
-		return super.findElement(By.cssSelector("header > h1"));
+		return findElement(By.cssSelector("header > h1"));
 	}
 
 	/**

@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.HtmlClassUtil;
+import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import java.io.Serializable;
@@ -508,7 +508,7 @@ public interface WComponent extends WebComponent {
 	 *
 	 * @param className the HTML class attribute's value to add to the component derived from the utility enum
 	 */
-	void setHtmlClass(final HtmlClassUtil.HtmlClassName className);
+	void setHtmlClass(final HtmlClassProperties className);
 
 	/**
 	 * Returns the HTML class name string to apply to a component. Some values in the HTML class name attribute are

@@ -1,9 +1,6 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.examples.petstore.PetStore_Suite;
-import com.github.bordertech.wcomponents.test.selenium.SeleniumTestSetup;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -55,19 +52,4 @@ import org.junit.runners.Suite;
  */
 public class WComponentsExampleTest_Suite {
 
-	/**
-	 * Sets up the LDE used by the examples.
-	 */
-	@BeforeClass
-	public void startLde() {
-		SeleniumTestSetup.startLde();
-	}
-
-	/**
-	 * Stops the LDE used by the examples.
-	 */
-	@AfterClass
-	public void stopLde() {
-		SeleniumTestSetup.stopLde();
-	}
 }
