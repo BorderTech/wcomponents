@@ -5,7 +5,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.StringEscapeHTMLToXMLUtil;
+import com.github.bordertech.wcomponents.util.HtmlToXMLUtil;
 
 /**
  * The Renderer for WText.
@@ -33,7 +33,7 @@ final class WTextRenderer extends AbstractWebXmlRenderer {
 				xml.print(WebUtilities.encode(textString));
 			} else {
 				// If we are outputting unencoded content it must be XML valid.
-				xml.print(StringEscapeHTMLToXMLUtil.unescapeToXML(textString));
+				xml.print(HtmlToXMLUtil.unescapeToXML(textString));
 			}
 		}
 	}
