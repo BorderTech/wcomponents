@@ -55,7 +55,11 @@
 					<xsl:copy-of select="$t"/>
 				</xsl:attribute>
 			</xsl:if>
-			
+			<button class="wc-menuitem wc_closesubmenu wc-nobutton wc-icon wc-invite" role="menuitem" type="button">
+				<xsl:apply-templates select="../ui:decoratedlabel">
+					<xsl:with-param name="useId" select="0"/>
+				</xsl:apply-templates>
+			</button>
 			<xsl:apply-templates select="*"/>
 		</div>
 	</xsl:template>

@@ -85,43 +85,6 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 					"DOM_VK_ESCAPE": this._FUNC_MAP.CLOSE_MY_BRANCH
 				};
 			};
-
-			/**
-			 * When a mobile device is used add a close button to the top of every submenu content as the submenus are
-			 * shown near full screen and there is (usually) no ESCAPE key.
-			 *
-			 * @function
-			 * @protected
-			 * @override
-			 * @param {Element} element The element which may be a menu, submenu or something containing a menu.
-			 */
-			this._updateMenusForMobile = function(element) {
-				var candidates,
-					MENU_FIXED = "data-wc-menufixed";
-				if (!this._isSmallScreen) {
-					return;
-				}
-				if (this.isSubMenu(element)) {
-					if (this.getRoot(element)) {
-						this._fixSubMenuContent(element);
-					}
-					return;
-				}
-
-				if (this.isRoot(element)) {
-					candidates = [element];
-				}
-				else {
-					candidates = this.ROOT.findDescendants(element);
-				}
-
-				Array.prototype.forEach.call(candidates, function(next) {
-					if (!next.hasAttribute(MENU_FIXED)) {
-						next.setAttribute(MENU_FIXED, "true");
-						Array.prototype.forEach.call(this.getSubMenu(next, true, true), this._fixSubMenuContent, this);
-					}
-				}, this);
-			};
 		}
 
 		var /** @alias module:wc/ui/menu/column */instance;
