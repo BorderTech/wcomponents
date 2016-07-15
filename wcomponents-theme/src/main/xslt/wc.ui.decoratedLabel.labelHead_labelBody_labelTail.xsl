@@ -10,10 +10,13 @@
 	-->
 	<xsl:template match="ui:labelbody|ui:labelhead|ui:labeltail">
 		<xsl:param name="output" select="'span'"/>
+		<xsl:param name="useId" select="1"/>
 		<xsl:element name="{$output}">
-			<xsl:attribute name="id">
-				<xsl:value-of select="@id"/>
-			</xsl:attribute>
+			<xsl:if test="$useId=1">
+				<xsl:attribute name="id">
+					<xsl:value-of select="@id"/>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
 					<xsl:text> wc_dlbl_seg</xsl:text>

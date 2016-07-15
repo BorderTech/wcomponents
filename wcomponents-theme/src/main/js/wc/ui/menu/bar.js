@@ -8,18 +8,39 @@
  * @extends module:wc/ui/menu/core
  *
  * @requires module:wc/ui/menu/core
+ * @requires module:wc/array/toArray
+ * @requires module:wc/dom/event
  * @requires module:wc/dom/keyWalker
  * @requires module:wc/dom/shed
  * @requires module:wc/dom/Widget
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/uid
+ * @requires module:wc/dom/getViewportSize
  * @requires module:wc/i18n/i18n
  * @requires module:wc/dom/classList
+ * @requires module:wc/timers
+ * @requires module:wc/loader/resource
+ * @requires module:wc/ui/ajax/processResponse
  * @requires module:wc/ui/menu/menuItem
  */
-define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "wc/dom/initialise", "wc/dom/uid", "wc/i18n/i18n", "wc/dom/classList", "wc/ui/menu/menuItem"],
-	/** @param abstractMenu @param keyWalker @param shed @param Widget @param initialise @param uid @param i18n@param classList @ignore */
-	function(abstractMenu, keyWalker, shed, Widget, initialise, uid, i18n, classList) {
+define(["wc/ui/menu/core",
+	"wc/array/toArray",
+	"wc/dom/event" ,
+	"wc/dom/keyWalker",
+	"wc/dom/shed",
+	"wc/dom/Widget",
+	"wc/dom/initialise",
+	"wc/dom/uid",
+	"wc/dom/getViewportSize",
+	"wc/i18n/i18n",
+	"wc/dom/classList",
+	"wc/timers",
+	"wc/ui/ajax/processResponse",
+	"wc/loader/resource",
+	"Mustache",
+	"wc/ui/menu/menuItem"],
+	/** @param abstractMenu @param toArray @param event @param keyWalker @param shed @param Widget @param initialise @param uid @param getViewportSize @param i18n@param classList @param timers @param processResponse @param loader @param Mustache @ignore */
+	function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid, getViewportSize, i18n, classList, timers, processResponse, loader, Mustache) {
 		"use strict";
 
 		/* Unused dependencies:
@@ -34,7 +55,16 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 		 * @private
 		 */
 		function Menubar() {
-			var BANNER;
+			var BANNER = BANNER || new Widget("header", "", {role: "banner"}),
+				HAMBURGER,
+				MENU_FIXED = "wc_menu_fix",
+				resizeTimer,
+				BURGER_MENU_CLASS = "wc_menu_hbgr",
+				submenuTemplate,
+				closeButtonTemplate,
+				DECORATED_LABEL,
+				RESPONSIVE_MENU,
+				HAMBURGER_TOGGLE_POINT = 773; // from Sass see mixin respond-phone-like
 
 			/**
 			 * The descriptors for this menu type.
@@ -235,8 +265,77 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 				};
 			};
 
+			function removeIconified(nextMenu) {
+				var burger,
+					submenuContent,
+					current;
+				if (!classList.contains(nextMenu, MENU_FIXED)) {
+					return;
+				}
+
+				try {
+					HAMBURGER = HAMBURGER || new Widget("div", BURGER_MENU_CLASS);
+					if (!(burger = HAMBURGER.findDescendant(nextMenu))) {
+						return;
+					}
+
+					submenuContent = instance._wd.submenu.findDescendant(burger);
+					if (!submenuContent) {
+						return;
+					}
+					while ((current = submenuContent.firstChild)) {
+						if (classList.contains(current, "wc_closesubmenu")) {
+							submenuContent.removeChild(current);
+						}
+						else {
+							nextMenu.appendChild(current);
+						}
+					}
+					burger.parentNode.removeChild(burger);
+
+				}
+				finally {
+					classList.remove(nextMenu, MENU_FIXED);
+				}
+			}
+
+			function attachSubMenuCloseButton(el) {
+				var branch,
+					opener,
+					label,
+					props = {};
+				if (el && instance.isSubMenu(el)) {
+					closeButtonTemplate = closeButtonTemplate || loader.load("submenuCloseButton.mustache", true);
+					if ((branch = instance._getBranch(el)) && (opener = instance._getBranchOpener(branch))) {
+						DECORATED_LABEL = DECORATED_LABEL || new Widget("", "wc-decoratedlabel");
+						label = DECORATED_LABEL.findDescendant(opener);
+
+						if (label) {
+							Array.prototype.forEach.call(label.childNodes, function(child) {
+								if (child.nodeType !== Node.ELEMENT_NODE) {
+									return;
+								}
+								if (classList.contains(child, "wc-labelhead")) {
+									props.labelhead = child.innerHTML;
+								}
+								else if (classList.contains(child, "wc-labeltail")) {
+									props.labeltail = child.innerHTML;
+								}
+								else {
+									props.content = child.innerHTML;
+								}
+							});
+						}
+					}
+					if (!props.content) {
+						props.content = i18n.get("${wc.ui.menu.bar.i18n.submenuCloseLabelDefault}");
+					}
+					el.insertAdjacentHTML("afterBegin", Mustache.to_html(closeButtonTemplate, props));
+				}
+			}
+
 			/**
-			 * Array iterator function for {@link module:wc/ui/menu/bar~_updateMenusForMobile} which processes each
+			 * Array iterator function for {@link module:wc/ui/menu/bar~toggleIconMenus} which processes each
 			 * menu found and manipulates it for improved display and usability on mobile devices. Each sub-menu has a
 			 * close button added to the top and when the BAR menu is in the HEADER panel (role "banner") we collapse
 			 * the entire menu into a sub-menu and add a launcher to where the top-level items used to be.
@@ -245,87 +344,86 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			 * @private
 			 * @param {Element} nextMenu The menu to be processed.
 			 */
-			function processMenu(nextMenu) {
+			function makeIconified(nextMenu) {
 				var branchElement,
-					button,
-					submenuContentElement,
-					contentId,
-					menuItem,
-					MENU_FIXED = "data-wc-menufixed",
-					ROLE = "role",
-					childCount;
-				if (nextMenu.hasAttribute(MENU_FIXED)) {
+					props;
+
+				if (classList.contains(nextMenu, MENU_FIXED)) {
 					return;
 				}
 
-				nextMenu.setAttribute(MENU_FIXED, "true");
-				BANNER = BANNER || new Widget("header", "", {role: "banner"});
-				// only do this if the menu contains more than one child
-				childCount = typeof nextMenu.children !== "undefined" ? nextMenu.children.length : (typeof nextMenu.childNodes !== "undefined" ? nextMenu.childNodes.length : 0);
+				props = {
+					id: uid(),
+					class: " " + BURGER_MENU_CLASS,
+					opener: {
+						class: " wc_hbgr wc-icon",
+						tooltip: i18n.get("${wc.ui.menu.bar.i18n.submenuOpenLabelDefault}")
+					},
+					contentId: uid(),
+					open: false,
+					closeText: i18n.get("${wc.ui.menu.bar.i18n.submenuCloseLabelDefault}"),
+					items: nextMenu.innerHTML
+				};
+				submenuTemplate = submenuTemplate || loader.load("submenu.mustache", true);
+				branchElement = Mustache.to_html(submenuTemplate, props);
+				nextMenu.innerHTML = branchElement;
+				classList.add(nextMenu, MENU_FIXED);
+			}
 
-				if (childCount > 1 && BANNER.findAncestor(nextMenu) && !classList.contains(nextMenu, "wc-menu-type-flyout")) {
-
-					branchElement = document.createElement("div");
-					branchElement.setAttribute(ROLE, "presentation");
-					branchElement.className = "wc-submenu";
-
-					button = document.createElement("button");
-					button.type = "button";
-					button.setAttribute("aria-haspopup", "true");
-					button.title = i18n.get("${wc.ui.menu.bar.i18n.submenuOpenLabelDefault}");
-					contentId = uid();
-					button.setAttribute("aria-controls", contentId);
-					button.className = "wc-nobutton wc-submenu-o wc_hbgr wc-icon";
-					button.setAttribute(ROLE, "menuitem");
-					branchElement.appendChild(button);
-
-					submenuContentElement = document.createElement("div");
-					submenuContentElement.className = "wc_submenucontent";
-					submenuContentElement.id = contentId;
-					submenuContentElement.setAttribute(ROLE, "menu");
-					submenuContentElement.setAttribute("aria-expanded", "false");
-					branchElement.appendChild(submenuContentElement);
-
-					while ((menuItem = nextMenu.firstChild)) {
-						submenuContentElement.appendChild(menuItem);
-					}
-					nextMenu.appendChild(branchElement);
+			function resizeEvent(/* $event */) {
+				if (resizeTimer) {
+					timers.clearTimeout(resizeTimer);
 				}
-				else {
-					branchElement = nextMenu;
-				}
-
-				Array.prototype.forEach.call(instance.getSubMenu(branchElement, true, true), instance._fixSubMenuContent);
+				resizeTimer = timers.setTimeout(toggleIconMenus, 100);
 			}
 
 			/**
-			 * When a mobile device is used add a close button to the top of every submenu content as the submenus are
-			 * shown near full screen and there is (usually) no ESCAPE key.
+			 * Determine if the iconification of any menus has to be toggled.
 			 *
 			 * @function
-			 * @protected
-			 * @override
-			 * @param {Element} element The element which may be a menu, submenu or something containing a menu.
+			 * @private
+			 * @param {Element} el The element which may be a menu, submenu or something containing a menu.
 			 */
-			this._updateMenusForMobile = function (element) {
-				var candidates;
-				if (!this._isSmallScreen) {
+			function toggleIconMenus(el) {
+				var candidates, element = el || document.body,
+					vps;
+				if (instance.isSubMenu(element)) {
 					return;
 				}
-				if (this.isSubMenu(element)) {
-					if (this.getRoot(element)) {
-						this._fixSubMenuContent(element);
-					}
-					return;
-				}
-				else if (this.isRoot(element)) {
+				RESPONSIVE_MENU = RESPONSIVE_MENU || instance.ROOT.extend(["wc-respond"]);
+
+				if (RESPONSIVE_MENU.isOneOfMe(element)) {
 					candidates = [element];
 				}
 				else {
-					candidates = this.ROOT.findDescendants(element);
+					candidates = toArray(RESPONSIVE_MENU.findDescendants(element));
 				}
 
-				Array.prototype.forEach.call(candidates, processMenu);
+				if (!candidates.length) {
+					return;
+				}
+
+				candidates = candidates.filter(function(next) {
+					return next.childNodes.length > 1;
+				});
+
+				if (candidates.length) {
+					vps = getViewportSize();
+					if (vps && vps.width <= HAMBURGER_TOGGLE_POINT) {
+						candidates.forEach(makeIconified);
+					}
+					else {
+						candidates.forEach(removeIconified);
+					}
+				}
+			};
+
+			this.initialise = function(element) {
+				this.constructor.prototype.initialise.call(this, element);
+				toggleIconMenus(element);
+				processResponse.subscribe(attachSubMenuCloseButton, true);
+				processResponse.subscribe(toggleIconMenus, true);
+				event.add(window, event.TYPE.resize, resizeEvent, 1);
 			};
 		}
 

@@ -77,6 +77,10 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width; // Do n
 	}
 }
 
+// If you _really_ want to support all possible labelWidths you can ignore this and just use
+// @for $i from 1 through 100 as shown below.
+$wc-fld-list: 16, 33, 34, 66, 67, 83 !default;
+
 @include respond-not-small {
 	// This block should be in fieldLayout.dt.css but is here to work around a Safari bug.
 	// Flat is the most common use, but shouldn't be (due to a11y concerns which are not adequately covered by WCAG 2.0)
@@ -97,5 +101,16 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width; // Do n
 			max-width: $wc-fieldlayout-input-width;
 			width: $wc-fieldlayout-input-width;
 		}
+	}
+
+	// @for $i from 1 through 100 {
+	// 	$wc-fld-lblw: $i * 1%;
+	@for $i from 1 through 20 {
+		$j: $i * 5;
+		@include wc-fld-layout($j);
+	}
+
+	@each $w in $wc-fld-list {
+		@include wc-fld-layout($w);
 	}
 }

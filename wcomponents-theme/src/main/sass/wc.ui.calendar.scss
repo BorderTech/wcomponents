@@ -86,12 +86,43 @@
 	}
 }
 
-// the top controls are row-column so will wrap at phoneline size.
-@include respond-phonelike {
-	#wc_calbox .wc-column {
-		&,
-		&:last-child {
-			text-align: center;
+@include respond-not-small {
+	#wc_calbox { // This is the calendar container.
+		@include border; // or box-shadow: Xpx Ypx Zpx $wc-ui-color-shadow; but not both
+		@include fit-content;
+		height: auto;
+		left: auto;
+		position: absolute;
+		right: 0;
+		top: auto;
+
+		&.wc_colwest { // right collision
+			left: 0;
+			right: auto;
+		}
+
+		dialog & {
+			position: fixed;
+			right: auto;
 		}
 	}
+
+	#wc_calendar {
+		font-size: inherit;
+	}
+
+	.wc_wdf_pick {
+		line-height: inherit;
+		max-width: none;
+	}
 }
+
+// the top controls are row-column so will wrap at phoneline size.
+// @include respond-phonelike {
+// 	#wc_calbox .wc-column {
+// 		&,
+// 		&:last-child {
+// 			text-align: center;
+// 		}
+// 	}
+// }

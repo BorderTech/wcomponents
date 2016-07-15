@@ -203,19 +203,6 @@ define(["wc/has"], function(has) {
 			return result;
 		});
 
-		addtest("device-mobile", function() {
-			return has("ios") || has("android") || has("iemobile") || has("operamobi") || has("operamini") || has("bb");
-		});
-
-		addtest("small-screen", function(g) {
-			var SMALL_SCREEN = 736, min; // max-device-width of most mobiles as per CSS.
-			if (typeof g.screen === "undefined") {
-				return false;
-			}
-			min = Math.min(g.screen.width, g.screen.height);
-			return min <= SMALL_SCREEN;
-		});
-
 		addtest("element-datalist", function() {
 			return "list" in document.createElement("input");
 		});
