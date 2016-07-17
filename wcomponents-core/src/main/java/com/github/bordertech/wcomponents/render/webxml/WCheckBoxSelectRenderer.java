@@ -114,7 +114,7 @@ final class WCheckBoxSelectRenderer extends AbstractWebXmlRenderer {
 			html.appendAttribute("value", code);
 			html.appendOptionalAttribute("selected", selected, "true");
 			html.appendClose();
-			html.append(desc, true);
+			html.appendEscaped(desc);
 			html.appendEndTag("ui:option");
 		}
 	}

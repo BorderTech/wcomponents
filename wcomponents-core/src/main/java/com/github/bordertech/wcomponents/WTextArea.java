@@ -1,10 +1,6 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.HtmlSanitizerUtil;
-import com.github.bordertech.wcomponents.util.Util;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.owasp.validator.html.PolicyException;
-import org.owasp.validator.html.ScanException;
 
 /**
  * <p>
@@ -20,6 +16,36 @@ import org.owasp.validator.html.ScanException;
  * @since 1.0.0
  */
 public class WTextArea extends WTextField {
+
+	/**
+	 * The data for this WTextArea. If the text area is not rich text its output is XML escaped so we can ignore
+	 * sanitization. If the text area is a rich text area then we check the sanitizeOnOutput flag as sanitization is
+	 * rather resource intensive.
+	 *
+	 * @return The data for this WTextArea.
+	 */
+	@Override
+	public Object getData() {
+		Object data = super.getData();
+		if (isRichTextArea() && isSanitizeOnOutput() && data != null) {
+			return sanitizeOutputText(data.toString());
+		}
+		return data;
+	}
+
+	/**
+	 * Set data in this component. If the WTextArea is a rich text input we need to sanitize the input.
+	 *
+	 * @param data The input data
+	 */
+	@Override
+	public void setData(final Object data) {
+		if (isRichTextArea() && data instanceof String) {
+			super.setData(sanitizeInputText((String) data));
+		} else {
+			super.setData(data);
+		}
+	}
 
 	/**
 	 * @return the number of rows of text that are visible without scrolling.
@@ -56,6 +82,7 @@ public class WTextArea extends WTextField {
 	/**
 	 * Pass true if you need to run the HTML sanitizer on <em>any</em> output. This is only needed if the textarea is
 	 * rich text as in other cases the output will be XML encoded.
+	 *
 	 * @param sanitize true if output sanitization is required.
 	 */
 	public void setSanitizeOnOutput(final boolean sanitize) {
@@ -67,6 +94,22 @@ public class WTextArea extends WTextField {
 	 */
 	public boolean isSanitizeOnOutput() {
 		return getComponentModel().sanitizeOnOutput;
+	}
+
+	/**
+	 * @param text the output text to sanitize
+	 * @return the sanitized text
+	 */
+	protected String sanitizeOutputText(final String text) {
+		return HtmlSanitizerUtil.sanitizeOutputText(text);
+	}
+
+	/**
+	 * @param text the input text to sanitize
+	 * @return the sanitized text
+	 */
+	protected String sanitizeInputText(final String text) {
+		return HtmlSanitizerUtil.sanitizeInputText(text);
 	}
 
 	/**
@@ -85,60 +128,6 @@ public class WTextArea extends WTextField {
 	@Override // For type safety only
 	protected TextAreaModel getComponentModel() {
 		return (TextAreaModel) super.getComponentModel();
-	}
-
-	/**
-	 * The the data for this WTextArea. If the text area is not rich text its output is XML escaped so we can ignore
-	 * sanitization. If the text area is a rich text area then we check the sanitizeOnOutput flag as sanitization is
-	 * rather resource intensive.
-	 * @return The data for this WTextArea.
-	 */
-	@Override
-	public Object getData() {
-		Object data = super.getData();
-		if (!(data instanceof String && this.isRichTextArea() && this.isSanitizeOnOutput())) {
-			return data;
-		}
-
-		String dataString = (String) data;
-		if (Util.empty(dataString)) {
-			// no need to sanitize an empty string.
-			return data;
-		}
-
-		try {
-			// Sanitize using the output (lax) policy.
-			return HtmlSanitizerUtil.sanitize(dataString, true);
-		} catch (ScanException | PolicyException e) {
-			// If the Sanitizer throws an error we are not able to sanitize so we will encode everything just in case.
-			return StringEscapeUtils.escapeXml10(dataString);
-		}
-	}
-
-	/**
-	 * Set data in this component. If the WTextArea is a rich text input we need to sanitize the input.
-	 * @param data The input data
-	 */
-	@Override
-	public void setData(final Object data) {
-		if (!(data instanceof String && this.isRichTextArea())) {
-			super.setData(data);
-		} else {
-			String dataString = (String) data;
-
-			if (Util.empty(dataString)) {
-				// no need to sanitize an empty string.
-				super.setData(data);
-			} else {
-				try {
-					// first sanitize input to get rid of potentially harmful HTML.
-					super.setData(HtmlSanitizerUtil.sanitize(dataString));
-				} catch (ScanException | PolicyException e) {
-					// If the Sanitizer throws an error we are not able to sanitize so we will encode everything
-					super.setData(StringEscapeUtils.escapeXml10(dataString));
-				}
-			}
-		}
 	}
 
 	/**

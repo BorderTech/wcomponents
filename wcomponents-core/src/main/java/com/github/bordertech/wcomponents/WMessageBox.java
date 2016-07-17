@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.Duplet;
+import com.github.bordertech.wcomponents.util.HtmlToXMLUtil;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
-import com.github.bordertech.wcomponents.util.StringEscapeHTMLToXMLUtil;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -241,7 +241,9 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 
 		for (Duplet<Serializable, Boolean> message : model.messages) {
 			String text = I18nUtilities.format(null, message.getFirst());
-			messages.add(message.getSecond() ? WebUtilities.encode(text) : StringEscapeHTMLToXMLUtil.unescapeToXML(text));
+			// If we are outputting unencoded content it must be XML valid.
+			boolean encode = message.getSecond();
+			messages.add(encode ? WebUtilities.encode(text) : HtmlToXMLUtil.unescapeToXML(text));
 		}
 
 		return Collections.unmodifiableList(messages);
