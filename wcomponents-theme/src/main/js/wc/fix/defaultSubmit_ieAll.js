@@ -21,8 +21,11 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"],
 
 		function FixDefaultSubmitControl() {
 			var FORM_WD = new Widget("form"),
+				BUTTON = new Widget("button"),
+				A = new Widget("a"),
 				INPUT_WD = new Widget("input"),
-				FILE_WD = INPUT_WD.extend("", {"type": "file"});
+				FILE_WD = INPUT_WD.extend("", {"type": "file"}),
+				submittables = [BUTTON, A, INPUT_WD];
 
 			this.initialise = function (element) {
 				event.add(element, event.TYPE.keypress, keyEvent, 100);
@@ -35,7 +38,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"],
 			function keyEvent($event) {
 				var keyCode = $event.keyCode, element = $event.target;
 				if (!$event.defaultPrevented && (keyCode === KeyEvent.DOM_VK_RETURN)) {
-					if (FILE_WD.isOneOfMe(element) ||(!INPUT_WD.isOneOfMe(element) && FORM_WD.findAncestor(element))) {
+					if (FILE_WD.isOneOfMe(element) ||(!Widget.isOneOfMe(element, submittables) && FORM_WD.findAncestor(element))) {
 						$event.preventDefault();
 					}
 				}
