@@ -136,14 +136,14 @@ define(["wc/dom/attribute",
 		/**
 		 * Get the nearest ancestor menu from a given element.
 		 *
-		 * @function getFirstMenuAncestor
-		 * @private
+		 * @function
+		 * @public
 		 * @param {Element} element The start point
 		 * @returns {?Element} The menu root node if any.
 		 */
-		function getFirstMenuAncestor(element) {
+		AbstractMenu.prototype.getFirstMenuAncestor = function (element) {
 			return Widget.findAncestor(element, getFixedWidgets().GENERIC_ROOT);
-		}
+		};
 
 		/**
 		 * Sets the tabIndex of the current element and removes it from the previous 'tab-able' element (if different).
@@ -281,7 +281,7 @@ define(["wc/dom/attribute",
 		AbstractMenu.prototype._textMatchFilter = function(textNode) {
 			var parent = textNode.parentNode;
 
-			if (shed.hasHiddenAncestor(textNode, parent) || shed.hasDisabledAncestor(textNode, parent) || getFixedWidgets().OFFSCREEN.findAncestor(parent)) {
+			if (shed.isNotVisible(textNode, parent) || shed.hasDisabledAncestor(textNode, parent) || getFixedWidgets().OFFSCREEN.findAncestor(parent)) {
 				return NodeFilter.FILTER_REJECT;
 			}
 			if (textNode.nodeValue) {
@@ -631,13 +631,13 @@ define(["wc/dom/attribute",
 		 * will also have to add the correct properties and states to reflect
 		 * the current selection status.
 		 *
-		 * @function ajaxSubscriber
-		 * @private
+		 * @function
+		 * @protected
 		 * @param {Element} element The reference element (element being replaced).
 		 * @param {DocumentFragment} documentFragment The document fragment which will be inserted.
 		 * @this An instance of a sub-class menu.
 		 */
-		function ajaxSubscriber(element, documentFragment/* , action */) {
+		AbstractMenu.prototype._ajaxSubscriber = function (element, documentFragment/* , action */) {
 			var root;
 			/*
 			 * helper to update attributes in the content of an ajaxed-in branch/submenuContent
@@ -672,7 +672,7 @@ define(["wc/dom/attribute",
 					});
 			}
 			/* before we do anything else make sure we are in the right kind of menu */
-			if (element && (root = this.getRoot(element)) === getFirstMenuAncestor(element)) {
+			if (element && (root = this.getRoot(element)) === this.getFirstMenuAncestor(element)) {
 				AJAX_CONTEXTLESS_ITEM = AJAX_CONTEXTLESS_ITEM || new Widget("", "", {"role": "${wc.ui.menu.dummyRole}"});
 				/*
 				 * If the ajaxTarget is the content of a WSubMenu then we can be sure
@@ -707,7 +707,7 @@ define(["wc/dom/attribute",
 					fixBranchContent(this._getBranch(element), documentFragment, this);
 				}
 			}
-		}
+		};
 
 		/**
 		 * Indicates if the parent submenu (if any) of a given submenu is itself colliding with an edge of the viewport.
@@ -882,7 +882,7 @@ define(["wc/dom/attribute",
 		function postAjaxSubscriber(element) {
 			var root,
 				subItem;
-			if (element && (root = this.getRoot(element)) && root === getFirstMenuAncestor(element)) {
+			if (element && (root = this.getRoot(element)) && root === this.getFirstMenuAncestor(element)) {
 				if (postAjaxTimer) {
 					timers.clearTimeout(postAjaxTimer);
 					postAjaxTimer = null;
@@ -1147,7 +1147,7 @@ define(["wc/dom/attribute",
 
 		function writeSelectedState(nextSelectedItem, toContainer) {
 			var root = this.getRoot(nextSelectedItem);
-			if (root && root === getFirstMenuAncestor(nextSelectedItem)) {
+			if (root && root === this.getFirstMenuAncestor(nextSelectedItem)) {
 				formUpdateManager.writeStateField(toContainer, nextSelectedItem.id + ".selected", "x");
 			}
 		}
@@ -1414,7 +1414,7 @@ define(["wc/dom/attribute",
 		 */
 		AbstractMenu.prototype.getRoot = function(item) {
 			var result = this.ROOT.findAncestor(item);
-			if (result && result !== getFirstMenuAncestor(item)) { // make sure the first generic root is root
+			if (result && result !== this.getFirstMenuAncestor(item)) { // make sure the first generic root is root
 				 return null;
 			}
 			return result;
@@ -1860,7 +1860,7 @@ define(["wc/dom/attribute",
 				return;
 			}
 			root = ((target === window || target === document) ? null : this.getRoot(target));
-			genericRoot = ((target === window || target === document) ? null : getFirstMenuAncestor(target));
+			genericRoot = ((target === window || target === document) ? null : this.getFirstMenuAncestor(target));
 			if (root && (root === genericRoot)) {
 				if (openMenu && (localOpenMenu = document.getElementById(openMenu)) && localOpenMenu !== root) {
 					this._closeOpenMenu(localOpenMenu, target);
@@ -1961,7 +1961,7 @@ define(["wc/dom/attribute",
 
 		/**
 		 * Set the role attribute on an item which has been added/replaced in an ajax response.
-		 * @see {@link  module:wc/ui/menu/core~ajaxSubscriber}
+		 * @see {@link  module:wc/ui/menu/core~_ajaxSubscriber}
 		 *
 		 * @function
 		 * @protected
@@ -2069,8 +2069,9 @@ define(["wc/dom/attribute",
 				event.add(element, event.TYPE.click, eventWrapper.bind(this));
 			}
 			event.add(element, event.TYPE.keydown, eventWrapper.bind(this));
-
-			processResponse.subscribe(ajaxSubscriber.bind(this));
+			if (this._ajaxSubscriber) {
+				processResponse.subscribe(this._ajaxSubscriber.bind(this));
+			}
 			processResponse.subscribe(postAjaxSubscriber.bind(this), true);
 			formUpdateManager.subscribe(this.writeState.bind(this));
 

@@ -388,6 +388,24 @@ define(["wc/ui/menu/core",
 			};
 
 			/**
+			 * Click with meta on an open branch in a htree. If the branch has an ancestor branch then select that
+			 * ancestor, otherwise just delected the branch.
+			 * @param {type} target
+			 * @returns {undefined}
+			 */
+			function htreeClickHelper(target) {
+				var item = instance.getItem(target), parentBranch;
+				if (item && instance._isBranch(item) && shed.isExpanded(item)) {
+					if ((parentBranch = instance.getSubMenu(item)) && (parentBranch = instance._getBranch(parentBranch))) {
+						instance._select(parentBranch, false, false, true);
+						return;
+					}
+					shed.deselect(item);
+					shed.collapse(item);
+				}
+			}
+
+			/**
 			 * Click handler override. Do not allow click to toggle tree branch unless it is:
 			 *
 			 *   * a htree; or
@@ -401,11 +419,15 @@ define(["wc/ui/menu/core",
 			this.clickEvent = function($event) {
 				var target = $event.target,
 					root;
-				if ($event.defaultPrevented || target === window || !(root = this.getRoot(target))) {
+				// target === window is an IE thing
+				if ($event.defaultPrevented || target === document.body || target === window || !(root = this.getRoot(target))) {
 					return;
 				}
 
 				if (this.isHTree(root)) { // htree completely driven by select.
+					if ($event.ctrlKey || $event.metaKey) {
+						htreeClickHelper(target);
+					}
 					return;
 				}
 
@@ -530,15 +552,13 @@ define(["wc/ui/menu/core",
 						}
 						ajaxTimer = timers.setTimeout(ajaxRegion.requestLoad, 0, root);
 					}
-					// do not return, we have more to do.
-				}
-
-				if (this.isHTree(root) && action === shed.actions.SELECT) {
-					if (this._isBranch(element) && this._openOnSelect(root) && !shed.isExpanded(element)) {
-						this[this._FUNC_MAP.OPEN](element);
-					}
-					else {
-						this.closeAllPaths(root, element);
+					if (this.isHTree(root) && action === shed.actions.SELECT) {
+						if (this._isBranch(element) && !shed.isExpanded(element)) {
+							this[this._FUNC_MAP.OPEN](element);
+						}
+						else {
+							this.closeAllPaths(root, element);
+						}
 					}
 					return;
 				}
@@ -633,6 +653,21 @@ define(["wc/ui/menu/core",
 							shed.select(element);
 						}
 					}
+				}
+			};
+
+			this._ajaxSubscriber = function (element, documentFragment/* , action */) {
+				var root;
+
+				if (element && (root = this.getRoot(element)) === this.getFirstMenuAncestor(element)) {
+					Array.prototype.forEach.call(this._wd.branch.findDescendants(documentFragment), function(next) {
+						var id, _el;
+						if ((id = next.id) && (_el = document.getElementById(id))) {
+							if (shed.isSelected(_el)) {
+								shed.select(next, true);
+							}
+						}
+					}, this);
 				}
 			};
 		}
