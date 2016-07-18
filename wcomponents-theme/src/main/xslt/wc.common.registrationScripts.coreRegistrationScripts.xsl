@@ -128,7 +128,7 @@
 			<xsl:text>");});</xsl:text>
 		</xsl:if>
 		<xsl:text>require(["wc/has"], function(has){</xsl:text>
-		<xsl:text>if(has("ie")===8){require(["wc/fix/defaultSubmit_ie8"]);}</xsl:text>
+		<xsl:text>if(has("ie")>=8){require(["wc/fix/defaultSubmit_ieAll"]);}</xsl:text>
 		<xsl:text>});</xsl:text>
 		<xsl:call-template name="localRegistrationScripts"/>
 	</xsl:template>
