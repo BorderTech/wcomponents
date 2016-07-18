@@ -12,7 +12,7 @@ define(["wc/dom/group", "wc/dom/shed"],
 			/** @constant {String[]} FILTERS The properties which may be used to filter a group. @private */
 			FILTERS = ["selected", "deselected", "disabled", "enabled", "hidden", "visible", "expanded", "collapsed"],
 			/** @constant {String[]} SHED_FILTERS {@link module:wc/dom.shed} functions which may be used to filter a group. @private */
-			SHED_FILTERS = ["isSelected", "isDisabled", "isHidden", "isExpanded"];
+			SHED_FILTERS = ["isSelected", "isDisabled", "isNotVisible", "isExpanded"];
 
 		/**
 		 * Build an object defining states as bit masks from a string array.
