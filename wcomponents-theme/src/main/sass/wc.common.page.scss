@@ -10,7 +10,7 @@ html {
 body {
 	@include tight-box;
 	font-family: $wc-default-font;
-	font-size: $wc-default-font-size;
+	font-size: $wc-desktop-font-size;
 	height: 100%; // body to fill viewport for event propagation.
 }
 
@@ -69,19 +69,19 @@ pre {
 	display: none !important;
 }
 
+@include respond-medium-density {
+	body {
+		font-size: $wc-default-font-size;
+	}
+}
+
 @include viewport {
 	user-zoom: zoom;
 	width: extend-to-zoom;
 	zoom: 1;
 }
 
-@include respond-med-device {
-	body {
-		font-size: $wc-desktop-font-size;
-	}
-}
-
-@include respond-large-device {
+@include respond-bigger-screen {
 	body {
 		font-size: $wc-bigscreen-font-size;
 	}
