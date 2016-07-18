@@ -32,6 +32,7 @@
  * @requires module:wc/dom/Widget
  * @requires module:wc/dom/getLabelsForElement
  * @requires module:wc/dom/role
+ * @requires module:wc/dom/getStyle
  *
  * @todo re-order code, document private methods.
  */
@@ -43,9 +44,10 @@ define(["wc/Observer",
 		"wc/dom/tag",
 		"wc/dom/Widget",
 		"wc/dom/getLabelsForElement",
-		"wc/dom/role"],
-	/** @param Observer wc/Observer @param aria wc/dom/aria @param impliedAria wc/dom/impliedARIA @param classList wc/dom/classList @param disabledLink wc/dom/disabledLink @param tag wc/dom/tag @param Widget wc/dom/Widget @param getLabelsForElement wc/dom/getLabelsForElement @param $role wc/dom/role @ignore */
-	function(Observer, aria, impliedAria, classList, disabledLink, tag, Widget, getLabelsForElement, $role) {
+		"wc/dom/role",
+		"wc/dom/getStyle"],
+	/** @param Observer @param aria @param impliedAria @param classList @param disabledLink @param tag @param Widget @param getLabelsForElement @param $role @param getStyle @ignore */
+	function(Observer, aria, impliedAria, classList, disabledLink, tag, Widget, getLabelsForElement, $role, getStyle) {
 		"use strict";
 
 		/**
@@ -597,6 +599,38 @@ define(["wc/Observer",
 			};
 
 			/**
+			 * Indicates an element will be visible in the UI. This is not quite the opposite of isHidden. An element
+			 * will not be visible if it or an ancestor is hidden, if it is of type hidden, if it has CSS display "none"
+			 * or CSS visibility "hidden".
+			 *
+			 *
+			 * @param {Element} node the element to test
+			 * @param {type} [stopAt] an element at which we stop going up the tree defaults to body.
+			 * @returns {Boolean} true if the element can be "seen".
+			 */
+			this.isVisible = function(node, stopAt) {
+				var parent = node,
+					_stopAt = stopAt || document.body;
+
+				if (this.isHidden(parent)) {
+					return false;
+				}
+				while (parent && parent.nodeType === Node.ELEMENT_NODE && parent.tagName.toUpperCase() !== _stopAt.tagName.toUpperCase()) {
+					if (parent.type === "hidden" || this.isHidden(parent) ||
+						getStyle(parent, "display", false, true) === "none" ||
+						getStyle(parent, "visibility", false, true) === "hidden") {
+						return false;
+					}
+					parent = parent.parentNode;
+				}
+				return true;
+			};
+
+			this.isNotVisible = function(node, stopAt) {
+				return !this.isVisible(node, stopAt);
+			};
+
+			/**
 			 * Determine if the element is disabled.
 			 *
 			 * @function module:wc/dom/shed.isDisabled
@@ -633,14 +667,10 @@ define(["wc/Observer",
 			 * @returns {boolean} true if the element is hidden.
 			 */
 			this.isHidden = function (element) {
-				var result = false;
 				if (showWithOpen(element)) {
-					result = !element.hasAttribute(OPEN);
+					return !element.hasAttribute(OPEN);
 				}
-				else {
-					result = !!isThisMyAttribute(element, HIDDEN, HIDDEN);
-				}
-				return result;
+				return element.hasAttribute(HIDDEN);
 			};
 
 			/**
