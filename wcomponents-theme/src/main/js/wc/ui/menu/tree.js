@@ -635,6 +635,21 @@ define(["wc/ui/menu/core",
 					}
 				}
 			};
+
+			this._ajaxSubscriber = function (element, documentFragment/* , action */) {
+				var root;
+
+				if (element && (root = this.getRoot(element)) === this.getFirstMenuAncestor(element)) {
+					Array.prototype.forEach.call(this._wd.branch.findDescendants(documentFragment), function(next) {
+						var id, _el;
+						if ((id = next.id) && (_el = document.getElementById(id))) {
+							if (shed.isSelected(_el)) {
+								shed.select(next, true);
+							}
+						}
+					}, this);
+				}
+			};
 		}
 
 		var /** @alias module:wc/ui/menu/tree */ instance;
