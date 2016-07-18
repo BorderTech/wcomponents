@@ -473,12 +473,10 @@ define(["wc/has",
 						preventDefaultAction = true;
 					}
 				}
-				else if ((keyCode === KeyEvent.DOM_VK_SPACE || keyCode === KeyEvent.DOM_VK_RETURN) && !Widget.isOneOfMe(element, this.actionable)) {
+				else if (keyCode === KeyEvent.DOM_VK_SPACE && !Widget.isOneOfMe(element, this.actionable)) {
 					if (isAcceptableEventTarget(element, target)) {
 						this.activate(element, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
-						if (keyCode === KeyEvent.DOM_VK_SPACE) {
-							preventDefaultAction = true;  // preventDefault here otherwise you get a page scroll
-						}
+						preventDefaultAction = true;  // preventDefault here otherwise you get a page scroll
 					}
 				}
 				if (preventDefaultAction) {
