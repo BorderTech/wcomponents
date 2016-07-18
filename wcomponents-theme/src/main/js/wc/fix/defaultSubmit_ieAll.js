@@ -1,5 +1,5 @@
 /**
- * This is an IE bug fix (specifically IE8).
+ * This is an IE bug fix.
  *
  * BUG: When a descendant of FORM has 'focus' the form submit event will fire when the enter key is pressed even if the
  * element is not an input element which supports submit on ENTER.
@@ -43,5 +43,5 @@ define(["wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc/dom/Widget"],
 		}
 		var fixDefaultSubmitControl = new FixDefaultSubmitControl();
 		initialise.addBodyListener(fixDefaultSubmitControl);
-		return /** @alias module:wc/fix/defaultSubmit_ie8 */ fixDefaultSubmitControl;
+		return /** @alias module:wc/fix/defaultSubmit_ieAll */ fixDefaultSubmitControl;
 	});
