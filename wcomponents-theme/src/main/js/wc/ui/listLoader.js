@@ -82,7 +82,7 @@ define(["wc/ajax/ajax",
 								promiseDone(groupLose, err);
 							},
 							callback: function(srcTree) {
-								if (srcTree === null && this.responseText) {
+								if ((srcTree === null || srcTree.documentElement === null) && this.responseText) {
 									promiseDone(groupWin, xslTransform.htmlToDocumentFragment(this.responseText));
 								}
 								else {
