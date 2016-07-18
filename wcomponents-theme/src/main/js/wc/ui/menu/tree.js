@@ -418,7 +418,7 @@ define(["wc/ui/menu/core",
 			/**
 			 * Write the state of WTree.
 			 *
-			 * @param {Element} the WTree root element
+			 * @param {Element} next the WTree root element
 			 * @param {Element} toContainer the state container
 			 */
 			this.writeMenuState = function(next, toContainer) {
