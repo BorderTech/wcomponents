@@ -82,7 +82,7 @@ define(["wc/ajax/ajax",
 								promiseDone(groupLose, err);
 							},
 							callback: function(srcTree) {
-								if (srcTree === null && this.responseText) {
+								if ((srcTree === null || srcTree.documentElement === null) && this.responseText) {
 									promiseDone(groupWin, xslTransform.htmlToDocumentFragment(this.responseText));
 								}
 								else {
@@ -126,14 +126,13 @@ define(["wc/ajax/ajax",
 			}
 
 			/**
-			 * Load a data list for a particular element. The callback will be called asynchronously with the datalist
-			 * specified by the id.
+			 * Load a data list for a particular element.
+			 * The promise will be resolved with the datalist specified by the id.
 			 *
 			 * @function module:wc/ui/listLoader.load
 			 * @param {String} id The id of the datalist to load
-			 * @param {Function} [callback] The callback to be passed the resulting datalist - if no callback provided
-			 *    this is a prefecth
 			 * @param {Element} element Provide an element which will serve as the reference point for finding the URL.
+			 * @param {boolean} [prefetch] If true treat this request as a prefetch for performance optimization rather than a genuine load.
 			 */
 			this.load = function(id, element, prefetch) {
 				var result = new Promise(function(win, lose) {
