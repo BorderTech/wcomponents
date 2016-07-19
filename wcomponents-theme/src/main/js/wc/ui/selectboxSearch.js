@@ -139,7 +139,7 @@ define(["wc/string/escapeRe",
 						textContent.set(search, val + character);
 						val = textContent.get(search);
 						if (val.length) {
-							if (shed.isHidden(search)) {
+							if (shed.isHidden(search, true)) {
 								element.parentNode.insertBefore(search, element);
 								shed.show(search);
 							}
@@ -360,7 +360,7 @@ define(["wc/string/escapeRe",
 			function closeSearch(element) {
 				var search = getSearchElement();
 				textContent.set(search, "");
-				if (!shed.isHidden(search)) {
+				if (!shed.isHidden(search, true)) {
 					hideSearch(search);
 					if (fireOnchange && element) {
 						// programatically changing the select will not fire change so we gots to do it ourselves

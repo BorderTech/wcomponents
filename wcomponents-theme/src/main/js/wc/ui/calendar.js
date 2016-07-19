@@ -365,7 +365,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				input;
 
 			// touching = null;
-			if (cal && !shed.isHidden(cal)) {
+			if (cal && !shed.isHidden(cal, true)) {
 				// focus the dateField if required
 				if (!ignoreFocusReset && (input = getInputForCalendar(cal))) {
 					refocusId = input.id;
@@ -1026,7 +1026,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			var input, box,
 				cal = element || getCal(),
 				fixed;
-			if (cal && !shed.isHidden(cal)) {
+			if (cal && !shed.isHidden(cal, true)) {
 				fixed = (window.getComputedStyle && window.getComputedStyle(cal).position === "fixed");
 				if (fixed) {
 					input = getInputForCalendar(cal);
@@ -1114,7 +1114,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				element, cal;
 			DATE_FIELD = DATE_FIELD || dateField.getWidget();
 
-			if (DATE_FIELD && target && (cal = getCal()) && !shed.isHidden(cal)) {
+			if (DATE_FIELD && target && (cal = getCal()) && !shed.isHidden(cal, true)) {
 				element = DATE_FIELD.findAncestor(target);
 
 				if (!element || (element !== DATE_FIELD.findAncestor(getCal()))) { // second: focused a different date field

@@ -279,16 +279,6 @@ define(["wc/ui/fx", "wc/dom/shed", "wc/has"],
 				return (type === "checkbox" || type === "radio");
 			}
 
-//			function isVisible(element)
-//			{
-//				return !shed.isHidden(element);
-//			}
-//
-//			function isEnabled(element)
-//			{
-//				return !shed.isDisabled(element);
-//			}
-
 			/**
 			* doInGroup is a helper for {@link module:wc/ui/SubordinateAction~hideInGroup} and
 			* {@link module:wc/ui/SubordinateAction~showInGroup}.
