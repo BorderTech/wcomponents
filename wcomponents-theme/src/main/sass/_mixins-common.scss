@@ -6,12 +6,6 @@
 @import 'mixins-respond'; // responsive design media queries.
 @import 'mixins-icon'; // in-built iconography.
 
-/// Set the elements text-align property. I am not convinced this is a useful mixin.
-/// @param {alignment} $align [left] The horizontal alignment to set.
-@mixin align($align: left) {
-	text-align: $align;
-}
-
 /// Style disabled controls. This allows similar styling of elements which are able to be disabled using the disabled
 /// attribute and those which require aria-disabled.
 ///
