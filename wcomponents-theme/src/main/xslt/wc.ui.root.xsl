@@ -27,13 +27,7 @@
 
 				<link type="text/css" id="wc_css_screen" rel="stylesheet"><!-- this id is used by the style loader js -->
 					<xsl:attribute name="href">
-						<xsl:value-of select="$resourceRoot"/>
-						<xsl:text>${css.target.dir.name}/${css.target.file.name}</xsl:text>
-						<xsl:if test="$isDebug=1">
-							<xsl:text>${debug.target.file.name.suffix}</xsl:text>
-						</xsl:if>
-						<xsl:text>.css?</xsl:text>
-						<xsl:value-of select="$cacheBuster"/>
+						<xsl:value-of select="$cssFilePath"/>
 					</xsl:attribute>
 				</link>
 
