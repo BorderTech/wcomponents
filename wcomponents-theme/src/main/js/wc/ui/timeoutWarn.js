@@ -52,7 +52,7 @@ define(["lib/sprintf", "wc/xml/xslTransform", "wc/dom/event", "wc/dom/Widget", "
 			 * @param {Element} element The warning container.
 			 */
 			function closeWarning(element) {
-				if (element && !shed.isHidden(element)) {
+				if (element && !shed.isHidden(element, true)) {
 					event.remove(document.body, event.TYPE.keydown, keyDownEvent);
 					event.remove(element, event.TYPE.click, clickEvent);
 					shed.hide(element);
@@ -162,7 +162,7 @@ define(["lib/sprintf", "wc/xml/xslTransform", "wc/dom/event", "wc/dom/Widget", "
 						body = i18n.get("${wc.ui.timeoutWarn.message.expired.body}");
 						container.appendChild(errorDf);
 						container.innerHTML = sprintf.sprintf(container.innerHTML, header, body);
-						if (shed.isHidden(container)) {
+						if (shed.isHidden(container, true)) {
 							showDialog(container);  // re-show it if the warning was closed by the user
 						}
 						console.info("expired shown at", new Date());

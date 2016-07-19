@@ -806,7 +806,7 @@ define(["wc/has",
 				}
 
 				listbox = getListBox(element);
-				if (!listbox || shed.isHidden(listbox)) { // listbox should always be available.
+				if (!listbox || shed.isHidden(listbox, true)) { // listbox should always be available.
 					return;
 				}
 

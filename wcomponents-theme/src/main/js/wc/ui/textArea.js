@@ -63,14 +63,14 @@ define(["wc/dom/attribute",
 
 			function hideCounter(element) {
 				var counter;
-				if ((counter = instance.getCounter(element)) && !shed.isHidden(counter)) {
+				if ((counter = instance.getCounter(element)) && !shed.isHidden(counter, true)) {
 					shed.hide(counter, true);
 				}
 			}
 
 			function showCounter(element) {
 				var counter;
-				if ((counter = instance.getCounter(element)) && shed.isHidden(counter)) {
+				if ((counter = instance.getCounter(element)) && shed.isHidden(counter, true)) {
 					shed.show(counter, true);
 				}
 			}

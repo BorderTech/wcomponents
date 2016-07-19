@@ -567,7 +567,6 @@ define(["wc/has",
 						filter: function(el) {
 							/* the group filter EXCLUDES elements return true*/
 							var result = NodeFilter.FILTER_ACCEPT;
-							// return shed.isDisabled(el) || shed.isHidden(el);
 							if (shed.isDisabled(el) || shed.isHidden(el)) {
 								result = NodeFilter.FILTER_REJECT;
 							}

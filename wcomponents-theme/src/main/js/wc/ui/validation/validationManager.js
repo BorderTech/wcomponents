@@ -15,7 +15,6 @@
  * @requires module:wc/i18n/i18n
  */
 define(["wc/dom/classList",
-		"wc/dom/getBox",
 		"wc/has",
 		"wc/dom/initialise",
 		"wc/dom/shed",
@@ -23,8 +22,8 @@ define(["wc/dom/classList",
 		"wc/dom/Widget",
 		"wc/Observer",
 		"wc/i18n/i18n"],
-	/** @param classList @param getBox @param has @param initialise @param shed @param tag @param Widget @param Observer @param i18n @ignore*/
-	function(classList, getBox, has, initialise, shed, tag, Widget, Observer, i18n) {
+	/** @param classList @param has @param initialise @param shed @param tag @param Widget @param Observer @param i18n @ignore*/
+	function(classList, has, initialise, shed, tag, Widget, Observer, i18n) {
 		"use strict";
 
 		/**
@@ -180,20 +179,6 @@ define(["wc/dom/classList",
 			}
 
 			/**
-			 * Tests if the current element is actually visible.
-			 * NOTE: this is only guranteed to work for bounded elements such as INPUT, TEXTAREA etc but is close enough
-			 * for our purposes for other elements since when an element is hidden its descendants have no dimensions.
-			 * @function
-			 * @private
-			 * @param {Element} element The HTML element to test.
-			 * @returns {Boolean} true if the element is associated with a success message.
-			 */
-			function isNotVisible(element) {
-				var box = getBox(element);
-				return !(box.width && box.height);
-			}
-
-			/**
 			 * Remove a link to a component which was in an error state when the page was loaded (using
 			 * WValidationErrors) but which was subsequently corrected.
 			 * @function
@@ -286,8 +271,7 @@ define(["wc/dom/classList",
 			 */
 			this.isExempt = function(element) {
 				var result = false;
-				if ((element.tagName === tag.INPUT && element.type === "hidden") || shed.isDisabled(element) ||
-					(shed.isHidden(element) || isNotVisible(element))) {
+				if ((element.tagName === tag.INPUT && element.type === "hidden") || shed.isDisabled(element) || shed.isHidden(element)) {
 					result = true;
 				}
 				return result;

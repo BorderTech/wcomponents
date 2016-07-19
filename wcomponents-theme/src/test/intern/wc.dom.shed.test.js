@@ -521,105 +521,49 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			testHasDisabledAncestorFalse: function() {
 				assert.isFalse(controller.hasDisabledAncestor(document.getElementById("radioButtonGroup4_1")));
 			},
-			testHasHiddenAncestor: function() {
-				assert.isTrue(controller.hasHiddenAncestor(document.getElementById("radioButtonGroup4_1")));
+			testIsHiddenByAncestor: function() {
+				var test = document.getElementById("visibletests1");
+				assert.isFalse(controller.isHidden(test));
 			},
-			testHasHiddenAncestorFalse: function() {
-				assert.isFalse(controller.hasHiddenAncestor(document.getElementById("radioButtonGroup3_1")));
-			},
-			testIsVisible: function() {
-				var parent = document.getElementById("visibletests"),
-					test = document.getElementById("visibletests1");
-				assert.isTrue(controller.isVisible(test));
-			},
-			testIsNotVisible: function() {
-				var parent = document.getElementById("visibletests"),
-					test = document.getElementById("visibletests1");
-				assert.isFalse(controller.isNotVisible(test));
-			},
-			testIsVisibleWithDisplay: function() {
+			testIsHiddenByAncestorWithDisplay: function() {
 				var parent = document.getElementById("visibletests"),
 					test = document.getElementById("visibletests1");
 				try {
 					parent.style.display = "none";
-					assert.isFalse(controller.isVisible(test));
+					assert.isTrue(controller.isHidden(test));
 				}
 				finally {
 					parent.style.display = "";
 				}
 			},
-			testIsVisibleWithVisibility: function() {
+			testIsHiddenByAncestorWithVisibility: function() {
 				var parent = document.getElementById("visibletests"),
 					test = document.getElementById("visibletests1");
 				try {
 					parent.style.visibility = "hidden";
-					assert.isFalse(controller.isVisible(test));
+					assert.isTrue(controller.isHidden(test));
 				}
 				finally {
 					parent.style.visibility = "";
 				}
 			},
-			testIsVisibleWithHidden: function() {
+			testIsHiddenByAncestorWithHidden: function() {
 				var parent = document.getElementById("visibletests"),
 					test = document.getElementById("visibletests1");
 				try {
 					parent.setAttribute("hidden", "hidden");
-					assert.isFalse(controller.isVisible(test));
+					assert.isTrue(controller.isHidden(test));
 				}
 				finally {
 					parent.removeAttribute("hidden");
 				}
 			},
-			testIsVisibleWithShedHide: function() {
+			testIsHiddenByAncestorWithShedHide: function() {
 				var parent = document.getElementById("visibletests"),
 					test = document.getElementById("visibletests1");
 				try {
 					controller.hide(parent);
-					assert.isFalse(controller.isVisible(test));
-				}
-				finally {
-					controller.show(parent);
-				}
-			},
-			testIsNotVisibleWithDisplay: function() {
-				var parent = document.getElementById("visibletests"),
-					test = document.getElementById("visibletests1");
-				try {
-					parent.style.display = "none";
-					assert.isTrue(controller.isNotVisible(test));
-				}
-				finally {
-					parent.style.display = "";
-				}
-			},
-			testIsNotVisibleWithVisibility: function() {
-				var parent = document.getElementById("visibletests"),
-					test = document.getElementById("visibletests1");
-				try {
-					parent.style.visibility = "hidden";
-					assert.isTrue(controller.isNotVisible(test));
-				}
-				finally {
-					parent.style.visibility = "";
-				}
-			},
-			testIsNotVisibleWithHidden: function() {
-				var parent = document.getElementById("visibletests"),
-					test = document.getElementById("visibletests1");
-				try {
-					parent.setAttribute("hidden", "hidden");
-					assert.isTrue(controller.isNotVisible(test));
-				}
-				finally {
-					parent.removeAttribute("hidden");
-				}
-			},
-			testIsNotVisibleWithShedHide: function() {
-				var parent = document.getElementById("visibletests"),
-					test = document.getElementById("visibletests1");
-				try {
-					controller.hide(parent);
-					assert.isTrue(controller.isNotVisible(test));
+					assert.isTrue(controller.isHidden(test));
 				}
 				finally {
 					controller.show(parent);
