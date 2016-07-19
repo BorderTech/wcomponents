@@ -21,11 +21,6 @@ import com.github.bordertech.wcomponents.WebUtilities;
 public final class StepCountUtil {
 
 	/**
-	 * The parameter key for the URL users are redirected to when a step error occurs.
-	 */
-	public static final String STEP_ERROR_URL_PARAMETER_KEY = "bordertech.wcomponents.wrongStep.redirect.url";
-
-	/**
 	 * Prevent instantiation of utility class.
 	 */
 	private StepCountUtil() {
@@ -35,8 +30,7 @@ public final class StepCountUtil {
 	 * @return the url users are redirected to when a step error occurs
 	 */
 	public static String getErrorUrl() {
-		String url = Config.getInstance().getString(STEP_ERROR_URL_PARAMETER_KEY);
-		return url;
+		return ConfigurationProperties.getStepErrorUrl();
 	}
 
 	/**

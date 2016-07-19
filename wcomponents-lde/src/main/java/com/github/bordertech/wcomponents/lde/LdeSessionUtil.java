@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lde;
 
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.StreamUtil;
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,18 +23,6 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.0
  */
 public final class LdeSessionUtil {
-
-	/**
-	 * The key used to look up the LDE session persistance flag in the {@link Config WComponent Configuration}.
-	 */
-	private static final String LDE_PERSIST_SESSION_PARAM
-			= "bordertech.wcomponents.lde.session.persist";
-
-	/**
-	 * The key used to look up the LDE persistant session load flag in the {@link Config WComponent Configuration}.
-	 */
-	private static final String LDE_LOAD_PERSISTANT_SESSION_PARAM
-			= "bordertech.wcomponents.lde.session.loadPersisted";
 
 	/**
 	 * The serialized session file name.
@@ -146,7 +134,7 @@ public final class LdeSessionUtil {
 	 * @return true if new sessions should be loaded from a persisted session.
 	 */
 	public static boolean isLoadPersistedSessionEnabled() {
-		return Config.getInstance().getBoolean(LDE_LOAD_PERSISTANT_SESSION_PARAM, false);
+		return ConfigurationProperties.getLdeLoadPersistedSessionEnabled();
 	}
 
 	/**
@@ -155,6 +143,6 @@ public final class LdeSessionUtil {
 	 * @return true if sessions should be persisted.
 	 */
 	public static boolean isPersistSessionEnabled() {
-		return Config.getInstance().getBoolean(LDE_PERSIST_SESSION_PARAM, false);
+		return ConfigurationProperties.getLdePersistSessionEnabled();
 	}
 }

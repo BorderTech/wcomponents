@@ -1,11 +1,11 @@
 package com.github.bordertech.wcomponents.velocity;
 
 import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Properties;
-import org.apache.commons.configuration.Configuration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.app.VelocityEngine;
@@ -24,18 +24,6 @@ public final class VelocityEngineFactory {
 	 * The logger instance for this class.
 	 */
 	private static final Log LOG = LogFactory.getLog(VelocityEngineFactory.class);
-
-	/**
-	 * If this setting is non-null, velocity templates will be loaded from the given directory. This is good for
-	 * developers, who can point into their source tree directly. Templates will not be cached in this case.
-	 */
-	private static final String FILE_TEMPLATES_KEY = "bordertech.wcomponents.velocity.fileTemplatesDir";
-
-	/**
-	 * If we are not using fileTemplates, the templates are read from the classpath. This setting governs whether we
-	 * cache these templates or not. For production, we should cache.
-	 */
-	private static final String CACHE_TEMPLATES_KEY = "bordertech.wcomponents.velocity.cacheTemplates.enabled";
 
 	/**
 	 * The singleton VelocityEngine instance associated with this factory.
@@ -62,9 +50,8 @@ public final class VelocityEngineFactory {
 	 */
 	public static synchronized VelocityEngine getVelocityEngine() {
 		if (engine == null) {
-			Configuration config = Config.getInstance();
-			String fileTemplates = config.getString(FILE_TEMPLATES_KEY);
-			boolean cacheTemplates = config.getBoolean(CACHE_TEMPLATES_KEY);
+			String fileTemplates = ConfigurationProperties.getVelocityFileTemplates();
+			boolean cacheTemplates = ConfigurationProperties.getVelocityCacheTemplates();
 
 			VelocityEngine newEngine = new VelocityEngine();
 			Properties props = new Properties();
@@ -98,8 +85,7 @@ public final class VelocityEngineFactory {
 					"com.github.bordertech.wcomponents.velocity.VelocityLogger");
 
 			// Set up access to the common velocity macros.
-			props.setProperty(RuntimeConstants.VM_LIBRARY, config.getString(
-					"bordertech.wcomponents.velocity.macroLibrary"));
+			props.setProperty(RuntimeConstants.VM_LIBRARY, ConfigurationProperties.getVelocityMacroLibrary());
 
 			try {
 				if (LOG.isInfoEnabled()) {

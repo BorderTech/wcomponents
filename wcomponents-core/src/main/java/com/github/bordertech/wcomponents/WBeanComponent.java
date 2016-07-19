@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
@@ -24,16 +24,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public class WBeanComponent extends AbstractWComponent implements DataBound, BeanBound,
 		BeanProviderBound {
-
-	/**
-	 * Flag for which bean logic will be used.
-	 *
-	 * @deprecated Will be removed and correct logic always used. Projects should set this parameter to true.
-	 */
-	@Deprecated
-	private static final boolean CORRECT_PARENT_BEAN_LOGIC = Config.getInstance().getBoolean(
-			"bordertech.wcomponents.bean.logic.correct",
-			true);
 
 	/**
 	 * The logger instance for this class.
@@ -90,7 +80,7 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 				if (parent != null) {
 					String parentBeanProperty = parent.getBeanProperty();
 					// Correct
-					if (CORRECT_PARENT_BEAN_LOGIC) {
+					if (ConfigurationProperties.getCorrectBeanLogic()) {
 						if (parentBeanProperty == null || ".".equals(parentBeanProperty)) {
 							bean = parent.getBean();
 						} else {
@@ -100,7 +90,7 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 						if (parentBeanProperty != null && !".".equals(parentBeanProperty) && parentBeanProperty.
 								contains(".")) {
 							LOG.warn("Possible bean property logic error with bean property ["
-									+ parentBeanProperty + "]. Check runtime parameter " + CORRECT_PARENT_BEAN_LOGIC + ".");
+									+ parentBeanProperty + "]. Check runtime parameter " + ConfigurationProperties.getCorrectBeanLogic() + ".");
 						}
 						bean = parent.getBean();
 					}

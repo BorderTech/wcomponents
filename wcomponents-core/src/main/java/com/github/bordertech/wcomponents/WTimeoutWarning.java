@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 
 /**
  * WTimeoutWarning provides a mechanism to pass a session timeout period in seconds to the client. This can then be used
@@ -27,18 +27,6 @@ public class WTimeoutWarning extends AbstractWComponent {
 	 * amount of time (in seconds) a warning can be set to according to the WCAG 2.0
 	 */
 	private static final int MINIMUM_WARNING = 20;
-
-	/**
-	 * The default warning period (in seconds).
-	 */
-	private static final int DEFAULT_WARNING_PERIOD = Config.getInstance()
-			.getInt("bordertech.wcomponents.timeoutWarning.warningPeriod", 300);
-
-	/**
-	 * The default timeout period (in seconds). If the value is "zero", then use the http session timeout value.
-	 */
-	private static final int DEFAULT_TIMEOUT_PERIOD = Config.getInstance()
-			.getInt("bordertech.wcomponents.timeoutWarning.timeoutPeriod", 0);
 
 	/**
 	 * Creates a WTimeoutWarning using default timeout and warning settings.
@@ -172,11 +160,11 @@ public class WTimeoutWarning extends AbstractWComponent {
 		/**
 		 * The session timeout in seconds.
 		 */
-		private int timeoutPeriod = DEFAULT_TIMEOUT_PERIOD;
+		private int timeoutPeriod = ConfigurationProperties.getTimeoutPeriod();
 
 		/**
 		 * The warning period in seconds. If this is set it must be at least 20.
 		 */
-		private int warningPeriod = DEFAULT_WARNING_PERIOD;
+		private int warningPeriod = ConfigurationProperties.getTimeoutWarningPeriod();
 	}
 }

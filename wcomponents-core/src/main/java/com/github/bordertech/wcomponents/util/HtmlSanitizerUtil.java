@@ -9,20 +9,22 @@ import org.owasp.validator.html.CleanResults;
 import org.owasp.validator.html.ScanException;
 
 /**
- * Basic HTML input sanitizer for WTextArea in RichText mode. Could be used for other HTML sanitization purposes.
- * Uses the AntiSamy HTML sanitizer. The default  AntiSamy configuration file's location is set using WComponents
- * property "com.github.bordertech.wcomponents.AntiSamy.config". The default policy works with the default
- * implementation of timyMCE used by WTextArea and is quite strict.
+ * Basic HTML input sanitizer for WTextArea in RichText mode. Could be used for other HTML sanitization purposes. Uses
+ * the AntiSamy HTML sanitizer. The default AntiSamy configuration file's location is set using WComponents property
+ * "com.github.bordertech.wcomponents.AntiSamy.config". The default policy works with the default implementation of
+ * timyMCE used by WTextArea and is quite strict.
  *
- * <p>A method is provided to do lax sanitization. For this the Policy uses an XML config file set by the WComponents
+ * <p>
+ * A method is provided to do lax sanitization. For this the Policy uses an XML config file set by the WComponents
  * property "com.github.bordertech.wcomponents.AntiSamyLax.config". This policy is quite permissive and should
- * <strong>only</strong> be used for output sanitization of unescaped components when the original source of the
- * HTML is unknown.</p>
+ * <strong>only</strong> be used for output sanitization of unescaped components when the original source of the HTML is
+ * unknown.</p>
  *
  * @author Mark Reeves
  * @since 1.2.0
  */
 public final class HtmlSanitizerUtil {
+
 	/**
 	 * The log for this instance.
 	 */
@@ -34,29 +36,17 @@ public final class HtmlSanitizerUtil {
 	private static final AntiSamy ANTISAMY;
 
 	/**
-	 * The parameter name used to get the AntiSamy strict sanitization configuration file.
-	 */
-	private static final String STRICT_CONFIG_PARAM = "com.github.bordertech.wcomponents.AntiSamy.config";
-
-	/**
-	 * The parameter name used to get the AntiSamy lax sanitization configuration file.
-	 */
-	private static final String LAX_CONFIG_PARAM = "com.github.bordertech.wcomponents.AntiSamyLax.config";
-
-	/**
 	 * The strict AntiSamy policy. This is the default policy and should be used for all in-bound sanitization.
 	 */
 	private static final Policy STRICT_POLICY;
 
 	/**
-	 * The lax AntiSamy policy. This policy, if used at all, should only be used for sanitizing output where the
-	 * HTML being output is of unverified origin.
+	 * The lax AntiSamy policy. This policy, if used at all, should only be used for sanitizing output where the HTML
+	 * being output is of unverified origin.
 	 */
 	private static final Policy LAX_POLICY;
 
 	static {
-		String path = Config.getInstance().getString(STRICT_CONFIG_PARAM,
-				"com/github/bordertech/wcomponents/sanitizers/antisamy-wc.xml");
 		Policy strictPolicy = null;
 		Policy laxPolicy = null;
 
@@ -64,6 +54,7 @@ public final class HtmlSanitizerUtil {
 
 		// Get the strict AntiSamy policy.
 		try {
+			String path = ConfigurationProperties.getAntisamyStrictConfigurationFile();
 			strictPolicy = Policy.getInstance(HtmlSanitizerUtil.class.getClassLoader().getResource(path));
 		} catch (PolicyException ex) {
 			LOG.error("Could not create strict AntiSamy Policy. ", ex);
@@ -71,8 +62,7 @@ public final class HtmlSanitizerUtil {
 
 		// Get the lax AntiSamy policy.
 		try {
-			path = Config.getInstance().getString(LAX_CONFIG_PARAM,
-				"com/github/bordertech/wcomponents/sanitizers/antisamy-wc-lax.xml");
+			String path = ConfigurationProperties.getAntisamyLaxConfigurationFile();
 			laxPolicy = Policy.getInstance(HtmlSanitizerUtil.class.getClassLoader().getResource(path));
 		} catch (PolicyException ex) {
 			LOG.error("Could not create lax AntiSamy Policy. ", ex);
