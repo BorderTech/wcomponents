@@ -121,7 +121,7 @@ define(["wc/dom/classList",
 					return false;
 				}
 
-				if (dialog && !shed.isHidden(dialog)) {
+				if (dialog && !shed.isHidden(dialog, true)) {
 					content = dialogFrame.getContent();
 					if (!content) {
 						console.error("Found open dialog but not its content");

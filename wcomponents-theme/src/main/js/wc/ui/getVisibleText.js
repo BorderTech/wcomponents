@@ -17,8 +17,8 @@ define(["wc/dom/Widget",
 		var HINT;
 
 		/**
-		 * Funny old treewlker filter: ee want to get all the nodes we can remove from element so we SKIP anything which
-		 * is not considered invisible.
+		 * Funny old treewalker filter: we want to get all the nodes we can remove from element so we ACCEPT anything
+		 * which is disabled or hidden.
 		 *
 		 * @function
 		 * @private
@@ -26,12 +26,7 @@ define(["wc/dom/Widget",
 		 * @returns {Number} NodeFilter.FILTER_ACCEPT if the node is hidden (and can therefore be removed).
 		 */
 		function treeWalkerFilter(element) {
-			if (shed.isDisabled(element) ||
-					shed.isHidden(element) ||
-					element.type === "hidden" ||
-					getStyle(element, "visibility", false, true) === "hidden" ||
-					getStyle(element, "display", false, true) === "none" ||
-					(element.offsetWidth === 0 && element.offsetHeight === 0)) {
+			if (shed.isDisabled(element) || shed.isHidden(element)) {
 				return NodeFilter.FILTER_ACCEPT;
 			}
 

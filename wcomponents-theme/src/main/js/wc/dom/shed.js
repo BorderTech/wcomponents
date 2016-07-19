@@ -33,6 +33,7 @@
  * @requires module:wc/dom/getLabelsForElement
  * @requires module:wc/dom/role
  * @requires module:wc/dom/getStyle
+ * @requires module:wc/dom/getBox
  *
  * @todo re-order code, document private methods.
  */
@@ -586,51 +587,6 @@ define(["wc/Observer",
 			};
 
 			/**
-			 * Determine if an element has an ancestor which is hidden. NOTE: now we can rely on an element not having
-			 * dimension if it is inside a hidden container we can probably do away with this.
-			 *
-			 * @function module:wc/dom/shed.hasHiddenAncestor
-			 * @param {Element} node The element to test
-			 * @param {String} [stopAt] a tag name which defines where we stop looking. If not defined we stop at BODY.
-			 * @returns {Boolean} true if the element has a hidden ancestor.
-			 */
-			this.hasHiddenAncestor = function(node, stopAt) {
-				return hasAncestorInState(node, "isHidden", stopAt);
-			};
-
-			/**
-			 * Indicates an element will be visible in the UI. This is not quite the opposite of isHidden. An element
-			 * will not be visible if it or an ancestor is hidden, if it is of type hidden, if it has CSS display "none"
-			 * or CSS visibility "hidden".
-			 *
-			 *
-			 * @param {Element} node the element to test
-			 * @param {type} [stopAt] an element at which we stop going up the tree defaults to body.
-			 * @returns {Boolean} true if the element can be "seen".
-			 */
-			this.isVisible = function(node, stopAt) {
-				var parent = node,
-					_stopAt = stopAt || document.body;
-
-				if (this.isHidden(parent)) {
-					return false;
-				}
-				while (parent && parent.nodeType === Node.ELEMENT_NODE && parent.tagName.toUpperCase() !== _stopAt.tagName.toUpperCase()) {
-					if (parent.type === "hidden" || this.isHidden(parent) ||
-						getStyle(parent, "display", false, true) === "none" ||
-						getStyle(parent, "visibility", false, true) === "hidden") {
-						return false;
-					}
-					parent = parent.parentNode;
-				}
-				return true;
-			};
-
-			this.isNotVisible = function(node, stopAt) {
-				return !this.isVisible(node, stopAt);
-			};
-
-			/**
 			 * Determine if the element is disabled.
 			 *
 			 * @function module:wc/dom/shed.isDisabled
@@ -664,13 +620,41 @@ define(["wc/Observer",
 			 *
 			 * @function module:wc/dom/shed.isHidden
 			 * @param {Element} element The element to test.
+			 * @param {boolean} [onlyHiddenAttribute] if true base test only on the existance of the hidden attribute.
+			 *   This should only ever be used internally by toggle or for components which can _only_ be hidden by
+			 *   attribute (e.g. dialog with open attribute).
 			 * @returns {boolean} true if the element is hidden.
 			 */
-			this.isHidden = function (element) {
+			this.isHidden = function (element, onlyHiddenAttribute) {
+				var result, _el;
 				if (showWithOpen(element)) {
-					return !element.hasAttribute(OPEN);
+					result = !element.getAttribute(OPEN);
 				}
-				return element.hasAttribute(HIDDEN);
+				else {
+					result = !!element.getAttribute(HIDDEN);
+				}
+				if (onlyHiddenAttribute || result) {
+					return result;
+				}
+				// troublesome stuff inside hidden stuff.
+				_el = element;
+				if (element.nodeType !== Node.ELEMENT_NODE) {
+					if (element.nodeType === Node.TEXT_NODE) {
+						if (!element.parentNode) {
+							return false;
+						}
+						_el = element.parentNode;
+					}
+					// why are we testing a document or documentFragment?
+					return false;
+				}
+				if (_el.offsetWidth === 0 && _el.offsetHeight === 0) {
+					return true;
+				}
+				if (getStyle(_el, "visibility", false, true) === HIDDEN) {
+					return true;
+				}
+				return false;
 			};
 
 			/**
@@ -846,7 +830,7 @@ define(["wc/Observer",
 				switch (action) {
 					case actions.SHOW:
 					case actions.HIDE:
-						func = instance.isHidden(element) ? instance[actions.SHOW] : instance[actions.HIDE];
+						func = instance.isHidden(element, true) ? instance[actions.SHOW] : instance[actions.HIDE];
 						break;
 					case actions.ENABLE:
 					case actions.DISABLE:
