@@ -110,7 +110,7 @@ final class WMultiDropdownRenderer extends AbstractWebXmlRenderer {
 			html.appendOptionalAttribute("selected", selected, "true");
 			html.appendOptionalAttribute("isNull", isNull, "true");
 			html.appendClose();
-			html.append(desc, true);
+			html.appendEscaped(desc);
 			html.appendEndTag("ui:option");
 		}
 	}

@@ -4,13 +4,13 @@
  *
  * @module
  *
- * @requires module:wc/has
  * @requires module:wc/dom/attribute
  * @requires module:wc/dom/classList
  * @requires module:wc/dom/event
  * @requires module:wc/dom/focus
  * @requires module:wc/dom/formUpdateManager
  * @requires module:wc/dom/getFilteredGroup
+ * @requires module:wc/dom/getViewportSize
  * @requires module:wc/dom/keyWalker
  * @requires module:wc/dom/shed
  * @requires module:wc/dom/viewportCollision
@@ -21,19 +21,18 @@
  * @requires module:wc/i18n/i18n
  * @requires module:wc/dom/getBox
  * @requires module:wc/array/toArray
- * @requires module:wc/ui/getVisibleText
  *
  * @see {@link module:wc/ui/menu/bar}
  * @see {@link module:wc/ui/menu/column}
  * @see {@link module:wc/ui/menu/tree}
  */
-define(["wc/has",
-		"wc/dom/attribute",
+define(["wc/dom/attribute",
 		"wc/dom/classList",
 		"wc/dom/event",
 		"wc/dom/focus",
 		"wc/dom/formUpdateManager",
 		"wc/dom/getFilteredGroup",
+		"wc/dom/getViewportSize",
 		"wc/dom/keyWalker",
 		"wc/dom/shed",
 		"wc/dom/viewportCollision",
@@ -43,11 +42,10 @@ define(["wc/has",
 		"wc/timers",
 		"wc/i18n/i18n",
 		"wc/dom/getBox",
-		"wc/array/toArray",
-		"wc/ui/getVisibleText"
+		"wc/array/toArray"
 	],
-	/** @param has @param attribute @param classList @param event @param focus @param formUpdateManager @param getFilteredGroup @param keyWalker @param shed @param viewportCollision @param Widget @param key @param processResponse @param timers @param i18n @param getBox @param toArray @param getVisibleText @ignore */
-	function(has, attribute, classList, event, focus, formUpdateManager, getFilteredGroup, keyWalker, shed, viewportCollision, Widget, key, processResponse, timers, i18n, getBox, toArray, getVisibleText) {
+	/** @param attribute @param classList @param event @param focus @param formUpdateManager @param getFilteredGroup @param getViewportSize @param keyWalker @param shed @param viewportCollision @param Widget @param key @param processResponse @param timers @param i18n @param getBox @param toArray @ignore */
+	function(attribute, classList, event, focus, formUpdateManager, getFilteredGroup, getViewportSize, keyWalker, shed, viewportCollision, Widget, key, processResponse, timers, i18n, getBox, toArray) {
 		"use strict";
 
 		/* NOTE: Many functions in this module are private but accept an instance of a subclass as an argument. These
@@ -94,7 +92,6 @@ define(["wc/has",
 			BUTTON = "button",
 			CLOSE_BUTTON,
 			MENUITEM_ROLE = "menuitem",
-			DEFAULT_CLOSE_LABEL,
 			/**
 			 * An array of keys which will cause us to call preventDefault in the keydown event handler if they are
 			 * handled. This is here just so we do not have to rebuild this array every time a key is pressed!
@@ -107,7 +104,8 @@ define(["wc/has",
 				KeyEvent.DOM_VK_DOWN,
 				KeyEvent.DOM_VK_LEFT,
 				KeyEvent.DOM_VK_RIGHT
-			];
+			],
+			FULL_SCREEN_TOGGLE_POINT = 773;
 
 		/**
 		 * Sets up {@link module:wc/dom/Widget} descriptors for parts of a menu which do not vary between subclasses.
@@ -138,14 +136,14 @@ define(["wc/has",
 		/**
 		 * Get the nearest ancestor menu from a given element.
 		 *
-		 * @function getFirstMenuAncestor
-		 * @private
+		 * @function
+		 * @public
 		 * @param {Element} element The start point
 		 * @returns {?Element} The menu root node if any.
 		 */
-		function getFirstMenuAncestor(element) {
+		AbstractMenu.prototype.getFirstMenuAncestor = function (element) {
 			return Widget.findAncestor(element, getFixedWidgets().GENERIC_ROOT);
-		}
+		};
 
 		/**
 		 * Sets the tabIndex of the current element and removes it from the previous 'tab-able' element (if different).
@@ -229,6 +227,11 @@ define(["wc/has",
 			return result;
 		}
 
+		function canActivateOnHover() {
+			var vps = getViewportSize();
+			return !(vps && vps.width <= FULL_SCREEN_TOGGLE_POINT);
+		}
+
 		/**
 		 * Mouse over handler. Sets up hover effects when the menu is transoent and not displayed on a mobile device.
 		 * This handler is only bound if required when a menu first receives focus and is bound directly to the menu
@@ -254,9 +257,9 @@ define(["wc/has",
 				if (!item || shed.isDisabled(item)) {
 					return;
 				}
-				this._focusItem(item, root);
 
-				if (activateOnHover === root.id) {
+				this._focusItem(item, root);
+				if (activateOnHover === root.id && canActivateOnHover()) {
 					// current menu is active menu
 					if (this._isOpener(item)) {
 						item = this._getBranch(item);
@@ -278,7 +281,7 @@ define(["wc/has",
 		AbstractMenu.prototype._textMatchFilter = function(textNode) {
 			var parent = textNode.parentNode;
 
-			if (shed.hasHiddenAncestor(textNode, parent) || shed.hasDisabledAncestor(textNode, parent) || getFixedWidgets().OFFSCREEN.findAncestor(parent)) {
+			if (shed.isHidden(textNode) || shed.hasDisabledAncestor(textNode, parent) || getFixedWidgets().OFFSCREEN.findAncestor(parent)) {
 				return NodeFilter.FILTER_REJECT;
 			}
 			if (textNode.nodeValue) {
@@ -628,13 +631,13 @@ define(["wc/has",
 		 * will also have to add the correct properties and states to reflect
 		 * the current selection status.
 		 *
-		 * @function ajaxSubscriber
-		 * @private
+		 * @function
+		 * @protected
 		 * @param {Element} element The reference element (element being replaced).
 		 * @param {DocumentFragment} documentFragment The document fragment which will be inserted.
 		 * @this An instance of a sub-class menu.
 		 */
-		function ajaxSubscriber(element, documentFragment/* , action */) {
+		AbstractMenu.prototype._ajaxSubscriber = function (element, documentFragment/* , action */) {
 			var root;
 			/*
 			 * helper to update attributes in the content of an ajaxed-in branch/submenuContent
@@ -669,7 +672,7 @@ define(["wc/has",
 					});
 			}
 			/* before we do anything else make sure we are in the right kind of menu */
-			if (element && (root = this.getRoot(element)) === getFirstMenuAncestor(element)) {
+			if (element && (root = this.getRoot(element)) === this.getFirstMenuAncestor(element)) {
 				AJAX_CONTEXTLESS_ITEM = AJAX_CONTEXTLESS_ITEM || new Widget("", "", {"role": "${wc.ui.menu.dummyRole}"});
 				/*
 				 * If the ajaxTarget is the content of a WSubMenu then we can be sure
@@ -704,7 +707,7 @@ define(["wc/has",
 					fixBranchContent(this._getBranch(element), documentFragment, this);
 				}
 			}
-		}
+		};
 
 		/**
 		 * Indicates if the parent submenu (if any) of a given submenu is itself colliding with an edge of the viewport.
@@ -879,7 +882,7 @@ define(["wc/has",
 		function postAjaxSubscriber(element) {
 			var root,
 				subItem;
-			if (element && (root = this.getRoot(element)) && root === getFirstMenuAncestor(element)) {
+			if (element && (root = this.getRoot(element)) && root === this.getFirstMenuAncestor(element)) {
 				if (postAjaxTimer) {
 					timers.clearTimeout(postAjaxTimer);
 					postAjaxTimer = null;
@@ -892,7 +895,7 @@ define(["wc/has",
 				 * should do this AFTER making sure we have set all disabled and
 				 * selected states as required.*/
 				if (this.isSubMenu(element)) {
-					if (this.isTransient && !this._isSmallScreen) {
+					if (this.isTransient) {
 						doCollisionDetection(element, this);
 					}
 					if ((subItem = this._getFirstAvailableItem(element))) {
@@ -1004,7 +1007,7 @@ define(["wc/has",
 			var content, subItem;
 
 			if ((content = this.getSubMenu(branch, true))) {
-				if (this.isTransient && !this._isSmallScreen) {
+				if (this.isTransient) {
 					doCollisionDetection(content, this);
 				}
 				if ((subItem = this._getFirstAvailableItem(content))) {
@@ -1144,7 +1147,7 @@ define(["wc/has",
 
 		function writeSelectedState(nextSelectedItem, toContainer) {
 			var root = this.getRoot(nextSelectedItem);
-			if (root && root === getFirstMenuAncestor(nextSelectedItem)) {
+			if (root && root === this.getFirstMenuAncestor(nextSelectedItem)) {
 				formUpdateManager.writeStateField(toContainer, nextSelectedItem.id + ".selected", "x");
 			}
 		}
@@ -1224,14 +1227,6 @@ define(["wc/has",
 		 * @private
 		 */
 		function AbstractMenu() {
-			/**
-			 * Indicates if the current window is on a screen with a max-device-width indicating it is likely to be a phone.
-			 * @var
-			 * @type {Boolean}
-			 * @protected
-			 */
-			this._isSmallScreen = has("small-screen");
-
 			/**
 			 * A function map to keep strings in sync used for changing key mappings. This uses the class var FUNC_MAP so
 			 * that we can keep some ugliness at bay. If we could make this CONST or FINAL STATIC we would! If your sub
@@ -1419,7 +1414,7 @@ define(["wc/has",
 		 */
 		AbstractMenu.prototype.getRoot = function(item) {
 			var result = this.ROOT.findAncestor(item);
-			if (result && result !== getFirstMenuAncestor(item)) { // make sure the first generic root is root
+			if (result && result !== this.getFirstMenuAncestor(item)) { // make sure the first generic root is root
 				 return null;
 			}
 			return result;
@@ -1435,15 +1430,6 @@ define(["wc/has",
 		AbstractMenu.prototype._select = function(element) {
 			shed.select(element);
 		};
-
-		/**
-		 * Used to add close buttons to menus (and other artifact manipulation) when the menu is transient and the
-		 * application is viewed on a mobile device.
-		 *
-		 * @function
-		 * @abstract
-		 */
-		AbstractMenu.prototype._updateMenusForMobile = null;
 
 		/**
 		 * Get the nearest branch element in which the passed in element is enclosed.
@@ -1553,12 +1539,10 @@ define(["wc/has",
 			if (!item || shed.isDisabled(item)) {
 				return false;
 			}
-			if (this._isSmallScreen) {
-				CLOSE_BUTTON = CLOSE_BUTTON || new Widget(BUTTON, CLASS.CLOSER, {"role": "menuitem"});
-				if (CLOSE_BUTTON.isOneOfMe(item)) {
-					this[FUNC_MAP.CLOSE_MY_BRANCH](item);
-					return true;
-				}
+			CLOSE_BUTTON = CLOSE_BUTTON || new Widget(BUTTON, CLASS.CLOSER, {"role": "menuitem"});
+			if (CLOSE_BUTTON.isOneOfMe(item)) {
+				this[FUNC_MAP.CLOSE_MY_BRANCH](item);
+				return true;
 			}
 			if (this._isBranch(item)) {
 				opener = this._getBranchOpener(item);
@@ -1876,7 +1860,7 @@ define(["wc/has",
 				return;
 			}
 			root = ((target === window || target === document) ? null : this.getRoot(target));
-			genericRoot = ((target === window || target === document) ? null : getFirstMenuAncestor(target));
+			genericRoot = ((target === window || target === document) ? null : this.getFirstMenuAncestor(target));
 			if (root && (root === genericRoot)) {
 				if (openMenu && (localOpenMenu = document.getElementById(openMenu)) && localOpenMenu !== root) {
 					this._closeOpenMenu(localOpenMenu, target);
@@ -1911,8 +1895,8 @@ define(["wc/has",
 				root,
 				item,
 				localOpenMenu,
-				me,
-				expandable;
+				expandable,
+				preventDefault;
 			if ($event.defaultPrevented) {
 				return;
 			}
@@ -1922,15 +1906,14 @@ define(["wc/has",
 						if (openMenu && (localOpenMenu = document.getElementById(openMenu)) && root !== localOpenMenu) {
 							this._closeOpenMenu(localOpenMenu, target);
 						}
-						this[FUNC_MAP.ACTION](target);
+						preventDefault = this[FUNC_MAP.ACTION](target);
 						if (this.isTransient) {
 							if (this._isBranch(item)) {
 								expandable = this._getBranchExpandableElement(item);
 								activateOnHover = expandable ? (shed.isExpanded(expandable) ? root.id : null) : null;
 							}
 							else if (this._isLeaf(item)) {
-								me = this;
-								timers.setTimeout(this._closeOpenMenu.bind(this), 0, root, target, me);
+								timers.setTimeout(this._closeOpenMenu.bind(this), 0, root, target);
 							}
 						}
 					}
@@ -1943,6 +1926,11 @@ define(["wc/has",
 			catch (ex) {
 				$event.preventDefault(); // in case a link or submit was clicked, don't hide/lose the error
 				console.error("Uncaught exception in AbstractMenu.onClick: ", ex.message);
+			}
+			finally {
+				if (preventDefault) {
+					$event.preventDefault();
+				}
 			}
 		};
 
@@ -1973,7 +1961,7 @@ define(["wc/has",
 
 		/**
 		 * Set the role attribute on an item which has been added/replaced in an ajax response.
-		 * @see {@link  module:wc/ui/menu/core~ajaxSubscriber}
+		 * @see {@link  module:wc/ui/menu/core~_ajaxSubscriber}
 		 *
 		 * @function
 		 * @protected
@@ -2039,39 +2027,6 @@ define(["wc/has",
 		};
 
 		/**
-		 * Adds the close button to the top of each submenu content in a mobile transient sub-menu.
-		 *
-		 * @see {@link module:wc/ui/menu/bar#_updateMenusForMobile}
-		 * @see {@link module:wc/ui/menu/column#_updateMenusForMobile}
-		 * @function
-		 * @protected
-		 * @param {Element} nextSubmenu The subMenu content wrapper.
-		 */
-		AbstractMenu.prototype._fixSubMenuContent = function(nextSubmenu) {
-			var closeMenuButton = document.createElement(BUTTON),
-				opener = nextSubmenu.previousSibling,
-				openerContent;
-
-			CLOSE_BUTTON = CLOSE_BUTTON || new Widget(BUTTON, CLASS.CLOSER, {"role": MENUITEM_ROLE});
-
-			if (nextSubmenu.firstChild) {
-				if (CLOSE_BUTTON.isOneOfMe(nextSubmenu.firstChild)) {
-					return;  // already done
-				}
-				nextSubmenu.insertBefore(closeMenuButton, nextSubmenu.firstChild);
-			}
-			else {
-				nextSubmenu.appendChild(closeMenuButton);
-			}
-
-			closeMenuButton.setAttribute(ROLE_ATTRIB, MENUITEM_ROLE);
-			closeMenuButton.type = BUTTON;
-			closeMenuButton.className = CLASS.CLOSER + " wc-nobutton wc-icon";
-			openerContent = opener ? getVisibleText(opener) : "";
-			closeMenuButton.innerHTML = openerContent || (DEFAULT_CLOSE_LABEL = DEFAULT_CLOSE_LABEL || i18n.get("${wc.ui.menu.bar.i18n.submenuCloseLabelDefault}"));
-		};
-
-		/**
 		 * Sets up the subclass specific {@link module:wc/dom/Widget}s used to describe the various parts of the menu.
 		 *
 		 * @function
@@ -2114,12 +2069,9 @@ define(["wc/has",
 				event.add(element, event.TYPE.click, eventWrapper.bind(this));
 			}
 			event.add(element, event.TYPE.keydown, eventWrapper.bind(this));
-
-			if (this._updateMenusForMobile) {
-				this._updateMenusForMobile(element);
-				processResponse.subscribe(this._updateMenusForMobile.bind(this), true);
+			if (this._ajaxSubscriber) {
+				processResponse.subscribe(this._ajaxSubscriber.bind(this));
 			}
-			processResponse.subscribe(ajaxSubscriber.bind(this));
 			processResponse.subscribe(postAjaxSubscriber.bind(this), true);
 			formUpdateManager.subscribe(this.writeState.bind(this));
 

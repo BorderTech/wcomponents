@@ -4,9 +4,6 @@ import com.github.bordertech.wcomponents.util.HtmlSanitizerUtil;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import java.io.Serializable;
 import java.text.MessageFormat;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.owasp.validator.html.PolicyException;
-import org.owasp.validator.html.ScanException;
 
 /**
  * <p>
@@ -90,12 +87,7 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	public String getText() {
 		String text = I18nUtilities.format(null, getComponentModel().text);
 		if (!isEncodeText() && isSanitizeOnOutput()) {
-			try {
-				return HtmlSanitizerUtil.sanitize(text, true);
-			} catch (ScanException | PolicyException e) {
-				// if cannot sanitize assume bad and escape everything.
-				return StringEscapeUtils.escapeXml10(text);
-			}
+			return sanitizeOutputText(text);
 		}
 		return text;
 	}
@@ -240,8 +232,9 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	}
 
 	/**
-	 * Pass true if you need to run the HTML sanitizer on <em>any</em> output. This is only needed if the text is
-	 * not encoded as other cases the output will be XML encoded.
+	 * Pass true if you need to run the HTML sanitizer on <em>any</em> output. This is only needed if the text is not
+	 * encoded as other cases the output will be XML encoded.
+	 *
 	 * @param sanitize true if output sanitization is required.
 	 */
 	public void setSanitizeOnOutput(final boolean sanitize) {
@@ -253,6 +246,14 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 	 */
 	public boolean isSanitizeOnOutput() {
 		return getComponentModel().sanitizeOnOutput;
+	}
+
+	/**
+	 * @param text the output text to sanitize
+	 * @return the sanitized text
+	 */
+	protected String sanitizeOutputText(final String text) {
+		return HtmlSanitizerUtil.sanitizeOutputText(text);
 	}
 
 	// --------------------------------

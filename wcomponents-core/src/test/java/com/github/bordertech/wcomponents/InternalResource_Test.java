@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.StreamUtil;
 import java.io.IOException;
@@ -52,7 +51,7 @@ public class InternalResource_Test {
 	public void testGetMimeType() {
 		InternalResource res = new InternalResource(TEST_RESOURCE, "dummy");
 
-		String expected = ConfigurationProperties.getFileMimeTypeForExtension(".gif");
+		String expected = ConfigurationProperties.getFileMimeTypeForExtension("gif");
 		Assert.assertEquals("Incorrect mime type", expected, res.getMimeType());
 	}
 }

@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.StringEscapeHTMLToXMLUtil;
+import com.github.bordertech.wcomponents.util.HtmlToXMLUtil;
 import com.github.bordertech.wcomponents.util.Util;
 
 /**
@@ -39,9 +39,10 @@ final class WLabelRenderer extends AbstractWebXmlRenderer {
 		xml.appendClose();
 
 		if (label.isEncodeText()) {
-			xml.append(label.getText(), true);
+			xml.appendEscaped(label.getText());
 		} else {
-			xml.append(StringEscapeHTMLToXMLUtil.unescapeToXML(label.getText()));
+			// If we are outputting unencoded content it must be XML valid.
+			xml.append(HtmlToXMLUtil.unescapeToXML(label.getText()));
 		}
 
 		paintChildren(label, renderContext);

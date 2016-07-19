@@ -49,3 +49,60 @@
 		min-height: 16px;
 	}
 }
+
+
+@include respond-not-small {
+	// only style left and right tabsets when we have a reasonable sized viewport.
+
+	.wc-tabset-type-left {
+		@include flex-direction(row);
+	}
+
+	.wc-tabset-type-right {
+		@include flex-direction(row-reverse);
+	}
+
+	[role='tablist'] {
+		.wc-tabset-type-left > &,
+		.wc-tabset-type-right > & {
+			@include flex-direction(column);
+			max-width: $wc-tabset-left-right-tab-width;
+			top: 0;
+
+			> [role] + [role] {
+				margin-left: 0;
+				margin-top: $wc-gap-small;
+			}
+
+			> [aria-selected='true'] {
+				@include border($pos: bottom);
+			}
+		}
+
+		.wc-tabset-type-left > & {
+			left: $wc-border-width;
+
+			[role='tab'] {
+				@include wc-ui-tabset-left-border-radius;
+
+				&[aria-selected='true'] {
+					@include border($pos: right, $width: 0);
+				}
+			}
+
+		}
+
+		.wc-tabset-type-right > & {
+			right: $wc-border-width;
+
+			[role='tab'] {
+				@include wc-ui-tabset-right-border-radius;
+				text-align: right;
+
+				&[aria-selected='true'] {
+					@include border($pos: left, $width: 0);
+				}
+			}
+		}
+	}
+}

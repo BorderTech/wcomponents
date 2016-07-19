@@ -85,6 +85,71 @@ public final class ConfigurationProperties {
 	public static final String HANDLEBARS_CACHE = "bordertech.wcomponents.handlebars.cache.enabled";
 
 	/**
+	 * The prefix for all HTML Class icon configuration properties.
+	 */
+	public static final String HTML_ICON_CLASS_PREFIX = "com.github.bordertech.wcomponents.HtmlClass.icon.";
+
+	/**
+	 * The HTML class for the help icon.
+	 */
+	public static final String HTML_ICON_CLASS_HELP = HTML_ICON_CLASS_PREFIX + "help";
+
+	/**
+	 * The HTML class for the info icon.
+	 */
+	public static final String HTML_ICON_CLASS_INFO = HTML_ICON_CLASS_PREFIX + "info";
+
+	/**
+	 * The HTML class for the warn icon.
+	 */
+	public static final String HTML_ICON_CLASS_WARN = HTML_ICON_CLASS_PREFIX + "warn";
+
+	/**
+	 * The HTML class for the error icon.
+	 */
+	public static final String HTML_ICON_CLASS_ERROR = HTML_ICON_CLASS_PREFIX + "error";
+
+	/**
+	 * The HTML class for the success icon.
+	 */
+	public static final String HTML_ICON_CLASS_SUCCESS = HTML_ICON_CLASS_PREFIX + "success";
+
+	/**
+	 * The HTML class for the add icon.
+	 */
+	public static final String HTML_ICON_CLASS_ADD = HTML_ICON_CLASS_PREFIX + "add";
+
+	/**
+	 * The HTML class for the delete icon.
+	 */
+	public static final String HTML_ICON_CLASS_DELETE = HTML_ICON_CLASS_PREFIX + "delete";
+
+	/**
+	 * The HTML class for the edit icon.
+	 */
+	public static final String HTML_ICON_CLASS_EDIT = HTML_ICON_CLASS_PREFIX + "edit";
+
+	/**
+	 * The HTML class for the save icon.
+	 */
+	public static final String HTML_ICON_CLASS_SAVE = HTML_ICON_CLASS_PREFIX + "save";
+
+	/**
+	 * The HTML class for the search icon.
+	 */
+	public static final String HTML_ICON_CLASS_SEARCH = HTML_ICON_CLASS_PREFIX + "search";
+
+	/**
+	 * The HTML class for the cancel icon.
+	 */
+	public static final String HTML_ICON_CLASS_CANCEL = HTML_ICON_CLASS_PREFIX + "cancel";
+
+	/**
+	 * The HTML class for the menu icon.
+	 */
+	public static final String HTML_ICON_CLASS_MENU = HTML_ICON_CLASS_PREFIX + "menu";
+
+	/**
 	 * The resource bundle base name.
 	 */
 	public static final String I18N_RESOURCE_BUNDLE_BASE_NAME = "bordertech.wcomponents.i18n.baseName";
@@ -293,14 +358,12 @@ public final class ConfigurationProperties {
 	/**
 	 * The flag indicating whether to persist sessions in the LDE.
 	 */
-	public static final String LDE_PERSIST_SESSION
-			= "bordertech.wcomponents.lde.session.persist";
+	public static final String LDE_PERSIST_SESSION = "bordertech.wcomponents.lde.session.persist";
 
 	/**
 	 * The flag indicating whether to load persistent sessions in the LDE.
 	 */
-	public static final String LDE_LOAD_PERSISTENT_SESSION
-			= "bordertech.wcomponents.lde.session.loadPersisted";
+	public static final String LDE_LOAD_PERSISTENT_SESSION = "bordertech.wcomponents.lde.session.loadPersisted";
 
 	/**
 	 * The flag indicating which component to launch in the PlainLauncher LDE.
@@ -350,6 +413,9 @@ public final class ConfigurationProperties {
 	/* ****************************
 	* TEST PROPERTIES - used for testing WComponents.
 	* *****************************/
+	/**
+	 * The attribute to check for whether the page is ready.
+	 */
 	public static final String TEST_SELENIUM_DATA_READY_TAG = "bordertech.wcomponents.test.selenium.pageReadyAttribute";
 
 	/**
@@ -434,7 +500,7 @@ public final class ConfigurationProperties {
 	 *
 	 * @return the cached valued that configured at initialization, or null if not set.
 	 */
-	public static final String getApplicationIconUrl() {
+	public static String getApplicationIconUrl() {
 		return APPLICATION_ICON_URL;
 	}
 
@@ -483,7 +549,7 @@ public final class ConfigurationProperties {
 	 *
 	 * @return the cached valued that configured at initialization, or null if not set.
 	 */
-	public static final String getDefaultRenderingEngine() {
+	public static String getDefaultRenderingEngine() {
 		return TEMPLATE_RENDERING_ENGINE_DEFAULT;
 	}
 
@@ -493,7 +559,7 @@ public final class ConfigurationProperties {
 	 * @param interfaceName the classname of the interface.
 	 * @return the parameter value if set, or null if not set.
 	 */
-	public static final String getFactoryImplementation(final String interfaceName) {
+	public static String getFactoryImplementation(final String interfaceName) {
 		return get().getString(FACTORY_PREFIX + interfaceName);
 	}
 
@@ -529,6 +595,114 @@ public final class ConfigurationProperties {
 
 		// fall-back to the old parameter value if the new value is not set.
 		return get().getBoolean(HANDLE_ERROR_WITH_FATAL_PAGE_FACTORY_DEPRECATED, false);
+	}
+
+	/**
+	 * Get the Html Icon class for the help icon.
+	 *
+	 * @return the parameter value, or "fa-question-circle" if not set.
+	 */
+	public static String getHtmlIconClassHelp() {
+		return get().getString(HTML_ICON_CLASS_HELP, "fa-question-circle");
+	}
+
+	/**
+	 * Get the Html Icon class for the info icon.
+	 *
+	 * @return the parameter value, or "fa-info-circle" if not set.
+	 */
+	public static String getHtmlIconClassInfo() {
+		return get().getString(HTML_ICON_CLASS_INFO, "fa-info-circle");
+	}
+
+	/**
+	 * Get the Html Icon class for the warn icon.
+	 *
+	 * @return the parameter value, or "fa-exclamation-triangle" if not set.
+	 */
+	public static String getHtmlIconClassWarn() {
+		return get().getString(HTML_ICON_CLASS_WARN, "fa-exclamation-triangle");
+	}
+
+	/**
+	 * Get the Html Icon class for the error icon.
+	 *
+	 * @return the parameter value, or "fa-minus-circle" if not set.
+	 */
+	public static String getHtmlIconClassError() {
+		return get().getString(HTML_ICON_CLASS_ERROR, "fa-minus-circle");
+	}
+
+	/**
+	 * Get the Html Icon class for the success icon.
+	 *
+	 * @return the parameter value, or "fa-check-circle" if not set.
+	 */
+	public static String getHtmlIconClassSuccess() {
+		return get().getString(HTML_ICON_CLASS_SUCCESS, "fa-check-circle");
+	}
+
+	/**
+	 * Get the Html Icon class for the add icon.
+	 *
+	 * @return the parameter value, or "fa-plus-square" if not set.
+	 */
+	public static String getHtmlIconClassAdd() {
+		return get().getString(HTML_ICON_CLASS_ADD, "fa-plus-square");
+	}
+
+	/**
+	 * Get the Html Icon class for the delete icon.
+	 *
+	 * @return the parameter value, or "fa-minus-square" if not set.
+	 */
+	public static String getHtmlIconClassDelete() {
+		return get().getString(HTML_ICON_CLASS_DELETE, "fa-minus-square");
+	}
+
+	/**
+	 * Get the Html Icon class for the edit icon.
+	 *
+	 * @return the parameter value, or "fa-pencil" if not set.
+	 */
+	public static String getHtmlIconClassEdit() {
+		return get().getString(HTML_ICON_CLASS_EDIT, "fa-pencil");
+	}
+
+	/**
+	 * Get the Html Icon class for the save icon.
+	 *
+	 * @return the parameter value, or "fa-floppy-o" if not set.
+	 */
+	public static String getHtmlIconClassSave() {
+		return get().getString(HTML_ICON_CLASS_SAVE, "fa-floppy-o");
+	}
+
+	/**
+	 * Get the Html Icon class for the search icon.
+	 *
+	 * @return the parameter value, or "fa-search" if not set.
+	 */
+	public static String getHtmlIconClassSearch() {
+		return get().getString(HTML_ICON_CLASS_SEARCH, "fa-search");
+	}
+
+	/**
+	 * Get the Html Icon class for the cancel icon.
+	 *
+	 * @return the parameter value, or "fa-ban" if not set.
+	 */
+	public static String getHtmlIconClassCancel() {
+		return get().getString(HTML_ICON_CLASS_CANCEL, "fa-ban");
+	}
+
+	/**
+	 * Get the Html Icon class for the menu icon.
+	 *
+	 * @return the parameter value, or "fa-bars" if not set.
+	 */
+	public static String getHtmlIconClassMenu() {
+		return get().getString(HTML_ICON_CLASS_MENU, "fa-bars");
 	}
 
 	/**
@@ -1018,7 +1192,7 @@ public final class ConfigurationProperties {
 	 *
 	 * @return the parameter value if set, or 5 if not set.
 	 */
-	public static final long getTestSeleniumImplicitWait() {
+	public static long getTestSeleniumImplicitWait() {
 		return get().getLong(TEST_SELENIUM_IMPLICIT_WAIT, 5);
 	}
 
@@ -1078,7 +1252,7 @@ public final class ConfigurationProperties {
 	 *
 	 * @return the parameter value, or null if not set.
 	 */
-	public static final String getTestSeleniumParameterisedDriver() {
+	public static String getTestSeleniumParameterisedDriver() {
 		return get().getString(TEST_SELENIUM_PARAMETERISED_DRIVER);
 	}
 
@@ -1088,7 +1262,7 @@ public final class ConfigurationProperties {
 	 * @param testClassName the name of the current test class.
 	 * @return the parameter value, or the global default if not set.
 	 */
-	public static final String getTestSeleniumParameterisedDriver(final String testClassName) {
+	public static String getTestSeleniumParameterisedDriver(final String testClassName) {
 		String driver = get().getString(TEST_SELENIUM_PARAMETERISED_DRIVER + "." + testClassName);
 		return driver == null ? getTestSeleniumParameterisedDriver() : driver;
 	}
@@ -1098,7 +1272,7 @@ public final class ConfigurationProperties {
 	 *
 	 * @return the parameter value, or empty Properties if null.
 	 */
-	public static final Properties getTestSeleniumParameterisedDriverSysProperties() {
+	public static Properties getTestSeleniumParameterisedDriverSysProperties() {
 		return get().getProperties(TEST_SELENIUM_PARAMETERISED_DRIVER_SYS_PROPERTIES);
 	}
 

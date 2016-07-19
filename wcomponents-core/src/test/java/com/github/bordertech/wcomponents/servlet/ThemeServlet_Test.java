@@ -60,12 +60,12 @@ public class ThemeServlet_Test {
 		MockHttpServletResponse response = requestFile("ThemeServlet_Testfile.xsl", false);
 		Assert.assertEquals("Should have returned 200", HttpServletResponse.SC_OK, response.
 				getStatus());
-		Assert.assertEquals("Incorrect MIME type", ConfigurationProperties.getFileMimeTypeForExtension(".xsl"), response.getContentType());
+		Assert.assertEquals("Incorrect MIME type", ConfigurationProperties.getFileMimeTypeForExtension("xsl"), response.getContentType());
 
 		response = requestFile("ThemeServlet_Testfile.xsl", true);
 		Assert.assertEquals("Should have returned 200", HttpServletResponse.SC_OK, response.
 				getStatus());
-		Assert.assertEquals("Incorrect MIME type", ConfigurationProperties.getFileMimeTypeForExtension(".xsl"), response.getContentType());
+		Assert.assertEquals("Incorrect MIME type", ConfigurationProperties.getFileMimeTypeForExtension("xsl"), response.getContentType());
 	}
 
 	/**

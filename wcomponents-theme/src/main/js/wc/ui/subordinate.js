@@ -612,6 +612,8 @@ define(["wc/dom/tag",
 						}
 						shed.subscribe(shed.actions.SELECT, shedObserver);
 						shed.subscribe(shed.actions.DESELECT, shedObserver);
+						shed.subscribe(shed.actions.ENABLE, shedObserver);
+						shed.subscribe(shed.actions.DISABLE, shedObserver);
 						console.log("Subordinate rules exist: added listeners");
 					}
 				});

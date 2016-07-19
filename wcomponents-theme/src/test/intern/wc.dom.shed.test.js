@@ -521,11 +521,53 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			testHasDisabledAncestorFalse: function() {
 				assert.isFalse(controller.hasDisabledAncestor(document.getElementById("radioButtonGroup4_1")));
 			},
-			testHasHiddenAncestor: function() {
-				assert.isTrue(controller.hasHiddenAncestor(document.getElementById("radioButtonGroup4_1")));
+			testIsHiddenByAncestor: function() {
+				var test = document.getElementById("visibletests1");
+				assert.isFalse(controller.isHidden(test));
 			},
-			testHasHiddenAncestorFalse: function() {
-				assert.isFalse(controller.hasHiddenAncestor(document.getElementById("radioButtonGroup3_1")));
+			testIsHiddenByAncestorWithDisplay: function() {
+				var parent = document.getElementById("visibletests"),
+					test = document.getElementById("visibletests1");
+				try {
+					parent.style.display = "none";
+					assert.isTrue(controller.isHidden(test));
+				}
+				finally {
+					parent.style.display = "";
+				}
+			},
+			testIsHiddenByAncestorWithVisibility: function() {
+				var parent = document.getElementById("visibletests"),
+					test = document.getElementById("visibletests1");
+				try {
+					parent.style.visibility = "hidden";
+					assert.isTrue(controller.isHidden(test));
+				}
+				finally {
+					parent.style.visibility = "";
+				}
+			},
+			testIsHiddenByAncestorWithHidden: function() {
+				var parent = document.getElementById("visibletests"),
+					test = document.getElementById("visibletests1");
+				try {
+					parent.setAttribute("hidden", "hidden");
+					assert.isTrue(controller.isHidden(test));
+				}
+				finally {
+					parent.removeAttribute("hidden");
+				}
+			},
+			testIsHiddenByAncestorWithShedHide: function() {
+				var parent = document.getElementById("visibletests"),
+					test = document.getElementById("visibletests1");
+				try {
+					controller.hide(parent);
+					assert.isTrue(controller.isHidden(test));
+				}
+				finally {
+					controller.show(parent);
+				}
 			}
 		});
 	});

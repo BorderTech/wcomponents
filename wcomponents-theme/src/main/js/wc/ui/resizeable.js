@@ -504,7 +504,7 @@ define(["wc/dom/attribute",
 			 */
 			function bootstrap(element) {
 				var body = document.body;
-				if (!(attribute.get(element, BS) || shed.isHidden(element) || shed.hasHiddenAncestor(element))) {
+				if (!(attribute.get(element, BS) || shed.isHidden(element))) {
 					attribute.set(element, BS, true);
 					event.add(element, event.TYPE.mousedown, mousedownEvent);
 					event.add(element, event.TYPE.keydown, keydownEvent);

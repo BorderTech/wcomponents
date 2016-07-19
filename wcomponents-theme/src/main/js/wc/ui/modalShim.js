@@ -156,7 +156,7 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 				var shimElement, key, aKeyElement;
 				try {
 					shimElement = document.getElementById(MODAL_BACKGROUND_ID);
-					if (shimElement && !shed.isHidden(shimElement)) {
+					if (shimElement && !shed.isHidden(shimElement, true)) {
 						addRemoveEvents();
 						shimElement.className = "";
 						for (key in accessKeyMap) {
