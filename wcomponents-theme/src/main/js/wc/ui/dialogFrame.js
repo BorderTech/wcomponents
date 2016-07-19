@@ -164,7 +164,7 @@ define(["wc/dom/event",
 					form, formId;
 
 				if (dialog) {
-					if (shed.isHidden(dialog)) {
+					if (shed.isHidden(dialog, true)) {
 						return Promise.resolve(openDlgHelper(dto));
 					}
 					return Promise.reject(REJECT.ALREADY_OPEN);
@@ -193,7 +193,7 @@ define(["wc/dom/event",
 			function openDlgHelper(dto) {
 				var dialog = instance.getDialog();
 
-				if (dialog && shed.isHidden(dialog)) {
+				if (dialog && shed.isHidden(dialog, true)) {
 					if (dto && dto.openerId) {
 						openerId = dto.openerId;
 					}
@@ -488,7 +488,7 @@ define(["wc/dom/event",
 				else if (docFragment.getElementById && docFragment.getElementById(DIALOG_ID)) {
 					removeShim = true;
 				}
-				if (removeShim && (dialog = instance.getDialog()) && !shed.isHidden(dialog)) {
+				if (removeShim && (dialog = instance.getDialog()) && !shed.isHidden(dialog, true)) {
 					modalShim.clearShim(dialog);
 				}
 			}
@@ -506,7 +506,7 @@ define(["wc/dom/event",
 				if (element && (content = instance.getContent()) && content.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY) {
 					dialog = instance.getDialog();
 					// if we are refreshing inside the dialog we may need to reposition
-					if (!shed.isHidden(dialog)) {  // it damn well better not be
+					if (!shed.isHidden(dialog, true)) {  // it damn well better not be
 						if (!(dialog.style.width && dialog.style.height)) {
 							// we have not got a fixed or user-created size so we will resize automatically
 							instance.reposition();
@@ -574,7 +574,7 @@ define(["wc/dom/event",
 			 */
 			this.close = function() {
 				var dialog = this.getDialog();
-				if (dialog && !shed.isHidden(dialog)) {
+				if (dialog && !shed.isHidden(dialog, true)) {
 					shed.hide(dialog);
 					return true;
 				}
@@ -651,7 +651,7 @@ define(["wc/dom/event",
 				var dialog;
 				if (!$event.defaultPrevented && CLOSE_WD.findAncestor($event.target)) {
 					dialog = document.getElementById(DIALOG_ID);
-					if (dialog && !shed.isHidden(dialog)) {
+					if (dialog && !shed.isHidden(dialog, true)) {
 						instance.close();
 						$event.preventDefault();
 					}
@@ -706,7 +706,7 @@ define(["wc/dom/event",
 					dialog,
 					result = false,
 					keyCode = $event.keyCode;
-				if (!$event.defaultPrevented && (dialog = document.getElementById(DIALOG_ID)) && !shed.isHidden(dialog)) {
+				if (!$event.defaultPrevented && (dialog = document.getElementById(DIALOG_ID)) && !shed.isHidden(dialog, true)) {
 					switch (keyCode) {
 						case KeyEvent.DOM_VK_ESCAPE:
 							result = instance.close();
@@ -737,7 +737,7 @@ define(["wc/dom/event",
 			function resizeEventHelper() {
 				var dialog = document.getElementById(DIALOG_ID);
 
-				if (!dialog || shed.isHidden(dialog)) {
+				if (!dialog || shed.isHidden(dialog, true)) {
 					return;
 				}
 				setUnsetDimensionsPosition(dialog);

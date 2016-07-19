@@ -1,0 +1,20 @@
+<div id="{{id}}"
+	role="presentation"
+	class="wc-submenu{{class}}"
+	{{#tooltip}}
+		title="{{.}}"
+	{{/tooltip}}
+>
+	<button type="button" role="menuitem" aria-haspopup="true" class="wc-nobutton wc-submenu-o{{opener.class}}"
+		{{#opener.tooltip}}
+		title="{{.}}"
+		{{/opener.tooltip}}
+		aria-controls="{{contentId}}">
+	</button>
+	<div id="{{contentId}}" class="wc_submenucontent wc-content" role="menu" aria-expanded="{{open}}">
+		<button class="wc-menuitem wc_closesubmenu wc-nobutton wc-icon wc-invite" role="menuitem" type="button">
+			<span class="wc-decoratedlabel"><span class="wc-labelbody wc_dlbl_seg">{{closeText}}</span></span>
+		</button>
+		{{{items}}}
+	</div>
+</div>

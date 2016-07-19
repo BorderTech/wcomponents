@@ -32,6 +32,8 @@
  * @requires module:wc/dom/Widget
  * @requires module:wc/dom/getLabelsForElement
  * @requires module:wc/dom/role
+ * @requires module:wc/dom/getStyle
+ * @requires module:wc/dom/getBox
  *
  * @todo re-order code, document private methods.
  */
@@ -43,9 +45,10 @@ define(["wc/Observer",
 		"wc/dom/tag",
 		"wc/dom/Widget",
 		"wc/dom/getLabelsForElement",
-		"wc/dom/role"],
-	/** @param Observer wc/Observer @param aria wc/dom/aria @param impliedAria wc/dom/impliedARIA @param classList wc/dom/classList @param disabledLink wc/dom/disabledLink @param tag wc/dom/tag @param Widget wc/dom/Widget @param getLabelsForElement wc/dom/getLabelsForElement @param $role wc/dom/role @ignore */
-	function(Observer, aria, impliedAria, classList, disabledLink, tag, Widget, getLabelsForElement, $role) {
+		"wc/dom/role",
+		"wc/dom/getStyle"],
+	/** @param Observer @param aria @param impliedAria @param classList @param disabledLink @param tag @param Widget @param getLabelsForElement @param $role @param getStyle @ignore */
+	function(Observer, aria, impliedAria, classList, disabledLink, tag, Widget, getLabelsForElement, $role, getStyle) {
 		"use strict";
 
 		/**
@@ -584,19 +587,6 @@ define(["wc/Observer",
 			};
 
 			/**
-			 * Determine if an element has an ancestor which is hidden. NOTE: now we can rely on an element not having
-			 * dimension if it is inside a hidden container we can probably do away with this.
-			 *
-			 * @function module:wc/dom/shed.hasHiddenAncestor
-			 * @param {Element} node The element to test
-			 * @param {String} [stopAt] a tag name which defines where we stop looking. If not defined we stop at BODY.
-			 * @returns {Boolean} true if the element has a hidden ancestor.
-			 */
-			this.hasHiddenAncestor = function(node, stopAt) {
-				return hasAncestorInState(node, "isHidden", stopAt);
-			};
-
-			/**
 			 * Determine if the element is disabled.
 			 *
 			 * @function module:wc/dom/shed.isDisabled
@@ -630,17 +620,41 @@ define(["wc/Observer",
 			 *
 			 * @function module:wc/dom/shed.isHidden
 			 * @param {Element} element The element to test.
+			 * @param {boolean} [onlyHiddenAttribute] if true base test only on the existance of the hidden attribute.
+			 *   This should only ever be used internally by toggle or for components which can _only_ be hidden by
+			 *   attribute (e.g. dialog with open attribute).
 			 * @returns {boolean} true if the element is hidden.
 			 */
-			this.isHidden = function (element) {
-				var result = false;
+			this.isHidden = function (element, onlyHiddenAttribute) {
+				var result, _el;
 				if (showWithOpen(element)) {
-					result = !element.hasAttribute(OPEN);
+					result = !element.getAttribute(OPEN);
 				}
 				else {
-					result = !!isThisMyAttribute(element, HIDDEN, HIDDEN);
+					result = !!element.getAttribute(HIDDEN);
 				}
-				return result;
+				if (onlyHiddenAttribute || result) {
+					return result;
+				}
+				// troublesome stuff inside hidden stuff.
+				_el = element;
+				if (element.nodeType !== Node.ELEMENT_NODE) {
+					if (element.nodeType === Node.TEXT_NODE) {
+						if (!element.parentNode) {
+							return false;
+						}
+						_el = element.parentNode;
+					}
+					// why are we testing a document or documentFragment?
+					return false;
+				}
+				if (_el.offsetWidth === 0 && _el.offsetHeight === 0) {
+					return true;
+				}
+				if (getStyle(_el, "visibility", false, true) === HIDDEN) {
+					return true;
+				}
+				return false;
 			};
 
 			/**
@@ -816,7 +830,7 @@ define(["wc/Observer",
 				switch (action) {
 					case actions.SHOW:
 					case actions.HIDE:
-						func = instance.isHidden(element) ? instance[actions.SHOW] : instance[actions.HIDE];
+						func = instance.isHidden(element, true) ? instance[actions.SHOW] : instance[actions.HIDE];
 						break;
 					case actions.ENABLE:
 					case actions.DISABLE:

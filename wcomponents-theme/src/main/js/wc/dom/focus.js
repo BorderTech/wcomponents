@@ -305,7 +305,7 @@ define(["wc/array/toArray",
 					 * unless the radio button is the first radio button in a group and none of the group's
 					 * radio buttons are checked.
 					 */
-					if (shed.isDisabled(element) || shed.isHidden(element) || element.type === "hidden" || getStyle(element, "visibility", false, true) === "hidden") {
+					if (shed.isDisabled(element) || shed.isHidden(element)) {
 						result = REJECT;
 					}
 					else if (tagName === tag.INPUT && element.type === "radio" && !shed.isSelected(element)) {

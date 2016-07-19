@@ -34,6 +34,7 @@ define(["wc/has"], function(has) {
 
 	if (has("ie") || has("trident")) {
 		result.push("wc/fix/disabledControl_ieAll");
+		result.push("wc/fix/defaultSubmit_ieAll");
 		if (has("ie-compat-mode")) {
 			/**
 			 * We do not support compatibility view.

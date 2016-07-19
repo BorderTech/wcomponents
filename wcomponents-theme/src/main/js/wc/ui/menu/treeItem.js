@@ -147,12 +147,14 @@ define(["wc/dom/ariaAnalog",
 			/**
 			 * If a tree has single selection then the selected state of the treeitems can be toggled by clicking whilst
 			 * holding the CTRL key (unlike, for example, a radio button or single-selectable option element).
-			 * @var
-			 * @type Boolean
-			 * @protected
 			 * @override
 			 */
 			this.ctrlAllowsDeselect = true;
+
+			/**
+			 * @override
+			 */
+			this.allowSelectSelected = true;
 
 			/**
 			 * Only select treeItem if the tree allows selection.

@@ -301,6 +301,17 @@ define(["wc/has",
 		AriaAnalog.prototype.ctrlAllowsDeselect = false;
 
 		/**
+		 * This property indicates that in a group of a particular type of selectable thing an item may be selected if
+		 * it is already selected in order to reset a group of selected items to a single selected item. Only applies
+		 * to multi selectable groups.
+		 * @var
+		 * @type Boolean
+		 * @default false
+		 * @protected
+		 */
+		AriaAnalog.prototype.allowSelectSelected = false;
+
+		/**
 		 * This property indicates that a particular type of mixed-mode multi selectable thing works like a check box
 		 * rather than an option. This is currently only implemented in row.
 		 * @var
@@ -473,12 +484,10 @@ define(["wc/has",
 						preventDefaultAction = true;
 					}
 				}
-				else if ((keyCode === KeyEvent.DOM_VK_SPACE || keyCode === KeyEvent.DOM_VK_RETURN) && !Widget.isOneOfMe(element, this.actionable)) {
+				else if (keyCode === KeyEvent.DOM_VK_SPACE && !Widget.isOneOfMe(element, this.actionable)) {
 					if (isAcceptableEventTarget(element, target)) {
 						this.activate(element, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
-						if (keyCode === KeyEvent.DOM_VK_SPACE) {
-							preventDefaultAction = true;  // preventDefault here otherwise you get a page scroll
-						}
+						preventDefaultAction = true;  // preventDefault here otherwise you get a page scroll
 					}
 				}
 				if (preventDefaultAction) {
@@ -558,7 +567,6 @@ define(["wc/has",
 						filter: function(el) {
 							/* the group filter EXCLUDES elements return true*/
 							var result = NodeFilter.FILTER_ACCEPT;
-							// return shed.isDisabled(el) || shed.isHidden(el);
 							if (shed.isDisabled(el) || shed.isHidden(el)) {
 								result = NodeFilter.FILTER_REJECT;
 							}
@@ -605,10 +613,13 @@ define(["wc/has",
 		function singleSelectActivateHelper(element, CTRL, instance) {
 			if (instance.simpleSelection || (CTRL && instance.ctrlAllowsDeselect)) {
 				shed.toggle(element, shed.actions.SELECT);
+				return;
 			}
-			else {
-				shed.select(element, shed.isSelected(element)); // do not publish a re-select selected / failed de-select.
+			if (instance.allowSelectSelected && !CTRL && shed.isSelected(element)) {
+				shed.select(element);
+				return;
 			}
+			shed.select(element, shed.isSelected(element)); // do not publish a re-select selected / failed de-select.
 		}
 
 		/**

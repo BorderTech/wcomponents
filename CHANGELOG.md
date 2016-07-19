@@ -1,19 +1,41 @@
 # Change log
+
 ## API Changes
-* The new (in 1.2.0) class HtmlClassUtil has been refactored to a properties enum and is now HtmlClassProperties (same
-  package). If you have already started using `HtmlClassUtil.HtmlClassName` should be replaced with
+
+## Bug Fixes
+
+## Enhancements
+
+# Release 1.2.1
+## API Changes
+* The new (in 1.2.0) class `HtmlClassUtil` has been refactored to a properties enum and is now `HtmlClassProperties`
+  (same package). If you have already started using `HtmlClassUtil.HtmlClassName` should be replaced with
   `HtmlClassProperties`.
-* Added a util class `com.github.bordertech.wcomponents.util.HtmlIconUtil` which supplies helpers to attach the ICON
-  classNames supplied by `HtmlClassProperties` and icons from Font Awesome which are not part of the common set.
 
 ## Bug Fixes
 * Updated DataListInterceptor and ServletUtil to allow DataLists to be sent as HTML rather than XML (#747).
+* Fixed various bugs in WTree client code (#768, #769, #770).
+* Fixed an issue in JavaScript `dom/shed` which could result in false negsatives when testing if a UI artefact is hidden
+  as exposed in `dom/getFilteredGroup` (#771).
+* Fixed accessibility issue with WAI-ARIA based controls (#765).
+* Fixed several client-side menu bugs (#755, #746, #741).
+* Fixed a bug which caused client-side validation of WDateField to throw an error (#757).
+* Fixed a bug which caused the work-around for IE's interesting form submission policy to fail (#740).
+* Fixed a bug in client-side code of WSubordinateControl which could result in a subordinate target being in the
+  incorrect state if its controller was disabled or enabled by another WSubordinateControl (#758)
 
 ## Enhancements
-* Updated HtmlClassUtil to:
-  * expose helpers for setting icon classes as Strings;
-  * add a menu icon to the `HtmlClassName` enum;
-  * provide getters to get the full WComponents icon setting HTML classNames for any provided Font Awesome icon name.
+* Updated `HtmlClassProperties` to add a menu icon to the enum.
+* Added a util class `com.github.bordertech.wcomponents.util.HtmlIconUtil` which supplies helpers to attach the ICON
+  classNames supplied by `HtmlClassProperties` and icons from Font Awesome which are not part of the common set.
+* Updated how CSS is loaded and applied to remove some mis-matches between JavaScript loading and CSS media queries
+  (#746).
+* Removed all deprecated media queries from Sass (min/max-device-width) (#745).
+* Updated "public" CSS classes to provide more options to components and WTemplates.
+* Updated the mechanism to collapse a menu (Type BAR) to a single submenu so that it is applied on request (setting
+  HTML class value `wc-respond`, may be applied to any WMenu of Type BAR or FLYOUT anywhere in the UI and is applied
+  based on viewport size rather than based on screen dimensions at load time (#520).
+* Reinstated Selenium tests (#10).
 
 # Release 1.2.0
 ## API Changes
