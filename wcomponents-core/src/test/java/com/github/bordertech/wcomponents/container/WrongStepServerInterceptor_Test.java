@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextImpl;
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.util.Config;
-import com.github.bordertech.wcomponents.util.StepCountUtil;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import junit.framework.Assert;
@@ -117,7 +117,7 @@ public class WrongStepServerInterceptor_Test extends AbstractWComponentTestCase 
 	public void testServiceRequestIncorrectSequenceWithRedirect() {
 		// Set redirect parameter
 		Configuration config = Config.copyConfiguration(originalConfig);
-		config.addProperty(StepCountUtil.STEP_ERROR_URL_PARAMETER_KEY, "test.url");
+		config.addProperty(ConfigurationProperties.STEP_ERROR_URL, "test.url");
 		Config.setConfiguration(config);
 
 		uic.getEnvironment().setStep(3);

@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -194,10 +195,10 @@ public class WApplicationRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// Want to test with "tracking details set"
 		Configuration originalConfig = Config.getInstance();
 		Configuration config = Config.copyConfiguration(originalConfig);
-		config.setProperty("bordertech.wcomponents.tracking.clientid", "CID");
-		config.setProperty("bordertech.wcomponents.tracking.applicationname", "APPL");
-		config.setProperty("bordertech.wcomponents.tracking.cookiedomain", "CD");
-		config.setProperty("bordertech.wcomponents.tracking.datacollectiondomain", "DCD");
+		config.setProperty(ConfigurationProperties.TRACKING_CLIENT_ID, "CID");
+		config.setProperty(ConfigurationProperties.TRACKING_APPLICATION_NAME, "APPL");
+		config.setProperty(ConfigurationProperties.TRACKING_COOKIE_DOMAIN, "CD");
+		config.setProperty(ConfigurationProperties.TRACKING_DATA_COLLECTION_DOMAIN, "DCD");
 		Config.setConfiguration(config);
 
 		try {

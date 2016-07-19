@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.render.webxml.VelocityRenderer;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.Duplet;
 import com.github.bordertech.wcomponents.util.NullWriter;
 import com.github.bordertech.wcomponents.util.SystemException;
@@ -47,11 +48,6 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.0
  */
 public final class UIManager implements PropertyChangeListener {
-
-	/**
-	 * {@link Config Configuration} parameters key prefix for retrieving Renderer overrides.
-	 */
-	private static final String PARAM_KEY_OVERRIDE_PREFIX = "bordertech.wcomponents.UIManager.renderer.";
 
 	/**
 	 * The logger instance for this class.
@@ -264,8 +260,7 @@ public final class UIManager implements PropertyChangeListener {
 			String qualifiedClassName = c.getName();
 
 			// Is there an override for this class?
-			String rendererName = Config.getInstance().getString(
-					PARAM_KEY_OVERRIDE_PREFIX + qualifiedClassName, null);
+			String rendererName = ConfigurationProperties.getRendererOverride(qualifiedClassName);
 
 			if (rendererName != null) {
 				renderer = createRenderer(rendererName);

@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.render.webxml.AbstractWebXmlRendererTes
 import com.github.bordertech.wcomponents.servlet.WServlet;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class AjaxDebugStructureInterceptor_Test extends AbstractWebXmlRendererTe
 
 	@Test
 	public void testInterceptorDisabled() throws XpathException, SAXException, IOException {
-		Config.getInstance().setProperty("bordertech.wcomponents.debug.enabled", "false");
+		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_DEBUG_ENABLED, "false");
 		Config.notifyListeners();
 
 		MyApp app = new MyApp();
@@ -39,8 +40,8 @@ public class AjaxDebugStructureInterceptor_Test extends AbstractWebXmlRendererTe
 
 	@Test
 	public void testInterceptor() throws XpathException, SAXException, IOException {
-		Config.getInstance().setProperty("bordertech.wcomponents.debug.enabled", "true");
-		Config.getInstance().setProperty("bordertech.wcomponents.debug.clientSide.enabled", "true");
+		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_DEBUG_ENABLED, "true");
+		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_DEBUG_CLIENT_SIDE, "true");
 		Config.notifyListeners();
 
 		MyApp app = new MyApp();

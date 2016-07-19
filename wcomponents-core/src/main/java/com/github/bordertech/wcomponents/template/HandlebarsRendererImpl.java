@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.template;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.EscapingStrategy;
@@ -157,7 +157,6 @@ public class HandlebarsRendererImpl implements TemplateRenderer {
 		if (value != null && "true".equalsIgnoreCase(value.toString())) {
 			handlebars.registerHelper("md", new MarkdownHelper());
 		}*/
-
 		// Caching
 		if (isCaching()) {
 			handlebars.with(CACHE);
@@ -198,7 +197,7 @@ public class HandlebarsRendererImpl implements TemplateRenderer {
 	 * @return true if use caching
 	 */
 	protected boolean isCaching() {
-		return Config.getInstance().getBoolean("bordertech.wcomponents.handlebars.cache.enabled", Boolean.TRUE);
+		return ConfigurationProperties.getHandlebarsCache();
 	}
 
 }

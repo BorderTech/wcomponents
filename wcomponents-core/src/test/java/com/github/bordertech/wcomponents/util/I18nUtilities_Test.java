@@ -90,16 +90,16 @@ public class I18nUtilities_Test {
 	public void testFormatInternalMessage() {
 		// With resource bundle set but no locale-specific text, should drop back to text in messages.properties.
 		String result = I18nUtilities.format(PROVIDED_LOCALE,
-				"bordertech.wcomponents.message.printButton");
+				ConfigurationProperties.INTERNAL_MESSAGE_PREFIX + "printButton");
 		Assert.assertEquals("Incorrect text", "Print", result);
 
 		// Without resource bundle set, should still drop back to text in messages.properties
 		try {
 			Configuration config = Config.getInstance();
-			config.clearProperty(I18nUtilities.RESOURCE_BUNDLE_BASE_NAME_CONFIG_KEY);
+			config.clearProperty(ConfigurationProperties.I18N_RESOURCE_BUNDLE_BASE_NAME);
 
 			result = I18nUtilities.format(PROVIDED_LOCALE,
-					"bordertech.wcomponents.message.printButton");
+					ConfigurationProperties.INTERNAL_MESSAGE_PREFIX + "printButton");
 			Assert.assertEquals("Incorrect text", "Print", result);
 		} finally {
 			Config.reset();

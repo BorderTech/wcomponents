@@ -4,10 +4,12 @@ package com.github.bordertech.wcomponents.util;
  * Provides an enum which can be used to add HTML class attribute values to components.
  *
  * <p>
- * Included are values representing common icons. By default these will apply icons from the <a href="http://fontawesome.io/icons/">Font Awesome</a>
- * library included with the default theme. Each icon may be individually overridden using a configuration property. Each overrideable icon includes
- * documentation of the configuration parameter used to set the icon's HTML class attribute value. If the default icons are changed your theme must
- * include a way to ensure the new icon is available. This is safest if simply changing to an alternate
+ * Included are values representing common icons. By default these will apply icons from the
+ * <a href="http://fontawesome.io/icons/">Font Awesome</a>
+ * library included with the default theme. Each icon may be individually overridden using a configuration property.
+ * Each overrideable icon includes documentation of the configuration parameter used to set the icon's HTML class
+ * attribute value. If the default icons are changed your theme must include a way to ensure the new icon is available.
+ * This is safest if simply changing to an alternate
  * <a href="http://fontawesome.io/icons/">Font Awesome</a> icon.
  * </p>
  *
@@ -21,19 +23,21 @@ public enum HtmlClassProperties {
 	 *
 	 * <p>
 	 * Should not be used with {@link com.github.bordertech.wcomponents.WColumn}, {@link com.github.bordertech.wcomponents.WList},
-	 * {@link com.github.bordertech.wcomponents.layout.ListLayout} or {@link com.github.bordertech.wcomponents.layout.ColumnLayout} as these all have
-	 * the ability to set alignment intrinsically to the component/layout.
+	 * {@link com.github.bordertech.wcomponents.layout.ListLayout} or
+	 * {@link com.github.bordertech.wcomponents.layout.ColumnLayout} as these all have the ability to set alignment
+	 * intrinsically to the component/layout.
 	 * </p>
 	 */
 	ALIGN_CENTER("wc-align-center"),
 	/**
-	 * Left align the content of any component. This is not terribly useful as this is the default alignment but can be used to re-set alignment if
-	 * one has used {@link #ALIGN_CENTER} or {@link #ALIGN_CENTER}.
+	 * Left align the content of any component. This is not terribly useful as this is the default alignment but can be
+	 * used to re-set alignment if one has used {@link #ALIGN_CENTER} or {@link #ALIGN_CENTER}.
 	 *
 	 * <p>
 	 * Should not be used with {@link com.github.bordertech.wcomponents.WColumn}, {@link com.github.bordertech.wcomponents.WList},
-	 * {@link com.github.bordertech.wcomponents.layout.ListLayout} or {@link com.github.bordertech.wcomponents.layout.ColumnLayout} as these all have
-	 * the ability to set alignment intrinsically to the component/layout.
+	 * {@link com.github.bordertech.wcomponents.layout.ListLayout} or
+	 * {@link com.github.bordertech.wcomponents.layout.ColumnLayout} as these all have the ability to set alignment
+	 * intrinsically to the component/layout.
 	 * </p>
 	 */
 	ALIGN_LEFT("wc-align-left"),
@@ -42,70 +46,79 @@ public enum HtmlClassProperties {
 	 *
 	 * <p>
 	 * Should not be used with {@link com.github.bordertech.wcomponents.WColumn}, {@link com.github.bordertech.wcomponents.WList},
-	 * {@link com.github.bordertech.wcomponents.layout.ListLayout} or {@link com.github.bordertech.wcomponents.layout.ColumnLayout} as these all have
-	 * the ability to set alignment intrinsically to the component/layout.
+	 * {@link com.github.bordertech.wcomponents.layout.ListLayout} or
+	 * {@link com.github.bordertech.wcomponents.layout.ColumnLayout} as these all have the ability to set alignment
+	 * intrinsically to the component/layout.
 	 * </p>
 	 */
 	ALIGN_RIGHT("wc-align-right"),
 	/**
 	 * Make a container scroll horizontally if its content does not fit. Probably only really useful for
-	 * {@link com.github.bordertech.wcomponents.WTable}. Using this on any component which contains menus or date fields may have unexpected
-	 * consequences.
+	 * {@link com.github.bordertech.wcomponents.WTable}. Using this on any component which contains menus or date fields
+	 * may have unexpected consequences.
 	 */
 	HORIZONTAL_SCROLL("wc-hscroll"),
 	/**
 	 * Move a component out of the viewport but leave it available for accessibility purposes. This is most useful for
-	 * {@link com.github.bordertech.wcomponents.WHeading} to set accessibility markers but can be used for other explanatory components. Move a
-	 * component out of the viewport but leave it available for accessibility purposes. This is most useful for
-	 * {@link com.github.bordertech.wcomponents.WHeading} to set accessibility markers but can be used for other explanatory components.
+	 * {@link com.github.bordertech.wcomponents.WHeading} to set accessibility markers but can be used for other
+	 * explanatory components. Move a component out of the viewport but leave it available for accessibility purposes.
+	 * This is most useful for {@link com.github.bordertech.wcomponents.WHeading} to set accessibility markers but can
+	 * be used for other explanatory components.
 	 *
 	 * <p>
-	 * For example one could use this with {@link com.github.bordertech.wcomponents.WStyledText} with whitespace PARAGRAPHS to add some explanatory
-	 * information for visually impaired users if one's UI design is dependent on visual context.</p>
+	 * For example one could use this with {@link com.github.bordertech.wcomponents.WStyledText} with whitespace
+	 * PARAGRAPHS to add some explanatory information for visually impaired users if one's UI design is dependent on
+	 * visual context.</p>
 	 */
 	OFF_SCREEN("wc-off"),
 	/**
-	 * Indicates that this component will opt-in to responsive design options. This is usually relevant to layout components such as
+	 * Indicates that this component will opt-in to responsive design options. This is usually relevant to layout
+	 * components such as
 	 * {@link com.github.bordertech.wcomponents.WPanel}, {@link com.github.bordertech.wcomponents.WTable} or
 	 * {@link com.github.bordertech.wcomponents.WRow}
 	 */
 	/**
-	 * Indicates that this component will opt-in to responsive design options. This is usually relevant to layout components such as
-	 * {@link com.github.bordertech.wcomponents.WPanel} or {@link com.github.bordertech.wcomponents.WRow}
+	 * Indicates that this component will opt-in to responsive design options. This is usually relevant to layout
+	 * components such as {@link com.github.bordertech.wcomponents.WPanel} or
+	 * {@link com.github.bordertech.wcomponents.WRow}
 	 */
 	RESPOND("wc-respond"),
 	// ICONS
 
 	/**
-	 * Apply an icon to a component. The icon will appear before any other content in the component. If you have other visible content in the
-	 * component you may prefer to use {@link #ICON_BEFORE} which will put a small gap between the icon and the following content.
+	 * Apply an icon to a component. The icon will appear before any other content in the component. If you have other
+	 * visible content in the component you may prefer to use {@link #ICON_BEFORE} which will put a small gap between
+	 * the icon and the following content.
 	 *
 	 * <p>
 	 * Must be used in conjunction with another value available to your theme. By default these are from
-	 * <a href="http://fontawesome.io/icons/">Font Awesome</a>. This is extremely useful for {@link com.github.bordertech.wcomponents.WButton} or
-	 * {@link com.github.bordertech.wcomponents.WLink} when the component has no other visible content.
+	 * <a href="http://fontawesome.io/icons/">Font Awesome</a>. This is extremely useful for
+	 * {@link com.github.bordertech.wcomponents.WButton} or {@link com.github.bordertech.wcomponents.WLink} when the
+	 * component has no other visible content.
 	 * </p>
 	 */
 	ICON("wc-icon"),
 	/**
-	 * Apply an icon to the end of a component. The icon will appear after any other content in the component and there will be a small gap between
-	 * the end of the content and the icon.
+	 * Apply an icon to the end of a component. The icon will appear after any other content in the component and there
+	 * will be a small gap between the end of the content and the icon.
 	 *
 	 * <p>
 	 * Must be used in conjunction with another value available to your theme. By default these are from
-	 * <a href="http://fontawesome.io/icons/">Font Awesome</a>. This is extremely useful for {@link com.github.bordertech.wcomponents.WButton} or
-	 * {@link com.github.bordertech.wcomponents.WLink} when the component has visible text.
+	 * <a href="http://fontawesome.io/icons/">Font Awesome</a>. This is extremely useful for
+	 * {@link com.github.bordertech.wcomponents.WButton} or {@link com.github.bordertech.wcomponents.WLink} when the
+	 * component has visible text.
 	 * </p>
 	 */
 	ICON_AFTER("wc-icon-after"),
 	/**
-	 * Apply an icon to the beginning of a component. The icon will appear before any other content in the component.and there will be a small gap
-	 * between the icon and the content.
+	 * Apply an icon to the beginning of a component. The icon will appear before any other content in the component.and
+	 * there will be a small gap between the icon and the content.
 	 *
 	 * <p>
 	 * Must be used in conjunction with another value available to your theme. By default these are from
-	 * <a href="http://fontawesome.io/icons/">Font Awesome</a>. This is extremely useful for {@link com.github.bordertech.wcomponents.WButton} or
-	 * {@link com.github.bordertech.wcomponents.WLink} when the component has visible text.
+	 * <a href="http://fontawesome.io/icons/">Font Awesome</a>. This is extremely useful for
+	 * {@link com.github.bordertech.wcomponents.WButton} or {@link com.github.bordertech.wcomponents.WLink} when the
+	 * component has visible text.
 	 * </p>
 	 */
 	ICON_BEFORE("wc-icon-before"),
@@ -117,93 +130,102 @@ public enum HtmlClassProperties {
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.help".</p>
 	 */
-	ICON_HELP("wc-icon ", "com.github.bordertech.wcomponents.HtmlClass.icon.help", "fa-question-circle"),
+	ICON_HELP("wc-icon ", ConfigurationProperties.getHtmlIconClassHelp()),
 	/**
 	 * Apply a "help" icon to the end of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.help".</p>
 	 */
-	ICON_HELP_AFTER("wc-icon-after ", "com.github.bordertech.wcomponents.HtmlClass.icon.help", "fa-question-circle"),
+	ICON_HELP_AFTER("wc-icon-after ", ConfigurationProperties.getHtmlIconClassHelp()),
 	/**
 	 * Apply a "help" icon to the beginning of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.help".</p>
 	 */
-	ICON_HELP_BEFORE("wc-icon-before ", "com.github.bordertech.wcomponents.HtmlClass.icon.help", "fa-question-circle"),
+	ICON_HELP_BEFORE("wc-icon-before ", ConfigurationProperties.getHtmlIconClassHelp()),
 	// STATUS ICONS
 
 	/**
-	 * Apply an "information" icon to a component. Do not use with {@link com.github.bordertech.wcomponents.WMessageBox}.
+	 * Apply an "information" icon to a component. Do not use with
+	 * {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.info".</p>
 	 */
-	ICON_INFO("wc-icon ", "com.github.bordertech.wcomponents.HtmlClass.icon.info", "fa-info-circle"),
+	ICON_INFO("wc-icon ", ConfigurationProperties.getHtmlIconClassInfo()),
 	/**
-	 * Apply an "information" icon to the end of a component. Do not use with {@link com.github.bordertech.wcomponents.WMessageBox}.
+	 * Apply an "information" icon to the end of a component. Do not use with
+	 * {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.info".</p>
 	 */
-	ICON_INFO_AFTER("wc-icon-after ", "com.github.bordertech.wcomponents.HtmlClass.icon.info", "fa-info-circle"),
+	ICON_INFO_AFTER("wc-icon-after ", ConfigurationProperties.getHtmlIconClassInfo()),
 	/**
-	 * Apply an "information" icon to the beginning of a component. Do not use with {@link com.github.bordertech.wcomponents.WMessageBox}.
+	 * Apply an "information" icon to the beginning of a component. Do not use with
+	 * {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.info".</p>
 	 */
-	ICON_INFO_BEFORE("wc-icon-before ", "com.github.bordertech.wcomponents.HtmlClass.icon.info", "fa-info-circle"),
+	ICON_INFO_BEFORE("wc-icon-before ", ConfigurationProperties.getHtmlIconClassInfo()),
 	/**
 	 * Apply a "warning" icon to a component. Do not use with {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.warn".</p>
 	 */
-	ICON_WARN("wc-icon ", "com.github.bordertech.wcomponents.HtmlClass.icon.warn", "fa-exclamation-triangle"),
+	ICON_WARN("wc-icon ", ConfigurationProperties.getHtmlIconClassWarn()),
 	/**
-	 * Apply a "warning" icon to the end of a component. Do not use with {@link com.github.bordertech.wcomponents.WMessageBox}.
+	 * Apply a "warning" icon to the end of a component. Do not use with
+	 * {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.warn".</p>
 	 */
-	ICON_WARN_AFTER("wc-icon-after ", "com.github.bordertech.wcomponents.HtmlClass.icon.warn", "fa-exclamation-triangle"),
+	ICON_WARN_AFTER("wc-icon-after ", ConfigurationProperties.getHtmlIconClassWarn()),
 	/**
-	 * Apply a "warning" icon to the end of a component. Do not use with {@link com.github.bordertech.wcomponents.WMessageBox}.
+	 * Apply a "warning" icon to the end of a component. Do not use with
+	 * {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.warn".</p>
 	 */
-	ICON_WARN_BEFORE("wc-icon-before ", "com.github.bordertech.wcomponents.HtmlClass.icon.warn", "fa-exclamation-triangle"),
+	ICON_WARN_BEFORE("wc-icon-before ", ConfigurationProperties.getHtmlIconClassWarn()),
 	/**
 	 * Apply an "error" icon to a component. Do not use with {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.error".</p>
 	 */
-	ICON_ERROR("wc-icon ", "com.github.bordertech.wcomponents.HtmlClass.icon.error", "fa-minus-circle"),
+	ICON_ERROR("wc-icon ", ConfigurationProperties.getHtmlIconClassError()),
 	/**
-	 * Apply an "error" icon to the end of a component. Do not use with {@link com.github.bordertech.wcomponents.WMessageBox}.
+	 * Apply an "error" icon to the end of a component. Do not use with
+	 * {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.error".</p>
 	 */
-	ICON_ERROR_AFTER("wc-icon-after ", "com.github.bordertech.wcomponents.HtmlClass.icon.error", "fa-minus-circle"),
+	ICON_ERROR_AFTER("wc-icon-after ", ConfigurationProperties.getHtmlIconClassError()),
 	/**
-	 * Apply an "error" icon to the beginning of a component. Do not use with {@link com.github.bordertech.wcomponents.WMessageBox}.
+	 * Apply an "error" icon to the beginning of a component. Do not use with
+	 * {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.error".</p>
 	 */
-	ICON_ERROR_BEFORE("wc-icon-before ", "com.github.bordertech.wcomponents.HtmlClass.icon.error", "fa-minus-circle"),
+	ICON_ERROR_BEFORE("wc-icon-before ", ConfigurationProperties.getHtmlIconClassError()),
 	/**
 	 * Apply a "success" icon to a component. Do not use with {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.success".</p>
 	 */
-	ICON_SUCCESS("wc-icon ", "com.github.bordertech.wcomponents.HtmlClass.icon.success", "fa-check-circle"),
+	ICON_SUCCESS("wc-icon ", ConfigurationProperties.getHtmlIconClassSuccess()),
 	/**
-	 * Apply a "success" icon to the end of a component. Do not use with {@link com.github.bordertech.wcomponents.WMessageBox}.
+	 * Apply a "success" icon to the end of a component. Do not use with
+	 * {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.success".</p>
 	 */
-	ICON_SUCCESS_AFTER("wc-icon-after ", "com.github.bordertech.wcomponents.HtmlClass.icon.success", "fa-check-circle"),
+	ICON_SUCCESS_AFTER("wc-icon-after ", ConfigurationProperties.getHtmlIconClassSuccess()),
 	/**
-	 * Apply a "success" icon to the beginning of a component. Do not use with {@link com.github.bordertech.wcomponents.WMessageBox}.
+	 * Apply a "success" icon to the beginning of a component. Do not use with
+	 * {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.success".</p>
 	 */
-	ICON_SUCCESS_BEFORE("wc-icon-before ", "com.github.bordertech.wcomponents.HtmlClass.icon.success", "fa-check-circle"),
+	ICON_SUCCESS_BEFORE("wc-icon-before ", ConfigurationProperties.getHtmlIconClassSuccess()),
 	// ACTION ICONS
 
 	/**
@@ -211,127 +233,131 @@ public enum HtmlClassProperties {
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.add".</p>
 	 */
-	ICON_ADD("wc-icon ", "com.github.bordertech.wcomponents.HtmlClass.icon.add", "fa-plus-square"),
+	ICON_ADD("wc-icon ", ConfigurationProperties.getHtmlIconClassAdd()),
 	/**
-	 * Add an "add" icon to the end of a component. The default icon is the same as is used in WMultiTextField and WMultiDropdown.
+	 * Add an "add" icon to the end of a component. The default icon is the same as is used in WMultiTextField and
+	 * WMultiDropdown.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.add".</p>
 	 */
-	ICON_ADD_AFTER("wc-icon-after ", "com.github.bordertech.wcomponents.HtmlClass.icon.add", "fa-plus-square"),
+	ICON_ADD_AFTER("wc-icon-after ", ConfigurationProperties.getHtmlIconClassAdd()),
 	/**
-	 * Add an "add" icon to the beginning of a component. The default icon is the same as is used in WMultiTextField and WMultiDropdown.
+	 * Add an "add" icon to the beginning of a component. The default icon is the same as is used in WMultiTextField and
+	 * WMultiDropdown.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.add".</p>
 	 */
-	ICON_ADD_BEFORE("wc-icon-before ", "com.github.bordertech.wcomponents.HtmlClass.icon.add", "fa-plus-square"),
+	ICON_ADD_BEFORE("wc-icon-before ", ConfigurationProperties.getHtmlIconClassAdd()),
 	/**
 	 * Add a "delete" icon. The default icon is the same as is used in WMultiTextField and WMultiDropdown.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.delete".</p>
 	 */
-	ICON_DELETE("wc-icon ", "com.github.bordertech.wcomponents.HtmlClass.icon.delete", "fa-minus-square"),
+	ICON_DELETE("wc-icon ", ConfigurationProperties.getHtmlIconClassDelete()),
 	/**
-	 * Add a "delete" icon to the end of a component. The default icon is the same as is used in WMultiTextField and WMultiDropdown.
+	 * Add a "delete" icon to the end of a component. The default icon is the same as is used in WMultiTextField and
+	 * WMultiDropdown.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.delete".</p>
 	 */
-	ICON_DELETE_AFTER("wc-icon-after ", "com.github.bordertech.wcomponents.HtmlClass.icon.delete", "fa-minus-square"),
+	ICON_DELETE_AFTER("wc-icon-after ", ConfigurationProperties.getHtmlIconClassDelete()),
 	/**
-	 * Add a "delete" icon to the beginning of a component. The default icon is the same as is used in WMultiTextField and WMultiDropdown.
+	 * Add a "delete" icon to the beginning of a component. The default icon is the same as is used in WMultiTextField
+	 * and WMultiDropdown.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.delete".</p>
 	 */
-	ICON_DELETE_BEFORE("wc-icon-before ", "com.github.bordertech.wcomponents.HtmlClass.icon.delete", "fa-minus-square"),
+	ICON_DELETE_BEFORE("wc-icon-before ", ConfigurationProperties.getHtmlIconClassDelete()),
 	/**
 	 * Add an "edit" icon.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.edit".</p>
 	 */
-	ICON_EDIT("wc-icon ", "com.github.bordertech.wcomponents.HtmlClass.icon.edit", "fa-pencil"),
+	ICON_EDIT("wc-icon ", ConfigurationProperties.getHtmlIconClassEdit()),
 	/**
 	 * Add an "edit" icon to the end of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.edit".</p>
 	 */
-	ICON_EDIT_AFTER("wc-icon-after ", "com.github.bordertech.wcomponents.HtmlClass.icon.edit", "fa-pencil"),
+	ICON_EDIT_AFTER("wc-icon-after ", ConfigurationProperties.getHtmlIconClassEdit()),
 	/**
 	 * Add an "edit" icon to the beginning of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.edit".</p>
 	 */
-	ICON_EDIT_BEFORE("wc-icon-before ", "com.github.bordertech.wcomponents.HtmlClass.icon.edit", "fa-pencil"),
+	ICON_EDIT_BEFORE("wc-icon-before ", ConfigurationProperties.getHtmlIconClassEdit()),
 	/**
 	 * Add a "save" icon.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.save".</p>
 	 */
-	ICON_SAVE("wc-icon ", "com.github.bordertech.wcomponents.HtmlClass.icon.save", "fa-floppy-o"),
+	ICON_SAVE("wc-icon ", ConfigurationProperties.getHtmlIconClassSave()),
 	/**
 	 * Add a "save" icon to the end of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.save".</p>
 	 */
-	ICON_SAVE_AFTER("wc-icon-after ", "com.github.bordertech.wcomponents.HtmlClass.icon.save", "fa-floppy-o"),
+	ICON_SAVE_AFTER("wc-icon-after ", ConfigurationProperties.getHtmlIconClassSave()),
 	/**
 	 * Add a "save" icon to the beginning of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.save".</p>
 	 */
-	ICON_SAVE_BEFORE("wc-icon-before ", "com.github.bordertech.wcomponents.HtmlClass.icon.save", "fa-floppy-o"),
+	ICON_SAVE_BEFORE("wc-icon-before ", ConfigurationProperties.getHtmlIconClassSave()),
 	/**
 	 * Add a "search" icon.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.search".</p>
 	 */
-	ICON_SEARCH("wc-icon ", "com.github.bordertech.wcomponents.HtmlClass.icon.seaarch", "fa-search"),
+	ICON_SEARCH("wc-icon ", ConfigurationProperties.getHtmlIconClassSearch()),
 	/**
 	 * Add a "search" icon to the end of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.search".</p>
 	 */
-	ICON_SEARCH_AFTER("wc-icon-after ", "com.github.bordertech.wcomponents.HtmlClass.icon.seaarch", "fa-search"),
+	ICON_SEARCH_AFTER("wc-icon-after ", ConfigurationProperties.getHtmlIconClassSearch()),
 	/**
 	 * Add a "search" icon to the beginning of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.search".</p>
 	 */
-	ICON_SEARCH_BEFORE("wc-icon-before ", "com.github.bordertech.wcomponents.HtmlClass.icon.seaarch", "fa-search"),
+	ICON_SEARCH_BEFORE("wc-icon-before ", ConfigurationProperties.getHtmlIconClassSearch()),
 	/**
 	 * Add a "cancel" icon.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.cancel".</p>
 	 */
-	ICON_CANCEL("wc-icon ", "com.github.bordertech.wcomponents.HtmlClass.icon.cancel", "fa-ban"),
+	ICON_CANCEL("wc-icon ", ConfigurationProperties.getHtmlIconClassCancel()),
 	/**
 	 * Add a "cancel" icon to the end of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.cancel".</p>
 	 */
-	ICON_CANCEL_AFTER("wc-icon-after ", "com.github.bordertech.wcomponents.HtmlClass.icon.cancel", "fa-ban"),
+	ICON_CANCEL_AFTER("wc-icon-after ", ConfigurationProperties.getHtmlIconClassCancel()),
 	/**
 	 * Add a "cancel" icon to the beginning of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.cancel".</p>
 	 */
-	ICON_CANCEL_BEFORE("wc-icon-before ", "com.github.bordertech.wcomponents.HtmlClass.icon.cancel", "fa-ban"),
+	ICON_CANCEL_BEFORE("wc-icon-before ", ConfigurationProperties.getHtmlIconClassCancel()),
 	/**
 	 * Add a "menu" icon.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.menu".</p>
 	 */
-	ICON_MENU("wc-icon ", "com.github.bordertech.wcomponents.HtmlClass.icon.manu", "fa-bars"),
+	ICON_MENU("wc-icon ", ConfigurationProperties.getHtmlIconClassMenu()),
 	/**
 	 * Add a "menu" icon to the end of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.menu".</p>
 	 */
-	ICON_MENU_AFTER("wc-icon-after ", "com.github.bordertech.wcomponents.HtmlClass.icon.manu", "fa-bars"),
+	ICON_MENU_AFTER("wc-icon-after ", ConfigurationProperties.getHtmlIconClassMenu()),
 	/**
 	 * Add a "menu" icon to the beginning of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.menu".</p>
 	 */
-	ICON_MENU_BEFORE("wc-icon-before ", "com.github.bordertech.wcomponents.HtmlClass.icon.manu", "fa-bars");
+	ICON_MENU_BEFORE("wc-icon-before ", ConfigurationProperties.getHtmlIconClassMenu());
 	// END OF ICONS
 	private final String className;
 
@@ -348,14 +374,12 @@ public enum HtmlClassProperties {
 	 * Instantiate an item in the enum with config options.
 	 *
 	 * @param className the string value of the item
-	 * @param configProperty the name of the config property used to get the icon className
-	 * @param fallback the default icon className
+	 * @param iconClassName the classname for the icon
 	 */
-	HtmlClassProperties(final String className, final String configProperty, final String fallback) {
-		if (null == configProperty) {
+	HtmlClassProperties(final String className, final String iconClassName) {
+		if (null == iconClassName) {
 			this.className = className;
 		} else {
-			String iconClassName = Config.getInstance().getString(configProperty, fallback);
 			this.className = className.concat(iconClassName);
 		}
 	}

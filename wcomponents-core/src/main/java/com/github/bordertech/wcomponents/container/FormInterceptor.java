@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 
 /**
  * This interceptor is used as the top-level component in both Portlet and Servlet environments.
@@ -60,8 +60,7 @@ public class FormInterceptor extends InterceptorComponent {
 		UIContext uic = UIContextHolder.getCurrent();
 
 		if (uic.isFocusRequired()) {
-			boolean sticky = Config.getInstance().getBoolean("bordertech.wcomponents.stickyFocus",
-					false);
+			boolean sticky = ConfigurationProperties.getStickyFocus();
 
 			if (!sticky) {
 				uic.setFocussed(null, null);

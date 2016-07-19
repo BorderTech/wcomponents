@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.servlet;
 
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletRequest;
 import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletResponse;
 import com.github.bordertech.wcomponents.util.mock.servlet.MockServletConfig;
@@ -60,14 +60,12 @@ public class ThemeServlet_Test {
 		MockHttpServletResponse response = requestFile("ThemeServlet_Testfile.xsl", false);
 		Assert.assertEquals("Should have returned 200", HttpServletResponse.SC_OK, response.
 				getStatus());
-		Assert.assertEquals("Incorrect MIME type", Config.getInstance().getString(
-				"bordertech.wcomponents.mimeType.xsl"), response.getContentType());
+		Assert.assertEquals("Incorrect MIME type", ConfigurationProperties.getFileMimeTypeForExtension("xsl"), response.getContentType());
 
 		response = requestFile("ThemeServlet_Testfile.xsl", true);
 		Assert.assertEquals("Should have returned 200", HttpServletResponse.SC_OK, response.
 				getStatus());
-		Assert.assertEquals("Incorrect MIME type", Config.getInstance().getString(
-				"bordertech.wcomponents.mimeType.xsl"), response.getContentType());
+		Assert.assertEquals("Incorrect MIME type", ConfigurationProperties.getFileMimeTypeForExtension("xsl"), response.getContentType());
 	}
 
 	/**

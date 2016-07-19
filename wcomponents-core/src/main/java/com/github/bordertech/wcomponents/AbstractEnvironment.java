@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.Util;
 import java.util.HashMap;
 import java.util.Map;
@@ -80,24 +80,22 @@ public abstract class AbstractEnvironment implements Environment {
 	 */
 	@Override
 	public String getWServletPath() {
-		if (Config.getInstance().getString(Environment.SUPPORT_SERVLET_PATH) != null) {
-			return getServletPath(Environment.SUPPORT_SERVLET_PATH);
-		}
 
-		return getPostPath();
+		final String configValue = ConfigurationProperties.getServletSupportPath();
+
+		return configValue == null ? getPostPath() : getServletPath(configValue);
 	}
 
 	/**
 	 * Constructs the path to one of the various helper servlets. This is used by the more specific getXXXPath methods.
 	 *
-	 * @param paramName the name of the parameter which holds the relative servlet path.
+	 * @param relativePath the relative servlet path.
 	 * @return the path to the servlet corresponding to the given parameter name.
 	 */
-	private String getServletPath(final String paramName) {
-		String relativePath = Config.getInstance().getString(paramName);
+	private String getServletPath(final String relativePath) {
 
 		if (relativePath == null) {
-			LOG.error("The servlet path " + paramName + " has not been defined.");
+			LOG.error("relativePath must not be null");
 		}
 
 		String context = getHostFreeBaseUrl();
@@ -114,7 +112,7 @@ public abstract class AbstractEnvironment implements Environment {
 	 */
 	@Override
 	public String getThemePath() {
-		String themePath = Config.getInstance().getString(Environment.THEME_CONTENT_PATH);
+		String themePath = ConfigurationProperties.getThemeContentPath();
 
 		// No theme path, so use the main servlet to feed up the theme resources
 		if (Util.empty(themePath)) {

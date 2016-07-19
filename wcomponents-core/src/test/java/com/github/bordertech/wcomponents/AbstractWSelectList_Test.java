@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.TestLookupTable.DayOfWeekTable;
 import com.github.bordertech.wcomponents.TestLookupTable.YesNoTable;
 import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +37,7 @@ public class AbstractWSelectList_Test extends AbstractWComponentTestCase {
 		CompositeConfiguration config = new CompositeConfiguration(originalConfig);
 
 		MapConfiguration overrides = new MapConfiguration(new HashMap<String, Object>());
-		overrides.setProperty("bordertech.wcomponents.integrity.terminate.mode", "true");
+		overrides.setProperty(ConfigurationProperties.INTEGRITY_ERROR_MODE, "true");
 		config.addConfiguration(overrides);
 
 		Config.setConfiguration(config);
