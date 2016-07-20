@@ -11,9 +11,10 @@ import com.github.bordertech.wcomponents.util.Util;
  *
  * @author Yiannis Paschalidis
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
-final class WMultiTextFieldRenderer extends AbstractWebXmlRenderer {
+class WMultiTextFieldRenderer extends AbstractWebXmlRenderer {
 
 	/**
 	 * Paints the given WMultiTextField.
@@ -25,29 +26,36 @@ final class WMultiTextFieldRenderer extends AbstractWebXmlRenderer {
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		WMultiTextField textField = (WMultiTextField) component;
 		XmlStringBuilder xml = renderContext.getWriter();
-		int cols = textField.getColumns();
-		int minLength = textField.getMinLength();
-		int maxLength = textField.getMaxLength();
-		int maxInputs = textField.getMaxInputs();
-		String pattern = textField.getPattern();
+
+		boolean isReadOnly = textField.isReadOnly();
+
 		String[] values = textField.getTextInputs();
 
 		xml.appendTagOpen("ui:multitextfield");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("disabled", textField.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", textField.isHidden(), "true");
-		xml.appendOptionalAttribute("required", textField.isMandatory(), "true");
-		xml.appendOptionalAttribute("readOnly", textField.isReadOnly(), "true");
-		xml.appendOptionalAttribute("tabIndex", textField.hasTabIndex(), textField.getTabIndex());
-		xml.appendOptionalAttribute("toolTip", textField.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", textField.getAccessibleText());
-		xml.appendOptionalAttribute("size", cols > 0, cols);
-		xml.appendOptionalAttribute("minLength", minLength > 0, minLength);
-		xml.appendOptionalAttribute("maxLength", maxLength > 0, maxLength);
-		xml.appendOptionalAttribute("max", maxInputs > 0, maxInputs);
-		xml.appendOptionalAttribute("pattern", !Util.empty(pattern), pattern);
+		xml.appendOptionalAttribute("readOnly", isReadOnly, "true");
+
+		if (!isReadOnly) {
+			int cols = textField.getColumns();
+			int minLength = textField.getMinLength();
+			int maxLength = textField.getMaxLength();
+			int maxInputs = textField.getMaxInputs();
+			String pattern = textField.getPattern();
+			xml.appendOptionalAttribute("disabled", textField.isDisabled(), "true");
+			xml.appendOptionalAttribute("required", textField.isMandatory(), "true");
+			xml.appendOptionalAttribute("tabIndex", textField.hasTabIndex(), textField.getTabIndex());
+			xml.appendOptionalAttribute("toolTip", textField.getToolTip());
+			xml.appendOptionalAttribute("accessibleText", textField.getAccessibleText());
+			xml.appendOptionalAttribute("size", cols > 0, cols);
+			xml.appendOptionalAttribute("minLength", minLength > 0, minLength);
+			xml.appendOptionalAttribute("maxLength", maxLength > 0, maxLength);
+			xml.appendOptionalAttribute("max", maxInputs > 0, maxInputs);
+			xml.appendOptionalAttribute("pattern", !Util.empty(pattern), pattern);
+			xml.appendOptionalAttribute("placeholder", textField.getPlaceholder());
+		}
 		xml.appendClose();
 
 		if (values != null) {

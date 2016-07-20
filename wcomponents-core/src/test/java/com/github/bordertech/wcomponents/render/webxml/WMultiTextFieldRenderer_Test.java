@@ -86,10 +86,6 @@ public class WMultiTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo("true", "//ui:multitextfield/@required", field);
 
-		field.setReadOnly(true);
-		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("true", "//ui:multitextfield/@readOnly", field);
-
 		field.setToolTip("tooltip");
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(field.getToolTip(), "//ui:multitextfield/@toolTip", field);
@@ -122,6 +118,18 @@ public class WMultiTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase
 		field.setPattern("test[123]");
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(field.getPattern(), "//ui:multitextfield/@pattern", field);
+
+		field.setPlaceholder("enter stuff here");
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo("enter stuff here", "//ui:multitextfield/@placeholder", field);
+	}
+
+	@Test
+	public void testReadOnly() throws IOException, SAXException, XpathException {
+		WMultiTextField field = new WMultiTextField();
+		field.setReadOnly(true);
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo("true", "//ui:multitextfield/@readOnly", field);
 	}
 
 }

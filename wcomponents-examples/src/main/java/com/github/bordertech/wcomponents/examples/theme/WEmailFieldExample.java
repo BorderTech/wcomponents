@@ -49,6 +49,7 @@ public class WEmailFieldExample extends WContainer {
 		// constraints
 		eField = new WEmailField();
 		eField.setMaxLength(254);
+		eField.setPlaceholder("name@example.com");
 		layout.addField("Max length 254", eField);
 	}
 

@@ -255,6 +255,7 @@ public class WTemplateExample extends WContainer {
 			final WPasswordField password = new WPasswordField();
 			password.setMandatory(true);
 			password.setDefaultSubmitButton(submit);
+			password.setPlaceholder("make it complex");
 
 			layout.addField("User name", userName);
 			layout.addField("Password", password);
