@@ -139,6 +139,22 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 	}
 
 	/**
+	 * Set placeholder text which will appear in the field if it is editable and has no content.
+	 * @param placeholder The text to set as the
+	 */
+	public void setPlaceholder(final String placeholder) {
+		getOrCreateComponentModel().placeholder = placeholder;
+	}
+
+	/**
+	 *
+	 * @return The placeholder text for the field.
+	 */
+	public String getPlaceholder() {
+		return getComponentModel().placeholder;
+	}
+
+	/**
 	 * Override WInput's validateComponent to perform futher validation on email addresses.
 	 *
 	 * @param diags the list into which any validation diagnostics are added.
@@ -246,5 +262,10 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 		 * The list of suggestions.
 		 */
 		private WSuggestions suggestions;
+
+		/**
+		 * Placeholder text which will appear if the field is editable and has no content.
+		 */
+		private String placeholder;
 	}
 }

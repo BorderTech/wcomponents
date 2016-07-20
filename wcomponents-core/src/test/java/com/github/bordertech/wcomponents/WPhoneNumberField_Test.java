@@ -316,4 +316,10 @@ public class WPhoneNumberField_Test extends AbstractWComponentTestCase {
 		Assert.assertFalse("Text is no match so should be invalid", diags.isEmpty());
 	}
 
+
+	@Test
+	public void testPlaceholderAccessors() {
+		assertAccessorsCorrect(new WPhoneNumberField(), "placeholder", null, "A", "B");
+	}
+
 }

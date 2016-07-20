@@ -28,6 +28,10 @@ public class WTextArea_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
+	public void testPlaceholderAccessors() {
+		assertAccessorsCorrect(new WTextArea(), "placeholder", null, "A", "B");
+	}
+	@Test
 	public void testNoSanitizeOnOutput() {
 		String input = "<form>content</form>";
 		WTextArea textArea = new WTextArea();

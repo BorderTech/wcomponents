@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples.theme;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
@@ -23,7 +24,7 @@ public class WMultiTextFieldExample extends WContainer {
 		int i = 0;
 		WFieldLayout layout = new WFieldLayout();
 
-		add(new WHeading(WHeading.SECTION,
+		add(new WHeading(HeadingLevel.H2,
 				1 + ". Dynamic Multi-Inputs With No Data Defined"));
 
 		WMultiTextField inputs1 = new WMultiTextField();
@@ -40,6 +41,7 @@ public class WMultiTextFieldExample extends WContainer {
 		inputs3.setColumns(30);
 		inputs3.setMaxLength(30);
 		inputs3.setMaxInputs(5);
+		inputs3.setPlaceholder("Maximum of 5 inputs");
 
 		addField(layout, inputs3, "Dynamic mult-input " + ++i);
 
@@ -56,7 +58,7 @@ public class WMultiTextFieldExample extends WContainer {
 
 		add(layout);
 
-		add(new WHeading(WHeading.SECTION,
+		add(new WHeading(HeadingLevel.H2,
 				"2. Dynamic Multi-Inputs With Data Defined"));
 
 		WFieldLayout layout2 = new WFieldLayout();
