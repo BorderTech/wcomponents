@@ -52,12 +52,9 @@ public final class DebugUtil {
 	 * Retrieve the current parameter settings for the debug flags.
 	 */
 	private static void retrieveDebugParameters() {
-		debugFeaturesEnabled = Config.getInstance().getBoolean(
-				"bordertech.wcomponents.debug.enabled", false);
-		validateXMLEnabled = Config.getInstance().getBoolean(
-				"bordertech.wcomponents.debug.validateXML.enabled", false);
-		debugStructureEnabled = Config.getInstance().getBoolean(
-				"bordertech.wcomponents.debug.clientSide.enabled", false);
+		debugFeaturesEnabled = ConfigurationProperties.getDeveloperDebugEnabled();
+		validateXMLEnabled = ConfigurationProperties.getDeveloperValidateXml();
+		debugStructureEnabled = ConfigurationProperties.getDeveloperDebugClientSide();
 	}
 
 	/**

@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import java.io.IOException;
@@ -122,7 +123,7 @@ public class WImage_Test extends AbstractWComponentTestCase {
 					output);
 			Assert.assertFalse("Cache flag should not be set", escape.isCacheable());
 			Assert.assertEquals("Response should have header set for no caching",
-					ResponseCacheInterceptor.DEFAULT_NO_CACHE_SETTINGS,
+					ConfigurationProperties.RESPONSE_DEFAULT_NO_CACHE_SETTINGS,
 					response.getHeaders().get("Cache-Control"));
 		}
 
@@ -144,7 +145,7 @@ public class WImage_Test extends AbstractWComponentTestCase {
 			Assert.assertTrue("Cache flag should be set", escape.isCacheable());
 			Assert
 					.assertEquals("Response should have header set for caching",
-							ResponseCacheInterceptor.DEFAULT_CACHE_SETTINGS, response.getHeaders().
+							ConfigurationProperties.RESPONSE_DEFAULT_CACHE_SETTINGS, response.getHeaders().
 							get("Cache-Control"));
 		}
 	}

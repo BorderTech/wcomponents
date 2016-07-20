@@ -12,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
 
 /**
@@ -40,12 +41,12 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testGetProjectVersion() {
 		String testVersion = "TEST VERSION";
-		Config.getInstance().setProperty("bordertech.wcomponents.version", testVersion);
+		Config.getInstance().setProperty(ConfigurationProperties.PROJECT_VERSION, testVersion);
 		Assert.assertEquals("Wrong project version returned", testVersion, WebUtilities.
 				getProjectVersion());
 
 		try {
-			Config.getInstance().clearProperty("bordertech.wcomponents.version");
+			Config.getInstance().clearProperty(ConfigurationProperties.PROJECT_VERSION);
 			WebUtilities.getProjectVersion();
 			Assert.fail("An exception should have been thrown for a null project version");
 		} catch (SystemException e) {

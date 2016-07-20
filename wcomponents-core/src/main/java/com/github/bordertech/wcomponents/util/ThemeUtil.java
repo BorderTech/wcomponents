@@ -22,11 +22,6 @@ public final class ThemeUtil {
 	private static final Log LOG = LogFactory.getLog(ThemeUtil.class);
 
 	/**
-	 * The parameter key for the theme name.
-	 */
-	private static final String THEME_PARAM = "bordertech.wcomponents.theme.name";
-
-	/**
 	 * The theme build version number.
 	 */
 	private static final String THEME_BUILD;
@@ -49,13 +44,12 @@ public final class ThemeUtil {
 	private static final String THEME_NAME;
 
 	/**
-	 * The base
-	 * This assumes theme names do not change on the fly and a restart is acceptable if they do.
+	 * The base This assumes theme names do not change on the fly and a restart is acceptable if they do.
 	 */
 	private static final String THEME_BASE;
 
 	static {
-		THEME_NAME = Config.getInstance().getString(THEME_PARAM);
+		THEME_NAME = ConfigurationProperties.getThemeName();
 		THEME_BASE = "/theme/" + THEME_NAME + '/';
 
 		// Load theme build (depends on the theme name)
@@ -110,8 +104,8 @@ public final class ThemeUtil {
 	}
 
 	/**
-	 * The theme name as determined on instantiation.
-	 * Changes require a restart.
+	 * The theme name as determined on instantiation. Changes require a restart.
+	 *
 	 * @return the current theme name
 	 */
 	public static String getThemeName() {
@@ -126,8 +120,8 @@ public final class ThemeUtil {
 	}
 
 	/**
-	 * Gets the base path of the theme resources.
-	 * Note that this path will end with a forward slash.
+	 * Gets the base path of the theme resources. Note that this path will end with a forward slash.
+	 *
 	 * @return The theme resource path.
 	 */
 	public static String getThemeBase() {
@@ -167,6 +161,7 @@ public final class ThemeUtil {
 
 	/**
 	 * Get the name of the XSLT file to use taking locale and debug mode into consideration.
+	 *
 	 * @param uic The UIContext to use to determine factors such as locale.
 	 * @return The name of the XSLT file without any path or cachebuster.
 	 */

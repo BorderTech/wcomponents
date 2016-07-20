@@ -16,7 +16,7 @@ import com.github.bordertech.wcomponents.WebComponent;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor.CacheType;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.Factory;
 import com.github.bordertech.wcomponents.util.SerializationUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
@@ -43,21 +43,6 @@ public abstract class AbstractContainerHelper {
 	 * The logger instance for this class.
 	 */
 	private static final Log LOG = LogFactory.getLog(AbstractContainerHelper.class);
-
-	/**
-	 * The configuration parameter key for the cluster emulation flag.
-	 */
-	private static final String DEVELOPER_MODE_CLUSTER_EMULATION = "bordertech.wcomponents.developer.clusterEmulation.enabled";
-
-	/**
-	 * The configuration parameter key for the developer mode error-handling flag.
-	 */
-	public static final String DEVELOPER_MODE_ERROR_HANDLING = "bordertech.wcomponents.developer.errorHandling.enabled";
-
-	/**
-	 * The configuration parameter key for terminate session on error flag.
-	 */
-	public static final String TERMINATE_SESSION_ON_ERROR = "bordertech.wcomponents.terminateSessionOnError";
 
 	/**
 	 * The default session attribute key for where the UIContext is stored in the underlying session.
@@ -321,7 +306,7 @@ public abstract class AbstractContainerHelper {
 	 * Call this method to simulate what would happen if the UIContext was serialized due to clustering of servers.
 	 */
 	protected void cycleUIContext() {
-		boolean cycleIt = Config.getInstance().getBoolean(DEVELOPER_MODE_CLUSTER_EMULATION, false);
+		boolean cycleIt = ConfigurationProperties.getDeveloperClusterEmulation();
 
 		if (cycleIt) {
 			UIContext uic = getUIContext();
@@ -604,7 +589,7 @@ public abstract class AbstractContainerHelper {
 		LOG.debug("Start handleError...");
 
 		// Should the session be removed upon error?
-		boolean terminate = Config.getInstance().getBoolean(TERMINATE_SESSION_ON_ERROR, false);
+		boolean terminate = ConfigurationProperties.getTerminateSessionOnError();
 
 		// If we are unfriendly, terminate the session
 		if (terminate) {
@@ -612,7 +597,7 @@ public abstract class AbstractContainerHelper {
 		}
 
 		// Are we in developer friendly error mode?
-		boolean friendly = Config.getInstance().getBoolean(DEVELOPER_MODE_ERROR_HANDLING, false);
+		boolean friendly = ConfigurationProperties.getDeveloperErrorHandling();
 
 		FatalErrorPageFactory factory = Factory.newInstance(FatalErrorPageFactory.class);
 		WComponent errorPage = factory.createErrorPage(friendly, error);

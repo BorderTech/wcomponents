@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.UIContextImpl;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletRequest;
 import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpSession;
 import java.io.PrintWriter;
@@ -30,7 +31,7 @@ public class DevToolkit_Test {
 		uic.setUI(new WText("dummy"));
 		UIContextHolder.pushContext(uic);
 
-		Config.getInstance().setProperty("bordertech.wcomponents.lde.devToolkit.enabled", "true");
+		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_TOOKIT, "true");
 	}
 
 	@After
@@ -41,13 +42,13 @@ public class DevToolkit_Test {
 
 	@Test
 	public void testEnableDisableToolkit() {
-		Config.getInstance().clearProperty("bordertech.wcomponents.lde.devToolkit.enabled");
+		Config.getInstance().clearProperty(ConfigurationProperties.DEVELOPER_TOOKIT);
 		Assert.assertFalse("DevToolkit should be disabled by default", DevToolkit.isEnabled());
 
-		Config.getInstance().setProperty("bordertech.wcomponents.lde.devToolkit.enabled", "false");
+		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_TOOKIT, "false");
 		Assert.assertFalse("DevToolkit should be disabled", DevToolkit.isEnabled());
 
-		Config.getInstance().setProperty("bordertech.wcomponents.lde.devToolkit.enabled", "true");
+		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_TOOKIT, "true");
 		Assert.assertTrue("DevToolkit should be enabled", DevToolkit.isEnabled());
 	}
 
@@ -56,7 +57,7 @@ public class DevToolkit_Test {
 		DevToolkit toolkit = new DevToolkit();
 
 		// Test when disabled
-		Config.getInstance().clearProperty("bordertech.wcomponents.lde.devToolkit.enabled");
+		Config.getInstance().clearProperty(ConfigurationProperties.DEVELOPER_TOOKIT);
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setParameter("wc_devToolkit", "x");
 		request.setParameter("devToolkit_showTree", "true");
@@ -64,7 +65,7 @@ public class DevToolkit_Test {
 		Assert.assertFalse("Should have ignored the request when disabled", toolkit.isShowTree());
 
 		// Test when enabled
-		Config.getInstance().setProperty("bordertech.wcomponents.lde.devToolkit.enabled", "true");
+		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_TOOKIT, "true");
 		request = new MockHttpServletRequest();
 		request.setParameter("wc_devToolkit", "x");
 		request.setParameter("devToolkit_showTree", "true");
