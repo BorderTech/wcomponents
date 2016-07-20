@@ -79,7 +79,7 @@ define(["wc/array/toArray",
 				 */
 				lastTabId,
 
-				TOGGLE_POINT = 773, // from Sass see mixin respond-phone-like
+				TOGGLE_POINT = 1001, // from Sass see mixin respond-not-small
 				CONVERTED = "data-wc-converted",
 				MULTISELECT = "aria-multiselectable",
 				TRUE = "true",
@@ -748,7 +748,7 @@ define(["wc/array/toArray",
 				}
 
 				if ((vps = getViewportSize())) {
-					if (vps.width <= TOGGLE_POINT) {
+					if (vps.width < TOGGLE_POINT) {
 						candidates.forEach(tabsetToAccordion);
 					}
 					else {
