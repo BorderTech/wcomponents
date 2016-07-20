@@ -1,0 +1,10 @@
+/* wc.ui.menu.barColumnIcons.ie11.scss */
+// The opener iconoiography for WMenu type BAR, type FLYOUT, type COLUMN.
+@import 'mixins-common';
+
+.wc-submenu-o > .wc-decoratedlabel:after {
+	.wc_menu_bar &,
+	.wc-menu-type-column & {
+		display: inline-block;
+	}
+}

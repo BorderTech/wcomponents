@@ -407,9 +407,8 @@ define(["wc/ui/menu/core",
 					return next.childNodes.length > 1;
 				});
 
-				if (candidates.length) {
-					vps = getViewportSize();
-					if (vps && vps.width <= HAMBURGER_TOGGLE_POINT) {
+				if (candidates.length && (vps = getViewportSize())) {
+					if (vps.width <= HAMBURGER_TOGGLE_POINT) {
 						candidates.forEach(makeIconified);
 					}
 					else {

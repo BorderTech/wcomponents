@@ -139,7 +139,7 @@
 		<xsl:param name="type"/>
 		<xsl:param name="idSuffix"/>
 		<xsl:param name="disabled"/>
-		<button id="{concat(../@id,'.pagination.',$idSuffix)}" title="{$title}" type="{$type}" class="wc_btn_icon">
+		<button id="{concat(../@id,'.pagination.',$idSuffix)}" title="{$title}" type="{$type}" class="wc_btn_icon wc-invite">
 			<xsl:if test="$type='submit'">
 				<xsl:attribute name="formnovalidate">
 					<xsl:text>formnovalidate</xsl:text>

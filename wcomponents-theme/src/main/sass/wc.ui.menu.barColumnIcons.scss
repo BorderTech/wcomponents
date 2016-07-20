@@ -20,11 +20,13 @@
 	margin-left: 0;
 }
 
-.wc_closesubmenu::before {
+$wc-closesubmenu-icon-offset: $wc-icon-normal + $wc-gap-small;
+
+.wc_closesubmenu:before {
 	content: $fa-var-caret-left;
-	margin-right: $wc-gap-normal;
+	margin-right: $wc-gap-small;
 }
 
-.wc_hbgr::before {
+.wc_hbgr:before {
 	content: $fa-var-bars;
 }
