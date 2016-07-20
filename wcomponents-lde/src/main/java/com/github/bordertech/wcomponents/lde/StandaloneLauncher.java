@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.lde;
 
 import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -169,7 +170,7 @@ public final class StandaloneLauncher {
 		CompositeConfiguration config = new CompositeConfiguration(new MapConfiguration(
 				new HashMap<String, Object>()));
 		config.addConfiguration(internalWComponentConfig); // Internal WComponent config next
-		config.setProperty("bordertech.wcomponents.lde.server.port", 0);
+		config.setProperty(ConfigurationProperties.LDE_SERVER_PORT, 0);
 		Config.setConfiguration(config);
 
 		getInstance().launcher.run();

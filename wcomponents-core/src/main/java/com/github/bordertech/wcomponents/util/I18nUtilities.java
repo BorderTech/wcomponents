@@ -27,11 +27,6 @@ public final class I18nUtilities {
 	private static final Log LOG = LogFactory.getLog(I18nUtilities.class);
 
 	/**
-	 * The configuration key used to look up the resource bundle base name.
-	 */
-	public static final String RESOURCE_BUNDLE_BASE_NAME_CONFIG_KEY = "bordertech.wcomponents.i18n.baseName";
-
-	/**
 	 * A store of bad bundles, to avoid repeated logging of errors when the bundle fails to load.
 	 */
 	private static final Set<Locale> MISSING_RESOURCES = new HashSet<>();
@@ -49,7 +44,7 @@ public final class I18nUtilities {
 	 * @return the resource bundle base name.
 	 */
 	public static String getResourceBundleBaseName() {
-		return Config.getInstance().getString(RESOURCE_BUNDLE_BASE_NAME_CONFIG_KEY);
+		return ConfigurationProperties.getI18nResourceBundleBaseName();
 	}
 
 	/**
@@ -159,8 +154,8 @@ public final class I18nUtilities {
 				message = bundle.getString(text);
 			} catch (MissingResourceException e) {
 				// Fall back to the Configuration mechanism for the default internal messages
-				if (text != null && text.startsWith("bordertech.wcomponents.message.")) {
-					message = Config.getInstance().getString(text, null);
+				if (text != null && text.startsWith(ConfigurationProperties.INTERNAL_MESSAGE_PREFIX)) {
+					message = ConfigurationProperties.getInternalMessage(text);
 				}
 
 				if (message == null && !MISSING_RESOURCES.contains(locale)) {
@@ -168,9 +163,9 @@ public final class I18nUtilities {
 					MISSING_RESOURCES.add(locale);
 				}
 			}
-		} else if (text != null && text.startsWith("bordertech.wcomponents.message.")) {
+		} else if (text != null && text.startsWith(ConfigurationProperties.INTERNAL_MESSAGE_PREFIX)) {
 			// Fall back to the Configuration mechanism for the default internal messages
-			message = Config.getInstance().getString(text, null);
+			message = ConfigurationProperties.getInternalMessage(text);
 		}
 
 		return message;

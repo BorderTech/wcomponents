@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.template;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.io.Writer;
 import java.util.Map;
@@ -154,7 +154,7 @@ public class VelocityRendererImpl implements TemplateRenderer {
 	 * @return true if use caching
 	 */
 	public static boolean isCaching() {
-		return Config.getInstance().getBoolean("bordertech.wcomponents.velocity.cache.enabled", Boolean.TRUE);
+		return ConfigurationProperties.getVelocityCache();
 	}
 
 }

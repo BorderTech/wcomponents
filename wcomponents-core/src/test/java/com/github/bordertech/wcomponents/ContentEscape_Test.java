@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import java.io.IOException;
 import java.util.Arrays;
@@ -46,7 +46,7 @@ public class ContentEscape_Test {
 		Assert.assertFalse("Content-Disposition header should not be set", response.getHeaders().
 				containsKey("Content-Disposition"));
 		Assert.assertEquals("Response should have header set for no caching",
-				ResponseCacheInterceptor.DEFAULT_NO_CACHE_SETTINGS,
+				ConfigurationProperties.RESPONSE_DEFAULT_NO_CACHE_SETTINGS,
 				response.getHeaders().get("Cache-Control"));
 
 		// ContentEscape with content and description
@@ -71,7 +71,7 @@ public class ContentEscape_Test {
 
 		Assert
 				.assertEquals("Response should have header set for caching",
-						ResponseCacheInterceptor.DEFAULT_CACHE_SETTINGS, response.getHeaders().get(
+						ConfigurationProperties.RESPONSE_DEFAULT_CACHE_SETTINGS, response.getHeaders().get(
 								"Cache-Control"));
 	}
 

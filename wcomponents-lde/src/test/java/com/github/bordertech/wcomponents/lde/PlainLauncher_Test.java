@@ -12,6 +12,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.servlet.WServlet.WServletEnvironment;
 import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.StreamUtil;
 import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletRequest;
 import java.net.URL;
@@ -44,7 +45,7 @@ public class PlainLauncher_Test {
 
 	@Test
 	public void testCreateUI() {
-		Config.getInstance().clearProperty(PlainLauncher.COMPONENT_TO_LAUNCH_PARAM_KEY);
+		Config.getInstance().clearProperty(ConfigurationProperties.LDE_PLAINLAUNCHER_COMPONENT_TO_LAUNCH);
 
 		launcher = new PlainLauncher();
 		WComponent ui = launcher.createUI();
@@ -55,7 +56,7 @@ public class PlainLauncher_Test {
 
 	@Test
 	public void testGetUI() {
-		Config.getInstance().setProperty(PlainLauncher.COMPONENT_TO_LAUNCH_PARAM_KEY,
+		Config.getInstance().setProperty(ConfigurationProperties.LDE_PLAINLAUNCHER_COMPONENT_TO_LAUNCH,
 				MyTestApp.class.getName());
 		launcher = new PlainLauncher();
 
@@ -69,7 +70,7 @@ public class PlainLauncher_Test {
 
 	@Test
 	public void testGetUINonWApplication() {
-		Config.getInstance().setProperty(PlainLauncher.COMPONENT_TO_LAUNCH_PARAM_KEY,
+		Config.getInstance().setProperty(ConfigurationProperties.LDE_PLAINLAUNCHER_COMPONENT_TO_LAUNCH,
 				MyTestComponent.class.getName());
 		PlainLauncher plain = new PlainLauncher();
 
@@ -87,12 +88,12 @@ public class PlainLauncher_Test {
 
 	@Test
 	public void testServer() throws Exception {
-		Config.getInstance().setProperty(PlainLauncher.COMPONENT_TO_LAUNCH_PARAM_KEY,
+		Config.getInstance().setProperty(ConfigurationProperties.LDE_PLAINLAUNCHER_COMPONENT_TO_LAUNCH,
 				MyTestApp.class.getName());
 		// random port
-		Config.getInstance().setProperty("bordertech.wcomponents.lde.server.port", "0");
+		Config.getInstance().setProperty(ConfigurationProperties.LDE_SERVER_PORT, "0");
 		Config.getInstance().
-				setProperty("bordertech.wcomponents.whitespaceFilter.enabled", "false");
+				setProperty(ConfigurationProperties.WHITESPACE_FILTER, "false");
 
 		launcher = new PlainLauncher();
 		launcher.run();

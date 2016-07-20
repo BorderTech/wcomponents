@@ -51,17 +51,6 @@ public interface Environment extends Serializable {
 	String THEME_RESOURCE_PATH_NAME = "wc_th";
 
 	/**
-	 * The parameter variable that contains the URL path to the support servlet that services targeted requests for a
-	 * Portlet application. This parameter is only applicable to portlet applications
-	 */
-	String SUPPORT_SERVLET_PATH = "bordertech.wcomponents.servlet.support.path";
-
-	/**
-	 * The parameter variable that contains the URL path to the web content for the Theme.
-	 */
-	String THEME_CONTENT_PATH = "bordertech.wcomponents.theme.content.path";
-
-	/**
 	 * The URL query string parameter variable name that is used to ensure that the URL appears unique to the browser.
 	 * This is used to prevent caching of PDFs, TR5s etc by the client.
 	 */

@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.render.webxml.AbstractWebXmlRendererTestCase;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import java.io.IOException;
@@ -22,7 +23,7 @@ public class DebugStructureInterceptor_Test extends AbstractWebXmlRendererTestCa
 
 	@Test
 	public void testInterceptorDisabled() throws XpathException, SAXException, IOException {
-		Config.getInstance().setProperty("bordertech.wcomponents.debug.enabled", "false");
+		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_DEBUG_ENABLED, "false");
 		Config.notifyListeners();
 
 		// No debug info should be rendered
@@ -32,8 +33,8 @@ public class DebugStructureInterceptor_Test extends AbstractWebXmlRendererTestCa
 
 	@Test
 	public void testInterceptor() throws XpathException, SAXException, IOException {
-		Config.getInstance().setProperty("bordertech.wcomponents.debug.enabled", "true");
-		Config.getInstance().setProperty("bordertech.wcomponents.debug.clientSide.enabled", "true");
+		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_DEBUG_ENABLED, "true");
+		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_DEBUG_CLIENT_SIDE, "true");
 		Config.notifyListeners();
 
 		// Only the label should have debug info rendered

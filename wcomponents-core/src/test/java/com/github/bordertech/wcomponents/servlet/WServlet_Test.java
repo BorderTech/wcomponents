@@ -11,6 +11,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.NullWriter;
 import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletRequest;
 import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletResponse;
@@ -155,7 +156,7 @@ public class WServlet_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSubSessionsDisabledNoSSID() throws ServletException, IOException {
-		Config.getInstance().setProperty(ServletUtil.ENABLE_SUBSESSIONS, "false");
+		Config.getInstance().setProperty(ConfigurationProperties.SERVLET_ENABLE_SUBSESSIONS, "false");
 		MyWServlet servlet = new MyWServlet(new WText("test"));
 		servlet.init(new MockServletConfig());
 
@@ -170,7 +171,7 @@ public class WServlet_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSubSessionsDisabled() throws ServletException, IOException {
-		Config.getInstance().setProperty(ServletUtil.ENABLE_SUBSESSIONS, "false");
+		Config.getInstance().setProperty(ConfigurationProperties.SERVLET_ENABLE_SUBSESSIONS, "false");
 		MyWServlet servlet = new MyWServlet(new WText("test"));
 		servlet.init(new MockServletConfig());
 
@@ -194,7 +195,7 @@ public class WServlet_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSubSessionsEnabledNoSSID() throws ServletException, IOException {
-		Config.getInstance().setProperty(ServletUtil.ENABLE_SUBSESSIONS, "true");
+		Config.getInstance().setProperty(ConfigurationProperties.SERVLET_ENABLE_SUBSESSIONS, "true");
 		MyWServlet servlet = new MyWServlet(new WText("test"));
 		servlet.init(new MockServletConfig());
 
@@ -210,7 +211,7 @@ public class WServlet_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSubSessionsEnabled() throws ServletException, IOException {
-		Config.getInstance().setProperty(ServletUtil.ENABLE_SUBSESSIONS, "true");
+		Config.getInstance().setProperty(ConfigurationProperties.SERVLET_ENABLE_SUBSESSIONS, "true");
 		MyWServlet servlet = new MyWServlet(new WText("test"));
 		servlet.init(new MockServletConfig());
 
