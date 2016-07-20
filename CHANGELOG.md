@@ -16,6 +16,7 @@
 * The new (in 1.2.0) class `HtmlClassUtil` has been refactored to a properties enum and is now `HtmlClassProperties`
   (same package). If you have already started using `HtmlClassUtil.HtmlClassName` should be replaced with
   `HtmlClassProperties`.
+* The Seleniun API has been rewritten to better support client-side testing of WComponents. see     https://github.com/BorderTech/wcomponents/wiki/Testing for more information.
 
 ## Bug Fixes
 * Updated DataListInterceptor and ServletUtil to allow DataLists to be sent as HTML rather than XML (#747).
