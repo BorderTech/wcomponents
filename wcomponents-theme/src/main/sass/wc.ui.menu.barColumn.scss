@@ -35,6 +35,15 @@
 			font-size: $wc-font-larger;
 		}
 	}
+
+	.wc_closesubmenu {
+		display: block;
+
+		.wc-decoratedlabel {
+			display: inline-table;
+			max-width: calc(100% - $wc-gap-normal);
+		}
+	}
 }
 
 @include respond-not-phonelike {
@@ -57,6 +66,10 @@
 			> [role] { // override (mobile) default.
 				font-size: inherit;
 			}
+		}
+
+		.wc_closesubmenu {
+			display: none;
 		}
 	}
 
@@ -112,15 +125,6 @@
 		&.wc_colsth {
 			bottom: 0;
 			top: auto;
-		}
-	}
-}
-
-@include respond-phonelike {
-	.wc-menu-type-column,
-	.wc_menu_bar {
-		.wc_closesubmenu {
-			display: none;
 		}
 	}
 }
