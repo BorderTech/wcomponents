@@ -12,17 +12,30 @@
  * @requires module:wc/ui/containerload
  * @requires module:wc/ajax/setLoading
  * @requires module:wc/dom/focus
+ * @requires module:wc/dom/classList
+ * @requires module:wc/dom/getViewportSize
+ * @requires module:wc/ui/ajax/processResponse
+ * @requires module:wc/dom/event
+ * @requires module:wc/timers
+ *
  */
-define(["wc/dom/ariaAnalog",
-		"wc/dom/formUpdateManager",
-		"wc/dom/getFilteredGroup",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/dom/Widget",
-		"wc/ui/containerload",
-		"wc/ajax/setLoading",
-		"wc/dom/focus"],
-	function(ariaAnalog, formUpdateManager, getFilteredGroup, initialise, shed, Widget, containerload, setLoading, focus) {
+define(["wc/array/toArray",
+	"wc/dom/ariaAnalog",
+	"wc/dom/formUpdateManager",
+	"wc/dom/getFilteredGroup",
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/dom/Widget",
+	"wc/ui/containerload",
+	"wc/ajax/setLoading",
+	"wc/dom/focus",
+	"wc/dom/classList",
+	"wc/dom/getViewportSize",
+	"wc/ui/ajax/processResponse",
+	"wc/dom/event",
+	"wc/timers"],
+	function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, shed, Widget, containerload,
+		setLoading, focus, classList, getViewportSize, processResponse, event, timers) {
 		"use strict";
 
 		/**
@@ -47,7 +60,7 @@ define(["wc/dom/ariaAnalog",
 				 * @type {module:wc/dom/Widget}
 				 * @private
 				 */
-				TABPANEL,
+				TABPANEL = new Widget("", "", {"role": "tabpanel"}),
 
 				/**
 				 * The description of a tab set.
@@ -55,15 +68,7 @@ define(["wc/dom/ariaAnalog",
 				 * @type {module:wc/dom/Widget}
 				 * @private
 				 */
-				TABSET,
-
-				/**
-				 * The attribute on a TAB which points to its content tab panel.
-				 * @var
-				 * @type String
-				 * @private
-				 */
-				CONTENT_ATTRIB = "aria-controls",
+				TABSET = new Widget("", "wc-tabset"),
 
 				/**
 				 * The ID of the last focused tab. This is needed to reset focusability to the open tab in a tabset
@@ -72,7 +77,15 @@ define(["wc/dom/ariaAnalog",
 				 * @type String
 				 * @private
 				 */
-				lastTabId;
+				lastTabId,
+
+				TOGGLE_POINT = 1001, // from Sass see mixin respond-not-small
+				CONVERTED = "data-wc-converted",
+				MULTISELECT = "aria-multiselectable",
+				TRUE = "true",
+				FALSE = "false",
+				ACCORDION_CLASS = "wc-tabset-type-accordion",
+				resizeTimer;
 
 			/**
 			 * The description of a tab control.
@@ -94,7 +107,7 @@ define(["wc/dom/ariaAnalog",
 			this.selectOnNavigate = function(element) {
 				var container = this.getGroupContainer(element);
 
-				if (container && container.getAttribute("aria-multiselectable")) {
+				if (container && container.getAttribute(MULTISELECT)) {
 					return false;
 				}
 				return true;
@@ -146,7 +159,7 @@ define(["wc/dom/ariaAnalog",
 			 *    an accordion).
 			 */
 			function getAccordion(tablist) {
-				return tablist.getAttribute("aria-multiselectable");
+				return tablist.getAttribute(MULTISELECT);
 			}
 
 			/**
@@ -181,7 +194,7 @@ define(["wc/dom/ariaAnalog",
 				}
 
 				accordion = getAccordion(list);
-				if (!accordion || (expand && accordion !== "true")) {
+				if (!accordion || (expand && accordion !== TRUE)) {
 					return;
 				}
 
@@ -215,7 +228,7 @@ define(["wc/dom/ariaAnalog",
 					return false;
 				}
 
-				if (accordion === "false" && expanded) {
+				if (accordion === FALSE && expanded) {
 					return false; // single accordion all in the same state only if collapsed.
 				}
 
@@ -232,18 +245,17 @@ define(["wc/dom/ariaAnalog",
 			 * @param {Element} element Guaranteed to pass `this.ITEM.isOneOfMe(element)`
 			 */
 			function onItemExpansion(action, element) {
-				var contentId,
-					content,
+				var content,
 					container;
 				if (action === shed.actions.EXPAND) {
 					instance.setFocusIndex(element);
 				}
 				container = instance.getGroupContainer(element);
 				if (container) {
-					if ((contentId = element.getAttribute(CONTENT_ATTRIB)) && (content = document.getElementById(contentId))) {
+					if ((content = getPanel(element))) {
 						if (action === shed.actions.EXPAND) {
 							shed.show(content);
-							if (getAccordion(container) === "false") {
+							if (getAccordion(container) === FALSE) {
 								collapseOthers(element);
 							}
 						}
@@ -261,8 +273,7 @@ define(["wc/dom/ariaAnalog",
 			 * @param {Element} element Guaranteed to pass `this.ITEM.isOneOfMe(element)`
 			 */
 			function onItemSelection(action, element) {
-				var contentId,
-					content,
+				var content,
 					contentContainer,
 					container;
 
@@ -272,7 +283,7 @@ define(["wc/dom/ariaAnalog",
 				}
 				container = instance.getGroupContainer(element);
 				if (container) {
-					if ((contentId = element.getAttribute(CONTENT_ATTRIB)) && (content = document.getElementById(contentId))) {
+					if ((content = getPanel(element))) {
 						if (!getAccordion(container)) {
 							contentContainer = content.parentNode;
 						}
@@ -431,7 +442,14 @@ define(["wc/dom/ariaAnalog",
 
 				if (container) {
 					if (getAccordion(container)) {
-						shed.toggle(element, shed.actions.EXPAND);
+						if (container.parentNode.getAttribute(CONVERTED)) {
+							if (!shed.isSelected(element)) {
+								shed.select(element);
+							}
+						}
+						else {
+							shed.toggle(element, shed.actions.EXPAND);
+						}
 					}
 					else if (!shed.isSelected(element)) {
 						shed.select(element);
@@ -502,18 +520,6 @@ define(["wc/dom/ariaAnalog",
 				}
 			};
 
-			/**
-			 * Extended setup for tabsets.
-			 * @function module:wc/ui/tabset._extendedInitialisation
-			 * @protected
-			 */
-			this._extendedInitialisation = function() {
-				shed.subscribe(shed.actions.EXPAND, this.shedObserver.bind(this));
-				shed.subscribe(shed.actions.COLLAPSE, this.shedObserver.bind(this));
-				shed.subscribe(shed.actions.ENABLE, this.shedObserver.bind(this));
-				shed.subscribe(shed.actions.DISABLE, this.shedObserver.bind(this));
-			};
-
 			/* NOTE:
 			 * next is a tablist. The tabset container element is the tablist's parent element.
 			 * If the tabset is disabled, the parent element has the aria-disabled="true" flag.
@@ -563,10 +569,7 @@ define(["wc/dom/ariaAnalog",
 					return null;
 				}
 
-				TABPANEL = TABPANEL || new Widget("", "", {"role": "tabpanel"});
-
 				if ((panel = TABPANEL.findAncestor(element)) && (panelId = panel.id)) {
-					TABSET = TABSET || new Widget("", "wc-tabset");
 					if ((tabset = TABSET.findAncestor(panel))) {
 						tabWidget = instance.ITEM.extend("", {"aria-controls": panelId});
 						result = tabWidget.findDescendant(tabset);
@@ -618,6 +621,168 @@ define(["wc/dom/ariaAnalog",
 				else {
 					this.constructor.prototype.keydownEvent.call(this, $event);
 				}
+			};
+
+			/**
+			 * Get the tabPanel for a tab.
+			 * @function
+			 * @private
+			 * @param {Element} tab
+			 * @returns {?Element} the tab panel for the tab.
+			 */
+			function getPanel(tab) {
+				var panelId;
+				if (!(panelId = tab.getAttribute("aria-controls"))) {
+					console.warn("tab does not control a tabPanel");
+					return null;
+				}
+				return document.getElementById(panelId);
+			}
+
+			/**
+			 * Converts a temporary accordion back into a regular tabset.
+			 * @function
+			 * @private
+			 * @param {Element} accordion the accordion
+			 */
+			function AccordionToTabset(accordion) {
+				var tablist,
+					successful,
+					candidates;
+				if (!(TABSET.isOneOfMe(accordion) && accordion.getAttribute(CONVERTED))) {
+					return;
+				}
+				tablist = TABLIST.findDescendant(accordion, true);
+				if (!(tablist && getAccordion(tablist))) {
+					return;
+				}
+
+				try {
+					if ((candidates = instance.ITEM.findDescendants(tablist, true)) && candidates.length) {
+						Array.prototype.forEach.call(candidates, function(tab) {
+							var tabPanel = getPanel(tab);
+							if (tabPanel) {
+								accordion.appendChild(tabPanel);
+							}
+							tab.setAttribute("aria-selected", shed.isExpanded(tab) ? TRUE : FALSE);
+							tab.removeAttribute("aria-expanded");
+						});
+						successful = true;
+					}
+				}
+				finally {
+					if (successful) {
+						classList.remove(accordion, ACCORDION_CLASS);
+						tablist.removeAttribute(MULTISELECT);
+						accordion.removeAttribute(CONVERTED);
+					}
+				}
+			}
+
+			/**
+			 * Converts a normal tabset into an accordion.
+			 * @function
+			 * @private
+			 * @param {Element} tabset the tabset to convert.
+			 */
+			function tabsetToAccordion(tabset) {
+				var tablist,
+					successful,
+					candidates;
+				if (!TABSET.isOneOfMe(tabset) ) {
+					return;
+				}
+				tablist = TABLIST.findDescendant(tabset, true);
+				if (!tablist || getAccordion(tablist)) {
+					return;
+				}
+				try {
+					if ((candidates = instance.ITEM.findDescendants(tablist, true)) && candidates.length) {
+						Array.prototype.forEach.call(candidates, function(tab) {
+							var tabPanel = getPanel(tab),
+								parent = tab.parentNode;
+							if (tabPanel) {
+								if (tab.nextSibling) {
+									parent.insertBefore(tabPanel, tab.nextSibling);
+								}
+								else {
+									parent.appendChild(tabPanel);
+								}
+							}
+
+							tab.setAttribute("aria-expanded", shed.isSelected(tab) ? TRUE : FALSE);
+							tab.removeAttribute("aria-selected");
+						});
+						successful = true;
+					}
+				}
+				finally {
+					if (successful) {
+						classList.add(tabset, ACCORDION_CLASS);
+						tablist.setAttribute(MULTISELECT, FALSE); // must be a single select accordion.
+						tabset.setAttribute(CONVERTED, TRUE);
+					}
+				}
+			}
+
+			/**
+			 * Find tabset in a container and convert them if necessary.
+			 * @function
+			 * @private
+			 * @param {Element} container
+			 */
+			function toggleToFromAccordions(container) {
+				var candidates,
+					element = container || document.body,
+					vps;
+
+				if (TABSET.isOneOfMe(element)) {
+					candidates = [element];
+				}
+				else {
+					candidates = toArray(TABSET.findDescendants(element));
+				}
+
+				if (!candidates.length) {
+					return;
+				}
+
+				if ((vps = getViewportSize())) {
+					if (vps.width < TOGGLE_POINT) {
+						candidates.forEach(tabsetToAccordion);
+					}
+					else {
+						candidates.forEach(AccordionToTabset);
+					}
+				}
+			}
+
+			/**
+			 * Convert tabsets to/from accordions on resize.
+			 * @function
+			 * @private
+			 */
+			function resizeEvent(/* $event */) {
+				if (resizeTimer) {
+					timers.clearTimeout(resizeTimer);
+				}
+				resizeTimer = timers.setTimeout(toggleToFromAccordions, 100);
+			}
+
+			/**
+			 * Extended setup for tabsets.
+			 * @function module:wc/ui/tabset._extendedInitialisation
+			 * @protected
+			 * @param {Element} element the element being initialised.
+			 */
+			this._extendedInitialisation = function(element) {
+				toggleToFromAccordions(element);
+				processResponse.subscribe(toggleToFromAccordions, true);
+				shed.subscribe(shed.actions.EXPAND, this.shedObserver.bind(this));
+				shed.subscribe(shed.actions.COLLAPSE, this.shedObserver.bind(this));
+				shed.subscribe(shed.actions.ENABLE, this.shedObserver.bind(this));
+				shed.subscribe(shed.actions.DISABLE, this.shedObserver.bind(this));
+				event.add(window, event.TYPE.resize, resizeEvent, 1);
 			};
 		}
 
