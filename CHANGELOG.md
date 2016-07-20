@@ -8,6 +8,8 @@
 
 ## Enhancements
 * Added mechanism to convert tabsets to accordions on small screens #783.
+* Allow placeholder to be set on relevant components #702.
+
 
 # Release 1.2.1
 ## API Changes
