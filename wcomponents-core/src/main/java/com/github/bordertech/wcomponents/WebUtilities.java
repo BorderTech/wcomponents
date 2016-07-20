@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.WRepeater.SubUIContext;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.TreeUtil;
 import com.github.bordertech.wcomponents.util.Util;
@@ -13,7 +13,6 @@ import java.net.URLConnection;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
-import org.apache.commons.configuration.Configuration;
 
 /**
  * WComponent and HTML related utility methods.
@@ -76,11 +75,6 @@ public final class WebUtilities {
 	private static final AtomicLong ATOMIC_COUNT = new AtomicLong();
 
 	/**
-	 * The parameter for the current project version.
-	 */
-	private static final String PROJECT_VERSION_PARAMETER_KEY = "bordertech.wcomponents.version";
-
-	/**
 	 * Prevent instantiation of this class.
 	 */
 	private WebUtilities() {
@@ -90,7 +84,7 @@ public final class WebUtilities {
 	 * @return the project version of WComponents.
 	 */
 	public static String getProjectVersion() {
-		String version = Config.getInstance().getString(PROJECT_VERSION_PARAMETER_KEY);
+		String version = ConfigurationProperties.getProjectVersion();
 		if (version == null) {
 			throw new SystemException("The project version parameter has not been defined.");
 		}
@@ -571,23 +565,22 @@ public final class WebUtilities {
 	 * @return the content-type for the given fileName, or a generic type if unknown.
 	 */
 	public static String getContentType(final String fileName) {
-		Configuration config = Config.getInstance();
 
 		if (Util.empty(fileName)) {
-			return config.getString("bordertech.wcomponents.mimeType.defaultMimeType", "application/octet-stream");
+			return ConfigurationProperties.getDefaultMimeType();
 		}
 
 		String mimeType = null;
 
 		if (fileName.lastIndexOf('.') > -1) {
 			String suffix = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
-			mimeType = config.getString("bordertech.wcomponents.mimeType." + suffix);
+			mimeType = ConfigurationProperties.getFileMimeTypeForExtension(suffix);
 		}
 
 		if (mimeType == null) {
 			mimeType = URLConnection.guessContentTypeFromName(fileName);
 			if (mimeType == null) {
-				mimeType = config.getString("bordertech.wcomponents.mimeType.defaultMimeType", "application/octet-stream");
+				mimeType = ConfigurationProperties.getDefaultMimeType();
 			}
 		}
 

@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.Factory;
 import com.github.bordertech.wcomponents.util.LookupTable;
 import java.util.ArrayList;
@@ -157,8 +157,7 @@ public class WSuggestions extends AbstractWComponent implements AjaxInternalTrig
 	public String getListCacheKey() {
 		Object table = getLookupTable();
 
-		if (table != null && Config.getInstance().getBoolean(
-				AbstractWSelectList.DATALIST_CACHING_PARAM_KEY, false)) {
+		if (table != null && ConfigurationProperties.getDatalistCaching()) {
 			String key = APPLICATION_LOOKUP_TABLE.getCacheKeyForTable(table);
 			return key;
 		}

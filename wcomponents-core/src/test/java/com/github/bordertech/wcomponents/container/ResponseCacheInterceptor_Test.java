@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor.Cach
 import com.github.bordertech.wcomponents.render.webxml.AbstractWebXmlRendererTestCase;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import junit.framework.Assert;
 import org.apache.commons.configuration.Configuration;
@@ -33,7 +34,7 @@ public class ResponseCacheInterceptor_Test extends AbstractWebXmlRendererTestCas
 
 		Assert
 				.assertEquals("Cache-Control header not set correctly for CACHE",
-						ResponseCacheInterceptor.DEFAULT_CACHE_SETTINGS, response.getHeaders().get(
+						ConfigurationProperties.getResponseCacheSettings(), response.getHeaders().get(
 								"Cache-Control"));
 		Assert.assertNull("Pragma header should be null for CACHE", response.getHeaders().get(
 				"Pragma"));
@@ -56,7 +57,7 @@ public class ResponseCacheInterceptor_Test extends AbstractWebXmlRendererTestCas
 		interceptor.paint(new WebXmlRenderContext(response.getWriter()));
 
 		Assert.assertEquals("Cache-Control header not set correctly for NO_CACHE",
-				ResponseCacheInterceptor.DEFAULT_NO_CACHE_SETTINGS,
+				ConfigurationProperties.getResponseNoCacheSettings(),
 				response.getHeaders().get("Cache-Control"));
 		Assert.assertEquals("Pragma header not set correctly for NO_CACHE", "no-cache",
 				response.getHeaders().get("Pragma"));
@@ -78,7 +79,7 @@ public class ResponseCacheInterceptor_Test extends AbstractWebXmlRendererTestCas
 		try {
 			// Test override cache settings
 			Configuration config = Config.copyConfiguration(originalConfig);
-			config.setProperty("bordertech.wcomponents.response.header.default.cache", override);
+			config.setProperty(ConfigurationProperties.RESPONSE_CACHE_SETTINGS, override);
 			Config.setConfiguration(config);
 
 			// Create interceptor
@@ -117,7 +118,7 @@ public class ResponseCacheInterceptor_Test extends AbstractWebXmlRendererTestCas
 		try {
 			// Test override cache settings
 			Configuration config = Config.copyConfiguration(originalConfig);
-			config.setProperty("bordertech.wcomponents.response.header.default.nocache", override);
+			config.setProperty(ConfigurationProperties.RESPONSE_NO_CACHE_SETTINGS, override);
 			Config.setConfiguration(config);
 
 			// Create interceptor
@@ -157,7 +158,7 @@ public class ResponseCacheInterceptor_Test extends AbstractWebXmlRendererTestCas
 		try {
 			// Test override cache settings
 			Configuration config = Config.copyConfiguration(originalConfig);
-			config.setProperty("bordertech.wcomponents.response.header.content.cache", override);
+			config.setProperty(ConfigurationProperties.RESPONSE_CACHE_SETTINGS, override);
 			Config.setConfiguration(config);
 
 			// Create interceptor
@@ -196,7 +197,7 @@ public class ResponseCacheInterceptor_Test extends AbstractWebXmlRendererTestCas
 		try {
 			// Test override cache settings
 			Configuration config = Config.copyConfiguration(originalConfig);
-			config.setProperty("bordertech.wcomponents.response.header.content.nocache", override);
+			config.setProperty(ConfigurationProperties.RESPONSE_NO_CACHE_SETTINGS, override);
 			Config.setConfiguration(config);
 
 			// Create interceptor

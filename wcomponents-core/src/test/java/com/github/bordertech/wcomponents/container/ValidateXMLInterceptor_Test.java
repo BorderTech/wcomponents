@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.render.nil.NullRenderContext;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.XMLUtil;
 import java.io.PrintWriter;
 import java.io.StringReader;
@@ -56,8 +57,8 @@ public class ValidateXMLInterceptor_Test extends AbstractWComponentTestCase {
 		CompositeConfiguration config = new CompositeConfiguration(originalConfig);
 
 		MapConfiguration overrides = new MapConfiguration(new HashMap<String, Object>());
-		overrides.setProperty("bordertech.wcomponents.debug.enabled", "true");
-		overrides.setProperty("bordertech.wcomponents.debug.validateXML.enabled", "true");
+		overrides.setProperty(ConfigurationProperties.DEVELOPER_DEBUG_ENABLED, "true");
+		overrides.setProperty(ConfigurationProperties.DEVELOPER_VALIDATE_XML, "true");
 		config.addConfiguration(overrides);
 
 		Config.setConfiguration(config);

@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.template;
 
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.StreamUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.io.InputStream;
@@ -139,7 +139,7 @@ public class PlainTextRendererImpl implements TemplateRenderer {
 	 * @return true if use caching
 	 */
 	protected boolean isCaching() {
-		return Config.getInstance().getBoolean("bordertech.wcomponents.plaintext.cache.enabled", Boolean.TRUE);
+		return ConfigurationProperties.getPlaintextCache();
 	}
 
 }

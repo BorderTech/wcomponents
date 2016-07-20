@@ -22,7 +22,7 @@ public class Factory_Test {
 		Assert.assertFalse("No implementation should exist", Factory.implementationExists(
 				TestInterface.class));
 
-		final String key = Factory.PREFIX + TestInterface.class.getName();
+		final String key = ConfigurationProperties.FACTORY_PREFIX + TestInterface.class.getName();
 		Config.getInstance().setProperty(key, " ");
 		Assert.assertFalse("No implementation should exist", Factory.implementationExists(
 				TestInterface.class));
@@ -39,7 +39,7 @@ public class Factory_Test {
 
 	@Test
 	public void testNewInstanceWithImpl() {
-		Config.getInstance().setProperty(Factory.PREFIX + TestInterface.class.getName(),
+		Config.getInstance().setProperty(ConfigurationProperties.FACTORY_PREFIX + TestInterface.class.getName(),
 				TestInterfaceImpl.class.getName());
 		Assert.assertTrue("Should be an instanceof TestInterface", Factory.newInstance(
 				TestInterface.class) instanceof TestInterface);

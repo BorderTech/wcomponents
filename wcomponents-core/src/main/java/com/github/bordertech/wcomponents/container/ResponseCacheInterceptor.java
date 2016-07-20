@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.container;
 
 import com.github.bordertech.wcomponents.RenderContext;
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 
 /**
  * Interceptor that sets the appropriate response headers for caching or not caching the response.
@@ -10,16 +10,6 @@ import com.github.bordertech.wcomponents.util.Config;
  * @since 1.0.0
  */
 public class ResponseCacheInterceptor extends InterceptorComponent {
-
-	/**
-	 * Default cache settings.
-	 */
-	public static final String DEFAULT_CACHE_SETTINGS = "public, max-age=31536000";
-
-	/**
-	 * Default no cache settings.
-	 */
-	public static final String DEFAULT_NO_CACHE_SETTINGS = "no-cache, no-store, must-revalidate, private";
 
 	/**
 	 * Cache Type allows different cache settings to be set for different response types, such as page responses,
@@ -33,23 +23,23 @@ public class ResponseCacheInterceptor extends InterceptorComponent {
 		/**
 		 * Page and AJAX responses no cache.
 		 */
-		NO_CACHE("bordertech.wcomponents.response.header.page.nocache", false),
+		NO_CACHE("page.nocache", false),
 		/**
 		 * Theme cache.
 		 */
-		THEME_CACHE("bordertech.wcomponents.response.header.theme.cache", true),
+		THEME_CACHE("theme.cache", true),
 		/**
 		 * Datalist no cache.
 		 */
-		DATALIST_CACHE("bordertech.wcomponents.response.header.datalist.cache", true),
+		DATALIST_CACHE("datalist.cache", true),
 		/**
 		 * Content cache.
 		 */
-		CONTENT_CACHE("bordertech.wcomponents.response.header.content.cache", true),
+		CONTENT_CACHE("content.cache", true),
 		/**
 		 * Content no cache.
 		 */
-		CONTENT_NO_CACHE("bordertech.wcomponents.response.header.content.nocache", false);
+		CONTENT_NO_CACHE("content.nocache", false);
 
 		/**
 		 * Parameter key.
@@ -74,7 +64,8 @@ public class ResponseCacheInterceptor extends InterceptorComponent {
 		 * @return the cache settings
 		 */
 		public String getSettings() {
-			return Config.getInstance().getString(param, getDefaultSettings());
+			String cacheSettings = ConfigurationProperties.getResponseCacheHeaderSettings(param);
+			return (cacheSettings == null) ? getDefaultSettings() : cacheSettings;
 		}
 
 		/**
@@ -89,13 +80,9 @@ public class ResponseCacheInterceptor extends InterceptorComponent {
 		 */
 		private String getDefaultSettings() {
 			if (isCache()) {
-				return Config.getInstance().getString(
-						"bordertech.wcomponents.response.header.default.cache",
-						DEFAULT_CACHE_SETTINGS);
+				return ConfigurationProperties.getResponseCacheSettings();
 			} else {
-				return Config.getInstance().getString(
-						"bordertech.wcomponents.response.header.default.nocache",
-						DEFAULT_NO_CACHE_SETTINGS);
+				return ConfigurationProperties.getResponseNoCacheSettings();
 			}
 
 		}

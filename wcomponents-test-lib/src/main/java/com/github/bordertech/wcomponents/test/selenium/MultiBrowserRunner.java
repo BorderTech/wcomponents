@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.test.selenium;
 
 import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverType;
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,16 +43,6 @@ public class MultiBrowserRunner extends Suite {
 	private final List<Runner> runners = new ArrayList<>();
 
 	/**
-	 * The configuration parameter key for which browsers to use.
-	 */
-	private static final String DRIVERS_PARAM_KEY = "bordertech.wcomponents.test.selenium.driverTypes";
-
-	/**
-	 * The configuration parameter key for whether to run the browser tests in parallel.
-	 */
-	private static final String RUN_PARALLEL_PARAM_KEY = "bordertech.wcomponents.test.selenium.runParallel";
-
-	/**
 	 * Only called reflectively. Do not use programmatically.
 	 *
 	 * @param clazz the test case to run.
@@ -61,21 +51,17 @@ public class MultiBrowserRunner extends Suite {
 	public MultiBrowserRunner(final Class<?> clazz) throws InitializationError {
 		super(clazz, Collections.<Runner>emptyList());
 
-		//See if there are specific drivers set up for this test.
-		final String testSpecificDriversParam = DRIVERS_PARAM_KEY + "." + getTestClass().getName();
-		String[] drivers = Config.getInstance().getStringArray(testSpecificDriversParam);
-		//If there are none for this test, use the default list.
-		if (ArrayUtils.isEmpty(drivers)) {
-			drivers = Config.getInstance().getStringArray(DRIVERS_PARAM_KEY);
-		}
+		final String testClassName = getTestClass().getName();
+
+		String[] drivers = ConfigurationProperties.getTestSeleniumMultiBrowserDrivers(testClassName);
 
 		//Configuration error - no drivers defined.
 		if (ArrayUtils.isEmpty(drivers)) {
 			throw new SystemException("Cannot run the MultiBrowserRunner without drivers defined in default param ["
-					+ DRIVERS_PARAM_KEY + "] or test-specific param [" + testSpecificDriversParam + "]");
+					+ ConfigurationProperties.TEST_SELENIUM_MULTI_BROWSER_DRIVERS + "] or test-specific param [" + ConfigurationProperties.TEST_SELENIUM_MULTI_BROWSER_DRIVERS + "." + testClassName + "]");
 		}
 
-		boolean runParallel = Config.getInstance().getBoolean(RUN_PARALLEL_PARAM_KEY, false);
+		boolean runParallel = ConfigurationProperties.getTestSeleniumMultiBrowserDriverParallel();
 
 		for (String driverClassName : drivers) {
 			try {

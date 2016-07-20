@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.test.selenium;
 
 import com.github.bordertech.wcomponents.test.selenium.element.WDialogWebElement;
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.BooleanUtils;
 import org.openqa.selenium.By;
@@ -27,38 +27,34 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public final class WComponentSeleniumUtil {
 
 	/**
-	 * Prefix for parameters used by this class.
-	 */
-	private static final String PARAM_PREFIX = "bordertech.wcomponents.test.selenium.";
-	/**
 	 * The body tag indicating the page is ready.
 	 */
-	private static final String DATA_READY_TAG = Config.getInstance().getString(PARAM_PREFIX + "pageReadyAttribute", "data-wc-domready");
+	private static final String DATA_READY_TAG = ConfigurationProperties.getTestSeleniumDataReadyTag();
 
 	/**
 	 * The default page-ready timeout duration.
 	 */
-	private static final int PAGE_READY_WAIT_TIMEOUT = Config.getInstance().getInt(PARAM_PREFIX + "pageReadyTimeout", 10);
+	private static final int PAGE_READY_WAIT_TIMEOUT = ConfigurationProperties.getTestSeleniumPageReadyTimeout();
 
 	/**
 	 * The default page-ready poll interval (milliseconds).
 	 */
-	private static final long PAGE_READY_POLL_INTERVAL = Config.getInstance().getLong(PARAM_PREFIX + "pageReadyPollInterval", 50);
+	private static final long PAGE_READY_POLL_INTERVAL = ConfigurationProperties.getTestSeleniumPageReadyPollInterval();
 
 	/**
 	 * The number of seconds to wait for an element to be available.
 	 */
-	private static final long IMPLICIT_WAIT_SECONDS = Config.getInstance().getLong(PARAM_PREFIX + "implicitWait", 5);
+	private static final long IMPLICIT_WAIT_SECONDS = ConfigurationProperties.getTestSeleniumImplicitWait();
 
 	/**
 	 * The screen width in pixels.
 	 */
-	private static final int SCREEN_WIDTH = Config.getInstance().getInt(PARAM_PREFIX + "screenWidth", 1920);
+	private static final int SCREEN_WIDTH = ConfigurationProperties.getTestSeleniumScreenWidth();
 
 	/**
 	 * The screen height in pixels.
 	 */
-	private static final int SCREEN_HEIGHT = Config.getInstance().getInt(PARAM_PREFIX + "screenHeight", 1080);
+	private static final int SCREEN_HEIGHT = ConfigurationProperties.getTestSeleniumScreenHeight();
 
 	/**
 	 * The expected condition for a page being ready.

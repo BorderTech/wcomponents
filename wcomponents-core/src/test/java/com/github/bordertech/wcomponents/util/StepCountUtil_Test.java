@@ -33,9 +33,9 @@ public class StepCountUtil_Test {
 
 		Configuration config = Config.copyConfiguration(originalConfig);
 		// Clear current property (if exists)
-		config.clearProperty(StepCountUtil.STEP_ERROR_URL_PARAMETER_KEY);
+		config.clearProperty(ConfigurationProperties.STEP_ERROR_URL);
 		// Set redirect url
-		config.addProperty(StepCountUtil.STEP_ERROR_URL_PARAMETER_KEY, testUrl);
+		config.addProperty(ConfigurationProperties.STEP_ERROR_URL, testUrl);
 		Config.setConfiguration(config);
 
 		Assert.assertEquals("Incorrect error url returned", testUrl, StepCountUtil.getErrorUrl());
@@ -48,7 +48,7 @@ public class StepCountUtil_Test {
 
 		// Set redirect flag
 		Configuration config = Config.copyConfiguration(originalConfig);
-		config.addProperty(StepCountUtil.STEP_ERROR_URL_PARAMETER_KEY, "test.url");
+		config.addProperty(ConfigurationProperties.STEP_ERROR_URL, "test.url");
 		Config.setConfiguration(config);
 		Assert.assertTrue("Redirect flag should be true", StepCountUtil.isErrorRedirect());
 	}

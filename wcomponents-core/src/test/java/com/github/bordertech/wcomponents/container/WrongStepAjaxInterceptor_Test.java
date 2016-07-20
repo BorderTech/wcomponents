@@ -11,7 +11,7 @@ import com.github.bordertech.wcomponents.render.webxml.AbstractWebXmlRendererTes
 import com.github.bordertech.wcomponents.servlet.WServlet;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Config;
-import com.github.bordertech.wcomponents.util.StepCountUtil;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import java.io.IOException;
@@ -49,7 +49,7 @@ public class WrongStepAjaxInterceptor_Test extends AbstractWebXmlRendererTestCas
 
 	@Test
 	public void testInterceptorRedirect() throws XpathException, SAXException, IOException {
-		Config.getInstance().setProperty(StepCountUtil.STEP_ERROR_URL_PARAMETER_KEY,
+		Config.getInstance().setProperty(ConfigurationProperties.STEP_ERROR_URL,
 				"http://test.test");
 
 		MyApp app = new MyApp();
@@ -61,7 +61,7 @@ public class WrongStepAjaxInterceptor_Test extends AbstractWebXmlRendererTestCas
 
 	@Test
 	public void testInterceptorWarp() throws XpathException, SAXException, IOException {
-		Config.getInstance().setProperty(StepCountUtil.STEP_ERROR_URL_PARAMETER_KEY, "");
+		Config.getInstance().setProperty(ConfigurationProperties.STEP_ERROR_URL, "");
 
 		MyApp app = new MyApp();
 		app.setLocked(true);
