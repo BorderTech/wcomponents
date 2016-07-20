@@ -62,10 +62,6 @@ public class WPasswordFieldRenderer_Test extends AbstractWebXmlRendererTestCase 
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo("true", "//ui:passwordfield/@required", field);
 
-		field.setReadOnly(true);
-		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("true", "//ui:passwordfield/@readOnly", field);
-
 		field.setMinLength(45);
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo("45", "//ui:passwordfield/@minLength", field);
@@ -94,6 +90,18 @@ public class WPasswordFieldRenderer_Test extends AbstractWebXmlRendererTestCase 
 		field.setText("Hello");
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo("", "normalize-space(//ui:passwordfield)", field);
+
+		field.setPlaceholder("enter stuff here");
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo("enter stuff here", "//ui:passwordfield/@placeholder", field);
+	}
+
+	@Test
+	public void testReadOnly() throws IOException, SAXException, XpathException {
+		WPasswordField field = new WPasswordField();
+		field.setReadOnly(true);
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo("true", "//ui:passwordfield/@readOnly", field);
 	}
 
 	@Test

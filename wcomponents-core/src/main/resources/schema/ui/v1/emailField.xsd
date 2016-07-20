@@ -30,6 +30,7 @@
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="xs:string">
+					<xs:attributeGroup ref="ui:placeholder.attributes"/>
 					<xs:attributeGroup ref="ui:submitting.input.attributes"/>
 					
 					<xs:attribute name="size" type="xs:positiveInteger">
