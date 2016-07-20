@@ -12,11 +12,11 @@
  * @requires module:wc/dom/event
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/Widget
- * @deprecated IE8 support is now in a rot state.
+ * @requires module:wc/dom/tag
  */
-define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"],
-	/** @param event @param initialise @param Widget @ignore */
-	function(event, initialise, Widget) {
+define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/tag"],
+	/** @param event @param initialise @param Widget @param tag @ignore */
+	function(event, initialise, Widget, tag) {
 		"use strict";
 
 		function FixDefaultSubmitControl() {
@@ -37,10 +37,12 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"],
 			 */
 			function keyEvent($event) {
 				var keyCode = $event.keyCode, element = $event.target;
-				if (!$event.defaultPrevented && (keyCode === KeyEvent.DOM_VK_RETURN)) {
-					if (FILE_WD.isOneOfMe(element) ||(!Widget.isOneOfMe(element, submittables) && FORM_WD.findAncestor(element))) {
-						$event.preventDefault();
-					}
+				if ($event.defaultPrevented || keyCode !== KeyEvent.DOM_VK_RETURN || !(element && element.tagName) || element.tagName === tag.TEXTAREA) {
+					return;
+				}
+
+				if (FILE_WD.isOneOfMe(element) ||(!Widget.isOneOfMe(element, submittables) && FORM_WD.findAncestor(element))) {
+					$event.preventDefault();
 				}
 			}
 		}
