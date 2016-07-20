@@ -14,7 +14,7 @@ import com.github.bordertech.wcomponents.util.Util;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-final class WTextFieldRenderer extends AbstractWebXmlRenderer {
+class WTextFieldRenderer extends AbstractWebXmlRenderer {
 
 	/**
 	 * Paints the given WTextField.
