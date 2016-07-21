@@ -265,4 +265,9 @@ public class WEmailField_Test extends AbstractWComponentTestCase {
 				getDescription());
 	}
 
+	@Test
+	public void testPlaceholderAccessors() {
+		assertAccessorsCorrect(new WEmailField(), "placeholder", null, "A", "B");
+	}
+
 }

@@ -9,9 +9,27 @@ html {
 
 body {
 	@include tight-box;
+	background-color: $wc-ui-color-global-bg;
+	color: $wc-ui-color-global-fg;
 	font-family: $wc-default-font;
 	font-size: $wc-desktop-font-size;
 	height: 100%; // body to fill viewport for event propagation.
+}
+
+@if  $wc-ui-color-link-visited != -1 {
+	a:visited {
+		color: $wc-ui-color-link-visited;
+	}
+}
+
+@if  $wc-ui-color-link != -1 {
+	a {
+		color: $wc-ui-color-link;
+
+		&[aria-disabled='true'] { // NOTE: we need the disabled color to override the :visited state
+			color: $wc-ui-color-disabled-fg;
+		}
+	}
 }
 
 p {
@@ -72,9 +90,10 @@ $wc-valign-list: baseline, bottom, inherit, initial, middle, sub, super, text-bo
 	display: none !important;
 }
 
-@include respond-medium-density {
-	body {
-		font-size: $wc-default-font-size;
+// show when the maxlength is exceeded in a textarea or when a label (or equivalent) is not provided
+@if $wc-ui-color-error-fg != -1 {
+	.wc_error {
+		color: $wc-ui-color-error-fg;
 	}
 }
 
@@ -87,5 +106,11 @@ $wc-valign-list: baseline, bottom, inherit, initial, middle, sub, super, text-bo
 @include respond-bigger-screen {
 	body {
 		font-size: $wc-bigscreen-font-size;
+	}
+}
+
+@include respond-phonelike {
+	body {
+		font-size: $wc-default-font-size;
 	}
 }

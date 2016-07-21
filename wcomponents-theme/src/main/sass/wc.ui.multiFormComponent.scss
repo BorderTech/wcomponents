@@ -5,13 +5,13 @@
 .wc_mfc {
 	white-space: nowrap;
 
-	button {
-		margin-left: $wc-gap-small;
-	}
-
 	input,
 	select {
 		max-width: calc(100% - 2em);
+	}
+
+	button {
+		padding: 1px $wc-gap-small;
 	}
 
 	.wc-fieldindicator {

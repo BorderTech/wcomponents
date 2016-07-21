@@ -3,14 +3,20 @@
 ## API Changes
 
 ## Bug Fixes
+* Fixed a newly introduced bug which caused textareas to fail to accept newlines in IE11 #785.
+* Fixed several IE CSS issues.
 
 ## Enhancements
+* Added mechanism to convert tabsets to accordions on small screens #783.
+* Allow placeholder to be set on relevant components #702.
+
 
 # Release 1.2.1
 ## API Changes
 * The new (in 1.2.0) class `HtmlClassUtil` has been refactored to a properties enum and is now `HtmlClassProperties`
   (same package). If you have already started using `HtmlClassUtil.HtmlClassName` should be replaced with
   `HtmlClassProperties`.
+* The Seleniun API has been rewritten to better support client-side testing of WComponents. see     https://github.com/BorderTech/wcomponents/wiki/Testing for more information.
 
 ## Bug Fixes
 * Updated DataListInterceptor and ServletUtil to allow DataLists to be sent as HTML rather than XML (#747).

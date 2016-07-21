@@ -64,9 +64,16 @@
 							<xsl:value-of select="@minLength"/>
 						</xsl:attribute>
 					</xsl:if>
-					<xsl:if test="@required=$t">
+					<xsl:if test="@placeholder or @required">
 						<xsl:attribute name="placeholder">
-							<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
+							<xsl:choose>
+								<xsl:when test="@placeholder">
+									<xsl:value-of select="@placeholder"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
+								</xsl:otherwise>
+							</xsl:choose>
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:if test="@cols">

@@ -88,6 +88,22 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 	}
 
 	/**
+	 * Set placeholder text which will appear in the field if it is editable and has no content.
+	 * @param placeholder The text to set as the
+	 */
+	public void setPlaceholder(final String placeholder) {
+		getOrCreateComponentModel().placeholder = placeholder;
+	}
+
+	/**
+	 *
+	 * @return The placeholder text for the field.
+	 */
+	public String getPlaceholder() {
+		return getComponentModel().placeholder;
+	}
+
+	/**
 	 * @return the width of the input field in characters.
 	 */
 	public int getColumns() {
@@ -223,5 +239,10 @@ public class WPasswordField extends AbstractInput implements AjaxTrigger, AjaxTa
 		 * The number of columns to display for the field.
 		 */
 		private int columns;
+
+		/**
+		 * The placeholder content which appears (in plain text) when the field has no content.
+		 */
+		private String placeholder;
 	}
 }

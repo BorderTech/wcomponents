@@ -38,8 +38,7 @@ public final class I18nUtilities {
 	}
 
 	/**
-	 * Retrieves the resource bundle base name. The base name is looked up using the parameter
-	 * {@link #RESOURCE_BUNDLE_BASE_NAME_CONFIG_KEY}.
+	 * Retrieves the resource bundle base name.
 	 *
 	 * @return the resource bundle base name.
 	 */
