@@ -58,7 +58,9 @@
 					</span>
 					<xsl:variable name="subString1" select="substring-after($oneRowPerPageString,$numberPlaceHolder1)"/>
 					<xsl:value-of select="substring-before($subString1,$numberPlaceHolder3)"/>
-					<xsl:value-of select="@rows"/>
+					<span class="wc_table_pag_total">
+						<xsl:value-of select="@rows"/>
+					</span>
 					<xsl:value-of select="substring-after($subString1,$numberPlaceHolder3)"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -74,7 +76,9 @@
 					</span>
 					<xsl:variable name="subString2b" select="substring-after($subString2a,$numberPlaceHolder2)"/>
 					<xsl:value-of select="substring-before($subString2b,$numberPlaceHolder3)"/>
-					<xsl:value-of select="@rows"/>
+					<span class="wc_table_pag_total">
+						<xsl:value-of select="@rows"/>
+					</span>
 					<xsl:value-of select="substring-after($subString2b,$numberPlaceHolder3)"/>
 				</xsl:otherwise>
 			</xsl:choose>

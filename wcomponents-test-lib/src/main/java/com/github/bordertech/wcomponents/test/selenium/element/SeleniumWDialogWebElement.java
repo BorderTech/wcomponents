@@ -11,7 +11,7 @@ import org.openqa.selenium.WebElement;
  * @author Joshua Barclay
  * @since 1.2.0
  */
-public class WDialogWebElement extends WComponentWebElement {
+public class SeleniumWDialogWebElement extends SeleniumWComponentWebElement {
 
 	/**
 	 * The tag name of the dialog element.
@@ -62,7 +62,7 @@ public class WDialogWebElement extends WComponentWebElement {
 	 * @param element the dialog element.
 	 * @param driver the WComponentWebDriver
 	 */
-	public WDialogWebElement(final WebElement element, final WebDriver driver) {
+	public SeleniumWDialogWebElement(final WebElement element, final WebDriver driver) {
 
 		super(element, driver);
 
@@ -77,7 +77,7 @@ public class WDialogWebElement extends WComponentWebElement {
 	 *
 	 * @return the button to maximize/restore the dialog.
 	 */
-	public WComponentWebElement getMaximizeRestoreButton() {
+	public SeleniumWComponentWebElement getMaximizeRestoreButton() {
 		return findElement(By.cssSelector("button." + MAXIMIZE_RESTORE_CLASS));
 	}
 
@@ -86,7 +86,7 @@ public class WDialogWebElement extends WComponentWebElement {
 	 *
 	 * @return the button to close the dialog.
 	 */
-	public WComponentWebElement getCloseButton() {
+	public SeleniumWComponentWebElement getCloseButton() {
 		return findElement(By.cssSelector("button." + CLOSE_CLASS));
 	}
 
@@ -102,7 +102,7 @@ public class WDialogWebElement extends WComponentWebElement {
 	 *
 	 * @return the element containing the content.
 	 */
-	public WComponentWebElement getContent() {
+	public SeleniumWComponentWebElement getContent() {
 		return findElement(By.cssSelector("." + CONTENT_CLASS));
 	}
 
@@ -120,7 +120,7 @@ public class WDialogWebElement extends WComponentWebElement {
 	 *
 	 * @return the heading element.
 	 */
-	public WComponentWebElement getHeading() {
+	public SeleniumWComponentWebElement getHeading() {
 		return findElement(By.cssSelector("header > h1"));
 	}
 
