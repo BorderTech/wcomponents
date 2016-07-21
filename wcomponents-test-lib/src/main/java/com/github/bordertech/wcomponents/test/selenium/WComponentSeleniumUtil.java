@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.test.selenium;
 
-import com.github.bordertech.wcomponents.test.selenium.element.WDialogWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWDialogWebElement;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.BooleanUtils;
@@ -149,7 +149,7 @@ public final class WComponentSeleniumUtil {
 	 */
 	public static boolean isOpenDialog(final WebDriver driver) {
 		try {
-			driver.findElement(By.cssSelector(WDialogWebElement.getOpenDialogCssSelector()));
+			driver.findElement(By.cssSelector(SeleniumWDialogWebElement.getOpenDialogCssSelector()));
 			return true;
 		} catch (NoSuchElementException e) {
 			return false;
@@ -163,9 +163,9 @@ public final class WComponentSeleniumUtil {
 	 *
 	 * @return a WDialogWebElement for the dialog.
 	 */
-	public static WDialogWebElement getDialog(final WebDriver driver) {
-		WebElement dialog = driver.findElement(By.cssSelector(WDialogWebElement.getDialogCssSelector()));
-		return new WDialogWebElement(dialog, driver);
+	public static SeleniumWDialogWebElement getDialog(final WebDriver driver) {
+		WebElement dialog = driver.findElement(By.cssSelector(SeleniumWDialogWebElement.getDialogCssSelector()));
+		return new SeleniumWDialogWebElement(dialog, driver);
 	}
 
 	/**

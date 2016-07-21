@@ -597,6 +597,8 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 
 	/**
 	 * @return the table summary text.
+	 * @deprecated the summary field has been removed from the client side. API preserved temporarily for backwards
+	 * compatibility.
 	 */
 	public String getSummary() {
 		return I18nUtilities.format(null, getComponentModel().summary);
@@ -606,6 +608,8 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	 * Sets the table summary text.
 	 *
 	 * @param summary the table summary text to set.
+	 * @deprecated the summary field has been removed from the client side. API preserved temporarily for backwards
+	 * compatibility.
 	 */
 	public void setSummary(final String summary) {
 		getOrCreateComponentModel().summary = summary;
@@ -1952,6 +1956,9 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 
 		/**
 		 * The table summary text.
+		 *
+		 * @deprecated the summary field has been removed from the client side. API preserved temporarily for backwards
+		 * compatibility.
 		 */
 		private String summary;
 
