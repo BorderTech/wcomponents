@@ -290,7 +290,9 @@ define(["wc/array/toArray",
 						if (action === shed.actions.SELECT) {
 							shed.show(content, true);
 							containerload.onshow(content).then(function() {
-								setLoading.clearSize(contentContainer);
+								if (contentContainer) {
+									setLoading.clearSize(contentContainer);
+								}
 							});
 						}
 						else if (action === shed.actions.DESELECT) {
@@ -442,14 +444,7 @@ define(["wc/array/toArray",
 
 				if (container) {
 					if (getAccordion(container)) {
-						if (container.parentNode.getAttribute(CONVERTED)) {
-							if (!shed.isSelected(element)) {
-								shed.select(element);
-							}
-						}
-						else {
-							shed.toggle(element, shed.actions.EXPAND);
-						}
+						shed.toggle(element, shed.actions.EXPAND);
 					}
 					else if (!shed.isSelected(element)) {
 						shed.select(element);
@@ -720,6 +715,7 @@ define(["wc/array/toArray",
 					if (successful) {
 						classList.add(tabset, ACCORDION_CLASS);
 						tablist.setAttribute(MULTISELECT, FALSE); // must be a single select accordion.
+						setLoading.clearSize(tabset);
 						tabset.setAttribute(CONVERTED, TRUE);
 					}
 				}
