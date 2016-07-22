@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
  * @author Joshua Barclay
  * @since 1.2.0
  */
-public class WTextAreaWebElement extends WComponentWebElement {
+public class SeleniumWTextAreaWebElement extends SeleniumWComponentWebElement {
 
 	/**
 	 * The tag name of the editable WTextArea element.
@@ -32,7 +32,7 @@ public class WTextAreaWebElement extends WComponentWebElement {
 	 * @param element the dialog element.
 	 * @param driver the WComponentWebDriver
 	 */
-	public WTextAreaWebElement(final WebElement element, final WebDriver driver) {
+	public SeleniumWTextAreaWebElement(final WebElement element, final WebDriver driver) {
 
 		super(element, driver);
 
@@ -43,6 +43,9 @@ public class WTextAreaWebElement extends WComponentWebElement {
 		}
 	}
 
+	/**
+	 * @return true if the component is editable.
+	 */
 	@Override
 	public boolean isEnabled() {
 		return tagName.equals(EDITABLE_TAG) && super.isEnabled();

@@ -2,10 +2,11 @@ package com.github.bordertech.wcomponents.test.selenium.driver;
 
 import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
-import com.github.bordertech.wcomponents.test.selenium.element.WComponentWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponentWebElement;
 import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumUtil;
-import com.github.bordertech.wcomponents.test.selenium.element.WDialogWebElement;
-import com.github.bordertech.wcomponents.test.selenium.element.WTextAreaWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWDialogWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTableWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextAreaWebElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -139,7 +140,7 @@ public class WComponentWebDriver<T extends WebDriver> implements WebDriver, Take
 	 *
 	 * @return the dialog component.
 	 */
-	public WDialogWebElement getDialog() {
+	public SeleniumWDialogWebElement getDialog() {
 		return WComponentSeleniumUtil.getDialog(this);
 	}
 
@@ -175,10 +176,20 @@ public class WComponentWebDriver<T extends WebDriver> implements WebDriver, Take
 	 * Find a WTextArea by the given criteria.
 	 *
 	 * @param by the By selector.
-	 * @return the WTextAreaWebElement or null if not found.
+	 * @return the SeleniumWTextAreaWebElement or null if not found.
 	 */
-	public WTextAreaWebElement findWTextArea(final By by) {
-		return new WTextAreaWebElement(findElement(by), this);
+	public SeleniumWTextAreaWebElement findWTextArea(final By by) {
+		return new SeleniumWTextAreaWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WTable by the given criteria.
+	 *
+	 * @param by the By selector.
+	 * @return the SeleniumWTableWebElement or null if not found.
+	 */
+	public SeleniumWTableWebElement findWTable(final By by) {
+		return new SeleniumWTableWebElement(findElement(by), this);
 	}
 
 	/**
@@ -201,7 +212,7 @@ public class WComponentWebDriver<T extends WebDriver> implements WebDriver, Take
 	 * {@inheritDoc}.
 	 */
 	@Override
-	public WComponentWebElement findElement(final By by) {
+	public SeleniumWComponentWebElement findElement(final By by) {
 
 		/* Overloading doesn't work properly when the overloaded parameter is a subclass
 		of the original parameter (By -> ByWComponent). This logic will mean consumers 
@@ -237,7 +248,7 @@ public class WComponentWebDriver<T extends WebDriver> implements WebDriver, Take
 	 * @param by the ByWcomponent to find.
 	 * @return the matching WebElement.
 	 */
-	public WComponentWebElement findElement(final ByWComponent by) {
+	public SeleniumWComponentWebElement findElement(final ByWComponent by) {
 		by.setContext(SeleniumLauncher.getContextForSession(getSessionId()));
 
 		return findElementInt(by);
@@ -254,7 +265,7 @@ public class WComponentWebDriver<T extends WebDriver> implements WebDriver, Take
 		List<WebElement> webElements = driver.findElements(by);
 		List<WebElement> wrappedList = new ArrayList<>();
 		for (WebElement webElement : webElements) {
-			wrappedList.add(new WComponentWebElement(webElement, this));
+			wrappedList.add(new SeleniumWComponentWebElement(webElement, this));
 		}
 
 		return wrappedList;
@@ -266,9 +277,9 @@ public class WComponentWebDriver<T extends WebDriver> implements WebDriver, Take
 	 * @param by the By to search.
 	 * @return the found WebElement.
 	 */
-	private WComponentWebElement findElementInt(final By by) {
+	private SeleniumWComponentWebElement findElementInt(final By by) {
 		waitForPageReady();
-		return new WComponentWebElement(driver.findElement(by), this);
+		return new SeleniumWComponentWebElement(driver.findElement(by), this);
 	}
 
 	/**
