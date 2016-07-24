@@ -60,7 +60,7 @@ public class SeleniumWDialogWebElement extends SeleniumWComponentWebElement {
 	 * Construct a dialog for the given component.
 	 *
 	 * @param element the dialog element.
-	 * @param driver the WComponentWebDriver
+	 * @param driver the SeleniumWComponentsWebDriver
 	 */
 	public SeleniumWDialogWebElement(final WebElement element, final WebDriver driver) {
 

@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.test.selenium.driver;
 import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponentWebElement;
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumUtil;
+import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWDialogWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTableWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextAreaWebElement;
@@ -31,12 +31,12 @@ import org.openqa.selenium.WebElement;
  * @param <T> - the type of backing WebDriver class.
  * @since 1.2.0
  */
-public class WComponentWebDriver<T extends WebDriver> implements WebDriver, TakesScreenshot {
+public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDriver, TakesScreenshot {
 
 	/**
 	 * The logger instance for this class.
 	 */
-	private static final Log LOG = LogFactory.getLog(WComponentWebDriver.class);
+	private static final Log LOG = LogFactory.getLog(SeleniumWComponentsWebDriver.class);
 	/**
 	 * Session cookie String name.
 	 */
@@ -97,7 +97,7 @@ public class WComponentWebDriver<T extends WebDriver> implements WebDriver, Take
 	 * This implementation will be backed by the driver implementation configured in
 	 * {@link com.github.bordertech.wcomponents.test.selenium.driver.ParameterizedWebDriverType}</p>
 	 */
-	public WComponentWebDriver() {
+	public SeleniumWComponentsWebDriver() {
 		this((T) new ParameterizedWebDriverType().getDriverImplementation());
 	}
 
@@ -106,7 +106,7 @@ public class WComponentWebDriver<T extends WebDriver> implements WebDriver, Take
 	 *
 	 * @param driver the backing web driver.
 	 */
-	public WComponentWebDriver(final T driver) {
+	public SeleniumWComponentsWebDriver(final T driver) {
 		this.driver = driver;
 	}
 
@@ -123,7 +123,7 @@ public class WComponentWebDriver<T extends WebDriver> implements WebDriver, Take
 	 * Wait until the page is fully loaded (including AJAX and timers).
 	 */
 	public void waitForPageReady() {
-		WComponentSeleniumUtil.waitForPageReady(driver);
+		SeleniumWComponentsUtil.waitForPageReady(driver);
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class WComponentWebDriver<T extends WebDriver> implements WebDriver, Take
 	 * @return true if an open dialog exists, else false.
 	 */
 	public boolean isOpenDialog() {
-		return WComponentSeleniumUtil.isOpenDialog(this);
+		return SeleniumWComponentsUtil.isOpenDialog(this);
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class WComponentWebDriver<T extends WebDriver> implements WebDriver, Take
 	 * @return the dialog component.
 	 */
 	public SeleniumWDialogWebElement getDialog() {
-		return WComponentSeleniumUtil.getDialog(this);
+		return SeleniumWComponentsUtil.getDialog(this);
 	}
 
 	/**

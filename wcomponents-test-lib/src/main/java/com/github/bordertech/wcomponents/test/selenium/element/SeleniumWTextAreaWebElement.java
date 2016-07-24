@@ -30,7 +30,7 @@ public class SeleniumWTextAreaWebElement extends SeleniumWComponentWebElement {
 	 * Construct a WTextAreaWebElement for the given WebElement.
 	 *
 	 * @param element the dialog element.
-	 * @param driver the WComponentWebDriver
+	 * @param driver the SeleniumWComponentsWebDriver
 	 */
 	public SeleniumWTextAreaWebElement(final WebElement element, final WebDriver driver) {
 

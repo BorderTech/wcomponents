@@ -55,7 +55,7 @@ public class ParameterizedWebDriverType extends WebDriverType<WebDriver> {
 	public WebDriver getDriverImplementation() {
 
 		setSystemProperty();
-		return WComponentWebDriverFactory.createBackingDriver(getDriverClassName());
+		return SeleniumWComponentsWebDriverFactory.createBackingDriver(getDriverClassName());
 	}
 
 	/**
