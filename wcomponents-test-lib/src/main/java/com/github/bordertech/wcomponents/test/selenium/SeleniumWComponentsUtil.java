@@ -24,7 +24,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * @author Joshua Barclay
  * @since 1.2.0
  */
-public final class WComponentSeleniumUtil {
+public final class SeleniumWComponentsUtil {
 
 	/**
 	 * The body tag indicating the page is ready.
@@ -120,7 +120,7 @@ public final class WComponentSeleniumUtil {
 			throw new IllegalArgumentException("a driver must be provided.");
 		}
 
-		WComponentSeleniumUtil.waitForPageReady(driver, PAGE_READY_WAIT_TIMEOUT, PAGE_READY_POLL_INTERVAL);
+		SeleniumWComponentsUtil.waitForPageReady(driver, PAGE_READY_WAIT_TIMEOUT, PAGE_READY_POLL_INTERVAL);
 	}
 
 	/**
@@ -180,7 +180,7 @@ public final class WComponentSeleniumUtil {
 	/**
 	 * Default constructor is hidden. Static utility class.
 	 */
-	private WComponentSeleniumUtil() {
+	private SeleniumWComponentsUtil() {
 		//No impl
 	}
 

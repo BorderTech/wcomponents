@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.examples;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
-import com.github.bordertech.wcomponents.test.selenium.driver.WComponentWebDriver;
+import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -29,7 +29,7 @@ public class WDropdownTriggerActionExample_Test extends WComponentExamplesTestCa
 	@Test
 	public void testExample() {
 		// Launch the web browser to the LDE
-		WComponentWebDriver driver = getDriver();
+		SeleniumWComponentsWebDriver driver = getDriver();
 
 		WDropdownTriggerActionExample ui = (WDropdownTriggerActionExample) getUi();
 

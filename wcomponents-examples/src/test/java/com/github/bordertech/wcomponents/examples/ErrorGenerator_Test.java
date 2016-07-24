@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.examples;
 
-import com.github.bordertech.wcomponents.test.selenium.driver.WComponentWebDriver;
+import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import java.util.Arrays;
 import java.util.List;
 import junit.framework.Assert;
@@ -56,7 +56,7 @@ public class ErrorGenerator_Test extends WComponentExamplesTestCase {
 	@Test
 	public void testError() {
 		// Launch the web browser to the LDE
-		WComponentWebDriver driver = getDriver();
+		SeleniumWComponentsWebDriver driver = getDriver();
 
 		driver.findElement(byWComponentPath(path)).click();
 

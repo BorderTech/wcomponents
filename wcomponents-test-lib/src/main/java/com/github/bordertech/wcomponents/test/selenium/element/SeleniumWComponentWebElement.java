@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumUtil;
+import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
 import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.By;
@@ -35,7 +35,7 @@ public class SeleniumWComponentWebElement implements WebElement {
 	 * Creates a WebElementWrapper.
 	 *
 	 * @param element the backing element.
-	 * @param driver the WComponentWebDriver.
+	 * @param driver the SeleniumWComponentsWebDriver.
 	 */
 	public SeleniumWComponentWebElement(final WebElement element, final WebDriver driver) {
 		if (element == null) {
@@ -69,7 +69,7 @@ public class SeleniumWComponentWebElement implements WebElement {
 	@Override
 	public void click() {
 		element.click();
-		WComponentSeleniumUtil.waitForPageReady(driver);
+		SeleniumWComponentsUtil.waitForPageReady(driver);
 	}
 
 	/**

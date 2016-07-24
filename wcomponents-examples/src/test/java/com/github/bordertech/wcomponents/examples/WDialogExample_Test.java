@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.driver.WComponentWebDriver;
+import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -54,7 +54,7 @@ public class WDialogExample_Test extends WComponentExamplesTestCase {
 	@Test
 	public void testModalDialogCloseOnCancel() {
 		// Launch the web browser to the LDE
-		WComponentWebDriver driver = getDriver();
+		SeleniumWComponentsWebDriver driver = getDriver();
 		WDialogExample example = (WDialogExample) getUi();
 		String expectedText = example.getModalText();
 		final WButton testButton = example.getModalButton();
