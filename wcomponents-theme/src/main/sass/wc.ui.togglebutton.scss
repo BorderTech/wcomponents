@@ -1,13 +1,13 @@
 /* wc.ui.togglebutton.scss */
+// toggle button styles based on https://codepen.io/mallendeo/pen/eLIiG
 @import 'mixins-common';
 
 .wc-togglebutton {
 	@include border;
 	background-color: $wc-ui-color-highlight-bg;
 	border-radius: $wc-togglebutton-slider-width;
-	cursor: pointer;
 	height: $wc-togglebutton-slider-width;
-	outline: 0;
+	// outline: 0;
 	position: relative;
 	transition: $wc-togglebutton-transition;
 	user-select: none;
@@ -26,33 +26,24 @@
 		width: 50%;
 	}
 
-	&:hover:after {
-		will-change: padding;
-	}
-
-	&:active:after {
-		padding-right: 0.8em;
-	}
-
-	&.wc_ro:active:after {
-		padding-right: 0;
-	}
-
-	&:before {
-		display: none;
-	}
-
 	&.wc_ro_sel,
 	&[aria-checked='true'] {
-		background-color: $wc-ui-color-togglebutton-selected;
-
 		&:after {
 			left: calc(50% - $wc-togglebutton-double-border-width);
 		}
+	}
 
-		&[disabled] {
-			background-color: $wc-ui-color-disabled-bg;
+	&[aria-checked='true'] {
+		background-color: $wc-ui-color-togglebutton-selected;
+
+		// invite ???
+		&:focus {
+			background-color: $wc-ui-color-invite-bg;
 		}
+	}
+
+	&[disabled] {
+		background-color: $wc-ui-color-disabled-bg;
 	}
 
 	&.wc_ro {

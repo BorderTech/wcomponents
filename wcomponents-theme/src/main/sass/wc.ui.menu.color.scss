@@ -25,6 +25,6 @@
 
 // selected elements
 .wc-menuitem[aria-checked='true'] {
-	background-color: $wc-ui-color-highlight-bg;
-	color: $wc-ui-color-highlight-fg;
+	background-color: $wc-ui-color-selected-bg;
+	color: $wc-ui-color-selected-fg;
 }
