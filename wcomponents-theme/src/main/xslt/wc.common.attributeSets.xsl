@@ -42,12 +42,14 @@
 		<xsl:param name="value" select="@value" />
 		<xsl:param name="live" select="'polite'" />
 		<xsl:param name="myLabel" select="key('labelKey', $id)[1]" />
+		<xsl:param name="class"/>
 
 		<xsl:call-template name="commonAttributes">
 			<xsl:with-param name="id" select="$id" />
 			<xsl:with-param name="live" select="$live" />
 			<xsl:with-param name="isControl" select="1" />
 			<xsl:with-param name="class">
+				<xsl:value-of select="$class"/>
 				<xsl:if test="@submitOnChange and not(@list)">
 					<xsl:text> wc_soc</xsl:text>
 				</xsl:if>
