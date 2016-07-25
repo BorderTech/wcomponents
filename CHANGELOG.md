@@ -9,7 +9,7 @@
 ## Enhancements
 * Added mechanism to convert tabsets to accordions on small screens #783.
 * Allow placeholder to be set on relevant components #702.
-
+* Added new component WToggleButton which renders a single checkable component in a button form. This may be used as a WSubordinateControl trigger or a WAjaxControl trigger #428.
 
 # Release 1.2.1
 ## API Changes
