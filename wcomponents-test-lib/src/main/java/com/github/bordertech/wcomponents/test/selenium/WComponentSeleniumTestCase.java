@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.test.selenium;
 
 import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverCache;
 import com.github.bordertech.wcomponents.test.selenium.driver.ParameterizedWebDriverType;
-import com.github.bordertech.wcomponents.test.selenium.driver.WComponentWebDriver;
+import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverType;
 import com.github.bordertech.wcomponents.test.selenium.server.ServerCache;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
@@ -195,7 +195,7 @@ public abstract class WComponentSeleniumTestCase {
 				throw new SystemException("Attempted to launch driver prior to configuring the url.");
 			}
 
-			WComponentWebDriver driver = getDriverWithoutLaunching();
+			SeleniumWComponentsWebDriver driver = getDriverWithoutLaunching();
 			if (driver.hasSession()) {
 				driver.newSession(getUrl());
 			} else {
@@ -254,7 +254,7 @@ public abstract class WComponentSeleniumTestCase {
 	 *
 	 * @return the driver to use during testing.
 	 */
-	public WComponentWebDriver getDriver() {
+	public SeleniumWComponentsWebDriver getDriver() {
 
 		if (driverType == null) {
 			throw new IllegalArgumentException("driverType must not be null."
@@ -274,7 +274,7 @@ public abstract class WComponentSeleniumTestCase {
 	 *
 	 * @return the driver to use during testing.
 	 */
-	public WComponentWebDriver getDriverWithoutLaunching() {
+	public SeleniumWComponentsWebDriver getDriverWithoutLaunching() {
 		if (driverType == null) {
 			throw new IllegalArgumentException("driverType must not be null."
 					+ " Ensure the correct constructor was called or the setter has been invoked.");
