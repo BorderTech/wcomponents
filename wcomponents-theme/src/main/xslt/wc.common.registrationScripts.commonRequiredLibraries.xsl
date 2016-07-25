@@ -68,6 +68,10 @@
 			<xsl:text>"wc/ui/textArea",</xsl:text>
 		</xsl:if>
 		
+		<xsl:if test=".//ui:togglebutton[not(@readOnly)]">
+			<xsl:text>"wc/ui/checkboxAnalog",</xsl:text>
+		</xsl:if>
+		
 		<!-- 
 			These are in order of 'likelihood'. We use or rather than | as most decent processors will stop after the 
 			first successful nodeset is found. You REALLY want wc/ui/textField in your wc.common.js though.

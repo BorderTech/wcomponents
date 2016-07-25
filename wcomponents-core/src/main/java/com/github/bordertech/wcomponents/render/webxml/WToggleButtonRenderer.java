@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WComponentGroup;
+import com.github.bordertech.wcomponents.WToggleButton;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 
@@ -13,7 +14,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-final class WCheckBoxRenderer extends AbstractWebXmlRenderer {
+final class WToggleButtonRenderer extends AbstractWebXmlRenderer {
 
 	/**
 	 * Paints the given WCheckBox.
@@ -23,33 +24,33 @@ final class WCheckBoxRenderer extends AbstractWebXmlRenderer {
 	 */
 	@Override
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
-		WCheckBox checkBox = (WCheckBox) component;
+		WToggleButton toggle = (WToggleButton) component;
 		XmlStringBuilder xml = renderContext.getWriter();
-		WComponent submitControl = checkBox.getDefaultSubmitButton();
-		boolean readOnly = checkBox.isReadOnly();
+		boolean readOnly = toggle.isReadOnly();
 
-		xml.appendTagOpen("ui:checkbox");
+
+		xml.appendTagOpen("ui:togglebutton");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("hidden", checkBox.isHidden(), "true");
-		xml.appendOptionalAttribute("selected", checkBox.isSelected(), "true");
+		xml.appendOptionalAttribute("hidden", toggle.isHidden(), "true");
+		xml.appendOptionalAttribute("selected", toggle.isSelected(), "true");
 		xml.appendOptionalAttribute("readOnly", readOnly, "true");
 		if (!readOnly) {
-			String submitControlId = submitControl == null ? null : submitControl.getId();
-			WComponentGroup<WCheckBox> group = checkBox.getGroup();
+			WComponentGroup<WCheckBox> group = toggle.getGroup();
 			String groupName = group == null ? null : group.getId();
 			xml.appendOptionalAttribute("groupName", groupName);
-			xml.appendOptionalAttribute("disabled", checkBox.isDisabled(), "true");
-			xml.appendOptionalAttribute("required", checkBox.isMandatory(), "true");
-			xml.appendOptionalAttribute("submitOnChange", checkBox.isSubmitOnChange(), "true");
-			xml.appendOptionalAttribute("tabIndex", component.hasTabIndex(), component.getTabIndex());
-			xml.appendOptionalAttribute("toolTip", checkBox.getToolTip());
-			xml.appendOptionalAttribute("accessibleText", checkBox.getAccessibleText());
-			xml.appendOptionalAttribute("buttonId", submitControlId);
+			xml.appendOptionalAttribute("disabled", toggle.isDisabled(), "true");
+			xml.appendOptionalAttribute("submitOnChange", toggle.isSubmitOnChange(), "true");
+			xml.appendOptionalAttribute("toolTip", toggle.getToolTip());
+			xml.appendOptionalAttribute("accessibleText", toggle.getAccessibleText());
 		}
-
-		xml.appendEnd();
+		xml.appendClose();
+		String text = toggle.getText();
+		if (text != null) {
+			xml.appendEscaped(text);
+		}
+		xml.appendEndTag("ui:togglebutton");
 	}
 
 }
