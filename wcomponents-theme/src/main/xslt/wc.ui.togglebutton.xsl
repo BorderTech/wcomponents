@@ -31,7 +31,7 @@
 					<xsl:call-template name="commonControlAttributes">
 						<xsl:with-param name="isError" select="$isError"/>
 						<xsl:with-param name="myLabel" select="$myLabel[1]"/>
-						<xsl:with-param name="class" select="'wc-nobutton'"/>
+						<xsl:with-param name="class" select="'wc-nobutton wc-invite'"/>
 					</xsl:call-template>
 					<!-- Fortunately commonControlAttributes will only output a value attribute if
 						the XML element has a value attribute; so we can add the ui:checkbox value
