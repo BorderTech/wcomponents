@@ -73,34 +73,34 @@ public class WToggleButtonExample extends WPanel {
 		add(container);
 
 		add(new ExplanatoryText("Toggle button exposing WCheckBox properties with labels."));
-		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
+		WFieldLayout layout = new WFieldLayout();
 		add(layout);
 
 
 		// the regular (check-boxy) parts of WToggleButton.
 
-		layout.addField("Normal Check box", new WToggleButton());
-		layout.addField("Checked Check box", new WToggleButton(true));
+		layout.addField("Normal toggle button", new WToggleButton());
+		layout.addField("Checked toggle button", new WToggleButton(true));
 
 		toggle = new WToggleButton();
 		toggle.setDisabled(true);
-		layout.addField("Disabled check box", toggle);
+		layout.addField("Disabled toggle button", toggle);
 
 		toggle = new WToggleButton(true);
 		toggle.setDisabled(true);
-		layout.addField("Disabled checked check box", toggle);
+		layout.addField("Disabled checked toggle button", toggle);
 
 		toggle = new WToggleButton();
 		toggle.setMandatory(true);
-		layout.addField("Mandatory check box", toggle);
+		layout.addField("Mandatory toggle button", toggle);
 
 		toggle = new WToggleButton();
 		toggle.setReadOnly(true);
-		layout.addField("Read only unchecked check box", toggle);
+		layout.addField("Read only unchecked toggle button", toggle);
 
 		toggle = new WToggleButton(true);
 		toggle.setReadOnly(true);
-		layout.addField("Read only checked check box", toggle);
+		layout.addField("Read only checked toggle button", toggle);
 
 
 
