@@ -14,6 +14,8 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WSubMenu;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.util.HtmlClassProperties;
+import com.github.bordertech.wcomponents.util.HtmlIconUtil;
 
 /**
  * This component demonstrates the usage of a {@link WMenu.MenuType#BAR Tree} {@link WMenu}.
@@ -129,6 +131,16 @@ public class MenuBarExample extends WContainer {
 
 		menu.add(new WMenuItem("Link", "http://www.example.com"));
 		menu.add(new WMenuItem("No Action"));
+
+		WMenuItem itemWithIcon = new WMenuItem("Help");
+		itemWithIcon.setAction(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				// do something
+			}
+		});
+		itemWithIcon.setHtmlClass(HtmlClassProperties.ICON_HELP_BEFORE);
+		menu.add(itemWithIcon);
 
 		return menu;
 	}
