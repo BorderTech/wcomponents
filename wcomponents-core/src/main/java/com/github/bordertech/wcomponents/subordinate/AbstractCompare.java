@@ -88,7 +88,7 @@ public abstract class AbstractCompare extends AbstractCondition {
 	@Override
 	protected boolean execute() {
 		// Disabled triggers are always false
-		if ((trigger instanceof Disableable) && ((Disableable) trigger).isDisabled()) {
+		if ((trigger instanceof Disableable) && ((Disableable) trigger).isDisabled()  && !(trigger instanceof Input && ((Input) trigger).isReadOnly())) {
 			return false;
 		}
 
@@ -107,7 +107,7 @@ public abstract class AbstractCompare extends AbstractCondition {
 	@Override
 	protected boolean execute(final Request request) {
 		// Disabled triggers are always false
-		if ((trigger instanceof Disableable) && ((Disableable) trigger).isDisabled()) {
+		if ((trigger instanceof Disableable) && ((Disableable) trigger).isDisabled() && !(trigger instanceof Input && ((Input) trigger).isReadOnly())) {
 			return false;
 		}
 

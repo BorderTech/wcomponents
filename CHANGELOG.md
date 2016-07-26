@@ -3,6 +3,7 @@
 ## API Changes
 
 ## Bug Fixes
+* Fixed a bug in `com.github.bordertech.wcomponents.subordinate.AbstractCompare` which resulted in Subordinate controls returning an incorrect value if the control was in a read-only state #780.
 * Fixed a newly introduced bug which caused textareas to fail to accept newlines in IE11 #785.
 * Fixed several IE CSS issues.
 
