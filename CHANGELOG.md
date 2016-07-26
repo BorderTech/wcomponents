@@ -3,10 +3,17 @@
 ## API Changes
 
 ## Bug Fixes
+* Fixed bug which could result in dialogs being mis-positioned #805.
+
+## Enhancements
+* JavaScript API added a utility module to centralize determination of toggle points for responsive UI updates.
+
+# Release 1.2.2
+## Bug Fixes
 * Fixed a bug in `com.github.bordertech.wcomponents.subordinate.AbstractCompare` which resulted in Subordinate controls returning an incorrect value if the control was in a read-only state #780.
 * Fixed a newly introduced bug which caused textareas to fail to accept newlines in IE11 #785.
 * Fixed several IE CSS issues.
-* Fixed bug which could result in dialogs being mis-positioned #805.
+* Fixed a bug which caused the incorrect HTML className to be set using HtmlIconUtils to place a custom icon "AFTER" element content.
 
 ## Enhancements
 * Added mechanism to convert tabsets to accordions on small screens #783.
