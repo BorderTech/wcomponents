@@ -13,7 +13,7 @@
  * @requires module:wc/ajax/setLoading
  * @requires module:wc/dom/focus
  * @requires module:wc/dom/classList
- * @requires module:wc/dom/getViewportSize
+ * @requires module:wc/ui/viewportUtils
  * @requires module:wc/ui/ajax/processResponse
  * @requires module:wc/dom/event
  * @requires module:wc/timers
@@ -30,12 +30,12 @@ define(["wc/array/toArray",
 	"wc/ajax/setLoading",
 	"wc/dom/focus",
 	"wc/dom/classList",
-	"wc/dom/getViewportSize",
+	"wc/ui/viewportUtils",
 	"wc/ui/ajax/processResponse",
 	"wc/dom/event",
 	"wc/timers"],
 	function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, shed, Widget, containerload,
-		setLoading, focus, classList, getViewportSize, processResponse, event, timers) {
+		setLoading, focus, classList, viewportUtils, processResponse, event, timers) {
 		"use strict";
 
 		/**
@@ -78,8 +78,6 @@ define(["wc/array/toArray",
 				 * @private
 				 */
 				lastTabId,
-
-				TOGGLE_POINT = 1001, // from Sass see mixin respond-not-small
 				CONVERTED = "data-wc-converted",
 				MULTISELECT = "aria-multiselectable",
 				TRUE = "true",
@@ -729,8 +727,7 @@ define(["wc/array/toArray",
 			 */
 			function toggleToFromAccordions(container) {
 				var candidates,
-					element = container || document.body,
-					vps;
+					element = container || document.body;
 
 				if (TABSET.isOneOfMe(element)) {
 					candidates = [element];
@@ -743,13 +740,11 @@ define(["wc/array/toArray",
 					return;
 				}
 
-				if ((vps = getViewportSize())) {
-					if (vps.width < TOGGLE_POINT) {
-						candidates.forEach(tabsetToAccordion);
-					}
-					else {
-						candidates.forEach(AccordionToTabset);
-					}
+				if (viewportUtils.isSmallScreen()) {
+					candidates.forEach(tabsetToAccordion);
+				}
+				else {
+					candidates.forEach(AccordionToTabset);
 				}
 			}
 

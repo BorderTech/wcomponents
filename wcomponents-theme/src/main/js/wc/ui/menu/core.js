@@ -10,7 +10,6 @@
  * @requires module:wc/dom/focus
  * @requires module:wc/dom/formUpdateManager
  * @requires module:wc/dom/getFilteredGroup
- * @requires module:wc/dom/getViewportSize
  * @requires module:wc/dom/keyWalker
  * @requires module:wc/dom/shed
  * @requires module:wc/dom/viewportCollision
@@ -21,6 +20,7 @@
  * @requires module:wc/i18n/i18n
  * @requires module:wc/dom/getBox
  * @requires module:wc/array/toArray
+ * @requires module:wc/ui/viewportUtils
  *
  * @see {@link module:wc/ui/menu/bar}
  * @see {@link module:wc/ui/menu/column}
@@ -32,7 +32,6 @@ define(["wc/dom/attribute",
 		"wc/dom/focus",
 		"wc/dom/formUpdateManager",
 		"wc/dom/getFilteredGroup",
-		"wc/dom/getViewportSize",
 		"wc/dom/keyWalker",
 		"wc/dom/shed",
 		"wc/dom/viewportCollision",
@@ -42,10 +41,14 @@ define(["wc/dom/attribute",
 		"wc/timers",
 		"wc/i18n/i18n",
 		"wc/dom/getBox",
-		"wc/array/toArray"
+		"wc/array/toArray",
+		"wc/ui/viewportUtils"
 	],
-	/** @param attribute @param classList @param event @param focus @param formUpdateManager @param getFilteredGroup @param getViewportSize @param keyWalker @param shed @param viewportCollision @param Widget @param key @param processResponse @param timers @param i18n @param getBox @param toArray @ignore */
-	function(attribute, classList, event, focus, formUpdateManager, getFilteredGroup, getViewportSize, keyWalker, shed, viewportCollision, Widget, key, processResponse, timers, i18n, getBox, toArray) {
+	/** @param attribute @param classList @param event @param focus @param formUpdateManager @param getFilteredGroup
+	 * @param keyWalker @param shed @param viewportCollision @param Widget @param key
+	 * @param processResponse @param timers @param i18n @param getBox @param toArray @param viewportUtils @ignore */
+	function(attribute, classList, event, focus, formUpdateManager, getFilteredGroup, keyWalker, shed,
+		viewportCollision, Widget, key, processResponse, timers, i18n, getBox, toArray, viewportUtils) {
 		"use strict";
 
 		/* NOTE: Many functions in this module are private but accept an instance of a subclass as an argument. These
@@ -104,8 +107,7 @@ define(["wc/dom/attribute",
 				KeyEvent.DOM_VK_DOWN,
 				KeyEvent.DOM_VK_LEFT,
 				KeyEvent.DOM_VK_RIGHT
-			],
-			FULL_SCREEN_TOGGLE_POINT = 773;
+			];
 
 		/**
 		 * Sets up {@link module:wc/dom/Widget} descriptors for parts of a menu which do not vary between subclasses.
@@ -227,11 +229,6 @@ define(["wc/dom/attribute",
 			return result;
 		}
 
-		function canActivateOnHover() {
-			var vps = getViewportSize();
-			return !(vps && vps.width <= FULL_SCREEN_TOGGLE_POINT);
-		}
-
 		/**
 		 * Mouse over handler. Sets up hover effects when the menu is transoent and not displayed on a mobile device.
 		 * This handler is only bound if required when a menu first receives focus and is bound directly to the menu
@@ -259,7 +256,7 @@ define(["wc/dom/attribute",
 				}
 
 				this._focusItem(item, root);
-				if (activateOnHover === root.id && canActivateOnHover()) {
+				if (activateOnHover === root.id && viewportUtils.isPhoneLike()) {
 					// current menu is active menu
 					if (this._isOpener(item)) {
 						item = this._getBranch(item);
