@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Duplet;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.SystemException;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * The {@link Renderer} for {@link WDefinitionList}.
@@ -59,7 +59,7 @@ final class WDefinitionListRenderer extends AbstractWebXmlRenderer {
 		// Render margin
 		MarginRendererUtil.renderMargin(list, renderContext);
 
-		for (Duplet<String, List<WComponent>> term : list.getTerms()) {
+		for (Duplet<String, ArrayList<WComponent>> term : list.getTerms()) {
 			xml.appendTagOpen("ui:term");
 			xml.appendAttribute("text", I18nUtilities.format(null, term.getFirst()));
 			xml.appendClose();
