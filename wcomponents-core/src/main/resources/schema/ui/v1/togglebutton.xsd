@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+	<xs:include schemaLocation="attributeGroups.control.xsd" />
+
+	<xs:element name="togglebutton">
+		<xs:annotation>
+			<xs:documentation>
+				<p>WToggleButton represents a single toggleable selection device using a button.</p>
+				<p>WToggleButton expects that the POSTed form data contains:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Field name</th>
+							<th>Type</th>
+							<th>Mandatory</th>
+							<th>Value</th>
+							<th>Notes</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>@id</td>
+							<td>String</td>
+							<td>yes</td>
+							<td>"true"|""</td>
+							<td>"true" if the toggle button is selected, an empty string if unchecked</td>
+						</tr>
+					</tbody>
+				</table>
+			</xs:documentation>
+		</xs:annotation>
+
+		<xs:complexType>
+			<xs:attributeGroup ref="ui:input.attributes" />
+
+			<xs:attribute name="groupName" type="xs:NMTOKEN">
+				<xs:annotation>
+					<xs:documentation>Indicates that the check box belongs to a named group. This is used to link a WCheckBox with a WSelectToggle. The value must be the groupName
+						of a WSelectToggle in the current application.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
+			<xs:attribute name="selected" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Indicates the initial checked state of the check box. If true the check box is checked. Not output if "false".</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
