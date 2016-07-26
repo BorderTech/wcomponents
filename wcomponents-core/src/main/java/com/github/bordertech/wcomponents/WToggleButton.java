@@ -1,8 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.SystemException;
-import java.io.Serializable;
 import java.text.MessageFormat;
 
 /**
@@ -47,17 +45,16 @@ public class WToggleButton extends WCheckBox {
 	 * Sets the button text.
 	 *
 	 * @param text the button text, using {@link MessageFormat} syntax
-	 * @param args optional arguments for the button text format string
 	 */
-	public final void setText(final String text, final Serializable... args) {
-		getOrCreateComponentModel().text = I18nUtilities.asMessage(text, args);
+	public final void setText(final String text) {
+		getOrCreateComponentModel().text = text;
 	}
 
 	/**
 	 * @return the text to show on the toggle button
 	 */
 	public String getText() {
-		return I18nUtilities.format(null, getComponentModel().text);
+		return getComponentModel().text;
 	}
 
 	/**
@@ -142,6 +139,6 @@ public class WToggleButton extends WCheckBox {
 		/**
 		 * Text to show on the button.
 		 */
-		private Serializable text;
+		private String text;
 	}
 }
