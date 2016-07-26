@@ -70,7 +70,7 @@ public final class HtmlIconUtil {
 					builder.append(CLASS_ICON_BEFORE_CONTENT);
 					break;
 				case AFTER:
-					builder.append(CLASS_ICON_BEFORE_CONTENT);
+					builder.append(CLASS_ICON_AFTER_CONTENT);
 					break;
 				default:
 					builder.append(CLASS_ICON);
