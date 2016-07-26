@@ -74,6 +74,7 @@ define(["wc/dom/group", "wc/dom/shed"],
 				filter,
 				ignoreInnerGroups,
 				asObject,
+				shedAttributeOnly = false,
 				mask = getFilteredGroup.FILTERS,
 				filterFunc = function(element) {
 					var _result = true,
@@ -90,7 +91,7 @@ define(["wc/dom/group", "wc/dom/shed"],
 						flags = filter & nextMask;  // extract the relevant flags from the provided filter
 						if (flags && flags !== nextMask) {  // if one flag is set (but not BOTH flags)
 							reverse = !!(flags & negative);  // do we need to reverse the results from SHED?
-							_result = reverse ^ shed[SHED_FILTERS[Math.floor(i / 2)]](element);
+							_result = reverse ^ shed[SHED_FILTERS[Math.floor(i / 2)]](element, shedAttributeOnly);
 						}
 					}
 					return !!_result;  // XOR returns a bitmask not === true
@@ -102,6 +103,7 @@ define(["wc/dom/group", "wc/dom/shed"],
 					asObject = config.asObject;
 					filter = config.filter || mask.selected;
 					ignoreInnerGroups = config.ignoreInnerGroups;
+					shedAttributeOnly = !! config.shedAttributeOnly;
 				}
 				else {
 					filter = mask.selected;
@@ -164,6 +166,8 @@ define(["wc/dom/group", "wc/dom/shed"],
 		 *    {@link module:wc/dom/getFilteredGroup.FILTERS} If not provided the mask will default to "selected". Note
 		 *    that setting BOTH flags for a given property (e.g. hidden + visible) is the same as setting NEITHER of the
 		 *    flags so don't bother.
+		 * @property {boolean} shedAttributeOnly If true use only the simple attribute test in shedFilters (at present
+		 *    this applies only to isHidden).
 		 */
 
 		/**

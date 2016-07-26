@@ -4,6 +4,7 @@
 
 ## Bug Fixes
 * Fixed bug which could result in dialogs being mis-positioned #805.
+* Fixed bugs in keyboard driving combo boxes #808, #809.
 
 ## Enhancements
 * JavaScript API added a utility module to centralize determination of toggle points for responsive UI updates.

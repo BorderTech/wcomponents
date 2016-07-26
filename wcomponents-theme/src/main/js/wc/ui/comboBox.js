@@ -132,7 +132,7 @@ define(["wc/has",
 			 */
 			function clearList(combo) {
 				var listbox = getListBox(combo), options;
-				if (listbox && (options = getFilteredGroup(listbox))) {
+				if (listbox && (options = getFilteredGroup(listbox, {containerWd: LISTBOX, itemWd: OPTION, shedAttributeOnly: true}))) {
 					options.forEach(function(next) {
 						shed.deselect(next, true);  // do not publish they are already hidden and are not important for anything else.
 						next.tabIndex = 0;
@@ -318,6 +318,10 @@ define(["wc/has",
 				}
 			}
 
+			function getAvailableOptions(listbox) {
+				return getFilteredGroup(listbox, {filter: (getFilteredGroup.FILTERS.visible|getFilteredGroup.FILTERS.enabled), containerWd: LISTBOX, itemWd: OPTION, shedAttributeOnly: true});
+			}
+
 			/**
 			 * Given an option in a listbox and a printable character, find the next option (if any) which starts
 			 * with that character.
@@ -332,7 +336,7 @@ define(["wc/has",
 			 * @returns {Element} The next available option which starts with keyName (if any), or undefined.
 			 */
 			function getTextTarget(listbox, start, keyName) {
-				var options = getFilteredGroup(listbox),
+				var options = getAvailableOptions(listbox),
 					result,
 					startIdx = options.indexOf(start), i, next, txt;
 
@@ -810,7 +814,7 @@ define(["wc/has",
 					return;
 				}
 
-				candidates = getFilteredGroup(listbox, {filter: getFilteredGroup.FILTERS.visible, containerWd: LISTBOX, itemWd: OPTION});
+				candidates = getAvailableOptions(listbox);
 
 				if (candidates && candidates.length) {
 					if (candidates.some(function (next) {
