@@ -56,6 +56,8 @@
 				<include name="**/*"/>
 			</fileset>
 		</copy>
+		<copy file="${basedir}/node_modules/i18next/i18next.min.js" tofile="${lib.tmp.src.dir}/i18next.js"/>
+		<copy file="${basedir}/node_modules/i18next-xhr-backend/i18nextXHRBackend.min.js" tofile="${lib.tmp.src.dir}/i18nextXHRBackend.js"/>
 		<copy file="${basedir}/node_modules/sprintf-js/src/sprintf.js" tofile="${lib.tmp.src.dir}/sprintf.js"/>
 		<copy file="${basedir}/node_modules/timezone-js/src/date.js" tofile="${lib.tmp.src.dir}/date.js"/>
 		<copy todir="${lib.tmp.src.dir}/dojo" overwrite="true">

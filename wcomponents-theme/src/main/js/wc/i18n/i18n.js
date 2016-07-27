@@ -4,9 +4,9 @@
  * @requires module:wc/array/toArray
  * @requires module:wc/array/unique
  */
-define(["lib/sprintf", "wc/array/toArray", "wc/array/unique", "wc/config"],
+define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "lib/i18nextXHRBackend", "wc/loader/resource"],
 
-	function(sprintf, toArray, unique, wcconfig) {
+	function(sprintf, toArray, wcconfig, i18next, i18nextXHRBackend, resource) {
 		"use strict";
 		var instance = new I18n();
 		/**
@@ -20,118 +20,44 @@ define(["lib/sprintf", "wc/array/toArray", "wc/array/unique", "wc/config"],
 		 * @private
 		 */
 		function I18n() {
-			var bundle, i18nConfig, NOT_FOUND_RETURN_VALUE = "";
+			var i18nConfig,
+				NOT_FOUND_RETURN_VALUE = "";
 
 			/**
 			 * Resolves when this module is initialized.
 			 * @param config Configuration options.
-			 * @param {Function} [parentRequire] If calling as an AMD loader plugin provide a parentRequire.
-			 * @returns Promise
+			 * @param {Function} [callback] Called when initialized.
 			 */
-			this.initialize = function(config, parentRequire) {
+			this.initialize = function(config, callback) {
 				i18nConfig = config || {};
-				return loadJs(parentRequire);
+				initI18next(callback);
 			};
 
-			/**
-			 * Look up a particular key.
-			 * @function
-			 * @private
-			 * @param {string} key A message key, i.e. the key of an i18n key/value pair.
-			 * @returns {string} The message value, i.e. the value of an i18n key/value pair.
-			 */
-			function lookup(key) {
-				if (bundle && key in bundle) {
-					return bundle[key];
-				}
-				return NOT_FOUND_RETURN_VALUE;
-			}
-
-			/*
-			 * Loads a resource bundle containing messages for the given locale.
-			 * Will attempt to fall back to default locales if possible.
-			 * @param {Function} [parentRequire] If calling as an AMD loader plugin provide a parentRequire.
-			 */
-			function loadJs(parentRequire) {
-				var result = new Promise(function(resolve, reject) {
-					var attempted = [],
-						locales =[],
-						win = function(obj) {
-							bundle = obj;
-							resolve(bundle);
-						},
-						tryLoadNext = function() {
-							var nextLocale;
-							if (locales.length) {
-								nextLocale = locales.shift();
-								attempted.push(nextLocale);
-								console.log("Attempting to load locale", nextLocale);
-								loadLocale(nextLocale, parentRequire || require, win, tryLoadNext);
-							}
-							else {
-								reject("Could not find any i18n resource bundles " + attempted.join());
-							}
-						};
-					if (i18nConfig.locale) {
-						locales.push(i18nConfig.locale);
-					}
-					addDefaultLocales(locales);
-					if (locales.length > 1) {
-						locales = unique(locales);
-					}
-					tryLoadNext();
-				});
+			function getOptions() {
+				var basePath = i18nConfig.basePath || resource.getResourceUrl(),
+					defaultOptions = {
+						load: "currentOnly",
+						initImmediate: true,
+						ns: [
+							"translation"
+						],
+						defaultNS: [
+							"translation"
+						],
+						lng: "${default.i18n.locale}",
+						fallbackLng: "${default.i18n.locale}",
+						backend: {
+							loadPath: basePath + "{{ns}}/{{lng}}.json"
+						}
+					},
+					result = Object.assign({}, defaultOptions, i18nConfig.options);
 				return result;
 			}
 
-			/**
-			 * Adds default locale/s to the array of locales provided.
-			 * Default locales will be added to the end of the array.
-			 * Note that this may result in duplicates being added to the array.
-			 * @param {string[]} locales
-			 */
-			function addDefaultLocales(locales) {
-				var i, next, defaultLocales = ["${default.i18n.locale}", (navigator.language || navigator.browserLanguage)];
-				if (navigator.languages) {
-					defaultLocales = defaultLocales.concat(navigator.languages);
-				}
-				defaultLocales = unique(defaultLocales);
-				for (i = 0; i < defaultLocales.length; i++) {
-					next = defaultLocales[i];
-					if (next) {
-						locales.push(next);
-					}
-				}
-			}
-
-			/**
-			 * Attempts to load  a resource bundle for the given locale.
-			 *
-			 * WARNING - DO NOT PROMISIFY THIS FUNCTION: returning a promise created huge problems on iOS
-			 *
-			 * @param {string} locale The locale name.
-			 * @param {Function} require The AMD loader to use.
-			 * @param {Function} success Will be called with the locale bundle if loaded.
-			 * @param {Function} fail Will be called if the locale bundle was not loaded.
-			 */
-			function loadLocale(locale, require, success, fail) {
-				var lose = function() {
-					console.info("Could not find i18n bundle for ", locale);
-					fail(locale);
-				};
-				if (locale) {
-					require(["wc/i18n/" + locale], function(obj) {
-						if (obj) {
-							success(obj);
-						}
-						else {
-							lose();
-						}
-					}, lose);
-				}
-				else {
-					fail("Can not load null locale");
-				}
+			function initI18next(callback) {
+				var options = getOptions();
+				i18next.use(i18nextXHRBackend);
+				i18next.init(options, callback);
 			}
 
 			/**
@@ -147,7 +73,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/array/unique", "wc/config"],
 			 */
 			this.get = function(key/* , args */) {
 				var args,
-					result = key ? lookup(key) : NOT_FOUND_RETURN_VALUE;
+					result = key ? i18next.t(key) : NOT_FOUND_RETURN_VALUE;
 				if (result && arguments.length > 1) {
 					args = toArray(arguments);
 					args.shift();
@@ -163,7 +89,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/array/unique", "wc/config"],
 			 */
 			this.load = function (id, parentRequire, callback, config) {
 				if (!config || !config.isBuild) {
-					instance.initialize(wcconfig.get("wc/i18n/i18n"), parentRequire).then(callback);
+					instance.initialize(wcconfig.get("wc/i18n/i18n"), callback);
 				}
 				else {
 					callback();
