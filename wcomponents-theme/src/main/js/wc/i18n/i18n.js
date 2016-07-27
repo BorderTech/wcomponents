@@ -127,9 +127,10 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "wc/ajax/
 			};
 
 			this.read = function(language, namespace, callback) {
-				var url = this.services.interpolator.interpolate(this.options.loadPath, { lng: language, ns: namespace });
-				if (this.options.cachebuster) {
-					url += "?" + this.options.cachebuster;
+				var cacheBuster = this.options.cacheBuster || this.options.cachebuster || "",
+					url = this.services.interpolator.interpolate(this.options.loadPath, { lng: language, ns: namespace });
+				if (cacheBuster) {
+					url += "?" + cacheBuster;
 				}
 
 				ajax.simpleRequest({
