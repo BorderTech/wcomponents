@@ -4,9 +4,9 @@
  * @requires module:wc/array/toArray
  * @requires module:wc/array/unique
  */
-define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "lib/i18nextXHRBackend", "wc/loader/resource"],
+define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "lib/i18nextXHRBackend", "wc/ajax/ajax", "wc/loader/resource"],
 
-	function(sprintf, toArray, wcconfig, i18next, i18nextXHRBackend, resource) {
+	function(sprintf, toArray, wcconfig, i18next, i18nextXHRBackend, ajax, resource) {
 		"use strict";
 		var instance = new I18n();
 		/**
@@ -33,6 +33,14 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "lib/i18n
 				initI18next(callback);
 			};
 
+			function addCacheBuster(url, i18nConfig) {
+				var cacheBuster = i18nConfig.cachebuster || "";
+				if (cacheBuster) {
+					url += "?" + cacheBuster;
+				}
+				return url;
+			}
+
 			function getOptions() {
 				var basePath = i18nConfig.basePath || resource.getResourceUrl(),
 					defaultOptions = {
@@ -47,7 +55,19 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "lib/i18n
 						lng: "${default.i18n.locale}",
 						fallbackLng: "${default.i18n.locale}",
 						backend: {
-							loadPath: basePath + "{{ns}}/{{lng}}.json"
+							loadPath: basePath + "{{ns}}/{{lng}}.json",
+							ajax: function (url, options, callback, data) {
+								var cb = function(response) {
+									var xhr = this;
+									callback(response, xhr);
+								};
+								ajax.simpleRequest({
+									url: addCacheBuster(url, i18nConfig),
+									cache: true,
+									callback: cb,
+									onError: cb
+								});
+							}
 						}
 					},
 					result = Object.assign({}, defaultOptions, i18nConfig.options);
