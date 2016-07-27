@@ -17,7 +17,10 @@
 	</target>
 
 	<target name="build" depends="init, buildXmlBundles, buildJsBundles" description="Builds i18n resource bundles">
-
+		<!-- i18n -->
+		<copy todir="${resource.build.target.dir}/translation" overwrite="true">
+			<fileset dir="${i18n.build.target.dir}" includes="*.json"/>
+		</copy>
 	</target>
 
 	<target name="buildXmlBundles">
@@ -33,6 +36,7 @@
 				<var name="file.name" unset="true"/>
 				<var name="locale.suffix" unset="true"/>
 				<var name="destfile.path" unset="true"/>
+				<var name="merged.destfile.path" unset="true"/>
 				<basename property="file.name" file="@{file}" suffix=".properties"/><!-- file name without the extension or path -->
 				<propertyregex property="locale.suffix"
 					override="true"
@@ -41,6 +45,7 @@
 					select="\1"
 					casesensitive="false" /><!-- locale.suffix is now the locale "code", e.g. "en-US" -->
 				<property name="destfile.path" location="${i18n.build.target.dir}/${locale.suffix}.xml"/>
+				<property name="merged.destfile.path" location="${i18n.build.target.dir}/merged.${locale.suffix}.xml"/>
 				<if>
 					<not>
 						<available file="${destfile.path}" type="file"/>
@@ -48,10 +53,14 @@
 					<then>
 						<echo>Building locale properties for ${locale.suffix} to ${destfile.path}</echo>
 						<buildPropsForLocale locale="${locale.suffix}" destfile="${destfile.path}"/>
+						<!-- The merged version is just for the XSLT -->
 						<mergeProperties
 							format="xml"
 							properties0="${destfile.path}"
 							properties1="${default.locale.properties}"
+							destfile="${merged.destfile.path}"/>
+						<propsToXml
+							properties0="${destfile.path}"
 							destfile="${destfile.path}"/>
 					</then>
 				</if>
@@ -71,7 +80,7 @@
 			jsonDir="${i18n.build.target.dir}" />-->
 		<for param="file">
 			<path>
-				<fileset dir="${i18n.build.target.dir}" includes="*.json"/>
+				<fileset dir="${i18n.build.target.dir}" includes="*.json" excludes="merged.*"/>
 			</path>
 			<sequential>
 				<var name="file.name" unset="true"/>

@@ -66,9 +66,11 @@
 			<xsl:value-of select="concat('xslEngine:&quot;', system-property('xsl:vendor'), '&quot;,&#10;')"/>
 			<!-- Used for testing purposes -->
 			<xsl:value-of select="concat('xslUrl:&quot;', normalize-space($xslPath), '&quot;')"/>
-			<xsl:text>},&#10;"wc/i18n/i18n": {</xsl:text>
-			<xsl:value-of select="concat('locale:&quot;', normalize-space($locale), '&quot;')"/>
-			<xsl:text>},&#10;"wc/loader/resource": {</xsl:text>
+			<xsl:text>},&#10;"wc/i18n/i18n": { </xsl:text>
+			<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')"/>
+			<xsl:text>, options:{</xsl:text>
+			<xsl:value-of select="concat('lng:&quot;', normalize-space($locale), '&quot;')"/>
+			<xsl:text>} },&#10;"wc/loader/resource": {</xsl:text>
 			<xsl:value-of select="concat('resourceBaseUrl:&quot;', normalize-space($resourceRoot), '${resource.target.dir.name}/&quot;,&#10;')"/>
 			<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')"/>
 			<xsl:text>},&#10;"wc/loader/style":{</xsl:text>

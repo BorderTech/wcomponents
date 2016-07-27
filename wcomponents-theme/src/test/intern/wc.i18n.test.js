@@ -43,15 +43,14 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				result = i18n.get(key, arg);
 				assert.isTrue(result.indexOf(arg) === -1);
 			},
-			testGetNoMessageFoundReturnsEmptyString: function() {
+			testGetNoMessageFoundReturnsKey: function() {
 				/*
-				* In this test we test that we get an empty string returned when we
+				* In this test we test that the key is returned when we
 				* ask for a message that does not exist.
-				* This is the equivalent of the above two tests due to the power of ===
 				*/
 				var key = "fukung_kungfu",
 					result = i18n.get(key);
-				assert.isTrue(result === "");
+				assert.isTrue(result === key);
 			},
 			testGetWithFormattingArgsAndZero: function() {
 				/*
