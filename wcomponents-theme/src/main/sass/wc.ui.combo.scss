@@ -6,16 +6,49 @@ datalist {
 	display: none;
 }
 
-input[role='combobox'] { // not the combo wrapper of datefield.
-	@include border-box;
-	padding-right: $wc-icon-normal; // allow for icon
+[role='combobox'] {
+	@include border($color: $wc-ui-color-border-form-control);
+	display: inline-block;
+	position: relative;
+	white-space: nowrap;
 
-	&[aria-expanded = 'true'] ~ [role='listbox'] {
-		display: block;
-		// allow for up to approx seven visible options. The factor 1.25 is a rough line-height
-		// Chrome & Safari on OS - X use 1.125 whereas FF appears to use 1.0625.
-		max-height: (7 * 1.125 * (1 + (2 * $wc-gap-small)));
-		max-width: 100%;
-		overflow: auto;
+	@if ($wc-ui-color-disabled-bg != -1) {
+		&[aria-disabled='true'] {
+			background-color: $wc-ui-color-disabled-bg;
+		}
+	}
+
+	> input {
+		border: 0 none;
+	}
+
+	@if ($wc-ui-color-error-bg != -1) {
+		// The whole combo is invalid but we only want to apply the background color to the textbox.
+		&[aria-invalid='true'] > input {
+			background-color: $wc-ui-color-error-bg;
+		}
+	}
+
+	> [role='listbox'] {
+		left: $wc-border-width * -1;
+		min-width: 100%;
+
+		dialog & {
+			left: auto;
+			min-width: initial;
+		}
+	}
+
+	&[aria-expanded='false'] > [role='listbox'] {
+		display: none;
+	}
+
+	> button {
+		@include border($width: 0); // remove the generic wc_btn_icon border.
+		@include border($pos: left);
+		@include margin($pos: left);
+		&:before {
+			content: $fa-var-caret-down;
+		}
 	}
 }

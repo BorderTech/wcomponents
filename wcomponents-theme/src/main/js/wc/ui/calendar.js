@@ -1015,6 +1015,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				launcher;
 			if (keyCode === KeyEvent.DOM_VK_DOWN && ($event.altKey || $event.metaKey) && dateField.isOneOfMe(target, false) && (launcher = LAUNCHER.findDescendant(target.parentNode))) {
 				doLaunch(launcher);
+				$event.preventDefault();
 			}
 		}
 

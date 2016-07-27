@@ -61,13 +61,13 @@
 				<xsl:with-param name="myLabel" select="$myLabel[1]"/>
 			</xsl:call-template>
 		</xsl:element>
-		<ul id="{$listId}" role="listbox" aria-controls="{$id}" hidden="hidden">
+		<span id="{$listId}" role="listbox" aria-controls="{$id}" hidden="hidden">
 			<xsl:if test="not(*)">
 				<xsl:attribute name="aria-busy">
 					<xsl:copy-of select="$t"/>
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:apply-templates mode="comboDataList" />
-		</ul>
+		</span>
 	</xsl:template>
 </xsl:stylesheet>

@@ -3,14 +3,24 @@
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.fauxOption.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
+	<xsl:template match="ui:suggestions">
+		<xsl:if test="parent::ui:ajaxtarget">
+			<xsl:call-template name="suggestions"/>
+		</xsl:if>
+	</xsl:template>
 	<!--
 		This is a transform for WSuggestions. This component is designed to convert a text input element into a combo.
 		
 		NOTE: we are still using the combo polyfill because the behaviour of dynamically generated and updated native 
 		input[@list]/datalist pairs gives sub-optimal UX.
 	-->
-	<xsl:template match="ui:suggestions">
-		<ul id="{@id}" role="listbox" hidden="hidden">
+	
+	<xsl:template match="ui:suggestions" mode="inline">
+		<xsl:call-template name="suggestions"/>
+	</xsl:template>
+	
+	<xsl:template name="suggestions">
+		<span id="{@id}" role="listbox">
 			<xsl:call-template name="makeCommonClass"/>
 			<xsl:if test="@min">
 				<xsl:attribute name="data-wc-minchars">
@@ -30,7 +40,7 @@
 			<xsl:if test="not(*)">
 				<xsl:choose>
 					<xsl:when test="not(@ajax) or parent::ui:ajaxtarget">
-						<li role="option" hidden="hidden"></li>
+						<span role="option" hidden="hidden"></span>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:attribute name="aria-busy">
@@ -39,8 +49,8 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:if>
-			<xsl:apply-templates select="*"/>
-		</ul>
+			<xsl:apply-templates select="ui:suggestion"/>
+		</span>
 	</xsl:template>
 
 	<xsl:template match="ui:suggestion">
