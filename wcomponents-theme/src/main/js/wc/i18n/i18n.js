@@ -4,9 +4,9 @@
  * @requires module:wc/array/toArray
  * @requires module:wc/array/unique
  */
-define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "lib/i18nextXHRBackend", "wc/ajax/ajax", "wc/loader/resource"],
+define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "wc/ajax/ajax", "wc/loader/resource"],
 
-	function(sprintf, toArray, wcconfig, i18next, i18nextXHRBackend, ajax, resource) {
+	function(sprintf, toArray, wcconfig, i18next, ajax, resource) {
 		"use strict";
 		var instance = new I18n();
 		/**
@@ -20,7 +20,32 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "lib/i18n
 		 * @private
 		 */
 		function I18n() {
-			var i18nConfig,
+			var backend = {
+					type: "backend",
+					init: function(services, backendOptions, i18nextOptions) {
+						this.services = services;
+						this.options = backendOptions;
+					},
+					read: function(language, namespace, callback) {
+						var url = this.services.interpolator.interpolate(this.options.loadPath, { lng: language, ns: namespace });
+						ajax.simpleRequest({
+							url: addCacheBuster(url, i18nConfig),
+							cache: true,
+							callback: function(response) {
+								try {
+									var data = JSON.parse(response);
+									callback(null, data);
+								}
+								catch (ex) {
+									callback(ex, response);
+								}
+							},
+							onError: callback
+						});
+					}
+				},
+				i18nConfig,
+				funcTranslate,
 				NOT_FOUND_RETURN_VALUE = "";
 
 			/**
@@ -30,7 +55,15 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "lib/i18n
 			 */
 			this.initialize = function(config, callback) {
 				i18nConfig = config || {};
-				initI18next(callback);
+				initI18next(function(err, translate) {
+					if (!err) {
+						funcTranslate = translate;
+					}
+					else {
+						console.error(err);
+					}
+					callback();
+				});
 			};
 
 			function addCacheBuster(url, i18nConfig) {
@@ -46,12 +79,6 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "lib/i18n
 					defaultOptions = {
 						load: "currentOnly",
 						initImmediate: true,
-						ns: [
-							"translation"
-						],
-						defaultNS: [
-							"translation"
-						],
 						lng: "${default.i18n.locale}",
 						fallbackLng: "${default.i18n.locale}",
 						backend: {
@@ -70,14 +97,32 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "lib/i18n
 							}
 						}
 					},
-					result = Object.assign({}, defaultOptions, i18nConfig.options);
+//					result = Object.assign({}, defaultOptions, i18nConfig.options);
+					result = mixin(defaultOptions, {});
+				result = mixin(i18nConfig.options, result);
+
 				return result;
+			}
+
+			function mixin(source, target) {
+				if (source && target) {
+					for (var prop in source) {
+						if (source.hasOwnProperty(prop)) {
+							target[prop] = source[prop];
+						}
+					}
+				}
+				return target;
 			}
 
 			function initI18next(callback) {
 				var options = getOptions();
-				i18next.use(i18nextXHRBackend);
-				i18next.init(options, callback);
+				try {
+					i18next.use(backend).init(options, callback);
+				}
+				catch (ex) {
+					callback(ex);
+				}
 			}
 
 			/**
@@ -93,7 +138,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "lib/i18n
 			 */
 			this.get = function(key/* , args */) {
 				var args,
-					result = key ? i18next.t(key) : NOT_FOUND_RETURN_VALUE;
+					result = key && funcTranslate ? funcTranslate(key) : NOT_FOUND_RETURN_VALUE;
 				if (result && arguments.length > 1) {
 					args = toArray(arguments);
 					args.shift();
