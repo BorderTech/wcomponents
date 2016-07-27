@@ -20,42 +20,15 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "wc/ajax/
 		 * @private
 		 */
 		function I18n() {
-			var backend = {
-					type: "backend",
-					init: function(services, backendOptions, i18nextOptions) {
-						this.services = services;
-						this.options = backendOptions;
-					},
-					read: function(language, namespace, callback) {
-						var url = this.services.interpolator.interpolate(this.options.loadPath, { lng: language, ns: namespace });
-						ajax.simpleRequest({
-							url: addCacheBuster(url, i18nConfig),
-							cache: true,
-							callback: function(response) {
-								try {
-									var data = JSON.parse(response);
-									callback(null, data);
-								}
-								catch (ex) {
-									callback(ex, response);
-								}
-							},
-							onError: callback
-						});
-					}
-				},
-				i18nConfig,
-				funcTranslate,
-				NOT_FOUND_RETURN_VALUE = "";
+			var funcTranslate;
 
 			/**
-			 * Resolves when this module is initialized.
-			 * @param config Configuration options.
+			 * Initialize this module.
+			 * @param [config] Configuration options.
 			 * @param {Function} [callback] Called when initialized.
 			 */
 			this.initialize = function(config, callback) {
-				i18nConfig = config || {};
-				initI18next(function(err, translate) {
+				initI18next(config || {}, function(err, translate) {
 					if (!err) {
 						funcTranslate = translate;
 					}
@@ -66,16 +39,13 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "wc/ajax/
 				});
 			};
 
-			function addCacheBuster(url, i18nConfig) {
-				var cacheBuster = i18nConfig.cachebuster || "";
-				if (cacheBuster) {
-					url += "?" + cacheBuster;
-				}
-				return url;
-			}
-
-			function getOptions() {
+			/**
+			 * Gets i18next options taking into account defaults and overrides provided by the caller.
+			 * @param i18nConfig Override default options by setting corresponding properties on this object.
+			 */
+			function getOptions(i18nConfig) {
 				var basePath = i18nConfig.basePath || resource.getResourceUrl(),
+					cacheBuster = i18nConfig.cachebuster || "",
 					defaultOptions = {
 						load: "currentOnly",
 						initImmediate: true,
@@ -83,40 +53,21 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "wc/ajax/
 						fallbackLng: "${default.i18n.locale}",
 						backend: {
 							loadPath: basePath + "{{ns}}/{{lng}}.json",
-							ajax: function (url, options, callback, data) {
-								var cb = function(response) {
-									var xhr = this;
-									callback(response, xhr);
-								};
-								ajax.simpleRequest({
-									url: addCacheBuster(url, i18nConfig),
-									cache: true,
-									callback: cb,
-									onError: cb
-								});
-							}
+							cacheBuster: cacheBuster
 						}
 					},
-//					result = Object.assign({}, defaultOptions, i18nConfig.options);
-					result = mixin(defaultOptions, {});
-				result = mixin(i18nConfig.options, result);
-
+					result = Object.assign({}, defaultOptions, i18nConfig.options);
 				return result;
 			}
 
-			function mixin(source, target) {
-				if (source && target) {
-					for (var prop in source) {
-						if (source.hasOwnProperty(prop)) {
-							target[prop] = source[prop];
-						}
-					}
-				}
-				return target;
-			}
-
-			function initI18next(callback) {
-				var options = getOptions();
+			/**
+			 * Initialize the underlying i18next instance.
+			 * @param config Configuration options.
+			 * @param {Function} [callback] Called when initialized.
+			 */
+			function initI18next(config, callback) {
+				var options = getOptions(config),
+					backend = new Backend();
 				try {
 					i18next.use(backend).init(options, callback);
 				}
@@ -138,7 +89,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "wc/ajax/
 			 */
 			this.get = function(key/* , args */) {
 				var args,
-					result = key && funcTranslate ? funcTranslate(key) : NOT_FOUND_RETURN_VALUE;
+					result = (key && funcTranslate) ? funcTranslate(key) : "";
 				if (result && arguments.length > 1) {
 					args = toArray(arguments);
 					args.shift();
@@ -159,6 +110,42 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "wc/ajax/
 				else {
 					callback();
 				}
+			};
+		}
+
+		/**
+		 * Provides an XHR backend for i18next (one that works on PhantomJS).
+		 * All public methods implement the i18next backend interface, see i18next documentaion (if you can find any).
+		 * @constructor
+		 */
+		function Backend() {
+			this.type = "backend";
+
+			this.init = function(services, backendOptions, i18nextOptions) {
+				this.services = services;
+				this.options = backendOptions;
+			};
+
+			this.read = function(language, namespace, callback) {
+				var url = this.services.interpolator.interpolate(this.options.loadPath, { lng: language, ns: namespace });
+				if (this.options.cachebuster) {
+					url += "?" + this.options.cachebuster;
+				}
+
+				ajax.simpleRequest({
+					url: url,
+					cache: true,
+					callback: function(response) {
+						try {
+							var data = JSON.parse(response);
+							callback(null, data);
+						}
+						catch (ex) {
+							callback(ex, response);
+						}
+					},
+					onError: callback
+				});
 			};
 		}
 		return /** @alias module:wc/i18n/i18n */ instance;
