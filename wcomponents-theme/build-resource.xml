@@ -6,7 +6,6 @@
 	<import file="build-import.xml" />
 	<property name="resource.rootdir" location="${common.src.rootdir}/resource" />
 	<property name="impl.resource.rootdir" location="${impl.src.main.dir}/resource" />
-	<property name="resource.build.target.dir" location="${output.dir}/${implementation.name}/${resource.target.dir.name}" />
 
 	<target name="init" depends="clean">
 		<property file="${properties.build.constants}" />
