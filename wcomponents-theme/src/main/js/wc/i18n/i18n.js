@@ -4,9 +4,9 @@
  * @requires module:wc/array/toArray
  * @requires module:wc/array/unique
  */
-define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "wc/ajax/ajax", "wc/loader/resource"],
+define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next", "wc/ajax/ajax", "wc/loader/resource"],
 
-	function(sprintf, toArray, wcconfig, i18next, ajax, resource) {
+	function(sprintf, toArray, wcconfig, mixin, i18next, ajax, resource) {
 		"use strict";
 		var instance = new I18n();
 		/**
@@ -38,25 +38,24 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "lib/i18next", "wc/ajax/
 					callback();
 				});
 			};
-
+			
 			/**
 			 * Gets i18next options taking into account defaults and overrides provided by the caller.
 			 * @param i18nConfig Override default options by setting corresponding properties on this object.
 			 */
 			function getOptions(i18nConfig) {
 				var basePath = i18nConfig.basePath || resource.getResourceUrl(),
-					cacheBuster = i18nConfig.cachebuster || "",
 					defaultOptions = {
 						load: "currentOnly",
 						initImmediate: true,
 						lng: "${default.i18n.locale}",
 						fallbackLng: "${default.i18n.locale}",
 						backend: {
-							loadPath: basePath + "{{ns}}/{{lng}}.json",
-							cacheBuster: cacheBuster
+							loadPath: basePath + "{{ns}}/{{lng}}.json"
 						}
 					},
-					result = Object.assign({}, defaultOptions, i18nConfig.options);
+					result = mixin(defaultOptions, {});
+				result = mixin(i18nConfig.options, result);
 				return result;
 			}
 
