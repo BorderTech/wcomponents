@@ -7,6 +7,7 @@ import junit.framework.Assert;
  * Selenium unit tests for {@link ForwardExample}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 //@Category(SeleniumTests.class)
@@ -26,9 +27,9 @@ public class ForwardExample_Test extends WComponentExamplesTestCase {
 		// Launch the web browser to the LDE
 		SeleniumWComponentsWebDriver driver = getDriver();
 
-		String url = "http://www.ubuntu.com/";
-		driver.findElement(byWComponentPath("WTextField")).clear();
-		driver.findElement(byWComponentPath("WTextField")).sendKeys(url);
+		String url = "http://www.example.com/";
+		driver.findWTextField(byWComponentPath("WTextField")).clear();
+		driver.findWTextField(byWComponentPath("WTextField")).sendKeys(url);
 		driver.findElement(byWComponentPath("WButton")).clickNoWait();
 
 		//Need to invoke the base driver to ensure we don't wait for the WComponent ready state.

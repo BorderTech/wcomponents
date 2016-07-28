@@ -54,6 +54,7 @@
 								</xsl:otherwise>
 							</xsl:choose>
 						</xsl:attribute>
+						<xsl:call-template name="title"/>
 					</xsl:if>
 					<xsl:call-template name="requiredElement">
 						<xsl:with-param name="useNative" select="0"/>
@@ -96,7 +97,9 @@
 								</xsl:choose>
 							</xsl:attribute>
 						</xsl:if>
-						<xsl:call-template name="title"/>
+						<xsl:if test="not($list)">
+							<xsl:call-template name="title"/>
+						</xsl:if>
 						<xsl:call-template name="ajaxController"/>
 						<xsl:call-template name="disabledElement">
 							<xsl:with-param name="isControl" select="1"/>
@@ -116,7 +119,7 @@
 							</xsl:attribute>
 						</xsl:if>
 						<xsl:if test="@maxLength">
-							<xsl:attribute name="maxLength">
+							<xsl:attribute name="maxlength">
 								<xsl:value-of select="@maxLength"/>
 							</xsl:attribute>
 						</xsl:if>
@@ -130,12 +133,15 @@
 								<xsl:value-of select="@pattern"/>
 							</xsl:attribute>
 						</xsl:if>
+						<xsl:if test="$isError">
+							<xsl:call-template name="invalid"/>
+						</xsl:if>
+						<xsl:if test="not($myLabel)">
+							<xsl:call-template name="ariaLabel"/>
+						</xsl:if>
 					</xsl:element>
-					<xsl:variable name="launchId">
-						<xsl:value-of select="concat($id, '_list')"/>
-					</xsl:variable>
 					<xsl:if test="$list">
-						<button value="{$inputId}" tabindex="-1" id="{launchId}" type="button" aria-hidden="true" class="wc_suggest wc_btn_icon wc-invite">
+						<button value="{$inputId}" tabindex="-1" id="{concat($id, '_list')}" type="button" aria-hidden="true" class="wc_suggest wc_btn_icon wc-invite">
 							<xsl:call-template name="disabledElement">
 								<xsl:with-param name="isControl" select="1"/>
 							</xsl:call-template>

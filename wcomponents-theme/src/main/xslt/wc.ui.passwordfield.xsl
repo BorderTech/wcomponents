@@ -23,7 +23,6 @@
 						<xsl:with-param name="force" select="1"/>
 					</xsl:call-template>
 				</xsl:if>
-				<xsl:variable name="list" select="@list"/>
 				<xsl:element name="input">
 					<xsl:call-template name="commonControlAttributes">
 						<xsl:with-param name="isError" select="$isError"/>

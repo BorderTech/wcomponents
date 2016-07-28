@@ -254,16 +254,23 @@ define(["wc/has",
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} listbox the _LISTBOX sub-component to focus.
+			 * @param {Element} listbox the LISTBOX sub-component to focus.
 			 */
 			function focusListbox(listbox) {
+				var textbox;
 				if (listbox && OPTION.findDescendant(listbox)) {
-					// NOTE: this timeout has been tested further and is absolutely required in IE8
-					timers.setTimeout(focus.focusFirstTabstop, IETimeout, listbox, function(target) {
-						if (!shed.isSelected(target)) {
-							listboxAnalog.activate(target);
-						}
-					});
+					textbox = TEXTBOX.findDescendant(listbox.parentNode, true);
+
+					if (!textbox.value) {
+						timers.setTimeout(focus.focusFirstTabstop, IETimeout, listbox, function(target) {
+							if (!shed.isSelected(target)) {
+								listboxAnalog.activate(target);
+							}
+						});
+					}
+					else {
+						timers.setTimeout(focus.focusFirstTabstop, IETimeout, listbox);
+					}
 				}
 			}
 

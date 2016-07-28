@@ -20,11 +20,11 @@ public class WPopupExample extends WPanel {
 	 * Creates a WPopupExample.
 	 */
 	public WPopupExample() {
-		final WPopup popup = new WPopup("http://www.ubuntu.com/");
+		final WPopup popup = new WPopup("http://www.example.com/");
 		popup.setResizable(true);
 		popup.setScrollable(true);
 
-		WButton button1 = new WButton("Popup Ubuntu website");
+		WButton button1 = new WButton("Popup a website");
 		button1.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
