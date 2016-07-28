@@ -221,7 +221,23 @@ public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxT
 	}
 
 	/**
-	 * The string is a comma sperated list of the string inputs.
+	 * Set placeholder text which will appear in the field if it is editable and has no content.
+	 * @param placeholder The text to set as the
+	 */
+	public void setPlaceholder(final String placeholder) {
+		getOrCreateComponentModel().placeholder = placeholder;
+	}
+
+	/**
+	 *
+	 * @return The placeholder text for the field.
+	 */
+	public String getPlaceholder() {
+		return getComponentModel().placeholder;
+	}
+
+	/**
+	 * The string is a comma seperated list of the string inputs.
 	 *
 	 * @return A string concatenation of the string inputs.
 	 */
@@ -422,5 +438,10 @@ public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxT
 		 * The pattern to allow.
 		 */
 		private Pattern pattern;
+
+		/**
+		 * PlaceholderText.
+		 */
+		private String placeholder;
 	}
 }

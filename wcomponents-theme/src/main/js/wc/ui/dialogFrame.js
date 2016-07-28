@@ -28,8 +28,8 @@
  * @requires module:wc/ui/positionable
  * @requires module:wc/ui/draggable
  * @requires module:wc/dom/role
- * @requires module:wc/dom/getViewportSize
  * @requires external:Moustache
+ * @requires module:wc/ui/viewportUtils
  */
 
 define(["wc/dom/event",
@@ -49,11 +49,14 @@ define(["wc/dom/event",
 		"wc/ui/positionable",
 		"wc/ui/draggable",
 		"wc/dom/role",
-		"wc/dom/getViewportSize",
-		"Mustache"],
-	/** @param event @param focus @param initialise @param shed @param tag @param uid @param Widget @param i18n @param loader @param processResponse @param modalShim @param timers @param has @param resizeable @param positionable @param draggable @param $role @param getViewportSize @param Mustache @ignore */
+		"Mustache",
+		"wc/ui/viewportUtils"],
+	/** @param event @param focus @param initialise @param shed @param tag @param uid @param Widget @param i18n
+	 * @param loader @param processResponse @param modalShim @param timers @param has @param resizeable
+	 * @param positionable @param draggable @param $role @param Mustache @param viewportUtils
+	 * @ignore */
 	function(event, focus, initialise, shed, tag, uid, Widget, i18n, loader, processResponse,
-		modalShim, timers, has, resizeable, positionable, draggable, $role, getViewportSize, Mustache) {
+		modalShim, timers, has, resizeable, positionable, draggable, $role, Mustache, viewportUtils) {
 		"use strict";
 
 		/**
@@ -88,9 +91,7 @@ define(["wc/dom/event",
 					NO_FORM: "Cannot find a form to which to attach the dialog",
 					UNKNOWN: "Failed to open dialog: readon unknown"
 				},
-				resizeTimeout,
-				/** The pixel cpount at which we make all dialog frames "full screen" */
-				FULL_SCREEN_POINT = 1000;
+				resizeTimeout;
 
 			TITLE_WD.descendFrom(HEADER_WD);
 			DIALOG_CONTENT_WRAPPER.descendFrom(DIALOG, true);
@@ -119,7 +120,7 @@ define(["wc/dom/event",
 			 * @returns {Boolean} true is move/resize are supportable.
 			 */
 			function canMoveResize() {
-				return getViewportSize().width > FULL_SCREEN_POINT;
+				return !viewportUtils.isSmallScreen();
 			}
 
 			/**
@@ -164,7 +165,7 @@ define(["wc/dom/event",
 					form, formId;
 
 				if (dialog) {
-					if (shed.isHidden(dialog)) {
+					if (shed.isHidden(dialog, true)) {
 						return Promise.resolve(openDlgHelper(dto));
 					}
 					return Promise.reject(REJECT.ALREADY_OPEN);
@@ -193,7 +194,7 @@ define(["wc/dom/event",
 			function openDlgHelper(dto) {
 				var dialog = instance.getDialog();
 
-				if (dialog && shed.isHidden(dialog)) {
+				if (dialog && shed.isHidden(dialog, true)) {
 					if (dto && dto.openerId) {
 						openerId = dto.openerId;
 					}
@@ -325,10 +326,8 @@ define(["wc/dom/event",
 				var control;
 
 				setUpMoveResizeControls(dialog);
-				if ((control = MAX_BUTTON.findDescendant(dialog)) && !shed.isHidden(control)) {
-					if (obj.max) {
-						shed.select(control);
-					}
+				if (obj.max && (control = MAX_BUTTON.findDescendant(dialog))) {
+					shed.select(control);
 				}
 			}
 
@@ -391,7 +390,7 @@ define(["wc/dom/event",
 				try {
 					if (obj) {
 						// set the initial position. If the position (top, left) is set in the config object we do not need to calculate position.
-						if (!(obj.top || obj.left || obj.top === 0 || obj.left === 0)) {
+						if (!((obj.top || obj.top === 0) && (obj.left || obj.left === 0))) {
 							if (canMoveResize()) {
 								resizeable.disableAnimation(dialog);
 								disabledAnimations = true;
@@ -488,7 +487,7 @@ define(["wc/dom/event",
 				else if (docFragment.getElementById && docFragment.getElementById(DIALOG_ID)) {
 					removeShim = true;
 				}
-				if (removeShim && (dialog = instance.getDialog()) && !shed.isHidden(dialog)) {
+				if (removeShim && (dialog = instance.getDialog()) && !shed.isHidden(dialog, true)) {
 					modalShim.clearShim(dialog);
 				}
 			}
@@ -506,7 +505,7 @@ define(["wc/dom/event",
 				if (element && (content = instance.getContent()) && content.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY) {
 					dialog = instance.getDialog();
 					// if we are refreshing inside the dialog we may need to reposition
-					if (!shed.isHidden(dialog)) {  // it damn well better not be
+					if (!shed.isHidden(dialog, true)) {  // it damn well better not be
 						if (!(dialog.style.width && dialog.style.height)) {
 							// we have not got a fixed or user-created size so we will resize automatically
 							instance.reposition();
@@ -574,7 +573,7 @@ define(["wc/dom/event",
 			 */
 			this.close = function() {
 				var dialog = this.getDialog();
-				if (dialog && !shed.isHidden(dialog)) {
+				if (dialog && !shed.isHidden(dialog, true)) {
 					shed.hide(dialog);
 					return true;
 				}
@@ -651,7 +650,7 @@ define(["wc/dom/event",
 				var dialog;
 				if (!$event.defaultPrevented && CLOSE_WD.findAncestor($event.target)) {
 					dialog = document.getElementById(DIALOG_ID);
-					if (dialog && !shed.isHidden(dialog)) {
+					if (dialog && !shed.isHidden(dialog, true)) {
 						instance.close();
 						$event.preventDefault();
 					}
@@ -706,7 +705,7 @@ define(["wc/dom/event",
 					dialog,
 					result = false,
 					keyCode = $event.keyCode;
-				if (!$event.defaultPrevented && (dialog = document.getElementById(DIALOG_ID)) && !shed.isHidden(dialog)) {
+				if (!$event.defaultPrevented && (dialog = document.getElementById(DIALOG_ID)) && !shed.isHidden(dialog, true)) {
 					switch (keyCode) {
 						case KeyEvent.DOM_VK_ESCAPE:
 							result = instance.close();
@@ -737,7 +736,7 @@ define(["wc/dom/event",
 			function resizeEventHelper() {
 				var dialog = document.getElementById(DIALOG_ID);
 
-				if (!dialog || shed.isHidden(dialog)) {
+				if (!dialog || shed.isHidden(dialog, true)) {
 					return;
 				}
 				setUnsetDimensionsPosition(dialog);

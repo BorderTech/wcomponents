@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumUtil;
+import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
 import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.By;
@@ -19,7 +19,7 @@ import org.openqa.selenium.WebElement;
  * @author Joshua Barclay
  * @since 1.2.0
  */
-public class WComponentWebElement implements WebElement {
+public class SeleniumWComponentWebElement implements WebElement {
 
 	/**
 	 * The backing WebElement.
@@ -35,9 +35,9 @@ public class WComponentWebElement implements WebElement {
 	 * Creates a WebElementWrapper.
 	 *
 	 * @param element the backing element.
-	 * @param driver the WComponentWebDriver.
+	 * @param driver the SeleniumWComponentsWebDriver.
 	 */
-	public WComponentWebElement(final WebElement element, final WebDriver driver) {
+	public SeleniumWComponentWebElement(final WebElement element, final WebDriver driver) {
 		if (element == null) {
 			throw new IllegalArgumentException("WComponetWebElement cannot wrap a null element.");
 		}
@@ -69,7 +69,7 @@ public class WComponentWebElement implements WebElement {
 	@Override
 	public void click() {
 		element.click();
-		WComponentSeleniumUtil.waitForPageReady(driver);
+		SeleniumWComponentsUtil.waitForPageReady(driver);
 	}
 
 	/**
@@ -83,11 +83,19 @@ public class WComponentWebElement implements WebElement {
 	}
 
 	/**
+	 * @param by the by to find the component.
+	 * @return the SeleniumWSelectWebElement.
+	 */
+	public SeleniumWSelectWebElement findSeleniumWSelectWebElement(final By by) {
+		return new SeleniumWSelectWebElement(element.findElement(by), driver);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public WComponentWebElement findElement(final By by) {
-		return new WComponentWebElement(element.findElement(by), driver);
+	public SeleniumWComponentWebElement findElement(final By by) {
+		return new SeleniumWComponentWebElement(element.findElement(by), driver);
 	}
 
 	/**
@@ -97,7 +105,7 @@ public class WComponentWebElement implements WebElement {
 	public List<WebElement> findElements(final By by) {
 		List<WebElement> elements = new ArrayList<>();
 		for (WebElement e : element.findElements(by)) {
-			elements.add(new WComponentWebElement(e, driver));
+			elements.add(new SeleniumWComponentWebElement(e, driver));
 		}
 
 		return elements;

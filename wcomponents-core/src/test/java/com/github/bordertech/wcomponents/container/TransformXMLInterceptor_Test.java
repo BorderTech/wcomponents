@@ -1,13 +1,13 @@
 package com.github.bordertech.wcomponents.container;
 
 import com.github.bordertech.wcomponents.AbstractWComponentTestCase;
-import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -40,8 +40,8 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testPaintWhileDisabled() {
 		MyComponent testUI = new MyComponent(TEST_XML);
-		Config.getInstance().setProperty(Environment.THEME_CONTENT_PATH, "");
-		Config.getInstance().setProperty(TransformXMLInterceptor.PARAMETERS_KEY, "false");
+		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
+		Config.getInstance().setProperty(ConfigurationProperties.XSLT_SERVER_SIDE, "false");
 		TestResult actual = generateOutput(testUI);
 		Assert.assertEquals("XML should not be transformed when interceptor disabled", TEST_XML, actual.result);
 	}
@@ -52,8 +52,8 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testPaintWhileEnabledWithThemeContentPathSet() {
 		MyComponent testUI = new MyComponent(TEST_XML);
-		Config.getInstance().setProperty(Environment.THEME_CONTENT_PATH, "set");
-		Config.getInstance().setProperty(TransformXMLInterceptor.PARAMETERS_KEY, "true");
+		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "set");
+		Config.getInstance().setProperty(ConfigurationProperties.XSLT_SERVER_SIDE, "true");
 		TestResult actual = generateOutput(testUI);
 		Assert.assertEquals("XML should not be transformed when interceptor enabled but theme content path set", TEST_XML, actual.result);
 	}
@@ -65,8 +65,8 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	public void testPaintWhileEnabled() {
 		final String expected = "<omg><wtf>is good for you</wtf></omg>";
 		MyComponent testUI = new MyComponent(TEST_XML);
-		Config.getInstance().setProperty(Environment.THEME_CONTENT_PATH, "");
-		Config.getInstance().setProperty(TransformXMLInterceptor.PARAMETERS_KEY, "true");
+		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
+		Config.getInstance().setProperty(ConfigurationProperties.XSLT_SERVER_SIDE, "true");
 		TestResult actual = generateOutput(testUI);
 		Assert.assertEquals("XML should be transformed when interceptor enabled", expected, actual.result);
 		Assert.assertEquals("The content type should be correctly set", WebUtilities.CONTENT_TYPE_HTML, actual.contentType);

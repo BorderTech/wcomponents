@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -15,14 +15,12 @@ public class WTimeoutWarning_Test extends AbstractWComponentTestCase {
 	/**
 	 * The default timeout period (in seconds). If the value is "zero", then use the http session timeout value.
 	 */
-	private static final int DEFAULT_TIMEOUT_PERIOD = Config.getInstance()
-			.getInt("bordertech.wcomponents.timeoutWarning.timeoutPeriod", 0);
+	private static final int DEFAULT_TIMEOUT_PERIOD = ConfigurationProperties.getTimeoutPeriod();
 
 	/**
 	 * default warning period.
 	 */
-	private static final int DEFAULT_WARNING_PERIOD = Config.getInstance()
-			.getInt("bordertech.wcomponents.timeoutWarning.warningPeriod", 300);
+	private static final int DEFAULT_WARNING_PERIOD = ConfigurationProperties.getTimeoutWarningPeriod();
 
 	/**
 	 * Test timeout 60.

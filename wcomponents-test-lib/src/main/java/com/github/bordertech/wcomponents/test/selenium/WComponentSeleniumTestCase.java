@@ -2,12 +2,11 @@ package com.github.bordertech.wcomponents.test.selenium;
 
 import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverCache;
 import com.github.bordertech.wcomponents.test.selenium.driver.ParameterizedWebDriverType;
-import com.github.bordertech.wcomponents.test.selenium.driver.WComponentWebDriver;
+import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverType;
 import com.github.bordertech.wcomponents.test.selenium.server.ServerCache;
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,16 +28,6 @@ public abstract class WComponentSeleniumTestCase {
 	 * The logger instance for this class.
 	 */
 	private static final Log LOG = LogFactory.getLog(WComponentSeleniumTestCase.class);
-
-	/**
-	 * Parameter for whether to start the server (opposed to hitting an existing URL).
-	 */
-	private static final String START_SERVER_PARAM = "bordertech.wcomponents.test.selenium.launchServer";
-
-	/**
-	 * Parameter for the URL of the existing server (opposed to starting a new one).
-	 */
-	private static final String SERVER_URL = "bordertech.wcomponents.test.selenium.serverUrl";
 
 	/**
 	 * The WebDriverType to use for this test instance.
@@ -183,22 +172,13 @@ public abstract class WComponentSeleniumTestCase {
 		}
 
 		final String testClassName = this.getClass().getName();
-		Boolean startServer = Config.getInstance().getBoolean(START_SERVER_PARAM + "." + testClassName, null);
-		if (startServer == null) {
-			startServer = Config.getInstance().getBoolean(START_SERVER_PARAM, null);
-		}
 
-		if (BooleanUtils.isTrue(startServer)) {
+		if (ConfigurationProperties.getTestSeleniumServerStart(testClassName)) {
 			ServerCache.startServer();
 			url = ServerCache.getUrl();
 		} else {
-			String paramUrl = Config.getInstance().getString(SERVER_URL + "." + testClassName);
-			if (paramUrl == null) {
-				paramUrl = Config.getInstance().getString(SERVER_URL);
-			}
-
 			//Might be null at this stage - assume it will be manually assigned later.
-			url = paramUrl;
+			url = ConfigurationProperties.getTestSeleniumServerUrl(testClassName);
 		}
 	}
 
@@ -215,7 +195,7 @@ public abstract class WComponentSeleniumTestCase {
 				throw new SystemException("Attempted to launch driver prior to configuring the url.");
 			}
 
-			WComponentWebDriver driver = getDriverWithoutLaunching();
+			SeleniumWComponentsWebDriver driver = getDriverWithoutLaunching();
 			if (driver.hasSession()) {
 				driver.newSession(getUrl());
 			} else {
@@ -274,7 +254,7 @@ public abstract class WComponentSeleniumTestCase {
 	 *
 	 * @return the driver to use during testing.
 	 */
-	public WComponentWebDriver getDriver() {
+	public SeleniumWComponentsWebDriver getDriver() {
 
 		if (driverType == null) {
 			throw new IllegalArgumentException("driverType must not be null."
@@ -294,7 +274,7 @@ public abstract class WComponentSeleniumTestCase {
 	 *
 	 * @return the driver to use during testing.
 	 */
-	public WComponentWebDriver getDriverWithoutLaunching() {
+	public SeleniumWComponentsWebDriver getDriverWithoutLaunching() {
 		if (driverType == null) {
 			throw new IllegalArgumentException("driverType must not be null."
 					+ " Ensure the correct constructor was called or the setter has been invoked.");

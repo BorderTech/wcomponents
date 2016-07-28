@@ -136,9 +136,9 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 	 *
 	 * @return a list of this definition list's children grouped by their terms.
 	 */
-	public List<Duplet<String, List<WComponent>>> getTerms() {
-		Map<String, Duplet<String, List<WComponent>>> componentsByTerm = new HashMap<>();
-		List<Duplet<String, List<WComponent>>> result = new ArrayList<>();
+	public List<Duplet<String, ArrayList<WComponent>>> getTerms() {
+		Map<String, Duplet<String, ArrayList<WComponent>>> componentsByTerm = new HashMap<>();
+		List<Duplet<String, ArrayList<WComponent>>> result = new ArrayList<>();
 
 		List<WComponent> childList = content.getComponentModel().getChildren();
 
@@ -147,10 +147,10 @@ public class WDefinitionList extends AbstractNamingContextContainer implements A
 				WComponent child = childList.get(i);
 				String term = child.getTag();
 
-				Duplet<String, List<WComponent>> termComponents = componentsByTerm.get(term);
+				Duplet<String, ArrayList<WComponent>> termComponents = componentsByTerm.get(term);
 
 				if (termComponents == null) {
-					termComponents = new Duplet<String, List<WComponent>>(term,
+					termComponents = new Duplet<>(term,
 							new ArrayList<WComponent>());
 					componentsByTerm.put(term, termComponents);
 					result.add(termComponents);

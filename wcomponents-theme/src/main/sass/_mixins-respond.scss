@@ -1,97 +1,7 @@
 // Skeleton responsive design mixin. Gives what we need by default but feel free to add to it with other responsive
 // design mixins as required.
 
-//how big is a small screen?
-$wc-small-screen: 1000px !default;
-//and a common/medium screen?
-$wc-medium-screen: 1280px !default;
-//how about a BIG screen?
-$wc-large-screen: 1921px !default;//bigger than 1080p
-
-// guess what this is for!
-$wc-bigger-than-small-screen: $wc-small-screen + 1px;
-
-// NOTE: This  does not work with Vaadin Sass-compiler. See separate mixins below.
-@mixin respond($size, $test: max-width) {
-	@if($size == phone) { //should cover most modern phones and some smaller/older tablets
-		@media only screen  and (min-device-width : 320px) and (max-device-width : 736px) {
-			@content;
-		}
-	}
-	@else if($size == phonelike) {
-		@media only screen  and (max-width : 736px) {
-			@content;
-		}
-	}
-	@else if($size == mobile) { // most things from small phones to ipad size tablets
-		@media only screen  and (min-device-width : 320px) and (max-device-width : 1034px) {
-			@content;
-		}
-	}
-	@else if($size == small) {
-		@media only screen and (#{$test}: $wc-small-screen) {
-			@content;
-		}
-	}
-	@else if($size == 'not-small') {
-		@media only screen and (min-width: $wc-bigger-than-small-screen) {
-			@content;
-		}
-	}
-	@else if($size == medium) {
-		@media only screen and (#{$test}: $wc-medium-screen) {
-			@content;
-		}
-	}
-	@else if($size == large) {
-		@media only screen and (#{$test}: $wc-large-screen) {
-			@content;
-		}
-	}
-	@else if($size == ip6) { //iphone 6plus
-		@media only screen  and (min-device-width : 375px) and (max-device-width : 667px) {
-			@content;
-		}
-	}
-	@else if($size == ip6p) { //iphone 6
-		@media only screen  and (min-device-width : 414px) and (max-device-width : 736px) {
-			@content;
-		}
-	}
-	@else if($size == ip5) { //iphone 5/5s/5c
-		@media only screen  and (min-device-width : 320px) and (max-device-width : 568px) {
-			@content;
-		}
-	}
-	@else if($size == ip4) { //iphone 4/4s
-		@media only screen  and (min-device-width : 320px) and (max-device-width : 480px) {
-			@content;
-		}
-	}
-	@else if($size == ipad) { //most ipads
-		@media only screen  and (min-device-width : 768px) and (max-device-width : 1024px) {
-			@content;
-		}
-	}
-	@else {
-		@media only screen and (#{$test}: $size) { // primitive but should allow a bit of customization.
-			@content;
-		}
-	}
-}
-// END of mixin broken by Vaadin Sass-Compiler/
-
-@mixin respond-phone {
-	@media only screen and (max-device-width: 773px) {
-		@content;
-	}
-}
-
-@mixin respond-not-phone {
-	@media only screen and (min-device-width: 774px) {
-		@content;
-	}
-}
+// NOTE: If you change any of these take a look at the configuration of wc/ui/viewportUtils.
 
 @mixin respond-phonelike {
 	@media only screen and (max-width : 773px) {
@@ -117,26 +27,24 @@ $wc-bigger-than-small-screen: $wc-small-screen + 1px;
 	}
 }
 
-@mixin respond-med-screen {
-	@media only screen and (max-width: 1280px) {
+@mixin respond-bigger-screen {
+	@media only screen and (min-width: 1281px) {
 		@content;
 	}
 }
 
-@mixin respond-large-screen {
-	@media only screen and (min-width: 1921px) {
+@mixin respond-medium-density {
+	@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+	only screen and (min-resolution: 1.5dppx),
+	only screen and (min-resolution: 144dpi) {
 		@content;
 	}
 }
 
-@mixin respond-med-device {
-	@media only screen and (min-device-width: 1025px) {
-		@content;
-	}
-}
-
-@mixin respond-large-device {
-	@media only screen and (min-device-width: 1921px) {
+@mixin respond-high-density {
+	@media only screen and (-webkit-min-device-pixel-ratio: 2),
+	only screen and (min-resolution: 2dppx),
+	only screen and (min-resolution: 192dpi) {
 		@content;
 	}
 }

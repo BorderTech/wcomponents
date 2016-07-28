@@ -36,7 +36,9 @@ $wc-ui-color-selected-bg: $std-color-selected-bg !default;
 $wc-ui-color-selected-fg: $std-color-selected-fg !default;
 
 // links and headings
+// set to -1 to not output a colour block for element a
 $wc-ui-color-link: $std-color-primary !default;
+// set to -1 to not output a colour block for a:visited
 $wc-ui-color-link-visited: $std-color-secondary !default;
 $wc-ui-color-heading: $std-color-primary !default;
 
@@ -162,3 +164,8 @@ $wc-ui-color-table-invite-bg: $std-color-invite-bg-rgba !default;
 //*****************************************************************************
 $wc-ui-color-tab-inactive: $std-color-tertiary !default;
 $wc-ui-color-tab-active: $std-color-white !default;
+
+//*****************************************************************************
+// WToggleButton
+//*****************************************************************************
+$wc-ui-color-togglebutton-selected: $wc-ui-color-selected-bg !default; //#86d993;

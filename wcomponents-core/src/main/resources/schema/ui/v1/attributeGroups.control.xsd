@@ -105,6 +105,18 @@
 		</xs:attribute>
 	</xs:attributeGroup>
 
+	<xs:attributeGroup name="placeholder.attributes">
+		<xs:annotation>
+			<xs:documentation>Placeholder is commonly used in text-like inputs.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="placeholder" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					Used to provide an indication of the type of input expected. Not a replacement for a label or title.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
 
 
 	<xs:attributeGroup name="text.input.attributes">
@@ -113,6 +125,7 @@
 				Common attributes for text input components.
 			</xs:documentation>
 		</xs:annotation>
+		<xs:attributeGroup ref="ui:placeholder.attributes"/>
 
 		<xs:attribute name="size" type="xs:positiveInteger">
 			<xs:annotation>

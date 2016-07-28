@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.AbstractWComponentTestCase;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import org.junit.After;
@@ -35,7 +36,7 @@ public class WhitespaceFilterInterceptor_Test extends AbstractWComponentTestCase
 		setActiveContext(createUIContext());
 
 		// Test when disabled
-		Config.getInstance().setProperty("bordertech.wcomponents.whitespaceFilter.enabled", "false");
+		Config.getInstance().setProperty(ConfigurationProperties.WHITESPACE_FILTER, "false");
 
 		StringWriter writer = new StringWriter();
 		PrintWriter printWriter = new PrintWriter(writer);
@@ -46,7 +47,7 @@ public class WhitespaceFilterInterceptor_Test extends AbstractWComponentTestCase
 				testString));
 
 		// Test when enabled
-		Config.getInstance().setProperty("bordertech.wcomponents.whitespaceFilter.enabled", "true");
+		Config.getInstance().setProperty(ConfigurationProperties.WHITESPACE_FILTER, "true");
 
 		writer = new StringWriter();
 		printWriter = new PrintWriter(writer);

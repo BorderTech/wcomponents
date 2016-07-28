@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import org.apache.commons.logging.LogFactory;
 
 /**
@@ -32,8 +32,7 @@ public final class Integrity {
 	public static void issue(final WComponent comp, final String message) {
 		String debugMessage = message + ' ' + comp;
 
-		if (Config.getInstance().
-				getBoolean("bordertech.wcomponents.integrity.terminate.mode", false)) {
+		if (ConfigurationProperties.getIntegrityErrorMode()) {
 			throw new IntegrityException(debugMessage);
 		} else {
 			LogFactory.getLog(Integrity.class).warn(debugMessage);

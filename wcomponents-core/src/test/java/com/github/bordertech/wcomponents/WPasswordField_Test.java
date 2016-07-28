@@ -162,6 +162,11 @@ public class WPasswordField_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
+	public void testPlaceholderAccessors() {
+		assertAccessorsCorrect(new WPasswordField(), "placeholder", null, "A", "B");
+	}
+
+	@Test
 	public void testValidateMaxLength() {
 		WPasswordField field = new WPasswordField();
 		field.setLocked(true);

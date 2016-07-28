@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
@@ -23,8 +23,7 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	/**
 	 * The application icon url.
 	 */
-	private static final String ICON_URL = Config.getInstance().getString(
-			"bordertech.wcomponents.application.icon.url");
+	private static final String ICON_URL = ConfigurationProperties.getApplicationIconUrl();
 
 	/**
 	 * Indicates whether the application has unsaved changes.
@@ -74,10 +73,12 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	}
 
 	/**
-	 * <p>Sets a flag to include the WApplication's ID as part of its descendant components' IDs. This is used to determine
+	 * <p>
+	 * Sets a flag to include the WApplication's ID as part of its descendant components' IDs. This is used to determine
 	 * if the application's components should include the application's ID in their own ID.</p>
 	 *
-	 * <p>Examples of where this could be useful include: </p>
+	 * <p>
+	 * Examples of where this could be useful include: </p>
 	 * <ul>
 	 * <li>where there are multiple applications in a single view and there is a risk of IDs clashing; or
 	 * <li>where the application ID is useful for separating IDs for external purposes such as implementing web

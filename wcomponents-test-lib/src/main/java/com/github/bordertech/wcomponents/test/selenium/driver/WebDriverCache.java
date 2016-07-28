@@ -51,12 +51,12 @@ public final class WebDriverCache {
 	 * thread-safe {@link org.openqa.selenium.support.ThreadGuard}, so using a
 	 * ThreadLocal provides an additional level of protection.
 	 */
-	private static final ThreadLocal<Map<String, WComponentWebDriver>> RUNNING_DRIVERS = new ThreadLocal<Map<String, WComponentWebDriver>>() {
+	private static final ThreadLocal<Map<String, SeleniumWComponentsWebDriver>> RUNNING_DRIVERS = new ThreadLocal<Map<String, SeleniumWComponentsWebDriver>>() {
 		/**
 		 * @return an empty HashMap as the initial value.
 		 */
 		@Override
-		protected Map<String, WComponentWebDriver> initialValue() {
+		protected Map<String, SeleniumWComponentsWebDriver> initialValue() {
 			return new HashMap<>();
 		}
 
@@ -66,7 +66,7 @@ public final class WebDriverCache {
 	 * A list of all drivers opened by all threads so they can be destroyed when
 	 * the JVM shuts down.
 	 */
-	private static final List<WComponentWebDriver> DRIVERS_TO_DESTROY = new ArrayList<>();
+	private static final List<SeleniumWComponentsWebDriver> DRIVERS_TO_DESTROY = new ArrayList<>();
 
 	/*
 	 * The separator between the driver type and the driver id.
@@ -85,7 +85,7 @@ public final class WebDriverCache {
 	 * @param driverType the WebDriver type wrapper.
 	 * @return A shared (ThreadLocal) instance of the given WebDriver type.
 	 */
-	public static <T extends WebDriver> WComponentWebDriver<T> getDriver(final WebDriverType<T> driverType) {
+	public static <T extends WebDriver> SeleniumWComponentsWebDriver<T> getDriver(final WebDriverType<T> driverType) {
 		return getDriver(driverType, DEFAULT_DRIVER_ID);
 	}
 
@@ -98,12 +98,12 @@ public final class WebDriverCache {
 	 * @return A shared (ThreadLocal) instance of the given WebDriver type and
 	 * unique driver id.
 	 */
-	public static <T extends WebDriver> WComponentWebDriver<T> getDriver(final WebDriverType<T> driverType, final String driverId) {
+	public static <T extends WebDriver> SeleniumWComponentsWebDriver<T> getDriver(final WebDriverType<T> driverType, final String driverId) {
 		if (driverType == null) {
 			throw new IllegalArgumentException("driverType must not be null.");
 		}
 
-		WComponentWebDriver<T> driver = RUNNING_DRIVERS.get().get(getKey(driverType, driverId));
+		SeleniumWComponentsWebDriver<T> driver = RUNNING_DRIVERS.get().get(getKey(driverType, driverId));
 
 		if (driver == null) {
 			return openDriver(driverType, driverId);
@@ -123,7 +123,7 @@ public final class WebDriverCache {
 	 * @param driverType the WebDriver type wrapper.
 	 * @return A shared (ThreadLocal) instance of the given WebDriver type.
 	 */
-	public static <T extends WebDriver> WComponentWebDriver<T> openDriver(final WebDriverType<T> driverType) {
+	public static <T extends WebDriver> SeleniumWComponentsWebDriver<T> openDriver(final WebDriverType<T> driverType) {
 		return openDriver(driverType, DEFAULT_DRIVER_ID);
 	}
 
@@ -139,12 +139,12 @@ public final class WebDriverCache {
 	 * @param driverId the unique identifier for this driver implementation.
 	 * @return A shared (ThreadLocal) instance of the given WebDriver type.
 	 */
-	public static <T extends WebDriver> WComponentWebDriver<T> openDriver(final WebDriverType<T> driverType, final String driverId) {
+	public static <T extends WebDriver> SeleniumWComponentsWebDriver<T> openDriver(final WebDriverType<T> driverType, final String driverId) {
 		if (driverType == null) {
 			throw new IllegalArgumentException("driverType must not be null.");
 		}
 
-		WComponentWebDriver<T> wcompDriver = WComponentWebDriverFactory.createDriver(driverType);
+		SeleniumWComponentsWebDriver<T> wcompDriver = SeleniumWComponentsWebDriverFactory.createDriver(driverType);
 
 		return openDriver(driverType, wcompDriver, driverId);
 	}
@@ -163,8 +163,8 @@ public final class WebDriverCache {
 	 * @param driverId the unique identifier for this driver implementation.
 	 * @return A shared (ThreadLocal) instance of the given WebDriver type.
 	 */
-	public static <T extends WebDriver> WComponentWebDriver<T> openDriver(final WebDriverType<T> driverType,
-			final WComponentWebDriver<T> driver,
+	public static <T extends WebDriver> SeleniumWComponentsWebDriver<T> openDriver(final WebDriverType<T> driverType,
+			final SeleniumWComponentsWebDriver<T> driver,
 			final String driverId) {
 
 		if (driverType == null) {
@@ -218,7 +218,7 @@ public final class WebDriverCache {
 	 *
 	 * @param drivers the list of open drivers.
 	 */
-	private static void closeDrivers(final Collection<WComponentWebDriver> drivers) {
+	private static void closeDrivers(final Collection<SeleniumWComponentsWebDriver> drivers) {
 		//Track and throw whichever exception occurs first.
 		RuntimeException e = null;
 		for (WebDriver d : drivers) {
@@ -261,7 +261,7 @@ public final class WebDriverCache {
 			throw new IllegalArgumentException("driverType must not be null.");
 		}
 
-		WComponentWebDriver driver = RUNNING_DRIVERS.get().get(getKey(driverType, driverId));
+		SeleniumWComponentsWebDriver driver = RUNNING_DRIVERS.get().get(getKey(driverType, driverId));
 		if (driver == null) {
 			throw new IllegalArgumentException("Unable to close driver. Open Driver not found for WebDriverType: " + driverType);
 		}

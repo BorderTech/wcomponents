@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.layout.UIManager;
 import com.github.bordertech.wcomponents.registry.UIRegistry;
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.SystemException;
@@ -77,14 +77,6 @@ public abstract class AbstractWComponent implements WComponent {
 	 * ID pattern.
 	 */
 	private static final Pattern ID_PATTERN = Pattern.compile(ID_VALIDATION_PATTERN);
-
-	/**
-	 * This flag controls if component ids should be checked for duplicates. As verifying requires extra resources and
-	 * memory, this can be disabled if required. It is encouraged projects at least have this set true in development
-	 * environment.
-	 */
-	private static final boolean CHECK_DUPLICATE_IDS = Config.getInstance()
-			.getBoolean("bordertech.wcomponents.check.duplicate.ids.enabled", true);
 
 	// ================================
 	// Identification
@@ -313,7 +305,7 @@ public abstract class AbstractWComponent implements WComponent {
 	 * Register this component's ID in its naming context.
 	 */
 	void registerInContext() {
-		if (!CHECK_DUPLICATE_IDS) {
+		if (!ConfigurationProperties.getCheckDuplicateIds()) {
 			return;
 		}
 

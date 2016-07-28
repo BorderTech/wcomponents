@@ -23,10 +23,10 @@
 	<target name="intern">
 		<copy todir="${intern.target.dir}" overwrite="true">
 			<fileset dir="${intern.srcdir}" excludesfile="${excludesfile}">
-				<include name="*"/>
+				<include name="**/*.js"/>
 			</fileset>
 			<fileset dir="${impl.intern.srcdir}" excludesfile="${excludesfile}" erroronmissingdir="false">
-				<include name="*"/>
+				<include name="**/*.js"/>
 			</fileset>
 			<filterset>
 				<filter token="RESOURCES" value="../../target/test-classes/${implementation.name}/intern/resources"/>
@@ -39,16 +39,18 @@
 
 		<!-- NOTE: the two step copy here is so we do not try to apply filters to binary resources -->
 		<copy todir="${intern.target.dir}/resources">
-			<fileset dir="${intern.srcdir}/resources" excludesfile="${excludesfile}" includes="**/*.xml,**/*.html,**/*.js,**/*.css"/>
-			<fileset dir="${impl.intern.srcdir}/resources" excludesfile="${excludesfile}" includes="**/*.xml,**/*.html,**/*.js,**/*.css" erroronmissingdir="false"/>
+			<fileset dir="${intern.srcdir}/resources" excludesfile="${excludesfile}" includes="**/*.xml,**/*.html,**/*.css"/>
+			<fileset dir="${impl.intern.srcdir}/resources" excludesfile="${excludesfile}" includes="**/*.xml,**/*.html,**/*.css" erroronmissingdir="false"/>
 			<filterchain>
 				<expandproperties/>
 			</filterchain>
 		</copy>
 		<copy todir="${intern.target.dir}/resources">
-			<fileset dir="${intern.srcdir}/resources" excludesfile="${excludesfile}"  excludes="**/*.xml,**/*.html,**/*.js,**/*.css"/>
-			<fileset dir="${impl.intern.srcdir}/resources" excludesfile="${excludesfile}" excludes="**/*.xml,**/*.html,**/*.js,**/*.css" erroronmissingdir="false"/>
+			<fileset dir="${intern.srcdir}/resources" excludesfile="${excludesfile}"  excludes="**/*.xml,**/*.html,**/*.css"/>
+			<fileset dir="${impl.intern.srcdir}/resources" excludesfile="${excludesfile}" excludes="**/*.xml,**/*.html,**/*.css" erroronmissingdir="false"/>
 		</copy>
+		<echo>Copying XSLT to test resources dir ${target.rootdir}/${xslt.target.dir.name}/${xsl.file.to.test}</echo>
+		<copy tofile="${intern.target.dir}/resources/wcomponents-all.xsl" file="${target.rootdir}/${xslt.target.dir.name}/${xsl.file.to.test}" failonerror="false"/><!-- Assumes there are no xsl imports or includes -->
 		<javascript.lint jsdir="${intern.target.dir}"/>
 	</target>
 

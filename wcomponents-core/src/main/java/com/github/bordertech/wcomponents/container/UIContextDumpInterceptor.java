@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.ObjectGraphDump;
 import com.github.bordertech.wcomponents.util.ObjectGraphNode;
 import org.apache.commons.logging.Log;
@@ -26,12 +27,6 @@ public class UIContextDumpInterceptor extends InterceptorComponent {
 	private static final Log LOG = LogFactory.getLog(UIContextDumpInterceptor.class);
 
 	/**
-	 * The key used to look up the "enabled" flag in the {@link Config WComponent Configuration}.
-	 */
-	private static final String PARAMETERS_ENABLED_KEY
-			= "bordertech.wcomponents.developer.UIContextDump.enabled";
-
-	/**
 	 * The key used to look up the single flag in the {@link Config WComponent Configuration}.
 	 */
 	private static final String UICONTEXT_TREE_DUMPED_KEY
@@ -44,7 +39,7 @@ public class UIContextDumpInterceptor extends InterceptorComponent {
 	 */
 	@Override
 	public void paint(final RenderContext renderContext) {
-		boolean enabled = Config.getInstance().getBoolean(PARAMETERS_ENABLED_KEY, false);
+		boolean enabled = ConfigurationProperties.getDeveloperDumpUIContext();
 
 		super.paint(renderContext);
 

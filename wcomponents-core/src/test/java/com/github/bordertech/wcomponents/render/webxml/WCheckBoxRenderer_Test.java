@@ -69,12 +69,6 @@ public class WCheckBoxRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(wcbTest);
 		assertXpathEvaluatesTo("true", "//ui:checkbox/@required", wcbTest);
 
-		// Check readOnly
-		assertXpathNotExists("//ui:checkbox/@readOnly", wcbTest);
-		wcbTest.setReadOnly(true);
-		assertSchemaMatch(wcbTest);
-		assertXpathEvaluatesTo("true", "//ui:checkbox/@readOnly", wcbTest);
-
 		// Check selected
 		assertXpathNotExists("//ui:checkbox/@selected", wcbTest);
 		wcbTest.setSelected(true);
@@ -104,6 +98,17 @@ public class WCheckBoxRenderer_Test extends AbstractWebXmlRendererTestCase {
 		wcbTest.setDefaultSubmitButton(button);
 		assertSchemaMatch(wcbTest);
 		assertXpathEvaluatesTo(button.getId(), "//ui:checkbox/@buttonId", wcbTest);
+	}
+
+	@Test
+	public void testReadOnly() throws IOException, SAXException, XpathException {
+		WCheckBox wcbTest = new WCheckBox();
+
+		// Check readOnly
+		assertXpathNotExists("//ui:checkbox/@readOnly", wcbTest);
+		wcbTest.setReadOnly(true);
+		assertSchemaMatch(wcbTest);
+		assertXpathEvaluatesTo("true", "//ui:checkbox/@readOnly", wcbTest);
 	}
 
 	@Test

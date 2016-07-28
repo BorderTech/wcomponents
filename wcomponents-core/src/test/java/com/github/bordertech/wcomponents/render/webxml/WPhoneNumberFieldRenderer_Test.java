@@ -64,10 +64,6 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo("true", "//ui:phonenumberfield/@required", field);
 
-		field.setReadOnly(true);
-		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("true", "//ui:phonenumberfield/@readOnly", field);
-
 		field.setMinLength(45);
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo("45", "//ui:phonenumberfield/@minLength", field);
@@ -108,6 +104,18 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		field.setSuggestions(suggestions);
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(suggestions.getId(), "//ui:phonenumberfield/@list", field);
+
+		field.setPlaceholder("enter stuff here");
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo("enter stuff here", "//ui:phonenumberfield/@placeholder", field);
+	}
+
+	@Test
+	public void testReadOnly() throws IOException, SAXException, XpathException {
+		WPhoneNumberField field = new WPhoneNumberField();
+		field.setReadOnly(true);
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo("true", "//ui:phonenumberfield/@readOnly", field);
 	}
 
 	@Test

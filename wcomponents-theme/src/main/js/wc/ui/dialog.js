@@ -121,7 +121,7 @@ define(["wc/dom/classList",
 					return false;
 				}
 
-				if (dialog && !shed.isHidden(dialog)) {
+				if (dialog && !shed.isHidden(dialog, true)) {
 					content = dialogFrame.getContent();
 					if (!content) {
 						console.error("Found open dialog but not its content");
@@ -219,17 +219,24 @@ define(["wc/dom/classList",
 			}
 
 			function saveDialogDimensions(element, regObj) {
+				var unitless;
 				if (element.style.width) {
 					regObj["width"] = element.style.width.replace(UNIT, "");
 				}
 				if (element.style.height) {
 					regObj["height"] = element.style.height.replace(UNIT, "");
 				}
-				if (element.style.left) {
-					regObj["left"] = element.style.left.replace(UNIT, "");
+				if ((unitless = element.style.left)) {
+					unitless = Math.round(parseFloat(unitless));
+					if (unitless >= 0 ) {
+						regObj["left"] = unitless;
+					}
 				}
-				if (element.style.top) {
-					regObj["top"] = element.style.top.replace(UNIT, "");
+				if ((unitless = element.style.top)) {
+					unitless = Math.round(parseFloat(unitless));
+					if (unitless >= 0 ) {
+						regObj["top"] = unitless;
+					}
 				}
 			}
 

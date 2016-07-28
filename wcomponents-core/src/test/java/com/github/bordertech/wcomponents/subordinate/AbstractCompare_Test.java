@@ -130,6 +130,32 @@ public class AbstractCompare_Test {
 				"Compare of equal disabled trigger and value should be false with request",
 				compare.execute(new MockRequest()));
 	}
+	@Test
+	public void testExecuteReadOnlyAndDisabled() {
+		String value = "test";
+
+		MyInput trigger = new MyInput();
+		trigger.setData(value);
+
+		// Setup Compare to be "true"
+		AbstractCompare compare = new MyCompare(trigger, value);
+		Assert.assertTrue("Compare of equal trigger and value should be true", compare.execute());
+		Assert.assertTrue("Compare of equal trigger and value should be true with request",
+				compare.execute(new MockRequest()));
+
+		// Disabled trigger should make the compare false
+		trigger.setDisabled(true);
+		Assert.assertFalse("Compare of equal disabled trigger and value should be false", compare.
+				execute());
+		Assert.assertFalse(
+				"Compare of equal disabled trigger and value should be false with request",
+				compare.execute(new MockRequest()));
+		trigger.setReadOnly(true);
+		Assert.assertTrue("Compare of equal disabled and read only trigger and value should be true", compare.execute());
+		Assert.assertTrue("Compare of equal disabled and read only trigger and value should be true with request",
+				compare.execute(new MockRequest()));
+
+	}
 
 	@Test
 	public void testExecuteTriggerWithListOfValues() {

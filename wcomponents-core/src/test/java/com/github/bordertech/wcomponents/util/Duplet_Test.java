@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.util;
 
+import java.io.Serializable;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -51,9 +52,9 @@ public class Duplet_Test {
 
 	@Test
 	public void testEquals() {
-		Duplet<Object, Object> dup1 = new Duplet<Object, Object>(new Long(TESTVAL), null);
-		Duplet<Object, Object> dup2 = new Duplet<Object, Object>(new Long(TESTVAL), null);
-		Duplet<Object, Object> dup3 = new Duplet<Object, Object>(null, new Long(TESTVAL));
+		Duplet<Long, Serializable> dup1 = new Duplet<>(new Long(TESTVAL), null);
+		Duplet<Long, Serializable> dup2 = new Duplet<>(new Long(TESTVAL), null);
+		Duplet<Serializable, Long> dup3 = new Duplet<>(null, new Long(TESTVAL));
 
 		Assert.assertTrue("Duplet should equal itself", dup1.equals(dup1));
 		Assert.assertTrue("Duplet should equal an equivalent duplet", dup1.equals(dup2));
@@ -65,8 +66,8 @@ public class Duplet_Test {
 
 	@Test
 	public void testHashCode() {
-		Duplet<Object, Object> dup1 = new Duplet<Object, Object>(new Long(TESTVAL), null);
-		Duplet<Object, Object> dup2 = new Duplet<Object, Object>(new Long(TESTVAL), null);
+		Duplet<Long, Serializable> dup1 = new Duplet<>(new Long(TESTVAL), null);
+		Duplet<Long, Serializable> dup2 = new Duplet<>(new Long(TESTVAL), null);
 
 		Assert.assertEquals("Duplet should have same hash as an equivalent duplet", dup1.hashCode(),
 				dup2.hashCode());

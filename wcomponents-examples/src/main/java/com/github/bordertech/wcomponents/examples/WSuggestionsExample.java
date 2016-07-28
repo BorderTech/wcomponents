@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
-import com.github.bordertech.wcomponents.WCheckBox;
+import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WEmailField;
 import com.github.bordertech.wcomponents.WFieldLayout;
@@ -22,33 +22,61 @@ import java.util.List;
 public class WSuggestionsExample extends WContainer {
 
 	/**
+	 * Ajax target.
+	 */
+	private final WTextField resultField = new WTextField();
+
+	/**
 	 * Construct example.
 	 */
 	public WSuggestionsExample() {
 		WFieldLayout layout = new WFieldLayout();
 		layout.setLabelWidth(25);
 
+		resultField.setReadOnly(true);
+
 		add(layout);
 
 		WSuggestions suggestions = new WSuggestions("icao");
 		add(suggestions);
-		WTextField text = new WTextField();
-		text.setSuggestions(suggestions);
-		layout.addField("Cached list", text);
+		final WTextField text1 = new WTextField();
+		text1.setSuggestions(suggestions);
+		text1.setActionOnChange(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				resultField.setText(text1.getValueAsString());
+			}
+		});
+		add(new WAjaxControl(text1, resultField));
+		layout.addField("Cached list", text1);
 
 		// Static suggestions
 		suggestions = new WSuggestions(Arrays.asList("foo1", "foo2", "foo3", "ofoo"));
 		add(suggestions);
-		text = new WTextField();
-		text.setSuggestions(suggestions);
-		layout.addField("Static", text);
+		final WTextField text2 = new WTextField();
+		text2.setSuggestions(suggestions);
+		text2.setActionOnChange(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				resultField.setText(text2.getValueAsString());
+			}
+		});
+		add(new WAjaxControl(text2, resultField));
+		layout.addField("Static", text2);
 
 		// Dynamic suggestions
 		suggestions = new WSuggestions();
 		add(suggestions);
-		text = new WTextField();
-		text.setSuggestions(suggestions);
-		layout.addField("Dynamic", text);
+		final WTextField text3 = new WTextField();
+		text3.setSuggestions(suggestions);
+		text3.setActionOnChange(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				resultField.setText(text3.getValueAsString());
+			}
+		});
+		add(new WAjaxControl(text3, resultField));
+		layout.addField("Dynamic as ajax trigger", text3);
 		suggestions.setRefreshAction(new AjaxAction(""));
 
 		// Dynamic phone number suggestions
@@ -71,10 +99,20 @@ public class WSuggestionsExample extends WContainer {
 		suggestions = new WSuggestions();
 		suggestions.setAutocomplete(WSuggestions.Autocomplete.LIST);
 		add(suggestions);
-		text = new WTextField();
-		text.setSuggestions(suggestions);
-		layout.addField("Force selection from list", text);
+		final WTextField text5 = new WTextField();
+		text5.setSuggestions(suggestions);
+		layout.addField("Force selection from list", text5);
 		suggestions.setRefreshAction(new AjaxAction(""));
+//		text5.setActionOnChange(new Action() {
+//			@Override
+//			public void execute(final ActionEvent event) {
+//				resultField.setText(text5.getValueAsString());
+//			}
+//		});
+//		add(new WAjaxControl(text5, resultField));
+
+
+		layout.addField("Output", resultField);
 	}
 
 	/**

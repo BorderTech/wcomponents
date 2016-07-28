@@ -60,10 +60,6 @@ public class WTextAreaRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo("true", "//ui:textarea/@required", field);
 
-		field.setReadOnly(true);
-		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("true", "//ui:textarea/@readOnly", field);
-
 		field.setMinLength(45);
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo("45", "//ui:textarea/@minLength", field);
@@ -112,6 +108,19 @@ public class WTextAreaRenderer_Test extends AbstractWebXmlRendererTestCase {
 		field.setText("Hello");
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(field.getText(), "normalize-space(//ui:textarea)", field);
+
+
+		field.setPlaceholder("enter stuff here");
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo("enter stuff here", "//ui:textarea/@placeholder", field);
+	}
+
+	@Test
+	public void testReadOnly() throws IOException, SAXException, XpathException {
+		WTextArea field = new WTextArea();
+		field.setReadOnly(true);
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo("true", "//ui:textarea/@readOnly", field);
 	}
 
 	@Test

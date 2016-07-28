@@ -1,19 +1,59 @@
 # Change log
+
 ## API Changes
-* The new (in 1.2.0) class HtmlClassUtil has been refactored to a properties enum and is now HtmlClassProperties (same
-  package). If you have already started using `HtmlClassUtil.HtmlClassName` should be replaced with
+* Javascript API i18n module now returns the message key instead of an empty string if the translation is not found.
+
+## Bug Fixes
+* Fixed bug which could result in dialogs being mis-positioned #805.
+* Fixed bugs in keyboard driving combo boxes #808, #809.
+
+## Enhancements
+* JavaScript API added a utility module to centralize determination of toggle points for responsive UI updates.
+* Rewrote the javascript i18n module so that it is a thin wrapper around [i18next](http://i18next.com/) instead of custom code.
+
+# Release 1.2.2
+## Bug Fixes
+* Fixed a bug in `com.github.bordertech.wcomponents.subordinate.AbstractCompare` which resulted in Subordinate controls returning an incorrect value if the control was in a read-only state #780.
+* Fixed a newly introduced bug which caused textareas to fail to accept newlines in IE11 #785.
+* Fixed several IE CSS issues.
+* Fixed a bug which caused the incorrect HTML className to be set using HtmlIconUtils to place a custom icon "AFTER" element content.
+
+## Enhancements
+* Added mechanism to convert tabsets to accordions on small screens #783.
+* Allow placeholder to be set on relevant components #702.
+* Added new component WToggleButton which renders a single checkable component in a button form. This may be used as a WSubordinateControl trigger or a WAjaxControl trigger #428.
+
+# Release 1.2.1
+## API Changes
+* The new (in 1.2.0) class `HtmlClassUtil` has been refactored to a properties enum and is now `HtmlClassProperties`
+  (same package). If you have already started using `HtmlClassUtil.HtmlClassName` should be replaced with
   `HtmlClassProperties`.
-* Added a util class `com.github.bordertech.wcomponents.util.HtmlIconUtil` which supplies helpers to attach the ICON
-  classNames supplied by `HtmlClassProperties` and icons from Font Awesome which are not part of the common set.
+* The Seleniun API has been rewritten to better support client-side testing of WComponents. see     https://github.com/BorderTech/wcomponents/wiki/Testing for more information.
 
 ## Bug Fixes
 * Updated DataListInterceptor and ServletUtil to allow DataLists to be sent as HTML rather than XML (#747).
+* Fixed various bugs in WTree client code (#768, #769, #770).
+* Fixed an issue in JavaScript `dom/shed` which could result in false negsatives when testing if a UI artefact is hidden
+  as exposed in `dom/getFilteredGroup` (#771).
+* Fixed accessibility issue with WAI-ARIA based controls (#765).
+* Fixed several client-side menu bugs (#755, #746, #741).
+* Fixed a bug which caused client-side validation of WDateField to throw an error (#757).
+* Fixed a bug which caused the work-around for IE's interesting form submission policy to fail (#740).
+* Fixed a bug in client-side code of WSubordinateControl which could result in a subordinate target being in the
+  incorrect state if its controller was disabled or enabled by another WSubordinateControl (#758)
 
 ## Enhancements
-* Updated HtmlClassUtil to:
-  * expose helpers for setting icon classes as Strings;
-  * add a menu icon to the `HtmlClassName` enum;
-  * provide getters to get the full WComponents icon setting HTML classNames for any provided Font Awesome icon name.
+* Updated `HtmlClassProperties` to add a menu icon to the enum.
+* Added a util class `com.github.bordertech.wcomponents.util.HtmlIconUtil` which supplies helpers to attach the ICON
+  classNames supplied by `HtmlClassProperties` and icons from Font Awesome which are not part of the common set.
+* Updated how CSS is loaded and applied to remove some mis-matches between JavaScript loading and CSS media queries
+  (#746).
+* Removed all deprecated media queries from Sass (min/max-device-width) (#745).
+* Updated "public" CSS classes to provide more options to components and WTemplates.
+* Updated the mechanism to collapse a menu (Type BAR) to a single submenu so that it is applied on request (setting
+  HTML class value `wc-respond`, may be applied to any WMenu of Type BAR or FLYOUT anywhere in the UI and is applied
+  based on viewport size rather than based on screen dimensions at load time (#520).
+* Reinstated Selenium tests (#10).
 
 # Release 1.2.0
 ## API Changes

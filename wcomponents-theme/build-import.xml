@@ -57,6 +57,7 @@
 	<property name="excludesfile" location="${impl.src.dir}/excludes.txt"/>
 	<property name="style.build.target.dir" location="${target.rootdir}/${css.target.dir.name}"/>
 	<property name="script.debug.build.target.dir" location="${target.rootdir}/${script.debug.target.dir.name}"/>
+	<property name="resource.build.target.dir" location="${output.dir}/${implementation.name}/${resource.target.dir.name}" />
 	<!--
 		Note, the pattern "script.*.target.file.name" is important to the build scripts.
 		* compat scripts are loaded before the core
@@ -162,6 +163,26 @@
 			<loadproperties srcFile="@{properties0}" prefix="${unique.id}"/>
 			<loadproperties srcFile="@{properties1}" prefix="${unique.id}"/>
 			<echoproperties destfile="@{destFile}" format="@{format}">
+				<propertyset>
+					<propertyref prefix="${unique.id}."/>
+					<mapper type="glob" from="${unique.id}.*" to="*"/>
+				</propertyset>
+			</echoproperties>
+		</sequential>
+	</macrodef>
+	
+	<!--
+		Reads a properties file and writes it in XML format.
+	-->
+	<macrodef name="propsToXml">
+		<attribute name="properties0" description="Path to proerties file"/>
+		<attribute name="destFile" description="Path to output file"/>
+		<sequential>
+			<var name="unique.id" unset="true"/>
+			<var name="unique.id" value="propertyMerge + ${private.unique.id.increment.count}"/>
+			<var name="private.unique.id.increment.count" value="1 + ${private.unique.id.increment.count}"/>
+			<loadproperties srcFile="@{properties0}" prefix="${unique.id}"/>
+			<echoproperties destfile="@{destFile}" format="xml">
 				<propertyset>
 					<propertyref prefix="${unique.id}."/>
 					<mapper type="glob" from="${unique.id}.*" to="*"/>

@@ -3,8 +3,7 @@ package com.github.bordertech.wcomponents.registry;
 import com.github.bordertech.wcomponents.ErrorPage;
 import com.github.bordertech.wcomponents.FatalErrorPageFactory;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.container.AbstractContainerHelper;
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.Factory;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.HashMap;
@@ -124,8 +123,7 @@ public class UIRegistryAmicableImpl extends UIRegistry {
 					ex);
 
 			// Are we in developer friendly error mode?
-			boolean friendly = Config.getInstance().getBoolean(
-					AbstractContainerHelper.DEVELOPER_MODE_ERROR_HANDLING, false);
+			boolean friendly = ConfigurationProperties.getDeveloperErrorHandling();
 
 			FatalErrorPageFactory factory = Factory.newInstance(FatalErrorPageFactory.class);
 			WComponent errorPage = factory.createErrorPage(friendly, ex);

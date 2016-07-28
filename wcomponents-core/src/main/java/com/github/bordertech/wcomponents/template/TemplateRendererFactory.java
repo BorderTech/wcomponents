@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.template;
 
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import java.util.HashMap;
@@ -66,21 +66,11 @@ public final class TemplateRendererFactory {
 	}
 
 	/**
-	 * Parameter prefix for template engines.
-	 */
-	public static final String ENGINE_PARAM_PREFIX = "bordertech.wcomponents.template.renderer";
-
-	/**
-	 * Default template engine name.
-	 */
-	public static final String DEFAULT_ENGINE_NAME = Config.getInstance().getString(ENGINE_PARAM_PREFIX);
-
-	/**
 	 *
 	 * @return the default template renderer.
 	 */
 	public static TemplateRenderer newInstance() {
-		return newInstance(DEFAULT_ENGINE_NAME);
+		return newInstance(ConfigurationProperties.getDefaultRenderingEngine());
 	}
 
 	/**
@@ -99,11 +89,10 @@ public final class TemplateRendererFactory {
 	 */
 	public static TemplateRenderer newInstance(final String engineName) {
 
-		String paramKey = ENGINE_PARAM_PREFIX + "." + engineName;
-		String clazzName = Config.getInstance().getString(paramKey);
+		String clazzName = ConfigurationProperties.getTemplateRenderingEngine(engineName);
 
 		if (Util.empty(clazzName)) {
-			throw new SystemException("No implementation set for template engine [" + engineName + "]. Set the parameter [" + paramKey + "].");
+			throw new SystemException("No implementation set for template engine [" + engineName + "].");
 		}
 
 		// Check the cache

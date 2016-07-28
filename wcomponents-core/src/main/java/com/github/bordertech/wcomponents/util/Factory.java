@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.util;
 
-import org.apache.commons.configuration.Configuration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -28,11 +27,6 @@ public final class Factory {
 	private static final Log LOG = LogFactory.getLog(Factory.class);
 
 	/**
-	 * Prefix used to look up implementing classes in the {@link Config configuration}.
-	 */
-	public static final String PREFIX = "bordertech.wcomponents.factory.impl.";
-
-	/**
 	 * Prevent instantiation of this utility class.
 	 */
 	private Factory() {
@@ -50,16 +44,15 @@ public final class Factory {
 	 * @throws SystemException if no implementing class is registered in the {@link Config configuration}.
 	 */
 	public static <T> T newInstance(final Class<T> interfaz) {
-		Configuration config = Config.getInstance();
-		String classname = config.getString(PREFIX + interfaz.getName());
+		String classname = ConfigurationProperties.getFactoryImplementation(interfaz.getName());
 
 		if (classname == null) {
 			// Hmmm - this is bad. For the time being let's dump the parameters.
 			LOG.fatal("No implementing class for " + interfaz.getName());
-			LOG.fatal("There needs to be a parameter defined for " + PREFIX + interfaz.getName());
+			LOG.fatal("There needs to be a parameter defined for " + ConfigurationProperties.FACTORY_PREFIX + interfaz.getName());
 
 			throw new SystemException("No implementing class for " + interfaz.getName() + "; "
-					+ "There needs to be a parameter defined for " + PREFIX + interfaz.getName());
+					+ "There needs to be a parameter defined for " + ConfigurationProperties.FACTORY_PREFIX + interfaz.getName());
 		}
 
 		try {
@@ -78,7 +71,6 @@ public final class Factory {
 	 * @return true if an implementation of the interface is available to this factory.
 	 */
 	public static boolean implementationExists(final Class<?> interfaz) {
-		Configuration config = Config.getInstance();
-		return !Util.empty(config.getString(PREFIX + interfaz.getName()));
+		return !Util.empty(ConfigurationProperties.getFactoryImplementation(interfaz.getName()));
 	}
 }

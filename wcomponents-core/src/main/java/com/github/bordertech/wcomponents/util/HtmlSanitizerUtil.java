@@ -37,16 +37,6 @@ public final class HtmlSanitizerUtil {
 	private static final AntiSamy ANTISAMY = new AntiSamy();
 
 	/**
-	 * The parameter name used to get the AntiSamy strict sanitization configuration file.
-	 */
-	private static final String STRICT_CONFIG_PARAM = "com.github.bordertech.wcomponents.AntiSamy.config";
-
-	/**
-	 * The parameter name used to get the AntiSamy lax sanitization configuration file.
-	 */
-	private static final String LAX_CONFIG_PARAM = "com.github.bordertech.wcomponents.AntiSamyLax.config";
-
-	/**
 	 * The strict AntiSamy policy. This is the default policy and should be used for all in-bound sanitization.
 	 */
 	private static final Policy STRICT_POLICY;
@@ -61,8 +51,7 @@ public final class HtmlSanitizerUtil {
 
 		// Get the strict AntiSamy policy.
 		try {
-			String path = Config.getInstance().getString(STRICT_CONFIG_PARAM,
-					"com/github/bordertech/wcomponents/sanitizers/antisamy-wc.xml");
+			String path = ConfigurationProperties.getAntisamyStrictConfigurationFile();
 			STRICT_POLICY = Policy.getInstance(HtmlSanitizerUtil.class.getClassLoader().getResource(path));
 		} catch (PolicyException ex) {
 			throw new SystemException("Could not create strict AntiSamy Policy. " + ex.getMessage(), ex);
@@ -70,8 +59,7 @@ public final class HtmlSanitizerUtil {
 
 		// Get the lax AntiSamy policy.
 		try {
-			String path = Config.getInstance().getString(LAX_CONFIG_PARAM,
-					"com/github/bordertech/wcomponents/sanitizers/antisamy-wc-lax.xml");
+			String path = ConfigurationProperties.getAntisamyLaxConfigurationFile();
 			LAX_POLICY = Policy.getInstance(HtmlSanitizerUtil.class.getClassLoader().getResource(path));
 		} catch (PolicyException ex) {
 			throw new SystemException("Could not create lax AntiSamy Policy. " + ex.getMessage(), ex);

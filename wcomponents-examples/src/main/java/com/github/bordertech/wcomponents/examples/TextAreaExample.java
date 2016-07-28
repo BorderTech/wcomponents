@@ -79,6 +79,7 @@ public class TextAreaExample extends WPanel {
 		ta2.setColumns(40);
 		ta2.setRows(4);
 		ta2.setMaxLength(200);
+		ta2.setPlaceholder("type here");
 		layout.addField("Size and Length Limited", ta2);
 
 

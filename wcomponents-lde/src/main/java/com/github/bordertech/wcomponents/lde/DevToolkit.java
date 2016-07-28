@@ -8,6 +8,7 @@ import com.github.bordertech.wcomponents.monitor.UicStats;
 import com.github.bordertech.wcomponents.monitor.UicStatsAsHtml;
 import com.github.bordertech.wcomponents.util.AbstractTreeNode;
 import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.TreeNode;
 import com.github.bordertech.wcomponents.velocity.VelocityEngineFactory;
 import java.io.PrintWriter;
@@ -87,8 +88,7 @@ public final class DevToolkit {
 	 * @return true if the toolkit is enabled, false otherwise.
 	 */
 	public static boolean isEnabled() {
-		return Config.getInstance().getBoolean("bordertech.wcomponents.lde.devToolkit.enabled",
-				false);
+		return ConfigurationProperties.getDeveloperToolkit();
 	}
 
 	/**
@@ -127,7 +127,7 @@ public final class DevToolkit {
 
 		boolean whitespaceEnabled = "true".equals(request.getParameter(
 				"devToolkit_whitespaceFilterEnabled"));
-		Config.getInstance().setProperty("bordertech.wcomponents.whitespaceFilter.enabled",
+		Config.getInstance().setProperty(ConfigurationProperties.WHITESPACE_FILTER,
 				whitespaceEnabled);
 
 		// devToolkit_refreshPage is no-op
@@ -140,14 +140,14 @@ public final class DevToolkit {
 		}
 
 		if (request.getParameter("devToolkit_rootComponentSelect") != null) {
-			Config.getInstance().setProperty(PlainLauncher.COMPONENT_TO_LAUNCH_PARAM_KEY,
+			Config.getInstance().setProperty(ConfigurationProperties.LDE_PLAINLAUNCHER_COMPONENT_TO_LAUNCH,
 					request.getParameter(
 							"devToolkit_rootComponent"));
 		}
 
 		boolean debug = "true".equals(request.getParameter("devToolkit_debugEnabled"));
-		Config.getInstance().setProperty("bordertech.wcomponents.debug.enabled", debug);
-		Config.getInstance().setProperty("bordertech.wcomponents.debug.clientSide.enabled", debug);
+		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_DEBUG_ENABLED, debug);
+		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_DEBUG_CLIENT_SIDE, debug);
 
 		// If the toolkit has been used, chances are that the WComponent configuration has changed.
 		// Update all configuration listeners.
@@ -315,7 +315,7 @@ public final class DevToolkit {
 	 * @return true if the WComponent whitespace filter is enabled.
 	 */
 	public boolean isWhitespaceFilterEnabled() {
-		return Config.getInstance().getBoolean("bordertech.wcomponents.whitespaceFilter.enabled");
+		return ConfigurationProperties.getWhitespaceFilter();
 	}
 
 	/**
@@ -329,16 +329,15 @@ public final class DevToolkit {
 	 * @return the fully qualified class name for the component being served by the LDE.
 	 */
 	public String getRootComponent() {
-		return Config.getInstance().getString(PlainLauncher.COMPONENT_TO_LAUNCH_PARAM_KEY);
+		return Config.getInstance().getString(ConfigurationProperties.LDE_PLAINLAUNCHER_COMPONENT_TO_LAUNCH);
 	}
 
 	/**
 	 * @return true if the client-side WComponent debugging features are enabled.
 	 */
 	public boolean isDebugEnabled() {
-		return Config.getInstance().getBoolean("bordertech.wcomponents.debug.enabled", false)
-				&& Config.getInstance()
-				.getBoolean("bordertech.wcomponents.debug.clientSide.enabled", false);
+		return ConfigurationProperties.getDeveloperDebugEnabled()
+				&& ConfigurationProperties.getDeveloperDebugClientSide();
 	}
 
 	/**

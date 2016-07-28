@@ -168,7 +168,7 @@ define(["wc/dom/classList",
 				}
 				newLabellingElement.id = label.id;
 
-				if (shed.isHidden(element)) {
+				if (shed.isHidden(element, true)) {
 					shed.hide(newLabellingElement, true);  // nothing depends on the hidden state of a label and we are replicating a load-time state.
 				}
 				if (classList.contains(label, CLASS_OFF)) {
@@ -204,7 +204,7 @@ define(["wc/dom/classList",
 						shed.optional(element);
 					}
 
-					if (shed.isHidden(element)) {
+					if (shed.isHidden(element, true)) {
 						shed.hide(element);
 					}
 					else {

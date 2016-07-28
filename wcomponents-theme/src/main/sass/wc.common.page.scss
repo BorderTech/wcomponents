@@ -9,9 +9,27 @@ html {
 
 body {
 	@include tight-box;
+	background-color: $wc-ui-color-global-bg;
+	color: $wc-ui-color-global-fg;
 	font-family: $wc-default-font;
-	font-size: $wc-default-font-size;
+	font-size: $wc-desktop-font-size;
 	height: 100%; // body to fill viewport for event propagation.
+}
+
+@if  $wc-ui-color-link-visited != -1 {
+	a:visited {
+		color: $wc-ui-color-link-visited;
+	}
+}
+
+@if  $wc-ui-color-link != -1 {
+	a {
+		color: $wc-ui-color-link;
+
+		&[aria-disabled='true'] { // NOTE: we need the disabled color to override the :visited state
+			color: $wc-ui-color-disabled-fg;
+		}
+	}
 }
 
 p {
@@ -27,16 +45,19 @@ pre {
 }
 
 // Text alignment
-.wc-align-left {
-	@include align(left);
+$wc-align-list: left, center, right;
+@each $wc-a in $wc-align-list {
+	.wc-align-#{$wc-a} {
+		text-align: $wc-a;
+	}
 }
 
-.wc-align-right {
-	@include align(right);
-}
-
-.wc-align-center {
-	@include align(center);
+// vertical alignment
+$wc-valign-list: baseline, bottom, inherit, initial, middle, sub, super, text-bottom, text-top, top !default;
+@each $wc-v in $wc-valign-list {
+	.wc-valign-#{$wc-v} {
+		vertical-align: $wc-v;
+	}
 }
 
 .wc-hscroll {
@@ -69,20 +90,27 @@ pre {
 	display: none !important;
 }
 
+// show when the maxlength is exceeded in a textarea or when a label (or equivalent) is not provided
+@if $wc-ui-color-error-fg != -1 {
+	.wc_error {
+		color: $wc-ui-color-error-fg;
+	}
+}
+
 @include viewport {
 	user-zoom: zoom;
 	width: extend-to-zoom;
 	zoom: 1;
 }
 
-@include respond-med-device {
+@include respond-bigger-screen {
 	body {
-		font-size: $wc-desktop-font-size;
+		font-size: $wc-bigscreen-font-size;
 	}
 }
 
-@include respond-large-device {
+@include respond-phonelike {
 	body {
-		font-size: $wc-bigscreen-font-size;
+		font-size: $wc-default-font-size;
 	}
 }

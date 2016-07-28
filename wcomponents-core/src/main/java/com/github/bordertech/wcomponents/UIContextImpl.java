@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Duplet;
 import com.github.bordertech.wcomponents.util.TreeUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,7 +54,7 @@ public class UIContextImpl implements UIContext {
 	/**
 	 * A list of runnables to invoke later (near the end of processing the current request).
 	 */
-	private transient List<Duplet<UIContext, Runnable>> invokeLaterRunnables;
+	private transient List<UIContextImplRunnable> invokeLaterRunnables;
 
 	/**
 	 * The component which needs to be given focus.
@@ -194,7 +193,7 @@ public class UIContextImpl implements UIContext {
 			invokeLaterRunnables = new ArrayList<>();
 		}
 
-		invokeLaterRunnables.add(new Duplet<>(uic, runnable));
+		invokeLaterRunnables.add(new UIContextImplRunnable(uic, runnable));
 	}
 
 	/**
@@ -210,15 +209,15 @@ public class UIContextImpl implements UIContext {
 		// runnables, so
 		// loop to make sure we process them all.
 		while (!invokeLaterRunnables.isEmpty()) {
-			List<Duplet<UIContext, Runnable>> runnables = new ArrayList<>();
+			List<UIContextImplRunnable> runnables = new ArrayList<>();
 			runnables.addAll(invokeLaterRunnables);
 			invokeLaterRunnables.clear();
 
-			for (Duplet<UIContext, Runnable> run : runnables) {
-				UIContextHolder.pushContext(run.getFirst());
+			for (UIContextImplRunnable run : runnables) {
+				UIContextHolder.pushContext(run.getContext());
 
 				try {
-					run.getSecond().run();
+					run.getRunnable().run();
 				} finally {
 					UIContextHolder.popContext();
 				}
@@ -443,25 +442,6 @@ public class UIContextImpl implements UIContext {
 	}
 
 	/**
-	 * The DummyEnvironment is used when an environment hasn't been explicitly supplied.
-	 *
-	 * @author Martin Shevchenko
-	 */
-	private static final class DummyEnvironment extends AbstractEnvironment {
-
-		/**
-		 * Creates a DummyEnvironment.
-		 */
-		private DummyEnvironment() {
-			setPostPath("unknown");
-			setAppHostPath("unknown");
-			setBaseUrl("unknown");
-			setHostFreeBaseUrl("unknown");
-			setUserAgentInfo(new UserAgentInfo());
-		}
-	}
-
-	/**
 	 * @return the WHeaders instance for this context.
 	 */
 	@Override
@@ -487,5 +467,70 @@ public class UIContextImpl implements UIContext {
 	@Override
 	public void setLocale(final Locale locale) {
 		this.locale = locale;
+	}
+
+	/**
+	 * The DummyEnvironment is used when an environment hasn't been explicitly supplied.
+	 *
+	 * @author Martin Shevchenko
+	 */
+	private static final class DummyEnvironment extends AbstractEnvironment {
+
+		/**
+		 * Creates a DummyEnvironment.
+		 */
+		private DummyEnvironment() {
+			setPostPath("unknown");
+			setAppHostPath("unknown");
+			setBaseUrl("unknown");
+			setHostFreeBaseUrl("unknown");
+			setUserAgentInfo(new UserAgentInfo());
+		}
+	}
+
+	/**
+	 * Duplet for tracking runnable tasks. Does not use Duplet as Runnable is not Serializable.
+	 *
+	 * @author Joshua Barclay
+	 */
+	private static final class UIContextImplRunnable {
+
+		/**
+		 * The UIContext.
+		 */
+		private final UIContext uicontext;
+
+		/**
+		 * The Runnable.
+		 */
+		private final Runnable runnable;
+
+		/**
+		 * Construct a new UIContextRunnable.
+		 *
+		 * @param uicontext the context.
+		 * @param runnable the runnable.
+		 */
+		private UIContextImplRunnable(final UIContext uicontext, final Runnable runnable) {
+			this.uicontext = uicontext;
+			this.runnable = runnable;
+		}
+
+		/**
+		 *
+		 * @return the UIContext.
+		 */
+		public UIContext getContext() {
+			return uicontext;
+		}
+
+		/**
+		 *
+		 * @return the runnable.
+		 */
+		public Runnable getRunnable() {
+			return runnable;
+		}
+
 	}
 }
