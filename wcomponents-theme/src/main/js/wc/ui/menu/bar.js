@@ -11,13 +11,13 @@ define(["wc/ui/menu/core",
 	"wc/timers",
 	"wc/ui/ajax/processResponse",
 	"wc/loader/resource",
-	"Mustache",
+	"lib/handlebars/handlebars",
 	"wc/ui/viewportUtils",
 	"wc/ui/menu/menuItem"],
 	/** @param abstractMenu @param toArray @param event @param keyWalker @param shed @param Widget @param initialise
-	 * @param uid @param i18n@param classList @param timers @param processResponse @param loader @param Mustache
+	 * @param uid @param i18n@param classList @param timers @param processResponse @param loader @param handlebars
 	 * @param viewportUtils @ignore */
-	function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid, i18n, classList, timers, processResponse, loader, Mustache, viewportUtils) {
+	function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid, i18n, classList, timers, processResponse, loader, handlebars, viewportUtils) {
 		"use strict";
 
 		/* Unused dependencies:
@@ -281,7 +281,7 @@ define(["wc/ui/menu/core",
 					label,
 					props = {};
 				if (el && instance.isSubMenu(el)) {
-					closeButtonTemplate = closeButtonTemplate || loader.load("submenuCloseButton.mustache", true);
+					closeButtonTemplate = closeButtonTemplate || getTemplate("submenuCloseButton.mustache");
 					if ((branch = instance._getBranch(el)) && (opener = instance._getBranchOpener(branch))) {
 						DECORATED_LABEL = DECORATED_LABEL || new Widget("", "wc-decoratedlabel");
 						label = DECORATED_LABEL.findDescendant(opener);
@@ -306,8 +306,13 @@ define(["wc/ui/menu/core",
 					if (!props.content) {
 						props.content = i18n.get("${wc.ui.menu.bar.i18n.submenuCloseLabelDefault}");
 					}
-					el.insertAdjacentHTML("afterBegin", Mustache.to_html(closeButtonTemplate, props));
+					el.insertAdjacentHTML("afterBegin", closeButtonTemplate(props));
 				}
+			}
+
+			function getTemplate(name) {
+				var template = loader.load(name, true);
+				return handlebars.compile(template);
 			}
 
 			/**
@@ -340,8 +345,8 @@ define(["wc/ui/menu/core",
 					closeText: i18n.get("${wc.ui.menu.bar.i18n.submenuCloseLabelDefault}"),
 					items: nextMenu.innerHTML
 				};
-				submenuTemplate = submenuTemplate || loader.load("submenu.mustache", true);
-				branchElement = Mustache.to_html(submenuTemplate, props);
+				submenuTemplate = submenuTemplate || getTemplate("submenu.mustache");
+				branchElement = submenuTemplate(props);
 				nextMenu.innerHTML = branchElement;
 				classList.add(nextMenu, MENU_FIXED);
 			}
@@ -423,7 +428,7 @@ define(["wc/ui/menu/core",
 		 * @requires module:wc/timers
 		 * @requires module:wc/ui/ajax/processResponse
 		 * @requires module:wc/loader/resource
-		 * @requires:external:Mustache
+		 * @requires:module:lib/handlebars/handlebars
 		 * @requires module:wc/ui/viewportUtils
 		 */
 		var instance;

@@ -67,11 +67,14 @@
 				<include name="has.js"/>
 			</fileset>
 		</copy>
-		<copy todir="${lib.tmp.src.dir}/mustache" overwrite="true">
+		<copy todir="${lib.tmp.src.dir}/handlebars" overwrite="true">
+			<fileset dir="${basedir}/node_modules/handlebars/dist/amd"/>
+		</copy>
+<!--		<copy todir="${lib.tmp.src.dir}/mustache" overwrite="true">
 			<fileset dir="${basedir}/node_modules/mustache" includes="**/*.js">
 				<exclude name="*wrappers*"/>
 			</fileset>
-		</copy>
+		</copy>-->
 		<!-- main js -->
 		<copy todir="${script.tmp.src.dir}" overwrite="true">
 			<fileset dir="${script.rootdir}" includes="**/*.js"/>
