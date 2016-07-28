@@ -50,6 +50,7 @@ public class TreeItemIdNode implements Serializable {
 			children = new ArrayList<>();
 		}
 		children.add(node);
+		setHasChildren(true);
 	}
 
 	/**
