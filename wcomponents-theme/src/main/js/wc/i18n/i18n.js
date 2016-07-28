@@ -29,16 +29,16 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 			 */
 			this.initialize = function(config, callback) {
 				initI18next(config || {}, function(err, translate) {
-					if (!err) {
+					if (translate) {
 						funcTranslate = translate;
 					}
-					else {
+					if (err) {
 						console.error(err);
 					}
 					callback();
 				});
 			};
-			
+
 			/**
 			 * Gets i18next options taking into account defaults and overrides provided by the caller.
 			 * @param i18nConfig Override default options by setting corresponding properties on this object.
