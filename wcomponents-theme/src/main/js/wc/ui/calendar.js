@@ -32,7 +32,7 @@
  * @requires module:wc/ui/dateField
  * @requires module:wc/dom/initialise
  * @requires module:wc/timers
- * @requires module:Mustache
+ * @requires module:lib/handlebars
  * @requires module:wc/config
  *
  * @see {@link module:wc/ui/datefield}
@@ -62,12 +62,12 @@ define(["wc/dom/attribute",
 		"wc/ui/dateField",
 		"wc/dom/initialise",
 		"wc/timers",
-		"Mustache",
+		"lib/handlebars/handlebars",
 		"wc/config"],
 
 function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthName, today, interchange, classList, event,
 		focus, shed, tag, viewportCollision, getBox, Widget, i18n, loader, isNumeric, dateField, initialise,
-		timers, Mustache, wcconfig) {
+		timers, handlebars, wcconfig) {
 
 	"use strict";
 
@@ -121,7 +121,9 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 */
 		function getEmptyCalendar() {
 			// TODO this needs to be made async
-			return loader.load(TEMPLATE_NAME, true);
+			var template = loader.load(TEMPLATE_NAME, true);
+			template = handlebars.compile(template);
+			return template;
 		}
 
 		function resetMonthPickerOptions(disable) {
@@ -516,7 +518,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				closeLabel: i18n.get("${wc.ui.dateField.i18n.close}")
 			};
 
-			calendar = Mustache.to_html(template, calendarProps);
+			calendar = template(calendarProps);
 
 			container = document.createElement("div");
 			container.id = CONTAINER_ID;

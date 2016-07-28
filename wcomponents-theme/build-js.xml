@@ -67,10 +67,8 @@
 				<include name="has.js"/>
 			</fileset>
 		</copy>
-		<copy todir="${lib.tmp.src.dir}/mustache" overwrite="true">
-			<fileset dir="${basedir}/node_modules/mustache" includes="**/*.js">
-				<exclude name="*wrappers*"/>
-			</fileset>
+		<copy todir="${lib.tmp.src.dir}/handlebars" overwrite="true">
+			<fileset dir="${basedir}/node_modules/handlebars/dist/amd"/>
 		</copy>
 		<!-- main js -->
 		<copy todir="${script.tmp.src.dir}" overwrite="true">
@@ -108,11 +106,6 @@
 		</copy>
 		<copy todir="${lib.build.target.dir}/tracking" >
 			<fileset dir="${basedir}/node_modules/tracking" includes="build/**"/>
-		</copy>
-		<copy todir="${lib.build.target.dir}/mustache" >
-			<fileset dir="${basedir}/node_modules/mustache" includes="**">
-				<exclude name="*wrappers*"/>
-			</fileset>
 		</copy>
 		<copy todir="${lib.build.target.dir}/bower_components" failonerror="false"><!-- Optionally copy any bower components to the lib dir -->
 			<fileset dir="${basedir}/bower_components" includes="**"/>
@@ -225,7 +218,6 @@
 		tinyMCE: "lib/tinymce/tinymce.min",
 		Promise: "empty:",
 		fabric: "lib/fabric",
-		Mustache: "lib/mustache/mustache.min",
 		axs: "empty:",
 		axe: "empty:"
 		}

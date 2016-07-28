@@ -25,7 +25,6 @@
 						Promise: "lib/Promise.min",
 						fabric: "lib/fabric",
 						tracking: "lib/tracking/build/tracking-min",
-						Mustache: "lib/mustache/mustache.min",
 						getUserMedia: "lib/getusermedia-js/getUserMedia.min",
 						axs: "lib/axs_testing",
 						axe: "lib/axe.min"
