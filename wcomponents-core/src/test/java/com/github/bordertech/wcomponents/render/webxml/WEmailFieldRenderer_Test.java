@@ -63,10 +63,6 @@ public class WEmailFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo("true", "//ui:emailfield/@required", field);
 
-		field.setReadOnly(true);
-		assertSchemaMatch(field);
-		assertXpathEvaluatesTo("true", "//ui:emailfield/@readOnly", field);
-
 		field.setMaxLength(50);
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo("50", "//ui:emailfield/@maxLength", field);
@@ -94,6 +90,19 @@ public class WEmailFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		field.setSuggestions(suggestions);
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(suggestions.getId(), "//ui:emailfield/@list", field);
+
+		field.setPlaceholder("enter stuff here");
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo("enter stuff here", "//ui:emailfield/@placeholder", field);
+
+	}
+
+	@Test
+	public void testReadOnly() throws IOException, SAXException, XpathException {
+		WEmailField field = new WEmailField();
+		field.setReadOnly(true);
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo("true", "//ui:emailfield/@readOnly", field);
 	}
 
 	@Test

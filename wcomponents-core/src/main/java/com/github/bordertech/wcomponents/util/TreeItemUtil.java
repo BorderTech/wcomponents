@@ -1,9 +1,7 @@
 package com.github.bordertech.wcomponents.util;
 
 import com.github.bordertech.wcomponents.TreeItemIdNode;
-import com.github.bordertech.wcomponents.TreeItemModel;
 import com.github.bordertech.wcomponents.WTree;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -15,6 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import com.github.bordertech.wcomponents.TreeItemModel;
 
 /**
  * Utility methods for {@link WTree} and its tree items.
@@ -31,65 +30,20 @@ public final class TreeItemUtil {
 	}
 
 	/**
-	 * @param root the root tree item node
-	 * @return the tree item node as a JSON string
-	 */
-	public static String convertTreeToJson(final TreeItemIdNode root) {
-
-		JsonObject json = new JsonObject();
-
-		if (root.hasChildren()) {
-			JsonArray rootArray = new JsonArray();
-			json.add("root", rootArray);
-			// Process nodes
-			for (TreeItemIdNode child : root.getChildren()) {
-				processTreeToJson(rootArray, child);
-			}
-		}
-
-		Gson gson = new Gson();
-		return gson.toJson(json);
-	}
-
-	/**
-	 * @param jsonArray the JSON array holding the node
-	 * @param node the node being processed
-	 */
-	private static void processTreeToJson(final JsonArray jsonArray, final TreeItemIdNode node) {
-		// Add node
-		JsonObject jsonNode = new JsonObject();
-		jsonNode.addProperty("id", node.getItemId());
-		jsonArray.add(jsonNode);
-		// Process children
-		if (node.hasChildren()) {
-			JsonArray itemArray = new JsonArray();
-			jsonNode.add("items", itemArray);
-			for (TreeItemIdNode child : node.getChildren()) {
-				processTreeToJson(itemArray, child);
-			}
-		}
-	}
-
-	/**
 	 * @param jsonString the string of JSON to convert to a custom tree of nodes
 	 * @return the custom tree structure of item ids
 	 */
 	public static TreeItemIdNode convertJsonToTree(final String jsonString) {
 
-		TreeItemIdNode root = new TreeItemIdNode(null);
-		if (Util.empty(jsonString)) {
-			return root;
-		}
-
 		JsonParser parser = new JsonParser();
 		JsonObject json = parser.parse(jsonString).getAsJsonObject();
 
+		TreeItemIdNode root = new TreeItemIdNode(null);
+
 		JsonArray children = json.getAsJsonArray("root");
-		if (children != null) {
-			for (int i = 0; i < children.size(); i++) {
-				JsonObject child = children.get(i).getAsJsonObject();
-				processJsonToTree(root, child);
-			}
+		for (int i = 0; i < children.size(); i++) {
+			JsonObject child = children.get(i).getAsJsonObject();
+			processJsonToTree(root, child);
 		}
 
 		return root;
@@ -109,11 +63,9 @@ public final class TreeItemUtil {
 		parentNode.addChild(node);
 
 		JsonArray children = json.getAsJsonArray("items");
-		if (children != null) {
-			for (int i = 0; i < children.size(); i++) {
-				JsonObject child = children.get(i).getAsJsonObject();
-				processJsonToTree(node, child);
-			}
+		for (int i = 0; i < children.size(); i++) {
+			JsonObject child = children.get(i).getAsJsonObject();
+			processJsonToTree(node, child);
 		}
 	}
 

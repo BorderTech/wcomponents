@@ -1,5 +1,5 @@
 /**
- * This is an IE bug fix (specifically IE8).
+ * This is an IE bug fix.
  *
  * BUG: When a descendant of FORM has 'focus' the form submit event will fire when the enter key is pressed even if the
  * element is not an input element which supports submit on ENTER.
@@ -10,19 +10,22 @@
  * @module
  * @private
  * @requires module:wc/dom/event
- * @requires module:wc/dom/focus
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/Widget
- * @deprecated IE8 support is now in a rot state.
+ * @requires module:wc/dom/tag
  */
-define(["wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc/dom/Widget"],
-	/** @param event @param focus @param initialise @param Widget @ignore */
-	function(event, focus, initialise, Widget) {
+define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/tag"],
+	/** @param event @param initialise @param Widget @param tag @ignore */
+	function(event, initialise, Widget, tag) {
 		"use strict";
 
 		function FixDefaultSubmitControl() {
 			var FORM_WD = new Widget("form"),
-				FILE_UPLOAD = new Widget("INPUT", "", {type: "file"});
+				BUTTON = new Widget("button"),
+				A = new Widget("a"),
+				INPUT_WD = new Widget("input"),
+				FILE_WD = INPUT_WD.extend("", {"type": "file"}),
+				submittables = [BUTTON, A, INPUT_WD];
 
 			this.initialise = function (element) {
 				event.add(element, event.TYPE.keypress, keyEvent, 100);
@@ -34,14 +37,16 @@ define(["wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc/dom/Widget"],
 			 */
 			function keyEvent($event) {
 				var keyCode = $event.keyCode, element = $event.target;
-				if (!$event.defaultPrevented && (keyCode === KeyEvent.DOM_VK_RETURN)) {
-					if (FILE_UPLOAD.isOneOfMe(element) || (!focus.isTabstop(element) && FORM_WD.findAncestor(element))) {
-						$event.preventDefault();
-					}
+				if ($event.defaultPrevented || keyCode !== KeyEvent.DOM_VK_RETURN || !(element && element.tagName) || element.tagName === tag.TEXTAREA) {
+					return;
+				}
+
+				if (FILE_WD.isOneOfMe(element) ||(!Widget.isOneOfMe(element, submittables) && FORM_WD.findAncestor(element))) {
+					$event.preventDefault();
 				}
 			}
 		}
 		var fixDefaultSubmitControl = new FixDefaultSubmitControl();
 		initialise.addBodyListener(fixDefaultSubmitControl);
-		return /** @alias module:wc/fix/defaultSubmit_ie8 */ fixDefaultSubmitControl;
+		return /** @alias module:wc/fix/defaultSubmit_ieAll */ fixDefaultSubmitControl;
 	});

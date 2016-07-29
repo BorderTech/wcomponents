@@ -214,24 +214,6 @@ public class WTree extends AbstractInput
 	}
 
 	/**
-	 * The action when a request to open a tree item is received.
-	 *
-	 * @return the open action
-	 */
-	public Action getOpenAction() {
-		return getComponentModel().openAction;
-	}
-
-	/**
-	 * The action when a request to open a tree item is received.
-	 *
-	 * @param action the open action
-	 */
-	public void setOpenAction(final Action action) {
-		getOrCreateComponentModel().openAction = action;
-	}
-
-	/**
 	 * @return true if allow the client to shuffle items
 	 */
 	public boolean isShuffle() {
@@ -467,9 +449,7 @@ public class WTree extends AbstractInput
 	 * Clear the map holding the mapping between custom item ids and their node item.
 	 */
 	public void clearCustomIdMap() {
-		if (getScratchMap() != null) {
-			getScratchMap().remove(CUSTOM_IDS_SCRATCH_MAP_KEY);
-		}
+		getScratchMap().remove(CUSTOM_IDS_SCRATCH_MAP_KEY);
 	}
 
 	/**
@@ -488,9 +468,7 @@ public class WTree extends AbstractInput
 	 * Clear the map holding the mapping between an item id and its row index.
 	 */
 	public void clearItemIdIndexMap() {
-		if (getScratchMap() != null) {
-			getScratchMap().remove(INDEX_MAPPING_SCRATCH_MAP_KEY);
-		}
+		getScratchMap().remove(INDEX_MAPPING_SCRATCH_MAP_KEY);
 	}
 
 	/**
@@ -528,7 +506,11 @@ public class WTree extends AbstractInput
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
 
-		// If is an internal AJAX action, set the action type.
+		// Check if this is open item request
+		if (isOpenItemRequest(request)) {
+			handleOpenItemRequest(request);
+		}
+
 		if (AjaxHelper.isCurrentAjaxTrigger(this)) {
 			AjaxOperation operation = AjaxHelper.getCurrentOperation();
 			if (operation.isInternalAjaxRequest()) {
@@ -548,16 +530,6 @@ public class WTree extends AbstractInput
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected void afterPaint(final RenderContext renderContext) {
-		super.afterPaint(renderContext);
-		// Clear the open id (if set)
-		setOpenRequestItemId(null);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	protected boolean beforeHandleRequest(final Request request) {
 
 		// Check if is targeted request (ie item image)
@@ -568,12 +540,8 @@ public class WTree extends AbstractInput
 			return false;
 		}
 
-		// Check if open item request
-		if (isOpenItemRequest(request)) {
-			handleOpenItemRequest(request);
-			return false;
-		}
-		return true;
+		// If is open item request, dont continue handle request processing.
+		return !isOpenItemRequest(request);
 	}
 
 	/**
@@ -606,7 +574,7 @@ public class WTree extends AbstractInput
 		if (isShuffle()) {
 			handleShuffleRequest(request);
 		}
-		handleExpandedRequest(request);
+		handleExpansionRequest(request);
 
 		return changed;
 	}
@@ -707,7 +675,7 @@ public class WTree extends AbstractInput
 	 *
 	 * @param request the request containing row expansion data.
 	 */
-	private void handleExpandedRequest(final Request request) {
+	private void handleExpansionRequest(final Request request) {
 
 		String[] paramValue = request.getParameterValues(getId() + ".open");
 		if (paramValue == null) {
@@ -755,21 +723,12 @@ public class WTree extends AbstractInput
 			throw new SystemException("Tree item id [" + itemId + "] is not expandable.");
 		}
 
+		// Add itemId to expanded
+		Set<String> rowIds = new HashSet<>(getExpandedRows());
+		rowIds.add(itemId);
+		setExpandedRows(rowIds);
+
 		setOpenRequestItemId(itemId);
-
-		// Run the open action (if set)
-		final Action action = getOpenAction();
-		if (action != null) {
-			final ActionEvent event = new ActionEvent(this, "openItem");
-			Runnable later = new Runnable() {
-				@Override
-				public void run() {
-					action.execute(event);
-				}
-			};
-			invokeLater(later);
-		}
-
 	}
 
 	/**
@@ -803,6 +762,7 @@ public class WTree extends AbstractInput
 			// Run the shuffle action (if set)
 			final Action action = getShuffleAction();
 			if (action != null) {
+				// Set the selected file id as the action object
 				final ActionEvent event = new ActionEvent(this, "shuffle");
 				Runnable later = new Runnable() {
 					@Override
@@ -874,14 +834,14 @@ public class WTree extends AbstractInput
 	 * @param itemId the item id to open
 	 */
 	private void setOpenRequestItemId(final String itemId) {
-		getOrCreateComponentModel().openRequestItemId = itemId;
+		getScratchMap().put("openid", itemId);
 	}
 
 	/**
-	 * @return the item id to open, or null
+	 * @return the item id to open. or null
 	 */
 	public String getOpenRequestItemId() {
-		return getComponentModel().openRequestItemId;
+		return (String) getScratchMap().get("openid");
 	}
 
 	/**
@@ -970,16 +930,6 @@ public class WTree extends AbstractInput
 		 * Shuffle action.
 		 */
 		private Action shuffleAction;
-
-		/**
-		 * Open action.
-		 */
-		private Action openAction;
-
-		/**
-		 * Open item id.
-		 */
-		private String openRequestItemId;
 
 		/**
 		 * This is used to allow a user to have a different tree of nodes.

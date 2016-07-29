@@ -152,6 +152,11 @@ public class WMultiTextField_Test extends AbstractWComponentTestCase {
 		assertAccessorsCorrect(new WMultiTextField(), "pattern", null, "test1", "test2");
 	}
 
+	@Test
+	public void testplaceholderAccessors() {
+		assertAccessorsCorrect(new WMultiTextField(), "placeholder", null, "test1", "test2");
+	}
+
 	@Test(expected = PatternSyntaxException.class)
 	public void testSetPatternInvalid() {
 		WMultiTextField field = new WMultiTextField();

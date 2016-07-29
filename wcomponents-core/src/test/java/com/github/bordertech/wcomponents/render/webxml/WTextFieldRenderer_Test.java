@@ -65,10 +65,6 @@ public class WTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(textField);
 		assertXpathEvaluatesTo("true", "//ui:textfield/@required", textField);
 
-		textField.setReadOnly(true);
-		assertSchemaMatch(textField);
-		assertXpathEvaluatesTo("true", "//ui:textfield/@readOnly", textField);
-
 		textField.setMinLength(45);
 		assertSchemaMatch(textField);
 		assertXpathEvaluatesTo("45", "//ui:textfield/@minLength", textField);
@@ -109,6 +105,18 @@ public class WTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		textField.setSuggestions(suggestions);
 		assertSchemaMatch(textField);
 		assertXpathEvaluatesTo(suggestions.getId(), "//ui:textfield/@list", textField);
+
+		textField.setPlaceholder("enter stuff here");
+		assertSchemaMatch(textField);
+		assertXpathEvaluatesTo("enter stuff here", "//ui:textfield/@placeholder", textField);
+	}
+
+	@Test
+	public void testReadOnly() throws IOException, SAXException, XpathException {
+		WTextField field = new WTextField();
+		field.setReadOnly(true);
+		assertSchemaMatch(field);
+		assertXpathEvaluatesTo("true", "//ui:textfield/@readOnly", field);
 	}
 
 	@Test

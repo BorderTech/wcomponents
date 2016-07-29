@@ -1,13 +1,12 @@
 package com.github.bordertech.wcomponents.container;
 
-import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Response;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.ThemeUtil;
 import com.github.bordertech.wcomponents.util.Util;
@@ -54,11 +53,6 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.0
  */
 public class TransformXMLInterceptor extends InterceptorComponent {
-
-	/**
-	 * The key used to look up the enable flag in the current {@link Config configuration}.
-	 */
-	public static final String PARAMETERS_KEY = "bordertech.wcomponents.xslt.enabled";
 
 	/**
 	 * Cache compiled XSLT stylesheets.
@@ -124,10 +118,10 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	 * @return true if transform flag is set true and a theme content path has not been set.
 	 */
 	private boolean isPerformTransform() {
-		boolean transform = Config.getInstance().getBoolean(PARAMETERS_KEY, false);
+		boolean transform = ConfigurationProperties.getXsltServerSide();
 		if (transform) {
 			// Check a theme content path has not been set.
-			String themePath = Config.getInstance().getString(Environment.THEME_CONTENT_PATH);
+			String themePath = ConfigurationProperties.getThemeContentPath();
 			return Util.empty(themePath);
 		}
 		return false;
@@ -177,7 +171,7 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 					LOG.debug("Cached xslt: " + resourceName);
 				} else {
 					// Perhaps we should disable this interceptor if we end up here and fall back to serving raw XML?
-					throw new IllegalStateException(PARAMETERS_KEY + " true but " + resourceName + " not on classpath");
+					throw new IllegalStateException(ConfigurationProperties.XSLT_SERVER_SIDE + " true but " + resourceName + " not on classpath");
 				}
 			}
 			return templates.newTransformer();

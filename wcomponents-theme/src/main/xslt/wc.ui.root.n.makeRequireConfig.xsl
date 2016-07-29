@@ -5,6 +5,7 @@
 	<xsl:import href="wc.ui.root.variables.xsl"/>
 	<xsl:import href="wc.ui.root.n.styleLoaderConfig.xsl"/>
 	<xsl:import href="wc.ui.root.n.localConfig.xsl"/>
+	<xsl:import href="wc.ui.root.n.tinyMCEConfig.xsl"/>
 	<!--
 		Constructs the require config which is necessary to commence inclusion
 		and bootstrapping of WComponent JavaScript. This must be included before
@@ -24,7 +25,6 @@
 						Promise: "lib/Promise.min",
 						fabric: "lib/fabric",
 						tracking: "lib/tracking/build/tracking-min",
-						Mustache: "lib/mustache/mustache.min",
 						getUserMedia: "lib/getusermedia-js/getUserMedia.min",
 						axs: "lib/axs_testing",
 						axe: "lib/axe.min"
@@ -65,11 +65,12 @@
 			<xsl:value-of select="concat('xslEngine:&quot;', system-property('xsl:vendor'), '&quot;,&#10;')"/>
 			<!-- Used for testing purposes -->
 			<xsl:value-of select="concat('xslUrl:&quot;', normalize-space($xslPath), '&quot;')"/>
-			<xsl:text>},&#10;"wc/i18n/i18n": {</xsl:text>
-			<xsl:value-of select="concat('locale:&quot;', normalize-space($locale), '&quot;')"/>
-			<xsl:text>},&#10;"lib/i18n": {</xsl:text>
-			<xsl:value-of select="concat('locale:&quot;', normalize-space($locale), '&quot;')"/>
-			<xsl:text>},&#10;"wc/loader/resource": {</xsl:text>
+			<xsl:text>},&#10;"wc/i18n/i18n": { </xsl:text>
+			<xsl:text>options:{ backend: {</xsl:text>
+			<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')"/>
+			<xsl:text>},</xsl:text>
+			<xsl:value-of select="concat('lng:&quot;', normalize-space($locale), '&quot;')"/>
+			<xsl:text>} },&#10;"wc/loader/resource": {</xsl:text>
 			<xsl:value-of select="concat('resourceBaseUrl:&quot;', normalize-space($resourceRoot), '${resource.target.dir.name}/&quot;,&#10;')"/>
 			<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')"/>
 			<xsl:text>},&#10;"wc/loader/style":{</xsl:text>
@@ -80,6 +81,7 @@
 			</xsl:if>
 			<xsl:call-template name="styleLoaderConfig"/>
 			<xsl:text>}</xsl:text>
+			<xsl:call-template name="tinyMCEConfig"/>
 			<xsl:call-template name="localConfig" />
 			<xsl:text>};&#10;</xsl:text>
 			<!--

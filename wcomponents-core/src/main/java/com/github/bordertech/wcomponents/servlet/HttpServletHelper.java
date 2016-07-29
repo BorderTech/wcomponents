@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.UserAgentInfo;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.container.AbstractContainerHelper;
 import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor.CacheType;
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.IOException;
@@ -276,7 +276,7 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	 */
 	@Override
 	protected void redirectForLogout() {
-		String url = Config.getInstance().getString("bordertech.wcomponents.logout.url", null);
+		String url = ConfigurationProperties.getLogoutUrl();
 
 		if (Util.empty(url)) {
 			LOG.warn("No logout URL specified");

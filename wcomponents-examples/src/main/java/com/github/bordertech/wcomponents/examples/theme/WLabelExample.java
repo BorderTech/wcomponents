@@ -188,13 +188,16 @@ public class WLabelExample extends WPanel {
 
 		//make the labels for the radio buttons
 		WLabel rb1Label = new WLabel("", rb1);
-		rb1Label.add(new WImage("/image/success.png", "I still like bananas"));
-		WLabel rb2Label = new WLabel("", rb2);
-		rb2Label.add(new WImage("/image/error.png", "I still dislike bananas"));
+		WImage labelImage = new WImage("/image/success.png", "I still like bananas");
+		labelImage.setHtmlClass("wc-valign-bottom");
+		rb1Label.add(labelImage);
+		WLabel rb2Label = new WLabel("", rb2);labelImage = new WImage("/image/error.png", "I still dislike bananas");
+		labelImage.setHtmlClass("wc-valign-bottom");
+		rb2Label.add(labelImage);
 		// Now it gets confusing. We want the radio buttons to flow with their labels but be apart from each other...
 		//The WPanel which flowLayout and hgap will make the two control:label pairs sit apart from each other
 		WPanel rbLayout = new WPanel();
-		rbLayout.setLayout(new FlowLayout(FlowLayout.LEFT, 12, 0,
+		rbLayout.setLayout(new FlowLayout(FlowLayout.LEFT, 12,
 				FlowLayout.ContentAlignment.BASELINE));
 		//then we use WContainer to add each control:label pair to the WPanel
 		WContainer rbContainer = new WContainer();
@@ -236,7 +239,7 @@ public class WLabelExample extends WPanel {
 		 * So these examples have far fewer comments.
 		 */
 		WPanel errorLayoutPanel = new WPanel();
-		errorLayoutPanel.setLayout(new FlowLayout(FlowLayout.VERTICAL, 0, 12));
+		errorLayoutPanel.setLayout(new FlowLayout(FlowLayout.VERTICAL, 12));
 		errorLayoutPanel.setMargin(new com.github.bordertech.wcomponents.Margin(0, 0, 24, 0));
 		add(errorLayoutPanel);
 		errorLayoutPanel.add(new ExplanatoryText(
@@ -255,12 +258,12 @@ public class WLabelExample extends WPanel {
 		 * DO NOT use the following as examples of what to do: these are examples
 		 * of what NOT to do.
 		 */
-		add(new WHeading(WHeading.MAJOR, "WLabel anti-patterns"));
+		add(new WHeading(HeadingLevel.H2, "WLabel anti-patterns"));
 		add(new ExplanatoryText(
 				"These are here for testing purposes and must not be used as examples to follow.\nTurn on client debugging to get much more information."));
 		add(new WHeading(HeadingLevel.H3, "Poor but not erroneous uses of WLabel"));
 		errorLayoutPanel = new WPanel();
-		errorLayoutPanel.setLayout(new FlowLayout(FlowLayout.VERTICAL, 0, 12));
+		errorLayoutPanel.setLayout(new FlowLayout(FlowLayout.VERTICAL, 12));
 		add(errorLayoutPanel);
 		//label not for anything should not be a WLabel
 		errorLayoutPanel.add(new WLabel("I am not 'for' anything"));
@@ -278,7 +281,7 @@ public class WLabelExample extends WPanel {
 		 */
 		add(new WHeading(HeadingLevel.H3, "Very bad uses of WLabel"));
 		errorLayoutPanel = new WPanel();
-		errorLayoutPanel.setLayout(new FlowLayout(FlowLayout.VERTICAL, 0, 12));
+		errorLayoutPanel.setLayout(new FlowLayout(FlowLayout.VERTICAL, 12));
 		add(errorLayoutPanel);
 
 		/*

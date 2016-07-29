@@ -2,15 +2,16 @@ package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.CollapsibleGroup;
 import com.github.bordertech.wcomponents.HeadingLevel;
-import com.github.bordertech.wcomponents.WCancelButton;
 import com.github.bordertech.wcomponents.WCollapsible;
 import com.github.bordertech.wcomponents.WCollapsibleToggle;
-import com.github.bordertech.wcomponents.WHeading;
+import com.github.bordertech.wcomponents.WDecoratedLabel;
+import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
-import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
+import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import java.util.Date;
 
 /**
@@ -74,20 +75,12 @@ public class WCollapsibleExample extends WPanel {
 		collapsible6.setHeadingLevel(HeadingLevel.H2);
 		add(collapsible6);
 
+		// WCollapsible with WDecoratedLabel
 
-		add(new WHeading(HeadingLevel.H2, "CollapsibleMode.SERVER"));
-		add(new ExplanatoryText("These examples are here for completeness but there is no excuse for using WCollapsible.CollapsibleMode.SERVER"));
-		WText component1 = new WText("Here is some text that is collapsible via the server side.");
-		WCollapsible collapsible1 = new WCollapsible(component1,
-				"Server Side Collapsible - initially collapsed", WCollapsible.CollapsibleMode.SERVER);
-		add(collapsible1);
-
-		WText component2 = new WText(
-				"Here is some more text that is collapsible via the server side.");
-		WCollapsible collapsible2 = new WCollapsible(component2,
-				"Server Side Collapsible - initially expanded", WCollapsible.CollapsibleMode.SERVER);
-		collapsible2.setCollapsed(false);
-		add(collapsible2);
-		add(new WCancelButton("Cancel"));
+		WStyledText iconText = new WStyledText("\u200b");
+		iconText.setHtmlClass(HtmlClassProperties.ICON_EDIT);
+		WDecoratedLabel collLabel = new WDecoratedLabel(iconText, new WText("Edit inside this collapsible"), new WImage("/image/tick.png", "Checked"));
+		WCollapsible collWithWDL = new WCollapsible(new WText("Placeholder"), collLabel);
+		add(collWithWDL);
 	}
 }

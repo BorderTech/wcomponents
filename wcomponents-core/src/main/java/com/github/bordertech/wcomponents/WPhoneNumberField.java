@@ -225,6 +225,22 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 	}
 
 	/**
+	 * Set placeholder text which will appear in the field if it is editable and has no content.
+	 * @param placeholder The text to set as the
+	 */
+	public void setPlaceholder(final String placeholder) {
+		getOrCreateComponentModel().placeholder = placeholder;
+	}
+
+	/**
+	 *
+	 * @return The placeholder text for the field.
+	 */
+	public String getPlaceholder() {
+		return getComponentModel().placeholder;
+	}
+
+	/**
 	 * Creates a new PhoneFieldModel holds Extrinsic state management of the field.
 	 *
 	 * @return a new PhoneFieldModel
@@ -283,5 +299,10 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 		 * The list of suggestions.
 		 */
 		private WSuggestions suggestions;
+
+		/**
+		 * The placeholder text which will appear if the field is editable and empty.
+		 */
+		private String placeholder;
 	}
 }

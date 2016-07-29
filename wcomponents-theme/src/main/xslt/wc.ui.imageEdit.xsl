@@ -19,7 +19,7 @@
 						<xsl:value-of select="@id"/>
 					</xsl:attribute>
 					<xsl:attribute name="class">
-						<xsl:text>wc_btn_icon</xsl:text>
+						<xsl:text>wc_btn_icon wc-invite</xsl:text>
 					</xsl:attribute>
 				</xsl:when>
 				<xsl:otherwise>
@@ -27,7 +27,7 @@
 						<xsl:value-of select="@id"/>
 					</xsl:attribute>
 					<xsl:attribute name="class">
-						<xsl:text>wc_btn_camera wc_btn_icon</xsl:text>
+						<xsl:text>wc_btn_camera wc_btn_icon wc-invite</xsl:text>
 					</xsl:attribute>
 				</xsl:otherwise>
 			</xsl:choose>

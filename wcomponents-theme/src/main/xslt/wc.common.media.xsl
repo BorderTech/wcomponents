@@ -108,7 +108,7 @@
 				<xsl:call-template name="mediaUnsupportedContent"/>
 			</xsl:element>
 			<xsl:if test="@controls='play'">
-				<button type="button" class="wc_btn_icon wc_av_play" aria-pressed="false" aria-controls="{$mediaId}">
+				<button type="button" class="wc_btn_icon wc_av_play wc-invite" aria-pressed="false" aria-controls="{$mediaId}">
 					<xsl:if test="not(@autoplay)">
 						<!-- do not allow the button to be disabled if autoplay is on - the user MUST be able to stop/pause playback. -->
 						<xsl:call-template name="disabledElement">

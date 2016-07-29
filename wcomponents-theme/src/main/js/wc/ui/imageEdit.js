@@ -1,6 +1,6 @@
 define(["wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/dom/shed", "wc/config",
-	"wc/loader/resource", "wc/i18n/i18n", "fabric", "Mustache", "wc/ui/dialogFrame", "getUserMedia"],
-function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabric, Mustache, dialogFrame, getUserMedia) {
+	"wc/loader/resource", "wc/i18n/i18n", "fabric", "lib/handlebars/handlebars", "wc/ui/dialogFrame", "getUserMedia"],
+function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabric, handlebars, dialogFrame, getUserMedia) {
 	var imageEdit = new ImageEdit();
 
 	/**
@@ -321,7 +321,6 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 			}
 		}
 
-
 		/**
 		 * Builds the editor DOM and displays it to the user.
 		 * @param {Object} config Map of configuration properties.
@@ -337,7 +336,8 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 				container.className = "wc_img_editor";
 
 				loader.load(TEMPLATE_NAME, true, true).then(function(template) {
-					var eventConfig, editorHtml, editorProps = {
+					var compiledTemplate = handlebars.compile(template),
+						eventConfig, editorHtml, editorProps = {
 							style: {
 								width: config.width || defaults.width,
 								height: config.height || defaults.height
@@ -390,7 +390,7 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 								face: false
 							}
 						};
-					editorHtml = Mustache.to_html(template, editorProps);
+					editorHtml = compiledTemplate(editorProps);
 
 					container.innerHTML = editorHtml;
 					eventConfig = attachEventHandlers(container);

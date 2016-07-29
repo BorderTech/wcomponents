@@ -44,8 +44,12 @@ public class WPhoneNumberFieldExample extends WContainer {
 		field.setReadOnly(true);
 		layout.addField("Read-only phone number field with data", field);
 
+		field = new WPhoneNumberField();
+		field.setPlaceholder("ring ring");
+		layout.addField("With placeholder", field);
+
 		add(new ExplanatoryText(
-				"You will notice that a WPhoneNumberFIeld when read only outputs a link with a protocol of tel."
+				"You will notice that a WPhoneNumberField when read only outputs a link with a protocol of tel."
 				+ " This will signal to the browser to launch a soft phone system if available."));
 	}
 

@@ -27,13 +27,7 @@
 
 				<link type="text/css" id="wc_css_screen" rel="stylesheet"><!-- this id is used by the style loader js -->
 					<xsl:attribute name="href">
-						<xsl:value-of select="$resourceRoot"/>
-						<xsl:text>${css.target.dir.name}/${css.target.file.name}</xsl:text>
-						<xsl:if test="$isDebug=1">
-							<xsl:text>${debug.target.file.name.suffix}</xsl:text>
-						</xsl:if>
-						<xsl:text>.css?</xsl:text>
-						<xsl:value-of select="$cacheBuster"/>
+						<xsl:value-of select="$cssFilePath"/>
 					</xsl:attribute>
 				</link>
 
@@ -63,7 +57,7 @@
 					<xsl:text>require(["wc/compat/compat!"], function() {</xsl:text>
 					<xsl:text>require(["wc/a8n", "wc/loader/style", "wc/dom/removeElement"</xsl:text>
 					<xsl:if test="$isDebug=1">
-						<xsl:text>,"wc/debug/consoleColor", "wc/debug/indicator"</xsl:text><!-- , "wc/debug/a11y" #533 -->
+						<xsl:text>,"wc/debug/common"</xsl:text>
 					</xsl:if>
 					<xsl:text>], function(a, s, r){try{s.load();}finally{r("</xsl:text>
 					<xsl:value-of select="$styleLoaderId"/>

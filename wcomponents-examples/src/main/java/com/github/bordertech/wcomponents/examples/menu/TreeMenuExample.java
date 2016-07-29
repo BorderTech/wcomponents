@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents.examples.menu;
 
+import com.github.bordertech.wcomponents.Action;
+import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WImage;
@@ -13,6 +15,7 @@ import com.github.bordertech.wcomponents.WSubMenu;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
+import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.util.TreeNode;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -169,6 +172,17 @@ public class TreeMenuExample extends WPanel {
 				new WImage("/image/wrench.png", "work"))));
 		addressSub.add(new WMenuItem(new WDecoratedLabel(null, new WText("Postal Address"),
 				new WImage("/image/mail-post.png", "postal"))));
+
+
+		WMenuItem itemWithIcon = new WMenuItem("Help");
+		itemWithIcon.setAction(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				// do something
+			}
+		});
+		itemWithIcon.setHtmlClass(HtmlClassProperties.ICON_HELP_BEFORE);
+		menu.add(itemWithIcon);
 		return menu;
 	}
 }

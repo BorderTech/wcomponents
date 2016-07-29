@@ -43,16 +43,14 @@ define(["wc/dom/ariaAnalog", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed"
 			 * @param {Element} container The container to whch state is written.
 			 */
 			this.writeState = function(form, container) {
-				var SELECTED_ITEM = this.ITEM.extend("", {"aria-checked": "true"}),
-					items = SELECTED_ITEM.findDescendants(form);
+				var items = this.ITEM.findDescendants(form);
 
-				if (items.length) {
-					Array.prototype.forEach.call(items, function(next) {
-						if (next.hasAttribute("data-wc-value") && !shed.isDisabled(next)) {
-							formUpdateManager.writeStateField(container, next.getAttribute("data-wc-name"), next.getAttribute("data-wc-value"));
-						}
-					});
-				}
+				Array.prototype.forEach.call(items, function(next) {
+					if (next.hasAttribute("data-wc-value") && !shed.isDisabled(next)) {
+						formUpdateManager.writeStateField(container, next.getAttribute("data-wc-name"),
+							shed.isSelected(next) ? next.getAttribute("data-wc-value") : "");
+					}
+				});
 			};
 		}
 

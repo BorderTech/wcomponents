@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.velocity.VelocityEngineFactory;
 import com.github.bordertech.wcomponents.velocity.VelocityProperties;
@@ -125,8 +125,7 @@ public final class VelocityRenderer implements Renderer {
 
 		// If we are debugging the layout, write markers so that the html
 		// designer can see where templates start and end.
-		boolean debugLayout = Config.getInstance().getBoolean(
-				"bordertech.wcomponents.velocity.debugLayout", false);
+		boolean debugLayout = ConfigurationProperties.getDeveloperVelocityDebug();
 
 		if (debugLayout) {
 			String templateUrl = url;

@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.servlet.WServlet;
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.StreamUtil;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -100,15 +100,14 @@ public class InternalResource implements ContentStreamAccess {
 
 		if (index != -1) {
 			String extension = resourceName.substring(index + 1);
-			String key = "bordertech.wcomponents.mimeType." + extension.toLowerCase();
-			String fileMimeType = Config.getInstance().getString(key);
+			String fileMimeType = ConfigurationProperties.getFileMimeTypeForExtension(extension);
 
 			if (fileMimeType != null) {
 				return fileMimeType;
 			}
 		}
 
-		return Config.getInstance().getString("bordertech.wcomponents.mimeType.defaultMimeType");
+		return ConfigurationProperties.getDefaultMimeType();
 	}
 
 	/**

@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.driver.WComponentWebDriver;
+import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import com.github.bordertech.wcomponents.util.TreeUtil;
 import java.util.List;
 import junit.framework.Assert;
@@ -96,7 +96,7 @@ public class WDropdownOptionsExample_Test extends WComponentExamplesTestCase {
 		WDropdownOptionsExample example = (WDropdownOptionsExample) getUi();
 
 		// Launch the web browser to the LDE
-		WComponentWebDriver driver = getDriver();
+		SeleniumWComponentsWebDriver driver = getDriver();
 
 		WDropdown.DropdownType type = WDropdown.DropdownType.NATIVE;
 		configureDropDown(driver, type, 2);

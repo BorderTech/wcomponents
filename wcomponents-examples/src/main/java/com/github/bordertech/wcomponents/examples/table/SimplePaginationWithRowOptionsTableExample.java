@@ -2,9 +2,11 @@ package com.github.bordertech.wcomponents.examples.table;
 
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.SimpleBeanBoundTableModel;
+import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WDateField;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTable;
+import com.github.bordertech.wcomponents.WTable.PaginationLocation;
 import com.github.bordertech.wcomponents.WTable.PaginationMode;
 import com.github.bordertech.wcomponents.WTableColumn;
 import com.github.bordertech.wcomponents.WText;
@@ -23,6 +25,10 @@ import java.util.Arrays;
 public class SimplePaginationWithRowOptionsTableExample extends WPanel {
 
 	/**
+	 * The ID of the table.
+	 */
+	public static final String TABLE_ID = "TABLEID";
+	/**
 	 * The table used in the example.
 	 */
 	private final WTable table = new WTable();
@@ -33,6 +39,7 @@ public class SimplePaginationWithRowOptionsTableExample extends WPanel {
 	public SimplePaginationWithRowOptionsTableExample() {
 		add(table);
 
+		table.setIdName(TABLE_ID);
 		// Columns
 		table.addColumn(new WTableColumn("First name", new WText()));
 		table.addColumn(new WTableColumn("Last name", new WText()));
@@ -40,7 +47,12 @@ public class SimplePaginationWithRowOptionsTableExample extends WPanel {
 
 		// Pagination Mode
 		table.setPaginationMode(PaginationMode.DYNAMIC);
+		table.setPaginationLocation(PaginationLocation.BOTH);
 		table.setRowsPerPage(2);
+
+		table.setCaption("TABLE CAPTION");
+		table.addAction(new WButton("Test action1"));
+		table.addAction(new WButton("Test action2"));
 
 		// Setup model
 		SimpleBeanBoundTableModel model = new SimpleBeanBoundTableModel(

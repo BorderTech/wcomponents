@@ -59,6 +59,9 @@ public class WTextFieldExample extends WContainer {
 		textfield = new WTextField();
 		textfield.setPattern("\\d+");
 		layout.addField("Pattern only numbers", textfield);
+		textfield = new WTextField();
+		textfield.setPlaceholder("type here");
+		layout.addField("placeholder", textfield);
 
 	}
 

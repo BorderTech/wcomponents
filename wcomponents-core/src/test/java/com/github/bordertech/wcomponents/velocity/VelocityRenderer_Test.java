@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.render.webxml.VelocityRenderer;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -65,7 +66,7 @@ public class VelocityRenderer_Test extends AbstractWComponentTestCase {
 		Assert.assertTrue("Map should have been used", component.mapUsedCalled);
 		Assert.assertFalse("Should not contain debug markers", result.contains("<!-- Start"));
 
-		Config.getInstance().setProperty("bordertech.wcomponents.velocity.debugLayout", "true");
+		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_VELOCITY_DEBUG, "true");
 
 		writer = new StringWriter();
 		printWriter = new PrintWriter(writer);

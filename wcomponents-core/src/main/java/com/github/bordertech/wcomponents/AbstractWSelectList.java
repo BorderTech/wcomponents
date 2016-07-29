@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.Factory;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.LookupTable;
@@ -29,11 +29,6 @@ public abstract class AbstractWSelectList extends AbstractInput {
 	 * Indicates whether having no selection is allowed.
 	 */
 	private final boolean allowNoSelection;
-
-	/**
-	 * Data list caching parameter key.
-	 */
-	public static final String DATALIST_CACHING_PARAM_KEY = "bordertech.wcomponents.dataListCaching.enabled";
 
 	/**
 	 * Creates an AbstractWSelectList.
@@ -97,6 +92,7 @@ public abstract class AbstractWSelectList extends AbstractInput {
 
 	/**
 	 * No longer supported. To be deleted.
+	 *
 	 * @return Flag indicating if option descriptions are to be encoded.
 	 * @deprecated 1.2.0 do not use
 	 */
@@ -202,7 +198,7 @@ public abstract class AbstractWSelectList extends AbstractInput {
 	public String getListCacheKey() {
 		Object table = getLookupTable();
 
-		if (table != null && Config.getInstance().getBoolean(DATALIST_CACHING_PARAM_KEY, false)) {
+		if (table != null && ConfigurationProperties.getDatalistCaching()) {
 			String key = APPLICATION_LOOKUP_TABLE.getCacheKeyForTable(table);
 			return key;
 		}

@@ -36,7 +36,7 @@ import com.github.bordertech.wcomponents.container.WhitespaceFilterInterceptor;
 import com.github.bordertech.wcomponents.container.WrongStepAjaxInterceptor;
 import com.github.bordertech.wcomponents.container.WrongStepContentInterceptor;
 import com.github.bordertech.wcomponents.container.WrongStepServerInterceptor;
-import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.RequestUtil;
@@ -90,6 +90,16 @@ public final class ServletUtil {
 	private static final String THEME_RESOURCE_PATH_PARAM = "/" + Environment.THEME_RESOURCE_PATH_NAME + "/";
 
 	/**
+	 * Prefix for translation resource request.
+	 */
+	private static final String THEME_TRANSLATION_RESOURCE_PREFIX = "resource/translation";
+
+	/**
+	 * The resource path for project translation resources.
+	 */
+	private static final String THEME_PROJECT_TRANSLATION_RESOURCE_PATH = "/wc/theme/i18n";
+
+	/**
 	 * The parameters extracted from multi part saved on the request.
 	 */
 	private static final String REQUEST_PARAMETERS_KEY = "wc_req_params";
@@ -105,29 +115,10 @@ public final class ServletUtil {
 	private static final String REQUEST_PROCESSED_KEY = "wc_req_processed";
 
 	/**
-	 * The key used to look up the {@link Config WComponent Configuration} flag for whether we should use enable
-	 * sub-session support.
-	 */
-	public static final String ENABLE_SUBSESSIONS = "bordertech.wcomponents.servlet.subsessions.enabled";
-
-	/**
-	 * The key used to look up the {@link Config WComponent Configuration} flag for developer mode error handling.
-	 */
-	public static final String DEVELOPER_MODE_ERROR_HANDLING = "bordertech.wcomponents.developer.errorHandling.enabled";
-
-	/**
-	 * The key used to look up the {@link Config WComponent Configuration} flag for whether we should use the
-	 * ErrorPageFactory.
-	 */
-	public static final String HANDLE_ERROR_WITH_FATAL_ERROR_PAGE_FACTORY = WServlet.class.getName()
-			+ ".handleErrorWithFatalErrorPageFactory";
-
-	/**
 	 * @return true if enable sub sessions
 	 */
 	public static boolean isEnableSubSessions() {
-		boolean enableSubSessions = Config.getInstance().getBoolean(ENABLE_SUBSESSIONS, false);
-		return enableSubSessions;
+		return ConfigurationProperties.getServletEnableSubsessions();
 	}
 
 	/**
@@ -319,8 +310,19 @@ public final class ServletUtil {
 		InputStream resourceStream = null;
 
 		try {
-			String resourceName = ThemeUtil.getThemeBase() + fileName;
-			URL url = ServletUtil.class.getResource(resourceName);
+			URL url = null;
+
+			// Check for project translation file
+			if (fileName.startsWith(THEME_TRANSLATION_RESOURCE_PREFIX)) {
+				String resourceFileName = fileName.substring(THEME_TRANSLATION_RESOURCE_PREFIX.length());
+				url = ServletUtil.class.getResource(THEME_PROJECT_TRANSLATION_RESOURCE_PATH + resourceFileName);
+			}
+
+			// Load from the theme path
+			if (url == null) {
+				String resourceName = ThemeUtil.getThemeBase() + fileName;
+				url = ServletUtil.class.getResource(resourceName);
+			}
 
 			if (url == null) {
 				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -387,7 +389,7 @@ public final class ServletUtil {
 
 		if (parameters.get(WServlet.DATA_LIST_PARAM_NAME) != null) { // Datalist
 			chain = new InterceptorComponent[]{new TransformXMLInterceptor(),
-                                                           new DataListInterceptor()};
+				new DataListInterceptor()};
 
 		} else if (parameters.get(WServlet.AJAX_TRIGGER_PARAM_NAME) != null) { // AJAX
 			chain = new InterceptorComponent[]{
@@ -473,8 +475,7 @@ public final class ServletUtil {
 		}
 
 		// Decide whether we should use the ErrorPageFactory.
-		boolean handleErrorWithFatalErrorPageFactory = Config.getInstance()
-				.getBoolean(HANDLE_ERROR_WITH_FATAL_ERROR_PAGE_FACTORY, false);
+		boolean handleErrorWithFatalErrorPageFactory = ConfigurationProperties.getHandleErrorWithFatalErrorPageFactory();
 
 		// use the new technique and delegate to the ErrorPageFactory.
 		if (handleErrorWithFatalErrorPageFactory) {
@@ -482,7 +483,7 @@ public final class ServletUtil {
 			helper.dispose();
 		} else { // use the old technique and just display a raw message.
 			// First, decide whether we are in friendly mode or not.
-			boolean friendly = Config.getInstance().getBoolean(DEVELOPER_MODE_ERROR_HANDLING, false);
+			boolean friendly = ConfigurationProperties.getDeveloperErrorHandling();
 
 			String message = InternalMessages.DEFAULT_SYSTEM_ERROR;
 

@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.test.selenium.driver;
 
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumUtil;
+import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.WebDriver;
@@ -12,43 +12,43 @@ import org.openqa.selenium.WebDriver;
  * @author Joshua Barclay
  * @since 1.2.0
  */
-public final class WComponentWebDriverFactory {
+public final class SeleniumWComponentsWebDriverFactory {
 
 	/**
 	 * Private constructor - utility class.
 	 */
-	private WComponentWebDriverFactory() {
+	private SeleniumWComponentsWebDriverFactory() {
 		//No-impl
 	}
 
 	/**
-	 * Create a WComponentWebDriver backed by the given WebDriver.
+	 * Create a SeleniumWComponentsWebDriver backed by the given WebDriver.
 	 *
 	 * @param <T> the type of the Selenium WebDriver.
 	 * @param backingDriver the WebDriver implementation.
-	 * @return a WComponentWebDriver wrapping the given backing driver.
+	 * @return a SeleniumWComponentsWebDriver wrapping the given backing driver.
 	 */
-	public static <T extends WebDriver> WComponentWebDriver<T> createDriver(final T backingDriver) {
-		WComponentSeleniumUtil.configureDriver(backingDriver);
-		return new WComponentWebDriver<>(backingDriver);
+	public static <T extends WebDriver> SeleniumWComponentsWebDriver<T> createDriver(final T backingDriver) {
+		SeleniumWComponentsUtil.configureDriver(backingDriver);
+		return new SeleniumWComponentsWebDriver<>(backingDriver);
 	}
 
 	/**
-	 * Create a WComponentWebDriver backed by the driver implementation of the
+	 * Create a SeleniumWComponentsWebDriver backed by the driver implementation of the
 	 * given WebDriverType.
 	 *
 	 * @param <T> the type of the Selenium WebDriver.
 	 * @param backingDriverType the WebDriverType that references the backing
 	 * WebDriver to wrap.
-	 * @return a WComponentWebDriver wrapping the given backing driver.
+	 * @return a SeleniumWComponentsWebDriver wrapping the given backing driver.
 	 */
-	public static <T extends WebDriver> WComponentWebDriver<T> createDriver(final WebDriverType<T> backingDriverType) {
+	public static <T extends WebDriver> SeleniumWComponentsWebDriver<T> createDriver(final WebDriverType<T> backingDriverType) {
 		return createDriver(backingDriverType.getDriverImplementation());
 	}
 
 	/**
 	 * <p>
-	 * Create a WComponentWebDriver backed by the an instance of the given
+	 * Create a SeleniumWComponentsWebDriver backed by the an instance of the given
 	 * backingDriverClass class name.</p>
 	 * <p>
 	 * <b>WARNING: </b> As reflection is used to instantiate the WebDriver, the
@@ -57,13 +57,13 @@ public final class WComponentWebDriverFactory {
 	 * @param <T> the type of the Selenium WebDriver.
 	 * @param backingDriverClass the full class name of the WebDriver
 	 * implementation.
-	 * @return a WComponentWebDriver wrapping the given backing driver.
+	 * @return a SeleniumWComponentsWebDriver wrapping the given backing driver.
 	 */
-	public static <T extends WebDriver> WComponentWebDriver<T> createDriver(final String backingDriverClass) {
+	public static <T extends WebDriver> SeleniumWComponentsWebDriver<T> createDriver(final String backingDriverClass) {
 
 		T backingDriver = (T) createBackingDriver(backingDriverClass);
 
-		return (WComponentWebDriver<T>) createDriver(backingDriver);
+		return (SeleniumWComponentsWebDriver<T>) createDriver(backingDriver);
 	}
 
 	/**

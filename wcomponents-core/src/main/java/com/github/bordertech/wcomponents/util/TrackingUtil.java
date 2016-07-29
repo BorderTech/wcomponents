@@ -25,30 +25,28 @@ public final class TrackingUtil {
 	 * @return the client id.
 	 */
 	public static String getClientId() {
-		return Config.getInstance().getString("bordertech.wcomponents.tracking.clientid");
+		return ConfigurationProperties.getTrackingClientId();
 	}
 
 	/**
 	 * @return the cookie domain.
 	 */
 	public static String getCookieDomain() {
-		return Config.getInstance().getString("bordertech.wcomponents.tracking.cookiedomain");
+		return ConfigurationProperties.getTrackingCookieDomain();
 	}
 
 	/**
 	 * @return the data collection domain.
 	 */
 	public static String getDataCollectionDomain() {
-		return Config.getInstance()
-				.getString("bordertech.wcomponents.tracking.datacollectiondomain");
+		return ConfigurationProperties.getTrackingDataCollectionDomain();
 	}
 
 	/**
 	 * @return the application name used when tracking
 	 */
 	public static String getApplicationName() {
-		return Config.getInstance()
-				.getString("bordertech.wcomponents.tracking.applicationname");
+		return ConfigurationProperties.getTrackingApplicationName();
 	}
 
 }

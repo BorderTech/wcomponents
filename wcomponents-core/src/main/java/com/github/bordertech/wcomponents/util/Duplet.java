@@ -1,15 +1,17 @@
 package com.github.bordertech.wcomponents.util;
 
+import java.io.Serializable;
+
 /**
- * A type-safe generic collection of two items.
+ * A type-safe generic collection of two Serializable items.
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
  *
- * @param <T1> the type of the first item
- * @param <T2> the type of the second item
+ * @param <T1> the type of the first item, extending Serializable.
+ * @param <T2> the type of the second item, extending Serializable.
  */
-public class Duplet<T1, T2> {
+public class Duplet<T1 extends Serializable, T2 extends Serializable> implements Serializable {
 
 	/**
 	 * The first item.

@@ -1,28 +1,3 @@
-/**
- * Menu controller extension for WMenu of type BAR and type FLYOUT. These are menus which are horizontal at the top
- * level and if they have submenus they are transient fly-out artifacts.
- *
- * @see {@link http://www.w3.org/TR/wai-aria-practices/#menu}
- *
- * @module
- * @extends module:wc/ui/menu/core
- *
- * @requires module:wc/ui/menu/core
- * @requires module:wc/array/toArray
- * @requires module:wc/dom/event
- * @requires module:wc/dom/keyWalker
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/Widget
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/uid
- * @requires module:wc/dom/getViewportSize
- * @requires module:wc/i18n/i18n
- * @requires module:wc/dom/classList
- * @requires module:wc/timers
- * @requires module:wc/loader/resource
- * @requires module:wc/ui/ajax/processResponse
- * @requires module:wc/ui/menu/menuItem
- */
 define(["wc/ui/menu/core",
 	"wc/array/toArray",
 	"wc/dom/event" ,
@@ -31,16 +6,18 @@ define(["wc/ui/menu/core",
 	"wc/dom/Widget",
 	"wc/dom/initialise",
 	"wc/dom/uid",
-	"wc/dom/getViewportSize",
 	"wc/i18n/i18n",
 	"wc/dom/classList",
 	"wc/timers",
 	"wc/ui/ajax/processResponse",
 	"wc/loader/resource",
-	"Mustache",
+	"lib/handlebars/handlebars",
+	"wc/ui/viewportUtils",
 	"wc/ui/menu/menuItem"],
-	/** @param abstractMenu @param toArray @param event @param keyWalker @param shed @param Widget @param initialise @param uid @param getViewportSize @param i18n@param classList @param timers @param processResponse @param loader @param Mustache @ignore */
-	function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid, getViewportSize, i18n, classList, timers, processResponse, loader, Mustache) {
+	/** @param abstractMenu @param toArray @param event @param keyWalker @param shed @param Widget @param initialise
+	 * @param uid @param i18n@param classList @param timers @param processResponse @param loader @param handlebars
+	 * @param viewportUtils @ignore */
+	function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid, i18n, classList, timers, processResponse, loader, handlebars, viewportUtils) {
 		"use strict";
 
 		/* Unused dependencies:
@@ -63,8 +40,7 @@ define(["wc/ui/menu/core",
 				submenuTemplate,
 				closeButtonTemplate,
 				DECORATED_LABEL,
-				RESPONSIVE_MENU,
-				HAMBURGER_TOGGLE_POINT = 773; // from Sass see mixin respond-phone-like
+				RESPONSIVE_MENU;
 
 			/**
 			 * The descriptors for this menu type.
@@ -305,7 +281,7 @@ define(["wc/ui/menu/core",
 					label,
 					props = {};
 				if (el && instance.isSubMenu(el)) {
-					closeButtonTemplate = closeButtonTemplate || loader.load("submenuCloseButton.mustache", true);
+					closeButtonTemplate = closeButtonTemplate || getTemplate("submenuCloseButton.mustache");
 					if ((branch = instance._getBranch(el)) && (opener = instance._getBranchOpener(branch))) {
 						DECORATED_LABEL = DECORATED_LABEL || new Widget("", "wc-decoratedlabel");
 						label = DECORATED_LABEL.findDescendant(opener);
@@ -330,8 +306,13 @@ define(["wc/ui/menu/core",
 					if (!props.content) {
 						props.content = i18n.get("${wc.ui.menu.bar.i18n.submenuCloseLabelDefault}");
 					}
-					el.insertAdjacentHTML("afterBegin", Mustache.to_html(closeButtonTemplate, props));
+					el.insertAdjacentHTML("afterBegin", closeButtonTemplate(props));
 				}
+			}
+
+			function getTemplate(name) {
+				var template = loader.load(name, true);
+				return handlebars.compile(template);
 			}
 
 			/**
@@ -364,8 +345,8 @@ define(["wc/ui/menu/core",
 					closeText: i18n.get("${wc.ui.menu.bar.i18n.submenuCloseLabelDefault}"),
 					items: nextMenu.innerHTML
 				};
-				submenuTemplate = submenuTemplate || loader.load("submenu.mustache", true);
-				branchElement = Mustache.to_html(submenuTemplate, props);
+				submenuTemplate = submenuTemplate || getTemplate("submenu.mustache");
+				branchElement = submenuTemplate(props);
 				nextMenu.innerHTML = branchElement;
 				classList.add(nextMenu, MENU_FIXED);
 			}
@@ -385,8 +366,7 @@ define(["wc/ui/menu/core",
 			 * @param {Element} el The element which may be a menu, submenu or something containing a menu.
 			 */
 			function toggleIconMenus(el) {
-				var candidates, element = el || document.body,
-					vps;
+				var candidates, element = el || document.body;
 				if (instance.isSubMenu(element)) {
 					return;
 				}
@@ -408,8 +388,7 @@ define(["wc/ui/menu/core",
 				});
 
 				if (candidates.length) {
-					vps = getViewportSize();
-					if (vps && vps.width <= HAMBURGER_TOGGLE_POINT) {
+					if (viewportUtils.isPhoneLike()) {
 						candidates.forEach(makeIconified);
 					}
 					else {
@@ -427,7 +406,32 @@ define(["wc/ui/menu/core",
 			};
 		}
 
-		var /** @alias module:wc/ui/menu/bar */ instance;
+		/**
+		 * Menu controller extension for WMenu of type BAR and type FLYOUT. These are menus which are horizontal at the top
+		 * level and if they have submenus they are transient fly-out artifacts.
+		 *
+		 * @see {@link http://www.w3.org/TR/wai-aria-practices/#menu}
+		 *
+		 * @module
+		 * @extends module:wc/ui/menu/core
+		 *
+		 * @requires module:wc/ui/menu/core
+		 * @requires module:wc/array/toArray
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/keyWalker
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/uid
+		 * @requires module:wc/i18n/i18n
+		 * @requires module:wc/dom/classList
+		 * @requires module:wc/timers
+		 * @requires module:wc/ui/ajax/processResponse
+		 * @requires module:wc/loader/resource
+		 * @requires:module:lib/handlebars/handlebars
+		 * @requires module:wc/ui/viewportUtils
+		 */
+		var instance;
 		Menubar.prototype = abstractMenu;
 		instance = new Menubar();
 		instance.constructor = Menubar;
