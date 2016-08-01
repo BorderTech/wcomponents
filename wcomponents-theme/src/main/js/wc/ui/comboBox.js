@@ -338,7 +338,7 @@ define(["wc/has",
 						onchangeSubmit.clearIgnoreChange();
 						ajaxRegion.clearIgnoreChange();
 
-						if (element.getAttribute("aria-autocomplete") === "list") {
+						if (element.getAttribute("data-wc-listcomplete") === "true") {
 							acceptFirstMatch(element);
 						}
 						openSelect = "";

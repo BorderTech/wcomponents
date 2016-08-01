@@ -1,19 +1,3 @@
-/**
- * Generic client side validation manager. This is the publisher for client side validation. Any component which
- * requires validation subscribes to this using validationManager.subscribe.
- *
- * @module wc/ui/validation/validationManager
- * @requires module:wc/dom/classList
- * @requires module:wc/dom/getBox
- * @requires module:wc/has"
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/tag
- * @requires module:wc/dom/Widget
- * @requires module:wc/Observer
- * @requires external:lib/sprintf
- * @requires module:wc/i18n/i18n
- */
 define(["wc/dom/classList",
 		"wc/has",
 		"wc/dom/initialise",
@@ -22,7 +6,6 @@ define(["wc/dom/classList",
 		"wc/dom/Widget",
 		"wc/Observer",
 		"wc/i18n/i18n"],
-	/** @param classList @param has @param initialise @param shed @param tag @param Widget @param Observer @param i18n @ignore*/
 	function(classList, has, initialise, shed, tag, Widget, Observer, i18n) {
 		"use strict";
 
@@ -187,7 +170,7 @@ define(["wc/dom/classList",
 			 */
 			function removeWValidationErrorLink(element) {
 				var validationErrors, errorLinkWidget, errorLink, errorLinkParent;
-				VALIDATION_ERRORS = VALIDATION_ERRORS || new Widget("${wc.dom.html5.element.section}", ["wc_msgbox", "error"]);
+				VALIDATION_ERRORS = VALIDATION_ERRORS || new Widget("", ["wc_msgbox", "wc-messagebox-type-error"]);
 
 				if ((validationErrors = VALIDATION_ERRORS.findDescendant(document.body))) {
 					if (!ERROR_LINK) {
@@ -231,7 +214,7 @@ define(["wc/dom/classList",
 					labelledBy, error, errorBoxId, errorBox;
 
 				if ((errorBox = getErrorBox(element))) {
-					MESSAGE_HOLDER = MESSAGE_HOLDER || new Widget("li");
+					MESSAGE_HOLDER = MESSAGE_HOLDER || new Widget("span");
 					error = MESSAGE_HOLDER.findDescendant(errorBox);
 					error.innerHTML = "";
 					error.innerHTML = message;
@@ -243,7 +226,7 @@ define(["wc/dom/classList",
 				}
 				else {
 					errorBoxId = element.id + ERROR_BOX_SUFFIX;
-					errorBox = "<ul id='" + errorBoxId + "' class='wc-fieldindicator "+ ERROR +" wc_list_nb'><li>" + message + "</li></ul>";
+					errorBox = "<span id='" + errorBoxId + "' class='wc-fieldindicator "+ ERROR +"' role='alert'><span>" + message + "</span></span>";
 					attachTo.insertAdjacentHTML(position, errorBox);
 					element.setAttribute(INVALID, TRUE);
 					if ((labelledBy = element.getAttribute(LABEL_ATTRIB))) {
@@ -452,6 +435,22 @@ define(["wc/dom/classList",
 			});
 		}
 
+		/**
+		 * Generic client side validation manager. This is the publisher for client side validation. Any component which
+		 * requires validation subscribes to this using validationManager.subscribe.
+		 *
+		 * @module wc/ui/validation/validationManager
+		 * @requires module:wc/dom/classList
+		 * @requires module:wc/dom/getBox
+		 * @requires module:wc/has"
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/tag
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/Observer
+		 * @requires external:lib/sprintf
+		 * @requires module:wc/i18n/i18n
+		 */
 		instance = new ValidationManager();
 		initialise.register(instance);
 		return instance;

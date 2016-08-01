@@ -106,7 +106,7 @@
 							<xsl:text>combobox</xsl:text>
 						</xsl:attribute>
 						<xsl:attribute name="aria-autocomplete">
-							<xsl:text>both</xsl:text>
+							<xsl:text>list</xsl:text>
 						</xsl:attribute>
 						<xsl:attribute name="aria-expanded">
 							<xsl:text>false</xsl:text>

@@ -136,7 +136,7 @@ define(["wc/has",
 
 				element.setAttribute("role", "combobox");
 				element.setAttribute("aria-expanded", "false");
-				element.setAttribute("aria-autocomplete", "both");
+				element.setAttribute("aria-autocomplete", "list");
 				childEl.setAttribute("autocomplete", "off");
 				childEl.setAttribute("aria-owns", id + "_cal");
 

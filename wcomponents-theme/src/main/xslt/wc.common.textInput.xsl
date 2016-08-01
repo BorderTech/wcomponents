@@ -44,15 +44,13 @@
 							<xsl:text>false</xsl:text>
 						</xsl:attribute>
 						<xsl:variable name="suggestionList" select="//ui:suggestions[@id=$list]"/>
+						<xsl:if test="$suggestionList and $suggestionList/@autocomplete = 'list'">
+							<xsl:attribute name="data-wc-listcomplete">
+								<xsl:value-of select="$t"/>
+							</xsl:attribute>
+						</xsl:if>
 						<xsl:attribute name="aria-autocomplete">
-							<xsl:choose>
-								<xsl:when test="$suggestionList and $suggestionList/@autocomplete">
-									<xsl:value-of select="$suggestionList/@autocomplete"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:text>both</xsl:text>
-								</xsl:otherwise>
-							</xsl:choose>
+							<xsl:text>list</xsl:text>
 						</xsl:attribute>
 						<xsl:call-template name="title"/>
 					</xsl:if>

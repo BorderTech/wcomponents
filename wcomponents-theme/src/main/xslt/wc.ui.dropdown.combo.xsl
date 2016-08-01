@@ -20,7 +20,7 @@
 				<xsl:with-param name="force" select="1"/>
 			</xsl:call-template>
 		</xsl:if>
-		<span role="combobox" aria-expanded="false" aria-autocomplete="both">
+		<span role="combobox" aria-expanded="false" aria-autocomplete="list">
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="live" select="'off'"/>
 				<xsl:with-param name="class">

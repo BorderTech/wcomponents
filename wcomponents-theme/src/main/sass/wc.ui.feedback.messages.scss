@@ -6,5 +6,6 @@
 @import 'mixins-common';
 
 .wc-fieldindicator {
+	display: block;
 	margin-top: $wc-gap-small;
 }

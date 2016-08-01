@@ -1,25 +1,3 @@
-/**
- * Provides functionality to undertake client validation for text inputs including WTextField, WEmailField,
- * WPhoneNumberField and WPasswordField.
- *
- * @typedef {Object} module:wc/ui/validation/textField.config() Optional module configuration.
- * @property {String} rx The email regular expression as a string.
- * @default "^(?:\\".+\\"|[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+)@[a-zA-Z0-9-]+(?:\\\\.[a-zA-Z0-9-]+)+$"
- *
- * @module wc/ui/validation/textField
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/Widget
- * @requires module:wc/i18n/i18n
- * @requires module:wc/dom/attribute
- * @requires module:wc/dom/event
- * @requires module:wc/ui/getFirstLabelForElement
- * @requires external:lib/sprintf
- * @requires module:wc/ui/dateField
- * @requires module:wc/ui/validation/required
- * @requires module:wc/ui/validation/validationManager
- * @requires module:wc/ui/textField
- * @requires module:wc/config
- */
 define(["wc/dom/initialise",
 		"wc/dom/Widget",
 		"wc/i18n/i18n",
@@ -148,21 +126,23 @@ define(["wc/dom/initialise",
 			 */
 			function validate(container) {
 				var candidates,
-					_required = true,
 					_requiredTextFields = true,
 					validConstrained = true;
 
-				// do the required tests
-				_required = required.doItAllForMe(container, INPUT_WIDGETS);
+				function _getWrapper(element) {
+					if (element.type === "password") {
+						return element;
+					}
+					return element.parentNode;
+				}
 
-				/* type="text" excluding dateField
-				 * this does required validation for all textFields apart from date fields. The impracticality of using
-				 * type="date" is such that we cannot just let required.doItAllForMe.*/
+				/* This does required validation for all text-style inputs apart from date fields.*/
 				_requiredTextFields = required.complexValidationHelper({container: container,
-																		widget: TEXT,
+																		widget: INPUT_WIDGETS.concat(TEXT),
 																		filter: function(next) {
 																			return !(dateField.isOneOfMe(next) || next.value);
-																		}});
+																		},
+																		attachTo: _getWrapper});
 
 				// do the constraint tests
 				WITH_PATTERN = WITH_PATTERN || INPUT.extend("", {"pattern": null});
@@ -173,7 +153,7 @@ define(["wc/dom/initialise",
 				if (candidates && candidates.length) {
 					validConstrained = ((Array.prototype.filter.call(candidates, isInvalid)).length === 0);
 				}
-				return _required && _requiredTextFields && validConstrained;
+				return _requiredTextFields && validConstrained;
 			}
 
 			/**
@@ -226,7 +206,29 @@ define(["wc/dom/initialise",
 			};
 		}
 
-		var /** @alias module:wc/ui/validation/textField */ instance = new ValidationTextInput();
+		/**
+		 * Provides functionality to undertake client validation for text inputs including WTextField, WEmailField,
+		 * WPhoneNumberField and WPasswordField.
+		 *
+		 * @typedef {Object} module:wc/ui/validation/textField.config() Optional module configuration.
+		 * @property {String} rx The email regular expression as a string.
+		 * @default "^(?:\\".+\\"|[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+)@[a-zA-Z0-9-]+(?:\\\\.[a-zA-Z0-9-]+)+$"
+		 *
+		 * @module wc/ui/validation/textField
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/i18n/i18n
+		 * @requires module:wc/dom/attribute
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/ui/getFirstLabelForElement
+		 * @requires external:lib/sprintf
+		 * @requires module:wc/ui/dateField
+		 * @requires module:wc/ui/validation/required
+		 * @requires module:wc/ui/validation/validationManager
+		 * @requires module:wc/ui/textField
+		 * @requires module:wc/config
+		 */
+		var instance = new ValidationTextInput();
 		initialise.register(instance);
 		return instance;
 	});
