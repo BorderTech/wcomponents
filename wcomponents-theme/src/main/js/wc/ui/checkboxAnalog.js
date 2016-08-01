@@ -46,11 +46,11 @@ define(["wc/dom/ariaAnalog", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed"
 				var items = this.ITEM.findDescendants(form);
 
 				Array.prototype.forEach.call(items, function(next) {
-					if (next.hasAttribute("data-wc-value") && !shed.isDisabled(next)) {
+					if (next.hasAttribute(this.VALUE_ATTRIB) && !shed.isDisabled(next)) {
 						formUpdateManager.writeStateField(container, next.getAttribute("data-wc-name"),
-							shed.isSelected(next) ? next.getAttribute("data-wc-value") : "");
+							shed.isSelected(next) ? next.getAttribute(this.VALUE_ATTRIB) : "");
 					}
-				});
+				}, this);
 			};
 		}
 

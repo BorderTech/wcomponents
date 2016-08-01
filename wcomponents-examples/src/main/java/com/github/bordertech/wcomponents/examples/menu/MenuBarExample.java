@@ -15,7 +15,6 @@ import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WSubMenu;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
-import com.github.bordertech.wcomponents.util.HtmlIconUtil;
 
 /**
  * This component demonstrates the usage of a {@link WMenu.MenuType#BAR Tree} {@link WMenu}.
@@ -118,9 +117,9 @@ public class MenuBarExample extends WContainer {
 		menu.add(imageMenu);
 
 		WSubMenu sitesMenu = new WSubMenu("External apps");
-		sitesMenu.add(new WMenuItem("DIAC external website", "http://www.ubuntu.com/"));
-		WMenuItem google = new WMenuItem("Google (new window)", "http://www.google.com/");
-		google.setTargetWindow("googleWindow");
+		sitesMenu.add(new WMenuItem("External website", "http://www.example.com/"));
+		WMenuItem google = new WMenuItem("Example (new window)", "http://www.example.com/");
+		google.setTargetWindow("exampleWindow");
 		sitesMenu.add(google);
 		menu.add(sitesMenu);
 

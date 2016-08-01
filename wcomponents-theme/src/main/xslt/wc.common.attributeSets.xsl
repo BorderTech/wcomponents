@@ -60,7 +60,7 @@
 				<xsl:value-of select="$name" />
 			</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="$value and not(self::ui:passwordfield)">
+		<xsl:if test="$value">
 			<xsl:attribute name="value">
 				<xsl:value-of select="$value" />
 			</xsl:attribute>
