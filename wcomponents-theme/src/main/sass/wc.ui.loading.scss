@@ -29,6 +29,37 @@
 // (Usually ajax) busy areas
 // We make the background of the busy element transparent and set all of its children to visibility:hidden so the
 // element appears to just vanish and leave its loading indicator You may want to change this (a Cheshire cat maybe?).
-[aria-busy='true'] > * {
-	visibility: hidden;
+
+
+$wc-common-busy-size: $wc-icon-normal !default;
+$wc-common-busy-offset: $wc-common-busy-size / 2;
+
+[aria-busy='true'] {
+	text-align: center; // center the spinner
+
+	> * {
+		visibility: hidden;
+	}
+
+	&:before { // yeah - I know this won't work for replaced content... see below
+		@include wc-icon($fa-var-spinner);
+		@include wc-spin; // fa do not yet have a mixin for this.
+		height: $wc-common-busy-size;
+		width: $wc-common-busy-size;
+	}
+}
+
+div,
+section,
+ul,
+ol {
+	&[aria-busy='true'] {
+		position: relative;
+
+		&:before {
+			left: calc(50% - $wc-common-busy-offset);
+			position: absolute;
+			top: calc(50% - $wc-common-busy-offset);
+		}
+	}
 }
