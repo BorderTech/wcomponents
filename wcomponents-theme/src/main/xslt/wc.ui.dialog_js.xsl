@@ -41,6 +41,18 @@
 			<xsl:value-of select="@title" disable-output-escaping="yes"/>
 			<xsl:text>"</xsl:text>
 		</xsl:if>
+		<xsl:if test="@triggerid or ./ui:button">
+			<xsl:text>,"triggerid":"</xsl:text>
+			<xsl:choose>
+				<xsl:when test="ui:button">
+					<xsl:value-of select="ui:button/@id"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="@triggerid"/>
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:text>"</xsl:text>
+		</xsl:if>
 		<xsl:if test="(ui:content and //ui:dialog[ui:content][1]=.) or (@open and not(//ui:dialog/ui:content) and //ui:dialog[@open][1]=.)">
 			<xsl:text>,"open":true</xsl:text>
 		</xsl:if>
