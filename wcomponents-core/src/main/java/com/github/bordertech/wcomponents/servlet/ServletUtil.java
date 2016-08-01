@@ -90,6 +90,16 @@ public final class ServletUtil {
 	private static final String THEME_RESOURCE_PATH_PARAM = "/" + Environment.THEME_RESOURCE_PATH_NAME + "/";
 
 	/**
+	 * Prefix for translation resource request.
+	 */
+	private static final String THEME_TRANSLATION_RESOURCE_PREFIX = "resource/translation";
+
+	/**
+	 * The resource path for project translation resources.
+	 */
+	private static final String THEME_PROJECT_TRANSLATION_RESOURCE_PATH = "/wc/theme/i18n";
+
+	/**
 	 * The parameters extracted from multi part saved on the request.
 	 */
 	private static final String REQUEST_PARAMETERS_KEY = "wc_req_params";
@@ -300,8 +310,19 @@ public final class ServletUtil {
 		InputStream resourceStream = null;
 
 		try {
-			String resourceName = ThemeUtil.getThemeBase() + fileName;
-			URL url = ServletUtil.class.getResource(resourceName);
+			URL url = null;
+
+			// Check for project translation file
+			if (fileName.startsWith(THEME_TRANSLATION_RESOURCE_PREFIX)) {
+				String resourceFileName = fileName.substring(THEME_TRANSLATION_RESOURCE_PREFIX.length());
+				url = ServletUtil.class.getResource(THEME_PROJECT_TRANSLATION_RESOURCE_PATH + resourceFileName);
+			}
+
+			// Load from the theme path
+			if (url == null) {
+				String resourceName = ThemeUtil.getThemeBase() + fileName;
+				url = ServletUtil.class.getResource(resourceName);
+			}
 
 			if (url == null) {
 				resp.setStatus(HttpServletResponse.SC_NOT_FOUND);

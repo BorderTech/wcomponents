@@ -26,7 +26,6 @@ define({
 			lib: '${amd.src.dir}/lib',
 			dojo: '${amd.src.dir}/lib/dojo',
 			fabric: '${amd.src.dir}/lib/fabric',
-			Mustache: '${amd.src.dir}/lib/mustache/mustache',
 			sprintf: '${amd.src.dir}/lib/sprintf',
 			Promise: '${amd.src.dir}/lib/Promise.min',
 			compat: '${amd.src.dir}/wc/compat'
