@@ -44,10 +44,10 @@
 			</filterchain>
 		</copy>
 		<mkdir dir="${xsl.tmp.src.dir}/i18n"/>
-		<xslt basedir="${i18n.build.target.dir}" destdir="${xsl.tmp.src.dir}/i18n" style="${tmp.dir}/build_i18n_params.xsl">
+		<xslt basedir="${i18n.build.target.dir}" destdir="${xsl.tmp.src.dir}/i18n" style="${tmp.dir}/build_i18n_params.xsl" includes="merged.*">
 			<factory name="net.sf.saxon.TransformerFactoryImpl"/>
 			<param name="includeUrl" expression="${xsl.target.debug.file.name}"/>
-			<regexpmapper from="^(.*)\.xml" to="${xslt.target.file.name}_\1${debug.target.file.name.suffix}.xsl"/>
+			<regexpmapper from="^merged\.(.*)\.xml" to="${xslt.target.file.name}_\1${debug.target.file.name.suffix}.xsl"/>
 		</xslt>
 
 		<!--

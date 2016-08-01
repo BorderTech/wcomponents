@@ -78,7 +78,7 @@ public class MenuItemActionMessagesExample extends WContainer {
 		sub.add(item);
 		item.setToolTip("Url in new window with message");
 		item.setMessage("Do you want to open new window?");
-		item.setUrl("http://www.ubuntu.com/");
+		item.setUrl("http://www.example.com/");
 		item.setTargetWindow("NewWindow");
 
 		// Navigate new window - Cancel
@@ -87,14 +87,14 @@ public class MenuItemActionMessagesExample extends WContainer {
 		item.setToolTip("Url in new window with cancel message");
 		item.setMessage("Do you want to open new window?");
 		item.setCancel(true);
-		item.setUrl("http://www.ubuntu.com/");
+		item.setUrl("http://www.example.com/");
 		item.setTargetWindow("NewWindow");
 
 		// Navigate new window - No Message
 		item = new WMenuItem("No message");
 		sub.add(item);
 		item.setToolTip("Url in new window with no message");
-		item.setUrl("http://www.ubuntu.com/");
+		item.setUrl("http://www.example.com/");
 		item.setTargetWindow("NewWindow");
 
 		sub = new WSubMenu("Navigate same window");
@@ -105,7 +105,7 @@ public class MenuItemActionMessagesExample extends WContainer {
 		sub.add(item);
 		item.setToolTip("Same window with message");
 		item.setMessage("Do you want to leave?");
-		item.setUrl("http://www.ubuntu.com/");
+		item.setUrl("http://www.example.com/");
 
 		// Navigate same window - Cancel
 		item = new WMenuItem("Cancel");
@@ -113,13 +113,13 @@ public class MenuItemActionMessagesExample extends WContainer {
 		item.setToolTip("Same window with cancel message");
 		item.setMessage("Do you want to leave?");
 		item.setCancel(true);
-		item.setUrl("http://www.ubuntu.com/");
+		item.setUrl("http://www.example.com/");
 
 		// Navigate same window - No message
 		item = new WMenuItem("No message");
 		sub.add(item);
 		item.setToolTip("Same window with no message");
-		item.setUrl("http://www.ubuntu.com/");
+		item.setUrl("http://www.example.com/");
 
 		WPanel panel = new WPanel();
 		panel.setMargin(new Margin(12, 0, 0, 0));

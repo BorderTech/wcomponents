@@ -49,14 +49,14 @@ define(["wc/dom/event",
 		"wc/ui/positionable",
 		"wc/ui/draggable",
 		"wc/dom/role",
-		"Mustache",
+		"lib/handlebars/handlebars",
 		"wc/ui/viewportUtils"],
 	/** @param event @param focus @param initialise @param shed @param tag @param uid @param Widget @param i18n
 	 * @param loader @param processResponse @param modalShim @param timers @param has @param resizeable
-	 * @param positionable @param draggable @param $role @param Mustache @param viewportUtils
+	 * @param positionable @param draggable @param $role @param handlebars @param viewportUtils
 	 * @ignore */
 	function(event, focus, initialise, shed, tag, uid, Widget, i18n, loader, processResponse,
-		modalShim, timers, has, resizeable, positionable, draggable, $role, Mustache, viewportUtils) {
+		modalShim, timers, has, resizeable, positionable, draggable, $role, handlebars, viewportUtils) {
 		"use strict";
 
 		/**
@@ -424,7 +424,8 @@ define(["wc/dom/event",
 					 * 2: close button title ${wc.ui.dialog.title.close}
 					 * 3: content loading message ${wc.ui.loading.loadMessage}
 					 */
-					var form,
+					var compiledTemplate = handlebars.compile(template),
+						form,
 						dialog,
 						dialogHeader,
 						resizeHandle,
@@ -439,7 +440,7 @@ define(["wc/dom/event",
 								loading: i18n.get("${wc.ui.loading.loadMessage}")
 							}
 						},
-						dialogHTML = Mustache.to_html(template, dialogProps);
+						dialogHTML = compiledTemplate(dialogProps);
 
 					if (formId && (form = document.getElementById(formId)) && !FORM.isOneOfMe(form)) {
 						form = FORM.findAncestor(form);

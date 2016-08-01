@@ -190,6 +190,11 @@ define(["wc/has",
 		function AriaAnalog() { }
 
 		/**
+		 * The attribute which holds the analog value.
+		 */
+		AriaAnalog.prototype.VALUE_ATTRIB = "data-wc-value";
+
+		/**
 		 * Provides all possible selection modes: multiple, single, mixed.
 		 * Keys are MULTIPLE, SINGLE and MIXED.
 		 *
@@ -428,10 +433,10 @@ define(["wc/has",
 			if (items.length) {
 				selectedItems = getFilteredGroup(toArray(items));
 				selectedItems.forEach(function (next) {
-					if (next.hasAttribute("data-wc-value") && !shed.isDisabled(next)) {
-						formUpdateManager.writeStateField(container, next.getAttribute("data-wc-name"), next.getAttribute("data-wc-value"));
+					if (next.hasAttribute(this.VALUE_ATTRIB) && !shed.isDisabled(next)) {
+						formUpdateManager.writeStateField(container, next.getAttribute("data-wc-name"), next.getAttribute(this.VALUE_ATTRIB));
 					}
-				});
+				}, this);
 			}
 		};
 

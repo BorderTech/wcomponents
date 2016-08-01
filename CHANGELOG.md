@@ -1,6 +1,7 @@
 # Change log
 
 ## API Changes
+* Javascript API i18n module now returns the message key instead of an empty string if the translation is not found.
 
 ## Bug Fixes
 * Fixed bug which could result in dialogs being mis-positioned #805.
@@ -8,6 +9,7 @@
 
 ## Enhancements
 * JavaScript API added a utility module to centralize determination of toggle points for responsive UI updates.
+* Rewrote the javascript i18n module so that it is a thin wrapper around [i18next](http://i18next.com/) instead of custom code.
 
 # Release 1.2.2
 ## Bug Fixes

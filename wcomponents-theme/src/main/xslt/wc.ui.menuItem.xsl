@@ -1,19 +1,14 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:import href="wc.ui.menu.n.hasStickyOpen.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuRoleIsSelectable.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuTabIndexHelper.xsl"/>
-	<xsl:import href="wc.common.disabledElement.xsl"/>
-	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
-	<xsl:import href="wc.common.ajax.xsl"/>
-	<xsl:import href="wc.common.n.className.xsl"/>
 	<xsl:import href="wc.common.title.xsl"/>
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<!--
 		WMenuItem forms part of a single compound widget with the WMenu at its root.
-
+		
 		The transform for WMenuItem. In general this is pretty straightforwards. The
 		menuItem is rendered as a single control.
 	-->
@@ -29,7 +24,6 @@
 				<xsl:number value="1"/>
 			</xsl:if>
 		</xsl:variable>
-
 		<xsl:variable name="actionType">
 			<xsl:choose>
 				<xsl:when test="@url">
@@ -43,36 +37,12 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
-		<xsl:variable name="menuItemElement">
-			<xsl:choose>
-				<xsl:when test="$actionType=0">
-					<xsl:text>div</xsl:text>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:text>button</xsl:text>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-
-		<xsl:variable name="isButton">
-			<xsl:choose>
-				<xsl:when test="$actionType=0">
-					<xsl:number value="0"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:number value="1"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-
-		<xsl:element name="{$menuItemElement}">
+		<button>
 			<xsl:call-template name="commonAttributes">
-				<xsl:with-param name="isControl" select="$isButton"/>
+				<xsl:with-param name="isControl" select="1"/>
 				<xsl:with-param name="class">
-					<xsl:text>wc-invite</xsl:text>
+					<xsl:text>wc-invite wc-nobutton</xsl:text>
 					<xsl:if test="$actionType &gt; 0">
-						<xsl:text> wc-nobutton</xsl:text>
 						<xsl:if test="@cancel">
 							<xsl:text> wc_btn_cancel</xsl:text>
 						</xsl:if>
@@ -82,13 +52,19 @@
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
-
+			<xsl:attribute name="type">
+				<xsl:choose>
+					<xsl:when test="$actionType=2">
+						<xsl:text>submit</xsl:text>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:text>button</xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:attribute>
 			<xsl:call-template name="title"/>
 			<xsl:choose>
 				<xsl:when test="$actionType=1">
-					<xsl:attribute name="type">
-						<xsl:text>button</xsl:text>
-					</xsl:attribute>
 					<xsl:attribute name="data-wc-url">
 						<xsl:value-of select="@url"/>
 					</xsl:attribute>
@@ -102,9 +78,6 @@
 					</xsl:if>
 				</xsl:when>
 				<xsl:when test="$actionType=2">
-					<xsl:attribute name="type">
-						<xsl:text>submit</xsl:text>
-					</xsl:attribute>
 					<xsl:attribute name="name">
 						<xsl:value-of select="$id"/>
 					</xsl:attribute>
@@ -193,7 +166,6 @@
 							<xsl:value-of select="$tabindex"/>
 						</xsl:attribute>
 					</xsl:if>
-
 					<!-- 
 						If the menuitem is disabled its state attribute will have been set in commonAttributes.
 					-->
@@ -209,7 +181,7 @@
 						<xsl:if test="$disabledAncestor">
 							<xsl:call-template name="disabledElement">
 								<xsl:with-param name="field" select="$disabledAncestor"/>
-								<xsl:with-param name="isControl" select="$isButton"/>
+								<xsl:with-param name="isControl" select="1"/>
 							</xsl:call-template>
 						</xsl:if>
 					</xsl:if>
@@ -239,10 +211,10 @@
 						<xsl:text>-1</xsl:text>
 					</xsl:attribute>
 					<!--
-					 Attributes used by AJAX subscribers for menuItems without a menu context
-
-					 These are used and consumed in JavaScript before the transformed elements are
-					 injected into the DOM.
+						 Attributes used by AJAX subscribers for menuItems without a menu context
+						 
+						 These are used and consumed in JavaScript before the transformed elements are
+						 injected into the DOM.
 					-->
 					<xsl:if test="@selected">
 						<xsl:attribute name="data-wc-selected">
@@ -254,24 +226,13 @@
 							<xsl:value-of select="@selectable"/>
 						</xsl:attribute>
 					</xsl:if>
-
+					
 					<xsl:call-template name="accessKey">
 						<xsl:with-param name="useToolTip" select="0"/>
 					</xsl:call-template>
 				</xsl:otherwise>
 			</xsl:choose>
-			<xsl:apply-templates select="ui:decoratedlabel">
-				<xsl:with-param name="output">
-					<xsl:choose>
-						<xsl:when test="$isButton=1">
-							<xsl:text>span</xsl:text>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:text>div</xsl:text>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:with-param>
-			</xsl:apply-templates>
-		</xsl:element>
+			<xsl:apply-templates select="ui:decoratedlabel"/>
+		</button>
 	</xsl:template>
 </xsl:stylesheet>

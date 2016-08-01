@@ -88,26 +88,15 @@
 						<xsl:with-param name="force" select="1"/>
 					</xsl:call-template>
 				</xsl:if>
-				<!-- NOTE:
-					it would be nice to use a span for wrapping a date control which really is just an input and a button.
-					The suggestion list used in WComponents is, however, a ul so the wrapper for date fields is a div by
-					necessity which changes its content type to non-phrase.
-				-->
-				<div id="{$id}">
-					<xsl:call-template name="makeCommonClass">
-						<xsl:with-param name="additional">
+				<span id="{$id}">
+					<xsl:call-template name="commonAttributes">
+						<xsl:with-param name="live" select="'off'"/>
+						<xsl:with-param name="class">
 							<xsl:text>wc_input_wrapper</xsl:text>
 							<xsl:if test="@allowPartial">
 								<xsl:text> wc_datefield_partial</xsl:text>
 							</xsl:if>
 						</xsl:with-param>
-					</xsl:call-template>
-					<xsl:call-template name="hideElementIfHiddenSet"/>
-					<xsl:call-template name="ajaxTarget">
-						<xsl:with-param name="live" select="'off'"/>
-					</xsl:call-template>
-					<xsl:call-template name="disabledElement">
-						<xsl:with-param name="isControl" select="0"/>
 					</xsl:call-template>
 					<xsl:call-template name="requiredElement">
 						<xsl:with-param name="useNative" select="0"/>
@@ -117,7 +106,7 @@
 							<xsl:text>combobox</xsl:text>
 						</xsl:attribute>
 						<xsl:attribute name="aria-autocomplete">
-							<xsl:text>both</xsl:text>
+							<xsl:text>list</xsl:text>
 						</xsl:attribute>
 						<xsl:attribute name="aria-expanded">
 							<xsl:text>false</xsl:text>
@@ -167,9 +156,6 @@
 								<xsl:attribute name="autocomplete">
 									<xsl:text>off</xsl:text>
 								</xsl:attribute>
-								<xsl:attribute name="aria-owns">
-									<xsl:value-of select="$pickId"/>
-								</xsl:attribute>
 							</xsl:when>
 							<xsl:otherwise>
 								<xsl:if test="@min">
@@ -208,17 +194,14 @@
 						"replace" the calendar icon will get cleaned up by our duplicate ID prevention
 						logic (assumes the new date field has the same ID which in WComponents is always the case).
 						-->
-						<button value="{$inputId}" tabindex="-1" id="{$pickId}" type="button" aria-haspopup="true" class="wc_wdf_cal wc_btn_icon wc-invite">
+						<button value="{$inputId}" tabindex="-1" id="{$pickId}" type="button" aria-hidden="true" class="wc_wdf_cal wc_btn_icon wc-invite">
 							<xsl:call-template name="disabledElement">
 								<xsl:with-param name="isControl" select="1"/>
 							</xsl:call-template>
-							<xsl:attribute name="title">
-								<xsl:value-of select="$$${wc.ui.dateField.i18n.calendarLaunchButton}"/>
-							</xsl:attribute>
 						</button>
-						<ul role="listbox" aria-busy="true"></ul>
+						<span role="listbox" aria-busy="true"></span>
 					</xsl:if>
-				</div>
+				</span>
 				<xsl:call-template name="inlineError">
 					<xsl:with-param name="errors" select="$isError"/>
 				</xsl:call-template>

@@ -2,11 +2,17 @@
 // listbox for combo and datefield
 @import 'mixins-common';
 
-ul[role='listbox'] {
+[role='listbox'] {
 	@include border;
+	@include border-box;
 	@include tight-box;
-	display: none;
+	display: block;
 	list-style-type: none;
+	// allow for up to approx seven visible options. The factor 1.25 is a rough line-height
+	// Chrome & Safari on OS - X use 1.125 whereas FF appears to use 1.0625.
+	max-height: (7 * 1.125 * (1 + (2 * $wc-gap-small)));
+	max-width: 100%;
+	overflow: auto;
 	position: absolute;
 	z-index: $wc-z-index-common;
 
@@ -16,8 +22,11 @@ ul[role='listbox'] {
 	}
 }
 
-li[role='option'] {
+[role='option'] {
+	@include border-box;
 	@include margin($size: 0);
+	display: block;
 	min-height: 1em;
 	padding: $wc-gap-small;
+	width: 100%;
 }

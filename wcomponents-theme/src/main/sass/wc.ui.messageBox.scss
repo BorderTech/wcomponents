@@ -10,12 +10,11 @@
 		@include offscreen;
 	}
 
-	> ul {
+	> div {
 		@include flex-align-self(center);
-		margin: $wc-gap-normal;
 
-		> li + li {
-			margin-top: $wc-gap-small;
+		> div + div {
+			margin-top: $wc-gap-normal;
 		}
 	}
 }

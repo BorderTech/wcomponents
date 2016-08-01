@@ -2,7 +2,7 @@
 // listbox for combo and datefield
 @import 'mixins-common';
 
-ul[role='listbox'] {
+[role='listbox'] {
 	background-color: $wc-ui-color-highlight-bg;
 	color: $wc-ui-color-highlight-fg;
 

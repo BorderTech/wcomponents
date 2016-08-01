@@ -1,17 +1,8 @@
-/**
- * Implements eager loading of exsting options for combo boxes.
- * @module
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/Widget
- * @requires module:wc/ui/listLoader
- *
- * @todo document private members.
- */
 define(["wc/dom/initialise",
 		"wc/dom/Widget",
-		"wc/ui/listLoader"],
-	/** @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param listLoader wc/ui/listLoader @ignore */
-	function(initialise, Widget, listLoader) {
+		"wc/ui/listLoader",
+		"wc/ui/comboBox"],
+	function(initialise, Widget, listLoader, comboBox) {
 		"use strict";
 
 		/**
@@ -21,18 +12,8 @@ define(["wc/dom/initialise",
 		 */
 		function ComboLoader() {
 			var SELECT = new Widget("select"),
-				SUGGESTION_LIST = new Widget("ul", "", {"role": "listbox"}),
+				SUGGESTION_LIST = comboBox.getListWidget(),
 				BUSY = "aria-busy";
-
-
-			function getListBox(element) {
-				var result,
-					listId;
-				if ((listId = element.getAttribute("aria-owns"))) {
-					result = document.getElementById(listId);
-				}
-				return result;
-			}
 
 			/**
 			 * Converts a select element to listbox options and replaces the optionList
@@ -55,7 +36,7 @@ define(["wc/dom/initialise",
 
 				for (i = 0, len = options.length; i < len; i++) {
 					next = options[i];
-					item = document.createElement("li");
+					item = document.createElement("span");
 					item.setAttribute("data-wc-value", next.innerHTML);
 					item.setAttribute("role", "option");
 					item.className = "wc-invite";
@@ -96,7 +77,7 @@ define(["wc/dom/initialise",
 								optionList = element;
 							}
 							else {
-								optionList = getListBox(element);
+								optionList = comboBox._getList(element);
 							}
 						}
 						if (optionList) {
@@ -126,5 +107,15 @@ define(["wc/dom/initialise",
 			};
 		}
 
-		return /** @alias module:wc/ui/comboLoader */ new ComboLoader();
+		/**
+		 * Implements eager loading of exsting options for combo boxes.
+		 * @module
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/ui/listLoader
+		 *
+		 * @todo document private members.
+		 */
+		var instance = new ComboLoader();
+		return instance;
 	});
