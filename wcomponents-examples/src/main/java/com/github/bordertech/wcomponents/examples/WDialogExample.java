@@ -8,6 +8,7 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCancelButton;
+import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WDialog;
@@ -307,6 +308,15 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		add(dateDlg);
 		add(outputPanel);
 
+		final WDialog dialogWithOtherTrigger = new WDialog(new ViewPersonList());
+		add(dialogWithOtherTrigger);
+
+		final WCheckBox cbShowDialog = new WCheckBox();
+		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
+		add(layout);
+		layout.addField("Show dialog", cbShowDialog);
+
+		dialogWithOtherTrigger.setTrigger(cbShowDialog);
 	}
 
 	/**

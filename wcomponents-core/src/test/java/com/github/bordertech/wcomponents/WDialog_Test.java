@@ -132,6 +132,11 @@ public class WDialog_Test extends AbstractWComponentTestCase {
 				isAjaxTargeted());
 	}
 
+	@Test
+	public void testTriggerAccessors() {
+		assertAccessorsCorrect(new WDialog(), "trigger", null, new WButton(), new WCheckBox());
+	}
+
 	/**
 	 * A convenience method to create an AJAX operation.
 	 *
