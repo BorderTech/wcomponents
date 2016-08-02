@@ -116,7 +116,7 @@
 						</xsl:call-template>
 					</xsl:if>
 					<span class="wc-off">
-						<xsl:value-of select="$$${wc.ui.media.i18n.play}"/>
+						<xsl:text>{{t '${wc.ui.media.i18n.play}'}}</xsl:text>
 					</span>
 				</button>
 			</xsl:if>

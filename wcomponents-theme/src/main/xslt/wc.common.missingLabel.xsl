@@ -20,7 +20,7 @@
 		<xsl:if test="not(@toolTip or @accessibleText or ancestor::ui:ajaxtarget or ancestor::ui:label[not(@for)]) and (force=1 or not(key('labelKey',$id))) ">
 			<!-- We give these labels an id so that they will be cleaned up by the AJAX duplicate id checker.-->
 			<label class="wc-label wc_error" id="{concat($for,'dlbl')}" for="{$for}">
-				<xsl:value-of select="$$${wc.common.i18n.requiredLabel}"/>
+				<xsl:text>{{t '${wc.common.i18n.requiredLabel}'}}</xsl:text>
 			</label>
 		</xsl:if>
 	</xsl:template>

@@ -8,7 +8,7 @@
 				<xsl:text>#</xsl:text>
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
-			<xsl:value-of select="concat($$${wc.ui.skiplink.i18n.prefix}, @title)"/>
+			<xsl:value-of select="@title"/>
 		</xsl:element>
 	</xsl:template>
 </xsl:stylesheet>

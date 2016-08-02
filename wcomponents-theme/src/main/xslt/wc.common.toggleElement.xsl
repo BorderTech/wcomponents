@@ -17,7 +17,7 @@
 		param id: The id to apply to the HTML button element
 		
 		param for: The identifier of the component controlled by the button, may be a container
-			id or a groupName for {{expandCollapseAll}}
+			id or a groupName for WCollapsibleToggle
 		
 		param name: The name (or name analog) attribute to give to the button element 
 		
