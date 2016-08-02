@@ -1098,6 +1098,7 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 
 			function errCb(err) {
 				console.log("An error occured! " + err);
+				dialogFrame.close();
 			}
 
 			/**
