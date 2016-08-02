@@ -5,8 +5,11 @@ import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponentWebElement;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWDialogWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWEmailFieldWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWPhoneNumberFieldWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTableWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextAreaWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextFieldWebElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -183,6 +186,36 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	}
 
 	/**
+	 * Find a WTextField by the given criteria.
+	 *
+	 * @param by the By selector.
+	 * @return the SeleniumWTextFieldWebElement or null if not found.
+	 */
+	public SeleniumWTextFieldWebElement findWTextField(final By by) {
+		return new SeleniumWTextFieldWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WEmailField by the given criteria.
+	 *
+	 * @param by the By selector.
+	 * @return the SeleniumWEmailFieldWebElement or null if not found.
+	 */
+	public SeleniumWEmailFieldWebElement findWEmailField(final By by) {
+		return new SeleniumWEmailFieldWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WEmailField by the given criteria.
+	 *
+	 * @param by the By selector.
+	 * @return the SeleniumWPhoneNumberFieldWebElement or null if not found.
+	 */
+	public SeleniumWPhoneNumberFieldWebElement findWPhoneNumberField(final By by) {
+		return new SeleniumWPhoneNumberFieldWebElement(findElement(by), this);
+	}
+
+	/**
 	 * Find a WTable by the given criteria.
 	 *
 	 * @param by the By selector.
@@ -199,7 +232,7 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	public List<WebElement> findElements(final By by) {
 
 		/* Overloading doesn't work properly when the overloaded parameter is a subclass
-		of the original parameter (By -> ByWComponent). This logic will mean consumers 
+		of the original parameter (By -> ByWComponent). This logic will mean consumers
 		do not have to cast both the parameter and this class to invoke the ByWComponent specific method. */
 		if (by instanceof ByWComponent) {
 			return findElements((ByWComponent) by);
@@ -215,7 +248,7 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	public SeleniumWComponentWebElement findElement(final By by) {
 
 		/* Overloading doesn't work properly when the overloaded parameter is a subclass
-		of the original parameter (By -> ByWComponent). This logic will mean consumers 
+		of the original parameter (By -> ByWComponent). This logic will mean consumers
 		do not have to cast both the parameter and this class to invoke the ByWComponent specific method. */
 		if (by instanceof ByWComponent) {
 			return findElement((ByWComponent) by);

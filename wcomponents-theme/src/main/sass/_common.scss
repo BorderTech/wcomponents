@@ -125,6 +125,23 @@ $wc-ui-dialog-transition-duration: 0.5s !default;
 $wc-fieldlayout-default-label-width: 50% !default;
 
 //*****************************************************************************
+// WHeading
+//*****************************************************************************
+// Generic headings. Set to -1 to not use (use UA default)
+$wc-heading-h1-font-size: 1.25rem !default;
+$wc-heading-h2-font-size: 1.25rem !default;
+$wc-heading-h3-font-size: 1.125rem !default;
+$wc-heading-h4-font-size: 1rem !default;
+$wc-heading-h5-font-size: -1 !default;
+$wc-heading-h6-font-size: -1 !default;
+// If you want to resize headings inside the content of section do it here.
+$wc-heading-section-h1-font-size: -1 !default;
+$wc-heading-section-h2-font-size: -1 !default;
+$wc-heading-section-h3-font-size: -1 !default;
+$wc-heading-section-h4-font-size: -1 !default;
+$wc-heading-section-h5-font-size: -1 !default;
+$wc-heading-section-h6-font-size: -1 !default;
+//*****************************************************************************
 // WMenu
 //*****************************************************************************
 // generic menu structure

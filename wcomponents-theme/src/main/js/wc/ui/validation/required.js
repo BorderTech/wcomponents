@@ -1,22 +1,9 @@
-/**
- * This is a set of helpers for required field validation. The actual validation should be handed off to individual
- * components. There are a lot of similarities though so I have included a few public functions which will suffice for
- * all required testing for most components.
- *
- * @module wc/ui/validation/required
- * @requires module:wc/ui/getFirstLabelForElement
- * @requires module:wc/ui/validation/isComplete
- * @requires module:wc/dom/Widget
- * @requires module:wc/i18n/i18n
- * @requires module:wc/ui/validation/validationManager
- */
 define([
 	"wc/ui/getFirstLabelForElement",
 	"wc/ui/validation/isComplete",
 	"wc/dom/Widget",
 	"wc/i18n/i18n",
 	"wc/ui/validation/validationManager"],
-	/** @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param isComplete wc/ui/validation/isComplete @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param validationManager wc/ui/validation/validationManager @ignore */
 	function(getFirstLabelForElement, isComplete, Widget, i18n, validationManager) {
 		"use strict";
 		/**
@@ -235,7 +222,6 @@ define([
 				return result;
 			};
 
-
 			/**
 			 * Helper for re-validating a single control which is already in an invalid state. This is used for
 			 * changeEvent based revalidation. This function assumes that the calling function has called
@@ -256,7 +242,20 @@ define([
 			};
 		}
 
-		return /** @alias module:wc/ui/validation/required */ new ValidateRequired();
+		/**
+		 * This is a set of helpers for required field validation. The actual validation should be handed off to individual
+		 * components. There are a lot of similarities though so I have included a few public functions which will suffice for
+		 * all required testing for most components.
+		 *
+		 * @module wc/ui/validation/required
+		 * @requires module:wc/ui/getFirstLabelForElement
+		 * @requires module:wc/ui/validation/isComplete
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/i18n/i18n
+		 * @requires module:wc/ui/validation/validationManager
+		 */
+		var instance = new ValidateRequired();
+		return instance;
 
 		/**
 		 * Configuration object for several functions.
@@ -271,7 +270,7 @@ define([
 		 *    {@link module:wc/ui/validation/required~getRequiredMessage}.
 		 * @property {String} [position] String as per insertAdjacentHTML - where to put the error message box
 		 *    (see {@link module:wc/ui/validation/validationManager}). Defaults to "afterEnd".
-		 * @property {Function} [attachToFunc] A function used to determine to which element to attach the message
+		 * @property {Function} [attachTo] A function used to determine to which element to attach the message
 		 *    box; only set if the component needs it.
 		 */
 	});

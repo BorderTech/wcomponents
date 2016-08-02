@@ -64,7 +64,7 @@
 
 			<xsl:attribute name="type">
 				<xsl:choose>
-					<xsl:when test="self::ui:printbutton or parent::ui:dialog">
+					<xsl:when test="self::ui:printbutton">
 						<xsl:text>button</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
@@ -107,25 +107,18 @@
 						</xsl:attribute>
 					</xsl:when>
 				</xsl:choose>
-				<xsl:choose>
-					<xsl:when test="parent::ui:dialog">
-						<xsl:attribute name="data-wc-dialogconf">
-							<xsl:value-of select="parent::ui:dialog/@id" />
+				<xsl:if test="parent::ui:action">
+					<xsl:variable name="conditions">
+						<xsl:apply-templates select="../ui:condition" mode="action" />
+					</xsl:variable>
+					<xsl:if test="$conditions != ''">
+						<xsl:attribute name="data-wc-condition">
+							<xsl:text>[</xsl:text>
+							<xsl:value-of select="$conditions" />
+							<xsl:text>]</xsl:text>
 						</xsl:attribute>
-					</xsl:when>
-					<xsl:when test="parent::ui:action">
-						<xsl:variable name="conditions">
-							<xsl:apply-templates select="../ui:condition" mode="action" />
-						</xsl:variable>
-						<xsl:if test="$conditions != ''">
-							<xsl:attribute name="data-wc-condition">
-								<xsl:text>[</xsl:text>
-								<xsl:value-of select="$conditions" />
-								<xsl:text>]</xsl:text>
-							</xsl:attribute>
-						</xsl:if>
-					</xsl:when>
-				</xsl:choose>
+					</xsl:if>
+				</xsl:if>
 			</xsl:if>
 			<xsl:call-template name="buttonLinkCommonContent" />
 		</button>

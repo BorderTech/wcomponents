@@ -1,77 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" 
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 	<xs:include schemaLocation="button.xsd" />
 	<xs:include schemaLocation="mixedContentWithId.xsd" />
 
 	<xs:element name="dialog">
 		<xs:annotation>
-			<xs:documentation>WDialog represents a hideable container for content. When open the container is bound to the underlying application but may provide modal behaviour as
-				determined by the @modal attribute.</xs:documentation>
+			<xs:documentation>
+				<p>WDialog represents a hideable container for content. When open the container is bound to the underlying application but may provide
+					modal behaviour as determined by the @modal attribute.</p>
+			</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="button" type="ui:buttonType" minOccurs="0">
+				<xs:element minOccurs="0" name="button" type="ui:buttonType">
 					<xs:annotation>
-						<xs:documentation>If present represents a button used to open the dialog. This is placed into the application in the position in which the dialog is added
-							and does not form part of the dialog.</xs:documentation>
+						<xs:documentation>
+							<p>If present represents a button used to open the dialog. This is placed into the application in the position in which
+								the dialog is added and does not form part of the dialog.</p>
+							<p>This is being phased out in favour of triggerid.</p>
+						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="content" type="ui:mixedContentWithId" minOccurs="0">
+				<xs:element minOccurs="0" name="content" type="ui:mixedContentWithId">
 					<xs:annotation>
-						<xs:documentation>When present is a container for the content of the dialog and the dialog is deemed to be open. Note that only one dialog may be open at a
-							time.</xs:documentation>
+						<xs:documentation>
+							<p>When present is a container for the content of the dialog and the dialog is deemed to be open. Note that only one
+								dialog may be open at a time.</p>
+						</xs:documentation>
 					</xs:annotation>
 				</xs:element>
 			</xs:sequence>
-
 			<xs:attribute name="id" type="xs:ID" use="required">
 				<xs:annotation>
-					<xs:documentation>The unique identifier for the dialog.</xs:documentation>
+					<xs:documentation>
+						<p>The unique identifier for the dialog.</p>
+					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-
 			<xs:attribute name="class" type="xs:string">
 				<xs:annotation>
-					<xs:documentation>Provides the ability to pass an HTML class attribute onto the root output element.</xs:documentation>
+					<xs:documentation>
+						<p>Provides the ability to pass an HTML class attribute onto the root output element.</p>
+					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-
 			<xs:attribute name="width" type="xs:positiveInteger">
 				<xs:annotation>
-					<xs:documentation>Provides the dialog's initial width in pixels.</xs:documentation>
+					<xs:documentation>
+						<p>Provides the dialog's initial width in pixels.</p>
+					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-
 			<xs:attribute name="height" type="xs:positiveInteger">
 				<xs:annotation>
-					<xs:documentation>Provides the dialog's initial height in pixels.</xs:documentation>
+					<xs:documentation>
+						<p>Provides the dialog's initial height in pixels.</p>
+					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-
 			<xs:attribute name="resizable" type="xs:boolean">
 				<xs:annotation>
-					<xs:documentation>Indicates that the dialog should allow resizing by the user. Not output if "false".</xs:documentation>
+					<xs:documentation>
+						<p>Indicates that the dialog should allow resizing by the user. Not output if "false".</p>
+					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 			<xs:attribute name="modal" type="xs:boolean">
 				<xs:annotation>
-					<xs:documentation>Indicates that the dialog is modal. Not output if "false".</xs:documentation>
+					<xs:documentation>
+						<p>Indicates that the dialog is modal. Not output if "false".</p>
+					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-
 			<xs:attribute name="title" type="xs:string">
 				<xs:annotation>
-					<xs:documentation>The human readable title for the dialog. If not set then the theme will determine a suitable fallback title for accessibility
-						reasons.</xs:documentation>
+					<xs:documentation>
+						<p>The human readable title for the dialog. If not set then the theme will determine a suitable fallback title for
+							accessibility reasons.</p>
+					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-
-			<xs:attribute name="open" type="xs:boolean">
+			<xs:attribute default="false" name="open" type="xs:boolean">
 				<xs:annotation>
-					<xs:documentation>Indicates that the dialog should be open on load. Note though that only one dialog may be open at a time. Not output if
-						"false".</xs:documentation>
+					<xs:documentation>
+						<p>Indicates that the dialog should be open on load. Note though that only one dialog may be open at a time.</p>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="triggerid" type="xs:NMTOKEN">
+				<xs:annotation>
+					<xs:documentation>
+						<p>The id of the component which will trigger the open of the dialog.</p>
+					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 		</xs:complexType>

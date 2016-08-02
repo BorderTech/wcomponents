@@ -19,7 +19,7 @@ public class LinkExamples extends WContainer {
 	/**
 	 * A sample URL to use with the builder.
 	 */
-	private static final String URL = "http://www.ubuntu.com/";
+	private static final String URL = "http://www.example.com/";
 
 	/**
 	 * Creates a LinKExamples.

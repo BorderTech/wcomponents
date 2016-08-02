@@ -25,6 +25,9 @@
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
 					<xsl:text>wc_msgbox</xsl:text>
+					<xsl:if test="self::ui:validationerrors">
+						<xsl:text> wc-messagebox-type-error</xsl:text>
+					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
 
@@ -49,9 +52,9 @@
 					</xsl:choose>
 				</span>
 			</h1>
-			<ul class="wc_list_nb">
+			<div class="wc_messages">
 				<xsl:apply-templates />
-			</ul>
+			</div>
 		</xsl:element>
 	</xsl:template>
 </xsl:stylesheet>

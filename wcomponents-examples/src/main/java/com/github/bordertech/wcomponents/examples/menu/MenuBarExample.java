@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.Disableable;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
+import com.github.bordertech.wcomponents.WDialog;
 import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
@@ -15,7 +16,7 @@ import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WSubMenu;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
-import com.github.bordertech.wcomponents.util.HtmlIconUtil;
+import java.util.Date;
 
 /**
  * This component demonstrates the usage of a {@link WMenu.MenuType#BAR Tree} {@link WMenu}.
@@ -39,7 +40,14 @@ public class MenuBarExample extends WContainer {
 		content.add(new WStyledText("Selected item: ", WStyledText.Type.EMPHASISED));
 		content.add(selectedMenuText);
 		add(content);
-		add(buildMenuBar(selectedMenuText));
+		WMenu bar = buildMenuBar(selectedMenuText);
+
+		add(bar);
+		WDialog dialog = new WDialog(new WText("hello! Generated at: ".concat(new Date().toString())));
+		add(dialog);
+		WMenuItem launchDialogItem = new WMenuItem("Launch Dialog");
+		bar.addMenuItem(launchDialogItem);
+		dialog.setTrigger(launchDialogItem);
 	}
 
 	/**
@@ -118,9 +126,9 @@ public class MenuBarExample extends WContainer {
 		menu.add(imageMenu);
 
 		WSubMenu sitesMenu = new WSubMenu("External apps");
-		sitesMenu.add(new WMenuItem("DIAC external website", "http://www.ubuntu.com/"));
-		WMenuItem google = new WMenuItem("Google (new window)", "http://www.google.com/");
-		google.setTargetWindow("googleWindow");
+		sitesMenu.add(new WMenuItem("External website", "http://www.example.com/"));
+		WMenuItem google = new WMenuItem("Example (new window)", "http://www.example.com/");
+		google.setTargetWindow("exampleWindow");
 		sitesMenu.add(google);
 		menu.add(sitesMenu);
 
