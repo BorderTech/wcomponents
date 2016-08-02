@@ -176,11 +176,13 @@
 						</xsl:call-template>
 						<xsl:if test="@required">
 							<xsl:attribute name="placeholder">
-								<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
+								<xsl:text>{{t '${wc.common.i18n.requiredPlaceholder}'}}</xsl:text>
 							</xsl:attribute>
 						</xsl:if>
 						<xsl:call-template name="title">
-							<xsl:with-param name="contentAfter" select="$$${wc.ui.dateField.i18n.title.default}"/>
+							<xsl:with-param name="contentAfter">
+								<xsl:text>{{t '${wc.ui.dateField.i18n.title.default}'}}</xsl:text>
+							</xsl:with-param>
 						</xsl:call-template>
 						<xsl:call-template name="ajaxController"/>
 						<xsl:call-template name="disabledElement">

@@ -100,16 +100,9 @@
 				-->
 				<div id="wc_shim" class="wc_shim_loading">
 					<xsl:text>&#xa0;</xsl:text>
-					<noscript>
-						<p>
-							<xsl:value-of select="$$${wc.ui.root.i18n.noscript.message}"/>
-						</p>
-					</noscript>
 				</div>
 				<div id="wc_ui_loading">
-					<div tabindex="0" class="wc-icon">
-						<xsl:value-of select="$$${wc.ui.loading.loadMessage}"/>
-					</div>
+					<div tabindex="0" class="wc-icon">&#xa0;</div>
 				</div>
 				<xsl:apply-templates />
 			</body>

@@ -1,20 +1,19 @@
-/**
- * @module
- * @requires external:lib/sprintf
- * @requires module:wc/array/toArray
- * @requires module:wc/array/unique
- */
 define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next", "wc/ajax/ajax", "wc/loader/resource"],
-
 	function(sprintf, toArray, wcconfig, mixin, i18next, ajax, resource) {
 		"use strict";
-		var instance = new I18n();
 		/**
+		 * Manages the loading of i18n "messages" from the relevant i18n "resource bundle".
+		 *
 		 * WARNING This module is not usable unless it is loaded as a plugin (with a bang like so "wc/i18n/i18n!") before subsequent use.
 		 * Either all modules must use it as a plugin OR this can happen in a bootstrapping phase.
 		 *
-		 * Manages the loading of i18n "messages" from the relevant i18n "resource bundle".
-		 *
+		 * @module
+		 * @requires external:lib/sprintf
+		 * @requires module:wc/array/toArray
+		 * @requires module:wc/array/unique
+		 */
+		var instance = new I18n();
+		/**
 		 * @constructor
 		 * @alias module:wc/i18n/i18n~I18n
 		 * @private
@@ -24,7 +23,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 
 			/**
 			 * Initialize this module.
-			 * @param [config] Configuration options.
+			 * @param {Object} [config] Configuration options.
 			 * @param {Function} [callback] Called when initialized.
 			 */
 			this.initialize = function(config, callback) {
@@ -101,6 +100,8 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 			/*
 			 * Handles the requirejs plugin lifecycle.
 			 * For information {@see http://requirejs.org/docs/plugins.html#apiload}
+			 * @function  module:wc/i18n/i18n.load
+			 * @public
 			 */
 			this.load = function (id, parentRequire, callback, config) {
 				if (!config || !config.isBuild) {
@@ -109,6 +110,17 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 				else {
 					callback();
 				}
+			};
+
+			/**
+			 * Pass-through for i18next.t.
+			 *
+			 * @function  module:wc/i18n/i18n.t
+			 * @public
+			 * @return {String} The internationalised version of the input.
+			 */
+			this.t = function() {
+				return i18next.t.apply(i18next, arguments);
 			};
 		}
 
@@ -148,5 +160,5 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 				});
 			};
 		}
-		return /** @alias module:wc/i18n/i18n */ instance;
+		return instance;
 	});

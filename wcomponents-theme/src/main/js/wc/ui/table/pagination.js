@@ -1,32 +1,3 @@
-/**
- * Provides table pagination functionality.
- *
- * NOTE: the pagination controls consist of a SELECT element and a set of four BUTTON elements. The actual pagination
- * activation is *ALWAYS* done by the SELECT: the BUTTONs are used only to change the selectIndex of the SELECT. Trying
- * to do anything else will lead to a sudden, and possibly permanent, loss of sanity.
- *
- * <p>Three complicating factors to account for with the page select element:</p>
- * <ol>
- *    <li>IE8 does not have event capture, so we have to directly attach change listener to select;</li>
- *    <li>The entire table, including the select, is replaced on AJAX table updates. This means we potentially have to
- *    bootstrap the select over and over;</li>
- *    <li>Change event not fired when value change programmatically, meaning we have to fire the change event manually
- *    in some cases.</li>
- * </ol>
- *
- * @module
- * @requires module:wc/dom/attribute
- * @requires module:wc/dom/event
- * @requires module:wc/dom/focus
- * @requires module:wc/dom/formUpdateManager
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/Widget
- * @requires module:wc/ui/ajaxRegion
- * @requires module:wc/ui/ajax/processResponse
- * @requires module:wc/ui/onloadFocusControl
- * @requires module:wc/timers
- */
 define(["wc/dom/attribute",
 		"wc/dom/event",
 		"wc/dom/focus",
@@ -38,9 +9,9 @@ define(["wc/dom/attribute",
 		"wc/ui/ajax/processResponse",
 		"wc/ui/onloadFocusControl",
 		"wc/timers",
-		"wc/ui/table/common"],
-	/** @param attribute wc/dom/attribute @param event wc/dom/event @param focus wc/dom/focus @param formUpdateManager wc/dom/formUpdateManager @param initialise wc/dom/initialise @param shed wc/dom/shed @param Widget wc/dom/Widget @param ajaxRegion wc/ui/ajaxRegion @param processResponse wc/ui/ajax/processResponse @param onloadFocusControl wc/ui/onloadFocusControl @param timers wc/timers @param common @ignore */
-	function(attribute, event, focus, formUpdateManager, initialise, shed, Widget, ajaxRegion, processResponse, onloadFocusControl, timers, common) {
+		"wc/ui/table/common",
+		"wc/i18n/i18n"],
+	function(attribute, event, focus, formUpdateManager, initialise, shed, Widget, ajaxRegion, processResponse, onloadFocusControl, timers, common, i18n) {
 		"use strict";
 
 		/**
@@ -63,6 +34,7 @@ define(["wc/dom/attribute",
 				PAGE = common.TBODY,
 				ROW = common.TR.extend("wc_table_pag_row"),
 				PAGINATION_CONTAINER = new Widget("", "wc_table_pag_cont"),
+				PAGINATION_LABEL_WRAPPER,
 				TABLE = common.TABLE,
 				PAGINATION_BUTTON = common.BUTTON.clone(),
 				START_ELEMENT,
@@ -90,6 +62,51 @@ define(["wc/dom/attribute",
 					return Math.max(totalPages - NUM_PAGE_OPTIONS + 2, 1);
 				}
 				return currentPage - NUM_BEFORE_AFTER_CURRENT_PAGE_OPTIONS;
+			}
+
+			/**
+			 * i18n of the pagination description.
+			 * @param {Element} wrapper a table wrapper
+			 */
+			function translate(wrapper) {
+				PAGINATION_LABEL_WRAPPER = PAGINATION_LABEL_WRAPPER || new Widget("", "wc_table_pag_rows");
+				var labels = PAGINATION_LABEL_WRAPPER.findDescendants(wrapper);
+
+				Array.prototype.forEach.call(labels, function (next) {
+					var rows, rpp, currentPage, i18nString, startIdx, endIdx;
+					if (TABLE_WRAPPER.findAncestor(next) === wrapper) {
+						// we have the correct spans
+						rows = next.getAttribute("data-wc-tablerows");
+						rpp = next.getAttribute("data-wc-tablerpp");
+						currentPage = next.getAttribute("data-wc-tablepage");
+						if (!(rows && rpp)) {
+							return;
+						}
+						rows = parseInt(rows, 10);
+						rpp = parseInt(rpp, 10);
+						currentPage = parseInt(currentPage, 10); // currentpage is 0 based.
+						startIdx = (rpp * currentPage) + 1;
+						if (rpp === 1) {
+							i18nString = i18n.get("${wc.ui.table.i18n.pagination.label.one}", startIdx, rows);
+						}
+						else {
+							endIdx = Math.min(rows, startIdx + rpp);
+							i18nString = i18n.get("${wc.ui.table.i18n.pagination.label.many}", startIdx, endIdx, rows);
+						}
+						if (i18nString) {
+							next.innerHTML = i18nString;
+						}
+					}
+				});
+			}
+
+			/**
+			 * Translate after Ajax.
+			 * @param {Element} [element] not used.
+			 * @param {Element|DocumentFragment} fragment The DocumentFragment about to be inserted by Ajax or a container element.
+			 */
+			function ajaxSubscriber(element, fragment) {
+				Array.prototype.forEach.call(TABLE_WRAPPER.findDescendants(fragment), translate);
 			}
 
 			/**
@@ -556,7 +573,7 @@ define(["wc/dom/attribute",
 			 * @param {String} action Not required for this function.
 			 * @param {String} triggerId The id of the ajax trigger element.
 			 */
-			function ajaxSubscriber(element, action, triggerId) {
+			function postAjaxSubscriber(element, action, triggerId) {
 				var button, trigger;
 				if (element) {
 					if (TABLE_WRAPPER.isOneOfMe(element)) {
@@ -641,13 +658,53 @@ define(["wc/dom/attribute",
 			 */
 			this.postInit = function() {
 				setUpPageSelectOptions();
-				processResponse.subscribe(ajaxSubscriber, true);
+				processResponse.subscribe(ajaxSubscriber);
+				processResponse.subscribe(postAjaxSubscriber, true);
 				formUpdateManager.subscribe(writeState);
 			};
 
+			/**
+			 * Early initialisation to do i18n of pagination.
+			 * @function module:wc/ui/table/pagination.preInit
+			 * @public
+			 */
+			this.preInit = function() {
+				ajaxSubscriber(null, document.body);
+			};
 		}
 
-		var /** @alias module:wc/ui/table/pagination */ instance = new Pagination();
+		/**
+		 * Provides table pagination functionality.
+		 *
+		 * NOTE: the pagination controls consist of a SELECT element and a set of four BUTTON elements. The actual pagination
+		 * activation is *ALWAYS* done by the SELECT: the BUTTONs are used only to change the selectIndex of the SELECT. Trying
+		 * to do anything else will lead to a sudden, and possibly permanent, loss of sanity.
+		 *
+		 * <p>Three complicating factors to account for with the page select element:</p>
+		 * <ol>
+		 *    <li>IE8 does not have event capture, so we have to directly attach change listener to select;</li>
+		 *    <li>The entire table, including the select, is replaced on AJAX table updates. This means we potentially have to
+		 *    bootstrap the select over and over;</li>
+		 *    <li>Change event not fired when value change programmatically, meaning we have to fire the change event manually
+		 *    in some cases.</li>
+		 * </ol>
+		 *
+		 * @module
+		 * @requires module:wc/dom/attribute
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/focus
+		 * @requires module:wc/dom/formUpdateManager
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/ui/ajaxRegion
+		 * @requires module:wc/ui/ajax/processResponse
+		 * @requires module:wc/ui/onloadFocusControl
+		 * @requires module:wc/timers
+		 * @requires module:wc/ui/table/common
+		 * @requires module:wc/i18n/i18n
+		 */
+		var instance = new Pagination();
 		initialise.register(instance);
 		return instance;
 	});
