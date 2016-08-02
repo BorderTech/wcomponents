@@ -90,8 +90,13 @@ define(["wc/dom/attribute",
 							i18nString = i18n.get("${wc.ui.table.i18n.pagination.label.one}", startIdx, rows);
 						}
 						else {
-							endIdx = Math.min(rows, startIdx + rpp);
-							i18nString = i18n.get("${wc.ui.table.i18n.pagination.label.many}", startIdx, endIdx, rows);
+							endIdx = Math.min(rows, (rpp * currentPage) + rpp);
+							if (startIdx === endIdx) {
+								i18nString = i18n.get("${wc.ui.table.i18n.pagination.label.one}", endIdx, rows);
+							}
+							else {
+								i18nString = i18n.get("${wc.ui.table.i18n.pagination.label.many}", startIdx, endIdx, rows);
+							}
 						}
 						if (i18nString) {
 							next.innerHTML = i18nString;
