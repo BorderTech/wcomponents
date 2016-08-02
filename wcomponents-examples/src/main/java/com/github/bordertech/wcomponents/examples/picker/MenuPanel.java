@@ -1,15 +1,18 @@
 package com.github.bordertech.wcomponents.examples.picker;
 
+import com.github.bordertech.wcomponents.Action;
+import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Container;
+import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContextHolder;
-import com.github.bordertech.wcomponents.WAbbrText;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WDecoratedLabel;
+import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.WSubMenu;
+import com.github.bordertech.wcomponents.WebUtilities;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
@@ -30,6 +33,7 @@ import org.apache.commons.logging.LogFactory;
  * Displays a menu of examples which the user can choose an example from.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 final class MenuPanel extends WPanel {
@@ -50,14 +54,19 @@ final class MenuPanel extends WPanel {
 	private final List<ExampleData> recent = new ArrayList<>();
 
 	/**
-	 * The menu contained in this panel.
+	 * A menu of recently accessed examples.
 	 */
 	private final WMenu menu = new WMenu(WMenu.MenuType.TREE);
 
 	/**
-	 * A sub-menu containing recently accessed examples.
+	 * A WTree to select from all available examples.
 	 */
-	private final WSubMenu recentMenu = new WSubMenu("Recently accessed");
+	private final ExamplePickerTree tree = new ExamplePickerTree();
+
+	/**
+	 * A WHeading for the recent example menu.
+	 */
+	private final WHeading recentMenuHeading = new WHeading(HeadingLevel.H2, "Recent Examples");
 
 	/**
 	 * Creates a MenuPanel.
@@ -66,76 +75,54 @@ final class MenuPanel extends WPanel {
 		super(Type.CHROME);
 		setTitleText("Menu");
 		loadRecentList();
+		add(new WHeading(HeadingLevel.H2, "Select an example"));
+		tree.setIdName("example_selector_tree");
+		add(tree);
 
+		add(recentMenuHeading);
 		add(menu);
-		menu.setSelectMode(WMenu.SelectMode.SINGLE);
+		menu.setSelectionMode(WMenu.SelectionMode.SINGLE);
+		menu.setMargin(new Margin(0, 0, 16, 0));
 
-		menu.add(recentMenu);
-		menu.addSeparator();
-
-		addExamples("AJAX", ExampleData.AJAX_EXAMPLES);
-		addExamples("Form controls", ExampleData.FORM_CONTROLS);
-		addExamples("Feedback and indicators", ExampleData.FEEDBACK_AND_INDICATORS);
-		addExamples("Layout", ExampleData.LAYOUT_EXAMPLES);
-		addExamples("Menus", ExampleData.MENU_EXAMPLES);
-		addExamples("Links", ExampleData.LINK_EXAMPLES);
-		addExamples("Popups / dialogs", ExampleData.POPUP_EXAMPLES);
-		addExamples("Subordinate", ExampleData.SUBORDINATE_EXAMPLES);
-		addExamples("Tabs", ExampleData.TABSET_EXAMPLES);
-		addExamples("Tables", ExampleData.WTABLE_EXAMPLES);
-		addExamples("Validation", ExampleData.VALIDATION_EXAMPLES);
-
-		menu.addSeparator();
-		addExamples("Other examples (uncategorised)", ExampleData.MISC_EXAMPLES);
-
-		menu.addSeparator();
-		addExamples("DataTable (deprecated)", ExampleData.WDATATABLE_EXAMPLES);
-
-	}
-
-	/**
-	 * Adds a grouped set of examples to the menu.
-	 *
-	 * @param groupName the name of the group for the examples, or null to add to the menu directly.
-	 * @param entries the examples to add to the group.
-	 */
-	public void addExamples(final String groupName, final ExampleData[] entries) {
-		WComponent componentToAddTo = menu;
-
-		if (groupName != null) {
-			WSubMenu subMenu = new WSubMenu(groupName);
-			subMenu.setSelectMode(WMenu.SelectMode.SINGLE);
-			menu.add(subMenu);
-			componentToAddTo = subMenu;
-		}
-
-		for (ExampleData entry : entries) {
-			WDecoratedLabel label = new WDecoratedLabel(new WAbbrText(entry.getExampleName(), entry.
-					getExampleClass()
-					.getName()));
-			WMenuItem item = new WMenuItem(label, new SelectExampleAction());
-			item.setActionObject(entry);
-			entry.setExampleGroupName(groupName);
-			if (componentToAddTo instanceof WSubMenu) {
-				((WSubMenu) componentToAddTo).add(item);
-			} else {
-				((WMenu) componentToAddTo).add(item);
+		tree.setActionOnChange(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				ExampleData example = tree.getSelectedExampleData();
+				if (example != null) {
+					TreePicker picker = WebUtilities.getAncestorOfClass(TreePicker.class, tree);
+					picker.selectExample(example);
+					addToRecent(example);
+					if (!menu.isVisible()) {
+						menu.setVisible(true);
+						recentMenuHeading.setVisible(true);
+					}
+				}
+				menu.clearSelectedMenuItems();
 			}
-		}
+		});
 	}
 
 	/**
-	 * Adds an example to a menu/sub-menu.
+	 * @return the recently used examples menu
+	 */
+	public WMenu getMenu() {
+		return menu;
+	}
+
+	/**
+	 * Adds an example to the recent subMenu.
 	 *
 	 * @param text the text to display.
-	 * @param data the example data instance.
+	 * @param data the example data instance
+	 * @param select should the menuItem be selected
 	 */
-	private void addExample(final String text, final ExampleData data) {
-		WDecoratedLabel label = new WDecoratedLabel(new WAbbrText(text, data.getExampleClass().
-				getName()));
-		WMenuItem item = new WMenuItem(label, new SelectExampleAction());
+	private void addRecentExample(final String text, final ExampleData data, final boolean select) {
+		WMenuItem item = new WMenuItem(text, new SelectExampleAction());
+		menu.add(item);
 		item.setActionObject(data);
-		recentMenu.add(item);
+		if (select) {
+			menu.setSelectedMenuItem(item);
+		}
 	}
 
 	/**
@@ -160,9 +147,7 @@ final class MenuPanel extends WPanel {
 
 					return data;
 				}
-			} catch (ClassNotFoundException ignored) {
-				// Just keep searching.
-			} catch (NoClassDefFoundError ignored) {
+			} catch (ClassNotFoundException | NoClassDefFoundError ignored) {
 				// Just keep searching.
 			}
 		}
@@ -252,12 +237,12 @@ final class MenuPanel extends WPanel {
 	 * Adds an example to the list of recently accessed examples. The list of recently examples will be persisted to the
 	 * file system.
 	 *
-	 * @param data the data for the recently accessed example.
+	 * @param example the data for the recently accessed example.
 	 */
-	public void addToRecent(final ExampleData data) {
+	public void addToRecent(final ExampleData example) {
 		synchronized (recent) {
-			recent.remove(data); // only add it once
-			recent.add(0, data);
+			recent.remove(example); // only add it once
+			recent.add(0, example);
 
 			// Only keep the last few entries.
 			while (recent.size() > MAX_RECENT_ITEMS) {
@@ -273,9 +258,10 @@ final class MenuPanel extends WPanel {
 	 * Updates the entries in the "Recent" sub-menu.
 	 */
 	private void updateRecentMenu() {
-		recentMenu.removeAllMenuItems();
+		menu.removeAllMenuItems();
 
 		int index = 1;
+		boolean first = true;
 
 		for (Iterator<ExampleData> i = recent.iterator(); i.hasNext();) {
 			ExampleData data = i.next();
@@ -288,12 +274,11 @@ final class MenuPanel extends WPanel {
 				}
 
 				builder.append(data.getExampleName());
-
-				addExample(builder.toString(), data);
+				addRecentExample(builder.toString(), data, first);
+				first = false;
 			} catch (Exception e) {
 				i.remove();
-				LogFactory.getLog(getClass()).error("Unable to read recent class: " + data.
-						getExampleName());
+				LogFactory.getLog(getClass()).error("Unable to read recent class: " + data.getExampleName());
 			}
 		}
 	}
@@ -313,9 +298,14 @@ final class MenuPanel extends WPanel {
 			setInitialised(true);
 		}
 
-		WComponent selectedItem = menu.getSelectedItem();
-		if (selectedItem != null && UIContextHolder.getCurrent().getFocussed() == null) {
-			selectedItem.setFocussed();
+		boolean hasRecentMenu = menu.getMenuItems().size() > 0;
+		menu.setVisible(hasRecentMenu);
+		recentMenuHeading.setVisible(hasRecentMenu);
+		if (hasRecentMenu) {
+			WComponent selectedItem = menu.getSelectedMenuItem();
+			if (selectedItem != null && UIContextHolder.getCurrent().getFocussed() == null) {
+				selectedItem.setFocussed();
+			}
 		}
 	}
 
@@ -324,5 +314,12 @@ final class MenuPanel extends WPanel {
 	 */
 	public List<ExampleData> getRecent() {
 		return Collections.unmodifiableList(recent);
+	}
+
+	/**
+	 * @return the ExamplePickerTree used in this panel
+	 */
+	public ExamplePickerTree getTree() {
+		return tree;
 	}
 }

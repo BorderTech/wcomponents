@@ -1,9 +1,11 @@
 package com.github.bordertech.wcomponents.examples.picker;
 
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WHeading;
@@ -25,6 +27,7 @@ import java.util.List;
  * A component which enables users to pick an example to display.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class TreePicker extends WContainer {
@@ -104,10 +107,8 @@ public class TreePicker extends WContainer {
 		// An application footer?
 		WPanel footer = new WPanel(WPanel.Type.FOOTER);
 		footer.add(lastLoaded);
-
-		//what goes in a footer?
-		// footer.add(new ExplanatoryText("Copyright is not the answer."));
 		add(footer);
+		add(new WAjaxControl(menuPanel.getTree(), new AjaxTarget[]{menuPanel.getMenu(), exampleSection}));
 	}
 
 	/**
@@ -118,16 +119,6 @@ public class TreePicker extends WContainer {
 	private String getMeAReadableDate(final Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("d MMM yyyy, hh:mm aaa");
 		return sdf.format(null == date ? (new Date()) : date);
-	}
-
-	/**
-	 * Adds a grouped set of examples to the menu.
-	 *
-	 * @param groupName the name of the group for the examples, or null to add to the menu directly.
-	 * @param entries the examples to add to the group.
-	 */
-	public void addExamples(final String groupName, final ExampleData[] entries) {
-		menuPanel.addExamples(groupName, entries);
 	}
 
 	/**
@@ -149,13 +140,6 @@ public class TreePicker extends WContainer {
 			selectExample(example);
 		}
 	}
-
-	/**
-	 * @return the panel which displays the examples.
-	 */
-//	public ExampleSection getExamplePanel() {
-//		return exampleSection;
-//	}
 
 	/**
 	 * Selects an example.
@@ -220,8 +204,7 @@ public class TreePicker extends WContainer {
 			//selectOtherButton.setImage("/image/open-in-browser-w.png");
 			selectOtherButton.setHtmlClass("wc-icon fa-file-code-o");
 			selectOtherButton.setRenderAsLink(true);
-			selectOtherButton.setAction(new ValidatingAction(exampleSection.getMessages().getValidationErrors(),
-					selectOtherButton) {
+			selectOtherButton.setAction(new ValidatingAction(exampleSection.getMessages().getValidationErrors(), selectOtherButton) {
 				@Override
 				public void executeOnValid(final ActionEvent event) {
 					if (!Util.empty(selectOther.getText())) {
