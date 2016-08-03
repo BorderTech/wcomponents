@@ -98,11 +98,17 @@
 					This helps to prevent users interacting with a page before it is ready. The modal shim is part of
 					the page level loading indicator.
 				-->
-				<div id="wc_shim" class="wc_shim_loading">
+				<div id="wc-shim" class="wc_shim_loading">
 					<xsl:text>&#xa0;</xsl:text>
+					<noscript>
+						<p>
+							<!-- $noscript is a param generated during build. -->
+							<xsl:value-of select="$noscript"/>
+						</p>
+					</noscript>
 				</div>
-				<div id="wc_ui_loading">
-					<div tabindex="0" class="wc-icon">&#xa0;</div>
+				<div id="wc-ui-loading">
+					<div tabindex="0" class="wc-icon">&#x200b;</div>
 				</div>
 				<xsl:apply-templates />
 			</body>

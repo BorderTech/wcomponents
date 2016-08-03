@@ -1,0 +1,19 @@
+/* wc.ui.loading.scss */
+// styling for the loading indicator that appears for page reloads and AJAX regions
+@import 'mixins-common';
+
+
+// loading indicator is generated and identified
+//scss-lint:disable IdSelector
+// #wc-ui-loading {
+// 	display: block;
+// 	height: auto;
+// 	top: $wc-gap-large;
+//
+// 	div {
+// 		height: auto;
+// 		margin: 0 auto;
+// 		padding: $wc-gap-large;
+// 		position: static;
+// 	}
+// }
