@@ -166,10 +166,9 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:variable>
-					
+
 					<xsl:variable name="subClass">
-						<xsl:value-of select="concat('wc_', local-name(.))"/>
-						<xsl:text> wc_seltog wc-linkbutton</xsl:text>
+						<xsl:value-of select="concat('wc_', local-name(.), ' wc_seltog')"/>
 					</xsl:variable>
 					<xsl:call-template name="toggleElement">
 						<xsl:with-param name="mode" select="$mode"/>

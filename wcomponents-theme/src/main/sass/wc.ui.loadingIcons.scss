@@ -3,19 +3,21 @@
 @import 'mixins-common';
 
 // loading indicator is generated and identified
-//scss-lint:disable IdSelector
+// scss-lint:disable IdSelector
 #wc-ui-loading div:before {
 	@include wc-spin; // fa do not yet have a mixin for this.
 	content: $fa-var-spinner;
-	font-size: $wc-icon-large;
+	font-size: $wc-root-loading-icon-size;
+	// This allows us to calculate offsets. Not strictly necessary.
+	// height: $wc-root-loading-icon-size;
+	// width: $wc-root-loading-icon-size;
 }
+// scss-lint:enable IdSelector
 
 // ajax busy areas
 // We make the background of the busy element transparent and set all of its children to visibility:hidden so the
 // element appears to just vanish and leave its loading indicator You may want to change this (a Cheshire cat maybe?).
 [aria-busy='true'] {
-	text-align: center; // center the spinner
-
 	&:before { // yeah - I know this won't work for replaced content... see below
 		@include wc-icon($fa-var-spinner);
 		@include wc-spin; // fa do not yet have a mixin for this.
@@ -27,6 +29,5 @@ select,
 textarea {
 	&[aria-busy='true'] {
 		background: url('../images/loading-dark.gif') 50% 50% no-repeat transparent;
-		text-align: left;
 	}
 }

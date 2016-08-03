@@ -7,20 +7,9 @@ datalist {
 }
 
 [role='combobox'] {
-	@include border($color: $wc-ui-color-border-form-control);
 	display: inline-block;
 	position: relative;
 	white-space: nowrap;
-
-	@if ($wc-ui-color-disabled-bg != -1) {
-		&[aria-disabled='true'] {
-			background-color: $wc-ui-color-disabled-bg;
-		}
-	}
-
-	> input {
-		border: 0 none;
-	}
 
 	@if ($wc-ui-color-error-bg != -1) {
 		// The whole combo is invalid but we only want to apply the background color to the textbox.
@@ -30,11 +19,9 @@ datalist {
 	}
 
 	> [role='listbox'] {
-		left: $wc-border-width * -1;
 		min-width: 100%;
 
 		dialog & {
-			left: auto;
 			min-width: initial;
 		}
 	}
@@ -44,9 +31,22 @@ datalist {
 	}
 
 	> button {
-		@include border($width: 0); // remove the generic wc_btn_icon border.
-		@include border($pos: left);
-		@include margin($pos: left);
+		@if ($wc-ui-color-border-form-control != -1) {
+			@include border($pos: left, $width: 0);
+			@if ($wc-input-padding != -1) {
+				padding-bottom: $wc-input-padding;
+				padding-top: $wc-input-padding;
+			}
+			@else { // this could cause issues with some browsers.
+				padding-bottom: 2px;
+				padding-top: 2px;
+			}
+		}
+		@else { // this could cause issues with some browsers.
+			padding-bottom: 2px;
+			padding-top: 2px;
+		}
+
 		&:before {
 			content: $fa-var-caret-down;
 		}

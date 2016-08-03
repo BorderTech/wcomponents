@@ -44,6 +44,15 @@ $wc-ui-color-heading: $std-color-primary !default;
 
 // border colours - including active element indicator
 $wc-ui-color-border: $std-color-lines !default;
+// This will make inputs (except checkbox/radio), textareas and selects (with
+// either multiple or size attributes set) have a border:
+// * of this colour **and**
+// * of width $wc-border-width (default 1px) **and**
+// * of style $wc-border-style (default solid)  **and**
+// * 1px padding.
+// Set it to -1 to not set any of these styles on any of these elements.
+// If this is set to -1 then there will be further small changes to the
+// style of an opener button in combos, take a look if you change this.
 $wc-ui-color-border-form-control: $std-color-lines !default;
 
 // required field marker
@@ -51,6 +60,11 @@ $wc-ui-color-required-marker: $std-color-secondary !default;
 
 // drop shadows
 $wc-ui-color-shadow: $std-color-shadow !default;
+
+// aria-busy components
+$wc-ui-color-busy-fg: rgba(0, 0, 0, 0.25) !default;
+$wc-ui-color-busy-input-border: rgba(0, 0, 0, 0.1) !default;
+$wc-ui-color-busy-loading-icon: $wc-ui-color-disabled-fg !default;
 //*****************************************************************************
 
 //*****************************************************************************

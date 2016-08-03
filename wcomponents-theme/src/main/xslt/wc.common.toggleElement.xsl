@@ -42,7 +42,7 @@
 		<xsl:param name="labelId"/>
 	
 		<xsl:variable name="localClass">
-			<xsl:text>wc-nobutton</xsl:text>
+			<xsl:text>wc-linkbutton</xsl:text>
 			<xsl:if test="$class!=''">
 				<xsl:value-of select="concat(' ',$class)"/>
 			</xsl:if>

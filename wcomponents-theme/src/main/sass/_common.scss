@@ -1,42 +1,54 @@
 // Override Font Awesome font path.
 $fa-font-path: '../resource';
 
-//*****************************************************************************
+//**********************************************************************************************************************
+//**********************************************************************************************************************
 // FONTS.
-//*****************************************************************************
+//**********************************************************************************************************************
+//**********************************************************************************************************************
 $wc-default-font: sans-serif !default;
 $wc-mono-font: monospace !default;
-// Font size for mobile and small screens (< 1024px). This is the default because mobile is king!
+//**********************************************************************************************************************
+// FONT SIZES
+//**********************************************************************************************************************
+// If you are mucking around here you may want to go look at the generic section heading sizes (in the SPACING and REM
+// SIZES section) and WHeading styles below.
+
+// Font size small screens (phone-like). You should probably leave this as it is.
 $wc-default-font-size: 100% !default;
-// sizes for not-mobile screens >= 1024px
+// sizes for screens which are not small but not particularly big. Pick any reasonable value for this.
 $wc-desktop-font-size: 75% !default;
-// font size on really large, dense monitors (eg Apple cinema and thunderbolt
-// displays) where small fonts become too tiny to be useful.
+// font size on really large, dense monitors (eg Apple cinema and thunderbolt displays) where small fonts become too
+// tiny to be useful. Pick a value but test it out on someone old.
 $wc-bigscreen-font-size: 100% !default;
 // mobile menus - used only to make the menu items bigger for easier touch use.
 $wc-font-larger: 1.5rem !default;
-//*****************************************************************************
-// Button style
-//*****************************************************************************
-// If this is set to 1 then _all_ buttons will inherit font metrics.
-// You may find this useful in getting cross-browser and cross-platform
-// consistency but it _may_ make your buttons ugly if you are a hard-core OS X
-// user. We recommend setting this to 1 - it will save you some grief.
-$wc-button-rationalise-text-styles: 1 !default;
-// If this next var == 1 and the previous var is not == 1 you can apply
-// inherited font metrics _just_ to OS X.
-$wc-button-rationalise-text-styles-mac: 0 !default;
-// Set to 1 top turn on "invite" styles for all buttons.
-// If you do this you _will_ want to set borders and default backgrounds
-// because this will add hover/focus backgrounds.
-$wc-button-use-invite: 0 !default;
-//*****************************************************************************
-// SPACING and REM SIZES
-//*****************************************************************************
-/// If you change any of these you are probably going to want to change all of
-// them as they may be involved in Sass calculations.
 
-// Common spacing variables
+//**********************************************************************************************************************
+//**********************************************************************************************************************
+// BUTTONS
+//**********************************************************************************************************************
+//**********************************************************************************************************************
+// If this is set to 1 then _all_ buttons will inherit font metrics. You may find this useful in getting cross-browser
+// and cross-platform consistency but it _may_ make your buttons ugly if you are a hard-core OS X user. We recommend
+// leaving this at 1 - it will save you some grief.
+$wc-button-rationalise-text-styles: 1 !default;
+// If this next var == 1 and the previous var is not == 1 you can apply inherited font metrics _just_ to OS X.
+$wc-button-rationalise-text-styles-mac: 0 !default;
+// Set to 1 top turn on "invite" styles for all buttons. If you do this you _will_ want to set borders and default
+// backgrounds because this will add hover/focus backgrounds.
+$wc-button-use-invite: 0 !default;
+
+//**********************************************************************************************************************
+//**********************************************************************************************************************
+// SPACING and REM SIZES
+/// If you change the units of any of these you are probably going to want to change all of them as they may be involved
+// in Sass calculations. The gap sizes and icon sizes must be in the same units.
+//**********************************************************************************************************************
+//**********************************************************************************************************************
+// The list of class suffixes. There is no point rewriting this unless you rewrite the XSLT.
+$wc-gap-suffix-list: sm, med, lg, xl !default;
+// Common spacing variables. There should be a gap per entry in the list
 $wc-gap-small: 0.25rem !default;
 $wc-gap-normal: 0.5rem !default;
 $wc-gap-large: 1rem !default;
@@ -48,7 +60,8 @@ $wc-icon-normal: 1rem !default; // min 16px in any unit
 $wc-icon-wider: 1.25rem !default;  //recommend min 20px in any unit - this will allow for wider glyphs.
 $wc-icon-large: 2rem !default; // really big icons. So far only for the full-screen loading indicator.
 
-// h1 in WSection, WPanel Types CHROME and SECTION, WMessageBox, WValidationErrors
+// h1 in WSection, WPanel Types CHROME and SECTION, WMessageBox, WValidationErrors.
+// If you are mucking around here you may want to go look at the WHeading styles below.
 $wc-section-header-size: 1rem !default;
 // h1 in dialogs
 $wc-dialog-header-size: $wc-section-header-size !default;
@@ -57,18 +70,28 @@ $wc-header-h1-size-full: 2.25rem !default;
 // h1 in the screen header on small screens.
 $wc-header-h1-size-small: $wc-section-header-size !default;
 
-
-//*****************************************************************************
+// Back to top link
+// Not generic but not actually a WComponent either. A purely client-side artefact.
+$wc-btt-normal: 2rem !default; // size of back-to-top link's 'icon' Should be big enough to hit on a mobile.
+$wc-btt-large: 4rem !default;
+//**********************************************************************************************************************
+//**********************************************************************************************************************
 // Generic items added to various components.
 // It would be unusual to have to change these
-//*****************************************************************************
+//**********************************************************************************************************************
+//**********************************************************************************************************************
+
+//**********************************************************************************************************************
 // BORDERS
+//**********************************************************************************************************************
 // Many things have borders and it is nice to have a common look to all of them. You may want to cross reference this to
 // the mixins makeBorder and makePartBorder which use these as default values but allow override.
 $wc-border-style: solid !default;
 $wc-border-width: 1px !default;
 
+//**********************************************************************************************************************
 /// z-index settings
+//**********************************************************************************************************************
 /// We have a number of transient elements which have a z-index (eg the calendar in WPartialDateField's output widget).
 /// Many of these require the z-index to be _below_ the modal shim z-index but then have an override to make them _above_
 /// the dialog z-index if they are in a dialog.
@@ -89,44 +112,122 @@ $wc-z-index-common-in-dialog: $wc-z-index-common + $wc-z-index-dialog;
 $wc-z-index-unloading-shim: 99 !default;
 $wc-z-index-unloading-message: $wc-z-index-unloading-shim + 1;
 
+//**********************************************************************************************************************
+// Page loading indicator and aria-busy elements.
+//**********************************************************************************************************************
+// The size of the icon and the gap size must be n the same units.
+$wc-root-loading-icon-size: $wc-icon-large;
+// The padding of the loading indicator
+$wc-root-loading-padding: $wc-gap-large;
+// The width of the loading indicator. If this is -1 it is ignored and the loading indicator will be the size of the
+// icon. If you set this then you may want to consider where you want the content to appear. If you set the loading
+// indicator box-sizing to border-box and set this then you may eed to redo the loading offsets.
+$wc-root-loading-width: -1;
+$wc-root-loading-height: -1;
+//
+// The horizontal offset of the screen loading indicator. You probably do not want this in the absolute left of the
+// screen, but hey, that is up to you.
+// If this is 0 then it will be ignored. Recommend <= 50%.
+$wc-root-loading-horizontal-offset: 50% !default;
+// The vertical offset of the loading indicator. Set to 0 to not have any offset (i.e. the loading indicator will at the
+// top of the screen). Recommend 30-33%.
+$wc-root-loading-vertical-offset: 30% !default;
+//
+// The size to reserve for the aria-busy indicator
+$wc-common-busy-size: $wc-icon-normal !default;
+// The opacity of content of an aria-busy container. We used to set these to visibility: hidden but that has some
+// negative side-effects.
+// If you set this to 0 then it has the same effect as visibility:hidden but without the support for obsolete browsers.
+// You can ignore this, and leave everything as is, by setting this to 1 or more.
+$wc-common-busy-content-opacity: 0.25;
 
-//*****************************************************************************
+
+//**********************************************************************************************************************
+// Generic form input controls:
+//**********************************************************************************************************************
+// Text-like inputs and textareas.
+// The padding to be applied (only used if $wc-ui-color-border-form-control is a colour; not if it is -1). You probably
+// **DO NOT** want to chage this!
+$wc-input-padding: 1px !default;
+
+//**********************************************************************************************************************
+//**********************************************************************************************************************
 // Variables for specific components
-//*****************************************************************************
+//**********************************************************************************************************************
+//**********************************************************************************************************************
 
-//*****************************************************************************
+//**********************************************************************************************************************
 // ListLayout
-//*****************************************************************************
+//**********************************************************************************************************************
 // ListLayout marker spacing. These are a bit odd but are here to make the lists look OK across most browsers.
 $wc-list-layout-dot-spacing: 1.5rem !default;
 $wc-list-layout-ordered-spacing: 2rem !default;
 $wc-list-layout-bar-width-offset: 2 * $wc-gap-normal !default;
 
-//*****************************************************************************
-// Back to top link
-//*****************************************************************************
-// Back to top
-$wc-btt-normal: 2rem !default; // size of back-to-top link's 'icon' Should be big enough to hit on a mobile.
-$wc-btt-large: 4rem !default;
 
-//*****************************************************************************
+//**********************************************************************************************************************
+// WColumn, ColumnLayout
+//**********************************************************************************************************************
+// Provides for a list of support COLUMN widths for WColumn and ColumnLayout. This is similar to $wc-fld-list below but
+// it is not likely you will want to force the same list (though you could).
+//
+// * -1 means support all widths from 1% to 100%. This is a LOT of CSS (but not so much as the WFieldLayout variant).
+// * 0 means support columns with widths which are multiples of 5%.
+// * a list of positive integer values means support all column widths which are a multiple of 5% or a member of the
+//   list. Do not repeat multiples of 5% in the list: they are redundant.
+//
+// This setting will support all available column widths at the cost of lots of CSS.
+$wc-column-list: -1 !default;
+// This setting will support all column widths which are positive integer multiple of 5%.
+// $wc-column-list: 0;
+// This setting will give you all multiples of 5 plus the widths (as %) included in the list
+// $wc-column-list: 16, 33, 34, 66, 67, 83;
+
+//**********************************************************************************************************************
 // Dialogs - WDialog, Image editor.
-//*****************************************************************************
+//**********************************************************************************************************************
 $wc-ui-dialog-min-width: 15rem !default;
 $wc-ui-dialog-min-height: 7rem !default;
-
+// Do we want to have the amusing but wasteful dialog resize/move transitions? 1 is yes, anything else is no.
+$wc-ui-dialog-use-transitions: 1 !default;
+// Used only if the scale and move transitions are turned on and supported.
 $wc-ui-dialog-transition-delay: 0s !default;
 $wc-ui-dialog-transition-duration: 0.5s !default;
 
-//*****************************************************************************
+//**********************************************************************************************************************
 // WFieldLayout
-//*****************************************************************************
-// Must be a percent between 0 and 100. 25, 33, 50 are recommended options
+//**********************************************************************************************************************
+// Force all WFieldLayouts to be LAYOUT_STACKED. This will annoy many people but will improve accessibilty **and** save
+// a lot of CSS.
+//
+// *  0 == allow flat field layouts,
+// * any other value means force all field layouts to be stacked.
+//
+// If this is not 0 then none of the other settings in this group are applied.
+$wc-fieldlayout-force-stack: 0 !default;
+
+// This defines a list of labelWidth settings to honour.
+// * If this variable consists of the single value -1 then all label Widths from 1% to 100% will be used at the cost of
+//   **much** more CSS.
+// * If the variable is set to the single value 0 then label widths which are a positive integer multiple of of 5% will
+//   be used.
+// * Otherwise label widths which are a multiple of 5 _or_ in this list will be honoured. Do not duplicate multiples of
+//   5 in this list.
+//
+// This setting will give you all width which are multiple of 5% plus those listed
+$wc-fld-list: 16, 33, 34, 66, 67, 83 !default;
+// If you use the following version you get all multiple of 5% only
+// $wc-fld-list: 0;
+// If you use the following version you get all widths from 1% to 100% and that is a LOT of CSS
+// $wc-fld-list: -1;
+
+// The label width of a flat field layout with default width. This must be a percent between 0 and 100. 25, 33, 50 are
+// recommended options. Do not pick one if it is not in the label width values you support (see above).
 $wc-fieldlayout-default-label-width: 50% !default;
 
-//*****************************************************************************
+//**********************************************************************************************************************
 // WHeading
-//*****************************************************************************
+//**********************************************************************************************************************
 // Generic headings. Set to -1 to not use (use UA default)
 $wc-heading-h1-font-size: 1.25rem !default;
 $wc-heading-h2-font-size: 1.25rem !default;
@@ -141,9 +242,10 @@ $wc-heading-section-h3-font-size: -1 !default;
 $wc-heading-section-h4-font-size: -1 !default;
 $wc-heading-section-h5-font-size: -1 !default;
 $wc-heading-section-h6-font-size: -1 !default;
-//*****************************************************************************
+
+//**********************************************************************************************************************
 // WMenu
-//*****************************************************************************
+//**********************************************************************************************************************
 // generic menu structure
 $wc-menu-item-pad-topbottom: $wc-gap-normal !default;
 // menu type BAR and FLYOUT structure
@@ -156,17 +258,17 @@ $wc-menu-bar-column-opener-indicator-before-after: $wc-gap-small !default;
 // width of the open state icon in WMenu type TREE
 $wc-menu-tree-iconwidth: $wc-icon-normal !default;
 
-//*****************************************************************************
+//**********************************************************************************************************************
 // WTabSet
-//*****************************************************************************
+//**********************************************************************************************************************
 // The width of the tab in left/right TabSets.
 // This _should_ be a percentage, otherwise you will have to manipulate the IE9 Sass.
 $wc-tabset-left-right-tab-width: 15% !default;
 $wc-tabset-border-radius: $wc-gap-small !default;
 
-//*****************************************************************************
+//**********************************************************************************************************************
 // WTree
-//*****************************************************************************
+//**********************************************************************************************************************
 // indent of branches in the tree - also applies to WMenu Type TREE.
 $wc-tree-indent: 0.75rem !default;
 // The bi-modal nature of the tree expander button means we
@@ -181,9 +283,9 @@ $wc-tree-item-pad: $wc-gap-small 0 !default;
 // the start width of a htree group when the browser is rubbish.
 $wc-htree-branch-width-lame: 10rem !default;
 
-//*****************************************************************************
+//**********************************************************************************************************************
 // WToggleButton
-//*****************************************************************************
+//**********************************************************************************************************************
 $wc-togglebutton-width: 2 * $wc-icon-normal !default;
 $wc-togglebutton-transition: all 0.4s ease !default;
 $wc-togglebutton-transition-slider: left 0.3s cubic-bezier(0.175, 0.885, 0.320, 1.275), padding 0.3s ease, margin 0.3s ease !default;
