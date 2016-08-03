@@ -26,13 +26,13 @@
 		<xsl:variable name="toolTip">
 			<xsl:choose>
 				<xsl:when test="$isSingular=1 or position() = 1">
-					<xsl:value-of select="$$${wc.ui.multiFormComponent.i18n.addControl.message}"/>
+					<xsl:text>{{t '${wc.ui.multiFormComponent.i18n.addControl.message}'}}</xsl:text>
 					<xsl:if test="$myLabel">
 						<xsl:value-of select="$myLabel"/>
 					</xsl:if>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:value-of select="$$${wc.ui.multiFormComponent.i18n.removeControl.message}"/>
+					<xsl:text>{{t '${wc.ui.multiFormComponent.i18n.removeControl.message}'}}</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>

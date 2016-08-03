@@ -22,7 +22,7 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 		 * @private
 		 */
 		function ModalShim() {
-			var MODAL_BACKGROUND_ID = "wc_shim",
+			var MODAL_BACKGROUND_ID = "wc-shim",
 				SHIFTKEY_ON = false,
 				activeElement,
 				UNIT = "px",
@@ -78,7 +78,7 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 				var d = document,
 					b = d.body,
 					result = d.createElement("div");
-				result.id = "wc_shim";
+				result.id = "wc-shim";
 				shed.hide(result, true);
 				if (b.firstChild) {
 					b.insertBefore(result, b.firstChild);

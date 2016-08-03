@@ -17,7 +17,7 @@
 		param id: The id to apply to the HTML button element
 		
 		param for: The identifier of the component controlled by the button, may be a container
-			id or a groupName for {{expandCollapseAll}}
+			id or a groupName for WCollapsibleToggle
 		
 		param name: The name (or name analog) attribute to give to the button element 
 		
@@ -42,7 +42,7 @@
 		<xsl:param name="labelId"/>
 	
 		<xsl:variable name="localClass">
-			<xsl:text>wc-nobutton</xsl:text>
+			<xsl:text>wc-linkbutton</xsl:text>
 			<xsl:if test="$class!=''">
 				<xsl:value-of select="concat(' ',$class)"/>
 			</xsl:if>

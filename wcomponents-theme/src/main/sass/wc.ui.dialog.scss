@@ -70,7 +70,7 @@ dialog {
 	}
 
 	> footer {
-		display: none; // only show footer is resizeable AND using desktop css - see wc.ui.dialog.dt.scss
+		display: none; // only show footer if the dialog can be resized.
 	}
 }
 
@@ -104,12 +104,15 @@ dialog {
 	}
 }
 
-// This is only here to make iPads work with the dialogFrame animations (i.e. not work at all).
-@media only screen and (min-width: 1025px) {
-	.wc_resizeflow { // keyboard and resize event initiated drag and resize animation
-		transition-delay: $wc-ui-dialog-transition-delay;
-		transition-duration: $wc-ui-dialog-transition-duration;
-		transition-property: left, top, height, width;
-		transition-timing-function: ease-in-out;
+@if ($wc-ui-dialog-use-transitions == 1) {
+	// This is only here to make iPads work with the dialogFrame animations (i.e. not work at all).
+	@media only screen and (min-width: 1025px) {
+		.wc_resizeflow { // keyboard and resize event initiated drag and resize animation
+			transition-delay: $wc-ui-dialog-transition-delay;
+			transition-duration: $wc-ui-dialog-transition-duration;
+			transition-property: left, top, height, width;
+			transition-timing-function: ease-in-out;
+		}
 	}
+
 }

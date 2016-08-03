@@ -31,7 +31,7 @@
 					<xsl:if test="@hint">
 						<xsl:element name="br"/>
 					</xsl:if>
-					<xsl:value-of select="$$${wc.common.i18n.submitOnChange}"/>
+					<xsl:text>{{t '${wc.common.i18n.submitOnChange}'}}</xsl:text>
 				</xsl:if>
 			</xsl:element>
 		</xsl:if>

@@ -11,7 +11,7 @@
 		WMultiTextField
 		WRadioButtonSelect
 
-	Creates a legend element. If the component has a WLabel associated with it then the legend is created by the 
+	Creates a legend element. If the component has a WLabel associated with it then the legend is created by the
 	transform for that WLabel using the explicit param. If the component does not have a WLabel then its legend is
 	populated using a text equivalent fallback @accessibleText or @toolTip.
 
@@ -44,7 +44,7 @@
 			</xsl:when>
 			<xsl:when test="not(ancestor::ui:ajaxtarget)">
 				<legend class="wc_error">
-					<xsl:value-of select="$$${wc.common.i18n.requiredLabel}"/>
+					<xsl:text>{{t '${wc.common.i18n.requiredLabel}'}}</xsl:text>
 				</legend>
 			</xsl:when>
 		</xsl:choose>
@@ -57,7 +57,7 @@
 			<xsl:if test="@required">
 				<xsl:call-template name="offscreenSpan">
 					<xsl:with-param name="text">
-						<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
+						<xsl:text>{{t '${wc.common.i18n.requiredPlaceholder}'}}</xsl:text>
 					</xsl:with-param>
 				</xsl:call-template>
 			</xsl:if>
