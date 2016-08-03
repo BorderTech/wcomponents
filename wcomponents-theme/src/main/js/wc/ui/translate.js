@@ -27,9 +27,16 @@ define(["wc/i18n/i18n", "wc/dom/initialise","lib/handlebars/handlebars"],
 				var target = container ? [container] : document.body.getElementsByTagName("form");
 
 				Array.prototype.forEach.call(target, function(next) {
-					var dirtyString = next.innerHTML,
+					var isTextNode = next.nodeType === Node.TEXT_NODE,
+						dirtyString = isTextNode ? next.textContent : next.innerHTML,
 						compiledTemplate = Handlebars.compile(dirtyString);
-					next.innerHTML = compiledTemplate({});
+
+					if (isTextNode) {
+						next = compiledTemplate({});
+					}
+					else {
+						next.innerHTML = compiledTemplate({});
+					}
 				});
 			};
 

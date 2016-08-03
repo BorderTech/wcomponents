@@ -6,12 +6,7 @@ dialog {
 	background: transparent;
 
 	> [aria-live] { // dialog content container
-		&,
-		&[aria-busy='true'] {
-			// override usual transparency of busy elements because that's just wrong with a dialog's content.
-			// scss-lint:disable ImportantRule
-			background-color: $wc-ui-color-global-bg !important;
-		}
+		background-color: $wc-ui-color-global-bg;
 	}
 
 	> header,

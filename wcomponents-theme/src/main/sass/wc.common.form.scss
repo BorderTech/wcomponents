@@ -22,25 +22,29 @@ textarea {
 	}
 }
 
-input,
-textarea {
-	// Border on select makes firefox OS X quite ugly but is better than any other option on all other UAs.
-	@include border($color: $wc-ui-color-border-form-control);
-	padding: 1px;
-}
-
-select {
-	&[multiple],
-	&[size] {
+@if ($wc-ui-color-border-form-control != -1) {
+	input,
+	textarea {
+		// Border on select makes firefox OS X quite ugly but is better than any other option on all other UAs.
 		@include border($color: $wc-ui-color-border-form-control);
+		@if ($wc-input-padding != -1) {
+			padding: $wc-input-padding;
+		}
 	}
-}
 
-input {
-	&[type='checkbox'],
-	&[type='radio'] {
-		@include border($width: 0);
-		// NOTE: no need to remove the 1px padding.
+	select {
+		&[multiple],
+		&[size] {
+			@include border($color: $wc-ui-color-border-form-control);
+		}
+	}
+
+	input {
+		&[type='checkbox'],
+		&[type='radio'] {
+			@include border($width: 0);
+			// NOTE: no need to remove the padding in modern browsers.
+		}
 	}
 }
 

@@ -1,53 +1,29 @@
-/**
- * Attempts to focus a given element based on an ID passed in from XSLT.
- *
- * <p>NOTE there is a separate issue also being handled in this module:wc/</p><ul>
- * <li>IE will "remember" focus when you refresh a page.  That means it is possible for a page to load and for a field
- * to have focus but never have fired a focus event.  In this scenario there will probably be a whole lot of
- * bootstrapping that should have been fired but wasn't.  Have not observed the same behaviour in FF3.6 or Chrome 6.</li>
- * <li>We used to solve this by refocusing the activeElement if there is one, however this stopped working in IE8, I
- * guess MS worked out that setting focus to an element that already has focus is a noop.</li>
- * <li>This solution was not ideal as it effectively adds all the bootstrapping overhead to the page load.</li>
- * <li>Now what we do is shift the focus to the BODY if any type of interactive element has focus on page load (to which
- * we did not set focus). This should make IE behave more like other browsers. Yes there is still some bootstrapping
- * overhead but only: in IE, when page refreshed, when interactive control focused AND nothing will actually want to
- * bootstrap the body itself, so should be fast.</li></ul>
- *
- * @todo Integrate this with autofocus attribute (note: autofocus does not fire focus events yet).
- * @todo document private members, check source order.
- *
- * @typedef {object} module:wc/ui/onloadFocusControl.config() Optional module configuration
- * @property {boolean} rescroll If the document must scroll to bring the focussed element into the viewport this
- * property determines whether the focussed element is scrolled to teh top (or closest to) of teh viewport (true) or
- * uses the user agent default - usually to scroll only far enough to bring the element into the viewport.
- * @default false
- *
- * @module
- * @requires module:wc/dom/focus
- * @requires module:wc/dom/initialise
- * @requires module:wc/ui/ajax/processResponse
- * @requires module:wc/timers
- * @requires module:wc/config
- *
- * @todo Document private members, check source order.
- */
-define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/timers", "wc/config"],
-	/** @param focus wc/dom/focus @param initialise wc/dom/initialise @param processResponse wc/ui/ajax/processResponse @param timers wc/timers @param wcconfig wc/config @ignore */
-	function(focus, initialise, processResponse, timers, wcconfig) {
+define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/timers", "wc/ui/loading", "wc/config"],
+	function(focus, initialise, processResponse, timers, loading, wcconfig) {
 		"use strict";
-		/** @alias module:wc/ui/onloadFocusControl */
+		/**
+		 * @constructor
+		 * @alias module:wc/ui/onloadFocusControl~OnloadFocusControl
+		 * @private
+		 */
 		function OnloadFocusControl() {
 			var focusId,
 				conf = wcconfig.get("wc/ui/onloadFocusControl"),
 				SCROLL_TO_TOP = (conf ? conf.rescroll : false),  // true to turn on scroll to top of viewport on load focus, false will apply user agent default (usually scroll to just in view)
 				FOCUS_DELAY = null;  // if set to a non-negstive integer this will delay focus requests to allow native autofocus to work. Native autofocus is currently problematic since it does not fire a focus event.
 
-
 			function processNow() {
-				if (focusId) {
-					instance.requestFocus(focusId);
-					focusId = null;
-				}
+				loading.done.then(timers.setTimeout(function() {
+					try {
+						if (!focusId) {
+							return;
+						}
+						instance.requestFocus(focusId);
+					}
+					finally {
+						focusId = null;
+					}
+				}, 0));
 			}
 
 			/**
@@ -62,7 +38,6 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 					focusElement.scrollIntoView();
 				}
 			}
-
 
 			/**
 			 * Makes the attempt to focus an element
@@ -174,7 +149,44 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 				processResponse.subscribe(ajaxSubscriber, true);
 			};
 		}
-		var /** @alias module:wc/ui/onloadFocusControl */ instance = new OnloadFocusControl();
+
+		/**
+		 * Attempts to focus a given element based on an ID passed in from XSLT.
+		 *
+		 * NOTE there is a separate issue also being handled in this module:
+		 *
+		 * * IE will "remember" focus when you refresh a page.  That means it is possible for a page to load and for a field to have focus but never
+		 *   have fired a focus event.  In this scenario there will probably be a whole lot of bootstrapping that should have been fired but wasn't.
+		 *   Have not observed the same behaviour in FF3.6 or Chrome 6.
+		 * * We used to solve this by refocusing the activeElement if there is one, however this stopped working in IE8, I guess MS worked out that
+		 *   setting focus to an element that already has focus is a noop.
+		 * * This solution was not ideal as it effectively adds all the bootstrapping overhead to the page load.
+		 * * Now what we do is shift the focus to the BODY if any type of interactive element has focus on page load (to which we did not set focus).
+		 *   This should make IE behave more like other browsers. Yes there is still some bootstrapping overhead but only: in IE, when page refreshed,
+		 *    when interactive control focused AND nothing will actually want to bootstrap the body itself, so should be fast.
+		 *
+		 * @todo Integrate this with autofocus attribute (note: autofocus does not fire focus events yet).
+		 * @todo document private members, check source order.
+		 *
+		 *
+		 * @module
+		 * @requires module:wc/dom/focus
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/ui/ajax/processResponse
+		 * @requires module:wc/timers
+		 * @requires module:wc/ui/loading
+		 * @requires module:wc/config
+		 *
+		 */
+		var instance = new OnloadFocusControl();
 		initialise.register(instance);
 		return instance;
+
+		/**
+		 * @typedef {object} module:wc/ui/onloadFocusControl.config Optional module configuration
+		 * @property {boolean} rescroll If the document must scroll to bring the focussed element into the viewport this property determines whether
+		 * the focussed element is scrolled to teh top (or closest to) of teh viewport (true) or uses the user agent default - usually to scroll only
+		 * far enough to bring the element into the viewport.
+		 * @default false
+		 */
 	});

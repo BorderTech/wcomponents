@@ -7,39 +7,39 @@
 		WCancelButton) and WPrintButton.
 
 		A WButton will always POST the form without confirmation unless:
-		
-		1 it has its @cancel property set in which case it will require 
+
+		1 it has its @cancel property set in which case it will require
 		  confirmation if either:
-			
+
 			a the user has made changes; or
-			
+
 			b there are unsaved changes on the server as flagged by the
 			WApplication or button's unsavedChanges attribute;
 
 		or:
-		
-		2 it has a msg attribute set, in which case it will always require 
+
+		2 it has a msg attribute set, in which case it will always require
 		  confirmation; or
 
 		3 it is a child of a {{{./wc.ui.dialog.html}WDialog}} in which case it
 		will launch the dialog but not POST the form; or
-		
+
 		4 it is an AJAX trigger, in which case it will fire the AJAX request.
 
-		A WConfirmButton will POST the form only if the user clicks the OK 
-		button on the confirm dialog <unless> it is an AJAX trigger in which 
+		A WConfirmButton will POST the form only if the user clicks the OK
+		button on the confirm dialog <unless> it is an AJAX trigger in which
 		case the AJAX request will be fired after confirmation.
 
-		A WButton with @cancel="true" will POST a form without confirmation if 
+		A WButton with @cancel="true" will POST a form without confirmation if
 		the user has made no changes unless the button or the WApplication has
-		an unsavedChanges attribute then the form will be POSTed only if the 
+		an unsavedChanges attribute then the form will be POSTed only if the
 		user confirms they wish to cancel.
-		
-		A WPrintButton has only client side behaviour and will never POST the 
+
+		A WPrintButton has only client side behaviour and will never POST the
 		form.
 
-		The value of s button is a fixed value for all buttons and its purpose is only to inform WComponents which 
-		button was used in a submission.	
+		The value of s button is a fixed value for all buttons and its purpose is only to inform WComponents which
+		button was used in a submission.
 	-->
 	<xsl:template match="ui:button | ui:printbutton">
 		<button name="{@id}" value="x">
@@ -57,7 +57,7 @@
 						</xsl:if>
 					</xsl:if>
 					<xsl:if test="@type = 'link'">
-						<xsl:text> wc-nobutton wc-linkbutton</xsl:text>
+						<xsl:text> wc-linkbutton</xsl:text>
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
@@ -98,8 +98,8 @@
 						</xsl:attribute>
 					</xsl:when>
 					<xsl:when test="key('triggerKey', @id)">
-						<!-- 
-							Do not merge this with the top when as we _do_ validate on AJAX if the validates attribute 
+						<!--
+							Do not merge this with the top when as we _do_ validate on AJAX if the validates attribute
 							is set.
 						-->
 						<xsl:attribute name="formnovalidate">

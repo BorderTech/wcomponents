@@ -7,11 +7,11 @@
 	<!--
 		Transform for WLink and WInternalLink. This should be a simple transform to a HTML
 		anchor element. However, as usual things are not that simple.
-	
+
 		HTML A elements do not support a disabled state. This state is created using
 		aria-disabled and a javascript helper. The disabled state of WLink is under
 		investigation and may be removed.
-		
+
 		There is a type property which allows the control to be rendered as a button.
 		Whilst we can apply styles to a HTML anchor element to make it look button-like
 		it is not currently possible to render a link as a button in all browsers.
@@ -19,7 +19,7 @@
 		current framework policy that all controls which undertake client action other
 		than pure navigation are output as buttons, and we are able to style a HTML
 		button element to appear to be a link.
-		
+
 		Therefore if the ui:link has a ui:windowAttributes child in order to
 		create a pop up window, and that child has any attributes other than a name
 		(which is required) we output a button. When a ui:link is rendered
@@ -51,11 +51,11 @@
 				<xsl:with-param name="elementType" select="$elementType"/>
 				<xsl:with-param name="class">
 					<xsl:if test="$elementType='button' and not($type='button')">
-						<xsl:text> wc-nobutton wc-linkbutton</xsl:text>
+						<xsl:text> wc-linkbutton</xsl:text>
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
-			
+
 			<xsl:choose>
 				<xsl:when test="$elementType='a'">
 					<xsl:attribute name="href">
@@ -67,8 +67,8 @@
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:if test="ui:windowAttributes">
-						<!-- 
-							This  bit will only be called if the ui:windowAttributes child as only a name attribute, 
+						<!--
+							This  bit will only be called if the ui:windowAttributes child as only a name attribute,
 							otherwise we would have gone to button.
 						-->
 						<xsl:attribute name="target">
