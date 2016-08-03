@@ -3,7 +3,7 @@ define(["wc/i18n/i18n", "wc/dom/initialise","lib/handlebars/handlebars"],
 		"use strict";
 
 		// Register the Handlebars helper for translation once.
-		Handlebars.registerHelper('t',
+		Handlebars.registerHelper("t",
 			function(i18n_key) {
 				var result = i18n.get(i18n_key);
 				return new Handlebars.SafeString(result);
