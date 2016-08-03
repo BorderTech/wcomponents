@@ -27,7 +27,6 @@ $wc-root-loading-height-offset: $wc-root-loading-padding + ($wc-root-loading-ico
 	height: 100%;
 	left: 0;
 	position: fixed;
-	text-align: center;
 	top: 0;
 	width: 100%;
 	z-index: $wc-z-index-unloading-message;
@@ -43,13 +42,10 @@ $wc-root-loading-height-offset: $wc-root-loading-padding + ($wc-root-loading-ico
 			height: $wc-root-loading-height;
 		}
 
-		// All of the following could be removed if we did not have to support IE11-
+		// All of the following (and the mammoth calculation aboce) could be removed if we did not have to support IE11-
 		// one could then offset the div using position relative and offset with -ve ebing for up/left. For example:
 		// position: relative;
 		// top: -5%;
-
-
-
 		@if ($wc-root-loading-vertical-offset != 0 or $wc-root-loading-horizontal-offset != 0) {
 			position: absolute;
 		}
