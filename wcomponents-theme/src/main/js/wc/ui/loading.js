@@ -40,6 +40,7 @@ define(["wc/dom/initialise", "wc/ui/modalShim", "wc/timers"],
 				Array.prototype.forEach.call(document.getElementsByTagName("form"), function(form) {
 					form.style.visibility ="";
 					form.removeAttribute("style");
+					form.removeAttribute("aria-busy");
 				});
 				var container = document.getElementById("wc-ui-loading");
 				if (container && container.parentNode) {
@@ -56,7 +57,7 @@ define(["wc/dom/initialise", "wc/ui/modalShim", "wc/timers"],
 		 * @private
 		 */
 		function postInit() {
-			loading.done.then(timers.setTimeout(clearLoadingShim, 200));
+			loading.done.then(timers.setTimeout(clearLoadingShim, 0));
 		}
 
 		initialise.register({"postInit": postInit});

@@ -13,7 +13,7 @@
 		<xsl:variable name="baseAjaxUrl">
 			<xsl:value-of select="@ajaxUrl"/>
 		</xsl:variable>
-		<form action="{@applicationUrl}" method="POST" id="{@id}" data-wc-datalisturl="{$baseAjaxUrl}" novalidate="novalidate" style="visibility:hidden">
+		<form action="{@applicationUrl}" method="POST" id="{@id}" data-wc-datalisturl="{$baseAjaxUrl}" novalidate="novalidate" style="visibility:hidden" aria-busy="true">
 			<xsl:attribute name="data-wc-ajaxurl">
 				<xsl:value-of select="$baseAjaxUrl"/>
 				<xsl:if test="ui:param">
