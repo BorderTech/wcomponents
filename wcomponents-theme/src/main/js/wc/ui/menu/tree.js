@@ -1,26 +1,3 @@
-/**
- * Menu controller extension for WTree. WTree uses the menu controller because it has the same key-walking, brancho
- * opening, selection and activation mechanisms.
- *
- * @see <a href="http://www.w3.org/TR/wai-aria-practices/#TreeView">TreeView</a>
- *
- * @module
- * @extends module:wc/ui/menu/core
- *
- * @requires module:wc/ui/menu/core
- * @requires module:wc/dom/keyWalker
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/Widget
- * @requires module:wc/array/toArray
- * @requires module:wc/ui/menu/treeItem
- * @requires module:wc/dom/initialise
- * @requires module:wc/has
- * @requires module:wc/dom/classList
- * @requires module:wc/dom/formUpdateManager
- * @requires module:wc/dom/getFilteredGroup
- * @requires module:wc/ui/ajaxRegion
- * @requires module:wc/timers
- */
 define(["wc/ui/menu/core",
 		"wc/dom/keyWalker",
 		"wc/dom/shed",
@@ -34,13 +11,7 @@ define(["wc/ui/menu/core",
 		"wc/dom/getFilteredGroup",
 		"wc/ui/ajaxRegion",
 		"wc/timers"],
-	/**
-	 * @param abstractMenu @param keyWalker @param shed @param Widget @param toArray  @param treeItem
-	 * @param initialise @param has s @param classList @param formUpdateManager @param getFilteredGroup
-	 * @param ajaxRegion @param timers @ignore
-	 */
-	function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, has, classList, formUpdateManager,
-	getFilteredGroup, ajaxRegion, timers) {
+	function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, has, classList, formUpdateManager, getFilteredGroup, ajaxRegion, timers) {
 		"use strict";
 
 		/**
@@ -48,7 +19,8 @@ define(["wc/ui/menu/core",
 		 * @constructor
 		 * @alias module:wc/ui/menu/tree~Tree
 		 * @extends module:wc/ui/menu/core~AbstractMenu
-		 * @private */
+		 * @private
+		 */
 		function Tree() {
 			var VOPENER,
 				LEAF_WD,
@@ -59,6 +31,13 @@ define(["wc/ui/menu/core",
 				require(["wc/fix/inlineBlock_ie8"]);
 			}
 
+			/**
+			 * Test a tree to determine if it is a HTree.
+			 * @function module:wc/ui/menu/tree.isHTree
+			 * @public
+			 * @param {Element} root the tree's root node.
+			 * @returns {Boolean} true if the tree is a htree.
+			 */
 			this.isHTree = function(root) {
 				if (!root) {
 					return false;
@@ -66,6 +45,13 @@ define(["wc/ui/menu/core",
 				return classList.contains(root, "wc_htree");
 			};
 
+			/**
+			 * Test an element to determine if it is itself or a descendant of the vertical tree opening button.
+			 * @function module:wc/ui/menu/tree.isInVOpen
+			 * @public
+			 * @param {Element} element the element to test
+			 * @returns {Boolean} true if element is a vertical tree branch opener or a descendant thereof.
+			 */
 			this.isInVOpen = function(element) {
 				VOPENER = VOPENER || new Widget ("", "wc_leaf_vopener");
 				return VOPENER.findAncestor(element);
@@ -105,7 +91,8 @@ define(["wc/ui/menu/core",
 
 			/**
 			 * A helper to do strict-ish type checking on getting a tree's root element.
-			 *
+			 * @function
+			 * @private
 			 * @param {Element} element The element from which to start searching for the tree root.
 			 * @returns {?Element} A tree root node.
 			 */
@@ -127,7 +114,7 @@ define(["wc/ui/menu/core",
 			 * Indicates if  a particular tree supports multiple open branches. Vertical trees allow multiple branches
 			 * to be open at any time. Horizontal trees do not.
 			 *
-			 * @function
+			 * @function module:wc/ui/menu/tree._oneOpen
 			 * @protected
 			 * @override
 			 * @param {Element} element A node of the tree to test. This is mandatory in this override.
@@ -152,7 +139,7 @@ define(["wc/ui/menu/core",
 			 * When keyboard navigating a tree we go into open submenus before going to the next option at the current
 			 * level.
 			 *
-			 * @function
+			 * @function module:wc/ui/menu/tree._treeWalkDepthFirst
 			 * @protected
 			 * @override
 			 * @param {Element} root A node of the tree to test. This is mandatory in this override.
@@ -162,6 +149,14 @@ define(["wc/ui/menu/core",
 				return !this.isHTree(root); // horizontal trees are never depth-first.
 			};
 
+			/**
+			 * Does the tree open when a branch item is selected?
+			 * @function module:wc/ui/menu/tree._openOnSelect
+			 * @protected
+			 * @override
+			 * @param {Element} root the root element of a tree.
+			 * @returns {Boolean} true if the tree opens a branch when it is selected.
+			 */
 			this._openOnSelect = function(root) {
 				return this.isHTree(root);
 			};
@@ -203,7 +198,7 @@ define(["wc/ui/menu/core",
 			 * selection.
 			 *
 			 * @see {@link http://www.w3.org/TR/wai-aria-practices/#TreeView}
-			 * @function
+			 * @function module:wc/ui/menu/tree._select
 			 * @protected
 			 * @override
 			 * @param {Element} item The menu item being selected
@@ -230,7 +225,7 @@ define(["wc/ui/menu/core",
 			 * and right go to siblings and down goes to child in sub menus up and down go to siblings, right to child
 			 * and left to parent.
 			 *
-			 * @function
+			 * @function module:wc/ui/menu/tree._remapKeys
 			 * @protected
 			 * @override
 			 * @param {Element} _item The item which has focus.
@@ -289,7 +284,7 @@ define(["wc/ui/menu/core",
 			 * Sets up the initial keymap for tree menus.
 			 *
 			 * @see {@link http://www.w3.org/TR/wai-aria-practices/#TreeView}
-			 * @function
+			 * @function module:wc/ui/menu/tree._setupKeymap
 			 * @protected
 			 * @override
 			 */
@@ -305,6 +300,12 @@ define(["wc/ui/menu/core",
 				};
 			};
 
+			/**
+			 * Set up the Widgets which describe a tree.
+			 * @function module:wc/ui/menu/tree._setUpWidgets
+			 * @protected
+			 * @override
+			 */
 			this._setUpWidgets = function() {
 				var opener = new Widget("button", "", { "aria-controls": null });
 
@@ -320,7 +321,7 @@ define(["wc/ui/menu/core",
 			 * Opens all branches in a menu. Note: this has to be public because super._keyActivator() needs to know it
 			 * exists.
 			 *
-			 * @function
+			 * @function module:wc/ui/menu/tree._openAllBranches
 			 * @protected
 			 * @param {Element} from the start point for opening all branches
 			 */
@@ -332,8 +333,7 @@ define(["wc/ui/menu/core",
 				}
 
 				if ((allBranchOpeners = this._wd.opener.findDescendants(root)) && allBranchOpeners.length) {
-					/* NOTE: Array.prototype.reverse.call does not work in IE8 so I have
-					 * to convert the nodeList to a real array then reverse it*/
+					/* NOTE: Array.prototype.reverse.call does not work in IE8 so I have to convert the nodeList to a real array then reverse it */
 					allBranchOpeners = toArray(allBranchOpeners);
 					allBranchOpeners.reverse();
 					allBranchOpeners.forEach(this[this._FUNC_MAP.OPEN], this);
@@ -342,34 +342,29 @@ define(["wc/ui/menu/core",
 
 			/**
 			 * No op.
-			 *
+			 * @function module:wc/ui/menu/tree._setMenuItemRole
 			 * @protected
 			 * @override
 			 */
-			this._setMenuItemRole = function() {
-				/* no op */
-			};
+			this._setMenuItemRole = null;
 
 			/**
 			 * No op.
 			 *
-			 * @function
+			 * @function module:wc/ui/menu/tree._selectAfterAjax
 			 * @protected
 			 * @override
 			 */
-			this._selectAfterAjax = function() {
-				/* no op */
-			};
+			this._selectAfterAjax = null;
 
 			/**
-			 * Get the menu element which is able to be "aria-expanded". This is the WSubMenu's content in most menus
-			 * but is the WSubMenu itself in trees.
+			 * Get the menu element which is able to be "aria-expanded". This is the WSubMenu's content in most menus but is the WSubMenu itself in
+			 * trees.
 			 *
-			 * @function
+			 * @function module:wc/ui/menu/tree._getBranchExpandableElement
 			 * @override
 			 * @param {Element} item The start point for the search. This will normally be a 'branch'.
-			 * @returns {?Element} The "expandable" element. This is usually the branch content but is the branch in
-			 * trees.
+			 * @returns {?Element} The "expandable" element. This is usually the branch content but is the branch in trees.
 			 */
 			this._getBranchExpandableElement = function (item) {
 				if (!item) {
@@ -388,10 +383,11 @@ define(["wc/ui/menu/core",
 			};
 
 			/**
-			 * Click with meta on an open branch in a htree. If the branch has an ancestor branch then select that
-			 * ancestor, otherwise just delected the branch.
-			 * @param {type} target
-			 * @returns {undefined}
+			 * Click with meta on an open branch in a htree. If the branch has an ancestor branch then select that ancestor, otherwise just delected
+			 * the branch.
+			 * @function
+			 * @private
+			 * @param {Element} target theelement clicked.
 			 */
 			function htreeClickHelper(target) {
 				var item = instance.getItem(target), parentBranch;
@@ -406,13 +402,10 @@ define(["wc/ui/menu/core",
 			}
 
 			/**
-			 * Click handler override. Do not allow click to toggle tree branch unless it is:
+			 * Click handler override. Do not allow click to toggle tree branch unless it is a htree or on the 'vertical' opener.
 			 *
-			 *   * a htree; or
-			 *   * on the 'vertical' opener.
-			 *
-			 * We exempt the old WMenu version of TREE from this.
-			 *
+			 * @function module:wc/ui/menu/tree.clickEvent
+			 * @public
 			 * @override
 			 * @param {Event} $event The wrapped click event.
 			 */
@@ -440,6 +433,9 @@ define(["wc/ui/menu/core",
 			/**
 			 * Write the state of WTree.
 			 *
+			 * @function module:wc/ui/menu/tree.writeMenuState
+			 * @protected
+			 * @override
 			 * @param {Element} next the WTree root element
 			 * @param {Element} toContainer the state container
 			 */
@@ -489,6 +485,9 @@ define(["wc/ui/menu/core",
 
 			/**
 			 * Determines if a given element is the last selected item at its level of the tree.
+			 *
+			 * @function
+			 * @private
 			 * @param {Element} element The element being tested.
 			 * @param {Element} root The root of the current tree.
 			 * @returns {Boolean} true if the element is the only selected item at its level.
@@ -504,10 +503,12 @@ define(["wc/ui/menu/core",
 			/**
 			 * Helper for _shedSubscriber which undertakes an ajax loadwhen a branch is opened if required.
 			 *
+			 * @function
+			 * @private
 			 * @param {Element} element The branch being opened.
 			 * @param {Element} root The root of the currect tree.
 			 */
-			this.ajaxExpand = function(element, root) {
+			function ajaxExpand(element, root) {
 				var mode = root.getAttribute("data-wc-ajaxmode"),
 					obj,
 					elId = element.id;
@@ -526,12 +527,12 @@ define(["wc/ui/menu/core",
 
 					ajaxRegion.requestLoad(element, obj, true);
 				}
-			};
+			}
 
 			/**
 			 * Override {@link:module:wc/dom/shed} subscriber to add special cases for trees.
 			 *
-			 * @function
+			 * @function module:wc/ui/menu/tree._shedSubscriber
 			 * @protected
 			 * @override
 			 * @param {Element} element The element being acted upon.
@@ -565,7 +566,7 @@ define(["wc/ui/menu/core",
 
 				if (action === shed.actions.EXPAND) {
 					this.constructor.prototype._shedSubscriber.call(this, element, action);
-					this.ajaxExpand(element, root);
+					ajaxExpand(element, root);
 					return;
 				}
 
@@ -573,10 +574,9 @@ define(["wc/ui/menu/core",
 			};
 
 			/**
-			 * Override the default "animator" to prevent a beanch from opening if any other element is selected at its
-			 * level. Only applies to htree.
+			 * Override the default "animator" to prevent a branch from opening if any other element is selected at its level. Only applies to htree.
 			 *
-			 * @function
+			 * @function module:wc/ui/menu/tree._animateBranch
 			 * @protected
 			 * @param {Object} item The branch being opened/closed.
 			 * @param {Object} open If true branch is being opened, otherwise its being closed.
@@ -604,7 +604,7 @@ define(["wc/ui/menu/core",
 
 			/**
 			 * A TreeWalker filter to get a text node match during key-initiated tree walking.
-			 * @function
+			 * @function module:wc/ui/menu/tree._textMatchFilter
 			 * @protected
 			 * @override
 			 * @param {Node} textNode The node being tested.
@@ -624,11 +624,11 @@ define(["wc/ui/menu/core",
 				return NodeFilter.FILTER_SKIP;
 			};
 
-
 			/**
-			 * Helper for shed collapse subscriber. This function is concerned with deselecting items in collapsing
-			 * branches and possibly selecting i
-			 * @function
+			 * Helper for shed collapse subscriber. This function is concerned with deselecting items in collapsing branches and possibly selecting
+			 * the collapsing branches nearest available ancestor (depending on tree type).
+			 *
+			 * @function module:wc/ui/menu/tree._shedCollapseHelper
 			 * @protected
 			 * @override
 			 * @param {Element} element the branch beng collapsed.
@@ -656,10 +656,17 @@ define(["wc/ui/menu/core",
 				}
 			};
 
+			/**
+			 * Reset selections after Ajax.
+			 *
+			 * @function module:wc/ui/menu/tree._ajaxSubscriber
+			 * @protected
+			 *
+			 * @param {Element} element the ajax target.
+			 * @param {DocumentFragment} documentFragment the content of the response
+			 */
 			this._ajaxSubscriber = function (element, documentFragment/* , action */) {
-				var root;
-
-				if (element && (root = this.getRoot(element)) === this.getFirstMenuAncestor(element)) {
+				if (element && this.getRoot(element) === this.getFirstMenuAncestor(element)) {
 					Array.prototype.forEach.call(this._wd.branch.findDescendants(documentFragment), function(next) {
 						var id, _el;
 						if ((id = next.id) && (_el = document.getElementById(id))) {
@@ -672,7 +679,30 @@ define(["wc/ui/menu/core",
 			};
 		}
 
-		var /** @alias module:wc/ui/menu/tree */ instance;
+		/**
+		 * Menu controller extension for WTree. WTree uses the menu controller because it has the same key-walking, brancho
+		 * opening, selection and activation mechanisms.
+		 *
+		 * @see <a href="http://www.w3.org/TR/wai-aria-practices/#TreeView">TreeView</a>
+		 *
+		 * @module
+		 * @extends module:wc/ui/menu/core
+		 *
+		 * @requires module:wc/ui/menu/core
+		 * @requires module:wc/dom/keyWalker
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/array/toArray
+		 * @requires module:wc/ui/menu/treeItem
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/has
+		 * @requires module:wc/dom/classList
+		 * @requires module:wc/dom/formUpdateManager
+		 * @requires module:wc/dom/getFilteredGroup
+		 * @requires module:wc/ui/ajaxRegion
+		 * @requires module:wc/timers
+		 */
+		var instance;
 		Tree.prototype = abstractMenu;
 		instance = new Tree();
 		instance.constructor = Tree;

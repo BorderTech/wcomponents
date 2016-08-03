@@ -28,20 +28,14 @@ public class SeleniumWTextFieldWebElement extends SeleniumWComponentWebElement {
 	public static final String CHILD_ELEMENT_TAG = "input";
 
 	/**
-	 * The tag name of the field.
-	 */
-	private final String tagName;
-
-	/**
 	 * Construct a SeleniumWTextFieldWebElement for the given WebElement.
 	 *
 	 * @param element the dialog element.
 	 * @param driver the SeleniumWComponentsWebDriver
 	 */
 	public SeleniumWTextFieldWebElement(final WebElement element, final WebDriver driver) {
-
 		super(element, driver);
-		this.tagName = element.getTagName();
+		final String tagName = element.getTagName();
 		if (!tagName.equals(TOP_LEVEL_TAG)) {
 			throw new IllegalArgumentException("Element is not the expected wrapper. tag=[" + tagName + "].");
 		}
