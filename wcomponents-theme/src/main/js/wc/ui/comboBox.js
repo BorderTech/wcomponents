@@ -14,8 +14,7 @@ define(["wc/has",
 		"wc/ui/listboxAnalog",
 		"wc/config"
 	],
-	function(has, attribute, classList, event, focus, initialise, shed, Widget, key, timers, ajaxRegion,
-		processResponse, onchangeSubmit, listboxAnalog, wcconfig) {
+	function(has, attribute, classList, event, focus, initialise, shed, Widget, key, timers, ajaxRegion, processResponse, onchangeSubmit, listboxAnalog, wcconfig) {
 		"use strict";
 
 		/**
@@ -110,12 +109,10 @@ define(["wc/has",
 			}
 
 			/**
-			 * Hides options in this combo based on its current value. The behaviour is based primarily on the
-			 * native behaviour of Firefox. In particular the partial string matching is a Firefox feature, all
-			 * the other browsers I looked at only match the start of each option. Obviously there are
-			 * performance implications on doing partial matches. If this turns out to be a problem it would be
-			 * possible to retain the behaviour but speed it up by building a lookup cache so that each search
-			 * is only performed once.
+			 * Hides options in this combo based on its current value. The behaviour is based primarily on the  native behaviour of Firefox. In
+			 * particular the partial string matching is a Firefox feature, all the other browsers I looked at only match the start of each option.
+			 * Obviously there are performance implications on doing partial matches. If this turns out to be a problem it would be possible to retain
+			 * the behaviour but speed it up by building a lookup cache so that each search is only performed once.
 			 *
 			 * @function
 			 * @private
@@ -124,62 +121,62 @@ define(["wc/has",
 			 */
 			function filterOptions(combo, delay) {
 				var _delay = delay, _filter;
-
-				if (COMBO.isOneOfMe(combo)) {
-					_filter = function() {
-						var i,
-							optval,
-							textbox,
-							value,
-							options,
-							setTabIndexOn = -1,
-							list = getListBox(combo);
-						if (!list) {
-							return;
-						}
-						options = OPTION.findDescendants(list);
-						if (!options) {
-							return;
-						}
-
-						textbox = TEXTBOX.findDescendant(combo);
-						if (textbox) {
-							value = textbox.value.toLocaleLowerCase();
-						}
-
-						Array.prototype.forEach.call(options, function (next) {
-							optval = listboxAnalog.getOptionValue(next, true, true);
-							if (!value || optval.indexOf(value) >= 0) {
-								shed.show(next, true);
-								if (setTabIndexOn === -1) {
-									setTabIndexOn = i;
-									next.tabIndex = 0;
-								}
-							}
-							else {
-								shed.hide(next, true);
-								next.tabIndex = -1;
-							}
-						});
-						if (repainter) {
-							repainter.checkRepaint(combo);
-						}
-
-					};
-
-					if (!shed.isExpanded(combo)) {
-						shed.expand(combo);
-						clearList(combo);
-					}
-
-					if (!(_delay || delay === 0)) {
-						_delay = DELAY;
-					}
-					if (filterTimer) {
-						timers.clearTimeout(filterTimer);
-					}
-					filterTimer = timers.setTimeout(_filter, _delay);
+				if (!COMBO.isOneOfMe(combo)) {
+					return;
 				}
+
+				_filter = function() {
+					var i,
+						optval,
+						textbox,
+						value,
+						options,
+						setTabIndexOn = -1,
+						list = getListBox(combo);
+					if (!list) {
+						return;
+					}
+					options = OPTION.findDescendants(list);
+					if (!options) {
+						return;
+					}
+
+					textbox = TEXTBOX.findDescendant(combo);
+					if (textbox) {
+						value = textbox.value.toLocaleLowerCase();
+					}
+
+					Array.prototype.forEach.call(options, function (next) {
+						optval = listboxAnalog.getOptionValue(next, true, true);
+						if (!value || optval.indexOf(value) >= 0) {
+							shed.show(next, true);
+							if (setTabIndexOn === -1) {
+								setTabIndexOn = i;
+								next.tabIndex = 0;
+							}
+						}
+						else {
+							shed.hide(next, true);
+							next.tabIndex = -1;
+						}
+					});
+					if (repainter) {
+						repainter.checkRepaint(combo);
+					}
+				};
+
+				if (!shed.isExpanded(combo)) {
+					shed.expand(combo);
+					clearList(combo);
+				}
+
+				if (!(_delay || delay === 0)) {
+					_delay = DELAY;
+				}
+				if (filterTimer) {
+					timers.clearTimeout(filterTimer);
+				}
+				filterTimer = timers.setTimeout(_filter, _delay);
 			}
 
 			/**
@@ -314,13 +311,12 @@ define(["wc/has",
 			 * @param {String} action the SHED action.
 			 */
 			function shedSubscriber(element, action) {
-				var listbox, textbox;
+				var textbox;
 
 				if (!element) {
 					return;
 				}
 				if (COMBO.isOneOfMe(element)) {
-					listbox = getListBox(element);
 					textbox = TEXTBOX.findDescendant(element);
 					if (action === shed.actions.EXPAND && shed.isExpanded(element)) {
 						onchangeSubmit.ignoreNextChange();
@@ -372,9 +368,8 @@ define(["wc/has",
 			/**
 			 * Keydown event handler. Handles key events as per {@link http://www.w3.org/TR/wai-aria-practices/#combobox}.
 			 *
-			 * <p><strong>NOTES:</strong> the LEFT ARROW and RIGHT ARROW are native in input elements in the text
-			 * state; we have not implemented list pagination so PAGE_UP and PAGE_DOWN are not mapped (this may
-			 * be needed in future).</p>
+			 * **NOTES:** the LEFT ARROW and RIGHT ARROW are native in input elements in the text state; we have not implemented list pagination so
+			 * PAGE_UP and PAGE_DOWN are not mapped (this may be needed in future)
 			 *
 			 * @function
 			 * @private
@@ -398,6 +393,8 @@ define(["wc/has",
 
 			/**
 			 * Handles a keypress on "listbox".
+			 * @function
+			 * @private
 			 * @param {Element} listbox The listbox.
 			 * @param {number} keyCode The key that was pressed.
 			 * @returns {boolean} true if the key event needs to be cancelled.
@@ -422,55 +419,67 @@ define(["wc/has",
 
 			/**
 			 * Handles a keypress on "combobox" itself (not the listbox).
+			 * @function
+			 * @private
 			 * @param {Element} target The combobox
 			 * @param {number} keyCode The key that was pressed.
 			 * @param {boolean} altKey
 			 * @returns {boolean} true if the key event needs to be cancelled.
 			 */
 			function handleKeyCombobox(target, keyCode, altKey) {
-				var listbox, preventDefault = false, combo;
+				var listbox, combo;
 				/* keydown happens when a combo input is focused */
 				if (keyCode === KeyEvent.DOM_VK_TAB) {
 					// TAB out, do nothing, focus will take care of it.
-					return;
+					return false;
 				}
+
 				combo = getCombo(target);
+				if (!combo) {
+					return false;
+				}
 
 				if (keyCode === KeyEvent.DOM_VK_ESCAPE) {
 					if (shed.isExpanded(combo)) {
 						shed.collapse(combo);
-						preventDefault = true;
 					}
+					return true;
 				}
-				else if (keyCode === KeyEvent.DOM_VK_DOWN) {
+
+				if (keyCode === KeyEvent.DOM_VK_DOWN) {
+					listbox = getListBox(combo);
 					if (shed.isExpanded(combo)) {
-						if ((listbox = getListBox(combo))) {
+						if (listbox) {
+							focusListbox(listbox);
+						}
+						return false;
+					}
+					if (altKey) {
+						shed.expand(combo);
+						if (listbox) {
 							focusListbox(listbox);
 						}
 					}
-					else if (altKey) {
-						shed.expand(combo);
-						if (shed.isExpanded(combo)) {
-							if ((listbox = getListBox(combo))) {
-								focusListbox(listbox);
-							}
-						}
-					}
+					return false;
 				}
-				else if (keyCode === KeyEvent.DOM_VK_UP) {
+
+				if (keyCode === KeyEvent.DOM_VK_UP) {
 					if (shed.isExpanded(combo)) {
 						if (altKey) {
 							shed.collapse(combo);
+							return false;
 						}
-						else if ((listbox = getListBox(target))) {
+						if ((listbox = getListBox(target))) {
 							focusListbox(listbox);
 						}
 					}
+					return false;
 				}
-				else if (filter && (!key.isMeta(keyCode)) && !CHATTY_COMBO.isOneOfMe(combo)) {
+
+				if (filter && (!key.isMeta(keyCode)) && !CHATTY_COMBO.isOneOfMe(combo)) {
 					filterOptions(combo);
 				}
-				return preventDefault;
+				return false;
 			}
 
 			/**
@@ -607,6 +616,7 @@ define(["wc/has",
 				}
 				updateList($event.target);
 			}
+
 			/**
 			 * Focus event handler closes any open combo when ANYTHING is focused other than the listbox for the
 			 * currently open combo.
@@ -667,7 +677,7 @@ define(["wc/has",
 			 * @param {Element} element The AJAX target element in the DOM after the AJAX action.
 			 */
 			function postAjaxSubscriber(element) {
-				var combo, option;
+				var combo;
 				if (element && (LISTBOX.isOneOfMe(element))) {
 					combo = getCombo(element);
 
@@ -676,7 +686,7 @@ define(["wc/has",
 						return;
 					}
 
-					if (!(option = OPTION.findDescendant(element))) {
+					if (!OPTION.findDescendant(element)) {
 						nothingLeftReg[combo.id] = combo.value;
 						if (shed.isExpanded(combo)) {
 							shed.collapse(combo);
@@ -692,10 +702,10 @@ define(["wc/has",
 			}
 
 			/**
-			 * This allows another function to force the value of the given element to be parsed according to its parser
-			 * and the first resulting match (if any) to be chosen.
-			 * @function module:wc/ui/comboBox.acceptFirstMatch
-			 * @public
+			 * Force the value of the given element to be parsed according to its parser and the first resulting match (if any) to be chosen. Allows
+			 * us to force selection from a list making a broken combo or an overly complicated SELECT.
+			 * @function
+			 * @private
 			 * @param {Element} element An input element, either full or partial date.
 			 */
 			function acceptFirstMatch(element) {
@@ -781,7 +791,7 @@ define(["wc/has",
 			};
 
 			/**
-			 * gets the Widgets which describe the component
+			 * gets the Widget which describes the combo box.
 			 *
 			 * @function module:wc/ui/comboBox.getWidget
 			 * @public
@@ -791,28 +801,33 @@ define(["wc/has",
 				return COMBO;
 			};
 
+			/**
+			 * gets the Widget which describes the listbox part of a combo.
+			 *
+			 * @function module:wc/ui/comboBox.getListWidget
+			 * @public
+			 * @returns {wc/dom/Widget} the LISTBOX Widget descriptor.
+			 */
 			this.getListWidget = function() {
 				return LISTBOX;
 			};
 
 			/**
-			 * Publicise getListBox for use in ComboLoader
-			 * @function  module:wc/ui/comboBox.getList
+			 * Publicise getListBox for use in ComboLoader.
 			 * @ignore
 			 */
 			this._getList = getListBox;
 
 			/**
 			 * Reference to the keydown event handler. Public for testing.
-			 * function  module:wc/ui/comboBox._keydownEvent
 			 * @ignore
 			 */
 			this._keydownEvent = keydownEvent;
 
 			/**
-			 * Set client side list filtering on or off. Public for testing as most of the unit tests require we
-			 * do not do list filtering in the client and therefore no equivalent used internally.
-			 * @function module:wc/ui/comboBox._setFilter
+			 * Set client side list filtering on or off. Public for testing as most of the unit tests require we do not do list filtering in the
+			 * client and therefore no equivalent used internally.
+			 * @function
 			 * @param {boolean} [set] force on (true) or off.
 			 * @ignore
 			 */

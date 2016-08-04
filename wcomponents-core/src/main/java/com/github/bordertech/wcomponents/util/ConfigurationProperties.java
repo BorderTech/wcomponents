@@ -77,7 +77,8 @@ public final class ConfigurationProperties {
 	 * @deprecated use HANDLE_ERROR_WITH_FATAL_PAGE_FACTORY instead.
 	 */
 	@Deprecated
-	public static final String HANDLE_ERROR_WITH_FATAL_PAGE_FACTORY_DEPRECATED = "com.github.bordertech.wcomponents.servlet.WServlet.handleErrorWithFatalErrorPageFactory";
+	public static final String HANDLE_ERROR_WITH_FATAL_PAGE_FACTORY_DEPRECATED
+			= "com.github.bordertech.wcomponents.servlet.WServlet.handleErrorWithFatalErrorPageFactory";
 
 	/**
 	 * The flag indicating whether handlebars should cache.
