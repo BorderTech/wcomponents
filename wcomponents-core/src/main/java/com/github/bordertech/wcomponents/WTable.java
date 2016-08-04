@@ -2072,6 +2072,11 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		 */
 		private int[] rowIndexMapping;
 
+		/**
+		 * Indicates that the first data column in the table is considered a row header.
+		 */
+		private boolean rowHeaders;
+
 		// Action constraints
 		/**
 		 * This map holds the action constraints per table action (button).
@@ -2110,11 +2115,6 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 
 			constraintForComponent.add(constraint);
 		}
-
-		/**
-		 * Indicates that the first data column in the table is considered a row header.
-		 */
-		private boolean rowHeaders;
 	}
 
 	/**
