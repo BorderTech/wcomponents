@@ -202,6 +202,11 @@
 		<tag name="figure" action="validate" />
 		<tag name="figcaption" action="validate" />
 
+		<!-- WComponents: in default tinyMCE config. -->
+		<tag name="sub" action="validate" />
+		<tag name="super" action="validate" />
+		<tag name="code" action="validate" />
+
 		<!--
 			WComponents:
 			Should we allow pasted tables?
