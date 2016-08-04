@@ -995,8 +995,9 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 							video = getVideo();
 							if (video) {
 								video.pause();
-								img = videoToImage(video);
-								renderImage(img, done);
+								img = videoToImage(video, null, function() {
+									renderImage(img, done);
+								});
 							}
 						}
 						else if (currentOptions.context === "flash") {
@@ -1097,6 +1098,7 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 
 			function errCb(err) {
 				console.log("An error occured! " + err);
+				dialogFrame.close();
 			}
 
 			/**
@@ -1173,9 +1175,12 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 				return canvas.toDataURL();
 			}
 
-			function videoToImage(video, scale) {
+			function videoToImage(video, scale, onload) {
 				var dataUrl = videoToDataUrl(video, scale),
 					img = new Image();
+				if (onload) {
+					event.add(img, "load", onload);
+				}
 				img.src = dataUrl;
 				return img;
 			}
