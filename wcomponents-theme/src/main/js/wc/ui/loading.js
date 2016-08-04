@@ -36,13 +36,12 @@ define(["wc/dom/initialise", "wc/ui/modalShim", "wc/timers"],
 		 * @private
 		 */
 		function clearLoadingShim() {
+			var container;
 			try {
 				Array.prototype.forEach.call(document.getElementsByTagName("form"), function(form) {
-					form.style.visibility ="";
-					form.removeAttribute("style");
-					form.removeAttribute("aria-busy");
+					form.removeAttribute("hidden");
 				});
-				var container = document.getElementById("wc-ui-loading");
+				container = document.getElementById("wc-ui-loading");
 				if (container && container.parentNode) {
 					container.parentNode.removeChild(container);
 				}
