@@ -27,6 +27,22 @@ import org.openqa.selenium.WebDriver;
 public final class WebDriverCache {
 
 	/**
+	 * A list of all drivers opened by all threads so they can be destroyed when
+	 * the JVM shuts down.
+	 */
+	private static final List<SeleniumWComponentsWebDriver> DRIVERS_TO_DESTROY = new ArrayList<>();
+
+	/*
+	 * The separator between the driver type and the driver id.
+	 */
+	private static final String KEY_SEPARATOR = ":";
+
+	/**
+	 * Default driver ID for the driver.
+	 */
+	private static final String DEFAULT_DRIVER_ID = "default";
+
+	/**
 	 * No public constructor.
 	 */
 	private WebDriverCache() {
@@ -59,24 +75,7 @@ public final class WebDriverCache {
 		protected Map<String, SeleniumWComponentsWebDriver> initialValue() {
 			return new HashMap<>();
 		}
-
 	};
-
-	/**
-	 * A list of all drivers opened by all threads so they can be destroyed when
-	 * the JVM shuts down.
-	 */
-	private static final List<SeleniumWComponentsWebDriver> DRIVERS_TO_DESTROY = new ArrayList<>();
-
-	/*
-	 * The separator between the driver type and the driver id.
-	 */
-	private static final String KEY_SEPARATOR = ":";
-
-	/**
-	 * Default driver ID for the driver.
-	 */
-	private static final String DEFAULT_DRIVER_ID = "default";
 
 	/**
 	 * Get or create the driver for the given driver type.

@@ -1,20 +1,9 @@
-/**
- * This part of ajaxRegion is responsible for processing the AJAX response and updating the page accordingly.
- * @module
- * @requires module:wc/Observer
- * @requires module:wc/xml/xpath
- * @requires module:wc/dom/tag
- * @requires module:wc/xml/xslTransform
- * @requires module:wc/dom/Widget
- *
- * @todo re-order code, document private memebers.
- */
 define(["wc/Observer",
 		"wc/dom/tag",
 		"wc/xml/xslTransform",
-		"wc/dom/Widget"],
-	/** @param Observer wc/Observer @param tag wc/dom/tag @param xslTransform wc/xml/xslTransform @param Widget wc/dom/Widget @ignore */
-	function(Observer, tag, xslTransform, Widget) {
+		"wc/dom/Widget",
+		"wc/ui/translate"],
+	function(Observer, tag, xslTransform, Widget, translate) {
 		"use strict";
 		/**
 		 * @constructor
@@ -140,6 +129,7 @@ define(["wc/Observer",
 									action = next.getAttribute("data-action");
 									content = document.createDocumentFragment();
 									while (next.firstChild) {
+										translate.translate(next.firstChild);
 										content.appendChild(next.firstChild);
 									}
 									insertPayloadIntoDom(element, content, action, trigger, false);
@@ -492,9 +482,20 @@ define(["wc/Observer",
 
 				return result;
 			}
-
 		}
 
-		var /** @alias module:wc/ui/ajax/processResponse */ instance = new AjaxProcessor();  // note to self: leave this here!
+		/**
+		 * This part of ajaxRegion is responsible for processing the AJAX response and updating the page accordingly.
+		 * @module
+		 * @requires module:wc/Observer
+		 * @requires module:wc/xml/xpath
+		 * @requires module:wc/dom/tag
+		 * @requires module:wc/xml/xslTransform
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/ui/translate
+		 *
+		 * @todo re-order code, document private memebers.
+		 */
+		var instance = new AjaxProcessor();  // note to self: leave this here!
 		return instance;
 	});

@@ -3,7 +3,7 @@
 // The modal shim is a single generated artefact with a constant id.
 // TODO: maybe change this to a class rather than an ID now we do not have IE6 performance to worry about?
 // scss-lint:disable IdSelector
-#wc_shim {
+#wc-shim {
 	left: 0;
 	min-height: 100%;
 	overflow: hidden;

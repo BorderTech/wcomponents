@@ -40,7 +40,7 @@
 									<xsl:value-of select="@placeholder"/>
 								</xsl:when>
 								<xsl:otherwise>
-									<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
+									<xsl:text>{{t '${wc.common.i18n.requiredPlaceholder}'}}</xsl:text>
 								</xsl:otherwise>
 							</xsl:choose>
 						</xsl:attribute>

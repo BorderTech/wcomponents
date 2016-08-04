@@ -239,7 +239,8 @@ public class ExamplePickerTree extends WTree {
 		 * @return the first example in a list
 		 */
 		public ExampleData getDefaultExample() {
-			return getExampleData(0);
+			// return getExampleData(0);
+			return null;
 		}
 	}
 }

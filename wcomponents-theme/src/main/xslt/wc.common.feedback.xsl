@@ -38,16 +38,16 @@
 							<xsl:value-of select="@title"/>
 						</xsl:when>
 						<xsl:when test="$type='error'">
-							<xsl:value-of select="$$${wc.ui.messageBox.title.error}"/>
+							<xsl:text>{{t '${wc.ui.messageBox.title.error}'}}</xsl:text>
 						</xsl:when>
 						<xsl:when test="$type='warn'">
-							<xsl:value-of select="$$${wc.ui.messageBox.title.warn}"/>
+							<xsl:text>{{t '${wc.ui.messageBox.title.warn}'}}</xsl:text>
 						</xsl:when>
 						<xsl:when test="$type='info'">
-							<xsl:value-of select="$$${wc.ui.messageBox.title.info}"/>
+							<xsl:text>{{t '${wc.ui.messageBox.title.info}'}}</xsl:text>
 						</xsl:when>
 						<xsl:when test="$type='success'">
-							<xsl:value-of select="$$${wc.ui.messageBox.title.success}"/>
+							<xsl:text>{{t '${wc.ui.messageBox.title.success}'}}</xsl:text>
 						</xsl:when>
 					</xsl:choose>
 				</span>

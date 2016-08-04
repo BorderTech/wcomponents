@@ -29,7 +29,7 @@
 							</xsl:attribute>
 						</xsl:if>
 						<xsl:call-template name="offscreenSpan">
-							<xsl:with-param name="text" select="$$${wc.ui.table.string.expandCollapse}"/>
+							<xsl:with-param name="text"><xsl:text>{{t '${wc.ui.table.i18n.rowExpansion.toggleAll}'}}</xsl:text></xsl:with-param>
 						</xsl:call-template>
 					</th>
 				</xsl:if>

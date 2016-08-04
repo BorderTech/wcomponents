@@ -11,7 +11,7 @@
 				<xsl:value-of select="@value"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="$$${wc.common.i18n.requiredLabel}"/>
+				<xsl:text>{{t '${wc.common.i18n.requiredLabel}'}}</xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
