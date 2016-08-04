@@ -202,6 +202,11 @@
 		<tag name="figure" action="validate" />
 		<tag name="figcaption" action="validate" />
 
+		<!-- WComponents: in default tinyMCE config. -->
+		<tag name="sub" action="validate" />
+		<tag name="super" action="validate" />
+		<tag name="code" action="validate" />
+
 		<!--
 			WComponents:
 			Should we allow pasted tables?
@@ -230,6 +235,22 @@
 				<literal value="underline" />
 				<literal value="overline" />
 				<literal value="line-through" />
+			</literal-list>
+		</property>
+
+
+		<property name="text-align" default="none"
+			description="">
+
+			<category-list>
+				<category value="visual" />
+			</category-list>
+
+			<literal-list>
+				<literal value="left" />
+				<literal value="center" />
+				<literal value="right" />
+				<literal value="justify" />
 			</literal-list>
 		</property>
 
