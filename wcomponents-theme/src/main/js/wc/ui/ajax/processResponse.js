@@ -129,7 +129,7 @@ define(["wc/Observer",
 									action = next.getAttribute("data-action");
 									content = document.createDocumentFragment();
 									while (next.firstChild) {
-										translate.translate(next.firstChild);
+										translate.translate({ source: next.firstChild });
 										content.appendChild(next.firstChild);
 									}
 									insertPayloadIntoDom(element, content, action, trigger, false);
