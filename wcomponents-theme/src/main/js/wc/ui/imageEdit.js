@@ -1,6 +1,6 @@
 define(["wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/dom/shed", "wc/config",
-	"wc/loader/resource", "wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/ui/translate", "getUserMedia"],
-function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabric, dialogFrame, translator, getUserMedia) {
+	"wc/loader/resource", "wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/template", "getUserMedia"],
+function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabric, dialogFrame, template, getUserMedia) {
 	var imageEdit = new ImageEdit();
 
 	/**
@@ -345,7 +345,7 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 								face: false
 							}
 						};
-					translator.translate({
+					template.process({
 						source: template,
 						target: container,
 						context: editorProps
