@@ -4,18 +4,18 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			/* NOTE: this relies on i18n working properly */
 			var monthName, i18n,
 				expected = [
-					"mnth0",
-					"mnth1",
-					"mnth2",
-					"mnth3",
-					"mnth4",
-					"mnth5",
-					"mnth6",
-					"mnth7",
-					"mnth8",
-					"mnth9",
-					"mnthA",
-					"mnthB"];
+					"month0",
+					"month1",
+					"month2",
+					"month3",
+					"month4",
+					"month5",
+					"month6",
+					"month7",
+					"month8",
+					"month9",
+					"monthA",
+					"monthB"];
 
 			registerSuite({
 				name: "monthName",

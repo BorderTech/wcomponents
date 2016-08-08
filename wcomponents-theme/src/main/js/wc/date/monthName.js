@@ -40,8 +40,8 @@ define(["wc/i18n/i18n", "wc/i18n/asciify"],
 					i18n.get("month7"),
 					i18n.get("month8"),
 					i18n.get("month9"),
-					i18n.get("month10"),
-					i18n.get("month11")];
+					i18n.get("monthA"),
+					i18n.get("monthB")];
 				monthsAbbr = [
 					i18n.get("monthabbr0"),
 					i18n.get("monthabbr1"),
@@ -53,8 +53,8 @@ define(["wc/i18n/i18n", "wc/i18n/asciify"],
 					i18n.get("monthabbr7"),
 					i18n.get("monthabbr8"),
 					i18n.get("monthabbr9"),
-					i18n.get("monthabbr10"),
-					i18n.get("monthabbr11")];
+					i18n.get("monthabbrA"),
+					i18n.get("monthabbrB")];
 
 				monthsAscii = new Array(months.length);
 				months.forEach(function(mnthname, idx) {
