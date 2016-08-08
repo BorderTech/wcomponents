@@ -47,7 +47,7 @@ define(["wc/dom/initialise", "wc/dom/shed", "wc/dom/Widget", "wc/i18n/i18n"],
 				PLACEHOLDER_WIDGETS = PLACEHOLDER_WIDGETS || INPUT_WIDGETS.concat([TEXT, TEXTAREA]);
 				if (element && Widget.isOneOfMe(element, PLACEHOLDER_WIDGETS)) {
 					if (action === shed.actions.MANDATORY) {
-						element.setAttribute(PLACEHOLDER, i18n.get("${wc.common.i18n.requiredPlaceholder}"));
+						element.setAttribute(PLACEHOLDER, i18n.get("requiredPlaceholder"));
 					}
 					else {
 						element.removeAttribute(PLACEHOLDER);

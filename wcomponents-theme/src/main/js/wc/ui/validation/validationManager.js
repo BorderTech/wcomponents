@@ -306,7 +306,7 @@ define(["wc/dom/classList",
 						}
 					}
 					if (next) {
-						next.innerHTML = i18n.get("${validation.core.i18n.nowOK}");
+						next.innerHTML = i18n.get("validation_ok");
 					}
 					removeWValidationErrorLink(element);
 				}

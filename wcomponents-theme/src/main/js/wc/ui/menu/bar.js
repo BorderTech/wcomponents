@@ -304,7 +304,7 @@ define(["wc/ui/menu/core",
 						}
 					}
 					if (!props.content) {
-						props.content = i18n.get("${wc.ui.menu.bar.i18n.submenuCloseLabelDefault}");
+						props.content = i18n.get("menu_close_label");
 					}
 					el.insertAdjacentHTML("afterBegin", closeButtonTemplate(props));
 				}
@@ -338,11 +338,11 @@ define(["wc/ui/menu/core",
 					class: " " + BURGER_MENU_CLASS,
 					opener: {
 						class: " wc_hbgr wc-icon",
-						tooltip: i18n.get("${wc.ui.menu.bar.i18n.submenuOpenLabelDefault}")
+						tooltip: i18n.get("menu_open_label")
 					},
 					contentId: uid(),
 					open: false,
-					closeText: i18n.get("${wc.ui.menu.bar.i18n.submenuCloseLabelDefault}"),
+					closeText: i18n.get("menu_close_label"),
 					items: nextMenu.innerHTML
 				};
 				submenuTemplate = submenuTemplate || getTemplate("submenu.mustache");

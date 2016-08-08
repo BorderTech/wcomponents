@@ -13,8 +13,8 @@
 		child elements: ui:option
 	-->
 	<xsl:template match="ui:datalist">
-		<xsl:element name="select">
+		<select>
 			<xsl:apply-templates select="ui:option" mode="selectableList"/>
-		</xsl:element>
+		</select>
 	</xsl:template>
 </xsl:stylesheet>

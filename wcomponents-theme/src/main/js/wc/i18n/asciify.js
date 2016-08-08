@@ -38,7 +38,7 @@
 define(["wc/i18n/i18n"], /** @param i18n wc/i18n/i18n @ignore */function(i18n) {
 	"use strict";
 
-	var lookupProp = "${wc.i18n.asciify.asciimap}",
+	var lookupProp = "asciimap",
 		cache = {},
 		asciiMap;
 	/**

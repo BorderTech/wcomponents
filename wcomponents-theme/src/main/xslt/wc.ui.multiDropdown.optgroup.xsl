@@ -13,14 +13,11 @@
 	<xsl:template match="ui:optgroup" mode="mfcInList">
 		<xsl:param name="option"/>
 		<xsl:param name="isSingular"/>
-		<xsl:element name="optgroup">
-			<xsl:attribute name="label">
-				<xsl:value-of select="@label"/>
-			</xsl:attribute>
+		<optgroup label="{@label}">
 			<xsl:apply-templates select="ui:option" mode="mfcInList">
 				<xsl:with-param name="option" select="$option"/>
 				<xsl:with-param name="isSingular" select="$isSingular"/>
 			</xsl:apply-templates>
-		</xsl:element>
+		</optgroup>
 	</xsl:template>
 </xsl:stylesheet>

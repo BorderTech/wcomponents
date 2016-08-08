@@ -101,7 +101,7 @@ function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted
 					instance.clearInput(element);
 				}
 				else if (!accepted(element)) {
-					showMessage(i18n.get("${wc.ui.multiFileUploader.i18n.wrongtype}", element.accept));
+					showMessage(i18n.get("file_wrongtype", element.accept));
 					instance.clearInput(element);
 				}
 			}
@@ -120,15 +120,15 @@ function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted
 			/* make the units human readable */
 			if (maxFileSize >= GB) {
 				roundTo = GB;
-				units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.gb}");
+				units = i18n.get("file_size_gb");
 			}
 			else if (maxFileSize >= MB) {
 				roundTo = MB;
-				units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.mb}");
+				units = i18n.get("file_size_mb");
 			}
 			else if (maxFileSize >= KB) {
 				roundTo = KB;
-				units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.kb}");
+				units = i18n.get("file_size_kb");
 			}
 
 			if (roundTo) {
@@ -138,9 +138,9 @@ function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted
 			else {
 				maxFileSizeHR = maxFileSize;
 				fileSizeHR = fileSize;
-				units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size}");
+				units = i18n.get("file_size_");
 			}
-			showMessage(sprintf.sprintf(i18n.get("${wc.ui.multiFileUploader.i18n.toolarge}"), fileSizeHR, maxFileSizeHR, units));
+			showMessage(sprintf.sprintf(i18n.get("file_toolarge"), fileSizeHR, maxFileSizeHR, units));
 		}
 
 

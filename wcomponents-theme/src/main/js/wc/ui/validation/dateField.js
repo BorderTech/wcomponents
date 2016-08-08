@@ -89,7 +89,7 @@ define(["wc/date/interchange",
 							if (getDifference(date, comparisonDate) < 0) {
 								invalid = true;
 								comparisonDate = comparisonDate.toLocaleDateString();
-								flag = i18n.get("${validation.dateField.i18n.min}");
+								flag = i18n.get("validation_date_undermin");
 								// manipulate flag to replace the numbered string placeholders (so it ends up in the same format as the other flags)
 								flag = sprintf.sprintf(flag, LABEL_PLACEHOLDER, comparisonDate);
 							}
@@ -99,7 +99,7 @@ define(["wc/date/interchange",
 							if (getDifference(date, comparisonDate) > 0) {
 								invalid = true;
 								comparisonDate = comparisonDate.toLocaleDateString();
-								flag = i18n.get("${validation.dateField.i18n.max}");
+								flag = i18n.get("validation_date_overmax");
 								// manipulate flag to replace the numbered string placeholders (so it ends up in the same format as the other flags)
 								flag = sprintf.sprintf(flag, LABEL_PLACEHOLDER, comparisonDate);
 							}
@@ -107,12 +107,12 @@ define(["wc/date/interchange",
 					}
 					else {
 						// a full date field can only be valid if a full date is entered and getDateFromElement will return ""
-						flag = i18n.get("${validation.dateField.i18n.mustBeFull}");
+						flag = i18n.get("validation_date_incomplete");
 						invalid = true;
 					}
 				}
 				if (invalid) {
-					label = getFirstLabelForElement(textbox, true) || element.title || i18n.get("${validation.core.i18n.unlabelledQualifier}");
+					label = getFirstLabelForElement(textbox, true) || element.title || i18n.get("validation_common_unlabelledfield");
 					validationManager.flagError({element: element, message: sprintf.sprintf(flag, label)});
 				}
 				return invalid;
@@ -127,8 +127,8 @@ define(["wc/date/interchange",
 			 */
 			function messageFunction(element) {
 				var textbox = dateField.getTextBox(element),
-					label = getFirstLabelForElement(textbox, true) || textbox.title || i18n.get("${validation.core.i18n.unlabelledQualifier}");
-				return sprintf.sprintf(i18n.get("${validation.core.i18n.requiredField}"), label);
+					label = getFirstLabelForElement(textbox, true) || textbox.title || i18n.get("validation_common_unlabelledfield");
+				return sprintf.sprintf(i18n.get("validation_common_incomplete"), label);
 			}
 
 			/**

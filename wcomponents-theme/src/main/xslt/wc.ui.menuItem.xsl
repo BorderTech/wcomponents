@@ -1,5 +1,5 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.ui.menu.n.menuRoleIsSelectable.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuTabIndexHelper.xsl"/>
@@ -8,13 +8,13 @@
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<!--
 		WMenuItem forms part of a single compound widget with the WMenu at its root.
-		
+
 		The transform for WMenuItem. In general this is pretty straightforwards. The
 		menuItem is rendered as a single control.
 	-->
 	<xsl:template match="ui:menuitem">
 		<xsl:variable name="myAncestorMenu" select="ancestor::ui:menu[1]"/>
-		<xsl:variable name="myAncestorSubmenu" 
+		<xsl:variable name="myAncestorSubmenu"
 			select="ancestor::ui:submenu[ancestor::ui:menu[1]=$myAncestorMenu or not($myAncestorMenu)][1]"/>
 		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="menuType" select="$myAncestorMenu/@type"/>
@@ -131,8 +131,8 @@
 					</xsl:variable>
 					<xsl:attribute name="role">
 						<xsl:choose>
-							<xsl:when test="$isSelectable=1 and 
-								($myAncestorSubmenu[not(@selectMode='single')] or 
+							<xsl:when test="$isSelectable=1 and
+								($myAncestorSubmenu[not(@selectMode='single')] or
 								(not($myAncestorSubmenu) and $myAncestorMenu[not(@selectMode='single')]))">
 								<xsl:text>menuitemcheckbox</xsl:text>
 							</xsl:when>
@@ -166,7 +166,7 @@
 							<xsl:value-of select="$tabindex"/>
 						</xsl:attribute>
 					</xsl:if>
-					<!-- 
+					<!--
 						If the menuitem is disabled its state attribute will have been set in commonAttributes.
 					-->
 					<xsl:if test="not(@disabled)">
@@ -176,7 +176,7 @@
 						-->
 						<xsl:variable name="disabledAncestor" select="ancestor::*[@disabled and
 							(($noContextMenu=1 and self::ui:submenu) or
-							($myAncestorMenu and (self::ui:menu[.=$myAncestorMenu] or 
+							($myAncestorMenu and (self::ui:menu[.=$myAncestorMenu] or
 							self::ui:submenu[ancestor::ui:menu[1]=$myAncestorMenu])))]"/>
 						<xsl:if test="$disabledAncestor">
 							<xsl:call-template name="disabledElement">
@@ -186,7 +186,7 @@
 						</xsl:if>
 					</xsl:if>
 					<!--
-						We may drop accessKey on menuitem in favour of WAI-ARIA keyboard navigation (which we already 
+						We may drop accessKey on menuitem in favour of WAI-ARIA keyboard navigation (which we already
 						implement).
 					-->
 					<xsl:call-template name="accessKey">
@@ -205,14 +205,14 @@
 				<xsl:otherwise>
 					<!-- no menu context -->
 					<xsl:attribute name="role">
-						<xsl:text>${wc.ui.menu.dummyRole}</xsl:text>
+						<xsl:text>dummy</xsl:text>
 					</xsl:attribute>
 					<xsl:attribute name="tabindex">
 						<xsl:text>-1</xsl:text>
 					</xsl:attribute>
 					<!--
 						 Attributes used by AJAX subscribers for menuItems without a menu context
-						 
+
 						 These are used and consumed in JavaScript before the transformed elements are
 						 injected into the DOM.
 					-->
@@ -226,7 +226,7 @@
 							<xsl:value-of select="@selectable"/>
 						</xsl:attribute>
 					</xsl:if>
-					
+
 					<xsl:call-template name="accessKey">
 						<xsl:with-param name="useToolTip" select="0"/>
 					</xsl:call-template>

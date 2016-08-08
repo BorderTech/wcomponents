@@ -9,7 +9,7 @@
 	-->
 	<xsl:template match="ui:figure">
 		<xsl:variable name="mode" select="@mode"/>
-		<xsl:element name="${wc.dom.html5.element.figure}">
+		<figure>
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="isWrapper" select="1"/>
 				<xsl:with-param name="class">
@@ -29,6 +29,6 @@
 				<xsl:apply-templates select="ui:content"/>
 				<xsl:apply-templates select="ui:decoratedlabel" mode="figure"/>
 			</xsl:if>
-		</xsl:element>
+		</figure>
 	</xsl:template>
 </xsl:stylesheet>

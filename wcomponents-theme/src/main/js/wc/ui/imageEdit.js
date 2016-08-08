@@ -31,7 +31,7 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 				id: "wc_img_editor",
 				modal: true,
 				resizable: true,
-				title: i18n.get("${wc.ui.imageEdit.title}")
+				title: i18n.get("imgedit_title")
 			};
 		}
 

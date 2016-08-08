@@ -51,7 +51,7 @@
 				</xsl:if>
 			</xsl:attribute>
 			<xsl:attribute name="title">
-				<xsl:text>{{t '${wc.ui.multiFormComponent.i18n.optionLabelText}'}}</xsl:text>
+				<xsl:text>{{t 'mfc_option'}}</xsl:text>
 			</xsl:attribute>
 			<xsl:if test="$size != ''">
 				<xsl:attribute name="size">
