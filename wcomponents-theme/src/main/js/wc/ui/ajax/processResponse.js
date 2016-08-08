@@ -2,8 +2,8 @@ define(["wc/Observer",
 		"wc/dom/tag",
 		"wc/xml/xslTransform",
 		"wc/dom/Widget",
-		"wc/ui/translate"],
-	function(Observer, tag, xslTransform, Widget, translate) {
+		"wc/template"],
+	function(Observer, tag, xslTransform, Widget, template) {
 		"use strict";
 		/**
 		 * @constructor
@@ -129,7 +129,7 @@ define(["wc/Observer",
 									action = next.getAttribute("data-action");
 									content = document.createDocumentFragment();
 									while (next.firstChild) {
-										translate.translate(next.firstChild);
+										template.process({ source: next.firstChild });
 										content.appendChild(next.firstChild);
 									}
 									insertPayloadIntoDom(element, content, action, trigger, false);
@@ -492,7 +492,7 @@ define(["wc/Observer",
 		 * @requires module:wc/dom/tag
 		 * @requires module:wc/xml/xslTransform
 		 * @requires module:wc/dom/Widget
-		 * @requires module:wc/ui/translate
+		 * @requires module:wc/template
 		 *
 		 * @todo re-order code, document private memebers.
 		 */

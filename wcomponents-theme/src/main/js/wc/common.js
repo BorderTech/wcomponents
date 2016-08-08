@@ -11,8 +11,7 @@
  *
  * You *must* include
  *
- * * "wc/ui/loading" and
- * * "wc/ui/translate"; and at least one of:
+ * * "wc/ui/loading" and at least one of:
  *   * a module which requires "wc/dom/formUpdateManager"; or
  *   *  a module which requires "wc/dom/cancelUpdate"; or
  *   * at least one of these directly.
@@ -21,7 +20,7 @@
  * this file meaning you get a whole lot of modules for one single HTTP request.
  *
  * @example
- *	define(["wc/ui/translate",
+ *	define(["wc/template",
  *			"wc/dom/cancelUpdate",
  *			"wc/ui/calendar",
  *			"wc/ui/subordinate",
@@ -32,7 +31,7 @@
  *
  * @ignore
  */
-define(["wc/ui/translate",
+define(["wc/template",
 		"wc/dom/cancelUpdate",
 		"wc/ui/loading",
 		"wc/ui/backToTop",

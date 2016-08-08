@@ -74,6 +74,10 @@ define(["wc/has"], function(has) {
 			return !!("ActiveXObject" in g);
 		});
 
+		addtest("flash", function(g) {
+			return g.navigator && g.navigator.plugins && g.navigator.plugins["Shockwave Flash"];
+		});
+
 		addtest("bug-button-value", function(g, d) {
 			var button, value = "hi";
 			button = d.createElement("button");
@@ -225,6 +229,17 @@ define(["wc/has"], function(has) {
 				el = null;
 			}
 			return result;
+		});
+
+		addtest("rtc-gum", function(g) {
+			var i, next, props = ["getUserMedia", "webkitGetUserMedia", "mozGetUserMedia", "msGetUserMedia"];
+			for (i = 0; i < props.length; i++) {
+				next = props[i];
+				if ((g.navigator.mediaDevices && g.navigator.mediaDevices[next]) || g.navigator[next]) {
+					return true;
+				}
+			}
+			return false;
 		});
 
 		function hasWorkingObjectDefineProperty(g, obj) {

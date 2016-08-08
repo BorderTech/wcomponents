@@ -1,6 +1,6 @@
 define(["wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/dom/shed", "wc/config",
-	"wc/loader/resource", "wc/i18n/i18n", "fabric", "lib/handlebars/handlebars", "wc/ui/dialogFrame", "getUserMedia"],
-function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabric, handlebars, dialogFrame, getUserMedia) {
+	"wc/loader/resource", "wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/template", "getUserMedia"],
+function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabric, dialogFrame, template, getUserMedia) {
 	var imageEdit = new ImageEdit();
 
 	/**
@@ -336,63 +336,20 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 				container.className = "wc_img_editor";
 
 				loader.load(TEMPLATE_NAME, true, true).then(function(template) {
-					var compiledTemplate = handlebars.compile(template),
-						eventConfig, editorHtml, editorProps = {
+					var eventConfig, editorProps = {
 							style: {
 								width: config.width || defaults.width,
 								height: config.height || defaults.height
-							},
-							heading: {
-								capture: "Capture",
-								rotate: i18n.get("${wc.ui.imageEdit.rotate}"),
-								move: i18n.get("${wc.ui.imageEdit.move}"),
-								zoom: i18n.get("${wc.ui.imageEdit.zoom}")
-							},
-							action: {
-								rotateLeft: i18n.get("${wc.ui.imageEdit.rotate.left}"),
-								rotateRight: i18n.get("${wc.ui.imageEdit.rotate.right}"),
-								rotateLeft90: i18n.get("${wc.ui.imageEdit.rotate.left90}"),
-								rotateRight90: i18n.get("${wc.ui.imageEdit.rotate.right90}"),
-								moveLeft: i18n.get("${wc.ui.imageEdit.move.left}"),
-								moveRight: i18n.get("${wc.ui.imageEdit.move.right}"),
-								moveUp: i18n.get("${wc.ui.imageEdit.move.up}"),
-								moveDown: i18n.get("${wc.ui.imageEdit.move.down}"),
-								zoomIn: i18n.get("${wc.ui.imageEdit.zoom.in}"),
-								zoomOut: i18n.get("${wc.ui.imageEdit.zoom.out}"),
-								reset: i18n.get("${wc.ui.imageEdit.action.reset}"),
-								cancel: i18n.get("${wc.ui.imageEdit.action.cancel}"),
-								save: i18n.get("${wc.ui.imageEdit.action.save}"),
-								snap: i18n.get("${wc.ui.imageEdit.action.snap}"),
-								camera: "Camera",
-								face: "Detect Face"
-							},
-							message: {
-								novideo: "Video stream not available.",
-								nocapture: "Your browser does not support image capture.",
-								rotateLeft: "Rotate the image anti-clockwise",
-								rotateRight: "Rotate the image clockwise",
-								rotateLeft90: "Rotate anti-clockwise to next multiple of 90º",
-								rotateRight90: "Rotate clockwise to next multiple of 90º",
-								moveLeft: "Move the image to the left",
-								moveRight: "Move the image to the right",
-								moveUp: "Move the image to the up",
-								moveDown: "Move the image to the down",
-								zoomIn: "Zoom in",
-								zoomOut: "Zoom out",
-								reset: "Undo all changes to the image",
-								cancel: "Abort image editing",
-								save: "Save the image",
-								snap: "Take a snapshot from the video stream",
-								camera: "Take a photo from your webcam",
-								face: "Attempt to detect and center facial image"
 							},
 							feature: {
 								face: false
 							}
 						};
-					editorHtml = compiledTemplate(editorProps);
-
-					container.innerHTML = editorHtml;
+					template.process({
+						source: template,
+						target: container,
+						context: editorProps
+					});
 					eventConfig = attachEventHandlers(container);
 					zoomControls(eventConfig);
 					moveControls(eventConfig);
@@ -931,10 +888,6 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 					onSave: onSave
 				};
 
-			has.add("rtc-gum", function() {
-				return (gumWrapper());
-			});
-
 			/*
 			 * Flash event handler
 			 */
@@ -990,13 +943,14 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 				activateCameraControl(eventConfig, container);
 				click.snap = {
 					func: function() {
-						var video, img;
+						var video;
 						if (currentOptions.context === "webrtc") {
 							video = getVideo();
 							if (video) {
 								video.pause();
-								img = videoToImage(video);
-								renderImage(img, done);
+								videoToImage(video, null, function($event) {
+									renderImage($event.target, done);
+								});
 							}
 						}
 						else if (currentOptions.context === "flash") {
@@ -1022,33 +976,6 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 					}
 				};
 			}
-
-			/*
-			 * Wraps the call to getUserMedia to hide the turmoil.
-			 * WARNING: call "gumWithFallback" instead - it will use native gum if found and fall back if necessary.
-			 *
-			 * Has the same signature and return as the native getUserMedia call EXCEPT if you call it with no args it's basically a feature test
-			 * and returns truthy if GUM is supported.
-			 */
-			function gumWrapper(constraints, playCb, errCb) {
-				var i, next, props = ["getUserMedia", "webkitGetUserMedia", "mozGetUserMedia", "msGetUserMedia"];
-				for (i = 0; i < props.length; i++) {
-					next = props[i];
-					if (navigator.mediaDevices && navigator.mediaDevices[next]) {
-						if (arguments.length === 3) {
-							navigator.mediaDevices[next](constraints).then(playCb, errCb);
-						}
-						return true;
-					}
-					if (navigator[next]) {
-						if (arguments.length === 3) {
-							navigator[next](constraints, playCb, errCb);
-						}
-						return true;
-					}
-				}
-				return false;
-			};
 
 			/*
 			 * Entry point to gum.
@@ -1097,6 +1024,7 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 
 			function errCb(err) {
 				console.log("An error occured! " + err);
+//				dialogFrame.close();
 			}
 
 			/**
@@ -1140,7 +1068,10 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 			 * To understand the options take a look at: https://github.com/addyosmani/getUserMedia.js and/or https://github.com/infusion/jQuery-webcam
 			 */
 			this.play = function(options) {
-				var globalOptions, globalConf = wcconfig.get("wc/ui/imageEdit");
+				var play = function() {
+						gumWithFallback(currentOptions, playCb, errCb);
+					},
+					globalOptions, globalConf = wcconfig.get("wc/ui/imageEdit");
 				if (globalConf && globalConf.options) {
 					globalOptions = globalConf.options;
 				}
@@ -1151,17 +1082,25 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 				currentOptions.width *= 1;
 				currentOptions.height *= 1;
 				window.webcam = currentOptions;  // Needed for flash fallback
-				if (!has("rtc-gum") && currentOptions.swffile === defaultOptions.swffile && (currentOptions.width !== 320 || currentOptions.height !== 240)) {
-					/*
-					 * The default swffile can only support 320 x 240.
-					 * Compile new swf files at different resolutions if you need them: https://github.com/infusion/jQuery-webcam
-					 * You can then change the swffile location in the options using wc/config
-					 */
-					console.warn("The default flash fallback only supports 320 x 240");
-					currentOptions.width = 320;
-					currentOptions.height = 240;
+				if (has("rtc-gum")) {
+					play();
 				}
-				gumWithFallback(currentOptions, playCb, errCb);
+				else if (has("flash")) {
+					if (currentOptions.swffile === defaultOptions.swffile && (currentOptions.width !== 320 || currentOptions.height !== 240)) {
+						/*
+						 * The default swffile can only support 320 x 240.
+						 * Compile new swf files at different resolutions if you need them: https://github.com/infusion/jQuery-webcam
+						 * You can then change the swffile location in the options using wc/config
+						 */
+						console.warn("The default flash fallback only supports 320 x 240");
+						currentOptions.width = 320;
+						currentOptions.height = 240;
+					}
+					play();
+				}
+				else {
+					console.error("Browser does not support web-rtc or flash. It should not be possible to get here.");
+				}
 			};
 
 			function videoToDataUrl(video, scale) {
@@ -1173,9 +1112,12 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 				return canvas.toDataURL();
 			}
 
-			function videoToImage(video, scale) {
+			function videoToImage(video, scale, onload) {
 				var dataUrl = videoToDataUrl(video, scale),
 					img = new Image();
+				if (onload) {
+					event.add(img, "load", onload);
+				}
 				img.src = dataUrl;
 				return img;
 			}

@@ -70,6 +70,12 @@
 
 			<xs:attributeGroup ref="ui:input.attributes" />
 			
+			<xs:attribute name="camera" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>True if this widget should facilitate file acqusition directly from the device camera.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
 			<xs:attribute name="dropzone" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>The ID of an element that will receive "drag and dropped" files for this file uploader.</xs:documentation>

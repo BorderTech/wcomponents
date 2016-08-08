@@ -666,6 +666,9 @@ define(["wc/dom/attribute",
 					event.add(element, event.TYPE.focusin, bootStrap);
 				}
 				event.add(element, event.TYPE.click, clickEvent);
+				if (has("rtc-gum") || has("flash")) {
+					classList.add(element, "wc-rtc-gum");
+				}
 			};
 
 			/**
