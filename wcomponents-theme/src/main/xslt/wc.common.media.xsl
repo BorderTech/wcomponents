@@ -19,10 +19,10 @@
 		<xsl:variable name="elementType">
 			<xsl:choose>
 				<xsl:when test="self::ui:audio">
-					<xsl:text>${wc.dom.html5.element.audio}</xsl:text>
+					<xsl:text>audio</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:text>${wc.dom.html5.element.video}</xsl:text>
+					<xsl:text>video</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
@@ -116,7 +116,7 @@
 						</xsl:call-template>
 					</xsl:if>
 					<span class="wc-off">
-						<xsl:text>{{t '${wc.ui.media.i18n.play}'}}</xsl:text>
+						<xsl:text>{{t 'media_play'}}</xsl:text>
 					</span>
 				</button>
 			</xsl:if>

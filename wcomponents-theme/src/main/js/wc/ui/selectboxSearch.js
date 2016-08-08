@@ -414,7 +414,7 @@ define(["wc/string/escapeRe",
 			 * @param {Element} element the element being initialised, usually document.body
 			 */
 			this.initialise = function(element) {
-				ALLOWED = i18n.get("${wc.ui.selectboxSearch.i18n.allowed}");
+				ALLOWED = i18n.get("select_typeahead");
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
 				}

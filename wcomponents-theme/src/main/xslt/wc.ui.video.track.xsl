@@ -3,10 +3,7 @@
 		Output a track element inside a video element.
 	-->
 	<xsl:template match="ui:track">
-		<xsl:element name="${wc.dom.html5.element.track}">
-			<xsl:attribute name="src">
-				<xsl:value-of select="@src"/>
-			</xsl:attribute>
+		<track src="{@src}">
 			<xsl:if test="@lang">
 				<xsl:attribute name="srclang">
 					<xsl:value-of select="@lang"/>
@@ -22,6 +19,6 @@
 					<xsl:value-of select="@kind"/>
 				</xsl:attribute>
 			</xsl:if>
-		</xsl:element>
+		</track>
 	</xsl:template>
 </xsl:stylesheet>

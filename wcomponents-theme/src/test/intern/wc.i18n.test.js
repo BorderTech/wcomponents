@@ -15,7 +15,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				* In this test we simply test that we are getting a message when we ask
 				* for one that we know exists.
 				*/
-				var key = "${wc.ui.maxlength.i18n.message}",
+				var key = "chars_remaining",
 					result = i18n.get(key);
 				assert.isTrue(result.length > 0);
 			},
@@ -25,7 +25,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				* and check that it is inserted into the string.
 				*/
 				var arg = 3,
-					key = "${wc.ui.maxlength.i18n.message}",
+					key = "chars_remaining",
 					result = i18n.get(key);
 				assert.isTrue(result.indexOf(arg) === -1);
 				result = i18n.get(key, arg);
@@ -37,7 +37,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				* pass it one anyway, and check that it is not inserted into the string.
 				*/
 				var arg = 3,
-					key = "${wc.date.dayName.4}",
+					key = "day4",
 					result = i18n.get(key);
 				assert.isTrue(result.indexOf(arg) === -1);
 				result = i18n.get(key, arg);
@@ -58,7 +58,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				* This is based on a real-world defect we encountered.
 				*/
 				var arg = 0,
-					key = "${wc.ui.maxlength.i18n.message}",
+					key = "chars_remaining",
 					result = i18n.get(key);
 				assert.isTrue(result.indexOf(arg) === -1);
 				result = i18n.get(key, arg);

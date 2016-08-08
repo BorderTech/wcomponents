@@ -67,7 +67,7 @@ define(["wc/dom/classList",
 						initHeight: dialogObj.height,
 						modal: dialogObj.modal || false,
 						triggerid: dialogObj.triggerid,
-						title: dialogObj.title || i18n.get("${wc.ui.dialog.title.noTitle}")
+						title: dialogObj.title || i18n.get("dialog_noTitle")
 					};
 					registryByDialogId[dialogObj.id] = triggerId;
 

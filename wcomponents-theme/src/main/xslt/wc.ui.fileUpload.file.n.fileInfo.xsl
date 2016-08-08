@@ -7,7 +7,7 @@
 -->
 	<xsl:template name="fileInfo">
 		<xsl:value-of select="concat(@name,' (',@size,' ',') ')"/>
-		<xsl:text>{{t '${wc.ui.multiFileUploader.i18n.fileDesc.size}'}}</xsl:text>
+		<xsl:text>{{t 'file_size_'}}</xsl:text>
 		<!-- a space so it reads "N bytes" instead of "Nbytes" -->
 	</xsl:template>
 </xsl:stylesheet>

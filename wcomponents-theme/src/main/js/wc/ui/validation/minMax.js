@@ -35,8 +35,8 @@ define(["wc/ui/getFirstLabelForElement",
 				flagFunc = conf.flag || _flag,
 				position = conf.position,
 				attachToFunc = conf.attachTo,
-				minText = conf.minText || "${validation.core.i18n.selectableUnderMin}",
-				maxText = conf.maxText || "${validation.core.i18n.selectableOverMax}",
+				minText = conf.minText || "validation_common_undermin",
+				maxText = conf.maxText || "validation_common_overmax",
 				result = true,
 				selectables;
 			if (!(widget && container)) {
@@ -98,7 +98,7 @@ define(["wc/ui/getFirstLabelForElement",
 			 *    messages. This is used for validation of WMultiSelectPair.
 			 */
 			function _flag(selectable, flag, limit, secondaryLabel) {
-				var label = getFirstLabelForElement(selectable, true) || selectable.title || i18n.get("${validation.core.i18n.unlabelledQualifier}"),
+				var label = getFirstLabelForElement(selectable, true) || selectable.title || i18n.get("validation_common_unlabelledfield"),
 					message = sprintf.sprintf(flag, label, limit, secondaryLabel),
 					obj = {element: selectable, message: message};
 				if (position) {

@@ -18,10 +18,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:element name="${wc.dom.html5.element.section}">
-			<xsl:attribute name="id">
-				<xsl:value-of select="@id"/>
-			</xsl:attribute>
+		<section id="{@id}">
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
 					<xsl:text>wc_msgbox</xsl:text>
@@ -38,16 +35,16 @@
 							<xsl:value-of select="@title"/>
 						</xsl:when>
 						<xsl:when test="$type='error'">
-							<xsl:text>{{t '${wc.ui.messageBox.title.error}'}}</xsl:text>
+							<xsl:text>{{t 'messagetitle_error'}}</xsl:text>
 						</xsl:when>
 						<xsl:when test="$type='warn'">
-							<xsl:text>{{t '${wc.ui.messageBox.title.warn}'}}</xsl:text>
+							<xsl:text>{{t 'messagetitle_warn'}}</xsl:text>
 						</xsl:when>
 						<xsl:when test="$type='info'">
-							<xsl:text>{{t '${wc.ui.messageBox.title.info}'}}</xsl:text>
+							<xsl:text>{{t 'messagetitle_info'}}</xsl:text>
 						</xsl:when>
 						<xsl:when test="$type='success'">
-							<xsl:text>{{t '${wc.ui.messageBox.title.success}'}}</xsl:text>
+							<xsl:text>{{t 'messagetitle_success'}}</xsl:text>
 						</xsl:when>
 					</xsl:choose>
 				</span>
@@ -55,6 +52,6 @@
 			<div class="wc_messages">
 				<xsl:apply-templates />
 			</div>
-		</xsl:element>
+		</section>
 	</xsl:template>
 </xsl:stylesheet>

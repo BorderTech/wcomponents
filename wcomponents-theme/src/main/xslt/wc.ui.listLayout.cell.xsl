@@ -5,7 +5,7 @@
 	-->
 	<xsl:template match="ui:cell" mode="ll">
 		<xsl:if test="node()">
-			<xsl:element name="li">
+			<li>
 				<!--
 					A weakness in IE's (8 and earlier) CSS support prevents us from doing row striping
 					based on the position of the list item in the list. We therefore have to apply
@@ -17,7 +17,7 @@
 					</xsl:attribute>
 				</xsl:if>
 				<xsl:apply-templates/>
-			</xsl:element>
+			</li>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

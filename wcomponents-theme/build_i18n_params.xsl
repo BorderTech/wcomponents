@@ -19,7 +19,7 @@
 	</xsl:template>
 
 	<xsl:template match="property">
-		<xsl:if test="@name='lang' or @name='locale' or @name='noscript'">
+		<xsl:if test="@name='lang' or @name='locale'">
 			<x:param name="{@name}">
 				<x:text>
 					<xsl:value-of select="@value" />

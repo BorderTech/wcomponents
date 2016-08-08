@@ -41,8 +41,8 @@ define(["wc/dom/attribute",
 				COLLIDE_WEST: "wc_colwest",
 				COLLIDE_SOUTH: "wc_colsth",
 				// no collide north...
-				DEFAULT_DIRECTION: i18n.get("${wc.ui.menu.i18n.defaultDirection}"),
-				AGAINST_DEFAULT: i18n.get("${wc.ui.menu.i18n.otherDirection}"),
+				DEFAULT_DIRECTION: "wc_col" + i18n.get("menu_popout_direction"),
+				AGAINST_DEFAULT: "wc_col" + i18n.get("menu_popout_reverse"),
 				CLOSER: "wc_closesubmenu"
 			},
 			/**
@@ -270,7 +270,7 @@ define(["wc/dom/attribute",
 				textNodeContent,
 				result = NodeFilter.FILTER_SKIP;
 
-			LETTER = LETTER || new RegExp(i18n.get("${wc.common.i18n.letter}"));
+			LETTER = LETTER || new RegExp(i18n.get("letter"));
 
 			if (letter && LETTER.test(letter)) {
 				tw = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, this._textMatchFilter.bind(this), false);
@@ -636,7 +636,7 @@ define(["wc/dom/attribute",
 			}
 			/* before we do anything else make sure we are in the right kind of menu */
 			if (element && (root = this.getRoot(element)) === this.getFirstMenuAncestor(element)) {
-				AJAX_CONTEXTLESS_ITEM = AJAX_CONTEXTLESS_ITEM || new Widget("", "", {"role": "${wc.ui.menu.dummyRole}"});
+				AJAX_CONTEXTLESS_ITEM = AJAX_CONTEXTLESS_ITEM || new Widget("", "", {"role": "dummy"});
 				/*
 				 * If the ajaxTarget is the content of a WSubMenu then we can be sure
 				 * that the ajax is caused by the branch and the action is FILL
@@ -1781,7 +1781,7 @@ define(["wc/dom/attribute",
 				keyName = key.getLiteral($key),
 				action = this._keyMap[keyName];
 
-			LETTER = LETTER || new RegExp(i18n.get("${wc.common.i18n.letter}"));
+			LETTER = LETTER || new RegExp(i18n.get("letter"));
 
 			if (action) {
 				if (this[action]) {

@@ -5,7 +5,7 @@
 	<xsl:import href="wc.common.n.className.xsl"/>
 
 	<xsl:template match="ui:decoratedlabel" mode="figure">
-		<xsl:element name="${wc.dom.html5.element.figcaption}">
+		<figcaption>
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="live" select="'off'"/>
 				<xsl:with-param name="isWrapper" select="1"/>
@@ -19,6 +19,6 @@
 			<xsl:apply-templates select="ui:labeltail">
 				<xsl:with-param name="output" select="'div'"/>
 			</xsl:apply-templates>
-		</xsl:element>
+		</figcaption>
 	</xsl:template>
 </xsl:stylesheet>

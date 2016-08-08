@@ -41,7 +41,7 @@
 							<xsl:text>span</xsl:text>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:text>${wc.dom.html5.element.time}</xsl:text>
+							<xsl:text>time</xsl:text>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
@@ -176,12 +176,12 @@
 						</xsl:call-template>
 						<xsl:if test="@required">
 							<xsl:attribute name="placeholder">
-								<xsl:text>{{t '${wc.common.i18n.requiredPlaceholder}'}}</xsl:text>
+								<xsl:text>{{t 'requiredPlaceholder'}}</xsl:text>
 							</xsl:attribute>
 						</xsl:if>
 						<xsl:call-template name="title">
 							<xsl:with-param name="contentAfter">
-								<xsl:text>{{t '${wc.ui.dateField.i18n.title.default}'}}</xsl:text>
+								<xsl:text>{{t 'datefield_title_default'}}</xsl:text>
 							</xsl:with-param>
 						</xsl:call-template>
 						<xsl:call-template name="ajaxController"/>

@@ -18,10 +18,7 @@
 				<xsl:number value="1"/>
 			</xsl:if>
 		</xsl:variable>
-		<xsl:element name="${wc.dom.html5.element.details}">
-			<xsl:attribute name="id">
-				<xsl:value-of select="@id"/>
-			</xsl:attribute>
+		<details id="{@id}">
 			<xsl:call-template name="makeCommonClass"/>
 			<xsl:if test="$collapsed != 1">
 				<xsl:attribute name="open">
@@ -41,13 +38,7 @@
 				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
-			<xsl:element name="${wc.dom.html5.element.summary}">
-				<xsl:attribute name="class">
-					<xsl:text>wc-icon</xsl:text>
-				</xsl:attribute>
-				<xsl:attribute name="tabIndex">
-					<xsl:text>0</xsl:text>
-				</xsl:attribute>
+			<summary class="wc-icon" tabindex="0">
 				<xsl:choose>
 					<xsl:when test="@level">
 						<xsl:element name="h{@level}">
@@ -58,7 +49,7 @@
 						<xsl:apply-templates select="ui:decoratedlabel"/>
 					</xsl:otherwise>
 				</xsl:choose>
-			</xsl:element>
+			</summary>
 			
 			<xsl:variable name="isAjax">
 				<xsl:if test="@mode='dynamic' or @mode='eager' or (@mode='lazy' and @collapsed)">
@@ -86,6 +77,6 @@
 				</xsl:with-param>
 				<xsl:with-param name="labelId" select="ui:decoratedlabel/@id"/>
 			</xsl:apply-templates>
-		</xsl:element>
+		</details>
 	</xsl:template>
 </xsl:stylesheet>

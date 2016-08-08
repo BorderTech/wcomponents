@@ -13,10 +13,7 @@
 	-->
 	<xsl:template match="ui:section">
 		<xsl:variable name="mode" select="@mode"/>
-		<xsl:element name="${wc.dom.html5.element.section}">
-			<xsl:attribute name="id">
-				<xsl:value-of select="@id"/>
-			</xsl:attribute>
+		<section id="{@id}">
 			<xsl:attribute name="class">
 				<xsl:call-template name="WSectionClass"/>
 			</xsl:attribute>
@@ -27,6 +24,6 @@
 					<xsl:with-param name="type" select="''"/>
 				</xsl:apply-templates>
 			</xsl:if>
-		</xsl:element>
+		</section>
 	</xsl:template>
 </xsl:stylesheet>

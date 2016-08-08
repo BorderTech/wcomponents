@@ -224,7 +224,7 @@ define(["wc/has",
 			 * @returns {String} A human readable date as a string.
 			 */
 			function format(xfer) {
-				var myFormatter = formatter || (formatter = new Format(i18n.get("${wc.ui.dateField.i18n.mask.format}"))),
+				var myFormatter = formatter || (formatter = new Format(i18n.get("datefield_mask_format"))),
 					result = myFormatter.format(xfer);
 				return result;
 			}
@@ -319,8 +319,8 @@ define(["wc/has",
 			 */
 			function initParsers() {
 				var shortcuts = ["ytm", "+-"],
-					standardMasks = shortcuts.concat(i18n.get("${wc.ui.dateField.i18n.masks.full}").split(",")),
-					partialMasks = standardMasks.concat(i18n.get("${wc.ui.dateField.i18n.masks.partial}").split(","));
+					standardMasks = shortcuts.concat(i18n.get("datefield_masks_full").split(",")),
+					partialMasks = standardMasks.concat(i18n.get("datefield_masks_partial").split(","));
 
 				/*
 				 * Creates a new instance of a Parser

@@ -107,7 +107,7 @@ define(["wc/dom/formUpdateManager",
 				var result, iframeHTML, iframeId = element.name + IFRAME_ID_SUFFIX;
 				result = document.getElementById(iframeId);
 				if (!result && callback) {
-					iframeHTML = '<iframe name="%s" id="%1$s" src="javascript:false;" style="display:none;">' + i18n.get("${wc.ui.loading.loadMessage}") + '</iframe>';
+					iframeHTML = '<iframe name="%s" id="%1$s" src="javascript:false;" style="display:none;">' + i18n.get("loading") + '</iframe>';
 					iframeHTML = sprintf.sprintf(iframeHTML, iframeId);
 					document.body.insertAdjacentHTML("beforeEnd", iframeHTML);
 					result = document.getElementById(iframeId);
