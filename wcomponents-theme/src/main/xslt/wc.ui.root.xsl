@@ -102,8 +102,7 @@
 					<xsl:text>&#xa0;</xsl:text>
 					<noscript>
 						<p>
-							<!-- $noscript is a param generated during build. -->
-							<xsl:value-of select="$noscript"/>
+							<xsl:text>You must have JavaScript enabled to use this application.</xsl:text>
 						</p>
 					</noscript>
 				</div>

@@ -49,7 +49,7 @@ define(["wc/dom/attribute",
 
 				function _messageFunc(element) {
 					var legend = getFirstLabelForElement(element, true) || element.title;
-					return i18n.get("${validation.multiFileUploader.i18n.required}", legend);
+					return i18n.get("validation_multifile_incomplete", legend);
 				}
 
 				obj = {container: container,

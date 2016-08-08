@@ -69,7 +69,7 @@ define(["wc/dom/attribute",
 			removeButtonWd = new Widget("BUTTON"),
 			filesWrapperWd = new Widget("div", CLASS_WRAPPER),
 			inflightXhrs = {},
-			progressWd = new Widget("${wc.dom.html5.element.progress}");
+			progressWd = new Widget("progress");
 
 		inputElementWd.descendFrom(containerWd);  // This is important in legacy IE - yes, you don't see why, but it is!
 		fileInfoWd.descendFrom(containerWd);
@@ -150,7 +150,7 @@ define(["wc/dom/attribute",
 					fileInfo = fileInfoWd.findAncestor(element);
 					if (fileInfo) {
 						if (removeButtonWd.isOneOfMe(element)) {
-							proceed = window.confirm(i18n.get("${wc.ui.multiFileUploader.i18n.confirmdelete}"));
+							proceed = window.confirm(i18n.get("file_confirmdelete"));
 							if (proceed) {
 								removeFileItem(fileInfo);
 							}
@@ -264,7 +264,7 @@ define(["wc/dom/attribute",
 								showMessage(message);
 							}
 							else if (!accepted(testObj)) {
-								message = i18n.get("${wc.ui.multiFileUploader.i18n.wrongtype}", element.accept);
+								message = i18n.get("file_wrongtype", element.accept);
 								showMessage(message);
 							}
 							else if (inputElementWd.isOneOfMe(element)) {
@@ -295,7 +295,7 @@ define(["wc/dom/attribute",
 						}
 					}
 					else {
-						message = i18n.get("${wc.ui.multiFileUploader.i18n.toomany}", filesToAdd, maxFileInfo.max, maxFileInfo.before);
+						message = i18n.get("file_toomany", filesToAdd, maxFileInfo.max, maxFileInfo.before);
 						showMessage(message);
 						done();
 					}
@@ -324,15 +324,15 @@ define(["wc/dom/attribute",
 							/* make the units human readable */
 							if (maxFileSize >= GB) {
 								roundTo = GB;
-								units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.gb}");
+								units = i18n.get("file_size_gb");
 							}
 							else if (maxFileSize >= MB) {
 								roundTo = MB;
-								units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.mb}");
+								units = i18n.get("file_size_mb");
 							}
 							else if (maxFileSize >= KB) {
 								roundTo = KB;
-								units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size.kb}");
+								units = i18n.get("file_size_kb");
 							}
 
 							if (roundTo) {
@@ -342,9 +342,9 @@ define(["wc/dom/attribute",
 							else {
 								maxFileSizeHR = maxFileSize;
 								fileSizeHR = fileSizes[i];
-								units = i18n.get("${wc.ui.multiFileUploader.i18n.fileDesc.size}");
+								units = i18n.get("file_size_");
 							}
-							message.push(sprintf.sprintf(i18n.get("${wc.ui.multiFileUploader.i18n.toolarge}"), fileSizeHR, maxFileSizeHR, units));
+							message.push(sprintf.sprintf(i18n.get("file_toolarge"), fileSizeHR, maxFileSizeHR, units));
 						}
 					}
 					message = message.join("\n");
@@ -579,7 +579,7 @@ define(["wc/dom/attribute",
 			 */
 			function submitEvent($event) {
 				if (!$event.defaultPrevented && uploader && uploader.getUploading() > 0) {
-					var proceed = window.confirm(i18n.get("${wc.ui.multiFileUploader.i18n.confirmnav}"));
+					var proceed = window.confirm(i18n.get("file_confirmnav"));
 					if (!proceed) {
 						$event.preventDefault();
 					}
@@ -765,10 +765,10 @@ define(["wc/dom/attribute",
 				removeButton = document.createElement(removeButtonWd.tagName);
 				removeButton.setAttribute("type", "button");  // .type causes issues in legacy IE
 				removeButton.className = "wc_btn_icon wc_btn_abort";
-				removeButton.value = i18n.get("${wc.ui.multiFileUploader.i18n.abort}", fileName);
+				removeButton.value = i18n.get("file_abort", fileName);
 				item.appendChild(removeButton);
 				item.appendChild(document.createTextNode(fileName));
-				progress = item.appendChild(document.createElement("${wc.dom.html5.element.progress}"));
+				progress = item.appendChild(document.createElement("progress"));
 				progress.setAttribute("min", 0);
 				progress.setAttribute("max", 100);
 				progress.setAttribute("value", 0);
@@ -918,7 +918,7 @@ define(["wc/dom/attribute",
 				}
 			}
 			if (!message) {
-				message = i18n.get("${wc.ui.multiFileUploader.i18n.errormsg}");
+				message = i18n.get("file_errormsg");
 			}
 			return message;
 		}

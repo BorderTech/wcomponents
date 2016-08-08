@@ -510,12 +510,12 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				dayName: dayName.get(true),
 				monthName: monthName.get(),
 				fullYear: _today.getFullYear(),
-				monthLabel: i18n.get("${wc.ui.dateField.i18n.calendarMonthLabel}"),
-				yearLabel: i18n.get("${wc.ui.dateField.i18n.calendarYearLabel}"),
-				lastMonth: i18n.get("${wc.ui.dateField.i18n.lastMonth}"),
-				today: i18n.get("${wc.ui.dateField.i18n.today}"),
-				nextMonth: i18n.get("${wc.ui.dateField.i18n.nextMonth}"),
-				closeLabel: i18n.get("${wc.ui.dateField.i18n.close}")
+				monthLabel: i18n.get("datefield_calendarMonthLabel"),
+				yearLabel: i18n.get("datefield_calendarYearLabel"),
+				lastMonth: i18n.get("datefield_lastMonth"),
+				today: i18n.get("datefield_today"),
+				nextMonth: i18n.get("datefield_nextMonth"),
+				closeLabel: i18n.get("datefield_close")
 			};
 
 			calendar = template(calendarProps);

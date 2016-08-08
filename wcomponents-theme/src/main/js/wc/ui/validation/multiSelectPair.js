@@ -162,7 +162,7 @@ define(["wc/dom/attribute",
 				var label = getFirstLabelForElement(element, true) || element.title,
 					list = getSelectionList(element),
 					listLabel = getFirstLabelForElement(list, true) || list.title;
-				return i18n.get("${validation.multiSelectPair.i18n.required}", label, listLabel);
+				return i18n.get("validation_multiselectpair_incomplete", label, listLabel);
 			}
 
 			/**
@@ -199,8 +199,8 @@ define(["wc/dom/attribute",
 				// reset obj for minMax checking
 				obj.constraint = obj.filter = obj.messageFunc = null;
 				obj.selectFunc = getSelectionList;
-				obj.minText = "${validation.multiSelectPair.i18n.underMin}";
-				obj.maxText = "${validation.multiSelectPair.i18n.overMax}";
+				obj.minText = "validation_multiselectpair_undermin";
+				obj.maxText = "validation_multiselectpair_overmax";
 
 				obj.selectedFunc = function(el) {
 					return el.options || [];

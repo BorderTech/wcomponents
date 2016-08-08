@@ -34,8 +34,8 @@ define([
 			 * @returns {String} A formatted error message.
 			 */
 			function getRequiredMessage(element) {
-				var label = getFirstLabelForElement(element, true) || element.title || i18n.get("${validation.core.i18n.unlabelledQualifier}");
-				return i18n.get("${validation.core.i18n.requiredField}", label);
+				var label = getFirstLabelForElement(element, true) || element.title || i18n.get("validation_common_unlabelledfield");
+				return i18n.get("validation_common_incomplete", label);
 			}
 
 			/**

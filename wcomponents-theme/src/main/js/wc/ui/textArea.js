@@ -123,7 +123,7 @@ define(["wc/dom/attribute",
 					maxLength = instance.getMaxlength(element);
 					count = (maxLength - getLength(element));
 					counter.setAttribute("value", count);
-					counter.setAttribute("title", sprintf.sprintf(i18n.get("${wc.ui.maxlength.i18n.message}", count)));
+					counter.setAttribute("title", sprintf.sprintf(i18n.get("chars_remaining", count)));
 					if (count < 0) {
 						/* NOTE: this is not part of revalidation since we just want to
 						 * set a visual flag on the ticker, not insert a visible error message

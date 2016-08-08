@@ -48,7 +48,7 @@ define(["wc/dom/initialise",
 			 * @param {String} flag The framework for the error message in sprintf format.
 			 */
 			function _flagError(element, flag) {
-				var label = getFirstLabelForElement(element, true) || element.title || i18n.get("${validation.core.i18n.unlabelledQualifier}"),
+				var label = getFirstLabelForElement(element, true) || element.title || i18n.get("validation_common_unlabelledfield"),
 					message = sprintf.sprintf(flag, label),
 					attachTo = null;
 
@@ -75,23 +75,23 @@ define(["wc/dom/initialise",
 					value = element.value,
 					flag = "",
 					patternFlag,
-					concatenator = i18n.get("${validation.core.i18n.multiErrorConcatenator}");
+					concatenator = i18n.get("validation_concatenator");
 
 				if (value && !validationManager.isExempt(element)) {
 					// min length
 					if ((mask = element.getAttribute("data-wc-minlength")) && value.length < parseInt(mask, 10)) {
 						result = true;
-						flag = i18n.get("${validation.textField.i18n.minLength}", "%s", mask);
+						flag = i18n.get("validation_text_belowmin", "%s", mask);
 					}
 					// pattern (first email)
 					if (EMAIL.isOneOfMe(element)) {
 						regexp = new RegExp(RX_STRING);
-						patternFlag = i18n.get("${validation.email.i18n.error}");
+						patternFlag = i18n.get("validation_email_format");
 					}
 					else if ((mask = element.getAttribute("pattern"))) {
 						try {
 							regexp = new RegExp("^(?:" + mask + ")$");
-							patternFlag = i18n.get("${validation.core.i18n.patternMismatch}");
+							patternFlag = i18n.get("validation_common_pattern");
 						}
 						catch (e) {
 							regexp = null;

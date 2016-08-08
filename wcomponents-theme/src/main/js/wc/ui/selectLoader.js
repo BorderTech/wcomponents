@@ -153,14 +153,14 @@ define(["wc/ui/listLoader",
 					else {
 						label = "";
 					}
-					label = i18n.get("${wc.ui.listLoader.i18n.loaderr}", label);
+					label = i18n.get("loader_loaderr", label);
 					message = document.createElement("section");
 					message.className = "wc_msgbox error";
 					message.id = messageId;
 					message.innerHTML = "<h1>" + label + "</h1>";
 					button = document.createElement("button");
 					button.type = "button";
-					button.innerHTML = i18n.get("${wc.ui.listLoader.i18n.retry}", label);
+					button.innerHTML = i18n.get("loader_retry", label);
 					event.add(button, "click", function($event) {
 						$event.preventDefault();  // important! stop any other listeners responding to this button
 						instance.load(id);

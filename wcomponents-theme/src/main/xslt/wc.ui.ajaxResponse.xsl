@@ -46,28 +46,24 @@
 	<xsl:template match="ui:ajaxresponse">
 		<xsl:choose>
 			<xsl:when test="ui:ajaxtarget/node()[not(self::ui:file)]">
-				<xsl:element name="div">
-					<xsl:attribute name="class">wc-ajaxresponse</xsl:attribute>
+				<div class="wc-ajaxresponse">
 					<xsl:if test="@defaultFocusId">
 						<xsl:attribute name="data-focusid"><xsl:value-of select="@defaultFocusId"/></xsl:attribute>
 					</xsl:if>
 					<xsl:apply-templates />
-				</xsl:element>
+				</div>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:element name="html">
-					<xsl:attribute name="lang">
-						<xsl:value-of select="$lang"/>
-					</xsl:attribute>
-					<xsl:element name="head">
-						<xsl:element name="title">
+				<html lang="{$lang}">
+					<head>
+						<title>
 							<xsl:text>Pseudo AJAX iframe</xsl:text>
-						</xsl:element>
-					</xsl:element>
-					<xsl:element name="body">
+						</title>
+					</head>
+					<body>
 						<xsl:apply-templates mode="pseudoAjax"/>
-					</xsl:element>
-				</xsl:element>
+					</body>
+				</html>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

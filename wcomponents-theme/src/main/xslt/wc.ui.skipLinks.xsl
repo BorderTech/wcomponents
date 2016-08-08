@@ -11,10 +11,10 @@
 	<xsl:template match="ui:skiplinks">
 		<xsl:variable name="containerList" select="ancestor::ui:application[1]//ui:panel[@accessKey and @title]"/>
 		<xsl:if test="$containerList">
-			<xsl:element name="${wc.dom.html5.element.nav}">
+			<nav>
 				<xsl:call-template name="makeCommonClass"/>
 				<xsl:apply-templates select="$containerList" mode="skiplinks"/>
-			</xsl:element>
+			</nav>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

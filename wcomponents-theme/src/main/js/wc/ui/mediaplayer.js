@@ -30,8 +30,8 @@ define([ "wc/has", "wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/
 				TRACK_LINK,
 				PLAY_BUTTON = new Widget("button", "wc_av_play"),
 				LAME_MEDIA = new Widget("", "", {"data-wc-mediacontrols": null}),
-				AUDIO = new Widget("${wc.dom.html5.element.audio}"),
-				VIDEO = new Widget("${wc.dom.html5.element.video}"),
+				AUDIO = new Widget("audio"),
+				VIDEO = new Widget("video"),
 				SOURCE,
 				MEDIA = [AUDIO, VIDEO],
 				subscribed;
@@ -268,7 +268,7 @@ define([ "wc/has", "wc/dom/classList", "wc/dom/event", "wc/dom/initialise", "wc/
 				var sources, j, len, nextSource, type, result = true;
 
 				if (media.canPlayType) {
-					SOURCE = SOURCE || new Widget("${wc.dom.html5.element.source}");
+					SOURCE = SOURCE || new Widget("source");
 					sources = SOURCE.findDescendants(media);
 					for (j = 0, len = sources.length; j < len; ++j) {
 						nextSource = sources[j];

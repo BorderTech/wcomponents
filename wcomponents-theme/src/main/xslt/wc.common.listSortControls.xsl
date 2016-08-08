@@ -18,22 +18,22 @@
 			<xsl:call-template name="listSortControl">
 				<xsl:with-param name="id" select="$id"/>
 				<xsl:with-param name="value" select="'top'"/>
-				<xsl:with-param name="toolTip"><xsl:text>{{t '${wc.common.listSort.i18n.top}'}}</xsl:text></xsl:with-param>
+				<xsl:with-param name="toolTip"><xsl:text>{{t 'shuffle_top'}}</xsl:text></xsl:with-param>
 			</xsl:call-template>
 			<xsl:call-template name="listSortControl">
 				<xsl:with-param name="id" select="$id"/>
 				<xsl:with-param name="value" select="'up'"/>
-				<xsl:with-param name="toolTip"><xsl:text>{{t '${wc.common.listSort.i18n.up}'}}</xsl:text></xsl:with-param>
+				<xsl:with-param name="toolTip"><xsl:text>{{t 'shuffle_up'}}</xsl:text></xsl:with-param>
 			</xsl:call-template>
 			<xsl:call-template name="listSortControl">
 				<xsl:with-param name="id" select="$id"/>
 				<xsl:with-param name="value" select="'down'"/>
-				<xsl:with-param name="toolTip"><xsl:text>{{t '${wc.common.listSort.i18n.down}'}}</xsl:text></xsl:with-param>
+				<xsl:with-param name="toolTip"><xsl:text>{{t 'shuffle_down'}}</xsl:text></xsl:with-param>
 			</xsl:call-template>
 			<xsl:call-template name="listSortControl">
 				<xsl:with-param name="id" select="$id"/>
 				<xsl:with-param name="value" select="'bottom'"/>
-				<xsl:with-param name="toolTip"><xsl:text>{{t '${wc.common.listSort.i18n.bottom}'}}</xsl:text></xsl:with-param>
+				<xsl:with-param name="toolTip"><xsl:text>{{t 'shuffle_bottom'}}</xsl:text></xsl:with-param>
 			</xsl:call-template>
 		</span>
 	</xsl:template>

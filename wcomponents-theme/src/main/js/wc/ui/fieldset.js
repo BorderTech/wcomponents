@@ -114,7 +114,7 @@ define(["wc/i18n/i18n",
 			 * @public
 			 */
 			this.postInit = function() {
-				FALLBACK = i18n.get("${wc.common.i18n.requiredLabel}");
+				FALLBACK = i18n.get("requiredLabel");
 				processResponse.subscribe(ajaxSubscriber);
 			};
 		}

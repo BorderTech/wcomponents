@@ -73,14 +73,14 @@ define(["wc/dom/event",
 				subscriber ={
 					close: null
 				},
-				DIALOG = new Widget("${wc.dom.html5.element.dialog}"),
+				DIALOG = new Widget("dialog"),
 				DIALOG_CONTENT_WRAPPER = new Widget("div", CONTENT_BASE_CLASS, {"aria-live": "assertive"}),
 				BUTTON = new Widget("button"),
 				CLOSE_WD = BUTTON.extend("wc_dialog_close"),
 				RESIZERS,
 				RESIZE_WD,
 				MAX_BUTTON,
-				HEADER_WD = new Widget("${wc.dom.html5.element.header}"),
+				HEADER_WD = new Widget("header"),
 				TITLE_WD = new Widget("h1"),
 				FORM = new Widget("form"),
 				UNIT = "px",
@@ -249,7 +249,7 @@ define(["wc/dom/event",
 				// set the dialog title
 				if ((title = TITLE_WD.findDescendant(dialog))) {
 					title.innerHTML = ""; // ??? This _cannot_ really still be needed?
-					title.innerHTML = (obj && obj.title) ? obj.title : i18n.get("${wc.ui.dialog.title.noTitle}");
+					title.innerHTML = (obj && obj.title) ? obj.title : i18n.get("dialog_noTitle");
 				}
 				subscriber.close = obj.onclose;
 				initDialogControls(dialog, obj);
@@ -420,9 +420,9 @@ define(["wc/dom/event",
 				return loader.load(TEMPLATE_NAME, true, true).then(function(template) {
 					/*
 					 * sprintf replacements
-					 * 1: maximise button title ${wc.ui.dialog.title.maxRestore}
-					 * 2: close button title ${wc.ui.dialog.title.close}
-					 * 3: content loading message ${wc.ui.loading.loadMessage}
+					 * 1: maximise button title dialog_maxRestore
+					 * 2: close button title dialog_close
+					 * 3: content loading message loading
 					 */
 					var compiledTemplate = handlebars.compile(template),
 						form,
@@ -433,11 +433,11 @@ define(["wc/dom/event",
 						resizeHandleTitle,
 						dialogProps = {
 							heading :{
-								maxRestore: i18n.get("${wc.ui.dialog.title.maxRestore}"),
-								close: i18n.get("${wc.ui.dialog.title.close}")
+								maxRestore: i18n.get("dialog_maxRestore"),
+								close: i18n.get("dialog_close")
 							},
 							message: {
-								loading: i18n.get("${wc.ui.loading.loadMessage}")
+								loading: i18n.get("loading")
 							}
 						},
 						dialogHTML = compiledTemplate(dialogProps);
@@ -455,11 +455,11 @@ define(["wc/dom/event",
 
 					if ((dialog = instance.getDialog())) {
 						event.add(dialog, event.TYPE.keydown, keydownEvent);
-						if ((dialogHeader = HEADER_WD.findDescendant(dialog, true)) && (headerTitle = i18n.get("${wc.ui.dialog.title.move}"))) {
+						if ((dialogHeader = HEADER_WD.findDescendant(dialog, true)) && (headerTitle = i18n.get("dialog_move"))) {
 							dialogHeader.title = headerTitle;
 						}
 
-						if (RESIZE_WD && (resizeHandle = RESIZE_WD.findDescendant(dialog)) && (resizeHandleTitle = i18n.get("${wc.ui.dialog.title.resize}"))) {
+						if (RESIZE_WD && (resizeHandle = RESIZE_WD.findDescendant(dialog)) && (resizeHandleTitle = i18n.get("dialog_resize"))) {
 							resizeHandle.title = resizeHandleTitle;
 						}
 					}
@@ -839,7 +839,7 @@ define(["wc/dom/event",
 
 					if (!keepContent) {
 						content.innerHTML = ""; // Do we really still need this IE 6 fix?
-						content.innerHTML = i18n.get("${wc.ui.loading.loadMessage}");
+						content.innerHTML = i18n.get("loading");
 					}
 				}
 			};

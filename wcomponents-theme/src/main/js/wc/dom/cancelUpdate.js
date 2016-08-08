@@ -171,7 +171,7 @@ define(["wc/i18n/i18n",
 			 *    to continue with the submission/navigation.
 			 */
 			function cancelSubmit(element, submitter) {
-				var title = i18n.get("${wc.dom.cancelUpdate.i18n.fallbackTitle}"),
+				var title = i18n.get("cancel_title"),
 					keep = true,
 					result,
 					form,
@@ -180,7 +180,7 @@ define(["wc/i18n/i18n",
 				if (!loading) {
 					msg = (submitter ? submitter.getAttribute("data-wc-btnmsg") : "");
 					if (!msg) {
-						MESSAGE = MESSAGE || "'%s' " + i18n.get("${wc.dom.cancelUpdate.i18n.message}");
+						MESSAGE = MESSAGE || "'%s' " + i18n.get("cancel_message");
 						if ((form = FORM.findAncestor(element)) && (formTitle = form.getAttribute("title"))) {
 							title = formTitle;
 						}

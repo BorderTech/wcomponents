@@ -78,7 +78,7 @@ define(["wc/dom/classList",
 							if (!mandatorySpan) {
 								mandatorySpan = document.createElement("span");
 								mandatorySpan.className = CLASS_OFF;
-								mandatorySpan.innerHTML = i18n.get("${wc.common.i18n.requiredPlaceholder}");
+								mandatorySpan.innerHTML = i18n.get("requiredPlaceholder");
 								next.appendChild(mandatorySpan);
 							}
 						}
@@ -160,7 +160,7 @@ define(["wc/dom/classList",
 				newLabellingElement.innerHTML = label.innerHTML;
 				if (mandatorySpan) {
 					mandatorySpan.className = CLASS_OFF;
-					mandatorySpan.innerHTML = i18n.get("${wc.common.i18n.requiredPlaceholder}");
+					mandatorySpan.innerHTML = i18n.get("requiredPlaceholder");
 					newLabellingElement.appendChild(mandatorySpan);
 				}
 				else if ((mandatorySpan = MANDATORY_SPAN.findDescendant(newLabellingElement))) {
