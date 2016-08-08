@@ -1,5 +1,5 @@
-define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next", "wc/ajax/ajax", "wc/loader/resource"],
-	function(sprintf, toArray, wcconfig, mixin, i18next, ajax, resource) {
+define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next", "wc/ajax/ajax", "wc/loader/resource", "wc/template"],
+	function(sprintf, toArray, wcconfig, mixin, i18next, ajax, resource, template) {
 		"use strict";
 		/**
 		 * Manages the loading of i18n "messages" from the relevant i18n "resource bundle".
@@ -15,6 +15,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 		 * @requires external:lib/i18next
 		 * @requires module:wc/ajax/ajax
 		 * @requires module:wc/loader/resource
+		 * @requires module:wc/template
 		 */
 		var instance = new I18n();
 		/**
@@ -172,5 +173,11 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 				});
 			};
 		}
+
+		// Register the i18n Handlebars helper.
+		template.registerHelper(function(i18n_key) {
+			return instance.get(i18n_key);
+		}, "t", template.PROCESS.SAFE_STRING);
+
 		return instance;
 	});
