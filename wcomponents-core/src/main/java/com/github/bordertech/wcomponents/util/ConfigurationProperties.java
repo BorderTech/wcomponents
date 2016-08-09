@@ -151,6 +151,11 @@ public final class ConfigurationProperties {
 	public static final String HTML_ICON_CLASS_MENU = HTML_ICON_CLASS_PREFIX + "menu";
 
 	/**
+	 * The HTML class for the print icon.
+	 */
+	public static final String HTML_ICON_CLASS_PRINT = HTML_ICON_CLASS_PREFIX + "print";
+
+	/**
 	 * The resource bundle base name.
 	 */
 	public static final String I18N_RESOURCE_BUNDLE_BASE_NAME = "bordertech.wcomponents.i18n.baseName";
@@ -704,6 +709,15 @@ public final class ConfigurationProperties {
 	 */
 	public static String getHtmlIconClassMenu() {
 		return get().getString(HTML_ICON_CLASS_MENU, "fa-bars");
+	}
+
+	/**
+	 * Get the HTML Icon class for the print icon.
+	 *
+	 * @return the parameter value, or "fa-print" if not set.
+	 */
+	public static String getHtmlIconClassPrint() {
+		return get().getString(HTML_ICON_CLASS_PRINT, "fa-print");
 	}
 
 	/**
