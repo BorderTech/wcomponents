@@ -417,6 +417,33 @@ define(["wc/has",
 				return preventDefault;
 			}
 
+			function doDownButton(combo, altKey) {
+				var listbox = getListBox(combo);
+				if (shed.isExpanded(combo)) {
+					if (listbox) {
+						focusListbox(listbox);
+					}
+				}
+				else if (altKey) {
+					shed.expand(combo);
+					if (listbox) {
+						focusListbox(listbox);
+					}
+				}
+			}
+
+			function doUpKey(target, combo, altKey) {
+				var listbox;
+				if (shed.isExpanded(combo)) {
+					if (altKey) {
+						shed.collapse(combo);
+					}
+					else if ((listbox = getListBox(target))) {
+						focusListbox(listbox);
+					}
+				}
+			}
+
 			/**
 			 * Handles a keypress on "combobox" itself (not the listbox).
 			 * @function
@@ -427,7 +454,7 @@ define(["wc/has",
 			 * @returns {boolean} true if the key event needs to be cancelled.
 			 */
 			function handleKeyCombobox(target, keyCode, altKey) {
-				var listbox, combo;
+				var combo;
 				/* keydown happens when a combo input is focused */
 				if (keyCode === KeyEvent.DOM_VK_TAB) {
 					// TAB out, do nothing, focus will take care of it.
@@ -439,47 +466,24 @@ define(["wc/has",
 					return false;
 				}
 
-				if (keyCode === KeyEvent.DOM_VK_ESCAPE) {
-					if (shed.isExpanded(combo)) {
-						shed.collapse(combo);
-					}
-					return true;
-				}
-
-				if (keyCode === KeyEvent.DOM_VK_DOWN) {
-					listbox = getListBox(combo);
-					if (shed.isExpanded(combo)) {
-						if (listbox) {
-							focusListbox(listbox);
+				switch (keyCode) {
+					case KeyEvent.DOM_VK_ESCAPE:
+						if (shed.isExpanded(combo)) {
+							shed.collapse(combo);
+						}
+						return true;
+					case KeyEvent.DOM_VK_DOWN:
+						doDownButton(combo, altKey);
+						return false;
+					case KeyEvent.DOM_VK_UP:
+						doUpKey(target, combo, altKey);
+						return false;
+					default:
+						if (filter && (!key.isMeta(keyCode)) && !CHATTY_COMBO.isOneOfMe(combo)) {
+							filterOptions(combo);
 						}
 						return false;
-					}
-					if (altKey) {
-						shed.expand(combo);
-						if (listbox) {
-							focusListbox(listbox);
-						}
-					}
-					return false;
 				}
-
-				if (keyCode === KeyEvent.DOM_VK_UP) {
-					if (shed.isExpanded(combo)) {
-						if (altKey) {
-							shed.collapse(combo);
-							return false;
-						}
-						if ((listbox = getListBox(target))) {
-							focusListbox(listbox);
-						}
-					}
-					return false;
-				}
-
-				if (filter && (!key.isMeta(keyCode)) && !CHATTY_COMBO.isOneOfMe(combo)) {
-					filterOptions(combo);
-				}
-				return false;
 			}
 
 			/**

@@ -39,7 +39,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 						return key;
 					},
 					token = getNewKeyName(),
-					expected = 'bar',
+					expected = "bar",
 					testTemplate = "{{" + token + " 'bar'}}",
 					target = document.createElement("div");
 				try {
@@ -131,7 +131,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					// no op
 				}
 				finally {
-					assert.notEqual(target.innerHTML, 'bar', "Template should not have been processed using helper");
+					assert.notEqual(target.innerHTML, "bar", "Template should not have been processed using helper");
 				}
 			},
 			testRegisterHelperFunctionNoToken: function() {

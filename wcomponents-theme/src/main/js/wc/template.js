@@ -32,17 +32,14 @@ define(["wc/dom/initialise", "wc/dom/textContent", "lib/handlebars/handlebars"],
 				if (template.constructor === String) {
 					return Handlebars.compile(template);
 				}
-				else if (template.nodeType === Node.TEXT_NODE) {
+				if (template.nodeType === Node.TEXT_NODE) {
 					return Handlebars.compile(textContent.get(template));
 				}
-				else if (template.constructor === Function) {
+				if (template.constructor === Function) {
 					// it's actually aleady a compiled template
 					return template;
 				}
-				else {
-					return Handlebars.compile(template.innerHTML);
-				}
-				return "";
+				return Handlebars.compile(template.innerHTML);
 			}
 
 			/**
@@ -162,7 +159,7 @@ define(["wc/dom/initialise", "wc/dom/textContent", "lib/handlebars/handlebars"],
 				}
 
 				if (type) {
-					Handlebars.registerHelper(token, new helperCallbackFactory(callback, type));
+					Handlebars.registerHelper(token, helperCallbackFactory(callback, type));
 					return;
 				}
 				Handlebars.registerHelper(token, callback);

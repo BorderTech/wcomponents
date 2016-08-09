@@ -601,7 +601,6 @@ define(["wc/dom/attribute",
 		 * @this An instance of a sub-class menu.
 		 */
 		AbstractMenu.prototype._ajaxSubscriber = function (element, documentFragment/* , action */) {
-			var root;
 			/*
 			 * helper to update attributes in the content of an ajaxed-in branch/submenuContent
 			 */
@@ -635,7 +634,7 @@ define(["wc/dom/attribute",
 					});
 			}
 			/* before we do anything else make sure we are in the right kind of menu */
-			if (element && (root = this.getRoot(element)) === this.getFirstMenuAncestor(element)) {
+			if (element && this.getRoot(element) === this.getFirstMenuAncestor(element)) {
 				AJAX_CONTEXTLESS_ITEM = AJAX_CONTEXTLESS_ITEM || new Widget("", "", {"role": "dummy"});
 				/*
 				 * If the ajaxTarget is the content of a WSubMenu then we can be sure
