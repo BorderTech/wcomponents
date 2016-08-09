@@ -7,14 +7,17 @@
 
 ## Bug Fixes
 * Fixed bug which could result in dialogs being mis-positioned #805.
-* Fixed bugs in keyboard driving combo boxes #808, #809.
+* Fixed a11y of combo boxes #808, #809.
+* Fixed bugs in WTextArea in RichText mode #825.
+* Fixed a bug in which the loading shim was removed before the page was ready to use #822.
+* Fixed bugs which prevented correct output of WLabel, WAbbrText and WHeading if content escaping was turned off.
 
 ## Enhancements
 * JavaScript API added a utility module to centralize determination of toggle points for responsive UI updates.
 * Rewrote the JavaScript i18n module so that it is a thin wrapper around [i18next](http://i18next.com/) instead of custom code.
-* `WDialog` may be launched by any component which implements `AjaxTrigger` (#407).
-* Updated client implementaiton of WSuggestions/combo boxes to improve accessibility.
-
+* `WDialog` may be launched by any component which implements `AjaxTrigger` #407.
+* Updated client implementaiton of WSuggestions/combo boxes to improve accessibility #808, #809.
+* Moved i18n to JavaScript and improved load-time reliability #819, #732, #639, #689.
 
 # Release 1.2.2
 ## Bug Fixes
@@ -33,7 +36,7 @@
 * The new (in 1.2.0) class `HtmlClassUtil` has been refactored to a properties enum and is now `HtmlClassProperties`
   (same package). If you have already started using `HtmlClassUtil.HtmlClassName` should be replaced with
   `HtmlClassProperties`.
-* The Seleniun API has been rewritten to better support client-side testing of WComponents. see     https://github.com/BorderTech/wcomponents/wiki/Testing for more information.
+* The Seleniun API has been rewritten to better support client-side testing of WComponents. see https://github.com/BorderTech/wcomponents/wiki/Testing for more information.
 
 ## Bug Fixes
 * Updated DataListInterceptor and ServletUtil to allow DataLists to be sent as HTML rather than XML (#747).
