@@ -357,7 +357,25 @@ public enum HtmlClassProperties {
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.menu".</p>
 	 */
-	ICON_MENU_BEFORE("wc-icon-before ", ConfigurationProperties.getHtmlIconClassMenu());
+	ICON_MENU_BEFORE("wc-icon-before ", ConfigurationProperties.getHtmlIconClassMenu()),
+	/**
+	 * Add a "print" icon.
+	 * <p>
+	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.print".</p>
+	 */
+	ICON_PRINT("wc-icon ", ConfigurationProperties.getHtmlIconClassPrint()),
+	/**
+	 * Add a "print" icon.
+	 * <p>
+	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.print".</p>
+	 */
+	ICON_PRINT_AFTER("wc-icon-after ", ConfigurationProperties.getHtmlIconClassPrint()),
+	/**
+	 * Add a "print" icon.
+	 * <p>
+	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.print".</p>
+	 */
+	ICON_PRINT_BEFORE("wc-icon-before ", ConfigurationProperties.getHtmlIconClassPrint());
 	// END OF ICONS
 	private final String className;
 
