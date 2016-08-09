@@ -60,7 +60,7 @@ define(["wc/dom/formUpdateManager",
 				var form;
 				if (!uploading[dto.container.id]) {
 					trackLoading(dto.container);
-					form = getFileUploadForm(dto.element, callbackWrapperFactory(dto));
+					form = getFileUploadForm(dto, callbackWrapperFactory(dto));
 					if (form) {
 						this.writeState(form, dto.container, dto.element);
 						try {
@@ -142,19 +142,20 @@ define(["wc/dom/formUpdateManager",
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} element The element instigating the file upload.
+			 * @param {Object} dto
 			 * @param {Function} callback The function to call after uploading.
 			 * @returns {Element} The file upload form.
 			 */
-			function getFileUploadForm(element, callback) {
+			function getFileUploadForm(dto, callback) {
 				var result,
+					element = dto.element,
 					formId = element.name + FORM_ID_SUFFIX,
 					action,
 					formHTML,
 					iframeId;
 				result = document.getElementById(formId);
 				if (!result && callback) {
-					action = getUploadUrl(element);
+					action = getUploadUrl(element) || dto.url;
 					if (action) {
 						formHTML = '<form target="%s" enctype="multipart/form-data" action="%s" method="POST" name="%s" id="%3$s" style="display:none;"><input name="wc_target" value="%s" /></form>';
 						iframeId = getHiddenIframe(element, function() {
