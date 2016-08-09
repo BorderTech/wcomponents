@@ -4,14 +4,10 @@
 	<!--
 		The tabIndex is set on the first visible, enabled item in a menu.
 		
-		NOTE: 2013-07-23 Changed to match {{http://www.w3.org/TR/wai-aria-practices/#menu}},
-		and {{http://www.w3.org/TR/wai-aria-practices/#TreeView}} which stipulate:
+		NOTE: 2013-07-23 Changed to match http://www.w3.org/TR/wai-aria-practices/#menu which stipulates that for menu/menu bar the first item is 
+		focusable.
 		
-		* for menu/menu bar the first item is focusable; and
-		* for tree the top node is focusable.
-		
-		We have retained the non-focusability of disabled items since graphical user
-		agents do not allow disabled controls to receive focus.
+		We have retained the non-focusability of disabled items since graphical user agents do not allow disabled controls to receive focus.
 	-->
 	<xsl:template name="menuTabIndexHelper">
 		<xsl:param name="menu"/>

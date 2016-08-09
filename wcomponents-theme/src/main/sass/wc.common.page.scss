@@ -52,8 +52,9 @@ $wc-align-list: left, center, right;
 	}
 }
 
-// vertical alignment
+// vertical alignment. This list covers the CSS3 vertical-alignment values. You may not need or want all of them.
 $wc-valign-list: baseline, bottom, inherit, initial, middle, sub, super, text-bottom, text-top, top !default;
+
 @each $wc-v in $wc-valign-list {
 	.wc-valign-#{$wc-v} {
 		vertical-align: $wc-v;

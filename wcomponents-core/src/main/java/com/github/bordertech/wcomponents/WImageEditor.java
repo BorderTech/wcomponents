@@ -16,14 +16,6 @@ import java.awt.Dimension;
 public class WImageEditor extends AbstractWComponent {
 
 	/**
-	 * Creates an imageEditor..
-	 *
-	 */
-	public WImageEditor() {
-
-	}
-
-	/**
 	 * @return the overlay image URL.
 	 */
 	public String getOverlayUrl() {

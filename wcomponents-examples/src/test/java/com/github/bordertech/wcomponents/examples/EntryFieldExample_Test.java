@@ -1,12 +1,11 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
+import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.WebDriver;
 
 /**
  * Selenium unit tests for {@link EntryFieldExample}.
@@ -16,7 +15,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class EntryFieldExample_Test extends WComponentExamplesTestCase{
+public class EntryFieldExample_Test extends WComponentExamplesTestCase {
 
 	/**
 	 * Creates a new EntryFieldExample_Test.
@@ -28,20 +27,19 @@ public class EntryFieldExample_Test extends WComponentExamplesTestCase{
 	@Test
 	public void testInitialState() {
 		// Launch the web browser to the LDE
-		WebDriver driver = getDriver();
+		SeleniumWComponentsWebDriver driver = getDriver();
 
 		// Test initial state
-		Assert.assertEquals("Incorrect default values", "", driver.findElement(byWComponentPath(
-				"WTextArea")).getAttribute("value"));
+		Assert.assertEquals("Incorrect default values", "", driver.findWTextArea(byWComponentPath("WTextArea")).getAttribute("value"));
 
-		Assert.assertEquals("Incorrect default text for tf1", "blah blah", driver.findElement(
-				byWComponentPath("WTextField[0]")).getAttribute("value"));
-		Assert.assertEquals("Incorrect default text for tf2", "abc", driver.findElement(
-				byWComponentPath("WTextField[1]")).getAttribute("value"));
-		Assert.assertEquals("Incorrect default text for tf3", "abc", driver.findElement(
-				byWComponentPath("WTextField[2]")).getAttribute("value"));
-		Assert.assertEquals("Incorrect default text for tf4", "", driver.findElement(
-				byWComponentPath("WTextField[3]")).getAttribute("value"));
+		Assert.assertEquals("Incorrect default text for tf1", "blah blah", driver.findWTextField(
+				byWComponentPath("WTextField[0]")).getValue());
+		Assert.assertEquals("Incorrect default text for tf2", "abc", driver.findWTextField(
+				byWComponentPath("WTextField[1]")).getValue());
+		Assert.assertEquals("Incorrect default text for tf3", "abc", driver.findWTextField(
+				byWComponentPath("WTextField[2]")).getValue());
+		Assert.assertEquals("Incorrect default text for tf4", "", driver.findWTextField(
+				byWComponentPath("WTextField[3]")).getValue());
 
 		Assert.assertTrue("Incorrect default value for drop1", driver.findElement(byWComponentPath(
 				"WDropdown[0]", "One")).isSelected());
@@ -76,13 +74,13 @@ public class EntryFieldExample_Test extends WComponentExamplesTestCase{
 	@Test
 	public void testDefaultSubmit() {
 		// Launch the web browser to the LDE
-		WebDriver driver = getDriver();
+		SeleniumWComponentsWebDriver driver = getDriver();
 
 		// Need to scroll the button into view, otherwise Selenium won't click it.
-		driver.findElement(byWComponentPath("WTextArea")).sendKeys(" ");
+		driver.findWTextArea(byWComponentPath("WTextArea")).sendKeys(" ");
 		driver.findElement(byWComponentPath("WButton")).click();
 
-		String text = driver.findElement(byWComponentPath("WTextArea")).getAttribute("value");
+		String text = driver.findWTextArea(byWComponentPath("WTextArea")).getAttribute("value");
 
 		Assert.assertEquals("Incorrect text value",
 				"Text 1 = blah blah"
@@ -105,16 +103,16 @@ public class EntryFieldExample_Test extends WComponentExamplesTestCase{
 	@Test
 	public void testDataEntry() {
 		// Launch the web browser to the LDE
-		WebDriver driver = getDriver();
+		SeleniumWComponentsWebDriver driver = getDriver();
 
-		driver.findElement(byWComponentPath("WTextField[0]")).clear();
-		driver.findElement(byWComponentPath("WTextField[0]")).sendKeys("tf1");
+		driver.findWTextField(byWComponentPath("WTextField[0]")).clear();
+		driver.findWTextField(byWComponentPath("WTextField[0]")).sendKeys("tf1");
 
-		driver.findElement(byWComponentPath("WTextField[1]")).clear();
-		driver.findElement(byWComponentPath("WTextField[1]")).sendKeys("tf2");
+		driver.findWTextField(byWComponentPath("WTextField[1]")).clear();
+		driver.findWTextField(byWComponentPath("WTextField[1]")).sendKeys("tf2");
 
-		driver.findElement(byWComponentPath("WTextField[3]")).clear();
-		driver.findElement(byWComponentPath("WTextField[3]")).sendKeys("tf4");
+		driver.findWTextField(byWComponentPath("WTextField[3]")).clear();
+		driver.findWTextField(byWComponentPath("WTextField[3]")).sendKeys("tf4");
 
 		driver.findElement(byWComponentPath("WDropdown[0]", "Three")).click();
 
@@ -135,7 +133,7 @@ public class EntryFieldExample_Test extends WComponentExamplesTestCase{
 
 		driver.findElement(byWComponentPath("WButton")).click();
 
-		String text = driver.findElement(byWComponentPath("WTextArea")).getAttribute("value");
+		String text = driver.findWTextArea(byWComponentPath("WTextArea")).getAttribute("value");
 
 		Assert.assertEquals("Incorrect text value",
 				"Text 1 = tf1"

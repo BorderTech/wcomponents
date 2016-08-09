@@ -669,7 +669,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 
 		testFindAncestorOutermost: function() {
 			var start = document.getElementById("staticStart"),
-				result = allDivs.findAncestor(start, "${wc.dom.html5.element.section}", null, true),
+				result = allDivs.findAncestor(start, "section", null, true),
 				expectedId = "static3";
 			assert.strictEqual(result.id, expectedId, "Didn't find the expected id ");
 		},

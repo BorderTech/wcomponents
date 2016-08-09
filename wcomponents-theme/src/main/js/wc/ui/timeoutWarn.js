@@ -117,8 +117,8 @@ define(["lib/sprintf", "wc/xml/xslTransform", "wc/dom/event", "wc/dom/Widget", "
 						body, header;
 					if (container) {
 						container.innerHTML = "";
-						header = i18n.get("${wc.ui.timeoutWarn.message.warn.header}");
-						body = i18n.get("${wc.ui.timeoutWarn.message.warn.body}");
+						header = i18n.get("timeout_warn_header");
+						body = i18n.get("timeout_warn_body");
 
 						mins = parseInt(minsRemaining);
 						secs = minsRemaining - mins;
@@ -158,8 +158,8 @@ define(["lib/sprintf", "wc/xml/xslTransform", "wc/dom/event", "wc/dom/Widget", "
 					var body, header, container = getContainer();
 					if (container) {
 						container.innerHTML = "";
-						header = i18n.get("${wc.ui.timeoutWarn.message.expired.header}");
-						body = i18n.get("${wc.ui.timeoutWarn.message.expired.body}");
+						header = i18n.get("timeout_expired_header");
+						body = i18n.get("timeout_expired_body");
 						container.appendChild(errorDf);
 						container.innerHTML = sprintf.sprintf(container.innerHTML, header, body);
 						if (shed.isHidden(container, true)) {

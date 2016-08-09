@@ -1,14 +1,9 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:import href="wc.ui.menu.n.hasStickyOpen.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuRoleIsSelectable.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuTabIndexHelper.xsl"/>
-	<xsl:import href="wc.common.disabledElement.xsl"/>
-	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
-	<xsl:import href="wc.common.ajax.xsl"/>
-	<xsl:import href="wc.common.n.className.xsl"/>
 	<xsl:import href="wc.common.title.xsl"/>
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<!--
@@ -19,7 +14,7 @@
 	-->
 	<xsl:template match="ui:menuitem">
 		<xsl:variable name="myAncestorMenu" select="ancestor::ui:menu[1]"/>
-		<xsl:variable name="myAncestorSubmenu" 
+		<xsl:variable name="myAncestorSubmenu"
 			select="ancestor::ui:submenu[ancestor::ui:menu[1]=$myAncestorMenu or not($myAncestorMenu)][1]"/>
 		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="menuType" select="$myAncestorMenu/@type"/>
@@ -29,7 +24,6 @@
 				<xsl:number value="1"/>
 			</xsl:if>
 		</xsl:variable>
-
 		<xsl:variable name="actionType">
 			<xsl:choose>
 				<xsl:when test="@url">
@@ -43,36 +37,12 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
-		<xsl:variable name="menuItemElement">
-			<xsl:choose>
-				<xsl:when test="$actionType=0">
-					<xsl:text>div</xsl:text>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:text>button</xsl:text>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-
-		<xsl:variable name="isButton">
-			<xsl:choose>
-				<xsl:when test="$actionType=0">
-					<xsl:number value="0"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:number value="1"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-
-		<xsl:element name="{$menuItemElement}">
+		<button>
 			<xsl:call-template name="commonAttributes">
-				<xsl:with-param name="isControl" select="$isButton"/>
+				<xsl:with-param name="isControl" select="1"/>
 				<xsl:with-param name="class">
-					<xsl:text>wc-invite</xsl:text>
+					<xsl:text>wc-invite wc-nobutton</xsl:text>
 					<xsl:if test="$actionType &gt; 0">
-						<xsl:text> wc-nobutton</xsl:text>
 						<xsl:if test="@cancel">
 							<xsl:text> wc_btn_cancel</xsl:text>
 						</xsl:if>
@@ -82,13 +52,19 @@
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
-
+			<xsl:attribute name="type">
+				<xsl:choose>
+					<xsl:when test="$actionType=2">
+						<xsl:text>submit</xsl:text>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:text>button</xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:attribute>
 			<xsl:call-template name="title"/>
 			<xsl:choose>
 				<xsl:when test="$actionType=1">
-					<xsl:attribute name="type">
-						<xsl:text>button</xsl:text>
-					</xsl:attribute>
 					<xsl:attribute name="data-wc-url">
 						<xsl:value-of select="@url"/>
 					</xsl:attribute>
@@ -102,9 +78,6 @@
 					</xsl:if>
 				</xsl:when>
 				<xsl:when test="$actionType=2">
-					<xsl:attribute name="type">
-						<xsl:text>submit</xsl:text>
-					</xsl:attribute>
 					<xsl:attribute name="name">
 						<xsl:value-of select="$id"/>
 					</xsl:attribute>
@@ -158,8 +131,8 @@
 					</xsl:variable>
 					<xsl:attribute name="role">
 						<xsl:choose>
-							<xsl:when test="$isSelectable=1 and 
-								($myAncestorSubmenu[not(@selectMode='single')] or 
+							<xsl:when test="$isSelectable=1 and
+								($myAncestorSubmenu[not(@selectMode='single')] or
 								(not($myAncestorSubmenu) and $myAncestorMenu[not(@selectMode='single')]))">
 								<xsl:text>menuitemcheckbox</xsl:text>
 							</xsl:when>
@@ -193,8 +166,7 @@
 							<xsl:value-of select="$tabindex"/>
 						</xsl:attribute>
 					</xsl:if>
-
-					<!-- 
+					<!--
 						If the menuitem is disabled its state attribute will have been set in commonAttributes.
 					-->
 					<xsl:if test="not(@disabled)">
@@ -204,17 +176,17 @@
 						-->
 						<xsl:variable name="disabledAncestor" select="ancestor::*[@disabled and
 							(($noContextMenu=1 and self::ui:submenu) or
-							($myAncestorMenu and (self::ui:menu[.=$myAncestorMenu] or 
+							($myAncestorMenu and (self::ui:menu[.=$myAncestorMenu] or
 							self::ui:submenu[ancestor::ui:menu[1]=$myAncestorMenu])))]"/>
 						<xsl:if test="$disabledAncestor">
 							<xsl:call-template name="disabledElement">
 								<xsl:with-param name="field" select="$disabledAncestor"/>
-								<xsl:with-param name="isControl" select="$isButton"/>
+								<xsl:with-param name="isControl" select="1"/>
 							</xsl:call-template>
 						</xsl:if>
 					</xsl:if>
 					<!--
-						We may drop accessKey on menuitem in favour of WAI-ARIA keyboard navigation (which we already 
+						We may drop accessKey on menuitem in favour of WAI-ARIA keyboard navigation (which we already
 						implement).
 					-->
 					<xsl:call-template name="accessKey">
@@ -233,16 +205,16 @@
 				<xsl:otherwise>
 					<!-- no menu context -->
 					<xsl:attribute name="role">
-						<xsl:text>${wc.ui.menu.dummyRole}</xsl:text>
+						<xsl:text>dummy</xsl:text>
 					</xsl:attribute>
 					<xsl:attribute name="tabindex">
 						<xsl:text>-1</xsl:text>
 					</xsl:attribute>
 					<!--
-					 Attributes used by AJAX subscribers for menuItems without a menu context
+						 Attributes used by AJAX subscribers for menuItems without a menu context
 
-					 These are used and consumed in JavaScript before the transformed elements are
-					 injected into the DOM.
+						 These are used and consumed in JavaScript before the transformed elements are
+						 injected into the DOM.
 					-->
 					<xsl:if test="@selected">
 						<xsl:attribute name="data-wc-selected">
@@ -260,18 +232,7 @@
 					</xsl:call-template>
 				</xsl:otherwise>
 			</xsl:choose>
-			<xsl:apply-templates select="ui:decoratedlabel">
-				<xsl:with-param name="output">
-					<xsl:choose>
-						<xsl:when test="$isButton=1">
-							<xsl:text>span</xsl:text>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:text>div</xsl:text>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:with-param>
-			</xsl:apply-templates>
-		</xsl:element>
+			<xsl:apply-templates select="ui:decoratedlabel"/>
+		</button>
 	</xsl:template>
 </xsl:stylesheet>

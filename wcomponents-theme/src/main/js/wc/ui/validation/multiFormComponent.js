@@ -79,8 +79,8 @@ define(["wc/dom/attribute",
 				// added parseInt because for a while these values were being compared to non-numeric objects
 				var min = window.parseInt(next.getAttribute("data-wc-min")),
 					max = window.parseInt(next.getAttribute("data-wc-max")),
-					underFlag = "${validation.core.i18n.selectableUnderMin}",
-					overFlag = "${validation.core.i18n.selectableOverMax}",
+					underFlag = "validation_common_undermin",
+					overFlag = "validation_common_overmax",
 					isInvalid = false,
 					count, flag, limit;
 				if (min || max) {
@@ -96,8 +96,8 @@ define(["wc/dom/attribute",
 						}), function(a, b) {
 							return (a.value === b.value ? 0 : 1);
 						}).length;
-						underFlag = "${validation.multiTextField.i18n.inputUnderMin}";
-						overFlag = "${validation.multiTextField.i18n.inputOverMax}";
+						underFlag = "validation_multitext_undermin";
+						overFlag = "validation_multitext_overmax";
 					}
 					else {
 						// set it to zero because otherwise it will be a zero length nodelist and not equivalent of false

@@ -3,15 +3,12 @@
 		Output a source element inside an audio or video element.
 	-->
 	<xsl:template match="ui:src">
-		<xsl:element name="${wc.dom.html5.element.source}">
-			<xsl:attribute name="src">
-				<xsl:value-of select="@uri"/>
-			</xsl:attribute>
+		<source src="{@uri}">
 			<xsl:if test="@type">
 				<xsl:attribute name="type">
 					<xsl:value-of select="@type"/>
 				</xsl:attribute>
 			</xsl:if>
-		</xsl:element>
+		</source>
 	</xsl:template>
 </xsl:stylesheet>

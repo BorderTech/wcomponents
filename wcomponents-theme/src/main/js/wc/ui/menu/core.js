@@ -1,38 +1,9 @@
-/**
- * A module representing an abstract menu without any specific implementation. An instance of this class will do
- * nothing.
- *
- * @module
- *
- * @requires module:wc/dom/attribute
- * @requires module:wc/dom/classList
- * @requires module:wc/dom/event
- * @requires module:wc/dom/focus
- * @requires module:wc/dom/formUpdateManager
- * @requires module:wc/dom/getFilteredGroup
- * @requires module:wc/dom/getViewportSize
- * @requires module:wc/dom/keyWalker
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/viewportCollision
- * @requires module:wc/dom/Widget
- * @requires module:wc/key
- * @requires module:wc/ui/ajax/processResponse
- * @requires module:wc/timers
- * @requires module:wc/i18n/i18n
- * @requires module:wc/dom/getBox
- * @requires module:wc/array/toArray
- *
- * @see {@link module:wc/ui/menu/bar}
- * @see {@link module:wc/ui/menu/column}
- * @see {@link module:wc/ui/menu/tree}
- */
 define(["wc/dom/attribute",
 		"wc/dom/classList",
 		"wc/dom/event",
 		"wc/dom/focus",
 		"wc/dom/formUpdateManager",
 		"wc/dom/getFilteredGroup",
-		"wc/dom/getViewportSize",
 		"wc/dom/keyWalker",
 		"wc/dom/shed",
 		"wc/dom/viewportCollision",
@@ -42,10 +13,11 @@ define(["wc/dom/attribute",
 		"wc/timers",
 		"wc/i18n/i18n",
 		"wc/dom/getBox",
-		"wc/array/toArray"
+		"wc/array/toArray",
+		"wc/ui/viewportUtils"
 	],
-	/** @param attribute @param classList @param event @param focus @param formUpdateManager @param getFilteredGroup @param getViewportSize @param keyWalker @param shed @param viewportCollision @param Widget @param key @param processResponse @param timers @param i18n @param getBox @param toArray @ignore */
-	function(attribute, classList, event, focus, formUpdateManager, getFilteredGroup, getViewportSize, keyWalker, shed, viewportCollision, Widget, key, processResponse, timers, i18n, getBox, toArray) {
+	function(attribute, classList, event, focus, formUpdateManager, getFilteredGroup, keyWalker, shed,
+		viewportCollision, Widget, key, processResponse, timers, i18n, getBox, toArray, viewportUtils) {
 		"use strict";
 
 		/* NOTE: Many functions in this module are private but accept an instance of a subclass as an argument. These
@@ -69,13 +41,13 @@ define(["wc/dom/attribute",
 				COLLIDE_WEST: "wc_colwest",
 				COLLIDE_SOUTH: "wc_colsth",
 				// no collide north...
-				DEFAULT_DIRECTION: i18n.get("${wc.ui.menu.i18n.defaultDirection}"),
-				AGAINST_DEFAULT: i18n.get("${wc.ui.menu.i18n.otherDirection}"),
+				DEFAULT_DIRECTION: "wc_col" + i18n.get("menu_popout_direction"),
+				AGAINST_DEFAULT: "wc_col" + i18n.get("menu_popout_reverse"),
 				CLOSER: "wc_closesubmenu"
 			},
 			/**
 			 * This object is used to map functions to particular event conditions.
-			 * @var {Object} FUNC_MAP
+			 * @var
 			 * @private
 			 */
 			FUNC_MAP = {
@@ -104,12 +76,11 @@ define(["wc/dom/attribute",
 				KeyEvent.DOM_VK_DOWN,
 				KeyEvent.DOM_VK_LEFT,
 				KeyEvent.DOM_VK_RIGHT
-			],
-			FULL_SCREEN_TOGGLE_POINT = 773;
+			];
 
 		/**
 		 * Sets up {@link module:wc/dom/Widget} descriptors for parts of a menu which do not vary between subclasses.
-		 * @function setupFixedWidgets
+		 * @function
 		 * @private
 		 * @returns {Object} an object containing properties the values of which are Widgets.
 		 */
@@ -124,8 +95,7 @@ define(["wc/dom/attribute",
 
 		/**
 		 * Get the object of fixed (non-subclass-specific) {@link module:wc/dom/Widget}s.
-		 * @see {@link setupFixedWidgets}
-		 * @function getFixedWidgets
+		 * @function
 		 * @private
 		 * @returns {Object} The object containing the fixed widgets.
 		 */
@@ -147,7 +117,7 @@ define(["wc/dom/attribute",
 
 		/**
 		 * Sets the tabIndex of the current element and removes it from the previous 'tab-able' element (if different).
-		 * @function setTabstop
+		 * @function
 		 * @private
 		 * @param {Element} element A menu node.
 		 * @param {Object} instance The subclass.
@@ -174,11 +144,10 @@ define(["wc/dom/attribute",
 		}
 
 		/**
-		 * Allows late binding of event listeners to events so that subclasses can override event listeners if they
-		 * <strong>really</strong> need to. If we didn't use this mechanism then the superclass events would always be
-		 * called even if they were overridden.
+		 * Allows late binding of event listeners to events so that subclasses can override event listeners if they **really** need to. If we didn't
+		 * use this mechanism then the superclass events would always be called even if they were overridden.
 		 *
-		 * @function eventWrapper
+		 * @function
 		 * @private
 		 * @param {Event} $event The event wrapped by {@link module:wc/dom/event}.
 		 * @returns {(boolean|undefined)} The return value, if any, of the event handler. Should generally be
@@ -206,7 +175,7 @@ define(["wc/dom/attribute",
 
 		/**
 		 * Indicates if there is a viewport collision on the sides of the viewport.
-		 * @function doICollide
+		 * @function
 		 * @private
 		 * @param {module:wc/dom/viewportCollision} collision The calculated 'collision'.
 		 * @param {Boolean} [isNotDefaultDirection] Indicates the collision direction to test. If true we test against the
@@ -227,11 +196,6 @@ define(["wc/dom/attribute",
 			return result;
 		}
 
-		function canActivateOnHover() {
-			var vps = getViewportSize();
-			return !(vps && vps.width <= FULL_SCREEN_TOGGLE_POINT);
-		}
-
 		/**
 		 * Mouse over handler. Sets up hover effects when the menu is transoent and not displayed on a mobile device.
 		 * This handler is only bound if required when a menu first receives focus and is bound directly to the menu
@@ -239,8 +203,7 @@ define(["wc/dom/attribute",
 		 * because we restyle transient sub-menus on these devices to improve usability when NOT using a mouse. This
 		 * restyle melds better with most mobile OS native menu systems which are full-page per menu level.
 		 *
-		 * @see {@link focusEvent}
-		 * @function mouseoverEvent
+		 * @function
 		 * @private
 		 * @param {Event} $event the mouseover event wrapped by {@link module:wc/dom/event}.
 		 */
@@ -259,7 +222,7 @@ define(["wc/dom/attribute",
 				}
 
 				this._focusItem(item, root);
-				if (activateOnHover === root.id && canActivateOnHover()) {
+				if (activateOnHover === root.id && viewportUtils.isPhoneLike()) {
 					// current menu is active menu
 					if (this._isOpener(item)) {
 						item = this._getBranch(item);
@@ -295,7 +258,7 @@ define(["wc/dom/attribute",
 		 * treewalker filter. precondition: element has been tested as a potential element match, now we want to know if
 		 * its first visible text node starts with a particular letter.
 		 *
-		 * @function hasTextNodeMatch
+		 * @function
 		 * @private
 		 * @param {Element} element The menu node being tested.
 		 * @param {String} letter The letter on the key the user pressed.
@@ -307,7 +270,7 @@ define(["wc/dom/attribute",
 				textNodeContent,
 				result = NodeFilter.FILTER_SKIP;
 
-			LETTER = LETTER || new RegExp(i18n.get("${wc.common.i18n.letter}"));
+			LETTER = LETTER || new RegExp(i18n.get("letter"));
 
 			if (letter && LETTER.test(letter)) {
 				tw = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, this._textMatchFilter.bind(this), false);
@@ -638,7 +601,6 @@ define(["wc/dom/attribute",
 		 * @this An instance of a sub-class menu.
 		 */
 		AbstractMenu.prototype._ajaxSubscriber = function (element, documentFragment/* , action */) {
-			var root;
 			/*
 			 * helper to update attributes in the content of an ajaxed-in branch/submenuContent
 			 */
@@ -666,14 +628,14 @@ define(["wc/dom/attribute",
 								okToFix = false;
 							}
 						}
-						if (okToFix) {
+						if (okToFix && inst._setMenuItemRole) {
 							inst._setMenuItemRole(nextLeaf, nextBranch);
 						}
 					});
 			}
 			/* before we do anything else make sure we are in the right kind of menu */
-			if (element && (root = this.getRoot(element)) === this.getFirstMenuAncestor(element)) {
-				AJAX_CONTEXTLESS_ITEM = AJAX_CONTEXTLESS_ITEM || new Widget("", "", {"role": "${wc.ui.menu.dummyRole}"});
+			if (element && this.getRoot(element) === this.getFirstMenuAncestor(element)) {
+				AJAX_CONTEXTLESS_ITEM = AJAX_CONTEXTLESS_ITEM || new Widget("", "", {"role": "dummy"});
 				/*
 				 * If the ajaxTarget is the content of a WSubMenu then we can be sure
 				 * that the ajax is caused by the branch and the action is FILL
@@ -698,8 +660,11 @@ define(["wc/dom/attribute",
 						 * So we are always safe to call this._getBranch on the submenuContext of
 						 * any branch in this type of ajax response.
 						 */
-						var submenuContext = (this.getSubMenu(nextBranch) || element);
-						this._setMenuItemRole(nextBranch, this._getBranch(submenuContext));
+						var submenuContext;
+						if (this._setMenuItemRole) {
+							submenuContext = (this.getSubMenu(nextBranch) || element);
+							this._setMenuItemRole(nextBranch, this._getBranch(submenuContext));
+						}
 						fixBranchContent(nextBranch, null, this);
 					}, this);
 
@@ -732,7 +697,7 @@ define(["wc/dom/attribute",
 		 * Collision detection which supports rtl and ltr opening submenus.
 		 * @todo this is now so cumbersome we may be better off just calculating offsets and position the submenu
 		 * directly.
-		 * @function module:wc/ui/menu/core~_doCollisionDetection
+		 * @function
 		 * @private
 		 * @param {Element} submenu The submenu content which may be colliding with the edge of the viewport.
 		 * @param {Object} instance An instance of a subclass.
@@ -834,7 +799,10 @@ define(["wc/dom/attribute",
 					candidates = candidates.concat(items);
 				}
 			}
-			candidates.forEach(instance._selectAfterAjax.bind(instance));
+			if (instance._selectAfterAjax) {
+				// TODO use this arg not bind!
+				candidates.forEach(instance._selectAfterAjax.bind(instance));
+			}
 		}
 
 		/**
@@ -1530,8 +1498,7 @@ define(["wc/dom/attribute",
 		AbstractMenu.prototype._actionItem = function(element) {
 			var root = this.getRoot(element),
 				item,
-				branchOrContent,
-				opener;
+				branchOrContent;
 			if (!root) {
 				return false;
 			}
@@ -1545,7 +1512,6 @@ define(["wc/dom/attribute",
 				return true;
 			}
 			if (this._isBranch(item)) {
-				opener = this._getBranchOpener(item);
 				// trees: the treeitem gets expanded, menus: the menu gets expanded.
 				branchOrContent = this._getBranchExpandableElement(item);
 				if (this._animateBranch(branchOrContent, !shed.isExpanded(branchOrContent))) {
@@ -1814,7 +1780,7 @@ define(["wc/dom/attribute",
 				keyName = key.getLiteral($key),
 				action = this._keyMap[keyName];
 
-			LETTER = LETTER || new RegExp(i18n.get("${wc.common.i18n.letter}"));
+			LETTER = LETTER || new RegExp(i18n.get("letter"));
 
 			if (action) {
 				if (this[action]) {
@@ -2098,5 +2064,34 @@ define(["wc/dom/attribute",
 		if (typeof Object.freeze !== "undefined") {
 			Object.freeze(abstractMenu);
 		}
+
+		/**
+		 * A module representing an abstract menu without any specific implementation. An instance of this class will do nothing.
+		 *
+		 * @module
+		 *
+		 * @requires module:wc/dom/attribute
+		 * @requires module:wc/dom/classList
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/focus
+		 * @requires module:wc/dom/formUpdateManager
+		 * @requires module:wc/dom/getFilteredGroup
+		 * @requires module:wc/dom/keyWalker
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/viewportCollision
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/key
+		 * @requires module:wc/ui/ajax/processResponse
+		 * @requires module:wc/timers
+		 * @requires module:wc/i18n/i18n
+		 * @requires module:wc/dom/getBox
+		 * @requires module:wc/array/toArray
+		 * @requires module:wc/ui/viewportUtils
+		 *
+		 * @see {@link module:wc/ui/menu/bar}
+		 * @see {@link module:wc/ui/menu/column}
+		 * @see {@link module:wc/ui/menu/tree}
+		 * @see {@link module:wc/ui/menu/treemenu}
+		 */
 		return abstractMenu;
 	});

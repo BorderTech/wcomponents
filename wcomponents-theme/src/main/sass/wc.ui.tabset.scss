@@ -44,10 +44,6 @@
 [role='tabpanel'] {
 	@include padded-box;
 	@include flex-grow(1);
-
-	&[aria-busy='true'] {
-		min-height: 16px;
-	}
 }
 
 

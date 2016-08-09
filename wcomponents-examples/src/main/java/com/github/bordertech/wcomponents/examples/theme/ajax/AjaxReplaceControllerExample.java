@@ -18,6 +18,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WRadioButtonSelect;
 import com.github.bordertech.wcomponents.WShuffler;
 import com.github.bordertech.wcomponents.WSingleSelect;
+import com.github.bordertech.wcomponents.WSuggestions;
 import com.github.bordertech.wcomponents.WTextField;
 import java.util.Arrays;
 
@@ -166,6 +167,19 @@ public class AjaxReplaceControllerExample extends WPanel {
 		// the text field really just needs to be read only
 		textField.setReadOnly(true);
 
+		WSuggestions suggestions = new WSuggestions("icao");
+		add(suggestions);
+		final WTextField controller11 = new WTextField();
+		controller11.setSuggestions(suggestions);
+		controller11.setActionOnChange(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				textField.setText("WSuggestions/WTextField: " + controller11.getValueAsString());
+			}
+		});
+		// add the ajax control for the controller
+		add(new WAjaxControl(controller11, textField));
+
 		// the second ajax control is a button
 		ajaxButton.setAction(new Action() {
 			@Override
@@ -177,7 +191,8 @@ public class AjaxReplaceControllerExample extends WPanel {
 		add(new WAjaxControl(ajaxButton,
 				new AjaxTarget[]{controller, controller2, controller3, controller4,
 					controller5, controller6, controller7, controller8,
-					controller9, controller10}));
+					controller9, controller10, controller11}));
+
 
 		// do the layout
 		final WFieldLayout layout = new WFieldLayout();
@@ -192,6 +207,7 @@ public class AjaxReplaceControllerExample extends WPanel {
 		layout.addField("Make a selection", controller8);
 		layout.addField("Enter some text", controller9);
 		layout.addField("Enter a date", controller10);
+		layout.addField("Cached list", controller11);
 		layout.addField("Output", textField);
 		layout.addField((WLabel) null, ajaxButton);
 

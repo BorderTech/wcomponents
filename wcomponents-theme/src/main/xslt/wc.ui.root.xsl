@@ -57,7 +57,7 @@
 					<xsl:text>require(["wc/compat/compat!"], function() {</xsl:text>
 					<xsl:text>require(["wc/a8n", "wc/loader/style", "wc/dom/removeElement"</xsl:text>
 					<xsl:if test="$isDebug=1">
-						<xsl:text>,"wc/debug/consoleColor", "wc/debug/indicator"</xsl:text><!-- , "wc/debug/a11y" #533 -->
+						<xsl:text>,"wc/debug/common"</xsl:text>
 					</xsl:if>
 					<xsl:text>], function(a, s, r){try{s.load();}finally{r("</xsl:text>
 					<xsl:value-of select="$styleLoaderId"/>
@@ -98,18 +98,16 @@
 					This helps to prevent users interacting with a page before it is ready. The modal shim is part of
 					the page level loading indicator.
 				-->
-				<div id="wc_shim" class="wc_shim_loading">
+				<div id="wc-shim" class="wc_shim_loading">
 					<xsl:text>&#xa0;</xsl:text>
 					<noscript>
 						<p>
-							<xsl:value-of select="$$${wc.ui.root.i18n.noscript.message}"/>
+							<xsl:text>You must have JavaScript enabled to use this application.</xsl:text>
 						</p>
 					</noscript>
 				</div>
-				<div id="wc_ui_loading">
-					<div tabindex="0" class="wc-icon">
-						<xsl:value-of select="$$${wc.ui.loading.loadMessage}"/>
-					</div>
+				<div id="wc-ui-loading">
+					<div tabindex="0" class="wc-icon">&#x200b;</div>
 				</div>
 				<xsl:apply-templates />
 			</body>

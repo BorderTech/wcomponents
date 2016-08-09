@@ -45,14 +45,14 @@
 	<div id="expandTests">
 		<button id="exp1" type="button" aria-expanded="false">Expand</button>
 		<button id="exp2" type="button" aria-expanded="true">Expand</button>
-		<${wc.dom.html5.element.details} id="details1">
-			<${wc.dom.html5.element.summary} id="details1a">More details</${wc.dom.html5.element.summary}>
+		<details id="details1">
+			<summary id="details1a">More details</summary>
 			<div id="details1content">Content</div>
-		</${wc.dom.html5.element.details}>
-		<${wc.dom.html5.element.details} id="details2" open="open">
-			<${wc.dom.html5.element.summary} id="details2a">More details</${wc.dom.html5.element.summary}>
+		</details>
+		<details id="details2" open="open">
+			<summary id="details2a">More details</summary>
 			<div id="details2content">Content</div>
-		</${wc.dom.html5.element.details}>
+		</details>
 	</div>
 	<div id="hideTests">
 		<button id="hide1" type="button">Hide</button>

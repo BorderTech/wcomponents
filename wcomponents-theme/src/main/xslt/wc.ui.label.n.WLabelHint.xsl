@@ -22,7 +22,7 @@
 	<xsl:template name="WLabelHint">
 		<xsl:param name="submitNotAjaxTrigger" select="0"/>
 		<xsl:if test="@hint or $submitNotAjaxTrigger=1">
-			<xsl:element name="span">
+			<span>
 				<xsl:attribute name="class">
 					<xsl:text>wc-label-hint</xsl:text>
 				</xsl:attribute>
@@ -31,9 +31,9 @@
 					<xsl:if test="@hint">
 						<xsl:element name="br"/>
 					</xsl:if>
-					<xsl:value-of select="$$${wc.common.i18n.submitOnChange}"/>
+					<xsl:text>{{t 'submitOnChange'}}</xsl:text>
 				</xsl:if>
-			</xsl:element>
+			</span>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

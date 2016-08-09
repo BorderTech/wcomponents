@@ -19,10 +19,12 @@
 	</xsl:template>
 
 	<xsl:template match="property">
-		<x:param name="{@name}">
-			<x:text>
-				<xsl:value-of select="@value" />
-			</x:text>
-		</x:param>
+		<xsl:if test="@name='lang' or @name='locale'">
+			<x:param name="{@name}">
+				<x:text>
+					<xsl:value-of select="@value" />
+				</x:text>
+			</x:param>
+		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

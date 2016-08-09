@@ -72,6 +72,10 @@
 		display: block;
 	}
 
+	&[aria-busy='true'] {
+		min-height: $wc-icon-normal;
+	}
+
 	.wc-menu-type-tree & {
 		white-space: normal;
 	}

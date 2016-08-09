@@ -19,7 +19,7 @@
 				<xsl:value-of select="@toolTip"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:value-of select="$$${wc.common.toggles.i18n.selectAll.a11y}"/>
+				<xsl:text>{{t 'toggle_all_label'}}</xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

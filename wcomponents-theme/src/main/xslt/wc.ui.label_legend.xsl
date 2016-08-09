@@ -41,7 +41,7 @@
 			</xsl:call-template>
 			<xsl:call-template name="accessKey"/>
 			<xsl:if test="$isEmpty = 1">
-				<xsl:value-of select="$$${wc.common.i18n.requiredLabel}"/>
+				<xsl:text>{{t 'requiredLabel'}}</xsl:text>
 			</xsl:if>
 			<xsl:apply-templates />
 			<xsl:call-template name="WLabelHint">
@@ -50,7 +50,7 @@
 			<xsl:if test="$labelableElement and $labelableElement/@required">
 				<xsl:call-template name="offscreenSpan">
 					<xsl:with-param name="text">
-						<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
+						<xsl:text>{{t 'requiredPlaceholder'}}</xsl:text>
 					</xsl:with-param>
 				</xsl:call-template>
 			</xsl:if>

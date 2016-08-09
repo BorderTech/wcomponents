@@ -1,24 +1,3 @@
-/**
- * The idea behind AJAX Regions is that parts of a web page (regions) are dynamically updated.
- *
- * The AjaxRegion class is responsible for working out which elements should trigger an AJAX request and when. The
- * response processing has been moved out to {@link module:wc/ui/ajax/processResponse} to solve some unpleasant
- * circular dependencies and potential races.
- *
- * @module
- * @requires module:wc/dom/event
- * @requires module:wc/dom/attribute
- * @requires module:wc/dom/isSuccessfulElement
- * @requires module:wc/dom/tag
- * @requires module:wc/ajax/Trigger
- * @requires module:wc/ajax/triggerManager
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/Widget
- * @requires module:wc/dom/initialise
- * @requires module:wc/ui/ajax/processResponse
- *
- * @todo re-order code, document private members.
- */
 define(["wc/dom/event",
 		"wc/dom/attribute",
 		"wc/dom/isSuccessfulElement",
@@ -29,9 +8,14 @@ define(["wc/dom/event",
 		"wc/dom/Widget",
 		"wc/dom/initialise",
 		"wc/ui/ajax/processResponse"],
-	/** @param event wc/dom/event @param attribute wc/dom/attribute @param isSuccessfulElement wc/dom/isSuccessfulElement @param tag wc/dom/tag @param Trigger wc/ajax/Trigger @param triggerManager wc/ajax/triggerManager @param shed wc/dom/shed @param Widget wc/dom/Widget @param initialise wc/dom/initialise @param processResponse wc/ui/ajax/processResponse @ignore */
 	function(event, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse) {
 		"use strict";
+
+		// prevent circular dependency
+		var dialog;
+		require(["wc/ui/dialog"], function (d) {
+			dialog = d;
+		});
 
 		/**
 		 * @constructor
@@ -45,28 +29,160 @@ define(["wc/dom/event",
 				PSEUDO_PROTOCOL_RE = /^[\w]+\:[^\/].*$/,
 				ALIAS = "data-wc-ajaxalias",
 				ignoreChange = false;
+
+
+
+			function fireThisTrigger(element, trigger) {
+				var result = false, isSuccessful;
+				if (trigger) {
+					if (trigger.successful === null) {
+						result = true;
+					}
+					else {
+						isSuccessful = isSuccessfulElement(element, true);
+						if ((trigger.successful === true && isSuccessful) || (trigger.successful === false && !isSuccessful)) {
+							result = true;
+						}
+					}
+				}
+				if (result) {
+					trigger._submitTriggerElement = true;
+					// the trigger may still decide not to fire (eg all shots are used up)
+					trigger.fire();
+				}
+				return result;
+			}
+
 			/**
-			 * Register an ajax trigger. This method is a wrapper for {@link module:wc/ajax/triggerManager#addTrigger}
-			 * and UI controls will usually use this module rather than going straight to the trigger manager module.
-			 * @see {@link module:wc/ajax/triggerManager}
-			 * @function module:wc/ui/ajaxRegion.register
-			 * @public
-			 * @param {Object} obj The registration object
+			 * Checks if an element is an ajax trigger and if so fires it.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element The element we consider a candidate for being an AJAX trigger. If the element is
+			 *    indeed an AJAX trigger then it will be fired by this function.
+			 * NOTE: all ajaxTriggers will have an attribute "data-wc-ajaxalias"
 			 */
-			this.register = function (obj) {
-				function registerTrigger(next) {
-					var trigger = new Trigger(next, processResponse.processResponseXml, processResponse.processError);
-					triggerManager.addTrigger(trigger);
-					return trigger;
+			function checkActivateTrigger(element) {
+				var result = false, trigger;
+
+				if (dialog && dialog.isTrigger(element)) {
+					dialog.open(element);
+					result = true; // do not return, could be a dialog trigger AND an ajax trigger.
 				}
 
-				if (Array.isArray(obj)) {
-					obj.forEach(registerTrigger);
+				if (instance.isTrigger(element)) {
+					trigger = instance.getTrigger(element, true);
+					result = fireThisTrigger(element, trigger);
 				}
-				else {
-					registerTrigger(obj);
+				return result;
+			}
+
+			/**
+			 * Is an element a form submitting element?
+			 * @function
+			 * @private
+			 * @param {Element} element The element to test.
+			 * @returns {Boolean} true if the element is a type that submits a form when clicked (ie a submit button).
+			 */
+			function isSubmitElement(element) {
+				var result = false,
+					tagName = element.tagName,
+					type = element.type;
+				if (type === "submit" || type === "image") {
+					if (tagName === tag.INPUT || tagName === tag.BUTTON) {
+						result = true;
+					}
 				}
-			};
+				return result;
+			}
+
+			function shedSubscriber(element) {
+				var type = element.type;
+
+				if (element && element.tagName === tag.INPUT && (type === "radio" || type === "checkbox")) {
+					checkActivateTrigger(element);
+				}
+			}
+
+			/**
+			 * Does an element trigger an ajax request when it changes? Some elements should not do ajax stuff on click,
+			 * instead it makes sense for them to use the change event.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element The element to check whether it does ajax on change.
+			 * @returns {Boolean} true if this element should ajax on change.
+			 */
+			function triggersOnChange(element) {
+				var tagName = element.tagName,
+					type = element.type;
+				// NOTE: a standalone listbox or dropdown is an ajax trigger, a select element as a sub element of a compund controller is not
+				if (shed.isSelectable(element)) {
+					return false;
+				}
+				// Don't allow file to trigger on change it breaks multiFileUploader when large number of files are selected
+				return ((tagName === tag.SELECT && element.getAttribute(ALIAS) === element.id) || tagName === tag.TEXTAREA || (tagName === tag.INPUT && type !== "file"));
+			}
+
+			/*
+			 * @param {Event} $event An event
+			 */
+			function clickEvent($event) {
+				var element;
+				if (!$event.defaultPrevented) {
+					BUTTON = BUTTON || new Widget(tag.BUTTON);
+					element = Widget.findAncestor($event.target, [BUTTON, ANCHOR]);
+
+					if (element && !shed.isDisabled(element) && checkActivateTrigger(element) && (isSubmitElement(element) || isNavLink(element))) {
+						$event.preventDefault();
+					}
+				}
+			}
+
+			/*
+			 * Some elements should fire trigger on change event, for example SELECT elements.
+			 * @param {Event} $event An event
+			 */
+			function changeEvent($event) {
+				if (ignoreChange) {
+					return;
+				}
+				checkActivateTrigger($event.target);
+			}
+
+			/**
+			 * Focus event listener adds a change event to triggers which trigger on change.
+			 *
+			 * @function
+			 * @private
+			 * @param {Event} $event A focus event.
+			 */
+			function focusEvent($event) {
+				var element = $event.target;
+				if (!$event.defaultPrevented && !attribute.get(element, INITED_FLAG) && triggersOnChange(element)) {
+					attribute.set(element, INITED_FLAG, true);
+					event.add(element, event.TYPE.change, changeEvent, 100);
+				}
+			}
+
+			/**
+			 * Check whether this element is an anchor element itself OR if it is nested within an anchor element.
+			 * Only returns true if the link will navigate the page. If it is a link that will target another frame
+			 * or window, or will launch an external app (via a custom protocol e.g. mailto:) then it will return
+			 * false.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element
+			 * @returns {boolean} true if the element is a link which will navigate the page
+			 */
+			function isNavLink(element) {
+				var result = false, link = ANCHOR.findAncestor(element);
+				if (link && link.getAttribute("aria-haspopup") !== "true" && !link.getAttribute("target") && !PSEUDO_PROTOCOL_RE.test(link.href)) {
+					result = true;
+				}
+				return result;
+			}
 
 			/**
 			 * Set up event and {@link module:wc/dom/shed} subscribers.
@@ -139,6 +255,11 @@ define(["wc/dom/event",
 					id,
 					controls;
 
+				if (dialog && dialog.isTrigger(element)) {
+					dialog.open(element);
+				}
+				// do not return, we may still have ajax to attend to.
+
 				if (!trigger) {
 					if (obj) {
 						this.register(obj);
@@ -167,159 +288,16 @@ define(["wc/dom/event",
 			};
 
 			/**
-			 * Checks if an element is an ajax trigger and if so fires it.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} element The element we consider a candidate for being an AJAX trigger. If the element is
-			 *    indeed an AJAX trigger then it will be fired by this function.
-			 * NOTE: all ajaxTriggers will have an attribute "data-wc-ajaxalias"
+			 * Allow external scripts to clear their own prevent submit on next change event before any change event is fired.
+			 * @function module:wc/ui/ajaxRegion.clearIgnoreChange
+			 * @public
 			 */
-			function checkActivateTrigger(element) {
-				var result = false, trigger;
-				if (instance.isTrigger(element)) {
-					trigger = instance.getTrigger(element, true);
-					result = fireThisTrigger(element, trigger);
-				}
-				return result;
-			}
+			this.clearIgnoreChange = function() {
+				ignoreChange = false;
+			};
 
 			/**
-			 * Is an element a form submitting element?
-			 * @function
-			 * @private
-			 * @param {Element} element The element to test.
-			 * @returns {Boolean} true if the element is a type that submits a form when clicked (ie a submit button).
-			 */
-			function isSubmitElement(element) {
-				var result = false,
-					tagName = element.tagName,
-					type = element.type;
-				if (type === "submit" || type === "image") {
-					if (tagName === tag.INPUT || tagName === tag.BUTTON) {
-						result = true;
-					}
-				}
-				return result;
-			}
-
-			/**
-			 * Does an element trigger an ajax request when it changes?
-			 *
-			 * Some elements should not do ajax stuff on click, instead it makes sense for them to
-			 * use the change event.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} element The element to check whether it does ajax on change.
-			 * @returns {Boolean} true if this element should ajax on change.
-			 */
-			function triggersOnChange(element) {
-				var tagName = element.tagName,
-					type = element.type,
-					result = false;
-				// NOTE: a standalone listbox or dropdown is an ajax trigger, a select element as a sub element of a compund controller is not
-				if ((tagName === tag.SELECT && element.getAttribute(ALIAS) === element.id) || tagName === tag.TEXTAREA ||
-						(tagName === tag.INPUT && !(type === "radio" || type === "checkbox" || type === "file"))) {
-					// Don't allow file to trigger on change it breaks multiFileUploader when large number of files are selected
-					result = true;
-				}
-				return result;
-			}
-
-			function shedSubscriber(element) {
-				var type = element.type;
-
-				if (element && element.tagName === tag.INPUT && (type === "radio" || type === "checkbox")) {
-					checkActivateTrigger(element);
-				}
-			}
-
-
-			/*
-			 * @param {Event} $event An event
-			 */
-			function clickEvent($event) {
-				var element;
-				if (!$event.defaultPrevented) {
-					BUTTON = BUTTON || new Widget(tag.BUTTON);
-					element = Widget.findAncestor($event.target, [BUTTON, ANCHOR]);
-
-					if (element && !shed.isDisabled(element) && checkActivateTrigger(element) && (isSubmitElement(element) || isNavLink(element))) {
-						$event.preventDefault();
-					}
-				}
-			}
-
-			/*
-			 * Some elements should fire trigger on change event, for example SELECT elements.
-			 * @param {Event} $event An event
-			 */
-			function changeEvent($event) {
-				if (ignoreChange) {
-					return;
-				}
-				checkActivateTrigger($event.target);
-			}
-
-			/**
-			 * Focus event listener adds a change event to triggers which trigger on change.
-			 *
-			 * @function
-			 * @private
-			 * @param {Event} $event A focus event.
-			 */
-			function focusEvent($event) {
-				var element = $event.target;
-				if (!$event.defaultPrevented && !attribute.get(element, INITED_FLAG) && triggersOnChange(element)) {
-					attribute.set(element, INITED_FLAG, true);
-					event.add(element, event.TYPE.change, changeEvent, 100);
-				}
-			}
-
-			/**
-			 * Check whether this element is an anchor element itself OR if it is nested within an anchor element.
-			 * Only returns true if the link will navigate the page. If it is a link that will target another frame
-			 * or window, or will launch an external app (via a custom protocol e.g. mailto:) then it will return
-			 * false.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} element
-			 * @returns {boolean} true if the element is a link which will navigate the page
-			 */
-			function isNavLink(element) {
-				var result = false, link = ANCHOR.findAncestor(element);
-				if (link && link.getAttribute("aria-haspopup") !== "true" && !link.getAttribute("target") && !PSEUDO_PROTOCOL_RE.test(link.href)) {
-					result = true;
-				}
-				return result;
-			}
-
-			function fireThisTrigger(element, trigger) {
-				var result = false, isSuccessful;
-				if (trigger) {
-					if (trigger.successful === null) {
-						result = true;
-					}
-					else {
-						isSuccessful = isSuccessfulElement(element, true);
-						if ((trigger.successful === true && isSuccessful) || (trigger.successful === false && !isSuccessful)) {
-							result = true;
-						}
-					}
-				}
-				if (result) {
-					trigger._submitTriggerElement = true;
-					// the trigger may still decide not to fire (eg all shots are used up)
-					trigger.fire();
-				}
-				return result;
-			}
-
-			/**
-			 * Set a flag to ignore a change event, useful if doing a lot of changes and only want to fire one AJAX
-			 * request.
+			 * Set a flag to ignore a change event, useful if doing a lot of changes and only want to fire one AJAX request.
 			 * @function  module:wc/ui/ajaxRegion.ignoreNextChange
 			 * @public
 			 */
@@ -328,16 +306,49 @@ define(["wc/dom/event",
 			};
 
 			/**
-			 * Allow external scripts to clear their own prevent submit on next
-			 * change event before any change event is fired.
-			 * @function module:wc/ui/ajaxRegion.clearIgnoreChange
+			 * Register an ajax trigger. This method is a wrapper for {@link module:wc/ajax/triggerManager#addTrigger} and UI controls will usually
+			 * use this module rather than going straight to the trigger manager module.
+			 * @see {@link module:wc/ajax/triggerManager}
+			 * @function module:wc/ui/ajaxRegion.register
 			 * @public
+			 * @param {Object} obj The registration object
 			 */
-			this.clearIgnoreChange = function() {
-				ignoreChange = false;
+			this.register = function (obj) {
+				function registerTrigger(next) {
+					var trigger = new Trigger(next, processResponse.processResponseXml, processResponse.processError);
+					triggerManager.addTrigger(trigger);
+					return trigger;
+				}
+
+				if (Array.isArray(obj)) {
+					obj.forEach(registerTrigger);
+				}
+				else {
+					registerTrigger(obj);
+				}
 			};
 		}
-		var /** @alias module:wc/ui/ajaxRegion */ instance = new AjaxRegion();
+
+		/**
+		 * This module is responsible for working out which elements should trigger an AJAX request and when.
+		 *
+		 * The response processing is in {@link module:wc/ui/ajax/processResponse} to solve some unpleasant circular dependencies and potential races.
+		 *
+		 * @module
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/attribute
+		 * @requires module:wc/dom/isSuccessfulElement
+		 * @requires module:wc/dom/tag
+		 * @requires module:wc/ajax/Trigger
+		 * @requires module:wc/ajax/triggerManager
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/ui/ajax/processResponse
+		 *
+		 * @todo re-order code, document private members.
+		 */
+		var instance = new AjaxRegion();
 		initialise.register(instance);
 		return instance;
 	});

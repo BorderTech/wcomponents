@@ -2,6 +2,7 @@
 @import 'mixins-common';
 
 %wc-linkbutton {
+	@include button($border: 0, $padding: 0, $text-align: inherit);
 	color: $wc-ui-color-link;
 	cursor: pointer;
 	text-decoration: underline;

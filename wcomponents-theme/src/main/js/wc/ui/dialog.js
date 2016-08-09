@@ -1,23 +1,3 @@
-/**
- * Provides "dialog" functionality.  NOTE: we currently use a custom dialog because IE native dialog does not call and
- * parse xslt (as of IE10). This is not an issue in ff3.6+ or Chrome 6 but these do not support showModelessDialog.
- *
- * The custom dialog also provides somewhat better options for mobile use and cross platform consistency.
- *
- * @module
- * @requires module:wc/dom/classList
- * @requires module:wc/dom/event
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/Widget
- * @requires module:wc/i18n/i18n
- * @requires module:wc/ui/ajaxRegion
- * @requires module:wc/ui/ajax/processResponse
- * @requires module:wc/timers
- * @requires module:wc/ui/dialogFrame
- *
- * @todo Re-order source, document private members.
- */
 define(["wc/dom/classList",
 		"wc/dom/event",
 		"wc/dom/initialise",
@@ -29,9 +9,9 @@ define(["wc/dom/classList",
 		"wc/ui/containerload",
 		"wc/timers",
 		"wc/ui/dialogFrame"],
-
 	function(classList, event, initialise, shed, Widget, i18n, ajaxRegion, processResponse, eagerLoader, timers, dialogFrame) {
 		"use strict";
+
 
 		/**
 		 * @constructor
@@ -41,9 +21,10 @@ define(["wc/dom/classList",
 		function Dialog() {
 			var BUTTON = new Widget("button"),
 				ANCHOR,
-				OPENER = BUTTON.extend("", {"data-wc-dialogconf": null}),
+				// OPENER = BUTTON.extend("", {"data-wc-dialogconf": null}),
 				BASE_CLASS = "wc-dialog",
 				registry = {},
+				registryByDialogId = {},
 				UNIT = "px",
 				keepContentOnClose = false,
 				openOnLoadTimer,
@@ -73,10 +54,11 @@ define(["wc/dom/classList",
 			 * @param {module:wc/ui/dialog~regObject} dialogObj The dialog dto.
 			 */
 			function _register(dialogObj) {
-				var id = dialogObj.id;
-				if (id) {
-					registry[id] = {
-						id: id,
+				var triggerId = dialogObj.triggerid || dialogObj.id;
+
+				if (triggerId) {
+					registry[triggerId] = {
+						id: dialogObj.id,
 						className: BASE_CLASS + (dialogObj.className ? (" " + dialogObj.className) : ""),
 						formId: dialogObj.form,
 						width: dialogObj.width,
@@ -84,10 +66,13 @@ define(["wc/dom/classList",
 						initWidth: dialogObj.width,  // useful if we do not allow resize below initial size
 						initHeight: dialogObj.height,
 						modal: dialogObj.modal || false,
-						title: dialogObj.title || i18n.get("${wc.ui.dialog.title.noTitle}")
+						triggerid: dialogObj.triggerid,
+						title: dialogObj.title || i18n.get("dialog_noTitle")
 					};
+					registryByDialogId[dialogObj.id] = triggerId;
+
 					if (dialogObj.open) {
-						openThisDialog = id;
+						openThisDialog = triggerId;
 					}
 				}
 			}
@@ -111,7 +96,6 @@ define(["wc/dom/classList",
 				 * @function
 				 * @private
 				 * @param {String} id The id of the target element.
-				 * @returns {Boolean} true if the target element is inside the dialog content.
 				 */
 				function _targetInsideDialog(id) {
 					var element;
@@ -124,11 +108,11 @@ define(["wc/dom/classList",
 				if (dialog && !shed.isHidden(dialog, true)) {
 					content = dialogFrame.getContent();
 					if (!content) {
-						console.error("Found open dialog but not its content");
-						return false;
+						return;
 					}
 
 					if (content.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY) { // we are inside a dialog's content
+						keepContentOnClose = false;
 						// we need to know if a click is on an ajax trigger inside a dialog
 						if (ajaxRegion.isTrigger(element)) {
 							isTrigger = true;
@@ -145,27 +129,21 @@ define(["wc/dom/classList",
 
 						if (isTrigger && _element && (trigger = ajaxRegion.getTrigger(_element, true)) && (targets = trigger.loads) && targets.length && !targets.some(_targetInsideDialog)) {
 							keepContentOnClose = true;
-							dialogFrame.close();  // NOTE: do not set result to true or you will prevent the AJAX action!
+							dialogFrame.close(); // NOTE: do not set result to true or you will prevent the AJAX action!
 						}
 					}
 				}
-				else if ((_element = OPENER.findAncestor(element)) && !shed.isDisabled(_element)) {
-					openDlg(_element.getAttribute("data-wc-dialogconf"), _element.id);
-					return true; // prevent the click default action.
-				}
-				return false;
 			}
 
 			/**
 			 * Open a dialog.
 			 * @function
 			 * @private
-			 * @param {String} id The id of the WDialog to open.
-			 * @param {String} [_openerId] The id of the button used to launch the dialog if known.
+			 * @param {String} triggerId The id of the trigger.
 			 * @param {String} [openThisDialog] The id of a particular dialog to open.
 			 */
-			function openDlg(id, _openerId) {
-				var regObj = registry[id];
+			function openDlg(triggerId) {
+				var regObj = registry[triggerId];
 
 				function populateOnLoad() {
 					var content = dialogFrame.getContent(),
@@ -175,7 +153,7 @@ define(["wc/dom/classList",
 						content.id = regObj.id;
 						if ((openerId = regObj.openerId)) {
 							opener = document.getElementById(openerId);
-							content.setAttribute(GET_ATTRIB, openerId + "=" + (opener ? opener.value : "x"));
+							content.setAttribute(GET_ATTRIB, openerId + "=" + (opener ? encodeURIComponent(opener.value) : "x"));
 						}
 						else {
 							content.removeAttribute(GET_ATTRIB);
@@ -190,10 +168,6 @@ define(["wc/dom/classList",
 				}
 
 				if (regObj) {
-					if (_openerId !== regObj.openerId) {
-						regObj.openerId = _openerId;
-					}
-
 					dialogFrame.open(regObj).then(populateOnLoad).catch(function(err) {
 						console.warn(err);
 					});
@@ -210,7 +184,7 @@ define(["wc/dom/classList",
 			 */
 			function postOpenSubscriber(element) {
 				var regObj;
-				if (element && element === dialogFrame.getContent() && element.id && (regObj = registry[element.id])) {
+				if (element && element === dialogFrame.getContent() && element.id && (regObj = getRegistryObjectByDialogId(element.id))) {
 					// set the initial position
 					if (!(regObj.top || regObj.left || regObj.top === 0 || regObj.left === 0)) {
 						dialogFrame.reposition({width: regObj.width, height: regObj.height});
@@ -219,18 +193,38 @@ define(["wc/dom/classList",
 			}
 
 			function saveDialogDimensions(element, regObj) {
+				var unitless;
 				if (element.style.width) {
 					regObj["width"] = element.style.width.replace(UNIT, "");
 				}
 				if (element.style.height) {
 					regObj["height"] = element.style.height.replace(UNIT, "");
 				}
-				if (element.style.left) {
-					regObj["left"] = element.style.left.replace(UNIT, "");
+				if ((unitless = element.style.left)) {
+					unitless = Math.round(parseFloat(unitless));
+					if (unitless >= 0 ) {
+						regObj["left"] = unitless;
+					}
 				}
-				if (element.style.top) {
-					regObj["top"] = element.style.top.replace(UNIT, "");
+				if ((unitless = element.style.top)) {
+					unitless = Math.round(parseFloat(unitless));
+					if (unitless >= 0 ) {
+						regObj["top"] = unitless;
+					}
 				}
+			}
+
+			/**
+			 * Get a registry object based on a WDialog id attribute.
+			 * @param {String} id the ID of the WDialog to get.
+			 * @returns {?module:wc/ui/dialog~regObject} the registry object if found.
+			 */
+			function getRegistryObjectByDialogId(id) {
+				var triggerId = registryByDialogId[id];
+				if (triggerId) {
+					return registry[triggerId];
+				}
+				return null;
 			}
 
 			/**
@@ -244,7 +238,7 @@ define(["wc/dom/classList",
 				var content,
 					id,
 					regObj;
-				if (element && element === dialogFrame.getDialog() && (content = dialogFrame.getContent()) && (id = content.id) && (regObj = registry[id])) { // we are ONLY interested in WDialog inited dialogs.
+				if (element && element === dialogFrame.getDialog() && (content = dialogFrame.getContent()) && (id = content.id) && (regObj = getRegistryObjectByDialogId(id))) { // we are ONLY interested in WDialog inited dialogs.
 					try {
 						saveDialogDimensions(element, regObj);
 						/*
@@ -303,9 +297,54 @@ define(["wc/dom/classList",
 					initialise.addCallback(openOnLoad);
 				}
 			};
-		}
 
-		var /** @alias module:wc/ui/dialog */ instance = new Dialog();
+			/**
+			 * Is a given element a dialog trigger?
+			 * @function module:wc/ui/dialog.isTrigger
+			 * @public
+			 * @param {Element} element The element to test.
+			 * @returns {boolean} true if the element will trigger a dialog on change or click.
+			 */
+			this.isTrigger = function (element) {
+				var id = element.id;
+				return id && registry[id];
+			};
+
+
+			/**
+			 * Open a dialog for a given trigger.
+			 * @function module:wc/ui/dialog.open
+			 * @public
+			 * @param {Element} trigger The dialog trigger.
+			 * @returns {boolean} true if the element will trigger a dialog on change or click.
+			 */
+			this.open = function(trigger) {
+				if (this.isTrigger(trigger)) {
+					openDlg(trigger.id);
+				}
+			};
+		}
+		/**
+		 * Provides "dialog" functionality.  NOTE: we currently use a custom dialog because IE native dialog does not call and
+		 * parse xslt (as of IE10). This is not an issue in ff3.6+ or Chrome 6 but these do not support showModelessDialog.
+		 *
+		 * The custom dialog also provides somewhat better options for mobile use and cross platform consistency.
+		 *
+		 * @module
+		 * @requires module:wc/dom/classList
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/i18n/i18n
+		 * @requires module:wc/ui/ajaxRegion
+		 * @requires module:wc/ui/ajax/processResponse
+		 * @requires module:wc/timers
+		 * @requires module:wc/ui/dialogFrame
+		 *
+		 * @todo Re-order source, document private members.
+		 */
+		var instance = new Dialog();
 
 		initialise.register(instance);
 

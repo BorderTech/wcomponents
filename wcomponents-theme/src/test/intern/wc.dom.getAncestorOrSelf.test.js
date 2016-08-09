@@ -241,7 +241,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			},
 			testTopLevel: function() {
 				var foo = document.getElementById("foo"),
-					dto = {element: foo, tagName: "div", limitTagName: "${wc.dom.html5.element.section}", outermost: true},
+					dto = {element: foo, tagName: "div", limitTagName: "section", outermost: true},
 					result = getAncestorOrSelf(dto);
 				assert.strictEqual("moocowDiv", result.id);
 			},

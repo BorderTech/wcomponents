@@ -63,9 +63,9 @@ public class WDialogExample_Test extends WComponentExamplesTestCase {
 		driver.findElement(byWComponent(testButton)).click();
 
 		Assert.assertTrue("Dialog must be open.", driver.getDialog().isOpen());
-		
+
 		driver.getDialog().close();
-		
+
 		Assert.assertFalse("Should not be displaying the dialog", driver.isOpenDialog());
 		Assert.assertFalse("Should not be displaying the dialog", driver.getPageSource().contains(
 				expectedText));
@@ -74,7 +74,7 @@ public class WDialogExample_Test extends WComponentExamplesTestCase {
 	@Test
 	public void testModalDialogSearch() {
 		// Launch the web browser to the LDE
-		WebDriver driver = getDriver();
+		SeleniumWComponentsWebDriver driver = getDriver();
 		WDialogExample example = (WDialogExample) getUi();
 		final WButton testButton = example.getModalButton();
 
@@ -87,9 +87,9 @@ public class WDialogExample_Test extends WComponentExamplesTestCase {
 //
 //        Assert.assertTrue("Should have a validation error", driver.getPageSource().contains("Please enter First name"));
 		// Enter search info & submit
-		driver.findElement(byWComponentPath("WDialogExample$SelectPersonPanel/WTextField[0]")).
+		driver.findWTextField(byWComponentPath("WDialogExample$SelectPersonPanel/WTextField[0]")).
 				sendKeys("First");
-		driver.findElement(byWComponentPath("WDialogExample$SelectPersonPanel/WTextField[1]")).
+		driver.findWTextField(byWComponentPath("WDialogExample$SelectPersonPanel/WTextField[1]")).
 				sendKeys("Last");
 		driver.findElement(byWComponentPath("WDialogExample$SelectPersonPanel/WButton[2]")).click();
 

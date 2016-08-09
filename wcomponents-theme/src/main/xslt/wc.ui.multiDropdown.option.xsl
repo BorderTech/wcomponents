@@ -18,16 +18,7 @@
 		<xsl:variable name="ancestorMDD" select="ancestor::ui:multidropdown"/>
 		<xsl:variable name="id" select="$ancestorMDD/@id"/>
 		<li>
-			<xsl:element name="select">
-				<xsl:attribute name="name">
-					<xsl:value-of select="$id"/>
-				</xsl:attribute>
-				<xsl:attribute name="id">
-					<xsl:value-of select="concat($id,generate-id(),'-',position())"/>
-				</xsl:attribute>
-				<xsl:attribute name="title">
-					<xsl:value-of select="$$${wc.ui.multiFormComponent.i18n.optionLabelText}"/>
-				</xsl:attribute>
+			<select name="{$id}" id="{concat($id,generate-id(),'-',position())}" title="{{t 'mfc_option'}}">
 				<xsl:if test="$ancestorMDD/@submitOnChange">
 					<xsl:attribute name="class">
 						<xsl:text>wc_soc</xsl:text>
@@ -46,7 +37,7 @@
 					<xsl:with-param name="option" select="$option"/>
 					<xsl:with-param name="isSingular" select="$isSingular"/>
 				</xsl:apply-templates>
-			</xsl:element>
+			</select>
 			<xsl:call-template name="multiFieldIcon">
 				<xsl:with-param name="myLabel" select="$myLabel"/>
 			</xsl:call-template>

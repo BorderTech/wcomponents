@@ -58,7 +58,10 @@
 					<xsl:if test="@for and @for!=''"><!-- this is an explicit 'for' and not for implied by nesting -->
 						<xsl:attribute name="for">
 							<xsl:value-of select="@for"/>
-							<xsl:if test="local-name($labelableElement) = 'datefield'">
+							<xsl:if test="local-name($labelableElement) = 'datefield' or 
+								local-name($labelableElement) = 'textfield' or 
+								local-name($labelableElement) = 'emailfield' or 
+								local-name($labelableElement) = 'phonenumberfield'">
 								<xsl:text>_input</xsl:text>
 							</xsl:if>
 						</xsl:attribute>
@@ -82,13 +85,13 @@
 
 			<xsl:apply-templates/>
 			<xsl:if test="normalize-space(.)='' and not(.//ui:image)">
-				<xsl:value-of select="$$${wc.common.i18n.requiredLabel}"/>
+				<xsl:text>{{t 'requiredLabel'}}</xsl:text>
 			</xsl:if>
 
 			<xsl:if test="$elementType='label' and $labelableElement/@required">
 				<xsl:call-template name="offscreenSpan">
 					<xsl:with-param name="text">
-						<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
+						<xsl:text>{{t 'requiredPlaceholder'}}</xsl:text>
 					</xsl:with-param>
 				</xsl:call-template>
 			</xsl:if>

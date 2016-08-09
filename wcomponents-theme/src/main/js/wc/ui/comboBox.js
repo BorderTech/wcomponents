@@ -1,44 +1,10 @@
-/**
- * Provides combo functionality.
- *
- * @typedef {Object} module:wc/ui/comboBox.config() Optional module configuration.
- * @property {?int} min The global (default) minimum number of characters which must be entered before a comboBox will
- * update its dynamic datalist. This can be over-ridden per instance of WSuggestions.
- * @default 3
- * @property {?int} delay The number of milliseconds for which a user must pause before a comboBox's datalist is
- * updated.
- * @default 250
- *
- * @module
- * @requires module:wc/has
- * @requires module:wc/ajax/triggerManager
- * @requires module:wc/dom/attribute
- * @requires module:wc/dom/classList
- * @requires module:wc/dom/event
- * @requires module:wc/dom/focus
- * @requires module:wc/dom/getFilteredGroup
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/textContent
- * @requires module:wc/dom/Widget
- * @requires module:wc/key
- * @requires module:wc/timers
- * @requires module:wc/ui/ajaxRegion
- * @requires module:wc/ui/ajax/processResponse
- * @requires module:wc/ui/onchangeSubmit
- * @requires module:wc/ui/listboxAnalog
- * @requires module:wc/config
- */
 define(["wc/has",
-		"wc/ajax/triggerManager",
 		"wc/dom/attribute",
 		"wc/dom/classList",
 		"wc/dom/event",
 		"wc/dom/focus",
-		"wc/dom/getFilteredGroup",
 		"wc/dom/initialise",
 		"wc/dom/shed",
-		"wc/dom/textContent",
 		"wc/dom/Widget",
 		"wc/key",
 		"wc/timers",
@@ -48,7 +14,7 @@ define(["wc/has",
 		"wc/ui/listboxAnalog",
 		"wc/config"
 	],
-	function(has, triggerManager, attribute, classList, event, focus, getFilteredGroup, initialise, shed, textContent, Widget, key, timers, ajaxRegion, processResponse, onchangeSubmit, listboxAnalog, wcconfig) {
+	function(has, attribute, classList, event, focus, initialise, shed, Widget, key, timers, ajaxRegion, processResponse, onchangeSubmit, listboxAnalog, wcconfig) {
 		"use strict";
 
 		/**
@@ -57,10 +23,11 @@ define(["wc/has",
 		 * @private
 		 */
 		function ComboBox() {
-			var COMBO = new Widget("input", "", {"role": "combobox", "aria-owns": null}),
-				LISTBOX = listboxAnalog.CONTAINER,
+			var COMBO = new Widget("", "wc-combo", {"role": "combobox"}),
+				LISTBOX = listboxAnalog.CONTAINER.clone(),
+				TEXTBOX = new Widget("input"),
 				OPTION = listboxAnalog.ITEM,
-				CONTROLS = "aria-controls",
+				OPENER_BUTTON = new Widget("button"),
 				filterTimer,
 				filter = true,
 				optionVal = {},
@@ -73,7 +40,6 @@ define(["wc/has",
 				CLASS_CHATTY = "wc_combo_dyn",
 				CHATTY_COMBO = COMBO.extend(CLASS_CHATTY),
 				updateTimeout,
-				VALUE_ATTRIB = "data-wc-value",
 				conf = wcconfig.get("wc/ui/comboBox"),
 				/**
 				 * Wait this long before updating the list on keydown.
@@ -92,6 +58,10 @@ define(["wc/has",
 				CHAR_KEYS,  // used in the keydown event handler if we cannot use the input event
 				nothingLeftReg = {};  // last search returned no match, keep the search term for future reference
 
+			LISTBOX.descendFrom(COMBO, true);
+			TEXTBOX.descendFrom(COMBO, true);
+			OPENER_BUTTON.descendFrom(COMBO, true);
+
 			if (has("ie") <= 8) {
 				require(["wc/fix/inlineBlock_ie8"], function(inlineBlock) {
 					repainter = inlineBlock;
@@ -108,19 +78,20 @@ define(["wc/has",
 			 * @returns {?Element} The list box if it is able to be found.
 			 */
 			function getListBox(element) {
-				var result, listId;
+				var combo;
 				if (!element) {
 					return null;
 				}
 				if (COMBO.isOneOfMe(element)) {
-					if ((listId = element.getAttribute("aria-owns"))) {
-						result = document.getElementById(listId);
+					return LISTBOX.findDescendant(element);
+				}
+				if (TEXTBOX.isOneOfMe(element)) {
+					if ((combo = COMBO.findAncestor(element))) {
+						return LISTBOX.findDescendant(combo);
 					}
+					return null;
 				}
-				else {
-					result = LISTBOX.findAncestor(element);
-				}
-				return result;
+				return LISTBOX.findAncestor(element);
 			}
 
 			/**
@@ -131,22 +102,17 @@ define(["wc/has",
 			 * @param {Element} combo The combo box from which to strip selected.
 			 */
 			function clearList(combo) {
-				var listbox = getListBox(combo), options;
-				if (listbox && (options = getFilteredGroup(listbox))) {
-					options.forEach(function(next) {
-						shed.deselect(next, true);  // do not publish they are already hidden and are not important for anything else.
-						next.tabIndex = 0;
-					});
+				var listbox = getListBox(combo);
+				if (listbox) {
+					listboxAnalog.clearAllOptions(listbox);
 				}
 			}
 
 			/**
-			 * Hides options in this combo based on its current value. The behaviour is based primarily on the
-			 * native behaviour of Firefox. In particular the partial string matching is a Firefox feature, all
-			 * the other browsers I looked at only match the start of each option. Obviously there are
-			 * performance implications on doing partial matches. If this turns out to be a problem it would be
-			 * possible to retain the behaviour but speed it up by building a lookup cache so that each search
-			 * is only performed once.
+			 * Hides options in this combo based on its current value. The behaviour is based primarily on the  native behaviour of Firefox. In
+			 * particular the partial string matching is a Firefox feature, all the other browsers I looked at only match the start of each option.
+			 * Obviously there are performance implications on doing partial matches. If this turns out to be a problem it would be possible to retain
+			 * the behaviour but speed it up by building a lookup cache so that each search is only performed once.
 			 *
 			 * @function
 			 * @private
@@ -155,47 +121,62 @@ define(["wc/has",
 			 */
 			function filterOptions(combo, delay) {
 				var _delay = delay, _filter;
-
-				if (COMBO.isOneOfMe(combo)) {
-					_filter = function() {
-						var i, len, next, optval, value = combo.value,
-							list = getListBox(combo),
-							options = OPTION.findDescendants(list),
-							setTabIndexOn = -1;
-						value = value.toLocaleLowerCase();
-						for (i = 0, len = options.length; i < len; i++) {
-							next = options[i];
-							optval = textContent.get(next).toLocaleLowerCase();
-							if (!value || optval.indexOf(value) >= 0) {
-								shed.show(next, true);
-								if (setTabIndexOn === -1) {
-									setTabIndexOn = i;
-									next.tabIndex = 0;
-								}
-							}
-							else {
-								shed.hide(next, true);
-								next.tabIndex = -1;
-							}
-						}
-						if (repainter) {
-							repainter.checkRepaint(combo);
-						}
-					};
-
-					if (!shed.isExpanded(combo)) {
-						shed.expand(combo);
-						clearList(combo);
-					}
-
-					if (!(_delay || delay === 0)) {
-						_delay = DELAY;
-					}
-					if (filterTimer) {
-						timers.clearTimeout(filterTimer);
-					}
-					filterTimer = timers.setTimeout(_filter, _delay);
+				if (!COMBO.isOneOfMe(combo)) {
+					return;
 				}
+
+				_filter = function() {
+					var i,
+						optval,
+						textbox,
+						value,
+						options,
+						setTabIndexOn = -1,
+						list = getListBox(combo);
+					if (!list) {
+						return;
+					}
+					options = OPTION.findDescendants(list);
+					if (!options) {
+						return;
+					}
+
+					textbox = TEXTBOX.findDescendant(combo);
+					if (textbox) {
+						value = textbox.value.toLocaleLowerCase();
+					}
+
+					Array.prototype.forEach.call(options, function (next) {
+						optval = listboxAnalog.getOptionValue(next, true, true);
+						if (!value || optval.indexOf(value) >= 0) {
+							shed.show(next, true);
+							if (setTabIndexOn === -1) {
+								setTabIndexOn = i;
+								next.tabIndex = 0;
+							}
+						}
+						else {
+							shed.hide(next, true);
+							next.tabIndex = -1;
+						}
+					});
+					if (repainter) {
+						repainter.checkRepaint(combo);
+					}
+				};
+
+				if (!shed.isExpanded(combo)) {
+					shed.expand(combo);
+					clearList(combo);
+				}
+
+				if (!(_delay || delay === 0)) {
+					_delay = DELAY;
+				}
+				if (filterTimer) {
+					timers.clearTimeout(filterTimer);
+				}
+				filterTimer = timers.setTimeout(_filter, _delay);
 			}
 
 			/**
@@ -203,24 +184,23 @@ define(["wc/has",
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} element The combo box for which we want new options.
+			 * @param {Element} combo the combo we are updating
+			 * @param {Element} element the textbox in the combo
 			 */
-			function load(element) {
-				var list = getListBox(element), getData, trigger, id;
+			function load(combo, element) {
+				var list = getListBox(combo),
+					getData,
+					id;
 
 				if (list) {
 					id = list.id;
 					getData = id + "=" + window.encodeURIComponent(element.value);
-					list.setAttribute(CONTROLS, element.id);  // just to make sure because we will need this attribute when the ajax response comes in.
-					ajaxRegion.register({
+					ajaxRegion.requestLoad(list, {
 						id: id,
 						loads: [id],
 						getData: getData,
 						serialiseForm: false,
-						method: "get"});
-					if ((trigger = triggerManager.getTrigger(id))) {
-						trigger.fire();
-					}
+						method: "get"}, true);
 				}
 			}
 
@@ -229,17 +209,18 @@ define(["wc/has",
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} element The input element for which we need the suggestions.
+			 * @param {Element} combo the combo being updated
+			 * @param {Element} element the text field in combo
 			 */
-			function getNewOptions(element) {
-				var id = element.id;
+			function getNewOptions(combo, element) {
+				var id = combo.id;
 				if (nothingLeftReg[id]) {
 					if (element.value.indexOf(nothingLeftReg[id]) === 0) {
-						return;  // there was nothing left last time we did this search
+						return; // there was nothing left last time we did this search
 					}
 					delete nothingLeftReg[id];
 				}
-				load(element);
+				load(combo, element);
 			}
 
 			/**
@@ -249,7 +230,8 @@ define(["wc/has",
 			 * @param {Element} element The input element we are interested in.
 			 */
 			function updateList(element) {
-				var list = getListBox(element), min;
+				var combo = element.parentNode ,
+					list = getListBox(combo), min;
 
 				if (!list) {
 					return;
@@ -257,10 +239,10 @@ define(["wc/has",
 
 				min = list.getAttribute("data-wc-minchars") || DEFAULT_CHARS;
 				if (element.value.length >= min) {
-					if (!shed.isExpanded(element)) {
-						shed.expand(element);
+					if (!shed.isExpanded(combo)) {
+						shed.expand(combo);
 					}
-					updateTimeout = timers.setTimeout(getNewOptions, DELAY, element);
+					updateTimeout = timers.setTimeout(getNewOptions, DELAY, combo, element);
 				}
 			}
 
@@ -269,35 +251,36 @@ define(["wc/has",
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} listbox the _LISTBOX sub-component to focus.
+			 * @param {Element} listbox the LISTBOX sub-component to focus.
 			 */
 			function focusListbox(listbox) {
+				var textbox;
 				if (listbox && OPTION.findDescendant(listbox)) {
-					onchangeSubmit.ignoreNextChange();
-					// NOTE: this timeout has been tested further and is absolutely required in IE8
-					timers.setTimeout(focus.focusFirstTabstop, IETimeout, listbox);
+					textbox = TEXTBOX.findDescendant(listbox.parentNode, true);
+
+					if (!textbox.value) {
+						timers.setTimeout(focus.focusFirstTabstop, IETimeout, listbox, function(target) {
+							if (!shed.isSelected(target)) {
+								listboxAnalog.activate(target);
+							}
+						});
+					}
+					else {
+						timers.setTimeout(focus.focusFirstTabstop, IETimeout, listbox);
+					}
 				}
 			}
 
 			/**
-			 * Find a fake "combo" for a given list box.
+			 * Find the combo for any element.
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} listbox The list box component.
+			 * @param {Element} element The start element.
 			 * @returns {?Element} The combo box wrapper element.
 			 */
-			function getCombo(listbox) {
-				var comboId = listbox.getAttribute(CONTROLS), result;
-				if (comboId) {
-					result = document.getElementById(comboId);
-				}
-				return result;
-			}
-
-			function getSuggestionValue (element, getLowerCase) {
-				var txt = element.hasAttribute(VALUE_ATTRIB) ? element.getAttribute(VALUE_ATTRIB) : textContent.get(element);
-				return getLowerCase ? txt.toLocaleLowerCase() : txt;
+			function getCombo(element) {
+				return COMBO.findAncestor(element);
 			}
 
 			/**
@@ -310,43 +293,13 @@ define(["wc/has",
 			 * @param {Element} option The option which caused the update.
 			 */
 			function setValue(combo, option) {
-				var listbox = getListBox(combo), value;
+				var value,
+					textbox = TEXTBOX.findDescendant(combo, true);
 
-				if (listbox) {
-					value = getSuggestionValue(option);
-					combo.value = value;
+				if (textbox) {
+					value = listboxAnalog.getOptionValue(option);
+					textbox.value = value;
 				}
-			}
-
-			/**
-			 * Given an option in a listbox and a printable character, find the next option (if any) which starts
-			 * with that character.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} listbox The container for the list of options, already calculated in the calling
-			 *     function so just passed through for convenience.
-			 * @param {Element} start The element from which we start the search. This will not return even if
-			 *     it starts with the character we want.
-			 * @param {String} keyName The character we are searching for.
-			 * @returns {Element} The next available option which starts with keyName (if any), or undefined.
-			 */
-			function getTextTarget(listbox, start, keyName) {
-				var options = getFilteredGroup(listbox),
-					result,
-					startIdx = options.indexOf(start), i, next, txt;
-
-				if (startIdx > -1) {
-					for (i = startIdx + 1; i < options.length; ++i) {
-						next = options[i];
-						if ((txt = textContent.get(next)) && txt[0].toLocaleLowerCase() === keyName) {
-							result = next;
-							break;
-						}
-					}
-				}
-
-				return result;
 			}
 
 			/**
@@ -358,49 +311,43 @@ define(["wc/has",
 			 * @param {String} action the SHED action.
 			 */
 			function shedSubscriber(element, action) {
-				var listbox;
+				var textbox;
 
 				if (!element) {
 					return;
 				}
 				if (COMBO.isOneOfMe(element)) {
-					listbox = getListBox(element);
+					textbox = TEXTBOX.findDescendant(element);
 					if (action === shed.actions.EXPAND && shed.isExpanded(element)) {
 						onchangeSubmit.ignoreNextChange();
+						ajaxRegion.ignoreNextChange();
 						openSelect = element.id;
-						// these next lot are really only needed on first show.
-						listbox.setAttribute(CONTROLS, element.id);
-						listbox.style.minWidth = element.clientWidth + "px";
-						shed.show(listbox, true); // but do not put them inside the test below ...
-						if (listbox.previousSibling !== element) { // cannot be guaranteed in the XML tree.
-							if (element.parentNode.lastChild === element) {
-								element.parentNode.appendChild(listbox);
-							}
-							else {
-								element.parentNode.insertBefore(listbox, element.nextSibling);
-							}
-						}
 
-						optionVal[(element.id)] = element.value;
+						optionVal[(element.id)] = textbox ? textbox.value : null;
 						if (filter && !CHATTY_COMBO.isOneOfMe(element)) {
 							filterOptions(element, 0);
 						}
+						return;
 					}
-					else if (action === shed.actions.COLLAPSE && !shed.isExpanded(element)) {
+
+					if (action === shed.actions.COLLAPSE && !shed.isExpanded(element)) {
 						onchangeSubmit.clearIgnoreChange();
-						acceptFirstMatch(element);
+						ajaxRegion.clearIgnoreChange();
+
+						if (element.getAttribute("data-wc-listcomplete") === "true") {
+							acceptFirstMatch(element);
+						}
 						openSelect = "";
-						if (optionVal[(element.id)] !== element.value) {
-							timers.setTimeout(event.fire, 0, element, event.TYPE.change);
+						if (optionVal[(element.id)] !== textbox.value) {
+							timers.setTimeout(event.fire, 0, textbox, event.TYPE.change);
 						}
 						optionVal[(element.id)] = null;
+						return;
 					}
-					else if ((action === shed.actions.HIDE || action === shed.actions.DISABLE) && shed.isExpanded(element)) {
+
+					if ((action === shed.actions.HIDE || action === shed.actions.DISABLE) && shed.isExpanded(element)) {
 						shed.collapse(element);
 					}
-				}
-				else if (action === shed.actions.HIDE && LISTBOX.isOneOfMe(element)) {
-					element.removeAttribute(CONTROLS);
 				}
 			}
 
@@ -421,9 +368,8 @@ define(["wc/has",
 			/**
 			 * Keydown event handler. Handles key events as per {@link http://www.w3.org/TR/wai-aria-practices/#combobox}.
 			 *
-			 * <p><strong>NOTES:</strong> the LEFT ARROW and RIGHT ARROW are native in input elements in the text
-			 * state; we have not implemented list pagination so PAGE_UP and PAGE_DOWN are not mapped (this may
-			 * be needed in future).</p>
+			 * **NOTES:** the LEFT ARROW and RIGHT ARROW are native in input elements in the text state; we have not implemented list pagination so
+			 * PAGE_UP and PAGE_DOWN are not mapped (this may be needed in future)
 			 *
 			 * @function
 			 * @private
@@ -432,13 +378,13 @@ define(["wc/has",
 			function keydownEvent($event) {
 				var keyCode = $event.keyCode, target = $event.target, listbox;
 				if (!$event.defaultPrevented) {
-					if (COMBO.isOneOfMe(target)) {
+					if (TEXTBOX.isOneOfMe(target)) {
 						if (handleKeyCombobox(target, keyCode, $event.altKey)) {
 							$event.preventDefault();
 						}
 					}
 					else if ((listbox = getListBox(target, 1))) {
-						if (handleKeyListbox(target, listbox, keyCode)) {
+						if (handleKeyListbox(listbox, keyCode)) {
 							$event.preventDefault();
 						}
 					}
@@ -447,89 +393,97 @@ define(["wc/has",
 
 			/**
 			 * Handles a keypress on "listbox".
-			 * @param {Element} target The element that received the key event.
+			 * @function
+			 * @private
 			 * @param {Element} listbox The listbox.
 			 * @param {number} keyCode The key that was pressed.
 			 * @returns {boolean} true if the key event needs to be cancelled.
 			 */
-			function handleKeyListbox(target, listbox, keyCode) {
-				var keyName, PRINTABLE_RE = /[ -~]/,
-					KEY_NAME_RE = /^DOM_VK_/,
-					combo = getCombo(listbox),
-					preventDefault = false;
+			function handleKeyListbox(listbox, keyCode) {
+				var combo = getCombo(listbox),
+					preventDefault = false,
+					textbox;
 				if (!combo) {
 					return;
 				}
-				/* keydown happens when a list item is focussed */
+
 				if ((keyCode === KeyEvent.DOM_VK_ESCAPE || keyCode === KeyEvent.DOM_VK_RETURN)) {
-					/* ESCAPE closes the combo, RETURN selects the option then collapses the combo.*/
-					if (keyCode === KeyEvent.DOM_VK_RETURN) {
-						setValue(combo, target);
-					}
-					focus.setFocusRequest(combo, function() {
+					textbox = TEXTBOX.findDescendant(combo);
+					focus.setFocusRequest(textbox, function() {
 						shed.collapse(combo);
 					});
 					preventDefault = true;
 				}
-				else if (keyCode === KeyEvent.DOM_VK_TAB) {
-					/* TAB to leave the list so select the current option and collapse */
-					setValue(combo, target);
-					shed.collapse(combo);
-				}
-				else if ((keyName = key.getLiteral(keyCode)) && (keyName = keyName.replace(KEY_NAME_RE, "")) && keyName.length === 1 && PRINTABLE_RE.test(keyName)) {
-					/* printable char pressed: find the next matching option */
-					target = getTextTarget(listbox, target, keyName.toLocaleLowerCase());
-					if (target) {
-						focus.setFocusRequest(target);
+				return preventDefault;
+			}
+
+			function doDownButton(combo, altKey) {
+				var listbox = getListBox(combo);
+				if (shed.isExpanded(combo)) {
+					if (listbox) {
+						focusListbox(listbox);
 					}
 				}
-				return preventDefault;
+				else if (altKey) {
+					shed.expand(combo);
+					if (listbox) {
+						focusListbox(listbox);
+					}
+				}
+			}
+
+			function doUpKey(target, combo, altKey) {
+				var listbox;
+				if (shed.isExpanded(combo)) {
+					if (altKey) {
+						shed.collapse(combo);
+					}
+					else if ((listbox = getListBox(target))) {
+						focusListbox(listbox);
+					}
+				}
 			}
 
 			/**
 			 * Handles a keypress on "combobox" itself (not the listbox).
+			 * @function
+			 * @private
 			 * @param {Element} target The combobox
 			 * @param {number} keyCode The key that was pressed.
 			 * @param {boolean} altKey
 			 * @returns {boolean} true if the key event needs to be cancelled.
 			 */
 			function handleKeyCombobox(target, keyCode, altKey) {
-				var listbox, preventDefault = false;
+				var combo;
 				/* keydown happens when a combo input is focused */
 				if (keyCode === KeyEvent.DOM_VK_TAB) {
 					// TAB out, do nothing, focus will take care of it.
-					return;
+					return false;
 				}
-				if (keyCode === KeyEvent.DOM_VK_ESCAPE) {
-					if (shed.isExpanded(target)) {
-						shed.collapse(target);
-						preventDefault = true;
-					}
+
+				combo = getCombo(target);
+				if (!combo) {
+					return false;
 				}
-				else if (keyCode === KeyEvent.DOM_VK_DOWN) {
-					if (shed.isExpanded(target)) {
-						if ((listbox = getListBox(target))) {
-							focusListbox(listbox);
+
+				switch (keyCode) {
+					case KeyEvent.DOM_VK_ESCAPE:
+						if (shed.isExpanded(combo)) {
+							shed.collapse(combo);
 						}
-					}
-					else if (altKey) {
-						shed.expand(target);
-					}
-				}
-				else if (keyCode === KeyEvent.DOM_VK_UP) {
-					if (shed.isExpanded(target)) {
-						if (altKey) {
-							shed.collapse(target);
+						return true;
+					case KeyEvent.DOM_VK_DOWN:
+						doDownButton(combo, altKey);
+						return false;
+					case KeyEvent.DOM_VK_UP:
+						doUpKey(target, combo, altKey);
+						return false;
+					default:
+						if (filter && (!key.isMeta(keyCode)) && !CHATTY_COMBO.isOneOfMe(combo)) {
+							filterOptions(combo);
 						}
-						else if ((listbox = getListBox(target))) {
-							focusListbox(listbox);
-						}
-					}
+						return false;
 				}
-				else if (filter && (!key.isMeta(keyCode)) && !CHATTY_COMBO.isOneOfMe(target)) {
-					filterOptions(target);
-				}
-				return preventDefault;
 			}
 
 			/**
@@ -577,20 +531,28 @@ define(["wc/has",
 			 * @param {Event} $event The click event.
 			 */
 			function clickEvent($event) {
-				var target = $event.target, combo, listbox;
+				var target = $event.target, combo, listbox, textbox;
+
 				if (!$event.defaultPrevented) {
-					if (COMBO.isOneOfMe(target) && !shed.isDisabled(target)) {
-						shed.toggle(target, shed.actions.EXPAND);
+					if ((listbox = LISTBOX.findAncestor(target))) {
+						if ((combo = getCombo(listbox)) && (textbox = TEXTBOX.findDescendant(combo))) {
+
+							focus.setFocusRequest(textbox, function() {
+								shed.collapse(combo);
+							});
+							$event.preventDefault();
+						}
+						return;
+					}
+
+					if ((combo = COMBO.findAncestor(target))) {
+						shed.toggle(combo, shed.actions.EXPAND);
+						if (OPENER_BUTTON.findAncestor(target) && shed.isExpanded(combo) && (listbox = getListBox(combo))) {
+							focusListbox(listbox);
+						}
 						$event.preventDefault();
 					}
-					else if ((listbox = getListBox(target)) && (combo = getCombo(listbox))) {
-						// update on option click
-						setValue(combo, target);
-						focus.setFocusRequest(combo, function() {
-							shed.collapse(combo);
-						});
-						$event.preventDefault();
-					}
+
 				}
 			}
 
@@ -658,6 +620,7 @@ define(["wc/has",
 				}
 				updateList($event.target);
 			}
+
 			/**
 			 * Focus event handler closes any open combo when ANYTHING is focused other than the listbox for the
 			 * currently open combo.
@@ -667,70 +630,43 @@ define(["wc/has",
 			 * @param {Event} $event The focus/focusin event as published by the wc event manager.
 			 */
 			function focusEvent($event) {
-				var element = $event.target, isCombo, openCombo, listbox;
+				var element = $event.target,
+					openCombo,
+					listbox,
+					combo;
 
-				isCombo = ((element === window || element === document) ? false : COMBO.isOneOfMe(element));
 				if (!$event.defaultPrevented) {
-					// chatty ajax combos need a special input listener
-					if (isCombo && (listbox = getListBox(element)) && listbox.hasAttribute("data-wc-chat") && !attribute.get(element, INITED)) {
-						attribute.set(element, INITED, true);
-						classList.add(element, CLASS_CHATTY);
-						if (event.canCapture) {
-							event.add(element, event.TYPE.input, inputEvent);
-						}
-						else {
-							event.add(element, event.TYPE.keydown, lameInputEvent);
-						}
-					}
-
-					onchangeSubmit.clearIgnoreChange();
-
-					// check openSelect before trying to collapse element in case we have gone straight from an open combo to another combo
-					if (openSelect && element.id !== openSelect) {
-						if ((openCombo = document.getElementById(openSelect))) {
-							/* close any open combos when focusing elsewhere but
-							 * if I have focussed in the current combo's list box
-							 * do not close the combo.*/
-							if (element === window || !((listbox = getListBox(element)) && listbox === getListBox(openCombo))) {
-								shed.collapse(openCombo);
+					if (TEXTBOX.isOneOfMe(element)) {
+						combo = element.parentNode;
+						// chatty ajax combos need a special input listener
+						if (combo && (listbox = getListBox(combo)) && listbox.hasAttribute("data-wc-chat") && !attribute.get(combo, INITED)) {
+							attribute.set(combo, INITED, true);
+							classList.add(combo, CLASS_CHATTY);
+							if (event.canCapture) {
+								event.add(element, event.TYPE.input, inputEvent);
+							}
+							else {
+								event.add(element, event.TYPE.keydown, lameInputEvent);
 							}
 						}
-						else {
-							/* this will happen in one very unusual circumstance:
-							 * we open a combo then that combo gets blown away whilst it is open
-							 * and so openSelect is set but does not point to anything*/
-							openSelect = "";
+					}
+
+					if (openSelect) {
+						combo = getCombo(element);
+						// check openSelect before trying to collapse element in case we have gone straight from an open combo to another combo
+						if (!(combo && combo.id === openSelect)) {
+							if ((openCombo = document.getElementById(openSelect))) {
+								/* close any open combos when focusing elsewhere but
+								 * if I have focussed in the current combo's list box
+								 * do not close the combo.*/
+								if (element === window || !((listbox = getListBox(combo)) && listbox === getListBox(openCombo))) {
+									shed.collapse(openCombo);
+								}
+							}
+							else {
+								openSelect = "";
+							}
 						}
-					}
-
-					if (isCombo && shed.isExpanded(element)) {
-						shed.collapse(element);
-					}
-				}
-			}
-			/**
-			 * This AJAX subscriber runs before any content is added to the DOM and tests all forms in the page to
-			 * determine if we have to recalculate the initial state of a form after the ajax action finishes. If the
-			 * form ancestor of the ajax target element does not have unsaved changes prior to the AJAX action then we
-			 * set a flag to recalculate the 'initial' state allowing for the changes made by the AJAX action.
-			 *
-			 * This is to cover the situation where an AJAX transaction occurs which adds or removes form fields. This
-			 * will always cause an unsavedChanges warning because the serialization is different, even if the user does
-			 * not actually change anything. This will occur, for example, if a WCancelButton is triggered in a WDialog
-			 * before the user makes any changes.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} element The AJAX target element in the DOM prior to the ajax action.
-			 * @param {DocumentFragment} documentFragment The transformed XML of the ajax response payload.
-			 */
-			function ajaxSubscriber(element, documentFragment) {
-				var replacement, controls;
-				if (element && (LISTBOX.isOneOfMe(element)) && (controls = element.getAttribute(CONTROLS))) {
-					replacement = LISTBOX.findDescendant(documentFragment);  // only get one because we are only interested in the case of replacement options
-
-					if (replacement && replacement.id === element.id) {
-						replacement.setAttribute(CONTROLS, controls);
 					}
 				}
 			}
@@ -745,7 +681,7 @@ define(["wc/has",
 			 * @param {Element} element The AJAX target element in the DOM after the AJAX action.
 			 */
 			function postAjaxSubscriber(element) {
-				var combo, option;
+				var combo;
 				if (element && (LISTBOX.isOneOfMe(element))) {
 					combo = getCombo(element);
 
@@ -754,9 +690,7 @@ define(["wc/has",
 						return;
 					}
 
-					option = OPTION.findDescendant(element);
-
-					if (!option) {
+					if (!OPTION.findDescendant(element)) {
 						nothingLeftReg[combo.id] = combo.value;
 						if (shed.isExpanded(combo)) {
 							shed.collapse(combo);
@@ -765,43 +699,28 @@ define(["wc/has",
 						return;
 					}
 
-					/*
-					 * TODO: we need to make an implementation of aria-autocomplete = "inline" combos but not this one.
-					if (combo.getAttribute("aria-autocomplete") === "inline") {
-						// set the textbox value to the first suggestion value.
-						setValue (combo, option);
-						shed.hide(element, true);
-						if (shed.isExpanded(combo)) {
-							shed.collapse(combo);
-						}
-						return;
-					}
-					*/
-
 					if (!shed.isExpanded(combo)) {
 						shed.expand(combo);
-					}
-					else {
-						element.style.minWidth = combo.clientWidth + "px";
-						shed.show(element, true);
 					}
 				}
 			}
 
 			/**
-			 * This allows another function to force the value of the given element to be parsed according to its parser
-			 * and the first resulting match (if any) to be chosen.
-			 * @function module:wc/ui/comboBox.acceptFirstMatch
-			 * @public
+			 * Force the value of the given element to be parsed according to its parser and the first resulting match (if any) to be chosen. Allows
+			 * us to force selection from a list making a broken combo or an overly complicated SELECT.
+			 * @function
+			 * @private
 			 * @param {Element} element An input element, either full or partial date.
 			 */
 			function acceptFirstMatch(element) {
-				var listbox, candidates,
-					value = element.value.toLocaleLowerCase(),
+				var listbox,
+					textbox,
+					candidates,
+					value,
 					match, txtMatch;
 
-				// we only want to force a match if we have a value and aria-autocomplete === "list".
-				if (!value || element.getAttribute("aria-autocomplete") !== "list") {
+				if (!((textbox = TEXTBOX.findDescendant(element, true)) &&
+					(value = textbox.value.toLocaleLowerCase()))) {
 					return;
 				}
 
@@ -810,11 +729,11 @@ define(["wc/has",
 					return;
 				}
 
-				candidates = getFilteredGroup(listbox, {filter: getFilteredGroup.FILTERS.visible, containerWd: LISTBOX, itemWd: OPTION});
+				candidates = listboxAnalog.getAvailableOptions(listbox);
 
 				if (candidates && candidates.length) {
 					if (candidates.some(function (next) {
-						var optVal = getSuggestionValue(next, true);
+						var optVal = listboxAnalog.getOptionValue(next, true);
 						return optVal === value;
 					})) {
 						// we have entered a matching value so do nothing.
@@ -823,15 +742,15 @@ define(["wc/has",
 					match = candidates[0];
 					// there is a chance, though it would be unusual, that the textbox value was updated and the ajax suggesion mechanism did not take.
 					// in this case we may have not reset the filtered suggestions for the new input. I can force this to occur if I am very sneaky.
-					txtMatch = getSuggestionValue(match, true);
+					txtMatch = listboxAnalog.getOptionValue(match, true);
 					if (txtMatch.indexOf(value) === -1) {
-						element.value = ""; // If I am very sneaky I deserve to suffer.
+						textbox.value = ""; // If I am very sneaky I deserve to suffer.
 						return;
 					}
 					setValue(element, match);
 				}
 				else {
-					element.value = "";
+					textbox.value = "";
 				}
 			}
 
@@ -872,12 +791,11 @@ define(["wc/has",
 				shed.subscribe(shed.actions.DISABLE, shedSubscriber);
 				shed.subscribe(shed.actions.ENABLE, shedSubscriber);
 				shed.subscribe(shed.actions.SELECT, shedSelectSubscriber);
-				processResponse.subscribe(ajaxSubscriber);
 				processResponse.subscribe(postAjaxSubscriber, true);
 			};
 
 			/**
-			 * gets the Widgets which describe the component
+			 * gets the Widget which describes the combo box.
 			 *
 			 * @function module:wc/ui/comboBox.getWidget
 			 * @public
@@ -888,23 +806,32 @@ define(["wc/has",
 			};
 
 			/**
-			 * Public for testing
-			 * @function  module:wc/ui/comboBox._getList
+			 * gets the Widget which describes the listbox part of a combo.
+			 *
+			 * @function module:wc/ui/comboBox.getListWidget
+			 * @public
+			 * @returns {wc/dom/Widget} the LISTBOX Widget descriptor.
+			 */
+			this.getListWidget = function() {
+				return LISTBOX;
+			};
+
+			/**
+			 * Publicise getListBox for use in ComboLoader.
 			 * @ignore
 			 */
 			this._getList = getListBox;
 
 			/**
 			 * Reference to the keydown event handler. Public for testing.
-			 * function  module:wc/ui/comboBox._keydownEvent
 			 * @ignore
 			 */
 			this._keydownEvent = keydownEvent;
 
 			/**
-			 * Set client side list filtering on or off. Public for testing as most of the unit tests require we
-			 * do not do list filtering in the client and therefore no equivalent used internally.
-			 * @function module:wc/ui/comboBox._setFilter
+			 * Set client side list filtering on or off. Public for testing as most of the unit tests require we do not do list filtering in the
+			 * client and therefore no equivalent used internally.
+			 * @function
 			 * @param {boolean} [set] force on (true) or off.
 			 * @ignore
 			 */
@@ -913,7 +840,35 @@ define(["wc/has",
 			};
 		}
 
-		var /** @alias module:wc/ui/comboBox */ instance = new ComboBox();
+		/**
+		 * Provides combo functionality.
+		 *
+		 * @typedef {Object} module:wc/ui/comboBox.config() Optional module configuration.
+		 * @property {?int} min The global (default) minimum number of characters which must be entered before a comboBox will
+		 * update its dynamic datalist. This can be over-ridden per instance of WSuggestions.
+		 * @default 3
+		 * @property {?int} delay The number of milliseconds for which a user must pause before a comboBox's datalist is
+		 * updated.
+		 * @default 250
+		 *
+		 * @module
+		 * @requires module:wc/has
+		 * @requires module:wc/dom/attribute
+		 * @requires module:wc/dom/classList
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/focus
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/key
+		 * @requires module:wc/timers
+		 * @requires module:wc/ui/ajaxRegion
+		 * @requires module:wc/ui/ajax/processResponse
+		 * @requires module:wc/ui/onchangeSubmit
+		 * @requires module:wc/ui/listboxAnalog
+		 * @requires module:wc/config
+		 */
+		var instance = new ComboBox();
 		initialise.register(instance);
 		return instance;
 	});

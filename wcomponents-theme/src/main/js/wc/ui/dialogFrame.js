@@ -28,8 +28,8 @@
  * @requires module:wc/ui/positionable
  * @requires module:wc/ui/draggable
  * @requires module:wc/dom/role
- * @requires module:wc/dom/getViewportSize
  * @requires external:Moustache
+ * @requires module:wc/ui/viewportUtils
  */
 
 define(["wc/dom/event",
@@ -49,11 +49,14 @@ define(["wc/dom/event",
 		"wc/ui/positionable",
 		"wc/ui/draggable",
 		"wc/dom/role",
-		"wc/dom/getViewportSize",
-		"Mustache"],
-	/** @param event @param focus @param initialise @param shed @param tag @param uid @param Widget @param i18n @param loader @param processResponse @param modalShim @param timers @param has @param resizeable @param positionable @param draggable @param $role @param getViewportSize @param Mustache @ignore */
+		"lib/handlebars/handlebars",
+		"wc/ui/viewportUtils"],
+	/** @param event @param focus @param initialise @param shed @param tag @param uid @param Widget @param i18n
+	 * @param loader @param processResponse @param modalShim @param timers @param has @param resizeable
+	 * @param positionable @param draggable @param $role @param handlebars @param viewportUtils
+	 * @ignore */
 	function(event, focus, initialise, shed, tag, uid, Widget, i18n, loader, processResponse,
-		modalShim, timers, has, resizeable, positionable, draggable, $role, getViewportSize, Mustache) {
+		modalShim, timers, has, resizeable, positionable, draggable, $role, handlebars, viewportUtils) {
 		"use strict";
 
 		/**
@@ -70,14 +73,14 @@ define(["wc/dom/event",
 				subscriber ={
 					close: null
 				},
-				DIALOG = new Widget("${wc.dom.html5.element.dialog}"),
+				DIALOG = new Widget("dialog"),
 				DIALOG_CONTENT_WRAPPER = new Widget("div", CONTENT_BASE_CLASS, {"aria-live": "assertive"}),
 				BUTTON = new Widget("button"),
 				CLOSE_WD = BUTTON.extend("wc_dialog_close"),
 				RESIZERS,
 				RESIZE_WD,
 				MAX_BUTTON,
-				HEADER_WD = new Widget("${wc.dom.html5.element.header}"),
+				HEADER_WD = new Widget("header"),
 				TITLE_WD = new Widget("h1"),
 				FORM = new Widget("form"),
 				UNIT = "px",
@@ -88,9 +91,7 @@ define(["wc/dom/event",
 					NO_FORM: "Cannot find a form to which to attach the dialog",
 					UNKNOWN: "Failed to open dialog: readon unknown"
 				},
-				resizeTimeout,
-				/** The pixel cpount at which we make all dialog frames "full screen" */
-				FULL_SCREEN_POINT = 1000;
+				resizeTimeout;
 
 			TITLE_WD.descendFrom(HEADER_WD);
 			DIALOG_CONTENT_WRAPPER.descendFrom(DIALOG, true);
@@ -119,7 +120,7 @@ define(["wc/dom/event",
 			 * @returns {Boolean} true is move/resize are supportable.
 			 */
 			function canMoveResize() {
-				return getViewportSize().width > FULL_SCREEN_POINT;
+				return !viewportUtils.isSmallScreen();
 			}
 
 			/**
@@ -248,7 +249,7 @@ define(["wc/dom/event",
 				// set the dialog title
 				if ((title = TITLE_WD.findDescendant(dialog))) {
 					title.innerHTML = ""; // ??? This _cannot_ really still be needed?
-					title.innerHTML = (obj && obj.title) ? obj.title : i18n.get("${wc.ui.dialog.title.noTitle}");
+					title.innerHTML = (obj && obj.title) ? obj.title : i18n.get("dialog_noTitle");
 				}
 				subscriber.close = obj.onclose;
 				initDialogControls(dialog, obj);
@@ -325,10 +326,8 @@ define(["wc/dom/event",
 				var control;
 
 				setUpMoveResizeControls(dialog);
-				if ((control = MAX_BUTTON.findDescendant(dialog)) && !shed.isHidden(control)) {
-					if (obj.max) {
-						shed.select(control);
-					}
+				if (obj.max && (control = MAX_BUTTON.findDescendant(dialog))) {
+					shed.select(control);
 				}
 			}
 
@@ -391,7 +390,7 @@ define(["wc/dom/event",
 				try {
 					if (obj) {
 						// set the initial position. If the position (top, left) is set in the config object we do not need to calculate position.
-						if (!(obj.top || obj.left || obj.top === 0 || obj.left === 0)) {
+						if (!((obj.top || obj.top === 0) && (obj.left || obj.left === 0))) {
 							if (canMoveResize()) {
 								resizeable.disableAnimation(dialog);
 								disabledAnimations = true;
@@ -421,11 +420,12 @@ define(["wc/dom/event",
 				return loader.load(TEMPLATE_NAME, true, true).then(function(template) {
 					/*
 					 * sprintf replacements
-					 * 1: maximise button title ${wc.ui.dialog.title.maxRestore}
-					 * 2: close button title ${wc.ui.dialog.title.close}
-					 * 3: content loading message ${wc.ui.loading.loadMessage}
+					 * 1: maximise button title dialog_maxRestore
+					 * 2: close button title dialog_close
+					 * 3: content loading message loading
 					 */
-					var form,
+					var compiledTemplate = handlebars.compile(template),
+						form,
 						dialog,
 						dialogHeader,
 						resizeHandle,
@@ -433,14 +433,14 @@ define(["wc/dom/event",
 						resizeHandleTitle,
 						dialogProps = {
 							heading :{
-								maxRestore: i18n.get("${wc.ui.dialog.title.maxRestore}"),
-								close: i18n.get("${wc.ui.dialog.title.close}")
+								maxRestore: i18n.get("dialog_maxRestore"),
+								close: i18n.get("dialog_close")
 							},
 							message: {
-								loading: i18n.get("${wc.ui.loading.loadMessage}")
+								loading: i18n.get("loading")
 							}
 						},
-						dialogHTML = Mustache.to_html(template, dialogProps);
+						dialogHTML = compiledTemplate(dialogProps);
 
 					if (formId && (form = document.getElementById(formId)) && !FORM.isOneOfMe(form)) {
 						form = FORM.findAncestor(form);
@@ -455,11 +455,11 @@ define(["wc/dom/event",
 
 					if ((dialog = instance.getDialog())) {
 						event.add(dialog, event.TYPE.keydown, keydownEvent);
-						if ((dialogHeader = HEADER_WD.findDescendant(dialog, true)) && (headerTitle = i18n.get("${wc.ui.dialog.title.move}"))) {
+						if ((dialogHeader = HEADER_WD.findDescendant(dialog, true)) && (headerTitle = i18n.get("dialog_move"))) {
 							dialogHeader.title = headerTitle;
 						}
 
-						if (RESIZE_WD && (resizeHandle = RESIZE_WD.findDescendant(dialog)) && (resizeHandleTitle = i18n.get("${wc.ui.dialog.title.resize}"))) {
+						if (RESIZE_WD && (resizeHandle = RESIZE_WD.findDescendant(dialog)) && (resizeHandleTitle = i18n.get("dialog_resize"))) {
 							resizeHandle.title = resizeHandleTitle;
 						}
 					}
@@ -839,7 +839,7 @@ define(["wc/dom/event",
 
 					if (!keepContent) {
 						content.innerHTML = ""; // Do we really still need this IE 6 fix?
-						content.innerHTML = i18n.get("${wc.ui.loading.loadMessage}");
+						content.innerHTML = i18n.get("loading");
 					}
 				}
 			};

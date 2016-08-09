@@ -77,7 +77,8 @@ public final class ConfigurationProperties {
 	 * @deprecated use HANDLE_ERROR_WITH_FATAL_PAGE_FACTORY instead.
 	 */
 	@Deprecated
-	public static final String HANDLE_ERROR_WITH_FATAL_PAGE_FACTORY_DEPRECATED = "com.github.bordertech.wcomponents.servlet.WServlet.handleErrorWithFatalErrorPageFactory";
+	public static final String HANDLE_ERROR_WITH_FATAL_PAGE_FACTORY_DEPRECATED
+			= "com.github.bordertech.wcomponents.servlet.WServlet.handleErrorWithFatalErrorPageFactory";
 
 	/**
 	 * The flag indicating whether handlebars should cache.
@@ -148,6 +149,11 @@ public final class ConfigurationProperties {
 	 * The HTML class for the menu icon.
 	 */
 	public static final String HTML_ICON_CLASS_MENU = HTML_ICON_CLASS_PREFIX + "menu";
+
+	/**
+	 * The HTML class for the print icon.
+	 */
+	public static final String HTML_ICON_CLASS_PRINT = HTML_ICON_CLASS_PREFIX + "print";
 
 	/**
 	 * The resource bundle base name.
@@ -703,6 +709,15 @@ public final class ConfigurationProperties {
 	 */
 	public static String getHtmlIconClassMenu() {
 		return get().getString(HTML_ICON_CLASS_MENU, "fa-bars");
+	}
+
+	/**
+	 * Get the HTML Icon class for the print icon.
+	 *
+	 * @return the parameter value, or "fa-print" if not set.
+	 */
+	public static String getHtmlIconClassPrint() {
+		return get().getString(HTML_ICON_CLASS_PRINT, "fa-print");
 	}
 
 	/**

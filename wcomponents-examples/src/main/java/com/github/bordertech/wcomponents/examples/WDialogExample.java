@@ -2,11 +2,13 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCancelButton;
+import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WDialog;
@@ -201,8 +203,7 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		 * If not set explicitly, the title of a dialog is determined by the UI theme.
 		 * ALL dialogs must have a title, you probably DO NOT WANT the theme default!
 		 */
-		final WDialog dialogWithTitle = new WDialog(new ViewPersonList(), new WButton(
-				"Show dialog with specified title"));
+		final WDialog dialogWithTitle = new WDialog(new ViewPersonList(), new WButton("Show dialog with specified title"));
 		dialogWithTitle.setTitle("List of people");
 		/*
 		 * NOT RESIZEABLE
@@ -210,8 +211,7 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		 * disabled: you usually don't want to do this as it may cause usability
 		 * problems.
 		 */
-		final WDialog fixedSizeDialog = new WDialog(new ViewPersonList(), new WButton(
-				"Show dialog which is not resizeable"));
+		final WDialog fixedSizeDialog = new WDialog(new ViewPersonList(), new WButton("Show dialog which is not resizeable"));
 		fixedSizeDialog.setResizable(false);
 		/*
 		 * NOT RESIZEABLE with fixed dimensions
@@ -219,8 +219,7 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		 * disabled: you usually don't want to do this as it may cause usability
 		 * problems.
 		 */
-		final WDialog fixedSizeDialog2 = new WDialog(new ViewPersonList(), new WButton(
-				"Show dialog with size but not resizeable"));
+		final WDialog fixedSizeDialog2 = new WDialog(new ViewPersonList(), new WButton("Show dialog with size but not resizeable"));
 		fixedSizeDialog2.setResizable(false);
 		fixedSizeDialog2.setWidth(300);
 		fixedSizeDialog2.setHeight(150);
@@ -229,34 +228,30 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		 * SET THE WIDTH of a dialog
 		 * If not set explicitly, the initial width of a dialog is determined by the UI theme.
 		 */
-		final WDialog dialogWithWidth = new WDialog(new ViewPersonList(), new WButton(
-				"Show dialog with specified width (300px)"));
+		final WDialog dialogWithWidth = new WDialog(new ViewPersonList(), new WButton("Show dialog with specified width (300px)"));
 		dialogWithWidth.setWidth(300);
 		/*
 		 * SET THE HEIGHT of a dialog
 		 * If not set explicitly, the initial width of a dialog is determined by the UI theme.
 		 */
-		final WDialog dialogWithHeight = new WDialog(new ViewPersonList(), new WButton(
-				"Show dialog with specified height (150px)"));
+		final WDialog dialogWithHeight = new WDialog(new ViewPersonList(), new WButton("Show dialog with specified height (150px)"));
 		dialogWithHeight.setHeight(150);
 		/*
 		 * SET THE HEIGHT of a dialog
 		 * If not set explicitly, the initial width of a dialog is determined by the UI theme.
 		 */
-		final WDialog dialogWithHeight2 = new WDialog(new ViewPersonList(), new WButton(
-				"Show enormous dialog"));
-		dialogWithHeight2.setHeight(850);
-		dialogWithHeight2.setWidth(1000);
+		final WDialog dialogWithHeight2 = new WDialog(new WText("1500px x 1000px"), new WButton("Show enormous dialog"));
+		dialogWithHeight2.setHeight(1000);
+		dialogWithHeight2.setWidth(1500);
 		/*
 		 * Make Modal
 		 * If not set explicitly, the initial width of a dialog is determined by the UI theme.
 		 */
-		final WDialog dialogWithMode = new WDialog(new ViewPersonList(), new WButton(
-				"Show dialog with mode set to MODAL"));
+		final WDialog dialogWithMode = new WDialog(new ViewPersonList(), new WButton("Show modal dialog"));
 		dialogWithMode.setMode(WDialog.MODAL);
 
 		// Layout
-		add(new WHeading(WHeading.MAJOR,
+		add(new WHeading(HeadingLevel.H2,
 				"Dialogs which display use of various properties one at a time"));
 		add(dialogWithTitle);
 		add(fixedSizeDialog);
@@ -283,8 +278,7 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		add(modalDialogRT);
 		add(nonModalDialogRT);
 
-		WDialog fileUploadDialog = new WDialog(new WMultiFileWidgetAjaxExample(), new WButton(
-				"Upload"));
+		WDialog fileUploadDialog = new WDialog(new WMultiFileWidgetAjaxExample(), new WButton("Upload"));
 		fileUploadDialog.setMode(WDialog.MODAL);
 		fileUploadDialog.setWidth(600);
 		add(fileUploadDialog);
@@ -314,6 +308,15 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		add(dateDlg);
 		add(outputPanel);
 
+		final WDialog dialogWithOtherTrigger = new WDialog(new ViewPersonList());
+		add(dialogWithOtherTrigger);
+
+		final WCheckBox cbShowDialog = new WCheckBox();
+		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
+		add(layout);
+		layout.addField("Show dialog", cbShowDialog);
+
+		dialogWithOtherTrigger.setTrigger(cbShowDialog);
 	}
 
 	/**

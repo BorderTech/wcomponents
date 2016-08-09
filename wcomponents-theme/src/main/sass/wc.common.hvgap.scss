@@ -8,24 +8,7 @@
 // We can (at the moment) safely use the universal selector here but maybe not into the future. Even so, it has
 // terrible performance so we are probably better off without it.
 
-// hgap
 // Vaadin Scss compiler cannot handle multiple assignment so the simple each below has to be done a bit more verbosely.
-// @each $gap, $size in (sm: $vhap-small, med: $wc-gap-normal, lg: $wc-gap-large, xl: $wc-gap-xl) {
-// 	.wc-hgap-#{$gap} > * {
-// 		padding-left: $size / 2;
-// 		padding-right: $size / 2;
-// 	}
-//
-// 	.wc-vgap-#{$gap} {
-// 		> div + div,
-// 		> li + li {
-// 			margin-top: $size;
-// 		}
-// 	}
-// }
-
-// The list of class suffixes. There is no point rewriting this unless you rewrite the XSLT.
-$wc-gap-suffix-list: sm, med, lg, xl !default;
 
 @each $cl in $wc-gap-suffix-list {
 	@if ($cl == sm) {

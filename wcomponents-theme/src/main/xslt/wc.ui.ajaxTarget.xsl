@@ -13,13 +13,10 @@
 		to wire up new onload functionality.
 	-->
 	<xsl:template match="ui:ajaxtarget">
-		<xsl:element name="div">
-			<xsl:attribute name="class">wc-ajaxtarget</xsl:attribute>
-			<xsl:attribute name="data-id"><xsl:value-of select="@id"/></xsl:attribute>
-			<xsl:attribute name="data-action"><xsl:value-of select="@action"/></xsl:attribute>
+		<div class="wc-ajaxtarget" data-id="{@id}" data-action="{@action}">
 			<xsl:apply-templates />
 			<xsl:call-template name="registrationScripts" />
-		</xsl:element>
+		</div>
 	</xsl:template>
 
 	<!--

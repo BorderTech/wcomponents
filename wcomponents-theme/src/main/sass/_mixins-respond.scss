@@ -1,15 +1,7 @@
 // Skeleton responsive design mixin. Gives what we need by default but feel free to add to it with other responsive
 // design mixins as required.
 
-//how big is a small screen?
-$wc-small-screen: 1000px !default;
-//and a common/medium screen?
-$wc-medium-screen: 1280px !default;
-//how about a BIG screen?
-$wc-large-screen: 1921px !default;//bigger than 1080p
-
-// guess what this is for!
-$wc-bigger-than-small-screen: $wc-small-screen + 1px;
+// NOTE: If you change any of these take a look at the configuration of wc/ui/viewportUtils.
 
 @mixin respond-phonelike {
 	@media only screen and (max-width : 773px) {
@@ -40,12 +32,6 @@ $wc-bigger-than-small-screen: $wc-small-screen + 1px;
 		@content;
 	}
 }
-
-// TODO Do we want to add some pixel density tests for phones/tablets?
-// (-webkit-min-device-pixel-ratio: 2), /* Webkit-based browsers */
-// (min--moz-device-pixel-ratio: 2),    /* Older Firefox browsers (prior to Firefox 16) */
-// (min-resolution: 2dppx),             /* The standard way */
-// (min-resolution: 192dpi)             /* dppx fallback */
 
 @mixin respond-medium-density {
 	@media only screen and (-webkit-min-device-pixel-ratio: 1.5),

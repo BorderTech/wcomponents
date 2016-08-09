@@ -36,8 +36,7 @@ public class WSuggestions extends AbstractWComponent implements AjaxInternalTrig
 	/**
 	 * The Application-wide lookup-table to use.
 	 */
-	private static final LookupTable APPLICATION_LOOKUP_TABLE = Factory.newInstance(
-			LookupTable.class);
+	private static final LookupTable APPLICATION_LOOKUP_TABLE = Factory.newInstance(LookupTable.class);
 
 	/**
 	 * AJAX refresh command.
@@ -320,16 +319,16 @@ public class WSuggestions extends AbstractWComponent implements AjaxInternalTrig
 		private String filter;
 
 		/**
+		 * The autocomplete model for the suggestions.
+		 */
+		private Autocomplete autocomplete = Autocomplete.BOTH;
+
+		/**
 		 * @return returns the suggestions.
 		 */
 		private List<String> getSuggestions() {
 			return suggestions;
 		}
-
-		/**
-		 * The autocomplete model for the suggestions.
-		 */
-		private Autocomplete autocomplete = Autocomplete.BOTH;
 
 		/**
 		 * @param suggestions the suggestions to set.
