@@ -252,12 +252,13 @@ define(["wc/dom/attribute",
 			 * @param {boolean} [suppressEdit] true if image editing should be bypassed regardless of whether it is configured or not.
 			 */
 			function checkDoUpload(element, files, suppressEdit) {
-				var editorId, testObj, maxFileInfo, filesToAdd, message,
+				var skipEdit, editorId, testObj, maxFileInfo, filesToAdd, message,
 					useFilesArg = (!element.value && (files && files.length > 0)),
 					done = function() {
 						instance.clearInput(element);
-					},
-					checkAndUpload = function(files) {
+					};
+				getUploader(function(uploader) { // this wraps the possible async wait for the fauxjax module to load, otherwise clearInput has been called before the upload begins
+					var checkAndUpload = function(files) {
 						try {
 							message = checkFileSize(element, testObj);
 							if (message) {
@@ -269,6 +270,7 @@ define(["wc/dom/attribute",
 							}
 							else if (inputElementWd.isOneOfMe(element)) {
 								commenceUpload({
+									uploader: uploader,
 									element: element,
 									files: files
 								});
@@ -278,28 +280,30 @@ define(["wc/dom/attribute",
 							done();
 						}
 					};
-				if (element.value || useFilesArg) {
-					testObj = useFilesArg ? {files: files, name: element.name, value: element.value, accept: element.accept} : element;
-					filesToAdd = (testObj.files ? testObj.files.length : 1);
-					maxFileInfo = checkMaxFiles(element, filesToAdd);
-					if (maxFileInfo.valid) {
-						editorId = element.getAttribute("data-wc-editor");
-						if (!suppressEdit && editorId) {
-							require(["wc/ui/imageEdit"], function(imageEdit) {
-								testObj.editorId = editorId;
-								imageEdit.editFiles(testObj).then(checkAndUpload, done);
-							});
+					if (element.value || useFilesArg) {
+						testObj = useFilesArg ? {files: files, name: element.name, value: element.value, accept: element.accept} : element;
+						filesToAdd = (testObj.files ? testObj.files.length : 1);
+						maxFileInfo = checkMaxFiles(element, filesToAdd);
+						if (maxFileInfo.valid) {
+							editorId = element.getAttribute("data-wc-editor");
+							skipEdit = suppressEdit || (has("ie") > 0 && has("ie") < 10);
+							if (!skipEdit && editorId) {
+								require(["wc/ui/imageEdit"], function(imageEdit) {
+									testObj.editorId = editorId;
+									imageEdit.editFiles(testObj).then(checkAndUpload, done);
+								});
+							}
+							else {
+								checkAndUpload(testObj.files);
+							}
 						}
 						else {
-							checkAndUpload(testObj.files);
+							message = i18n.get("file_toomany", filesToAdd, maxFileInfo.max, maxFileInfo.before);
+							showMessage(message);
+							done();
 						}
 					}
-					else {
-						message = i18n.get("file_toomany", filesToAdd, maxFileInfo.max, maxFileInfo.before);
-						showMessage(message);
-						done();
-					}
-				}
+				});
 			}
 
 			/**
@@ -440,22 +444,27 @@ define(["wc/dom/attribute",
 						url: url
 					};
 				if (container) {
-					if (!uploader) {
-						if (has("formdata")) {
-							uploader = new TrueAjax();
-							uploader.request(request);
-						}
-						else {
-							require(["wc/file/FauxJax"], function(FauxJax) {
-								uploader = new FauxJax(instance.createFileInfo, getUploadUrl);
-								uploader.request(request);
-							});
-						}
+					config.uploader.request(request);
+				}
+			}
+
+			function getUploader(callback) {
+				if (!uploader) {
+					if (has("formdata")) {
+						uploader = new TrueAjax();
+						callback(uploader);
 					}
 					else {
-						uploader.request(request);
+						require(["wc/file/FauxJax"], function(FauxJax) {
+							uploader = new FauxJax(instance.createFileInfo, getUploadUrl);
+							callback(uploader);
+						});
 					}
 				}
+				else {
+					callback(uploader);
+				}
+
 			}
 
 			/**

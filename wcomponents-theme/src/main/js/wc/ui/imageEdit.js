@@ -14,7 +14,6 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 		var inited,
 			TEMPLATE_NAME = "imageEdit.xml",
 			imageCapture = new ImageCapture(),
-			faceDetection = new FaceDetection(),
 			overlayUrl,
 			defaults = {
 				width: 320,
@@ -335,7 +334,7 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 				var container = document.body.appendChild(document.createElement("div"));
 				container.className = "wc_img_editor";
 
-				loader.load(TEMPLATE_NAME, true, true).then(function(template) {
+				loader.load(TEMPLATE_NAME, true, true).then(function(rawTemplate) {
 					var eventConfig, editorProps = {
 							style: {
 								width: config.width || defaults.width,
@@ -346,7 +345,7 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 							}
 						};
 					template.process({
-						source: template,
+						source: rawTemplate,
 						target: container,
 						context: editorProps
 					});
@@ -358,7 +357,6 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 					saveControl(eventConfig, container, callbacks, file);
 					rotationControls(eventConfig);
 					// if (config.face) {
-					faceDetection.initControls(eventConfig, container);
 					// }
 					if (!file) {
 						classList.add(container, "wc_camenable");
@@ -776,86 +774,6 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 			}
 
 			return new Blob([ia], { type: mimeString });
-		}
-
-		/**
-		 * Encapsulates the face detection functionality.
-		 *
-		 * @constructor
-		 */
-		function FaceDetection() {
-
-			this.initControls = function(eventConfig, container) {
-				require(["wc/ui/facetracking"], function(facetracking) {
-					eventConfig.click.face = {
-						func: function() {
-							var button = container.querySelector("[name='face']"),
-								done = function(msg) {
-									if (msg) {
-										console.log(msg);
-									}
-									if (button) {
-										shed.enable(button);
-									}
-								};
-							if (button) {
-								shed.disable(button);
-							}
-							facetracking.track(fbImage.getElement()).then(function(rect) {
-								if (rect) {
-									zoomFace(rect);
-								}
-								done();
-							}, done);
-						}
-					};
-				});
-			};
-
-			/**
-			 * Attempts to zoom in on a face in the image.
-			 * @param {Object} rect Coordinates of the face to zoom.
-			 */
-			function zoomFace(rect) {
-				var newLeft, newTop,
-					totalWidth = fbCanvas.getWidth(),
-					ZOOM_TO_PC = 0.8,
-					totalPadPc = Math.max(0, 1 - ZOOM_TO_PC),
-					totalPadPixels = totalWidth * totalPadPc,
-					targetWidthPixels = totalWidth * ZOOM_TO_PC,
-					targetScale = targetWidthPixels / rect.width;
-				fbImage.scale(targetScale);
-				fbImage.setAngle(0);  // TODO we should really rotate the image we pass to trackingjs
-				newLeft = (totalPadPixels / 2) - (rect.x * targetScale);
-				newTop = totalPadPixels - (rect.y * targetScale);  // The face is lower on the head so it probably needs more padding...
-				fbImage.setLeft(newLeft);
-				fbImage.setTop(newTop);
-				fbCanvas.renderAll();
-			};
-
-	//		function markFace(rect) {
-	//			var leftOffset = fbImage.getLeft(),
-	//				topOffset = fbImage.getTop(),
-	//				div = document.createElement("div"),
-	//				container = document.querySelector(".canvas-container");
-	//			div.style.position = "relative";
-	//			div.style.border = "1px lime dashed";
-	//			div.addEventListener("click", function() {
-	//				container.removeChild(div);
-	//			}, false);
-	//			div.style.width = rect.width + "px";
-	//			div.style.height = rect.height + "px";
-	//			div.style.top = (rect.y + topOffset) + "px";
-	//			div.style.left = (rect.x + leftOffset) + "px";
-	//			container.appendChild(div);
-	//
-	//			if (container) {
-	//				var divs = container.querySelectorAll("div");
-	//				for (var i = 0; i < divs.length; i++) {
-	//					divs[i].parentNode.removeChild(divs[i]);
-	//				}
-	//			}
-	//		}
 		}
 
 		/**
