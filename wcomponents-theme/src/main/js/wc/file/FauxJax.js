@@ -107,7 +107,7 @@ define(["wc/dom/formUpdateManager",
 				var result, iframeHTML, iframeId = element.name + IFRAME_ID_SUFFIX;
 				result = document.getElementById(iframeId);
 				if (!result && callback) {
-					iframeHTML = '<iframe name="%s" id="%1$s" src="javascript:false;" style="display:none;">' + i18n.get("loading") + '</iframe>';
+					iframeHTML = "<iframe name='%s' id='%1$s' src='javascript:false;' style='display:none;'>" + i18n.get("loading") + "</iframe>";
 					iframeHTML = sprintf.sprintf(iframeHTML, iframeId);
 					document.body.insertAdjacentHTML("beforeEnd", iframeHTML);
 					result = document.getElementById(iframeId);
@@ -157,7 +157,7 @@ define(["wc/dom/formUpdateManager",
 				if (!result && callback) {
 					action = getUploadUrl(element) || dto.url;
 					if (action) {
-						formHTML = '<form target="%s" enctype="multipart/form-data" action="%s" method="POST" name="%s" id="%3$s" style="display:none;"><input name="wc_target" value="%s" /></form>';
+						formHTML = "<form target='%s' enctype='multipart/form-data' action='%s' method='POST' name='%s' id='%3$s' style='display:none;'><input name='wc_target' value='%s' /></form>";
 						iframeId = getHiddenIframe(element, function() {
 							result.innerHTML = "";
 							callback();
