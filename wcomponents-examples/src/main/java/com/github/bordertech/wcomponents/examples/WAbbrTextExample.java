@@ -42,14 +42,12 @@ public final class WAbbrTextExample extends WContainer {
 		WAbbrText at1 = new WAbbrText("App Id", "Identification number of the application");
 		add(at1);
 
-		add(new WHeading(HeadingLevel.H2,
-				"Abreviation created from lookup tables using the code as the text"));
+		add(new WHeading(HeadingLevel.H2, "Abreviation created from lookup tables using the code as the text"));
 		crtIcaoPanel.setLayout(new ListLayout(ListLayout.Type.STACKED, ListLayout.Alignment.LEFT,
 				ListLayout.Separator.DOT, false));
 		add(crtIcaoPanel);
 
-		add(new WHeading(HeadingLevel.H2,
-				"Abreviation created from lookup tables using the description as the text"));
+		add(new WHeading(HeadingLevel.H2, "Abreviation created from lookup tables using the description as the text"));
 
 		add(new ExplanatoryText("This example shows the dangers of doing code-set conversion and confusing the code and"
 				+ " description. Obviously the abbreviation here is NOT the abbreviation we want. We would normally"
@@ -57,6 +55,11 @@ public final class WAbbrTextExample extends WContainer {
 		crtSexPanel.setLayout(new ListLayout(ListLayout.Type.STACKED, ListLayout.Alignment.LEFT,
 				ListLayout.Separator.DOT, false));
 		add(crtSexPanel);
+
+		add(new WHeading(HeadingLevel.H2, "Abreviation unescaped"));
+		WAbbrText unescapedAbbr = new WAbbrText("&rsquo;ello", "'ello is not an abbreviation; it is a contraction.");
+		unescapedAbbr.setEncodeText(false);
+		add(unescapedAbbr);
 	}
 
 	/**
