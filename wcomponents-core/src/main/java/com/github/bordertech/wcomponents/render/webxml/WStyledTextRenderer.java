@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.HtmlToXMLUtil;
 import com.github.bordertech.wcomponents.util.Util;
 
 /**
@@ -94,19 +95,11 @@ final class WStyledTextRenderer extends AbstractWebXmlRenderer {
 
 			xml.appendClose();
 
-			switch (text.getWhitespaceMode()) {
-				case PARAGRAPHS:
-					writeParagraphs(WebUtilities.encode(textString), xml);
-					break;
-
-				case PRESERVE:
-				case DEFAULT:
-					xml.append(WebUtilities.encode(textString));
-					break;
-
-				default:
-					throw new IllegalArgumentException("Unknown white space mode: " + text.
-							getWhitespaceMode());
+			if (WStyledText.WhitespaceMode.PARAGRAPHS.equals(text.getWhitespaceMode())) {
+				textString = text.isEncodeText() ? WebUtilities.encode(textString) : HtmlToXMLUtil.unescapeToXML(textString);
+				writeParagraphs(textString, xml);
+			} else {
+				xml.append(textString, text.isEncodeText());
 			}
 
 			xml.appendEndTag("ui:text");
@@ -114,7 +107,7 @@ final class WStyledTextRenderer extends AbstractWebXmlRenderer {
 	}
 
 	/**
-	 * Writes out paragraph delimted content.
+	 * Writes out paragraph delimited content.
 	 *
 	 * @param text the String content to output.
 	 * @param xml the XmlStringBuilder to paint to.

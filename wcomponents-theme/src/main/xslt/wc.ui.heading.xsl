@@ -20,14 +20,7 @@
 			</xsl:attribute>
 			<xsl:call-template name="makeCommonClass"/>
 			<xsl:call-template name="ajaxTarget"/>
-			<xsl:choose>
-				<xsl:when test="ui:decoratedlabel">
-					<xsl:apply-templates select="ui:decoratedlabel"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="."/>
-				</xsl:otherwise>
-			</xsl:choose>
+			<xsl:apply-templates />
 		</xsl:element>
 	</xsl:template>
 </xsl:stylesheet>

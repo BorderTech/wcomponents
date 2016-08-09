@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
@@ -26,7 +27,7 @@ public class WStyledTextOptionsExample extends WPanel {
 	 */
 	public WStyledTextOptionsExample() {
 
-		add(new WHeading(WHeading.MAJOR, "WStyledText Options"));
+		add(new WHeading(HeadingLevel.H2, "WStyledText Options"));
 
 		WFieldLayout layout = new WFieldLayout();
 		layout.setLabelWidth(30);
@@ -40,6 +41,9 @@ public class WStyledTextOptionsExample extends WPanel {
 
 		final WCheckBox useBigTextClass = new WCheckBox();
 		layout.addField("Use HTML class 'bigText'", useBigTextClass);
+
+		final WCheckBox cbEncodeText = new WCheckBox(true);
+		layout.addField("Encode input text", cbEncodeText);
 
 		final WTextArea text = new WTextArea();
 		text.setRows(5);
@@ -59,20 +63,17 @@ public class WStyledTextOptionsExample extends WPanel {
 				styled.setWhitespaceMode((WStyledText.WhitespaceMode) mode.getSelected());
 				styled.setText(text.getText());
 				styled.setHtmlClass(useBigTextClass.isSelected() ? "bigText" : null);
+				styled.setEncodeText(cbEncodeText.isSelected());
+				// text.setRichTextArea(cbEncodeText.isSelected());
 			}
 		});
 
-		add(new WHeading(WHeading.MAJOR, "Styled Text"));
-
+		add(new WHeading(HeadingLevel.H2, "Styled Text"));
 		WPanel panel = new WPanel(WPanel.Type.BOX);
 		panel.setMargin(new Margin(20));
 		add(panel);
-
 		panel.add(styled);
-
 		setDefaultSubmitButton(button);
-
-
 		WText cssText = new WText("<style type='text/css'>.bigText{font-size:3em;}</style>");
 		cssText.setEncodeText(false);
 		add(cssText);
