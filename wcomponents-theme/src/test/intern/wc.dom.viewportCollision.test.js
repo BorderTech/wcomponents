@@ -63,7 +63,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					viewportCollision = c;
 					getViewportSize = s;
 					testHolder = testutils.getTestHolder();
-					testHolder.innerHTML = '<div id = "collide" style = "position:absolute;">colliding</div><div id = "nocollide">OK</div>';
+					testHolder.innerHTML = "<div id = 'collide' style = 'position:absolute;'>colliding</div><div id = 'nocollide'>OK</div>";
 				});
 			},
 			teardown: function() {
