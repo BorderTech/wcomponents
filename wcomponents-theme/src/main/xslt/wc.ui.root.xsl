@@ -20,6 +20,28 @@
 	<xsl:template match="ui:root">
 		<html lang="{$lang}">
 			<head>
+				<!-- Works more reliably if it is first -->
+				<xsl:call-template name="includeFavicon"/>
+				<!--
+					The format-detection is needed to work around issues in some very popular mobile browsers that will convert
+					"numbers" into phone links (a elements) if they appear to be phone numbers, even if those numbers are the
+					content of buttons or links. This breaks important stuff if you, for example, want to link or submit using
+					a number identifier.
+					
+					If you want a phone number link in these (or any) browser use WPhoneNumberField set readOnly.
+				-->
+				<xsl:element name="meta">
+					<xsl:attribute name="name">
+						<xsl:text>format-detection</xsl:text>
+					</xsl:attribute>
+					<xsl:attribute name="content">
+						<xsl:text>telephone=no</xsl:text>
+					</xsl:attribute>
+				</xsl:element>
+				<xsl:element name="meta">
+					<xsl:attribute name="name"><xsl:text>viewport</xsl:text></xsl:attribute>
+					<xsl:attribute name="content"><xsl:text>initial-scale=1</xsl:text></xsl:attribute>
+				</xsl:element>
 				<xsl:call-template name="addHeadMetaBeforeTitle"/>
 				<title>
 					<xsl:value-of select="@title"/>
