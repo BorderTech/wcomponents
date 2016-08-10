@@ -21,6 +21,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -339,7 +340,11 @@ public class ComponentModel implements WebModel, Externalizable {
 	protected Object copyData(final Object data) {
 		// For mutable objects, we perform a shallow copy
 		// so that we don't change the state of the shared value
-		if (data instanceof List) {
+		if (data instanceof Stack) {
+			Stack copy = new Stack();
+			copy.addAll((Stack) data);
+			return copy;
+		} else if (data instanceof List) {
 			return new ArrayList((List) data);
 		} else if (data instanceof Hashtable) {
 			return new Hashtable((Hashtable) data);
