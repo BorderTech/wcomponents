@@ -1,50 +1,9 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
 	<xsl:import href="wc.common.getHVGap.xsl"/>
+	<xsl:import href="wc.common.column.xsl"/>
 	<!--
 		ui:columnlayout is one of the possible layout child elements of WPanel.
-
-		A ColumnLayout is used to create a set of rows and columns. It is related to
-		WRow and WColumn.
-
-		The spacing between rows and columns is determined by the properties HGAP and
-		VGAP. HGAP and VGAP apply only between cells in the layout. They do not apply
-		space between the ColumnLayout and surrounding components.
-
-		The column width is set in percent. This is to allow for flexible positioning
-		within any level of container. The hgap and vgap are in pixels. If we apply these
-		as margins or padding without modifying the width we would cause the columns to
-		occupy more than 100% of the available space and this would cause wrapping.
-
-		We do not have any awareness at this stage as to the space available to us (in
-		fact, the only way we could manipulate the width of a column to allow pixel gaps
-		would be by recalculating all widths after the page has rendered which would
-		be an excessively expensive task and would also cause UI flicker).
-
-		To alleviate this we use box-sizing:border-box and apply the hgaps as padding.
-		This reduces the space available to the content. If we applied this gap to the
-		left of all but the first column, or to the right of all but the last, we would
-		have one column which has a content box hgap pixels larger than the other columns.
-		This would be noticeable if all columns were set to the same width. To reduce
-		this we apply 0.5x the hgap to each of the left and right of all columns except
-		the first and last in each row. We apply 0.5 x hgap to the right of the first and
-		0.5 x hgap to the left of the last. This still leaves us with two columns which
-		have a larger content box than the others but given that the discrepancy is now
-		0.5 x hgap and hgap is generally small (commonly in the 3-12 pixel range) we
-		live with this.
-
-		If you can fix this problem please let us know.
-
-		Child elements:
-		* ui:column Provides the number of columns in the layout and the alignment of each column.
-			NOTE: This is unrelated to the ui:column child of a ui:row.
-		* ui:cell: Each component placed into a ColumnLayout is output in a ui:cell.
-			These cells become the columns. Empty cells are ouput into the UI.
-
-
-		This calculates the number of rows required and then walks through the cells
-		using a mod. The cells included then apply their following siblings up to the
-		number of columns (note: once you have written 'column' this many times it
-		starts to look weird).
 	-->
 	<xsl:template match="ui:columnlayout">
 		<div>
@@ -82,5 +41,67 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</div>
+	</xsl:template>
+
+	<!--
+		This template creates each row and the first column in the row. It then applies
+		templates selecting the following-sibling::ui:cell[position &lt; $cols] to
+		build the rest of the columns in the row. The params to this template are
+		for convenience and speed since they could all be derived but it is better to
+		only calculate them once.
+		
+		param align: the column align property
+		param width: the width of the first column
+		param cols: the number of columns in each row in the layout.
+	-->
+	<xsl:template match="ui:cell" mode="clRow">
+		<xsl:param name="align"/>
+		<xsl:param name="width"/>
+		<xsl:param name="cols"/>
+		<div>
+			<xsl:attribute name="class">
+				<xsl:text>wc-row</xsl:text>
+				<xsl:call-template name="getHVGapClass">
+					<xsl:with-param name="gap" select="../@hgap"/>
+				</xsl:call-template>
+				<xsl:if test="contains(ancestor::ui:panel[1]/@class, 'wc-respond')">
+					<xsl:text> wc-respond</xsl:text>
+				</xsl:if>
+			</xsl:attribute>
+			<xsl:call-template name="column">
+				<xsl:with-param name="align" select="$align"/>
+				<xsl:with-param name="width" select="$width"/>
+			</xsl:call-template>
+			<xsl:if test="$cols &gt; 1">
+				<xsl:apply-templates select="following-sibling::ui:cell[position() &lt; $cols]" mode="clInRow"/>
+			</xsl:if>
+		</div>
+	</xsl:template>
+
+	<!--
+		This template creates columns within a row (except the first). Each column has
+		to look up the alignment and width of its position equivalent ui:column.
+	-->
+	<xsl:template match="ui:cell" mode="clInRow">
+		<!--
+			variable colPos
+			This variable is used to find the ui:column which holds the meta-data pertinent
+			to the column being constructed.
+			
+			The columns built in this template are columns 2...n but are called from a
+			sibling using following-siblings and therefore their position() is 1...n-1. 
+			Therefore to match the equivalent ui:column we have to use position() + 1.
+		-->
+		<xsl:variable name="colPos" select="position() + 1"/>
+		<!--
+			variable myColumn
+			This is a handle to the ui:column sibling of the cell which has position relative
+ 			to the parent element equal to the value of $colPos calculated above.
+		-->
+		<xsl:variable name="myColumn" select="../ui:column[position() = $colPos]"/>
+		<xsl:call-template name="column">
+			<xsl:with-param name="align" select="$myColumn/@align"/>
+			<xsl:with-param name="width" select="$myColumn/@width"/>
+		</xsl:call-template>
 	</xsl:template>
 </xsl:stylesheet>
