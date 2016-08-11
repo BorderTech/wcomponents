@@ -88,7 +88,7 @@
 
 			<xsl:call-template name="accessKey"/>
 			<xsl:apply-templates select="ui:decoratedlabel">
-				<xsl:with-param name="output" select="'span'"/>
+				<xsl:with-param name="output" select="'div'"/>
 			</xsl:apply-templates>
 		</div>
 		<xsl:if test="$type='accordion'">
