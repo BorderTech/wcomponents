@@ -19,6 +19,11 @@
 					<xs:documentation>The title for the page. This has accessibility implications.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+			<xs:attribute name="lang" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Set the locale for this applciation.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 
