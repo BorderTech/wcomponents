@@ -11,9 +11,4 @@
 	position: fixed;
 	right: 0;
 	z-index: $wc-z-index-unloading-message; // z-index needs to be above dialogs, unloading shims etc
-
-	ul {
-		list-style-type: none;
-		padding-left: $wc-gap-small;
-	}
 }
