@@ -121,6 +121,28 @@ public final class I18nUtilities {
 	}
 
 	/**
+	 * Get the locale currently in use.
+	 * @return The currently active locale.
+	 */
+	public static Locale getEffectiveLocale() {
+		Locale effectiveLocale = null;
+		UIContext uic = UIContextHolder.getCurrent();
+
+		if (uic != null) {
+			effectiveLocale = uic.getLocale();
+		}
+
+		if (effectiveLocale == null) {
+			String defaultLocale = ConfigurationProperties.getDefaultLocale();
+			effectiveLocale = new Locale(defaultLocale);
+		}
+
+		// Don't use Locale.getDefault() because it is too nebulous (depends on host environment)
+
+		return effectiveLocale;
+	}
+
+	/**
 	 * Attempts to retrieve the localized message for the given text.
 	 *
 	 * @param locale the locale to retrieve the message for, or null for the default locale.
@@ -135,21 +157,12 @@ public final class I18nUtilities {
 			Locale effectiveLocale = locale;
 
 			if (effectiveLocale == null) {
-				UIContext uic = UIContextHolder.getCurrent();
-
-				if (uic != null) {
-					effectiveLocale = uic.getLocale();
-				}
-
-				if (effectiveLocale == null) {
-					effectiveLocale = Locale.getDefault();
-				}
+				effectiveLocale = getEffectiveLocale();
 			}
 
 			try {
 				// TODO: This is slow
-				ResourceBundle bundle = ResourceBundle.getBundle(resourceBundleBaseName,
-						effectiveLocale);
+				ResourceBundle bundle = ResourceBundle.getBundle(resourceBundleBaseName, effectiveLocale);
 				message = bundle.getString(text);
 			} catch (MissingResourceException e) {
 				// Fall back to the Configuration mechanism for the default internal messages

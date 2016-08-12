@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.util;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WebUtilities;
 import java.io.InputStream;
-import java.util.Locale;
 import java.util.Properties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -166,33 +165,9 @@ public final class ThemeUtil {
 	 * @return The name of the XSLT file without any path or cachebuster.
 	 */
 	public static String getThemeXsltName(final UIContext uic) {
-		Locale locale = uic.getLocale();
-		StringBuffer xsltName = new StringBuffer(20);
-
-		// Base file name
-		xsltName.append("all");
-
-		// Locale
-		if (locale != null) {
-			xsltName.append('_').append(locale.getLanguage());
-
-			if (!Util.empty(locale.getCountry())) {
-				xsltName.append('-').append(locale.getCountry());
-
-				if (!Util.empty(locale.getVariant())) {
-					xsltName.append('-').append(locale.getVariant());
-				}
-			}
-		}
-
-		// Debug
 		if (DebugUtil.isDebugStructureEnabled()) {
-			xsltName.append("_debug");
+			return "all_debug.xsl";
 		}
-
-		// xsl
-		xsltName.append(".xsl");
-		return xsltName.toString();
+		return "all.xsl";
 	}
-
 }

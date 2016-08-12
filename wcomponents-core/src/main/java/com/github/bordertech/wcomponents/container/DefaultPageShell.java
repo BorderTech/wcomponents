@@ -8,9 +8,11 @@ import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WWindow;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.XMLUtil;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -38,8 +40,26 @@ public class DefaultPageShell implements PageShell {
 		// Provide temporary backward compatibility with &nbsp; while
 		// applications convert to be XML compliant.
 		writer.write(XMLUtil.DOC_TYPE);
-		writer.write(
-				"\n<ui:root title=\"" + WebUtilities.encode(title) + "\" " + XMLUtil.STANDARD_NAMESPACES + ">");
+
+		StringBuilder rootElement = new StringBuilder();
+		rootElement.append("\n<ui:root title=\"");
+		rootElement.append(WebUtilities.encode(title));
+		rootElement.append("\" ");
+
+		Locale locale = I18nUtilities.getEffectiveLocale();
+		if (locale != null) {
+			String lang = locale.toLanguageTag();
+			if (lang != null) {
+				rootElement.append("lang=\"");
+				rootElement.append(WebUtilities.encode(locale.toLanguageTag()));
+				rootElement.append("\" ");
+			}
+		}
+
+		rootElement.append(XMLUtil.STANDARD_NAMESPACES);
+		rootElement.append(">");
+
+		writer.write(rootElement.toString());
 	}
 
 	/**
