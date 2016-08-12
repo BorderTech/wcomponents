@@ -1,34 +1,5 @@
-/**
- * Display a warning to the user before their session expires. This is an accessibility requirement.
- *
- * <p>Things to consider:</p>
- * <ul><li>What renews the session? Requesting an XSL file via AJAX? Requesting an image?</li>
- * <li>Can we be sure that those actions will always renew the session? What if the resource is loaded from cache
- * instead of hitting the server... then the session will not renew.</li></ul>
- *
- * <p>There will always be a chance of getting the session timeout wrong, but there is wrong and then
- * there is WRONG. It is better to warn the user too early rather than too late.</p>
- *
- * @typedef {Object} module:wc/ui/timeoutWarn.config() Optional module configuration.
- * @property {int} min The minimum timeout (in seconds). If the requested session timeout is less than this we will not
- * attempt to warn the user.
- * @default 60
- *
- * @module
- * @requires external:lib/sprintf
- * @requires module:wc/xml/xslTransform
- * @requires module:wc/dom/event
- * @requires module:wc/dom/Widget
- * @requires module:wc/i18n/i18n
- * @requires module:wc/loader/resource
- * @requires module:wc/dom/shed
- * @requires module:wc/timers
- * @requires module:wc/config
- *
- * @todo Document private members, check source order.
- */
-define(["lib/sprintf", "wc/xml/xslTransform", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/loader/resource", "wc/dom/shed", "wc/timers", "wc/config"],
-	function(sprintf, xslTransform, event, Widget, i18n, loader, shed, timers, wcconfig) {
+define(["lib/sprintf", "wc/xml/xslTransform", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/loader/resource", "wc/dom/shed", "wc/timers", "wc/template", "wc/config"],
+	function(sprintf, xslTransform, event, Widget, i18n, loader, shed, timers, template, wcconfig) {
 		"use strict";
 		/**
 		 * @constructor
@@ -94,11 +65,8 @@ define(["lib/sprintf", "wc/xml/xslTransform", "wc/dom/event", "wc/dom/Widget", "
 			 * showing the warning of imminent timeout).
 			 * @returns {Promise} resolved with the messagebox documentFragment.
 			 */
-			function getDialog(level) {
-				return loader.load("wc.ui.timeoutWarn.xml", false, true).then(function(xml) {
-					xml.documentElement.setAttribute("type", level);
-					return xslTransform.transform({xmlDoc: xml});
-				});
+			function getDialog() {
+				return loader.load("wc.ui.timeoutWarn.handlebars", true, true);
 			}
 
 			/**
@@ -114,9 +82,10 @@ define(["lib/sprintf", "wc/xml/xslTransform", "wc/dom/event", "wc/dom/Widget", "
 					var container = getContainer(),
 						minutes = expiresAt.getMinutes(),
 						readableMins, secs, mins,
-						body, header;
+						title, body, header;
 					if (container) {
 						container.innerHTML = "";
+						title = i18n.get("messagetitle_warn"),
 						header = i18n.get("timeout_warn_header");
 						body = i18n.get("timeout_warn_body");
 
@@ -125,8 +94,7 @@ define(["lib/sprintf", "wc/xml/xslTransform", "wc/dom/event", "wc/dom/Widget", "
 						readableMins = (secs === 0 ? minsRemaining : (mins + (Math.round(secs * 100)) / 100));
 
 						body = sprintf.sprintf(body, readableMins, (expiresAt.getHours() + ":" + ((minutes < 10) ? "0" + minutes : minutes)));
-						container.appendChild(warningDf);
-						container.innerHTML = sprintf.sprintf(container.innerHTML, header, body);
+						container.innerHTML = sprintf.sprintf(warningDf, title, header, body);
 						showDialog(container);
 						console.info("warning shown at", new Date());
 					}
@@ -155,13 +123,13 @@ define(["lib/sprintf", "wc/xml/xslTransform", "wc/dom/event", "wc/dom/Widget", "
 			 */
 			function expire() {
 				getDialog("error").then(function(errorDf) {
-					var body, header, container = getContainer();
+					var body, header, title, container = getContainer();
 					if (container) {
 						container.innerHTML = "";
+						title = i18n.get("messagetitle_error"),
 						header = i18n.get("timeout_expired_header");
 						body = i18n.get("timeout_expired_body");
-						container.appendChild(errorDf);
-						container.innerHTML = sprintf.sprintf(container.innerHTML, header, body);
+						container.innerHTML = sprintf.sprintf(errorDf, title, header, body);
 						if (shed.isHidden(container, true)) {
 							showDialog(container);  // re-show it if the warning was closed by the user
 						}
@@ -207,5 +175,34 @@ define(["lib/sprintf", "wc/xml/xslTransform", "wc/dom/event", "wc/dom/Widget", "
 				}
 			};
 		}
-		return /** @alias module:wc/ui/timeoutWarning */ new TimeoutWarner();
+		/**
+		 * Display a warning to the user before their session expires. This is an accessibility requirement.
+		 *
+		 * <p>Things to consider:</p>
+		 * <ul><li>What renews the session? Requesting an XSL file via AJAX? Requesting an image?</li>
+		 * <li>Can we be sure that those actions will always renew the session? What if the resource is loaded from cache
+		 * instead of hitting the server... then the session will not renew.</li></ul>
+		 *
+		 * <p>There will always be a chance of getting the session timeout wrong, but there is wrong and then
+		 * there is WRONG. It is better to warn the user too early rather than too late.</p>
+		 *
+		 * @typedef {Object} module:wc/ui/timeoutWarn.config() Optional module configuration.
+		 * @property {int} min The minimum timeout (in seconds). If the requested session timeout is less than this we will not
+		 * attempt to warn the user.
+		 * @default 60
+		 *
+		 * @module
+		 * @requires external:lib/sprintf
+		 * @requires module:wc/xml/xslTransform
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/i18n/i18n
+		 * @requires module:wc/loader/resource
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/timers
+		 * @requires module:wc/config
+		 *
+		 * @todo Document private members, check source order.
+		 */
+		return new TimeoutWarner();
 	});

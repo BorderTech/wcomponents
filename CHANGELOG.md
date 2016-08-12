@@ -1,5 +1,14 @@
 # Change log
+## API Changes
 
+## Bug Fixes
+* Fixed bug in XSLT of inline errors #847
+* Fixed bug in i18n of timeout warnings #846
+
+
+## Enhancements
+
+# Release 1.2.3
 ## API Changes
 * Javascript API i18n module now returns the message key instead of an empty string if the translation is not found.
 * Deprecated `WDialog(WComponent, WButton)` as part of #407. Replaced with use of other constructors along with new
