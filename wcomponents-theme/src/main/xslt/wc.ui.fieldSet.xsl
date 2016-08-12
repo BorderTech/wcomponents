@@ -101,12 +101,12 @@
 				<xsl:call-template name="accessKey"/>
 				<xsl:apply-templates select="ui:decoratedlabel"/>
 				<xsl:if test="normalize-space(ui:decoratedlabel/*)='' and not(ui:decoratedlabel//ui:image)">
-					<xsl:value-of select="$$${wc.common.i18n.requiredLabel}"/>
+					<xsl:text>{{t 'requiredLabel'}}</xsl:text>
 				</xsl:if>
 				<xsl:if test="@required">
 					<xsl:call-template name="offscreenSpan">
 						<xsl:with-param name="text">
-							<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
+							<xsl:text>{{t 'requiredPlaceholder'}}</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
 				</xsl:if>

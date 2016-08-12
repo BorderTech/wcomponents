@@ -74,15 +74,15 @@ define(["wc/dom/attribute",
 				if (value && !validationManager.isExempt(element)) {
 					if ((mask = textArea.getMaxlength(element)) && value.length > mask) {
 						result = true;
-						flag = i18n.get("${validation.maxlength.i18n.error}", "%s", mask, value.length);
+						flag = i18n.get("validation_textarea_overmax", "%s", mask, value.length);
 					}
 					else if ((mask = element.getAttribute("data-wc-min")) && value.length < mask) {
 						result = true;
-						flag = i18n.get("${validation.textField.i18n.minLength}", "%s", mask);
+						flag = i18n.get("validation_text_belowmin", "%s", mask);
 					}
 
 					if (result) {
-						label = getFirstLabelForElement(element, true) || element.title || i18n.get("${validation.core.i18n.unlabelledQualifier}");
+						label = getFirstLabelForElement(element, true) || element.title || i18n.get("validation_common_unlabelledfield");
 						message = sprintf.sprintf(flag, label);
 						validationManager.flagError({element: element, message: message, attachTo: (textArea.getCounter(element) || element)});
 					}

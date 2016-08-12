@@ -116,12 +116,7 @@ public class SeleniumWComponentWebElement implements WebElement {
 	 */
 	@Override
 	public String getAttribute(final String name) {
-
-		if ("value".equals(name) && "textarea".equals(getTagName())) {
-			return element.getAttribute(name).replaceAll("\r\n", "\n");
-		} else {
-			return element.getAttribute(name);
-		}
+		return element.getAttribute(name);
 	}
 
 	/**

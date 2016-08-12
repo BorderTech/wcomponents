@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.HtmlToXMLUtil;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import java.io.PrintWriter;
 import java.io.Writer;
@@ -331,7 +332,8 @@ public final class XmlStringBuilder extends PrintWriter {
 		if (encode) {
 			appendOptional(WebUtilities.encode(string));
 		} else {
-			write(string);
+			// unescaped content still has to be XML compliant.
+			write(HtmlToXMLUtil.unescapeToXML(string));
 		}
 	}
 

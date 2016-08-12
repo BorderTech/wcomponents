@@ -140,10 +140,10 @@
 								<xsl:value-of select="$label"/>
 							</xsl:when>
 							<xsl:when test="self::ui:rowselection">
-								<xsl:value-of select="$$${wc.common.toggles.i18n.select.label}"/>
+								<xsl:text>{{t 'toggle_label'}}</xsl:text>
 							</xsl:when>
 							<xsl:when test="not($myLabel)">
-								<xsl:value-of select="$$${wc.common.toggles.i18n.select.label}"/>
+								<xsl:text>{{t 'toggle_label'}}</xsl:text>
 							</xsl:when>
 						</xsl:choose>
 					</xsl:variable>
@@ -166,10 +166,9 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:variable>
-					
+
 					<xsl:variable name="subClass">
-						<xsl:value-of select="concat('wc_', local-name(.))"/>
-						<xsl:text> wc_seltog wc-linkbutton</xsl:text>
+						<xsl:value-of select="concat('wc_', local-name(.), ' wc_seltog')"/>
 					</xsl:variable>
 					<xsl:call-template name="toggleElement">
 						<xsl:with-param name="mode" select="$mode"/>
@@ -178,7 +177,7 @@
 						<xsl:with-param name="name" select="$name"/>
 						<xsl:with-param name="value" select="'all'"/>
 						<xsl:with-param name="class" select="$subClass"/>
-						<xsl:with-param name="text" select="$$${wc.common.toggles.i18n.selectAll}"/>
+						<xsl:with-param name="text"><xsl:text>{{t 'toggle_all'}}</xsl:text></xsl:with-param>
 						<xsl:with-param name="selected">
 							<xsl:if test="$selected='all'">
 								<xsl:number value="1"/>
@@ -194,7 +193,7 @@
 						<xsl:with-param name="name" select="$name"/>
 						<xsl:with-param name="value" select="'none'"/>
 						<xsl:with-param name="class" select="$subClass"/>
-						<xsl:with-param name="text" select="$$${wc.common.toggles.i18n.selectNone}"/>
+						<xsl:with-param name="text"><xsl:text>{{t 'toggle_none'}}</xsl:text></xsl:with-param>
 						<xsl:with-param name="selected">
 							<xsl:if test="$selected='none'">
 								<xsl:number value="1"/>
@@ -211,13 +210,13 @@
 							<xsl:value-of select="$label"/>
 						</xsl:when>
 						<xsl:when test="self::ui:rowselection">
-							<xsl:value-of select="$$${wc.common.toggles.i18n.selectAll.a11y}"/>
+							<xsl:text>{{t 'toggle_all_label'}}</xsl:text>
 						</xsl:when>
 						<xsl:when test="$myLabel">
 							<xsl:apply-templates select="$myLabel" mode="selectToggle"/>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="$$${wc.common.toggles.i18n.selectAll.a11y}"/>
+							<xsl:text>{{t 'toggle_all_label'}}</xsl:text>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>

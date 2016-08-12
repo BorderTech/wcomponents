@@ -30,31 +30,31 @@ define(["wc/i18n/i18n", "wc/i18n/asciify"],
 			function initialise() {
 				var hasAsciiVersion = false;
 				months = [
-					i18n.get("${wc.date.monthName.0}"),
-					i18n.get("${wc.date.monthName.1}"),
-					i18n.get("${wc.date.monthName.2}"),
-					i18n.get("${wc.date.monthName.3}"),
-					i18n.get("${wc.date.monthName.4}"),
-					i18n.get("${wc.date.monthName.5}"),
-					i18n.get("${wc.date.monthName.6}"),
-					i18n.get("${wc.date.monthName.7}"),
-					i18n.get("${wc.date.monthName.8}"),
-					i18n.get("${wc.date.monthName.9}"),
-					i18n.get("${wc.date.monthName.10}"),
-					i18n.get("${wc.date.monthName.11}")];
+					i18n.get("month0"),
+					i18n.get("month1"),
+					i18n.get("month2"),
+					i18n.get("month3"),
+					i18n.get("month4"),
+					i18n.get("month5"),
+					i18n.get("month6"),
+					i18n.get("month7"),
+					i18n.get("month8"),
+					i18n.get("month9"),
+					i18n.get("monthA"),
+					i18n.get("monthB")];
 				monthsAbbr = [
-					i18n.get("${wc.date.monthName.abbr.0}"),
-					i18n.get("${wc.date.monthName.abbr.1}"),
-					i18n.get("${wc.date.monthName.abbr.2}"),
-					i18n.get("${wc.date.monthName.abbr.3}"),
-					i18n.get("${wc.date.monthName.abbr.4}"),
-					i18n.get("${wc.date.monthName.abbr.5}"),
-					i18n.get("${wc.date.monthName.abbr.6}"),
-					i18n.get("${wc.date.monthName.abbr.7}"),
-					i18n.get("${wc.date.monthName.abbr.8}"),
-					i18n.get("${wc.date.monthName.abbr.9}"),
-					i18n.get("${wc.date.monthName.abbr.10}"),
-					i18n.get("${wc.date.monthName.abbr.11}")];
+					i18n.get("monthabbr0"),
+					i18n.get("monthabbr1"),
+					i18n.get("monthabbr2"),
+					i18n.get("monthabbr3"),
+					i18n.get("monthabbr4"),
+					i18n.get("monthabbr5"),
+					i18n.get("monthabbr6"),
+					i18n.get("monthabbr7"),
+					i18n.get("monthabbr8"),
+					i18n.get("monthabbr9"),
+					i18n.get("monthabbrA"),
+					i18n.get("monthabbrB")];
 
 				monthsAscii = new Array(months.length);
 				months.forEach(function(mnthname, idx) {

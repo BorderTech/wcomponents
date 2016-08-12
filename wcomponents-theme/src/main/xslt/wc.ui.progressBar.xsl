@@ -22,7 +22,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:element name="${wc.dom.html5.element.progress}">
+		<progress>
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="isWrapper" select="1"/>
 			</xsl:call-template>
@@ -33,35 +33,14 @@
 			<xsl:attribute name="max">
 				<xsl:value-of select="@max"/>
 			</xsl:attribute>
-			<xsl:element name="span">
-				<xsl:attribute name="role">
-					<xsl:text>progressbar</xsl:text>
-				</xsl:attribute>
-				<xsl:attribute name="aria-valuemax">
-					<xsl:value-of select="@max"/>
-				</xsl:attribute>
-				<xsl:attribute name="aria-valuenow">
-					<xsl:value-of select="@value"/>
-				</xsl:attribute>
-				<xsl:attribute name="aria-valuetext">
-					<xsl:value-of select="$barText"/>
-				</xsl:attribute>
-				<xsl:element name="span">
-					<xsl:attribute name="role">
-						<xsl:text>presentation</xsl:text>
-					</xsl:attribute>
-					<xsl:attribute name="style">
-						<xsl:value-of select="concat('width: ',$percentage,'%;')"/>
-					</xsl:attribute>
+			<span role="progressbar" aria-valuemax="{@max}" aria-valuenow="{@value}" aria-valuetext="{$barText}">
+				<span role="presentation" style="{concat('width: ',$percentage,'%;')}">
 					<xsl:text>&#160;</xsl:text>
-				</xsl:element>
-				<xsl:element name="span">
-					<xsl:attribute name="role">
-						<xsl:text>presentation</xsl:text>
-					</xsl:attribute>
+				</span>
+				<span role="presentation">
 					<xsl:value-of select="$barText"/>
-				</xsl:element>
-			</xsl:element>
-		</xsl:element>
+				</span>
+			</span>
+		</progress>
 	</xsl:template>
 </xsl:stylesheet>

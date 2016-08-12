@@ -1,19 +1,20 @@
-/**
- * Provides a loading overlay which is removed as part of the last phase of page initialisation. This is intended to
- * reduce the porbability of a user interacting with a control before it has been initialised. This module does not
- * provide re-usable functionality, it **must** always be included in wc/common.js or in the page setup.
- *
- * @module
- * @requires module:wc/dom/initialise
- * @requires module:wc/ui/modalShim
- */
-define(["wc/dom/initialise", "wc/ui/modalShim"],
-	/** @param initialise wc/dom/initialise @param modalShim wc/ui/modalShim @ignore */
-	function(initialise, modalShim) {
+define(["wc/dom/initialise", "wc/ui/modalShim", "wc/timers"],
+	function(initialise, modalShim, timers) {
 		"use strict";
+
+		/**
+		 * Provides a loading overlay which is removed as part of the last phase of page initialisation. This is intended to
+		 * reduce the probability of a user interacting with a control before it has been initialised. This module does not
+		 * provide re-usable functionality, it **must** always be included in `wc/common.js` or in the page setup.
+		 *
+		 * @module
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/ui/modalShim
+		 */
 		var loading = {
+
 			/**
-			 * A Promise that is resolved when thepage is first initialized.
+			 * A Promise that is resolved when the page is first initialized.
 			 * If other scripts wish to be notified when the UI is no longer in the loading state they can use this promise.
 			 * @var
 			 * @type {Promise}
@@ -21,28 +22,26 @@ define(["wc/dom/initialise", "wc/ui/modalShim"],
 			 */
 			done: new Promise(function(loaded, error) {
 				try {
-					postInit();
 					loaded();
 				}
 				catch (ex) {
 					error(ex);
 				}
-			}),
-			/**
-			 * Call to dismiss the loading overlay (under normal circumstances this happens automatically).
-			 * @function module:wc/ui/loading.postInit
-			 * @public
-			 */
-			postInit: postInit
+			})
 		};
 
 		/**
-		 * Call when the DOM is loaded and UI controls are initialized to dismiss the loading overlay.
-		 * This is exposed as a public method since there are rare cases when it may need to be called manually.
+		 * Remove the loading indicator and clear the shim.
+		 * @function
+		 * @private
 		 */
-		function postInit() {
+		function clearLoadingShim() {
+			var container;
 			try {
-				var container = document.getElementById("wc_ui_loading");
+				Array.prototype.forEach.call(document.getElementsByTagName("form"), function(form) {
+					form.removeAttribute("hidden");
+				});
+				container = document.getElementById("wc-ui-loading");
 				if (container && container.parentNode) {
 					container.parentNode.removeChild(container);
 				}
@@ -51,7 +50,15 @@ define(["wc/dom/initialise", "wc/ui/modalShim"],
 				modalShim.clearModal();
 			}
 		}
+		/**
+		 * Call when the DOM is loaded and UI controls are initialized to dismiss the loading overlay.
+		 * @function
+		 * @private
+		 */
+		function postInit() {
+			loading.done.then(timers.setTimeout(clearLoadingShim, 0));
+		}
 
-		initialise.register(loading);
+		initialise.register({"postInit": postInit});
 		return loading;
 	});

@@ -35,15 +35,9 @@
 		<xsl:param name="errors"/>
 		<xsl:param name="id" select="@id"/>
 		<xsl:if test="$errors">
-			<ul>
-				<xsl:attribute name="class">
-					<xsl:text>wc-fieldindicator wc-fieldindicator-type-error wc_list_nb</xsl:text>
-				</xsl:attribute>
-				<xsl:attribute name="id">
-					<xsl:value-of select="concat($id,'_err')"/>
-				</xsl:attribute>
+			<span id="{concat($id,'_err')}" class="wc-fieldindicator wc-fieldindicator-type-error wc_list_nb">
 				<xsl:apply-templates select="$errors" mode="inline"/>
-			</ul>
+			</span>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

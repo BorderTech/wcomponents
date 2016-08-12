@@ -168,6 +168,7 @@ import com.github.bordertech.wcomponents.examples.theme.WTabAndCollapsibleExampl
 import com.github.bordertech.wcomponents.examples.theme.WTabExample;
 import com.github.bordertech.wcomponents.examples.theme.WTabSetExample;
 import com.github.bordertech.wcomponents.examples.theme.WTabSetTriggerActionExample;
+import com.github.bordertech.wcomponents.examples.theme.WToggleButtonExample;
 import com.github.bordertech.wcomponents.examples.theme.ajax.AjaxPollingWButtonExample;
 import com.github.bordertech.wcomponents.examples.theme.ajax.AjaxReplaceControllerExample;
 import com.github.bordertech.wcomponents.examples.theme.ajax.AjaxWButtonExample;
@@ -236,18 +237,18 @@ public final class ExampleData implements Serializable {
 		new ExampleData("Dropdown (action on change)", WDropdownTriggerActionExample.class),
 		new ExampleData("Dropdown (submit on change)", WDropdownSubmitOnChangeExample.class),
 		new ExampleData("Dropdown (space handling)", WDropdownSpaceHandlingExample.class),
-		new ExampleData("Dropdown (special char handling)",
-		WDropdownSpecialCharHandlingExample.class),
+		new ExampleData("Dropdown (special char handling)", WDropdownSpecialCharHandlingExample.class),
 		new ExampleData("Dropdown configuration options", WDropdownOptionsExample.class),
 		new ExampleData("Email field", WEmailFieldExample.class),
-		new ExampleData("Simple File upload", SimpleFileUpload.class),
+		new ExampleData("File upload (simple)", SimpleFileUpload.class),
 		new ExampleData("Labels", WLabelExample.class),
 		new ExampleData("Multi-dropdown", WMultiDropdownExample.class),
-		new ExampleData("Multi Select", WMultiSelectExample.class),
 		new ExampleData("Multi-file upload", WMultiFileWidgetExample.class),
 		new ExampleData("Multi-file ajax", WMultiFileWidgetAjaxExample.class),
+		new ExampleData("Multi Select", WMultiSelectExample.class),
 		new ExampleData("Multi-select pair", WMultiSelectPairExample.class),
 		new ExampleData("Multi-text field", WMultiTextFieldExample.class),
+		new ExampleData("Number Field", WNumberFieldExample.class),
 		new ExampleData("Partial date field", WPartialDateFieldExample.class),
 		new ExampleData("Phone Number Field", WPhoneNumberFieldExample.class),
 		new ExampleData("RadioButton", WRadioButtonExample.class),
@@ -261,7 +262,8 @@ public final class ExampleData implements Serializable {
 		new ExampleData("Text Area", TextAreaExample.class),
 		new ExampleData("Text Field", TextFieldExample.class),
 		new ExampleData("WTextField", WTextFieldExample.class),
-		new ExampleData("WNumberField", WNumberFieldExample.class)
+		new ExampleData("Toggle Button", WToggleButtonExample.class),
+		new ExampleData("Tree", WTreeExample.class)
 	};
 
 	/**
@@ -278,7 +280,6 @@ public final class ExampleData implements Serializable {
 		new ExampleData("Message Box", WMessageBoxExample.class),
 		new ExampleData("Messages", WMessagesExample.class),
 		new ExampleData("Progress bar", WProgressBarExample.class),
-		// new ExampleData("Session timeout", WSessionExample.class),
 		new ExampleData("Styled Text options", WStyledTextOptionsExample.class),
 		new ExampleData("Icons with WStyledText", WStyledTextFontAwesomeExample.class),
 		new ExampleData("HTML class properties", HtmlClassPropertiesExample.class),
@@ -355,8 +356,7 @@ public final class ExampleData implements Serializable {
 		new ExampleData("WContent", WContentExample.class),
 		new ExampleData("WHiddenComment", WHiddenCommentExample.class),
 		new ExampleData("Input bean binding", InputBeanBindingExample.class),
-		new ExampleData("White space example", WhiteSpaceExample.class),
-		new ExampleData("WTree", WTreeExample.class)
+		new ExampleData("White space example", WhiteSpaceExample.class)
 	};
 
 	/**
@@ -393,7 +393,6 @@ public final class ExampleData implements Serializable {
 		new ExampleData("Margins", MarginExample.class),
 		new ExampleData("Collapsible", WCollapsibleExample.class),
 		new ExampleData("Collapsible group", WCollapsibleGroupExample.class),
-		// new ExampleData("ColumnLayout", WColumnLayoutExample.class),
 		new ExampleData("Definition List", WDefinitionListExample.class),
 		new ExampleData("Field Layout", WFieldLayoutExample.class),
 		new ExampleData("Field nested", WFieldNestedExample.class),

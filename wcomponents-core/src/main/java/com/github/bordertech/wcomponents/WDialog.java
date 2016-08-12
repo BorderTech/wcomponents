@@ -17,9 +17,10 @@ import java.util.List;
  * </p>
  *
  * @author Christina Harris
+ * @author Mark Reeves
  * @since 1.0.0
  */
-public class WDialog extends AbstractWComponent implements Container, AjaxTarget {
+public class WDialog extends AbstractWComponent implements Container {
 
 	/**
 	 * This is the "normal" state for the Dialog component, when the dialog is not visible.
@@ -42,10 +43,6 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 	 */
 	public static final int MODELESS = 1;
 
-	/**
-	 * The button used to trigger the dialog.
-	 */
-	private final WButton trigger;
 
 	/**
 	 * The content holder exists to keep the content hidden from normal requests, yet still have the content attached to
@@ -85,7 +82,11 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 	 * @param content the dialog content.
 	 */
 	public WDialog(final WComponent content) {
-		this(content, null);
+		add(holder);
+
+		if (content != null) {
+			setContent(content);
+		}
 	}
 
 	/**
@@ -94,20 +95,47 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 	 *
 	 * @param content the dialog content.
 	 * @param trigger the WButton used to trigger the dialog to display.
+	 * @deprecated 1.2.3 use {@link #WDialog(WComponent)} and {@link #setTrigger(AjaxTrigger)} instead.
 	 */
 	public WDialog(final WComponent content, final WButton trigger) {
-		add(holder);
-
-		if (content != null) {
-			setContent(content);
-		}
-
-		this.trigger = trigger;
+		this(content);
 
 		if (trigger != null) {
-			add(trigger);
+			addTriggerButton(trigger);
 		}
 	}
+
+	/**
+	 * @return true if the AjaxTrigger a WButton added via the deprecated constructor?
+	 * @since 1.2.3
+	 * @deprecated 1.2.3 for backwards compatibility only.
+	 */
+	public final boolean hasTriggerButton() {
+		return getComponentModel().triggerIsBackwardComaptibleButton;
+	}
+
+	/**
+	 * Flag the component as having a backwards-compatible WButton trigger.
+	 * @param state true if the WDialog has the backwards compatible WButton trigger
+	 * @since 1.2.3
+	 * @deprecated 1.2.3 for backwards compatibility only.
+	 */
+	private void setTriggerButton(final boolean state) {
+		getOrCreateComponentModel().triggerIsBackwardComaptibleButton = state;
+	}
+
+	/**
+	 * Add the backwards compatible WButton trigger.
+	 * @param trigger The WButton used to open the WDialog.
+	 * @since 1.2.3
+	 * @deprecated 1.2.3 for backwards compatibility only.
+	 */
+	private void addTriggerButton(final WButton trigger) {
+		setTrigger(trigger);
+		add(trigger);
+		setTriggerButton(true);
+	}
+
 
 	/**
 	 * Set the WComponent which will handle the content for this dialog.
@@ -127,13 +155,6 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 	 */
 	public WComponent getContent() {
 		return getComponentModel().content;
-	}
-
-	/**
-	 * @return the WButton which is used to trigger the dialog.
-	 */
-	public WComponent getTrigger() {
-		return trigger;
 	}
 
 	/**
@@ -233,6 +254,30 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 		getOrCreateComponentModel().title = I18nUtilities.asMessage(title, args);
 	}
 
+	/**
+	 * Set the component which will open the WDialog.
+	 * @param trigger the WComponent which will open the dialog on click/change
+	 */
+	public void setTrigger(final AjaxTrigger trigger) {
+		// pre-1.2.3 compatibilty only:
+		if (this.hasTriggerButton()) {
+			AjaxTrigger theTrigger = getTrigger();
+			if (theTrigger instanceof WButton) {
+				remove(theTrigger);
+			}
+			this.setTriggerButton(false);
+		}
+		// end of backwards compatibility code.
+		getOrCreateComponentModel().trigger = trigger;
+	}
+
+	/**
+	 * @return The trigger component for this dialog.
+	 */
+	public AjaxTrigger getTrigger() {
+		return getComponentModel().trigger;
+	}
+
 	// -------------------------------------------------------------
 	// Action and Event Handling
 	// -------------------------------------------------------------
@@ -270,7 +315,7 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 	 *
 	 * @return true if the dialog is currently AJAX targeted, otherwise false.
 	 */
-	protected final boolean isAjaxTargeted() {
+	public final boolean isAjaxTargeted() {
 		// If the AJAX target is within the dialog, it should be visible.
 		AjaxOperation operation = AjaxHelper.getCurrentOperation();
 		if (operation == null) {
@@ -373,8 +418,22 @@ public class WDialog extends AbstractWComponent implements Container, AjaxTarget
 	 * Holds the state information of a WDialog.
 	 *
 	 * @author Yiannis Paschalidis
+	 * @author Mark Reeves
 	 */
 	public static class DialogModel extends ComponentModel {
+
+		/**
+		 * Holds a reference to the component which will open the WDialog.
+		 */
+		private AjaxTrigger trigger;
+
+		/**
+		 * Indicates that the WDialog have a nested trigger button. Here for backwards compatibility with pre-1.2.3 version of WDialog which did not
+		 * allow an arbitrary AjaxTrigger to open a dialog.
+		 * @since 1.2.3
+		 * @deprecated Only here for backwards compatibility.
+		 */
+		private boolean triggerIsBackwardComaptibleButton;
 
 		/**
 		 * The current state of the dialog.

@@ -2,7 +2,7 @@
 // Iconography for inline messages
 @import 'mixins-common';
 
-li:first-of-type:before {
+:first-of-type:before {
 	.wc-fieldindicator > & {
 		@include wc-icon($fa-var-minus-circle);
 		margin-right: $wc-gap-small;

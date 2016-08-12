@@ -1,8 +1,8 @@
 /* wc.ui.fieldLayout.scss */
 @import 'fieldLayout-mixins';
 
-$wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width; // Do not change
-
+// The space remaining for the input part of a control when the WFieldLayout is FLAT. Do not change.
+$wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 
 .wc-fieldlayout + .wc-fieldlayout, // Vertical space between consecutive WFieldLayouts.
 .wc-field  + .wc-field { // Vertical space between fields in a WFieldLayout.
@@ -77,40 +77,48 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width; // Do n
 	}
 }
 
-// If you _really_ want to support all possible labelWidths you can ignore this and just use
-// @for $i from 1 through 100 as shown below.
-$wc-fld-list: 16, 33, 34, 66, 67, 83 !default;
+@if ($wc-fieldlayout-force-stack == 0) {
+	@include respond-not-small {
+		// When we have a viewport of sufficient width we can allow side-by-side label: input pairs.
+		.wc-layout-flat > .wc-field {
+			> label,
+			> span,
+			> div {
+				display: inline-block;
+				vertical-align: text-top;
 
-@include respond-not-small {
-	// This block should be in fieldLayout.dt.css but is here to work around a Safari bug.
-	// Flat is the most common use, but shouldn't be (due to a11y concerns which are not adequately covered by WCAG 2.0)
-	.wc-layout-flat > .wc-field {
-		> label,
-		> span,
-		> div {
-			display: inline-block;
-			vertical-align: text-top;
+				&:first-child { //The first child is the label or stand-in or merely an empty placeholder/spacer.
+					width: $wc-fieldlayout-default-label-width;
+				}
+			}
 
-			&:first-child { //The first child is the label or stand-in or merely an empty placeholder/spacer.
-				width: $wc-fieldlayout-default-label-width;
+			> .wc-input {
+				margin-top: 0; // Remove stacked margin.
+				max-width: $wc-fieldlayout-input-width;
+				width: $wc-fieldlayout-input-width;
 			}
 		}
 
-		> .wc-input {
-			margin-top: 0; // Remove stacked margin.
-			max-width: $wc-fieldlayout-input-width;
-			width: $wc-fieldlayout-input-width;
+		// This lot does the CSS for the various allowed values of WFieldLayout's labelWidth member.
+		// If you _really_ want to support all values of labelWidth then you will have to change the
+		// variable $wc-fld-list to be the single value -1.
+		@if ($wc-fld-list == -1) {
+			@for $i from 1 through 100 {
+				$wc-fld-lblw: $i * 1%;
+				@include wc-fld-layout($j);
+			}
 		}
-	}
+		@else {
+			@for $i from 1 through 20 {
+				$j: $i * 5;
+				@include wc-fld-layout($j);
+			}
 
-	// @for $i from 1 through 100 {
-	// 	$wc-fld-lblw: $i * 1%;
-	@for $i from 1 through 20 {
-		$j: $i * 5;
-		@include wc-fld-layout($j);
-	}
-
-	@each $w in $wc-fld-list {
-		@include wc-fld-layout($w);
+			@if ($wc-fld-list != 0) {
+				@each $w in $wc-fld-list {
+					@include wc-fld-layout($w);
+				}
+			}
+		}
 	}
 }

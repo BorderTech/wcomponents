@@ -64,7 +64,7 @@ define(["wc/compat/compat!"], function() {
 				testHolder = document.getElementById(testHolderId);
 
 			if (!testHolder) {
-				testHolder = document.createElement("${wc.dom.html5.element.section}");
+				testHolder = document.createElement("section");
 				testHolder.id = testHolderId;
 				document.body.appendChild(testHolder);
 			}

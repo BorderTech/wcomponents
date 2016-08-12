@@ -44,7 +44,7 @@
 						<xsl:with-param name="force" select="1"/>
 					</xsl:call-template>
 				</xsl:if>
-				<xsl:element name="textarea">
+				<textarea>
 					<xsl:call-template name="commonControlAttributes">
 						<xsl:with-param name="isError" select="$isError"/>
 						<xsl:with-param name="name" select="$id"/>
@@ -71,7 +71,7 @@
 									<xsl:value-of select="@placeholder"/>
 								</xsl:when>
 								<xsl:otherwise>
-									<xsl:value-of select="$$${wc.common.i18n.requiredPlaceholder}"/>
+									<xsl:text>{{t 'requiredPlaceholder'}}</xsl:text>
 								</xsl:otherwise>
 							</xsl:choose>
 						</xsl:attribute>
@@ -87,7 +87,7 @@
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:value-of select="."/>
-				</xsl:element>
+				</textarea>
 				<xsl:if test="@maxLength">
 					<xsl:element name="output">
 						<xsl:attribute name="id">

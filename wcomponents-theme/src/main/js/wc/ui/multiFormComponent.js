@@ -300,7 +300,7 @@ define(["wc/has",
 						repaint(element);
 					}
 					else {
-						window.alert(i18n.get("${wc.ui.multiFormComponent.i18n.limitReached}"));
+						window.alert(i18n.get("mfc_max"));
 					}
 
 				}
@@ -386,7 +386,7 @@ define(["wc/has",
 			 * @param {Element} element a DOM element: in practice BODY
 			 */
 			this.initialise = function(element) {
-				REMOVE_BUTTON_TITLE = i18n.get("${wc.ui.multiFormComponent.i18n.removeControl.message}");
+				REMOVE_BUTTON_TITLE = i18n.get("mfc_remove");
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
 				}

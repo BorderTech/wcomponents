@@ -95,19 +95,19 @@
 						<xsl:text>&#x00a0;</xsl:text>
 						<xsl:call-template name="multiSelectPairButton">
 							<xsl:with-param name="value" select="'add'"/>
-							<xsl:with-param name="buttonText" select="$$${wc.ui.multiSelectPair.i18n.button.add}"/>
+							<xsl:with-param name="buttonText"><xsl:text>{{t 'msp_add'}}</xsl:text></xsl:with-param>
 						</xsl:call-template>
 						<xsl:call-template name="multiSelectPairButton">
 							<xsl:with-param name="value" select="'aall'"/>
-							<xsl:with-param name="buttonText" select="$$${wc.ui.multiSelectPair.i18n.button.addAll}"/>
+							<xsl:with-param name="buttonText"><xsl:text>{{t 'msp_addAll'}}</xsl:text></xsl:with-param>
 						</xsl:call-template>
 						<xsl:call-template name="multiSelectPairButton">
 							<xsl:with-param name="value" select="'rem'"/>
-							<xsl:with-param name="buttonText" select="$$${wc.ui.multiSelectPair.i18n.button.remove}"/>
+							<xsl:with-param name="buttonText"><xsl:text>{{t 'msp_remove'}}</xsl:text></xsl:with-param>
 						</xsl:call-template>
 						<xsl:call-template name="multiSelectPairButton">
 							<xsl:with-param name="value" select="'rall'"/>
-							<xsl:with-param name="buttonText" select="$$${wc.ui.multiSelectPair.i18n.button.removeAll}"/>
+							<xsl:with-param name="buttonText"><xsl:text>{{t 'msp_removeAll'}}</xsl:text></xsl:with-param>
 						</xsl:call-template>
 					</span>
 					<!-- SELECTED LIST -->

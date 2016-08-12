@@ -7,11 +7,21 @@ package com.github.bordertech.wcomponents.util;
  * @since 1.2.1
  */
 public final class HtmlIconUtil {
+
 	/**
-	 * Prevent instantiation.
+	 * Expose the HTML className to set an icon.
 	 */
-	private HtmlIconUtil() {
-	}
+	public static final String CLASS_ICON = HtmlClassProperties.ICON.toString();
+
+	/**
+	 * Expose the HTML className to set an icon before content.
+	 */
+	public static final String CLASS_ICON_BEFORE_CONTENT = HtmlClassProperties.ICON_BEFORE.toString();
+
+	/**
+	 * Expose the HTML className to set an icon after content.
+	 */
+	public static final String CLASS_ICON_AFTER_CONTENT = HtmlClassProperties.ICON_AFTER.toString();
 
 	/**
 	 * Provides access to position icons in components.
@@ -32,19 +42,10 @@ public final class HtmlIconUtil {
 	}
 
 	/**
-	 * Expose the HTML className to set an icon.
+	 * Prevent instantiation.
 	 */
-	public static final String CLASS_ICON = HtmlClassProperties.ICON.toString();
-
-	/**
-	 * Expose the HTML className to set an icon before content.
-	 */
-	public static final String CLASS_ICON_BEFORE_CONTENT = HtmlClassProperties.ICON_BEFORE.toString();
-
-	/**
-	 * Expose the HTML className to set an icon after content.
-	 */
-	public static final String CLASS_ICON_AFTER_CONTENT = HtmlClassProperties.ICON_AFTER.toString();
+	private HtmlIconUtil() {
+	}
 
 	/**
 	 * Pass in a string HTML class name and get the correct WComponents icon HTML classes.

@@ -1,40 +1,3 @@
-/**
- * Aria Analog is a reuse class that provides functions other classes can "borrow" to implement ARIA roles.
- *
- * There are two aspects to implementing an ARIA role:
- *
- * * Managing focus (keyboard navigation - left/right/up/down etc)
- * * Activation / Selection (click, spacebar, enter etc)
- * * State writing (tell the server the state of the aria control)
- *
- * A few points to note:
- *
- * * Event listeners are called in the scope of the object. In other words the "this" in an event listener will
- *   not reference event.currentTarget like it normally does, it will reference the "this" as if it was just a regular
- *   function, not an event listener.
- * * If you override any event handlers it's up to YOU to ensure you honor the above contract.
- *
- * **ACHTUNG! WARNING! ATTENTION! POZOR!**
- *
- * This is an "abstract class". That means it is not a complete implementation, subclasses are required to
- * implement certain properties / methods. The absolute minimum is  {@link module:wc/dom/Widget} ITEM.
- *
- * @module
- * @requires module:wc/has
- * @requires module:wc/dom/clearSelection
- * @requires module:wc/dom/event
- * @requires module:wc/dom/group
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/uid
- * @requires module:wc/dom/Widget
- * @requires module:wc/array/toArray
- * @requires module:wc/dom/formUpdateManager
- * @requires module:wc/dom/keyWalker
- * @requires module:wc/dom/isEventInLabel
- * @requires module:wc/dom/isAcceptableTarget
- * @requires module:wc/dom/getFilteredGroup
- * @requires module:wc/dom/focus
- */
 define(["wc/has",
 		"wc/dom/clearSelection",
 		"wc/dom/event",
@@ -47,11 +10,10 @@ define(["wc/has",
 		"wc/dom/keyWalker",
 		"wc/dom/isEventInLabel",
 		"wc/dom/isAcceptableTarget"],
-	/** @param has  @param clearSelection @param event  @param group @param shed @param uid @param Widget @param toArray @param formUpdateManager @param keyWalker @param isEventInLabel @param isAcceptableEventTarget @ignore */
 	function(has, clearSelection, event, group, shed, uid, Widget, toArray, formUpdateManager, keyWalker, isEventInLabel, isAcceptableEventTarget) {
 		"use strict";
 
-		var /** @alias module:wc/dom/ariaAnalog */ariaAnalog,
+		var ariaAnalog,
 			getFilteredGroup,
 			focus,
 			genericAnalog,
@@ -69,7 +31,7 @@ define(["wc/has",
 		/**
 		 * Deselect all elements in a group except any defined by the arg except.
 		 *
-		 * @function deselect
+		 * @function
 		 * @private
 		 * @param {NodeList} _group The group of elements which define an instance of an ARIA-analog.
 		 * @param {?Element} except The element we do not want to deselect: usually the just-selected element.
@@ -107,7 +69,8 @@ define(["wc/has",
 		/**
 		 * Is an analog in a read-only state?
 		 *
-		 * @function isReadOnly
+		 * @function
+		 * @private
 		 * @param {Element} element The element to test.
 		 * @returns {Boolean} true if element has attribute aria-readonly = "true".
 		 */
@@ -120,7 +83,7 @@ define(["wc/has",
 		 * listeners if they really want to. If we didn't use this mechanism then the superclass events would always be
 		 * called even if they were overridden.
 		 *
-		 * @function eventWrapper
+		 * @function
 		 * @private
 		 * @param {Event} $event The event to be wrapped.
 		 */
@@ -147,7 +110,7 @@ define(["wc/has",
 		 * Get the group which a particular element belongs to. A wrapper for {@link module:wc/dom/group#getGroup} and
 		 * {@link module:wc/dom/group#get}.
 		 *
-		 * @function getGroup
+		 * @function
 		 * @private
 		 * @param {Element} element The element in a group
 		 * @param {Object} analog An instance of a subclass of AriaAnalog.
@@ -167,7 +130,7 @@ define(["wc/has",
 		/**
 		 * Filter a group of elements to exclude all those which are disabled or hidden.
 		 *
-		 * @function filterGroup
+		 * @function
 		 * @private
 		 * @param {Element[]} _group
 		 * @returns {Element[]} The filtered group.
@@ -188,6 +151,14 @@ define(["wc/has",
 		 * @private
 		 */
 		function AriaAnalog() { }
+
+		/**
+		 * The attribute which holds the analog value.
+		 * @var
+		 * @protected
+		 * @type String
+		 */
+		AriaAnalog.prototype.VALUE_ATTRIB = "data-wc-value";
 
 		/**
 		 * Provides all possible selection modes: multiple, single, mixed.
@@ -250,9 +221,12 @@ define(["wc/has",
 		 *
 		 * @function
 		 * @protected
-		 * @param {Element} [element] The element being navigated to. Not used by default.
+		 * @param {Element} element The element being navigated to. Not used by default but needed in sub-classes.
 		 */
 		AriaAnalog.prototype.selectOnNavigate = function (element) {
+			if (!element) {
+				throw new TypeError("Argument must not be null");
+			}
 			return false;
 		};
 
@@ -343,9 +317,9 @@ define(["wc/has",
 		};
 
 		/**
-		 * Subscriber to module:wc/dom/shed to act on shed events SELECT and DESELECT. This will selectively deselect
-		 * other items in the group if the group selection mode ({@link module:wc/dom/ariaAnalog#exclusiveSelect}) is
-		 * single or mixed a container element and that element does not have attribute aria-multiselectable = "true".
+		 * Subscriber to module:wc/dom/shed to act on shed events SELECT and DESELECT. This will selectively deselect other items in the group if the
+		 * group selection mode ({@link module:wc/dom/ariaAnalog#exclusiveSelect}) is single or mixed a container element and that element does not
+		 * have attribute aria-multiselectable = "true".
 		 *
 		 * @function
 		 * @public
@@ -417,8 +391,8 @@ define(["wc/has",
 		 *
 		 * @function
 		 * @protected
-		 * @param {Element} form The form or form segment whosr state is being written.
-		 * @param {ELement} container The container for writing the state fields.
+		 * @param {Element} form the form or form segment whose state is being written.
+		 * @param {ELement} container the container for writing the state fields.
 		 * @todo Anonymize the inner function.
 		 */
 		AriaAnalog.prototype.writeState = function(form, container) {
@@ -428,10 +402,10 @@ define(["wc/has",
 			if (items.length) {
 				selectedItems = getFilteredGroup(toArray(items));
 				selectedItems.forEach(function (next) {
-					if (next.hasAttribute("data-wc-value") && !shed.isDisabled(next)) {
-						formUpdateManager.writeStateField(container, next.getAttribute("data-wc-name"), next.getAttribute("data-wc-value"));
+					if (next.hasAttribute(this.VALUE_ATTRIB) && !shed.isDisabled(next)) {
+						formUpdateManager.writeStateField(container, next.getAttribute("data-wc-name"), next.getAttribute(this.VALUE_ATTRIB));
 					}
-				});
+				}, this);
 			}
 		};
 
@@ -497,12 +471,11 @@ define(["wc/has",
 		};
 
 		/**
-		 * Helper for keydownEvent.
-		 * Determine if the user has pressed an arrow key or similar.
-		 * @param {Number} keyCode The key pressed.
-		 * @returns {boolean} true if it's a direction key
+		 * Helper for keydownEvent. Determine if the user has pressed an arrow key or similar.
 		 * @function
 		 * @private
+		 * @param {Number} keyCode The key pressed.
+		 * @returns {boolean} true if it's a direction key
 		 */
 		function isDirectionKey(keyCode) {
 			return (keyCode === KeyEvent.DOM_VK_HOME || keyCode === KeyEvent.DOM_VK_END ||
@@ -512,11 +485,11 @@ define(["wc/has",
 		/**
 		 * Helper for keydownEvent.
 		 * Calculates where to move based on the key pressed by the user.
+		 * @function
+		 * @private
 		 * @param {AriaAnalog} instance The AriaAnalog controller.
 		 * @param {Number} keyCode The key pressed.
 		 * @returns {instance.KEY_DIRECTION.NEXT|instance.KEY_DIRECTION.LAST|instance.KEY_DIRECTION.FIRST|instance.KEY_DIRECTION.PREVIOUS}
-		 * @function
-		 * @private
 		 */
 		function calcMoveTo(instance, keyCode) {
 			var moveTo;
@@ -646,6 +619,7 @@ define(["wc/has",
 			shed.toggle(element, shed.actions.SELECT);
 			return true;
 		}
+
 		/**
 		 * Activate the element, that is SELECT or DESELECT it.
 		 *
@@ -768,24 +742,19 @@ define(["wc/has",
 		};
 
 		/**
-		 * Determines if the "this" item found in an event listener is the closest actiave aria analog to the event (as
-		 * if we were handling the event on capture for all events). This is to overcome the issue of all aria analogs
-		 * listening for the same events with an ancestor lookup to determine if they are the target. This results in
-		 * multiple analogs responding if nested as we cannot rely on preventDefault() because we cannot rely on the
-		 * order in which the analogs handle an event.
+		 * Determines if the "this" item found in an event listener is the closest actiave aria analog to the event (as if we were handling the event
+		 * on capture for all events). This is to overcome the issue of all aria analogs listening for the same events with an ancestor lookup to
+		 * determine if they are the target. This results in multiple analogs responding if nested as we cannot rely on preventDefault() because we
+		 * cannot rely on the order in which the analogs handle an event.
 		 *
 		 * @function
-		 * @protected
+		 * @private
 		 * @param {Element} target The event target
 		 * @param {Element} item The element found using this.ITEM.
 		 * @returns {Boolean} true if the item is the first active analog found in the ancestor tree.
 		 */
-		AriaAnalog.prototype.isActiveAnalog = function(target, item) {
-			var firstAnalog, gridContainer, skip;
-
-			if (shed.isDisabled(item)) { // A disabled item cannot be an active analog.
-				return false;
-			}
+		function isActiveAnalog(target, item) {
+			var firstAnalog, gridContainer;
 
 			// NOTE: We should not use focus.getFocusableAncestor or isAcceptableTarget here because we are only
 			// interested in whether the analog is the nearest analog. To see a case where isAcceptableTarget here would
@@ -805,34 +774,28 @@ define(["wc/has",
 			IGNORE_ROLES = IGNORE_ROLES || ["presentation", "banner", "application", "alert", "tablist", "tabpanel", "group", "heading", "rowheader", "separator"];
 
 			while (firstAnalog && firstAnalog.parentNode) {
-				skip = false;
-
-				if (IGNORE_ROLES.indexOf(firstAnalog.getAttribute("role")) > -1 || isReadOnly(firstAnalog) || shed.isDisabled(firstAnalog)) {
-					skip = true;
-				}
-
 				// A column header is active if the column is sortable.
-				if (!skip && firstAnalog.getAttribute("role") === "columnheader") {
-					skip = !firstAnalog.getAttribute("aria-sort");
-				}
 				// NOTE: be aware we may eventually want to do the same with row header if we ever build row based sort.
+				if (IGNORE_ROLES.indexOf(firstAnalog.getAttribute("role")) > -1 ||
+						isReadOnly(firstAnalog) ||
+						shed.isDisabled(firstAnalog) ||
+						(firstAnalog.getAttribute("role") === "columnheader" && !firstAnalog.getAttribute("aria-sort"))) {
+					firstAnalog = genericAnalog.findAncestor(firstAnalog.parentNode);
+					continue;
+				}
 
-				if (!skip && firstAnalog.getAttribute("role") === "gridcell") {
+				if (firstAnalog.getAttribute("role") === "gridcell") {
 					// ignore role gridcell if the nearest containing grid/treegid is aria-readonly as this state is inherited.
 					gridWidgets = gridWidgets || [new Widget("","",{"role": "grid"}), new Widget("","",{"role": "treegrid"})];
 					if ((gridContainer = Widget.findAncestor(firstAnalog, gridWidgets)) && isReadOnly(gridContainer)) {
-						skip = true;
+						firstAnalog = genericAnalog.findAncestor(firstAnalog.parentNode);
+						continue;
 					}
-				}
-
-				if (skip) {
-					firstAnalog = genericAnalog.findAncestor(firstAnalog.parentNode);
-					continue;
 				}
 				break;
 			}
 			return (!firstAnalog || firstAnalog === item);
-		};
+		}
 
 		/**
 		 * When we change the selected item in a group we set the tabIndex otherwise tabbing into the group may not be
@@ -884,17 +847,53 @@ define(["wc/has",
 				return null;
 			}
 
-			if (this.isActiveAnalog(target, item)) {
+			if (!shed.isDisabled(item) && isActiveAnalog(target, item)) {
 				return item;
 			}
 			return null;
 		};
-
 
 		ariaAnalog = new AriaAnalog();
 		if (typeof Object.freeze !== "undefined") {
 			Object.freeze(ariaAnalog);  // freeze, cos this is shared as the proto for many different constructors
 		}
 
+		/**
+		 * Aria Analog is a reuse class that provides functions other classes can "borrow" to implement ARIA roles.
+		 *
+		 * There are two aspects to implementing an ARIA role:
+		 *
+		 * * Managing focus (keyboard navigation - left/right/up/down etc)
+		 * * Activation / Selection (click, spacebar, enter etc)
+		 * * State writing (tell the server the state of the aria control)
+		 *
+		 * A few points to note:
+		 *
+		 * * Event listeners are called in the scope of the object. In other words the "this" in an event listener will
+		 *   not reference event.currentTarget like it normally does, it will reference the "this" as if it was just a regular
+		 *   function, not an event listener.
+		 * * If you override any event handlers it's up to YOU to ensure you honor the above contract.
+		 *
+		 * **ACHTUNG! WARNING! ATTENTION! POZOR!**
+		 *
+		 * This is an "abstract class". That means it is not a complete implementation, subclasses are required to
+		 * implement certain properties / methods. The absolute minimum is  {@link module:wc/dom/Widget} ITEM.
+		 *
+		 * @module
+		 * @requires module:wc/has
+		 * @requires module:wc/dom/clearSelection
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/group
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/uid
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/array/toArray
+		 * @requires module:wc/dom/formUpdateManager
+		 * @requires module:wc/dom/keyWalker
+		 * @requires module:wc/dom/isEventInLabel
+		 * @requires module:wc/dom/isAcceptableTarget
+		 * @requires module:wc/dom/getFilteredGroup
+		 * @requires module:wc/dom/focus
+		 */
 		return ariaAnalog;
 	});

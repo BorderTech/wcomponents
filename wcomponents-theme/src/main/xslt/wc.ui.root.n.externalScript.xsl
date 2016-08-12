@@ -10,13 +10,6 @@
 	-->
 	<xsl:template name="externalScript">
 		<xsl:param name="scriptName"/><!-- The name of the script without ${debug.target.file.name.suffix} or .js -->
-		<xsl:element name="script">
-			<xsl:attribute name="type">
-				<xsl:text>text/javascript</xsl:text>
-			</xsl:attribute>
-			<xsl:attribute name="src">
-				<xsl:value-of select="concat($resourceRoot, $scriptDir, '/', $scriptName, '.js?', $cacheBuster)"/>
-			</xsl:attribute>
-		</xsl:element>
+		<script type="text/javascript" src="{concat($resourceRoot, $scriptDir, '/', $scriptName, '.js?', $cacheBuster)}"></script>
 	</xsl:template>
 </xsl:stylesheet>

@@ -4,7 +4,9 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMenuItem;
+import com.github.bordertech.wcomponents.WTree;
 import com.github.bordertech.wcomponents.WebUtilities;
+import java.util.HashSet;
 
 /**
  * An action used to select an example. Expects to be fired from a WComponent which has the set the event's action
@@ -26,5 +28,13 @@ final class SelectExampleAction implements Action {
 
 		TreePicker picker = WebUtilities.getAncestorOfClass(TreePicker.class, source);
 		picker.selectExample(data);
+
+		MenuPanel panel = WebUtilities.getAncestorOfClass(MenuPanel.class, source);
+		if (panel != null) {
+			WTree tree = panel.getTree();
+			if (tree != null) {
+				tree.setSelectedRows(new HashSet<String>()); // null);
+			}
+		}
 	}
 }

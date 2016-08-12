@@ -63,11 +63,11 @@ define(["wc/dom/attribute",
 						}
 					}
 					else if (isNaN(value)) {
-						message = i18n.get("${validation.numberField.i18n.notNumeric}");
+						message = i18n.get("validation_number_nan");
 					}
 					if (message) {
 						result = true;
-						label = getFirstLabelForElement(element, true) || element.title || i18n.get("${validation.core.i18n.unlabelledQualifier}");
+						label = getFirstLabelForElement(element, true) || element.title || i18n.get("validation_common_unlabelledfield");
 						message = sprintf.sprintf(message, label, (min || max), max);
 						validationManager.flagError({element: element, message: message});
 					}
@@ -89,11 +89,11 @@ define(["wc/dom/attribute",
 				var result;
 				if (MAX_FIELD.isOneOfMe(element)) {
 					if (isNaN(value)) {
-						result = min ? i18n.get("${validation.numberField.i18n.notNumeric.minMax}") : i18n.get("${validation.numberField.i18n.notNumeric.max}");
+						result = min ? i18n.get("validation_number_nanwithrange") : i18n.get("validation_number_nanwithmax");
 					}
 					else if (value > parseFloat(max)) {
 						// if value < min it cannot be > max
-						result = min ? i18n.get("${validation.numberField.i18n.outOfRange}") : i18n.get("${validation.numberField.i18n.overMax}");
+						result = min ? i18n.get("validation_number_outofrange") : i18n.get("validation_number_overmax");
 					}
 				}
 				return result;
@@ -112,10 +112,10 @@ define(["wc/dom/attribute",
 				var result;
 				if (MIN_FIELD.isOneOfMe(element)) {
 					if (isNaN(value)) {
-						result = i18n.get("${validation.numberField.i18n.notNumeric.min}");
+						result = i18n.get("validation_number_nanwithmin");
 					}
 					else if (value < parseFloat(min)) {
-						result = i18n.get("${validation.numberField.i18n.underMin}");
+						result = i18n.get("validation_number_undermin");
 					}
 				}
 				return result;

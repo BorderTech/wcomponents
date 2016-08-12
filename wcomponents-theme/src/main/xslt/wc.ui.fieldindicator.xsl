@@ -24,14 +24,10 @@
 	
 	-->
 	<xsl:template match="ui:fieldindicator">
-		<ul id="{@id}">
-			<xsl:call-template name="makeCommonClass">
-				<xsl:with-param name="additional">
-					<xsl:text>wc_list_nb</xsl:text>
-				</xsl:with-param>
-			</xsl:call-template>
+		<span id="{@id}">
+			<xsl:call-template name="makeCommonClass"/>
 			<xsl:apply-templates/>
-		</ul>
+		</span>
 	</xsl:template>
 	<!--
 		Currently there is a consistency problem with the use of WFieldErrorIndicator

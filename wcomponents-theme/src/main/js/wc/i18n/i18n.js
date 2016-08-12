@@ -1,20 +1,24 @@
-/**
- * @module
- * @requires external:lib/sprintf
- * @requires module:wc/array/toArray
- * @requires module:wc/array/unique
- */
-define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next", "wc/ajax/ajax", "wc/loader/resource"],
-
-	function(sprintf, toArray, wcconfig, mixin, i18next, ajax, resource) {
+define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next", "wc/ajax/ajax", "wc/loader/resource", "wc/template"],
+	function(sprintf, toArray, wcconfig, mixin, i18next, ajax, resource, template) {
 		"use strict";
-		var instance = new I18n();
 		/**
+		 * Manages the loading of i18n "messages" from the relevant i18n "resource bundle".
+		 *
 		 * WARNING This module is not usable unless it is loaded as a plugin (with a bang like so "wc/i18n/i18n!") before subsequent use.
 		 * Either all modules must use it as a plugin OR this can happen in a bootstrapping phase.
 		 *
-		 * Manages the loading of i18n "messages" from the relevant i18n "resource bundle".
-		 *
+		 * @module
+		 * @requires external:lib/sprintf
+		 * @requires module:wc/array/toArray
+		 * @requires module:wc/config
+		 * @requires module:wc/mixin
+		 * @requires external:lib/i18next
+		 * @requires module:wc/ajax/ajax
+		 * @requires module:wc/loader/resource
+		 * @requires module:wc/template
+		 */
+		var instance = new I18n();
+		/**
 		 * @constructor
 		 * @alias module:wc/i18n/i18n~I18n
 		 * @private
@@ -24,7 +28,9 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 
 			/**
 			 * Initialize this module.
-			 * @param [config] Configuration options.
+			 * @function module:wc/i18n/i18n.initialize
+			 * @public
+			 * @param {Object} [config] Configuration options.
 			 * @param {Function} [callback] Called when initialized.
 			 */
 			this.initialize = function(config, callback) {
@@ -41,7 +47,9 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 
 			/**
 			 * Gets i18next options taking into account defaults and overrides provided by the caller.
-			 * @param i18nConfig Override default options by setting corresponding properties on this object.
+			 * @function
+			 * @private
+			 * @param {Object} i18nConfig Override default options by setting corresponding properties on this object.
 			 */
 			function getOptions(i18nConfig) {
 				var basePath = i18nConfig.basePath || resource.getResourceUrl(),
@@ -61,6 +69,8 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 
 			/**
 			 * Initialize the underlying i18next instance.
+			 * @function
+			 * @private
 			 * @param config Configuration options.
 			 * @param {Function} [callback] Called when initialized.
 			 */
@@ -79,12 +89,12 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 			 * Gets an internationalized string/message from the resource bundle.
 			 *
 			 * @function module:wc/i18n/i18n.get
+			 * @public
 			 * @param {String} key A message key, i.e. the key of an i18n key/value pair.
 			 * @param {*} [args]* 0..n additional arguments will be used to printf format the string before it is
 			 *    returned. Note: It's up to the caller to ensure the correct args (type, number etc...) are passed to
 			 *    printf formatted messages.
-			 * @returns {String} The message value, i.e. the value of an i18n key/value pair. If not found will return
-			 *    an empty string.
+			 * @returns {String} The message value, i.e. the value of an i18n key/value pair. If not found will return an empty string.
 			 */
 			this.get = function(key/* , args */) {
 				var args,
@@ -101,6 +111,8 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 			/*
 			 * Handles the requirejs plugin lifecycle.
 			 * For information {@see http://requirejs.org/docs/plugins.html#apiload}
+			 * @function  module:wc/i18n/i18n.load
+			 * @public
 			 */
 			this.load = function (id, parentRequire, callback, config) {
 				if (!config || !config.isBuild) {
@@ -110,17 +122,30 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 					callback();
 				}
 			};
+
+			/**
+			 * Pass-through for i18next.t.
+			 *
+			 * @function  module:wc/i18n/i18n.t
+			 * @public
+			 * @param {*} [arguments]* 0..n arguments passed to i18next.t
+			 * @return {String} The internationalised version of the input.
+			 */
+			this.t = function() {
+				return i18next.t.apply(i18next, arguments);
+			};
 		}
 
 		/**
 		 * Provides an XHR backend for i18next (one that works on PhantomJS).
-		 * All public methods implement the i18next backend interface, see i18next documentaion (if you can find any).
+		 * All public methods implement the i18next backend interface, see i18next documentation (if you can find any).
 		 * @constructor
+		 * @private
 		 */
 		function Backend() {
 			this.type = "backend";
 
-			this.init = function(services, backendOptions, i18nextOptions) {
+			this.init = function(services, backendOptions /* , i18nextOptions */) {
 				this.services = services;
 				this.options = backendOptions;
 			};
@@ -148,5 +173,11 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 				});
 			};
 		}
-		return /** @alias module:wc/i18n/i18n */ instance;
+
+		// Register the i18n Handlebars helper.
+		template.registerHelper(function(i18n_key) {
+			return instance.get(i18n_key);
+		}, "t", template.PROCESS.SAFE_STRING);
+
+		return instance;
 	});

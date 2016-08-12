@@ -6,42 +6,42 @@
 	</div>
 	<div class="wc_img_cap wc-column" style="height: {{style.height}}px">
 		<div id="wc_img_video_container"></div>
-		<button title="{{message.snap}}" type="button" class="wc_btn_snap wc_btn_icon" name="snap"><span class="wc-off">{{action.snap}}</span></button>
+		<button title="{{t 'imgedit_message_snap'}}" type="button" class="wc_btn_snap wc_btn_icon" name="snap"><span class="wc-off">{{t 'imgedit_action_snap'}}</span></button>
 	</div>
 	<div class="wc_img_nocap wc-column">
-		<p>{{message.nocapture}}</p>
+		<p>{{t 'imgedit_message_nocapture'}}</p>
 	</div>
 	<div class="wc_img_controls wc-column">
 		<fieldset>
-			<legend>{{heading.rotate}}</legend>
-			<button title="{{message.rotateLeft90}}" type="button" class="wc_btn_anticlock90 wc_btn_icon" name="anticlock90"><span class="wc-off">{{action.rotateLeft90}}</span></button>
-			<button title="{{message.rotateLeft}}" type="button" class="wc_btn_anticlock wc_btn_icon" name="anticlock"><span class="wc-off">{{action.rotateLeft}}</span></button>
-			<button title="{{message.rotateRight}}" type="button" class="wc_btn_clock wc_btn_icon" name="clock"><span class="wc-off">{{action.rotateRight}}</span></button>
-			<button title="{{message.rotateRight90}}" type="button" class="wc_btn_clock90 wc_btn_icon" name="clock90"><span class="wc-off">{{action.rotateRight90}}</span></button>
+			<legend>{{t 'imgedit_rotate'}}</legend>
+			<button title="{{t 'imgedit_message_rotate_left90'}}" type="button" class="wc_btn_anticlock90 wc_btn_icon" name="anticlock90"><span class="wc-off">{{t 'imgedit_rotate_left90'}}</span></button>
+			<button title="{{t 'imgedit_message_rotate_left'}}" type="button" class="wc_btn_anticlock wc_btn_icon" name="anticlock"><span class="wc-off">{{t 'imgedit_rotate_left'}}</span></button>
+			<button title="{{t 'imgedit_message_rotate_right'}}" type="button" class="wc_btn_clock wc_btn_icon" name="clock"><span class="wc-off">{{t 'imgedit_rotate_right'}}</span></button>
+			<button title="{{t 'imgedit_message_rotate_right90'}}" type="button" class="wc_btn_clock90 wc_btn_icon" name="clock90"><span class="wc-off">{{t 'imgedit_rotate_right90'}}</span></button>
 		</fieldset>
 		<fieldset>
-			<legend>{{heading.zoom}}</legend>
-			<button title="{{message.zoomOut}}" type="button" class="wc_btn_out wc_btn_icon" name="out"><span class="wc-off">{{action.zoomOut}}</span></button>
-			<button title="{{message.zoomIn}}" type="button" class="wc_btn_in wc_btn_icon" name="in"><span class="wc-off">{{action.zoomIn}}</span></button>
+			<legend>{{t 'imgedit_zoom'}}</legend>
+			<button title="{{t 'imgedit_message_zoom_out'}}" type="button" class="wc_btn_out wc_btn_icon" name="out"><span class="wc-off">{{t 'imgedit_zoom_out'}}</span></button>
+			<button title="{{t 'imgedit_message_zoom_in'}}" type="button" class="wc_btn_in wc_btn_icon" name="in"><span class="wc-off">{{t 'imgedit_zoom_in'}}</span></button>
 			{{#feature.face}}
 			<button title="{{message.face}}" type="button" class="wc_btn_face wc_btn_icon" name="face"><span class="wc-off">{{action.face}}</span></button>
 			{{/feature.face}}
 		</fieldset>
 		<fieldset class="wc_img_buttons">
-			<legend>{{heading.move}}</legend>
-			<button title="{{message.moveUp}}" type="button" class="wc_btn_up wc_btn_icon" name="up"><span class="wc-off">{{action.moveUp}}</span></button>
-			<button title="{{message.moveLeft}}" type="button" class="wc_btn_left wc_btn_icon" name="left"><span class="wc-off">{{action.moveLeft}}</span></button>
-			<button title="{{message.moveRight}}" type="button" class="wc_btn_right wc_btn_icon" name="right"><span class="wc-off">{{action.moveRight}}</span></button>
-			<button title="{{message.moveDown}}" type="button" class="wc_btn_down wc_btn_icon" name="down"><span class="wc-off">{{action.moveDown}}</span></button>
+			<legend>{{t 'imgedit_move'}}</legend>
+			<button title="{{t 'imgedit_message_move_up'}}" type="button" class="wc_btn_up wc_btn_icon" name="up"><span class="wc-off">{{t 'imgedit_move_up'}}</span></button>
+			<button title="{{t 'imgedit_message_move_left'}}" type="button" class="wc_btn_left wc_btn_icon" name="left"><span class="wc-off">{{t 'imgedit_move_left'}}</span></button>
+			<button title="{{t 'imgedit_message_move_right'}}" type="button" class="wc_btn_right wc_btn_icon" name="right"><span class="wc-off">{{t 'imgedit_move_right'}}</span></button>
+			<button title="{{t 'imgedit_message_move_down'}}" type="button" class="wc_btn_down wc_btn_icon" name="down"><span class="wc-off">{{t 'imgedit_move_down'}}</span></button>
 		</fieldset>
 		<fieldset class="wc_img_capture">
-			<legend>{{heading.capture}}</legend>
-			<button title="{{message.camera}}" type="button" class="wc_btn_camera wc_btn_icon" name="camera"><span class="wc-off">{{action.camera}}</span></button>
+			<legend>{{t 'imgedit_capture'}}</legend>
+			<button title="{{t 'imgedit_message_camera'}}" type="button" class="wc_btn_camera wc_btn_icon" name="camera"><span class="wc-off">{{t 'imgedit_action_camera'}}</span></button>
 		</fieldset>
 		<div>
-			<button title="{{message.reset}}" type="button" class="wc_btn_reset wc_btn_icon" name="reset"><span class="wc-off">{{action.reset}}</span></button>
-			<button title="{{message.cancel}}" type="button" class="wc_btn_cancel wc_btn_icon" name="cancel"><span class="wc-off">{{action.cancel}}</span></button>
-			<button title="{{message.save}}" type="button" class="wc_btn_save wc_btn_icon" name="save"><span class="wc-off">{{action.save}}</span></button>
+			<button title="{{t 'imgedit_message_reset'}}" type="button" class="wc_btn_reset wc_btn_icon" name="reset"><span class="wc-off">{{t 'imgedit_action_reset'}}</span></button>
+			<button title="{{t 'imgedit_message_cancel'}}" type="button" class="wc_btn_cancel wc_btn_icon" name="cancel"><span class="wc-off">{{t 'imgedit_action_cancel'}}</span></button>
+			<button title="{{t 'imgedit_message_save'}}" type="button" class="wc_btn_save wc_btn_icon" name="save"><span class="wc-off">{{t 'imgedit_action_save'}}</span></button>
 		</div>
 	</div>
 </div>

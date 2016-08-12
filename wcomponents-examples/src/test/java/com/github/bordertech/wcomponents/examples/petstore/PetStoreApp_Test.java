@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.examples.petstore;
 import com.github.bordertech.wcomponents.examples.SeleniumTests;
 import com.github.bordertech.wcomponents.examples.WComponentExamplesTestCase;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
+import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -39,10 +40,10 @@ public class PetStoreApp_Test extends WComponentExamplesTestCase {
 
 	@Test
 	public void testAddDogToCart() {
-		WebDriver driver = getDriver();
+		SeleniumWComponentsWebDriver driver = getDriver();
 
 		// Find the 2nd text field inside the product table, and enter "1"
-		WebElement element = driver.findElement(byWComponentPath("ProductTable/WTextField[1]"));
+		WebElement element = driver.findWTextField(byWComponentPath("ProductTable/WTextField[1]"));
 		element.sendKeys("1");
 
 		// Click the "Update cart" button

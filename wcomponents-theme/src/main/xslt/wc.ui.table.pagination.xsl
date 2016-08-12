@@ -1,5 +1,4 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:import href="wc.ui.table.pagination.n.paginationDescription.xsl"/>
 	<xsl:import href="wc.ui.table.n.tableAjaxController.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<!--
@@ -30,9 +29,11 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:if test="@rows &gt; 0">
-			<xsl:call-template name="paginationDescription"/>
+			<xsl:if test="@rows &gt; @rowsPerPage">
+				<span class="wc_table_pag_rows" data-wc-tablerpp="{@rowsPerPage}" data-wc-tablerows="{@rows}" data-wc-tablepage="{@currentPage}"></span>
+			</xsl:if>
 			<label for="{$id}">
-				<xsl:value-of select="$$${wc.ui.table.string.pagination.page}"/>
+				<xsl:text>{{t 'table_pagination_page'}}</xsl:text>
 				<select id="{$id}" class="wc_table_pag_select" data-wc-pages="{$pages}">
 					<!-- NOTE: do not use name or data-wc-name as we do not want to trigger an unsaved changes warning -->
 					<xsl:if test="@mode='dynamic'">
@@ -81,7 +82,7 @@
 			</xsl:variable>
 			<span class="wc_table_pag_btns">
 				<xsl:call-template name="paginationButton">
-					<xsl:with-param name="title" select="$$${wc.ui.table.pagination.message.button.first}"/>
+					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_first'}}</xsl:text></xsl:with-param>
 					<xsl:with-param name="type" select="$buttonType"/>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'1')"/>
 					<xsl:with-param name="disabled">
@@ -91,7 +92,7 @@
 					</xsl:with-param>
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
-					<xsl:with-param name="title" select="$$${wc.ui.table.pagination.message.button.previous}"/>
+					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_previous'}}</xsl:text></xsl:with-param>
 					<xsl:with-param name="type" select="$buttonType"/>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'2')"/>
 					<xsl:with-param name="disabled">
@@ -101,7 +102,7 @@
 					</xsl:with-param>
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
-					<xsl:with-param name="title" select="$$${wc.ui.table.pagination.message.button.next}"/>
+					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_next'}}</xsl:text></xsl:with-param>
 					<xsl:with-param name="type" select="$buttonType"/>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'3')"/>
 					<xsl:with-param name="disabled">
@@ -111,7 +112,7 @@
 					</xsl:with-param>
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
-					<xsl:with-param name="title" select="$$${wc.ui.table.pagination.message.button.last}"/>
+					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_last'}}</xsl:text></xsl:with-param>
 					<xsl:with-param name="type" select="$buttonType"/>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'4')"/>
 					<xsl:with-param name="disabled">
@@ -171,7 +172,7 @@
 			<xsl:value-of select="concat($tableId,'.rows', $idSuffix)"/>
 		</xsl:variable>
 		<label for="{$rppChooserName}">
-			<xsl:value-of select="$$${wc.ui.table.string.pagination.label.chooseRowsPerPage}"/>
+			<xsl:text>{{t 'table_pagination_label_rppChooser'}}</xsl:text>
 			<select id="{$rppChooserName}" class="wc_table_pag_rpp">
 				<!-- NOTE: do not use name or data-wc-name as we do not want to trigger an unsaved changes warning -->
 				<xsl:call-template name="tableAjaxController">
@@ -202,7 +203,7 @@
 			</xsl:if>
 			<xsl:choose>
 				<xsl:when test="$value='0'">
-					<xsl:value-of select="$$${wc.ui.table.string.pagination.label.chooseAllRowsPerPage}"/>
+					<xsl:text>{{t 'table_pagination_option_allRows'}}</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:value-of select="$value"/>

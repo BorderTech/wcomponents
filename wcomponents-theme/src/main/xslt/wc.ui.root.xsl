@@ -20,6 +20,28 @@
 	<xsl:template match="ui:root">
 		<html lang="{$lang}">
 			<head>
+				<!-- Works more reliably if it is first -->
+				<xsl:call-template name="includeFavicon"/>
+				<!--
+					The format-detection is needed to work around issues in some very popular mobile browsers that will convert
+					"numbers" into phone links (a elements) if they appear to be phone numbers, even if those numbers are the
+					content of buttons or links. This breaks important stuff if you, for example, want to link or submit using
+					a number identifier.
+					
+					If you want a phone number link in these (or any) browser use WPhoneNumberField set readOnly.
+				-->
+				<xsl:element name="meta">
+					<xsl:attribute name="name">
+						<xsl:text>format-detection</xsl:text>
+					</xsl:attribute>
+					<xsl:attribute name="content">
+						<xsl:text>telephone=no</xsl:text>
+					</xsl:attribute>
+				</xsl:element>
+				<xsl:element name="meta">
+					<xsl:attribute name="name"><xsl:text>viewport</xsl:text></xsl:attribute>
+					<xsl:attribute name="content"><xsl:text>initial-scale=1</xsl:text></xsl:attribute>
+				</xsl:element>
 				<xsl:call-template name="addHeadMetaBeforeTitle"/>
 				<title>
 					<xsl:value-of select="@title"/>
@@ -98,18 +120,16 @@
 					This helps to prevent users interacting with a page before it is ready. The modal shim is part of
 					the page level loading indicator.
 				-->
-				<div id="wc_shim" class="wc_shim_loading">
+				<div id="wc-shim" class="wc_shim_loading">
 					<xsl:text>&#xa0;</xsl:text>
 					<noscript>
 						<p>
-							<xsl:value-of select="$$${wc.ui.root.i18n.noscript.message}"/>
+							<xsl:text>You must have JavaScript enabled to use this application.</xsl:text>
 						</p>
 					</noscript>
 				</div>
-				<div id="wc_ui_loading">
-					<div tabindex="0" class="wc-icon">
-						<xsl:value-of select="$$${wc.ui.loading.loadMessage}"/>
-					</div>
+				<div id="wc-ui-loading">
+					<div tabindex="0" class="wc-icon">&#x200b;</div>
 				</div>
 				<xsl:apply-templates />
 			</body>

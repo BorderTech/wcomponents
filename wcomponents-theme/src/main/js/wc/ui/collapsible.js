@@ -38,8 +38,8 @@ define(["wc/dom/event",
 		 * @private
 		 */
 		function Collapsible() {
-			var COLLAPSIBLE_CONTAINER = new Widget("${wc.dom.html5.element.details}"),
-				COLLAPSIBLE_HEADER = new Widget("${wc.dom.html5.element.summary}"),
+			var COLLAPSIBLE_CONTAINER = new Widget("details"),
+				COLLAPSIBLE_HEADER = new Widget("summary"),
 				BOOTSTRAPPED = "wc.ui.collapsible.bootStrapped",
 				TRUE = "true",
 				FALSE = "false";

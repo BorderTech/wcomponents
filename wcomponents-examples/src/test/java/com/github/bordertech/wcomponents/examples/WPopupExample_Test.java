@@ -41,6 +41,6 @@ public class WPopupExample_Test extends WComponentExamplesTestCase {
 		//Force the driver to wait until an element is present.
 		newWindowDriver.findElement(By.tagName("html")).click();
 		String url = newWindowDriver.getCurrentUrl();
-		Assert.assertTrue("Incorrect popup URL: " + url, url.startsWith("http://www.ubuntu.com/"));
+		Assert.assertTrue("Incorrect popup URL: " + url, url.startsWith("http://www.example.com/"));
 	}
 }

@@ -111,9 +111,9 @@ public class MenuFlyoutExample extends WPanel {
 		menu.add(imageMenu);
 
 		WSubMenu sitesMenu = new WSubMenu("External apps");
-		sitesMenu.add(new WMenuItem("DIAC external website", "http://www.ubuntu.com/"));
-		WMenuItem google = new WMenuItem("Google (new window)", "http://www.google.com/");
-		google.setTargetWindow("googleWindow");
+		sitesMenu.add(new WMenuItem("Example website", "http://www.example.com/"));
+		WMenuItem google = new WMenuItem("Example (new window)", "http://www.example.com/");
+		google.setTargetWindow("exampleWindow");
 		sitesMenu.add(google);
 		menu.add(sitesMenu);
 

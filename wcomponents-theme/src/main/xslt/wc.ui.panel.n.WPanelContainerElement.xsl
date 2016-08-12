@@ -35,13 +35,13 @@
 		<xsl:variable name="type" select="@type"/>
 		<xsl:choose>
 			<xsl:when test="$type='chrome' or $type='action'">
-				<xsl:text>${wc.dom.html5.element.section}</xsl:text>
+				<xsl:text>section</xsl:text>
 			</xsl:when>
 			<xsl:when test="contains($type,'header')">
-				<xsl:text>${wc.dom.html5.element.header}</xsl:text>
+				<xsl:text>header</xsl:text>
 			</xsl:when>
 			<xsl:when test="contains($type,'footer')">
-				<xsl:text>${wc.dom.html5.element.footer}</xsl:text>
+				<xsl:text>footer</xsl:text>
 			</xsl:when>
 			<xsl:when test="$overrideType!=''">
 				<xsl:value-of select="$overrideType"/>

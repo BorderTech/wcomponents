@@ -14,12 +14,6 @@
 	.wc_submenucontent {
 		background-color: $wc-ui-color-menu-bg;
 		color: $wc-ui-color-menu-fg;
-
-		&[aria-busy] {
-			// override aria-busy transparency
-			// scss-lint:disable ImportantRule
-			background-color: $wc-ui-color-menu-bg !important;
-		}
 	}
 }
 

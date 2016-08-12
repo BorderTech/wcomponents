@@ -101,7 +101,7 @@ define(["wc/array/toArray",
 
 				if (COLLAPSIBLE.isOneOfMe(collapsible)) {
 					if (!COLLAPSIBLE_TRIGGER) {
-						COLLAPSIBLE_TRIGGER = new Widget("${wc.dom.html5.element.summary}");
+						COLLAPSIBLE_TRIGGER = new Widget("summary");
 						COLLAPSIBLE_TRIGGER.descendFrom(COLLAPSIBLE, true);
 					}
 					if (open !== collapsible.hasAttribute("open") && (collapser = COLLAPSIBLE_TRIGGER.findDescendant(collapsible))) {
