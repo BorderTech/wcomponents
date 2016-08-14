@@ -13,12 +13,15 @@
 		NOTE: If you need the old XSLT which enabled a WComponent application to be nested inside an existing HTML
 		structure you will need to either rewrite it or retrieve it from the archives. It has gone because it was slow
 		and no-one needs it anymore.
-
-		$lang is a global attribute injected by the WComponent server application.
 	-->
 	<xsl:strip-space elements="*"/>
 	<xsl:template match="ui:root">
-		<html lang="{$lang}">
+		<html>
+			<xsl:if test="@lang">
+				<xsl:attribute name="lang">
+					<xsl:value-of select="@lang"/>
+				</xsl:attribute>
+			</xsl:if>
 			<head>
 				<!-- Works more reliably if it is first -->
 				<xsl:call-template name="includeFavicon"/>

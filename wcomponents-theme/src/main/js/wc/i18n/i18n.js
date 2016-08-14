@@ -24,7 +24,8 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 		 * @private
 		 */
 		function I18n() {
-			var funcTranslate;
+			var DEFAULT_LANG = "en",
+				funcTranslate;
 
 			/**
 			 * Initialize this module.
@@ -53,17 +54,36 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 			 */
 			function getOptions(i18nConfig) {
 				var basePath = i18nConfig.basePath || resource.getResourceUrl(),
+					currentLanguage = getLang(),
 					defaultOptions = {
 						load: "currentOnly",
 						initImmediate: true,
-						lng: "${default.i18n.locale}",
-						fallbackLng: "${default.i18n.locale}",
+						lng: currentLanguage,
+						fallbackLng: DEFAULT_LANG,
 						backend: {
 							loadPath: basePath + "{{ns}}/{{lng}}.json"
 						}
 					},
 					result = mixin(defaultOptions, {});
 				result = mixin(i18nConfig.options, result);
+				return result;
+			}
+
+			/**
+			 * Determine the language of the document.
+			 * @returns {String} the current document language.
+			 */
+			function getLang() {
+				var result, docElement, doc = document;
+				if (doc) {
+					docElement = doc.documentElement;
+					if (docElement) {
+						result = docElement.lang;
+					}
+				}
+				if (!result) {
+					result = DEFAULT_LANG;
+				}
 				return result;
 			}
 

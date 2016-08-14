@@ -50,6 +50,11 @@ public final class ConfigurationProperties {
 	public static final String DATALIST_CACHING_PARAM_KEY = "bordertech.wcomponents.dataListCaching.enabled";
 
 	/**
+	 * The default locale (you should probably never change this).
+	 */
+	public static final String DEFAULT_LOCALE = "bordertech.wcomponents.locale.defaultLocale";
+
+	/**
 	 * The default mime type for a file.
 	 */
 	public static final String DEFAULT_MIME_TYPE = "bordertech.wcomponents.mimeType.defaultMimeType";
@@ -539,6 +544,15 @@ public final class ConfigurationProperties {
 	 */
 	public static boolean getDatalistCaching() {
 		return get().getBoolean(DATALIST_CACHING_PARAM_KEY, false);
+	}
+
+	/**
+	 * The default locale used by WComponents.
+	 *
+	 * @return the parameter value or "en" if not set.
+	 */
+	public static String getDefaultLocale() {
+		return get().getString(DEFAULT_LOCALE, "en");
 	}
 
 	/**
