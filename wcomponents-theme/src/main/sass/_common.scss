@@ -150,6 +150,9 @@ $wc-common-busy-content-opacity: 0.25;
 // **DO NOT** want to chage this!
 $wc-input-padding: 1px !default;
 
+// left and right padding of the combo button. Needed to calc the max-width for use when
+// WField.setInputWidth(int) is used.
+$wc-combo-button-padding-lr: $wc-gap-small !default;
 //**********************************************************************************************************************
 //**********************************************************************************************************************
 // Variables for specific components
