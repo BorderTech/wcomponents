@@ -88,7 +88,7 @@
 						<xsl:with-param name="force" select="1"/>
 					</xsl:call-template>
 				</xsl:if>
-				<span id="{$id}">
+				<div id="{$id}">
 					<xsl:call-template name="commonAttributes">
 						<xsl:with-param name="live" select="'off'"/>
 						<xsl:with-param name="class">
@@ -203,7 +203,7 @@
 						</button>
 						<span role="listbox" aria-busy="true"></span>
 					</xsl:if>
-				</span>
+				</div>
 				<xsl:call-template name="inlineError">
 					<xsl:with-param name="errors" select="$isError"/>
 				</xsl:call-template>
