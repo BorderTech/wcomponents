@@ -1667,6 +1667,41 @@ public abstract class AbstractWComponent implements WComponent {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public void appendHtmlClass(final String className) {
+		if (Util.empty(className)) {
+			return;
+		}
+		String htmlClass = getHtmlClass();
+		if (null == htmlClass) {
+			setHtmlClass(className);
+		} else {
+			StringBuilder newHtmlClass = new StringBuilder(htmlClass);
+			newHtmlClass.append(" ");
+			newHtmlClass.append(className);
+			setHtmlClass(newHtmlClass.toString());
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void appendHtmlClass(final HtmlClassProperties className) {
+		String htmlClass = getHtmlClass();
+		if (null == htmlClass) {
+			setHtmlClass(className);
+		} else {
+			StringBuilder newHtmlClass = new StringBuilder(htmlClass);
+			newHtmlClass.append(" ");
+			newHtmlClass.append(className.toString());
+			setHtmlClass(newHtmlClass.toString());
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public String getHtmlClass() {
 		ComponentModel model = getComponentModel();
 		return I18nUtilities.format(null, model.getHtmlClass());
