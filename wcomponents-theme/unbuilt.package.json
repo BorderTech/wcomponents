@@ -21,6 +21,7 @@
 		"intern": "~3.0.6",
 		"jsdoc": "~3.3.2",
 		"promise-polyfill": "~2.1.0",
+		"properties": "~1.2.1",
 		"requirejs": "~2.2.0",
 		"sprintf-js": "~1.0.3",
 		"systemjs": "~0.19.22",

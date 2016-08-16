@@ -10,17 +10,32 @@
 	<import file="build-import.xml"/>
 	<property name="i18n.rootdir" location="${common.src.rootdir}/i18n"/>
 	<property name="impl.i18n.rootdir" location="${impl.src.main.dir}/i18n"/>
+	<property name="i18n.unpacked.dir" location="${build.rootdir}/i18n-unpacked/com/github/bordertech/wcomponents"/>
 
 	<target name="init" depends="clean">
 		<property file="${properties.build.constants}"/>
 		<mkdir dir="${i18n.build.target.dir}"/>
 	</target>
 
-	<target name="build" depends="init, buildXmlBundles, buildJsBundles" description="Builds i18n resource bundles">
+	<target name="build" depends="init, buildJsonBundles" description="Builds i18n resource bundles">
 		<!-- i18n -->
 		<copy todir="${resource.build.target.dir}/translation" overwrite="true">
 			<fileset dir="${i18n.build.target.dir}" includes="*.json"/>
 		</copy>
+	</target>
+	
+	<target name="buildJsonBundles">
+		<property name="propertiesToJson.js" value="${basedir}/propertiesToJson.js" />
+		<property name="default.locale.properties" location="${i18n.build.target.dir}/${default.i18n.locale}.properties"/>
+		<property name="default.locale.json" location="${i18n.build.target.dir}/${default.i18n.locale}.json"/>
+		<buildProps destfile="${default.locale.properties}"/>
+		<nodejs.exec failonerror="true" cwd="${target.rootdir}">
+			<arguments>
+				<arg value="${propertiesToJson.js}"/>
+				<arg value="${default.locale.properties}"/>
+				<arg value="${default.locale.json}"/>
+			</arguments>
+		</nodejs.exec>
 	</target>
 
 	<target name="buildXmlBundles">
@@ -95,6 +110,27 @@
 			</sequential>
 		</for>
 	</target>
+	
+	<!--
+		Builds a properties file from the source files in the core and implementation directories.
+		This is largely for backwards compatibility.
+	-->
+	<macrodef name="buildProps">
+		<attribute name="filename" default="theme-messages.properties"/>
+		<attribute name="destfile"/>
+		<sequential>
+			<concat fixlastline="true" append="false" destfile="@{destfile}">
+				<path>
+					<fileset dir="${i18n.unpacked.dir}" includes="@{filename}" excludesfile="${excludesfile}"/>
+					<fileset dir="${impl.i18n.rootdir}/parentImplementation" includes="*.${default.i18n.locale}.properties" erroronmissingdir="false"/>
+					<fileset dir="${impl.i18n.rootdir}" includes="*.${default.i18n.locale}.properties" erroronmissingdir="false"/>
+				</path>
+				<filterchain>
+					<expandproperties/>
+				</filterchain>
+			</concat>
+		</sequential>
+	</macrodef>
 
 	<!--
 		For the given local, builds a properties file from the source files in the core
