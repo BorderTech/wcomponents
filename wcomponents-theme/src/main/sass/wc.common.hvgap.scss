@@ -62,55 +62,58 @@
 	}
 }
 
-@include respond-phonelike { // reduce the gaps.
-	@each $cl in $wc-gap-suffix-list {
-		@if ($cl == sm) {
-			$size: $wc-gap-small / 2;
-		}
-		@else if  ($cl == med) {
-			$size: $wc-gap-small;
-		}
-		@else {
-			$size: $wc-gap-normal;
-		}
+@if ($wc-gap-reduce-when-narrow != -1) {
+	// Reduce the gaps on narrow viewports.
+	@include respond-phonelike {
+		@each $cl in $wc-gap-suffix-list {
+			@if ($cl == sm) {
+				$size: $wc-gap-small / 2;
+			}
+			@else if  ($cl == med) {
+				$size: $wc-gap-small;
+			}
+			@else {
+				$size: $wc-gap-normal;
+			}
 
-		.wc-hgap-#{$cl} {
-			> div,
-			> ul,
-			> li,
-			> span {
-				padding-left: $size / 2;
-				padding-right: $size / 2;
-			 }
-		}
-
-		@if ($cl != sm) {
-			.wc-vgap-#{$cl} {
-				> div + div,
-				> li + li {
-					margin-top: $wc-gap-small;
+			.wc-hgap-#{$cl} {
+				> div,
+				> ul,
+				> li,
+				> span {
+					padding-left: $size / 2;
+					padding-right: $size / 2;
 				 }
 			}
-		}
 
-		.wc-margin-all-#{$cl} {
-			margin: $size;
-		}
+			@if ($cl != sm) {
+				.wc-vgap-#{$cl} {
+					> div + div,
+					> li + li {
+						margin-top: $wc-gap-small;
+					 }
+				}
+			}
 
-		.wc-margin-n-#{$cl} {
-			margin-top: $size;
-		}
+			.wc-margin-all-#{$cl} {
+				margin: $size;
+			}
 
-		.wc-margin-e-#{$cl} {
-			margin-right: $size;
-		}
+			.wc-margin-n-#{$cl} {
+				margin-top: $size;
+			}
 
-		.wc-margin-s-#{$cl} {
-			margin-bottom: $size;
-		}
+			.wc-margin-e-#{$cl} {
+				margin-right: $size;
+			}
 
-		.wc-margin-w-#{$cl} {
-			margin-left: $size;
+			.wc-margin-s-#{$cl} {
+				margin-bottom: $size;
+			}
+
+			.wc-margin-w-#{$cl} {
+				margin-left: $size;
+			}
 		}
 	}
 }

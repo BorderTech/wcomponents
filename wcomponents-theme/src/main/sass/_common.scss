@@ -54,6 +54,11 @@ $wc-gap-normal: 0.5rem !default;
 $wc-gap-large: 1rem !default;
 $wc-gap-xl: 1.5rem !default;
 
+// If this is set to anything other than -1 then all horizontal gaps using wc-hgap-* wc-vgap-* and mc-margin-* will be
+// halved in narrow vieworts. You probably don't want this if your gaps are rem based and you are chjanging the font
+// size.
+$wc-gap-reduce-when-narrow: -1 !default;
+
 // Some fixed sizes for iconography place holders
 $wc-icon-small: 0.75rem !default; // about 12px in any unit
 $wc-icon-normal: 1rem !default; // min 16px in any unit
@@ -245,6 +250,12 @@ $wc-heading-section-h3-font-size: -1 !default;
 $wc-heading-section-h4-font-size: -1 !default;
 $wc-heading-section-h5-font-size: -1 !default;
 $wc-heading-section-h6-font-size: -1 !default;
+
+//**********************************************************************************************************************
+// WLabel
+//**********************************************************************************************************************
+// The font weight of a label. bold, normal, whatever.
+$wc-label-weight: bold !default;
 
 //**********************************************************************************************************************
 // WMenu

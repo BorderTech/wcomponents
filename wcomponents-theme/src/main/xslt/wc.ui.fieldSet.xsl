@@ -92,15 +92,31 @@
 
 				The legend will always be output but may be rendered out of viewport by the frame attribute.
 			-->
+			<xsl:variable name="labelText" >
+				<xsl:value-of select="ui:decoratedlabel"/>
+				<xsl:value-of select="ui:decoratedLabel//ui:image/@alt"/>
+			</xsl:variable>
+			<xsl:variable name="emptyLegend">
+				<xsl:if test="normalize-space($labelText) = ''">
+					<xsl:number value="1"/>
+				</xsl:if>
+			</xsl:variable>
 			<legend>
 				<xsl:if test="$frame='notext' or $frame='none'">
 					<xsl:attribute name="class">
-						<xsl:text>wc-off</xsl:text>
+						<xsl:choose>
+							<xsl:when test="$emptyLegend=1">
+								<xsl:text>wc-error</xsl:text>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:text>wc-off</xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>
 					</xsl:attribute>
 				</xsl:if>
 				<xsl:call-template name="accessKey"/>
 				<xsl:apply-templates select="ui:decoratedlabel"/>
-				<xsl:if test="normalize-space(ui:decoratedlabel/*)='' and not(ui:decoratedlabel//ui:image)">
+				<xsl:if test="$emptyLegend=1">
 					<xsl:text>{{t 'requiredLabel'}}</xsl:text>
 				</xsl:if>
 				<xsl:if test="@required">
