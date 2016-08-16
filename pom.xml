@@ -413,6 +413,28 @@
 		<pluginManagement>
 			<plugins>
 				<plugin>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>1.8</version>
+					<dependencies>
+						<dependency>
+							<groupId>ant-contrib</groupId>
+							<artifactId>ant-contrib</artifactId>
+							<version>1.0b3</version>
+							<exclusions>
+								<exclusion>
+									<groupId>ant</groupId>
+									<artifactId>ant</artifactId>
+								</exclusion>
+							</exclusions>
+						</dependency>
+						<dependency>
+							<groupId>org.apache.ant</groupId>
+							<artifactId>ant</artifactId>
+							<version>1.9.6</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
 					<artifactId>maven-assembly-plugin</artifactId>
 					<configuration>
 						<archive>
@@ -630,6 +652,7 @@
 	</reporting>
 
 	<modules>
+		<module>wcomponents-i18n</module>
 		<module>wcomponents-app-archetype</module>
 		<module>wcomponents-core</module>
 		<module>wcomponents-examples</module>

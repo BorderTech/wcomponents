@@ -54,7 +54,7 @@
 				</div>
 			</xsl:when>
 			<xsl:otherwise>
-				<html lang="{$lang}">
+				<html lang="en"><!-- The lang is hardcodeed but the pseudo ajax stuff is pretty much dead -->
 					<head>
 						<title>
 							<xsl:text>Pseudo AJAX iframe</xsl:text>

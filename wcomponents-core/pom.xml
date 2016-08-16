@@ -76,6 +76,12 @@
 	</build>
 
 	<dependencies>
+		
+		<dependency>
+			<groupId>com.github.bordertech.wcomponents</groupId>
+			<artifactId>wcomponents-i18n</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>commons-logging</groupId>
