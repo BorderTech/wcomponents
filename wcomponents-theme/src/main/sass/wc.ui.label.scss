@@ -6,11 +6,12 @@
 	@include label-hint;
 }
 
-
 // use inline-block to prevent a required marker flying off the end
 .wc-label {
 	display: inline-block;
-	font-weight: bold;
+	@if ($wc-label-weight != normal) {
+		font-weight: $wc-label-weight;
+	}
 
 	&.wc_req {
 		@include border-box;
