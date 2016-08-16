@@ -11,6 +11,7 @@ SerializeText.txt
 junit-frames.xsl
 local_app.properties
 !wcomponents-app-archetype/src/main/resources/archetype-resources/local_app.properties
+!wcomponents-i18n/dist
 
 ### Maven ###
 target/
