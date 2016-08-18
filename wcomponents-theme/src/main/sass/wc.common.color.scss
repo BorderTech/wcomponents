@@ -1,0 +1,21 @@
+/* wc.common.color.scss */
+// These are colour classes. Colour classes are _very_ dangerous. Therefore we do not
+// supply any which act on actual elements. These colours will, therefore only act on the
+// pseudo element used to generate an icon. Extend these as you feel fit.
+@import 'mixins-common';
+
+.wc-cerror::before {
+	color: $wc-ui-color-error-fg;
+}
+
+.wc-cwarning::before {
+	color: $wc-ui-color-warning-fg;
+}
+
+.wc-cinfo::before {
+	color: $wc-ui-color-info-fg;
+}
+
+.wc-csuccess::before {
+	color: $wc-ui-color-success-fg;
+}

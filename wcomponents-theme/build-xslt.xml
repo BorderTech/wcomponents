@@ -26,7 +26,7 @@
 	<property name="xsl.target.intermediate.file.name" value="${xsl.target.file.prefix}${xsl.target.intermediate.file.suffix}"/>
 
 	<target name="build"
-		depends="init, copyXslSrc, buildI18nWrappers, buildXslt, minify"
+		depends="init, copyXslSrc, buildXslt, minify"
 		description="Builds XSLT artifacts then minifies them">
 <!--		<loadJsDebugMap propertyToSet="xsl.debug.js.map"/>
 		<replace dir="${xslt.build.target.dir}" includes="*${debug.target.file.name.suffix}.xsl" token="@JS_DEBUG_MAP@" value="${xsl.debug.js.map}"/>
@@ -57,24 +57,7 @@
 	</target>
 
 	<target name="buildXslt">
-		<for param="file">
-			<fileset dir="${xsl.tmp.src.dir}/i18n">
-				<include name="*.xsl"/>
-			</fileset>
-			<sequential>
-				<var name="base.name" unset="true"/>
-				<basename property="base.name" file="@{file}"/><!-- base.name is now the file name without the path -->
-				<echo>Building ${base.name}</echo>
-				<copy file="@{file}"
-					todir="${xsl.tmp.src.dir}"
-					overwrite="true"/>
-				<buildXSLTPattern pattern="*" targetFile="${base.name}"/>
-				<delete file="${xsl.tmp.src.dir}/${base.name}"/>
-			</sequential>
-		</for>
-		<copy file="${xslt.build.target.dir}/${xslt.target.file.name}_${default.i18n.locale}${debug.target.file.name.suffix}.xsl"
-			  tofile="${xslt.build.target.dir}/${xslt.target.file.name}${debug.target.file.name.suffix}.xsl"
-			  overwrite="true"/>
+		<buildXSLTPattern pattern="*" targetFile="${xslt.target.file.name}${debug.target.file.name.suffix}.xsl"/>
 	</target>
 
 	<macrodef name="buildXSLTPattern">

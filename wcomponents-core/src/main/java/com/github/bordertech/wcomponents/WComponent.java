@@ -499,7 +499,7 @@ public interface WComponent extends WebComponent {
 	 * of a component using a space separated string. Some values in the HTML class name attribute are determined in the
 	 * theme and are used for core functionality and styling.
 	 *
-	 * @param className the HTML class attribute's value to add to the component.
+	 * @param className the HTML class attribute's value to add to the component
 	 */
 	void setHtmlClass(final String className);
 
@@ -509,6 +509,19 @@ public interface WComponent extends WebComponent {
 	 * @param className the HTML class attribute's value to add to the component derived from the utility enum
 	 */
 	void setHtmlClass(final HtmlClassProperties className);
+
+	/**
+	 * Append value to an existing HTML class name.
+	 * @param className the HTML class attribute's value to add to the component
+	 */
+	void appendHtmlClass(final String className);
+
+	/**
+	 * Append a value to an existing HTML class name for this component from a set of preset values.
+	 *
+	 * @param className the HTML class attribute's value to add to the component derived from the utility enum
+	 */
+	void appendHtmlClass(final HtmlClassProperties className);
 
 	/**
 	 * Returns the HTML class name string to apply to a component. Some values in the HTML class name attribute are

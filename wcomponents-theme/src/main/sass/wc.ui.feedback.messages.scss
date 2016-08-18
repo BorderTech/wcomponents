@@ -8,4 +8,12 @@
 .wc-fieldindicator {
 	display: block;
 	margin-top: $wc-gap-small;
+
+	> span {
+		display: block;
+
+		+ span {
+			margin-top: $wc-gap-small;
+		}
+	}
 }

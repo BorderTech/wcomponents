@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
+import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 
 /**
  * An example showing how to use {@link WStyledText} to create icons using
@@ -124,5 +125,20 @@ public class WStyledTextFontAwesomeExample extends WPanel {
 		text = new WStyledText(" ");
 		text.setHtmlClass("fa fa-ban fa-stack-2x text-ban");
 		template.addTaggedComponent("upper", text);
+
+		add(new WHeading(HeadingLevel.H2, "Coloured icons"));
+		text = new WStyledText("Information");
+		text.setHtmlClass(HtmlClassProperties.ICON_INFO_BEFORE.toString() + " wc-cinfo");
+		add(text);
+		text = new WStyledText("Success");
+		text.setHtmlClass(HtmlClassProperties.ICON_SUCCESS_BEFORE.toString() + " wc-csuccess");
+		add(text);
+		text = new WStyledText("Warning");
+		text.setHtmlClass(HtmlClassProperties.ICON_WARN_BEFORE.toString() + " wc-cwarning");
+		add(text);
+		text = new WStyledText("Error");
+		text.setHtmlClass(HtmlClassProperties.ICON_ERROR_BEFORE.toString() + " wc-cerror");
+		add(text);
+
 	}
 }

@@ -1,0 +1,14 @@
+{
+	"name": "wcomponents-i18n",
+	"version": "1.0.0",
+	"description": "i18n utilities for WComponents",
+	"main": "po2json.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "ricksbrown",
+	"license": "LGPL-3.0",
+	"dependencies": {
+		"i18next-conv": "^3.0.3"
+	}
+}

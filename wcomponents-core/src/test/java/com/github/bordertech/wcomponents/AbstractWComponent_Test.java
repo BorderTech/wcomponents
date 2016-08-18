@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
@@ -1132,6 +1133,48 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 
 		resetContext();
 		Assert.assertNull("Default accessible text incorrect", comp.getHtmlClass());
+	}
+
+	@Test
+	public void testAppendHtmlClass() {
+		AbstractWComponent comp = new SimpleComponent();
+		String initialClass = "foo";
+		String additionalClass = "bar";
+		String expected = initialClass + " " + additionalClass;
+		comp.setHtmlClass(initialClass);
+		comp.appendHtmlClass(additionalClass);
+		Assert.assertEquals("HTML class should have been appended with a space separator", expected, comp.getHtmlClass());
+	}
+
+	@Test
+	public void testAppendHtmlClassWithNoInitialClass() {
+		AbstractWComponent comp = new SimpleComponent();
+		String additionalClass = "bar";
+		String expected = additionalClass;
+		comp.appendHtmlClass(additionalClass);
+		Assert.assertEquals("HTML class should have been appended without a space separator", expected, comp.getHtmlClass());
+	}
+
+	@Test
+	public void testAppendHtmlClassUsingHtmlClassProperties() {
+		AbstractWComponent comp = new SimpleComponent();
+		String initialClass = "foo";
+		HtmlClassProperties additionalClass = HtmlClassProperties.RESPOND;
+		StringBuilder expected = new StringBuilder(initialClass);
+		expected.append(" ");
+		expected.append(additionalClass.toString());
+		comp.setHtmlClass(initialClass);
+		comp.appendHtmlClass(additionalClass);
+		Assert.assertEquals("HTML class should have been appended with a space separator", expected.toString(), comp.getHtmlClass());
+	}
+
+	@Test
+	public void testAppendHtmlClassWithNoInitialClassUsingHtmlClassProperties() {
+		AbstractWComponent comp = new SimpleComponent();
+		HtmlClassProperties additionalClass = HtmlClassProperties.RESPOND;
+		String expected = additionalClass.toString();
+		comp.appendHtmlClass(additionalClass);
+		Assert.assertEquals("HTML class should have been appended without a space separator", expected, comp.getHtmlClass());
 	}
 
 	/**

@@ -8,7 +8,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-parent</artifactId>
-		<version>1.2.3-SNAPSHOT</version>
+		<version>1.2.5-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -32,6 +32,7 @@
 		<theme.impl.dir>${theme.tmp.dir}/fakeImplRoot</theme.impl.dir>
 		<theme.impl.name />
 		<theme.unpack.dir>${project.build.directory}${file.separator}${theme.unpacked.name}</theme.unpack.dir>
+		<i18n.unpack.dir>${project.build.directory}${file.separator}i18n-unpacked</i18n.unpack.dir>
 		<nodejs.dist.dir>${project.build.directory}/nodejsdist</nodejs.dist.dir><!-- The nodejs binaries get unpacked to here -->
 		<nodejs.dir>${basedir}/node</nodejs.dir><!-- Where we expect to find Node installed -->
 		<npmjs.dir>${nodejs.dir}/node_modules/npm/bin</npmjs.dir><!-- Where we expect to find NPM installed -->
@@ -114,6 +115,26 @@
 							</artifactItems>
 						</configuration>
 					</execution>
+					<execution>
+						<id>unpack-i18n</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<skip>${theme.skip.antrun}</skip>
+							<outputDirectory>${i18n.unpack.dir}</outputDirectory>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.github.bordertech.wcomponents</groupId>
+									<artifactId>wcomponents-i18n</artifactId>
+									<version>${wc.project.version}</version>
+									<overWrite>true</overWrite>
+									<type>jar</type>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 
@@ -166,7 +187,6 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.8</version>
 				<executions>
 					<execution>
 						<id>compile</id>
@@ -245,25 +265,14 @@
 				</executions>
 				<dependencies>
 					<dependency>
+						<groupId>org.fedorahosted.tennera</groupId>
+						<artifactId>ant-gettext</artifactId>
+						<version>0.9</version>
+					</dependency>
+					<dependency>
 						<groupId>com.github.bordertech.wcomponents</groupId>
 						<artifactId>wcomponents-sass-compiler</artifactId>
 						<version>1.0.0</version>
-					</dependency>
-					<dependency>
-						<groupId>ant-contrib</groupId>
-						<artifactId>ant-contrib</artifactId>
-						<version>1.0b3</version>
-						<exclusions>
-							<exclusion>
-								<groupId>ant</groupId>
-								<artifactId>ant</artifactId>
-							</exclusion>
-						</exclusions>
-					</dependency>
-					<dependency>
-						<groupId>org.apache.ant</groupId>
-						<artifactId>ant</artifactId>
-						<version>1.9.6</version>
 					</dependency>
 					<dependency>
 						<groupId>commons-io</groupId>

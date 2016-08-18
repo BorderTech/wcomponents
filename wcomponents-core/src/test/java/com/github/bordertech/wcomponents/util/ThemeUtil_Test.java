@@ -45,12 +45,12 @@ public class ThemeUtil_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect theme path", themePath + "/xslt/all.xsl" + versionSuffix,
 				ThemeUtil.getThemeXslt(uic));
 
-		uic.setLocale(Locale.ENGLISH);
-		Assert.assertEquals("Incorrect theme path", themePath + "/xslt/all_en.xsl" + versionSuffix,
+		uic.setLocale(Locale.ENGLISH);  // We used to fetch a different XSL file based on locale, this is no longer the case.
+		Assert.assertEquals("Incorrect theme path", themePath + "/xslt/all.xsl" + versionSuffix,
 				ThemeUtil.getThemeXslt(uic));
 
-		uic.setLocale(Locale.CANADA_FRENCH);
+		uic.setLocale(Locale.CANADA_FRENCH);  // We used to fetch a different XSL file based on locale, this is no longer the case.
 		Assert.assertEquals("Incorrect theme path",
-				themePath + "/xslt/all_fr-CA.xsl" + versionSuffix, ThemeUtil.getThemeXslt(uic));
+				themePath + "/xslt/all.xsl" + versionSuffix, ThemeUtil.getThemeXslt(uic));
 	}
 }

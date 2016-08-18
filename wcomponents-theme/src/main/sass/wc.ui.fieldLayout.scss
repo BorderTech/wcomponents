@@ -57,9 +57,8 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 
 	// InputWidth class is added to the field to signify that an inputWidth is in use so we can size the components.
 	.wc_inputwidth > & {
-		> [type='email'],
-		> [type='text'],
-		> [type='tel'],
+		> .wc_input_wrapper,
+		> .wc_input_wrapper input,
 		> [type='password'],
 		> [type='number'],
 		> textarea,
@@ -70,6 +69,7 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 		}
 	}
 
+	> .wc_input_wrapper,
 	> input,
 	> select,
 	> textarea {

@@ -1,6 +1,9 @@
 define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next", "wc/ajax/ajax", "wc/loader/resource", "wc/template"],
 	function(sprintf, toArray, wcconfig, mixin, i18next, ajax, resource, template) {
 		"use strict";
+		var DEFAULT_LANG = "en",
+			funcTranslate;
+
 		/**
 		 * Manages the loading of i18n "messages" from the relevant i18n "resource bundle".
 		 *
@@ -24,7 +27,6 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 		 * @private
 		 */
 		function I18n() {
-			var funcTranslate;
 
 			/**
 			 * Initialize this module.
@@ -44,46 +46,6 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 					callback();
 				});
 			};
-
-			/**
-			 * Gets i18next options taking into account defaults and overrides provided by the caller.
-			 * @function
-			 * @private
-			 * @param {Object} i18nConfig Override default options by setting corresponding properties on this object.
-			 */
-			function getOptions(i18nConfig) {
-				var basePath = i18nConfig.basePath || resource.getResourceUrl(),
-					defaultOptions = {
-						load: "currentOnly",
-						initImmediate: true,
-						lng: "${default.i18n.locale}",
-						fallbackLng: "${default.i18n.locale}",
-						backend: {
-							loadPath: basePath + "{{ns}}/{{lng}}.json"
-						}
-					},
-					result = mixin(defaultOptions, {});
-				result = mixin(i18nConfig.options, result);
-				return result;
-			}
-
-			/**
-			 * Initialize the underlying i18next instance.
-			 * @function
-			 * @private
-			 * @param config Configuration options.
-			 * @param {Function} [callback] Called when initialized.
-			 */
-			function initI18next(config, callback) {
-				var options = getOptions(config),
-					backend = new Backend();
-				try {
-					i18next.use(backend).init(options, callback);
-				}
-				catch (ex) {
-					callback(ex);
-				}
-			}
 
 			/**
 			 * Gets an internationalized string/message from the resource bundle.
@@ -137,6 +99,65 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 		}
 
 		/**
+		 * Gets i18next options taking into account defaults and overrides provided by the caller.
+		 * @function
+		 * @private
+		 * @param {Object} i18nConfig Override default options by setting corresponding properties on this object.
+		 */
+		function getOptions(i18nConfig) {
+			var basePath = i18nConfig.basePath || resource.getResourceUrl(),
+				currentLanguage = getLang(),
+				defaultOptions = {
+					load: "currentOnly",
+					initImmediate: true,
+					lng: currentLanguage,
+					fallbackLng: DEFAULT_LANG,
+					backend: {
+						loadPath: basePath + "{{ns}}/{{lng}}.json"
+					}
+				},
+				result = mixin(defaultOptions, {});
+			result = mixin(i18nConfig.options, result);
+			return result;
+		}
+
+		/**
+		 * Determine the language of the document.
+		 * @returns {String} the current document language.
+		 */
+		function getLang() {
+			var result, docElement, doc = document;
+			if (doc) {
+				docElement = doc.documentElement;
+				if (docElement) {
+					result = docElement.lang;
+				}
+			}
+			if (!result) {
+				result = DEFAULT_LANG;
+			}
+			return result;
+		}
+
+		/**
+		 * Initialize the underlying i18next instance.
+		 * @function
+		 * @private
+		 * @param config Configuration options.
+		 * @param {Function} [callback] Called when initialized.
+		 */
+		function initI18next(config, callback) {
+			var options = getOptions(config),
+				backend = new Backend();
+			try {
+				i18next.use(backend).init(options, callback);
+			}
+			catch (ex) {
+				callback(ex);
+			}
+		}
+
+		/**
 		 * Provides an XHR backend for i18next (one that works on PhantomJS).
 		 * All public methods implement the i18next backend interface, see i18next documentation (if you can find any).
 		 * @constructor
@@ -179,5 +200,8 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 			return instance.get(i18n_key);
 		}, "t", template.PROCESS.SAFE_STRING);
 
-		return instance;
+		// I18n.call(instance.get);
+		mixin(instance, instance.get);
+
+		return instance.get;
 	});
