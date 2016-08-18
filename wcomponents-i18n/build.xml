@@ -1,0 +1,26 @@
+<project name="wcomponents-i18n" default="build" xmlns:if="ant:if" xmlns:unless="ant:unless">
+
+	<target name="checkBuildRequired">
+		<uptodate property="build.not.required" targetfile="${generated.targetdir}/.touchfile" >
+			<srcfiles dir="${bundle.sourcedir}" includes="*.properties"/>
+		</uptodate>
+	</target>
+
+	<target name="build" depends="checkBuildRequired" unless="build.not.required">
+		<path id="plugin.class.path">
+			<path path="${maven.plugin.classpath}"/>
+		</path>
+		<taskdef name="prop2pot" classname="org.fedorahosted.tennera.antgettext.Prop2PotTask" classpathref="plugin.class.path" />
+		<prop2pot srcDir="${bundle.sourcedir}" dstDir="${project.build.directory}/classes/com/github/bordertech/wcomponents" includes="*.properties" />
+		<mkdir dir="${generated.targetdir}"/>
+		<copy todir="${generated.targetdir}">
+			<fileset dir="${project.build.directory}/classes/com/github/bordertech/wcomponents">
+				<include name="*.pot"/>
+			</fileset>
+		</copy>
+		<tstamp>
+			<format property="build.time" pattern="yyyy-MM-dd hh:mm:ss aa" />
+		</tstamp>
+		<echo message="${build.time}" file="${generated.targetdir}/.touchfile"/>
+	</target>
+</project>
