@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ServiceLoader;
 import java.util.Set;
+import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.MapConfiguration;
 
@@ -37,7 +39,7 @@ public final class Config {
 	/**
 	 * The current configuration.
 	 */
-	private static Configuration configuration = new DefaultInternalConfiguration();
+	private static Configuration configuration = loadConfiguration();
 
 	/**
 	 * Prevent instantiation of this utility class.
@@ -53,11 +55,37 @@ public final class Config {
 	}
 
 	/**
+	 * @return the configuration to use.
+	 */
+	private static synchronized Configuration loadConfiguration() {
+
+		// Find if there are classes implementing the ConfigurationLoader SPI.
+		ServiceLoader<ConfigurationLoader> loaders = ServiceLoader.load(ConfigurationLoader.class);
+		Iterator<ConfigurationLoader> iterator = loaders.iterator();
+
+		// Use a CompositeConfiguration if there are custom ConfigurationLoader implementations.
+		if (iterator.hasNext()) {
+			CompositeConfiguration compositeConfig = new CompositeConfiguration(new MapConfiguration(new HashMap<String, Object>()));
+			while (iterator.hasNext()) {
+				compositeConfig.addConfiguration(iterator.next().getConfiguration());
+			}
+
+			//Add the base WComponents configuration last so it is overridden.
+			compositeConfig.addConfiguration(new DefaultInternalConfiguration());
+
+			return compositeConfig;
+		} else {
+			// If no custom ConfigurationLoader is defined, return the default configuration.
+			return new DefaultInternalConfiguration();
+		}
+	}
+
+	/**
 	 * Resets the configuration back to the default internal configuration. All configuration changes which have been
 	 * made will be lost. This method is primarily intended for unit testing.
 	 */
 	public static synchronized void reset() {
-		configuration = new DefaultInternalConfiguration();
+		configuration = loadConfiguration();
 		notifyListeners();
 	}
 
@@ -85,7 +113,10 @@ public final class Config {
 	}
 
 	/**
-	 * Sets the current configuration.
+	 * <p>
+	 * Sets the current configuration.</p>
+	 * <p>
+	 * <b>Warning: </b> this will ignore any defined ConfigurationLoaders</p>
 	 *
 	 * @param configuration the configuration to set.
 	 */
