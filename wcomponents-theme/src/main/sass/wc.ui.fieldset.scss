@@ -3,7 +3,7 @@
 
 fieldset {
 	@include padded-box($pad: $wc-gap-small);
-	@include margin($size: 0);
+	margin: 0;
 
 	// TODO: this can be moved up one level to make override easier.
 	&.wc_noborder { // it is pretty common to remove borders from fieldsets.

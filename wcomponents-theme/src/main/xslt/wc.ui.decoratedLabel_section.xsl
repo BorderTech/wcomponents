@@ -14,6 +14,12 @@
 			<xsl:apply-templates select="ui:labelbody">
 				<xsl:with-param name="output" select="'h1'"/>
 			</xsl:apply-templates>
+			<xsl:variable name="emptyBody">
+				<xsl:value-of select="normalize-space(ui:labelbody)"/>
+			</xsl:variable>
+			<xsl:if test="$emptyBody=''">
+				<xsl:text>{{t 'requiredLabel'}}</xsl:text>
+			</xsl:if>
 			<xsl:apply-templates select="ui:labeltail">
 				<xsl:with-param name="output" select="'div'"/>
 			</xsl:apply-templates>

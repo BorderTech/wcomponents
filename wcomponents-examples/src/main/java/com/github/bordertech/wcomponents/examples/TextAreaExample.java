@@ -116,9 +116,9 @@ public class TextAreaExample extends WPanel {
 		add(toggleDisableButton);
 		add(new WHorizontalRule());
 
-		layout = new WFieldLayout();
 		heading = new WHeading(HeadingLevel.H2, "Rich Text");
 		add(heading);
+		layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
 		add(layout);
 
 		ta5 = new WTextArea();

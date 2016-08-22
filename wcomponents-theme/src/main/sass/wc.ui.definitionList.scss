@@ -4,7 +4,7 @@
 // NOTE: the dl element is required here to differentiate from WFieldLayout with the same classNames generated from
 // LAYOUT attribute in XML
 dl {
-	@include margin($size: 0);
+	margin: 0;
 }
 
 dt {

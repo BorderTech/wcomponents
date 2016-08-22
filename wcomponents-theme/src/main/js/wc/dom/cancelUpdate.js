@@ -54,8 +54,7 @@ define(["wc/i18n/i18n",
 				// SUBMIT_CONTROL = new Widget("BUTTON", "", {"type":"submit"}),
 				CANCEL_BUTTON,
 				registry = {},
-				RECALC = "-recalc",
-				MESSAGE;
+				RECALC = "-recalc";
 
 			/**
 			 * Get the current (not stored) state of a form.
@@ -141,8 +140,7 @@ define(["wc/i18n/i18n",
 			 *
 			 * @function
 			 * @private
-			 * @param {type} $event
-			 * @returns {undefined}
+			 * @param {Event} $event
 			 */
 			function clickEvent($event) {
 				var element = $event.target, form, id;
@@ -172,6 +170,7 @@ define(["wc/i18n/i18n",
 			 */
 			function cancelSubmit(element, submitter) {
 				var title = i18n.get("cancel_title"),
+					message = i18n.get("cancel_message"),
 					keep = true,
 					result,
 					form,
@@ -180,11 +179,10 @@ define(["wc/i18n/i18n",
 				if (!loading) {
 					msg = (submitter ? submitter.getAttribute("data-wc-btnmsg") : "");
 					if (!msg) {
-						MESSAGE = MESSAGE || "'%s' " + i18n.get("cancel_message");
 						if ((form = FORM.findAncestor(element)) && (formTitle = form.getAttribute("title"))) {
 							title = formTitle;
 						}
-						msg = (sprintf.sprintf(MESSAGE, title, "foo"));
+						msg = (sprintf.sprintf(message, title));
 					}
 					keep = window.confirm(msg);
 				}

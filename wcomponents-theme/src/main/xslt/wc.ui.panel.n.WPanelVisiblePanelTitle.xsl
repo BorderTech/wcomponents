@@ -6,15 +6,22 @@
 	<xsl:template name="WPanelVisiblePanelTitle">
 		<xsl:if test="(@type='chrome' or @type='action')">
 			<h1>
-				<xsl:value-of select="@title"/>
-				<xsl:if test="not(@title)">
-					<!-- 
+				<xsl:variable name="title">
+					<xsl:value-of select="normalize-space(@title)"/>
+				</xsl:variable>
+				<xsl:choose>
+					<xsl:when test="$title=''">
+						<!-- 
 						H1 content must be palpable. It is strongly recommended that this fallback title be of a form 
 						which makes application designers, sponsors, owners etc really angry so they get their title 
 						specifications right!
 					-->
-					<xsl:text>Accessibility Error</xsl:text>
-				</xsl:if>
+						<xsl:text>Accessibility Error</xsl:text>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$title"/>
+					</xsl:otherwise>
+				</xsl:choose>
 			</h1>
 		</xsl:if>
 	</xsl:template>

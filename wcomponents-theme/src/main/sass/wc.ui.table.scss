@@ -123,7 +123,7 @@ caption {
 // The next lot does indentation of "child" rows when the table type is 'heirarchic'
 @for $i from 2 to 6 {
 	.wc_tbl_hierarchic > [aria-level='#{$i}'] > .wc_table_rowexp_container {
-		+ td,
+		~ td,
 		+ th {
 			padding-left: ($i - 1) * $wc-gap-large;
 		}

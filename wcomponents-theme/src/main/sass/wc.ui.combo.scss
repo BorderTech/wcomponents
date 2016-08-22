@@ -1,6 +1,9 @@
 /* wc.ui.combo.scss */
 @import 'mixins-common';
 
+// padding-left + padding-right + icon width + a bit for the border.
+$wc-combo-button-width-allowance: 2 * $wc-combo-button-padding-lr + $wc-icon-normal + $wc-gap-small;
+
 // This redundant rule is not as redundant as you might think so just leave it be!
 datalist {
 	display: none;
@@ -18,6 +21,10 @@ datalist {
 		}
 	}
 
+	input {
+		max-width: calc(100% - #{$wc-combo-button-width-allowance});
+	}
+
 	> [role='listbox'] {
 		min-width: 100%;
 
@@ -31,6 +38,8 @@ datalist {
 	}
 
 	> button {
+		padding-left: $wc-combo-button-padding-lr;
+		padding-right: $wc-combo-button-padding-lr;
 		@if ($wc-ui-color-border-form-control != -1) {
 			@include border($pos: left, $width: 0);
 			@if ($wc-input-padding != -1) {
@@ -49,6 +58,8 @@ datalist {
 
 		&:before {
 			content: $fa-var-caret-down;
+			text-align: center;
+			width: $wc-icon-normal;
 		}
 	}
 }
