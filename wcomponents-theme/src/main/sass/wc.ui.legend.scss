@@ -8,9 +8,11 @@ legend {
 		padding-left: 0;
 	}
 
-	.wc_req > &:before {
-		@include mandatory-indicator;
-		float: right;
-		width: 0; // allow for wrapping legends.
+	@if ($wc-label-mandatory-indicator != 0) {
+		.wc_req > &:before {
+			@include mandatory-indicator;
+			float: right;
+			width: 0; // allow for wrapping legends.
+		}
 	}
 }

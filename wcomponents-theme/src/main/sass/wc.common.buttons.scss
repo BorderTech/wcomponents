@@ -63,7 +63,7 @@
 @import 'invite';
 
 button {
-	@include margin($size: 0);
+	margin: 0;
 	@if ($wc-button-rationalise-text-styles == 1) {
 		@extend %button-like-text;
 	}

@@ -5,10 +5,10 @@
 input,
 select,
 textarea {
-	@include margin($size: 0);
 	font-family: inherit;
 	font-size: inherit;
 	line-height: inherit;
+	margin: 0;
 	max-width: 100%;
 
 	@if ($wc-ui-color-error-bg != -1) {

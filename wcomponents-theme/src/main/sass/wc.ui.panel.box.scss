@@ -6,3 +6,11 @@
 .wc-panel-type-box {
 	@include padded-box;
 }
+
+@if ($wc-gap-reduce-when-narrow != -1) {
+	@include respond-phonelike {
+		.wc-panel-type-box {
+			padding: $wc-phone-gap-normal;
+		}
+	}
+}

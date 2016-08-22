@@ -1,24 +1,32 @@
 @import 'mixins-common';
 
+// Styles common to SECTION elements with some kind of visible header/title
+// * WSection
+// * WPanel Type.ACTION
+// * WPanel Type.CHROME
+// * WMessageBox
+// * WValidationErrors (message box output).
+
 section {
 	@include border;
 
 	> h1,
 	> header h1 {
-		@include margin($size: 0);
 		font-size: $wc-section-header-size;
 		font-weight: normal;
+		margin: 0;
 	}
 
-	// First the header. There are two options. a header element for WSection, a H1 for WPanel
-	// WSection
-	> header {
-		display: table;
-		width: 100%;
+	> h1,
+	> header,
+	> div, // content or Layout child of a WPanel, not list layout which is ol or ul
+	> .wc-listLayout {
+		padding: $wc-gap-normal;
+	}
 
+	> header {
 		> .wc_dlbl_seg {
 			display: table-cell;
-			padding: $wc-gap-normal;
 		}
 
 		> h1 {
@@ -31,24 +39,6 @@ section {
 		}
 	}
 
-	// WPanel types CHROME and ACTION
-	> h1 {
-		padding: $wc-gap-normal;
-	}
-
-	// now the content
-	// WSection is easy: its content is a wpanel.
-	> .wc-panel {
-		margin: $wc-gap-normal;
-		padding: 0;
-	}
-
-	// WPanel content and layouts.
-	> div, // the WPanel child of WSection is a div but the rule above overrides this.
-	> .wc-listlayout {
-		padding: $wc-gap-normal;
-	}
-
 	// Docking a Bar menu
 	// If you have a WPanel of type CHROME or ACTION or a WSection containing a plain WPanel
 	// and the WPanel does not have a layout then add a WMenu Type BAR to the content of the
@@ -59,6 +49,41 @@ section {
 			// the negative margin must be 0 - the padding of WSection content.
 			$neg-margin: -$wc-gap-normal;
 			margin: $neg-margin $neg-margin $wc-gap-normal;
+		}
+	}
+}
+
+// We *really* want to prevent Margin being set on the WPanel content holder of a WSection.
+// We also want to make sure the default styling of types FEATURE, BOX, BLOCK etc are not
+// applied. It would be better if this was enforced in the Java API.
+.wc-section > .wc-panel {
+	background-color: transparent;
+	border: 0 none;
+	margin: 0;
+	padding: $wc-gap-normal;
+}
+
+@if ($wc-gap-reduce-when-narrow != -1) {
+	@include respond-phonelike {
+		section {
+			> header > .wc_dlbl_seg,
+			> h1,
+			> div,
+			> .wc-listlayout {
+				padding: $wc-phone-gap-normal;
+			}
+
+			&,
+			> .wc-panel {
+				> .wc-content > .wc-menu-type-bar:first-child {
+					$neg-margin: -$wc-phone-gap-normal;
+					margin: $neg-margin $neg-margin $wc-phone-gap-normal;
+				}
+			}
+		}
+
+		.wc-section > .wc-panel {
+			padding: $wc-phone-gap-normal;
 		}
 	}
 }

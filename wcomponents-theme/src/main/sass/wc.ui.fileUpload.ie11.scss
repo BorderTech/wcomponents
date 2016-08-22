@@ -18,8 +18,8 @@ input[type='file'] {
 
 	&::-ms-value {
 		@include border($width: 0);
-		@include margin($size: 0);
 		background-color: inherit;
+		margin: 0;
 	}
 
 	&[disabled] {
