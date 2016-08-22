@@ -6,3 +6,12 @@
 .wc-panel-type-feature {
 	@include padded-box($bg-color: $wc-ui-color-panel-feature-background, $color: $wc-ui-color-panel-feature-foreground);
 }
+
+
+@if ($wc-gap-reduce-when-narrow != -1) {
+	@include respond-phonelike {
+		.wc-panel-type-feature {
+			padding: $wc-phone-gap-normal;
+		}
+	}
+}

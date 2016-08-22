@@ -55,9 +55,16 @@ $wc-gap-large: 1rem !default;
 $wc-gap-xl: 1.5rem !default;
 
 // If this is set to anything other than -1 then all horizontal gaps using wc-hgap-* wc-vgap-* and mc-margin-* will be
-// halved in narrow vieworts. You probably don't want this if your gaps are rem based and you are chjanging the font
-// size.
-$wc-gap-reduce-when-narrow: -1 !default;
+// reduced to the sizes which follow this var in narrow viewports. You probably don't want to disable this if your gaps
+// are r/em based and you are changing the font size unless you are putting in your own more carefully crafted spacing
+// constraints.
+$wc-gap-reduce-when-narrow: 1 !default;
+// If the previous var == -1 then the following are ignored, otherwise they are used to set the gap sizes for narrow
+// viewports.
+$wc-phone-gap-small: 0.125rem !default;
+$wc-phone-gap-normal: 0.25rem !default;
+$wc-phone-gap-large: 0.5rem !default;
+$wc-phone-gap-xl: 0.75rem !default;
 
 // Some fixed sizes for iconography place holders
 $wc-icon-small: 0.75rem !default; // about 12px in any unit
@@ -256,6 +263,9 @@ $wc-heading-section-h6-font-size: -1 !default;
 //**********************************************************************************************************************
 // The font weight of a label. bold, normal, whatever.
 $wc-label-weight: bold !default;
+// The mandatory indicator character. If this is set to 0 then no visible mandatory field indicator will be shown. This
+// may defeat the purpose of WStyledText.Type.MANDATORY_INDICATOR
+$wc-label-mandatory-indicator: '*' !default;
 
 //**********************************************************************************************************************
 // WMenu
