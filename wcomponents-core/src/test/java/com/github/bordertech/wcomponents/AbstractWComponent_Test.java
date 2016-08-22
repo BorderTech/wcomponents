@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -1136,45 +1137,109 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
-	public void testAppendHtmlClass() {
+	public void testAddHtmlClass() {
 		AbstractWComponent comp = new SimpleComponent();
 		String initialClass = "foo";
 		String additionalClass = "bar";
-		String expected = initialClass + " " + additionalClass;
+		HashSet<String> expected = new HashSet<>();
+		expected.add(initialClass);
+		expected.add(additionalClass);
 		comp.setHtmlClass(initialClass);
-		comp.appendHtmlClass(additionalClass);
-		Assert.assertEquals("HTML class should have been appended with a space separator", expected, comp.getHtmlClass());
+		comp.addHtmlClass(additionalClass);
+		Assert.assertEquals("HTML class should have been appended with a space separator", expected, comp.getHtmlClassList());
 	}
 
 	@Test
-	public void testAppendHtmlClassWithNoInitialClass() {
+	public void testAddHtmlClassWithNoInitialClass() {
 		AbstractWComponent comp = new SimpleComponent();
 		String additionalClass = "bar";
 		String expected = additionalClass;
-		comp.appendHtmlClass(additionalClass);
+		comp.addHtmlClass(additionalClass);
 		Assert.assertEquals("HTML class should have been appended without a space separator", expected, comp.getHtmlClass());
 	}
 
 	@Test
-	public void testAppendHtmlClassUsingHtmlClassProperties() {
+	public void testAddHtmlClassUsingHtmlClassProperties() {
 		AbstractWComponent comp = new SimpleComponent();
 		String initialClass = "foo";
 		HtmlClassProperties additionalClass = HtmlClassProperties.RESPOND;
-		StringBuilder expected = new StringBuilder(initialClass);
-		expected.append(" ");
-		expected.append(additionalClass.toString());
+		HashSet<String> expected = new HashSet<>();
+		expected.add(initialClass);
+		expected.add(additionalClass.toString());
 		comp.setHtmlClass(initialClass);
-		comp.appendHtmlClass(additionalClass);
-		Assert.assertEquals("HTML class should have been appended with a space separator", expected.toString(), comp.getHtmlClass());
+		comp.addHtmlClass(additionalClass);
+		Assert.assertEquals("HTML class should have been appended with a space separator", expected, comp.getHtmlClassList());
 	}
 
 	@Test
-	public void testAppendHtmlClassWithNoInitialClassUsingHtmlClassProperties() {
+	public void testAddHtmlClassWithNoInitialClassUsingHtmlClassProperties() {
 		AbstractWComponent comp = new SimpleComponent();
 		HtmlClassProperties additionalClass = HtmlClassProperties.RESPOND;
 		String expected = additionalClass.toString();
-		comp.appendHtmlClass(additionalClass);
+		comp.addHtmlClass(additionalClass);
 		Assert.assertEquals("HTML class should have been appended without a space separator", expected, comp.getHtmlClass());
+	}
+
+	@Test
+	public void testGetHtmlClassListDefaultState() {
+		AbstractWComponent comp = new SimpleComponent();
+		Assert.assertNull(comp.getHtmlClassList());
+	}
+
+	@Test
+	public void testGetHtmlClassList() {
+		AbstractWComponent comp = new SimpleComponent();
+		String classValue = "foo";
+		String classValue2 = "bar";
+		HashSet<String> expected = new HashSet<>();
+		expected.add(classValue);
+		expected.add(classValue2);
+		comp.setHtmlClass(classValue);
+		comp.addHtmlClass(classValue2);
+		HashSet<String> result = comp.getHtmlClassList();
+		Assert.assertEquals(expected.size(), result.size());
+		for (String c : expected) {
+			Assert.assertTrue(result.contains(new String(c)));
+		}
+	}
+
+	@Test
+	public void testRemoveHtmlClassString() {
+		AbstractWComponent comp = new SimpleComponent();
+		comp.setHtmlClass("foo");
+		comp.removeHtmlClass("foo");
+		Assert.assertNull(comp.getHtmlClass());
+	}
+
+	@Test
+	public void testRemoveHtmlClassProperty() {
+		AbstractWComponent comp = new SimpleComponent();
+		comp.setHtmlClass(HtmlClassProperties.ICON);
+		comp.removeHtmlClass(HtmlClassProperties.ICON);
+		Assert.assertNull(comp.getHtmlClass());
+	}
+
+	@Test
+	public void testRemoveHtmlClassMixed() {
+		AbstractWComponent comp = new SimpleComponent();
+		comp.setHtmlClass(HtmlClassProperties.ICON);
+		comp.removeHtmlClass(HtmlClassProperties.ICON.toString());
+		Assert.assertNull(comp.getHtmlClass());
+	}
+
+	@Test
+	public void testRemoveHtmlClassStringNoMatch() {
+		AbstractWComponent comp = new SimpleComponent();
+		comp.setHtmlClass("foo");
+		comp.removeHtmlClass("bar");
+		Assert.assertEquals("foo", comp.getHtmlClass());
+	}
+
+	@Test
+	public void testRemoveHtmlClassStringNull() {
+		AbstractWComponent comp = new SimpleComponent();
+		comp.removeHtmlClass("bar");
+		Assert.assertNull(comp.getHtmlClass());
 	}
 
 	/**

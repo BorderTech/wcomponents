@@ -2,11 +2,16 @@
 ## API Changes
 
 ## Bug Fixes
-* Fixed bug in XSLT of inline errors #847
-* Fixed bug in i18n of timeout warnings #846
-
+* Fixed a bug which prevented `WField`'s `inputWidth` setting from rendering correctly #854.
+* Fixed a bug in rendering of `WPartialDateField` and polyfilled `WDateField` #852.
 
 ## Enhancements
+* Added a mechanism to add and remove multiple HTML class attribute values to a component #856.
+
+# Release 1.2.4
+## Bug Fixes
+* Fixed bug in XSLT of inline errors #847
+* Fixed bug in i18n of timeout warnings #846
 
 # Release 1.2.3
 ## API Changes

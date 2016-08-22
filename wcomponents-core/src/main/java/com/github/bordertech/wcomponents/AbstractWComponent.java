@@ -19,6 +19,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -1650,8 +1651,7 @@ public abstract class AbstractWComponent implements WComponent {
 	 */
 	@Override
 	public void setHtmlClass(final String text) {
-		ComponentModel model = getOrCreateComponentModel();
-		model.setHtmlClass(text);
+		getOrCreateComponentModel().setHtmlClass(text);
 	}
 
 	/**
@@ -1659,26 +1659,16 @@ public abstract class AbstractWComponent implements WComponent {
 	 */
 	@Override
 	public void setHtmlClass(final HtmlClassProperties className) {
-		ComponentModel model = getOrCreateComponentModel();
-		model.setHtmlClass(className);
+		getOrCreateComponentModel().setHtmlClass(className);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void appendHtmlClass(final String className) {
-		if (Util.empty(className)) {
-			return;
-		}
-		String htmlClass = getHtmlClass();
-		if (null == htmlClass) {
-			setHtmlClass(className);
-		} else {
-			StringBuilder newHtmlClass = new StringBuilder(htmlClass);
-			newHtmlClass.append(" ");
-			newHtmlClass.append(className);
-			setHtmlClass(newHtmlClass.toString());
+	public void addHtmlClass(final String className) {
+		if (!Util.empty(className)) {
+			getOrCreateComponentModel().addHtmlClass(className);
 		}
 	}
 
@@ -1686,15 +1676,9 @@ public abstract class AbstractWComponent implements WComponent {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void appendHtmlClass(final HtmlClassProperties className) {
-		String htmlClass = getHtmlClass();
-		if (null == htmlClass) {
-			setHtmlClass(className);
-		} else {
-			StringBuilder newHtmlClass = new StringBuilder(htmlClass);
-			newHtmlClass.append(" ");
-			newHtmlClass.append(className.toString());
-			setHtmlClass(newHtmlClass.toString());
+	public void addHtmlClass(final HtmlClassProperties className) {
+		if (null != className) {
+			getOrCreateComponentModel().addHtmlClass(className);
 		}
 	}
 
@@ -1705,6 +1689,31 @@ public abstract class AbstractWComponent implements WComponent {
 	public String getHtmlClass() {
 		ComponentModel model = getComponentModel();
 		return I18nUtilities.format(null, model.getHtmlClass());
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public HashSet getHtmlClassList() {
+		ComponentModel model = getComponentModel();
+		return model.getHtmlClassList();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void removeHtmlClass(final String className) {
+		getOrCreateComponentModel().removeHtmlClass(className);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void removeHtmlClass(final HtmlClassProperties className) {
+		getOrCreateComponentModel().removeHtmlClass(className);
 	}
 
 	// ================================
