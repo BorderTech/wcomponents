@@ -182,7 +182,7 @@ public class ComponentModel implements WebModel, Externalizable {
 	/**
 	 * Adds extra value to the HTML class of the output component.
 	 */
-	private Serializable htmlClass;
+	private Set<String> htmlClasses;
 
 	/**
 	 * General placeholder for subclasses of WComponent to place model attributes. This is mostly for convenience so
@@ -537,25 +537,95 @@ public class ComponentModel implements WebModel, Externalizable {
 		this.accessibleText = I18nUtilities.asMessage(text, args);
 	}
 
+
 	/**
-	 * @return Returns the HTML class.
+	 * @return the HTML class list as a single space separated String.
 	 */
 	protected Serializable getHtmlClass() {
-		return htmlClass;
+		if (this.htmlClasses == null || this.htmlClasses.isEmpty()) {
+			return null;
+		}
+		int i = 0;
+		StringBuilder result = new StringBuilder();
+
+		for (String c : this.htmlClasses) {
+			if (i++ > 0) {
+				result.append(" ");
+			}
+			result.append(c);
+		}
+		return result.toString();
 	}
 
 	/**
 	 * @param text The HTML class name text to set.
 	 */
 	protected void setHtmlClass(final String text) {
-		this.htmlClass = text;
+		if (text == null) {
+			this.htmlClasses = null;
+		} else {
+			this.htmlClasses = new HashSet<>();
+			this.htmlClasses.add(text);
+		}
 	}
 
 	/**
 	 * @param className The HTML class name to set.
 	 */
 	protected void setHtmlClass(final HtmlClassProperties className) {
-		this.htmlClass = className.toString();
+		if (null == className) {
+			this.htmlClasses = null;
+		} else {
+			setHtmlClass(className.toString());
+		}
+	}
+
+	/**
+	 * @param text The HTML class name text to set.
+	 */
+	protected void addHtmlClass(final String text) {
+		if (!Util.empty(text)) {
+			if (this.htmlClasses == null) {
+				this.htmlClasses = new HashSet<>();
+			}
+			this.htmlClasses.add(text);
+		}
+	}
+
+	/**
+	 * @param className The HTML class name to set.
+	 */
+	protected void addHtmlClass(final HtmlClassProperties className) {
+		if (null != className) {
+			addHtmlClass(className.toString());
+		}
+	}
+
+	/**
+	 * @return the set of HTML classes to add to the current component.
+	 */
+	protected Set getHtmlClasses() {
+		return this.htmlClasses;
+	}
+
+	/**
+	 * Remove a value from the HTML class name list.
+	 * @param className the value to remove
+	 */
+	protected void removeHtmlClass(final String className) {
+		if (this.htmlClasses != null && !Util.empty(className)) {
+			this.htmlClasses.remove(className);
+		}
+	}
+
+	/**
+	 * Remove a value from the HTML class name list.
+	 * @param className the property representing the value to remove
+	 */
+	protected void removeHtmlClass(final HtmlClassProperties className) {
+		if (className != null) {
+			removeHtmlClass(className.toString());
+		}
 	}
 
 	/**
