@@ -24,6 +24,8 @@
 						tinyMCE: "lib/tinymce/tinymce.min",
 						Promise: "lib/Promise.min",
 						fabric: "lib/fabric",
+						ccv: "lib/ccv",
+						face: "lib/face",
 						tracking: "lib/tracking/build/tracking-min",
 						getUserMedia: "lib/getusermedia-js/getUserMedia.min",
 						axs: "lib/axs_testing",
@@ -45,6 +47,12 @@
 						},
 						fabric: {
 							exports: "fabric"
+						},
+						ccv: {
+							exports: "ccv"
+						},
+						face: {
+							exports: "cascade"
 						},
 						getUserMedia: {
 							exports: "getUserMedia"
