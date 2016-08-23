@@ -25,7 +25,7 @@ public class WHeadingExample extends WContainer {
 	public WHeadingExample() {
 
 		add(new WHeading(HeadingLevel.H2, "Important information regarding this example"));
-		add(new ExplanatoryText("This page shows an example of each WHeading Type."
+		add(new ExplanatoryText("This page shows an example of each WHeading HeadingLevel."
 				+ " It serves as an example of the way a WHeading is created using the WComponent Java API and"
 				+ " does not show how headings should be used within a user interface"
 				+ " or the correct nesting order for headings.\n"
@@ -37,27 +37,27 @@ public class WHeadingExample extends WContainer {
 				+ " include the requisite h1 element and reset the heading order back to WHeading Type.MAJOR. These"
 				+ " components are WSection, WDialog and WPanel of Types CHROME and ACTION. In all cases WApplication defines a section"
 				+ " with the heading level reset to Type.TITLE."));
-		add(new WHeading(HeadingLevel.H1, "Title heading (Type.TITLE) is a HTML h1 element"));
+		add(new WHeading(HeadingLevel.H1, "HeadingLevel.H1 is a HTML h1 element"));
 		add(new ExplanatoryText("This heading level is rarely used. In almost all circumstances"
 				+ " h1 will be output as part of a WSection, WDialog or WPanel of Types CHROME or ACTION."));
-		add(new WHeading(HeadingLevel.H2, "Major heading (Type.MAJOR) is a HTML h2 element"));
+		add(new WHeading(HeadingLevel.H2, "HeadingLevel.H2 is a HTML h2 element"));
 		add(new ExplanatoryText("This heading level should be the first heading level used within any 'headed' WPanel type or in the content of a "
 				+ "WSection or WDialog."
-				+ " It must always be preceded at some level by a component which can output a HTML h1 element either a WHeading Type.TITLE or the"
+				+ " It must always be preceded at some level by a component which can output a HTML h1 element either a WHeading HeadingLevel.H1 or the"
 				+ " title of WSection, WDialog or WPanel Types CHROME or SECTION."));
-		add(new WHeading(HeadingLevel.H3, "Section heading (Type.SECTION) is a HTML h3 element"));
+		add(new WHeading(HeadingLevel.H3, "HeadingLevel.H3 is a HTML h3 element"));
 		add(new ExplanatoryText(
-				"This WHeading Type must be preceded, within a piece of sectioning content, by a WHeading of Type.MAJOR."));
-		add(new WHeading(HeadingLevel.H4, "Minor heading (Type.MINOR) is a HTML h4 element"));
+				"This WHeading Type must be preceded, within a piece of sectioning content, by a WHeading of HeadingLevel.H2."));
+		add(new WHeading(HeadingLevel.H4, "HeadingLevel.H4 is a HTML h4 element"));
 		add(new ExplanatoryText(
-				"This WHeading Type must be preceded, within a piece of sectioning content, by a WHeading of Type.SECTION."));
-		add(new WHeading(HeadingLevel.H5, "Sub-heading (Type.SUB_HEADING) is a HTML h5 element"));
+				"This WHeading Type must be preceded, within a piece of sectioning content, by a WHeading of HeadingLevel.H3."));
+		add(new WHeading(HeadingLevel.H5, "HeadingLevel.H5 is a HTML h5 element"));
 		add(new ExplanatoryText(
-				"This WHeading Type must be preceded, within a piece of sectioning content, by a WHeading of Type.MINOR."));
+				"This WHeading Type must be preceded, within a piece of sectioning content, by a WHeading ofHeadingLevel.H4."));
 		add(new WHeading(HeadingLevel.H6,
-				"Sub-sub-heading (Type.SUB_SUB_HEADING) is a HTML h6 element"));
+				"HeadingLevel.H6 is a HTML h6 element"));
 		add(new ExplanatoryText(
-				"This WHeading Type must be preceded, within a piece of sectioning content, by a WHeading of Type.SUB_HEADING."));
+				"This WHeading Type must be preceded, within a piece of sectioning content, by a WHeading of HeadingLevel.H5."));
 
 		add(new WHorizontalRule());
 
