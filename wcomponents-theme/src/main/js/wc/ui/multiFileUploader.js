@@ -19,7 +19,7 @@
  * @requires module:wc/file/filedrop
  * @requires module:wc/ajax/ajax
  * @requires module:wc/xml/xslTransform
- * @requires module:wc/timers
+ * @requires module:wc/ui/prompt
  * @requires module:wc/dom/focus
  * @requires module:wc/isNumeric
  * @requires module:wc/ui/ajaxRegion
@@ -42,13 +42,13 @@ define(["wc/dom/attribute",
 		"wc/file/filedrop",
 		"wc/ajax/ajax",
 		"wc/xml/xslTransform",
-		"wc/timers",
+		"wc/ui/prompt",
 		"wc/dom/focus",
 		"wc/isNumeric",
 		"wc/ui/ajaxRegion",
 		"wc/config"],
 	function(attribute, prefetch, event, initialise, uid, Trigger, classList, sprintf, has, i18n, getFileSize,
-			accepted, Widget, formUpdateManager, filedrop, ajax, xslTransform, timers, focus, isNumeric, ajaxRegion, wcconfig) {
+			accepted, Widget, formUpdateManager, filedrop, ajax, xslTransform, prompt, focus, isNumeric, ajaxRegion, wcconfig) {
 		"use strict";
 
 		var /** @alias module:wc/ui/multiFileUploader */ instance = new MultiFileUploader(),
@@ -60,7 +60,6 @@ define(["wc/dom/attribute",
 			CLASS_WRAPPER = "wc_files",
 			CLASS_FILE_INFO = "wc-file",
 			CLASS_FILE_LIST = "wc_filelist",
-			messageTimer,
 			containerWd = new Widget("", CLASS_NAME),
 			inputElementWd = new Widget("INPUT", "", { type: "file" }),
 			fileInfoContainerWd = new Widget("UL", CLASS_FILE_LIST),
@@ -252,21 +251,21 @@ define(["wc/dom/attribute",
 			 * @param {boolean} [suppressEdit] true if image editing should be bypassed regardless of whether it is configured or not.
 			 */
 			function checkDoUpload(element, files, suppressEdit) {
-				var skipEdit, editorId, testObj, maxFileInfo, filesToAdd, message,
+				var skipEdit, editorId, testObj, maxFileInfo, filesToAdd,
 					useFilesArg = (!element.value && (files && files.length > 0)),
-					done = function() {
+					done = function(message) {
 						instance.clearInput(element);
+						if (message) {
+							prompt.alert(message);
+						}
 					};
 				getUploader(function(uploader) { // this wraps the possible async wait for the fauxjax module to load, otherwise clearInput has been called before the upload begins
 					var checkAndUpload = function(files) {
+						var message;
 						try {
 							message = checkFileSize(element, testObj);
-							if (message) {
-								showMessage(message);
-							}
-							else if (!accepted(testObj)) {
+							if (!message && !accepted(testObj)) {
 								message = i18n.get("file_wrongtype", element.accept);
-								showMessage(message);
 							}
 							else if (inputElementWd.isOneOfMe(element)) {
 								commenceUpload({
@@ -277,7 +276,7 @@ define(["wc/dom/attribute",
 							}
 						}
 						finally {
-							done();
+							done(message);
 						}
 					};
 					if (element.value || useFilesArg) {
@@ -290,7 +289,7 @@ define(["wc/dom/attribute",
 							if (!skipEdit && editorId) {
 								require(["wc/ui/imageEdit"], function(imageEdit) {
 									testObj.editorId = editorId;
-									imageEdit.editFiles(testObj).then(checkAndUpload, done);
+									imageEdit.editFiles(testObj, checkAndUpload, done);
 								});
 							}
 							else {
@@ -298,9 +297,7 @@ define(["wc/dom/attribute",
 							}
 						}
 						else {
-							message = i18n.get("file_toomany", filesToAdd, maxFileInfo.max, maxFileInfo.before);
-							showMessage(message);
-							done();
+							done(i18n.get("file_toomany", filesToAdd, maxFileInfo.max, maxFileInfo.before));
 						}
 					}
 				});
@@ -354,19 +351,6 @@ define(["wc/dom/attribute",
 					message = message.join("\n");
 				}
 				return message;
-			}
-
-			/**
-			 * Presents the message to the user.
-			 * @param {String} message The message to present.
-			 */
-			function showMessage(message) {
-				if (messageTimer) {
-					timers.clearTimeout(messageTimer);
-				}
-				messageTimer = timers.setTimeout(function() {
-					window.alert(message);
-				}, 250);
 			}
 
 			/**
