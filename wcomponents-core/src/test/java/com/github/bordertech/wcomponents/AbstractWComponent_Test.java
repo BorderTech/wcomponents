@@ -12,6 +12,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -1146,7 +1147,7 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 		expected.add(additionalClass);
 		comp.setHtmlClass(initialClass);
 		comp.addHtmlClass(additionalClass);
-		Assert.assertEquals("HTML class should have been appended with a space separator", expected, comp.getHtmlClassList());
+		Assert.assertEquals("HTML class should have been appended with a space separator", expected, comp.getHtmlClasses());
 	}
 
 	@Test
@@ -1168,7 +1169,7 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 		expected.add(additionalClass.toString());
 		comp.setHtmlClass(initialClass);
 		comp.addHtmlClass(additionalClass);
-		Assert.assertEquals("HTML class should have been appended with a space separator", expected, comp.getHtmlClassList());
+		Assert.assertEquals("HTML class should have been appended with a space separator", expected, comp.getHtmlClasses());
 	}
 
 	@Test
@@ -1183,7 +1184,7 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testGetHtmlClassListDefaultState() {
 		AbstractWComponent comp = new SimpleComponent();
-		Assert.assertNull(comp.getHtmlClassList());
+		Assert.assertNull(comp.getHtmlClasses());
 	}
 
 	@Test
@@ -1196,7 +1197,7 @@ public class AbstractWComponent_Test extends AbstractWComponentTestCase {
 		expected.add(classValue2);
 		comp.setHtmlClass(classValue);
 		comp.addHtmlClass(classValue2);
-		HashSet<String> result = comp.getHtmlClassList();
+		Set<String> result = comp.getHtmlClasses();
 		Assert.assertEquals(expected.size(), result.size());
 		for (String c : expected) {
 			Assert.assertTrue(result.contains(new String(c)));

@@ -182,7 +182,7 @@ public class ComponentModel implements WebModel, Externalizable {
 	/**
 	 * Adds extra value to the HTML class of the output component.
 	 */
-	private HashSet<String> htmlClassList;
+	private Set<String> htmlClasses;
 
 	/**
 	 * General placeholder for subclasses of WComponent to place model attributes. This is mostly for convenience so
@@ -542,13 +542,13 @@ public class ComponentModel implements WebModel, Externalizable {
 	 * @return the HTML class list as a single space separated String.
 	 */
 	protected Serializable getHtmlClass() {
-		if (this.htmlClassList == null || this.htmlClassList.isEmpty()) {
+		if (this.htmlClasses == null || this.htmlClasses.isEmpty()) {
 			return null;
 		}
 		int i = 0;
 		StringBuilder result = new StringBuilder();
 
-		for (String c : this.htmlClassList) {
+		for (String c : this.htmlClasses) {
 			if (i++ > 0) {
 				result.append(" ");
 			}
@@ -562,10 +562,10 @@ public class ComponentModel implements WebModel, Externalizable {
 	 */
 	protected void setHtmlClass(final String text) {
 		if (text == null) {
-			this.htmlClassList = null;
+			this.htmlClasses = null;
 		} else {
-			this.htmlClassList = new HashSet<>();
-			this.htmlClassList.add(text);
+			this.htmlClasses = new HashSet<>();
+			this.htmlClasses.add(text);
 		}
 	}
 
@@ -574,7 +574,7 @@ public class ComponentModel implements WebModel, Externalizable {
 	 */
 	protected void setHtmlClass(final HtmlClassProperties className) {
 		if (null == className) {
-			this.htmlClassList = null;
+			this.htmlClasses = null;
 		} else {
 			setHtmlClass(className.toString());
 		}
@@ -585,10 +585,10 @@ public class ComponentModel implements WebModel, Externalizable {
 	 */
 	protected void addHtmlClass(final String text) {
 		if (!Util.empty(text)) {
-			if (this.htmlClassList == null) {
-				this.htmlClassList = new HashSet<>();
+			if (this.htmlClasses == null) {
+				this.htmlClasses = new HashSet<>();
 			}
-			this.htmlClassList.add(text);
+			this.htmlClasses.add(text);
 		}
 	}
 
@@ -604,8 +604,8 @@ public class ComponentModel implements WebModel, Externalizable {
 	/**
 	 * @return the set of HTML classes to add to the current component.
 	 */
-	protected HashSet getHtmlClassList() {
-		return this.htmlClassList;
+	protected Set getHtmlClasses() {
+		return this.htmlClasses;
 	}
 
 	/**
@@ -613,8 +613,8 @@ public class ComponentModel implements WebModel, Externalizable {
 	 * @param className the value to remove
 	 */
 	protected void removeHtmlClass(final String className) {
-		if (!(this.htmlClassList == null || Util.empty(className))) {
-			this.htmlClassList.remove(className);
+		if (this.htmlClasses != null && !Util.empty(className)) {
+			this.htmlClasses.remove(className);
 		}
 	}
 

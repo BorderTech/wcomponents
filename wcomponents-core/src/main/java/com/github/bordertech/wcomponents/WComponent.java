@@ -5,8 +5,8 @@ import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import java.io.Serializable;
 import java.text.MessageFormat;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The WComponent interface.
@@ -536,7 +536,7 @@ public interface WComponent extends WebComponent {
 	/**
 	 * @return the HTML class list HashSet for this component
 	 */
-	HashSet getHtmlClassList();
+	Set getHtmlClasses();
 
 	/**
 	 * Remove a value from the set of HTML class name values added to the current component.
