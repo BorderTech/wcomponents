@@ -222,7 +222,7 @@ define(["wc/dom/attribute",
 				}
 
 				this._focusItem(item, root);
-				if (activateOnHover === root.id && viewportUtils.isPhoneLike()) {
+				if (activateOnHover === root.id && !viewportUtils.isPhoneLike()) {
 					// current menu is active menu
 					if (this._isOpener(item)) {
 						item = this._getBranch(item);
@@ -1670,8 +1670,8 @@ define(["wc/dom/attribute",
 		 * @param {function} [callback] An optional callback function.
 		 */
 		AbstractMenu.prototype._focusItem = function(_item, _root, callback) {
-			var item = document.getElementById(_item.id),
-				root = document.getElementById(_root.id),
+			var item = _item.id ? document.getElementById(_item.id) : null,
+				root = _root.id ? document.getElementById(_root.id) : null,
 				extendedCallback;
 
 			if (item && root && (this.getRoot(item) === root) && !shed.isDisabled(item)) {
