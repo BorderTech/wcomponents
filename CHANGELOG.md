@@ -4,6 +4,8 @@
 ## Bug Fixes
 * Fixed a bug which prevented `WField`'s `inputWidth` setting from rendering correctly #854.
 * Fixed a bug in rendering of `WPartialDateField` and polyfilled `WDateField` #852.
+* Fixed UI bugs in WMenus #866, #867.
+* Fixed a Sass bug which caused ListLayouts with layout FLAT to lose intra-component space #869.
 
 ## Enhancements
 * Added a mechanism to add and remove multiple HTML class attribute values to a component #856.
