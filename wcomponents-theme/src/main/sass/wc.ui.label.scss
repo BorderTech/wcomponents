@@ -68,3 +68,10 @@ input + .wc-label, // need the class name to override the above default WLabel C
 label + input {
 	margin-left: $wc-gap-small;
 }
+
+.wc-off {
+	+ label,
+	+ input {
+		margin-left: 0;
+	}
+}
