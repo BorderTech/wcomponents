@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-18 12:05+1000\n"
+"POT-Creation-Date: 2016-08-22 09:23+1000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#. 
+#. 
+#. TRANSLATORS: The user is required to complete a mandatory form field; the name of the field will be injected.
 #: validation_common_incomplete
 #, java-format
 msgctxt "validation_common_incomplete"
@@ -23,6 +26,7 @@ msgid "%s must be completed."
 msgstr ""
 
 #. 
+#. TRANSLATORS: Used to refer to a form field that has not been correctly labelled.
 #: validation_common_unlabelledfield
 #, java-format
 msgctxt "validation_common_unlabelledfield"
@@ -30,6 +34,7 @@ msgid "This field"
 msgstr ""
 
 #. 
+#. TRANSLATORS: The user is has provided data that does not match the formatting requirements.
 #: validation_common_pattern
 #, java-format
 msgctxt "validation_common_pattern"
@@ -37,7 +42,7 @@ msgid "%s is not in the required format."
 msgstr ""
 
 #. 
-#. Used to concatenate multiple errors into a single error message
+#. TRANSLATORS: Used to concatenate multiple errors into a single error message
 #: validation_concatenator
 #, java-format
 msgctxt "validation_concatenator"
@@ -45,6 +50,7 @@ msgid "%1$s and %2$s"
 msgstr ""
 
 #. 
+#. TRANSLATORS: The user is required to complete at least one form field in a given set of fields.
 #: validation_common_incompletegroup
 #, java-format
 msgctxt "validation_common_incompletegroup"
@@ -744,7 +750,7 @@ msgstr ""
 #, java-format
 msgctxt "dialog_resize"
 msgid ""
-"ARROW RIGHT or ARROW_DOWN to enlarge dialog, ARROW LEFT or  ARROW UP to "
+"ARROW RIGHT or ARROW_DOWN to enlarge dialog, ARROW LEFT or ARROW UP to "
 "shrink dialog"
 msgstr ""
 
@@ -1030,6 +1036,21 @@ msgctxt "imgedit_message_camera"
 msgid "Take a photo from your webcam"
 msgstr ""
 
+#. 
+#: imgedit_message_val_minface
+#, java-format
+msgctxt "imgedit_message_val_minface"
+msgid "The image must contain a face"
+msgstr ""
+
+#. 
+#: imgedit_message_val_maxface
+#, java-format
+msgctxt "imgedit_message_val_maxface"
+msgid "The image contains too many faces"
+msgstr ""
+
+#. 
 #. 
 #. # ListLoader Messages ##
 #. JS only
