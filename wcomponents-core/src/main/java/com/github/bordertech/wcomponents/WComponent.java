@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The WComponent interface.
@@ -511,25 +512,42 @@ public interface WComponent extends WebComponent {
 	void setHtmlClass(final HtmlClassProperties className);
 
 	/**
-	 * Append value to an existing HTML class name.
+	 * Append value to the HTML class name for this component.
 	 * @param className the HTML class attribute's value to add to the component
 	 */
-	void appendHtmlClass(final String className);
+	void addHtmlClass(final String className);
 
 	/**
-	 * Append a value to an existing HTML class name for this component from a set of preset values.
+	 * Append a value to the HTML class name for this component from a set of preset values.
 	 *
 	 * @param className the HTML class attribute's value to add to the component derived from the utility enum
 	 */
-	void appendHtmlClass(final HtmlClassProperties className);
+	void addHtmlClass(final HtmlClassProperties className);
 
 	/**
 	 * Returns the HTML class name string to apply to a component. Some values in the HTML class name attribute are
 	 * determined in the theme and are used for core functionality and styling. This method will only return class name
 	 * values which are added in the application, it has no knowledge of theme's class names.
 	 *
-	 * @return the value to add to the HTML class attribute of the output component.
+	 * @return the value to add to the HTML class attribute of the output component
 	 */
 	String getHtmlClass();
+
+	/**
+	 * @return the HTML class list HashSet for this component
+	 */
+	Set getHtmlClasses();
+
+	/**
+	 * Remove a value from the set of HTML class name values added to the current component.
+	 * @param className the value to remove
+	 */
+	void removeHtmlClass(final String className);
+
+	/**
+	 * Remove a value from the set of HTML class name values added to the current component.
+	 * @param className the property representing the value to remove
+	 */
+	void removeHtmlClass(final HtmlClassProperties className);
 
 }
