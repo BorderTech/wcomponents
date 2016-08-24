@@ -19,6 +19,12 @@
 		}
 	}
 
+	&.wc_ro {
+		a {
+			max-width: none;
+		}
+	}
+
 	.wc_btn_abort {
 		margin-right: $wc-gap-small;
 	}
@@ -74,7 +80,7 @@
 	}
 }
 
-body.wc-rtc-gum .wc-fileupload .wc_btn_camera {
+.wc-rtc-gum .wc-fileupload .wc_btn_camera {
 	display: inline-block;  // This will be enabled in javascript
 }
 
