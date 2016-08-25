@@ -64,7 +64,7 @@
 
 			<xsl:attribute name="type">
 				<xsl:choose>
-					<xsl:when test="self::ui:printbutton">
+					<xsl:when test="self::ui:printbutton or @client=$t">
 						<xsl:text>button</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
