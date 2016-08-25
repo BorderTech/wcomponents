@@ -46,10 +46,17 @@
 	@include flex-grow(1);
 }
 
+@if ($wc-gap-reduce-when-narrow != -1) {
+	@include respond-phonelike {
+		// Do not make role='tab' smaller because the padding is part of the hit zone.
+		[role='tabpanel'] {
+			padding: $wc-phone-gap-normal;
+		}
+	}
+}
 
 @include respond-not-small {
 	// only style left and right tabsets when we have a reasonable sized viewport.
-
 	.wc-tabset-type-left {
 		@include flex-direction(row);
 	}

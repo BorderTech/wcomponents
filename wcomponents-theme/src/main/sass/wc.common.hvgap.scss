@@ -60,6 +60,10 @@
 	.wc-margin-w-#{$cl} {
 		margin-left: $size;
 	}
+
+	.wc-pad-#{$cl} {
+		padding: $size;
+	}
 }
 
 @if ($wc-gap-reduce-when-narrow != -1) {
@@ -67,13 +71,16 @@
 	@include respond-phonelike {
 		@each $cl in $wc-gap-suffix-list {
 			@if ($cl == sm) {
-				$size: $wc-gap-small / 2;
+				$size: $wc-phone-gap-small;
 			}
 			@else if  ($cl == med) {
-				$size: $wc-gap-small;
+				$size: $wc-phone-gap-normal;
+			}
+			@else if  ($cl == lg) {
+				$size: $wc-phone-gap-large;
 			}
 			@else {
-				$size: $wc-gap-normal;
+				$size: $wc-phone-gap-xl;
 			}
 
 			.wc-hgap-#{$cl} {
@@ -90,7 +97,7 @@
 				.wc-vgap-#{$cl} {
 					> div + div,
 					> li + li {
-						margin-top: $wc-gap-small;
+						margin-top: $wc-phone-gap-small;
 					 }
 				}
 			}
@@ -113,6 +120,10 @@
 
 			.wc-margin-w-#{$cl} {
 				margin-left: $size;
+			}
+
+			.wc-pad-#{$cl} {
+				padding: $size;
 			}
 		}
 	}

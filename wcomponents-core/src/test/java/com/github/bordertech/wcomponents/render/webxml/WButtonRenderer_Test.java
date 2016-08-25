@@ -59,6 +59,7 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:button[@ajax]", button);
 		assertXpathNotExists("//ui:button[@validates]", button);
 		assertXpathNotExists("//ui:button[@popup]", button);
+		assertXpathNotExists("//ui:button[@client]", button);
 	}
 
 	@Test
@@ -111,6 +112,9 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		button.setImagePosition(ImagePosition.WEST);
 		assertXpathEvaluatesTo("w", "//ui:button/@imagePosition", button);
+
+		button.setClientCommandOnly(true);
+		assertXpathEvaluatesTo("true", "//ui:button/@client", button);
 	}
 
 	@Test

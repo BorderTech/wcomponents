@@ -23,9 +23,9 @@
 			<fileset dir="${i18n.build.target.dir}" includes="*.json"/>
 		</copy>
 	</target>
-	
+
 	<target name="buildJsonBundles">
-		<property name="propertiesToJson.js" value="${basedir}/propertiesToJson.js" />
+		<property name="propertiesToJson.js" value="${component.rootdir}/propertiesToJson.js" />
 		<property name="default.locale.properties" location="${i18n.build.target.dir}/${default.i18n.locale}.properties"/>
 		<property name="default.locale.json" location="${i18n.build.target.dir}/${default.i18n.locale}.json"/>
 		<buildProps destfile="${default.locale.properties}"/>
@@ -110,7 +110,7 @@
 			</sequential>
 		</for>
 	</target>
-	
+
 	<!--
 		Builds a properties file from the source files in the core and implementation directories.
 		This is largely for backwards compatibility.

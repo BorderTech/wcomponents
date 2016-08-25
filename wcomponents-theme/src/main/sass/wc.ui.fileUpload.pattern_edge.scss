@@ -15,8 +15,8 @@ input[type='file'] {
 
 	&::-ms-value {
 		@include border;
-		@include margin($size: 0);
 		background-color: transparent;
+		margin: 0;
 	}
 
 	&[disabled]::-ms-value {

@@ -29,7 +29,7 @@
 @mixin border($pos: all, $color: $wc-ui-color-border, $style: $wc-border-style, $width: $wc-border-width) {
 	@if ($pos == all) {
 		@if ($width == 0) {
-			border: 0 none;
+			border: 0;
 		}
 		@else if ($color == -1) {
 			border-style: $style;
@@ -40,7 +40,7 @@
 		}
 	}
 	@else if ($width == 0) {
-		border-#{$pos}: 0 none;
+		border-#{$pos}: 0;
 	}
 	@else if ($color == -1) {
 		border-#{$pos}-style: $style;
