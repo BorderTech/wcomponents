@@ -1,0 +1,38 @@
+/* wc.ui.borderLayout.scss */
+@import 'mixins-common';
+
+.wc_bl_mid {
+	// NOTE: the justification should be moot but keep it here
+	@include flex($justify: space-between);
+}
+
+.wc-center,
+.wc-east,
+.wc-west {
+	@include border-box;
+	@include flex-grow(1);
+	@include flex-shrink(1);
+
+	&:first-child:last-child {
+		width: 100%;
+	}
+}
+
+.wc-center {
+	min-width: 50%;
+
+	&:first-child,
+	&:last-child {
+		width: 75%;
+	}
+}
+
+.wc-east,
+.wc-west {
+	@include min-content;
+}
+
+.wc-east {
+	@include flex-justify-content(flex-end);
+	text-align: right;
+}

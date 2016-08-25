@@ -1,0 +1,21 @@
+// Iconography for inline messages
+@import 'mixins-common';
+
+:first-of-type:before {
+	.wc-fieldindicator > & {
+		@include wc-icon($fa-var-minus-circle);
+		margin-right: $wc-gap-small;
+	}
+
+	.wc-fieldindicator-type-warn > & {
+		content: $fa-var-exclamation-triangle;
+	}
+
+	.wc-fieldindicator-type-info > & {
+		content: $fa-var-info-circle;
+	}
+
+	.wc-fieldindicator-type-success > & {
+		content: $fa-var-check-circle;
+	}
+}

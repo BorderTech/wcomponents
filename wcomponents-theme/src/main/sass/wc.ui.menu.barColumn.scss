@@ -55,7 +55,6 @@
 
 		.wc_submenucontent {
 			@include border;
-			// box-shadow: 3px 3px 3px $wc-ui-color-shadow;
 			height: auto; // override (mobile) default
 			min-width: 100%;
 			overflow: visible;
@@ -128,3 +127,5 @@
 		}
 	}
 }
+
+@import 'wc.ui.menu.barColumnIcons';

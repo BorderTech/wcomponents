@@ -1,0 +1,36 @@
+@import 'mixins-common';
+
+.wc_msgbox {
+	background-color: $wc-ui-color-global-bg;
+	border-color: $wc-ui-color-error-fg; // default error box
+
+	> h1 {
+		background-color: $wc-ui-color-error-fg; // default error box
+		color: $wc-ui-color-msgbox-header-fg;
+	}
+}
+
+// message types - there can only be one type per box
+.wc-messagebox-type-warn {
+	border-color: $wc-ui-color-warning-fg;
+
+	> h1 {
+		background-color: $wc-ui-color-warning-fg;
+	}
+}
+
+.wc-messagebox-type-info {
+	border-color: $wc-ui-color-info-fg;
+
+	> h1 {
+		background-color: $wc-ui-color-info-fg;
+	}
+}
+
+.wc-messagebox-type-success {
+	border-color: $wc-ui-color-success-fg;
+
+	> h1 {
+		background-color: $wc-ui-color-success-fg;
+	}
+}

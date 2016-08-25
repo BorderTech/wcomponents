@@ -16,6 +16,12 @@ summary {
 }
 
 summary {
+	@if ($wc-ui-color-collapsible-header-bg != -1) {
+		background-color: $wc-ui-color-collapsible-header-bg;
+	}
+	@if ($wc-ui-color-collapsible-header-fg != -1) {
+		color: $wc-ui-color-collapsible-header-fg;
+	}
 	cursor: pointer;
 	font-weight: bold;
 	padding: $wc-gap-normal 0;
@@ -27,6 +33,10 @@ summary {
 	> h5,
 	> h6 {
 		@include tight-box;
+		@if ($wc-ui-color-collapsible-header-fg != $wc-ui-color-heading and $wc-ui-color-collapsible-header-fg != -1) {
+			// override default heading colour;
+			color: $wc-ui-color-collapsible-header-fg;
+		}
 		display: inline-block;
 		font-size: inherit;
 		font-weight: bold;
@@ -45,3 +55,5 @@ div[aria-describedby] {
 		display: block;
 	}
 }
+
+@import 'wc.ui.collapsibleIcons';

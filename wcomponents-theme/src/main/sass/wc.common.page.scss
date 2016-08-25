@@ -1,8 +1,15 @@
 /* wc.common.page.scss */
+//**********************************************************************************************************************
+// This file should not be excluded or overridden. It sets up some necessary common structural styles and anything
+// which can be made optional or configured is done through Sass variables.
+//**********************************************************************************************************************
+
 // Primary styling for the page and preliminary styling of some commonly used basic elements and layout classes.
 @import 'mixins-common';
-
-// We need to have the document body fill the viewport in all browsers to correctly propagate some click events.
+//**********************************************************************************************************************
+// HTML and BODY structure
+// It is important that at least the height rules remain as we need to have the document body fill the viewport in all
+// browsers to correctly propagate some click events. Please leave this as it is.
 html {
 	height: 100%;
 }
@@ -15,7 +22,14 @@ body {
 	font-size: $wc-desktop-font-size;
 	height: 100%; // body to fill viewport for event propagation.
 }
+// END HTML and BODY structure.
+//**********************************************************************************************************************
 
+//**********************************************************************************************************************
+// LINKS (`a` element not `link` element)
+// The order of these matters even though it looks wrong. By defining :visited before a we do not have to do a double
+// override of the disabled state. Disabled links. Gotta love the monkey who came up with that one.
+//**********************************************************************************************************************
 @if  $wc-ui-color-link-visited != -1 {
 	a:visited {
 		color: $wc-ui-color-link-visited;
@@ -31,20 +45,31 @@ body {
 		}
 	}
 }
+// END links
+//**********************************************************************************************************************
 
-p {
-	margin: 0 0 $wc-gap-large;
-}
-
-pre {
-	font-family: $wc-mono-font;
-}
-
+//**********************************************************************************************************************
+// Classes needed by the framework. These are structural and must aways be present, preferably in this form.
+//**********************************************************************************************************************
+// Move an element out of viewport but still in the accessibility tree. This is a surprisingly important class and MUST
+// be present and MUST move things out of viewport without removing them from the a11y tree so you probably want to
+// leave the thing alone.
 .wc-off {
 	@include offscreen;
 }
 
+// [hidden] hides content and removes it from the a11y tree. Applying this to [hidden] is redundant but needed because
+// of irregular hidden support. It is important to override more specific selectors for individual components. Again,
+// this is needed for re-applying hidden after it has been removed.
+[hidden] {
+	// important required to override more specific display rules (see menus, collapsibles for examples)
+	// scss-lint:disable ImportantRule
+	display: none !important;
+}
+
 // Text alignment
+// These are required for WComponents inbuilt alignment and are not a complete list of CSS3 text alignment options.
+// Not to be overridden therefore no !default marker.
 $wc-align-list: left, center, right;
 @each $wc-a in $wc-align-list {
 	.wc-align-#{$wc-a} {
@@ -52,20 +77,8 @@ $wc-align-list: left, center, right;
 	}
 }
 
-// vertical alignment. This list covers the CSS3 vertical-alignment values. You may not need or want all of them.
-$wc-valign-list: baseline, bottom, inherit, initial, middle, sub, super, text-bottom, text-top, top !default;
-
-@each $wc-v in $wc-valign-list {
-	.wc-valign-#{$wc-v} {
-		vertical-align: $wc-v;
-	}
-}
-
-.wc-hscroll {
-	max-width: 100%;
-	overflow-x: auto;
-}
-
+// ICON POSITIONING CLASSES.
+// You probably want these in some form, almost certainly this form. The class names are inteh Java API.
 .wc-icon:before,
 .wc-icon-before:before,
 .wc-icon-after:before {
@@ -81,23 +94,55 @@ $wc-valign-list: baseline, bottom, inherit, initial, middle, sub, super, text-bo
 	margin-left: $wc-gap-small;
 }
 
-// [hidden] hides content. Class .wc-off moves the content so it is still available to assistive technologies but is not
-// visible on screen. Applying this to [hidden] is redundant but needed because of irregular hidden support. It is
-// important to override more specific selectors for individual components. Again, this is needed for re-applying hidden
-// after it has been removed.
-[hidden] {
-	// important required to override more specific display rules (see menus, collapsibles for examples)
-	// scss-lint:disable ImportantRule
-	display: none !important;
+// Make a container scroll horizontally if needed. One would be surprised how often this is requested if one was not me.
+// It is so common it has made it into the Java API so do not remove it!
+.wc-hscroll {
+	max-width: 100%;
+	overflow-x: auto;
 }
 
-// show when the maxlength is exceeded in a textarea or when a label (or equivalent) is not provided
+//**********************************************************************************************************************
+// COMMON element styles.
+// Change any of these you like. The defaults are pretty basic.
+// TODO: move to a separate file? We want as much of this file as possible to be completely standard so it never needs
+// to be overridden.
+p {
+	margin: 0 0 $wc-gap-large;
+}
+
+pre {
+	font-family: $wc-mono-font;
+}
+
+
+//**********************************************************************************************************************
+// Common classes which can be ignored or overridden.
+
+// Mark an error state. This is a secondary indicator of an error state separate from the aria-invalid state. It is used
+// when the maxlength is exceeded in a textarea or when a label (or equivalent) is not provided. This has to be present
+// but the actual style does not matter a lot. Eventually we should be able to remove the missing label warnings and
+// move this to textarea only.
 @if $wc-ui-color-error-fg != -1 {
 	.wc_error {
 		color: $wc-ui-color-error-fg;
 	}
 }
 
+// Vertical alignment helpers. Not used by FlowLayout for its vertical alignment control which is flex based. May be
+// omitted by setting the list variable to 0.
+@if ($wc-valign-list != 0) {
+	@each $wc-v in $wc-valign-list {
+		.wc-valign-#{$wc-v} {
+			vertical-align: $wc-v;
+		}
+	}
+}
+// End optional classes
+//**********************************************************************************************************************
+
+
+// This is non-standard but quite important. Zoom should not be disabled in a web appno matter how much pain it causes
+// designers. It is an a11y thing and I cannot use your site on my phone without it.
 @include viewport {
 	user-zoom: zoom;
 	width: extend-to-zoom;
@@ -115,3 +160,7 @@ $wc-valign-list: baseline, bottom, inherit, initial, middle, sub, super, text-bo
 		font-size: $wc-default-font-size;
 	}
 }
+
+@import 'wc.ui.backToTop';
+@import 'wc.common.loading';
+@import 'wc.common.color';

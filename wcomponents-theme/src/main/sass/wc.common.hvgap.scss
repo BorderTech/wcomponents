@@ -8,7 +8,8 @@
 // We can (at the moment) safely use the universal selector here but maybe not into the future. Even so, it has
 // terrible performance so we are probably better off without it.
 
-// Vaadin Scss compiler cannot handle multiple assignment so the simple each below has to be done a bit more verbosely.
+// Vaadin Scss compiler does not appear to handle multiple assignment so the simple each below has to be done a bit more
+// verbosely.
 
 @each $cl in $wc-gap-suffix-list {
 	@if ($cl == sm) {

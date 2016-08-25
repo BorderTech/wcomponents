@@ -67,3 +67,7 @@ textarea {
 	max-width: 100%;
 	word-wrap: break-word;
 }
+
+@import 'wc.common.buttons';
+@import 'wc.common.label';
+@import 'wc.common.fieldset';

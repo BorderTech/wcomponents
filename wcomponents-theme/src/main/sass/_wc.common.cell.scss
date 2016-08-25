@@ -1,0 +1,7 @@
+/* wc.common.cell.scss */
+@import 'mixins-common';
+
+// .wc-cell is an item in a FlowLayout, ColumnLayout, ListLayout or GridLayout.
+.wc-cell {
+	@include border-box;
+}
