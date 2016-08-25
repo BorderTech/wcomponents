@@ -35,14 +35,19 @@
 			<xs:extension base="xs:string">
 				<xs:attributeGroup ref="ui:button.link.attributes"/>
 				<xs:attributeGroup ref="ui:button.menu.attributes"/>
-				<xs:attribute name="popup" type="xs:boolean">
+				<xs:attribute name="popup" type="xs:boolean" default="false">
 					<xs:annotation>
 						<xs:documentation>Indicates whether this button will trigger a WPopup. Required for WCAG2.0 level A compliance of WPopup.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
-				<xs:attribute name="unsavedChanges" type="xs:boolean">
+				<xs:attribute name="unsavedChanges" type="xs:boolean" default="false">
 					<xs:annotation>
 						<xs:documentation>If set and @cancel is true the user will receive a warning even if they have not made changes on the current screen.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="client" type="xs:boolean" default="false">
+					<xs:annotation>
+						<xs:documentation>If set "true" then the button is expected to trigger a purely client side process and will not submit to the server.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
 			</xs:extension>
