@@ -1,5 +1,5 @@
-/* wc.common.accesskey.dt.scss */
-@import 'accesskey-mixins';
+/* wc.common.accesskey.scss */
+@import 'mixins-common';
 // Provides the styling for the accesskey indicator for componentd which implement the @accessKey XML attribute.
 
 // The accesskey character and callout will be in a label, legend, link or button.
@@ -21,6 +21,9 @@
 ///	Accesskey Tooltips
 ///	Styling for the callout (shows when ALT is held down).
 [role='tooltip'] {
+	@include border($color: $wc-ui-color-tooltip-bg);
+	background-color: $wc-ui-color-tooltip-bg;
+	color: $wc-ui-color-tooltip-fg;
 	display: inline;
 	// important to over-ride menu rules which may also apply.
 	// scss-lint:disable ImportantRule
@@ -34,6 +37,7 @@
 
 	&:before,
 	&:after {
+		border-color: $wc-ui-color-tooltip-bg transparent transparent;
 		border-style: solid;
 		border-width: $wc-gap-normal $wc-gap-small 0;
 		bottom: 0;

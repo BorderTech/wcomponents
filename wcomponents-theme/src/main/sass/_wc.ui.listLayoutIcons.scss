@@ -1,0 +1,10 @@
+@import 'mixins-common';
+
+// dot bullets should be default but need pseudo-elements for flat lists.
+.wc-listlayout-type-flat.wc-listlayout-separator-dot > li + li:before { // dot bullets should be default but need pseudo-elements for flat lists.
+	@include wc-icon($fa-var-circle);
+	font-size: 6px;
+	line-height: 1;
+	margin-right: $wc-gap-normal;
+	vertical-align: 3px;
+}

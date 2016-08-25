@@ -1,0 +1,19 @@
+@import 'mixins-common';
+
+h1:before {
+	.wc_msgbox > & { // Use error box as default.
+		@include wc-icon-fw-content($fa-var-minus-circle, $width: $wc-icon-wider);
+	}
+
+	.wc-messagebox-type-warn  > & {
+		content: $fa-var-exclamation-triangle;
+	}
+
+	.wc-messagebox-type-info  > & {
+		content: $fa-var-info-circle;
+	}
+
+	.wc-messagebox-type-success > & {
+		content: $fa-var-check-circle;
+	}
+}

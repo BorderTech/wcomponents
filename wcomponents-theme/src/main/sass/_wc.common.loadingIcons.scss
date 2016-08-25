@@ -1,0 +1,21 @@
+// styling for the loading indicator that appears for page reloads and AJAX regions
+@import 'mixins-common';
+
+// loading indicator is generated and identified
+// scss-lint:disable IdSelector
+#wc-ui-loading div,
+[aria-busy='true'] {
+	&:before {
+		@include wc-icon($fa-var-spinner);
+		@include wc-spin; // fa do not yet have a mixin for this.
+	}
+}
+// scss-lint:enable IdSelector
+
+input,
+select,
+textarea {
+	&[aria-busy='true'] {
+		background: url('../images/loading-dark.gif') 50% 50% no-repeat transparent;
+	}
+}

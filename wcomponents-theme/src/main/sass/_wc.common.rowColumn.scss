@@ -1,0 +1,43 @@
+/* wc.ui.row.scss */
+@import 'mixins-common';
+
+// All rows have this class, not just WRow
+.wc-row {
+	@include flex;
+}
+
+// And all columns have this class, not just WColumn.
+.wc-column {
+	@include border-box;
+}
+
+// A set of column classes.
+@if ($wc-column-list == -1) {
+	// Do we really need to support all 100 variants on column width?
+	// Probably not but if one need's to here is the Sass: all turned on by a variable value.
+	@for $i from 1 through 100 {
+		.wc_col_#{$i} {
+			width: percentage($i / 100);
+		}
+	}
+}
+@else {
+	// Every multiple of 5%
+	@for $i from 1 through 20 {
+		$w: $i * 5;
+
+		.wc_col_#{$w} {
+			width: percentage($w / 100);
+		}
+	}
+	// and any other values in a list.
+	@if ($wc-column-list != 0) {
+		@each $w in $wc-column-list {
+			.wc_col_#{$w} {
+				width: percentage($w / 100);
+			}
+		}
+	}
+}
+
+@import 'rowColumn.respond';

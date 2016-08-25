@@ -38,10 +38,6 @@ dialog {
 	> footer { // top and bottom bars of dialog
 		@include flex-grow(0);
 		@include flex-shrink(0);
-
-		button:before {
-			padding: $wc-gap-small;
-		}
 	}
 
 	> header {
@@ -96,6 +92,10 @@ dialog {
 			line-height: 0;
 			padding: 0;
 			text-align: right;
+
+			button:before {
+				padding: $wc-gap-small;
+			}
 		}
 
 		> header .wc_maxcont {
@@ -114,5 +114,7 @@ dialog {
 			transition-timing-function: ease-in-out;
 		}
 	}
-
 }
+
+@import 'wc.ui.dialog.color';
+@import 'wc.ui.dialogIcons';

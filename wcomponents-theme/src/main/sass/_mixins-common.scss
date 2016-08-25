@@ -1,10 +1,12 @@
-// Allow Vendor Prefix in mixins.
-//scss-lint:disable VendorPrefix
-
+// Many common mixins. I _think_ they are in alphabetical order...
 @import 'vars';
 @import 'mixins-flex'; // flex layouts.
 @import 'mixins-respond'; // responsive design media queries.
 @import 'mixins-icon'; // in-built iconography.
+@import 'mixins-invite'; // 'invitation' styles.
+
+// Allow Vendor Prefix in mixins.
+// scss-lint:disable VendorPrefix
 
 /// Style disabled controls. This allows similar styling of elements which are able to be disabled using the disabled
 /// attribute and those which require aria-disabled.
@@ -12,9 +14,10 @@
 /// We do not set disabled background here. This is due to the overwheening complexities of overrides and the
 /// unfortunate effect of setting background-color on elements which have appearance: button.
 @mixin aria-disabled {
+	// TODO: why not important here?
+	color: $wc-ui-color-disabled-fg; // NOTE for your own sanity do not set background-color here!
 	// important to reset menu button etc rules which are VERY specific
 	// scss-lint:disable ImportantRule
-	color: $wc-ui-color-disabled-fg; // NOTE for your own sanity do not set background-color here!
 	cursor: default !important;
 	outline: none !important;
 	text-decoration: none !important;
@@ -59,14 +62,6 @@
 	box-sizing: border-box;
 }
 
-/// Set an element's box-sizing to content-box.
-@mixin content-box {
-	// Require -moz-box-sizing for consistency
-	// scss-lint:disable VendorPrefix
-	-moz-box-sizing: content-box;
-	box-sizing: content-box;
-}
-
 /// Style a button with a (usually) transparent background. Handy for holding iconography!
 ///
 /// @param {color} $background [transparent] Set the button background. Set -1 to ignore this rule.
@@ -102,9 +97,24 @@
 	@content;
 }
 
+/// Inherit fonts in buttons.
+@mixin button-like-text {
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+}
+
+/// Set an element's box-sizing to content-box.
+@mixin content-box {
+	// Require -moz-box-sizing for consistency
+	// scss-lint:disable VendorPrefix
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+/// Size a container to fit its content.
 // Allow duplicate width declarations
 // scss-lint:disable DuplicateProperty
-/// Size a container to fit its content.
 @mixin fit-content($what: width, $imp: 0, $fallback: auto) {
 	@if ($imp == 0) {
 		#{$what}: $fallback;
@@ -123,13 +133,11 @@
 }
 // scss-lint:enable DuplicateProperty
 
-
-
 /// Show the mandatory indicator
 /// @todo: make the mandatory indicator string into a var.
 @mixin mandatory-indicator {
 	color: $wc-ui-color-required-marker;
-	content: '*';
+	content: $wc-label-mandatory-indicator;
 }
 
 /// Apply a simple margin to an element.

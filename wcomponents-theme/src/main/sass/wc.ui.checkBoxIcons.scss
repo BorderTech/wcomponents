@@ -1,0 +1,12 @@
+@import 'mixins-common';
+
+/// read-only WCheckBox.
+.wc-checkbox {
+	&.wc_ro:before {
+		content: $fa-var-square-o;
+	}
+
+	&.wc_ro_sel:before {
+		content: $fa-var-check-square-o;
+	}
+}

@@ -1,0 +1,124 @@
+/* wc.ui.loading.scss */
+// styling for the loading indicator that appears for page reloads and AJAX regions
+@import 'mixins-common';
+
+// How far to offset the aria-busy indicator from the center of the busy element.
+$wc-common-busy-offset: $wc-common-busy-size / 2;
+//These calculations allow us to accurately place the loading indicator in IE11.
+// Half of the width of the loading indicator
+$wc-root-loading-width-offset: $wc-root-loading-padding + ($wc-root-loading-icon-size / 2);
+@if ($wc-root-loading-width != -1 and $wc-root-loading-width != auto) {
+	$wc-root-loading-width-offset: $wc-root-loading-padding + ($wc-root-loading-width / 2);
+}
+
+$wc-root-loading-height-offset: $wc-root-loading-padding + ($wc-root-loading-icon-size / 2);
+@if ($wc-root-loading-height != -1 and $wc-root-loading-height != auto) {
+	$wc-root-loading-height-offset: $wc-root-loading-padding + ($wc-root-loading-height / 2);
+}
+
+// loading indicator is generated and identified
+// scss-lint:disable IdSelector
+#wc-ui-loading {
+	// NOTE
+	// If one wanted to center the loading indicator it would be much easier to do it using a flex layout and optionally
+	// offsetting the inner div using position relative.
+	// @include flex($justify: center, $align-items: center, $align-content: center) ;
+	background-color: $wc-ui-color-global-bg;
+	color: $wc-ui-color-global-fg;
+	height: 100%;
+	left: 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: $wc-z-index-unloading-message;
+
+	> div {
+		display: inline-block;
+		padding: $wc-root-loading-padding;
+		@if ($wc-root-loading-width != -1) {
+			width: $wc-root-loading-width;
+		}
+
+		@if ($wc-root-loading-height != -1) {
+			height: $wc-root-loading-height;
+		}
+
+		// All of the following (and the mammoth calculation above) could be removed if we did not have to support IE11-
+		// one could then offset the div using position relative and offset with -ve ebing for up/left. For example:
+		// position: relative;
+		// top: -5%;
+		// this cannot be loaded in IE11 via JavaScript and be effective so we live with it.
+		@if ($wc-root-loading-vertical-offset != 0 or $wc-root-loading-horizontal-offset != 0) {
+			position: absolute;
+		}
+
+		@if ($wc-root-loading-vertical-offset != 0) {
+			top: calc( #{$wc-root-loading-vertical-offset} - #{$wc-root-loading-height-offset});
+		}
+
+		@if  ($wc-root-loading-horizontal-offset != 0) {
+			left: calc( #{$wc-root-loading-horizontal-offset} - #{$wc-root-loading-width-offset});
+		}
+
+		&:before {
+			font-size: $wc-root-loading-icon-size;
+		}
+	}
+}
+// scss-lint:enable IdSelector
+
+// aria-busy areas
+[aria-busy='true'] {
+	position: relative; // to position the loading indicator.
+
+	@if ($wc-common-busy-content-opacity < 1) {
+		> * {
+			@if ($wc-common-busy-content-opacity > 0) {
+				opacity: $wc-common-busy-content-opacity;
+			}
+			@else {
+				visibility: hidden;
+			}
+		}
+	}
+
+	@if ($wc-ui-color-busy-fg != -1) {
+		color: $wc-ui-color-busy-fg;
+	}
+
+	&:before { // yeah - I know this won't work for replaced content...
+		// These are to restrict the spinning segment, otherwise all sorts of fun may ensue.
+		height: $wc-common-busy-size;
+		left: calc(50% - $wc-common-busy-offset);
+		position: absolute;
+		top: calc(50% - $wc-common-busy-offset);
+		width: $wc-common-busy-size;
+
+		@if ($wc-ui-color-busy-loading-icon != -1) {
+			color: $wc-ui-color-busy-loading-icon;
+		}
+	}
+}
+
+@if ($wc-ui-color-busy-input-border != -1) {
+	input,
+	select,
+	textarea {
+		&[aria-busy='true'] {
+			border-color: $wc-ui-color-busy-input-border;
+		}
+	}
+}
+
+@if ($wc-common-busy-content-opacity < 1) {
+	img[aria-busy='true'] {
+		@if ($wc-common-busy-content-opacity > 0) {
+			opacity: $wc-common-busy-content-opacity;
+		}
+		@else {
+			visibility: hidden;
+		}
+	}
+}
+
+@import 'wc.common.loadingIcons';

@@ -3,14 +3,15 @@
 // This is why this file has colors in it.
 @import 'mixins-common';
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	color: $wc-ui-color-heading;
-	margin: $wc-gap-normal 0;
+@if ($wc-ui-color-heading != -1) {
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		color: $wc-ui-color-heading;
+	}
 }
 
 h1,
@@ -18,14 +19,6 @@ h2,
 h3,
 h4 {
 	font-weight: normal;
-
-	// .wc_nti {
-	// 	vertical-align: text-bottom;
-	//
-	// 	img {
-	// 		vertical-align: middle;
-	// 	}
-	// }
 }
 
 
@@ -62,56 +55,5 @@ h4 {
 @if ($wc-heading-h6-font-size != -1) {
 	h6 {
 		font-size: $wc-heading-h6-font-size;
-	}
-}
-
-
-section {
-	> .wc-content,
-	> .wc-panel > .wc-content {
-		> h2,
-		> h3,
-		> h4 {
-			&:first-child {
-				margin-top: 0;
-			}
-		}
-
-
-		@if ($wc-heading-section-h1-font-size != -1) {
-			h1 {
-				font-size: $wc-heading-section-h1-font-size;
-			}
-		}
-
-		@if ($wc-heading-section-h2-font-size != -1) {
-			h2 {
-				font-size: $wc-heading-section-h2-font-size;
-			}
-		}
-
-		@if ($wc-heading-section-h3-font-size != -1) {
-			h3 {
-				font-size: $wc-heading-section-h3-font-size;
-			}
-		}
-
-		@if ($wc-heading-section-h4-font-size != -1) {
-			h4 {
-				font-size: $wc-heading-section-h4-font-size;
-			}
-		}
-
-		@if ($wc-heading-section-h5-font-size != -1) {
-			h5 {
-				font-size: $wc-heading-section-h5-font-size;
-			}
-		}
-
-		@if ($wc-heading-section-h6-font-size != -1) {
-			h6 {
-				font-size: $wc-heading-section-h6-font-size;
-			}
-		}
 	}
 }

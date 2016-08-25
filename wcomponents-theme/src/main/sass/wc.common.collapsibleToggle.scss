@@ -1,7 +1,7 @@
 /* wc.common.collapsibleToggle.scss */
-// Common for WCollapsoibleToggle and WTable's RowExpansion's expandAll.
 @import 'mixins-common';
-
+// The expand and collapse all buttons and their wrapper.
+// Common for WCollapsibleToggle and WTable's RowExpansion's expandAll.
 .wc_coltog {
 	@include tight-box;
 	list-style-type: none;
@@ -14,3 +14,5 @@
 		}
 	}
 }
+
+@import 'wc.common.collapsibleToggleIcons';

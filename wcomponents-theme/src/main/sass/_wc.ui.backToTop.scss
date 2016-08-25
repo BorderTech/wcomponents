@@ -1,0 +1,31 @@
+/* wc.ui.backToTop.scss */
+@import 'mixins-common';
+
+/// The back to top of page link.
+.wc_btt {
+	bottom: $wc-gap-large;
+	opacity: 0.5;
+	position: fixed;
+	right: $wc-gap-large;
+	text-decoration: none;
+
+	&:before {
+		display: block;
+		font-size: $wc-btt-normal;
+		line-height: inherit;
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	> span {
+		@include offscreen;
+	}
+}
+
+@include respond-not-small {
+	.wc_btt:before {
+		font-size: $wc-btt-large;
+	}
+}
+
+@import 'wc.ui.backToTopIcons';
