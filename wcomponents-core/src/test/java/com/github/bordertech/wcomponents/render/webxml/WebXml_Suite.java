@@ -93,6 +93,8 @@ import org.junit.runners.Suite;
 	WTextAreaRenderer_Test.class,
 	WTextFieldRenderer_Test.class,
 	WTextRenderer_Test.class,
+	WTimeoutWarningRenderer_Test.class,
+	WToggleButtonRenderer_Test.class,
 	WValidationErrorsRenderer_Test.class,
 	WVideoRenderer_Test.class,
 	// Performance tests

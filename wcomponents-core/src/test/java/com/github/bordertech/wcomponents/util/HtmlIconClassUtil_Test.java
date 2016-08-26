@@ -7,7 +7,7 @@ import org.junit.Test;
  *
  * @author Mark Reeves
  */
-public class HtmlIconClassUtilTest {
+public class HtmlIconClassUtil_Test {
 
 	/**
 	 * Test of getIconClasses method, of class HtmlIconUtil.

@@ -98,6 +98,26 @@ public class TreeItemUtil_Test {
 		Assert.assertTrue("Node should have no children", node.getChildren().isEmpty());
 	}
 
+	@Test
+	public void testConvertJsonToTreeToJson() {
+		// JSON to Tree
+		TreeItemIdNode tree = TreeItemUtil.convertJsonToTree(TEST_MULTI_JSON);
+		// Tree back to JSON
+		String json = TreeItemUtil.convertTreeToJson(tree);
+		Assert.assertEquals("JSON should be the same after conversion", TEST_MULTI_JSON, json);
+	}
+
+	@Test
+	public void testConvertTreeToJsonToTree() {
+		TreeItemIdNode tree = createTreeMulti();
+		// Tree to JSON
+		String json = TreeItemUtil.convertTreeToJson(tree);
+		// JSON to Tree
+		TreeItemIdNode tree2 = TreeItemUtil.convertJsonToTree(json);
+		// Check tree the same
+		Assert.assertTrue("Tree should be the same after conversion", TreeItemUtil.isTreeSame(tree, tree2));
+	}
+
 	/**
 	 * @return a tree with multiple levels
 	 */
