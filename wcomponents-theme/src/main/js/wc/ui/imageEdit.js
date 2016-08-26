@@ -638,9 +638,17 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 		 * Wires up the "cancel" feature.
 		 */
 		function cancelControl(eventConfig, editor, callbacks/* , file */) {
-			var click = eventConfig.click;
+			var click = eventConfig.click,
+				cancelFunc = function() {
+					try {
+						saveImage(editor, callbacks, true);
+					}
+					finally {
+						dialogFrame.close();
+					}
+				};
 			click.cancel = {
-				func: saveImage.bind(null, editor, callbacks, true)
+				func: cancelFunc
 			};
 		}
 
