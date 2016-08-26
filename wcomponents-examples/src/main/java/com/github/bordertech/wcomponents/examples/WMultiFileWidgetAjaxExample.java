@@ -118,6 +118,7 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 		WImageEditor editor = new WImageEditor();
 		editor.setSize(new Dimension(300, 400));
 		editor.setUseCamera(true);
+		editor.setIsFace(true);
 		InternalResource overlay = new ImageResource("/image/overlay.png", "Overlay image shows visible guidlines");
 		editor.setOverlayUrl(overlay.getTargetUrl());
 		widget.setEditor(editor);

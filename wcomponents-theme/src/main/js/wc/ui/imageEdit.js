@@ -124,14 +124,22 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 		 */
 		this.editFiles = function(obj, onSuccess, onError) {
 			var config = imageEdit.getConfig(obj);
-			var file, idx = 0, result = [], files = obj.files;
+			var file, idx = 0, result = [], files = obj.files,
+				done = function(arg) {
+					try {
+						onSuccess(arg);
+					}
+					finally {
+						dialogFrame.close();
+					}
+				};
 			try {
 				if (files) {
 					if (has("dom-canvas")) {
 						editNextFile();
 					}
 					else {
-						onSuccess(files);
+						done(files);
 					}
 				}
 				else if (config.camera) {
@@ -164,7 +172,7 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 					}
 				}
 				else {
-					onSuccess(result);
+					done(result);
 				}
 			}
 		};
@@ -336,56 +344,59 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 		 * @private
 		 */
 		function getEditor(config, callbacks, file) {
-			var promise = new Promise(function(resolve, reject) {
-					var container = document.body.appendChild(document.createElement("div"));
-					container.className = "wc_img_editor";
-
-					loader.load(TEMPLATE_NAME, true, true).then(function(rawTemplate) {
-						var eventConfig, editorProps = {
-								style: {
-									width: config.width || defaults.width,
-									height: config.height || defaults.height
-								},
-								feature: {
-									face: false
-								}
-							};
-						template.process({
-							source: rawTemplate,
-							target: container,
-							context: editorProps
-						});
-						eventConfig = attachEventHandlers(container);
-						zoomControls(eventConfig);
-						moveControls(eventConfig);
-						resetControl(eventConfig);
-						cancelControl(eventConfig, container, callbacks, file);
-						saveControl(eventConfig, container, callbacks, file);
-						rotationControls(eventConfig);
-						// if (config.face) {
-						// }
-						if (!file) {
-							classList.add(container, "wc_camenable");
-							classList.add(container, "wc_showcam");
-							imageCapture.snapshotControl(eventConfig, container);
-						}
-						resolve(container);
-					}, reject);
-				}),
-				onDialogClose = getDialogFrameConfig(function() {
-					imageCapture.stop();
-					callbacks.lose();
-				});
-			return Promise.all([promise, dialogFrame.open(onDialogClose)]).then(function(values) {
-				var dialogContent = dialogFrame.getContent(),
-					container = values[0];
-
-				if (dialogContent && container) {
-					dialogContent.innerHTML = "";
-					dialogContent.appendChild(container);
-					dialogFrame.reposition();
-				}
+			var onDialogClose = getDialogFrameConfig(function() {
+				imageCapture.stop();
+				callbacks.lose();
 			});
+
+			function renderEditor() {
+				return loader.load(TEMPLATE_NAME, true, true).then(function(rawTemplate) {
+					var container = document.body.appendChild(document.createElement("div")),
+						eventConfig, editorProps = {
+							style: {
+								width: config.width || defaults.width,
+								height: config.height || defaults.height
+							},
+							feature: {
+								face: false
+							}
+						};
+					container.className = "wc_img_editor";
+					template.process({
+						source: rawTemplate,
+						target: container,
+						context: editorProps
+					});
+					eventConfig = attachEventHandlers(container);
+					zoomControls(eventConfig);
+					moveControls(eventConfig);
+					resetControl(eventConfig);
+					cancelControl(eventConfig, container, callbacks, file);
+					saveControl(eventConfig, container, callbacks, file);
+					rotationControls(eventConfig);
+					// if (config.face) {
+					// }
+					if (!file) {
+						classList.add(container, "wc_camenable");
+						classList.add(container, "wc_showcam");
+						imageCapture.snapshotControl(eventConfig, container);
+					}
+					return container;
+				}).then(function(container) {
+					var dialogContent = dialogFrame.getContent();
+
+					if (dialogContent && container) {
+						dialogContent.innerHTML = "";
+						dialogContent.appendChild(container);
+						dialogFrame.reposition();
+					}
+				});
+			}
+
+			if (dialogFrame.isOpen()) {
+				return renderEditor();
+			}
+			return dialogFrame.open(onDialogClose).then(renderEditor);
 		}
 
 		/**
@@ -703,7 +714,7 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 				}
 			}
 			finally {
-				dialogFrame.close();
+//				dialogFrame.close();
 				dialogFrame.resetContent();
 			}
 		}
