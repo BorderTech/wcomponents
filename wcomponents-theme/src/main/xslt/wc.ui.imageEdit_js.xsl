@@ -23,6 +23,10 @@
 			<xsl:text>,"camera":</xsl:text>
 			<xsl:value-of select="@camera"/>
 		</xsl:if>
+		<xsl:if test="@face">
+			<xsl:text>,"face":</xsl:text>
+			<xsl:value-of select="@face"/>
+		</xsl:if>
 		<xsl:if test="@overlay">
 			<xsl:text>,"overlay":"</xsl:text>
 			<xsl:value-of select="@overlay"/>
