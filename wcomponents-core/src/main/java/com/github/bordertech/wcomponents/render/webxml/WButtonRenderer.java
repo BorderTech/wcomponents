@@ -53,6 +53,7 @@ class WButtonRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("cancel", button.isCancel(), "true");
 		xml.appendOptionalAttribute("unsavedChanges", button.isUnsavedChanges(), "true");
 		xml.appendOptionalAttribute("msg", button.getMessage());
+		xml.appendOptionalAttribute("client", button.isClientCommandOnly(), "true");
 
 		if (imageUrl != null) {
 			xml.appendAttribute("imageUrl", imageUrl);

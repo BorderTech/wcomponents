@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WButton.ImagePosition;
 import com.github.bordertech.wcomponents.WContainer;
@@ -17,6 +18,7 @@ import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
@@ -91,6 +93,8 @@ public class WButtonExample extends WPanel implements MessageContainer {
 
 		//disabled state
 		addDisabledExamples();
+
+		addClientOnlyExamples();
 
 		add(new WHorizontalRule());
 		addImageExamples();
@@ -195,6 +199,32 @@ public class WButtonExample extends WPanel implements MessageContainer {
 		iconButton = new WButton("Right icon with text content");
 		iconButton.setHtmlClass("wc-icon-after fa-hand-o-right");
 		add(iconButton);
+	}
+
+	/**
+	 * Examples showing use of client only buttons.
+	 */
+	private void addClientOnlyExamples() {
+		// client command button
+
+		add(new WHeading(HeadingLevel.H2, "Client command buttons"));
+		add(new ExplanatoryText("These examples show buttons which do not submit the form"));
+
+		//client command buttons witho a command
+		WButton nothingButton = new WButton("Do nothing");
+		add(nothingButton);
+		nothingButton.setClientCommandOnly(true);
+		nothingButton = new WButton("Do nothing link");
+		add(nothingButton);
+		nothingButton.setRenderAsLink(true);
+		nothingButton.setClientCommandOnly(true);
+
+		// client command buttons with command.
+		HelloButton helloButton = new HelloButton("Hello");
+		add(helloButton);
+		helloButton = new HelloButton("Hello link");
+		helloButton.setRenderAsLink(true);
+		add(helloButton);
 	}
 
 	/**
@@ -405,6 +435,37 @@ public class WButtonExample extends WPanel implements MessageContainer {
 
 			messages.info(((WButton) event.getActionObject()).getText() + MESSAGE);
 		}
+
+	}
+
+	/**
+	 * Simple extension of WButton to set as a client only button and add a class used in the example's alert script. We then add the script in the
+	 * first use.
+	 *
+	 */
+	private final class HelloButton extends WButton {
+		/**
+		 * Create a HelloButton with a particlar text label.
+		 * @param text the text to show on the button
+		 */
+		public HelloButton(final String text) {
+			super(text);
+			setClientCommandOnly(true);
+			setHtmlClass("hellobutton");
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		@Override
+		protected void preparePaintComponent(final Request request) {
+			if (!isInitialised()) {
+				WebUtilities.getAncestorOfClass(WApplication.class, this).addJsFile("/com/github/bordertech/wcomponents/examples/hellobutton.js");
+				setInitialised(true);
+			}
+			super.preparePaintComponent(request);
+		}
+
 
 	}
 }

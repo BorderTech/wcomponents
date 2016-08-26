@@ -501,6 +501,28 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
+	 * @return {@code true} if the button fires a client side command without causing a submit action. This is not necessarily incompatible with being
+	 * an AjaxTrigger.
+	 */
+	public boolean isClientCommandOnly() {
+		return getComponentModel().client;
+	}
+
+	/**
+	 * Sets whether this button should fire a client command without submitting the form. What this actually does is indicates to the client that the
+	 * button element is not a submit button so a form submit will not be triggered when the button is pressed.  If the button is also an AjaxTrigger
+	 * then the Ajax request will still fire unless the custom command specifically prevents this.
+	 *
+	 * <p>If this is true then interacting with the button on the client will not submit the form. A custom command will fire if one is attached to
+	 * the button through custom JavaScript.</p>
+	 *
+	 * @param client indicates if the current button is to trigger a client action without a submit
+	 */
+	public void setClientCommandOnly(final boolean client) {
+		getOrCreateComponentModel().client = client;
+	}
+
+	/**
 	 * Indicates whether this button will trigger a WPopup when used.
 	 *
 	 * @return true if this button triggers a popup, false otherwise.
@@ -801,6 +823,11 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 		 * Act as a cancel control and warn the user of unsaved changes.
 		 */
 		private boolean cancel;
+
+		/**
+		 * Trigger a command in the client without firing a submit.
+		 */
+		private boolean client;
 	}
 
 	/**

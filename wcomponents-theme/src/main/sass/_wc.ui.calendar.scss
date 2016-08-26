@@ -1,0 +1,130 @@
+/* wc.ui.calendar.scss */
+
+// We use a single ID'd component for all calendar date pickers and move it around to where it is needed.
+// scss-lint:disable IdSelector
+@import 'mixins-common';
+
+// This is the calendar container.
+#wc_calbox {
+	height: 100%;
+	left: 0;
+	overflow: auto;
+	position: fixed;
+	right: 0;
+	top: 0;
+	white-space: nowrap;
+	width: 100%;
+	z-index: $wc-z-index-common;
+
+	dialog & {
+		z-index: $wc-z-index-common-in-dialog;
+	}
+
+	.wc-row {
+		@include flex-align-items(baseline);
+		padding: $wc-gap-small;
+
+		button {
+			margin-left: $wc-gap-normal;
+		}
+
+		input { //year field:
+			margin: 0 $wc-gap-large;
+			width: 5em; //  FF and IE do not size by max.
+		}
+	}
+
+	.wc-column:last-child {
+		text-align: right;
+	}
+}
+
+// The calendar table
+#wc_calendar {
+	@include border($width: 0);
+	font-size: $wc-font-larger;
+
+	thead {
+		@include border($pos: bottom);
+	}
+
+	th {
+		text-align: center;
+	}
+
+	abbr { // days of the week
+		@include border($width: 0);
+	}
+}
+
+#wc_caldaybox td {
+	padding: 0;
+	text-align: center;
+	vertical-align: middle;
+}
+
+// date picker buttons
+.wc_wdf_pick {
+	line-height: 2;
+	max-width: 100%;
+	min-width: 100%;
+	padding: $wc-gap-small;
+	text-align: center;
+	width: 100%;
+}
+
+// The main purpose of this CSS is to make the pop-up calendar full screen. We make all of the buttons bigger to make
+// them easier for fingers to push and finally add a close button to make up for the lack of an escape key.
+// The calendar container is a single generated element with a fixed id.
+@include respond-small-screen {
+	#wc_calbox {
+		// Important to overcome inline style of the collision detection routine which we want to ignore here.
+		// scss-lint:disable ImportantRule
+		left: 0 !important;
+		top: 0 !important;
+	}
+}
+
+@include respond-not-small {
+	#wc_calbox { // This is the calendar container.
+		@include border;
+		@include fit-content;
+		height: auto;
+		left: auto;
+		position: absolute;
+		right: 0;
+		top: auto;
+
+		&.wc_colwest { // right collision
+			left: 0;
+			right: auto;
+		}
+
+		dialog & {
+			position: fixed;
+			right: auto;
+		}
+	}
+
+	#wc_calendar {
+		font-size: inherit;
+	}
+
+	.wc_wdf_pick {
+		line-height: inherit;
+		max-width: none;
+	}
+}
+
+// the top controls are row-column so will wrap at phoneline size.
+// @include respond-phonelike {
+// 	#wc_calbox .wc-column {
+// 		&,
+// 		&:last-child {
+// 			text-align: center;
+// 		}
+// 	}
+// }
+
+@import 'wc.ui.calendar.color';
+@import 'wc.ui.calendarIcons';

@@ -1,0 +1,99 @@
+/* wc.ui.listLayout.scss */
+@import 'mixins-common';
+
+
+.wc-listlayout {
+	@include tight-box;
+
+	&.wc-align-center,
+	&.wc-align-right {
+		list-style-position: inside;
+		margin-left: 0;
+	}
+}
+
+// need qualifiying element to differentiate from unordered listLayout
+// scss-lint:disable QualifyingElement
+ol.wc-listlayout {
+	margin-left: $wc-list-layout-ordered-spacing;
+
+	&.wc_list_nb {
+		margin-left: 0;
+	}
+
+	&.wc-listlayout-type-flat { // flat ordered lists use a pseudo-element with a counter
+		counter-reset: li;
+		margin-left: 0;
+
+		> li:before {
+			content: counter(li) '.';
+			counter-increment: li;
+			margin-right: $wc-gap-small;
+		}
+
+		&.wc_list_nb > li:before { // remove the counter if the separator is none
+			content: '';
+		}
+	}
+}
+
+.wc-listlayout-separator-bar,
+.wc-listlayout-type-flat {
+	list-style-type: none;
+}
+
+.wc-listlayout-separator-bar { // bar bullets
+	> li {
+		> * {
+			display: inline-block; // otherwise the marker wraps
+			vertical-align: middle;
+			width: calc(100% - #{$wc-list-layout-bar-width-offset});
+		}
+
+		&:before {
+			content: '|';
+			display: inline-block;
+			margin-right: $wc-gap-normal;
+			text-align: right;
+			width: 0.5em;
+		}
+	}
+
+	&.wc-listlayout-type-flat > li {
+		&:before {
+			display: inline;
+		}
+
+		&:first-child:before {
+			content: '';
+		}
+	}
+}
+
+.wc-listlayout-separator-dot { // 'normal' bullets
+	margin-left: $wc-list-layout-dot-spacing;
+
+	&.wc-listlayout-type-flat,
+	&.wc-align-right {
+		margin-left: 0;
+	}
+}
+
+.wc-listlayout-type-flat { // horizontal list
+	> li {
+		display: inline-block;
+		width: auto;
+
+		> * { // this rule keeps 'block' components inline in a flat list
+			display: inline-block;
+			width: auto;
+		}
+
+		+ li { // This is a bit of a weird default non-zero space. Should it be here at all?
+			margin-left: $wc-gap-normal;
+		}
+	}
+}
+
+@import 'wc.ui.listLayout.color';
+@import 'wc.ui.listLayoutIcons';

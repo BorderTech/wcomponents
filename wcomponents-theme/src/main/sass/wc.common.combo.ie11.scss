@@ -1,0 +1,5 @@
+/* wc.common.combo.ie11.scss */
+dialog [role='combobox'][aria-expanded='true'] > [role='listbox'] {
+	min-width: 0;
+	width: auto;
+}

@@ -1,0 +1,19 @@
+@import 'mixins-common';
+
+.wc_table_pag_cont button {
+	&::before {
+		content: $fa-var-angle-double-left;
+	}
+
+	&:nth-of-type(2)::before {
+		content: $fa-var-angle-left;
+	}
+
+	&:nth-of-type(3)::before {
+		content: $fa-var-angle-right;
+	}
+
+	&:last-of-type::before {
+		content: $fa-var-angle-double-right;
+	}
+}
