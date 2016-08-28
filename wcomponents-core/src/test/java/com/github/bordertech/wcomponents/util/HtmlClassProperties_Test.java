@@ -8,7 +8,7 @@ import org.junit.Test;
  * @author Mark Reeves
  * @since 1.2.0
  */
-public class HtmlClassPropertiesTest {
+public class HtmlClassProperties_Test {
 
 
 	@Test

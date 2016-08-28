@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.SystemException;
-import java.io.Serializable;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -50,6 +49,7 @@ public class WToggleButton_Test extends AbstractWComponentTestCase {
 			Assert.assertTrue(true);
 		}
 	}
+
 	@Test
 	public void testDefaultSubmit() {
 		WToggleButton toggle = new WToggleButton();
@@ -74,7 +74,7 @@ public class WToggleButton_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTextAccessors() {
-		assertAccessorsCorrect(new WToggleButton(), "text", null, "A", "B", new Serializable[]{});
+		assertAccessorsCorrect(new WToggleButton(), "text", null, "A", "B");
 	}
 
 }
