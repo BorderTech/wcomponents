@@ -16,7 +16,14 @@ define(["wc/isNumeric", "wc/i18n/i18n", "ccv", "face"], function(isNumeric, i18n
 		 */
 		return function (element) {
 			// maybe this needs "minfaces" and "maxfaces" but realistically i think the only "face" use case will be 'one face, no more, no less'
-			if (isNumeric(config.face) && config.face > 0) {
+			var faceCount;
+			if (config.face === true) {
+				faceCount = 1;
+			}
+			else if (isNumeric(config.face) && config.face > 0) {
+				faceCount = config.face;
+			}
+			if (config.face) {
 				return instance.track(element).then(function(arr) {
 					var error = {};
 					if (arr) {

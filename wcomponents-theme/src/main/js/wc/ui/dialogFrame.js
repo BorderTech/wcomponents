@@ -165,7 +165,7 @@ define(["wc/dom/event",
 					form, formId;
 
 				if (dialog) {
-					if (shed.isHidden(dialog, true)) {
+					if (!this.isOpen(dialog)) {
 						return Promise.resolve(openDlgHelper(dto));
 					}
 					return Promise.reject(REJECT.ALREADY_OPEN);
@@ -184,6 +184,16 @@ define(["wc/dom/event",
 			};
 
 			/**
+			 * Determine if the dialog is already open.
+			 * @param {Element} [element] Optionally provide the dialog element.
+			 * @returns {boolean} true if the dialog is open.
+			 */
+			this.isOpen = function(element) {
+				var dialog = element || this.getDialog();
+				return (dialog && !shed.isHidden(dialog, true));
+			};
+
+			/**
 			 * Helper for `openDlg`.
 			 * This does the actual heavy lifting of opening a dialog.
 			 *
@@ -194,7 +204,7 @@ define(["wc/dom/event",
 			function openDlgHelper(dto) {
 				var dialog = instance.getDialog();
 
-				if (dialog && shed.isHidden(dialog, true)) {
+				if (dialog && !instance.isOpen(dialog)) {
 					if (dto && dto.openerId) {
 						openerId = dto.openerId;
 					}
@@ -488,7 +498,7 @@ define(["wc/dom/event",
 				else if (docFragment.getElementById && docFragment.getElementById(DIALOG_ID)) {
 					removeShim = true;
 				}
-				if (removeShim && (dialog = instance.getDialog()) && !shed.isHidden(dialog, true)) {
+				if (removeShim && (dialog = instance.getDialog()) && instance.isOpen(dialog)) {
 					modalShim.clearShim(dialog);
 				}
 			}
@@ -506,7 +516,7 @@ define(["wc/dom/event",
 				if (element && (content = instance.getContent()) && content.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY) {
 					dialog = instance.getDialog();
 					// if we are refreshing inside the dialog we may need to reposition
-					if (!shed.isHidden(dialog, true)) {  // it damn well better not be
+					if (instance.isOpen(dialog)) {  // it damn well better be
 						if (!(dialog.style.width && dialog.style.height)) {
 							// we have not got a fixed or user-created size so we will resize automatically
 							instance.reposition();
@@ -574,7 +584,7 @@ define(["wc/dom/event",
 			 */
 			this.close = function() {
 				var dialog = this.getDialog();
-				if (dialog && !shed.isHidden(dialog, true)) {
+				if (dialog && this.isOpen(dialog)) {
 					shed.hide(dialog);
 					return true;
 				}
@@ -651,7 +661,7 @@ define(["wc/dom/event",
 				var dialog;
 				if (!$event.defaultPrevented && CLOSE_WD.findAncestor($event.target)) {
 					dialog = document.getElementById(DIALOG_ID);
-					if (dialog && !shed.isHidden(dialog, true)) {
+					if (dialog && instance.isOpen(dialog)) {
 						instance.close();
 						$event.preventDefault();
 					}
@@ -706,7 +716,7 @@ define(["wc/dom/event",
 					dialog,
 					result = false,
 					keyCode = $event.keyCode;
-				if (!$event.defaultPrevented && (dialog = document.getElementById(DIALOG_ID)) && !shed.isHidden(dialog, true)) {
+				if (!$event.defaultPrevented && (dialog = document.getElementById(DIALOG_ID)) && instance.isOpen(dialog)) {
 					switch (keyCode) {
 						case KeyEvent.DOM_VK_ESCAPE:
 							result = instance.close();
@@ -737,7 +747,7 @@ define(["wc/dom/event",
 			function resizeEventHelper() {
 				var dialog = document.getElementById(DIALOG_ID);
 
-				if (!dialog || shed.isHidden(dialog, true)) {
+				if (!dialog || !instance.isOpen(dialog)) {
 					return;
 				}
 				setUnsetDimensionsPosition(dialog);
