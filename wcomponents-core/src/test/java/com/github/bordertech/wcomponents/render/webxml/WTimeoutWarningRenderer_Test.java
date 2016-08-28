@@ -13,7 +13,7 @@ import org.xml.sax.SAXException;
  * @author Mark Reeves
  * @since 1.0.0
  */
-public class WTimoutWarningRenderer_Test extends AbstractWebXmlRendererTestCase {
+public class WTimeoutWarningRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testRendererCorrectlyConfigured() {
