@@ -1,7 +1,8 @@
 define(["wc/isNumeric", "wc/i18n/i18n", "ccv", "face"], function(isNumeric, i18n, ccv, cascade) {
 	var instance = {
 			track: trackFace,
-			getValidator: getValidator
+			getValidator: getValidator,
+			validationIgnorable: true
 		},
 		constraints = {  // constraints would ideally allow larger images on more powerful devices (or should we resize image?)
 			px: 640 * 480,
@@ -25,14 +26,22 @@ define(["wc/isNumeric", "wc/i18n/i18n", "ccv", "face"], function(isNumeric, i18n
 			}
 			if (config.face) {
 				return instance.track(element).then(function(arr) {
-					var error = {};
+					var error = {
+						ignorable: instance.validationIgnorable
+					};
 					if (arr) {
 						if (arr.length < config.face) {
 							error.message = i18n.get("imgedit_message_val_minface");
+							if (instance.validationIgnorable) {
+								error.message += "\n" + i18n.get("validation_common_ignore");
+							}
 							return error;
 						}
 						else if (arr.length > config.face) {
 							error.message = i18n.get("imgedit_message_val_maxface");
+							if (instance.validationIgnorable) {
+								error.message += "\n" + i18n.get("validation_common_ignore");
+							}
 							return error;
 						}
 					}
