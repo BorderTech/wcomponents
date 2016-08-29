@@ -149,15 +149,21 @@ pre {
 	zoom: 1;
 }
 
-@include respond-bigger-screen {
-	body {
-		font-size: $wc-bigscreen-font-size;
+@if ($wc-desktop-font-size != 100%) {
+	@if ($wc-bigscreen-font-size != $wc-desktop-font-size) {
+		@include respond-bigger-screen {
+			body {
+				font-size: $wc-bigscreen-font-size;
+			}
+		}
 	}
-}
 
-@include respond-phonelike {
-	body {
-		font-size: $wc-default-font-size;
+	@if ($wc-phone-font-size != $wc-desktop-font-size) {
+		@include respond-phonelike {
+			body {
+				font-size: $wc-phone-font-size;
+			}
+		}
 	}
 }
 
