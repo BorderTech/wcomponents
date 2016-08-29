@@ -21,7 +21,7 @@ section {
 	> header,
 	> div, // content or Layout child of a WPanel, not list layout which is ol or ul
 	> .wc-listLayout {
-		padding: $wc-gap-normal;
+		padding: $wc-section-space-normal;
 	}
 
 	> header {
@@ -47,8 +47,8 @@ section {
 	> .wc-panel {
 		> .wc-content > .wc-menu-type-bar:first-child {
 			// the negative margin must be 0 - the padding of WSection content.
-			$neg-margin: -$wc-gap-normal;
-			margin: $neg-margin $neg-margin $wc-gap-normal;
+			$neg-margin: -$wc-section-space-normal;
+			margin: $neg-margin $neg-margin $wc-section-space-normal;
 		}
 	}
 }
@@ -60,7 +60,7 @@ section {
 	background-color: transparent;
 	border: 0 none;
 	margin: 0;
-	padding: $wc-gap-normal;
+	padding: $wc-section-space-normal;
 }
 
 @if ($wc-gap-reduce-when-narrow != -1) {
@@ -70,20 +70,20 @@ section {
 			> h1,
 			> div,
 			> .wc-listlayout {
-				padding: $wc-phone-gap-normal;
+				padding: $wc-section-space-reduced;
 			}
 
 			&,
 			> .wc-panel {
 				> .wc-content > .wc-menu-type-bar:first-child {
-					$neg-margin: -$wc-phone-gap-normal;
-					margin: $neg-margin $neg-margin $wc-phone-gap-normal;
+					$neg-margin: -$wc-section-space-reduced;
+					margin: $neg-margin $neg-margin $wc-section-space-reduced;
 				}
 			}
 		}
 
 		.wc-section > .wc-panel {
-			padding: $wc-phone-gap-normal;
+			padding: $wc-section-space-reduced;
 		}
 	}
 }

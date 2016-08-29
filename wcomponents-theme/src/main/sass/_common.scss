@@ -100,6 +100,10 @@ $wc-dialog-header-size: $wc-section-header-size !default;
 $wc-header-h1-size-full: 2.25rem !default;
 // h1 in the screen header on small screens.
 $wc-header-h1-size-small: $wc-section-header-size !default;
+// the space between the section box and its content. This is reversed to "doc" a menu.
+$wc-section-space-normal: $wc-gap-normal !default;
+// the space between the section box and its content. This is reversed to "doc" a menu.
+$wc-section-space-reduced: $wc-phone-gap-normal !default;
 
 // Back to top link
 // Not generic but not actually a WComponent either. A purely client-side artefact.
