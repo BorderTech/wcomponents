@@ -34,7 +34,8 @@ textarea {
 
 	select {
 		&[multiple],
-		&[size] {
+		&[size],
+		&[disabled] {
 			@include border($color: $wc-ui-color-border-form-control);
 		}
 	}
