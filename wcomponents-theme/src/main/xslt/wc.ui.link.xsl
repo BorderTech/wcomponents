@@ -56,14 +56,32 @@
 				</xsl:with-param>
 			</xsl:call-template>
 
+			<xsl:variable name="noopener" select="'noopener'"/>
+			<xsl:variable name="noreferrer" select="'noreferrer'"/>
+
 			<xsl:choose>
 				<xsl:when test="$elementType='a'">
 					<xsl:attribute name="href">
 						<xsl:value-of select="@url"/>
 					</xsl:attribute>
-					<xsl:if test="@rel">
+					<xsl:if test="@rel or windowAttributes">
 						<xsl:attribute name="rel">
-							<xsl:value-of select="@rel"/>
+							<xsl:choose>
+								<xsl:when test="@rel">
+									<xsl:value-of select="@rel"/>
+									<xsl:if test="ui:windowAttributes">
+										<xsl:if test="not(contains(@rel, $noopener))">
+											<xsl:value-of select="concat(' ', $noopener)"/>
+										</xsl:if>
+										<xsl:if test="not(contains(@rel, $noreferrer))">
+											<xsl:value-of select="concat(' ', $noreferrer)"/>
+										</xsl:if>
+									</xsl:if>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="concat($noopener, ' ', $noreferrer)"/>
+								</xsl:otherwise>
+							</xsl:choose>
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:if test="ui:windowAttributes">
