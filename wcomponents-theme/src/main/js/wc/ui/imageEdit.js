@@ -665,7 +665,19 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 					if (callbacks.validate) {
 						callbacks.validate(fbCanvas.getElement()).then(function(error) {
 							if (error) {
-								callbacks.lose(error);
+								if (error.ignorable) {
+									prompt.confirm(error, function(ignoreValidationError) {
+										if (ignoreValidationError) {
+											saveFunc();
+										}
+										else {
+											callbacks.lose();
+										}
+									});
+								}
+								else {
+									callbacks.lose(error);
+								}
 							}
 							else {
 								saveFunc();
@@ -921,7 +933,7 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 							classList.remove(container, "wc_showcam");
 						}
 						else {
-							prompt("No context was supplied to getSnapshot()");
+							prompt.alert("No context was supplied to getSnapshot()");
 						}
 					}
 				};

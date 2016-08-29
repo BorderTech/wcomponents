@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-22 09:23+1000\n"
+"POT-Creation-Date: 2016-08-29 13:58+1000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,6 +69,14 @@ msgstr ""
 #, java-format
 msgctxt "validation_common_undermin"
 msgid "%1$s must have at least %2$s options selected."
+msgstr ""
+
+#. 
+#. TRANSLATORS: A validation error has occurred but the user is able to override it and continue anyway
+#: validation_common_ignore
+#, java-format
+msgctxt "validation_common_ignore"
+msgid "Do you wish to continue anyway?"
 msgstr ""
 
 #. 
