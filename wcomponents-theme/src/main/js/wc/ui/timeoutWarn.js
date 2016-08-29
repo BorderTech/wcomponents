@@ -197,13 +197,13 @@ define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/load
 		 *
 		 * @module
 		 * @requires external:lib/sprintf
-		 * @requires module:wc/xml/xslTransform
 		 * @requires module:wc/dom/event
 		 * @requires module:wc/dom/Widget
 		 * @requires module:wc/i18n/i18n
 		 * @requires module:wc/loader/resource
 		 * @requires module:wc/dom/shed
 		 * @requires module:wc/timers
+		 * @requires module:wc/dom/classList
 		 * @requires module:wc/config
 		 *
 		 * @todo Document private members, check source order.
