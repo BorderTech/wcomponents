@@ -1,5 +1,5 @@
-define(["lib/sprintf", "wc/xml/xslTransform", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/loader/resource", "wc/dom/shed", "wc/timers", "wc/template", "wc/config"],
-	function(sprintf, xslTransform, event, Widget, i18n, loader, shed, timers, template, wcconfig) {
+define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/loader/resource", "wc/dom/shed", "wc/timers", "wc/dom/classList", "wc/config"],
+	function(sprintf, event, Widget, i18n, loader, shed, timers, classList, wcconfig) {
 		"use strict";
 		/**
 		 * @constructor
@@ -123,13 +123,17 @@ define(["lib/sprintf", "wc/xml/xslTransform", "wc/dom/event", "wc/dom/Widget", "
 			 */
 			function expire() {
 				getDialog("error").then(function(errorDf) {
-					var body, header, title, container = getContainer();
+					var body, header, title, container = getContainer(), section;
 					if (container) {
 						container.innerHTML = "";
 						title = i18n.get("messagetitle_error"),
 						header = i18n.get("timeout_expired_header");
 						body = i18n.get("timeout_expired_body");
 						container.innerHTML = sprintf.sprintf(errorDf, title, header, body);
+						if ((section = container.firstChild)) {
+							classList.remove(section, "wc-messagebox-type-warn");
+							classList.add(section, "wc-messagebox-type-error");
+						}
 						if (shed.isHidden(container, true)) {
 							showDialog(container);  // re-show it if the warning was closed by the user
 						}
@@ -193,13 +197,13 @@ define(["lib/sprintf", "wc/xml/xslTransform", "wc/dom/event", "wc/dom/Widget", "
 		 *
 		 * @module
 		 * @requires external:lib/sprintf
-		 * @requires module:wc/xml/xslTransform
 		 * @requires module:wc/dom/event
 		 * @requires module:wc/dom/Widget
 		 * @requires module:wc/i18n/i18n
 		 * @requires module:wc/loader/resource
 		 * @requires module:wc/dom/shed
 		 * @requires module:wc/timers
+		 * @requires module:wc/dom/classList
 		 * @requires module:wc/config
 		 *
 		 * @todo Document private members, check source order.
