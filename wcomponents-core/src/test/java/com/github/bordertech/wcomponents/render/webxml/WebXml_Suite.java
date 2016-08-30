@@ -95,6 +95,7 @@ import org.junit.runners.Suite;
 	WTextRenderer_Test.class,
 	WTimeoutWarningRenderer_Test.class,
 	WToggleButtonRenderer_Test.class,
+	WTreeRenderer_Test.class,
 	WValidationErrorsRenderer_Test.class,
 	WVideoRenderer_Test.class,
 	// Performance tests

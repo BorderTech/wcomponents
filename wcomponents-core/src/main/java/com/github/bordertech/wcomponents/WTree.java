@@ -400,6 +400,9 @@ public class WTree extends AbstractInput
 
 	/**
 	 * Retrieves a URL for the tree item image.
+	 * <p>
+	 * This method is used by the WTree Renderer.
+	 * </p>
 	 *
 	 * @param item the tree item
 	 * @param itemId the tree item id
@@ -613,9 +616,9 @@ public class WTree extends AbstractInput
 		}
 
 		if (isShuffle()) {
-			handleShuffleRequest(request);
+			handleShuffleState(request);
 		}
-		handleExpandedRequest(request);
+		handleExpandedState(request);
 
 		return changed;
 	}
@@ -720,39 +723,6 @@ public class WTree extends AbstractInput
 	}
 
 	/**
-	 * Handles a request containing row expansion data.
-	 *
-	 * @param request the request containing row expansion data.
-	 */
-	private void handleExpandedRequest(final Request request) {
-
-		String[] paramValue = request.getParameterValues(getId() + ".open");
-		if (paramValue == null) {
-			paramValue = new String[0];
-		}
-
-		String[] expandedRowIds = removeEmptyStrings(paramValue);
-		Set<String> newExpansionIds = new HashSet<>();
-
-		if (expandedRowIds != null) {
-			int offset = getItemIdPrefix().length();
-			for (String expandedRowId : expandedRowIds) {
-				if (expandedRowId.length() <= offset) {
-					LOG.warn("Expanded row id [" + expandedRowId + "] does not have a valid prefix and will be ignored.");
-					continue;
-				}
-				String itemId = expandedRowId.substring(offset);
-				if (isValidTreeItem(itemId)) {
-					newExpansionIds.add(itemId);
-				} else {
-					LOG.warn("Expanded row id [" + itemId + "] is not valid and will be ignored.");
-				}
-			}
-		}
-		setExpandedRows(newExpansionIds);
-	}
-
-	/**
 	 * Handles a request containing an open request.
 	 *
 	 * @param request the request containing row open request.
@@ -803,7 +773,7 @@ public class WTree extends AbstractInput
 	 *
 	 * @param request the request being processed
 	 */
-	private void handleShuffleRequest(final Request request) {
+	private void handleShuffleState(final Request request) {
 
 		String json = request.getParameter(getId() + ".shuffle");
 		if (Util.empty(json)) {
@@ -839,6 +809,39 @@ public class WTree extends AbstractInput
 				invokeLater(later);
 			}
 		}
+	}
+
+	/**
+	 * Handle the current expanded state.
+	 *
+	 * @param request the request containing row expansion data.
+	 */
+	private void handleExpandedState(final Request request) {
+
+		String[] paramValue = request.getParameterValues(getId() + ".open");
+		if (paramValue == null) {
+			paramValue = new String[0];
+		}
+
+		String[] expandedRowIds = removeEmptyStrings(paramValue);
+		Set<String> newExpansionIds = new HashSet<>();
+
+		if (expandedRowIds != null) {
+			int offset = getItemIdPrefix().length();
+			for (String expandedRowId : expandedRowIds) {
+				if (expandedRowId.length() <= offset) {
+					LOG.warn("Expanded row id [" + expandedRowId + "] does not have a valid prefix and will be ignored.");
+					continue;
+				}
+				String itemId = expandedRowId.substring(offset);
+				if (isValidTreeItem(itemId)) {
+					newExpansionIds.add(itemId);
+				} else {
+					LOG.warn("Expanded row id [" + itemId + "] is not valid and will be ignored.");
+				}
+			}
+		}
+		setExpandedRows(newExpansionIds);
 	}
 
 	/**

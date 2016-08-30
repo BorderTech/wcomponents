@@ -1,13 +1,11 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.TreeItemUtil;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -18,47 +16,6 @@ import org.junit.Test;
  * @since 1.2.0
  */
 public class WTree_Test extends AbstractWComponentTestCase {
-
-	private static final List<MyBean> DATA = new ArrayList<>();
-	private static final MyBean BEAN_A = new MyBean("A");
-	private static final MyBean BEAN_B = new MyBean("B");
-	private static final MyBean BEAN_B_1 = new MyBean("B.1");
-	private static final MyBean BEAN_B_2 = new MyBean("B.2");
-	private static final MyBean BEAN_C = new MyBean("C");
-	private static final MyBean BEAN_C_1 = new MyBean("C.1");
-	private static final MyBean BEAN_C_1_1 = new MyBean("C.1.1");
-	private static final MyBean BEAN_C_1_1_1 = new MyBean("C.1.1.1");
-
-	private static final Set<String> SELECTED_B_C_1;
-	private static final Set<String> SELECTED_B_2;
-
-	static {
-		// A - No Children
-		DATA.add(BEAN_A);
-
-		// B - Has One Level of children
-		DATA.add(BEAN_B);
-		BEAN_B.getChildren().add(BEAN_B_1);
-		BEAN_B.getChildren().add(BEAN_B_2);
-
-		// C - Has Three levels of children
-		DATA.add(BEAN_C);
-		BEAN_C.getChildren().add(BEAN_C_1);
-		BEAN_C_1.getChildren().add(BEAN_C_1_1);
-		BEAN_C_1_1.getChildren().add(BEAN_C_1_1_1);
-
-		// Selected
-		Set<String> sel = new HashSet<>();
-		sel.add(BEAN_B.getName());
-		sel.add(BEAN_C_1.getName());
-		SELECTED_B_C_1 = Collections.unmodifiableSet(sel);
-
-		// Selected
-		sel = new HashSet<>();
-		sel.add(BEAN_B_2.getName());
-		SELECTED_B_2 = Collections.unmodifiableSet(sel);
-
-	}
 
 	@Test
 	public void testConstructorDefault() {
@@ -91,7 +48,7 @@ public class WTree_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTreeModelAccessors() {
-		assertAccessorsCorrect(new WTree(), "treeModel", EmptyTreeItemModel.INSTANCE, new MyTestModel(Collections.EMPTY_LIST), new MyTestModel(Collections.EMPTY_LIST));
+		assertAccessorsCorrect(new WTree(), "treeModel", EmptyTreeItemModel.INSTANCE, new MockTreeItemData.MyTestModel(Collections.EMPTY_LIST), new MockTreeItemData.MyTestModel(Collections.EMPTY_LIST));
 	}
 
 	@Test
@@ -158,13 +115,13 @@ public class WTree_Test extends AbstractWComponentTestCase {
 		Assert.assertNull("Value as String should be null for empty", tree.getValueAsString());
 
 		// Selected
-		tree.setSelectedRows(SELECTED_B_2);
-		Assert.assertEquals("Value as String should be BEAN_B_2", BEAN_B_2.getName(), tree.getValueAsString());
+		tree.setSelectedRows(MockTreeItemData.SELECTED_B_2);
+		Assert.assertEquals("Value as String should be BEAN_B_2", MockTreeItemData.BEAN_B_2.getId(), tree.getValueAsString());
 	}
 
 	@Test
 	public void testDoHandleRequestNothingSelected() {
-		WTree tree = setupTree();
+		WTree tree = MockTreeItemData.setupTree();
 		MockRequest request = setupRequest(tree);
 		boolean changed = tree.doHandleRequest(request);
 		Assert.assertEquals("Should have no option selected", Collections.EMPTY_SET, tree.getSelectedRows());
@@ -173,17 +130,17 @@ public class WTree_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testDoHandleRequestWithValidOption() {
-		WTree tree = setupTree();
-		MockRequest request = setupRequest(tree, BEAN_B_2.getName());
+		WTree tree = MockTreeItemData.setupTree();
+		MockRequest request = setupRequest(tree, MockTreeItemData.BEAN_B_2.getId());
 		boolean changed = tree.doHandleRequest(request);
-		Assert.assertEquals("Should have option BEAN_B_2 selected", SELECTED_B_2, tree.getSelectedRows());
+		Assert.assertEquals("Should have option BEAN_B_2 selected", MockTreeItemData.SELECTED_B_2, tree.getSelectedRows());
 		Assert.assertTrue("doHandleRequest should have returned true", changed);
 	}
 
 	@Test
 	public void testDoHandleRequestWithInvalidOption() {
-		WTree tree = setupTree();
-		tree.setSelectedRows(SELECTED_B_C_1);
+		WTree tree = MockTreeItemData.setupTree();
+		tree.setSelectedRows(MockTreeItemData.SELECTED_B_C_1);
 		MockRequest request = setupRequest(tree, "XX");
 		boolean changed = tree.doHandleRequest(request);
 		Assert.assertEquals("Should have no option selected", Collections.EMPTY_SET, tree.getSelectedRows());
@@ -192,34 +149,74 @@ public class WTree_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testDoHandleRequestWithSameOption() {
-		WTree tree = setupTree();
-		tree.setSelectedRows(SELECTED_B_2);
-		MockRequest request = setupRequest(tree, BEAN_B_2.getName());
+		WTree tree = MockTreeItemData.setupTree();
+		tree.setSelectedRows(MockTreeItemData.SELECTED_B_2);
+		MockRequest request = setupRequest(tree, MockTreeItemData.BEAN_B_2.getId());
 		boolean changed = tree.doHandleRequest(request);
-		Assert.assertEquals("Should have option BEAN_B_2 selected", SELECTED_B_2, tree.getSelectedRows());
+		Assert.assertEquals("Should have option BEAN_B_2 selected", MockTreeItemData.SELECTED_B_2, tree.getSelectedRows());
 		Assert.assertFalse("doHandleRequest should have returned false", changed);
 	}
 
 	@Test
 	public void testGetRequestValue() {
 
-		WTree tree = setupTree();
-		tree.setSelectedRows(SELECTED_B_C_1);
+		WTree tree = MockTreeItemData.setupTree();
+		tree.setSelectedRows(MockTreeItemData.SELECTED_B_C_1);
 
 		// Empty Request, should return current selected
 		MockRequest request = new MockRequest();
-		Assert.assertEquals("Should return the current selected option for an empty request", SELECTED_B_C_1, tree.getRequestValue(request));
+		Assert.assertEquals("Should return the current selected option for an empty request", MockTreeItemData.SELECTED_B_C_1, tree.getRequestValue(request));
 
 		// OptionB_2 on the Request
-		request = setupRequest(tree, BEAN_B_2.getName());
-		Assert.assertEquals("getRequestValue should return the option on the request", SELECTED_B_2,
+		request = setupRequest(tree, MockTreeItemData.BEAN_B_2.getId());
+		Assert.assertEquals("getRequestValue should return the option on the request", MockTreeItemData.SELECTED_B_2,
 				tree.getRequestValue(request));
 	}
 
-	private WTree setupTree() {
+	@Test
+	public void testIsEmpty() {
+
+		WTree tree = MockTreeItemData.setupTree();
+		Assert.assertTrue("Should be empty by default.", tree.isEmpty());
+
+		tree.setSelectedRows(MockTreeItemData.SELECTED_B_C_1);
+		Assert.assertFalse("Should not be empty with selected rows.", tree.isEmpty());
+	}
+
+	@Test
+	public void testCustomTreeAccessors() {
+		assertAccessorsCorrect(new WTree(), "customTree", null, new TreeItemIdNode("A"), new TreeItemIdNode("B"));
+	}
+
+	@Test
+	public void testCustomTreeJson() {
 		WTree tree = new WTree();
-		tree.setTreeModel(new MyTestModel(DATA));
-		return tree;
+		tree.setCustomTree(MockTreeItemData.TEST_BASIC_JSON);
+		TreeItemIdNode custom = tree.getCustomTree();
+		Assert.assertTrue("Invalid tree returned for JSON.", TreeItemUtil.isTreeSame(custom, MockTreeItemData.TEST_BASIC_TREE));
+	}
+
+	@Test
+	public void testGetItemImageUrlWithNoImage() {
+		WTree tree = MockTreeItemData.setupTree();
+		// Idx for Item B
+		List<Integer> idx = Arrays.asList(1);
+		TreeItemImage image = tree.getTreeModel().getItemImage(idx);
+		String itemId = tree.getTreeModel().getItemId(idx);
+		String url = tree.getItemImageUrl(image, itemId);
+		Assert.assertNull("Url for an item with no image should be null.", url);
+	}
+
+	@Test
+	public void testGetItemImageUrlWithUrl() {
+		// TODO Also test static resource and Image resource
+		WTree tree = MockTreeItemData.setupTree();
+		// Idx for Item A
+		List<Integer> idx = Arrays.asList(0);
+		TreeItemImage image = tree.getTreeModel().getItemImage(idx);
+		String itemId = tree.getTreeModel().getItemId(idx);
+		String url = tree.getItemImageUrl(image, itemId);
+		Assert.assertTrue("Incorrect Url for an item with an image.", url.contains("URL-A"));
 	}
 
 	private MockRequest setupRequest(final WTree tree, final String... options) {
@@ -234,117 +231,6 @@ public class WTree_Test extends AbstractWComponentTestCase {
 			request.setParameter(tree.getId(), options);
 		}
 		return request;
-	}
-
-	/**
-	 * Test tree item model.
-	 */
-	private static class MyTestModel extends AbstractTreeItemModel {
-
-		private final List<MyBean> data;
-
-		public MyTestModel(final List<MyBean> data) {
-			this.data = data;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String getItemId(final List<Integer> row) {
-			// Use the label as the key
-			return getRowBean(row).getName();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String getItemLabel(final List<Integer> row) {
-			return getRowBean(row).getName();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public int getRowCount() {
-			return DATA.size();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public int getChildCount(final List<Integer> row) {
-			return getRowBean(row).getChildren().size();
-		}
-
-		/**
-		 *
-		 * @param row the row index
-		 * @return the bean for the row
-		 */
-		private MyBean getRowBean(final List<Integer> row) {
-			// Top level bean
-			MyBean bean = data.get(row.get(0));
-			if (row.size() > 1) {
-				for (Integer rowIdx : row.subList(1, row.size() - 1)) {
-					bean = bean.getChildren().get(rowIdx);
-				}
-			}
-			return bean;
-		}
-	}
-
-	/**
-	 * Test bean.
-	 */
-	private static class MyBean implements Serializable {
-
-		private final String name;
-		private final String url;
-		private final List<MyBean> children = new ArrayList<>();
-
-		/**
-		 * @param name the label name
-		 */
-		public MyBean(final String name) {
-			this(name, null);
-		}
-
-		/**
-		 *
-		 * @param name the label name
-		 * @param url the image URL
-		 */
-		public MyBean(final String name, final String url) {
-			this.name = name;
-			this.url = url;
-		}
-
-		/**
-		 * @return the label name
-		 */
-		public String getName() {
-			return name;
-		}
-
-		/**
-		 *
-		 * @return the image URL or null
-		 */
-		public String getUrl() {
-			return url;
-		}
-
-		/**
-		 * @return the list of child beans
-		 */
-		public List<MyBean> getChildren() {
-			return children;
-		}
-
 	}
 
 }
