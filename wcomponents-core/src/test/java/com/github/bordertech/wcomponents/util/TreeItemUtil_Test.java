@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.util;
 
+import com.github.bordertech.wcomponents.MockTreeItemData;
 import com.github.bordertech.wcomponents.TreeItemIdNode;
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,14 +13,6 @@ import org.junit.Test;
  */
 public class TreeItemUtil_Test {
 
-	private static final String TEST_MULTI_JSON = "{\"root\":[{\"id\":\"A\"},{\"id\":\"B\",\"items\":[{\"id\":\"B.1\",\"items\":[{\"id\":\"B.1.1\"}]},{\"id\":\"B.2\"}]},{\"id\":\"C\"}]}";
-
-	private static final TreeItemIdNode TEST_MULTI_TREE = createTreeMulti();
-
-	private static final String TEST_BASIC_JSON = "{\"root\":[{\"id\":\"A\"}]}";
-
-	private static final TreeItemIdNode TEST_BASIC_TREE = createTreeBasic();
-
 	@Test
 	public void testConvertTreeToJsonEmpty() {
 		String json = TreeItemUtil.convertTreeToJson(new TreeItemIdNode(null));
@@ -28,14 +21,14 @@ public class TreeItemUtil_Test {
 
 	@Test
 	public void testConvertTreeToJsonBasic() {
-		String json = TreeItemUtil.convertTreeToJson(TEST_BASIC_TREE);
-		Assert.assertEquals("Invalid json returned for basic tree", TEST_BASIC_JSON, json);
+		String json = TreeItemUtil.convertTreeToJson(MockTreeItemData.TEST_BASIC_TREE);
+		Assert.assertEquals("Invalid json returned for basic tree", MockTreeItemData.TEST_BASIC_JSON, json);
 	}
 
 	@Test
 	public void testConvertTreeToJsonMulti() {
-		String json = TreeItemUtil.convertTreeToJson(TEST_MULTI_TREE);
-		Assert.assertEquals("Invalid json returned for multiple rows", TEST_MULTI_JSON, json);
+		String json = TreeItemUtil.convertTreeToJson(MockTreeItemData.TEST_MULTI_TREE);
+		Assert.assertEquals("Invalid json returned for multiple rows", MockTreeItemData.TEST_MULTI_JSON, json);
 	}
 
 	@Test
@@ -54,7 +47,7 @@ public class TreeItemUtil_Test {
 
 	@Test
 	public void testConvertJsonToTreeBasic() {
-		TreeItemIdNode root = TreeItemUtil.convertJsonToTree(TEST_BASIC_JSON);
+		TreeItemIdNode root = TreeItemUtil.convertJsonToTree(MockTreeItemData.TEST_BASIC_JSON);
 		Assert.assertNotNull("Root node not returned", root);
 		Assert.assertEquals("Root should have one child", 1, root.getChildren().size());
 		TreeItemIdNode node = root.getChildren().get(0);
@@ -65,7 +58,7 @@ public class TreeItemUtil_Test {
 	@Test
 	public void testConvertJsonToTreeMultipleLevel() {
 
-		TreeItemIdNode root = TreeItemUtil.convertJsonToTree(TEST_MULTI_JSON);
+		TreeItemIdNode root = TreeItemUtil.convertJsonToTree(MockTreeItemData.TEST_MULTI_JSON);
 		Assert.assertNotNull("Root node not returned", root);
 		Assert.assertEquals("Root should have three children", 3, root.getChildren().size());
 
@@ -101,15 +94,15 @@ public class TreeItemUtil_Test {
 	@Test
 	public void testConvertJsonToTreeToJson() {
 		// JSON to Tree
-		TreeItemIdNode tree = TreeItemUtil.convertJsonToTree(TEST_MULTI_JSON);
+		TreeItemIdNode tree = TreeItemUtil.convertJsonToTree(MockTreeItemData.TEST_MULTI_JSON);
 		// Tree back to JSON
 		String json = TreeItemUtil.convertTreeToJson(tree);
-		Assert.assertEquals("JSON should be the same after conversion", TEST_MULTI_JSON, json);
+		Assert.assertEquals("JSON should be the same after conversion", MockTreeItemData.TEST_MULTI_JSON, json);
 	}
 
 	@Test
 	public void testConvertTreeToJsonToTree() {
-		TreeItemIdNode tree = createTreeMulti();
+		TreeItemIdNode tree = MockTreeItemData.createTreeMulti();
 		// Tree to JSON
 		String json = TreeItemUtil.convertTreeToJson(tree);
 		// JSON to Tree
@@ -118,63 +111,25 @@ public class TreeItemUtil_Test {
 		Assert.assertTrue("Tree should be the same after conversion", TreeItemUtil.isTreeSame(tree, tree2));
 	}
 
-	/**
-	 * @return a tree with multiple levels
-	 */
-	private static TreeItemIdNode createTreeMulti() {
-
-		TreeItemIdNode root = new TreeItemIdNode(null);
-
-		// A
-		root.addChild(new TreeItemIdNode("A"));
-
-		// B
-		TreeItemIdNode nodeB = new TreeItemIdNode("B");
-		root.addChild(nodeB);
-		// B.1
-		TreeItemIdNode nodeB1 = new TreeItemIdNode("B.1");
-		nodeB.addChild(nodeB1);
-		// B.1.1
-		nodeB1.addChild(new TreeItemIdNode("B.1.1"));
-		// B.2
-		nodeB.addChild(new TreeItemIdNode("B.2"));
-
-		// C
-		root.addChild(new TreeItemIdNode("C"));
-
-		return root;
-	}
-
 	@Test
 	public void testIsSameBasicTree() {
-		Assert.assertTrue("Tree is same - Basic tree", TreeItemUtil.isTreeSame(createTreeBasic(), createTreeBasic()));
+		Assert.assertTrue("Tree is same - Basic tree", TreeItemUtil.isTreeSame(MockTreeItemData.createTreeBasic(), MockTreeItemData.createTreeBasic()));
 	}
 
 	@Test
 	public void testIsSameMultiTree() {
-		Assert.assertTrue("Tree is same - Multi tree", TreeItemUtil.isTreeSame(createTreeMulti(), createTreeMulti()));
+		Assert.assertTrue("Tree is same - Multi tree", TreeItemUtil.isTreeSame(MockTreeItemData.createTreeMulti(), MockTreeItemData.createTreeMulti()));
 	}
 
 	@Test
 	public void testIsSameTreesDifferent() {
-		Assert.assertFalse("Trees are not the same", TreeItemUtil.isTreeSame(createTreeMulti(), createTreeBasic()));
+		Assert.assertFalse("Trees are not the same", TreeItemUtil.isTreeSame(MockTreeItemData.createTreeMulti(), MockTreeItemData.createTreeBasic()));
 	}
 
 	@Test
 	public void testCopyTree() {
-		TreeItemIdNode copy = TreeItemUtil.copyTreeNode(TEST_MULTI_TREE);
-		Assert.assertTrue("Copy of tree should be the same", TreeItemUtil.isTreeSame(TEST_MULTI_TREE, copy));
-	}
-
-	/**
-	 *
-	 * @return a basic tree with one level
-	 */
-	private static TreeItemIdNode createTreeBasic() {
-		TreeItemIdNode root = new TreeItemIdNode(null);
-		// A
-		root.addChild(new TreeItemIdNode("A"));
-		return root;
+		TreeItemIdNode copy = TreeItemUtil.copyTreeNode(MockTreeItemData.TEST_MULTI_TREE);
+		Assert.assertTrue("Copy of tree should be the same", TreeItemUtil.isTreeSame(MockTreeItemData.TEST_MULTI_TREE, copy));
 	}
 
 }
