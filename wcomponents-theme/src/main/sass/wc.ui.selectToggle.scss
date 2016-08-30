@@ -6,14 +6,19 @@
 .wc_seltog {
 	> button {
 		margin-left: $wc-gap-normal;
-		text-decoration: underline;
 
 		&:first-child {
 			margin-left: 0;
 		}
 	}
 
-	&[role='checkbox']  + label {
+	&[role='checkbox'] + label {
 		margin-left: $wc-gap-small;
 	}
+
+	&[data-wc-value][aria-checked='true'] {
+		font-weight: bold;
+	}
 }
+
+@import 'wc.ui.selectToggleIcons';

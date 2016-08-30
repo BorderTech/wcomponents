@@ -1,6 +1,6 @@
-define(["wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/dom/shed", "wc/config",
+define(["wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/config", "wc/ui/prompt",
 	"wc/loader/resource", "wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/template", "getUserMedia"],
-function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabric, dialogFrame, template, getUserMedia) {
+function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fabric, dialogFrame, template, getUserMedia) {
 	var imageEdit = new ImageEdit();
 
 	/**
@@ -69,16 +69,18 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 									multiFileUploader.upload(uploader, [file]);
 								}
 								else {
+									var win = function(files) {
+										multiFileUploader.upload(uploader, files, true);
+									};
+									var lose = function(message) {
+										if (message) {
+											prompt.alert(message);
+										}
+									};
 									imageEdit.editFiles({
 										id: id,
 										name: element.getAttribute("data-wc-editor")
-									}).then(function(files) {
-										multiFileUploader.upload(uploader, files, true);
-									}, function(message) {
-										if (message) {
-											alert(message);
-										}
-									});
+									}, win, lose);
 								}
 							}
 						}
@@ -120,69 +122,74 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 		 * @param {Object} obj An object with a "files" property that references an array of File blobs to be edited and a registered "id" or "name".
 		 * @returns {Promise} resolved with an array of File blobs that have potentially been edited by the user.
 		 */
-		this.editFiles = function(obj) {
-			var config = imageEdit.getConfig(obj),
-				promise = new Promise(function(resolve, reject) {
-					var file, idx = 0, result = [], files = obj.files;
+		this.editFiles = function(obj, onSuccess, onError) {
+			var config = imageEdit.getConfig(obj);
+			var file, idx = 0, result = [], files = obj.files,
+				done = function(arg) {
 					try {
-						if (files) {
-							if (has("dom-canvas")) {
-								editNextFile();
-							}
-							else {
-								resolve(files);
-							}
-						}
-						else if (config.camera) {
-							promise = editFile(config, null).then(saveEditedFile, reject);
-						}
+						onSuccess(arg);
 					}
-					catch (ex) {
-						reject();
+					finally {
+						dialogFrame.close();
 					}
-
-					/*
-					 * Once the user has commited their changes buffer the result and see if there is another file queued for editing.
-					 */
-					function saveEditedFile(file) {
-						result.push(file);
+				};
+			try {
+				if (files) {
+					if (has("dom-canvas")) {
 						editNextFile();
 					}
-
-					/*
-					 * Prompt the user to edit the next file in the queue.
-					 */
-					function editNextFile() {
-						if (files && idx < files.length) {
-							file = files[idx++];
-							if (file.type.indexOf("image/") === 0) {
-								promise = editFile(config, file).then(saveEditedFile, reject);
-							}
-							else {
-								saveEditedFile(file);
-							}
-						}
-						else {
-							resolve(result);
-						}
+					else {
+						done(files);
 					}
-				});
-			return promise;
+				}
+				else if (config.camera) {
+					editFile(config, null, saveEditedFile, onError);
+				}
+			}
+			catch (ex) {
+				onError(ex);
+			}
+
+			/*
+			 * Once the user has commited their changes buffer the result and see if there is another file queued for editing.
+			 */
+			function saveEditedFile(file) {
+				result.push(file);
+				editNextFile();
+			}
+
+			/*
+			 * Prompt the user to edit the next file in the queue.
+			 */
+			function editNextFile() {
+				if (files && idx < files.length) {
+					file = files[idx++];
+					if (file.type.indexOf("image/") === 0) {
+						editFile(config, file, saveEditedFile, onError);
+					}
+					else {
+						saveEditedFile(file);
+					}
+				}
+				else {
+					done(result);
+				}
+			}
 		};
 
 		/**
 		 * Promise is resolved with the edited image when editing completed.
 		 * @param {Object} config Options for the image editor
 		 * @param {File} file The image to edit.
-		 * @returns {Promise} Resolved with File.
+		 * @param {function} win callback on success (passed a File)
+		 * @param {function} lose callback on error
 		 */
-		function editFile(config, file) {
-			var promise = new Promise(function(resolve, reject) {
-				var callbacks = {
-					win: resolve.bind(promise),
-					lose: reject.bind(promise)
-				};
-				getEditor(config, callbacks, file).then(function() {
+		function editFile(config, file, win, lose) {
+			var callbacks = {
+					win: win,
+					lose: lose
+				},
+				gotEditor = function() {
 					var fileReader;
 					fbCanvas = new fabric.Canvas("wc_img_canvas");
 					fbCanvas.setWidth(config.width || defaults.width);
@@ -204,9 +211,16 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 							height: fbCanvas.getHeight()
 						});
 					}
+				};
+			if (config.face) {
+				require(["wc/ui/facetracking"], function(facetracking) {
+					callbacks.validate = facetracking.getValidator(config);
+					getEditor(config, callbacks, file).then(gotEditor);
 				});
-			});
-			return promise;
+			}
+			else {
+				getEditor(config, callbacks, file).then(gotEditor);
+			}
 		};
 
 		/*
@@ -330,12 +344,15 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 		 * @private
 		 */
 		function getEditor(config, callbacks, file) {
-			var promise = new Promise(function(resolve, reject) {
-				var container = document.body.appendChild(document.createElement("div"));
-				container.className = "wc_img_editor";
+			var onDialogClose = getDialogFrameConfig(function() {
+				imageCapture.stop();
+				callbacks.lose();
+			});
 
-				loader.load(TEMPLATE_NAME, true, true).then(function(rawTemplate) {
-					var eventConfig, editorProps = {
+			function renderEditor() {
+				return loader.load(TEMPLATE_NAME, true, true).then(function(rawTemplate) {
+					var container = document.body.appendChild(document.createElement("div")),
+						eventConfig, editorProps = {
 							style: {
 								width: config.width || defaults.width,
 								height: config.height || defaults.height
@@ -344,6 +361,7 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 								face: false
 							}
 						};
+					container.className = "wc_img_editor";
 					template.process({
 						source: rawTemplate,
 						target: container,
@@ -363,23 +381,22 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 						classList.add(container, "wc_showcam");
 						imageCapture.snapshotControl(eventConfig, container);
 					}
-					resolve(container);
-				}, reject);
-			});
+					return container;
+				}).then(function(container) {
+					var dialogContent = dialogFrame.getContent();
 
-			return Promise.all([promise, dialogFrame.open(getDialogFrameConfig(function() {
-				imageCapture.stop();
-				callbacks.lose();
-			}))]).then(function(values) {
-				var dialogContent = dialogFrame.getContent(),
-					container = values[0];
+					if (dialogContent && container) {
+						dialogContent.innerHTML = "";
+						dialogContent.appendChild(container);
+						dialogFrame.reposition();
+					}
+				});
+			}
 
-				if (dialogContent && container) {
-					dialogContent.innerHTML = "";
-					dialogContent.appendChild(container);
-					dialogFrame.reposition();
-				}
-			});
+			if (dialogFrame.isOpen()) {
+				return renderEditor();
+			}
+			return dialogFrame.open(onDialogClose).then(renderEditor);
 		}
 
 		/**
@@ -621,9 +638,17 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 		 * Wires up the "cancel" feature.
 		 */
 		function cancelControl(eventConfig, editor, callbacks/* , file */) {
-			var click = eventConfig.click;
+			var click = eventConfig.click,
+				cancelFunc = function() {
+					try {
+						saveImage(editor, callbacks, true);
+					}
+					finally {
+						dialogFrame.close();
+					}
+				};
 			click.cancel = {
-				func: saveImage.bind(null, editor, callbacks, true)
+				func: cancelFunc
 			};
 		}
 
@@ -631,9 +656,41 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 		 * Wires up the "save" feature.
 		 */
 		function saveControl(eventConfig, editor, callbacks, file) {
-			var click = eventConfig.click;
+			var click = eventConfig.click,
+				saveFunc = function() {
+					saveImage(editor, callbacks, false, file);
+				};
 			click.save = {
-				func: saveImage.bind(null, editor, callbacks, false, file)
+				func: function () {
+					if (callbacks.validate) {
+						callbacks.validate(fbCanvas.getElement()).then(function(error) {
+							if (error) {
+								if (error.ignorable) {
+									prompt.confirm(error, function(ignoreValidationError) {
+										if (ignoreValidationError) {
+											saveFunc();
+										}
+										else {
+											callbacks.lose();
+										}
+									});
+								}
+								else {
+									callbacks.lose(error);
+								}
+							}
+							else {
+								saveFunc();
+							}
+
+						}, function() {
+							callbacks.lose();
+						});
+					}
+					else {
+						saveFunc();
+					}
+				}
 			};
 		}
 
@@ -677,7 +734,7 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 				}
 			}
 			finally {
-				dialogFrame.close();
+//				dialogFrame.close();
 				dialogFrame.resetContent();
 			}
 		}
@@ -876,7 +933,7 @@ function(has, event, uid, classList, timers, shed, wcconfig, loader, i18n, fabri
 							classList.remove(container, "wc_showcam");
 						}
 						else {
-							alert("No context was supplied to getSnapshot()");
+							prompt.alert("No context was supplied to getSnapshot()");
 						}
 					}
 				};

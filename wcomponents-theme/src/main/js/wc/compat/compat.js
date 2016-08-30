@@ -75,7 +75,20 @@ define(["wc/has"], function(has) {
 		});
 
 		addtest("flash", function(g) {
-			return g.navigator && g.navigator.plugins && g.navigator.plugins["Shockwave Flash"];
+			var flashPlayer, hasFlash = false;
+			if (has("activex")) {
+				try {
+					flashPlayer = new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
+					if (flashPlayer) {
+						hasFlash = true;
+					}
+				}
+				catch (ignore) {
+					// ignore
+				}
+			}
+			hasFlash = hasFlash || g.navigator && g.navigator.plugins && g.navigator.plugins["Shockwave Flash"];
+			return hasFlash;
 		});
 
 		addtest("bug-button-value", function(g, d) {

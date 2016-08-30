@@ -1,0 +1,89 @@
+/* wc.ui.htree.scss */
+@import 'mixins-common';
+
+// htree extends and replaces parts of tree.scss
+
+[role='tree'].wc_htree {
+	@include border;
+	overflow: auto;
+
+	[role='group'] {
+		@include max-content;
+		// @include fit-content($what: 'min-width');
+		@include border($pos: left, $width: $wc-gap-small); // the right border of each level in a tree: helps to see where the levels occur.
+		left: 100%; // calc(100% + #{$wc-gap-small});
+		min-height: 100%;
+		padding-left: 0;
+		position: absolute;
+		top: 0;
+
+		> :first-child {
+			padding-left: $wc-gap-small;
+			padding-right: $wc-gap-large;
+		}
+
+		&.wc_tree_root {
+			@include border($pos: left, $width: 0);
+			display: table;
+			left: 0;
+			position: relative;
+
+			> :first-child {
+				padding-left: 0;
+			}
+		}
+	}
+
+	[aria-expanded='true'] > [role='group'] {
+		display: table-cell;
+	}
+
+	[aria-expanded] > .wc_leaf {
+		@include flex($align-items: baseline);
+		width: 100%; // override .wc_leaf_vopener + button from wc.ui.tree.scss
+
+		> .wc_leaf_hopener {
+			@include flex-grow(1);
+			display: inline-block; // Only show hopener when we are in a branch opener.
+			padding: $wc-tree-item-pad-t $wc-tree-item-pad-r $wc-tree-item-pad-b 0;
+		}
+	}
+
+	.wc_branch_resizer {
+		display: block; // override default from tree.scss
+	}
+
+	.wc_leaf_vopener {
+		display: none;
+	}
+
+	.wc_leaf_img {
+		padding-left: $wc-tree-item-pad-l;
+	}
+
+	.wc_leaf_name {
+		padding: $wc-tree-item-pad-t $wc-tree-item-pad-r $wc-tree-item-pad-b $wc-tree-item-pad-l;
+	}
+}
+
+// container for the resize handle.
+.wc_branch_resizer {
+	@include border-box;
+	display: none;
+	height: $wc-icon-normal; // allow size for the absolutely positioned iconic button.
+	// margin-top: $wc-gap-small;
+	width: 100%;
+}
+
+// htree resize handles.
+.wc_branch_resize_handle {
+	@include padded-box($pad: 0 $wc-gap-small);
+	// bottom: 0;
+	position: absolute;
+	//right: 0;
+	right: -#{$wc-gap-normal};
+	top: 0;
+}
+
+@import 'wc.ui.htree.color';
+@import 'wc.ui.htreeIcons';

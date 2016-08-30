@@ -1,0 +1,18 @@
+// Colors for inline messages
+@import 'mixins-common';
+
+.wc-fieldindicator-type-error {
+	color: $wc-ui-color-error-fg;
+}
+
+.wc-fieldindicator-type-warn {
+	color: $wc-ui-color-warning-fg;
+}
+
+.wc-fieldindicator-type-info {
+	color: $wc-ui-color-info-fg;
+}
+
+.wc-fieldindicator-type-success {
+	color: $wc-ui-color-success-fg;
+}

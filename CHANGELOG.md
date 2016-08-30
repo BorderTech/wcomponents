@@ -2,11 +2,24 @@
 ## API Changes
 
 ## Bug Fixes
-* Fixed bug in XSLT of inline errors #847
-* Fixed bug in i18n of timeout warnings #846
-
+* Fixed a bug which prevented `WField`'s `inputWidth` setting from rendering correctly #854.
+* Fixed a bug in rendering of `WPartialDateField` and polyfilled `WDateField` #852.
+* Fixed UI bugs in WMenus #866, #867.
+* Fixed a Sass bug which caused ListLayouts with layout FLAT to lose intra-component space #869.
+* Fixed a bug which prevented a control which opens a WDialog from running a server Action #875.
+* Fixed a bug which caused image editor to fail if multiple files were attached at once #876.
+* Fixed a bug which prevented timeout warnings from rendering a session elapsed message correctly #890.
 
 ## Enhancements
+* Added a mechanism to add and remove multiple HTML class attribute values to a component #856.
+* Added a mechanism to mark a WButton as having an action only in the client #878.
+* Plugged a minor potential vulnerability in WLink #895.
+* Added a lot of Sass configuration options to `_common.scss` along with additional commentary #689.
+
+# Release 1.2.4
+## Bug Fixes
+* Fixed bug in XSLT of inline errors #847
+* Fixed bug in i18n of timeout warnings #846
 
 # Release 1.2.3
 ## API Changes

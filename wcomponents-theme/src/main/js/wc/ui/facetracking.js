@@ -1,28 +1,77 @@
-define(["wc/loader/prefetch", "tracking"], function(prefetch, tracking) {
-	var constraints = {  // constraints would ideally allow larger images on more powerful devices (or should we resize image?)
+define(["wc/isNumeric", "wc/i18n/i18n", "ccv", "face"], function(isNumeric, i18n, ccv, cascade) {
+	var instance = {
+			track: trackFace,
+			getValidator: getValidator,
+			validationIgnorable: true
+		},
+		constraints = {  // constraints would ideally allow larger images on more powerful devices (or should we resize image?)
 			px: 640 * 480,
 			len: 99999
-		},
-		FACE_LIB = "lib/tracking/build/data/face-min";
+		};
 
-	prefetch.jsModule(FACE_LIB);
-
-	function findLargestFace(arr) {
-		var i, next, size, result = {
-				rect: arr[0],
-				size: getSize(arr[0])
-			};
-		for (i = 1; i < arr.length; i++) {
-			next = arr[i];
-			size = getSize(next);
-			if (size > result.size) {
-				result = {
-					rect: next,
-					size: size
-				};
+	function getValidator(config) {
+		/**
+		 * Validator that resolves with an error object if one was encountered, otherwise null
+		 * @param {Element} element the html canvas element to validate
+		 * @returns {Promise} resolved with null if all is good
+		 */
+		return function (element) {
+			// maybe this needs "minfaces" and "maxfaces" but realistically i think the only "face" use case will be 'one face, no more, no less'
+			var faceCount;
+			if (config.face === true) {
+				faceCount = 1;
 			}
-		}
-		return result.rect;
+			else if (isNumeric(config.face) && config.face > 0) {
+				faceCount = config.face;
+			}
+			if (config.face) {
+				return instance.track(element).then(function(arr) {
+					var error = {
+						ignorable: instance.validationIgnorable
+					};
+					if (arr) {
+						if (arr.length < config.face) {
+							error.message = i18n.get("imgedit_message_val_minface");
+							if (instance.validationIgnorable) {
+								error.message += "\n" + i18n.get("validation_common_ignore");
+							}
+							return error;
+						}
+						else if (arr.length > config.face) {
+							error.message = i18n.get("imgedit_message_val_maxface");
+							if (instance.validationIgnorable) {
+								error.message += "\n" + i18n.get("validation_common_ignore");
+							}
+							return error;
+						}
+					}
+				});
+			}
+			return Promise.resolve(null);
+		};
+	}
+
+	/**
+	 *
+	 * @param {Element} obj The html canvas element in which to find faces
+	 * @returns {Promise}
+	 */
+	function trackFace(obj) {
+		var result = new Promise(function(resolve, reject) {
+			try {
+				var faces = ccv.detect_objects({
+					canvas: obj,
+					cascade: cascade,
+					interval: 5,
+					min_neighbors: 1
+				});
+				resolve(faces);
+			}
+			catch (ex) {
+				reject(ex);
+			}
+		});
+		return result;
 	}
 
 	function getSize(obj) {
@@ -32,49 +81,5 @@ define(["wc/loader/prefetch", "tracking"], function(prefetch, tracking) {
 		return 0;
 	}
 
-	/**
-	 * Finds faces in an image.
-	 * @param {Element} obj The html IMG element in which to find faces.
-	 * @param {boolean} all If true resolves with all faces, otherwise it picks the largest face.
-	 * @returns {Promise}
-	 */
-	function trackFace(obj, all) {
-		var result = new Promise(function(resolve, reject) {
-			try {
-				// the require at this point is to avoid race conditions with the main tracking library and the "face" plugin
-				if (!obj) {
-					reject("Must provide an image");
-				}
-				else if (getSize(obj) > constraints.px || obj.src.length > constraints.len) {
-					reject("Image is too large");
-				}
-				else {
-					require([FACE_LIB], function() {
-						var tracker = new tracking.ObjectTracker("face");
-						tracker.setInitialScale(1);
-						tracker.setStepSize(2);
-						tracker.setEdgesDensity(0.1);
-						tracker.once("track", function(event) {
-							if (all) {
-								resolve(event.data);
-							}
-							else {
-								resolve(findLargestFace(event.data));
-							}
-						});
-						tracking.track(obj, tracker);
-					});
-				}
-			}
-			catch (ex) {
-				reject(ex);
-			}
-
-		});
-		return result;
-	}
-
-	return {
-		track: trackFace
-	};
+	return instance;
 });

@@ -53,6 +53,23 @@ public class WImageEditor extends AbstractWComponent {
 	}
 
 	/**
+	 * @return true if the image editor includes face detection.
+	 */
+	public boolean getIsFace() {
+		return getComponentModel().isFace;
+	}
+
+	/**
+	 * Set to true to turn on face detection.
+	 *
+	 * @param isFace turn face detection on or off.
+	 */
+	public void setIsFace(final boolean isFace) {
+		ImageEditModel model = getOrCreateComponentModel();
+		model.isFace = isFace;
+	}
+
+	/**
 	 * Retrieve the editor size.
 	 * <p>
 	 * Returns the size set via {@link #setSize(Dimension)}.
@@ -105,5 +122,6 @@ public class WImageEditor extends AbstractWComponent {
 		private String overlayUrl;
 		private Dimension size;
 		private boolean useCamera;
+		private boolean isFace;
 	}
 }

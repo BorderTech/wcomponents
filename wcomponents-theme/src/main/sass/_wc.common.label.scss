@@ -1,0 +1,94 @@
+/* wc.ui.label.scss */
+// styles for WLabel and the label emulators
+@import 'mixins-common';
+
+@if ($wc-ui-color-label-fg != -1) {
+	label {
+		background-color: $wc-ui-color-label-bg;
+		color: $wc-ui-color-label-fg;
+	}
+}
+
+ // hint is additional text for labels that describe other information for the related form element
+.wc-label-hint {
+	display: block;
+	@if ($wc-ui-color-label-hint != -1) {
+		color: $wc-ui-color-label-hint;
+	}
+	@if ($wc-label-hint-size > 0) {
+		font-size: $wc-label-hint-size;
+	}
+	@if ($wc-label-weight != normal) {
+		font-weight: normal;
+	}
+}
+
+// WLabel produces many things which are not label elements, so we have to use the class here.
+.wc-label {
+	// use inline-block to prevent a required marker flying off the end
+	display: inline-block;
+	@if ($wc-label-weight != normal) {
+		font-weight: $wc-label-weight;
+	}
+
+	@if ($wc-label-mandatory-indicator != 0) {
+		// mandatory indicator
+		&.wc_req {
+			@include border-box;
+			@include fit-content; // allows for better position of mandatory indicator.
+			max-width: 100%; // do not allow fit-content to grow too big.
+			padding-right: 1em;
+			position: relative; // for the placing of the mandatory indicator.
+
+			&:after {
+				@include mandatory-indicator;
+				position: absolute;
+				right: $wc-gap-small;
+				top: 0;
+			}
+		}
+	}
+}
+
+@if ($wc-label-mandatory-indicator != 0) {
+	// Mandatory indicator positioning in a label for a checkbox or radio.
+	[type='checkbox'],
+	[type='radio'] {
+		+ .wc_req {
+			&:before {
+				@include mandatory-indicator;
+				margin-right: $wc-gap-small;
+			}
+
+			&:after {
+				display: none;
+			}
+		}
+	}
+}
+
+// Label/read-only equivalent for a checkbox or radio button.
+// When WCheckBoxSelect/WRadioButtonSelect these labels do not have the wc-label class
+// as they are generated from options. TODO: We should fix that.
+input + label, // option in WCheckBoxSelect/WRadioButtonSelect
+.wc-selecttoggle + label, // labelled WSelectToggle in checkbox mode
+input + .wc-label, // need the class name to override the above default WLabel CSS
+.wc_ro + .wc-label {
+	// .wc-label's inline-block can cause the label to fall under the input when there is not enough room for the label
+	display: inline;
+	@if ($wc-label-weight != normal) {
+		font-weight: normal;
+	}
+	margin-left: $wc-gap-small;
+}
+
+label + input {
+	margin-left: $wc-gap-small;
+}
+
+.wc-off {
+	+ label,
+	+ input {
+		margin-left: 0;
+	}
+}

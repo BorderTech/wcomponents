@@ -15,7 +15,8 @@ import org.junit.runners.Suite;
 	BorderLayout_Test.class,
 	ColumnLayout_Test.class,
 	FlowLayout_Test.class,
-	GridLayout_Test.class
+	GridLayout_Test.class,
+	ListLayout_Test.class
 })
 public class Layout_Suite {
 }

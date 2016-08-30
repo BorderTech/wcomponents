@@ -595,6 +595,11 @@ public class WButton_Test extends AbstractWComponentTestCase {
 				getButtonValue(true, true, true, true, true, false));
 	}
 
+	@Test
+	public void testClientCommandOnlyAccessors() {
+		assertAccessorsCorrect(new WButton("client"), "clientCommandOnly", false, true, false);
+	}
+
 	/**
 	 * Returns the text for a button created with the given data.
 	 *

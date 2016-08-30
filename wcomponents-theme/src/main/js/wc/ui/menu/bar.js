@@ -14,9 +14,6 @@ define(["wc/ui/menu/core",
 	"lib/handlebars/handlebars",
 	"wc/ui/viewportUtils",
 	"wc/ui/menu/menuItem"],
-	/** @param abstractMenu @param toArray @param event @param keyWalker @param shed @param Widget @param initialise
-	 * @param uid @param i18n@param classList @param timers @param processResponse @param loader @param handlebars
-	 * @param viewportUtils @ignore */
 	function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid, i18n, classList, timers, processResponse, loader, handlebars, viewportUtils) {
 		"use strict";
 
@@ -279,7 +276,8 @@ define(["wc/ui/menu/core",
 				var branch,
 					opener,
 					label,
-					props = {};
+					props = {},
+					closeButton;
 				if (el && instance.isSubMenu(el)) {
 					closeButtonTemplate = closeButtonTemplate || getTemplate("submenuCloseButton.mustache");
 					if ((branch = instance._getBranch(el)) && (opener = instance._getBranchOpener(branch))) {
@@ -307,6 +305,10 @@ define(["wc/ui/menu/core",
 						props.content = i18n.get("menu_close_label");
 					}
 					el.insertAdjacentHTML("afterBegin", closeButtonTemplate(props));
+					closeButton = el.firstChild;
+					if (!closeButton.id) {
+						closeButton.id = uid();
+					}
 				}
 			}
 

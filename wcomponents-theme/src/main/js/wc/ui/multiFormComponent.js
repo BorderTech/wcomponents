@@ -18,6 +18,7 @@
  * @requires module:wc/i18n/i18n
  * @requires module:wc/ui/selectLoader
  * @requires module:wc/timers
+ * @requires module:wc/ui/prompt
  * @requires module:wc/ui/ajaxRegion
  * @todo Document private members, fix source order.
  */
@@ -32,9 +33,9 @@ define(["wc/has",
 		"wc/i18n/i18n",
 		"wc/ui/selectLoader",
 		"wc/timers",
+		"wc/ui/prompt",
 		"wc/ui/ajaxRegion"],
-	/** @param has wc/has @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param focus wc/dom/focus @param shed wc/dom/shed @param uid wc/dom/uid @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param selectLoader wc/ui/selectLoader @param timers wc/timers @param ajaxRegion wc/ui/ajaxRegion @ignore */
-	function(has, attribute, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers, ajaxRegion) {
+	function(has, attribute, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers, prompt, ajaxRegion) {
 		"use strict";
 
 		/**
@@ -300,7 +301,7 @@ define(["wc/has",
 						repaint(element);
 					}
 					else {
-						window.alert(i18n.get("mfc_max"));
+						prompt.alert(i18n.get("mfc_max"));
 					}
 
 				}

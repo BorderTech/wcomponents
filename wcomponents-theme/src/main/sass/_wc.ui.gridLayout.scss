@@ -1,0 +1,23 @@
+/* wc.ui.gridLayout.scss */
+@import 'mixins-common';
+
+// **READ THIS FIRST.**
+// GridLayout was first implemented as a CSS variation on a Java Swing or AWT GridLayout. It is not a general purpose
+// layout tool and is considered "legacy" and is best avoided. See https://github.com/BorderTech/wcomponents/wiki/WPanel-GridLayout
+
+// The styles in this file assume we allow nested grids or grids with other nested layouts. It would make less CSS if
+// we did not assume this as we could get of the intermediate row class in the  width settings.
+
+// rows in the GridLayout.
+.wc_gl_row {
+	@include flex;
+}
+
+// Width of grid cells for various numbers of columns.
+@for $i from 1 through 12 {
+	.wc-gridlayout-col-#{$i} > .wc_gl_row > .wc-cell {
+		width: percentage(1 / $i);
+	}
+}
+
+@import 'gridLayout.respond';

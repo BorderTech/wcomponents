@@ -1,0 +1,22 @@
+/* wc.ui.feedback.messages.scss */
+// WFieldWarningIndicator
+// WFieldErrorIndicator
+// WValidationErrors (server side validation) when "inline"
+// Client side validation error messages if plugin included
+@import 'mixins-common';
+
+.wc-fieldindicator {
+	display: block;
+	margin-top: $wc-gap-small;
+
+	> span {
+		display: block;
+
+		+ span {
+			margin-top: $wc-gap-small;
+		}
+	}
+}
+
+@import 'wc.common.messages.colors';
+@import 'wc.common.messagesIcons';

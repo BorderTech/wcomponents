@@ -33,7 +33,7 @@
 	&.severe {
 		&:before {
 			@include border-box;
-			color: $std-color-white;
+			color: $wc-ui-color-global-bg;
 			display: block;
 			font-weight: bold;
 			margin-bottom: $wc-gap-normal;

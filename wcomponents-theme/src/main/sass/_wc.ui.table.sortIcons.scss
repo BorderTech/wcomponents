@@ -1,0 +1,15 @@
+@import 'mixins-common';
+
+th {
+	&[aria-sort]:after {
+		content: $fa-var-caret-down;
+	}
+
+	&[sorted]:after {
+		content: $fa-var-caret-square-o-up;
+	}
+
+	&[sorted~='reversed']:after {
+		content: $fa-var-caret-square-o-down;
+	}
+}

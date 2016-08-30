@@ -1,6 +1,6 @@
 // Flex layout mixins
-// We do not even pretend to support IE10 flexbox. There are a few *.ie10.scss files which have IE10 flexbox so
-// maybe we have a reason for IE10 flexbox mixins if anyone could be bothered making them.
+// We do not even pretend to support IE10 flexbox. There were a few *.ie10.scss files which had IE10 flexbox but it is
+// really unreliable. It was usually easier to let IE10 fall back to IE9 none-flexy rendering.
 
 // Vendor prefixes still required for Safari. All other modern browsers seem OK.
 // scss-lint:disable VendorPrefix DuplicateProperty

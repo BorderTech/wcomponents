@@ -1,6 +1,8 @@
 /* wc.ui.section.color.scss */
 @import 'mixins-common';
 
+// Also see wc.common.section
+
 .wc-section > .wc-decoratedlabel {
 	background-color: $wc-ui-color-section-heading-bg;
 	color: $wc-ui-color-section-heading-fg;
@@ -18,7 +20,7 @@
 	}
 
 	.wc-nobutton[disabled],
-	.wc-nobutton[disabled],
+	.wc-linkbutton[disabled],
 	a[aria-disabled='true'] {
 		color: $wc-ui-color-section-heading-fg-disabled;
 	}

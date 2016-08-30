@@ -66,7 +66,7 @@ define(["wc/dom/classList",
 						initWidth: dialogObj.width,  // useful if we do not allow resize below initial size
 						initHeight: dialogObj.height,
 						modal: dialogObj.modal || false,
-						triggerid: dialogObj.triggerid,
+						openerId: dialogObj.triggerid,
 						title: dialogObj.title || i18n.get("dialog_noTitle")
 					};
 					registryByDialogId[dialogObj.id] = triggerId;

@@ -70,6 +70,11 @@
 					<xsl:call-template name="commonWrapperAttributes">
 						<xsl:with-param name="isError" select="$isError"/>
 						<xsl:with-param name="myLabel" select="$myLabel"/>
+						<xsl:with-param name="class">
+							<xsl:if test="$readOnly=1">
+								<xsl:text>wc_ro</xsl:text>
+							</xsl:if>
+						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:if test="@ajax=$t">
 						<xsl:attribute name="data-wc-ajaxalias">
