@@ -14,13 +14,16 @@ $wc-mono-font: monospace !default;
 // If you are mucking around here you may want to go look at the generic section heading sizes (in the SPACING and REM
 // SIZES section) and WHeading styles below.
 
-// Font size small screens (phone-like). You should probably leave this as it is.
-$wc-default-font-size: 100% !default;
 // sizes for screens which are not small but not particularly big. Pick any reasonable value for this.
 $wc-desktop-font-size: 75% !default;
+// Font size small screens (phone-like). You should probably leave this as it is. If this is set to -1 or is the same
+// as $wc-desktop-font-size then the CSS media block will not be written.
+$wc-phone-font-size: 100% !default;
 // font size on really large, dense monitors (eg Apple cinema and thunderbolt displays) where small fonts become too
-// tiny to be useful. Pick a value but test it out on someone old.
+// tiny to be useful. Pick a value but test it out on someone old. If this is set to -1 or is the same as
+// $wc-desktop-font-size then the CSS media block will not be written.
 $wc-bigscreen-font-size: 100% !default;
+
 // mobile menus - used only to make the menu items bigger for easier touch use.
 $wc-font-larger: 1.5rem !default;
 
@@ -100,6 +103,10 @@ $wc-dialog-header-size: $wc-section-header-size !default;
 $wc-header-h1-size-full: 2.25rem !default;
 // h1 in the screen header on small screens.
 $wc-header-h1-size-small: $wc-section-header-size !default;
+// the space between the section box and its content. This is reversed to "doc" a menu.
+$wc-section-space-normal: $wc-gap-normal !default;
+// the space between the section box and its content. This is reversed to "doc" a menu.
+$wc-section-space-reduced: $wc-phone-gap-normal !default;
 
 // Back to top link
 // Not generic but not actually a WComponent either. A purely client-side artefact.
