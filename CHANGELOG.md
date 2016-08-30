@@ -14,6 +14,7 @@
 * Added a mechanism to add and remove multiple HTML class attribute values to a component #856.
 * Added a mechanism to mark a WButton as having an action only in the client #878.
 * Plugged a minor potential vulnerability in WLink #895.
+* Added a lot of Sass configuration options to `_common.scss` along with additional commentary #689.
 
 # Release 1.2.4
 ## Bug Fixes
