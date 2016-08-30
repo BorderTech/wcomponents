@@ -19,7 +19,9 @@ body {
 	background-color: $wc-ui-color-global-bg;
 	color: $wc-ui-color-global-fg;
 	font-family: $wc-default-font;
-	font-size: $wc-desktop-font-size;
+	@if ($wc-desktop-font-size != 100%) {
+		font-size: $wc-desktop-font-size;
+	}
 	height: 100%; // body to fill viewport for event propagation.
 }
 // END HTML and BODY structure.
@@ -143,7 +145,14 @@ pre {
 
 // This is non-standard but quite important. Zoom should not be disabled in a web appno matter how much pain it causes
 // designers. It is an a11y thing and I cannot use your site on my phone without it.
-@include viewport {
+// cannot use a mixin with Vaadin Sass compiler.
+@-ms-viewport {
+	user-zoom: zoom;
+	width: extend-to-zoom;
+	zoom: 1;
+}
+
+@viewport {
 	user-zoom: zoom;
 	width: extend-to-zoom;
 	zoom: 1;

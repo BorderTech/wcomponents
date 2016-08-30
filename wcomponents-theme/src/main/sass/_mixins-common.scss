@@ -220,14 +220,3 @@
 	margin: 0;
 	padding: 0;
 }
-
-/// create a viewport media rule
-@mixin viewport() {
-	@-ms-viewport {
-		@content
-	}
-
-	@viewport {
-		@content
-	}
-}
