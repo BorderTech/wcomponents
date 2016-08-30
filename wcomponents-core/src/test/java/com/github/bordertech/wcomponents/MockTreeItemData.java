@@ -28,12 +28,12 @@ public class MockTreeItemData {
 	public static final List<MyBean> DATA = new ArrayList<>();
 	public static final MyBean BEAN_A = new MyBean("A");
 	public static final MyBean BEAN_B = new MyBean("B");
-	public static final MyBean BEAN_B_1 = new MyBean("B_1");
-	public static final MyBean BEAN_B_2 = new MyBean("B_2");
+	public static final MyBean BEAN_B_1 = new MyBean("B.1");
+	public static final MyBean BEAN_B_2 = new MyBean("B.2");
 	public static final MyBean BEAN_C = new MyBean("C");
-	public static final MyBean BEAN_C_1 = new MyBean("C_1");
-	public static final MyBean BEAN_C_1_1 = new MyBean("C_1_1");
-	public static final MyBean BEAN_C_1_1_1 = new MyBean("C_1_1_1");
+	public static final MyBean BEAN_C_1 = new MyBean("C.1");
+	public static final MyBean BEAN_C_1_1 = new MyBean("C.1.1");
+	public static final MyBean BEAN_C_1_1_1 = new MyBean("C.1.1.1");
 
 	public static final Set<String> SELECTED_B_C_1;
 	public static final Set<String> SELECTED_B_2;
@@ -80,12 +80,12 @@ public class MockTreeItemData {
 		TreeItemIdNode nodeB = new TreeItemIdNode("B");
 		root.addChild(nodeB);
 		// B.1
-		TreeItemIdNode nodeB1 = new TreeItemIdNode("B_1");
+		TreeItemIdNode nodeB1 = new TreeItemIdNode("B.1");
 		nodeB.addChild(nodeB1);
 		// B.1.1
-		nodeB1.addChild(new TreeItemIdNode("B_1_1"));
+		nodeB1.addChild(new TreeItemIdNode("B.1.1"));
 		// B.2
-		nodeB.addChild(new TreeItemIdNode("B_2"));
+		nodeB.addChild(new TreeItemIdNode("B.2"));
 
 		// C
 		root.addChild(new TreeItemIdNode("C"));
