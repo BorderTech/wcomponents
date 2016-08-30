@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.TreeItemIdNode;
 import com.github.bordertech.wcomponents.TreeItemImage;
+import com.github.bordertech.wcomponents.TreeItemModel;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WTree;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
@@ -11,7 +12,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import com.github.bordertech.wcomponents.TreeItemModel;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * The Renderer for the {@link WTree} component.
@@ -20,6 +22,11 @@ import com.github.bordertech.wcomponents.TreeItemModel;
  * @since 1.1.0
  */
 final class WTreeRenderer extends AbstractWebXmlRenderer {
+
+	/**
+	 * The logger instance for this class.
+	 */
+	private static final Log LOG = LogFactory.getLog(WTreeRenderer.class);
 
 	/**
 	 * Paints the given WTree.
@@ -37,6 +44,13 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 		String openId = tree.getOpenRequestItemId();
 		if (openId != null) {
 			handleOpenItemRequest(tree, xml, openId);
+			return;
+		}
+
+		// Check the tree has tree items (WCAG requirement)
+		TreeItemModel model = tree.getTreeModel();
+		if (model == null || model.getRowCount() <= 0) {
+			LOG.warn("Tree not rendered as it has no items.");
 			return;
 		}
 
