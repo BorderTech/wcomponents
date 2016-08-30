@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.registry.UIRegistry;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.Util;
@@ -324,6 +325,24 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	 */
 	public static String getIcon() {
 		return ICON_URL;
+	}
+
+	/**
+	 * Projects can override this method if different versions of the same Application need to be registered by
+	 * {@link UIRegistry}.
+	 * <p>
+	 * Projects need to make sure the implementation of {@link UIRegistry} used by the project uses this key correctly.
+	 * The default implementation of {@link UIRegistry} simply uses the class name returned by this method.
+	 * </p>
+	 * <p>
+	 * It is also important to note that the serialization of the WComponent tree using {@link WComponentRef} also
+	 * relies on this version key.
+	 * </p>
+	 *
+	 * @return the key used for the version of the application.
+	 */
+	protected String getUiVersionKey() {
+		return this.getClass().getName();
 	}
 
 	// --------------------------------
