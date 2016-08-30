@@ -342,7 +342,7 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 	 * @return the key used for the version of the application.
 	 */
 	protected String getUiVersionKey() {
-		return WApplication.class.getName();
+		return this.getClass().getName();
 	}
 
 	// --------------------------------
