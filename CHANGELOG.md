@@ -16,7 +16,9 @@
 * Added a mechanism to mark a WButton as having an action only in the client #878.
 * Plugged a minor potential vulnerability in WLink #895.
 * Added a lot of Sass configuration options to `_common.scss` along with additional commentary #689.
-
+* Projects can override a new method `getUiVersionKey()` in `WApplication` if different versions of the same Application
+  need to be registered by `UIRegistry` #894.
+ 
 # Release 1.2.4
 ## Bug Fixes
 * Fixed bug in XSLT of inline errors #847
