@@ -63,7 +63,6 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	public void setData(final Object data) {
 		// This override is necessary to maintain other internal state
 		DateFieldModel model = getOrCreateComponentModel();
-
 		try {
 			super.setData(convertDate(data));
 			model.text = null;
@@ -385,6 +384,17 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 		 * The maximum date value to allow.
 		 */
 		private Date maxDate;
+
+		/**
+		 * Maintain internal state.
+		 */
+		@Override
+		public void resetData() {
+			super.resetData();
+			DateFieldModel shared = (DateFieldModel) getSharedModel();
+			this.text = shared.text;
+			this.validDate = shared.validDate;
+		}
 
 	}
 }
