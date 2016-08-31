@@ -21,6 +21,8 @@
 * Projects can override a new method `getUiVersionKey()` in `WApplication` if different versions of the same Application
   need to be registered by `UIRegistry` #894.
 * New constructors in `WPartialDateField` to allow a padding character to be passed in #573.
+* Provide access to the backing `HttpServletRequest` in `ServletRequest` and a new helper method in `ServletUtil` to
+  determine the user's device #803.
  
 # Release 1.2.4
 ## Bug Fixes
