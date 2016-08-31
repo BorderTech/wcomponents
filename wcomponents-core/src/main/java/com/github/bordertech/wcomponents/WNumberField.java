@@ -508,5 +508,16 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		 */
 		private boolean validNumber = true;
 
+		/**
+		 * Maintain internal state.
+		 */
+		@Override
+		public void resetData() {
+			super.resetData();
+			NumberFieldModel shared = (NumberFieldModel) getSharedModel();
+			this.text = shared.text;
+			this.validNumber = shared.validNumber;
+		}
+
 	}
 }

@@ -212,6 +212,24 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 
 	}
 
+	@Test
+	public void testConstructorWithDefaultPadding() {
+		WPartialDateField partial = new WPartialDateField();
+		Assert.assertEquals("Incorrect default padding char", ' ', partial.getPaddingChar());
+	}
+
+	@Test
+	public void testConstructorWithCustomPadding() {
+		WPartialDateField partial = new WPartialDateField('X');
+		Assert.assertEquals("Incorrect custom padding char", 'X', partial.getPaddingChar());
+	}
+
+	@Test
+	public void testConstructorWithDateAndCustomPadding() {
+		WPartialDateField partial = new WPartialDateField(null, null, null, 'X');
+		Assert.assertEquals("Incorrect custom padding char", 'X', partial.getPaddingChar());
+	}
+
 	/**
 	 * test setPartialDate - with Integer inputs.
 	 */
@@ -428,6 +446,73 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 		dateField = processDoHandleRequestWithBadDate(); // Put a value in User Text and make sure it gets cleared
 		dateField.setDate(new Date());
 		Assert.assertNull("User text should be null when a valid date is set", dateField.getText());
+	}
+
+	@Test
+	public void testSetData() {
+
+		WPartialDateField dateField = new WPartialDateField();
+
+		setActiveContext(createUIContext());
+		dateField.setLocked(true);
+
+		// Valid value
+		String value = REQUEST_VALID_DATE_TEXT;
+		dateField.setData(value);
+		Assert.assertNull("Text should have been cleared", dateField.getText());
+		Assert.assertEquals("Data should have value set", value, dateField.getData());
+		Assert.assertTrue("Should be valid", dateField.isValidDate());
+
+		// Invalid value
+		dateField.setData(REQUEST_BAD_USER_TEXT);
+		Assert.assertEquals("Text should have bad date text", REQUEST_BAD_USER_TEXT, dateField.getText());
+		Assert.assertEquals("Data should have bad date text", REQUEST_BAD_USER_TEXT, dateField.getData());
+		Assert.assertFalse("Should be invalid", dateField.isValidDate());
+	}
+
+	@Test
+	public void testResetData() {
+
+		WPartialDateField dateField = new WPartialDateField();
+
+		setActiveContext(createUIContext());
+		dateField.setLocked(true);
+
+		// Has valid value
+		Date value = new Date();
+		dateField.setData(value);
+		// Reset Data
+		dateField.resetData();
+		Assert.assertNull("With reset Text should have been cleared", dateField.getText());
+		Assert.assertNull("With reset Data should be null", dateField.getData());
+		Assert.assertTrue("With reset should be valid", dateField.isValidDate());
+
+		// Invalid value
+		dateField.setData(REQUEST_BAD_USER_TEXT);
+		// Reset Data
+		dateField.resetData();
+		Assert.assertNull("With reset Text should have been cleared for invalid value", dateField.getText());
+		Assert.assertNull("With reset Data should be null for invalid value", dateField.getData());
+		Assert.assertTrue("With reset should be valid for invalid value", dateField.isValidDate());
+	}
+
+	@Test
+	public void testResetDataWithInvalidDefault() {
+
+		WPartialDateField dateField = new WPartialDateField();
+		dateField.setData(REQUEST_BAD_USER_TEXT);
+
+		setActiveContext(createUIContext());
+		dateField.setLocked(true);
+
+		// Has valid value
+		Date value = new Date();
+		dateField.setData(value);
+		// Reset Data (should go back to invalid)
+		dateField.resetData();
+		Assert.assertEquals("Text should have bad date text", REQUEST_BAD_USER_TEXT, dateField.getText());
+		Assert.assertEquals("Data should have bad date text", REQUEST_BAD_USER_TEXT, dateField.getData());
+		Assert.assertFalse("Should be invalid", dateField.isValidDate());
 	}
 
 	@Test

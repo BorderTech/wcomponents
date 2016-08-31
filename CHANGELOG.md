@@ -9,7 +9,9 @@
 * Fixed a bug which prevented a control which opens a WDialog from running a server Action #875.
 * Fixed a bug which caused image editor to fail if multiple files were attached at once #876.
 * Fixed a bug which prevented timeout warnings from rendering a session elapsed message correctly #890.
-* Fixed a bug where WTree was adding an open item request to expanded rows #762.
+* Fixed a bug where `WTree` was adding an open item request to expanded rows #762.
+* Fixed a bug where `resetData()` was not handled correctly in `WNumberField`, `WDateField`
+  and `WPartialDateField` #896.
 
 ## Enhancements
 * Added a mechanism to add and remove multiple HTML class attribute values to a component #856.
@@ -18,6 +20,7 @@
 * Added a lot of Sass configuration options to `_common.scss` along with additional commentary #689.
 * Projects can override a new method `getUiVersionKey()` in `WApplication` if different versions of the same Application
   need to be registered by `UIRegistry` #894.
+* New constructors in `WPartialDateField` to allow a padding character to be passed in #573.
  
 # Release 1.2.4
 ## Bug Fixes
