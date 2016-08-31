@@ -806,8 +806,62 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 		WDateField dateField = processDoHandleRequestWithValidDate();
 		Assert.assertEquals("Incorrect text", REQUEST_VALID_USER_TEXT, dateField.getText());
 
-		dateField.setData(new Date());
-		Assert.assertEquals("Text should have been cleared", null, dateField.getText());
+		// Valid value
+		Date value = new Date();
+		dateField.setData(value);
+		Assert.assertNull("Text should have been cleared", dateField.getText());
+		Assert.assertEquals("Data should have value set", value, dateField.getData());
+		Assert.assertTrue("Should be valid", dateField.isParseable());
+
+		// Invalid value
+		dateField.setData(REQUEST_BAD_USER_TEXT);
+		Assert.assertEquals("Text should have bad date text", REQUEST_BAD_USER_TEXT, dateField.getText());
+		Assert.assertEquals("Data should have bad date text", REQUEST_BAD_USER_TEXT, dateField.getData());
+		Assert.assertFalse("Should be invalid", dateField.isParseable());
+	}
+
+	@Test
+	public void testResetData() {
+		WDateField dateField = new WDateField();
+
+		setActiveContext(createUIContext());
+		dateField.setLocked(true);
+
+		// Has valid value
+		Date value = new Date();
+		dateField.setData(value);
+		// Reset Data
+		dateField.resetData();
+		Assert.assertNull("With reset Text should have been cleared", dateField.getText());
+		Assert.assertNull("With reset Data should be null", dateField.getData());
+		Assert.assertTrue("With reset should be valid", dateField.isParseable());
+
+		// Invalid value
+		dateField.setData(REQUEST_BAD_USER_TEXT);
+		// Reset Data
+		dateField.resetData();
+		Assert.assertNull("With reset Text should have been cleared for invalid value", dateField.getText());
+		Assert.assertNull("With reset Data should be null for invalid value", dateField.getData());
+		Assert.assertTrue("With reset should be valid for invalid value", dateField.isParseable());
+	}
+
+	@Test
+	public void testResetDataWithInvalidDefault() {
+
+		WDateField dateField = new WDateField();
+		dateField.setData(REQUEST_BAD_USER_TEXT);
+
+		setActiveContext(createUIContext());
+		dateField.setLocked(true);
+
+		// Has valid value
+		Date value = new Date();
+		dateField.setData(value);
+		// Reset Data (should go back to invalid)
+		dateField.resetData();
+		Assert.assertEquals("Text should have bad date text", REQUEST_BAD_USER_TEXT, dateField.getText());
+		Assert.assertEquals("Data should have bad date text", REQUEST_BAD_USER_TEXT, dateField.getData());
+		Assert.assertFalse("Should be invalid", dateField.isParseable());
 	}
 
 	/**

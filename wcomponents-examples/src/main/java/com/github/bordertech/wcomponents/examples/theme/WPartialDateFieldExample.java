@@ -35,8 +35,6 @@ public class WPartialDateFieldExample extends WContainer {
 	 */
 	public WPartialDateFieldExample() {
 
-
-
 		// First block with button Panel
 		WPanel wrapper = new WPanel();
 		add(wrapper);
@@ -134,7 +132,7 @@ public class WPartialDateFieldExample extends WContainer {
 		copyBtn.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				text.setText(dateField.getText());
+				text.setText(dateField.getValueAsString());
 			}
 		});
 
