@@ -162,6 +162,21 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 	}
 
 	/**
+	 * Creates a WPartialDateField with a specific padding character.
+	 *
+	 * The padding character used in the partial date value. The default padding character is a space. If the padding
+	 * character is a space, then the date value will be right trimmed to remove the trailing spaces.
+	 *
+	 * @param paddingChar the padding character used in the partial date value.
+	 */
+	public WPartialDateField(final char paddingChar) {
+		if (Character.isDigit(paddingChar)) {
+			throw new IllegalArgumentException("Padding character should not be a digit.");
+		}
+		getComponentModel().paddingChar = paddingChar;
+	}
+
+	/**
 	 * Creates a WPartialDateField with the specified date.
 	 *
 	 * @param day A number from 1 to 31 or null if unknown.
@@ -169,6 +184,19 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 	 * @param year A number, or null if unknown.
 	 */
 	public WPartialDateField(final Integer day, final Integer month, final Integer year) {
+		this(day, month, year, DEFAULT_PADDING_CHAR);
+	}
+
+	/**
+	 * Creates a WPartialDateField with the specified date and padding character.
+	 *
+	 * @param day A number from 1 to 31 or null if unknown.
+	 * @param month A number from 1 to 12, or null if unknown.
+	 * @param year A number, or null if unknown.
+	 * @param paddingChar the padding character used in the partial date value.
+	 */
+	public WPartialDateField(final Integer day, final Integer month, final Integer year, final char paddingChar) {
+
 		// Validate Year
 		if (!isValidYear(year)) {
 			throw new IllegalArgumentException(
@@ -190,8 +218,14 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 					+ DAY_MIN + " to " + DAY_MAX + ".");
 		}
 
-		String formatted = formatPartialDateToString(day, month, year, DEFAULT_PADDING_CHAR);
+		// Padding char
+		if (Character.isDigit(paddingChar)) {
+			throw new IllegalArgumentException("Padding character should not be a digit.");
+		}
+		getComponentModel().paddingChar = paddingChar;
 
+		// Format date
+		String formatted = formatPartialDateToString(day, month, year, paddingChar);
 		getComponentModel().setData(formatted);
 	}
 
@@ -225,11 +259,15 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		String formatted = formatPartialDateToString(day, month, year, getPaddingChar());
 
 		setData(formatted);
-		getOrCreateComponentModel().text = null;
-		getOrCreateComponentModel().validDate = true;
+		PartialDateFieldModel model = getOrCreateComponentModel();
+		model.text = null;
+		model.validDate = true;
 	}
 
 	/**
+	 * The padding character used in the partial date value. The default padding character is a space. If the padding
+	 * character is a space, then the date value will be right trimmed to remove the trailing spaces.
+	 *
 	 * @return the padding character used in the partial date value
 	 */
 	public char getPaddingChar() {
@@ -241,12 +279,13 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 	 * character is a space, then the date value will be right trimmed to remove the trailing spaces.
 	 *
 	 * @param paddingChar the padding character used in the partial date value.
+	 * @deprecated will be removed so padding character is immutable
 	 */
+	@Deprecated
 	public void setPaddingChar(final char paddingChar) {
 		if (Character.isDigit(paddingChar)) {
 			throw new IllegalArgumentException("Padding character should not be a digit.");
 		}
-
 		getOrCreateComponentModel().paddingChar = paddingChar;
 	}
 
@@ -278,9 +317,10 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		}
 
 		if (changed) {
-			getOrCreateComponentModel().text = text;
-			getOrCreateComponentModel().validDate = dateValue != null || text == null;
 			setData(dateValue);
+			PartialDateFieldModel model = getOrCreateComponentModel();
+			model.validDate = dateValue != null || text == null;
+			model.text = text;
 		}
 
 		return changed;
@@ -406,6 +446,34 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 	 */
 	public String getPartialDate() {
 		return getValue();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setData(final Object data) {
+		// This override is necessary to maintain other internal state
+		String value = data == null ? null : data.toString();
+
+		// Empty date is treated as null
+		if (Util.empty(value)) {
+			value = null;
+		}
+
+		// Check valid format
+		PartialDateFieldModel model = getOrCreateComponentModel();
+		if (value == null || isValidPartialDateStringFormat(value, getPaddingChar())) {
+			// Valid
+			model.text = null;
+			model.validDate = true;
+			super.setData(value);
+		} else {
+			// Invalid
+			model.text = value;
+			model.validDate = false;
+			super.setData(data);
+		}
 	}
 
 	/**
@@ -732,5 +800,17 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		 * The error message to display when the input fails the date validation check.
 		 */
 		private String errorMessage = InternalMessages.DEFAULT_VALIDATION_ERROR_INVALID_PARTIAL_DATE;
+
+		/**
+		 * Maintain internal state.
+		 */
+		@Override
+		public void resetData() {
+			super.resetData();
+			PartialDateFieldModel shared = (PartialDateFieldModel) getSharedModel();
+			this.text = shared.text;
+			this.validDate = shared.validDate;
+		}
+
 	}
 }

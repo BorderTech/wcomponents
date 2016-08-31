@@ -693,8 +693,62 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		WNumberField numberField = processDoHandleRequestWithValidNumber();
 		Assert.assertEquals("Incorrect text", REQUEST_VALID_NUMBER_TEXT, numberField.getText());
 
-		numberField.setData(BigDecimal.valueOf(1));
-		Assert.assertEquals("Text should have been cleared", null, numberField.getText());
+		// Valid value
+		BigDecimal value = BigDecimal.valueOf(1);
+		numberField.setData(value);
+		Assert.assertNull("Text should have been cleared", numberField.getText());
+		Assert.assertEquals("Data should have value set", value, numberField.getData());
+		Assert.assertTrue("Should be valid", numberField.isValidNumber());
+
+		// Invalid value
+		numberField.setData(REQUEST_BAD_NUMBER_TEXT);
+		Assert.assertEquals("Text should have bad number text", REQUEST_BAD_NUMBER_TEXT, numberField.getText());
+		Assert.assertEquals("Data should have bad number text", REQUEST_BAD_NUMBER_TEXT, numberField.getData());
+		Assert.assertFalse("Should be invalid", numberField.isValidNumber());
+	}
+
+	@Test
+	public void testResetData() {
+		WNumberField numberField = new WNumberField();
+
+		setActiveContext(createUIContext());
+		numberField.setLocked(true);
+
+		// Has valid value
+		BigDecimal value = BigDecimal.valueOf(1);
+		numberField.setData(value);
+		// Reset Data
+		numberField.resetData();
+		Assert.assertNull("With reset Text should have been cleared", numberField.getText());
+		Assert.assertNull("With reset Data should be null", numberField.getData());
+		Assert.assertTrue("With reset should be valid", numberField.isValidNumber());
+
+		// Invalid value
+		numberField.setData(REQUEST_BAD_NUMBER_TEXT);
+		// Reset Data
+		numberField.resetData();
+		Assert.assertNull("With reset Text should have been cleared for invalid value", numberField.getText());
+		Assert.assertNull("With reset Data should be null for invalid value", numberField.getData());
+		Assert.assertTrue("With reset should be valid for invalid value", numberField.isValidNumber());
+	}
+
+	@Test
+	public void testResetDataWithInvalidDefault() {
+
+		WNumberField numberField = new WNumberField();
+		numberField.setData(REQUEST_BAD_NUMBER_TEXT);
+
+		setActiveContext(createUIContext());
+		numberField.setLocked(true);
+
+		// Has valid value
+		BigDecimal value = BigDecimal.valueOf(1);
+		numberField.setData(value);
+		// Reset Data (should go back to invalid)
+		numberField.resetData();
+		Assert.assertEquals("Text should have bad number text", REQUEST_BAD_NUMBER_TEXT, numberField.getText());
+		Assert.assertEquals("Data should have bad number text", REQUEST_BAD_NUMBER_TEXT, numberField.getData());
+		Assert.assertFalse("Should be invalid", numberField.isValidNumber());
 	}
 
 	/**
