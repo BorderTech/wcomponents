@@ -63,9 +63,15 @@ public class ServletUtilDeviceType_Test {
 
 	@Test
 	public void testDeviceType() {
+
+		// HttpServletRequest
 		MockHttpServletRequest request = new MockHttpServletRequest();
 		request.setHeader("User-Agent", userAgent);
 		Assert.assertEquals("Incorrect device type for " + desc, expectedDeviceType, ServletUtil.getDevice(request));
+
+		// ServletRequest
+		ServletRequest req = new ServletRequest(request);
+		Assert.assertEquals("Incorrect device type for " + desc + " using ServletRequest", expectedDeviceType, ServletUtil.getDevice(req));
 	}
 
 }

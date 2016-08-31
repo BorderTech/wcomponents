@@ -721,7 +721,7 @@ public final class ServletUtil {
 	 */
 	public static DeviceType getDevice(final Request request) {
 		if (request instanceof ServletRequest) {
-			return getDevice((ServletRequest) request);
+			return getDevice(((ServletRequest) request).getBackingRequest());
 		}
 		return DeviceType.NORMAL;
 	}
