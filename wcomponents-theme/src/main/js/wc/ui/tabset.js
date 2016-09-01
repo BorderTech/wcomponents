@@ -438,11 +438,19 @@ define(["wc/array/toArray",
 			 * @param {Element} element the tab being opened or closed.
 			 */
 			this.activate = function(element) {
-				var container = this.getGroupContainer(element);
+				var container = this.getGroupContainer(element), tabset;
 
 				if (container) {
 					if (getAccordion(container)) {
-						shed.toggle(element, shed.actions.EXPAND);
+						tabset = TABSET.findAncestor(container);
+						if (tabset.getAttribute(CONVERTED)) {
+							if (!shed.isExpanded(element)) {
+								shed.expand(element);
+							}
+						}
+						else {
+							shed.toggle(element, shed.actions.EXPAND);
+						}
 					}
 					else if (!shed.isSelected(element)) {
 						shed.select(element);
@@ -638,7 +646,7 @@ define(["wc/array/toArray",
 			 * @private
 			 * @param {Element} accordion the accordion
 			 */
-			function AccordionToTabset(accordion) {
+			function accordionToTabset(accordion) {
 				var tablist,
 					successful,
 					candidates;
@@ -744,7 +752,7 @@ define(["wc/array/toArray",
 					candidates.forEach(tabsetToAccordion);
 				}
 				else {
-					candidates.forEach(AccordionToTabset);
+					candidates.forEach(accordionToTabset);
 				}
 			}
 
