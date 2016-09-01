@@ -12,6 +12,7 @@
 * Fixed a bug where `WTree` was adding an open item request to expanded rows #762.
 * Fixed a bug where `resetData()` was not handled correctly in `WNumberField`, `WDateField`
   and `WPartialDateField` #896.
+* Fixed a bug which could cause a tabset to get into an invalid state #899.
 
 ## Enhancements
 * Added a mechanism to add and remove multiple HTML class attribute values to a component #856.
@@ -23,7 +24,7 @@
 * New constructors in `WPartialDateField` to allow a padding character to be passed in #573.
 * Provide access to the backing `HttpServletRequest` in `ServletRequest` and a new helper method in `ServletUtil` to
   determine the user's device #803.
- 
+
 # Release 1.2.4
 ## Bug Fixes
 * Fixed bug in XSLT of inline errors #847
