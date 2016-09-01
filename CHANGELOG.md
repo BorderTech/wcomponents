@@ -2,6 +2,11 @@
 ## API Changes
 
 ## Bug Fixes
+
+## Enhancements
+
+# Release 1.2.5
+## Bug Fixes
 * Fixed a bug which prevented `WField`'s `inputWidth` setting from rendering correctly #854.
 * Fixed a bug in rendering of `WPartialDateField` and polyfilled `WDateField` #852.
 * Fixed UI bugs in WMenus #866, #867.
