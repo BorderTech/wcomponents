@@ -14,6 +14,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 	ServletRequest_Test.class,
 	ServletResponse_Test.class,
+	ServletUtilDeviceType_Test.class,
 	ThemeServlet_Test.class,
 	WServlet_Test.class,
 	WServletPerformance_Test.class

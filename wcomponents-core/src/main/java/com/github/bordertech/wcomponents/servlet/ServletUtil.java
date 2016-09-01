@@ -1,9 +1,11 @@
 package com.github.bordertech.wcomponents.servlet;
 
+import au.com.flyingkite.mobiledetect.UAgentInfo;
 import com.github.bordertech.wcomponents.AjaxHelper;
 import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.InternalResource;
 import com.github.bordertech.wcomponents.InternalResourceMap;
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContent;
@@ -37,6 +39,7 @@ import com.github.bordertech.wcomponents.container.WrongStepAjaxInterceptor;
 import com.github.bordertech.wcomponents.container.WrongStepContentInterceptor;
 import com.github.bordertech.wcomponents.container.WrongStepServerInterceptor;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
+import com.github.bordertech.wcomponents.util.DeviceType;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.RequestUtil;
@@ -686,4 +689,40 @@ public final class ServletUtil {
 
 	}
 
+	/**
+	 * Determine the user's device type from the {@link HttpServletRequest}.
+	 *
+	 * @param request the request being processed
+	 * @return the device type
+	 */
+	public static DeviceType getDevice(final HttpServletRequest request) {
+		// User agent
+		String userAgent = ((HttpServletRequest) request).getHeader("User-Agent");
+		if (Util.empty(userAgent)) {
+			LOG.warn("No User-Agent details in the request headers. Will assume normal device.");
+			return DeviceType.NORMAL;
+		}
+
+		// Check for device type
+		UAgentInfo agentInfo = new UAgentInfo(userAgent, null);
+		if (agentInfo.detectMobileQuick()) {
+			return DeviceType.MOBILE;
+		} else if (agentInfo.detectTierTablet()) {
+			return DeviceType.TABLET;
+		}
+		return DeviceType.NORMAL;
+	}
+
+	/**
+	 * Helper method that uses the current WComponents {@link Request} interface to determine the user's device type.
+	 *
+	 * @param request the request being processed
+	 * @return the device type
+	 */
+	public static DeviceType getDevice(final Request request) {
+		if (request instanceof ServletRequest) {
+			return getDevice(((ServletRequest) request).getBackingRequest());
+		}
+		return DeviceType.NORMAL;
+	}
 }
