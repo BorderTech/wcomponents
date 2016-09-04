@@ -6,6 +6,9 @@
 ## Enhancements
 
 # Release 1.2.5
+## API Changes
+* Added a new ServiceLoader API to inject custom configuration into WComponents using the interface ConfigurationLoader.
+
 ## Bug Fixes
 * Fixed a bug which prevented `WField`'s `inputWidth` setting from rendering correctly #854.
 * Fixed a bug in rendering of `WPartialDateField` and polyfilled `WDateField` #852.
