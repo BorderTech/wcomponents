@@ -24,7 +24,7 @@
 				<xsl:text>${script.debug.target.dir.name}</xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:text>${script.target.dir.name}</xsl:text>
+				<xsl:text>scripts</xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
@@ -33,7 +33,7 @@
 		processing instruction.
 	-->
 	<xsl:variable name="resourceRoot">
-		<xsl:value-of select="substring-before($xslPath, '${xslt.target.dir.name}')"/>
+		<xsl:value-of select="substring-before($xslPath, 'xslt')"/>
 	</xsl:variable>
 
 	<!--
@@ -47,7 +47,7 @@
 	<!-- base CSS file's path -->
 	<xsl:variable name="cssFilePath">
 		<xsl:value-of select="$resourceRoot"/>
-		<xsl:text>${css.target.dir.name}/${css.target.file.name}</xsl:text>
+		<xsl:text>style/${css.target.file.name}</xsl:text>
 		<xsl:if test="$isDebug=1">
 			<xsl:text>${debug.target.file.name.suffix}</xsl:text>
 		</xsl:if>

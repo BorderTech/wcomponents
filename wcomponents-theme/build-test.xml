@@ -49,8 +49,8 @@
 			<fileset dir="${intern.srcdir}/resources" excludesfile="${excludesfile}"  excludes="**/*.xml,**/*.html,**/*.css"/>
 			<fileset dir="${impl.intern.srcdir}/resources" excludesfile="${excludesfile}" excludes="**/*.xml,**/*.html,**/*.css" erroronmissingdir="false"/>
 		</copy>
-		<echo>Copying XSLT to test resources dir ${target.rootdir}/${xslt.target.dir.name}/${xsl.file.to.test}</echo>
-		<copy tofile="${intern.target.dir}/resources/wcomponents-all.xsl" file="${target.rootdir}/${xslt.target.dir.name}/${xsl.file.to.test}" failonerror="false"/><!-- Assumes there are no xsl imports or includes -->
+		<echo>Copying XSLT to test resources dir ${target.rootdir}/xslt/${xsl.file.to.test}</echo>
+		<copy tofile="${intern.target.dir}/resources/wcomponents-all.xsl" file="${target.rootdir}/xslt/${xsl.file.to.test}" failonerror="false"/><!-- Assumes there are no xsl imports or includes -->
 		<javascript.lint jsdir="${intern.target.dir}"/>
 	</target>
 
@@ -75,9 +75,9 @@
 		</if>
 		<property name="httpHost" value="${env.HOSTNAME}"/>
 		<property file="${properties.build.constants}"/>
-		<property name="xsl.build.path" value="${implementation.name}/${xslt.target.dir.name}" />
-		<property name="xml.build.path" value="${implementation.name}/${resource.target.dir.name}" />
-		<property name="css.build.path" value="${implementation.name}/${css.target.dir.name}" />
+		<property name="xsl.build.path" value="${implementation.name}/xslt" />
+		<property name="xml.build.path" value="${implementation.name}/resource" />
+		<property name="css.build.path" value="${implementation.name}/style" />
 		<if>
 			<equals arg1="${test.target.mode}" arg2="debug" />
 			<then>
@@ -85,7 +85,7 @@
 				<property name="xsl.file.to.test" value="${xslt.target.file.name}${debug.target.file.name.suffix}.xsl" />
 			</then>
 			<else>
-				<property name="jsunit.path.totest" value="${implementation.name}/${script.target.dir.name}"/>
+				<property name="jsunit.path.totest" value="${implementation.name}/scripts"/>
 				<property name="xsl.file.to.test" value="${xslt.target.file.name}.xsl" />
 			</else>
 		</if>

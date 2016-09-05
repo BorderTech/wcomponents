@@ -22,7 +22,7 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:call-template name="faviconHelper">
-					<xsl:with-param name="href" select="concat($resourceRoot,'${images.target.dir.name}/favicon.ico')"/>
+					<xsl:with-param name="href" select="concat($resourceRoot,'images/favicon.ico')"/>
 				</xsl:call-template>
 			</xsl:otherwise>
 		</xsl:choose>

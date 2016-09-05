@@ -39,25 +39,18 @@
 	<property name="properties.target.dir" location="${scratch.dir}" /><!-- Not tmp dir as it needs to persist from build to test -->
 	<property name="properties.build.constants" location="${properties.target.dir}/all.${implementation.name}.properties" />
 
-	<property name="images.target.dir.name" value="images"/>
 	<property name="images.to.base64.dataurls" value="true"/>
 
-	<property name="images.build.target.dir" location="${target.rootdir}/${images.target.dir.name}"/>
+	<property name="images.build.target.dir" location="${target.rootdir}/images"/>
 	<property name="images.tmp.src.dir" location="${tmp.dir}/images"/>
 	<property name="i18n.build.target.dir" location="${tmp.dir}/i18n"/>
 
 	<property name="debug.target.file.name.suffix" value="_debug"/>
-	<property name="script.target.dir.name" value="scripts"/>
-	<property name="script.debug.target.dir.name" value="${script.target.dir.name}${debug.target.file.name.suffix}"/>
-	<property name="css.target.dir.name" value="style"/>
-	<property name="resource.target.dir.name" value="resource"/>
-	<property name="xslt.target.dir.name" value="xslt"/>
-	<property name="images.target.dir.name" value="images"/>
-	<property name="examples.target.dir.name" value="examples"/>
+	<property name="script.debug.target.dir.name" value="scripts${debug.target.file.name.suffix}"/>
 	<property name="excludesfile" location="${impl.src.dir}/excludes.txt"/>
-	<property name="style.build.target.dir" location="${target.rootdir}/${css.target.dir.name}"/>
+	<property name="style.build.target.dir" location="${target.rootdir}/style"/>
 	<property name="script.debug.build.target.dir" location="${target.rootdir}/${script.debug.target.dir.name}"/>
-	<property name="resource.build.target.dir" location="${output.dir}/${implementation.name}/${resource.target.dir.name}" />
+	<property name="resource.build.target.dir" location="${output.dir}/${implementation.name}/resource" />
 	<!--
 		Note, the pattern "script.*.target.file.name" is important to the build scripts.
 		* compat scripts are loaded before the core
@@ -170,7 +163,7 @@
 			</echoproperties>
 		</sequential>
 	</macrodef>
-	
+
 	<!--
 		Reads a properties file and writes it in XML format.
 	-->

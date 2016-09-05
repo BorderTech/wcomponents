@@ -416,7 +416,6 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 			<!--
 				Obviously build properties must be built before anything else can be.
 			-->
-			<callant antFile="build-properties.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
 			<callant antFile="build-images.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
 			<callant antFile="build-resource.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
 			<callant antFile="build-css.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/><!-- build after images -->

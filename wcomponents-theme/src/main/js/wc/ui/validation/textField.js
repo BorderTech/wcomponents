@@ -8,9 +8,8 @@ define(["wc/dom/initialise",
 		"wc/ui/dateField",
 		"wc/ui/validation/required",
 		"wc/ui/validation/validationManager",
-		"wc/ui/textField",
-		"wc/config"],
-	function(initialise, Widget, i18n, attribute, event, getFirstLabelForElement, sprintf, dateField, required, validationManager, textField, wcconfig) {
+		"wc/ui/textField"],
+	function(initialise, Widget, i18n, attribute, event, getFirstLabelForElement, sprintf, dateField, required, validationManager, textField) {
 		"use strict";
 		/**
 		 * @constructor
@@ -25,9 +24,7 @@ define(["wc/dom/initialise",
 				INPUT_WIDGETS = textField.getWidget(),
 				WITH_PATTERN,
 				PATTERNS,
-				WITH_MIN,
-				conf = wcconfig.get("wc/ui/validation/textField"),
-				RX_STRING = ((conf && conf.rx) ? conf.rx : "${wc.ui.emailField.regex}");
+				WITH_MIN;
 
 			/**
 			 * Test for an input which we are interested in.
@@ -85,7 +82,7 @@ define(["wc/dom/initialise",
 					}
 					// pattern (first email)
 					if (EMAIL.isOneOfMe(element)) {
-						regexp = new RegExp(RX_STRING);
+						regexp = /^(?:".+"|[a-zA-Z0-9\.!#$%&'\*\+/=\?\^_`{\|}~-]+)@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/;
 						patternFlag = i18n.get("validation_email_format");
 					}
 					else if ((mask = element.getAttribute("pattern"))) {
@@ -209,10 +206,6 @@ define(["wc/dom/initialise",
 		/**
 		 * Provides functionality to undertake client validation for text inputs including WTextField, WEmailField,
 		 * WPhoneNumberField and WPasswordField.
-		 *
-		 * @typedef {Object} module:wc/ui/validation/textField.config() Optional module configuration.
-		 * @property {String} rx The email regular expression as a string.
-		 * @default "^(?:\\".+\\"|[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+)@[a-zA-Z0-9-]+(?:\\\\.[a-zA-Z0-9-]+)+$"
 		 *
 		 * @module wc/ui/validation/textField
 		 * @requires module:wc/dom/initialise

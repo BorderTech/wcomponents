@@ -12,7 +12,7 @@
 	<property name="script.tmp.src.dir" location="${tmp.dir}/src"/>
 	<property name="script.rootdir" location="${common.src.rootdir}/js"/>
 	<property name="impl.script.rootdir" location="${impl.src.main.dir}/js"/>
-	<property name="script.build.target.dir" location="${target.rootdir}/${script.target.dir.name}"/>
+	<property name="script.build.target.dir" location="${target.rootdir}/scripts"/>
 
 	<target name="build"
 		depends="init, copySrc, optimizeJS, copyLibs"

@@ -77,10 +77,10 @@
 			<xsl:text>options:{ backend: {</xsl:text>
 			<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')"/>
 			<xsl:text>} } },&#10;"wc/loader/resource": {</xsl:text>
-			<xsl:value-of select="concat('resourceBaseUrl:&quot;', normalize-space($resourceRoot), '${resource.target.dir.name}/&quot;,&#10;')"/>
+			<xsl:value-of select="concat('resourceBaseUrl:&quot;', normalize-space($resourceRoot), 'resource/&quot;,&#10;')"/>
 			<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')"/>
 			<xsl:text>},&#10;"wc/loader/style":{</xsl:text>
-			<xsl:value-of select="concat('cssBaseUrl:&quot;', normalize-space($resourceRoot), '${css.target.dir.name}/&quot;,&#10;')"/>
+			<xsl:value-of select="concat('cssBaseUrl:&quot;', normalize-space($resourceRoot), 'style/&quot;,&#10;')"/>
 			<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')"/>
 			<xsl:if test="$isDebug=1">
 				<xsl:text>,debug:1</xsl:text>

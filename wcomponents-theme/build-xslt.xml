@@ -12,9 +12,9 @@
 		"implementation.name". If not set then the xslt from "common" alone will be used.
 	-->
 	<import file="build-import.xml"/>
-	<property name="xslt.build.target.dir" location="${target.rootdir}/${xslt.target.dir.name}"/>
-	<property name="xsl.src.dir" location="${common.src.rootdir}/${xslt.target.dir.name}"/>
-	<property name="impl.xsl.src.dir" location="${impl.src.main.dir}/${xslt.target.dir.name}"/>
+	<property name="xslt.build.target.dir" location="${target.rootdir}/xslt"/>
+	<property name="xsl.src.dir" location="${common.src.rootdir}/xslt"/>
+	<property name="impl.xsl.src.dir" location="${impl.src.main.dir}/xslt"/>
 	<property name="xsl.tmp.src.dir" location="${tmp.dir}/xsl"/>
 	<property name="xsl.meta.xform.file.name" value="build_all.xsl"/>
 	<property name="xsl.meta.xform.strip_debug.file.name" value="build_strip_debug.xsl"/>
