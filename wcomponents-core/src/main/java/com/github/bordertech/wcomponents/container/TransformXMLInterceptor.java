@@ -1,10 +1,12 @@
 package com.github.bordertech.wcomponents.container;
 
 import com.github.bordertech.wcomponents.RenderContext;
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.Response;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.servlet.ServletRequest;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
@@ -18,6 +20,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.transform.Source;
 import javax.xml.transform.Templates;
 import javax.xml.transform.Transformer;
@@ -54,6 +57,8 @@ import org.apache.commons.logging.LogFactory;
  */
 public class TransformXMLInterceptor extends InterceptorComponent {
 
+	private static final String NO_XSLT_FLAG = "wcnoxslt";
+
 	/**
 	 * Cache compiled XSLT stylesheets.
 	 */
@@ -65,6 +70,33 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	private static final Log LOG = LogFactory.getLog(TransformXMLInterceptor.class);
 
 	/**
+	 * If true then server side XSLT will be ignored regardless of the configuration property.
+	 * This is to account for user agents that cannot handle HTML, yes such a thing exists.
+	 */
+	private boolean doTransform = false;
+
+	/**
+	 * Override preparePaint in order to perform processing specific to this interceptor.
+	 *
+	 * @param request the request being responded to.
+	 */
+	@Override
+	public void preparePaint(final Request request) {
+		doTransform = isPerformTransform();
+		if (doTransform && request instanceof ServletRequest) {
+			HttpServletRequest httpServletRequest = ((ServletRequest) request).getBackingRequest();
+			String userAgentString = httpServletRequest.getHeader("User-Agent");
+			/* It is possible to opt out on a case by case basis by setting a flag on the ua string.
+			 * This helps custom user agents that do not support HTML as well as facilitating debugging.
+			 */
+			if (userAgentString != null && userAgentString.contains(NO_XSLT_FLAG)) {
+				doTransform = false;
+			}
+		}
+		super.preparePaint(request);
+	}
+
+	/**
 	 * Override paint to perform XML to HTML transformation.
 	 *
 	 * @param renderContext the renderContext to send the output to.
@@ -72,7 +104,7 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	@Override
 	public void paint(final RenderContext renderContext) {
 
-		if (!isPerformTransform()) {
+		if (!doTransform) {
 			super.paint(renderContext);
 			return;
 		}
