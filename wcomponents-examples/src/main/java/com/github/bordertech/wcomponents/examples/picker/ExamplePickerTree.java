@@ -140,7 +140,7 @@ public class ExamplePickerTree extends WTree {
 		}
 
 		/**
-		 * @inheritDoc
+		 * {@inheritDoc}
 		 */
 		@Override
 		public String getItemLabel(final List<Integer> row) {
@@ -159,7 +159,7 @@ public class ExamplePickerTree extends WTree {
 		}
 
 		/**
-		 * @inheritDoc
+		 * {@inheritDoc}
 		 */
 		@Override
 		public int getRowCount() {
@@ -167,7 +167,7 @@ public class ExamplePickerTree extends WTree {
 		}
 
 		/**
-		 * @inheritDoc
+		 * {@inheritDoc}
 		 */
 		@Override
 		public int getChildCount(final List<Integer> row) {
