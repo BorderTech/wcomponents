@@ -25,6 +25,7 @@ public class ServletRequest extends AbstractRequest {
 	 * Stores the uploaded files for this request.
 	 */
 	private final Map<String, FileItem[]> files;
+
 	/**
 	 * The backing servlet request.
 	 */
@@ -39,6 +40,13 @@ public class ServletRequest extends AbstractRequest {
 		backing = aBacking;
 		parameters = ServletUtil.getRequestParameters(backing);
 		files = ServletUtil.getRequestFileItems(backing);
+	}
+
+	/**
+	 * @return the backing HttpServletRequest
+	 */
+	public HttpServletRequest getBackingRequest() {
+		return backing;
 	}
 
 	/**

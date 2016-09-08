@@ -190,10 +190,10 @@ caption {
 //*****************************************************************************
 // Row expansion
 //*****************************************************************************
-// The next lot does indentation of "child" rows when the table type is 'heirarchic'
+// The next lot does indentation of "child" rows
 @for $i from 2 to 6 {
-	.wc_tbl_hierarchic > [aria-level='#{$i}'] > .wc_table_rowexp_container {
-		~ td,
+	[aria-level='#{$i}'] > .wc_table_rowexp_container {
+		+ td,
 		+ th {
 			padding-left: ($i - 1) * $wc-gap-large;
 		}
@@ -294,100 +294,92 @@ th[aria-sort] {
 
 
 @include respond-phonelike {
-	.wc-respond {
-		> table {
-			&,
-			caption,
-			thead,
-			tfoot,
-			tbody,
-			tr,
-			th,
-			td {
-				@include border-box;
-				display: block;
-				width: 100%;
-			}
-
-			caption {
-				padding: $wc-gap-small 0;
-			}
-
-			tr {
-				+ tr[aria-level='1'],
-				+ tr:not([aria-level]) {
-					margin-top: $wc-gap-small;
-				}
-			}
-
-			th,
-			td {
-				padding: $wc-gap-small;
-			}
-
+	.wc-table.wc-respond {
+		table,
+		caption,
+		thead,
+		tfoot,
+		tbody,
+		tr,
+		th,
+		td {
+			@include border-box;
+			display: block;
+			width: 100%;
 		}
 
-		&.wc-table {
-			// nesting depth caused by the respond flag. Maybe turn this off?
-			// scss-lint:disable NestingDepth
-			.wc_table_sel_wrapper,
-			.wc_table_rowexp_container {
-				display: none;
+		caption {
+			padding: $wc-gap-small 0;
+		}
+
+		tr {
+			+ tr {
+				@include border($pos: top);
 			}
 
-			.wc_table_rowexp_container[role='button'] {
+			+ tr[aria-level='1'],
+			+ tr:not([aria-level]) {
+				margin-top: $wc-gap-small;
+			}
+		}
+
+		.wc_table_sel_wrapper,
+		.wc_table_rowexp_container {
+			display: none;
+		}
+
+		.wc_table_rowexp_container[role='button'] {
+			display: inline-block;
+			padding: $wc-gap-small 0;
+			width: auto;
+
+			+ .wc-th,
+			+ .wc-td {
 				display: inline-block;
-				padding: $wc-gap-small 0;
-				width: auto;
+				padding-left: 0;
+				width: calc(100% - $wc-icon-normal);
+			}
+		}
 
-				+ .wc-th,
-				+ .wc-td {
-					display: inline-block;
+		@for $i from 2 to 6 {
+			[aria-level='#{$i}'] {
+				padding-left: $i * $wc-gap-normal;
+
+				th,
+				td {
 					padding-left: 0;
-					width: calc(100% - $wc-icon-normal);
-				}
-
-				@for $i from 2 to 6 {
-					.wc_tbl_hierarchic > [aria-level='#{$i}'] {
-						padding-left: $i * $wc-gap-normal;
-
-						> th,
-						> td {
-							padding-left: 0; // override all the guff in the main CSS
-						}
-					}
 				}
 			}
+		}
 
-			> .wc_table_top_controls {
-				@include flex-direction(column);
+		.wc_table_top_controls {
+			@include flex-direction(column);
 
-				> div {
-					@include flex-shrink(1);
+			> div {
+				@include flex-shrink(1);
 
-					&:last-child {
-						@include flex-justify-content(flex-start);
-						text-align: left;
-					}
+				&:last-child {
+					@include flex-justify-content(flex-start);
+					text-align: left;
 				}
 			}
+		}
 
-			tr[aria-selected='true'] {
+		tr[aria-selected='true'] {
+			&,
+			&.wc-invite:hover,
+			&.wc-invite:focus {
+				background-color: $wc-ui-color-selected-bg;
+			}
+
+			> th,
+			> td {
+				// WARNING: you _may_ want to add overrides for coloured elements eg, headings.
 				&,
-				&.wc-invite:hover,
-				&.wc-invite:focus {
-					background-color: $wc-ui-color-selected-bg;
-				}
-
-				> th,
-				> td {
-					// WARNING: you _may_ want to add overrides for coloured elements eg, headings.
-					&,
-					a,
-					a:visited,
-					.wc-linkbutton {
-						color: $wc-ui-color-selected-fg;
-					}
+				a,
+				a:visited,
+				.wc-linkbutton {
+					color: $wc-ui-color-selected-fg;
 				}
 			}
 		}
