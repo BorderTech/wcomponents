@@ -1,0 +1,74 @@
+/* wc.common.combo.scss */
+@import 'mixins-common';
+// The following produce a combo box widget:
+// * WTextField, WEmailField or WPhoneNumberField with WSuggestions
+// * WPartialDateField
+// * WDateField if the browser does not support input type date
+// * WDropdown Type.COMBO.
+
+
+// padding-left + padding-right + icon width + a bit for the border.
+$wc-combo-button-width-allowance: 2 * $wc-combo-button-padding-lr + $wc-icon-normal + $wc-gap-small;
+
+// This redundant rule is not as redundant as you might think so just leave it be!
+datalist {
+	display: none;
+}
+
+// The wrapper for all combo widgets.
+[role='combobox'] {
+	display: inline-block;
+	position: relative;
+	white-space: nowrap;
+
+	@if ($wc-ui-color-error-bg != -1) {
+		// The whole combo is invalid but we only want to apply the background color to the textbox.
+		&[aria-invalid='true'] > input {
+			background-color: $wc-ui-color-error-bg;
+		}
+	}
+
+	input {
+		max-width: calc(100% - #{$wc-combo-button-width-allowance});
+	}
+
+	[role='listbox'] {
+		min-width: 100%;
+
+		dialog & {
+			min-width: initial;
+		}
+	}
+
+	&[aria-expanded='false'] [role='listbox'] {
+		display: none;
+	}
+
+	// We need the child selector here because of The W[Partial]DateField calendar.
+	> button {
+		padding-left: $wc-combo-button-padding-lr;
+		padding-right: $wc-combo-button-padding-lr;
+		@if ($wc-ui-color-border-form-control != -1) {
+			@include border($pos: left, $width: 0);
+			@if ($wc-input-padding != -1) {
+				padding-bottom: $wc-input-padding;
+				padding-top: $wc-input-padding;
+			}
+			@else { // this could cause issues with some browsers.
+				padding-bottom: 2px;
+				padding-top: 2px;
+			}
+		}
+		@else { // this could cause issues with some browsers.
+			padding-bottom: 2px;
+			padding-top: 2px;
+		}
+
+		&:before {
+			text-align: center;
+			width: $wc-icon-normal;
+		}
+	}
+}
+
+@import 'wc.common.comboIcons';

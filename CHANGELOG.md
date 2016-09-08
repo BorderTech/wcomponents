@@ -2,15 +2,36 @@
 ## API Changes
 
 ## Bug Fixes
+
+## Enhancements
+
+# Release 1.2.5
+## API Changes
+* Added a new ServiceLoader API to inject custom configuration into WComponents using the interface ConfigurationLoader.
+
+## Bug Fixes
 * Fixed a bug which prevented `WField`'s `inputWidth` setting from rendering correctly #854.
 * Fixed a bug in rendering of `WPartialDateField` and polyfilled `WDateField` #852.
 * Fixed UI bugs in WMenus #866, #867.
 * Fixed a Sass bug which caused ListLayouts with layout FLAT to lose intra-component space #869.
 * Fixed a bug which prevented a control which opens a WDialog from running a server Action #875.
+* Fixed a bug which caused image editor to fail if multiple files were attached at once #876.
+* Fixed a bug which prevented timeout warnings from rendering a session elapsed message correctly #890.
+* Fixed a bug where `WTree` was adding an open item request to expanded rows #762.
+* Fixed a bug where `resetData()` was not handled correctly in `WNumberField`, `WDateField`
+  and `WPartialDateField` #896.
+* Fixed a bug which could cause a tabset to get into an invalid state #899.
 
 ## Enhancements
 * Added a mechanism to add and remove multiple HTML class attribute values to a component #856.
 * Added a mechanism to mark a WButton as having an action only in the client #878.
+* Plugged a minor potential vulnerability in WLink #895.
+* Added a lot of Sass configuration options to `_common.scss` along with additional commentary #689.
+* Projects can override a new method `getUiVersionKey()` in `WApplication` if different versions of the same Application
+  need to be registered by `UIRegistry` #894.
+* New constructors in `WPartialDateField` to allow a padding character to be passed in #573.
+* Provide access to the backing `HttpServletRequest` in `ServletRequest` and a new helper method in `ServletUtil` to
+  determine the user's device #803.
 
 # Release 1.2.4
 ## Bug Fixes

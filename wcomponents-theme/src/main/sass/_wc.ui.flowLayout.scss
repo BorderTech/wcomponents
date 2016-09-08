@@ -1,0 +1,44 @@
+/* wc.ui.flowLayout.scss */
+@import 'mixins-common';
+
+.wc-flowlayout {
+	@include flex($wrap: wrap, $justify: flex-start, $align-items: flex-start, $align-content: flex-start);
+
+	> div {
+		display: inline-block;
+		max-width: 100%;
+		text-align: left;
+	}
+
+	&.wc-align-center {
+		@include flex-justify-content(center);
+	}
+
+	&.wc-align-right {
+		@include flex-justify-content(flex-end);
+	}
+
+	&.wc-align-vertical {
+		&,
+		& > div {
+			display: block;
+		}
+	}
+
+	// allow wrap to be turned off by setting a class on the containing panel.
+	.wc-flex-nowrap > & {
+		@include flex-wrap;
+	}
+}
+
+.wc_fl_baseline {
+	@include flex-align-items(baseline);
+}
+
+.wc_fl_bottom {
+	@include flex-align-items(flex-end);
+}
+
+.wc_fl_middle { // vertical align middle of the flow
+	@include flex-align-items(center);
+}

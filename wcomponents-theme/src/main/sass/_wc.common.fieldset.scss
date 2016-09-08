@@ -1,0 +1,15 @@
+/* wc.ui.fieldset.scss */
+@import 'mixins-common';
+
+fieldset {
+	@include padded-box($pad: $wc-gap-small);
+	margin: 0;
+
+	// TODO: this can be moved up one level to make override easier.
+	&.wc_noborder { // it is pretty common to remove borders from fieldsets.
+		@include border($width: 0);
+		padding: 0;
+	}
+}
+
+@import 'wc.common.legend';

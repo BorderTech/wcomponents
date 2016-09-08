@@ -38,8 +38,11 @@ define(["wc/has",
 				FIELD_CLASS = "wc-datefield",
 				hasNative = has("native-dateinput"),
 				BOOTSTRAPPED = "wc.ui.dateField_bootstrapped",
-				DATE_FIELD = new Widget("", FIELD_CLASS),
-				DATE_FIELD_RO = DATE_FIELD.extend("wc_ro"),
+				DATE_FIELD = new Widget("div", FIELD_CLASS),
+				DATE_WRAPPER_INCL_RO = new Widget("", FIELD_CLASS),
+				DATE_FIELD_RO = new Widget("time", FIELD_CLASS),
+				PARTIAL_RO = new Widget("span", FIELD_CLASS),
+				ALL_RO = [DATE_FIELD_RO, PARTIAL_RO],
 				INPUT = new Widget("input"),
 				DATE = INPUT.extend("", {"type": "date"}),
 				DATE_PARTIAL = INPUT.extend("", {"type": "text"}),
@@ -509,7 +512,7 @@ define(["wc/has",
 					textVal,
 					textBox;
 				if ((value = (field.getAttribute(FAKE_VALUE_ATTRIB) || field.getAttribute("datetime"))) && (textVal = format(value))) {
-					if (DATE_FIELD_RO.isOneOfMe(field)) {
+					if (Widget.isOneOfMe(field, ALL_RO)) {
 						textContent.set(field, textVal);
 					}
 					else {
@@ -530,15 +533,15 @@ define(["wc/has",
 				var _container = container || document.body,
 					fields;
 
-				if (container && DATE_FIELD.isOneOfMe(container)) {
+				if (container && DATE_WRAPPER_INCL_RO.isOneOfMe(container)) {
 					fields = [container];
 				}
 				else {
-					fields = DATE_FIELD.findDescendants(_container);
+					fields = DATE_WRAPPER_INCL_RO.findDescendants(_container);
 				}
 
 				Array.prototype.forEach.call(fields, function(next) {
-					if (DATE_FIELD_RO.isOneOfMe(next) || isPartial(next)) {
+					if (Widget.isOneOfMe(next, ALL_RO) || isPartial(next)) {
 						setInputValue(next);
 					}
 					else if (instance.isLameDateField(next)) {
@@ -982,7 +985,7 @@ define(["wc/has",
 			 * @returns {module:wc/dom/Widget} the DateField Widget.
 			 */
 			this.getWidget = function() {
-				return DATE_FIELD;
+				return DATE_WRAPPER_INCL_RO;
 			};
 
 			/**
@@ -1055,13 +1058,13 @@ define(["wc/has",
 			this.isOneOfMe = function (element, onlyContainer) {
 				var result;
 				if (onlyContainer) {
-					result = DATE_FIELD.isOneOfMe(element);
+					result = DATE_WRAPPER_INCL_RO.isOneOfMe(element);
 				}
 				else if (onlyContainer === false) {
 					result = INPUT.isOneOfMe(element);
 				}
 				else {
-					result = Widget.isOneOfMe(element, [INPUT, DATE_FIELD]);
+					result = Widget.isOneOfMe(element, [INPUT, DATE_WRAPPER_INCL_RO]);
 				}
 				return result;
 			};

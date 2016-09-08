@@ -1,0 +1,12 @@
+@import 'mixins-common';
+
+/// read-only WRadioButton.
+.wc-radiobutton.wc_ro {
+	&:before {
+		content: $fa-var-circle-o;
+	}
+	/// selected, read-only WRadioButton.
+	&.wc_ro_sel:before {
+		content: $fa-var-dot-circle-o;
+	}
+}

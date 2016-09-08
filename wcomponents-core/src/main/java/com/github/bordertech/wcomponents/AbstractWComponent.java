@@ -1946,7 +1946,12 @@ public abstract class AbstractWComponent implements WComponent {
 	 */
 	protected Object writeReplace() throws ObjectStreamException {
 		WComponent top = WebUtilities.getTop(this);
-		String repositoryKey = top.getClass().getName();
+		String repositoryKey;
+		if (top instanceof WApplication) {
+			repositoryKey = ((WApplication) top).getUiVersionKey();
+		} else {
+			repositoryKey = top.getClass().getName();
+		}
 
 		if (UIRegistry.getInstance().isRegistered(repositoryKey)
 				&& top == UIRegistry.getInstance().getUI(repositoryKey)) {

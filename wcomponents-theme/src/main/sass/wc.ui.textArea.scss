@@ -23,15 +23,17 @@ textarea + output {
 
 
 // A readonly textarea must preserve whitespace so uses a pre element (for IE compatibility) so we need to override PRE
-// defaults and set whitespace and wrapping to textarea-like settings.
+// defaults and set whitespace to textarea-like settings.
 //scss-lint:disable QualifyingElement
-pre.wc_ro {
-	@include margin($size: 0);
+pre.wc-textarea {
 	font-family: inherit;
+	margin: 0;
 	white-space: pre-wrap;
-	word-wrap: break-word;
+	word-break: normal;
 }
 
-div.wc_ro {
-	word-wrap: normal;
+div.wc-textarea {
+	word-break: normal;
 }
+
+@import 'wc.ui.textArea.color';

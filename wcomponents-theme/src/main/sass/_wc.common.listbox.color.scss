@@ -1,0 +1,8 @@
+/* _wc.common.listbox.scss */
+// listbox for combo and datefield
+@import 'mixins-common';
+
+[role='listbox'] {
+	background-color: $wc-ui-color-highlight-bg;
+	color: $wc-ui-color-highlight-fg;
+}

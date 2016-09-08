@@ -95,3 +95,6 @@ input[type='file']::-webkit-file-upload-button {
 	@include button($border: 0);
 	@include border($pos: right);
 }
+
+@import 'wc.ui.fileUpload.color';
+@import 'wc.ui.fileUploadIcons';

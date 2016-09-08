@@ -124,6 +124,7 @@ public class WTree extends AbstractInput
 		if (data == null || data.isEmpty()) {
 			return Collections.EMPTY_SET;
 		}
+		// TODO Similar to select lists, consider validating the selected items
 		return data;
 	}
 
@@ -211,6 +212,25 @@ public class WTree extends AbstractInput
 		clearItemIdIndexMap();
 		setSelectedRows(null);
 		setExpandedRows(null);
+		setCustomTree((TreeItemIdNode) null);
+	}
+
+	/**
+	 * The action when a request to open a tree item is received.
+	 *
+	 * @return the open action
+	 */
+	public Action getOpenAction() {
+		return getComponentModel().openAction;
+	}
+
+	/**
+	 * The action when a request to open a tree item is received.
+	 *
+	 * @param action the open action
+	 */
+	public void setOpenAction(final Action action) {
+		getOrCreateComponentModel().openAction = action;
 	}
 
 	/**
@@ -380,6 +400,9 @@ public class WTree extends AbstractInput
 
 	/**
 	 * Retrieves a URL for the tree item image.
+	 * <p>
+	 * This method is used by the WTree Renderer.
+	 * </p>
 	 *
 	 * @param item the tree item
 	 * @param itemId the tree item id
@@ -449,13 +472,19 @@ public class WTree extends AbstractInput
 	 * Clear the map holding the mapping between custom item ids and their node item.
 	 */
 	public void clearCustomIdMap() {
-		getScratchMap().remove(CUSTOM_IDS_SCRATCH_MAP_KEY);
+		if (getScratchMap() != null) {
+			getScratchMap().remove(CUSTOM_IDS_SCRATCH_MAP_KEY);
+		}
 	}
 
 	/**
 	 * @return the map between the custom item ids and their node item.
 	 */
 	public Map<String, TreeItemIdNode> getCustomIdMap() {
+		if (getScratchMap() == null) {
+			// No user context present
+			return TreeItemUtil.createCustomIdMap(getCustomTree());
+		}
 		Map<String, TreeItemIdNode> map = (Map<String, TreeItemIdNode>) getScratchMap().get(CUSTOM_IDS_SCRATCH_MAP_KEY);
 		if (map == null) {
 			map = TreeItemUtil.createCustomIdMap(getCustomTree());
@@ -468,13 +497,19 @@ public class WTree extends AbstractInput
 	 * Clear the map holding the mapping between an item id and its row index.
 	 */
 	public void clearItemIdIndexMap() {
-		getScratchMap().remove(INDEX_MAPPING_SCRATCH_MAP_KEY);
+		if (getScratchMap() != null) {
+			getScratchMap().remove(INDEX_MAPPING_SCRATCH_MAP_KEY);
+		}
 	}
 
 	/**
 	 * @return the mapping between an item id and its row index.
 	 */
 	public Map<String, List<Integer>> getItemIdIndexMap() {
+		if (getScratchMap() == null) {
+			// No user context present
+			return TreeItemUtil.createItemIdIndexMap(this);
+		}
 		Map<String, List<Integer>> map = (Map<String, List<Integer>>) getScratchMap().get(INDEX_MAPPING_SCRATCH_MAP_KEY);
 		if (map == null) {
 			map = TreeItemUtil.createItemIdIndexMap(this);
@@ -506,11 +541,7 @@ public class WTree extends AbstractInput
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
 
-		// Check if this is open item request
-		if (isOpenItemRequest(request)) {
-			handleOpenItemRequest(request);
-		}
-
+		// If is an internal AJAX action, set the action type.
 		if (AjaxHelper.isCurrentAjaxTrigger(this)) {
 			AjaxOperation operation = AjaxHelper.getCurrentOperation();
 			if (operation.isInternalAjaxRequest()) {
@@ -530,6 +561,16 @@ public class WTree extends AbstractInput
 	 * {@inheritDoc}
 	 */
 	@Override
+	protected void afterPaint(final RenderContext renderContext) {
+		super.afterPaint(renderContext);
+		// Clear the open id (if set)
+		setOpenRequestItemId(null);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	protected boolean beforeHandleRequest(final Request request) {
 
 		// Check if is targeted request (ie item image)
@@ -540,8 +581,12 @@ public class WTree extends AbstractInput
 			return false;
 		}
 
-		// If is open item request, dont continue handle request processing.
-		return !isOpenItemRequest(request);
+		// Check if open item request
+		if (isOpenItemRequest(request)) {
+			handleOpenItemRequest(request);
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -566,15 +611,14 @@ public class WTree extends AbstractInput
 		Set<String> current = getValue();
 
 		boolean changed = !selectionsEqual(values, current);
-
 		if (changed) {
 			setData(values);
 		}
 
 		if (isShuffle()) {
-			handleShuffleRequest(request);
+			handleShuffleState(request);
 		}
-		handleExpansionRequest(request);
+		handleExpandedState(request);
 
 		return changed;
 	}
@@ -600,26 +644,31 @@ public class WTree extends AbstractInput
 	 */
 	private Set<String> getNewSelections(final Request request) {
 
+		// Check for any selections on the request
 		String[] paramValue = request.getParameterValues(getId());
-		if (paramValue == null) {
-			paramValue = new String[0];
+		String[] selectedRowIds = removeEmptyStrings(paramValue);
+		if (selectedRowIds == null || selectedRowIds.length == 0) {
+			return Collections.EMPTY_SET;
 		}
 
-		String[] selectedRowIds = removeEmptyStrings(paramValue);
 		Set<String> newSelectionIds = new HashSet<>();
 
 		boolean singleSelect = getSelectMode() == SelectMode.SINGLE;
 
-		if (selectedRowIds != null) {
-			int offset = getItemIdPrefix().length();
-			for (String selectedRowId : selectedRowIds) {
-				String itemId = selectedRowId.substring(offset);
-				if (isValidTreeItem(itemId)) {
-					newSelectionIds.add(itemId);
-					if (singleSelect) {
-						break;
-					}
+		int offset = getItemIdPrefix().length();
+		for (String selectedRowId : selectedRowIds) {
+			if (selectedRowId.length() <= offset) {
+				LOG.warn("Selected row id [" + selectedRowId + "] does not have a valid prefix and will be ignored.");
+				continue;
+			}
+			String itemId = selectedRowId.substring(offset);
+			if (isValidTreeItem(itemId)) {
+				newSelectionIds.add(itemId);
+				if (singleSelect) {
+					break;
 				}
+			} else {
+				LOG.warn("Selected row id [" + itemId + "] is not valid and will be ignored.");
 			}
 		}
 
@@ -660,41 +709,17 @@ public class WTree extends AbstractInput
 
 		// Check valid item id
 		if (!isValidTreeItem(itemId)) {
-			throw new SystemException("Tree item id [" + itemId + "] is not valid.");
+			throw new SystemException("Tree item id for an image request [" + itemId + "] is not valid.");
 		}
 
 		List<Integer> index = getItemIdIndexMap().get(itemId);
 		TreeItemImage image = getTreeModel().getItemImage(index);
+		if (image == null) {
+			throw new SystemException("Tree item id [" + itemId + "] does not have an image.");
+		}
 
 		ContentEscape escape = new ContentEscape(image.getImage());
 		throw escape;
-	}
-
-	/**
-	 * Handles a request containing row expansion data.
-	 *
-	 * @param request the request containing row expansion data.
-	 */
-	private void handleExpansionRequest(final Request request) {
-
-		String[] paramValue = request.getParameterValues(getId() + ".open");
-		if (paramValue == null) {
-			paramValue = new String[0];
-		}
-
-		String[] expandedRowIds = removeEmptyStrings(paramValue);
-		Set<String> newExpansionIds = new HashSet<>();
-
-		if (expandedRowIds != null) {
-			int offset = getItemIdPrefix().length();
-			for (String expandedRowId : expandedRowIds) {
-				String itemId = expandedRowId.substring(offset);
-				if (isValidTreeItem(itemId)) {
-					newExpansionIds.add(itemId);
-				}
-			}
-		}
-		setExpandedRows(newExpansionIds);
 	}
 
 	/**
@@ -711,6 +736,9 @@ public class WTree extends AbstractInput
 		}
 
 		int offset = getItemIdPrefix().length();
+		if (param.length() <= offset) {
+			throw new SystemException("Tree item id [" + param + "] does not have the correct prefix value.");
+		}
 		String itemId = param.substring(offset);
 
 		// Check valid item id
@@ -723,12 +751,21 @@ public class WTree extends AbstractInput
 			throw new SystemException("Tree item id [" + itemId + "] is not expandable.");
 		}
 
-		// Add itemId to expanded
-		Set<String> rowIds = new HashSet<>(getExpandedRows());
-		rowIds.add(itemId);
-		setExpandedRows(rowIds);
-
 		setOpenRequestItemId(itemId);
+
+		// Run the open action (if set)
+		final Action action = getOpenAction();
+		if (action != null) {
+			final ActionEvent event = new ActionEvent(this, "openItem");
+			Runnable later = new Runnable() {
+				@Override
+				public void run() {
+					action.execute(event);
+				}
+			};
+			invokeLater(later);
+		}
+
 	}
 
 	/**
@@ -736,7 +773,7 @@ public class WTree extends AbstractInput
 	 *
 	 * @param request the request being processed
 	 */
-	private void handleShuffleRequest(final Request request) {
+	private void handleShuffleState(final Request request) {
 
 		String json = request.getParameter(getId() + ".shuffle");
 		if (Util.empty(json)) {
@@ -762,7 +799,6 @@ public class WTree extends AbstractInput
 			// Run the shuffle action (if set)
 			final Action action = getShuffleAction();
 			if (action != null) {
-				// Set the selected file id as the action object
 				final ActionEvent event = new ActionEvent(this, "shuffle");
 				Runnable later = new Runnable() {
 					@Override
@@ -773,6 +809,39 @@ public class WTree extends AbstractInput
 				invokeLater(later);
 			}
 		}
+	}
+
+	/**
+	 * Handle the current expanded state.
+	 *
+	 * @param request the request containing row expansion data.
+	 */
+	private void handleExpandedState(final Request request) {
+
+		String[] paramValue = request.getParameterValues(getId() + ".open");
+		if (paramValue == null) {
+			paramValue = new String[0];
+		}
+
+		String[] expandedRowIds = removeEmptyStrings(paramValue);
+		Set<String> newExpansionIds = new HashSet<>();
+
+		if (expandedRowIds != null) {
+			int offset = getItemIdPrefix().length();
+			for (String expandedRowId : expandedRowIds) {
+				if (expandedRowId.length() <= offset) {
+					LOG.warn("Expanded row id [" + expandedRowId + "] does not have a valid prefix and will be ignored.");
+					continue;
+				}
+				String itemId = expandedRowId.substring(offset);
+				if (isValidTreeItem(itemId)) {
+					newExpansionIds.add(itemId);
+				} else {
+					LOG.warn("Expanded row id [" + itemId + "] is not valid and will be ignored.");
+				}
+			}
+		}
+		setExpandedRows(newExpansionIds);
 	}
 
 	/**
@@ -834,14 +903,14 @@ public class WTree extends AbstractInput
 	 * @param itemId the item id to open
 	 */
 	private void setOpenRequestItemId(final String itemId) {
-		getScratchMap().put("openid", itemId);
+		getOrCreateComponentModel().openRequestItemId = itemId;
 	}
 
 	/**
-	 * @return the item id to open. or null
+	 * @return the item id to open, or null
 	 */
 	public String getOpenRequestItemId() {
-		return (String) getScratchMap().get("openid");
+		return getComponentModel().openRequestItemId;
 	}
 
 	/**
@@ -930,6 +999,16 @@ public class WTree extends AbstractInput
 		 * Shuffle action.
 		 */
 		private Action shuffleAction;
+
+		/**
+		 * Open action.
+		 */
+		private Action openAction;
+
+		/**
+		 * Open item id.
+		 */
+		private String openRequestItemId;
 
 		/**
 		 * This is used to allow a user to have a different tree of nodes.
