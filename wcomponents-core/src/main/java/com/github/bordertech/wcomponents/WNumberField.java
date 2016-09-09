@@ -514,9 +514,12 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		@Override
 		public void resetData() {
 			super.resetData();
-			NumberFieldModel shared = (NumberFieldModel) getSharedModel();
-			this.text = shared.text;
-			this.validNumber = shared.validNumber;
+			ComponentModel model = getSharedModel();
+			if (model instanceof NumberFieldModel) {
+				NumberFieldModel shared = (NumberFieldModel) model;
+				this.text = shared.text;
+				this.validNumber = shared.validNumber;
+			}
 		}
 
 	}

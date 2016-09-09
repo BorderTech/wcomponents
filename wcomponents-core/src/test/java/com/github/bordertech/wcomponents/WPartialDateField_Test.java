@@ -516,6 +516,12 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
+	public void testResetDataWithNoUserContext() {
+		WPartialDateField dateField = new WPartialDateField();
+		dateField.resetData();
+	}
+
+	@Test
 	public void testIsValidDate() {
 		WPartialDateField dateField = new WPartialDateField();
 
