@@ -391,9 +391,12 @@ public class WDateField extends AbstractInput implements AjaxTrigger, AjaxTarget
 		@Override
 		public void resetData() {
 			super.resetData();
-			DateFieldModel shared = (DateFieldModel) getSharedModel();
-			this.text = shared.text;
-			this.validDate = shared.validDate;
+			ComponentModel model = getSharedModel();
+			if (model instanceof DateFieldModel) {
+				DateFieldModel shared = (DateFieldModel) model;
+				this.text = shared.text;
+				this.validDate = shared.validDate;
+			}
 		}
 
 	}
