@@ -751,6 +751,12 @@ public class WNumberField_Test extends AbstractWComponentTestCase {
 		Assert.assertFalse("Should be invalid", numberField.isValidNumber());
 	}
 
+	@Test
+	public void testResetDataWithNoUserContext() {
+		WNumberField numberField = new WNumberField();
+		numberField.resetData();
+	}
+
 	/**
 	 * Check the numberField is in the correct state for a null value.
 	 *

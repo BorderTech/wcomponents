@@ -219,6 +219,12 @@ public class WTree_Test extends AbstractWComponentTestCase {
 		Assert.assertTrue("Incorrect Url for an item with an image.", url.contains("URL-A"));
 	}
 
+	@Test
+	public void testSetModelNoUserContext() {
+		WTree tree = new WTree();
+		tree.setTreeModel(new MockTreeItemData.MyTestModel(MockTreeItemData.DATA));
+	}
+
 	private MockRequest setupRequest(final WTree tree, final String... options) {
 		MockRequest request = new MockRequest();
 		request.setParameter(tree.getId() + "-h", "x");

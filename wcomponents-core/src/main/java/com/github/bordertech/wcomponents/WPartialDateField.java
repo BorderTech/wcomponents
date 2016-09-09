@@ -807,9 +807,12 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		@Override
 		public void resetData() {
 			super.resetData();
-			PartialDateFieldModel shared = (PartialDateFieldModel) getSharedModel();
-			this.text = shared.text;
-			this.validDate = shared.validDate;
+			ComponentModel model = getSharedModel();
+			if (model instanceof PartialDateFieldModel) {
+				PartialDateFieldModel shared = (PartialDateFieldModel) model;
+				this.text = shared.text;
+				this.validDate = shared.validDate;
+			}
 		}
 
 	}
