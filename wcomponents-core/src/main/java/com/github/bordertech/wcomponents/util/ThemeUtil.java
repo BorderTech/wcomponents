@@ -149,7 +149,7 @@ public final class ThemeUtil {
 			path.append('/');
 		}
 		path.append("xslt/");
-		path.append(getThemeXsltName(uic));
+		path.append(getThemeXsltName());
 
 		// Add cache busting suffix
 		path.append("?build=").append(WebUtilities.escapeForUrl(THEME_BUILD))
@@ -163,8 +163,18 @@ public final class ThemeUtil {
 	 *
 	 * @param uic The UIContext to use to determine factors such as locale.
 	 * @return The name of the XSLT file without any path or cachebuster.
+	 * @deprecated UIC no longer used as an argument, kept only for API compatibility. Use getThemeXsltName() instead.
 	 */
 	public static String getThemeXsltName(final UIContext uic) {
+		return getThemeXsltName();
+	}
+
+	/**
+	 * Get the name of the XSLT file to use taking debug mode into consideration.
+	 *
+	 * @return The name of the XSLT file without any path or cachebuster.
+	 */
+	public static String getThemeXsltName() {
 		if (DebugUtil.isDebugStructureEnabled()) {
 			return "all_debug.xsl";
 		}
