@@ -5,6 +5,18 @@
 
 ## Enhancements
 
+# Release 1.2.6
+## API Changes
+* None
+
+## Bug Fixes
+* QC157496 - Fixed a null pointer exception within WDateField resetData()
+
+## Enhancements
+* Enhanced TransformXMLInterceptor to support non-HTML agents.
+* Minor performance turning for TransformXMLInterceptor.
+* Dependency management improvement for Saxon so that it does not need to be the default XSLT engine.
+
 # Release 1.2.5
 ## API Changes
 * Added a new ServiceLoader API to inject custom configuration into WComponents using the interface ConfigurationLoader.

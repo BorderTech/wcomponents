@@ -9,13 +9,19 @@ import com.github.bordertech.wcomponents.servlet.ServletRequest;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
+import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletRequest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import javax.xml.transform.Templates;
 import junit.framework.Assert;
 import org.junit.AfterClass;
 import org.junit.Test;
@@ -28,7 +34,15 @@ import org.junit.Test;
  */
 public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 
+	/**
+	 * The input xml.
+	 */
 	private static final String TEST_XML = "<kung><fu>is good for you</fu></kung>";
+
+	/**
+	 * The expected HTML result.
+	 */
+	private static final String EXPECTED = "<omg><wtf>is good for you</wtf></omg>";
 
 	/**
 	 * When these tests are done put things back as they were.
@@ -36,6 +50,7 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	@AfterClass
 	public static void tearDownClass() {
 		Config.reset();
+		reloadTransformer();
 	}
 
 	/**
@@ -46,6 +61,7 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 		MyComponent testUI = new MyComponent(TEST_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
 		Config.getInstance().setProperty(ConfigurationProperties.XSLT_SERVER_SIDE, "false");
+		reloadTransformer();
 		TestResult actual = generateOutput(testUI);
 		Assert.assertEquals("XML should not be transformed when interceptor disabled", TEST_XML, actual.result);
 	}
@@ -58,6 +74,7 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 		MyComponent testUI = new MyComponent(TEST_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
 		Config.getInstance().setProperty(ConfigurationProperties.XSLT_SERVER_SIDE, "true");
+		reloadTransformer();
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("User-Agent", "Mozilla/5.0 Firefox/26.0 wcnoxslt");
 		TestResult actual = generateOutput(testUI, headers);
@@ -72,8 +89,9 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 		MyComponent testUI = new MyComponent(TEST_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "set");
 		Config.getInstance().setProperty(ConfigurationProperties.XSLT_SERVER_SIDE, "true");
+		reloadTransformer();
 		TestResult actual = generateOutput(testUI);
-		Assert.assertEquals("XML should not be transformed when interceptor enabled but theme content path set", TEST_XML, actual.result);
+		Assert.assertEquals("XML should be transformed when interceptor enabled and theme content path set", EXPECTED, actual.result);
 	}
 
 	/**
@@ -81,12 +99,12 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	 */
 	@Test
 	public void testPaintWhileEnabled() {
-		final String expected = "<omg><wtf>is good for you</wtf></omg>";
 		MyComponent testUI = new MyComponent(TEST_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
 		Config.getInstance().setProperty(ConfigurationProperties.XSLT_SERVER_SIDE, "true");
+		reloadTransformer();
 		TestResult actual = generateOutput(testUI);
-		Assert.assertEquals("XML should be transformed when interceptor enabled", expected, actual.result);
+		Assert.assertEquals("XML should be transformed when interceptor enabled", EXPECTED, actual.result);
 		Assert.assertEquals("The content type should be correctly set", WebUtilities.CONTENT_TYPE_HTML, actual.contentType);
 	}
 
@@ -95,16 +113,43 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	 */
 	@Test
 	public void testPaintWhileEnabledWithChromeUserAgent() {
-		final String expected = "<omg><wtf>is good for you</wtf></omg>";
+
 		MyComponent testUI = new MyComponent(TEST_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
 		Config.getInstance().setProperty(ConfigurationProperties.XSLT_SERVER_SIDE, "true");
+		reloadTransformer();
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("User-Agent",
 				"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36");
 		TestResult actual = generateOutput(testUI, headers);
-		Assert.assertEquals("XML should be transformed when interceptor enabled", expected, actual.result);
+		Assert.assertEquals("XML should be transformed when interceptor enabled", EXPECTED, actual.result);
 		Assert.assertEquals("The content type should be correctly set", WebUtilities.CONTENT_TYPE_HTML, actual.contentType);
+	}
+
+	/**
+	 * Use reflection the reinitialize the TransformXMLInterceptor class.
+	 */
+	private static void reloadTransformer() {
+		try {
+			Field field = TransformXMLInterceptor.class.getDeclaredField("TEMPLATES");
+			// Make the field accessible.
+			field.setAccessible(true);
+
+			//Make the field non-final.
+			Field modifiersField = Field.class.getDeclaredField("modifiers");
+			modifiersField.setAccessible(true);
+			modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+
+			//Get the value from the static method
+			Method initTemplates = TransformXMLInterceptor.class.getDeclaredMethod("initTemplates");
+			initTemplates.setAccessible(true);
+			Templates value = (Templates) initTemplates.invoke(null);
+
+			field.set(null, value);
+
+		} catch (SecurityException | InvocationTargetException | NoSuchFieldException | NoSuchMethodException | IllegalArgumentException | IllegalAccessException ex) {
+			throw new SystemException(ex);
+		}
 	}
 
 	/**
