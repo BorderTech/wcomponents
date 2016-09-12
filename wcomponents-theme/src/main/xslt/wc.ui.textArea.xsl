@@ -50,6 +50,11 @@
 						<xsl:with-param name="name" select="$id"/>
 						<xsl:with-param name="live" select="'off'"/>
 						<xsl:with-param name="myLabel" select="$myLabel[1]"/>
+						<xsl:with-param name="class">
+							<xsl:if test="(@required or @placeholder) and not(text())">
+								<xsl:text>wc-buggyie</xsl:text>
+							</xsl:if>
+						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:if test="@maxLength">
 						<xsl:attribute name="data-wc-maxlength">
