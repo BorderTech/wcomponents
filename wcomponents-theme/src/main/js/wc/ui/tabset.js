@@ -579,6 +579,23 @@ define(["wc/array/toArray",
 				return result;
 			}
 
+
+			/**
+			 * Is an element in an accordion tabset?
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element the element we are testing
+			 * @returns {Boolean} true if element is inside an accordion tabset.
+			 */
+			function isInAccordion(element) {
+				var tablist;
+				if ((tablist = TABPANEL.findAncestor(element)) && (tablist = tablist.parentNode) &&  TABLIST.isOneOfMe(tablist)) {
+					return !!getAccordion(tablist);
+				}
+				return false;
+			}
+
 			/**
 			 * This is the keydown extension for CTRL + PAGE_UP/PAGE_DOWN to match the WAI-ARIA key map for tabsets. It
 			 * does not work in webkit but is fine in other browsers. The webkit issue is due to it not triggering a
@@ -601,26 +618,29 @@ define(["wc/array/toArray",
 					return;
 				}
 
+				// WAI-ARIA 1.1 update: these now only apply to accordions.
+				if (!isInAccordion(target)) {
+					return;
+				}
+
 				if (keyCode === KeyEvent.DOM_VK_PAGE_UP || keyCode === KeyEvent.DOM_VK_PAGE_DOWN) {
 					tab = getTabFor(target);
 					if (tab) {
-						direction = (keyCode === KeyEvent.DOM_VK_PAGE_UP ? instance.KEY_DIRECTION.NEXT : instance.KEY_DIRECTION.PREVIOUS);
+						direction = (keyCode === KeyEvent.DOM_VK_PAGE_UP ? instance.KEY_DIRECTION.PREVIOUS : instance.KEY_DIRECTION.NEXT);
 						targetTab = instance.navigate(tab, direction);
-						if (targetTab) {
-							$event.preventDefault();
-							instance.activate(targetTab, false, true);
-						}
 					}
 				}
 				else if (keyCode === KeyEvent.DOM_VK_UP) {
-					tab = getTabFor(target);
-					if (tab) {
-						$event.preventDefault();
-						focus.setFocusRequest(tab);
-					}
+					targetTab = getTabFor(target);
 				}
 				else {
 					this.constructor.prototype.keydownEvent.call(this, $event);
+					return;
+				}
+
+				if (targetTab) {
+					$event.preventDefault();
+					focus.setFocusRequest(targetTab);
 				}
 			};
 
