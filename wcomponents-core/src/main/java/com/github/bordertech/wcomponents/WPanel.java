@@ -35,14 +35,17 @@ public class WPanel extends WContainer implements AjaxInternalTrigger, AjaxTarge
 		/**
 		 * An action panel is similar to CHROME but with a different appearance. It is intended to be used once per
 		 * screen to highlight the main area of activity.
+		 * @deprecated v1.2.7 use {@link WSection} instead
 		 */
 		ACTION,
 		/**
 		 * A titled panel which is similar to CHROME but with a fancier border.
+		 * @deprecated v1.2.7 use {@link WSection} instead
 		 */
 		BANNER,
 		/**
 		 * A 'block' type panel has padding around the edges.
+		 * @deprecated v1.2.7 use Type.PLAIN and {@link Margin} instead
 		 */
 		BLOCK,
 		/**
@@ -51,6 +54,7 @@ public class WPanel extends WContainer implements AjaxInternalTrigger, AjaxTarge
 		BOX,
 		/**
 		 * A panel with a title displayed in a border.
+		 * @deprecated v1.2.7 use {@link WSection} instead
 		 */
 		CHROME,
 		/**
