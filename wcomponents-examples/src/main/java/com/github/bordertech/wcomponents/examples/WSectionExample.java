@@ -5,10 +5,12 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
+import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.WSection.SectionMode;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.examples.menu.MenuBarExample;
 import com.github.bordertech.wcomponents.subordinate.Equal;
 import com.github.bordertech.wcomponents.subordinate.Hide;
@@ -91,6 +93,20 @@ public class WSectionExample extends WContainer {
 		control.addRule(new Rule(new Equal(chb, "true"), new Show(section), new Hide(section)));
 
 		add(new WButton("submit"));
+
+		section = new WSection("MenuBar in nested panel");
+		add(section);
+
+		WPanel nestedPanel = new WPanel();
+
+		section.getContent().add(nestedPanel);
+		mbEx = new MenuBarExample(selectedMenuText);
+		WMenu exMenu = mbEx.getMenu();
+		exMenu.addHtmlClass("wc-neg-margin");
+		nestedPanel.add(exMenu);
+		nestedPanel.add(new ExplanatoryText("Hello World from a nested panel"));
+
+		section.getContent().add(new ExplanatoryText("Hello World from the top panel"));
 	}
 
 }

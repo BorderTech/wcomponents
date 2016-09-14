@@ -11,15 +11,12 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.ThemeUtil;
-import com.github.bordertech.wcomponents.util.Util;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.transform.Source;
 import javax.xml.transform.Templates;
@@ -57,12 +54,10 @@ import org.apache.commons.logging.LogFactory;
  */
 public class TransformXMLInterceptor extends InterceptorComponent {
 
-	private static final String NO_XSLT_FLAG = "wcnoxslt";
-
 	/**
-	 * Cache compiled XSLT stylesheets.
+	 * Support for no-xslt agents.
 	 */
-	private static final Map<String, Templates> CACHE = new HashMap();
+	private static final String NO_XSLT_FLAG = "wcnoxslt";
 
 	/**
 	 * The logger instance for this class.
@@ -70,8 +65,18 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	private static final Log LOG = LogFactory.getLog(TransformXMLInterceptor.class);
 
 	/**
-	 * If true then server side XSLT will be ignored regardless of the configuration property.
-	 * This is to account for user agents that cannot handle HTML, yes such a thing exists.
+	 * The theme XSLT resource name.
+	 */
+	private static final String RESOURCE_NAME = ThemeUtil.getThemeBase() + "xslt/" + ThemeUtil.getThemeXsltName();
+
+	/**
+	 * The XSLT cached templates.
+	 */
+	private static final Templates TEMPLATES = initTemplates();
+
+	/**
+	 * If true then server side XSLT will be ignored regardless of the configuration property. This is to account for
+	 * user agents that cannot handle HTML, yes such a thing exists.
 	 */
 	private boolean doTransform = false;
 
@@ -147,16 +152,10 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	}
 
 	/**
-	 * @return true if transform flag is set true and a theme content path has not been set.
+	 * @return true if transform flag is set true.
 	 */
-	private boolean isPerformTransform() {
-		boolean transform = ConfigurationProperties.getXsltServerSide();
-		if (transform) {
-			// Check a theme content path has not been set.
-			String themePath = ConfigurationProperties.getThemeContentPath();
-			return Util.empty(themePath);
-		}
-		return false;
+	private static boolean isPerformTransform() {
+		return ConfigurationProperties.getXsltServerSide();
 	}
 
 	/**
@@ -167,9 +166,8 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	 * @param writer The result of the transformation will be written to this writer.
 	 */
 	private void transform(final String xml, final UIContext uic, final PrintWriter writer) {
-		String xsltName = ThemeUtil.getThemeXsltName(uic);
-		String resourceName = ThemeUtil.getThemeBase() + "xslt/" + xsltName;
-		Transformer transformer = newTransformer(resourceName);
+
+		Transformer transformer = newTransformer();
 		Source inputXml;
 		try {
 			inputXml = new StreamSource(new ByteArrayInputStream(xml.getBytes("utf-8")));
@@ -181,34 +179,50 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	}
 
 	/**
-	 * Creates a new Transformer instance using cached XSLT stylesheets. There will be one cached stylesheet per locale,
-	 * so this is unlikely to ever use much memory but will certainly use less CPU not having to compile the complex
-	 * XSLT each time.
+	 * Creates a new Transformer instance using cached XSLT Templates. There will be one cached template. Transformer
+	 * instances are not thread-safe and cannot be reused (they can after the transformation is complete).
 	 *
-	 * Transformer instances are not thread-safe and cannot be reused (they can after the transformation is complete).
-	 *
-	 * @param resourceName The name of the XSLT file to load from the classpath.
 	 * @return A new Transformer instance.
 	 */
-	private static synchronized Transformer newTransformer(final String resourceName) {
-		Templates templates = CACHE.get(resourceName);
+	private static Transformer newTransformer() {
+
+		if (TEMPLATES == null) {
+			throw new IllegalStateException(ConfigurationProperties.XSLT_SERVER_SIDE + " true but  TransformXMLInterceptor not initialized.");
+		}
+
 		try {
-			if (templates == null) {
-				URL xsltURL = ThemeUtil.class.getResource(resourceName);
+			return TEMPLATES.newTransformer();
+		} catch (TransformerConfigurationException ex) {
+			throw new SystemException("Could not create transformer for " + RESOURCE_NAME, ex);
+		}
+	}
+
+	/**
+	 * Statically initialize the XSLT templates that are cached for all future transforms.
+	 *
+	 * @return the XSLT Templates.
+	 */
+	private static Templates initTemplates() {
+		if (isPerformTransform()) {
+			try {
+				URL xsltURL = ThemeUtil.class.getResource(RESOURCE_NAME);
 				if (xsltURL != null) {
 					Source xsltSource = new StreamSource(xsltURL.openStream(), xsltURL.toExternalForm());
-					TransformerFactory factory = TransformerFactory.newInstance();
-					templates = factory.newTemplates(xsltSource);
-					CACHE.put(resourceName, templates);
-					LOG.debug("Cached xslt: " + resourceName);
+					TransformerFactory factory = new net.sf.saxon.TransformerFactoryImpl();
+					Templates templates = factory.newTemplates(xsltSource);
+					LOG.debug("Generated XSLT templates for: " + RESOURCE_NAME);
+					return templates;
 				} else {
-					// Perhaps we should disable this interceptor if we end up here and fall back to serving raw XML?
-					throw new IllegalStateException(ConfigurationProperties.XSLT_SERVER_SIDE + " true but " + resourceName + " not on classpath");
+					// Server-side XSLT enabled but theme resource not on classpath.
+					throw new IllegalStateException(ConfigurationProperties.XSLT_SERVER_SIDE + " true but " + RESOURCE_NAME + " not on classpath");
 				}
+			} catch (IOException | TransformerConfigurationException ex) {
+				throw new SystemException("Could not create transformer for " + RESOURCE_NAME, ex);
 			}
-			return templates.newTransformer();
-		} catch (IOException | TransformerConfigurationException ex) {
-			throw new SystemException("Could not create transformer for " + resourceName, ex);
+		} else {
+			LOG.debug("Server-side XSLT disabled. TransformXMLInterceptor templates not initialized.");
+			return null;
 		}
+
 	}
 }

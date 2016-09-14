@@ -864,6 +864,12 @@ public class WDateField_Test extends AbstractWComponentTestCase {
 		Assert.assertFalse("Should be invalid", dateField.isParseable());
 	}
 
+	@Test
+	public void testResetDataWithNoUserContext() {
+		WDateField dateField = new WDateField();
+		dateField.resetData();
+	}
+
 	/**
 	 * @return a datefield processed with a request with a valid date
 	 */
