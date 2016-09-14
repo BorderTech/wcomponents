@@ -1,9 +1,20 @@
 # Change log
 ## API Changes
 
+* Deprecated the following WPanel Types (part of #689, #639):
+  * Type.ACTION: deprecated in favour of WSection to remove API ambiguity.
+  * Type.BANNER: deprecated in favour of WSection as never implemented but JavaDoc points to WSection equivalence
+  * Type.BLOCK: deprecated in favour of Type.PLAIN and WSection as no longer serves any useful purpose
+  * Type.CHROME: deprecated in favour of WSection to remove API ambiguity.
+
 ## Bug Fixes
 
+* Applied a workaround for buggy implementation of placeholders in textareas in IE11 #911.
+
 ## Enhancements
+
+* Added CSS support for an additional class `wc-neg-margin` on WMenu Type.BAR to force the "docking" style if it is not possible to make the menubar the first child of a WPanel with no layout #916.
+* Updated JavaScript Widgets used to determine WDateField and WPartialDateField to remove some potential access errors when either of these components is in a read-only state #907.
 
 # Release 1.2.6
 ## API Changes
