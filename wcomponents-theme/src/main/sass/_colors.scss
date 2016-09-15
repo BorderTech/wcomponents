@@ -136,6 +136,8 @@ $wc-ui-color-msgbox-header-fg: $std-color-white !default;
 //**********************************************************************************************************************
 // Section headers: WSection, WPanel Type.CHROME
 //**********************************************************************************************************************
+// The background colour of a section heading. Set to -1 and sections will not have background or foreground overrides
+// of noremal header/h1 styles.
 $wc-ui-color-section-heading-bg: $std-color-primary !default;
 $wc-ui-color-section-heading-fg: $std-color-primary-accent !default;
 $wc-ui-color-section-heading-fg-disabled: $wc-ui-color-primary-disabled !default;
@@ -195,6 +197,7 @@ $wc-ui-color-panel-feature-background: $std-color-tertiary !default;
 $wc-ui-color-panel-footer-foreground: $std-color-tertiary-accent !default;
 $wc-ui-color-panel-footer-background: $std-color-tertiary !default;
 // Type.HEADER
+// Set the background colour to -1 to ignore all header colours.
 $wc-ui-color-panel-header-background: $std-color-primary !default;
 $wc-ui-color-panel-header-foreground: $std-color-primary-accent !default;
 
