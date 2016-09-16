@@ -24,19 +24,13 @@ textarea {
 
 @if ($wc-ui-color-border-form-control != -1) {
 	input,
+	select,
 	textarea {
 		// Border on select makes firefox OS X quite ugly but is better than any other option on all other UAs.
 		@include border($color: $wc-ui-color-border-form-control);
 		@if ($wc-input-padding != -1) {
+			@include border-box;
 			padding: $wc-input-padding;
-		}
-	}
-
-	select {
-		&[multiple],
-		&[size],
-		&[disabled] {
-			@include border($color: $wc-ui-color-border-form-control);
 		}
 	}
 
