@@ -46,8 +46,10 @@ dialog {
 
 		> h1 { // the title
 			@include flex-grow(1);
-			font-size: $wc-dialog-header-size;
-			margin: 0;
+			@if ($wc-dialog-header-size != -1) {
+				font-size: $wc-dialog-header-size;
+				margin: 0;
+			}
 		}
 
 		> span { // the header control 'block'

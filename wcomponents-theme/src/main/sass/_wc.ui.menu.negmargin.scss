@@ -19,17 +19,19 @@
 // WARNING
 //
 // Well here is the **WARNING**: if you use this willy-nilly your UI _could_ look really silly!
-.wc-menu-type-bar.wc-neg-margin {
-	// the negative margin must be 0 - the padding of WSection content.
-	$neg-margin: -$wc-section-space-normal;
-	margin: $neg-margin $neg-margin $wc-section-space-normal;
-}
+@if ($wc-section-space-normal > 0) {
+	.wc-menu-type-bar.wc-neg-margin {
+		// the negative margin must be 0 - the padding of WSection content.
+		$neg-margin: -$wc-section-space-normal;
+		margin: $neg-margin $neg-margin $wc-section-space-normal;
+	}
 
-@if ($wc-gap-reduce-when-narrow != -1) {
-	@include respond-phonelike {
-		.wc-menu-type-bar.wc-neg-margin {
-			$neg-margin: -$wc-section-space-reduced;
-			margin: $neg-margin $neg-margin $wc-section-space-reduced;
+	@if ($wc-gap-reduce-when-narrow == 1) {
+		@include respond-phonelike {
+			.wc-menu-type-bar.wc-neg-margin {
+				$neg-margin: -$wc-section-space-reduced;
+				margin: $neg-margin $neg-margin $wc-section-space-reduced;
+			}
 		}
 	}
 }
