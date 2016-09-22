@@ -148,6 +148,10 @@
 								<xsl:when test="@allowPartial">
 									<xsl:value-of select="."/>
 								</xsl:when>
+								<!-- QC157989 -->
+								<xsl:otherwise>
+									<xsl:value-of select="."/>
+								</xsl:otherwise>
 							</xsl:choose>
 						</xsl:attribute>
 						<xsl:choose>
