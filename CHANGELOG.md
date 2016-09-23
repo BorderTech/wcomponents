@@ -10,6 +10,9 @@
 ## Bug Fixes
 
 * Applied a workaround for buggy implementation of placeholders in textareas in IE11 #911.
+* Fixed bug in WSuggestion where user text was not updated after first use (QC158630).
+* Fixed i18n race condition causing placeholder, message title (all theme messages) not to display in some browsers (QC158400).
+* Reverted date field to previous behavior of attempting to honor invalid input value after round trip (QC157989).
 
 ## Enhancements
 
