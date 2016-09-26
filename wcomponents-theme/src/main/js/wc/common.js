@@ -20,7 +20,7 @@
  * this file meaning you get a whole lot of modules for one single HTTP request.
  *
  * @example
- *	define(["wc/template",
+ *	define(["wc/ui/template",
  *			"wc/dom/cancelUpdate",
  *			"wc/ui/calendar",
  *			"wc/ui/subordinate",
@@ -31,7 +31,7 @@
  *
  * @ignore
  */
-define(["wc/template",
+define(["wc/ui/template",
 		"wc/dom/cancelUpdate",
 		"wc/ui/loading",
 		"wc/ui/backToTop",

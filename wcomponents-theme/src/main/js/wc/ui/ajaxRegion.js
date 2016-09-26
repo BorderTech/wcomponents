@@ -7,8 +7,9 @@ define(["wc/dom/event",
 		"wc/dom/shed",
 		"wc/dom/Widget",
 		"wc/dom/initialise",
-		"wc/ui/ajax/processResponse"],
-	function(event, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse) {
+		"wc/ui/ajax/processResponse",
+		"wc/mixin"],
+	function(event, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse, mixin) {
 		"use strict";
 
 		// prevent circular dependency
@@ -280,6 +281,9 @@ define(["wc/dom/event",
 					}
 
 					trigger = triggerManager.getTrigger(element);
+				}
+				else if (obj) {
+					mixin(obj, trigger);  // QC158630
 				}
 
 				if (trigger) {

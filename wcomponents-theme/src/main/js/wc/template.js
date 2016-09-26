@@ -1,5 +1,5 @@
-define(["wc/dom/initialise", "wc/dom/textContent", "lib/handlebars/handlebars"],
-	function(initialise, textContent, Handlebars) {
+define(["wc/dom/textContent", "lib/handlebars/handlebars"],
+	function(textContent, Handlebars) {
 		"use strict";
 
 		/**
@@ -173,29 +173,16 @@ define(["wc/dom/initialise", "wc/dom/textContent", "lib/handlebars/handlebars"],
 			this.unregisterHelper = function(token) {
 				Handlebars.unregisterHelper(token);
 			};
-
-			/**
-			 * Very early initialisation to do page-load-time i18n on forms (WApplications).
-			 * @function module:wc/template.preInit
-			 * @public
-			 */
-			this.preInit = function() {
-				Array.prototype.forEach.call(document.getElementsByTagName("form"), function(form) {
-					instance.process({source: form});
-				});
-			};
 		}
 
 		/**
 		 * Provides processing of Handlebars templates.
 		 *
 		 * @module
-		 * @requires module:wc/dom/initialise
 		 * @requires module:wc/dom/textContent
 		 * @requires external:lib/handlebars/handlebars
 		 */
 		var instance = new Template();
-		initialise.register(instance);
 		return instance;
 
 		/**
