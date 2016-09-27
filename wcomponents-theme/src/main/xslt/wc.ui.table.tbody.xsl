@@ -10,7 +10,6 @@
 		Structural: do not override.
 	-->
 	<xsl:template match="ui:tbody">
-		<xsl:param name="hasRole" select="0"/>
 		<tbody id="{concat(../@id,'_tb')}">
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
@@ -24,7 +23,6 @@
 			</xsl:call-template>
 			<xsl:apply-templates select="ui:tr">
 				<xsl:with-param name="myTable" select=".."/>
-				<xsl:with-param name="hasRole" select="$hasRole"/>
 			</xsl:apply-templates>
 		</tbody>
 	</xsl:template>

@@ -56,11 +56,11 @@
 			</xsl:if>
 			<xsl:attribute name="type">
 				<xsl:choose>
-					<xsl:when test="$mode='client' or $mode='' or not($mode)">
-						<xsl:text>button</xsl:text>
+					<xsl:when test="$mode='server' or $mode='' or not($mode)">
+						<xsl:text>submit</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:text>submit</xsl:text>
+						<xsl:text>button</xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>

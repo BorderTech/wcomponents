@@ -64,15 +64,14 @@ define(["wc/dom/event",
 			 * NOTE: all ajaxTriggers will have an attribute "data-wc-ajaxalias"
 			 */
 			function checkActivateTrigger(element) {
-				var result = false, trigger;
+				var result = false,
+					trigger;
 
 				if (dialog && dialog.isTrigger(element)) {
 					dialog.open(element);
 					result = true; // do not return, could be a dialog trigger AND an ajax trigger.
 				}
-
-				if (instance.isTrigger(element)) {
-					trigger = instance.getTrigger(element, true);
+				if ((trigger = instance.getTrigger(element, true))) {
 					result = fireThisTrigger(element, trigger);
 				}
 				return result;
@@ -216,27 +215,6 @@ define(["wc/dom/event",
 			this.getTrigger = function(arg, ignoreAncestor) {
 				var result;
 				result = triggerManager.getTrigger(arg, ignoreAncestor);
-				return result;
-			};
-
-			/**
-			 * Determines if a given element is an ajax trigger. NOTE: this will return true if the element is an active
-			 * trigger even if it has used up its shots.
-			 * @function  module:wc/ui/ajaxRegion.isTrigger
-			 * @public
-			 * @param {Element} element the element to test.
-			 * @returns {Boolean} Return true if the element is an ajax trigger.
-			 */
-			this.isTrigger = function(element) {
-				var result = false;
-				if (!shed.isDisabled(element)) {
-					if (element.hasAttribute(ALIAS)) {
-						result = true;
-					}
-					else {
-						result = !!this.getTrigger(element);
-					}
-				}
 				return result;
 			};
 
