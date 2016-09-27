@@ -36,13 +36,13 @@ define(["wc/dom/ariaAnalog",
 			this.simpleSelection = true;
 
 			/**
-			 * The defnition of a grouped item in a listbox analog. This is the equivalent of an option element.
+			 * The definition of a grouped item in a row analog. This is the equivalent of an option element.
 			 * @var
 			 * @public
 			 * @type {module:wc/dom/Widget}
 			 * @override
 			 */
-			this.ITEM = table.ROW.extend("", {"aria-selected": null});
+			this.ITEM = table.TR.extend("", {"aria-selected": null});
 
 			/**
 			 * Holds a reference to the last activated member of any identified listBox analog keyed on the listbox

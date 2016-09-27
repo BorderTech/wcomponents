@@ -200,7 +200,7 @@ caption {
 	}
 }
 
-[role='row'] > td[role='button']:before {
+[aria-expanded] > td[role='button']:before {
 	@include wc-icon-fw;
 }
 

@@ -12,7 +12,6 @@ define(["wc/dom/classList",
 	function(classList, event, initialise, shed, Widget, i18n, ajaxRegion, processResponse, eagerLoader, timers, dialogFrame) {
 		"use strict";
 
-
 		/**
 		 * @constructor
 		 * @alias module:wc/ui/dialog~Dialog
@@ -84,8 +83,7 @@ define(["wc/dom/classList",
 			 * @param {Element} element The element which was clicked.
 			 */
 			function activateClick(element) {
-				var isTrigger,
-					_element,
+				var _element,
 					content,
 					trigger,
 					targets,
@@ -105,33 +103,38 @@ define(["wc/dom/classList",
 					return false;
 				}
 
-				if (dialog && !shed.isHidden(dialog, true)) {
-					content = dialogFrame.getContent();
-					if (!content) {
-						return;
-					}
+				if (!(
+					dialog &&
+					!shed.isHidden(dialog, true) &&
+					(content = dialogFrame.getContent()) &&
+					(content.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY)
+				)) {
+					// we are not inside a dialog's content.
+					return;
+				}
 
-					if (content.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY) { // we are inside a dialog's content
-						keepContentOnClose = false;
-						// we need to know if a click is on an ajax trigger inside a dialog
-						if (ajaxRegion.isTrigger(element)) {
-							isTrigger = true;
-							_element = element;
-						}
-						else {
-							// this is a chrome thing: it honours clicks on img elements and does not pass them through to the underlying link/button
-							ANCHOR = ANCHOR || new Widget("A");
-							_element = Widget.findAncestor(element, [ BUTTON, ANCHOR ]);
-							if (_element && ajaxRegion.isTrigger(_element)) {
-								isTrigger = true;
-							}
-						}
-
-						if (isTrigger && _element && (trigger = ajaxRegion.getTrigger(_element, true)) && (targets = trigger.loads) && targets.length && !targets.some(_targetInsideDialog)) {
-							keepContentOnClose = true;
-							dialogFrame.close(); // NOTE: do not set result to true or you will prevent the AJAX action!
-						}
+				keepContentOnClose = false;
+				// we need to know if a click is on an ajax trigger inside a dialog
+				if ((trigger = ajaxRegion.getTrigger(element, true))) {
+					_element = element;
+				}
+				else {
+					// this is a chrome thing: it honours clicks on img elements and does not pass them through to the underlying link/button
+					ANCHOR = ANCHOR || new Widget("A");
+					_element = Widget.findAncestor(element, [ BUTTON, ANCHOR ]);
+					if (_element) {
+						trigger = ajaxRegion.getTrigger(_element, true);
 					}
+				}
+
+				if (!trigger) {
+					return;
+				}
+				targets = trigger.loads;
+
+				if (targets && targets.length && !targets.some(_targetInsideDialog)) {
+					keepContentOnClose = true;
+					dialogFrame.close();
 				}
 			}
 
@@ -309,7 +312,6 @@ define(["wc/dom/classList",
 				var id = element.id;
 				return id && registry[id];
 			};
-
 
 			/**
 			 * Open a dialog for a given trigger.

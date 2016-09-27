@@ -20,7 +20,6 @@
 	-->
 	<xsl:template match="ui:tr">
 		<xsl:param name="myTable"/>
-		<xsl:param name="hasRole" select="0"/>
 		<xsl:param name="parentIsClosed" select="0"/>
 		<xsl:param name="topRowIsStriped" select="0"/>
 
@@ -83,9 +82,6 @@
 		</xsl:variable>
 
 		<tr id="{$rowId}" data-wc-rowindex="{@rowIndex}">
-			<xsl:if test="$hasRole &gt; 0">
-				<xsl:attribute name="role">row</xsl:attribute>
-			</xsl:if>
 
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
@@ -348,7 +344,6 @@
 			<xsl:apply-templates select="ui:th|ui:td">
 				<xsl:with-param name="myTable" select="$myTable"/>
 				<xsl:with-param name="indent" select="$indent"/>
-				<xsl:with-param name="hasRole" select="$hasRole"/>
 			</xsl:apply-templates>
 		</tr>
 		<!--
@@ -369,7 +364,6 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:with-param>
-			<xsl:with-param name="hasRole" select="$hasRole"/>
 		</xsl:apply-templates>
 	</xsl:template>
 
