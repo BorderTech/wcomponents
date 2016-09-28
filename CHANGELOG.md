@@ -1,4 +1,15 @@
 # Change log
+
+# Release 1.2.8
+## Bug Fixes
+
+* Mitigated a11y issues in WTable (#926).
+
+## Enhancements
+
+* Added a workaround for a CSS bug in IE11 (#924).
+
+# Release 1.2.7
 ## API Changes
 
 * Deprecated the following WPanel Types (part of #689, #639):
