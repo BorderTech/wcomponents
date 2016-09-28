@@ -1,6 +1,18 @@
 # Change log
 
+# Release [in-progress]
+
+## API Changes
+
+## Bug Fixes
+
+## Enhancements
+
+
 # Release 1.2.8
+
+## API Changes
+
 ## Bug Fixes
 
 * Mitigated a11y issues in WTable (#926).
