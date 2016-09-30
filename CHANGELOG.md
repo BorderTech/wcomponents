@@ -14,7 +14,7 @@
 
 ## Bug Fixes
 
-* Fixes table row selection/dialog bug #929..
+* Fixed table row selection/dialog bug #929.
 
 ## Enhancements
 
@@ -37,7 +37,7 @@
 * Deprecated the following WPanel Types (part of #689, #639):
   * Type.ACTION: deprecated in favour of WSection to remove API ambiguity.
   * Type.BANNER: deprecated in favour of WSection as never implemented but JavaDoc points to WSection equivalence
-  * Type.BLOCK: deprecated in favour of Type.PLAIN and WSection as no longer serves any useful purpose
+  * Type.BLOCK: deprecated in favour of Type.PLAIN and Margin as no longer serves any useful purpose
   * Type.CHROME: deprecated in favour of WSection to remove API ambiguity.
 
 ## Bug Fixes
