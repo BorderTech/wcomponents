@@ -41,7 +41,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"
 				assert.notEqual(multipartEncType, enctype);
 				formUpdateManager.update(form);
 				enctype = form.enctype;
-				assert.notEqual(multipartEncType, enctype);
+				assert.equal(multipartEncType, enctype);
 				// assert.strictEqual(multipartEncType, enctype);
 				// This was originally strictEqual. Check with Rick
 			}
