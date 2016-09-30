@@ -8,6 +8,16 @@
 
 ## Enhancements
 
+# Release 1.2.9
+
+## API Changes
+
+## Bug Fixes
+
+* Fixes table row selection/dialog bug #929..
+
+## Enhancements
+
 
 # Release 1.2.8
 
