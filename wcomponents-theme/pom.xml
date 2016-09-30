@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.github.bordertech.wcomponents</groupId>
 		<artifactId>wcomponents-theme-parent</artifactId>
-		<version>1.2.9</version>
+		<version>1.2.10-SNAPSHOT</version>
 		<relativePath>../wcomponents-theme-parent/pom.xml</relativePath>
 	</parent>
 
