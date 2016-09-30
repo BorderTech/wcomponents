@@ -263,8 +263,8 @@ define(["wc/dom/classList",
 			 * @param {Event} $event a click event.
 			 */
 			function clickEvent($event) {
-				if (!$event.defaultPrevented && activateClick($event.target)) {
-					$event.preventDefault();
+				if (!$event.defaultPrevented) {
+					activateClick($event.target);
 				}
 			}
 
