@@ -103,6 +103,11 @@
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
+			
+			<!-- temporary fix for problem in araiAnalog.js -->
+			<xsl:if test="$hasRowExpansion + $rowIsSelectable &gt;= 1">
+				<xsl:attribute name="role">row</xsl:attribute>
+			</xsl:if>
 
 			<xsl:if test="$hasRowExpansion=1">
 				<xsl:if test="ui:subtr">
