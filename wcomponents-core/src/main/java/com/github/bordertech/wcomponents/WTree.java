@@ -503,7 +503,7 @@ public class WTree extends AbstractInput
 	}
 
 	/**
-	 * @return the mapping between an item id and its row index.
+	 * @return the mapping between an item id and its row index. Only expanded items.
 	 */
 	public Map<String, List<Integer>> getItemIdIndexMap() {
 		if (getScratchMap() == null) {
@@ -548,13 +548,6 @@ public class WTree extends AbstractInput
 				operation.setAction(AjaxOperation.AjaxAction.IN);
 			}
 		}
-
-		// Update custom tree nodes (if needed)
-		TreeItemIdNode custom = getCustomTree();
-		if (custom != null) {
-			TreeItemUtil.updateCustomTreeNodes(this);
-			clearCustomIdMap();
-		}
 	}
 
 	/**
@@ -572,6 +565,9 @@ public class WTree extends AbstractInput
 	 */
 	@Override
 	protected boolean beforeHandleRequest(final Request request) {
+
+		// Clear open request (if set)
+		setOpenRequestItemId(null);
 
 		// Check if is targeted request (ie item image)
 		String targetParam = request.getParameter(Environment.TARGET_ID);
@@ -735,23 +731,59 @@ public class WTree extends AbstractInput
 			throw new SystemException("No tree item id provided for open request.");
 		}
 
+		// Get the item id
 		int offset = getItemIdPrefix().length();
 		if (param.length() <= offset) {
 			throw new SystemException("Tree item id [" + param + "] does not have the correct prefix value.");
 		}
 		String itemId = param.substring(offset);
 
-		// Check valid item id
+		// Check is a valid item id
 		if (!isValidTreeItem(itemId)) {
 			throw new SystemException("Tree item id [" + itemId + "] is not valid.");
 		}
 
-		List<Integer> rowIndex = getItemIdIndexMap().get(itemId);
-		if (!getTreeModel().isExpandable(rowIndex)) {
-			throw new SystemException("Tree item id [" + itemId + "] is not expandable.");
+		// Check valid and expandable
+		TreeItemIdNode custom = getCustomTree();
+		if (custom == null) {
+			List<Integer> rowIndex = getItemIdIndexMap().get(itemId);
+			if (!getTreeModel().isExpandable(rowIndex)) {
+				throw new SystemException("Tree item id [" + itemId + "] is not expandable.");
+			}
+		} else {
+			TreeItemIdNode node = getCustomIdMap().get(itemId);
+			if (!node.hasChildren()) {
+				throw new SystemException("Tree item id [" + itemId + "] is not expandable in custom tree.");
+			}
+			// Add children from the model (if needed)
+			if (node.getChildren().isEmpty()) {
+				TreeItemUtil.loadCustomNodeChildren(node, this);
+			}
 		}
 
+		// Save the open id
 		setOpenRequestItemId(itemId);
+
+		// Set the expanded rows
+		switch (getType()) {
+			case VERTICAL:
+				// For vertical tree, just add the open item to the expanded rows
+				Set<String> rows = new HashSet(getExpandedRows());
+				rows.add(itemId);
+				setExpandedRows(rows);
+				break;
+			case HORIZONTAL:
+				// Find expanded rows to reach the open item id (ie only keep the current branch expanded)
+				Set<String> expanded;
+				if (custom == null) {
+					List<Integer> rowIndex = getItemIdIndexMap().get(itemId);
+					expanded = TreeItemUtil.calcExpandedRowsToReachIndex(rowIndex, getTreeModel());
+				} else {
+					expanded = TreeItemUtil.calcCustomExpandedRowsToReachItemId(itemId, this);
+				}
+				setExpandedRows(expanded);
+				break;
+		}
 
 		// Run the open action (if set)
 		final Action action = getOpenAction();
@@ -875,28 +907,12 @@ public class WTree extends AbstractInput
 
 		// Check for custom tree
 		TreeItemIdNode custom = getCustomTree();
-		if (custom != null && !getCustomIdMap().containsKey(itemId)) {
-			return false;
+		if (custom != null) {
+			return getCustomIdMap().containsKey(itemId);
 		}
 
 		// Check is still a valid item
-		List<Integer> index = getItemIdIndexMap().get(itemId);
-		if (index == null) {
-			return false;
-		}
-
-		String id = getTreeModel().getItemId(index);
-		if (id == null) {
-			return false;
-		}
-
-		// Check integrity
-		if (!Util.equals(id, itemId)) {
-			throw new SystemException("Invalid tree item returned from model for index [" + index + "]. Expected id [" + itemId
-					+ "] but received id [" + id + "].");
-		}
-
-		return true;
+		return getItemIdIndexMap().containsKey(itemId);
 	}
 
 	/**
