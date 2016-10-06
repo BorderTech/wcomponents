@@ -1,15 +1,51 @@
 # Change log
+
+# Release [in-progress]
+
+## API Changes
+
+## Bug Fixes
+
+## Enhancements
+
+# Release 1.2.9
+
+## API Changes
+
+## Bug Fixes
+
+* Fixed table row selection/dialog bug #929.
+
+## Enhancements
+
+
+# Release 1.2.8
+
+## API Changes
+
+## Bug Fixes
+
+* Mitigated a11y issues in WTable (#926).
+
+## Enhancements
+
+* Added a workaround for a CSS bug in IE11 (#924).
+
+# Release 1.2.7
 ## API Changes
 
 * Deprecated the following WPanel Types (part of #689, #639):
   * Type.ACTION: deprecated in favour of WSection to remove API ambiguity.
   * Type.BANNER: deprecated in favour of WSection as never implemented but JavaDoc points to WSection equivalence
-  * Type.BLOCK: deprecated in favour of Type.PLAIN and WSection as no longer serves any useful purpose
+  * Type.BLOCK: deprecated in favour of Type.PLAIN and Margin as no longer serves any useful purpose
   * Type.CHROME: deprecated in favour of WSection to remove API ambiguity.
 
 ## Bug Fixes
 
 * Applied a workaround for buggy implementation of placeholders in textareas in IE11 #911.
+* Fixed bug in WSuggestion where user text was not updated after first use (QC158630).
+* Fixed i18n race condition causing placeholder, message title (all theme messages) not to display in some browsers (QC158400).
+* Reverted date field to previous behavior of attempting to honor invalid input value after round trip (QC157989).
 
 ## Enhancements
 

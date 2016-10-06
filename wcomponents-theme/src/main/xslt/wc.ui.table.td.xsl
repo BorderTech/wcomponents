@@ -8,7 +8,6 @@
 	-->
 	<xsl:template match="ui:td">
 		<xsl:param name="myTable"/>
-		<xsl:param name="hasRole" select="0"/>
 
 		<xsl:variable name="tableId" select="$myTable/@id"/>
 		<xsl:variable name="tbleColPos">
@@ -17,9 +16,6 @@
 		<xsl:variable name="colHeaderElement" select="$myTable/ui:thead/ui:th[position()=$tbleColPos]"/>
 		<xsl:variable name="rowHeaderElement" select="../ui:th[1]"/><!-- the one is redundant -->
 		<td>
-			<xsl:if test="$hasRole &gt; 0">
-				<xsl:attribute name="role">gridcell</xsl:attribute>
-			</xsl:if>
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
 					<xsl:if test="$colHeaderElement/@align">

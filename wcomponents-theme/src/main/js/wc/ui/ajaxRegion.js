@@ -7,8 +7,9 @@ define(["wc/dom/event",
 		"wc/dom/shed",
 		"wc/dom/Widget",
 		"wc/dom/initialise",
-		"wc/ui/ajax/processResponse"],
-	function(event, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse) {
+		"wc/ui/ajax/processResponse",
+		"wc/mixin"],
+	function(event, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse, mixin) {
 		"use strict";
 
 		// prevent circular dependency
@@ -63,15 +64,14 @@ define(["wc/dom/event",
 			 * NOTE: all ajaxTriggers will have an attribute "data-wc-ajaxalias"
 			 */
 			function checkActivateTrigger(element) {
-				var result = false, trigger;
+				var result = false,
+					trigger;
 
 				if (dialog && dialog.isTrigger(element)) {
 					dialog.open(element);
 					result = true; // do not return, could be a dialog trigger AND an ajax trigger.
 				}
-
-				if (instance.isTrigger(element)) {
-					trigger = instance.getTrigger(element, true);
+				if ((trigger = instance.getTrigger(element, true))) {
 					result = fireThisTrigger(element, trigger);
 				}
 				return result;
@@ -219,27 +219,6 @@ define(["wc/dom/event",
 			};
 
 			/**
-			 * Determines if a given element is an ajax trigger. NOTE: this will return true if the element is an active
-			 * trigger even if it has used up its shots.
-			 * @function  module:wc/ui/ajaxRegion.isTrigger
-			 * @public
-			 * @param {Element} element the element to test.
-			 * @returns {Boolean} Return true if the element is an ajax trigger.
-			 */
-			this.isTrigger = function(element) {
-				var result = false;
-				if (!shed.isDisabled(element)) {
-					if (element.hasAttribute(ALIAS)) {
-						result = true;
-					}
-					else {
-						result = !!this.getTrigger(element);
-					}
-				}
-				return result;
-			};
-
-			/**
 			 * Register and fire an ajaxTrigger only when required. This is used when we do not want to fire an
 			 * ajaxTrigger on change or click (eg WShuffler, WMultiSelectPair) but in some other circumstance.
 			 * @function module:wc/ui/ajaxRegion.requestLoad
@@ -280,6 +259,9 @@ define(["wc/dom/event",
 					}
 
 					trigger = triggerManager.getTrigger(element);
+				}
+				else if (obj) {
+					mixin(obj, trigger);  // QC158630
 				}
 
 				if (trigger) {

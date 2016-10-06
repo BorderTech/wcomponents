@@ -3,7 +3,7 @@
 // ROW EXPANSION iconography and expand/collapse all iconography.
 
 td[role='button']:before {
-	[role='row'] > & {
+	[aria-expanded] > & {
 		content: $fa-var-caret-right;
 	}
 

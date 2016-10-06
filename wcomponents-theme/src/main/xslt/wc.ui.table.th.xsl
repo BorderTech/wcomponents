@@ -11,16 +11,11 @@
 		Structural: do not override.
 	-->
 	<xsl:template match="ui:th" mode="thead">
-		<xsl:param name="hasRole" select="0"/>
 		
 		<xsl:variable name="tableId" select="../../@id"/>
 		
 		<th id="{concat($tableId,'_thh', position())}" scope="col" data-wc-columnidx="{position() - 1}">
-			<xsl:if test="$hasRole &gt; 0">
-				<xsl:attribute name="role">
-					<xsl:text>columnheader</xsl:text>
-				</xsl:attribute>
-			</xsl:if>
+			
 			<xsl:call-template name="makeCommonClass"/>
 			
 			<xsl:if test="@sortable=$t">
@@ -89,17 +84,11 @@
 	-->
 	<xsl:template match="ui:th">
 		<xsl:param name="myTable"/>
-		<xsl:param name="hasRole" select="0"/>
 
 		<xsl:variable name="tableId" select="$myTable/@id"/>
 		<xsl:variable name="myHeader" select="$myTable/ui:thead/ui:th[1]"/>
 
 		<th id="{concat($tableId,'_trh',../@rowIndex)}" scope="row">
-			<xsl:if test="$hasRole &gt; 0">
-				<xsl:attribute name="role">
-					<xsl:text>rowheader</xsl:text>
-				</xsl:attribute>
-			</xsl:if>
 			<xsl:if test="$myHeader">
 				<xsl:attribute name="headers">
 					<xsl:value-of select="concat($tableId,'_thh','1')"/>

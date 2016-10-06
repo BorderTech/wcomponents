@@ -1,18 +1,15 @@
-/**
- * <p>Module to provide WAI-ARIA roles, state and properties implicit in HTML Elements. The WAI-ARIA guidelines are
- * extremely specific: the role attribute is used to change the control type or add a control type to an element which
- * is not a control and the aria-* attributes are an extension of native language attributes and should not be applied
- * where native semantics exist.</p>
- *
- * <p>This module allows us to use WAI-ARIA roles, properties and states interchangeably with native semantics by
- * supplying the implied role of an element with no "role" attribute and therefore the aria-* attribute states and
- * properties which may be applied to that element.</p>
- *
- * @module
- * @requires module:wc/dom/tag
- */
-define(["wc/dom/tag"], /** @param tag wc/dom/tag @ignore */ function(tag) {
+define(["wc/dom/tag", "wc/dom/Widget"], function (tag, Widget) {
 	"use strict";
+
+	/*
+	 * To determine the correct role for a table we need to know if it is expandable, and therefore a treegrid.
+	 */
+	var table;
+
+	require(["wc/ui/table/rowExpansion"], function (t) {
+		table = t;
+	});
+
 	/**
 	 * @constructor
 	 * @alias module:wc/dom/impliedARIA~ImpliedAria
@@ -27,6 +24,7 @@ define(["wc/dom/tag"], /** @param tag wc/dom/tag @ignore */ function(tag) {
 				"email": "textbox",
 				"image": "button",
 				"input": "textbox",
+				"number": "spinbox",
 				"option": "option",
 				"password": "textbox",
 				"progress": "progressbar",
@@ -35,12 +33,17 @@ define(["wc/dom/tag"], /** @param tag wc/dom/tag @ignore */ function(tag) {
 				"reset": "button",
 				"select": "listbox",
 				"submit": "button",
+				"td": "gridcell",
 				"tel": "textbox",
 				"text": "textbox",
-				"textarea": "textbox"
+				"textarea": "textbox",
+				"tr": "row"
 			},
 			DISABLEABLE,
-			REQUIRED;
+			REQUIRED,
+			INPUT_NOT_REQUIRED,
+			THEAD;
+
 
 		/**
 		 * Determine if a HTML element supports the native required attribute. See
@@ -55,17 +58,16 @@ define(["wc/dom/tag"], /** @param tag wc/dom/tag @ignore */ function(tag) {
 		 * @returns {Boolean} true if the element supports the required attribute.
 		 */
 		function supportsRequired(element) {
-			var notRequired = ["hidden", "range", "color", "submit", "image", "reset", "button"],
-				result = false,
-				tagName = element.tagName;
+			var tagName = element.tagName;
 			REQUIRED = REQUIRED || [tag.INPUT, tag.SELECT, tag.TEXTAREA];
 			if (~REQUIRED.indexOf(tagName)) {
-				result = true;
-				if (tagName === tag.INPUT && ~notRequired.indexOf(element.getAttribute("type"))) {  // do not use element.type because a lot of cruddy browsers still reply text to that.
-					result = false;
+				INPUT_NOT_REQUIRED = INPUT_NOT_REQUIRED || ["hidden", "range", "color", "submit", "image", "reset", "button"];
+				if (tagName === tag.INPUT && ~INPUT_NOT_REQUIRED.indexOf(element.getAttribute("type"))) { // do not use element.type because a lot of cruddy browsers still reply text to that.
+					return false;
 				}
+				return true;
 			}
-			return result;
+			return false;
 		}
 
 		/**
@@ -102,16 +104,20 @@ define(["wc/dom/tag"], /** @param tag wc/dom/tag @ignore */ function(tag) {
 		 * @param {Node} element A DOM NODE but really should be an element.
 		 * @returns {String} The implied role for the element.
 		 */
-		this.getImpliedRole = function(element) {
-			var role,
-				roleKey;
-			if (element.nodeType === Node.ELEMENT_NODE) {
-				if (!element.hasAttribute("role")) { // if something has an explicit role then implied roles should not be considered.
-					roleKey = (element.tagName === tag.INPUT || element.tagName === tag.BUTTON) ? element.type : element.tagName.toLowerCase();
-					role = ROLE_MAP[roleKey];
+		this.getImpliedRole = function (element) {
+			var roleKey;
+			if (element.nodeType === Node.ELEMENT_NODE && !element.hasAttribute("role")) { // if something has an explicit role then implied roles should not be considered.
+				if (element.tagName === tag.TABLE) {
+					return (table && table.isTreeGrid(element)) ? "treegrid" : "grid";
 				}
+				if (element.tagName === tag.TH) {
+					THEAD = THEAD || new Widget(tag.THEAD);
+					return (THEAD.findAncestor(element)) ? "columnheader" : "rowheader";
+				}
+				roleKey = (element.tagName === tag.INPUT || element.tagName === tag.BUTTON) ? element.type : element.tagName.toLowerCase();
+				return ROLE_MAP[roleKey];
 			}
-			return role;
+			return null;
 		};
 
 		/**
@@ -123,14 +129,14 @@ define(["wc/dom/tag"], /** @param tag wc/dom/tag @ignore */ function(tag) {
 		 * @param {String} state an HTML attribute representing a state: required, selected, checked or disabled.
 		 * @returns {Boolean} true if element supports that attribute
 		 */
-		this.supportsNativeState = function(element, state) {
+		this.supportsNativeState = function (element, state) {
 			var result = false;
 			/*
 			 * Cannot rely on this quick mechanism because IE (11 at least) supports "disabled" in elements which are not
 			 * form controls. It does not seem to apply checked, selected or required to them though.
-			if (state in element || element.hasAttribute(state)) {
-				return true;
-			}
+			 if (state in element || element.hasAttribute(state)) {
+			 return true;
+			 }
 			 */
 			switch (state) {
 				case "disabled":
@@ -153,7 +159,21 @@ define(["wc/dom/tag"], /** @param tag wc/dom/tag @ignore */ function(tag) {
 			}
 			return result;
 		};
-
 	}
-	return /** @alias module:wc/dom/impliedARIA */ new ImpliedAria();
+
+	/**
+	 * <p>Module to provide WAI-ARIA roles, state and properties implicit in HTML Elements. The WAI-ARIA guidelines are
+	 * extremely specific: the role attribute is used to change the control type or add a control type to an element which
+	 * is not a control and the aria-* attributes are an extension of native language attributes and should not be applied
+	 * where native semantics exist.</p>
+	 *
+	 * <p>This module allows us to use WAI-ARIA roles, properties and states interchangeably with native semantics by
+	 * supplying the implied role of an element with no "role" attribute and therefore the aria-* attribute states and
+	 * properties which may be applied to that element.</p>
+	 *
+	 * @module
+	 * @requires module:wc/dom/tag
+	 * @requires module:wc/dom/Widget
+	 */
+	return new ImpliedAria();
 });
