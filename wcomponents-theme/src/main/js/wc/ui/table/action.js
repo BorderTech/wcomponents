@@ -27,7 +27,10 @@ define(["wc/dom/event",
 		function Action() {
 			var ACTION_BUTTON = common.BUTTON.extend("wc_table_cond"),
 				ACTION_TABLE = common.WRAPPER,
-				ROW_CONTAINER = common.TBODY;
+				ROW_CONTAINER = common.TBODY,
+				ROW = common.TR.clone();
+
+			ROW.descendFrom(ROW_CONTAINER, true);
 
 			/**
 			 * Determines if an action condition is met.
@@ -171,7 +174,7 @@ define(["wc/dom/event",
 			function shedSubscriber(element) {
 				var table;
 
-				if (element && common.ROW.isOneOfMe(element) && (table = ACTION_TABLE.findAncestor(element))) {
+				if (element && ROW.isOneOfMe(element) && (table = ACTION_TABLE.findAncestor(element))) {
 					Array.prototype.forEach.call(ACTION_BUTTON.findDescendants(table), function(next) {
 						if (ACTION_TABLE.findAncestor(next) !== table) {
 							return; // not in the same table.

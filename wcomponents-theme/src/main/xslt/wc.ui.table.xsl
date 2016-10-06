@@ -68,8 +68,6 @@
 				</xsl:choose>
 			</xsl:variable>
 
-			<xsl:variable name="hasRole" select="$rowExpansion + $rowSelection"/>
-
 			<!-- THIS IS WHERE THE DIV's CONTENT STARTS NO MORE ATTRIBUTES AFTER THIS POINT THANK YOU! -->
 			<!--
 				Add table controls which do not form part of the table structure but which control and reference the 
@@ -78,22 +76,25 @@
 			-->
 			<xsl:call-template name="topControls"/>
 
+			<xsl:variable name="tableClass">
+				<xsl:if test="$rowExpansion = 1">
+					<xsl:text>wc_tbl_expansion</xsl:text>
+				</xsl:if>
+				<xsl:if test="ui:thead/ui:th[@width]">
+					<xsl:text> wc_table_fix</xsl:text>
+				</xsl:if>
+			</xsl:variable>
+	
 			<table>
-				<xsl:if test="$hasRole &gt; 0">
-					<xsl:attribute name="role">
-						<xsl:choose>
-							<xsl:when test="$rowExpansion=1">
-								<xsl:text>treegrid</xsl:text>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:text>grid</xsl:text>
-							</xsl:otherwise>
-						</xsl:choose>
+				<xsl:if test="$tableClass != ''">
+					<xsl:attribute name="class">
+						<xsl:value-of select="normalize-space($tableClass)"/>
 					</xsl:attribute>
-					<xsl:attribute name="aria-readonly">true</xsl:attribute>
-					<xsl:if test="$isError">
-						<xsl:call-template name="invalid"/>
-					</xsl:if>
+				</xsl:if>
+				<xsl:if test="$isError">
+					<xsl:call-template name="invalid"/>
+				</xsl:if>
+				<xsl:if test="$rowExpansion + $rowSelection &gt; 0">
 					<xsl:if test="$rowSelection=1">
 						<xsl:attribute name="aria-multiselectable">
 							<xsl:choose>
@@ -106,11 +107,6 @@
 							</xsl:choose>
 						</xsl:attribute>
 					</xsl:if>
-				</xsl:if>
-				<xsl:if test="ui:thead/ui:th[@width]">
-					<xsl:attribute name="class">
-						<xsl:text>wc_table_fix</xsl:text>
-					</xsl:attribute>
 				</xsl:if>
 				<xsl:if test="ui:pagination">
 					<xsl:attribute name="data-wc-rpp">
@@ -169,21 +165,15 @@
 					</xsl:choose>
 				</colgroup>
 
-				<xsl:apply-templates select="ui:thead">
-					<xsl:with-param name="hasRole" select="$hasRole"/>
-				</xsl:apply-templates>
-
-				<xsl:apply-templates select="ui:tbody">
-					<xsl:with-param name="hasRole" select="$hasRole"/>
-				</xsl:apply-templates>
+				<xsl:apply-templates select="ui:thead"/>
+				<xsl:apply-templates select="ui:tbody"/>
+				
 			</table>
 			<!--
 				Add table controls which do not form part of the table structure but which control and reference the 
 				table. The default are actions and the pagination controls (if position is unsset, BOTTOM or BOTH).
 			-->
-			<xsl:call-template name="tableBottomControls">
-				<xsl:with-param name="addCols" select="$hasRole"/>
-			</xsl:call-template>
+			<xsl:call-template name="tableBottomControls"/>
 			<xsl:call-template name="inlineError">
 				<xsl:with-param name="errors" select="$isError"/>
 			</xsl:call-template>
