@@ -6,6 +6,8 @@
 
 ## Bug Fixes
 
+* Fix WTree AJAX expansion #934, QC#158631
+
 ## Enhancements
 
 # Release 1.2.9
