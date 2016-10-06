@@ -282,6 +282,12 @@ public class WTree extends AbstractInput
 	}
 
 	/**
+	 * Set a custom view of the tree nodes.
+	 * <p>
+	 * When using custom trees it is important to implement the correct logic in getItemRowIndex(itemId) in the model to
+	 * match between the row item id ands its row index.
+	 * </p>
+	 *
 	 * @param customTree the root node of a custom tree structure
 	 */
 	public void setCustomTree(final TreeItemIdNode customTree) {
@@ -503,7 +509,7 @@ public class WTree extends AbstractInput
 	}
 
 	/**
-	 * @return the mapping between an item id and its row index.
+	 * @return the mapping between an item id and its row index. Only expanded items.
 	 */
 	public Map<String, List<Integer>> getItemIdIndexMap() {
 		if (getScratchMap() == null) {
@@ -548,13 +554,28 @@ public class WTree extends AbstractInput
 				operation.setAction(AjaxOperation.AjaxAction.IN);
 			}
 		}
-
-		// Update custom tree nodes (if needed)
-		TreeItemIdNode custom = getCustomTree();
-		if (custom != null) {
-			TreeItemUtil.updateCustomTreeNodes(this);
-			clearCustomIdMap();
+		// Check if a custom tree needs the expanded rows checked
+		if (getCustomTree() != null) {
+			checkExpandedCustomNodes();
 		}
+
+		// Make sure the ID maps are up to date
+		clearCustomIdMap();
+		clearItemIdIndexMap();
+		if (getExpandMode() == ExpandMode.LAZY) {
+			if (AjaxHelper.getCurrentOperation() == null) {
+				clearPrevExpandedRows();
+			} else {
+				addPrevExpandedCurrent();
+			}
+		}
+	}
+
+	/**
+	 * Check if custom nodes that are expanded need their child nodes added from the model.
+	 */
+	protected void checkExpandedCustomNodes() {
+		TreeItemUtil.checkExpandedCustomNodes(this);
 	}
 
 	/**
@@ -572,6 +593,9 @@ public class WTree extends AbstractInput
 	 */
 	@Override
 	protected boolean beforeHandleRequest(final Request request) {
+
+		// Clear open request (if set)
+		setOpenRequestItemId(null);
 
 		// Check if is targeted request (ie item image)
 		String targetParam = request.getParameter(Environment.TARGET_ID);
@@ -735,23 +759,53 @@ public class WTree extends AbstractInput
 			throw new SystemException("No tree item id provided for open request.");
 		}
 
+		// Get the item id
 		int offset = getItemIdPrefix().length();
 		if (param.length() <= offset) {
 			throw new SystemException("Tree item id [" + param + "] does not have the correct prefix value.");
 		}
 		String itemId = param.substring(offset);
 
-		// Check valid item id
+		// Check is a valid item id
 		if (!isValidTreeItem(itemId)) {
 			throw new SystemException("Tree item id [" + itemId + "] is not valid.");
 		}
 
-		List<Integer> rowIndex = getItemIdIndexMap().get(itemId);
-		if (!getTreeModel().isExpandable(rowIndex)) {
-			throw new SystemException("Tree item id [" + itemId + "] is not expandable.");
+		// Check valid and expandable
+		TreeItemIdNode custom = getCustomTree();
+		if (custom == null) {
+			List<Integer> rowIndex = getItemIdIndexMap().get(itemId);
+			if (!getTreeModel().isExpandable(rowIndex)) {
+				throw new SystemException("Tree item id [" + itemId + "] is not expandable.");
+			}
+		} else {
+			TreeItemIdNode node = getCustomIdMap().get(itemId);
+			if (!node.hasChildren()) {
+				throw new SystemException("Tree item id [" + itemId + "] is not expandable in custom tree.");
+			}
+			// Add children from the model (if needed)
+			if (node.getChildren().isEmpty()) {
+				TreeItemUtil.loadCustomNodeChildren(node, this);
+			}
 		}
 
+		// Save the open id
 		setOpenRequestItemId(itemId);
+
+		// Set the expanded rows
+		switch (getType()) {
+			case VERTICAL:
+				// For vertical tree, just add the open item to the expanded rows
+				Set<String> rows = new HashSet(getExpandedRows());
+				rows.add(itemId);
+				setExpandedRows(rows);
+				break;
+			case HORIZONTAL:
+				// Find expanded rows to reach the open item id (ie only keep the current branch expanded)
+				Set<String> expanded = TreeItemUtil.calcExpandedRowsToReachItemId(itemId, this);
+				setExpandedRows(expanded);
+				break;
+		}
 
 		// Run the open action (if set)
 		final Action action = getOpenAction();
@@ -875,28 +929,12 @@ public class WTree extends AbstractInput
 
 		// Check for custom tree
 		TreeItemIdNode custom = getCustomTree();
-		if (custom != null && !getCustomIdMap().containsKey(itemId)) {
-			return false;
+		if (custom != null) {
+			return getCustomIdMap().containsKey(itemId);
 		}
 
 		// Check is still a valid item
-		List<Integer> index = getItemIdIndexMap().get(itemId);
-		if (index == null) {
-			return false;
-		}
-
-		String id = getTreeModel().getItemId(index);
-		if (id == null) {
-			return false;
-		}
-
-		// Check integrity
-		if (!Util.equals(id, itemId)) {
-			throw new SystemException("Invalid tree item returned from model for index [" + index + "]. Expected id [" + itemId
-					+ "] but received id [" + id + "].");
-		}
-
-		return true;
+		return getItemIdIndexMap().containsKey(itemId);
 	}
 
 	/**
@@ -911,6 +949,50 @@ public class WTree extends AbstractInput
 	 */
 	public String getOpenRequestItemId() {
 		return getComponentModel().openRequestItemId;
+	}
+
+	/**
+	 * Return the item ids that have been expanded.
+	 * <p>
+	 * Note - Only used for when the tree is in LAZY mode
+	 * </p>
+	 *
+	 * @return the previously expanded item ids
+	 */
+	public Set<String> getPrevExpandedRows() {
+		Set<String> prev = getComponentModel().prevExpandedRows;
+		if (prev == null) {
+			return Collections.emptySet();
+		} else {
+			return Collections.unmodifiableSet(prev);
+		}
+	}
+
+	/**
+	 * Save the currently open rows.
+	 * <p>
+	 * Note - Only used for when the tree is in LAZY mode
+	 * </p>
+	 */
+	protected void addPrevExpandedCurrent() {
+		Set<String> rows = getExpandedRows();
+		if (!rows.isEmpty()) {
+			WTreeComponentModel model = getOrCreateComponentModel();
+			if (model.prevExpandedRows == null) {
+				model.prevExpandedRows = new HashSet<>();
+			}
+			model.prevExpandedRows.addAll(rows);
+		}
+	}
+
+	/**
+	 * Clear the previously expanded row keys.
+	 * <p>
+	 * Note - Only used for when the tree is in LAZY mode
+	 * </p>
+	 */
+	protected void clearPrevExpandedRows() {
+		getOrCreateComponentModel().prevExpandedRows = null;
 	}
 
 	/**
@@ -1014,6 +1096,11 @@ public class WTree extends AbstractInput
 		 * This is used to allow a user to have a different tree of nodes.
 		 */
 		private TreeItemIdNode customTree;
+
+		/**
+		 * Track preivously LAZY expanded rows.
+		 */
+		private Set<String> prevExpandedRows;
 	}
 
 }

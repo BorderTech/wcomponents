@@ -38,26 +38,38 @@ public interface TreeItemModel extends Serializable {
 	boolean isDisabled(final List<Integer> row);
 
 	/**
-	 * Retrieves the value at the given row and column.
+	 * Retrieves the label at the given row.
 	 *
 	 * @param row - the row index.
-	 * @return the value at the given row and column.
+	 * @return the value at the given row.
 	 */
 	String getItemLabel(final List<Integer> row);
 
 	/**
-	 * Retrieves the value at the given row and column.
+	 * Retrieves the rows unique item id at the given row.
+	 * <p>
+	 * When using custom trees it is important to implement the correct logic in
+	 * {@link #getItemRowIndex(java.lang.String)} to match between the row item id ands its row index.
+	 * </p>
 	 *
 	 * @param row - the row index.
-	 * @return the value at the given row and column.
+	 * @return the value at the given row.
 	 */
 	String getItemId(final List<Integer> row);
 
 	/**
-	 * Retrieves the value at the given row and column.
+	 * Used in custom trees to match a rows unique item id to the row index.
+	 *
+	 * @param itemId the row item id
+	 * @return the row index for the item id
+	 */
+	List<Integer> getItemRowIndex(final String itemId);
+
+	/**
+	 * Retrieves the value at the given row.
 	 *
 	 * @param row - the row index.
-	 * @return the value at the given row and column.
+	 * @return the value at the given row.
 	 */
 	TreeItemImage getItemImage(final List<Integer> row);
 

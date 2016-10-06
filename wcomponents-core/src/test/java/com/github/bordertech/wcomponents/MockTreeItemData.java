@@ -17,13 +17,13 @@ import java.util.Set;
  */
 public class MockTreeItemData {
 
-	public static final String TEST_MULTI_JSON = "{\"root\":[{\"id\":\"A\"},{\"id\":\"B\",\"items\":[{\"id\":\"B.1\",\"items\":[{\"id\":\"B.1.1\"}]},{\"id\":\"B.2\"}]},{\"id\":\"C\"}]}";
+	public static final String TEST_MULTI_JSON = "{\"root\":[{\"id\":\"A\"},{\"id\":\"C\",\"items\":[{\"id\":\"C.1\",\"items\":[{\"id\":\"B\",\"expandable\":true}]}]},{\"id\":\"C.1.1\",\"expandable\":true}]}";
 
-	public static final TreeItemIdNode TEST_MULTI_TREE = createTreeMulti();
+	public static final TreeItemIdNode TEST_MULTI_TREE = createTreeNodeMulti();
 
 	public static final String TEST_BASIC_JSON = "{\"root\":[{\"id\":\"A\"}]}";
 
-	public static final TreeItemIdNode TEST_BASIC_TREE = createTreeBasic();
+	public static final TreeItemIdNode TEST_BASIC_TREE = createTreeNodeBasic();
 
 	public static final List<MyBean> DATA = new ArrayList<>();
 	public static final MyBean BEAN_A = new MyBean("A");
@@ -69,26 +69,28 @@ public class MockTreeItemData {
 	/**
 	 * @return a tree with multiple levels
 	 */
-	public static TreeItemIdNode createTreeMulti() {
+	private static TreeItemIdNode createTreeNodeMulti() {
 
 		TreeItemIdNode root = new TreeItemIdNode(null);
 
 		// A
-		root.addChild(new TreeItemIdNode("A"));
-
-		// B
-		TreeItemIdNode nodeB = new TreeItemIdNode("B");
-		root.addChild(nodeB);
-		// B.1
-		TreeItemIdNode nodeB1 = new TreeItemIdNode("B.1");
-		nodeB.addChild(nodeB1);
-		// B.1.1
-		nodeB1.addChild(new TreeItemIdNode("B.1.1"));
-		// B.2
-		nodeB.addChild(new TreeItemIdNode("B.2"));
-
 		// C
-		root.addChild(new TreeItemIdNode("C"));
+		// - C.1
+		//   - B (hasChildren)
+		// C.1.1 (hasChildren)
+		TreeItemIdNode nodeB = new TreeItemIdNode("B");
+		TreeItemIdNode nodeC = new TreeItemIdNode("C");
+		TreeItemIdNode nodeC1 = new TreeItemIdNode("C.1");
+		TreeItemIdNode nodeC11 = new TreeItemIdNode("C.1.1");
+
+		nodeB.setHasChildren(true);
+		nodeC11.setHasChildren(true);
+
+		root.addChild(new TreeItemIdNode("A"));
+		root.addChild(nodeC);
+		nodeC.addChild(nodeC1);
+		nodeC1.addChild(nodeB);
+		root.addChild(nodeC11);
 
 		return root;
 	}
@@ -97,16 +99,31 @@ public class MockTreeItemData {
 	 *
 	 * @return a basic tree with one level
 	 */
-	public static TreeItemIdNode createTreeBasic() {
+	private static TreeItemIdNode createTreeNodeBasic() {
 		TreeItemIdNode root = new TreeItemIdNode(null);
 		// A
 		root.addChild(new TreeItemIdNode("A"));
 		return root;
 	}
 
-	public static WTree setupTree() {
+	/**
+	 *
+	 * @return a WTree setup with the mock tree item model
+	 */
+	public static WTree setupWTree() {
 		WTree tree = new WTree();
 		tree.setTreeModel(new MockTreeItemData.MyTestModel(MockTreeItemData.DATA));
+		return tree;
+	}
+
+	/**
+	 *
+	 * @return a WTree setup with the mock tree item model
+	 */
+	public static WTree setupWTreeWithCustom() {
+		WTree tree = new WTree();
+		tree.setTreeModel(new MockTreeItemData.MyTestModel(MockTreeItemData.DATA));
+		tree.setCustomTree(createTreeNodeMulti());
 		return tree;
 	}
 
@@ -117,6 +134,9 @@ public class MockTreeItemData {
 
 		private final List<MyBean> data;
 
+		/**
+		 * @param data the mock data for the model
+		 */
 		public MyTestModel(final List<MyBean> data) {
 			this.data = data;
 		}
@@ -128,6 +148,43 @@ public class MockTreeItemData {
 		public String getItemId(final List<Integer> row) {
 			// Use the label as the key
 			return getRowBean(row).getId();
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public List<Integer> getItemRowIndex(final String itemId) {
+			for (int idx = 0; idx < data.size(); idx++) {
+				List<Integer> rowIndex = new ArrayList<>();
+				rowIndex.add(idx);
+				rowIndex = findItemId(itemId, rowIndex);
+				if (rowIndex != null) {
+					return rowIndex;
+				}
+			}
+			return null;
+		}
+
+		private List<Integer> findItemId(final String itemId, final List<Integer> rowIndex) {
+			MyBean bean = getRowBean(rowIndex);
+			// Check bean is a match
+			if (Util.equals(bean.getId(), itemId)) {
+				return rowIndex;
+			}
+			// Check children
+			if (bean.children != null) {
+				for (int idx = 0; idx < bean.children.size(); idx++) {
+					List<Integer> childIdx = new ArrayList<>(rowIndex);
+					childIdx.add(idx);
+					childIdx = findItemId(itemId, childIdx);
+					if (childIdx != null) {
+						return childIdx;
+					}
+				}
+			}
+			return null;
+
 		}
 
 		/**
