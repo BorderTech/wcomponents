@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
@@ -249,8 +248,7 @@ public class TreeItemUtil_Test {
 		WTree tree = MockTreeItemData.setupWTree();
 		Set<String> result = new HashSet<>();
 		result.add("C");
-		List<Integer> idx = Arrays.asList(2);
-		Assert.assertEquals("Wrong expanded rows for item at level 1", result, TreeItemUtil.calcExpandedRowsToReachIndex(idx, tree.getTreeModel()));
+		Assert.assertEquals("Wrong expanded rows for item at level 1", result, TreeItemUtil.calcExpandedRowsToReachItemId("C", tree));
 	}
 
 	@Test
@@ -260,8 +258,7 @@ public class TreeItemUtil_Test {
 		Set<String> result = new HashSet<>();
 		result.add("C");
 		result.add("C.1");
-		List<Integer> idx = Arrays.asList(2, 0);
-		Assert.assertEquals("Wrong expanded rows for item at level 2", result, TreeItemUtil.calcExpandedRowsToReachIndex(idx, tree.getTreeModel()));
+		Assert.assertEquals("Wrong expanded rows for item at level 2", result, TreeItemUtil.calcExpandedRowsToReachItemId("C.1", tree));
 	}
 
 	@Test
@@ -272,8 +269,7 @@ public class TreeItemUtil_Test {
 		result.add("C");
 		result.add("C.1");
 		result.add("C.1.1");
-		List<Integer> idx = Arrays.asList(2, 0, 0);
-		Assert.assertEquals("Wrong expanded rows for item at level 3", result, TreeItemUtil.calcExpandedRowsToReachIndex(idx, tree.getTreeModel()));
+		Assert.assertEquals("Wrong expanded rows for item at level 3", result, TreeItemUtil.calcExpandedRowsToReachItemId("C.1.1", tree));
 	}
 
 	@Test
@@ -281,7 +277,7 @@ public class TreeItemUtil_Test {
 		WTree tree = MockTreeItemData.setupWTreeWithCustom();
 		Set<String> result = new HashSet<>();
 		result.add("C");
-		Assert.assertEquals("Wrong expanded rows for item at level 1", result, TreeItemUtil.calcCustomExpandedRowsToReachItemId("C", tree));
+		Assert.assertEquals("Wrong expanded rows for item at level 1", result, TreeItemUtil.calcExpandedRowsToReachItemId("C", tree));
 	}
 
 	@Test
@@ -295,7 +291,7 @@ public class TreeItemUtil_Test {
 		Set<String> result = new HashSet<>();
 		result.add("C");
 		result.add("C.1");
-		Assert.assertEquals("Wrong expanded rows for item at level 2", result, TreeItemUtil.calcCustomExpandedRowsToReachItemId("C.1", tree));
+		Assert.assertEquals("Wrong expanded rows for item at level 2", result, TreeItemUtil.calcExpandedRowsToReachItemId("C.1", tree));
 	}
 
 	@Test
@@ -311,7 +307,7 @@ public class TreeItemUtil_Test {
 		result.add("C");
 		result.add("C.1");
 		result.add("B");
-		Assert.assertEquals("Wrong expanded rows for item at level 3", result, TreeItemUtil.calcCustomExpandedRowsToReachItemId("B", tree));
+		Assert.assertEquals("Wrong expanded rows for item at level 3", result, TreeItemUtil.calcExpandedRowsToReachItemId("B", tree));
 	}
 
 }

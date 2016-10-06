@@ -4,8 +4,10 @@ import com.github.bordertech.wcomponents.AbstractTreeItemModel;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.ImageResource;
 import com.github.bordertech.wcomponents.Margin;
-import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.TreeItemIdNode;
+import com.github.bordertech.wcomponents.TreeItemImage;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
@@ -20,6 +22,8 @@ import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.WTree;
 import com.github.bordertech.wcomponents.examples.table.ExampleDataUtil;
 import com.github.bordertech.wcomponents.examples.table.PersonBean;
+import com.github.bordertech.wcomponents.util.Util;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,10 +65,19 @@ public class WTreeExample extends WContainer {
 	private final WAjaxControl control = new WAjaxControl(tree);
 
 	/**
+	 * A check box to show documents instead of people.
+	 */
+	private final WCheckBox cbUseDocuments = new WCheckBox();
+
+	/**
+	 * A check box to use custom tree.
+	 */
+	private final WCheckBox cbCustomTree = new WCheckBox();
+
+	/**
 	 * Construct the example.
 	 */
 	public WTreeExample() {
-
 
 		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
 		add(layout);
@@ -72,6 +85,8 @@ public class WTreeExample extends WContainer {
 		layout.addField("Use HTree", cbMakeHTree);
 		layout.addField("Enable multiple selection", cbUseMultiSelect);
 		layout.addField("Enable ajax control", cbAjaxTrigger);
+		layout.addField("Use documents", cbUseDocuments);
+		layout.addField("Custom tree", cbCustomTree);
 
 		ddExpMode.setOptions(WTree.ExpandMode.values());
 		ddExpMode.setSelected(WTree.ExpandMode.CLIENT);
@@ -114,29 +129,61 @@ public class WTreeExample extends WContainer {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void preparePaintComponent(final Request request) {
-		super.preparePaintComponent(request);
-		if (!isInitialised()) {
-			// This model holds the data so would be included on the user session.
-			ExampleTreeModel data = new ExampleTreeModel(ExampleDataUtil.
-					createExampleData());
-			tree.setTreeModel(data);
-			setInitialised(true);
-		}
-	}
-
-	/**
 	 * Set options for the WTree based on user input in the options field(s).
 	 */
 	private void applyOptions() {
+		tree.reset();
 		tree.setType(cbMakeHTree.isSelected() ? WTree.Type.HORIZONTAL : WTree.Type.VERTICAL);
 		tree.setSelectMode(cbUseMultiSelect.isSelected() ? WTree.SelectMode.MULTIPLE : WTree.SelectMode.SINGLE);
 		tree.setExpandMode((WTree.ExpandMode) ddExpMode.getSelected());
 
 		control.setVisible(cbAjaxTrigger.isSelected());
+
+		// This model holds the data so would be included on the user session.
+		ExampleTreeModel data = new ExampleTreeModel(ExampleDataUtil.
+				createExampleData(), cbUseDocuments.isSelected());
+		tree.setTreeModel(data);
+		if (cbCustomTree.isSelected()) {
+			TreeItemIdNode custom = new TreeItemIdNode(null);
+			if (cbUseDocuments.isSelected()) {
+				// Put all documents under Tom Smith (ID16)
+				TreeItemIdNode node = new TreeItemIdNode("ID16");
+				node.addChild(new TreeItemIdNode("11122"));
+				node.addChild(new TreeItemIdNode("23456"));
+				node.addChild(new TreeItemIdNode("78901"));
+				node.addChild(new TreeItemIdNode("23457"));
+
+				// Put 3 people in the custom tree
+				custom.addChild(new TreeItemIdNode("ID4"));
+				custom.addChild(node);
+				custom.addChild(new TreeItemIdNode("ID1"));
+			} else {
+				// Put people under Tom SMith
+
+				TreeItemIdNode itemID2 = new TreeItemIdNode("ID2");
+				itemID2.setHasChildren(true);
+
+				TreeItemIdNode itemID1 = new TreeItemIdNode("ID1");
+				itemID1.setHasChildren(true);
+
+				TreeItemIdNode node = new TreeItemIdNode("ID16");
+				node.addChild(itemID2);
+				node.addChild(new TreeItemIdNode("ID3"));
+				node.addChild(new TreeItemIdNode("ID6"));
+				node.addChild(new TreeItemIdNode("ID5"));
+
+				// Take some nodes from other nodes
+				node.addChild(new TreeItemIdNode("2A"));
+				node.addChild(new TreeItemIdNode("1B1"));
+
+				// Put 3 people at top level
+				custom.addChild(new TreeItemIdNode("ID4"));
+				custom.addChild(node);
+				custom.addChild(itemID1);
+			}
+			tree.setCustomTree(custom);
+		}
+
 	}
 
 	/**
@@ -144,16 +191,27 @@ public class WTreeExample extends WContainer {
 	 */
 	public static class ExampleTreeModel extends AbstractTreeItemModel {
 
+		private static final TreeItemImage PDF_IMAGE = new TreeItemImage(new ImageResource("/image/attachment.png"));
+
+		private static final TreeItemImage PERSON_IMAGE = new TreeItemImage(new ImageResource("/image/user.png"));
+
 		/**
 		 * List that holds the sample data.
 		 */
 		private final List<PersonBean> data;
 
 		/**
-		 * @param data the sample data
+		 * Flag if expand docs.
 		 */
-		public ExampleTreeModel(final List<PersonBean> data) {
+		private final boolean useDocs;
+
+		/**
+		 * @param data the sample data
+		 * @param useDocs use documents in the expand level
+		 */
+		public ExampleTreeModel(final List<PersonBean> data, final boolean useDocs) {
 			this.data = data;
+			this.useDocs = useDocs;
 		}
 
 		/**
@@ -168,17 +226,22 @@ public class WTreeExample extends WContainer {
 		 */
 		@Override
 		public String getItemLabel(final List<Integer> row) {
-			int rootIdx = row.get(0);
-			// Top Level
-			PersonBean bean = getData().get(rootIdx);
-			if (row.size() == 1) {
-				return bean.getFirstName();
-			} else if (row.size() == 2) {  // Expandable Level
-				int docIdx = row.get(1);
-				PersonBean.TravelDoc doc = bean.getDocuments().get(docIdx);
-				return doc.getDocumentNumber();
+
+			if (useDocs) {
+				if (row.size() == 1) {
+					// Top Level (Name)
+					PersonBean bean = getRootPerson(row);
+					return bean.getFirstName() + " " + bean.getLastName();
+				} else {
+					// Expandable Level (Document)
+					PersonBean.TravelDoc doc = getDocument(row);
+					return doc.getDocumentNumber();
+				}
+			} else {
+				// Person Name
+				PersonBean bean = getPerson(row);
+				return bean.getFirstName() + " " + bean.getLastName();
 			}
-			return null;
 		}
 
 		/**
@@ -194,12 +257,163 @@ public class WTreeExample extends WContainer {
 		 */
 		@Override
 		public int getChildCount(final List<Integer> row) {
-			// Top Level - check if level has children (ie has documents)
-			if (row.size() == 1) {
-				PersonBean bean = data.get(row.get(0));
-				return bean.getDocuments() == null ? 0 : bean.getDocuments().size();
+			if (useDocs) {
+				// Top Level - check if level has has documents
+				if (row.size() == 1) {
+					PersonBean bean = getPerson(row);
+					return bean.getDocuments() == null ? 0 : bean.getDocuments().size();
+				}
+				return 0;
+			} else {
+				// Check has "more" persons
+				PersonBean bean = getPerson(row);
+				return bean.getMore() == null ? 0 : bean.getMore().size();
 			}
-			return 0;
+		}
+
+		@Override
+		public String getItemId(final List<Integer> row) {
+			if (useDocs) {
+				if (row.size() == 1) {
+					PersonBean bean = getRootPerson(row);
+					return bean.getPersonId();
+				} else {
+					PersonBean.TravelDoc doc = getDocument(row);
+					return doc.getDocumentNumber();
+				}
+			} else {
+				return getPerson(row).getPersonId();
+			}
+		}
+
+		@Override
+		public List<Integer> getItemRowIndex(final String itemId) {
+			if (useDocs) {
+				return handleDocumentFindId(itemId);
+			} else {
+				return handlePersonFindId(itemId);
+			}
+		}
+
+		@Override
+		public TreeItemImage getItemImage(final List<Integer> row) {
+			if (useDocs && row.size() == 2) {
+				return PDF_IMAGE;
+			}
+			return PERSON_IMAGE;
+		}
+
+		/**
+		 * @param itemId the item id id to search for (could be person id or document id)
+		 * @return the row index if a match or null
+		 */
+		private List<Integer> handleDocumentFindId(final String itemId) {
+			List<Integer> rowIndex = new ArrayList<>();
+			for (int personIdx = 0; personIdx < data.size(); personIdx++) {
+				PersonBean person = data.get(personIdx);
+				// Check match on person
+				if (Util.equals(itemId, person.getPersonId())) {
+					rowIndex.add(personIdx);
+					break;
+				}
+				// Check documents on person
+				if (person.getDocuments() != null) {
+					for (int docIdx = 0; docIdx < person.getDocuments().size(); docIdx++) {
+						PersonBean.TravelDoc doc = person.getDocuments().get(docIdx);
+						// Check match on document
+						if (Util.equals(itemId, doc.getDocumentNumber())) {
+							rowIndex.add(personIdx);
+							rowIndex.add(docIdx);
+							break;
+						}
+					}
+					if (!rowIndex.isEmpty()) {
+						break;
+					}
+				}
+			}
+			return rowIndex;
+		}
+
+		/**
+		 * @param itemId the person id to search for
+		 * @return the row index if a match or null
+		 */
+		private List<Integer> handlePersonFindId(final String itemId) {
+			for (int personIdx = 0; personIdx < data.size(); personIdx++) {
+				PersonBean person = data.get(personIdx);
+				List<Integer> idx = new ArrayList<>();
+				idx.add(personIdx);
+				idx = processPersons(itemId, person, idx);
+				if (idx != null) {
+					return idx;
+				}
+			}
+			return null;
+		}
+
+		/**
+		 * Search for the item id through the person beans.
+		 *
+		 * @param itemId the item id to search for
+		 * @param person the person bean to check
+		 * @param rowIndex the current row index
+		 * @return the row index if a match or null
+		 */
+		private List<Integer> processPersons(final String itemId, final PersonBean person, final List<Integer> rowIndex) {
+			// Check match on person id
+			if (Util.equals(itemId, person.getPersonId())) {
+				return rowIndex;
+			}
+
+			// Check children
+			if (person.getMore() != null) {
+				for (int personIdx = 0; personIdx < person.getMore().size(); personIdx++) {
+					PersonBean child = person.getMore().get(personIdx);
+					List<Integer> childIdx = new ArrayList<>(rowIndex);
+					childIdx.add(personIdx);
+					childIdx = processPersons(itemId, child, childIdx);
+					if (childIdx != null) {
+						return childIdx;
+					}
+				}
+			}
+			return null;
+		}
+
+		/**
+		 * @param row the row index for a person
+		 * @return the person bean
+		 */
+		private PersonBean getPerson(final List<Integer> row) {
+			// Get root person
+			PersonBean person = getRootPerson(row);
+			for (int i = 1; i < row.size(); i++) {
+				int idx = row.get(i);
+				person = person.getMore().get(idx);
+			}
+			return person;
+		}
+
+		/**
+		 * @param row the row index
+		 * @return the top level person bean
+		 */
+		private PersonBean getRootPerson(final List<Integer> row) {
+			int idx = row.get(0);
+			PersonBean person = data.get(idx);
+			return person;
+		}
+
+		/**
+		 * @param row the row index for a document
+		 * @return the document bean
+		 */
+		private PersonBean.TravelDoc getDocument(final List<Integer> row) {
+			PersonBean bean = getRootPerson(row);
+			int docIdx = row.get(1);
+			PersonBean.TravelDoc doc = bean.getDocuments().get(docIdx);
+			return doc;
 		}
 
 	}

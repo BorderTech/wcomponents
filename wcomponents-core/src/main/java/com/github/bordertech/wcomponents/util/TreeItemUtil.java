@@ -90,6 +90,27 @@ public final class TreeItemUtil {
 	}
 
 	/**
+	 * Check custom nodes that are expanded need their child nodes added from the model.
+	 *
+	 * @param tree the tree component to check
+	 */
+	public static void checkExpandedCustomNodes(final WTree tree) {
+		// Check if there is a custom tree
+		TreeItemIdNode custom = tree.getCustomTree();
+		if (custom == null) {
+			return;
+		}
+
+		// Get the expanded rows
+		Set<String> expanded = tree.getExpandedRows();
+
+		// Process Top Level
+		for (TreeItemIdNode node : custom.getChildren()) {
+			processExpandedCustomNodes(node, expanded, tree);
+		}
+	}
+
+	/**
 	 * Load the children of a custom node that was flagged as having children.
 	 *
 	 * @param node the node to process
@@ -104,12 +125,12 @@ public final class TreeItemUtil {
 
 		// Get the row index for the node
 		String itemId = node.getItemId();
-		List<Integer> rowIndex = tree.getItemIdIndexMap().get(itemId);
+		List<Integer> rowIndex = tree.getTreeModel().getItemRowIndex(itemId);
 
 		// Get the tree item model
 		TreeItemModel model = tree.getTreeModel();
 
-		// Check tree item is still expandable and has children
+		// Check tree item is expandable and has children
 		if (!model.isExpandable(rowIndex) || !model.hasChildren(rowIndex)) {
 			node.setHasChildren(false);
 			return;
@@ -129,15 +150,19 @@ public final class TreeItemUtil {
 		for (int i = 0; i < count; i++) {
 			List<Integer> childIdx = new ArrayList<>(rowIndex);
 			childIdx.add(i);
-			String childItemId = model.getItemId(rowIndex);
+			String childItemId = model.getItemId(childIdx);
 			// Check the child item is not already in the custom tree
 			if (mapIds.containsKey(childItemId)) {
 				continue;
 			}
 			TreeItemIdNode childNode = new TreeItemIdNode(childItemId);
-			childNode.setHasChildren(model.hasChildren(rowIndex));
+			childNode.setHasChildren(model.hasChildren(childIdx));
 			node.addChild(childNode);
 			childAdded = true;
+			// For client mode we have to drill down all the children
+			if (childNode.hasChildren() && tree.getExpandMode() == WTree.ExpandMode.CLIENT) {
+				loadCustomNodeChildren(childNode, tree);
+			}
 		}
 		// This could happen if all the children have been used in the custom map
 		if (!childAdded) {
@@ -226,7 +251,7 @@ public final class TreeItemUtil {
 	}
 
 	/**
-	 * Find the item ids of the expanded rows to reach an item id in a custom tree.
+	 * Find the item ids of the expanded rows to reach an item id in a tree.
 	 * <p>
 	 * It is assumed the parent nodes of the item id are already expanded.
 	 * </p>
@@ -235,47 +260,15 @@ public final class TreeItemUtil {
 	 * @param tree the WTree component
 	 * @return the set of expanded rows to reach the item id
 	 */
-	public static Set<String> calcCustomExpandedRowsToReachItemId(final String itemId, final WTree tree) {
-		Set<String> expanded = new HashSet<>();
-
-		TreeItemIdNode root = tree.getCustomTree();
-		Set<String> currentExpanded = tree.getExpandedRows();
-
-		// Process top level
-		if (root != null) {
-			for (TreeItemIdNode node : root.getChildren()) {
-				if (processCustomExpandedRowsForItemId(expanded, node, itemId, currentExpanded)) {
-					break;
-				}
-			}
-
+	public static Set<String> calcExpandedRowsToReachItemId(final String itemId, final WTree tree) {
+		if (tree.getCustomTree() == null) {
+			// Tree Model
+			final List<Integer> rowIndex = tree.getItemIdIndexMap().get(itemId);
+			return calcExpandedRowsToReachIndex(rowIndex, tree.getTreeModel());
+		} else {
+			// Custom Tree
+			return calcCustomExpandedRowsToReachItemId(itemId, tree);
 		}
-
-		return Collections.unmodifiableSet(expanded);
-	}
-
-	/**
-	 * Create the set of expanded rows to reach a particular row index (including the row index).
-	 * <p>
-	 * It is assumed the parent nodes of the item id are already expanded.
-	 * </p>
-	 *
-	 * @param rowIndex the index of the item id to create the set of parent indexes.
-	 * @param model the tree model being processed
-	 * @return the set of parent row indexes including the rowIndex.
-	 */
-	public static Set<String> calcExpandedRowsToReachIndex(final List<Integer> rowIndex, final TreeItemModel model) {
-
-		Set<String> expanded = new HashSet<>();
-
-		// Extract the parent indexes and corresponding item ids
-		for (int i = 1; i <= rowIndex.size(); i++) {
-			List<Integer> index = rowIndex.subList(0, i);
-			String itemId = model.getItemId(index);
-			expanded.add(itemId);
-		}
-
-		return Collections.unmodifiableSet(expanded);
 	}
 
 	/**
@@ -305,6 +298,10 @@ public final class TreeItemUtil {
 		int rows = treeModel.getRowCount();
 		Set<String> expanded = tree.getExpandedRows();
 		WTree.ExpandMode mode = tree.getExpandMode();
+		if (mode == WTree.ExpandMode.LAZY) {
+			expanded = new HashSet<>(expanded);
+			expanded.addAll(tree.getPrevExpandedRows());
+		}
 
 		for (int i = 0; i < rows; i++) {
 			List<Integer> index = new ArrayList<>();
@@ -415,15 +412,66 @@ public final class TreeItemUtil {
 	}
 
 	/**
+	 * Create the set of expanded rows to reach a particular row index (including the row index).
+	 * <p>
+	 * It is assumed the parent nodes of the item id are already expanded.
+	 * </p>
+	 *
+	 * @param rowIndex the index of the item id to create the set of parent indexes.
+	 * @param model the tree model being processed
+	 * @return the set of parent row indexes including the rowIndex.
+	 */
+	private static Set<String> calcExpandedRowsToReachIndex(final List<Integer> rowIndex, final TreeItemModel model) {
+
+		Set<String> expanded = new HashSet<>();
+
+		// Extract the parent indexes and corresponding item ids
+		for (int i = 1; i <= rowIndex.size(); i++) {
+			List<Integer> index = rowIndex.subList(0, i);
+			String itemId = model.getItemId(index);
+			expanded.add(itemId);
+		}
+
+		return Collections.unmodifiableSet(expanded);
+	}
+
+	/**
+	 * Find the item ids of the expanded rows to reach an item id in a custom tree.
+	 * <p>
+	 * It is assumed the parent nodes of the item id are already expanded.
+	 * </p>
+	 *
+	 * @param itemId the item id of node to search for
+	 * @param tree the WTree component
+	 * @return the set of expanded rows to reach the item id
+	 */
+	private static Set<String> calcCustomExpandedRowsToReachItemId(final String itemId, final WTree tree) {
+		Set<String> expanded = new HashSet<>();
+
+		TreeItemIdNode root = tree.getCustomTree();
+
+		// Process top level
+		if (root != null) {
+			for (TreeItemIdNode node : root.getChildren()) {
+				if (processCustomExpandedRowsForItemId(expanded, node, itemId)) {
+					break;
+				}
+			}
+
+		}
+
+		return Collections.unmodifiableSet(expanded);
+	}
+
+	/**
 	 * Iterate over the custom tree structure to drill down to the item id.
 	 *
 	 * @param expanded the expanded rows to get to the open item
 	 * @param node the current node being processed
 	 * @param itemId the id of the open item
-	 * @param currentExpanded the currently expanded rows
 	 * @return true if item has been found so include the node item id in the expanded rows
 	 */
-	private static boolean processCustomExpandedRowsForItemId(final Set<String> expanded, final TreeItemIdNode node, final String itemId, final Set<String> currentExpanded) {
+	private static boolean processCustomExpandedRowsForItemId(final Set<String> expanded, final TreeItemIdNode node, final String itemId) {
 
 		// Check if node id is a match
 		String nodeItemId = node.getItemId();
@@ -437,16 +485,10 @@ public final class TreeItemUtil {
 			return false;
 		}
 
-		// Assume the parents are "expanded" until reach the "item id" (so only process if expanded)
-		boolean alreadyExpanded = currentExpanded != null && currentExpanded.contains(nodeItemId);
-		if (!alreadyExpanded) {
-			return false;
-		}
-
 		// Check the child nodes
 		boolean found = false;
 		for (TreeItemIdNode childItem : node.getChildren()) {
-			if (processCustomExpandedRowsForItemId(expanded, childItem, itemId, currentExpanded)) {
+			if (processCustomExpandedRowsForItemId(expanded, childItem, itemId)) {
 				found = true;
 				break;
 			}
@@ -526,6 +568,36 @@ public final class TreeItemUtil {
 
 		for (TreeItemIdNode childItem : node.getChildren()) {
 			processCustomIdMapping(map, childItem);
+		}
+	}
+
+	/**
+	 * Iterate through nodes to check expanded nodes have their child nodes.
+	 *
+	 * @param node the node to check
+	 * @param expandedRows the expanded rows
+	 * @param tree the WTree being processed
+	 */
+	private static void processExpandedCustomNodes(final TreeItemIdNode node, final Set<String> expandedRows, final WTree tree) {
+		// Node has no children
+		if (!node.hasChildren()) {
+			return;
+		}
+
+		// Check node is expanded
+		boolean expanded = tree.getExpandMode() == WTree.ExpandMode.CLIENT || expandedRows.contains(node.getItemId());
+		if (!expanded) {
+			return;
+		}
+
+		if (node.getChildren().isEmpty()) {
+			// Add children from the model
+			loadCustomNodeChildren(node, tree);
+		} else {
+			// Check the expanded child nodes
+			for (TreeItemIdNode child : node.getChildren()) {
+				processExpandedCustomNodes(child, expandedRows, tree);
+			}
 		}
 	}
 

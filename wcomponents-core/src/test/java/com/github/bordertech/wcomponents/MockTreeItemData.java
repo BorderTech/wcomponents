@@ -154,6 +154,43 @@ public class MockTreeItemData {
 		 * {@inheritDoc}
 		 */
 		@Override
+		public List<Integer> getItemRowIndex(final String itemId) {
+			for (int idx = 0; idx < data.size(); idx++) {
+				List<Integer> rowIndex = new ArrayList<>();
+				rowIndex.add(idx);
+				rowIndex = findItemId(itemId, rowIndex);
+				if (rowIndex != null) {
+					return rowIndex;
+				}
+			}
+			return null;
+		}
+
+		private List<Integer> findItemId(final String itemId, final List<Integer> rowIndex) {
+			MyBean bean = getRowBean(rowIndex);
+			// Check bean is a match
+			if (Util.equals(bean.getId(), itemId)) {
+				return rowIndex;
+			}
+			// Check children
+			if (bean.children != null) {
+				for (int idx = 0; idx < bean.children.size(); idx++) {
+					List<Integer> childIdx = new ArrayList<>(rowIndex);
+					childIdx.add(idx);
+					childIdx = findItemId(itemId, childIdx);
+					if (childIdx != null) {
+						return childIdx;
+					}
+				}
+			}
+			return null;
+
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
 		public String getItemLabel(final List<Integer> row) {
 			return getRowBean(row).getName();
 		}

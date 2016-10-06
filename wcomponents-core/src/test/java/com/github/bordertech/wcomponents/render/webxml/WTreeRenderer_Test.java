@@ -40,6 +40,13 @@ public class WTreeRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
+	public void testDoPaintWithCustomTree() throws IOException, SAXException, XpathException {
+		WTree tree = MockTreeItemData.setupWTreeWithCustom();
+		setActiveContext(createUIContext());
+		assertSchemaMatch(tree);
+	}
+
+	@Test
 	public void testXssEscaping() throws IOException, SAXException, XpathException {
 		List<MockTreeItemData.MyBean> data = new ArrayList<>();
 		// Invalid chars

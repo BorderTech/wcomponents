@@ -46,7 +46,7 @@ public final class ExampleDataUtil {
 		data.add(new PersonBean("ID13", "Nicholai", "Smith", DateUtilities.createDate(29, 4, 1996)));
 		data.add(new PersonBean("ID14", "Polly", "Vinyl", DateUtilities.createDate(15, 8, 1978)));
 		data.add(new PersonBean("ID15", "Ron", "Donald", DateUtilities.createDate(1, 1, 1923), false));
-		data.add(new PersonBean("ID16", "Tom", "Smith", DateUtilities.createDate(5, 8, 1932)));
+		data.add(new PersonBean("ID16", "Tom", "Anderson", DateUtilities.createDate(5, 8, 1932)));
 
 		// Add documents
 		data.get(0).setDocuments(Arrays.asList(new TravelDoc("11122", "Canada", "Ottawa",
