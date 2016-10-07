@@ -1,6 +1,9 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.util.TreeUtil;
+import com.github.bordertech.wcomponents.util.WComponentTreeVisitor;
+import com.github.bordertech.wcomponents.util.visitor.AbstractVisitorWithResult;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
 
@@ -135,7 +138,7 @@ public class WFieldSet extends AbstractMutableContainer implements AjaxTarget, S
 	protected void validateComponent(final List<Diagnostic> diags) {
 		super.validateComponent(diags);
 
-		if (isMandatory() && !hasInputWithValue(this)) {
+		if (isMandatory() && !hasInputWithValue()) {
 			diags.add(createMandatoryDiagnostic());
 		}
 	}
@@ -143,28 +146,27 @@ public class WFieldSet extends AbstractMutableContainer implements AjaxTarget, S
 	/**
 	 * Checks at least one input component has a value.
 	 *
-	 * @param component the root of the component hierarchy to check.
-	 * @return true if the component has a value, otherwise false.
+	 * @return true if the field set contains an input with a value
 	 */
-	private boolean hasInputWithValue(final WComponent component) {
-		if (component instanceof Input) {
-			return !((Input) component).isEmpty();
-		}
+	private boolean hasInputWithValue() {
 
-		if (component instanceof Container) {
-			Container container = (Container) component;
-			int childCount = container.getChildCount();
-
-			for (int i = 0; i < childCount; i++) {
-				boolean hasValue = hasInputWithValue(container.getChildAt(i));
-
-				if (hasValue) {
-					return true;
+		// Visit all children of the fieldset of type Input
+		AbstractVisitorWithResult<Boolean> visitor = new AbstractVisitorWithResult<Boolean>() {
+			@Override
+			public WComponentTreeVisitor.VisitorResult visit(final WComponent comp) {
+				// Check if the component is an Input and has a value
+				if (comp instanceof Input && !((Input) comp).isEmpty()) {
+					setResult(true);
+					return VisitorResult.ABORT;
 				}
+				return VisitorResult.CONTINUE;
 			}
-		}
+		};
+		visitor.setResult(false);
 
-		return false;
+		TreeUtil.traverseVisible(this, visitor);
+
+		return visitor.getResult();
 	}
 
 	/**

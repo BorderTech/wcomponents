@@ -13,7 +13,11 @@ import com.github.bordertech.wcomponents.WRepeater.WRepeatRoot;
 import com.github.bordertech.wcomponents.WWindow;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.util.WComponentTreeVisitor.VisitorResult;
+import com.github.bordertech.wcomponents.util.visitor.AbstractVisitorWithResult;
+import com.github.bordertech.wcomponents.util.visitor.FindComponentByIdVisitor;
+import com.github.bordertech.wcomponents.util.visitor.FindComponentsByClassVisitor;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -44,7 +48,8 @@ public final class TreeUtil {
 		WComponentTreeVisitor visitor = new WComponentTreeVisitor() {
 			@Override
 			public VisitorResult visit(final WComponent comp) {
-				// In traversing the tree, special components like WInvisbleContainer, WRepeatRoot are still traversed (so ignore them)
+				// In traversing the tree, special components like WInvisbleContainer, WRepeatRoot are still traversed
+				// (so ignore them)
 				if (comp.isVisible()) {
 					list.add(new ComponentWithContext(comp, UIContextHolder.getCurrent()));
 				}
@@ -75,6 +80,41 @@ public final class TreeUtil {
 	}
 
 	/**
+	 * Search for components implementing a particular class name.
+	 * <p>
+	 * Only search visible components and include the root component in the matching logic.
+	 * </p>
+	 *
+	 * @param root the root component to search from
+	 * @param className the class name to search for
+	 *
+	 * @return the list of components implementing the class name
+	 */
+	public static List<ComponentWithContext> findComponentsByClass(final WComponent root, final String className) {
+		return findComponentsByClass(root, className, true, true);
+	}
+
+	/**
+	 * Search for components implementing a particular class name.
+	 *
+	 * @param root the root component to search from
+	 * @param className the class name to search for
+	 * @param includeRoot check the root component as well
+	 * @param visibleOnly true if process visible only
+	 *
+	 * @return the list of components implementing the class name
+	 */
+	public static List<ComponentWithContext> findComponentsByClass(final WComponent root, final String className,
+			final boolean includeRoot, final boolean visibleOnly) {
+
+		FindComponentsByClassVisitor visitor = new FindComponentsByClassVisitor(root, className, includeRoot);
+
+		doTraverse(root, visibleOnly, visitor);
+
+		return visitor.getResult() == null ? Collections.EMPTY_LIST : visitor.getResult();
+	}
+
+	/**
 	 * Retrieves the component with the given Id.
 	 * <p>
 	 * Searches visible and not visible components.
@@ -98,32 +138,8 @@ public final class TreeUtil {
 	 */
 	public static WComponent getComponentWithId(final WComponent root, final String id,
 			final boolean visibleOnly) {
-
-		AbstractTreeVisitorWithResult<WComponent> visitor = new AbstractTreeVisitorWithResult<WComponent>() {
-			/**
-			 * {@inheritDoc}
-			 */
-			@Override
-			public VisitorResult visit(final WComponent comp) {
-				// Match
-				if (id.equals(comp.getId())) {
-					setResult(comp);
-					return VisitorResult.ABORT;
-				}
-
-				// Check name context. If different, then never match
-				VisitorResult check = checkCorrectNameContext(comp, id);
-				if (check != null) {
-					return check;
-				}
-
-				return VisitorResult.CONTINUE;
-			}
-		};
-
-		doTraverse(root, visibleOnly, visitor);
-
-		return visitor.getResult();
+		ComponentWithContext comp = getComponentWithContextForId(root, id, visibleOnly);
+		return comp == null ? null : comp.getComponent();
 	}
 
 	/**
@@ -150,32 +166,8 @@ public final class TreeUtil {
 	 */
 	public static UIContext getContextForId(final WComponent root, final String id,
 			final boolean visibleOnly) {
-		AbstractTreeVisitorWithResult<UIContext> visitor = new AbstractTreeVisitorWithResult<UIContext>() {
-			/**
-			 * {@inheritDoc}
-			 */
-			@Override
-			public VisitorResult visit(final WComponent comp) {
-
-				// Match
-				if (id.equals(comp.getId())) {
-					setResult(UIContextHolder.getCurrent());
-					return VisitorResult.ABORT;
-				}
-
-				// Check name context. If different, then never match
-				VisitorResult check = checkCorrectNameContext(comp, id);
-				if (check != null) {
-					return check;
-				}
-
-				return VisitorResult.CONTINUE;
-			}
-		};
-
-		doTraverse(root, visibleOnly, visitor);
-
-		return visitor.getResult();
+		ComponentWithContext comp = getComponentWithContextForId(root, id, visibleOnly);
+		return comp == null ? null : comp.getContext();
 	}
 
 	/**
@@ -204,31 +196,8 @@ public final class TreeUtil {
 	public static ComponentWithContext getComponentWithContextForId(final WComponent root,
 			final String id,
 			final boolean visibleOnly) {
-		AbstractTreeVisitorWithResult<ComponentWithContext> visitor = new AbstractTreeVisitorWithResult<ComponentWithContext>() {
-			/**
-			 * {@inheritDoc}
-			 */
-			@Override
-			public VisitorResult visit(final WComponent comp) {
-
-				// Match
-				if (id.equals(comp.getId())) {
-					setResult(new ComponentWithContext(comp, UIContextHolder.getCurrent()));
-					return VisitorResult.ABORT;
-				}
-
-				// Check name context. If different, then never match
-				VisitorResult check = checkCorrectNameContext(comp, id);
-				if (check != null) {
-					return check;
-				}
-
-				return VisitorResult.CONTINUE;
-			}
-		};
-
+		FindComponentByIdVisitor visitor = new FindComponentByIdVisitor(id);
 		doTraverse(root, visibleOnly, visitor);
-
 		return visitor.getResult();
 	}
 
@@ -256,34 +225,22 @@ public final class TreeUtil {
 	 */
 	public static UIContext getClosestContextForId(final WComponent root, final String id,
 			final boolean visibleOnly) {
-		AbstractTreeVisitorWithResult<UIContext> visitor = new AbstractTreeVisitorWithResult<UIContext>() {
-			/**
-			 * {@inheritDoc}
-			 */
+
+		FindComponentByIdVisitor visitor = new FindComponentByIdVisitor(id) {
 			@Override
 			public VisitorResult visit(final WComponent comp) {
-				// Match
-				if (id.equals(comp.getId())) {
-					setResult(UIContextHolder.getCurrent());
-					return VisitorResult.ABORT;
+				VisitorResult result = super.visit(comp);
+				if (result == VisitorResult.CONTINUE) {
+					// Save closest UIC as processing tree
+					setResult(new ComponentWithContext(comp, UIContextHolder.getCurrent()));
 				}
-
-				// Check name context. If different, then never match
-				VisitorResult check = checkCorrectNameContext(comp, id);
-				if (check != null) {
-					return check;
-				}
-
-				// Save closest UIC as processing tree
-				setResult(UIContextHolder.getCurrent());
-
-				return VisitorResult.CONTINUE;
+				return result;
 			}
 		};
 
 		doTraverse(root, visibleOnly, visitor);
 
-		return visitor.getResult();
+		return visitor.getResult() == null ? null : visitor.getResult().getContext();
 	}
 
 	/**
@@ -297,41 +254,25 @@ public final class TreeUtil {
 	 * @return the component with context if it is focusable, otherwise null
 	 */
 	public static boolean isIdFocusable(final WComponent root, final String id) {
-		/**
-		 * Visit visible components to find the matching ID and check the components are not hidden.
-		 */
-		AbstractTreeVisitorWithResult<Boolean> visitor = new AbstractTreeVisitorWithResult<Boolean>() {
-			/**
-			 * {@inheritDoc}
-			 */
+
+		FindComponentByIdVisitor visitor = new FindComponentByIdVisitor(id) {
 			@Override
 			public VisitorResult visit(final WComponent comp) {
-				// Match (Only here if visible)
-				if (id.equals(comp.getId())) {
-					setResult(!comp.isHidden());
-					return VisitorResult.ABORT;
-				}
-
-				// Check name context. If different, then never match
-				VisitorResult check = checkCorrectNameContext(comp, id);
-				if (check != null) {
-					return check;
-				}
-
+				VisitorResult result = super.visit(comp);
 				// If hidden then abort branch
-				if (comp.isHidden()) {
+				if (result == VisitorResult.CONTINUE && comp.isHidden()) {
 					return VisitorResult.ABORT_BRANCH;
 				}
-
-				return VisitorResult.CONTINUE;
+				return result;
 			}
 		};
 
 		// Only traverse visible
-		visitor.setResult(false);
 		doTraverse(root, true, visitor);
 
-		return visitor.getResult();
+		// Check if matching component is hidden
+		ComponentWithContext result = visitor.getResult();
+		return result == null ? false : !result.getComponent().isHidden();
 	}
 
 	/**
@@ -392,47 +333,51 @@ public final class TreeUtil {
 
 		VisitorResult result = visitor.visit(node);
 
-		if (VisitorResult.ABORT_BRANCH.equals(result)) {
-			// Continue processing, but not down this branch
-			return VisitorResult.CONTINUE;
-		} else if (VisitorResult.CONTINUE.equals(result)) {
-			// Process repeater rows
-			if (node instanceof WRepeater) {
-				// Get parent repeater
-				WRepeater repeater = (WRepeater) node;
-				// Get row contexts
-				List<UIContext> rowContextList = repeater.getRowContexts();
-				WRepeatRoot repeatRoot = (WRepeatRoot) repeater.getRepeatedComponent().getParent();
+		switch (result) {
 
-				for (UIContext rowContext : rowContextList) {
-					UIContextHolder.pushContext(rowContext);
+			case ABORT_BRANCH:
+				// Continue processing, but not down this branch
+				return VisitorResult.CONTINUE;
 
-					try {
-						result = doTraverse(repeatRoot, visibleOnly, visitor);
-					} finally {
-						UIContextHolder.popContext();
+			case CONTINUE:
+				// Process repeater rows
+				if (node instanceof WRepeater) {
+					// Get parent repeater
+					WRepeater repeater = (WRepeater) node;
+					// Get row contexts
+					List<UIContext> rowContextList = repeater.getRowContexts();
+					WRepeatRoot repeatRoot = (WRepeatRoot) repeater.getRepeatedComponent().getParent();
+
+					for (UIContext rowContext : rowContextList) {
+						UIContextHolder.pushContext(rowContext);
+
+						try {
+							result = doTraverse(repeatRoot, visibleOnly, visitor);
+						} finally {
+							UIContextHolder.popContext();
+						}
+
+						if (VisitorResult.ABORT.equals(result)) {
+							return VisitorResult.ABORT;
+						}
 					}
+				} else if (node instanceof Container) {
+					Container container = (Container) node;
 
-					if (VisitorResult.ABORT.equals(result)) {
-						return VisitorResult.ABORT;
+					for (int i = 0; i < container.getChildCount(); i++) {
+						result = doTraverse(container.getChildAt(i), visibleOnly, visitor);
+
+						if (VisitorResult.ABORT.equals(result)) {
+							return VisitorResult.ABORT;
+						}
 					}
 				}
-			} else if (node instanceof Container) {
-				Container container = (Container) node;
 
-				for (int i = 0; i < container.getChildCount(); i++) {
-					result = doTraverse(container.getChildAt(i), visibleOnly, visitor);
+				return VisitorResult.CONTINUE;
 
-					if (VisitorResult.ABORT.equals(result)) {
-						return VisitorResult.ABORT;
-					}
-				}
-			}
-
-			return VisitorResult.CONTINUE;
-		} else {
-			// Abort entire traversal
-			return VisitorResult.ABORT;
+			default:
+				// Abort entire traversal
+				return VisitorResult.ABORT;
 		}
 	}
 
@@ -477,7 +422,7 @@ public final class TreeUtil {
 				String className = parts[0].trim();
 				int index = parts.length == 2 ? Integer.parseInt(parts[1]) : -1;
 
-				FindComponentByClassVisitor visitor = new FindComponentByClassVisitor(comp,
+				FindComponentsByClassVisitor visitor = new FindComponentsByClassVisitor(comp.getComponent(),
 						className, i == 0);
 				UIContextHolder.pushContext(comp.getContext());
 
@@ -519,27 +464,9 @@ public final class TreeUtil {
 	 * An implementation of WComponentTreeVisitor which can return a result.
 	 *
 	 * @param <T> the result type
+	 * @deprecated Use {@link AbstractVisitorWithResult} instead
 	 */
-	public abstract static class AbstractTreeVisitorWithResult<T> implements WComponentTreeVisitor {
-
-		/**
-		 * Result of tree visit.
-		 */
-		private T result;
-
-		/**
-		 * @param result the result
-		 */
-		protected void setResult(final T result) {
-			this.result = result;
-		}
-
-		/**
-		 * @return the result
-		 */
-		protected T getResult() {
-			return result;
-		}
+	public abstract static class AbstractTreeVisitorWithResult<T> extends AbstractVisitorWithResult<T> {
 
 		/**
 		 * The current context name as processing the tree.
@@ -577,7 +504,8 @@ public final class TreeUtil {
 				}
 				// If target id doesn't start with the current component's id, they will never match
 				return VisitorResult.ABORT_BRANCH;
-			} else if (comp instanceof WRepeater && !id.startsWith(compId)) {  // Check for a WRepeater and if we need to check the rows.
+			} else if (comp instanceof WRepeater && !id.startsWith(compId)) {
+				// Check for a WRepeater and if we need to check the rows.
 				// Only process the repeater rows if the ID matches its row contexts
 				return VisitorResult.ABORT_BRANCH;
 			}
@@ -585,79 +513,4 @@ public final class TreeUtil {
 		}
 	}
 
-	/**
-	 * A tree visitor implementation which finds components in the tree with a given class.
-	 */
-	private static final class FindComponentByClassVisitor extends
-			AbstractTreeVisitorWithResult<List<ComponentWithContext>> {
-
-		/**
-		 * The root component being searched from.
-		 */
-		private final ComponentWithContext root;
-
-		/**
-		 * The className the class name to search for.
-		 */
-		private final String className;
-
-		/**
-		 * True if the root should be also be tested for a match, false if not.
-		 */
-		private final boolean includeRoot;
-
-		/**
-		 * Creates a FindComponentByClassVisitor.
-		 *
-		 * @param root the root component being searched from.
-		 * @param className the class name to search for. The package name may be omitted for convenience.
-		 * @param includeRoot true if the root should be also be tested for a match, false if not.
-		 */
-		private FindComponentByClassVisitor(final ComponentWithContext root, final String className,
-				final boolean includeRoot) {
-			this.setResult(new ArrayList<ComponentWithContext>());
-			this.className = className;
-			this.root = root;
-			this.includeRoot = includeRoot;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public VisitorResult visit(final WComponent comp) {
-			for (Class<?> clazz = comp.getClass(); clazz != null; clazz = clazz.getSuperclass()) {
-				if (classNamesMatch(clazz.getName(), className) && (includeRoot || comp != root.
-						getComponent())) {
-					getResult().add(new ComponentWithContext(comp, UIContextHolder.getCurrent()));
-				}
-			}
-
-			return VisitorResult.CONTINUE;
-		}
-
-		/**
-		 * Tests two class names for equality, taking partical class names (no package given) into account.
-		 *
-		 * @param name1 the first class name to compare.
-		 * @param name2 the second class name to compare.
-		 * @return true if the class names match, false otherwise.
-		 */
-		private boolean classNamesMatch(final String name1, final String name2) {
-			if (name1 == null || name2 == null) {
-				return false;
-			}
-
-			int index1 = name1.lastIndexOf('.');
-			int index2 = name2.lastIndexOf('.');
-
-			if (index1 == -1 && index2 != -1) {
-				return Util.equals(name1, name2.substring(index2 + 1));
-			} else if (index1 != -1 && index2 == -1) {
-				return Util.equals(name1.substring(index1 + 1), name2);
-			} else {
-				return Util.equals(name1, name2);
-			}
-		}
-	}
 }

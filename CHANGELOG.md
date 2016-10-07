@@ -6,7 +6,8 @@
 
 ## Bug Fixes
 
-* Fix WTree AJAX expansion #934, QC#158631
+* Fixed `WTree` AJAX expansion #934, QC158631.
+* Fixed `WFieldSet` to handle `WRepeaters` correctly when Mandatory is set #936 QC158462. 
 
 ## Enhancements
 
