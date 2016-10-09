@@ -7,7 +7,8 @@
 ## Bug Fixes
 
 * Fixed `WTree` AJAX expansion #934, QC158631.
-* Fixed `WFieldSet` to handle `WRepeaters` correctly when Mandatory is set #936 QC158462. 
+* Fixed `WFieldSet` to handle `WRepeaters` correctly when Mandatory is set #936 QC158462.
+* Fixed a flaw in client code of `WSelectToggle` which could cause unexpected results if the target component(s) included a `WTable` with **single** row selection #938.
 
 ## Enhancements
 
