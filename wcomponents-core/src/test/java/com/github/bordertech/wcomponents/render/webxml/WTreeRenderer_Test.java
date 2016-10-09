@@ -34,7 +34,14 @@ public class WTreeRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testDoPaintWithData() throws IOException, SAXException, XpathException {
-		WTree tree = MockTreeItemData.setupTree();
+		WTree tree = MockTreeItemData.setupWTree();
+		setActiveContext(createUIContext());
+		assertSchemaMatch(tree);
+	}
+
+	@Test
+	public void testDoPaintWithCustomTree() throws IOException, SAXException, XpathException {
+		WTree tree = MockTreeItemData.setupWTreeWithCustom();
 		setActiveContext(createUIContext());
 		assertSchemaMatch(tree);
 	}
