@@ -47,6 +47,14 @@ public abstract class AbstractTreeItemModel implements TreeItemModel {
 	 * {@inheritDoc}
 	 */
 	@Override
+	public List<Integer> getItemRowIndex(final String itemId) {
+		return TreeItemUtil.rowIndexStringToList(itemId);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public ShuffleType getItemShuffleType(final List<Integer> row) {
 		return ShuffleType.BOTH;
 	}
