@@ -148,12 +148,13 @@ define(["wc/dom/classList",
 
 				function populateOnLoad() {
 					var content = dialogFrame.getContent(),
+						openerId,
 						opener;
 					if (content) {
 						content.id = regObj.id;
-						if (triggerId && !(openThisDialog && openThisDialog === triggerId)) {
-							opener = document.getElementById(triggerId);
-							content.setAttribute(GET_ATTRIB, triggerId + "=" + (opener ? encodeURIComponent(opener.value) : "x"));
+						if (!(openThisDialog && openThisDialog === triggerId) && (openerId = regObj.openerId)) {
+							opener = document.getElementById(openerId);
+							content.setAttribute(GET_ATTRIB, openerId + "=" + (opener ? encodeURIComponent(opener.value) : "x"));
 						}
 						else {
 							content.removeAttribute(GET_ATTRIB);
