@@ -45,6 +45,8 @@ define(["wc/dom/event",
 				var min,
 					max,
 					table,
+					// todo: this filter can be deleted once we drop WDataTable as rows will no longer be able to be disabled
+					filter = getFilteredGroup.FILTERS.enabled | getFilteredGroup.FILTERS.selected,
 					selected = 0;
 
 				if ((table = ACTION_TABLE.findAncestor(button))) {
@@ -55,7 +57,7 @@ define(["wc/dom/event",
 						return true;
 					}
 
-					selected = (getFilteredGroup(ROW_CONTAINER.findDescendant(table))).length;
+					selected = (getFilteredGroup(ROW_CONTAINER.findDescendant(table), {filter: filter})).length;
 
 					if ((min && selected < parseInt(min, 10)) || (max && selected > parseInt(max, 10))) {
 						return false;
