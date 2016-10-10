@@ -520,7 +520,17 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 			 */
 			this.forceToViewPort = function(el) {
 				var vpSize = getViewportSize(true),
-					box = getBox(el), recalc;
+					box, recalc;
+
+				if (el.style.top && parseFloat(el.style.top) < 0) {
+					el.style.top = ZERO;
+				}
+
+				if (el.style.left && parseFloat(el.style.left) < 0) {
+					el.style.left = ZERO;
+				}
+
+				box = getBox(el);
 
 				if (box.width > vpSize.width) {
 					el.style.width = vpSize.width + UNIT;
