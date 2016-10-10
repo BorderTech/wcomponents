@@ -11,6 +11,7 @@
 * Fixed a flaw in client code of `WSelectToggle` which could cause unexpected results if the target component(s) included a `WTable` with **single** row selection #938.
 * Fixed a flaw which could result in dialogs sometimes running partly off screen (#940).
 * Fixed an issue which could result in a WTableAction trigger button becoming enabled if disabled row(s) were selected. This is part of #943.
+* Fixed an issue where a dialog trigger button's action could be erroneously fired by a dialog re-opening on page load #945.
 
 ## Enhancements
 
