@@ -126,7 +126,16 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		// Content for the modal dialog
 		final SelectPersonPanel selectPanel2 = new SelectPersonPanel();
 		// Modal Dialog
-		modalDialog = new WDialog(selectPanel2, new WButton("Show modal search Dialog (immediate)"));
+		WButton modalSearchImmediate = new WButton("Show modal search Dialog (immediate)");
+
+		modalDialog = new WDialog(selectPanel2, modalSearchImmediate);
+		modalSearchImmediate.setAction(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				selectPanel2.reset();
+				// modalDialog.display();
+			}
+		});
 		modalDialog.setTitle("Search");
 		modalDialog.setMode(WDialog.MODAL);
 

@@ -518,9 +518,9 @@ define(["wc/ui/menu/core",
 						id: elId,
 						alias: root.id,
 						loads: [elId + "-content"],
-						oneShot: (mode === "lazy"),
+						oneShot: (mode === "lazy" ? 1 : -1),
 						getData: "wc_tiid=" + elId,
-						serialiseForm: false,
+						serialiseForm: true,
 						method: "get",
 						formRegion: root.id
 					};
