@@ -15,6 +15,7 @@
 * Fixed missing "day of week column headers" in calendar date picker (#942).
 
 ## Enhancements
+* Allow TinyMCE global configuration to be overriden without a theme rebuild.
 
 # Release 1.2.9
 
