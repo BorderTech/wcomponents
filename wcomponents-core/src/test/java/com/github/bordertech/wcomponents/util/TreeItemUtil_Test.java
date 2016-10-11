@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents.util;
 
 import com.github.bordertech.wcomponents.MockTreeItemData;
 import com.github.bordertech.wcomponents.TreeItemIdNode;
-import com.github.bordertech.wcomponents.WTree;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -193,121 +192,6 @@ public class TreeItemUtil_Test {
 		Set<String> result = new HashSet<>();
 		result.add("A");
 		Assert.assertEquals("Convert String should be put as item in Set", result, TreeItemUtil.convertDataToSet("A"));
-	}
-
-	@Test
-	public void testLoadCustomNodeChildren() {
-		WTree tree = MockTreeItemData.setupWTree();
-
-		TreeItemIdNode customNode = new TreeItemIdNode("B");
-		customNode.setHasChildren(true);
-
-		TreeItemUtil.loadCustomNodeChildren(customNode, tree);
-
-		Assert.assertTrue("Node hasChildren flag should be true", customNode.hasChildren());
-		Assert.assertFalse("Node child list should not be empty", customNode.getChildren().isEmpty());
-	}
-
-	@Test
-	public void testLoadCustomNodeChildrenNoChildren() {
-		WTree tree = MockTreeItemData.setupWTree();
-
-		TreeItemIdNode customNode = new TreeItemIdNode("A");
-		customNode.setHasChildren(true);
-
-		TreeItemUtil.loadCustomNodeChildren(customNode, tree);
-
-		Assert.assertFalse("Node hasChildren flag should be false", customNode.hasChildren());
-		Assert.assertTrue("Node child list should be empty", customNode.getChildren().isEmpty());
-	}
-
-	@Test
-	public void testLoadCustomNodeChildrenButAllChildrenInUse() {
-		WTree tree = MockTreeItemData.setupWTree();
-
-		TreeItemIdNode customNode = new TreeItemIdNode(null);
-
-		customNode.addChild(new TreeItemIdNode("B.1"));
-		customNode.addChild(new TreeItemIdNode("B.2"));
-
-		// Set has children but all of "B"s children have already been used
-		TreeItemIdNode nodeB = new TreeItemIdNode("B");
-		nodeB.setHasChildren(true);
-		customNode.addChild(nodeB);
-
-		tree.setCustomTree(customNode);
-
-		TreeItemUtil.loadCustomNodeChildren(nodeB, tree);
-
-		Assert.assertFalse("NodeB hasChildren flag should be false", nodeB.hasChildren());
-		Assert.assertTrue("NodeB child list should be empty", nodeB.getChildren().isEmpty());
-	}
-
-	@Test
-	public void testCalcExpandedRowsLevel1() {
-		WTree tree = MockTreeItemData.setupWTree();
-		Set<String> result = new HashSet<>();
-		result.add("C");
-		Assert.assertEquals("Wrong expanded rows for item at level 1", result, TreeItemUtil.calcExpandedRowsToReachItemId("C", tree));
-	}
-
-	@Test
-	public void testCalcExpandedRowsLevel2() {
-		WTree tree = MockTreeItemData.setupWTree();
-
-		Set<String> result = new HashSet<>();
-		result.add("C");
-		result.add("C.1");
-		Assert.assertEquals("Wrong expanded rows for item at level 2", result, TreeItemUtil.calcExpandedRowsToReachItemId("C.1", tree));
-	}
-
-	@Test
-	public void testCalcExpandedRowsLevel3() {
-		WTree tree = MockTreeItemData.setupWTree();
-
-		Set<String> result = new HashSet<>();
-		result.add("C");
-		result.add("C.1");
-		result.add("C.1.1");
-		Assert.assertEquals("Wrong expanded rows for item at level 3", result, TreeItemUtil.calcExpandedRowsToReachItemId("C.1.1", tree));
-	}
-
-	@Test
-	public void testCalcCustomExpandedRowsLevel1() {
-		WTree tree = MockTreeItemData.setupWTreeWithCustom();
-		Set<String> result = new HashSet<>();
-		result.add("C");
-		Assert.assertEquals("Wrong expanded rows for item at level 1", result, TreeItemUtil.calcExpandedRowsToReachItemId("C", tree));
-	}
-
-	@Test
-	public void testCalcCustomExpandedRowsLevel2() {
-		WTree tree = MockTreeItemData.setupWTreeWithCustom();
-
-		Set<String> expanded = new HashSet<>();
-		expanded.add("C");
-		tree.setExpandedRows(expanded);
-
-		Set<String> result = new HashSet<>();
-		result.add("C");
-		result.add("C.1");
-		Assert.assertEquals("Wrong expanded rows for item at level 2", result, TreeItemUtil.calcExpandedRowsToReachItemId("C.1", tree));
-	}
-
-	@Test
-	public void testCalcCustomExpandedRowsLevel3() {
-		WTree tree = MockTreeItemData.setupWTreeWithCustom();
-
-		Set<String> expanded = new HashSet<>();
-		expanded.add("C");
-		expanded.add("C.1");
-		tree.setExpandedRows(expanded);
-
-		Set<String> result = new HashSet<>();
-		result.add("C");
-		result.add("C.1");
-		result.add("B");
-		Assert.assertEquals("Wrong expanded rows for item at level 3", result, TreeItemUtil.calcExpandedRowsToReachItemId("B", tree));
 	}
 
 }
