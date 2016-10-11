@@ -41,7 +41,6 @@ define(["wc/dom/classList",
 						timers.clearTimeout(openOnLoadTimer);
 					}
 					openOnLoadTimer = timers.setTimeout(openDlg, 100, openThisDialog);
-					openThisDialog = null;
 				}
 			}
 
@@ -143,7 +142,6 @@ define(["wc/dom/classList",
 			 * @function
 			 * @private
 			 * @param {String} triggerId The id of the trigger.
-			 * @param {String} [openThisDialog] The id of a particular dialog to open.
 			 */
 			function openDlg(triggerId) {
 				var regObj = registry[triggerId];
@@ -154,7 +152,7 @@ define(["wc/dom/classList",
 						opener;
 					if (content) {
 						content.id = regObj.id;
-						if ((openerId = regObj.openerId)) {
+						if (!(openThisDialog && openThisDialog === triggerId) && (openerId = regObj.openerId)) {
 							opener = document.getElementById(openerId);
 							content.setAttribute(GET_ATTRIB, openerId + "=" + (opener ? encodeURIComponent(opener.value) : "x"));
 						}
@@ -168,11 +166,13 @@ define(["wc/dom/classList",
 					else {
 						console.warn("Could not find dialog content wrapper.");
 					}
+					openThisDialog = null;
 				}
 
 				if (regObj) {
 					dialogFrame.open(regObj).then(populateOnLoad).catch(function(err) {
 						console.warn(err);
+						openThisDialog = null; // belt **and** braces
 					});
 				}
 			}
