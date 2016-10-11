@@ -225,6 +225,61 @@ public class WTree_Test extends AbstractWComponentTestCase {
 		tree.setTreeModel(new MockTreeItemData.MyTestModel(MockTreeItemData.DATA));
 	}
 
+	@Test
+	public void testLoadCustomNodeChildren() {
+		WTree tree = MockTreeItemData.setupWTree();
+
+		TreeItemIdNode customNode = new TreeItemIdNode("B");
+		customNode.setHasChildren(true);
+
+		TreeItemIdNode root = new TreeItemIdNode(null);
+		root.addChild(customNode);
+		tree.setCustomTree(root);
+		tree.checkExpandedCustomNodes();
+
+		org.junit.Assert.assertTrue("Node hasChildren flag should be true", customNode.hasChildren());
+		org.junit.Assert.assertFalse("Node child list should not be empty", customNode.getChildren().isEmpty());
+	}
+
+	@Test
+	public void testLoadCustomNodeChildrenNoChildren() {
+		WTree tree = MockTreeItemData.setupWTree();
+
+		TreeItemIdNode customNode = new TreeItemIdNode("A");
+		customNode.setHasChildren(true);
+
+		TreeItemIdNode root = new TreeItemIdNode(null);
+		root.addChild(customNode);
+		tree.setCustomTree(root);
+		tree.checkExpandedCustomNodes();
+
+		org.junit.Assert.assertFalse("Node hasChildren flag should be false", customNode.hasChildren());
+		org.junit.Assert.assertTrue("Node child list should be empty", customNode.getChildren().isEmpty());
+	}
+
+	@Test
+	public void testLoadCustomNodeChildrenButAllChildrenInUse() {
+		WTree tree = MockTreeItemData.setupWTree();
+
+		TreeItemIdNode customNode = new TreeItemIdNode(null);
+
+		customNode.addChild(new TreeItemIdNode("B.1"));
+		customNode.addChild(new TreeItemIdNode("B.2"));
+
+		// Set has children but all of "B"s children have already been used
+		TreeItemIdNode nodeB = new TreeItemIdNode("B");
+		nodeB.setHasChildren(true);
+		customNode.addChild(nodeB);
+
+		TreeItemIdNode root = new TreeItemIdNode(null);
+		root.addChild(customNode);
+		tree.setCustomTree(root);
+		tree.checkExpandedCustomNodes();
+
+		org.junit.Assert.assertFalse("NodeB hasChildren flag should be false", nodeB.hasChildren());
+		org.junit.Assert.assertTrue("NodeB child list should be empty", nodeB.getChildren().isEmpty());
+	}
+
 	private MockRequest setupRequest(final WTree tree, final String... options) {
 		MockRequest request = new MockRequest();
 		request.setParameter(tree.getId() + "-h", "x");
