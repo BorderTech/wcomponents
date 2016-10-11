@@ -8,10 +8,12 @@
  * @module
  * @requires module:wc/dom/initialise
  * @requires module:wc/config
+ * @requires module:wc/loader/style
+ * @requires module:wc/mixin
  * @requires external:tinyMCE
  */
-define(["wc/dom/initialise", "wc/config", "tinyMCE"],
-	function(initialise, wcconfig, tinyMCE) {
+define(["wc/dom/initialise", "wc/config", "wc/loader/style", "wc/mixin", "tinyMCE"],
+	function(initialise, wcconfig, styleLoader, mixin, tinyMCE) {
 		"use strict";
 
 		/**
@@ -23,15 +25,18 @@ define(["wc/dom/initialise", "wc/config", "tinyMCE"],
 		 */
 		function processNow(idArr) {
 			var id,
-				initObj = {},
+				initObj = {
+					content_css: styleLoader.getMainCss(true),
+					plugins: "autolink link image lists print preview paste"
+				},
 				config = wcconfig.get("wc/ui/rtf"),
 				setupFunc = function (editor) {
 					editor.on("change", function () {
 						editor.save();
 					});
 				};
-			if (config) {
-				initObj = config.initObj || {};
+			if (config && config.initObj) {
+				mixin(config.initObj, initObj);  // config values overwrite defaults coded here.
 			}
 
 			while ((id = idArr.shift())) {
