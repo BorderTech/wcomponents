@@ -110,10 +110,10 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 		expandedRows.add(itemId);
 
 		if (tree.getCustomTree() == null) {
-			List<Integer> rowIndex = tree.getItemIdIndexMap().get(itemId);
+			List<Integer> rowIndex = tree.getExpandedItemIdIndexMap().get(itemId);
 			paintItem(tree, mode, model, rowIndex, xml, selectedRows, expandedRows);
 		} else {
-			TreeItemIdNode node = tree.getCustomIdMap().get(itemId);
+			TreeItemIdNode node = tree.getCustomIdNodeMap().get(itemId);
 			paintCustomItem(tree, mode, model, node, xml, selectedRows, expandedRows);
 		}
 	}
@@ -230,7 +230,7 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 			final XmlStringBuilder xml, final Set<String> selectedRows, final Set<String> expandedRows) {
 
 		String itemId = node.getItemId();
-		List<Integer> rowIndex = model.getItemRowIndex(itemId);
+		List<Integer> rowIndex = tree.getRowIndexForCustomItemId(itemId);
 
 		boolean selected = selectedRows.remove(itemId);
 
