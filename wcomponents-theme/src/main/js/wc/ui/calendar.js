@@ -501,12 +501,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				template = getEmptyCalendar();
 
 			calendarProps = {
-				firstChar: function() {
-					/* Template helper, first character of text. */
-					return function(text, render) {
-						return render(text)[0];
-					};
-				},
 				dayName: dayName.get(true),
 				monthName: monthName.get(),
 				fullYear: _today.getFullYear(),
@@ -1168,6 +1162,21 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 	}
 
 	var /** @alias module:wc/ui/calendar */ instance = new Calendar();
+
+	/**
+	 * Registers a handlebars helper that takes a dayname and returns the shortest possible meaningful
+	 * abbreviation for use when building a month-view calendar as each "day of week" column header.
+	 * For example in English this suffices: M, T, W, T, F, S, S (even though S and S are theoretically
+	 * ambiguous we can tell by their relative position what they are, same with T and T).
+	 * As long as there is no language where every day of the week starts with the same letter we're golden.
+	 */
+	handlebars.registerHelper("dayColHeader", function(text) {
+		if (text && text.length) {
+			return text[0];
+		}
+		return text;
+	});
+
 	initialise.register(instance);
 	return instance;
 });

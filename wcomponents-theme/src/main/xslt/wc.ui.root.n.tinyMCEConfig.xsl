@@ -6,11 +6,5 @@
 		Sample tinyMCE configuration 
 		**** NOTE: your config MUST start with a comma. ****
 	-->
-	<xsl:template name="tinyMCEConfig">,
-	"wc/ui/rtf": {
-		"initObj": {
-			content_css: "<xsl:value-of select="$cssFilePath"/>",
-			plugins: 'autolink link image lists print preview paste'
-		}
-	}</xsl:template>
+	<xsl:template name="tinyMCEConfig"></xsl:template>
 </xsl:stylesheet>
