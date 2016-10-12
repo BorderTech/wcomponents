@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.AbstractTreeItemModel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WTree;
 import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.TreeItemUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Set;
 
 /**
  * WTree based example selection tool. For internal use only.
+ *
  * @author Mark Reeves
  * @since 1.2.3
  */
@@ -58,6 +60,7 @@ public class ExamplePickerTree extends WTree {
 
 	/**
 	 * Add a set of examples to the WTree.
+	 *
 	 * @param groupName The name of the example group.
 	 * @param entries An array of examples in this group.
 	 */
@@ -67,6 +70,7 @@ public class ExamplePickerTree extends WTree {
 
 	/**
 	 * Get the example which is selected in the tree.
+	 *
 	 * @return an example data object.
 	 */
 	public final ExampleData getSelectedExampleData() {
@@ -75,14 +79,16 @@ public class ExamplePickerTree extends WTree {
 			return null;
 		}
 		for (String selectedItem : allSelectedItems) {
-			//only interested in the first selected item as it is a single select list.
-			return getTreeModel().getExampleData(getItemIdIndexMap().get(selectedItem));
+			// Only interested in the first selected item as it is a single select list.
+			List<Integer> rowIndex = TreeItemUtil.rowIndexStringToList(selectedItem);
+			return getTreeModel().getExampleData(rowIndex);
 		}
 		return null;
 	}
 
 	/**
 	 * Set the tree model on first use.
+	 *
 	 * @param request The request.
 	 */
 	@Override
@@ -93,7 +99,6 @@ public class ExamplePickerTree extends WTree {
 			setTreeModel(new MenuTreeModel(data));
 		}
 	}
-
 
 	/**
 	 * The Model for this WTree.
@@ -107,6 +112,7 @@ public class ExamplePickerTree extends WTree {
 
 		/**
 		 * Create a tree model.
+		 *
 		 * @param data the data to be held on this model.
 		 */
 		public MenuTreeModel(final List<ExampleMenuList> data) {
@@ -122,6 +128,7 @@ public class ExamplePickerTree extends WTree {
 
 		/**
 		 * Get the data for a given row.
+		 *
 		 * @param row The row in the data list we are interested in.
 		 * @return the data entry for row.
 		 */
@@ -177,14 +184,13 @@ public class ExamplePickerTree extends WTree {
 			}
 			return 0;
 		}
-
 	}
-
 
 	/**
 	 * The data object used by the WTree.
 	 */
 	public class ExampleMenuList {
+
 		/**
 		 * The name of the list of examples (the 'group').
 		 */
@@ -197,6 +203,7 @@ public class ExamplePickerTree extends WTree {
 
 		/**
 		 * Create an example menu list.
+		 *
 		 * @param listName the readable(group) name for the list
 		 * @param entries the examples in this group
 		 */
@@ -221,6 +228,7 @@ public class ExamplePickerTree extends WTree {
 
 		/**
 		 * Get the data for a particular row.
+		 *
 		 * @param row the row index
 		 * @return the data for the row
 		 */
@@ -236,6 +244,7 @@ public class ExamplePickerTree extends WTree {
 
 		/**
 		 * Get the default example for a group when a group node is selected. Could return null and do nothing.
+		 *
 		 * @return the first example in a list
 		 */
 		public ExampleData getDefaultExample() {

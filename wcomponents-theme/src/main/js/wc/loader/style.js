@@ -147,20 +147,6 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 			 */
 			ext,
 			/**
-			 * The id of the main CSS link element produced in the XSLT. The browser specific CSS is added after this.
-			 * @var
-			 * @type {String}
-			 * @private
-			 */
-			mainCss = document.getElementById("wc_css_screen"),
-			/**
-			 * The DOM node immediately following the main CSS link element produced in the XSLT.
-			 * @var
-			 * @type {Node}
-			 * @private
-			 */
-			sibling = mainCss ? mainCss.nextSibling : null,
-			/**
 			 * The common file name used to build the CSS files with an additional DOT suffix.
 			 * The individual 'extension' extends this.;
 			 * @var
@@ -181,7 +167,7 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 		 */
 		function addLinkElement(url, media) {
 			var head = document.head || document.getElementsByTagName("head")[0],
-				el;
+				el, sibling, mainCss;
 			if (!head) { // you gotta be kidding me ...
 				return;
 			}
@@ -191,7 +177,8 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 				// really care if we add the link more than once but it is better to not do so.
 				return;
 			}
-
+			mainCss = instance.getMainCss();
+			sibling = mainCss ? mainCss.nextSibling : null;
 			el = document.createElement("link");
 			el.type = "text/css";
 			el.setAttribute("rel", "stylesheet");
@@ -348,6 +335,19 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 		}
 
 		/**
+		 * Get the main CSS link element produced in the XSLT. The browser specific CSS is added after this.
+		 * @param {boolean} urlOnly If true returns only the URL of the main CSS.
+		 * @returns {Element|String} The main CSS.
+		 */
+		this.getMainCss = function(urlOnly) {
+			var mainCss = document.getElementById("wc_css_screen");
+			if (mainCss && urlOnly) {
+				return mainCss.getAttribute("href");
+			}
+			return mainCss;
+		};
+
+		/**
 		 * Write link elements for all required CSS files. Should only be called from ui:root XSLT. To add CSS from a
 		 * module use {@link module:wc/loader/style.add}.
 		 *
@@ -408,7 +408,8 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 			}
 		};
 	}
-	return /** @alias module:wc/loader/style */ new StyleLoader();
+	var instance = new StyleLoader();
+	return /** @alias module:wc/loader/style */ instance;
 
 
 	/**

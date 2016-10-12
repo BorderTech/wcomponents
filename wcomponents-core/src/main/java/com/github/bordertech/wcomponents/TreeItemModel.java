@@ -58,14 +58,6 @@ public interface TreeItemModel extends Serializable {
 	String getItemId(final List<Integer> row);
 
 	/**
-	 * Used in custom trees to match a rows unique item id to the row index.
-	 *
-	 * @param itemId the row item id
-	 * @return the row index for the item id
-	 */
-	List<Integer> getItemRowIndex(final String itemId);
-
-	/**
 	 * Retrieves the value at the given row.
 	 *
 	 * @param row - the row index.

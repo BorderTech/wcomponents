@@ -22,8 +22,6 @@ import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.WTree;
 import com.github.bordertech.wcomponents.examples.table.ExampleDataUtil;
 import com.github.bordertech.wcomponents.examples.table.PersonBean;
-import com.github.bordertech.wcomponents.util.Util;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -287,98 +285,11 @@ public class WTreeExample extends WContainer {
 		}
 
 		@Override
-		public List<Integer> getItemRowIndex(final String itemId) {
-			if (useDocs) {
-				return handleDocumentFindId(itemId);
-			} else {
-				return handlePersonFindId(itemId);
-			}
-		}
-
-		@Override
 		public TreeItemImage getItemImage(final List<Integer> row) {
 			if (useDocs && row.size() == 2) {
 				return PDF_IMAGE;
 			}
 			return PERSON_IMAGE;
-		}
-
-		/**
-		 * @param itemId the item id id to search for (could be person id or document id)
-		 * @return the row index if a match or null
-		 */
-		private List<Integer> handleDocumentFindId(final String itemId) {
-			List<Integer> rowIndex = new ArrayList<>();
-			for (int personIdx = 0; personIdx < data.size(); personIdx++) {
-				PersonBean person = data.get(personIdx);
-				// Check match on person
-				if (Util.equals(itemId, person.getPersonId())) {
-					rowIndex.add(personIdx);
-					break;
-				}
-				// Check documents on person
-				if (person.getDocuments() != null) {
-					for (int docIdx = 0; docIdx < person.getDocuments().size(); docIdx++) {
-						PersonBean.TravelDoc doc = person.getDocuments().get(docIdx);
-						// Check match on document
-						if (Util.equals(itemId, doc.getDocumentNumber())) {
-							rowIndex.add(personIdx);
-							rowIndex.add(docIdx);
-							break;
-						}
-					}
-					if (!rowIndex.isEmpty()) {
-						break;
-					}
-				}
-			}
-			return rowIndex;
-		}
-
-		/**
-		 * @param itemId the person id to search for
-		 * @return the row index if a match or null
-		 */
-		private List<Integer> handlePersonFindId(final String itemId) {
-			for (int personIdx = 0; personIdx < data.size(); personIdx++) {
-				PersonBean person = data.get(personIdx);
-				List<Integer> idx = new ArrayList<>();
-				idx.add(personIdx);
-				idx = processPersons(itemId, person, idx);
-				if (idx != null) {
-					return idx;
-				}
-			}
-			return null;
-		}
-
-		/**
-		 * Search for the item id through the person beans.
-		 *
-		 * @param itemId the item id to search for
-		 * @param person the person bean to check
-		 * @param rowIndex the current row index
-		 * @return the row index if a match or null
-		 */
-		private List<Integer> processPersons(final String itemId, final PersonBean person, final List<Integer> rowIndex) {
-			// Check match on person id
-			if (Util.equals(itemId, person.getPersonId())) {
-				return rowIndex;
-			}
-
-			// Check children
-			if (person.getMore() != null) {
-				for (int personIdx = 0; personIdx < person.getMore().size(); personIdx++) {
-					PersonBean child = person.getMore().get(personIdx);
-					List<Integer> childIdx = new ArrayList<>(rowIndex);
-					childIdx.add(personIdx);
-					childIdx = processPersons(itemId, child, childIdx);
-					if (childIdx != null) {
-						return childIdx;
-					}
-				}
-			}
-			return null;
 		}
 
 		/**
