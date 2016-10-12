@@ -13,6 +13,8 @@
 * Fixed an issue which could result in a WTableAction trigger button becoming enabled if disabled row(s) were selected. This is part of #943.
 * Fixed an issue where a dialog trigger button's action could be erroneously fired by a dialog re-opening on page load #945.
 * Fixed missing "day of week column headers" in calendar date picker (#942).
+* Fixed WSubMenu AJAX not working (#889).
+* Fixed WDateField, WPartialDateField and WNumberField validation (#951).
 
 ## Enhancements
 * Allow TinyMCE global configuration to be overriden without a theme rebuild.
