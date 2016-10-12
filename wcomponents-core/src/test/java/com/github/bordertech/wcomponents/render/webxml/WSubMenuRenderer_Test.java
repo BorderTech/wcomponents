@@ -59,8 +59,13 @@ public class WSubMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 		subMenu.setSelectable(true);
 		menu.setSelectedItem(subMenu);
 		subMenu.setAccessKey('A');
-		assertSchemaMatch(menu);
+
+		// Open on first paint
 		assertXpathEvaluatesTo("true", "//ui:submenu/@open", menu);
+		// Closed on second paint
+		assertXpathNotExists("//ui:submenu/@open", menu);
+
+		assertSchemaMatch(menu);
 		assertXpathEvaluatesTo("true", "//ui:submenu/@disabled", menu);
 		assertXpathEvaluatesTo("true", "//ui:submenu/@hidden", menu);
 		assertXpathEvaluatesTo("true", "//ui:submenu/@selectable", menu);
