@@ -152,7 +152,8 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	/**
 	 * @param selectMode the selection mode for the items in this menu container.
 	 *
-	 * @deprecated Use {@link #setSelectionMode(com.github.bordertech.wcomponents.MenuSelectContainer.SelectionMode)} instead.
+	 * @deprecated Use {@link #setSelectionMode(com.github.bordertech.wcomponents.MenuSelectContainer.SelectionMode)}
+	 * instead.
 	 */
 	@Deprecated
 	public void setSelectMode(final SelectMode selectMode) {
@@ -451,6 +452,22 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected void afterPaint(final RenderContext renderContext) {
+		super.afterPaint(renderContext);
+		// Close all menu items (except for tree). Menus are opened on each AJAX request as needed.
+		if (getType() != MenuType.TREE) {
+			for (MenuItem item : getMenuItems(true)) {
+				if (item instanceof WSubMenu) {
+					((WSubMenu) item).setOpen(false);
+				}
+			}
+		}
+	}
+
+	/**
 	 * Determine if this WMenu is on the Request.
 	 *
 	 * @param request the request being responded to.
@@ -629,6 +646,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 
 		/**
 		 * The number of rows to display for a column menu.
+		 *
 		 * @deprecated No longer supported.
 		 */
 		private int rows;
