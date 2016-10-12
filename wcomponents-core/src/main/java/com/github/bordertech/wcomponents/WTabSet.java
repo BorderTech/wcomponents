@@ -63,6 +63,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 		ACCORDION,
 		/**
 		 * An undefined tabset determined per theme.
+		 *
 		 * @deprecated 1.2.0
 		 */
 		APPLICATION
@@ -117,6 +118,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	public static final TabSetType TYPE_ACCORDION = TabSetType.ACCORDION;
 	/**
 	 * An "application" type tab-set, defined only in a theme.
+	 *
 	 * @deprecated 1.2.0
 	 */
 	public static final TabSetType TYPE_APPLICATION = TabSetType.APPLICATION;
@@ -350,7 +352,8 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 		}
 
 		if (activeTabs == null) {
-			if (getTotalTabs() == 0) {
+			// If no tabs or is type accordian then no tabs are open by default
+			if (getTotalTabs() == 0 || getType() == TYPE_ACCORDION) {
 				return Collections.emptyList();
 			} else {
 				// If there are no active tabs, then the first visible tab will be returned as the active tab.
@@ -413,6 +416,11 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 */
 	public void setActiveIndices(final int[] indices) {
 		TabSetModel model = getOrCreateComponentModel();
+
+		if (indices == null || indices.length == 0) {
+			model.activeTabs = null;
+			return;
+		}
 
 		if (model.activeTabs == null) {
 			model.activeTabs = new ArrayList<>(1);
@@ -580,8 +588,12 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 
 			if (Util.empty(indicesStr[0])) {
 				// Special case - no tab selected
-				int idx = findFirstVisibleTab();
-				indices = new int[idx];
+				if (getType() == TYPE_ACCORDION) {
+					indices = null;
+				} else {
+					int idx = findFirstVisibleTab();
+					indices = new int[idx];
+				}
 			} else {
 				// Normal case - one or more tabs selected
 				for (int i = 0; i < indices.length; i++) {
@@ -741,6 +753,7 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	public boolean isSingle() {
 		return getComponentModel().single;
 	}
+
 	/**
 	 * The "collapsible" group name that this tabset belongs to.
 	 *
@@ -755,8 +768,9 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	}
 
 	/**
-	 * Set the {@link com.github.bordertech.wcomponents.CollapsibleGroup} that this component belongs to. This will enable a
-	 * {@link com.github.bordertech.wcomponents.WCollapsibleToggle} component to target the tabset as part of the group.
+	 * Set the {@link com.github.bordertech.wcomponents.CollapsibleGroup} that this component belongs to. This will
+	 * enable a {@link com.github.bordertech.wcomponents.WCollapsibleToggle} component to target the tabset as part of
+	 * the group.
 	 *
 	 * @param group the group to set
 	 */
@@ -847,8 +861,8 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 		private boolean single;
 
 		/**
-		 * The CollapsibleGroup, primarily used with a {@link com.github.bordertech.wcomponents.WCollapsibleToggle} to toggle a group of collapsibles
-		 * and/or accordion tabs at once. Only applies to Type.ACCORDION.
+		 * The CollapsibleGroup, primarily used with a {@link com.github.bordertech.wcomponents.WCollapsibleToggle} to
+		 * toggle a group of collapsibles and/or accordion tabs at once. Only applies to Type.ACCORDION.
 		 */
 		private CollapsibleGroup group;
 	}

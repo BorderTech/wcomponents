@@ -169,6 +169,21 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
+	public void testGetActiveTabAccordian() {
+		WTabSet tabset = new WTabSet(WTabSet.TYPE_ACCORDION);
+
+		WComponent tab1 = new WLabel("label1");
+		tabset.addTab(tab1, "tab1", WTabSet.TAB_MODE_DYNAMIC);
+
+		tabset.setLocked(true);
+		setActiveContext(createUIContext());
+
+		// Accordian should have no tabs open by default
+		Assert.assertTrue("Active tabs should be empty be default for accordian tabset", tabset.getActiveTabs().isEmpty());
+		Assert.assertNull("Incorrect active tab", tabset.getActiveTab());
+	}
+
+	@Test
 	public void testActiveIndexAccessors() {
 		WTabSet tabset = new WTabSet();
 		tabset.addTab(new WLabel("tab1"), "tab1", WTabSet.TAB_MODE_DYNAMIC);
