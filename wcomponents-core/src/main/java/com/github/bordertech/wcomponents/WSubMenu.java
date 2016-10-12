@@ -365,7 +365,8 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	/**
 	 * @param selectMode the selection mode for the items in this menu container.
 	 *
-	 * @deprecated Use {@link com.github.bordertech.wcomponents.MenuSelectContainer#setSelectionMode(SelectionMode)} instead.
+	 * @deprecated Use {@link com.github.bordertech.wcomponents.MenuSelectContainer#setSelectionMode(SelectionMode)}
+	 * instead.
 	 */
 	public void setSelectMode(final SelectMode selectMode) {
 		switch (selectMode) {
@@ -558,9 +559,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 		switch (getComponentModel().mode) {
 			case LAZY: {
 				getContent().setVisible(isOpen());
-				if (!isOpen()) {
-					AjaxHelper.registerContainer(getId(), contentId, targetId, request);
-				}
+				AjaxHelper.registerContainer(getId(), contentId, targetId, request);
 				break;
 			}
 			case DYNAMIC: {

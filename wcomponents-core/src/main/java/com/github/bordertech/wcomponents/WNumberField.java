@@ -65,13 +65,26 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 		}
 
 		if (changed) {
-			setData(numberValue);
-			NumberFieldModel model = getOrCreateComponentModel();
-			model.validNumber = numberValue != null || text == null;
-			model.text = text;
+			boolean valid = numberValue != null || text == null;
+			handleRequestValue(numberValue, valid, text);
 		}
 
 		return changed;
+	}
+
+	/**
+	 * Set the request value.
+	 *
+	 * @param value the number value
+	 * @param valid true if valid value
+	 * @param text the user text
+	 */
+	protected void handleRequestValue(final BigDecimal value, final boolean valid, final String text) {
+		// As setData() clears the text value (if valid), this must be called first so it can be set after
+		setData(value);
+		NumberFieldModel model = getOrCreateComponentModel();
+		model.validNumber = valid;
+		model.text = text;
 	}
 
 	/**
@@ -388,15 +401,12 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	 */
 	@Override
 	protected void validateComponent(final List<Diagnostic> diags) {
-		super.validateComponent(diags);
 		if (isValidNumber()) {
+			super.validateComponent(diags);
 			validateNumber(diags);
 		} else {
-			diags.
-					add(createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_INVALID,
-							this));
+			diags.add(createErrorDiagnostic(InternalMessages.DEFAULT_VALIDATION_ERROR_INVALID, this));
 		}
-
 	}
 
 	/**
