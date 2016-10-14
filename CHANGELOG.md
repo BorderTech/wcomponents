@@ -4,6 +4,8 @@
 
 ## API Changes
 
+## Bug Fixes
+
 ## Enhancements
 
 # Release 1.2.11
