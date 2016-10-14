@@ -4,6 +4,12 @@
 
 ## API Changes
 
+## Enhancements
+
+# Release 1.2.11
+
+## API Changes
+
 ## Bug Fixes
 
 * Fixed `WTree` AJAX expansion #934, QC158631.
