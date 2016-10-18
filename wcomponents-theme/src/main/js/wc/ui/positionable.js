@@ -450,8 +450,10 @@ define(["wc/dom/attribute", "wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/g
 				if (conf) {
 					width = conf.width;
 					height = conf.height;
-					topOffset = (conf.topOffsetPC !== undefined) ? conf.topOffsetPC : topOffset;  // if the top offset is not specified then position the element so that it is at the top of the relative component
-					leftOffset = (conf.leftOffsetPC !== undefined) ? conf.leftOffsetPC : leftOffset;  // if the left offset is not specified then position the element so that it is in the middle of the relative component
+					// if the top offset is not specified then position the element so that it is at the top of the relative component
+					topOffset = (conf.topOffsetPC !== undefined) ? conf.topOffsetPC : topOffset;
+					// if the left offset is not specified then position the element so that it is in the middle of the relative component
+					leftOffset = (conf.leftOffsetPC !== undefined) ? conf.leftOffsetPC : leftOffset;
 					relativeTo = conf.relativeTo;
 				}
 
@@ -460,7 +462,8 @@ define(["wc/dom/attribute", "wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/g
 				}
 				else {
 					relSize = getViewportSize(true);
-					func = "setPositionInView";  // when setting position relative to the viewport never let left or top be less than 0
+					// when setting position relative to the viewport never let left or top be less than 0
+					func = "setPositionInView";
 					if (!positionedBySize[id]) {
 						++positionedBySize.length;
 					}
@@ -556,7 +559,6 @@ define(["wc/dom/attribute", "wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/g
 				}
 				if (box.top < 0) {
 					el.style.top = ZERO;
-					box = getBox(el);
 				}
 			};
 
@@ -565,10 +567,9 @@ define(["wc/dom/attribute", "wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/g
 			 * @function module:wc/ui/positionable.clearZeros
 			 * @public
 			 * @param {Element} element The element to reset.
-			 * @param {Boolean} [ignoreTopLeft] If true then do not reset top or left, just bottom and right. Why?
-			 *    because we sometimes need to keep these as they are used rather a lot elsewhere. Why not bottom and
-			 *    right? Because they are only set during collision detection or explicit pinning and are never part
-			 *    of the underlying component's default position model.
+			 * @param {Boolean} [ignoreTopLeft] If true then do not reset top or left, just bottom and right. Why? because we sometimes need to keep
+			 * these as they are used rather a lot elsewhere. Why not bottom and right? Because they are only set during collision detection or
+			 * explicit pinning and are never part of the underlying component's default position model.
 			 */
 			this.clearZeros = function(element, ignoreTopLeft) {
 				if (!ignoreTopLeft && element.style.top === ZERO) {
@@ -640,9 +641,7 @@ define(["wc/dom/attribute", "wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/g
 			};
 
 			/**
-			 * Allow any other module to clear an element from the position by size register. This is currently only
-			 * used by {@link module:wc/ui/draggable} to prevent a draggable component being repositioned by a resize
-			 * event if the user has positioned it explicitly.
+			 * Allow any other module to clear an element from the position by size register.
 			 *
 			 * @function module:wc/ui/positionable.clearPositionBySize
 			 * @public
@@ -652,6 +651,76 @@ define(["wc/dom/attribute", "wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/g
 				if (positionedBySize[id]) {
 					clearPositionBySizeKey(id);
 				}
+			};
+
+			/**
+			 * Re-set an elements position if it is currently partly or wholly out of view.
+			 *
+			 * @function module:wc/ui/positionable.bringIntoView
+			 * @public
+			 * @param {Element} el the element to reposition
+			 * @param {Object} [config] a configuration DTO
+			 * @param {number} [config.width] the width of the element
+			 * @param {number} [config.height] the height of the element
+			 * @param {number} [config.topOffsetPC] the proportion offset
+			 * @param {boolean} [config.animate] {@code true} if the element is animatable and we want to turn these off
+			 * @return {boolean} {@code true} if the element was repositioned.
+ 			 */
+			this.bringIntoView = function(el, config) {
+				var element,
+					vp,
+					box,
+					repositionNeeded,
+					disabledAnimations;
+
+				if (!el) {
+					return false;
+				}
+
+				element = (el.nodeType === Node.ELEMENT_NODE ? el : document.getElementById(el));
+
+				if (!element) {
+					return false;
+				}
+
+				if ((element.style.top && parseFloat(element.style.top) < 0) || (element.style.left && parseFloat(element.style.left) < 0)) {
+					// too far up or left from the cheap seats
+					repositionNeeded = true;
+				}
+				else {
+					box = getBox(element);
+
+					if (box.left < 0 || box.top < 0) {
+						// too far up or left
+						repositionNeeded = true;
+					}
+					else {
+						vp = getViewportSize(true);
+						if (box.right > vp.width || box.bottom > vp.height) {
+							// too far right or down
+							repositionNeeded = true;
+						}
+					}
+				}
+
+				if (repositionNeeded) {
+					try {
+						if (config && config.animate) {
+							resizeable.disableAnimation(element);
+							disabledAnimations = true;
+						}
+						instance.setBySize(element, config);
+						return true;
+					}
+					finally {
+						if (disabledAnimations) {
+							resizeable.restoreAnimation(element);
+						}
+					}
+
+				}
+
+				return false;
 			};
 		}
 
@@ -682,30 +751,23 @@ define(["wc/dom/attribute", "wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/g
 		 * @typedef {Object} module:wc/ui/positionable~pinToConfig
 		 *
 		 * @property {bitmap} pos description a bitwise OR of {@link module:wc/ui/positionable#POS} options.
-		 * @property {Boolean} [outside] Where to pin the element in the relative element. If rue it gets pinned to
-		 *    the outside of the relative element, otherwise it gets pinned within the relative element.
-		 * @property {int} [vOffset] The vertical offset to apply to the pined element relative to the requested
-		 *    position.
-		 * @property {int} [hOffset] The horizontal offset to apply to the pined element relative to the requested
-		 *    position.
-		 */
-
-		/**
-		 * Configuration object used to set the position of an element relative to either another element or the
-		 * viewport. NOTE: if neither topOffsetPC nor leftOffsetPC are set then the element will attempt to
-		 * center itself relative to the relative element/viewport.
+		 * @property {Boolean} [outside] Where to pin the element in the relative element. If rue it gets pinned to the outside of the relative
+		 *    element, otherwise it gets pinned within the relative element.
+		 * @property {int} [vOffset] The vertical offset to apply to the pined element relative to the requested position.
+		 * @property {int} [hOffset] The horizontal offset to apply to the pined element relative to the requested position.
+		 *
+		 * Configuration object used to set the position of an element relative to either another element or the viewport. NOTE: if neither
+		 * `topOffsetPC` nor `leftOffsetPC` are set then the element will attempt to center itself relative to the relative element/viewport.
 		 *
 		 * @typedef {Object} module:wc/ui/positionable~setBySizeConfig
 		 *
 		 * @property {int} [width] The width of the element being positioned. If not set then this is calculated.
 		 * @property {int} [height] The height of the element being positioned. If not set then this is calculated.
-		 * @property {Element} [relativeTo] If set then position the element relative to this target, otherwise
-		 *    position it relative to the viewport.
-		 * @property {float} [topOffsetPC] If set then the element is positioned such that the top of the element is
-		 *    below the top of the relative element/viewport by this much if this is less than 0 then the top of the
-		 *    positioned element will be above the relative element.
-		 * @property {float} [leftOffsetPC] If set then the element is positioned such that the left edge of the
-		 *    element is to the right of the left edge of relative element/viewport by this much. If this is less
-		 *    than 0 then the left of the positioned element will be left of the left edge of the relative element.
+		 * @property {Element} [relativeTo] If set then position the element relative to this target, otherwise position it relative to the viewport.
+		 * @property {float} [topOffsetPC] If set then the element is positioned such that the top of the element is below the top of the relative
+		 *   element/viewport by this much if this is less than 0 then the top of the positioned element will be above the relative element.
+		 * @property {float} [leftOffsetPC] If set then the element is positioned such that the left edge of the element is to the right of the left
+		 *   edge of relative element/viewport by this much. If this is less than 0 then the left of the positioned element will be left of the left
+		 *   edge of the relative element.
 		 */
 	});

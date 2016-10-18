@@ -1,27 +1,3 @@
-/**
- * Provides functionality used to move a component around the screen. Components may be moved using a mouse or keyboard.
- *
- * @typedef {Object} module:wc/ui/draggable.config() Optional module configuration
- * @property {int} step The number of pixels to move the draggable element per key press.
- * @default 8
- *
- * @module
- * @requires module:wc/dom/attribute
- * @requires module:wc/dom/clearSelection
- * @requires module:wc/dom/event
- * @requires module:wc/dom/getEventOffset
- * @requires module:wc/dom/isAcceptableTarget
- * @requires module:wc/dom/getBox
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/uid
- * @requires module:wc/dom/Widget
- * @requires module:wc/has
- * @requires module:wc/ui/ajax/processResponse
- * @requires module:wc/ui/positionable
- * @requires module:wc/ui/resizeable
- * @requires module:wc/config
- */
 define(["wc/dom/attribute",
 		"wc/dom/clearSelection",
 		"wc/dom/event",
@@ -37,7 +13,6 @@ define(["wc/dom/attribute",
 		"wc/ui/positionable",
 		"wc/ui/resizeable",
 		"wc/config"],
-	/** @param attribute wc/dom/attribute @param classList wc/dom/classList @param clearSelection wc/dom/clearSelection @param event wc/dom/event @param getMouseEventOffset wc/dom/getEventOffset @param isAcceptableEventTarget wc/dom/isAcceptableTarget @param getBox wc/dom/getBox @param initialise wc/dom/initialise @param shed wc/dom/shed @param uid wc/dom/uid @param Widget wc/dom/Widget @param has wc/has @param processResponse wc/ui/ajax/processResponse @param positionable wc/ui/positionable @param wcconfig wc/config @ignore */
 	function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableEventTarget, getBox, initialise, shed, uid, Widget, has, processResponse, positionable, resizeable, wcconfig) {
 		"use strict";
 
@@ -241,7 +216,6 @@ define(["wc/dom/attribute",
 						animationsDisabled = true;
 						positionable.clearZeros(element, true);
 						positionable.setPositionInView(element, left, top);
-						positionable.clearPositionBySize(id);
 					}
 				}
 				finally {
@@ -399,7 +373,31 @@ define(["wc/dom/attribute",
 			};
 		}
 
-		var /** @alias module:wc/ui/draggable */ instance = new Draggable();
+		/**
+		 * Provides functionality used to move a component around the screen. Components may be moved using a mouse or keyboard.
+		 *
+		 * @typedef {Object} module:wc/ui/draggable.config() Optional module configuration
+		 * @property {int} step The number of pixels to move the draggable element per key press.
+		 * @default 8
+		 *
+		 * @module
+		 * @requires module:wc/dom/attribute
+		 * @requires module:wc/dom/clearSelection
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/getEventOffset
+		 * @requires module:wc/dom/isAcceptableTarget
+		 * @requires module:wc/dom/getBox
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/uid
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/has
+		 * @requires module:wc/ui/ajax/processResponse
+		 * @requires module:wc/ui/positionable
+		 * @requires module:wc/ui/resizeable
+		 * @requires module:wc/config
+		 */
+		var instance = new Draggable();
 		initialise.register(instance);
 		return instance;
 	});

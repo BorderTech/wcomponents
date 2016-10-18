@@ -8,11 +8,9 @@ define(["wc/dom/getViewportSize", "wc/config"], function (getViewportSize, wccon
 	 * @alias module:wc/ui/viewportUtils~VpUtils
 	 */
 	function VpUtils() {
+		// For device limits in Sass see _common.scss.
 
-		var conf = wcconfig.get("wc/ui/viewportUtils"),
-			// For device limits in Sass see _common.scss.
-			// The size of the largest device considered a phone: currently 773px of a Nexus 6.
-			phoneLimit = 773,
+		var phoneLimit = 773, // The size of the largest device considered a phone: currently 773px of a Nexus 6.
 			// What is the upper limit of a small screen? This could be the 768 of a iPad in portrait orientation,
 			// the 1024 of an old-school monitor or an iPad in landscape orientation or something aribrary. The default
 			// 1000 was chosen as we find some things are quite usable on a tablet in landscape but are less usable in
@@ -24,12 +22,6 @@ define(["wc/dom/getViewportSize", "wc/config"], function (getViewportSize, wccon
 			medDefinition = 1.5,
 			highDefinition = 2,
 			pixelRatio = window.devicePixelRation || 1;
-
-		if (conf) {
-			phoneLimit = conf.phone || phoneLimit;
-			smallScreenLimit = conf.small || smallScreenLimit;
-			largeScreenLimit = conf.large || largeScreenLimit;
-		}
 
 		/**
 		 * Determine if the current viewport is smaller or larger than a given limit.
@@ -61,9 +53,13 @@ define(["wc/dom/getViewportSize", "wc/config"], function (getViewportSize, wccon
 		 * @returns {Boolean} true if the viewport width is no bigger than the configured limit for a phone.
 		 */
 		this.isPhoneLike = function() {
-			return testViewportSize(phoneLimit);
+			var conf = wcconfig.get("wc/ui/viewportUtils"),
+				limit = phoneLimit;
+			if (conf && conf.phone && !isNan(conf.phone)) {
+				limit = conf.phone;
+			}
+			return testViewportSize(limit);
 		};
-
 
 		/**
 		 * Is the width of the current viewport "small"?
@@ -74,9 +70,13 @@ define(["wc/dom/getViewportSize", "wc/config"], function (getViewportSize, wccon
 		 * @returns {Boolean} true if the viewport width is no bigger than the configured limit for a small screen.
 		 */
 		this.isSmallScreen = function() {
-			return testViewportSize(smallScreenLimit);
+			var conf = wcconfig.get("wc/ui/viewportUtils"),
+				limit = smallScreenLimit;
+			if (conf && conf.small && !isNan(conf.small)) {
+				limit = conf.small;
+			}
+			return testViewportSize(limit);
 		};
-
 
 		/**
 		 * Is the width of the current viewport at least that of a large monitor?
@@ -87,7 +87,12 @@ define(["wc/dom/getViewportSize", "wc/config"], function (getViewportSize, wccon
 		 * @returns {Boolean} true if the viewport width is at least that of the configured limit for a big screen.
 		 */
 		this.isLargeScreen = function() {
-			return testViewportSize(largeScreenLimit, true);
+			var conf = wcconfig.get("wc/ui/viewportUtils"),
+				limit = largeScreenLimit;
+			if (conf && conf.large && !isNan(conf.large)) {
+				limit = conf.large;
+			}
+			return testViewportSize(limit, true);
 		};
 
 		/**
@@ -143,11 +148,23 @@ define(["wc/dom/getViewportSize", "wc/config"], function (getViewportSize, wccon
 	 * Provides utility methods regarding the current state of the viewport for use in synchronising responsive UI
 	 * manipulation with CSS media queries.
 	 *
+	 * ### Configuration
+	 *
+	 * This midule may be configured using an object {@link module:wc/ui/viewportUtils~config}.
+	 *
+	 *
 	 * @module wc/ui/viewportUtils
 	 * @requires module:wc/dom/getViewportSize
 	 * @requires module:wc/config
 	 */
 	return new VpUtils();
+
+	/**
+	 * @typedef {Object} module:wc/ui/viewportUtils~config Optional configuration for vpUtils.
+	 * @property {number} [phone=773] the pixel number representing the CSS pixel width of the largest viewport considered "phone-like"
+	 * @property {number} [small=1000] the pixel number representing the CSS pixel width of the largest viewport considered "small-screen"
+	 * @property {number} [large=1981] the pixel number representing the CSS pixel width of the smallest viewport considered "large-like"
+	 */
 });
 
 
