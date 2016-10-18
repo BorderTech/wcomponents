@@ -1,21 +1,5 @@
-/**
- * Provides functionality used to absolutely position a component. Components may be positioned relative to the viewport
- * or another component.
- *
- * @module
- * @requires module:wc/dom/getViewportSize
- * @requires module:wc/dom/getBox
- * @requires module:wc/dom/uid
- * @requires module:wc/dom/event
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/shed
- * @requires module:wc/timers
- *
- * @todo check source order, document private members.
- */
-define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event", "wc/dom/initialise", "wc/dom/shed", "wc/timers", "wc/ui/resizeable"],
-	/** @param getViewportSize @param getBox @param uid @param event @param initialise @param shed @param timers @param resizeable @ignore */
-	function(getViewportSize, getBox, uid, event, initialise, shed, timers, resizeable) {
+define(["wc/dom/attribute", "wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/getStyle", "wc/dom/uid", "wc/dom/event", "wc/dom/initialise", "wc/dom/shed", "wc/timers", "wc/ui/resizeable"],
+	function(attribute, getViewportSize, getBox, getStyle, uid, event, initialise, shed, timers, resizeable) {
 		"use strict";
 
 		/**
@@ -520,7 +504,7 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 			 */
 			this.forceToViewPort = function(el) {
 				var vpSize = getViewportSize(true),
-					box, recalc;
+					box, recalc, max, overflow;
 
 				if (el.style.top && parseFloat(el.style.top) < 0) {
 					el.style.top = ZERO;
@@ -532,31 +516,44 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 
 				box = getBox(el);
 
-				if (box.width > vpSize.width) {
-					el.style.width = vpSize.width + UNIT;
+				if (box.width > vpSize.width || box.height > vpSize.height) {
 					recalc = true;
+
+					if (box.width > vpSize.width) {
+						el.style.left = ZERO;
+						max = getStyle(el, "maxWidth", true, true);
+						if (max !== "100%") {
+							el.style.maxWidth = "100%";
+						}
+					}
+
+					if (box.height > vpSize.height) {
+						el.style.top = ZERO;
+						max = getStyle(el, "maxHeight", true, true);
+						if (max !== "100%") {
+							el.style.maxHeight = "100%";
+						}
+					}
+
+					overflow = getStyle(el, "overflow", false, true);
+					if (!overflow || overflow === "visible") {
+						el.style.overflow = "auto";
+					}
 				}
-				if (box.height > vpSize.height) {
-					el.style.height = vpSize.height + UNIT;
-					recalc = true;
+				else if (el.style.overflow === "auto") {
+					el.style.overflow = "";
 				}
+
 				if (recalc) {
 					box = getBox(el);
 				}
 
 				if (box.left < 0) {
 					el.style.left = ZERO;
-					box = getBox(el);
-				}
-				if (box.right > vpSize.width) {
-					el.style.left = (vpSize.width - box.width) + UNIT;
 				}
 				if (box.top < 0) {
 					el.style.top = ZERO;
 					box = getBox(el);
-				}
-				if (box.bottom > vpSize.height) {
-					el.style.top = (vpSize.height - box.height) + UNIT;
 				}
 			};
 
@@ -598,12 +595,15 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 					size = "";
 				if (keep) {
 					size = style.top + "," + style.right + "," + style.bottom + "," + style.left;
-					element.setAttribute(STORED_ATTRIB, size);
+					attribute.set(element, STORED_ATTRIB, size);
 				}
 				style.top = "";
 				style.right = "";
 				style.bottom = "";
 				style.left = "";
+				if (style.overflow === "auto") {
+					style.overflow = "";
+				}
 			};
 
 			/**
@@ -614,7 +614,7 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 			 * @param {Element} element The element to clear.
 			 */
 			this.restorePosition = function(element) {
-				var size = element.getAttribute(STORED_ATTRIB),
+				var size = attribute.get(element, STORED_ATTRIB),
 					style = element.style;
 				if (size) {
 					size = size.split(",");
@@ -622,7 +622,7 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 					style.right = size[1];
 					style.bottom = size[2];
 					style.left = size[3];
-					element.removeAttribute(STORED_ATTRIB);
+					attribute.remove(element, STORED_ATTRIB);
 				}
 			};
 
@@ -651,7 +651,25 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/uid", "wc/dom/event",
 				}
 			};
 		}
-		var /** @alias module:wc/ui/positionable */ instance = new Positionable();
+
+		/**
+		 * Provides functionality used to absolutely position a component. Components may be positioned relative to the viewport
+		 * or another component.
+		 *
+		 * @module
+		 * @requires module:wc/dom/attribute
+		 * @requires module:wc/dom/getViewportSize
+		 * @requires module:wc/dom/getBox
+		 * @requires module:wc/dom/getStyle
+		 * @requires module:wc/dom/uid
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/timers
+		 *
+		 * @todo check source order, document private members.
+		 */
+		var instance = new Positionable();
 		initialise.register(instance);
 		return instance;
 

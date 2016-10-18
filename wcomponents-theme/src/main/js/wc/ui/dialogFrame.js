@@ -1,62 +1,23 @@
-/**
- * Provides a re-usable frame for floating dialog-like controls.
- *
- * * Implements WAI-ARIA practies for:
- *   * [Modal dialogs](http://www.w3.org/TR/wai-aria-practices/#dialog_modal)
- *   * [Non-modal dialogs](http://www.w3.org/TR/wai-aria-practices/#dialog_nonmodal)
- * * Implements WAI-ARIA roles
- *   * [dialog](http://www.w3.org/TR/wai-aria/roles#dialog) and
- *   * [alertdialog](http://www.w3.org/TR/wai-aria/roles#alertdialog)
- *
- * Dialogs are positionable, resizeable and draggable (including keyboard driven facilities for each).
- *
- *
- * @module
- * @requires module:wc/dom/event
- * @requires module:wc/dom/focus
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/tag
- * @requires module:wc/dom/uid
- * @requires module:wc/dom/Widget
- * @requires module:wc/i18n/i18n
- * @requires module:wc/loader/resource
- * @requires module:wc/ui/ajax/processResponse
- * @requires module:wc/ui/modalShim
- * @requires module:wc/timers
- * @requires module:wc/has
- * @requires module:wc/ui/resizeable
- * @requires module:wc/ui/positionable
- * @requires module:wc/ui/draggable
- * @requires module:wc/dom/role
- * @requires external:Moustache
- * @requires module:wc/ui/viewportUtils
- */
-
 define(["wc/dom/event",
-		"wc/dom/focus",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/dom/tag",
-		"wc/dom/uid",
-		"wc/dom/Widget",
-		"wc/i18n/i18n",
-		"wc/loader/resource",
-		"wc/ui/ajax/processResponse",
-		"wc/ui/modalShim",
-		"wc/timers",
-		"wc/has",
-		"wc/ui/resizeable",
-		"wc/ui/positionable",
-		"wc/ui/draggable",
-		"wc/dom/role",
-		"lib/handlebars/handlebars",
-		"wc/ui/viewportUtils"],
-	/** @param event @param focus @param initialise @param shed @param tag @param uid @param Widget @param i18n
-	 * @param loader @param processResponse @param modalShim @param timers @param has @param resizeable
-	 * @param positionable @param draggable @param $role @param handlebars @param viewportUtils
-	 * @ignore */
-	function(event, focus, initialise, shed, tag, uid, Widget, i18n, loader, processResponse,
-		modalShim, timers, has, resizeable, positionable, draggable, $role, handlebars, viewportUtils) {
+	"wc/dom/focus",
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/dom/tag",
+	"wc/dom/uid",
+	"wc/dom/Widget",
+	"wc/i18n/i18n",
+	"wc/loader/resource",
+	"wc/ui/ajax/processResponse",
+	"wc/ui/modalShim",
+	"wc/timers",
+	"wc/has",
+	"wc/ui/resizeable",
+	"wc/ui/positionable",
+	"wc/ui/draggable",
+	"wc/dom/role",
+	"lib/handlebars/handlebars",
+	"wc/ui/viewportUtils"],
+	function (event, focus, initialise, shed, tag, uid, Widget, i18n, loader, processResponse, modalShim, timers, has, resizeable, positionable, draggable, $role, handlebars, viewportUtils) {
 		"use strict";
 
 		/**
@@ -68,9 +29,9 @@ define(["wc/dom/event",
 			var TEMPLATE_NAME = "dialog.xml",
 				DIALOG_ID = "wc_dlgid",
 				CONTENT_BASE_CLASS = "content",
-				INITIAL_TOP_PROPORTION = 0.33,  // when setting the initial position offset the dialog so that the gap at the top is this proportion of the difference between the dialog size and viewport size
+				INITIAL_TOP_PROPORTION = 0.33, // when setting the initial position offset the dialog so that the gap at the top is this proportion of the difference between the dialog size and viewport size
 				openerId,
-				subscriber ={
+				subscriber = {
 					close: null
 				},
 				DIALOG = new Widget("dialog"),
@@ -95,11 +56,9 @@ define(["wc/dom/event",
 
 			TITLE_WD.descendFrom(HEADER_WD);
 			DIALOG_CONTENT_WRAPPER.descendFrom(DIALOG, true);
-
 			RESIZERS = resizeable.getWidget();
 			RESIZE_WD = RESIZERS.handle;
 			MAX_BUTTON = RESIZERS.maximise;
-
 
 			/**
 			 * Indicates that the dialog is modal.
@@ -147,7 +106,7 @@ define(["wc/dom/event",
 				// no clue to the form get the last form in the view
 				forms = document.getElementsByTagName("form");
 				if (forms && forms.length) {
-					return forms[forms.length -1];
+					return forms[forms.length - 1];
 				}
 				return null;
 			}
@@ -160,7 +119,7 @@ define(["wc/dom/event",
 			 * @param {module:wc/ui/dialogFrame~dto} dto The config options for the dialog to be opened.
 			 * @returns {Promise} The promise will be a rejection if the dialog is not able to be opened.
 			 */
-			this.open = function(dto) {
+			this.open = function (dto) {
 				var dialog = this.getDialog(),
 					form, formId;
 
@@ -174,7 +133,7 @@ define(["wc/dom/event",
 					formId = form.id || (form.id = uid());
 
 					if (formId) {
-						return buildDialog(formId).then(function() {
+						return buildDialog(formId).then(function () {
 							openDlgHelper(dto);
 						});
 					}
@@ -188,7 +147,7 @@ define(["wc/dom/event",
 			 * @param {Element} [element] Optionally provide the dialog element.
 			 * @returns {boolean} true if the dialog is open.
 			 */
-			this.isOpen = function(element) {
+			this.isOpen = function (element) {
 				var dialog = element || this.getDialog();
 				return (dialog && !shed.isHidden(dialog, true));
 			};
@@ -254,7 +213,7 @@ define(["wc/dom/event",
 
 				instance.unsetAllDimensions(dialog);
 				dialog.className = (obj && obj.className) ? obj.className : "";
-				instance.resetContent(false, (obj ? obj.id : "")) ;
+				instance.resetContent(false, (obj ? obj.id : ""));
 
 				// set the dialog title
 				if ((title = TITLE_WD.findDescendant(dialog))) {
@@ -306,8 +265,8 @@ define(["wc/dom/event",
 
 				try {
 					if (canMoveResize()) {
-						positionable.restorePosition(dialog);
 						resizeable.resetSize(dialog);
+						positionable.restorePosition(dialog);
 					}
 					else {
 						resizeable.disableAnimation(dialog);
@@ -348,7 +307,7 @@ define(["wc/dom/event",
 			 * @public
 			 * @param {Element} [dlg] The dialog wrapper element if known.
 			 */
-			this.unsetAllDimensions = function(dlg) {
+			this.unsetAllDimensions = function (dlg) {
 				var dialog = dlg || this.getDialog();
 				if (dialog) {
 					dialog.style.width = "";
@@ -427,7 +386,7 @@ define(["wc/dom/event",
 			 * @returns {Promise} resolved with {Element} dialog The dialog element.
 			 */
 			function buildDialog(formId) {
-				return loader.load(TEMPLATE_NAME, true, true).then(function(template) {
+				return loader.load(TEMPLATE_NAME, true, true).then(function (template) {
 					/*
 					 * sprintf replacements
 					 * 1: maximise button title dialog_maxRestore
@@ -442,7 +401,7 @@ define(["wc/dom/event",
 						headerTitle,
 						resizeHandleTitle,
 						dialogProps = {
-							heading :{
+							heading: {
 								maxRestore: i18n.get("dialog_maxRestore"),
 								close: i18n.get("dialog_close")
 							},
@@ -582,7 +541,7 @@ define(["wc/dom/event",
 			 * @public
 			 * @return {boolean} true if there is a dialog to hide.
 			 */
-			this.close = function() {
+			this.close = function () {
 				var dialog = this.getDialog();
 				if (dialog && this.isOpen(dialog)) {
 					shed.hide(dialog);
@@ -778,7 +737,7 @@ define(["wc/dom/event",
 			 * @public
 			 * @param {Element} element The element being initialised, usually document.body.
 			 */
-			this.initialise = function(element) {
+			this.initialise = function (element) {
 				event.add(element, event.TYPE.click, clickEvent);
 				event.add(window, event.TYPE.resize, resizeEvent, -1);
 			};
@@ -788,7 +747,7 @@ define(["wc/dom/event",
 			 * @function module:wc/ui/dialogFrame.postInit
 			 * @public
 			 */
-			this.postInit = function() {
+			this.postInit = function () {
 				processResponse.subscribe(preOpenSubscriber);
 				processResponse.subscribe(ajaxSubscriber, true);
 				shed.subscribe(shed.actions.SHOW, shedShowSubscriber);
@@ -802,7 +761,7 @@ define(["wc/dom/event",
 			 * @public
 			 * @returns {module:wc/dom/Widget} The Widget describing a dialog frame.
 			 */
-			this.getWidget = function() {
+			this.getWidget = function () {
 				return DIALOG;
 			};
 
@@ -812,7 +771,7 @@ define(["wc/dom/event",
 			 * @public
 			 * @returns {?Element} The dialog.
 			 */
-			this.getDialog = function() {
+			this.getDialog = function () {
 				return document.getElementById(DIALOG_ID);
 			};
 
@@ -823,7 +782,7 @@ define(["wc/dom/event",
 			 * @public
 			 * @returns {?Element} The content wrapper if present.
 			 */
-			this.getContent = function() {
+			this.getContent = function () {
 				var dialog = this.getDialog();
 				if (dialog) {
 					return DIALOG_CONTENT_WRAPPER.findDescendant(dialog);
@@ -839,7 +798,7 @@ define(["wc/dom/event",
 			 * @param {Boolean} [keepContent] Do we want to reset the content of the dialog?
 			 * @param {String} [id] The id to set on the content.
 			 */
-			this.resetContent = function(keepContent, id) {
+			this.resetContent = function (keepContent, id) {
 				var content = this.getContent();
 
 				if (content) {
@@ -855,13 +814,46 @@ define(["wc/dom/event",
 			};
 		}
 
-		var /** @alias module:wc/ui/dialogFrame */ instance = new DialogFrame(),
+		/**
+		 * Provides a re-usable frame for floating dialog-like controls.
+		 *
+		 * * Implements WAI-ARIA practies for:
+		 *   * [Modal dialogs](http://www.w3.org/TR/wai-aria-practices/#dialog_modal)
+		 *   * [Non-modal dialogs](http://www.w3.org/TR/wai-aria-practices/#dialog_nonmodal)
+		 * * Implements WAI-ARIA roles
+		 *   * [dialog](http://www.w3.org/TR/wai-aria/roles#dialog) and
+		 *   * [alertdialog](http://www.w3.org/TR/wai-aria/roles#alertdialog)
+		 *
+		 * Dialogs are positionable, resizeable and draggable (including keyboard driven facilities for each).
+		 *
+		 *
+		 * @module
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/focus
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/tag
+		 * @requires module:wc/dom/uid
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/i18n/i18n
+		 * @requires module:wc/loader/resource
+		 * @requires module:wc/ui/ajax/processResponse
+		 * @requires module:wc/ui/modalShim
+		 * @requires module:wc/timers
+		 * @requires module:wc/has
+		 * @requires module:wc/ui/resizeable
+		 * @requires module:wc/ui/positionable
+		 * @requires module:wc/ui/draggable
+		 * @requires module:wc/dom/role
+		 * @requires external:handlebars
+		 * @requires module:wc/ui/viewportUtils
+		 */
+		var instance = new DialogFrame(),
 			repainter;
 
 		initialise.register(instance);
 
 		if (has("ie") === 8) {
-			require([ "wc/fix/inlineBlock_ie8" ], function(inlineBlock) {
+			require(["wc/fix/inlineBlock_ie8"], function (inlineBlock) {
 				repainter = inlineBlock;
 			});
 		}
