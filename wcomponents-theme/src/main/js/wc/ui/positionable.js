@@ -468,6 +468,9 @@ define(["wc/dom/attribute", "wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/g
 				}
 
 				if (!(width && height)) {
+					// reset left and top
+					_el.style.top = "";
+					_el.style.left = "";
 					if (_el.style.width) {
 						width = parseFloat(_el.style.width.replace(UNIT, ""));
 					}

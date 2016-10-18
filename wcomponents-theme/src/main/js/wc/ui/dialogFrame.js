@@ -79,7 +79,7 @@ define(["wc/dom/event",
 			 * @returns {Boolean} true is move/resize are supportable.
 			 */
 			function canMoveResize() {
-				return !viewportUtils.isSmallScreen();
+				return !viewportUtils.isPhoneLike();
 			}
 
 			/**
@@ -494,7 +494,7 @@ define(["wc/dom/event",
 			 * @param {int} [obj.topOffsetPC] The offset from the top of the dialog.
 			 * @returns {undefined}
 			 */
-			function setBySize(element, obj) {
+			function setPositionBySize(element, obj) {
 				try {
 					resizeable.disableAnimation(element);
 					if (canMoveResize()) {
@@ -519,18 +519,18 @@ define(["wc/dom/event",
 			 * @param {int} [height] The height of the dialog.
 			 */
 			this.reposition = function (width, height) {
-				var dialog = this.getDialog();
+				var dialog;
 
 				if (repositionTimer) {
 					timers.clearTimeout(repositionTimer);
 					repositionTimer = null;
 				}
-				if (!dialog) {
+				if (!(dialog = this.getDialog())) {
 					return;
 				}
 
 				if (canMoveResize()) {
-					repositionTimer = timers.setTimeout(setBySize, 100, dialog,
+					repositionTimer = timers.setTimeout(setPositionBySize, 100, dialog,
 						{width: width, height: height, topOffsetPC: INITIAL_TOP_PROPORTION});
 				}
 			};
