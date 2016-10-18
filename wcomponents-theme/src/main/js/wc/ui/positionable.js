@@ -653,8 +653,6 @@ define(["wc/dom/attribute", "wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/g
 				}
 			};
 
-
-
 			/**
 			 * Re-set an elements position if it is currently partly or wholly out of view.
 			 *
