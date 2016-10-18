@@ -351,23 +351,27 @@ define(["wc/dom/event",
 			 * @private
 			 * @function
 			 * @param {Element} dialog The dialog container.
-			 * @param { module:wc/ui/dialogFrame~dto} obj The registry item that contains configuration data for this
-			 *   dialog.
+			 * @param {module:wc/ui/dialogFrame~dto} obj The registry item that contains configuration data for this dialog.
 			 */
 			function initDialogPosition(dialog, obj) {
-				var disabledAnimations;
+				var disabledAnimations, configObj;
 				try {
 					if (obj) {
+						configObj = {width: obj.width, height: obj.height, topOffsetPC: INITIAL_TOP_PROPORTION};
 						// set the initial position. If the position (top, left) is set in the config object we do not need to calculate position.
 						if (!((obj.top || obj.top === 0) && (obj.left || obj.left === 0))) {
 							if (canMoveResize()) {
 								resizeable.disableAnimation(dialog);
 								disabledAnimations = true;
-								positionable.setBySize(dialog, {width: obj.width, height: obj.height, topOffsetPC: INITIAL_TOP_PROPORTION});
+								positionable.setBySize(dialog, configObj);
 							}
 							else {
-								positionable.storePosBySize(dialog, {width: obj.width, height: obj.height, topOffsetPC: INITIAL_TOP_PROPORTION});
+								positionable.storePosBySize(dialog, configObj);
 							}
+						}
+						else if (canMoveResize()) {
+							// even if we have position we may have to re-position the dialog
+							positionable.bringIntoView(dialog, configObj);
 						}
 					}
 				}

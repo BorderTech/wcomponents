@@ -559,7 +559,6 @@ define(["wc/dom/attribute", "wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/g
 				}
 				if (box.top < 0) {
 					el.style.top = ZERO;
-					box = getBox(el);
 				}
 			};
 
@@ -652,6 +651,78 @@ define(["wc/dom/attribute", "wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/g
 				if (positionedBySize[id]) {
 					clearPositionBySizeKey(id);
 				}
+			};
+
+
+
+			/**
+			 * Re-set an elements position if it is currently partly or wholly out of view.
+			 *
+			 * @function module:wc/ui/positionable.bringIntoView
+			 * @public
+			 * @param {Element} el the element to reposition
+			 * @param {Object} [config] a configuration DTO
+			 * @param {number} [config.width] the width of the element
+			 * @param {number} [config.height] the height of the element
+			 * @param {number} [config.topOffsetPC] the proportion offset
+			 * @param {boolean} [config.animate] {@code true} if the element is animatable and we want to turn these off
+			 * @return {boolean} {@code true} if the element was repositioned.
+ 			 */
+			this.bringIntoView = function(el, config) {
+				var element,
+					vp,
+					box,
+					repositionNeeded,
+					disabledAnimations;
+
+				if (!el) {
+					return false;
+				}
+
+				element = (el.nodeType === Node.ELEMENT_NODE ? el : document.getElementById(el));
+
+				if (!element) {
+					return false;
+				}
+
+				if ((element.style.top && parseFloat(element.style.top) < 0) || (element.style.left && parseFloat(element.style.left) < 0)) {
+					// too far up or left from the cheap seats
+					repositionNeeded = true;
+				}
+				else {
+					box = getBox(element);
+
+					if (box.left < 0 || box.top < 0) {
+						// too far up or left
+						repositionNeeded = true;
+					}
+					else {
+						vp = getViewportSize(true);
+						if (box.right > vp.width || box.bottom > vp.height) {
+							// too far right or down
+							repositionNeeded = true;
+						}
+					}
+				}
+
+				if (repositionNeeded) {
+					try {
+						if (config && config.animate) {
+							resizeable.disableAnimation(element);
+							disabledAnimations = true;
+						}
+						instance.setBySize(element, config);
+						return true;
+					}
+					finally {
+						if (disabledAnimations) {
+							resizeable.restoreAnimation(element);
+						}
+					}
+
+				}
+
+				return false;
 			};
 		}
 
