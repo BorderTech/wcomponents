@@ -32,13 +32,12 @@ define(["wc/dom/attribute",
 				RESIZEABLE_HAS_ANIMATION_CLASS = "wc_resizeflow",
 				CLASS_REMOVED_ATTRIB = "data-wc-resizeableremovedanimation",
 				CLASS_MAX = "wc_max",
-				conf = wcconfig.get("wc/ui/resizeable"),
-				MIN_SIZE = ((conf && conf.min) ? conf.min : 0), // set this to any sensible size but will cause errors in IE if < 0
+				DEFAULT_MIN_SIZE = 0, // set this to any sensible size but will cause errors in IE if < 0
 				resizing,
 				offsetX = {},
 				offsetY = {},
 				UNIT = "px",
-				KEY_RESIZE = ((conf && conf.step) ? conf.step : 6),  // the number of pixels by which a resizable is resized by keyboard
+				DEFAULT_KEY_RESIZE = 6, // the number of pixels by which a resizable is resized by keyboard
 				ns = "wc.ui.resizeable",
 				BS = ns + ".inited",
 				MM_EVENT = ns + ".move.inited",
@@ -47,11 +46,11 @@ define(["wc/dom/attribute",
 				observer,
 				notifyTimer,
 				/**
-				 * @var {number} notifyTimeout The delay between resizing and notifying the resize observers. This can
+				 * @var {number} DEFAULT_NOTIFY_TIMEOUT The delay between resizing and notifying the resize observers. This can
 				 * be small but is handy to prevent continual notification during dragging.
 				 * @private
 				 */
-				notifyTimeout = ((conf && conf.delay) ? conf.delay : 100),
+				DEFAULT_NOTIFY_TIMEOUT = 100,
 				STORED_SIZE_ATTRIB = "data-wc-storedsize";
 
 			/**
@@ -64,6 +63,15 @@ define(["wc/dom/attribute",
 			 */
 			function getAllowedDirections(element) {
 				return element.getAttribute("data-wc-resizedirection");
+			}
+
+			function getNotifyTimeout() {
+				var conf = wcconfig.get("wc/ui/resizeable"),
+					result = DEFAULT_NOTIFY_TIMEOUT;
+				if (conf && (conf.delay || conf.delay === 0) && !isNaN(conf.delay) && conf.delay >= 0) {
+					result = conf.delay;
+				}
+				return result;
 			}
 
 			/**
@@ -221,12 +229,17 @@ define(["wc/dom/attribute",
 			 * `end-of-event` handler like mouseup or touchend.
 			 */
 			function resize(element, deltaX, deltaY, notify) {
-				var box, min, _notify, width, height;
+				var box, min, _notify, width, height, conf,
+					minSize = DEFAULT_MIN_SIZE;
 				try {
 					if (element && (box = getSize(element))) {
+						conf = wcconfig.get("wc/ui/resizeable");
+						if (conf && conf.min && !isNaN(conf.min) && conf.min > 0) {
+							minSize = conf.min;
+						}
 						if (deltaX) {
 							min = getSizeContraint(element);
-							min = min ? styleToPx(min) : MIN_SIZE;
+							min = min ? styleToPx(min) : minSize;
 							width = Math.round(Math.max(box.width + deltaX, min));
 							if (width > min && width !== parseInt(element.style.width)) {
 								element.style.width = width + UNIT;
@@ -235,7 +248,7 @@ define(["wc/dom/attribute",
 						}
 						if (deltaY) {
 							min = getSizeContraint(element, true);
-							min = min ? styleToPx(min) : MIN_SIZE;
+							min = min ? styleToPx(min) : minSize;
 							height = Math.round(Math.max(box.height + deltaY, min));
 							if (height > min && height !== parseInt(element.style.height)) {
 								element.style.height = height + UNIT;
@@ -251,7 +264,7 @@ define(["wc/dom/attribute",
 							timers.clearTimeout(notifyTimer);
 							notifyTimer = null;
 						}
-						notifyTimer = timers.setTimeout(observer.notify, notifyTimeout, element);
+						notifyTimer = timers.setTimeout(observer.notify, getNotifyTimeout(), element);
 					}
 				}
 			}
@@ -307,7 +320,9 @@ define(["wc/dom/attribute",
 					y = 0,
 					keyCode = $event.keyCode,
 					resizeTarget,
-					allowed;
+					allowed,
+					conf,
+					step = DEFAULT_KEY_RESIZE;
 
 				if ($event.defaultPrevented) {
 					return;
@@ -322,31 +337,37 @@ define(["wc/dom/attribute",
 				}
 
 				allowed =  getAllowedDirections(resizeTarget);
+				conf = wcconfig.get("wc/ui/resizeable");
+				if (conf && conf.step && !isNaN(conf.step) && conf.step > 0) {
+					step = conf.step;
+				}
 				switch (keyCode) {
 					case KeyEvent.DOM_VK_RIGHT:
 						if (allowed !== "v") {
-							x = KEY_RESIZE;
+							x = step;
 						}
 						break;
 					case KeyEvent.DOM_VK_LEFT:
 						if (allowed !== "v") {
-							x = 0 - KEY_RESIZE;
+							x = 0 - step;
 						}
 						break;
 					case KeyEvent.DOM_VK_DOWN:
 						if (allowed !== "h") {
-							y = KEY_RESIZE;
+							y = step;
 						}
 						break;
 					case KeyEvent.DOM_VK_UP:
 						if (allowed !== "h") {
-							y = 0 - KEY_RESIZE;
+							y = 0 - step;
 						}
 						break;
 				}
 				// this is the bit that does the key driven "drag"
 				if (x || y) {
+					instance.disableAnimation(resizeTarget);
 					resize(resizeTarget, x , y, true);
+					instance.restoreAnimation(element);
 					$event.preventDefault();
 				}
 			}
@@ -445,7 +466,7 @@ define(["wc/dom/attribute",
 							timers.clearTimeout(notifyTimer);
 							notifyTimer = null;
 						}
-						notifyTimer = timers.setTimeout(observer.notify, notifyTimeout, element);
+						notifyTimer = timers.setTimeout(observer.notify, getNotifyTimeout(), element);
 					}
 					instance.restoreAnimation(element);
 				}
