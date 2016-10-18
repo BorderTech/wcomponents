@@ -6,6 +6,8 @@
 
 ## Bug Fixes
 
+* Fixed issues which could cause resize and positioning errors in WDialog #958.
+
 ## Enhancements
 
 # Release 1.2.11

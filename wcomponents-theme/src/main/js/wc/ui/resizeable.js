@@ -1,25 +1,3 @@
-/**
- * Provides functionality to implement a resizeable component.
- *
- * @module
- * @requires module:wc/dom/attribute
- * @requires module:wc/dom/classList
- * @requires module:wc/dom/clearSelection
- * @requires module:wc/dom/event
- * @requires module:wc/dom/getEventOffset
- * @requires module:wc/dom/isAcceptableTarget
- * @requires module:wc/dom/getBox
- * @requires module:wc/dom/getStyle
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/uid
- * @requires module:wc/dom/Widget
- * @requires module:wc/has
- * @requires module:wc/ui/ajax/processResponse
- * @requires module:wc/Observer
- * @requires module:wc/timers
- * @requires module:wc/config
- */
 define(["wc/dom/attribute",
 		"wc/dom/classList",
 		"wc/dom/clearSelection",
@@ -37,7 +15,6 @@ define(["wc/dom/attribute",
 		"wc/Observer",
 		"wc/timers",
 		"wc/config"],
-	/** @param attribute @param classList @param clearSelection @param event @param getMouseEventOffset @param isAcceptableTarget @param getBox @param getStyle @param initialise @param shed @param uid @param Widget @param has @param processResponse @param Observer @param timers @param wcconfig @ignore */
 	function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcceptableTarget, getBox, getStyle,
 		initialise, shed, uid, Widget, has, processResponse, Observer, timers, wcconfig) {
 
@@ -641,12 +618,15 @@ define(["wc/dom/attribute",
 				var target = getResizeTarget(element),
 					style;
 				if (target) {
+
 					style = target.style;
-					if (keep) {
-						element.setAttribute(STORED_SIZE_ATTRIB, style.width + "," + style.height);
+					if (keep && !attribute.get(element, STORED_SIZE_ATTRIB)) {
+						attribute.set(element, STORED_SIZE_ATTRIB, style.width + "," + style.height + "," + style.maxWidth + "," + style.maxHeight);
 					}
 					style.width = "";
 					style.height = "";
+					style.minWidth = "";
+					style.minHeight = "";
 
 					if (observer) {
 						observer.notify(target);
@@ -662,14 +642,18 @@ define(["wc/dom/attribute",
 			 * @function module:wc/ui/resizeable.resetSize
 			 * @public
 			 * @param {Element} element The element we are restoring.
+			 * @param {boolean} ignoreSubscribers if {@code true} then do not notify via observer
 			 */
-			this.resetSize = function(element) {
-				var stored = element.getAttribute(STORED_SIZE_ATTRIB);
+			this.resetSize = function(element, ignoreSubscribers) {
+				var stored = attribute.get(element, STORED_SIZE_ATTRIB);
 				if (stored) {
+					attribute.remove(element, STORED_SIZE_ATTRIB);
 					stored = stored.split(",");
 					element.style.width = stored[0];
 					element.style.height = stored[1];
-					if (observer) {
+					element.style.maxWidth = stored[2];
+					element.style.maxHeight = stored[3];
+					if (observer && !ignoreSubscribers) {
 						observer.notify(element);
 					}
 				}
@@ -725,8 +709,30 @@ define(["wc/dom/attribute",
 				}
 			};
 		}
-		var /** @alias module:wc/ui/resizeable */
-		instance = new Resizeable();
+
+		/**
+		 * Provides functionality to implement a resizeable component.
+		 *
+		 * @module
+		 * @requires module:wc/dom/attribute
+		 * @requires module:wc/dom/classList
+		 * @requires module:wc/dom/clearSelection
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/getEventOffset
+		 * @requires module:wc/dom/isAcceptableTarget
+		 * @requires module:wc/dom/getBox
+		 * @requires module:wc/dom/getStyle
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/uid
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/has
+		 * @requires module:wc/ui/ajax/processResponse
+		 * @requires module:wc/Observer
+		 * @requires module:wc/timers
+		 * @requires module:wc/config
+		 */
+		var instance = new Resizeable();
 		initialise.register(instance);
 		return instance;
 
