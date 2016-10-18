@@ -16,8 +16,9 @@ define(["wc/dom/event",
 	"wc/ui/draggable",
 	"wc/dom/role",
 	"lib/handlebars/handlebars",
-	"wc/ui/viewportUtils"],
-	function (event, focus, initialise, shed, tag, uid, Widget, i18n, loader, processResponse, modalShim, timers, has, resizeable, positionable, draggable, $role, handlebars, viewportUtils) {
+	"wc/ui/viewportUtils",
+	"wc/config"],
+	function (event, focus, initialise, shed, tag, uid, Widget, i18n, loader, processResponse, modalShim, timers, has, resizeable, positionable, draggable, $role, handlebars, viewportUtils, wcconfig) {
 		"use strict";
 
 		/**
@@ -79,7 +80,9 @@ define(["wc/dom/event",
 			 * @returns {Boolean} true is move/resize are supportable.
 			 */
 			function canMoveResize() {
-				return !viewportUtils.isPhoneLike();
+				var conf = wcconfig.get("wc/ui/dialogFrame"),
+					func = conf && conf.vpUtil ? conf.vpUtil : "isPhoneLike";
+				return !viewportUtils[func]();
 			}
 
 			/**
@@ -344,6 +347,16 @@ define(["wc/dom/event",
 				setUnsetDimensionsPosition(dialog);
 			}
 
+			function getResizeConfig(width, height) {
+				var globalConf = wcconfig.get("wc/ui/dialogFrame"),
+					offset = INITIAL_TOP_PROPORTION;
+
+				if (globalConf && globalConf.offset && !isNaN(globalConf.offset)) {
+					offset = Math.min(1, Math.max(0, globalConf.offset));
+				}
+				return {width: width, height: height, topOffsetPC: offset};
+			}
+
 			/**
 			 * Helper for `openDlg`.
 			 * Positions the dialog immediately after it has been opened.
@@ -357,7 +370,7 @@ define(["wc/dom/event",
 				var disabledAnimations, configObj;
 				try {
 					if (obj) {
-						configObj = {width: obj.width, height: obj.height, topOffsetPC: INITIAL_TOP_PROPORTION};
+						configObj = getResizeConfig(obj.width, obj.height);
 						// set the initial position. If the position (top, left) is set in the config object we do not need to calculate position.
 						if (!((obj.top || obj.top === 0) && (obj.left || obj.left === 0))) {
 							if (canMoveResize()) {
@@ -534,8 +547,7 @@ define(["wc/dom/event",
 				}
 
 				if (canMoveResize()) {
-					repositionTimer = timers.setTimeout(setPositionBySize, 100, dialog,
-						{width: width, height: height, topOffsetPC: INITIAL_TOP_PROPORTION});
+					repositionTimer = timers.setTimeout(setPositionBySize, 100, dialog, getResizeConfig(width, height));
 				}
 			};
 
@@ -830,6 +842,19 @@ define(["wc/dom/event",
 		 *
 		 * Dialogs are positionable, resizeable and draggable (including keyboard driven facilities for each).
 		 *
+		 * ### Configuration
+		 *
+		 * Some aspects of WDialog may be set in a configuration object {@link module:wc/ui/dialogFrame~config}. See
+		 * [the WComponents wiki](https://github.com/BorderTech/wcomponents/wiki/WDialog#client-configuration) for more information.
+		 *
+		 * @example
+		 * require(["wc/config"], function(wcconfig) {
+		 *   wcconfig.set({
+		 *     vpUtil: "isSmallScreen",
+		 *     offset: 0.25
+		 *   },"wc/ui/dialogFrame");
+		 * });
+		 *
 		 *
 		 * @module
 		 * @requires module:wc/dom/event
@@ -867,22 +892,26 @@ define(["wc/dom/event",
 		/**
 		 * @typedef {Object} module:wc/ui/dialogFrame~dto An object which stores information about a dialog.
 		 * @property {String} id The content id. If this is not set everything will fail.
-		 * @property {String} [formId] The id of the form the dialog is in (more useful than you may think). If this is not set we will use the LAST form
-		 * in the current view. You may not want this!
+		 * @property {String} [formId] The id of the form the dialog is in (more useful than you may think). If this is not set we will use the LAST
+		 *   form in the current view. You may not want this!
 		 * @property {String} openerId The ID of the control which is opening the dialog.
 		 * @property {int} [width] The dialog width in px.
 		 * @property {int} [height] The dialog height in px.
-		 * @property {int} [initWidth] The dialog width in px as set by the Java. This is used if the theme allows
-		 *    resizing but prevents a dialog being made smaller than its intial size. This property is not in the
-		 *    registration object passed in to the module.
-		 * @property {int} [initHeight] The dialog height in px as set by the Java. This is used if the theme allows
-		 *    resizing but prevents a dialog being made smaller than its intial size. This property is not in the
-		 *    registration object passed in to the module.
+		 * @property {int} [initWidth] The dialog width in px as set by the Java. This is used if the theme allows resizing but prevents a dialog
+		 *   being made smaller than its intial size. This property is not in the registration object passed in to the module.
+		 * @property {int} [initHeight] The dialog height in px as set by the Java. This is used if the theme allows resizing but prevents a dialog
+		 *   being made smaller than its intial size. This property is not in the registration object passed in to the module.
 		 * @property {Boolean} [resizeable] Is the dialog resizeable?
 		 * @property {Boolean} [modal] Is the dialog modal?
 		 * @property {String} [title] The WDialog title. If not set a default title is used.
-		 * @property {Boolean} [open] If true then the dialog is to be open on page load. This is passed in as part of
-		 *    the registration object but is not stored in the registry.
+		 * @property {Boolean} [open] If true then the dialog is to be open on page load. This is passed in as part ofthe registration object but is
+		 *   not stored in the registry.
+		 *
+		 * @typedef {Object} module:wc/ui/dialogFrame~config An object which allows override of aspects of the dialogFrame
+		 * @property {String} [vpUtil="isPhonelike"] A name of a public member of {@link module:wc/ui/viewportUtils. This should only be set if a Sass
+		 * override is used to change the point at which dialogs become full screen.
+		 * @property {number} [offset=0.33] the vertical offset to apply when opening a dialog. This must be between 0 and 1 and should be between 0.1
+		 * and 0.5.
 		 */
 
 	});
