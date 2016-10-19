@@ -590,9 +590,10 @@ define(["wc/dom/event",
 			 * @param {Element} element The element being hidden.
 			 */
 			function shedHideSubscriber(element) {
-				var control, callback;
+				var control, callback, clearOpener;
 				try {
 					if (element && element.id === DIALOG_ID) {
+						clearOpener = true;
 						modalShim.clearModal(element);
 
 						// remove maximise from dialog so that the next dialog does not open maximised
@@ -623,7 +624,9 @@ define(["wc/dom/event",
 					}
 				}
 				finally {
-					openerId = null;
+					if (clearOpener) {
+						openerId = null;
+					}
 				}
 			}
 
