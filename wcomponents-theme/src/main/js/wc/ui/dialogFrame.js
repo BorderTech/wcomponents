@@ -1,62 +1,24 @@
-/**
- * Provides a re-usable frame for floating dialog-like controls.
- *
- * * Implements WAI-ARIA practies for:
- *   * [Modal dialogs](http://www.w3.org/TR/wai-aria-practices/#dialog_modal)
- *   * [Non-modal dialogs](http://www.w3.org/TR/wai-aria-practices/#dialog_nonmodal)
- * * Implements WAI-ARIA roles
- *   * [dialog](http://www.w3.org/TR/wai-aria/roles#dialog) and
- *   * [alertdialog](http://www.w3.org/TR/wai-aria/roles#alertdialog)
- *
- * Dialogs are positionable, resizeable and draggable (including keyboard driven facilities for each).
- *
- *
- * @module
- * @requires module:wc/dom/event
- * @requires module:wc/dom/focus
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/tag
- * @requires module:wc/dom/uid
- * @requires module:wc/dom/Widget
- * @requires module:wc/i18n/i18n
- * @requires module:wc/loader/resource
- * @requires module:wc/ui/ajax/processResponse
- * @requires module:wc/ui/modalShim
- * @requires module:wc/timers
- * @requires module:wc/has
- * @requires module:wc/ui/resizeable
- * @requires module:wc/ui/positionable
- * @requires module:wc/ui/draggable
- * @requires module:wc/dom/role
- * @requires external:Moustache
- * @requires module:wc/ui/viewportUtils
- */
-
 define(["wc/dom/event",
-		"wc/dom/focus",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/dom/tag",
-		"wc/dom/uid",
-		"wc/dom/Widget",
-		"wc/i18n/i18n",
-		"wc/loader/resource",
-		"wc/ui/ajax/processResponse",
-		"wc/ui/modalShim",
-		"wc/timers",
-		"wc/has",
-		"wc/ui/resizeable",
-		"wc/ui/positionable",
-		"wc/ui/draggable",
-		"wc/dom/role",
-		"lib/handlebars/handlebars",
-		"wc/ui/viewportUtils"],
-	/** @param event @param focus @param initialise @param shed @param tag @param uid @param Widget @param i18n
-	 * @param loader @param processResponse @param modalShim @param timers @param has @param resizeable
-	 * @param positionable @param draggable @param $role @param handlebars @param viewportUtils
-	 * @ignore */
-	function(event, focus, initialise, shed, tag, uid, Widget, i18n, loader, processResponse,
-		modalShim, timers, has, resizeable, positionable, draggable, $role, handlebars, viewportUtils) {
+	"wc/dom/focus",
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/dom/tag",
+	"wc/dom/uid",
+	"wc/dom/Widget",
+	"wc/i18n/i18n",
+	"wc/loader/resource",
+	"wc/ui/ajax/processResponse",
+	"wc/ui/modalShim",
+	"wc/timers",
+	"wc/has",
+	"wc/ui/resizeable",
+	"wc/ui/positionable",
+	"wc/ui/draggable",
+	"wc/dom/role",
+	"lib/handlebars/handlebars",
+	"wc/ui/viewportUtils",
+	"wc/config"],
+	function (event, focus, initialise, shed, tag, uid, Widget, i18n, loader, processResponse, modalShim, timers, has, resizeable, positionable, draggable, $role, handlebars, viewportUtils, wcconfig) {
 		"use strict";
 
 		/**
@@ -68,9 +30,9 @@ define(["wc/dom/event",
 			var TEMPLATE_NAME = "dialog.xml",
 				DIALOG_ID = "wc_dlgid",
 				CONTENT_BASE_CLASS = "content",
-				INITIAL_TOP_PROPORTION = 0.33,  // when setting the initial position offset the dialog so that the gap at the top is this proportion of the difference between the dialog size and viewport size
+				INITIAL_TOP_PROPORTION = 0.33, // when setting the initial position offset the dialog so that the gap at the top is this proportion of the difference between the dialog size and viewport size
 				openerId,
-				subscriber ={
+				subscriber = {
 					close: null
 				},
 				DIALOG = new Widget("dialog"),
@@ -95,11 +57,9 @@ define(["wc/dom/event",
 
 			TITLE_WD.descendFrom(HEADER_WD);
 			DIALOG_CONTENT_WRAPPER.descendFrom(DIALOG, true);
-
 			RESIZERS = resizeable.getWidget();
 			RESIZE_WD = RESIZERS.handle;
 			MAX_BUTTON = RESIZERS.maximise;
-
 
 			/**
 			 * Indicates that the dialog is modal.
@@ -120,7 +80,13 @@ define(["wc/dom/event",
 			 * @returns {Boolean} true is move/resize are supportable.
 			 */
 			function canMoveResize() {
-				return !viewportUtils.isSmallScreen();
+				var conf,
+					func = "isPhoneLike";
+
+				if ((conf = wcconfig.get("wc/ui/dialogFrame")) && conf.vpUtil && viewportUtils[conf.vpUtil]) {
+					func = conf.vpUtil;
+				}
+				return !viewportUtils[func]();
 			}
 
 			/**
@@ -147,7 +113,7 @@ define(["wc/dom/event",
 				// no clue to the form get the last form in the view
 				forms = document.getElementsByTagName("form");
 				if (forms && forms.length) {
-					return forms[forms.length -1];
+					return forms[forms.length - 1];
 				}
 				return null;
 			}
@@ -160,7 +126,7 @@ define(["wc/dom/event",
 			 * @param {module:wc/ui/dialogFrame~dto} dto The config options for the dialog to be opened.
 			 * @returns {Promise} The promise will be a rejection if the dialog is not able to be opened.
 			 */
-			this.open = function(dto) {
+			this.open = function (dto) {
 				var dialog = this.getDialog(),
 					form, formId;
 
@@ -174,7 +140,7 @@ define(["wc/dom/event",
 					formId = form.id || (form.id = uid());
 
 					if (formId) {
-						return buildDialog(formId).then(function() {
+						return buildDialog(formId).then(function () {
 							openDlgHelper(dto);
 						});
 					}
@@ -188,7 +154,7 @@ define(["wc/dom/event",
 			 * @param {Element} [element] Optionally provide the dialog element.
 			 * @returns {boolean} true if the dialog is open.
 			 */
-			this.isOpen = function(element) {
+			this.isOpen = function (element) {
 				var dialog = element || this.getDialog();
 				return (dialog && !shed.isHidden(dialog, true));
 			};
@@ -254,7 +220,7 @@ define(["wc/dom/event",
 
 				instance.unsetAllDimensions(dialog);
 				dialog.className = (obj && obj.className) ? obj.className : "";
-				instance.resetContent(false, (obj ? obj.id : "")) ;
+				instance.resetContent(false, (obj ? obj.id : ""));
 
 				// set the dialog title
 				if ((title = TITLE_WD.findDescendant(dialog))) {
@@ -306,8 +272,8 @@ define(["wc/dom/event",
 
 				try {
 					if (canMoveResize()) {
-						positionable.restorePosition(dialog);
 						resizeable.resetSize(dialog);
+						positionable.restorePosition(dialog);
 					}
 					else {
 						resizeable.disableAnimation(dialog);
@@ -348,7 +314,7 @@ define(["wc/dom/event",
 			 * @public
 			 * @param {Element} [dlg] The dialog wrapper element if known.
 			 */
-			this.unsetAllDimensions = function(dlg) {
+			this.unsetAllDimensions = function (dlg) {
 				var dialog = dlg || this.getDialog();
 				if (dialog) {
 					dialog.style.width = "";
@@ -385,6 +351,27 @@ define(["wc/dom/event",
 				setUnsetDimensionsPosition(dialog);
 			}
 
+			function getResizeConfig(width, height) {
+				var globalConf = wcconfig.get("wc/ui/dialogFrame"),
+					offset = INITIAL_TOP_PROPORTION;
+
+				if (globalConf && globalConf.offset) {
+					if (isNaN(globalConf.offset)) {
+						console.log("Offset must be a number, what are you playing at?");
+					}
+					else if (globalConf.offset <= 0) {
+						console.log("Offset must be greater than zero otherwise dialogs will be above the top of the screen.");
+					}
+					else if (globalConf.offset >= 1) {
+						console.log("Offset must be less than one otherwise dialogs will be below the bottom of the screen.");
+					}
+					else {
+						offset = globalConf.offset;
+					}
+				}
+				return {width: width, height: height, topOffsetPC: offset};
+			}
+
 			/**
 			 * Helper for `openDlg`.
 			 * Positions the dialog immediately after it has been opened.
@@ -392,23 +379,27 @@ define(["wc/dom/event",
 			 * @private
 			 * @function
 			 * @param {Element} dialog The dialog container.
-			 * @param { module:wc/ui/dialogFrame~dto} obj The registry item that contains configuration data for this
-			 *   dialog.
+			 * @param {module:wc/ui/dialogFrame~dto} obj The registry item that contains configuration data for this dialog.
 			 */
 			function initDialogPosition(dialog, obj) {
-				var disabledAnimations;
+				var disabledAnimations, configObj;
 				try {
 					if (obj) {
+						configObj = getResizeConfig(obj.width, obj.height);
 						// set the initial position. If the position (top, left) is set in the config object we do not need to calculate position.
 						if (!((obj.top || obj.top === 0) && (obj.left || obj.left === 0))) {
 							if (canMoveResize()) {
 								resizeable.disableAnimation(dialog);
 								disabledAnimations = true;
-								positionable.setBySize(dialog, {width: obj.width, height: obj.height, topOffsetPC: INITIAL_TOP_PROPORTION});
+								positionable.setBySize(dialog, configObj);
 							}
 							else {
-								positionable.storePosBySize(dialog, {width: obj.width, height: obj.height, topOffsetPC: INITIAL_TOP_PROPORTION});
+								positionable.storePosBySize(dialog, configObj);
 							}
+						}
+						else if (canMoveResize()) {
+							// even if we have position we may have to re-position the dialog
+							positionable.bringIntoView(dialog, configObj);
 						}
 					}
 				}
@@ -427,7 +418,7 @@ define(["wc/dom/event",
 			 * @returns {Promise} resolved with {Element} dialog The dialog element.
 			 */
 			function buildDialog(formId) {
-				return loader.load(TEMPLATE_NAME, true, true).then(function(template) {
+				return loader.load(TEMPLATE_NAME, true, true).then(function (template) {
 					/*
 					 * sprintf replacements
 					 * 1: maximise button title dialog_maxRestore
@@ -442,7 +433,7 @@ define(["wc/dom/event",
 						headerTitle,
 						resizeHandleTitle,
 						dialogProps = {
-							heading :{
+							heading: {
 								maxRestore: i18n.get("dialog_maxRestore"),
 								close: i18n.get("dialog_close")
 							},
@@ -535,7 +526,7 @@ define(["wc/dom/event",
 			 * @param {int} [obj.topOffsetPC] The offset from the top of the dialog.
 			 * @returns {undefined}
 			 */
-			function setBySize(element, obj) {
+			function setPositionBySize(element, obj) {
 				try {
 					resizeable.disableAnimation(element);
 					if (canMoveResize()) {
@@ -560,19 +551,18 @@ define(["wc/dom/event",
 			 * @param {int} [height] The height of the dialog.
 			 */
 			this.reposition = function (width, height) {
-				var dialog = this.getDialog();
+				var dialog;
 
 				if (repositionTimer) {
 					timers.clearTimeout(repositionTimer);
 					repositionTimer = null;
 				}
-				if (!dialog) {
+				if (!(dialog = this.getDialog())) {
 					return;
 				}
 
 				if (canMoveResize()) {
-					repositionTimer = timers.setTimeout(setBySize, 100, dialog,
-						{width: width, height: height, topOffsetPC: INITIAL_TOP_PROPORTION});
+					repositionTimer = timers.setTimeout(setPositionBySize, 100, dialog, getResizeConfig(width, height));
 				}
 			};
 
@@ -582,7 +572,7 @@ define(["wc/dom/event",
 			 * @public
 			 * @return {boolean} true if there is a dialog to hide.
 			 */
-			this.close = function() {
+			this.close = function () {
 				var dialog = this.getDialog();
 				if (dialog && this.isOpen(dialog)) {
 					shed.hide(dialog);
@@ -778,7 +768,7 @@ define(["wc/dom/event",
 			 * @public
 			 * @param {Element} element The element being initialised, usually document.body.
 			 */
-			this.initialise = function(element) {
+			this.initialise = function (element) {
 				event.add(element, event.TYPE.click, clickEvent);
 				event.add(window, event.TYPE.resize, resizeEvent, -1);
 			};
@@ -788,7 +778,7 @@ define(["wc/dom/event",
 			 * @function module:wc/ui/dialogFrame.postInit
 			 * @public
 			 */
-			this.postInit = function() {
+			this.postInit = function () {
 				processResponse.subscribe(preOpenSubscriber);
 				processResponse.subscribe(ajaxSubscriber, true);
 				shed.subscribe(shed.actions.SHOW, shedShowSubscriber);
@@ -802,7 +792,7 @@ define(["wc/dom/event",
 			 * @public
 			 * @returns {module:wc/dom/Widget} The Widget describing a dialog frame.
 			 */
-			this.getWidget = function() {
+			this.getWidget = function () {
 				return DIALOG;
 			};
 
@@ -812,7 +802,7 @@ define(["wc/dom/event",
 			 * @public
 			 * @returns {?Element} The dialog.
 			 */
-			this.getDialog = function() {
+			this.getDialog = function () {
 				return document.getElementById(DIALOG_ID);
 			};
 
@@ -823,7 +813,7 @@ define(["wc/dom/event",
 			 * @public
 			 * @returns {?Element} The content wrapper if present.
 			 */
-			this.getContent = function() {
+			this.getContent = function () {
 				var dialog = this.getDialog();
 				if (dialog) {
 					return DIALOG_CONTENT_WRAPPER.findDescendant(dialog);
@@ -839,7 +829,7 @@ define(["wc/dom/event",
 			 * @param {Boolean} [keepContent] Do we want to reset the content of the dialog?
 			 * @param {String} [id] The id to set on the content.
 			 */
-			this.resetContent = function(keepContent, id) {
+			this.resetContent = function (keepContent, id) {
 				var content = this.getContent();
 
 				if (content) {
@@ -855,13 +845,59 @@ define(["wc/dom/event",
 			};
 		}
 
-		var /** @alias module:wc/ui/dialogFrame */ instance = new DialogFrame(),
+		/**
+		 * Provides a re-usable frame for floating dialog-like controls.
+		 *
+		 * * Implements WAI-ARIA practies for:
+		 *   * [Modal dialogs](http://www.w3.org/TR/wai-aria-practices/#dialog_modal)
+		 *   * [Non-modal dialogs](http://www.w3.org/TR/wai-aria-practices/#dialog_nonmodal)
+		 * * Implements WAI-ARIA roles
+		 *   * [dialog](http://www.w3.org/TR/wai-aria/roles#dialog) and
+		 *   * [alertdialog](http://www.w3.org/TR/wai-aria/roles#alertdialog)
+		 *
+		 * Dialogs are positionable, resizeable and draggable (including keyboard driven facilities for each).
+		 *
+		 * ### Configuration
+		 *
+		 * Some aspects of WDialog may be set in a configuration object {@link module:wc/ui/dialogFrame~config}. See
+		 * [the WComponents wiki](https://github.com/BorderTech/wcomponents/wiki/WDialog#client-configuration) for more information.
+		 *
+		 * @example
+		 * require(["wc/config"], function(wcconfig) {
+		 *   wcconfig.set({
+		 *     vpUtil: "isSmallScreen",
+		 *     offset: 0.25
+		 *   },"wc/ui/dialogFrame");
+		 * });
+		 *
+		 *
+		 * @module
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/focus
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/tag
+		 * @requires module:wc/dom/uid
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/i18n/i18n
+		 * @requires module:wc/loader/resource
+		 * @requires module:wc/ui/ajax/processResponse
+		 * @requires module:wc/ui/modalShim
+		 * @requires module:wc/timers
+		 * @requires module:wc/has
+		 * @requires module:wc/ui/resizeable
+		 * @requires module:wc/ui/positionable
+		 * @requires module:wc/ui/draggable
+		 * @requires module:wc/dom/role
+		 * @requires external:handlebars
+		 * @requires module:wc/ui/viewportUtils
+		 */
+		var instance = new DialogFrame(),
 			repainter;
 
 		initialise.register(instance);
 
 		if (has("ie") === 8) {
-			require([ "wc/fix/inlineBlock_ie8" ], function(inlineBlock) {
+			require(["wc/fix/inlineBlock_ie8"], function (inlineBlock) {
 				repainter = inlineBlock;
 			});
 		}
@@ -871,22 +907,26 @@ define(["wc/dom/event",
 		/**
 		 * @typedef {Object} module:wc/ui/dialogFrame~dto An object which stores information about a dialog.
 		 * @property {String} id The content id. If this is not set everything will fail.
-		 * @property {String} [formId] The id of the form the dialog is in (more useful than you may think). If this is not set we will use the LAST form
-		 * in the current view. You may not want this!
+		 * @property {String} [formId] The id of the form the dialog is in (more useful than you may think). If this is not set we will use the LAST
+		 *   form in the current view. You may not want this!
 		 * @property {String} openerId The ID of the control which is opening the dialog.
 		 * @property {int} [width] The dialog width in px.
 		 * @property {int} [height] The dialog height in px.
-		 * @property {int} [initWidth] The dialog width in px as set by the Java. This is used if the theme allows
-		 *    resizing but prevents a dialog being made smaller than its intial size. This property is not in the
-		 *    registration object passed in to the module.
-		 * @property {int} [initHeight] The dialog height in px as set by the Java. This is used if the theme allows
-		 *    resizing but prevents a dialog being made smaller than its intial size. This property is not in the
-		 *    registration object passed in to the module.
+		 * @property {int} [initWidth] The dialog width in px as set by the Java. This is used if the theme allows resizing but prevents a dialog
+		 *   being made smaller than its intial size. This property is not in the registration object passed in to the module.
+		 * @property {int} [initHeight] The dialog height in px as set by the Java. This is used if the theme allows resizing but prevents a dialog
+		 *   being made smaller than its intial size. This property is not in the registration object passed in to the module.
 		 * @property {Boolean} [resizeable] Is the dialog resizeable?
 		 * @property {Boolean} [modal] Is the dialog modal?
 		 * @property {String} [title] The WDialog title. If not set a default title is used.
-		 * @property {Boolean} [open] If true then the dialog is to be open on page load. This is passed in as part of
-		 *    the registration object but is not stored in the registry.
+		 * @property {Boolean} [open] If true then the dialog is to be open on page load. This is passed in as part ofthe registration object but is
+		 *   not stored in the registry.
+		 *
+		 * @typedef {Object} module:wc/ui/dialogFrame~config An object which allows override of aspects of the dialogFrame
+		 * @property {String} [vpUtil="isPhonelike"] A name of a public member of {@link module:wc/ui/viewportUtils. This should only be set if a Sass
+		 * override is used to change the point at which dialogs become full screen.
+		 * @property {number} [offset=0.33] the vertical offset to apply when opening a dialog. This must be between 0 and 1 and should be between 0.1
+		 * and 0.5.
 		 */
 
 	});
