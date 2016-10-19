@@ -79,10 +79,10 @@ dialog {
 @include respond-not-phonelike {
 	dialog {
 		height: auto;
-		left: auto;
+		// left: auto;
 		min-height: $wc-ui-dialog-min-height;
 		min-width: $wc-ui-dialog-min-width;
-		top: auto;
+		// top: auto;
 		width: auto;
 
 		> footer {
