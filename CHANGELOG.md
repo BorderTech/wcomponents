@@ -7,6 +7,7 @@
 ## Bug Fixes
 
 * Fixed issues which could cause resize and positioning errors in WDialog #958.
+* Fixed WDialog that was not handling its open state correctly #963 QC160323.
 
 ## Enhancements
 
