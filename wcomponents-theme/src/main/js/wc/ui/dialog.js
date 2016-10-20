@@ -45,32 +45,6 @@ define(["wc/dom/classList",
 			}
 
 			/**
-			 * Find a dialog opener from a given start point.
-			 *
-			 * @param {Element} element the start element
-			 * @param {boolean} ignoreAncestor if {@code} true then stop without checking ancestors for a trigger
-			 * @returns {?Element} a dialog trigger element if found
-			 */
-			function getTrigger(element, ignoreAncestor) {
-				var parent = element,
-					id = parent.id;
-				if (registry[id]) {
-					return element;
-				}
-				if (ignoreAncestor) {
-					return null;
-				}
-				while ((parent = parent.parentNode) && parent.nodeType === Node.ELEMENT_NODE) {
-					if ((id = parent.id)) {
-						if (registry[id]) {
-							return parent;
-						}
-					}
-				}
-				return null;
-			}
-
-			/**
 			 * Array.forEach function to add each dialog definition object to the registry.
 			 * @see module:wc/ui/dialog#register
 			 * @function
@@ -102,7 +76,51 @@ define(["wc/dom/classList",
 			}
 
 			/**
-			 * Action click events within the dialog.
+			 * Find a dialog opener from a given start point.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element the start element
+			 * @param {boolean} ignoreAncestor if {@code} true then stop without checking ancestors for a trigger
+			 * @returns {?Element} a dialog trigger element if found
+			 */
+			function getTrigger(element, ignoreAncestor) {
+				var parent = element,
+					id = parent.id;
+				if (registry[id]) {
+					return element;
+				}
+				if (ignoreAncestor) {
+					return null;
+				}
+				while ((parent = parent.parentNode) && parent.nodeType === Node.ELEMENT_NODE) {
+					if ((id = parent.id)) {
+						if (registry[id]) {
+							return parent;
+						}
+					}
+				}
+				return null;
+			}
+
+			/**
+			 * We need to know if an element is a submit element so that we can prevent the submit action if it opens a dialog.
+			 * @function
+			 * @private
+			 * @param {Element} element the element to test
+			 * @returns {Boolean} {@code true} if the element is a submitting element
+			 */
+			function isSubmitElement(element) {
+				var result = false,
+					type = element.type;
+				if (type === "submit" || type === "image") {
+					result = true;
+				}
+				return result;
+			}
+
+			/**
+			 * Action click events on a dialog trigger or within a dialog.
 			 * @function
 			 * @private
 			 * @param {Element} element The element which was clicked.
@@ -132,7 +150,7 @@ define(["wc/dom/classList",
 				// Are we opening a dialog?
 				if ((_element = getTrigger(element))) {
 					instance.open(_element);
-					return true;
+					return isSubmitElement(_element);
 				}
 
 				if (!(
