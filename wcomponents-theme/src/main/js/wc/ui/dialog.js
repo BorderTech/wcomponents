@@ -60,7 +60,7 @@ define(["wc/dom/classList",
 				if (ignoreAncestor) {
 					return null;
 				}
-				while((parent = parent.parentNode) && parent.nodeType === Node.ELEMENT_NODE) {
+				while ((parent = parent.parentNode) && parent.nodeType === Node.ELEMENT_NODE) {
 					if ((id = parent.id)) {
 						if (registry[id]) {
 							return parent;
