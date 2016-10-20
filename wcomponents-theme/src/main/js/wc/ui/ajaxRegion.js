@@ -12,12 +12,6 @@ define(["wc/dom/event",
 	function(event, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse, mixin) {
 		"use strict";
 
-		// prevent circular dependency
-		var dialog;
-		require(["wc/ui/dialog"], function (d) {
-			dialog = d;
-		});
-
 		/**
 		 * @constructor
 		 * @alias module:wc/ui/ajaxRegion~AjaxRegion
@@ -30,8 +24,6 @@ define(["wc/dom/event",
 				PSEUDO_PROTOCOL_RE = /^[\w]+\:[^\/].*$/,
 				ALIAS = "data-wc-ajaxalias",
 				ignoreChange = false;
-
-
 
 			function fireThisTrigger(element, trigger) {
 				var result = false, isSuccessful;
@@ -64,17 +56,11 @@ define(["wc/dom/event",
 			 * NOTE: all ajaxTriggers will have an attribute "data-wc-ajaxalias"
 			 */
 			function checkActivateTrigger(element) {
-				var result = false,
-					trigger;
-
-				if (dialog && dialog.isTrigger(element)) {
-					dialog.open(element);
-					result = true; // do not return, could be a dialog trigger AND an ajax trigger.
-				}
+				var trigger;
 				if ((trigger = instance.getTrigger(element, true))) {
-					result = fireThisTrigger(element, trigger);
+					return fireThisTrigger(element, trigger);
 				}
-				return result;
+				return false;
 			}
 
 			/**
@@ -129,13 +115,11 @@ define(["wc/dom/event",
 			 */
 			function clickEvent($event) {
 				var element;
-				if (!$event.defaultPrevented) {
-					BUTTON = BUTTON || new Widget(tag.BUTTON);
-					element = Widget.findAncestor($event.target, [BUTTON, ANCHOR]);
+				BUTTON = BUTTON || new Widget(tag.BUTTON);
+				element = Widget.findAncestor($event.target, [BUTTON, ANCHOR]);
 
-					if (element && !shed.isDisabled(element) && checkActivateTrigger(element) && (isSubmitElement(element) || isNavLink(element))) {
-						$event.preventDefault();
-					}
+				if (element && !shed.isDisabled(element) && checkActivateTrigger(element) && (isSubmitElement(element) || isNavLink(element))) {
+					$event.preventDefault();
 				}
 			}
 
@@ -233,11 +217,6 @@ define(["wc/dom/event",
 					loads,
 					id,
 					controls;
-
-				if (dialog && dialog.isTrigger(element)) {
-					dialog.open(element);
-				}
-				// do not return, we may still have ajax to attend to.
 
 				if (!trigger) {
 					if (obj) {

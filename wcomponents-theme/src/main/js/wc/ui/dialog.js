@@ -45,6 +45,32 @@ define(["wc/dom/classList",
 			}
 
 			/**
+			 * Find a dialog opener from a given start point.
+			 *
+			 * @param {Element} element the start element
+			 * @param {boolean} ignoreAncestor if {@code} true then stop without checking ancestors for a trigger
+			 * @returns {?Element} a dialog trigger element if found
+			 */
+			function getTrigger(element, ignoreAncestor) {
+				var parent = element,
+					id = parent.id;
+				if (registry[id]) {
+					return element;
+				}
+				if (ignoreAncestor) {
+					return null;
+				}
+				while((parent = parent.parentNode) && parent.nodeType === Node.ELEMENT_NODE) {
+					if ((id = parent.id)) {
+						if (registry[id]) {
+							return parent;
+						}
+					}
+				}
+				return null;
+			}
+
+			/**
 			 * Array.forEach function to add each dialog definition object to the registry.
 			 * @see module:wc/ui/dialog#register
 			 * @function
@@ -80,6 +106,7 @@ define(["wc/dom/classList",
 			 * @function
 			 * @private
 			 * @param {Element} element The element which was clicked.
+			 * @returns {boolean} {@code true} if the click is activated and we _may_ want to prevent the default action
 			 */
 			function activateClick(element) {
 				var _element,
@@ -102,6 +129,12 @@ define(["wc/dom/classList",
 					return false;
 				}
 
+				// Are we opening a dialog?
+				if ((_element = getTrigger(element))) {
+					dialog.open(_element);
+					return true;
+				}
+
 				if (!(
 					dialog &&
 					!shed.isHidden(dialog, true) &&
@@ -109,7 +142,7 @@ define(["wc/dom/classList",
 					(content.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY)
 				)) {
 					// we are not inside a dialog's content.
-					return;
+					return false;
 				}
 
 				keepContentOnClose = false;
@@ -127,7 +160,7 @@ define(["wc/dom/classList",
 				}
 
 				if (!trigger) {
-					return;
+					return false;
 				}
 				targets = trigger.loads;
 
@@ -135,6 +168,7 @@ define(["wc/dom/classList",
 					keepContentOnClose = true;
 					dialogFrame.close();
 				}
+				return false;
 			}
 
 			/**
@@ -263,8 +297,8 @@ define(["wc/dom/classList",
 			 * @param {Event} $event a click event.
 			 */
 			function clickEvent($event) {
-				if (!$event.defaultPrevented) {
-					activateClick($event.target);
+				if (activateClick($event.target)) {
+					$event.preventDefault();
 				}
 			}
 
@@ -302,28 +336,19 @@ define(["wc/dom/classList",
 			};
 
 			/**
-			 * Is a given element a dialog trigger?
-			 * @function module:wc/ui/dialog.isTrigger
-			 * @public
-			 * @param {Element} element The element to test.
-			 * @returns {boolean} true if the element will trigger a dialog on change or click.
-			 */
-			this.isTrigger = function (element) {
-				var id = element.id;
-				return id && registry[id];
-			};
-
-			/**
 			 * Open a dialog for a given trigger.
 			 * @function module:wc/ui/dialog.open
 			 * @public
-			 * @param {Element} trigger The dialog trigger.
+			 * @param {Element} trigger an element which _should_ be a dialog trigger.
 			 * @returns {boolean} true if the element will trigger a dialog on change or click.
 			 */
 			this.open = function(trigger) {
-				if (this.isTrigger(trigger)) {
-					openDlg(trigger.id);
+				var element = getTrigger(trigger);
+				if (element) {
+					openDlg(element.id);
+					return true;
 				}
+				return false;
 			};
 		}
 		/**
