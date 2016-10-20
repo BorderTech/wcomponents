@@ -131,7 +131,7 @@ define(["wc/dom/classList",
 
 				// Are we opening a dialog?
 				if ((_element = getTrigger(element))) {
-					dialog.open(_element);
+					instance.open(_element);
 					return true;
 				}
 
