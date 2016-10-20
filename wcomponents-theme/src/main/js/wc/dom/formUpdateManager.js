@@ -354,7 +354,7 @@ define(["wc/dom/event",
 				stateContainer = document.getElementById(stateContainerId);
 			if (!stateContainer) {
 				stateContainer = document.createElement("div");
-				shed.hide(stateContainer);
+				shed.hide(stateContainer, true);
 				stateContainer.id = stateContainerId;
 				form.appendChild(stateContainer);
 			}
