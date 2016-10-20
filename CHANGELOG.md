@@ -12,6 +12,8 @@
 * Fixed an issue which could result in a dialog opener to _not_ open its dialog if the opener contained an image #967.
 
 ## Enhancements
+* New DialogOpenTrigger interface to identify components that can open a dialog. WDialog can also have an action
+  set via setTriggerOpenAction(action) to run when the dialog is opened via a trigger #963.
 
 # Release 1.2.11
 
