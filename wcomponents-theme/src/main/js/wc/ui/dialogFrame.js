@@ -273,13 +273,11 @@ define(["wc/dom/event",
 				try {
 					if (canMoveResize()) {
 						resizeable.resetSize(dialog);
-						positionable.restorePosition(dialog);
 					}
 					else {
 						resizeable.disableAnimation(dialog);
 						animationsDisabled = true;
 						resizeable.clearSize(dialog, true);
-						positionable.clearPosition(dialog, true);
 					}
 				}
 				finally {
@@ -396,10 +394,6 @@ define(["wc/dom/event",
 							else {
 								positionable.storePosBySize(dialog, configObj);
 							}
-						}
-						else if (canMoveResize()) {
-							// even if we have position we may have to re-position the dialog
-							positionable.bringIntoView(dialog, configObj);
 						}
 					}
 				}
