@@ -99,7 +99,7 @@ define(["wc/dom/attribute",
 					y = y || 0;
 					position = getBox(moveTarget, true);
 					positionable.clearZeros(moveTarget, true);
-					positionable.setPositionInView(moveTarget, position.left + x, position.top + y);
+					positionable.setPosition(moveTarget, position.left + x, position.top + y);
 					return true;
 				}
 				finally {
@@ -215,7 +215,7 @@ define(["wc/dom/attribute",
 						resizeable.disableAnimation(element);
 						animationsDisabled = true;
 						positionable.clearZeros(element, true);
-						positionable.setPositionInView(element, left, top);
+						positionable.setPosition(element, left, top);
 					}
 				}
 				finally {

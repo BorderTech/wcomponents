@@ -26,7 +26,7 @@ public class WDialog_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Default mode should be MODELESS", WDialog.MODELESS, dialog.getMode());
 		Assert.assertNull("Content is null by default", dialog.getContent());
 		Assert.assertNull("Trigger is null by default", dialog.getTrigger());
-		Assert.assertFalse("Has trigger should be false by defualt", dialog.hasTriggerButton());
+		Assert.assertFalse("Has trigger should be false by defualt", dialog.hasLegacyTriggerButton());
 	}
 
 	@Test
@@ -43,7 +43,7 @@ public class WDialog_Test extends AbstractWComponentTestCase {
 		WDialog dialog = new WDialog(wText, trigger);
 		Assert.assertEquals("Content should be set", wText, dialog.getContent());
 		Assert.assertEquals("Trigger should be set", trigger, dialog.getTrigger());
-		Assert.assertTrue("Has trigger should be true", dialog.hasTriggerButton());
+		Assert.assertTrue("Has trigger should be true", dialog.hasLegacyTriggerButton());
 	}
 
 	@Test
@@ -63,9 +63,9 @@ public class WDialog_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTriggerAccessors() {
-		assertAccessorsCorrect(new WDialog(), "trigger", null, new WButton(), new WCheckBox());
+		assertAccessorsCorrect(new WDialog(), "trigger", null, new WButton(), new WMenuItem("A"));
 	}
-
+	
 	@Test
 	public void testHeightAccessors() {
 		assertAccessorsCorrect(new WDialog(), "height", 0, 1, 2);
@@ -74,6 +74,11 @@ public class WDialog_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testWidthAccessors() {
 		assertAccessorsCorrect(new WDialog(), "width", 0, 1, 2);
+	}
+
+	@Test
+	public void testTriggerOpenActionAccessors() {
+		assertAccessorsCorrect(new WDialog(), "triggerOpenAction", null, new TestAction(), new TestAction());
 	}
 
 	@Test

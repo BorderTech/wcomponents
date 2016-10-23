@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
-import com.github.bordertech.wcomponents.AjaxTrigger;
+import com.github.bordertech.wcomponents.DialogOpenTrigger;
 import com.github.bordertech.wcomponents.Renderer;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WDialog;
@@ -42,10 +42,10 @@ final class WDialogRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("open", dialog.getState() == WDialog.ACTIVE_STATE, "true");
 			xml.appendOptionalAttribute("title", title);
 
-			AjaxTrigger trigger = dialog.getTrigger();
+			DialogOpenTrigger trigger = dialog.getTrigger();
 			if (trigger != null) {
 				xml.appendOptionalAttribute("triggerid", trigger.getId());
-				if (dialog.hasTriggerButton()) {
+				if (dialog.hasLegacyTriggerButton()) {
 					xml.appendClose();
 					trigger.paint(renderContext);
 					xml.appendEndTag("ui:dialog");
