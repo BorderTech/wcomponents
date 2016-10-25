@@ -20,7 +20,7 @@
 		<xsl:variable name="myLabel" select="key('labelKey',$id)[1]"/>
 		<xsl:choose>
 			<xsl:when test="@readOnly">
-				<ul>
+				<ol>
 					<xsl:call-template name="commonAttributes">
 						<xsl:with-param name="isWrapper" select="1"/>
 						<xsl:with-param name="live" select="'off'"/>
@@ -38,7 +38,7 @@
 						<xsl:with-param name="showOptions" select="'all'"/>
 						<xsl:with-param name="single" select="0"/>
 					</xsl:apply-templates>
-				</ul>
+				</ol>
 			</xsl:when>
 			<xsl:otherwise>
 				<fieldset>

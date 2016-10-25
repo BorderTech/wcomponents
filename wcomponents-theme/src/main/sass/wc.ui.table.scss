@@ -255,14 +255,27 @@ caption {
 //*****************************************************************************
 th[aria-sort] {
 	cursor: pointer;
+	padding-right: $wc-gap-large;
+	position: relative;
 
 	&:after {
 		@include wc-icon-fw($text-align: right, $width: $wc-icon-small);
+		position: absolute;
+		right: $wc-gap-small;
+
+		@if ($wc-table-sort-icon-pos == middle) {
+			height: 0;
+			line-height: 0;
+			top: 50%;
+		}
+		@else if ($wc-table-sort-icon-pos == bottom) {
+			bottom: $wc-gap-small;
+		}
 	}
 
 	> .wc-decoratedlabel {
+		@include fit-content;
 		display: inline-block;
-		width: calc(100% - $wc-icon-small); // allow for sort icon
 	}
 }
 
