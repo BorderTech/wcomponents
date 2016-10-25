@@ -260,11 +260,17 @@ th[aria-sort] {
 
 	&:after {
 		@include wc-icon-fw($text-align: right, $width: $wc-icon-small);
-		height: 0;
-		line-height: 0;
 		position: absolute;
 		right: $wc-gap-small;
-		top: 50%;
+
+		@if ($wc-table-sort-icon-pos == middle) {
+			height: 0;
+			line-height: 0;
+			top: 50%;
+		}
+		@else if ($wc-table-sort-icon-pos == bottom) {
+			bottom: $wc-gap-small;
+		}
 	}
 
 	> .wc-decoratedlabel {
