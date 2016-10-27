@@ -290,6 +290,20 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/getStyle", "wc/dom/ui
 			};
 
 			/**
+			 * Clear inline positions.
+			 *
+			 * @function
+			 * @public
+			 * @param {Element} element the element being cleared
+			 */
+			this.clear = function(element) {
+				element.style.top = "";
+				element.style.left = "";
+				element.style.right = "";
+				element.style.bottom = "";
+			};
+
+			/**
 			 * Late initialisation to add resize event handler and subscriber to {@link module:wc/ui/resizeable}.
 			 * @function module:wc/ui/positionable.postInit
 			 * @public
