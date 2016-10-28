@@ -8,6 +8,16 @@
 
 ## Enhancements
 
+# Release 1.2.13
+
+## API Changes
+
+## Bug Fixes
+
+* Fixed a bug which could cause dialogs to be mis-positioned on mobiles #977.
+
+## Enhancements
+
 # Release 1.2.12
 
 ## API Changes
