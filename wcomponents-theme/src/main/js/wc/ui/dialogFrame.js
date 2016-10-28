@@ -221,7 +221,6 @@ define(["wc/dom/event",
 				instance.unsetAllDimensions(dialog);
 				dialog.className = (obj && obj.className) ? obj.className : "";
 				instance.resetContent(false, (obj ? obj.id : ""));
-
 				// set the dialog title
 				if ((title = TITLE_WD.findDescendant(dialog))) {
 					title.innerHTML = ""; // ??? This _cannot_ really still be needed?
@@ -317,9 +316,8 @@ define(["wc/dom/event",
 				if (dialog) {
 					dialog.style.width = "";
 					dialog.style.height = "";
-					dialog.style.top = "";
-					dialog.style.left = "";
 					dialog.style.margin = "";
+					positionable.clear(dialog);
 				}
 			};
 
@@ -393,6 +391,7 @@ define(["wc/dom/event",
 							}
 							else {
 								positionable.storePosBySize(dialog, configObj);
+								positionable.clear(dialog);
 							}
 						}
 					}
@@ -589,7 +588,6 @@ define(["wc/dom/event",
 					if (element && element.id === DIALOG_ID) {
 						clearOpener = true;
 						modalShim.clearModal(element);
-
 						// remove maximise from dialog so that the next dialog does not open maximised
 						/*
 						 * NOTE: this could be moved to wc/ui/resizeable.js which owns the max button. However, the
