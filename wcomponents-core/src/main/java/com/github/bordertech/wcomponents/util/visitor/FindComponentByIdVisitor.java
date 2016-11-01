@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WRepeater;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.util.TreeUtil;
 import com.github.bordertech.wcomponents.util.Util;
 
 /**

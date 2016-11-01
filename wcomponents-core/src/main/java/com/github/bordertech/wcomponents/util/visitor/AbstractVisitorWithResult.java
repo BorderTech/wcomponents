@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.util.visitor;
 
+import com.github.bordertech.wcomponents.util.TreeUtil;
 import com.github.bordertech.wcomponents.util.WComponentTreeVisitor;
 
 /**

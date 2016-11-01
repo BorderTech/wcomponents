@@ -28,6 +28,11 @@ public class WDialog extends AbstractWComponent implements Container {
 	public static final int INACTIVE_STATE = 0;
 
 	/**
+	 * This state is when the dialog has been manually requested to open.
+	 */
+	public static final int MANUAL_OPEN_STATE = 1;
+
+	/**
 	 * This state is when the dialog is open and the initial render of the content is complete.
 	 */
 	public static final int ACTIVE_STATE = 2;
@@ -42,7 +47,6 @@ public class WDialog extends AbstractWComponent implements Container {
 	 * In this mode the dialog displays even when the user switches input focus to the window.
 	 */
 	public static final int MODELESS = 1;
-
 
 	/**
 	 * The content holder exists to keep the content hidden from normal requests, yet still have the content attached to
@@ -116,6 +120,7 @@ public class WDialog extends AbstractWComponent implements Container {
 
 	/**
 	 * Flag the component as having a backwards-compatible WButton trigger.
+	 *
 	 * @param state true if the WDialog has the backwards compatible WButton trigger
 	 * @since 1.2.3
 	 * @deprecated 1.2.3 for backwards compatibility only.
@@ -126,6 +131,7 @@ public class WDialog extends AbstractWComponent implements Container {
 
 	/**
 	 * Add the backwards compatible WButton trigger.
+	 *
 	 * @param trigger The WButton used to open the WDialog.
 	 * @since 1.2.3
 	 * @deprecated 1.2.3 for backwards compatibility only.
@@ -135,7 +141,6 @@ public class WDialog extends AbstractWComponent implements Container {
 		add(trigger);
 		setTriggerButton(true);
 	}
-
 
 	/**
 	 * Set the WComponent which will handle the content for this dialog.
@@ -161,7 +166,7 @@ public class WDialog extends AbstractWComponent implements Container {
 	 * Signals that the dialog should be opened.
 	 */
 	public void display() {
-		getOrCreateComponentModel().state = ACTIVE_STATE;
+		getOrCreateComponentModel().state = MANUAL_OPEN_STATE;
 	}
 
 	/**
@@ -201,6 +206,7 @@ public class WDialog extends AbstractWComponent implements Container {
 	/**
 	 * Dialogs must always be resizeable in order to meet accessibility requirements. See <a
 	 * href="https://github.com/BorderTech/wcomponents/issues/606">#606</a>.
+	 *
 	 * @return true if the dialog is resizable.
 	 * @deprecated 1.2.0 as dialogs must always be resizeable.
 	 */
@@ -256,6 +262,7 @@ public class WDialog extends AbstractWComponent implements Container {
 
 	/**
 	 * Set the component which will open the WDialog.
+	 *
 	 * @param trigger the WComponent which will open the dialog on click/change
 	 */
 	public void setTrigger(final AjaxTrigger trigger) {
@@ -288,13 +295,10 @@ public class WDialog extends AbstractWComponent implements Container {
 	 */
 	@Override
 	public void handleRequest(final Request request) {
-		boolean ajaxTargeted = isAjaxTargeted();
-
-		if (ajaxTargeted) {
-			// This is necessary to support dialogs with a trigger,
-			// where the display() method is not called explicitly
+		// Can only be an active DIALOG if it is AJAX targetted.
+		if (isAjaxTargeted()) {
 			getOrCreateComponentModel().state = ACTIVE_STATE;
-		} else if (getComponentModel().state == ACTIVE_STATE && !ajaxTargeted) {
+		} else if (getState() != INACTIVE_STATE) {
 			getOrCreateComponentModel().state = INACTIVE_STATE;
 		}
 	}
@@ -305,6 +309,14 @@ public class WDialog extends AbstractWComponent implements Container {
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
+		if (getState() == ACTIVE_STATE) {
+			// Can only remain active if it is AJAX targetted
+			if (!isAjaxTargeted()) {
+				getOrCreateComponentModel().state = INACTIVE_STATE;
+			}
+		} else if (getState() == MANUAL_OPEN_STATE) {
+			getOrCreateComponentModel().state = ACTIVE_STATE;
+		}
 		if (getContent() != null) {
 			AjaxHelper.registerContainer(getId(), getId(), getContent().getId(), request);
 		}
@@ -428,8 +440,9 @@ public class WDialog extends AbstractWComponent implements Container {
 		private AjaxTrigger trigger;
 
 		/**
-		 * Indicates that the WDialog have a nested trigger button. Here for backwards compatibility with pre-1.2.3 version of WDialog which did not
-		 * allow an arbitrary AjaxTrigger to open a dialog.
+		 * Indicates that the WDialog have a nested trigger button. Here for backwards compatibility with pre-1.2.3
+		 * version of WDialog which did not allow an arbitrary AjaxTrigger to open a dialog.
+		 *
 		 * @since 1.2.3
 		 * @deprecated Only here for backwards compatibility.
 		 */

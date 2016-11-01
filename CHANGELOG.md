@@ -7,6 +7,9 @@
 ## Bug Fixes
 
 * Fixed issues which could cause resize and positioning errors in WDialog #958.
+* Fixed WDialog that was not handling its open state correctly #963 QC160323.
+* Fixed issues which could cause a WDialog to prevent refocus of the opener control when the dialog was closed #965.
+* Fixed an issue which could result in a dialog opener to _not_ open its dialog if the opener contained an image #967.
 
 ## Enhancements
 
