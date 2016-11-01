@@ -95,18 +95,15 @@ $wc-icon-wider: 1.25rem !default;  //recommend min 20px in any unit - this will 
 $wc-icon-large: 2rem !default; // really big icons. So far only for the full-screen loading indicator.
 
 // h1 in WSection, WPanel Types CHROME and SECTION, WMessageBox, WValidationErrors.
-// If you are mucking around here you may want to go look at the WHeading styles below.
+// If you are mucking around here you may want to go look at the WHeading styles below. Set this to -1 to use the
+// default h1 size for your theme.
 $wc-section-header-size: 1rem !default;
 // h1 in dialogs
-$wc-dialog-header-size: $wc-section-header-size !default;
-// h1 in the screen header (WPanel Type HEADER)
+$wc-dialog-header-size: 1rem !default;
+// h1 in the screen header (WPanel Type HEADER) Set to -1 to inherit from the theme default h1 size.
 $wc-header-h1-size-full: 2.25rem !default;
-// h1 in the screen header on small screens.
-$wc-header-h1-size-small: $wc-section-header-size !default;
-// the space between the section box and its content. This is reversed to "doc" a menu.
-$wc-section-space-normal: $wc-gap-normal !default;
-// the space between the section box and its content. This is reversed to "doc" a menu.
-$wc-section-space-reduced: $wc-phone-gap-normal !default;
+// h1 in the screen header on small screens. set to -1 to not implement this (inherit from $wc-header-h1-size-full).
+$wc-header-h1-size-small: 1rem !default;
 
 // Back to top link
 // Not generic but not actually a WComponent either. A purely client-side artefact.
@@ -192,6 +189,31 @@ $wc-input-padding: 1px !default;
 // WField.setInputWidth(int) is used.
 $wc-combo-button-padding-lr: $wc-gap-small !default;
 //**********************************************************************************************************************
+
+
+//**********************************************************************************************************************
+// Sections
+// WSection, WMessageBox. WPanel Types ACTION and CHROME
+//**********************************************************************************************************************
+// Turn on borders on all section elements. Set to -1 to disable section borders. Do this is you want different borders
+// for each type of section.
+$wc-section-use-border: 1;
+
+// the space between the section box and its content. This is reversed to "doc" a menu. Must be > 0 to have any effect.
+// You probably want to set this to 0 if $wc-section-use-border == -1.
+$wc-section-space-normal: $wc-gap-normal !default;
+
+// the padding around the title in the header. Must be > 0 to have any effect.
+$wc-section-space-header: $wc-section-space-normal !default;
+
+// the space between the section box and its content on small viewports. This is reversed to "doc" a menu. Not applied
+// if $wc-gap-reduce-when-narrow == -1.
+$wc-section-space-reduced: $wc-phone-gap-normal !default;
+
+// The space around section headers on narrow viewports. Not applied if $wc-section-space-header <= 0 or if
+// $wc-section-space-normal <= 0 or if $wc-gap-reduce-when-narrow == -1.
+$wc-section-space-header-reduced: $wc-section-space-reduced !default;
+
 //**********************************************************************************************************************
 // Variables for specific components
 //**********************************************************************************************************************
@@ -271,7 +293,7 @@ $wc-fieldlayout-default-label-width: 50% !default;
 // Generic headings. Set to -1 to not use (use UA default)
 $wc-heading-h1-font-size: 1.25rem !default;
 $wc-heading-h2-font-size: 1.25rem !default;
-$wc-heading-h3-font-size: 1.125rem !default;
+$wc-heading-h3-font-size: 1.125rem !default; // May make IE cry...
 $wc-heading-h4-font-size: 1rem !default;
 $wc-heading-h5-font-size: -1 !default;
 $wc-heading-h6-font-size: -1 !default;
@@ -302,6 +324,15 @@ $wc-menu-bar-column-opener-indicator-before-after: $wc-gap-small !default;
 // width of the open state icon in WMenu type TREE
 $wc-menu-tree-iconwidth: $wc-icon-normal !default;
 
+//**********************************************************************************************************************
+// WSection
+// May also affect WPanels
+//**********************************************************************************************************************
+//**********************************************************************************************************************
+// WTable
+//**********************************************************************************************************************
+// Do we want the sort icon at the top, middle or bottom of the header?
+$wc-table-sort-icon-pos: top;
 //**********************************************************************************************************************
 // WTabSet
 //**********************************************************************************************************************

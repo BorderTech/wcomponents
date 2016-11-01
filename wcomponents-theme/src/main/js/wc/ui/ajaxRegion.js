@@ -7,15 +7,10 @@ define(["wc/dom/event",
 		"wc/dom/shed",
 		"wc/dom/Widget",
 		"wc/dom/initialise",
-		"wc/ui/ajax/processResponse"],
-	function(event, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse) {
+		"wc/ui/ajax/processResponse",
+		"wc/mixin"],
+	function(event, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse, mixin) {
 		"use strict";
-
-		// prevent circular dependency
-		var dialog;
-		require(["wc/ui/dialog"], function (d) {
-			dialog = d;
-		});
 
 		/**
 		 * @constructor
@@ -29,8 +24,6 @@ define(["wc/dom/event",
 				PSEUDO_PROTOCOL_RE = /^[\w]+\:[^\/].*$/,
 				ALIAS = "data-wc-ajaxalias",
 				ignoreChange = false;
-
-
 
 			function fireThisTrigger(element, trigger) {
 				var result = false, isSuccessful;
@@ -63,18 +56,11 @@ define(["wc/dom/event",
 			 * NOTE: all ajaxTriggers will have an attribute "data-wc-ajaxalias"
 			 */
 			function checkActivateTrigger(element) {
-				var result = false, trigger;
-
-				if (dialog && dialog.isTrigger(element)) {
-					dialog.open(element);
-					result = true; // do not return, could be a dialog trigger AND an ajax trigger.
+				var trigger;
+				if ((trigger = instance.getTrigger(element, true))) {
+					return fireThisTrigger(element, trigger);
 				}
-
-				if (instance.isTrigger(element)) {
-					trigger = instance.getTrigger(element, true);
-					result = fireThisTrigger(element, trigger);
-				}
-				return result;
+				return false;
 			}
 
 			/**
@@ -129,13 +115,11 @@ define(["wc/dom/event",
 			 */
 			function clickEvent($event) {
 				var element;
-				if (!$event.defaultPrevented) {
-					BUTTON = BUTTON || new Widget(tag.BUTTON);
-					element = Widget.findAncestor($event.target, [BUTTON, ANCHOR]);
+				BUTTON = BUTTON || new Widget(tag.BUTTON);
+				element = Widget.findAncestor($event.target, [BUTTON, ANCHOR]);
 
-					if (element && !shed.isDisabled(element) && checkActivateTrigger(element) && (isSubmitElement(element) || isNavLink(element))) {
-						$event.preventDefault();
-					}
+				if (element && !shed.isDisabled(element) && checkActivateTrigger(element) && (isSubmitElement(element) || isNavLink(element))) {
+					$event.preventDefault();
 				}
 			}
 
@@ -219,27 +203,6 @@ define(["wc/dom/event",
 			};
 
 			/**
-			 * Determines if a given element is an ajax trigger. NOTE: this will return true if the element is an active
-			 * trigger even if it has used up its shots.
-			 * @function  module:wc/ui/ajaxRegion.isTrigger
-			 * @public
-			 * @param {Element} element the element to test.
-			 * @returns {Boolean} Return true if the element is an ajax trigger.
-			 */
-			this.isTrigger = function(element) {
-				var result = false;
-				if (!shed.isDisabled(element)) {
-					if (element.hasAttribute(ALIAS)) {
-						result = true;
-					}
-					else {
-						result = !!this.getTrigger(element);
-					}
-				}
-				return result;
-			};
-
-			/**
 			 * Register and fire an ajaxTrigger only when required. This is used when we do not want to fire an
 			 * ajaxTrigger on change or click (eg WShuffler, WMultiSelectPair) but in some other circumstance.
 			 * @function module:wc/ui/ajaxRegion.requestLoad
@@ -254,11 +217,6 @@ define(["wc/dom/event",
 					loads,
 					id,
 					controls;
-
-				if (dialog && dialog.isTrigger(element)) {
-					dialog.open(element);
-				}
-				// do not return, we may still have ajax to attend to.
 
 				if (!trigger) {
 					if (obj) {
@@ -280,6 +238,9 @@ define(["wc/dom/event",
 					}
 
 					trigger = triggerManager.getTrigger(element);
+				}
+				else if (obj) {
+					mixin(obj, trigger);  // QC158630
 				}
 
 				if (trigger) {

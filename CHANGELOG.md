@@ -1,9 +1,118 @@
 # Change log
+
+# Release [in-progress]
+
 ## API Changes
 
 ## Bug Fixes
 
 ## Enhancements
+* Remove corrupt characters before processing the XSLT #980. Runtime parameter needs to be set to true:-
+      bordertech.wcomponents.xslt.allow.corrupt.characters
+
+# Release 1.2.13
+
+## API Changes
+
+## Bug Fixes
+
+* Fixed a bug which could cause dialogs to be mis-positioned on mobiles #977.
+
+## Enhancements
+
+# Release 1.2.12
+
+## API Changes
+
+## Bug Fixes
+
+* Fixed issues which could cause resize and positioning errors in WDialog #958.
+* Fixed WDialog that was not handling its open state correctly #963 QC160323.
+* Fixed issues which could cause a WDialog to prevent refocus of the opener control when the dialog was closed #965.
+* Fixed an issue which could result in a dialog opener to _not_ open its dialog if the opener contained an image #967.
+* Fixed an issue which resulted in WShuffler outputting the incorrect HTML element when in read-only mode #972.
+* Fixed an issue which could result in the content of a table header overlaying the sort icon and/or the sort icon being mis-positioned when the header content wrapped #973.
+
+## Enhancements
+
+* New DialogOpenTrigger interface to identify components that can open a dialog. WDialog can also have an action
+  set via setTriggerOpenAction(action) to run when the dialog is opened via a trigger #963.
+
+# Release 1.2.11
+
+## API Changes
+
+## Bug Fixes
+
+* Fixed `WTree` AJAX expansion #934, QC158631.
+* Fixed `WFieldSet` to handle `WRepeaters` correctly when Mandatory is set #936 QC158462.
+* Fixed a flaw in client code of `WSelectToggle` which could cause unexpected results if the target component(s) included a `WTable` with **single** row selection #938.
+* Fixed a flaw which could result in dialogs sometimes running partly off screen (#940).
+* Fixed an issue which could result in a WTableAction trigger button becoming enabled if disabled row(s) were selected. This is part of #943.
+* Fixed an issue where a dialog trigger button's action could be erroneously fired by a dialog re-opening on page load #945.
+* Fixed missing "day of week column headers" in calendar date picker (#942).
+* Fixed `WSubMenu` AJAX not working (#889).
+* Fixed `WDateField`, `WPartialDateField` and `WNumberField` validation. Only do validation if value is valid. (#951).
+* Fixed `WTabSet` to allow `ACCORDIAN` tabsets to have no tabs open (#915).
+
+## Enhancements
+* Allow TinyMCE global configuration to be overriden without a theme rebuild.
+
+# Release 1.2.9
+
+## API Changes
+
+## Bug Fixes
+
+* Fixed table row selection/dialog bug #929.
+
+## Enhancements
+
+
+# Release 1.2.8
+
+## API Changes
+
+## Bug Fixes
+
+* Mitigated a11y issues in WTable (#926).
+
+## Enhancements
+
+* Added a workaround for a CSS bug in IE11 (#924).
+
+# Release 1.2.7
+## API Changes
+
+* Deprecated the following WPanel Types (part of #689, #639):
+  * Type.ACTION: deprecated in favour of WSection to remove API ambiguity.
+  * Type.BANNER: deprecated in favour of WSection as never implemented but JavaDoc points to WSection equivalence
+  * Type.BLOCK: deprecated in favour of Type.PLAIN and Margin as no longer serves any useful purpose
+  * Type.CHROME: deprecated in favour of WSection to remove API ambiguity.
+
+## Bug Fixes
+
+* Applied a workaround for buggy implementation of placeholders in textareas in IE11 #911.
+* Fixed bug in WSuggestion where user text was not updated after first use (QC158630).
+* Fixed i18n race condition causing placeholder, message title (all theme messages) not to display in some browsers (QC158400).
+* Reverted date field to previous behavior of attempting to honor invalid input value after round trip (QC157989).
+
+## Enhancements
+
+* Added CSS support for an additional class `wc-neg-margin` on WMenu Type.BAR to force the "docking" style if it is not possible to make the menubar the first child of a WPanel with no layout #916.
+* Updated JavaScript Widgets used to determine WDateField and WPartialDateField to remove some potential access errors when either of these components is in a read-only state #907.
+
+# Release 1.2.6
+## API Changes
+* None
+
+## Bug Fixes
+* QC157496 - Fixed a null pointer exception within WDateField resetData()
+
+## Enhancements
+* Enhanced TransformXMLInterceptor to support non-HTML agents.
+* Minor performance turning for TransformXMLInterceptor.
+* Dependency management improvement for Saxon so that it does not need to be the default XSLT engine.
 
 # Release 1.2.5
 ## API Changes

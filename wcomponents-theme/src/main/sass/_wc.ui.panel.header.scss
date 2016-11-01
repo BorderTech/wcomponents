@@ -3,8 +3,10 @@
 // over-ridden.
 
 [role='banner'] {
-	h1 {
-		font-size: $wc-header-h1-size-full;
+	@if ($wc-header-h1-size-full != -1) {
+		h1 {
+			font-size: $wc-header-h1-size-full;
+		}
 	}
 
 	@if ($wc-label-weight != normal) {
@@ -14,17 +16,13 @@
 	}
 }
 
-// This is just a sample suggestion which you should ignore (really).
-// It tries to put the content into a row but reverses it to put a potentially iconified menu bar
-// at the beginning. I have no idea what you want, this is just a demo.
-@include respond-phonelike {
-	[role='banner'] {
-		// > :first-child { // in an ideal world this would be .wc-content but since when do we live there?
-		// 	@include flex($direction: row-reverse, $wrap: wrap, $justify: space-between, $align-items: flex-end);
-		// }
+@if ($wc-header-h1-size-small != -1) {
 
-		h1 {
-			font-size: $wc-header-h1-size-small;
+	@include respond-phonelike {
+		[role='banner'] {
+			h1 {
+				font-size: $wc-header-h1-size-small;
+			}
 		}
 	}
 }

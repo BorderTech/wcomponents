@@ -26,8 +26,8 @@ define(["wc/dom/initialise",
 				WITH_PATTERN,
 				PATTERNS,
 				WITH_MIN,
-				conf = wcconfig.get("wc/ui/validation/textField"),
-				RX_STRING = ((conf && conf.rx) ? conf.rx : "${wc.ui.emailField.regex}");
+				DEFAULT_RX = /^(?:\".+\"|[a-zA-Z0-9\.!#\$%&'\*\+/=\?\^_`\{\|\}~]+)@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/,
+				RX_STRING = "";
 
 			/**
 			 * Test for an input which we are interested in.
@@ -75,7 +75,8 @@ define(["wc/dom/initialise",
 					value = element.value,
 					flag = "",
 					patternFlag,
-					concatenator = i18n.get("validation_concatenator");
+					concatenator = i18n.get("validation_concatenator"),
+					conf;
 
 				if (value && !validationManager.isExempt(element)) {
 					// min length
@@ -85,7 +86,12 @@ define(["wc/dom/initialise",
 					}
 					// pattern (first email)
 					if (EMAIL.isOneOfMe(element)) {
-						regexp = new RegExp(RX_STRING);
+						if (RX_STRING === "") {
+							conf = wcconfig.get("wc/ui/validation/textField");
+							RX_STRING = conf && conf.rx ? conf.rx : null;
+						}
+
+						regexp = RX_STRING ? new RegExp(RX_STRING) : DEFAULT_RX;
 						patternFlag = i18n.get("validation_email_format");
 					}
 					else if ((mask = element.getAttribute("pattern"))) {
@@ -212,7 +218,6 @@ define(["wc/dom/initialise",
 		 *
 		 * @typedef {Object} module:wc/ui/validation/textField.config() Optional module configuration.
 		 * @property {String} rx The email regular expression as a string.
-		 * @default "^(?:\\".+\\"|[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+)@[a-zA-Z0-9-]+(?:\\\\.[a-zA-Z0-9-]+)+$"
 		 *
 		 * @module wc/ui/validation/textField
 		 * @requires module:wc/dom/initialise

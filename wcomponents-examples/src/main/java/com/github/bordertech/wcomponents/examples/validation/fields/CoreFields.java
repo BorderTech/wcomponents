@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.WCheckBoxSelect;
 import com.github.bordertech.wcomponents.WConfirmationButton;
 import com.github.bordertech.wcomponents.WDateField;
 import com.github.bordertech.wcomponents.WDropdown;
+import com.github.bordertech.wcomponents.WEmailField;
 import com.github.bordertech.wcomponents.WField;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WFieldSet;
@@ -188,6 +189,9 @@ public class CoreFields extends WPanel {
 		WField checkboxSelectField = fields.addField("WCheckBoxSelect", new WCheckBoxSelect("sex"));
 		((WCheckBoxSelect) checkboxSelectField.getField()).setMandatory(true);
 		checkboxSelectField.getLabel().setHint("required");
+
+		// WEmailField
+		fields.addField("Email address", new WEmailField());
 
 		// create the buttons at the bottom.
 		WPanel buttons = new WPanel(WPanel.Type.FEATURE);

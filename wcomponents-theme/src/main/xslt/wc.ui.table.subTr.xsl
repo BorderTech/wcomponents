@@ -15,7 +15,6 @@
 		<xsl:param name="parentIsClosed" select="0"/>
 		<xsl:param name="topRowIsStriped" select="0"/>
 		<xsl:param name="indent" select="0"/>
-		<xsl:param name="hasRole" select="0"/>
 
 		<!--
 		 We have to output content if:
@@ -35,7 +34,6 @@
 					<xsl:with-param name="parentIsClosed" select="$parentIsClosed"/>
 					<xsl:with-param name="indent" select="$indent"/>
 					<xsl:with-param name="topRowIsStriped" select="$topRowIsStriped"/>
-					<xsl:with-param name="hasRole" select="$hasRole" />
 				</xsl:apply-templates>
 			</xsl:when>
 			<xsl:otherwise>
@@ -76,7 +74,7 @@
 				selection.
 			-->
 			<xsl:if test="$myTable/ui:rowselection">
-				<td class="wc_table_sel_wrapper" role="gridcell">
+				<td class="wc_table_sel_wrapper">
 					<xsl:text>&#x2002;</xsl:text>
 				</td>
 			</xsl:if>
@@ -85,11 +83,11 @@
 				subTr content is not itself expandable but must have the placeholder to position it correctly relative
 				to its parent row.
 			-->
-			<td class="wc_table_rowexp_container" role="gridcell">
+			<td class="wc_table_rowexp_container">
 				<xsl:text>&#x2002;</xsl:text>
 			</td>
 
-			<td role="gridcell">
+			<td>
 				<xsl:if test="@spanAllCols=$t">
 					<xsl:attribute name="colspan">
 						<xsl:value-of select="count(../../*) -1"/><!-- -1 because we do not count the ui:subtr -->

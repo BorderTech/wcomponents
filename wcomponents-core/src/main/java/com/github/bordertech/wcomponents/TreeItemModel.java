@@ -38,26 +38,26 @@ public interface TreeItemModel extends Serializable {
 	boolean isDisabled(final List<Integer> row);
 
 	/**
-	 * Retrieves the value at the given row and column.
+	 * Retrieves the label at the given row.
 	 *
 	 * @param row - the row index.
-	 * @return the value at the given row and column.
+	 * @return the value at the given row.
 	 */
 	String getItemLabel(final List<Integer> row);
 
 	/**
-	 * Retrieves the value at the given row and column.
+	 * Retrieves the rows unique item id at the given row.
 	 *
 	 * @param row - the row index.
-	 * @return the value at the given row and column.
+	 * @return the value at the given row.
 	 */
 	String getItemId(final List<Integer> row);
 
 	/**
-	 * Retrieves the value at the given row and column.
+	 * Retrieves the value at the given row.
 	 *
 	 * @param row - the row index.
-	 * @return the value at the given row and column.
+	 * @return the value at the given row.
 	 */
 	TreeItemImage getItemImage(final List<Integer> row);
 

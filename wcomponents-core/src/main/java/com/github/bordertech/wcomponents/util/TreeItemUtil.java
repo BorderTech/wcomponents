@@ -1,20 +1,19 @@
 package com.github.bordertech.wcomponents.util;
 
 import com.github.bordertech.wcomponents.TreeItemIdNode;
-import com.github.bordertech.wcomponents.TreeItemModel;
 import com.github.bordertech.wcomponents.WTree;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Utility methods for {@link WTree} and its tree items.
@@ -23,6 +22,16 @@ import java.util.Set;
  * @since 1.0.3
  */
 public final class TreeItemUtil {
+
+	/**
+	 * The logger instance for this class.
+	 */
+	private static final Log LOG = LogFactory.getLog(TreeItemUtil.class);
+
+	/**
+	 * Row index delimiter.
+	 */
+	public static final String INDEX_DELIMITER = "-";
 
 	/**
 	 * Prevent instantiation of utility class.
@@ -52,25 +61,6 @@ public final class TreeItemUtil {
 	}
 
 	/**
-	 * @param jsonArray the JSON array holding the node
-	 * @param node the node being processed
-	 */
-	private static void processTreeToJson(final JsonArray jsonArray, final TreeItemIdNode node) {
-		// Add node
-		JsonObject jsonNode = new JsonObject();
-		jsonNode.addProperty("id", node.getItemId());
-		jsonArray.add(jsonNode);
-		// Process children
-		if (node.hasChildren()) {
-			JsonArray itemArray = new JsonArray();
-			jsonNode.add("items", itemArray);
-			for (TreeItemIdNode child : node.getChildren()) {
-				processTreeToJson(itemArray, child);
-			}
-		}
-	}
-
-	/**
 	 * @param jsonString the string of JSON to convert to a custom tree of nodes
 	 * @return the custom tree structure of item ids
 	 */
@@ -93,28 +83,6 @@ public final class TreeItemUtil {
 		}
 
 		return root;
-	}
-
-	/**
-	 * Iterate over the JSON objects to create the tree structure.
-	 *
-	 * @param parentNode the parent node
-	 * @param json the current JSON object
-	 */
-	private static void processJsonToTree(final TreeItemIdNode parentNode, final JsonObject json) {
-
-		String id = json.getAsJsonPrimitive("id").getAsString();
-
-		TreeItemIdNode node = new TreeItemIdNode(id);
-		parentNode.addChild(node);
-
-		JsonArray children = json.getAsJsonArray("items");
-		if (children != null) {
-			for (int i = 0; i < children.size(); i++) {
-				JsonObject child = children.get(i).getAsJsonObject();
-				processJsonToTree(node, child);
-			}
-		}
 	}
 
 	/**
@@ -161,6 +129,9 @@ public final class TreeItemUtil {
 
 	/**
 	 * Convert the data to a set (if necessary).
+	 * <p>
+	 * Removes null items in the conversion.
+	 * </p>
 	 *
 	 * @param data the data to convert to a set
 	 * @return the data converted to a set
@@ -168,8 +139,6 @@ public final class TreeItemUtil {
 	public static Set<String> convertDataToSet(final Object data) {
 		if (data == null) {
 			return null;
-		} else if (data instanceof Set) {
-			return (Set<String>) data;
 		} else if (data instanceof Collection) {
 			Collection items = (Collection) data;
 			Set<String> set = new HashSet<>();
@@ -196,200 +165,6 @@ public final class TreeItemUtil {
 	}
 
 	/**
-	 * @param custom the custom root node.
-	 *
-	 * @return the map containing the map of custom items to their node in the tree
-	 */
-	public static Map<String, TreeItemIdNode> createCustomIdMap(final TreeItemIdNode custom) {
-		Map<String, TreeItemIdNode> map = new HashMap<>();
-		if (custom != null) {
-			processCustomIdMapping(map, custom);
-		}
-		return Collections.unmodifiableMap(map);
-	}
-
-	/**
-	 * Iterate over the custom tree structure to add entries to the map.
-	 *
-	 * @param map the map of custom items and their node
-	 * @param node the current node being processed
-	 */
-	private static void processCustomIdMapping(final Map<String, TreeItemIdNode> map, final TreeItemIdNode node) {
-		String itemId = node.getItemId();
-		if (!Util.empty(itemId)) {
-			map.put(itemId, node);
-		}
-
-		for (TreeItemIdNode childItem : node.getChildren()) {
-			processCustomIdMapping(map, childItem);
-		}
-	}
-
-	/**
-	 * @param tree the tree component to create a map of item ids
-	 * @return the map of item ids to their row index.
-	 */
-	public static Map<String, List<Integer>> createItemIdIndexMap(final WTree tree) {
-		Map<String, List<Integer>> map = new HashMap<>();
-		TreeItemModel treeModel = tree.getTreeModel();
-		int rows = treeModel.getRowCount();
-		Set<String> expanded = tree.getExpandedRows();
-		WTree.ExpandMode mode = tree.getExpandMode();
-
-		for (int i = 0; i < rows; i++) {
-			List<Integer> index = new ArrayList<>();
-			index.add(i);
-			processItemIdIndexMapping(map, index, treeModel, mode, expanded);
-		}
-		return Collections.unmodifiableMap(map);
-	}
-
-	/**
-	 * Iterate through the table model to add the item ids and their row index.
-	 *
-	 * @param map the map of item ids
-	 * @param rowIndex the current row index
-	 * @param treeModel the tree model
-	 * @param mode the expand mode
-	 * @param expandedRows the set of expanded rows
-	 */
-	private static void processItemIdIndexMapping(final Map<String, List<Integer>> map, final List<Integer> rowIndex, final TreeItemModel treeModel,
-			final WTree.ExpandMode mode, final Set<String> expandedRows) {
-
-		// Add current item
-		String id = treeModel.getItemId(rowIndex);
-		if (id == null) {
-			return;
-		}
-		map.put(id, rowIndex);
-
-		// Check row is expandable
-		if (!treeModel.isExpandable(rowIndex)) {
-			return;
-		}
-
-		// Check has children
-		if (!treeModel.hasChildren(rowIndex)) {
-			return;
-		}
-
-		// Always add children if CLIENT mode or row is expanded
-		boolean addChildren = (mode == WTree.ExpandMode.CLIENT) || (expandedRows != null && expandedRows.contains(
-				id));
-		if (!addChildren) {
-			return;
-		}
-
-		// Get actual child count
-		int children = treeModel.getChildCount(rowIndex);
-		if (children == 0) {
-			// Could be there are no children even though hasChildren returned true
-			return;
-		}
-
-		// Add children by processing each child row
-		for (int i = 0; i < children; i++) {
-			// Add next level
-			List<Integer> nextRow = new ArrayList<>(rowIndex);
-			nextRow.add(i);
-			processItemIdIndexMapping(map, nextRow, treeModel, mode, expandedRows);
-		}
-	}
-
-	/**
-	 * Update the custom tree node to make sure any nodes that dont have any children in the custom layout have their
-	 * children loaded from the tree model (if they have any).
-	 *
-	 * @param tree the tree component to update its custom tree nodes.
-	 */
-	public static void updateCustomTreeNodes(final WTree tree) {
-		processCustomTreeNodes(tree.getCustomTree(), tree.getTreeModel(), tree.getExpandMode(), tree.getExpandedRows(), tree.getItemIdIndexMap());
-	}
-
-	/**
-	 * Update the custom tree node to make sure any nodes that dont have any children in the custom layout have their
-	 * children loaded from the tree model (if they have any).
-	 *
-	 * @param node the current node.
-	 * @param treeModel the tree model
-	 * @param mode the expand mode
-	 * @param expandedRows the set of expanded rows
-	 * @param mapItemIds the map of item ids to row index
-	 */
-	private static void processCustomTreeNodes(final TreeItemIdNode node, final TreeItemModel treeModel, final WTree.ExpandMode mode,
-			final Set<String> expandedRows, final Map<String, List<Integer>> mapItemIds) {
-
-		// Node has no children so check if they need to be loaded from the tree model
-		if (node.getChildren().isEmpty()) {
-			List<Integer> rowIndex = mapItemIds.get(node.getItemId());
-			loadCustomNodesFromModel(node, rowIndex, treeModel, mode, expandedRows);
-		} else {
-			// Check children
-			for (TreeItemIdNode child : node.getChildren()) {
-				processCustomTreeNodes(child, treeModel, mode, expandedRows, mapItemIds);
-			}
-		}
-	}
-
-	/**
-	 * Load the child items from the tree model onto the custom node.
-	 *
-	 * @param node the node to update
-	 * @param rowIndex the current row index
-	 * @param treeModel the tree model
-	 * @param mode the expand mode
-	 * @param expandedRows the set of expanded rows
-	 */
-	private static void loadCustomNodesFromModel(final TreeItemIdNode node, final List<Integer> rowIndex, final TreeItemModel treeModel,
-			final WTree.ExpandMode mode, final Set<String> expandedRows) {
-
-		// Defualt to no children
-		node.setHasChildren(false);
-
-		// Row is not expandable
-		if (!treeModel.isExpandable(rowIndex)) {
-			return;
-		}
-
-		// Row has no children
-		if (!treeModel.hasChildren(rowIndex)) {
-			return;
-		}
-
-		// OK. So has children
-		node.setHasChildren(true);
-
-		// Always add children if CLIENT mode or row is expanded
-		boolean addChildren = (mode == WTree.ExpandMode.CLIENT) || (expandedRows != null && expandedRows.contains(node.getItemId()));
-		if (!addChildren) {
-			return;
-		}
-
-		// Get actual child count
-		int children = treeModel.getChildCount(rowIndex);
-		if (children == 0) {
-			// Could be there are no children even though hasChildren returned true
-			node.setHasChildren(false);
-			return;
-		}
-
-		// Add children by processing each child row
-		for (int i = 0; i < children; i++) {
-			// Calc next level index
-			List<Integer> nextRow = new ArrayList<>(rowIndex);
-			nextRow.add(i);
-			// Get child item id
-			String nextId = treeModel.getItemId(nextRow);
-			// Add child node
-			TreeItemIdNode childNode = new TreeItemIdNode(nextId);
-			node.addChild(childNode);
-			// Process this child node
-			loadCustomNodesFromModel(childNode, nextRow, treeModel, mode, expandedRows);
-		}
-
-	}
-
-	/**
 	 * Convert the row index to its string representation.
 	 *
 	 * @param row the row index
@@ -405,13 +180,88 @@ public final class TreeItemUtil {
 
 		for (Integer lvl : row) {
 			if (addDelimiter) {
-				index.append('-');
+				index.append(INDEX_DELIMITER);
 			}
 			index.append(lvl);
 			addDelimiter = true;
 		}
 
 		return index.toString();
+	}
+
+	/**
+	 * Convert the string representation of a row index to a list.
+	 *
+	 * @param row the string representation of the row index
+	 * @return the row index
+	 */
+	public static List<Integer> rowIndexStringToList(final String row) {
+		if (row == null) {
+			return null;
+		}
+
+		List<Integer> rowIndex = new ArrayList<>();
+
+		try {
+			// Convert StringId to array
+			String[] rowIdString = row.split(INDEX_DELIMITER);
+			for (int i = 0; i < rowIdString.length; i++) {
+				rowIndex.add(Integer.parseInt(rowIdString[i]));
+			}
+		} catch (NumberFormatException e) {
+			LOG.warn("Invalid row id: " + row);
+		}
+
+		return rowIndex;
+	}
+
+	/**
+	 * @param jsonArray the JSON array holding the node
+	 * @param node the node being processed
+	 */
+	private static void processTreeToJson(final JsonArray jsonArray, final TreeItemIdNode node) {
+		// Add node
+		JsonObject jsonNode = new JsonObject();
+		jsonNode.addProperty("id", node.getItemId());
+		jsonArray.add(jsonNode);
+		// Process children
+		if (node.hasChildren()) {
+			if (node.getChildren().isEmpty()) {
+				jsonNode.addProperty("expandable", Boolean.TRUE);
+			} else {
+				JsonArray itemArray = new JsonArray();
+				jsonNode.add("items", itemArray);
+				for (TreeItemIdNode child : node.getChildren()) {
+					processTreeToJson(itemArray, child);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Iterate over the JSON objects to create the tree structure.
+	 *
+	 * @param parentNode the parent node
+	 * @param json the current JSON object
+	 */
+	private static void processJsonToTree(final TreeItemIdNode parentNode, final JsonObject json) {
+
+		String id = json.getAsJsonPrimitive("id").getAsString();
+		JsonPrimitive expandableJson = json.getAsJsonPrimitive("expandable");
+
+		TreeItemIdNode node = new TreeItemIdNode(id);
+		if (expandableJson != null && expandableJson.getAsBoolean()) {
+			node.setHasChildren(true);
+		}
+		parentNode.addChild(node);
+
+		JsonArray children = json.getAsJsonArray("items");
+		if (children != null) {
+			for (int i = 0; i < children.size(); i++) {
+				JsonObject child = children.get(i).getAsJsonObject();
+				processJsonToTree(node, child);
+			}
+		}
 	}
 
 }

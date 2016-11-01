@@ -52,6 +52,8 @@ define(["wc/dom/shed",
 				CELL_WD,
 				ALL_CB,
 				TABLE_WRAPPER,
+				TABLE_WD,
+				TBODY_WD,
 				ARIA_CONTROLS = "aria-controls",
 				STATE = {ALL: "all",
 						NONE: "none",
@@ -86,7 +88,11 @@ define(["wc/dom/shed",
 
 				CHECKBOX_WD = new Widget("input", "", {"type": CHECKBOX});
 				ARIA_CB_WD = new Widget("", "", {"role": CHECKBOX});
-				ROW_WD = rowAnalog.ITEM;
+				ROW_WD = rowAnalog.ITEM.clone();
+				TABLE_WD = table.TABLE.extend("", {"aria-multiselectable": "true"});
+				TBODY_WD = table.TBODY.clone();
+				TBODY_WD.descendFrom(TABLE_WD, true);
+				ROW_WD.descendFrom(TBODY_WD, true);
 				CELL_WD = table.TD.extend("wc_table_sel_wrapper");
 				ALL_CB = [CHECKBOX_WD, ARIA_CB_WD, ROW_WD];
 				TABLE_WRAPPER = table.WRAPPER;

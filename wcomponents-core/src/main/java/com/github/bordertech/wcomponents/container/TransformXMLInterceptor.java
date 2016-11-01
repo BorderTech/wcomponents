@@ -11,11 +11,13 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.ThemeUtil;
+import com.github.bordertech.wcomponents.util.Util;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.net.URL;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.transform.Source;
@@ -26,6 +28,10 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import org.apache.commons.lang3.text.translate.AggregateTranslator;
+import org.apache.commons.lang3.text.translate.CharSequenceTranslator;
+import org.apache.commons.lang3.text.translate.CodePointTranslator;
+import org.apache.commons.lang3.text.translate.LookupTranslator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -146,6 +152,10 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 
 		// Perform the transformation and write the result.
 		String xml = xmlBuffer.toString();
+		if (isAllowCorruptCharacters() && !Util.empty(xml)) {
+			LOG.error("Allowing corrupt characters.");
+			xml = removeCorruptCharacters(xml);
+		}
 		transform(xml, uic, writer);
 
 		LOG.debug("Transform XML Interceptor: Finished");
@@ -225,4 +235,102 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 		}
 
 	}
+
+	/**
+	 * @return true if allow corrupt characters in XSLT processing.
+	 */
+	private static boolean isAllowCorruptCharacters() {
+		return ConfigurationProperties.getXsltAllowCorruptCharacters();
+	}
+
+	/**
+	 * Remove bad characters in XML.
+	 *
+	 * @param input The String to escape.
+	 * @return the clean string
+	 */
+	private static String removeCorruptCharacters(final String input) {
+		if (Util.empty(input)) {
+			return input;
+		}
+		return ESCAPE_BAD_XML10.translate(input);
+	}
+
+	/**
+	 * Translator object for escaping XML 1.0.
+	 *
+	 * While {@link #escapeXml10(String)} is the expected method of use, this object allows the XML escaping
+	 * functionality to be used as the foundation for a custom translator.
+	 */
+	private static final CharSequenceTranslator ESCAPE_BAD_XML10
+			= new AggregateTranslator(
+					new LookupTranslator(
+							new String[][]{
+								{"\u000b", ""},
+								{"\u000c", ""},
+								{"\ufffe", ""},
+								{"\uffff", ""}
+							}),
+					MyEscaper.between(0x00, 0x08),
+					MyEscaper.between(0x0e, 0x1f),
+					MyEscaper.between(0x7f, 0x9f)
+			);
+
+	/**
+	 * Throw away bad characters.
+	 */
+	private static final class MyEscaper extends CodePointTranslator {
+
+		private final int below;
+		private final int above;
+		private final boolean between;
+
+		/**
+		 * <p>
+		 * Constructs a <code>NumericEntityEscaper</code> for the specified range. This is the underlying method for the
+		 * other constructors/builders. The <code>below</code> and <code>above</code> boundaries are inclusive when
+		 * <code>between</code> is <code>true</code> and exclusive when it is <code>false</code>. </p>
+		 *
+		 * @param below int value representing the lowest codepoint boundary
+		 * @param above int value representing the highest codepoint boundary
+		 * @param between whether to escape between the boundaries or outside them
+		 */
+		private MyEscaper(final int below, final int above, final boolean between) {
+			this.below = below;
+			this.above = above;
+			this.between = between;
+		}
+
+		/**
+		 * <p>
+		 * Constructs a <code>NumericEntityEscaper</code> between the specified values (inclusive). </p>
+		 *
+		 * @param codepointLow above which to escape
+		 * @param codepointHigh below which to escape
+		 * @return the newly created {@code NumericEntityEscaper} instance
+		 */
+		public static MyEscaper between(final int codepointLow, final int codepointHigh) {
+			return new MyEscaper(codepointLow, codepointHigh, true);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean translate(final int codepoint, final Writer out) throws IOException {
+			if (between) {
+				if (codepoint < below || codepoint > above) {
+					return false;
+				}
+			} else if (codepoint >= below && codepoint <= above) {
+				return false;
+			}
+// Dont write anything out
+//			out.write("&#");
+//			out.write(Integer.toString(codepoint, 10));
+//			out.write(';');
+			return true;
+		}
+	}
+
 }

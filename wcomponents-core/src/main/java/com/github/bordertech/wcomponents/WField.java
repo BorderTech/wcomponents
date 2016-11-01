@@ -116,6 +116,11 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 			return component;
 		}
 
+		// Dont dive into repeaters or tables (Not usually used in a WField)
+		if (component instanceof WRepeater || component instanceof WTable || component instanceof WDataTable) {
+			return null;
+		}
+
 		if (component instanceof Container) {
 			Container container = (Container) component;
 			final int childCount = container.getChildCount();

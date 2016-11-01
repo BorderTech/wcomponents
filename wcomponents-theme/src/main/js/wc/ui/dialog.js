@@ -12,7 +12,6 @@ define(["wc/dom/classList",
 	function(classList, event, initialise, shed, Widget, i18n, ajaxRegion, processResponse, eagerLoader, timers, dialogFrame) {
 		"use strict";
 
-
 		/**
 		 * @constructor
 		 * @alias module:wc/ui/dialog~Dialog
@@ -42,7 +41,6 @@ define(["wc/dom/classList",
 						timers.clearTimeout(openOnLoadTimer);
 					}
 					openOnLoadTimer = timers.setTimeout(openDlg, 100, openThisDialog);
-					openThisDialog = null;
 				}
 			}
 
@@ -78,14 +76,58 @@ define(["wc/dom/classList",
 			}
 
 			/**
-			 * Action click events within the dialog.
+			 * Find a dialog opener from a given start point.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element the start element
+			 * @param {boolean} ignoreAncestor if {@code} true then stop without checking ancestors for a trigger
+			 * @returns {?Element} a dialog trigger element if found
+			 */
+			function getTrigger(element, ignoreAncestor) {
+				var parent = element,
+					id = parent.id;
+				if (registry[id]) {
+					return element;
+				}
+				if (ignoreAncestor) {
+					return null;
+				}
+				while ((parent = parent.parentNode) && parent.nodeType === Node.ELEMENT_NODE) {
+					if ((id = parent.id)) {
+						if (registry[id]) {
+							return parent;
+						}
+					}
+				}
+				return null;
+			}
+
+			/**
+			 * We need to know if an element is a submit element so that we can prevent the submit action if it opens a dialog.
+			 * @function
+			 * @private
+			 * @param {Element} element the element to test
+			 * @returns {Boolean} {@code true} if the element is a submitting element
+			 */
+			function isSubmitElement(element) {
+				var result = false,
+					type = element.type;
+				if (type === "submit" || type === "image") {
+					result = true;
+				}
+				return result;
+			}
+
+			/**
+			 * Action click events on a dialog trigger or within a dialog.
 			 * @function
 			 * @private
 			 * @param {Element} element The element which was clicked.
+			 * @returns {boolean} {@code true} if the click is activated and we _may_ want to prevent the default action
 			 */
 			function activateClick(element) {
-				var isTrigger,
-					_element,
+				var _element,
 					content,
 					trigger,
 					targets,
@@ -105,34 +147,46 @@ define(["wc/dom/classList",
 					return false;
 				}
 
-				if (dialog && !shed.isHidden(dialog, true)) {
-					content = dialogFrame.getContent();
-					if (!content) {
-						return;
-					}
+				// Are we opening a dialog?
+				if ((_element = getTrigger(element))) {
+					instance.open(_element);
+					return isSubmitElement(_element);
+				}
 
-					if (content.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY) { // we are inside a dialog's content
-						keepContentOnClose = false;
-						// we need to know if a click is on an ajax trigger inside a dialog
-						if (ajaxRegion.isTrigger(element)) {
-							isTrigger = true;
-							_element = element;
-						}
-						else {
-							// this is a chrome thing: it honours clicks on img elements and does not pass them through to the underlying link/button
-							ANCHOR = ANCHOR || new Widget("A");
-							_element = Widget.findAncestor(element, [ BUTTON, ANCHOR ]);
-							if (_element && ajaxRegion.isTrigger(_element)) {
-								isTrigger = true;
-							}
-						}
+				if (!(
+					dialog &&
+					!shed.isHidden(dialog, true) &&
+					(content = dialogFrame.getContent()) &&
+					(content.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY)
+				)) {
+					// we are not inside a dialog's content.
+					return false;
+				}
 
-						if (isTrigger && _element && (trigger = ajaxRegion.getTrigger(_element, true)) && (targets = trigger.loads) && targets.length && !targets.some(_targetInsideDialog)) {
-							keepContentOnClose = true;
-							dialogFrame.close(); // NOTE: do not set result to true or you will prevent the AJAX action!
-						}
+				keepContentOnClose = false;
+				// we need to know if a click is on an ajax trigger inside a dialog
+				if ((trigger = ajaxRegion.getTrigger(element, true))) {
+					_element = element;
+				}
+				else {
+					// this is a chrome thing: it honours clicks on img elements and does not pass them through to the underlying link/button
+					ANCHOR = ANCHOR || new Widget("A");
+					_element = Widget.findAncestor(element, [ BUTTON, ANCHOR ]);
+					if (_element) {
+						trigger = ajaxRegion.getTrigger(_element, true);
 					}
 				}
+
+				if (!trigger) {
+					return false;
+				}
+				targets = trigger.loads;
+
+				if (targets && targets.length && !targets.some(_targetInsideDialog)) {
+					keepContentOnClose = true;
+					dialogFrame.close();
+				}
+				return false;
 			}
 
 			/**
@@ -140,7 +194,6 @@ define(["wc/dom/classList",
 			 * @function
 			 * @private
 			 * @param {String} triggerId The id of the trigger.
-			 * @param {String} [openThisDialog] The id of a particular dialog to open.
 			 */
 			function openDlg(triggerId) {
 				var regObj = registry[triggerId];
@@ -151,7 +204,7 @@ define(["wc/dom/classList",
 						opener;
 					if (content) {
 						content.id = regObj.id;
-						if ((openerId = regObj.openerId)) {
+						if (!(openThisDialog && openThisDialog === triggerId) && (openerId = regObj.openerId)) {
 							opener = document.getElementById(openerId);
 							content.setAttribute(GET_ATTRIB, openerId + "=" + (opener ? encodeURIComponent(opener.value) : "x"));
 						}
@@ -165,11 +218,13 @@ define(["wc/dom/classList",
 					else {
 						console.warn("Could not find dialog content wrapper.");
 					}
+					openThisDialog = null;
 				}
 
 				if (regObj) {
 					dialogFrame.open(regObj).then(populateOnLoad).catch(function(err) {
 						console.warn(err);
+						openThisDialog = null; // belt **and** braces
 					});
 				}
 			}
@@ -193,24 +248,11 @@ define(["wc/dom/classList",
 			}
 
 			function saveDialogDimensions(element, regObj) {
-				var unitless;
 				if (element.style.width) {
 					regObj["width"] = element.style.width.replace(UNIT, "");
 				}
 				if (element.style.height) {
 					regObj["height"] = element.style.height.replace(UNIT, "");
-				}
-				if ((unitless = element.style.left)) {
-					unitless = Math.round(parseFloat(unitless));
-					if (unitless >= 0 ) {
-						regObj["left"] = unitless;
-					}
-				}
-				if ((unitless = element.style.top)) {
-					unitless = Math.round(parseFloat(unitless));
-					if (unitless >= 0 ) {
-						regObj["top"] = unitless;
-					}
 				}
 			}
 
@@ -260,7 +302,7 @@ define(["wc/dom/classList",
 			 * @param {Event} $event a click event.
 			 */
 			function clickEvent($event) {
-				if (!$event.defaultPrevented && activateClick($event.target)) {
+				if (activateClick($event.target)) {
 					$event.preventDefault();
 				}
 			}
@@ -299,29 +341,19 @@ define(["wc/dom/classList",
 			};
 
 			/**
-			 * Is a given element a dialog trigger?
-			 * @function module:wc/ui/dialog.isTrigger
-			 * @public
-			 * @param {Element} element The element to test.
-			 * @returns {boolean} true if the element will trigger a dialog on change or click.
-			 */
-			this.isTrigger = function (element) {
-				var id = element.id;
-				return id && registry[id];
-			};
-
-
-			/**
 			 * Open a dialog for a given trigger.
 			 * @function module:wc/ui/dialog.open
 			 * @public
-			 * @param {Element} trigger The dialog trigger.
+			 * @param {Element} trigger an element which _should_ be a dialog trigger.
 			 * @returns {boolean} true if the element will trigger a dialog on change or click.
 			 */
 			this.open = function(trigger) {
-				if (this.isTrigger(trigger)) {
-					openDlg(trigger.id);
+				var element = getTrigger(trigger);
+				if (element) {
+					openDlg(element.id);
+					return true;
 				}
+				return false;
 			};
 		}
 		/**

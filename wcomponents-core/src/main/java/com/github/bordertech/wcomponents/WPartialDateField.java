@@ -317,13 +317,26 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		}
 
 		if (changed) {
-			setData(dateValue);
-			PartialDateFieldModel model = getOrCreateComponentModel();
-			model.validDate = dateValue != null || text == null;
-			model.text = text;
+			boolean valid = dateValue != null || text == null;
+			handleRequestValue(dateValue, valid, text);
 		}
 
 		return changed;
+	}
+
+	/**
+	 * Set the request value.
+	 *
+	 * @param value the date value
+	 * @param valid true if valid value
+	 * @param text the user text
+	 */
+	protected void handleRequestValue(final String value, final boolean valid, final String text) {
+		// As setData() clears the text value (if valid), this must be called first so it can be set after
+		setData(value);
+		PartialDateFieldModel model = getOrCreateComponentModel();
+		model.validDate = valid;
+		model.text = text;
 	}
 
 	/**
@@ -387,9 +400,9 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 	 */
 	@Override
 	protected void validateComponent(final List<Diagnostic> diags) {
-		super.validateComponent(diags);
-
-		if (!isValidDate()) {
+		if (isValidDate()) {
+			super.validateComponent(diags);
+		} else {
 			diags.add(createErrorDiagnostic(getComponentModel().errorMessage, this));
 		}
 	}

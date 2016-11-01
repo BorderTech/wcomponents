@@ -1,25 +1,3 @@
-/**
- * Provides functionality to implement a resizeable component.
- *
- * @module
- * @requires module:wc/dom/attribute
- * @requires module:wc/dom/classList
- * @requires module:wc/dom/clearSelection
- * @requires module:wc/dom/event
- * @requires module:wc/dom/getEventOffset
- * @requires module:wc/dom/isAcceptableTarget
- * @requires module:wc/dom/getBox
- * @requires module:wc/dom/getStyle
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/uid
- * @requires module:wc/dom/Widget
- * @requires module:wc/has
- * @requires module:wc/ui/ajax/processResponse
- * @requires module:wc/Observer
- * @requires module:wc/timers
- * @requires module:wc/config
- */
 define(["wc/dom/attribute",
 		"wc/dom/classList",
 		"wc/dom/clearSelection",
@@ -37,7 +15,6 @@ define(["wc/dom/attribute",
 		"wc/Observer",
 		"wc/timers",
 		"wc/config"],
-	/** @param attribute @param classList @param clearSelection @param event @param getMouseEventOffset @param isAcceptableTarget @param getBox @param getStyle @param initialise @param shed @param uid @param Widget @param has @param processResponse @param Observer @param timers @param wcconfig @ignore */
 	function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcceptableTarget, getBox, getStyle,
 		initialise, shed, uid, Widget, has, processResponse, Observer, timers, wcconfig) {
 
@@ -55,13 +32,12 @@ define(["wc/dom/attribute",
 				RESIZEABLE_HAS_ANIMATION_CLASS = "wc_resizeflow",
 				CLASS_REMOVED_ATTRIB = "data-wc-resizeableremovedanimation",
 				CLASS_MAX = "wc_max",
-				conf = wcconfig.get("wc/ui/resizeable"),
-				MIN_SIZE = ((conf && conf.min) ? conf.min : 0), // set this to any sensible size but will cause errors in IE if < 0
+				DEFAULT_MIN_SIZE = 0, // set this to any sensible size but will cause errors in IE if < 0
 				resizing,
 				offsetX = {},
 				offsetY = {},
 				UNIT = "px",
-				KEY_RESIZE = ((conf && conf.step) ? conf.step : 6),  // the number of pixels by which a resizable is resized by keyboard
+				DEFAULT_KEY_RESIZE = 6, // the number of pixels by which a resizable is resized by keyboard
 				ns = "wc.ui.resizeable",
 				BS = ns + ".inited",
 				MM_EVENT = ns + ".move.inited",
@@ -70,11 +46,11 @@ define(["wc/dom/attribute",
 				observer,
 				notifyTimer,
 				/**
-				 * @var {number} notifyTimeout The delay between resizing and notifying the resize observers. This can
+				 * @var {number} DEFAULT_NOTIFY_TIMEOUT The delay between resizing and notifying the resize observers. This can
 				 * be small but is handy to prevent continual notification during dragging.
 				 * @private
 				 */
-				notifyTimeout = ((conf && conf.delay) ? conf.delay : 100),
+				DEFAULT_NOTIFY_TIMEOUT = 100,
 				STORED_SIZE_ATTRIB = "data-wc-storedsize";
 
 			/**
@@ -87,6 +63,15 @@ define(["wc/dom/attribute",
 			 */
 			function getAllowedDirections(element) {
 				return element.getAttribute("data-wc-resizedirection");
+			}
+
+			function getNotifyTimeout() {
+				var conf = wcconfig.get("wc/ui/resizeable"),
+					result = DEFAULT_NOTIFY_TIMEOUT;
+				if (conf && (conf.delay || conf.delay === 0) && !isNaN(conf.delay) && conf.delay >= 0) {
+					result = conf.delay;
+				}
+				return result;
 			}
 
 			/**
@@ -244,12 +229,17 @@ define(["wc/dom/attribute",
 			 * `end-of-event` handler like mouseup or touchend.
 			 */
 			function resize(element, deltaX, deltaY, notify) {
-				var box, min, _notify, width, height;
+				var box, min, _notify, width, height, conf,
+					minSize = DEFAULT_MIN_SIZE;
 				try {
 					if (element && (box = getSize(element))) {
+						conf = wcconfig.get("wc/ui/resizeable");
+						if (conf && conf.min && !isNaN(conf.min) && conf.min > 0) {
+							minSize = conf.min;
+						}
 						if (deltaX) {
 							min = getSizeContraint(element);
-							min = min ? styleToPx(min) : MIN_SIZE;
+							min = min ? styleToPx(min) : minSize;
 							width = Math.round(Math.max(box.width + deltaX, min));
 							if (width > min && width !== parseInt(element.style.width)) {
 								element.style.width = width + UNIT;
@@ -258,7 +248,7 @@ define(["wc/dom/attribute",
 						}
 						if (deltaY) {
 							min = getSizeContraint(element, true);
-							min = min ? styleToPx(min) : MIN_SIZE;
+							min = min ? styleToPx(min) : minSize;
 							height = Math.round(Math.max(box.height + deltaY, min));
 							if (height > min && height !== parseInt(element.style.height)) {
 								element.style.height = height + UNIT;
@@ -274,7 +264,7 @@ define(["wc/dom/attribute",
 							timers.clearTimeout(notifyTimer);
 							notifyTimer = null;
 						}
-						notifyTimer = timers.setTimeout(observer.notify, notifyTimeout, element);
+						notifyTimer = timers.setTimeout(observer.notify, getNotifyTimeout(), element);
 					}
 				}
 			}
@@ -330,7 +320,9 @@ define(["wc/dom/attribute",
 					y = 0,
 					keyCode = $event.keyCode,
 					resizeTarget,
-					allowed;
+					allowed,
+					conf,
+					step = DEFAULT_KEY_RESIZE;
 
 				if ($event.defaultPrevented) {
 					return;
@@ -345,31 +337,37 @@ define(["wc/dom/attribute",
 				}
 
 				allowed =  getAllowedDirections(resizeTarget);
+				conf = wcconfig.get("wc/ui/resizeable");
+				if (conf && conf.step && !isNaN(conf.step) && conf.step > 0) {
+					step = conf.step;
+				}
 				switch (keyCode) {
 					case KeyEvent.DOM_VK_RIGHT:
 						if (allowed !== "v") {
-							x = KEY_RESIZE;
+							x = step;
 						}
 						break;
 					case KeyEvent.DOM_VK_LEFT:
 						if (allowed !== "v") {
-							x = 0 - KEY_RESIZE;
+							x = 0 - step;
 						}
 						break;
 					case KeyEvent.DOM_VK_DOWN:
 						if (allowed !== "h") {
-							y = KEY_RESIZE;
+							y = step;
 						}
 						break;
 					case KeyEvent.DOM_VK_UP:
 						if (allowed !== "h") {
-							y = 0 - KEY_RESIZE;
+							y = 0 - step;
 						}
 						break;
 				}
 				// this is the bit that does the key driven "drag"
 				if (x || y) {
+					instance.disableAnimation(resizeTarget);
 					resize(resizeTarget, x , y, true);
+					instance.restoreAnimation(element);
 					$event.preventDefault();
 				}
 			}
@@ -468,7 +466,7 @@ define(["wc/dom/attribute",
 							timers.clearTimeout(notifyTimer);
 							notifyTimer = null;
 						}
-						notifyTimer = timers.setTimeout(observer.notify, notifyTimeout, element);
+						notifyTimer = timers.setTimeout(observer.notify, getNotifyTimeout(), element);
 					}
 					instance.restoreAnimation(element);
 				}
@@ -641,12 +639,15 @@ define(["wc/dom/attribute",
 				var target = getResizeTarget(element),
 					style;
 				if (target) {
+
 					style = target.style;
-					if (keep) {
-						element.setAttribute(STORED_SIZE_ATTRIB, style.width + "," + style.height);
+					if (keep && !attribute.get(element, STORED_SIZE_ATTRIB)) {
+						attribute.set(element, STORED_SIZE_ATTRIB, style.width + "," + style.height + "," + style.maxWidth + "," + style.maxHeight);
 					}
 					style.width = "";
 					style.height = "";
+					style.minWidth = "";
+					style.minHeight = "";
 
 					if (observer) {
 						observer.notify(target);
@@ -662,14 +663,18 @@ define(["wc/dom/attribute",
 			 * @function module:wc/ui/resizeable.resetSize
 			 * @public
 			 * @param {Element} element The element we are restoring.
+			 * @param {boolean} ignoreSubscribers if {@code true} then do not notify via observer
 			 */
-			this.resetSize = function(element) {
-				var stored = element.getAttribute(STORED_SIZE_ATTRIB);
+			this.resetSize = function(element, ignoreSubscribers) {
+				var stored = attribute.get(element, STORED_SIZE_ATTRIB);
 				if (stored) {
+					attribute.remove(element, STORED_SIZE_ATTRIB);
 					stored = stored.split(",");
 					element.style.width = stored[0];
 					element.style.height = stored[1];
-					if (observer) {
+					element.style.maxWidth = stored[2];
+					element.style.maxHeight = stored[3];
+					if (observer && !ignoreSubscribers) {
 						observer.notify(element);
 					}
 				}
@@ -725,8 +730,30 @@ define(["wc/dom/attribute",
 				}
 			};
 		}
-		var /** @alias module:wc/ui/resizeable */
-		instance = new Resizeable();
+
+		/**
+		 * Provides functionality to implement a resizeable component.
+		 *
+		 * @module
+		 * @requires module:wc/dom/attribute
+		 * @requires module:wc/dom/classList
+		 * @requires module:wc/dom/clearSelection
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/getEventOffset
+		 * @requires module:wc/dom/isAcceptableTarget
+		 * @requires module:wc/dom/getBox
+		 * @requires module:wc/dom/getStyle
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/uid
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/has
+		 * @requires module:wc/ui/ajax/processResponse
+		 * @requires module:wc/Observer
+		 * @requires module:wc/timers
+		 * @requires module:wc/config
+		 */
+		var instance = new Resizeable();
 		initialise.register(instance);
 		return instance;
 

@@ -27,7 +27,10 @@ define(["wc/dom/event",
 		function Action() {
 			var ACTION_BUTTON = common.BUTTON.extend("wc_table_cond"),
 				ACTION_TABLE = common.WRAPPER,
-				ROW_CONTAINER = common.TBODY;
+				ROW_CONTAINER = common.TBODY,
+				ROW = common.TR.clone();
+
+			ROW.descendFrom(ROW_CONTAINER, true);
 
 			/**
 			 * Determines if an action condition is met.
@@ -42,6 +45,8 @@ define(["wc/dom/event",
 				var min,
 					max,
 					table,
+					// todo: this filter can be deleted once we drop WDataTable as rows will no longer be able to be disabled
+					filter = getFilteredGroup.FILTERS.enabled | getFilteredGroup.FILTERS.selected,
 					selected = 0;
 
 				if ((table = ACTION_TABLE.findAncestor(button))) {
@@ -52,7 +57,7 @@ define(["wc/dom/event",
 						return true;
 					}
 
-					selected = (getFilteredGroup(ROW_CONTAINER.findDescendant(table))).length;
+					selected = (getFilteredGroup(ROW_CONTAINER.findDescendant(table), {filter: filter})).length;
 
 					if ((min && selected < parseInt(min, 10)) || (max && selected > parseInt(max, 10))) {
 						return false;
@@ -171,7 +176,7 @@ define(["wc/dom/event",
 			function shedSubscriber(element) {
 				var table;
 
-				if (element && common.ROW.isOneOfMe(element) && (table = ACTION_TABLE.findAncestor(element))) {
+				if (element && ROW.isOneOfMe(element) && (table = ACTION_TABLE.findAncestor(element))) {
 					Array.prototype.forEach.call(ACTION_BUTTON.findDescendants(table), function(next) {
 						if (ACTION_TABLE.findAncestor(next) !== table) {
 							return; // not in the same table.

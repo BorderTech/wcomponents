@@ -28,8 +28,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.0
  */
 public class WButton extends WBeanComponent implements Container, Disableable, AjaxTrigger,
-		AjaxTarget,
-		SubordinateTarget {
+		AjaxTarget, SubordinateTarget, DialogOpenTrigger {
 
 	/**
 	 * The logger instance for this class.
@@ -314,8 +313,8 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
-	 * Sets the button text. A button must have text even if it only displays an image. In this case the text is used
-	 * to provide a text alternative to the image.
+	 * Sets the button text. A button must have text even if it only displays an image. In this case the text is used to
+	 * provide a text alternative to the image.
 	 *
 	 * @param text the button text, using {@link MessageFormat} syntax
 	 * @param args optional arguments for the button text format string
@@ -501,20 +500,22 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
-	 * @return {@code true} if the button fires a client side command without causing a submit action. This is not necessarily incompatible with being
-	 * an AjaxTrigger.
+	 * @return {@code true} if the button fires a client side command without causing a submit action. This is not
+	 * necessarily incompatible with being an AjaxTrigger.
 	 */
 	public boolean isClientCommandOnly() {
 		return getComponentModel().client;
 	}
 
 	/**
-	 * Sets whether this button should fire a client command without submitting the form. What this actually does is indicates to the client that the
-	 * button element is not a submit button so a form submit will not be triggered when the button is pressed.  If the button is also an AjaxTrigger
-	 * then the Ajax request will still fire unless the custom command specifically prevents this.
+	 * Sets whether this button should fire a client command without submitting the form. What this actually does is
+	 * indicates to the client that the button element is not a submit button so a form submit will not be triggered
+	 * when the button is pressed. If the button is also an AjaxTrigger then the Ajax request will still fire unless the
+	 * custom command specifically prevents this.
 	 *
-	 * <p>If this is true then interacting with the button on the client will not submit the form. A custom command will fire if one is attached to
-	 * the button through custom JavaScript.</p>
+	 * <p>
+	 * If this is true then interacting with the button on the client will not submit the form. A custom command will
+	 * fire if one is attached to the button through custom JavaScript.</p>
 	 *
 	 * @param client indicates if the current button is to trigger a client action without a submit
 	 */
@@ -532,9 +533,8 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	}
 
 	/**
-	 * Sets whether this button will trigger a WPopup when used. This flag is used to provide information to the
-	 * client on the button's intent. The actual invocation of the WPopup is done elsewhere, e.g. in the button's
-	 * action.
+	 * Sets whether this button will trigger a WPopup when used. This flag is used to provide information to the client
+	 * on the button's intent. The actual invocation of the WPopup is done elsewhere, e.g. in the button's action.
 	 *
 	 * <p>
 	 * This <strong>must</strong> be set on every button which has a submit action or causes an ajax action if the

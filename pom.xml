@@ -6,7 +6,7 @@
 
 	<groupId>com.github.bordertech.wcomponents</groupId>
 	<artifactId>wcomponents-parent</artifactId>
-	<version>1.2.6-SNAPSHOT</version>
+	<version>1.2.14-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 

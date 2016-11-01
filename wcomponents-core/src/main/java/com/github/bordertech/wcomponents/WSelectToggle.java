@@ -47,6 +47,7 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 	 * Creates a WSelectToggle.
 	 *
 	 * @param clientSide if true, selection is handled client-side
+	 * @deprecated 1.2.8 all select toggle must be client side.
 	 */
 	public WSelectToggle(final boolean clientSide) {
 		getComponentModel().clientSide = clientSide;
@@ -55,8 +56,19 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 	/**
 	 * Creates a WSelectToggle for the given target.
 	 *
+	 * @param target the target container.
+	 */
+	public WSelectToggle(final WComponent target) {
+		this(true);
+		getComponentModel().target = target;
+	}
+
+	/**
+	 * Creates a WSelectToggle for the given target.
+	 *
 	 * @param clientSide if true, selection is handled client-side.
 	 * @param target the target container.
+	 * @deprecated 1.2.58 all select toggle must be client side.
 	 */
 	public WSelectToggle(final boolean clientSide, final WComponent target) {
 		this(clientSide);
@@ -153,6 +165,7 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 	 * Indicates whether the toggle should occur client- or server-side.
 	 *
 	 * @return true if the toggle should occur client-side, false for server-side.
+	 * @deprecated 1.2.58 all select toggle must be client side.
 	 */
 	public boolean isClientSide() {
 		return getComponentModel().clientSide;
@@ -162,6 +175,7 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 	 * Sets whether the toggle should occur client- or server-side.
 	 *
 	 * @param clientSide true for client-side, false for server-side.
+	 * @deprecated 1.2.58 all select toggle must be client side.
 	 */
 	public void setClientSide(final boolean clientSide) {
 		getOrCreateComponentModel().clientSide = clientSide;
@@ -246,6 +260,7 @@ public class WSelectToggle extends AbstractWComponent implements Disableable, Aj
 
 		/**
 		 * Indicates whether toggling should occur on the client or server.
+		 * @deprecated 1.2.58 all select toggle must be client side.
 		 */
 		private boolean clientSide = true;
 		/**

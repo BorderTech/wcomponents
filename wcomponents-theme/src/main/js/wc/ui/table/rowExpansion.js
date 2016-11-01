@@ -1,21 +1,3 @@
-/**
- * Provides controller for expanding and collapsing table rows.
- * @module
- * @requires module:wc/array/toArray
- * @requires module:wc/dom/attribute
- * @requires module:wc/dom/event
- * @requires module:wc/dom/focus
- * @requires module:wc/dom/formUpdateManager
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/tag
- * @requires module:wc/dom/Widget
- * @requires module:wc/ui/ajaxRegion
- * @requires module:wc/timers
- * @requires module:wc/ui/ajax/processResponse
- * @requires module:wc/ui/onloadFocusControl
- * @requires module:wc/ui/rowAnalog
- */
 define(["wc/array/toArray",
 		"wc/dom/attribute",
 		"wc/dom/event",
@@ -31,16 +13,10 @@ define(["wc/array/toArray",
 		"wc/ui/onloadFocusControl",
 		"wc/ui/rowAnalog",
 		"wc/ui/table/common",
+		"wc/ajax/triggerManager",
 		"wc/ui/radioAnalog"],
-	/** @param toArray @param attribute @param event @param focus @param formUpdateManager @param initialise @param shed @param tag @param Widget @param ajaxRegion @param timers @param processResponse @param onloadFocusControl @param rowAnalog @ignore */
-	function(toArray, attribute, event, focus, formUpdateManager, initialise, shed, tag, Widget, ajaxRegion, timers, processResponse, onloadFocusControl, rowAnalog, common) {
+	function(toArray, attribute, event, focus, formUpdateManager, initialise, shed, tag, Widget, ajaxRegion, timers, processResponse, onloadFocusControl, rowAnalog, common, triggerManager) {
 		"use strict";
-		/*
-		 * IMPLICIT DEPENDENCIES:
-		 * wc/ui/radioAnalog is used for the tables expand All/None controls if they are included in a table. Since they
-		 * are almost always on when a table has expandable rows it is much cheaper to include it here than do a
-		 * descendant search in XSLT and adds little extra weight.
-		 */
 
 		/**
 		 * @constructor
@@ -49,9 +25,9 @@ define(["wc/array/toArray",
 		 */
 		function RowExpansion() {
 			var TABLE_WRAPPER = common.WRAPPER,
-				TBL_TRIGGER = common.TD.extend("", {"role": "button"}),
-				TBL_EXPANDABLE_ROW = common.ROW.extend("", {"aria-expanded": null}),
-				TABLE = common.TABLE.extend("", {"role": "treegrid"}),
+				ROW_TRIGGER = common.TD.extend("", {"role": "button"}),
+				TBL_EXPANDABLE_ROW = common.TR.extend("", {"aria-expanded": null}),
+				TABLE = common.TABLE.extend("wc_tbl_expansion"),
 				EXPAND_COLLAPSE_ALL = new Widget("button", "wc_rowexpansion"),
 				BOOTSTRAPPED = "wc.ui.table.rowExpansion.bootStrapped",
 				NO_AJAX = "data-wc-tablenoajax",
@@ -100,7 +76,7 @@ define(["wc/array/toArray",
 			 */
 			function getTriggerDTO(element, alias) {
 				var id = element.id,
-					oneShot = (element.getAttribute("data-wc-expmode") === "lazy");
+					oneShot = (element.getAttribute("data-wc-expmode") === "lazy") ? 1 : -1;
 				return {
 					id: id,
 					loads: [alias],
@@ -165,23 +141,28 @@ define(["wc/array/toArray",
 			 * @function
 			 * @private
 			 * @param {Element} element One of the expand all/collapse all buttons.
+			 * @returns {Boolean} {@code true} if there are any rows to toggle.
 			 */
 			function toggleAll(element) {
-				var tableWrapper, table, alias, candidates, open, rowWidget;
+				var tableWrapper, table, candidates, open, rowWidget;
 
 				if (element && (tableWrapper = TABLE_WRAPPER.findAncestor(element)) && (table = TABLE.findDescendant(tableWrapper, true))) {
-					open = (element.getAttribute("data-wc-value") === "expand") ? true : false;
-					rowWidget = common.ROW.extend("", {"aria-expanded": (open ? FALSE : TRUE)});
+					open = element.getAttribute("data-wc-value") === "expand";
+					rowWidget = common.TR.extend("", {"aria-expanded": (open ? FALSE : TRUE)});
 					candidates = getExpandableRows(table, rowWidget);
 
-					if (!candidates && candidates.length) {
-						return;
+					if (!(candidates && candidates.length)) {
+						return false;
 					}
 
 					if (open) {
 						candidates = candidates.filter(function(next) {
 							return !shed.isHidden(next);
 						});
+
+						if (!candidates.length) {
+							return false;
+						}
 					}
 					else {
 						candidates.reverse();
@@ -191,10 +172,10 @@ define(["wc/array/toArray",
 						toggleRow(next, true);
 					});
 
-					if (open && (alias = element.getAttribute(ALIAS))) {
-						ajaxRegion.register(getTriggerDTO(element, alias));
-					}
+					return true;
 				}
+
+				return false;
 			}
 
 			/**
@@ -271,13 +252,12 @@ define(["wc/array/toArray",
 				var button;
 				if (element && triggerId && (TABLE_WRAPPER.isOneOfMe(element))) {
 					if ((button = document.getElementById(triggerId))) {
-						if (Widget.isOneOfMe(button, [TBL_TRIGGER, EXPAND_COLLAPSE_ALL])) {
+						if (Widget.isOneOfMe(button, [ROW_TRIGGER, EXPAND_COLLAPSE_ALL])) {
 							onloadFocusControl.requestFocus(triggerId);
 						}
 					}
 				}
 			}
-
 
 			/**
 			 * Keydown event listener to operate collapsibles via the keyboard.
@@ -290,10 +270,9 @@ define(["wc/array/toArray",
 				if (event.defaultPrevented || $event.altKey || $event.ctrlKey || $event.metaKey) {
 					return;
 				}
-				// NOTE to self: I split these if tests for ease of reading.
-				if ((element = TBL_TRIGGER.findAncestor($event.target, tag.TD))) {
+				if ((element = ROW_TRIGGER.findAncestor($event.target, tag.TD))) {
 					switch ($event.keyCode) {
-						case KeyEvent["DOM_VK_SPACE"]:
+						case KeyEvent["DOM_VK_SPACE"]: // The control is a td with a role - some browsers do not have a default click from SPACE.
 						case KeyEvent["DOM_VK_RETURN"]:
 							timers.setTimeout(event.fire, 0, element, event.TYPE.click);
 							$event.preventDefault();
@@ -318,7 +297,7 @@ define(["wc/array/toArray",
 			 */
 			function focusEvent($event) {
 				var element;
-				if (!$event.defaultPrevented && (element = TBL_TRIGGER.findAncestor($event.target, tag.TD)) && !attribute.get(element, BOOTSTRAPPED)) {
+				if (!$event.defaultPrevented && (element = ROW_TRIGGER.findAncestor($event.target, tag.TD)) && !attribute.get(element, BOOTSTRAPPED)) {
 					attribute.set(element, BOOTSTRAPPED, true);
 					event.add(element, event.TYPE.keydown, keydownEvent);
 				}
@@ -337,7 +316,7 @@ define(["wc/array/toArray",
 					return;
 				}
 
-				if ((element = TBL_TRIGGER.findAncestor($event.target, tag.TD))) {
+				if ((element = ROW_TRIGGER.findAncestor($event.target, tag.TD))) {
 					if (shed.isDisabled(element)) {
 						return;
 					}
@@ -353,7 +332,26 @@ define(["wc/array/toArray",
 					}
 				}
 				else if ((element = EXPAND_COLLAPSE_ALL.findAncestor($event.target)) && !shed.isDisabled(element)) {
-					toggleAll(element);
+					triggerManager.removeTrigger(element.id);
+				}
+			}
+
+			/**
+			 * Toggle rows whan the select/deselect all options are triggered.
+			 * @param {Element} element The element being selected.
+			 */
+			function activateOnSelect(element) {
+				var alias, toggled;
+
+				if (element && EXPAND_COLLAPSE_ALL.isOneOfMe(element)) {
+					try {
+						toggled = toggleAll(element);
+					}
+					finally {
+						if (toggled && element.getAttribute("data-wc-value") === "expand" && (alias = element.getAttribute(ALIAS))) {
+							ajaxRegion.requestLoad(element, getTriggerDTO(element, alias));
+						}
+					}
 				}
 			}
 
@@ -383,11 +381,39 @@ define(["wc/array/toArray",
 				shed.subscribe(shed.actions.EXPAND, shedObserver);
 				shed.subscribe(shed.actions.COLLAPSE, shedObserver);
 				shed.subscribe(shed.actions.HIDE, closeOnHide);
+				shed.subscribe(shed.actions.SELECT, activateOnSelect);
 				formUpdateManager.subscribe(writeState);
+			};
+
+			/**
+			 * Is a given table a treegrid? We cannot currently use the treegrid role because it causes a11y failure in common screenreader/browser
+			 * combos.
+			 * @param {Element} element the element to test
+			 * @returns {Boolean} {@code true} if the element is a table with row expansion.
+			 */
+			this.isTreeGrid = function(element) {
+				return TABLE.isOneOfMe(element);
 			};
 		}
 
-		var /**  @alias module:wc/ui/table/rowExpansion */ instance = new RowExpansion();
+		var /**
+		 * Provides controller for expanding and collapsing table rows.
+		 * @module
+		 * @requires module:wc/array/toArray
+		 * @requires module:wc/dom/attribute
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/focus
+		 * @requires module:wc/dom/formUpdateManager
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/tag
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/ui/ajaxRegion
+		 * @requires module:wc/timers
+		 * @requires module:wc/ui/ajax/processResponse
+		 * @requires module:wc/ui/onloadFocusControl
+		 * @requires module:wc/ui/rowAnalog
+		 */ instance = new RowExpansion();
 		initialise.register(instance);
 		return instance;
 	});

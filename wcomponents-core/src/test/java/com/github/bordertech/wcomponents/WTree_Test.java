@@ -121,7 +121,7 @@ public class WTree_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testDoHandleRequestNothingSelected() {
-		WTree tree = MockTreeItemData.setupTree();
+		WTree tree = MockTreeItemData.setupWTree();
 		MockRequest request = setupRequest(tree);
 		boolean changed = tree.doHandleRequest(request);
 		Assert.assertEquals("Should have no option selected", Collections.EMPTY_SET, tree.getSelectedRows());
@@ -130,7 +130,7 @@ public class WTree_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testDoHandleRequestWithValidOption() {
-		WTree tree = MockTreeItemData.setupTree();
+		WTree tree = MockTreeItemData.setupWTree();
 		MockRequest request = setupRequest(tree, MockTreeItemData.BEAN_B_2.getId());
 		boolean changed = tree.doHandleRequest(request);
 		Assert.assertEquals("Should have option BEAN_B_2 selected", MockTreeItemData.SELECTED_B_2, tree.getSelectedRows());
@@ -139,7 +139,7 @@ public class WTree_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testDoHandleRequestWithInvalidOption() {
-		WTree tree = MockTreeItemData.setupTree();
+		WTree tree = MockTreeItemData.setupWTree();
 		tree.setSelectedRows(MockTreeItemData.SELECTED_B_C_1);
 		MockRequest request = setupRequest(tree, "XX");
 		boolean changed = tree.doHandleRequest(request);
@@ -149,7 +149,7 @@ public class WTree_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testDoHandleRequestWithSameOption() {
-		WTree tree = MockTreeItemData.setupTree();
+		WTree tree = MockTreeItemData.setupWTree();
 		tree.setSelectedRows(MockTreeItemData.SELECTED_B_2);
 		MockRequest request = setupRequest(tree, MockTreeItemData.BEAN_B_2.getId());
 		boolean changed = tree.doHandleRequest(request);
@@ -160,7 +160,7 @@ public class WTree_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testGetRequestValue() {
 
-		WTree tree = MockTreeItemData.setupTree();
+		WTree tree = MockTreeItemData.setupWTree();
 		tree.setSelectedRows(MockTreeItemData.SELECTED_B_C_1);
 
 		// Empty Request, should return current selected
@@ -176,7 +176,7 @@ public class WTree_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testIsEmpty() {
 
-		WTree tree = MockTreeItemData.setupTree();
+		WTree tree = MockTreeItemData.setupWTree();
 		Assert.assertTrue("Should be empty by default.", tree.isEmpty());
 
 		tree.setSelectedRows(MockTreeItemData.SELECTED_B_C_1);
@@ -198,7 +198,7 @@ public class WTree_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testGetItemImageUrlWithNoImage() {
-		WTree tree = MockTreeItemData.setupTree();
+		WTree tree = MockTreeItemData.setupWTree();
 		// Idx for Item B
 		List<Integer> idx = Arrays.asList(1);
 		TreeItemImage image = tree.getTreeModel().getItemImage(idx);
@@ -210,7 +210,7 @@ public class WTree_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testGetItemImageUrlWithUrl() {
 		// TODO Also test static resource and Image resource
-		WTree tree = MockTreeItemData.setupTree();
+		WTree tree = MockTreeItemData.setupWTree();
 		// Idx for Item A
 		List<Integer> idx = Arrays.asList(0);
 		TreeItemImage image = tree.getTreeModel().getItemImage(idx);
@@ -223,6 +223,61 @@ public class WTree_Test extends AbstractWComponentTestCase {
 	public void testSetModelNoUserContext() {
 		WTree tree = new WTree();
 		tree.setTreeModel(new MockTreeItemData.MyTestModel(MockTreeItemData.DATA));
+	}
+
+	@Test
+	public void testLoadCustomNodeChildren() {
+		WTree tree = MockTreeItemData.setupWTree();
+
+		TreeItemIdNode customNode = new TreeItemIdNode("B");
+		customNode.setHasChildren(true);
+
+		TreeItemIdNode root = new TreeItemIdNode(null);
+		root.addChild(customNode);
+		tree.setCustomTree(root);
+		tree.checkExpandedCustomNodes();
+
+		org.junit.Assert.assertTrue("Node hasChildren flag should be true", customNode.hasChildren());
+		org.junit.Assert.assertFalse("Node child list should not be empty", customNode.getChildren().isEmpty());
+	}
+
+	@Test
+	public void testLoadCustomNodeChildrenNoChildren() {
+		WTree tree = MockTreeItemData.setupWTree();
+
+		TreeItemIdNode customNode = new TreeItemIdNode("A");
+		customNode.setHasChildren(true);
+
+		TreeItemIdNode root = new TreeItemIdNode(null);
+		root.addChild(customNode);
+		tree.setCustomTree(root);
+		tree.checkExpandedCustomNodes();
+
+		org.junit.Assert.assertFalse("Node hasChildren flag should be false", customNode.hasChildren());
+		org.junit.Assert.assertTrue("Node child list should be empty", customNode.getChildren().isEmpty());
+	}
+
+	@Test
+	public void testLoadCustomNodeChildrenButAllChildrenInUse() {
+		WTree tree = MockTreeItemData.setupWTree();
+
+		TreeItemIdNode customNode = new TreeItemIdNode(null);
+
+		customNode.addChild(new TreeItemIdNode("B.1"));
+		customNode.addChild(new TreeItemIdNode("B.2"));
+
+		// Set has children but all of "B"s children have already been used
+		TreeItemIdNode nodeB = new TreeItemIdNode("B");
+		nodeB.setHasChildren(true);
+		customNode.addChild(nodeB);
+
+		TreeItemIdNode root = new TreeItemIdNode(null);
+		root.addChild(customNode);
+		tree.setCustomTree(root);
+		tree.checkExpandedCustomNodes();
+
+		org.junit.Assert.assertFalse("NodeB hasChildren flag should be false", nodeB.hasChildren());
+		org.junit.Assert.assertTrue("NodeB child list should be empty", nodeB.getChildren().isEmpty());
 	}
 
 	private MockRequest setupRequest(final WTree tree, final String... options) {

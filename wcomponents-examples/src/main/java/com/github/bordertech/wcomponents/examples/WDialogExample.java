@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCancelButton;
-import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WDialog;
@@ -71,6 +70,7 @@ public class WDialogExample extends WPanel implements MessageContainer {
 	 * WButton used to launch an immediate non-modal dialog.
 	 */
 	private final WDialog nonModalDialog;
+
 	/**
 	 * Creates a WDialogExample.
 	 */
@@ -126,7 +126,16 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		// Content for the modal dialog
 		final SelectPersonPanel selectPanel2 = new SelectPersonPanel();
 		// Modal Dialog
-		modalDialog = new WDialog(selectPanel2, new WButton("Show modal search Dialog (immediate)"));
+		WButton modalSearchImmediate = new WButton("Show modal search Dialog (immediate)");
+
+		modalDialog = new WDialog(selectPanel2, modalSearchImmediate);
+		modalSearchImmediate.setAction(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				selectPanel2.reset();
+				// modalDialog.display();
+			}
+		});
 		modalDialog.setTitle("Search");
 		modalDialog.setMode(WDialog.MODAL);
 
@@ -198,7 +207,7 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		 * Each of these opens immediately (that is, without having to reload
 		 * the underlying page).
 		 */
-		/*
+ /*
 		 * DIALOG with a TITLE
 		 * If not set explicitly, the title of a dialog is determined by the UI theme.
 		 * ALL dialogs must have a title, you probably DO NOT WANT the theme default!
@@ -283,7 +292,6 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		fileUploadDialog.setWidth(600);
 		add(fileUploadDialog);
 
-
 		final WPartialDateField pdfDate = new WPartialDateField();
 		WButton dateButton = new WButton("Set Date");
 		dateButton.setAction(new Action() {
@@ -304,19 +312,8 @@ public class WDialogExample extends WPanel implements MessageContainer {
 		dateDlg.setWidth(450);
 		dateDlg.setMode(WDialog.MODAL);
 
-
 		add(dateDlg);
 		add(outputPanel);
-
-		final WDialog dialogWithOtherTrigger = new WDialog(new ViewPersonList());
-		add(dialogWithOtherTrigger);
-
-		final WCheckBox cbShowDialog = new WCheckBox();
-		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
-		add(layout);
-		layout.addField("Show dialog", cbShowDialog);
-
-		dialogWithOtherTrigger.setTrigger(cbShowDialog);
 	}
 
 	/**

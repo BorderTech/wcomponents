@@ -8,10 +8,14 @@ dialog {
 	@include border($width: 0); // oh chrome, you try so hard to annoy me
 	@include border-box;
 	@include tight-box;
+	bottom: auto;
 	display: none;
 	height: 100%;
 	left: 0;
+	max-height: 100%;
+	max-width: 100%;
 	position: fixed;
+	right: auto; // chrome again
 	top: 0;
 	width: 100%;
 	z-index: $wc-z-index-dialog;
@@ -46,8 +50,10 @@ dialog {
 
 		> h1 { // the title
 			@include flex-grow(1);
-			font-size: $wc-dialog-header-size;
-			margin: 0;
+			@if ($wc-dialog-header-size != -1) {
+				font-size: $wc-dialog-header-size;
+				margin: 0;
+			}
 		}
 
 		> span { // the header control 'block'
@@ -70,22 +76,16 @@ dialog {
 	}
 }
 
-@include respond-not-small {
+@include respond-not-phonelike {
 	dialog {
-		left: auto;
-		max-height: 100%;
-		max-width: 100%;
-		min-height: $wc-ui-dialog-min-height;
-		min-width: $wc-ui-dialog-min-width;
-		right: auto; // chrome again
-		top: auto;
-
-		&,
-		&[role="alertdialog"] {
-			height: auto;
-			margin: 0;
-			width: auto;
+		height: auto;
+		@if ($wc-ui-dialog-min-height > 0) {
+			min-height: $wc-ui-dialog-min-height;
 		}
+		@if ($wc-ui-dialog-min-width > 0) {
+			min-width: $wc-ui-dialog-min-width;
+		}
+		width: auto;
 
 		> footer {
 			display: block;

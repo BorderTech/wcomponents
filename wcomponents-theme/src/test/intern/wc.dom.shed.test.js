@@ -208,6 +208,10 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			},
 			testSelectFauxRadio: function() {
 				var element = document.getElementById("fauxRad1");
+				if (controller.isSelected(element)) {
+					// order of tests should not be important
+					controller.deselect(element);
+				}
 				assert.isFalse(controller.isSelected(element));
 				controller.select(element);
 				assert.isTrue(controller.isSelected(element));
@@ -262,7 +266,11 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			},
 			testDeselectFauxRadio: function() {
 				var element = document.getElementById("fauxRad2");
-				assert.isTrue(controller.isSelected(element));
+				// race condition: depends on order of tests
+				// assert.isTrue(controller.isSelected(element));
+				if (!controller.isSelected(element)) {
+					controller.select(element);
+				}
 				controller.deselect(element);
 				assert.isFalse(controller.isSelected(element));
 			},
