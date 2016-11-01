@@ -139,6 +139,7 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 		MyComponent testUI = new MyComponent(TEST_CORRUPT_CHAR_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
 		Config.getInstance().setProperty(ConfigurationProperties.XSLT_SERVER_SIDE, "true");
+		Config.getInstance().setProperty(ConfigurationProperties.XSLT_ALLOW_CORRUPT_CHARACTER, "false");
 		reloadTransformer();
 
 		testUI.setLocked(true);
