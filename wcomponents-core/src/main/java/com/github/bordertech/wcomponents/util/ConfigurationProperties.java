@@ -324,6 +324,11 @@ public final class ConfigurationProperties {
 	 */
 	public static final String XSLT_SERVER_SIDE = "bordertech.wcomponents.xslt.enabled";
 
+	/**
+	 * Whether to allow corrupt characters for XSLT processing.
+	 */
+	public static final String XSLT_ALLOW_CORRUPT_CHARACTER = "bordertech.wcomponents.xslt.allow.corrupt.characters";
+
 	/* ****************************
 	* DEVELOPER PROPERTIES - used for local debugging.
 	* *****************************/
@@ -1013,6 +1018,15 @@ public final class ConfigurationProperties {
 	 */
 	public static boolean getXsltServerSide() {
 		return get().getBoolean(XSLT_SERVER_SIDE, false);
+	}
+
+	/**
+	 * Whether to allow corrupt characters for XSLT processing.
+	 *
+	 * @return the parameter value, or false if not set.
+	 */
+	public static boolean getXsltAllowCorruptCharacters() {
+		return get().getBoolean(XSLT_ALLOW_CORRUPT_CHARACTER, false);
 	}
 
 	/* ****************************
