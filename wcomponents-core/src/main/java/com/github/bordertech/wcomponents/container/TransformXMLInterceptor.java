@@ -150,12 +150,15 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 		Response response = getResponse();
 		response.setContentType(WebUtilities.CONTENT_TYPE_HTML);
 
-		// Perform the transformation and write the result.
 		String xml = xmlBuffer.toString();
 		if (isAllowCorruptCharacters() && !Util.empty(xml)) {
-			LOG.error("Allowing corrupt characters.");
+
+			// Remove invalid HTML characters from the content before transforming it.
+			LOG.warn("Allowing corrupt characters.");
 			xml = removeCorruptCharacters(xml);
 		}
+
+		// Perform the transformation and write the result.
 		transform(xml, uic, writer);
 
 		LOG.debug("Transform XML Interceptor: Finished");
@@ -271,15 +274,22 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 								{"\ufffe", ""},
 								{"\uffff", ""}
 							}),
-					MyEscaper.between(0x00, 0x08),
-					MyEscaper.between(0x0e, 0x1f),
-					MyEscaper.between(0x7f, 0x9f)
+					NumericEntityIgnorer.between(0x00, 0x08),
+					NumericEntityIgnorer.between(0x0e, 0x1f),
+					NumericEntityIgnorer.between(0x7f, 0x9f)
 			);
 
 	/**
-	 * Throw away bad characters.
+	 * <p>
+	 * Implementation of the CodePointTranslator to throw away the matching characters. This is copied from
+	 * org.apache.commons.lang3.text.translate.NumericEntityEscaper, but has been changed to discard the characters
+	 * rather than attempting to encode them.<p>
+	 * <p>
+	 * Discarding the characters is necessary because certain invalid characters (e.g. decimal 129) cannot be encoded
+	 * for HTML. An existing library was not available for this function because no HTML page should ever contain these
+	 * characters.</p>
 	 */
-	private static final class MyEscaper extends CodePointTranslator {
+	private static final class NumericEntityIgnorer extends CodePointTranslator {
 
 		private final int below;
 		private final int above;
@@ -295,7 +305,7 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 		 * @param above int value representing the highest codepoint boundary
 		 * @param between whether to escape between the boundaries or outside them
 		 */
-		private MyEscaper(final int below, final int above, final boolean between) {
+		private NumericEntityIgnorer(final int below, final int above, final boolean between) {
 			this.below = below;
 			this.above = above;
 			this.between = between;
@@ -309,8 +319,8 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 		 * @param codepointHigh below which to escape
 		 * @return the newly created {@code NumericEntityEscaper} instance
 		 */
-		public static MyEscaper between(final int codepointLow, final int codepointHigh) {
-			return new MyEscaper(codepointLow, codepointHigh, true);
+		public static NumericEntityIgnorer between(final int codepointLow, final int codepointHigh) {
+			return new NumericEntityIgnorer(codepointLow, codepointHigh, true);
 		}
 
 		/**
@@ -325,7 +335,9 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 			} else if (codepoint >= below && codepoint <= above) {
 				return false;
 			}
-// Dont write anything out
+// Commented out from org.apache.commons.lang3.text.translate.NumericEntityEscaper
+// these characters cannot be handled in any way - write no output.
+
 //			out.write("&#");
 //			out.write(Integer.toString(codepoint, 10));
 //			out.write(';');
