@@ -6,12 +6,35 @@
 
 ## Bug Fixes
 
+## Enhancements
+
+# Release 1.2.13
+
+## API Changes
+
+## Bug Fixes
+
+* Fixed a bug which could cause dialogs to be mis-positioned on mobiles #977.
+
+## Enhancements
+
+# Release 1.2.12
+
+## API Changes
+
+## Bug Fixes
+
 * Fixed issues which could cause resize and positioning errors in WDialog #958.
 * Fixed WDialog that was not handling its open state correctly #963 QC160323.
 * Fixed issues which could cause a WDialog to prevent refocus of the opener control when the dialog was closed #965.
 * Fixed an issue which could result in a dialog opener to _not_ open its dialog if the opener contained an image #967.
+* Fixed an issue which resulted in WShuffler outputting the incorrect HTML element when in read-only mode #972.
+* Fixed an issue which could result in the content of a table header overlaying the sort icon and/or the sort icon being mis-positioned when the header content wrapped #973.
 
 ## Enhancements
+
+* New DialogOpenTrigger interface to identify components that can open a dialog. WDialog can also have an action
+  set via setTriggerOpenAction(action) to run when the dialog is opened via a trigger #963.
 
 # Release 1.2.11
 

@@ -23,6 +23,7 @@ import com.github.bordertech.wcomponents.WNumberField;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
+import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 import java.awt.Dimension;
@@ -78,6 +79,7 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 
 		WPanel split = new WPanel();
 		split.setLayout(new ColumnLayout(new int[]{50, 50}, 12, 0));
+		split.setHtmlClass(HtmlClassProperties.RESPOND);
 		add(split);
 
 		// Left

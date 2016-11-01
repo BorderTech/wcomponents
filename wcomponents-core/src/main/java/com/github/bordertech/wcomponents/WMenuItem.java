@@ -15,7 +15,8 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WMenuItem extends AbstractContainer implements Disableable, AjaxTrigger, MenuItemSelectable {
+public class WMenuItem extends AbstractContainer implements Disableable, AjaxTrigger, MenuItemSelectable,
+		DialogOpenTrigger {
 
 	/**
 	 * The logger instance for this class.
