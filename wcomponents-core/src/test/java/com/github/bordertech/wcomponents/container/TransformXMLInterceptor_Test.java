@@ -45,6 +45,11 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	private static final String EXPECTED = "<omg><wtf>is good for you</wtf></omg>";
 
 	/**
+	 * The corrupt character input xml.
+	 */
+	private static final String TEST_CORRUPT_CHAR_XML = buildCorruptXML();
+
+	/**
 	 * When these tests are done put things back as they were.
 	 */
 	@AfterClass
@@ -127,6 +132,50 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
+	 * Ensure that the interceptor does nothing as long as the controlling property is disabled.
+	 */
+	@Test
+	public void testPaintWithCorruptCharacterException() {
+		MyComponent testUI = new MyComponent(TEST_CORRUPT_CHAR_XML);
+		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
+		Config.getInstance().setProperty(ConfigurationProperties.XSLT_SERVER_SIDE, "true");
+		reloadTransformer();
+
+		testUI.setLocked(true);
+
+		UIContext uic = createUIContext();
+		uic.setUI(testUI);
+		setActiveContext(uic);
+
+		try {
+			generateOutput(testUI, null);
+			Assert.fail("Corrupt character in XML should have failed.");
+		} catch (Exception e) {
+			Assert.assertTrue("Should contain could not transform", e.getMessage().contains("Could not transform"));
+		}
+	}
+
+	/**
+	 * Ensure that the interceptor does nothing as long as the controlling property is disabled.
+	 */
+	@Test
+	public void testPaintWithCorruptCharacterAllowed() {
+		MyComponent testUI = new MyComponent(TEST_CORRUPT_CHAR_XML);
+		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
+		Config.getInstance().setProperty(ConfigurationProperties.XSLT_SERVER_SIDE, "true");
+		Config.getInstance().setProperty(ConfigurationProperties.XSLT_ALLOW_CORRUPT_CHARACTER, "true");
+		reloadTransformer();
+
+		testUI.setLocked(true);
+
+		UIContext uic = createUIContext();
+		uic.setUI(testUI);
+		setActiveContext(uic);
+
+		TestResult actual = generateOutput(testUI, null);
+	}
+
+	/**
 	 * Use reflection the reinitialize the TransformXMLInterceptor class.
 	 */
 	private static void reloadTransformer() {
@@ -150,6 +199,34 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 		} catch (SecurityException | InvocationTargetException | NoSuchFieldException | NoSuchMethodException | IllegalArgumentException | IllegalAccessException ex) {
 			throw new SystemException(ex);
 		}
+	}
+
+	/**
+	 *
+	 * @return XML with bad characters
+	 */
+	private static String buildCorruptXML() {
+
+		StringBuilder data = new StringBuilder();
+		for (int i = 0; i < Integer.MAX_VALUE; i++) {
+			if (!Character.isValidCodePoint(i)) {
+				continue;
+			}
+			char ch = (char) i;
+			if (ch != '>' && ch != '<' && ch != '&' && ch != '"') {
+				data.append(ch);
+			}
+		}
+
+		String utfString = "<kung><fu>" + data.toString() + "</fu></kung>";
+		String isoString = null;
+		try {
+			byte[] bytes = utfString.getBytes("UTF8");
+			isoString = new String(bytes, "ISO-8859-1");
+		} catch (final Exception e) {
+			throw new SystemException("Error translating. " + e.getMessage());
+		}
+		return isoString;
 	}
 
 	/**
@@ -200,7 +277,7 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	 */
 	private TestResult generateOutput(final MyComponent testUI, final Map<String, String> headers) {
 		InterceptorComponent interceptor = new TransformXMLInterceptor();
-		interceptor.setBackingComponent(testUI);
+		interceptor.attachUI(testUI);
 
 		MockHttpServletRequest backing = new MockHttpServletRequest();
 		if (headers != null) {
@@ -215,7 +292,7 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 
 		StringWriter writer = new StringWriter();
 		UIContext uic = createUIContext();
-		uic.setLocale(new Locale("xx"));
+		uic.setLocale(new Locale("en"));
 		setActiveContext(uic);
 
 		try {
