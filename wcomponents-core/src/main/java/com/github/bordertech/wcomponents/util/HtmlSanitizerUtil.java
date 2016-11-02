@@ -1,6 +1,8 @@
 package com.github.bordertech.wcomponents.util;
 
+import java.net.URL;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.owasp.validator.html.AntiSamy;
@@ -107,6 +109,9 @@ public final class HtmlSanitizerUtil {
 	 * @throws PolicyException thrown if sanitization fails due to AntiSamy policy problem
 	 */
 	public static String sanitize(final String input, final Policy policy) throws ScanException, PolicyException {
+		if (policy == null) {
+			throw new SystemException("AntiSamy policy cannot be null");
+		}
 		if (Util.empty(input)) {
 			return input;
 		}
@@ -140,7 +145,6 @@ public final class HtmlSanitizerUtil {
 		if (Util.empty(text)) {
 			return text;
 		}
-
 		try {
 			return sanitize(text);
 		} catch (ScanException | PolicyException e) {
@@ -151,13 +155,21 @@ public final class HtmlSanitizerUtil {
 	}
 
 	/**
-	 *
+	 * Create a Policy from a named local resource.
 	 * @param resourceName the path to AntiSamy policy file
 	 * @return the AntiSamy Policy
-	 * @throws PolicyException thrown if sanitization fails due to AntiSamy policy problem
+	 * @throws PolicyException thrown if Policy creation fails due to bad Policy rules file
 	 */
 	public static Policy createPolicy(final String resourceName) throws PolicyException {
-		return Policy.getInstance(HtmlSanitizerUtil.class.getClassLoader().getResource(resourceName));
+		if (StringUtils.isBlank(resourceName)) {
+			throw new SystemException("AntiSamy Policy resourceName cannot be null ");
+		}
+		URL resource = HtmlSanitizerUtil.class.getClassLoader().getResource(resourceName);
+		if (resource == null) {
+			LOG.error("Could not find Policy URL.");
+			return null;
+		}
+		return Policy.getInstance(resource);
 	}
 
 }

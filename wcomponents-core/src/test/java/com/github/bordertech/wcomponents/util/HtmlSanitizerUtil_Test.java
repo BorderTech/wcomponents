@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.util;
 
 import junit.framework.Assert;
 import org.junit.Test;
+import org.owasp.validator.html.Policy;
 import org.owasp.validator.html.PolicyException;
 import org.owasp.validator.html.ScanException;
 
@@ -218,15 +219,33 @@ public class HtmlSanitizerUtil_Test {
 		Assert.assertEquals(STRICT_TAINTED_ATTRIBUTE, HtmlSanitizerUtil.sanitize(STRICT_TAINTED_ATTRIBUTE, true));
 	}
 
-	// We should test throwing in a bad config but it is too late to do it this way.
-	/* @Test
-	public void testBadConfig() {
-		Config.getInstance().setProperty("com.github.bordertech.wcomponents.sanitizers.config", "Bad_Value");
+	@Test
+	public void testCreatePolicy() throws PolicyException {
+		String resourceName = ConfigurationProperties.getAntisamyStrictConfigurationFile();
+		Assert.assertNotNull(HtmlSanitizerUtil.createPolicy(resourceName));
+	}
+
+	@Test
+	public void testCreatePolicyBadString() throws PolicyException {
+		String resourceName = "Bad_Value";
+		Policy policy = HtmlSanitizerUtil.createPolicy(resourceName);
+		Assert.assertNull(policy);
+	}
+
+	@Test
+	public void testSanitizeWithPolicy() throws ScanException, PolicyException {
+		String resourceName = ConfigurationProperties.getAntisamyStrictConfigurationFile();
+		Policy testPolicy = HtmlSanitizerUtil.createPolicy(resourceName);
+		String expected = HtmlSanitizerUtil.sanitize(TAINTED_ATTRIBUTE);
+		Assert.assertEquals(expected, HtmlSanitizerUtil.sanitize(TAINTED_ATTRIBUTE, testPolicy));
+	}
+
+	@Test
+	public void testSanitizeWithNullPolicy() {
 		try {
-			HtmlSanitizerUtil.sanitize(SIMPLE_HTML);
-			Assert.fail("Should have thrown a PolicyException");
-		} catch (Exception e) {
-			Assert.assertNotNull(e.getMessage());
+			Assert.assertNull(HtmlSanitizerUtil.sanitize(TAINTED_ATTRIBUTE, (Policy) null));
+		} catch (ScanException | PolicyException ex) {
+			Assert.assertTrue("Did not expect exception", false);
 		}
-	} */
+	}
 }
