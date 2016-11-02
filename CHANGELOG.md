@@ -7,6 +7,14 @@
 ## Bug Fixes
 
 ## Enhancements
+
+# Release 1.2.14
+
+## API Changes
+
+## Bug Fixes
+
+## Enhancements
 * Remove corrupt characters before processing the XSLT #980. Runtime parameter needs to be set to true:-
       bordertech.wcomponents.xslt.allow.corrupt.characters
 
