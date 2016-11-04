@@ -1,5 +1,8 @@
 define(["wc/isNumeric", "wc/i18n/i18n", "ccv", "face"], function(isNumeric, i18n, ccv, cascade) {
 	var instance = {
+			_interval: 5,
+			_minNeighbours: 1,
+			_confidenceThreshold: 0,
 			track: trackFace,
 			getValidator: getValidator,
 			validationIgnorable: true
@@ -26,18 +29,19 @@ define(["wc/isNumeric", "wc/i18n/i18n", "ccv", "face"], function(isNumeric, i18n
 			}
 			if (config.face) {
 				return instance.track(element).then(function(arr) {
-					var error = {
-						ignorable: instance.validationIgnorable
-					};
+					var confidentFaces, error = {
+							ignorable: instance.validationIgnorable
+						};
 					if (arr) {
-						if (arr.length < config.face) {
+						confidentFaces = arr.filter(isFace);
+						if (confidentFaces.length < config.face) {
 							error.message = i18n.get("imgedit_message_val_minface");
 							if (instance.validationIgnorable) {
 								error.message += "\n" + i18n.get("validation_common_ignore");
 							}
 							return error;
 						}
-						else if (arr.length > config.face) {
+						else if (confidentFaces.length > config.face) {
 							error.message = i18n.get("imgedit_message_val_maxface");
 							if (instance.validationIgnorable) {
 								error.message += "\n" + i18n.get("validation_common_ignore");
@@ -51,6 +55,10 @@ define(["wc/isNumeric", "wc/i18n/i18n", "ccv", "face"], function(isNumeric, i18n
 		};
 	}
 
+	function isFace(faceDto) {
+		return faceDto && faceDto.confidence > instance._confidenceThreshold;
+	}
+
 	/**
 	 *
 	 * @param {Element} obj The html canvas element in which to find faces
@@ -62,8 +70,8 @@ define(["wc/isNumeric", "wc/i18n/i18n", "ccv", "face"], function(isNumeric, i18n
 				var faces = ccv.detect_objects({
 					canvas: obj,
 					cascade: cascade,
-					interval: 5,
-					min_neighbors: 1
+					interval: instance._interval,
+					min_neighbors: instance._minNeighbours
 				});
 				resolve(faces);
 			}
