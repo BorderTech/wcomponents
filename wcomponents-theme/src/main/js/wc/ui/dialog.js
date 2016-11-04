@@ -75,6 +75,20 @@ define(["wc/dom/classList",
 				}
 			}
 
+			/*
+			 * Is this element inside the dialog content?
+			 * @function
+			 * @private
+			 * @param {String} id The id of the element to test.
+			 */
+			function isInsideDialog(id) {
+				var element, content = dialogFrame.getContent();
+				if (content && id && (element = document.getElementById(id))) {
+					return !!(content.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY);
+				}
+				return false;
+			}
+
 			/**
 			 * Find a dialog opener from a given start point.
 			 *
@@ -133,22 +147,8 @@ define(["wc/dom/classList",
 					targets,
 					dialog = dialogFrame.getDialog();
 
-				/*
-				 * array.some filter function for ajax targets
-				 * @function
-				 * @private
-				 * @param {String} id The id of the target element.
-				 */
-				function _targetInsideDialog(id) {
-					var element;
-					if (id && (element = document.getElementById(id))) {
-						return !!(content.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINED_BY);
-					}
-					return false;
-				}
-
 				// Are we opening a dialog?
-				if ((_element = getTrigger(element))) {
+				if ((_element = getTrigger(element)) && !isInsideDialog(element.id)) {
 					instance.open(_element);
 					return isSubmitElement(_element);
 				}
@@ -182,7 +182,7 @@ define(["wc/dom/classList",
 				}
 				targets = trigger.loads;
 
-				if (targets && targets.length && !targets.some(_targetInsideDialog)) {
+				if (targets && targets.length && !targets.some(isInsideDialog)) {
 					keepContentOnClose = true;
 					dialogFrame.close();
 				}
