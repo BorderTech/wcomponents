@@ -241,11 +241,12 @@ public class HtmlSanitizerUtil_Test {
 	}
 
 	@Test
-	public void testSanitizeWithNullPolicy() {
+	public void testSanitizeWithNullPolicy() throws ScanException, PolicyException {
 		try {
-			Assert.assertNull(HtmlSanitizerUtil.sanitize(TAINTED_ATTRIBUTE, (Policy) null));
-		} catch (ScanException | PolicyException ex) {
-			Assert.assertTrue("Did not expect exception", false);
+			HtmlSanitizerUtil.sanitize(TAINTED_ATTRIBUTE, (Policy) null);
+			Assert.assertTrue(false);
+		} catch (SystemException ex) {
+			Assert.assertTrue(ex.getMessage(), true);
 		}
 	}
 }
