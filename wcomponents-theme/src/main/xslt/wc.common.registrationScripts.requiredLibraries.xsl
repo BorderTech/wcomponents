@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.registrationScripts.localRequiredLibraries.xsl"/>
 	<!--
@@ -35,7 +35,7 @@
 			
 			<!-- In this test I have tested for ui:skiplinks before ui:link even thoug ui:link is more common because of
 				the extra processing of the predicate. It is probably a negligible overhead. -->
-			<xsl:if test=".//ui:error or .//ui:skiplinks or .//ui:link[substring(@url, 1, 1)='#']">
+			<xsl:if test=".//ui:error or .//ui:skiplinks or .//ui:link[substring(@url, 1, 1) eq '#']">
 				<xsl:text>"wc/ui/internalLink",</xsl:text>
 			</xsl:if>
 			
@@ -105,26 +105,11 @@
 			<xsl:if test=".//ui:listbox[not(@readOnly)]">
 				<xsl:text>"wc/ui/dropdown",</xsl:text>
 			</xsl:if>
-			<xsl:if test=".//ui:link[@type='button' or ui:windowAttributes[count(@*) &gt; 1]]">
+			<xsl:if test=".//ui:link[@type eq 'button' or ui:windowAttributes[count(@*) gt 1]]">
 				<xsl:text>"wc/ui/navigationButton",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//ui:menu">
 				<xsl:text>"wc/ui/menu",</xsl:text>
-				<!--
-					NOTE: these are expensive lookups for what is actually pretty tiny JS load savings.	That is why we
-					built the meta-module.
-				<xsl:if test=".//ui:menu[@type='bar' or @type='flyout']">
-					<xsl:text>"wc/ui/menu/bar",</xsl:text>
-				</xsl:if>
-				<xsl:if test=".//ui:menu[@type='column']">
-					<xsl:text>"wc/ui/menu/column",</xsl:text>
-				</xsl:if>
-				<xsl:if test=".//ui:menu[@type='tree']">
-					<xsl:text>"wc/ui/menu/tree",</xsl:text>
-				</xsl:if>
-				<xsl:if test=".//ui:menuitem[@url]">
-					<xsl:text>"wc/ui/navigationButton",</xsl:text>
-				</xsl:if>-->
 			</xsl:if>
 			<xsl:if test=".//ui:multidropdown[not(@readOnly)]">
 				<xsl:text>"wc/ui/multiFormComponent",</xsl:text>
@@ -149,21 +134,6 @@
 			</xsl:if>
 			<xsl:if test=".//ui:table">
 				<xsl:text>"wc/ui/table",</xsl:text>
-				<!--<xsl:if test=".//ui:table/ui:actions">
-					<xsl:text>"wc/ui/table/action",</xsl:text>
-				</xsl:if>
-				<xsl:if test=".//ui:rowselection">
-					<xsl:text>"wc/ui/rowAnalog",</xsl:text>
-				</xsl:if>
-				<xsl:if test=".//ui:rowexpansion">
-					<xsl:text>"wc/ui/table/rowExpansion",</xsl:text>
-				</xsl:if>
-				<xsl:if test=".//ui:pagination">
-					<xsl:text>"wc/ui/table/pagination",</xsl:text>
-				</xsl:if>
-				<xsl:if test=".//ui:sort">
-					<xsl:text>"wc/ui/table/sort",</xsl:text>
-				</xsl:if>-->
 			</xsl:if>
 			<xsl:if test=".//ui:tabset">
 				<xsl:text>"wc/ui/tabset",</xsl:text>
@@ -185,13 +155,13 @@
 				<xsl:text>"wc/ui/confirm",</xsl:text>
 			</xsl:if>
 			<!-- NOTE: not every mode SERVER needs this but the include is cheaper than the tests and mode server should eventually die -->
-			<xsl:if test=".//@mode='dynamic' or .//@mode='lazy' or .//@mode='server'">
+			<xsl:if test=".//*[@mode eq 'dynamic'] or .//*[@mode eq 'lazy'] or .//*[@mode eq 'server']">
 				<xsl:text>"wc/ui/containerload",</xsl:text>
 			</xsl:if>
 			<xsl:call-template name="localRequiredLibraries"/>
 		</xsl:variable>
 		<xsl:variable name="nLibs" select="normalize-space($libs)"/>
-		<xsl:if test="$nLibs !=''">
+		<xsl:if test="$nLibs ne ''">
 			<xsl:text>require([</xsl:text>
 			<xsl:value-of select="substring($nLibs,1,string-length($nLibs)-1)"/>
 			<xsl:text>]);</xsl:text>

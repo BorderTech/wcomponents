@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.n.className.xsl" />
 	<xsl:import href="wc.constants.xsl"/>
 	<!--
@@ -10,10 +10,8 @@
 		<xsl:param name="myTable"/>
 
 		<xsl:variable name="tableId" select="$myTable/@id"/>
-		<xsl:variable name="tbleColPos">
-			<xsl:value-of select="position()"/>
-		</xsl:variable>
-		<xsl:variable name="colHeaderElement" select="$myTable/ui:thead/ui:th[position()=$tbleColPos]"/>
+		<xsl:variable name="tbleColPos" select="position()"/>
+		<xsl:variable name="colHeaderElement" select="$myTable/ui:thead/ui:th[position() eq number($tbleColPos)]"/>
 		<xsl:variable name="rowHeaderElement" select="../ui:th[1]"/><!-- the one is redundant -->
 		<td>
 			<xsl:call-template name="makeCommonClass">

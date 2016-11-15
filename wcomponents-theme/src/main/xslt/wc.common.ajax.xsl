@@ -1,5 +1,6 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.aria.live.xsl"/>
+	<xsl:import href="wc.constants.xsl"/>
 <!--
 	Ajax Helpers
 	
@@ -28,7 +29,7 @@
 			<xsl:variable name="idList">
 				<xsl:apply-templates select="$trigger" mode="controlled"/>
 			</xsl:variable>
-			<xsl:if test="$idList != ''">
+			<xsl:if test="$idList ne ''">
 				<xsl:attribute name="aria-controls">
 					<xsl:value-of select="normalize-space($idList)"/>
 				</xsl:attribute>
@@ -48,7 +49,7 @@
 	<xsl:template name="ajaxTarget">
 		<xsl:param name="id" select="@id"/>
 		<xsl:param name="live" select="'polite'"/>
-		<xsl:if test="key('targetKey',$id) or parent::ui:ajaxtarget[@action='replace']">
+		<xsl:if test="key('targetKey',$id) or parent::ui:ajaxtarget[@action eq 'replace']">
 			<xsl:call-template name="setARIALive">
 				<xsl:with-param name="live" select="$live"/>
 			</xsl:call-template>

@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.toggleElement.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
@@ -24,7 +24,7 @@
 
 		<xsl:variable name="mode">
 			<xsl:choose>
-				<xsl:when test="@mode='dynamic' or @mode='lazy'">
+				<xsl:when test="@mode and (@mode eq 'dynamic' or @mode eq 'lazy')">
 					<xsl:value-of select="@mode"/>
 				</xsl:when>
 				<xsl:otherwise>

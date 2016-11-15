@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.attributeSets.xsl"/>
@@ -43,7 +43,7 @@
 		</xsl:variable>
 		<xsl:variable name="hasSingleSelectionRO">
 			<xsl:choose>
-				<xsl:when test="$readOnly=1 and ($inputType='radio' or count(ui:option[@selected]) &lt;=1)">
+				<xsl:when test="number($readOnly) eq 1 and ($inputType eq 'radio' or count(ui:option[@selected]) le 1)">
 					<xsl:number value="1"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -57,7 +57,7 @@
 		<xsl:variable name="myLabel" select="key('labelKey',$id)[1]"/>
 
 		<xsl:choose>
-			<xsl:when test="$hasSingleSelectionRO=1">
+			<xsl:when test="number($hasSingleSelectionRO) eq 1">
 				<xsl:call-template name="readOnlyControl">
 					<xsl:with-param name="applies" select="ui:option[@selected]"/>
 					<xsl:with-param name="useReadOnlyMode" select="1"/>
@@ -68,7 +68,7 @@
 				<xsl:variable name="isError" select="key('errorKey',$id)"/>
 				<xsl:variable name="element">
 					<xsl:choose>
-						<xsl:when test="$readOnly=1">div</xsl:when>
+						<xsl:when test="number($readOnly) eq 1">div</xsl:when>
 						<xsl:otherwise>fieldset</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
@@ -76,8 +76,8 @@
 				<xsl:variable name="layout" select="@layout"/>
 				<xsl:variable name="cols">
 					<xsl:choose>
-						<xsl:when test="$layout='column' and @layoutColumnCount and @layoutColumnCount &gt; 1">
-							<xsl:number value="@layoutColumnCount"/>
+						<xsl:when test="$layout eq 'column' and @layoutColumnCount and number(@layoutColumnCount) gt 1">
+							<xsl:number value="number(@layoutColumnCount)"/>
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:number value="1"/>
@@ -96,10 +96,10 @@
 					-->
 				<xsl:variable name="rows">
 					<xsl:choose>
-						<xsl:when test="$cols=1">
+						<xsl:when test="number($cols) eq 1">
 							<xsl:number value="0"/>
 						</xsl:when>
-						<xsl:when test="$readOnly=1">
+						<xsl:when test="number($readOnly) eq 1">
 							<xsl:value-of select="ceiling(count(ui:option[@selected]) div $cols)"/>
 						</xsl:when>
 						<xsl:otherwise>
@@ -121,7 +121,7 @@
 					</xsl:call-template>
 
 					<xsl:choose>
-						<xsl:when test="$readOnly = 0">
+						<xsl:when test="number($readOnly) ne 1">
 							<xsl:if test="@min">
 								<xsl:attribute name="data-wc-min">
 									<xsl:value-of select="@min"/>
@@ -157,12 +157,12 @@
 						<xsl:text>wc-row wc-hgap-med wc-respond</xsl:text>
 					</xsl:variable>
 					<xsl:choose>
-						<xsl:when test="$readOnly=1 and $rows=0">
+						<xsl:when test="number($readOnly) eq 1 and number($rows) eq 0">
 							<ul>
 								<xsl:attribute name="class">
 									<xsl:text>wc_list_nb</xsl:text>
 									<xsl:choose>
-										<xsl:when test="$layout='flat'">
+										<xsl:when test="$layout eq 'flat'">
 											<xsl:text> wc-hgap-med</xsl:text>
 										</xsl:when>
 										<xsl:otherwise>
@@ -178,7 +178,7 @@
 								</xsl:apply-templates>
 							</ul>
 						</xsl:when>
-						<xsl:when test="$readOnly=1 and $rows=1">
+						<xsl:when test="number($readOnly) eq 1 and number($rows) eq 1">
 							<xsl:apply-templates select="ui:option[@selected]" mode="checkableGroup">
 								<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
 								<xsl:with-param name="inputName" select="$id"/>
@@ -187,9 +187,9 @@
 								<xsl:with-param name="rows" select="0"/>
 							</xsl:apply-templates>
 						</xsl:when>
-						<xsl:when test="$readOnly=1">
+						<xsl:when test="number($readOnly) eq 1">
 							<div class="{$rowClass}">
-								<xsl:apply-templates select="ui:option[@selected][position() mod $rows = 1]" mode="checkableGroup">
+								<xsl:apply-templates select="ui:option[@selected][position() mod number($rows) eq 1]" mode="checkableGroup">
 									<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
 									<xsl:with-param name="inputName" select="$id"/>
 									<xsl:with-param name="type" select="$inputType"/>
@@ -198,11 +198,11 @@
 								</xsl:apply-templates>
 							</div>
 						</xsl:when>
-						<xsl:when test="$rows=0 and ui:option">
+						<xsl:when test="number($rows) eq 0 and ui:option">
 							<div>
 								<xsl:attribute name="class">
 									<xsl:choose>
-										<xsl:when test="$layout='flat'">
+										<xsl:when test="$layout eq 'flat'">
 											<xsl:text>wc-hgap-med</xsl:text>
 										</xsl:when>
 										<xsl:otherwise>
@@ -218,7 +218,7 @@
 								</xsl:apply-templates>
 							</div>
 						</xsl:when>
-						<xsl:when test="$rows=1 and  ui:option">
+						<xsl:when test="number($rows) eq 1 and  ui:option">
 							<xsl:apply-templates select="ui:option" mode="checkableGroup">
 								<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
 								<xsl:with-param name="inputName" select="$id"/>
@@ -229,7 +229,7 @@
 						</xsl:when>
 						<xsl:when test="ui:option">
 							<div class="{$rowClass}">
-								<xsl:apply-templates select="ui:option[position() mod $rows = 1]" mode="checkableGroup">
+								<xsl:apply-templates select="ui:option[position() mod number($rows) eq 1]" mode="checkableGroup">
 									<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
 									<xsl:with-param name="inputName" select="$id"/>
 									<xsl:with-param name="type" select="$inputType"/>
@@ -239,7 +239,7 @@
 							</div>
 						</xsl:when>
 					</xsl:choose>
-					<xsl:if test="$readOnly=0">
+					<xsl:if test="number($readOnly) ne 1">
 						<xsl:call-template name="hField"/>
 						<xsl:call-template name="inlineError">
 							<xsl:with-param name="errors" select="$isError"/>

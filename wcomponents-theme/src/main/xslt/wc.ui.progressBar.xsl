@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml"
-	version="1.0">
+	version="2.0">
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
@@ -14,7 +14,7 @@
 		<xsl:variable name="percentage" select="round(100 * (@value div @max))"/>
 		<xsl:variable name="barText">
 			<xsl:choose>
-				<xsl:when test="@output='percent'">
+				<xsl:when test="@output eq 'percent'">
 					<xsl:value-of select="concat($percentage,'%')"/>
 				</xsl:when>
 				<xsl:otherwise>

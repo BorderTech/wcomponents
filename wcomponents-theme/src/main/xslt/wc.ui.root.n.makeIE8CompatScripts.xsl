@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.ui.root.variables.xsl"/>
 	<!-- 
 		IE 8 and below needs a helper to recognise HTML5 elemnts as HTML 
@@ -9,7 +9,7 @@
 		needs to be in a conditional comment so that we do not apply to IE > 8.
 	-->
 	<xsl:template name="makeIE8CompatScripts">
-		<xsl:comment>[if lte IE 8]&gt;
+		<xsl:comment>[if lte IE 8] &gt;
 &lt;script type="text/javascript"&gt;
 (function(){
 	var i, el=["details","datalist","aside","dialog","summary","section","header","nav","footer","meter","output","progress","audio","video","source","time","track","figcaption","figure"];

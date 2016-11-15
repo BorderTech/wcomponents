@@ -84,7 +84,18 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	 * If true then server side XSLT will be ignored regardless of the configuration property. This is to account for
 	 * user agents that cannot handle HTML, yes such a thing exists.
 	 */
-	private boolean doTransform = false;
+	private boolean doTransform = true;
+
+	/**
+	 * Create an instance of TransformXMLInterceptor. If the application chooses to allow potentially corrupt characters in XML then log a
+	 * warning.
+	 */
+	public TransformXMLInterceptor() {
+		super();
+		if (isAllowCorruptCharacters()) {
+			LOG.warn("May be allowing corrupt characters.");
+		}
+	}
 
 	/**
 	 * Override preparePaint in order to perform processing specific to this interceptor.
@@ -93,8 +104,8 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	 */
 	@Override
 	public void preparePaint(final Request request) {
-		doTransform = isPerformTransform();
-		if (doTransform && request instanceof ServletRequest) {
+		doTransform = true;
+		if (request instanceof ServletRequest) {
 			HttpServletRequest httpServletRequest = ((ServletRequest) request).getBackingRequest();
 			String userAgentString = httpServletRequest.getHeader("User-Agent");
 			/* It is possible to opt out on a case by case basis by setting a flag on the ua string.
@@ -152,9 +163,8 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 
 		String xml = xmlBuffer.toString();
 		if (isAllowCorruptCharacters() && !Util.empty(xml)) {
-
 			// Remove invalid HTML characters from the content before transforming it.
-			LOG.warn("Allowing corrupt characters.");
+			// LOG.warn("Allowing corrupt characters.");
 			xml = removeCorruptCharacters(xml);
 		}
 
@@ -162,13 +172,6 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 		transform(xml, uic, writer);
 
 		LOG.debug("Transform XML Interceptor: Finished");
-	}
-
-	/**
-	 * @return true if transform flag is set true.
-	 */
-	private static boolean isPerformTransform() {
-		return ConfigurationProperties.getXsltServerSide();
 	}
 
 	/**
@@ -216,27 +219,21 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	 * @return the XSLT Templates.
 	 */
 	private static Templates initTemplates() {
-		if (isPerformTransform()) {
-			try {
-				URL xsltURL = ThemeUtil.class.getResource(RESOURCE_NAME);
-				if (xsltURL != null) {
-					Source xsltSource = new StreamSource(xsltURL.openStream(), xsltURL.toExternalForm());
-					TransformerFactory factory = new net.sf.saxon.TransformerFactoryImpl();
-					Templates templates = factory.newTemplates(xsltSource);
-					LOG.debug("Generated XSLT templates for: " + RESOURCE_NAME);
-					return templates;
-				} else {
-					// Server-side XSLT enabled but theme resource not on classpath.
-					throw new IllegalStateException(ConfigurationProperties.XSLT_SERVER_SIDE + " true but " + RESOURCE_NAME + " not on classpath");
-				}
-			} catch (IOException | TransformerConfigurationException ex) {
-				throw new SystemException("Could not create transformer for " + RESOURCE_NAME, ex);
+		try {
+			URL xsltURL = ThemeUtil.class.getResource(RESOURCE_NAME);
+			if (xsltURL != null) {
+				Source xsltSource = new StreamSource(xsltURL.openStream(), xsltURL.toExternalForm());
+				TransformerFactory factory = new net.sf.saxon.TransformerFactoryImpl();
+				Templates templates = factory.newTemplates(xsltSource);
+				LOG.debug("Generated XSLT templates for: " + RESOURCE_NAME);
+				return templates;
+			} else {
+				// Server-side XSLT enabled but theme resource not on classpath.
+				throw new IllegalStateException(ConfigurationProperties.XSLT_SERVER_SIDE + " true but " + RESOURCE_NAME + " not on classpath");
 			}
-		} else {
-			LOG.debug("Server-side XSLT disabled. TransformXMLInterceptor templates not initialized.");
-			return null;
+		} catch (IOException | TransformerConfigurationException ex) {
+			throw new SystemException("Could not create transformer for " + RESOURCE_NAME, ex);
 		}
-
 	}
 
 	/**
@@ -341,6 +338,7 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 //			out.write("&#");
 //			out.write(Integer.toString(codepoint, 10));
 //			out.write(';');
+			LOG.error("Removing disallowed character at codepoint ".concat(String.valueOf(codepoint)));
 			return true;
 		}
 	}

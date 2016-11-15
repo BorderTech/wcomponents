@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributeSets.xsl" />
 	<xsl:import href="wc.constants.xsl" />
 	<xsl:import href="wc.common.missingLabel.xsl" />
@@ -7,7 +7,7 @@
 		Transform for WDropdown.COMBO which is a combo-box. See wc.ui.dropdown.xsl.
 		TODO: this should be removed once WCombo has replaced WDropdown type.COMBO.
 	-->
-	<xsl:template match="ui:dropdown[@type='combo' and not(@readOnly='true')]">
+	<xsl:template match="ui:dropdown[@type='combo' and not(@readOnly)]">
 		<xsl:variable name="id" select="@id" />
 		<xsl:variable name="isError" select="key('errorKey',$id)" />
 		<xsl:variable name="myLabel" select="key('labelKey',$id)"/>

@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.inlineError.xsl"/>
@@ -70,14 +70,14 @@
 					<xsl:call-template name="hField"/>
 				</xsl:if>
 			</xsl:when>
-			<xsl:when test="count(.//ui:option[@selected]) = 1">
+			<xsl:when test="count(.//ui:option[@selected]) eq 1">
 				<xsl:call-template name="readOnlyControl">
 					<xsl:with-param name="applies" select=".//ui:option[@selected]"/>
 					<xsl:with-param name="useReadOnlyMode" select="1"/>
 					<xsl:with-param name="label" select="$myLabel"/>
 					<xsl:with-param name="style">
 						<xsl:choose>
-							<xsl:when test="@type='combo' and @optionWidth">
+							<xsl:when test="@type eq 'combo' and @optionWidth">
 								<xsl:text>width:</xsl:text>
 								<xsl:value-of select="@optionWidth"/>
 								<xsl:text>em;</xsl:text>

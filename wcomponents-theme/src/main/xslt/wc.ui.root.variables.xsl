@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.ui.root.n.getXslPath.xsl"/>
 	<!--
@@ -20,7 +20,7 @@
 
 	<xsl:variable name="scriptDir">
 		<xsl:choose>
-			<xsl:when test="$isDebug=1">
+			<xsl:when test="number($isDebug) eq 1">
 				<xsl:text>${script.debug.target.dir.name}</xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
@@ -37,8 +37,7 @@
 	</xsl:variable>
 
 	<!--
-		This string is used to build a query string on all resources requested as part of a page. It is a replacement
-		for the partial solution of adding build=build.number.
+		This string is used to build a query string on all resources requested as part of a page.
 	-->
 	<xsl:variable name="cacheBuster">
 		<xsl:value-of select="substring-after($xslPath, '?')"/>
@@ -48,7 +47,7 @@
 	<xsl:variable name="cssFilePath">
 		<xsl:value-of select="$resourceRoot"/>
 		<xsl:text>${css.target.dir.name}/${css.target.file.name}</xsl:text>
-		<xsl:if test="$isDebug=1">
+		<xsl:if test="number($isDebug) eq 1">
 			<xsl:text>${debug.target.file.name.suffix}</xsl:text>
 		</xsl:if>
 		<xsl:text>.css?</xsl:text>

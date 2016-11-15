@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<!--
 		This template creates the content of a multiDropdown. This consists of a set
@@ -11,7 +11,7 @@
 	<xsl:template name="multiDropDownContentRenderer">
 		<xsl:param name="myLabel"/>
 		<xsl:choose>
-			<xsl:when test="count(.//ui:option[@selected]) = 0">
+			<xsl:when test="count(.//ui:option[@selected]) eq 0">
 				<xsl:apply-templates select="(ui:option|ui:optgroup/ui:option)[1]" mode="multiDropDown">
 					<xsl:with-param name="isSingular" select="1"/>
 					<xsl:with-param name="myLabel" select="$myLabel"/>

@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.listSortControls.xsl"/>
@@ -23,9 +23,14 @@
 			<xsl:value-of select="@id"/>
 		</xsl:variable>
 		<xsl:variable name="readOnly">
-			<xsl:if test="@readOnly">
-				<xsl:number value="1"/>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="@readOnly">
+					<xsl:number value="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:number value="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="size">
 			<xsl:choose>
@@ -39,7 +44,7 @@
 		<xsl:variable name="myLabel" select="key('labelKey',$id)[1]"/>
 		<xsl:variable name="element">
 			<xsl:choose>
-				<xsl:when test="$readOnly=1">div</xsl:when>
+				<xsl:when test="number($readOnly) eq 1">div</xsl:when>
 				<xsl:otherwise>fieldset</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
@@ -48,7 +53,7 @@
 				<xsl:with-param name="isError" select="$isError"/>
 				<xsl:with-param name="isControl">
 					<xsl:choose>
-						<xsl:when test="$readOnly=1">
+						<xsl:when test="number($readOnly) eq 1">
 							<xsl:number value="0"/>
 						</xsl:when>
 						<xsl:otherwise>
@@ -59,7 +64,7 @@
 				<xsl:with-param name="myLabel" select="$myLabel"/>
 			</xsl:call-template>
 			<xsl:choose>
-				<xsl:when test="$readOnly!=1">
+				<xsl:when test="number($readOnly) ne 1">
 					<xsl:if test="@min">
 						<xsl:attribute name="data-wc-min">
 							<xsl:value-of select="@min"/>
@@ -145,7 +150,7 @@
 						<xsl:with-param name="errors" select="$isError"/>
 					</xsl:call-template>
 				</xsl:when>
-				<xsl:when test="count(.//ui:option[@selected]) &gt; 0">
+				<xsl:when test="count(.//ui:option[@selected]) gt 0">
 					<xsl:call-template name="title"/>
 					<ul class="wc_list_nb">
 						<xsl:apply-templates select="ui:option[@selected]|ui:optgroup[ui:option[@selected]]" mode="multiselectPair">

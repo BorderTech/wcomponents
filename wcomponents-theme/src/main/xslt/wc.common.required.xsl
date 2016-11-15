@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<!--
 		Common helper template for marking interactive controls as required if
@@ -10,14 +10,14 @@
 			always, the current node. Default . (current node)
 		param useNative:
 			Indicates whther to use the attribute "required" which is supported by
-			form controls or set to 0 to use "aria-required='true'". Default 1.
+			form controls or set to 0 to use "aria-required. Default 1.
 	-->
 	<xsl:template name="requiredElement">
 		<xsl:param name="field" select="."/>
 		<xsl:param name="useNative" select="1"/>
 		<xsl:if test="$field/@required">
 			<xsl:choose>
-				<xsl:when test="$useNative=1">
+				<xsl:when test="number($useNative) eq 1">
 					<xsl:attribute name="required">
 						<xsl:text>required</xsl:text>
 					</xsl:attribute>

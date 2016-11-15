@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.selectToggle.xsl"/>
 	<!--
 		This template creates the rowSelection (select all, select none) controls if required. It is called explicitly 
@@ -12,12 +12,12 @@
 	-->
 	<xsl:template match="ui:rowselection">
 		<xsl:variable name="tableId" select="../@id"/>
-		<xsl:variable name="numberOfRows" select="count(..//ui:tr[not(@unselectable) and ancestor::ui:table[1]/@id = $tableId])"/>
-		<xsl:if test="$numberOfRows &gt; 0">
-			<xsl:variable name="numberSelectedRows" select="count(..//ui:tr[@selected and ancestor::ui:table[1]/@id = $tableId])"/>
+		<xsl:variable name="numberOfRows" select="count(..//ui:tr[not(@unselectable) and ancestor::ui:table[1]/@id eq $tableId])"/>
+		<xsl:if test="number($numberOfRows) gt 0">
+			<xsl:variable name="numberSelectedRows" select="count(..//ui:tr[@selected and ancestor::ui:table[1]/@id eq $tableId])"/>
 			<xsl:variable name="selected">
 				<xsl:choose>
-					<xsl:when test="$numberSelectedRows = 0">
+					<xsl:when test="number($numberOfRows) eq 0">
 						<xsl:text>none</xsl:text>
 					</xsl:when>
 					<xsl:when test="@toggle">
@@ -29,13 +29,13 @@
 						-->
 						<xsl:variable name="numberUnselectedParentRows" 
 							select="count(..//ui:tr[@selected and 
-								ancestor::ui:table[1]/@id = $tableId and 
-								.//ui:subtr[ancestor::ui:table[1]/@id = $tableId]/ui:tr[not(@unselectable or @selected)]])"/>
+								ancestor::ui:table[1]/@id eq $tableId and 
+								.//ui:subtr[ancestor::ui:table[1]/@id eq $tableId]/ui:tr[not(@unselectable or @selected)]])"/>
 						<xsl:choose>
-							<xsl:when test="$numberSelectedRows = $numberUnselectedParentRows">
+							<xsl:when test="number($numberSelectedRows) eq number($numberUnselectedParentRows)">
 								<xsl:text>none</xsl:text>
 							</xsl:when>
-							<xsl:when test="$numberUnselectedParentRows = 0 and $numberSelectedRows = $numberOfRows">
+							<xsl:when test="number($numberUnselectedParentRows) eq 0 and number($numberSelectedRows) eq number($numberOfRows)">
 								<xsl:text>all</xsl:text>
 							</xsl:when>
 							<xsl:otherwise>
@@ -43,10 +43,10 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:when>
-					<xsl:when test="$numberOfRows = $numberSelectedRows">
+					<xsl:when test="number($numberOfRows) eq number($numberSelectedRows)">
 						<xsl:text>all</xsl:text>
 					</xsl:when>
-					<xsl:when test="count(..//ui:tr[@selected])=0">
+					<xsl:when test="count(..//ui:tr[@selected]) eq 0">
 						<xsl:text>none</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
@@ -55,7 +55,7 @@
 				</xsl:choose>
 			</xsl:variable>
 			<xsl:variable name="controlLabel">
-				<xsl:if test="@selectAll='control'">
+				<xsl:if test="@selectAll eq 'control'">
 					<xsl:text>{{t 'table_rowSelection_toggleAll'}}</xsl:text>
 				</xsl:if>
 			</xsl:variable>
@@ -80,7 +80,7 @@
 		<xsl:text>","groupName":"</xsl:text>
 		<xsl:value-of select="concat(../@id,'_tb')"/>
 		<xsl:text>"}</xsl:text>
-		<xsl:if test="position() != last()">
+		<xsl:if test="position() ne last()">
 			<xsl:text>,</xsl:text>
 		</xsl:if>
 	</xsl:template>

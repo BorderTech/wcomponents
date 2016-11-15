@@ -1,17 +1,17 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.getSpace.vars.xsl"/><!-- contains the gap limit definitions -->
 	
 	<xsl:template name="margin">
 		<xsl:param name="gap" select="0"/>
 		<xsl:param name="extension"/>
 		<xsl:variable name="baseclass" select="' wc-margin-'"/>
-		<xsl:if test="$gap != 0">
+		<xsl:if test="number($gap) ne 0">
 			<xsl:text> wc-margin-</xsl:text>
 			<xsl:value-of select="$extension"/>
 			<xsl:call-template name="getSizeClassExtension">
-				<xsl:with-param name="gap" select="$gap"/>
+				<xsl:with-param name="gap" select="number($gap)"/>
 			</xsl:call-template>
 		</xsl:if>
 	</xsl:template>

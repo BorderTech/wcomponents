@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.registrationScripts.localRegistrationScripts.xsl"/>
 
@@ -30,7 +30,7 @@
 		<xsl:variable name="rtfs" select=".//ui:textarea[ui:rtf]"/>
 		<xsl:variable name="selectToggles" select=".//ui:selecttoggle|.//ui:rowselection[@selectAll]"/>
 		<xsl:variable name="subordinates" select=".//ui:subordinate"/>
-		<xsl:variable name="eagerness" select="//*[@mode='eager']"/>
+		<xsl:variable name="eagerness" select="//*[@mode eq 'eager']"/>
 		<xsl:variable name="hasAjaxTriggers" select=".//ui:ajaxtrigger"/>
 		<xsl:variable name="timeoutWarn" select=".//ui:session[1]"/>
 		<xsl:variable name="editors" select=".//html:wc-imageedit"/>

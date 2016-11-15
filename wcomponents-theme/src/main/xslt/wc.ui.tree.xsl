@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.inlineError.xsl"/>
 	<xsl:import href="wc.common.invalid.xsl"/>
@@ -27,7 +27,7 @@
 				</xsl:choose>
 			</xsl:attribute>
 
-			<xsl:if test="@mode and @mode != 'client'">
+			<xsl:if test="@mode and @mode ne 'client'">
 				<xsl:attribute name="data-wc-ajaxmode">
 					<xsl:value-of select="@mode"/>
 				</xsl:attribute>

@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
@@ -12,17 +12,17 @@
 		calculate this in ui:field so we may as well pass it in.
 	-->
 	<xsl:template match="ui:input">
-		<xsl:param name="isCheckRadio"/>
+		<xsl:param name="isCheckRadio" select="0"/>
 		<div>
 			<xsl:call-template name="makeCommonClass"/>
 			<xsl:choose>
-				<xsl:when test="$isCheckRadio!=1">
-					<xsl:apply-templates select="node()[not(self::ui:fieldindicator)]"/>
+				<xsl:when test="number($isCheckRadio) eq 1">
+					<xsl:apply-templates select="ui:checkbox|ui:radiobutton|ui:selecttoggle"/>
+					<xsl:apply-templates select="node()[not(self::ui:fieldindicator or self::ui:checkbox or self::ui:radiobutton or self::ui:selecttoggle)]"/>
 					<xsl:apply-templates select="ui:fieldindicator"/>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:apply-templates select="ui:checkbox|ui:radiobutton|ui:selecttoggle"/>
-					<xsl:apply-templates select="node()[not(self::ui:fieldindicator or self::ui:checkbox or self::ui:radiobutton or self::ui:selecttoggle)]"/>
+					<xsl:apply-templates select="node()[not(self::ui:fieldindicator)]"/>
 					<xsl:apply-templates select="ui:fieldindicator"/>
 				</xsl:otherwise>
 			</xsl:choose>

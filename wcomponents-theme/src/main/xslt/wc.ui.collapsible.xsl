@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.aria.live.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
@@ -14,13 +14,18 @@
 -->
 	<xsl:template match="ui:collapsible">
 		<xsl:variable name="collapsed">
-			<xsl:if test="@collapsed">
-				<xsl:number value="1"/>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="@collapsed">
+					<xsl:number value="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:number value="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
 		<details id="{@id}">
 			<xsl:call-template name="makeCommonClass"/>
-			<xsl:if test="$collapsed != 1">
+			<xsl:if test="number($collapsed) ne 1">
 				<xsl:attribute name="open">
 					<xsl:text>open</xsl:text>
 				</xsl:attribute>
@@ -28,7 +33,7 @@
 			<xsl:call-template name="setARIALive">
 				<xsl:with-param name="live">
 					<xsl:choose>
-						<xsl:when test="@mode='dynamic'">
+						<xsl:when test="@mode eq 'dynamic'">
 							<xsl:text>assertive</xsl:text>
 						</xsl:when>
 						<xsl:otherwise>
@@ -52,26 +57,31 @@
 			</summary>
 			
 			<xsl:variable name="isAjax">
-				<xsl:if test="@mode='dynamic' or @mode='eager' or (@mode='lazy' and @collapsed)">
-					<xsl:number value="1"/>
-				</xsl:if>
+				<xsl:choose>
+					<xsl:when test="@mode eq 'dynamic' or @mode eq 'eager' or (@mode eq 'lazy' and @collapsed)">
+						<xsl:number value="1"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:number value="0"/>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:variable>
 			<xsl:apply-templates select="ui:content">
 				<xsl:with-param name="class">
 					<xsl:choose>
-						<xsl:when test="$isAjax=1">
+						<xsl:when test="number($isAjax) eq 1">
 							<xsl:text>wc_magic</xsl:text>
-							<xsl:if test="@mode='dynamic'">
+							<xsl:if test="@mode eq 'dynamic'">
 								<xsl:text> wc_dynamic</xsl:text>
 							</xsl:if>
 						</xsl:when>
-						<xsl:when test="@mode='server'">
+						<xsl:when test="@mode eq 'server'">
 							<xsl:text>wc_lame</xsl:text>
 						</xsl:when>
 					</xsl:choose>
 				</xsl:with-param>
 				<xsl:with-param name="ajaxId">
-					<xsl:if test="$isAjax = 1">
+					<xsl:if test="number($isAjax) eq 1">
 						<xsl:value-of select="@id"/>
 					</xsl:if>
 				</xsl:with-param>

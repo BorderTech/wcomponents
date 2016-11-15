@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:include href="wc.constants.xsl"/>
 	<!--
 		Transform for emulator for an optgroup in readOnly mode. This is a list item
@@ -23,7 +23,7 @@
 			<xsl:value-of select="@label"/>
 		</li>
 		<xsl:choose>
-			<xsl:when test="$showOptions='all'">
+			<xsl:when test="$showOptions eq 'all'">
 				<xsl:apply-templates select="ui:option" mode="readOnly">
 					<xsl:with-param name="className" select="$className"/>
 					<xsl:with-param name="single" select="0"/>

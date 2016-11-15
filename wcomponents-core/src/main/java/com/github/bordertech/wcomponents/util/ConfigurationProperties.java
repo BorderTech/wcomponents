@@ -321,6 +321,7 @@ public final class ConfigurationProperties {
 
 	/**
 	 * Whether to perform server-side XSLT.
+	 * @deprecated 1.2.15 client XSLT no longer supported
 	 */
 	public static final String XSLT_SERVER_SIDE = "bordertech.wcomponents.xslt.enabled";
 
@@ -334,8 +335,9 @@ public final class ConfigurationProperties {
 	* *****************************/
 	/**
 	 * The flag indicating whether to debug the client side.
+	 * @deprecated 1.2.15 use {@link #DEVELOPER_DEBUG_ENABLED}
 	 */
-	public static final String DEVELOPER_DEBUG_CLIENT_SIDE = "bordertech.wcomponents.debug.clientSide.enabled";
+	public static final String DEVELOPER_DEBUG_CLIENT_SIDE = "bordertech.wcomponents.debug.enabled";
 	/**
 	 * The flag indicating whether debug is enabled.
 	 */
@@ -1015,9 +1017,10 @@ public final class ConfigurationProperties {
 	 * Whether to perform XSLT on the server side.
 	 *
 	 * @return the parameter value, or false if not set.
+	 * @deprecated 1.2.15 client XSLT no longer supported
 	 */
 	public static boolean getXsltServerSide() {
-		return get().getBoolean(XSLT_SERVER_SIDE, false);
+		return true;
 	}
 
 	/**
@@ -1045,9 +1048,10 @@ public final class ConfigurationProperties {
 	 * The flag indicating whether to debug the client side.
 	 *
 	 * @return the parameter value if set, else false if not set
+	 * @deprecated 1.2.15 use {@link #getDeveloperDebugEnabled()}.
 	 */
 	public static boolean getDeveloperDebugClientSide() {
-		return get().getBoolean(DEVELOPER_DEBUG_CLIENT_SIDE, false);
+		return getDeveloperDebugEnabled();
 	}
 
 	/**
