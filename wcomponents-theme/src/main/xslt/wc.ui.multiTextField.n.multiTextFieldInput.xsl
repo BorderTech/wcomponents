@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 
@@ -22,27 +22,12 @@
 		<xsl:variable name="fieldId">
 			<xsl:value-of select="$field/@id"/>
 		</xsl:variable>
-		<xsl:variable name="name">
-			<xsl:value-of select="$fieldId"/>
-		</xsl:variable>
-		<xsl:variable name="size">
-			<xsl:value-of select="$field/@size"/>
-		</xsl:variable>
-		<xsl:variable name="maxlength">
-			<xsl:value-of select="$field/@maxLength"/>
-		</xsl:variable>
-		<xsl:variable name="minLength">
-			<xsl:value-of select="$field/@minLength"/>
-		</xsl:variable>
-		<xsl:variable name="pattern">
-			<xsl:value-of select="$field/@pattern"/>
-		</xsl:variable>
 		<xsl:element name="input">
 			<xsl:attribute name="type">
 				<xsl:text>text</xsl:text>
 			</xsl:attribute>
 			<xsl:attribute name="name">
-				<xsl:value-of select="$name"/>
+				<xsl:value-of select="$fieldId"/>
 			</xsl:attribute>
 			<xsl:attribute name="id">
 				<xsl:value-of select="concat($fieldId,generate-id())"/>
@@ -53,24 +38,24 @@
 			<xsl:attribute name="title">
 				<xsl:text>{{t 'mfc_option'}}</xsl:text>
 			</xsl:attribute>
-			<xsl:if test="$size != ''">
+			<xsl:if test="$field/@size">
 				<xsl:attribute name="size">
-					<xsl:value-of select="$size"/>
+					<xsl:value-of select="$field/@size"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="$maxlength!=''">
+			<xsl:if test="$field/@maxLength">
 				<xsl:attribute name="maxlength">
-					<xsl:value-of select="$maxlength"/>
+					<xsl:value-of select="$field/@maxLength"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="$pattern!=''">
+			<xsl:if test="$field/@pattern">
 				<xsl:attribute name="pattern">
-					<xsl:value-of select="$pattern"/>
+					<xsl:value-of select="$field/@pattern"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="$minLength!=''">
+			<xsl:if test="$field/@minLength">
 				<xsl:attribute name="data-wc-minlength">
-					<xsl:value-of select="$minLength"/>
+					<xsl:value-of select="$field/@minLength"/>
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="$field/@placeholder">

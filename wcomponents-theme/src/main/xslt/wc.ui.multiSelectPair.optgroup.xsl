@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<!--
 		The transform for optGroups within a multiSelectPair option list.
@@ -14,15 +14,15 @@
 	-->
 	<xsl:template match="ui:optgroup" mode="multiselectPair">
 		<xsl:param name="applyWhich" select="'all'"/>
-		<xsl:param name="readOnly"/>
+		<xsl:param name="readOnly" select="0"/>
 		<xsl:choose>
-			<xsl:when test="$readOnly!=1">
+			<xsl:when test="number($readOnly) ne 1">
 				<optgroup label="{@label}">
 					<xsl:choose>
-						<xsl:when test="$applyWhich='selected'">
+						<xsl:when test="$applyWhich eq 'selected'">
 							<xsl:apply-templates select="ui:option[@selected]" mode="multiselectPair"/>
 						</xsl:when>
-						<xsl:when test="$applyWhich='unselected'">
+						<xsl:when test="$applyWhich eq 'unselected'">
 							<xsl:apply-templates select="ui:option[not(@selected)]" mode="multiselectPair"/>
 						</xsl:when>
 						<xsl:otherwise>

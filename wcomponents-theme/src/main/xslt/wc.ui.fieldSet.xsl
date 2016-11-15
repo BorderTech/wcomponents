@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.inlineError.xsl"/>
 	<xsl:import href="wc.common.invalid.xsl"/>
@@ -23,7 +23,7 @@
 		Heading element:
 		A fieldset has a mandatory legend child element. When the fieldset transforms
 		to a div we test whether a heading style element is required and if so
-		(that is @frame != notext or none) we output a HTML div element.
+		(that is @frame is not 'notext' or 'none') we output a HTML div element.
 
 
 
@@ -52,7 +52,7 @@
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="isWrapper" select="1"/>
 				<xsl:with-param name="class">
-					<xsl:if test="$frame='noborder' or $frame='none'">
+					<xsl:if test="$frame eq 'noborder' or $frame eq 'none'">
 						<xsl:text>wc_noborder</xsl:text>
 					</xsl:if>
 					<xsl:if test="@required">
@@ -97,15 +97,20 @@
 				<xsl:value-of select="ui:decoratedLabel//ui:image/@alt"/>
 			</xsl:variable>
 			<xsl:variable name="emptyLegend">
-				<xsl:if test="normalize-space($labelText) = ''">
-					<xsl:number value="1"/>
-				</xsl:if>
+				<xsl:choose>
+					<xsl:when test="normalize-space($labelText) eq ''">
+						<xsl:number value="1"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:number value="0"/>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:variable>
 			<legend>
-				<xsl:if test="$frame='notext' or $frame='none'">
+				<xsl:if test="$frame eq 'notext' or $frame eq 'none'">
 					<xsl:attribute name="class">
 						<xsl:choose>
-							<xsl:when test="$emptyLegend=1">
+							<xsl:when test="number($emptyLegend) eq 1">
 								<xsl:text>wc-error</xsl:text>
 							</xsl:when>
 							<xsl:otherwise>
@@ -116,7 +121,7 @@
 				</xsl:if>
 				<xsl:call-template name="accessKey"/>
 				<xsl:apply-templates select="ui:decoratedlabel"/>
-				<xsl:if test="$emptyLegend=1">
+				<xsl:if test="number($emptyLegend) eq 1">
 					<xsl:text>{{t 'requiredLabel'}}</xsl:text>
 				</xsl:if>
 				<xsl:if test="@required">

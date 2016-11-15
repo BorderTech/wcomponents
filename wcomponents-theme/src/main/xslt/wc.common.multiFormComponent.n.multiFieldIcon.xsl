@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<!--
@@ -9,7 +9,7 @@
 			some attribute and variable computation.
 	-->
 	<xsl:template name="multiFieldIcon">
-		<xsl:param name="isSingular"/>
+		<xsl:param name="isSingular" select="0"/>
 		<xsl:param name="myLabel"/>
 		
 		<xsl:variable name="id">
@@ -25,7 +25,7 @@
 		
 		<xsl:variable name="toolTip">
 			<xsl:choose>
-				<xsl:when test="$isSingular=1 or position() = 1">
+				<xsl:when test="number($isSingular) eq 1 or position() eq 1">
 					<xsl:text>{{t 'mfc_add'}}</xsl:text>
 					<xsl:if test="$myLabel">
 						<xsl:value-of select="$myLabel"/>
@@ -40,7 +40,7 @@
 		<button type="button" title="{$toolTip}" class="wc_btn_icon wc-invite">
 			<xsl:attribute name="aria-controls">
 				<xsl:choose>
-					<xsl:when test="self::ui:multitextfield or position() = 1">
+					<xsl:when test="self::ui:multitextfield or position() eq 1">
 						<xsl:value-of select="$id"/>
 					</xsl:when>
 					<xsl:otherwise>

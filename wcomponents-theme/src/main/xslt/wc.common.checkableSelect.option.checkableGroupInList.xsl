@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.checkableSelect.n.checkableSelectOption.xsl"/>
 	<!--
 		Transforms each option which is in a column
@@ -21,13 +21,13 @@
 		Indicates whether the whole checkable group is read only.
 	-->
 	<xsl:template match="ui:option" mode="checkableGroupInList">
-		<xsl:param name="firstItemAccessKey"/>
+		<xsl:param name="firstItemAccessKey" select="''"/>
 		<xsl:param name="inputName"/>
 		<xsl:param name="type"/>
 		<xsl:param name="readOnly" select="0"/>
-		<xsl:if test="$readOnly=0 or @selected">
+		<xsl:if test="number($readOnly) eq 0 or @selected">
 			<xsl:variable name="localAccessKey">
-				<xsl:if test="position()=1 and $firstItemAccessKey != ''">
+				<xsl:if test="position() eq 1 and $firstItemAccessKey ne ''">
 					<xsl:value-of select="$firstItemAccessKey"/>
 				</xsl:if>
 			</xsl:variable>

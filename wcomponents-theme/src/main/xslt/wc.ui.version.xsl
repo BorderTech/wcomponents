@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<!--
 		Transform to output version information. Used as an aid for application debugging.
 		
@@ -12,7 +12,7 @@
 		</xsl:variable>
 		<xsl:value-of select="$buildNumber"/>
 		<xsl:variable name="serv" select="@server"/>
-		<xsl:if test="$serv and $serv != $buildNumber">
+		<xsl:if test="$serv and $serv ne $buildNumber">
 			<xsl:value-of select="concat(' (Server version: ',$serv,')')"/>
 		</xsl:if>
 	</xsl:template>

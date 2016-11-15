@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<xsl:import href="wc.common.inlineError.xsl"/>
@@ -25,14 +25,19 @@
 	<xsl:template match="ui:textarea">
 		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="readOnly">
-			<xsl:if test="@readOnly=$t">
-				<xsl:number value="1"/>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="@readOnly">
+					<xsl:number value="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:number value="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="tickerId" select="concat(@id,'_tick')"/>
 		<xsl:variable name="myLabel" select="key('labelKey',$id)"/>
 		<xsl:choose>
-			<xsl:when test="$readOnly=1">
+			<xsl:when test="number($readOnly) eq 1">
 				<xsl:call-template name="readOnlyControl">
 					<xsl:with-param name="label" select="$myLabel[1]"/>
 				</xsl:call-template>
@@ -105,7 +110,7 @@
 							<xsl:value-of select="@id"/>
 						</xsl:attribute>
 						<xsl:call-template name="hiddenElement"/>
-						<xsl:if test="string-length(text()) &gt; @maxLength">
+						<xsl:if test="string-length(text()) gt number(@maxLength)">
 						<xsl:attribute name="class">
 							<xsl:text>wc_error</xsl:text>
 						</xsl:attribute>

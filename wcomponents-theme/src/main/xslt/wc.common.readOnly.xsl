@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.title.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
@@ -36,17 +36,22 @@
 			WRadioButton.
 	-->
 	<xsl:template name="readOnlyControl">
-		<xsl:param name="class"/>
-		<xsl:param name="style"/>
-		<xsl:param name="applies"/>
-		<xsl:param name="useReadOnlyMode"/>
-		<xsl:param name="toolTip"/>
+		<xsl:param name="class" select="''"/>
+		<xsl:param name="style" select="''"/>
+		<xsl:param name="applies" select="''"/>
+		<xsl:param name="useReadOnlyMode" select="0"/>
+		<xsl:param name="toolTip" select="''"/>
 		<xsl:param name="label"/>
 
 		<xsl:variable name="linkWithText">
-			<xsl:if test="text() and (self::ui:phonenumberfield or self::ui:emailfield)">
-				<xsl:number value="1"/>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="text() and (self::ui:phonenumberfield or self::ui:emailfield)">
+					<xsl:number value="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:number value="0"></xsl:number>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="elementName">
 			<xsl:choose>
@@ -61,7 +66,7 @@
 					-->
 					<xsl:text>pre</xsl:text>
 				</xsl:when>
-				<xsl:when test="$linkWithText=1">
+				<xsl:when test="number($linkWithText) eq 1">
 					<xsl:text>a</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
@@ -73,15 +78,15 @@
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="class">
 					<xsl:text>wc_ro</xsl:text>
-					<xsl:if test="$class != ''">
-						<xsl:value-of select="concat(' ', $class)"/>
+					<xsl:if test="normalize-space($class) ne ''">
+						<xsl:value-of select="concat(' ', normalize-space($class))"/>
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:call-template name="title">
 				<xsl:with-param name="title" select="$toolTip"/>
 			</xsl:call-template>
-			<xsl:if test="$style!=''">
+			<xsl:if test="$style ne ''">
 				<xsl:attribute name="style">
 					<xsl:value-of select="$style"/>
 				</xsl:attribute>
@@ -91,7 +96,7 @@
 					<xsl:value-of select="$label/@id"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="$linkWithText=1">
+			<xsl:if test="number($linkWithText) eq 1">
 				<xsl:attribute name="href">
 					<xsl:choose>
 						<xsl:when test="self::ui:emailfield">
@@ -104,18 +109,18 @@
 					<xsl:value-of select="."/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="$applies!='none'">
+			<xsl:if test="$applies ne 'none'">
 				<xsl:choose>
 					<xsl:when test="self::ui:textarea">
 						<xsl:apply-templates xml:space="preserve"/>
 					</xsl:when>
-					<xsl:when test="$applies!='' and $useReadOnlyMode=1">
+					<xsl:when test="$applies ne '' and number($useReadOnlyMode) eq 1">
 						<xsl:apply-templates select="$applies" mode="readOnly"/>
 					</xsl:when>
-					<xsl:when test="$applies!=''">
+					<xsl:when test="$applies ne ''">
 						<xsl:apply-templates select="$applies"/>
 					</xsl:when>
-					<xsl:when test="$useReadOnlyMode=1">
+					<xsl:when test="number($useReadOnlyMode) eq 1">
 						<xsl:apply-templates select="*" mode="readOnly"/>
 					</xsl:when>
 					<xsl:otherwise>

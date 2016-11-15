@@ -1,31 +1,11 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.common.missingLabel.xsl"/>
 	<xsl:import href="wc.common.title.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
-	<!--
-		A dateField is a compound control consisting of a text input and a button used
-		to launch a date picker calendar. The text input allows for typeahead to
-		select a date as the user types and for the following shortcuts:
 
-			* t = today
-			* y = yesterday
-			* m = tomorrow
-			* [+|-][1-9][0-9]\* increment/decrement today's date by the number of days
-
-		We do not implement HTML input element types for dates (date, dateTime
-		etc) as their implementation is patchy and no current browser does a good
-		enough job on the date pickers. In addition the date format enforced in the
-		HTML5 date inputs is (whilst eminently reasonable and unambiguous) not one
-		which is commonly used by real people.
-
-		The picker calendar is built in JavaScript based on an XML template. It is not
-		transformed here. A single calendar is used for every dateField in a form by
-		attachment.
-
-	-->
 	<xsl:template match="ui:datefield">
 		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="pickId">
@@ -60,7 +40,7 @@
 						<xsl:when test="@date">
 							<xsl:variable name="datetimeattrib">
 								<xsl:choose>
-									<xsl:when test="$tagName='span'">
+									<xsl:when test="$tagName eq 'span'">
 										<xsl:text>data-wc-value</xsl:text>
 									</xsl:when>
 									<xsl:otherwise>

@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.ui.menu.n.hasStickyOpen.xsl"/>
 	<!--
@@ -33,7 +33,7 @@
 				</xsl:if>
 			</xsl:when>
 			<!-- if I have a closed or disabled submenu ancestor (or open if sticky is 0) which is a descendant of my root menu then I cannot have tabIndex -->
-			<xsl:when test="ancestor::ui:submenu[1][ancestor::ui:menu[1]=$menu and (@disabled or $stickyOpen=0 or not(@open))]">-1</xsl:when>
+			<xsl:when test="ancestor::ui:submenu[1][ancestor::ui:menu[1] eq $menu and (@disabled or number($stickyOpen) eq 0 or not(@open))]">-1</xsl:when>
 			<xsl:otherwise>0</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

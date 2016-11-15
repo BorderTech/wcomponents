@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
@@ -35,18 +35,18 @@
 	-->
 	<xsl:template name="checkableSelectOption">
 		<xsl:param name="optionName"/>
-		<xsl:param name="optionType"/>
-		<xsl:param name="readOnly"/>
-		<xsl:param name="cgAccessKey"/>
+		<xsl:param name="optionType" select="''"/>
+		<xsl:param name="readOnly" select="0"/>
+		<xsl:param name="cgAccessKey" select="''"/>
 		<xsl:variable name="uid">
 			<xsl:value-of select="concat(../@id,generate-id())"/>
 		</xsl:variable>
 		<xsl:variable name="elementName">
 			<xsl:choose>
-				<xsl:when test="$readOnly=1">
+				<xsl:when test="number($readOnly) eq 1">
 					<xsl:text>li</xsl:text>
 				</xsl:when>
-				<xsl:when test="../@layout='flat'">
+				<xsl:when test="../@layout eq 'flat'">
 					<xsl:text>span</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
@@ -57,7 +57,7 @@
 		<xsl:element name="{$elementName}">
 			<xsl:call-template name="makeCommonClass"/>
 			<xsl:choose>
-				<xsl:when test="$readOnly=1">
+				<xsl:when test="number($readOnly) eq 1">
 					<xsl:call-template name="checkableSelectOptionLabel"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -79,12 +79,12 @@
 								<xsl:text>wc_soc</xsl:text>
 							</xsl:attribute>
 						</xsl:if>
-						<xsl:if test="@isNull and $optionType='radio'">
+						<xsl:if test="@isNull and $optionType eq 'radio'">
 							<xsl:attribute name="data-wc-null">
 								<xsl:text>1</xsl:text>
 							</xsl:attribute>
 						</xsl:if>
-						<xsl:if test="$cgAccessKey!=''">
+						<xsl:if test="$cgAccessKey ne ''">
 							<xsl:attribute name="accesskey">
 								<xsl:value-of select="$cgAccessKey"/>
 							</xsl:attribute>

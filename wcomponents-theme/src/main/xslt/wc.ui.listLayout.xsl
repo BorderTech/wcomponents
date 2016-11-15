@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.getHVGap.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
@@ -37,7 +37,7 @@
 				<xsl:text>wc-align-left</xsl:text>
 			</xsl:if>
 			<xsl:choose>
-				<xsl:when test="not(@separator) or @separator='none'">
+				<xsl:when test="not(@separator) or @separator eq 'none'">
 					<xsl:text> wc_list_nb</xsl:text>
 				</xsl:when>
 				<xsl:when test="not(@ordered)">
@@ -47,8 +47,12 @@
 			<xsl:call-template name="getHVGapClass">
 				<xsl:with-param name="isVGap">
 					<xsl:choose>
-						<xsl:when test="@type='flat'">0</xsl:when>
-						<xsl:otherwise>1</xsl:otherwise>
+						<xsl:when test="@type eq 'flat'">
+							<xsl:number value="0"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:number value="1"/>
+						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:with-param>
 			</xsl:call-template>

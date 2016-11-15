@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.ui.menu.n.hasStickyOpen.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuRoleIsSelectable.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuTabIndexHelper.xsl"/>
@@ -7,16 +7,6 @@
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<xsl:import href="wc.common.title.xsl"/>
 	<!--
-		WSubMenu is a descendant of WMenu and is used to hold WMenuItems.
-
-		HTML output
-
-		DIV (role=menuitem/menuitemradio/menuitemcheckbox/treeitem) This is the full submenu and is a menu item in the parent menu/submenu
-		    BUTTON (role=button) This is the opener and label for the submenu
-		    DIV (role=menu/group) This holds the submenu content and announces itself as the submenu
-		        transformed output of submenu content
-
-
 		Transform for WSubMenu. The submenu opener element which is part of the
 		submenu's parent element as well as a controller for and instrinsic part of the
 		submenu itself. This leads to three separate artefacts:
@@ -30,13 +20,18 @@
 	-->
 	<xsl:template match="ui:submenu">
 		<xsl:variable name="myAncestorMenu" select="ancestor::ui:menu[1]"/>
-		<xsl:variable name="myAncestorSubmenu" select="ancestor::ui:submenu[ancestor::ui:menu[1]=$myAncestorMenu or not(ancestor::ui:menu)][1]"/>
+		<xsl:variable name="myAncestorSubmenu" select="ancestor::ui:submenu[not(ancestor::ui:menu) or ancestor::ui:menu[1] eq $myAncestorMenu][1]"/>
 		<xsl:variable name="id" select="@id"/>
 		<!-- this is a test for ui:submenu in an ajax response without its context menu -->
 		<xsl:variable name="noContextMenu">
-			<xsl:if test="not($myAncestorMenu)">
-				<xsl:number value="1"/>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="not($myAncestorMenu)">
+					<xsl:number value="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:number value="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="type" select="$myAncestorMenu/@type"/>
 		<xsl:variable name="stickyOpen">
@@ -54,7 +49,7 @@
 		</xsl:variable>
 		<xsl:variable name="open">
 			<xsl:choose>
-				<xsl:when test="@open and $stickyOpen=1">
+				<xsl:when test="@open and number($stickyOpen) eq 1">
 					<xsl:number value="1"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -100,11 +95,11 @@
 			-->
 			<xsl:variable name="this" select="."/>
 			<xsl:variable name="disabledAncestor" select="ancestor-or-self::*[@disabled and
-									(self::ui:submenu[.=$this] or
+									(self::ui:submenu[. eq $this] or
 									($myAncestorMenu and 
-										(self::ui:menu[.=$myAncestorMenu] or 
-										self::ui:submenu[ancestor::ui:menu[1]=$myAncestorMenu])) or
-									($noContextMenu=1 and self::ui:submenu))]"/>
+										(self::ui:menu[. eq $myAncestorMenu] or 
+										self::ui:submenu[ancestor::ui:menu[1] eq $myAncestorMenu])) or
+									(number($noContextMenu) eq 1 and self::ui:submenu))]"/>
 			<xsl:if test="$disabledAncestor">
 				<xsl:call-template name="disabledElement">
 					<xsl:with-param name="field" select="$disabledAncestor"/>
@@ -114,7 +109,7 @@
 			<button type="button" id="{concat($id, '_o')}" name="{$id}" class="wc-nobutton wc-invite wc-submenu-o" aria-controls="{$id}" aria-haspopup="true">
 				<xsl:attribute name="aria-pressed">
 					<xsl:choose>
-						<xsl:when test="$open = 1">true</xsl:when>
+						<xsl:when test="number($open) eq 1">true</xsl:when>
 						<xsl:otherwise>false</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
@@ -133,7 +128,7 @@
 								<xsl:with-param name="menu" select="$myAncestorMenu"/>
 							</xsl:call-template>
 						</xsl:variable>
-						<xsl:if test="$tabindex!=''">
+						<xsl:if test="$tabindex ne ''">
 							<xsl:attribute name="tabindex">
 								<xsl:value-of select="$tabindex"/>
 							</xsl:attribute>

@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
@@ -13,9 +13,9 @@
 				<xsl:when test="self::ui:validationerrors">
 					<xsl:text>error</xsl:text>
 				</xsl:when>
-				<xsl:otherwise>
+				<xsl:when test="@type">
 					<xsl:value-of select="@type"/>
-				</xsl:otherwise>
+				</xsl:when>
 			</xsl:choose>
 		</xsl:variable>
 		<section id="{@id}">
@@ -34,16 +34,16 @@
 						<xsl:when test="@title">
 							<xsl:value-of select="@title"/>
 						</xsl:when>
-						<xsl:when test="$type='error'">
+						<xsl:when test="$type eq 'error'">
 							<xsl:text>{{t 'messagetitle_error'}}</xsl:text>
 						</xsl:when>
-						<xsl:when test="$type='warn'">
+						<xsl:when test="$type eq 'warn'">
 							<xsl:text>{{t 'messagetitle_warn'}}</xsl:text>
 						</xsl:when>
-						<xsl:when test="$type='info'">
+						<xsl:when test="$type eq 'info'">
 							<xsl:text>{{t 'messagetitle_info'}}</xsl:text>
 						</xsl:when>
-						<xsl:when test="$type='success'">
+						<xsl:when test="$type eq 'success'">
 							<xsl:text>{{t 'messagetitle_success'}}</xsl:text>
 						</xsl:when>
 					</xsl:choose>

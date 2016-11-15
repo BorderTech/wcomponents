@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
@@ -22,14 +22,6 @@
 		indicator within the field so that it is in a place appropriate to the form
 		component for which it is providing feedback.
 	
-	-->
-	<xsl:template match="ui:fieldindicator">
-		<span id="{@id}">
-			<xsl:call-template name="makeCommonClass"/>
-			<xsl:apply-templates/>
-		</span>
-	</xsl:template>
-	<!--
 		Currently there is a consistency problem with the use of WFieldErrorIndicator
 		which results in a possible double-up of error messages. Therefore we
 		currently do not output ui:fieldindicator of type 'error' and output
@@ -37,5 +29,12 @@
 
 		This is under investigation.
 	-->
-	<xsl:template match="ui:fieldindicator[@type='error']"/>
+	<xsl:template match="ui:fieldindicator">
+		<xsl:if test="not(@type eq 'error')">
+			<span id="{@id}">
+				<xsl:call-template name="makeCommonClass"/>
+				<xsl:apply-templates/>
+			</span>
+		</xsl:if> 
+	</xsl:template>
 </xsl:stylesheet>

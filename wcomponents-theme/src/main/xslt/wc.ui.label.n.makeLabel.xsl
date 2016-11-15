@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.inlineError.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
 	<xsl:import href="wc.ui.label.n.labelClassHelper.xsl"/>
@@ -32,14 +32,19 @@
 		<xsl:param name="labelableElement"/>
 
 		<xsl:variable name="readOnly">
-			<xsl:if test="$labelableElement/@readOnly">
-				<xsl:number value="1"/>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="$labelableElement/@readOnly">
+					<xsl:number value="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:number value="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
 
 		<xsl:variable name="elementType">
 			<xsl:choose>
-				<xsl:when test="$readOnly=1">
+				<xsl:when test="number($readOnly) eq 1">
 					<xsl:text>span</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
@@ -54,14 +59,14 @@
 			</xsl:call-template>
 
 			<xsl:choose>
-				<xsl:when test="$elementType='label'">
-					<xsl:if test="@for and @for!=''"><!-- this is an explicit 'for' and not for implied by nesting -->
+				<xsl:when test="$elementType eq 'label'">
+					<xsl:if test="@for and @for ne ''"><!-- this is an explicit 'for' and not for implied by nesting -->
 						<xsl:attribute name="for">
 							<xsl:value-of select="@for"/>
-							<xsl:if test="local-name($labelableElement) = 'datefield' or 
-								local-name($labelableElement) = 'textfield' or 
-								local-name($labelableElement) = 'emailfield' or 
-								local-name($labelableElement) = 'phonenumberfield'">
+							<xsl:if test="local-name($labelableElement) eq 'datefield' or 
+								local-name($labelableElement) eq 'textfield' or 
+								local-name($labelableElement) eq 'emailfield' or 
+								local-name($labelableElement) eq 'phonenumberfield'">
 								<xsl:text>_input</xsl:text>
 							</xsl:if>
 						</xsl:attribute>
@@ -79,16 +84,16 @@
 				<xsl:with-param name="readOnly" select="$readOnly"/>
 			</xsl:call-template>
 
-			<xsl:if test="$elementType='label'">
+			<xsl:if test="$elementType eq 'label'">
 				<xsl:call-template name="accessKey"/>
 			</xsl:if>
 
 			<xsl:apply-templates/>
-			<xsl:if test="normalize-space(.)='' and not(.//ui:image)">
+			<xsl:if test="normalize-space(.) eq '' and not(.//ui:image)">
 				<xsl:text>{{t 'requiredLabel'}}</xsl:text>
 			</xsl:if>
 
-			<xsl:if test="$elementType='label' and $labelableElement/@required">
+			<xsl:if test="$elementType eq 'label' and $labelableElement/@required">
 				<xsl:call-template name="offscreenSpan">
 					<xsl:with-param name="text">
 						<xsl:text>{{t 'requiredPlaceholder'}}</xsl:text>
@@ -110,7 +115,7 @@
 			label for those element types whereas they are normally output after the actual
 			control.
 		-->
-		<xsl:if test="name($labelableElement) = 'ui:checkbox' or name($labelableElement) = 'ui:radiobutton'">
+		<xsl:if test="local-name($labelableElement) eq 'checkbox' or local-name($labelableElement) eq 'radiobutton'">
 			<xsl:call-template name="inlineError">
 				<xsl:with-param name="errors" select="key('errorKey',@for)"/>
 				<xsl:with-param name="id" select="@for"/>

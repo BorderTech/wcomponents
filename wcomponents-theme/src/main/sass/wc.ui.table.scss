@@ -94,6 +94,14 @@ td {
 	&.wc_table_sel_wrapper {
 		vertical-align: text-top;
 	}
+
+	&.wc_table_sel_wrapper {
+		text-align: right;
+
+		[aria-selected] > & {
+			text-align: left;
+		}
+	}
 }
 
 caption {

@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<!--
 		Each option in a multiDropdown called from within the list of selected 
@@ -12,13 +12,13 @@
 			this is 1 and no options are selected.
 	-->
 	<xsl:template match="ui:option" mode="mfcInList">
-		<xsl:param name="option"/>
-		<xsl:param name="isSingular"/>
+		<xsl:param name="selectedOption"/>
+		<xsl:param name="isSingular" select="0"/>
 		<xsl:element name="option">
 			<xsl:attribute name="value">
 				<xsl:value-of select="@value"/>
 			</xsl:attribute>
-			<xsl:if test=". = $option and $isSingular=''">
+			<xsl:if test=". eq $selectedOption and number($isSingular) eq 0">
 				<xsl:attribute name="selected">
 					<xsl:text>selected</xsl:text>
 				</xsl:attribute>
