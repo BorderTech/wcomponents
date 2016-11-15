@@ -79,10 +79,9 @@ public final class DebugUtil {
 	 * Determines if Debug Structure is enabled.
 	 *
 	 * @return true or false
-	 * @deprecated 1.2.15 use {@link #debugFeaturesEnabled}.
 	 */
 	public static boolean isDebugStructureEnabled() {
-		return debugFeaturesEnabled;
+		return (debugFeaturesEnabled && debugStructureEnabled);
 	}
 
 }
