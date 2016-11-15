@@ -19,6 +19,10 @@ public final class DebugUtil {
 	 * The flag used to indicate if Validate XML is enabled.
 	 */
 	private static boolean validateXMLEnabled;
+	/**
+	 * The flag used to indicate if Debug Structure is enabled.
+	 */
+	private static boolean debugStructureEnabled;
 
 	/**
 	 * When this class is loaded by the application, register a property change listener.
@@ -50,6 +54,7 @@ public final class DebugUtil {
 	private static void retrieveDebugParameters() {
 		debugFeaturesEnabled = ConfigurationProperties.getDeveloperDebugEnabled();
 		validateXMLEnabled = ConfigurationProperties.getDeveloperValidateXml();
+		debugStructureEnabled = ConfigurationProperties.getDeveloperDebugClientSide();
 	}
 
 	/**
