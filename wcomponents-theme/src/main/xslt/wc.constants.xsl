@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 <!--
 
 	Global XSLT templates, params and variables
@@ -18,10 +18,8 @@
 -->
 
 <!--
-	This variable is used as a shorthand for testing xs:boolean attribute values
-	as it allows us to further compress the XSLT. We do not need a test for
-	@*='false' because in almost all cases false results in the attribute not
-	being output.
+	This variable is used as a shorthand for testing xs:boolean attribute values as it allows us to further compress the XSLT. We do not need a test 
+	for @* eq 'false' because in almost all cases false results in the attribute not being output.
  -->
 	<xsl:variable name="t" select="'true'"/>
 

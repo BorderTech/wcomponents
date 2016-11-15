@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<!--
 		Helper template to draw an img element in a WButton or WLink.
 		
@@ -24,10 +24,10 @@
 			</xsl:attribute>
 			<xsl:attribute name="alt">
 				<xsl:choose>
-					<xsl:when test="$imageAltText!=''">
+					<xsl:when test="$imageAltText ne ''">
 						<xsl:value-of select="$imageAltText"/>
 					</xsl:when>
-					<xsl:when test="$text!=''">
+					<xsl:when test="$text ne ''">
 						<xsl:choose>
 							<!-- When a button or link contains a text node and has imagePosition 
 								then the alt attribute will be an empty string as the text node will

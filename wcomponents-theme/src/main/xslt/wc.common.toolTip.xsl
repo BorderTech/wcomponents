@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.hide.xsl"/>
 	<!--
 		Common helper template to create "toolTip" style accesskey markers. This
@@ -19,7 +19,7 @@
 	<xsl:template name="tooltip">
 		<xsl:param name="ttAccessKey" select="@accessKey"/>
 		<xsl:param name="id" select="@id"/>
-		<xsl:if test="$ttAccessKey!=''">
+		<xsl:if test="$ttAccessKey and $ttAccessKey ne ''">
 			<span id="{concat($id,'_wctt')}" role="tooltip" hidden="hidden">
 				<xsl:value-of select="$ttAccessKey"/>
 			</span>

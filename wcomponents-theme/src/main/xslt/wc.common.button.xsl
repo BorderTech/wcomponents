@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml"
-	version="1.0">
+	version="2.0">
 	<xsl:import href="wc.common.buttonLinkCommon.xsl" />
 	<!--
 		This is a group transform for WButton (including WConfirmationButton and
@@ -56,7 +56,7 @@
 							<xsl:text> wc_table_cond</xsl:text>
 						</xsl:if>
 					</xsl:if>
-					<xsl:if test="@type = 'link'">
+					<xsl:if test="@type eq 'link'">
 						<xsl:text> wc-linkbutton</xsl:text>
 					</xsl:if>
 				</xsl:with-param>
@@ -64,7 +64,7 @@
 
 			<xsl:attribute name="type">
 				<xsl:choose>
-					<xsl:when test="self::ui:printbutton or @client=$t">
+					<xsl:when test="self::ui:printbutton or @client">
 						<xsl:text>button</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
@@ -111,7 +111,7 @@
 					<xsl:variable name="conditions">
 						<xsl:apply-templates select="../ui:condition" mode="action" />
 					</xsl:variable>
-					<xsl:if test="$conditions != ''">
+					<xsl:if test="$conditions ne ''">
 						<xsl:attribute name="data-wc-condition">
 							<xsl:text>[</xsl:text>
 							<xsl:value-of select="$conditions" />

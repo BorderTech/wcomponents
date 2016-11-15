@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
@@ -14,7 +14,7 @@
 			<xsl:with-param name="live" select="'off'"/>
 			<xsl:with-param name="isControl">
 				<xsl:choose>
-					<xsl:when test="$elementType='button'">
+					<xsl:when test="$elementType eq 'button'">
 						<xsl:number value="1"/>
 					</xsl:when>
 					<xsl:otherwise>
@@ -39,17 +39,22 @@
 		<xsl:call-template name="ajaxController"/>
 		
 		<xsl:variable name="linkHasPopup">
-			<xsl:if test="ui:windowAttributes[count(@*) &gt; 1] or (@type='button' and ui:windowAttributes)">
-				<xsl:number value="1"/>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="ui:windowAttributes[count(@*) gt 1] or (@type eq 'button' and ui:windowAttributes)">
+					<xsl:number value="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:number value="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
 		
-		<xsl:if test="@popup or parent::ui:dialog or $linkHasPopup=1">
+		<xsl:if test="@popup or parent::ui:dialog or number($linkHasPopup) eq 1">
 			<xsl:attribute name="aria-haspopup">
 				<xsl:copy-of select="$t"/>
 			</xsl:attribute>
 
-			<xsl:if test="$linkHasPopup=1">
+			<xsl:if test="number($linkHasPopup) eq 1">
 				<xsl:attribute name="data-wc-specs">
 					<xsl:apply-templates select="ui:windowAttributes" mode="specs"/>
 				</xsl:attribute>
@@ -73,7 +78,7 @@
 		<xsl:choose>
 			<xsl:when test="@imageUrl">
 				<xsl:choose>
-					<xsl:when test="@imagePosition='n' or @imagePosition='w'">
+					<xsl:when test="@imagePosition and (@imagePosition eq 'n' or @imagePosition eq 'w')">
 						<xsl:call-template name="drawButtonImage">
 							<xsl:with-param name="imageAltText" select="$imageAltText"/>
 						</xsl:call-template>

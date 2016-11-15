@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.media.n.mediaUnsupportedContent.xsl"/>
@@ -51,25 +51,27 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
-				<xsl:if test="@autoplay and not(@controls='none')"><!-- this is to avoid problems caused by not being able to switch off the media -->
-					<xsl:attribute name="autoplay">
-						<xsl:value-of select="@autoplay"/>
-					</xsl:attribute>
-				</xsl:if>
 				<xsl:if test="@mediagroup">
 					<xsl:attribute name="mediagroup">
 						<xsl:value-of select="@mediagroup"/>
 					</xsl:attribute>
 				</xsl:if>
-				<xsl:if test="@loop and not(@controls='none')"><!-- this is to avoid problems caused by not being able to switch off the media loop -->
-					<xsl:attribute name="loop">
-						<xsl:value-of select="@loop"/>
-					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="@muted and not(@controls='none')"><!-- if no controls then cannot unmute -->
-					<xsl:attribute name="muted">
-						<xsl:value-of select="@muted"/>
-					</xsl:attribute>
+				<xsl:if test="not(@controls) or @controls ne 'none'">
+					<xsl:if test="@autoplay"><!-- this is to avoid problems caused by not being able to switch off the media -->
+						<xsl:attribute name="autoplay">
+							<xsl:value-of select="@autoplay"/>
+						</xsl:attribute>
+					</xsl:if>
+					<xsl:if test="@loop"><!-- this is to avoid problems caused by not being able to switch off the media loop -->
+						<xsl:attribute name="loop">
+							<xsl:value-of select="@loop"/>
+						</xsl:attribute>
+					</xsl:if>
+					<xsl:if test="@muted"><!-- if no controls then cannot unmute -->
+						<xsl:attribute name="muted">
+							<xsl:value-of select="@muted"/>
+						</xsl:attribute>
+					</xsl:if>
 				</xsl:if>
 				<xsl:if test="@alt">
 					<xsl:attribute name="data-wc-alt">
@@ -77,7 +79,7 @@
 					</xsl:attribute>
 				</xsl:if>
 				<xsl:choose>
-					<xsl:when test="not(@controls='play' or @controls='none')">
+					<xsl:when test="not(@controls eq 'play' or @controls eq 'none')">
 						<xsl:attribute name="controls">
 							<xsl:text>controls</xsl:text>
 						</xsl:attribute>
@@ -107,7 +109,7 @@
 				<xsl:apply-templates select="ui:track"/>
 				<xsl:call-template name="mediaUnsupportedContent"/>
 			</xsl:element>
-			<xsl:if test="@controls='play'">
+			<xsl:if test="@controls eq 'play'">
 				<button type="button" class="wc_btn_icon wc_av_play wc-invite" aria-pressed="false" aria-controls="{$mediaId}">
 					<xsl:if test="not(@autoplay)">
 						<!-- do not allow the button to be disabled if autoplay is on - the user MUST be able to stop/pause playback. -->

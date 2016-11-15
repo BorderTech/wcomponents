@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.ui.table.n.tableAjaxController.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl" />
@@ -18,17 +18,16 @@
 			
 			<xsl:call-template name="makeCommonClass"/>
 			
-			<xsl:if test="@sortable=$t">
+			<xsl:if test="@sortable">
 				<xsl:variable name="sortControl" select="../../ui:sort"/>
 				
 				<xsl:if test="$sortControl">
 					<xsl:attribute name="tabindex">0</xsl:attribute>
 					<xsl:variable name="sortDesc" select="$sortControl/@descending"/>
-					<xsl:variable name="sortCol" select="$sortControl/@col"/>
 					
 					<xsl:variable name="isSorted">
 						<xsl:choose>
-							<xsl:when test="position()-1 = $sortCol">
+							<xsl:when test="position() - 1 eq number($sortControl/@col)">
 								<xsl:number value="1"/>
 							</xsl:when>
 							<xsl:otherwise>
@@ -37,9 +36,9 @@
 						</xsl:choose>
 					</xsl:variable>
 					
-					<xsl:if test="$isSorted=1">
+					<xsl:if test="number($isSorted) eq 1">
 						<xsl:attribute name="sorted">
-							<xsl:if test="$sortDesc=$t">
+							<xsl:if test="$sortDesc eq $t">
 								<xsl:text>reversed </xsl:text>
 							</xsl:if>
 							<xsl:text>1</xsl:text>
@@ -48,10 +47,10 @@
 					
 					<xsl:attribute name="aria-sort">
 						<xsl:choose>
-							<xsl:when test="$isSorted=0">
+							<xsl:when test="number($isSorted) eq 0">
 								<xsl:text>none</xsl:text>
 							</xsl:when>
-							<xsl:when test="$sortDesc=$t">
+							<xsl:when test="$sortDesc eq $t">
 								<xsl:text>descending</xsl:text>
 							</xsl:when>
 							<xsl:otherwise>

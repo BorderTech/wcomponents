@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.constants.xsl" />
 	<xsl:import href="wc.common.ajax.xsl" />
 	<xsl:import href="wc.common.hide.xsl" />
@@ -65,16 +65,16 @@
 				</xsl:if>
 				<xsl:call-template name="hideElementIfHiddenSet" />
 				<xsl:call-template name="ajaxTarget" />
-				<xsl:if test="not($layout = 'stacked') and ($isCheckRadio=1 or not(ui:label) or ui:label/@hidden)">
+				<xsl:if test="not($layout eq 'stacked') and (number($isCheckRadio) eq 1 or not(ui:label) or ui:label/@hidden)">
 					<span class="wc_fld_pl">
 						<xsl:text>&#x00a0;</xsl:text>
 					</span>
 				</xsl:if>
-				<xsl:if test="$isCheckRadio!=1">
+				<xsl:if test="number($isCheckRadio) ne 1">
 					<xsl:apply-templates select="ui:label"/>
 				</xsl:if>
 				<xsl:apply-templates select="ui:input">
-					<xsl:with-param name="isCheckRadio" select="$isCheckRadio" />
+					<xsl:with-param name="isCheckRadio" select="number($isCheckRadio)" />
 				</xsl:apply-templates>
 			</div>
 		</xsl:if>

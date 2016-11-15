@@ -1,8 +1,9 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.accessKey.xsl"/>
-	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.ui.label.n.WLabelHint.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
+	<xsl:import href="wc.common.ajax.xsl"/>
+	<xsl:import href="wc.common.offscreenSpan.xsl"/>
 
 	<!--
 		This is used to generate a legend for a component which has a fieldset wrapper. The component element is passed
@@ -17,20 +18,30 @@
 	<xsl:template match="ui:label" mode="legend">
 		<xsl:param name="labelableElement"/>
 		<xsl:variable name="submitNotAjaxTrigger">
-			<xsl:if test="$labelableElement and $labelableElement/@submitOnChange and count(key('triggerKey',$labelableElement/@id))=0">
-				<xsl:number value="1"/>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="$labelableElement and $labelableElement/@submitOnChange and count(key('triggerKey',$labelableElement/@id)) eq 0">
+					<xsl:number value="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:number value="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="isEmpty">
-			<xsl:if test="normalize-space(.)='' and not(.//ui:image) and not(@hint)">
-				<xsl:number value="1"/>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="normalize-space(.) eq '' and not(.//ui:image) and not(@hint)">
+					<xsl:number value="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:number value="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
 		<legend>
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
 					<xsl:choose>
-						<xsl:when test="$isEmpty = 1">
+						<xsl:when test="number($isEmpty) eq 1">
 							<xsl:text>wc_error</xsl:text>
 						</xsl:when>
 						<xsl:otherwise>
@@ -40,7 +51,7 @@
 				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:call-template name="accessKey"/>
-			<xsl:if test="$isEmpty = 1">
+			<xsl:if test="number($isEmpty) eq 1">
 				<xsl:text>{{t 'requiredLabel'}}</xsl:text>
 			</xsl:if>
 			<xsl:apply-templates />

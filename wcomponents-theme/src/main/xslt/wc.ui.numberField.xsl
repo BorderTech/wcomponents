@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
 
@@ -65,11 +65,11 @@
 									<xsl:number value="round(number(@step))"/>
 								</xsl:when>
 								<xsl:otherwise>
-									<xsl:value-of select="number(@step)"/>
+									<xsl:number value="number(@step)"/>
 								</xsl:otherwise>
 							</xsl:choose>
 						</xsl:variable>
-						<xsl:if test="$step != '' and $step != 0">
+						<xsl:if test="number($step) ne 0">
 							<xsl:attribute name="step">
 								<xsl:value-of select="$step"/>
 							</xsl:attribute>

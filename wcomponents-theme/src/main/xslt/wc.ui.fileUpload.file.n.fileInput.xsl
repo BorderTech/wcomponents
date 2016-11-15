@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.ui.fileUpload.file.n.fileInfo.xsl"/>
 	<xsl:import href="wc.ui.imageEdit.xsl"/>
 	<xsl:import href="wc.common.attributeSets.xsl"/>
@@ -36,7 +36,7 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:choose>
-				<xsl:when test="$maxFiles='1'">
+				<xsl:when test="$maxFiles and number($maxFiles) eq 1">
 					<xsl:call-template name="requiredElement"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -65,7 +65,7 @@
 				</xsl:attribute>
 			</xsl:if>
 		</xsl:element>
-		<xsl:if test="@camera=$t">
+		<xsl:if test="@camera">
 			<xsl:call-template name="imageEditButton">
 				<xsl:with-param name="text">
 					<xsl:text>Camera</xsl:text><!-- TODO i18n -->

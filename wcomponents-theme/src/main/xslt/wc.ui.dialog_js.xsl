@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<!--
 		Builds the dialog description JSON object.
@@ -53,11 +53,11 @@
 			</xsl:choose>
 			<xsl:text>"</xsl:text>
 		</xsl:if>
-		<xsl:if test="(ui:content and //ui:dialog[ui:content][1]=.) or (@open and not(//ui:dialog/ui:content) and //ui:dialog[@open][1]=.)">
+		<xsl:if test="(ui:content and //ui:dialog[ui:content][1] eq .) or (@open and not(//ui:dialog/ui:content) and //ui:dialog[@open][1] eq .)">
 			<xsl:text>,"open":true</xsl:text>
 		</xsl:if>
 		<xsl:text>}</xsl:text>
-		<xsl:if test="position()!=last()">
+		<xsl:if test="position() ne last()">
 			<xsl:text>,</xsl:text>
 		</xsl:if>
 	</xsl:template>

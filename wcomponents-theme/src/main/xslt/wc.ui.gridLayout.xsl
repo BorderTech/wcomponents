@@ -1,5 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.getHVGap.xsl"/>
 	<!--
 		Creates a pseudo-grid where each column is the same width and each row is the height of the tallest cell in the
@@ -31,11 +31,11 @@
 			-->
 			<xsl:variable name="useCols">
 				<xsl:choose>
-					<xsl:when test="$cols &gt; 0">
-						<xsl:number value="$cols"/>
+					<xsl:when test="number($cols) gt 0">
+						<xsl:number value="number($cols)"/>
 					</xsl:when>
-					<xsl:when test="$rows &gt; 0">
-						<xsl:value-of select="ceiling(count(ui:cell) div $rows)"/>
+					<xsl:when test="number($rows) gt 0">
+						<xsl:value-of select="ceiling(count(ui:cell) div number($rows))"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:number value="1"/>
@@ -46,7 +46,7 @@
 			<div>
 				<xsl:attribute name="class">
 					<xsl:text>wc-gridlayout</xsl:text><!-- prefixed local name -->
-					<xsl:if test="$useCols &lt;= 12">
+					<xsl:if test="number($useCols) le 12">
 						<xsl:value-of select="concat(' wc-gridlayout-col-', $useCols)"/>
 					</xsl:if>
 					<xsl:call-template name="getHVGapClass">
@@ -55,17 +55,17 @@
 				</xsl:attribute>
 
 				<xsl:choose>
-					<xsl:when test="$useCols=1">
+					<xsl:when test="number($useCols) eq 1">
 						<xsl:apply-templates select="ui:cell" mode="gl">
 							<xsl:with-param name="hgap" select="@hgap"/>
 						</xsl:apply-templates>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:apply-templates select="ui:cell[position() mod $useCols = 1]" mode="gl">
-							<xsl:with-param name="cols" select="$useCols"/>
+						<xsl:apply-templates select="ui:cell[(position() mod number($useCols)) eq 1]" mode="gl">
+							<xsl:with-param name="cols" select="number($useCols)"/>
 							<xsl:with-param name="colWidth">
-								<xsl:if test="$useCols &gt; 12">
-									<xsl:value-of select="format-number(1 div $useCols,'##0.###%')"/>
+								<xsl:if test="number($useCols) gt 12">
+									<xsl:value-of select="format-number(1 div number($useCols),'##0.###%')"/>
 								</xsl:if>
 							</xsl:with-param>
 							<xsl:with-param name="hgap" select="@hgap"/>
@@ -92,7 +92,7 @@
 		<xsl:param name="hgap"/>
 		
 		<xsl:choose>
-			<xsl:when test="$cols=1">
+			<xsl:when test="number($cols) eq 1">
 				<xsl:call-template name="gridCell"/>
 			</xsl:when>
 			<xsl:otherwise>
@@ -106,8 +106,8 @@
 					<xsl:call-template name="gridCell">
 						<xsl:with-param name="width" select="$colWidth"/>
 					</xsl:call-template>
-					<xsl:if test="$cols &gt; 1">
-						<xsl:apply-templates select="following-sibling::ui:cell[position() &lt; $cols]" mode="inRow">
+					<xsl:if test="number($cols) gt 1">
+						<xsl:apply-templates select="following-sibling::ui:cell[position() lt number($cols)]" mode="inRow">
 							<xsl:with-param name="width" select="$colWidth"/>
 						</xsl:apply-templates>
 					</xsl:if>
@@ -131,12 +131,12 @@
 	<!--
 		Helper template to create each cell in a gridLayout.
 		
-		param width: The width of the cells in percent or '' if cols &lt;= 12.
+		param width: The width of the cells in percent or '' if cols no more than 12.
 	-->
 	<xsl:template name="gridCell">
-		<xsl:param name="width" />
+		<xsl:param name="width" select="''"/>
 		<div class="wc-cell">
-			<xsl:if test="$width!=''">
+			<xsl:if test="$width ne ''">
 				<xsl:attribute name="style">
 					<xsl:value-of select="concat('width:',$width,';')"/>
 				</xsl:attribute>

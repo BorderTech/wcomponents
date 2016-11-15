@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.ui.menu.n.hasStickyOpen.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuRoleIsSelectable.xsl"/>
@@ -22,15 +22,20 @@
 		<xsl:variable name="isError" select="key('errorKey',$id)"/>
 
 		<xsl:variable name="isBarFlyout">
-			<xsl:if test="$type='bar' or $type='flyout'">
-				<xsl:number value="1"/>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="$type eq 'bar' or $type eq 'flyout'">
+					<xsl:number value="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:number value="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
 
 		<div>
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="class">
-					<xsl:if test="$isBarFlyout=1">wc_menu_bar</xsl:if>
+					<xsl:if test="number($isBarFlyout) eq 1">wc_menu_bar</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
 			<!--
@@ -41,7 +46,7 @@
 			-->
 			<xsl:attribute name="role">
 				<xsl:choose>
-					<xsl:when test="$isBarFlyout=1">
+					<xsl:when test="number($isBarFlyout) eq 1">
 						<xsl:text>menubar</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>

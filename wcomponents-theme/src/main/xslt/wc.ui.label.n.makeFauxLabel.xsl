@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.ui.label.n.labelCommonAttributes.xsl"/>
 	<xsl:import href="wc.ui.label.n.labelClassHelper.xsl"/>
 	<xsl:import href="wc.ui.label.n.labelHintHelper.xsl"/>
@@ -19,9 +19,14 @@
 		<xsl:param name="forElement"/>
 
 		<xsl:variable name="readOnly">
-			<xsl:if test="$forElement/@readOnly">
-				<xsl:number value="1"/>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="$forElement/@readOnly">
+					<xsl:number value="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:number value="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
 
 		<!--
@@ -34,7 +39,7 @@
 			</xsl:call-template>
 
 			<xsl:choose>
-				<xsl:when test="$readOnly=1">
+				<xsl:when test="number($readOnly) eq 1">
 					<xsl:attribute name="data-wc-rofor">
 						<xsl:value-of select="@for"/>
 					</xsl:attribute>

@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.ui.fileUpload.file.n.fileInfo.xsl"/>
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.ui.fileUpload.file.xsl"/>
@@ -12,10 +12,10 @@
 -->
 
 	<xsl:template match="ui:file" mode="columns">
-		<xsl:param name="rows"/>
+		<xsl:param name="rows" select="0"/>
 		<ul class="wc_list_nb wc_filelist">
 			<xsl:call-template name="fileInList"/>
-			<xsl:apply-templates select="following-sibling::ui:file[position() &lt; $rows]"/>
+			<xsl:apply-templates select="following-sibling::ui:file[position() lt number($rows)]"/>
 		</ul>
 	</xsl:template>
 </xsl:stylesheet>

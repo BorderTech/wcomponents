@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.checkableSelect.n.checkableSelectOption.xsl"/>
 	<!--
 		Template to transform the options in a checkable group. There are several
@@ -37,20 +37,20 @@
 		<xsl:param name="firstItemAccessKey"/>
 		<xsl:param name="inputName"/>
 		<xsl:param name="type"/>
-		<xsl:param name="rows"/>
-		<xsl:param name="readOnly"/>
+		<xsl:param name="rows" select="0"/>
+		<xsl:param name="readOnly" select="0"/>
 		<xsl:variable name="firstAccessKey">
-			<xsl:if test="position()=1">
+			<xsl:if test="position() eq 1">
 				<xsl:value-of select="$firstItemAccessKey"/>
 			</xsl:if>
 		</xsl:variable>
 		<xsl:variable name="layout" select="../@layout"/>
 		<xsl:variable name="elementName">
 			<xsl:choose>
-				<xsl:when test="$readOnly=1">
+				<xsl:when test="number($readOnly) eq 1">
 					<xsl:text>ul</xsl:text>
 				</xsl:when>
-				<xsl:when test="$layout='flat'">
+				<xsl:when test="$layout eq 'flat'">
 					<xsl:text>span</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
@@ -60,18 +60,18 @@
 		</xsl:variable>
 		<xsl:variable name="class">
 			<xsl:text>wc_checkableselect_option_wrapper</xsl:text>
-			<xsl:if test="$elementName='ul'">
+			<xsl:if test="$elementName eq 'ul'">
 				<xsl:text> wc_list_nb</xsl:text>
 			</xsl:if>
-			<xsl:if test="$layout = 'column'">
+			<xsl:if test="$layout eq 'column'">
 				<xsl:text> wc-column</xsl:text>
 			</xsl:if>
-			<xsl:if test="not($layout = 'flat')">
+			<xsl:if test="not($layout eq 'flat')">
 				<xsl:text> wc-vgap-sm</xsl:text>
 			</xsl:if>
 		</xsl:variable>
 		<xsl:element name="{$elementName}">
-			<xsl:if test="$class != ''">
+			<xsl:if test="$class ne ''">
 				<xsl:attribute name="class">
 					<xsl:value-of select="normalize-space($class)"/>
 				</xsl:attribute>
@@ -82,17 +82,17 @@
 				<xsl:with-param name="readOnly" select="$readOnly"/>
 				<xsl:with-param name="cgAccessKey" select="$firstAccessKey"/>
 			</xsl:call-template>			
-			<xsl:if test="$rows &gt; 0">
+			<xsl:if test="number($rows) gt 0">
 				<xsl:choose>
-					<xsl:when test="$readOnly=1">
-						<xsl:apply-templates select="following-sibling::ui:option[@selected][position() &lt; $rows]" mode="checkableGroupInList">
+					<xsl:when test="number($readOnly) eq 1">
+						<xsl:apply-templates select="following-sibling::ui:option[@selected][position() lt number($rows)]" mode="checkableGroupInList">
 							<xsl:with-param name="inputName" select="$inputName"/>
 							<xsl:with-param name="type" select="$type"/>
 							<xsl:with-param name="readOnly" select="1"/>
 						</xsl:apply-templates>
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:apply-templates select="following-sibling::ui:option[position() &lt; $rows]" mode="checkableGroupInList">
+						<xsl:apply-templates select="following-sibling::ui:option[position() lt number($rows)]" mode="checkableGroupInList">
 							<xsl:with-param name="inputName" select="$inputName"/>
 							<xsl:with-param name="type" select="$type"/>
 						</xsl:apply-templates>

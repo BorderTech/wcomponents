@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<!--
 		This template is used to determine if a WMenuItem or WSubMenu (if
@@ -15,7 +15,7 @@
 		<xsl:param name="myAncestorMenu"/>
 		<xsl:param name="myAncestorSubmenu"/>
 		<xsl:choose>
-			<xsl:when test="@selectable='false'">
+			<xsl:when test="@selectable eq 'false'">
 				<xsl:number value="0"/>
 			</xsl:when>
 			<xsl:when test="@selectable">

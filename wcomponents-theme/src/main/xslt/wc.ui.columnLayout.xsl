@@ -1,5 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.getHVGap.xsl"/>
 	<xsl:import href="wc.common.column.xsl"/>
 	<!--
@@ -25,7 +25,7 @@
 			</xsl:variable>
 			<xsl:variable name="cols" select="count(ui:column)"/>
 			<xsl:choose>
-				<xsl:when test="$cols=1"><!-- I don't know why people do this, but they do -->
+				<xsl:when test="number($cols) eq 1"><!-- I don't know why people do this, but they do -->
 					<xsl:apply-templates select="ui:cell" mode="clRow">
 						<xsl:with-param name="align" select="ui:column[1]/@align"/>
 						<xsl:with-param name="width" select="$width"/>
@@ -33,7 +33,7 @@
 					</xsl:apply-templates>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:apply-templates select="ui:cell[position() mod $cols = 1]" mode="clRow">
+					<xsl:apply-templates select="ui:cell[position() mod number($cols) eq 1]" mode="clRow">
 						<xsl:with-param name="align" select="ui:column[1]/@align"/>
 						<xsl:with-param name="width" select="$width"/>
 						<xsl:with-param name="cols" select="$cols"/>
@@ -45,7 +45,7 @@
 
 	<!--
 		This template creates each row and the first column in the row. It then applies
-		templates selecting the following-sibling::ui:cell[position &lt; $cols] to
+		templates selecting the following-sibling::ui:cell[position lt $cols] to
 		build the rest of the columns in the row. The params to this template are
 		for convenience and speed since they could all be derived but it is better to
 		only calculate them once.
@@ -57,7 +57,7 @@
 	<xsl:template match="ui:cell" mode="clRow">
 		<xsl:param name="align"/>
 		<xsl:param name="width"/>
-		<xsl:param name="cols"/>
+		<xsl:param name="cols" select="0"/>
 		<div>
 			<xsl:attribute name="class">
 				<xsl:text>wc-row</xsl:text>
@@ -72,8 +72,8 @@
 				<xsl:with-param name="align" select="$align"/>
 				<xsl:with-param name="width" select="$width"/>
 			</xsl:call-template>
-			<xsl:if test="$cols &gt; 1">
-				<xsl:apply-templates select="following-sibling::ui:cell[position() &lt; $cols]" mode="clInRow"/>
+			<xsl:if test="number($cols) gt 1">
+				<xsl:apply-templates select="following-sibling::ui:cell[position() lt number($cols)]" mode="clInRow"/>
 			</xsl:if>
 		</div>
 	</xsl:template>
@@ -98,7 +98,7 @@
 			This is a handle to the ui:column sibling of the cell which has position relative
  			to the parent element equal to the value of $colPos calculated above.
 		-->
-		<xsl:variable name="myColumn" select="../ui:column[position() = $colPos]"/>
+		<xsl:variable name="myColumn" select="../ui:column[position() eq number($colPos)]"/>
 		<xsl:call-template name="column">
 			<xsl:with-param name="align" select="$myColumn/@align"/>
 			<xsl:with-param name="width" select="$myColumn/@width"/>

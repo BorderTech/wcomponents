@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<!--
 		This helper template is used to determine the panel wrapper element to make
@@ -31,10 +31,9 @@
 		element should refer to the ANT property.
 	-->
 	<xsl:template name="WPanelContainerElement">
-		<xsl:param name="overrideType"/>
 		<xsl:variable name="type" select="@type"/>
 		<xsl:choose>
-			<xsl:when test="$type='chrome' or $type='action'">
+			<xsl:when test="$type eq 'chrome' or $type eq 'action'">
 				<xsl:text>section</xsl:text>
 			</xsl:when>
 			<xsl:when test="contains($type,'header')">
@@ -42,9 +41,6 @@
 			</xsl:when>
 			<xsl:when test="contains($type,'footer')">
 				<xsl:text>footer</xsl:text>
-			</xsl:when>
-			<xsl:when test="$overrideType!=''">
-				<xsl:value-of select="$overrideType"/>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:text>div</xsl:text>

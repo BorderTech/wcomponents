@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<!--
 		HTML Conformance
 
@@ -67,7 +67,7 @@
 		Some examples of non-conforming elements which could be transformed
 		acronym to abbr
 		font to span
-		center to div (style='text-align:center')
+		center to div (with style 'text-align:center')
 		dir to ul
 		tt to kbd or code or var or samp (sometimes it is not easy)
 		

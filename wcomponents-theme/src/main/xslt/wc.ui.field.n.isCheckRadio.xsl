@@ -1,4 +1,5 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+	<xsl:import href="wc.ui.label.key.labelableElementKey.xsl"/>
 	<!--
  		If the child of the ui:input is a WCheckBox or WRadioButton then
  		the label must be placed after the control and any
@@ -12,7 +13,7 @@
 			</xsl:if>
 		</xsl:variable>
 		<xsl:choose>
-			<xsl:when test="$labelledElementLocalName='radiobutton' or $labelledElementLocalName='checkbox' or $labelledElementLocalName='selecttoggle'">
+			<xsl:when test="$labelledElementLocalName eq 'radiobutton' or $labelledElementLocalName eq 'checkbox' or $labelledElementLocalName eq 'selecttoggle'">
 				<xsl:number value="1"/>
 			</xsl:when>
 			<xsl:otherwise>
