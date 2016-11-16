@@ -226,10 +226,24 @@ public class HtmlSanitizerUtil_Test {
 	}
 
 	@Test
+	public void testCreatePolicyNullString() throws PolicyException {
+		try {
+			HtmlSanitizerUtil.createPolicy(null);
+			Assert.assertTrue(false);
+		} catch (SystemException ex) {
+			Assert.assertTrue(true);
+		}
+	}
+
+	@Test
 	public void testCreatePolicyBadString() throws PolicyException {
 		String resourceName = "Bad_Value";
-		Policy policy = HtmlSanitizerUtil.createPolicy(resourceName);
-		Assert.assertNull(policy);
+		try {
+			HtmlSanitizerUtil.createPolicy(resourceName);
+			Assert.assertTrue(false);
+		} catch (SystemException ex) {
+			Assert.assertTrue(true);
+		}
 	}
 
 	@Test
@@ -246,7 +260,7 @@ public class HtmlSanitizerUtil_Test {
 			HtmlSanitizerUtil.sanitize(TAINTED_ATTRIBUTE, (Policy) null);
 			Assert.assertTrue(false);
 		} catch (SystemException ex) {
-			Assert.assertTrue(ex.getMessage(), true);
+			Assert.assertTrue(true);
 		}
 	}
 }
