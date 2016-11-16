@@ -20,7 +20,7 @@
 		</xsl:variable>
 		<xsl:variable name="emptyHeading">
 			<xsl:choose>
-				<xsl:when test="normalize-space($labelText) ne ''">
+				<xsl:when test="normalize-space($labelText) eq ''">
 					<xsl:number value="1"/>
 				</xsl:when>
 				<xsl:otherwise>
