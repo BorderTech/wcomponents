@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.util;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import java.net.URL;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.owasp.validator.html.AntiSamy;
@@ -48,7 +49,6 @@ public final class HtmlSanitizerUtil {
 	private static final Policy LAX_POLICY;
 
 	static {
-
 		// Get the strict AntiSamy policy.
 		try {
 			String path = ConfigurationProperties.getAntisamyStrictConfigurationFile();
@@ -77,10 +77,8 @@ public final class HtmlSanitizerUtil {
 	 *
 	 * @param input the (potentially) tainted HTML to sanitize
 	 * @return sanitized HTML
-	 * @throws ScanException thrown if the AntiSamy scan fails
-	 * @throws PolicyException thrown if sanitization fails due to AntiSamy policy problem2
 	 */
-	public static String sanitize(final String input) throws ScanException, PolicyException {
+	public static String sanitize(final String input) {
 		return sanitize(input, false);
 	}
 
@@ -90,10 +88,8 @@ public final class HtmlSanitizerUtil {
 	 * @param input the (potentially) tainted HTML to sanitize
 	 * @param lax if true use the lax policy, otherwise use the strict policy
 	 * @return sanitized HTML
-	 * @throws ScanException thrown if the AntiSamy scan fails
-	 * @throws PolicyException thrown if sanitization fails due to AntiSamy policy problem
 	 */
-	public static String sanitize(final String input, final boolean lax) throws ScanException, PolicyException {
+	public static String sanitize(final String input, final boolean lax) {
 		return sanitize(input, lax ? LAX_POLICY : STRICT_POLICY);
 	}
 
@@ -103,15 +99,20 @@ public final class HtmlSanitizerUtil {
 	 * @param input the (potentially) tainted HTML to sanitize
 	 * @param policy the AntiSamy policy to apply
 	 * @return sanitized HTML
-	 * @throws ScanException thrown if the AntiSamy scan fails
-	 * @throws PolicyException thrown if sanitization fails due to AntiSamy policy problem
 	 */
-	public static String sanitize(final String input, final Policy policy) throws ScanException, PolicyException {
+	public static String sanitize(final String input, final Policy policy) {
+		if (policy == null) {
+			throw new SystemException("AntiSamy policy cannot be null");
+		}
 		if (Util.empty(input)) {
 			return input;
 		}
-		CleanResults results = ANTISAMY.scan(input, policy);
-		return results.getCleanHTML();
+		try {
+			CleanResults results = ANTISAMY.scan(input, policy);
+			return results.getCleanHTML();
+		} catch (ScanException | PolicyException ex) {
+			throw new SystemException("Cannot sanitize " + ex.getMessage(), ex);
+		}
 	}
 
 	/**
@@ -122,14 +123,7 @@ public final class HtmlSanitizerUtil {
 		if (Util.empty(text)) {
 			return text;
 		}
-
-		try {
-			return sanitize(text, true);
-		} catch (ScanException | PolicyException e) {
-			// if cannot sanitize assume bad and escape everything.
-			LOG.error("Could not sanitize output text. Will escape everything. " + e.getMessage(), e);
-			return StringEscapeUtils.escapeXml10(text);
-		}
+		return sanitize(text, true);
 	}
 
 	/**
@@ -140,24 +134,27 @@ public final class HtmlSanitizerUtil {
 		if (Util.empty(text)) {
 			return text;
 		}
-
-		try {
-			return sanitize(text);
-		} catch (ScanException | PolicyException e) {
-			// if cannot sanitize assume bad and escape everything.
-			LOG.error("Could not sanitize input text. Will escape everything. " + e.getMessage(), e);
-			return StringEscapeUtils.escapeXml10(text);
-		}
+		return sanitize(text);
 	}
 
 	/**
-	 *
+	 * Create a Policy from a named local resource.
 	 * @param resourceName the path to AntiSamy policy file
 	 * @return the AntiSamy Policy
-	 * @throws PolicyException thrown if sanitization fails due to AntiSamy policy problem
 	 */
-	public static Policy createPolicy(final String resourceName) throws PolicyException {
-		return Policy.getInstance(HtmlSanitizerUtil.class.getClassLoader().getResource(resourceName));
+	public static Policy createPolicy(final String resourceName) {
+		if (StringUtils.isBlank(resourceName)) {
+			throw new SystemException("AntiSamy Policy resourceName cannot be null ");
+		}
+		URL resource = HtmlSanitizerUtil.class.getClassLoader().getResource(resourceName);
+		if (resource == null) {
+			throw new SystemException("Could not find AntiSamy Policy XML resource.");
+		}
+		try {
+			return Policy.getInstance(resource);
+		} catch (PolicyException ex) {
+			throw new SystemException("Could not create AntiSamy Policy" + ex.getMessage(), ex);
+		}
 	}
 
 }

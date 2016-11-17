@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.util;
 
 import junit.framework.Assert;
 import org.junit.Test;
+import org.owasp.validator.html.Policy;
 import org.owasp.validator.html.PolicyException;
 import org.owasp.validator.html.ScanException;
 
@@ -218,15 +219,48 @@ public class HtmlSanitizerUtil_Test {
 		Assert.assertEquals(STRICT_TAINTED_ATTRIBUTE, HtmlSanitizerUtil.sanitize(STRICT_TAINTED_ATTRIBUTE, true));
 	}
 
-	// We should test throwing in a bad config but it is too late to do it this way.
-	/* @Test
-	public void testBadConfig() {
-		Config.getInstance().setProperty("com.github.bordertech.wcomponents.sanitizers.config", "Bad_Value");
+	@Test
+	public void testCreatePolicy() throws PolicyException {
+		String resourceName = ConfigurationProperties.getAntisamyStrictConfigurationFile();
+		Assert.assertNotNull(HtmlSanitizerUtil.createPolicy(resourceName));
+	}
+
+	@Test
+	public void testCreatePolicyNullString() throws PolicyException {
 		try {
-			HtmlSanitizerUtil.sanitize(SIMPLE_HTML);
-			Assert.fail("Should have thrown a PolicyException");
-		} catch (Exception e) {
-			Assert.assertNotNull(e.getMessage());
+			HtmlSanitizerUtil.createPolicy(null);
+			Assert.assertTrue(false);
+		} catch (SystemException ex) {
+			Assert.assertTrue(true);
 		}
-	} */
+	}
+
+	@Test
+	public void testCreatePolicyBadString() throws PolicyException {
+		String resourceName = "Bad_Value";
+		try {
+			HtmlSanitizerUtil.createPolicy(resourceName);
+			Assert.assertTrue(false);
+		} catch (SystemException ex) {
+			Assert.assertTrue(true);
+		}
+	}
+
+	@Test
+	public void testSanitizeWithPolicy() throws ScanException, PolicyException {
+		String resourceName = ConfigurationProperties.getAntisamyStrictConfigurationFile();
+		Policy testPolicy = HtmlSanitizerUtil.createPolicy(resourceName);
+		String expected = HtmlSanitizerUtil.sanitize(TAINTED_ATTRIBUTE);
+		Assert.assertEquals(expected, HtmlSanitizerUtil.sanitize(TAINTED_ATTRIBUTE, testPolicy));
+	}
+
+	@Test
+	public void testSanitizeWithNullPolicy() throws ScanException, PolicyException {
+		try {
+			HtmlSanitizerUtil.sanitize(TAINTED_ATTRIBUTE, (Policy) null);
+			Assert.assertTrue(false);
+		} catch (SystemException ex) {
+			Assert.assertTrue(true);
+		}
+	}
 }
