@@ -144,7 +144,7 @@ define(["wc/has",
 					}
 					tryAjax = true;
 				}
-				if (tryAjax && container && container.hasAttribute("data-wc-ajaxalias")) {
+				if (tryAjax && container && ajaxRegion.getTrigger(container, true)) {
 					ajaxRegion.requestLoad(container);
 				}
 			}

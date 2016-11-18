@@ -36,11 +36,6 @@
 				<xsl:text>{{t 'table_pagination_page'}}</xsl:text>
 				<select id="{$id}" class="wc_table_pag_select" data-wc-pages="{$pages}">
 					<!-- NOTE: do not use name or data-wc-name as we do not want to trigger an unsaved changes warning -->
-					<xsl:if test="@mode eq 'dynamic'">
-						<xsl:call-template name="tableAjaxController">
-							<xsl:with-param name="tableId" select="$tableId"/>
-						</xsl:call-template>
-					</xsl:if>
 					<xsl:choose>
 						<xsl:when test="number($pages) eq 1">
 							<xsl:attribute name="disabled">
@@ -195,9 +190,6 @@
 			<xsl:text>{{t 'table_pagination_label_rppChooser'}}</xsl:text>
 			<select id="{$rppChooserName}" class="wc_table_pag_rpp">
 				<!-- NOTE: do not use name or data-wc-name as we do not want to trigger an unsaved changes warning -->
-				<xsl:call-template name="tableAjaxController">
-					<xsl:with-param name="tableId" select="$tableId"/>
-				</xsl:call-template>
 				<xsl:call-template name="disabledElement">
 					<xsl:with-param name="field" select="ancestor::ui:table[1]"/>
 					<xsl:with-param name="isControl" select="1"/>

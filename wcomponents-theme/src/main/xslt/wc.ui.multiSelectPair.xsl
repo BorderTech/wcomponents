@@ -90,6 +90,9 @@
 							<xsl:call-template name="disabledElement">
 								<xsl:with-param name="isControl" select="1"/>
 							</xsl:call-template>
+							<xsl:call-template name="ajaxController">
+								<xsl:with-param name="useAlias" select="1"/>
+							</xsl:call-template>
 							<xsl:apply-templates select="ui:option[not(@selected)]|ui:optgroup[ui:option[not(@selected)]]" mode="multiselectPair">
 								<xsl:with-param name="applyWhich" select="'unselected'"/>
 							</xsl:apply-templates>
@@ -141,6 +144,9 @@
 					<select multiple="multiple" class="wc_msp_order" hidden="hidden">
 						<xsl:call-template name="disabledElement">
 							<xsl:with-param name="isControl" select="1"/>
+						</xsl:call-template>
+						<xsl:call-template name="ajaxController">
+							<xsl:with-param name="useAlias" select="1"/>
 						</xsl:call-template>
 						<xsl:apply-templates mode="multiselectPair"/>
 					</select>

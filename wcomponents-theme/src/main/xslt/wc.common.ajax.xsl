@@ -24,19 +24,26 @@
 -->
 	<xsl:template name="ajaxController">
 		<xsl:param name="id" select="@id"/>
+		<xsl:param name="useAlias" select="0"/>
 		<xsl:variable name="trigger" select="key('triggerKey',$id)"/>
 		<xsl:if test="$trigger">
-			<xsl:variable name="idList">
-				<xsl:apply-templates select="$trigger" mode="controlled"/>
-			</xsl:variable>
-			<xsl:if test="$idList ne ''">
-				<xsl:attribute name="aria-controls">
-					<xsl:value-of select="normalize-space($idList)"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:attribute name="data-wc-ajaxalias">
-				<xsl:value-of select="$id"/>
-			</xsl:attribute>
+			<xsl:choose>
+				<xsl:when test="number($useAlias) eq 1">
+					<xsl:attribute name="data-wc-ajaxalias">
+						<xsl:value-of select="$id"/>
+					</xsl:attribute>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:variable name="idList">
+						<xsl:apply-templates select="$trigger" mode="controlled"/>
+					</xsl:variable>
+					<xsl:if test="$idList ne ''">
+						<xsl:attribute name="aria-controls">
+							<xsl:value-of select="normalize-space($idList)"/>
+						</xsl:attribute>
+					</xsl:if>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:if>
 	</xsl:template>
 	

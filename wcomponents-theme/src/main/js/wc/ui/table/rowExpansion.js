@@ -31,9 +31,28 @@ define(["wc/array/toArray",
 				EXPAND_COLLAPSE_ALL = new Widget("button", "wc_rowexpansion"),
 				BOOTSTRAPPED = "wc.ui.table.rowExpansion.bootStrapped",
 				NO_AJAX = "data-wc-tablenoajax",
-				ALIAS = "data-wc-ajaxalias",
+				MODE = "data-wc-expmode",
 				TRUE = "true",
-				FALSE = "false";
+				FALSE = "false",
+				LAZY = "lazy",
+				CLIENT = "client";
+
+			function getWrapper(element) {
+				return TABLE_WRAPPER.findAncestor(element);
+			}
+
+			function getMode(row) {
+				var wrapper = getWrapper(row);
+				if (wrapper) {
+					return wrapper.getAttribute(MODE);
+				}
+				return null;
+			}
+
+			function isAjaxExpansion(row) {
+				var mode = getMode(row);
+				return mode === LAZY || mode === "dynamic";
+			}
 
 			/**
 			 * Get the list of elements controlled by an expander.
@@ -44,6 +63,14 @@ define(["wc/array/toArray",
 			function getContentList(element) {
 				if (TBL_EXPANDABLE_ROW.isOneOfMe(element)) {
 					return element.getAttribute("aria-controls");
+				}
+				return null;
+			}
+
+			function getWrapperId(element) {
+				var wrapper = getWrapper(element);
+				if (wrapper) {
+					return wrapper.id;
 				}
 				return null;
 			}
@@ -71,12 +98,12 @@ define(["wc/array/toArray",
 			 * @function
 			 * @private
 			 * @param {Element} element The triggering element.
-			 * @param {String} alias The AJAX alias: this will be the ID of the table being targetted.
 			 * @returns {Object} An object suitable to create a {@link module:wc/ajax/Trigger}.
 			 */
-			function getTriggerDTO(element, alias) {
+			function getTriggerDTO(element) {
 				var id = element.id,
-					oneShot = (element.getAttribute("data-wc-expmode") === "lazy") ? 1 : -1;
+					alias = getWrapperId(element),
+					oneShot = (element.getAttribute(MODE) === LAZY) ? 1 : -1;
 				return {
 					id: id,
 					loads: [alias],
@@ -125,7 +152,7 @@ define(["wc/array/toArray",
 				if (row) {
 					show = shed.isExpanded(row) ? FALSE : TRUE;
 					if (show === TRUE && !shed.isDisabled(row)) {
-						if (ignoreAjax && row.hasAttribute(ALIAS)) {
+						if (ignoreAjax && isAjaxExpansion(row)) {
 							row.setAttribute(NO_AJAX, TRUE);
 						}
 						shed.expand(row);
@@ -146,7 +173,7 @@ define(["wc/array/toArray",
 			function toggleAll(element) {
 				var tableWrapper, table, candidates, open, rowWidget;
 
-				if (element && (tableWrapper = TABLE_WRAPPER.findAncestor(element)) && (table = TABLE.findDescendant(tableWrapper, true))) {
+				if (element && (tableWrapper = getWrapper(element)) && (table = TABLE.findDescendant(tableWrapper, true))) {
 					open = element.getAttribute("data-wc-value") === "expand";
 					rowWidget = common.TR.extend("", {"aria-expanded": (open ? FALSE : TRUE)});
 					candidates = getExpandableRows(table, rowWidget);
@@ -210,14 +237,16 @@ define(["wc/array/toArray",
 			 * @param {String} action The shed action EXPAND or COLLAPSE.
 			 */
 			function shedObserver(element, action) {
-				var alias;
 				if (element && TBL_EXPANDABLE_ROW.isOneOfMe(element)) {
-					if (action === shed.actions.EXPAND && (alias = element.getAttribute(ALIAS))) {
+					if (action === shed.actions.EXPAND && isAjaxExpansion(element)) {
 						if (element.getAttribute(NO_AJAX) === TRUE) {
 							element.removeAttribute(NO_AJAX);
 						}
-						else {
-							ajaxRegion.requestLoad(element, getTriggerDTO(element, alias));
+						else if (element.getAttribute(MODE) !== CLIENT) {
+							ajaxRegion.requestLoad(element, getTriggerDTO(element));
+						}
+						if (getMode(element) === LAZY) {
+							element.setAttribute(MODE, CLIENT);
 						}
 					}
 					showHideContent(element, action);
@@ -341,15 +370,15 @@ define(["wc/array/toArray",
 			 * @param {Element} element The element being selected.
 			 */
 			function activateOnSelect(element) {
-				var alias, toggled;
+				var toggled;
 
 				if (element && EXPAND_COLLAPSE_ALL.isOneOfMe(element)) {
 					try {
 						toggled = toggleAll(element);
 					}
 					finally {
-						if (toggled && element.getAttribute("data-wc-value") === "expand" && (alias = element.getAttribute(ALIAS))) {
-							ajaxRegion.requestLoad(element, getTriggerDTO(element, alias));
+						if (toggled && element.getAttribute("data-wc-value") === "expand" && isAjaxExpansion(element)) {
+							ajaxRegion.requestLoad(element, getTriggerDTO(element));
 						}
 					}
 				}

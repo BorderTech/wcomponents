@@ -509,7 +509,7 @@ define(["wc/ui/menu/core",
 			 * @param {Element} root The root of the currect tree.
 			 */
 			function ajaxExpand(element, root) {
-				var mode = root.getAttribute("data-wc-ajaxmode"),
+				var mode = root.getAttribute("data-wc-mode"),
 					obj,
 					elId = element.id;
 
@@ -546,7 +546,7 @@ define(["wc/ui/menu/core",
 				}
 
 				if (action === shed.actions.SELECT || action === shed.actions.DESELECT) {
-					if (root.getAttribute("data-wc-ajaxalias")) {
+					if (root.getAttribute("data-wc-mode")) {
 						if (ajaxTimer) {
 							timers.clearTimeout(ajaxTimer);
 							ajaxTimer = null;

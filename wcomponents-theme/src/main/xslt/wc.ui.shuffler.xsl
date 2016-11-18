@@ -53,6 +53,9 @@
 						<xsl:call-template name="disabledElement">
 							<xsl:with-param name="isControl" select="1"/>
 						</xsl:call-template>
+						<xsl:call-template name="ajaxController">
+							<xsl:with-param name="useAlias" select="1"/>
+						</xsl:call-template>
 						<xsl:if test="number(@rows) gt 2">
 							<xsl:attribute name="size">
 								<xsl:value-of select="@rows"/>

@@ -58,11 +58,6 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
-					
-					<xsl:call-template name="tableAjaxController">
-						<xsl:with-param name="tableId" select="$tableId"/>
-					</xsl:call-template>
-					
 					<xsl:if test="../../@disabled"><!-- WDataTable only: to be removed. -->
 						<xsl:attribute name="aria-disabled">
 							<xsl:value-of select="$t"/>

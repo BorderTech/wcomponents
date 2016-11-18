@@ -27,8 +27,8 @@
 				</xsl:choose>
 			</xsl:attribute>
 
-			<xsl:if test="@mode and @mode ne 'client'">
-				<xsl:attribute name="data-wc-ajaxmode">
+			<xsl:if test="@mode">
+				<xsl:attribute name="data-wc-mode">
 					<xsl:value-of select="@mode"/>
 				</xsl:attribute>
 			</xsl:if>
