@@ -1,9 +1,9 @@
 define(["wc/Observer",
 		"wc/dom/tag",
-		"wc/xml/xslTransform",
+		"wc/dom/toDocFragment",
 		"wc/dom/Widget",
 		"wc/template"],
-	function(Observer, tag, xslTransform, Widget, template) {
+	function(Observer, tag, toDocFragment, Widget, template) {
 		"use strict";
 		/**
 		 * @constructor
@@ -77,29 +77,19 @@ define(["wc/Observer",
 				var promise;
 				if (response) {
 					promise = new Promise(function(resolve, reject) {
-						var content, doc;
+						var doc;
 						if (typeof response === "string") {
-							doc = xslTransform.htmlToDocumentFragment(response);
+							doc = toDocFragment(response);
 							processResponseHtml(doc, trigger);
 							resolve();
 						}
 						else {
-							doc = response.documentElement;
-							if (doc) {
-								content = getPayload(doc);
-								content.then(function(df) {
-									processResponseHtml(df, trigger);
-									resolve();
-								}, logError);
-							}
-							else {
-								reject("Response XML does not appear well formed");
-							}
+							reject("Unknown response type");
 						}
 					});
 				}
 				else {
-					promise = Promise.reject("Response XML is empty");
+					promise = Promise.reject("Response is empty");
 				}
 				return promise;
 			};
@@ -172,10 +162,6 @@ define(["wc/Observer",
 				}
 			};
 
-			function logError(msg) {
-				console.warn(msg);
-			}
-
 			/*
 			 * Copy attributes from one element to another, ignoring xmlns:* attributes.
 			 * @param {Element} source The element which has the attributes we want to copy from.
@@ -190,22 +176,6 @@ define(["wc/Observer",
 						dest.setAttribute(next.name, next.value);
 					}
 				}
-			}
-
-			/**
-			 *
-			 * @param {Element} target An XML Element
-			 * @returns {Promise} resolved with a documentFragment
-			 */
-			function getPayload(target) {
-				var result;
-				if (target.childNodes.length) {
-					result = xslTransform.transform({ xmlDoc: target });
-				}
-				else {
-					result = Promise.resolve(document.createDocumentFragment());
-				}
-				return result;
 			}
 
 			function insertPayloadIntoDom(element, content, action, trigger, doNotPublish) {
@@ -490,7 +460,7 @@ define(["wc/Observer",
 		 * @requires module:wc/Observer
 		 * @requires module:wc/xml/xpath
 		 * @requires module:wc/dom/tag
-		 * @requires module:wc/xml/xslTransform
+		 * @requires module:wc/dom/toDocFragment
 		 * @requires module:wc/dom/Widget
 		 * @requires module:wc/template
 		 *

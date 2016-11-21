@@ -69,11 +69,7 @@
 			<xsl:value-of select="concat('baseUrl:&quot;', normalize-space($resourceRoot), $scriptDir, '/&quot;,&#10;')"/>
 			<xsl:value-of select="concat('baseURL:&quot;', normalize-space($resourceRoot), $scriptDir, '/&quot;,&#10;')"/>
 			<xsl:value-of select="concat('urlArgs:&quot;', $cacheBuster, '&quot;&#10;')"/>
-			<xsl:text>};&#10;wcconfig = {"wc/xml/xslTransform": {</xsl:text>
-			<xsl:value-of select="concat('xslEngine:&quot;', system-property('xsl:vendor'), '&quot;,&#10;')"/>
-			<!-- Used for testing purposes -->
-			<xsl:value-of select="concat('xslUrl:&quot;', normalize-space($xslPath), '&quot;')"/>
-			<xsl:text>},&#10;"wc/i18n/i18n": { </xsl:text>
+			<xsl:text>};&#10;wcconfig = {"wc/i18n/i18n": { </xsl:text>
 			<xsl:text>options:{ backend: {</xsl:text>
 			<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')"/>
 			<xsl:text>} } },&#10;"wc/loader/resource": {</xsl:text>
