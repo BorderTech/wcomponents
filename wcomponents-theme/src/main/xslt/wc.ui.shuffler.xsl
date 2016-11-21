@@ -49,12 +49,9 @@
 						<xsl:with-param name="myLabel" select="$myLabel"/>
 					</xsl:call-template>
 					<xsl:variable name="listId" select="concat($id,'_l')"/>
-					<select id="{$listId}" class="wc_shuffler" multiple="multiple">
+					<select id="{$listId}" class="wc_shuffler wc-noajax" multiple="multiple">
 						<xsl:call-template name="disabledElement">
 							<xsl:with-param name="isControl" select="1"/>
-						</xsl:call-template>
-						<xsl:call-template name="ajaxController">
-							<xsl:with-param name="useAlias" select="1"/>
 						</xsl:call-template>
 						<xsl:if test="number(@rows) gt 2">
 							<xsl:attribute name="size">

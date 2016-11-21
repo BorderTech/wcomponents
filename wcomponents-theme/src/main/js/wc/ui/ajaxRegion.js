@@ -8,8 +8,9 @@ define(["wc/dom/event",
 		"wc/dom/Widget",
 		"wc/dom/initialise",
 		"wc/ui/ajax/processResponse",
+		"wc/dom/classList",
 		"wc/mixin"],
-	function(event, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse, mixin) {
+	function(event, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse, classList, mixin) {
 		"use strict";
 
 		/**
@@ -103,7 +104,7 @@ define(["wc/dom/event",
 					type = element.type,
 					alias;
 				// NOTE: a standalone listbox or dropdown is an ajax trigger, a select element as a sub element of a compund controller is not
-				if (shed.isSelectable(element)) {
+				if (shed.isSelectable(element) || classList.contains(element, "wc-noajax")) {
 					return false;
 				}
 				alias = element.getAttribute(ALIAS);
