@@ -67,14 +67,6 @@ define(["wc/array/toArray",
 				return null;
 			}
 
-			function getWrapperId(element) {
-				var wrapper = getWrapper(element);
-				if (wrapper) {
-					return wrapper.id;
-				}
-				return null;
-			}
-
 			/**
 			 * Get the expandable rows which belong explicitly to a given table and not to any nested tables.
 			 *
@@ -101,16 +93,7 @@ define(["wc/array/toArray",
 			 * @returns {Object} An object suitable to create a {@link module:wc/ajax/Trigger}.
 			 */
 			function getTriggerDTO(element) {
-				var id = element.id,
-					alias = getWrapperId(element),
-					oneShot = (element.getAttribute(MODE) === LAZY) ? 1 : -1;
-				return {
-					id: id,
-					loads: [alias],
-					alias: alias,
-					formRegion: alias,
-					oneShot: oneShot
-				};
+				return common.getAjaxDTO(element, element.getAttribute(MODE) === LAZY);
 			}
 
 			/**

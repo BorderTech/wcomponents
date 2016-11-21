@@ -98,10 +98,8 @@ define(["wc/dom/initialise",
 			 */
 			function toggleEventHelper($event, element) {
 				var target = $event.target,
-					alias,
-					id = element.id,
 					sorted,
-					controlGroup, wrapper;
+					controlGroup;
 				if ((element === target || (!isEventInLabel(target) && isAcceptableEventTarget(element, target))) && !shed.isDisabled(element)) {
 					sorted = element.getAttribute(SORT_ATTRIB);
 
@@ -123,17 +121,7 @@ define(["wc/dom/initialise",
 						element.setAttribute(ARIA_SORT_ATTRIB, "descending");
 					}
 
-					if ((wrapper = getWrapper(element))) {
-						alias = wrapper.id;
-						ajaxRegion.register({
-							id: id,
-							loads: [alias],
-							alias: alias,
-							oneShot: true,
-							formRegion: alias
-						});
-						ajaxRegion.requestLoad(element);
-					}
+					ajaxRegion.requestLoad(element, common.getAjaxDTO(element, true));
 				}
 			}
 

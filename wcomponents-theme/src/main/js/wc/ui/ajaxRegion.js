@@ -109,7 +109,7 @@ define(["wc/dom/event",
 				}
 				alias = element.getAttribute(ALIAS);
 				// Don't allow file to trigger on change it breaks multiFileUploader when large number of files are selected
-				return ((tagName === tag.SELECT && (alias === element.id) || !alias) || tagName === tag.TEXTAREA || (tagName === tag.INPUT && type !== "file"));
+				return (tagName === tag.SELECT || tagName === tag.TEXTAREA || (tagName === tag.INPUT && type !== "file"));
 			}
 
 			/*

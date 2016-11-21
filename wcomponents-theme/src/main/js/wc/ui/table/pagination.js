@@ -60,14 +60,6 @@ define(["wc/dom/attribute",
 				return false;
 			}
 
-			function getTableId(element) {
-				var wrapper = getWrapper(element);
-				if (wrapper) {
-					return wrapper.id;
-				}
-				return null;
-			}
-
 			/**
 			 * Helper for updateSelectOptions and setUpPageSelectOptions.
 			 * @param {int} currentPage The page currently being shown.
@@ -329,15 +321,7 @@ define(["wc/dom/attribute",
 			 * @param {Element} element The control which was updated leading to the ajax request becoming necessary.
 			 */
 			function requestAjaxLoad(element) {
-				var alias = getTableId(element);
-				ajaxRegion.register({
-					id: element.id,
-					loads: [alias],
-					alias: alias,
-					oneShot: true,
-					formRegion: alias
-				});
-				ajaxRegion.requestLoad(element);
+				ajaxRegion.requestLoad(element, common.getAjaxDTO(element, true));
 			}
 
 			/**

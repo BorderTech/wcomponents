@@ -52,13 +52,13 @@ define(["wc/dom/attribute",
 			 */
 			instance = new MultiFileUploader(),
 			CLASS_NAME = "wc-fileupload",
-			AJAX_ATTR = "data-wc-ajaxalias",
 			COL_ATTR = "data-wc-cols",
 			MAX_FILES_ATTR = "data-wc-maxfiles",
 			CLASS_NO_BULLET = "wc_list_nb",
 			CLASS_WRAPPER = "wc_files",
 			CLASS_FILE_INFO = "wc-file",
 			CLASS_FILE_LIST = "wc_filelist",
+			CLASS_AJAX_UPLOADER = "wc-ajax",
 			containerWd = new Widget("", CLASS_NAME),
 			inputElementWd = new Widget("INPUT", "", {type: "file"}),
 			fileInfoContainerWd = new Widget("UL", CLASS_FILE_LIST),
@@ -128,8 +128,8 @@ define(["wc/dom/attribute",
 			 */
 			function filesChanged(id) {
 				var element = document.getElementById(id);
-				if (element && element.getAttribute(AJAX_ATTR)) {
-					ajaxRegion.requestLoad(element);
+				if (element && ajaxRegion.getTrigger(element, true)) {
+					ajaxRegion.requestLoad(element, null, true);
 				}
 			}
 
@@ -153,14 +153,11 @@ define(["wc/dom/attribute",
 								removeFileItem(fileInfo);
 							}
 						}
-						else if ((container = containerWd.findAncestor(fileInfo)) && container.hasAttribute(AJAX_ATTR)) {
+						else if ((container = containerWd.findAncestor(fileInfo)) && classList.contains(container, CLASS_AJAX_UPLOADER)) {
 							trigger = itemActivationWd.isOneOfMe(element) ? element : itemActivationWd.findAncestor(element);
 							if (trigger) {
 								// trigger.removeAttribute("target");
 								trigger.setAttribute("data-wc-params", "wc_fileid=" + window.encodeURIComponent(fileInfo.id));
-								if (!trigger.hasAttribute(AJAX_ATTR)) {
-									trigger.setAttribute(AJAX_ATTR, container.getAttribute(AJAX_ATTR));
-								}
 								console.log("wc_fileid", fileInfo.id);
 							}
 						}
@@ -469,41 +466,16 @@ define(["wc/dom/attribute",
 				}
 			}
 
-			/**
-			 * Copy the data-wc-ajaxalias attribute from the file container to the link.
-			 * @funciton
-			 * @private
-			 *
-			 * @param {Element} file The content of the returned HTML.
-			 * @param {type} containerId The id of the file container - sent as a data- attribute on the "file".
-			 */
-			function resetAjaxAttribOnActivationLink(file, containerId) {
-				var container = document.getElementById(containerId),
-					link;
-				if (container) {
-					if (container && container.hasAttribute(AJAX_ATTR)) {
-						link = itemActivationWd.findDescendant(file);
-						if (link) {
-							link.setAttribute(AJAX_ATTR, container.getAttribute(AJAX_ATTR));
-						}
-					}
-				}
-			}
-
 			function updateFileInfo(newFile) {
 				var container, containerId, fileId = newFile.getAttribute("id"),
 					oldFile = document.getElementById(fileId);
 				delete inflightXhrs[fileId];
 				if (oldFile) {
-					containerId = newFile.getAttribute("data-wc-containerid");
-					if (containerId) {
-						resetAjaxAttribOnActivationLink(newFile, containerId);
-					}
+
 					oldFile.innerHTML = newFile.innerHTML;
 					// oldFile.parentNode.replaceChild(newFile, oldFile);  // Problems with importing node
 				}
 				else if ((containerId = newFile.getAttribute("data-wc-containerid")) && (container = document.getElementById(containerId))) {
-					resetAjaxAttribOnActivationLink(newFile, containerId);
 					// This is an extreme edge case - if the fileWidget UI has been replaced during upload attempt to recover
 					container.insertAdjacentHTML("beforeend", newFile.outerHTML);
 				}

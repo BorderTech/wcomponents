@@ -452,6 +452,9 @@ define(["wc/dom/attribute",
 
 				if ((element.tagName === tag.OPTION || element.tagName === tag.SELECT) && (selectList = SELECT.findAncestor(element)) && !shed.isDisabled(selectList)) {
 					addRemoveSelected(selectList);
+					if (ajaxRegion.getTrigger(selectList)) {
+						ajaxRegion.requestLoad(selectList);
+					}
 				}
 			}
 

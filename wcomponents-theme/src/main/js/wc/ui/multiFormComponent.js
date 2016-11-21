@@ -86,7 +86,7 @@ define(["wc/has",
 			function doClick(button, SHIFT) {
 				var type = instance.getButtonType(button),
 					tryAjax,
-					container = getContainer(button);
+					container;
 				if (type === BUTTON_TYPE.add) {
 					addNewField(button);
 					tryAjax = true;
@@ -99,8 +99,8 @@ define(["wc/has",
 					}
 					tryAjax = true;
 				}
-				if (tryAjax && container && ajaxRegion.getTrigger(container, true)) {
-					ajaxRegion.requestLoad(container);
+				if (tryAjax && (container = getContainer(button)) && ajaxRegion.getTrigger(container, true)) {
+					ajaxRegion.requestLoad(container, null, true);
 				}
 			}
 
