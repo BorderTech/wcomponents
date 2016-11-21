@@ -59,11 +59,6 @@
 					<xsl:text>div</xsl:text>
 				</xsl:when>
 				<xsl:when test="self::ui:textarea">
-					<!--
-						This is really only needed by IE due to it stripping whitepace in other elements when we use
-						htmlToDocumentElement in JavaScript. See wc/xml/xslTransform.js, PRE does not cause issues in
-						other UA so we don't bother with an IE test.
-					-->
 					<xsl:text>pre</xsl:text>
 				</xsl:when>
 				<xsl:when test="number($linkWithText) eq 1">

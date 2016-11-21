@@ -1,32 +1,11 @@
-/**
- * Loads named datalists, allowing other classes to reuse the same datalists. The purpose of this functionality is a
- * performance enhancement. It allows for significantly reduced page sizes (compared to embedding datalists in
- * non-cachable pages).
-
- * Could store a checksum of the datalist against the full url (including querystring) so we can make sure applications
- * are correctly assigning identifiers to lists. This could be done in a timeout so it does not slow down the actual
- * user interaction.
- *
- * Could store datalists in memory once they have been fetched so that if the same list is fetched again on the page
- * it would not even need to hit browser cache.
- *
- * @module
- * @requires module:wc/ajax/ajax
- * @requires module:wc/urlParser
- * @requires module:wc/dom/tag
- * @requires module:wc/Observer
- * @requires module:wc/dom/getAncestorOrSelf
- * @requires module:wc/xml/xslTransform
- */
 define(["wc/ajax/ajax",
 		"wc/urlParser",
 		"wc/dom/tag",
 		"wc/Observer",
 		"wc/dom/getAncestorOrSelf",
-		"wc/xml/xslTransform",
+		"wc/dom/toDocFragment",
 		"wc/timers"],
-	/** @param ajax wc/ajax/ajax@param urlParser wc/urlParser @param tag wc/dom/tag @param Observer wc/Observer @param getAncestorOrSelf wc/dom/getAncestorOrSelf @param xslTransform wc/xml/xslTransform @ignore */
-	function(ajax, urlParser, tag, Observer, getAncestorOrSelf, xslTransform, timers) {
+	function(ajax, urlParser, tag, Observer, getAncestorOrSelf, toDocFragment, timers) {
 		"use strict";
 
 		/**
@@ -83,15 +62,14 @@ define(["wc/ajax/ajax",
 							},
 							callback: function(srcTree) {
 								if ((srcTree === null || srcTree.documentElement === null) && this.responseText) {
-									promiseDone(groupWin, xslTransform.htmlToDocumentFragment(this.responseText));
+									promiseDone(groupWin, toDocFragment(this.responseText));
 								}
 								else {
-									var promise = xslTransform.transform({ xmlDoc: srcTree });
-									promise.then(promiseDone.bind(this, groupWin), this.onError);
+									promiseDone(groupWin, toDocFragment(srcTree));
 								}
 							},
 							cache: true,  // cache should be forever, cache is broken by changing URL (querystring)
-							responseType: ajax.responseType.XML
+							responseType: ajax.responseType.TEXT
 						};
 					console.log("Requesting datalist: ", config.url);
 					ajax.simpleRequest(request);
@@ -173,5 +151,26 @@ define(["wc/ajax/ajax",
 				return result;
 			};
 		}
-		return /** @alias module:wc/ui/listLoader */ new ListLoader();
+
+		/**
+		 * Loads named datalists, allowing other classes to reuse the same datalists. The purpose of this functionality is a
+		 * performance enhancement. It allows for significantly reduced page sizes (compared to embedding datalists in
+		 * non-cachable pages).
+
+		 * Could store a checksum of the datalist against the full url (including querystring) so we can make sure applications
+		 * are correctly assigning identifiers to lists. This could be done in a timeout so it does not slow down the actual
+		 * user interaction.
+		 *
+		 * Could store datalists in memory once they have been fetched so that if the same list is fetched again on the page
+		 * it would not even need to hit browser cache.
+		 *
+		 * @module
+		 * @requires module:wc/ajax/ajax
+		 * @requires module:wc/urlParser
+		 * @requires module:wc/dom/tag
+		 * @requires module:wc/Observer
+		 * @requires module:wc/dom/getAncestorOrSelf
+		 * @requires module:wc/dom/toDocFragment
+		 */
+		return new ListLoader();
 	});
