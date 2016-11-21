@@ -48,6 +48,18 @@ define(["wc/dom/attribute",
 			SELECTOR.descendFrom(PAGINATION_CONTAINER);
 			PAGINATION_BUTTON.descendFrom(PAGINATION_CONTAINER);
 
+			function getWrapper(element) {
+				return TABLE_WRAPPER.findAncestor(element);
+			}
+
+			function isAjax(element) {
+				var wrapper = getWrapper(element);
+				if (wrapper) {
+					return wrapper.getAttribute("data-wc-pagemode") === "dynamic";
+				}
+				return false;
+			}
+
 			/**
 			 * Helper for updateSelectOptions and setUpPageSelectOptions.
 			 * @param {int} currentPage The page currently being shown.
@@ -74,7 +86,7 @@ define(["wc/dom/attribute",
 
 				Array.prototype.forEach.call(labels, function (next) {
 					var rows, rpp, currentPage, i18nString, startIdx, endIdx;
-					if (TABLE_WRAPPER.findAncestor(next) === wrapper) {
+					if (getWrapper(next) === wrapper) {
 						// we have the correct spans
 						rows = next.getAttribute("data-wc-tablerows");
 						rpp = next.getAttribute("data-wc-tablerpp");
@@ -228,14 +240,14 @@ define(["wc/dom/attribute",
 			 */
 			function getOtherSelector(selector) {
 				var i,
-					wrapper = TABLE_WRAPPER.findAncestor(selector),
+					wrapper = getWrapper(selector),
 					selectors = (PAGINATION_SELECTOR.isOneOfMe(selector) ? PAGINATION_SELECTOR.findDescendants(wrapper) : RPP_SELECTOR.findDescendants(wrapper)); // this could include selectors in nested tables
 				if (selectors && selectors.length > 1) {
 					for (i = 0; i < selectors.length; ++i) {
 						if (selectors[i] === selector) {
 							continue;
 						}
-						if (wrapper === TABLE_WRAPPER.findAncestor(selectors[i])) {
+						if (wrapper === getWrapper(selectors[i])) {
 							return selectors[i];
 						}
 					}
@@ -309,17 +321,7 @@ define(["wc/dom/attribute",
 			 * @param {Element} element The control which was updated leading to the ajax request becoming necessary.
 			 */
 			function requestAjaxLoad(element) {
-				var alias;
-				if ((alias = element.getAttribute("data-wc-ajaxalias"))) {
-					ajaxRegion.register({
-						id: element.id,
-						loads: [alias],
-						alias: alias,
-						oneShot: true,
-						formRegion: alias
-					});
-					ajaxRegion.requestLoad(element);
-				}
+				ajaxRegion.requestLoad(element, common.getAjaxDTO(element, true));
 			}
 
 			/**
@@ -408,13 +410,13 @@ define(["wc/dom/attribute",
 				START_ELEMENT = START_ELEMENT || new Widget("span", "wc_table_pag_rowstart");
 				END_ELEMENT = END_ELEMENT || new Widget("span", "wc_table_pag_rowend");
 				Array.prototype.forEach.call(START_ELEMENT.findDescendants(wrapper), function(next) {
-					if (TABLE_WRAPPER.findAncestor(next) === wrapper) {
+					if (getWrapper(next) === wrapper) {
 						next.innerHTML = "";
 						next.innerHTML = startHTML;
 					}
 				});
 				Array.prototype.forEach.call(END_ELEMENT.findDescendants(wrapper), function(next) {
-					if (TABLE_WRAPPER.findAncestor(next) === wrapper) {
+					if (getWrapper(next) === wrapper) {
 						next.innerHTML = "";
 						next.innerHTML = endHTML;
 					}
@@ -436,11 +438,11 @@ define(["wc/dom/attribute",
 					paginatedTable,
 					startIdx;
 
-				if (element.hasAttribute("data-wc-ajaxalias")) {
+				if (isAjax(element)) {
 					triggerButtonId = button.id;
 					requestAjaxLoad(element);
 				}
-				else if ((wrapper = TABLE_WRAPPER.findAncestor(element)) && (paginatedTable = TABLE.findDescendant(wrapper, true)) && (page = PAGE.findDescendant(paginatedTable, true))) {
+				else if ((wrapper = getWrapper(element)) && (paginatedTable = TABLE.findDescendant(wrapper, true)) && (page = PAGE.findDescendant(paginatedTable, true))) {
 					rows = ROW.findDescendants(page, true);
 					len = rows.length;
 					requestedPage = element.value;
@@ -499,7 +501,7 @@ define(["wc/dom/attribute",
 					alternateSelector.selectedIndex = element.selectedIndex;
 				}
 
-				if (SELECTOR.isOneOfMe(element) && element.hasAttribute("data-wc-ajaxalias")) {
+				if (SELECTOR.isOneOfMe(element) && isAjax(element)) {
 					// dynamic pagination and change rows per page (latter always ajax).
 					requestAjaxLoad(element);
 				}
@@ -634,7 +636,7 @@ define(["wc/dom/attribute",
 						id,
 						selector;
 
-					container = TABLE_WRAPPER.findAncestor(element);
+					container = getWrapper(element);
 					if (!container) {
 						return;
 					}
