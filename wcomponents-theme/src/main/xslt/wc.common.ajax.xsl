@@ -34,9 +34,6 @@
 					<xsl:value-of select="normalize-space($idList)"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:attribute name="data-wc-ajaxalias">
-				<xsl:value-of select="$id"/>
-			</xsl:attribute>
 		</xsl:if>
 	</xsl:template>
 	

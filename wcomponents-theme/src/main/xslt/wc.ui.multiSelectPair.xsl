@@ -86,7 +86,7 @@
 							<xsl:value-of select="@fromListName"/>
 						</label>
 						<!--<xsl:element name="br"/>-->
-						<select id="{$availId}" multiple="multiple" class="wc_msp_av" size="{$size}">
+						<select id="{$availId}" multiple="multiple" class="wc_msp_av wc-noajax" size="{$size}">
 							<xsl:call-template name="disabledElement">
 								<xsl:with-param name="isControl" select="1"/>
 							</xsl:call-template>
@@ -124,7 +124,7 @@
 							<xsl:value-of select="@toListName"/>
 						</label>
 						<!--<xsl:element name="br"/>-->
-						<select id="{$toId}" multiple="multiple" class="wc_msp_chos" size="{$size}">
+						<select id="{$toId}" multiple="multiple" class="wc_msp_chos wc-noajax" size="{$size}">
 							<xsl:call-template name="disabledElement">
 								<xsl:with-param name="isControl" select="1"/>
 							</xsl:call-template>

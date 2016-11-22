@@ -35,6 +35,28 @@
 			error state.
 		-->
 		<xsl:variable name="isError" select="key('errorKey',$id)"/>
+		
+		<xsl:variable name="rowExpansion">
+			<xsl:choose>
+				<xsl:when test="ui:rowexpansion">
+					<xsl:value-of select="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		
+		<xsl:variable name="rowSelection">
+			<xsl:choose>
+				<xsl:when test="ui:rowselection">
+					<xsl:value-of select="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 
 		<div id="{$id}">
 			<xsl:call-template name="wtableClassName"/>
@@ -47,28 +69,38 @@
 				parent::ui:ajaxtarget[@action eq 'replace']">
 				<xsl:call-template name="setARIALive"/>
 			</xsl:if>
-
-			<xsl:variable name="rowExpansion">
-				<xsl:choose>
-					<xsl:when test="ui:rowexpansion">
-						<xsl:value-of select="1"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="0"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
-
-			<xsl:variable name="rowSelection">
-				<xsl:choose>
-					<xsl:when test="ui:rowselection">
-						<xsl:value-of select="1"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="0"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
+			
+			<xsl:if test="number($rowExpansion) eq 1">
+				<xsl:variable name="expMode" select="ui:rowexpansion/@mode"/>
+				<xsl:attribute name="data-wc-expmode">	
+					<xsl:choose>
+						<xsl:when test="($expMode eq 'lazy' or $expMode eq 'eager') and ui:subtr/@open">
+							<xsl:text>client</xsl:text>
+						</xsl:when>
+						<xsl:when test="$expMode eq 'eager'">
+							<xsl:text>lazy</xsl:text>
+						</xsl:when>
+						<xsl:when test="$expMode">
+							<xsl:value-of select="$expMode"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>client</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="ui:pagination">
+				<xsl:attribute name="data-wc-pagemode">
+					<xsl:choose>
+						<xsl:when test="ui:pagination/@mode">
+							<xsl:value-of select="ui:pagination/@mode"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>client</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
+			</xsl:if>
 
 			<!-- THIS IS WHERE THE DIV's CONTENT STARTS NO MORE ATTRIBUTES AFTER THIS POINT THANK YOU! -->
 			<!--

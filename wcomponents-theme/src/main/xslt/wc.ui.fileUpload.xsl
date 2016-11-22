@@ -81,16 +81,19 @@
 						<xsl:with-param name="isError" select="$isError"/>
 						<xsl:with-param name="myLabel" select="$myLabel"/>
 						<xsl:with-param name="class">
+							<xsl:choose>
+								<xsl:when test="number($readOnly) eq 1">
+									<xsl:text>wc_ro</xsl:text>
+								</xsl:when>
+								<xsl:when test="@ajax">
+									<xsl:text>wc-ajax</xsl:text>
+								</xsl:when>
+							</xsl:choose>
 							<xsl:if test="number($readOnly) eq 1">
 								<xsl:text>wc_ro</xsl:text>
 							</xsl:if>
 						</xsl:with-param>
 					</xsl:call-template>
-					<xsl:if test="@ajax">
-						<xsl:attribute name="data-wc-ajaxalias">
-							<xsl:value-of select="@id"/>
-						</xsl:attribute>
-					</xsl:if>
 					<xsl:attribute name="data-wc-cols">
 						<xsl:value-of select="$cols"/>
 					</xsl:attribute>

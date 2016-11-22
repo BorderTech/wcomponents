@@ -10,8 +10,9 @@ define(["wc/dom/Widget"], function (Widget) {
 				Widget.prototype.descendFrom.apply(this, arguments);
 			}
 		},
+		WRAPPER = new Widget("div", "wc-table"),
 		result = {
-			WRAPPER: new Widget("div", "wc-table"),
+			WRAPPER: WRAPPER,
 			TABLE: new Widget("table"),
 			THEAD: new Widget("thead"),
 			TBODY: new Widget("tbody"),
@@ -28,6 +29,28 @@ define(["wc/dom/Widget"], function (Widget) {
 			widget.descendFrom = descendFrom;
 		}
 	});
+
+	function getWrapperId(element) {
+		var wrapper = WRAPPER.findAncestor(element);
+		if (wrapper) {
+			return wrapper.id;
+		}
+		return null;
+	}
+
+	result.getAjaxDTO = function (element, isOneShot) {
+		var id = element.id,
+			alias = getWrapperId(element),
+			oneShot = isOneShot ? 1 : -1,
+			loads = alias ? [alias] : [];
+		return {
+			id: id,
+			loads: loads,
+			alias: alias,
+			formRegion: alias,
+			oneShot: oneShot
+		};
+	};
 
 	return result;
 
