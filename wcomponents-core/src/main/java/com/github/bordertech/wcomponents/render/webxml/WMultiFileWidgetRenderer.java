@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.WMultiFileWidget;
 import com.github.bordertech.wcomponents.WMultiFileWidget.FileWidgetUpload;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,6 +28,14 @@ final class WMultiFileWidgetRenderer extends AbstractWebXmlRenderer {
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		WMultiFileWidget widget = (WMultiFileWidget) component;
 		XmlStringBuilder xml = renderContext.getWriter();
+
+		// Check if rendering a file upload response
+		String uploadId = widget.getFileUploadRequestId();
+		if (uploadId != null) {
+			handleFileUploadRequest(widget, xml, uploadId);
+			return;
+		}
+
 		long maxFileSize = widget.getMaxFileSize();
 		int maxFiles = widget.getMaxFiles();
 		WComponent dropzone = widget.getDropzone();
@@ -73,6 +82,23 @@ final class WMultiFileWidgetRenderer extends AbstractWebXmlRenderer {
 			}
 			xml.appendEndTag("ui:fileupload");
 		}
+	}
+
+	/**
+	 * Paint the response for the file uploaded in this request.
+	 *
+	 * @param widget the file widget to render
+	 * @param xml the XML string builder
+	 * @param uploadId the file id uploaded in this request
+	 */
+	protected void handleFileUploadRequest(final WMultiFileWidget widget, final XmlStringBuilder xml, final String uploadId) {
+
+		FileWidgetUpload file = widget.getFile(uploadId);
+		if (file == null) {
+			throw new SystemException("Invalid file id [" + uploadId + "] to render uploaded response.");
+		}
+		int idx = widget.getFiles().indexOf(file);
+		FileWidgetRendererUtil.renderFileElement(widget, xml, file, idx);
 	}
 
 	/**

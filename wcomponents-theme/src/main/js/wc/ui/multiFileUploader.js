@@ -18,9 +18,11 @@ define(["wc/dom/attribute",
 	"wc/dom/focus",
 	"wc/isNumeric",
 	"wc/ui/ajaxRegion",
-	"wc/config"],
+	"wc/config",
+	"wc/dom/toDocFragment"],
 	function (attribute, prefetch, event, initialise, uid, Trigger, classList, sprintf, has, i18n, getFileSize,
-		accepted, Widget, formUpdateManager, filedrop, ajax, prompt, focus, isNumeric, ajaxRegion, wcconfig) {
+		accepted, Widget, formUpdateManager, filedrop, ajax, prompt, focus, isNumeric, ajaxRegion, wcconfig,
+		toDocFragment) {
 		"use strict";
 
 		var
@@ -950,7 +952,7 @@ define(["wc/dom/attribute",
 				var onError = function () {
 						errorHandlerFactory(fileId).call(response.xhr);
 					},
-					df = response.srcTree,
+					df = toDocFragment(response.xhr.responseText),
 					dto = response.dto,
 					inflight,
 					container = document.createElement(fileInfoContainerWd.tagName);
@@ -984,8 +986,9 @@ define(["wc/dom/attribute",
 					onProgress = progressEventFactory(fileId),
 					onError = errorHandlerFactory(fileId),
 					onAbort = abortHandlerFactory(fileId);
-				formData.append("wc_target", uploadName);
-				formData.append("wc_fileid", fileId);
+				formData.append("wc_ajax", uploadName);
+				formData.append("wc_ajax_int", "x");
+				formData.append("wc_fileuploadid", fileId);
 				/*
 				 * On the line below we specify the file name because some browsers do not support the File constructor.
 				 * In this case the file object is actually a Blob with the same duck type as a File.
