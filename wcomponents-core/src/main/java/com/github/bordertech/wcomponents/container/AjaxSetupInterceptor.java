@@ -42,21 +42,33 @@ public class AjaxSetupInterceptor extends InterceptorComponent {
 		}
 		WComponent triggerComponent = trigger.getComponent();
 
-		// Get AJAX operation (if registered)
-		AjaxOperation ajaxOperation = null;
-		Map<String, AjaxOperation> operations = (Map<String, AjaxOperation>) request
-				.getSessionAttribute(AjaxHelper.AJAX_OPERATIONS_SESSION_KEY);
-		if (operations != null) {
-			ajaxOperation = operations.get(triggerId);
-		}
+		// Check for an internal AJAX request (if client has flagged it as internal)
+		boolean internal = request.getParameter(WServlet.AJAX_TRIGGER_INTERNAL_PARAM_NAME) != null;
 
-		// Override registered operation if is a GET and trigger supports Internal AJAX
-		if (ajaxOperation != null && "GET".equals(request.getMethod()) && triggerComponent instanceof AjaxInternalTrigger) {
+		AjaxOperation ajaxOperation = null;
+		if (internal) {
+			if (!(triggerComponent instanceof AjaxInternalTrigger)) {
+				throw new SystemException("AJAX trigger [" + triggerId + "] does not support internal actions.");
+			}
 			// Create internal operation
 			ajaxOperation = new AjaxOperation(triggerId);
+		} else {
+			// Check for a registered AJAX operation
+			Map<String, AjaxOperation> operations = (Map<String, AjaxOperation>) request
+					.getSessionAttribute(AjaxHelper.AJAX_OPERATIONS_SESSION_KEY);
+			if (operations != null) {
+				ajaxOperation = operations.get(triggerId);
+			}
+
+			// Override registered operation if it is a GET and trigger supports Internal AJAX
+			// TODO This is only required until all components start using the Internal param flag
+			if (ajaxOperation != null && "GET".equals(request.getMethod()) && triggerComponent instanceof AjaxInternalTrigger) {
+				// Create internal operation
+				ajaxOperation = new AjaxOperation(triggerId);
+			}
 		}
 
-		// If no operation found, check if the trigger supports internal AJAX
+		// If no operation registered, check if the trigger supports internal AJAX then assume it is an Internal Action
 		if (ajaxOperation == null && trigger.getComponent() instanceof AjaxInternalTrigger) {
 			// Create internal operation
 			ajaxOperation = new AjaxOperation(triggerId);
@@ -64,8 +76,7 @@ public class AjaxSetupInterceptor extends InterceptorComponent {
 
 		// No Valid operation
 		if (ajaxOperation == null) {
-			throw new SystemException(
-					"No AJAX operation has been registered for trigger " + triggerId + ".");
+			throw new SystemException("No AJAX operation has been registered for trigger " + triggerId + ".");
 		}
 
 		// Set current operation
