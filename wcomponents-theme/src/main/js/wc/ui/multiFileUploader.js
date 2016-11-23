@@ -979,6 +979,41 @@ define(["wc/dom/attribute",
 			}
 
 			function processResponse(response, fileId) {
+				var srcTree = response.srcTree;
+				if ((srcTree === null || srcTree.documentElement === null) && (response.xhr && response.xhr.responseText)) {
+					processHtmlResponse(response, fileId);
+				}
+				else {
+					processXmlResponse(response, fileId);
+				}
+			}
+
+			function processHtmlResponse(response, fileId) {
+				var onError = function () {
+						errorHandlerFactory(fileId).call(response.xhr);
+					},
+					df = xslTransform.htmlToDocumentFragment(response.xhr.responseText),
+					dto = response.dto,
+					inflight,
+					container = document.createElement(fileInfoContainerWd.tagName);
+
+				if (df) {
+					if (df.NodeType === Node.DOCUMENT_NODE) {
+						df = df.firstElementChild;
+					}
+					container.appendChild(df);
+					dto.callback(container);
+					inflight = Object.keys(inflightXhrs);
+					if (inflight.length === 0) {
+						dto.complete(dto.container.id);
+					}
+					if (!container.innerHTML) {
+						onError();
+					}
+				}
+			}
+
+			function processXmlResponse(response, fileId) {
 				var onError = function() {
 					errorHandlerFactory(fileId).call(response.xhr);
 				};
@@ -1011,8 +1046,10 @@ define(["wc/dom/attribute",
 					onProgress = progressEventFactory(fileId),
 					onError = errorHandlerFactory(fileId),
 					onAbort = abortHandlerFactory(fileId);
-				formData.append("wc_target", uploadName);
-				formData.append("wc_fileid", fileId);
+				// backport from 41c2fdcf75a75d927dfaeda42926525118c7c70e
+				formData.append("wc_ajax", uploadName);
+				formData.append("wc_ajax_int", "x");
+				formData.append("wc_fileuploadid", fileId);
 				/*
 				 * On the line below we specify the file name because some browsers do not support the File constructor.
 				 * In this case the file object is actually a Blob with the same duck type as a File.

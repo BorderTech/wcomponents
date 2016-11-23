@@ -166,6 +166,11 @@ public final class ConfigurationProperties {
 	public static final String I18N_RESOURCE_BUNDLE_BASE_NAME = "bordertech.wcomponents.i18n.baseName";
 
 	/**
+	 * The resource bundle base name.
+	 */
+	public static final String I18N_THEME_RESOURCE_BUNDLE_BASE_NAME = "bordertech.wcomponents.i18n.theme.baseName";
+
+	/**
 	 * The flag that controls throwing errors for integrity issues.
 	 */
 	public static final String INTEGRITY_ERROR_MODE = "bordertech.wcomponents.integrity.terminate.mode";
@@ -249,6 +254,11 @@ public final class ConfigurationProperties {
 	 * Default template engine name.
 	 */
 	public static final String TEMPLATE_RENDERING_ENGINE_DEFAULT = get().getString(TEMPLATE_RENDERING_ENGINE);
+
+	/**
+	 * The render mode for template rendering, can be "on", "off" or "sniff".
+	 */
+	public static final String TEMPLATE_RENDERING_MODE = "bordertech.wcomponents.template.render.mode";
 
 	/**
 	 * The flag indicating whether to terminate the session on error.
@@ -749,6 +759,15 @@ public final class ConfigurationProperties {
 	}
 
 	/**
+	 * The I18n theme resource bundle base name.
+	 *
+	 * @return the parameter value if set, otherwise the default.
+	 */
+	public static String getI18nThemeResourceBundleBaseName() {
+		return get().getString(I18N_THEME_RESOURCE_BUNDLE_BASE_NAME, "com/github/bordertech/wcomponents/theme-messages");
+	}
+
+	/**
 	 * The flag that controls throwing errors for integrity issues.
 	 *
 	 * @return the parameter value, or false if null.
@@ -883,6 +902,16 @@ public final class ConfigurationProperties {
 	 */
 	public static String getTemplateRenderingEngine(final String engineName) {
 		return get().getString(TEMPLATE_RENDERING_ENGINE + "." + engineName);
+	}
+
+	/**
+	 * @return The render mode, can be either "on", "off" or "sniff".
+	 * "on" means the render will occur.
+	 * "off" means the render will not occur.
+	 * "sniff" means the render will occur based on user agent.
+	 */
+	public static String getTemplateRenderingMode() {
+		return get().getString(TEMPLATE_RENDERING_MODE, "off");
 	}
 
 	/**
