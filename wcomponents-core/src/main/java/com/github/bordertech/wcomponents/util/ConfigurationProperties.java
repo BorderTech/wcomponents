@@ -168,7 +168,7 @@ public final class ConfigurationProperties {
 	/**
 	 * The resource bundle base name.
 	 */
-	public static final String I18N_THEME_RESOURCE_BUNDLE_BASE_NAME = "bordertech.wcomponents.i18n.baseName";
+	public static final String I18N_THEME_RESOURCE_BUNDLE_BASE_NAME = "bordertech.wcomponents.i18n.theme.baseName";
 
 	/**
 	 * The flag that controls throwing errors for integrity issues.
@@ -756,6 +756,15 @@ public final class ConfigurationProperties {
 	 */
 	public static String getI18nResourceBundleBaseName() {
 		return get().getString(I18N_RESOURCE_BUNDLE_BASE_NAME);
+	}
+
+	/**
+	 * The I18n theme resource bundle base name.
+	 *
+	 * @return the parameter value if set, otherwise the default.
+	 */
+	public static String getI18nThemeResourceBundleBaseName() {
+		return get().getString(I18N_THEME_RESOURCE_BUNDLE_BASE_NAME, "com/github/bordertech/wcomponents/theme-messages");
 	}
 
 	/**

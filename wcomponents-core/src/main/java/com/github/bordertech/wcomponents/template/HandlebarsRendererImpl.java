@@ -61,11 +61,6 @@ public class HandlebarsRendererImpl implements TemplateRenderer {
 	public static final String THEME_I18N = "THEME_I18N";
 
 	/**
-	 * The basename of the theme i18n resource bundle. (TODO should this be a configuration property?)
-	 */
-	private static final String THEME_I18N_RESOURCE_BUNDLE_BASE_NAME = "com/github/bordertech/wcomponents/theme-messages";
-
-	/**
 	 * The logger instance for this class.
 	 */
 	private static final Log LOG = LogFactory.getLog(HandlebarsRendererImpl.class);
@@ -165,10 +160,11 @@ public class HandlebarsRendererImpl implements TemplateRenderer {
 
 		value = options.get(THEME_I18N);
 		if (value == null || "true".equalsIgnoreCase(value.toString())) {
+			String resourceBundleBasename = ConfigurationProperties.getI18nThemeResourceBundleBaseName();
 			// Theme i18n helper uses "t" not "i18n".
 			handlebars.registerHelper("t", I18nHelper.i18n);
 			I18nHelper.i18n.setDefaultLocale(I18nUtilities.getEffectiveLocale());
-			I18nHelper.i18n.setDefaultBundle(THEME_I18N_RESOURCE_BUNDLE_BASE_NAME);
+			I18nHelper.i18n.setDefaultBundle(resourceBundleBasename);
 		}
 
 		// Use markdown
