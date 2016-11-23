@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
+import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.EscapingStrategy;
@@ -13,6 +14,7 @@ import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.cache.TemplateCache;
 import com.github.jknack.handlebars.context.JavaBeanValueResolver;
 import com.github.jknack.handlebars.context.MapValueResolver;
+import com.github.jknack.handlebars.helper.I18nHelper;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import java.io.FileNotFoundException;
@@ -52,6 +54,16 @@ public class HandlebarsRendererImpl implements TemplateRenderer {
 	 * Escaping strategy option.
 	 */
 	public static final String ESCAPING_STRATEGY = "ESCAPING_STRATEGY";
+
+	/**
+	 * Perform theme i18n on the server, defaults is "true" (theme i18n bundle must be on the classpath).
+	 */
+	public static final String THEME_I18N = "THEME_I18N";
+
+	/**
+	 * The basename of the theme i18n resource bundle. (TODO should this be a configuration property?)
+	 */
+	private static final String THEME_I18N_RESOURCE_BUNDLE_BASE_NAME = "com/github/bordertech/wcomponents/theme-messages";
 
 	/**
 	 * The logger instance for this class.
@@ -151,6 +163,14 @@ public class HandlebarsRendererImpl implements TemplateRenderer {
 			handlebars.with((EscapingStrategy) value);
 		}
 
+		value = options.get(THEME_I18N);
+		if (value == null || "true".equalsIgnoreCase(value.toString())) {
+			// Theme i18n helper uses "t" not "i18n".
+			handlebars.registerHelper("t", I18nHelper.i18n);
+			I18nHelper.i18n.setDefaultLocale(I18nUtilities.getEffectiveLocale());
+			I18nHelper.i18n.setDefaultBundle(THEME_I18N_RESOURCE_BUNDLE_BASE_NAME);
+		}
+
 		// Use markdown
 		// Disabled temporarily for issues # 565
 		/*value = options.get(MARKDOWN);
@@ -158,6 +178,10 @@ public class HandlebarsRendererImpl implements TemplateRenderer {
 			handlebars.registerHelper("md", new MarkdownHelper());
 		}*/
 		// Caching
+		if (isCaching()) {
+			handlebars.with(CACHE);
+		}
+
 		if (isCaching()) {
 			handlebars.with(CACHE);
 		}
