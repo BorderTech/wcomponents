@@ -13,10 +13,35 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 	}
 
 	function enabledFilter (el) {
-		if (el.getAttribute("aria-disabled") === "true") {
+		if (el.getAttribute("aria-disabled") === "true" || el.hasAttribute("disabled")) {
 			return NodeFilter.FILTER_REJECT;
 		}
 		return NodeFilter.FILTER_ACCEPT;
+	}
+
+	function hiddenFilter(el) {
+		if (el.hasAttribute("hidden")) {
+			return NodeFilter.FILTER_REJECT;
+		}
+		return NodeFilter.FILTER_ACCEPT;
+	}
+
+	function treeFilter (el) {
+		var result = enabledFilter(el), role;
+		if (result === NodeFilter.FILTER_REJECT) {
+			return result;
+		}
+		result = hiddenFilter(el);
+		if (result === NodeFilter.FILTER_REJECT) {
+			return result;
+		}
+		if ((role = el.getAttribute("role"))) {
+			if (role === "group" || role === "treeitem") {
+				return NodeFilter.FILTER_ACCEPT;
+			}
+			return NodeFilter.FILTER_REJECT;
+		}
+		return NodeFilter.FILTER_SKIP;
 	}
 
 	function makeGroupConfig(cycle, filter) {
@@ -28,21 +53,24 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 	}
 
 	function makeTreeConfig(cycle, depthFirst, filter) {
+		var _filter = typeof filter === "function" ? filter : treeFilter;
 		return {
 			root: treeRoot,
 			cycle: !!cycle,
 			depthFirst: !!depthFirst,
-			filter: (filter || simpleFilter)
+			filter: _filter
 		};
 	}
 
 	function mockClosedBranchNodesFilter(el) {
-		if (el.getAttribute("role") === "group") {
-			return NodeFilter.FILTER_REJECT;
+		var result = treeFilter(el);
+		if (result !== NodeFilter.FILTER_REJECT) {
+			if (el.getAttribute("role") === "group") {
+				return NodeFilter.FILTER_REJECT;
+			}
 		}
-		return NodeFilter.FILTER_ACCEPT;
+		return result;
 	}
-
 
 	registerSuite({
 		name: TEST_MODULE,
@@ -77,6 +105,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 		teardown: function() {
 			testHolder.innerHTML = "";
 		},
+		/*
+		 * Tests of walking (linear) groups.
+		 */
 		testGetTargetFirstFromOther: function() {
 			var start = groupedElements[1],
 				expected = groupedElements[0],
@@ -173,37 +204,47 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				actual = controller.getTarget(makeGroupConfig(false, _filter), start, controller.MOVE_TO.FIRST);
 			assert.strictEqual(actual, expected, "getTarget LAST with filter should skip the filtered items.");
 		},
-		testGetTargetParentThrowsException: function() {
-			var start = groupedElements[1];
-			try {
-				controller.getTarget(makeGroupConfig(), start, controller.MOVE_TO.PARENT);
-				assert.fail(null, !null, "controller.MOVE_TO.PARENT should throw a ReferenceError");
-			}
-			catch (e) {
-				assert.isTrue(true);
-			}
+		testGetTargetFallbackFilter: function() {
+			var start = groupedElements[1],
+				expected = groupedElements[0],
+				config = makeGroupConfig(),
+				actual;
+			config.filter = null;
+			actual = controller.getTarget(config, start, controller.MOVE_TO.FIRST);
+			assert.strictEqual(actual, expected);
 		},
-		testGetTargetChildThrowsException: function() {
-			var start = groupedElements[1];
-			try {
-				controller.getTarget(makeGroupConfig(), start, controller.MOVE_TO.CHILD);
-				assert.fail(null, !null, "controller.MOVE_TO.CHILD should throw a ReferenceError");
-			}
-			catch (e) {
-				assert.isTrue(true);
-			}
+		testGetTargetNextFallbackFilter: function() {
+			var start = groupedElements[1],
+				expected =groupedElements[2],
+				config = makeGroupConfig(),
+				actual;
+			config.filter = null;
+			actual = controller.getTarget(config, start, controller.MOVE_TO.NEXT);
+			assert.strictEqual(actual, expected);
 		},
-		testGetTargetLastChildThrowsException: function() {
-			var start = groupedElements[1];
-			try {
-				controller.getTarget(makeGroupConfig(), start, controller.MOVE_TO.LAST_CHILD);
-				assert.fail(null, !null, "controller.MOVE_TO.LAST_CHILD should throw a ReferenceError");
-			}
-			catch (e) {
-				assert.isTrue(true);
-			}
+		testGetTargetNextFallbackFilterDoesNotFindDisabledHidden: function() {
+			var start = document.getElementById("beforeDisabled"),
+				config = makeGroupConfig(),
+				actual;
+			config.filter = null;
+			actual = controller.getTarget(config, start, controller.MOVE_TO.NEXT);
+			assert.isNull(actual);
 		},
-		/* TREE TESTS */
+		testGetTargetNextFallbackFilterWithCycle: function() {
+			var start = document.getElementById("beforeDisabled"),
+				expected = groupedElements[0],
+				config = makeGroupConfig(true),
+				actual;
+			config.filter = null;
+			actual = controller.getTarget(config, start, controller.MOVE_TO.NEXT);
+			assert.strictEqual(actual, expected);
+		},
+		testGetTargetGroupWithNoDirection: function () {
+			assert.isNull(controller.getTarget(makeGroupConfig(), groupedElements[0], null));
+		},
+		/*
+		 * TREE TESTS.
+		 */
 		testGetTargetTreeFirstNotFirst: function() {
 			var start = document.getElementById("tree4"),
 				expected = document.getElementById("tree1"),
@@ -386,18 +427,6 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				actual = controller.getTarget(makeTreeConfig(), start, controller.MOVE_TO.END);
 			assert.strictEqual(actual, expected, "Simple END from sub branch failed");
 		},
-		testGetTargetTreeTopWithFilter: function() {
-			var start = document.getElementById("tree33"),
-				expected = document.getElementById("tree2"),
-				actual = controller.getTarget(makeTreeConfig(false, false, enabledFilter), start, controller.MOVE_TO.TOP);
-			assert.strictEqual(actual, expected, "TOP with filter failed");
-		},
-		testGetTargetTreeEndWithFilter: function() {
-			var start = document.getElementById("tree33"),
-				expected = document.getElementById("tree6"),
-				actual = controller.getTarget(makeTreeConfig(false, false, enabledFilter), start, controller.MOVE_TO.END);
-			assert.strictEqual(actual, expected, "END with filter failed");
-		},
 		testGetTargetTreePreviousIntoSubBranchDepthFirst: function() {
 			var start = document.getElementById("tree4"),
 				expected = document.getElementById("tree33"),
@@ -443,14 +472,251 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				actual = controller.getTarget(makeTreeConfig(), start, controller.MOVE_TO.PARENT);
 			assert.isNull(actual, "PARENT from top should be null");
 		},
-		testGetTargetTreeNonsenseDirectionThrowsError: function() {
-			var start = document.getElementById("tree1");
+		/* tests skipping disabled or hidden */
+		testGetNextAcrossDisabled: function () {
+			var start = document.getElementById("tree4"),
+				expected = document.getElementById("tree6"),
+				disabled = document.getElementById("tree5"),
+				actual;
 			try {
-				controller.getTarget(makeTreeConfig(), start, -1);
-				assert.fail(null, !null, "direction -1 should throw a ReferenceError");
+				disabled.setAttribute("aria-disabled", "true");
+				actual= controller.getTarget(makeTreeConfig(), start, controller.MOVE_TO.NEXT);
+				assert.strictEqual(actual, expected);
+			}
+			finally {
+				disabled.removeAttribute("aria-disabled");
+			}
+		},
+		testGetNextAcrossHidden: function () {
+			var start = document.getElementById("tree4"),
+				expected = document.getElementById("tree6"),
+				hidden = document.getElementById("tree5"),
+				actual;
+			try {
+				hidden.setAttribute("hidden", "hidden");
+				actual= controller.getTarget(makeTreeConfig(), start, controller.MOVE_TO.NEXT);
+				assert.strictEqual(actual, expected);
+			}
+			finally {
+				hidden.removeAttribute("hidden");
+			}
+		},
+		testGetPreviousAcrossDisabled: function () {
+			var start = document.getElementById("tree6"),
+				expected = document.getElementById("tree4"),
+				disabled = document.getElementById("tree5"),
+				actual;
+			try {
+				disabled.setAttribute("aria-disabled", "true");
+				actual= controller.getTarget(makeTreeConfig(), start, controller.MOVE_TO.PREVIOUS);
+				assert.strictEqual(actual, expected);
+			}
+			finally {
+				disabled.removeAttribute("aria-disabled");
+			}
+		},
+		testGetPreviousAcrossHidden: function () {
+			var start = document.getElementById("tree6"),
+				expected = document.getElementById("tree4"),
+				hidden = document.getElementById("tree5"),
+				actual;
+			try {
+				hidden.setAttribute("hidden", "hidden");
+				actual= controller.getTarget(makeTreeConfig(), start, controller.MOVE_TO.PREVIOUS);
+				assert.strictEqual(actual, expected);
+			}
+			finally {
+				hidden.removeAttribute("hidden");
+			}
+		},
+		testGetFirstWithDisabled: function () {
+			var start = document.getElementById("tree6"),
+				expected = document.getElementById("tree2"),
+				disabled = document.getElementById("tree1"),
+				actual;
+			try {
+				disabled.setAttribute("aria-disabled", "true");
+				actual= controller.getTarget(makeTreeConfig(), start, controller.MOVE_TO.FIRST);
+				assert.strictEqual(actual, expected);
+			}
+			finally {
+				disabled.removeAttribute("aria-disabled");
+			}
+		},
+		testGetFirstWithHidden: function () {
+			var start = document.getElementById("tree6"),
+				expected = document.getElementById("tree2"),
+				hidden = document.getElementById("tree1"),
+				actual;
+			try {
+				hidden.setAttribute("hidden", "hidden");
+				actual= controller.getTarget(makeTreeConfig(), start, controller.MOVE_TO.FIRST);
+				assert.strictEqual(actual, expected);
+			}
+			finally {
+				hidden.removeAttribute("hidden");
+			}
+		},
+		testGetLastWithDisabled: function () {
+			var start = document.getElementById("tree2"),
+				expected = document.getElementById("tree6"),
+				disabled = document.getElementById("tree7"),
+				actual;
+			try {
+				disabled.setAttribute("aria-disabled", "true");
+				actual= controller.getTarget(makeTreeConfig(), start, controller.MOVE_TO.LAST);
+				assert.strictEqual(actual, expected);
+			}
+			finally {
+				disabled.removeAttribute("aria-disabled");
+			}
+		},
+		testGetLastWithHidden: function () {
+			var start = document.getElementById("tree2"),
+				expected = document.getElementById("tree6"),
+				hidden = document.getElementById("tree7"),
+				actual;
+			try {
+				hidden.setAttribute("hidden", "hidden");
+				actual= controller.getTarget(makeTreeConfig(), start, controller.MOVE_TO.LAST);
+				assert.strictEqual(actual, expected);
+			}
+			finally {
+				hidden.removeAttribute("hidden");
+			}
+		},
+		testPreviousInTreeFirstNodeWithCycleAndDisabled: function() {
+			var start = document.getElementById("tree1"),
+				expected = document.getElementById("tree6"),
+				disabled = document.getElementById("tree7"),
+				actual;
+			try {
+				disabled.setAttribute("aria-disabled", "true");
+				actual= controller.getTarget(makeTreeConfig(true), start, controller.MOVE_TO.PREVIOUS);
+				assert.strictEqual(actual, expected);
+			}
+			finally {
+				disabled.removeAttribute("aria-disabled");
+			}
+		},
+		testPreviousInTreeFirstNodeWithCycleAndHidden: function() {
+			var start = document.getElementById("tree1"),
+				expected = document.getElementById("tree6"),
+				hidden = document.getElementById("tree7"),
+				actual;
+			try {
+				hidden.setAttribute("hidden", "hidden");
+				actual= controller.getTarget(makeTreeConfig(true), start, controller.MOVE_TO.PREVIOUS);
+				assert.strictEqual(actual, expected);
+			}
+			finally {
+				hidden.removeAttribute("hidden");
+			}
+		},
+		testNextInTreeLastNodeWithCycleAndDisabled: function() {
+			var start = document.getElementById("tree6"),
+				expected = document.getElementById("tree1"),
+				disabled = document.getElementById("tree7"),
+				actual;
+			try {
+				disabled.setAttribute("aria-disabled", "true");
+				actual= controller.getTarget(makeTreeConfig(true), start, controller.MOVE_TO.NEXT);
+				assert.strictEqual(actual, expected);
+			}
+			finally {
+				disabled.removeAttribute("aria-disabled");
+			}
+		},
+		testNextInTreeLastNodeWithCycleAndHidden: function() {
+			var start = document.getElementById("tree6"),
+				expected = document.getElementById("tree1"),
+				hidden = document.getElementById("tree7"),
+				actual;
+			try {
+				hidden.setAttribute("hidden", "hidden");
+				actual= controller.getTarget(makeTreeConfig(true), start, controller.MOVE_TO.NEXT);
+				assert.strictEqual(actual, expected);
+			}
+			finally {
+				hidden.removeAttribute("hidden");
+			}
+		},
+		/* tests which should result in nothing */
+		testGetTargetTreeWithNoStart: function () {
+			assert.isNull(controller.getTarget(makeTreeConfig(true), null, controller.MOVE_TO.NEXT));
+		},
+		testGetTargetTreeWithNoDirection: function () {
+			assert.isNull(controller.getTarget(makeTreeConfig(true), document.getElementById("tree1"), null));
+		},
+		/*
+		 * Exception tests
+		 */
+		testGetTargetParentThrowsException: function() {
+			var start = groupedElements[1];
+			try {
+				controller.getTarget(makeGroupConfig(), start, controller.MOVE_TO.PARENT);
+				assert.fail(null, !null, "controller.MOVE_TO.PARENT should throw a ReferenceError");
 			}
 			catch (e) {
 				assert.isTrue(true);
+			}
+		},
+		testGetTargetChildThrowsException: function() {
+			var start = groupedElements[1];
+			try {
+				controller.getTarget(makeGroupConfig(), start, controller.MOVE_TO.CHILD);
+				assert.fail(null, !null, "controller.MOVE_TO.CHILD should throw a ReferenceError");
+			}
+			catch (e) {
+				assert.isTrue(true);
+			}
+		},
+		testGetTargetLastChildThrowsException: function() {
+			var start = groupedElements[1];
+			try {
+				controller.getTarget(makeGroupConfig(), start, controller.MOVE_TO.LAST_CHILD);
+				assert.fail(null, !null, "controller.MOVE_TO.LAST_CHILD should throw a ReferenceError");
+			}
+			catch (e) {
+				assert.isTrue(true);
+			}
+		},
+		testGetTargetTreeNonsenseDirectionThrowsError: function () {
+			var start = document.getElementById("tree1");
+			try {
+				controller.getTarget(makeTreeConfig(), start, -1);
+				assert.isTrue(false, "direction -1 should throw a ReferenceError");
+			}
+			catch (e) {
+				assert.isTrue(true);
+			}
+		},
+		testGetTargetNoConf: function () {
+			try {
+				controller.getTarget();
+				assert.isTrue(false);
+			}
+			catch (ex) {
+				assert.strictEqual(ex.constructor, TypeError, "Expected a TypeError");
+			}
+		},
+		testGetTargetNoConfRoot: function () {
+			try {
+				controller.getTarget({});
+				assert.isTrue(false);
+			}
+			catch (ex) {
+				assert.strictEqual(ex.constructor, TypeError, "Expected a TypeError");
+			}
+		},
+		testGetTargetRootNotElement: function () {
+			var conf = {root: {nodeType: 8}};
+			try {
+				controller.getTarget(conf);
+				assert.isTrue(false);
+			}
+			catch (ex) {
+				assert.strictEqual(ex.constructor, TypeError, "Expected a TypeError");
 			}
 		}
 	});
