@@ -32,6 +32,7 @@
 	progress {
 		margin-left: $wc-gap-small;
 		margin-right: $wc-gap-small;
+		min-width: 10em; // see https://github.com/BorderTech/wcomponents/issues/1000
 	}
 
 	> .wc_filelist {
