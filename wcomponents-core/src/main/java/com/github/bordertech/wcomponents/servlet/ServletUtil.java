@@ -20,6 +20,7 @@ import com.github.bordertech.wcomponents.container.ContextCleanupInterceptor;
 import com.github.bordertech.wcomponents.container.DataListInterceptor;
 import com.github.bordertech.wcomponents.container.DebugStructureInterceptor;
 import com.github.bordertech.wcomponents.container.FormInterceptor;
+import com.github.bordertech.wcomponents.container.TemplateRenderInterceptor;
 import com.github.bordertech.wcomponents.container.InterceptorComponent;
 import com.github.bordertech.wcomponents.container.PageShellInterceptor;
 import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor;
@@ -397,6 +398,7 @@ public final class ServletUtil {
 
 		} else if (parameters.get(WServlet.AJAX_TRIGGER_PARAM_NAME) != null) { // AJAX
 			chain = new InterceptorComponent[]{
+				new TemplateRenderInterceptor(),
 				new TransformXMLInterceptor(),
 				new ValidateXMLInterceptor(),
 				new AjaxErrorInterceptor(),
@@ -424,6 +426,7 @@ public final class ServletUtil {
 
 		} else {
 			chain = new InterceptorComponent[]{ // Page submit
+				new TemplateRenderInterceptor(),
 				new TransformXMLInterceptor(),
 				new ValidateXMLInterceptor(),
 				new SessionTokenInterceptor(),
