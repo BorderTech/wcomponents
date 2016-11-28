@@ -1,5 +1,4 @@
 # Change log
-
 # Release [in-progress]
 
 ## API Changes
@@ -9,6 +8,17 @@
   transformed #990.
 
 ## Enhancements
+
+# Release 1.2.15
+
+## API Changes
+
+## Bug Fixes
+
+## Enhancements
+* Allow handlebars templates to be rendered on the server to complete theme i18n.
+* Backport interceptor chain fix #993.
+* Fix loading shim "stuck" on IE8
 
 # Release 1.2.14
 

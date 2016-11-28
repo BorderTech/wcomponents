@@ -1,5 +1,5 @@
-define(["wc/dom/textContent", "lib/handlebars/handlebars"],
-	function(textContent, Handlebars) {
+define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has"],
+	function(textContent, Handlebars, has) {
 		"use strict";
 
 		/**
@@ -73,11 +73,13 @@ define(["wc/dom/textContent", "lib/handlebars/handlebars"],
 			 * @param {module:wc/template~params} [params] will process document.body if undefined
 			 */
 			this.process = function(params) {
-				if (params && params.source) {
-					processContainer(params.source, params.target, params.context);
-				}
-				else if (document.body) {
-					processContainer(document.body);
+				if (!has("ie") || has("ie") > 9) {
+					if (params && params.source) {
+						processContainer(params.source, params.target, params.context);
+					}
+					else if (document.body) {
+						processContainer(document.body);
+					}
 				}
 			};
 
@@ -148,21 +150,22 @@ define(["wc/dom/textContent", "lib/handlebars/handlebars"],
 			 *
 			 */
 			this.registerHelper = function(callback, token, type) {
+				if (!has("ie") || has("ie") > 9) {
+					if (typeof callback === "object") {
+						Handlebars.registerHelper(callback);
+						return;
+					}
 
-				if (typeof callback === "object") {
-					Handlebars.registerHelper(callback);
-					return;
-				}
+					if (!token) {
+						throw new TypeError("Handlebars helper must be identified.");
+					}
 
-				if (!token) {
-					throw new TypeError("Handlebars helper must be identified.");
+					if (type) {
+						Handlebars.registerHelper(token, helperCallbackFactory(callback, type));
+						return;
+					}
+					Handlebars.registerHelper(token, callback);
 				}
-
-				if (type) {
-					Handlebars.registerHelper(token, helperCallbackFactory(callback, type));
-					return;
-				}
-				Handlebars.registerHelper(token, callback);
 			};
 
 			/**
