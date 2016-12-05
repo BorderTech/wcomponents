@@ -126,6 +126,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:attributeGroup ref="ui:placeholder.attributes"/>
+		<xs:attributeGroup ref="ui:autocomplete.attributes"/>
 
 		<xs:attribute name="size" type="xs:positiveInteger">
 			<xs:annotation>
@@ -200,6 +201,7 @@
 	<xs:attributeGroup name="selectList.attributes">
 		<xs:attributeGroup ref="ui:input.attributes" />
 		<xs:attributeGroup ref="ui:submitOnChange.attributes" />
+		<xs:attributeGroup ref="ui:autocomplete.attributes"/>
 
 		<xs:attribute name="data" type="xs:string">
 			<xs:annotation>
@@ -272,6 +274,19 @@
 				<xs:documentation>
 					Indicates that the wrapper element of the component (normally a HTML Fieldset) should be rendered
 					without a border.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	
+	
+	
+	<xs:attributeGroup name="autocomplete.attributes">
+		<xs:attribute name="autocomplete" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>
+					This is the autocomplete setting for a component. If not set then the user agent can determine the autocomplete state. See 
+					<a href="https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete">https://html.spec.whatwg.org/multipage/forms.html#attr-fe-autocomplete</a>
 				</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>

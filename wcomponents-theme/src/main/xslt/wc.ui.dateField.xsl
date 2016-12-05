@@ -152,6 +152,11 @@
 										<xsl:value-of select="@max"/>
 									</xsl:attribute>
 								</xsl:if>
+								<xsl:if test="@autocomplete">
+									<xsl:attribute name="autocomplete">
+										<xsl:value-of select="@autocomplete"/>
+									</xsl:attribute>
+								</xsl:if>
 							</xsl:otherwise>
 						</xsl:choose>
 

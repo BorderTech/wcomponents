@@ -32,6 +32,7 @@
 				<xs:extension base="xs:string">
 					<xs:attributeGroup ref="ui:placeholder.attributes"/>
 					<xs:attributeGroup ref="ui:submitting.input.attributes"/>
+					<xs:attributeGroup ref="ui:autocomplete.attributes"/>
 					
 					<xs:attribute name="size" type="xs:positiveInteger">
 						<xs:annotation>

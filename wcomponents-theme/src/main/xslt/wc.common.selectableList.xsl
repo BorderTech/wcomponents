@@ -61,6 +61,11 @@
 							<xsl:text>em;</xsl:text>
 						</xsl:attribute>
 					</xsl:if>
+					<xsl:if test="@autocomplete">
+						<xsl:attribute name="autocomplete">
+							<xsl:value-of select="@autocomplete"/>
+						</xsl:attribute>
+					</xsl:if>
 					<xsl:apply-templates mode="selectableList"/>
 				</select>
 				<xsl:call-template name="inlineError">

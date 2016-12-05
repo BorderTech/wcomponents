@@ -96,6 +96,11 @@
 							<xsl:value-of select="@rows"/>
 						</xsl:attribute>
 					</xsl:if>
+					<xsl:if test="@autocomplete">
+						<xsl:attribute name="autocomplete">
+							<xsl:value-of select="@autocomplete"/>
+						</xsl:attribute>
+					</xsl:if>
 					<xsl:value-of select="."/>
 				</textarea>
 				<xsl:if test="@maxLength">

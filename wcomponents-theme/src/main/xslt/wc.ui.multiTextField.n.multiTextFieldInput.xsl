@@ -63,6 +63,11 @@
 					<xsl:value-of select="$field/@placeholder"/>
 				</xsl:attribute>
 			</xsl:if>
+			<xsl:if test="$field/@autocomplete">
+				<xsl:attribute name="autocomplete">
+					<xsl:value-of select="$field/@autocomplete"/>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:call-template name="disabledElement">
 				<xsl:with-param name="isControl" select="1"/>
 				<xsl:with-param name="field" select="$field"/>
