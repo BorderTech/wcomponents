@@ -1,5 +1,5 @@
-define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next", "wc/ajax/ajax", "wc/loader/resource", "wc/template"],
-	function(sprintf, toArray, wcconfig, mixin, i18next, ajax, resource, template) {
+define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/ajax", "wc/loader/resource", "wc/template", "wc/has"],
+	function(sprintf, toArray, wcconfig, mixin, ajax, resource, template, has) {
 		"use strict";
 		var DEFAULT_LANG = "en",
 			funcTranslate;
@@ -20,14 +20,13 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 		 * @requires module:wc/loader/resource
 		 * @requires module:wc/template
 		 */
-		var instance = new I18n();
+		var i18next, instance = new I18n();
 		/**
 		 * @constructor
 		 * @alias module:wc/i18n/i18n~I18n
 		 * @private
 		 */
 		function I18n() {
-
 			/**
 			 * Initialize this module.
 			 * @function module:wc/i18n/i18n.initialize
@@ -36,15 +35,27 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 			 * @param {Function} [callback] Called when initialized.
 			 */
 			this.initialize = function(config, callback) {
-				initI18next(config || {}, function(err, translate) {
-					if (translate) {
-						funcTranslate = translate;
-					}
-					if (err) {
-						console.error(err);
-					}
+				if (!has("ie") || has("ie") > 9) {
+					require(["lib/i18next"], function(engine) {  // Should we prefetch this? Does this make it load too late? Does it NEED to be in the layer?
+						i18next = engine;
+						initI18next(config || {}, function(err, translate) {
+							if (translate) {
+								funcTranslate = translate;
+							}
+							if (err) {
+								console.error(err);
+							}
+							callback();
+						});
+					});
+					// Register the i18n Handlebars helper.
+					template.registerHelper(function(i18n_key) {
+						return instance.get(i18n_key);
+					}, "t", template.PROCESS.SAFE_STRING);
+				}
+				else {
 					callback();
-				});
+				}
 			};
 
 			/**
@@ -94,7 +105,9 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 			 * @return {String} The internationalised version of the input.
 			 */
 			this.t = function() {
-				return i18next.t.apply(i18next, arguments);
+				if (i18next) {
+					return i18next.t.apply(i18next, arguments);
+				}
 			};
 		}
 
@@ -195,10 +208,6 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 			};
 		}
 
-		// Register the i18n Handlebars helper.
-		template.registerHelper(function(i18n_key) {
-			return instance.get(i18n_key);
-		}, "t", template.PROCESS.SAFE_STRING);
 
 		// I18n.call(instance.get);
 		mixin(instance, instance.get);

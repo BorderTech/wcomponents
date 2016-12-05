@@ -20,6 +20,7 @@ import com.github.bordertech.wcomponents.container.ContextCleanupInterceptor;
 import com.github.bordertech.wcomponents.container.DataListInterceptor;
 import com.github.bordertech.wcomponents.container.DebugStructureInterceptor;
 import com.github.bordertech.wcomponents.container.FormInterceptor;
+import com.github.bordertech.wcomponents.container.TemplateRenderInterceptor;
 import com.github.bordertech.wcomponents.container.InterceptorComponent;
 import com.github.bordertech.wcomponents.container.PageShellInterceptor;
 import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor;
@@ -391,11 +392,15 @@ public final class ServletUtil {
 		InterceptorComponent[] chain;
 
 		if (parameters.get(WServlet.DATA_LIST_PARAM_NAME) != null) { // Datalist
-			chain = new InterceptorComponent[]{new TransformXMLInterceptor(),
+			chain = new InterceptorComponent[]{
+				new TransformXMLInterceptor(),
 				new DataListInterceptor()};
 
 		} else if (parameters.get(WServlet.AJAX_TRIGGER_PARAM_NAME) != null) { // AJAX
 			chain = new InterceptorComponent[]{
+				new TemplateRenderInterceptor(),
+				new TransformXMLInterceptor(),
+				new ValidateXMLInterceptor(),
 				new AjaxErrorInterceptor(),
 				new SessionTokenAjaxInterceptor(),
 				new ResponseCacheInterceptor(CacheType.NO_CACHE),
@@ -404,8 +409,6 @@ public final class ServletUtil {
 				new WWindowInterceptor(true),
 				new WrongStepAjaxInterceptor(),
 				new ContextCleanupInterceptor(),
-				new TransformXMLInterceptor(),
-				new ValidateXMLInterceptor(),
 				new WhitespaceFilterInterceptor(),
 				new SubordinateControlInterceptor(),
 				new AjaxPageShellInterceptor(),
@@ -423,6 +426,9 @@ public final class ServletUtil {
 
 		} else {
 			chain = new InterceptorComponent[]{ // Page submit
+				new TemplateRenderInterceptor(),
+				new TransformXMLInterceptor(),
+				new ValidateXMLInterceptor(),
 				new SessionTokenInterceptor(),
 				new ResponseCacheInterceptor(CacheType.NO_CACHE),
 				new UIContextDumpInterceptor(),
@@ -430,8 +436,6 @@ public final class ServletUtil {
 				new WrongStepServerInterceptor(),
 				new AjaxCleanupInterceptor(),
 				new ContextCleanupInterceptor(),
-				new TransformXMLInterceptor(),
-				new ValidateXMLInterceptor(),
 				new WhitespaceFilterInterceptor(),
 				new SubordinateControlInterceptor(),
 				new PageShellInterceptor(),

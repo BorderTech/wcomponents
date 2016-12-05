@@ -3,14 +3,11 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.WLink.ImagePosition;
 import com.github.bordertech.wcomponents.file.File;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
-import com.github.bordertech.wcomponents.render.webxml.FileWidgetRendererUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
-import com.github.bordertech.wcomponents.util.XMLUtil;
 import com.github.bordertech.wcomponents.util.thumbnail.ThumbnailUtil;
 import java.awt.Dimension;
 import java.io.Serializable;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -49,12 +46,17 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	private static final Log LOG = LogFactory.getLog(WMultiFileWidget.class);
 
 	/**
-	 * File upload index content request.
+	 * File id for AJAX action.
 	 */
 	public static final String FILE_UPLOAD_ID_KEY = "wc_fileid";
 
 	/**
-	 * File upload index thumb nail content request.
+	 * File id for file content included in multi part request.
+	 */
+	public static final String FILE_UPLOAD_MULTI_PART_ID_KEY = "wc_fileuploadid";
+
+	/**
+	 * File id thumb nail content request.
 	 */
 	public static final String FILE_UPLOAD_THUMB_NAIL_KEY = "wc_filetn";
 
@@ -477,7 +479,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 
 	/**
 	 * Clear the thumbnails currently set on the files. This will cause them to be generated again when requested. This
-	 * can be used if the thumbanil size has changed.
+	 * can be used if the thumbnail size has changed.
 	 */
 	public void clearThumbnails() {
 		for (FileWidgetUpload file : getFiles()) {
@@ -525,8 +527,22 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * {@inheritDoc}
 	 */
 	@Override
+	protected void afterPaint(final RenderContext renderContext) {
+		super.afterPaint(renderContext);
+		// Clear file upload ID (if set)
+		setFileUploadRequestId(null);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	protected boolean beforeHandleRequest(final Request request) {
-		// Check if is targeted request
+
+		// Clear file upload ID (if set)
+		setFileUploadRequestId(null);
+
+		// Check if is targeted request (thumbnail request or file content request)
 		String targetParam = request.getParameter(Environment.TARGET_ID);
 		boolean targetted = (targetParam != null && targetParam.equals(getTargetId()));
 		if (targetted) {
@@ -534,10 +550,18 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 			return false;
 		}
 
-		// Check if AJAX trigger and has file id in request
-		if (AjaxHelper.isCurrentAjaxTrigger(this) && request.getParameter(FILE_UPLOAD_ID_KEY) != null) {
-			doHandleFileAjaxActionRequest(request);
-			return false;
+		// Check if AJAX trigger
+		if (AjaxHelper.isCurrentAjaxTrigger(this)) {
+			// Upload file request (check for multi part and file id)
+			if (request.getParameter(FILE_UPLOAD_MULTI_PART_ID_KEY) != null && request.getFileItems(getId()) != null) {
+				doHandleUploadRequest(request);
+				return false;
+			}
+			// File in list selected by the user
+			if (request.getParameter(FILE_UPLOAD_ID_KEY) != null) {
+				doHandleFileAjaxActionRequest(request);
+				return false;
+			}
 		}
 
 		return true;
@@ -585,16 +609,12 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	}
 
 	/**
-	 * Handle a targeted request.
+	 * Handle a targeted request. Can be a file upload, thumbnail request or file content request.
+	 *
 	 *
 	 * @param request the request being processed
 	 */
 	protected void doHandleTargetedRequest(final Request request) {
-		// Upload file request
-		if (request.getFileItems(getId()) != null) {
-			doHandleUploadRequest(request);
-			return;
-		}
 
 		// Check for file id
 		String fileId = request.getParameter(FILE_UPLOAD_ID_KEY);
@@ -641,7 +661,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		}
 
 		// Check the client provided a fileID
-		String fileId = request.getParameter(FILE_UPLOAD_ID_KEY);
+		String fileId = request.getParameter(FILE_UPLOAD_MULTI_PART_ID_KEY);
 		if (fileId == null) {
 			throw new SystemException("No file id provided for file upload.");
 		}
@@ -651,34 +671,9 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		FileWidgetUpload file = new FileWidgetUpload(fileId, wrap);
 		addFile(file);
 
-		int idx = getFiles().size() - 1;
-
+		// Set the file id to be used ion the renderer
+		setFileUploadRequestId(fileId);
 		setNewUpload(true);
-
-		// Build response
-		StringWriter writer = new StringWriter();
-		XmlStringBuilder xml = new XmlStringBuilder(writer);
-
-		UIContext uic = UIContextHolder.getCurrent();
-
-		xml.append(XMLUtil.getXMLDeclarationWithThemeXslt(uic));
-
-		xml.appendTagOpen("ui:ajaxresponse");
-		xml.append(XMLUtil.STANDARD_NAMESPACES);
-		xml.appendClose();
-		xml.appendTagOpen("ui:ajaxtarget");
-		xml.appendAttribute("id", getId());
-		xml.appendAttribute("action", "replace");
-		xml.appendClose();
-
-		FileWidgetRendererUtil.renderFileElement(this, xml, file, idx);
-
-		xml.appendEndTag("ui:ajaxtarget");
-		xml.appendEndTag("ui:ajaxresponse");
-
-		FileUploadXMLResponse content = new FileUploadXMLResponse(writer.getBuffer().toString());
-		ContentEscape escape = new ContentEscape(content);
-		throw escape;
 	}
 
 	/**
@@ -854,6 +849,22 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 				containsAll(list2));
 	}
 
+	/**
+	 * @param fileId the file id that has been uploaded successfully
+	 */
+	private void setFileUploadRequestId(final String fileId) {
+		getOrCreateComponentModel().fileUploadRequestId = fileId;
+	}
+
+	/**
+	 * This method is used by the renderer to return the successful upload response.
+	 *
+	 * @return the file id that has been successfully uploaded, or null
+	 */
+	public String getFileUploadRequestId() {
+		return getComponentModel().fileUploadRequestId;
+	}
+
 	// ----------------------------------------------------------------
 	// Extrinsic state management
 	// ----------------------------------------------------------------
@@ -944,53 +955,11 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		 * Uploaded file.
 		 */
 		private boolean newUpload;
-	}
-
-	/**
-	 * File upload response. Used to send the response when a file has been uploaded successfully.
-	 */
-	public static class FileUploadXMLResponse implements ContentAccess {
 
 		/**
-		 * Default id.
+		 * File ID that has been successfully uploaded.
 		 */
-		private static final long serialVersionUID = 1L;
-
-		/**
-		 * XML response.
-		 */
-		private final String xml;
-
-		/**
-		 * @param xml the xml response
-		 */
-		public FileUploadXMLResponse(final String xml) {
-			this.xml = xml;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public byte[] getBytes() {
-			return xml.getBytes();
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String getDescription() {
-			return "fileui";
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public String getMimeType() {
-			return WebUtilities.CONTENT_TYPE_XML;
-		}
+		private String fileUploadRequestId;
 	}
 
 	/**

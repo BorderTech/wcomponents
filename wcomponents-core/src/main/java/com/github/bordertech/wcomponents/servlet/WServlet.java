@@ -43,6 +43,11 @@ public class WServlet extends HttpServlet {
 	public static final String AJAX_TRIGGER_PARAM_NAME = "wc_ajax";
 
 	/**
+	 * The name of the parameter that will specify this is an internal component AJAX request.
+	 */
+	public static final String AJAX_TRIGGER_INTERNAL_PARAM_NAME = "wc_ajax_int";
+
+	/**
 	 * The name of the parameter that will specify the data list to fetch.
 	 */
 	public static final String DATA_LIST_PARAM_NAME = "wc_data";
