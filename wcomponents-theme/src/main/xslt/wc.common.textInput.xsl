@@ -122,7 +122,7 @@
 							</xsl:attribute>
 						</xsl:if>
 						<xsl:if test="@minLength">
-							<xsl:attribute name="data-wc-minlength">
+							<xsl:attribute name="minlength">
 								<xsl:value-of select="@minLength"/>
 							</xsl:attribute>
 						</xsl:if>
