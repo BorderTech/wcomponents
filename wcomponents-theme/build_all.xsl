@@ -53,7 +53,7 @@
 
 		The priority on this template prevents ambiguous match issues with @*|node().
 	-->
-	<xsl:template match="@priority|xsl:stylesheet|xsl:import|xsl:strip-space|xsl:output|processing-instruction()|comment()" priority="2" />
+	<xsl:template match="@priority|xsl:stylesheet|xsl:import|xsl:include|xsl:strip-space|xsl:output|processing-instruction()|comment()" priority="2" />
 
 	<!--
 		Output the value of the text node. We use the priority here to prevent processor warnings about ambiguous
