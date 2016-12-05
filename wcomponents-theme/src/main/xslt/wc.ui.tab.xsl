@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.accessKey.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
@@ -19,19 +19,24 @@
 	-->
 	<xsl:template match="ui:tab">
 		<xsl:param name="tabset"/>
-		<xsl:param name="numAvailTabs"/>
+		<xsl:param name="numAvailTabs" select="0"/>
 
 		<xsl:variable name="type" select="$tabset/@type"/>
 
 		<xsl:variable name="isDisabled">
-			<xsl:if test="@disabled or $tabset/@disabled">
-				<xsl:number value="1"/>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="@disabled or $tabset/@disabled">
+					<xsl:number value="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:number value="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
 
 		<xsl:variable name="expandSelectAttrib">
 			<xsl:choose>
-				<xsl:when test="$type='accordion'">
+				<xsl:when test="$type eq 'accordion'">
 					<xsl:text>aria-expanded</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
@@ -56,7 +61,7 @@
 			-->
 			<xsl:attribute name="tabindex">
 				<xsl:choose>
-					<xsl:when test="($numAvailTabs &gt; 0 and not(@open)) or @disabled">
+					<xsl:when test="(number($numAvailTabs) gt 0 and not(@open)) or @disabled">
 						<xsl:text>-1</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
@@ -75,7 +80,7 @@
 			<!--
 				This is cheaper than calling template disabledElement for the tab, the tabGroup and the tabset in turn
 			-->
-			<xsl:if test="$isDisabled=1">
+			<xsl:if test="number($isDisabled) eq 1">
 				<xsl:attribute name="aria-disabled">
 					<xsl:text>true</xsl:text>
 				</xsl:attribute>
@@ -91,7 +96,7 @@
 				<xsl:with-param name="output" select="'div'"/>
 			</xsl:apply-templates>
 		</div>
-		<xsl:if test="$type='accordion'">
+		<xsl:if test="$type eq 'accordion'">
 			<xsl:apply-templates select="ui:tabcontent">
 				<xsl:with-param name="tabset" select="$tabset"/>
 			</xsl:apply-templates>

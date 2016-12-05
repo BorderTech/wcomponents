@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.registrationScripts.coreRegistrationScripts.xsl"/>
 	<xsl:import href="wc.common.registrationScripts.requiredLibraries.xsl"/>
 	<xsl:import href="wc.common.registrationScripts.impl_registration.xsl"/>
@@ -23,7 +23,7 @@
 			<xsl:call-template name="coreRegistrationScripts"/>
 			<xsl:call-template name="requiredLibraries"/>
 		</xsl:variable>
-		<xsl:if test="$rego!='' or self::ui:root">
+		<xsl:if test="$rego ne '' or self::ui:root">
 			<xsl:variable name="scriptId" select="generate-id()"/>
 			<script type="text/javascript" class="registrationScripts" id="{$scriptId}">
 				<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
@@ -37,7 +37,7 @@
 					-->
 					<xsl:text>require(["wc/fixes"], function(f){require(f);});</xsl:text>
 				</xsl:if>
-				<xsl:if test="$rego!=''">
+				<xsl:if test="$rego ne ''">
 					<xsl:value-of select="$rego"/>
 				</xsl:if>
 				<xsl:text>}finally{require(["wc/dom/removeElement"],function(r){r("</xsl:text>

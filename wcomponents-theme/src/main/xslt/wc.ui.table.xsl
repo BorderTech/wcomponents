@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
@@ -35,38 +35,72 @@
 			error state.
 		-->
 		<xsl:variable name="isError" select="key('errorKey',$id)"/>
+		
+		<xsl:variable name="rowExpansion">
+			<xsl:choose>
+				<xsl:when test="ui:rowexpansion">
+					<xsl:value-of select="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		
+		<xsl:variable name="rowSelection">
+			<xsl:choose>
+				<xsl:when test="ui:rowselection">
+					<xsl:value-of select="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 
 		<div id="{$id}">
 			<xsl:call-template name="wtableClassName"/>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 
-			<xsl:if test="ui:pagination[@mode='dynamic' or @mode='client'] or 
-				ui:rowexpansion[@mode='lazy' or @mode='dynamic'] or ui:sort[@mode='dynamic'] or key('targetKey',$id) or
-				parent::ui:ajaxtarget[@action='replace']">
+			<xsl:if test="ui:pagination[@mode eq 'dynamic' or @mode eq 'client'] or 
+				ui:rowexpansion[@mode eq 'lazy' or @mode eq 'dynamic'] or 
+				ui:sort[@mode eq 'dynamic'] or 
+				key('targetKey',$id) or 
+				parent::ui:ajaxtarget[@action eq 'replace']">
 				<xsl:call-template name="setARIALive"/>
 			</xsl:if>
-
-			<xsl:variable name="rowExpansion">
-				<xsl:choose>
-					<xsl:when test="ui:rowexpansion">
-						<xsl:value-of select="1"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="0"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
-
-			<xsl:variable name="rowSelection">
-				<xsl:choose>
-					<xsl:when test="ui:rowselection">
-						<xsl:value-of select="1"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="0"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
+			
+			<xsl:if test="number($rowExpansion) eq 1">
+				<xsl:variable name="expMode" select="ui:rowexpansion/@mode"/>
+				<xsl:attribute name="data-wc-expmode">	
+					<xsl:choose>
+						<xsl:when test="($expMode eq 'lazy' or $expMode eq 'eager') and ui:subtr/@open">
+							<xsl:text>client</xsl:text>
+						</xsl:when>
+						<xsl:when test="$expMode eq 'eager'">
+							<xsl:text>lazy</xsl:text>
+						</xsl:when>
+						<xsl:when test="$expMode">
+							<xsl:value-of select="$expMode"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>client</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="ui:pagination">
+				<xsl:attribute name="data-wc-pagemode">
+					<xsl:choose>
+						<xsl:when test="ui:pagination/@mode">
+							<xsl:value-of select="ui:pagination/@mode"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>client</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
+			</xsl:if>
 
 			<!-- THIS IS WHERE THE DIV's CONTENT STARTS NO MORE ATTRIBUTES AFTER THIS POINT THANK YOU! -->
 			<!--
@@ -77,7 +111,7 @@
 			<xsl:call-template name="topControls"/>
 
 			<xsl:variable name="tableClass">
-				<xsl:if test="$rowExpansion = 1">
+				<xsl:if test="number($rowExpansion) eq 1">
 					<xsl:text>wc_tbl_expansion</xsl:text>
 				</xsl:if>
 				<xsl:if test="ui:thead/ui:th[@width]">
@@ -86,7 +120,7 @@
 			</xsl:variable>
 	
 			<table>
-				<xsl:if test="$tableClass != ''">
+				<xsl:if test="$tableClass ne ''">
 					<xsl:attribute name="class">
 						<xsl:value-of select="normalize-space($tableClass)"/>
 					</xsl:attribute>
@@ -94,8 +128,8 @@
 				<xsl:if test="$isError">
 					<xsl:call-template name="invalid"/>
 				</xsl:if>
-				<xsl:if test="$rowExpansion + $rowSelection &gt; 0">
-					<xsl:if test="$rowSelection=1">
+				<xsl:if test="number($rowExpansion) + number($rowSelection) gt 0">
+					<xsl:if test="number($rowSelection) eq 1">
 						<xsl:attribute name="aria-multiselectable">
 							<xsl:choose>
 								<xsl:when test="ui:rowselection/@multiple">
@@ -127,17 +161,17 @@
 				<xsl:call-template name="caption" />
 
 				<colgroup>
-					<xsl:if test="@separators='both' or @separators='vertical'">
+					<xsl:if test="@separators eq 'both' or @separators eq 'vertical'">
 						<xsl:attribute name="class">
 							<xsl:text>wc_table_colsep</xsl:text>
 						</xsl:attribute>
 					</xsl:if>
 
-					<xsl:if test="$rowSelection=1">
+					<xsl:if test="number($rowSelection) eq 1">
 						<col class="wc_table_colauto"></col>
 					</xsl:if>
 
-					<xsl:if test="$rowExpansion=1">
+					<xsl:if test="number($rowExpansion) eq 1">
 						<col class="wc_table_colauto"></col>
 					</xsl:if>
 
@@ -145,9 +179,14 @@
 						<xsl:when test="ui:thead/ui:th">
 							<xsl:apply-templates select="ui:thead/ui:th" mode="col">
 								<xsl:with-param name="stripe">
-									<xsl:if test="@striping='cols'">
-										<xsl:value-of select="1"/>
-									</xsl:if>
+									<xsl:choose>
+										<xsl:when test="@striping eq 'cols'">
+											<xsl:value-of select="1"/>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:number value="0"/>
+										</xsl:otherwise>
+									</xsl:choose>
 								</xsl:with-param>
 								<xsl:with-param name="sortCol" select="ui:sort/@col"/>
 							</xsl:apply-templates>
@@ -155,9 +194,14 @@
 						<xsl:otherwise>
 							<xsl:apply-templates select="ui:tbody/ui:tr[1]/ui:th|ui:tbody/ui:tr[1]/ui:td" mode="col">
 								<xsl:with-param name="stripe">
-									<xsl:if test="@striping='cols'">
-										<xsl:value-of select="1"/>
-									</xsl:if>
+									<xsl:choose>
+										<xsl:when test="@striping eq 'cols'">
+											<xsl:value-of select="1"/>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:number value="0"/>
+										</xsl:otherwise>
+									</xsl:choose>
 								</xsl:with-param>
 								<xsl:with-param name="sortCol" select="ui:sort/@col"/>
 							</xsl:apply-templates>
@@ -215,7 +259,7 @@
 		<xsl:text>","message":"</xsl:text>
 		<xsl:value-of select="@message"/>
 		<xsl:text>"}</xsl:text>
-		<xsl:if test="position()!=last()">
+		<xsl:if test="position() ne last()">
 			<xsl:text>,</xsl:text>
 		</xsl:if>
 	</xsl:template>
@@ -237,18 +281,18 @@
 		param sortCol: The 0 indexed column which is currently sorted (if any).
 	-->
 	<xsl:template match="ui:th|ui:td" mode="col">
-		<xsl:param name="stripe"/>
-		<xsl:param name="sortCol"/>
+		<xsl:param name="stripe" select="0"/>
+		<xsl:param name="sortCol" select="-1"/>
 		<xsl:variable name="class">
-			<xsl:if test="$stripe=1 and position() mod 2 = 0">
+			<xsl:if test="number($stripe) eq 1 and position() mod 2 eq 0">
 				<xsl:text>wc_table_stripe</xsl:text>
 			</xsl:if>
-			<xsl:if test="$sortCol and position() = $sortCol + 1">
+			<xsl:if test="$sortCol and number($sortCol) ge 0 and position() eq number($sortCol) + 1">
 				<xsl:text> wc_table_sort_sorted</xsl:text>
 			</xsl:if>
 		</xsl:variable>
 		<col>
-			<xsl:if test="$class !=''">
+			<xsl:if test="$class ne ''">
 				<xsl:attribute name="class">
 					<xsl:value-of select="normalize-space($class)"/>
 				</xsl:attribute>

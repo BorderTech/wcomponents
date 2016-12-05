@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.inlineError.xsl"/>
 	<xsl:import href="wc.common.popups.xsl"/>
@@ -30,14 +30,19 @@
 		<xsl:param name="imageAltText" select="''"/>
 		<xsl:variable name="type" select="@type"/>
 		<xsl:variable name="hasPopup">
-			<xsl:if test="ui:windowAttributes[count(@*) &gt; 1] or ($type='button' and ui:windowAttributes)">
-				<xsl:number value="1"/>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="ui:windowAttributes[count(@*) gt 1] or ($type eq 'button' and ui:windowAttributes)">
+					<xsl:number value="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:number value="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
 
 		<xsl:variable name="elementType">
 			<xsl:choose>
-				<xsl:when test="$type='button' or $hasPopup=1">
+				<xsl:when test="$type eq 'button' or number($hasPopup) eq 1">
 					<xsl:text>button</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
@@ -50,7 +55,7 @@
 			<xsl:call-template name="buttonLinkCommonAttributes">
 				<xsl:with-param name="elementType" select="$elementType"/>
 				<xsl:with-param name="class">
-					<xsl:if test="$elementType='button' and not($type='button')">
+					<xsl:if test="$elementType eq 'button' and not($type eq 'button')">
 						<xsl:text> wc-linkbutton</xsl:text>
 					</xsl:if>
 				</xsl:with-param>
@@ -60,7 +65,7 @@
 			<xsl:variable name="noreferrer" select="'noreferrer'"/>
 
 			<xsl:choose>
-				<xsl:when test="$elementType='a'">
+				<xsl:when test="$elementType eq 'a'">
 					<xsl:attribute name="href">
 						<xsl:value-of select="@url"/>
 					</xsl:attribute>

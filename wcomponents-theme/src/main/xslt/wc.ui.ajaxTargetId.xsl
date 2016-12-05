@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<!-- 
 		Called from template match="ui:ajaxtrigger" mode="JS" in wc.ui.ajaxTrigger.xsl.
 		This template may be replaced and the targets determined directly from 
@@ -10,7 +10,7 @@
 		<xsl:text>"</xsl:text>
 		<xsl:value-of select="@targetId"/>
 		<xsl:text>"</xsl:text>
-		<xsl:if test="position() != last()">
+		<xsl:if test="position() ne last()">
 			<xsl:text>,</xsl:text>
 		</xsl:if>
 	</xsl:template>

@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
 
@@ -36,6 +36,8 @@
 							to be cancelled once there is something in the autocomplete list, i.e. once you have
 							entered something into that field. So your event listeners are called with a cancelled
 							event but you can find no code that cancels the event - very tricky to track down.
+						
+						TODO: check this in IE 11 and possibly implement autocomplete or move this attribute fix to JavaScript.
 					-->
 					<xsl:attribute name="autocomplete">
 						<xsl:text>off</xsl:text>
@@ -65,11 +67,11 @@
 									<xsl:number value="round(number(@step))"/>
 								</xsl:when>
 								<xsl:otherwise>
-									<xsl:value-of select="number(@step)"/>
+									<xsl:number value="number(@step)"/>
 								</xsl:otherwise>
 							</xsl:choose>
 						</xsl:variable>
-						<xsl:if test="$step != '' and $step != 0">
+						<xsl:if test="number($step) ne 0">
 							<xsl:attribute name="step">
 								<xsl:value-of select="$step"/>
 							</xsl:attribute>

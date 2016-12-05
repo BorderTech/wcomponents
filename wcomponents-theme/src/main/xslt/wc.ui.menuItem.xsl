@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.ui.menu.n.menuRoleIsSelectable.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuTabIndexHelper.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
@@ -14,16 +14,10 @@
 	-->
 	<xsl:template match="ui:menuitem">
 		<xsl:variable name="myAncestorMenu" select="ancestor::ui:menu[1]"/>
-		<xsl:variable name="myAncestorSubmenu"
-			select="ancestor::ui:submenu[ancestor::ui:menu[1]=$myAncestorMenu or not($myAncestorMenu)][1]"/>
+		<xsl:variable name="myAncestorSubmenu" select="ancestor::ui:submenu[not(ancestor::ui:menu) or ancestor::ui:menu[1] eq $myAncestorMenu][1]"/>
 		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="menuType" select="$myAncestorMenu/@type"/>
-		<!-- this is a test for ui:menuitem in an ajax response without its context menu -->
-		<xsl:variable name="noContextMenu">
-			<xsl:if test="not($myAncestorMenu)">
-				<xsl:number value="1"/>
-			</xsl:if>
-		</xsl:variable>
+		
 		<xsl:variable name="actionType">
 			<xsl:choose>
 				<xsl:when test="@url">
@@ -42,7 +36,7 @@
 				<xsl:with-param name="isControl" select="1"/>
 				<xsl:with-param name="class">
 					<xsl:text>wc-invite wc-nobutton</xsl:text>
-					<xsl:if test="$actionType &gt; 0">
+					<xsl:if test="number($actionType) gt 0">
 						<xsl:if test="@cancel">
 							<xsl:text> wc_btn_cancel</xsl:text>
 						</xsl:if>
@@ -54,7 +48,7 @@
 			</xsl:call-template>
 			<xsl:attribute name="type">
 				<xsl:choose>
-					<xsl:when test="$actionType=2">
+					<xsl:when test="number($actionType) eq 2">
 						<xsl:text>submit</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
@@ -64,7 +58,7 @@
 			</xsl:attribute>
 			<xsl:call-template name="title"/>
 			<xsl:choose>
-				<xsl:when test="$actionType=1">
+				<xsl:when test="number($actionType) eq 1">
 					<xsl:attribute name="data-wc-url">
 						<xsl:value-of select="@url"/>
 					</xsl:attribute>
@@ -77,7 +71,7 @@
 						</xsl:attribute>
 					</xsl:if>
 				</xsl:when>
-				<xsl:when test="$actionType=2">
+				<xsl:when test="number($actionType) eq 2">
 					<xsl:attribute name="name">
 						<xsl:value-of select="$id"/>
 					</xsl:attribute>
@@ -131,12 +125,12 @@
 					</xsl:variable>
 					<xsl:attribute name="role">
 						<xsl:choose>
-							<xsl:when test="$isSelectable=1 and
-								($myAncestorSubmenu[not(@selectMode='single')] or
-								(not($myAncestorSubmenu) and $myAncestorMenu[not(@selectMode='single')]))">
+							<xsl:when test="number($isSelectable) eq 1 and
+								($myAncestorSubmenu[not(@selectMode eq 'single')] or
+								(not($myAncestorSubmenu) and $myAncestorMenu[not(@selectMode eq 'single')]))">
 								<xsl:text>menuitemcheckbox</xsl:text>
 							</xsl:when>
-							<xsl:when test="$isSelectable=1">
+							<xsl:when test="number($isSelectable) eq 1">
 								<xsl:text>menuitemradio</xsl:text>
 							</xsl:when>
 							<xsl:otherwise>
@@ -144,7 +138,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
-					<xsl:if test="$isSelectable=1">
+					<xsl:if test="number($isSelectable) eq 1">
 						<xsl:attribute name="aria-checked">
 							<xsl:choose>
 								<xsl:when test="@selected">
@@ -161,7 +155,7 @@
 							<xsl:with-param name="menu" select="$myAncestorMenu"/>
 						</xsl:call-template>
 					</xsl:variable>
-					<xsl:if test="$tabindex!=''">
+					<xsl:if test="$tabindex ne ''">
 						<xsl:attribute name="tabindex">
 							<xsl:value-of select="$tabindex"/>
 						</xsl:attribute>
@@ -175,9 +169,9 @@
 							or if it is a descendant of a menu which is disabled.
 						-->
 						<xsl:variable name="disabledAncestor" select="ancestor::*[@disabled and
-							(($noContextMenu=1 and self::ui:submenu) or
-							($myAncestorMenu and (self::ui:menu[.=$myAncestorMenu] or
-							self::ui:submenu[ancestor::ui:menu[1]=$myAncestorMenu])))]"/>
+							((not($myAncestorMenu) and self::ui:submenu) or
+							($myAncestorMenu and (self::ui:menu[. eq $myAncestorMenu] or
+							self::ui:submenu[ancestor::ui:menu[1] eq $myAncestorMenu])))]"/>
 						<xsl:if test="$disabledAncestor">
 							<xsl:call-template name="disabledElement">
 								<xsl:with-param name="field" select="$disabledAncestor"/>

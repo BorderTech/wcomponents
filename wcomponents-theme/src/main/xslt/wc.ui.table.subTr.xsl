@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl" />
 	<!--
@@ -54,16 +54,16 @@
 
 		<xsl:variable name="tableId" select="$myTable/@id"/>
 		<!--NOTE: aria-level the minimum is going to be level 2 -->
-		<tr id="{concat($tableId,'_subc',../../@rowIndex)}" role="row" aria-level="{count(ancestor::ui:subtr[ancestor::ui:table[1]/@id=$tableId]) + 1}">
-			<xsl:if test="$parentIsClosed=1 or ancestor::ui:subtr[not(@open) or @open='false']">
+		<tr id="{concat($tableId,'_subc',../../@rowIndex)}" role="row" aria-level="{count(ancestor::ui:subtr[ancestor::ui:table[1]/@id eq $tableId]) + 1}">
+			<xsl:if test="number($parentIsClosed) eq 1 or ancestor::ui:subtr[not(@open)]">
 				<xsl:call-template name="hiddenElement"/>
 			</xsl:if>
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
-					<xsl:if test="$topRowIsStriped=1">
+					<xsl:if test="number($topRowIsStriped) eq 1">
 						<xsl:text>wc_table_stripe</xsl:text>
 					</xsl:if>
-					<xsl:if test="$indent &gt; 0">
+					<xsl:if test="number($indent) gt 0">
 						<xsl:value-of select="concat(' wc_tbl_indent_', $indent)"/>
 					</xsl:if>
 				</xsl:with-param>
@@ -88,7 +88,7 @@
 			</td>
 
 			<td>
-				<xsl:if test="@spanAllCols=$t">
+				<xsl:if test="@spanAllCols">
 					<xsl:attribute name="colspan">
 						<xsl:value-of select="count(../../*) -1"/><!-- -1 because we do not count the ui:subtr -->
 					</xsl:attribute>

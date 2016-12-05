@@ -1,12 +1,10 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.ui.root.n.addHeadMetaBeforeTitle.xsl"/>
 	<xsl:import href="wc.ui.root.n.makeIE8CompatScripts.xsl"/>
 	<xsl:import href="wc.ui.root.n.makeRequireConfig.xsl"/>
 	<xsl:import href="wc.ui.root.n.externalScript.xsl"/>
 	<xsl:import href="wc.common.registrationScripts.xsl"/>
-	<xsl:import href="wc.ui.root.n.wcBodyClass.xsl"/>
-	<xsl:import href="wc.ui.root.n.webAnalytics.xsl"/>
 	<!--
 		Some meta elements have to be VERY early to work reliably. Put them here.
 
@@ -57,7 +55,7 @@
 				</link>
 
 				<xsl:apply-templates select="ui:application/ui:css" mode="inHead"/>
-				<xsl:apply-templates select=".//html:link[@rel='stylesheet']" mode="inHead"/>
+				<xsl:apply-templates select=".//html:link[@rel eq 'stylesheet']" mode="inHead"/>
 
 				<!--
 					We need to set up the require config very early.
@@ -81,7 +79,7 @@
 				<script type="text/javascript" id="{$styleLoaderId}">
 					<xsl:text>require(["wc/compat/compat!"], function() {</xsl:text>
 					<xsl:text>require(["wc/a8n", "wc/loader/style", "wc/dom/removeElement"</xsl:text>
-					<xsl:if test="$isDebug=1">
+					<xsl:if test="number($isDebug) eq 1">
 						<xsl:text>,"wc/debug/common"</xsl:text>
 					</xsl:if>
 					<xsl:text>], function(a, s, r){try{s.load();}finally{r("</xsl:text>
@@ -96,26 +94,16 @@
 					them in the head where they belong.
 				-->
 				<xsl:apply-templates select="ui:application/ui:js" mode="inHead"/>
-				<xsl:apply-templates select=".//html:base|.//html:link[not(@rel='icon' or @rel='shortcut icon' or @rel='stylesheet')]|.//html:meta" mode="inHead"/>
-				<xsl:call-template name="webAnalytics"/>
+				<xsl:apply-templates select=".//html:base|.//html:link[not(contains(@rel,'icon') or @rel eq 'stylesheet')]|.//html:meta" mode="inHead"/>
 			</head>
-			<xsl:variable name="bodyClass">
-				<xsl:call-template name="wcBodyClass"/>
-			</xsl:variable>
 			<body>
 				<xsl:attribute name="data-wc-domready">
 					<xsl:text>false</xsl:text><!-- JS will set this to true - this is for automation testing tools -->
 				</xsl:attribute>
-				<xsl:if test="$bodyClass!=''">
+				<xsl:if test="number($isDebug) eq 1">
 					<xsl:attribute name="class">
-						<xsl:value-of select="normalize-space($bodyClass)"/>
+						<xsl:text>wc_debug</xsl:text>
 					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="$isDebug=1">
-					<xsl:comment>
-						XSLT processor: <xsl:value-of select="system-property('xsl:vendor')"/>
-						base-uri available? <xsl:value-of select="function-available('base-uri')"/>
-					</xsl:comment>
 				</xsl:if>
 				<!--
 					loading indicator and shim

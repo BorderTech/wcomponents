@@ -14,12 +14,9 @@ define(["wc/compat/compat!"], function() {
 		 */
 		this.load = function (id, parentRequire, callback/* , config */) {
 			/* If you want to test IE then you must ensure compat is loaded before trying to load ajax. */
-			parentRequire(["wc/ajax/ajax", "wc/dom/event", "wc/has", "wc/config", "wc/fixes", "wc/i18n/i18n!"], function (a, evt, has, wcconfig) {
+			parentRequire(["wc/ajax/ajax", "wc/dom/event", "wc/has", "wc/fixes", "wc/i18n/i18n!"], function (a, evt, has) {
 				ajax = a;
 				event = evt;
-				wcconfig.set({
-					xslUrl: "@RESOURCES@/wcomponents-all.xsl"
-				}, "wc/xml/xslTransform");
 				if (has("edge") || has("trident")) {
 					setupTimeout = 1000;
 				}

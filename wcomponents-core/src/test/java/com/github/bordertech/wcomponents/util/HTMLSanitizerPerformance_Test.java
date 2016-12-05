@@ -7,8 +7,6 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.owasp.validator.html.PolicyException;
-import org.owasp.validator.html.ScanException;
 
 /**
  * Rudimentary performance test of HTML Sanitizer.
@@ -86,11 +84,7 @@ public class HTMLSanitizerPerformance_Test extends AbstractWComponentTestCase {
 			@Override
 			public void run() {
 				for (int i = 0; i < count; i++) {
-					try {
-						HtmlSanitizerUtil.sanitize(LONG_HTML);
-					} catch (ScanException | PolicyException e) {
-						throw new SystemException(e);
-					}
+					HtmlSanitizerUtil.sanitize(LONG_HTML);
 				}
 			}
 		};

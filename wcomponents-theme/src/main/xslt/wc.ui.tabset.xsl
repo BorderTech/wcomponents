@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
@@ -18,7 +18,7 @@
 			<xsl:call-template name="ajaxTarget"/>
 
 			<div role="tablist">
-				<xsl:if test="@type='accordion'">
+				<xsl:if test="@type eq 'accordion'">
 					<xsl:attribute name="aria-multiselectable">
 						<xsl:choose>
 							<xsl:when test="@single">false</xsl:when>
@@ -31,7 +31,7 @@
 					<xsl:with-param name="numAvailTabs" select="count(ui:tab[@open and not(@disabled)]|ui:tabgroup/ui:tab[@open and not(@disabled)])"/>
 				</xsl:apply-templates>
 			</div>
-			<xsl:if test="not(@type='accordion')">
+			<xsl:if test="not(@type eq 'accordion')">
 				<xsl:apply-templates select="ui:tab|ui:tabgroup/ui:tab" mode="content">
 					<xsl:with-param name="tabset" select="."/>
 				</xsl:apply-templates>

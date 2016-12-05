@@ -4,6 +4,8 @@
 ## API Changes
 
 ## Bug Fixes
+* Fixed WMultiFileWidget and WrongStepAjaxInterceptor that were sending XML responses that were not being
+  transformed #990.
 
 ## Enhancements
 

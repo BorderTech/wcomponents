@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.common.required.xsl"/>
@@ -43,8 +43,8 @@
 						<xsl:attribute name="aria-expanded">
 							<xsl:text>false</xsl:text>
 						</xsl:attribute>
-						<xsl:variable name="suggestionList" select="//ui:suggestions[@id=$list]"/>
-						<xsl:if test="$suggestionList and $suggestionList/@autocomplete = 'list'">
+						<xsl:variable name="suggestionList" select="//ui:suggestions[@id eq $list]"/>
+						<xsl:if test="$suggestionList and $suggestionList/@autocomplete eq 'list'">
 							<xsl:attribute name="data-wc-listcomplete">
 								<xsl:value-of select="$t"/>
 							</xsl:attribute>
@@ -102,15 +102,22 @@
 						<xsl:call-template name="disabledElement">
 							<xsl:with-param name="isControl" select="1"/>
 						</xsl:call-template>
-						<xsl:if test="$list">
-							<xsl:attribute name="role">
-								<xsl:text>textbox</xsl:text>
-							</xsl:attribute>
-							<!-- every input that implements combo should have autocomplete turned off -->
-							<xsl:attribute name="autocomplete">
-								<xsl:text>off</xsl:text>
-							</xsl:attribute>
-						</xsl:if>
+						<xsl:choose>
+							<xsl:when test="$list">
+								<xsl:attribute name="role">
+									<xsl:text>textbox</xsl:text>
+								</xsl:attribute>
+								<!-- every input that implements combo should have autocomplete turned off -->
+								<xsl:attribute name="autocomplete">
+									<xsl:text>off</xsl:text>
+								</xsl:attribute>
+							</xsl:when>
+							<xsl:when test="@autocomplete">
+								<xsl:attribute name="autocomplete">
+									<xsl:value-of select="@autocomplete"/>
+								</xsl:attribute>
+							</xsl:when>
+						</xsl:choose>
 						<xsl:if test="@size">
 							<xsl:attribute name="size">
 								<xsl:value-of select="@size"/>
@@ -122,7 +129,7 @@
 							</xsl:attribute>
 						</xsl:if>
 						<xsl:if test="@minLength">
-							<xsl:attribute name="data-wc-minlength">
+							<xsl:attribute name="minlength">
 								<xsl:value-of select="@minLength"/>
 							</xsl:attribute>
 						</xsl:if>
@@ -144,7 +151,7 @@
 								<xsl:with-param name="isControl" select="1"/>
 							</xsl:call-template>
 						</button>
-						<xsl:variable name="suggestions" select="//ui:suggestions[@id=$list]"/>
+						<xsl:variable name="suggestions" select="//ui:suggestions[@id eq $list]"/>
 						<xsl:choose>
 							<xsl:when test="$suggestions">
 								<xsl:apply-templates select="$suggestions" mode="inline"/>

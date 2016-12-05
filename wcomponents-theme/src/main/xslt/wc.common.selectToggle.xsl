@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.toggleElement.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
@@ -42,10 +42,10 @@
 	-->
 	<xsl:template name="selectToggle">
 		<xsl:param name="id" select="@id"/>
-		<xsl:param name="name"/>
-		<xsl:param name="for"/>
-		<xsl:param name="selected"/>
-		<xsl:param name="label"/><!--not set for ui:selecttoggle -->
+		<xsl:param name="name" select="''"/>
+		<xsl:param name="for" select="''"/>
+		<xsl:param name="selected" select="''"/>
+		<xsl:param name="label" select="''"/><!--not set for ui:selecttoggle -->
 		<xsl:param name="type" select="'text'"/>
 
 		<xsl:variable name="toggleId">
@@ -95,7 +95,7 @@
 		-->
 		<xsl:variable name="targetList">
 			<xsl:choose>
-				<xsl:when test="$isCheckboxTarget and $thisGroupName!=''">
+				<xsl:when test="$isCheckboxTarget and $thisGroupName ne ''">
 					<xsl:apply-templates select="key('checkboxGroupKey',$thisGroupName)" mode="getIdList"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -107,7 +107,7 @@
 		<xsl:variable name="myLabel" select="key('labelKey',$id)[1]"/>
 
 		<xsl:choose>
-			<xsl:when test="$type='text'">
+			<xsl:when test="$type eq 'text'">
 				<span id="{$toggleId}" role="radiogroup">
 					<xsl:call-template name="makeCommonClass">
 						<xsl:with-param name="additional">
@@ -136,7 +136,7 @@
 
 					<xsl:variable name="labelContent">
 						<xsl:choose>
-							<xsl:when test="$label!=''">
+							<xsl:when test="$label ne ''">
 								<xsl:value-of select="$label"/>
 							</xsl:when>
 							<xsl:when test="self::ui:rowselection">
@@ -147,7 +147,7 @@
 							</xsl:when>
 						</xsl:choose>
 					</xsl:variable>
-					<xsl:if test="$labelContent != ''">
+					<xsl:if test="$labelContent ne ''">
 						<span id="{$defaultLabelId}">
 							<xsl:value-of select="$labelContent"/>
 						</span>
@@ -179,9 +179,14 @@
 						<xsl:with-param name="class" select="$subClass"/>
 						<xsl:with-param name="text"><xsl:text>{{t 'toggle_all'}}</xsl:text></xsl:with-param>
 						<xsl:with-param name="selected">
-							<xsl:if test="$selected='all'">
-								<xsl:number value="1"/>
-							</xsl:if>
+							<xsl:choose>
+								<xsl:when test="$selected eq 'all'">
+									<xsl:number value="1"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:number value="0"/>
+								</xsl:otherwise>
+							</xsl:choose>
 						</xsl:with-param>
 						<xsl:with-param name="labelId" select="$realLabelId"/>
 					</xsl:call-template>
@@ -195,9 +200,14 @@
 						<xsl:with-param name="class" select="$subClass"/>
 						<xsl:with-param name="text"><xsl:text>{{t 'toggle_none'}}</xsl:text></xsl:with-param>
 						<xsl:with-param name="selected">
-							<xsl:if test="$selected='none'">
-								<xsl:number value="1"/>
-							</xsl:if>
+							<xsl:choose>
+								<xsl:when test="$selected eq 'none'">
+									<xsl:number value="1"/>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:number value="0"></xsl:number>
+								</xsl:otherwise>
+							</xsl:choose>
 						</xsl:with-param>
 						<xsl:with-param name="labelId" select="$realLabelId"/>
 					</xsl:call-template>
@@ -206,7 +216,7 @@
 			<xsl:otherwise>
 				<xsl:variable name="textEquivalent">
 					<xsl:choose>
-						<xsl:when test="$label!=''">
+						<xsl:when test="$label ne ''">
 							<xsl:value-of select="$label"/>
 						</xsl:when>
 						<xsl:when test="self::ui:rowselection">
@@ -223,7 +233,7 @@
 				<button id="{$toggleId}" role="checkbox" aria-controls="{$targetList}">
 					<xsl:attribute name="type">
 						<xsl:choose>
-							<xsl:when test="$mode='server'">
+							<xsl:when test="$mode eq 'server'">
 								<xsl:text>submit</xsl:text>
 							</xsl:when>
 							<xsl:otherwise>
@@ -231,17 +241,17 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
-					<xsl:if test="$mode='server'">
+					<xsl:if test="$mode eq 'server'">
 						<xsl:attribute name="formnovalidate">
 							<xsl:text>formnovalidate</xsl:text>
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:attribute name="aria-checked">
 						<xsl:choose>
-							<xsl:when test="$selected='all'">
+							<xsl:when test="$selected eq 'all'">
 								<xsl:copy-of select="$t"/>
 							</xsl:when>
-							<xsl:when test="$selected='some'">
+							<xsl:when test="$selected eq 'some'">
 								<xsl:text>mixed</xsl:text>
 							</xsl:when>
 							<xsl:otherwise>
@@ -254,7 +264,7 @@
 						we <<do not>> use a value surrogate because the value is determined at the time
 						we write the state based on the aria-checked state of the control(s).
 					-->
-					<xsl:if test="$name!=''">
+					<xsl:if test="$name ne ''">
 						<xsl:attribute name="data-wc-name">
 							<xsl:value-of select="$name"/>
 						</xsl:attribute>

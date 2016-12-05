@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<!--
 		The ui:ajaxtrigger element is used to register components which make AJAX requests in JavaScript.
@@ -44,7 +44,7 @@
 		<xsl:text>","alias":"</xsl:text>
 		<xsl:value-of select="@triggerId"/>
 		<xsl:text>"}</xsl:text>
-		<xsl:if test="position() != last()">
+		<xsl:if test="position() ne last()">
 			<xsl:text>,</xsl:text>
 		</xsl:if>
 	</xsl:template>
@@ -60,7 +60,7 @@
 		<xsl:text>","delay":</xsl:text>
 		<xsl:value-of select="@delay"/>
 		<xsl:text>}</xsl:text>
-		<xsl:if test="position()!=last()">
+		<xsl:if test="position() ne last()">
 			<xsl:text>,</xsl:text>
 		</xsl:if>
 	</xsl:template>

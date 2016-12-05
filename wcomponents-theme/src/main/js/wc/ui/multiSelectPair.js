@@ -260,11 +260,6 @@ define(["wc/dom/attribute",
 			 * @private
 			 */
 			function publishSelection(fromList, toList) {
-				var container = CONTAINER.findAncestor(toList);
-				if (container && container.hasAttribute("data-wc-ajaxalias")) {
-					ajaxRegion.requestLoad(container);
-				}
-
 				if (instance.getListType(fromList) === LIST_TYPE_CHOSEN) {
 					shed.select(toList);  // the list won't actually be selected but the selection will be published
 				}
@@ -457,6 +452,9 @@ define(["wc/dom/attribute",
 
 				if ((element.tagName === tag.OPTION || element.tagName === tag.SELECT) && (selectList = SELECT.findAncestor(element)) && !shed.isDisabled(selectList)) {
 					addRemoveSelected(selectList);
+					if (ajaxRegion.getTrigger(selectList)) {
+						ajaxRegion.requestLoad(selectList);
+					}
 				}
 			}
 

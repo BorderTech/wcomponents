@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.ajax.xsl" />
 	<xsl:import href="wc.constants.xsl" />
 	<xsl:import href="wc.common.disabledElement.xsl" />
@@ -37,8 +37,8 @@
 	-->
 	<xsl:template name="commonControlAttributes">
 		<xsl:param name="id" select="@id" />
-		<xsl:param name="isError" />
-		<xsl:param name="name" />
+		<xsl:param name="isError" select="false()"/>
+		<xsl:param name="name" select="''"/>
 		<xsl:param name="value" select="@value" />
 		<xsl:param name="live" select="'polite'" />
 		<xsl:param name="myLabel" select="key('labelKey', $id)[1]" />
@@ -55,7 +55,7 @@
 				</xsl:if>
 			</xsl:with-param>
 		</xsl:call-template>
-		<xsl:if test="not($name = '')">
+		<xsl:if test="not($name eq '')">
 			<xsl:attribute name="name">
 				<xsl:value-of select="$name" />
 			</xsl:attribute>
@@ -65,7 +65,7 @@
 				<xsl:value-of select="$value" />
 			</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="$isError and $isError != ''">
+		<xsl:if test="$isError and $isError ne ''">
 			<xsl:call-template name="invalid" />
 		</xsl:if>
 		<xsl:call-template name="requiredElement" />
@@ -86,7 +86,7 @@
 				<xsl:value-of select="@buttonId" />
 			</xsl:attribute>
 		</xsl:if>
-		<!--<xsl:if test="ancestor::ui:application/@defaultFocusId = $id">
+		<!--<xsl:if test="ancestor::ui:application/@defaultFocusId eq $id">
 			<xsl:attribute name="autofocus">
 				<xsl:text>autofocus</xsl:text>
 			</xsl:attribute>
@@ -108,11 +108,11 @@
 	-->
 	<xsl:template name="commonWrapperAttributes">
 		<xsl:param name="id" select="@id" />
-		<xsl:param name="isError" />
+		<xsl:param name="isError" select="false()" />
 		<xsl:param name="live" select="'polite'" />
 		<xsl:param name="isControl" select="1" />
-		<xsl:param name="class" />
-		<xsl:param name="myLabel" />
+		<xsl:param name="class" select="''"/>
+		<xsl:param name="myLabel" select="false()"/>
 		<!--normally fieldset-->
 		<xsl:call-template name="commonAttributes">
 			<xsl:with-param name="id" select="$id" />
@@ -126,7 +126,7 @@
 						<xsl:text> wc_req</xsl:text>
 					</xsl:if>
 				</xsl:if>
-				<xsl:if test="$class != ''">
+				<xsl:if test="$class ne ''">
 					<xsl:value-of select="concat(' ', $class)" />
 				</xsl:if>
 			</xsl:with-param>
@@ -139,7 +139,7 @@
 				<xsl:value-of select="$myLabel/@id" />
 			</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="$isError and $isError != ''">
+		<xsl:if test="$isError">
 			<xsl:call-template name="invalid" />
 		</xsl:if>
 	</xsl:template>
@@ -160,7 +160,7 @@
 		<xsl:param name="isWrapper" select="0" />
 		<xsl:param name="class" select="''" />
 
-		<xsl:if test="$id !=''">
+		<xsl:if test="$id ne ''">
 			<xsl:attribute name="id">
 				<xsl:value-of select="$id" />
 			</xsl:attribute>
@@ -174,7 +174,7 @@
 		<xsl:call-template name="ajaxTarget">
 			<xsl:with-param name="live" select="$live" />
 		</xsl:call-template>
-		<xsl:if test="not($readOnly = $t or $isWrapper = 1)">
+		<xsl:if test="not($readOnly eq $t or number($isWrapper) eq 1)">
 			<xsl:call-template name="disabledElement">
 				<xsl:with-param name="isControl" select="$isControl" />
 			</xsl:call-template>

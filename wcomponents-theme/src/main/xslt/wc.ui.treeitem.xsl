@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
@@ -27,7 +27,7 @@
 
 		<xsl:variable name="isButton">
 			<xsl:choose>
-				<xsl:when test="$element='div'">
+				<xsl:when test="$element eq 'div'">
 					<xsl:number value="0"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -40,7 +40,7 @@
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="isControl" select="$isButton"/>
 				<xsl:with-param name="class">
-					<xsl:if test="$isButton=1">
+					<xsl:if test="number($isButton) eq 1">
 						<xsl:text>wc-nobutton wc-invite</xsl:text>
 					</xsl:if>
 				</xsl:with-param>
@@ -62,9 +62,9 @@
 			</xsl:attribute>
 
 			<!-- common attributes will set the correct disabled state if @disabled is set. -->
-			<xsl:if test="not(@disabled = $t) and $disabled=$t">
+			<xsl:if test="not(@disabled) and $disabled eq $t">
 				<xsl:choose>
-					<xsl:when test="$isButton=1">
+					<xsl:when test="number($isButton) eq 1">
 						<xsl:attribute name="disabled">disabled</xsl:attribute>
 					</xsl:when>
 					<xsl:otherwise>
@@ -74,7 +74,7 @@
 			</xsl:if>
 
 			<xsl:choose>
-				<xsl:when test="$isButton=1">
+				<xsl:when test="number($isButton) eq 1">
 					<xsl:attribute name="type">
 						<xsl:text>button</xsl:text>
 					</xsl:attribute>
@@ -122,7 +122,7 @@
 						<xsl:apply-templates select="ui:treeitem">
 							<xsl:with-param name="disabled">
 								<xsl:choose>
-									<xsl:when test="@disabled or $disabled = $t">
+									<xsl:when test="@disabled or $disabled eq $t">
 										<xsl:copy-of select="$t"/>
 									</xsl:when>
 									<xsl:otherwise>false</xsl:otherwise>
@@ -143,7 +143,7 @@
 	</xsl:template>
 
 	<xsl:template name="treeitemContent">
-		<span aria-hidden='true'>
+		<span aria-hidden="true">
 			<xsl:attribute name="class">
 				<xsl:text>wc_leaf_img</xsl:text>
 				<xsl:if test="not(@imageUrl)">

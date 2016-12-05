@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.toolTip.xsl"/>
 	<!--
@@ -35,7 +35,7 @@
 			<xsl:attribute name="accesskey">
 				<xsl:value-of select="@accessKey"/>
 			</xsl:attribute>
-			<xsl:if test="$useToolTip=1">
+			<xsl:if test="number($useToolTip) eq 1">
 				<xsl:attribute name="aria-describedby">
 					<xsl:value-of select="concat(@id,'_wctt')"/>
 				</xsl:attribute>

@@ -1,5 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.getHVGap.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
@@ -15,9 +15,14 @@
 			</xsl:if>
 			<xsl:call-template name="getHVGapClass">
 				<xsl:with-param name="isVGap">
-					<xsl:if test="@align='vertical'">
-						<xsl:number value="1"/>
-					</xsl:if>
+					<xsl:choose>
+						<xsl:when test="@align and @align eq 'vertical'">
+							<xsl:number value="1"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:number value="0"/>
+						</xsl:otherwise>
+					</xsl:choose>
 				</xsl:with-param>
 			</xsl:call-template>
 		</xsl:variable>

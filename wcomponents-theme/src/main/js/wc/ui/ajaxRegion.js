@@ -8,8 +8,9 @@ define(["wc/dom/event",
 		"wc/dom/Widget",
 		"wc/dom/initialise",
 		"wc/ui/ajax/processResponse",
+		"wc/dom/classList",
 		"wc/mixin"],
-	function(event, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse, mixin) {
+	function(event, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse, classList, mixin) {
 		"use strict";
 
 		/**
@@ -51,13 +52,12 @@ define(["wc/dom/event",
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} element The element we consider a candidate for being an AJAX trigger. If the element is
-			 *    indeed an AJAX trigger then it will be fired by this function.
-			 * NOTE: all ajaxTriggers will have an attribute "data-wc-ajaxalias"
+			 * @param {Element} element The element we consider a candidate for being an AJAX trigger. If the element is indeed an AJAX trigger then
+			 * it will be fired by this function.
 			 */
 			function checkActivateTrigger(element) {
 				var trigger;
-				if ((trigger = instance.getTrigger(element, true))) {
+				if ((trigger = instance.getTrigger(element))) {
 					return fireThisTrigger(element, trigger);
 				}
 				return false;
@@ -101,13 +101,15 @@ define(["wc/dom/event",
 			 */
 			function triggersOnChange(element) {
 				var tagName = element.tagName,
-					type = element.type;
+					type = element.type,
+					alias;
 				// NOTE: a standalone listbox or dropdown is an ajax trigger, a select element as a sub element of a compund controller is not
-				if (shed.isSelectable(element)) {
+				if (shed.isSelectable(element) || classList.contains(element, "wc-noajax")) {
 					return false;
 				}
+				alias = element.getAttribute(ALIAS);
 				// Don't allow file to trigger on change it breaks multiFileUploader when large number of files are selected
-				return ((tagName === tag.SELECT && element.getAttribute(ALIAS) === element.id) || tagName === tag.TEXTAREA || (tagName === tag.INPUT && type !== "file"));
+				return (tagName === tag.SELECT || tagName === tag.TEXTAREA || (tagName === tag.INPUT && type !== "file"));
 			}
 
 			/*

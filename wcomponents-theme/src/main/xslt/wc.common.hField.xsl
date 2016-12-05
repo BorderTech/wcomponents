@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<!-- 
 		Common helper template for all components which may be excluded from POST data if they have no selection. The 
 		purpose of this field is to report the existence of the checkable group if no options are selected.
@@ -20,7 +20,7 @@
 			<xsl:attribute name="value">
 				<xsl:text>x</xsl:text>
 			</xsl:attribute>
-			<xsl:if test="@disabled='true'">
+			<xsl:if test="@disabled">
 				<xsl:attribute name="disabled">
 					<xsl:text>disabled</xsl:text>
 				</xsl:attribute>

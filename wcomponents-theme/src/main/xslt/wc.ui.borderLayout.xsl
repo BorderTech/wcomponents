@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
-	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.getHVGap.xsl"/>
 	<!--
 		ui:borderlayout is a layout mode of WPanel which consists of one or more containers displayed in a particular 
@@ -18,8 +18,7 @@
 				</xsl:call-template>
 			</xsl:attribute>
 			<xsl:apply-templates select="ui:north"/>
-			<xsl:variable name="colCount" select="count(ui:west|ui:center|ui:east)"/>
-			<xsl:if test="$colCount &gt;0">
+			<xsl:if test="count(ui:west|ui:center|ui:east) gt 0">
 				<div>
 					<xsl:attribute name="class">
 						<xsl:text>wc_bl_mid</xsl:text>
@@ -61,13 +60,13 @@
 					<xsl:text> wc_bl_mid</xsl:text>
 				</xsl:variable>
 				<xsl:choose>
-					<xsl:when test = "$colCount = 1">
+					<xsl:when test="number($colCount) eq 1">
 						<xsl:value-of select="concat($classPrefix, '100')"/>
 					</xsl:when>
 					<xsl:when test="(self::ui:west or self::ui:east) and ../ui:center">
 						<xsl:value-of select="concat($classPrefix, '25')"/>
 					</xsl:when>
-					<xsl:when test="(self::ui:east and (../ui:west)) or (self::ui:west and (../ui:east)) or ($colCount = 3 and self::ui:center)">
+					<xsl:when test="(self::ui:east and (../ui:west)) or (self::ui:west and (../ui:east)) or (number($colCount) eq 3 and self::ui:center)">
 						<xsl:value-of select="concat($classPrefix, '50')"/>
 					</xsl:when>
 					<xsl:when test="self::ui:center">

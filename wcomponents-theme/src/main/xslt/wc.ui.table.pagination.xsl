@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.ui.table.n.tableAjaxController.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<!--
@@ -10,7 +10,7 @@
 		Structural: do not override.
 	-->
 	<xsl:template match="ui:pagination">
-		<xsl:param name="idSuffix"/>
+		<xsl:param name="idSuffix" select="''"/>
 		<xsl:variable name="tableId" select="../@id"/>
 		<xsl:variable name="name">
 			<xsl:value-of select="concat($tableId, '.page')"/>
@@ -28,21 +28,16 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:if test="@rows &gt; 0">
-			<xsl:if test="@rows &gt; @rowsPerPage">
+		<xsl:if test="number(@rows) gt 0">
+			<xsl:if test="number(@rows) gt number(@rowsPerPage)">
 				<span class="wc_table_pag_rows" data-wc-tablerpp="{@rowsPerPage}" data-wc-tablerows="{@rows}" data-wc-tablepage="{@currentPage}"></span>
 			</xsl:if>
 			<label for="{$id}">
 				<xsl:text>{{t 'table_pagination_page'}}</xsl:text>
 				<select id="{$id}" class="wc_table_pag_select" data-wc-pages="{$pages}">
 					<!-- NOTE: do not use name or data-wc-name as we do not want to trigger an unsaved changes warning -->
-					<xsl:if test="@mode='dynamic'">
-						<xsl:call-template name="tableAjaxController">
-							<xsl:with-param name="tableId" select="$tableId"/>
-						</xsl:call-template>
-					</xsl:if>
 					<xsl:choose>
-						<xsl:when test="$pages=1">
+						<xsl:when test="number($pages) eq 1">
 							<xsl:attribute name="disabled">
 								<xsl:text>disabled</xsl:text>
 							</xsl:attribute>
@@ -72,7 +67,7 @@
 			<!-- buttons to change page -->
 			<xsl:variable name="buttonType">
 				<xsl:choose>
-					<xsl:when test="@mode='server'"><!-- WDataTable compatibility only -->
+					<xsl:when test="@mode eq 'server'"><!-- WDataTable compatibility only -->
 						<xsl:text>submit</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
@@ -86,9 +81,14 @@
 					<xsl:with-param name="type" select="$buttonType"/>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'1')"/>
 					<xsl:with-param name="disabled">
-						<xsl:if test="$pages=1 or @currentPage = 0">
-							<xsl:number value="1"/>
-						</xsl:if>
+						<xsl:choose>
+							<xsl:when test="number($pages) eq 1 or number(@currentPage) eq 0">
+								<xsl:number value="1"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:number value="0"/>
+							</xsl:otherwise>
+						</xsl:choose>
 					</xsl:with-param>
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
@@ -96,9 +96,14 @@
 					<xsl:with-param name="type" select="$buttonType"/>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'2')"/>
 					<xsl:with-param name="disabled">
-						<xsl:if test="$pages=1 or @currentPage = 0">
-							<xsl:number value="1"/>
-						</xsl:if>
+						<xsl:choose>
+							<xsl:when test="number($pages) eq 1 or number(@currentPage) eq 0">
+								<xsl:number value="1"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:number value="0"/>
+							</xsl:otherwise>
+						</xsl:choose>
 					</xsl:with-param>
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
@@ -106,9 +111,14 @@
 					<xsl:with-param name="type" select="$buttonType"/>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'3')"/>
 					<xsl:with-param name="disabled">
-						<xsl:if test="$pages=1 or @currentPage = $pages -1">
-							<xsl:number value="1"/>
-						</xsl:if>
+						<xsl:choose>
+							<xsl:when test="number($pages) eq 1 or number(@currentPage) eq number($pages) - 1">
+								<xsl:number value="1"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:number value="0"/>
+							</xsl:otherwise>
+						</xsl:choose>
 					</xsl:with-param>
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
@@ -116,9 +126,14 @@
 					<xsl:with-param name="type" select="$buttonType"/>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'4')"/>
 					<xsl:with-param name="disabled">
-						<xsl:if test="$pages=1 or @currentPage = $pages -1">
-							<xsl:number value="1"/>
-						</xsl:if>
+						<xsl:choose>
+							<xsl:when test="number($pages) eq 1 or number(@currentPage) eq number($pages) - 1">
+								<xsl:number value="1"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:number value="0"/>
+							</xsl:otherwise>
+						</xsl:choose>
 					</xsl:with-param>
 				</xsl:call-template>
 			</span>
@@ -139,15 +154,15 @@
 		<xsl:param name="title"/>
 		<xsl:param name="type"/>
 		<xsl:param name="idSuffix"/>
-		<xsl:param name="disabled"/>
+		<xsl:param name="disabled" select="0"/>
 		<button id="{concat(../@id,'.pagination.',$idSuffix)}" title="{$title}" type="{$type}" class="wc_btn_icon wc-invite">
-			<xsl:if test="$type='submit'">
+			<xsl:if test="$type eq 'submit'">
 				<xsl:attribute name="formnovalidate">
 					<xsl:text>formnovalidate</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:choose>
-				<xsl:when test = "$disabled = 1">
+				<xsl:when test="number($disabled) eq 1">
 					<xsl:attribute name="disabled">
 						<xsl:text>disabled</xsl:text>
 					</xsl:attribute>
@@ -175,9 +190,6 @@
 			<xsl:text>{{t 'table_pagination_label_rppChooser'}}</xsl:text>
 			<select id="{$rppChooserName}" class="wc_table_pag_rpp">
 				<!-- NOTE: do not use name or data-wc-name as we do not want to trigger an unsaved changes warning -->
-				<xsl:call-template name="tableAjaxController">
-					<xsl:with-param name="tableId" select="$tableId"/>
-				</xsl:call-template>
 				<xsl:call-template name="disabledElement">
 					<xsl:with-param name="field" select="ancestor::ui:table[1]"/>
 					<xsl:with-param name="isControl" select="1"/>
@@ -196,13 +208,13 @@
 		<xsl:param name="rowsPerPage"/>
 		<xsl:variable name="value" select="@value"/>
 		<option value="{$value}">
-			<xsl:if test="$rowsPerPage=$value">
+			<xsl:if test="number($rowsPerPage) eq number($value)">
 				<xsl:attribute name="selected">
 					<xsl:text>selected</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:choose>
-				<xsl:when test="$value='0'">
+				<xsl:when test="number($value) eq 0">
 					<xsl:text>{{t 'table_pagination_option_allRows'}}</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>

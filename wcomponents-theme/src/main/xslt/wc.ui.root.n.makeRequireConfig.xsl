@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-	xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.ui.root.variables.xsl"/>
 	<xsl:import href="wc.ui.root.n.styleLoaderConfig.xsl"/>
@@ -69,11 +69,7 @@
 			<xsl:value-of select="concat('baseUrl:&quot;', normalize-space($resourceRoot), $scriptDir, '/&quot;,&#10;')"/>
 			<xsl:value-of select="concat('baseURL:&quot;', normalize-space($resourceRoot), $scriptDir, '/&quot;,&#10;')"/>
 			<xsl:value-of select="concat('urlArgs:&quot;', $cacheBuster, '&quot;&#10;')"/>
-			<xsl:text>};&#10;wcconfig = {"wc/xml/xslTransform": {</xsl:text>
-			<xsl:value-of select="concat('xslEngine:&quot;', system-property('xsl:vendor'), '&quot;,&#10;')"/>
-			<!-- Used for testing purposes -->
-			<xsl:value-of select="concat('xslUrl:&quot;', normalize-space($xslPath), '&quot;')"/>
-			<xsl:text>},&#10;"wc/i18n/i18n": { </xsl:text>
+			<xsl:text>};&#10;wcconfig = {"wc/i18n/i18n": { </xsl:text>
 			<xsl:text>options:{ backend: {</xsl:text>
 			<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')"/>
 			<xsl:text>} } },&#10;"wc/loader/resource": {</xsl:text>
@@ -82,7 +78,7 @@
 			<xsl:text>},&#10;"wc/loader/style":{</xsl:text>
 			<xsl:value-of select="concat('cssBaseUrl:&quot;', normalize-space($resourceRoot), '${css.target.dir.name}/&quot;,&#10;')"/>
 			<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')"/>
-			<xsl:if test="$isDebug=1">
+			<xsl:if test="number($isDebug) eq 1">
 				<xsl:text>,debug:1</xsl:text>
 			</xsl:if>
 			<xsl:call-template name="styleLoaderConfig"/>

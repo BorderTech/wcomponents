@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		It is required that the labelBody will hold the core information in the label. 
@@ -12,7 +12,7 @@
 		<xsl:param name="output" select="'span'"/>
 		<xsl:param name="useId" select="1"/>
 		<xsl:element name="{$output}">
-			<xsl:if test="$useId=1">
+			<xsl:if test="number($useId) eq 1">
 				<xsl:attribute name="id">
 					<xsl:value-of select="@id"/>
 				</xsl:attribute>

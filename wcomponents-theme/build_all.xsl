@@ -53,7 +53,7 @@
 
 		The priority on this template prevents ambiguous match issues with @*|node().
 	-->
-	<xsl:template match="@priority|xsl:stylesheet|xsl:import|xsl:strip-space|xsl:output|processing-instruction()|comment()" priority="2" />
+	<xsl:template match="@priority|xsl:stylesheet|xsl:import|xsl:include|xsl:strip-space|xsl:output|processing-instruction()|comment()" priority="2" />
 
 	<!--
 		Output the value of the text node. We use the priority here to prevent processor warnings about ambiguous
@@ -144,9 +144,9 @@
 	-->
 	<xsl:template match="concat">
 		<x:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml"
-					  version="1.0" exclude-result-prefixes="xsl ui html doc">
+					  version="2.0" exclude-result-prefixes="xsl ui html doc">
 			<x:output encoding="UTF-8" indent="no" method="html" doctype-system="about:legacy-compat" omit-xml-declaration="yes" />
-			<x:strip-space elements="ui:*" />
+			<x:strip-space elements="*" />
 			<xsl:comment>
 				<xsl:value-of select="system-property('xsl:vendor')" />
 			</xsl:comment>
