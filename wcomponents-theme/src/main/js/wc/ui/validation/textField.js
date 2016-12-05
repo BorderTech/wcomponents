@@ -80,7 +80,7 @@ define(["wc/dom/initialise",
 
 				if (value && !validationManager.isExempt(element)) {
 					// min length
-					if ((mask = element.getAttribute("data-wc-minlength")) && value.length < parseInt(mask, 10)) {
+					if ((mask = element.getAttribute("minlength")) && value.length < parseInt(mask, 10)) {
 						result = true;
 						flag = i18n.get("validation_text_belowmin", "%s", mask);
 					}
@@ -152,7 +152,7 @@ define(["wc/dom/initialise",
 
 				// do the constraint tests
 				WITH_PATTERN = WITH_PATTERN || INPUT.extend("", {"pattern": null});
-				WITH_MIN = WITH_MIN || INPUT.extend("", {"data-wc-minlength": null});
+				WITH_MIN = WITH_MIN || INPUT.extend("", {"minlength": null});
 				PATTERNS = PATTERNS || [WITH_PATTERN, EMAIL, WITH_MIN];
 
 				candidates = Widget.isOneOfMe(container, PATTERNS) ? [container] : Widget.findDescendants(container, PATTERNS);
