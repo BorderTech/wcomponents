@@ -36,6 +36,8 @@
 							to be cancelled once there is something in the autocomplete list, i.e. once you have
 							entered something into that field. So your event listeners are called with a cancelled
 							event but you can find no code that cancels the event - very tricky to track down.
+						
+						TODO: check this in IE 11 and possibly implement autocomplete or move this attribute fix to JavaScript.
 					-->
 					<xsl:attribute name="autocomplete">
 						<xsl:text>off</xsl:text>

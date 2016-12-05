@@ -34,6 +34,7 @@
 			</xs:sequence>
 			<xs:attributeGroup ref="ui:submitting.input.attributes"/>
 			<xs:attributeGroup ref="ui:placeholder.attributes"/>
+			<xs:attributeGroup ref="ui:autocomplete.attributes"/>
 			<xs:attribute name="minLength" type="xs:positiveInteger">
 				<xs:annotation>
 					<xs:documentation>Indicates the minimum number of characters which represents valid input <em>if any content is entered at all</em>.</xs:documentation>

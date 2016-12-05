@@ -43,10 +43,11 @@ Field name      Type        Mandatory       Value
 			<xs:simpleContent>
 				<xs:extension base="xs:string">
 					<xs:attributeGroup ref="ui:submitting.input.attributes"/>
+					<xs:attributeGroup ref="ui:autocomplete.attributes"/>
 					
 					<xs:attribute name="size" type="xs:positiveInteger">
 						<xs:annotation>
-							<xs:documentation>The rendered width of the field in units determined by the usr agent but generally at least as large as the same number of digits. This attribute has no bearing on the number of digits which can be entered into the field.</xs:documentation>
+							<xs:documentation>Not implemented: incompatible with HTML spec. Sie determined by @max</xs:documentation>
 						</xs:annotation>
 					</xs:attribute>
 					
