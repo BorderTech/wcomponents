@@ -54,7 +54,7 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="$field/@minLength">
-				<xsl:attribute name="data-wc-minlength">
+				<xsl:attribute name="minlength">
 					<xsl:value-of select="$field/@minLength"/>
 				</xsl:attribute>
 			</xsl:if>
