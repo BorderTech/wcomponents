@@ -31,7 +31,8 @@ import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.util.Util;
 
 /**
- * This class demonstrates setting a {@link WPanel} type dynamically.
+ * This class demonstrates setting a {@link WPanel} type dynamically. The rest of the configuration infrastructure of this example is used to
+ * switch commonly found content components in the target panel depending on the WPanel Type.
  *
  * @author Jonathan Austin
  * @author Mark Reeves
@@ -103,7 +104,7 @@ public class WPanelTypeExample extends WContainer {
 	/**
 	 * A menu bar shown in a header panel.
 	 */
-	private WMenu menu;
+	private final WMenu menu;
 
 	/**
 	 * This is needed to be able to reuse a menu from another example, it is only here for convenience and plays no part in this example.
