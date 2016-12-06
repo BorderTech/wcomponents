@@ -4,6 +4,11 @@
 ## API Changes
 
 ## Bug Fixes
+* Fix possible a11y flaw by updating exposure of minlength to comply with HTML spec #1006.
+* Fix examples-lde default config #1005
+* Ensure file upload progress bars are shown for all asynchronous file uploads #1000.
+* Fix a11y issue by ensuring popups are always scrollable and resizeable #997.
+* Handle Google translate locales in i18n #994.
 * Fixed WMultiFileWidget and WrongStepAjaxInterceptor that were sending XML responses that were not being
   transformed #990.
 
