@@ -159,13 +159,15 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 		function getOptions(i18nConfig) {
 			var basePath = i18nConfig.basePath || resource.getResourceUrl(),
 				currentLanguage = instance._getLang(),
+				cachebuster = resource.getCacheBuster(),
+				nsResource = "{{ns}}/{{lng}}.json" + (cachebuster ? "?" + cachebuster : ""),
 				defaultOptions = {
 					load: "currentOnly",
 					initImmediate: true,
 					lng: currentLanguage,
 					fallbackLng: instance._DEFAULT_LANG,
 					backend: {
-						loadPath: basePath + "{{ns}}/{{lng}}.json"
+						loadPath: basePath + nsResource
 					}
 				},
 				result = mixin(defaultOptions, {});

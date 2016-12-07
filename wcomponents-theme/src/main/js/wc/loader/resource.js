@@ -76,6 +76,18 @@ define(["wc/ajax/ajax", "wc/loader/prefetch", "wc/config", "module"],
 				return url;
 			};
 
+			/**
+			 * Allows other modules to get the cachebuster used by the resource loader.
+			 * @returns {?String} the cachebuster if present.
+			 */
+			this.getCacheBuster = function() {
+				var config = getConfig();
+				if (config && config.cachebuster) {
+					return config.cachebuster;
+				}
+				return null;
+			};
+
 			function getConfig() {
 				var config = wcconfig.get("wc/loader/resource");
 				if (!config) {
