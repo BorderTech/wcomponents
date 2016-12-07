@@ -50,6 +50,15 @@ public class DataListInterceptor extends InterceptorComponent {
 	}
 
 	/**
+	 * No need to run prepare paint for data lists.
+	 * @param request {@inheritDoc}
+	 */
+	@Override
+	public void preparePaint(final Request request) {
+		// No-Op
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
