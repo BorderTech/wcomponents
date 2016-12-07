@@ -38,7 +38,7 @@ define(["wc/dom/classList",
 			function testHeading(element) {
 				if (isHeadingEmpty(element)) {
 					element.insertAdjacentHTML("beforeend", i18n.get("missingHeading"));
-					classList.add(element, "wc-error");
+					classList.add(element, "wc-err");
 				}
 			}
 

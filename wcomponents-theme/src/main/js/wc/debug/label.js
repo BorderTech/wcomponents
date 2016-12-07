@@ -25,12 +25,12 @@ define(["wc/dom/classList",
 			}
 
 			function insertLegend(fieldset) {
-				fieldset.insertAdjacentHTML("afterbegin", "<legend class='wc-error'>" + i18n.get("requiredLabel") + "</legend>");
+				fieldset.insertAdjacentHTML("afterbegin", "<legend class='wc-err'>" + i18n.get("requiredLabel") + "</legend>");
 			}
 
 			function insertLabel(input) {
 				var id = input.id,
-					youHaveBeenNaughty = "<label class='wc-label wc-error'",
+					youHaveBeenNaughty = "<label class='wc-label wc-err'",
 					endLabel = "</label>",
 					isCheckRadio = input.type === "checkbox" || input.type ==="radio";
 				if (id) {
@@ -72,7 +72,7 @@ define(["wc/dom/classList",
 				if (label) {
 					if (isLabelEmpty(label)) {
 						label.insertAdjacentHTML("beforeend", i18n.get("requiredLabel"));
-						classList.add(label, "wc-error");
+						classList.add(label, "wc-err");
 					}
 					return false;
 				}
@@ -81,7 +81,7 @@ define(["wc/dom/classList",
 
 			function testLabel(element) {
 				// hidden inputs do not need to be labelled.
-				if (element.type === "hidden") {
+				if (element.type === "hidden" || classList.contains(element, "wc_nolabel")) {
 					return;
 				}
 				// Any one (or more) of aria-label, title or aria-describedby is OK

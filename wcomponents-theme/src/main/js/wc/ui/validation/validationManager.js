@@ -37,7 +37,7 @@ define(["wc/dom/classList",
 				 * @constant
 				 * @type {String}
 				 * @private */
-				LABEL_ATTRIB = "aria-labelledby",
+				LABEL_ATTRIB = "aria-describedby7",
 				/**
 				 * The class used to indicate an error: the type attribute of the ui:messageBox for errors.
 				 * @constant
@@ -306,6 +306,7 @@ define(["wc/dom/classList",
 						}
 					}
 					if (next) {
+						classList.remove(next, ERROR);
 						next.innerHTML = i18n.get("validation_ok");
 					}
 					removeWValidationErrorLink(element);

@@ -40,7 +40,7 @@ define(["wc/dom/initialise",
 				}
 				if (invalidElement) {
 					invalidElement.setAttribute("aria-invalid", "true");
-					invalidElement.setAttribute("aria-describedBy", target.id + "_err");
+					invalidElement.setAttribute("aria-describedby", target.id + "_err");
 				}
 			}
 

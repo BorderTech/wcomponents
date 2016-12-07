@@ -134,7 +134,7 @@
 							<xsl:with-param name="id" select="$toId"/>
 						</xsl:call-template>
 					</xsl:if>
-					<select multiple="multiple" class="wc_msp_order" hidden="hidden" autocomplete="off">
+					<select multiple="multiple" class="wc_msp_order wc_nolabel" hidden="hidden" autocomplete="off">
 						<xsl:call-template name="disabledElement">
 							<xsl:with-param name="isControl" select="1"/>
 						</xsl:call-template>

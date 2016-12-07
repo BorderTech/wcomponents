@@ -118,7 +118,7 @@ define(["wc/dom/attribute",
 			 * @param {Element} element The field in question.
 			 */
 			function tick(element) {
-				var maxLength, count, counter, ERR = "wc-error";
+				var maxLength, count, counter, ERR = "wc-err";
 				if ((counter = instance.getCounter(element))) {
 					maxLength = instance.getMaxlength(element);
 					count = (maxLength - getLength(element));

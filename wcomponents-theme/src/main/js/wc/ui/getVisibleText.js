@@ -60,7 +60,7 @@ define(["wc/dom/Widget",
 			}
 
 			if (removeHint) { // HINT is never "invisible"
-				HINT = HINT || new Widget("span", "hint");
+				HINT = HINT || new Widget("", "wc-label-hint");
 				while ((removeableChild = HINT.findDescendant(clone))) {
 					removeableChild.parentNode.removeChild(removeableChild);
 				}
