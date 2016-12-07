@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
@@ -147,6 +148,7 @@ public class WPanelTypeExample extends WContainer {
 		tfHeading = new WTextField();
 		selectedMenuText = new WText();
 		menu = (new MenuBarExample(selectedMenuText)).getMenu();
+		menu.addHtmlClass(HtmlClassProperties.RESPOND);
 		applyConfigButton = new WButton("Apply");
 
 		//set immutable options
@@ -192,10 +194,13 @@ public class WPanelTypeExample extends WContainer {
 			heading.setText(SAMPLE_HEADER);
 			panel.setTitleText(SAMPLE_TITLE_TEXT);
 		}
+	}
 
+	@Override
+	protected void preparePaintComponent(final Request request) {
+		super.preparePaintComponent(request);
 		boolean isHeader = panel.getType() == WPanel.Type.HEADER;
 		heading.setVisible(isHeader);
-		menu.addHtmlClass(HtmlClassProperties.RESPOND);
 		utilBar.setVisible(isHeader && showUtilBar.isSelected());
 		menu.setVisible(isHeader && showMenu.isSelected());
 		panelContentRO.setVisible(!isHeader);
@@ -205,9 +210,7 @@ public class WPanelTypeExample extends WContainer {
 	 * Add the components in the required order.
 	 */
 	private void buildUI() {
-
 		buildTargetPanel();
-
 		buildConfigOptions();
 		add(new WHorizontalRule());
 		add(panel);
@@ -231,7 +234,7 @@ public class WPanelTypeExample extends WContainer {
 	 * Set up the UI for the configuration options.
 	 */
 	private void buildConfigOptions() {
-		WFieldLayout layout = new WFieldLayout();
+		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
 		layout.setMargin(new Margin(0, 0, 12, 0));
 		layout.addField("Select a WPanel Type", panelType);
 		contentField = layout.addField("Panel content", panelContent);
