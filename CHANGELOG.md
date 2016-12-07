@@ -1,9 +1,12 @@
 # Change log
+
 # Release [in-progress]
 
 ## API Changes
 
 ## Bug Fixes
+
+* Prevent pending i18n bug by applying a cache buster to requests for i18n resource bundles #1016.
 * Fix possible a11y flaw by updating exposure of minlength to comply with HTML spec #1006.
 * Fix examples-lde default config #1005
 * Ensure file upload progress bars are shown for all asynchronous file uploads #1000.
@@ -13,6 +16,8 @@
   transformed #990.
 
 ## Enhancements
+
+* Improve performance by not calling unnecessary preparePaint in DataListInterceptor #975.
 
 # Release 1.2.15
 
