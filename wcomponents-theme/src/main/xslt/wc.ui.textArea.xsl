@@ -1,12 +1,10 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
-	<xsl:import href="wc.common.inlineError.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.common.required.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
-	<xsl:import href="wc.common.missingLabel.xsl"/>
 	<!--
 		Simple transform to textarea.
 
@@ -35,26 +33,15 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="tickerId" select="concat(@id,'_tick')"/>
-		<xsl:variable name="myLabel" select="key('labelKey',$id)"/>
 		<xsl:choose>
 			<xsl:when test="number($readOnly) eq 1">
-				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="label" select="$myLabel[1]"/>
-				</xsl:call-template>
+				<xsl:call-template name="readOnlyControl"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:variable name="isError" select="key('errorKey',$id)"/>
-				<xsl:if test="not($myLabel)">
-					<xsl:call-template name="checkLabel">
-						<xsl:with-param name="force" select="1"/>
-					</xsl:call-template>
-				</xsl:if>
 				<textarea>
 					<xsl:call-template name="commonControlAttributes">
-						<xsl:with-param name="isError" select="$isError"/>
 						<xsl:with-param name="name" select="$id"/>
 						<xsl:with-param name="live" select="'off'"/>
-						<xsl:with-param name="myLabel" select="$myLabel[1]"/>
 						<xsl:with-param name="class">
 							<xsl:if test="(@required or @placeholder) and not(text())">
 								<xsl:text>wc-buggyie</xsl:text>
@@ -115,16 +102,8 @@
 							<xsl:value-of select="@id"/>
 						</xsl:attribute>
 						<xsl:call-template name="hiddenElement"/>
-						<xsl:if test="string-length(text()) gt number(@maxLength)">
-						<xsl:attribute name="class">
-							<xsl:text>wc_error</xsl:text>
-						</xsl:attribute>
-						</xsl:if>
 					</xsl:element>
 				</xsl:if>
-				<xsl:call-template name="inlineError">
-					<xsl:with-param name="errors" select="$isError"/>
-				</xsl:call-template>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

@@ -1,7 +1,7 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributeSets.xsl" />
 	<xsl:import href="wc.constants.xsl" />
-	<xsl:import href="wc.common.missingLabel.xsl" />
 	<!--
 		ui:dropdown (@type="combo")
 		Transform for WDropdown.COMBO which is a combo-box. See wc.ui.dropdown.xsl.
@@ -9,17 +9,10 @@
 	-->
 	<xsl:template match="ui:dropdown[@type='combo' and not(@readOnly)]">
 		<xsl:variable name="id" select="@id" />
-		<xsl:variable name="isError" select="key('errorKey',$id)" />
-		<xsl:variable name="myLabel" select="key('labelKey',$id)"/>
 		<xsl:variable name="listId" select="concat($id, '_l')"/>
 		<xsl:variable name="inputId">
 			<xsl:value-of select="concat($id,'_input')"/>
 		</xsl:variable>
-		<xsl:if test="not($myLabel)">
-			<xsl:call-template name="checkLabel">
-				<xsl:with-param name="force" select="1"/>
-			</xsl:call-template>
-		</xsl:if>
 		<span role="combobox" aria-expanded="false" aria-autocomplete="list">
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="live" select="'off'"/>
@@ -63,12 +56,7 @@
 				<xsl:call-template name="requiredElement">
 					<xsl:with-param name="useNative" select="1"/>
 				</xsl:call-template>
-				<xsl:if test="$isError">
-					<xsl:call-template name="invalid"/>
-				</xsl:if>
-				<xsl:if test="not($myLabel)">
-					<xsl:call-template name="ariaLabel"/>
-				</xsl:if>
+				<xsl:call-template name="ariaLabel"/>
 			</xsl:element>
 			<button value="{$inputId}" tabindex="-1" id="{concat($id, '_list')}" type="button" aria-hidden="true" class="wc_suggest wc_btn_icon wc-invite">
 				<xsl:call-template name="disabledElement">
@@ -84,8 +72,5 @@
 				<xsl:apply-templates mode="comboDataList" />
 			</span>
 		</span>
-		<xsl:call-template name="inlineError">
-			<xsl:with-param name="errors" select="$isError"/>
-		</xsl:call-template>
 	</xsl:template>
 </xsl:stylesheet>

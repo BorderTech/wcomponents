@@ -82,6 +82,10 @@ public class TextAreaExample extends WPanel {
 		ta2.setPlaceholder("type here");
 		layout.addField("Size and Length Limited", ta2);
 
+		final WTextArea initiallyInvalid = new WTextArea();
+		layout.addField("more content than maxlength", initiallyInvalid);
+		initiallyInvalid.setMaxLength(10);
+		initiallyInvalid.setText("abc\ndef\ngh");
 
 		add(layout);
 		add(new WHorizontalRule());

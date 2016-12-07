@@ -623,9 +623,11 @@ define(["wc/Observer",
 			 * @param {boolean} [onlyHiddenAttribute] if true base test only on the existance of the hidden attribute.
 			 *   This should only ever be used internally by toggle or for components which can _only_ be hidden by
 			 *   attribute (e.g. dialog with open attribute).
+			 * @param {boolean} [ignoreOffset] if truthy and onlyHiddenAttribute is falsey then do not use an offset size test. This is necessary if,
+			 *   for example, the element being tested is not in the DOM.
 			 * @returns {boolean} true if the element is hidden.
 			 */
-			this.isHidden = function (element, onlyHiddenAttribute) {
+			this.isHidden = function (element, onlyHiddenAttribute, ignoreOffset) {
 				var result, _el;
 				if (showWithOpen(element)) {
 					result = !element.getAttribute(OPEN);
@@ -648,10 +650,15 @@ define(["wc/Observer",
 					// why are we testing a document or documentFragment?
 					return false;
 				}
-				if (_el.offsetWidth === 0 && _el.offsetHeight === 0) {
+				if (getStyle(_el, "visibility", false, true) === HIDDEN) {
 					return true;
 				}
-				if (getStyle(_el, "visibility", false, true) === HIDDEN) {
+				if (ignoreOffset) {
+					if (classList.contains(_el, "wc_off") || getStyle(_el, "display", false, true) === "none") {
+						return true;
+					}
+				}
+				else if ( _el.parentNode && _el.offsetWidth === 0 && _el.offsetHeight === 0) {
 					return true;
 				}
 				return false;

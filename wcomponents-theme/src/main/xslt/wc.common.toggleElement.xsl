@@ -48,22 +48,12 @@
 			</xsl:if>
 		</xsl:variable>
 
-		<button id="{$id}" role="radio" class="{$localClass}" data-wc-value="{$value}">
+		<button id="{$id}" role="radio" class="{$localClass}" data-wc-value="{$value}" type="button">
 			<xsl:if test="$name ne ''">
 				<xsl:attribute name="data-wc-name">
 					<xsl:value-of select="$name"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:attribute name="type">
-				<xsl:choose>
-					<xsl:when test="$mode eq 'server' or $mode eq '' or not($mode)">
-						<xsl:text>submit</xsl:text>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>button</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:attribute>
 			<xsl:if test="$labelId ne ''">
 				<xsl:attribute name="aria-labelledby">
 					<xsl:value-of select="$labelId"/>
@@ -88,11 +78,6 @@
 				<xsl:when test="$mode eq 'dynamic' or $mode eq 'lazy'">
 					<xsl:attribute name="data-wc-ajaxalias">
 						<xsl:value-of select="$for"/>
-					</xsl:attribute>
-				</xsl:when>
-				<xsl:when test="$mode eq 'server'">
-					<xsl:attribute name="formnovalidate">
-						<xsl:text>formnovalidate</xsl:text>
 					</xsl:attribute>
 				</xsl:when>
 			</xsl:choose>

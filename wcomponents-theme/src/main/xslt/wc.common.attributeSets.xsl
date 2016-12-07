@@ -4,11 +4,8 @@
 	<xsl:import href="wc.common.ajax.xsl" />
 	<xsl:import href="wc.constants.xsl" />
 	<xsl:import href="wc.common.disabledElement.xsl" />
-	<xsl:import href="wc.common.inlineError.xsl" />
-	<xsl:import href="wc.common.invalid.xsl" />
 	<xsl:import href="wc.common.hide.xsl" />
 	<xsl:import href="wc.common.hField.xsl" />
-	<xsl:import href="wc.common.missingLabel.xsl" />
 	<xsl:import href="wc.common.required.xsl" />
 	<xsl:import href="wc.common.title.xsl" />
 	<xsl:import href="wc.common.aria.label.xsl" />
@@ -37,11 +34,9 @@
 	-->
 	<xsl:template name="commonControlAttributes">
 		<xsl:param name="id" select="@id" />
-		<xsl:param name="isError" select="false()"/>
 		<xsl:param name="name" select="''"/>
 		<xsl:param name="value" select="@value" />
 		<xsl:param name="live" select="'polite'" />
-		<xsl:param name="myLabel" select="key('labelKey', $id)[1]" />
 		<xsl:param name="class"/>
 
 		<xsl:call-template name="commonAttributes">
@@ -64,9 +59,6 @@
 			<xsl:attribute name="value">
 				<xsl:value-of select="$value" />
 			</xsl:attribute>
-		</xsl:if>
-		<xsl:if test="$isError and $isError ne ''">
-			<xsl:call-template name="invalid" />
 		</xsl:if>
 		<xsl:call-template name="requiredElement" />
 		<xsl:call-template name="ajaxController">
@@ -92,9 +84,7 @@
 			</xsl:attribute>
 		</xsl:if>-->
 		<xsl:call-template name="title" />
-		<xsl:if test="not($myLabel)">
-			<xsl:call-template name="ariaLabel" />
-		</xsl:if>
+		<xsl:call-template name="ariaLabel" />
 	</xsl:template>
 
 	<!--
@@ -108,11 +98,9 @@
 	-->
 	<xsl:template name="commonWrapperAttributes">
 		<xsl:param name="id" select="@id" />
-		<xsl:param name="isError" select="false()" />
 		<xsl:param name="live" select="'polite'" />
 		<xsl:param name="isControl" select="1" />
 		<xsl:param name="class" select="''"/>
-		<xsl:param name="myLabel" select="false()"/>
 		<!--normally fieldset-->
 		<xsl:call-template name="commonAttributes">
 			<xsl:with-param name="id" select="$id" />
@@ -134,14 +122,6 @@
 		<xsl:call-template name="ajaxController">
 			<xsl:with-param name="id" select="$id" />
 		</xsl:call-template>
-		<xsl:if test="@readOnly and $myLabel">
-			<xsl:attribute name="aria-labelledby">
-				<xsl:value-of select="$myLabel/@id" />
-			</xsl:attribute>
-		</xsl:if>
-		<xsl:if test="$isError">
-			<xsl:call-template name="invalid" />
-		</xsl:if>
 	</xsl:template>
 
 	<!--

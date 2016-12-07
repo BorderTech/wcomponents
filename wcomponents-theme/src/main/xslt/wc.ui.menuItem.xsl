@@ -95,11 +95,6 @@
 								<xsl:value-of select="@validates"/>
 							</xsl:attribute>
 						</xsl:when>
-						<xsl:when test="key('triggerKey',@id)">
-							<xsl:attribute name="formnovalidate">
-								<xsl:text>formnovalidate</xsl:text>
-							</xsl:attribute>
-						</xsl:when>
 					</xsl:choose>
 				</xsl:when>
 			</xsl:choose>

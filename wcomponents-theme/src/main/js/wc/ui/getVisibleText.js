@@ -1,18 +1,8 @@
-/**
- * @module
- * @requires module:wc/dom/Widget
- * @requires module:wc/dom/textContent
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/getStyle
- * @requires module:wc/ui/tooltip
- */
 define(["wc/dom/Widget",
-		"wc/dom/textContent",
-		"wc/dom/shed",
-		"wc/dom/getStyle",
-		"wc/ui/tooltip"],
-	/** @param @param Widget @param textContent @param shed @param getStyle @param tooltip @ignore */
-	function(Widget, textContent, shed, getStyle, tooltip) {
+	"wc/dom/textContent",
+	"wc/dom/shed",
+	"wc/ui/tooltip"],
+	function (Widget, textContent, shed, tooltip) {
 		"use strict";
 		var HINT;
 
@@ -26,7 +16,7 @@ define(["wc/dom/Widget",
 		 * @returns {Number} NodeFilter.FILTER_ACCEPT if the node is hidden (and can therefore be removed).
 		 */
 		function treeWalkerFilter(element) {
-			if (shed.isDisabled(element) || shed.isHidden(element)) {
+			if (shed.isDisabled(element) || shed.isHidden(element, false, true)) {
 				return NodeFilter.FILTER_ACCEPT;
 			}
 
@@ -55,12 +45,14 @@ define(["wc/dom/Widget",
 		/**
 		 * @function module:wc/ui/getVisibleText
 		 * @param {Element} element The element for which we want to find the text.
-		 * @param {Boolean} removeHint If truthy also remove any HINT (applies only to labels).
+		 * @param {Boolean} [removeHint] If truthy also remove any HINT (applies only to labels).
+		 * @param {Boolean} [trim] if truthy then trim the content before returning it
 		 * @returns {String?} The text content of the element without HINT or TOOLTIP.
 		 */
-		function getVisibleText (element, removeHint) {
+		function getVisibleText(element, removeHint, trim) {
 			var clone = element.cloneNode(true),
-				removeableChild;
+				removeableChild,
+				content;
 
 			// ToolTip is not necessarily invisible at the time of calling (may have ALT/META key pressed).
 			if ((removeableChild = tooltip.getTooltip(clone))) {
@@ -75,8 +67,16 @@ define(["wc/dom/Widget",
 			}
 
 			removeInvisibles(clone);
-			return textContent.get(clone);
+			content = textContent.get(clone);
+			return trim && content ? content.trim() : content;
 		}
+		/**
+		 * @module
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/dom/textContent
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/ui/tooltip
+		 */
 		return getVisibleText;
 	});
 

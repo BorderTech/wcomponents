@@ -24,14 +24,6 @@
 	<xsl:variable name="t" select="'true'"/>
 
 <!--
-	Keys for common root-down lookups
-
-	Key for matching error messages to components in an error state. Pass in the
-	component's id and key will provide a list of errors with matching for
-	attribute
--->
-	<xsl:key name="errorKey" match="//ui:error" use="@for"/>
-<!--
 	Key used to find a component's label. Pass in the component's id and key
 	will provide a list of labels with matching for attribute
 -->

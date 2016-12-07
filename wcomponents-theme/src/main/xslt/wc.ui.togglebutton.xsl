@@ -11,7 +11,6 @@
 		<xsl:variable name="name">
 			<xsl:value-of select="$id"/>
 		</xsl:variable>
-		<xsl:variable name="myLabel" select="key('labelKey',$id)"/>
 		<xsl:choose>
 			<xsl:when test="@readOnly">
 				<xsl:call-template name="readOnlyControl">
@@ -21,16 +20,12 @@
 							<xsl:text> wc_ro_sel</xsl:text>
 						</xsl:if>
 					</xsl:with-param>
-					<xsl:with-param name="label" select="$myLabel[1]"/>
 				</xsl:call-template>
 				<xsl:call-template name="togglebuttonlabeltext"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:variable name="isError" select="key('errorKey',$id)"/>
 				<button type="button" data-wc-name="{$id}" data-wc-value="{$t}" role="checkbox">
 					<xsl:call-template name="commonControlAttributes">
-						<xsl:with-param name="isError" select="$isError"/>
-						<xsl:with-param name="myLabel" select="$myLabel[1]"/>
 						<xsl:with-param name="class" select="'wc-nobutton wc-invite'"/>
 					</xsl:call-template>
 					<!-- Fortunately commonControlAttributes will only output a value attribute if

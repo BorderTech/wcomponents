@@ -15,9 +15,10 @@ define(["wc/dom/event",
 		"wc/dom/initialise",
 		"wc/dom/Widget",
 		"wc/dom/focus",
-		"wc/ui/validation/validationManager"],
+		"wc/ui/validation/validationManager",
+		"wc/ui/ajaxRegion"],
 	/** @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param focus wc/dom/focus @param validationManager wc/ui/validation/validationManager @ignore */
-	function(event, initialise, Widget, focus, validationManager) {
+	function(event, initialise, Widget, focus, validationManager, ajaxRegion) {
 		"use strict";
 		/**
 		 * @constructor
@@ -35,17 +36,21 @@ define(["wc/dom/event",
 			 * @private
 			 * @param {Element} submitter The control which has instigated the data submission. This is used to determine
 			 *     if we need to validate a sub-form based on a property of the submitter.
-			 * @param {Element} form a HTML Form element.
 			 * @returns {boolean} true if the form (or sub-form) is invalid.
 			 */
-			function isInvalid(submitter, form) {
+			function isInvalid(submitter) {
 				var validationId = submitter.getAttribute("data-wc-validate"),
 					validationContainer;
 				if (validationId) {
 					validationContainer = document.getElementById(validationId);
 				}
-				validationContainer = validationContainer || form;
-				return !validationManager.isValid(validationContainer);
+				else if (ajaxRegion.getTrigger(submitter)) {
+					// if a submitter is an ajax trigger and does not have a validating region
+					// we do not validate.
+					return false;
+				}
+				validationContainer = validationContainer || FORM.findAncestor(submitter);
+				return validationContainer ? !validationManager.isValid(validationContainer) : false;
 			}
 
 			/**
@@ -56,16 +61,16 @@ define(["wc/dom/event",
 			 * @param {module:wc/wc/dom/event} $event A wrapped click event.
 			 */
 			function clickEvent($event) {
-				var element = $event.target, form, button;
-				if (!$event.defaultPrevented) {
-					button = SUBMIT_CONTROL.findAncestor(element);
+				var element = $event.target,
+					button;
 
-					if (button && !NO_VALIDATE_BUTTON.isOneOfMe(button) && focus.canFocus(button)) {
-						form = FORM.findAncestor(button);
-						if (form && isInvalid(button, form)) {
-							$event.preventDefault();
-						}
-					}
+				if ($event.defaultPrevented) {
+					return;
+				}
+				button = SUBMIT_CONTROL.findAncestor(element);
+
+				if (button && !NO_VALIDATE_BUTTON.isOneOfMe(button) && focus.canFocus(button) && isInvalid(button)) {
+					$event.preventDefault();
 				}
 			}
 

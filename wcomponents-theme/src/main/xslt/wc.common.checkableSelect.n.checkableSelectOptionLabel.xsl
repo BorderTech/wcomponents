@@ -10,9 +10,6 @@
 			<xsl:when test="@value">
 				<xsl:value-of select="@value"/>
 			</xsl:when>
-			<xsl:otherwise>
-				<xsl:text>{{t 'requiredLabel'}}</xsl:text>
-			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
 </xsl:stylesheet>

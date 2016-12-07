@@ -3,26 +3,15 @@
 	<xsl:import href="wc.common.readOnly.xsl"/>
 
 	<xsl:template match="ui:numberfield">
-		<xsl:variable name="myLabel" select="key('labelKey',@id)[1]"/>
 		<xsl:choose>
 			<xsl:when test="@readOnly">
-				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="label" select="$myLabel"/>
-				</xsl:call-template>
+				<xsl:call-template name="readOnlyControl"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:variable name="isError" select="key('errorKey',@id)"/>
-				<xsl:if test="not($myLabel)">
-					<xsl:call-template name="checkLabel">
-						<xsl:with-param name="force" select="1"/>
-					</xsl:call-template>
-				</xsl:if>
 				<xsl:element name="input">
 					<xsl:call-template name="commonControlAttributes">
-						<xsl:with-param name="isError" select="$isError"/>
 						<xsl:with-param name="name" select="@id"/>
 						<xsl:with-param name="live" select="'off'"/>
-						<xsl:with-param name="myLabel" select="$myLabel"/>
 						<xsl:with-param name="value" select="text()"/>
 					</xsl:call-template>
 					<xsl:attribute name="type">
@@ -78,9 +67,6 @@
 						</xsl:if>
 					</xsl:if>
 				</xsl:element>
-				<xsl:call-template name="inlineError">
-					<xsl:with-param name="errors" select="$isError"/>
-				</xsl:call-template>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

@@ -9,18 +9,14 @@
 		param myLabel: the label for the multiDropdown (if any)
 	-->
 	<xsl:template name="multiDropDownContentRenderer">
-		<xsl:param name="myLabel"/>
 		<xsl:choose>
 			<xsl:when test="count(.//ui:option[@selected]) eq 0">
 				<xsl:apply-templates select="(ui:option|ui:optgroup/ui:option)[1]" mode="multiDropDown">
 					<xsl:with-param name="isSingular" select="1"/>
-					<xsl:with-param name="myLabel" select="$myLabel"/>
 				</xsl:apply-templates>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:apply-templates select=".//ui:option[@selected]" mode="multiDropDown">
-					<xsl:with-param name="myLabel" select="$myLabel"/>
-				</xsl:apply-templates>
+				<xsl:apply-templates select=".//ui:option[@selected]" mode="multiDropDown"/>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

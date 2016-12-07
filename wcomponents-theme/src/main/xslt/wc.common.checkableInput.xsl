@@ -2,12 +2,10 @@
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
-	<xsl:import href="wc.common.inlineError.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.common.hField.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.common.required.xsl"/>
-	<xsl:import href="wc.common.missingLabel.xsl"/>
 	<!--
 		Checkable input controls
 
@@ -48,7 +46,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:variable name="myLabel" select="key('labelKey',$id)"/>
 		<xsl:choose>
 			<xsl:when test="@readOnly">
 				<xsl:call-template name="readOnlyControl">
@@ -68,22 +65,15 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:with-param>
-					<xsl:with-param name="label" select="$myLabel[1]"/>
 				</xsl:call-template>
-				<xsl:apply-templates select="$myLabel[1]" mode="checkable">
-					<xsl:with-param name="labelableElement" select="."/>
-				</xsl:apply-templates>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:variable name="isError" select="key('errorKey',$id)"/>
 				<xsl:element name="input">
 					<xsl:attribute name="type">
 						<xsl:value-of select="$type"/>
 					</xsl:attribute>
 					<xsl:call-template name="commonControlAttributes">
-						<xsl:with-param name="isError" select="$isError"/>
 						<xsl:with-param name="name" select="$name"/>
-						<xsl:with-param name="myLabel" select="$myLabel[1]"/>
 					</xsl:call-template>
 					<!-- Fortunately commonControlAttributes will only output a value attribute if
 						the XML element has a value attribute; so we can add the ui:checkbox value
@@ -104,24 +94,14 @@
 						</xsl:attribute>
 					</xsl:if>
 				</xsl:element>
-				<xsl:choose>
-					<xsl:when test="$myLabel">
-						<xsl:apply-templates select="$myLabel[1]" mode="checkable">
-							<xsl:with-param name="labelableElement" select="."/>
-						</xsl:apply-templates>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:call-template name="checkLabel">
-							<xsl:with-param name="force" select="1"/>
-						</xsl:call-template>
-					</xsl:otherwise>
-				</xsl:choose>
-				<xsl:if test="self::ui:radiobutton">
-					<xsl:call-template name="hField">
-						<xsl:with-param name="name" select="$name"/>
-					</xsl:call-template>
-				</xsl:if>
 			</xsl:otherwise>
 		</xsl:choose>
+		<xsl:apply-templates select="key('labelKey',$id)[1]" mode="checkable">
+			<xsl:with-param name="labelableElement" select="."/>
+		</xsl:apply-templates>
+		<xsl:if test="self::ui:radiobutton and not(@readOnly)">
+			<xsl:call-template name="hField">
+				<xsl:with-param name="name" select="$name"/>
+			</xsl:call-template></xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

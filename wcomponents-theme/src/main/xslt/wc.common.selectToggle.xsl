@@ -55,16 +55,6 @@
 			</xsl:if>
 		</xsl:variable>
 
-		<xsl:variable name="mode">
-			<xsl:choose>
-				<xsl:when test="self::ui:selectToggle and @roundTrip">
-					<xsl:text>server</xsl:text>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:text>client</xsl:text>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
 		<!--
 			WComponents groups WCheckBoxes in a CheckBoxGroup (note: NOT a WCheckBoxSelect)
 			in which each WCheckBox has a common groupName property. The WSelectToggle is
@@ -171,7 +161,7 @@
 						<xsl:value-of select="concat('wc_', local-name(.), ' wc_seltog')"/>
 					</xsl:variable>
 					<xsl:call-template name="toggleElement">
-						<xsl:with-param name="mode" select="$mode"/>
+						<xsl:with-param name="mode" select="'client'"/>
 						<xsl:with-param name="id" select="concat($id,'_all')"/>
 						<xsl:with-param name="for" select="$targetList"/>
 						<xsl:with-param name="name" select="$name"/>
@@ -192,7 +182,7 @@
 					</xsl:call-template>
 
 					<xsl:call-template name="toggleElement">
-						<xsl:with-param name="mode" select="$mode"/>
+						<xsl:with-param name="mode" select="'client'"/>
 						<xsl:with-param name="id" select="concat($id,'_none')"/>
 						<xsl:with-param name="for" select="$targetList"/>
 						<xsl:with-param name="name" select="$name"/>
@@ -230,22 +220,7 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
-				<button id="{$toggleId}" role="checkbox" aria-controls="{$targetList}">
-					<xsl:attribute name="type">
-						<xsl:choose>
-							<xsl:when test="$mode eq 'server'">
-								<xsl:text>submit</xsl:text>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:text>button</xsl:text>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:attribute>
-					<xsl:if test="$mode eq 'server'">
-						<xsl:attribute name="formnovalidate">
-							<xsl:text>formnovalidate</xsl:text>
-						</xsl:attribute>
-					</xsl:if>
+				<button id="{$toggleId}" role="checkbox" aria-controls="{$targetList}" type="button">
 					<xsl:attribute name="aria-checked">
 						<xsl:choose>
 							<xsl:when test="$selected eq 'all'">

@@ -1,5 +1,5 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.inlineError.xsl"/>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.accessKey.xsl"/>
 	<xsl:import href="wc.ui.label.n.labelClassHelper.xsl"/>
 	<xsl:import href="wc.ui.label.n.labelCommonAttributes.xsl"/>
@@ -89,9 +89,6 @@
 			</xsl:if>
 
 			<xsl:apply-templates/>
-			<xsl:if test="normalize-space(.) eq '' and not(.//ui:image)">
-				<xsl:text>{{t 'requiredLabel'}}</xsl:text>
-			</xsl:if>
 
 			<xsl:if test="$elementType eq 'label' and $labelableElement/@required">
 				<xsl:call-template name="offscreenSpan">
@@ -106,20 +103,5 @@
 				<xsl:with-param name="readOnly" select="$readOnly"/>
 			</xsl:call-template>
 		</xsl:element>
-		<!--
-			test for radio button and checkbox errors
-
-			This determines whether the forElement is a component which will transform to a
-			checkbox or radio button. This is used in conjunction with the error state
-			check to output inline error messages because they have to be output after the
-			label for those element types whereas they are normally output after the actual
-			control.
-		-->
-		<xsl:if test="local-name($labelableElement) eq 'checkbox' or local-name($labelableElement) eq 'radiobutton'">
-			<xsl:call-template name="inlineError">
-				<xsl:with-param name="errors" select="key('errorKey',@for)"/>
-				<xsl:with-param name="id" select="@for"/>
-			</xsl:call-template>
-		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

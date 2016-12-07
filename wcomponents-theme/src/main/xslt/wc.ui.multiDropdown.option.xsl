@@ -13,7 +13,6 @@
 	-->
 	<xsl:template match="ui:option" mode="multiDropDown">
 		<xsl:param name="isSingular" select="0"/>
-		<xsl:param name="myLabel"/>
 		<xsl:variable name="ancestorMDD" select="ancestor::ui:multidropdown"/>
 		<xsl:variable name="id" select="$ancestorMDD/@id"/>
 		<li>
@@ -42,9 +41,7 @@
 					<xsl:with-param name="isSingular" select="$isSingular"/>
 				</xsl:apply-templates>
 			</select>
-			<xsl:call-template name="multiFieldIcon">
-				<xsl:with-param name="myLabel" select="$myLabel"/>
-			</xsl:call-template>
+			<xsl:call-template name="multiFieldIcon"/>
 		</li>
 	</xsl:template>
 </xsl:stylesheet>

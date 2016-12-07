@@ -138,6 +138,9 @@
 			<xsl:if test=".//ui:tabset">
 				<xsl:text>"wc/ui/tabset",</xsl:text>
 			</xsl:if>
+			<xsl:if test=".//ui:validationerrors">
+				<xsl:text>"wc/ui/errors",</xsl:text>
+			</xsl:if>
 			<xsl:if test=".//ui:tree">
 				<!-- htreesize requires tree and resizeable, tree requires treeitem. -->
 				<xsl:text>"wc/ui/menu/htreesize",</xsl:text>

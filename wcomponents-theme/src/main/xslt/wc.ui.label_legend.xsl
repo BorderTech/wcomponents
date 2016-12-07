@@ -27,33 +27,13 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:variable name="isEmpty">
-			<xsl:choose>
-				<xsl:when test="normalize-space(.) eq '' and not(.//ui:image) and not(@hint)">
-					<xsl:number value="1"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:number value="0"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
 		<legend>
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
-					<xsl:choose>
-						<xsl:when test="number($isEmpty) eq 1">
-							<xsl:text>wc_error</xsl:text>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:text>wc-off</xsl:text>
-						</xsl:otherwise>
-					</xsl:choose>
+					<xsl:text>wc-off</xsl:text>
 				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:call-template name="accessKey"/>
-			<xsl:if test="number($isEmpty) eq 1">
-				<xsl:text>{{t 'requiredLabel'}}</xsl:text>
-			</xsl:if>
 			<xsl:apply-templates />
 			<xsl:call-template name="WLabelHint">
 				<xsl:with-param name="submitNotAjaxTrigger" select="$submitNotAjaxTrigger"/>

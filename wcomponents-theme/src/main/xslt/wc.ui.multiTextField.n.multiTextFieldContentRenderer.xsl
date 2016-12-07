@@ -12,19 +12,15 @@
 		param myLabel: the label for the parent multiTextField
 	-->
 	<xsl:template name="multiTextFieldContentRenderer">
-		<xsl:param name="myLabel"/>
 		<xsl:choose>
 			<xsl:when test="ui:value">
-				<xsl:apply-templates>
-					<xsl:with-param name="myLabel" select="$myLabel"/>
-				</xsl:apply-templates>
+				<xsl:apply-templates/>
 			</xsl:when>
 			<xsl:otherwise>
 				<li>
 					<xsl:call-template name="multiTextFieldInput"/>
 					<xsl:call-template name="multiFieldIcon">
 						<xsl:with-param name="isSingular" select="1"/>
-						<xsl:with-param name="myLabel" select="$myLabel"/>
 					</xsl:call-template>
 				</li>
 			</xsl:otherwise>

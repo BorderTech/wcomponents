@@ -10,8 +10,7 @@
 	-->
 	<xsl:template name="multiFieldIcon">
 		<xsl:param name="isSingular" select="0"/>
-		<xsl:param name="myLabel"/>
-		
+
 		<xsl:variable name="id">
 			<xsl:choose>
 				<xsl:when test="self::ui:multitextfield">
@@ -27,9 +26,6 @@
 			<xsl:choose>
 				<xsl:when test="number($isSingular) eq 1 or position() eq 1">
 					<xsl:text>{{t 'mfc_add'}}</xsl:text>
-					<xsl:if test="$myLabel">
-						<xsl:value-of select="$myLabel"/>
-					</xsl:if>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:text>{{t 'mfc_remove'}}</xsl:text>

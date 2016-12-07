@@ -40,8 +40,6 @@
 				<xsl:otherwise>7</xsl:otherwise><!-- 7 is usually big enough to be around the same size as the buttons -->
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:variable name="isError" select="key('errorKey',$id)"/>
-		<xsl:variable name="myLabel" select="key('labelKey',$id)[1]"/>
 		<xsl:variable name="element">
 			<xsl:choose>
 				<xsl:when test="number($readOnly) eq 1">div</xsl:when>
@@ -50,7 +48,6 @@
 		</xsl:variable>
 		<xsl:element name="{$element}">
 			<xsl:call-template name="commonWrapperAttributes">
-				<xsl:with-param name="isError" select="$isError"/>
 				<xsl:with-param name="isControl">
 					<xsl:choose>
 						<xsl:when test="number($readOnly) eq 1">
@@ -61,7 +58,6 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:with-param>
-				<xsl:with-param name="myLabel" select="$myLabel"/>
 			</xsl:call-template>
 			<xsl:choose>
 				<xsl:when test="number($readOnly) ne 1">
@@ -76,7 +72,7 @@
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:call-template name="makeLegend">
-						<xsl:with-param name="myLabel" select="$myLabel"/>
+						<xsl:with-param name="myLabel" select="key('labelKey',$id)[1]"/>
 					</xsl:call-template>
 
 					<!-- AVAILABLE LIST -->
@@ -145,10 +141,6 @@
 						<xsl:apply-templates mode="multiselectPair"/>
 					</select>
 					<xsl:call-template name="hField"/>
-					
-					<xsl:call-template name="inlineError">
-						<xsl:with-param name="errors" select="$isError"/>
-					</xsl:call-template>
 				</xsl:when>
 				<xsl:when test="count(.//ui:option[@selected]) gt 0">
 					<xsl:call-template name="title"/>

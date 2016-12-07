@@ -7,28 +7,18 @@
    -->
 	<xsl:template match="ui:passwordfield">
 		<xsl:variable name="id" select="@id"/>
-		<xsl:variable name="myLabel" select="key('labelKey',$id)[1]"/>
 		<xsl:choose>
 			<xsl:when test="@readOnly">
 				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="label" select="$myLabel"/>
 					<!-- NEVER allow text content to appear as it is a value. -->
 					<xsl:with-param name="applies" select="'none'"/>
 				</xsl:call-template>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:variable name="isError" select="key('errorKey',$id)"/>
-				<xsl:if test="not($myLabel)">
-					<xsl:call-template name="checkLabel">
-						<xsl:with-param name="force" select="1"/>
-					</xsl:call-template>
-				</xsl:if>
 				<xsl:element name="input">
 					<xsl:call-template name="commonControlAttributes">
-						<xsl:with-param name="isError" select="$isError"/>
 						<xsl:with-param name="name" select="@id"/>
 						<xsl:with-param name="live" select="'off'"/>
-						<xsl:with-param name="myLabel" select="$myLabel"/>
 					</xsl:call-template>
 					<xsl:attribute name="type">
 						<xsl:text>password</xsl:text>
@@ -82,9 +72,6 @@
 						</xsl:choose>
 					</xsl:attribute>-->
 				</xsl:element>
-				<xsl:call-template name="inlineError">
-					<xsl:with-param name="errors" select="$isError"/>
-				</xsl:call-template>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

@@ -18,13 +18,6 @@
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
-			
-			<xsl:if test="ui:decoratedlabel">
-				<xsl:attribute name="aria-labelledby">
-					<xsl:value-of select="ui:decoratedlabel/@id"/>
-				</xsl:attribute>
-			</xsl:if>
-
 			<xsl:if test="ui:content or ui:decoratedLabel or not($mode eq 'eager')">
 				<xsl:apply-templates select="ui:content"/>
 				<figcaption>

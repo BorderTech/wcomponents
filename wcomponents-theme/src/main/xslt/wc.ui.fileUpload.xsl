@@ -19,7 +19,6 @@
 	-->
 	<xsl:template match="ui:fileupload">
 		<xsl:variable name="id" select="@id"/>
-		<xsl:variable name="isError" select="key('errorKey',$id)"/>
 		<xsl:variable name="readOnly">
 			<xsl:choose>
 				<xsl:when test="@readOnly">
@@ -40,7 +39,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:variable name="myLabel" select="key('labelKey',$id)[1]"/>
 
 		<xsl:variable name="cols">
 			<xsl:choose>
@@ -55,16 +53,11 @@
 
 		<xsl:choose>
 			<xsl:when test="number($readOnly) eq 1 and number($legacy) eq 1">
-				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="label" select="$myLabel"/>
-				</xsl:call-template>
+				<xsl:call-template name="readOnlyControl"/>
 			</xsl:when>
 			<xsl:when test="number($legacy) eq 1">
 				<xsl:call-template name="fileInput">
 					<xsl:with-param name="id" select="$id"/>
-				</xsl:call-template>
-				<xsl:call-template name="inlineError">
-					<xsl:with-param name="errors" select="$isError"/>
 				</xsl:call-template>
 			</xsl:when>
 			<xsl:otherwise>
@@ -78,8 +71,6 @@
 				</xsl:variable>
 				<xsl:element name="{$containerTag}">
 					<xsl:call-template name="commonWrapperAttributes">
-						<xsl:with-param name="isError" select="$isError"/>
-						<xsl:with-param name="myLabel" select="$myLabel"/>
 						<xsl:with-param name="class">
 							<xsl:choose>
 								<xsl:when test="number($readOnly) eq 1">
@@ -103,7 +94,7 @@
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:call-template name="makeLegend">
-								<xsl:with-param name="myLabel" select="$myLabel"/>
+								<xsl:with-param name="myLabel" select="key('labelKey',$id)[1]"/>
 							</xsl:call-template>
 							<xsl:variable name="inputId" select="concat($id,'_input')"/>
 							<label class="wc-off" for="{$inputId}">
@@ -111,9 +102,6 @@
 							</label>
 							<xsl:call-template name="fileInput">
 								<xsl:with-param name="id" select="$inputId"/>
-							</xsl:call-template>
-							<xsl:call-template name="inlineError">
-								<xsl:with-param name="errors" select="$isError"/>
 							</xsl:call-template>
 						</xsl:otherwise>
 					</xsl:choose>

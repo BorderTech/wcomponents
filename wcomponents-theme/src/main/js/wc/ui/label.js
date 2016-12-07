@@ -1,32 +1,14 @@
-/**
- * A module which provides functionality peculiar to control labelling elements (labels and label-surrogates). This
- * module is mainly concerned with ensuring that as controls are replaced using AJAX that any labelling components for
- * those controls are always kept in the right state.
- *
- * @module
- * @requires module:wc/dom/classList
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/tag
- * @requires module:wc/dom/Widget
- * @requires module:wc/dom/getLabelsForElement
- * @requires module:wc/ui/ajax/processResponse
- * @requires module:wc/i18n/i18n
- * @requires module:wc/ui/internalLink
- * @requires module:wc/dom/role
- */
 define(["wc/dom/classList",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/dom/tag",
-		"wc/dom/Widget",
-		"wc/dom/getLabelsForElement",
-		"wc/ui/ajax/processResponse",
-		"wc/i18n/i18n",
-		"wc/dom/role",
-		"wc/ui/internalLink"],
-	/** @param classList wc/dom/classList @param initialise wc/dom/initialise @param shed wc/dom/shed @param tag wc/dom/tag @param Widget wc/dom/Widget @param getLabelsForElement wc/dom/getLabelsForElement @param processResponse wc/ui/ajax/processResponse @param i18n wc/i18n/i18n @param $role wc/dom/role @ignore */
-	function(classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, i18n, $role) {
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/dom/tag",
+	"wc/dom/Widget",
+	"wc/dom/getLabelsForElement",
+	"wc/ui/ajax/processResponse",
+	"wc/i18n/i18n",
+	"wc/dom/role",
+	"wc/ui/internalLink"],
+	function (classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, i18n, $role) {
 		"use strict";
 		/*
 		 * Implicit dependencies:
@@ -252,7 +234,7 @@ define(["wc/dom/classList",
 			 * @returns {Boolean} Returns true if the element is a labelling element, including faux-label stand-ins.
 			 * @todo The label surrogate widget should come from {@link module:wc/ui/internalLink}.
 			 */
-			this.isOneOfMe = function(el) {
+			this.isOneOfMe = function (el) {
 				LABEL = LABEL || new Widget("label");
 				LEGEND = LEGEND || new Widget("legend");
 				FAUX = FAUX || new Widget("", "", {"data-wc-for": null});
@@ -260,7 +242,24 @@ define(["wc/dom/classList",
 			};
 		}
 
-		var /** @alias module:wc/ui/label */ instance = new Label();
+		/**
+		 * A module which provides functionality peculiar to control labelling elements (labels and label-surrogates). This
+		 * module is mainly concerned with ensuring that as controls are replaced using AJAX that any labelling components for
+		 * those controls are always kept in the right state.
+		 *
+		 * @module
+		 * @requires module:wc/dom/classList
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/tag
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/dom/getLabelsForElement
+		 * @requires module:wc/ui/ajax/processResponse
+		 * @requires module:wc/i18n/i18n
+		 * @requires module:wc/ui/internalLink
+		 * @requires module:wc/dom/role
+		 */
+		var instance = new Label();
 		initialise.register(instance);
 		return instance;
 	});

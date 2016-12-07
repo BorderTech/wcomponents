@@ -1,12 +1,10 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.ui.menu.n.hasStickyOpen.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuRoleIsSelectable.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuTabIndexHelper.xsl"/>
-	<xsl:import href="wc.common.inlineError.xsl"/>
-	<xsl:import href="wc.common.invalid.xsl"/>
 	<xsl:import href="wc.common.hField.xsl"/>
-	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		Transform for WMenu. Makes bar, tree and column menus.
 
@@ -19,7 +17,6 @@
 	<xsl:template match="ui:menu">
 		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="type" select="@type"/>
-		<xsl:variable name="isError" select="key('errorKey',$id)"/>
 
 		<xsl:variable name="isBarFlyout">
 			<xsl:choose>
@@ -61,15 +58,7 @@
 				</xsl:attribute>
 			</xsl:if>
 
-			<xsl:if test="$isError">
-				<xsl:call-template name="invalid"/>
-			</xsl:if>
-
 			<xsl:apply-templates select="*[not(self::ui:margin)]"/>
-
-			<xsl:call-template name="inlineError">
-				<xsl:with-param name="errors" select="$isError"/>
-			</xsl:call-template>
 		</div>
 	</xsl:template>
 

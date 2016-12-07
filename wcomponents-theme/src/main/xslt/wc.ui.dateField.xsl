@@ -1,8 +1,8 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
-	<xsl:import href="wc.common.missingLabel.xsl"/>
 	<xsl:import href="wc.common.title.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
 
@@ -11,8 +11,6 @@
 		<xsl:variable name="pickId">
 			<xsl:value-of select="concat($id, '_cal')"/>
 		</xsl:variable>
-		<xsl:variable name="isError" select="key('errorKey',$id)"/>
-		<xsl:variable name="myLabel" select="key('labelKey',$id)[1]"/>
 		<xsl:choose>
 			<xsl:when test="@readOnly">
 				<xsl:variable name="tagName">
@@ -31,11 +29,6 @@
 							<xsl:text> wc_datero wc_ro</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
-					<xsl:if test="$myLabel">
-						<xsl:attribute name="aria-labelledby">
-							<xsl:value-of select="$myLabel/@id"/>
-						</xsl:attribute>
-					</xsl:if>
 					<xsl:choose>
 						<xsl:when test="@date">
 							<xsl:variable name="datetimeattrib">
@@ -59,15 +52,7 @@
 				</xsl:element>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:variable name="inputId">
-					<xsl:value-of select="concat($id,'_input')"/>
-				</xsl:variable>
-				<xsl:if test="not($myLabel)">
-					<xsl:call-template name="checkLabel">
-						<xsl:with-param name="for" select="$inputId"/>
-						<xsl:with-param name="force" select="1"/>
-					</xsl:call-template>
-				</xsl:if>
+				<xsl:variable name="inputId" select="concat($id,'_input')"/>
 				<div id="{$id}">
 					<xsl:call-template name="commonAttributes">
 						<xsl:with-param name="live" select="'off'"/>
@@ -77,9 +62,6 @@
 								<xsl:text> wc_datefield_partial</xsl:text>
 							</xsl:if>
 						</xsl:with-param>
-					</xsl:call-template>
-					<xsl:call-template name="requiredElement">
-						<xsl:with-param name="useNative" select="0"/>
 					</xsl:call-template>
 					<xsl:if test="@allowPartial">
 						<xsl:attribute name="role">
@@ -97,12 +79,7 @@
 							</xsl:attribute>
 						</xsl:if>
 					</xsl:if>
-					<xsl:if test="$isError">
-						<xsl:call-template name="invalid"/>
-					</xsl:if>
-					<xsl:if test="not($myLabel)">
-						<xsl:call-template name="ariaLabel"/>
-					</xsl:if>
+					<xsl:call-template name="ariaLabel"/>
 					<xsl:element name="input">
 						<xsl:attribute name="type">
 							<xsl:choose>
@@ -193,9 +170,6 @@
 						<span role="listbox" aria-busy="true"></span>
 					</xsl:if>
 				</div>
-				<xsl:call-template name="inlineError">
-					<xsl:with-param name="errors" select="$isError"/>
-				</xsl:call-template>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

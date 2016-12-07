@@ -41,7 +41,6 @@
 		<xsl:param name="applies" select="''"/>
 		<xsl:param name="useReadOnlyMode" select="0"/>
 		<xsl:param name="toolTip" select="''"/>
-		<xsl:param name="label"/>
 
 		<xsl:variable name="linkWithText">
 			<xsl:choose>
@@ -84,11 +83,6 @@
 			<xsl:if test="$style ne ''">
 				<xsl:attribute name="style">
 					<xsl:value-of select="$style"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:if test="$label">
-				<xsl:attribute name="aria-labelledby">
-					<xsl:value-of select="$label/@id"/>
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="number($linkWithText) eq 1">

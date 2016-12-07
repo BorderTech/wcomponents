@@ -2,7 +2,6 @@
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.listSortControls.xsl"/>
-	<xsl:import href="wc.common.missingLabel.xsl"/>
 	<xsl:import href="wc.common.title.xsl"/>
 	<xsl:import href="wc.common.makeLegend.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
@@ -17,7 +16,6 @@
 	-->
 	<xsl:template match="ui:shuffler">
 		<xsl:variable name="id" select="@id"/>
-		<xsl:variable name="myLabel" select="key('labelKey',$id)[1]"/>
 		<xsl:choose>
 			<xsl:when test="@readOnly">
 				<ol>
@@ -29,11 +27,6 @@
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:call-template name="title"/>
-					<xsl:if test="$myLabel">
-						<xsl:attribute name="aria-labelledby">
-							<xsl:value-of select="$myLabel/@id"/>
-						</xsl:attribute>
-					</xsl:if>
 					<xsl:apply-templates select="ui:option|ui:optgroup" mode="readOnly">
 						<xsl:with-param name="showOptions" select="'all'"/>
 						<xsl:with-param name="single" select="0"/>
@@ -42,11 +35,9 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<fieldset>
-					<xsl:call-template name="commonWrapperAttributes">
-						<xsl:with-param name="myLabel" select="$myLabel"/>
-					</xsl:call-template>
+					<xsl:call-template name="commonWrapperAttributes"/>
 					<xsl:call-template name="makeLegend">
-						<xsl:with-param name="myLabel" select="$myLabel"/>
+						<xsl:with-param name="myLabel" select="key('labelKey',$id)[1]"/>
 					</xsl:call-template>
 					<xsl:variable name="listId" select="concat($id,'_l')"/>
 					<select id="{$listId}" class="wc_shuffler wc-noajax" multiple="multiple" autocomplete="off">

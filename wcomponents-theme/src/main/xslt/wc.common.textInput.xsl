@@ -1,4 +1,5 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.common.required.xsl"/>
@@ -7,21 +8,11 @@
    -->
 	<xsl:template match="ui:textfield|ui:phonenumberfield|ui:emailfield">
 		<xsl:variable name="id" select="@id"/>
-		<xsl:variable name="myLabel" select="key('labelKey',$id)[1]"/>
 		<xsl:choose>
-			
 			<xsl:when test="@readOnly">
-				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="label" select="$myLabel"/>
-				</xsl:call-template>
+				<xsl:call-template name="readOnlyControl"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:variable name="isError" select="key('errorKey',$id)"/>
-				<xsl:if test="not($myLabel)">
-					<xsl:call-template name="checkLabel">
-						<xsl:with-param name="force" select="1"/>
-					</xsl:call-template>
-				</xsl:if>
 				<xsl:variable name="list" select="@list"/>
 				<xsl:variable name="inputId">
 					<xsl:value-of select="concat($id,'_input')"/>
@@ -54,9 +45,6 @@
 						</xsl:attribute>
 						<xsl:call-template name="title"/>
 					</xsl:if>
-					<xsl:call-template name="requiredElement">
-						<xsl:with-param name="useNative" select="0"/>
-					</xsl:call-template>
 					<xsl:element name="input">
 						<xsl:attribute name="id">
 							<xsl:value-of select="$inputId"/>
@@ -67,9 +55,6 @@
 						<xsl:attribute name="value">
 							<xsl:value-of select="text()"/>
 						</xsl:attribute>
-						<xsl:call-template name="requiredElement">
-							<xsl:with-param name="useNative" select="1"/>
-						</xsl:call-template>
 						<xsl:attribute name="type">
 							<xsl:choose>
 								<xsl:when test="self::ui:textfield">
@@ -83,6 +68,7 @@
 								</xsl:otherwise>
 							</xsl:choose>
 						</xsl:attribute>
+						<xsl:call-template name="requiredElement"/>
 						<xsl:if test="@placeholder or @required">
 							<xsl:attribute name="placeholder">
 								<xsl:choose>
@@ -138,12 +124,7 @@
 								<xsl:value-of select="@pattern"/>
 							</xsl:attribute>
 						</xsl:if>
-						<xsl:if test="$isError">
-							<xsl:call-template name="invalid"/>
-						</xsl:if>
-						<xsl:if test="not($myLabel)">
-							<xsl:call-template name="ariaLabel"/>
-						</xsl:if>
+						<xsl:call-template name="ariaLabel"/>
 					</xsl:element>
 					<xsl:if test="$list">
 						<button value="{$inputId}" tabindex="-1" id="{concat($id, '_list')}" type="button" aria-hidden="true" class="wc_suggest wc_btn_icon wc-invite">
@@ -162,9 +143,6 @@
 						</xsl:choose>
 					</xsl:if>
 				</span>
-				<xsl:call-template name="inlineError">
-					<xsl:with-param name="errors" select="$isError"/>
-				</xsl:call-template>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

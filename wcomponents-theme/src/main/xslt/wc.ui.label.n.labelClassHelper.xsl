@@ -25,8 +25,10 @@
 					-->
 					<xsl:text> wc-off</xsl:text>
 				</xsl:if>
-				<xsl:if test="number($readOnly) ne 1 and $element and $element/@required">
-					<xsl:text> wc_req</xsl:text>
+				<xsl:if test="number($readOnly) ne 1 and $element">
+					<xsl:if test="$element/@required">
+						<xsl:text> wc_req</xsl:text>
+					</xsl:if>
 				</xsl:if>
 			</xsl:with-param>
 		</xsl:call-template>

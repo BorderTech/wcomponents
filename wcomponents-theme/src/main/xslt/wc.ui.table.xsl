@@ -2,8 +2,6 @@
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
-	<xsl:import href="wc.common.inlineError.xsl"/>
-	<xsl:import href="wc.common.invalid.xsl"/>
 	<xsl:import href="wc.common.hField.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
 	<xsl:import href="wc.ui.table.n.className.xsl"/>
@@ -24,17 +22,6 @@
 	-->
 	<xsl:template match="ui:table">
 		<xsl:variable name="id" select="@id"/>
-		<!--
-			NOTE: Error state
-
-			Now it is pretty plain that a table cannot be in an error mode. The table is not, after all, intrinsically
-			interactive. The error indicator is used to provide visual indication that there is an error somewhere in
-			the table. As such it is pretty appalling!
-			
-			It is, therefore, assumed that a table will be in an error state only if the rowselection is in an 
-			error state.
-		-->
-		<xsl:variable name="isError" select="key('errorKey',$id)"/>
 		
 		<xsl:variable name="rowExpansion">
 			<xsl:choose>
@@ -124,9 +111,6 @@
 					<xsl:attribute name="class">
 						<xsl:value-of select="normalize-space($tableClass)"/>
 					</xsl:attribute>
-				</xsl:if>
-				<xsl:if test="$isError">
-					<xsl:call-template name="invalid"/>
 				</xsl:if>
 				<xsl:if test="number($rowExpansion) + number($rowSelection) gt 0">
 					<xsl:if test="number($rowSelection) eq 1">
@@ -218,9 +202,6 @@
 				table. The default are actions and the pagination controls (if position is unsset, BOTTOM or BOTH).
 			-->
 			<xsl:call-template name="tableBottomControls"/>
-			<xsl:call-template name="inlineError">
-				<xsl:with-param name="errors" select="$isError"/>
-			</xsl:call-template>
 			<xsl:call-template name="hField"/>
 		</div>
 	</xsl:template>

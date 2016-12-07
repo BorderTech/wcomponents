@@ -28,12 +28,9 @@
 			</xsl:with-param>
 		</xsl:call-template>
 		<xsl:if test="@renderAs eq 'control'">
-			<xsl:variable name="myLabel" select="key('labelKey',@id)[1]"/>
-			<xsl:if test="$myLabel">
-				<xsl:apply-templates select="$myLabel" mode="checkable">
-					<xsl:with-param name="labelableElement" select="."/>
-				</xsl:apply-templates>
-			</xsl:if>
+			<xsl:apply-templates select="key('labelKey',@id)[1]" mode="checkable">
+				<xsl:with-param name="labelableElement" select="."/>
+			</xsl:apply-templates>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

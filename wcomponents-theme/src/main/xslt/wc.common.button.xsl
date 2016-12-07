@@ -97,15 +97,6 @@
 							<xsl:value-of select="@validates" />
 						</xsl:attribute>
 					</xsl:when>
-					<xsl:when test="key('triggerKey', @id)">
-						<!--
-							Do not merge this with the top when as we _do_ validate on AJAX if the validates attribute
-							is set.
-						-->
-						<xsl:attribute name="formnovalidate">
-							<xsl:text>formnovalidate</xsl:text>
-						</xsl:attribute>
-					</xsl:when>
 				</xsl:choose>
 				<xsl:if test="parent::ui:action">
 					<xsl:variable name="conditions">

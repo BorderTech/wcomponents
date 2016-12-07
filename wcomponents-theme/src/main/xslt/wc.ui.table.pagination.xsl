@@ -1,5 +1,4 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.ui.table.n.tableAjaxController.xsl"/>
 	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<!--
 		This template creates the pagination controls. It is called specifically from 
@@ -64,21 +63,9 @@
 				<xsl:with-param name="idSuffix" select="$idSuffix"/>
 			</xsl:apply-templates>
 			
-			<!-- buttons to change page -->
-			<xsl:variable name="buttonType">
-				<xsl:choose>
-					<xsl:when test="@mode eq 'server'"><!-- WDataTable compatibility only -->
-						<xsl:text>submit</xsl:text>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>button</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
 			<span class="wc_table_pag_btns">
 				<xsl:call-template name="paginationButton">
 					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_first'}}</xsl:text></xsl:with-param>
-					<xsl:with-param name="type" select="$buttonType"/>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'1')"/>
 					<xsl:with-param name="disabled">
 						<xsl:choose>
@@ -93,7 +80,6 @@
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
 					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_previous'}}</xsl:text></xsl:with-param>
-					<xsl:with-param name="type" select="$buttonType"/>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'2')"/>
 					<xsl:with-param name="disabled">
 						<xsl:choose>
@@ -108,7 +94,6 @@
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
 					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_next'}}</xsl:text></xsl:with-param>
-					<xsl:with-param name="type" select="$buttonType"/>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'3')"/>
 					<xsl:with-param name="disabled">
 						<xsl:choose>
@@ -123,7 +108,6 @@
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
 					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_last'}}</xsl:text></xsl:with-param>
-					<xsl:with-param name="type" select="$buttonType"/>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'4')"/>
 					<xsl:with-param name="disabled">
 						<xsl:choose>
@@ -152,15 +136,9 @@
 	-->
 	<xsl:template name="paginationButton">
 		<xsl:param name="title"/>
-		<xsl:param name="type"/>
 		<xsl:param name="idSuffix"/>
 		<xsl:param name="disabled" select="0"/>
-		<button id="{concat(../@id,'.pagination.',$idSuffix)}" title="{$title}" type="{$type}" class="wc_btn_icon wc-invite">
-			<xsl:if test="$type eq 'submit'">
-				<xsl:attribute name="formnovalidate">
-					<xsl:text>formnovalidate</xsl:text>
-				</xsl:attribute>
-			</xsl:if>
+		<button id="{concat(../@id,'.pagination.',$idSuffix)}" title="{$title}" type="button" class="wc_btn_icon wc-invite">
 			<xsl:choose>
 				<xsl:when test="number($disabled) eq 1">
 					<xsl:attribute name="disabled">

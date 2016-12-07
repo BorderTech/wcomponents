@@ -8,6 +8,10 @@ legend {
 		padding-left: 0;
 	}
 
+	&.wc-off.wc-error {
+		position: static;
+	}
+
 	@if ($wc-label-mandatory-indicator != 0) {
 		.wc_req > &:before {
 			@include mandatory-indicator;

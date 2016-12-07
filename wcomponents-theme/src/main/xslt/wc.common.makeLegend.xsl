@@ -42,11 +42,6 @@
 					</xsl:with-param>
 				</xsl:call-template>
 			</xsl:when>
-			<xsl:when test="not(ancestor::ui:ajaxtarget)">
-				<legend class="wc_error">
-					<xsl:text>{{t 'requiredLabel'}}</xsl:text>
-				</legend>
-			</xsl:when>
 		</xsl:choose>
 	</xsl:template>
 

@@ -158,7 +158,7 @@
  "file_inputLabel": "sélecteur de fichier",
  "mfc_max": "Vous avez atteint le maximum d'options à sélectionner.",
  "mfc_remove": "Supprimer l'élément. Appuyez sur Shift + cliquez sur le bouton Enlever pour supprimer tous les éléments.",
- "mfc_add": "Ajouter un élément à :",
+ "mfc_add": "Ajouter un élément",
  "mfc_option": "select an option",
  "msp_add": "Ajouter",
  "msp_addAll": "Ajouter tous",
