@@ -45,6 +45,7 @@ define(["wc/dom/event",
 				HEADER_WD = new Widget("header"),
 				TITLE_WD = new Widget("h1"),
 				FORM = new Widget("form"),
+				BUSY,
 				UNIT = "px",
 				repositionTimer,
 				REJECT = {
@@ -87,6 +88,20 @@ define(["wc/dom/event",
 					func = conf.vpUtil;
 				}
 				return !viewportUtils[func]();
+			}
+
+			/**
+			 * @function
+			 * @private
+			 * @returns {Boolean} true if the dialog has any content in an aria-busy state.
+			 */
+			function hasBusyContent() {
+				var content = getContent();
+				if (content) {
+					BUSY = BUSY || new Widget("","",{"aria-busy": "true"});
+					return !!BUSY.findDescendant(content);
+				}
+				return false;
 			}
 
 			/**
@@ -501,9 +516,9 @@ define(["wc/dom/event",
 					dialog = instance.getDialog();
 					// if we are refreshing inside the dialog we may need to reposition
 					if (instance.isOpen(dialog)) {  // it damn well better be
-						if (!(dialog.style.width && dialog.style.height)) {
+						if (!(dialog.style.width && dialog.style.height && hasBusyContent())) {
 							// we have not got a fixed or user-created size so we will resize automatically
-							instance.reposition();
+							instance.reposition(null, null, true);
 						}
 					}
 				}
@@ -512,16 +527,19 @@ define(["wc/dom/event",
 
 			/**
 			 * Helper for reposition. Called from a timeout to reposition the dialog frame.
+			 * @function
+			 * @private
 			 * @param {Element} element the dialog frame to reposition.
-			 * @param {Object} obj A description of the dialog.
-			 * @param {int} [obj.width] The dialog width
-			 * @param {int} [obj.height] The dialog height
-			 * @param {int} [obj.topOffsetPC] The offset from the top of the dialog.
-			 * @returns {undefined}
+			 * @param {Object} obj a description of the dialog.
+			 * @param {int} [obj.width] the dialog width
+			 * @param {int} [obj.height] the dialog height
+			 * @param {int} [obj.topOffsetPC] the offset from the top of the dialog
 			 */
-			function setPositionBySize(element, obj) {
+			function setPositionBySize(element, obj, animate) {
 				try {
-					resizeable.disableAnimation(element);
+					if (!animate) {
+						resizeable.disableAnimation(element);
+					}
 					if (canMoveResize()) {
 						positionable.setBySize(element, obj);
 					}
@@ -532,7 +550,9 @@ define(["wc/dom/event",
 					}
 				}
 				finally {
-					resizeable.restoreAnimation(element);
+					if (!animate) {
+						resizeable.restoreAnimation(element);
+					}
 				}
 			}
 			/**
@@ -543,7 +563,7 @@ define(["wc/dom/event",
 			 * @param {int} [width] The width of the dialog.
 			 * @param {int} [height] The height of the dialog.
 			 */
-			this.reposition = function (width, height) {
+			this.reposition = function (width, height, animate) {
 				var dialog;
 
 				if (repositionTimer) {
@@ -555,7 +575,7 @@ define(["wc/dom/event",
 				}
 
 				if (canMoveResize()) {
-					repositionTimer = timers.setTimeout(setPositionBySize, 100, dialog, getResizeConfig(width, height));
+					repositionTimer = timers.setTimeout(setPositionBySize, 100, dialog, getResizeConfig(width, height), animate);
 				}
 			};
 

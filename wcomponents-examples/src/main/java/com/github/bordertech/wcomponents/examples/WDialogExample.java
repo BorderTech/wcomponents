@@ -22,6 +22,7 @@ import com.github.bordertech.wcomponents.WRadioButtonSelect;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.BorderLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
@@ -314,6 +315,16 @@ public class WDialogExample extends WPanel implements MessageContainer {
 
 		add(dateDlg);
 		add(outputPanel);
+
+
+		add(new WHeading(HeadingLevel.H3, "Multi polling ajax inside a dialog"));
+		add(new ExplanatoryText("You really don't want to do this."));
+		WDialog pollingDialog = new WDialog(new MultiPollingExample());
+		pollingDialog.setMode(WDialog.MODAL);
+		WButton openPollingButton = new WButton("Open dialog with multi polling");
+		pollingDialog.setTrigger(openPollingButton);
+		add(openPollingButton);
+		add(pollingDialog);
 	}
 
 	/**
