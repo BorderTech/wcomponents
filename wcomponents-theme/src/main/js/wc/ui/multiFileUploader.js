@@ -261,11 +261,14 @@ define(["wc/dom/attribute",
 					var checkAndUpload = function (files) {
 						var message;
 						try {
-							message = checkFileSize(element, testObj);
-							if (!message && !accepted(testObj)) {
-								message = i18n.get("file_wrongtype", element.accept);
+							if ((message = checkFileSize(element, testObj))) {
+								return;
 							}
-							else if (inputElementWd.isOneOfMe(element)) {
+							if (!accepted(testObj)) {
+								message = i18n.get("file_wrongtype", element.accept);
+								return;
+							}
+							if (inputElementWd.isOneOfMe(element)) {
 								commenceUpload({
 									uploader: uploader,
 									element: element,
