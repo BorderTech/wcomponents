@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.AjaxHelper;
 import com.github.bordertech.wcomponents.ComponentWithContext;
 import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.ErrorCodeEscape;
+import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
@@ -12,12 +13,12 @@ import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.servlet.WServlet;
+import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.InternalMessages;
 import com.github.bordertech.wcomponents.util.StepCountUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.XMLUtil;
-import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
@@ -42,6 +43,16 @@ public class WrongStepAjaxInterceptor extends InterceptorComponent {
 	private static final Log LOG = LogFactory.getLog(WrongStepAjaxInterceptor.class);
 
 	/**
+	 * The AJAX trigger ID.
+	 */
+	private String triggerId;
+
+	/**
+	 * The redirect url if a step error occurred.
+	 */
+	private String redirectUrl;
+
+	/**
 	 * Override to check whether the step variable in the incoming request matches what we expect.
 	 *
 	 * @param request the request being serviced.
@@ -49,7 +60,7 @@ public class WrongStepAjaxInterceptor extends InterceptorComponent {
 	@Override
 	public void serviceRequest(final Request request) {
 		// Get trigger id
-		String triggerId = request.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME);
+		triggerId = request.getParameter(WServlet.AJAX_TRIGGER_PARAM_NAME);
 		if (triggerId == null) {
 			throw new SystemException("No AJAX trigger id to check step count");
 		}
@@ -79,88 +90,93 @@ public class WrongStepAjaxInterceptor extends InterceptorComponent {
 			// Process Service Request
 			getBackingComponent().serviceRequest(request);
 		} else { // Invalid step
-			LOG.
-					warn("AJAX: Wrong step detected. Expected step " + expected + " but got step " + got);
-
+			LOG.warn("AJAX: Wrong step detected. Expected step " + expected + " but got step " + got);
 			// "GET" Ajax requests are just ignored and return an error code
 			if ("GET".equals(request.getMethod())) {
 				LOG.warn("Error code will be sent in the response for AJAX GET Request.");
-				handleError();
+				handleErrorCode();
+				// Make sure the render phase is not processed
+				throw new ActionEscape();
 			} else if (StepCountUtil.isErrorRedirect()) { // Redirect to error page
 				LOG.warn("User will be redirected to an error page.");
-				handleRedirect(UIContextHolder.getCurrent(), StepCountUtil.getErrorUrl(), triggerId);
+				redirectUrl = StepCountUtil.getErrorUrl();
 			} else {  // Warp to the future by refreshing the page
 				LOG.warn("Warp the user back to the future by refreshing the page.");
-				handleWarpToTheFuture(trigger, triggerId);
+				handleWarpToTheFuture(uic);
+				redirectUrl = buildApplicationUrl(uic);
 			}
-			// Make sure the render phase is not processed
-			throw new ActionEscape();
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void preparePaint(final Request request) {
+		if (redirectUrl != null) {
+			return;
+		}
+		super.preparePaint(request);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void paint(final RenderContext renderContext) {
+		if (redirectUrl != null) {
+			if (renderContext instanceof WebXmlRenderContext) {
+				handleRenderRedirect(((WebXmlRenderContext) renderContext).getWriter());
+			}
+			return;
+		}
+		super.paint(renderContext);
 	}
 
 	/**
 	 * Warp the user to the future by replacing the entire page.
 	 *
-	 * @param trigger the trigger for the ajax operation.
-	 * @param triggerId the triggerId
+	 * @param uic the current user context
 	 */
-	private void handleWarpToTheFuture(final ComponentWithContext trigger, final String triggerId) {
-		// Get the trigger context
-		UIContext renderUic = trigger.getContext();
-		UIContextHolder.pushContext(renderUic);
+	private void handleWarpToTheFuture(final UIContext uic) {
 
-		try {
-			// Increment the step counter
-			StepCountUtil.incrementSessionStep(renderUic);
+		// Increment the step counter
+		StepCountUtil.incrementSessionStep(uic);
 
-			// Get component at end of chain
-			WComponent application = getUI();
-			String url = buildApplicationUrl(renderUic);
+		// Get component at end of chain
+		WComponent application = getUI();
 
-			// Call handle step error on WApplication
-			if (application instanceof WApplication) {
-				LOG.warn("The handleStepError method will be called on WApplication.");
-				((WApplication) application).handleStepError();
-			}
-
-			// Build redirect response
-			handleRedirect(renderUic, url, triggerId);
-		} finally {
-			UIContextHolder.popContext();
+		// Call handle step error on WApplication
+		if (application instanceof WApplication) {
+			LOG.warn("The handleStepError method will be called on WApplication.");
+			((WApplication) application).handleStepError();
 		}
 	}
 
 	/**
-	 * Redirect the user via the ajax response.
+	 * Redirect the user via the AJAX response.
 	 *
-	 * @param uic the current user's UI Context.
-	 * @param url the url to redirect page to.
-	 * @param targetId the targetId to include in the response.
+	 * @param writer the print writer for the response
 	 */
-	private void handleRedirect(final UIContext uic, final String url, final String targetId) {
-		try {
-			// Redirect user to error page
-			LOG.warn("User will be redirected to " + url);
+	private void handleRenderRedirect(final PrintWriter writer) {
+		UIContext uic = UIContextHolder.getCurrent();
+		// Redirect user to error page
+		LOG.warn("User will be redirected to " + redirectUrl);
 
-			// Setup response with redirect
-			getResponse().setContentType(WebUtilities.CONTENT_TYPE_XML);
-			PrintWriter writer = getResponse().getWriter();
+		// Setup response with redirect
+		getResponse().setContentType(WebUtilities.CONTENT_TYPE_XML);
+		writer.write(XMLUtil.getXMLDeclarationWithThemeXslt(uic));
 
-			writer.write(XMLUtil.getXMLDeclarationWithThemeXslt(uic));
+		writer.print("<ui:ajaxresponse ");
+		writer.print(XMLUtil.UI_NAMESPACE);
+		writer.print(">");
+		writer.print("<ui:ajaxtarget id=\"" + triggerId + "\" action=\"replace\">");
 
-			writer.print("<ui:ajaxresponse ");
-			writer.print(XMLUtil.UI_NAMESPACE);
-			writer.print(">");
-			writer.print("<ui:ajaxtarget id=\"" + targetId + "\" action=\"replace\">");
+		// Redirect URL
+		writer.print("<ui:redirect url=\"" + redirectUrl + "\" />");
 
-			// Redirect URL
-			writer.print("<ui:redirect url=\"" + url + "\" />");
-
-			writer.print("</ui:ajaxtarget>");
-			writer.print("</ui:ajaxresponse>");
-		} catch (IOException e) {
-			throw new SystemException("Error writing redirect for ajax wrong step interceptor", e);
-		}
+		writer.print("</ui:ajaxtarget>");
+		writer.print("</ui:ajaxresponse>");
 	}
 
 	/**
@@ -177,7 +193,7 @@ public class WrongStepAjaxInterceptor extends InterceptorComponent {
 	/**
 	 * Throw the default error code.
 	 */
-	private void handleError() {
+	private void handleErrorCode() {
 		String msg = I18nUtilities
 				.format(UIContextHolder.getCurrent().getLocale(),
 						InternalMessages.DEFAULT_STEP_ERROR);

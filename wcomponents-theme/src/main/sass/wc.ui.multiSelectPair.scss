@@ -15,6 +15,10 @@
 			//compound control.
 			margin-left: 1px;
 		}
+
+		&.wc-fieldindicator {
+			display: block;
+		}
 	}
 
 	label { //Making the label display:block will define a minimum size for the selects.

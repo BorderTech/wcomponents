@@ -56,7 +56,7 @@
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:if test="@minLength">
-						<xsl:attribute name="data-wc-minlength">
+						<xsl:attribute name="minlength">
 							<xsl:value-of select="@minLength"/>
 						</xsl:attribute>
 					</xsl:if>
@@ -65,6 +65,22 @@
 							<xsl:value-of select="@pattern"/>
 						</xsl:attribute>
 					</xsl:if>
+					<!-- #1007 - choose one or the other of these -->
+					<xsl:if test="@autocomplete">
+						<xsl:attribute name="autocomplete">
+							<xsl:value-of select="@autocomplete"/>
+						</xsl:attribute>
+					</xsl:if>
+					<!--<xsl:attribute name="autocomplete">
+						<xsl:choose>
+							<xsl:when test="@autocomplete">
+								<xsl:value-of select="@autocomplete"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:text>off</xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>-->
 				</xsl:element>
 				<xsl:call-template name="inlineError">
 					<xsl:with-param name="errors" select="$isError"/>

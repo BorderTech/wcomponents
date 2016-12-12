@@ -49,7 +49,7 @@
 						<xsl:with-param name="myLabel" select="$myLabel"/>
 					</xsl:call-template>
 					<xsl:variable name="listId" select="concat($id,'_l')"/>
-					<select id="{$listId}" class="wc_shuffler" multiple="multiple">
+					<select id="{$listId}" class="wc_shuffler wc-noajax" multiple="multiple" autocomplete="off">
 						<xsl:call-template name="disabledElement">
 							<xsl:with-param name="isControl" select="1"/>
 						</xsl:call-template>

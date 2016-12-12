@@ -126,8 +126,6 @@
 						</xsl:choose>
 					</xsl:attribute>
 
-					<xsl:variable name="expMode" select="$myTable/ui:rowexpansion/@mode"/>
-
 					<xsl:attribute name="aria-controls">
 						<xsl:choose>
 							<xsl:when test="ui:subtr/ui:tr">
@@ -143,33 +141,12 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
-
-					<xsl:variable name="expansionMode">
-						<xsl:choose>
-							<xsl:when test="($expMode eq 'lazy' or $expMode eq 'eager') and ui:subtr/@open">
-								<xsl:text>client</xsl:text>
-							</xsl:when>
-							<xsl:when test="$expMode eq 'eager'">
-								<xsl:text>lazy</xsl:text>
-							</xsl:when>
-							<xsl:when test="$expMode">
-								<xsl:value-of select="$expMode"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:text>client</xsl:text>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:variable>
-
-					<xsl:if test="$expansionMode eq 'lazy' or $expansionMode eq 'dynamic'">
-						<xsl:attribute name="data-wc-ajaxalias">
-							<xsl:value-of select="$tableId"/>
+					
+					<xsl:variable name="expMode" select="$myTable/ui:rowexpansion/@mode"/>
+					<xsl:if test="$expMode eq 'lazy' and ui:subtr/@open">
+						<xsl:attribute name="data-wc-expmode">
+							<xsl:text>client</xsl:text>
 						</xsl:attribute>
-						<xsl:if test="$expansionMode eq 'lazy'">
-							<xsl:attribute name="data-wc-expmode">
-								<xsl:value-of select="$expansionMode"/>
-							</xsl:attribute>
-						</xsl:if>
 					</xsl:if>
 				</xsl:if>
 

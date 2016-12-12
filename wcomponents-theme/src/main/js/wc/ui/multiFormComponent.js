@@ -1,29 +1,4 @@
-/**
- * Provides client side multiple controls:
- *
- * * WMultiDropdown provides a control which has single SELECT elements which can be used to create a multiple selection
- *   tool;
- * * WMultiTextField provides a control which has single SELECT elements which can be used to create a set of single
- *   line text input controls.
- *
- * @module
- * @requires module:wc/has
- * @requires module:wc/dom/attribute
- * @requires module:wc/dom/event
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/focus
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/uid
- * @requires module:wc/dom/Widget
- * @requires module:wc/i18n/i18n
- * @requires module:wc/ui/selectLoader
- * @requires module:wc/timers
- * @requires module:wc/ui/prompt
- * @requires module:wc/ui/ajaxRegion
- * @todo Document private members, fix source order.
- */
 define(["wc/has",
-		"wc/dom/attribute",
 		"wc/dom/event",
 		"wc/dom/initialise",
 		"wc/dom/focus",
@@ -35,7 +10,7 @@ define(["wc/has",
 		"wc/timers",
 		"wc/ui/prompt",
 		"wc/ui/ajaxRegion"],
-	function(has, attribute, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers, prompt, ajaxRegion) {
+	function(has, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers, prompt, ajaxRegion) {
 		"use strict";
 
 		/**
@@ -54,32 +29,12 @@ define(["wc/has",
 				BUTTON_MESSAGE_WD = new Widget("SPAN"),
 				INPUT_WD = new Widget("input"),
 				CONTROLS = [SELECT_WD, INPUT_WD],
-				// TEXTAREA_WD = new Widget("textarea"),  // uncomment to use multiTextArea!!
-				REMOVE_BUTTON_TITLE,
-				BOOTSTRAPPED = "wc.ui.multiFormComponent.bs";
+				REMOVE_BUTTON_TITLE;
 
 			FIELD.descendFrom(CONTAINER);
 			BUTTON.descendFrom(FIELD);
 			SELECT_WD.descendFrom(FIELD);
 			INPUT_WD.descendFrom(FIELD);
-
-
-			function focusEvent($event) {
-				var _element;
-				if (!$event.defaultPrevented && (_element = $event.target) && !attribute.get(_element, BOOTSTRAPPED) && Widget.isOneOfMe(_element, CONTROLS)) {
-					attribute.set(_element, BOOTSTRAPPED, true);
-					event.add(_element, event.TYPE.change, changeEvent);
-				}
-			}
-
-			function changeEvent($event) {
-				var el = $event.target,
-					container = getContainer(el);
-
-				if (container && container.hasAttribute("data-wc-ajaxalias")) {
-					ajaxRegion.requestLoad(container);
-				}
-			}
 
 			/**
 			 * Load data list for cachable WMultiDropdown.
@@ -131,7 +86,7 @@ define(["wc/has",
 			function doClick(button, SHIFT) {
 				var type = instance.getButtonType(button),
 					tryAjax,
-					container = getContainer(button);
+					container;
 				if (type === BUTTON_TYPE.add) {
 					addNewField(button);
 					tryAjax = true;
@@ -144,8 +99,8 @@ define(["wc/has",
 					}
 					tryAjax = true;
 				}
-				if (tryAjax && container && container.hasAttribute("data-wc-ajaxalias")) {
-					ajaxRegion.requestLoad(container);
+				if (tryAjax && (container = getContainer(button)) && ajaxRegion.getTrigger(container, true)) {
+					ajaxRegion.requestLoad(container, null, true);
 				}
 			}
 
@@ -388,18 +343,35 @@ define(["wc/has",
 			 */
 			this.initialise = function(element) {
 				REMOVE_BUTTON_TITLE = i18n.get("mfc_remove");
-				if (event.canCapture) {
-					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-				}
-				else {
-					event.add(element, event.TYPE.focusin, focusEvent);
-				}
 				event.add(element, event.TYPE.click, clickEvent);
 			};
 		}
 
-		var /** @alias module:wc/ui/multiFormComponent */ instance = new MultiFormComponent(),
-			repainter = null;
+		/**
+		 * Provides client side multiple controls:
+		 *
+		 * * WMultiDropdown provides a control which has single SELECT elements which can be used to create a multiple selection
+		 *   tool;
+		 * * WMultiTextField provides a control which has single SELECT elements which can be used to create a set of single
+		 *   line text input controls.
+		 *
+		 * @module
+		 * @requires module:wc/has
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/focus
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/uid
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/i18n/i18n
+		 * @requires module:wc/ui/selectLoader
+		 * @requires module:wc/timers
+		 * @requires module:wc/ui/prompt
+		 * @requires module:wc/ui/ajaxRegion
+		 * @todo Document private members, fix source order.
+		 */
+		var instance = new MultiFormComponent();
+		var repainter = null;
 
 		initialise.register(instance);
 
