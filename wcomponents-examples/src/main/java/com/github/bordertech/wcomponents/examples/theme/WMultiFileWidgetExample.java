@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WHeading;
@@ -53,8 +54,7 @@ public class WMultiFileWidgetExample extends WContainer {
 	 * Creates a WMultiFileWidgetExample.
 	 */
 	public WMultiFileWidgetExample() {
-		add(new WHeading(WHeading.SUB_HEADING,
-				"A WMultiFileWidget that accepts all file types and has a dropzone."));
+		add(new WHeading(HeadingLevel.H2, "A WMultiFileWidget that accepts all file types and has a dropzone."));
 
 		// Multi file upload widgets
 		// smallFiles.setMaxFileSize(1024);
@@ -67,8 +67,7 @@ public class WMultiFileWidgetExample extends WContainer {
 		add(dropzone);
 		allFiles.setDropzone(dropzone);
 
-		add(new WHeading(WHeading.SUB_HEADING,
-				"A WMultiFileWidget that accepts images of any type and displays thumbnails in two columns"));
+		add(new WHeading(HeadingLevel.H2, "A WMultiFileWidget that accepts images of any type and displays thumbnails in two columns"));
 
 		imageFiles.setFileTypes(new String[]{"image/*"});
 		imageFiles.setAccessibleText("File selector for image files");
@@ -76,8 +75,7 @@ public class WMultiFileWidgetExample extends WContainer {
 		imageFiles.setColumns(2);
 		add(imageFiles);
 
-		add(new WHeading(WHeading.SUB_HEADING,
-				"A WMultiFileWidget that accepts one text file displays thumbnails."));
+		add(new WHeading(HeadingLevel.H2, "A WMultiFileWidget that accepts one text file displays thumbnails."));
 
 		textFiles.setFileTypes(new String[]{".txt"});  // N.B. this one uses an extension instead of a mime type "text/plain"
 		// textFiles.setMaxFileSize(8 * 1024);
@@ -86,8 +84,7 @@ public class WMultiFileWidgetExample extends WContainer {
 		textFiles.setMaxFiles(1);
 		add(textFiles);
 
-		add(new WHeading(WHeading.SUB_HEADING,
-				"A WMultiFileWidget that accepts pdfs and html files up to a max size of 5 MB."));
+		add(new WHeading(HeadingLevel.H2, "A WMultiFileWidget that accepts pdfs and html files up to a max size of 5 MB."));
 
 		pdfFiles.setFileTypes(new String[]{"application/pdf", "text/html"});
 		pdfFiles.setMaxFileSize(5 * 1024 * 1024);
@@ -114,16 +111,14 @@ public class WMultiFileWidgetExample extends WContainer {
 		panel.add(container);
 		WButton roundtrip = new WButton("Roundtrip");
 		container.add(roundtrip);
-		container.add(new WText(
-				" - Performs a round trip to the server, which proves we don't loose access to the files already selected."));
+		container.add(new WText(" - Performs a round trip to the server, which proves we don't lose access to the files already selected."));
 
 		// Toggle readonly
 		container = new WContainer();
 		panel.add(container);
 		WButton readonly = new WButton("Toggle Readonly");
 		container.add(readonly);
-		container.add(new WText(
-				" - Toggle the readonly state of all the multiFileWidgets in the example."));
+		container.add(new WText(" - Toggle the readonly state of all the multiFileWidgets in the example."));
 
 		// Reset
 		container = new WContainer();
@@ -135,7 +130,7 @@ public class WMultiFileWidgetExample extends WContainer {
 		add(new WHorizontalRule());
 
 		// Console to output messages from the actions.
-		add(new WHeading(WHeading.SECTION, "Console"));
+		add(new WHeading(HeadingLevel.H2, "Console"));
 
 		console.setRows(12);
 		console.setColumns(100);
@@ -202,7 +197,7 @@ public class WMultiFileWidgetExample extends WContainer {
 	 * @param fileWidget the WFieldWidget to obtain the files from.
 	 */
 	private void appendFileDetails(final StringBuffer buf, final WMultiFileWidget fileWidget) {
-		List<FileWidgetUpload> files = fileWidget.getSelectedFiles();
+		List<FileWidgetUpload> files = fileWidget.getFiles();
 
 		if (files != null) {
 			for (FileWidgetUpload file : files) {

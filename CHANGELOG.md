@@ -6,6 +6,7 @@
 
 ## Bug Fixes
 
+* Fix bug which allowed files larger than max allowed size to be uploaded using WMultiFileWidget.
 * Prevent pending i18n bug by applying a cache buster to requests for i18n resource bundles #1016.
 * Fix possible a11y flaw by updating exposure of minlength to comply with HTML spec #1006.
 * Fix examples-lde default config #1005
