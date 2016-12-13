@@ -250,3 +250,6 @@ $RECYCLE.BIN/
 ### KomodoEdit ###
 *.komodoproject
 .komodotools
+
+### VSCode ###
+.vscode
