@@ -252,4 +252,4 @@ $RECYCLE.BIN/
 .komodotools
 
 ### VSCode ###
-.vscode/*
+.vscode
