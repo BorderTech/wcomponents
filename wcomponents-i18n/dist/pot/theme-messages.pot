@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 13:58+1000\n"
+"POT-Creation-Date: 2016-12-12 18:41+1100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -803,14 +803,14 @@ msgstr ""
 #: imgedit_rotate_left90
 #, java-format
 msgctxt "imgedit_rotate_left90"
-msgid "Left 90ยบ"
+msgid "Left 90บ"
 msgstr ""
 
 #. 
 #: imgedit_rotate_right90
 #, java-format
 msgctxt "imgedit_rotate_right90"
-msgid "Right 90ยบ"
+msgid "Right 90บ"
 msgstr ""
 
 #. 
@@ -957,14 +957,14 @@ msgstr ""
 #: imgedit_message_rotate_left90
 #, java-format
 msgctxt "imgedit_message_rotate_left90"
-msgid "Rotate anti-clockwise to next multiple of 90ยบ"
+msgid "Rotate anti-clockwise to next multiple of 90บ"
 msgstr ""
 
 #. 
 #: imgedit_message_rotate_right90
 #, java-format
 msgctxt "imgedit_message_rotate_right90"
-msgid "Rotate clockwise to next multiple of 90ยบ"
+msgid "Rotate clockwise to next multiple of 90บ"
 msgstr ""
 
 #. 
