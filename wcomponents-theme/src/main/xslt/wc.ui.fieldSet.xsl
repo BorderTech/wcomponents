@@ -10,31 +10,6 @@
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		Transform for ui:fieldset which is the XML output of WFieldSet.
-
-		Child Elements
-		* ui:decoratedlabel
-		* ui:content
-
-		Base element:
-
-		If the WFieldset has @readOnly="true" it transforms to a HTML div element; otherwise it transforms
-		to a HTML fieldset element.
-
-		Heading element:
-		A fieldset has a mandatory legend child element. When the fieldset transforms
-		to a div we test whether a heading style element is required and if so
-		(that is @frame is not 'notext' or 'none') we output a HTML div element.
-
-
-
-		This template determines the appropriate HTML element and outputs it. If the
-		frame attribute indicates there should not be a border or if the fieldSet is
-		'in error' (see {{{Error}Error State}}) then classes are set to style
-		these.
-
-		The label is determined and output then the content is applied. Finally if the
-		fieldset in in an error state the error message are output before the fieldset
-		is closed.
 	-->
 	<xsl:template match="ui:fieldset">
 		<xsl:variable name="frame">
@@ -63,35 +38,6 @@
 			<xsl:if test="$isError">
 				<xsl:call-template name="invalid"/>
 			</xsl:if>
-			<!--
-				The Legend/Label/Heading
-
-				The fieldset should be labelled with a HTML LEGEND element.
-
-				In HTML5 a FIELDSET must have a LEGEND child element. This legend provides
-				context to the form controls contained within the fieldset. For more details see
-				{{{./fieldsets.html}using fieldsets and WFieldSet}}. The WDecoratedLabel of the
-				WFieldSet (set by the constructor using the passed in java.lang.String title
-				argument or by using one of the setTitle functions) is the content of the legend.
-				It MUST be meaningful and, if setTitle(WComponent title) is used then the
-				WComponent used <<must>> meet the following conditions:
-
-				[[1]] The component must not be an interactive form component
-
-				[[2]] The component must not be empty or null, including an empty string or
-				WContainer;
-
-				[[3]] The component must output some content which is perceivable as text
-				either as a text node or a title attribute on transformed output; and
-
-				[[4]] The perceivable text content must add context to the components
-				contained within the fieldset.
-
-				When readOnly the heading element may not be output at all, depending upon the
-				value of the frame property.
-
-				The legend will always be output but may be rendered out of viewport by the frame attribute.
-			-->
 			<xsl:variable name="labelText" >
 				<xsl:value-of select="ui:decoratedlabel"/>
 				<xsl:value-of select="ui:decoratedLabel//ui:image/@alt"/>
