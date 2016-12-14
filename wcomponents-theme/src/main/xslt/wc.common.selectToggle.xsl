@@ -1,7 +1,7 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.toggleElement.xsl"/>
-	<xsl:import href="wc.common.ajax.xsl"/>
-	<xsl:import href="wc.common.n.className.xsl"/>
+	<xsl:import href="wc.common.key.label.xsl"/>
 
 	<!-- Keys used by selectToggle if it is targetted at a single checkbox or group of disparate check boxes rather than at a container or checkBoxSelect-->
 	<xsl:key name="checkboxIdKey" match="//ui:checkbox[@groupName]" use="@id"/>

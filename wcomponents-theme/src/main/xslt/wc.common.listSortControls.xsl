@@ -1,5 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.listSortControls.listSortControl.xsl"/>
+	<xsl:import href="wc.common.attributes.xsl"/>
 	<!--
 		Build the button controls used to re-order items in a list box as per
 		wc.ui.shuffler.xsl and wc.ui.multiSelectPair.xsl.
@@ -36,5 +36,24 @@
 				<xsl:with-param name="toolTip"><xsl:text>{{t 'shuffle_bottom'}}</xsl:text></xsl:with-param>
 			</xsl:call-template>
 		</span>
+	</xsl:template>
+
+	<!--
+		Outputs each shuffle control as a HTML BUTTON element.
+		
+		param id: The id of the SELECT being controlled. This is not necessarily the id
+		of the component which owns the sort controls.
+		param value: The value of the button "top", "bottom", "up", "down"
+		param toolTip: The text used to populate the button title.
+	-->
+	<xsl:template name="listSortControl">
+		<xsl:param name="id"/>
+		<xsl:param name="value"/>
+		<xsl:param name="toolTip"/>
+		<button class="wc_sorter wc_btn_icon wc-invite" type="button" value="{$value}" aria-controls="{$id}" title="{$toolTip}">
+			<xsl:call-template name="disabledElement">
+				<xsl:with-param name="isControl" select="1"/>
+			</xsl:call-template>
+		</button>
 	</xsl:template>
 </xsl:stylesheet>

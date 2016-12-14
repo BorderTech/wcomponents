@@ -2,6 +2,7 @@
 	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.ui.multiTextField.n.multiTextFieldContentRenderer.xsl"/>
 	<xsl:import href="wc.ui.multiDropdown.n.multiDropDownContentRenderer.xsl"/>
+	<xsl:import href="wc.common.key.label.xsl"/>
 <!--
 	Transforms for WMultiDropdown and WMultiTextField.
 

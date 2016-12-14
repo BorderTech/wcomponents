@@ -3,6 +3,7 @@
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.ui.fileUpload.file.n.fileInput.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
+	<xsl:import href="wc.common.key.label.xsl"/>
 	<!--
 		Transform for WFileWidget and WMultiFileWidget. Should be a pretty simple HTML
 		input element of type file. But it isn't.
