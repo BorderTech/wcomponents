@@ -1,25 +1,13 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.toggleElement.xsl"/>
 	<!-- Key used by collapsibleToggle to get the list of controlled collapsibles -->
 	<xsl:key name="collapsibleGroupKey" match="//ui:collapsible[@groupName]|//ui:tabset[@groupName]" use="@groupName"/>
 
-	<!--
-		Output expand all and collapse all buttons.
-
-		Called from ui:rowexpansion and ui:collapsibletoggle.
-
-		param id: the id of the collapsing control's grouping component. Default @id.
-
-		param for: The identifier of the component/group which is controlled by the expand/collapse all buttons. This
-		could be an id (for a single controlled entity), a space delimited id list, or a groupName attribute. It could
-		alse be empty for a WCollapsibleToggle which controls all WCollapsibles in a view. Default @groupName.
-	-->
+	<!-- Output expand all and collapse all buttons. -->
 	<xsl:template name="collapsibleToggle">
 		<xsl:param name="id" select="@id"/>
 		<xsl:param name="for" select="@groupName"/>
-
 		<xsl:variable name="mode">
 			<xsl:choose>
 				<xsl:when test="@mode and (@mode eq 'dynamic' or @mode eq 'lazy')">
@@ -33,8 +21,8 @@
 		<!--
 			WCollapsibleToggle has a mandatory groupName attribute.
 
-			This may not point to a CollapsibleGroup (which is odd and should change) and in this case the
-			WCollapsibleToggle should toggle every WCollapsible on the page.
+			This may not point to a CollapsibleGroup (which is odd and should change) and in this case the WCollapsibleToggle should toggle every
+			WCollapsible on the page.
 		-->
 		<xsl:variable name="group" select="key('collapsibleGroupKey', $for)"/>
 		<xsl:variable name="targetList">

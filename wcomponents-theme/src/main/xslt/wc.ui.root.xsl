@@ -1,17 +1,9 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.ui.root.n.addHeadMetaBeforeTitle.xsl"/>
-	<xsl:import href="wc.ui.root.n.makeIE8CompatScripts.xsl"/>
 	<xsl:import href="wc.ui.root.n.makeRequireConfig.xsl"/>
-	<xsl:import href="wc.ui.root.n.externalScript.xsl"/>
 	<xsl:import href="wc.common.registrationScripts.xsl"/>
-	<!--
-		Some meta elements have to be VERY early to work reliably. Put them here.
 
-		NOTE: If you need the old XSLT which enabled a WComponent application to be nested inside an existing HTML
-		structure you will need to either rewrite it or retrieve it from the archives. It has gone because it was slow
-		and no-one needs it anymore.
-	-->
-	<xsl:strip-space elements="*"/>
 	<xsl:template match="ui:root">
 		<html>
 			<xsl:if test="@lang">
@@ -21,7 +13,23 @@
 			</xsl:if>
 			<head>
 				<!-- Works more reliably if it is first -->
-				<xsl:call-template name="includeFavicon"/>
+				<xsl:choose>
+					<xsl:when test="ui:application/@icon">
+						<xsl:call-template name="faviconHelper">
+							<xsl:with-param name="href">
+								<xsl:value-of select="ui:application[@icon][1]/@icon"/>
+							</xsl:with-param>
+						</xsl:call-template>
+					</xsl:when>
+					<xsl:when test="//html:link[@rel eq 'shortcut icon' or @rel eq 'icon']">
+						<xsl:apply-templates select="//html:link[contains(@rel, 'icon')][1]"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:call-template name="faviconHelper">
+							<xsl:with-param name="href" select="concat($resourceRoot,'${images.target.dir.name}/favicon.ico')"/>
+						</xsl:call-template>
+					</xsl:otherwise>
+				</xsl:choose>
 				<!--
 					The format-detection is needed to work around issues in some very popular mobile browsers that will convert
 					"numbers" into phone links (a elements) if they appear to be phone numbers, even if those numbers are the
@@ -46,31 +54,25 @@
 				<title>
 					<xsl:value-of select="@title"/>
 				</title>
-
 				<link type="text/css" id="wc_css_screen" rel="stylesheet"><!-- this id is used by the style loader js -->
 					<xsl:attribute name="href">
 						<xsl:value-of select="$cssFilePath"/>
 					</xsl:attribute>
 				</link>
-
 				<xsl:apply-templates select="ui:application/ui:css" mode="inHead"/>
 				<xsl:apply-templates select=".//html:link[@rel eq 'stylesheet']" mode="inHead"/>
-
 				<!--
 					We need to set up the require config very early.
 				-->
 				<xsl:call-template name="makeRequireConfig"/>
-
 				<!--
 					non-AMD compatible fixes for IE: things that need to be fixed before we can require anything but
 					have to be added after we have included requirejs/require.
 				-->
 				<xsl:call-template name="makeIE8CompatScripts"/>
-
 				<xsl:call-template name="externalScript">
 					<xsl:with-param name="scriptName" select="'lib/require'"/>
 				</xsl:call-template>
-
 				<!-- We can delete some script nodes after they have been used. To do this we need the script element to have an ID. -->
 				<xsl:variable name="scriptId" select="generate-id()"/>
 				<!-- We want to load up the CSS as soon as we can, so do it immediately after loading require. -->
@@ -86,7 +88,6 @@
 					<xsl:text>", 250);}});</xsl:text>
 					<xsl:text>});</xsl:text>
 				</script>
-
 				<xsl:call-template name="registrationScripts"/>
 				<!--
 					We grab all base, meta and link elements from the content and place
@@ -124,5 +125,52 @@
 				<xsl:apply-templates />
 			</body>
 		</html>
+	</xsl:template>
+	
+	<xsl:template name="faviconHelper">
+		<xsl:param name="href" select="''"/>
+		<xsl:if test="$href ne ''">
+			<xsl:element name="link">
+				<xsl:attribute name="rel">
+					<xsl:text>shortcut icon</xsl:text><!-- Invalid but the only cross browser option -->
+				</xsl:attribute>
+				<xsl:attribute name="href">
+					<xsl:value-of select="$href"/>
+				</xsl:attribute>
+			</xsl:element>
+		</xsl:if>
+	</xsl:template>
+	
+	<!-- 
+		IE 8 and below needs a helper to recognise HTML5 elemnts as HTML 
+		elements. This needs to happen so very early that we cannot use 
+		require to load it. We can use an IE conditional comment to limit
+		this code to IE8 and before. We have tested for IE so that we 
+		do not event output the conditional comment in other browsers. It still
+		needs to be in a conditional comment so that we do not apply to IE > 8.
+	-->
+	<xsl:template name="makeIE8CompatScripts">
+		<xsl:comment>[if lte IE 8] &gt;
+&lt;script type="text/javascript"&gt;
+(function(){
+	var i, el=["details","datalist","aside","dialog","summary","section","header","nav","footer","meter","output","progress","audio","video","source","time","track","figcaption","figure"];
+	if (window.SystemJS &amp;&amp; SystemJS.config) SystemJS.config({ "wc/fix/html5Fix_ie8": { elements: el } });
+	else if (window.require &amp;&amp; require.config) require.config["wc/fix/html5Fix_ie8"] = { elements: el };
+	for (i = 0; i &lt; el.length; i++){ document.createElement(el[i]); } })();
+&lt;/script&gt;
+&lt;![endif]</xsl:comment>
+	</xsl:template>
+
+	<!--
+		Template to insert a script element that loads an external javascript file.
+		Called from
+			wc.ui.root.n.includeJs.xsl
+			wc.ui.root.n.makeRequireConfig.xsl
+			
+		param scriptName: The raw script name without extension
+	-->
+	<xsl:template name="externalScript">
+		<xsl:param name="scriptName"/><!-- The name of the script without ${debug.target.file.name.suffix} or .js -->
+		<script type="text/javascript" src="{concat($resourceRoot, $scriptDir, '/', $scriptName, '.js?', $cacheBuster)}"></script>
 	</xsl:template>
 </xsl:stylesheet>

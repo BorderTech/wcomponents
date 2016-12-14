@@ -1,23 +1,8 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.registrationScripts.coreRegistrationScripts.xsl"/>
 	<xsl:import href="wc.common.registrationScripts.requiredLibraries.xsl"/>
-	<xsl:import href="wc.common.registrationScripts.impl_registration.xsl"/>
-
-	<!--
-		Common bootstrapping scripts
-
-		Template for outputting JavaScript necessary for wiring up components and
-		including required libraries based on the content of the WApplication or
-		AjaxResponse. This is internal to the UI and does not have a WComponent
-		Java analogue. It is required by all components which have UI artefacts and
-		JavaScript requirements, which is pretty much everything.
-
-		This named template is called from wc.ui.root.n.includeJs.xsl AND
-		wc.ui.ajaxTarget.xsl.
-
-		There should be little or no need to override this template. See the
-		documentation for the various helper templates.
-	-->
+	<!-- Common bootstrapping scripts -->
 	<xsl:template name="registrationScripts">
 		<xsl:variable name="rego">
 			<xsl:call-template name="coreRegistrationScripts"/>
@@ -46,8 +31,5 @@
 				<xsl:text>});});</xsl:text>
 			</script>
 		</xsl:if>
-
-		<!-- Placeholder to allow implementations to add scripts after registration -->
-		<xsl:call-template name="impl_registration"/>
 	</xsl:template>
 </xsl:stylesheet>

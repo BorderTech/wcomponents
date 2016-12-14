@@ -7,12 +7,13 @@
 	-->
 	<xsl:template match="ui:columnlayout">
 		<div>
-			<xsl:attribute name="class">
-				<xsl:text>wc-columnlayout</xsl:text>
-				<xsl:call-template name="getHVGapClass">
-					<xsl:with-param name="isVGap" select="1"/>
-				</xsl:call-template>
-			</xsl:attribute>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:call-template name="getHVGapClass">
+						<xsl:with-param name="isVGap" select="1"/>
+					</xsl:call-template>
+				</xsl:with-param>
+			</xsl:call-template>
 			<xsl:variable name="width">
 				<xsl:choose>
 					<xsl:when test="ui:column[1]/@width">
@@ -44,12 +45,6 @@
 	</xsl:template>
 
 	<!--
-		This template creates each row and the first column in the row. It then applies
-		templates selecting the following-sibling::ui:cell[position lt $cols] to
-		build the rest of the columns in the row. The params to this template are
-		for convenience and speed since they could all be derived but it is better to
-		only calculate them once.
-		
 		param align: the column align property
 		param width: the width of the first column
 		param cols: the number of columns in each row in the layout.
@@ -79,8 +74,7 @@
 	</xsl:template>
 
 	<!--
-		This template creates columns within a row (except the first). Each column has
-		to look up the alignment and width of its position equivalent ui:column.
+		Creates columns within a row (except the first). Each column has to look up the alignment and width of its position equivalent ui:column.
 	-->
 	<xsl:template match="ui:cell" mode="clInRow">
 		<!--

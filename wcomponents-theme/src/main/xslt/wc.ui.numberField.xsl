@@ -30,7 +30,6 @@
 					<xsl:attribute name="autocomplete">
 						<xsl:text>off</xsl:text>
 					</xsl:attribute>
-					
 					<xsl:if test="@min">
 						<xsl:attribute name="min">
 							<xsl:value-of select="@min"/>
@@ -40,13 +39,11 @@
 							</xsl:if>
 						</xsl:attribute>
 					</xsl:if>
-					
 					<xsl:if test="@max">
 						<xsl:attribute name="max">
 							<xsl:value-of select="@max"/>
 						</xsl:attribute>
 					</xsl:if>
-					
 					<xsl:if test="@step">
 						<!-- NOTE: if min is not defined step must be an integer and step may not be 0-->
 						<xsl:variable name="step">

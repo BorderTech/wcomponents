@@ -12,7 +12,6 @@
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
-
 			<xsl:attribute name="aria-multiselectable">
 				<xsl:choose>
 					<xsl:when test="@multiple">
@@ -23,18 +22,15 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
-
 			<xsl:if test="@mode">
 				<xsl:attribute name="data-wc-mode">
 					<xsl:value-of select="@mode"/>
 				</xsl:attribute>
 			</xsl:if>
-
 			<xsl:call-template name="requiredElement">
 				<xsl:with-param name="useNative" select="0"/>
 			</xsl:call-template>
 			<xsl:call-template name="ajaxController"/>
-
 			<xsl:variable name="groupId" select="concat(@id, '-content')"/>
 			<div role="group" class="wc_tree_root" id="{$groupId}" data-wc-resizedirection="h">
 				<xsl:apply-templates select="ui:treeitem">

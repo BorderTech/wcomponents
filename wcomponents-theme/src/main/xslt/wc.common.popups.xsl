@@ -1,10 +1,6 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<!--
-		Helper templates used by component which create pop ups.Outputs a String
-		formatted as the attributes required by JavaScript window.open function.
-		See:
-			wc.ui.link.xsl
-			wc.ui.popup.xsl
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+	<!-- Helper outputs a String formatted as the attributes required by window.open. 
 	-->
 	<xsl:template name="getPopupSpecs">
 		<xsl:if test="@top or @left or @width or @height or @showMenuBar or @showToolbar or @showLocation or @showStatus">
@@ -52,6 +48,7 @@
 					<xsl:text>status=no,</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
+			<!-- a11y popups must always be resizeable and scrollable. -->
 			<xsl:text>resizable=yes,</xsl:text>
 			<xsl:text>scrollbars=yes</xsl:text>
 		</xsl:if>

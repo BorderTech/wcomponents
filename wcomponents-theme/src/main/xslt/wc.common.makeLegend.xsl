@@ -1,22 +1,9 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
-	<xsl:import href="wc.common.attributes.xsl"/>
-	<!--
-	Helper template to make a fieldset legend. Used by the following components:
-		WCheckBoxSelect
-		WFileWidget
-		WMultiDropdown
-		WMultiSelectPair
-		WMultiTextField
-		WRadioButtonSelect
-
-	Creates a legend element. If the component has a WLabel associated with it then the legend is created by the
-	transform for that WLabel using the explicit param. If the component does not have a WLabel then its legend is
-	populated using a text equivalent fallback @accessibleText or @toolTip.
-
-	param myLabel: the WLabel "for" the calling component, if any. This will have already been determined before calling
-	this template so we do not have to re-interrogate the label key.
--->
+	<xsl:import href="wc.common.key.label.xsl"/>
+	<xsl:import href="wc.common.listSortControls.xsl"/>
+	<!-- Helper template to make a fieldset legend. -->
 	<xsl:template name="makeLegend">
 		<xsl:param name="myLabel"/>
 		<xsl:choose>

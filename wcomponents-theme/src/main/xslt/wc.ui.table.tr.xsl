@@ -4,25 +4,22 @@
 	<xsl:import href="wc.common.attributes.xsl"/>
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
 	<!--
-		Transform for each row in the WTable. The row itself transforms to a HTML tr element. It may also output another
-		row if it has a ui:subtr child.
+		Structural: do not override.
+		
+		Transform for each row in the WTable.
 
 		param myTable: The first table ancestor of the current row. This is determined at the most efficient point
 		(usually ui:tbody using its parent node) and then passed through all subsequent transforms to save constant
 		ancestor::ui:table[1] lookups.
 
 		param parentIsClosed default 0, 1 indicates that the row's parent row exists and is in a collapsed state.
-
-		Structural: do not override (please!).
 	-->
 	<xsl:template match="ui:tr">
 		<xsl:param name="myTable"/>
 		<xsl:param name="parentIsClosed" select="0"/>
 		<xsl:param name="topRowIsStriped" select="0"/>
-
 		<xsl:variable name="tableId" select="$myTable/@id"/>
 		<xsl:variable name="rowId" select="concat($tableId,'_',@rowIndex)"/>
-
 		<xsl:variable name="tableRowSelection">
 			<xsl:choose>
 				<xsl:when test="$myTable/ui:rowselection">
@@ -33,7 +30,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
 		<xsl:variable name="hasRowExpansion">
 			<xsl:choose>
 				<xsl:when test="$myTable/ui:rowexpansion">
@@ -44,7 +40,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
 		<xsl:variable name="indent">
 			<xsl:choose>
 				<xsl:when test="number($hasRowExpansion) eq 1 and $myTable/@type eq 'hierarchic' and parent::ui:subtr">
@@ -55,7 +50,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
 		<xsl:variable name="removeRow">
 			<xsl:choose>
 				<xsl:when test="number($parentIsClosed) eq 1 or @hidden or parent::ui:subtr[not(@open)] or (ancestor::ui:subtr[not(@open) and ancestor::ui:table[1]/@id eq $tableId])">
@@ -71,7 +65,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
 		<xsl:variable name="rowIsSelectable">
 			<xsl:choose>
 				<xsl:when test="number($tableRowSelection) eq 1 and not(@unselectable)">
@@ -82,7 +75,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
+		<!-- START OF ROW -->
 		<tr id="{$rowId}" data-wc-rowindex="{@rowIndex}">
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
@@ -104,12 +97,10 @@
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
-			
-			<!-- temporary fix for problem in araiAnalog.js -->
+			<!-- temporary fix for problem in ariaAnalog.js -->
 			<xsl:if test="number($hasRowExpansion) + $rowIsSelectable ge 1">
 				<xsl:attribute name="role">row</xsl:attribute>
 			</xsl:if>
-
 			<xsl:if test="number($hasRowExpansion) eq 1">
 				<xsl:if test="ui:subtr">
 					<xsl:attribute name="aria-expanded">
@@ -122,7 +113,6 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
-
 					<xsl:attribute name="aria-controls">
 						<xsl:choose>
 							<xsl:when test="ui:subtr/ui:tr">
@@ -138,7 +128,6 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
-					
 					<xsl:variable name="expMode" select="$myTable/ui:rowexpansion/@mode"/>
 					<xsl:if test="$expMode eq 'lazy' and ui:subtr/@open">
 						<xsl:attribute name="data-wc-expmode">
@@ -146,16 +135,13 @@
 						</xsl:attribute>
 					</xsl:if>
 				</xsl:if>
-
 				<xsl:if test="parent::ui:subtr">
 					<xsl:call-template name="setARIALive"/>
 				</xsl:if>
-
 				<xsl:attribute name="aria-level">
 					<xsl:value-of select="count(ancestor::ui:subtr[ancestor::ui:table[1]/@id eq $tableId]) + 1"/>
 				</xsl:attribute>
 			</xsl:if>
-
 			<!--
 				Row selection
 				 When the table has row selection and when this row is selectable, then we need
@@ -187,24 +173,19 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
-
 				<xsl:attribute name="tabindex">
 					<xsl:text>0</xsl:text>
 				</xsl:attribute>
-
 				<xsl:attribute name="data-wc-name">
 					<xsl:value-of select="concat($tableId,'.selected')"/>
 				</xsl:attribute>
-
 				<xsl:attribute name="data-wc-value">
 					<xsl:value-of select="@rowIndex"/>
 				</xsl:attribute>
 			</xsl:if>
-
 			<xsl:if test="number($removeRow) eq 1">
 				<xsl:call-template name="hiddenElement"/>
 			</xsl:if>
-
 			<!-- TODO remove the disabled block when we drop WDataTable -->
 			<xsl:choose>
 				<xsl:when test="@disabled">
@@ -216,10 +197,8 @@
 					</xsl:call-template>
 				</xsl:otherwise>
 			</xsl:choose>
-			<!-- END OF TR ATTRIBUTES -->
-
-			<!--
-			rowSelection indicator wrapper
+<!-- END OF TR ATTRIBUTES -->
+			<!-- rowSelection indicator wrapper
 
 			This cell is an empty cell which is used as a placeholder to display the secondary indicators of the row
 			selection mechanism and state. The primary indicators are the aria-selected state.
@@ -228,7 +207,6 @@
 				<td class="wc_table_sel_wrapper wc-icon">
 					<xsl:choose>
 						<xsl:when test="(number($hasRowExpansion) + number($tableRowSelection) eq 2) and $myTable/ui:rowselection/@toggle and ui:subtr/ui:tr[not(@unselectable)]">
-							
 							<xsl:variable name="subRowControlList">
 								<xsl:if test="not(@unselectable)">
 									<xsl:value-of select="concat($rowId, ' ')"/><!-- these controllers control this row too -->
@@ -328,12 +306,13 @@
 					</xsl:if>
 				</td>
 			</xsl:if>
-
+<!-- APPLY ELEMENT TEMPLATES -->
 			<xsl:apply-templates select="ui:th|ui:td">
 				<xsl:with-param name="myTable" select="$myTable"/>
 				<xsl:with-param name="indent" select="$indent"/>
 			</xsl:apply-templates>
 		</tr>
+<!-- SubTR -->
 		<!--
 		 The subTr child element is applied after closing the row's tr element as it
 		 is not a child of the row.
@@ -395,5 +374,154 @@
 				<xsl:number value="0"/>
 			</xsl:otherwise>
 		</xsl:choose>
+	</xsl:template>
+	
+	<!--
+		Transform of a ui:th element within a ui:tr. This is a row header and is a 1:1 map with a HTML th element.
+	-->
+	<xsl:template match="ui:th">
+		<xsl:param name="myTable"/>
+		<xsl:variable name="tableId" select="$myTable/@id"/>
+		<xsl:variable name="myHeader" select="$myTable/ui:thead/ui:th[1]"/>
+		<th id="{concat($tableId,'_trh',../@rowIndex)}" scope="row">
+			<xsl:if test="$myHeader">
+				<xsl:attribute name="headers">
+					<xsl:value-of select="concat($tableId,'_thh','1')"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:if test="$myHeader">
+						<xsl:value-of select="concat('wc-align-', $myHeader/@align)"/>
+					</xsl:if>
+				</xsl:with-param>
+			</xsl:call-template>
+			<xsl:apply-templates />
+		</th>
+	</xsl:template>
+	
+	<!--
+		The transform for data cells within the table. These are a 1:1 map with a HTML td element.
+	-->
+	<xsl:template match="ui:td">
+		<xsl:param name="myTable"/>
+		<xsl:variable name="tableId" select="$myTable/@id"/>
+		<xsl:variable name="tbleColPos" select="position()"/>
+		<xsl:variable name="colHeaderElement" select="$myTable/ui:thead/ui:th[position() eq number($tbleColPos)]"/>
+		<xsl:variable name="rowHeaderElement" select="../ui:th[1]"/><!-- the one is redundant -->
+		<td>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:if test="$colHeaderElement/@align">
+						<xsl:value-of select="concat('wc-align-',$colHeaderElement/@align)"/>
+					</xsl:if>
+				</xsl:with-param>
+			</xsl:call-template>
+			<xsl:if test="$colHeaderElement or $rowHeaderElement">
+				<xsl:attribute name="headers">
+					<xsl:variable name="colHeader">
+						<xsl:if test="$colHeaderElement">
+							<xsl:value-of select="concat($tableId,'_thh',$tbleColPos)"/>
+						</xsl:if>
+					</xsl:variable>
+					<xsl:variable name="rowHeader">
+						<xsl:if test="$rowHeaderElement">
+							<xsl:value-of select="concat($tableId,'_trh',../@rowIndex)"/>
+						</xsl:if>
+					</xsl:variable>
+					<xsl:value-of select="normalize-space(concat($colHeader,' ',$rowHeader))"/>
+				</xsl:attribute>
+			</xsl:if>
+<!-- END OF TD ATTRIBUTES -->
+			<xsl:apply-templates/>
+		</td>
+	</xsl:template>
+	
+	<!--
+		Transform of ui:subtr. This is a sub row element which is an optional child of a ui:tr element. It should not be
+		present if the table does not have rowExpansion. In HTML these are siblings of their parent ui:tr which makes
+		row manipulation interesting.
+	-->
+	<xsl:template match="ui:subtr">
+		<xsl:param name="myTable"/>
+		<xsl:param name="parentIsClosed" select="0"/>
+		<xsl:param name="topRowIsStriped" select="0"/>
+		<xsl:param name="indent" select="0"/>
+		<!--
+		 We have to output content if:
+		 
+			* she subTr is open;
+			* the expansion mode is client;
+			* there is a ui:content child element; or
+			* there are ui:tr child elements.
+			
+		 Otherwise we have to create a null content placeholder with the appropriate wires to make the expansion AJAX 
+		 enabled or able to force a submit on open.
+		-->
+		<xsl:choose>
+			<xsl:when test="*">
+				<xsl:apply-templates select="*">
+					<xsl:with-param name="myTable" select="$myTable"/>
+					<xsl:with-param name="parentIsClosed" select="$parentIsClosed"/>
+					<xsl:with-param name="indent" select="$indent"/>
+					<xsl:with-param name="topRowIsStriped" select="$topRowIsStriped"/>
+				</xsl:apply-templates>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:variable name="tableId" select="$myTable/@id"/>
+				<tr id="{concat($tableId,'_sub',../@rowIndex)}" hidden="hidden"></tr>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	
+	<!--
+		Transform for ui:content child of a ui:subtr.
+	-->
+	<xsl:template match="ui:subtr/ui:content">
+		<xsl:param name="myTable"/>
+		<xsl:param name="parentIsClosed" select="0"/>
+		<xsl:param name="topRowIsStriped" select="0"/>
+		<xsl:param name="indent" select="0"/>
+		<xsl:variable name="tableId" select="$myTable/@id"/>
+		<!--NOTE: aria-level the minimum is going to be level 2 -->
+		<tr id="{concat($tableId,'_subc',../../@rowIndex)}" role="row" aria-level="{count(ancestor::ui:subtr[ancestor::ui:table[1]/@id eq $tableId]) + 1}">
+			<xsl:if test="number($parentIsClosed) eq 1 or ancestor::ui:subtr[not(@open)]">
+				<xsl:call-template name="hiddenElement"/>
+			</xsl:if>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:if test="number($topRowIsStriped) eq 1">
+						<xsl:text>wc_table_stripe</xsl:text>
+					</xsl:if>
+					<xsl:if test="number($indent) gt 0">
+						<xsl:value-of select="concat(' wc_tbl_indent_', $indent)"/>
+					</xsl:if>
+				</xsl:with-param>
+			</xsl:call-template>
+			<!--
+				subTr content is never individually selectable but must have the placeholder if the table has row
+				selection.
+			-->
+			<xsl:if test="$myTable/ui:rowselection">
+				<td class="wc_table_sel_wrapper">
+					<xsl:text>&#x2002;</xsl:text>
+				</td>
+			</xsl:if>
+			<!--
+				subTr content is not itself expandable but must have the placeholder to position it correctly relative
+				to its parent row.
+			-->
+			<td class="wc_table_rowexp_container">
+				<xsl:text>&#x2002;</xsl:text>
+			</td>
+			<td>
+				<xsl:if test="@spanAllCols">
+					<xsl:attribute name="colspan">
+						<xsl:value-of select="count(../../*) -1"/><!-- -1 because we do not count the ui:subtr -->
+					</xsl:attribute>
+				</xsl:if>
+				<xsl:apply-templates/>
+			</td>
+		</tr>
 	</xsl:template>
 </xsl:stylesheet>

@@ -1,15 +1,7 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.listSortControls.xsl"/>
-	<xsl:import href="wc.common.readOnly.xsl"/>
-	<!--
-		WShuffler is a component designed to allow a fixed list of options to have their order changed.
-
-		This template outputs the shuffler DIV/UL element. If not readOnly then
-		it also outputs a SELECT element and calls listSortControls to produce the shuffler
-		buttons.
-
-		It uses the selectableList mode of ui:option and ui:optgroup in the same way as a regular WMultiSelect
-	-->
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+	<xsl:import href="wc.common.makeLegend.xsl"/>
+	<!-- WShuffler is a component designed to allow a fixed list of options to have their order changed. -->
 	<xsl:template match="ui:shuffler">
 		<xsl:variable name="id" select="@id"/>
 		<xsl:choose>

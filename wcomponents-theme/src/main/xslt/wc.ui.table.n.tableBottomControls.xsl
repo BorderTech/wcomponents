@@ -4,8 +4,7 @@
 	<!--
 		Creates a container for controls at the bottom of a table. 
 
-		You probably do not need to override this but it should be safe to do so so long as any hard-coded
-		class attribute values are left in place.
+		You probably do not need to override this but it should be safe to do so so long as any hard-coded class attribute values are left in place.
 	-->
 	<xsl:template name="tableBottomControls">
 		<xsl:variable name="showPagination">

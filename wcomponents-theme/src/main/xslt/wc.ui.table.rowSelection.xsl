@@ -3,8 +3,8 @@
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.selectToggle.xsl"/>
 	<!--
-		This template creates the rowSelection (select all, select none) controls if required. It is called explicitly 
-		from the template named `topControls`. If there are no selectable rows then nothing is output.
+		This template creates the rowSelection (select all, select none) controls if required. It is called explicitly from the template named 
+		`topControls`. If there are no selectable rows then nothing is output.
 
 		NOTE: This template does not make the individual rows selectable. That is done in the transform of ui:tr.
 

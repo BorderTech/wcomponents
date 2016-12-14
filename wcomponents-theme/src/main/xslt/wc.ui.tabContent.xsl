@@ -1,13 +1,9 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.ajax.xsl"/>
-	<xsl:import href="wc.common.accessKey.xsl"/>
-
-	<!--
-	 The content of the tab. Wrapped in a DIV element.
-	-->
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+	<xsl:import href="wc.common.attributes.xsl"/>
+	<!-- The content of the tab. -->
 	<xsl:template match="ui:tabcontent">
 		<xsl:param name="tabset"/>
-		
 		<xsl:variable name="open">
 			<xsl:choose>
 				<xsl:when test="../@open">
@@ -18,9 +14,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		
 		<xsl:variable name="mode" select="../@mode"/>
-		
 		<div id="{@id}" role="tabpanel">
 			<xsl:attribute name="class">
 				<xsl:text>wc-tabcontent</xsl:text>
@@ -38,31 +32,25 @@
 					</xsl:when>
 				</xsl:choose>
 			</xsl:attribute>
-
 			<xsl:if test="number($open) ne 1">
 				<xsl:call-template name="hiddenElement"/>
 			</xsl:if>
-
 			<xsl:if test="($mode eq 'lazy') or ($mode eq 'eager') or ($mode eq 'dynamic')">
 				<xsl:attribute name="data-wc-ajaxalias">
 					<xsl:value-of select="../@id"/>
 				</xsl:attribute>
 			</xsl:if>
-
 			<xsl:call-template name="setARIALive"/>
-
 			<xsl:if test="../@disabled or $tabset/@disabled">
 				<xsl:attribute name="aria-disabled">
 					<xsl:text>true</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
-
 			<xsl:if test="$tabset/@contentHeight">
 				<xsl:attribute name="style">
 					<xsl:value-of select="concat('height:',$tabset/@contentHeight,';overflow-y:auto;')"/>
 				</xsl:attribute>
 			</xsl:if>
-
 			<xsl:apply-templates/>
 		</div>
 	</xsl:template>

@@ -167,4 +167,26 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+
+	<xsl:template match="ui:nl"/>
+	<!--
+		creates a newline character.
+		 
+		NOTE: The allowed line separators (http://dev.w3.org/html5/markup/terminology.html)
+		are:
+		* a U+000D CARRIAGE RETURN (CR) character
+		* a U+000A LINE FEED (LF) character
+		* a U+000D CARRIAGE RETURN (CR) followed by a U+000A LINE FEED (LF) character
+		
+		However:
+		* Using &#xD; by itself does not work in Chrome (on Windows at least);
+		* Using &#xA; by itself does not work in IE, 
+		* Using &#xD;&#xA; does work in IE, Firefox (3.6+), Chrome (at least 19+
+		but maybe earlier), Opera (at least 11.61+ but maybe earlier) and Safari
+		(Windows 5.0.1+, maybe earlier) but should be tested on non-windows platforms. 
+	 -->
+	
+	<xsl:template match="ui:nl" mode="pre">
+		<xsl:text>&#xD;&#xA;</xsl:text>
+	</xsl:template>
 </xsl:stylesheet>

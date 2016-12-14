@@ -1,35 +1,7 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
-<!--
-	Toggle controls
-	
-	Helper templates and keys for common state toggling elements. 
--->
-
-	<!--
-		Creates an element which does state toggling. Called from selectToggle and collapsibleToggle
-		wc.common.selectToggle.xsl and wc.common.collapsibleToggle.xsl.
-		 
-		param submit:
-			If 1 the state change is done on the server and the toggle element must be a 
-			form submit control.
-		 
-		param id: The id to apply to the HTML button element
-		
-		param for: The identifier of the component controlled by the button, may be a container
-			id or a groupName for WCollapsibleToggle
-		
-		param name: The name (or name analog) attribute to give to the button element 
-		
-		param value: The value (or value analog) to give to the button
-		 
-		param class: Any extra class(es) to apply to the button based on the required functionality
-			or appearance of controls for each type of component which calls this template.
-		 
-		param text: The text description of the purpose of the button.
-		
-		param selected: The current selected state used by selectToggle to indicate the aria-checked state of the button.
-	-->
+	<!-- Helper templates and keys for common state toggling elements. -->
 	<xsl:template name="toggleElement">
 		<xsl:param name="mode" select="''"/>
 		<xsl:param name="id" select="''"/>
@@ -40,14 +12,12 @@
 		<xsl:param name="text" select="''"/>
 		<xsl:param name="selected" select="0"/>
 		<xsl:param name="labelId" select="''"/>
-	
 		<xsl:variable name="localClass">
 			<xsl:text>wc-linkbutton</xsl:text>
 			<xsl:if test="$class ne ''">
 				<xsl:value-of select="concat(' ',$class)"/>
 			</xsl:if>
 		</xsl:variable>
-
 		<button id="{$id}" role="radio" class="{$localClass}" data-wc-value="{$value}" type="button">
 			<xsl:if test="$name ne ''">
 				<xsl:attribute name="data-wc-name">

@@ -1,4 +1,5 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
 	<!--
@@ -16,9 +17,7 @@
 	<xsl:template match="ui:tab">
 		<xsl:param name="tabset"/>
 		<xsl:param name="numAvailTabs" select="0"/>
-
 		<xsl:variable name="type" select="$tabset/@type"/>
-
 		<xsl:variable name="isDisabled">
 			<xsl:choose>
 				<xsl:when test="@disabled or $tabset/@disabled">
@@ -29,7 +28,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
 		<xsl:variable name="expandSelectAttrib">
 			<xsl:choose>
 				<xsl:when test="$type eq 'accordion'">
@@ -40,7 +38,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
 		<div id="{@id}" role="tab" aria-controls="{ui:tabcontent/@id}">
 			<xsl:attribute name="{$expandSelectAttrib}">
 				<xsl:choose>
@@ -70,9 +67,7 @@
 					<xsl:text>wc-invite</xsl:text>
 				</xsl:with-param>
 			</xsl:call-template>
-
 			<xsl:call-template name="title"/>
-			
 			<!--
 				This is cheaper than calling template disabledElement for the tab, the tabGroup and the tabset in turn
 			-->
@@ -81,12 +76,10 @@
 					<xsl:text>true</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
-
 			<!-- do not allow open tabs to be hidden -->
 			<xsl:if test="not(@open)">
 				<xsl:call-template name="hideElementIfHiddenSet"/>
 			</xsl:if>
-
 			<xsl:call-template name="accessKey"/>
 			<xsl:apply-templates select="ui:decoratedlabel">
 				<xsl:with-param name="output" select="'div'"/>
@@ -97,5 +90,16 @@
 				<xsl:with-param name="tabset" select="$tabset"/>
 			</xsl:apply-templates>
 		</xsl:if>
+	</xsl:template>
+
+	<!--
+		Apply the tab content.
+	-->
+	<xsl:template match="ui:tab" mode="content">
+		<xsl:param name="tabset"/>
+		
+		<xsl:apply-templates select="ui:tabcontent">
+			<xsl:with-param name="tabset" select="$tabset"/>
+		</xsl:apply-templates>
 	</xsl:template>
 </xsl:stylesheet>

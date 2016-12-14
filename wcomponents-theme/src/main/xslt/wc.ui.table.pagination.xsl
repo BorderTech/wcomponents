@@ -1,11 +1,8 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
 	<!--
-		This template creates the pagination controls. It is called specifically from 
-		the tfoot template. Nothing is output if the table consists of only one page.
-		
-		Pagination controls consist of a labelled SELECT element and four buttons.
-
+		Pagination controls
 		Structural: do not override.
 	-->
 	<xsl:template match="ui:pagination">
@@ -56,13 +53,11 @@
 					</option>
 				</select>
 			</label>
-			
 			<!-- rows per page chooser -->
 			<xsl:apply-templates select="ui:rowsselect">
 				<xsl:with-param name="tableId" select="$tableId"/>
 				<xsl:with-param name="idSuffix" select="$idSuffix"/>
 			</xsl:apply-templates>
-			
 			<span class="wc_table_pag_btns">
 				<xsl:call-template name="paginationButton">
 					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_first'}}</xsl:text></xsl:with-param>

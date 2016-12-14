@@ -1,15 +1,9 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
-	<!--
-		WMenuItem forms part of a single compound widget with the WMenu at its root.
 
-		The transform for WMenuItem. In general this is pretty straightforwards. The
-		menuItem is rendered as a single control.
-	-->
 	<xsl:template match="ui:treeitem">
 		<xsl:param name="disabled" select="'false'"/>
-
 		<xsl:variable name="element">
 			<xsl:choose>
 				<xsl:when test="@expandable">
@@ -20,7 +14,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
 		<xsl:variable name="isButton">
 			<xsl:choose>
 				<xsl:when test="$element eq 'div'">
@@ -31,7 +24,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
 		<xsl:element name="{$element}">
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="isControl" select="$isButton"/>
@@ -41,11 +33,9 @@
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
-
 			<xsl:attribute name="role">
 				<xsl:text>treeitem</xsl:text>
 			</xsl:attribute>
-
 			<xsl:attribute name="aria-selected">
 				<xsl:choose>
 					<xsl:when test="@selected">
@@ -56,7 +46,6 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
-
 			<!-- common attributes will set the correct disabled state if @disabled is set. -->
 			<xsl:if test="not(@disabled) and $disabled eq 'true'">
 				<xsl:choose>
@@ -68,13 +57,11 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:if>
-
 			<xsl:choose>
 				<xsl:when test="number($isButton) eq 1">
 					<xsl:attribute name="type">
 						<xsl:text>button</xsl:text>
 					</xsl:attribute>
-
 					<!-- leave tabindex on this butten, it is used as a short-hand to find fousable controls in the core menu JavaScript. -->
 					<xsl:attribute name="tabindex">
 						<xsl:text>0</xsl:text>

@@ -1,5 +1,5 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.ui.root.n.getXslPath.xsl"/>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<!--
 		README
 
@@ -8,14 +8,17 @@
 		may be necessary or desirable you will find ANT properties which can be
 		more easily manipulated on a theme-by-theme basis.
 	-->
+	
+	<!--
+		Debug flag. This is a global parameter as it is pulled out of the compressed XSLT and we do not want it renamed.
+	-->
+	<xsl:param name="isDebug" select="1"/>
 
 	<!--
 		Used to calculate the path to the libs based on the stylesheet processing instruction stripped is used in the 
 		config object. Param so it can be overridden if necessary.
 	-->
-	<xsl:param name="xslPath">
-		<xsl:call-template name="getXslPath"/>
-	</xsl:param>
+	<xsl:param name="xslPath" select="substring-before(replace(substring-after(//processing-instruction('xml-stylesheet'), 'href=&quot;'), '&amp;amp;', '&amp;'), '&quot;')"/>
 
 	<xsl:variable name="scriptDir">
 		<xsl:choose>
@@ -27,6 +30,7 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
+
 	<!--
 		this is the absolute or server relative path to the resources used to build the site calculated from the XSLT 
 		processing instruction.
@@ -41,7 +45,7 @@
 	<xsl:variable name="cacheBuster">
 		<xsl:value-of select="substring-after($xslPath, '?')"/>
 	</xsl:variable>
-	
+
 	<!-- base CSS file's path -->
 	<xsl:variable name="cssFilePath">
 		<xsl:value-of select="$resourceRoot"/>

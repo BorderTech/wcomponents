@@ -12,7 +12,7 @@
 				<xsl:with-param name="isWrapper" select="1"/>
 				<xsl:with-param name="class">
 					<xsl:if test="$mode eq 'lazy' and @hidden">
-						<xsl:text> wc_magic</xsl:text>
+						<xsl:text>wc_magic</xsl:text>
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>

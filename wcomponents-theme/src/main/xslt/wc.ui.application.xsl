@@ -1,12 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
-	<!--
-		ui:application is the base component of each application. A screen may, however, contain 0 - n applications (though a screen with no 
-		applications is pretty useless). Therefore ui:application is not the screen root element.
-	
-		The ui:application transforms to a HTML form element. Therefore WApplications **must not be nested**.
-	-->
+	<!-- WApplication -->
 	<xsl:template match="ui:application">
 		<xsl:variable name="baseAjaxUrl">
 			<xsl:value-of select="@ajaxUrl"/>
@@ -38,8 +33,28 @@
 		</form>
 	</xsl:template>
 
-	<!--
-		If you have managed to ignore all advice and nest a WApplication inside either another WApplication, well, you deserve what you get: nothing.
-	-->
+	<!-- If you have managed to ignore all advice and nest a WApplication inside either another WApplication you get nothing. -->
 	<xsl:template match="ui:application[ancestor::ui:application]"/>
+	<!-- Application parameters, output as hidden input elements -->
+	<xsl:template match="ui:application/ui:param">
+		<xsl:element name="input">
+			<xsl:attribute name="type">
+				<xsl:text>hidden</xsl:text>
+			</xsl:attribute>
+			<xsl:attribute name="name">
+				<xsl:value-of select="@name"/>
+			</xsl:attribute>
+			<xsl:attribute name="value">
+				<xsl:value-of select="@value"/>
+			</xsl:attribute>
+		</xsl:element>
+	</xsl:template>
+
+	<!-- Application parameters, output as get url name:value pairs. -->
+	<xsl:template match="ui:application/ui:param" mode="get">
+		<xsl:value-of select="concat(@name,'=',@value)"/>
+		<xsl:if test="position() ne last()">
+			<xsl:text>&amp;</xsl:text>
+		</xsl:if>
+	</xsl:template>
 </xsl:stylesheet>

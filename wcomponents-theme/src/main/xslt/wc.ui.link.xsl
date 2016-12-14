@@ -1,26 +1,23 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.buttonLinkCommon.xsl"/>
-	<!--
-		Transform for WLink and WInternalLink. This should be a simple transform to a HTML
-		anchor element. However, as usual things are not that simple.
+	<!-- 
+		WLink and WInternalLink. 
+		
+		This should be a simple transform to a HTML anchor element. However, as usual things are not that simple.
 
-		HTML A elements do not support a disabled state. This state is created using
-		aria-disabled and a javascript helper. The disabled state of WLink is under
-		investigation and may be removed.
+		HTML a elements do not support a disabled state. This state is created using aria-disabled and a javascript helper.
 
-		There is a type property which allows the control to be rendered as a button.
-		Whilst we can apply styles to a HTML anchor element to make it look button-like
-		it is not currently possible to render a link as a button in all browsers.
-		instead we output a button element for these controls. In addition it is
-		current framework policy that all controls which undertake client action other
-		than pure navigation are output as buttons, and we are able to style a HTML
-		button element to appear to be a link.
-
-		Therefore if the ui:link has a ui:windowAttributes child in order to
-		create a pop up window, and that child has any attributes other than a name
-		(which is required) we output a button. When a ui:link is rendered
-		as a link and it has a ui:windowAttributes child which has only a name attribute
-		then the HTML ANCHOR element will have a target attribute.
+		There is a type property which allows the control to be rendered as a button. Whilst we can apply styles to a HTML anchor element to make it
+		look button-like it is not currently possible to render a link as a button in all browsers. Instead we output a button element for these
+		controls. 
+		
+		It is current policy that all controls which undertake client action other than pure navigation are output as buttons, and we are able to
+		style a HTML button element to appear to be a link; therefore if the ui:link has a ui:windowAttributes child in order to create a pop up
+		window, and that child has any attributes other than a name (which is required) we output a button. When a ui:link is rendered as a link and
+		it has a ui:windowAttributes child which has only a name attribute then the HTML a element will have a target attribute.
+		
+		param imageAltText is passed in from ui:image if the link is a child of that element.
 	-->
 	<xsl:template match="ui:link">
 		<xsl:param name="imageAltText" select="''"/>
@@ -35,7 +32,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
 		<xsl:variable name="elementType">
 			<xsl:choose>
 				<xsl:when test="$type eq 'button' or number($hasPopup) eq 1">
@@ -46,7 +42,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
 		<xsl:element name="{$elementType}">
 			<xsl:call-template name="buttonLinkCommonAttributes">
 				<xsl:with-param name="elementType" select="$elementType"/>
@@ -56,10 +51,8 @@
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
-
 			<xsl:variable name="noopener" select="'noopener'"/>
 			<xsl:variable name="noreferrer" select="'noreferrer'"/>
-
 			<xsl:choose>
 				<xsl:when test="$elementType eq 'a'">
 					<xsl:attribute name="href">

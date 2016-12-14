@@ -1,22 +1,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.common.key.label.xsl"/>
-	<!--
-		Checkable input controls
-
-		Transform for WCheckBox and WRadioButton to a HTML input element of type
-		checkbox or radio (if editable) or a non-interactive representation if read-only.
-
-		When @readOnly is true the component will output a non-interactive graphical
-		representation of the control. This will be marked up to provide appropriate
-		text content.
-
-		Checkable inputs currently support @submitOnChange. This is an issue with
-		WCAG 3.2.2 (http://www.w3.org/TR/WCAG20/#consistent-behavior-unpredictable-change).
-		Therefore where submitOnChange is true we must inform users that changing
-		selection will cause the form to submit. This must be done for all users. It is
-		strongly recommended that @submitOnChange never be used with one of	these components.
-	-->
+	<xsl:import href="wc.common.hField.xsl"/>
+	<!-- WCheckBox and WRadioButton -->
 	<xsl:template match="ui:checkbox|ui:radiobutton">
 		<xsl:variable name="type">
 			<xsl:choose>

@@ -1,18 +1,9 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.selectToggle.xsl"/>
-	<xsl:import href="wc.common.key.label.xsl"/>
-	<!--
-		Transform for WSelectToggle. This transform creates either:
-			* A single control to toggle selection of the target(s); or
-			* A pair of text controls to toggle selection of the target(s).
-		
-		As far as we are concerned these controls are all buttons and differ only in
-		visual appearance and what they claim to be in WAI-ARIA.
-	-->
+
+	<!-- Transform for WSelectToggle. -->
 	<xsl:template match="ui:selecttoggle">
-		<!--
-			see wc.common.selectToggle.xsl
-		-->
 		<xsl:call-template name="selectToggle">
 			<xsl:with-param name="for" select="@target"/>
 			<xsl:with-param name="name" select="@id"/>
@@ -32,6 +23,23 @@
 			<xsl:apply-templates select="key('labelKey',@id)[1]" mode="checkable">
 				<xsl:with-param name="labelableElement" select="."/>
 			</xsl:apply-templates>
+		</xsl:if>
+	</xsl:template>
+
+	<!--
+		Template match="ui:selecttoggle" mode="JS"
+		
+		This template creates JSON objects required to register named group 
+		controllers.
+	-->
+	<xsl:template match="ui:selecttoggle" mode="JS">
+		<xsl:text>{"identifier":"</xsl:text>
+		<xsl:value-of select="@id"/>
+		<xsl:text>","groupName":"</xsl:text>
+		<xsl:value-of select="@target"/>
+		<xsl:text>"}</xsl:text>
+		<xsl:if test="position() ne last()">
+			<xsl:text>,</xsl:text>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

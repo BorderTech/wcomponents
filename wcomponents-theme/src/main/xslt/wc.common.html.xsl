@@ -1,14 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<!--
 		HTML Conformance
-
-		These templates work around issues in a well known user agent and to provide pass throughs of HTML elements
-		mixed in with the WComponents XML.
-
-		NOTE:
-		This is a rather large amount of XSLT to undertake a seemingly small job. If your application development
-		environment is tightly controlled you could easily delete most of this and just keep the link|base|meta
-		transforms (if required).
 	-->
 
 	<!--
@@ -19,17 +11,12 @@
 	-->
 	<xsl:template match="html:link|html:base|html:meta"/>
 
-	<!--
-		html:link can appear in a ui:ajaxtarget and in this case cannot be moved to a HEAD element so we just output it 
-		in-situ.
-	-->
+	<!-- html:link can appear in a ui:ajaxtarget and in this case cannot be moved to a HEAD element so we just output it in-situ. -->
 	<xsl:template match="html:link[ancestor::ui:ajaxtarget]">
 		<xsl:copy-of select="."/>
 	</xsl:template>
 
-	<!--
-		Copy link, base and meta elements in the head.
-	-->
+	<!-- Copy link, base and meta elements in the head. -->
 	<xsl:template match="html:link|html:base|html:meta" mode="inHead">
 		<xsl:variable name="el" select="local-name()"/>
 		<!-- copy without XML namespaces -->
@@ -38,16 +25,14 @@
 		</xsl:element>
 	</xsl:template>
 
-
 	<!--
 		HTML 'shorttag' elements
 
-		Some elements cause problems in IE (9-) when copied from a source XML document to the destination tree. This 
-		template matches HTML self-closing elements and is required to work around a bug in The Microsoft XSLTProcieesor 
-		(at least up to IE9, posibly later) which will create a closing element if we use the regular copy method. For
-		example with an input element if using: <xsl:copy><xsl:apply-templates select="@*|node()"/></xsl:copy>
+		Some elements cause problems in IE (9-) when copied from a source XML document to the destination tree. This template matches HTML 
+		self-closing elements and is required to work around a bug in The Microsoft XSLTProcieesor (at least up to IE9, posibly later) which will
+		create a closing element if we use the regular copy method. For example with an input element if using: 
+		`<xsl:copy><xsl:apply-templates select="@*|node()"/></xsl:copy>`
 		IE8 will give you: <input/></input/>
-		
 		If you need to support IE you probably want this template.
 	-->
 	<xsl:template match="html:input|html:img|html:br">
@@ -56,22 +41,7 @@
 
 	<!--
 		Templates for non-conforming HTML elements and attributes
-
-		These templates will remove or change any elements which are non-conforming according to the HTML5 specification.
-		
-		Non-conforming elements: see https://html.spec.whatwg.org/multipage/obsolete.html#non-conforming-features.
-
-		You could transform some of these to conforming elements but one has to weigh the extra cost of the XSLT against
-		the benefit for little used elements.
-
-		Some examples of non-conforming elements which could be transformed
-		acronym to abbr
-		font to span
-		center to div (with style 'text-align:center')
-		dir to ul
-		tt to kbd or code or var or samp (sometimes it is not easy)
-		
-		You may not need this template but I _really_ dislike these elements...
+		see https://html.spec.whatwg.org/multipage/obsolete.html#non-conforming-features.
 	-->
 	<xsl:template match="html:acronym|html:applet|html:bgsound|html:dir|html:frame|html:frameset|html:noframes|html:isindex|html:listing|html:nextid|html:noembed|html:plaintext|html:rb|html:strike|html:xmp|html:basefont|html:big|html:blink|html:center|html:font|html:marquee|html:multicol|html:nobr|html:spacer|html:tt"/>
 
@@ -139,15 +109,6 @@
 		html:td/@height|html:td/@scope|html:td/@width|
 		html:th/@height|html:th/@width|
 		html:ul/@type"/>
-	-->
-	<!--
-		WComponents conformance
-
-		HTML namespace templates which are required to ensure a mixed-mode document will not break anything 
-		WComponents-y or cause horrific HTML problems.
-
-		NOTE: we generally do not try to enforce specification conformance unless in diagnostic mode. These templates 
-		are just things we have to have to even get a reliably rendering page.
 	-->
 	<!--
 		Do not put a HTML form inside any ui:application.

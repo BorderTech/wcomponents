@@ -1,22 +1,18 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.ui.menu.n.menuRoleIsSelectable.xsl"/>
-	<xsl:import href="wc.ui.menu.n.menuTabIndexHelper.xsl"/>
-	<xsl:import href="wc.common.accessKey.xsl"/>
 	<xsl:import href="wc.common.attributes.xsl"/>
+	<xsl:import href="wc.common.accessKey.xsl"/>
+	<xsl:import href="wc.ui.menu.n.menuTabIndexHelper.xsl"/>
 	<!--
 		WMenuItem forms part of a single compound widget with the WMenu at its root.
 
-		The transform for WMenuItem. In general this is pretty straightforwards. The
-		menuItem is rendered as a single control.
+		The transform for WMenuItem. In general this is pretty straightforwards. The menuItem is rendered as a single control.
 	-->
 	<xsl:template match="ui:menuitem">
 		<xsl:variable name="myAncestorMenu" select="ancestor::ui:menu[1]"/>
 		<xsl:variable name="myAncestorSubmenu" select="ancestor::ui:submenu[not(ancestor::ui:menu) or ancestor::ui:menu[1] eq $myAncestorMenu][1]"/>
 		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="menuType" select="$myAncestorMenu/@type"/>
-		
 		<xsl:variable name="actionType">
 			<xsl:choose>
 				<xsl:when test="@url">
@@ -222,5 +218,43 @@
 			</xsl:choose>
 			<xsl:apply-templates select="ui:decoratedlabel"/>
 		</button>
+	</xsl:template>
+	
+	<!--
+		This template is used to determine if a WMenuItem should be selectable based on its selectable property, or ancestry. The params are passed in
+		because they are expensive to calculate.
+	-->
+	<xsl:template name="menuRoleIsSelectable">
+		<xsl:param name="type"/>
+		<xsl:param name="myAncestorMenu"/>
+		<xsl:param name="myAncestorSubmenu"/>
+		<xsl:choose>
+			<xsl:when test="@selectable eq 'false'">
+				<xsl:number value="0"/>
+			</xsl:when>
+			<xsl:when test="@selectable">
+				<xsl:number value="1"/>
+			</xsl:when>
+			<!-- 
+				If we do not have a context menu at all then let the ajax subscriber javascript worry about selection mode based on the transient 
+				attribute set from @selectable
+			-->
+			<xsl:when test="not($myAncestorMenu or $myAncestorSubmenu)">
+				<xsl:number value="0"/>
+			</xsl:when>
+			<!-- from here down we know we have an ancestor menu -->
+			<xsl:when test="$myAncestorSubmenu/@selectMode">
+				<xsl:number value="1"/>
+			</xsl:when>
+			<xsl:when test="$myAncestorSubmenu">
+				<xsl:number value="0"/>
+			</xsl:when>
+			<xsl:when test="$myAncestorMenu/@selectMode">
+				<xsl:number value="1"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:number value="0"/>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 </xsl:stylesheet>

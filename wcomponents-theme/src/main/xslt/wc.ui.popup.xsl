@@ -1,4 +1,5 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.popups.xsl"/>
 	<!--
 		Transform of WPopup. This component opens a new window on page load. 
@@ -16,7 +17,6 @@
 		It has no explicit HTML artefact in the UI and therefore has a null template.
 	-->
 	<xsl:template match="ui:popup"/>
-	
 	<!--
 		This template creates the JSON objects required to create the popup on page
 		load and should not usualy need to be overridden.

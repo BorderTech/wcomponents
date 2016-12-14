@@ -55,30 +55,4 @@
 			</xsl:call-template>
 		</xsl:if>
 	</xsl:template>
-
-	<!-- 
-		The old getHVGap template for pixel specific gaps.
-
-		This horrible little template is a helper for layout components hgap and vgap attributes. It has been 
-		through a number of iterations. This is simple but ugly as it forces the gaps to be px.
-
-		This has been removed as part of fixing https://github.com/BorderTech/wcomponents/issues/571 which also 
-		addressed the most salient points of https://github.com/BorderTech/wcomponents/issues/179. It is here just in
-		case someone ever wants to re-implement pixel based hgap/vgap. Doing so is ****DISCOURAGED****.
-
-	<xsl:template name="getHVGap">
-		<xsl:param name="gap" select="@hgap"/>
-		<xsl:param name="divisor" select="1"/>
-		<xsl:choose>
-			<xsl:when test="$gap">
-				<xsl:variable name="px" select="format-number($gap,'0')"/>
-				<xsl:value-of select="$px div $divisor"/>
-				<xsl:text>px</xsl:text>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:number value="0"/>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-	-->
 </xsl:stylesheet>

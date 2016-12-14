@@ -1,10 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 		xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
-	<!--
-		Transform for WHeading. This is a fairly straightforwards 1:1 match with a HTML
-		H# element where the WHeading @level sets the level
-	-->
+	<!-- Transform for WHeading. -->
 	<xsl:template match="ui:heading">
 		<xsl:element name="{concat('h',@level)}">
 			<xsl:attribute name="id">

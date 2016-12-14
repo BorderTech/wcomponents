@@ -1,9 +1,8 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.readOnly.xsl"/>
-	<!--
-		This transform is reused by ui:listbox and ui:dropdown.
-		See wc.ui.combo.xsl for ui:dropdown with @type="combo" and not @readOnly="true"
-	-->
+	<xsl:import href="wc.common.hField.xsl"/>
+	<!-- This transform is reused by ui:listbox and ui:dropdown. -->
 	<xsl:template match="ui:dropdown|ui:listbox">
 		<xsl:variable name="id" select="@id"/>
 		<xsl:choose>
@@ -60,18 +59,6 @@
 				<xsl:call-template name="readOnlyControl">
 					<xsl:with-param name="applies" select=".//ui:option[@selected]"/>
 					<xsl:with-param name="useReadOnlyMode" select="1"/>
-					<xsl:with-param name="style">
-						<xsl:choose>
-							<xsl:when test="@type eq 'combo' and @optionWidth">
-								<xsl:text>width:</xsl:text>
-								<xsl:value-of select="@optionWidth"/>
-								<xsl:text>em;</xsl:text>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:value-of select="''"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:with-param>
 				</xsl:call-template>
 			</xsl:when>
 			<xsl:when test=".//ui:option[@selected]">

@@ -1,23 +1,8 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.listSortControls.xsl"/>
-	<xsl:import href="wc.common.readOnly.xsl"/>
-	<xsl:import href="wc.common.hField.xsl"/>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.makeLegend.xsl"/>
-	<xsl:import href="wc.common.key.label.xsl"/>
-	<!--
-		Transform for WMultiSelectPair. This component is a mechanism to select 0 or
-		more options from a list. It is presented in a way which puts two lists side by
-		side with a means to move selected options from one to the other (and deselect
-		by moving back again).
-
-		When read only the component outputs a simple unordered list of selected
-		options.
-
-		Otherwise the component outputs a fieldset containing three select elements,
-		one of which is hidden and used as a reference of option order; a set of
-		buttons to move options between the visible lists; and optionally a set of
-		buttons to change the order of selected options.
-	-->
+	<xsl:import href="wc.common.hField.xsl"/>
+	<!-- Transform for WMultiSelectPair. -->
 	<xsl:template match="ui:multiselectpair">
 		<xsl:variable name="id">
 			<xsl:value-of select="@id"/>
@@ -77,14 +62,12 @@
 					<xsl:call-template name="makeLegend">
 						<xsl:with-param name="myLabel" select="key('labelKey',$id)[1]"/>
 					</xsl:call-template>
-
 					<!-- AVAILABLE LIST -->
 					<xsl:variable name="availId" select="concat($id, '_a')"/>
 					<span>
 						<label for="{$availId}">
 							<xsl:value-of select="@fromListName"/>
 						</label>
-						<!--<xsl:element name="br"/>-->
 						<select id="{$availId}" multiple="multiple" class="wc_msp_av wc-noajax" size="{$size}" autocomplete="off">
 							<xsl:call-template name="disabledElement">
 								<xsl:with-param name="isControl" select="1"/>
@@ -122,7 +105,6 @@
 						<label for="{$toId}">
 							<xsl:value-of select="@toListName"/>
 						</label>
-						<!--<xsl:element name="br"/>-->
 						<select id="{$toId}" multiple="multiple" class="wc_msp_chos wc-noajax" size="{$size}" autocomplete="off">
 							<xsl:call-template name="disabledElement">
 								<xsl:with-param name="isControl" select="1"/>
@@ -161,10 +143,8 @@
 	<!--
 		This template produces the add and remove buttons used in multiSelectPair.
 	
-		param value: The value attribute is used to determine the function of the
-			button.
-		param buttonText: The text placed into the button's title attribute to 
-			provide text equivalence of the button's function.
+		param value: The value attribute is used to determine the function of the button.
+		param buttonText: The text placed into the button's title attribute to  provide text equivalence of the button's function.
 	-->
 	<xsl:template name="multiSelectPairButton">
 		<xsl:param name="value"/>
@@ -174,5 +154,80 @@
 				<xsl:with-param name="isControl" select="1"/>
 			</xsl:call-template>
 		</button>
+	</xsl:template>
+	
+	<!-- 
+		The transform for each option in the multiSelectPair.
+		
+		param readOnly: the read only state of the parent multiSelectPair.
+	-->
+	<xsl:template match="ui:option" mode="multiselectPair">
+		<xsl:param name="readOnly" select="0"/>
+		<xsl:choose>
+			<xsl:when test="number($readOnly) ne 1">
+				<option value="{@value}">
+					<xsl:value-of select="normalize-space(.)"/>
+				</option>
+			</xsl:when>
+			<xsl:otherwise>
+				<li>
+					<xsl:if test="parent::ui:optgroup">
+						<xsl:attribute name="class">
+							<xsl:text>wc_inoptgroup</xsl:text>
+						</xsl:attribute>
+					</xsl:if>
+					<xsl:choose>
+						<xsl:when test="normalize-space(.)">
+							<xsl:value-of select="normalize-space(.)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="@value"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</li>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<!--
+		The transform for optGroups within a multiSelectPair option list.
+		
+		param applyWhich:
+			Use: "selected", "unselected" or "all"; default "all"
+			
+			This parameter indicates which options in the optGroup should be included in apply-templates. It will depend upon whether we are building 
+			the unselected list, the selected list or the reference list.
+		
+		param readOnly: the read only state of the parent multiSelectPair
+	-->
+	<xsl:template match="ui:optgroup" mode="multiselectPair">
+		<xsl:param name="applyWhich" select="'all'"/>
+		<xsl:param name="readOnly" select="0"/>
+		<xsl:choose>
+			<xsl:when test="number($readOnly) ne 1">
+				<optgroup label="{@label}">
+					<xsl:choose>
+						<xsl:when test="$applyWhich eq 'selected'">
+							<xsl:apply-templates select="ui:option[@selected]" mode="multiselectPair"/>
+						</xsl:when>
+						<xsl:when test="$applyWhich eq 'unselected'">
+							<xsl:apply-templates select="ui:option[not(@selected)]" mode="multiselectPair"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<!--the order list comes here -->
+							<xsl:apply-templates mode="multiselectPair"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</optgroup>
+			</xsl:when>
+			<xsl:otherwise>
+				<li class="wc_optgroup">
+					<xsl:value-of select="@label"/>
+				</li>
+				<xsl:apply-templates select="ui:option[@selected]" mode="multiselectPair">
+					<xsl:with-param name="readOnly" select="$readOnly"/>
+				</xsl:apply-templates>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 </xsl:stylesheet>

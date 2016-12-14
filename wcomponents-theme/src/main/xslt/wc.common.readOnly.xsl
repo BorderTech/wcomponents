@@ -1,45 +1,12 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
-	<!--
-		Common helper template to output the readOnly state of many form control components.
-		This template must never be excluded.
-
-		Implementing components
-			wc.ui.checkableInput.xsl
-			wc.ui.checkableSelect.xsl
-			wc.ui.dropdown.xsl
-			wc.ui.fileUpload.xsl
-			wc.ui.multiFormComponent.xsl
-			wc.ui.textInput.xsl
-			wc.ui.textArea.xsl
-
-		The "read only" state of a WComponent does not translate to the "read only" state
-		of a HTML input. Within WComponents "readOnly" is a text-equivalent rendering of
-		a component which is used to output the component's value but not in a form
-		which can be used to manipulate that value. It is, therefore, possible to have
-		a read-only rendering of controls which do not support the HTML input element's
-		readonly attribute, such as a checkbox or even a fieldset.
-
-		This helper does not aim to produce the readOnly state of all components but is
-		a helper for a group of components which have a single text value, such as
-		single select components and text input equivalents.
-
-		param class: Any className which may need to be added to the output element.
-		param applies: Nodelist to apply (if any).
-		param style: String to convert to an inline style attribute
-		param useReadOnlyMode: If set to number 1 then any apply-templates will use
-			mode="readOnly"
-		param toolTip: Text used as an explicit toolTip rather than using @toolTip.
-			This is unusual and is currently only implemented by WCheckBox and
-			WRadioButton.
-	-->
+	<!-- Common helper template to output the readOnly state of many form control components. -->
 	<xsl:template name="readOnlyControl">
 		<xsl:param name="class" select="''"/>
-		<xsl:param name="style" select="''"/>
 		<xsl:param name="applies" select="''"/>
 		<xsl:param name="useReadOnlyMode" select="0"/>
 		<xsl:param name="toolTip" select="''"/>
-
 		<xsl:variable name="linkWithText">
 			<xsl:choose>
 				<xsl:when test="text() and (self::ui:phonenumberfield or self::ui:emailfield)">
@@ -78,11 +45,6 @@
 			<xsl:call-template name="title">
 				<xsl:with-param name="title" select="$toolTip"/>
 			</xsl:call-template>
-			<xsl:if test="$style ne ''">
-				<xsl:attribute name="style">
-					<xsl:value-of select="$style"/>
-				</xsl:attribute>
-			</xsl:if>
 			<xsl:call-template name="roComponentName"/>
 			<xsl:if test="self::ui:checkbox or self::ui:radiobutton or self::ui:togglebutton or self::ui:numberfield">
 				<xsl:attribute name="data-wc-value">
@@ -138,8 +100,5 @@
 		<xsl:attribute name="data-wc-component">
 			<xsl:value-of select="local-name()"/>
 		</xsl:attribute>
-	</xsl:template>
-
-	<xsl:template name="roSelected">
 	</xsl:template>
 </xsl:stylesheet>

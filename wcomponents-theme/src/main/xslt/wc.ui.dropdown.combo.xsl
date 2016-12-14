@@ -3,8 +3,7 @@
 	<xsl:import href="wc.common.attributes.xsl" />
 	<!--
 		ui:dropdown (@type="combo")
-		Transform for WDropdown.COMBO which is a combo-box. See wc.ui.dropdown.xsl.
-		TODO: this should be removed once WCombo has replaced WDropdown type.COMBO.
+		Transform for WDropdown.COMBO which is a combo-box.
 	-->
 	<xsl:template match="ui:dropdown[@type='combo' and not(@readOnly)]">
 		<xsl:variable name="id" select="@id" />
@@ -71,5 +70,11 @@
 				<xsl:apply-templates mode="comboDataList" />
 			</span>
 		</span>
+	</xsl:template>
+	<!--
+		The option is the value of the text input of the HTML5 combo.
+	-->
+	<xsl:template match="ui:option" mode="comboValue">
+		<xsl:value-of select="."/>
 	</xsl:template>
 </xsl:stylesheet>

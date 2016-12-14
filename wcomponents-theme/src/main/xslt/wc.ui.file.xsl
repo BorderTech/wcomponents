@@ -14,6 +14,14 @@
 		<xsl:call-template name="fileInList"/>
 	</xsl:template>
 
+	<xsl:template match="ui:file" mode="columns">
+		<xsl:param name="rows" select="0"/>
+		<ul class="wc_list_nb wc_filelist">
+			<xsl:call-template name="fileInList"/>
+			<xsl:apply-templates select="following-sibling::ui:file[position() lt number($rows)]"/>
+		</ul>
+	</xsl:template>
+
 	<xsl:template name="fileInList">
 		<xsl:variable name="readOnly" select="../@readOnly"/>
 		<xsl:variable name="removeTxt" select="concat('Delete attachment: ', @name)"/>
@@ -35,5 +43,15 @@
 				<button type="button" class="wc_btn_icon wc-invite" title="{$removeTxt}"></button>
 			</xsl:if>
 		</li>
+	</xsl:template>
+
+	<!--
+		Text information about a file. This named template was split out of the transform for ui:file to make implementation changes simpler.
+		
+		<<TODO:>> Should this build a link to the file?
+	-->
+	<xsl:template name="fileInfo">
+		<xsl:value-of select="concat(@name,' (',@size,') ')"/><!-- a space so it reads "N bytes" instead of "Nbytes" -->
+		<xsl:text>{{t 'file_size_'}}</xsl:text>
 	</xsl:template>
 </xsl:stylesheet>

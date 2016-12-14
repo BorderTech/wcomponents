@@ -1,24 +1,8 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.readOnly.xsl"/>
-	<xsl:import href="wc.common.key.label.xsl"/>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.makeLegend.xsl"/>
 	<xsl:import href="wc.common.hField.xsl"/>
-	<!--
-		Checkable selection controls
-
-		Transforms for WRadioButtonSelect and WCheckBoxSelect to generate radio buttons or checkboxes output in lists.
-
-		NOTE: optgroups
-		Due to an unfortunate assumption in the JAVA API it appears that WCheckBoxSelect and WRadioButtonSelect support 
-		optgroup child elements.  However, these make no sense in the context of a group of radio buttons or checkboxen 
-		so we are not going to support them in the default theme. If you use optgroup in this context prepare for this 
-		XSLT to fail. This API issue is an error which will be rectified in a future release.
-
-
-		This template creates the outer containing HTML element for the checkableGroup
-		and where necessary the header element. It then sets up the structures for
-		applying the options dependent upon the read only status and number of columns.
-	-->
+	<!--  WRadioButtonSelect and WCheckBoxSelect -->
 	<xsl:template match="ui:checkboxselect|ui:radiobuttonselect">
 		<xsl:variable name="inputType">
 			<xsl:choose>
@@ -53,7 +37,6 @@
 		<xsl:variable name="id">
 			<xsl:value-of select="@id"/>
 		</xsl:variable>
-
 		<xsl:choose>
 			<xsl:when test="number($hasSingleSelectionRO) eq 1">
 				<xsl:call-template name="readOnlyControl">
@@ -68,7 +51,6 @@
 						<xsl:otherwise>fieldset</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
-				
 				<xsl:variable name="layout" select="@layout"/>
 				<xsl:variable name="cols">
 					<xsl:choose>
@@ -80,16 +62,6 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
-				<!--
-						variable rows
-						
-						The number of options to show in each column. If all options are in a single
-						column we use 0 as a shorthand value so that we do not need to continually
-						calculate the total number of options
-						
-						When read only we are only interested in selected options. Options which are
-						not selected are (currently) not output to the UI.
-					-->
 				<xsl:variable name="rows">
 					<xsl:choose>
 						<xsl:when test="number($cols) eq 1">
@@ -114,7 +86,6 @@
 							</xsl:if>
 						</xsl:with-param>
 					</xsl:call-template>
-
 					<xsl:choose>
 						<xsl:when test="number($readOnly) ne 1">
 							<xsl:if test="@min">
@@ -136,19 +107,11 @@
 							<xsl:call-template name="roComponentName"/>
 						</xsl:otherwise>
 					</xsl:choose>
-
 					<xsl:variable name="firstItemAccessKey">
 						<xsl:if test="$myLabel">
 							<xsl:value-of select="$myLabel/@accessKey"/>
 						</xsl:if>
 					</xsl:variable>
-					<!--
-						Applying templates:
-						Where we have multiple columns we must only apply options which are in
-						particular positions from this template and use those options to apply the
-						rest of the options in that column.
-					-->
-					
 					<xsl:variable name="rowClass">
 						<xsl:text>wc-row wc-hgap-med wc-respond</xsl:text>
 					</xsl:variable>
@@ -237,6 +200,185 @@
 					</xsl:if>
 				</xsl:element>
 			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	<!-- Template to transform the options in a checkable group. -->
+	<xsl:template match="ui:option" mode="checkableGroup">
+		<xsl:param name="firstItemAccessKey"/>
+		<xsl:param name="inputName"/>
+		<xsl:param name="type"/>
+		<xsl:param name="rows" select="0"/>
+		<xsl:param name="readOnly" select="0"/>
+		<xsl:variable name="firstAccessKey">
+			<xsl:if test="position() eq 1">
+				<xsl:value-of select="$firstItemAccessKey"/>
+			</xsl:if>
+		</xsl:variable>
+		<xsl:variable name="layout" select="../@layout"/>
+		<xsl:variable name="elementName">
+			<xsl:choose>
+				<xsl:when test="number($readOnly) eq 1">
+					<xsl:text>ul</xsl:text>
+				</xsl:when>
+				<xsl:when test="$layout eq 'flat'">
+					<xsl:text>span</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>div</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="class">
+			<xsl:text>wc_checkableselect_option_wrapper</xsl:text>
+			<xsl:if test="$elementName eq 'ul'">
+				<xsl:text> wc_list_nb</xsl:text>
+			</xsl:if>
+			<xsl:if test="$layout eq 'column'">
+				<xsl:text> wc-column</xsl:text>
+			</xsl:if>
+			<xsl:if test="not($layout eq 'flat')">
+				<xsl:text> wc-vgap-sm</xsl:text>
+			</xsl:if>
+		</xsl:variable>
+		<xsl:element name="{$elementName}">
+			<xsl:if test="$class ne ''">
+				<xsl:attribute name="class">
+					<xsl:value-of select="normalize-space($class)"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:call-template name="checkableSelectOption">
+				<xsl:with-param name="optionName" select="$inputName"/>
+				<xsl:with-param name="optionType" select="$type"/>
+				<xsl:with-param name="readOnly" select="$readOnly"/>
+				<xsl:with-param name="cgAccessKey" select="$firstAccessKey"/>
+			</xsl:call-template>			
+			<xsl:if test="number($rows) gt 0">
+				<xsl:choose>
+					<xsl:when test="number($readOnly) eq 1">
+						<xsl:apply-templates select="following-sibling::ui:option[@selected][position() lt number($rows)]" mode="checkableGroupInList">
+							<xsl:with-param name="inputName" select="$inputName"/>
+							<xsl:with-param name="type" select="$type"/>
+							<xsl:with-param name="readOnly" select="1"/>
+						</xsl:apply-templates>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:apply-templates select="following-sibling::ui:option[position() lt number($rows)]" mode="checkableGroupInList">
+							<xsl:with-param name="inputName" select="$inputName"/>
+							<xsl:with-param name="type" select="$type"/>
+						</xsl:apply-templates>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:if>
+		</xsl:element>
+	</xsl:template>
+	<!-- Transforms each option which is in a column -->
+	<xsl:template match="ui:option" mode="checkableGroupInList">
+		<xsl:param name="firstItemAccessKey" select="''"/>
+		<xsl:param name="inputName"/>
+		<xsl:param name="type"/>
+		<xsl:param name="readOnly" select="0"/>
+		<xsl:if test="number($readOnly) eq 0 or @selected">
+			<xsl:variable name="localAccessKey">
+				<xsl:if test="position() eq 1 and $firstItemAccessKey ne ''">
+					<xsl:value-of select="$firstItemAccessKey"/>
+				</xsl:if>
+			</xsl:variable>
+			<xsl:call-template name="checkableSelectOption">
+				<xsl:with-param name="optionName" select="$inputName"/>
+				<xsl:with-param name="optionType" select="$type"/>
+				<xsl:with-param name="readOnly" select="$readOnly"/>
+				<xsl:with-param name="cgAccessKey" select="$localAccessKey"/>
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
+	
+	<!-- The content of an option to a list item and the element relevent for the option.
+	-->
+	<xsl:template name="checkableSelectOption">
+		<xsl:param name="optionName"/>
+		<xsl:param name="optionType" select="''"/>
+		<xsl:param name="readOnly" select="0"/>
+		<xsl:param name="cgAccessKey" select="''"/>
+		<xsl:variable name="uid">
+			<xsl:value-of select="concat(../@id,generate-id())"/>
+		</xsl:variable>
+		<xsl:variable name="elementName">
+			<xsl:choose>
+				<xsl:when test="number($readOnly) eq 1">
+					<xsl:text>li</xsl:text>
+				</xsl:when>
+				<xsl:when test="../@layout eq 'flat'">
+					<xsl:text>span</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>div</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:element name="{$elementName}">
+			<xsl:call-template name="makeCommonClass"/>
+			<xsl:choose>
+				<xsl:when test="number($readOnly) eq 1">
+					<xsl:call-template name="checkableSelectOptionLabel"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:element name="input">
+						<xsl:attribute name="type">
+							<xsl:value-of select="$optionType"/>
+						</xsl:attribute>
+						<xsl:attribute name="id">
+							<xsl:value-of select="$uid"/>
+						</xsl:attribute>
+						<xsl:attribute name="name">
+							<xsl:value-of select="$optionName"/>
+						</xsl:attribute>
+						<xsl:attribute name="value">
+							<xsl:value-of select="@value"/>
+						</xsl:attribute>
+						<xsl:if test="../@submitOnChange">
+							<xsl:attribute name="class">
+								<xsl:text>wc_soc</xsl:text>
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:if test="@isNull and $optionType eq 'radio'">
+							<xsl:attribute name="data-wc-null">
+								<xsl:text>1</xsl:text>
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:if test="$cgAccessKey ne ''">
+							<xsl:attribute name="accesskey">
+								<xsl:value-of select="$cgAccessKey"/>
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:if test="@selected">
+							<xsl:attribute name="checked">checked</xsl:attribute>
+						</xsl:if>
+						<xsl:call-template name="disabledElement">
+							<xsl:with-param name="isControl" select="1"/>
+							<xsl:with-param name="field" select="parent::*"/>
+						</xsl:call-template>
+						<xsl:if test="parent::ui:radiobuttonselect">
+							<xsl:call-template name="requiredElement">
+								<xsl:with-param name="field" select="parent::ui:radiobuttonselect"/>
+							</xsl:call-template>
+						</xsl:if>
+					</xsl:element>
+					<label for="{$uid}">
+						<xsl:call-template name="checkableSelectOptionLabel"/>
+					</label>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:element>
+	</xsl:template>
+	<!-- Writes the content of the label for each option in the checkable group. -->
+	<xsl:template name="checkableSelectOptionLabel">
+		<xsl:choose>
+			<xsl:when test="normalize-space(.)">
+				<xsl:value-of select="."/>
+			</xsl:when>
+			<xsl:when test="@value">
+				<xsl:value-of select="@value"/>
+			</xsl:when>
 		</xsl:choose>
 	</xsl:template>
 </xsl:stylesheet>

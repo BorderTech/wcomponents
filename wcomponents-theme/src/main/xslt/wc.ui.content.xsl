@@ -1,11 +1,10 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
 	<!--
-		ui:content is a child node of a number of components in its most basic form it
-		merely passes through. Some components have their own content implementation:
+		ui:content is a child node of a number of components in its most basic form it merely passes through. Some components have their own content 
+		implementation:
 
-		Generic template for unmoded content elements. Pass content through without any
-		form of wrapper.
+		Generic template for unmoded content elements. Pass content through without any form of wrapper.
 	-->
 	<xsl:template match="ui:content">
 		<xsl:param name="class" select="''"/>
@@ -33,8 +32,7 @@
 			<xsl:apply-templates/>
 		</div>
 	</xsl:template>
-	
-	
+
 	<xsl:template match="ui:content" mode="passthru">
 		<xsl:apply-templates/>
 	</xsl:template>

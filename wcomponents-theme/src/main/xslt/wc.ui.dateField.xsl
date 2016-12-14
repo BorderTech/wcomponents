@@ -154,7 +154,6 @@
 					</xsl:element>
 					<xsl:if test="@allowPartial">
 						<!-- This is the date picker launch control element.
-
 						Calendar needs an ID so that if the date input itself is the target of an AJAX
 						"replace" the calendar icon will get cleaned up by our duplicate ID prevention
 						logic (assumes the new date field has the same ID which in WComponents is always the case).

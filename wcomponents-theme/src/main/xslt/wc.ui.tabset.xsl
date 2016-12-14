@@ -3,9 +3,7 @@
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
 	<!--
-		This template builds the basic tabset. The tabset is a wrapper container. It
-		has a list of tabs and content. The order of these is dependent upon the tabset
-		type.
+		This template builds the basic tabset. The tabset is a wrapper container. It has a list of tabs and content.
 	-->
 	<xsl:template match="ui:tabset">
 		<div id="{@id}">
@@ -13,7 +11,6 @@
 			<xsl:call-template name="disabledElement"/>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:call-template name="ajaxTarget"/>
-
 			<div role="tablist">
 				<xsl:if test="@type eq 'accordion'">
 					<xsl:attribute name="aria-multiselectable">
@@ -35,4 +32,9 @@
 			</xsl:if>
 		</div>
 	</xsl:template>
+
+	<!--
+		Tabs should not be grouped in the UI. There is no facility for subgroupings of elements with a role of tab in WAI-ARIA.
+	-->	
+	<xsl:template match="ui:tabgroup"/>
 </xsl:stylesheet>

@@ -2,8 +2,8 @@
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<!--
-		Sample tinyMCE configuration 
+		Placeholder template.
 		**** NOTE: your config MUST start with a comma. ****
 	-->
-	<xsl:template name="tinyMCEConfig"></xsl:template>
+	<xsl:template name="tinyMCEConfig"/>
 </xsl:stylesheet>

@@ -20,7 +20,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		
 		<xsl:variable name="hasRowSelection">
 			<xsl:choose>
 				<xsl:when test="ui:rowselection[@selectAll] and ..//ui:tr[not(@unselectable) and ancestor::ui:table[1]/@id eq $id]">
@@ -31,7 +30,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		
 		<xsl:variable name="hasPagination">
 			<xsl:choose>
 				<xsl:when test="not(ui:pagination) or not(ui:pagination/@controls) or ui:pagination/@controls eq 'bottom'">
@@ -45,7 +43,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
 		<xsl:if test="$hasExpandAll + $hasRowSelection + $hasPagination gt 0">
 			<div class="wc_table_top_controls">
 				<xsl:if test="number($hasRowSelection) eq 1">

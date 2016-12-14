@@ -3,64 +3,52 @@
 	<!--
 		Helper template for "registrationScripts" to wire up AMD/require.js requires.
 
-		This template is never called directly except by the template "registrationScripts" and is split out for ease of
-		override and maintenance.
+		This template is never called directly except by the template "registrationScripts" and is split out for ease of override and maintenance.
 
-		You probably want to override this template to remove modules which you have included in your wc.common.js
-		because the descendant XPath queries are heavy/ If you simply want to add new stuff then use the helper template
-		"localRequiredLibraries" to add your requires.
+		You probably want to override this template to remove modules which you have included in your wc.common.js because the descendant XPath
+		queries are heavy. If you simply want to add new stuff then use the helper template "localRequiredLibraries" to add your requires.
 
-		One optimization you could consider is to remove all tests which include
-		a library which is in your wc.common.js.
+		One optimization you could consider is to remove all tests which include a library which is in your wc.common.js.
 	-->
 	<xsl:template name="requiredLibraries">
 		<xsl:variable name="libs">
 			<!--
-				These are very expensive lookups, especially in poorly optimized processors such as the default
-				processor used by IE. For this reason the first group are lookups which for most sensible purposes would
-				be included in wc.common.js for all screens.
+				These are very expensive lookups, especially in poorly optimized processors such as the default processor used by IE. For this reason
+				the first group are lookups which for most sensible purposes would be included in wc.common.js for all screens.
 			-->
 			<xsl:if test=".//ui:datefield">
 				<!--
-					calendar uses dateField, dateField does not use calendar, I might fix that one day. The calendar 
-					polyfill uses number field.
+					calendar uses dateField, dateField does not use calendar, I might fix that one day. The calendar polyfill uses number field.
 				-->
 				<xsl:text>"wc/ui/numberField","wc/ui/calendar",</xsl:text>
 			</xsl:if>
-			
 			<xsl:if test=".//ui:dropdown[not(@readOnly)]">
 				<xsl:text>"wc/ui/dropdown","wc/ui/selectboxSearch",</xsl:text>
 			</xsl:if>
-			
 			<!-- In this test I have tested for ui:skiplinks before ui:link even thoug ui:link is more common because of
 				the extra processing of the predicate. It is probably a negligible overhead. -->
 			<xsl:if test=".//ui:error or .//ui:skiplinks or .//ui:link[substring(@url, 1, 1) eq '#']">
 				<xsl:text>"wc/ui/internalLink",</xsl:text>
 			</xsl:if>
-			
 			<xsl:if test=".//ui:fieldlayout">
 				<xsl:text>"wc/ui/field",</xsl:text>
 			</xsl:if>
-			
-			<!-- If you have any sense then these are in your wc.common.js. Labels are ubiquitous. This is why we test 
-				ui:label before ui:fieldset simple because it is more likly to get one early in source order.
+			<!-- 
+				If you have any sense then these are in your wc.common.js. Labels are ubiquitous. This is why we test ui:label before ui:fieldset
+				simply because it is more likely to get one early in source order.
 			-->
 			<xsl:if test=".//ui:label or .//ui:fieldset">
 				<xsl:text>"wc/ui/label",</xsl:text>
 			</xsl:if>
-			
 			<xsl:if test=".//ui:numberfield[not(@readOnly)]">
 				<xsl:text>"wc/ui/numberField",</xsl:text>
 			</xsl:if>
-			
 			<xsl:if test=".//ui:textarea[not(@readOnly)]">
 				<xsl:text>"wc/ui/textArea",</xsl:text>
 			</xsl:if>
-			
 			<xsl:if test=".//ui:togglebutton[not(@readOnly)]">
 				<xsl:text>"wc/ui/checkboxAnalog",</xsl:text>
 			</xsl:if>
-			
 			<!-- 
 				These are in order of 'likelihood'. We use or rather than | as most decent processors will stop after the 
 				first successful nodeset is found. You REALLY want wc/ui/textField in your wc.common.js though.
@@ -68,21 +56,16 @@
 			<xsl:if test=".//ui:textfield[not(@readOnly)] or .//ui:numberfield[not(@readOnly)] or .//ui:emailfield[not(@readOnly)] or .//ui:passwordfield[not(@readOnly)] or .//ui:phonenumberfield[not(@readOnly)]">
 				<xsl:text>"wc/ui/textField",</xsl:text>
 			</xsl:if>
-			
 			<xsl:if test=".//@accessKey">
 				<xsl:text>"wc/ui/tooltip",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//@buttonId">
 				<xsl:text>"wc/ui/defaultSubmit",</xsl:text>
 			</xsl:if>
-
 			<!--
-				The following are in alphabetical order of local-name of the
-				first element in the test, then in alphabetical order of
-				attribute. Just because we think they are less common does not
-				mean they should not be in wc.common.js.
+				The following are in alphabetical order of local-name of the first element in the test, then in alphabetical order of attribute. Just
+				because we think they are less common does not mean they should not be in wc.common.js.
 			-->
-
 			<xsl:if test=".//ui:audio or .//ui:video">
 				<xsl:text>"wc/ui/mediaplayer",</xsl:text>
 			</xsl:if>
