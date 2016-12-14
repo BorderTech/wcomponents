@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Objects;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,14 +32,14 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	private static final Log LOG = LogFactory.getLog(WBeanComponent.class);
 
 	/**
-	 * The key used to cache the bean in the scratch map.
+	 * The key used to cache the bean id in the scratch map.
 	 */
-	private static final String SCRATCHMAP_BEAN_KEY = "WBeanComponent.bean";
+	private static final String SCRATCHMAP_BEAN_ID_KEY = "WBeanComponent.request.bean.id";
 
 	/**
-	 * The key used to cache the bean value in the scratch map.
+	 * The key used to cache the bean object in the scratch map.
 	 */
-	private static final String SCRATCHMAP_BEAN_VALUE_KEY = "WBeanComponent.beanValue";
+	private static final String SCRATCHMAP_BEAN_OBJECT_KEY = "WBeanComponent.request.bean.obj";
 
 	/**
 	 * <p>
@@ -54,55 +55,58 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	 */
 	@Override
 	public Object getBean() {
+
+		// Check if bean is on the user model
 		BeanAndProviderBoundComponentModel model = getComponentModel();
 		Object bean = model.getBean();
+		if (bean != null) {
+			return bean;
+		}
 
-		if (bean == null) {
-			Map scratchMap = getScratchMap();
+		// Check if using a bean provider
+		BeanProvider beanProvider = getBeanProvider();
+		if (beanProvider != null) {
+			Object beanId = getBeanId();
 
-			if (scratchMap != null && scratchMap.containsKey(SCRATCHMAP_BEAN_KEY)) {
-				return scratchMap.get(SCRATCHMAP_BEAN_KEY);
+			// Check if bean is in the scratch map
+			if (isBeanInScratchMap(beanId)) {
+				return getBeanFromScratchMap();
 			}
 
-			BeanProvider beanProvider = model.getBeanProvider();
+			// Get the bean from the provider
+			bean = beanProvider.getBean(this);
 
-			if (beanProvider == null) {
-				// Check if search ancestors for bean
-				if (!isSearchAncestors()) {
-					return null;
+			// Cache the value as it may have been the result of an expensive operation.
+			addBeanToScratchMap(beanId, bean);
+
+			return bean;
+		}
+
+		// Check if search ancestors for bean
+		if (!isSearchAncestors()) {
+			return null;
+		}
+
+		// Search for a bean in a bean aware parent.
+		// We explicitly do not cache the bean, as we can't tell if the parent's
+		// value changes. In any case, it will have been cached by the parent.
+		BeanAware parent = WebUtilities.getAncestorOfClass(BeanAware.class, this);
+		if (parent != null) {
+			String parentBeanProperty = parent.getBeanProperty();
+			// Correct
+			if (ConfigurationProperties.getCorrectBeanLogic()) {
+				if (parentBeanProperty == null || ".".equals(parentBeanProperty)) {
+					bean = parent.getBean();
+				} else {
+					bean = parent.getBeanValue();
 				}
-
-				// Search for a bean in a bean aware parent.
-				// We explicitly do not cache the bean, as we can't tell if the parent's
-				// value changes. In any case, it will have been cached by the parent.
-				BeanAware parent = WebUtilities.getAncestorOfClass(BeanAware.class, this);
-
-				if (parent != null) {
-					String parentBeanProperty = parent.getBeanProperty();
-					// Correct
-					if (ConfigurationProperties.getCorrectBeanLogic()) {
-						if (parentBeanProperty == null || ".".equals(parentBeanProperty)) {
-							bean = parent.getBean();
-						} else {
-							bean = parent.getBeanValue();
-						}
-					} else { // Legacy
-						if (parentBeanProperty != null && !".".equals(parentBeanProperty) && parentBeanProperty.
-								contains(".")) {
-							LOG.warn("Possible bean property logic error with bean property ["
-									+ parentBeanProperty + "]. Check runtime parameter " + ConfigurationProperties.getCorrectBeanLogic() + ".");
-						}
-						bean = parent.getBean();
-					}
+			} else { // Legacy
+				if (parentBeanProperty != null && !".".equals(parentBeanProperty) && parentBeanProperty.
+						contains(".")) {
+					LOG.warn("Possible bean property logic error with bean property ["
+							+ parentBeanProperty + "]. Check runtime parameter " + ConfigurationProperties.getCorrectBeanLogic() + ".");
 				}
-			} else {
-				// Get the bean from the provider
-				bean = beanProvider.getBean(this);
-
-				// Cache the value as it may have been the result of an expensive operation.
-				if (scratchMap != null) {
-					scratchMap.put(SCRATCHMAP_BEAN_KEY, bean);
-				}
+				bean = parent.getBean();
 			}
 		}
 
@@ -123,14 +127,8 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 		if (getBeanProperty() == null) {
 			setBeanProperty(".");
 		}
-
-		// Remove cached value
-		Map scratchMap = getScratchMap();
-
-		if (scratchMap != null) {
-			scratchMap.remove(SCRATCHMAP_BEAN_KEY);
-			scratchMap.remove(SCRATCHMAP_BEAN_VALUE_KEY);
-		}
+		// Remove values in scratch map
+		removeBeanFromScratchMap();
 	}
 
 	/**
@@ -147,14 +145,8 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	public void setBeanId(final Object beanId) {
 		BeanAndProviderBoundComponentModel model = getOrCreateComponentModel();
 		model.setBeanId(beanId);
-
-		// Remove cached value
-		Map scratchMap = getScratchMap();
-
-		if (scratchMap != null) {
-			scratchMap.remove(SCRATCHMAP_BEAN_KEY);
-			scratchMap.remove(SCRATCHMAP_BEAN_VALUE_KEY);
-		}
+		// Remove values in scratch map
+		removeBeanFromScratchMap();
 	}
 
 	/**
@@ -225,6 +217,16 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 		if (beanProperty == null) {
 			setBeanProperty(".");
 		}
+
+		// Remove values in scratch map
+		removeBeanFromScratchMap();
+	}
+
+	/**
+	 * @return the associated bean provider, or null
+	 */
+	public BeanProvider getBeanProvider() {
+		return getComponentModel().getBeanProvider();
 	}
 
 	/**
@@ -259,20 +261,36 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	}
 
 	/**
+	 * Sets the data that this component displays/edits. For bean aware components, this should only be called from
+	 * handleRequest to set user-entered data.
+	 *
+	 * @param data the data to set
+	 */
+	@Override
+	public void setData(final Object data) {
+		UIContext uic = UIContextHolder.getCurrent();
+
+		if (uic == null) {
+			getComponentModel().setData(data);
+		} else {
+			Object sharedValue = ((BeanAndProviderBoundComponentModel) getDefaultModel()).getData();
+
+			if (getBeanProperty() != null) {
+				sharedValue = getBeanValue();
+			}
+
+			getOrCreateComponentModel().setData(data);
+			setFlag(ComponentModel.USER_DATA_SET, !Util.equals(data, sharedValue));
+		}
+	}
+
+	/**
 	 * Retrieves the bean value. The value is (temporarily) cached in the scratch map to speed up subsequent accesses.
 	 *
 	 * @return the bean value, or null if no bean value is available
 	 */
 	@Override
 	public Object getBeanValue() {
-		Map map = getScratchMap();
-
-		// We have to explicitly check for the presence of a
-		// key rather than a non-null value, as a null value is permitted
-		if (map != null && map.containsKey(SCRATCHMAP_BEAN_VALUE_KEY)) {
-			return map.get(SCRATCHMAP_BEAN_VALUE_KEY);
-		}
-
 		Object bean = getBean();
 		Object beanValue = null;
 
@@ -287,13 +305,6 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 				} catch (Exception e) {
 					LOG.error("Failed to read bean property " + beanProperty + " from " + bean, e);
 				}
-			}
-
-			// Only cache the value if the bean is cached.
-			// This avoids caching bean values that are obtained from a parent
-			// WComponent (where we have no way of knowing when the value changes).
-			if (map != null && map.containsKey(SCRATCHMAP_BEAN_KEY)) {
-				map.put(SCRATCHMAP_BEAN_VALUE_KEY, beanValue);
 			}
 		}
 
@@ -331,37 +342,79 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	}
 
 	/**
-	 * Sets the data that this component displays/edits. For bean aware components, this should only be called from
-	 * handleRequest to set user-entered data.
-	 *
-	 * @param data the data to set
+	 * @return true if use request scope scratch map to hold bean provider results
 	 */
-	@Override
-	public void setData(final Object data) {
-		UIContext uic = UIContextHolder.getCurrent();
+	protected boolean isUseRequestScopeScratchMap() {
+		return ConfigurationProperties.getBeanProviderRequestScopeEnabled();
 
-		if (uic == null) {
-			getComponentModel().setData(data);
-		} else {
-			Object sharedValue = ((BeanAndProviderBoundComponentModel) getDefaultModel()).getData();
+	}
 
-			if (getBeanProperty() != null) {
-				sharedValue = getBeanValue();
-			}
+	/**
+	 * Remove the bean from the scratch maps.
+	 */
+	protected void removeBeanFromScratchMap() {
+		Map<Object, Object> scratchMap = getBeanScratchMap();
+		if (scratchMap == null) {
+			return;
+		}
+		scratchMap.remove(SCRATCHMAP_BEAN_ID_KEY);
+		scratchMap.remove(SCRATCHMAP_BEAN_OBJECT_KEY);
+	}
 
-			getOrCreateComponentModel().setData(data);
-			setFlag(ComponentModel.USER_DATA_SET, !Util.equals(data, sharedValue));
+	/**
+	 * @param beanId check if this bean id is in the scratch map
+	 * @return true if current bean is in the scratch map
+	 */
+	protected boolean isBeanInScratchMap(final Object beanId) {
+		Map<Object, Object> scratchMap = getBeanScratchMap();
+		if (scratchMap == null) {
+			return false;
+		}
+		if (scratchMap.containsKey(SCRATCHMAP_BEAN_OBJECT_KEY) && scratchMap.containsKey(SCRATCHMAP_BEAN_ID_KEY)) {
+			Object scratchId = scratchMap.get(SCRATCHMAP_BEAN_ID_KEY);
+			return Objects.equals(scratchId, beanId);
+		}
+		return false;
+	}
+
+	/**
+	 * @return the bean from the scratch map
+	 */
+	protected Object getBeanFromScratchMap() {
+		Map<Object, Object> scratchMap = getBeanScratchMap();
+		if (scratchMap == null) {
+			return null;
+		}
+		Object bean = scratchMap.get(SCRATCHMAP_BEAN_OBJECT_KEY);
+		return bean;
+	}
+
+	/**
+	 *
+	 * @param beanId the bean id to put in the scratch map
+	 * @param bean the bean to put in the scratch map
+	 */
+	protected void addBeanToScratchMap(final Object beanId, final Object bean) {
+		Map<Object, Object> scratchMap = getBeanScratchMap();
+		if (scratchMap != null) {
+			scratchMap.put(SCRATCHMAP_BEAN_ID_KEY, beanId);
+			scratchMap.put(SCRATCHMAP_BEAN_OBJECT_KEY, bean);
 		}
 	}
 
 	/**
-	 * Creates a new model appropriate for this component.
-	 *
-	 * @return a new {@link BeanAndProviderBoundComponentModel}.
+	 * @return the scratch map with the correct scope.
 	 */
-	@Override
-	protected BeanAndProviderBoundComponentModel newComponentModel() {
-		return new BeanAndProviderBoundComponentModel();
+	protected Map<Object, Object> getBeanScratchMap() {
+		UIContext uic = UIContextHolder.getCurrent();
+		if (uic == null) {
+			return null;
+		}
+		if (isUseRequestScopeScratchMap()) {
+			return uic.getRequestScratchMap(this);
+		} else {
+			return uic.getScratchMap(this);
+		}
 	}
 
 	/**
@@ -386,7 +439,17 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	 * Resets the data back to the default value, which may either be from a bean or the shared model.
 	 */
 	public void resetData() {
-		getComponentModel().resetData();
+		getOrCreateComponentModel().resetData();
+	}
+
+	/**
+	 * Creates a new model appropriate for this component.
+	 *
+	 * @return a new {@link BeanAndProviderBoundComponentModel}.
+	 */
+	@Override
+	protected BeanAndProviderBoundComponentModel newComponentModel() {
+		return new BeanAndProviderBoundComponentModel();
 	}
 
 	/**
@@ -404,4 +467,5 @@ public class WBeanComponent extends AbstractWComponent implements DataBound, Bea
 	protected BeanAndProviderBoundComponentModel getOrCreateComponentModel() {
 		return (BeanAndProviderBoundComponentModel) super.getOrCreateComponentModel();
 	}
+
 }

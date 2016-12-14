@@ -668,6 +668,38 @@ public class UIContextImpl_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
+	public void testRequestScratchMapAccessors() {
+		UIContext uic = createUIContext();
+		WComponent component = new DefaultWComponent();
+
+		Assert.assertNotNull("Scratch Map should not be null", uic.getRequestScratchMap(component));
+		Assert.assertTrue("Scratch Map should be empty", uic.getRequestScratchMap(component).isEmpty());
+
+		// Add item to scratch map
+		String key = "key";
+		String value = "value";
+		uic.getRequestScratchMap(component).put(key, value);
+
+		Assert.assertEquals("Incorrect number of scratch map entries", 1, uic.getRequestScratchMap(
+				component).size());
+		Assert.assertTrue("The test key is not in the scratch map", uic.getRequestScratchMap(component).
+				containsKey(key));
+
+		// Clear Scratch Map
+		uic.clearRequestScratchMap(component);
+		Assert.assertTrue("Scratch map should be empty after being cleared", uic.getRequestScratchMap(
+				component).isEmpty());
+
+		// Add item to scratch map
+		uic.getRequestScratchMap(component).put(key, value);
+
+		// Clear ALL Scratch Maps
+		uic.clearRequestScratchMap();
+		Assert.assertTrue("Scratch map should be empty after all scratch maps cleared", uic.
+				getRequestScratchMap(component).isEmpty());
+	}
+
+	@Test
 	public void testCreationTime() {
 		UIContext uic = createUIContext();
 		Assert.assertTrue("Creation time not set correctly", uic.getCreationTime() > 0);
