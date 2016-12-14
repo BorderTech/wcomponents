@@ -21,6 +21,7 @@
 
 ## Enhancements
 
+* Output component name hint for Inputs in a read-only state to improve Selenium testing #1029.
 * Improve performance by not calling unnecessary preparePaint in DataListInterceptor #975.
 * Improve performance and type-safety of XSLT.
 * `WBeanComponent` has been changed that when a `BeanProvider` is being used it can now use the new request scope
