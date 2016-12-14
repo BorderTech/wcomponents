@@ -284,6 +284,30 @@ public class UIContextDelegate implements UIContext {
 	}
 
 	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Map<Object, Object> getRequestScratchMap(final WComponent component) {
+		return backing.getRequestScratchMap(component);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void clearRequestScratchMap(final WComponent component) {
+		backing.clearRequestScratchMap(component);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void clearRequestScratchMap() {
+		backing.clearRequestScratchMap();
+	}
+
+	/**
 	 * A utility function to iterate to the primary (top most) context and return it.
 	 *
 	 * @param uic the UIContext to retrieve the primary context for.

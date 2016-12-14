@@ -115,7 +115,10 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 	 * @param node the component branch to clear cached data in.
 	 */
 	protected void clearScratchMaps(final WComponent node) {
-		UIContextHolder.getCurrent().clearScratchMap(node);
+		UIContext uic = UIContextHolder.getCurrent();
+
+		uic.clearRequestScratchMap(node);
+		uic.clearScratchMap(node);
 
 		if (node instanceof WRepeater) {
 			WRepeater repeater = (WRepeater) node;
@@ -133,7 +136,8 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 			}
 
 			// Make sure the repeater's scratch map has not been repopulated by processing its children
-			UIContextHolder.getCurrent().clearScratchMap(node);
+			uic.clearRequestScratchMap(node);
+			uic.clearScratchMap(node);
 		} else if (node instanceof Container) {
 			Container container = (Container) node;
 
@@ -1212,7 +1216,7 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		}
 
 		/**
-		 * Retrieves the scratch map for the given component.
+		 * Retrieves the scratch map with phase scope for the given component.
 		 *
 		 * The scratch map is stored under one further level of indirection; by this sub-ui context. This allows each
 		 * row to have its own scratch map.
@@ -1238,7 +1242,7 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		}
 
 		/**
-		 * Clears the scratch map for the given component.
+		 * Clears the scratch map with phase scope for the given component.
 		 *
 		 * @param component the component to clear the scratch map for.
 		 */
@@ -1257,6 +1261,55 @@ public class WRepeater extends WBeanComponent implements Container, AjaxTarget, 
 		 */
 		@Override
 		public void clearScratchMap() {
+			// Don't do anything - the real UI Context will clear it out
+		}
+
+		/**
+		 * Retrieves the scratch map with request scope for the given component.
+		 *
+		 * The scratch map is stored under one further level of indirection; by this sub-ui context. This allows each
+		 * row to have its own scratch map.
+		 *
+		 * @param component the component to retrieve the scratch map for.
+		 * @return the scratch map for the given component.
+		 */
+		@Override
+		public Map getRequestScratchMap(final WComponent component) {
+			if (isInContext(component)) {
+				Map sharedScratchMap = getParentContext().getRequestScratchMap(component);
+				Map map = (Map) sharedScratchMap.get(this);
+
+				if (map == null) {
+					map = new HashMap();
+					sharedScratchMap.put(this, map);
+				}
+
+				return map;
+			} else {
+				return getParentContext().getRequestScratchMap(component);
+			}
+		}
+
+		/**
+		 * Clears the scratch map for the given component.
+		 *
+		 * @param component the component to clear the scratch map for.
+		 */
+		@Override
+		public void clearRequestScratchMap(final WComponent component) {
+			if (isInContext(component)) {
+				Map sharedScratchMap = getParentContext().getRequestScratchMap(component);
+				sharedScratchMap.remove(this);
+			} else {
+				getParentContext().clearRequestScratchMap(component);
+			}
+		}
+
+		/**
+		 * Doesn't do anything - the real UI Context will clear the scratch map.
+		 */
+		@Override
+		public void clearRequestScratchMap() {
 			// Don't do anything - the real UI Context will clear it out
 		}
 
