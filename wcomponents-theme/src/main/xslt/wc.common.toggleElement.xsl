@@ -62,7 +62,7 @@
 			<xsl:attribute name="aria-checked">
 				<xsl:choose>
 					<xsl:when test="number($selected) eq 1">
-						<xsl:copy-of select="$t"/>
+						<xsl:text>true</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:text>false</xsl:text>

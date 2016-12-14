@@ -1,5 +1,4 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:include href="wc.constants.xsl"/>
 	<!--
 		Transform for emulator for an optgroup in readOnly mode. This is a list item
 		which is classed to be styled similar to a HTML optgroup element in a select.

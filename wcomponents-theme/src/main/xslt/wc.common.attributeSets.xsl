@@ -2,15 +2,12 @@
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.ajax.xsl" />
-	<xsl:import href="wc.constants.xsl" />
 	<xsl:import href="wc.common.disabledElement.xsl" />
 	<xsl:import href="wc.common.hide.xsl" />
-	<xsl:import href="wc.common.hField.xsl" />
 	<xsl:import href="wc.common.required.xsl" />
 	<xsl:import href="wc.common.title.xsl" />
 	<xsl:import href="wc.common.aria.label.xsl" />
 	<xsl:import href="wc.common.n.className.xsl" />
-	<xsl:import href="wc.common.makeLegend.xsl"/>
 
 	<!--
 		TODO: these need a good clean up.
@@ -154,7 +151,7 @@
 		<xsl:call-template name="ajaxTarget">
 			<xsl:with-param name="live" select="$live" />
 		</xsl:call-template>
-		<xsl:if test="not($readOnly eq $t or number($isWrapper) eq 1)">
+		<xsl:if test="not($readOnly eq 'true' or number($isWrapper) eq 1)">
 			<xsl:call-template name="disabledElement">
 				<xsl:with-param name="isControl" select="$isControl" />
 			</xsl:call-template>

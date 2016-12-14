@@ -4,7 +4,6 @@
 	<xsl:import href="wc.ui.menu.n.hasStickyOpen.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuRoleIsSelectable.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuTabIndexHelper.xsl"/>
-	<xsl:import href="wc.common.hField.xsl"/>
 	<!--
 		Transform for WMenu. Makes bar, tree and column menus.
 

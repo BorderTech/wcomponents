@@ -1,6 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.aria.live.xsl"/>
-	<xsl:import href="wc.constants.xsl"/>
 <!--
 	Ajax Helpers
 	
@@ -13,7 +12,13 @@
 	it can be marked up with appropriate WAI-ARIA properties.
 -->
 	<xsl:key name="triggerKey" match="//ui:ajaxtrigger" use="@triggerId"/>
-	
+
+	<!--
+		Key to find all ajax targets to determine if a control is an ajaxTarget so
+		that it can be marked up with appropriate WAI-ARIA properties.
+	-->
+	<xsl:key name="targetKey" match="//ui:ajaxtargetid" use="@targetId"/>
+
 <!--
 	Creates an aria-controls attribute for any element which is an AJAX trigger.
 	(see wc.ui.ajaxTrigger.xsl).

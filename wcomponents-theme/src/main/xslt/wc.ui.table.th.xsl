@@ -1,8 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.ui.table.n.tableAjaxController.xsl"/>
-	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl" />
 
 	<!-- 
@@ -38,7 +36,7 @@
 					
 					<xsl:if test="number($isSorted) eq 1">
 						<xsl:attribute name="sorted">
-							<xsl:if test="$sortDesc eq $t">
+							<xsl:if test="$sortDesc eq 'true'">
 								<xsl:text>reversed </xsl:text>
 							</xsl:if>
 							<xsl:text>1</xsl:text>
@@ -50,7 +48,7 @@
 							<xsl:when test="number($isSorted) eq 0">
 								<xsl:text>none</xsl:text>
 							</xsl:when>
-							<xsl:when test="$sortDesc eq $t">
+							<xsl:when test="$sortDesc eq 'true'">
 								<xsl:text>descending</xsl:text>
 							</xsl:when>
 							<xsl:otherwise>
@@ -60,7 +58,7 @@
 					</xsl:attribute>
 					<xsl:if test="../../@disabled"><!-- WDataTable only: to be removed. -->
 						<xsl:attribute name="aria-disabled">
-							<xsl:value-of select="$t"/>
+							<xsl:text>true</xsl:text>
 						</xsl:attribute>
 					</xsl:if>
 				</xsl:if>

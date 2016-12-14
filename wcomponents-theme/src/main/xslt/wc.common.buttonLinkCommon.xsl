@@ -2,7 +2,6 @@
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributeSets.xsl"/>
-	<xsl:import href="wc.common.n.className.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
 	<xsl:import href="wc.common.buttonLink.drawButtonImage.xsl"/>
 	
@@ -51,7 +50,7 @@
 		
 		<xsl:if test="@popup or parent::ui:dialog or number($linkHasPopup) eq 1">
 			<xsl:attribute name="aria-haspopup">
-				<xsl:copy-of select="$t"/>
+				<xsl:text>true</xsl:text>
 			</xsl:attribute>
 
 			<xsl:if test="number($linkHasPopup) eq 1">

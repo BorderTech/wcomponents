@@ -2,8 +2,6 @@
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributeSets.xsl"/>
-	<xsl:import href="wc.common.aria.live.xsl"/>
-	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		Transform for WFigure. Direct map to Figure element. The WDecoratedLabel child maps to Figcaption element.
 	-->

@@ -1,7 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributeSets.xsl" />
-	<xsl:import href="wc.constants.xsl" />
 	<!--
 		ui:dropdown (@type="combo")
 		Transform for WDropdown.COMBO which is a combo-box. See wc.ui.dropdown.xsl.
@@ -66,7 +65,7 @@
 			<span id="{$listId}" role="listbox" aria-controls="{$id}">
 				<xsl:if test="not(*)">
 					<xsl:attribute name="aria-busy">
-						<xsl:copy-of select="$t"/>
+						<xsl:text>true</xsl:text>
 					</xsl:attribute>
 				</xsl:if>
 				<xsl:apply-templates mode="comboDataList" />

@@ -1,6 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.constants.xsl"/>
 	<!--
 		Common helper template for marking interactive controls as required if
 		its required attribute is set 'true'. This template must never be
@@ -25,7 +24,7 @@
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:attribute name="aria-required">
-						<xsl:copy-of select="$t"/>
+						<xsl:text>true</xsl:text>
 					</xsl:attribute>
 				</xsl:otherwise>
 			</xsl:choose>

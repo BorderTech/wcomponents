@@ -21,7 +21,7 @@
 				<xsl:call-template name="togglebuttonlabeltext"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<button type="button" data-wc-name="{$id}" data-wc-value="{$t}" role="checkbox">
+				<button type="button" data-wc-name="{$id}" data-wc-value="true" role="checkbox">
 					<xsl:call-template name="commonControlAttributes">
 						<xsl:with-param name="class" select="'wc-nobutton wc-invite'"/>
 					</xsl:call-template>
@@ -30,7 +30,7 @@
 						here without changing the called template.
 					-->
 					<xsl:attribute name="value">
-						<xsl:copy-of select="$t"/>
+						<xsl:text>true</xsl:text>
 					</xsl:attribute>
 					<xsl:attribute name="aria-checked">
 						<xsl:choose>

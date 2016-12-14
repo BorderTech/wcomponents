@@ -224,7 +224,7 @@
 					<xsl:attribute name="aria-checked">
 						<xsl:choose>
 							<xsl:when test="$selected eq 'all'">
-								<xsl:copy-of select="$t"/>
+								<xsl:text>true</xsl:text>
 							</xsl:when>
 							<xsl:when test="$selected eq 'some'">
 								<xsl:text>mixed</xsl:text>

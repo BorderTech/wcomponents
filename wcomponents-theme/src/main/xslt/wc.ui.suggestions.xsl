@@ -1,8 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	
-	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.fauxOption.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
+
 	<xsl:template match="ui:suggestions">
 		<xsl:if test="parent::ui:ajaxtarget">
 			<xsl:call-template name="suggestions"/>
@@ -44,7 +43,7 @@
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:attribute name="aria-busy">
-							<xsl:copy-of select="$t"/>
+							<xsl:text>true</xsl:text>
 						</xsl:attribute>
 					</xsl:otherwise>
 				</xsl:choose>

@@ -4,7 +4,6 @@
 	<xsl:import href="wc.ui.menu.n.menuRoleIsSelectable.xsl"/>
 	<xsl:import href="wc.ui.menu.n.menuTabIndexHelper.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
-	<xsl:import href="wc.common.title.xsl"/>
 	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<!--
 		WMenuItem forms part of a single compound widget with the WMenu at its root.
@@ -67,7 +66,7 @@
 							<xsl:value-of select="@targetWindow"/>
 						</xsl:attribute>
 						<xsl:attribute name="aria-haspopup">
-							<xsl:copy-of select="$t"/>
+							<xsl:text>true</xsl:text>
 						</xsl:attribute>
 					</xsl:if>
 				</xsl:when>
@@ -137,7 +136,7 @@
 						<xsl:attribute name="aria-checked">
 							<xsl:choose>
 								<xsl:when test="@selected">
-									<xsl:copy-of select="$t"/>
+									<xsl:text>true</xsl:text>
 								</xsl:when>
 								<xsl:otherwise>
 									<xsl:text>false</xsl:text>

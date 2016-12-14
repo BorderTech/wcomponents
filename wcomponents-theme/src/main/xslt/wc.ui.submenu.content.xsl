@@ -1,5 +1,4 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.constants.xsl"/>
 	<!--
 		This is the transform of the content of a submenu. The template creates a
 		wrapper element and sets up several attributes which control its behaviour,
@@ -43,7 +42,7 @@
 			<xsl:attribute name="aria-expanded">
 				<xsl:choose>
 					<xsl:when test="number($open) eq 1">
-						<xsl:copy-of select="$t"/>
+						<xsl:text>true</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:text>false</xsl:text>
@@ -57,7 +56,7 @@
 					must have at least one descendant role menuitem[(?:radio)|(?:checkbox)]? _or_ be aria-busy.
 				-->
 				<xsl:attribute name="aria-busy">
-					<xsl:copy-of select="$t"/>
+					<xsl:text>true</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
 			<button id="{generate-id()}" class="wc-menuitem wc_closesubmenu wc-nobutton wc-icon wc-invite" role="menuitem" type="button">

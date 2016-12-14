@@ -1,9 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.accessKey.xsl"/>
-	<xsl:import href="wc.common.ajax.xsl"/>
-	<xsl:import href="wc.common.disabledElement.xsl"/>
 	<xsl:import href="wc.common.title.xsl"/>
-	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		Tranform for WTab. Outputs the tab opener (the tab bit of the tab). If the type is accordion also outputs the 
@@ -49,7 +46,7 @@
 			<xsl:attribute name="{$expandSelectAttrib}">
 				<xsl:choose>
 					<xsl:when test="@open">
-						<xsl:copy-of select="$t"/>
+						<xsl:text>true</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:text>false</xsl:text>

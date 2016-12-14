@@ -118,7 +118,7 @@
 					<xsl:attribute name="aria-expanded">
 						<xsl:choose>
 							<xsl:when test="ui:subtr/@open">
-								<xsl:copy-of select="$t"/>
+								<xsl:text>true</xsl:text>
 							</xsl:when>
 							<xsl:otherwise>
 								<xsl:text>false</xsl:text>
@@ -183,7 +183,7 @@
 				<xsl:attribute name="aria-selected">
 					<xsl:choose>
 						<xsl:when test="@selected">
-							<xsl:copy-of select="$t"/>
+							<xsl:text>true</xsl:text>
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:text>false</xsl:text>
@@ -301,7 +301,7 @@
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:attribute name="aria-hidden">
-								<xsl:copy-of select="$t"/>
+								<xsl:text>true</xsl:text>
 							</xsl:attribute>
 						</xsl:otherwise>
 					</xsl:choose>

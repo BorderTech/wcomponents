@@ -2,7 +2,6 @@
 	<xsl:import href="wc.ui.imageEdit.xsl"/>
 	<xsl:import href="wc.common.ajax.xsl"/>
 	<xsl:import href="wc.common.hide.xsl"/>
-	<xsl:import href="wc.constants.xsl"/>
 	<xsl:import href="wc.common.n.className.xsl"/>
 	<!--
 		Transform for WImage. Simple 1:1 map with HTML IMG element

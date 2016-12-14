@@ -43,7 +43,7 @@
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:attribute name="aria-busy">
-								<xsl:copy-of select="$t"/>
+								<xsl:text>true</xsl:text>
 							</xsl:attribute>
 							<xsl:call-template name="disabledElement"><!-- WDataTable compatibility only -->
 								<xsl:with-param name="field" select="parent::ui:table"/>

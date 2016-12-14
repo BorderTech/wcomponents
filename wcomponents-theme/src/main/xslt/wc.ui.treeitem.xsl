@@ -1,10 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.disabledElement.xsl"/>
-	<xsl:import href="wc.common.ajax.xsl"/>
-	<xsl:import href="wc.common.n.className.xsl"/>
-	<xsl:import href="wc.common.title.xsl"/>
-	<xsl:import href="wc.common.offscreenSpan.xsl"/>
 	<xsl:import href="wc.common.attributeSets.xsl"/>
+	<xsl:import href="wc.common.offscreenSpan.xsl"/>
 	<!--
 		WMenuItem forms part of a single compound widget with the WMenu at its root.
 
@@ -53,7 +49,7 @@
 			<xsl:attribute name="aria-selected">
 				<xsl:choose>
 					<xsl:when test="@selected">
-						<xsl:copy-of select="$t"/>
+						<xsl:text>true</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:text>false</xsl:text>
@@ -62,7 +58,7 @@
 			</xsl:attribute>
 
 			<!-- common attributes will set the correct disabled state if @disabled is set. -->
-			<xsl:if test="not(@disabled) and $disabled eq $t">
+			<xsl:if test="not(@disabled) and $disabled eq 'true'">
 				<xsl:choose>
 					<xsl:when test="number($isButton) eq 1">
 						<xsl:attribute name="disabled">disabled</xsl:attribute>
@@ -93,7 +89,7 @@
 					<xsl:attribute name="aria-expanded">
 						<xsl:choose>
 							<xsl:when test="@open and not(@disabled)">
-								<xsl:copy-of select="$t"/>
+								<xsl:text>true</xsl:text>
 							</xsl:when>
 							<xsl:otherwise>
 								<xsl:text>false</xsl:text>
@@ -116,14 +112,14 @@
 					<div role="group" aria-labelledby="{$nameButtonId}" id="{$groupId}" data-wc-resizedirection="h">
 						<xsl:if test="not(ui:treeitem)">
 							<xsl:attribute name="aria-busy">
-								<xsl:copy-of select="$t"/>
+								<xsl:text>true</xsl:text>
 							</xsl:attribute>
 						</xsl:if>
 						<xsl:apply-templates select="ui:treeitem">
 							<xsl:with-param name="disabled">
 								<xsl:choose>
-									<xsl:when test="@disabled or $disabled eq $t">
-										<xsl:copy-of select="$t"/>
+									<xsl:when test="@disabled or $disabled eq 'true'">
+										<xsl:text>true</xsl:text>
 									</xsl:when>
 									<xsl:otherwise>false</xsl:otherwise>
 								</xsl:choose>
