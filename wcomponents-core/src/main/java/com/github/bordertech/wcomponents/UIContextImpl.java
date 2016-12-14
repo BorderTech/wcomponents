@@ -37,9 +37,14 @@ public class UIContextImpl implements UIContext {
 	private final Map<WebComponent, WebModel> map = new HashMap<>();
 
 	/**
-	 * A map of temporary maps, keyed by the components using them.
+	 * A map of temporary maps with phase scope, keyed by the components using them.
 	 */
-	private Map<WComponent, Map<Object, Object>> scratchMaps;
+	private transient Map<WComponent, Map<Object, Object>> scratchMaps;
+
+	/**
+	 * A map of temporary maps with request scope, keyed by the components using them.
+	 */
+	private transient Map<WComponent, Map<Object, Object>> requestScratchMap;
 
 	/**
 	 * The framework attribute map.
@@ -430,6 +435,46 @@ public class UIContextImpl implements UIContext {
 		if (scratchMaps != null) {
 			scratchMaps.clear();
 			scratchMaps = null;
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Map<Object, Object> getRequestScratchMap(final WComponent component) {
+		if (requestScratchMap == null) {
+			requestScratchMap = new HashMap<>();
+		}
+
+		Map<Object, Object> componentScratchMap = requestScratchMap.get(component);
+
+		if (componentScratchMap == null) {
+			componentScratchMap = new HashMap<>(2);
+			requestScratchMap.put(component, componentScratchMap);
+		}
+
+		return componentScratchMap;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void clearRequestScratchMap(final WComponent component) {
+		if (requestScratchMap != null) {
+			requestScratchMap.remove(component);
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void clearRequestScratchMap() {
+		if (requestScratchMap != null) {
+			requestScratchMap.clear();
+			requestScratchMap = null;
 		}
 	}
 
