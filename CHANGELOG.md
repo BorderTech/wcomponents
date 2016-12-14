@@ -3,6 +3,7 @@
 # Release [in-progress]
 
 ## API Changes
+* 'UIContext' interface has been changed to include a new request scope scratch map #192.
 
 ## Bug Fixes
 
@@ -22,6 +23,9 @@
 
 * Improve performance by not calling unnecessary preparePaint in DataListInterceptor #975.
 * Improve performance and type-safety of XSLT.
+* `WBeanComponent` has been changed that when a `BeanProvider` is being used it can now use the new request scope
+  scratch map to hold the bean. To opt into this functionality set the runtime parameter
+  `bordertech.wcomponents.bean.provider.request.scope.enabled` to true #192.
 
 # Release 1.2.15
 
