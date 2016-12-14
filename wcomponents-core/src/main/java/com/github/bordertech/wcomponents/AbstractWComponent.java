@@ -1205,6 +1205,7 @@ public abstract class AbstractWComponent implements WComponent {
 			// Reset this component's data first.
 			this.removeComponentModel();
 			uic.clearScratchMap(this);
+			uic.clearRequestScratchMap(this);
 
 			// Now reset all descendant components
 			if (children != null) {
