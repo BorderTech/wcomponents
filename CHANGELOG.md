@@ -6,7 +6,9 @@
 
 ## Bug Fixes
 
-* Fix bug which allowed files larger than max allowed size to be uploaded using WMultiFileWidget.
+* Fix bug which allowed files larger than max allowed size to be uploaded using WMultiFileWidget #1024.
+* Fixed position of validation errors in WMultiSelectPair #1021.
+* Fixed content of labels in error messages #1019.
 * Prevent pending i18n bug by applying a cache buster to requests for i18n resource bundles #1016.
 * Fix possible a11y flaw by updating exposure of minlength to comply with HTML spec #1006.
 * Fix examples-lde default config #1005
@@ -18,7 +20,9 @@
 
 ## Enhancements
 
+* Output component name hint for Inputs in a read-only state to improve Selenium testing #1029.
 * Improve performance by not calling unnecessary preparePaint in DataListInterceptor #975.
+* Improve performance and type-safety of XSLT.
 
 # Release 1.2.15
 
