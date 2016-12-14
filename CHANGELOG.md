@@ -27,6 +27,7 @@
 * `WBeanComponent` has been changed that when a `BeanProvider` is being used it can now use the new request scope
   scratch map to hold the bean. To opt into this functionality set the runtime parameter
   `bordertech.wcomponents.bean.provider.request.scope.enabled` to true #192.
+* ServletResponse changed to provide access to the backing httpServletResponse #803.
 
 # Release 1.2.15
 
