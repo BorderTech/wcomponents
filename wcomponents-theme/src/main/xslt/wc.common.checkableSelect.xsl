@@ -138,6 +138,7 @@
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:call-template name="title"/>
+							<xsl:call-template name="roComponentName"/>
 						</xsl:otherwise>
 					</xsl:choose>
 
