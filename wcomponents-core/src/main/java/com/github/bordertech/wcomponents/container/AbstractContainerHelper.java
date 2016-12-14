@@ -155,6 +155,10 @@ public abstract class AbstractContainerHelper {
 
 			UIContextHolder.pushContext(uic);
 
+			// Make sure maps are cleared up
+			uic.clearScratchMap();
+			uic.clearRequestScratchMap();
+
 			prepareRequest();
 
 			clearPropogatedError();
