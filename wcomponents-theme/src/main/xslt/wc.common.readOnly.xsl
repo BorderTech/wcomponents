@@ -85,6 +85,22 @@
 					<xsl:value-of select="$style"/>
 				</xsl:attribute>
 			</xsl:if>
+			<xsl:call-template name="roComponentName"/>
+			<xsl:if test="self::ui:checkbox or self::ui:radiobutton or self::ui:togglebutton or self::ui:numberfield">
+				<xsl:attribute name="data-wc-value">
+					<xsl:choose>
+						<xsl:when test="self::ui:numberfield">
+							<xsl:value-of select="text()"/>
+						</xsl:when>
+						<xsl:when test="@selected">
+							<xsl:text>true</xsl:text>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>false</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:if test="number($linkWithText) eq 1">
 				<xsl:attribute name="href">
 					<xsl:choose>
@@ -100,7 +116,7 @@
 			</xsl:if>
 			<xsl:if test="$applies ne 'none'">
 				<xsl:choose>
-					<xsl:when test="self::ui:textarea">
+					<xsl:when test="self::ui:textarea[not(ui:rtf)]">
 						<xsl:apply-templates xml:space="preserve"/>
 					</xsl:when>
 					<xsl:when test="$applies ne '' and number($useReadOnlyMode) eq 1">
@@ -118,5 +134,14 @@
 				</xsl:choose>
 			</xsl:if>
 		</xsl:element>
+	</xsl:template>
+
+	<xsl:template name="roComponentName">
+		<xsl:attribute name="data-wc-component">
+			<xsl:value-of select="local-name()"/>
+		</xsl:attribute>
+	</xsl:template>
+
+	<xsl:template name="roSelected">
 	</xsl:template>
 </xsl:stylesheet>

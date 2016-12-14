@@ -88,6 +88,7 @@
 					</xsl:call-template>
 					<xsl:call-template name="hideElementIfHiddenSet"/>
 					<xsl:call-template name="ajaxTarget"/>
+					<xsl:call-template name="roComponentName"/>
 					<xsl:apply-templates select="ui:option[@selected]|ui:optgroup[ui:option[@selected]]" mode="readOnly">
 						<xsl:with-param name="single" select="0"/>
 					</xsl:apply-templates>

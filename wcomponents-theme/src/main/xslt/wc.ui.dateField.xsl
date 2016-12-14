@@ -29,6 +29,7 @@
 							<xsl:text> wc_datero wc_ro</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
+					<xsl:call-template name="roComponentName"/>
 					<xsl:choose>
 						<xsl:when test="@date">
 							<xsl:variable name="datetimeattrib">

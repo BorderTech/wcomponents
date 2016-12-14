@@ -43,6 +43,7 @@
 							<xsl:text>wc_list_nb</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
+					<xsl:call-template name="roComponentName"/>
 					<xsl:choose>
 						<xsl:when test="self::ui:multidropdown">
 							<xsl:apply-templates select="ui:option[@selected]|ui:optgroup[ui:option[@selected]]" mode="readOnly">
