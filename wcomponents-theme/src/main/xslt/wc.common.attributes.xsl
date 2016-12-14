@@ -4,7 +4,7 @@
 	<xsl:import href="wc.common.ajax.xsl" />
 	
 	<!--
-		This helper template sets attribute aria-label if the component has its accessibleText property set.
+		This helper template sets aria-label attribtue if the component has its accessibleText property set.
 	-->
 	<xsl:template name="ariaLabel">
 		<xsl:if test="@accessibleText">
@@ -14,9 +14,9 @@
 		</xsl:if>
 	</xsl:template>
 	
+	<!-- Helper to create the HTML class attribute's content. -->
 	<xsl:template name="commonClassHelper">
 		<xsl:param name="additional" select="''"/>
-		
 		<xsl:variable name="baseClass" select="concat('wc-', local-name(.))"/>
 		<xsl:value-of select="$baseClass"/>
 		<xsl:if test="@type">
@@ -45,7 +45,8 @@
 		</xsl:if>
 		<xsl:apply-templates select="ui:margin" mode="class" />
 	</xsl:template>
-	
+
+	<!-- Make the HTML class attribute and populate it. -->
 	<xsl:template name="makeCommonClass">
 		<xsl:param name="additional"/>
 		<xsl:attribute name="class">
@@ -70,7 +71,6 @@
 	<xsl:template name="disabledElement">
 		<xsl:param name="isControl" select="0"/>
 		<xsl:param name="field" select="."/>
-		
 		<xsl:if test="$field/@disabled">
 			<xsl:choose>
 				<xsl:when test="number($isControl) eq 1">
@@ -87,23 +87,7 @@
 		</xsl:if>
 	</xsl:template>
 
-	<!--
-		Templates used to hide components in the UI. 
-		
-		This template must never be excluded.
-		
-		
-		Hides an element from all user agents by setting the hidden attribute to "hidden".
-		
-		This should not be called for the top level element of most components, instead use template 
-		"hideElementIfHiddenSet" which tests if a component should be hidden.
-		
-		This direct call to hide will hide the target element from all conforming AT and conforming CSS aware browsers. 
-		In HTML5 aware browsers it will hide the element without CSS but this support is patch as of Jan 2016.
-		
-		An element which is hidden is hidden from conforming AT. A component which should be available to AT but not 
-		part of the visible screen render should be moved out of the viewport.
-	-->
+	<!-- Templates used to hide components in the UI. -->
 	<xsl:template name="hiddenElement">
 		<xsl:attribute name="hidden">
 			<xsl:text>hidden</xsl:text>
@@ -111,7 +95,7 @@
 	</xsl:template>
 	
 	<!--
-		Hides an HTML element from all user agents if the XML element's hidden attribute is set 'true'.
+		Hides an HTML element from all user agents if the element's hidden attribute is set 'true'.
 	-->
 	<xsl:template name="hideElementIfHiddenSet">
 		<xsl:if test="@hidden">
@@ -120,10 +104,8 @@
 	</xsl:template>
 
 	<!--
-		Common helper template for marking interactive controls as required if
-		its required attribute is set 'true'. This template must never be
-		excluded.
-		
+		Common helper template for marking interactive controls as required if its required attribute is set 'true'.
+
 		param field:
 			The element to test for required-ness. This is usually, though not
 			always, the current node. Default . (current node)
@@ -205,7 +187,6 @@
 		<xsl:param name="value" select="@value" />
 		<xsl:param name="live" select="'polite'" />
 		<xsl:param name="class"/>
-
 		<xsl:call-template name="commonAttributes">
 			<xsl:with-param name="id" select="$id" />
 			<xsl:with-param name="live" select="$live" />
