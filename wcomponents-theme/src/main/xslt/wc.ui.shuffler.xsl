@@ -1,12 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.listSortControls.xsl"/>
-<<<<<<< HEAD
-	<xsl:import href="wc.common.title.xsl"/>
-	<xsl:import href="wc.common.makeLegend.xsl"/>
-	<xsl:import href="wc.common.n.className.xsl"/>
-=======
 	<xsl:import href="wc.common.readOnly.xsl"/>
->>>>>>> BorderTech/eddie
 	<!--
 		WShuffler is a component designed to allow a fixed list of options to have their order changed.
 
