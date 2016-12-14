@@ -69,12 +69,14 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:variable name="containerTag">
-					<xsl:if test="number($readOnly) ne 1">
-						<xsl:text>fieldset</xsl:text>
-					</xsl:if>
-					<xsl:if test="number($readOnly) eq 1">
-						<xsl:text>div</xsl:text>
-					</xsl:if>
+					<xsl:choose>
+						<xsl:when test="number($readOnly) eq 1">
+							<xsl:text>div</xsl:text>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>fieldset</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
 				</xsl:variable>
 				<xsl:element name="{$containerTag}">
 					<xsl:call-template name="commonWrapperAttributes">
@@ -100,6 +102,7 @@
 					<xsl:choose>
 						<xsl:when test="number($readOnly) eq 1">
 							<xsl:call-template name="title"/>
+							<xsl:call-template name="roComponentName"/>
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:call-template name="makeLegend">

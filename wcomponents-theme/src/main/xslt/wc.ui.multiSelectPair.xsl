@@ -1,9 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.ajax.xsl"/>
-	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.listSortControls.xsl"/>
 	<xsl:import href="wc.ui.multiSelectPair.n.multiSelectPairButton.xsl"/>
-	<xsl:import href="wc.common.makeLegend.xsl"/>
+	<xsl:import href="wc.common.readOnly.xsl"/>
 	<!--
 		Transform for WMultiSelectPair. This component is a mechanism to select 0 or
 		more options from a list. It is presented in a way which puts two lists side by
@@ -63,6 +61,9 @@
 				</xsl:with-param>
 				<xsl:with-param name="myLabel" select="$myLabel"/>
 			</xsl:call-template>
+			<xsl:if test="number($readOnly) eq 1">
+				<xsl:call-template name="roComponentName"/>
+			</xsl:if>
 			<xsl:choose>
 				<xsl:when test="number($readOnly) ne 1">
 					<xsl:if test="@min">

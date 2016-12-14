@@ -36,6 +36,7 @@
 							<xsl:value-of select="$myLabel/@id"/>
 						</xsl:attribute>
 					</xsl:if>
+					<xsl:call-template name="roComponentName"/>
 					<xsl:choose>
 						<xsl:when test="@date">
 							<xsl:variable name="datetimeattrib">
