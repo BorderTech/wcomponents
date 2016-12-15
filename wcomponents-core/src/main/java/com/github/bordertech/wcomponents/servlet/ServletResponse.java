@@ -29,6 +29,13 @@ public class ServletResponse implements Response {
 	}
 
 	/**
+	 * @return the backing HttpServletResponse
+	 */
+	public HttpServletResponse getBackingResponse() {
+		return backing;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
