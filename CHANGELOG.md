@@ -3,6 +3,15 @@
 # Release [in-progress]
 
 ## API Changes
+
+## Bug Fixes
+
+## Enhancements
+
+# Release 1.3.0
+
+## API Changes
+
 * 'UIContext' interface has been changed to include a new request scope scratch map #192.
 
 ## Bug Fixes
