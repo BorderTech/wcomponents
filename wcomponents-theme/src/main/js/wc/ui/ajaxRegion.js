@@ -185,7 +185,7 @@ define(["wc/dom/event",
 							controllerId = trigger.alias || trigger.id;
 							if (controllerId && (controller = document.getElementById(controllerId)) && (loads = trigger.loads) && loads.length) {
 								controller.setAttribute("aria-controls", loads.join(" "));
-								loads.forEach(function (load){
+								loads.forEach(function(load) {
 									var loadEl = document.getElementById(load);
 									if (loadEl) {
 										loadEl.setAttribute("aria-live", "polite");
