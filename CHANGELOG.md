@@ -8,6 +8,15 @@
 
 ## Enhancements
 
+# Release 1.3.1
+
+## API Changes
+* Deprecated xslt server side property. Will always return true.
+
+## Bug Fixes
+
+## Enhancements
+
 # Release 1.3.0
 
 ## API Changes
