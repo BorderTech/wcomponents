@@ -1,22 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.ui.root.xsl"/>
-	<!--
-		Transforms for WSubordinateControl. These components have no in-place artefacts in the UI.
-		
-		Theme developer information
-		
-		Subordinate controls build javascript functions directly from the XSLT. These functions
-		are then stored as JSON objects and invoked as necessary from wc.ui.subordinate.js.
-		It is extremely unlikely that you will need to override any of this and it should never
-		be excluded.
-		
-		
-		key conditionKey
-		Key to find radio buttons which match a ui:subordinate ui:condition. Used by
-		ui:subordinate because a radio buttons name is not the same as its id.
-		-->
-	<xsl:key name="conditionKey" match="//ui:radiobutton" use="@id"/>
+
 	<!--
 		Template match="ui:subordinate|ui:componentGroup|ui:target|ui:onTrue|ui:onFalse|ui:and|ui:or"
 		 Null template to prevent inline UI artefacts.
