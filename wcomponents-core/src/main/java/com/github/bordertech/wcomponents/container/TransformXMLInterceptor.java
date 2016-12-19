@@ -41,20 +41,6 @@ import org.apache.commons.logging.LogFactory;
  * will use more memory and CPU on the server. If this becomes a problem it may be better to perform the transform on an
  * appliance (or the client).
  *
- * <p>
- * It is enabled by setting the "bordertech.wcomponents.xslt.enabled" to true.
- * </p>
- * <p>
- * However, projects may not always have the theme resources in the classpath and want to load them from a static
- * resource (eg from a different web server or resources defined in their war file). To load resources from a static
- * resource, projects set a theme content path via the "bordertech.wcomponents.theme.content.path=theme/myTheme"
- * parameter.
- * </p>
- * <p>
- * So if a project sets the theme content path then server side transforms become meaningless and will not be performed.
- * This will allow the client agent to do the transform using the theme loaded from the theme content path.
- * </p>
- *
  * @author Rick Brown
  * @since 1.0.0
  */
@@ -84,7 +70,7 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	 * If true then server side XSLT will be ignored regardless of the configuration property. This is to account for
 	 * user agents that cannot handle HTML, yes such a thing exists.
 	 */
-	private boolean doTransform = false;
+	private boolean doTransform = true;
 
 	/**
 	 * Override preparePaint in order to perform processing specific to this interceptor.
@@ -93,7 +79,6 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	 */
 	@Override
 	public void preparePaint(final Request request) {
-		doTransform = isPerformTransform();
 		if (doTransform && request instanceof ServletRequest) {
 			HttpServletRequest httpServletRequest = ((ServletRequest) request).getBackingRequest();
 			String userAgentString = httpServletRequest.getHeader("User-Agent");
@@ -165,13 +150,6 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	}
 
 	/**
-	 * @return true if transform flag is set true.
-	 */
-	private static boolean isPerformTransform() {
-		return ConfigurationProperties.getXsltServerSide();
-	}
-
-	/**
 	 * Transform the UI XML to HTML using the correct XSLT from the classpath.
 	 *
 	 * @param xml The XML to transform.
@@ -200,7 +178,7 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	private static Transformer newTransformer() {
 
 		if (TEMPLATES == null) {
-			throw new IllegalStateException(ConfigurationProperties.XSLT_SERVER_SIDE + " true but  TransformXMLInterceptor not initialized.");
+			throw new IllegalStateException("TransformXMLInterceptor not initialized.");
 		}
 
 		try {
@@ -216,27 +194,21 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	 * @return the XSLT Templates.
 	 */
 	private static Templates initTemplates() {
-		if (isPerformTransform()) {
-			try {
-				URL xsltURL = ThemeUtil.class.getResource(RESOURCE_NAME);
-				if (xsltURL != null) {
-					Source xsltSource = new StreamSource(xsltURL.openStream(), xsltURL.toExternalForm());
-					TransformerFactory factory = new net.sf.saxon.TransformerFactoryImpl();
-					Templates templates = factory.newTemplates(xsltSource);
-					LOG.debug("Generated XSLT templates for: " + RESOURCE_NAME);
-					return templates;
-				} else {
-					// Server-side XSLT enabled but theme resource not on classpath.
-					throw new IllegalStateException(ConfigurationProperties.XSLT_SERVER_SIDE + " true but " + RESOURCE_NAME + " not on classpath");
-				}
-			} catch (IOException | TransformerConfigurationException ex) {
-				throw new SystemException("Could not create transformer for " + RESOURCE_NAME, ex);
+		try {
+			URL xsltURL = ThemeUtil.class.getResource(RESOURCE_NAME);
+			if (xsltURL != null) {
+				Source xsltSource = new StreamSource(xsltURL.openStream(), xsltURL.toExternalForm());
+				TransformerFactory factory = new net.sf.saxon.TransformerFactoryImpl();
+				Templates templates = factory.newTemplates(xsltSource);
+				LOG.debug("Generated XSLT templates for: " + RESOURCE_NAME);
+				return templates;
+			} else {
+				// Server-side XSLT enabled but theme resource not on classpath.
+				throw new IllegalStateException(RESOURCE_NAME + " not on classpath");
 			}
-		} else {
-			LOG.debug("Server-side XSLT disabled. TransformXMLInterceptor templates not initialized.");
-			return null;
+		} catch (IOException | TransformerConfigurationException ex) {
+			throw new SystemException("Could not create transformer for " + RESOURCE_NAME, ex);
 		}
-
 	}
 
 	/**
