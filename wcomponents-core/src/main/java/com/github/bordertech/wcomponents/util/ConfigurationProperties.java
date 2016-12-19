@@ -323,6 +323,7 @@ public final class ConfigurationProperties {
 
 	/**
 	 * Whether to perform server-side XSLT.
+	 * @deprecated 1.3.1 No longer used: no replacement, will be removed in v2.0.0.
 	 */
 	public static final String XSLT_SERVER_SIDE = "bordertech.wcomponents.xslt.enabled";
 
@@ -1043,10 +1044,11 @@ public final class ConfigurationProperties {
 	/**
 	 * Whether to perform XSLT on the server side.
 	 *
-	 * @return the parameter value, or false if not set.
+	 * @return true
+	 * @deprecated 1.3.1 No longer used: no replacement, will be removed in v2.0.0.
 	 */
 	public static boolean getXsltServerSide() {
-		return get().getBoolean(XSLT_SERVER_SIDE, false);
+		return true;
 	}
 
 	/**
