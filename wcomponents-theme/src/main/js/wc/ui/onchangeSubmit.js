@@ -202,11 +202,11 @@ define(["wc/dom/attribute",
 							if ((hint = label.getHint(myLabel))) {
 								hintContent = textContent.get(hint);
 								if (hintContent.indexOf(submitOnChangeHint) === -1) {
-									label.setHint(submitOnChangeHint);
+									label.setHint(myLabel, submitOnChangeHint);
 								}
 							}
 							else {
-								label.setHint(submitOnChangeHint);
+								label.setHint(myLabel, submitOnChangeHint);
 							}
 						}
 					});

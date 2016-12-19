@@ -7,8 +7,8 @@ define(["wc/dom/classList",
 	"wc/ui/ajax/processResponse",
 	"wc/i18n/i18n",
 	"wc/dom/role",
-	"wc/ui/internalLink",
-	"wc/dom/textContent"],
+	"wc/dom/textContent",
+	"wc/ui/internalLink"],
 	function (classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, i18n, $role, textContent) {
 		"use strict";
 		/*

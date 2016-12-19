@@ -64,7 +64,7 @@ public class WDropdownSubmitOnChangeExample extends WContainer {
 		add(flay);
 		flay.setLabelWidth(25);
 		flay.setMargin(new Margin(0, 0, 12, 0));
-		flay.addField("State", stateSelector);
+		flay.addField("State", stateSelector).getLabel().setHint("Selecting a state will update the available regions.");
 		flay.addField("Region", regionSelector);
 
 		// Used to test control of visibility as part of submit on change.
@@ -83,6 +83,8 @@ public class WDropdownSubmitOnChangeExample extends WContainer {
 				regionSelector.resetData();
 			}
 		});
+
+		regionSelector.setSubmitOnChange(true);
 	}
 
 	/**

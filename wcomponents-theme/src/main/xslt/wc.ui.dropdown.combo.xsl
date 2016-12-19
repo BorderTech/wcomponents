@@ -31,6 +31,9 @@
 				<xsl:attribute name="type">
 					<xsl:text>text</xsl:text>
 				</xsl:attribute>
+				<xsl:attribute name="id">
+					<xsl:value-of select="$inputId"/>
+				</xsl:attribute>
 				<xsl:attribute name="role">
 					<xsl:text>textbox</xsl:text>
 				</xsl:attribute>

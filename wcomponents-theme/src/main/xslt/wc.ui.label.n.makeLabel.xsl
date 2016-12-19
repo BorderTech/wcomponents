@@ -40,7 +40,8 @@
 							<xsl:if test="local-name($labelableElement) eq 'datefield' or 
 								local-name($labelableElement) eq 'textfield' or 
 								local-name($labelableElement) eq 'emailfield' or 
-								local-name($labelableElement) eq 'phonenumberfield'">
+								local-name($labelableElement) eq 'phonenumberfield' or 
+								(local-name($labelableElement) eq 'dropdown' and $labelableElement/@type) ">
 								<xsl:text>_input</xsl:text>
 							</xsl:if>
 						</xsl:attribute>

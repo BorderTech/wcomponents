@@ -72,14 +72,14 @@
 			<xsl:when test="self::ui:condition">
 				<!-- Escape backslashes because otherwise javascript will eat them all up -->
 				<xsl:variable name="valSlashEscaped">
-					<xsl:value-of select="replace(@value, '\', '\\')"/>
+					<xsl:value-of select="replace(@value, '\\', '\\\\')"/>
 				</xsl:variable>
 				<!-- Escape single quotes because otherwise our string literals will be malformed -->
 				<xsl:variable name="apo">
 					<xsl:text>'</xsl:text>
 				</xsl:variable>
 				<xsl:variable name="escapo">
-					<xsl:text>\'</xsl:text>
+					<xsl:text>\\'</xsl:text>
 				</xsl:variable>
 				<xsl:variable name="valEscaped">
 					<xsl:value-of select="replace($valSlashEscaped, $apo, $escapo)"/>
