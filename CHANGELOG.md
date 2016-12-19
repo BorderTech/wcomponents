@@ -6,6 +6,25 @@
 
 ## Bug Fixes
 
+## Enhancements
+
+# Release 1.3.1
+
+## API Changes
+* Deprecated xslt server side property. Will always return true.
+
+## Bug Fixes
+
+## Enhancements
+
+# Release 1.3.0
+
+## API Changes
+
+* 'UIContext' interface has been changed to include a new request scope scratch map #192.
+
+## Bug Fixes
+
 * Fix bug which allowed files larger than max allowed size to be uploaded using WMultiFileWidget #1024.
 * Fixed position of validation errors in WMultiSelectPair #1021.
 * Fixed content of labels in error messages #1019.
@@ -23,6 +42,10 @@
 * Output component name hint for Inputs in a read-only state to improve Selenium testing #1029.
 * Improve performance by not calling unnecessary preparePaint in DataListInterceptor #975.
 * Improve performance and type-safety of XSLT.
+* `WBeanComponent` has been changed that when a `BeanProvider` is being used it can now use the new request scope
+  scratch map to hold the bean. To opt into this functionality set the runtime parameter
+  `bordertech.wcomponents.bean.provider.request.scope.enabled` to true #192.
+* ServletResponse changed to provide access to the backing httpServletResponse #803.
 
 # Release 1.2.15
 

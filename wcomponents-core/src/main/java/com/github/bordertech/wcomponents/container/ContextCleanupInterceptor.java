@@ -34,7 +34,8 @@ public class ContextCleanupInterceptor extends InterceptorComponent {
 		UIContext uic = UIContextHolder.getCurrent();
 
 		super.serviceRequest(request);
-		LOG.debug("After Service Request - Clearing scratch map.");
+		// Clear phase scope scratch map
+		LOG.debug("After Service Request - Clearing scratch map with phase scope.");
 		uic.clearScratchMap();
 	}
 
@@ -56,7 +57,8 @@ public class ContextCleanupInterceptor extends InterceptorComponent {
 		LOG.debug("Performing session tidy up of WComponents (any WComponents disconnected from the active top component will not be tidied up.");
 		getUI().tidyUpUIContextForTree();
 
-		LOG.debug("After paint - Clearing scratch map.");
+		LOG.debug("After paint - Clearing scratch maps.");
 		uic.clearScratchMap();
+		uic.clearRequestScratchMap();
 	}
 }

@@ -37,14 +37,6 @@ public final class ConfigurationProperties {
 	public static final boolean CHECK_DUPLICATE_IDS = get().getBoolean("bordertech.wcomponents.check.duplicate.ids.enabled", true);
 
 	/**
-	 * Flag for which bean logic will be used.
-	 *
-	 * @deprecated Will be removed and correct logic always used. Projects should set this parameter to true.
-	 */
-	@Deprecated
-	public static final boolean CORRECT_PARENT_BEAN_LOGIC = get().getBoolean("bordertech.wcomponents.bean.logic.correct", true);
-
-	/**
 	 * The flag that controls Data list caching.
 	 */
 	public static final String DATALIST_CACHING_PARAM_KEY = "bordertech.wcomponents.dataListCaching.enabled";
@@ -331,6 +323,7 @@ public final class ConfigurationProperties {
 
 	/**
 	 * Whether to perform server-side XSLT.
+	 * @deprecated 1.3.1 No longer used: no replacement, will be removed in v2.0.0.
 	 */
 	public static final String XSLT_SERVER_SIDE = "bordertech.wcomponents.xslt.enabled";
 
@@ -531,6 +524,16 @@ public final class ConfigurationProperties {
 	}
 
 	/**
+	 * This flag controls if bean containers using a bean provider should hold the bean in the scratch map for the
+	 * entire request processing.
+	 *
+	 * @return true if hold bean for request, otherwise false
+	 */
+	public static boolean getBeanProviderRequestScopeEnabled() {
+		return get().getBoolean("bordertech.wcomponents.bean.provider.request.scope.enabled", false);
+	}
+
+	/**
 	 * This flag controls if component ids should be checked for duplicates. As verifying requires extra resources and
 	 * memory, this can be disabled if required. It is encouraged projects at least have this set true in development
 	 * environment.
@@ -549,7 +552,7 @@ public final class ConfigurationProperties {
 	 */
 	@Deprecated
 	public static boolean getCorrectBeanLogic() {
-		return CORRECT_PARENT_BEAN_LOGIC;
+		return get().getBoolean("bordertech.wcomponents.bean.logic.correct", true);
 	}
 
 	/**
@@ -905,10 +908,8 @@ public final class ConfigurationProperties {
 	}
 
 	/**
-	 * @return The render mode, can be either "on", "off" or "sniff".
-	 * "on" means the render will occur.
-	 * "off" means the render will not occur.
-	 * "sniff" means the render will occur based on user agent.
+	 * @return The render mode, can be either "on", "off" or "sniff". "on" means the render will occur. "off" means the
+	 * render will not occur. "sniff" means the render will occur based on user agent.
 	 */
 	public static String getTemplateRenderingMode() {
 		return get().getString(TEMPLATE_RENDERING_MODE, "off");
@@ -1043,10 +1044,11 @@ public final class ConfigurationProperties {
 	/**
 	 * Whether to perform XSLT on the server side.
 	 *
-	 * @return the parameter value, or false if not set.
+	 * @return true
+	 * @deprecated 1.3.1 No longer used: no replacement, will be removed in v2.0.0.
 	 */
 	public static boolean getXsltServerSide() {
-		return get().getBoolean(XSLT_SERVER_SIDE, false);
+		return true;
 	}
 
 	/**

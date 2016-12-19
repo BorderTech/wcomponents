@@ -107,24 +107,7 @@ public class PlainLauncher_Test {
 		Assert.assertEquals("HandleRequest should have been called once", 1,
 				MyTestApp.handleRequestCount);
 		Assert.assertEquals("PaintComponent should have been called once", 1, MyTestApp.paintCount);
-
-		// Extract session token
-		String tokenSearch = "\"wc_t\" value=\"";
-		int start = content.indexOf(tokenSearch);
-		int end = content.indexOf("\"", start + tokenSearch.length());
-		String token = content.substring(start + tokenSearch.length(), end);
-
-		// Recreate the output outside of the LDE.
-		UIContext uic = new UIContextImpl();
-		WServletEnvironment env = new WServletEnvironment(url.getPath(), url.toString(), "");
-		env.setStep(1); // the step count will be set to one after the request
-		env.setSessionToken(token);
-		uic.setEnvironment(env);
-		UIContextHolder.pushContext(uic);
-		String expected = WebUtilities.render(new MyTestApp());
-
-		Assert.assertTrue("Content should contain the rendered application", content.contains(
-				expected));
+		Assert.assertTrue("Content should contain the rendered application", content.contains((new MyTestApp()).getContent()));
 	}
 
 	/**
@@ -158,6 +141,14 @@ public class PlainLauncher_Test {
 		 */
 		public MyTestApp() {
 			add(new WText(HELLO_WORLD));
+		}
+
+		/**
+		 *
+		 * @return the content of the TestApp
+		 */
+		public String getContent() {
+			return HELLO_WORLD;
 		}
 
 		/**
