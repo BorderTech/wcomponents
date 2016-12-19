@@ -59,26 +59,12 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Ensure that the interceptor does nothing as long as the controlling property is disabled.
-	 */
-	@Test
-	public void testPaintWhileDisabled() {
-		MyComponent testUI = new MyComponent(TEST_XML);
-		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
-		Config.getInstance().setProperty(ConfigurationProperties.XSLT_SERVER_SIDE, "false");
-		reloadTransformer();
-		TestResult actual = generateOutput(testUI);
-		Assert.assertEquals("XML should not be transformed when interceptor disabled", TEST_XML, actual.result);
-	}
-
-	/**
 	 * Ensure that the interceptor does nothing when the user agent string opts out.
 	 */
 	@Test
 	public void testPaintWithUserAgentOverride() {
 		MyComponent testUI = new MyComponent(TEST_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
-		Config.getInstance().setProperty(ConfigurationProperties.XSLT_SERVER_SIDE, "true");
 		reloadTransformer();
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("User-Agent", "Mozilla/5.0 Firefox/26.0 wcnoxslt");
@@ -93,7 +79,6 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	public void testPaintWhileEnabledWithThemeContentPathSet() {
 		MyComponent testUI = new MyComponent(TEST_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "set");
-		Config.getInstance().setProperty(ConfigurationProperties.XSLT_SERVER_SIDE, "true");
 		reloadTransformer();
 		TestResult actual = generateOutput(testUI);
 		Assert.assertEquals("XML should be transformed when interceptor enabled and theme content path set", EXPECTED, actual.result);
@@ -106,7 +91,6 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	public void testPaintWhileEnabled() {
 		MyComponent testUI = new MyComponent(TEST_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
-		Config.getInstance().setProperty(ConfigurationProperties.XSLT_SERVER_SIDE, "true");
 		reloadTransformer();
 		TestResult actual = generateOutput(testUI);
 		Assert.assertEquals("XML should be transformed when interceptor enabled", EXPECTED, actual.result);
@@ -121,7 +105,6 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 
 		MyComponent testUI = new MyComponent(TEST_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
-		Config.getInstance().setProperty(ConfigurationProperties.XSLT_SERVER_SIDE, "true");
 		reloadTransformer();
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("User-Agent",
@@ -138,7 +121,6 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	public void testPaintWithCorruptCharacterException() {
 		MyComponent testUI = new MyComponent(TEST_CORRUPT_CHAR_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
-		Config.getInstance().setProperty(ConfigurationProperties.XSLT_SERVER_SIDE, "true");
 		Config.getInstance().setProperty(ConfigurationProperties.XSLT_ALLOW_CORRUPT_CHARACTER, "false");
 		reloadTransformer();
 
@@ -163,7 +145,6 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	public void testPaintWithCorruptCharacterAllowed() {
 		MyComponent testUI = new MyComponent(TEST_CORRUPT_CHAR_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
-		Config.getInstance().setProperty(ConfigurationProperties.XSLT_SERVER_SIDE, "true");
 		Config.getInstance().setProperty(ConfigurationProperties.XSLT_ALLOW_CORRUPT_CHARACTER, "true");
 		reloadTransformer();
 
