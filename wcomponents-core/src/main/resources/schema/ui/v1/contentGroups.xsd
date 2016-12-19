@@ -94,11 +94,12 @@ The XML schema for a WComponent page.
 		</xs:annotation>
 		<xs:choice>
 			<xs:group ref="ui:contentGroup" />
-			<xs:element ref="ui:menuitem" />
-			<xs:element ref="ui:submenu" />
-			<xs:element ref="ui:menugroup" />
-			<xs:element ref="ui:separator" />
 			<xs:element ref="ui:field" />
+			<xs:element ref="ui:file" />
+			<xs:element ref="ui:menugroup" />
+			<xs:element ref="ui:menuitem" />
+			<xs:element ref="ui:separator" />
+			<xs:element ref="ui:submenu" />
 			<xs:element ref="ui:treeitem" />
 		</xs:choice>
 	</xs:group>
