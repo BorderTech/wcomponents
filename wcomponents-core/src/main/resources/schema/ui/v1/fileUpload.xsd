@@ -32,40 +32,7 @@
 
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="file" minOccurs="0" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:documentation>These represent the list of currently uploaded files for the WMultiFileWidget</xs:documentation>
-					</xs:annotation>
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element ref="ui:link" minOccurs="1" maxOccurs="1" />
-						</xs:sequence>
-
-						<xs:attribute name="id" type="xs:string" use="required">
-							<xs:annotation>
-								<xs:documentation>A system provided identifier for the file.</xs:documentation>
-							</xs:annotation>
-						</xs:attribute>
-
-						<xs:attribute name="name" type="xs:string" use="required">
-							<xs:annotation>
-								<xs:documentation>The original (a the time of upload) file name for the file.</xs:documentation>
-							</xs:annotation>
-						</xs:attribute>
-
-						<xs:attribute name="type" type="xs:string" use="required">
-							<xs:annotation>
-								<xs:documentation>The MIME type of the file.</xs:documentation>
-							</xs:annotation>
-						</xs:attribute>
-
-						<xs:attribute name="size" type="xs:unsignedInt" use="required">
-							<xs:annotation>
-								<xs:documentation>The size of the file in bytes.</xs:documentation>
-							</xs:annotation>
-						</xs:attribute>
-					</xs:complexType>
-				</xs:element>
+				<xs:element ref="ui:file" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
 
 			<xs:attributeGroup ref="ui:input.attributes" />
@@ -127,6 +94,40 @@
 				</xs:annotation>
 			</xs:attribute>
 			
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="file">
+		<xs:annotation>
+			<xs:documentation>These represent the list of currently uploaded files for the WMultiFileWidget</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ui:link" minOccurs="1" maxOccurs="1" />
+			</xs:sequence>
+			
+			<xs:attribute name="id" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>A system provided identifier for the file.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+			<xs:attribute name="name" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The original (a the time of upload) file name for the file.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+			<xs:attribute name="type" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The MIME type of the file.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+			<xs:attribute name="size" type="xs:unsignedInt" use="required">
+				<xs:annotation>
+					<xs:documentation>The size of the file in bytes.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
