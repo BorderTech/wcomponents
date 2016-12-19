@@ -52,7 +52,6 @@
 				<xsl:variable name="inputId" select="concat($id,'_input')"/>
 				<div id="{$id}">
 					<xsl:call-template name="commonAttributes">
-						<xsl:with-param name="live" select="'off'"/>
 						<xsl:with-param name="class">
 							<xsl:text>wc_input_wrapper</xsl:text>
 							<xsl:if test="@allowPartial">
@@ -147,7 +146,6 @@
 								<xsl:text>{{t 'datefield_title_default'}}</xsl:text>
 							</xsl:with-param>
 						</xsl:call-template>
-						<xsl:call-template name="ajaxController"/>
 						<xsl:call-template name="disabledElement">
 							<xsl:with-param name="isControl" select="1"/>
 						</xsl:call-template>

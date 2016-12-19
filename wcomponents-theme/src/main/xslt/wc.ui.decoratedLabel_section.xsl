@@ -5,7 +5,6 @@
 	<xsl:template match="ui:decoratedlabel" mode="section">
 		<header>
 			<xsl:call-template name="commonAttributes">
-				<xsl:with-param name="live" select="'off'"/>
 				<xsl:with-param name="isWrapper" select="1"/>
 			</xsl:call-template>
 			<xsl:apply-templates select="ui:labelhead">

@@ -30,7 +30,6 @@
 			<xsl:call-template name="requiredElement">
 				<xsl:with-param name="useNative" select="0"/>
 			</xsl:call-template>
-			<xsl:call-template name="ajaxController"/>
 			<xsl:variable name="groupId" select="concat(@id, '-content')"/>
 			<div role="group" class="wc_tree_root" id="{$groupId}" data-wc-resizedirection="h">
 				<xsl:apply-templates select="ui:treeitem">

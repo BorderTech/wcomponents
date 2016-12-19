@@ -27,7 +27,6 @@
 				<textarea>
 					<xsl:call-template name="commonControlAttributes">
 						<xsl:with-param name="name" select="$id"/>
-						<xsl:with-param name="live" select="'off'"/>
 						<xsl:with-param name="class">
 							<xsl:if test="(@required or @placeholder) and not(text())">
 								<xsl:text>wc-buggyie</xsl:text>

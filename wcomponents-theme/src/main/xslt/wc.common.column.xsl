@@ -12,7 +12,6 @@
 				<xsl:attribute name="id">
 					<xsl:value-of select="@id"/>
 				</xsl:attribute>
-				<xsl:call-template name="ajaxTarget"/>
 			</xsl:if>
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">

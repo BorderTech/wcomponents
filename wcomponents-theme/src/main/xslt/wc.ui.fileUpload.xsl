@@ -148,9 +148,6 @@
 			<xsl:attribute name="name">
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
-			<xsl:call-template name="ajaxTarget">
-				<xsl:with-param name="live" select="'off'"/>
-			</xsl:call-template>
 			<xsl:attribute name="data-dropzone">
 				<xsl:choose>
 					<xsl:when test="@dropzone">

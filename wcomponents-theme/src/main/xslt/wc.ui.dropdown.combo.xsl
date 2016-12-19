@@ -13,7 +13,6 @@
 		</xsl:variable>
 		<span role="combobox" aria-expanded="false" aria-autocomplete="list">
 			<xsl:call-template name="commonAttributes">
-				<xsl:with-param name="live" select="'off'"/>
 				<xsl:with-param name="class">
 					<xsl:text>wc_input_wrapper wc-combo</xsl:text>
 				</xsl:with-param>

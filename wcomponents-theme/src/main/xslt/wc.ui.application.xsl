@@ -28,7 +28,6 @@
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
-			<xsl:call-template name="ajaxTarget"/>
 			<xsl:apply-templates/>
 		</form>
 	</xsl:template>

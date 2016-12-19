@@ -64,7 +64,6 @@
 							<xsl:text>wc_seltog</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
-					<xsl:call-template name="ajaxTarget"/>
 					<xsl:if test="$isCheckboxTarget">
 						<xsl:attribute name="data-wc-cbgroup">
 							<xsl:value-of select="$thisGroupName"/>

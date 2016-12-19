@@ -10,7 +10,6 @@
 			<xsl:call-template name="makeCommonClass"/>
 			<xsl:call-template name="disabledElement"/>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
-			<xsl:call-template name="ajaxTarget"/>
 			<div role="tablist">
 				<xsl:if test="@type eq 'accordion'">
 					<xsl:attribute name="aria-multiselectable">

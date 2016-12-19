@@ -42,9 +42,9 @@
 			<xsl:call-template name="makeCommonClass"/>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<!-- AJAX table actions make the table an ARIA live region -->
-			<xsl:if test="ui:pagination[@mode eq 'dynamic' or @mode eq 'client'] or ui:rowexpansion[@mode eq 'lazy' or @mode eq 'dynamic'] or 
-				ui:sort[@mode eq 'dynamic'] or key('targetKey',$id) or 
-				parent::ui:ajaxtarget[@action eq 'replace']">
+			<xsl:if test="ui:pagination[@mode eq 'dynamic' or @mode eq 'client'] or 
+				ui:rowexpansion[@mode eq 'lazy' or @mode eq 'dynamic'] or 
+				ui:sort[@mode eq 'dynamic']">
 				<xsl:call-template name="setARIALive"/>
 			</xsl:if>
 			<xsl:if test="number($rowExpansion) eq 1">

@@ -15,7 +15,6 @@
 				</xsl:variable>
 				<span>
 					<xsl:call-template name="commonAttributes">
-						<xsl:with-param name="live" select="'off'"/>
 						<xsl:with-param name="class">
 							<xsl:text>wc_input_wrapper</xsl:text>
 							<xsl:if test="$list">
@@ -80,7 +79,6 @@
 						<xsl:if test="not($list)">
 							<xsl:call-template name="title"/>
 						</xsl:if>
-						<xsl:call-template name="ajaxController"/>
 						<xsl:call-template name="disabledElement">
 							<xsl:with-param name="isControl" select="1"/>
 						</xsl:call-template>

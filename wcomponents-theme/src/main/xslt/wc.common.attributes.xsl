@@ -176,19 +176,15 @@
 		param name: The value of the element's name attribute if it is to be set.
 		param value: The value of the element's value attribute if it is to be
 			set, default @value.
-		param live: The value to set to aria-live if the element is an ajax
-			target, default 'polite'.
 		param myLabel: a WLabel "for" the current element. We can calculate this but may have already done the calc.
 	-->
 	<xsl:template name="commonControlAttributes">
 		<xsl:param name="id" select="@id" />
 		<xsl:param name="name" select="''"/>
 		<xsl:param name="value" select="@value" />
-		<xsl:param name="live" select="'polite'" />
 		<xsl:param name="class"/>
 		<xsl:call-template name="commonAttributes">
 			<xsl:with-param name="id" select="$id" />
-			<xsl:with-param name="live" select="$live" />
 			<xsl:with-param name="isControl" select="1" />
 			<xsl:with-param name="class">
 				<xsl:value-of select="$class"/>
@@ -208,28 +204,11 @@
 			</xsl:attribute>
 		</xsl:if>
 		<xsl:call-template name="requiredElement" />
-		<xsl:call-template name="ajaxController">
-			<xsl:with-param name="id">
-				<xsl:choose>
-					<xsl:when test="self::ui:radiobutton">
-						<xsl:value-of select="@groupName" />
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="@id" />
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:with-param>
-		</xsl:call-template>
 		<xsl:if test="@buttonId">
 			<xsl:attribute name="data-wc-submit">
 				<xsl:value-of select="@buttonId" />
 			</xsl:attribute>
 		</xsl:if>
-		<!--<xsl:if test="ancestor::ui:application/@defaultFocusId eq $id">
-			<xsl:attribute name="autofocus">
-				<xsl:text>autofocus</xsl:text>
-			</xsl:attribute>
-		</xsl:if>-->
 		<xsl:call-template name="title" />
 		<xsl:call-template name="ariaLabel" />
 	</xsl:template>
@@ -245,13 +224,11 @@
 	-->
 	<xsl:template name="commonWrapperAttributes">
 		<xsl:param name="id" select="@id" />
-		<xsl:param name="live" select="'polite'" />
 		<xsl:param name="isControl" select="1" />
 		<xsl:param name="class" select="''"/>
 		<!--normally fieldset-->
 		<xsl:call-template name="commonAttributes">
 			<xsl:with-param name="id" select="$id" />
-			<xsl:with-param name="live" select="$live" />
 			<xsl:with-param name="isControl" select="$isControl" />
 			<xsl:with-param name="isWrapper" select="1" />
 			<xsl:with-param name="class">
@@ -266,9 +243,6 @@
 				</xsl:if>
 			</xsl:with-param>
 		</xsl:call-template>
-		<xsl:call-template name="ajaxController">
-			<xsl:with-param name="id" select="$id" />
-		</xsl:call-template>
 	</xsl:template>
 
 	<!--
@@ -281,7 +255,6 @@
 	-->
 	<xsl:template name="commonAttributes">
 		<xsl:param name="id" select="@id" />
-		<xsl:param name="live" select="'polite'" />
 		<xsl:param name="isControl" select="0" />
 		<xsl:param name="readOnly" select="@readOnly" />
 		<xsl:param name="isWrapper" select="0" />
@@ -298,9 +271,6 @@
 			</xsl:with-param>
 		</xsl:call-template>
 		<xsl:call-template name="hideElementIfHiddenSet" />
-		<xsl:call-template name="ajaxTarget">
-			<xsl:with-param name="live" select="$live" />
-		</xsl:call-template>
 		<xsl:if test="not($readOnly eq 'true' or number($isWrapper) eq 1)">
 			<xsl:call-template name="disabledElement">
 				<xsl:with-param name="isControl" select="$isControl" />

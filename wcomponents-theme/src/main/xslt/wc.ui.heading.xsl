@@ -8,7 +8,6 @@
 				<xsl:value-of select="@id"/>
 			</xsl:attribute>
 			<xsl:call-template name="makeCommonClass"/>
-			<xsl:call-template name="ajaxTarget"/>
 			<xsl:apply-templates />
 		</xsl:element>
 	</xsl:template>

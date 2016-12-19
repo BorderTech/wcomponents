@@ -13,7 +13,6 @@
 				<xsl:element name="input">
 					<xsl:call-template name="commonControlAttributes">
 						<xsl:with-param name="name" select="@id"/>
-						<xsl:with-param name="live" select="'off'"/>
 					</xsl:call-template>
 					<xsl:attribute name="type">
 						<xsl:text>password</xsl:text>

@@ -27,7 +27,6 @@
 					</xsl:attribute>
 				</xsl:if>
 				<xsl:call-template name="hideElementIfHiddenSet" />
-				<xsl:call-template name="ajaxTarget" />
 				<xsl:variable name="isCheckRadio">
 					<xsl:call-template name="fieldIsCheckRadio" />
 				</xsl:variable>

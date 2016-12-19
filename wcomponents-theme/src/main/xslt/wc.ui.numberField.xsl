@@ -10,7 +10,6 @@
 				<xsl:element name="input">
 					<xsl:call-template name="commonControlAttributes">
 						<xsl:with-param name="name" select="@id"/>
-						<xsl:with-param name="live" select="'off'"/>
 						<xsl:with-param name="value" select="text()"/>
 					</xsl:call-template>
 					<xsl:attribute name="type">

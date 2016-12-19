@@ -28,7 +28,6 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
-			<xsl:call-template name="ajaxTarget"/>
 		</xsl:element>
 		<xsl:if test="@editor">
 			<xsl:call-template name="imageEditButton">

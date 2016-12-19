@@ -24,7 +24,6 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:with-param>
-				<xsl:with-param name="live" select="'off'"/>
 				<xsl:with-param name="isWrapper" select="1"/>
 			</xsl:call-template>
 			<xsl:apply-templates select="*">

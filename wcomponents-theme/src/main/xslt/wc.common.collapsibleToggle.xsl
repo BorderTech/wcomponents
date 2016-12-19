@@ -48,7 +48,6 @@
 					<xsl:text>wc_coltog</xsl:text>
 				</xsl:with-param>
 			</xsl:call-template>
-			<xsl:call-template name="ajaxTarget"/>
 			<li>
 				<xsl:call-template name="toggleElement">
 					<xsl:with-param name="mode" select="$mode"/>

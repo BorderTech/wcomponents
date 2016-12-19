@@ -98,7 +98,6 @@
 					<xsl:value-of select="@msg"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:call-template name="ajaxController"/>
 			<xsl:choose>
 				<xsl:when test="$myAncestorMenu">
 					<!--

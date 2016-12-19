@@ -10,7 +10,6 @@
 				<select>
 					<xsl:call-template name="commonControlAttributes">
 						<xsl:with-param name="name" select="$id"/>
-						<xsl:with-param name="live" select="'off'"/>
 					</xsl:call-template>
 					<xsl:if test="self::ui:listbox and not(@single)">
 						<xsl:attribute name="multiple">
@@ -69,7 +68,6 @@
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:call-template name="hideElementIfHiddenSet"/>
-					<xsl:call-template name="ajaxTarget"/>
 					<xsl:call-template name="roComponentName"/>
 					<xsl:apply-templates select="ui:option[@selected]|ui:optgroup[ui:option[@selected]]" mode="readOnly">
 						<xsl:with-param name="single" select="0"/>

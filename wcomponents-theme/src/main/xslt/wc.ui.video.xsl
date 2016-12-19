@@ -6,7 +6,6 @@
 			<xsl:call-template name="makeCommonClass"/>
 			<xsl:call-template name="title"/>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
-			<xsl:call-template name="ajaxTarget"/>
 			<xsl:variable name="mediaId" select="concat(@id, '_media')"/>
 			<video id="{$mediaId}">
 				<xsl:attribute name="preload">

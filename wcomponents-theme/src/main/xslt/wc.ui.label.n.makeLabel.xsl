@@ -28,6 +28,9 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
+		
+		<xsl:variable name="wrappedNames" select="('datefield', 'emailfield', 'phonenumberfield', 'shuffler', 'textfield')"/>
+		
 		<xsl:element name="{$elementType}">
 			<xsl:call-template name="labelCommonAttributes">
 				<xsl:with-param name="element" select="$labelableElement"/>
@@ -37,10 +40,7 @@
 					<xsl:if test="@for and @for ne ''"><!-- this is an explicit 'for' and not for implied by nesting -->
 						<xsl:attribute name="for">
 							<xsl:value-of select="@for"/>
-							<xsl:if test="local-name($labelableElement) eq 'datefield' or 
-								local-name($labelableElement) eq 'textfield' or 
-								local-name($labelableElement) eq 'emailfield' or 
-								local-name($labelableElement) eq 'phonenumberfield' or 
+							<xsl:if test="not(empty(index-of($wrappedNames, local-name($labelableElement)))) or 
 								(local-name($labelableElement) eq 'dropdown' and $labelableElement/@type) ">
 								<xsl:text>_input</xsl:text>
 							</xsl:if>
@@ -166,7 +166,6 @@
 		<xsl:if test="$element and $element/@hidden">
 			<xsl:call-template name="hiddenElement"/>
 		</xsl:if>
-		<xsl:call-template name="ajaxTarget"/>
 	</xsl:template>
 	
 	<!--

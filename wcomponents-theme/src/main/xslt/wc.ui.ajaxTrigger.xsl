@@ -38,10 +38,6 @@
 		</xsl:if>
 	</xsl:template>
 
-	<!-- This template will apply-templates to generate a list of ids of controlled elements.-->
-	<xsl:template match="ui:ajaxtrigger" mode="controlled">
-		<xsl:apply-templates mode="controlled"/>
-	</xsl:template>
 
 	<xsl:template match="ui:ajaxtargetid">
 		<xsl:text>"</xsl:text>
@@ -50,14 +46,5 @@
 		<xsl:if test="position() ne last()">
 			<xsl:text>,</xsl:text>
 		</xsl:if>
-	</xsl:template>
-	<!-- 
-		This template outputs a space separated list of targetIds.
-		NOTE: we add the space to every id and then normalize later; this is to cope with the situation where there are multiple ui:ajaxtrigger
-		elements with the same !triggerId.
-	-->
-	<xsl:template match="ui:ajaxtargetid" mode="controlled">
-		<xsl:value-of select="@targetId"/>
-		<xsl:value-of select="' '"/>
 	</xsl:template>
 </xsl:stylesheet>

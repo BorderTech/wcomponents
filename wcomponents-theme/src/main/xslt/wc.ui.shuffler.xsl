@@ -9,7 +9,6 @@
 				<ol>
 					<xsl:call-template name="commonAttributes">
 						<xsl:with-param name="isWrapper" select="1"/>
-						<xsl:with-param name="live" select="'off'"/>
 						<xsl:with-param name="class">
 							<xsl:text>wc_list_nb</xsl:text>
 						</xsl:with-param>
@@ -23,12 +22,9 @@
 				</ol>
 			</xsl:when>
 			<xsl:otherwise>
-				<fieldset>
+				<span>
 					<xsl:call-template name="commonWrapperAttributes"/>
-					<xsl:call-template name="makeLegend">
-						<xsl:with-param name="myLabel" select="key('labelKey',$id)[1]"/>
-					</xsl:call-template>
-					<xsl:variable name="listId" select="concat($id,'_l')"/>
+					<xsl:variable name="listId" select="concat($id,'_input')"/>
 					<select id="{$listId}" class="wc_shuffler wc-noajax" multiple="multiple" autocomplete="off">
 						<xsl:call-template name="disabledElement">
 							<xsl:with-param name="isControl" select="1"/>
@@ -43,7 +39,7 @@
 					<xsl:call-template name="listSortControls">
 						<xsl:with-param name="id" select="$listId"/>
 					</xsl:call-template>
-				</fieldset>
+				</span>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

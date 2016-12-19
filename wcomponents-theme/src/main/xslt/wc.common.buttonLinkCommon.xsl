@@ -7,7 +7,6 @@
 		<xsl:param name="elementType" select="'button'"/>
 		<xsl:param name="class" />
 		<xsl:call-template name="commonAttributes">
-			<xsl:with-param name="live" select="'off'"/>
 			<xsl:with-param name="isControl">
 				<xsl:choose>
 					<xsl:when test="$elementType eq 'button'">
@@ -31,7 +30,6 @@
 			</xsl:with-param>
 		</xsl:call-template>
 		<xsl:call-template name="title"/>
-		<xsl:call-template name="ajaxController"/>
 		<xsl:variable name="linkHasPopup">
 			<xsl:choose>
 				<xsl:when test="ui:windowAttributes[count(@*) gt 1] or (@type eq 'button' and ui:windowAttributes)">

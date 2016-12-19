@@ -13,7 +13,6 @@
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional" select="$hgap"/>
 			</xsl:call-template>
-			<xsl:call-template name="ajaxTarget"/>
 			<xsl:apply-templates select="ui:column"/>
 		</div>
 	</xsl:template>

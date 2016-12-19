@@ -51,7 +51,7 @@
 					<xsl:text>banner</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="@mode or key('targetKey',$id) or parent::ui:ajaxtarget[@action eq 'replace']">
+			<xsl:if test="@mode">
 				<xsl:call-template name="setARIALive"/>
 			</xsl:if>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
