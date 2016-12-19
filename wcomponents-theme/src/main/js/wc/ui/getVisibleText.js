@@ -1,10 +1,9 @@
-define(["wc/dom/Widget",
-	"wc/dom/textContent",
+define(["wc/dom/textContent",
 	"wc/dom/shed",
-	"wc/ui/tooltip"],
-	function (Widget, textContent, shed, tooltip) {
+	"wc/ui/tooltip",
+	"wc/ui/label"],
+	function (textContent, shed, tooltip, label) {
 		"use strict";
-		var HINT;
 
 		/**
 		 * Funny old treewalker filter: we want to get all the nodes we can remove from element so we ACCEPT anything
@@ -60,8 +59,7 @@ define(["wc/dom/Widget",
 			}
 
 			if (removeHint) { // HINT is never "invisible"
-				HINT = HINT || new Widget("", "wc-label-hint");
-				while ((removeableChild = HINT.findDescendant(clone))) {
+				while ((removeableChild = label.getHint(clone))) {
 					removeableChild.parentNode.removeChild(removeableChild);
 				}
 			}

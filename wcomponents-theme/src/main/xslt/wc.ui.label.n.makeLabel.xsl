@@ -208,37 +208,7 @@
 	<xsl:template name="labelHintHelper">
 		<xsl:param name="element"/>
 		<xsl:param name="readOnly" select="0"/>
-		<!--
-			Submit on change warning
-			
-			This is a WCAG 2.0 Level A requirement that any element, other than a button or link, which causes a change of context must expose this to
-			all users
-		-->
-		<xsl:variable name="submitOnChange">
-			<xsl:choose>
-				<xsl:when test="number($readOnly) eq 1">
-					<xsl:number value="0"/>
-				</xsl:when>
-				<xsl:when test="$element and $element/@submitOnChange">
-					<xsl:number value="1"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:number value="0"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:call-template name="WLabelHint">
-			<xsl:with-param name="submitNotAjaxTrigger">
-				<xsl:choose>
-					<xsl:when test="number($submitOnChange) eq 1 and count(key('triggerKey',@for)) eq 0">
-						<xsl:number value="1"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:number value="0"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:with-param>
-		</xsl:call-template>
+		<xsl:call-template name="WLabelHint"/>
 	</xsl:template>
 
 	<!--
@@ -251,19 +221,9 @@
 		param submitNotAjaxTrigger: this needs to be pre-calculated. If set it will be xsl:number 1.
 	-->
 	<xsl:template name="WLabelHint">
-		<xsl:param name="submitNotAjaxTrigger" select="0"/>
-		<xsl:if test="@hint or number($submitNotAjaxTrigger) eq 1">
-			<span>
-				<xsl:attribute name="class">
-					<xsl:text>wc-label-hint</xsl:text>
-				</xsl:attribute>
+		<xsl:if test="@hint">
+			<span class="wc-label-hint">
 				<xsl:value-of select="@hint"/>
-				<xsl:if test="number($submitNotAjaxTrigger) eq 1">
-					<xsl:if test="@hint">
-						<xsl:element name="br"/>
-					</xsl:if>
-					<xsl:text>{{t 'submitOnChange'}}</xsl:text>
-				</xsl:if>
 			</span>
 		</xsl:if>
 	</xsl:template>

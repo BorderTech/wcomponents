@@ -7,8 +7,9 @@ define(["wc/dom/classList",
 	"wc/ui/ajax/processResponse",
 	"wc/i18n/i18n",
 	"wc/dom/role",
-	"wc/ui/internalLink"],
-	function (classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, i18n, $role) {
+	"wc/ui/internalLink",
+	"wc/dom/textContent"],
+	function (classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, i18n, $role, textContent) {
 		"use strict";
 		/*
 		 * Implicit dependencies:
@@ -29,7 +30,9 @@ define(["wc/dom/classList",
 				FAUX,
 				TAGS = [tag.INPUT, tag.TEXTAREA, tag.SELECT, tag.PROGRESS, tag.FIELDSET],
 				CLASS_OFF = "wc-off",
-				MANDATORY_SPAN = new Widget("span", CLASS_OFF);
+				MANDATORY_SPAN = new Widget("span", CLASS_OFF),
+				CLASS_HINT = "wc-label-hint",
+				HINT;
 
 			/**
 			 * Function to do label manipulation when a labelled element is shed'ed.
@@ -239,6 +242,51 @@ define(["wc/dom/classList",
 				LEGEND = LEGEND || new Widget("legend");
 				FAUX = FAUX || new Widget("", "", {"data-wc-for": null});
 				return Widget.isOneOfMe(el, [LABEL, LEGEND, FAUX]);
+			};
+
+			/**
+			 * Get the hint from a given label.
+			 *
+			 * @function module:wc/ui/label.getHint
+			 * @public
+			 * @param {Element} label the label to test
+			 * @returns {?Element} the label's hint, if any
+			 */
+			this.getHint = function (label) {
+				if (label) {
+					HINT = HINT || new Widget("", CLASS_HINT);
+					return HINT.findDescendant(label);
+				}
+				return null;
+			};
+
+			/**
+			 * Set (add to or remove) a hint on a label.
+			 *
+			 * @function module:wc/ui/label.setHint
+			 * @public
+			 * @param {Element} label the label to which we are modifying hint content
+			 * @param {String} [content] the hint content to add; if falsey then an existing hint (if any) is removed
+			 */
+			this.setHint = function(label, content) {
+				var hint = this.getHint(label);
+				if (hint) {
+					if (content) {
+						if (textContent.get(hint)) {
+							hint.insertAdjacentHTML("beforeEnd", "<br>");
+						}
+						hint.insertAdjacentHTML("beforeEnd", content);
+					}
+					else {
+						hint.parentNode.removeChild(hint);
+					}
+				}
+				else if (content) {
+					hint = document.createElement("span");
+					hint.className = CLASS_HINT;
+					hint.innerHTML = content;
+					label.appendChild(hint);
+				}
 			};
 		}
 

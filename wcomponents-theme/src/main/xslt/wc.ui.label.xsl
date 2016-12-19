@@ -129,16 +129,6 @@
 	-->
 	<xsl:template match="ui:label" mode="legend">
 		<xsl:param name="labelableElement"/>
-		<xsl:variable name="submitNotAjaxTrigger">
-			<xsl:choose>
-				<xsl:when test="$labelableElement and $labelableElement/@submitOnChange and count(key('triggerKey',$labelableElement/@id)) eq 0">
-					<xsl:number value="1"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:number value="0"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
 		<legend>
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
@@ -147,9 +137,7 @@
 			</xsl:call-template>
 			<xsl:call-template name="accessKey"/>
 			<xsl:apply-templates />
-			<xsl:call-template name="WLabelHint">
-				<xsl:with-param name="submitNotAjaxTrigger" select="$submitNotAjaxTrigger"/>
-			</xsl:call-template>
+			<xsl:call-template name="WLabelHint"/>
 			<xsl:if test="$labelableElement and $labelableElement/@required">
 				<xsl:call-template name="offscreenSpan">
 					<xsl:with-param name="text">
