@@ -41,20 +41,6 @@ import org.apache.commons.logging.LogFactory;
  * will use more memory and CPU on the server. If this becomes a problem it may be better to perform the transform on an
  * appliance (or the client).
  *
- * <p>
- * It is enabled by setting the "bordertech.wcomponents.xslt.enabled" to true.
- * </p>
- * <p>
- * However, projects may not always have the theme resources in the classpath and want to load them from a static
- * resource (eg from a different web server or resources defined in their war file). To load resources from a static
- * resource, projects set a theme content path via the "bordertech.wcomponents.theme.content.path=theme/myTheme"
- * parameter.
- * </p>
- * <p>
- * So if a project sets the theme content path then server side transforms become meaningless and will not be performed.
- * This will allow the client agent to do the transform using the theme loaded from the theme content path.
- * </p>
- *
  * @author Rick Brown
  * @since 1.0.0
  */
@@ -84,7 +70,7 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	 * If true then server side XSLT will be ignored regardless of the configuration property. This is to account for
 	 * user agents that cannot handle HTML, yes such a thing exists.
 	 */
-	private boolean doTransform = false;
+	private boolean doTransform = true;
 
 	/**
 	 * Override preparePaint in order to perform processing specific to this interceptor.
@@ -93,7 +79,6 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	 */
 	@Override
 	public void preparePaint(final Request request) {
-		doTransform = true;
 		if (doTransform && request instanceof ServletRequest) {
 			HttpServletRequest httpServletRequest = ((ServletRequest) request).getBackingRequest();
 			String userAgentString = httpServletRequest.getHeader("User-Agent");
