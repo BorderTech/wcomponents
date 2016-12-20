@@ -10,6 +10,11 @@
 			<xsl:call-template name="makeCommonClass"/>
 			<xsl:call-template name="disabledElement"/>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
+			<xsl:if test="@groupName">
+				<xsl:attribute name="data-wc-groupname">
+					<xsl:value-of select="@groupName"/>
+				</xsl:attribute>
+			</xsl:if>
 			<div role="tablist">
 				<xsl:if test="@type eq 'accordion'">
 					<xsl:attribute name="aria-multiselectable">

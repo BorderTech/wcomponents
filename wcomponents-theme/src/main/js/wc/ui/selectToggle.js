@@ -449,6 +449,8 @@ define(["wc/dom/shed",
 				return null; // do not return 0 as this means we got a group which after filtering was zero length.
 			}
 
+			
+
 			/**
 			 * Set the controller based on status. A helper for {@link module:wc/ui/selectToggle~shedSubscriber}.
 			 *

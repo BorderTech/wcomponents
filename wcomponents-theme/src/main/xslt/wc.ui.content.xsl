@@ -20,6 +20,9 @@
 				<xsl:attribute name="data-wc-ajaxalias">
 					<xsl:value-of select="$ajaxId"/>
 				</xsl:attribute>
+				<xsl:attribute name="aria-live">
+					<xsl:text>polite</xsl:text>
+				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="$labelId ne ''">
 				<xsl:attribute name="aria-describedby">

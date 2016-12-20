@@ -10,18 +10,11 @@
 					<xsl:text>open</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:call-template name="setARIALive">
-				<xsl:with-param name="live">
-					<xsl:choose>
-						<xsl:when test="@mode eq 'dynamic'">
-							<xsl:text>assertive</xsl:text>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:text>polite</xsl:text>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:with-param>
-			</xsl:call-template>
+			<xsl:if test="@groupName and @groupName != @id">
+				<xsl:attribute name="data-wc-groupname">
+					<xsl:value-of select="@groupName"/>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<summary class="wc-icon" tabindex="0">
 				<xsl:choose>

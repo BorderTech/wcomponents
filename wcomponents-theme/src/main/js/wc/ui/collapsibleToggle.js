@@ -19,9 +19,10 @@ define(["wc/array/toArray",
 	"wc/dom/shed",
 	"wc/timers",
 	"wc/ui/tabset",
+	"wc/ui/ajax/processResponse",
 	"wc/ui/radioAnalog"],
 	/** @param toArray @param event @param focus @param initialise @param Widget @param shed @param timers@param tabset @ignore */
-	function(toArray, event, focus, initialise, Widget, shed, timers, tabset) {
+	function(toArray, event, focus, initialise, Widget, shed, timers, tabset, processResponse) {
 		"use strict";
 		/*
 		 * IMPLICIT dependencies:
@@ -38,12 +39,21 @@ define(["wc/array/toArray",
 		 * @private
 		 */
 		function CollapsibleToggle() {
-			var EXPAND_COLLAPSE_ALL = new Widget("button", "wc_collapsibletoggle"),
-				COLLAPSIBLE = new Widget("details"),
+			var CONTAINER = new Widget("", "wc_coltog"),
+				DETAILS = "details",
+				EXPAND_COLLAPSE_ALL = new Widget("button", "wc_collapsibletoggle"),
+				COLLAPSIBLE = new Widget(DETAILS),
 				TABSET = new Widget("","wc-tabset-type-accordion"),
 				TAB = tabset.ITEM,
 				COLLAPSIBLE_TRIGGER,
-				EXPAND = "expand";
+				EXPAND = "expand",
+				CONTROLS = "aria-controls";
+
+			function getContainer(element) {
+				return CONTAINER.findAncestor(element);
+			}
+
+
 
 			/**
 			 * Are all collapsibles in a group in a particular expanded or collapsed state?
@@ -55,7 +65,7 @@ define(["wc/array/toArray",
 			 */
 			function areAllInExpandedState(controller, action) {
 				var result = false,
-					controlled = controller.getAttribute("aria-controls"),
+					controlled = controller.getAttribute(CONTROLS),
 					test = (action === shed.actions.EXPAND),
 					candidates, i, next;
 
@@ -184,7 +194,7 @@ define(["wc/array/toArray",
 			 */
 			function getControllers(id) {
 				return (toArray(EXPAND_COLLAPSE_ALL.findDescendants(document.body))).filter(function (nxt) {
-					var ctrl = nxt.getAttribute("aria-controls");
+					var ctrl = nxt.getAttribute(CONTROLS);
 					return !ctrl || ctrl.indexOf(id) > -1;
 				});
 			}
@@ -234,15 +244,56 @@ define(["wc/array/toArray",
 				}
 			}
 
+
+			/**
+			 * Set the aria-controls attribute on the buttons of a collapsibleToggle.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element a collapsible toggle wrapper
+			 * @returns {undefined}
+			 */
+			function setControlList(element) {
+				var groupName = element.getAttribute("data-wc-groupname"),
+					buttons = EXPAND_COLLAPSE_ALL.findDescendants(element),
+					targetWidgets = groupName ? [COLLAPSIBLE.extend("", {"data-wc-groupname": groupName}), TABSET.extend("", {"data-wc-groupname": groupName})] : COLLAPSIBLE,
+					targets = Widget.findDescendants(document.body, targetWidgets),
+					idArray = [], ids;
+
+				Array.prototype.forEach.call(targets, function (next) {
+					idArray.push(next.id);
+				});
+
+				if (idArray.length) {
+					ids = idArray.join(" ");
+					Array.prototype.forEach.call(buttons, function (next) {
+						next.setAttribute(CONTROLS, ids);
+					});
+				}
+			}
+
+			/**
+			 * Set aria-controls for each collapsible toggle
+			 * @param {type} element
+			 * @returns {undefined}
+			 */
+			function setControls(element) {
+				var el = element ? element : document.body,
+					candidates = (element && CONTAINER.isOneOfMe(element)) ? [el] : CONTAINER.findDescendants(el);
+				Array.prototype.forEach.call(candidates, setControlList);
+			}
+
 			/**
 			 * Must be called during the postInit phase to ensure bootstrapping is performed.
 			 * @function module:wc/ui/collapsibleToggle.postInit
 			 * @public
 			 */
 			this.postInit = function() {
+				setControls();
 				shed.subscribe(shed.actions.SELECT, shedObserver);
 				shed.subscribe(shed.actions.EXPAND, collapsibleObserver);
 				shed.subscribe(shed.actions.COLLAPSE, collapsibleObserver);
+				processResponse.subscribe(setControls, true);
 			};
 		}
 
