@@ -1,32 +1,16 @@
-/**
- * Provides functionality to select/deselect all checkboxes in a group. Generally applies to
- * {@link module:wc/ui/checkBoxSelect} but can work with any check boxes in any container.
- *
- *
- * @module
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/getFilteredGroup
- * @requires module:wc/array/toArray
- * @requires module:wc/dom/formUpdateManager
- * @requires module:wc/dom/Widget
- * @requires module:wc/dom/initialise
- * @requires module:wc/ui/checkboxAnalog
- * @requires module:wc/ui/radioAnalog
- *
- */
 define(["wc/dom/shed",
-		"wc/dom/tag",
 		"wc/dom/getFilteredGroup",
+		"wc/dom/classList",
 		"wc/array/toArray",
 		"wc/dom/formUpdateManager",
 		"wc/dom/Widget",
 		"wc/dom/initialise",
 		"wc/ui/table/common",
 		"wc/ui/rowAnalog",
+		"wc/ui/ajax/processResponse",
 		"wc/ui/checkboxAnalog",
 		"wc/ui/radioAnalog"],
-	/** @param shed wc/dom/shed @param tag wc/dom.tag @param getFilteredGroup wc/dom/getFilteredGroup @param toArray wc/array/toArray @param formUpdateManager wc/dom/formUpdateManager @param Widget wc/dom/Widget @param initialise wc/dom/initialise @param table @param rowAnalog @ignore */
-	function(shed, tag, getFilteredGroup, toArray, formUpdateManager, Widget, initialise, table, rowAnalog) {
+	function(shed, getFilteredGroup, classList, toArray, formUpdateManager, Widget, initialise, table, rowAnalog, processResponse) {
 		"use strict";
 
 		/**
@@ -36,8 +20,8 @@ define(["wc/dom/shed",
 		 */
 		function SelectToggle() {
 			var registry = {},
+				WSELECTTOGGLE_CLASS = "wc-selecttoggle",
 				CONTROLLER_WD,
-				GROUP_CONTROLLER,
 				CONTROLLER_ABSTRACT,
 				CONTROLLER_CHECKBOX_WD,
 				CONTROLLER_LIST_WD,
@@ -49,12 +33,12 @@ define(["wc/dom/shed",
 				CHECKBOX_WD,
 				ARIA_CB_WD,
 				ROW_WD,
-				CELL_WD,
 				ALL_CB,
 				TABLE_WRAPPER,
 				TABLE_WD,
 				TBODY_WD,
 				ARIA_CONTROLS = "aria-controls",
+				TARGET_ATTRIB = "data-wc-target",
 				STATE = {ALL: "all",
 						NONE: "none",
 						MIXED: "some",
@@ -93,49 +77,28 @@ define(["wc/dom/shed",
 				TBODY_WD = table.TBODY.clone();
 				TBODY_WD.descendFrom(TABLE_WD, true);
 				ROW_WD.descendFrom(TBODY_WD, true);
-				CELL_WD = table.TD.extend("wc_table_sel_wrapper");
 				ALL_CB = [CHECKBOX_WD, ARIA_CB_WD, ROW_WD];
 				TABLE_WRAPPER = table.WRAPPER;
 
 				inited = true;
 			}
 
-			/**
-			 * Helper function to determine if the selectToggle is a table rowSelection controller.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} element The selectToggle
-			 * @returns {Boolean} true if the element is a table row selection controller.
-			 */
-			function isTableRowSelectToggle(element) {
-				var table,
-					_element = element,
-					controlId;
-
-				if (CONTROLLER_LIST_WD.isOneOfMe(element)) {
-					_element = RADIO_SUBCONTROLLER.findDescendant(element);
-				}
-
-				controlId = _element.getAttribute(ARIA_CONTROLS);
-
-				if (!controlId) {
-					return false;
-				}
-
-				// table rowSelectionControls only control their table
-				if (controlId.split(/\s+/).length > 1) {
-					return false;
-				}
-
-				table = document.getElementById(controlId);
-
-				if (!table) {
-					return false;
-				}
-
-				return table.tagName === tag.TBODY;
+			function isWSelectToggleContainer(element) {
+				return element && classList.contains(element, WSELECTTOGGLE_CLASS);
 			}
+
+			function isWSelectToggle(element) {
+				var el;
+				if (isWSelectToggleContainer(element)) {
+					return true;
+				}
+				if (RADIO_SUBCONTROLLER.isOneOfMe(element)) {
+					el = CONTROLLER_LIST_WD.findAncestor(element);
+					return isWSelectToggleContainer(el);
+				}
+				return false;
+			}
+
 
 			/**
 			* Write the state of the select toggles when a form submission takes place.
@@ -153,7 +116,7 @@ define(["wc/dom/shed",
 				// CHECKBOX type controllers
 				Array.prototype.forEach.call(CONTROLLER_CHECKBOX_WD.findDescendants(form), function (next) {
 					var state = STATE.UNKNOWN;
-					if (!shed.isDisabled(next) && !isTableRowSelectToggle(next)) {
+					if (!shed.isDisabled(next) && isWSelectToggle(next)) {
 						if (shed.isSelected(next) === shed.state.MIXED) {
 							state = STATE.MIXED;
 						}
@@ -175,10 +138,9 @@ define(["wc/dom/shed",
 				 * @param next the containing element of a selectToggle of type text
 				 */
 				Array.prototype.forEach.call(CONTROLLER_LIST_WD.findDescendants(form), function (next) {
-					var activeController, reportValue, reportName;
-					if (!shed.isDisabled(next) && !isTableRowSelectToggle(next)) {
-						activeController = Widget.findDescendant(next, ACTIVE_CONTROLLER_WD);
-						if (!activeController) {
+					var reportValue, reportName;
+					if (!shed.isDisabled(next) && isWSelectToggle(next)) {
+						if (!Widget.findDescendant(next, ACTIVE_CONTROLLER_WD)) {
 							reportValue = "some";
 							reportName = RADIO_SUBCONTROLLER.findDescendant(next).getAttribute("data-wc-name"); // note: all buttons in the selectToggle group have the same name
 							formUpdateManager.writeStateField(stateContainer, reportName, reportValue);
@@ -207,121 +169,43 @@ define(["wc/dom/shed",
 				return null;
 			}
 
-			/**
-			 * Get the sub-row controlling 'menu' controller which controls a row. A row which is itself both a
-			 * selectable sub-row and a row with selectable sub-rows will be controlled by both its 'parent' row's
-			 * controller and its own controller. This inMe arg tells us which one to get.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} element A selectable table row.
-			 * @param {boolean} [inMe] If true then look for the row controller inside the row.
-			 * @returns {?Element} The sub-row select controller which controls element.
-			 */
-			function getSubRowController(element, inMe) {
-				var sibling, idList, cell;
+			function getControlledElements(trigger) {
+				var actualTrigger = trigger, idList,
+					candidates;
 
-				if (inMe) {
-					if ((cell = CELL_WD.findDescendant(element, true))) {
-						return CONTROLLER_MENU_WD.findDescendant(cell);
-					}
+				if (CONTROLLER_LIST_WD.isOneOfMe(trigger)) {
+					actualTrigger = RADIO_SUBCONTROLLER.findDescendant(trigger);
 				}
-				else if (element.getAttribute("aria-level") > 1) {
-					sibling = element;
-					while ((sibling = sibling.previousSibling)) {
-						if (sibling.nodeType === Node.ELEMENT_NODE && ROW_WD.isOneOfMe(sibling) && (idList = sibling.getAttribute(ARIA_CONTROLS))) {
-							idList = idList.split(/\s/);
-							if (idList.indexOf(element.id) >= 0 && (cell = CELL_WD.findDescendant(sibling, true))) {
-								return CONTROLLER_MENU_WD.findDescendant(cell);
-							}
-						}
-					}
+				else if (CONTROLLER_MENU_WD.isOneOfMe((trigger))) {
+					actualTrigger = MENU_SUBCONTROLLER.findDescendant(trigger);
+				}
+
+				idList = actualTrigger.getAttribute(ARIA_CONTROLS);
+				if (idList) {
+					candidates = [];
+					idList.split(" ").forEach(function (next) {
+						candidates.push(document.getElementById(next));
+					});
+					return candidates;
 				}
 				return null;
 			}
 
-			/**
-			 * Is a particular element a sub-row select toggle controller?
-			 *
-			 * @function
-			 * @private
-			 * @param {boolean} element The element to text
-			 * @returns {Boolean} true if element is a sub-row toggler.
-			 */
-			function isSubRowController (element) {
-				return !!CONTROLLER_MENU_WD.isOneOfMe(element);
+			function getNamedGroup(groupName) {
+				var namedGroupWd = [CHECKBOX_WD.extend("", {"data-wc-group": groupName}), ARIA_CB_WD.extend("", {"data-wc-group": groupName})];
+				return toArray(Widget.findDescendants(document, namedGroupWd));
+			}
+
+			function getAllControllers(element) {
+				if (!(element && element.id)) {
+					return null;
+				}
+				var controllingWidget = CONTROLLER_ABSTRACT.extend("", {"aria-controls": element.id});
+				return controllingWidget.findDescendants(document.body);
 			}
 
 			/**
-			 * Get the `ui:rowselection/@selectAll` control artefact for a table from any element in the table.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} element The start point.
-			 * @returns {?Element} The selectToggle control for the table, if any.
-			 */
-			function getTableSelectToggleController (element) {
-				var wrapper = TABLE_WRAPPER.findAncestor(element),
-					controller;
-				if (wrapper && (controller = CONTROLLER_WD.findDescendant(wrapper)) && isTableRowSelectToggle(controller)) {
-					return controller;
-				}
-				return null;
-			}
-
-			/**
-			 * Find the registry object of the nearest ancestor container which is controlled by a selectToggle. Test to
-			 * make sure we have a controller:element type match because a tableRowSelect can only control table row
-			 * selection but the table rows can be controlled by a WSelectToggle.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} element The checkbox which is controlled.
-			 * @returns {Element} The selection controller if any.
-			 */
-			function getController(element) {
-				var parent,
-					controllerDto,
-					controller,
-					groupName;
-
-				// whilst a table row selection control can only select rows a row can be selected by a WSelectToggle.
-				// Therefore it is **not sufficient** to return the table row selection controller or null here.
-				if (ROW_WD.isOneOfMe(element)) {
-					controller = (getSubRowController(element, true) || getSubRowController(element)) || getTableSelectToggleController(element);
-				}
-				else if (isSubRowController(element)) {
-					parent = ROW_WD.findAncestor(element);
-					// do not look inside the row if we start on a controller - we have already done that.
-					controller = getSubRowController(parent) || getTableSelectToggleController(parent);
-				}
-				else if ((groupName = element.getAttribute("data-wc-cbgroup"))) {
-					// we can return a controller or null here.
-					GROUP_CONTROLLER = CONTROLLER_WD.extend("", {"data-wc-cbgroup": groupName});
-					return GROUP_CONTROLLER.findDescendant(document.body);
-				}
-
-				if (!controller) {
-					parent = element;
-					while (parent && parent.parentNode) {
-						if (parent.id && (controllerDto = getNamedGroup(parent.id))) {
-							break;
-						}
-						parent = parent.parentNode;
-					}
-					if (controllerDto) {
-						controller = document.getElementById(controllerDto.identifier);
-					}
-					// if we have a checkbox inside a table content we may get a false positive
-					if (controller && isTableRowSelectToggle(controller) && !ROW_WD.isOneOfMe(element)) {
-						controller = null;
-					}
-				}
-				return controller;
-			}
-
-			/**
-			 * Get all of the checkboxes which are controlled by a selectToggle.
+			 * Get all of the components which are controlled by a selectToggle.
 			 *
 			 * @function
 			 * @private
@@ -329,48 +213,51 @@ define(["wc/dom/shed",
 			 * @returns {Element[]} The elements in the group as an Array not as a nodeList or null if no group found.
 			 */
 			function getGroup(controller) {
-				var groupName,
-					subController,
-					container,
-					namedGroupWd,
-					SPACE = /\s+/;
+				var targetId,
+					targetElement,
+					candidates,
+					groupName;
 
 				if (!controller) {
 					return null;
 				}
 
-				if ((groupName = controller.getAttribute("data-wc-cbgroup"))) {
-					namedGroupWd = [CHECKBOX_WD.extend("", {"data-wc-cbgroup": groupName}), ARIA_CB_WD.extend("", {"data-wc-name": groupName})];
-					return toArray(Widget.findDescendants(document, namedGroupWd));
-				}
-
-				groupName = controller.getAttribute(ARIA_CONTROLS);
-
-				if (!groupName && (subController = Widget.findDescendant(controller, SUBCONTROLLER_WD))) {
-					groupName = subController.getAttribute(ARIA_CONTROLS);
-				}
-
-				if (!groupName) {
+				targetId = controller.getAttribute(TARGET_ATTRIB);
+				if (!targetId) {
+					// NOTE: the aria-controls list of a WTable row selection sub controller is set in the renderer as
+					// all of the information to render this is available.
 					return null;
 				}
 
-				if (SPACE.test(groupName)) {
-					groupName = groupName.split(SPACE);
-					return groupName.map(function (next) {
-						return document.getElementById(next);
-					});
-				}
-				if ((container = document.getElementById(groupName))) {
-					if (Widget.isOneOfMe(container, ALL_CB)) {
-						return [container];
+				if ((targetElement = document.getElementById(targetId))) {
+					if (CHECKBOX_WD.isOneOfMe(targetElement)) {
+						groupName = targetElement.getAttribute("data-wc-group");
+						if (!groupName) {
+							return [targetElement];
+						}
+						return getNamedGroup(groupName);
+					}
+					// hurray, the easy one! Get every checkbox or multi-selectable table row inside the target.
+					// NOTE: the sub-row selector in WTable does not have the data-wc-target attribute and therefore
+					// will never be here
+					if (isWSelectToggle(controller)) {
+						// get all checkboxes and surrogates inside the targetElement
+						candidates = toArray(Widget.findDescendants(targetElement, ALL_CB));
+						// remove any which are themselves a controller
+						return candidates.map(function (next) {
+							return CONTROLLER_CHECKBOX_WD.isOneOfMe(next) ? null : next;
+						});
 					}
 
-					if (isTableRowSelectToggle(controller)) {
-						return toArray(ROW_WD.findDescendants(container, true));
-					}
-					return toArray(Widget.findDescendants(container, ALL_CB));
+					// WTable select/deselect all
+					candidates = toArray(ROW_WD.findDescendants(targetElement));
+					// we only want those rows in the currenttable, not in nested tables.
+					return candidates.map(function (next) {
+						return TBODY_WD.findAncestor(next) === targetElement ? next : null;
+					});
 				}
-				return null;
+				// No target element means a WSelectToggle with a named group
+				return getNamedGroup(targetId);
 			}
 
 			/**
@@ -386,7 +273,7 @@ define(["wc/dom/shed",
 			function activateTrigger(trigger) {
 				var _group, state, groupFilter;
 
-				if ((_group = getGroup(trigger)) && _group.length) {
+				if ((_group = getControlledElements(trigger)) && _group.length) {
 					if (CONTROLLER_CHECKBOX_WD.isOneOfMe(trigger) || !(state = trigger.getAttribute("data-wc-value"))) {
 						state = shed.isSelected(trigger) === shed.state.DESELECTED ? STATE.NONE : STATE.ALL;
 					}
@@ -449,7 +336,7 @@ define(["wc/dom/shed",
 				return null; // do not return 0 as this means we got a group which after filtering was zero length.
 			}
 
-			
+
 
 			/**
 			 * Set the controller based on status. A helper for {@link module:wc/ui/selectToggle~shedSubscriber}.
@@ -460,34 +347,28 @@ define(["wc/dom/shed",
 			 * @param {String} status The status to set "all", "some" or "none".
 			 */
 			function setControllerStatus(controller, status) {
-				var controllerWd, activeController;
-
 				if (!controller) {
 					return;
 				}
 
 				if (CONTROLLER_CHECKBOX_WD.isOneOfMe(controller)) {
 					if (status === STATE.ALL && shed.isSelected(controller) !== shed.state.SELECTED) {
-						shed.select(controller);
+						shed.select(controller, true);
 					}
 					else if (status === STATE.MIXED && shed.isSelected(controller) !== shed.state.MIXED) {
-						shed.mix(controller);
+						shed.mix(controller, true);
 					}
 					else if (status === STATE.NONE && shed.isSelected(controller) !== shed.state.DESELECTED) {
-						shed.deselect(controller);
+						shed.deselect(controller, true);
 					}
+					return;
 				}
-				else if (status === STATE.MIXED && (activeController = Widget.findDescendant(controller, ACTIVE_CONTROLLER_WD))) {
-					shed.deselect(activeController);
+
+				if (status === STATE.MIXED || controller.getAttribute("data-wc-value") !== status) {
+					shed.deselect(controller, true);
+					return;
 				}
-				else {
-					controllerWd = SUBCONTROLLER_WD.map(function(next) {
-						return next.extend("", {"data-wc-value": status});
-					});
-					if ((activeController = Widget.findDescendant(controller, controllerWd)) && !shed.isSelected(activeController)) {
-						shed.select(activeController);
-					}
-				}
+				shed.select(controller, true);
 			}
 
 			/**
@@ -499,75 +380,103 @@ define(["wc/dom/shed",
 			 * @param {String} action shed.SELECT or shed.DESELECT.
 			 */
 			function shedObserver(element, action) {
-				var controller, done;
+				var allControllers;
 
 				if (!element) {
 					return;
 				}
 
-				if (!inited) {
-					initialiseControllers();
-				}
-
+				// Change the selected stae of a WSelectToggle button:
 				if ((action === shed.actions.SELECT && Widget.isOneOfMe(element, SUBCONTROLLER_WD)) ||
 					((action === shed.actions.SELECT || action === shed.actions.DESELECT) && (CONTROLLER_CHECKBOX_WD.isOneOfMe(element)))) {
-					done = activateTrigger(element);
 					/* If activateTrigger returns exactly 0 we did not change the state of any controls so we won't
-					 * have set the state of the controller and if it was a sub controller then it may be in the
-					 * incorrect state. This _will_ be the case if, for example, someone clicks a "select all" sub
-					 * controller which controls only selected and hidden components. Nothing will be selected in
-					 * activateTigger so the state of the controller will not have been updated by this shed observer
-					 * and it will remain in an erroneous selected state (the controller should be mixed). */
-					if (done === 0 && Widget.isOneOfMe(element, SUBCONTROLLER_WD) && shed.isSelected(element)) {
-						 // could merge but it is getting a bit long ...
-						if ((controller = Widget.findAncestor(element, [CONTROLLER_LIST_WD, CONTROLLER_MENU_WD]))) {
-							controlStatusHelper(controller);
-						}
+					 * have set the state of the controller and it may be in the incorrect state. This _will_ be the
+					 * case if, for example, someone clicks a "select all" which controls only selected and hidden
+					 * components. Nothing will be selected in activateTigger so the state of the controller will not
+					 * have been updated by this shed observer and it will remain in an erroneous selected state (the
+					 * controller should be mixed). */
+					if (activateTrigger(element) === 0) {
+						controlStatusHelper(element);
+					}
+					return;
+				}
+
+				if (Widget.isOneOfMe(element, ALL_CB)) {
+					allControllers = getAllControllers(element);
+					if (!(allControllers && allControllers.length)) {
+						return;
+					}
+
+					Array.prototype.forEach.call(allControllers, controlStatusHelper);
+				}
+			}
+
+			function controlStatusHelper(controller) {
+				var controlledElements,
+					selected,
+					groupState = STATE.MIXED;
+
+				if (shed.isDisabled(controller) || !(controlledElements = getControlledElements(controller))) {
+					// no grouped items means no controller to set state on.
+					return;
+				}
+
+				if (controlledElements.length === 0) {
+					groupState = STATE.NONE;
+				}
+				else if ((selected = getFilteredGroup(controlledElements))) {
+					if (selected.length === 0) {
+						groupState = STATE.NONE;
+					}
+					else if (controlledElements.length === selected.length) {
+						groupState = STATE.ALL;
 					}
 				}
-				/*
-				else if ((action === shed.actions.SELECT || action === shed.actions.DESELECT) && ROW_WD.isOneOfMe(element)) {
-					if ((controller = getSubRowController(element, true))) {
-						setControllerStatus(controller, action === shed.actions.SELECT ? STATE.ALL : STATE.NONE);
-					}
-				}
-				*/
-				if (Widget.isOneOfMe(element, ALL_CB) && (controller = getController(element))) {
-					if (isSubRowController(controller)) {
-						do {
-							controlStatusHelper(controller);
+
+				setControllerStatus(controller, groupState);
+			}
+
+			/**
+			 * Set the aria-controls attribute on the buttons of a selectToggle.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element a collapsible toggle wrapper
+			 */
+			function setControlList(element) {
+				var candidates = getGroup(element),
+					idArray = [], ids;
+
+				if (candidates) {
+					candidates.forEach(function (next) {
+						idArray.push(next.id);
+					});
+
+					if (idArray.length) {
+						ids = idArray.join(" ");
+						if (CONTROLLER_CHECKBOX_WD.isOneOfMe(element)) {
+							element.setAttribute(ARIA_CONTROLS, ids);
 						}
-						while ((controller = getController(controller)) && (isSubRowController(controller) || isTableRowSelectToggle(controller)));
-					}
-					else {
-						controlStatusHelper(controller);
+						else {
+							Array.prototype.forEach.call(RADIO_SUBCONTROLLER.findDescendants(element), function (next) {
+								next.setAttribute(ARIA_CONTROLS, ids);
+							});
+						}
 					}
 				}
 			}
 
-
-			function controlStatusHelper(controller) {
-				var _group= getGroup(controller),
-					selected,
-					groupState;
-
-				if (!_group) {
-					// no grouped items means no controller to set state on.
-					return;
+			/**
+			 * Set aria-controls for each collapsible toggle
+			 *
+			 * @function
+			 * @private
+			 */
+			function setControls() {
+				if (!inited) {
+					initialiseControllers();
 				}
-				selected = getFilteredGroup(_group);
-				groupState = STATE.MIXED;
-
-				if (_group.length === 0) {
-					groupState = STATE.NONE;
-				}
-				else if (_group.length === selected.length) {
-					groupState = STATE.ALL;
-				}
-				else if (selected.length === 0) {
-					groupState = STATE.NONE;
-				}
-				setControllerStatus(controller, groupState);
+				Array.prototype.forEach.call(CONTROLLER_WD.findDescendants(document.body), setControlList);
 			}
 
 			/**
@@ -578,10 +487,12 @@ define(["wc/dom/shed",
 			 * @public
 			 */
 			this.postInit = function() {
+				setControls();
 				shed.subscribe(shed.actions.SELECT, shedObserver);
 				shed.subscribe(shed.actions.DESELECT, shedObserver);
 				shed.subscribe(shed.actions.MIX, shedObserver);
 				formUpdateManager.subscribe(writeState);
+				processResponse.subscribe(setControls, true);
 			};
 
 			/**
@@ -599,7 +510,25 @@ define(["wc/dom/shed",
 
 		}
 
-		var /** @alias module:wc/ui/selectToggle */instance = new SelectToggle();
+		/**
+		 * Provides functionality to select/deselect all checkboxes in a group. Generally applies to
+		 * {@link module:wc/ui/checkBoxSelect} but can work with any check boxes in any container.
+		 *
+		 *
+		 * @module
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/getFilteredGroup
+		 * @requires module:wc/dom/classList,
+		 * @requires module:wc/array/toArray
+		 * @requires module:wc/dom/formUpdateManager
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/ui/table/common
+		 * @requires module:wc/ui/rowAnalog
+		 * @requires module:wc/ui/ajax/processResponse
+		 *
+		 */
+		var instance = new SelectToggle();
 		initialise.register(instance);
 		return instance;
 	});

@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
 	<!-- WCollapsible -->
@@ -11,7 +11,7 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="@groupName and @groupName != @id">
-				<xsl:attribute name="data-wc-groupname">
+				<xsl:attribute name="data-wc-group">
 					<xsl:value-of select="@groupName"/>
 				</xsl:attribute>
 			</xsl:if>

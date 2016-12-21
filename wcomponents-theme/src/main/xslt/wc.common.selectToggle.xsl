@@ -3,9 +3,6 @@
 	<xsl:import href="wc.common.toggleElement.xsl"/>
 	<xsl:import href="wc.common.key.label.xsl"/>
 
-	<!-- Keys used by selectToggle if it is targetted at a single checkbox or group of disparate check boxes rather than at a container or checkBoxSelect-->
-	<xsl:key name="checkboxIdKey" match="//ui:checkbox[@groupName]" use="@id"/>
-	<xsl:key name="checkboxGroupKey" match="//ui:checkbox[@groupName]" use="@groupName"/>
 	<!--
 		Builds selectToggle/rowSelection controls.
 			wc.ui.selectToggle.xsl
@@ -24,51 +21,15 @@
 				<xsl:text>_st</xsl:text>
 			</xsl:if>
 		</xsl:variable>
-		<!--
-			WComponents groups WCheckBoxes in a CheckBoxGroup (note: NOT a WCheckBoxSelect) in which each WCheckBox has a common groupName property.
-			The WSelectToggle is then pointed to this CheckBoxGroup and the for attribute reflects the id of one of the WCheckBoxes in that group.
-			This test uses the fact that a WCheckBox will have a groupName only if it is in such a group so if the WCheckBox that this toggle is for
-			has a groupName then we can infer that the toggle is actually intended to be for the group.
-		-->
-		<xsl:variable name="isCheckboxTarget" select="key('checkboxIdKey',$for)"/>
-		<!--
-			Based on the test in isCheckboxTarget if the toggle is for a group of WCheckBoxes we need to extract the groupName. This can be extracted
-			from any node returned from isCheckboxTarget so we may as well use the first since it is the only one guaranteed to be there.
-		-->
-		<xsl:variable name="thisGroupName">
-			<xsl:if test="$isCheckboxTarget">
-				<xsl:value-of select="$isCheckboxTarget[1]/@groupName"/>
-			</xsl:if>
-		</xsl:variable>
-		<!--
-			Generates a space separated list of ids for the components controlled by this toggle. If we have a nodeList returned from isCheckboxTarget
-			and a groupName returned from thisGroupName then we get the id of all WCheckBoxes in that group. Otherwise the target id is the only thing
-			controlled by the toggle.
-		-->
-		<xsl:variable name="targetList">
-			<xsl:choose>
-				<xsl:when test="$isCheckboxTarget and $thisGroupName ne ''">
-					<xsl:apply-templates select="key('checkboxGroupKey',$thisGroupName)" mode="getIdList"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="$for"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
 		<xsl:variable name="myLabel" select="key('labelKey',$id)[1]"/>
 		<xsl:choose>
 			<xsl:when test="$type eq 'text'">
-				<span id="{$toggleId}" role="radiogroup">
+				<span id="{$toggleId}" role="radiogroup" data-wc-target="{$for}">
 					<xsl:call-template name="makeCommonClass">
 						<xsl:with-param name="additional">
 							<xsl:text>wc_seltog</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
-					<xsl:if test="$isCheckboxTarget">
-						<xsl:attribute name="data-wc-cbgroup">
-							<xsl:value-of select="$thisGroupName"/>
-						</xsl:attribute>
-					</xsl:if>
 					<xsl:choose>
 						<xsl:when test="self::ui:rowselection">
 							<xsl:call-template name="disabledElement"><!-- WDataTable compatibility only. -->
@@ -119,7 +80,6 @@
 					<xsl:call-template name="toggleElement">
 						<xsl:with-param name="mode" select="'client'"/>
 						<xsl:with-param name="id" select="concat($id,'_all')"/>
-						<xsl:with-param name="for" select="$targetList"/>
 						<xsl:with-param name="name" select="$name"/>
 						<xsl:with-param name="value" select="'all'"/>
 						<xsl:with-param name="class" select="$subClass"/>
@@ -139,7 +99,6 @@
 					<xsl:call-template name="toggleElement">
 						<xsl:with-param name="mode" select="'client'"/>
 						<xsl:with-param name="id" select="concat($id,'_none')"/>
-						<xsl:with-param name="for" select="$targetList"/>
 						<xsl:with-param name="name" select="$name"/>
 						<xsl:with-param name="value" select="'none'"/>
 						<xsl:with-param name="class" select="$subClass"/>
@@ -175,7 +134,7 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
-				<button id="{$toggleId}" role="checkbox" aria-controls="{$targetList}" type="button">
+				<button id="{$toggleId}" role="checkbox" type="button" data-wc-target="{$for}">
 					<xsl:attribute name="aria-checked">
 						<xsl:choose>
 							<xsl:when test="$selected eq 'all'">
@@ -221,11 +180,6 @@
 							</xsl:call-template>
 						</xsl:otherwise>
 					</xsl:choose>
-					<xsl:if test="$isCheckboxTarget">
-						<xsl:attribute name="data-wc-cbgroup">
-							<xsl:value-of select="$thisGroupName"/>
-						</xsl:attribute>
-					</xsl:if>
 					<!-- ADDING TEXT CONTENT - NO MORE ATTRIBUTES AFTER THIS COMMENT -->
 					<xsl:if test="self::ui:rowselection">
 						<span>

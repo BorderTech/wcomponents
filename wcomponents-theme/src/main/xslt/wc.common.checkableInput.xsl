@@ -65,7 +65,7 @@
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:if test="@groupName and self::ui:checkbox">
-						<xsl:attribute name="data-wc-cbgroup">
+						<xsl:attribute name="data-wc-group">
 							<xsl:value-of select="@groupName"/>
 						</xsl:attribute>
 					</xsl:if>

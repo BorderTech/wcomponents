@@ -3,6 +3,7 @@
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
+	<xsl:import href="wc.common.aria.live.xsl"/>
 	<!--
 		Structural: do not override.
 		

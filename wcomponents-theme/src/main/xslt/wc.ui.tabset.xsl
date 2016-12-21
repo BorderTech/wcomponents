@@ -1,5 +1,5 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
 	<!--
@@ -11,7 +11,7 @@
 			<xsl:call-template name="disabledElement"/>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:if test="@groupName">
-				<xsl:attribute name="data-wc-groupname">
+				<xsl:attribute name="data-wc-group">
 					<xsl:value-of select="@groupName"/>
 				</xsl:attribute>
 			</xsl:if>
@@ -39,6 +39,6 @@
 
 	<!--
 		Tabs should not be grouped in the UI. There is no facility for subgroupings of elements with a role of tab in WAI-ARIA.
-	-->	
+	-->
 	<xsl:template match="ui:tabgroup"/>
 </xsl:stylesheet>

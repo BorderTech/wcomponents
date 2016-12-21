@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.toggleElement.xsl"/>
 
@@ -31,7 +31,7 @@
 					<xsl:text>wc_coltog</xsl:text>
 				</xsl:with-param>
 			</xsl:call-template>
-			<xsl:attribute name="data-wc-groupname">
+			<xsl:attribute name="data-wc-group">
 				<xsl:value-of select="$for"/>
 			</xsl:attribute>
 			<li>
