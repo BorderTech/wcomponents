@@ -64,6 +64,9 @@ define(["wc/array/toArray",
 					result = true;
 					for (i = 0; i < candidates.length; ++i) {
 						next = candidates[i];
+						if (!next) {
+							continue;
+						}
 						if (TABSET.isOneOfMe(next)) {
 							result = tabset.areAllInExpandedState(next, test);
 							if (!result) {
@@ -123,7 +126,9 @@ define(["wc/array/toArray",
 
 				if (collapsibles) {
 					collapsibles.forEach(function(next) {
-						toggleThisCollapsible(next, open);
+						if (next) {
+							toggleThisCollapsible(next, open);
+						}
 					});
 				}
 				// webkit focus fix may remove focus to the collapsible, put it back

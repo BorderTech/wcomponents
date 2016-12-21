@@ -5,7 +5,6 @@
 	<xsl:template name="toggleElement">
 		<xsl:param name="mode" select="''"/>
 		<xsl:param name="id" select="''"/>
-		<xsl:param name="for" select="''"/>
 		<xsl:param name="name" select="''"/>
 		<xsl:param name="value" select="''"/>
 		<xsl:param name="class" select="''"/>
@@ -39,18 +38,6 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
-			<xsl:if test="$for ne ''">
-				<xsl:attribute name="aria-controls">
-					<xsl:value-of select="$for"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:choose>
-				<xsl:when test="$mode eq 'dynamic' or $mode eq 'lazy'">
-					<xsl:attribute name="data-wc-ajaxalias">
-						<xsl:value-of select="$for"/>
-					</xsl:attribute>
-				</xsl:when>
-			</xsl:choose>
 			<xsl:choose>
 				<xsl:when test="self::ui:rowselection or self::ui:rowexpansion">
 					<!--

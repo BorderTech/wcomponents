@@ -96,7 +96,7 @@ define(["wc/array/toArray",
 
 				if (candidates && candidates.length) {
 					return candidates.every(function (next) {
-						return shed.isExpanded(next) === expanded;
+						return next && shed.isExpanded(next) === expanded;
 					});
 				}
 				return false;
@@ -209,7 +209,9 @@ define(["wc/array/toArray",
 
 				if (controlled) {
 					controlled.forEach(function(row) {
-						shed[shedFunc](row);
+						if (row) {
+							shed[shedFunc](row);
+						}
 					});
 					if ((controllers = getControllers(triggerRow))) {
 						controllers.forEach(setControllerState);
@@ -373,6 +375,9 @@ define(["wc/array/toArray",
 					open = element.getAttribute(VALUE) === EXPAND;
 
 					candidates = candidates.filter(function(next) {
+						if (!next) {
+							return false;
+						}
 						if (open) {
 							return !(shed.isExpanded(next)|| shed.isHidden(next));
 						}
