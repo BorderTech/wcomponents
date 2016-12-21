@@ -13,6 +13,8 @@ define(["wc/has",
 	function(has, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers, prompt, ajaxRegion) {
 		"use strict";
 
+		require(["wc/ui/fieldset"]);
+
 		/**
 		 * @constructor
 		 * @alias module:wc/ui/multiFormComponent~MultiFormComponent

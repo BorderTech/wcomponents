@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.makeLegend.xsl"/>
+	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.common.imageEditButton.xsl"/>
 	<!--
 		Transform for WFileWidget and WMultiFileWidget. Should be a pretty simple HTML input element of type file. But it isn't.
@@ -85,9 +85,6 @@
 							<xsl:call-template name="roComponentName"/>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:call-template name="makeLegend">
-								<xsl:with-param name="myLabel" select="key('labelKey',$id)[1]"/>
-							</xsl:call-template>
 							<xsl:variable name="inputId" select="concat($id,'_input')"/>
 							<label class="wc-off" for="{$inputId}">
 								<xsl:text>{{t 'file_inputLabel'}}</xsl:text>

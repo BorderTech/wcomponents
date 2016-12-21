@@ -28,6 +28,8 @@ define(["wc/dom/ariaAnalog",
 	function(ariaAnalog, Widget, initialise, shed, clearSelection, group, getFilteredGroup) {
 		"use strict";
 
+		require(["wc/ui/fieldset"]);
+
 		/**
 		 * @constructor
 		 * @alias module:wc/ui/checkBoxSelect~CheckBoxSelect

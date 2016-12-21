@@ -15,8 +15,6 @@
 
 		In some cases the ui:label should be output as part of another transform and not putput at all in-situ. The
 		current components which pull the ui:label are ui:radiobutton, ui:checkbox and ui:selecttoggle[@renderAs='control'].
-
-		param style: passed in ultimately from the transform for ui:field. See wc.ui.field.xsl.
 	-->
 	<xsl:template match="ui:label">
 		<xsl:variable name="for" select="@for"/>

@@ -112,6 +112,11 @@
 					<xsl:attribute name="data-wc-for">
 						<xsl:value-of select="@for"/>
 					</xsl:attribute>
+					<xsl:if test="@accessKey">
+						<xsl:attribute name="data-wc-accesskey">
+							<xsl:value-of select="@accessKey"/>
+						</xsl:attribute>
+					</xsl:if>
 				</xsl:otherwise>
 			</xsl:choose>
 			<xsl:call-template name="labelClassHelper">

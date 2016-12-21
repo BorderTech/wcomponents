@@ -135,7 +135,7 @@ define(["wc/dom/classList",
 			 */
 			function ajaxSubscriber(element) {
 				if (element) {
-					timers.setTimeout(flagBadLabels, 0, element);
+					timers.setTimeout(flagBadLabels, 100, element);
 				}
 			}
 
@@ -148,7 +148,7 @@ define(["wc/dom/classList",
 			 */
 			this.postInit = function () {
 				processResponse.subscribe(ajaxSubscriber, true);
-				flagBadLabels();
+				timers.setTimeout(flagBadLabels, 100);
 			};
 		}
 

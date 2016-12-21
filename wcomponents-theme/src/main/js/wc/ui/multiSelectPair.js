@@ -31,6 +31,8 @@ define(["wc/dom/attribute",
 	function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, tag, Widget, ajaxRegion, processResponse, selectboxSearch) {
 		"use strict";
 
+		require(["wc/ui/fieldset"]);
+
 		/**
 		 * @constructor
 		 * @alias module:wc/ui/multiSelectPair~MultiSelectPair

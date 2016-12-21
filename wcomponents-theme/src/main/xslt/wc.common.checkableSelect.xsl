@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.makeLegend.xsl"/>
+	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.common.hField.xsl"/>
 	<!--  WRadioButtonSelect and WCheckBoxSelect -->
 	<xsl:template match="ui:checkboxselect|ui:radiobuttonselect">
@@ -75,7 +75,6 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
-				<xsl:variable name="myLabel" select="key('labelKey',$id)[1]"/>
 				<xsl:element name="{$element}">
 					<xsl:call-template name="commonWrapperAttributes">
 						<xsl:with-param name="isControl" select="1 - $readOnly"/>
@@ -98,20 +97,12 @@
 									<xsl:value-of select="@max"/>
 								</xsl:attribute>
 							</xsl:if>
-							<xsl:call-template name="makeLegend">
-								<xsl:with-param name="myLabel" select="$myLabel"/>
-							</xsl:call-template>
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:call-template name="title"/>
 							<xsl:call-template name="roComponentName"/>
 						</xsl:otherwise>
 					</xsl:choose>
-					<xsl:variable name="firstItemAccessKey">
-						<xsl:if test="$myLabel">
-							<xsl:value-of select="$myLabel/@accessKey"/>
-						</xsl:if>
-					</xsl:variable>
 					<xsl:variable name="rowClass">
 						<xsl:text>wc-row wc-hgap-med wc-respond</xsl:text>
 					</xsl:variable>
@@ -167,7 +158,6 @@
 									</xsl:choose>
 								</xsl:attribute>
 								<xsl:apply-templates select="ui:option" mode="checkableGroupInList">
-									<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
 									<xsl:with-param name="inputName" select="$id"/>
 									<xsl:with-param name="type" select="$inputType"/>
 									<xsl:with-param name="readOnly" select="$readOnly"/>
@@ -176,7 +166,6 @@
 						</xsl:when>
 						<xsl:when test="number($rows) eq 1 and  ui:option">
 							<xsl:apply-templates select="ui:option" mode="checkableGroup">
-								<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
 								<xsl:with-param name="inputName" select="$id"/>
 								<xsl:with-param name="type" select="$inputType"/>
 								<xsl:with-param name="readOnly" select="$readOnly"/>
@@ -186,7 +175,6 @@
 						<xsl:when test="ui:option">
 							<div class="{$rowClass}">
 								<xsl:apply-templates select="ui:option[position() mod number($rows) eq 1]" mode="checkableGroup">
-									<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
 									<xsl:with-param name="inputName" select="$id"/>
 									<xsl:with-param name="type" select="$inputType"/>
 									<xsl:with-param name="readOnly" select="$readOnly"/>
@@ -202,18 +190,13 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+
 	<!-- Template to transform the options in a checkable group. -->
 	<xsl:template match="ui:option" mode="checkableGroup">
-		<xsl:param name="firstItemAccessKey"/>
 		<xsl:param name="inputName"/>
 		<xsl:param name="type"/>
 		<xsl:param name="rows" select="0"/>
 		<xsl:param name="readOnly" select="0"/>
-		<xsl:variable name="firstAccessKey">
-			<xsl:if test="position() eq 1">
-				<xsl:value-of select="$firstItemAccessKey"/>
-			</xsl:if>
-		</xsl:variable>
 		<xsl:variable name="layout" select="../@layout"/>
 		<xsl:variable name="elementName">
 			<xsl:choose>
@@ -250,7 +233,6 @@
 				<xsl:with-param name="optionName" select="$inputName"/>
 				<xsl:with-param name="optionType" select="$type"/>
 				<xsl:with-param name="readOnly" select="$readOnly"/>
-				<xsl:with-param name="cgAccessKey" select="$firstAccessKey"/>
 			</xsl:call-template>			
 			<xsl:if test="number($rows) gt 0">
 				<xsl:choose>
@@ -273,21 +255,14 @@
 	</xsl:template>
 	<!-- Transforms each option which is in a column -->
 	<xsl:template match="ui:option" mode="checkableGroupInList">
-		<xsl:param name="firstItemAccessKey" select="''"/>
 		<xsl:param name="inputName"/>
 		<xsl:param name="type"/>
 		<xsl:param name="readOnly" select="0"/>
 		<xsl:if test="number($readOnly) eq 0 or @selected">
-			<xsl:variable name="localAccessKey">
-				<xsl:if test="position() eq 1 and $firstItemAccessKey ne ''">
-					<xsl:value-of select="$firstItemAccessKey"/>
-				</xsl:if>
-			</xsl:variable>
 			<xsl:call-template name="checkableSelectOption">
 				<xsl:with-param name="optionName" select="$inputName"/>
 				<xsl:with-param name="optionType" select="$type"/>
 				<xsl:with-param name="readOnly" select="$readOnly"/>
-				<xsl:with-param name="cgAccessKey" select="$localAccessKey"/>
 			</xsl:call-template>
 		</xsl:if>
 	</xsl:template>
@@ -298,7 +273,6 @@
 		<xsl:param name="optionName"/>
 		<xsl:param name="optionType" select="''"/>
 		<xsl:param name="readOnly" select="0"/>
-		<xsl:param name="cgAccessKey" select="''"/>
 		<xsl:variable name="uid">
 			<xsl:value-of select="concat(../@id,generate-id())"/>
 		</xsl:variable>
@@ -343,11 +317,6 @@
 						<xsl:if test="@isNull and $optionType eq 'radio'">
 							<xsl:attribute name="data-wc-null">
 								<xsl:text>1</xsl:text>
-							</xsl:attribute>
-						</xsl:if>
-						<xsl:if test="$cgAccessKey ne ''">
-							<xsl:attribute name="accesskey">
-								<xsl:value-of select="$cgAccessKey"/>
 							</xsl:attribute>
 						</xsl:if>
 						<xsl:if test="@selected">

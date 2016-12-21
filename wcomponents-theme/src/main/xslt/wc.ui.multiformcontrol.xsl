@@ -1,6 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.makeLegend.xsl"/>
+	<xsl:import href="wc.common.readOnly.xsl"/>
 	<!-- Transforms for WMultiDropdown and WMultiTextField. -->
 	<xsl:template match="ui:multidropdown|ui:multitextfield">
 		<xsl:variable name="readOnly">
@@ -60,9 +60,6 @@
 							<xsl:value-of select="@max"/>
 						</xsl:attribute>
 					</xsl:if>
-					<xsl:call-template name="makeLegend">
-						<xsl:with-param name="myLabel" select="key('labelKey',@id)[1]"/>
-					</xsl:call-template>
 					<ul class="wc_list_nb">
 						<xsl:choose>
 							<!-- content transform is dependant upon the actual component being transformed-->

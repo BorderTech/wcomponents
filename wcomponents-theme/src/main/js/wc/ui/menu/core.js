@@ -244,7 +244,7 @@ define(["wc/dom/attribute",
 		AbstractMenu.prototype._textMatchFilter = function(textNode) {
 			var parent = textNode.parentNode;
 
-			if (shed.isHidden(textNode) || shed.hasDisabledAncestor(textNode, parent) || getFixedWidgets().OFFSCREEN.findAncestor(parent)) {
+			if (shed.isHidden(parent) || shed.hasDisabledAncestor(textNode, parent) || getFixedWidgets().OFFSCREEN.findAncestor(parent)) {
 				return NodeFilter.FILTER_REJECT;
 			}
 			if (textNode.nodeValue) {

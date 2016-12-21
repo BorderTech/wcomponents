@@ -25,6 +25,8 @@ define(["wc/dom/attribute",
 		toDocFragment) {
 		"use strict";
 
+		require(["wc/ui/fieldset"]);
+
 		var
 			/**
 			 * Provides functionality associated with uploading multiple files using a WMultiFileWidget.
