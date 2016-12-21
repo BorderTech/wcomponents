@@ -37,7 +37,6 @@
 			<li>
 				<xsl:call-template name="toggleElement">
 					<xsl:with-param name="mode" select="$mode"/>
-					<xsl:with-param name="id" select="concat($id,'_expand')"/>
 					<xsl:with-param name="name" select="$id"/>
 					<xsl:with-param name="value" select="'expand'"/>
 					<xsl:with-param name="text"><xsl:text>{{t 'expandall'}}</xsl:text></xsl:with-param>
@@ -47,7 +46,6 @@
 			<li>
 				<xsl:call-template name="toggleElement">
 					<xsl:with-param name="mode" select="'client'"/><!-- collapse all is never ajaxy -->
-					<xsl:with-param name="id" select="concat($id,'_collapse')"/>
 					<xsl:with-param name="name" select="$id"/>
 					<xsl:with-param name="value" select="'collapse'"/>
 					<xsl:with-param name="text"><xsl:text>{{t 'collapseall'}}</xsl:text></xsl:with-param>

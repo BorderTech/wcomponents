@@ -4,28 +4,21 @@
 	<!-- Helper templates and keys for common state toggling elements. -->
 	<xsl:template name="toggleElement">
 		<xsl:param name="mode" select="''"/>
-		<xsl:param name="id" select="''"/>
 		<xsl:param name="name" select="''"/>
 		<xsl:param name="value" select="''"/>
-		<xsl:param name="class" select="''"/>
 		<xsl:param name="text" select="''"/>
+		<xsl:param name="class" select="''"/>
 		<xsl:param name="selected" select="0"/>
-		<xsl:param name="labelId" select="''"/>
 		<xsl:variable name="localClass">
 			<xsl:text>wc-linkbutton</xsl:text>
 			<xsl:if test="$class ne ''">
 				<xsl:value-of select="concat(' ',$class)"/>
 			</xsl:if>
 		</xsl:variable>
-		<button id="{$id}" role="radio" class="{$localClass}" data-wc-value="{$value}" type="button">
+		<button role="radio" class="{$localClass}" data-wc-value="{$value}" type="button">
 			<xsl:if test="$name ne ''">
 				<xsl:attribute name="data-wc-name">
 					<xsl:value-of select="$name"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:if test="$labelId ne ''">
-				<xsl:attribute name="aria-labelledby">
-					<xsl:value-of select="$labelId"/>
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:attribute name="aria-checked">
@@ -38,22 +31,11 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
-			<xsl:choose>
-				<xsl:when test="self::ui:rowselection or self::ui:rowexpansion">
-					<!--
-						TODO: this applies only to WDataTable's intrinsic disabled mode. It is on the list to remove.
-					-->	
-					<xsl:call-template name="disabledElement">
-						<xsl:with-param name="isControl" select="1"/>
-						<xsl:with-param name="field" select="parent::ui:table"/>
-					</xsl:call-template>
-				</xsl:when>
-				<xsl:when test="self::ui:selecttoggle"><!-- WCollapsibleToggle does not have a disabled state. -->
-					<xsl:call-template name="disabledElement">
-						<xsl:with-param name="isControl" select="1"/>
-					</xsl:call-template>
-				</xsl:when>
-			</xsl:choose>
+			<xsl:if test="self::ui:selecttoggle"><!-- WCollapsibleToggle does not have a disabled state. -->
+				<xsl:call-template name="disabledElement">
+					<xsl:with-param name="isControl" select="1"/>
+				</xsl:call-template>
+			</xsl:if>
 			<xsl:value-of select="$text"/>
 		</button>
 	</xsl:template>

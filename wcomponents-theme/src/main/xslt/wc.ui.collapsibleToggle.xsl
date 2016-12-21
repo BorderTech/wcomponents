@@ -2,7 +2,6 @@
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.collapsibleToggle.xsl"/>
 
-	<!-- WCollapsibleToggle is output as a list of buttons. -->
 	<xsl:template match="ui:collapsibletoggle">
 		<xsl:call-template name="collapsibleToggle"/>
 	</xsl:template>

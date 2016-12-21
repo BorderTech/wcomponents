@@ -8,9 +8,11 @@ define(["wc/dom/shed",
 		"wc/ui/table/common",
 		"wc/ui/rowAnalog",
 		"wc/ui/ajax/processResponse",
+		"wc/ui/getFirstLabelForElement",
+		"wc/i18n/i18n",
 		"wc/ui/checkboxAnalog",
 		"wc/ui/radioAnalog"],
-	function(shed, getFilteredGroup, classList, toArray, formUpdateManager, Widget, initialise, table, rowAnalog, processResponse) {
+	function(shed, getFilteredGroup, classList, toArray, formUpdateManager, Widget, initialise, table, rowAnalog, processResponse, getFirstLabelForElement, i18n) {
 		"use strict";
 
 		/**
@@ -39,6 +41,8 @@ define(["wc/dom/shed",
 				TBODY_WD,
 				ARIA_CONTROLS = "aria-controls",
 				TARGET_ATTRIB = "data-wc-target",
+				STAND_IN_LABEL,
+				STAND_IN_TEXT_EQUIV,
 				STATE = {ALL: "all",
 						NONE: "none",
 						MIXED: "some",
@@ -479,6 +483,59 @@ define(["wc/dom/shed",
 				Array.prototype.forEach.call(CONTROLLER_WD.findDescendants(document.body), setControlList);
 			}
 
+			function setAriaLabelAttrib(element) {
+				var label = getFirstLabelForElement(element),
+					elId = element.id,
+					id,
+					labelStr;
+
+				if (!label) {
+					STAND_IN_LABEL = STAND_IN_LABEL || i18n.get("toggle_label");
+					labelStr = "<span wc-data-for='" +elId + "' id='" + elId + "_l'>" + STAND_IN_LABEL + "</span>";
+					element.insertAdjacentHTML("afterbegin", labelStr);
+					label = element.firstChild;
+				}
+
+				if (label && (id = label.id)) {
+					Array.prototype.forEach.call(RADIO_SUBCONTROLLER.findDescendants(element), function (next) {
+						next.setAttribute("aria-labelledby", id);
+					});
+				}
+			}
+
+			function setTextEquivalent(element) {
+				var label = getFirstLabelForElement(element);
+
+				if (label) {
+					element.setAttribute("aria-labelledby", label.id);
+					return;
+				}
+				STAND_IN_TEXT_EQUIV = STAND_IN_TEXT_EQUIV || i18n.get("toggle_all_label");
+				if (isWSelectToggle(element)) {
+					element.setAttribute("title", STAND_IN_TEXT_EQUIV);
+				}
+				else {
+					element.insertAdjacentHTML("beforeend", "<span>" + STAND_IN_LABEL + "</span>");
+				}
+			}
+
+			function setLabelledBy(element) {
+				var el = element || document.body;
+				if (!inited) {
+					initialiseControllers();
+				}
+				if (CONTROLLER_LIST_WD.isOneOfMe(el)) {
+					setAriaLabelAttrib(el);
+				}
+				else if (CONTROLLER_CHECKBOX_WD.isOneOfMe(el)) {
+					setTextEquivalent(el);
+				}
+				else {
+					Array.prototype.forEach.call(CONTROLLER_LIST_WD.findDescendants(el), setAriaLabelAttrib);
+					Array.prototype.forEach.call(CONTROLLER_CHECKBOX_WD.findDescendants(el), setTextEquivalent);
+				}
+			}
+
 			/**
 			 * Late initialisation to addd {@link module:wc/dom/shed} and {@link module:wc/dom/formUpdateManager}
 			 * subscribers.
@@ -488,11 +545,13 @@ define(["wc/dom/shed",
 			 */
 			this.postInit = function() {
 				setControls();
+				setLabelledBy();
 				shed.subscribe(shed.actions.SELECT, shedObserver);
 				shed.subscribe(shed.actions.DESELECT, shedObserver);
 				shed.subscribe(shed.actions.MIX, shedObserver);
 				formUpdateManager.subscribe(writeState);
 				processResponse.subscribe(setControls, true);
+				processResponse.subscribe(setLabelledBy, true);
 			};
 
 			/**

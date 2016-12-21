@@ -54,17 +54,11 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-			<xsl:variable name="controlLabel">
-				<xsl:if test="@selectAll eq 'control'">
-					<xsl:text>{{t 'table_rowSelection_toggleAll'}}</xsl:text>
-				</xsl:if>
-			</xsl:variable>
 			<xsl:variable name="bodyId" select="concat(../@id,'_tb')"/>
 			<xsl:call-template name="selectToggle">
-				<xsl:with-param name="for" select="$bodyId"/>
 				<xsl:with-param name="id" select="$bodyId"/>
+				<xsl:with-param name="for" select="$bodyId"/>
 				<xsl:with-param name="selected" select="$selected"/>
-				<xsl:with-param name="label" select="$controlLabel"/>
 				<xsl:with-param name="type" select="@selectAll"/>
 			</xsl:call-template>
 		</xsl:if>
