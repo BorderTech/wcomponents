@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-09 12:04+1100\n"
+"POT-Creation-Date: 2016-12-19 16:14+1100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 #. This property file contains default mappings for internal WComponent messages,
 #. for when a localised message can not be found. All internal messages must be
 #. prefixed with "bordertech.wcomponents.message.".
-#.
+#. 
 #. General error messages
 #: bordertech.wcomponents.message.sessionTokenError
 #, java-format
@@ -27,21 +27,21 @@ msgctxt "bordertech.wcomponents.message.sessionTokenError"
 msgid "Invalid session token on request."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.stepError
 #, java-format
 msgctxt "bordertech.wcomponents.message.stepError"
 msgid "Invalid step count on request."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.defaultSystemError
 #, java-format
 msgctxt "bordertech.wcomponents.message.defaultSystemError"
 msgid "The system is currently unavailable."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.defaultLookupTableMessage
 #, java-format
 msgctxt "bordertech.wcomponents.message.defaultLookupTableMessage"
@@ -49,21 +49,21 @@ msgid ""
 "Error {0} has been returned for your request. Please contact the help desk."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.ajaxError
 #, java-format
 msgctxt "bordertech.wcomponents.message.ajaxError"
 msgid "Error processing AJAX request."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.contentError
 #, java-format
 msgctxt "bordertech.wcomponents.message.contentError"
 msgid "Error processing content request."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.defaultSystemErrorSevere
 #, java-format
 msgctxt "bordertech.wcomponents.message.defaultSystemErrorSevere"
@@ -72,8 +72,8 @@ msgid ""
 "ended.</p><p>Any unsaved information will have been lost.</p>"
 msgstr ""
 
-#.
-#.
+#. 
+#. 
 #. Validation error messages
 #: bordertech.wcomponents.message.fieldMandatory
 #, java-format
@@ -81,155 +81,155 @@ msgctxt "bordertech.wcomponents.message.fieldMandatory"
 msgid "Please enter {0}. "
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldInvalid
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldInvalid"
 msgid "Field {0} is invalid. "
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldMinValue
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldMinValue"
 msgid "Field {0} must be {1} or greater."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldMinLength
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldMinLength"
 msgid "{0} cannot be less than {1} characters. "
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldMaxValue
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldMaxValue"
 msgid "Field {0} must be {1} or less. "
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldMaxLength
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldMaxLength"
 msgid "{0} cannot be greater than {1} characters. "
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldMaxDecimalPlaces
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldMaxDecimalPlaces"
 msgid "Field {0} can only have {1} decimal places."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldDateInvalid
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldDateInvalid"
 msgid "{0} is an invalid date. "
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldPartialDateInvalid
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldPartialDateInvalid"
 msgid "{0} is an invalid partial date."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldDateBefore
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldDateBefore"
 msgid "{0} must be before {1,date,dd MMM yyyy}."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldDateBeforeOrEqual
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldDateBeforeOrEqual"
 msgid "{0} must be before or equal to {1,date,dd MMM yyyy}."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldDateEqual
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldDateEqual"
 msgid "{0} must be equal to {1,date,dd MMM yyyy}."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldDateAfterOrEqual
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldDateAfterOrEqual"
 msgid "{0} must be equal to or after {1,date,dd MMM yyyy}."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldDateAfter
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldDateAfter"
 msgid "{0} must be after {1,date,dd MMM yyyy}."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldDateBeforeToday
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldDateBeforeToday"
 msgid "{0} must be before today."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldDateBeforeOrEqualToday
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldDateBeforeOrEqualToday"
 msgid "{0} must be before or equal to today."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldDateEqualToday
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldDateEqualToday"
 msgid "{0} must be equal to today."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldDateAfterOrEqualToday
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldDateAfterOrEqualToday"
 msgid "{0} must be equal to or after today."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldDateAfterToday
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldDateAfterToday"
 msgid "{0} must be after today."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldMinSelect
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldMinSelect"
 msgid "{0} must have {1} or more options selected."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldMaxSelect
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldMaxSelect"
 msgid "{0} must have {1} or less options selected."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.fieldInvalidPattern
 #, java-format
 msgctxt "bordertech.wcomponents.message.fieldInvalidPattern"
 msgid "{0} is not in the required format."
 msgstr ""
 
-#.
-#.
+#. 
+#. 
 #. Other messages
 #: bordertech.wcomponents.message.confirmationPrompt
 #, java-format
@@ -237,35 +237,35 @@ msgctxt "bordertech.wcomponents.message.confirmationPrompt"
 msgid "Are you sure?"
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.noTableData
 #, java-format
 msgctxt "bordertech.wcomponents.message.noTableData"
 msgid "No results found."
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.printButton
 #, java-format
 msgctxt "bordertech.wcomponents.message.printButton"
 msgid "Print"
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.cancelButton
 #, java-format
 msgctxt "bordertech.wcomponents.message.cancelButton"
 msgid "Cancel"
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.multiSelectPair.options
 #, java-format
 msgctxt "bordertech.wcomponents.message.multiSelectPair.options"
 msgid "Available"
 msgstr ""
 
-#.
+#. 
 #: bordertech.wcomponents.message.multiSelectPair.selections
 #, java-format
 msgctxt "bordertech.wcomponents.message.multiSelectPair.selections"

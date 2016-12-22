@@ -68,8 +68,8 @@ $wc-button-use-invite: 0 !default;
 // in Sass calculations. The gap sizes and icon sizes must be in the same units.
 //**********************************************************************************************************************
 //**********************************************************************************************************************
-// The list of class suffixes. There is no point rewriting this unless you rewrite the XSLT.
-$wc-gap-suffix-list: sm, med, lg, xl !default;
+// The list of class suffixes. There is no point rewriting this unless you rewrite the Java and XSLT.
+$wc-gap-suffix-list: z, sm, med, lg, xl;
 // Common spacing variables. There should be a gap per entry in the list
 $wc-gap-small: 0.25rem !default;
 $wc-gap-normal: 0.5rem !default;

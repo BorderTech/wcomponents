@@ -7,8 +7,6 @@ import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import java.awt.Dimension;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * {@link Renderer} for the {@link WImage} component.
