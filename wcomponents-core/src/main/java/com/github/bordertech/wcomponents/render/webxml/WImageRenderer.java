@@ -17,12 +17,6 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.0
  */
 final class WImageRenderer extends AbstractWebXmlRenderer {
-
-	/**
-	 * The logger instance for this class.
-	 */
-	private static final Log LOG = LogFactory.getLog(WImageRenderer.class);
-
 	/**
 	 * Builds the "open tag" part of the XML, that is the tagname and attributes.
 	 *
