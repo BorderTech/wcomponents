@@ -38,7 +38,6 @@ final class WImageRenderer extends AbstractWebXmlRenderer {
 		// Check for alternative text on the image
 		String alternativeText = imageComponent.getAlternativeText();
 		if (alternativeText == null) {
-			LOG.warn("Image should have a description.");
 			alternativeText = "";
 		} else {
 			alternativeText = I18nUtilities.format(null, alternativeText);
