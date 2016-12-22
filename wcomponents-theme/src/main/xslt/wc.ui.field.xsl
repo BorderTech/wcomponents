@@ -1,7 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
-	<xsl:import href="wc.ui.label.key.labelableElementKey.xsl"/>
 	<!--
 		Transform for WField. It is used to represent a label:control pair. WField is a child of a WFieldLayout.
 	-->
@@ -46,8 +45,8 @@
 	<xsl:template name="fieldIsCheckRadio">
 		<xsl:variable name="labelFor" select="ui:label/@for"/>
 		<xsl:variable name="localEl">
-			<xsl:if test="ui:label/@for">
-				<xsl:value-of select="local-name(key('labelableElementKey',$labelFor)[1])"/>
+			<xsl:if test="ui:label/@for and ui:input//*[@id=$labelFor]">
+				<xsl:value-of select="local-name(ui:input//*[@id=$labelFor][1])"/>
 			</xsl:if>
 		</xsl:variable>
 		<xsl:choose>

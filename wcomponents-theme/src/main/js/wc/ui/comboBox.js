@@ -682,7 +682,12 @@ define(["wc/has",
 			 */
 			function postAjaxSubscriber(element) {
 				var combo;
-				if (element && (LISTBOX.isOneOfMe(element))) {
+				if (!element) {
+					return;
+				}
+				setUpSuggestions(element);
+
+				if ((LISTBOX.isOneOfMe(element))) {
 					combo = getCombo(element);
 
 					if (!combo) { // this would be a disaster.
@@ -754,6 +759,38 @@ define(["wc/has",
 				}
 			}
 
+			function moveSugestionList(el) {
+				var listBox = getListBox(el),
+					listId;
+				if (listBox) {
+					return;
+				}
+				listId = el.getAttribute("data-wc-suggest");
+				if (!listId) {
+					return;
+				}
+				listBox = document.getElementById(listId);
+				if (listBox) {
+					el.appendChild(listBox);
+					if (listBox.getAttribute("data-wc-auto") === "list") {
+						el.setAttribute("data-wc-listcomplete", "true");
+					}
+				}
+				else {
+					el.insertAdjacentHTML("beforeend", "<span role='listbox' aria-busy='true' id='" + listId + "'></span>");
+				}
+			}
+
+			function setUpSuggestions(element) {
+				var el = element || document.body;
+				if (element && COMBO.isOneOfMe(element)) {
+					moveSugestionList(el);
+				}
+				else {
+					Array.prototype.forEach.call(COMBO.findDescendants(el), moveSugestionList);
+				}
+			}
+
 			/**
 			 * Sets up initial event handlers for faux-combos.
 			 *
@@ -762,6 +799,7 @@ define(["wc/has",
 			 * @param {Element} element The element being initialised, usually document.body.
 			 */
 			this.initialise = function(element) {
+				setUpSuggestions(element);
 				if (event.canCapture) {
 					event.add(window, event.TYPE.focus, focusEvent, null, null, true);
 				}

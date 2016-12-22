@@ -1,22 +1,8 @@
-/**
- * Provides functionality required to set focus when invoking an internal link and to add label-like functionality to
- * the label surrogates used for various compund components.
- *
- * @module
- * @requires module:wc/dom/focus
- * @requires module:wc/dom/event
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/Widget
- * @requires module:wc/dom/shed
- *
- * @todo document private members.
- */
 define(["wc/dom/focus",
 		"wc/dom/event",
 		"wc/dom/initialise",
 		"wc/dom/Widget",
 		"wc/dom/shed"],
-	/** @param focus wc/dom/focus @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param shed wc/dom/shed @ignore */
 	function(focus, event, initialise, Widget, shed) {
 		"use strict";
 
@@ -48,18 +34,23 @@ define(["wc/dom/focus",
 					if (target && !shed.isDisabled(target)) {
 						if (focus.canFocus(target)) {
 							focus.setFocusRequest(target);
+							return true;
 						}
-						else if (focus.canFocusInside(target)) {
+						if (focus.canFocusInside(target)) {
 							focus.focusFirstTabstop(target);
+							return true;
 						}
 					}
 				}
+				return false;
 			}
 
 			function clickEvent($event) {
 				var element;
 				if (!$event.defaultPrevented && (element = Widget.findAncestor($event.target, WIDGETS)) && !shed.isDisabled(element)) {
-					actionClickEvent(element);
+					if (actionClickEvent(element)) {
+						$event.preventDefault();
+					}
 				}
 			}
 
@@ -74,7 +65,20 @@ define(["wc/dom/focus",
 			};
 		}
 
-		var  /** @alias module:wc/ui/internalLink */ instance = new InternalLink();
+		/**
+		 * Provides functionality required to set focus when invoking an internal link and to add label-like functionality to
+		 * the label surrogates used for various compund components.
+		 *
+		 * @module
+		 * @requires module:wc/dom/focus
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/dom/shed
+		 *
+		 * @todo document private members.
+		 */
+		var instance = new InternalLink();
 		initialise.register(instance);
 		return instance;
 	});

@@ -29,12 +29,9 @@
 						<xsl:attribute name="aria-expanded">
 							<xsl:text>false</xsl:text>
 						</xsl:attribute>
-						<xsl:variable name="suggestionList" select="//ui:suggestions[@id eq $list]"/>
-						<xsl:if test="$suggestionList and $suggestionList/@autocomplete eq 'list'">
-							<xsl:attribute name="data-wc-listcomplete">
-								<xsl:text>true</xsl:text>
-							</xsl:attribute>
-						</xsl:if>
+						<xsl:attribute name="data-wc-suggest">
+							<xsl:value-of select="$list"/>
+						</xsl:attribute>
 						<xsl:attribute name="aria-autocomplete">
 							<xsl:text>list</xsl:text>
 						</xsl:attribute>
@@ -126,15 +123,6 @@
 								<xsl:with-param name="isControl" select="1"/>
 							</xsl:call-template>
 						</button>
-						<xsl:variable name="suggestions" select="//ui:suggestions[@id eq $list]"/>
-						<xsl:choose>
-							<xsl:when test="$suggestions">
-								<xsl:apply-templates select="$suggestions" mode="inline"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<span role="listbox" aria-busy="true" id="{$list}"></span>
-							</xsl:otherwise>
-						</xsl:choose>
 					</xsl:if>
 				</span>
 			</xsl:otherwise>

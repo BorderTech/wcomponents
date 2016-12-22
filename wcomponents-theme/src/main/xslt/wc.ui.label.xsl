@@ -1,7 +1,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.ui.label.n.makeLabel.xsl"/>
-	<xsl:import href="wc.ui.label.key.labelableElementKey.xsl"/>
+	
+	<xsl:key name="labelableElementKey" match="//ui:button|//ui:checkbox|//ui:datefield|//ui:dropdown|//ui:emailfield|//ui:fileupload[@async='false']|//ui:listbox|//ui:numberfield|//ui:passwordfield|//ui:phonenumberfield|//ui:printbutton|//ui:progressbar|//ui:radiobutton|//ui:selecttoggle[@renderAs='control']|//ui:shuffler|//ui:textarea|//ui:textfield|//ui:togglebutton" use="@id"/>
 	<!--
 		Creating a label is not as simple as it may appear. A HTML Label element is specific in its purpose. It may only
 		be used to label a labelable element.
