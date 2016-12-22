@@ -29,12 +29,22 @@
 				<xsl:variable name="isCheckRadio">
 					<xsl:call-template name="fieldIsCheckRadio" />
 				</xsl:variable>
-				<xsl:if test="not($layout eq 'stacked') and (number($isCheckRadio) eq 1 or not(ui:label) or ui:label/@hidden)">
-					<span class="wc_fld_pl">
-						<xsl:text>&#x00a0;</xsl:text>
-					</span>
-				</xsl:if>
-				<xsl:apply-templates />
+				<xsl:choose>
+					<xsl:when test="number($isCheckRadio) eq 1">
+						<span class="wc_fld_pl">
+							<xsl:apply-templates select="ui:label"/>
+						</span>
+						<xsl:apply-templates select="ui:input" />
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:if test="not(ui:label) or ui:label/@hidden">
+							<span class="wc_fld_pl">
+								<xsl:text>&#x00a0;</xsl:text>
+							</span>
+						</xsl:if>
+						<xsl:apply-templates />
+					</xsl:otherwise>
+				</xsl:choose>
 			</div>
 		</xsl:if>
 	</xsl:template>

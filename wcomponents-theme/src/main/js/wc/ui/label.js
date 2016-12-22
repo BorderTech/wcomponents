@@ -25,13 +25,17 @@ define(["wc/dom/classList",
 		 * @private
 		 */
 		function Label() {
-			var LABEL,
+			var LABEL = new Widget("label"),
 				LEGEND,
 				FAUX,
 				TAGS = [tag.INPUT, tag.TEXTAREA, tag.SELECT, tag.PROGRESS, tag.FIELDSET],
 				CLASS_OFF = "wc-off",
 				MANDATORY_SPAN = new Widget("span", CLASS_OFF),
 				CLASS_HINT = "wc-label-hint",
+				CHECKBOX = new Widget("", "wc-checkbox"),
+				RADIO = new Widget("", "wc-radiobutton"),
+				SELECT_TOGGLE = new Widget("button", "wc-selecttoggle"),
+				MOVE_WIDGETS = [CHECKBOX, RADIO, SELECT_TOGGLE],
 				HINT;
 
 			/**
@@ -178,7 +182,12 @@ define(["wc/dom/classList",
 			 */
 			function ajaxSubscriber(element) {
 				var labels;
-				if (element && element.tagName !== tag.FIELDSET && (labels = getLabelsForElement(element, true)) && labels.length) {
+				if (!element) {
+					return;
+				}
+				moveLabels(element);
+
+				if (element.tagName !== tag.FIELDSET && (labels = getLabelsForElement(element, true)) && labels.length) {
 					/* We can use shed to re-shed the same state. This will make sure the labels/legends/stand-ins are
 					 * set according to the rather convoluted rules which govern radio buttons and check boxes etc as
 					 * appropriate.*/
@@ -238,7 +247,6 @@ define(["wc/dom/classList",
 			 * @todo The label surrogate widget should come from {@link module:wc/ui/internalLink}.
 			 */
 			this.isOneOfMe = function (el) {
-				LABEL = LABEL || new Widget("label");
 				LEGEND = LEGEND || new Widget("legend");
 				FAUX = FAUX || new Widget("", "", {"data-wc-for": null});
 				return Widget.isOneOfMe(el, [LABEL, LEGEND, FAUX]);
@@ -287,6 +295,38 @@ define(["wc/dom/classList",
 					hint.innerHTML = content;
 					label.appendChild(hint);
 				}
+			};
+
+			function moveLabel(el) {
+				var labels = getLabelsForElement(el),
+					label, parent, sibling;
+				if (labels && labels.length) {
+					label = labels[0];
+					if (label === el.nextSibling) {
+						return;
+					}
+					parent = el.parentNode;
+					if ((sibling = el.nextSibling)) {
+						parent.insertBefore(label, sibling);
+					}
+					else {
+						parent.appendChild(label);
+					}
+				}
+			}
+
+			function moveLabels(element) {
+				var el = element || document.body;
+				if (element && Widget.isOneOfMe(element, MOVE_WIDGETS)) {
+					moveLabel(el);
+				}
+				else {
+					Array.prototype.forEach.call(Widget.findDescendants(el, MOVE_WIDGETS), moveLabel);
+				}
+			}
+
+			this.initialise = function(element) {
+				moveLabels(element);
 			};
 		}
 

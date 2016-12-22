@@ -1,6 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.readOnly.xsl"/>
-	<xsl:import href="wc.common.key.label.xsl"/>
 	<xsl:import href="wc.common.hField.xsl"/>
 	<!-- WCheckBox and WRadioButton -->
 	<xsl:template match="ui:checkbox|ui:radiobutton">
@@ -77,9 +76,6 @@
 				</xsl:element>
 			</xsl:otherwise>
 		</xsl:choose>
-		<xsl:apply-templates select="key('labelKey',$id)[1]" mode="checkable">
-			<xsl:with-param name="labelableElement" select="."/>
-		</xsl:apply-templates>
 		<xsl:if test="self::ui:radiobutton and not(@readOnly)">
 			<xsl:call-template name="hField">
 				<xsl:with-param name="name" select="$name"/>
