@@ -36,7 +36,9 @@
 		If you need to support IE you probably want this template.
 	-->
 	<xsl:template match="html:input|html:img|html:br">
-		<xsl:copy-of select="."/>
+		<xsl:element name="{local-name()}">
+			<xsl:copy-of select="@*"/>
+		</xsl:element>
 	</xsl:template>
 
 	<!--
