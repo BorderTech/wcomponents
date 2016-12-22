@@ -13,21 +13,25 @@
 		You really don't want to be here.
 	-->
 	<xsl:template name="makeRequireConfig">
+		<xsl:variable name="wcScriptDir" select="concat($scriptDir, '/wc')"/>
+		<xsl:variable name="libScriptDir" select="concat($scriptDir, '/lib')"/>
 		<script type="text/javascript" class="wcconfig"><!-- todo: I think this class is no longer required -->
 			<!-- Yes, we are defining a global require here. We are not using window.require = {} because the doco says this can cause problems in IE. -->
 			<xsl:text>(function(){
 	var wcconfig, timing,
 		config = {
 					paths: {
-						tinyMCE: "lib/tinymce/tinymce.min",
-						Promise: "lib/Promise.min",
-						fabric: "lib/fabric",
-						ccv: "lib/ccv",
-						face: "lib/face",
-						tracking: "lib/tracking/build/tracking-min",
-						getUserMedia: "lib/getusermedia-js/getUserMedia.min",
-						axs: "lib/axs_testing",
-						axe: "lib/axe.min"
+						wc: "</xsl:text><xsl:value-of select="$wcScriptDir"/><xsl:text>",
+						lib: "</xsl:text><xsl:value-of select="$libScriptDir"/><xsl:text>",
+						tinyMCE: "</xsl:text><xsl:value-of select="$libScriptDir"/><xsl:text>/tinymce/tinymce.min",
+						Promise: "</xsl:text><xsl:value-of select="$libScriptDir"/><xsl:text>/Promise.min",
+						fabric: "</xsl:text><xsl:value-of select="$libScriptDir"/><xsl:text>/fabric",
+						ccv: "</xsl:text><xsl:value-of select="$libScriptDir"/><xsl:text>/ccv",
+						face: "</xsl:text><xsl:value-of select="$libScriptDir"/><xsl:text>/face",
+						tracking: "</xsl:text><xsl:value-of select="$libScriptDir"/><xsl:text>/tracking/build/tracking-min",
+						getUserMedia: "</xsl:text><xsl:value-of select="$libScriptDir"/><xsl:text>/getusermedia-js/getUserMedia.min",
+						axs: "</xsl:text><xsl:value-of select="$libScriptDir"/><xsl:text>/axs_testing",
+						axe: "</xsl:text><xsl:value-of select="$libScriptDir"/><xsl:text>/axe.min"
 					},
 					shim: {
 						tinyMCE: {
@@ -64,8 +68,7 @@
 					},
 					deps:[],&#10;
 			</xsl:text>
-			<xsl:value-of select="concat('baseUrl:&quot;', normalize-space($resourceRoot), $scriptDir, '/&quot;,&#10;')"/>
-			<xsl:value-of select="concat('baseURL:&quot;', normalize-space($resourceRoot), $scriptDir, '/&quot;,&#10;')"/>
+			<xsl:value-of select="concat('baseUrl:&quot;', normalize-space($resourceRoot), '&quot;,&#10;')"/>
 			<xsl:value-of select="concat('urlArgs:&quot;', $cacheBuster, '&quot;&#10;')"/>
 			<xsl:text>};&#10;wcconfig = {"wc/i18n/i18n": { </xsl:text>
 			<xsl:text>options:{ backend: {</xsl:text>
