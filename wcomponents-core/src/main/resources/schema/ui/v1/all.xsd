@@ -7,7 +7,6 @@
 	A collection of all the top-level elements in the schema.
 	This is imported by schema.xsd.
 	-->
-	<xs:include schemaLocation="abbr.xsd" />
 	<xs:include schemaLocation="additionalParameters.xsd" />
 	<xs:include schemaLocation="ajaxTrigger.xsd" />
 	<xs:include schemaLocation="application.xsd" />

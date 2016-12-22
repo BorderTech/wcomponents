@@ -18,7 +18,6 @@ The XML schema for a WComponent page.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:choice>
-			<xs:element ref="ui:abbr" />
 			<xs:element ref="ui:additionalParameters" />
 			<xs:element ref="ui:application" />
 			<xs:element ref="ui:ajaxtrigger" />
