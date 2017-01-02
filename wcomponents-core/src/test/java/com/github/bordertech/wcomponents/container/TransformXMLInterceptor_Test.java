@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.Map;
 import javax.xml.transform.Templates;
 import junit.framework.Assert;
+import org.apache.commons.logging.Log;
 import org.junit.AfterClass;
 import org.junit.Test;
 
@@ -59,7 +60,8 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Ensure that the interceptor does nothing when the user agent string opts out.
+	 * Ensure that the interceptor does nothing when the user agent string
+	 * opts out.
 	 */
 	@Test
 	public void testPaintWithUserAgentOverride() {
@@ -73,7 +75,8 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Ensure that the interceptor does nothing as long as the controlling property is disabled.
+	 * Ensure that the interceptor does nothing as long as the controlling
+	 * property is disabled.
 	 */
 	@Test
 	public void testPaintWhileEnabledWithThemeContentPathSet() {
@@ -108,14 +111,15 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 		reloadTransformer();
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("User-Agent",
-				"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36");
+			"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36");
 		TestResult actual = generateOutput(testUI, headers);
 		Assert.assertEquals("XML should be transformed when interceptor enabled", EXPECTED, actual.result);
 		Assert.assertEquals("The content type should be correctly set", WebUtilities.CONTENT_TYPE_HTML, actual.contentType);
 	}
 
 	/**
-	 * Ensure that the interceptor does nothing as long as the controlling property is disabled.
+	 * Ensure that the interceptor does nothing as long as the controlling
+	 * property is disabled.
 	 */
 	@Test
 	public void testPaintWithCorruptCharacterException() {
@@ -139,10 +143,28 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Ensure that the interceptor does nothing as long as the controlling property is disabled.
+	 * Ensure that the interceptor does nothing as long as the controlling
+	 * property is disabled.
+	 *
+	 * @throws java.lang.NoSuchFieldException
+	 * @throws java.lang.IllegalAccessException
 	 */
 	@Test
-	public void testPaintWithCorruptCharacterAllowed() {
+	public void testPaintWithCorruptCharacterAllowed() throws NoSuchFieldException, IllegalAccessException {
+		/**
+		 * Have to use reflection to swap out the log implementation as
+		 * there's no way to programmatically disable logging without
+		 * coupling to a log implementation.
+		 */
+		//Override the logger temporarily.
+		Field field = TransformXMLInterceptor.class.getDeclaredField("LOG");
+		field.setAccessible(true);
+		Field modifiersField = Field.class.getDeclaredField("modifiers");
+		modifiersField.setAccessible(true);
+		modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+		Object oldValue = field.get(null);
+		field.set(null, new NoLogLogger());
+
 		MyComponent testUI = new MyComponent(TEST_CORRUPT_CHAR_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
 		Config.getInstance().setProperty(ConfigurationProperties.XSLT_ALLOW_CORRUPT_CHARACTER, "true");
@@ -155,6 +177,11 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 		setActiveContext(uic);
 
 		TestResult actual = generateOutput(testUI, null);
+
+		//Set the original value
+		Field resetValueField = TransformXMLInterceptor.class.getDeclaredField("LOG");
+		resetValueField.setAccessible(true);
+		field.set(null, oldValue);
 	}
 
 	/**
@@ -212,7 +239,8 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * A 'fake' WComponent that renders the string we pass to the constructor.
+	 * A 'fake' WComponent that renders the string we pass to the
+	 * constructor.
 	 */
 	private static final class MyComponent extends WContainer {
 
@@ -288,7 +316,8 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * A simple DTO to pass back the results of the render to the calling test.
+	 * A simple DTO to pass back the results of the render to the calling
+	 * test.
 	 */
 	private final class TestResult {
 
@@ -305,5 +334,103 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 			this.result = result;
 			this.contentType = contentType;
 		}
+	}
+
+	/**
+	 * Custom Log implementation to prevent all logging.
+	 *
+	 */
+	public final static class NoLogLogger implements Log {
+
+		@Override
+		public boolean isDebugEnabled() {
+			return false;
+		}
+
+		@Override
+		public boolean isErrorEnabled() {
+			return false;
+		}
+
+		@Override
+		public boolean isFatalEnabled() {
+			return false;
+		}
+
+		@Override
+		public boolean isInfoEnabled() {
+			return false;
+		}
+
+		@Override
+		public boolean isTraceEnabled() {
+			return false;
+		}
+
+		@Override
+		public boolean isWarnEnabled() {
+			return false;
+		}
+
+		@Override
+		public void trace(Object message) {
+			// No-impl
+		}
+
+		@Override
+		public void trace(Object message, Throwable t) {
+			// No-impl
+		}
+
+		@Override
+		public void debug(Object message) {
+			// No-impl
+		}
+
+		@Override
+		public void debug(Object message, Throwable t) {
+			// No-impl
+		}
+
+		@Override
+		public void info(Object message) {
+			// No-impl
+		}
+
+		@Override
+		public void info(Object message, Throwable t) {
+			// No-impl
+		}
+
+		@Override
+		public void warn(Object message) {
+			// No-impl
+		}
+
+		@Override
+		public void warn(Object message, Throwable t) {
+			// No-impl
+		}
+
+		@Override
+		public void error(Object message) {
+			// No-impl
+		}
+
+		@Override
+		public void error(Object message, Throwable t) {
+			// No-impl
+		}
+
+		@Override
+		public void fatal(Object message) {
+			// No-impl
+		}
+
+		@Override
+		public void fatal(Object message, Throwable t) {
+			// No-impl
+		}
+
 	}
 }
