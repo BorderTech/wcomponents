@@ -17,6 +17,7 @@ import com.github.bordertech.wcomponents.subordinate.Hide;
 import com.github.bordertech.wcomponents.subordinate.Rule;
 import com.github.bordertech.wcomponents.subordinate.Show;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
+import com.github.bordertech.wcomponents.util.GapSizeUtil.Size;
 
 /**
  * Demonstrate how {@link WSection} can be used.
@@ -29,12 +30,12 @@ public class WSectionExample extends WContainer {
 	/**
 	 * Default box margin.
 	 */
-	private static final Margin DEFAULT_BOX_MARGIN = new Margin(0, 0, 6, 0);
+	private static final Margin DEFAULT_BOX_MARGIN = new Margin(Size.ZERO, Size.ZERO, Size.MEDIUM, Size.ZERO);
 
 	/**
 	 * Default example margin.
 	 */
-	private static final Margin DEFAULT_MARGIN = new Margin(24);
+	private static final Margin DEFAULT_MARGIN = new Margin(Size.XL);
 
 	/**
 	 * Build example.

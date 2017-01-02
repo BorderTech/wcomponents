@@ -17,6 +17,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WRepeater;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ public class AjaxWRepeaterExample extends WContainer {
 
 		WPanel buttonPanel = new WPanel(WPanel.Type.FEATURE);
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 3, 0));
-		buttonPanel.setMargin(new Margin(12, 0, 0, 0));
+		buttonPanel.setMargin(new Margin(GapSizeUtil.Size.LARGE, null, null, null));
 		add(buttonPanel);
 		buttonPanel.add(button);
 		buttonPanel.add(new WButton("Submit"));
@@ -129,7 +130,7 @@ public class AjaxWRepeaterExample extends WContainer {
 
 			WFieldSet fieldset = new WFieldSet("Person Details");
 			add(fieldset);
-			fieldset.setMargin(new Margin(0, 0, 12, 0));
+			fieldset.setMargin(new Margin(null, null, GapSizeUtil.Size.LARGE, null));
 
 			WFieldLayout layout = new WFieldLayout();
 			layout.setLabelWidth(30);

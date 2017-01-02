@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WRadioButton;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 
 /**
  * Shows the various properties of WRadioButton.
@@ -56,7 +57,7 @@ public class WRadioButtonExample extends WContainer {
 				"Radio buttons may be mandatory but the required marker has to go on the 'question', not on the 'answers'."));
 		fset = new WFieldSet("Choose your nearest neighbour");
 		add(fset);
-		fset.setMargin(new Margin(12, 0, 0, 0));
+		fset.setMargin(new Margin(GapSizeUtil.Size.LARGE, null, null, null));
 		fset.setMandatory(true);
 		layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
 		fset.add(layout);

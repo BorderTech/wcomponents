@@ -14,6 +14,7 @@ import com.github.bordertech.wcomponents.WNumberField;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.ListLayout;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 import java.math.BigDecimal;
 
 /**
@@ -63,7 +64,7 @@ public class ListLayoutOptionExample extends WContainer {
 		WFieldLayout layout = new WFieldLayout();
 		add(layout);
 
-		layout.setMargin(new Margin(0, 0, 12, 0));
+		layout.setMargin(new Margin(null, null, GapSizeUtil.Size.LARGE, null));
 		layout.addField("Set containing WPanel Type", wdPanelType);
 		layout.addField("Set ListLayout Type", wdListLayoutType);
 		layout.addField("set ListLayout Alignment", wdListLayoutAlignment);

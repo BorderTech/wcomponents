@@ -1,11 +1,13 @@
 package com.github.bordertech.wcomponents.examples.theme;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.util.GapSizeUtil.Size;
 
 /**
  * <p>
@@ -26,19 +28,19 @@ public class WPanelMarginExample extends WContainer {
 	 * Construct the example.
 	 */
 	public WPanelMarginExample() {
-		add(new WHeading(WHeading.SECTION, "Panels with margin all=12"));
-		add(createPanel(new Margin(12)));
-		add(createPanel(new Margin(12)));
+		add(new WHeading(HeadingLevel.H2, "Panels with large margin all around"));
+		add(createPanel(new Margin(Size.LARGE)));
+		add(createPanel(new Margin(Size.LARGE)));
 
 		add(new WHorizontalRule());
-		add(new WHeading(WHeading.SECTION, "Panel with margin east=25 and Panel with margin west=25"));
-		add(createPanel(new Margin(0, 25, 0, 0)));
-		add(createPanel(new Margin(0, 0, 0, 25)));
+		add(new WHeading(HeadingLevel.H2, "Panel with margin east, XL and Panel with margin west XL"));
+		add(createPanel(new Margin(null, Size.XL, null, null)));
+		add(createPanel(new Margin(null, null, null, Size.XL)));
 
 		add(new WHorizontalRule());
-		add(new WHeading(WHeading.SECTION, "Middle Panel with margin north=6 and south=12"));
+		add(new WHeading(HeadingLevel.H2, "Middle Panel with margin north MEDIUM and south LARGE"));
 		add(createPanel(null));
-		add(createPanel(new Margin(6, 0, 12, 0)));
+		add(createPanel(new Margin(Size.MEDIUM, null, Size.LARGE, null)));
 		add(createPanel(null));
 	}
 

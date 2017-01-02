@@ -12,6 +12,7 @@ import com.github.bordertech.wcomponents.WFieldSet;
 import com.github.bordertech.wcomponents.WNumberField;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.layout.GridLayout;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
@@ -149,7 +150,7 @@ public class GridLayoutOptionsExample extends WContainer {
 		layout.addField(apply);
 
 		fieldSet.add(new WAjaxControl(apply, container));
-		fieldSet.setMargin(new Margin(0, 0, 12, 0));
+		fieldSet.setMargin(new Margin(null, null, GapSizeUtil.Size.LARGE, null));
 		return fieldSet;
 	}
 

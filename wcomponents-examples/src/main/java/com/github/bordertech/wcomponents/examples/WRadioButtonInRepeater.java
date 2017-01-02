@@ -20,6 +20,7 @@ import com.github.bordertech.wcomponents.WRadioButton;
 import com.github.bordertech.wcomponents.WRepeater;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.subordinate.builder.SubordinateBuilder;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 import java.util.Arrays;
 
 /**
@@ -61,7 +62,7 @@ public class WRadioButtonInRepeater extends WContainer {
 
 		WFieldSet fset = new WFieldSet("Select an option");
 		add(fset);
-		fset.setMargin(new Margin(0, 0, 6, 0));
+		fset.setMargin(new Margin(null, null, GapSizeUtil.Size.MEDIUM, null));
 		fset.add(repeater);
 		WFieldLayout layout = new WFieldLayout();
 		fset.add(layout);

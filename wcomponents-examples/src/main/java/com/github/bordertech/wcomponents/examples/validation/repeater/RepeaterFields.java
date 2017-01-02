@@ -10,6 +10,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WRepeater;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 
 /**
  * Repeated fields.
@@ -27,7 +28,7 @@ public class RepeaterFields extends WDataRenderer {
 	 */
 	public RepeaterFields() {
 		WFieldLayout fields = new WFieldLayout();
-		fields.setMargin(new Margin(0, 0, 12, 0));
+		fields.setMargin(new Margin(null, null, GapSizeUtil.Size.LARGE, null));
 		add(fields);
 
 		nameText = new WTextField();
@@ -39,7 +40,7 @@ public class RepeaterFields extends WDataRenderer {
 		repeater.setRepeatedComponent(new RepeaterComponent());
 		add(repeater);
 		WPanel buttonPanel = new WPanel(WPanel.Type.FEATURE);
-		buttonPanel.setMargin(new Margin(12, 0, 0, 0));
+		buttonPanel.setMargin(new Margin(GapSizeUtil.Size.LARGE, null, null, null));
 		add(buttonPanel);
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		submitBtn = new WButton("Submit", 'S');

@@ -8,6 +8,7 @@ import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 
 /**
  * This example demonstrates the use of the submitOnChange flag available on {@link WDropdown}. When you change the
@@ -63,7 +64,7 @@ public class WDropdownSubmitOnChangeExample extends WContainer {
 		WFieldLayout flay = new WFieldLayout();
 		add(flay);
 		flay.setLabelWidth(25);
-		flay.setMargin(new Margin(0, 0, 12, 0));
+		flay.setMargin(new Margin(null, null, GapSizeUtil.Size.LARGE, null));
 		flay.addField("State", stateSelector).getLabel().setHint("Selecting a state will update the available regions.");
 		flay.addField("Region", regionSelector);
 

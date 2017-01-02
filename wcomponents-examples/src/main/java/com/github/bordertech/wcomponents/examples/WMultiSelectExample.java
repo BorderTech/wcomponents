@@ -11,6 +11,7 @@ import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WMultiSelect;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTextArea;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,10 +78,10 @@ public class WMultiSelectExample extends WContainer {
 		 * @param options the options to display in the multi-select pair.
 		 */
 		private ExamplePanel(final List options) {
-			setMargin(new Margin(0, 0, 12, 0));
+			setMargin(new Margin(null, null, GapSizeUtil.Size.LARGE, null));
 			WFieldLayout layout = new WFieldLayout();
 			add(layout);
-			layout.setMargin(new Margin(0, 0, 6, 0));
+			layout.setMargin(new Margin(null, null, GapSizeUtil.Size.MEDIUM, null));
 
 			multi = new WMultiSelect(options);
 			layout.addField("Select items", multi);
