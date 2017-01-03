@@ -101,14 +101,14 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:collapsible/ui:margin/@south", collapsible);
 		assertXpathEvaluatesTo("", "//ui:collapsible/ui:margin/@west", collapsible);
 
-		margin = new Margin(1, 2, 3, 4);
+		margin = new Margin(GapSizeUtil.Size.SMALL, GapSizeUtil.Size.MEDIUM, GapSizeUtil.Size.LARGE, GapSizeUtil.Size.XL);
 		collapsible.setMargin(margin);
 		assertSchemaMatch(collapsible);
 		assertXpathEvaluatesTo("", "//ui:collapsible/ui:margin/@all", collapsible);
-		assertXpathEvaluatesTo("1", "//ui:collapsible/ui:margin/@north", collapsible);
-		assertXpathEvaluatesTo("2", "//ui:collapsible/ui:margin/@east", collapsible);
-		assertXpathEvaluatesTo("3", "//ui:collapsible/ui:margin/@south", collapsible);
-		assertXpathEvaluatesTo("4", "//ui:collapsible/ui:margin/@west", collapsible);
+		assertXpathEvaluatesTo("sm", "//ui:collapsible/ui:margin/@north", collapsible);
+		assertXpathEvaluatesTo("med", "//ui:collapsible/ui:margin/@east", collapsible);
+		assertXpathEvaluatesTo("lg", "//ui:collapsible/ui:margin/@south", collapsible);
+		assertXpathEvaluatesTo("xl", "//ui:collapsible/ui:margin/@west", collapsible);
 	}
 
 	@Test

@@ -99,14 +99,14 @@ public class WMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:menu/ui:margin/@south", menu);
 		assertXpathEvaluatesTo("", "//ui:menu/ui:margin/@west", menu);
 
-		margin = new Margin(1, 2, 3, 4);
+		margin = new Margin(GapSizeUtil.Size.SMALL, GapSizeUtil.Size.MEDIUM, GapSizeUtil.Size.LARGE, GapSizeUtil.Size.XL);
 		menu.setMargin(margin);
 		assertSchemaMatch(menu);
 		assertXpathEvaluatesTo("", "//ui:menu/ui:margin/@all", menu);
-		assertXpathEvaluatesTo("1", "//ui:menu/ui:margin/@north", menu);
-		assertXpathEvaluatesTo("2", "//ui:menu/ui:margin/@east", menu);
-		assertXpathEvaluatesTo("3", "//ui:menu/ui:margin/@south", menu);
-		assertXpathEvaluatesTo("4", "//ui:menu/ui:margin/@west", menu);
+		assertXpathEvaluatesTo("sm", "//ui:menu/ui:margin/@north", menu);
+		assertXpathEvaluatesTo("med", "//ui:menu/ui:margin/@east", menu);
+		assertXpathEvaluatesTo("lg", "//ui:menu/ui:margin/@south", menu);
+		assertXpathEvaluatesTo("xl", "//ui:menu/ui:margin/@west", menu);
 	}
 
 }

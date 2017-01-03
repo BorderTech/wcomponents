@@ -72,14 +72,14 @@ public class WRowRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:row/ui:margin/@south", row);
 		assertXpathEvaluatesTo("", "//ui:row/ui:margin/@west", row);
 
-		margin = new Margin(1, 2, 3, 4);
+		margin = new Margin(GapSizeUtil.Size.SMALL, GapSizeUtil.Size.MEDIUM, GapSizeUtil.Size.LARGE, GapSizeUtil.Size.XL);
 		row.setMargin(margin);
 		assertSchemaMatch(row);
 		assertXpathEvaluatesTo("", "//ui:row/ui:margin/@all", row);
-		assertXpathEvaluatesTo("1", "//ui:row/ui:margin/@north", row);
-		assertXpathEvaluatesTo("2", "//ui:row/ui:margin/@east", row);
-		assertXpathEvaluatesTo("3", "//ui:row/ui:margin/@south", row);
-		assertXpathEvaluatesTo("4", "//ui:row/ui:margin/@west", row);
+		assertXpathEvaluatesTo("sm", "//ui:row/ui:margin/@north", row);
+		assertXpathEvaluatesTo("med", "//ui:row/ui:margin/@east", row);
+		assertXpathEvaluatesTo("lg", "//ui:row/ui:margin/@south", row);
+		assertXpathEvaluatesTo("xl", "//ui:row/ui:margin/@west", row);
 	}
 
 }

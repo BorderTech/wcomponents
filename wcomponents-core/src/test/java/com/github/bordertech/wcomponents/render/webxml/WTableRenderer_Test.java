@@ -758,10 +758,10 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		table.setMargin(margin);
 		assertSchemaMatch(table);
 		assertXpathEvaluatesTo("", "//ui:table/ui:margin/@all", table);
-		assertXpathEvaluatesTo("1", "//ui:table/ui:margin/@north", table);
-		assertXpathEvaluatesTo("2", "//ui:table/ui:margin/@east", table);
-		assertXpathEvaluatesTo("3", "//ui:table/ui:margin/@south", table);
-		assertXpathEvaluatesTo("4", "//ui:table/ui:margin/@west", table);
+		assertXpathEvaluatesTo("sm", "//ui:table/ui:margin/@north", table);
+		assertXpathEvaluatesTo("med", "//ui:table/ui:margin/@east", table);
+		assertXpathEvaluatesTo("lg", "//ui:table/ui:margin/@south", table);
+		assertXpathEvaluatesTo("xl", "//ui:table/ui:margin/@west", table);
 	}
 
 	@Test

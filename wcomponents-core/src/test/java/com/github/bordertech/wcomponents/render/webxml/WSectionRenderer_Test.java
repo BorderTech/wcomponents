@@ -126,14 +126,14 @@ public class WSectionRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:section/ui:margin/@south", section);
 		assertXpathEvaluatesTo("", "//ui:section/ui:margin/@west", section);
 
-		margin = new Margin(1, 2, 3, 4);
+		margin = new Margin(GapSizeUtil.Size.SMALL, GapSizeUtil.Size.MEDIUM, GapSizeUtil.Size.LARGE, GapSizeUtil.Size.XL);
 		section.setMargin(margin);
 		assertSchemaMatch(section);
 		assertXpathEvaluatesTo("", "//ui:section/ui:margin/@all", section);
-		assertXpathEvaluatesTo("1", "//ui:section/ui:margin/@north", section);
-		assertXpathEvaluatesTo("2", "//ui:section/ui:margin/@east", section);
-		assertXpathEvaluatesTo("3", "//ui:section/ui:margin/@south", section);
-		assertXpathEvaluatesTo("4", "//ui:section/ui:margin/@west", section);
+		assertXpathEvaluatesTo("sm", "//ui:section/ui:margin/@north", section);
+		assertXpathEvaluatesTo("med", "//ui:section/ui:margin/@east", section);
+		assertXpathEvaluatesTo("lg", "//ui:section/ui:margin/@south", section);
+		assertXpathEvaluatesTo("xl", "//ui:section/ui:margin/@west", section);
 	}
 
 }

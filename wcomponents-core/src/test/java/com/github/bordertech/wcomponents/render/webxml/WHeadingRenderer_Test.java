@@ -97,14 +97,14 @@ public class WHeadingRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:heading/ui:margin/@south", heading);
 		assertXpathEvaluatesTo("", "//ui:heading/ui:margin/@west", heading);
 
-		margin = new Margin(1, 2, 3, 4);
+		margin = new Margin(GapSizeUtil.Size.SMALL, GapSizeUtil.Size.MEDIUM, GapSizeUtil.Size.LARGE, GapSizeUtil.Size.XL);
 		heading.setMargin(margin);
 		assertSchemaMatch(heading);
 		assertXpathEvaluatesTo("", "//ui:heading/ui:margin/@all", heading);
-		assertXpathEvaluatesTo("1", "//ui:heading/ui:margin/@north", heading);
-		assertXpathEvaluatesTo("2", "//ui:heading/ui:margin/@east", heading);
-		assertXpathEvaluatesTo("3", "//ui:heading/ui:margin/@south", heading);
-		assertXpathEvaluatesTo("4", "//ui:heading/ui:margin/@west", heading);
+		assertXpathEvaluatesTo("sm", "//ui:heading/ui:margin/@north", heading);
+		assertXpathEvaluatesTo("med", "//ui:heading/ui:margin/@east", heading);
+		assertXpathEvaluatesTo("lg", "//ui:heading/ui:margin/@south", heading);
+		assertXpathEvaluatesTo("xl", "//ui:heading/ui:margin/@west", heading);
 	}
 
 	@Test

@@ -135,14 +135,14 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@south", list);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@west", list);
 
-		margin = new Margin(1, 2, 3, 4);
+		margin = new Margin(GapSizeUtil.Size.SMALL, GapSizeUtil.Size.MEDIUM, GapSizeUtil.Size.LARGE, GapSizeUtil.Size.XL);
 		list.setMargin(margin);
 		assertSchemaMatch(list);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@all", list);
-		assertXpathEvaluatesTo("1", "//ui:panel/ui:margin/@north", list);
-		assertXpathEvaluatesTo("2", "//ui:panel/ui:margin/@east", list);
-		assertXpathEvaluatesTo("3", "//ui:panel/ui:margin/@south", list);
-		assertXpathEvaluatesTo("4", "//ui:panel/ui:margin/@west", list);
+		assertXpathEvaluatesTo("sm", "//ui:panel/ui:margin/@north", list);
+		assertXpathEvaluatesTo("med", "//ui:panel/ui:margin/@east", list);
+		assertXpathEvaluatesTo("lg", "//ui:panel/ui:margin/@south", list);
+		assertXpathEvaluatesTo("xl", "//ui:panel/ui:margin/@west", list);
 	}
 
 

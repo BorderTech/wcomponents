@@ -50,7 +50,7 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 		content.setSize(new Dimension(-123, -456));
 		setFlag(image, ComponentModel.HIDE_FLAG, true);
 		assertXpathEvaluatesTo(content.getDescription(), "//html:img/@alt", image);
-		assertXpathEvaluatesTo("true", "//html:img/@hidden", image);
+		assertXpathEvaluatesTo("hidden", "//html:img/@hidden", image);
 		assertXpathNotExists("//html:img/@width", image);
 		assertXpathNotExists("//html:img/@height", image);
 		assertSrcMatch(image);

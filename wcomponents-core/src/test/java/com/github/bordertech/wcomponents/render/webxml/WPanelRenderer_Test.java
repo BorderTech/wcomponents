@@ -184,14 +184,14 @@ public class WPanelRenderer_Test extends AbstractWebXmlRendererTestCase {
 		panel.setMargin(margin);
 		assertXpathExists("//ui:panel/ui:margin", panel);
 
-		margin = new Margin(1, 2, 3, 4);
+		margin = new Margin(GapSizeUtil.Size.SMALL, GapSizeUtil.Size.MEDIUM, GapSizeUtil.Size.LARGE, GapSizeUtil.Size.XL);
 		panel.setMargin(margin);
 		assertSchemaMatch(panel);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@all", panel);
-		assertXpathEvaluatesTo("1", "//ui:panel/ui:margin/@north", panel);
-		assertXpathEvaluatesTo("2", "//ui:panel/ui:margin/@east", panel);
-		assertXpathEvaluatesTo("3", "//ui:panel/ui:margin/@south", panel);
-		assertXpathEvaluatesTo("4", "//ui:panel/ui:margin/@west", panel);
+		assertXpathEvaluatesTo("sm", "//ui:panel/ui:margin/@north", panel);
+		assertXpathEvaluatesTo("med", "//ui:panel/ui:margin/@east", panel);
+		assertXpathEvaluatesTo("lg", "//ui:panel/ui:margin/@south", panel);
+		assertXpathEvaluatesTo("xl", "//ui:panel/ui:margin/@west", panel);
 	}
 
 }
