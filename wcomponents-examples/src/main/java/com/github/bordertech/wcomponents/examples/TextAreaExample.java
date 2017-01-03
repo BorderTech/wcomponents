@@ -2,173 +2,139 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
-import com.github.bordertech.wcomponents.HeadingLevel;
-import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
-import com.github.bordertech.wcomponents.WHeading;
-import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTextArea;
-import com.github.bordertech.wcomponents.layout.FlowLayout;
-import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 
 /**
- * <p>
- * A {@link WTextArea} is a wcomponent used to display a html textarea. It is very much like WTextField except that it
- * has multiple lines of input.
- * </p>
- * <p>
- * WTextArea example demonstrates various states of the WTextArea
- * </p>
- * <p>
- * including
- * </p>
- * <ul>
- * <li>Default</li>
- * <li>Size limited</li>
- * <li>Read Only</li>
- * <li>Disabled</li>
- * </ul>
+ * WTextArea example demonstrates various states of the {@link WTextArea}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class TextAreaExample extends WPanel {
-
-	private final WTextArea ta1;
-	private final WTextArea ta2;
-	private final WTextArea ta3;
-	private final WTextArea ta4;
-	private final WTextArea ta5;
-
 	/**
 	 * Creates a TextAreaExample.
 	 */
 	public TextAreaExample() {
-		setLayout(new FlowLayout(Alignment.VERTICAL));
-
-		WFieldLayout layout = new WFieldLayout();
-		WHeading heading = new WHeading(HeadingLevel.H2, "Default");
-		add(heading);
-
-		ta1 = new WTextArea();
-		layout.addField("Default", ta1);
-		final WTextArea readOnlyReflector1 = new WTextArea();
-		readOnlyReflector1.setReadOnly(true);
-		layout.addField("Read only reflection of normal WTextArea", readOnlyReflector1);
+		/*
+		 * Use WFieldLayout to add input/label pairs to a UI.
+		 */
+		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
+		/*
+		 * A simple WTextArea.
+		 */
+		final WTextArea defaultTextArea = new WTextArea();
+		/*
+		 * A WTextArea used to show how to set dimensions and input limits.
+		 */
+		WTextArea constrainedTextArea = new WTextArea();
+		constrainedTextArea.setColumns(40);
+		constrainedTextArea.setRows(4);
+		constrainedTextArea.setMaxLength(200);
+		constrainedTextArea.setPlaceholder("type here");
+		/*
+		 * A WTextArea used to show how to create a static read-only multi-line text field.
+		 */
+		final WTextArea readOnlyTextArea = new WTextArea();
+		readOnlyTextArea.setReadOnly(true);
+		readOnlyTextArea.setText("This is read only.");
+		/*
+		 * A WTextArea used to show how to a disabled multi-line text field.
+		 */
+		final WTextArea disabledTextArea = new WTextArea();
+		disabledTextArea.setDisabled(true);
+		disabledTextArea.setText("This is disabled.");
+		/*
+		 * A WtextArea used to show how to set read-only content based on user input into an editable WTextArea.
+		 */
+		final WTextArea readOnlyReflector = new WTextArea();
+		readOnlyReflector.setReadOnly(true);
+		/*
+		 * A WTextArea used as a theme test showing that it is possible to have a WTextArea which has more content than its maxlength setting.
+		 * The line breaks in the text will push the chars over the maxlength allowed in HTML. You should NEVER do this on purpose!
+		 */
+		WTextArea initiallyInvalid = new WTextArea();
+		initiallyInvalid.setMaxLength(10);
+		initiallyInvalid.setText("abc\ndef\ngh");
+		/*
+		 * A rich text field.
+		 */
+		final WTextArea rtf = new WTextArea();
+		rtf.setRichTextArea(true);
+		/*
+		 * A read-only rich text field.
+		 */
+		final WTextArea rtfReadOnly = new WTextArea();
+		rtfReadOnly.setReadOnly(true);
+		rtfReadOnly.setRichTextArea(true);
+		/*
+		 * A button used to apply user input to the read-only WTextArea.
+		 */
 		WButton showReadOnlyContentButton = new WButton("Copy as read only");
-		layout.addField(showReadOnlyContentButton);
-		add(layout);
-
 		showReadOnlyContentButton.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				readOnlyReflector1.setData(ta1.getData());
+				readOnlyReflector.setData(defaultTextArea.getData());
 			}
 		});
-		add(new WAjaxControl(showReadOnlyContentButton, readOnlyReflector1));
-		add(new WHorizontalRule());
-
-		layout = new WFieldLayout();
-		heading = new WHeading(HeadingLevel.H2, "Size 40x4, maxlength 200");
-		add(heading);
-		ta2 = new WTextArea();
-		ta2.setColumns(40);
-		ta2.setRows(4);
-		ta2.setMaxLength(200);
-		ta2.setPlaceholder("type here");
-		layout.addField("Size and Length Limited", ta2);
-
-		final WTextArea initiallyInvalid = new WTextArea();
-		layout.addField("more content than maxlength", initiallyInvalid);
-		initiallyInvalid.setMaxLength(10);
-		initiallyInvalid.setText("abc\ndef\ngh");
-
-		add(layout);
-		add(new WHorizontalRule());
-
-		layout = new WFieldLayout();
-		heading = new WHeading(HeadingLevel.H2, "Read only");
-		add(heading);
-		ta3 = new WTextArea();
-		ta3.setReadOnly(true);
-		layout.addField("Read only", ta3);
-
-		add(layout);
-		add(new WHorizontalRule());
-
-		layout = new WFieldLayout();
-		heading = new WHeading(HeadingLevel.H2, "Disabled");
-		add(heading);
-
-		ta4 = new WTextArea();
-		ta4.setDisabled(true);
-		layout.addField("Disabled", ta4);
-
+		/*
+		 * A button used to toggle the disabled state of the disabled WTextArea.
+		 */
 		WButton toggleDisableButton = new WButton("Toggle disable");
 		toggleDisableButton.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				ta4.setDisabled(!ta4.isDisabled());
+				disabledTextArea.setDisabled(!disabledTextArea.isDisabled());
 			}
 		});
 
+		/**
+		 * Action used to copy user-entered rich text to the read-only rich text field.
+		 */
+		Action setRTFContent = new Action() {
+				@Override
+				public void execute(final ActionEvent event) {
+					rtfReadOnly.setData(rtf.getValue());
+				}
+			};
+		/**
+		 * A button used to copy the user-entered rich text to the read-only rich text field via a full round trip.
+		 */
+		WButton rtfButton = new WButton("Round-trip copy rich text (bad)");
+		rtfButton.setAction(setRTFContent);
+		/**
+		 * A button used to copy the user-entered rich text to the read-only rich text field via AJAX.
+		 */
+		WButton rtAjaxButton = new WButton("AJAX copy rich text (good)");
+		rtAjaxButton.setAction(setRTFContent);
+
+		/*
+		 * A container for the buttons used to copy the user-entered rich text to the read-only rich text field.
+		 */
+		WContainer rtfButtonContainer = new WContainer();
+		rtfButtonContainer.add(rtfButton);
+		rtfButtonContainer.add(rtAjaxButton);
+
+		// Layout of this example.
+		// NOTE: The order of the first four WTextAreas is important as it forms part of the Selenium test of this example.
 		add(layout);
-		add(toggleDisableButton);
-		add(new WHorizontalRule());
-
-		heading = new WHeading(HeadingLevel.H2, "Rich Text");
-		add(heading);
-		layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
-		add(layout);
-
-		ta5 = new WTextArea();
-		ta5.setRichTextArea(true);
-		layout.addField("Rich Text", ta5);
-
-		final WTextArea richReadOnly = new WTextArea();
-		richReadOnly.setReadOnly(true);
-		richReadOnly.setRichTextArea(true);
-
-		final Action setDataAction = new Action() {
-			@Override
-			public void execute(final ActionEvent event) {
-				richReadOnly.setData(ta5.getValue());
-			}
-		};
-		WContainer buttonContainer = new WContainer();
-		layout.addField((String) null, buttonContainer);
-		layout.addField("read only reflection of the rich text area.", richReadOnly);
-
-		// The buttons to show read only versions.
-		final WButton rtfButton = new WButton("Round Trip Show Rich Text");
-		rtfButton.setAction(setDataAction);
-		buttonContainer.add(rtfButton);
-
-		final WButton rtAjaxButton = new WButton("AJAX Show Rich Text");
-		buttonContainer.add(rtAjaxButton);
-		rtAjaxButton.setAction(setDataAction);
-
-		add(new WAjaxControl(rtAjaxButton, richReadOnly));
-	}
-
-	/**
-	 * Override preparePaintComponent to test that dynamic attributes are handled correctly.
-	 *
-	 * @param request the request that triggered the paint.
-	 */
-	@Override
-	protected void preparePaintComponent(final Request request) {
-		super.preparePaintComponent(request);
-
-		if (!isInitialised()) {
-			ta3.setText("This is read only.");
-			ta4.setText("This is disabled.");
-
-			setInitialised(true);
-		}
+		layout.addField("Default", defaultTextArea);
+		layout.addField(showReadOnlyContentButton);
+		layout.addField("Read-only reflection of default WTextArea", readOnlyReflector);
+		layout.addField("Size and Length Limited", constrainedTextArea).getLabel().setHint("Max 200 characters");
+		layout.addField("Read-only", readOnlyTextArea);
+		layout.addField("Disabled", disabledTextArea);
+		layout.addField(toggleDisableButton);
+		layout.addField("Test: more content than maxlength", initiallyInvalid);
+		layout.addField("Rich Text", rtf);
+		layout.addField((String) null, rtfButtonContainer);
+		layout.addField("Read-only reflection of the rich text area.", rtfReadOnly);
+		add(new WAjaxControl(showReadOnlyContentButton, readOnlyReflector));
+		add(new WAjaxControl(rtAjaxButton, rtfReadOnly));
 	}
 }
