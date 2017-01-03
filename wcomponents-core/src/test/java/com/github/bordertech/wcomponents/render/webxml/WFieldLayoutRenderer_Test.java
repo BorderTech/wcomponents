@@ -127,10 +127,10 @@ public class WFieldLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		layout.setMargin(margin);
 		assertSchemaMatch(layout);
 		assertXpathEvaluatesTo("", "//ui:fieldlayout/ui:margin/@all", layout);
-		assertXpathEvaluatesTo("1", "//ui:fieldlayout/ui:margin/@north", layout);
-		assertXpathEvaluatesTo("2", "//ui:fieldlayout/ui:margin/@east", layout);
-		assertXpathEvaluatesTo("3", "//ui:fieldlayout/ui:margin/@south", layout);
-		assertXpathEvaluatesTo("4", "//ui:fieldlayout/ui:margin/@west", layout);
+		assertXpathEvaluatesTo("sm", "//ui:fieldlayout/ui:margin/@north", layout);
+		assertXpathEvaluatesTo("med", "//ui:fieldlayout/ui:margin/@east", layout);
+		assertXpathEvaluatesTo("lg", "//ui:fieldlayout/ui:margin/@south", layout);
+		assertXpathEvaluatesTo("xl", "//ui:fieldlayout/ui:margin/@west", layout);
 	}
 
 }

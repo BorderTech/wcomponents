@@ -754,7 +754,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:table/ui:margin/@south", table);
 		assertXpathEvaluatesTo("", "//ui:table/ui:margin/@west", table);
 
-		margin = new Margin(1, 2, 3, 4);
+		margin = new Margin(GapSizeUtil.Size.SMALL, GapSizeUtil.Size.MEDIUM, GapSizeUtil.Size.LARGE, GapSizeUtil.Size.XL);
 		table.setMargin(margin);
 		assertSchemaMatch(table);
 		assertXpathEvaluatesTo("", "//ui:table/ui:margin/@all", table);

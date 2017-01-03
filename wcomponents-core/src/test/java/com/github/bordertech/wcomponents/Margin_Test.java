@@ -8,7 +8,7 @@ import org.junit.Test;
  * Unit tests for {@link Margin}.
  *
  * @author Jonathan Austin
- * @since 1.GapSizeUtil.Size.ZERO.GapSizeUtil.Size.ZERO
+ * @since 1.0.0
  */
 public class Margin_Test {
 
@@ -25,39 +25,35 @@ public class Margin_Test {
 
 	@Test
 	public void testConstructor2() {
-
 		// Create Margin for all sides
-		Margin margin = new Margin(1, 2, 3, 4);
+		Margin margin = new Margin(GapSizeUtil.Size.SMALL, GapSizeUtil.Size.MEDIUM, GapSizeUtil.Size.LARGE,
+				GapSizeUtil.Size.XL);
 		Assert.assertEquals("Incorrect all margin returned", null, margin.getMargin());
-		Assert.assertEquals("Incorrect north margin returned", 1, margin.getTop());
-		Assert.assertEquals("Incorrect east margin returned", 2, margin.getRight());
-		Assert.assertEquals("Incorrect south margin returned", 3, margin.getBottom());
-		Assert.assertEquals("Incorrect west margin returned", 4, margin.getLeft());
+		Assert.assertEquals("Incorrect north margin returned", GapSizeUtil.Size.SMALL, margin.getTop());
+		Assert.assertEquals("Incorrect east margin returned", GapSizeUtil.Size.MEDIUM, margin.getRight());
+		Assert.assertEquals("Incorrect south margin returned", GapSizeUtil.Size.LARGE, margin.getBottom());
+		Assert.assertEquals("Incorrect west margin returned", GapSizeUtil.Size.XL, margin.getLeft());
 	}
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidAllAtribute() {
-		new Margin(null);
+	@Test
+	public void testMarginOnComponent() {
+		WPanel panel = new WPanel();
+		Assert.assertNull(panel.getMargin());
+		panel.setMargin(new Margin(GapSizeUtil.Size.MEDIUM));
+		Assert.assertNotNull(panel.getMargin());
+		Assert.assertEquals(GapSizeUtil.Size.MEDIUM, panel.getMargin().getMargin());
+		Assert.assertNull(panel.getMargin().getTop());
+		Assert.assertNull(panel.getMargin().getRight());
+		Assert.assertNull(panel.getMargin().getBottom());
+		Assert.assertNull(panel.getMargin().getLeft());
+		panel.setMargin(null);
+		Assert.assertNull(panel.getMargin());
+		panel.setMargin(new Margin(GapSizeUtil.Size.SMALL, GapSizeUtil.Size.MEDIUM, GapSizeUtil.Size.LARGE,
+				GapSizeUtil.Size.ZERO));
+		Assert.assertNull(panel.getMargin().getMargin());
+		Assert.assertEquals(GapSizeUtil.Size.SMALL, panel.getMargin().getTop());
+		Assert.assertEquals(GapSizeUtil.Size.MEDIUM, panel.getMargin().getRight());
+		Assert.assertEquals(GapSizeUtil.Size.LARGE, panel.getMargin().getBottom());
+		Assert.assertEquals(GapSizeUtil.Size.ZERO, panel.getMargin().getLeft());
 	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidNorthAtribute() {
-		new Margin(null, GapSizeUtil.Size.ZERO, GapSizeUtil.Size.ZERO, GapSizeUtil.Size.ZERO);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidEastAtribute() {
-		new Margin(GapSizeUtil.Size.ZERO, null, GapSizeUtil.Size.ZERO, GapSizeUtil.Size.ZERO);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidSouthAtribute() {
-		new Margin(GapSizeUtil.Size.ZERO, GapSizeUtil.Size.ZERO, null, GapSizeUtil.Size.ZERO);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidWestAtribute() {
-		new Margin(GapSizeUtil.Size.ZERO, GapSizeUtil.Size.ZERO, GapSizeUtil.Size.ZERO, null);
-	}
-
 }
