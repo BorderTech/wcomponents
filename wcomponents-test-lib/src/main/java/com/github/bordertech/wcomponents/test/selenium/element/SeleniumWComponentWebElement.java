@@ -74,7 +74,8 @@ public class SeleniumWComponentWebElement implements WebElement {
 
 	/**
 	 * <p>
-	 * Perform a click action without waiting for the WComponent ready status</p>
+	 * Perform a click action without waiting for the WComponent ready
+	 * status</p>
 	 * <p>
 	 * Used when the click will result in a non-WComponents page.</p>
 	 */
@@ -157,7 +158,7 @@ public class SeleniumWComponentWebElement implements WebElement {
 	@Override
 	public void sendKeys(final CharSequence... keys) {
 		element.sendKeys(keys);
-
+		SeleniumWComponentsUtil.waitForPageReady(driver);
 	}
 
 	/**
@@ -166,7 +167,7 @@ public class SeleniumWComponentWebElement implements WebElement {
 	@Override
 	public void submit() {
 		element.submit();
-
+		SeleniumWComponentsUtil.waitForPageReady(driver);
 	}
 
 	/**

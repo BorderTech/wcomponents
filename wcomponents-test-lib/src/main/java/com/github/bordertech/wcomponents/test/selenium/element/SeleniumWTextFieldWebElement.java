@@ -13,7 +13,7 @@ import org.openqa.selenium.WebElement;
  * @author Joshua Barclay
  * @since 1.2.3
  */
-public class SeleniumWTextFieldWebElement extends SeleniumWComponentWebElement {
+public class SeleniumWTextFieldWebElement extends SeleniumWComponentInputWebElement {
 
 	private static final List<String> INPUT_ATTRIBUTES = Arrays.asList("value", "disabled", "required", "pattern", "maxlength");
 
@@ -23,9 +23,9 @@ public class SeleniumWTextFieldWebElement extends SeleniumWComponentWebElement {
 	public static final String TOP_LEVEL_TAG = "span";
 
 	/**
-	 * The tag name for the actual element when editable.
+	 * The type for the input field.
 	 */
-	public static final String CHILD_ELEMENT_TAG = "input";
+	public static final String TYPE = "text";
 
 	/**
 	 * Construct a SeleniumWTextFieldWebElement for the given WebElement.
@@ -45,18 +45,27 @@ public class SeleniumWTextFieldWebElement extends SeleniumWComponentWebElement {
 	 * @return the editable input field of a WTextField.
 	 */
 	public SeleniumWComponentWebElement getInputField() {
-		return findElement(By.tagName(CHILD_ELEMENT_TAG));
+		if (isReadOnly()) {
+			return null;
+		}
+
+		return findElement(By.tagName(EDITABLE_TAG));
 	}
 
 	/**
 	 * @return the value of a WTextField.
 	 */
+	@Override
 	public String getValue() {
-		return getInputField().getAttribute("value");
+		if (isReadOnly()) {
+			return getText();
+		}
+		return getInputField().getAttribute(SeleniumWComponentWebProperties.ATTRIBUTE_HTML_VALUE.toString());
 	}
 
 	/**
-	 * Some attributes are applied to the wrapper, some to the input. This override sorts out which is which.
+	 * Some attributes are applied to the wrapper, some to the input. This
+	 * override sorts out which is which.
 	 *
 	 * @param name the name of the attribute to find
 	 * @return the value of the attribute
@@ -77,19 +86,11 @@ public class SeleniumWTextFieldWebElement extends SeleniumWComponentWebElement {
 	 */
 	@Override
 	public boolean isEnabled() {
-		return getInputField().isEnabled();
-	}
-
-	/**
-	 * @return true if the field is in a read-only state.
-	 */
-	public boolean isReadOnly() {
-		String className = getAttribute("class");
-		if (null == className) {
+		if (isReadOnly()) {
 			return false;
 		}
-		List<String> classAsList = Arrays.asList(className.split("\\s"));
-		return classAsList.contains(SeleniumWComponentWebProperties.CLASS_READ_ONLY.toString());
+
+		return getInputField().isEnabled();
 	}
 
 	/**

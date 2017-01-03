@@ -1,6 +1,12 @@
 package com.github.bordertech.wcomponents.test.selenium;
 
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWCheckBoxWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponentInputWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWDialogWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWEmailFieldWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWRadioButtonWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextAreaWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextFieldWebElement;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.BooleanUtils;
@@ -16,10 +22,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 /**
  *
  * <p>
- * Utility class containing convenience methods for testing WComponents with Selenium.</p>
+ * Utility class containing convenience methods for testing WComponents with
+ * Selenium.</p>
  * <p>
- * Logic has been extracted into this utility class for any consumers who cannot extend WComponentSeleniumTestCase due
- * to a different test class hierarchy.</p>
+ * Logic has been extracted into this utility class for any consumers who cannot
+ * extend WComponentSeleniumTestCase due to a different test class
+ * hierarchy.</p>
  *
  * @author Joshua Barclay
  * @since 1.2.0
@@ -109,8 +117,8 @@ public final class SeleniumWComponentsUtil {
 	}
 
 	/**
-	 * Wait for the page to have loaded, including all AJAX and JavaScript. Uses default values for timeout and polling
-	 * interval.
+	 * Wait for the page to have loaded, including all AJAX and JavaScript.
+	 * Uses default values for timeout and polling interval.
 	 *
 	 * @param driver the WebDriver.
 	 */
@@ -127,8 +135,10 @@ public final class SeleniumWComponentsUtil {
 	 * Wait for the page to have loaded, including all AJAX and JavaScript.
 	 *
 	 * @param driver the WebDriver.
-	 * @param timeoutSeconds - the number of seconds after which the 'wait' will time out.
-	 * @param pollingMilliseconds - the number of milliseconds to wait between each poll attempt.
+	 * @param timeoutSeconds - the number of seconds after which the 'wait'
+	 * will time out.
+	 * @param pollingMilliseconds - the number of milliseconds to wait
+	 * between each poll attempt.
 	 */
 	public static void waitForPageReady(final WebDriver driver, final int timeoutSeconds, final long pollingMilliseconds) {
 
@@ -169,12 +179,50 @@ public final class SeleniumWComponentsUtil {
 	}
 
 	/**
-	 * Get the ExpectedCondition for waiting for the WComponents page to be ready.
+	 * Get the ExpectedCondition for waiting for the WComponents page to be
+	 * ready.
 	 *
 	 * @return the WaitCondition for page ready.
 	 */
 	public static ExpectedCondition<Boolean> getPageReadyCondition() {
 		return PAGE_WAIT_CONDITION;
+	}
+
+	/**
+	 * Analyze the input element and attempt to wrap it in the appropriate
+	 * component-specific subclass. If not component specific subclass can
+	 * be identified then the element will be wrapped in a
+	 * SeleniumWComponentWebElement.
+	 *
+	 * @param driver the WebDriver.
+	 * @param element the default Selenium WebElement.
+	 * @return a subtype of SeleniumWComponentWebElement specific to the
+	 * element type.
+	 */
+	public static SeleniumWComponentInputWebElement wrapInputElementWithTypedWebElement(final WebDriver driver, final WebElement element) {
+
+		String tag = element.getTagName();
+
+		if (tag.equals(SeleniumWComponentInputWebElement.EDITABLE_TAG)) {
+			String type = element.getAttribute("type");
+			switch (type) {
+				case SeleniumWCheckBoxWebElement.TYPE:
+					return new SeleniumWCheckBoxWebElement(element, driver);
+				case SeleniumWTextFieldWebElement.TYPE:
+					//Text fields have a wrapping Span, we want to wrap that
+					return new SeleniumWTextFieldWebElement(element.findElement(By.xpath("..")), driver);
+				case SeleniumWEmailFieldWebElement.TYPE:
+					return new SeleniumWEmailFieldWebElement(element, driver);
+				case SeleniumWRadioButtonWebElement.TYPE:
+					return new SeleniumWRadioButtonWebElement(element, driver);
+				default:
+					return new SeleniumWComponentInputWebElement(element, driver);
+			}
+		} else if (tag.equals(SeleniumWTextAreaWebElement.EDITABLE_TAG)) {
+			return new SeleniumWTextAreaWebElement(element, driver);
+		}
+
+		return new SeleniumWComponentInputWebElement(element, driver);
 	}
 
 	/**

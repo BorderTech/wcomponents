@@ -10,6 +10,12 @@ import org.openqa.selenium.WebElement;
  * @since 1.2.3
  */
 public class SeleniumWEmailFieldWebElement extends SeleniumWTextFieldWebElement {
+
+	/**
+	 * The type of this input component.
+	 */
+	public static final String TYPE = "email";
+
 	/**
 	 * Construct a SeleniumWEmailFieldWebElement for the given WebElement.
 	 *
