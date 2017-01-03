@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.WColumn;
 import com.github.bordertech.wcomponents.WRow;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -62,10 +63,10 @@ public class WRowRenderer_Test extends AbstractWebXmlRendererTestCase {
 		row.setMargin(margin);
 		assertXpathNotExists("//ui:row/ui:margin", row);
 
-		margin = new Margin(1);
+		margin = new Margin(GapSizeUtil.Size.SMALL);
 		row.setMargin(margin);
 		assertSchemaMatch(row);
-		assertXpathEvaluatesTo("1", "//ui:row/ui:margin/@all", row);
+		assertXpathEvaluatesTo("sm", "//ui:row/ui:margin/@all", row);
 		assertXpathEvaluatesTo("", "//ui:row/ui:margin/@north", row);
 		assertXpathEvaluatesTo("", "//ui:row/ui:margin/@east", row);
 		assertXpathEvaluatesTo("", "//ui:row/ui:margin/@south", row);

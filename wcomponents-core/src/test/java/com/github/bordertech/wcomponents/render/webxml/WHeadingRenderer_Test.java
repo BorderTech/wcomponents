@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -87,10 +88,10 @@ public class WHeadingRenderer_Test extends AbstractWebXmlRendererTestCase {
 		heading.setMargin(margin);
 		assertXpathNotExists("//ui:heading/ui:margin", heading);
 
-		margin = new Margin(1);
+		margin = new Margin(GapSizeUtil.Size.SMALL);
 		heading.setMargin(margin);
 		assertSchemaMatch(heading);
-		assertXpathEvaluatesTo("1", "//ui:heading/ui:margin/@all", heading);
+		assertXpathEvaluatesTo("sm", "//ui:heading/ui:margin/@all", heading);
 		assertXpathEvaluatesTo("", "//ui:heading/ui:margin/@north", heading);
 		assertXpathEvaluatesTo("", "//ui:heading/ui:margin/@east", heading);
 		assertXpathEvaluatesTo("", "//ui:heading/ui:margin/@south", heading);

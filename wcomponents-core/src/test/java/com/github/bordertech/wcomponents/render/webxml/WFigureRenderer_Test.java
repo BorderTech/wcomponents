@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WFigure;
 import com.github.bordertech.wcomponents.WFigure.FigureMode;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -112,10 +113,10 @@ public class WFigureRenderer_Test extends AbstractWebXmlRendererTestCase {
 		figure.setMargin(margin);
 		assertXpathNotExists("//ui:figure/ui:margin", figure);
 
-		margin = new Margin(1);
+		margin = new Margin(GapSizeUtil.Size.SMALL);
 		figure.setMargin(margin);
 		assertSchemaMatch(figure);
-		assertXpathEvaluatesTo("1", "//ui:figure/ui:margin/@all", figure);
+		assertXpathEvaluatesTo("sm", "//ui:figure/ui:margin/@all", figure);
 		assertXpathEvaluatesTo("", "//ui:figure/ui:margin/@north", figure);
 		assertXpathEvaluatesTo("", "//ui:figure/ui:margin/@east", figure);
 		assertXpathEvaluatesTo("", "//ui:figure/ui:margin/@south", figure);

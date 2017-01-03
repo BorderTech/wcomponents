@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.WSection.SectionMode;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -116,10 +117,10 @@ public class WSectionRenderer_Test extends AbstractWebXmlRendererTestCase {
 		section.setMargin(margin);
 		assertXpathNotExists("//ui:section/ui:margin", section);
 
-		margin = new Margin(1);
+		margin = new Margin(GapSizeUtil.Size.SMALL);
 		section.setMargin(margin);
 		assertSchemaMatch(section);
-		assertXpathEvaluatesTo("1", "//ui:section/ui:margin/@all", section);
+		assertXpathEvaluatesTo("sm", "//ui:section/ui:margin/@all", section);
 		assertXpathEvaluatesTo("", "//ui:section/ui:margin/@north", section);
 		assertXpathEvaluatesTo("", "//ui:section/ui:margin/@east", section);
 		assertXpathEvaluatesTo("", "//ui:section/ui:margin/@south", section);

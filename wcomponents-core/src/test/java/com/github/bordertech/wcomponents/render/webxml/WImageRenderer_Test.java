@@ -39,31 +39,31 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 		image.setImage(content);
 
 		assertSchemaMatch(image);
-		assertXpathEvaluatesTo(image.getId(), "//ui:image/@id", image);
+		assertXpathEvaluatesTo(image.getId(), "//html:img/@id", image);
 		assertSrcMatch(image);
-		assertXpathEvaluatesTo("", "//ui:image/@alt", image);
-		assertXpathNotExists("//ui:image/@hidden", image);
-		assertXpathNotExists("//ui:image/@width", image);
-		assertXpathNotExists("//ui:image/@height", image);
+		assertXpathEvaluatesTo("", "//html:img/@alt", image);
+		assertXpathNotExists("//html:img/@hidden", image);
+		assertXpathNotExists("//html:img/@width", image);
+		assertXpathNotExists("//html:img/@height", image);
 
 		content.setDescription("WImage_Test.testRenderedFormat.description");
 		content.setSize(new Dimension(-123, -456));
 		setFlag(image, ComponentModel.HIDE_FLAG, true);
-		assertXpathEvaluatesTo(content.getDescription(), "//ui:image/@alt", image);
-		assertXpathEvaluatesTo("true", "//ui:image/@hidden", image);
-		assertXpathNotExists("//ui:image/@width", image);
-		assertXpathNotExists("//ui:image/@height", image);
+		assertXpathEvaluatesTo(content.getDescription(), "//html:img/@alt", image);
+		assertXpathEvaluatesTo("true", "//html:img/@hidden", image);
+		assertXpathNotExists("//html:img/@width", image);
+		assertXpathNotExists("//html:img/@height", image);
 		assertSrcMatch(image);
 
 		content.setSize(new Dimension(123, 456));
 		assertSchemaMatch(image);
-		assertXpathEvaluatesTo("123", "//ui:image/@width", image);
-		assertXpathEvaluatesTo("456", "//ui:image/@height", image);
+		assertXpathEvaluatesTo("123", "//html:img/@width", image);
+		assertXpathEvaluatesTo("456", "//html:img/@height", image);
 
 		content.setSize(new Dimension(0, 0));
 		assertSchemaMatch(image);
-		assertXpathEvaluatesTo("0", "//ui:image/@width", image);
-		assertXpathEvaluatesTo("0", "//ui:image/@height", image);
+		assertXpathEvaluatesTo("0", "//html:img/@width", image);
+		assertXpathEvaluatesTo("0", "//html:img/@height", image);
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		String src = WebUtilities.decode(image.getTargetUrl());
 		String expectedSrc = src.replaceFirst(noCacheRegexp, "");
-		String actualSrc = evaluateXPath(image, "//ui:image/@src").replaceFirst(noCacheRegexp, "");
+		String actualSrc = evaluateXPath(image, "//html:img/@src").replaceFirst(noCacheRegexp, "");
 		Assert.assertEquals("Incorrect source url", expectedSrc, actualSrc);
 	}
 
@@ -91,7 +91,7 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		WImage image = new WImage();
 		MockImage content = new MockImage();
-		content.setDescription(getMaliciousAttribute("ui:image"));
+		content.setDescription(getMaliciousAttribute("html:img"));
 
 		setActiveContext(createUIContext());
 		image.setImage(content);

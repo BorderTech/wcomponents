@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.WPanel.PanelMode;
 import com.github.bordertech.wcomponents.layout.BorderLayout;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 import java.io.Serializable;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -152,26 +153,7 @@ public class WPanel_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WPanel(), "margin", null, new Margin(1), new Margin(2));
-	}
-
-	@Test
-	public void testMargin() {
-		// Create Margin with "all"
-		Margin margin = new Margin(1);
-		Assert.assertEquals("Incorrect all margin returned", 1, margin.getAll());
-		Assert.assertEquals("Incorrect north margin returned", -1, margin.getNorth());
-		Assert.assertEquals("Incorrect east margin returned", -1, margin.getEast());
-		Assert.assertEquals("Incorrect south margin returned", -1, margin.getSouth());
-		Assert.assertEquals("Incorrect west margin returned", -1, margin.getWest());
-
-		// Create Margin for all sides
-		margin = new Margin(1, 2, 3, 4);
-		Assert.assertEquals("Incorrect all margin returned", -1, margin.getAll());
-		Assert.assertEquals("Incorrect north margin returned", 1, margin.getNorth());
-		Assert.assertEquals("Incorrect east margin returned", 2, margin.getEast());
-		Assert.assertEquals("Incorrect south margin returned", 3, margin.getSouth());
-		Assert.assertEquals("Incorrect west margin returned", 4, margin.getWest());
-
+		assertAccessorsCorrect(new WPanel(), "margin", null, new Margin(GapSizeUtil.Size.SMALL),
+				new Margin(GapSizeUtil.Size.LARGE));
 	}
 }

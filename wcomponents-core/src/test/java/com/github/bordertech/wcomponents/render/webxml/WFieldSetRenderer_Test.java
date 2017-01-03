@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.WFieldSet;
 import com.github.bordertech.wcomponents.WFieldSet.FrameType;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -66,10 +67,10 @@ public class WFieldSetRenderer_Test extends AbstractWebXmlRendererTestCase {
 		fieldSet.setMargin(margin);
 		assertXpathNotExists("//ui:fieldset/ui:margin", fieldSet);
 
-		margin = new Margin(1);
+		margin = new Margin(GapSizeUtil.Size.SMALL);
 		fieldSet.setMargin(margin);
 		assertSchemaMatch(fieldSet);
-		assertXpathEvaluatesTo("1", "//ui:fieldset/ui:margin/@all", fieldSet);
+		assertXpathEvaluatesTo("sm", "//ui:fieldset/ui:margin/@all", fieldSet);
 		assertXpathEvaluatesTo("", "//ui:fieldset/ui:margin/@north", fieldSet);
 		assertXpathEvaluatesTo("", "//ui:fieldset/ui:margin/@east", fieldSet);
 		assertXpathEvaluatesTo("", "//ui:fieldset/ui:margin/@south", fieldSet);

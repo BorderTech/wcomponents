@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -104,10 +105,10 @@ public class WDefinitionListRenderer_Test extends AbstractWebXmlRendererTestCase
 		section.setMargin(margin);
 		assertXpathNotExists("//ui:definitionlist/ui:margin", section);
 
-		margin = new Margin(1);
+		margin = new Margin(GapSizeUtil.Size.SMALL);
 		section.setMargin(margin);
 		assertSchemaMatch(section);
-		assertXpathEvaluatesTo("1", "//ui:definitionlist/ui:margin/@all", section);
+		assertXpathEvaluatesTo("sm", "//ui:definitionlist/ui:margin/@all", section);
 		assertXpathEvaluatesTo("", "//ui:definitionlist/ui:margin/@north", section);
 		assertXpathEvaluatesTo("", "//ui:definitionlist/ui:margin/@east", section);
 		assertXpathEvaluatesTo("", "//ui:definitionlist/ui:margin/@south", section);

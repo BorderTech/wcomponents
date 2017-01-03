@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenu.SelectMode;
 import com.github.bordertech.wcomponents.WMenuItem;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -89,10 +90,10 @@ public class WMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 		menu.setMargin(margin);
 		assertXpathNotExists("//ui:menu/ui:margin", menu);
 
-		margin = new Margin(1);
+		margin = new Margin(GapSizeUtil.Size.SMALL);
 		menu.setMargin(margin);
 		assertSchemaMatch(menu);
-		assertXpathEvaluatesTo("1", "//ui:menu/ui:margin/@all", menu);
+		assertXpathEvaluatesTo("sm", "//ui:menu/ui:margin/@all", menu);
 		assertXpathEvaluatesTo("", "//ui:menu/ui:margin/@north", menu);
 		assertXpathEvaluatesTo("", "//ui:menu/ui:margin/@east", menu);
 		assertXpathEvaluatesTo("", "//ui:menu/ui:margin/@south", menu);

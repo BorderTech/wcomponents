@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.WList;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 import java.io.IOException;
 import java.util.Arrays;
 import junit.framework.Assert;
@@ -125,10 +126,10 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 		list.setMargin(margin);
 		assertXpathNotExists("//ui:panel/ui:margin", list);
 
-		margin = new Margin(GAP);
+		margin = new Margin(GapSizeUtil.Size.SMALL);
 		list.setMargin(margin);
 		assertSchemaMatch(list);
-		assertXpathEvaluatesTo(String.valueOf(GAP), "//ui:panel/ui:margin/@all", list);
+		assertXpathEvaluatesTo("sm", "//ui:panel/ui:margin/@all", list);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@north", list);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@east", list);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@south", list);

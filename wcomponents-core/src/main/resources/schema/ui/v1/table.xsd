@@ -404,11 +404,6 @@
 					<xs:documentation>Provides a human readable description of the intent of the table.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-			<xs:attribute name="summary" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>No longer supported.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
 			<xs:attribute name="striping">
 				<xs:annotation>
 					<xs:documentation>Provides a flag to style alternate rows or columns to improve table usability.</xs:documentation>
