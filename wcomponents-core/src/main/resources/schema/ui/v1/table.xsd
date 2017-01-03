@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" 
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 
 	<xs:include schemaLocation="decoratedLabel.xsd"/>
 	<xs:include schemaLocation="button.xsd"/>
@@ -41,12 +43,6 @@
 							<td>List</td>
 							<td>no</td>
 							<td>A list of row indices of rows which are selected.</td>
-						</tr>
-						<tr>
-							<td>@id + ".filters"</td>
-							<td>List</td>
-							<td>no</td>
-							<td>A list of filters in effect on the client. WDataTable only. Will be removed.</td>
 						</tr>
 						<tr>
 							<td>@id + ".page"</td>
@@ -424,11 +420,6 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="showRowIndices" type="xs:boolean">
-				<xs:annotation>
-					<xs:documentation>No longer supported.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
 			<xs:attribute name="separators">
 				<xs:annotation>
 					<xs:documentation>Provides a flag to show row and/or column borders.</xs:documentation>
@@ -501,10 +492,7 @@
 		<xs:attribute name="rowIndex" type="xs:token" use="required"/>
 		<xs:attribute name="unselectable" type="xs:boolean"/>
 		<xs:attribute name="selected" type="xs:boolean"/>
-		<xs:attribute name="disabled" type="xs:boolean"/>
 		<xs:attribute name="expandable" type="xs:boolean"/>
-		<xs:attribute name="filterValues" type="xs:string"/> <!-- space delimited set of values -->
-
 	</xs:complexType>
 
 </xs:schema>

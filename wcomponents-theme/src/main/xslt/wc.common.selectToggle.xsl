@@ -98,19 +98,11 @@
 							<xsl:text>wc_seltog wc-nobutton wc-icon</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
-					<xsl:choose>
-						<xsl:when test="self::ui:selecttoggle">
-							<xsl:call-template name="disabledElement">
-								<xsl:with-param name="isControl" select="1"/>
-							</xsl:call-template>
-						</xsl:when>
-						<xsl:otherwise><!-- TODO: this applies only to WDataTable and is to be removed -->
-							<xsl:call-template name="disabledElement">
-								<xsl:with-param name="isControl" select="1"/>
-								<xsl:with-param name="field" select="parent::ui:table"/>
-							</xsl:call-template>
-						</xsl:otherwise>
-					</xsl:choose>
+					<xsl:if test="self::ui:selecttoggle">
+						<xsl:call-template name="disabledElement">
+							<xsl:with-param name="isControl" select="1"/>
+						</xsl:call-template>
+					</xsl:if>
 				</button>
 			</xsl:otherwise>
 		</xsl:choose>

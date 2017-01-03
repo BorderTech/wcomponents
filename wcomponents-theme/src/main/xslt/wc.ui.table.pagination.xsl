@@ -42,10 +42,6 @@
 							<xsl:attribute name="aria-busy">
 								<xsl:text>true</xsl:text>
 							</xsl:attribute>
-							<xsl:call-template name="disabledElement"><!-- WDataTable compatibility only -->
-								<xsl:with-param name="field" select="parent::ui:table"/>
-								<xsl:with-param name="isControl" select="1"/>
-							</xsl:call-template>
 						</xsl:otherwise>
 					</xsl:choose>
 					<option value="{@currentPage}" selected="selected">
@@ -134,19 +130,11 @@
 		<xsl:param name="idSuffix"/>
 		<xsl:param name="disabled" select="0"/>
 		<button id="{concat(../@id,'.pagination.',$idSuffix)}" title="{$title}" type="button" class="wc_btn_icon wc-invite">
-			<xsl:choose>
-				<xsl:when test="number($disabled) eq 1">
-					<xsl:attribute name="disabled">
-						<xsl:text>disabled</xsl:text>
-					</xsl:attribute>
-				</xsl:when>
-				<xsl:otherwise><!-- WDataTable compatibility only -->
-					<xsl:call-template name="disabledElement">
-						<xsl:with-param name="field" select="parent::ui:table"/>
-						<xsl:with-param name="isControl" select="1"/>
-					</xsl:call-template>
-				</xsl:otherwise>
-			</xsl:choose>
+			<xsl:if test="number($disabled) eq 1">
+				<xsl:attribute name="disabled">
+					<xsl:text>disabled</xsl:text>
+				</xsl:attribute>
+			</xsl:if>
 		</button>
 	</xsl:template>
 
@@ -161,12 +149,8 @@
 		</xsl:variable>
 		<label for="{$rppChooserName}">
 			<xsl:text>{{t 'table_pagination_label_rppChooser'}}</xsl:text>
+			<!-- NOTE: do not use name or data-wc-name as we do not want to trigger an unsaved changes warning -->
 			<select id="{$rppChooserName}" class="wc_table_pag_rpp">
-				<!-- NOTE: do not use name or data-wc-name as we do not want to trigger an unsaved changes warning -->
-				<xsl:call-template name="disabledElement">
-					<xsl:with-param name="field" select="ancestor::ui:table[1]"/>
-					<xsl:with-param name="isControl" select="1"/>
-				</xsl:call-template>
 				<xsl:apply-templates select="ui:option" mode="rowsPerPage">
 					<xsl:with-param name="rowsPerPage" select="../@rowsPerPage"/>
 				</xsl:apply-templates>

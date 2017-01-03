@@ -8,7 +8,7 @@
 	<xsl:import href="wc.ui.table.n.topControls.xsl"/>
 
 	<!--
-		WTable (and WDataTable)
+		WTable
 
 		This is long but reasonably straight-forward generation of HTML tables.
 
@@ -226,7 +226,7 @@
 			</xsl:if>
 		</col>
 	</xsl:template>
-	
+
 <!-- THEAD -->
 
 	<!-- Template for ui:thead to html thead element -->
@@ -291,11 +291,6 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>
-					<xsl:if test="../../@disabled"><!-- WDataTable only: to be removed. -->
-						<xsl:attribute name="aria-disabled">
-							<xsl:text>true</xsl:text>
-						</xsl:attribute>
-					</xsl:if>
 				</xsl:if>
 			</xsl:if>
 			<xsl:apply-templates select="ui:decoratedlabel">

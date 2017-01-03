@@ -187,17 +187,6 @@
 			<xsl:if test="number($removeRow) eq 1">
 				<xsl:call-template name="hiddenElement"/>
 			</xsl:if>
-			<!-- TODO remove the disabled block when we drop WDataTable -->
-			<xsl:choose>
-				<xsl:when test="@disabled">
-					<xsl:call-template name="disabledElement"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:call-template name="disabledElement">
-						<xsl:with-param name="field" select="$myTable"/>
-					</xsl:call-template>
-				</xsl:otherwise>
-			</xsl:choose>
 <!-- END OF TR ATTRIBUTES -->
 			<!-- rowSelection indicator wrapper
 
