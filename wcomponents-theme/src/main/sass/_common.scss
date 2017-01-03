@@ -341,6 +341,10 @@ $wc-table-sort-icon-pos: top;
 $wc-tabset-left-right-tab-width: 15% !default;
 $wc-tabset-border-radius: $wc-gap-small !default;
 
+// Allow left and right tabset styles
+// 1 = allow, anything else = disallow.
+$wc-tabset-allow-left-right: 1 !default;
+
 //**********************************************************************************************************************
 // WTree
 //**********************************************************************************************************************

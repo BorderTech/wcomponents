@@ -1,6 +1,6 @@
 @import 'mixins-common';
 
-// IE11 does wierd stuff with tabcontent if thetabset has a flex layout
+// IE11 does weird stuff with tabcontent if the tabset has a flex layout
 .wc-tabset-type-top {
 	display: block;
 }

@@ -16,14 +16,21 @@
 				</xsl:attribute>
 			</xsl:if>
 			<div role="tablist">
-				<xsl:if test="@type eq 'accordion'">
-					<xsl:attribute name="aria-multiselectable">
-						<xsl:choose>
-							<xsl:when test="@single">false</xsl:when>
-							<xsl:otherwise>true</xsl:otherwise>
-						</xsl:choose>
-					</xsl:attribute>
-				</xsl:if>
+				<xsl:choose>
+					<xsl:when test="@type eq 'accordion'">
+						<xsl:attribute name="aria-multiselectable">
+							<xsl:choose>
+								<xsl:when test="@single">false</xsl:when>
+								<xsl:otherwise>true</xsl:otherwise>
+							</xsl:choose>
+						</xsl:attribute>
+					</xsl:when>
+					<xsl:when test="@type eq 'left' or @type eq 'right'">
+						<xsl:attribute name="aria-orientation">
+							<xsl:text>vertical</xsl:text>
+						</xsl:attribute>
+					</xsl:when>
+				</xsl:choose>
 				<xsl:apply-templates select="ui:tab|ui:tabgroup/ui:tab">
 					<xsl:with-param name="tabset" select="."/>
 					<xsl:with-param name="numAvailTabs" select="count(ui:tab[@open and not(@disabled)]|ui:tabgroup/ui:tab[@open and not(@disabled)])"/>
