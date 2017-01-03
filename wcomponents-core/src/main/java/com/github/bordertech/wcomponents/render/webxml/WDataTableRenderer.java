@@ -46,7 +46,6 @@ final class WDataTableRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("hidden", table.isHidden(), "true");
 		xml.appendOptionalAttribute("caption", table.getCaption());
-		xml.appendOptionalAttribute("summary", table.getSummary());
 		xml.appendOptionalAttribute("activeFilters", getActiveFilterValues(table));
 
 		switch (table.getType()) {
