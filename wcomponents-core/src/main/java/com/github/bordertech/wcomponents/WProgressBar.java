@@ -12,7 +12,7 @@ package com.github.bordertech.wcomponents;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class WProgressBar extends WBeanComponent implements AjaxTarget {
+public class WProgressBar extends WBeanComponent implements AjaxTarget, Labelable {
 
 	/**
 	 * Progress bar types.

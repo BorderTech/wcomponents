@@ -24,71 +24,66 @@
 				<xsl:call-template name="readOnlyControl"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<textarea>
-					<xsl:call-template name="commonControlAttributes">
-						<xsl:with-param name="name" select="$id"/>
+				<span>
+					<xsl:call-template name="commonAttributes">
 						<xsl:with-param name="class">
-							<xsl:if test="(@required or @placeholder) and not(text())">
-								<xsl:text>wc-buggyie</xsl:text>
-							</xsl:if>
+							<xsl:text>wc_input_wrapper</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
+					<textarea>
+						<xsl:call-template name="wrappedTextInputAttributes"/>
+						<xsl:if test="(@required or @placeholder) and not(text())">
+							<xsl:attribute name="class">
+								<xsl:text>wc-buggyie</xsl:text>
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:if test="@maxLength">
+							<xsl:attribute name="data-wc-maxlength">
+								<xsl:value-of select="@maxLength"/>
+							</xsl:attribute>
+							<xsl:attribute name="aria-owns">
+								<xsl:value-of select="$tickerId"/>
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:if test="@minLength">
+							<xsl:attribute name="data-wc-min">
+								<xsl:value-of select="@minLength"/>
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:if test="@cols">
+							<xsl:attribute name="cols">
+								<xsl:value-of select="@cols"/>
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:if test="@rows">
+							<xsl:attribute name="rows">
+								<xsl:value-of select="@rows"/>
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:if test="@autocomplete">
+							<xsl:attribute name="autocomplete">
+								<xsl:value-of select="@autocomplete"/>
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:value-of select="."/>
+					</textarea>
 					<xsl:if test="@maxLength">
-						<xsl:attribute name="data-wc-maxlength">
-							<xsl:value-of select="@maxLength"/>
-						</xsl:attribute>
-						<xsl:attribute name="aria-owns">
-							<xsl:value-of select="$tickerId"/>
-						</xsl:attribute>
+						<output id="{$tickerId}" name="{$tickerId}" for="{@id}" hidden="hidden" />
+						<!--<xsl:element name="output">
+							<xsl:attribute name="id">
+								<xsl:value-of select="$tickerId"/>
+							</xsl:attribute>
+							<xsl:attribute name="name">
+								<xsl:value-of select="$tickerId"/>
+							</xsl:attribute>
+							<xsl:attribute name="for">
+								<xsl:value-of select="@id"/>
+							</xsl:attribute>
+							<xsl:call-template name="hiddenElement"/>
+						</xsl:element>-->
 					</xsl:if>
-					<xsl:if test="@minLength">
-						<xsl:attribute name="data-wc-min">
-							<xsl:value-of select="@minLength"/>
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="@placeholder or @required">
-						<xsl:attribute name="placeholder">
-							<xsl:choose>
-								<xsl:when test="@placeholder">
-									<xsl:value-of select="@placeholder"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:text>{{t 'requiredPlaceholder'}}</xsl:text>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="@cols">
-						<xsl:attribute name="cols">
-							<xsl:value-of select="@cols"/>
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="@rows">
-						<xsl:attribute name="rows">
-							<xsl:value-of select="@rows"/>
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="@autocomplete">
-						<xsl:attribute name="autocomplete">
-							<xsl:value-of select="@autocomplete"/>
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:value-of select="."/>
-				</textarea>
-				<xsl:if test="@maxLength">
-					<xsl:element name="output">
-						<xsl:attribute name="id">
-							<xsl:value-of select="$tickerId"/>
-						</xsl:attribute>
-						<xsl:attribute name="name">
-							<xsl:value-of select="$tickerId"/>
-						</xsl:attribute>
-						<xsl:attribute name="for">
-							<xsl:value-of select="@id"/>
-						</xsl:attribute>
-						<xsl:call-template name="hiddenElement"/>
-					</xsl:element>
-				</xsl:if>
+				</span>
+				
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

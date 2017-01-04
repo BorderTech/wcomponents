@@ -7,15 +7,22 @@
 				<xsl:call-template name="readOnlyControl"/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:element name="input">
-					<xsl:call-template name="commonControlAttributes">
-						<xsl:with-param name="name" select="@id"/>
-						<xsl:with-param name="value" select="text()"/>
+				<span>
+					<xsl:call-template name="commonAttributes">
+						<xsl:with-param name="class">
+							<xsl:text>wc_input_wrapper</xsl:text>
+						</xsl:with-param>
 					</xsl:call-template>
-					<xsl:attribute name="type">
-						<xsl:text>number</xsl:text>
-					</xsl:attribute>
-					<!--
+					<xsl:element name="input">
+						<xsl:call-template name="wrappedTextInputAttributes">
+							<xsl:with-param name="type">
+								<xsl:text>number</xsl:text>
+							</xsl:with-param>
+						</xsl:call-template>
+						<xsl:attribute name="value">
+							<xsl:value-of select="text()"/>
+						</xsl:attribute>
+						<!--
 						Turning off autocomplete is CRITICAL in Internet Explorer (8, others untested, but those
 						with a native HTML5 number field are probably going to be OK). It tooks me days to find this
 						after tearing apart the entire framework. Here's the issue:
@@ -26,42 +33,43 @@
 						
 						TODO: check this in IE 11 and possibly implement autocomplete or move this attribute fix to JavaScript.
 					-->
-					<xsl:attribute name="autocomplete">
-						<xsl:text>off</xsl:text>
-					</xsl:attribute>
-					<xsl:if test="@min">
-						<xsl:attribute name="min">
-							<xsl:value-of select="@min"/>
-							<!-- NOTE: step may only be a non-integer if min is a non integer -->
-							<xsl:if test="contains(@step,'.') and not(contains(@min,'.'))">
-								<xsl:text>.0</xsl:text>
-							</xsl:if>
+						<xsl:attribute name="autocomplete">
+							<xsl:text>off</xsl:text>
 						</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="@max">
-						<xsl:attribute name="max">
-							<xsl:value-of select="@max"/>
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="@step">
-						<!-- NOTE: if min is not defined step must be an integer and step may not be 0-->
-						<xsl:variable name="step">
-							<xsl:choose>
-								<xsl:when test="not(@min) and contains(@step,'.')">
-									<xsl:number value="round(number(@step))"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:number value="number(@step)"/>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:variable>
-						<xsl:if test="number($step) ne 0">
-							<xsl:attribute name="step">
-								<xsl:value-of select="$step"/>
+						<xsl:if test="@min">
+							<xsl:attribute name="min">
+								<xsl:value-of select="@min"/>
+								<!-- NOTE: step may only be a non-integer if min is a non integer -->
+								<xsl:if test="contains(@step,'.') and not(contains(@min,'.'))">
+									<xsl:text>.0</xsl:text>
+								</xsl:if>
 							</xsl:attribute>
 						</xsl:if>
-					</xsl:if>
-				</xsl:element>
+						<xsl:if test="@max">
+							<xsl:attribute name="max">
+								<xsl:value-of select="@max"/>
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:if test="@step">
+							<!-- NOTE: if min is not defined step must be an integer and step may not be 0-->
+							<xsl:variable name="step">
+								<xsl:choose>
+									<xsl:when test="not(@min) and contains(@step,'.')">
+										<xsl:number value="round(number(@step))"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:number value="number(@step)"/>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:variable>
+							<xsl:if test="number($step) ne 0">
+								<xsl:attribute name="step">
+									<xsl:value-of select="$step"/>
+								</xsl:attribute>
+							</xsl:if>
+						</xsl:if>
+					</xsl:element>
+				</span>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

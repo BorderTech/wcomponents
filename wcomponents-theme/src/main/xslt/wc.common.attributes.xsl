@@ -17,7 +17,7 @@
 		<xsl:param name="additional" select="''"/>
 		<xsl:variable name="baseClass" select="concat('wc-', local-name(.))"/>
 		<xsl:value-of select="$baseClass"/>
-		<xsl:if test="@type">
+		<xsl:if test="@type and not(self::ui:file)">
 			<xsl:value-of select="concat(' ',$baseClass,'-type-', @type)"/>
 		</xsl:if>
 		<xsl:if test="@align">
@@ -29,16 +29,16 @@
 		<xsl:if test="@track">
 			<xsl:text> wc_here</xsl:text>
 		</xsl:if>
-		<xsl:if test="$additional ne ''">
-			<xsl:variable name="moreclasses" select="normalize-space($additional)"/>
-			<xsl:if test="$moreclasses ne ''">
-				<xsl:value-of select="concat(' ', $moreclasses)"/>
-			</xsl:if>
-		</xsl:if>
 		<xsl:if test="@class">
 			<xsl:variable name="classes" select="normalize-space(@class)"/>
 			<xsl:if test="$classes ne ''">
 				<xsl:value-of select="concat(' ', $classes)"/>
+			</xsl:if>
+		</xsl:if>
+		<xsl:if test="$additional ne ''">
+			<xsl:variable name="moreclasses" select="normalize-space($additional)"/>
+			<xsl:if test="$moreclasses ne ''">
+				<xsl:value-of select="concat(' ', $moreclasses)"/>
 			</xsl:if>
 		</xsl:if>
 		<xsl:apply-templates select="ui:margin" mode="class" />
@@ -231,17 +231,17 @@
 			<xsl:with-param name="isControl" select="$isControl" />
 			<xsl:with-param name="isWrapper" select="1" />
 			<xsl:with-param name="class">
+				<xsl:value-of select="$class"/>
 				<xsl:if test="not(@readOnly)">
 					<xsl:text> wc_noborder</xsl:text>
 					<xsl:if test="@required">
 						<xsl:text> wc_req</xsl:text>
 					</xsl:if>
 				</xsl:if>
-				<xsl:if test="$class ne ''">
-					<xsl:value-of select="concat(' ', $class)" />
-				</xsl:if>
 			</xsl:with-param>
 		</xsl:call-template>
+		<xsl:call-template name="title"/>
+		<xsl:call-template name="ariaLabel" />
 	</xsl:template>
 
 	<!--
@@ -274,6 +274,71 @@
 			<xsl:call-template name="disabledElement">
 				<xsl:with-param name="isControl" select="$isControl" />
 			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template name="wrappedInputAttributes">
+		<xsl:param name="name" select="@id"/>
+		<xsl:param name="useTitle" select="1"/>
+		<xsl:param name="useRequired" select="1"/>
+		<xsl:param name="type" select="''"/>
+		<xsl:attribute name="id">
+			<xsl:value-of select="concat(@id,'_input')"/>
+		</xsl:attribute>
+		<xsl:if test="$name ne ''">
+			<xsl:attribute name="name">
+				<xsl:value-of select="$name"/>
+			</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="$type ne ''">
+			<xsl:attribute name="type">
+				<xsl:value-of select="$type"/>
+			</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="number($useTitle) eq 1">
+			<xsl:call-template name="title"/>
+		</xsl:if>
+		<xsl:if test="number($useRequired) eq 1">
+			<xsl:call-template name="requiredElement"/>
+		</xsl:if>
+		<xsl:call-template name="disabledElement">
+			<xsl:with-param name="isControl" select="1"/>
+		</xsl:call-template>
+		<xsl:call-template name="ariaLabel" />
+		<xsl:if test="@buttonId">
+			<xsl:attribute name="data-wc-submit">
+				<xsl:value-of select="@buttonId" />
+			</xsl:attribute>
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template name="wrappedTextInputAttributes">
+		<xsl:param name="name" select="@id"/>
+		<xsl:param name="useTitle" select="1"/>
+		<xsl:param name="useRequired" select="1"/>
+		<xsl:param name="type" select="''"/>
+		<xsl:call-template name="wrappedInputAttributes">
+			<xsl:with-param name="name" select="$name"/>
+			<xsl:with-param name="useTitle" select="$useTitle"/>
+			<xsl:with-param name="useRequired" select="$useRequired"/>
+			<xsl:with-param name="type" select="$type"/>
+		</xsl:call-template>
+		<xsl:if test="@placeholder or @required">
+			<xsl:attribute name="placeholder">
+				<xsl:choose>
+					<xsl:when test="@placeholder">
+						<xsl:value-of select="@placeholder"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:text>{{t 'requiredPlaceholder'}}</xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="@submitOnChange and not(@list)">
+			<xsl:attribute name="class">
+				<xsl:text>wc_soc</xsl:text>
+			</xsl:attribute>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

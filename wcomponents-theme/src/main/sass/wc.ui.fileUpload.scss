@@ -1,7 +1,7 @@
 /* wc.ui.fileUpload.scss */
 @import 'mixins-common';
 
-.wc-fileupload {
+.wc-multifileupload {
 	a {
 		@include flex-grow(1);
 		@include flex-shrink(1);
@@ -81,7 +81,7 @@
 	}
 }
 
-.wc-rtc-gum .wc-fileupload .wc_btn_camera {
+.wc-rtc-gum .wc-multifileupload .wc_btn_camera {
 	display: inline-block;  // This will be enabled in javascript
 }
 

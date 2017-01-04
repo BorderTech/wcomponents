@@ -11,41 +11,26 @@
 		When not read only the element is a potential compound control and so gets wrapped in a container with the component ID. The compound contro
 		l consists of the file input and the list of files.
 	-->
-	<xsl:template match="ui:fileupload">
+	<xsl:template match="ui:fileupload|ui:multifileupload">
 		<xsl:variable name="id" select="@id"/>
-		<xsl:variable name="readOnly">
-			<xsl:choose>
-				<xsl:when test="@readOnly">
-					<xsl:number value="1"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:number value="0"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:variable name="legacy">
-			<xsl:choose>
-				<xsl:when test="@async eq 'false'">
-					<xsl:number value="1"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:number value="0"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
 		<xsl:choose>
-			<xsl:when test="number($readOnly) eq 1 and number($legacy) eq 1">
+			<xsl:when test="self::ui:fileupload and @readOnly">
 				<xsl:call-template name="readOnlyControl"/>
 			</xsl:when>
-			<xsl:when test="number($legacy) eq 1">
-				<xsl:call-template name="fileInput">
-					<xsl:with-param name="id" select="$id"/>
-				</xsl:call-template>
+			<xsl:when test="self::ui:fileupload">
+				<span>
+					<xsl:call-template name="commonAttributes">
+						<xsl:with-param name="class">
+							<xsl:text>wc_input_wrapper</xsl:text>
+						</xsl:with-param>
+					</xsl:call-template>
+					<xsl:call-template name="fileInput"/>
+				</span>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:variable name="containerTag">
 					<xsl:choose>
-						<xsl:when test="number($readOnly) eq 1">
+						<xsl:when test="@readOnly">
 							<xsl:text>div</xsl:text>
 						</xsl:when>
 						<xsl:otherwise>
@@ -67,7 +52,7 @@
 					<xsl:call-template name="commonWrapperAttributes">
 						<xsl:with-param name="class">
 							<xsl:choose>
-								<xsl:when test="number($readOnly) eq 1">
+								<xsl:when test="@readOnly">
 									<xsl:text>wc_ro</xsl:text>
 								</xsl:when>
 								<xsl:when test="@ajax">
@@ -80,18 +65,15 @@
 						<xsl:value-of select="$cols"/>
 					</xsl:attribute>
 					<xsl:choose>
-						<xsl:when test="number($readOnly) eq 1">
-							<xsl:call-template name="title"/>
+						<xsl:when test="@readOnly">
 							<xsl:call-template name="roComponentName"/>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:variable name="inputId" select="concat($id,'_input')"/>
-							<label class="wc-off" for="{$inputId}">
+							<label class="wc-off" for="{concat($id,'_input')}">
 								<xsl:text>{{t 'file_inputLabel'}}</xsl:text>
 							</label>
-							<xsl:call-template name="fileInput">
-								<xsl:with-param name="id" select="$inputId"/>
-							</xsl:call-template>
+							<xsl:call-template name="fileInput"/>
+							
 						</xsl:otherwise>
 					</xsl:choose>
 					<xsl:if test="ui:file">
@@ -133,47 +115,22 @@
 	</xsl:template>
 
 	<xsl:template name="fileInput">
-		<xsl:param name="id"/>
-		<xsl:variable name="maxFiles" select="@maxFiles"/>
 		<xsl:element name="input">
-			<xsl:attribute name="type">
-				<xsl:text>file</xsl:text>
-			</xsl:attribute>
-			<xsl:attribute name="id">
-				<xsl:value-of select="$id"/>
-			</xsl:attribute>
-			<xsl:attribute name="name">
-				<xsl:value-of select="@id"/>
-			</xsl:attribute>
-			<xsl:attribute name="data-dropzone">
-				<xsl:choose>
-					<xsl:when test="@dropzone">
-						<xsl:value-of select="@dropzone"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="@id"/><!-- If there is no dropzone we may as well default to the file widget container -->
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:attribute>
-			<xsl:if test="@editor">
-				<xsl:attribute name="data-wc-editor">
-					<xsl:value-of select="@editor"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:choose>
-				<xsl:when test="$maxFiles and number($maxFiles) eq 1">
-					<xsl:call-template name="requiredElement"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:attribute name="multiple">
-						<xsl:text>multiple</xsl:text>
-					</xsl:attribute>
-				</xsl:otherwise>
-			</xsl:choose>
-			<xsl:call-template name="disabledElement">
-				<xsl:with-param name="isControl" select="1"/>
+			<xsl:call-template name="wrappedInputAttributes">
+				<xsl:with-param name="type">
+					<xsl:text>file</xsl:text>
+				</xsl:with-param>
+				<xsl:with-param name="useRequired">
+					<xsl:choose>
+						<xsl:when test="self::ui:fileupload">
+							<xsl:number value="1"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:number value="0"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:with-param>
 			</xsl:call-template>
-			<xsl:call-template name="title"/>
 			<xsl:if test="@acceptedMimeTypes">
 				<xsl:attribute name="accept">
 					<xsl:value-of select="@acceptedMimeTypes"/>
@@ -184,10 +141,30 @@
 					<xsl:value-of select="@maxFileSize"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="$maxFiles">
-				<xsl:attribute name="data-wc-maxfiles">
-					<xsl:value-of select="$maxFiles"/>
+			<xsl:if test="self::ui:multifileupload">
+				<xsl:attribute name="multiple">
+					<xsl:text>multiple</xsl:text>
 				</xsl:attribute>
+				<xsl:attribute name="data-dropzone">
+					<xsl:choose>
+						<xsl:when test="@dropzone">
+							<xsl:value-of select="@dropzone"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="@id"/><!-- If there is no dropzone we may as well default to the file widget container -->
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
+				<xsl:if test="@editor">
+					<xsl:attribute name="data-wc-editor">
+						<xsl:value-of select="@editor"/>
+					</xsl:attribute>
+				</xsl:if>
+				<xsl:if test="@maxFiles">
+					<xsl:attribute name="data-wc-maxfiles">
+						<xsl:value-of select="@maxFiles"/>
+					</xsl:attribute>
+				</xsl:if>
 			</xsl:if>
 		</xsl:element>
 		<xsl:if test="@camera">

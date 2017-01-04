@@ -1,5 +1,8 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
+import com.github.bordertech.wcomponents.Input;
+import com.github.bordertech.wcomponents.InputGroup;
+import com.github.bordertech.wcomponents.Labelable;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
@@ -30,6 +33,19 @@ final class WLabelRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("for", label.getLabelFor());
+
+		WComponent what = label.getForComponent();
+		String whatFor = null;
+		if (what instanceof InputGroup) {
+			whatFor = "group";
+		} else if (what instanceof Labelable) {
+			whatFor = "input";
+		}
+
+		xml.appendOptionalAttribute("what", whatFor);
+		xml.appendOptionalAttribute("readonly", ((what instanceof Input) && ((Input) what).isReadOnly()), "true");
+		xml.appendOptionalAttribute("required", ((what instanceof Input) && ((Input) what).isMandatory()), "true");
+		xml.appendOptionalAttribute("hiddencomponent", (what != null && what.isHidden()), "true");
 		xml.appendOptionalAttribute("hint", label.getHint());
 		xml.appendOptionalAttribute("accessKey", Util.upperCase(label.getAccessKeyAsString()));
 		xml.appendOptionalAttribute("hidden", label.isHidden(), "true");

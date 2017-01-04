@@ -38,47 +38,34 @@
 						<xsl:call-template name="title"/>
 					</xsl:if>
 					<xsl:element name="input">
-						<xsl:attribute name="id">
-							<xsl:value-of select="$inputId"/>
-						</xsl:attribute>
-						<xsl:attribute name="name">
-							<xsl:value-of select="$id"/>
-						</xsl:attribute>
+						<xsl:call-template name="wrappedTextInputAttributes">
+							<xsl:with-param name="type">
+								<xsl:choose>
+									<xsl:when test="self::ui:textfield">
+										<xsl:text>text</xsl:text>
+									</xsl:when>
+									<xsl:when test="self::ui:emailfield">
+										<xsl:text>email</xsl:text>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:text>tel</xsl:text>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:with-param>
+							<xsl:with-param name="useTitle">
+								<xsl:choose>
+									<xsl:when test="$list">
+										<xsl:number value="0"/>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:number value="1"/>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:with-param>
+						</xsl:call-template>
 						<xsl:attribute name="value">
 							<xsl:value-of select="text()"/>
 						</xsl:attribute>
-						<xsl:attribute name="type">
-							<xsl:choose>
-								<xsl:when test="self::ui:textfield">
-									<xsl:text>text</xsl:text>
-								</xsl:when>
-								<xsl:when test="self::ui:emailfield">
-									<xsl:text>email</xsl:text>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:text>tel</xsl:text>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:attribute>
-						<xsl:call-template name="requiredElement"/>
-						<xsl:if test="@placeholder or @required">
-							<xsl:attribute name="placeholder">
-								<xsl:choose>
-									<xsl:when test="@placeholder">
-										<xsl:value-of select="@placeholder"/>
-									</xsl:when>
-									<xsl:otherwise>
-										<xsl:text>{{t 'requiredPlaceholder'}}</xsl:text>
-									</xsl:otherwise>
-								</xsl:choose>
-							</xsl:attribute>
-						</xsl:if>
-						<xsl:if test="not($list)">
-							<xsl:call-template name="title"/>
-						</xsl:if>
-						<xsl:call-template name="disabledElement">
-							<xsl:with-param name="isControl" select="1"/>
-						</xsl:call-template>
 						<xsl:choose>
 							<xsl:when test="$list">
 								<xsl:attribute name="role">
@@ -115,7 +102,6 @@
 								<xsl:value-of select="@pattern"/>
 							</xsl:attribute>
 						</xsl:if>
-						<xsl:call-template name="ariaLabel"/>
 					</xsl:element>
 					<xsl:if test="$list">
 						<button value="{$inputId}" tabindex="-1" id="{concat($id, '_list')}" type="button" aria-hidden="true" class="wc_suggest wc_btn_icon wc-invite">

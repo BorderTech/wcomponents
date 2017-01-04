@@ -28,7 +28,7 @@ define(["wc/dom/classList",
 			var LABEL = new Widget("label"),
 				LEGEND,
 				FAUX,
-				TAGS = [tag.INPUT, tag.TEXTAREA, tag.SELECT, tag.PROGRESS, tag.FIELDSET],
+				TAGS = [tag.INPUT, tag.TEXTAREA, tag.SELECT, tag.FIELDSET],
 				CLASS_OFF = "wc-off",
 				MANDATORY_SPAN = new Widget("span", CLASS_OFF),
 				CLASS_HINT = "wc-label-hint",
@@ -36,6 +36,7 @@ define(["wc/dom/classList",
 				RADIO = new Widget("", "wc-radiobutton"),
 				SELECT_TOGGLE = new Widget("button", "wc-selecttoggle"),
 				MOVE_WIDGETS = [CHECKBOX, RADIO, SELECT_TOGGLE],
+				WRAPPER,
 				HINT;
 
 			/**
@@ -298,15 +299,17 @@ define(["wc/dom/classList",
 			};
 
 			function moveLabel(el) {
-				var labels = getLabelsForElement(el),
-					label, parent, sibling;
+				var labels = getLabelsForElement(el, true),
+					label, wrapper, parent, sibling;
 				if (labels && labels.length) {
+					WRAPPER = WRAPPER || new Widget("span", "wc_input_wrapper");
 					label = labels[0];
 					if (label === el.nextSibling) {
 						return;
 					}
-					parent = el.parentNode;
-					if ((sibling = el.nextSibling)) {
+					wrapper = WRAPPER.findAncestor(el) || el; // WSelectToggle is its own wrapper.
+					parent = wrapper.parentNode;
+					if ((sibling = wrapper.nextSibling)) {
 						parent.insertBefore(label, sibling);
 					}
 					else {

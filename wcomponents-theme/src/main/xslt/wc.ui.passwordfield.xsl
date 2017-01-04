@@ -10,52 +10,43 @@
 				</xsl:call-template>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:element name="input">
-					<xsl:call-template name="commonControlAttributes">
-						<xsl:with-param name="name" select="@id"/>
+				<span>
+					<xsl:call-template name="commonAttributes">
+						<xsl:with-param name="class">
+							<xsl:text>wc_input_wrapper</xsl:text>
+						</xsl:with-param>
 					</xsl:call-template>
-					<xsl:attribute name="type">
-						<xsl:text>password</xsl:text>
-					</xsl:attribute>
-					<xsl:if test="@placeholder or @required">
-						<xsl:attribute name="placeholder">
-							<xsl:choose>
-								<xsl:when test="@placeholder">
-									<xsl:value-of select="@placeholder"/>
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:text>{{t 'requiredPlaceholder'}}</xsl:text>
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="@size">
-						<xsl:attribute name="size">
-							<xsl:value-of select="@size"/>
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="@maxLength">
-						<xsl:attribute name="maxlength">
-							<xsl:value-of select="@maxLength"/>
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="@minLength">
-						<xsl:attribute name="minlength">
-							<xsl:value-of select="@minLength"/>
-						</xsl:attribute>
-					</xsl:if>
-					<!--<xsl:if test="@pattern">
+					<xsl:element name="input">
+						<xsl:call-template name="wrappedTextInputAttributes">
+							<xsl:with-param name="type" select="'password'"/>
+						</xsl:call-template>
+						<xsl:if test="@size">
+							<xsl:attribute name="size">
+								<xsl:value-of select="@size"/>
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:if test="@maxLength">
+							<xsl:attribute name="maxlength">
+								<xsl:value-of select="@maxLength"/>
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:if test="@minLength">
+							<xsl:attribute name="minlength">
+								<xsl:value-of select="@minLength"/>
+							</xsl:attribute>
+						</xsl:if>
+						<!--<xsl:if test="@pattern">
 						<xsl:attribute name="pattern">
 							<xsl:value-of select="@pattern"/>
 						</xsl:attribute>
 					</xsl:if>-->
-					<!-- #1007 - choose one or the other of these -->
-					<xsl:if test="@autocomplete">
-						<xsl:attribute name="autocomplete">
-							<xsl:value-of select="@autocomplete"/>
-						</xsl:attribute>
-					</xsl:if>
-					<!--<xsl:attribute name="autocomplete">
+						<!-- #1007 - choose one or the other of these -->
+						<xsl:if test="@autocomplete">
+							<xsl:attribute name="autocomplete">
+								<xsl:value-of select="@autocomplete"/>
+							</xsl:attribute>
+						</xsl:if>
+						<!--<xsl:attribute name="autocomplete">
 						<xsl:choose>
 							<xsl:when test="@autocomplete">
 								<xsl:value-of select="@autocomplete"/>
@@ -65,7 +56,9 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:attribute>-->
-				</xsl:element>
+					</xsl:element>
+				</span>
+				
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

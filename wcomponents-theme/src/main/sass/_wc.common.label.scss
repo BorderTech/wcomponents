@@ -70,9 +70,8 @@
 // Label/read-only equivalent for a checkbox or radio button.
 // When WCheckBoxSelect/WRadioButtonSelect these labels do not have the wc-label class
 // as they are generated from options. TODO: We should fix that.
-input + label, // option in WCheckBoxSelect/WRadioButtonSelect
-.wc-selecttoggle + label, // labelled WSelectToggle in checkbox mode
-input + .wc-label, // need the class name to override the above default WLabel CSS
+input + label,
+.wc_input_wrapper + label,
 .wc_ro + .wc-label {
 	// .wc-label's inline-block can cause the label to fall under the input when there is not enough room for the label
 	display: inline;
@@ -82,13 +81,14 @@ input + .wc-label, // need the class name to override the above default WLabel C
 	margin-left: $wc-gap-small;
 }
 
-label + input {
+label + .wc_input_wrapper {
 	margin-left: $wc-gap-small;
 }
 
 .wc-off {
 	+ label,
-	+ input {
+	+ input,
+	+ .wc_input_wrapper {
 		margin-left: 0;
 	}
 }

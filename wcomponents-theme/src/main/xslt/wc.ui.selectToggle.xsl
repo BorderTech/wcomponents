@@ -4,21 +4,36 @@
 
 	<!-- Transform for WSelectToggle. -->
 	<xsl:template match="ui:selecttoggle">
-		<xsl:call-template name="selectToggle">
-			<xsl:with-param name="for" select="@target"/>
-			<xsl:with-param name="name" select="@id"/>
-			<xsl:with-param name="selected" select="@selected"/>
-			<xsl:with-param name="type">
-				<xsl:choose>
-					<xsl:when test="@renderAs eq 'control'">
-						<xsl:text>control</xsl:text>
-					</xsl:when>
-					<xsl:otherwise>
+		<xsl:choose>
+			<xsl:when test="@renderAs eq 'control'">
+				<span>
+					<xsl:call-template name="commonAttributes">
+						<xsl:with-param name="class">
+							<xsl:text>wc_input_wrapper</xsl:text>
+						</xsl:with-param>
+					</xsl:call-template>
+					<xsl:call-template name="selectToggle">
+						<xsl:with-param name="id" select="concat(@id, '_input')"/>
+						<xsl:with-param name="for" select="@target"/>
+						<xsl:with-param name="name" select="@id"/>
+						<xsl:with-param name="selected" select="@selected"/>
+						<xsl:with-param name="type">
+							<xsl:text>control</xsl:text>
+						</xsl:with-param>
+					</xsl:call-template>
+				</span>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="selectToggle">
+					<xsl:with-param name="for" select="@target"/>
+					<xsl:with-param name="name" select="@id"/>
+					<xsl:with-param name="selected" select="@selected"/>
+					<xsl:with-param name="type">
 						<xsl:text>text</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:with-param>
-		</xsl:call-template>
+					</xsl:with-param>
+				</xsl:call-template>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<!--

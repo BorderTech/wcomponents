@@ -12,8 +12,7 @@ import java.util.List;
  *
  * @author Ming Gao
  */
-public class WMultiSelectPair extends WMultiSelect implements AjaxTrigger, AjaxTarget,
-		SubordinateTarget {
+public class WMultiSelectPair extends WMultiSelect implements AjaxTrigger, AjaxTarget, SubordinateTarget, InputGroup {
 
 	/**
 	 * The default number of rows to display in the list boxes.

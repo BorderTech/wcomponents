@@ -82,7 +82,10 @@
 				<xsl:text>"wc/ui/collapsibleToggle",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//ui:fileupload">
-				<xsl:text>"wc/ui/multiFileUploader","wc/ui/fileUpload",</xsl:text>
+				<xsl:text>"wc/ui/fileUpload",</xsl:text>
+			</xsl:if>
+			<xsl:if test=".//ui:multifileupload">
+				<xsl:text>"wc/ui/multiFileUploader",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//html:img[@data-wc-editor]">
 				<xsl:text>"wc/ui/img",</xsl:text>

@@ -29,6 +29,37 @@
 				</xs:annotation>
 			</xs:attribute>
 
+			<xs:attribute name="what" default="other">
+				<xs:annotation>
+					<xs:documentation>A hint of what is being labelled</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="input"/>
+						<xs:enumeration value="group"/>
+						<xs:enumeration value="other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			
+			<xs:attribute name="readonly" type="xs:boolean" default="false">
+				<xs:annotation>
+					<xs:documentation>Reflects the read-only attribute of the labelled control.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+			<xs:attribute name="required" type="xs:boolean" default="false">
+				<xs:annotation>
+					<xs:documentation>Reflects the mandatory attribute of the labelled control.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			
+			<xs:attribute name="hiddencomponent" type="xs:boolean" default="false">
+				<xs:annotation>
+					<xs:documentation>Reflects the hiddenen attribute of the labelled control.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+
 			<xs:attribute name="hint" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>Further explanatory text which can be appended to the label and allows for a different output rendering. Used for secondary information which

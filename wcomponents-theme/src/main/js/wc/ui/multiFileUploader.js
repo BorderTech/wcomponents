@@ -55,7 +55,7 @@ define(["wc/dom/attribute",
 			 * @requires module:wc/config
 			 */
 			instance = new MultiFileUploader(),
-			CLASS_NAME = "wc-fileupload",
+			CLASS_NAME = "wc-multifileupload",
 			COL_ATTR = "data-wc-cols",
 			MAX_FILES_ATTR = "data-wc-maxfiles",
 			CLASS_NO_BULLET = "wc_list_nb",

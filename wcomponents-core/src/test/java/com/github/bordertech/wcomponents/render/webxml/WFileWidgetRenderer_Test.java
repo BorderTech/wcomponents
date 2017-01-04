@@ -31,7 +31,6 @@ public class WFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(fileUpload);
 
 		assertXpathEvaluatesTo(fileUpload.getId(), "//ui:fileupload/@id", fileUpload);
-		assertXpathEvaluatesTo("1", "//ui:fileupload/@maxFiles", fileUpload);
 
 		assertXpathNotExists("//ui:fileupload/@disabled", fileUpload);
 		assertXpathNotExists("//ui:fileupload/@hidden", fileUpload);

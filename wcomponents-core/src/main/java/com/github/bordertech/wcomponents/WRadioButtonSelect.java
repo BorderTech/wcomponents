@@ -16,7 +16,7 @@ import java.util.List;
  * @since 1.0.0
  */
 public class WRadioButtonSelect extends AbstractWSingleSelectList implements AjaxTrigger, AjaxTarget,
-		SubordinateTrigger, SubordinateTarget {
+		SubordinateTrigger, SubordinateTarget, InputGroup {
 
 	/**
 	 * An enumeration of button layouts.

@@ -21,31 +21,34 @@
 				</span>
 			</xsl:when>
 			<xsl:otherwise>
-				<button type="button" data-wc-name="{@id}" data-wc-value="true" role="checkbox">
-					<xsl:call-template name="commonControlAttributes">
-						<xsl:with-param name="class" select="'wc-nobutton wc-invite'"/>
+				<span>
+					<xsl:call-template name="commonAttributes">
+						<xsl:with-param name="class">
+							<xsl:text>wc_input_wrapper</xsl:text>
+						</xsl:with-param>
 					</xsl:call-template>
-					<!-- Fortunately commonControlAttributes will only output a value attribute if
-						the XML element has a value attribute; so we can add the ui:checkbox value
-						here without changing the called template.
-					-->
-					<xsl:attribute name="value">
-						<xsl:text>true</xsl:text>
-					</xsl:attribute>
-					<xsl:attribute name="aria-checked">
-						<xsl:choose>
-							<xsl:when test="@selected">true</xsl:when>
-							<xsl:otherwise>false</xsl:otherwise>
-						</xsl:choose>
-					</xsl:attribute>
-					<xsl:if test="@groupName">
-						<xsl:attribute name="data-wc-group">
-							<xsl:value-of select="@groupName"/>
+					<button type="button" data-wc-name="{@id}" data-wc-value="true" role="checkbox">
+						<xsl:call-template name="wrappedInputAttributes">
+							<xsl:with-param name="name" select="''"/>
+						</xsl:call-template>
+						<xsl:attribute name="value">
+							<xsl:text>true</xsl:text>
 						</xsl:attribute>
-					</xsl:if>
-					<xsl:call-template name="togglebuttonlabeltext"/>
-				</button>
-				<xsl:call-template name="hField"/>
+						<xsl:attribute name="aria-checked">
+							<xsl:choose>
+								<xsl:when test="@selected">true</xsl:when>
+								<xsl:otherwise>false</xsl:otherwise>
+							</xsl:choose>
+						</xsl:attribute>
+						<xsl:if test="@groupName">
+							<xsl:attribute name="data-wc-group">
+								<xsl:value-of select="@groupName"/>
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:call-template name="togglebuttonlabeltext"/>
+					</button>
+					<xsl:call-template name="hField"/>
+				</span>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

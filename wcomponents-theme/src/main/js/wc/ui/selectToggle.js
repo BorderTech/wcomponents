@@ -515,7 +515,7 @@ define(["wc/dom/shed",
 					element.setAttribute("title", STAND_IN_TEXT_EQUIV);
 				}
 				else {
-					element.insertAdjacentHTML("beforeend", "<span>" + STAND_IN_LABEL + "</span>");
+					element.insertAdjacentHTML("beforeend", "<span>" + STAND_IN_TEXT_EQUIV + "</span>");
 				}
 			}
 

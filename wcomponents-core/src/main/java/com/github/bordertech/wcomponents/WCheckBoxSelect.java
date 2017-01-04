@@ -14,8 +14,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WCheckBoxSelect extends AbstractWMultiSelectList implements AjaxTrigger, AjaxTarget,
-		SubordinateTrigger, SubordinateTarget {
+public class WCheckBoxSelect extends AbstractWMultiSelectList implements AjaxTrigger, AjaxTarget, SubordinateTrigger, SubordinateTarget, InputGroup {
 
 	/**
 	 * An enumeration of button layouts.

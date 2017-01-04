@@ -13,8 +13,7 @@ The XML schema for a WComponent page.
 	<xs:group name="contentGroup">
 		<xs:annotation>
 			<xs:documentation>
-				A group of stand-alone components: those which are able to be added directly to a WApplication or a
-				content container.
+				A group of stand-alone components: those which are able to be added directly to a WApplication or a content container.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:choice>
@@ -48,6 +47,7 @@ The XML schema for a WComponent page.
 			<xs:element ref="ui:menu" />
 			<xs:element ref="ui:messagebox" />
 			<xs:element ref="ui:multidropdown" />
+			<xs:element ref="ui:multifileupload" />
 			<xs:element ref="ui:multiselectpair" />
 			<xs:element ref="ui:multitextfield" />
 			<xs:element ref="ui:numberfield" />

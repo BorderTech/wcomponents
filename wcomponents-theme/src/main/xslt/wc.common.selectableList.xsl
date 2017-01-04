@@ -7,52 +7,50 @@
 		<xsl:variable name="id" select="@id"/>
 		<xsl:choose>
 			<xsl:when test="not(@readOnly)">
-				<select>
-					<xsl:call-template name="commonControlAttributes">
-						<xsl:with-param name="name" select="$id"/>
+				<span>
+					<xsl:call-template name="commonAttributes">
+						<xsl:with-param name="class">
+							<xsl:text>wc_input_wrapper</xsl:text>
+						</xsl:with-param>
 					</xsl:call-template>
-					<xsl:if test="self::ui:listbox and not(@single)">
-						<xsl:attribute name="multiple">
-							<xsl:text>multiple</xsl:text>
-						</xsl:attribute>
-						<xsl:if test="@min">
-							<xsl:attribute name="data-wc-min">
-								<xsl:value-of select="@min"/>
+					<select>
+						<xsl:call-template name="wrappedInputAttributes"/>
+						<xsl:if test="self::ui:listbox and not(@single)">
+							<xsl:attribute name="multiple">
+								<xsl:text>multiple</xsl:text>
+							</xsl:attribute>
+							<xsl:if test="@min">
+								<xsl:attribute name="data-wc-min">
+									<xsl:value-of select="@min"/>
+								</xsl:attribute>
+							</xsl:if>
+							<xsl:if test="@max">
+								<xsl:attribute name="data-wc-max">
+									<xsl:value-of select="@max"/>
+								</xsl:attribute>
+							</xsl:if>
+						</xsl:if>
+						<xsl:if test="@data">
+							<xsl:attribute name="data-wc-list">
+								<xsl:value-of select="@data"/>
 							</xsl:attribute>
 						</xsl:if>
-						<xsl:if test="@max">
-							<xsl:attribute name="data-wc-max">
-								<xsl:value-of select="@max"/>
+						<xsl:if test="@rows">
+							<xsl:attribute name="size">
+								<xsl:value-of select="@rows"/>
 							</xsl:attribute>
 						</xsl:if>
+						<xsl:if test="@autocomplete">
+							<xsl:attribute name="autocomplete">
+								<xsl:value-of select="@autocomplete"/>
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:apply-templates mode="selectableList"/>
+					</select>
+					<xsl:if test="self::ui:listbox">
+						<xsl:call-template name="hField"/>
 					</xsl:if>
-					<xsl:if test="@data">
-						<xsl:attribute name="data-wc-list">
-							<xsl:value-of select="@data"/>
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="@rows">
-						<xsl:attribute name="size">
-							<xsl:value-of select="@rows"/>
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="@optionWidth">
-						<xsl:attribute name="style">
-							<xsl:text>width:</xsl:text>
-							<xsl:value-of select="@optionWidth"/>
-							<xsl:text>em;</xsl:text>
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="@autocomplete">
-						<xsl:attribute name="autocomplete">
-							<xsl:value-of select="@autocomplete"/>
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:apply-templates mode="selectableList"/>
-				</select>
-				<xsl:if test="self::ui:listbox">
-					<xsl:call-template name="hField"/>
-				</xsl:if>
+				</span>
 			</xsl:when>
 			<xsl:when test="count(.//ui:option[@selected]) eq 1">
 				<xsl:call-template name="readOnlyControl">

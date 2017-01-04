@@ -3,29 +3,6 @@
 	<xsl:import href="wc.common.hField.xsl"/>
 	<!-- WCheckBox and WRadioButton -->
 	<xsl:template match="ui:checkbox|ui:radiobutton">
-		<xsl:variable name="type">
-			<xsl:choose>
-				<xsl:when test="self::ui:checkbox or not(@groupName)">
-					<xsl:text>checkbox</xsl:text>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:text>radio</xsl:text>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:variable name="id">
-			<xsl:value-of select="@id"/>
-		</xsl:variable>
-		<xsl:variable name="name">
-			<xsl:choose>
-				<xsl:when test="@groupName and self::ui:radiobutton">
-					<xsl:value-of select="@groupName"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="$id"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
 		<xsl:choose>
 			<xsl:when test="@readOnly">
 				<xsl:call-template name="readOnlyControl">
@@ -48,37 +25,66 @@
 				</xsl:call-template>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:element name="input">
-					<xsl:attribute name="type">
-						<xsl:value-of select="$type"/>
-					</xsl:attribute>
-					<xsl:call-template name="commonControlAttributes">
-						<xsl:with-param name="name" select="$name"/>
-					</xsl:call-template>
-					<!-- Fortunately commonControlAttributes will only output a value attribute if
-						the XML element has a value attribute; so we can add the ui:checkbox value
-						here without changing the called template. -->
-					<xsl:if test="self::ui:checkbox">
-						<xsl:attribute name="value">
-							<xsl:text>true</xsl:text>
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:if test="@groupName and self::ui:checkbox">
-						<xsl:attribute name="data-wc-group">
+				<xsl:variable name="name">
+					<xsl:choose>
+						<xsl:when test="@groupName and self::ui:radiobutton">
 							<xsl:value-of select="@groupName"/>
-						</xsl:attribute>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="@id"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<span>
+					<xsl:call-template name="commonAttributes">
+						<xsl:with-param name="class">
+							<xsl:text>wc_input_wrapper</xsl:text>
+						</xsl:with-param>
+					</xsl:call-template>
+					<xsl:element name="input">
+						<xsl:call-template name="wrappedInputAttributes">
+							<xsl:with-param name="type">
+								<xsl:choose>
+									<xsl:when test="self::ui:checkbox or not(@groupName)">
+										<xsl:text>checkbox</xsl:text>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:text>radio</xsl:text>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:with-param>
+							<xsl:with-param name="name" select="$name"/>
+						</xsl:call-template>
+						<xsl:if test="@selected">
+							<xsl:attribute name="checked">
+								<xsl:text>checked</xsl:text>
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:choose>
+							<xsl:when test="self::ui:checkbox">
+								<xsl:attribute name="value">
+									<xsl:text>true</xsl:text>
+								</xsl:attribute>
+								<xsl:if test="@groupName">
+									<xsl:attribute name="data-wc-group">
+										<xsl:value-of select="@groupName"/>
+									</xsl:attribute>
+								</xsl:if>
+							</xsl:when>
+							<xsl:when test="@value">
+								<xsl:attribute name="value">
+									<xsl:value-of select="@value"/>
+								</xsl:attribute>
+							</xsl:when>
+						</xsl:choose>
+					</xsl:element>
+					<xsl:if test="self::ui:radiobutton and not(@readOnly)">
+						<xsl:call-template name="hField">
+							<xsl:with-param name="name" select="$name"/>
+						</xsl:call-template>
 					</xsl:if>
-					<xsl:if test="@selected">
-						<xsl:attribute name="checked">
-							<xsl:text>checked</xsl:text>
-						</xsl:attribute>
-					</xsl:if>
-				</xsl:element>
+				</span>
 			</xsl:otherwise>
 		</xsl:choose>
-		<xsl:if test="self::ui:radiobutton and not(@readOnly)">
-			<xsl:call-template name="hField">
-				<xsl:with-param name="name" select="$name"/>
-			</xsl:call-template></xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

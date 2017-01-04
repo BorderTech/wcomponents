@@ -16,7 +16,7 @@ define(["wc/dom/classList",
 		 * @private
 		 */
 		function Label() {
-			var TAGS = [tag.INPUT, tag.TEXTAREA, tag.SELECT, tag.PROGRESS, tag.FIELDSET],
+			var TAGS = [tag.INPUT, tag.TEXTAREA, tag.SELECT, tag.FIELDSET],
 				IMG_QS;
 
 			function nonEmptyAttribute(element, attr) {
