@@ -37,7 +37,8 @@ define(["wc/ui/menu/core",
 				submenuTemplate,
 				closeButtonTemplate,
 				DECORATED_LABEL,
-				RESPONSIVE_MENU;
+				RESPONSIVE_MENU,
+				SEPARATOR;
 
 			/**
 			 * The descriptors for this menu type.
@@ -238,6 +239,13 @@ define(["wc/ui/menu/core",
 				};
 			};
 
+			/**
+			 * Clear the iconified state of any menu.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} nextMenu the menu to manipulate
+			 */
 			function removeIconified(nextMenu) {
 				var burger,
 					submenuContent,
@@ -272,49 +280,82 @@ define(["wc/ui/menu/core",
 				}
 			}
 
-			function attachSubMenuCloseButton(el) {
-				var branch,
-					opener,
-					label,
-					props = {},
-					closeButton;
-				if (el && instance.isSubMenu(el)) {
-					closeButtonTemplate = closeButtonTemplate || getTemplate("submenuCloseButton.mustache");
-					if ((branch = instance._getBranch(el)) && (opener = instance._getBranchOpener(branch))) {
-						DECORATED_LABEL = DECORATED_LABEL || new Widget("", "wc-decoratedlabel");
-						label = DECORATED_LABEL.findDescendant(opener);
+			/**
+			 * Helper to get handlebars template for close button creation.
+			 *
+			 * @function
+			 * @private
+			 */
+			function getCloseButtonTemplate() {
+				if (!closeButtonTemplate) {
+					return loader.load("submenuCloseButton.mustache", true, true).then(function (template) {
+						closeButtonTemplate = handlebars.compile(template);
+					});
+				}
+				return Promise.resolve();
+			}
 
-						if (label) {
-							Array.prototype.forEach.call(label.childNodes, function(child) {
-								if (child.nodeType !== Node.ELEMENT_NODE) {
-									return;
-								}
-								if (classList.contains(child, "wc-labelhead")) {
-									props.labelhead = child.innerHTML;
-								}
-								else if (classList.contains(child, "wc-labeltail")) {
-									props.labeltail = child.innerHTML;
-								}
-								else {
-									props.content = child.innerHTML;
-								}
-							});
+			/**
+			 * Attach a close button to a submenu if required.
+			 *
+			 * @function
+			 * @private
+			 * @param {type} el the element to test and (possibly) manipulate.
+			 */
+			function attachSubMenuCloseButton(el) {
+				if (el && instance.isSubMenu(el)) {
+					getCloseButtonTemplate().then(function() {
+						var branch,
+							opener,
+							label,
+							props = {},
+							closeButton;
+						if ((branch = instance._getBranch(el)) && (opener = instance._getBranchOpener(branch))) {
+							DECORATED_LABEL = DECORATED_LABEL || new Widget("", "wc-decoratedlabel");
+							label = DECORATED_LABEL.findDescendant(opener);
+
+							if (label) {
+								Array.prototype.forEach.call(label.childNodes, function(child) {
+									if (child.nodeType !== Node.ELEMENT_NODE) {
+										return;
+									}
+									if (classList.contains(child, "wc-labelhead")) {
+										props.labelhead = child.innerHTML;
+									}
+									else if (classList.contains(child, "wc-labeltail")) {
+										props.labeltail = child.innerHTML;
+									}
+									else {
+										props.content = child.innerHTML;
+									}
+								});
+							}
 						}
-					}
-					if (!props.content) {
-						props.content = i18n.get("menu_close_label");
-					}
-					el.insertAdjacentHTML("afterBegin", closeButtonTemplate(props));
-					closeButton = el.firstChild;
-					if (!closeButton.id) {
-						closeButton.id = uid();
-					}
+						if (!props.content) {
+							props.content = i18n.get("menu_close_label");
+						}
+						el.insertAdjacentHTML("afterBegin", closeButtonTemplate(props));
+						closeButton = el.firstChild;
+						if (!closeButton.id) {
+							closeButton.id = uid();
+						}
+					});
 				}
 			}
 
-			function getTemplate(name) {
-				var template = loader.load(name, true);
-				return handlebars.compile(template);
+			/**
+			 * Helper to get handlebars template for submenu creation.
+			 *
+			 * @function
+			 * @private
+			 */
+			function getSubMenuTemplate() {
+				if (!submenuTemplate) {
+					return loader.load("submenu.mustache", true, true).then(function (template) {
+						submenuTemplate = handlebars.compile(template);
+					});
+				}
+				return Promise.resolve();
 			}
 
 			/**
@@ -328,44 +369,39 @@ define(["wc/ui/menu/core",
 			 * @param {Element} nextMenu The menu to be processed.
 			 */
 			function makeIconified(nextMenu) {
-				var branchElement,
-					props;
-
 				if (classList.contains(nextMenu, MENU_FIXED)) {
 					return;
 				}
 
-				props = {
-					id: uid(),
-					class: " " + BURGER_MENU_CLASS,
-					opener: {
-						class: " wc_hbgr wc-icon",
-						tooltip: i18n.get("menu_open_label")
-					},
-					contentId: uid(),
-					open: false,
-					closeText: i18n.get("menu_close_label"),
-					items: nextMenu.innerHTML
-				};
-				submenuTemplate = submenuTemplate || getTemplate("submenu.mustache");
-				branchElement = submenuTemplate(props);
-				nextMenu.innerHTML = branchElement;
-				classList.add(nextMenu, MENU_FIXED);
-			}
-
-			function resizeEvent(/* $event */) {
-				if (resizeTimer) {
-					timers.clearTimeout(resizeTimer);
-				}
-				resizeTimer = timers.setTimeout(toggleIconMenus, 100);
+				getSubMenuTemplate().then(function() {
+					var branchElement,
+						props = {
+							id: uid(),
+							class: " " + BURGER_MENU_CLASS,
+							opener: {
+								class: " wc_hbgr wc-icon",
+								tooltip: i18n.get("menu_open_label")
+							},
+							contentId: uid(),
+							open: false,
+							closeText: i18n.get("menu_close_label"),
+							items: nextMenu.innerHTML
+						};
+					if (submenuTemplate) {
+						branchElement = submenuTemplate(props);
+						nextMenu.innerHTML = branchElement;
+						classList.add(nextMenu, MENU_FIXED);
+					}
+				});
 			}
 
 			/**
-			 * Determine if the iconification of any menus has to be toggled.
+			 * Determine if the iconification of any menus has to be toggled and call the appropriate manipulation
+			 * function if required.
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} el The element which may be a menu, submenu or something containing a menu.
+			 * @param {Element} el the element to test which may be a menu, submenu or something containing a menu.
 			 */
 			function toggleIconMenus(el) {
 				var candidates, element = el || document.body;
@@ -399,9 +435,59 @@ define(["wc/ui/menu/core",
 				}
 			};
 
+			/**
+			 * Resize event sets up a timer to undertake menu manipulation.
+			 * @function
+			 * @private
+			 */
+			function resizeEvent(/* $event */) {
+				if (resizeTimer) {
+					timers.clearTimeout(resizeTimer);
+				}
+				resizeTimer = timers.setTimeout(toggleIconMenus, 100);
+			}
+
+			/**
+			 * Set the orientation on vertical separators.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element any element which may contain a bar/flyout menu separators
+			 */
+			function setSeparatorOrientation(element) {
+				if (!SEPARATOR) {
+					SEPARATOR =  new Widget("hr");
+					SEPARATOR.descendFrom(instance.ROOT, true);
+				}
+				Array.prototype.forEach.call(SEPARATOR.findDescendants(element), function(next) {
+					next.setAttribute("aria-orientation", "vertical");
+				});
+			}
+
+			/**
+			 * Pre-insertion ajax subscriber function to set the orientation of vertical separators in an ajax response.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element the target element, not used
+			 * @param {DocumentFragment} documentFragment the DocumentFragment to be inserted
+			 */
+			function ajaxSubscriber(element, documentFragment) {
+				setSeparatorOrientation(documentFragment);
+			}
+
+			/**
+			 * Extended initialisation for bar/flyout menus. Should not be called manually.
+			 *
+			 * @function
+			 * @public
+			 * @param {Element} element the element being initialised
+			 */
 			this.initialise = function(element) {
 				this.constructor.prototype.initialise.call(this, element);
 				toggleIconMenus(element);
+				setSeparatorOrientation(element);
+				processResponse.subscribe(ajaxSubscriber);
 				processResponse.subscribe(attachSubMenuCloseButton, true);
 				processResponse.subscribe(toggleIconMenus, true);
 				event.add(window, event.TYPE.resize, resizeEvent, 1);
