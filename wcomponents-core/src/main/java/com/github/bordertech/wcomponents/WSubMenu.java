@@ -55,7 +55,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 		 * Indicates that an ajax request should be made immediately after the page is loaded.
 		 */
 		EAGER
-	};
+	}
 
 	/**
 	 * The submenu's text label.
