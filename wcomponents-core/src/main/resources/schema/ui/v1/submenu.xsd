@@ -6,7 +6,6 @@
 	<xs:include schemaLocation="decoratedLabel.xsd" />
 	<xs:include schemaLocation="menuItem.xsd" />
 	<xs:include schemaLocation="menuGroup.xsd" />
-	<xs:include schemaLocation="separator.xsd" />
 
 	<xs:element name="submenu">
 

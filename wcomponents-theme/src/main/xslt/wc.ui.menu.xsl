@@ -44,11 +44,22 @@
 		DO NOT ALLOW NESTED MENUS!
 	-->
 	<xsl:template match="ui:menu[ancestor::ui:menu]"/>
+	
+	<xsl:template match="ui:separator">
+		<xsl:element name="hr">
+			<xsl:attribute name="role">
+				<xsl:text>separator</xsl:text>
+			</xsl:attribute>
+			<xsl:if test="@class">
+				<xsl:attribute name="class">
+					<xsl:value-of select="@class"/>
+				</xsl:attribute>
+			</xsl:if>
+		</xsl:element>
+	</xsl:template>
 
 	<!--
-		Transform for WMenuItemGroup and WSeparator. 
-		
-		It is strongly recommended that you do not use this WMenuItemGroup but use WSubMenu or WSeparator instead.
+		Transform for WMenuItemGroup. It is strongly recommended that you do not use this component but use WSubMenu or WSeparator instead.
 		
 		The rationale for this transform is from the WAI-ARIA authoing practices for a Menu Widget: http://www.w3.org/TR/wai-aria-practices/#menu:
 		
@@ -58,11 +69,9 @@
 		the aria-expanded state. It is recommended that when grouping menu items of type menuitemradio that they all be grouped together preceding or
 		following a separator."
 	-->
-	<xsl:template match="ui:menugroup|ui:separator">
-		<hr role="separator" />
-		<xsl:if test="self::ui:menugroup">
-			<xsl:apply-templates select="*[not(self::ui:decoratedlabel)]"/><!-- The WDecoratedLabel is purposely ignored -->
-			<hr role="separator" />
-		</xsl:if>
+	<xsl:template match="ui:menugroup">
+		<hr role="separator"/>
+		<xsl:apply-templates select="*[not(self::ui:decoratedlabel)]"/><!-- The WDecoratedLabel is purposely ignored -->
+		<hr role="separator"/>
 	</xsl:template>
 </xsl:stylesheet>
