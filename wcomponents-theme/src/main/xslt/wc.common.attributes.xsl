@@ -168,51 +168,6 @@
 	-->
 
 	<!--
-		A set of attributes added to form control elements.
-		param id: The id of the element, default @id.
-		param isError: A node list of ui:errors (if any) associated with the
-			element.
-		param name: The value of the element's name attribute if it is to be set.
-		param value: The value of the element's value attribute if it is to be
-			set, default @value.
-		param myLabel: a WLabel "for" the current element. We can calculate this but may have already done the calc.
-	-->
-	<xsl:template name="commonControlAttributes">
-		<xsl:param name="id" select="@id" />
-		<xsl:param name="name" select="''"/>
-		<xsl:param name="value" select="@value" />
-		<xsl:param name="class"/>
-		<xsl:call-template name="commonAttributes">
-			<xsl:with-param name="id" select="$id" />
-			<xsl:with-param name="isControl" select="1" />
-			<xsl:with-param name="class">
-				<xsl:value-of select="$class"/>
-				<xsl:if test="@submitOnChange and not(@list)">
-					<xsl:text> wc_soc</xsl:text>
-				</xsl:if>
-			</xsl:with-param>
-		</xsl:call-template>
-		<xsl:if test="not($name eq '')">
-			<xsl:attribute name="name">
-				<xsl:value-of select="$name" />
-			</xsl:attribute>
-		</xsl:if>
-		<xsl:if test="$value">
-			<xsl:attribute name="value">
-				<xsl:value-of select="$value" />
-			</xsl:attribute>
-		</xsl:if>
-		<xsl:call-template name="requiredElement" />
-		<xsl:if test="@buttonId">
-			<xsl:attribute name="data-wc-submit">
-				<xsl:value-of select="@buttonId" />
-			</xsl:attribute>
-		</xsl:if>
-		<xsl:call-template name="title" />
-		<xsl:call-template name="ariaLabel" />
-	</xsl:template>
-
-	<!--
 		Attributes applied to the outer 'wrapper' element of complex components.
 		param id: The component's id, default @id.
 		param isError: A node list of ui:errors (if any) associated with the
