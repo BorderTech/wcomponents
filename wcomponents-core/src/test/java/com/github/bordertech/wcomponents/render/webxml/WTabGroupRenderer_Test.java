@@ -33,13 +33,9 @@ public class WTabGroupRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WTabGroup tabGroup = new WTabGroup(groupName);
 		WComponent wrapped = wrapTabGroup(tabGroup);
 
-		assertXpathExists("//ui:tabgroup", wrapped);
-		assertXpathEvaluatesTo(groupName, "normalize-space(//ui:tabgroup/ui:decoratedlabel)", wrapped);
-		assertXpathEvaluatesTo(tabGroup.getId(), "//ui:tabgroup/@id", wrapped);
-		assertXpathNotExists("//ui:tabgroup/@disabled", wrapped);
-		assertXpathNotExists("//ui:tabgroup/ui:tab", wrapped);
+		assertXpathNotExists("//ui:tab", wrapped);
 		tabGroup.addTab(new WText("dummy"), "dummy", TabMode.CLIENT);
-		assertXpathExists("//ui:tabgroup/ui:tab", wrapped);
+		assertXpathExists("//ui:tab", wrapped);
 		assertSchemaMatch(wrapped);
 	}
 

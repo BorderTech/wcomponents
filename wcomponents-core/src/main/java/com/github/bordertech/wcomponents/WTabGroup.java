@@ -17,7 +17,7 @@ public class WTabGroup extends AbstractContainer implements Disableable {
 	 * @param groupName the tab group name.
 	 */
 	public WTabGroup(final String groupName) {
-		this(new WDecoratedLabel(groupName));
+		// NO OP
 	}
 
 	/**
@@ -26,7 +26,7 @@ public class WTabGroup extends AbstractContainer implements Disableable {
 	 * @param label the tab group label.
 	 */
 	public WTabGroup(final WDecoratedLabel label) {
-		add(label);
+		// NO OP
 	}
 
 	/**
@@ -35,7 +35,7 @@ public class WTabGroup extends AbstractContainer implements Disableable {
 	 */
 	@Deprecated
 	public void addSeparator() {
-		// Do nothing
+		// NO OP
 	}
 
 	/**
