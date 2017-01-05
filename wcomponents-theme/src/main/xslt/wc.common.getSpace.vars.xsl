@@ -13,27 +13,4 @@
 	<!-- an arbitrary number which defines the upper limit of when a space is 'large'. 16px is ~ 1rem. -->
 	<xsl:variable name="lggap" select="16"/>
 	<!-- Any space larger than $lggap is 'extra large' -->
-	
-	<xsl:template name="getSizeClassExtension">
-		<xsl:param name="gap" select="-1"/>
-		<xsl:if test="number($gap) ge 0">
-			<xsl:choose>
-				<xsl:when test="number($gap) eq 0">
-					<xsl:text>z</xsl:text>
-				</xsl:when>
-				<xsl:when test="$gap le number($smallgap)">
-					<xsl:text>sm</xsl:text>
-				</xsl:when>
-				<xsl:when test="number($gap) le number($medgap)">
-					<xsl:text>med</xsl:text>
-				</xsl:when>
-				<xsl:when test="number($gap) le number($lggap)">
-					<xsl:text>lg</xsl:text>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:text>xl</xsl:text>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:if>
-	</xsl:template>
 </xsl:stylesheet>

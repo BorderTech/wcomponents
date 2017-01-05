@@ -10,35 +10,39 @@
 		ui:root.
 	-->
 	<xsl:template match="html:link|html:base|html:meta"/>
-
-	<!-- html:link can appear in a ui:ajaxtarget and in this case cannot be moved to a HEAD element so we just output it in-situ. -->
-	<xsl:template match="html:link[ancestor::ui:ajaxtarget]">
-		<xsl:copy-of select="."/>
-	</xsl:template>
-
-	<!-- Copy link, base and meta elements in the head. -->
-	<xsl:template match="html:link|html:base|html:meta" mode="inHead">
-		<xsl:variable name="el" select="local-name()"/>
-		<!-- copy without XML namespaces -->
-		<xsl:element name="{$el}">
-			<xsl:apply-templates select="@*"/>
-		</xsl:element>
-	</xsl:template>
-
-	<!--
-		HTML 'shorttag' elements
-
-		Some elements cause problems in IE (9-) when copied from a source XML document to the destination tree. This template matches HTML 
+	
+	<!-- HTML 'shorttag' elements
+		
+		1. This template removes xml namespaces which are preserved by xsl:copy-of.
+		
+		2. Some elements cause problems in IE (9-) when copied from a source XML document to the destination tree. This template matches HTML 
 		self-closing elements and is required to work around a bug in The Microsoft XSLTProcieesor (at least up to IE9, posibly later) which will
 		create a closing element if we use the regular copy method. For example with an input element if using: 
 		`<xsl:copy><xsl:apply-templates select="@*|node()"/></xsl:copy>`
 		IE8 will give you: <input/></input/>
-		If you need to support IE you probably want this template.
+		
+		3. Sometimes we want to move HTML elements (like LINK or META) because they can only be inside a HREAD element. So we can call this from 
+		a template with a match and mode.
 	-->
-	<xsl:template match="html:input|html:img|html:br">
+	<xsl:template name="htmlShortTag">
 		<xsl:element name="{local-name()}">
-			<xsl:copy-of select="@*"/>
+			<xsl:apply-templates select="@*"/>
 		</xsl:element>
+	</xsl:template>
+
+	<!-- Copy link, base and meta elements in the head. -->
+	<xsl:template match="html:link|html:base|html:meta" mode="inHead">
+		<xsl:call-template name="htmlShortTag"/>
+	</xsl:template>
+
+	<!--
+		HTML 'shorttag' elements
+		If you need to support IE you probably want this template.
+		
+		html:link can appear in a ui:ajaxtarget and in this case cannot be moved to a HEAD element so we just output it in-situ.
+	-->
+	<xsl:template match="html:input|html:img|html:br|html:link[ancestor::ui:ajaxtarget]">
+		<xsl:call-template name="htmlShortTag"/>
 	</xsl:template>
 
 	<!--

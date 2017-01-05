@@ -19,11 +19,11 @@
 		There is also one more caveat with element nodes:
 
 		Template for unmatched elements. Make a copy of the element. We make an element using local-name() rather than the more obvious xsl:copy 
-		because of a need to work around a bug in Microsoft's XSLT processor if the element being copied has namespace attributes.
+		because copy will retain the namespace attributes..
 	-->
 	<xsl:template match="*">
 		<xsl:element name="{local-name()}">
-			<xsl:copy-of select="@*"/>
+			<xsl:apply-templates select="@*"/>
 			<xsl:apply-templates/>
 		</xsl:element>
 	</xsl:template>

@@ -1,7 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
-	<xsl:import href="wc.common.aria.live.xsl"/>
 	<!-- The content of the tab. -->
 	<xsl:template match="ui:tabcontent">
 		<xsl:param name="tabset"/>
@@ -16,7 +15,7 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="mode" select="../@mode"/>
-		<div id="{@id}" role="tabpanel">
+		<div id="{@id}" role="tabpanel" aria-live="polite">
 			<xsl:attribute name="class">
 				<xsl:text>wc-tabcontent</xsl:text>
 				<xsl:choose>
@@ -41,7 +40,6 @@
 					<xsl:value-of select="../@id"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:call-template name="setARIALive"/>
 			<xsl:if test="../@disabled or $tabset/@disabled">
 				<xsl:attribute name="aria-disabled">
 					<xsl:text>true</xsl:text>

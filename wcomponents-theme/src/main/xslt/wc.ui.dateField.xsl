@@ -74,8 +74,8 @@
 								<xsl:value-of select="@date"/>
 							</xsl:attribute>
 						</xsl:if>
+						<xsl:call-template name="ariaLabel"/>
 					</xsl:if>
-					<xsl:call-template name="ariaLabel"/>
 					<xsl:element name="input">
 						<xsl:attribute name="type">
 							<xsl:choose>
@@ -98,10 +98,14 @@
 								<xsl:when test="@date">
 									<xsl:value-of select="@date"/>
 								</xsl:when>
-								<xsl:when test="@allowPartial">
-									<xsl:value-of select="."/>
-								</xsl:when>
-								<!-- QC157989 -->
+								<!-- QC157989
+									Keep bad value because of very bad reasons even though it won't work for modern browsers.
+									Replace:
+									<xsl:when test="@allowPartial">
+										<xsl:value-of select="."/>
+									</xsl:when>
+									With: 
+								-->
 								<xsl:otherwise>
 									<xsl:value-of select="."/>
 								</xsl:otherwise>
@@ -115,6 +119,7 @@
 								</xsl:attribute>
 							</xsl:when>
 							<xsl:otherwise>
+								<xsl:call-template name="ariaLabel"/>
 								<xsl:if test="@min">
 									<xsl:attribute name="min">
 										<xsl:value-of select="@min"/>

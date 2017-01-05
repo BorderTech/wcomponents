@@ -1,6 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
-	<xsl:import href="wc.common.aria.live.xsl"/>
 	<!--
 		WPanel is the basic layout component in the framework. Genreally output as
 		a "block" container (usually div).
@@ -53,7 +52,9 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="@mode">
-				<xsl:call-template name="setARIALive"/>
+				<xsl:attribute name="aria-live">
+					<xsl:text>polite</xsl:text>
+				</xsl:attribute>
 			</xsl:if>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:if test="*[not(self::ui:margin)]/node() or not(@mode eq 'eager')">

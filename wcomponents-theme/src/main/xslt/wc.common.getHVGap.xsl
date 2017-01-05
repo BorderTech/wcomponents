@@ -49,10 +49,24 @@
 					<xsl:text>h</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
-			<xsl:text>gap-</xsl:text>
-			<xsl:call-template name="getSizeClassExtension">
-				<xsl:with-param name="gap" select="number($mygap)"/>
-			</xsl:call-template>
+		<xsl:text>gap-</xsl:text>
+			<xsl:choose>
+				<xsl:when test="number($mygap) eq 0">
+					<xsl:text>z</xsl:text>
+				</xsl:when>
+				<xsl:when test="number($mygap) le number($smallgap)">
+					<xsl:text>sm</xsl:text>
+				</xsl:when>
+				<xsl:when test="number($mygap) le number($medgap)">
+					<xsl:text>med</xsl:text>
+				</xsl:when>
+				<xsl:when test="number($mygap) le number($lggap)">
+					<xsl:text>lg</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>xl</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

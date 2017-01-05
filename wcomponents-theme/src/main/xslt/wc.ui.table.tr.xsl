@@ -3,7 +3,6 @@
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
-	<xsl:import href="wc.common.aria.live.xsl"/>
 	<!--
 		Structural: do not override.
 		
@@ -137,7 +136,9 @@
 					</xsl:if>
 				</xsl:if>
 				<xsl:if test="parent::ui:subtr">
-					<xsl:call-template name="setARIALive"/>
+					<xsl:attribute name="aria-live">
+						<xsl:text>polite</xsl:text>
+					</xsl:attribute>
 				</xsl:if>
 				<xsl:attribute name="aria-level">
 					<xsl:value-of select="count(ancestor::ui:subtr[ancestor::ui:table[1]/@id eq $tableId]) + 1"/>

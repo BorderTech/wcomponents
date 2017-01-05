@@ -1,6 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.aria.live.xsl"/>
 	<xsl:import href="wc.common.hField.xsl"/>
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
 	<xsl:import href="wc.common.collapsibleToggle.xsl"/>
@@ -43,10 +42,10 @@
 			<xsl:call-template name="makeCommonClass"/>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<!-- AJAX table actions make the table an ARIA live region -->
-			<xsl:if test="ui:pagination[@mode eq 'dynamic' or @mode eq 'client'] or 
-				ui:rowexpansion[@mode eq 'lazy' or @mode eq 'dynamic'] or 
-				ui:sort[@mode eq 'dynamic']">
-				<xsl:call-template name="setARIALive"/>
+			<xsl:if test="ui:pagination[@mode eq 'dynamic' or @mode eq 'client'] or ui:rowexpansion[@mode eq 'lazy' or @mode eq 'dynamic'] or ui:sort[@mode eq 'dynamic']">
+				<xsl:attribute name="aria-live">
+					<xsl:text>polite</xsl:text>
+				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="number($rowExpansion) eq 1">
 				<xsl:variable name="expMode" select="ui:rowexpansion/@mode"/>
