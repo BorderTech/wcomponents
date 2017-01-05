@@ -2,7 +2,6 @@
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
-	<xsl:import href="wc.ui.menu.n.menuTabIndexHelper.xsl"/>
 	<!--
 		WMenuItem forms part of a single compound widget with the WMenu at its root.
 
@@ -137,16 +136,6 @@
 									<xsl:text>false</xsl:text>
 								</xsl:otherwise>
 							</xsl:choose>
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:variable name="tabindex">
-						<xsl:call-template name="menuTabIndexHelper">
-							<xsl:with-param name="menu" select="$myAncestorMenu"/>
-						</xsl:call-template>
-					</xsl:variable>
-					<xsl:if test="$tabindex ne ''">
-						<xsl:attribute name="tabindex">
-							<xsl:value-of select="$tabindex"/>
 						</xsl:attribute>
 					</xsl:if>
 					<!--

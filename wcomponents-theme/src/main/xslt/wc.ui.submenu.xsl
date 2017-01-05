@@ -2,7 +2,6 @@
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
 	<xsl:import href="wc.common.accessKey.xsl"/>
-	<xsl:import href="wc.ui.menu.n.menuTabIndexHelper.xsl"/>
 	<!-- Transform for WSubMenu. -->
 	<xsl:template match="ui:submenu">
 		<xsl:variable name="myAncestorMenu" select="ancestor::ui:menu[1]"/>
@@ -19,13 +18,18 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:variable name="type" select="$myAncestorMenu/@type"/>
 		<xsl:variable name="stickyOpen">
 			<xsl:choose>
 				<xsl:when test="$myAncestorMenu">
-					<xsl:call-template name="hasStickyOpen">
-						<xsl:with-param name="type" select="$type"/>
-					</xsl:call-template>
+					<xsl:choose>
+						<!-- if type is not defined we are calling it from a submenu in an ajax response and do not allow anything to be open -->
+						<xsl:when test="$myAncestorMenu/@type eq 'tree'">
+							<xsl:number value="1"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:number value="0"/>
+						</xsl:otherwise>
+					</xsl:choose>
 				</xsl:when>
 				<xsl:otherwise>
 					<!--allow AJAX sub menus to be open when they arrive -->
@@ -92,37 +96,17 @@
 						<xsl:with-param name="isControl" select="1"/>
 					</xsl:call-template>
 				</xsl:if>
-				<xsl:choose>
-					<xsl:when test="$myAncestorMenu">
-						<xsl:variable name="tabindex">
-							<xsl:call-template name="menuTabIndexHelper">
-								<xsl:with-param name="menu" select="$myAncestorMenu"/>
-							</xsl:call-template>
-						</xsl:variable>
-						<xsl:if test="$tabindex ne ''">
-							<xsl:attribute name="tabindex">
-								<xsl:value-of select="$tabindex"/>
-							</xsl:attribute>
-						</xsl:if>
-						<!-- 
-							Only set an accesskey if we are in the top level of a menu. If we have no context menu we are obviously not in the top 
-							level
-						-->
-						<xsl:if test="@accessKey and not($myAncestorSubmenu)">
-							<xsl:call-template name="accessKey"/>
-						</xsl:if>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:attribute name="tabindex">
-							<xsl:text>-1</xsl:text>
-						</xsl:attribute>
-					</xsl:otherwise>
-				</xsl:choose>
+				<xsl:if test="@accessKey and $myAncestorMenu and not($myAncestorSubmenu)">
+					<!-- 
+						Only set an accesskey if we are in the top level of a menu. If we have no context menu we are obviously not in the top 
+						level
+					-->
+					<xsl:call-template name="accessKey"/>
+				</xsl:if>
 				<xsl:apply-templates select="ui:decoratedlabel"/>
 			</button>
 			<xsl:apply-templates select="ui:content" mode="submenu">
 				<xsl:with-param name="open" select="$open"/>
-				<xsl:with-param name="type" select="$type"/>
 			</xsl:apply-templates>
 		</div>
 	</xsl:template>
@@ -130,7 +114,6 @@
 	<!-- This is the transform of the content of a submenu. -->
 	<xsl:template match="ui:content" mode="submenu">
 		<xsl:param name="open" select="0"/>
-		<xsl:param name="type"/>
 		<xsl:variable name="mode" select="../@mode"/>
 		<xsl:variable name="isAjaxMode">
 			<xsl:choose>

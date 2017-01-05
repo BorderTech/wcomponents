@@ -38,10 +38,8 @@
 	<!--
 		HTML 'shorttag' elements
 		If you need to support IE you probably want this template.
-		
-		html:link can appear in a ui:ajaxtarget and in this case cannot be moved to a HEAD element so we just output it in-situ.
 	-->
-	<xsl:template match="html:input|html:img|html:br|html:link[ancestor::ui:ajaxtarget]">
+	<xsl:template match="html:input|html:img|html:br">
 		<xsl:call-template name="htmlShortTag"/>
 	</xsl:template>
 

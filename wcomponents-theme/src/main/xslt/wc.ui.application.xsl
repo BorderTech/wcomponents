@@ -32,8 +32,6 @@
 		</form>
 	</xsl:template>
 
-	<!-- If you have managed to ignore all advice and nest a WApplication inside either another WApplication you get nothing. -->
-	<xsl:template match="ui:application[ancestor::ui:application]"/>
 	<!-- Application parameters, output as hidden input elements -->
 	<xsl:template match="ui:application/ui:param">
 		<xsl:element name="input">

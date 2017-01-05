@@ -59,7 +59,7 @@
 				<xsl:call-template name="getHVGapClass">
 					<xsl:with-param name="gap" select="../@hgap"/>
 				</xsl:call-template>
-				<xsl:if test="contains(ancestor::ui:panel[1]/@class, 'wc-respond')">
+				<xsl:if test="contains(../../@class, 'wc-respond')">
 					<xsl:text> wc-respond</xsl:text>
 				</xsl:if>
 			</xsl:attribute>

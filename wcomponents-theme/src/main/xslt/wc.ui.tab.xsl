@@ -9,10 +9,6 @@
 		NOTE: OPEN TAB(S)
 		Tabsets other than accordion only output one open tab and will always output one open tab even if no tabs are
 		explicitly open (this is not in the schema but is enforced in the Java API). This open tab may be disabled.
-		
-		NOTE: ANCESTOR TABSET
-		WTab does not implement AjaxTarget therefore the ui:tab can never be an ajax target. Therefore we can
-		always rely on finding a tabset ancestor.
 	-->
 	<xsl:template match="ui:tab">
 		<xsl:param name="numAvailTabs" select="0"/>
