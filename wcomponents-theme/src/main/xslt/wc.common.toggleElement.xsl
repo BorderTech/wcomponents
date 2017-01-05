@@ -3,7 +3,6 @@
 	<xsl:import href="wc.common.attributes.xsl"/>
 	<!-- Helper templates and keys for common state toggling elements. -->
 	<xsl:template name="toggleElement">
-		<xsl:param name="mode" select="''"/>
 		<xsl:param name="name" select="''"/>
 		<xsl:param name="value" select="''"/>
 		<xsl:param name="text" select="''"/>

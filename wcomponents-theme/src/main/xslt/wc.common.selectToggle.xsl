@@ -34,7 +34,6 @@
 						<xsl:value-of select="concat('wc_', local-name(.), ' wc_seltog')"/>
 					</xsl:variable>
 					<xsl:call-template name="toggleElement">
-						<xsl:with-param name="mode" select="'client'"/>
 						<xsl:with-param name="name" select="$name"/>
 						<xsl:with-param name="value" select="'all'"/>
 						<xsl:with-param name="class" select="$subClass"/>
@@ -51,7 +50,6 @@
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:call-template name="toggleElement">
-						<xsl:with-param name="mode" select="'client'"/>
 						<xsl:with-param name="name" select="$name"/>
 						<xsl:with-param name="value" select="'none'"/>
 						<xsl:with-param name="class" select="$subClass"/>
