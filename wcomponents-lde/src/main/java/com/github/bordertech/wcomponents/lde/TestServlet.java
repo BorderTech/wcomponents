@@ -43,11 +43,6 @@ public abstract class TestServlet extends WServlet implements LdeLauncher {
 	 */
 	private static final Log LOG = LogFactory.getLog(TestServlet.class);
 
-	/**
-	 * The default port to run the LDE on.
-	 */
-	private static final int DEFAULT_PORT = 8080;
-
 	private final List<Resource> union = new ArrayList<>();
 
 	/**

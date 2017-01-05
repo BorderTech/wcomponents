@@ -65,7 +65,7 @@
 				<xsl:value-of select="$value" />
 			</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="$isError and $isError ne ''">
+		<xsl:if test="$isError">
 			<xsl:call-template name="invalid" />
 		</xsl:if>
 		<xsl:call-template name="requiredElement" />
