@@ -31,21 +31,13 @@
 						</xsl:attribute>
 					</xsl:when>
 				</xsl:choose>
-				<xsl:apply-templates select="ui:tab|ui:tabgroup/ui:tab">
-					<xsl:with-param name="tabset" select="."/>
-					<xsl:with-param name="numAvailTabs" select="count(ui:tab[@open and not(@disabled)]|ui:tabgroup/ui:tab[@open and not(@disabled)])"/>
+				<xsl:apply-templates select="ui:tab">
+					<xsl:with-param name="numAvailTabs" select="count(ui:tab[@open and not(@disabled)])"/>
 				</xsl:apply-templates>
 			</div>
 			<xsl:if test="not(@type eq 'accordion')">
-				<xsl:apply-templates select="ui:tab|ui:tabgroup/ui:tab" mode="content">
-					<xsl:with-param name="tabset" select="."/>
-				</xsl:apply-templates>
+				<xsl:apply-templates select="ui:tab" mode="content"/>
 			</xsl:if>
 		</div>
 	</xsl:template>
-
-	<!--
-		Tabs should not be grouped in the UI. There is no facility for subgroupings of elements with a role of tab in WAI-ARIA.
-	-->
-	<xsl:template match="ui:tabgroup"/>
 </xsl:stylesheet>

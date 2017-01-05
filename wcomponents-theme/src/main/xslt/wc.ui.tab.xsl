@@ -15,12 +15,11 @@
 		always rely on finding a tabset ancestor.
 	-->
 	<xsl:template match="ui:tab">
-		<xsl:param name="tabset"/>
 		<xsl:param name="numAvailTabs" select="0"/>
-		<xsl:variable name="type" select="$tabset/@type"/>
+		<xsl:variable name="type" select="../@type"/>
 		<xsl:variable name="isDisabled">
 			<xsl:choose>
-				<xsl:when test="@disabled or $tabset/@disabled">
+				<xsl:when test="@disabled or ../@disabled">
 					<xsl:number value="1"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -54,7 +53,7 @@
 			-->
 			<xsl:attribute name="tabindex">
 				<xsl:choose>
-					<xsl:when test="(number($numAvailTabs) gt 0 and not(@open)) or @disabled">
+					<xsl:when test="@disabled or (number($numAvailTabs) gt 0 and not(@open))">
 						<xsl:text>-1</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
@@ -69,7 +68,7 @@
 			</xsl:call-template>
 			<xsl:call-template name="title"/>
 			<!--
-				This is cheaper than calling template disabledElement for the tab, the tabGroup and the tabset in turn
+				This is cheaper than calling template disabledElement for the tab and the tabset in turn
 			-->
 			<xsl:if test="number($isDisabled) eq 1">
 				<xsl:attribute name="aria-disabled">
@@ -87,7 +86,7 @@
 		</div>
 		<xsl:if test="$type eq 'accordion'">
 			<xsl:apply-templates select="ui:tabcontent">
-				<xsl:with-param name="tabset" select="$tabset"/>
+				<xsl:with-param name="tabset" select="parent::ui:tabset"/>
 			</xsl:apply-templates>
 		</xsl:if>
 	</xsl:template>
@@ -96,10 +95,8 @@
 		Apply the tab content.
 	-->
 	<xsl:template match="ui:tab" mode="content">
-		<xsl:param name="tabset"/>
-		
 		<xsl:apply-templates select="ui:tabcontent">
-			<xsl:with-param name="tabset" select="$tabset"/>
+			<xsl:with-param name="tabset" select="parent::ui:tabset"/>
 		</xsl:apply-templates>
 	</xsl:template>
 </xsl:stylesheet>

@@ -34,20 +34,10 @@ public class WTabGroupRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WComponent wrapped = wrapTabGroup(tabGroup);
 
 		assertXpathExists("//ui:tabgroup", wrapped);
-		assertXpathEvaluatesTo(groupName, "normalize-space(//ui:tabgroup/ui:decoratedlabel)",
-				wrapped);
+		assertXpathEvaluatesTo(groupName, "normalize-space(//ui:tabgroup/ui:decoratedlabel)", wrapped);
 		assertXpathEvaluatesTo(tabGroup.getId(), "//ui:tabgroup/@id", wrapped);
 		assertXpathNotExists("//ui:tabgroup/@disabled", wrapped);
 		assertXpathNotExists("//ui:tabgroup/ui:tab", wrapped);
-		assertXpathNotExists("//ui:tabgroup/ui:separator", wrapped);
-
-		tabGroup.setDisabled(true);
-		assertXpathEvaluatesTo("true", "//ui:tabgroup/@disabled", wrapped);
-
-		tabGroup.addSeparator();
-		assertXpathExists("//ui:tabgroup/ui:separator", wrapped);
-		assertSchemaMatch(wrapped);
-
 		tabGroup.addTab(new WText("dummy"), "dummy", TabMode.CLIENT);
 		assertXpathExists("//ui:tabgroup/ui:tab", wrapped);
 		assertSchemaMatch(wrapped);
@@ -56,7 +46,7 @@ public class WTabGroupRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testXssEscaping() throws IOException, SAXException, XpathException {
 		WTabGroup tabGroup = new WTabGroup(getMaliciousContent());
-		tabGroup.addSeparator();
+		tabGroup.addTab(new WText("dummy"), "dummy", TabMode.CLIENT);
 		WComponent wrapped = wrapTabGroup(tabGroup);
 
 		assertSafeContent(wrapped);
