@@ -99,16 +99,16 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testWhatForInput() throws IOException, SAXException, XpathException {
-		MySimpleInput cb = new MySimpleInput();
-		WLabel label = new WLabel("label", cb);
+		MyInput comp = new MyInput();
+		WLabel label = new WLabel("label", comp);
 		assertSchemaMatch(label);
 		assertXpathEvaluatesTo("input", "//ui:label/@what", label);
 	}
 
 	@Test
 	public void testWhatForNotAnInput() throws IOException, SAXException, XpathException {
-		MyComponent component = new MyComponent();
-		WLabel label = new WLabel("label", component);
+		MyComponent comp = new MyComponent();
+		WLabel label = new WLabel("label", comp);
 		assertXpathEvaluatesTo("", "//ui:label/@what", label);
 	}
 
@@ -184,7 +184,7 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testMandatorWithInput() throws IOException, SAXException, XpathException {
+	public void testMandatoryWithInput() throws IOException, SAXException, XpathException {
 		MyInput comp = new MyInput();
 		WLabel label = new WLabel("label", comp);
 		comp.setMandatory(true);
@@ -198,7 +198,7 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WLabel label = new WLabel("label", comp);
 		comp.setHidden(true);
 		assertSchemaMatch(label);
-		assertXpathEvaluatesTo("true", "//ui:label/@componenthidden", label);
+		assertXpathEvaluatesTo("true", "//ui:label/@hiddencomponent", label);
 	}
 
 	@Test
@@ -207,7 +207,7 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WLabel label = new WLabel("label", comp);
 		label.setHidden(true);
 		assertSchemaMatch(label);
-		assertXpathEvaluatesTo("", "//ui:label/@componenthidden", label);
+		assertXpathEvaluatesTo("", "//ui:label/@hiddencomponent", label);
 		assertXpathEvaluatesTo("true", "//ui:label/@hidden", label);
 	}
 
@@ -218,8 +218,8 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 		label.setHidden(true);
 		comp.setHidden(true);
 		assertSchemaMatch(label);
-		assertXpathEvaluatesTo("true", "//ui:label/@componenthidden", label);
 		assertXpathEvaluatesTo("true", "//ui:label/@hidden", label);
+		assertXpathEvaluatesTo("true", "//ui:label/@hiddencomponent", label);
 	}
 
 	@Test
@@ -239,173 +239,6 @@ public class WLabelRenderer_Test extends AbstractWebXmlRendererTestCase {
 	 */
 	private class MyComponent extends AbstractWComponent {
 		// nuthin' to see here
-	}
-
-	/**
-	 * The simplest possible WComponent which implements Input.
-	 */
-	private class MySimpleInput extends MyComponent implements Input {
-
-		@Override
-		public void addValidator(final FieldValidator validator) {
-			// no op.
-		}
-
-		@Override
-		public Iterator<FieldValidator> getValidators() {
-			return null;
-		}
-
-		@Override
-		public void setActionOnChange(final Action actionOnChange) {
-			// no op.
-		}
-
-		@Override
-		public Action getActionOnChange() {
-			return null;
-		}
-
-		@Override
-		public Object getActionObject() {
-			return null;
-		}
-
-		@Override
-		public void setActionObject(final Object data) {
-			// no op.
-		}
-
-		@Override
-		public String getActionCommand() {
-			return null;
-		}
-
-		@Override
-		public void setDefaultSubmitButton(final WButton defaultSubmitButton) {
-			// no op.
-		}
-
-		@Override
-		public WButton getDefaultSubmitButton() {
-			return null;
-		}
-
-		@Override
-		public void setMandatory(final boolean mandatory, final String message) {
-			// no op.
-		}
-
-		@Override
-		public boolean isReadOnly() {
-			return false;
-		}
-
-		@Override
-		public void setReadOnly(final boolean readOnly) {
-			// nop op
-		}
-
-		@Override
-		public Object getRequestValue(final Request request) {
-			return null;
-		}
-
-		@Override
-		public Object getValue() {
-			return null;
-		}
-
-		@Override
-		public String getValueAsString() {
-			return null;
-		}
-
-		@Override
-		public boolean isEmpty() {
-			return true;
-		}
-
-		@Override
-		public boolean isChangedInLastRequest() {
-			return false;
-		}
-
-		@Override
-		public boolean isDisabled() {
-			return false;
-		}
-
-		@Override
-		public void setDisabled(final boolean disabled) {
-			// no op.
-		}
-
-		@Override
-		public void setMandatory(final boolean mandatory) {
-			// no op.
-		}
-
-		@Override
-		public boolean isMandatory() {
-			return false;
-		}
-
-		@Override
-		public void setData(final Object data) {
-			// no op.
-		}
-
-		@Override
-		public Object getData() {
-			return null;
-		}
-
-		@Override
-		public void setBean(final Object bean) {
-			// no op.
-		}
-
-		@Override
-		public boolean isSearchAncestors() {
-			return false;
-		}
-
-		@Override
-		public void setBeanProperty(final String propertyName) {
-			// no op.
-		}
-
-		@Override
-		public String getBeanProperty() {
-			return null;
-		}
-
-		@Override
-		public Object getBean() {
-			return null;
-		}
-
-		@Override
-		public Object getBeanValue() {
-			return null;
-		}
-
-		@Override
-		public void setBeanProvider(final BeanProvider beanProvider) {
-			// no op.
-		}
-
-		@Override
-		public void setBeanId(final Object beanId) {
-			// no op.
-		}
-
-		@Override
-		public Object getBeanId() {
-			return null;
-		}
-
 	}
 
 	/**
