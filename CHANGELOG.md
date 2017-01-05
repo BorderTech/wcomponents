@@ -5,6 +5,8 @@
 ## API Changes
 
 ## Bug Fixes
+* Fixed a bug in XSLT which caused processor errors if n instance of Input has more than one validation error #1042.
+* Fixed a bug in subordinate JavaScript which caused WMultiSelectPair to fail as a subordinate trigger #1044.
 
 ## Enhancements
 

@@ -282,7 +282,7 @@ define(["wc/dom/tag",
 
 			/**
 			 * Helper for isConditionTrue.
-			 * Determines if this operator is an equlity test and if the result should be negated.
+			 * Determines if this operator is an equality test and if the result should be negated.
 			 * The result object will have a `negate` property and an `equalityTest` peroperty.
 			 * @param {String} operator
 			 * @function
