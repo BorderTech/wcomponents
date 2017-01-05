@@ -156,7 +156,7 @@ define(["wc/dom/tag",
 			 */
 			function getElement(identifier) {
 				var result = document.getElementsByName(identifier);
-				if (result.length && result[0].tagName === tag.INPUT) {// gebn always returns a nodelist even if nothing found
+				if (result.length && (result[0].tagName === tag.INPUT || result[0].tagName === tag.SELECT || result[0].tagName === tag.TEXTAREA)) {// gebn always returns a nodelist even if nothing found
 					result = result[0];
 				}
 				else {
@@ -208,7 +208,7 @@ define(["wc/dom/tag",
 					element = getElement(id),
 					selectedItems;
 				if (element && !shed.isDisabled(element)) {
-					if (shed.isSelectable(element)) {
+					if (shed.isSelectable(element) || element.tagName === tag.FIELDSET) {
 						selectedItems = getSelectedOptions(element);
 					}
 					if (selectedItems) {
