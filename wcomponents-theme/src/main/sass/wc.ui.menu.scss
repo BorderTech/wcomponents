@@ -55,10 +55,14 @@
 	padding: $wc-gap-small;
 }
 
-.wc-menu [role='separator'] {
+[role='separator'] {
+	margin: 0;
 	padding: 0;
 
 	&[aria-orientation='vertical'] {
+		@include border($pos: left);
+		border-bottom: 0 none;
+		display: inline;
 		padding: $wc-menu-bar-vseparator-pad;
 		vertical-align: bottom;
 	}
