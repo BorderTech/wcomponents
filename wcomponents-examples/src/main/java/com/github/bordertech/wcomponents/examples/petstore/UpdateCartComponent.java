@@ -11,7 +11,6 @@ import com.github.bordertech.wcomponents.examples.petstore.model.InventoryBean;
 import com.github.bordertech.wcomponents.examples.petstore.model.PetStoreDao;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
-import com.github.bordertech.wcomponents.validation.WFieldErrorIndicator;
 import java.util.List;
 
 /**
@@ -54,8 +53,6 @@ public class UpdateCartComponent extends WBeanContainer {
 		amount.setColumns(3);
 		amount.setMaxLength(3);
 		amount.setBeanProperty(".");
-
-		add(new WFieldErrorIndicator(amount));
 		add(amount);
 	}
 
