@@ -44,19 +44,11 @@
 		DO NOT ALLOW NESTED MENUS!
 	-->
 	<xsl:template match="ui:menu[ancestor::ui:menu]"/>
-	
-	<!-- Spearators in menus -->
-	<xsl:template name="separator">
-		<xsl:element name="hr"><!-- remember IE! -->
-			<xsl:attribute name="role">
-				<xsl:text>separator</xsl:text>
-			</xsl:attribute>
-			<xsl:call-template name="makeCommonClass"/>
-		</xsl:element>
-	</xsl:template>
 
 	<!--
-		Transform for WMenuItemGroup. It is strongly recommended that you do not use this component but use WSubMenu or WSeparator instead.
+		Transform for WMenuItemGroup and WSeparator. 
+		
+		It is strongly recommended that you do not use this WMenuItemGroup but use WSubMenu or WSeparator instead.
 		
 		The rationale for this transform is from the WAI-ARIA authoing practices for a Menu Widget: http://www.w3.org/TR/wai-aria-practices/#menu:
 		
@@ -67,10 +59,10 @@
 		following a separator."
 	-->
 	<xsl:template match="ui:menugroup|ui:separator">
-		<xsl:call-template name="separator"/>
+		<hr role="separator" />
 		<xsl:if test="self::ui:menugroup">
 			<xsl:apply-templates select="*[not(self::ui:decoratedlabel)]"/><!-- The WDecoratedLabel is purposely ignored -->
-			<xsl:call-template name="separator"/>
+			<hr role="separator" />
 		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>
