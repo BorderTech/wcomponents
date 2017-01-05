@@ -46,6 +46,11 @@ public class WMultiSelectExample extends WContainer {
 
 		add(new ExamplePanel(groups));
 
+		WMultiSelect icao = new WMultiSelect("icao");
+		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
+		add(layout);
+		layout.addField("Caced list", icao);
+
 	}
 
 	/**

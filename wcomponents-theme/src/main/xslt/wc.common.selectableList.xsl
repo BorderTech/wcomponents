@@ -13,6 +13,11 @@
 							<xsl:text>wc_input_wrapper</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
+					<xsl:if test="@data">
+						<xsl:attribute name="data-wc-list">
+							<xsl:value-of select="@data"/>
+						</xsl:attribute>
+					</xsl:if>
 					<select>
 						<xsl:call-template name="wrappedInputAttributes"/>
 						<xsl:if test="self::ui:listbox and not(@single)">
@@ -29,11 +34,6 @@
 									<xsl:value-of select="@max"/>
 								</xsl:attribute>
 							</xsl:if>
-						</xsl:if>
-						<xsl:if test="@data">
-							<xsl:attribute name="data-wc-list">
-								<xsl:value-of select="@data"/>
-							</xsl:attribute>
 						</xsl:if>
 						<xsl:if test="@rows">
 							<xsl:attribute name="size">
