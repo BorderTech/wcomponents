@@ -14,6 +14,7 @@ import org.xml.sax.SAXException;
  * Junit test case for {@link WRowRenderer}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WRowRenderer_Test extends AbstractWebXmlRendererTestCase {
@@ -40,16 +41,47 @@ public class WRowRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(row);
 		assertXpathExists("//ui:row/ui:column", row);
 		assertXpathEvaluatesTo(row.getId(), "//ui:row/@id", row);
-		assertXpathEvaluatesTo("", "//ui:row/@hgap", row);
+		assertXpathEvaluatesTo("", "//ui:row/@gap", row);
 	}
 
 	@Test
-	public void testRenderedWithHgap() throws IOException, SAXException, XpathException {
-		WRow row = new WRow(10);
+	public void testRenderedWithSmallGap() throws IOException, SAXException, XpathException {
+		WRow row = new WRow(GapSizeUtil.Size.SMALL);
 		row.add(new WColumn(100));
 		assertSchemaMatch(row);
-		assertXpathEvaluatesTo(row.getId(), "//ui:row/@id", row);
-		assertXpathEvaluatesTo("10", "//ui:row/@hgap", row);
+		assertXpathEvaluatesTo("sm", "//ui:row/@gap", row);
+	}
+
+	@Test
+	public void testRenderedWithMedGap() throws IOException, SAXException, XpathException {
+		WRow row = new WRow(GapSizeUtil.Size.MEDIUM);
+		row.add(new WColumn(100));
+		assertSchemaMatch(row);
+		assertXpathEvaluatesTo("med", "//ui:row/@gap", row);
+	}
+
+	@Test
+	public void testRenderedWithLargeGap() throws IOException, SAXException, XpathException {
+		WRow row = new WRow(GapSizeUtil.Size.LARGE);
+		row.add(new WColumn(100));
+		assertSchemaMatch(row);
+		assertXpathEvaluatesTo("lg", "//ui:row/@gap", row);
+	}
+
+	@Test
+	public void testRenderedWithXLGap() throws IOException, SAXException, XpathException {
+		WRow row = new WRow(GapSizeUtil.Size.XL);
+		row.add(new WColumn(100));
+		assertSchemaMatch(row);
+		assertXpathEvaluatesTo("xl", "//ui:row/@gap", row);
+	}
+
+	@Test
+	public void testRenderedWithZeroGap() throws IOException, SAXException, XpathException {
+		WRow row = new WRow(GapSizeUtil.Size.ZERO);
+		row.add(new WColumn(100));
+		assertSchemaMatch(row);
+		assertXpathEvaluatesTo("z", "//ui:row/@gap", row);
 	}
 
 	@Test

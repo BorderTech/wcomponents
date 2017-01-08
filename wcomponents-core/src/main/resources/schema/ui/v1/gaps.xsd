@@ -4,7 +4,7 @@
 	
 	<xs:simpleType name="gaps">
 		<xs:restriction base="xs:NMTOKEN">
-			<xs:enumeration value="zero"></xs:enumeration>
+			<xs:enumeration value="z"></xs:enumeration>
 			<xs:enumeration value="sm"></xs:enumeration>
 			<xs:enumeration value="med"></xs:enumeration>
 			<xs:enumeration value="lg"></xs:enumeration>

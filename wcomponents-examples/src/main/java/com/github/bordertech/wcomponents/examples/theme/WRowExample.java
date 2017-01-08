@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 
 /**
@@ -27,35 +28,43 @@ public class WRowExample extends WPanel {
 
 		add(new WHeading(HeadingLevel.H2, "WRow / WCol"));
 
-		add(createRow(0, new int[]{10, 90}));
-		add(createRow(0, new int[]{20, 80}));
-		add(createRow(0, new int[]{30, 70}));
-		add(createRow(0, new int[]{40, 60}));
-		add(createRow(0, new int[]{50, 50}));
-		add(createRow(0, new int[]{60, 40}));
-		add(createRow(0, new int[]{70, 30}));
-		add(createRow(0, new int[]{80, 20}));
-		add(createRow(0, new int[]{90, 10}));
-		add(createRow(0, new int[]{33, 33, 33}));
-		add(createRow(0, new int[]{25, 25, 25, 25}));
-		add(createRow(0, new int[]{20, 20, 20, 20, 20}));
+		add(createRow(null, new int[]{10, 90}));
+		add(createRow(null, new int[]{20, 80}));
+		add(createRow(null, new int[]{30, 70}));
+		add(createRow(null, new int[]{40, 60}));
+		add(createRow(null, new int[]{50, 50}));
+		add(createRow(null, new int[]{60, 40}));
+		add(createRow(null, new int[]{70, 30}));
+		add(createRow(null, new int[]{80, 20}));
+		add(createRow(null, new int[]{90, 10}));
+		add(createRow(null, new int[]{33, 33, 33}));
+		add(createRow(null, new int[]{25, 25, 25, 25}));
+		add(createRow(null, new int[]{20, 20, 20, 20, 20}));
 
-		add(new WHeading(HeadingLevel.H2, "WRow / WCol with hgap=5"));
-		add(createRow(8, new int[]{33, 33, 33}));
-		add(createRow(8, new int[]{25, 25, 25, 25}));
-		add(createRow(8, new int[]{20, 20, 20, 20, 20}));
+		add(new WHeading(HeadingLevel.H2, "WRow / WCol with gap"));
+		add(createRow(GapSizeUtil.Size.MEDIUM, new int[]{33, 33, 33}));
+		add(createRow(GapSizeUtil.Size.MEDIUM, new int[]{25, 25, 25, 25}));
+		add(createRow(GapSizeUtil.Size.MEDIUM, new int[]{20, 20, 20, 20, 20}));
+
 		add(new WHeading(HeadingLevel.H2, "WRow / WCol undefined width"));
-		add(createRow(0, new int[]{0, 0, 0}));
+		add(createRow(null, new int[]{0, 0, 0}));
 		addAppLevelCSSExample();
 
 		// create a WRow with responsive design turned on.
 		add(new WHeading(HeadingLevel.H2, "WRow with default responsive design"));
-		WRow responsiveRow = createRow(16, new int[]{20, 50, 30});
+		WRow responsiveRow = createRow(GapSizeUtil.Size.LARGE, new int[]{20, 50, 30});
 		responsiveRow.setHtmlClass(HtmlClassProperties.RESPOND);
 		add(responsiveRow);
 
 		((WColumn) responsiveRow.getChildAt(responsiveRow.getChildCount() - 1)).setAlignment(WColumn.Alignment.RIGHT);
 		((WColumn) responsiveRow.getChildAt(1)).setAlignment(WColumn.Alignment.CENTER);
+
+		add(new WHeading(HeadingLevel.H2, "WRow / WCol with deprecated integer gap"));
+		add(createRow(0, new int[]{33, 33, 33}));
+		add(createRow(4, new int[]{25, 25, 25, 25}));
+		add(createRow(8, new int[]{20, 20, 20, 20, 20}));
+		add(createRow(16, new int[]{33, 33, 33}));
+		add(createRow(24, new int[]{33, 33, 33}));
 
 	}
 
@@ -68,6 +77,27 @@ public class WRowExample extends WPanel {
 	 */
 	private WRow createRow(final int hgap, final int[] colWidths) {
 		WRow row = new WRow(hgap);
+
+		for (int i = 0; i < colWidths.length; i++) {
+			WColumn col = new WColumn(colWidths[i]);
+			WPanel box = new WPanel(WPanel.Type.BOX);
+			box.add(new WText(colWidths[i] + "%"));
+			col.add(box);
+			row.add(col);
+		}
+
+		return row;
+	}
+
+	/**
+	 * Creates a row containing columns with the given widths.
+	 *
+	 * @param gap the horizontal gap between columns
+	 * @param colWidths the percentage widths for each column
+	 * @return a WRow containing columns with the given widths
+	 */
+	private WRow createRow(final GapSizeUtil.Size gap, final int[] colWidths) {
+		WRow row = new WRow(gap);
 
 		for (int i = 0; i < colWidths.length; i++) {
 			WColumn col = new WColumn(colWidths[i]);

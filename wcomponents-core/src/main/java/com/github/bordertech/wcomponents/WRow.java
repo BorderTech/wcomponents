@@ -1,11 +1,14 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
+
 /**
  * This is a layout component, to which you add {@link WColumn} components. The widths of all the columns added to the
  * row should total 100.
  *
  * @author Ming Gao
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  */
 public class WRow extends AbstractNamingContextContainer implements AjaxTarget, SubordinateTarget,
 		Marginable {
@@ -13,22 +16,31 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	/**
 	 * The horizontal gap between the columns in the row, measured in pixels.
 	 */
-	private final int hgap;
+	private final GapSizeUtil.Size gap;
 
 	/**
 	 * Creates a WRow.
 	 */
 	public WRow() {
-		this(0);
+		this(null);
+	}
+
+	/**
+	 * Create a WRow with the specified space between columns.
+	 * @param gap THe Size of the space to use.
+	 */
+	public WRow(final GapSizeUtil.Size gap) {
+		this.gap = gap;
 	}
 
 	/**
 	 * Creates a WRow with the specified attributes.
 	 *
 	 * @param hgap the horizontal gap between the columns in the row, measured in pixels
+	 * @deprecated use {@link #WRow(com.github.bordertech.wcomponents.util.GapSizeUtil.Size)}
 	 */
 	public WRow(final int hgap) {
-		this.hgap = hgap;
+		this(GapSizeUtil.intToSize(hgap));
 	}
 
 	/**
@@ -51,9 +63,17 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 
 	/**
 	 * @return the horizontal gap between the columns in the row, measured in pixels
+	 * @deprecated use {@link #getGap()}
 	 */
 	public int getHgap() {
-		return hgap;
+		return GapSizeUtil.sizeToInt(gap);
+	}
+
+	/**
+	 * @return the horizontal gap between the columns in the row
+	 */
+	public GapSizeUtil.Size getGap() {
+		return gap;
 	}
 
 	/**

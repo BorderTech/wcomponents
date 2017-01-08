@@ -69,4 +69,46 @@
 			</xsl:choose>
 		</xsl:if>
 	</xsl:template>
+	
+	<xsl:template name="gapClass">
+		<xsl:param name="gap" select="''"/>
+		<xsl:param name="isVGap" select="0"/>
+		<!--
+		<xsl:variable name="mygap">
+			<xsl:choose>
+				<xsl:when test="$gap != ''">
+					<xsl:value-of select="$gap"/>
+				</xsl:when>
+				<xsl:when test="@gap">
+					<xsl:value-of select="@gap"/>
+				</xsl:when>
+				<xsl:when test="$isVGap and number($isVGap) eq 1 and @vgap">
+					<xsl:value-of select="@vgap"/>
+				</xsl:when>
+				<xsl:when test="$isVGap and number($isVGap) eq 1">
+					<xsl:value-of select="''"/>
+				</xsl:when>
+				<xsl:when test="@hgap">
+					<xsl:value-of select="@hgap"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="''"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>-->
+		
+		<xsl:if test="$gap != ''">
+			<xsl:text> wc-</xsl:text><!-- leading space is important -->
+			<xsl:choose>
+				<xsl:when test="number($isVGap) eq 1">
+					<xsl:text>v</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>h</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:text>gap-</xsl:text>
+			<xsl:value-of select="$gap"/>
+		</xsl:if>
+	</xsl:template>
 </xsl:stylesheet>
