@@ -12,6 +12,7 @@ import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WNumberField;
 import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.WRadioButtonSelect;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.ListLayout;
 import com.github.bordertech.wcomponents.util.GapSizeUtil;
@@ -61,6 +62,9 @@ public class ListLayoutOptionExample extends WContainer {
 		wnfGap.setStep(BigDecimal.ONE);
 		wnfGap.setMinValue(BigDecimal.ZERO);
 
+		final WRadioButtonSelect rbsGap = new WRadioButtonSelect();
+		rbsGap.setOptions(GapSizeUtil.Size.values());
+
 		WFieldLayout layout = new WFieldLayout();
 		add(layout);
 
@@ -70,9 +74,11 @@ public class ListLayoutOptionExample extends WContainer {
 		layout.addField("set ListLayout Alignment", wdListLayoutAlignment);
 		layout.addField("set ListLayout Separator", wdListLayoutSeparator);
 		layout.addField("Use ordered list", wcIsOrdered);
-		layout.addField("Space between items", wnfGap);
+		layout.addField("Space between items", rbsGap);
+
 
 		WButton button = new WButton("refresh");
+
 		layout.addField((WLabel) null, button);
 
 		button.setAction(new Action() {
@@ -80,8 +86,8 @@ public class ListLayoutOptionExample extends WContainer {
 			@Override
 			public void execute(final ActionEvent event) {
 				panel.setType((WPanel.Type) wdPanelType.getSelected());
-				int gap = wnfGap.getValue() == null ? 0 : wnfGap.getValue().intValue();
-				panel.setLayout(new ListLayout((ListLayout.Type) wdListLayoutType.getSelected(), (ListLayout.Alignment) wdListLayoutAlignment.getSelected(), (ListLayout.Separator) wdListLayoutSeparator.getSelected(), wcIsOrdered.isSelected(), gap, gap));
+				GapSizeUtil.Size gap = rbsGap.getSelected() == null ? null : (GapSizeUtil.Size) rbsGap.getSelected();
+				panel.setLayout(new ListLayout((ListLayout.Type) wdListLayoutType.getSelected(), (ListLayout.Alignment) wdListLayoutAlignment.getSelected(), (ListLayout.Separator) wdListLayoutSeparator.getSelected(), wcIsOrdered.isSelected(), gap));
 
 			}
 		});

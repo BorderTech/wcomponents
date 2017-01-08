@@ -27,18 +27,21 @@
 					<xsl:value-of select="concat(' wc-listlayout-separator-', @separator)"/>
 				</xsl:when>
 			</xsl:choose>
-			<xsl:call-template name="getHVGapClass">
-				<xsl:with-param name="isVGap">
-					<xsl:choose>
-						<xsl:when test="@type eq 'flat'">
-							<xsl:number value="0"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:number value="1"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:with-param>
-			</xsl:call-template>
+			<xsl:if test="@gap">
+				<xsl:call-template name="gapClass">
+					<xsl:with-param name="gap" select="@gap"/>
+					<xsl:with-param name="isVGap">
+						<xsl:choose>
+							<xsl:when test="@type eq 'flat'">
+								<xsl:number value="0"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:number value="1"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:with-param>
+				</xsl:call-template>
+			</xsl:if>
 		</xsl:variable>
 		<xsl:element name="{$listElement}">
 			<xsl:call-template name="makeCommonClass">

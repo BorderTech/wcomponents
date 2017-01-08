@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
+
 /**
  * <p>
  * This component is an extension of a {@link WRepeater} that is used to render a collection of items as a list.
@@ -54,7 +56,7 @@ public class WList extends WRepeater implements Marginable {
 	/**
 	 * The gap between the components in the list.
 	 */
-	private final int gap;
+	private final GapSizeUtil.Size gap;
 
 	/**
 	 * Creates a WList of the given type.
@@ -71,8 +73,9 @@ public class WList extends WRepeater implements Marginable {
 	 * @param type the list type.
 	 * @param hgap the horizontal gap between the list items, used only if type is Type.FLAT
 	 * @param vgap the vertical gap between the list items,  used only if type is not Type.FLAT
-	 * @deprecated use {@link #WList(Type, int)}
+	 * @deprecated use {@link #WList(Type, GapSizeUtil.Size)}
 	 */
+	@Deprecated
 	public WList(final Type type, final int hgap, final int vgap) {
 		this(type, type == Type.FLAT ? hgap : vgap);
 	}
@@ -82,8 +85,20 @@ public class WList extends WRepeater implements Marginable {
 	 *
 	 * @param type the list type.
 	 * @param gap the gap between the list items
+	 * @deprecated use {@link #WList(cType, GapSizeUtil.Size)}
 	 */
+	@Deprecated
 	public WList(final Type type, final int gap) {
+		this(type, GapSizeUtil.intToSize(gap));
+	}
+
+	/**
+	 * Creates a WList of the given type with the specified gap between items.
+	 *
+	 * @param type the list type.
+	 * @param gap the gap between the list items
+	 */
+	public WList(final Type type, final GapSizeUtil.Size gap) {
 		getComponentModel().type = type;
 		this.gap = gap;
 	}
@@ -160,7 +175,7 @@ public class WList extends WRepeater implements Marginable {
 	 */
 	public int getHgap() {
 		if (getType() == Type.FLAT) {
-			return gap;
+			return GapSizeUtil.sizeToInt(gap);
 		}
 		return 0;
 	}
@@ -173,13 +188,13 @@ public class WList extends WRepeater implements Marginable {
 		if (getType() == Type.FLAT) {
 			return 0;
 		}
-		return gap;
+		return GapSizeUtil.sizeToInt(gap);
 	}
 
 	/**
 	 * @return the gap between items in the List.
 	 */
-	public int getGap() {
+	public GapSizeUtil.Size getGap() {
 		return gap;
 	}
 

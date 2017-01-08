@@ -102,7 +102,7 @@ public class FlowLayout_Test {
 		boolean isVertical;
 		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
 			isVertical = FlowLayout.Alignment.VERTICAL.equals(a);
-			flow = new FlowLayout(a, 8, 18);
+			flow = new FlowLayout(a, GapSizeUtil.sizeToInt(GAP), GapSizeUtil.sizeToInt(BIG_GAP));
 			Assert.assertEquals("Incorrect alignment", a, flow.getAlignment());
 			Assert.assertEquals("Incorrect horizontal gap", isVertical ? BIG_GAP : GAP, flow.getGap());
 		}
@@ -115,7 +115,7 @@ public class FlowLayout_Test {
 		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
 			isVertical = FlowLayout.Alignment.VERTICAL.equals(a);
 			for (FlowLayout.ContentAlignment c : FlowLayout.ContentAlignment.values()) {
-				flow = new FlowLayout(a, 8, 18, c);
+				flow = new FlowLayout(a, GapSizeUtil.sizeToInt(GAP), GapSizeUtil.sizeToInt(BIG_GAP), c);
 				Assert.assertEquals("Incorrect alignment", a, flow.getAlignment());
 				Assert.assertEquals("Incorrect gap", isVertical ? BIG_GAP : GAP, flow.getGap());
 

@@ -22,12 +22,12 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 	/**
 	 * A reusable gap value.
 	 */
-	private static final int GAP = 12;
+	private static final GapSizeUtil.Size GAP = GapSizeUtil.Size.SMALL;
 
 	/**
 	 * A different reusable gap value. This is used to differentiate the (now deprecated) hgap and vgap properties.
 	 */
-	private static final int BIG_GAP = 18;
+	private static final GapSizeUtil.Size BIG_GAP = GapSizeUtil.Size.LARGE;
 
 	@Test
 	public void testLayoutCorrectlyConfigured() {
@@ -153,15 +153,15 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WList list;
 
 		for (WList.Type t : WList.Type.values()) {
-			list = new WList(t, GAP, BIG_GAP);
+			list = new WList(t, GapSizeUtil.sizeToInt(GAP), GapSizeUtil.sizeToInt(BIG_GAP));
 			list.setRepeatedComponent(new WText());
 			list.setData(Arrays.asList(new String[]{"row1", "row2", "row3"}));
 			assertSchemaMatch(list);
 
 			if (t == WList.Type.FLAT) {
-				assertXpathEvaluatesTo(String.valueOf(GAP), "//ui:panel/ui:listlayout/@gap", list);
+				assertXpathEvaluatesTo(GAP.toString(), "//ui:panel/ui:listlayout/@gap", list);
 			} else {
-				assertXpathEvaluatesTo(String.valueOf(BIG_GAP), "//ui:panel/ui:listlayout/@gap", list);
+				assertXpathEvaluatesTo(BIG_GAP.toString(), "//ui:panel/ui:listlayout/@gap", list);
 			}
 		}
 	}

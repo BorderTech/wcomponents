@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.ListLayout;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 import java.io.IOException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
@@ -16,15 +17,13 @@ import org.xml.sax.SAXException;
  */
 public class ListLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 
-	private static final int GAP = 8;
-	private static final int BIG_GAP = 16;
+	private static final GapSizeUtil.Size GAP = GapSizeUtil.Size.SMALL;
 
 
 	@Test
 	public void testDoRenderWhenEmpty() throws IOException, SAXException, XpathException {
 		WPanel panel = new WPanel();
-		panel.setLayout(new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.LEFT,
-				ListLayout.Separator.NONE, false));
+		panel.setLayout(new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.LEFT, ListLayout.Separator.NONE, false));
 		assertSchemaMatch(panel);
 
 		assertXpathExists("//ui:panel/ui:listlayout", panel);
@@ -35,8 +34,7 @@ public class ListLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:panel/ui:listlayout/@ordered", panel);
 		assertXpathEvaluatesTo("flat", "//ui:panel/ui:listlayout/@type", panel);
 
-		panel.setLayout(new ListLayout(ListLayout.Type.STRIPED, ListLayout.Alignment.CENTER, ListLayout.Separator.NONE,
-				false));
+		panel.setLayout(new ListLayout(ListLayout.Type.STRIPED, ListLayout.Alignment.CENTER, ListLayout.Separator.NONE, false));
 		assertXpathEvaluatesTo("striped", "//ui:panel/ui:listlayout/@type", panel);
 		assertXpathEvaluatesTo("center", "//ui:panel/ui:listlayout/@align", panel);
 		assertXpathNotExists("//ui:panel/ui:listlayout/ui:cell", panel);
@@ -44,20 +42,10 @@ public class ListLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:panel/ui:listlayout/@separator", panel);
 		assertXpathNotExists("//ui:panel/ui:listlayout/@ordered", panel);
 
-		panel.setLayout(new ListLayout(ListLayout.Type.STACKED, ListLayout.Alignment.RIGHT, ListLayout.Separator.NONE,
-				false, GAP, BIG_GAP));
+		panel.setLayout(new ListLayout(ListLayout.Type.STACKED, ListLayout.Alignment.RIGHT, ListLayout.Separator.NONE, false, GAP));
 		assertXpathEvaluatesTo("stacked", "//ui:panel/ui:listlayout/@type", panel);
 		assertXpathEvaluatesTo("right", "//ui:panel/ui:listlayout/@align", panel);
-		assertXpathEvaluatesTo(String.valueOf(BIG_GAP), "//ui:panel/ui:listlayout/@gap", panel);
-		assertXpathNotExists("//ui:panel/ui:listlayout/ui:cell", panel);
-		assertXpathNotExists("//ui:panel/ui:listlayout/@separator", panel);
-		assertXpathNotExists("//ui:panel/ui:listlayout/@ordered", panel);
-
-		panel.setLayout(new ListLayout(ListLayout.Type.STACKED, ListLayout.Alignment.RIGHT, ListLayout.Separator.NONE,
-				false, GAP));
-		assertXpathEvaluatesTo("stacked", "//ui:panel/ui:listlayout/@type", panel);
-		assertXpathEvaluatesTo("right", "//ui:panel/ui:listlayout/@align", panel);
-		assertXpathEvaluatesTo(String.valueOf(GAP), "//ui:panel/ui:listlayout/@gap", panel);
+		assertXpathEvaluatesTo(GAP.toString(), "//ui:panel/ui:listlayout/@gap", panel);
 		assertXpathNotExists("//ui:panel/ui:listlayout/ui:cell", panel);
 		assertXpathNotExists("//ui:panel/ui:listlayout/@separator", panel);
 		assertXpathNotExists("//ui:panel/ui:listlayout/@ordered", panel);

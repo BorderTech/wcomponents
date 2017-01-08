@@ -13,6 +13,8 @@ import org.junit.Test;
  */
 public class WRow_Test extends AbstractWComponentTestCase {
 
+	private static final GapSizeUtil.Size GAP = GapSizeUtil.Size.MEDIUM;
+
 	@Test
 	public void testConstructor1() {
 		WRow row = new WRow();
@@ -21,8 +23,14 @@ public class WRow_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testConstructor2() {
-		WRow row = new WRow(GapSizeUtil.Size.SMALL);
-		Assert.assertEquals("Constructor - Incorrect hgap", GapSizeUtil.Size.SMALL, row.getGap());
+		WRow row = new WRow(GAP);
+		Assert.assertEquals("Constructor - Incorrect hgap", GAP, row.getGap());
+	}
+
+	@Test
+	public void testDeprecatedConstructor() {
+		WRow row = new WRow(GapSizeUtil.sizeToInt(GAP));
+		Assert.assertEquals("Constructor - Incorrect hgap", GAP, row.getGap());
 	}
 
 	@Test

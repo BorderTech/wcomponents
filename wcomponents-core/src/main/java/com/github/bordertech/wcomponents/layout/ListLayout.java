@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents.layout;
 
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
+
 /**
  * ListLayout renders out its items in a list.
  *
@@ -87,7 +89,7 @@ public class ListLayout implements LayoutManager {
 	/**
 	 * The gap between the components added to the layout.
 	 */
-	private final int gap;
+	private final GapSizeUtil.Size gap;
 
 	/**
 	 * Default constructor creates an unordered, LEFT aligned, DOT separated, STACKED list - i.e. a pretty much default
@@ -113,8 +115,6 @@ public class ListLayout implements LayoutManager {
 	public ListLayout(final boolean ordered) {
 		this(Type.STACKED, Alignment.LEFT, Separator.DOT, ordered, 0);
 	}
-
-
 
 	/**
 	 * Creates a ListLayout with a specified type. The ListLayout will be unordered, leftAligned, and DOT separated.
@@ -147,11 +147,24 @@ public class ListLayout implements LayoutManager {
 	 * @param hgap The horizontal gap between the list items, measured in pixels. Used only when type is Type.FLAT.
 	 * @param vgap The vertical gap between the list items, measured in pixels. Used only when type is not Type.FLAT.
 	 *
-	 * @deprecated use {@link #ListLayout(Type, Alignment, Separator, boolean, int)}
+	 * @deprecated use {@link #ListLayout(Type, Alignment, Separator, boolean, GapSizeUtil.Size)}
 	 */
-	public ListLayout(final Type type, final Alignment alignment, final Separator separator,
-			final boolean ordered, final int hgap, final int vgap) {
-		this(type, alignment, separator, ordered, type == Type.FLAT ? hgap : vgap);
+	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered, final int hgap, final int vgap) {
+		this(type, alignment, separator, ordered, type == Type.FLAT ? GapSizeUtil.intToSize(hgap) : GapSizeUtil.intToSize(vgap));
+	}
+
+	/**
+	 * Creates a ListLayout with the specified attributes.
+	 *
+	 * @param type the list type.
+	 * @param alignment the item alignment.
+	 * @param separator the separator to display between items.
+	 * @param ordered whether the list is an ordered list.
+	 * @param gap the gap between the components added to the layouts.
+	 * @deprecated use {@link #ListLayout(Type, Alignment, Separator, boolean, GapSizeUtil.Size)}
+	 */
+	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered, final int gap) {
+		this(type, alignment, separator, ordered, GapSizeUtil.intToSize(gap));
 	}
 
 	/**
@@ -163,8 +176,7 @@ public class ListLayout implements LayoutManager {
 	 * @param ordered whether the list is an ordered list.
 	 * @param gap the gap between the components added to the layouts.
 	 */
-	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered,
-			final int gap) {
+	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered, final GapSizeUtil.Size gap) {
 		if (type == null) {
 			throw new IllegalArgumentException("Type must be provided.");
 		}
@@ -209,7 +221,7 @@ public class ListLayout implements LayoutManager {
 	 */
 	public int getHgap() {
 		if (this.type == Type.FLAT) {
-			return gap;
+			return GapSizeUtil.sizeToInt(gap);
 		}
 		return 0;
 	}
@@ -222,13 +234,13 @@ public class ListLayout implements LayoutManager {
 		if (this.type == Type.FLAT) {
 			return 0;
 		}
-		return gap;
+		return GapSizeUtil.sizeToInt(gap);
 	}
 
 	/**
 	 * @return the space between the components added to the layout.
 	 */
-	public int getGap() {
+	public GapSizeUtil.Size getGap() {
 		return gap;
 	}
 }

@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.layout.ListLayout;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 
 /**
  * This {@link Renderer} renders the children of a {@link WPanel} which have been arranged using a {@link ListLayout}.
@@ -27,7 +28,8 @@ final class ListLayoutRenderer extends AbstractWebXmlRenderer {
 		XmlStringBuilder xml = renderContext.getWriter();
 		ListLayout layout = (ListLayout) panel.getLayout();
 		int childCount = panel.getChildCount();
-		int gap = layout.getGap();
+		GapSizeUtil.Size gap = layout.getGap();
+		String gapString = gap != null ? gap.toString() : null;
 
 		xml.appendTagOpen("ui:listlayout");
 
@@ -84,7 +86,7 @@ final class ListLayoutRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendOptionalAttribute("ordered", layout.isOrdered(), "true");
 
-		xml.appendOptionalAttribute("gap", gap > 0, gap);
+		xml.appendOptionalAttribute("gap", gapString);
 
 		xml.appendClose();
 
