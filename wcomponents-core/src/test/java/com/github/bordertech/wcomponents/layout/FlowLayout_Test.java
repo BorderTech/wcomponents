@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.layout;
 
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,12 +15,12 @@ public class FlowLayout_Test {
 	/**
 	 * A reusable gap value.
 	 */
-	private static final int GAP = 12;
+	private static final GapSizeUtil.Size GAP = GapSizeUtil.Size.MEDIUM;
 
 	/**
 	 * A different reusable gap value. This is used to differentiate the (now deprecated) hgap and vgap properties.
 	 */
-	private static final int BIG_GAP = 18;
+	private static final GapSizeUtil.Size BIG_GAP = GapSizeUtil.Size.LARGE;
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testNullAlignment() {
@@ -30,7 +31,7 @@ public class FlowLayout_Test {
 	public void testDefaultConstructor() {
 		FlowLayout flow = new FlowLayout();
 		Assert.assertEquals("Default alignment should be CENTER", FlowLayout.Alignment.CENTER, flow.getAlignment());
-		Assert.assertEquals("Default gap should be zero", 0, flow.getGap());
+		Assert.assertNull("Default gap should be null", flow.getGap());
 		Assert.assertNull("Default content alignment should be null", flow.getContentAlignment());
 	}
 
@@ -101,10 +102,9 @@ public class FlowLayout_Test {
 		boolean isVertical;
 		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
 			isVertical = FlowLayout.Alignment.VERTICAL.equals(a);
-			flow = new FlowLayout(a, GAP, BIG_GAP);
+			flow = new FlowLayout(a, 8, 18);
 			Assert.assertEquals("Incorrect alignment", a, flow.getAlignment());
-			Assert.assertEquals("Incorrect horizontal gap", isVertical ? 0 : GAP, flow.getHgap());
-			Assert.assertEquals("Incorrect vertical gap", isVertical ? BIG_GAP : 0, flow.getVgap());
+			Assert.assertEquals("Incorrect horizontal gap", isVertical ? BIG_GAP : GAP, flow.getGap());
 		}
 	}
 
@@ -115,10 +115,9 @@ public class FlowLayout_Test {
 		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
 			isVertical = FlowLayout.Alignment.VERTICAL.equals(a);
 			for (FlowLayout.ContentAlignment c : FlowLayout.ContentAlignment.values()) {
-				flow = new FlowLayout(a, GAP, BIG_GAP, c);
+				flow = new FlowLayout(a, 8, 18, c);
 				Assert.assertEquals("Incorrect alignment", a, flow.getAlignment());
-				Assert.assertEquals("Incorrect horizontal gap", isVertical ? 0 : GAP, flow.getHgap());
-				Assert.assertEquals("Incorrect vertical gap", isVertical ? BIG_GAP : 0, flow.getVgap());
+				Assert.assertEquals("Incorrect gap", isVertical ? BIG_GAP : GAP, flow.getGap());
 
 				if (isVertical) {
 					Assert.assertNull(flow.getContentAlignment());
@@ -138,8 +137,8 @@ public class FlowLayout_Test {
 		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
 			isVertical = FlowLayout.Alignment.VERTICAL.equals(a);
 			flow = new FlowLayout(a, GAP);
-			Assert.assertEquals("Incorrect vertical gap", isVertical ? GAP : 0, flow.getVgap());
-			Assert.assertEquals("incorrect horizontal gap", isVertical ? 0 : GAP, flow.getHgap());
+			Assert.assertEquals("Incorrect vertical gap", isVertical ? GapSizeUtil.sizeToInt(GAP) : 0, flow.getVgap());
+			Assert.assertEquals("incorrect horizontal gap", isVertical ? 0 : GapSizeUtil.sizeToInt(GAP), flow.getHgap());
 		}
 	}
 }
