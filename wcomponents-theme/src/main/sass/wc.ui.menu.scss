@@ -37,8 +37,6 @@
 }
 
 .wc-menuitem {
-	// 'div' menu items need explicit border box, buttons have it by default.
-	@include border-box;
 	display: block;
 	vertical-align: bottom;
 
