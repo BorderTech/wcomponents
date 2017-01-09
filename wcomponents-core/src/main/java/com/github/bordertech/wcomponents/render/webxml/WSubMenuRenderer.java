@@ -9,7 +9,6 @@ import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.Util;
 
 /**
  * The Renderer for {@link WSubMenu}.
@@ -51,15 +50,9 @@ final class WSubMenuRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("open", isOpen(menu), "true");
 		xml.appendOptionalAttribute("disabled", menu.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", menu.isHidden(), "true");
-
-		Boolean selectable = menu.isSelectable();
-
-		if (selectable != null) {
-			xml.appendAttribute("selectable", selectable.toString());
+		if (menu.isTopLevelMenu()) {
+			xml.appendOptionalAttribute("accessKey", menu.getAccessKeyAsString());
 		}
-
-		xml.appendOptionalAttribute("selected", menu.isSelected(), "true");
-		xml.appendOptionalAttribute("accessKey", Util.upperCase(menu.getAccessKeyAsString()));
 
 		switch (menu.getMode()) {
 			case CLIENT:
@@ -80,22 +73,6 @@ final class WSubMenuRenderer extends AbstractWebXmlRenderer {
 				break;
 			default:
 				throw new SystemException("Unknown menu mode: " + menu.getMode());
-		}
-
-		switch (menu.getSelectionMode()) {
-			case NONE:
-				break;
-
-			case SINGLE:
-				xml.appendAttribute("selectMode", "single");
-				break;
-
-			case MULTIPLE:
-				xml.appendAttribute("selectMode", "multiple");
-				break;
-
-			default:
-				throw new IllegalStateException("Invalid select mode: " + menu.getSelectMode());
 		}
 
 		xml.appendClose();

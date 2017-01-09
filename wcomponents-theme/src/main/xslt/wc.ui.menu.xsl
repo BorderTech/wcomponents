@@ -31,20 +31,10 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
-			<xsl:if test="@selectMode">
-				<xsl:attribute name="data-wc-selectmode">
-					<xsl:value-of select="@selectMode"/>
-				</xsl:attribute>
-			</xsl:if>
 			<xsl:apply-templates select="*[not(self::ui:margin)]"/>
 		</div>
 	</xsl:template>
 
-	<!--
-		DO NOT ALLOW NESTED MENUS!
-	-->
-	<xsl:template match="ui:menu[ancestor::ui:menu]"/>
-	
 	<xsl:template match="ui:separator">
 		<xsl:element name="hr">
 			<xsl:attribute name="role">

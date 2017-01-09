@@ -88,14 +88,16 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	}
 
 	/**
-	 * Creates a WSubMenu with the given text and access key.
+	 * Creates a WSubMenu with the given text. The accessKey arg is now ignored for a11y reasons.
 	 *
-	 * @param text the sub menu text.
-	 * @param accessKey the access key.
+	 * @param text the sub menu text
+	 * @param accessKey the access key - not used
+	 * @deprecated access keys are not implemented in menus. See https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-9 for
+	 * information regarding key access to menus.
 	 */
+	@Deprecated
 	public WSubMenu(final String text, final char accessKey) {
 		this(text);
-		setAccessKey(accessKey);
 	}
 
 	/**
@@ -227,13 +229,8 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 			return true;
 		}
 
-		MenuContainer container = (MenuContainer) WebUtilities.getAncestorOfClass(MenuContainer.class, this);
-		if (container instanceof MenuItemGroup && container instanceof Disableable && ((Disableable) container).isDisabled()) {
-			return true;
-		}
-
-		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);
-		if (menu != null && menu.isDisabled()) {
+		MenuContainer container = WebUtilities.getAncestorOfClass(MenuContainer.class, this);
+		if (container instanceof Disableable && ((Disableable) container).isDisabled()) {
 			return true;
 		}
 
@@ -267,7 +264,10 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 * @return The key that in combination with Alt will focus this input.
 	 */
 	public char getAccessKey() {
-		return getComponentModel().accesskey;
+		if (isTopLevelMenu()) {
+			return getComponentModel().accesskey;
+		}
+		return '\0';
 	}
 
 	/**
@@ -304,36 +304,40 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 
 	/**
 	 * @return true if this item is selectable, false if not, or null to default to the container.
-	 * @deprecated Use {@link #getSelectability()} instead.
+	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable see WTree.
 	 */
 	@Deprecated
 	public Boolean isSelectable() {
-		return getSelectability();
+		return null;
 	}
 
 	/**
 	 * @param selectable true if this item is selectable, false if not, or null to default to the container.
-	 * @deprecated Use {@link #setSelectability(java.lang.Boolean)} instead.
+	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable see WTree.
 	 */
 	@Deprecated
 	public void setSelectable(final Boolean selectable) {
-		setSelectability(selectable);
+		// NO OP
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable see WTree.
 	 */
 	@Override
-	public Boolean getSelectability() {
-		return getComponentModel().selectability;
+	@Deprecated
+	public final Boolean getSelectability() {
+		return null;
 	}
 
 	/**
 	 * @param selectability true if this item is selectable, false if not, or null to default to the container.
+	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable see WTree.
 	 */
 	@Override
-	public void setSelectability(final Boolean selectability) {
-		getOrCreateComponentModel().selectability = selectability;
+	@Deprecated
+	public final void setSelectability(final Boolean selectability) {
+		// NO OP
 	}
 
 	/**
@@ -485,15 +489,10 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 * Indicates whether this sub-menu is selected (for menu types which support sub-menu selection).
 	 *
 	 * @return true if this sub-menu is selected, false otherwise.
+	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable see WTree.
 	 */
-	@Override
+	@Deprecated
 	public boolean isSelected() {
-		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);
-
-		if (menu != null) {
-			return menu.getSelectedMenuItems().contains(this);
-		}
-
 		return false;
 	}
 
@@ -580,6 +579,8 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 				break;
 			}
 			case SERVER: {
+				// same as DYNAMIC
+				AjaxHelper.registerContainer(getId(), contentId, targetId, request);
 				getContent().setVisible(isOpen());
 				break;
 			}
@@ -663,11 +664,6 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 		 * Indicates whether the sub-menu supports selection of multiple menu-items.
 		 */
 		private SelectionMode selectionMode = SelectionMode.NONE;
-
-		/**
-		 * Indicates whether the sub-menu itself can be selected (e.g. for column menus).
-		 */
-		private Boolean selectability;
 
 		/**
 		 * The action to execute when the menu item is selected.

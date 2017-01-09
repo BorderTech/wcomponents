@@ -341,23 +341,6 @@ define(["wc/ui/menu/core",
 			};
 
 			/**
-			 * No op.
-			 * @function module:wc/ui/menu/tree._setMenuItemRole
-			 * @protected
-			 * @override
-			 */
-			this._setMenuItemRole = null;
-
-			/**
-			 * No op.
-			 *
-			 * @function module:wc/ui/menu/tree._selectAfterAjax
-			 * @protected
-			 * @override
-			 */
-			this._selectAfterAjax = null;
-
-			/**
 			 * Get the menu element which is able to be "aria-expanded". This is the WSubMenu's content in most menus but is the WSubMenu itself in
 			 * trees.
 			 *
@@ -656,7 +639,7 @@ define(["wc/ui/menu/core",
 				}
 			};
 
-			/**
+			/*
 			 * Reset selections after Ajax.
 			 *
 			 * @function module:wc/ui/menu/tree._ajaxSubscriber
@@ -665,18 +648,18 @@ define(["wc/ui/menu/core",
 			 * @param {Element} element the ajax target.
 			 * @param {DocumentFragment} documentFragment the content of the response
 			 */
-			this._ajaxSubscriber = function (element, documentFragment/* , action */) {
-				if (element && this.getRoot(element) === this.getFirstMenuAncestor(element)) {
-					Array.prototype.forEach.call(this._wd.branch.findDescendants(documentFragment), function(next) {
-						var id, _el;
-						if ((id = next.id) && (_el = document.getElementById(id))) {
-							if (shed.isSelected(_el)) {
-								shed.select(next, true);
-							}
-						}
-					}, this);
-				}
-			};
+//			this._ajaxSubscriber = function (element, documentFragment) {
+//				if (element && this.getRoot(element) === this.getFirstMenuAncestor(element)) {
+//					Array.prototype.forEach.call(this._wd.branch.findDescendants(documentFragment), function(next) {
+//						var id, _el;
+//						if ((id = next.id) && (_el = document.getElementById(id))) {
+//							if (shed.isSelected(_el)) {
+//								shed.select(next, true);
+//				}
+//						}
+//					}, this);
+//				}
+//			};
 		}
 
 		/**

@@ -38,7 +38,6 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 		char key = 'S';
 		WSubMenu subMenu = new WSubMenu(text, key);
 		Assert.assertEquals("Incorrect text set by constructor", text, subMenu.getText());
-		Assert.assertEquals("Incorrect accessKey set by constructor", key, subMenu.getAccessKey());
 	}
 
 	@Test
@@ -52,16 +51,13 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 		WSubMenu subMenu = new WSubMenu("a");
 		WSubMenu subSubMenu = new WSubMenu("b");
 
-		Assert.assertFalse("Should not be a top-level menu when there is no parent", subMenu.
-				isTopLevelMenu());
+		Assert.assertFalse("Should not be a top-level menu when there is no parent", subMenu.isTopLevelMenu());
 
 		menu.add(subMenu);
 		subMenu.add(subSubMenu);
 
-		Assert.assertTrue("isTopLevel should be true for top-level sub-menu", subMenu.
-				isTopLevelMenu());
-		Assert.assertFalse("isTopLevel should be false for second-level sub-menu", subSubMenu.
-				isTopLevelMenu());
+		Assert.assertTrue("isTopLevel should be true for top-level sub-menu", subMenu.isTopLevelMenu());
+		Assert.assertFalse("isTopLevel should be false for second-level sub-menu", subSubMenu.isTopLevelMenu());
 	}
 
 	@Test
@@ -189,21 +185,50 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 		Assert.assertTrue(submenu.isDisabled());
 	}
 
+	/**
+	 * AccessKey accessors no longer do anything. AccessKey will always be deemed to be null.
+	 */
 	@Test
 	public void testAccessKeyAccessors() {
-		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "accessKey", '\0', 'a', 'b');
+		WSubMenu component = new WSubMenu(TEST_TEXT);
+		char expected = '\0';
+
+		try {
+			// default
+			Assert.assertEquals(component.getAccessKey(), expected);
+			// set should do nothing
+			component.setAccessKey('a');
+			Assert.assertEquals(component.getAccessKey(), expected);
+
+			// The component passed in might be a child component so find the top component to lock
+			WebUtilities.getTop(component).setLocked(true);
+
+			// Create a user context
+			setActiveContext(createUIContext());
+			// Check default value returned for user context
+			Assert.assertEquals(component.getAccessKey(), expected);
+			// Set user value
+			component.setAccessKey('b');
+			Assert.assertEquals(component.getAccessKey(), expected);
+			// Reset the context
+			resetContext();
+			// Check default value returned for user context
+			Assert.assertEquals(component.getAccessKey(), expected);
+		} finally {
+			resetContext();
+		}
 	}
 
 	@Test
 	public void testGetAccessKeyAsString() {
 		WSubMenu subMenu = new WSubMenu("");
-		Assert.assertNull("Incorrect acesskey as string", subMenu.getAccessKeyAsString());
+		Assert.assertNull("Incorrect default acesskey as string", subMenu.getAccessKeyAsString());
 
 		subMenu.setAccessKey('C');
-		Assert.assertEquals("Incorrect acesskey as string", "C", subMenu.getAccessKeyAsString());
+		Assert.assertNull("Incorrect user set acesskey as string", subMenu.getAccessKeyAsString());
 
 		subMenu.setAccessKey('\0');
-		Assert.assertNull("Incorrect acesskey as string", subMenu.getAccessKeyAsString());
+		Assert.assertNull("Incorrect reset acesskey as string", subMenu.getAccessKeyAsString());
 	}
 
 	@Test
@@ -213,7 +238,19 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSelectabilityAccessors() {
-		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "selectability", null, true, false);
+
+		WSubMenu item = new WSubMenu("");
+		Assert.assertNull("Selectability should be null by default", item.getSelectability());
+
+		item.setSelectability(Boolean.FALSE);
+		item.setLocked(true);
+		setActiveContext(createUIContext());
+		item.setSelectability(Boolean.TRUE);
+
+		Assert.assertNull("Selectability should be null as setSelectability is a no-op", item.getSelectability());
+
+		resetContext();
+		Assert.assertNull("Selectability should be null as setSelectability is a no-op", item.getSelectability());
 	}
 
 	@Test
@@ -223,14 +260,13 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSelectModeAccessors() {
-		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "selectMode", WMenu.SelectMode.NONE, WMenu.SelectMode.MULTIPLE,
-				WMenu.SelectMode.SINGLE);
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "selectMode", WMenu.SelectMode.NONE, WMenu.SelectMode.MULTIPLE, WMenu.SelectMode.SINGLE);
 	}
 
 	@Test
 	public void testSelectionModeAccessors() {
-		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "selectionMode", MenuSelectContainer.SelectionMode.NONE, MenuSelectContainer.SelectionMode.MULTIPLE,
-				MenuSelectContainer.SelectionMode.SINGLE);
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "selectionMode", MenuSelectContainer.SelectionMode.NONE,
+				MenuSelectContainer.SelectionMode.MULTIPLE, MenuSelectContainer.SelectionMode.SINGLE);
 	}
 
 	@Test
@@ -258,10 +294,10 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 		item.setSelectable(Boolean.TRUE);
 
-		Assert.assertTrue("Should be selectable in session", item.isSelectable());
+		Assert.assertNull("Should be not selectable in session as setSelectable is a no-op", item.isSelectable());
 
 		resetContext();
-		Assert.assertFalse("Default should not be selectable", item.isSelectable());
+		Assert.assertNull("Default should not be selectable setSelectable is a no-op", item.isSelectable());
 	}
 
 	@Test
@@ -274,8 +310,8 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 		Assert.assertFalse("Sub menu should not be selected by default", subMenu.isSelected());
 
 		// Set as selected
-		menu.setSelectedItem(subMenu);
-		Assert.assertTrue("Sub menu should be selected by default", subMenu.isSelected());
+		menu.setSelectedMenuItem(subMenu);
+		Assert.assertFalse("Sub menu should not be selected by explicit selection", subMenu.isSelected());
 
 	}
 
@@ -292,15 +328,13 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 		// Menu not in Request
 		MockRequest request = new MockRequest();
 		menu.serviceRequest(request);
-		Assert.assertFalse("Action should not have been called when sub-menu was not selected",
-				action.wasTriggered());
+		Assert.assertFalse("Action should not have been called when sub-menu was not invoked", action.wasTriggered());
 
 		// Menu in Request but submenu not current AJAX Trigger
 		request = new MockRequest();
 		request.setParameter(menu.getId() + "-h", "x");
 		menu.serviceRequest(request);
-		Assert.assertFalse("Action should not have been called when sub-menu was not selected",
-				action.wasTriggered());
+		Assert.assertFalse("Action should not have been called when sub-menu was not invoked", action.wasTriggered());
 
 		// Menu in Request and submenu is the current ajax triiger
 		request = new MockRequest();
@@ -309,15 +343,13 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 
 		try {
 			// Setup AJAX Operation trigger by the submenu
-			AjaxHelper.setCurrentOperationDetails(new AjaxOperation(subMenu.getId(), subMenu.getId()),
-					null);
+			AjaxHelper.setCurrentOperationDetails(new AjaxOperation(subMenu.getId(), subMenu.getId()), null);
 
 			menu.serviceRequest(request);
 		} finally {
 			AjaxHelper.clearCurrentOperationDetails();
 		}
-		Assert.assertTrue("Action should have been called when sub-menu is selected", action.
-				wasTriggered());
+		Assert.assertTrue("Action should have been called when sub-menu is invoked", action.wasTriggered());
 	}
 
 	@Test

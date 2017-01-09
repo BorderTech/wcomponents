@@ -1,21 +1,15 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
-	<xsl:import href="wc.common.accessKey.xsl"/>
+
 	<!-- Transform for WSubMenu. -->
 	<xsl:template match="ui:submenu">
-		<xsl:variable name="id" select="@id"/>
-		<div id="{$id}" role="presentation"><!-- the presentation role is redundant but stops AXS from whining. -->
+		<div id="{@id}" role="presentation"><!-- the presentation role is redundant but stops AXS from whining. -->
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:call-template name="makeCommonClass"/>
-			<xsl:if test="@selectMode">
-				<xsl:attribute name="data-wc-selectmode">
-					<xsl:value-of select="@selectMode"/>
-				</xsl:attribute>
-			</xsl:if>
 			<xsl:call-template name="disabledElement"/>
 			<!-- This is the submenu opener/label element. -->
-			<button type="button" id="{concat($id, '_o')}" name="{$id}" class="wc-nobutton wc-invite wc-submenu-o" aria-controls="{$id}" aria-haspopup="true">
+			<button type="button" id="{concat(@id, '_o')}" name="{@id}" class="wc-nobutton wc-invite wc-submenu-o" aria-controls="{@id}" aria-haspopup="true">
 				<xsl:attribute name="aria-pressed">
 					<xsl:choose>
 						<xsl:when test="@open">true</xsl:when>
@@ -26,30 +20,19 @@
 				<xsl:call-template name="disabledElement">
 					<xsl:with-param name="isControl" select="1"/>
 				</xsl:call-template>
+				<xsl:call-template name="accessKey"/>
 				<xsl:apply-templates select="ui:decoratedlabel"/>
 			</button>
-			<xsl:apply-templates select="ui:content" mode="submenu">
-				<xsl:with-param name="open">
-					<xsl:choose>
-						<xsl:when test="@open">
-							<xsl:number value="1"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:number value="0"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:with-param>
-			</xsl:apply-templates>
+			<xsl:apply-templates select="ui:content" mode="submenu"/>
 		</div>
 	</xsl:template>
 
 	<!-- This is the transform of the content of a submenu. -->
 	<xsl:template match="ui:content" mode="submenu">
-		<xsl:param name="open" select="0"/>
 		<xsl:variable name="mode" select="../@mode"/>
 		<xsl:variable name="isAjaxMode">
 			<xsl:choose>
-				<xsl:when test="$mode eq 'dynamic' or $mode eq 'eager' or ($mode eq 'lazy' and number($open) ne 1)">
+				<xsl:when test="$mode eq 'dynamic' or $mode eq 'eager' or ($mode eq 'lazy' and not(../@open))">
 					<xsl:number value="1"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -57,10 +40,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<xsl:variable name="submenuId">
-			<xsl:value-of select="../@id"/>
-		</xsl:variable>
-		<div id="{@id}" arial-labelledby="{concat($submenuId, '_o')}" role="menu">
+		<div id="{@id}" arial-labelledby="{concat(../@id, '_o')}" role="menu">
 			<xsl:attribute name="class">
 				<xsl:text>wc_submenucontent</xsl:text>
 				<xsl:if test="number($isAjaxMode) eq 1">
@@ -72,12 +52,12 @@
 			</xsl:attribute>
 			<xsl:if test="number($isAjaxMode) eq 1">
 				<xsl:attribute name="data-wc-ajaxalias">
-					<xsl:value-of select="$submenuId"/>
+					<xsl:value-of select="./@id"/>
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:attribute name="aria-expanded">
 				<xsl:choose>
-					<xsl:when test="number($open) eq 1">
+					<xsl:when test="../@open">
 						<xsl:text>true</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>
