@@ -9,12 +9,14 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.layout.ColumnLayout.Alignment;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 
 /**
  * Example showing how to use the {@link ColumnLayout} component.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class ColumnLayoutExample extends WContainer {
@@ -31,6 +33,10 @@ public class ColumnLayoutExample extends WContainer {
 	 */
 	private static final int[][] EXAMPLE_HGAP_VGAP_WIDTHS = {{0, 0}, {25, 0}, {0, 25}, {6, 12}};
 
+	private static final GapSizeUtil.Size[][] EXAMPLE_GAPS = {{GapSizeUtil.Size.ZERO, GapSizeUtil.Size.ZERO},
+		{GapSizeUtil.Size.LARGE, GapSizeUtil.Size.ZERO}, {GapSizeUtil.Size.ZERO, GapSizeUtil.Size.LARGE},
+		{GapSizeUtil.Size.SMALL, GapSizeUtil.Size.MEDIUM}};
+
 	/**
 	 * Creates a ColumnLayoutExample.
 	 */
@@ -38,7 +44,7 @@ public class ColumnLayoutExample extends WContainer {
 		for (int[] colWidths : EXAMPLE_COLUMN_WIDTHS) {
 			addExample(colWidths);
 		}
-		for (int[] gaps : EXAMPLE_HGAP_VGAP_WIDTHS) {
+		for (GapSizeUtil.Size[] gaps : EXAMPLE_GAPS) {
 			addHgapVGapExample(gaps[0], gaps[1]);
 		}
 		addAlignmentExample();
@@ -111,8 +117,8 @@ public class ColumnLayoutExample extends WContainer {
 	 * @param hgap the hgap width
 	 * @param vgap the vgap width
 	 */
-	private void addHgapVGapExample(final int hgap, final int vgap) {
-		add(new WHeading(HeadingLevel.H2, "Column Layout: hgap=" + hgap + " vgap=" + vgap));
+	private void addHgapVGapExample(final GapSizeUtil.Size hgap, final GapSizeUtil.Size vgap) {
+		add(new WHeading(HeadingLevel.H2, "Column Layout: hgap=" + hgap.toString() + " vgap=" + vgap.toString()));
 		WPanel panel = new WPanel();
 		panel.setLayout(new ColumnLayout(new int[]{25, 25, 25, 25}, hgap, vgap));
 		add(panel);

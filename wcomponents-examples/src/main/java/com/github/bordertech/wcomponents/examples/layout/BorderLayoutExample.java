@@ -1,11 +1,13 @@
 package com.github.bordertech.wcomponents.examples.layout;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.BorderLayout;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 
 /**
  * <p>
@@ -15,6 +17,14 @@ import com.github.bordertech.wcomponents.layout.BorderLayout;
  * @since 1.0.0
  */
 public class BorderLayoutExample extends WContainer {
+	/**
+	 * A small gap.
+	 */
+	private static final GapSizeUtil.Size GAP = GapSizeUtil.Size.SMALL;
+	/**
+	 * A big gap.
+	 */
+	private static final GapSizeUtil.Size BIG_GAP = GapSizeUtil.Size.LARGE;
 
 	/**
 	 * Some dummy text.
@@ -29,7 +39,7 @@ public class BorderLayoutExample extends WContainer {
 		WPanel borderLayoutPanel = new WPanel();
 		borderLayoutPanel.setLayout(new BorderLayout());
 
-		add(new WHeading(WHeading.SECTION, "Border layout - expandable content, no gap"));
+		add(new WHeading(HeadingLevel.H2, "Border layout - expandable content, no gap"));
 		add(borderLayoutPanel);
 		borderLayoutPanel.add(new BoxComponent("North"), BorderLayout.NORTH);
 		borderLayoutPanel.add(new BoxComponent("South"), BorderLayout.SOUTH);
@@ -39,10 +49,10 @@ public class BorderLayoutExample extends WContainer {
 
 		// All - fill cells, with gaps
 		borderLayoutPanel = new WPanel();
-		borderLayoutPanel.setLayout(new BorderLayout(6, 12));
+		borderLayoutPanel.setLayout(new BorderLayout(GAP, BIG_GAP));
 
 		add(new WHorizontalRule());
-		add(new WHeading(WHeading.SECTION,
+		add(new WHeading(HeadingLevel.H2,
 				"Border layout - expandable content, horizontal gap and vertical gap"));
 		add(borderLayoutPanel);
 		borderLayoutPanel.add(new BoxComponent("North"), BorderLayout.NORTH);
@@ -56,7 +66,7 @@ public class BorderLayoutExample extends WContainer {
 		borderLayoutPanel.setLayout(new BorderLayout());
 
 		add(new WHorizontalRule());
-		add(new WHeading(WHeading.SECTION, "Border layout - small content, no gap"));
+		add(new WHeading(HeadingLevel.H2, "Border layout - small content, no gap"));
 		add(borderLayoutPanel);
 		borderLayoutPanel.add(new WText("North"), BorderLayout.NORTH);
 		borderLayoutPanel.add(new WText("South"), BorderLayout.SOUTH);
@@ -69,7 +79,7 @@ public class BorderLayoutExample extends WContainer {
 		borderLayoutPanel.setLayout(new BorderLayout());
 
 		add(new WHorizontalRule());
-		add(new WHeading(WHeading.SECTION, "Border layout - large amount of content"));
+		add(new WHeading(HeadingLevel.H2, "Border layout - large amount of content"));
 		add(borderLayoutPanel);
 		borderLayoutPanel.add(createPanelWithText("North", DUMMY_TEXT), BorderLayout.NORTH);
 		borderLayoutPanel.add(createPanelWithText("South", DUMMY_TEXT), BorderLayout.SOUTH);
@@ -82,7 +92,7 @@ public class BorderLayoutExample extends WContainer {
 		borderLayoutPanel.setLayout(new BorderLayout());
 
 		add(new WHorizontalRule());
-		add(new WHeading(WHeading.SECTION, "Border layout - north only"));
+		add(new WHeading(HeadingLevel.H2, "Border layout - north only"));
 		add(borderLayoutPanel);
 		borderLayoutPanel.add(createPanelWithText("North", "This panel only has a northern cell. It is completely pointless."),
 				BorderLayout.NORTH);
@@ -92,7 +102,7 @@ public class BorderLayoutExample extends WContainer {
 		borderLayoutPanel.setLayout(new BorderLayout());
 
 		add(new WHorizontalRule());
-		add(new WHeading(WHeading.SECTION, "Border layout - east/west only"));
+		add(new WHeading(HeadingLevel.H2, "Border layout - east/west only"));
 		add(borderLayoutPanel);
 		borderLayoutPanel.add(createPanelWithText("East", "This is in the eastern cell. Do not do this: use ColumnLayout."),
 				BorderLayout.EAST);
@@ -104,7 +114,7 @@ public class BorderLayoutExample extends WContainer {
 		borderLayoutPanel.setLayout(new BorderLayout());
 
 		add(new WHorizontalRule());
-		add(new WHeading(WHeading.SECTION, "Border layout - north/center/south only"));
+		add(new WHeading(HeadingLevel.H2, "Border layout - north/center/south only"));
 		add(borderLayoutPanel);
 		borderLayoutPanel.add(createPanelWithText("North", "This is in the northern cell. This borderLayout is useless."),
 				BorderLayout.NORTH);
@@ -118,7 +128,7 @@ public class BorderLayoutExample extends WContainer {
 		borderLayoutPanel.setLayout(new BorderLayout());
 
 		add(new WHorizontalRule());
-		add(new WHeading(WHeading.SECTION, "Border layout - north/center/east only"));
+		add(new WHeading(HeadingLevel.H2, "Border layout - north/center/east only"));
 		add(borderLayoutPanel);
 		borderLayoutPanel.add(createPanelWithText("North", "This is in the northern cell."),
 				BorderLayout.NORTH);

@@ -4,12 +4,18 @@
 	<xsl:import href="wc.common.getHVGap.xsl"/>
 	<!-- BorderLayout is a rough CSS emulation of AWT BorderLayout. This Layout is deprecated and will be removed. -->
 	<xsl:template match="ui:borderlayout">
+		<xsl:variable name="vgap">
+			<xsl:if test="@vgap">
+				<xsl:call-template name="gapClass">
+					<xsl:with-param name="gap" select="@vgap"/>
+					<xsl:with-param name="isVGap" select="1"/>
+				</xsl:call-template>
+			</xsl:if>
+		</xsl:variable>
 		<div>
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
-					<xsl:call-template name="getHVGapClass">
-						<xsl:with-param name="isVGap" select="1"/>
-					</xsl:call-template>
+					<xsl:value-of select="$vgap"/>
 				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:apply-templates select="ui:north"/>
@@ -17,7 +23,11 @@
 				<div>
 					<xsl:attribute name="class">
 						<xsl:text>wc_bl_mid</xsl:text>
-						<xsl:call-template name="getHVGapClass"/>
+						<xsl:if test="@hgap">
+							<xsl:call-template name="gapClass">
+								<xsl:with-param name="gap" select="@hgap"/>
+							</xsl:call-template>
+						</xsl:if>
 					</xsl:attribute>
 					<xsl:apply-templates select="ui:west"/>
 					<xsl:apply-templates select="ui:center"/>

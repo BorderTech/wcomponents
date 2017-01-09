@@ -1,11 +1,13 @@
 package com.github.bordertech.wcomponents.layout;
 
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 import java.util.Arrays;
 
 /**
  * ColumnLayout renders its items in columns.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class ColumnLayout implements LayoutManager {
@@ -39,14 +41,14 @@ public class ColumnLayout implements LayoutManager {
 	private final Alignment[] columnAlignments;
 
 	/**
-	 * The horizontal gap between the columns, measured in pixels.
+	 * The horizontal gap between the columns.
 	 */
-	private final int hgap;
+	private final GapSizeUtil.Size hgap;
 
 	/**
-	 * The vertical gap between the rows, measured in pixels.
+	 * The vertical gap between the rows.
 	 */
-	private final int vgap;
+	private final GapSizeUtil.Size vgap;
 
 
 	/**
@@ -56,40 +58,66 @@ public class ColumnLayout implements LayoutManager {
 	 * @param columnWidths the column widths, in percent units, 0 for undefined.
 	 */
 	public ColumnLayout(final int[] columnWidths) {
-		this(columnWidths, null, 0, 0);
+		this(columnWidths, null, null, null);
 	}
 
 	/**
 	 * Creates a ColumnLayout with the specified percentage column widths and column alignments.
 	 *
-	 * @param columnWidths the column widths, in percent units, 0 for undefined.
+	 * @param columnWidths the column widths, in percent units, 0 for undefined
 	 * @param columnAlignments the column alignments
 	 */
 	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments) {
-		this(columnWidths, columnAlignments, 0, 0);
+		this(columnWidths, columnAlignments, null, null);
 	}
 
 	/**
 	 * Creates a ColumnLayout with the specified percentage column widths.
 	 *
-	 * @param columnWidths the column widths, in percent units, 0 for undefined.
-	 * @param hgap the horizontal gap between the columns, measured in pixels.
-	 * @param vgap the vertical gap between the rows, measured in pixels.
+	 * @param columnWidths the column widths, in percent units, 0 for undefined
+	 * @param hgap the horizontal gap between the columns, measured in pixels
+	 * @param vgap the vertical gap between the rows, measured in pixels
+	 * @deprecated use {@link #ColumnLayout(int[], GapSizeUtil.Size, GapSizeUtil.Size)}
 	 */
+	@Deprecated
 	public ColumnLayout(final int[] columnWidths, final int hgap, final int vgap) {
+		this(columnWidths, null, GapSizeUtil.intToSize(hgap), GapSizeUtil.intToSize(vgap));
+	}
+
+	/**
+	 * Creates a ColumnLayout with the specified percentage column widths.
+	 *
+	 * @param columnWidths the column widths, in percent units, 0 for undefined
+	 * @param hgap the horizontal gap between the columns, measured in pixels
+	 * @param vgap the vertical gap between the rows, measured in pixels
+	 */
+	public ColumnLayout(final int[] columnWidths, final GapSizeUtil.Size hgap, final GapSizeUtil.Size vgap) {
 		this(columnWidths, null, hgap, vgap);
 	}
 
 	/**
 	 * Creates a ColumnLayout with the specified percentage column widths.
 	 *
+	 * @param columnWidths the column widths, in percent units, 0 for undefined
+	 * @param columnAlignments the column alignments
+	 * @param hgap the horizontal gap between the columns, measured in pixels
+	 * @param vgap the vertical gap between the rows, measured in pixels
+	 * @deprecated use {@link #ColumnLayout(int[], Alignment[], GapSizeUtil.Size, GapSizeUtil.Size)}
+	 */
+	@Deprecated
+	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments, final int hgap, final int vgap) {
+		this(columnWidths, columnAlignments, GapSizeUtil.intToSize(hgap), GapSizeUtil.intToSize(vgap));
+	}
+
+	/**
+	 * Creates a ColumnLayout with the specified percentage column widths.
+	 *
 	 * @param columnWidths the column widths, in percent units, 0 for undefined.
 	 * @param columnAlignments the column alignments
-	 * @param hgap the horizontal gap between the columns, measured in pixels.
-	 * @param vgap the vertical gap between the rows, measured in pixels.
+	 * @param hgap the horizontal gap between the columns
+	 * @param vgap the vertical gap between the rows
 	 */
-	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments, final int hgap,
-			final int vgap) {
+	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments, final GapSizeUtil.Size hgap, final GapSizeUtil.Size vgap) {
 		if (columnWidths == null || columnWidths.length == 0) {
 			throw new IllegalArgumentException("ColumnWidths must be provided");
 		}
@@ -105,14 +133,6 @@ public class ColumnLayout implements LayoutManager {
 		if (columnAlignments != null && columnAlignments.length != columnWidths.length) {
 			throw new IllegalArgumentException(
 					"A columnAlignment must be provided for each columnWidth");
-		}
-
-		if (hgap < 0) {
-			throw new IllegalArgumentException("Hgap must be greater than or equal to zero");
-		}
-
-		if (vgap < 0) {
-			throw new IllegalArgumentException("Vgap must be greater than or equal to zero");
 		}
 
 		this.columnWidths = columnWidths;
@@ -143,14 +163,14 @@ public class ColumnLayout implements LayoutManager {
 	/**
 	 * @return Returns the horizontal gap between the cells, measured in pixels.
 	 */
-	public int getHgap() {
+	public GapSizeUtil.Size getHgap() {
 		return hgap;
 	}
 
 	/**
 	 * @return Returns the vertical gap between the cells, measured in pixels.
 	 */
-	public int getVgap() {
+	public GapSizeUtil.Size getVgap() {
 		return vgap;
 	}
 

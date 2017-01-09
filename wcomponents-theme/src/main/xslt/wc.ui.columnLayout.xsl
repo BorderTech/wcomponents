@@ -6,12 +6,18 @@
 		ui:columnlayout is one of the possible layout child elements of WPanel.
 	-->
 	<xsl:template match="ui:columnlayout">
+		<xsl:variable name="vgap">
+			<xsl:if test="@vgap">
+				<xsl:call-template name="gapClass">
+					<xsl:with-param name="gap" select="@vgap"/>
+					<xsl:with-param name="isVGap" select="1"/>
+				</xsl:call-template>
+			</xsl:if>
+		</xsl:variable>
 		<div>
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
-					<xsl:call-template name="getHVGapClass">
-						<xsl:with-param name="isVGap" select="1"/>
-					</xsl:call-template>
+					<xsl:value-of select="$vgap"/>
 				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:variable name="width">
@@ -56,9 +62,11 @@
 		<div>
 			<xsl:attribute name="class">
 				<xsl:text>wc-row</xsl:text>
-				<xsl:call-template name="getHVGapClass">
-					<xsl:with-param name="gap" select="../@hgap"/>
-				</xsl:call-template>
+				<xsl:if test = "../@hgap">
+					<xsl:call-template name="gapClass">
+						<xsl:with-param name="gap" select="../@hgap"/>
+					</xsl:call-template>
+				</xsl:if>
 				<xsl:if test="contains(../../@class, 'wc-respond')">
 					<xsl:text> wc-respond</xsl:text>
 				</xsl:if>

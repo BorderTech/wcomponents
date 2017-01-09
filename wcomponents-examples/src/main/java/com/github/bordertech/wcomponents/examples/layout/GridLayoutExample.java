@@ -11,6 +11,7 @@ import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.GridLayout;
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
 
 /**
  * <p>
@@ -21,15 +22,15 @@ import com.github.bordertech.wcomponents.layout.GridLayout;
  */
 public class GridLayoutExample extends WContainer {
 
-	/**
-	 * A small gap between components.
-	 */
-	private static final int SMALL_GAP = 8;
 
 	/**
-	 * A larger gap between components.
+	 * A small gap.
 	 */
-	private static final int LARGE_GAP = 8;
+	private static final GapSizeUtil.Size GAP = GapSizeUtil.Size.SMALL;
+	/**
+	 * A big gap.
+	 */
+	private static final GapSizeUtil.Size BIG_GAP = GapSizeUtil.Size.LARGE;
 
 	/**
 	 * Creates a GridLayoutExample.
@@ -102,7 +103,7 @@ public class GridLayoutExample extends WContainer {
 		add(new WHeading(HeadingLevel.H3, "3 x 12 grid with horizontal gap"));
 
 		gridLayoutPanel = new WPanel();
-		gridLayoutPanel.setLayout(new GridLayout(3, 12, SMALL_GAP, 0));
+		gridLayoutPanel.setLayout(new GridLayout(3, 12, GAP, null));
 		add(gridLayoutPanel);
 		addBoxes(gridLayoutPanel, 36);
 
@@ -110,7 +111,7 @@ public class GridLayoutExample extends WContainer {
 		add(new WHorizontalRule());
 		add(new WHeading(HeadingLevel.H3, "3 x 12 grid with vertical gap"));
 		gridLayoutPanel = new WPanel();
-		gridLayoutPanel.setLayout(new GridLayout(3, 12, 0, SMALL_GAP));
+		gridLayoutPanel.setLayout(new GridLayout(3, 12, null, GAP));
 		add(gridLayoutPanel);
 		addBoxes(gridLayoutPanel, 36);
 
@@ -118,7 +119,7 @@ public class GridLayoutExample extends WContainer {
 		add(new WHorizontalRule());
 		add(new WHeading(HeadingLevel.H3, "3 x 12 grid with horizontal and vertical gaps"));
 		gridLayoutPanel = new WPanel();
-		gridLayoutPanel.setLayout(new GridLayout(3, 12, SMALL_GAP, LARGE_GAP));
+		gridLayoutPanel.setLayout(new GridLayout(3, 12, GAP, BIG_GAP));
 		add(gridLayoutPanel);
 		addBoxes(gridLayoutPanel, 36);
 	}

@@ -1,9 +1,12 @@
 package com.github.bordertech.wcomponents.layout;
 
+import com.github.bordertech.wcomponents.util.GapSizeUtil;
+
 /**
  * BorderLayout is a {@link LayoutManager} that emulates {@link java.awt.BorderLayout}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  * @deprecated WComponents 1.1.4. Use {@link com.github.bordertech.wcomponents.WRow} and
  * {@link com.github.bordertech.wcomponents.WColumn} or {@link com.github.bordertech.wcomponents.layout.ColumnLayout} instead.
@@ -66,20 +69,35 @@ public class BorderLayout implements LayoutManager {
 	/**
 	 * The horizontal gap between the west, center and east cells, measured in pixels.
 	 */
-	private final int hgap;
+	private final GapSizeUtil.Size hgap;
 
 	/**
 	 * The vertical gap between the north cell, middle row and south cell, measured in pixels.
 	 */
-	private final int vgap;
+	private final GapSizeUtil.Size vgap;
 
 	/**
 	 * Creates a border layout.
 	 */
 	public BorderLayout() {
-		this(0, 0);
+		this(null, null);
 	}
 
+	/**
+	 * Creates a border layout with the gap between component areas.
+	 * <p>
+	 * The horizontal and vertical gaps are set to the specified values. Horizontal gaps are placed at the left and
+	 * right edges, and between each of the columns. Vertical gaps are placed at the top and bottom edges, and between
+	 * each of the rows.
+	 *
+	 * @param hgap the horizontal gap between the west, center and east cells, measured in pixels.
+	 * @param vgap the vertical gap between the north cell, middle row and south cell, measured in pixels
+	 * @deprecated use {@link #BorderLayout(GapSizeUtil.Size, GapSizeUtil.Size)} instead.
+	 */
+	@Deprecated
+	public BorderLayout(final int hgap, final int vgap) {
+		this (GapSizeUtil.intToSize(hgap), GapSizeUtil.intToSize(vgap));
+	}
 	/**
 	 * Creates a border layout with the gap between component areas.
 	 * <p>
@@ -89,18 +107,10 @@ public class BorderLayout implements LayoutManager {
 	 * <p>
 	 * All <code>BorderLayout</code> constructors defer to this one.
 	 *
-	 * @param hgap the horizontal gap between the west, center and east cells, measured in pixels.
-	 * @param vgap the vertical gap between the north cell, middle row and south cell, measured in pixels
+	 * @param hgap the horizontal gap between the west, center and east cells
+	 * @param vgap the vertical gap between the north cell, middle row and south cell
 	 */
-	public BorderLayout(final int hgap, final int vgap) {
-		if (hgap < 0) {
-			throw new IllegalArgumentException("Hgap must be greater than or equal to zero");
-		}
-
-		if (vgap < 0) {
-			throw new IllegalArgumentException("Vgap must be greater than or equal to zero");
-		}
-
+	public BorderLayout(final GapSizeUtil.Size hgap, final GapSizeUtil.Size vgap) {
 		this.hgap = hgap;
 		this.vgap = vgap;
 	}
@@ -108,14 +118,14 @@ public class BorderLayout implements LayoutManager {
 	/**
 	 * @return Returns the horizontal gap between the cells, measured in pixels.
 	 */
-	public int getHgap() {
+	public GapSizeUtil.Size getHgap() {
 		return hgap;
 	}
 
 	/**
 	 * @return Returns the vertical gap between the cells, measured in pixels.
 	 */
-	public int getVgap() {
+	public GapSizeUtil.Size getVgap() {
 		return vgap;
 	}
 }

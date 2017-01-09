@@ -228,5 +228,4 @@ public class GridLayoutOptionsExample extends WContainer {
 		}
 
 	}
-
 }
