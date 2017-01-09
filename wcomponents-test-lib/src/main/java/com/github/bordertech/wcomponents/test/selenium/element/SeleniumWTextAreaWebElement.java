@@ -9,12 +9,7 @@ import org.openqa.selenium.WebElement;
  * @author Joshua Barclay
  * @since 1.2.0
  */
-public class SeleniumWTextAreaWebElement extends SeleniumWComponentWebElement {
-
-	/**
-	 * Used as a special case attribute as the HTML value will differ from the Java value if there are line breaks.
-	 */
-	private static final String VALUE_ATTTRIBUTE = "value";
+public class SeleniumWTextAreaWebElement extends SeleniumWComponentInputWebElement {
 
 	/**
 	 * The tag name of the editable WTextArea element.
@@ -49,16 +44,15 @@ public class SeleniumWTextAreaWebElement extends SeleniumWComponentWebElement {
 	}
 
 	/**
-	 * WTextArea's line breaks will be in Java format "\n whereas HTML textarea's value has line breaks in the HTML specified format "\r\n".
-	 * @param name the attribute to find
+	 * WTextArea's line breaks will be in Java format "\n whereas HTML
+	 * textarea's value has line breaks in the HTML specified format "\r\n".
+	 *
 	 * @return the value of the attribute
 	 */
 	@Override
-	public String getAttribute(final String name) {
-		if (VALUE_ATTTRIBUTE.equals(name)) {
-			return super.getAttribute(name).replaceAll("\r\n", "\n");
-		}
-		return super.getAttribute(name);
+	public String getValue() {
+
+		return super.getValue().replaceAll("\r\n", "\n");
 	}
 
 	/**
