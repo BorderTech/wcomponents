@@ -16,15 +16,20 @@ import com.github.bordertech.wcomponents.util.HtmlClassProperties;
  * Example showing how to use the {@link WRow} component.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WRowExample extends WPanel {
+	/**
+	 * A nice readable space.
+	 */
+	private static final GapSizeUtil.Size SPACE = GapSizeUtil.Size.MEDIUM;
 
 	/**
 	 * Creates a WRowExample.
 	 */
 	public WRowExample() {
-		setLayout(new FlowLayout(Alignment.VERTICAL, 0, 5));
+		setLayout(new FlowLayout(Alignment.VERTICAL, SPACE));
 
 		add(new WHeading(HeadingLevel.H2, "WRow / WCol"));
 
@@ -42,9 +47,9 @@ public class WRowExample extends WPanel {
 		add(createRow(null, new int[]{20, 20, 20, 20, 20}));
 
 		add(new WHeading(HeadingLevel.H2, "WRow / WCol with gap"));
-		add(createRow(GapSizeUtil.Size.MEDIUM, new int[]{33, 33, 33}));
-		add(createRow(GapSizeUtil.Size.MEDIUM, new int[]{25, 25, 25, 25}));
-		add(createRow(GapSizeUtil.Size.MEDIUM, new int[]{20, 20, 20, 20, 20}));
+		add(createRow(SPACE, new int[]{33, 33, 33}));
+		add(createRow(SPACE, new int[]{25, 25, 25, 25}));
+		add(createRow(SPACE, new int[]{20, 20, 20, 20, 20}));
 
 		add(new WHeading(HeadingLevel.H2, "WRow / WCol undefined width"));
 		add(createRow(null, new int[]{0, 0, 0}));

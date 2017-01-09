@@ -9,7 +9,8 @@ import com.github.bordertech.wcomponents.util.GapSizeUtil;
  * containing {@link WPanel} and so their content is arranged relative to each other at the top, middle or bottom of
  * the containing {@link WPanel} or so their baselines align.
  *
- * @author Yiannis Paschalidis, Mark Reeves
+ * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class FlowLayout implements LayoutManager {
@@ -135,6 +136,7 @@ public class FlowLayout implements LayoutManager {
 	 *
 	 * @deprecated use {@link #FlowLayout(Alignment, GapSizeUtil.Size)}
 	 */
+	@Deprecated
 	public FlowLayout(final Alignment alignment, final int hgap, final int vgap) {
 		this(alignment, Alignment.VERTICAL.equals(alignment) ? GapSizeUtil.intToSize(vgap) : GapSizeUtil.intToSize(hgap), null);
 	}
@@ -147,6 +149,7 @@ public class FlowLayout implements LayoutManager {
 	 * @param gap the required gap between components in the layout
 	 * @deprecated use {@link #FlowLayout(Alignment, GapSizeUtil.Size)}
 	 */
+	@Deprecated
 	public FlowLayout(final Alignment alignment, final int gap) {
 		this(alignment, GapSizeUtil.intToSize(gap), null);
 	}
@@ -175,8 +178,10 @@ public class FlowLayout implements LayoutManager {
 	 *
 	 * @deprecated use {@link #FlowLayout(Alignment, GapSizeUtil.Size, ContentAlignment)}
 	 */
+	@Deprecated
 	public FlowLayout(final Alignment alignment, final int hgap, final int vgap, final ContentAlignment contentAlignment) {
-		this(alignment, Alignment.VERTICAL.equals(alignment) ? GapSizeUtil.intToSize(vgap) : GapSizeUtil.intToSize(hgap), Alignment.VERTICAL.equals(alignment) ? null : contentAlignment);
+		this(alignment, Alignment.VERTICAL.equals(alignment) ? GapSizeUtil.intToSize(vgap) : GapSizeUtil.intToSize(hgap),
+				Alignment.VERTICAL.equals(alignment) ? null : contentAlignment);
 	}
 
 	/**
@@ -189,6 +194,7 @@ public class FlowLayout implements LayoutManager {
 	 * @param contentAlignment the alignment of the content in each cell when alignment is not vertical
 	 * @deprecated use {@link #FlowLayout(Alignment, GapSizeUtil.Size, ContentAlignment)
 	 */
+	@Deprecated
 	public FlowLayout(final Alignment alignment, final int gap, final ContentAlignment contentAlignment) {
 		this(alignment, GapSizeUtil.intToSize(gap), contentAlignment);
 	}
@@ -222,6 +228,7 @@ public class FlowLayout implements LayoutManager {
 	 * @return the horizontal gap between the cells, measured in pixels.
 	 * @deprecated use {@link #getGap()}
 	 */
+	@Deprecated
 	public int getHgap() {
 		return Alignment.VERTICAL.equals(alignment) ? 0 : GapSizeUtil.sizeToInt(gap);
 	}
@@ -230,6 +237,7 @@ public class FlowLayout implements LayoutManager {
 	 * @return the vertical gap between the cells, measured in pixels.
 	 * @deprecated use {@link #getGap()}
 	 */
+	@Deprecated
 	public int getVgap() {
 		return Alignment.VERTICAL.equals(alignment) ? GapSizeUtil.sizeToInt(gap) : 0;
 	}

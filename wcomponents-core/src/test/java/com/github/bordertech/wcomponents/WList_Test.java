@@ -10,6 +10,7 @@ import org.junit.Test;
  * Unit tests for {@link WList}.
  *
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WList_Test extends AbstractWComponentTestCase {

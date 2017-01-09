@@ -13,6 +13,7 @@ import org.xml.sax.SAXException;
  * Junit test case for {@link ListLayoutRenderer}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class ListLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {

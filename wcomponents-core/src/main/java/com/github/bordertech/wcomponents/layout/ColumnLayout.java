@@ -50,7 +50,6 @@ public class ColumnLayout implements LayoutManager {
 	 */
 	private final GapSizeUtil.Size vgap;
 
-
 	/**
 	 * Creates a ColumnLayout with the specified percentage column widths. Using a column width of 0 will make the width
 	 * undefined in the UI. This may then be used for application level styling with CSS for responsive design.

@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.util.GapSizeUtil;
  * GridLayout is a {@link LayoutManager} that emulates {@link java.awt.GridLayout}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class GridLayout implements LayoutManager {
@@ -40,7 +41,7 @@ public class GridLayout implements LayoutManager {
 	 * @param cols the columns, with the value zero meaning any number of columns.
 	 */
 	public GridLayout(final int rows, final int cols) {
-		this(rows, cols, 0, 0);
+		this(rows, cols, null, null);
 	}
 
 	/**

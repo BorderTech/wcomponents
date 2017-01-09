@@ -13,6 +13,7 @@ import com.github.bordertech.wcomponents.util.GapSizeUtil;
  * Example showing how to use the {@link ListLayout} component.
  *
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class ListLayoutExample extends WContainer {

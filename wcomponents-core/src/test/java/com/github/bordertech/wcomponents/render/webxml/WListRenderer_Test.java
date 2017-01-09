@@ -14,7 +14,8 @@ import org.xml.sax.SAXException;
 /**
  * Junit test case for {@link WListRenderer}.
  *
- * @author Yiannis Paschalidis, Mark Reeves
+ * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {

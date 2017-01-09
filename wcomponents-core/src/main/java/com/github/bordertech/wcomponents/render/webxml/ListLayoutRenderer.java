@@ -12,6 +12,7 @@ import com.github.bordertech.wcomponents.util.GapSizeUtil;
  * This {@link Renderer} renders the children of a {@link WPanel} which have been arranged using a {@link ListLayout}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 final class ListLayoutRenderer extends AbstractWebXmlRenderer {

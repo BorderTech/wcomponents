@@ -22,6 +22,7 @@ import java.math.BigDecimal;
  * Example showing how to use the {@link ListLayout} component.
  *
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class ListLayoutOptionExample extends WContainer {
@@ -37,7 +38,7 @@ public class ListLayoutOptionExample extends WContainer {
 	public ListLayoutOptionExample() {
 
 		final WPanel panel = new WPanel();
-		panel.setLayout(new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.CENTER, ListLayout.Separator.BAR, false, 0, 0));
+		panel.setLayout(new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.CENTER, ListLayout.Separator.BAR, false, null));
 
 		final WDropdown wdPanelType = new WDropdown();
 		wdPanelType.setOptions(WPanel.Type.values());
@@ -76,7 +77,6 @@ public class ListLayoutOptionExample extends WContainer {
 		layout.addField("Use ordered list", wcIsOrdered);
 		layout.addField("Space between items", rbsGap);
 
-
 		WButton button = new WButton("refresh");
 
 		layout.addField((WLabel) null, button);
@@ -87,8 +87,9 @@ public class ListLayoutOptionExample extends WContainer {
 			public void execute(final ActionEvent event) {
 				panel.setType((WPanel.Type) wdPanelType.getSelected());
 				GapSizeUtil.Size gap = rbsGap.getSelected() == null ? null : (GapSizeUtil.Size) rbsGap.getSelected();
-				panel.setLayout(new ListLayout((ListLayout.Type) wdListLayoutType.getSelected(), (ListLayout.Alignment) wdListLayoutAlignment.getSelected(), (ListLayout.Separator) wdListLayoutSeparator.getSelected(), wcIsOrdered.isSelected(), gap));
-
+				panel.setLayout(new ListLayout((ListLayout.Type) wdListLayoutType.getSelected(),
+						(ListLayout.Alignment) wdListLayoutAlignment.getSelected(), (ListLayout.Separator) wdListLayoutSeparator.getSelected(),
+						wcIsOrdered.isSelected(), gap));
 			}
 		});
 

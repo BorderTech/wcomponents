@@ -5,7 +5,8 @@ import com.github.bordertech.wcomponents.util.GapSizeUtil;
 /**
  * ListLayout renders out its items in a list.
  *
- * @author Yiannis Paschalidis, Mark Reeves
+ * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class ListLayout implements LayoutManager {
@@ -96,7 +97,7 @@ public class ListLayout implements LayoutManager {
 	 * HTML list.
 	 */
 	public ListLayout() {
-		this(Type.STACKED, Alignment.LEFT, Separator.DOT, false, 0);
+		this(Type.STACKED, Alignment.LEFT, Separator.DOT, false, null);
 	}
 
 	/**
@@ -104,7 +105,7 @@ public class ListLayout implements LayoutManager {
 	 * @param type The type of list to create.
 	 */
 	public ListLayout(final Type type) {
-		this(type, Alignment.LEFT, Separator.DOT, false, 0);
+		this(type, Alignment.LEFT, Separator.DOT, false, null);
 	}
 
 	/**
@@ -113,7 +114,7 @@ public class ListLayout implements LayoutManager {
 	 * @param ordered true to create an ordered list.
 	 */
 	public ListLayout(final boolean ordered) {
-		this(Type.STACKED, Alignment.LEFT, Separator.DOT, ordered, 0);
+		this(Type.STACKED, Alignment.LEFT, Separator.DOT, ordered, null);
 	}
 
 	/**
@@ -122,7 +123,7 @@ public class ListLayout implements LayoutManager {
 	 * @param alignment the alignment of the list relative to its containing WPanel.
 	 */
 	public ListLayout(final Type type, final Alignment alignment) {
-		this(type, alignment, Separator.DOT, false, 0);
+		this(type, alignment, Separator.DOT, false, null);
 	}
 
 	/**
@@ -134,7 +135,7 @@ public class ListLayout implements LayoutManager {
 	 * @param ordered whether the list is an ordered list.
 	 */
 	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered) {
-		this(type, alignment, separator, ordered, 0);
+		this(type, alignment, separator, ordered, null);
 	}
 
 	/**
@@ -149,6 +150,7 @@ public class ListLayout implements LayoutManager {
 	 *
 	 * @deprecated use {@link #ListLayout(Type, Alignment, Separator, boolean, GapSizeUtil.Size)}
 	 */
+	@Deprecated
 	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered, final int hgap, final int vgap) {
 		this(type, alignment, separator, ordered, type == Type.FLAT ? GapSizeUtil.intToSize(hgap) : GapSizeUtil.intToSize(vgap));
 	}
@@ -163,6 +165,7 @@ public class ListLayout implements LayoutManager {
 	 * @param gap the gap between the components added to the layouts.
 	 * @deprecated use {@link #ListLayout(Type, Alignment, Separator, boolean, GapSizeUtil.Size)}
 	 */
+	@Deprecated
 	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered, final int gap) {
 		this(type, alignment, separator, ordered, GapSizeUtil.intToSize(gap));
 	}
@@ -219,6 +222,7 @@ public class ListLayout implements LayoutManager {
 	 * @return the horizontal gap between the list items, measured in pixels.
 	 * @deprecated use {@link #getGap()}
 	 */
+	@Deprecated
 	public int getHgap() {
 		if (this.type == Type.FLAT) {
 			return GapSizeUtil.sizeToInt(gap);
@@ -230,6 +234,7 @@ public class ListLayout implements LayoutManager {
 	 * @return the vertical gap between the list items, measured in pixels.
 	 * @deprecated use {@link #getGap()}
 	 */
+	@Deprecated
 	public int getVgap() {
 		if (this.type == Type.FLAT) {
 			return 0;

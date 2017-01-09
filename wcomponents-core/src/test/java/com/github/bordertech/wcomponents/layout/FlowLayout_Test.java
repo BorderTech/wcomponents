@@ -7,7 +7,8 @@ import org.junit.Test;
 /**
  * FlowLayout_Test - unit tests for {@link FlowLayout}.
  *
- * @author Yiannis Paschalidis, Mark Reeves
+ * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class FlowLayout_Test {

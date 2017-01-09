@@ -18,12 +18,19 @@ import org.xml.sax.SAXException;
  * @since 1.0.0
  */
 public class WRowRenderer_Test extends AbstractWebXmlRendererTestCase {
+	/**
+	 * A small gap.
+	 */
+	private static final GapSizeUtil.Size GAP = GapSizeUtil.Size.SMALL;
+	/**
+	 * A big gap.
+	 */
+	private static final GapSizeUtil.Size BIG_GAP = GapSizeUtil.Size.LARGE;
 
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WRow component = new WRow();
-		Assert.assertTrue("Incorrect renderer supplied",
-				getWebXmlRenderer(component) instanceof WRowRenderer);
+		Assert.assertTrue("Incorrect renderer supplied", getWebXmlRenderer(component) instanceof WRowRenderer);
 	}
 
 	@Test
@@ -46,42 +53,10 @@ public class WRowRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	@Test
 	public void testRenderedWithSmallGap() throws IOException, SAXException, XpathException {
-		WRow row = new WRow(GapSizeUtil.Size.SMALL);
+		WRow row = new WRow(GAP);
 		row.add(new WColumn(100));
 		assertSchemaMatch(row);
-		assertXpathEvaluatesTo("sm", "//ui:row/@gap", row);
-	}
-
-	@Test
-	public void testRenderedWithMedGap() throws IOException, SAXException, XpathException {
-		WRow row = new WRow(GapSizeUtil.Size.MEDIUM);
-		row.add(new WColumn(100));
-		assertSchemaMatch(row);
-		assertXpathEvaluatesTo("med", "//ui:row/@gap", row);
-	}
-
-	@Test
-	public void testRenderedWithLargeGap() throws IOException, SAXException, XpathException {
-		WRow row = new WRow(GapSizeUtil.Size.LARGE);
-		row.add(new WColumn(100));
-		assertSchemaMatch(row);
-		assertXpathEvaluatesTo("lg", "//ui:row/@gap", row);
-	}
-
-	@Test
-	public void testRenderedWithXLGap() throws IOException, SAXException, XpathException {
-		WRow row = new WRow(GapSizeUtil.Size.XL);
-		row.add(new WColumn(100));
-		assertSchemaMatch(row);
-		assertXpathEvaluatesTo("xl", "//ui:row/@gap", row);
-	}
-
-	@Test
-	public void testRenderedWithZeroGap() throws IOException, SAXException, XpathException {
-		WRow row = new WRow(GapSizeUtil.Size.ZERO);
-		row.add(new WColumn(100));
-		assertSchemaMatch(row);
-		assertXpathEvaluatesTo("z", "//ui:row/@gap", row);
+		assertXpathEvaluatesTo(GAP.toString(), "//ui:row/@gap", row);
 	}
 
 	@Test
@@ -95,10 +70,10 @@ public class WRowRenderer_Test extends AbstractWebXmlRendererTestCase {
 		row.setMargin(margin);
 		assertXpathNotExists("//ui:row/ui:margin", row);
 
-		margin = new Margin(GapSizeUtil.Size.SMALL);
+		margin = new Margin(GAP);
 		row.setMargin(margin);
 		assertSchemaMatch(row);
-		assertXpathEvaluatesTo("sm", "//ui:row/ui:margin/@all", row);
+		assertXpathEvaluatesTo(GAP.toString(), "//ui:row/ui:margin/@all", row);
 		assertXpathEvaluatesTo("", "//ui:row/ui:margin/@north", row);
 		assertXpathEvaluatesTo("", "//ui:row/ui:margin/@east", row);
 		assertXpathEvaluatesTo("", "//ui:row/ui:margin/@south", row);
@@ -108,10 +83,10 @@ public class WRowRenderer_Test extends AbstractWebXmlRendererTestCase {
 		row.setMargin(margin);
 		assertSchemaMatch(row);
 		assertXpathEvaluatesTo("", "//ui:row/ui:margin/@all", row);
-		assertXpathEvaluatesTo("sm", "//ui:row/ui:margin/@north", row);
-		assertXpathEvaluatesTo("med", "//ui:row/ui:margin/@east", row);
-		assertXpathEvaluatesTo("lg", "//ui:row/ui:margin/@south", row);
-		assertXpathEvaluatesTo("xl", "//ui:row/ui:margin/@west", row);
+		assertXpathEvaluatesTo(GapSizeUtil.Size.SMALL.toString(), "//ui:row/ui:margin/@north", row);
+		assertXpathEvaluatesTo(GapSizeUtil.Size.MEDIUM.toString(), "//ui:row/ui:margin/@east", row);
+		assertXpathEvaluatesTo(GapSizeUtil.Size.LARGE.toString(), "//ui:row/ui:margin/@south", row);
+		assertXpathEvaluatesTo(GapSizeUtil.Size.XL.toString(), "//ui:row/ui:margin/@west", row);
 	}
 
 }

@@ -13,6 +13,7 @@ import com.github.bordertech.wcomponents.util.GapSizeUtil;
  * It is preferred that an application use {@link com.github.bordertech.wcomponents.WTemplate} for layout as this
  * provides for lighter payloads and more responsive UIs.
  */
+@Deprecated
 public class BorderLayout implements LayoutManager {
 
 	/**

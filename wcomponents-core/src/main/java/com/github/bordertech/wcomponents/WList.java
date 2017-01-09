@@ -13,6 +13,7 @@ import com.github.bordertech.wcomponents.util.GapSizeUtil;
  *
  * @author Adam Millard
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WList extends WRepeater implements Marginable {
@@ -173,6 +174,7 @@ public class WList extends WRepeater implements Marginable {
 	 * @return Returns the horizontal gap between the cells.
 	 * @deprecated use {@link #getGap()}
 	 */
+	@Deprecated
 	public int getHgap() {
 		if (getType() == Type.FLAT) {
 			return GapSizeUtil.sizeToInt(gap);
@@ -184,6 +186,7 @@ public class WList extends WRepeater implements Marginable {
 	 * @return Returns the vertical gap between the cells.
 	 * @deprecated use {@link #getGap()}
 	 */
+	@Deprecated
 	public int getVgap() {
 		if (getType() == Type.FLAT) {
 			return 0;

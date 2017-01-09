@@ -39,6 +39,7 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	 * @param hgap the horizontal gap between the columns in the row, measured in pixels
 	 * @deprecated use {@link #WRow(com.github.bordertech.wcomponents.util.GapSizeUtil.Size)}
 	 */
+	@Deprecated
 	public WRow(final int hgap) {
 		this(GapSizeUtil.intToSize(hgap));
 	}
@@ -65,6 +66,7 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	 * @return the horizontal gap between the columns in the row, measured in pixels
 	 * @deprecated use {@link #getGap()}
 	 */
+	@Deprecated
 	public int getHgap() {
 		return GapSizeUtil.sizeToInt(gap);
 	}

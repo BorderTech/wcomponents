@@ -14,6 +14,7 @@ import java.util.List;
  * The Renderer for the {@link WList} component.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 final class WListRenderer extends AbstractWebXmlRenderer {
