@@ -42,6 +42,7 @@ import org.apache.commons.logging.LogFactory;
  * </p>
  *
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WTable extends WBeanComponent implements Container, AjaxInternalTrigger, AjaxTarget, SubordinateTarget,
@@ -600,8 +601,9 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	 * @deprecated the summary field has been removed from the client side. API preserved temporarily for backwards
 	 * compatibility.
 	 */
+	@Deprecated
 	public String getSummary() {
-		return I18nUtilities.format(null, getComponentModel().summary);
+		return null;
 	}
 
 	/**
@@ -611,8 +613,9 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 	 * @deprecated the summary field has been removed from the client side. API preserved temporarily for backwards
 	 * compatibility.
 	 */
+	@Deprecated
 	public void setSummary(final String summary) {
-		getOrCreateComponentModel().summary = summary;
+		// NO_OP
 	}
 
 	/**
