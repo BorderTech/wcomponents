@@ -285,6 +285,11 @@
 				<xsl:value-of select="@buttonId" />
 			</xsl:attribute>
 		</xsl:if>
+		<xsl:if test="@submitOnChange and not(@list)">
+			<xsl:attribute name="class">
+				<xsl:text>wc_soc</xsl:text>
+			</xsl:attribute>
+		</xsl:if>
 	</xsl:template>
 	
 	<xsl:template name="wrappedTextInputAttributes">
@@ -308,11 +313,6 @@
 						<xsl:text>{{t 'requiredPlaceholder'}}</xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
-			</xsl:attribute>
-		</xsl:if>
-		<xsl:if test="@submitOnChange and not(@list)">
-			<xsl:attribute name="class">
-				<xsl:text>wc_soc</xsl:text>
 			</xsl:attribute>
 		</xsl:if>
 	</xsl:template>
