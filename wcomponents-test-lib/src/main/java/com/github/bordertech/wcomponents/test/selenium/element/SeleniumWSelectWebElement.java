@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.test.selenium.element;
 
 import com.github.bordertech.wcomponents.util.SystemException;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -11,12 +12,17 @@ import org.openqa.selenium.WebElement;
  * @author Joshua Barclay
  * @since 1.2.0
  */
-public class SeleniumWSelectWebElement extends SeleniumWComponentWebElement {
+public class SeleniumWSelectWebElement extends SeleniumWComponentInputWebElement {
 
 	/**
-	 * The table itself is a 'table' entity, but the element containing all the controls is the wrapper div.
+	 * The select element's tag name.
 	 */
 	public static final String TAG_NAME = "select";
+
+	/**
+	 * The tag name for a read-only select element.
+	 */
+	public static final String READ_ONLY_TAG = "span";
 
 	/**
 	 * The CSS Selector for a selected option.
@@ -34,6 +40,11 @@ public class SeleniumWSelectWebElement extends SeleniumWComponentWebElement {
 	public static final String SELECTOR_LAST_OPTION = "option:last-of-type";
 
 	/**
+	 * The CSS Selector for the Nth option.
+	 */
+	public static final String SELECTOR_NTH_OPTION = "option:nth-child(%s)";
+
+	/**
 	 * Default constructor for this element.
 	 *
 	 * @param element the WebElement
@@ -44,17 +55,38 @@ public class SeleniumWSelectWebElement extends SeleniumWComponentWebElement {
 
 		final String elementTag = element.getTagName();
 
-		if (!elementTag.equals(TAG_NAME)) {
+		if (!elementTag.equals(TAG_NAME) && !elementTag.equals(READ_ONLY_TAG)) {
 
-			throw new SystemException("Incorrect element selected for SeleniumWSelectWebElement. Expected select but found: " + elementTag);
+			throw new SystemException("Incorrect element selected for SeleniumWSelectWebElement. Expected " + TAG_NAME + " or " + READ_ONLY_TAG + " but found: " + elementTag);
 		}
 	}
 
 	/**
-	 * @return the selected option for this select.
+	 * @return the value of the selected option, or null if no selected
+	 * option.
+	 */
+	@Override
+	public String getValue() {
+		if (isReadOnly()) {
+			return getText();
+		}
+
+		SeleniumWComponentWebElement selected = getSelectedOption();
+		return selected == null ? null : selected.getText();
+	}
+
+	/**
+	 * @return the selected option for this select, or null if none
+	 * selected.
 	 */
 	public SeleniumWComponentWebElement getSelectedOption() {
-		return findElement(By.cssSelector(SELECTOR_SELECTED_OPTION));
+		try {
+			return findElement(By.cssSelector(SELECTOR_SELECTED_OPTION));
+		} catch (final NoSuchElementException nsee) {
+			//There is not a selected element - return null.
+			return null;
+		}
+
 	}
 
 	/**
@@ -70,4 +102,13 @@ public class SeleniumWSelectWebElement extends SeleniumWComponentWebElement {
 	public SeleniumWComponentWebElement getLastOption() {
 		return findElement(By.cssSelector(SELECTOR_LAST_OPTION));
 	}
+
+	/**
+	 * @return the Nth option for this select.
+	 * @param optionNumber - the
+	 */
+	public SeleniumWComponentWebElement getNthOption(final int optionNumber) {
+		return findElement(By.cssSelector(String.format(SELECTOR_NTH_OPTION, optionNumber)));
+	}
+
 }

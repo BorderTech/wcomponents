@@ -80,10 +80,20 @@ public class WSingleSelectExample extends WContainer {
 		};
 		addFieldToLayout(sSelect, "Simple Select list, with custom \"null\" selection text", null);
 
+		sSelect = new WSingleSelect(OPTIONS_ARRAY);
+		sSelect.setSelected(OPTIONS_ARRAY[1]);
+		sSelect.setReadOnly(true);
+		addFieldToLayout(sSelect, "Simple Select list, read-only", null);
+
+		sSelect = new WSingleSelect(OPTIONS_ARRAY);
+		sSelect.setSelected(OPTIONS_ARRAY[1]);
+		sSelect.setDisabled(true);
+		addFieldToLayout(sSelect, "Simple Select list, disabled", null);
+
 		sSelect = new WSingleSelect(people);
 		sSelect.setRows(3);
 		addFieldToLayout(sSelect, "Select list with a list of beans",
-				"This is an example sSelect with data from a non-textual source.");
+			"This is an example sSelect with data from a non-textual source.");
 
 		sSelect = new WSingleSelect(peopleOptions);
 		sSelect.setRows(3);
@@ -98,18 +108,18 @@ public class WSingleSelectExample extends WContainer {
 		sSelect = new WSingleSelect("icao");
 		sSelect.setRows(10);
 		addFieldToLayout(sSelect, "Select list with cached data from a look up table",
-				"see ExampleLookupTable for data");
+			"see ExampleLookupTable for data");
 
 		sSelect = new WSingleSelect(new TableWithNullOption("icao"));
 		sSelect.setRows(10);
 		addFieldToLayout(sSelect,
-				"Select list with cached data from a look up table with Null Option",
-				"see ExampleLookupTable for data");
+			"Select list with cached data from a look up table with Null Option",
+			"see ExampleLookupTable for data");
 
 		sSelect = new WSingleSelect(new TableWithNullOption("icao", "Select one please"));
 		sSelect.setRows(10);
 		addFieldToLayout(sSelect, "Select list with cached data with a custom null option",
-				"see ExampleLookupTable for data");
+			"see ExampleLookupTable for data");
 
 		add(layout);
 		add(new WButton("submit"));
@@ -200,7 +210,8 @@ public class WSingleSelectExample extends WContainer {
 	}
 
 	/**
-	 * Applications can wrap options inside lists in order to provide custom text and values for the drop down.
+	 * Applications can wrap options inside lists in order to provide custom
+	 * text and values for the drop down.
 	 */
 	private static final class PersonOption implements Option, Serializable {
 
@@ -243,7 +254,7 @@ public class WSingleSelectExample extends WContainer {
 	 * @param labelHint the optional label hint for the field.
 	 */
 	private void addFieldToLayout(final WComponent input, final String labelText,
-			final String labelHint) {
+		final String labelHint) {
 		WField field = layout.addField(labelText, input);
 
 		if (labelHint != null) {
