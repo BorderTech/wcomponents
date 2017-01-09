@@ -86,7 +86,7 @@ public class WList extends WRepeater implements Marginable {
 	 *
 	 * @param type the list type.
 	 * @param gap the gap between the list items
-	 * @deprecated use {@link #WList(cType, GapSizeUtil.Size)}
+	 * @deprecated use {@link #WList(Type, GapSizeUtil.Size)}
 	 */
 	@Deprecated
 	public WList(final Type type, final int gap) {

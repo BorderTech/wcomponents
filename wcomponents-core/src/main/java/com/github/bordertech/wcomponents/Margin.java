@@ -51,8 +51,9 @@ public class Margin implements Serializable {
 
 	/**
 	 * @param all the size of the margin to be used on all sides of the component.
-	 * @deprecated 1.4.0 use {@link #Margin(Size)}
+	 * @deprecated 1.4.0 use {@link #Margin(GapSizeUtil.Size)}
 	 */
+	@Deprecated
 	public Margin(final int all) {
 		this(GapSizeUtil.intToSize(all));
 	}
@@ -80,7 +81,7 @@ public class Margin implements Serializable {
 	 * @param east the size of the east margin.
 	 * @param south the size of the south margin.
 	 * @param west the size of the west margin.
-	 * @deprecated 1.4.0 use {@link #Margin(Size, Size, Size, Size)}
+	 * @deprecated 1.4.0 use {@link #Margin(GapSizeUtil.Size, GapSizeUtil.Size, GapSizeUtil.Size, GapSizeUtil.Size)}
 	 */
 	public Margin(final int north, final int east, final int south, final int west) {
 		this(GapSizeUtil.intToSize(north), GapSizeUtil.intToSize(east), GapSizeUtil.intToSize(south), GapSizeUtil.intToSize(west));

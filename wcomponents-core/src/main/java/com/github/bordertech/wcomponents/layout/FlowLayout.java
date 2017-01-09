@@ -192,7 +192,7 @@ public class FlowLayout implements LayoutManager {
 	 * @param alignment the required alignment
 	 * @param gap the required gap between components in the layout
 	 * @param contentAlignment the alignment of the content in each cell when alignment is not vertical
-	 * @deprecated use {@link #FlowLayout(Alignment, GapSizeUtil.Size, ContentAlignment)
+	 * @deprecated use {@link #FlowLayout(Alignment, GapSizeUtil.Size, ContentAlignment)}
 	 */
 	@Deprecated
 	public FlowLayout(final Alignment alignment, final int gap, final ContentAlignment contentAlignment) {
