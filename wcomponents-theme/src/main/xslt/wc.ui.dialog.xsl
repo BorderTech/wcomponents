@@ -11,19 +11,11 @@
 	<xsl:template match="ui:dialog" mode="JS">
 		<xsl:text>{"id":"</xsl:text>
 		<xsl:value-of select="@id"/>
-		<xsl:text>","form":"</xsl:text>
-		<xsl:choose>
-			<xsl:when test="ancestor::ui:application">
-				<xsl:value-of select="ancestor::ui:application/@id"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="ancestor::*[@id][1]/@id"/>
-			</xsl:otherwise>
-		</xsl:choose>
 		<xsl:text>"</xsl:text>
 		<xsl:if test="@class">
-			<xsl:text>,"className":</xsl:text>
+			<xsl:text>,"className":"</xsl:text>
 			<xsl:value-of select="@class"/>
+			<xsl:text>"</xsl:text>
 		</xsl:if>
 		<xsl:if test="@width">
 			<xsl:text>,"width":</xsl:text>
@@ -58,7 +50,7 @@
 			</xsl:choose>
 			<xsl:text>"</xsl:text>
 		</xsl:if>
-		<xsl:if test="(ui:content and //ui:dialog[ui:content][1] eq .) or (@open and not(//ui:dialog/ui:content) and //ui:dialog[@open][1] eq .)">
+		<xsl:if test="@open">
 			<xsl:text>,"open":true</xsl:text>
 		</xsl:if>
 		<xsl:text>}</xsl:text>
