@@ -11,7 +11,7 @@ public final class GapSizeUtil {
 	 */
 	public enum Size {
 		/**
-		 * No gap. Used to remove innate margins (for example).
+		 * Explicit zero gap. Used to remove innate margins (for example).
 		 */
 		ZERO ("z"),
 		/**
