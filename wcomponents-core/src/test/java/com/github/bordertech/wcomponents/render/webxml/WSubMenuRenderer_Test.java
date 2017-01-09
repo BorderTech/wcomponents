@@ -61,7 +61,7 @@ public class WSubMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 		subMenu.setAccessKey('A');
 
 		// Open on first paint
-		assertXpathEvaluatesTo("true", "//ui:submenu/@open", menu);
+		assertXpathNotExists("//ui:submenu/@open", menu);
 		// Closed on second paint
 		assertXpathNotExists("//ui:submenu/@open", menu);
 
@@ -96,6 +96,16 @@ public class WSubMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 		subMenu.setMode(WSubMenu.MenuMode.SERVER);
 		assertSchemaMatch(menu);
 		assertXpathEvaluatesTo("dynamic", "//ui:submenu/@mode", menu);
+	}
+
+	@Test
+	public void testOpenTree() throws IOException, SAXException, XpathException {
+		WMenu menu = new WMenu(WMenu.MenuType.TREE);
+		WSubMenu subMenu = new WSubMenu("SubMenu");
+		menu.add(subMenu);
+		subMenu.add(new WMenuItem("Item"));
+		subMenu.setOpen(true);
+		assertXpathEvaluatesTo("true", "//ui:submenu/@open", menu);
 	}
 
 	@Test

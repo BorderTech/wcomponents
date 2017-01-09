@@ -2,8 +2,10 @@ package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.AjaxHelper;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WSubMenu;
 import com.github.bordertech.wcomponents.WSubMenu.MenuMode;
+import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.SystemException;
@@ -13,9 +15,23 @@ import com.github.bordertech.wcomponents.util.Util;
  * The Renderer for {@link WSubMenu}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 final class WSubMenuRenderer extends AbstractWebXmlRenderer {
+
+	/**
+	 * Only SubMenus in a TREE are allowed to be open.
+	 * @param submenu the WSubMenu to test
+	 * @return the open state of submenus inside a tree or false for all other submenus
+	 */
+	private boolean isOpen(final WSubMenu submenu) {
+		if (!submenu.isOpen()) {
+			return false;
+		}
+		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, submenu);
+		return menu != null && WMenu.MenuType.TREE == menu.getType();
+	}
 
 	/**
 	 * Paints the given WSubMenu.
@@ -32,7 +48,7 @@ final class WSubMenuRenderer extends AbstractWebXmlRenderer {
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("open", menu.isOpen(), "true");
+		xml.appendOptionalAttribute("open", isOpen(menu), "true");
 		xml.appendOptionalAttribute("disabled", menu.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", menu.isHidden(), "true");
 

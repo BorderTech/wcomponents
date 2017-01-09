@@ -4,49 +4,7 @@
 	<xsl:import href="wc.common.accessKey.xsl"/>
 	<!-- Transform for WSubMenu. -->
 	<xsl:template match="ui:submenu">
-		<xsl:variable name="myAncestorMenu" select="ancestor::ui:menu[1]"/>
-		<xsl:variable name="myAncestorSubmenu" select="ancestor::ui:submenu[not(ancestor::ui:menu) or ancestor::ui:menu[1] eq $myAncestorMenu][1]"/>
 		<xsl:variable name="id" select="@id"/>
-		<!-- this is a test for ui:submenu in an ajax response without its context menu -->
-		<xsl:variable name="noContextMenu">
-			<xsl:choose>
-				<xsl:when test="not($myAncestorMenu)">
-					<xsl:number value="1"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:number value="0"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:variable name="stickyOpen">
-			<xsl:choose>
-				<xsl:when test="$myAncestorMenu">
-					<xsl:choose>
-						<!-- if type is not defined we are calling it from a submenu in an ajax response and do not allow anything to be open -->
-						<xsl:when test="$myAncestorMenu/@type eq 'tree'">
-							<xsl:number value="1"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:number value="0"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:when>
-				<xsl:otherwise>
-					<!--allow AJAX sub menus to be open when they arrive -->
-					<xsl:number value="1"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:variable name="open">
-			<xsl:choose>
-				<xsl:when test="@open and number($stickyOpen) eq 1">
-					<xsl:number value="1"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:number value="0"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
 		<div id="{$id}" role="presentation"><!-- the presentation role is redundant but stops AXS from whining. -->
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:call-template name="makeCommonClass"/>
@@ -55,58 +13,32 @@
 					<xsl:value-of select="@selectMode"/>
 				</xsl:attribute>
 			</xsl:if>
-			<!--
-				Determination of disabled state
-
-				A WSubMenu can be disabled itself, it can be disabled by being a descendant of a disabled WSubMenu or it can be disabled by being the
-				descendant of a disabled 	WMenu.
-
-				A simple ancestor lookup is insufficient because a WSubMenu will not be disabled if it is a descendant of any disabled component (such
-				as a disabled table row).
-
-				Having to test for disabled before calling the disabled helper is cumbersome but unfortunately necessary.
-
-				NOTE: this is outside of the $myAncestor test because we need to reuse it. We still have to re-check the disabled state after ajax.
-			-->
-			<xsl:variable name="this" select="."/>
-			<xsl:variable name="disabledAncestor" select="ancestor-or-self::*[@disabled and
-									(self::ui:submenu[. eq $this] or
-									($myAncestorMenu and 
-										(self::ui:menu[. eq $myAncestorMenu] or 
-										self::ui:submenu[ancestor::ui:menu[1] eq $myAncestorMenu])) or
-									(number($noContextMenu) eq 1 and self::ui:submenu))]"/>
-			<xsl:if test="$disabledAncestor">
-				<xsl:call-template name="disabledElement">
-					<xsl:with-param name="field" select="$disabledAncestor"/>
-				</xsl:call-template>
-			</xsl:if>
+			<xsl:call-template name="disabledElement"/>
 			<!-- This is the submenu opener/label element. -->
 			<button type="button" id="{concat($id, '_o')}" name="{$id}" class="wc-nobutton wc-invite wc-submenu-o" aria-controls="{$id}" aria-haspopup="true">
 				<xsl:attribute name="aria-pressed">
 					<xsl:choose>
-						<xsl:when test="number($open) eq 1">true</xsl:when>
+						<xsl:when test="@open">true</xsl:when>
 						<xsl:otherwise>false</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
 				<xsl:call-template name="title"/>
-				<!-- see above for how we determine disabled state: it is ugly -->
-				<xsl:if test="$disabledAncestor">
-					<xsl:call-template name="disabledElement">
-						<xsl:with-param name="field" select="$disabledAncestor"/>
-						<xsl:with-param name="isControl" select="1"/>
-					</xsl:call-template>
-				</xsl:if>
-				<xsl:if test="@accessKey and $myAncestorMenu and not($myAncestorSubmenu)">
-					<!-- 
-						Only set an accesskey if we are in the top level of a menu. If we have no context menu we are obviously not in the top 
-						level
-					-->
-					<xsl:call-template name="accessKey"/>
-				</xsl:if>
+				<xsl:call-template name="disabledElement">
+					<xsl:with-param name="isControl" select="1"/>
+				</xsl:call-template>
 				<xsl:apply-templates select="ui:decoratedlabel"/>
 			</button>
 			<xsl:apply-templates select="ui:content" mode="submenu">
-				<xsl:with-param name="open" select="$open"/>
+				<xsl:with-param name="open">
+					<xsl:choose>
+						<xsl:when test="@open">
+							<xsl:number value="1"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:number value="0"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:with-param>
 			</xsl:apply-templates>
 		</div>
 	</xsl:template>

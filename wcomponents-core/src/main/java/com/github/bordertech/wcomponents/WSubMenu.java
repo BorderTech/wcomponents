@@ -22,7 +22,7 @@ import java.util.List;
  *
  *
  * @author Adam Millard
- * @author Yiannis Paschalidis - re-written to not extend WButton.
+ * @author Yiannis Paschalidis
  * @author Mark Reeves
  */
 public class WSubMenu extends AbstractNamingContextContainer implements Disableable, MenuSelectContainer, MenuItemSelectable {
@@ -223,14 +223,21 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 */
 	@Override
 	public boolean isDisabled() {
-		boolean disabled = false;
-
-		MenuContainer container = (MenuContainer) WebUtilities.getAncestorOfClass(MenuContainer.class, this);
-		if (container instanceof MenuItemGroup && container instanceof Disableable) {
-			disabled = ((Disableable) container).isDisabled();
+		if (isFlagSet(ComponentModel.DISABLED_FLAG)) {
+			return true;
 		}
 
-		return disabled || isFlagSet(ComponentModel.DISABLED_FLAG);
+		MenuContainer container = (MenuContainer) WebUtilities.getAncestorOfClass(MenuContainer.class, this);
+		if (container instanceof MenuItemGroup && container instanceof Disableable && ((Disableable) container).isDisabled()) {
+			return true;
+		}
+
+		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, this);
+		if (menu != null && menu.isDisabled()) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

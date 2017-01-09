@@ -8,6 +8,7 @@ import org.junit.Test;
  * WSubMenu_Test - Unit tests for {@link WSubMenu}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WSubMenu_Test extends AbstractWComponentTestCase {
@@ -176,6 +177,16 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testDisabledAccessors() {
 		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "disabled", false, true, false);
+	}
+
+	@Test
+	public void testDisabledFromMenuAncestor() {
+		WMenu menu = new WMenu();
+		WSubMenu submenu = new WSubMenu(TEST_TEXT);
+		menu.add(submenu);
+		Assert.assertFalse(submenu.isDisabled());
+		menu.setDisabled(true);
+		Assert.assertTrue(submenu.isDisabled());
 	}
 
 	@Test
