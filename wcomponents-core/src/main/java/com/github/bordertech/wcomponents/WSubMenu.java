@@ -308,7 +308,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 */
 	@Deprecated
 	public Boolean isSelectable() {
-		return null;
+		return getSelectability();
 	}
 
 	/**
@@ -325,9 +325,8 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable see WTree.
 	 */
 	@Override
-	@Deprecated
-	public final Boolean getSelectability() {
-		return null;
+	public Boolean getSelectability() {
+		return getComponentModel().selectability;
 	}
 
 	/**
@@ -664,6 +663,11 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 		 * Indicates whether the sub-menu supports selection of multiple menu-items.
 		 */
 		private SelectionMode selectionMode = SelectionMode.NONE;
+
+		/**
+		 * Indicates whether the sub-menu itself can be selected (e.g. for column menus).
+		 */
+		private Boolean selectability;
 
 		/**
 		 * The action to execute when the menu item is selected.
