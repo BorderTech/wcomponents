@@ -324,19 +324,20 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 * {@inheritDoc}
 	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable see WTree.
 	 */
+	@Deprecated
 	@Override
-	public Boolean getSelectability() {
+	public final Boolean getSelectability() {
 		return getComponentModel().selectability;
 	}
 
 	/**
-	 * @param selectability true if this item is selectable, false if not, or null to default to the container.
+	 * {@inheritDoc}
 	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable see WTree.
 	 */
 	@Override
 	@Deprecated
 	public final void setSelectability(final Boolean selectability) {
-		// NO OP
+		getOrCreateComponentModel().selectability = selectability;
 	}
 
 	/**

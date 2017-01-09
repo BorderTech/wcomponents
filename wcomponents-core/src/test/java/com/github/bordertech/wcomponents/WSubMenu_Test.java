@@ -238,19 +238,7 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSelectabilityAccessors() {
-
-		WSubMenu item = new WSubMenu("");
-		Assert.assertNull("Selectability should be null by default", item.getSelectability());
-
-		item.setSelectability(Boolean.FALSE);
-		item.setLocked(true);
-		setActiveContext(createUIContext());
-		item.setSelectability(Boolean.TRUE);
-
-		Assert.assertNull("Selectability should be null as setSelectability is a no-op", item.getSelectability());
-
-		resetContext();
-		Assert.assertNull("Selectability should be null as setSelectability is a no-op", item.getSelectability());
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "selectability", null, true, false);
 	}
 
 	@Test
