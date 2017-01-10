@@ -576,6 +576,10 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				finally {
 					controller.show(parent);
 				}
+			},
+			testIsHiddenHTMLSyntax: function() {
+				var element = document.getElementById("hiddenhtmlsyntax");
+				assert.isTrue(controller.isHidden(element));
 			}
 		});
 	});
