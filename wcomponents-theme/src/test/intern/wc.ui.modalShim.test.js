@@ -7,7 +7,8 @@ define(["intern!object", "intern/chai!assert", "wc/ui/modalShim", "wc/dom/shed"]
 		 * TODO: Add functional tests to test event handlers.
 		 */
 
-		var SHIM_ID = "wc-shim", // must be the same as the id used in wc/ui/modalShim
+		var testHolder,
+			SHIM_ID = "wc-shim", // must be the same as the id used in wc/ui/modalShim
 			testContent = "\
 				<div id='" + SHIM_ID + "'>\n\
 					<div id='inneractiveregion'>\n\
@@ -63,12 +64,26 @@ define(["intern!object", "intern/chai!assert", "wc/ui/modalShim", "wc/dom/shed"]
 
 		registerSuite({
 			name: "modalShim",
+			setup: function() {
+				var shim = document.getElementById(SHIM_ID);
+				if (shim) {
+					shim.parentNode.removeChild(shim);
+				}
+				testHolder = document.getElementById("testholder");
+				if (!testHolder) {
+					document.body.insertAdjacentHTML("beforeend", "<div id='testholder'></div>");
+					testHolder = document.getElementById("testholder");
+				}
+			},
+			teardown: function() {
+				testHolder.innerHTML = "";
+			},
 			beforeEach: function() {
 				// we call clearModal twice - once to reset all of the old settings, remove events etc then again after resetting the innerHTML
 				// to ensure the new modal is in the cleared state.
-				controller.clearModal(); // ensure everything is cleared out.
-				document.body.innerHTML = testContent;
-				controller.clearModal(); // make sure the new shim is hidden
+				controller.clearModal();
+				testHolder.innerHTML = testContent;
+				controller.clearModal(); // set up he new shim and make sure it is hidden
 				notified = false;
 			},
 			afterEach: function() {
