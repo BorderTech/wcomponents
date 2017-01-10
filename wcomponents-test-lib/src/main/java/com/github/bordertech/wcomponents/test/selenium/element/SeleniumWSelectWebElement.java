@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
-import com.github.bordertech.wcomponents.util.SystemException;
+import java.util.Arrays;
+import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -13,16 +14,10 @@ import org.openqa.selenium.WebElement;
  * @since 1.2.0
  */
 public class SeleniumWSelectWebElement extends SeleniumWComponentInputWebElement {
-
 	/**
-	 * The select element's tag name.
+	 * HTML attributes applied to the input element.
 	 */
-	public static final String TAG_NAME = "select";
-
-	/**
-	 * The tag name for a read-only select element.
-	 */
-	public static final String READ_ONLY_TAG = "span";
+	private static final List<String> INPUT_ATTRIBUTES = Arrays.asList("disabled", "required");
 
 	/**
 	 * The CSS Selector for a selected option.
@@ -45,6 +40,11 @@ public class SeleniumWSelectWebElement extends SeleniumWComponentInputWebElement
 	public static final String SELECTOR_NTH_OPTION = "option:nth-child(%s)";
 
 	/**
+	 * HTML tagName for select elements.
+	 */
+	public static final String SELECT_TAG = "select";
+
+	/**
 	 * Default constructor for this element.
 	 *
 	 * @param element the WebElement
@@ -53,11 +53,9 @@ public class SeleniumWSelectWebElement extends SeleniumWComponentInputWebElement
 	public SeleniumWSelectWebElement(final WebElement element, final WebDriver driver) {
 		super(element, driver);
 
-		final String elementTag = element.getTagName();
-
-		if (!elementTag.equals(TAG_NAME) && !elementTag.equals(READ_ONLY_TAG)) {
-
-			throw new SystemException("Incorrect element selected for SeleniumWSelectWebElement. Expected " + TAG_NAME + " or " + READ_ONLY_TAG + " but found: " + elementTag);
+		final String tagName = element.getTagName();
+		if (!tagName.equals(TOP_LEVEL_TAG)) {
+			throw new IllegalArgumentException("Element is not the expected wrapper. tag=[" + tagName + "].");
 		}
 	}
 
@@ -81,26 +79,25 @@ public class SeleniumWSelectWebElement extends SeleniumWComponentInputWebElement
 	 */
 	public SeleniumWComponentWebElement getSelectedOption() {
 		try {
-			return findElement(By.cssSelector(SELECTOR_SELECTED_OPTION));
+			return getInputField().findElement(By.cssSelector(SELECTOR_SELECTED_OPTION));
 		} catch (final NoSuchElementException nsee) {
 			//There is not a selected element - return null.
 			return null;
 		}
-
 	}
 
 	/**
 	 * @return the last option for this select.
 	 */
 	public SeleniumWComponentWebElement getFirstOption() {
-		return findElement(By.cssSelector(SELECTOR_FIRST_OPTION));
+		return getInputField().findElement(By.cssSelector(SELECTOR_FIRST_OPTION));
 	}
 
 	/**
 	 * @return the last option for this select.
 	 */
 	public SeleniumWComponentWebElement getLastOption() {
-		return findElement(By.cssSelector(SELECTOR_LAST_OPTION));
+		return getInputField().findElement(By.cssSelector(SELECTOR_LAST_OPTION));
 	}
 
 	/**
@@ -108,7 +105,32 @@ public class SeleniumWSelectWebElement extends SeleniumWComponentInputWebElement
 	 * @param optionNumber - the
 	 */
 	public SeleniumWComponentWebElement getNthOption(final int optionNumber) {
-		return findElement(By.cssSelector(String.format(SELECTOR_NTH_OPTION, optionNumber)));
+		return getInputField().findElement(By.cssSelector(String.format(SELECTOR_NTH_OPTION, optionNumber)));
 	}
 
+	/**
+	 * Some attributes are applied to the wrapper, some to the input. This
+	 * override sorts out which is which.
+	 *
+	 * @param name the name of the attribute to find
+	 * @return the value of the attribute
+	 */
+	@Override
+	public String getAttribute(final String name) {
+		if (INPUT_ATTRIBUTES.contains(name)) {
+			if (isReadOnly()) {
+				return null;
+			}
+			return getInputField().getAttribute(name);
+		}
+		return super.getAttribute(name);
+	}
+
+	@Override
+	public SeleniumWComponentWebElement getInputField() {
+		if (isReadOnly()) {
+			return null;
+		}
+		return findElement(By.tagName(SELECT_TAG));
+	}
 }

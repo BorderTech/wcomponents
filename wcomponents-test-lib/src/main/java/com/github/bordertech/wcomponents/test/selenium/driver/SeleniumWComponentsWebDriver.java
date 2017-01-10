@@ -2,11 +2,14 @@ package com.github.bordertech.wcomponents.test.selenium.driver;
 
 import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
-import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponentWebElement;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWCheckBoxWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponentWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWDialogWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWEmailFieldWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWPhoneNumberFieldWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWRadioButtonWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWSelectWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTableWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextAreaWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextFieldWebElement;
@@ -223,6 +226,51 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 */
 	public SeleniumWTableWebElement findWTable(final By by) {
 		return new SeleniumWTableWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WCheckBox by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWCheckBoxWebElement or null if not found.
+	 */
+	public SeleniumWCheckBoxWebElement findWCheckBox(final By by) {
+		return new SeleniumWCheckBoxWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WRadioButton by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWRadioButtonWebElement or null if not found.
+	 */
+	public SeleniumWRadioButtonWebElement findWRadioButton(final By by) {
+		return new SeleniumWRadioButtonWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WDropdown by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWRadioButtonWebElement or null if not found.
+	 */
+	public SeleniumWSelectWebElement findWDropdown(final By by) {
+		return new SeleniumWSelectWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WSingleSelect by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWRadioButtonWebElement or null if not found.
+	 */
+	public SeleniumWSelectWebElement findWSingleSelect(final By by) {
+		return new SeleniumWSelectWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WMultieSelect by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWRadioButtonWebElement or null if not found.
+	 */
+	public SeleniumWSelectWebElement findWMultiSelect(final By by) {
+		return new SeleniumWSelectWebElement(findElement(by), this);
 	}
 
 	/**

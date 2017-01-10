@@ -39,7 +39,7 @@ public class SeleniumWComponentWebElement implements WebElement {
 	 */
 	public SeleniumWComponentWebElement(final WebElement element, final WebDriver driver) {
 		if (element == null) {
-			throw new IllegalArgumentException("WComponetWebElement cannot wrap a null element.");
+			throw new IllegalArgumentException("WComponentWebElement cannot wrap a null element.");
 		}
 		if (driver == null) {
 			throw new IllegalArgumentException("driver must not be null.");
@@ -216,6 +216,14 @@ public class SeleniumWComponentWebElement implements WebElement {
 	@Override
 	public <X> X getScreenshotAs(final OutputType<X> ot) throws WebDriverException {
 		return element.getScreenshotAs(ot);
+	}
+
+	/**
+	 * Get the id of the default "active" part of the component. This may not be the WComponent id.
+	 * @return the active component's id, by default this is the WComponent id.
+	 */
+	public String getActiveId() {
+		return getAttribute("id");
 	}
 
 }

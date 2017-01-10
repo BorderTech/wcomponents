@@ -83,7 +83,8 @@ public class SimplePaginationWithRowOptionsTableExample_Test extends WComponentE
 	 * @param backwardsButtonsEnabled the expected state of the back buttons.
 	 * @param forwardsButtonsEnabled the expected state of the forward buttons.
 	 */
-	private void assertPageButtons(final SeleniumWTableWebElement table, final int firstResult, final int lastResult, final boolean backwardsButtonsEnabled, final boolean forwardsButtonsEnabled) {
+	private void assertPageButtons(final SeleniumWTableWebElement table, final int firstResult, final int lastResult,
+			final boolean backwardsButtonsEnabled, final boolean forwardsButtonsEnabled) {
 
 		Assert.assertEquals("First row index on page does not match expected.", firstResult, table.getFirstRowIndexOfPage());
 		Assert.assertEquals("Last row index on page does not match expected", lastResult, table.getLastRowIndexOfPage());
