@@ -14,9 +14,10 @@ define(["wc/dom/event",
 		"wc/dom/getFilteredGroup",
 		"wc/dom/initialise",
 		"wc/dom/shed",
-		"wc/ui/table/common"],
+		"wc/ui/table/common",
+		"wc/ui/ajax/processResponse"],
 	/** @param event @param getFilteredGroup @param initialise  @param shed @param common @ignore */
-	function(event, getFilteredGroup, initialise, shed, common) {
+	function(event, getFilteredGroup, initialise, shed, common, processResponse) {
 		"use strict";
 
 		/**
@@ -186,11 +187,6 @@ define(["wc/dom/event",
 				}
 			}
 
-			// Add an initialise callback to set up the initial state of the buttons.
-			initialise.addCallback(function(element) {
-				setUp(element);
-			});
-
 			/**
 			 * Initial set up for table action.
 			 *
@@ -198,6 +194,8 @@ define(["wc/dom/event",
 			 * @public
 			 */
 			this.postInit = function() {
+				setUp();
+				processResponse.subscribe(setUp, true);
 				shed.subscribe(shed.actions.SELECT, shedSubscriber);
 				shed.subscribe(shed.actions.DESELECT, shedSubscriber);
 			};
