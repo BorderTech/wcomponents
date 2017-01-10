@@ -62,8 +62,7 @@ public class SimpleSelectableTableExample extends WPanel {
 		table.addAction(selectButton);
 
 		// An action constraint is used so that a row must be selected before using the "Select" button
-		table.addActionConstraint(selectButton, new ActionConstraint(1, 0, true,
-				"One or more rows must be selected"));
+		table.addActionConstraint(selectButton, new ActionConstraint(1, 3, true, "One to three rows must be selected"));
 
 		WButton deleteWithWarningCondition = new WButton("Delete");
 		table.addAction(deleteWithWarningCondition);
