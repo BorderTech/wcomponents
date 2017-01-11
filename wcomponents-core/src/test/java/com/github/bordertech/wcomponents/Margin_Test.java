@@ -26,8 +26,7 @@ public class Margin_Test {
 	@Test
 	public void testConstructor2() {
 		// Create Margin for all sides
-		Margin margin = new Margin(GapSizeUtil.Size.SMALL, GapSizeUtil.Size.MEDIUM, GapSizeUtil.Size.LARGE,
-				GapSizeUtil.Size.XL);
+		Margin margin = new Margin(GapSizeUtil.Size.SMALL, GapSizeUtil.Size.MEDIUM, GapSizeUtil.Size.LARGE, 	GapSizeUtil.Size.XL);
 		Assert.assertEquals("Incorrect all margin returned", null, margin.getMargin());
 		Assert.assertEquals("Incorrect north margin returned", GapSizeUtil.Size.SMALL, margin.getTop());
 		Assert.assertEquals("Incorrect east margin returned", GapSizeUtil.Size.MEDIUM, margin.getRight());
@@ -48,8 +47,7 @@ public class Margin_Test {
 		Assert.assertNull(panel.getMargin().getLeft());
 		panel.setMargin(null);
 		Assert.assertNull(panel.getMargin());
-		panel.setMargin(new Margin(GapSizeUtil.Size.SMALL, GapSizeUtil.Size.MEDIUM, GapSizeUtil.Size.LARGE,
-				GapSizeUtil.Size.ZERO));
+		panel.setMargin(new Margin(GapSizeUtil.Size.SMALL, GapSizeUtil.Size.MEDIUM, GapSizeUtil.Size.LARGE, 	GapSizeUtil.Size.ZERO));
 		Assert.assertNull(panel.getMargin().getMargin());
 		Assert.assertEquals(GapSizeUtil.Size.SMALL, panel.getMargin().getTop());
 		Assert.assertEquals(GapSizeUtil.Size.MEDIUM, panel.getMargin().getRight());
