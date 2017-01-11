@@ -93,43 +93,29 @@ public class WPanel_Test extends AbstractWComponentTestCase {
 		panel.add(text2, BorderLayout.NORTH, BorderLayout.SOUTH, BorderLayout.WEST);
 
 		setActiveContext(uic1);
-		Assert.assertNotNull("uic1 should contain text1 with its constraint", panel.
-				getLayoutConstraints(text1));
+		Assert.assertNotNull("uic1 should contain text1 with its constraint", panel.getLayoutConstraints(text1));
 		Serializable[] result0 = (Serializable[]) panel.getLayoutConstraints(text1);
 		Assert.assertEquals("result0 should have the 2 constraints from set 1", 2, result0.length);
-		Assert.
-				assertEquals("result0 should have the first constraint from set 1",
-						BorderLayout.EAST, result0[0]);
-		Assert.assertEquals("result0 should have the second constraint from set 1",
-				BorderLayout.WEST, result0[1]);
+		Assert.assertEquals("result0 should have the first constraint from set 1", BorderLayout.EAST, result0[0]);
+		Assert.assertEquals("result0 should have the second constraint from set 1", 	BorderLayout.WEST, result0[1]);
 
 		setActiveContext(uic2);
-		Assert.assertNotNull("uic2 should contain text1 with its constraint", panel.
-				getLayoutConstraints(text1));
+		Assert.assertNotNull("uic2 should contain text1 with its constraint", panel.getLayoutConstraints(text1));
 		Serializable[] result1 = (Serializable[]) panel.getLayoutConstraints(text1);
 		Assert.assertEquals("result1 should have 2 constraints from set 1", 2, result1.length);
-		Assert.
-				assertEquals("result1 should have the first constraint from set 1",
-						BorderLayout.EAST, result1[0]);
-		Assert.assertEquals("result1 should have the second constraint from set 1",
-				BorderLayout.WEST, result1[1]);
+		Assert.assertEquals("result1 should have the first constraint from set 1", BorderLayout.EAST, result1[0]);
+		Assert.assertEquals("result1 should have the second constraint from set 1", BorderLayout.WEST, result1[1]);
 
 		setActiveContext(uic1);
-		Assert.assertNull("uic1 should not contain text2 and its constraints", panel.
-				getLayoutConstraints(text2));
+		Assert.assertNull("uic1 should not contain text2 and its constraints", panel.getLayoutConstraints(text2));
 
 		setActiveContext(uic2);
-		Assert.assertNotNull("uic2 should contain text2 with its constraint", panel.
-				getLayoutConstraints(text2));
+		Assert.assertNotNull("uic2 should contain text2 with its constraint", panel.getLayoutConstraints(text2));
 		Serializable[] result2 = (Serializable[]) panel.getLayoutConstraints(text2);
 		Assert.assertEquals("result2 should have the 3 constraints from set 2", 3, result2.length);
-		Assert.assertEquals("result2 should have the first constraint from set 2",
-				BorderLayout.NORTH, result2[0]);
-		Assert.assertEquals("result2 should have the second constraint from set 2",
-				BorderLayout.SOUTH, result2[1]);
-		Assert.
-				assertEquals("result2 should have the third constraint from set 2",
-						BorderLayout.WEST, result2[2]);
+		Assert.assertEquals("result2 should have the first constraint from set 2", BorderLayout.NORTH, result2[0]);
+		Assert.assertEquals("result2 should have the second constraint from set 2", 	BorderLayout.SOUTH, result2[1]);
+		Assert.assertEquals("result2 should have the third constraint from set 2", 	BorderLayout.WEST, result2[2]);
 	}
 
 	@Test
@@ -147,13 +133,11 @@ public class WPanel_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testTypeAccessors() {
-		assertAccessorsCorrect(new WPanel(), "type", WPanel.Type.PLAIN, WPanel.Type.CHROME,
-				WPanel.Type.BOX);
+		assertAccessorsCorrect(new WPanel(), "type", WPanel.Type.PLAIN, WPanel.Type.CHROME, WPanel.Type.BOX);
 	}
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WPanel(), "margin", null, new Margin(GapSizeUtil.Size.SMALL),
-				new Margin(GapSizeUtil.Size.LARGE));
+		assertAccessorsCorrect(new WPanel(), "margin", null, new Margin(GapSizeUtil.Size.SMALL), new Margin(GapSizeUtil.Size.LARGE));
 	}
 }
