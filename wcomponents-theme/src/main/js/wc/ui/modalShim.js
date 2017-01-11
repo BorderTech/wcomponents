@@ -1,23 +1,10 @@
-/**
- * Used to overlay the page with a shim which blocks mouse access to the components on the page and steals focus back if
- * it loses it (e.g. due to TAB key or accesskeys).
- * @module
- * @requires module:wc/dom/attribute
- * @requires module:wc/dom/uid
- * @requires module:wc/dom/classList
- * @requires module:wc/dom/event
- * @requires module:wc/dom/focus
- * @requires module:wc/dom/Widget
- * @requires module:wc/dom/shed
- * @requires module:wc/timers
- */
-define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "wc/dom/focus", "wc/dom/Widget", "wc/dom/shed", "wc/timers"],
-	/** @param attribute wc/dom/attribute @param uid wc/dom/uid @param classList wc/dom/classList @param event wc/dom/event @param focus wc/dom/focus @param Widget wc/dom/Widget @param shed wc/dom/shed @param timers wc/timers @ignore */
-	function(attribute, uid, classList, event, focus, Widget, shed, timers) {
+define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "wc/dom/focus", "wc/dom/Widget", "wc/dom/shed", "wc/timers",
+	"wc/Observer"],
+	function(attribute, uid, classList, event, focus, Widget, shed, timers, Observer) {
 		"use strict";
 
 		/**
-		 * @constructorn
+		 * @constructor
 		 * @alias module:wc/ui/modalShim~ModalShim
 		 * @private
 		 */
@@ -29,7 +16,9 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 				ACCESS_KEY_WD = new Widget("", "", {accesskey: null}),
 				AKEY = "accesskey",
 				accessKeyMap = {},
-				HAS_EVENTS = "wc/ui/modalShim.wired";
+				HAS_EVENTS = "wc/ui/modalShim.wired",
+				observer,
+				ALTERNATE_OBSERVER_GROUP = "shimshow";
 
 			/**
 			 * If the user is shift-tabbing their way back through the dialog we want to wrap focus around to the last
@@ -64,7 +53,8 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 			 * @param {Event} $event The touch start event.
 			 */
 			function touchstartEvent($event) {
-				if (!$event.defaultPrevented && activeElement && !($event.target.compareDocumentPosition(activeElement) & Node.DOCUMENT_POSITION_CONTAINS)) {
+				if (!$event.defaultPrevented && activeElement &&
+					!($event.target.compareDocumentPosition(activeElement) & Node.DOCUMENT_POSITION_CONTAINS)) {
 					$event.preventDefault();
 				}
 			}
@@ -78,7 +68,7 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 				var d = document,
 					b = d.body,
 					result = d.createElement("div");
-				result.id = "wc-shim";
+				result.id = MODAL_BACKGROUND_ID;
 				shed.hide(result, true);
 				if (b.firstChild) {
 					b.insertBefore(result, b.firstChild);
@@ -141,11 +131,16 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 				// remove the accesskey attribute from controls with access keys which are not in the activeRegion
 				Array.prototype.forEach.call(ACCESS_KEY_WD.findDescendants(document), function(next) {
 					var nextId = next.id || (next.id = uid());
-					if (activeRegion && !(activeRegion.compareDocumentPosition(next) & Node.DOCUMENT_POSITION_CONTAINS)) {  // deliberate use of local variable here
+					if (activeRegion && !(next.compareDocumentPosition(activeRegion) & Node.DOCUMENT_POSITION_CONTAINS)) {
 						accessKeyMap[nextId] = next.getAttribute(AKEY);
 						next.removeAttribute(AKEY);
 					}
 				});
+
+				if (observer) {
+					observer.setFilter(ALTERNATE_OBSERVER_GROUP);
+					observer.notify(activeElement);
+				}
 			};
 
 			/**
@@ -153,7 +148,7 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 			 * @function module:wc/ui/modalShim.clearModal
 			 */
 			this.clearModal = function() {
-				var shimElement, key, aKeyElement;
+				var shimElement, key, aKeyElement, notify;
 				try {
 					shimElement = document.getElementById(MODAL_BACKGROUND_ID);
 					if (shimElement && !shed.isHidden(shimElement, true)) {
@@ -165,13 +160,74 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 							}
 						}
 						shed.hide(shimElement, true);
+						notify = true;
 					}
 				}
 				finally {
 					activeElement = null;
 					accessKeyMap = {};
+					if (notify && observer) {
+						observer.notify();
+					}
 				}
 			};
+
+			/**
+			 * Allow external module to subscribe to this module's Observer instance to be informed when a modal shim is removed.
+			 *
+			 * If subscribing to `show` then the notification will include an arg of the activeElement. This is wither the active region passed in to
+			 * `showModal` or the shim element if `showModal` is called without an `activeRegion` arg.
+			 *
+			 * If subscribing to `clear` (the default) then the notification will have no arguments.
+			 *
+			 * @function module:wc/ui/modalShim.subscribe
+			 * @public
+			 * @param {Function} subscriber the function to subscribe
+			 * @param {boolean} onshow if true notify when the modalShim is shown, otherwise notify when the shim is removed
+			 * @returns {?Function} the subscribed function
+			 */
+			this.subscribe = function(subscriber, onshow) {
+				var group = null;
+				if (!observer) {
+					observer = new Observer();
+				}
+				if (onshow) {
+					group = { group: ALTERNATE_OBSERVER_GROUP };
+				}
+				return observer.subscribe(subscriber, group);
+			};
+
+			/**
+			 * Unsubscribe from this observer instance.
+			 * @function module:wc/ui/modalShim.unsubscribe
+			 * @public
+			 * @param {Function} subscriber the function to unsubscribe
+			 * @param {boolean} onshow if true unsubscribe from the group notified when the modalShim is shown. The unsubscribe will only succeed if
+			 * the group is the same as when the subscriber was subscribed.
+			 * @returns {?Function} the unsubscribed function
+			 */
+			this.unsubscribe = function(subscriber, onshow) {
+				var group;
+				if (observer) {
+					group = onshow ? ALTERNATE_OBSERVER_GROUP : null;
+					return observer.unsubscribe(subscriber, group);
+				}
+				return null;
+			};
 		}
-		return /** @alias module:wc/ui/modalShim */ new ModalShim();
+		/**
+		 * Used to overlay the page with a shim which blocks mouse access to the components on the page and steals focus back if it loses it (e.g.
+		 * due to TAB key or accesskeys).
+		 * @module
+		 * @requires module:wc/dom/attribute
+		 * @requires module:wc/dom/uid
+		 * @requires module:wc/dom/classList
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/focus
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/timers
+		 * @requires module:wc/Observer
+		 */
+		return new ModalShim();
 	});

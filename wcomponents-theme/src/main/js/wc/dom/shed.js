@@ -633,7 +633,7 @@ define(["wc/Observer",
 					result = !element.getAttribute(OPEN);
 				}
 				else {
-					result = !!element.getAttribute(HIDDEN);
+					result = !!element.hasAttribute(HIDDEN);
 				}
 				if (onlyHiddenAttribute || result) {
 					return result;
