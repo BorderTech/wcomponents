@@ -630,10 +630,10 @@ define(["wc/Observer",
 			this.isHidden = function (element, onlyHiddenAttribute, ignoreOffset) {
 				var result, _el;
 				if (showWithOpen(element)) {
-					result = !element.getAttribute(OPEN);
+					result = !element.hasAttribute(OPEN);
 				}
 				else {
-					result = !!element.hasAttribute(HIDDEN);
+					result = element.hasAttribute(HIDDEN);
 				}
 				if (onlyHiddenAttribute || result) {
 					return result;
@@ -654,7 +654,8 @@ define(["wc/Observer",
 					return true;
 				}
 				if (ignoreOffset) {
-					if (classList.contains(_el, "wc_off") || getStyle(_el, "display", false, true) === "none") {
+					if (classList.contains(_el, "wc-off") || getStyle(_el, "display", false, true) === "none"
+							|| getStyle(_el, "visibility", false, true) === "hidden") {
 						return true;
 					}
 				}

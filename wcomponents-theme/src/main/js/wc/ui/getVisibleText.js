@@ -15,7 +15,7 @@ define(["wc/dom/textContent",
 		 * @returns {Number} NodeFilter.FILTER_ACCEPT if the node is hidden (and can therefore be removed).
 		 */
 		function treeWalkerFilter(element) {
-			if (shed.isDisabled(element) || shed.isHidden(element, false, true)) {
+			if (shed.isHidden(element, false, true)) {
 				return NodeFilter.FILTER_ACCEPT;
 			}
 
