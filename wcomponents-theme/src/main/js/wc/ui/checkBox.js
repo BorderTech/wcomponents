@@ -27,6 +27,7 @@ define(["wc/dom/initialise",
 		 */
 		function CheckBox() {
 			var CHECKBOX = new Widget("input", "", { "type": "checkbox" }),
+				WRAPPER,
 				CB_ALONE;
 
 			/**
@@ -51,7 +52,11 @@ define(["wc/dom/initialise",
 			 */
 			function writeState(form, container) {
 				var cb;
-				CB_ALONE = CB_ALONE || CHECKBOX.extend("wc-checkbox");
+				if (!WRAPPER) {
+					WRAPPER = new Widget("wc-checkbox");
+					CB_ALONE = CHECKBOX.clone();
+					CB_ALONE.descendFrom(WRAPPER, true);
+				}
 				cb = CB_ALONE.findDescendants(form);
 
 				cb = Array.prototype.filter.call(cb, function (next) {
