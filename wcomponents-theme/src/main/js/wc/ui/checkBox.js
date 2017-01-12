@@ -53,7 +53,7 @@ define(["wc/dom/initialise",
 			function writeState(form, container) {
 				var cb;
 				if (!WRAPPER) {
-					WRAPPER = new Widget("wc-checkbox");
+					WRAPPER = new Widget("", "wc-checkbox");
 					CB_ALONE = CHECKBOX.clone();
 					CB_ALONE.descendFrom(WRAPPER, true);
 				}
