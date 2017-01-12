@@ -21,20 +21,9 @@
 	-->
 	<xsl:template match="ui:link">
 		<xsl:param name="imageAltText" select="''"/>
-		<xsl:variable name="type" select="@type"/>
-		<xsl:variable name="hasPopup">
-			<xsl:choose>
-				<xsl:when test="ui:windowAttributes[count(@*) gt 1] or ($type eq 'button' and ui:windowAttributes)">
-					<xsl:number value="1"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:number value="0"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
 		<xsl:variable name="elementType">
 			<xsl:choose>
-				<xsl:when test="$type eq 'button' or number($hasPopup) eq 1">
+				<xsl:when test="@type eq 'button'">
 					<xsl:text>button</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
@@ -46,19 +35,19 @@
 			<xsl:call-template name="buttonLinkCommonAttributes">
 				<xsl:with-param name="elementType" select="$elementType"/>
 				<xsl:with-param name="class">
-					<xsl:if test="$elementType eq 'button' and not($type eq 'button')">
+					<xsl:if test="$elementType eq 'button' and not(@type eq 'button')">
 						<xsl:text> wc-linkbutton</xsl:text>
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
-			<xsl:variable name="noopener" select="'noopener'"/>
-			<xsl:variable name="noreferrer" select="'noreferrer'"/>
 			<xsl:choose>
 				<xsl:when test="$elementType eq 'a'">
 					<xsl:attribute name="href">
 						<xsl:value-of select="@url"/>
 					</xsl:attribute>
 					<xsl:if test="@rel or windowAttributes">
+						<xsl:variable name="noopener" select="'noopener'"/>
+						<xsl:variable name="noreferrer" select="'noreferrer'"/>
 						<xsl:attribute name="rel">
 							<xsl:choose>
 								<xsl:when test="@rel">
@@ -79,10 +68,6 @@
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:if test="ui:windowAttributes">
-						<!--
-							This  bit will only be called if the ui:windowAttributes child as only a name attribute,
-							otherwise we would have gone to button.
-						-->
 						<xsl:attribute name="target">
 							<xsl:value-of select="ui:windowAttributes/@name"/>
 						</xsl:attribute>
@@ -95,6 +80,14 @@
 					<xsl:attribute name="data-wc-url">
 						<xsl:value-of select="@url"/>
 					</xsl:attribute>
+					<xsl:if test="ui:windowAttributes">
+						<xsl:attribute name="data-wc-window">
+							<xsl:value-of select="ui:windowAttributes/@name"/>
+						</xsl:attribute>
+						<xsl:attribute name="aria-haspopup">
+							<xsl:text>true</xsl:text>
+						</xsl:attribute>
+					</xsl:if>
 				</xsl:otherwise>
 			</xsl:choose>
 			<xsl:call-template name="buttonLinkCommonContent">
@@ -102,4 +95,7 @@
 			</xsl:call-template>
 		</xsl:element>
 	</xsl:template>
+	
+	<!-- Window Attrributes applied to WLink -->
+	<xsl:template match="ui:windowAttributes"/>
 </xsl:stylesheet>

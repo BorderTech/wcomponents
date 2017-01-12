@@ -37,6 +37,11 @@
 			</xsl:attribute>
 			<!-- nothing else applies to print buttons -->
 			<xsl:if test="self::ui:button">
+				<xsl:if test="@popup or parent::ui:dialog">
+					<xsl:attribute name="aria-haspopup">
+						<xsl:text>true</xsl:text>
+					</xsl:attribute>
+				</xsl:if>
 				<xsl:if test="@msg">
 					<xsl:attribute name="data-wc-btnmsg">
 						<xsl:value-of select="@msg" />

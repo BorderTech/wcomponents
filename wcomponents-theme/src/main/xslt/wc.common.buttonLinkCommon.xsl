@@ -29,29 +29,6 @@
 			</xsl:with-param>
 		</xsl:call-template>
 		<xsl:call-template name="title"/>
-		<xsl:variable name="linkHasPopup">
-			<xsl:choose>
-				<xsl:when test="ui:windowAttributes[count(@*) gt 1] or (@type eq 'button' and ui:windowAttributes)">
-					<xsl:number value="1"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:number value="0"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:if test="@popup or parent::ui:dialog or number($linkHasPopup) eq 1">
-			<xsl:attribute name="aria-haspopup">
-				<xsl:text>true</xsl:text>
-			</xsl:attribute>
-			<xsl:if test="number($linkHasPopup) eq 1">
-				<xsl:attribute name="data-wc-specs">
-					<xsl:apply-templates select="ui:windowAttributes" mode="specs"/>
-				</xsl:attribute>
-				<xsl:attribute name="data-wc-window">
-					<xsl:value-of select="ui:windowAttributes/@name"/>
-				</xsl:attribute>
-			</xsl:if>
-		</xsl:if>
 	</xsl:template>
 	
 	<!--
