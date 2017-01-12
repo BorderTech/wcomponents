@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
  * for a read-only text input.
  *
  * @author Joshua Barclay
+ * @author Mark Reeves
  * @since 1.3.0
  */
 public class SeleniumWComponentInputWebElement extends SeleniumWComponentWebElement {
@@ -118,5 +119,12 @@ public class SeleniumWComponentInputWebElement extends SeleniumWComponentWebElem
 		return getInputField().getAttribute("id");
 	}
 
-
+	@Override
+	public void click() {
+		if (isReadOnly()) {
+			super.click();
+		} else {
+			getInputField().click();
+		}
+	}
 }

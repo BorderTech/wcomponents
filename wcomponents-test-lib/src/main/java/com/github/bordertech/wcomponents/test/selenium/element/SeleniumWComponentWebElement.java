@@ -17,6 +17,7 @@ import org.openqa.selenium.WebElement;
  * A wrapper for WebElement to provide specific WComponents behavior.
  *
  * @author Joshua Barclay
+ * @author Mark Reeves
  * @since 1.2.0
  */
 public class SeleniumWComponentWebElement implements WebElement {

@@ -34,6 +34,7 @@ import org.openqa.selenium.WebElement;
  * appropriate.</p>
  *
  * @author Joshua Barclay
+ * @author Mark Reeves
  * @param <T> - the type of backing WebDriver class.
  * @since 1.2.0
  */

@@ -16,7 +16,7 @@ public class SeleniumWEmailFieldWebElement extends SeleniumWTextFieldWebElement 
 	/**
 	 * HTML attributes applied to the input element.
 	 */
-	private static final List<String> INPUT_ATTRIBUTES = Arrays.asList("value", "disabled", "required", "maxlength", "minlength");
+	private static final List<String> INPUT_ATTRIBUTES = Arrays.asList("disabled", "required", "maxlength", "minlength");
 	/**
 	 * The type of this input component.
 	 */

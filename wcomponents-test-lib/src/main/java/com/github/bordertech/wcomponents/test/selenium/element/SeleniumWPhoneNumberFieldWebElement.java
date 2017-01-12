@@ -15,7 +15,7 @@ public class SeleniumWPhoneNumberFieldWebElement extends SeleniumWTextFieldWebEl
 	/**
 	 * HTML attributes applied to the input element.
 	 */
-	private static final List<String> INPUT_ATTRIBUTES = Arrays.asList("value", "disabled", "required", "pattern", "maxlength", "minlength");
+	private static final List<String> INPUT_ATTRIBUTES = Arrays.asList("disabled", "required", "pattern", "maxlength", "minlength");
 	/**
 	 * Construct a SeleniumWPhoneNumberFieldWebElement for the given WebElement.
 	 *

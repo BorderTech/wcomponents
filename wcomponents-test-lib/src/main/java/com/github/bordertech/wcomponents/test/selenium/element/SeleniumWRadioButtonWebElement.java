@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
  * Selenium WebElement class representing a single Radio button element.
  *
  * @author Joshua Barclay
+ * @author Mark Reeves
  * @since 1.3.0
  */
 public class SeleniumWRadioButtonWebElement extends SeleniumWComponentInputWebElement {
@@ -17,7 +18,7 @@ public class SeleniumWRadioButtonWebElement extends SeleniumWComponentInputWebEl
 	/**
 	 * HTML attributes applied to the input element.
 	 */
-	private static final List<String> INPUT_ATTRIBUTES = Arrays.asList("value", "disabled", "required", "checked");
+	private static final List<String> INPUT_ATTRIBUTES = Arrays.asList("disabled", "required", "checked");
 
 	/**
 	 * The type of this input when editable.

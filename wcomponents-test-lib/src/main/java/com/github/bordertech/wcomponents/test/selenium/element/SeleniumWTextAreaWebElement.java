@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
  * Selenium WebElement class representing the functionality of WTextArea.
  *
  * @author Joshua Barclay
+ * @author Mark Reeves
  * @since 1.2.0
  */
 public class SeleniumWTextAreaWebElement extends SeleniumWComponentInputWebElement {
@@ -24,7 +25,7 @@ public class SeleniumWTextAreaWebElement extends SeleniumWComponentInputWebEleme
 	/**
 	 * HTML attributes applied to the input element.
 	 */
-	private static final List<String> INPUT_ATTRIBUTES = Arrays.asList("value", "disabled", "required", "minlength", ATTR_MAX_LENGTH);
+	private static final List<String> INPUT_ATTRIBUTES = Arrays.asList("disabled", "required", "minlength", ATTR_MAX_LENGTH);
 
 	/**
 	 * Read-only element wrapper tag.

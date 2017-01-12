@@ -374,7 +374,7 @@ public class EntryFieldExample extends WPanel {
 		}
 
 		if (radioButtonGroup.getSelectedValue() != null) {
-			String radioValue = radioButtonGroup.getSelectedValue().toString();
+			String radioValue = radioButtonGroup.getSelectedValue();
 			sb.append("\nRadioButtonGroup = ").append(radioValue);
 		}
 

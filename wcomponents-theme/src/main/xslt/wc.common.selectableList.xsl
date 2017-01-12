@@ -52,13 +52,7 @@
 					</xsl:if>
 				</span>
 			</xsl:when>
-			<xsl:when test="count(.//ui:option[@selected]) eq 1">
-				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="applies" select=".//ui:option[@selected]"/>
-					<xsl:with-param name="useReadOnlyMode" select="1"/>
-				</xsl:call-template>
-			</xsl:when>
-			<xsl:when test=".//ui:option[@selected]">
+			<xsl:when test="self::ui:listbox[not(@single)]">
 				<ul id="{$id}">
 					<xsl:call-template name="makeCommonClass">
 						<xsl:with-param name="additional">
@@ -75,7 +69,8 @@
 			<xsl:otherwise>
 				<!--  read only and no selected options -->
 				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="applies" select="'none'"/>
+					<xsl:with-param name="applies" select=".//ui:option[@selected]"/>
+					<xsl:with-param name="useReadOnlyMode" select="1"/>
 				</xsl:call-template>
 			</xsl:otherwise>
 		</xsl:choose>

@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
  * Selenium unit tests for {@link CheckBoxExample}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 @Category(SeleniumTests.class)

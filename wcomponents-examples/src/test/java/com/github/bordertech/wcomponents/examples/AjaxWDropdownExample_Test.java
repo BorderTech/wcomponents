@@ -10,6 +10,7 @@ import org.junit.experimental.categories.Category;
  * Selenium unit tests for {@link AjaxWDropdownExample}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 @Category(SeleniumTests.class)
