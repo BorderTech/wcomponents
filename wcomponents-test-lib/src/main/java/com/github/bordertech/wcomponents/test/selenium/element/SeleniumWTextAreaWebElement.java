@@ -38,7 +38,7 @@ public class SeleniumWTextAreaWebElement extends SeleniumWComponentInputWebEleme
 	/**
 	 * Editable element tag.
 	 */
-	public static final String INPUT_ELEMENT = "textarea";
+	public static final String TEXTAREA_TAG = "textarea";
 
 	/**
 	 * Construct a WTextAreaWebElement for the given WebElement.
@@ -111,6 +111,6 @@ public class SeleniumWTextAreaWebElement extends SeleniumWComponentInputWebEleme
 			return null;
 		}
 
-		return findElement(By.tagName(INPUT_ELEMENT));
+		return findElement(By.tagName(TEXTAREA_TAG));
 	}
 }

@@ -93,6 +93,14 @@ public class SeleniumWComponentWebElement implements WebElement {
 	}
 
 	/**
+	 * @param by the by to find the component.
+	 * @return the SeleniumSimpleSelectWebElement.
+	 */
+	public SeleniumSimpleSelectWebElement findSeleniumSimpleSelectWebElement(final By by) {
+		return new SeleniumSimpleSelectWebElement(element.findElement(by), driver);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override

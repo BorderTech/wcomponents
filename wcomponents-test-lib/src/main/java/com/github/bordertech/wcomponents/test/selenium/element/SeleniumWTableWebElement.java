@@ -194,15 +194,15 @@ public class SeleniumWTableWebElement extends SeleniumWComponentWebElement {
 	/**
 	 * @return the page select.
 	 */
-	public SeleniumWSelectWebElement getPageSelect() {
-		return findSeleniumWSelectWebElement(By.cssSelector(SELECTOR_PAGE_SELECT));
+	public SeleniumSimpleSelectWebElement getPageSelect() {
+		return findSeleniumSimpleSelectWebElement(By.cssSelector(SELECTOR_PAGE_SELECT));
 	}
 
 	/**
 	 * @return the page select.
 	 */
-	public SeleniumWSelectWebElement getRowsPerPageSelect() {
-		return findSeleniumWSelectWebElement(By.cssSelector(SELECTOR_ROWS_PER_PAGE_SELECT));
+	public SeleniumSimpleSelectWebElement getRowsPerPageSelect() {
+		return findSeleniumSimpleSelectWebElement(By.cssSelector(SELECTOR_ROWS_PER_PAGE_SELECT));
 	}
 
 	/**

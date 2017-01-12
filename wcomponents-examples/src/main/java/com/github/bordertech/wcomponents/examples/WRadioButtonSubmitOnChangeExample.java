@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.RadioButtonGroup;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDropdown;
@@ -55,7 +56,7 @@ public class WRadioButtonSubmitOnChangeExample extends WContainer {
 			}
 		});
 
-		add(new WHeading(WHeading.SECTION, "State"));
+		add(new WHeading(HeadingLevel.H2, "State"));
 
 		add(new WLabel(ACT, rbtACT));
 		add(rbtACT);
@@ -67,7 +68,7 @@ public class WRadioButtonSubmitOnChangeExample extends WContainer {
 		add(rbgStateSelector);
 
 		add(regionPanel);
-		regionPanel.add(new WHeading(WHeading.SECTION, "Region"));
+		regionPanel.add(new WHeading(HeadingLevel.H3, "Region"));
 		regionPanel.add(regionSelector);
 
 		regionSelector.setAccessibleText("Region");

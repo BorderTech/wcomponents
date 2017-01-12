@@ -1,10 +1,12 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.examples.table.SimplePaginationWithRowOptionsTableExample;
+import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTableWebElement;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 
 /**
@@ -14,6 +16,7 @@ import org.openqa.selenium.By;
  * @since 1.2.0
  */
 @Category(SeleniumTests.class)
+@RunWith(MultiBrowserRunner.class)
 public class SimplePaginationWithRowOptionsTableExample_Test extends WComponentExamplesTestCase {
 
 	/**
