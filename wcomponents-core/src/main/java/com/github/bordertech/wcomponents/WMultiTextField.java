@@ -36,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTarget, InputGroup {
+public class WMultiTextField extends AbstractInput implements AjaxTrigger, AjaxTarget, SubordinateTarget, MultiInputComponent {
 
 	/**
 	 * The logger instance for this class.

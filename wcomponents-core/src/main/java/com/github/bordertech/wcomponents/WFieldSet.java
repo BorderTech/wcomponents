@@ -14,7 +14,7 @@ import java.util.List;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class WFieldSet extends AbstractMutableContainer implements AjaxTarget, SubordinateTarget, Mandatable, Marginable, DropZone, InputGroup {
+public class WFieldSet extends AbstractMutableContainer implements AjaxTarget, SubordinateTarget, Mandatable, Marginable, DropZone, MultiInputComponent {
 
 	/**
 	 * Describes how the field set's frame is rendered.

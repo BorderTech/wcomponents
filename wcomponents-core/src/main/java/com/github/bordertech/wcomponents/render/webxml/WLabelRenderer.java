@@ -1,13 +1,13 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.Input;
-import com.github.bordertech.wcomponents.InputGroup;
 import com.github.bordertech.wcomponents.Labelable;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Util;
+import com.github.bordertech.wcomponents.MultiInputComponent;
 
 /**
  * The Renderer for {@link WLabel}.
@@ -36,7 +36,7 @@ final class WLabelRenderer extends AbstractWebXmlRenderer {
 
 		WComponent what = label.getForComponent();
 		String whatFor = null;
-		if (what instanceof InputGroup) {
+		if (what instanceof MultiInputComponent) {
 			whatFor = "group";
 		} else if (what instanceof Labelable) {
 			whatFor = "input";

@@ -27,7 +27,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WMultiDropdown extends AbstractWMultiSelectList implements AjaxTrigger, AjaxTarget, SubordinateTarget, InputGroup {
+public class WMultiDropdown extends AbstractWMultiSelectList implements AjaxTrigger, AjaxTarget, SubordinateTarget, MultiInputComponent {
 
 	/**
 	 * Creates an empty WMultiDropdown.
