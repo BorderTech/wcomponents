@@ -2,9 +2,8 @@
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.readOnly.xsl"/>
 	<xsl:import href="wc.common.hField.xsl"/>
-	<!-- This transform is reused by ui:listbox and ui:dropdown. -->
-	<xsl:template match="ui:dropdown|ui:listbox">
-		<xsl:variable name="id" select="@id"/>
+	<!-- WSingleSelect WMultiSelect -->
+	<xsl:template match="ui:listbox">
 		<xsl:choose>
 			<xsl:when test="not(@readOnly)">
 				<span>
@@ -20,7 +19,7 @@
 					</xsl:if>
 					<select>
 						<xsl:call-template name="wrappedInputAttributes"/>
-						<xsl:if test="self::ui:listbox and not(@single)">
+						<xsl:if test="not(@single)">
 							<xsl:attribute name="multiple">
 								<xsl:text>multiple</xsl:text>
 							</xsl:attribute>
@@ -47,13 +46,11 @@
 						</xsl:if>
 						<xsl:apply-templates mode="selectableList"/>
 					</select>
-					<xsl:if test="self::ui:listbox">
-						<xsl:call-template name="hField"/>
-					</xsl:if>
+					<xsl:call-template name="hField"/>
 				</span>
 			</xsl:when>
-			<xsl:when test="self::ui:listbox[not(@single)]">
-				<ul id="{$id}">
+			<xsl:when test="not(@single)">
+				<ul id="{@id}">
 					<xsl:call-template name="makeCommonClass">
 						<xsl:with-param name="additional">
 							<xsl:text> wc_list_nb</xsl:text>
@@ -67,7 +64,6 @@
 				</ul>
 			</xsl:when>
 			<xsl:otherwise>
-				<!--  read only and no selected options -->
 				<xsl:call-template name="readOnlyControl">
 					<xsl:with-param name="applies" select=".//ui:option[@selected]"/>
 					<xsl:with-param name="useReadOnlyMode" select="1"/>

@@ -4,18 +4,14 @@
 		Null template for unmoded ui:optgroup elements. This should never be invoked but is here for completeness.
 	-->
 	<xsl:template match="ui:optgroup"/>
-	<!--
-		Outputs nested ui:option elements. Optgroups are not supported in datalist.
-	-->	
-	<xsl:template match="ui:optgroup" mode="comboDataList">
-		<xsl:apply-templates mode="comboDataList"/>
-	</xsl:template>
+
 	<!-- Tranforms the optgroups of a list into HTML optgroup elements. -->
 	<xsl:template match="ui:optgroup" mode="selectableList">
 		<optgroup label="{@label}">
 			<xsl:apply-templates mode="selectableList"/>
 		</optgroup>
 	</xsl:template>
+
 	<!-- Transform for emulator for an optgroup in readOnly mode. -->
 	<xsl:template match="ui:optgroup" mode="readOnly">
 		<xsl:param name="showOptions" select="'selected'"/>

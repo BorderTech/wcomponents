@@ -113,9 +113,7 @@
 	</target>
 
 	<target name="minify" unless="minifiy.resources.off">
-		<taskdef name="xslmin"
-				 classname="com.github.ricksbrown.xslmin.ant.MinifyTask"
-				 classpathref="project.class.path"/>
+		
 		<for param="file">
 			<fileset dir="${xslt.build.target.dir}">
 				<include name="*${debug.target.file.name.suffix}.xsl"/>
@@ -129,7 +127,8 @@
 					regexp="(.+)${debug.target.file.name.suffix}.xsl"
 					select="\1"
 					casesensitive="false" /><!-- xsl.name is now the file name without the ${debug.target.file.name.suffix}.xsl -->
-				<xslmin in="@{file}" out="${xslt.build.target.dir}/${xsl.name}.temp.xsl"/><!-- preserve="true" to prevent stripping unused -->
+				<copy file="@{file}" tofile="${xslt.build.target.dir}/${xsl.name}.temp.xsl"/>
+
 				<if>
 					<not><!-- only do this in the i18n wrappers -->
 						<equals arg1="${base.name}" arg2="${xsl.target.debug.file.name}"/>

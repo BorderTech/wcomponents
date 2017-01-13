@@ -153,39 +153,6 @@
 		</button>
 	</xsl:template>
 	
-	<!-- 
-		The transform for each option in the multiSelectPair.
-		
-		param readOnly: the read only state of the parent multiSelectPair.
-	-->
-	<xsl:template match="ui:option" mode="multiselectPair">
-		<xsl:param name="readOnly" select="0"/>
-		<xsl:choose>
-			<xsl:when test="number($readOnly) ne 1">
-				<option value="{@value}">
-					<xsl:value-of select="normalize-space(.)"/>
-				</option>
-			</xsl:when>
-			<xsl:otherwise>
-				<li>
-					<xsl:if test="parent::ui:optgroup">
-						<xsl:attribute name="class">
-							<xsl:text>wc_inoptgroup</xsl:text>
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:choose>
-						<xsl:when test="normalize-space(.)">
-							<xsl:value-of select="normalize-space(.)"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:value-of select="@value"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</li>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:template>
-
 	<!--
 		The transform for optGroups within a multiSelectPair option list.
 		
@@ -224,6 +191,39 @@
 				<xsl:apply-templates select="ui:option[@selected]" mode="multiselectPair">
 					<xsl:with-param name="readOnly" select="$readOnly"/>
 				</xsl:apply-templates>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+	
+	<!-- 
+		The transform for each option in the multiSelectPair.
+		
+		param readOnly: the read only state of the parent multiSelectPair.
+	-->
+	<xsl:template match="ui:option" mode="multiselectPair">
+		<xsl:param name="readOnly" select="0"/>
+		<xsl:choose>
+			<xsl:when test="number($readOnly) ne 1">
+				<option value="{@value}">
+					<xsl:value-of select="normalize-space(.)"/>
+				</option>
+			</xsl:when>
+			<xsl:otherwise>
+				<li>
+					<xsl:if test="parent::ui:optgroup">
+						<xsl:attribute name="class">
+							<xsl:text>wc_inoptgroup</xsl:text>
+						</xsl:attribute>
+					</xsl:if>
+					<xsl:choose>
+						<xsl:when test="normalize-space(.)">
+							<xsl:value-of select="normalize-space(.)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="@value"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</li>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
