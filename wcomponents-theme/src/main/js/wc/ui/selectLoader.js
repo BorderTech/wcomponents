@@ -64,7 +64,7 @@ define(["wc/ui/listLoader",
 									if (nextIdx >= 0) {
 										shed.select(selectList.options[nextIdx], true); // do not publish as the selection has not changed.
 										if (!selectList.hasAttribute(("multiple"))) { // the following is a Safari 8.0.8 bug workaround.
-											selIdx = selectboxSearch.indexOf(next, list);
+											selIdx = selectboxSearch.indexOf(next, selectList);
 											if (selectList.selectedIndex !== selIdx) {
 												selectList.selectedIndex = selIdx;
 											}
