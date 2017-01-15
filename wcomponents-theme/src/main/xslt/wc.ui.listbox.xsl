@@ -58,14 +58,14 @@
 					</xsl:call-template>
 					<xsl:call-template name="hideElementIfHiddenSet"/>
 					<xsl:call-template name="roComponentName"/>
-					<xsl:apply-templates select="ui:option[@selected]|ui:optgroup[ui:option[@selected]]" mode="readOnly">
+					<xsl:apply-templates select="ui:option|ui:optgroup[ui:option]" mode="readOnly">
 						<xsl:with-param name="single" select="0"/>
 					</xsl:apply-templates>
 				</ul>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="applies" select=".//ui:option[@selected]"/>
+					<xsl:with-param name="applies" select=".//ui:option"/>
 					<xsl:with-param name="useReadOnlyMode" select="1"/>
 				</xsl:call-template>
 			</xsl:otherwise>

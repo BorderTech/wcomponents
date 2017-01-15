@@ -80,6 +80,11 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
+				<xsl:if test="@optionWidth">
+					<xsl:attribute name="size">
+						<xsl:value-of select="@optionWidth"/>
+					</xsl:attribute>
+				</xsl:if>
 			</xsl:element>
 			<button value="{concat(@id,'_input')}" tabindex="-1" id="{concat(@id, '_list')}" type="button" aria-hidden="true" class="wc_suggest wc_btn_icon wc-invite">
 				<xsl:call-template name="disabledElement">

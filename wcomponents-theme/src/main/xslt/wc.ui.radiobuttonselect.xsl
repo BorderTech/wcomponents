@@ -7,7 +7,7 @@
 		<xsl:choose>
 			<xsl:when test="@readOnly">
 				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="applies" select="ui:option[@selected]"/>
+					<xsl:with-param name="applies" select="ui:option"/>
 					<xsl:with-param name="useReadOnlyMode" select="1"/>
 				</xsl:call-template>
 			</xsl:when>
