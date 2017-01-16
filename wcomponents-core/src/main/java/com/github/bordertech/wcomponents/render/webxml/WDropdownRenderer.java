@@ -39,7 +39,7 @@ final class WDropdownRenderer extends AbstractWebXmlRenderer {
 		if (readOnly) {
 			xml.appendAttribute("readOnly", "true");
 		} else {
-			xml.appendOptionalAttribute("data", dataKey != null && !readOnly, dataKey);
+			xml.appendOptionalAttribute("data", dataKey != null, dataKey);
 			xml.appendOptionalAttribute("disabled", dropdown.isDisabled(), "true");
 			xml.appendOptionalAttribute("required", dropdown.isMandatory(), "true");
 			xml.appendOptionalAttribute("submitOnChange", dropdown.isSubmitOnChange(), "true");

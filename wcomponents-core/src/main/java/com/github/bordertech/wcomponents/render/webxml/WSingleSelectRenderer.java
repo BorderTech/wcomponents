@@ -38,7 +38,7 @@ final class WSingleSelectRenderer extends AbstractWebXmlRenderer {
 		if (readOnly) {
 			xml.appendAttribute("readOnly", "true");
 		} else {
-			xml.appendOptionalAttribute("data", dataKey != null && !readOnly, dataKey);
+			xml.appendOptionalAttribute("data", dataKey != null, dataKey);
 			xml.appendOptionalAttribute("disabled", listBox.isDisabled(), "true");
 			xml.appendOptionalAttribute("required", listBox.isMandatory(), "true");
 			xml.appendOptionalAttribute("submitOnChange", listBox.isSubmitOnChange(), "true");
