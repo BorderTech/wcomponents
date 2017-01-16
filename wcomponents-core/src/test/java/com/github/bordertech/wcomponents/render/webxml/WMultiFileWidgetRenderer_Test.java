@@ -59,10 +59,6 @@ public class WMultiFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCas
 		assertSchemaMatch(fileUpload);
 		assertXpathEvaluatesTo("true", "//ui:multifileupload/@required", fileUpload);
 
-		fileUpload.setReadOnly(true);
-		assertSchemaMatch(fileUpload);
-		assertXpathEvaluatesTo("true", "//ui:multifileupload/@readOnly", fileUpload);
-
 		fileUpload.setToolTip("tooltip");
 		assertSchemaMatch(fileUpload);
 		assertXpathEvaluatesTo(fileUpload.getToolTip(), "//ui:multifileupload/@toolTip", fileUpload);
@@ -98,6 +94,14 @@ public class WMultiFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCas
 				fileUpload);
 		assertXpathEvaluatesTo(String.valueOf(fileItem.getSize()), "//ui:multifileupload/ui:file/@size",
 				fileUpload);
+	}
+
+	@Test
+	public void testReadOnly() throws IOException, SAXException, XpathException {
+		WMultiFileWidget fileUpload = new WMultiFileWidget();
+		fileUpload.setReadOnly(true);
+		assertSchemaMatch(fileUpload);
+		assertXpathEvaluatesTo("true", "//ui:fileupload/@readOnly", fileUpload);
 	}
 
 	@Test

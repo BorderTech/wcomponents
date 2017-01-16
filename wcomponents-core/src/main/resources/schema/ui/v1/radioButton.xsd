@@ -36,9 +36,10 @@
 		<xs:complexType>
 			<xs:attributeGroup ref="ui:input.attributes"/>
 			
-			<xs:attribute name="groupName" type="xs:NMTOKEN" use="required">
+			<xs:attribute name="groupName" type="xs:NMTOKEN">
 				<xs:annotation>
-					<xs:documentation>Used to group a set of WRadioButtons into a usable single-selection control.</xs:documentation>
+					<xs:documentation>Used to group a set of WRadioButtons into a usable single-selection control. This attribute is mandatory if the
+						field is not in a read-only state.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 			

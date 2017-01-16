@@ -35,18 +35,21 @@ final class WMultiSelectRenderer extends AbstractWebXmlRenderer {
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("data", dataKey != null && !readOnly, dataKey);
-		xml.appendOptionalAttribute("disabled", listBox.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", listBox.isHidden(), "true");
-		xml.appendOptionalAttribute("required", listBox.isMandatory(), "true");
-		xml.appendOptionalAttribute("readOnly", readOnly, "true");
-		xml.appendOptionalAttribute("submitOnChange", listBox.isSubmitOnChange(), "true");
-		xml.appendOptionalAttribute("tabIndex", component.hasTabIndex(), listBox.getTabIndex());
-		xml.appendOptionalAttribute("toolTip", component.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", component.getAccessibleText());
-		xml.appendOptionalAttribute("rows", rows >= 2, rows);
-		xml.appendOptionalAttribute("min", min > 0, min);
-		xml.appendOptionalAttribute("max", max > 0, max);
+		if (readOnly) {
+			xml.appendAttribute("readOnly", "true");
+		} else {
+			xml.appendOptionalAttribute("data", dataKey != null && !readOnly, dataKey);
+			xml.appendOptionalAttribute("disabled", listBox.isDisabled(), "true");
+			xml.appendOptionalAttribute("required", listBox.isMandatory(), "true");
+			xml.appendOptionalAttribute("submitOnChange", listBox.isSubmitOnChange(), "true");
+			xml.appendOptionalAttribute("tabIndex", component.hasTabIndex(), listBox.getTabIndex());
+			xml.appendOptionalAttribute("toolTip", component.getToolTip());
+			xml.appendOptionalAttribute("accessibleText", component.getAccessibleText());
+			xml.appendOptionalAttribute("rows", rows >= 2, rows);
+			xml.appendOptionalAttribute("min", min > 0, min);
+			xml.appendOptionalAttribute("max", max > 0, max);
+		}
 		xml.appendClose();
 
 		// Options

@@ -21,6 +21,7 @@
 	-->
 	<xsl:template match="ui:link">
 		<xsl:param name="imageAltText" select="''"/>
+		<xsl:param name="ajax" select="''"/>
 		<xsl:variable name="elementType">
 			<xsl:choose>
 				<xsl:when test="@type eq 'button'">
@@ -45,6 +46,11 @@
 					<xsl:attribute name="href">
 						<xsl:value-of select="@url"/>
 					</xsl:attribute>
+					<xsl:if test="$ajax != ''">
+						<xsl:attribute name="data-wc-ajaxalias">
+							<xsl:value-of select="$ajax"/>
+						</xsl:attribute>
+					</xsl:if>
 					<xsl:if test="@rel or windowAttributes">
 						<xsl:variable name="noopener" select="'noopener'"/>
 						<xsl:variable name="noreferrer" select="'noreferrer'"/>
