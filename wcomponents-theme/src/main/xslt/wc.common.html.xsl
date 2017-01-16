@@ -26,18 +26,20 @@
 	<xsl:template match="html:link[ancestor::ui:ajaxtarget]">
 		<xsl:copy-of select="."/>
 	</xsl:template>
+	
+	<!-- Copy without XML namespaces. Also prevents double out-put of HML self-closing elements like `br` and `hr` -->
+	<xsl:template name="copyHtml">
+		<xsl:element name="{local-name(.)}">
+			<xsl:apply-templates select="@*"/>
+		</xsl:element>
+	</xsl:template>
 
 	<!--
 		Copy link, base and meta elements in the head.
 	-->
 	<xsl:template match="html:link|html:base|html:meta" mode="inHead">
-		<xsl:variable name="el" select="local-name()"/>
-		<!-- copy without XML namespaces -->
-		<xsl:element name="{$el}">
-			<xsl:apply-templates select="@*"/>
-		</xsl:element>
+		<xsl:call-template name="copyHtml"/>
 	</xsl:template>
-
 
 	<!--
 		HTML 'shorttag' elements
@@ -50,8 +52,8 @@
 		
 		If you need to support IE you probably want this template.
 	-->
-	<xsl:template match="html:input|html:img|html:br">
-		<xsl:copy-of select="."/>
+	<xsl:template match="html:input|html:img|html:br|html:hr">
+		<xsl:call-template name="copyHtml"/>
 	</xsl:template>
 
 	<!--
