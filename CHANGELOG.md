@@ -10,10 +10,10 @@
 * Fixed a bug in modalShim which resulted in accesskeys being stripped from inside WDialog content #1051 (QC 162189).
 * Fixed an XSLT issue which could result in double-output of some HTML elements embedded in WComponents XML #1056
   (QC 162143)
+* Remove exposure of the `size` attribute when rendering `WNumberField` #1010.
 
 ## Enhancements
 * Improve efficiency of `Input` renderers when the rendered input is in a read-only state #781.
-* Remove exposure of the `size` attribute when rendering `WNumberField` #1010.
 
 # Release 1.3.2
 
