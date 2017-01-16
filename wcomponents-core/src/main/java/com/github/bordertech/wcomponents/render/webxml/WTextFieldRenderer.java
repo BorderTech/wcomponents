@@ -32,9 +32,10 @@ class WTextFieldRenderer extends AbstractWebXmlRenderer {
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("readOnly", readOnly, "true");
 		xml.appendOptionalAttribute("hidden", component.isHidden(), "true");
-		if (!readOnly) {
+		if (readOnly) {
+			xml.appendAttribute("readOnly", "true");
+		} else {
 			int cols = textField.getColumns();
 			int minLength = textField.getMinLength();
 			int maxLength = textField.getMaxLength();

@@ -35,8 +35,9 @@ final class WToggleButtonRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("hidden", toggle.isHidden(), "true");
 		xml.appendOptionalAttribute("selected", toggle.isSelected(), "true");
-		xml.appendOptionalAttribute("readOnly", readOnly, "true");
-		if (!readOnly) {
+		if (readOnly) {
+			xml.appendAttribute("readOnly", "true");
+		} else {
 			WComponentGroup<WCheckBox> group = toggle.getGroup();
 			String groupName = group == null ? null : group.getId();
 			xml.appendOptionalAttribute("groupName", groupName);

@@ -25,16 +25,17 @@ class WEmailFieldRenderer extends AbstractWebXmlRenderer {
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		WEmailField field = (WEmailField) component;
 		XmlStringBuilder xml = renderContext.getWriter();
-		boolean isReadOnly = field.isReadOnly();
+		boolean readOnly = field.isReadOnly();
 
 		xml.appendTagOpen("ui:emailfield");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("hidden", component.isHidden(), "true");
-		xml.appendOptionalAttribute("readOnly", isReadOnly, "true");
 
-		if (!isReadOnly) {
+		if (readOnly) {
+			xml.appendAttribute("readOnly", "true");
+		} else {
 			int cols = field.getColumns();
 			int maxLength = field.getMaxLength();
 
