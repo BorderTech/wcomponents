@@ -10,6 +10,8 @@
 * Fixed a bug in modalShim which resulted in accesskeys being stripped from inside WDialog content #1051.
 
 ## Enhancements
+* Improve efficiency of `Input` renderers when the rendered input is in a read-only state #781.
+* Remove exposure of the `size` attribute when rendering `WNumberField` #1010.
 
 # Release 1.3.2
 
