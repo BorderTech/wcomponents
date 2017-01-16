@@ -30,14 +30,12 @@
 		<xsl:element name="{$containerTag}">
 			<xsl:call-template name="commonWrapperAttributes">
 				<xsl:with-param name="class">
-					<xsl:choose>
-						<xsl:when test="@readOnly">
-							<xsl:text>wc_ro</xsl:text>
-						</xsl:when>
-						<xsl:when test="@ajax">
-							<xsl:text>wc-ajax</xsl:text>
-						</xsl:when>
-					</xsl:choose>
+					<xsl:if test="@readOnly">
+						<xsl:text>wc_ro</xsl:text>
+					</xsl:if>
+					<xsl:if test="@ajax">
+						<xsl:text> wc-ajax</xsl:text>
+					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:attribute name="data-wc-cols">
