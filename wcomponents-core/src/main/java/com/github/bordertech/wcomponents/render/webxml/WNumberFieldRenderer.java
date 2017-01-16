@@ -42,7 +42,6 @@ final class WNumberFieldRenderer extends AbstractWebXmlRenderer {
 			BigDecimal min = field.getMinValue();
 			BigDecimal max = field.getMaxValue();
 			BigDecimal step = field.getStep();
-			int cols = field.getColumns();
 			int decimals = field.getDecimalPlaces();
 			xml.appendOptionalAttribute("disabled", field.isDisabled(), "true");
 			xml.appendOptionalAttribute("required", field.isMandatory(), "true");
