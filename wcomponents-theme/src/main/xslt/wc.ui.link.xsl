@@ -28,6 +28,7 @@
 	-->
 	<xsl:template match="ui:link">
 		<xsl:param name="imageAltText" select="''"/>
+		<xsl:param name="ajax" select="''"/>
 		<xsl:variable name="type" select="@type"/>
 		<xsl:variable name="hasPopup">
 			<xsl:choose>
@@ -69,6 +70,11 @@
 					<xsl:attribute name="href">
 						<xsl:value-of select="@url"/>
 					</xsl:attribute>
+					<xsl:if test="$ajax != ''">
+						<xsl:attribute name="data-wc-ajaxalias">
+							<xsl:value-of select="$ajax"/>
+						</xsl:attribute>
+					</xsl:if>
 					<xsl:if test="@rel or windowAttributes">
 						<xsl:attribute name="rel">
 							<xsl:choose>
