@@ -25,24 +25,27 @@ final class WFileWidgetRenderer extends AbstractWebXmlRenderer {
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		WFileWidget fileWidget = (WFileWidget) component;
 		XmlStringBuilder xml = renderContext.getWriter();
+		boolean readOnly = fileWidget.isReadOnly();
 		long maxFileSize = fileWidget.getMaxFileSize();
 
 		xml.appendTagOpen("ui:fileupload");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("disabled", fileWidget.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", component.isHidden(), "true");
-		xml.appendOptionalAttribute("required", fileWidget.isMandatory(), "true");
-		xml.appendOptionalAttribute("readOnly", fileWidget.isReadOnly(), "true");
-		xml.appendOptionalAttribute("tabIndex", fileWidget.hasTabIndex(), fileWidget.getTabIndex());
-		xml.appendOptionalAttribute("toolTip", fileWidget.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", fileWidget.getAccessibleText());
-		xml.appendOptionalAttribute("acceptedMimeTypes", typesToString(fileWidget.getFileTypes()));
-		xml.appendOptionalAttribute("maxFileSize", maxFileSize > 0, maxFileSize);
-		xml.appendAttribute("maxFiles", "1");
-		xml.appendAttribute("async", "false");
-
+		if (readOnly) {
+			xml.appendAttribute("readOnly", "true");
+		} else {
+			xml.appendOptionalAttribute("disabled", fileWidget.isDisabled(), "true");
+			xml.appendOptionalAttribute("required", fileWidget.isMandatory(), "true");
+			xml.appendOptionalAttribute("tabIndex", fileWidget.hasTabIndex(), fileWidget.getTabIndex());
+			xml.appendOptionalAttribute("toolTip", fileWidget.getToolTip());
+			xml.appendOptionalAttribute("accessibleText", fileWidget.getAccessibleText());
+			xml.appendOptionalAttribute("acceptedMimeTypes", typesToString(fileWidget.getFileTypes()));
+			xml.appendOptionalAttribute("maxFileSize", maxFileSize > 0, maxFileSize);
+			xml.appendAttribute("maxFiles", "1");
+			xml.appendAttribute("async", "false");
+		}
 		xml.appendEnd();
 	}
 

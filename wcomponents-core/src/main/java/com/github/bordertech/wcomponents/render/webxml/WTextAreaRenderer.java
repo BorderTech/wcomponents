@@ -31,9 +31,10 @@ class WTextAreaRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("hidden", textArea.isHidden(), "true");
-		xml.appendOptionalAttribute("readOnly", readOnly, "true");
 
-		if (!readOnly) {
+		if (readOnly) {
+			xml.appendAttribute("readOnly", "true");
+		} else {
 			int cols = textArea.getColumns();
 			int rows = textArea.getRows();
 			int minLength = textArea.getMinLength();

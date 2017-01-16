@@ -35,37 +35,42 @@ final class WMultiFileWidgetRenderer extends AbstractWebXmlRenderer {
 			handleFileUploadRequest(widget, xml, uploadId);
 			return;
 		}
+		boolean readOnly = widget.isReadOnly();
 
-		long maxFileSize = widget.getMaxFileSize();
-		int maxFiles = widget.getMaxFiles();
-		WComponent dropzone = widget.getDropzone();
-		WImageEditor editor = widget.getEditor();
 
 		xml.appendTagOpen("ui:fileupload");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("disabled", widget.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", widget.isHidden(), "true");
-		xml.appendOptionalAttribute("required", widget.isMandatory(), "true");
-		xml.appendOptionalAttribute("readOnly", widget.isReadOnly(), "true");
-		xml.appendOptionalAttribute("tabIndex", widget.hasTabIndex(), widget.getTabIndex());
-		xml.appendOptionalAttribute("toolTip", widget.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", widget.getAccessibleText());
-		xml.appendOptionalAttribute("acceptedMimeTypes", typesToString(widget.getFileTypes()));
-		xml.appendOptionalAttribute("maxFileSize", maxFileSize > 0, maxFileSize);
-		xml.appendOptionalAttribute("maxFiles", maxFiles > 0, maxFiles);
+		if (readOnly) {
+			xml.appendAttribute("readOnly", "true");
+		} else {
+			long maxFileSize = widget.getMaxFileSize();
+			int maxFiles = widget.getMaxFiles();
+			WComponent dropzone = widget.getDropzone();
+			WImageEditor editor = widget.getEditor();
+
+			xml.appendOptionalAttribute("disabled", widget.isDisabled(), "true");
+			xml.appendOptionalAttribute("required", widget.isMandatory(), "true");
+			xml.appendOptionalAttribute("tabIndex", widget.hasTabIndex(), widget.getTabIndex());
+			xml.appendOptionalAttribute("toolTip", widget.getToolTip());
+			xml.appendOptionalAttribute("accessibleText", widget.getAccessibleText());
+			xml.appendOptionalAttribute("acceptedMimeTypes", typesToString(widget.getFileTypes()));
+			xml.appendOptionalAttribute("maxFileSize", maxFileSize > 0, maxFileSize);
+			xml.appendOptionalAttribute("maxFiles", maxFiles > 0, maxFiles);
+			if (dropzone != null) {
+				xml.appendAttribute("dropzone", dropzone.getId());
+			}
+			if (editor != null) {
+				xml.appendAttribute("editor", editor.getId());
+				if (editor.getUseCamera()) {
+					xml.appendAttribute("camera", true);
+				}
+			}
+		}
 		if (widget.getColumns() != null) {
 			xml.appendAttribute("cols", widget.getColumns());
-		}
-		if (dropzone != null) {
-			xml.appendAttribute("dropzone", dropzone.getId());
-		}
-		if (editor != null) {
-			xml.appendAttribute("editor", editor.getId());
-			if (editor.getUseCamera()) {
-				xml.appendAttribute("camera", true);
-			}
 		}
 		if (widget.getFileAjaxAction() != null) {
 			xml.appendAttribute("ajax", "true");

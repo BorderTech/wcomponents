@@ -48,16 +48,6 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 		drop.setLocked(true);
 		setActiveContext(createUIContext());
 
-		// Check Readonly - only render selected option
-		drop.setReadOnly(true);
-		drop.setSelected("B");
-		assertSchemaMatch(drop);
-		assertXpathEvaluatesTo(drop.getId(), "//ui:dropdown/@id", drop);
-		assertXpathEvaluatesTo("true", "//ui:dropdown/@readOnly", drop);
-		assertXpathEvaluatesTo("1", "count(//ui:dropdown/ui:option)", drop);
-		assertXpathEvaluatesTo("1", "count(//ui:dropdown/ui:option[@selected='true'])", drop);
-		assertXpathEvaluatesTo("B", "//ui:dropdown/ui:option[@selected='true']", drop);
-
 		resetContext();
 		drop = new WDropdown(new String[]{"A", "B"});
 		assertXpathEvaluatesTo("2", "count(//ui:dropdown/ui:option)", drop);
@@ -70,6 +60,23 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 		drop.setOptions(new String[]{"X"});
 		assertXpathEvaluatesTo("1", "count(//ui:dropdown/ui:option)", drop);
 		assertXpathExists("//ui:dropdown[ui:option='X']", drop);
+	}
+
+	@Test
+	public void testDoPaintReadOnly() throws IOException, SAXException, XpathException {
+		// Shared options.
+		WDropdown drop = new WDropdown();
+		drop.setOptions(new String[]{"A", "B", "C"});
+		setActiveContext(createUIContext());
+
+		// Check Readonly - only render selected option
+		drop.setReadOnly(true);
+		drop.setSelected("B");
+		assertSchemaMatch(drop);
+		assertXpathEvaluatesTo("true", "//ui:dropdown/@readOnly", drop);
+		assertXpathEvaluatesTo("1", "count(//ui:dropdown/ui:option)", drop);
+		assertXpathEvaluatesTo("1", "count(//ui:dropdown/ui:option[@selected='true'])", drop);
+		assertXpathEvaluatesTo("B", "//ui:dropdown/ui:option[@selected='true']", drop);
 	}
 
 	@Test
@@ -101,10 +108,6 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 		drop.setMandatory(true);
 		assertSchemaMatch(drop);
 		assertXpathEvaluatesTo("true", "//ui:dropdown/@required", drop);
-
-		drop.setReadOnly(true);
-		assertSchemaMatch(drop);
-		assertXpathEvaluatesTo("true", "//ui:dropdown/@readOnly", drop);
 
 		drop.setSubmitOnChange(true);
 		assertSchemaMatch(drop);

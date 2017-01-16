@@ -34,16 +34,19 @@ final class WSingleSelectRenderer extends AbstractWebXmlRenderer {
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("data", dataKey != null && !readOnly, dataKey);
-		xml.appendOptionalAttribute("disabled", listBox.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", listBox.isHidden(), "true");
-		xml.appendOptionalAttribute("required", listBox.isMandatory(), "true");
-		xml.appendOptionalAttribute("readOnly", readOnly, "true");
-		xml.appendOptionalAttribute("submitOnChange", listBox.isSubmitOnChange(), "true");
-		xml.appendOptionalAttribute("tabIndex", component.hasTabIndex(), listBox.getTabIndex());
-		xml.appendOptionalAttribute("toolTip", component.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", component.getAccessibleText());
-		xml.appendOptionalAttribute("rows", rows >= 2, rows);
+		if (readOnly) {
+			xml.appendAttribute("readOnly", "true");
+		} else {
+			xml.appendOptionalAttribute("data", dataKey != null, dataKey);
+			xml.appendOptionalAttribute("disabled", listBox.isDisabled(), "true");
+			xml.appendOptionalAttribute("required", listBox.isMandatory(), "true");
+			xml.appendOptionalAttribute("submitOnChange", listBox.isSubmitOnChange(), "true");
+			xml.appendOptionalAttribute("tabIndex", component.hasTabIndex(), listBox.getTabIndex());
+			xml.appendOptionalAttribute("toolTip", component.getToolTip());
+			xml.appendOptionalAttribute("accessibleText", component.getAccessibleText());
+			xml.appendOptionalAttribute("rows", rows >= 2, rows);
+		}
 		xml.appendAttribute("single", "true");
 
 		xml.appendClose();
@@ -63,14 +66,12 @@ final class WSingleSelectRenderer extends AbstractWebXmlRenderer {
 					xml.appendClose();
 
 					for (Object nestedOption : ((OptionGroup) option).getOptions()) {
-						renderOption(listBox, nestedOption, optionIndex++, xml, selectedOption,
-								renderSelectionsOnly);
+						renderOption(listBox, nestedOption, optionIndex++, xml, selectedOption, renderSelectionsOnly);
 					}
 
 					xml.appendEndTag("ui:optgroup");
 				} else {
-					renderOption(listBox, option, optionIndex++, xml, selectedOption,
-							renderSelectionsOnly);
+					renderOption(listBox, option, optionIndex++, xml, selectedOption, renderSelectionsOnly);
 				}
 			}
 		}

@@ -380,7 +380,9 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 
 	/**
 	 * @return the width of the input field in characters.
+	 * @deprecated 1.3 size not used as it is incompatible with HTML specification.
 	 */
+	@Deprecated
 	public int getColumns() {
 		return getComponentModel().columns;
 	}
@@ -389,7 +391,9 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 	 * Sets the width of the input field in characters.
 	 *
 	 * @param columns the number of characters to display.
+	 * @deprecated 1.3 size not used as it is incompatible with HTML specification.
 	 */
+	@Deprecated
 	public void setColumns(final int columns) {
 		getOrCreateComponentModel().columns = columns;
 	}
@@ -485,7 +489,9 @@ public class WNumberField extends AbstractInput implements AjaxTrigger, AjaxTarg
 
 		/**
 		 * The number of columns to display for the field.
+		 * @deprecated 1.3 columns not used as it is incompatible with HTML specification.
 		 */
+		@Deprecated
 		private int columns;
 
 		/**

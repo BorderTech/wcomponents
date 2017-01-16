@@ -54,10 +54,6 @@ public class WFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(fileUpload);
 		assertXpathEvaluatesTo("true", "//ui:fileupload/@required", fileUpload);
 
-		fileUpload.setReadOnly(true);
-		assertSchemaMatch(fileUpload);
-		assertXpathEvaluatesTo("true", "//ui:fileupload/@readOnly", fileUpload);
-
 		fileUpload.setToolTip("tooltip");
 		assertSchemaMatch(fileUpload);
 		assertXpathEvaluatesTo(fileUpload.getToolTip(), "//ui:fileupload/@toolTip", fileUpload);
@@ -72,6 +68,15 @@ public class WFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		fileUpload.setMaxFileSize(12345);
 		assertXpathEvaluatesTo("12345", "//ui:fileupload/@maxFileSize", fileUpload);
+	}
+
+	@Test
+	public void testReadOnly() throws IOException, SAXException, XpathException {
+		WFileWidget fileUpload = new WFileWidget();
+
+		fileUpload.setReadOnly(true);
+		assertSchemaMatch(fileUpload);
+		assertXpathEvaluatesTo("true", "//ui:fileupload/@readOnly", fileUpload);
 	}
 
 	@Test

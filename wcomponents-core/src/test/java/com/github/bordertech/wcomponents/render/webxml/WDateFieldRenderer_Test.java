@@ -73,7 +73,6 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		dateField.setDisabled(true);
 		setFlag(dateField, ComponentModel.HIDE_FLAG, true);
 		dateField.setMandatory(true);
-		dateField.setReadOnly(true);
 		dateField.setToolTip("TITLE");
 		dateField.setAccessibleText("ALT");
 		dateField.setDefaultSubmitButton(button);
@@ -91,13 +90,25 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("true", "//ui:datefield/@disabled", dateField);
 		assertXpathEvaluatesTo("true", "//ui:datefield/@hidden", dateField);
 		assertXpathEvaluatesTo("true", "//ui:datefield/@required", dateField);
-		assertXpathEvaluatesTo("true", "//ui:datefield/@readOnly", dateField);
 		assertXpathEvaluatesTo("", "//ui:datefield/@tabIndex", dateField);
 		assertXpathEvaluatesTo("TITLE", "//ui:datefield/@toolTip", dateField);
 		assertXpathEvaluatesTo("ALT", "//ui:datefield/@accessibleText", dateField);
 		assertXpathEvaluatesTo(button.getId(), "//ui:datefield/@buttonId", dateField);
 		assertXpathEvaluatesTo("2011-02-01", "//ui:datefield/@min", dateField);
 		assertXpathEvaluatesTo("2012-03-02", "//ui:datefield/@max", dateField);
+	}
+
+	@Test
+	public void testDoPaintReadOnly() throws IOException, SAXException, XpathException {
+		WDateField dateField = new WDateField();
+		dateField.setDate(TEST_DATE);
+		dateField.setReadOnly(true);
+		setActiveContext(createUIContext());
+
+		// Validate Schema
+		assertSchemaMatch(dateField);
+		assertXpathEvaluatesTo("true", "//ui:datefield/@readOnly", dateField);
+		assertXpathEvaluatesTo(TEST_INTERNAL_DATE_STRING, "//ui:datefield/@date", dateField);
 	}
 
 	@Test
