@@ -64,12 +64,6 @@ public class WRadioButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(button);
 		assertXpathEvaluatesTo("true", "//ui:radiobutton/@required", button);
 
-		// Check readOnly
-		assertXpathNotExists("//ui:radiobutton/@readOnly", button);
-		button.setReadOnly(true);
-		assertSchemaMatch(button);
-		assertXpathEvaluatesTo("true", "//ui:radiobutton/@readOnly", button);
-
 		// Check toolTip
 		String toolTip = "WRadioButton_Test.testRenderedFormat.toolTip";
 		button.setToolTip(toolTip);
@@ -86,6 +80,24 @@ public class WRadioButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 		group.setSubmitOnChange(true);
 		assertSchemaMatch(button);
 		assertXpathEvaluatesTo("true", "//ui:radiobutton/@submitOnChange", button);
+	}
+
+	@Test
+	public void testReadOnly() throws IOException, SAXException, XpathException {
+		RadioButtonGroup group = new RadioButtonGroup();
+		WRadioButton button = group.addRadioButton(1);
+
+		button.setVisible(true);
+		// Check readOnly
+		assertXpathNotExists("//ui:radiobutton/@readOnly", button);
+		button.setReadOnly(true);
+		assertSchemaMatch(button);
+		assertXpathEvaluatesTo("true", "//ui:radiobutton/@readOnly", button);
+		// Check selected read-only
+		assertXpathNotExists("//ui:radiobutton/@selected", button);
+		button.setSelected(true);
+		assertSchemaMatch(button);
+		assertXpathEvaluatesTo("true", "//ui:radiobutton/@selected", button);
 	}
 
 	@Test

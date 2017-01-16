@@ -41,21 +41,22 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 		single.setSelected("b");
 		assertSchemaMatch(single);
 		assertXpathEvaluatesTo("3", "count(//ui:listbox/ui:option)", single);
-		assertXpathEvaluatesTo("b", "normalize-space(//ui:listbox/ui:option[@selected='true'])",
-				single);
-
-		// Check Readonly - only render selected option
-		single.setReadOnly(true);
-		assertSchemaMatch(single);
-		assertXpathEvaluatesTo("true", "//ui:listbox/@readOnly", single);
-		assertXpathEvaluatesTo("1", "count(//ui:listbox/ui:option)", single);
-		assertXpathEvaluatesTo("b", "normalize-space(//ui:listbox/ui:option[@selected='true'])",
-				single);
-
+		assertXpathEvaluatesTo("b", "normalize-space(//ui:listbox/ui:option[@selected='true'])", single);
 		// Check rows
 		single.setRows(123);
 		assertSchemaMatch(single);
 		assertXpathEvaluatesTo("123", "//ui:listbox/@rows", single);
+	}
+
+	@Test
+	public void testReadOnly() throws IOException, SAXException, XpathException {
+		WSingleSelect single = new WSingleSelect(new String[]{"a", "b", "c"});
+		single.setSelected("b");
+		single.setReadOnly(true);
+		assertSchemaMatch(single);
+		assertXpathEvaluatesTo("true", "//ui:listbox/@readOnly", single);
+		assertXpathEvaluatesTo("1", "count(//ui:listbox/ui:option)", single);
+		assertXpathEvaluatesTo("b", "normalize-space(//ui:listbox/ui:option[@selected='true'])", single);
 	}
 
 	@Test
@@ -68,7 +69,6 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 		single.setDisabled(true);
 		setFlag(single, ComponentModel.HIDE_FLAG, true);
 		single.setMandatory(true);
-		single.setReadOnly(true);
 		single.setSubmitOnChange(true);
 		single.setToolTip(tooltip);
 		single.setAccessibleText(accessible);
@@ -77,7 +77,6 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("true", "//ui:listbox/@disabled", single);
 		assertXpathEvaluatesTo("true", "//ui:listbox/@hidden", single);
 		assertXpathEvaluatesTo("true", "//ui:listbox/@required", single);
-		assertXpathEvaluatesTo("true", "//ui:listbox/@readOnly", single);
 		assertXpathEvaluatesTo("true", "//ui:listbox/@submitOnChange", single);
 		assertXpathEvaluatesTo(tooltip, "//ui:listbox/@toolTip", single);
 		assertXpathEvaluatesTo(accessible, "//ui:listbox/@accessibleText", single);

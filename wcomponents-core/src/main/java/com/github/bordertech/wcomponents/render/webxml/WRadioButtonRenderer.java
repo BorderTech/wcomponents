@@ -34,6 +34,8 @@ final class WRadioButtonRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("hidden", button.isHidden(), "true");
+		xml.appendAttribute("groupName", button.getGroupName());
+		xml.appendAttribute("value", WebUtilities.encode(value));
 		if (readOnly) {
 			xml.appendAttribute("readOnly", "true");
 		} else {
@@ -46,9 +48,7 @@ final class WRadioButtonRenderer extends AbstractWebXmlRenderer {
 			// Check for null option (ie null or empty). Match isEmpty() logic.
 			boolean isNull = value == null ? true : (value.length() == 0);
 			xml.appendOptionalAttribute("isNull", isNull, "true");
-			xml.appendAttribute("groupName", button.getGroupName());
 		}
-		xml.appendAttribute("value", WebUtilities.encode(value));
 		xml.appendOptionalAttribute("selected", button.isSelected(), "true");
 		xml.appendEnd();
 	}

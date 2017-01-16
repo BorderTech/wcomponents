@@ -64,10 +64,6 @@ public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(numberField);
 		assertXpathEvaluatesTo("true", "//ui:numberfield/@required", numberField);
 
-		numberField.setReadOnly(true);
-		assertSchemaMatch(numberField);
-		assertXpathEvaluatesTo("true", "//ui:numberfield/@readOnly", numberField);
-
 		numberField.setToolTip("toolTip");
 		assertSchemaMatch(numberField);
 		assertXpathEvaluatesTo(numberField.getToolTip(), "//ui:numberfield/@toolTip", numberField);
@@ -100,6 +96,15 @@ public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		numberField.setNumber(123);
 		assertSchemaMatch(numberField);
 		assertXpathEvaluatesTo("123", "normalize-space(//ui:numberfield)", numberField);
+	}
+
+	@Test
+	public void testReadOnly() throws IOException, SAXException, XpathException {
+		WNumberField numberField = new WNumberField();
+
+		numberField.setReadOnly(true);
+		assertSchemaMatch(numberField);
+		assertXpathEvaluatesTo("true", "//ui:numberfield/@readOnly", numberField);
 	}
 
 	@Test

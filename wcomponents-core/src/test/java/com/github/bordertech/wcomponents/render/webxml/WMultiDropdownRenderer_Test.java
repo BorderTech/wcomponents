@@ -43,21 +43,26 @@ public class WMultiDropdownRenderer_Test extends AbstractWebXmlRendererTestCase 
 		dropdown.setSelected(Arrays.asList(new String[]{"b"}));
 		assertSchemaMatch(dropdown);
 		assertXpathEvaluatesTo("3", "count(//ui:multidropdown/ui:option)", dropdown);
-		assertXpathEvaluatesTo("b",
-				"normalize-space(//ui:multidropdown/ui:option[@selected='true'])", dropdown);
-
-		// Check Readonly - only render selected option
-		dropdown.setReadOnly(true);
-		assertSchemaMatch(dropdown);
-		assertXpathEvaluatesTo("true", "//ui:multidropdown/@readOnly", dropdown);
-		assertXpathEvaluatesTo("1", "count(//ui:multidropdown/ui:option)", dropdown);
-		assertXpathEvaluatesTo("b",
-				"normalize-space(//ui:multidropdown/ui:option[@selected='true'])", dropdown);
+		assertXpathEvaluatesTo("b", "normalize-space(//ui:multidropdown/ui:option[@selected='true'])", dropdown);
 
 		// Check max inputs
 		dropdown.setMaxInputs(123);
 		assertSchemaMatch(dropdown);
 		assertXpathEvaluatesTo("123", "//ui:multidropdown/@max", dropdown);
+	}
+
+	@Test
+	public void testReadOnly() throws IOException, SAXException, XpathException {
+		WMultiDropdown dropdown = new WMultiDropdown(new String[]{"a", "b", "c"});
+		setActiveContext(createUIContext());
+
+		// Check Readonly - only render selected option
+		dropdown.setReadOnly(true);
+		dropdown.setSelected(Arrays.asList(new String[]{"b"}));
+		assertSchemaMatch(dropdown);
+		assertXpathEvaluatesTo("true", "//ui:multidropdown/@readOnly", dropdown);
+		assertXpathEvaluatesTo("1", "count(//ui:multidropdown/ui:option)", dropdown);
+		assertXpathEvaluatesTo("b", "normalize-space(//ui:multidropdown/ui:option[@selected='true'])", dropdown);
 	}
 
 	@Test
@@ -67,7 +72,6 @@ public class WMultiDropdownRenderer_Test extends AbstractWebXmlRendererTestCase 
 		dropdown.setDisabled(true);
 		setFlag(dropdown, ComponentModel.HIDE_FLAG, true);
 		dropdown.setMandatory(true);
-		dropdown.setReadOnly(true);
 		dropdown.setSubmitOnChange(true);
 		dropdown.setToolTip("tool tip");
 		dropdown.setAccessibleText("accessible text");
@@ -80,7 +84,6 @@ public class WMultiDropdownRenderer_Test extends AbstractWebXmlRendererTestCase 
 		assertXpathEvaluatesTo("true", "//ui:multidropdown/@disabled", dropdown);
 		assertXpathEvaluatesTo("true", "//ui:multidropdown/@hidden", dropdown);
 		assertXpathEvaluatesTo("true", "//ui:multidropdown/@required", dropdown);
-		assertXpathEvaluatesTo("true", "//ui:multidropdown/@readOnly", dropdown);
 		assertXpathEvaluatesTo("true", "//ui:multidropdown/@submitOnChange", dropdown);
 		assertXpathEvaluatesTo("tool tip", "//ui:multidropdown/@toolTip", dropdown);
 		assertXpathEvaluatesTo("accessible text", "//ui:multidropdown/@accessibleText", dropdown);
