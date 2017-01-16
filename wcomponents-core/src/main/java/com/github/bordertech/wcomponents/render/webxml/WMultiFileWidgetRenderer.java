@@ -68,12 +68,12 @@ final class WMultiFileWidgetRenderer extends AbstractWebXmlRenderer {
 					xml.appendAttribute("camera", true);
 				}
 			}
-			if (widget.getFileAjaxAction() != null) {
-				xml.appendAttribute("ajax", "true");
-			}
 		}
 		if (widget.getColumns() != null) {
 			xml.appendAttribute("cols", widget.getColumns());
+		}
+		if (widget.getFileAjaxAction() != null) {
+			xml.appendAttribute("ajax", "true");
 		}
 
 		if (widget.getFiles().isEmpty()) {
