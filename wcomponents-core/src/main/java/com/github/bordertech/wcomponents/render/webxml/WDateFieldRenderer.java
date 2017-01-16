@@ -30,37 +30,40 @@ final class WDateFieldRenderer extends AbstractWebXmlRenderer {
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		WDateField dateField = (WDateField) component;
 		XmlStringBuilder xml = renderContext.getWriter();
+		boolean readOnly = dateField.isReadOnly();
 
-		WComponent submitControl = dateField.getDefaultSubmitButton();
-		String submitControlId = submitControl == null ? null : submitControl.getId();
 		Date date = dateField.getDate();
-		Date minDate = dateField.getMinDate();
-		Date maxDate = dateField.getMaxDate();
 
 		xml.appendTagOpen("ui:datefield");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("disabled", dateField.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", dateField.isHidden(), "true");
-		xml.appendOptionalAttribute("required", dateField.isMandatory(), "true");
-		xml.appendOptionalAttribute("readOnly", dateField.isReadOnly(), "true");
-		xml.appendOptionalAttribute("tabIndex", dateField.hasTabIndex(), String.valueOf(dateField.
-				getTabIndex()));
-		xml.appendOptionalAttribute("toolTip", dateField.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", dateField.getAccessibleText());
-		xml.appendOptionalAttribute("buttonId", submitControlId);
+		if (readOnly) {
+			xml.appendAttribute("readOnly", "true");
+		} else {
+			xml.appendOptionalAttribute("disabled", dateField.isDisabled(), "true");
+			xml.appendOptionalAttribute("required", dateField.isMandatory(), "true");
+			xml.appendOptionalAttribute("tabIndex", dateField.hasTabIndex(), String.valueOf(dateField.getTabIndex()));
+			xml.appendOptionalAttribute("toolTip", dateField.getToolTip());
+			xml.appendOptionalAttribute("accessibleText", dateField.getAccessibleText());
+
+			WComponent submitControl = dateField.getDefaultSubmitButton();
+			String submitControlId = submitControl == null ? null : submitControl.getId();
+			xml.appendOptionalAttribute("buttonId", submitControlId);
+
+			Date minDate = dateField.getMinDate();
+			Date maxDate = dateField.getMaxDate();
+			if (minDate != null) {
+				xml.appendAttribute("min", new SimpleDateFormat(INTERNAL_DATE_FORMAT).format(minDate));
+			}
+			if (maxDate != null) {
+				xml.appendAttribute("max", new SimpleDateFormat(INTERNAL_DATE_FORMAT).format(maxDate));
+			}
+		}
 
 		if (date != null) {
 			xml.appendAttribute("date", new SimpleDateFormat(INTERNAL_DATE_FORMAT).format(date));
-		}
-
-		if (minDate != null) {
-			xml.appendAttribute("min", new SimpleDateFormat(INTERNAL_DATE_FORMAT).format(minDate));
-		}
-
-		if (maxDate != null) {
-			xml.appendAttribute("max", new SimpleDateFormat(INTERNAL_DATE_FORMAT).format(maxDate));
 		}
 
 		xml.appendClose();

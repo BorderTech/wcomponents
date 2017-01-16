@@ -27,26 +27,29 @@ final class WMultiDropdownRenderer extends AbstractWebXmlRenderer {
 		WMultiDropdown dropdown = (WMultiDropdown) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 		String dataKey = dropdown.getListCacheKey();
-		int tabIndex = dropdown.getTabIndex();
 		boolean readOnly = dropdown.isReadOnly();
-		int min = dropdown.getMinSelect();
-		int max = dropdown.getMaxSelect();
 
 		xml.appendTagOpen("ui:multidropdown");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("data", dataKey != null && !readOnly, dataKey);
-		xml.appendOptionalAttribute("disabled", dropdown.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", dropdown.isHidden(), "true");
-		xml.appendOptionalAttribute("required", dropdown.isMandatory(), "true");
-		xml.appendOptionalAttribute("readOnly", readOnly, "true");
-		xml.appendOptionalAttribute("submitOnChange", dropdown.isSubmitOnChange(), "true");
-		xml.appendOptionalAttribute("tabIndex", component.hasTabIndex(), tabIndex);
-		xml.appendOptionalAttribute("toolTip", component.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", component.getAccessibleText());
-		xml.appendOptionalAttribute("min", min > 0, min);
-		xml.appendOptionalAttribute("max", max > 0, max);
+		if (readOnly) {
+			xml.appendAttribute("readOnly", "true");
+		} else {
+			xml.appendOptionalAttribute("data", dataKey != null && !readOnly, dataKey);
+			xml.appendOptionalAttribute("disabled", dropdown.isDisabled(), "true");
+			xml.appendOptionalAttribute("required", dropdown.isMandatory(), "true");
+			xml.appendOptionalAttribute("submitOnChange", dropdown.isSubmitOnChange(), "true");
+			int tabIndex = dropdown.getTabIndex();
+			xml.appendOptionalAttribute("tabIndex", component.hasTabIndex(), tabIndex);
+			xml.appendOptionalAttribute("toolTip", component.getToolTip());
+			xml.appendOptionalAttribute("accessibleText", component.getAccessibleText());
+			int min = dropdown.getMinSelect();
+			int max = dropdown.getMaxSelect();
+			xml.appendOptionalAttribute("min", min > 0, min);
+			xml.appendOptionalAttribute("max", max > 0, max);
+		}
 
 		xml.appendClose();
 
