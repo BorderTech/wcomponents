@@ -67,13 +67,6 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 				select);
 		assertXpathEvaluatesTo(option2, "//ui:multiselectpair/ui:option[@selected='true']", select);
 
-		// Check Readonly - only render selected option
-		select.setReadOnly(true);
-		assertSchemaMatch(select);
-		assertXpathEvaluatesTo("true", "//ui:multiselectpair/@readOnly", select);
-		assertXpathEvaluatesTo("1", "count(//ui:multiselectpair/ui:option)", select);
-		assertXpathEvaluatesTo(option2, "//ui:multiselectpair/ui:option[@selected='true']", select);
-
 		// Required
 		select.setMandatory(true);
 		assertSchemaMatch(select);
@@ -102,6 +95,27 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 	}
 
 	@Test
+	public void testReadOnlyOption() throws IOException, SAXException, XpathException {
+		final String option1 = "WMultiSelectPairRenderer_Test.testDoPaint.option1";
+		final String option2 = "WMultiSelectPairRenderer_Test.testDoPaint.option2";
+		final String option3 = "WMultiSelectPairRenderer_Test.testDoPaint.option3";
+
+		// Empty list
+		WMultiSelectPair select = new WMultiSelectPair();
+		setActiveContext(createUIContext());
+		select.setOptions(new String[]{option1, option2, option3});
+		select.setSelected(Arrays.asList(new String[]{option2}));
+		assertSchemaMatch(select);
+		// Check Readonly - only render selected option
+		select.setReadOnly(true);
+		assertSchemaMatch(select);
+		assertXpathEvaluatesTo("true", "//ui:multiselectpair/@readOnly", select);
+		assertXpathEvaluatesTo("1", "count(//ui:multiselectpair/ui:option)", select);
+		assertXpathEvaluatesTo(option2, "//ui:multiselectpair/ui:option[@selected='true']", select);
+	}
+
+
+	@Test
 	public void testDoPaintOptions() throws IOException, SAXException, XpathException {
 		WMultiSelectPair select = new WMultiSelectPair(new String[]{"a", "b", "c"});
 
@@ -109,7 +123,6 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 		select.setDisabled(true);
 		setFlag(select, ComponentModel.HIDE_FLAG, true);
 		select.setMandatory(true);
-		select.setReadOnly(true);
 		select.setShuffle(true);
 		select.setAvailableListName("available");
 		select.setSelectedListName("selected");
@@ -124,7 +137,6 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 		assertXpathEvaluatesTo("true", "//ui:multiselectpair/@disabled", select);
 		assertXpathEvaluatesTo("true", "//ui:multiselectpair/@hidden", select);
 		assertXpathEvaluatesTo("true", "//ui:multiselectpair/@required", select);
-		assertXpathEvaluatesTo("true", "//ui:multiselectpair/@readOnly", select);
 		assertXpathEvaluatesTo("true", "//ui:multiselectpair/@shuffle", select);
 		assertXpathEvaluatesTo("available", "//ui:multiselectpair/@fromListName", select);
 		assertXpathEvaluatesTo("selected", "//ui:multiselectpair/@toListName", select);
