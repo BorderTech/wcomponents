@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.readOnly.xsl"/>
 
@@ -22,7 +22,7 @@
 				<xsl:element name="{$tagName}">
 					<xsl:call-template name="commonAttributes">
 						<xsl:with-param name="class">
-							<xsl:text> wc_datero wc_ro wc-ro-input</xsl:text>
+							<xsl:text>wc_datero wc-ro-input</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:call-template name="roComponentName"/>
@@ -104,7 +104,7 @@
 									<xsl:when test="@allowPartial">
 										<xsl:value-of select="."/>
 									</xsl:when>
-									With: 
+									With:
 								-->
 								<xsl:otherwise>
 									<xsl:value-of select="."/>

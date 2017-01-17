@@ -14,36 +14,20 @@
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:choose>
-			<xsl:when test="number($readOnly) eq 1 and (self::ui:multidropdown[count(.//ui:option[@selected]) le 1])">
+			<xsl:when test="@readOnly and self::ui:multidropdown">
 				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="applies" select=".//ui:option[@selected]"/>
+					<xsl:with-param name="applies" select="ui:option|ui:optgroup[ui:option]"/>
 					<xsl:with-param name="useReadOnlyMode" select="1"/>
+					<xsl:with-param name="isList" select="1"/>
+					<xsl:with-param name="class" select="'wc-vgap-sm'"/>
 				</xsl:call-template>
 			</xsl:when>
-			<xsl:when test="number($readOnly) eq 1 and (self::ui:multitextfield[count(ui:value) le 1])">
+			<xsl:when test="@readOnly">
 				<xsl:call-template name="readOnlyControl">
+					<xsl:with-param name="isList" select="1"/>
 					<xsl:with-param name="useReadOnlyMode" select="1"/>
+					<xsl:with-param name="class" select="'wc-vgap-sm'"/>
 				</xsl:call-template>
-			</xsl:when>
-			<xsl:when test="number($readOnly) eq 1">
-				<ul>
-					<xsl:call-template name="commonAttributes">
-						<xsl:with-param name="class">
-							<xsl:text>wc_list_nb</xsl:text>
-						</xsl:with-param>
-					</xsl:call-template>
-					<xsl:call-template name="roComponentName"/>
-					<xsl:choose>
-						<xsl:when test="self::ui:multidropdown">
-							<xsl:apply-templates select="ui:option[@selected]|ui:optgroup[ui:option[@selected]]" mode="readOnly">
-								<xsl:with-param name="single" select="0"/>
-							</xsl:apply-templates>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:apply-templates select="ui:value" mode="readOnlyList"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</ul>
 			</xsl:when>
 			<xsl:otherwise>
 				<fieldset aria-relevant="additions removals" aria-atomic="false">
@@ -60,7 +44,7 @@
 							<xsl:value-of select="@max"/>
 						</xsl:attribute>
 					</xsl:if>
-					<ul class="wc_list_nb">
+					<ul class="wc_list_nb wc-vgap-sm">
 						<xsl:choose>
 							<!-- content transform is dependant upon the actual component being transformed-->
 							<xsl:when test="self::ui:multidropdown and count(.//ui:option[@selected]) eq 0">
@@ -98,10 +82,6 @@
 	</xsl:template>
 
 	<xsl:template match="ui:value" mode="readOnly">
-		<xsl:value-of select="."/>
-	</xsl:template>
-
-	<xsl:template match="ui:value" mode="readOnlyList">
 		<li>
 			<xsl:value-of select="."/>
 		</li>

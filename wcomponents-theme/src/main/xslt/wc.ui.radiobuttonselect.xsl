@@ -34,7 +34,6 @@
 				</xsl:variable>
 				<fieldset>
 					<xsl:call-template name="commonWrapperAttributes">
-						<xsl:with-param name="isControl" select="1"/>
 						<xsl:with-param name="class">
 							<xsl:text>wc_chkgrp</xsl:text>
 							<xsl:if test="not(@frameless)">

@@ -4,48 +4,67 @@
 	<xsl:import href="wc.common.imageEditButton.xsl"/>
 	<!--
 		Transform for WMultiFileWidget.
-	-->
-	
+	-->	
 	<xsl:template match="ui:multifileupload">
-		<xsl:variable name="containerTag">
-			<xsl:choose>
-				<xsl:when test="@readOnly">
-					<xsl:text>div</xsl:text>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:text>fieldset</xsl:text>
-				</xsl:otherwise>
-			</xsl:choose>
+		<xsl:variable name="roClass">
+			<xsl:text>wc_ro</xsl:text>
+			<xsl:if test="@ajax">
+				<xsl:text> wc-ajax</xsl:text>
+			</xsl:if>
 		</xsl:variable>
-		<xsl:variable name="cols">
-			<xsl:choose>
-				<xsl:when test="@cols">
-					<xsl:number value="number(@cols)"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:number value="0"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:element name="{$containerTag}">
-			<xsl:call-template name="commonWrapperAttributes">
-				<xsl:with-param name="class">
-					<xsl:if test="@readOnly">
-						<xsl:text>wc_ro</xsl:text>
-					</xsl:if>
-					<xsl:if test="@ajax">
-						<xsl:text> wc-ajax</xsl:text>
-					</xsl:if>
-				</xsl:with-param>
-			</xsl:call-template>
-			<xsl:attribute name="data-wc-cols">
-				<xsl:value-of select="$cols"/>
-			</xsl:attribute>
-			<xsl:choose>
-				<xsl:when test="@readOnly">
+		<xsl:choose>
+			<xsl:when test="@readOnly and not(ui:file)">
+				<xsl:call-template name="readOnlyControl"/>
+			</xsl:when>
+			<xsl:when test="@readOnly and (not(@cols) or number(@cols ) le 1 or number(@cols) ge count(ui:file))">
+				<xsl:call-template name="readOnlyControl">
+					<xsl:with-param name="isList" select="1"/>
+					<xsl:with-param name="class">
+						<xsl:value-of select="$roClass"/>
+						<xsl:choose>
+							<xsl:when test="@cols = 0 or number(@cols) ge count(ui:file)">
+								<xsl:text> wc-listlayout-type-flat wc-hgap-sm</xsl:text>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:text> wc-vgap-sm</xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:with-param>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="@readOnly">
+				<div data-wc-cols="{@cols}">
+					<xsl:call-template name="commonWrapperAttributes">
+						<xsl:with-param name="class" select="$roClass"/>
+					</xsl:call-template>
 					<xsl:call-template name="roComponentName"/>
-				</xsl:when>
-				<xsl:otherwise>
+					<xsl:variable name="rows" select="ceiling(count(ui:file) div number(@cols))"/>
+					<div class="wc_files wc-row wc-hgap-med wc-respond">
+						<xsl:apply-templates select="ui:file[position() mod number($rows) eq 1]" mode="columns">
+							<xsl:with-param name="rows" select="$rows"/>
+						</xsl:apply-templates>
+					</div>
+				</div>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:variable name="cols">
+					<xsl:choose>
+						<xsl:when test="@cols">
+							<xsl:number value="number(@cols)"/>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:number value="0"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:variable>
+				<fieldset data-wc-cols="{$cols}">
+					<xsl:call-template name="commonWrapperAttributes">
+						<xsl:with-param name="class">
+							<xsl:if test="@ajax">
+								<xsl:text>wc-ajax</xsl:text>
+							</xsl:if>
+						</xsl:with-param>
+					</xsl:call-template>
 					<label class="wc-off" for="{concat(@id,'_input')}">
 						<xsl:text>{{t 'file_inputLabel'}}</xsl:text>
 					</label>
@@ -97,42 +116,47 @@
 							</xsl:with-param>
 						</xsl:call-template>
 					</xsl:if>
-				</xsl:otherwise>
-			</xsl:choose>
-			<xsl:if test="ui:file">
-				<xsl:variable name="numFiles" select="count(ui:file)"/>
-				<xsl:choose>
-					<xsl:when test="number($cols) gt 1 and number($cols) ge number($numFiles)">
-						<div class="wc_files">
-							<xsl:apply-templates select="ui:file[1]" mode="columns">
-								<xsl:with-param name="rows" select="number($numFiles)"/>
-							</xsl:apply-templates>
-						</div>
-					</xsl:when>
-					<xsl:when test="number($cols) gt 1">
-						<xsl:variable name="rows">
-							<xsl:value-of select="ceiling(number($numFiles) div number($cols))"/>
-						</xsl:variable>
-						<div class="wc_files">
-							<xsl:apply-templates select="ui:file[position() mod number($rows) eq 1]" mode="columns">
-								<xsl:with-param name="rows" select="$rows"/>
-							</xsl:apply-templates>
-						</div>
-					</xsl:when>
-					<xsl:otherwise>
-						<ul>
-							<xsl:attribute name="class">
-								<xsl:text>wc_list_nb wc_filelist</xsl:text>
-								<xsl:if test="number($cols) eq 0">
-									<xsl:text> wc-listlayout-type-flat</xsl:text>
-								</xsl:if>
-							</xsl:attribute>
-							<xsl:apply-templates select="ui:file"/>
-						</ul>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:if>
-		</xsl:element>
+					<xsl:if test="ui:file">
+						<xsl:choose>
+							<xsl:when test="number($cols) gt 1">
+								<div class="wc_files wc-row wc-hgap-med wc-respond wc-margin-n-sm">
+									<xsl:variable name="numFiles" select="count(ui:file)"/>
+									<xsl:choose>
+										<xsl:when test="number($cols) ge number($numFiles)">
+											<xsl:apply-templates select="ui:file[1]" mode="columns">
+												<xsl:with-param name="rows" select="number($numFiles)"/>
+											</xsl:apply-templates>
+										</xsl:when>
+										<xsl:otherwise>
+											<xsl:variable name="rows" select="ceiling(number($numFiles) div number($cols))"/>
+											<xsl:apply-templates select="ui:file[position() mod number($rows) eq 1]" mode="columns">
+												<xsl:with-param name="rows" select="$rows"/>
+											</xsl:apply-templates>
+										</xsl:otherwise>
+									</xsl:choose>
+								</div>
+							</xsl:when>
+							<xsl:otherwise>
+								<ul>
+									<xsl:attribute name="class">
+										<xsl:text>wc_list_nb wc_filelist wc-margin-n-sm</xsl:text>
+										<xsl:choose>
+											<xsl:when test="@cols = 0">
+												<xsl:text> wc-listlayout-type-flat</xsl:text>
+											</xsl:when>
+											<xsl:otherwise>
+												<xsl:text> wc-vgap-sm</xsl:text>
+											</xsl:otherwise>
+										</xsl:choose>
+									</xsl:attribute>
+									<xsl:apply-templates select="ui:file"/>
+								</ul>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:if>
+				</fieldset>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<!--
@@ -150,7 +174,7 @@
 
 	<xsl:template match="ui:file" mode="columns">
 		<xsl:param name="rows" select="0"/>
-		<ul class="wc_list_nb wc_filelist">
+		<ul class="wc_list_nb wc_filelist wc-column wc-vgap-small">
 			<xsl:call-template name="fileInList"/>
 			<xsl:apply-templates select="following-sibling::ui:file[position() lt number($rows)]"/>
 		</ul>
@@ -164,6 +188,8 @@
 				<xsl:when test="ui:link">
 					<xsl:apply-templates select="ui:link">
 						<xsl:with-param name="imageAltText" select="concat('Thumbnail for uploaded file: ', @name)"/>
+						<!-- This is only needed when writing a multifileupload with files in a readonly state, never if the file is in an ajax 
+							response by itself (as that is not possible in a readonly state) -->
 						<xsl:with-param name="ajax">
 							<xsl:if test="parent::ui:multifileupload[@ajax] and ../@readOnly">
 								<xsl:value-of select="../@id"/>

@@ -4,24 +4,56 @@
 	<xsl:import href="wc.common.hField.xsl"/>
 	<!--  WCheckBoxSelect -->
 	<xsl:template match="ui:checkboxselect">
+		<xsl:variable name="commonclass">
+			<xsl:text>wc_chkgrp</xsl:text>
+			<xsl:if test="not(@frameless)">
+				<xsl:text> wc_chkgrp_bdr</xsl:text>
+			</xsl:if>
+		</xsl:variable>
 		<xsl:choose>
-			<xsl:when test="@readOnly and count(ui:option) le 1">
+			<xsl:when test="@readOnly and (not(@layoutColumnCount) or @layoutColumnCount &lt;= 1 or count(ui:option) le 1)">
 				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="applies" select="ui:option"/>
+					<xsl:with-param name="isList" select="1"/>
 					<xsl:with-param name="useReadOnlyMode" select="1"/>
+					<xsl:with-param name="class">
+						<xsl:value-of select="$commonclass"/>
+						<xsl:if test="count(ui:option) gt 1">
+							<xsl:choose>
+								<xsl:when test="@layout eq 'flat'">
+									<xsl:text> wc-hgap-med</xsl:text>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:text> wc-vgap-sm</xsl:text>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:if>
+					</xsl:with-param>
 				</xsl:call-template>
 			</xsl:when>
+			<xsl:when test="@readOnly">
+				<div>
+					<xsl:call-template name="commonWrapperAttributes">
+						<xsl:with-param name="class">
+							<xsl:value-of select="$commonclass"/>
+						</xsl:with-param>
+					</xsl:call-template>
+					<xsl:call-template name="roComponentName"/>
+					<xsl:variable name="cols" select="@layoutColumnCount"/>
+					<xsl:variable name="rows" select="ceiling(count(ui:option) div $cols)"/>
+					<xsl:if test="ui:option">
+						<div class="wc-row wc-hgap-med wc-respond">
+							<xsl:apply-templates select="ui:option[position() mod number($rows) eq 1]" mode="checkableGroup">
+								<xsl:with-param name="inputName" select="@id"/>
+								<xsl:with-param name="type" select="'checkbox'"/>
+								<xsl:with-param name="readOnly" select="1"/>
+								<xsl:with-param name="rows" select="$rows"/>
+							</xsl:apply-templates>
+						</div>
+					</xsl:if>
+					<xsl:call-template name="hField"/>
+				</div>
+			</xsl:when>
 			<xsl:otherwise>
-				<xsl:variable name="readOnly">
-					<xsl:choose>
-						<xsl:when test="@readOnly">
-							<xsl:number value="1"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:number value="0"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:variable>
 				<xsl:variable name="inputType">
 					<xsl:text>checkbox</xsl:text>
 				</xsl:variable>
@@ -45,43 +77,20 @@
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
-				<xsl:variable name="element">
-					<xsl:choose>
-						<xsl:when test="@readOnly">
-							<xsl:text>div</xsl:text>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:text>fieldset</xsl:text>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:variable>
-				<xsl:element name="{$element}">
+				<fieldset>
 					<xsl:call-template name="commonWrapperAttributes">
-						<xsl:with-param name="isControl" select="1 - number($readOnly)"/>
-						<xsl:with-param name="class">
-							<xsl:text>wc_chkgrp</xsl:text>
-							<xsl:if test="not(@frameless)">
-								<xsl:text> wc_chkgrp_bdr</xsl:text>
-							</xsl:if>
-						</xsl:with-param>
+						<xsl:with-param name="class" select="$commonclass"/>
 					</xsl:call-template>
-					<xsl:choose>
-						<xsl:when test="@readOnly">
-							<xsl:call-template name="roComponentName"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:if test="@min">
-								<xsl:attribute name="data-wc-min">
-									<xsl:value-of select="@min"/>
-								</xsl:attribute>
-							</xsl:if>
-							<xsl:if test="@max">
-								<xsl:attribute name="data-wc-max">
-									<xsl:value-of select="@max"/>
-								</xsl:attribute>
-							</xsl:if>
-						</xsl:otherwise>
-					</xsl:choose>
+						<xsl:if test="@min">
+							<xsl:attribute name="data-wc-min">
+								<xsl:value-of select="@min"/>
+							</xsl:attribute>
+						</xsl:if>
+						<xsl:if test="@max">
+							<xsl:attribute name="data-wc-max">
+								<xsl:value-of select="@max"/>
+							</xsl:attribute>
+						</xsl:if>
 					<xsl:if test="ui:option">
 						<xsl:choose>
 							<xsl:when test="number($rows) eq 0">
@@ -99,7 +108,6 @@
 									<xsl:apply-templates select="ui:option" mode="checkableGroupInList">
 										<xsl:with-param name="inputName" select="@id"/>
 										<xsl:with-param name="type" select="$inputType"/>
-										<xsl:with-param name="readOnly" select="$readOnly"/>
 									</xsl:apply-templates>
 								</div>
 							</xsl:when>
@@ -107,7 +115,6 @@
 								<xsl:apply-templates select="ui:option" mode="checkableGroup">
 									<xsl:with-param name="inputName" select="@id"/>
 									<xsl:with-param name="type" select="$inputType"/>
-									<xsl:with-param name="readOnly" select="$readOnly"/>
 									<xsl:with-param name="rows" select="0"/>
 								</xsl:apply-templates>
 							</xsl:when>
@@ -116,7 +123,6 @@
 									<xsl:apply-templates select="ui:option[position() mod number($rows) eq 1]" mode="checkableGroup">
 										<xsl:with-param name="inputName" select="@id"/>
 										<xsl:with-param name="type" select="$inputType"/>
-										<xsl:with-param name="readOnly" select="$readOnly"/>
 										<xsl:with-param name="rows" select="$rows"/>
 									</xsl:apply-templates>
 								</div>
@@ -124,7 +130,7 @@
 						</xsl:choose>
 					</xsl:if>
 					<xsl:call-template name="hField"/>
-				</xsl:element>
+				</fieldset>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

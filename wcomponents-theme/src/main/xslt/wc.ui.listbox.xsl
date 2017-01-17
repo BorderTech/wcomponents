@@ -5,7 +5,27 @@
 	<!-- WSingleSelect WMultiSelect -->
 	<xsl:template match="ui:listbox">
 		<xsl:choose>
-			<xsl:when test="not(@readOnly)">
+			<xsl:when test="@readOnly and @single">
+				<xsl:call-template name="readOnlyControl">
+					<xsl:with-param name="class">
+						<xsl:text>wc-ro-input</xsl:text>
+					</xsl:with-param>
+					<xsl:with-param name="applies" select=".//ui:option"/>
+					<xsl:with-param name="useReadOnlyMode" select="1"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:when test="@readOnly">
+				<xsl:variable name="isList" select="count(.//*)"/>
+				<xsl:call-template name="readOnlyControl">
+					<xsl:with-param name="class">
+						<xsl:text>wc-ro-input wc_list_nb wc-vgap-sm</xsl:text>
+					</xsl:with-param>
+					<xsl:with-param name="isList" select="1"/>
+					<xsl:with-param name="useReadOnlyMode" select="1"/>
+					<xsl:with-param name="applies" select="ui:option|ui:optgroup[ui:option]"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
 				<span>
 					<xsl:call-template name="commonAttributes">
 						<xsl:with-param name="class">
@@ -48,29 +68,6 @@
 					</select>
 					<xsl:call-template name="hField"/>
 				</span>
-			</xsl:when>
-			<xsl:when test="not(@single)">
-				<ul id="{@id}">
-					<xsl:call-template name="makeCommonClass">
-						<xsl:with-param name="additional">
-							<xsl:text>wc-ro-input wc_list_nb</xsl:text>
-						</xsl:with-param>
-					</xsl:call-template>
-					<xsl:call-template name="hideElementIfHiddenSet"/>
-					<xsl:call-template name="roComponentName"/>
-					<xsl:apply-templates select="ui:option|ui:optgroup[ui:option]" mode="readOnly">
-						<xsl:with-param name="single" select="0"/>
-					</xsl:apply-templates>
-				</ul>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="class">
-						<xsl:text>wc-ro-input</xsl:text>
-					</xsl:with-param>
-					<xsl:with-param name="applies" select=".//ui:option"/>
-					<xsl:with-param name="useReadOnlyMode" select="1"/>
-				</xsl:call-template>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>

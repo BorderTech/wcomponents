@@ -4,51 +4,26 @@
 	<xsl:import href="wc.common.hField.xsl"/>
 	<!-- Transform for WMultiSelectPair. -->
 	<xsl:template match="ui:multiselectpair">
-		<xsl:variable name="id">
-			<xsl:value-of select="@id"/>
-		</xsl:variable>
-		<xsl:variable name="readOnly">
-			<xsl:choose>
-				<xsl:when test="@readOnly">
-					<xsl:number value="1"/>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:number value="0"/>
-				</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:variable name="size">
-			<xsl:choose>
-				<xsl:when test="@size">
-					<xsl:value-of select="@size"/>
-				</xsl:when>
-				<xsl:otherwise>7</xsl:otherwise><!-- 7 is usually big enough to be around the same size as the buttons -->
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:variable name="element">
-			<xsl:choose>
-				<xsl:when test="number($readOnly) eq 1">div</xsl:when>
-				<xsl:otherwise>fieldset</xsl:otherwise>
-			</xsl:choose>
-		</xsl:variable>
-		<xsl:element name="{$element}">
-			<xsl:call-template name="commonWrapperAttributes">
-				<xsl:with-param name="isControl">
+		<xsl:choose>
+			<xsl:when test="@readOnly">
+				<xsl:call-template name="readOnlyControl">
+					<xsl:with-param name="isList" select="1"/>
+					<xsl:with-param name="useReadOnlyMode" select="1"/>
+					<xsl:with-param name="applies" select="ui:option|ui:optgroup[ui:option]"/>
+					<xsl:with-param name="class" select="'wc-vgap-sm'"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:variable name="size">
 					<xsl:choose>
-						<xsl:when test="number($readOnly) eq 1">
-							<xsl:number value="0"/>
+						<xsl:when test="@size">
+							<xsl:value-of select="@size"/>
 						</xsl:when>
-						<xsl:otherwise>
-							<xsl:number value="1"/>
-						</xsl:otherwise>
+						<xsl:otherwise>7</xsl:otherwise><!-- 7 is usually big enough to be around the same size as the buttons -->
 					</xsl:choose>
-				</xsl:with-param>
-			</xsl:call-template>
-			<xsl:if test="number($readOnly) eq 1">
-				<xsl:call-template name="roComponentName"/>
-			</xsl:if>
-			<xsl:choose>
-				<xsl:when test="number($readOnly) ne 1">
+				</xsl:variable>
+				<fieldset>
+					<xsl:call-template name="commonWrapperAttributes"/>
 					<xsl:if test="@min">
 						<xsl:attribute name="data-wc-min">
 							<xsl:value-of select="@min"/>
@@ -60,7 +35,7 @@
 						</xsl:attribute>
 					</xsl:if>
 					<!-- AVAILABLE LIST -->
-					<xsl:variable name="availId" select="concat($id, '_a')"/>
+					<xsl:variable name="availId" select="concat(@id, '_a')"/>
 					<span>
 						<label for="{$availId}">
 							<xsl:value-of select="@fromListName"/>
@@ -96,7 +71,7 @@
 					</span>
 					<!-- SELECTED LIST -->
 					<xsl:variable name="toId">
-						<xsl:value-of select="concat($id, '_s')"/>
+						<xsl:value-of select="concat(@id, '_s')"/>
 					</xsl:variable>
 					<span>
 						<label for="{$toId}">
@@ -123,18 +98,9 @@
 						<xsl:apply-templates mode="multiselectPair"/>
 					</select>
 					<xsl:call-template name="hField"/>
-				</xsl:when>
-				<xsl:when test="count(.//ui:option[@selected]) gt 0">
-					<xsl:call-template name="title"/>
-					<ul class="wc_list_nb">
-						<xsl:apply-templates select="ui:option[@selected]|ui:optgroup[ui:option[@selected]]" mode="multiselectPair">
-							<xsl:with-param name="readOnly" select="1"/>
-							<xsl:with-param name="applyWhich" select="'selected'"/>
-						</xsl:apply-templates>
-					</ul>
-				</xsl:when>
-			</xsl:choose>
-		</xsl:element>
+				</fieldset>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<!--

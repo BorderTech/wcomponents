@@ -197,13 +197,20 @@
 		param isControl: see "commonAtrributes: below, default 1.
 	-->
 	<xsl:template name="commonWrapperAttributes">
-		<xsl:param name="id" select="@id" />
-		<xsl:param name="isControl" select="1" />
 		<xsl:param name="class" select="''"/>
 		<!--normally fieldset-->
 		<xsl:call-template name="commonAttributes">
-			<xsl:with-param name="id" select="$id" />
-			<xsl:with-param name="isControl" select="$isControl" />
+			<xsl:with-param name="id" select="@id" />
+			<xsl:with-param name="isControl">
+				<xsl:choose>
+					<xsl:when test="@readOnly">
+						<xsl:number value="0"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:number value="1"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:with-param>
 			<xsl:with-param name="isWrapper" select="1" />
 			<xsl:with-param name="class">
 				<xsl:value-of select="$class"/>

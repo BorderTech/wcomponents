@@ -4,10 +4,29 @@
 
 	<xsl:template match="ui:textfield[@readOnly]|ui:phonenumberfield[@readOnly]|ui:emailfield[@readOnly]|ui:passwordfield[@readOnly]|ui:numberField[@readOnly]|ui:textarea[@readOnly]|ui:fileupload[@readOnly]">
 		<xsl:call-template name="readOnlyControl">
-			<xsl:with-param name="class">
-				<xsl:text>wc-ro-input</xsl:text>
-			</xsl:with-param>
+			<xsl:with-param name="class" select="'wc-ro-input'"/>
 		</xsl:call-template>
+	</xsl:template>
+	
+	<xsl:template match="ui:phonenumberfield[@readOnly and ./text()]|ui:emailfield[@readOnly and ./text()]">
+		<xsl:variable name="href">
+			<xsl:choose>
+				<xsl:when test="self::ui:emailfield">
+					<xsl:text>mailto:</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>tel:</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:value-of select="."/>
+		</xsl:variable>
+		<a href="{$href}">
+			<xsl:call-template name="commonAttributes">
+				<xsl:with-param name="class" select="'wc-ro-input'"/>
+			</xsl:call-template>
+			<xsl:call-template name="roComponentName"/>
+			<xsl:value-of select="."/>
+		</a>
 	</xsl:template>
 
 	<!-- Single line input controls which may be associated with a datalist. -->
