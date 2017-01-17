@@ -1,7 +1,7 @@
 @import 'mixins-common';
 
 /// read-only WRadioButton.
-.wc-radiobutton.wc_ro {
+.wc-radiobutton.wc-ro-input {
 	&:before {
 		content: $fa-var-circle-o;
 	}

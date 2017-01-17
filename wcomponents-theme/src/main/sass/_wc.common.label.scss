@@ -72,7 +72,7 @@
 // as they are generated from options. TODO: We should fix that.
 input + label,
 .wc-input-wrapper + label,
-.wc_ro + .wc-label {
+..wc-ro-input + .wc-label {
 	// .wc-label's inline-block can cause the label to fall under the input when there is not enough room for the label
 	display: inline;
 	@if ($wc-label-weight != normal) {

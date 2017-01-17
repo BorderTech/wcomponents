@@ -2,7 +2,7 @@
 
 /// read-only WCheckBox.
 .wc-checkbox {
-	&.wc_ro:before {
+	&.wc-ro-input:before {
 		content: $fa-var-square-o;
 	}
 
