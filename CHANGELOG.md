@@ -13,6 +13,7 @@
 * Remove exposure of the `size` attribute when rendering `WNumberField` #1010.
 * Fixed bug which caused WMultiFileWidget to not fire its internal file-select ajax ifthe compoent is in a read-only
   state #1060.
+* FIxed bug which could result in WMultiSelectPair having mismatched select elements #1066.
 
 ## Enhancements
 * Improve efficiency of `Input` renderers when the rendered input is in a read-only state #781.
