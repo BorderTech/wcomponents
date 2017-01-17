@@ -30,7 +30,7 @@ define(["wc/dom/initialise",
 
 			function setUpWidgets() {
 				var types = ["password", "tel", "file"];  // input types which are not needed for validation other than mandatory-ness.
-				return (types.map(function(next) {
+				INPUT_WIDGETS = (types.map(function(next) {
 					return INPUT.extend("", {"type": next});
 				})).concat(EMAIL);  // we do not include type text here, we have to do special processing with it
 			}
@@ -43,7 +43,9 @@ define(["wc/dom/initialise",
 			 * @returns {Boolean} true if the element is an input which we need to test.
 			 */
 			function isValidatingInput(element) {
-				INPUT_WIDGETS = INPUT_WIDGETS || (INPUT_WIDGETS = setUpWidgets());
+				if (!INPUT_WIDGETS) {
+					setUpWidgets();
+				}
 				return Widget.isOneOfMe(element, INPUT_WIDGETS) || (TEXT.isOneOfMe(element) && !dateField.isOneOfMe(element));
 			}
 
@@ -137,6 +139,9 @@ define(["wc/dom/initialise",
 			 * @returns {Boolean} true if the container is valid.
 			 */
 			function validate(container) {
+				if (!INPUT_WIDGETS) {
+					setUpWidgets();
+				}
 				var candidates,
 					_requiredTextFields = true,
 					validConstrained = true,
