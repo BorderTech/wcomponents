@@ -1,7 +1,7 @@
 /* wc.ui.fileUploadIcons.scss */
 @import 'mixins-common';
 
-.wc-fileupload button.wc_btn_abort:before {
+.wc-fileupload .wc_btn_abort:before {
 	content: $fa-var-ban;
 }
 
