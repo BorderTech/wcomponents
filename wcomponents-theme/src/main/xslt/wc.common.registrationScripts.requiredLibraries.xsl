@@ -33,12 +33,12 @@
 			<xsl:if test=".//ui:fieldlayout">
 				<xsl:text>"wc/ui/field",</xsl:text>
 			</xsl:if>
-			<!-- 
+			<!--
 				If you have any sense then these are in your wc.common.js. Labels are ubiquitous. This is why we test ui:label before ui:fieldset
 				simply because it is more likely to get one early in source order.
 			-->
 			<xsl:if test=".//ui:label or .//ui:fieldset">
-				<xsl:text>"wc/ui/label",</xsl:text>
+				<xsl:text>"wc/ui/label","wc/ui/internalLink",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//ui:numberfield[not(@readOnly)]">
 				<xsl:text>"wc/ui/numberField",</xsl:text>
@@ -49,12 +49,12 @@
 			<xsl:if test=".//ui:togglebutton[not(@readOnly)]">
 				<xsl:text>"wc/ui/checkboxAnalog",</xsl:text>
 			</xsl:if>
-			<!-- 
-				These are in order of 'likelihood'. We use or rather than | as most decent processors will stop after the 
+			<!--
+				These are in order of 'likelihood'. We use or rather than | as most decent processors will stop after the
 				first successful nodeset is found. You REALLY want wc/ui/textField in your wc.common.js though.
 			-->
 			<xsl:if test=".//ui:textfield[not(@readOnly)] or .//ui:numberfield[not(@readOnly)] or .//ui:emailfield[not(@readOnly)] or .//ui:passwordfield[not(@readOnly)] or .//ui:phonenumberfield[not(@readOnly)]">
-				<xsl:text>"wc/ui/textField",</xsl:text>
+				<xsl:text>"wc/dom/wrappedinput",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//@accessKey">
 				<xsl:text>"wc/ui/tooltip",</xsl:text>
@@ -106,7 +106,7 @@
 				<xsl:text>"wc/ui/multiSelectPair",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//ui:multitextfield[not(@readOnly)]">
-				<xsl:text>"wc/ui/multiFormComponent","wc/ui/textField",</xsl:text>
+				<xsl:text>"wc/ui/multiFormComponent","wc/dom/wrappedinput",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//ui:printbutton">
 				<xsl:text>"wc/ui/printButton",</xsl:text>

@@ -9,7 +9,7 @@
 				<span>
 					<xsl:call-template name="commonAttributes">
 						<xsl:with-param name="class">
-							<xsl:text>wc_input_wrapper</xsl:text>
+							<xsl:text>wc-input-wrapper</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:if test="@data">
@@ -53,7 +53,7 @@
 				<ul id="{@id}">
 					<xsl:call-template name="makeCommonClass">
 						<xsl:with-param name="additional">
-							<xsl:text> wc_list_nb</xsl:text>
+							<xsl:text>wc-ro-input wc_list_nb</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:call-template name="hideElementIfHiddenSet"/>
@@ -65,6 +65,9 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:call-template name="readOnlyControl">
+					<xsl:with-param name="class">
+						<xsl:text>wc-ro-input</xsl:text>
+					</xsl:with-param>
 					<xsl:with-param name="applies" select=".//ui:option"/>
 					<xsl:with-param name="useReadOnlyMode" select="1"/>
 				</xsl:call-template>

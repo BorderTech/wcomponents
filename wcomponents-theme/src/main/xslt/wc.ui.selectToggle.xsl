@@ -9,7 +9,7 @@
 				<span>
 					<xsl:call-template name="commonAttributes">
 						<xsl:with-param name="class">
-							<xsl:text>wc_input_wrapper</xsl:text>
+							<xsl:text>wc-input-wrapper</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:call-template name="selectToggle">

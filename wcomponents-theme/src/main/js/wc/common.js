@@ -35,7 +35,8 @@ define(["wc/ui/template",
 		"wc/dom/cancelUpdate",
 		"wc/ui/loading",
 		"wc/ui/backToTop",
-		"wc/ui/label"],
+		"wc/ui/label",
+		"wc/ui/validation/all"],
 	function() {
 		"use strict";
 		return 1;

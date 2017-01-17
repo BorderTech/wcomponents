@@ -22,7 +22,7 @@
 				<xsl:element name="{$tagName}">
 					<xsl:call-template name="commonAttributes">
 						<xsl:with-param name="class">
-							<xsl:text> wc_datero wc_ro</xsl:text>
+							<xsl:text> wc_datero wc_ro wc-ro-input</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:call-template name="roComponentName"/>
@@ -53,7 +53,7 @@
 				<div id="{$id}">
 					<xsl:call-template name="commonAttributes">
 						<xsl:with-param name="class">
-							<xsl:text>wc_input_wrapper</xsl:text>
+							<xsl:text>wc-input-wrapper</xsl:text>
 							<xsl:if test="@allowPartial">
 								<xsl:text> wc_datefield_partial</xsl:text>
 							</xsl:if>

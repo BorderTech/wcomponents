@@ -74,6 +74,7 @@ define(["wc/dom/textContent",
 		 * @requires module:wc/dom/textContent
 		 * @requires module:wc/dom/shed
 		 * @requires module:wc/ui/tooltip
+		 * @requires module:wc/ui/label
 		 */
 		return getVisibleText;
 	});

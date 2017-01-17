@@ -8,6 +8,9 @@
 		<xsl:choose>
 			<xsl:when test="@readOnly">
 				<xsl:call-template name="readOnlyControl">
+					<xsl:with-param name="class">
+						<xsl:text>wc-ro-input</xsl:text>
+					</xsl:with-param>
 					<xsl:with-param name="applies" select=".//ui:option[@selected]"/>
 					<xsl:with-param name="useReadOnlyMode" select="1"/>
 				</xsl:call-template>
@@ -16,7 +19,7 @@
 				<span>
 					<xsl:call-template name="commonAttributes">
 						<xsl:with-param name="class">
-							<xsl:text>wc_input_wrapper</xsl:text>
+							<xsl:text>wc-input-wrapper</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:if test="@data">
@@ -46,7 +49,7 @@
 		<span role="combobox" aria-expanded="false" aria-autocomplete="list">
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="class">
-					<xsl:text>wc_input_wrapper wc-combo</xsl:text>
+					<xsl:text>wc-input-wrapper wc-combo</xsl:text>
 				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:call-template name="requiredElement">

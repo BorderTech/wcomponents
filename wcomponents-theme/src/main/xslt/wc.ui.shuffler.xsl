@@ -10,7 +10,7 @@
 					<xsl:call-template name="commonAttributes">
 						<xsl:with-param name="isWrapper" select="1"/>
 						<xsl:with-param name="class">
-							<xsl:text>wc_list_nb</xsl:text>
+							<xsl:text>wc_list_nb wc-ro-input</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:call-template name="title"/>
@@ -25,7 +25,7 @@
 				<span>
 					<xsl:call-template name="commonAttributes">
 						<xsl:with-param name="class">
-							<xsl:text>wc_input_wrapper</xsl:text>
+							<xsl:text>wc-input-wrapper</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:variable name="listId" select="concat($id,'_input')"/>

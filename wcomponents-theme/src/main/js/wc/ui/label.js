@@ -8,17 +8,9 @@ define(["wc/dom/classList",
 	"wc/i18n/i18n",
 	"wc/dom/role",
 	"wc/dom/textContent",
-	"wc/ui/internalLink"],
-	function (classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, i18n, $role, textContent) {
+	"wc/dom/wrappedInput"],
+	function (classList, initialise, shed, tag, Widget, getLabelsForElement, processResponse, i18n, $role, textContent, wrappedInput) {
 		"use strict";
-		/*
-		 * Implicit dependencies:
-		 * wc/ui/internalLink is used to add label like functionality (click to focus) to the visible pseudo-label when
-		 * a fieldset outputting component is labelled by a WLabel. It is included here as it is almost always required
-		 * since many extensions of WInput are compound controls where the label is actually a combo of a legend and a
-		 * pseudo-label.
-		 */
-
 		/**
 		 * @constructor
 		 * @alias module:wc/ui/label~Label
@@ -29,56 +21,48 @@ define(["wc/dom/classList",
 				LEGEND,
 				FAUX,
 				TAGS = [tag.INPUT, tag.TEXTAREA, tag.SELECT, tag.FIELDSET],
-				CLASS_OFF = "wc-off",
-				MANDATORY_SPAN = new Widget("span", CLASS_OFF),
+				MANDATORY_SPAN = new Widget("span", "wc-off"),
 				CLASS_HINT = "wc-label-hint",
-				CHECKBOX = new Widget("", "wc-checkbox"),
-				RADIO = new Widget("", "wc-radiobutton"),
-				SELECT_TOGGLE = new Widget("button", "wc-selecttoggle"),
-				MOVE_WIDGETS = [CHECKBOX, RADIO, SELECT_TOGGLE],
-				WRAPPER,
+				MOVE_WIDGETS = [new Widget("", "wc-checkbox"), new Widget("", "wc-radiobutton"), new Widget("button", "wc-selecttoggle")],
 				HINT;
 
 			/**
-			 * Function to do label manipulation when a labelled element is shed'ed.
+			 * Helper to do label manipulation.
 			 * @function
 			 * @private
-			 * @param {Element} element The component which has undergone a state change.
-			 * @param {Function} func The function to apply to the label(s).
-			 * @param {String} [_arg] Second argument used when func is classList: one of "add" or "remove". Used for
-			 *     mandatory/optional.
-			 * @param {boolean} includeReadOnly include labels for readOnly controls (currently only show/hide need this).
+			 * @param {Element} label the label to manipulate
+			 * @param {Function} func the function to apply to the label
 			 */
-			function mungeLabels(element, func, _arg, includeReadOnly) {
-				var labels = getLabelsForElement(element, includeReadOnly);
+			function mandateLabel(label, func) {
+				var mandatorySpan;
+				if (label.tagName !== tag.LEGEND) {
+					classList[func](label, "wc_req");
+				}
 
-				function _doIt(next) {
-					var mandatorySpan;
-					if (next.tagName !== tag.LEGEND) {
-						if (_arg) {
-							classList[func](next, _arg);
-						}
-						else {
-							shed[func](next);
-						}
-					}
-					if (_arg) {
-						mandatorySpan = MANDATORY_SPAN.findDescendant(next);
-						if (func === "add") {
-							if (!mandatorySpan) {
-								mandatorySpan = document.createElement("span");
-								mandatorySpan.className = CLASS_OFF;
-								mandatorySpan.innerHTML = i18n.get("requiredPlaceholder");
-								next.appendChild(mandatorySpan);
-							}
-						}
-						else if (mandatorySpan) {
-							mandatorySpan.parentNode.removeChild(mandatorySpan);
-						}
+				mandatorySpan = MANDATORY_SPAN.findDescendant(label);
+				if (func === "add") {
+					if (!mandatorySpan) {
+						mandatorySpan = document.createElement(MANDATORY_SPAN.tagName);
+						mandatorySpan.className = MANDATORY_SPAN.className;
+						mandatorySpan.innerHTML = i18n.get("requiredPlaceholder");
+						label.appendChild(mandatorySpan);
 					}
 				}
-				if (labels && labels.length) {
-					Array.prototype.forEach.call(labels, _doIt);
+				else if (mandatorySpan) {
+					mandatorySpan.parentNode.removeChild(mandatorySpan);
+				}
+			}
+
+			/**
+			 * Helper to do label manipulation.
+			 * @function
+			 * @private
+			 * @param {Element} label the label to manipulate
+			 * @param {Function} func the function to apply to the label
+			 */
+			function showHideLabel(label, func) {
+				if (label.tagName !== tag.LEGEND) {
+					shed[func](label);
 				}
 			}
 
@@ -90,12 +74,16 @@ define(["wc/dom/classList",
 			 * @param {String} action The shed action shed.actions.MANDATORY or shed.actions.OPTIONAL.
 			 */
 			function shedMandatorySubscriber(element, action) {
-				if (element && !(element.tagName === tag.INPUT && element.type === "radio")) {
-					// this does not apply to making a radio button mandatory (that just leads to confusion)
-					if (TAGS.indexOf(element.tagName) > -1 || $role.has(element)) {
-						// read-only components should not be mandatory/optional
-						mungeLabels(element, (action === shed.actions.OPTIONAL ? "remove" : "add"), "wc_req");
-					}
+				var input, func;
+				if (!element) {
+					return;
+				}
+				input = wrappedInput.isOneOfMe(element) ? wrappedInput.getInput(element) : element;
+				if (input && input.type !== "radio" && (TAGS.indexOf(input.tagName) > -1 || $role.has(input))) {
+					func = action === shed.actions.OPTIONAL ? "remove" : "add";
+					getLabelsForElement(element).forEach(function (next) {
+						mandateLabel(next, func);
+					});
 				}
 			}
 
@@ -107,9 +95,13 @@ define(["wc/dom/classList",
 			 * @param {String} action The shed action shed.actions.SHOW or shed.actions.HIDE
 			 */
 			function shedHideSubscriber(element, action) {
+				var func;
 				if (element) {
+					func = action === shed.actions.SHOW ? "show" : "hide";
 					// anything, even read-only, can be hidden/shown
-					mungeLabels(element, (action === shed.actions.SHOW ? "show" : "hide"), null, true);
+					getLabelsForElement(element, true).forEach(function (next) {
+						showHideLabel(next, func);
+					});
 				}
 			}
 
@@ -122,52 +114,31 @@ define(["wc/dom/classList",
 			 * @function
 			 * @private
 			 * @param {Element} element The DOM element which is being converted to/from its read-only state via AJAX.
-			 * @param {Element} label A label (or read-only analogue) for element.
-			 * @param {boolean} [fromActive] Indicates that element was originally active (true) or originally readOnly
-			 *    (false).
+			 * @param {Element} label a label (or read-only analogue) for element
+			 * @param {boolean} [isRO] indicates the element is readOnly, already calculated in the caller so pass it thru.
 			 */
-			function convertLabel(element, label, fromActive) {
+			function convertLabel(element, label, isRO) {
 				var newLabellingElement,
 					parent = label.parentNode,
-					style,
-					STYLE = "style",
-					mandatorySpan;
-				if (fromActive) {
+					input;
+				if (isRO) {
 					newLabellingElement = document.createElement("span");
-					newLabellingElement.className = "label";
 					newLabellingElement.setAttribute("data-wc-rofor", element.id);
 				}
 				else {
 					newLabellingElement = document.createElement("label");
-					newLabellingElement.setAttribute("for", element.id);
-
-					if (shed.isMandatory(element)) {
-						classList.add(newLabellingElement, "wc_req");
-						mandatorySpan = document.createElement("span");
+					if ((input = wrappedInput.getInput(element))) { // should always be found
+						newLabellingElement.setAttribute("for", input.id);
 					}
 				}
-
+				newLabellingElement.className = label.className;
 				newLabellingElement.innerHTML = label.innerHTML;
-				if (mandatorySpan) {
-					mandatorySpan.className = CLASS_OFF;
-					mandatorySpan.innerHTML = i18n.get("requiredPlaceholder");
-					newLabellingElement.appendChild(mandatorySpan);
-				}
-				else if ((mandatorySpan = MANDATORY_SPAN.findDescendant(newLabellingElement))) {
-					mandatorySpan.parentNode.removeChild(mandatorySpan);
+				input = input || element;
+				mandateLabel(newLabellingElement, (!isRO && shed.isMandatory(input) ? "add" : "remove"));
+				if (shed.isHidden(element, true)) {
+					shed.hide(newLabellingElement, true); // nothing depends on the hidden state of a label and we are replicating a load-time state.
 				}
 				newLabellingElement.id = label.id;
-
-				if (shed.isHidden(element, true)) {
-					shed.hide(newLabellingElement, true);  // nothing depends on the hidden state of a label and we are replicating a load-time state.
-				}
-				if (classList.contains(label, CLASS_OFF)) {
-					classList.add(newLabellingElement, CLASS_OFF);
-				}
-				if ((style = label.getAttribute(STYLE))) {
-					newLabellingElement.setAttribute(STYLE, style);
-				}
-
 				label.id = "";
 				parent.insertBefore(newLabellingElement, label);
 				parent.removeChild(label);
@@ -182,46 +153,33 @@ define(["wc/dom/classList",
 			 * @param {Element} element The reference element (element being replaced).
 			 */
 			function ajaxSubscriber(element) {
-				var labels;
 				if (!element) {
 					return;
 				}
 				moveLabels(element);
 
-				if (element.tagName !== tag.FIELDSET && (labels = getLabelsForElement(element, true)) && labels.length) {
-					/* We can use shed to re-shed the same state. This will make sure the labels/legends/stand-ins are
-					 * set according to the rather convoluted rules which govern radio buttons and check boxes etc as
-					 * appropriate.*/
-					if (shed.isMandatory(element)) {
-						shed.mandatory(element);
-					}
-					else {
-						shed.optional(element);
-					}
-
-					if (shed.isHidden(element, true)) {
-						shed.hide(element);
-					}
-					else {
-						shed.show(element);
-					}
-
-					/*
-					 * For "readOnly" <-> "editable" we need to be a little more cunning.
-					 */
-					labels.forEach(function (label) {
-						/* forEach function to (possibly) convert a label for an interactive control to the read-only
-						 * counterpart dummy label and vice-versa. */
-						if (TAGS.indexOf(element.tagName) > -1) {
-							if (label.tagName !== tag.LABEL) {
-								convertLabel(element, label, false);
-							}
+				Array.prototype.forEach.call(wrappedInput.get(element, true), function (next) {
+					var isRO = wrappedInput.isReadOnly(next);
+					getLabelsForElement(next, true).forEach(function (label) {
+						var isLabel = label.tagName === tag.LABEL,
+							input;
+						// if the new element is readOnly and the old one
+						if (isRO && isLabel || !(isRO || isLabel)) {
+							convertLabel(next, label, isRO);
+							return;
 						}
-						else if (label.tagName === tag.LABEL) {
-							convertLabel(element, label, true);
+						// only have to do this if we are not converting the labels.
+						if ((input = wrappedInput.getInput(next))) {
+							mandateLabel(label, !isRO && shed.isMandatory(input) ? "add" : "remove");
+						}
+						if (shed.isHidden(next, true)) {
+							shed.hide(label, true);
+						}
+						else {
+							shed.show(next);
 						}
 					});
-				}
+				});
 			}
 
 			/**
@@ -302,12 +260,11 @@ define(["wc/dom/classList",
 				var labels = getLabelsForElement(el, true),
 					label, wrapper, parent, sibling;
 				if (labels && labels.length) {
-					WRAPPER = WRAPPER || new Widget("span", "wc_input_wrapper");
 					label = labels[0];
 					if (label === el.nextSibling) {
 						return;
 					}
-					wrapper = WRAPPER.findAncestor(el) || el; // WSelectToggle is its own wrapper.
+					wrapper = wrappedInput.getWrapper(el) || el; // WSelectToggle is its own wrapper.
 					parent = wrapper.parentNode;
 					if ((sibling = wrapper.nextSibling)) {
 						parent.insertBefore(label, sibling);

@@ -101,9 +101,8 @@ define(["wc/dom/group",
 		 * @requires module:wc/dom/shed
 		 * @requires module:wc/dom/Widget
 		 * @requires module:wc/dom/getFilteredGroup
-		 * @requires module:wc/ui/label
 		 */
-		var /** @alias module:wc/ui/radioButtonSelect */ instance = new RadioButtonGroup();
+		var instance = new RadioButtonGroup();
 		initialise.register(instance);
 		return instance;
 	});

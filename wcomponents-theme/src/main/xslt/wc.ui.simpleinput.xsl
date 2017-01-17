@@ -3,7 +3,11 @@
 	<xsl:import href="wc.common.readOnly.xsl"/>
 
 	<xsl:template match="ui:textfield[@readOnly]|ui:phonenumberfield[@readOnly]|ui:emailfield[@readOnly]|ui:passwordfield[@readOnly]|ui:numberField[@readOnly]|ui:textarea[@readOnly]|ui:fileupload[@readOnly]">
-		<xsl:call-template name="readOnlyControl"/>
+		<xsl:call-template name="readOnlyControl">
+			<xsl:with-param name="class">
+				<xsl:text>wc-ro-input</xsl:text>
+			</xsl:with-param>
+		</xsl:call-template>
 	</xsl:template>
 
 	<!-- Single line input controls which may be associated with a datalist. -->
@@ -11,7 +15,7 @@
 		<span>
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="class">
-					<xsl:text>wc_input_wrapper</xsl:text>
+					<xsl:text>wc-input-wrapper</xsl:text>
 					<xsl:if test="@list">
 						<xsl:text> wc-combo</xsl:text>
 					</xsl:if>
@@ -110,12 +114,12 @@
 			</xsl:if>
 		</span>
 	</xsl:template>
-	
+
 	<xsl:template match="ui:numberfield">
 		<span>
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="class">
-					<xsl:text>wc_input_wrapper</xsl:text>
+					<xsl:text>wc-input-wrapper</xsl:text>
 				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:element name="input">
@@ -176,6 +180,7 @@
 			</xsl:element>
 		</span>
 	</xsl:template>
+
 	<!--
 		WTextArea
 		
@@ -195,7 +200,7 @@
 		<span>
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="class">
-					<xsl:text>wc_input_wrapper</xsl:text>
+					<xsl:text>wc-input-wrapper</xsl:text>
 				</xsl:with-param>
 			</xsl:call-template>
 			<textarea>
@@ -240,14 +245,14 @@
 			</xsl:if>
 		</span>
 	</xsl:template>
-	
+
 	<xsl:template match="ui:rtf"/>
 
 	<xsl:template match="ui:fileupload">
 		<span>
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="class">
-					<xsl:text>wc_input_wrapper</xsl:text>
+					<xsl:text>wc-input-wrapper</xsl:text>
 				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:element name="input">

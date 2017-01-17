@@ -27,7 +27,7 @@ define(["wc/dom/initialise",
 				if (!target && (tagName = target.tagName)) {
 					return;
 				}
-				INPUT_WRAPPER = INPUT_WRAPPER || new Widget("", "wc_input_wrapper");
+				INPUT_WRAPPER = INPUT_WRAPPER || new Widget("", "wc-input-wrapper");
 				if (~writeOutsideThese.indexOf(tagName)) {
 					invalidElement = target;
 				}
