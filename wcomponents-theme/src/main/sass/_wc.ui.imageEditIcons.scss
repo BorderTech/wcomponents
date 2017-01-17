@@ -2,7 +2,7 @@
 @import 'mixins-common';
 
 button[data-wc-img][data-wc-editor]:before {
-	content: $fa-var-picture-o;
+	content: $fa-var-pencil-square-o;
 }
 
 .wc_img_editor {
