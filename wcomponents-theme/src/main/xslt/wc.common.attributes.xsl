@@ -214,11 +214,11 @@
 			<xsl:with-param name="isWrapper" select="1" />
 			<xsl:with-param name="class">
 				<xsl:value-of select="$class"/>
-				<xsl:if test="not(@readOnly)">
+				<xsl:if test="not(@readonly or self::ui:checkboxselect[not(@frameless)] or self::ui:radiobuttonselect[not(@frameless)])">
 					<xsl:text> wc_noborder</xsl:text>
-					<xsl:if test="@required">
-						<xsl:text> wc_req</xsl:text>
-					</xsl:if>
+				</xsl:if>
+				<xsl:if test="not(@readOnly) and @required">
+					<xsl:text> wc_req</xsl:text>
 				</xsl:if>
 			</xsl:with-param>
 		</xsl:call-template>

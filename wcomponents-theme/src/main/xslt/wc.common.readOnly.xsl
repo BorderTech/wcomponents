@@ -67,6 +67,11 @@
 							<xsl:with-param name="single" select="1 - number($isList)"/>
 						</xsl:apply-templates>
 					</xsl:when>
+					<xsl:when test="number($useReadOnlyMode) eq 1">
+						<xsl:apply-templates select="*" mode="readOnly">
+							<xsl:with-param name="single" select="1 - number($isList)"/>
+						</xsl:apply-templates>
+					</xsl:when>
 					<xsl:when test="$applies != ''">
 						<xsl:apply-templates select="$applies"/>
 					</xsl:when>
