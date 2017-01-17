@@ -36,10 +36,10 @@
 					</xsl:if>
 					<!-- AVAILABLE LIST -->
 					<xsl:variable name="availId" select="concat(@id, '_a')"/>
-					<span>
-						<label for="{$availId}">
+					<label for="{$availId}">
+						<span class="wc-lbltext">
 							<xsl:value-of select="@fromListName"/>
-						</label>
+						</span>
 						<select id="{$availId}" multiple="multiple" class="wc_msp_av wc-noajax" size="{$size}" autocomplete="off">
 							<xsl:call-template name="disabledElement">
 								<xsl:with-param name="isControl" select="1"/>
@@ -48,7 +48,8 @@
 								<xsl:with-param name="applyWhich" select="'unselected'"/>
 							</xsl:apply-templates>
 						</select>
-					</span>
+					</label>
+					
 					<!-- BUTTONS -->
 					<span class="wc_msp_btncol">
 						<xsl:text>&#x00a0;</xsl:text>
@@ -73,10 +74,10 @@
 					<xsl:variable name="toId">
 						<xsl:value-of select="concat(@id, '_s')"/>
 					</xsl:variable>
-					<span>
-						<label for="{$toId}">
+					<label for="{$toId}">
+						<span class="wc-lbltext">
 							<xsl:value-of select="@toListName"/>
-						</label>
+						</span>
 						<select id="{$toId}" multiple="multiple" class="wc_msp_chos wc-noajax" size="{$size}" autocomplete="off">
 							<xsl:call-template name="disabledElement">
 								<xsl:with-param name="isControl" select="1"/>
@@ -85,7 +86,7 @@
 								<xsl:with-param name="applyWhich" select="'selected'"/>
 							</xsl:apply-templates>
 						</select>
-					</span>
+					</label>
 					<xsl:if test="@shuffle">
 						<xsl:call-template name="listSortControls">
 							<xsl:with-param name="id" select="$toId"/>

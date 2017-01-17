@@ -154,7 +154,7 @@
 								</xsl:call-template>
 							</xsl:if>
 						</xsl:element>
-						<span>
+						<span class="wc-lbltext">
 							<xsl:call-template name="checkableSelectOptionLabel"/>
 						</span>
 					</label>
