@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
+import com.github.bordertech.wcomponents.util.Util;
 import java.util.Arrays;
 import java.util.List;
 import org.openqa.selenium.By;
@@ -76,12 +77,11 @@ public class SeleniumWComponentInputWebElement extends SeleniumWComponentWebElem
 	 * @return true if the field is in a read-only state.
 	 */
 	public boolean isReadOnly() {
-		String className = getAttribute("class");
-		if (null == className) {
+		String roAttribute = getAttribute("data-wc-component");
+		if (Util.empty(roAttribute)) {
 			return false;
 		}
-		List<String> classAsList = Arrays.asList(className.split("\\s"));
-		return classAsList.contains(SeleniumWComponentWebProperties.CLASS_READ_ONLY.toString());
+		return true;
 	}
 
 	/**
