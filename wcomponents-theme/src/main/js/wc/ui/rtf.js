@@ -40,7 +40,7 @@ define(["wc/dom/initialise", "wc/config", "wc/loader/style", "wc/mixin", "tinyMC
 			}
 
 			while ((id = idArr.shift())) {
-				initObj["selector"] = "textarea#" + id;
+				initObj["selector"] = "textarea#" + id + "_input";
 				if (!initObj["setup"]) {
 					initObj["setup"] = setupFunc;
 				}
