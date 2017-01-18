@@ -238,9 +238,7 @@
 		<xsl:call-template name="title"/>
 		<xsl:call-template name="ariaLabel" />
 	</xsl:template>
-	
-	
-	
+
 	<!-- 
 		Simple inputs are wrapped in a span. These attributes are common to all of them.
 	-->

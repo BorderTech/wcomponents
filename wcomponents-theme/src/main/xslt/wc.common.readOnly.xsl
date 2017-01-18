@@ -36,10 +36,17 @@
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
-			<xsl:if test="$toolTip != ''">
-				<xsl:call-template name="title">
-					<xsl:with-param name="title" select="$toolTip"/>
-				</xsl:call-template>
+			<xsl:if test="self::ui:checkbox or self::ui:radiobutton">
+				<xsl:attribute name="title">
+					<xsl:choose>
+						<xsl:when test="@selected">
+							<xsl:text>{{t 'input_selected'}}</xsl:text>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>{{t 'input_unselected'}}</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
 			</xsl:if>
 			<xsl:call-template name="roComponentName"/>
 			<xsl:if test="self::ui:checkbox or self::ui:radiobutton or self::ui:togglebutton or self::ui:numberfield or self::ui:datefield[@allowPartial and @date]">

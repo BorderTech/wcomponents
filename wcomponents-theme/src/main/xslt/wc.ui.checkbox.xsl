@@ -13,16 +13,6 @@
 							<xsl:text> wc_ro_sel</xsl:text>
 						</xsl:if>
 					</xsl:with-param>
-					<xsl:with-param name="toolTip">
-						<xsl:choose>
-							<xsl:when test="@selected">
-								<xsl:text>{{t 'input_selected'}}</xsl:text>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:text>{{t 'input_unselected'}}</xsl:text>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:with-param>
 				</xsl:call-template>
 			</xsl:when>
 			<xsl:otherwise>
