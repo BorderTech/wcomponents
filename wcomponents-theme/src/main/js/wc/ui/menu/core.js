@@ -448,10 +448,10 @@ define(["wc/dom/attribute",
 					this.closeAllPaths(menu, null);
 				}
 				else if (element.tabIndex >= 0) {
-					timers.setTimeout(this.closeAllPaths.bind(this), 150, menu, null);
+					timers.setTimeout(this.closeAllPaths.bind(this), 150, menu, element);
 				}
 				else {
-					this.closeAllPaths(menu, null);
+					this.closeAllPaths(menu, element);
 				}
 			}
 			finally {
@@ -1722,7 +1722,8 @@ define(["wc/dom/attribute",
 								activateOnHover = expandable ? (shed.isExpanded(expandable) ? root.id : null) : null;
 							}
 							else if (this._isLeaf(item)) {
-								timers.setTimeout(this._closeOpenMenu.bind(this), 0, root, target);
+								// timers.setTimeout(this._closeOpenMenu.bind(this), 0, root, item);
+								this._closeOpenMenu(root, item);
 							}
 						}
 					}
@@ -1779,7 +1780,8 @@ define(["wc/dom/attribute",
 		AbstractMenu.prototype._setUpWidgets = function() {
 			var o,
 				leaf = this._role.LEAF;
-			this._wd.submenu = new Widget("", "", { "role": "menu" });
+			// NOTE: the arua-expanded attribute differentiates a sub menu from a column/tree menu's root.
+			this._wd.submenu = new Widget("", "", { "role": "menu" , "aria-expanded" : null});
 			this._wd.branch = new Widget("", "wc-submenu");
 			this._wd.opener = new Widget(BUTTON, "wc-submenu-o");
 			this._wd.leaf = [];

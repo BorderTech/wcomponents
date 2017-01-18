@@ -476,6 +476,14 @@ define(["wc/ui/menu/core",
 				setSeparatorOrientation(documentFragment);
 			}
 
+			function attachClosebuttons(container) {
+				var el = container || document.body;
+				if (container && instance.isSubMenu(container)) {
+					attachSubMenuCloseButton(container);
+				}
+				Array.prototype.forEach.call(instance._wd.submenu.findDescendants(el), attachSubMenuCloseButton);
+			}
+
 			/**
 			 * Extended initialisation for bar/flyout menus. Should not be called manually.
 			 *
@@ -485,10 +493,11 @@ define(["wc/ui/menu/core",
 			 */
 			this.initialise = function(element) {
 				this.constructor.prototype.initialise.call(this, element);
+				attachClosebuttons();
 				toggleIconMenus(element);
 				setSeparatorOrientation(element);
 				processResponse.subscribe(ajaxSubscriber);
-				processResponse.subscribe(attachSubMenuCloseButton, true);
+				processResponse.subscribe(attachClosebuttons, true);
 				processResponse.subscribe(toggleIconMenus, true);
 				event.add(window, event.TYPE.resize, resizeEvent, 1);
 			};
