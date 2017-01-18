@@ -40,9 +40,7 @@ define(["wc/has",
 				BOOTSTRAPPED = "wc.ui.dateField_bootstrapped",
 				DATE_FIELD = new Widget("div", FIELD_CLASS),
 				DATE_WRAPPER_INCL_RO = new Widget("", FIELD_CLASS),
-				DATE_FIELD_RO = new Widget("time", FIELD_CLASS),
-				PARTIAL_RO = new Widget("span", FIELD_CLASS),
-				ALL_RO = [DATE_FIELD_RO, PARTIAL_RO],
+				DATE_RO = new Widget("", "wc_datero"),
 				INPUT = new Widget("input"),
 				DATE = INPUT.extend("", {"type": "date"}),
 				DATE_PARTIAL = INPUT.extend("", {"type": "text"}),
@@ -512,7 +510,7 @@ define(["wc/has",
 					textVal,
 					textBox;
 				if ((value = (field.getAttribute(FAKE_VALUE_ATTRIB) || field.getAttribute("datetime"))) && (textVal = format(value))) {
-					if (Widget.isOneOfMe(field, ALL_RO)) {
+					if (DATE_RO.isOneOfMe(field)) {
 						textContent.set(field, textVal);
 					}
 					else {
@@ -541,7 +539,7 @@ define(["wc/has",
 				}
 
 				Array.prototype.forEach.call(fields, function(next) {
-					if (Widget.isOneOfMe(next, ALL_RO) || isPartial(next)) {
+					if (DATE_RO.isOneOfMe(next) || isPartial(next)) {
 						setInputValue(next);
 					}
 					else if (instance.isLameDateField(next)) {
@@ -1067,6 +1065,10 @@ define(["wc/has",
 					result = Widget.isOneOfMe(element, [INPUT, DATE_WRAPPER_INCL_RO]);
 				}
 				return result;
+			};
+
+			this.isReadOnly = function (element) {
+				return DATE_RO.isOneOfMe(element);
 			};
 
 			/**
