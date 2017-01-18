@@ -26,11 +26,7 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<span>
-					<xsl:call-template name="commonAttributes">
-						<xsl:with-param name="class">
-							<xsl:text>wc-input-wrapper</xsl:text>
-						</xsl:with-param>
-					</xsl:call-template>
+					<xsl:call-template name="commonInputWrapperAttributes"/>
 					<xsl:element name="input">
 						<xsl:call-template name="wrappedInputAttributes">
 							<xsl:with-param name="type">

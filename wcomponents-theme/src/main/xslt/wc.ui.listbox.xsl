@@ -27,11 +27,7 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<span>
-					<xsl:call-template name="commonAttributes">
-						<xsl:with-param name="class">
-							<xsl:text>wc-input-wrapper</xsl:text>
-						</xsl:with-param>
-					</xsl:call-template>
+					<xsl:call-template name="commonInputWrapperAttributes"/>
 					<xsl:if test="@data">
 						<xsl:attribute name="data-wc-list">
 							<xsl:value-of select="@data"/>

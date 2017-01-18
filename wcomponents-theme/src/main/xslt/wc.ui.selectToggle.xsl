@@ -7,11 +7,7 @@
 		<xsl:choose>
 			<xsl:when test="@renderAs eq 'control'">
 				<span>
-					<xsl:call-template name="commonAttributes">
-						<xsl:with-param name="class">
-							<xsl:text>wc-input-wrapper</xsl:text>
-						</xsl:with-param>
-					</xsl:call-template>
+					<xsl:call-template name="commonInputWrapperAttributes"/>
 					<xsl:call-template name="selectToggle">
 						<xsl:with-param name="id" select="concat(@id, '_input')"/>
 						<xsl:with-param name="for" select="@target"/>

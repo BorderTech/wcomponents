@@ -32,11 +32,10 @@
 	<!-- Single line input controls which may be associated with a datalist. -->
 	<xsl:template match="ui:textfield|ui:phonenumberfield|ui:emailfield|ui:passwordfield">
 		<span>
-			<xsl:call-template name="commonAttributes">
+			<xsl:call-template name="commonInputWrapperAttributes">
 				<xsl:with-param name="class">
-					<xsl:text>wc-input-wrapper</xsl:text>
 					<xsl:if test="@list">
-						<xsl:text> wc-combo</xsl:text>
+						<xsl:text>wc-combo</xsl:text>
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
@@ -136,11 +135,7 @@
 
 	<xsl:template match="ui:numberfield">
 		<span>
-			<xsl:call-template name="commonAttributes">
-				<xsl:with-param name="class">
-					<xsl:text>wc-input-wrapper</xsl:text>
-				</xsl:with-param>
-			</xsl:call-template>
+			<xsl:call-template name="commonInputWrapperAttributes"/>
 			<xsl:element name="input">
 				<xsl:call-template name="wrappedTextInputAttributes">
 					<xsl:with-param name="type">
@@ -217,11 +212,7 @@
 	<xsl:template match="ui:textarea">
 		<xsl:variable name="tickerId" select="concat(@id,'_tick')"/>
 		<span>
-			<xsl:call-template name="commonAttributes">
-				<xsl:with-param name="class">
-					<xsl:text>wc-input-wrapper</xsl:text>
-				</xsl:with-param>
-			</xsl:call-template>
+			<xsl:call-template name="commonInputWrapperAttributes"/>
 			<textarea>
 				<xsl:call-template name="wrappedTextInputAttributes"/>
 				<xsl:if test="(@required or @placeholder) and not(text())">
@@ -269,11 +260,7 @@
 
 	<xsl:template match="ui:fileupload">
 		<span>
-			<xsl:call-template name="commonAttributes">
-				<xsl:with-param name="class">
-					<xsl:text>wc-input-wrapper</xsl:text>
-				</xsl:with-param>
-			</xsl:call-template>
+			<xsl:call-template name="commonInputWrapperAttributes"/>
 			<xsl:element name="input">
 				<xsl:call-template name="wrappedInputAttributes">
 					<xsl:with-param name="type">

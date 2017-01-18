@@ -23,11 +23,7 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<span>
-					<xsl:call-template name="commonAttributes">
-						<xsl:with-param name="class">
-							<xsl:text>wc-input-wrapper</xsl:text>
-						</xsl:with-param>
-					</xsl:call-template>
+					<xsl:call-template name="commonInputWrapperAttributes"/>
 					<xsl:variable name="listId" select="concat($id,'_input')"/>
 					<select id="{$listId}" class="wc_shuffler wc-noajax" multiple="multiple" autocomplete="off">
 						<xsl:call-template name="disabledElement">

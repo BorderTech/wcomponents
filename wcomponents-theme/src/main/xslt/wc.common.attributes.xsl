@@ -178,6 +178,30 @@
 			</xsl:attribute>
 		</xsl:if>
 	</xsl:template>
+	
+	<!--
+		A set of attributes commonly applied to the transformed output of many components.
+	-->
+	<xsl:template name="commonAttributes">
+		<xsl:param name="isControl" select="0" />
+		<xsl:param name="isWrapper" select="0" />
+		<xsl:param name="class" select="''" />
+
+		<xsl:attribute name="id">
+			<xsl:value-of select="@id" />
+		</xsl:attribute>
+		<xsl:call-template name="makeCommonClass">
+			<xsl:with-param name="additional">
+				<xsl:value-of select="$class" />
+			</xsl:with-param>
+		</xsl:call-template>
+		<xsl:call-template name="hideElementIfHiddenSet" />
+		<xsl:if test="not(@readOnly or number($isWrapper) eq 1)">
+			<xsl:call-template name="disabledElement">
+				<xsl:with-param name="isControl" select="$isControl" />
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
 
 	<!--
 		TODO: these need a good clean up.
@@ -200,17 +224,6 @@
 		<xsl:param name="class" select="''"/>
 		<!--normally fieldset-->
 		<xsl:call-template name="commonAttributes">
-			<xsl:with-param name="id" select="@id" />
-			<xsl:with-param name="isControl">
-				<xsl:choose>
-					<xsl:when test="@readOnly">
-						<xsl:number value="0"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:number value="1"/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:with-param>
 			<xsl:with-param name="isWrapper" select="1" />
 			<xsl:with-param name="class">
 				<xsl:value-of select="$class"/>
@@ -225,45 +238,18 @@
 		<xsl:call-template name="title"/>
 		<xsl:call-template name="ariaLabel" />
 	</xsl:template>
-
-	<!--
-		A set of attributes commonly applied to the transformed output of many components.
-		param id:  The component's id, default @id.
-		param live: The value to set to aria-live if the component is an ajax
-			target, default 'polite'.
-		param isControl: Set to integer 1 if the transformed output is a HTML
-			form control which supports the disabled attribute, default 0.
-	-->
-	<xsl:template name="commonAttributes">
-		<xsl:param name="id" select="@id" />
-		<xsl:param name="isControl" select="0" />
-		<xsl:param name="readOnly" select="@readOnly" />
-		<xsl:param name="isWrapper" select="0" />
-		<xsl:param name="class" select="''" />
-
-		<xsl:if test="$id ne ''">
-			<xsl:attribute name="id">
-				<xsl:value-of select="$id" />
-			</xsl:attribute>
-		</xsl:if>
-		<xsl:call-template name="makeCommonClass">
-			<xsl:with-param name="additional">
-				<xsl:value-of select="$class" />
-			</xsl:with-param>
-		</xsl:call-template>
-		<xsl:call-template name="hideElementIfHiddenSet" />
-		<xsl:if test="not($readOnly eq 'true' or number($isWrapper) eq 1)">
-			<xsl:call-template name="disabledElement">
-				<xsl:with-param name="isControl" select="$isControl" />
-			</xsl:call-template>
-		</xsl:if>
-	</xsl:template>
 	
+	
+	
+	<!-- 
+		Simple inputs are wrapped in a span. These attributes are common to all of them.
+	-->
 	<xsl:template name="wrappedInputAttributes">
 		<xsl:param name="name" select="@id"/>
 		<xsl:param name="useTitle" select="1"/>
 		<xsl:param name="useRequired" select="1"/>
 		<xsl:param name="type" select="''"/>
+
 		<xsl:attribute name="id">
 			<xsl:value-of select="concat(@id,'_input')"/>
 		</xsl:attribute>
@@ -322,5 +308,18 @@
 				</xsl:choose>
 			</xsl:attribute>
 		</xsl:if>
+	</xsl:template>
+
+	<xsl:template name="commonInputWrapperAttributes">
+		<xsl:param name="class" select="''"/>
+		<xsl:call-template name="commonAttributes">
+			<xsl:with-param name="class">
+				<!-- 
+					NOTE: the space after `wc-input-wrapper` is for safety as makeCommonClass will normalise for us.
+					It allows the calling template to not have to include a preceding space in its param.
+				-->
+				<xsl:value-of select="concat('wc-input-wrapper ', $class)"/>
+			</xsl:with-param>
+		</xsl:call-template>
 	</xsl:template>
 </xsl:stylesheet>

@@ -17,11 +17,7 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<span>
-					<xsl:call-template name="commonAttributes">
-						<xsl:with-param name="class">
-							<xsl:text>wc-input-wrapper</xsl:text>
-						</xsl:with-param>
-					</xsl:call-template>
+					<xsl:call-template name="commonInputWrapperAttributes"/>
 					<xsl:if test="@data">
 						<xsl:attribute name="data-wc-list">
 							<xsl:value-of select="@data"/>
@@ -47,9 +43,9 @@
 	-->
 	<xsl:template match="ui:dropdown[@type='combo' and not(@readOnly)]">
 		<span role="combobox" aria-expanded="false" aria-autocomplete="list">
-			<xsl:call-template name="commonAttributes">
+			<xsl:call-template name="commonInputWrapperAttributes">
 				<xsl:with-param name="class">
-					<xsl:text>wc-input-wrapper wc-combo</xsl:text>
+					<xsl:text>wc-combo</xsl:text>
 				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:call-template name="requiredElement">

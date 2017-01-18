@@ -22,11 +22,7 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<span>
-					<xsl:call-template name="commonAttributes">
-						<xsl:with-param name="class">
-							<xsl:text>wc-input-wrapper</xsl:text>
-						</xsl:with-param>
-					</xsl:call-template>
+					<xsl:call-template name="commonInputWrapperAttributes"/>
 					<button type="button" data-wc-name="{@id}" data-wc-value="true" role="checkbox">
 						<xsl:call-template name="wrappedInputAttributes">
 							<xsl:with-param name="name" select="''"/>

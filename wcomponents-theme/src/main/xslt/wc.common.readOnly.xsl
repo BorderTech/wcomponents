@@ -19,6 +19,9 @@
 				<xsl:when test="self::ui:textarea">
 					<xsl:text>pre</xsl:text>
 				</xsl:when>
+				<xsl:when test="self::ui:datefield[@date and not(@allowPartial)]">
+					<xsl:text>time</xsl:text>
+				</xsl:when>
 				<xsl:otherwise>
 					<xsl:text>span</xsl:text>
 				</xsl:otherwise>
@@ -27,9 +30,7 @@
 		<xsl:element name="{$elementName}">
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="class">
-					<xsl:if test="normalize-space($class) ne ''">
-						<xsl:value-of select="normalize-space($class)"/>
-					</xsl:if>
+					<xsl:value-of select="$class"/>
 					<xsl:if test="number($isList) eq 1">
 						<xsl:text> wc_list_nb</xsl:text>
 					</xsl:if>
@@ -41,9 +42,12 @@
 				</xsl:call-template>
 			</xsl:if>
 			<xsl:call-template name="roComponentName"/>
-			<xsl:if test="self::ui:checkbox or self::ui:radiobutton or self::ui:togglebutton or self::ui:numberfield">
+			<xsl:if test="self::ui:checkbox or self::ui:radiobutton or self::ui:togglebutton or self::ui:numberfield or self::ui:datefield[@allowPartial and @date]">
 				<xsl:attribute name="data-wc-value">
 					<xsl:choose>
+						<xsl:when test="self::ui:datefield">
+							<xsl:value-of select="@date"/>
+						</xsl:when>
 						<xsl:when test="self::ui:numberfield">
 							<xsl:value-of select="text()"/>
 						</xsl:when>
@@ -56,9 +60,19 @@
 					</xsl:choose>
 				</xsl:attribute>
 			</xsl:if>
+			<xsl:if test="self::ui:datefield[@date and not(@allowPartial)]">
+				<xsl:attribute name="datetime">
+					<xsl:value-of select="@date"/>
+				</xsl:attribute>
+			</xsl:if>
 			<!-- NOTE applies must use non-typed comparison as list components may pass in a list of nodeLists or list of nodes -->
 			<xsl:if test="$applies != 'none'">
 				<xsl:choose>
+					<xsl:when test="self::ui:datefield">
+						<xsl:if test="not(@date)">
+							<xsl:value-of select="."/>
+						</xsl:if>
+					</xsl:when>
 					<xsl:when test="self::ui:textarea[not(ui:rtf)]">
 						<xsl:apply-templates xml:space="preserve"/>
 					</xsl:when>
