@@ -8,6 +8,7 @@ import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.MultiInputComponent;
+import com.github.bordertech.wcomponents.WRadioButton;
 
 /**
  * The Renderer for {@link WLabel}.
@@ -42,9 +43,15 @@ final class WLabelRenderer extends AbstractWebXmlRenderer {
 			whatFor = "input";
 		}
 
+		boolean isReadOnly = ((what instanceof Input) && ((Input) what).isReadOnly())
+				|| (what instanceof WRadioButton && ((WRadioButton) what).isReadOnly());
+
+		boolean isMandatory = ((what instanceof Input) && ((Input) what).isMandatory())
+				|| (what instanceof WRadioButton && ((WRadioButton) what).isMandatory());
+
 		xml.appendOptionalAttribute("what", whatFor);
-		xml.appendOptionalAttribute("readonly", ((what instanceof Input) && ((Input) what).isReadOnly()), "true");
-		xml.appendOptionalAttribute("required", ((what instanceof Input) && ((Input) what).isMandatory()), "true");
+		xml.appendOptionalAttribute("readonly", isReadOnly, "true");
+		xml.appendOptionalAttribute("required", isMandatory, "true");
 		xml.appendOptionalAttribute("hiddencomponent", (what != null && what.isHidden()), "true");
 		xml.appendOptionalAttribute("hint", label.getHint());
 		xml.appendOptionalAttribute("accessKey", Util.upperCase(label.getAccessKeyAsString()));
