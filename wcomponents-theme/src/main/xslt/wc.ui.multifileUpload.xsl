@@ -187,8 +187,8 @@
 				<xsl:when test="ui:link">
 					<xsl:apply-templates select="ui:link">
 						<xsl:with-param name="imageAltText" select="concat('Thumbnail for uploaded file: ', @name)"/>
-						<!-- This is only needed when writing a multifileupload with files in a readonly state, never if the file is in an ajax 
-							response by itself (as that is not possible in a readonly state) -->
+						<!-- The following is only needed when writing a multifileupload with files in a readonly state, never if the file is in an 
+							ajax esponse by itself (as that is not possible in a readonly state) -->
 						<xsl:with-param name="ajax">
 							<xsl:if test="parent::ui:multifileupload[@ajax] and ../@readOnly">
 								<xsl:value-of select="../@id"/>
