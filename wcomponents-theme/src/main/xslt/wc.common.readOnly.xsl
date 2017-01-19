@@ -4,9 +4,6 @@
 	<!-- Common helper template to output the readOnly state of many form control components. -->
 	<xsl:template name="readOnlyControl">
 		<xsl:param name="class" select="''"/>
-		<xsl:param name="applies" select="''"/>
-		<xsl:param name="useReadOnlyMode" select="0"/>
-		<xsl:param name="toolTip" select="''"/>
 		<xsl:param name="isList" select="0"/>
 		<xsl:variable name="elementName">
 			<xsl:choose>
@@ -73,34 +70,35 @@
 				</xsl:attribute>
 			</xsl:if>
 			<!-- NOTE applies must use non-typed comparison as list components may pass in a list of nodeLists or list of nodes -->
-			<xsl:if test="$applies != 'none'">
-				<xsl:choose>
-					<xsl:when test="self::ui:datefield">
-						<xsl:if test="not(@date)">
-							<xsl:value-of select="."/>
-						</xsl:if>
-					</xsl:when>
-					<xsl:when test="self::ui:textarea[not(ui:rtf)]">
-						<xsl:apply-templates xml:space="preserve"/>
-					</xsl:when>
-					<xsl:when test="$applies != '' and number($useReadOnlyMode) eq 1">
-						<xsl:apply-templates select="$applies" mode="readOnly">
-							<xsl:with-param name="single" select="1 - number($isList)"/>
-						</xsl:apply-templates>
-					</xsl:when>
-					<xsl:when test="number($useReadOnlyMode) eq 1">
-						<xsl:apply-templates select="*" mode="readOnly">
-							<xsl:with-param name="single" select="1 - number($isList)"/>
-						</xsl:apply-templates>
-					</xsl:when>
-					<xsl:when test="$applies != ''">
-						<xsl:apply-templates select="$applies"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:apply-templates />
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="self::ui:checkboxselect or self::ui:radiobuttonselect">
+					<xsl:apply-templates select="*" mode="readOnly">
+						<xsl:with-param name="single" select="1 - number($isList)"/>
+					</xsl:apply-templates>
+				</xsl:when>
+				<xsl:when test="self::ui:datefield">
+					<xsl:if test="not(@date)">
+						<xsl:value-of select="."/>
+					</xsl:if>
+				</xsl:when>
+				<xsl:when test="self::ui:dropdown or self::ui:listbox[@single]">
+					<xsl:apply-templates select=".//ui:option" mode="readOnly" />
+				</xsl:when>
+				<xsl:when test="self::ui:listbox or self::ui:multiselectpair or self::ui:multidropdown">
+					<xsl:apply-templates select="ui:option|ui:optgroup[ui:option]" mode="readOnly">
+						<xsl:with-param name="single" select="0"/>
+					</xsl:apply-templates>
+				</xsl:when>
+				<xsl:when test="self::ui:textarea[not(ui:rtf)]">
+					<xsl:apply-templates xml:space="preserve"/>
+				</xsl:when>
+				<xsl:when test="self::ui:multitextfield">
+					<xsl:apply-templates select="ui:value" mode="readOnly"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:apply-templates />
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:element>
 	</xsl:template>
 

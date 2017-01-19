@@ -16,7 +16,6 @@
 					<xsl:call-template name="title"/>
 					<xsl:call-template name="roComponentName"/>
 					<xsl:apply-templates select="ui:option|ui:optgroup" mode="readOnly">
-						<xsl:with-param name="showOptions" select="'all'"/>
 						<xsl:with-param name="single" select="0"/>
 					</xsl:apply-templates>
 				</ol>

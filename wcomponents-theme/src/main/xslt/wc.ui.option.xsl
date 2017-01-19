@@ -40,22 +40,15 @@
 	-->
 	<xsl:template match="ui:option" mode="readOnly">
 		<xsl:param name="single" select="1"/>
-		<xsl:param name="className" select="''"/>
 		<xsl:choose>
 			<xsl:when test="number($single) eq 1">
 				<xsl:value-of select="."/>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:variable name="class">
-					<xsl:if test="parent::ui:optgroup">wc_inoptgroup</xsl:if>
-					<xsl:if test="$className ne ''">
-						<xsl:value-of select="concat(' ',$className)"/>
-					</xsl:if>
-				</xsl:variable>
 				<li>
-					<xsl:if test="normalize-space($class) ne ''">
+					<xsl:if test="parent::ui:optgroup">
 						<xsl:attribute name="class">
-							<xsl:value-of select="normalize-space($class)"/>
+							<xsl:text>wc_inoptgroup</xsl:text>
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:value-of select="."/>

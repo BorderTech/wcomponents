@@ -10,19 +10,14 @@
 					<xsl:with-param name="class">
 						<xsl:text>wc-ro-input</xsl:text>
 					</xsl:with-param>
-					<xsl:with-param name="applies" select=".//ui:option"/>
-					<xsl:with-param name="useReadOnlyMode" select="1"/>
 				</xsl:call-template>
 			</xsl:when>
 			<xsl:when test="@readOnly">
-				<xsl:variable name="isList" select="count(.//*)"/>
 				<xsl:call-template name="readOnlyControl">
 					<xsl:with-param name="class">
 						<xsl:text>wc-ro-input wc_list_nb wc-vgap-sm</xsl:text>
 					</xsl:with-param>
 					<xsl:with-param name="isList" select="1"/>
-					<xsl:with-param name="useReadOnlyMode" select="1"/>
-					<xsl:with-param name="applies" select="ui:option|ui:optgroup[ui:option]"/>
 				</xsl:call-template>
 			</xsl:when>
 			<xsl:otherwise>

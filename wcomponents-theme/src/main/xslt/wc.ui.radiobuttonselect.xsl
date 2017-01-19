@@ -6,9 +6,7 @@
 	<xsl:template match="ui:radiobuttonselect">
 		<xsl:choose>
 			<xsl:when test="@readOnly">
-				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="useReadOnlyMode" select="1"/>
-				</xsl:call-template>
+				<xsl:call-template name="readOnlyControl"/>
 			</xsl:when>
 			<xsl:otherwise>
 				<fieldset>

@@ -8,8 +8,6 @@
 			<xsl:when test="@readOnly">
 				<xsl:call-template name="readOnlyControl">
 					<xsl:with-param name="isList" select="1"/>
-					<xsl:with-param name="useReadOnlyMode" select="1"/>
-					<xsl:with-param name="applies" select="ui:option|ui:optgroup[ui:option]"/>
 					<xsl:with-param name="class" select="'wc-vgap-sm'"/>
 				</xsl:call-template>
 			</xsl:when>
@@ -152,7 +150,7 @@
 				</optgroup>
 			</xsl:when>
 			<xsl:otherwise>
-				<li class="wc_optgroup">
+				<li class="wc-optgroup">
 					<xsl:value-of select="@label"/>
 				</li>
 				<xsl:apply-templates select="ui:option[@selected]" mode="multiselectPair">

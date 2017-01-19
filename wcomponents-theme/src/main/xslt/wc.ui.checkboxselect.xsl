@@ -6,19 +6,16 @@
 	<xsl:template match="ui:checkboxselect">
 		<xsl:choose>
 			<xsl:when test="@readOnly and count(ui:option) le 1">
-				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="useReadOnlyMode" select="1"/>
-				</xsl:call-template>
+				<xsl:call-template name="readOnlyControl"/>
 			</xsl:when>
 			<xsl:when test="@readOnly and not(@layoutColumnCount) or @layoutColumnCount &lt;= 1">
 				<xsl:call-template name="readOnlyControl">
 					<xsl:with-param name="isList" select="1"/>
-					<xsl:with-param name="useReadOnlyMode" select="1"/>
 					<xsl:with-param name="class">
 						<xsl:if test="count(ui:option) gt 1">
 							<xsl:choose>
 								<xsl:when test="@layout eq 'flat'">
-									<xsl:text> wc-hgap-med</xsl:text>
+									<xsl:text> wc-hgap-med wc-listlayout-type-flat</xsl:text>
 								</xsl:when>
 								<xsl:otherwise>
 									<xsl:text> wc-vgap-sm</xsl:text>

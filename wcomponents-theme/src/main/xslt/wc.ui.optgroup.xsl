@@ -14,24 +14,11 @@
 
 	<!-- Transform for emulator for an optgroup in readOnly mode. -->
 	<xsl:template match="ui:optgroup" mode="readOnly">
-		<xsl:param name="showOptions" select="'selected'"/>
-		<xsl:param name="className"/>
-		<li class="wc_optgroup">
+		<li class="wc-optgroup">
 			<xsl:value-of select="@label"/>
 		</li>
-		<xsl:choose>
-			<xsl:when test="$showOptions eq 'all'">
-				<xsl:apply-templates select="ui:option" mode="readOnly">
-					<xsl:with-param name="className" select="$className"/>
-					<xsl:with-param name="single" select="0"/>
-				</xsl:apply-templates>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:apply-templates select="ui:option[@selected]" mode="readOnly">
-					<xsl:with-param name="className" select="$className"/>
-					<xsl:with-param name="single" select="0"/>
-				</xsl:apply-templates>
-			</xsl:otherwise>
-		</xsl:choose>
+		<xsl:apply-templates select="ui:option" mode="readOnly">
+			<xsl:with-param name="single" select="0"/>
+		</xsl:apply-templates>
 	</xsl:template>
 </xsl:stylesheet>

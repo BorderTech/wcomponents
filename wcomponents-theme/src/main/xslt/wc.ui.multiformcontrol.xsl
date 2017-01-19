@@ -16,8 +16,6 @@
 		<xsl:choose>
 			<xsl:when test="@readOnly and self::ui:multidropdown">
 				<xsl:call-template name="readOnlyControl">
-					<xsl:with-param name="applies" select="ui:option|ui:optgroup[ui:option]"/>
-					<xsl:with-param name="useReadOnlyMode" select="1"/>
 					<xsl:with-param name="isList" select="1"/>
 					<xsl:with-param name="class" select="'wc-vgap-sm'"/>
 				</xsl:call-template>
@@ -25,7 +23,6 @@
 			<xsl:when test="@readOnly">
 				<xsl:call-template name="readOnlyControl">
 					<xsl:with-param name="isList" select="1"/>
-					<xsl:with-param name="useReadOnlyMode" select="1"/>
 					<xsl:with-param name="class" select="'wc-vgap-sm'"/>
 				</xsl:call-template>
 			</xsl:when>
@@ -46,7 +43,6 @@
 					</xsl:if>
 					<ul class="wc_list_nb wc-vgap-sm">
 						<xsl:choose>
-							<!-- content transform is dependant upon the actual component being transformed-->
 							<xsl:when test="self::ui:multidropdown and count(.//ui:option[@selected]) eq 0">
 								<xsl:apply-templates select="(ui:option|ui:optgroup/ui:option)[1]" mode="multiDropDown">
 									<xsl:with-param name="isSingular" select="1"/>
