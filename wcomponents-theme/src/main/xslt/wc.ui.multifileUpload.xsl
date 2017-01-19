@@ -73,7 +73,6 @@
 							<xsl:with-param name="type">
 								<xsl:text>file</xsl:text>
 							</xsl:with-param>
-							<xsl:with-param name="useRequired" select="0"/>
 						</xsl:call-template>
 						<xsl:attribute name="multiple">
 							<xsl:text>multiple</xsl:text>

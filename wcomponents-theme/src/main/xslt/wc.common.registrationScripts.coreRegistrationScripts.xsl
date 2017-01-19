@@ -29,9 +29,15 @@
 		<xsl:variable name="hasAjaxTriggers" select=".//ui:ajaxtrigger"/>
 		<xsl:variable name="timeoutWarn" select=".//ui:session[1]"/>
 		<xsl:variable name="editors" select=".//html:wc-imageedit"/>
+		<xsl:variable name="tableActions" select=".//ui:table/ui:actions/ui:action"/>
 		<xsl:if test="$componentGroups">
 			<xsl:text>require(["wc/ui/subordinate"], function(c){c.registerGroups([</xsl:text>
 			<xsl:apply-templates select="$componentGroups" mode="JS"/>
+			<xsl:text>]);});</xsl:text>
+		</xsl:if>
+		<xsl:if test="$tableActions">
+			<xsl:text>require(["wc/ui/table/action"], function(c){c.register([</xsl:text>
+			<xsl:apply-templates select="$tableActions" mode="JS"/>
 			<xsl:text>]);});</xsl:text>
 		</xsl:if>
 		<xsl:if test="$editors">

@@ -24,7 +24,7 @@
 		<xsl:param name="ajax" select="''"/>
 		<xsl:variable name="elementType">
 			<xsl:choose>
-				<xsl:when test="@type eq 'button'">
+				<xsl:when test="@type">
 					<xsl:text>button</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
@@ -35,14 +35,25 @@
 		<xsl:element name="{$elementType}">
 			<xsl:call-template name="buttonLinkCommonAttributes">
 				<xsl:with-param name="elementType" select="$elementType"/>
-				<xsl:with-param name="class">
-					<xsl:if test="$elementType eq 'button' and not(@type eq 'button')">
-						<xsl:text> wc-linkbutton</xsl:text>
-					</xsl:if>
-				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:choose>
-				<xsl:when test="$elementType eq 'a'">
+				<xsl:when test="@type">
+					<xsl:attribute name="type">
+						<xsl:text>button</xsl:text>
+					</xsl:attribute>
+					<xsl:attribute name="data-wc-url">
+						<xsl:value-of select="@url"/>
+					</xsl:attribute>
+					<xsl:if test="ui:windowAttributes">
+						<xsl:attribute name="data-wc-window">
+							<xsl:value-of select="ui:windowAttributes/@name"/>
+						</xsl:attribute>
+						<xsl:attribute name="aria-haspopup">
+							<xsl:text>true</xsl:text>
+						</xsl:attribute>
+					</xsl:if>
+				</xsl:when>
+				<xsl:otherwise>
 					<xsl:attribute name="href">
 						<xsl:value-of select="@url"/>
 					</xsl:attribute>
@@ -76,22 +87,6 @@
 					<xsl:if test="ui:windowAttributes">
 						<xsl:attribute name="target">
 							<xsl:value-of select="ui:windowAttributes/@name"/>
-						</xsl:attribute>
-					</xsl:if>
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:attribute name="type">
-						<xsl:text>button</xsl:text>
-					</xsl:attribute>
-					<xsl:attribute name="data-wc-url">
-						<xsl:value-of select="@url"/>
-					</xsl:attribute>
-					<xsl:if test="ui:windowAttributes">
-						<xsl:attribute name="data-wc-window">
-							<xsl:value-of select="ui:windowAttributes/@name"/>
-						</xsl:attribute>
-						<xsl:attribute name="aria-haspopup">
-							<xsl:text>true</xsl:text>
 						</xsl:attribute>
 					</xsl:if>
 				</xsl:otherwise>

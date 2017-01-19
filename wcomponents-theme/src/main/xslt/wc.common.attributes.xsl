@@ -36,7 +36,6 @@
 	<xsl:template name="commonClassHelper">
 		<xsl:param name="additional" select="''"/>
 		<xsl:variable name="baseClass" select="concat(' wc-', local-name(.))"/>
-		<xsl:value-of select="$baseClass"/>
 		<xsl:variable name="computed">
 			<xsl:apply-templates select="ui:margin" mode="class" />
 			<xsl:value-of select="concat($baseClass, ' ', @class, ' ', $additional)"/>
@@ -148,12 +147,9 @@
 		param contentAfter: additional content to apply after the title content.
 	-->
 	<xsl:template name="title">
-		<xsl:variable name="text">
-			<xsl:value-of select="@toolTip"/>
-		</xsl:variable>
-		<xsl:if test="$text ne ''">
+		<xsl:if test="@toolTip">
 			<xsl:attribute name="title">
-				<xsl:value-of select="$text"/>
+				<xsl:value-of select="@toolTip"/>
 			</xsl:attribute>
 		</xsl:if>
 	</xsl:template>
@@ -183,25 +179,11 @@
 	</xsl:template>
 
 	<!--
-		TODO: these need a good clean up.
-
-		A set of helper templates to add commonly used groups of attributes to
-		elements. We cannot use actual XSLT attribute-sets because the
-		attributes require calculation and parameters.
-	-->
-
-	<!--
 		Attributes applied to the outer 'wrapper' element of complex components.
-		param id: The component's id, default @id.
-		param isError: A node list of ui:errors (if any) associated with the
-			component.
-		param live: The value to set to aria-live if the component is an ajax
-			target,  default 'polite'.
-		param isControl: see "commonAtrributes: below, default 1.
 	-->
 	<xsl:template name="commonWrapperAttributes">
 		<xsl:param name="class" select="''"/>
-		<!--normally fieldset-->
+
 		<xsl:call-template name="commonAttributes">
 			<xsl:with-param name="isWrapper" select="1" />
 			<xsl:with-param name="class">
@@ -224,7 +206,6 @@
 	<xsl:template name="wrappedInputAttributes">
 		<xsl:param name="name" select="@id"/>
 		<xsl:param name="useTitle" select="1"/>
-		<xsl:param name="useRequired" select="1"/>
 		<xsl:param name="type" select="''"/>
 
 		<xsl:attribute name="id">
@@ -243,7 +224,7 @@
 		<xsl:if test="number($useTitle) eq 1">
 			<xsl:call-template name="title"/>
 		</xsl:if>
-		<xsl:if test="number($useRequired) eq 1">
+		<xsl:if test="not(self::ui:multifileupload)">
 			<xsl:call-template name="requiredElement"/>
 		</xsl:if>
 		<xsl:call-template name="disabledElement"/>
@@ -261,14 +242,10 @@
 	</xsl:template>
 
 	<xsl:template name="wrappedTextInputAttributes">
-		<xsl:param name="name" select="@id"/>
 		<xsl:param name="useTitle" select="1"/>
-		<xsl:param name="useRequired" select="1"/>
 		<xsl:param name="type" select="''"/>
 		<xsl:call-template name="wrappedInputAttributes">
-			<xsl:with-param name="name" select="$name"/>
 			<xsl:with-param name="useTitle" select="$useTitle"/>
-			<xsl:with-param name="useRequired" select="$useRequired"/>
 			<xsl:with-param name="type" select="$type"/>
 		</xsl:call-template>
 		<xsl:if test="@placeholder or @required">

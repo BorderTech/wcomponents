@@ -16,7 +16,6 @@
 		accessible horizontal scrolling.
 	-->
 	<xsl:template match="ui:table">
-		<xsl:variable name="id" select="@id"/>
 		<xsl:variable name="rowExpansion">
 			<xsl:choose>
 				<xsl:when test="ui:rowexpansion">
@@ -38,7 +37,7 @@
 			</xsl:choose>
 		</xsl:variable>
 		<!-- the table wrapper starts here -->
-		<div id="{$id}">
+		<div id="{@id}">
 			<xsl:call-template name="makeCommonClass"/>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<!-- AJAX table actions make the table an ARIA live region -->
@@ -51,17 +50,11 @@
 				<xsl:variable name="expMode" select="ui:rowexpansion/@mode"/>
 				<xsl:attribute name="data-wc-expmode">	
 					<xsl:choose>
-						<xsl:when test="($expMode eq 'lazy' or $expMode eq 'eager') and ui:subtr/@open">
+						<xsl:when test="($expMode eq 'lazy') and ui:subtr/@open">
 							<xsl:text>client</xsl:text>
-						</xsl:when>
-						<xsl:when test="$expMode eq 'eager'">
-							<xsl:text>lazy</xsl:text>
-						</xsl:when>
-						<xsl:when test="$expMode">
-							<xsl:value-of select="$expMode"/>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:text>client</xsl:text>
+							<xsl:value-of select="$expMode"/>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
@@ -836,13 +829,25 @@
 		Table Actions
 	-->
 	<xsl:template match="ui:actions">
-		<xsl:apply-templates select="ui:action"/>
+		<div class="wc-actions">
+			<xsl:apply-templates select="ui:action/ui:button"/>
+		</div>
 	</xsl:template>
 
-	<xsl:template match="ui:action">
-		<xsl:apply-templates select="ui:button"/>
+	<xsl:template match="ui:action" mode="JS">
+		<xsl:text>{"trigger":"</xsl:text>
+		<xsl:value-of select="ui:button/@id"/>
+		<xsl:text>"</xsl:text>
+		<xsl:if test="ui:condition">
+			<xsl:text>,"conditions":[</xsl:text>
+			<xsl:apply-templates select="ui:condition" mode="action"/>
+			<xsl:text>]</xsl:text>
+		</xsl:if>
+		<xsl:text>}</xsl:text>
+		<xsl:if test="position() ne last()">
+			<xsl:text>,</xsl:text>
+		</xsl:if>
 	</xsl:template>
-
 	<!--
 		Outputs a comma separated list of JSON objects stored in a button attribute which is used to determine whether 
 		the action's conditions are met before undertaking the action.
@@ -861,7 +866,7 @@
 			<xsl:text>,</xsl:text>
 		</xsl:if>
 	</xsl:template>
-
+	
 	<!--
 		1. Guard wrapper for action conditions. These are not output in place but are part of the sibling button's 
 		attribute data. The ui:action part of the match is to differentiate from ui:subordinate's ui:condition.
@@ -870,7 +875,7 @@
 		controls in ui:thead/ui:th. The ui:sort element itself contains metaData only and does not generate a usable 
 		HTML artefact.
 	-->
-	<xsl:template match="ui:action/ui:condition|ui:sort"/>
+	<xsl:template match="ui:action|ui:sort"/>
 
 	<!--
 		ui:rowexpansion controls the mode of the expandable rows and whether the expand/collapse all controls are 

@@ -32,12 +32,26 @@ define(["wc/dom/classList",
 				openThisDialog,
 				GET_ATTRIB = "data-wc-get";
 
+			function setHasPopup(id) {
+				var popupAttr = "aria-haspopup",
+					el = document.getElementById(id);
+				if (el && !el.getAttribute(popupAttr)) {
+					el.setAttribute(popupAttr, "true");
+				}
+			}
+
 			/**
 			 * Opens a dialog on page load.
 			 * @function
 			 * @private
 			 */
-			function openOnLoad() {
+			function setup() {
+				var o;
+				for (o in registry) {
+					if (registry.hasOwnProperty(o)) {
+						setHasPopup(o);
+					}
+				}
 				if (openThisDialog) {
 					if (openOnLoadTimer) {
 						timers.clearTimeout(openOnLoadTimer);
@@ -343,7 +357,7 @@ define(["wc/dom/classList",
 			this.register = function(array) {
 				if (array && array.length) {
 					array.forEach(_register);
-					initialise.addCallback(openOnLoad);
+					initialise.addCallback(setup);
 				}
 			};
 
