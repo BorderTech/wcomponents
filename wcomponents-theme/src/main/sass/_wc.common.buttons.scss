@@ -138,30 +138,43 @@ button {
 
 // Images in buttons and links are placed in a container so they can be positioned
 
+.wc_btn_img {
+	@include flex($align-items: center, $align-content: center);
+}
+
 .wc_btn_imgn,
 .wc_btn_imgs {
-	// Links with north/south images must be inline-block and centered.
-	display: inline-block;
 	text-align: center;
+}
+
+.wc_btn_imgn {
+	@include flex-direction(column-reverse);
 
 	> img {
-		display: block;
-		margin: 0 auto;
+		@include margin(bottom);
 	}
 }
 
-.wc_btn_imgn > img {
-	@include margin(bottom);
+.wc_btn_imgs {
+	@include flex-direction(column);
+
+	> img {
+		@include margin(top);
+	}
 }
 
-.wc_btn_imgs > img {
-	@include margin(top);
+.wc_btn_imge {
+	@include flex-direction(row);
+
+	> img {
+		@include margin(left);
+	}
 }
 
-.wc_btn_imge > img {
-	@include margin(left);
-}
+.wc_btn_imgw {
+	@include flex-direction(row-reverse);
 
-.wc_btn_imgw > img {
-	@include margin(right);
+	> img {
+		@include margin(right);
+	}
 }
