@@ -251,7 +251,7 @@
 				<xsl:value-of select="."/>
 			</textarea>
 			<xsl:if test="@maxLength">
-				<output id="{$tickerId}" name="{$tickerId}" for="{@id}" hidden="hidden"></output>
+				<output id="{$tickerId}" name="{$tickerId}" for="{@id}_input" hidden="hidden"></output>
 			</xsl:if>
 		</span>
 	</xsl:template>
