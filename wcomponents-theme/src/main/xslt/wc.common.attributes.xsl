@@ -156,25 +156,12 @@
 		param contentAfter: additional content to apply after the title content.
 	-->
 	<xsl:template name="title">
-		<xsl:param name="title" select="''"/>
-		<xsl:param name="contentAfter" select="''"/>
 		<xsl:variable name="text">
-			<xsl:choose>
-				<xsl:when test="$title ne ''">
-					<xsl:value-of select="$title"/>
-				</xsl:when>
-				<xsl:when test="@toolTip">
-					<xsl:value-of select="@toolTip"/>
-				</xsl:when>
-			</xsl:choose>
-			<xsl:if test="$contentAfter ne ''">
-				<xsl:value-of select="concat(' ', normalize-space($contentAfter))"/>
-			</xsl:if>
+			<xsl:value-of select="@toolTip"/>
 		</xsl:variable>
-		<xsl:variable name="content" select="normalize-space($text)"/>
-		<xsl:if test="$content ne ''">
+		<xsl:if test="$text ne ''">
 			<xsl:attribute name="title">
-				<xsl:value-of select="$content"/>
+				<xsl:value-of select="$text"/>
 			</xsl:attribute>
 		</xsl:if>
 	</xsl:template>
