@@ -39,9 +39,7 @@
 		<xsl:param name="value"/>
 		<xsl:param name="toolTip"/>
 		<button class="wc_sorter wc_btn_icon wc-invite" type="button" value="{$value}" aria-controls="{$id}" title="{$toolTip}">
-			<xsl:call-template name="disabledElement">
-				<xsl:with-param name="isControl" select="1"/>
-			</xsl:call-template>
+			<xsl:call-template name="disabledElement"/>
 		</button>
 	</xsl:template>
 </xsl:stylesheet>

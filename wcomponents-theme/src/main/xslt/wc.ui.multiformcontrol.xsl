@@ -136,7 +136,6 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:call-template name="disabledElement">
-				<xsl:with-param name="isControl" select="1"/>
 				<xsl:with-param name="field" select="$field"/>
 			</xsl:call-template>
 			<xsl:if test="self::ui:value">
@@ -160,7 +159,6 @@
 					</xsl:attribute>
 				</xsl:if>
 				<xsl:call-template name="disabledElement">
-					<xsl:with-param name="isControl" select="1"/>
 					<xsl:with-param name="field" select="$ancestorMDD"/>
 				</xsl:call-template>
 				<xsl:if test="$ancestorMDD/@data">
@@ -250,13 +248,10 @@
 			</xsl:attribute>
 			<xsl:choose>
 				<xsl:when test="self::ui:multitextfield">
-					<xsl:call-template name="disabledElement">
-						<xsl:with-param name="isControl" select="1"/>
-					</xsl:call-template>
+					<xsl:call-template name="disabledElement"/>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:call-template name="disabledElement">
-						<xsl:with-param name="isControl" select="1"/>
 						<xsl:with-param name="field" select="parent::*"/>
 					</xsl:call-template>
 				</xsl:otherwise>

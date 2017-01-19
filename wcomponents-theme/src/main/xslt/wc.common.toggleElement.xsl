@@ -79,7 +79,9 @@
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:if test="self::ui:selecttoggle">
-						<xsl:call-template name="disabledElement"/>
+						<xsl:call-template name="disabledElement">
+							<xsl:with-param name="isControl" select="0"/>
+						</xsl:call-template>
 					</xsl:if>
 					<xsl:variable name="subClass">
 						<xsl:value-of select="concat('wc_', local-name(.), ' wc_seltog')"/>
@@ -148,9 +150,7 @@
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:if test="self::ui:selecttoggle">
-						<xsl:call-template name="disabledElement">
-							<xsl:with-param name="isControl" select="1"/>
-						</xsl:call-template>
+						<xsl:call-template name="disabledElement"/>
 					</xsl:if>
 				</button>
 			</xsl:otherwise>
@@ -187,9 +187,7 @@
 				</xsl:choose>
 			</xsl:attribute>
 			<xsl:if test="self::ui:selecttoggle"><!-- WCollapsibleToggle does not have a disabled state. -->
-				<xsl:call-template name="disabledElement">
-					<xsl:with-param name="isControl" select="1"/>
-				</xsl:call-template>
+				<xsl:call-template name="disabledElement"/>
 			</xsl:if>
 			<xsl:value-of select="$text"/>
 		</button>

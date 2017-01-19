@@ -35,33 +35,25 @@
 	<!-- Helper to create the HTML class attribute's content. -->
 	<xsl:template name="commonClassHelper">
 		<xsl:param name="additional" select="''"/>
-		<xsl:variable name="baseClass" select="concat('wc-', local-name(.))"/>
+		<xsl:variable name="baseClass" select="concat(' wc-', local-name(.))"/>
 		<xsl:value-of select="$baseClass"/>
-		<xsl:if test="@type and not(self::ui:file)">
-			<xsl:value-of select="concat(' ',$baseClass,'-type-', @type)"/>
-		</xsl:if>
-		<xsl:if test="@align">
-			<xsl:value-of select="concat(' wc-align-', @align)"/>
-		</xsl:if>
-		<xsl:if test="@layout">
-			<xsl:value-of select="concat(' wc-layout-', @layout)"/>
-		</xsl:if>
-		<xsl:if test="@track">
-			<xsl:text> wc_here</xsl:text>
-		</xsl:if>
-		<xsl:if test="@class">
-			<xsl:variable name="classes" select="normalize-space(@class)"/>
-			<xsl:if test="$classes ne ''">
-				<xsl:value-of select="concat(' ', $classes)"/>
+		<xsl:variable name="computed">
+			<xsl:apply-templates select="ui:margin" mode="class" />
+			<xsl:value-of select="concat($baseClass, ' ', @class, ' ', $additional)"/>
+			<xsl:if test="@type and not(self::ui:file)">
+				<xsl:value-of select="concat($baseClass,'-type-', @type)"/>
 			</xsl:if>
-		</xsl:if>
-		<xsl:if test="$additional ne ''">
-			<xsl:variable name="moreclasses" select="normalize-space($additional)"/>
-			<xsl:if test="$moreclasses ne ''">
-				<xsl:value-of select="concat(' ', $moreclasses)"/>
+			<xsl:if test="@align">
+				<xsl:value-of select="concat(' wc-align-', @align)"/>
 			</xsl:if>
-		</xsl:if>
-		<xsl:apply-templates select="ui:margin" mode="class" />
+			<xsl:if test="@layout">
+				<xsl:value-of select="concat(' wc-layout-', @layout)"/>
+			</xsl:if>
+			<xsl:if test="@track">
+				<xsl:text> wc_here</xsl:text>
+			</xsl:if>
+		</xsl:variable>
+		<xsl:value-of select="normalize-space($computed)"/>
 	</xsl:template>
 
 	<!-- Make the HTML class attribute and populate it. -->
@@ -77,7 +69,7 @@
 	<!--
 		Common helper template for marking a component as disabled. Used by all components which may be disabled. 
 		
-		param isControl default 0
+		param isControl default 1
 		This determines if we use the disabled or aria-disabled attribute to mark the component as disabled. If true the
 		disabled attribute is set; this may only be set on components which output a form control or fieldset element.
 		
@@ -87,7 +79,7 @@
 		@disabled attribute.
 	-->
 	<xsl:template name="disabledElement">
-		<xsl:param name="isControl" select="0"/>
+		<xsl:param name="isControl" select="1"/>
 		<xsl:param name="field" select="."/>
 		<xsl:if test="$field/@disabled">
 			<xsl:choose>
@@ -254,9 +246,7 @@
 		<xsl:if test="number($useRequired) eq 1">
 			<xsl:call-template name="requiredElement"/>
 		</xsl:if>
-		<xsl:call-template name="disabledElement">
-			<xsl:with-param name="isControl" select="1"/>
-		</xsl:call-template>
+		<xsl:call-template name="disabledElement"/>
 		<xsl:call-template name="ariaLabel" />
 		<xsl:if test="@buttonId">
 			<xsl:attribute name="data-wc-submit">

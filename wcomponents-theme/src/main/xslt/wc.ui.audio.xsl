@@ -60,9 +60,7 @@
 				<button type="button" class="wc_btn_icon wc_av_play wc-invite" aria-pressed="false" aria-controls="{$mediaId}">
 					<xsl:if test="not(@autoplay)">
 						<!-- do not allow the button to be disabled if autoplay is on - the user MUST be able to stop/pause playback. -->
-						<xsl:call-template name="disabledElement">
-							<xsl:with-param name="isControl" select="1"/>
-						</xsl:call-template>
+						<xsl:call-template name="disabledElement"/>
 					</xsl:if>
 					<span class="wc-off">
 						<xsl:text>{{t 'media_play'}}</xsl:text>

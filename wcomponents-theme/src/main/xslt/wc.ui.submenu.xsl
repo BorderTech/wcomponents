@@ -7,7 +7,9 @@
 		<div id="{@id}" role="presentation"><!-- the presentation role is redundant but stops AXS from whining. -->
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<xsl:call-template name="makeCommonClass"/>
-			<xsl:call-template name="disabledElement"/>
+			<xsl:call-template name="disabledElement">
+				<xsl:with-param name="isControl" select="0"/>
+			</xsl:call-template>
 			<!-- This is the submenu opener/label element. -->
 			<button type="button" id="{concat(@id, '_o')}" name="{@id}" class="wc-nobutton wc-invite wc-submenu-o" aria-controls="{@id}" aria-haspopup="true">
 				<xsl:attribute name="aria-pressed">
@@ -17,9 +19,7 @@
 					</xsl:choose>
 				</xsl:attribute>
 				<xsl:call-template name="title"/>
-				<xsl:call-template name="disabledElement">
-					<xsl:with-param name="isControl" select="1"/>
-				</xsl:call-template>
+				<xsl:call-template name="disabledElement"/>
 				<xsl:call-template name="accessKey"/>
 				<xsl:apply-templates select="ui:decoratedlabel"/>
 			</button>

@@ -52,9 +52,7 @@
 			</xsl:element>
 			<!-- This is the date picker launch control element. -->
 			<button value="{concat(@id,'_input')}" tabindex="-1" type="button" aria-hidden="true" class="wc_wdf_cal wc_btn_icon wc-invite">
-				<xsl:call-template name="disabledElement">
-					<xsl:with-param name="isControl" select="1"/>
-				</xsl:call-template>
+				<xsl:call-template name="disabledElement"/>
 			</button>
 			<span role="listbox" aria-busy="true"></span>
 		</div>

@@ -138,7 +138,6 @@
 								<xsl:attribute name="checked">checked</xsl:attribute>
 							</xsl:if>
 							<xsl:call-template name="disabledElement">
-								<xsl:with-param name="isControl" select="1"/>
 								<xsl:with-param name="field" select=".."/>
 							</xsl:call-template>
 							<xsl:if test="parent::ui:radiobuttonselect">

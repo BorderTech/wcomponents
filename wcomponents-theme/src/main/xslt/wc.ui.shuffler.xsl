@@ -25,9 +25,7 @@
 					<xsl:call-template name="commonInputWrapperAttributes"/>
 					<xsl:variable name="listId" select="concat($id,'_input')"/>
 					<select id="{$listId}" class="wc_shuffler wc-noajax" multiple="multiple" autocomplete="off">
-						<xsl:call-template name="disabledElement">
-							<xsl:with-param name="isControl" select="1"/>
-						</xsl:call-template>
+						<xsl:call-template name="disabledElement"/>
 						<xsl:if test="number(@rows) gt 2">
 							<xsl:attribute name="size">
 								<xsl:value-of select="@rows"/>

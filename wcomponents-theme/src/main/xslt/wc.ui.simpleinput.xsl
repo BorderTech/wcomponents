@@ -125,9 +125,7 @@
 			</xsl:element>
 			<xsl:if test="@list">
 				<button value="{concat(@id,'_input')}" tabindex="-1" id="{concat(@id, '_list')}" type="button" aria-hidden="true" class="wc_suggest wc_btn_icon wc-invite">
-					<xsl:call-template name="disabledElement">
-						<xsl:with-param name="isControl" select="1"/>
-					</xsl:call-template>
+					<xsl:call-template name="disabledElement"/>
 				</button>
 			</xsl:if>
 		</span>
