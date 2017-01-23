@@ -57,7 +57,7 @@
 							<xsl:value-of select="$ajax"/>
 						</xsl:attribute>
 					</xsl:if>
-					<xsl:if test="@rel or windowAttributes">
+					<xsl:if test="@rel or ui:windowAttributes">
 						<xsl:variable name="noopener" select="'noopener'"/>
 						<xsl:variable name="noreferrer" select="'noreferrer'"/>
 						<xsl:attribute name="rel">
