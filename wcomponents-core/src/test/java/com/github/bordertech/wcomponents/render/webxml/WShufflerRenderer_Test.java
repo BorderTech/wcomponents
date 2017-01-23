@@ -67,15 +67,31 @@ public class WShufflerRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(optionX, "//ui:shuffler/ui:option[1]/@value", shuffler);
 
 		// Check optional attributes
-		shuffler.setReadOnly(true);
 		shuffler.setDisabled(true);
 		shuffler.setToolTip("TITLE");
 		shuffler.setRows(2);
 		assertSchemaMatch(shuffler);
-		assertXpathEvaluatesTo("true", "//ui:shuffler/@readOnly", shuffler);
 		assertXpathEvaluatesTo("true", "//ui:shuffler/@disabled", shuffler);
 		assertXpathEvaluatesTo("TITLE", "//ui:shuffler/@toolTip", shuffler);
 		assertXpathEvaluatesTo("2", "//ui:shuffler/@rows", shuffler);
+
+	}
+
+	@Test
+	public void testReadOnly() throws IOException, SAXException, XpathException {
+		String optionA = "A";
+		String optionB = "B";
+		String optionC = "C";
+
+		// No options.
+		WShuffler shuffler = new WShuffler();
+
+		// Default options
+		shuffler.setOptions(Arrays.asList(new String[]{optionA, optionB, optionC}));
+		// Check optional attributes
+		shuffler.setReadOnly(true);
+		assertSchemaMatch(shuffler);
+		assertXpathEvaluatesTo("true", "//ui:shuffler/@readOnly", shuffler);
 
 	}
 

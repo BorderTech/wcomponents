@@ -30,27 +30,29 @@ final class WMultiSelectPairRenderer extends AbstractWebXmlRenderer {
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		WMultiSelectPair multiSelectPair = (WMultiSelectPair) component;
 		XmlStringBuilder xml = renderContext.getWriter();
-		boolean disabled = multiSelectPair.isDisabled();
 		boolean readOnly = multiSelectPair.isReadOnly();
-		int rows = multiSelectPair.getRows();
-		int min = multiSelectPair.getMinSelect();
-		int max = multiSelectPair.getMaxSelect();
 
 		xml.appendTagOpen("ui:multiselectpair");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendAttribute("size", rows < 2 ? WMultiSelectPair.DEFAULT_ROWS : rows);
-		xml.appendOptionalAttribute("disabled", disabled, "true");
 		xml.appendOptionalAttribute("hidden", multiSelectPair.isHidden(), "true");
-		xml.appendOptionalAttribute("required", multiSelectPair.isMandatory(), "true");
-		xml.appendOptionalAttribute("readOnly", readOnly, "true");
-		xml.appendOptionalAttribute("shuffle", multiSelectPair.isShuffle(), "true");
-		xml.appendOptionalAttribute("fromListName", multiSelectPair.getAvailableListName());
-		xml.appendOptionalAttribute("toListName", multiSelectPair.getSelectedListName());
-		xml.appendOptionalAttribute("accessibleText", multiSelectPair.getAccessibleText());
-		xml.appendOptionalAttribute("min", min > 0, min);
-		xml.appendOptionalAttribute("max", max > 0, max);
+		if (readOnly) {
+			xml.appendAttribute("readOnly", "true");
+		} else {
+			int rows = multiSelectPair.getRows();
+			int min = multiSelectPair.getMinSelect();
+			int max = multiSelectPair.getMaxSelect();
+			xml.appendAttribute("size", rows < 2 ? WMultiSelectPair.DEFAULT_ROWS : rows);
+			xml.appendOptionalAttribute("disabled", multiSelectPair.isDisabled(), "true");
+			xml.appendOptionalAttribute("required", multiSelectPair.isMandatory(), "true");
+			xml.appendOptionalAttribute("shuffle", multiSelectPair.isShuffle(), "true");
+			xml.appendOptionalAttribute("fromListName", multiSelectPair.getAvailableListName());
+			xml.appendOptionalAttribute("toListName", multiSelectPair.getSelectedListName());
+			xml.appendOptionalAttribute("accessibleText", multiSelectPair.getAccessibleText());
+			xml.appendOptionalAttribute("min", min > 0, min);
+			xml.appendOptionalAttribute("max", max > 0, max);
+		}
 		xml.appendClose();
 
 		// Options

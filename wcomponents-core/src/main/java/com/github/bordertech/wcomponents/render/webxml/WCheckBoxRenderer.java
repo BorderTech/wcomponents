@@ -25,7 +25,6 @@ final class WCheckBoxRenderer extends AbstractWebXmlRenderer {
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		WCheckBox checkBox = (WCheckBox) component;
 		XmlStringBuilder xml = renderContext.getWriter();
-		WComponent submitControl = checkBox.getDefaultSubmitButton();
 		boolean readOnly = checkBox.isReadOnly();
 
 		xml.appendTagOpen("ui:checkbox");
@@ -34,8 +33,10 @@ final class WCheckBoxRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("hidden", checkBox.isHidden(), "true");
 		xml.appendOptionalAttribute("selected", checkBox.isSelected(), "true");
-		xml.appendOptionalAttribute("readOnly", readOnly, "true");
-		if (!readOnly) {
+		if (readOnly) {
+			xml.appendAttribute("readOnly", "true");
+		} else {
+			WComponent submitControl = checkBox.getDefaultSubmitButton();
 			String submitControlId = submitControl == null ? null : submitControl.getId();
 			WComponentGroup<WCheckBox> group = checkBox.getGroup();
 			String groupName = group == null ? null : group.getId();

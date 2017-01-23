@@ -1,20 +1,3 @@
-/**
- * Provides functionality for WMultiSelectPair which is a side-by-side multi-selection list control.
- *
- * @module
- * @requires module:wc/dom/attribute
- * @requires module:wc/dom/event
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/focus
- * @requires module:wc/dom/formUpdateManager
- * @requires module:wc/dom/getBox
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/tag
- * @requires module:wc/dom/Widget
- * @requires module:wc/ui/ajaxRegion
- * @requires module:wc/ui/ajax/processResponse
- * @requires module:wc/ui/selectboxSearch
- */
 define(["wc/dom/attribute",
 		"wc/dom/event",
 		"wc/dom/initialise",
@@ -26,9 +9,9 @@ define(["wc/dom/attribute",
 		"wc/dom/Widget",
 		"wc/ui/ajaxRegion",
 		"wc/ui/ajax/processResponse",
-		"wc/ui/selectboxSearch"],
-	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param focus wc/dom/focus @param formUpdateManager wc/dom/formUpdateManager @param getBox wc/dom/getBox @param shed wc/dom/shed @param tag wc/dom/tag @param Widget wc/dom/Widget @param ajaxRegion wc/ui/ajaxRegion @param processResponse wc/ui/ajax/processResponse @param selectboxSearch wc/ui/selectboxSearch @ignore */
-	function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, tag, Widget, ajaxRegion, processResponse, selectboxSearch) {
+		"wc/ui/selectboxSearch",
+		"wc/ui/modalShim"],
+	function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, tag, Widget, ajaxRegion, processResponse, selectboxSearch, modal) {
 		"use strict";
 
 		/**
@@ -65,15 +48,16 @@ define(["wc/dom/attribute",
 			 *
 			 * @function
 			 * @private
-			 * @param {Element} container A WMultiSelectPair or any container component.
+			 * @param {Element} [container] A WMultiSelectPair or any container component.
 			 */
 			function fixWidthHeight(container) {
-				var components, PX = "px";
-				if (CONTAINER.isOneOfMe(container)) {
+				var el = container || document.body,
+					components, PX = "px";
+				if (CONTAINER.isOneOfMe(el)) {
 					components = [container];
 				}
 				else {
-					components = CONTAINER.findDescendants(container);
+					components = CONTAINER.findDescendants(el);
 				}
 				Array.prototype.forEach.call(components, function(next) {
 					var avail = instance.getListByType(next, LIST_TYPE_AVAILABLE),
@@ -561,6 +545,23 @@ define(["wc/dom/attribute",
 			};
 
 			/**
+			 * Wait for page load modal shim to remove before trying to calculate initial select width and height.
+			 * See https://github.com/BorderTech/wcomponents/issues/1066. This function unsubscribes itself as the only time we are interested in
+			 * the removal of a modal shim is the page load shim, not the shim associated with a WDialog or image editor.
+			 *
+			 * @function
+			 * @private
+			 */
+			function modalSubscriber() {
+				try {
+					fixWidthHeight();
+				}
+				finally {
+					modal.unsubscribe(modalSubscriber);
+				}
+			}
+
+			/**
 			 * Set up initial event handlers.
 			 *
 			 * @function module:wc/ui/multiSelectPair.initialise
@@ -568,7 +569,7 @@ define(["wc/dom/attribute",
 			 * @param {Element} element The element being initialised: usually document.body
 			 */
 			this.initialise = function(element) {
-				fixWidthHeight(element);
+				modal.subscribe(modalSubscriber);
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
 				}
@@ -596,7 +597,24 @@ define(["wc/dom/attribute",
 			this._keydownEvent = keydownEvent;
 		}
 
-		var /** @alias module:wc/ui/multiSelectPair */ instance = new MultiSelectPair();
+		/**
+		 * Provides functionality for WMultiSelectPair which is a side-by-side multi-selection list control.
+		 *
+		 * @module
+		 * @requires module:wc/dom/attribute
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/focus
+		 * @requires module:wc/dom/formUpdateManager
+		 * @requires module:wc/dom/getBox
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/tag
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/ui/ajaxRegion
+		 * @requires module:wc/ui/ajax/processResponse
+		 * @requires module:wc/ui/selectboxSearch
+		 */
+		var instance = new MultiSelectPair();
 		initialise.register(instance);
 		return instance;
 	});
