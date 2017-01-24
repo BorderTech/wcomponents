@@ -36,11 +36,6 @@ import org.xml.sax.SAXException;
 public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	/**
-	 * table summary test string.
-	 */
-	private static final String TABLE_SUMMARY_TEST = "Table Summary Test";
-
-	/**
 	 * caption test.
 	 */
 	private static final String CAPTION_TEST = "Caption";
