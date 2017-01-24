@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.util.Util;
 import java.util.Arrays;
 import java.util.List;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -112,5 +113,16 @@ public class SeleniumWTextAreaWebElement extends SeleniumWComponentInputWebEleme
 		}
 
 		return findElement(By.tagName(TEXTAREA_TAG));
+	}
+
+	/**
+	 * Clear the content of a WTextArea.
+	 */
+	public void clearContent() {
+		WebElement input = getInputField();
+		input.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+		input.sendKeys(Keys.chord(Keys.COMMAND, "a"));
+		input.sendKeys(Keys.DELETE);
+		input.sendKeys(Keys.BACK_SPACE);
 	}
 }
