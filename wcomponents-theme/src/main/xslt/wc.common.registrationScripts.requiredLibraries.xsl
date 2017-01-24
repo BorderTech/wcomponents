@@ -146,7 +146,7 @@
 				<xsl:text>"wc/ui/confirm",</xsl:text>
 			</xsl:if>
 			<!-- NOTE: not every mode SERVER needs this but the include is cheaper than the tests and mode server should eventually die -->
-			<xsl:if test=".//*[@mode eq 'dynamic'] or .//*[@mode eq 'lazy'] or .//*[@mode eq 'server']">
+			<xsl:if test=".//*[@mode eq 'dynamic'] or .//*[@mode eq 'lazy']">
 				<xsl:text>"wc/ui/containerload",</xsl:text>
 			</xsl:if>
 			<xsl:call-template name="localRequiredLibraries"/>

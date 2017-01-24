@@ -40,17 +40,12 @@
 			</xsl:variable>
 			<xsl:apply-templates select="ui:content">
 				<xsl:with-param name="class">
-					<xsl:choose>
-						<xsl:when test="number($isAjax) eq 1">
-							<xsl:text>wc_magic</xsl:text>
-							<xsl:if test="@mode eq 'dynamic'">
-								<xsl:text> wc_dynamic</xsl:text>
-							</xsl:if>
-						</xsl:when>
-						<xsl:when test="@mode eq 'server'">
-							<xsl:text>wc_lame</xsl:text>
-						</xsl:when>
-					</xsl:choose>
+					<xsl:if test="number($isAjax) eq 1">
+						<xsl:text>wc_magic</xsl:text>
+						<xsl:if test="@mode eq 'dynamic'">
+							<xsl:text> wc_dynamic</xsl:text>
+						</xsl:if>
+					</xsl:if>
 				</xsl:with-param>
 				<xsl:with-param name="ajaxId">
 					<xsl:if test="number($isAjax) eq 1">
