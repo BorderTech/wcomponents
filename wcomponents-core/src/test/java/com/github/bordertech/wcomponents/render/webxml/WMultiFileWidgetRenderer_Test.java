@@ -101,7 +101,7 @@ public class WMultiFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCas
 		WMultiFileWidget fileUpload = new WMultiFileWidget();
 		fileUpload.setReadOnly(true);
 		assertSchemaMatch(fileUpload);
-		assertXpathEvaluatesTo("true", "//ui:fileupload/@readOnly", fileUpload);
+		assertXpathEvaluatesTo("true", "//ui:multifileupload/@readOnly", fileUpload);
 	}
 
 	@Test
