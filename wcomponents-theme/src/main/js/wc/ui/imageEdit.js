@@ -335,6 +335,20 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 		}
 
 		/**
+		 * Show or hide the overlay image.
+		 * @param fbCanvas The FabricJS canvas.
+		 * @param show If truthy unhides (shows) the overlay.
+		 */
+		function showHideOverlay(fbCanvas, show) {
+			var overlay = fbCanvas.overlayImage;
+			if (overlay) {
+				fbCanvas.overlayImage.visible = !!show;
+				fbCanvas.renderAll();
+			}
+		}
+
+
+		/**
 		 * Builds the editor DOM and displays it to the user.
 		 * @param {Object} config Map of configuration properties.
 		 * @param {Object} callbacks An object with two callbacks: "win" and "lose".
@@ -663,8 +677,10 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 			click.save = {
 				func: function () {
 					if (callbacks.validate) {
+						showHideOverlay(fbCanvas);  // This hide is for the validation, not the save.
 						callbacks.validate(fbCanvas.getElement()).then(function(error) {
 							if (error) {
+								showHideOverlay(fbCanvas, true);  // Unhide the overlay post validation (save will have to hide it again).
 								if (error.ignorable) {
 									prompt.confirm(error, function(ignoreValidationError) {
 										if (ignoreValidationError) {
@@ -702,7 +718,7 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 		 * @param {File} [file] The binary file being edited.
 		 */
 		function saveImage(editor, callbacks, cancel, file) {
-			var canvasElement, overlay, result, done = function() {
+			var canvasElement, result, done = function() {
 					canvasElement = fbCanvas = fbImage = null;
 					imageCapture.stop();
 					editor.parentNode.removeChild(editor);
@@ -714,11 +730,7 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 				}
 				else {
 					fbCanvas.deactivateAll();  // selection box should not be part of the image
-					overlay = fbCanvas.overlayImage;
-					if (overlay) {
-						fbCanvas.overlayImage.visible = false;  // remove the overlay
-						fbCanvas.renderAll();
-					}
+					showHideOverlay(fbCanvas);
 					if (file && !hasChanged()) {
 						console.log("No changes made, using original file");
 						result = file;  // if the user has made no changes simply pass thru the original file.
