@@ -335,6 +335,20 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 		}
 
 		/**
+		 * Show or hide the overlay image.
+		 * @param fbCanvas The FabricJS canvas.
+		 * @param show If truthy unhides (shows) the overlay.
+		 */
+		function showHideOverlay(fbCanvas, show) {
+			var overlay = fbCanvas.overlayImage;
+			if (overlay) {
+				fbCanvas.overlayImage.visible = !!show;
+				fbCanvas.renderAll();
+			}
+		}
+
+
+		/**
 		 * Builds the editor DOM and displays it to the user.
 		 * @param {Object} config Map of configuration properties.
 		 * @param {Object} callbacks An object with two callbacks: "win" and "lose".
@@ -652,6 +666,18 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 			};
 		}
 
+		/**
+		 * Determine if there is an image on the canvas.
+		 * @param fbCanvas the canvas object.
+		 * @returns {boolean} true if there is an image on the canvas.
+		 */
+		function hasImage(fbCanvas) {
+			if (fbCanvas && fbCanvas.getObjects) {
+				return fbCanvas.getObjects().length > 0;
+			}
+			return false;
+		}
+
 		/*
 		 * Wires up the "save" feature.
 		 */
@@ -662,33 +688,41 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 				};
 			click.save = {
 				func: function () {
-					if (callbacks.validate) {
-						callbacks.validate(fbCanvas.getElement()).then(function(error) {
-							if (error) {
-								if (error.ignorable) {
-									prompt.confirm(error, function(ignoreValidationError) {
-										if (ignoreValidationError) {
-											saveFunc();
-										}
-										else {
-											callbacks.lose();
-										}
-									});
+					if (hasImage(fbCanvas)) {
+						if (callbacks.validate) {
+							showHideOverlay(fbCanvas);  // This hide is for the validation, not the save.
+							callbacks.validate(fbCanvas.getElement()).then(function(error) {
+								if (error) {
+									showHideOverlay(fbCanvas, true);  // Unhide the overlay post validation (save will have to hide it again).
+									if (error.ignorable) {
+										prompt.confirm(error, function(ignoreValidationError) {
+											if (ignoreValidationError) {
+												saveFunc();
+											}
+											else {
+												callbacks.lose();
+											}
+										});
+									}
+									else {
+										callbacks.lose(error);
+									}
 								}
 								else {
-									callbacks.lose(error);
+									saveFunc();
 								}
-							}
-							else {
-								saveFunc();
-							}
 
-						}, function() {
-							callbacks.lose();
-						});
+							}, function() {
+								callbacks.lose();
+							});
+						}
+						else {
+							saveFunc();
+						}
 					}
 					else {
-						saveFunc();
+						// we should only be here if the user has not taken a snapshot from the video stream
+						prompt.alert(i18n.get("imgedit_noimage"));
 					}
 				}
 			};
@@ -702,7 +736,7 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 		 * @param {File} [file] The binary file being edited.
 		 */
 		function saveImage(editor, callbacks, cancel, file) {
-			var canvasElement, overlay, result, done = function() {
+			var canvasElement, result, done = function() {
 					canvasElement = fbCanvas = fbImage = null;
 					imageCapture.stop();
 					editor.parentNode.removeChild(editor);
@@ -714,11 +748,7 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 				}
 				else {
 					fbCanvas.deactivateAll();  // selection box should not be part of the image
-					overlay = fbCanvas.overlayImage;
-					if (overlay) {
-						fbCanvas.overlayImage.visible = false;  // remove the overlay
-						fbCanvas.renderAll();
-					}
+					showHideOverlay(fbCanvas);
 					if (file && !hasChanged()) {
 						console.log("No changes made, using original file");
 						result = file;  // if the user has made no changes simply pass thru the original file.
