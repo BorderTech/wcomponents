@@ -666,6 +666,18 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 			};
 		}
 
+		/**
+		 * Determine if there is an image on the canvas.
+		 * @param fbCanvas the canvas object.
+		 * @returns {boolean} true if there is an image on the canvas.
+		 */
+		function hasImage(fbCanvas) {
+			if (fbCanvas && fbCanvas.getObjects) {
+				return fbCanvas.getObjects().length > 0;
+			}
+			return false;
+		}
+
 		/*
 		 * Wires up the "save" feature.
 		 */
@@ -676,35 +688,41 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 				};
 			click.save = {
 				func: function () {
-					if (callbacks.validate) {
-						showHideOverlay(fbCanvas);  // This hide is for the validation, not the save.
-						callbacks.validate(fbCanvas.getElement()).then(function(error) {
-							if (error) {
-								showHideOverlay(fbCanvas, true);  // Unhide the overlay post validation (save will have to hide it again).
-								if (error.ignorable) {
-									prompt.confirm(error, function(ignoreValidationError) {
-										if (ignoreValidationError) {
-											saveFunc();
-										}
-										else {
-											callbacks.lose();
-										}
-									});
+					if (hasImage(fbCanvas)) {
+						if (callbacks.validate) {
+							showHideOverlay(fbCanvas);  // This hide is for the validation, not the save.
+							callbacks.validate(fbCanvas.getElement()).then(function(error) {
+								if (error) {
+									showHideOverlay(fbCanvas, true);  // Unhide the overlay post validation (save will have to hide it again).
+									if (error.ignorable) {
+										prompt.confirm(error, function(ignoreValidationError) {
+											if (ignoreValidationError) {
+												saveFunc();
+											}
+											else {
+												callbacks.lose();
+											}
+										});
+									}
+									else {
+										callbacks.lose(error);
+									}
 								}
 								else {
-									callbacks.lose(error);
+									saveFunc();
 								}
-							}
-							else {
-								saveFunc();
-							}
 
-						}, function() {
-							callbacks.lose();
-						});
+							}, function() {
+								callbacks.lose();
+							});
+						}
+						else {
+							saveFunc();
+						}
 					}
 					else {
-						saveFunc();
+						// we should only be here if the user has not taken a snapshot from the video stream
+						prompt.alert(i18n.get("imgedit_noimage"));
 					}
 				}
 			};
