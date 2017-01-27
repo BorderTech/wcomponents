@@ -6,6 +6,18 @@
 
 ### Bug Fixes
 
+* Fixed imageeditor issues: 
+  * #1048 overlay confuses image validation.
+  * #1062 disallow save when no image has been captured from video stream.
+
+### Enhancements
+
+## Release 1.3.3
+
+### API Changes
+
+### Bug Fixes
+
 * Fixed bug in able actions which could result in action buttons being in the incorrect (enabled) state if the table
   is loaded via Ajax #1049.
 * Fixed a bug in modalShim which resulted in access keys being stripped from inside WDialog content #1051 (QC 162189).

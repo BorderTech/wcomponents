@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-12 18:41+1100\n"
+"POT-Creation-Date: 2017-01-27 11:58+1100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -803,14 +803,14 @@ msgstr ""
 #: imgedit_rotate_left90
 #, java-format
 msgctxt "imgedit_rotate_left90"
-msgid "Left 90บ"
+msgid "Left 90ยบ"
 msgstr ""
 
 #. 
 #: imgedit_rotate_right90
 #, java-format
 msgctxt "imgedit_rotate_right90"
-msgid "Right 90บ"
+msgid "Right 90ยบ"
 msgstr ""
 
 #. 
@@ -957,14 +957,14 @@ msgstr ""
 #: imgedit_message_rotate_left90
 #, java-format
 msgctxt "imgedit_message_rotate_left90"
-msgid "Rotate anti-clockwise to next multiple of 90บ"
+msgid "Rotate anti-clockwise to next multiple of 90ยบ"
 msgstr ""
 
 #. 
 #: imgedit_message_rotate_right90
 #, java-format
 msgctxt "imgedit_message_rotate_right90"
-msgid "Rotate clockwise to next multiple of 90บ"
+msgid "Rotate clockwise to next multiple of 90ยบ"
 msgstr ""
 
 #. 
@@ -1056,6 +1056,14 @@ msgstr ""
 #, java-format
 msgctxt "imgedit_message_val_maxface"
 msgid "The image contains too many faces"
+msgstr ""
+
+#. 
+#: imgedit_noimage
+#, java-format
+msgctxt "imgedit_noimage"
+msgid ""
+"First click the button to capture a snapshot from the live video stream."
 msgstr ""
 
 #. 
