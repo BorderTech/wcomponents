@@ -79,9 +79,6 @@
 			<xsl:text>},&#10;"wc/loader/style":{</xsl:text>
 			<xsl:value-of select="concat('cssBaseUrl:&quot;', normalize-space($resourceRoot), '${css.target.dir.name}/&quot;,&#10;')"/>
 			<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')"/>
-			<xsl:if test="number($isDebug) eq 1">
-				<xsl:text>,debug:1</xsl:text>
-			</xsl:if>
 			<xsl:call-template name="styleLoaderConfig"/>
 			<xsl:text>}</xsl:text>
 			<xsl:call-template name="tinyMCEConfig"/>

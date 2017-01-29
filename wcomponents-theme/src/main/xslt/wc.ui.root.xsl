@@ -54,11 +54,17 @@
 				<title>
 					<xsl:value-of select="@title"/>
 				</title>
-				<link type="text/css" id="wc_css_screen" rel="stylesheet"><!-- this id is used by the style loader js -->
-					<xsl:attribute name="href">
-						<xsl:value-of select="$cssFilePath"/>
-					</xsl:attribute>
-				</link>
+				<xsl:call-template name="cssLink">
+					<xsl:with-param name="filename" select="'${css.target.file.name}'"/>
+					<xsl:with-param name="id" select="'wc_css_screen'"/><!-- this id is used by the style loader js -->
+				</xsl:call-template>
+				
+				<xsl:if test="$isDebug = 1">
+					<!-- Load debug CSS -->
+					<xsl:call-template name="cssLink">
+						<xsl:with-param name="filename" select="'${css.target.file.name.debug}'"/>
+					</xsl:call-template>
+				</xsl:if>
 				<xsl:apply-templates select="ui:application/ui:css" mode="inHead"/>
 				<xsl:apply-templates select=".//html:link[@rel eq 'stylesheet']" mode="inHead"/>
 				<!--
@@ -96,15 +102,7 @@
 				<xsl:apply-templates select="ui:application/ui:js" mode="inHead"/>
 				<xsl:apply-templates select=".//html:base|.//html:link[not(contains(@rel,'icon') or @rel eq 'stylesheet')]|.//html:meta" mode="inHead"/>
 			</head>
-			<body>
-				<xsl:attribute name="data-wc-domready">
-					<xsl:text>false</xsl:text><!-- JS will set this to true - this is for automation testing tools -->
-				</xsl:attribute>
-				<xsl:if test="number($isDebug) eq 1">
-					<xsl:attribute name="class">
-						<xsl:text>wc_debug</xsl:text>
-					</xsl:attribute>
-				</xsl:if>
+			<body data-wc-domready="false">
 				<!--
 					loading indicator and shim
 					We show a loading indicator as we construct the page then remove it as part of post-initialisation.
@@ -172,5 +170,27 @@
 	<xsl:template name="externalScript">
 		<xsl:param name="scriptName"/><!-- The name of the script without ${debug.target.file.name.suffix} or .js -->
 		<script type="text/javascript" src="{concat($resourceRoot, $scriptDir, '/', $scriptName, '.js?', $cacheBuster)}"></script>
+	</xsl:template>
+	
+	<xsl:template name="cssLink">
+		<xsl:param name="filename"/>
+		<xsl:param name="id" select="''"/>
+		<link type="text/css" rel="stylesheet">
+			<xsl:if test="$id ne ''">
+				<xsl:attribute name="id">
+					<xsl:value-of select="$id"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:attribute name="href">
+				<xsl:value-of select="$resourceRoot"/>
+				<xsl:text>${css.target.dir.name}/</xsl:text>
+				<xsl:value-of select="$filename"/>
+				<xsl:if test="$isDebug = 1">
+					<xsl:text>${debug.target.file.name.suffix}</xsl:text>
+				</xsl:if>
+				<xsl:text>.css?</xsl:text>
+				<xsl:value-of select="$cacheBuster"/>
+			</xsl:attribute>
+		</link>
 	</xsl:template>
 </xsl:stylesheet>

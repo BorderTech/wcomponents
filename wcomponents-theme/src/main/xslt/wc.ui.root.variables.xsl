@@ -45,15 +45,4 @@
 	<xsl:variable name="cacheBuster">
 		<xsl:value-of select="substring-after($xslPath, '?')"/>
 	</xsl:variable>
-
-	<!-- base CSS file's path -->
-	<xsl:variable name="cssFilePath">
-		<xsl:value-of select="$resourceRoot"/>
-		<xsl:text>${css.target.dir.name}/${css.target.file.name}</xsl:text>
-		<xsl:if test="number($isDebug) eq 1">
-			<xsl:text>${debug.target.file.name.suffix}</xsl:text>
-		</xsl:if>
-		<xsl:text>.css?</xsl:text>
-		<xsl:value-of select="$cacheBuster"/>
-	</xsl:variable>
 </xsl:stylesheet>

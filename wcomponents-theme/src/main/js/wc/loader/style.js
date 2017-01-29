@@ -126,13 +126,6 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 			 */
 			CACHEBUSTER = null,
 			/**
-			 * Indicates if we are in debug mode.
-			 * @var
-			 * @type {boolean}
-			 * @private
-			 */
-			isDebug = false,
-			/**
 			 * The part of the CSS url which comes after the browser specific 'extension'.
 			 * @var
 			 * @type {String}
@@ -298,8 +291,7 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 				screenStylesToAdd = config.screen ? config.css : null;
 				CSS_BASE_URL = config.cssBaseUrl;
 				CACHEBUSTER = config.cachebuster;
-				isDebug = config.debug;
-				cssFileNameAndUrlExtension = (isDebug ? "${debug.target.file.name.suffix}" : "") + ".css" + (CACHEBUSTER ? ("?" + CACHEBUSTER) : "");
+				cssFileNameAndUrlExtension = ".css" + (CACHEBUSTER ? ("?" + CACHEBUSTER) : "");
 				if (config.ie) {
 					ieVersionsToSupport = config.ie;
 				}
@@ -362,11 +354,6 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 
 			if (screenStylesToAdd) {
 				loadScreen();
-			}
-
-			if (isDebug) {
-				// load the debug css
-				addStyle("${css.target.file.name.debug}");
 			}
 		};
 

@@ -58,3 +58,5 @@ a[name],
 input[type='number'][maxlength] {
 	@include outline($color: $wc-ui-color-error-fg);
 }
+
+@import 'wc.debug.axs';
