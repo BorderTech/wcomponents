@@ -6,9 +6,10 @@
 
 ### Bug Fixes
 
-* Fixed imageeditor issues: 
+* Fixed imageeditor issues:
   * #1048 overlay confuses image validation.
   * #1062 disallow save when no image has been captured from video stream.
+  * #1073 fix phantom vertical scroll in some browsers (QC154504).
 
 ### Enhancements
 
