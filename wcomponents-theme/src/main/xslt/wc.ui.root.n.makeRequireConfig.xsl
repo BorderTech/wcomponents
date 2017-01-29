@@ -1,7 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.ui.root.variables.xsl"/>
-	<xsl:import href="wc.ui.root.n.tinyMCEConfig.xsl"/>
 	<!--
 		Constructs the require config which is necessary to commence inclusion
 		and bootstrapping of WComponent JavaScript. This must be included before
@@ -77,9 +76,7 @@
 			<xsl:text>},&#10;"wc/loader/style":{</xsl:text>
 			<xsl:value-of select="concat('cssBaseUrl:&quot;', normalize-space($resourceRoot), '${css.target.dir.name}/&quot;,&#10;')"/>
 			<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')"/>
-			<xsl:text>}</xsl:text>
-			<xsl:call-template name="tinyMCEConfig"/>
-			<xsl:text>};&#10;</xsl:text>
+			<xsl:text>}};&#10;</xsl:text>
 			<!--
 				The timings must be collected as early as possible in the page lifecycle
 				and since this is the very first script that runs we need to put it here.
