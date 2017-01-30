@@ -19,9 +19,7 @@
 			description = "This target cleans all built output for the themes.">
 		<delete dir="${sub.impl.dir}"/>
 		<delete dir="${output.dir}"/>
-		<delete dir="${test.output.dir}"/>
 		<delete dir="${build.rootdir}"/>
-		<delete file="${excludesfile}"/>
 	</target>
 
 	<target name="cleanImplDir" if="impl.dir.present">
@@ -48,7 +46,6 @@
 
 	<target name="cleanTmpDir">
 		<delete dir="${tmp.dir}" failonerror="true"/>
-		<delete dir="${scratch.dir}" failonerror="true"/>
 	</target>
 
 	<target name="cleanupOptional" unless="build.preserve.tmp.onexit">
@@ -59,7 +56,6 @@
 		<echo>build.xml basedir = ${basedir}</echo>
 		<mkdir dir="${output.dir}"/>
 		<mkdir dir="${sub.impl.dir}"/>
-		<mkdir dir="${scratch.dir}"/>
 		<echo>Build properties can be overriden in any of the following locations (in order of decreasing priority):</echo>
 		<echo>  ${user.home}/.wc/${user.name}.xml (in user home dir)</echo>
 		<echo>  ${user.home}/.wc/wc_theme_build_properties.xml (in user home dir)</echo>
@@ -92,10 +88,6 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 			</filterchain>
 		</copy>
 	<npm.install/>
-	</target>
-
-	<target name="initTest" depends="initTargetImplementations">
-		<mkdir dir="${test.output.dir}"/>
 	</target>
 
 	<target name="initDefaultTheme" unless="impl.dir.present">
@@ -135,7 +127,7 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 		<echo>inited target implementations</echo>
 	</target>
 
-	<target name="test" depends="initTest" description = "This target runs the unit tests for the themes.">
+	<target name="test" depends="initTargetImplementations" description = "This target runs the unit tests for the themes.">
 		<for list="${impl.dir.name}" delimiter="${single.impl.dir.separator}" param="implementationName">
 			<sequential>
 				<test implName="@{implementationName}"/>
@@ -416,7 +408,6 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 			<!--
 				Obviously build properties must be built before anything else can be.
 			-->
-			<callant antFile="build-properties.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
 			<callant antFile="build-images.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
 			<callant antFile="build-resource.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/>
 			<callant antFile="build-css.xml" implName="@{implName}" rootDir = "@{rootDir}" target="@{target}"/><!-- build after images -->
@@ -437,7 +428,6 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 				<property name="component.rootdir" location="${theme.core.dir}"/>
 				<property name="maven.plugin.classpath" value="${maven.plugin.classpath}"/>
 				<property name="basedir" location="${basedir}"/>
-				<property name="tmp.dir" location="${theme.tmp.dir}"/>
 				<property name="build.number" value="${project.version}"/>
 				<property name="build.rootdir" location="${theme.target.dir}"/>
 				<property name="theme.skip.tests" value="${skipOptionalTests}"/>

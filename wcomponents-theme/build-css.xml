@@ -9,6 +9,7 @@
 		task can find images and webfonts to embed
 	-->
 	<import file="build-import.xml" />
+	<property name="excludesfile" location="${impl.src.dir}/excludes.txt"/>
 	<!--
 		Temp directories used in the build for copy and Sass compile. The copy step is necessary for implementation
 		over-rides and ANT property replacement.
@@ -18,6 +19,7 @@
 	<property name="sass.rootdir" location="${common.src.rootdir}/sass" />
 	<property name="impl.sass.rootdir" location="${impl.src.main.dir}/sass" />
 	<property name="sass.tmp.src.dir" location="${tmp.dir}/sass" />
+	<property name="style.build.target.dir" location="${target.rootdir}/${css.target.dir.name}"/>
 
 	<target name="build" depends="init, copyCssSrc, compileScssVaadinAntWrapper, initExcludes, buildCss, minify" description="Builds CSS artifacts then minifies them"> </target>
 
@@ -58,7 +60,6 @@
 		<mkdir dir="${sass.tmp.src.dir}" />
 		<tempfile property="style.excludesfile.dynamic" destdir="${tmp.dir}" createfile="true" deleteonexit="true" />
 	</target>
-
 
 	<target name="buildCss" depends="buildBrowserCss">
 		<concat destfile="${style.tmp.target.dir}/${css.target.file.name}${debug.target.file.name.suffix}.css" fixlastline="yes" encoding="UTF-8">
@@ -133,7 +134,7 @@
 		Build browser and platform dependent CSS.
 	-->
 	<target name="buildBrowserCss" depends="buildDebugCss">
-		<gatherIeVersionInfo sourceDir="${style.tmp.src.dir}" sourceFileExt=".css" nameOfLowestVersionPropToSet="ie.support.lowest.css.version" />
+		<gatherIeVersionInfo />
 		<for list="${ie.version.list}" param="version">
 			<sequential>
 				<buildCSSSets pattern="@{version}" targetFile="${css.target.file.name}.@{version}" />
@@ -146,11 +147,10 @@
 				<buildCSSSets pattern="@{platform}" targetFile="${css.target.file.name}.@{platform}" />
 			</sequential>
 		</for>
-		<!-- <buildCSSSets pattern="print" targetFile="${css.target.file.name.print}"/>-->
 	</target>
 
 	<target name="buildDebugCss">
-		<buildCSSSets pattern="${common.debugFiles.name.pattern}" targetFile="${css.target.file.name.debug}" />
+		<buildCSSSets pattern="wc.debug.*" targetFile="wcdebug" />
 	</target>
 
 	<!--
@@ -250,7 +250,6 @@
 			<and>
 				<istrue value="${build.optimise.http1}"/>
 				<istrue value="${images.to.base64.dataurls}" />
-				<available file="${images.tmp.src.dir}" type="dir" />
 			</and>
 			<then>
 				<stopwatch name="imagesToDataUrl" action="start" />
@@ -289,4 +288,61 @@
 			</else>
 		</if>
 	</target>
+
+
+	<!--
+		Does two things:
+		1. Sets the property ie.version.list with a list of the versions of ie specific source files in the sourceDir
+		   For example if you have: foo.ie8.js, bar.ie8.js, bar.ie9.js files in your sourceDir you will get a list like this: "ie8,ie9"
+		2. Writes the major version number of the lowest supported version of IE found to the global properties file.
+		   For example, if you have For example if you have: foo.ie8.js, bar.ie8.js, bar.ie9.js the number "8" will be written to
+		   the properties file as property @nameOfLowestVerionPropToSet.
+	-->
+	<macrodef name="gatherIeVersionInfo">
+		<sequential>
+			<var name="ie.version.list" value=""/>
+			<for param="file">
+				<fileset dir="${style.tmp.src.dir}" includes="*.css">
+					<filename regex="\.ie[0-9]{1,2}\."/>
+				</fileset>
+				<sequential>
+					<var name="base.name" unset="true"/>
+					<var name="ie.version" unset="true"/>
+					<basename suffix=".css" property="base.name" file="@{file}"/><!-- base.name is now the file name without the path and the extension -->
+					<propertyregex property="ie.version"
+						input="${base.name}"
+						regexp="^.+\.(.+)$"
+						select="\1"
+						casesensitive="false" />
+					<if>
+						<not>
+							<contains string="${ie.version.list}" substring="${ie.version}"/>
+						</not>
+						<then>
+							<if>
+								<length string="${ie.version.list}" length="0"/>
+								<then>
+									<var name="ie.version.list" value="${ie.version}"/>
+								</then>
+								<else>
+									<var name="ie.version.list" value="${ie.version.list},${ie.version}"/>
+								</else>
+							</if>
+						</then>
+					</if>
+				</sequential>
+			</for>
+			<propertyfile file="${properties.build.constants}">
+				<entry key="ie.css.list" value="${ie.version.list}"/>
+			</propertyfile>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="simpleAddPatternToExcludes">
+		<attribute name="destfile"/>
+		<attribute name="pattern"/>
+		<sequential>
+			<echo message="${line.separator}@{pattern}" append="true" file="@{destfile}"/>
+		</sequential>
+	</macrodef>
 </project>

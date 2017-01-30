@@ -21,7 +21,6 @@
 	<property name="xsl.target.file.name" value="${xsl.target.file.prefix}.xsl"/>
 	<property name="xsl.target.intermediate.file.name" value="${xsl.target.file.prefix}-int.xml"/>
 
-
 	<target name="clean" description="Cleans up all artifacts produced by this build">
 		<delete dir="${xslt.build.target.dir}"/>
 		<delete dir="${xsl.tmp.src.dir}"/>
@@ -29,7 +28,6 @@
 	</target>
 
 	<target name="init" depends="clean">
-		<property file="${properties.build.constants}"/>
 		<mkdir dir="${xslt.build.target.dir}"/>
 		<mkdir dir="${xsl.tmp.src.dir}"/>
 		<available file="${tmp.dir}/${xsl.target.intermediate.file.name}" property=""/>
@@ -43,7 +41,7 @@
 			TODO: remove theme XSLT override.
 		-->
 		<copy todir="${xsl.tmp.src.dir}" overwrite="true">
-			<fileset dir="${xsl.src.dir}" includes="*.xsl" excludesfile="${excludesfile}"/>
+			<fileset dir="${xsl.src.dir}" includes="*.xsl" />
 			<filterchain>
 				<expandproperties/>
 			</filterchain>

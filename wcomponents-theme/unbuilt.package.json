@@ -1,5 +1,5 @@
 {
-	"name": "${maven.project.name}",
+	"name": "${project.name}",
 	"version": "${build.number}",
 	"description": "Client side code for WComponent UI tool kit.",
 	"private": true,
