@@ -119,8 +119,7 @@ public final class DebugValidateXML {
 		} else {
 			// ENTITY definition required for NBSP.
 			// ui namepsace required for xml theme.
-			return XMLUtil.XML_DECLERATION_WITH_DOC_TYPE + "<ui:root" + XMLUtil.STANDARD_NAMESPACES + ">" + xml
-					+ "</ui:root>";
+			return XMLUtil.XML_DECLARATION + "<ui:root" + XMLUtil.STANDARD_NAMESPACES + ">" + xml + "</ui:root>";
 		}
 	}
 

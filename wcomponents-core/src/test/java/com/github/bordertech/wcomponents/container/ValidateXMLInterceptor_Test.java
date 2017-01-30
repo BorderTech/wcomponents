@@ -116,7 +116,7 @@ public class ValidateXMLInterceptor_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testWellFormedXMLWithDoctype() {
-		String testXML = XMLUtil.DOC_TYPE + "<ui:root " + XMLUtil.STANDARD_NAMESPACES + ">" + "<div>this is good xml with doctype</div></ui:root>";
+		String testXML = "<ui:root " + XMLUtil.STANDARD_NAMESPACES + ">" + "<div>this is good xml with doctype</div></ui:root>";
 		MyComponent testUI = new MyComponent(testXML);
 		String xml = generateOutput(testUI);
 		Assert.assertEquals(INCORRECT_OUTPUT_MSG, testXML, xml);
@@ -124,7 +124,7 @@ public class ValidateXMLInterceptor_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testBadlyFormedXMLWithDoctype() {
-		String testXML = XMLUtil.DOC_TYPE + "<bad>this is bad xml with doctype";
+		String testXML = "<bad>this is bad xml with doctype";
 		MyComponent testUI = new MyComponent(testXML);
 		String xml = generateOutput(testUI);
 		Assert.assertTrue(DID_NOT_DETECT_ERROR_MSG, hasInterceptorMessage(xml));
@@ -309,6 +309,6 @@ public class ValidateXMLInterceptor_Test extends AbstractWComponentTestCase {
 	 * @return the wrapped xml.
 	 */
 	private String wrapXML(final String xml) {
-		return XMLUtil.XML_DECLERATION + "<ui:root" + XMLUtil.STANDARD_NAMESPACES + ">" + xml + "</ui:root>";
+		return XMLUtil.XML_DECLARATION + "<ui:root" + XMLUtil.STANDARD_NAMESPACES + ">" + xml + "</ui:root>";
 	}
 }
