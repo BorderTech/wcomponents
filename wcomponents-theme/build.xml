@@ -317,11 +317,6 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 					</sync>
 					-->
 					<echo>Copying parent implementation files from: ${prototype.dir} to ${merge.impl.dir}</echo>
-					<copy todir="${merge.impl.dir}/src/main/properties/parentImplementation" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/properties" includes="*" erroronmissingdir="false">
-							<present present="srconly" targetdir="${merge.impl.dir}/src/main/properties"/>
-						</fileset>
-					</copy>
 					<copy todir="${merge.impl.dir}/src/main/css" overwrite="false">
 						<fileset dir="${prototype.dir}/src/main/css" includes="**/*.css" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
 							<present present="srconly" targetdir="${merge.impl.dir}/src/main/css"/>
@@ -335,11 +330,6 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 					<copy todir="${merge.impl.dir}/src/main/xslt" overwrite="false">
 						<fileset dir="${prototype.dir}/src/main/xslt" includes="**/*.xsl" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
 							<present present="srconly" targetdir="${merge.impl.dir}/src/main/xslt"/>
-						</fileset>
-					</copy>
-					<copy todir="${merge.impl.dir}/src/main/i18n/parentImplementation" overwrite="false">
-						<fileset dir="${prototype.dir}/src/main/i18n" includes="**/*.properties" excludesfile="${impl.src.dir}/excludes.txt" erroronmissingdir="false">
-							<present present="srconly" targetdir="${merge.impl.dir}/src/main/i18n"/>
 						</fileset>
 					</copy>
 					<copy todir="${merge.impl.dir}/src/main/images" overwrite="false">

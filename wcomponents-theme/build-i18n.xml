@@ -1,13 +1,10 @@
-<project name="BuildI18n" default="build" >
+<project name="BuildI18n" default="build">
 	<!--
 		Builds the i18n resource bundles
-
-		Order is important which is why we don't have a "copySrc" phase.
-		Implementation properties should be loaded in such a way that they
-		trump any duplicate properties in the core.
 	-->
 
 	<import file="build-import.xml"/>
+	<property name="i18n.build.target.dir" location="${tmp.dir}/i18n"/>
 	<!--
 		Regarding default.i18n.locale...
 		Must match one of the locales we have provided source properties for in i18n directory.
@@ -15,8 +12,6 @@
 		"inherit" missing messages from the default.
 	-->
 	<property name="default.i18n.locale" value="en"/>
-	<property name="i18n.rootdir" location="${common.src.rootdir}/i18n"/>
-	<property name="impl.i18n.rootdir" location="${impl.src.main.dir}/i18n"/>
 	<property name="i18n.unpacked.dir" location="${build.rootdir}/i18n-unpacked/com/github/bordertech/wcomponents"/>
 
 	<target name="init" depends="clean">
@@ -44,34 +39,6 @@
 		</nodejs.exec>
 	</target>
 
-	<target name="buildJsBundles">
-		<echo>Building JS bundles for dir: ${i18n.build.target.dir}</echo>
-		<xslt basedir="${i18n.build.target.dir}" destdir="${i18n.build.target.dir}" style="${component.rootdir}/build-i18n-json.xsl">
-			<factory name="net.sf.saxon.TransformerFactoryImpl"/>
-			<regexpmapper from="^(.*)\.xml" to="\1.json"/>
-		</xslt>
-<!--		<wc.xsltjson
-			xsltjsonDir="target/xsltjson"
-			xmlDir="${i18n.build.target.dir}"
-			jsonDir="${i18n.build.target.dir}" />-->
-		<for param="file">
-			<path>
-				<fileset dir="${i18n.build.target.dir}" includes="*.json" excludes="merged.*"/>
-			</path>
-			<sequential>
-				<var name="file.name" unset="true"/>
-				<var name="destfile.path" unset="true"/>
-				<basename property="file.name" file="@{file}" suffix=".json"/><!-- file name without the extension or path -->
-				<property name="destfile.path" location="${i18n.build.target.dir}/${file.name}.js"/>
-				<concat destfile="${destfile.path}">
-					<header filtering="no" trimleading="yes">define(</header>
-					<fileset file="@{file}" />
-					<footer filtering="no" trimleading="yes">);</footer>
-				</concat>
-			</sequential>
-		</for>
-	</target>
-
 	<!--
 		Builds a properties file from the source files in the core and implementation directories.
 		This is largely for backwards compatibility.
@@ -83,8 +50,6 @@
 			<concat fixlastline="true" append="false" destfile="@{destfile}">
 				<path>
 					<fileset dir="${i18n.unpacked.dir}" includes="@{filename}" />
-					<fileset dir="${impl.i18n.rootdir}/parentImplementation" includes="*.${default.i18n.locale}.properties" erroronmissingdir="false"/>
-					<fileset dir="${impl.i18n.rootdir}" includes="*.${default.i18n.locale}.properties" erroronmissingdir="false"/>
 				</path>
 				<filterchain>
 					<expandproperties/>
@@ -92,39 +57,6 @@
 			</concat>
 		</sequential>
 	</macrodef>
-
-	<!--
-		For the given local, builds a properties file from the source files in the core
-		and implementation directories.
-
-		Also injects new properties "lang" and "locale" which are derived from the locale
-		attribute passed to this macro.
-	-->
-	<macrodef name="buildPropsForLocale">
-		<attribute name="locale"/>
-		<attribute name="destfile"/>
-		<sequential>
-			<var name="lang" unset="true"/>
-			<concat fixlastline="true" append="false" destfile="@{destfile}">
-				<path>
-					<fileset dir="${i18n.rootdir}" includes="*.@{locale}.properties"/>
-					<fileset dir="${impl.i18n.rootdir}/parentImplementation" includes="*.@{locale}.properties" erroronmissingdir="false"/>
-					<fileset dir="${impl.i18n.rootdir}" includes="*.@{locale}.properties" erroronmissingdir="false"/>
-				</path>
-				<filterchain>
-					<expandproperties/>
-				</filterchain>
-			</concat>
-			<propertyregex property="lang"
-				input="@{locale}"
-				regexp="^([A-Za-z]{2}).*"
-				select="\1"/>
-			<echo append="true" file="@{destfile}">locale=@{locale}</echo>
-			<echo append="true" file="@{destfile}">${line.separator}</echo>
-			<echo append="true" file="@{destfile}">lang=${lang}</echo>
-		</sequential>
-	</macrodef>
-
 
 	<target name="clean" description="Cleans up all artifacts produced by this build">
 		<echo message="Clean from ${ant.file}"/>

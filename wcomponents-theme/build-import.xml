@@ -46,9 +46,6 @@
 	<property name="images.to.base64.dataurls" value="true"/>
 	<property name="images.tmp.src.dir" location="${tmp.dir}/images"/>
 
-	<!-- JS needs i18n -->
-	<property name="i18n.build.target.dir" location="${tmp.dir}/i18n"/>
-
 	<!-- JS properties used elsewhere -->
 	<!-- The name of the output directory for compressed JS -->
 	<property name="script.target.dir.name" value="scripts"/>

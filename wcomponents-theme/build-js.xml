@@ -85,10 +85,6 @@
 			</filterchain>
 		</copy>
 
-		<!-- i18n -->
-		<copy todir="${script.tmp.src.dir}/wc/i18n" overwrite="true">
-			<fileset dir="${i18n.build.target.dir}" includes="*.js"/>
-		</copy>
 		<javascript.lint jsdir="${script.tmp.src.dir}"/>
 		<stopwatch name="copySrc" action="total"/>
 	</target>
