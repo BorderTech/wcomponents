@@ -13,25 +13,14 @@
 	-->
 	<xsl:param name="xslPath" select="substring-before(replace(substring-after(//processing-instruction('xml-stylesheet'), 'href=&quot;'), '&amp;amp;', '&amp;'), '&quot;')"/>
 
-	<xsl:variable name="scriptDir">
-		<xsl:choose>
-			<xsl:when test="number($isDebug) eq 1">
-				<xsl:text>${script.debug.target.dir.name}</xsl:text>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:text>${script.target.dir.name}</xsl:text>
-			</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-
 	<!--
 		this is the absolute or server relative path to the resources used to build the site calculated from the XSLT 
 		processing instruction.
 	-->
 	<xsl:variable name="resourceRoot">
-		<xsl:value-of select="substring-before($xslPath, '${xslt.target.dir.name}')"/>
+		<xsl:value-of select="substring-before($xslPath, 'xslt')"/>
 	</xsl:variable>
-	
+
 	<!--
 		This string is used to build a query string on all resources requested as part of a page.
 	-->
@@ -40,6 +29,17 @@
 	</xsl:variable>
 
 	<xsl:template match="ui:root">
+		<xsl:variable name="scriptDir">
+			<xsl:choose>
+				<xsl:when test="number($isDebug) eq 1">
+					<xsl:text>${script.debug.target.dir.name}</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>${script.target.dir.name}</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		
 		<html lang="{@lang}">
 			<head>
 				<!-- Favicon works more reliably if it is first -->
@@ -85,15 +85,21 @@
 				<!--
 					CSS before JavaScript for performance.
 				-->
-				<xsl:call-template name="cssLink">
-					<xsl:with-param name="filename" select="'${css.target.file.name}'"/>
-					<xsl:with-param name="id" select="'wc_css_screen'"/><!-- this id is used by the style loader js -->
-				</xsl:call-template>
+				<xsl:variable name="mainCssUrl">
+					<xsl:call-template name="cssUrl">
+						<xsl:with-param name="filename" select="'${css.target.file.name}'"/>
+					</xsl:call-template>
+				</xsl:variable>
+				<link type="text/css" rel="stylesheet" id="wc_css_screen" href="{$mainCssUrl}"/><!-- te id is used by the style loader js -->
+			
 				<xsl:if test="$isDebug = 1">
 					<!-- Load debug CSS -->
-					<xsl:call-template name="cssLink">
-						<xsl:with-param name="filename" select="'${css.target.file.name.debug}'"/>
-					</xsl:call-template>
+					<xsl:variable name="debugCssUrl">
+						<xsl:call-template name="cssUrl">
+							<xsl:with-param name="filename" select="'${css.target.file.name.debug}'"/>
+						</xsl:call-template>
+					</xsl:variable>
+					<link type="text/css" rel="stylesheet" href="{$debugCssUrl}"/>
 				</xsl:if>
 				<xsl:apply-templates select=".//html:link[@rel eq 'stylesheet']" mode="inHead"/>
 				<xsl:apply-templates select="ui:application/ui:css" mode="inHead"/>
@@ -223,9 +229,7 @@
 				<div id="wc-shim" class="wc_shim_loading">
 					<xsl:text>&#xa0;</xsl:text>
 					<noscript>
-						<p>
-							<xsl:text>You must have JavaScript enabled to use this application.</xsl:text>
-						</p>
+						<p>You must have JavaScript enabled to use this application.</p>
 					</noscript>
 				</div>
 				<div id="wc-ui-loading">
@@ -239,14 +243,8 @@
 	<xsl:template name="faviconHelper">
 		<xsl:param name="href" select="''"/>
 		<xsl:if test="$href ne ''">
-			<xsl:element name="link">
-				<xsl:attribute name="rel">
-					<xsl:text>shortcut icon</xsl:text><!-- Invalid but the only cross browser option -->
-				</xsl:attribute>
-				<xsl:attribute name="href">
-					<xsl:value-of select="$href"/>
-				</xsl:attribute>
-			</xsl:element>
+			<!-- rel value invalid but the only cross browser option -->
+			<link rel="shortcut icon" href="{$href}"/>
 		</xsl:if>
 	</xsl:template>
 	<!-- 
@@ -265,25 +263,15 @@
 &lt;![endif]</xsl:comment>
 	</xsl:template>
 
-	<xsl:template name="cssLink">
+	<xsl:template name="cssUrl">
 		<xsl:param name="filename"/>
-		<xsl:param name="id" select="''"/>
-		<link type="text/css" rel="stylesheet">
-			<xsl:if test="$id ne ''">
-				<xsl:attribute name="id">
-					<xsl:value-of select="$id"/>
-				</xsl:attribute>
-			</xsl:if>
-			<xsl:attribute name="href">
-				<xsl:value-of select="$resourceRoot"/>
-				<xsl:text>${css.target.dir.name}/</xsl:text>
-				<xsl:value-of select="$filename"/>
-				<xsl:if test="$isDebug = 1">
-					<xsl:text>${debug.target.file.name.suffix}</xsl:text>
-				</xsl:if>
-				<xsl:text>.css?</xsl:text>
-				<xsl:value-of select="$cacheBuster"/>
-			</xsl:attribute>
-		</link>
+		<xsl:value-of select="$resourceRoot"/>
+		<xsl:text>${css.target.dir.name}/</xsl:text>
+		<xsl:value-of select="$filename"/>
+		<xsl:if test="$isDebug = 1">
+			<xsl:text>${debug.target.file.name.suffix}</xsl:text>
+		</xsl:if>
+		<xsl:text>.css?</xsl:text>
+		<xsl:value-of select="$cacheBuster"/>
 	</xsl:template>
 </xsl:stylesheet>

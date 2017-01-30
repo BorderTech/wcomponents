@@ -51,7 +51,6 @@
 	<property name="script.debug.target.dir.name" value="${script.target.dir.name}${debug.target.file.name.suffix}"/>
 	<property name="css.target.dir.name" value="style"/>
 	<property name="resource.target.dir.name" value="resource"/>
-	<property name="xslt.target.dir.name" value="xslt"/>
 	<property name="images.target.dir.name" value="images"/>
 	<property name="examples.target.dir.name" value="examples"/>
 	<property name="excludesfile" location="${impl.src.dir}/excludes.txt"/>
@@ -69,8 +68,6 @@
 	<property name="css.target.file.name" value="wc"/>
 	<property name="css.target.file.name.print" value="wc-p"/>
 	<property name="css.target.file.name.debug" value="wc-debug"/>
-	<property name="xslt.target.file.name" value="all"/>
-	<property name="xslt.target.debug.file.name" value="debug.xsl"/>
 	<property name="coverage.target.file.name.suffix" value="-instrumented"/>
 	<property name="jsLint.conf.file" location="${tmp.dir}/jsl.wc.conf"/>
 
@@ -170,7 +167,7 @@
 			</echoproperties>
 		</sequential>
 	</macrodef>
-	
+
 	<!--
 		Reads a properties file and writes it in XML format.
 	-->
