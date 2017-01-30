@@ -77,7 +77,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:variable>
-					<img src="{@url}" alt="{$alt}" />
+					<img src="{@imageUrl}" alt="{$alt}" />
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:apply-templates/>
