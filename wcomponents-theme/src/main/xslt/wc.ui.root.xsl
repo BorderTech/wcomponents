@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.registrationScripts.xsl"/>
 
@@ -8,13 +8,13 @@
 	<xsl:param name="isDebug" select="1"/>
 
 	<!--
-		Used to calculate the path to the libs based on the stylesheet processing instruction stripped is used in the config object. Param so it can 
+		Used to calculate the path to the libs based on the stylesheet processing instruction stripped is used in the config object. Param so it can
 		be overridden if necessary.
 	-->
 	<xsl:param name="xslPath" select="substring-before(replace(substring-after(//processing-instruction('xml-stylesheet'), 'href=&quot;'), '&amp;amp;', '&amp;'), '&quot;')"/>
 
 	<!--
-		this is the absolute or server relative path to the resources used to build the site calculated from the XSLT 
+		this is the absolute or server relative path to the resources used to build the site calculated from the XSLT
 		processing instruction.
 	-->
 	<xsl:variable name="resourceRoot">
@@ -39,7 +39,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		
+
 		<html lang="{@lang}">
 			<head>
 				<!-- Favicon works more reliably if it is first -->
@@ -56,15 +56,15 @@
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:call-template name="faviconHelper">
-							<xsl:with-param name="href" select="concat($resourceRoot,'${images.target.dir.name}/favicon.ico')"/>
+							<xsl:with-param name="href" select="concat($resourceRoot,'images/favicon.ico')"/>
 						</xsl:call-template>
 					</xsl:otherwise>
 				</xsl:choose>
 				<!--
-					The format-detection is needed to work around issues in some very popular mobile browsers that will convert "numbers" into phone 
-					links (a elements) if they appear to be phone numbers, even if those numbers are the content of buttons or links. This breaks 
+					The format-detection is needed to work around issues in some very popular mobile browsers that will convert "numbers" into phone
+					links (a elements) if they appear to be phone numbers, even if those numbers are the content of buttons or links. This breaks
 					important stuff if you, for example, want to link or submit using a number identifier.
-					
+
 					If you want a phone number link in these (or any) browser use WPhoneNumberField set to read-only.
 				-->
 				<!--<xsl:element name="meta">
@@ -91,12 +91,12 @@
 					</xsl:call-template>
 				</xsl:variable>
 				<link type="text/css" rel="stylesheet" id="wc_css_screen" href="{$mainCssUrl}"/><!-- te id is used by the style loader js -->
-			
+
 				<xsl:if test="$isDebug = 1">
 					<!-- Load debug CSS -->
 					<xsl:variable name="debugCssUrl">
 						<xsl:call-template name="cssUrl">
-							<xsl:with-param name="filename" select="'${css.target.file.name.debug}'"/>
+							<xsl:with-param name="filename" select="'wcdebug'"/>
 						</xsl:call-template>
 					</xsl:variable>
 					<link type="text/css" rel="stylesheet" href="{$debugCssUrl}"/>
@@ -104,8 +104,8 @@
 				<xsl:apply-templates select=".//html:link[@rel eq 'stylesheet']" mode="inHead"/>
 				<xsl:apply-templates select="ui:application/ui:css" mode="inHead"/>
 				<!--
-					We need to set up the require config very early. This mess constructs the require config which is necessary to commence inclusion 
-					and bootstrapping of WComponent JavaScript. This must be included before a script element to include require.js (or whichever AMD 
+					We need to set up the require config very early. This mess constructs the require config which is necessary to commence inclusion
+					and bootstrapping of WComponent JavaScript. This must be included before a script element to include require.js (or whichever AMD
 					loader you are using).
 
 					You really don't want to be here.
@@ -239,7 +239,7 @@
 			</body>
 		</html>
 	</xsl:template>
-	
+
 	<xsl:template name="faviconHelper">
 		<xsl:param name="href" select="''"/>
 		<xsl:if test="$href ne ''">
@@ -247,8 +247,8 @@
 			<link rel="shortcut icon" href="{$href}"/>
 		</xsl:if>
 	</xsl:template>
-	<!-- 
-		IE 8 and below needs a helper to recognise HTML5 elemnts as HTML elements. This needs to happen so very early that we cannot use require to 
+	<!--
+		IE 8 and below needs a helper to recognise HTML5 elemnts as HTML elements. This needs to happen so very early that we cannot use require to
 		load it. We can use an IE conditional comment to limit this code to IE8 and before.
 	-->
 	<xsl:template name="makeIE8CompatScripts">
