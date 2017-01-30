@@ -1,28 +1,3 @@
-/**
- * Provides a mechanism to warn a user of pending navigation or cancel invocation which may result in user initiated
- * changes from being lost or discarded.
- *
- * I suggest erring on the side of NOT nagging. Yes, the user may lose work if we get it wrong this way but the alternative is that they get used to
- * seeing the warning message and ignoring it because it is wrong. The user needs to know that if we show that dialog we really mean it.
- *
- * @todo this should be merged into wc/dom/formUpdateManager in to solve a complex circular dependency.
- * @todo sort out the method order.
- * @todo to a large extent we could probably use Element.defaultValue instead.
- *
- * @module
- * @requires module:wc/i18n/i18n
- * @requires module:wc/ajax/triggerManager
- * @requires module:wc/dom/uid
- * @requires module:wc/dom/event
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/serialize
- * @requires module:wc/dom/isSuccessfulElement
- * @requires external:lib/sprintf
- * @requires module:wc/dom/Widget
- * @requires module:wc/urlParser
- * @requires module:wc/dom/formUpdateManager
- * @requires module:wc/dom/focus
- */
 define(["wc/i18n/i18n",
 		"wc/ajax/triggerManager",
 		"wc/dom/uid",
@@ -418,23 +393,49 @@ define(["wc/i18n/i18n",
 			 *
 			 * @function
 			 * @alias module:wc/dom/cancelUpdate.cancelSubmission
-			 * @param {Element} form An element which is, or is within, a FORM element.
+			 * @param {Element} container An element which is, or is within, a FORM element.
 			 * @returns {Boolean} true if the user wishes to cancel or if the form is not valid.
 			 */
-			this.cancelSubmission = function(form) {
-				var result = false,
-					submitter;
-				if (buttonClicked && (submitter = document.getElementById(buttonClicked)) && focus.canFocus(submitter) && (form = FORM.findAncestor(form))) {
-					if (isCancelUpdateButton(submitter) && hasUnsavedChanges(form)) {
-						if ((result = cancelSubmit(form, submitter))) {
-							focus.setFocusRequest(submitter);
-						}
-					}
+			this.cancelSubmission = function(container) {
+				var submitter, form;
+				if (buttonClicked &&
+						(submitter = document.getElementById(buttonClicked)) &&
+						focus.canFocus(submitter) &&
+						(form = FORM.findAncestor(container)) &&
+						isCancelUpdateButton(submitter) &&
+						hasUnsavedChanges(form) && cancelSubmit(form, submitter)) {
+					formUpdateManager.clean(container);
+					focus.setFocusRequest(submitter);
+					return true;
 				}
-				return result;
+				return false;
 			};
 		}
-		var /** @alias module:wc/dom/cancelUpdate */ instance = new CancelUpdateControl();
+
+		/**
+		 * Provides a mechanism to warn a user of cancel invocation which may result in user initiated changes from being lost or discarded.
+		 *
+		 * I suggest erring on the side of NOT nagging. Yes, the user may lose work if we get it wrong this way but the alternative is that they get
+		 * used to seeing the warning message and ignoring it because it is wrong. The user needs to know that if we show that dialog we really mean
+		 * it.
+		 *
+		 * @todo sort out the method order.
+		 * @todo to a large extent we could probably use Element.defaultValue instead.
+		 *
+		 * @module
+		 * @requires module:wc/i18n/i18n
+		 * @requires module:wc/ajax/triggerManager
+		 * @requires module:wc/dom/uid
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/serialize
+		 * @requires module:wc/dom/isSuccessfulElement
+		 * @requires external:lib/sprintf
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/dom/formUpdateManager
+		 * @requires module:wc/dom/focus
+		 */
+		var instance = new CancelUpdateControl();
 		initialise.register(instance);
 		return instance;
 	});

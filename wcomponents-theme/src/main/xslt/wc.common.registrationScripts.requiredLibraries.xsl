@@ -12,6 +12,8 @@
 	-->
 	<xsl:template name="requiredLibraries">
 		<xsl:variable name="libs">
+			<!-- these must always be present and are not necessarily required by other modules. -->
+			<xsl:text>"wc/ui/template","wc/ui/loading",</xsl:text>
 			<!--
 				These are very expensive lookups, especially in poorly optimized processors such as the default processor used by IE. For this reason
 				the first group are lookups which for most sensible purposes would be included in wc.common.js for all screens.
@@ -144,6 +146,9 @@
 			</xsl:if>
 			<xsl:if test=".//@msg">
 				<xsl:text>"wc/ui/confirm",</xsl:text>
+			</xsl:if>
+			<xsl:if test=".//@unsavedChanges">
+				<xsl:text>"wc/dom/cancelUpdate",</xsl:text>
 			</xsl:if>
 			<!-- NOTE: not every mode SERVER needs this but the include is cheaper than the tests and mode server should eventually die -->
 			<xsl:if test=".//*[@mode eq 'dynamic'] or .//*[@mode eq 'lazy']">
