@@ -154,8 +154,8 @@
 	</target>
 
 	<!--
-		Trawl the copied (and transpiled) source and find files with pattern_X in their names. Make a list of all
-		these patterns and write them to a property for future use in JS.
+		Trawl the copied (and transpiled) source and find files with pattern_X in their names. Make a list of all these
+		patterns and write them to a property for future use in JS.
 	-->
 	<macrodef name="getPlatformCSS">
 		<attribute name="sourceDir"/>
@@ -291,12 +291,8 @@
 
 
 	<!--
-		Does two things:
-		1. Sets the property ie.version.list with a list of the versions of ie specific source files in the sourceDir
-		   For example if you have: foo.ie8.js, bar.ie8.js, bar.ie9.js files in your sourceDir you will get a list like this: "ie8,ie9"
-		2. Writes the major version number of the lowest supported version of IE found to the global properties file.
-		   For example, if you have For example if you have: foo.ie8.js, bar.ie8.js, bar.ie9.js the number "8" will be written to
-		   the properties file as property @nameOfLowestVerionPropToSet.
+		Sets the property ie.version.list with a list of the versions of ie specific source files in the sourceDir
+		 For example if you have: foo.ie8.scss, bar.ie8.scss, bar.ie9.scss files in your sourceDir you will get a list like this: "ie8,ie9"
 	-->
 	<macrodef name="gatherIeVersionInfo">
 		<sequential>
