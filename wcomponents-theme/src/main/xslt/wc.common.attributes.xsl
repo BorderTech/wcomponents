@@ -8,8 +8,15 @@
 		the last attribute on the element as it adds content to the element.
 	-->
 	<xsl:template name="accessKey">
+		<xsl:param name="native" select="1"/>
 		<xsl:if test="@accessKey">
-			<xsl:attribute name="accesskey">
+			<xsl:variable name="attribName">
+				<xsl:choose>
+					<xsl:when test="number($native) eq 1">accesskey</xsl:when>
+					<xsl:otherwise>data-wc-accesskey</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:attribute name="{$attribName}">
 				<xsl:value-of select="@accessKey"/>
 			</xsl:attribute>
 			<xsl:attribute name="aria-describedby">

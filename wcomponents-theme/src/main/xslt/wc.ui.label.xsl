@@ -37,11 +37,9 @@
 								<xsl:attribute name="aria-hidden">
 									<xsl:text>true</xsl:text>
 								</xsl:attribute>
-								<xsl:if test="@accessKey">
-									<xsl:attribute name="data-wc-accesskey">
-										<xsl:value-of select="@accessKey"/>
-									</xsl:attribute>
-								</xsl:if>
+								<xsl:call-template name="accessKey">
+									<xsl:with-param name="native" select="0"/>
+								</xsl:call-template>
 							</xsl:when>
 						</xsl:choose>
 					</xsl:if>
