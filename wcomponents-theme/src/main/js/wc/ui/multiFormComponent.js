@@ -9,11 +9,12 @@ define(["wc/has",
 		"wc/ui/selectLoader",
 		"wc/timers",
 		"wc/ui/prompt",
-		"wc/ui/ajaxRegion"],
+		"wc/ui/ajaxRegion",
+		"wc/ui/fieldset"],
 	function(has, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers, prompt, ajaxRegion) {
 		"use strict";
 
-		require(["wc/ui/fieldset"]);
+		// Note `wc/ui/fieldset` is implicitly required to handle various aspects of managing the wrapper element.
 
 		/**
 		 * @constructor

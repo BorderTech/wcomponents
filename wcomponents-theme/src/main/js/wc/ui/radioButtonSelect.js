@@ -3,11 +3,13 @@ define(["wc/dom/group",
 		"wc/dom/shed",
 		"wc/dom/Widget",
 		"wc/dom/getFilteredGroup",
-		"wc/dom/cbrShedPublisher"],
+		"wc/dom/cbrShedPublisher",
+		"wc/ui/fieldset"],
 	function(group, initialise, shed, Widget, getFilteredGroup) {
 		"use strict";
 
-		require(["wc/ui/fieldset"]);
+		// Note `wc/ui/fieldset` is implicitly required to handle various aspects of managing the wrapper element.
+
 		/**
 		 * @constructor
 		 * @alias module:wc/ui/radioButtonSelect~RadioButtonGroup

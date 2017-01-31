@@ -19,13 +19,14 @@ define(["wc/dom/attribute",
 	"wc/isNumeric",
 	"wc/ui/ajaxRegion",
 	"wc/config",
-	"wc/dom/toDocFragment"],
+	"wc/dom/toDocFragment",
+	"wc/ui/fieldset"],
 	function (attribute, prefetch, event, initialise, uid, Trigger, classList, sprintf, has, i18n, getFileSize,
 		accepted, Widget, formUpdateManager, filedrop, ajax, prompt, focus, isNumeric, ajaxRegion, wcconfig,
 		toDocFragment) {
 		"use strict";
 
-		require(["wc/ui/fieldset"]);
+		// Note `wc/ui/fieldset` is implicitly required to handle various aspects of managing the wrapper element.
 
 		var
 			/**

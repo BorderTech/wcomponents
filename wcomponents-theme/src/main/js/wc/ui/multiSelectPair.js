@@ -10,11 +10,12 @@ define(["wc/dom/attribute",
 		"wc/ui/ajaxRegion",
 		"wc/ui/ajax/processResponse",
 		"wc/ui/selectboxSearch",
-		"wc/ui/modalShim"],
+		"wc/ui/modalShim",
+		"wc/ui/fieldset"],
 	function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, tag, Widget, ajaxRegion, processResponse, selectboxSearch, modal) {
 		"use strict";
 
-		require(["wc/ui/fieldset"]);
+		// Note `wc/ui/fieldset` is implicitly required to handle various aspects of managing the wrapper element.
 
 		/**
 		 * @constructor

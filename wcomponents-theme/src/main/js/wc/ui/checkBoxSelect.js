@@ -23,12 +23,13 @@ define(["wc/dom/ariaAnalog",
 		"wc/dom/clearSelection",
 		"wc/dom/group",
 		"wc/dom/getFilteredGroup",
-		"wc/dom/cbrShedPublisher"],
+		"wc/dom/cbrShedPublisher",
+		"wc/ui/fieldset"],
 	/** @param ariaAnalog wc/dom/ariaAnalog @param Widget wc/dom/Widget @param initialise wc/dom/initialise @param shed wc/dom/shed @param clearSelection wc/dom/clearSelection @param group wc/dom/group @param getFilteredGroup wc/dom/getFilteredGroup @ignore */
 	function(ariaAnalog, Widget, initialise, shed, clearSelection, group, getFilteredGroup) {
 		"use strict";
 
-		require(["wc/ui/fieldset"]);
+		// Note `wc/ui/fieldset` is implicitly required to handle various aspects of managing the wrapper element.
 
 		/**
 		 * @constructor
