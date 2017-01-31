@@ -173,6 +173,9 @@ $wc-common-busy-size: $wc-icon-normal !default;
 // If you set this to 0 then it has the same effect as visibility:hidden but without the support for obsolete browsers.
 // You can ignore this, and leave everything as is, by setting this to 1 or more.
 $wc-common-busy-content-opacity: 0.25 !default;
+$wc-common-busy-content-usefade: 1 !default;
+$wc-common-busy-content-fadeduration: 1s !default;
+
 
 
 //**********************************************************************************************************************
@@ -216,7 +219,11 @@ $wc-section-space-header-reduced: $wc-section-space-reduced !default;
 // Variables for specific components
 //**********************************************************************************************************************
 //**********************************************************************************************************************
-
+//**********************************************************************************************************************
+// WApplication
+//**********************************************************************************************************************
+$wc-app-usefade: 1 !default;
+$wc-app-fadeduration: 1s !default;
 //**********************************************************************************************************************
 // ListLayout
 //**********************************************************************************************************************

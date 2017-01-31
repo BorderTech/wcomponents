@@ -66,7 +66,7 @@ define(["wc/dom/initialise", "wc/ui/modalShim", "wc/timers", "wc/dom/classList"]
 		 */
 		function postInit() {
 			modalShim.subscribe(loadingShimSubscriber);
-			loading.done.then(timers.setTimeout(clearLoadingShim, 0));
+			loading.done.then(timers.setTimeout(clearLoadingShim, 250));
 		}
 
 		initialise.register({"postInit": postInit});

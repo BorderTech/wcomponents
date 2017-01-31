@@ -246,6 +246,15 @@
 				</xsl:choose>
 			</xsl:variable>
 			<body data-wc-domready="{$domready}">
+				<div id="wc-shim" class="wc_shim_loading">
+					<xsl:text>&#xa0;</xsl:text>
+					<noscript>
+						<p>You must have JavaScript enabled to use this application.</p>
+					</noscript>
+				</div>
+				<div id="wc-ui-loading">
+					<div tabindex="0" class="wc-icon">&#x200b;</div>
+				</div>
 				<xsl:apply-templates >
 					<xsl:with-param name="nojs">
 						<xsl:choose>
