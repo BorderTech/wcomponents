@@ -28,6 +28,7 @@
 	</target>
 
 	<target name="init" depends="clean">
+		<property file="${properties.build.constants}" />
 		<mkdir dir="${xslt.build.target.dir}"/>
 		<mkdir dir="${xsl.tmp.src.dir}"/>
 		<available file="${tmp.dir}/${xsl.target.intermediate.file.name}" property=""/>

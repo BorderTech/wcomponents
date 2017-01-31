@@ -1,4 +1,4 @@
-define(["wc/has", "wc/config", "wc/fixes"], function(has, wcconfig) {
+define(["wc/has", "wc/config"], function(has, wcconfig) {
 	"use strict";
 	/**
 	 * @constructor

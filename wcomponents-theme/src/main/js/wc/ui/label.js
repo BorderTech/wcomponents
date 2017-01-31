@@ -285,7 +285,7 @@ define(["wc/dom/classList",
 				}
 			}
 
-			this.initialise = function(element) {
+			this.preInit = function(element) {
 				moveLabels(element);
 			};
 		}

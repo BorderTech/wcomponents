@@ -3,10 +3,11 @@
 	<xsl:import href="wc.common.attributes.xsl"/>
 	<!-- WApplication -->
 	<xsl:template match="ui:application">
+		<xsl:param name="nojs" select="0"/>
 		<xsl:variable name="baseAjaxUrl">
 			<xsl:value-of select="@ajaxUrl"/>
 		</xsl:variable>
-		<form action="{@applicationUrl}" method="POST" id="{@id}" data-wc-datalisturl="{$baseAjaxUrl}" novalidate="novalidate" hidden="hidden">
+		<form action="{@applicationUrl}" method="POST" id="{@id}" data-wc-datalisturl="{$baseAjaxUrl}" novalidate="novalidate">
 			<xsl:attribute name="data-wc-ajaxurl">
 				<xsl:value-of select="$baseAjaxUrl"/>
 				<xsl:if test="ui:param">
@@ -24,7 +25,10 @@
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional">
 					<xsl:if test="@unsavedChanges or .//ui:button[@unsavedChanges] or .//ui:menuitem[@unsavedChanges]">
-						<xsl:text> wc_unsaved</xsl:text>
+						<xsl:text>wc_unsaved</xsl:text>
+					</xsl:if>
+					<xsl:if test="number($nojs) eq 0">
+						<xsl:text> wc-loading</xsl:text>
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>

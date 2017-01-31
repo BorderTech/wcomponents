@@ -1,17 +1,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.registrationScripts.localRegistrationScripts.xsl"/>
 	<!--
 		This template is a helper for "registrationScripts" which does set up and "requires" for components which need pre-initialisation registration.
 
 		This template is never called directly except by the template "registrationScripts" and is split out for ease of override and maintenance.
-
-		You should not need to override this template but use the helper template "localRegistrationScripts" to add implementation specific component
-		registration.
-
-		If you KNOW your application does not use a particular component (and never will) then you could have an override of this template which
-		excludes the tests for those components you no longer need.
-
-		TODO: can any of these be offloaded?
 	-->
 	<xsl:template name="coreRegistrationScripts">
 		<xsl:variable name="componentGroups" select=".//ui:componentGroup"/>
@@ -127,7 +118,6 @@
 			<xsl:value-of select="//@defaultFocusId[1]"/>
 			<xsl:text>");});</xsl:text>
 		</xsl:if>
-		<xsl:call-template name="localRegistrationScripts"/>
 	</xsl:template>
 
 	<!--

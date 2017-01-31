@@ -1,5 +1,5 @@
-define(["wc/dom/initialise", "wc/ui/modalShim", "wc/timers", "wc/has"],
-	function(initialise, modalShim, timers, has) {
+define(["wc/dom/initialise", "wc/ui/modalShim", "wc/timers", "wc/dom/classList"],
+	function(initialise, modalShim, timers, classList) {
 		"use strict";
 
 		/**
@@ -38,14 +38,6 @@ define(["wc/dom/initialise", "wc/ui/modalShim", "wc/timers", "wc/has"],
 		function clearLoadingShim() {
 			var container;
 			try {
-				Array.prototype.forEach.call(document.getElementsByTagName("form"), function(form) {
-					form.removeAttribute("hidden");
-					if (has("ie") === 8) {
-						require(["wc/fix/inlineBlock_ie8"], function(inlineBlock) {
-							inlineBlock.checkRepaint(form);
-						});
-					}
-				});
 				container = document.getElementById("wc-ui-loading");
 				if (container && container.parentNode) {
 					container.parentNode.removeChild(container);
@@ -55,12 +47,25 @@ define(["wc/dom/initialise", "wc/ui/modalShim", "wc/timers", "wc/has"],
 				modalShim.clearModal();
 			}
 		}
+
+		function loadingShimSubscriber() {
+			try {
+				Array.prototype.forEach.call(document.getElementsByTagName("form"), function(form) {
+					classList.remove(form, "wc-loading");
+				});
+			}
+			finally {
+				modalShim.unsubscribe(loadingShimSubscriber);
+			}
+		}
+
 		/**
 		 * Call when the DOM is loaded and UI controls are initialized to dismiss the loading overlay.
 		 * @function
 		 * @private
 		 */
 		function postInit() {
+			modalShim.subscribe(loadingShimSubscriber);
 			loading.done.then(timers.setTimeout(clearLoadingShim, 0));
 		}
 

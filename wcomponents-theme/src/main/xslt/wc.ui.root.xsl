@@ -39,6 +39,9 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
+		<xsl:variable name="registeredComponents">
+			<xsl:call-template name="registrationScripts"/>
+		</xsl:variable>
 
 		<html lang="{@lang}">
 			<head>
@@ -103,6 +106,7 @@
 				</xsl:if>
 				<xsl:apply-templates select=".//html:link[@rel eq 'stylesheet']" mode="inHead"/>
 				<xsl:apply-templates select="ui:application/ui:css" mode="inHead"/>
+
 				<!--
 					We need to set up the require config very early. This mess constructs the require config which is necessary to commence inclusion
 					and bootstrapping of WComponent JavaScript. This must be included before a script element to include require.js (or whichever AMD
@@ -112,8 +116,11 @@
 				-->
 				<xsl:variable name="wcScriptDir" select="concat($scriptDir, '/wc')"/>
 				<xsl:variable name="libScriptDir" select="concat($scriptDir, '/lib')"/>
-				<script type="text/javascript" class="wcconfig"><!-- todo: I think this class is no longer required -->
-					<!-- Yes, we are defining a global require here. We are not using window.require = {} because the doco says this can cause problems in IE. -->
+				<script type="text/javascript">
+					<!--
+						Yes, we are defining a global require here. We are not using window.require = {} because the doco says this can cause problems
+						in IE.
+					-->
 					<xsl:text>(function(){
 	var wcconfig, timing,
 		config = {
@@ -189,6 +196,7 @@
 	else require = config;
 })();</xsl:text>
 				</script>
+
 				<!--
 					non-AMD compatible fixes for IE: things that need to be fixed before we can require anything but
 					have to be added after we have included requirejs/require.
@@ -198,20 +206,32 @@
 					Load requirejs
 				-->
 				<script type="text/javascript" src="{concat($resourceRoot, $scriptDir, '/lib/require.js?', $cacheBuster)}"></script>
-				<!-- We can delete some script nodes after they have been used. To do this we need the script element to have an ID. -->
-				<xsl:variable name="scriptId" select="generate-id()"/>
-				<!-- We want to load up the CSS as soon as we can, so do it immediately after loading require. -->
-				<xsl:variable name="styleLoaderId" select="concat($scriptId,'-styleloader')"/>
-				<script type="text/javascript" id="{$styleLoaderId}">
-					<xsl:text>require(["wc/compat/compat!"], function() {</xsl:text>
-					<xsl:text>require(["wc/a8n", "wc/loader/style"</xsl:text>
-					<xsl:if test="number($isDebug) eq 1">
-						<xsl:text>,"wc/debug/common"</xsl:text>
-					</xsl:if>
-					<xsl:text>], function(a, s){s.load();});</xsl:text>
-					<xsl:text>});</xsl:text>
-				</script>
-				<xsl:call-template name="registrationScripts"/>
+				
+				<xsl:if test="concat('${ie.css.list}','${css.pattern.list}') ne ''">
+					<script type="text/javascript">
+						<xsl:text>require(["wc/loader/style"],function(s){s.load();});</xsl:text>
+					</script>
+				</xsl:if>
+
+				<xsl:if test="$registeredComponents ne ''">
+					<script type="text/javascript" class="registrationScripts">
+						<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
+						<xsl:text>require(["wc/i18n/i18n!"], function(){</xsl:text>
+						<xsl:text>require(["wc/common"], function(c){if(c){</xsl:text>
+						<!--
+							This looks strange, so here's what it's doing:
+							1. wc.fixes is loaded, it calculates what fix modules are needed and provides this as an array.
+							2. The array of module names is then loaded via require, each module is a fix which "does stuff" once loaded.
+						-->
+						<xsl:text>require(["wc/fixes"], function(f){require(f);});</xsl:text>
+						<xsl:value-of select="$registeredComponents"/>
+						<xsl:text>}});});});</xsl:text>
+					</script>
+					<script type="text/javascript">
+						<xsl:text>require(["wc/a8n"]);</xsl:text>
+					</script>
+				</xsl:if>
+
 				<!--
 					We grab all base, meta and link elements from the content and place
 					them in the head where they belong.
@@ -219,23 +239,25 @@
 				<xsl:apply-templates select="ui:application/ui:js" mode="inHead"/>
 				<xsl:apply-templates select=".//html:base|.//html:link[not(contains(@rel,'icon') or @rel eq 'stylesheet')]|.//html:meta" mode="inHead"/>
 			</head>
-			<body data-wc-domready="false">
-				<!--
-					loading indicator and shim
-					We show a loading indicator as we construct the page then remove it as part of post-initialisation.
-					This helps to prevent users interacting with a page before it is ready. The modal shim is part of
-					the page level loading indicator.
-				-->
-				<div id="wc-shim" class="wc_shim_loading">
-					<xsl:text>&#xa0;</xsl:text>
-					<noscript>
-						<p>You must have JavaScript enabled to use this application.</p>
-					</noscript>
-				</div>
-				<div id="wc-ui-loading">
-					<div tabindex="0" class="wc-icon">&#x200b;</div>
-				</div>
-				<xsl:apply-templates />
+			<xsl:variable name="domready">
+				<xsl:choose>
+					<xsl:when test="$registeredComponents=''">true</xsl:when>
+					<xsl:otherwise>false</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<body data-wc-domready="{$domready}">
+				<xsl:apply-templates >
+					<xsl:with-param name="nojs">
+						<xsl:choose>
+							<xsl:when test="$registeredComponents ne ''">
+								<xsl:number value="0"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:number value="1"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:with-param>
+				</xsl:apply-templates>
 			</body>
 		</html>
 	</xsl:template>

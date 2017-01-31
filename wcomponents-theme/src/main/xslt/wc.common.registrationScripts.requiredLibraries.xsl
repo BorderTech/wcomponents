@@ -1,19 +1,11 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.registrationScripts.localRequiredLibraries.xsl"/>
 	<!--
 		Helper template for "registrationScripts" to wire up AMD/require.js requires.
-
-		This template is never called directly except by the template "registrationScripts" and is split out for ease of override and maintenance.
-
-		You probably want to override this template to remove modules which you have included in your wc.common.js because the descendant XPath
-		queries are heavy. If you simply want to add new stuff then use the helper template "localRequiredLibraries" to add your requires.
-
-		One optimization you could consider is to remove all tests which include a library which is in your wc.common.js.
 	-->
 	<xsl:template name="requiredLibraries">
 		<xsl:variable name="libs">
 			<!-- these must always be present and are not necessarily required by other modules. -->
-			<xsl:text>"wc/ui/template","wc/ui/loading",</xsl:text>
+			<xsl:text>"wc/ui/loading","wc/ui/template",</xsl:text>
 			<!--
 				These are very expensive lookups, especially in poorly optimized processors such as the default processor used by IE. For this reason
 				the first group are lookups which for most sensible purposes would be included in wc.common.js for all screens.
@@ -154,7 +146,6 @@
 			<xsl:if test=".//*[@mode eq 'dynamic'] or .//*[@mode eq 'lazy']">
 				<xsl:text>"wc/ui/containerload",</xsl:text>
 			</xsl:if>
-			<xsl:call-template name="localRequiredLibraries"/>
 		</xsl:variable>
 		<xsl:variable name="nLibs" select="normalize-space($libs)"/>
 		<xsl:if test="$nLibs ne ''">
