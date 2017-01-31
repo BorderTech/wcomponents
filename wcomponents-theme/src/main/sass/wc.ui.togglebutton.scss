@@ -2,6 +2,10 @@
 // toggle button styles based on https://codepen.io/mallendeo/pen/eLIiG
 @import 'mixins-common';
 
+// calculated vars
+$wc-togglebutton-double-border-width: 2 * $wc-border-width;
+$wc-togglebutton-slider-width: $wc-togglebutton-width / 2;
+
 .wc-togglebutton > button {
 	@include border;
 	background-color: $wc-ui-color-highlight-bg;

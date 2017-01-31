@@ -365,7 +365,7 @@ $wc-menu-tree-iconwidth: $wc-icon-normal !default;
 // WTable
 //**********************************************************************************************************************
 // Do we want the sort icon at the top, middle or bottom of the header?
-$wc-table-sort-icon-pos: top;
+$wc-table-sort-icon-pos: top !default;
 //**********************************************************************************************************************
 // WTabSet
 //**********************************************************************************************************************
@@ -401,6 +401,3 @@ $wc-htree-branch-width-lame: 10rem !default;
 $wc-togglebutton-width: 2 * $wc-icon-normal !default;
 $wc-togglebutton-transition: all 0.4s ease !default;
 $wc-togglebutton-transition-slider: left 0.3s cubic-bezier(0.175, 0.885, 0.320, 1.275), padding 0.3s ease, margin 0.3s ease !default;
-// calculated vars
-$wc-togglebutton-double-border-width: 2 * $wc-border-width;
-$wc-togglebutton-slider-width: $wc-togglebutton-width / 2;

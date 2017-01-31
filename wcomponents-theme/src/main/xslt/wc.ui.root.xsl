@@ -209,7 +209,9 @@
 				
 				<xsl:if test="concat('${ie.css.list}','${css.pattern.list}') ne ''">
 					<script type="text/javascript">
+						<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
 						<xsl:text>require(["wc/loader/style"],function(s){s.load();});</xsl:text>
+						<xsl:text>});</xsl:text>
 					</script>
 				</xsl:if>
 
