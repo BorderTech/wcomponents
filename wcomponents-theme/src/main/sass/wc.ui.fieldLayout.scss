@@ -4,6 +4,13 @@
 // The space remaining for the input part of a control when the WFieldLayout is FLAT. Do not change.
 $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 
+
+.wc-field {
+	[data-wc-for] {
+		display: none;
+	}
+}
+
 .wc-fieldlayout + .wc-fieldlayout, // Vertical space between consecutive WFieldLayouts.
 .wc-field  + .wc-field { // Vertical space between fields in a WFieldLayout.
 	margin-top: $wc-gap-normal;
@@ -96,6 +103,10 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 				margin-top: 0; // Remove stacked margin.
 				max-width: $wc-fieldlayout-input-width;
 				width: $wc-fieldlayout-input-width;
+			}
+
+			.wc-moved-label {
+				@include offscreen;
 			}
 		}
 
