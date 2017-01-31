@@ -6,13 +6,13 @@ import java.text.MessageFormat;
 /**
  * <p>
  * WDecorated is a "decorated label" which is typically displayed inside other components, for example
- * {@link com.github.bordertech.wcomponents.WTab}. The decorated label allows deveopers to mix text with other content,
+ * {@link com.github.bordertech.wcomponents.WTab}. The decorated label allows developers to mix text with other content,
  * e.g. images.</p>
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public final class WDecoratedLabel extends AbstractMutableContainer implements AjaxTarget {
+public final class WDecoratedLabel extends AbstractMutableContainer {
 
 	/**
 	 * Creates an initially empty decorated label, with a {@link WText} as the body content.

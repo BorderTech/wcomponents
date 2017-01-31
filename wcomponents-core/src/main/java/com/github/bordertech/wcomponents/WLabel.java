@@ -13,7 +13,7 @@ import java.text.MessageFormat;
  * @author James Gifford
  * @since 1.0.0
  */
-public class WLabel extends AbstractMutableContainer implements AjaxTarget {
+public class WLabel extends AbstractMutableContainer {
 
 	/**
 	 * Creates a new WLabel. Sets the label text, access key and the component that label is for.
