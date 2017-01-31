@@ -4,13 +4,6 @@
 // The space remaining for the input part of a control when the WFieldLayout is FLAT. Do not change.
 $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 
-
-.wc-field {
-	[data-wc-for] {
-		display: none;
-	}
-}
-
 .wc-fieldlayout + .wc-fieldlayout, // Vertical space between consecutive WFieldLayouts.
 .wc-field  + .wc-field { // Vertical space between fields in a WFieldLayout.
 	margin-top: $wc-gap-normal;
@@ -110,24 +103,29 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 			}
 		}
 
-		// This lot does the CSS for the various allowed values of WFieldLayout's labelWidth member.
-		// If you _really_ want to support all values of labelWidth then you will have to change the
-		// variable $wc-fld-list to be the single value -1.
-		@if ($wc-fld-list == -1) {
-			@for $i from 1 through 100 {
-				$wc-fld-lblw: $i * 1%;
-				@include wc-fld-layout($j);
+		// Optionally allow for labelWidth settings.
+		@if($wc-fieldlayout-labelwidth-prevent-override == 0) {
+			// This lot does the CSS for the various allowed values of WFieldLayout's labelWidth member.
+			// If you _really_ want to support all values of labelWidth then you will have to change the
+			// variable $wc-fld-list to be the single value -1.
+			@if ($wc-fld-list == -1) {
+				@for $i from 1 through 100 {
+					$wc-fld-lblw: $i * 1%;
+					@include wc-fld-layout($j);
+				}
 			}
-		}
-		@else {
-			@for $i from 1 through 20 {
-				$j: $i * 5;
-				@include wc-fld-layout($j);
-			}
+			@else {
+				@if ($wc-fld-widths-include-fives == 1) {
+					@for $i from 1 through 20 {
+						$j: $i * 5;
+						@include wc-fld-layout($j);
+					}
+				}
 
-			@if ($wc-fld-list != 0) {
-				@each $w in $wc-fld-list {
-					@include wc-fld-layout($w);
+				@if ($wc-fld-list != 0) {
+					@each $w in $wc-fld-list {
+						@include wc-fld-layout($w);
+					}
 				}
 			}
 		}

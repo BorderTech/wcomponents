@@ -48,6 +48,10 @@
 			}
 		}
 	}
+
+	&[data-wc-for] {
+		display: none;
+	}
 }
 
 @if ($wc-label-mandatory-indicator != 0) {

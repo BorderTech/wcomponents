@@ -272,25 +272,49 @@ $wc-ui-dialog-transition-duration: 0.5s !default;
 //
 // If this is not 0 then none of the other settings in this group are applied.
 $wc-fieldlayout-force-stack: 0 !default;
+// NOTE all WFieldLayouts are fored to STACKED appearance on narrow viewports to improve usability.
+
+// If `$wc-fieldlayout-force-stack` is set to 0 we can still decide what values of labelWidth are to be honoured. We
+// need a default width (which will determine the label width for any value set in Java which is not supported in
+// your theme) and may then choose to support some or all other options. It takes a **lot** of CSS to support each value
+// so **only** include those values you really need to support.
+
+// The label width of a FLAT field layout with default width.
+// This must be a percent between 0 and 100. 25, 33, 50 are recommended options.
+$wc-fieldlayout-default-label-width: 50% !default;
+
+// If this is set to 0 then Java labelWidth settings will be honoured according to the values of `$wc-fld-list` and
+// `$wc-fld-widths-include-fives` (see below). If set to anything other than 0 then _only_ the default labelWidth
+// will be honoured, saving a LOT of CSS. This is the same as having an empty list in `$wc-fld-list`.
+$wc-fieldlayout-labelwidth-prevent-override: 0 !default;
+
+// This allows a theme to turn off indent of WFieldLayout Layout_STACKED with labelWidth set. The indent was originally
+// intended to make it possible to intersperse FLAT and STACKED WFieldLayouts to allow for unneccessarily long label
+// text but keep the INPUT controls lined up.
+// If you want to keep this for backwards compatibility set this to anything other than 0.
+// If `$wc-fieldlayout-force-stack` is set to anything other than 0 then this is ignored and labelWidth is always
+// ignored.
+$wc-fieldlayout-stack-allow-indent: 0 !default;
 
 // This defines a list of labelWidth settings to honour.
-// * If this variable consists of the single value -1 then all label Widths from 1% to 100% will be used at the cost of
-//   **much** more CSS.
-// * If the variable is set to the single value 0 then label widths which are a positive integer multiple of of 5% will
-//   be used.
-// * Otherwise label widths which are a multiple of 5 _or_ in this list will be honoured. Do not duplicate multiples of
-//   5 in this list.
-//
-// This setting will give you all width which are multiple of 5% plus those listed
+// * If this variable consists of the single value -1 then all label widths from 1% to 100% will be used at the cost of
+//   **much** more CSS. Variable `$wc-fld-widths-include-fives` is ignored.
+// * If this variable is set to the single value 0 then it is ignored. Widths which are multiples of 5% can still be
+//   used if `$wc-fld-widths-include-fives` is set to 1.
+// * Otherwise label widths which are in this list will be honoured. Do not duplicate multiples of 5 in this list if
+// `$wc-fld-widths-include-fives` is set to 1.
 $wc-fld-list: 16, 33, 34, 66, 67, 83 !default;
+// This is an ease-of-use helper for `$wc-fld-list` which, if set to 1, will ensure WFieldLayout labelWidth includes all
+// multiples of 5%. This is ignored if `$wc-fld-list` is set to -1.
+$wc-fld-widths-include-fives: 1 !default;
+// NOTE: This is the same as
+// $wc-fld-list: 5, 10, 15, 16, 20, 25, 30, 33, 34, 35, ... 65, 66, 67, 70, 75, 80, 83, 85 ... 95, 100 but much shorter!
+
 // If you use the following version you get all multiple of 5% only
 // $wc-fld-list: 0;
+// $wc-fld-widths-include-fives: 1;
 // If you use the following version you get all widths from 1% to 100% and that is a LOT of CSS
 // $wc-fld-list: -1;
-
-// The label width of a flat field layout with default width. This must be a percent between 0 and 100. 25, 33, 50 are
-// recommended options. Do not pick one if it is not in the label width values you support (see above).
-$wc-fieldlayout-default-label-width: 50% !default;
 
 //**********************************************************************************************************************
 // WHeading
