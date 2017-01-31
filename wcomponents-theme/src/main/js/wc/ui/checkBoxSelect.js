@@ -1,21 +1,3 @@
-/**
- * Module to provide a grouped set of check boxes with some group-like behaviour which is not inherent in HTML check
- * boxes, though whether this should be implemented or not is another matter since according to
- * {@link http://www.w3.org/TR/wai-aria-practices/#checkbox} strictly speaking checkbox should not get arrow key
- * navigation nor SHIFT+CLICK range toggle support!
- *
- * @module
- * @extends module:wc/dom/ariaAnalog
- *
- * @requires module:wc/dom/ariaAnalog
- * @requires module:wc/dom/Widget
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/clearSelection
- * @requires module:wc/dom/group
- * @requires module:wc/dom/getFilteredGroup
- * @requires module:wc/dom/cbrShedPublisher
- */
 define(["wc/dom/ariaAnalog",
 		"wc/dom/Widget",
 		"wc/dom/initialise",
@@ -23,13 +5,10 @@ define(["wc/dom/ariaAnalog",
 		"wc/dom/clearSelection",
 		"wc/dom/group",
 		"wc/dom/getFilteredGroup",
-		"wc/dom/cbrShedPublisher",
-		"wc/ui/fieldset"],
-	/** @param ariaAnalog wc/dom/ariaAnalog @param Widget wc/dom/Widget @param initialise wc/dom/initialise @param shed wc/dom/shed @param clearSelection wc/dom/clearSelection @param group wc/dom/group @param getFilteredGroup wc/dom/getFilteredGroup @ignore */
-	function(ariaAnalog, Widget, initialise, shed, clearSelection, group, getFilteredGroup) {
+		"wc/ui/fieldset",
+		"wc/dom/cbrShedPublisher"],
+	function(ariaAnalog, Widget, initialise, shed, clearSelection, group, getFilteredGroup, fieldset) {
 		"use strict";
-
-		// Note `wc/ui/fieldset` is implicitly required to handle various aspects of managing the wrapper element.
 
 		/**
 		 * @constructor
@@ -54,7 +33,7 @@ define(["wc/dom/ariaAnalog",
 			 * @type {module:wc/dom/Widget}
 			 * @public
 			 */
-			this.CONTAINER = new Widget("fieldset", "wc-checkboxselect");
+			this.CONTAINER = fieldset.getWidget(true).extend("wc-checkboxselect");
 
 			/**
 			 * The description of a group item.
@@ -208,7 +187,25 @@ define(["wc/dom/ariaAnalog",
 		}
 
 		CheckBoxSelect.prototype = ariaAnalog;
-		var /** @alias module:wc/ui/checkBoxSelect */ instance = new CheckBoxSelect();
+		/**
+		 * Module to provide a grouped set of check boxes with some group-like behaviour which is not inherent in HTML check
+		 * boxes, though whether this should be implemented or not is another matter since according to
+		 * {@link http://www.w3.org/TR/wai-aria-practices/#checkbox} strictly speaking checkbox should not get arrow key
+		 * navigation nor SHIFT+CLICK range toggle support!
+		 *
+		 * @module
+		 * @extends module:wc/dom/ariaAnalog
+		 *
+		 * @requires module:wc/dom/ariaAnalog
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/clearSelection
+		 * @requires module:wc/dom/group
+		 * @requires module:wc/dom/getFilteredGroup
+		 * @requires module:wc/ui/fieldset
+		 */
+		var instance = new CheckBoxSelect();
 		instance.constructor = CheckBoxSelect;
 		initialise.register(instance);
 		return instance;

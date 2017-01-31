@@ -11,10 +11,8 @@ define(["wc/has",
 		"wc/ui/prompt",
 		"wc/ui/ajaxRegion",
 		"wc/ui/fieldset"],
-	function(has, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers, prompt, ajaxRegion) {
+	function(has, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers, prompt, ajaxRegion, fieldset) {
 		"use strict";
-
-		// Note `wc/ui/fieldset` is implicitly required to handle various aspects of managing the wrapper element.
 
 		/**
 		 * @constructor
@@ -25,7 +23,7 @@ define(["wc/has",
 			var BUTTON_TYPE = {add: 0, remove: 1},
 				MAX = "data-wc-max",
 				queueTimer,
-				CONTAINER = new Widget("fieldset", "wc_mfc"),
+				CONTAINER = fieldset.getWidget(true).extend("wc_mfc"),
 				FIELD = new Widget("li"),
 				BUTTON = new Widget("button"),
 				SELECT_WD = new Widget("select"),
@@ -371,6 +369,7 @@ define(["wc/has",
 		 * @requires module:wc/timers
 		 * @requires module:wc/ui/prompt
 		 * @requires module:wc/ui/ajaxRegion
+		 * @requires module:wc/ui/fieldset
 		 * @todo Document private members, fix source order.
 		 */
 		var instance = new MultiFormComponent();

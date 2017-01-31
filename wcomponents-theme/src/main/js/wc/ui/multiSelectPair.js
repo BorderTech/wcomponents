@@ -12,10 +12,8 @@ define(["wc/dom/attribute",
 		"wc/ui/selectboxSearch",
 		"wc/ui/modalShim",
 		"wc/ui/fieldset"],
-	function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, tag, Widget, ajaxRegion, processResponse, selectboxSearch, modal) {
+	function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, tag, Widget, ajaxRegion, processResponse, selectboxSearch, modal, fieldset) {
 		"use strict";
-
-		// Note `wc/ui/fieldset` is implicitly required to handle various aspects of managing the wrapper element.
 
 		/**
 		 * @constructor
@@ -23,7 +21,7 @@ define(["wc/dom/attribute",
 		 * @private
 		 */
 		function MultiSelectPair() {
-			var CONTAINER = new Widget("fieldset", "wc-multiselectpair"),
+			var CONTAINER = fieldset.getWidget(true).extend("wc-multiselectpair"),
 				SELECT = new Widget("select"),
 				CONTAINER_INITIALISED_KEY = "multiSelectPair.inited",
 				LIST_TYPE_AVAILABLE = 0,
@@ -616,6 +614,7 @@ define(["wc/dom/attribute",
 		 * @requires module:wc/ui/ajaxRegion
 		 * @requires module:wc/ui/ajax/processResponse
 		 * @requires module:wc/ui/selectboxSearch
+		 * @requires module:wc/ui/fieldset
 		 */
 		var instance = new MultiSelectPair();
 		initialise.register(instance);

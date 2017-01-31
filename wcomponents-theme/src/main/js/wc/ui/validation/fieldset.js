@@ -1,26 +1,12 @@
-/**
- * Provides functionality to undertake client validation for WFieldSet.
- *
- * @module wc/ui/validation/fieldset
- * @requires module:wc/i18n/i18n
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/Widget
- * @requires module:wc/ui/getFirstLabelForElement
- * @requires module:wc/ui/validation/isComplete
- * @requires module:wc/ui/validation/validationManager
- * @requires module:wc/ui/validation/required
- */
 define(["wc/i18n/i18n",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/dom/Widget",
-		"wc/ui/getFirstLabelForElement",
-		"wc/ui/validation/isComplete",
-		"wc/ui/validation/validationManager",
-		"wc/ui/validation/required"],
-	/** @param i18n wc/i18n/i18n @param initialise wc/dom/initialise @param shed wc/dom/shed @param Widget wc/dom/Widget @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param isComplete wc/ui/validation/isComplete @param validationManager wc/ui/validation/validationManager @param required wc/ui/validation/required @ignore */
-	function(i18n, initialise, shed, Widget, getFirstLabelForElement, isComplete, validationManager, required) {
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/ui/getFirstLabelForElement",
+	"wc/ui/validation/isComplete",
+	"wc/ui/validation/validationManager",
+	"wc/ui/validation/required",
+	"wc/ui/fieldset"],
+	function(i18n, initialise, shed, getFirstLabelForElement, isComplete, validationManager, required, fieldset) {
 		"use strict";
 		/**
 		 * @constructor
@@ -28,7 +14,7 @@ define(["wc/i18n/i18n",
 		 * @private
 		 */
 		function ValidationFieldset() {
-			var FIELDSET = new Widget("fieldset"),
+			var FIELDSET = fieldset.getWidget(),
 				INVALID;
 
 			/**
@@ -148,7 +134,20 @@ define(["wc/i18n/i18n",
 				shed.subscribe(shed.actions.HIDE, validationShedSubscriber);
 			};
 		}
-		var /** @alias module:wc/ui/validation/fieldset */ instance = new ValidationFieldset();
+		/**
+		 * Provides functionality to undertake client validation for WFieldSet.
+		 *
+		 * @module
+		 * @requires module:wc/i18n/i18n
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/ui/getFirstLabelForElement
+		 * @requires module:wc/ui/validation/isComplete
+		 * @requires module:wc/ui/validation/validationManager
+		 * @requires module:wc/ui/validation/required
+		 * @requires module:wc/ui/fieldset
+		 */
+		var instance = new ValidationFieldset();
 		initialise.register(instance);
 		return instance;
 	});
