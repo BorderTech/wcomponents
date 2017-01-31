@@ -4,106 +4,10 @@
  *
  * @module
  * @requires module:wc/dom/getStyle
- * @requires module:wc/dom/cancelUpdate
  */
-define(["wc/dom/getStyle", "wc/dom/cancelUpdate"],
-	function(getStyle, cancelUpdate) {
+define([],
+	function() {
 		"use strict";
-		var /**
-			 * @constant {String} OLD_HEIGHT The name of the attribute used to hold the pre-ajax height of a target
-			 * container if it was specified in a style attribute. Used to reset the height of the container to its
-			 * initial (fixed) height after it stops being busy.
-			 * @private
-			 */
-			OLD_HEIGHT = "data-wc-height",
-			/**
-			 * @constant {String} OLD_WIDTH The name of the attribute used to hold the pre-ajax width of a target
-			 * container if it was specified in a style attribute. Used to reset the width of the container to its
-			 * initial (fixed) width after it stops being busy.
-			 * @private
-			 */
-			OLD_WIDTH = "data-wc-width",
-			/**
-			 * @constant {String} UPDATE_SIZE The attribute name used to indicate that the busy region has had its
-			 * pre-update size calculated and set so that a region which has its contents removed does not collapse.
-			 * @private
-			 */
-			UPDATE_SIZE = "data-wc-size";
-
-		/**
-		 * Removes the custom size set when making an ajax region busy.
-		 *
-		 * @function
-		 * @private
-		 * @param {Element} element The element being made no longer busy.
-		 */
-		function clearCustomSize(element) {
-			var size;
-			if (element.getAttribute(UPDATE_SIZE)) {
-				element.removeAttribute(UPDATE_SIZE);
-				if ((size = element.getAttribute(OLD_WIDTH))) {
-					element.style.width = size;
-				}
-				else if (element.style.width) {
-					element.style.width = "";
-				}
-				if ((size = element.getAttribute(OLD_HEIGHT))) {
-					element.style.height = size;
-				}
-				else if (element.style.height) {
-					element.style.height = "";
-				}
-			}
-			element.removeAttribute("aria-busy");
-		}
-
-		/**
-		 * Removes the content of a busy element. Before doing this the element will have a fixed size set.
-		 *
-		 * @function removeContent
-		 * @private
-		 * @param {Element} element The element being made busy.
-		 */
-		function removeContent(element) {
-			var child;
-			if (setLoading.fixSize(element)) {
-				while ((child = element.firstChild)) {
-					cancelUpdate.removeElements(child);
-					element.removeChild(child);
-				}
-			}
-		}
-
-		setLoading.clearSize = clearCustomSize;
-
-		setLoading.fixSize = function(element) {
-			var result = false, width, height, oldWidth, oldHeight;
-
-			if (!element.getAttribute(UPDATE_SIZE)) {  // already targeted (ie: a conflict) therefore nothing to do
-				width = getStyle(element, "width", true, true);
-				height = getStyle(element, "height", true, true);
-				if (width && height) {  // no point playing with custom sizes if the target has no size
-					result = true;
-					element.setAttribute(UPDATE_SIZE, "x");
-					oldWidth = element.style.width;
-
-					if (oldWidth) {
-						element.setAttribute(OLD_WIDTH, oldWidth);
-					}
-					else {
-						element.style.width = width;
-					}
-					oldHeight = element.style.height;
-					if (oldHeight) {
-						element.setAttribute(OLD_HEIGHT, oldHeight);
-					}
-					else {
-						element.style.height = height;
-					}
-				}
-			}
-			return result;
-		};
 
 		/**
 		 * Call when a trigger has been fired to set the busy state of the elements it targets. Call when a response is
@@ -148,7 +52,7 @@ define(["wc/dom/getStyle", "wc/dom/cancelUpdate"],
 							 */
 							if (element && element.hasAttribute("aria-busy")) {  // die ie7, die!
 								if (conflicts.length < 1) {
-									clearCustomSize(element);
+									element.removeAttribute("aria-busy");
 								}
 							}
 							else if (conflicts.length > 0) {
@@ -163,7 +67,6 @@ define(["wc/dom/getStyle", "wc/dom/cancelUpdate"],
 						}
 						else if (element) {
 							element.setAttribute("aria-busy", true);
-							removeContent(element);
 						}
 					}
 					catch (ex) {
