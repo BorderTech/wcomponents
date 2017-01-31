@@ -17,10 +17,7 @@ define(["wc/dom/classList",
 		 * @private
 		 */
 		function Label() {
-			var LABEL = new Widget("label"),
-				LEGEND,
-				FAUX,
-				TAGS = [tag.INPUT, tag.TEXTAREA, tag.SELECT, tag.FIELDSET],
+			var TAGS = [tag.INPUT, tag.TEXTAREA, tag.SELECT, tag.FIELDSET],
 				MANDATORY_SPAN = new Widget("span", "wc-off"),
 				CLASS_HINT = "wc-label-hint",
 				MOVE_WIDGETS = [new Widget("", "wc-checkbox"), new Widget("", "wc-radiobutton"), new Widget("button", "wc-selecttoggle")],
@@ -42,10 +39,10 @@ define(["wc/dom/classList",
 				mandatorySpan = MANDATORY_SPAN.findDescendant(label);
 				if (func === "add") {
 					if (!mandatorySpan) {
-						mandatorySpan = document.createElement(MANDATORY_SPAN.tagName);
-						mandatorySpan.className = MANDATORY_SPAN.className;
-						mandatorySpan.innerHTML = i18n.get("requiredPlaceholder");
-						label.appendChild(mandatorySpan);
+						mandatorySpan = tag.toTag(MANDATORY_SPAN.tagName, false, "class='" + MANDATORY_SPAN.className + "'");
+						mandatorySpan += i18n.get("requiredPlaceholder");
+						mandatorySpan += tag.toTag(MANDATORY_SPAN.tagName, true);
+						label.insertAdjacentHTML("beforeend", mandatorySpan);
 					}
 				}
 				else if (mandatorySpan) {
@@ -106,45 +103,6 @@ define(["wc/dom/classList",
 			}
 
 			/**
-			 * This is the function which does the heavy lifting of converting a label into and out of its read-only
-			 * analogue state when a labelled element is converted. An element may have more than one label (though this
-			 * is not a good thing) and this function is a forEach iterator function manipulating a single specific
-			 * labelling element. This function is called only if the labelled element (element) has converted between
-			 * its active and read-only states.
-			 * @function
-			 * @private
-			 * @param {Element} element The DOM element which is being converted to/from its read-only state via AJAX.
-			 * @param {Element} label a label (or read-only analogue) for element
-			 * @param {boolean} [isRO] indicates the element is readOnly, already calculated in the caller so pass it thru.
-			 */
-			function convertLabel(element, label, isRO) {
-				var newLabellingElement,
-					parent = label.parentNode,
-					input;
-				if (isRO) {
-					newLabellingElement = document.createElement("span");
-					newLabellingElement.setAttribute("data-wc-rofor", element.id);
-				}
-				else {
-					newLabellingElement = document.createElement("label");
-					if ((input = wrappedInput.getInput(element))) { // should always be found
-						newLabellingElement.setAttribute("for", input.id);
-					}
-				}
-				newLabellingElement.className = label.className;
-				newLabellingElement.innerHTML = label.innerHTML;
-				input = input || element;
-				mandateLabel(newLabellingElement, (!isRO && shed.isMandatory(input) ? "add" : "remove"));
-				if (shed.isHidden(element, true)) {
-					shed.hide(newLabellingElement, true); // nothing depends on the hidden state of a label and we are replicating a load-time state.
-				}
-				newLabellingElement.id = label.id;
-				label.id = "";
-				parent.insertBefore(newLabellingElement, label);
-				parent.removeChild(label);
-			}
-
-			/**
 			 * AJAX subscriber to convert labels from a HTML label element to its read-only analogue and vice-versa when
 			 * a labelled element is replaced via AJAX.
 			 *
@@ -157,29 +115,6 @@ define(["wc/dom/classList",
 					return;
 				}
 				moveLabels(element);
-
-				Array.prototype.forEach.call(wrappedInput.get(element, true), function (next) {
-					var isRO = wrappedInput.isReadOnly(next);
-					getLabelsForElement(next, true).forEach(function (label) {
-						var isLabel = label.tagName === tag.LABEL,
-							input;
-						// if the new element is readOnly and the old one
-						if (isRO && isLabel || !(isRO || isLabel)) {
-							convertLabel(next, label, isRO);
-							return;
-						}
-						// only have to do this if we are not converting the labels.
-						if ((input = wrappedInput.getInput(next))) {
-							mandateLabel(label, !isRO && shed.isMandatory(input) ? "add" : "remove");
-						}
-						if (shed.isHidden(next, true)) {
-							shed.hide(label, true);
-						}
-						else {
-							shed.show(next);
-						}
-					});
-				});
 			}
 
 			/**
@@ -195,20 +130,6 @@ define(["wc/dom/classList",
 				shed.subscribe(shed.actions.SHOW, shedHideSubscriber);
 				shed.subscribe(shed.actions.HIDE, shedHideSubscriber);
 				processResponse.subscribe(ajaxSubscriber, true);
-			};
-
-			/**
-			 * Used to indicate if a given element is a labelling element of some kind.
-			 * @function  module:wc/ui/label.isOneOfMe
-			 * @public
-			 * @param {Element} el The element being tested.
-			 * @returns {Boolean} Returns true if the element is a labelling element, including faux-label stand-ins.
-			 * @todo The label surrogate widget should come from {@link module:wc/ui/internalLink}.
-			 */
-			this.isOneOfMe = function (el) {
-				LEGEND = LEGEND || new Widget("legend");
-				FAUX = FAUX || new Widget("", "", {"data-wc-for": null});
-				return Widget.isOneOfMe(el, [LABEL, LEGEND, FAUX]);
 			};
 
 			/**
@@ -249,13 +170,17 @@ define(["wc/dom/classList",
 					}
 				}
 				else if (content) {
-					hint = document.createElement("span");
-					hint.className = CLASS_HINT;
-					hint.innerHTML = content;
-					label.appendChild(hint);
+					hint = tag.toTag(tag.SPAN, false, "class='" + CLASS_HINT + "'") + content + tag.toTag(tag.SPAN, true);
+					label.insertAdjacentHTML("beforeend", hint);
 				}
 			};
 
+			/**
+			 * Move an individual element's label if required.
+			 * @function
+			 * @private
+			 * @param {Element} el a radio button, checkbox or selectToggle-button
+			 */
 			function moveLabel(el) {
 				var labels = getLabelsForElement(el, true),
 					label, wrapper, parent, sibling;
@@ -275,6 +200,13 @@ define(["wc/dom/classList",
 				}
 			}
 
+			/**
+			 * Move labels to their correct position.
+			 * TODO: This _should_ be done in the Java Renderers.
+			 * @function
+			 * @private
+			 * @param {Element} [element] a container element
+			 */
 			function moveLabels(element) {
 				var el = element || document.body;
 				if (element && Widget.isOneOfMe(element, MOVE_WIDGETS)) {
