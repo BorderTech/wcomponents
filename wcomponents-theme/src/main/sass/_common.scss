@@ -264,6 +264,10 @@ $wc-ui-dialog-transition-duration: 0.5s !default;
 //**********************************************************************************************************************
 // WFieldLayout
 //**********************************************************************************************************************
+// Allow output of CSS to support `ordered` WFieldLayouts. This is not recommended **AT ALL**. Set to 1 to use, any
+// other value to not build the CSS required to output the numbering.
+$wc-fieldlayout-allow-ordered: 1 !default;
+
 // Force all WFieldLayouts to be LAYOUT_STACKED. This will annoy many people but will improve accessibilty **and** save
 // a lot of CSS.
 //
@@ -288,13 +292,13 @@ $wc-fieldlayout-default-label-width: 50% !default;
 // will be honoured, saving a LOT of CSS. This is the same as having an empty list in `$wc-fld-list`.
 $wc-fieldlayout-labelwidth-prevent-override: 0 !default;
 
-// This allows a theme to turn off indent of WFieldLayout Layout_STACKED with labelWidth set. The indent was originally
-// intended to make it possible to intersperse FLAT and STACKED WFieldLayouts to allow for unneccessarily long label
-// text but keep the INPUT controls lined up.
-// If you want to keep this for backwards compatibility set this to anything other than 0.
-// If `$wc-fieldlayout-force-stack` is set to anything other than 0 then this is ignored and labelWidth is always
-// ignored.
-$wc-fieldlayout-stack-allow-indent: 0 !default;
+// This allows a theme to support indent of WFieldLayout Layout_STACKED with labelWidth set. A value of 1 is required to
+// support the old behaviour (which was to support indent). If `$wc-fieldlayout-force-stack` is set to anything other
+// than 0 then this is ignored and labelWidth is always ignored.
+//
+// NOTE: The indent was originally intended to make it possible to intersperse FLAT and STACKED WFieldLayouts to allow
+//for unneccessarily long label text but keep the INPUT controls lined up.
+$wc-fieldlayout-stack-allow-indent: 1 !default;
 
 // This defines a list of labelWidth settings to honour.
 // * If this variable consists of the single value -1 then all label widths from 1% to 100% will be used at the cost of
@@ -309,7 +313,7 @@ $wc-fld-list: 16, 33, 34, 66, 67, 83 !default;
 $wc-fld-widths-include-fives: 1 !default;
 // NOTE: This is the same as
 // $wc-fld-list: 5, 10, 15, 16, 20, 25, 30, 33, 34, 35, ... 65, 66, 67, 70, 75, 80, 83, 85 ... 95, 100 but much shorter!
-
+//
 // If you use the following version you get all multiple of 5% only
 // $wc-fld-list: 0;
 // $wc-fld-widths-include-fives: 1;

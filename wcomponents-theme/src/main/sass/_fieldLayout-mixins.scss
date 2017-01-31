@@ -24,7 +24,7 @@ $wc-input-width-slug: wc_fld_inpw; // DO NOT CHANGE
 			}
 		}
 
-		@if ($wc-fieldlayout-stack-allow-indent != 0) {
+		@if ($wc-fieldlayout-stack-allow-indent == 1) {
 			&.wc-layout-stacked > .wc-field > .wc-input {
 				margin-left: $lw;
 				max-width: $iw;

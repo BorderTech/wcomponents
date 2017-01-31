@@ -9,39 +9,41 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 	margin-top: $wc-gap-normal;
 }
 
-.wc_ordered {
-	&,
-	.wc-fieldlayout {
-		counter-reset: wcfld;
-	}
-
-	> .wc-field {
-		counter-increment: wcfld;
-
-		> :first-child::before {
-			content: counter(wcfld) '. ';
-			margin-right: $wc-gap-small;
-
-			.wc_ordered & {
-				content: counters(wcfld, '.') ' ';
-			}
+@if ($wc-fieldlayout-allow-ordered == 1) {
+	.wc_ordered {
+		&,
+		.wc-fieldlayout {
+			counter-reset: wcfld;
 		}
-	}
 
-	&.wc-layout-stacked > .wc-field {
-		&::before {
-			content: counter(wcfld) '. ';
-			margin-right: $wc-gap-small;
+		> .wc-field {
+			counter-increment: wcfld;
 
-			.wc_ordered & {
-				content: counters(wcfld, '.') ' ';
+			> :first-child::before {
+				content: counter(wcfld) '. ';
+				margin-right: $wc-gap-small;
+
+				.wc_ordered & {
+					content: counters(wcfld, '.') ' ';
+				}
 			}
 		}
 
-		> :first-child::before {
-			content: '';
-			display: none;
-			margin-right: 0;
+		&.wc-layout-stacked > .wc-field {
+			&::before {
+				content: counter(wcfld) '. ';
+				margin-right: $wc-gap-small;
+
+				.wc_ordered & {
+					content: counters(wcfld, '.') ' ';
+				}
+			}
+
+			> :first-child::before {
+				content: '';
+				display: none;
+				margin-right: 0;
+			}
 		}
 	}
 }
