@@ -79,7 +79,7 @@ The XML schema for a WComponent page.
 			<xs:element ref="ui:version" />
 			<xs:element ref="ui:video" />
 			<!-- Allow any XHTML elements such as script and style tags, and some basic formatting. -->
-			<xs:any namespace="http://www.w3.org/1999/xhtml" processContents="skip" />
+			<xs:any namespace="##other" processContents="skip" />
 		</xs:choice>
 	</xs:group>
 
