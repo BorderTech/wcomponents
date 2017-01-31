@@ -339,7 +339,7 @@ define(["wc/dom/classList",
 				}
 
 				if (fieldset && isNowInvalid !== initiallyInvalid) {  // if the current component's validity has changed
-					fieldset.revalidateFieldset(element);
+					fieldset.revalidate(element);
 				}
 			};
 

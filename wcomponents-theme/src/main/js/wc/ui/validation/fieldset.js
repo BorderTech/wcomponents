@@ -94,10 +94,10 @@ define(["wc/i18n/i18n",
 			 *
 			 * If something changes inside an invalid fieldset we also need to revalidate the fieldset.
 			 *
-			 * @function module:wc/ui/validation/fieldset.revalidateFieldset
+			 * @function module:wc/ui/validation/fieldset.revalidate
 			 * @param {Element} element A control which may be inside an invalid fieldset.
 			 */
-			this.revalidateFieldset = function(element) {
+			this.revalidate = function(element) {
 				var container, result = true, initiallyInvalid;
 
 				INVALID = INVALID || FIELDSET.extend("wc_req", {"aria-invalid": "true"});
@@ -129,7 +129,7 @@ define(["wc/i18n/i18n",
 			function validationShedSubscriber(element) {
 				var fieldset;
 				if (element && (fieldset = FIELDSET.findAncestor(element))) {
-					instance.revalidateFieldset(fieldset);
+					instance.revalidate(fieldset);
 				}
 			}
 
