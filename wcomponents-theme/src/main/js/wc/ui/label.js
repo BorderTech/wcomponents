@@ -103,6 +103,45 @@ define(["wc/dom/classList",
 			}
 
 			/**
+			 * This is the function which does the heavy lifting of converting a label into and out of its read-only
+			 * analogue state when a labelled element is converted. An element may have more than one label (though this
+			 * is not a good thing) and this function is a forEach iterator function manipulating a single specific
+			 * labelling element. This function is called only if the labelled element (element) has converted between
+			 * its active and read-only states.
+			 * @function
+			 * @private
+			 * @param {Element} element The DOM element which is being converted to/from its read-only state via AJAX.
+			 * @param {Element} label a label (or read-only analogue) for element
+			 * @param {boolean} [isRO] indicates the element is readOnly, already calculated in the caller so pass it thru.
+			 */
+			function convertLabel(element, label, isRO) {
+				var newLabellingElement,
+					parent = label.parentNode,
+					input;
+				if (isRO) {
+					newLabellingElement = document.createElement("span");
+					newLabellingElement.setAttribute("data-wc-rofor", element.id);
+				}
+				else {
+					newLabellingElement = document.createElement("label");
+					if ((input = wrappedInput.getInput(element))) { // should always be found
+						newLabellingElement.setAttribute("for", input.id);
+					}
+				}
+				newLabellingElement.className = label.className;
+				newLabellingElement.innerHTML = label.innerHTML;
+				input = input || element;
+				mandateLabel(newLabellingElement, (!isRO && shed.isMandatory(input) ? "add" : "remove"));
+				if (shed.isHidden(element, true)) {
+					shed.hide(newLabellingElement, true); // nothing depends on the hidden state of a label and we are replicating a load-time state.
+				}
+				newLabellingElement.id = label.id;
+				label.id = "";
+				parent.insertBefore(newLabellingElement, label);
+				parent.removeChild(label);
+			}
+
+			/**
 			 * AJAX subscriber to convert labels from a HTML label element to its read-only analogue and vice-versa when
 			 * a labelled element is replaced via AJAX.
 			 *
@@ -115,6 +154,29 @@ define(["wc/dom/classList",
 					return;
 				}
 				moveLabels(element);
+
+				Array.prototype.forEach.call(wrappedInput.get(element, true), function (next) {
+					var isRO = wrappedInput.isReadOnly(next);
+					getLabelsForElement(next, true).forEach(function (label) {
+						var isLabel = label.tagName === tag.LABEL,
+							input;
+						// if the new element is readOnly and the old one
+						if (isRO && isLabel || !(isRO || isLabel)) {
+							convertLabel(next, label, isRO);
+							return;
+						}
+						// only have to do this if we are not converting the labels.
+						if ((input = wrappedInput.getInput(next))) {
+							mandateLabel(label, !isRO && shed.isMandatory(input) ? "add" : "remove");
+						}
+						if (shed.isHidden(next, true)) {
+							shed.hide(label, true);
+						}
+						else {
+							shed.show(next);
+						}
+					});
+				});
 			}
 
 			/**
