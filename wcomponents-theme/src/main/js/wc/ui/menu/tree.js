@@ -307,8 +307,7 @@ define(["wc/ui/menu/core",
 			 * @override
 			 */
 			this._setUpWidgets = function() {
-				var opener = new Widget("button", "", { "aria-controls": null });
-
+				var opener = new Widget("", "", { "aria-controls": null });
 				LEAF_WD = LEAF_WD || new Widget("", "", { "role": "treeitem" });
 				this._wd.submenu = new Widget("", "", { "role": "group" });
 				this._wd.branch = LEAF_WD.extend("", { "aria-expanded": null });
@@ -529,7 +528,7 @@ define(["wc/ui/menu/core",
 				}
 
 				if (action === shed.actions.SELECT || action === shed.actions.DESELECT) {
-					if (root.getAttribute("data-wc-mode")) {
+					if (ajaxRegion.getTrigger(root, true)) {
 						if (ajaxTimer) {
 							timers.clearTimeout(ajaxTimer);
 							ajaxTimer = null;

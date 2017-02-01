@@ -35,13 +35,9 @@
 				<xsl:apply-templates select="ui:treeitem">
 					<xsl:with-param name="disabled" select="@disabled"/>
 				</xsl:apply-templates>
-				<span class="wc_branch_resizer" aria-hidden="true">
-					<button type="button" class="wc-nobutton wc_btn_icon wc-invite wc_resize wc_branch_resize_handle wc-icon" data-wc-resize="{$groupId}" role="presentation">
-						<xsl:call-template name="offscreenSpan">
-							<xsl:with-param name="text" select="'resize handle'"></xsl:with-param>
-						</xsl:call-template>
-					</button>
-				</span>
+				<xsl:call-template name="resizerbar">
+					<xsl:with-param name="groupId" select="$groupId"/>
+				</xsl:call-template>
 			</div>
 		</div>
 	</xsl:template>
@@ -156,13 +152,9 @@
 								</xsl:choose>
 							</xsl:with-param>
 						</xsl:apply-templates>
-						<span class="wc_branch_resizer" aria-hidden="true">
-							<button type="button" class="wc-nobutton wc_btn_icon wc-invite wc_resize wc_branch_resize_handle wc-icon" data-wc-resize="{$groupId}" role="presentation">
-								<xsl:call-template name="offscreenSpan">
-									<xsl:with-param name="text" select="'resize handle'"></xsl:with-param>
-								</xsl:call-template>
-							</button>
-						</span>
+						<xsl:call-template name="resizerbar">
+							<xsl:with-param name="groupId" select="$groupId"/>
+						</xsl:call-template>
 					</div>
 				</xsl:otherwise>
 			</xsl:choose>
@@ -186,6 +178,17 @@
 		</span>
 		<span class="wc_leaf_hopener wc-icon" aria-hidden="true">
 			<xsl:text>&#x0a;</xsl:text>
+		</span>
+	</xsl:template>
+	
+	<xsl:template name="resizerbar">
+		<xsl:param name="groupId"/>
+		<span class="wc_branch_resizer" aria-hidden="true">
+			<button type="button" class="wc-nobutton wc-invite wc_resize wc_branch_resize_handle wc-icon" data-wc-resize="{$groupId}">
+				<xsl:call-template name="offscreenSpan">
+					<xsl:with-param name="text" select="'resize handle'"/>
+				</xsl:call-template>
+			</button>
 		</span>
 	</xsl:template>
 </xsl:stylesheet>
