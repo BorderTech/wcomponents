@@ -32,7 +32,7 @@ public class FlowLayout_Test {
 	public void testDefaultConstructor() {
 		FlowLayout flow = new FlowLayout();
 		Assert.assertEquals("Default alignment should be CENTER", FlowLayout.Alignment.CENTER, flow.getAlignment());
-		Assert.assertNull("Default gap should be null", flow.getGap());
+		Assert.assertNull("Default gap should be null", flow.getSpace());
 		Assert.assertNull("Default content alignment should be null", flow.getContentAlignment());
 	}
 
@@ -75,7 +75,7 @@ public class FlowLayout_Test {
 		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
 			flow = new FlowLayout(a, GAP);
 			Assert.assertEquals("Incorrect alignment", a, flow.getAlignment());
-			Assert.assertEquals("Incorrect gap", GAP, flow.getGap());
+			Assert.assertEquals("Incorrect gap", GAP, flow.getSpace());
 		}
 	}
 
@@ -86,7 +86,7 @@ public class FlowLayout_Test {
 			for (FlowLayout.ContentAlignment c : FlowLayout.ContentAlignment.values()) {
 				flow = new FlowLayout(a, GAP, c);
 				Assert.assertEquals("Incorrect alignment", a, flow.getAlignment());
-				Assert.assertEquals("Incorrect gap", GAP, flow.getGap());
+				Assert.assertEquals("Incorrect gap", GAP, flow.getSpace());
 				if (FlowLayout.Alignment.VERTICAL.equals(a)) {
 					Assert.assertNull(flow.getContentAlignment());
 				} else {
@@ -105,7 +105,7 @@ public class FlowLayout_Test {
 			isVertical = FlowLayout.Alignment.VERTICAL.equals(a);
 			flow = new FlowLayout(a, GapSizeUtil.sizeToInt(GAP), GapSizeUtil.sizeToInt(BIG_GAP));
 			Assert.assertEquals("Incorrect alignment", a, flow.getAlignment());
-			Assert.assertEquals("Incorrect horizontal gap", isVertical ? BIG_GAP : GAP, flow.getGap());
+			Assert.assertEquals("Incorrect horizontal gap", isVertical ? BIG_GAP : GAP, flow.getSpace());
 		}
 	}
 
@@ -118,7 +118,7 @@ public class FlowLayout_Test {
 			for (FlowLayout.ContentAlignment c : FlowLayout.ContentAlignment.values()) {
 				flow = new FlowLayout(a, GapSizeUtil.sizeToInt(GAP), GapSizeUtil.sizeToInt(BIG_GAP), c);
 				Assert.assertEquals("Incorrect alignment", a, flow.getAlignment());
-				Assert.assertEquals("Incorrect gap", isVertical ? BIG_GAP : GAP, flow.getGap());
+				Assert.assertEquals("Incorrect gap", isVertical ? BIG_GAP : GAP, flow.getSpace());
 
 				if (isVertical) {
 					Assert.assertNull(flow.getContentAlignment());

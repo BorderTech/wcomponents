@@ -197,8 +197,16 @@ public class WList extends WRepeater implements Marginable {
 	/**
 	 * @return the gap between items in the List.
 	 */
-	public GapSizeUtil.Size getGap() {
+	public GapSizeUtil.Size getSpace() {
 		return gap;
+	}
+
+	/**
+	 * @return the space between the components added to the layout.
+	 */
+	@Deprecated
+	public int getGap() {
+		return GapSizeUtil.sizeToInt(gap);
 	}
 
 	/**

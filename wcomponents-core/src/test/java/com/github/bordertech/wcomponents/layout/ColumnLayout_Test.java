@@ -36,8 +36,8 @@ public class ColumnLayout_Test {
 					ColumnLayout.Alignment.LEFT, layout.getColumnAlignment(i));
 		}
 
-		Assert.assertNull("Incorrect default HGAP", layout.getHgap());
-		Assert.assertNull("Incorrect default VGAP", layout.getVgap());
+		Assert.assertNull("Incorrect default HGAP", layout.getHorizontalGap());
+		Assert.assertNull("Incorrect default VGAP", layout.getVerticalGap());
 	}
 
 	@Test
@@ -53,8 +53,8 @@ public class ColumnLayout_Test {
 				getColumnAlignment(0));
 		Assert.assertEquals("Incorrect column 2 alignment", ColumnLayout.Alignment.RIGHT, layout.
 				getColumnAlignment(1));
-		Assert.assertNull("Incorrect default HGAP", layout.getHgap());
-		Assert.assertNull("Incorrect default VGAP", layout.getVgap());
+		Assert.assertNull("Incorrect default HGAP", layout.getHorizontalGap());
+		Assert.assertNull("Incorrect default VGAP", layout.getVerticalGap());
 	}
 
 	@Test
@@ -67,8 +67,8 @@ public class ColumnLayout_Test {
 		Assert.assertEquals("Incorrect column width", 100, layout.getColumnWidth(0));
 		Assert.assertEquals("Incorrect column alignment", ColumnLayout.Alignment.RIGHT, layout.
 				getColumnAlignment(0));
-		Assert.assertEquals("Incorrect HGAP", GAP, layout.getHgap());
-		Assert.assertEquals("Incorrect VGAP", BIG_GAP, layout.getVgap());
+		Assert.assertEquals("Incorrect HGAP", GAP, layout.getHorizontalGap());
+		Assert.assertEquals("Incorrect VGAP", BIG_GAP, layout.getVerticalGap());
 	}
 
 	@Test
@@ -81,8 +81,8 @@ public class ColumnLayout_Test {
 		Assert.assertEquals("Incorrect column width", 100, layout.getColumnWidth(0));
 		Assert.assertEquals("Incorrect column alignment", ColumnLayout.Alignment.RIGHT, layout.
 				getColumnAlignment(0));
-		Assert.assertEquals("Incorrect HGAP", GAP, layout.getHgap());
-		Assert.assertEquals("Incorrect VGAP", BIG_GAP, layout.getVgap());
+		Assert.assertEquals("Incorrect HGAP", GAP, layout.getHorizontalGap());
+		Assert.assertEquals("Incorrect VGAP", BIG_GAP, layout.getVerticalGap());
 	}
 
 	@Test(expected = IllegalArgumentException.class)

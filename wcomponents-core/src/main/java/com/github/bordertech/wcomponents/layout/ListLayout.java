@@ -219,7 +219,7 @@ public class ListLayout implements LayoutManager {
 	}
 
 	/**
-	 * @return the horizontal gap between the list items, measured in pixels.
+	 * @return the horizontal gap between the list items measured in pixels.
 	 * @deprecated use {@link #getGap()}
 	 */
 	@Deprecated
@@ -231,7 +231,7 @@ public class ListLayout implements LayoutManager {
 	}
 
 	/**
-	 * @return the vertical gap between the list items, measured in pixels.
+	 * @return the vertical gap between the list items measured in pixels.
 	 * @deprecated use {@link #getGap()}
 	 */
 	@Deprecated
@@ -243,9 +243,17 @@ public class ListLayout implements LayoutManager {
 	}
 
 	/**
-	 * @return the space between the components added to the layout.
+	 * @return the space between the components added to the layout
 	 */
-	public GapSizeUtil.Size getGap() {
+	public GapSizeUtil.Size getSpace() {
 		return gap;
+	}
+
+	/**
+	 * @return the space between the components added to the layout
+	 */
+	@Deprecated
+	public int getGap() {
+		return GapSizeUtil.sizeToInt(gap);
 	}
 }

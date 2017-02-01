@@ -26,8 +26,8 @@ public class GridLayout_Test {
 		GridLayout grid = new GridLayout(3, 5);
 		Assert.assertEquals("Incorrect rows", 3, grid.getRows());
 		Assert.assertEquals("Incorrect cols", 5, grid.getCols());
-		Assert.assertNull("Incorrect hgap", grid.getHgap());
-		Assert.assertNull("Incorrect vgap", grid.getVgap());
+		Assert.assertNull("Incorrect hgap", grid.getHorizontalGap());
+		Assert.assertNull("Incorrect vgap", grid.getVerticalGap());
 	}
 
 	@Test
@@ -35,8 +35,8 @@ public class GridLayout_Test {
 		GridLayout grid = new GridLayout(0, 3, GAP, BIG_GAP);
 		Assert.assertEquals("Incorrect rows", 0, grid.getRows()); // unspecified rows, 5 cols
 		Assert.assertEquals("Incorrect cols", 3, grid.getCols());
-		Assert.assertEquals("Incorrect hgap", GAP, grid.getHgap());
-		Assert.assertEquals("Incorrect vgap", BIG_GAP, grid.getVgap());
+		Assert.assertEquals("Incorrect hgap", GAP, grid.getHorizontalGap());
+		Assert.assertEquals("Incorrect vgap", BIG_GAP, grid.getVerticalGap());
 	}
 
 	@Test
@@ -44,8 +44,8 @@ public class GridLayout_Test {
 		GridLayout grid = new GridLayout(0, 3, GapSizeUtil.sizeToInt(GAP), GapSizeUtil.sizeToInt(BIG_GAP));
 		Assert.assertEquals("Incorrect rows", 0, grid.getRows()); // unspecified rows, 5 cols
 		Assert.assertEquals("Incorrect cols", 3, grid.getCols());
-		Assert.assertEquals("Incorrect hgap", GAP, grid.getHgap());
-		Assert.assertEquals("Incorrect vgap", BIG_GAP, grid.getVgap());
+		Assert.assertEquals("Incorrect hgap", GAP, grid.getHorizontalGap());
+		Assert.assertEquals("Incorrect vgap", BIG_GAP, grid.getVerticalGap());
 	}
 
 	@Test(expected = IllegalArgumentException.class)

@@ -28,9 +28,9 @@ final class GridLayoutRenderer extends AbstractWebXmlRenderer {
 		WPanel panel = (WPanel) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 		GridLayout layout = (GridLayout) panel.getLayout();
-		GapSizeUtil.Size hgap = layout.getHgap();
+		GapSizeUtil.Size hgap = layout.getHorizontalGap();
 		String hgapString = hgap == null ? null : hgap.toString();
-		GapSizeUtil.Size vgap = layout.getVgap();
+		GapSizeUtil.Size vgap = layout.getVerticalGap();
 		String vgapString = vgap == null ? null : vgap.toString();
 		int rows = layout.getRows();
 		int cols = layout.getCols();

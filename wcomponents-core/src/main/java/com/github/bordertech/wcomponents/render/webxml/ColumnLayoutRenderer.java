@@ -29,9 +29,9 @@ final class ColumnLayoutRenderer extends AbstractWebXmlRenderer {
 		XmlStringBuilder xml = renderContext.getWriter();
 		ColumnLayout layout = (ColumnLayout) panel.getLayout();
 		int childCount = panel.getChildCount();
-		GapSizeUtil.Size hgap = layout.getHgap();
+		GapSizeUtil.Size hgap = layout.getHorizontalGap();
 		String hgapString = hgap == null ? null : hgap.toString();
-		GapSizeUtil.Size vgap = layout.getVgap();
+		GapSizeUtil.Size vgap = layout.getVerticalGap();
 		String vgapString = vgap == null ? null : vgap.toString();
 		int cols = layout.getColumnCount();
 

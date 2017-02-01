@@ -30,7 +30,7 @@ public class ListLayout_Test {
 		Assert.assertEquals("Default type should be STACKED", ListLayout.Type.STACKED, list.getType());
 		Assert.assertEquals("Default alignment should be LEFT", ListLayout.Alignment.LEFT, list.getAlignment());
 		Assert.assertEquals("Default separator should be DOT", ListLayout.Separator.DOT, list.getSeparator());
-		Assert.assertNull("Default gap should be null", list.getGap());
+		Assert.assertNull("Default gap should be null", list.getSpace());
 		Assert.assertFalse("Default ordered should be false", list.isOrdered());
 	}
 
@@ -41,7 +41,7 @@ public class ListLayout_Test {
 			Assert.assertEquals("Incorrect type", t, list.getType());
 			Assert.assertEquals("Default alignment should be LEFT", ListLayout.Alignment.LEFT, list.getAlignment());
 		Assert.assertEquals("Default separator should be DOT", ListLayout.Separator.DOT, list.getSeparator());
-		Assert.assertNull("Default gap should be null", list.getGap());
+		Assert.assertNull("Default gap should be null", list.getSpace());
 			Assert.assertFalse("Default ordered should be false", list.isOrdered());
 		}
 	}
@@ -53,7 +53,7 @@ public class ListLayout_Test {
 		Assert.assertEquals("Default type should be STACKED", ListLayout.Type.STACKED, list.getType());
 		Assert.assertEquals("Default alignment should be LEFT", ListLayout.Alignment.LEFT, list.getAlignment());
 		Assert.assertEquals("Default separator should be DOT", ListLayout.Separator.DOT, list.getSeparator());
-		Assert.assertNull("Default gap should be null", list.getGap());
+		Assert.assertNull("Default gap should be null", list.getSpace());
 	}
 
 	@Test
@@ -100,13 +100,13 @@ public class ListLayout_Test {
 					Assert.assertEquals("Incorrect alignment", a, list.getAlignment());
 					Assert.assertEquals("Incorrect separator", s, list.getSeparator());
 					Assert.assertTrue("ordered should be true", list.isOrdered());
-					Assert.assertEquals("Incorrect gap", GAP, list.getGap());
+					Assert.assertEquals("Incorrect gap", GAP, list.getSpace());
 					list = new ListLayout(t, a, s, false, GAP);
 					Assert.assertEquals("Incorrect type", t, list.getType());
 					Assert.assertEquals("Incorrect alignment", a, list.getAlignment());
 					Assert.assertEquals("Incorrect separator", s, list.getSeparator());
 					Assert.assertFalse("ordered should be false", list.isOrdered());
-					Assert.assertEquals("Incorrect gap", GAP, list.getGap());
+					Assert.assertEquals("Incorrect gap", GAP, list.getSpace());
 				}
 			}
 		}
@@ -126,14 +126,14 @@ public class ListLayout_Test {
 					Assert.assertEquals("Incorrect alignment", a, list.getAlignment());
 					Assert.assertEquals("Incorrect separator", s, list.getSeparator());
 					Assert.assertTrue("ordered should be true", list.isOrdered());
-					Assert.assertEquals("Incorrect gap", isFlat ? GAP : BIG_GAP, list.getGap());
+					Assert.assertEquals("Incorrect gap", isFlat ? GAP : BIG_GAP, list.getSpace());
 
 					list = new ListLayout(t, a, s, false, GapSizeUtil.sizeToInt(GAP), GapSizeUtil.sizeToInt(BIG_GAP));
 					Assert.assertEquals("Incorrect type", t, list.getType());
 					Assert.assertEquals("Incorrect alignment", a, list.getAlignment());
 					Assert.assertEquals("Incorrect separator", s, list.getSeparator());
 					Assert.assertFalse("ordered should be false", list.isOrdered());
-					Assert.assertEquals("Incorrect gap", isFlat ? GAP : BIG_GAP, list.getGap());
+					Assert.assertEquals("Incorrect gap", isFlat ? GAP : BIG_GAP, list.getSpace());
 				}
 			}
 		}

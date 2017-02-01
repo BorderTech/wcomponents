@@ -94,17 +94,33 @@ public class GridLayout implements LayoutManager {
 	}
 
 	/**
-	 * @return Returns the horizontal gap between the cells, measured in pixels.
+	 * @return the horizontal gap between the cells
 	 */
-	public GapSizeUtil.Size getHgap() {
+	public GapSizeUtil.Size getHorizontalGap() {
 		return hgap;
 	}
 
 	/**
-	 * @return Returns the vertical gap between the cells, measured in pixels.
+	 * @return the vertical gap between the cells
 	 */
-	public  GapSizeUtil.Size getVgap() {
+	public GapSizeUtil.Size getVerticalGap() {
 		return vgap;
+	}
+
+	/**
+	 * @return the horizontal gap between the cells measured in pixels
+	 */
+	@Deprecated
+	public int getHgap() {
+		return GapSizeUtil.sizeToInt(hgap);
+	}
+
+	/**
+	 * @return the vertical gap between the cells measured in pixels
+	 */
+	@Deprecated
+	public int getVgap() {
+		return GapSizeUtil.sizeToInt(vgap);
 	}
 
 	/**

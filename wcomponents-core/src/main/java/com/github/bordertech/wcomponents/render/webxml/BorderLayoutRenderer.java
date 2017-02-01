@@ -32,9 +32,9 @@ final class BorderLayoutRenderer extends AbstractWebXmlRenderer {
 		WPanel panel = (WPanel) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 		BorderLayout layout = (BorderLayout) panel.getLayout();
-		GapSizeUtil.Size hgap = layout.getHgap();
+		GapSizeUtil.Size hgap = layout.getHorizontalGap();
 		String hgapString = hgap == null ? null : hgap.toString();
-		GapSizeUtil.Size vgap = layout.getVgap();
+		GapSizeUtil.Size vgap = layout.getVerticalGap();
 		String vgapString = vgap == null ? null : vgap.toString();
 
 		xml.appendTagOpen("ui:borderlayout");

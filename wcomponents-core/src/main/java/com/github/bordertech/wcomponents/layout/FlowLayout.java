@@ -244,10 +244,18 @@ public class FlowLayout implements LayoutManager {
 
 
 	/**
-	 * @return the gap between the components added to the FlowLayout.
+	 * @return the gap between the components added to the FlowLayout
 	 */
-	public GapSizeUtil.Size getGap() {
+	public GapSizeUtil.Size getSpace() {
 		return gap;
+	}
+
+	/**
+	 * @return the space between the components added to the layout
+	 */
+	@Deprecated
+	public int getGap() {
+		return GapSizeUtil.sizeToInt(gap);
 	}
 
 	/**

@@ -28,7 +28,7 @@ final class FlowLayoutRenderer extends AbstractWebXmlRenderer {
 		WPanel panel = (WPanel) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 		FlowLayout layout = (FlowLayout) panel.getLayout();
-		GapSizeUtil.Size gap = layout.getGap();
+		GapSizeUtil.Size gap = layout.getSpace();
 		String gapString = gap != null ? gap.toString() : null;
 		FlowLayout.Alignment align = layout.getAlignment();
 

@@ -23,7 +23,7 @@ public class WList_Test extends AbstractWComponentTestCase {
 		for (WList.Type t : WList.Type.values()) {
 			list = new WList(t);
 			Assert.assertEquals("Constructor - Incorrect type", t, list.getType());
-			Assert.assertNull("Constructor - Incorrect default gap", list.getGap());
+			Assert.assertNull("Constructor - Incorrect default gap", list.getSpace());
 		}
 	}
 
@@ -33,7 +33,7 @@ public class WList_Test extends AbstractWComponentTestCase {
 		for (WList.Type t : WList.Type.values()) {
 			list = new WList(t, GAP);
 			Assert.assertEquals("Constructor - Incorrect type", t, list.getType());
-			Assert.assertEquals("Constructor - Incorrect gap", GAP, list.getGap());
+			Assert.assertEquals("Constructor - Incorrect gap", GAP, list.getSpace());
 		}
 	}
 
@@ -43,7 +43,7 @@ public class WList_Test extends AbstractWComponentTestCase {
 		for (WList.Type t : WList.Type.values()) {
 			list = new WList(t, GapSizeUtil.sizeToInt(GAP));
 			Assert.assertEquals("Constructor - Incorrect type", t, list.getType());
-			Assert.assertEquals("Constructor - Incorrect gap", GAP, list.getGap());
+			Assert.assertEquals("Constructor - Incorrect gap", GAP, list.getSpace());
 		}
 	}
 
@@ -77,11 +77,11 @@ public class WList_Test extends AbstractWComponentTestCase {
 			Assert.assertEquals("Constructor - Incorrect type", t, list.getType());
 
 			if (t == WList.Type.FLAT) {
-				Assert.assertEquals("Constructor - Incorrect gap", GAP, list.getGap());
+				Assert.assertEquals("Constructor - Incorrect gap", GAP, list.getSpace());
 				Assert.assertEquals("Constructor - Incorrect hgap", GapSizeUtil.sizeToInt(GAP), list.getHgap());
 				Assert.assertEquals("Constructor - Incorrect vgap", 0, list.getVgap());
 			} else {
-				Assert.assertEquals("Constructor - Incorrect gap", bigGap, list.getGap());
+				Assert.assertEquals("Constructor - Incorrect gap", bigGap, list.getSpace());
 				Assert.assertEquals("Constructor - Incorrect hgap", 0, list.getHgap());
 				Assert.assertEquals("Constructor - Incorrect vgap", GapSizeUtil.sizeToInt(bigGap), list.getVgap());
 			}

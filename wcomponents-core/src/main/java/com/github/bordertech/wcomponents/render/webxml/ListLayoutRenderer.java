@@ -29,7 +29,7 @@ final class ListLayoutRenderer extends AbstractWebXmlRenderer {
 		XmlStringBuilder xml = renderContext.getWriter();
 		ListLayout layout = (ListLayout) panel.getLayout();
 		int childCount = panel.getChildCount();
-		GapSizeUtil.Size gap = layout.getGap();
+		GapSizeUtil.Size gap = layout.getSpace();
 		String gapString = gap != null ? gap.toString() : null;
 
 		xml.appendTagOpen("ui:listlayout");

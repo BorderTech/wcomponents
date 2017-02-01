@@ -74,8 +74,16 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	/**
 	 * @return the horizontal gap between the columns in the row
 	 */
-	public GapSizeUtil.Size getGap() {
+	public GapSizeUtil.Size getSpace() {
 		return gap;
+	}
+
+	/**
+	 * @return the space between the components added to the layout.
+	 */
+	@Deprecated
+	public int getGap() {
+		return GapSizeUtil.sizeToInt(gap);
 	}
 
 	/**

@@ -31,7 +31,7 @@ final class WListRenderer extends AbstractWebXmlRenderer {
 		XmlStringBuilder xml = renderContext.getWriter();
 		WList.Type type = list.getType();
 		WList.Separator separator = list.getSeparator();
-		GapSizeUtil.Size gap = list.getGap();
+		GapSizeUtil.Size gap = list.getSpace();
 		String gapString = gap == null ? null : gap.toString();
 		xml.appendTagOpen("ui:panel");
 		xml.appendAttribute("id", component.getId());

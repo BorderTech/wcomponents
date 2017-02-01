@@ -18,19 +18,19 @@ public class WRow_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testConstructor1() {
 		WRow row = new WRow();
-		Assert.assertNull("Constructor - Incorrect default hgap", row.getGap());
+		Assert.assertNull("Constructor - Incorrect default hgap", row.getSpace());
 	}
 
 	@Test
 	public void testConstructor2() {
 		WRow row = new WRow(GAP);
-		Assert.assertEquals("Constructor - Incorrect hgap", GAP, row.getGap());
+		Assert.assertEquals("Constructor - Incorrect hgap", GAP, row.getSpace());
 	}
 
 	@Test
 	public void testDeprecatedConstructor() {
 		WRow row = new WRow(GapSizeUtil.sizeToInt(GAP));
-		Assert.assertEquals("Constructor - Incorrect hgap", GAP, row.getGap());
+		Assert.assertEquals("Constructor - Incorrect hgap", GAP, row.getSpace());
 	}
 
 	@Test
