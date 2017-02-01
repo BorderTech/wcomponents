@@ -8,8 +8,9 @@ define(["wc/i18n/i18n",
 		"lib/sprintf",
 		"wc/dom/Widget",
 		"wc/dom/formUpdateManager",
-		"wc/dom/focus"],
-	function(i18n, triggerManager, uid, event, initialise, serialize, isSuccessfulElement, sprintf, Widget, formUpdateManager, focus) {
+		"wc/dom/focus",
+		"wc/ui/ajax/processResponse"],
+	function(i18n, triggerManager, uid, event, initialise, serialize, isSuccessfulElement, sprintf, Widget, formUpdateManager, focus, processResponse) {
 		"use strict";
 
 		/*
@@ -20,7 +21,7 @@ define(["wc/i18n/i18n",
 		 /**
 		  * @constructor
 		  * @private
-		  * @alias module:wc/dom/cancelUpdate~CancelUpdateControl */
+		  * @alias module:wc/ui/cancelUpdate~CancelUpdateControl */
 		 function CancelUpdateControl() {
 			var loading = false,  // if cancel button && unsavedOnServer() get dialog twice without this
 				buttonClicked,
@@ -276,7 +277,7 @@ define(["wc/i18n/i18n",
 			 * form. See {@link module:wc/ui/dateField~processNow}.
 			 *
 			 * @function
-			 * @alias module:wc/dom/cancelUpdate.resetAllFormState
+			 * @alias module:wc/ui/cancelUpdate.resetAllFormState
 			 */
 			this.resetAllFormState = function() {
 				Array.prototype.forEach.call(FORM.findDescendants(document), _resetForm);
@@ -366,7 +367,7 @@ define(["wc/i18n/i18n",
 			/**
 			 * Set up the cancel update controller.
 			 * @function
-			 * @alias module:wc/dom/cancelUpdate.initialise
+			 * @alias module:wc/ui/cancelUpdate.initialise
 			 * @param {Element} element The element being initialised, usually document.body.
 			 */
 			this.initialise = function(element) {
@@ -376,14 +377,12 @@ define(["wc/i18n/i18n",
 			/**
 			 * Late initialisation to store the initial state of all forms in a document and set up any subscribers.
 			 * @function
-			 * @alias module:wc/dom/cancelUpdate.postInit
+			 * @alias module:wc/ui/cancelUpdate.postInit
 			 */
 			this.postInit = function() {
 				Array.prototype.forEach.call(FORM.findDescendants(document), storeInitialFormState);
-				require(["wc/ui/ajax/processResponse"], function(processResponse) {
-					processResponse.subscribe(ajaxSubscriber);  // when ajax occurs, but before stuff is added to the DOM, determine if we need to recalculate the 'initial' state
-					processResponse.subscribe(postAjaxSubscriber, true);  // listen for ajax completion and determine if we need to recalculate 'initial' state
-				});
+				processResponse.subscribe(ajaxSubscriber);  // when ajax occurs, but before stuff is added to the DOM, determine if we need to recalculate the 'initial' state
+				processResponse.subscribe(postAjaxSubscriber, true);  // listen for ajax completion and determine if we need to recalculate 'initial' state
 			};
 
 			/**
@@ -392,7 +391,7 @@ define(["wc/i18n/i18n",
 			 * that they wish to continue.
 			 *
 			 * @function
-			 * @alias module:wc/dom/cancelUpdate.cancelSubmission
+			 * @alias module:wc/ui/cancelUpdate.cancelSubmission
 			 * @param {Element} container An element which is, or is within, a FORM element.
 			 * @returns {Boolean} true if the user wishes to cancel or if the form is not valid.
 			 */

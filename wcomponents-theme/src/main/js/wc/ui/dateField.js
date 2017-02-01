@@ -4,7 +4,7 @@ define(["wc/has",
 		"wc/date/interchange",
 		"wc/date/Format",
 		"wc/dom/attribute",
-		"wc/dom/cancelUpdate",
+		"wc/ui/cancelUpdate",
 		"wc/dom/event",
 		"wc/dom/focus",
 		"wc/dom/formUpdateManager",
@@ -1114,7 +1114,7 @@ define(["wc/has",
 		 * @requires module:wc/date/interchange
 		 * @requires module:wc/date/Format
 		 * @requires module:wc/dom/attribute
-		 * @requires module:wc/dom/cancelUpdate
+		 * @requires module:wc/ui/cancelUpdate
 		 * @requires module:wc/dom/event
 		 * @requires module:wc/dom/focus
 		 * @requires module:wc/dom/formUpdateManager

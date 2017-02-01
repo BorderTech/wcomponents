@@ -14,7 +14,7 @@
  *
  * @example
  *	define(["wc/ui/template",
- *			"wc/dom/cancelUpdate",
+ *			"wc/ui/cancelUpdate",
  *			"wc/ui/calendar",
  *			"wc/ui/subordinate",
  *			"wc/ui/menu/bar"],

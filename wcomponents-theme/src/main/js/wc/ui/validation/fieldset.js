@@ -71,19 +71,19 @@ define(["wc/i18n/i18n",
 			 * This function determines if a fieldset needs to be revalidated and if it does then it resets the
 			 * validation. *NOTE:* WFieldSet only needs validation if "required".
 			 *
-			 * * If something is shown or enabled inside an invalid fieldset it may be populated, making the fieldset
-			 * valid;
-			 * * if something is hidden or disabled inside an invalid fieldset it may make the fieldset 'empty'
-			 * thereby making the fieldset valid.
+			 * * If something is shown or enabled inside an invalid fieldset it may be populated, making the fieldset valid;
+			 * * if something is hidden or disabled inside an invalid fieldset it may make the fieldset 'empty' thereby making the fieldset valid.
 			 *
 			 * In both cases we need to revalidate to make sure.
 			 *
-			 * If something changes inside an invalid fieldset we also need to revalidate the fieldset.
+			 * If something changes inside an invalid fieldset we also need to revalidate the fieldset. This is done by having this module subscribe
+			 * to validationManager.
 			 *
-			 * @function module:wc/ui/validation/fieldset.revalidate
-			 * @param {Element} element A control which may be inside an invalid fieldset.
+			 * @function
+			 * @private
+			 * @param {Element} element a control which may be inside an invalid fieldset.
 			 */
-			this.revalidate = function(element) {
+			function revalidate(element) {
 				var container, result = true, initiallyInvalid;
 
 				INVALID = INVALID || FIELDSET.extend("wc_req", {"aria-invalid": "true"});
@@ -103,7 +103,7 @@ define(["wc/i18n/i18n",
 						break;  // if the innermost invalid fieldset is still invalid there is no point traversing
 					}
 				}
-			};
+			}
 
 			/**
 			 * Subscriber for {@link module:wc/dom/shed} functions which affect the validity of fieldsets.
@@ -115,7 +115,7 @@ define(["wc/i18n/i18n",
 			function validationShedSubscriber(element) {
 				var fieldset;
 				if (element && (fieldset = FIELDSET.findAncestor(element))) {
-					instance.revalidate(fieldset);
+					revalidate(fieldset);
 				}
 			}
 
@@ -126,6 +126,7 @@ define(["wc/i18n/i18n",
 			 */
 			this.postInit = function() {
 				validationManager.subscribe(validate);
+				validationManager.subscribe(revalidate, true);
 				shed.subscribe(shed.actions.SELECT, validationShedSubscriber);
 				shed.subscribe(shed.actions.DESELECT, validationShedSubscriber);
 				shed.subscribe(shed.actions.ENABLE, validationShedSubscriber);

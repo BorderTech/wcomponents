@@ -2,7 +2,7 @@
  * Provides functionality which interrupts clicks on form submitting and validating buttons if the validation
  * area is not in a valid state.
  *
- * @see {@link module:wc/dom/cancelUpdate}
+ * @see {@link module:wc/ui/cancelUpdate}
  *
  * @module wc/ui/validation/cancelUpdate
  * @requires module:wc/wc/dom/event

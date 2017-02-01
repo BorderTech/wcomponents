@@ -140,7 +140,7 @@
 				<xsl:text>"wc/ui/confirm",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//@unsavedChanges">
-				<xsl:text>"wc/dom/cancelUpdate",</xsl:text>
+				<xsl:text>"wc/ui/cancelUpdate",</xsl:text>
 			</xsl:if>
 			<!-- NOTE: not every mode SERVER needs this but the include is cheaper than the tests and mode server should eventually die -->
 			<xsl:if test=".//*[@mode eq 'dynamic'] or .//*[@mode eq 'lazy']">
