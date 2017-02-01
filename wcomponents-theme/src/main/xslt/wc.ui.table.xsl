@@ -733,7 +733,7 @@
 				</xsl:attribute>
 			</xsl:if>
 <!-- END OF TD ATTRIBUTES -->
-			<xsl:apply-templates/>
+			<xsl:apply-templates />
 		</td>
 	</xsl:template>
 	
@@ -820,7 +820,7 @@
 						<xsl:value-of select="count(../../*) -1"/><!-- -1 because we do not count the ui:subtr -->
 					</xsl:attribute>
 				</xsl:if>
-				<xsl:apply-templates/>
+				<xsl:apply-templates />
 			</td>
 		</tr>
 	</xsl:template>

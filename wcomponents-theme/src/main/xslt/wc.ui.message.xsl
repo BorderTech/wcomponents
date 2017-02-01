@@ -22,7 +22,7 @@
 		</xsl:variable>
 		<xsl:element name="{$element}">
 			<xsl:call-template name="makeCommonClass"/>
-			<xsl:apply-templates/>
+			<xsl:apply-templates />
 		</xsl:element>
 	</xsl:template>
 </xsl:stylesheet>

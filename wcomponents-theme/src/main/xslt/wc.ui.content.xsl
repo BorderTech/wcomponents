@@ -32,11 +32,11 @@
 			<xsl:call-template name="makeCommonClass">
 				<xsl:with-param name="additional" select="$class"/>
 			</xsl:call-template>
-			<xsl:apply-templates/>
+			<xsl:apply-templates />
 		</div>
 	</xsl:template>
 
 	<xsl:template match="ui:content" mode="passthru">
-		<xsl:apply-templates/>
+		<xsl:apply-templates />
 	</xsl:template>
 </xsl:stylesheet>

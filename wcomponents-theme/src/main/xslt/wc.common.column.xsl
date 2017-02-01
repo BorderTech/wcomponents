@@ -38,7 +38,7 @@
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
-			<xsl:apply-templates/>
+			<xsl:apply-templates />
 		</div>
 	</xsl:template>
 </xsl:stylesheet>

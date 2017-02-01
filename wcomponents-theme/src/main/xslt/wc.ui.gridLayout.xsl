@@ -142,7 +142,7 @@
 					<xsl:value-of select="concat('width:',$width,';')"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:apply-templates/>
+			<xsl:apply-templates />
 		</div>
 	</xsl:template>
 </xsl:stylesheet>

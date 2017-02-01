@@ -35,7 +35,7 @@
 					<xsl:text> wc_dlbl_seg</xsl:text>
 				</xsl:with-param>
 			</xsl:call-template>
-			<xsl:apply-templates/>
+			<xsl:apply-templates />
 		</xsl:element>
 	</xsl:template>
 </xsl:stylesheet>

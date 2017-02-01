@@ -17,7 +17,7 @@
 	<xsl:template match="ui:error">
 		<div class="wc-error">
 			<a href="{concat('#',@for)}">
-				<xsl:apply-templates/>
+				<xsl:apply-templates />
 			</a>
 		</div>
 	</xsl:template>

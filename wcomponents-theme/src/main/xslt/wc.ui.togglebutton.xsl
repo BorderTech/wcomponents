@@ -52,7 +52,7 @@
 	<xsl:template name="togglebuttonlabeltext">
 		<xsl:if test="normalize-space(text()) ne ''">
 			<span class="wc-togglebutton-text" id="{@id}-lbl">
-				<xsl:apply-templates/>
+				<xsl:apply-templates />
 			</span>
 		</xsl:if>
 	</xsl:template>

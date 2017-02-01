@@ -28,7 +28,7 @@
 	<!-- The data items in a defintion list map directly to HTML dd elements -->
 	<xsl:template match="ui:data">
 		<dd>
-			<xsl:apply-templates/>
+			<xsl:apply-templates />
 		</dd>
 	</xsl:template>
 </xsl:stylesheet>

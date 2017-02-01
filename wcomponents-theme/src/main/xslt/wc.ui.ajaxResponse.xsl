@@ -9,7 +9,7 @@
 					<xsl:if test="@defaultFocusId">
 						<xsl:attribute name="data-focusid"><xsl:value-of select="@defaultFocusId"/></xsl:attribute>
 					</xsl:if>
-					<xsl:apply-templates />
+					<xsl:apply-templates select="*"/>
 				</div>
 			</xsl:when>
 			<xsl:otherwise>

@@ -144,7 +144,7 @@
 					<xsl:value-of select="concat('height:',$tabset/@contentHeight,';overflow-y:auto;')"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:apply-templates/>
+			<xsl:apply-templates />
 		</div>
 	</xsl:template>
 </xsl:stylesheet>

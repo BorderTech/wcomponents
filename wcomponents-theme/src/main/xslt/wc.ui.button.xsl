@@ -64,7 +64,7 @@
 				<xsl:when test="@imageUrl">
 					<xsl:if test="@imagePosition">
 						<span>
-							<xsl:apply-templates/>
+							<xsl:apply-templates />
 						</span>
 					</xsl:if>
 					<xsl:variable name="alt">
@@ -80,7 +80,7 @@
 					<img src="{@imageUrl}" alt="{$alt}" />
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:apply-templates/>
+					<xsl:apply-templates />
 				</xsl:otherwise>
 			</xsl:choose>
 		</button>

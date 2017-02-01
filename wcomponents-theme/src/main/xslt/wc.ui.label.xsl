@@ -43,7 +43,7 @@
 							</xsl:when>
 						</xsl:choose>
 					</xsl:if>
-					<xsl:apply-templates/>
+					<xsl:apply-templates />
 					<xsl:call-template name="WLabelHint"/>
 				</span>
 			</xsl:when>
@@ -52,7 +52,7 @@
 					<xsl:call-template name="labelCommonAttributes"/>
 					<xsl:call-template name="labelClassHelper" />
 					<xsl:call-template name="accessKey"/>
-					<xsl:apply-templates/>
+					<xsl:apply-templates />
 					<xsl:if test="@required">
 						<xsl:call-template name="offscreenSpan">
 							<xsl:with-param name="text">

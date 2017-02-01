@@ -52,7 +52,7 @@
 								<xsl:apply-templates select=".//ui:option[@selected]" mode="multiDropDown"/>
 							</xsl:when>
 							<xsl:when test="ui:value">
-								<xsl:apply-templates/>
+								<xsl:apply-templates select="*" />
 							</xsl:when>
 							<xsl:otherwise>
 								<li>

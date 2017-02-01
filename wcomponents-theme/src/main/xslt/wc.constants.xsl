@@ -24,7 +24,7 @@
 	<xsl:template match="*">
 		<xsl:element name="{local-name()}">
 			<xsl:apply-templates select="@*"/>
-			<xsl:apply-templates/>
+			<xsl:apply-templates />
 		</xsl:element>
 	</xsl:template>
 

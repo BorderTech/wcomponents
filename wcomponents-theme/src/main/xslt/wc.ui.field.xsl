@@ -42,7 +42,7 @@
 								<xsl:text>&#x00a0;</xsl:text>
 							</span>
 						</xsl:if>
-						<xsl:apply-templates />
+						<xsl:apply-templates select="*"/>
 					</xsl:otherwise>
 				</xsl:choose>
 			</div>

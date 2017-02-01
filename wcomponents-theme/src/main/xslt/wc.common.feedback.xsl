@@ -33,7 +33,7 @@
 				</span>
 			</h1>
 			<div class="wc_messages">
-				<xsl:apply-templates />
+				<xsl:apply-templates select="*"/>
 			</div>
 		</section>
 	</xsl:template>

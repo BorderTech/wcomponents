@@ -44,7 +44,7 @@
 	-->
 	<xsl:template match="ui:cell" mode="fl">
 		<div class="wc-cell">
-			<xsl:apply-templates/>
+			<xsl:apply-templates />
 		</div>
 	</xsl:template>
 </xsl:stylesheet>

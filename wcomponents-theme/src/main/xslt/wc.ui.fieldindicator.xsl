@@ -7,7 +7,7 @@
 	<xsl:template match="ui:fieldindicator">
 		<span id="{@id}">
 			<xsl:call-template name="makeCommonClass"/>
-			<xsl:apply-templates/>
+			<xsl:apply-templates />
 		</span>
 	</xsl:template>
 </xsl:stylesheet>

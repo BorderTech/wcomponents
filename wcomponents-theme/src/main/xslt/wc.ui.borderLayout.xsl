@@ -44,7 +44,7 @@
 	-->
 	<xsl:template match="ui:north|ui:south">
 		<div class="wc-{local-name()}">
-			<xsl:apply-templates/>
+			<xsl:apply-templates />
 		</div>
 	</xsl:template>
 
@@ -79,7 +79,7 @@
 					</xsl:when>
 				</xsl:choose>
 			</xsl:attribute>
-			<xsl:apply-templates/>
+			<xsl:apply-templates />
 		</div>
 	</xsl:template>
 </xsl:stylesheet>
