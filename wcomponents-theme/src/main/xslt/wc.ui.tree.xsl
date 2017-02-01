@@ -186,7 +186,9 @@
 		<span class="wc_branch_resizer" aria-hidden="true">
 			<button type="button" class="wc-nobutton wc-invite wc_resize wc_branch_resize_handle wc-icon" data-wc-resize="{$groupId}">
 				<xsl:call-template name="offscreenSpan">
-					<xsl:with-param name="text" select="'resize handle'"/>
+					<xsl:with-param name="text">
+						<xsl:text>{{t 'tree_resize_handle'}}</xsl:text>
+					</xsl:with-param>
 				</xsl:call-template>
 			</button>
 		</span>
