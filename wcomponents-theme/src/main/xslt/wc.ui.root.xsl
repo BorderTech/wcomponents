@@ -70,20 +70,9 @@
 
 					If you want a phone number link in these (or any) browser use WPhoneNumberField set to read-only.
 				-->
-				<!--<xsl:element name="meta">
-					<xsl:attribute name="name"><xsl:text>format-detection</xsl:text></xsl:attribute>
-					<xsl:attribute name="content"><xsl:text>telephone=no</xsl:text></xsl:attribute>
-				</xsl:element>
-				<xsl:element name="meta">
-					<xsl:attribute name="name"><xsl:text>viewport</xsl:text></xsl:attribute>
-					<xsl:attribute name="content"><xsl:text>initial-scale=1</xsl:text></xsl:attribute>
-				</xsl:element>-->
 				<meta name="format-detection" content="telephone=no"/>
 				<meta name="viewport" content="initial-scale=1"/>
-
-				<title>
-					<xsl:value-of select="@title"/>
-				</title>
+				<title><xsl:value-of select="@title"/></title>
 
 				<!--
 					CSS before JavaScript for performance.

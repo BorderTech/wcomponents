@@ -23,13 +23,10 @@
 			<xsl:otherwise>
 				<span>
 					<xsl:call-template name="commonInputWrapperAttributes"/>
-					<button type="button" data-wc-name="{@id}" data-wc-value="true" role="checkbox">
+					<button type="button" data-wc-name="{@id}" data-wc-value="true" role="checkbox" value="true">
 						<xsl:call-template name="wrappedInputAttributes">
 							<xsl:with-param name="name" select="''"/>
 						</xsl:call-template>
-						<xsl:attribute name="value">
-							<xsl:text>true</xsl:text>
-						</xsl:attribute>
 						<xsl:attribute name="aria-checked">
 							<xsl:choose>
 								<xsl:when test="@selected">true</xsl:when>
