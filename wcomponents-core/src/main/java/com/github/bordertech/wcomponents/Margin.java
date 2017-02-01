@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.Serializable;
 
 /**
@@ -18,29 +18,29 @@ public class Margin implements Serializable {
 	/**
 	 * The size of the margins on all sides of the panel.
 	 */
-	private final GapSizeUtil.Size all;
+	private final SpaceUtil.Size all;
 	/**
 	 * The size of the north margin.
 	 */
-	private final GapSizeUtil.Size top;
+	private final SpaceUtil.Size top;
 	/**
 	 * The size of the east margin.
 	 */
-	private final GapSizeUtil.Size right;
+	private final SpaceUtil.Size right;
 	/**
 	 * The size of the south margin.
 	 */
-	private final GapSizeUtil.Size bottom;
+	private final SpaceUtil.Size bottom;
 	/**
 	 * The size of the west margin.
 	 */
-	private final GapSizeUtil.Size left;
+	private final SpaceUtil.Size left;
 
 	/**
 	 * A margin equal on all sizes.
 	 * @param all the size of the margin to be used on all sides of the component.
 	 */
-	public Margin(final GapSizeUtil.Size all) {
+	public Margin(final SpaceUtil.Size all) {
 		this.all = all;
 		this.top = null;
 		this.right = null;
@@ -54,7 +54,7 @@ public class Margin implements Serializable {
 	 */
 	@Deprecated
 	public Margin(final int all) {
-		this(GapSizeUtil.intToSize(all));
+		this(SpaceUtil.intToSize(all));
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class Margin implements Serializable {
 	 * @param south the size of the south margin.
 	 * @param west the size of the west margin.
 	 */
-	public Margin(final GapSizeUtil.Size north, final GapSizeUtil.Size east, final GapSizeUtil.Size south, final GapSizeUtil.Size west) {
+	public Margin(final SpaceUtil.Size north, final SpaceUtil.Size east, final SpaceUtil.Size south, final SpaceUtil.Size west) {
 		this.all = null;
 		this.top = north;
 		this.right = east;
@@ -83,7 +83,7 @@ public class Margin implements Serializable {
 	 * @deprecated 1.4.0 use {@link #Margin(GapSizeUtil.Size, GapSizeUtil.Size, GapSizeUtil.Size, GapSizeUtil.Size)}
 	 */
 	public Margin(final int north, final int east, final int south, final int west) {
-		this(GapSizeUtil.intToSize(north), GapSizeUtil.intToSize(east), GapSizeUtil.intToSize(south), GapSizeUtil.intToSize(west));
+		this(SpaceUtil.intToSize(north), SpaceUtil.intToSize(east), SpaceUtil.intToSize(south), SpaceUtil.intToSize(west));
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class Margin implements Serializable {
 	 * @deprecated 1.4.0 do not use.
 	 */
 	public int getAll() {
-		return GapSizeUtil.sizeToInt(all);
+		return SpaceUtil.sizeToInt(all);
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class Margin implements Serializable {
 	 * @deprecated 1.4.0 do not use.
 	 */
 	public int getNorth() {
-		return GapSizeUtil.sizeToInt(top);
+		return SpaceUtil.sizeToInt(top);
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class Margin implements Serializable {
 	 * @deprecated 1.4.0 do not use.
 	 */
 	public int getEast() {
-		return GapSizeUtil.sizeToInt(right);
+		return SpaceUtil.sizeToInt(right);
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class Margin implements Serializable {
 	 * @deprecated 1.4.0 do not use.
 	 */
 	public int getSouth() {
-		return GapSizeUtil.sizeToInt(bottom);
+		return SpaceUtil.sizeToInt(bottom);
 	}
 
 	/**
@@ -123,41 +123,41 @@ public class Margin implements Serializable {
 	 * @deprecated 1.4.0 do not use.
 	 */
 	public int getWest() {
-		return GapSizeUtil.sizeToInt(left);
+		return SpaceUtil.sizeToInt(left);
 	}
 
 	/**
 	 * @return the margin on all sides of the container.
 	 */
-	public GapSizeUtil.Size getMargin() {
+	public SpaceUtil.Size getMargin() {
 		return all;
 	}
 
 	/**
 	 * @return the margin on the top of the container.
 	 */
-	public GapSizeUtil.Size getTop() {
+	public SpaceUtil.Size getTop() {
 		return top;
 	}
 
 	/**
 	 * @return the margin on the east side of the container.
 	 */
-	public GapSizeUtil.Size getRight() {
+	public SpaceUtil.Size getRight() {
 		return right;
 	}
 
 	/**
 	 * @return the margin on the south side of the container.
 	 */
-	public GapSizeUtil.Size getBottom() {
+	public SpaceUtil.Size getBottom() {
 		return bottom;
 	}
 
 	/**
 	 * @return the margin on the west side of the container.
 	 */
-	public GapSizeUtil.Size getLeft() {
+	public SpaceUtil.Size getLeft() {
 		return left;
 	}
 }

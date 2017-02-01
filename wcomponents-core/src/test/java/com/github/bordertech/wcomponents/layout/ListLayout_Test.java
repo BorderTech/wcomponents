@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.layout;
 
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -16,12 +16,12 @@ public class ListLayout_Test {
 	/**
 	 * A reusable gap value.
 	 */
-	private static final GapSizeUtil.Size GAP = GapSizeUtil.Size.SMALL;
+	private static final SpaceUtil.Size GAP = SpaceUtil.Size.SMALL;
 
 	/**
 	 * A different reusable gap value. This is used to differentiate the (now deprecated) hgap and vgap properties.
 	 */
-	private static final GapSizeUtil.Size BIG_GAP = GapSizeUtil.Size.LARGE;
+	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
 
 
 	@Test
@@ -121,14 +121,14 @@ public class ListLayout_Test {
 			for (ListLayout.Alignment a : ListLayout.Alignment.values()) {
 				for (ListLayout.Separator s : ListLayout.Separator.values()) {
 					isFlat = t == ListLayout.Type.FLAT;
-					list = new ListLayout(t, a, s, true, GapSizeUtil.sizeToInt(GAP), GapSizeUtil.sizeToInt(BIG_GAP));
+					list = new ListLayout(t, a, s, true, SpaceUtil.sizeToInt(GAP), SpaceUtil.sizeToInt(BIG_GAP));
 					Assert.assertEquals("Incorrect type", t, list.getType());
 					Assert.assertEquals("Incorrect alignment", a, list.getAlignment());
 					Assert.assertEquals("Incorrect separator", s, list.getSeparator());
 					Assert.assertTrue("ordered should be true", list.isOrdered());
 					Assert.assertEquals("Incorrect gap", isFlat ? GAP : BIG_GAP, list.getSpace());
 
-					list = new ListLayout(t, a, s, false, GapSizeUtil.sizeToInt(GAP), GapSizeUtil.sizeToInt(BIG_GAP));
+					list = new ListLayout(t, a, s, false, SpaceUtil.sizeToInt(GAP), SpaceUtil.sizeToInt(BIG_GAP));
 					Assert.assertEquals("Incorrect type", t, list.getType());
 					Assert.assertEquals("Incorrect alignment", a, list.getAlignment());
 					Assert.assertEquals("Incorrect separator", s, list.getSeparator());
@@ -149,9 +149,9 @@ public class ListLayout_Test {
 
 		for (ListLayout.Type t : ListLayout.Type.values()) {
 			isFlat = t == ListLayout.Type.FLAT;
-			list = new ListLayout(t, ListLayout.Alignment.LEFT, ListLayout.Separator.NONE, true, GapSizeUtil.sizeToInt(GAP), GapSizeUtil.sizeToInt(BIG_GAP));
-			Assert.assertEquals("Incorrect horizontal gap", isFlat ? GapSizeUtil.sizeToInt(GAP) : 0, list.getHgap());
-			Assert.assertEquals("Incorrect vertical gap", isFlat ? 0 : GapSizeUtil.sizeToInt(BIG_GAP), list.getVgap());
+			list = new ListLayout(t, ListLayout.Alignment.LEFT, ListLayout.Separator.NONE, true, SpaceUtil.sizeToInt(GAP), SpaceUtil.sizeToInt(BIG_GAP));
+			Assert.assertEquals("Incorrect horizontal gap", isFlat ? SpaceUtil.sizeToInt(GAP) : 0, list.getHgap());
+			Assert.assertEquals("Incorrect vertical gap", isFlat ? 0 : SpaceUtil.sizeToInt(BIG_GAP), list.getVgap());
 		}
 	}
 }

@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.layout;
 
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,11 +15,11 @@ public class GridLayout_Test {
 	/**
 	 * A small gap.
 	 */
-	private static final GapSizeUtil.Size GAP = GapSizeUtil.Size.SMALL;
+	private static final SpaceUtil.Size GAP = SpaceUtil.Size.SMALL;
 	/**
 	 * A big gap.
 	 */
-	private static final GapSizeUtil.Size BIG_GAP = GapSizeUtil.Size.LARGE;
+	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
 
 	@Test
 	public void testRowColConstructor() {
@@ -41,7 +41,7 @@ public class GridLayout_Test {
 
 	@Test
 	public void testDeprecatedRowColHgapVgapConstructor() {
-		GridLayout grid = new GridLayout(0, 3, GapSizeUtil.sizeToInt(GAP), GapSizeUtil.sizeToInt(BIG_GAP));
+		GridLayout grid = new GridLayout(0, 3, SpaceUtil.sizeToInt(GAP), SpaceUtil.sizeToInt(BIG_GAP));
 		Assert.assertEquals("Incorrect rows", 0, grid.getRows()); // unspecified rows, 5 cols
 		Assert.assertEquals("Incorrect cols", 3, grid.getCols());
 		Assert.assertEquals("Incorrect hgap", GAP, grid.getHorizontalGap());

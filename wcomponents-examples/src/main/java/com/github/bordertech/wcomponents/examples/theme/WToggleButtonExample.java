@@ -12,7 +12,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.subordinate.builder.SubordinateBuilder;
-import com.github.bordertech.wcomponents.util.GapSizeUtil.Size;
+import com.github.bordertech.wcomponents.util.SpaceUtil.Size;
 
 /**
  * Shows the various properties of WToggleButton.

@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.layout;
 
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.util.Arrays;
 
 /**
@@ -43,12 +43,12 @@ public class ColumnLayout implements LayoutManager {
 	/**
 	 * The horizontal gap between the columns.
 	 */
-	private final GapSizeUtil.Size hgap;
+	private final SpaceUtil.Size hgap;
 
 	/**
 	 * The vertical gap between the rows.
 	 */
-	private final GapSizeUtil.Size vgap;
+	private final SpaceUtil.Size vgap;
 
 	/**
 	 * Creates a ColumnLayout with the specified percentage column widths. Using a column width of 0 will make the width
@@ -80,7 +80,7 @@ public class ColumnLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public ColumnLayout(final int[] columnWidths, final int hgap, final int vgap) {
-		this(columnWidths, null, GapSizeUtil.intToSize(hgap), GapSizeUtil.intToSize(vgap));
+		this(columnWidths, null, SpaceUtil.intToSize(hgap), SpaceUtil.intToSize(vgap));
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class ColumnLayout implements LayoutManager {
 	 * @param hgap the horizontal gap between the columns, measured in pixels
 	 * @param vgap the vertical gap between the rows, measured in pixels
 	 */
-	public ColumnLayout(final int[] columnWidths, final GapSizeUtil.Size hgap, final GapSizeUtil.Size vgap) {
+	public ColumnLayout(final int[] columnWidths, final SpaceUtil.Size hgap, final SpaceUtil.Size vgap) {
 		this(columnWidths, null, hgap, vgap);
 	}
 
@@ -105,7 +105,7 @@ public class ColumnLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments, final int hgap, final int vgap) {
-		this(columnWidths, columnAlignments, GapSizeUtil.intToSize(hgap), GapSizeUtil.intToSize(vgap));
+		this(columnWidths, columnAlignments, SpaceUtil.intToSize(hgap), SpaceUtil.intToSize(vgap));
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class ColumnLayout implements LayoutManager {
 	 * @param hgap the horizontal gap between the columns
 	 * @param vgap the vertical gap between the rows
 	 */
-	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments, final GapSizeUtil.Size hgap, final GapSizeUtil.Size vgap) {
+	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments, final SpaceUtil.Size hgap, final SpaceUtil.Size vgap) {
 		if (columnWidths == null || columnWidths.length == 0) {
 			throw new IllegalArgumentException("ColumnWidths must be provided");
 		}
@@ -162,14 +162,14 @@ public class ColumnLayout implements LayoutManager {
 	/**
 	 * @return the horizontal gap between the cells
 	 */
-	public GapSizeUtil.Size getHorizontalGap() {
+	public SpaceUtil.Size getHorizontalGap() {
 		return hgap;
 	}
 
 	/**
 	 * @return the vertical gap between the cells
 	 */
-	public GapSizeUtil.Size getVerticalGap() {
+	public SpaceUtil.Size getVerticalGap() {
 		return vgap;
 	}
 
@@ -178,7 +178,7 @@ public class ColumnLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public int getHgap() {
-		return GapSizeUtil.sizeToInt(hgap);
+		return SpaceUtil.sizeToInt(hgap);
 	}
 
 	/**
@@ -186,7 +186,7 @@ public class ColumnLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public int getVgap() {
-		return GapSizeUtil.sizeToInt(vgap);
+		return SpaceUtil.sizeToInt(vgap);
 	}
 
 	/**

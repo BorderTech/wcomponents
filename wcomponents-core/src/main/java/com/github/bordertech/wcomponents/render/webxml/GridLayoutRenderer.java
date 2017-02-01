@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.layout.GridLayout;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * This {@link Renderer} renders the children of a {@link WPanel} which have been arranged using a {@link GridLayout}.
@@ -28,9 +28,9 @@ final class GridLayoutRenderer extends AbstractWebXmlRenderer {
 		WPanel panel = (WPanel) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 		GridLayout layout = (GridLayout) panel.getLayout();
-		GapSizeUtil.Size hgap = layout.getHorizontalGap();
+		SpaceUtil.Size hgap = layout.getHorizontalGap();
 		String hgapString = hgap == null ? null : hgap.toString();
-		GapSizeUtil.Size vgap = layout.getVerticalGap();
+		SpaceUtil.Size vgap = layout.getVerticalGap();
 		String vgapString = vgap == null ? null : vgap.toString();
 		int rows = layout.getRows();
 		int cols = layout.getCols();

@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.layout.ColumnLayout.Alignment;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 
 /**
@@ -28,9 +28,9 @@ public class ColumnLayoutExample extends WContainer {
 	{60, 40}, {70, 30}, {80, 20}, {90, 10},
 	{33, 33, 33}, {25, 25, 25, 25}, {20, 20, 20, 20, 20}};
 
-	private static final GapSizeUtil.Size[][] EXAMPLE_GAPS = {{GapSizeUtil.Size.ZERO, GapSizeUtil.Size.ZERO},
-		{GapSizeUtil.Size.LARGE, GapSizeUtil.Size.ZERO}, {GapSizeUtil.Size.ZERO, GapSizeUtil.Size.LARGE},
-		{GapSizeUtil.Size.SMALL, GapSizeUtil.Size.MEDIUM}};
+	private static final SpaceUtil.Size[][] EXAMPLE_GAPS = {{SpaceUtil.Size.ZERO, SpaceUtil.Size.ZERO},
+		{SpaceUtil.Size.LARGE, SpaceUtil.Size.ZERO}, {SpaceUtil.Size.ZERO, SpaceUtil.Size.LARGE},
+		{SpaceUtil.Size.SMALL, SpaceUtil.Size.MEDIUM}};
 
 	/**
 	 * Creates a ColumnLayoutExample.
@@ -39,7 +39,7 @@ public class ColumnLayoutExample extends WContainer {
 		for (int[] colWidths : EXAMPLE_COLUMN_WIDTHS) {
 			addExample(colWidths);
 		}
-		for (GapSizeUtil.Size[] gaps : EXAMPLE_GAPS) {
+		for (SpaceUtil.Size[] gaps : EXAMPLE_GAPS) {
 			addHgapVGapExample(gaps[0], gaps[1]);
 		}
 		addAlignmentExample();
@@ -112,7 +112,7 @@ public class ColumnLayoutExample extends WContainer {
 	 * @param hgap the hgap width
 	 * @param vgap the vgap width
 	 */
-	private void addHgapVGapExample(final GapSizeUtil.Size hgap, final GapSizeUtil.Size vgap) {
+	private void addHgapVGapExample(final SpaceUtil.Size hgap, final SpaceUtil.Size vgap) {
 		add(new WHeading(HeadingLevel.H2, "Column Layout: hgap=" + hgap.toString() + " vgap=" + vgap.toString()));
 		WPanel panel = new WPanel();
 		panel.setLayout(new ColumnLayout(new int[]{25, 25, 25, 25}, hgap, vgap));

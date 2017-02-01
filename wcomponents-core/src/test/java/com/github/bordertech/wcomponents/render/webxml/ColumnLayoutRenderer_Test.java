@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.layout.ColumnLayout.Alignment;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
@@ -21,11 +21,11 @@ public class ColumnLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	/**
 	 * A small gap.
 	 */
-	private static final GapSizeUtil.Size GAP = GapSizeUtil.Size.SMALL;
+	private static final SpaceUtil.Size GAP = SpaceUtil.Size.SMALL;
 	/**
 	 * A big gap.
 	 */
-	private static final GapSizeUtil.Size BIG_GAP = GapSizeUtil.Size.LARGE;
+	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
 
 	@Test
 	public void testDoRenderWhenEmpty() throws IOException, SAXException, XpathException {

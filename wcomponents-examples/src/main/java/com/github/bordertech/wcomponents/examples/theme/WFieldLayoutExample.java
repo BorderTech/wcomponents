@@ -10,7 +10,7 @@ import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * <p>
@@ -198,7 +198,7 @@ public class WFieldLayoutExample extends WPanel {
 		innerLayout.setLabelWidth(20);
 
 		if (curr == 0 && startAt == 0) {
-			innerLayout.setMargin(new Margin(GapSizeUtil.Size.LARGE, null, null, null));
+			innerLayout.setMargin(new Margin(SpaceUtil.Size.LARGE, null, null, null));
 		}
 		innerLayout.setOrdered(true);
 
@@ -231,7 +231,7 @@ public class WFieldLayoutExample extends WPanel {
 		innerLayout.setLabelWidth(20);
 
 		if (curr == 0 && startAt == 0) {
-			innerLayout.setMargin(new Margin(GapSizeUtil.Size.LARGE, null, null, null));
+			innerLayout.setMargin(new Margin(SpaceUtil.Size.LARGE, null, null, null));
 		}
 		innerLayout.setOrdered(ordered);
 

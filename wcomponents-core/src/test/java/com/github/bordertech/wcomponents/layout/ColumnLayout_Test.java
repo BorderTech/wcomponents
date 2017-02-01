@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.layout;
 
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,11 +15,11 @@ public class ColumnLayout_Test {
 	/**
 	 * A small gap.
 	 */
-	private static final GapSizeUtil.Size GAP = GapSizeUtil.Size.SMALL;
+	private static final SpaceUtil.Size GAP = SpaceUtil.Size.SMALL;
 	/**
 	 * A big gap.
 	 */
-	private static final GapSizeUtil.Size BIG_GAP = GapSizeUtil.Size.LARGE;
+	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
 
 	@Test
 	public void testIntConstructor() {
@@ -76,7 +76,7 @@ public class ColumnLayout_Test {
 		final int[] cols = new int[]{100};
 		final ColumnLayout.Alignment[] align = new ColumnLayout.Alignment[]{ColumnLayout.Alignment.RIGHT};
 
-		ColumnLayout layout = new ColumnLayout(cols, align, GapSizeUtil.sizeToInt(GAP), GapSizeUtil.sizeToInt(BIG_GAP));
+		ColumnLayout layout = new ColumnLayout(cols, align, SpaceUtil.sizeToInt(GAP), SpaceUtil.sizeToInt(BIG_GAP));
 		Assert.assertEquals("Incorrect column count", 1, layout.getColumnCount());
 		Assert.assertEquals("Incorrect column width", 100, layout.getColumnWidth(0));
 		Assert.assertEquals("Incorrect column alignment", ColumnLayout.Alignment.RIGHT, layout.

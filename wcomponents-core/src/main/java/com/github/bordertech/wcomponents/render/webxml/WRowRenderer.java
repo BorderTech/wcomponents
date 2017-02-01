@@ -5,7 +5,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WRow;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * {@link Renderer} for the {@link WRow} component.
@@ -27,7 +27,7 @@ final class WRowRenderer extends AbstractWebXmlRenderer {
 		WRow row = (WRow) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 		int cols = row.getChildCount();
-		GapSizeUtil.Size gap = row.getSpace();
+		SpaceUtil.Size gap = row.getSpace();
 		String gapString = gap != null ? gap.toString() : null;
 
 		if (cols > 0) {

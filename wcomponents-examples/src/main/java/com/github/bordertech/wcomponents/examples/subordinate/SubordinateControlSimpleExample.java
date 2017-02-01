@@ -12,7 +12,7 @@ import com.github.bordertech.wcomponents.subordinate.Hide;
 import com.github.bordertech.wcomponents.subordinate.Rule;
 import com.github.bordertech.wcomponents.subordinate.Show;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * A simple example of SubordinateControl usage.
@@ -32,7 +32,7 @@ public class SubordinateControlSimpleExample extends WContainer {
 		WFieldSet fieldset = new WFieldSet("select any that apply");
 		add(fieldset);
 		fieldset.add(layout);
-		fieldset.setMargin(new Margin(null, null, GapSizeUtil.Size.LARGE, null));
+		fieldset.setMargin(new Margin(null, null, SpaceUtil.Size.LARGE, null));
 
 		WCheckBox extraInfoRequired = new WCheckBox();
 		layout.addField("Extra information required", extraInfoRequired);

@@ -28,7 +28,7 @@ import com.github.bordertech.wcomponents.subordinate.Or;
 import com.github.bordertech.wcomponents.subordinate.Rule;
 import com.github.bordertech.wcomponents.subordinate.Show;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.util.Util;
 
@@ -236,7 +236,7 @@ public class WPanelTypeExample extends WContainer {
 	 */
 	private void buildConfigOptions() {
 		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
-		layout.setMargin(new Margin(null, null, GapSizeUtil.Size.LARGE, null));
+		layout.setMargin(new Margin(null, null, SpaceUtil.Size.LARGE, null));
 		layout.addField("Select a WPanel Type", panelType);
 		contentField = layout.addField("Panel content", panelContent);
 		headingField = layout.addField("heading", tfHeading);

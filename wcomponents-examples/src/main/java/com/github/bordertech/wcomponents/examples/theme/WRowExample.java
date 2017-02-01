@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 
 /**
@@ -23,7 +23,7 @@ public class WRowExample extends WPanel {
 	/**
 	 * A nice readable space.
 	 */
-	private static final GapSizeUtil.Size SPACE = GapSizeUtil.Size.MEDIUM;
+	private static final SpaceUtil.Size SPACE = SpaceUtil.Size.MEDIUM;
 
 	/**
 	 * Creates a WRowExample.
@@ -57,7 +57,7 @@ public class WRowExample extends WPanel {
 
 		// create a WRow with responsive design turned on.
 		add(new WHeading(HeadingLevel.H2, "WRow with default responsive design"));
-		WRow responsiveRow = createRow(GapSizeUtil.Size.LARGE, new int[]{20, 50, 30});
+		WRow responsiveRow = createRow(SpaceUtil.Size.LARGE, new int[]{20, 50, 30});
 		responsiveRow.setHtmlClass(HtmlClassProperties.RESPOND);
 		add(responsiveRow);
 
@@ -101,7 +101,7 @@ public class WRowExample extends WPanel {
 	 * @param colWidths the percentage widths for each column
 	 * @return a WRow containing columns with the given widths
 	 */
-	private WRow createRow(final GapSizeUtil.Size gap, final int[] colWidths) {
+	private WRow createRow(final SpaceUtil.Size gap, final int[] colWidths) {
 		WRow row = new WRow(gap);
 
 		for (int i = 0; i < colWidths.length; i++) {

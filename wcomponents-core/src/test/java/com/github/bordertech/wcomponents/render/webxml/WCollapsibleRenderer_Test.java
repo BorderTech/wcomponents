@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.WCollapsible;
 import com.github.bordertech.wcomponents.WText;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -92,7 +92,7 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 		collapsible.setMargin(margin);
 		assertXpathNotExists("//ui:collapsible/ui:margin", collapsible);
 
-		margin = new Margin(GapSizeUtil.Size.SMALL);
+		margin = new Margin(SpaceUtil.Size.SMALL);
 		collapsible.setMargin(margin);
 		assertSchemaMatch(collapsible);
 		assertXpathEvaluatesTo("sm", "//ui:collapsible/ui:margin/@all", collapsible);
@@ -101,7 +101,7 @@ public class WCollapsibleRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:collapsible/ui:margin/@south", collapsible);
 		assertXpathEvaluatesTo("", "//ui:collapsible/ui:margin/@west", collapsible);
 
-		margin = new Margin(GapSizeUtil.Size.SMALL, GapSizeUtil.Size.MEDIUM, GapSizeUtil.Size.LARGE, GapSizeUtil.Size.XL);
+		margin = new Margin(SpaceUtil.Size.SMALL, SpaceUtil.Size.MEDIUM, SpaceUtil.Size.LARGE, SpaceUtil.Size.XL);
 		collapsible.setMargin(margin);
 		assertSchemaMatch(collapsible);
 		assertXpathEvaluatesTo("", "//ui:collapsible/ui:margin/@all", collapsible);

@@ -11,7 +11,7 @@ import com.github.bordertech.wcomponents.subordinate.Hide;
 import com.github.bordertech.wcomponents.subordinate.Rule;
 import com.github.bordertech.wcomponents.subordinate.Show;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * <p>
@@ -58,7 +58,7 @@ public class SubordinateControlSimpleCheckBoxSelectExample extends WContainer {
 		WFieldLayout flay = new WFieldLayout();
 		add(flay);
 		flay.setLabelWidth(25);
-		flay.setMargin(new Margin(null, null, GapSizeUtil.Size.LARGE, null));
+		flay.setMargin(new Margin(null, null, SpaceUtil.Size.LARGE, null));
 		flay.addField("Select an option", groupSelect);
 		WField xtraField = flay.addField("Extra information", extraField);
 

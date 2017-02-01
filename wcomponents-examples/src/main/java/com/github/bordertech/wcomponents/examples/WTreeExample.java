@@ -22,7 +22,7 @@ import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.WTree;
 import com.github.bordertech.wcomponents.examples.table.ExampleDataUtil;
 import com.github.bordertech.wcomponents.examples.table.PersonBean;
-import com.github.bordertech.wcomponents.util.GapSizeUtil.Size;
+import com.github.bordertech.wcomponents.util.SpaceUtil.Size;
 import java.util.List;
 
 /**

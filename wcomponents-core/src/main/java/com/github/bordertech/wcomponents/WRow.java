@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * This is a layout component, to which you add {@link WColumn} components. The widths of all the columns added to the
@@ -16,7 +16,7 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	/**
 	 * The horizontal gap between the columns in the row, measured in pixels.
 	 */
-	private final GapSizeUtil.Size gap;
+	private final SpaceUtil.Size gap;
 
 	/**
 	 * Creates a WRow.
@@ -29,7 +29,7 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	 * Create a WRow with the specified space between columns.
 	 * @param gap THe Size of the space to use.
 	 */
-	public WRow(final GapSizeUtil.Size gap) {
+	public WRow(final SpaceUtil.Size gap) {
 		this.gap = gap;
 	}
 
@@ -41,7 +41,7 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	 */
 	@Deprecated
 	public WRow(final int hgap) {
-		this(GapSizeUtil.intToSize(hgap));
+		this(SpaceUtil.intToSize(hgap));
 	}
 
 	/**
@@ -68,13 +68,13 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	 */
 	@Deprecated
 	public int getHgap() {
-		return GapSizeUtil.sizeToInt(gap);
+		return SpaceUtil.sizeToInt(gap);
 	}
 
 	/**
 	 * @return the horizontal gap between the columns in the row
 	 */
-	public GapSizeUtil.Size getSpace() {
+	public SpaceUtil.Size getSpace() {
 		return gap;
 	}
 
@@ -83,7 +83,7 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	 */
 	@Deprecated
 	public int getGap() {
-		return GapSizeUtil.sizeToInt(gap);
+		return SpaceUtil.sizeToInt(gap);
 	}
 
 	/**

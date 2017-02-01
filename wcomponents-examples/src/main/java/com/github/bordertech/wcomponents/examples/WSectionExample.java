@@ -17,7 +17,7 @@ import com.github.bordertech.wcomponents.subordinate.Hide;
 import com.github.bordertech.wcomponents.subordinate.Rule;
 import com.github.bordertech.wcomponents.subordinate.Show;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
-import com.github.bordertech.wcomponents.util.GapSizeUtil.Size;
+import com.github.bordertech.wcomponents.util.SpaceUtil.Size;
 
 /**
  * Demonstrate how {@link WSection} can be used.

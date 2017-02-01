@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.layout;
 
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * GridLayout is a {@link LayoutManager} that emulates {@link java.awt.GridLayout}.
@@ -24,12 +24,12 @@ public class GridLayout implements LayoutManager {
 	/**
 	 * The horizontal gap between the columns, measured in pixels.
 	 */
-	private final GapSizeUtil.Size hgap;
+	private final SpaceUtil.Size hgap;
 
 	/**
 	 * The vertical gap between the rows, measured in pixels.
 	 */
-	private final GapSizeUtil.Size vgap;
+	private final SpaceUtil.Size vgap;
 
 	/**
 	 * Creates a grid layout with the specified number of rows and columns.
@@ -56,7 +56,7 @@ public class GridLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public GridLayout(final int rows, final int cols, final int hgap, final int vgap) {
-		this(rows, cols, GapSizeUtil.intToSize(hgap), GapSizeUtil.intToSize(vgap));
+		this(rows, cols, SpaceUtil.intToSize(hgap), SpaceUtil.intToSize(vgap));
 	}
 	/**
 	 * Creates a grid layout with the specified number of rows and columns.
@@ -74,7 +74,7 @@ public class GridLayout implements LayoutManager {
 	 * @param hgap the horizontal gap between the columns, measured in pixels.
 	 * @param vgap the vertical gap between the rows, measured in pixels.
 	 */
-	public GridLayout(final int rows, final int cols, final GapSizeUtil.Size hgap, final GapSizeUtil.Size vgap) {
+	public GridLayout(final int rows, final int cols, final SpaceUtil.Size hgap, final SpaceUtil.Size vgap) {
 		if (rows < 0) {
 			throw new IllegalArgumentException("Rows must be greater than or equal to zero");
 		}
@@ -96,14 +96,14 @@ public class GridLayout implements LayoutManager {
 	/**
 	 * @return the horizontal gap between the cells
 	 */
-	public GapSizeUtil.Size getHorizontalGap() {
+	public SpaceUtil.Size getHorizontalGap() {
 		return hgap;
 	}
 
 	/**
 	 * @return the vertical gap between the cells
 	 */
-	public GapSizeUtil.Size getVerticalGap() {
+	public SpaceUtil.Size getVerticalGap() {
 		return vgap;
 	}
 
@@ -112,7 +112,7 @@ public class GridLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public int getHgap() {
-		return GapSizeUtil.sizeToInt(hgap);
+		return SpaceUtil.sizeToInt(hgap);
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class GridLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public int getVgap() {
-		return GapSizeUtil.sizeToInt(vgap);
+		return SpaceUtil.sizeToInt(vgap);
 	}
 
 	/**

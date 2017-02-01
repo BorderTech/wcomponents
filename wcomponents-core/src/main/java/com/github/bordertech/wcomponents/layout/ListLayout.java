@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.layout;
 
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * ListLayout renders out its items in a list.
@@ -90,7 +90,7 @@ public class ListLayout implements LayoutManager {
 	/**
 	 * The gap between the components added to the layout.
 	 */
-	private final GapSizeUtil.Size gap;
+	private final SpaceUtil.Size gap;
 
 	/**
 	 * Default constructor creates an unordered, LEFT aligned, DOT separated, STACKED list - i.e. a pretty much default
@@ -152,7 +152,7 @@ public class ListLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered, final int hgap, final int vgap) {
-		this(type, alignment, separator, ordered, type == Type.FLAT ? GapSizeUtil.intToSize(hgap) : GapSizeUtil.intToSize(vgap));
+		this(type, alignment, separator, ordered, type == Type.FLAT ? SpaceUtil.intToSize(hgap) : SpaceUtil.intToSize(vgap));
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class ListLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered, final int gap) {
-		this(type, alignment, separator, ordered, GapSizeUtil.intToSize(gap));
+		this(type, alignment, separator, ordered, SpaceUtil.intToSize(gap));
 	}
 
 	/**
@@ -179,7 +179,7 @@ public class ListLayout implements LayoutManager {
 	 * @param ordered whether the list is an ordered list.
 	 * @param gap the gap between the components added to the layouts.
 	 */
-	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered, final GapSizeUtil.Size gap) {
+	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered, final SpaceUtil.Size gap) {
 		if (type == null) {
 			throw new IllegalArgumentException("Type must be provided.");
 		}
@@ -225,7 +225,7 @@ public class ListLayout implements LayoutManager {
 	@Deprecated
 	public int getHgap() {
 		if (this.type == Type.FLAT) {
-			return GapSizeUtil.sizeToInt(gap);
+			return SpaceUtil.sizeToInt(gap);
 		}
 		return 0;
 	}
@@ -239,13 +239,13 @@ public class ListLayout implements LayoutManager {
 		if (this.type == Type.FLAT) {
 			return 0;
 		}
-		return GapSizeUtil.sizeToInt(gap);
+		return SpaceUtil.sizeToInt(gap);
 	}
 
 	/**
 	 * @return the space between the components added to the layout
 	 */
-	public GapSizeUtil.Size getSpace() {
+	public SpaceUtil.Size getSpace() {
 		return gap;
 	}
 
@@ -254,6 +254,6 @@ public class ListLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public int getGap() {
-		return GapSizeUtil.sizeToInt(gap);
+		return SpaceUtil.sizeToInt(gap);
 	}
 }

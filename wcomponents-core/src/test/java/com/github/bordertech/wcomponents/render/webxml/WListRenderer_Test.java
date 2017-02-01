@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.WList;
 import com.github.bordertech.wcomponents.WText;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import java.util.Arrays;
 import junit.framework.Assert;
@@ -23,12 +23,12 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 	/**
 	 * A reusable gap value.
 	 */
-	private static final GapSizeUtil.Size GAP = GapSizeUtil.Size.SMALL;
+	private static final SpaceUtil.Size GAP = SpaceUtil.Size.SMALL;
 
 	/**
 	 * A different reusable gap value. This is used to differentiate the (now deprecated) hgap and vgap properties.
 	 */
-	private static final GapSizeUtil.Size BIG_GAP = GapSizeUtil.Size.LARGE;
+	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
 
 	@Test
 	public void testLayoutCorrectlyConfigured() {
@@ -127,7 +127,7 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 		list.setMargin(margin);
 		assertXpathNotExists("//ui:panel/ui:margin", list);
 
-		margin = new Margin(GapSizeUtil.Size.SMALL);
+		margin = new Margin(SpaceUtil.Size.SMALL);
 		list.setMargin(margin);
 		assertSchemaMatch(list);
 		assertXpathEvaluatesTo("sm", "//ui:panel/ui:margin/@all", list);
@@ -136,7 +136,7 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@south", list);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@west", list);
 
-		margin = new Margin(GapSizeUtil.Size.SMALL, GapSizeUtil.Size.MEDIUM, GapSizeUtil.Size.LARGE, GapSizeUtil.Size.XL);
+		margin = new Margin(SpaceUtil.Size.SMALL, SpaceUtil.Size.MEDIUM, SpaceUtil.Size.LARGE, SpaceUtil.Size.XL);
 		list.setMargin(margin);
 		assertSchemaMatch(list);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@all", list);
@@ -154,7 +154,7 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WList list;
 
 		for (WList.Type t : WList.Type.values()) {
-			list = new WList(t, GapSizeUtil.sizeToInt(GAP), GapSizeUtil.sizeToInt(BIG_GAP));
+			list = new WList(t, SpaceUtil.sizeToInt(GAP), SpaceUtil.sizeToInt(BIG_GAP));
 			list.setRepeatedComponent(new WText());
 			list.setData(Arrays.asList(new String[]{"row1", "row2", "row3"}));
 			assertSchemaMatch(list);

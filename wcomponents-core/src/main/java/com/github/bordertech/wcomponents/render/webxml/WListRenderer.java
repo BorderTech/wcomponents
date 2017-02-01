@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WList;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.List;
 
@@ -31,7 +31,7 @@ final class WListRenderer extends AbstractWebXmlRenderer {
 		XmlStringBuilder xml = renderContext.getWriter();
 		WList.Type type = list.getType();
 		WList.Separator separator = list.getSeparator();
-		GapSizeUtil.Size gap = list.getSpace();
+		SpaceUtil.Size gap = list.getSpace();
 		String gapString = gap == null ? null : gap.toString();
 		xml.appendTagOpen("ui:panel");
 		xml.appendAttribute("id", component.getId());

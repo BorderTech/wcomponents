@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ import org.junit.Test;
  */
 public class WRow_Test extends AbstractWComponentTestCase {
 
-	private static final GapSizeUtil.Size GAP = GapSizeUtil.Size.MEDIUM;
+	private static final SpaceUtil.Size GAP = SpaceUtil.Size.MEDIUM;
 
 	@Test
 	public void testConstructor1() {
@@ -29,12 +29,12 @@ public class WRow_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testDeprecatedConstructor() {
-		WRow row = new WRow(GapSizeUtil.sizeToInt(GAP));
+		WRow row = new WRow(SpaceUtil.sizeToInt(GAP));
 		Assert.assertEquals("Constructor - Incorrect hgap", GAP, row.getSpace());
 	}
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WRow(), "margin", null, new Margin(GapSizeUtil.Size.SMALL), new Margin(GapSizeUtil.Size.ZERO));
+		assertAccessorsCorrect(new WRow(), "margin", null, new Margin(SpaceUtil.Size.SMALL), new Margin(SpaceUtil.Size.ZERO));
 	}
 }

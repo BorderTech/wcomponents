@@ -13,7 +13,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextArea;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * Demonstrate the {@link WStyledText} configuration options.
@@ -71,7 +71,7 @@ public class WStyledTextOptionsExample extends WPanel {
 
 		add(new WHeading(HeadingLevel.H2, "Styled Text"));
 		WPanel panel = new WPanel(WPanel.Type.BOX);
-		panel.setMargin(new Margin(GapSizeUtil.Size.XL));
+		panel.setMargin(new Margin(SpaceUtil.Size.XL));
 		add(panel);
 		panel.add(styled);
 		setDefaultSubmitButton(button);

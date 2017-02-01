@@ -10,7 +10,7 @@ import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WFieldSet;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * This example demonstrates the use of {@link WCheckBox#setActionOnChange(Action)}. The action associated with the
@@ -59,7 +59,7 @@ public class WCheckBoxTriggerActionExample extends WContainer {
 		final WText info = new WText();
 		add(infoPanel);
 		infoPanel.add(info);
-		infoPanel.setMargin(new Margin(GapSizeUtil.Size.LARGE, null, null, null));
+		infoPanel.setMargin(new Margin(SpaceUtil.Size.LARGE, null, null, null));
 
 		breakfastCheckbox.setActionOnChange(new Action() {
 

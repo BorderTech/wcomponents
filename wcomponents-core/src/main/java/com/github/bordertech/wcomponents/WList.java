@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * <p>
@@ -57,7 +57,7 @@ public class WList extends WRepeater implements Marginable {
 	/**
 	 * The gap between the components in the list.
 	 */
-	private final GapSizeUtil.Size gap;
+	private final SpaceUtil.Size gap;
 
 	/**
 	 * Creates a WList of the given type.
@@ -90,7 +90,7 @@ public class WList extends WRepeater implements Marginable {
 	 */
 	@Deprecated
 	public WList(final Type type, final int gap) {
-		this(type, GapSizeUtil.intToSize(gap));
+		this(type, SpaceUtil.intToSize(gap));
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class WList extends WRepeater implements Marginable {
 	 * @param type the list type.
 	 * @param gap the gap between the list items
 	 */
-	public WList(final Type type, final GapSizeUtil.Size gap) {
+	public WList(final Type type, final SpaceUtil.Size gap) {
 		getComponentModel().type = type;
 		this.gap = gap;
 	}
@@ -177,7 +177,7 @@ public class WList extends WRepeater implements Marginable {
 	@Deprecated
 	public int getHgap() {
 		if (getType() == Type.FLAT) {
-			return GapSizeUtil.sizeToInt(gap);
+			return SpaceUtil.sizeToInt(gap);
 		}
 		return 0;
 	}
@@ -191,13 +191,13 @@ public class WList extends WRepeater implements Marginable {
 		if (getType() == Type.FLAT) {
 			return 0;
 		}
-		return GapSizeUtil.sizeToInt(gap);
+		return SpaceUtil.sizeToInt(gap);
 	}
 
 	/**
 	 * @return the gap between items in the List.
 	 */
-	public GapSizeUtil.Size getSpace() {
+	public SpaceUtil.Size getSpace() {
 		return gap;
 	}
 
@@ -206,7 +206,7 @@ public class WList extends WRepeater implements Marginable {
 	 */
 	@Deprecated
 	public int getGap() {
-		return GapSizeUtil.sizeToInt(gap);
+		return SpaceUtil.sizeToInt(gap);
 	}
 
 	/**

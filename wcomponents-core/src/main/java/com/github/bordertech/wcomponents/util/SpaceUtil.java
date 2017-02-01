@@ -1,33 +1,33 @@
 package com.github.bordertech.wcomponents.util;
 
 /**
- * Size utility class used to enforce consistent spacing in gaps and margins.
+ * Size utility class used to ensure consistent spacing of intra-component gaps and Margins.
  * @author Mark Reeves
  * @since 1.4.0
  */
-public final class GapSizeUtil {
+public final class SpaceUtil {
 	/**
-	 * Size enumeration used to enforce consistent spacing in gaps and margins.
+	 * Available space values.
 	 */
 	public enum Size {
 		/**
-		 * Explicit zero gap. Used to remove innate margins (for example).
+		 * Explicit zero space. Used to remove innate margins (for example).
 		 */
 		ZERO ("z"),
 		/**
-		 * Small gap.
+		 * Small space.
 		 */
 		SMALL ("sm"),
 		/**
-		 * Medium gap.
+		 * Medium space.
 		 */
 		MEDIUM ("med"),
 		/**
-		 * Large gap.
+		 * Large space.
 		 */
 		LARGE ("lg"),
 		/**
-		 * Very large gap.
+		 * Very large space.
 		 */
 		XL ("xl");
 
@@ -38,7 +38,7 @@ public final class GapSizeUtil {
 
 		/**
 		 *
-		 * @param sz the size representation
+		 * @param sz the size representation passed to the UI
 		 */
 		Size(final String sz) {
 			size = sz;
@@ -57,40 +57,40 @@ public final class GapSizeUtil {
 	/**
 	 * prevent instantiation.
 	 */
-	private GapSizeUtil() {
+	private SpaceUtil() {
 	}
 
 	/**
-	 * The largest integer Margin considered small. This is for backwards compatibility
-	 * whilst we convert applications from int margins to Size margins.
+	 * The <strong>largest</strong> integer space considered small. For backwards compatibility during conversion of int spaces to Size spaces.
 	 */
+	@Deprecated
 	private static final int MAX_SMALL = 4;
 
 	/**
-	 * The largest integer Margin considered medium. This is for backwards compatibility
-	 * whilst we convert applications from int margins to Size margins.
+	 * The <strong>largest</strong> integer space considered medium. For backwards compatibility during conversion of int spaces to Size spaces.
 	 */
+	@Deprecated
 	private static final int MAX_MED = 8;
 
 	/**
-	 * The largest integer Margin considered small. This is for backwards compatibility
-	 * whilst we convert applications from int margins to Size margins.
+	 * The <strong>largest</strong> integer space considered small. For backwards compatibility during conversion of int spaces to Size spaces.
 	 */
+	@Deprecated
 	private static final int MAX_LARGE = 16;
 
 	/**
-	 * The representative integer Margin considered extra-large. This is for backwards compatibility
-	 * whilst we convert applications from int margins to Size margins.
+	 * The <strong>representative</strong> integer space considered extra-large. For backwards compatibility during conversion of int spaces to Size
+	 * spaces.
 	 */
+	@Deprecated
 	private static final int COMMON_XL = 24;
 
 	/**
-	 * Convert an int space to a size. This is for backwards compatibility whilst we convert applications from int
-	 * gaps to Size gaps.
+	 * Convert an int space to a Size. For backwards compatibility during conversion of int spaces to Size spaces.
 	 * @param convert the int size to convert
 	 * @return a Size appropriate to the int
-	 * @deprecated 1.4.0 do not use.
 	 */
+	@Deprecated
 	public static Size intToSize(final int convert) {
 		// NOTE: no zero size margin in the old versions.
 		if (convert <= 0) {
@@ -109,12 +109,11 @@ public final class GapSizeUtil {
 	}
 
 	/**
-	 * Convert a size back to a representative int. This is for backwards compatibility whilst we convert applications
-	 * from int gaps to Size gaps.
-	 * @param size the size to convert
-	 * @return an int appropriate to the size
-	 * @deprecated 1.4.0 do not use.
+	 * Convert a size back to a representative int. For backwards compatibility during conversion of int spaces to Size spaces.
+	 * @param size the Size to convert
+	 * @return an int representative of the Size
 	 */
+	@Deprecated
 	public static int sizeToInt(final Size size) {
 		if (size == null) {
 			return -1;

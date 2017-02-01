@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 import com.github.bordertech.wcomponents.layout.FlowLayout.ContentAlignment;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * <p>
@@ -23,7 +23,7 @@ public class FlowLayoutExample extends WPanel {
 	/**
 	 * A nice readable space.
 	 */
-	private static final GapSizeUtil.Size SPACE = GapSizeUtil.Size.MEDIUM;
+	private static final SpaceUtil.Size SPACE = SpaceUtil.Size.MEDIUM;
 
 	/**
 	 * Creates a FlowLayoutExample.

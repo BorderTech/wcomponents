@@ -16,7 +16,7 @@ import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.layout.ListLayout;
-import com.github.bordertech.wcomponents.util.GapSizeUtil.Size;
+import com.github.bordertech.wcomponents.util.SpaceUtil.Size;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;

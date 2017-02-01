@@ -19,7 +19,7 @@ import com.github.bordertech.wcomponents.subordinate.Enable;
 import com.github.bordertech.wcomponents.subordinate.Equal;
 import com.github.bordertech.wcomponents.subordinate.Rule;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * An example showing the basic use of the {@link WVideo} component.
@@ -99,7 +99,7 @@ public class WVideoExample extends WContainer {
 	private void buildUI() {
 		// build the configuration options UI.
 		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
-		layout.setMargin(new Margin(null, null, GapSizeUtil.Size.LARGE, null));
+		layout.setMargin(new Margin(null, null, SpaceUtil.Size.LARGE, null));
 		add(layout);
 		layout.addField("Autoplay", cbAutoPlay);
 		layout.addField("Loop", cbLoop);

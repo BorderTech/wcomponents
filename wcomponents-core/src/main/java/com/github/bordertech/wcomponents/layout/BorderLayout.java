@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.layout;
 
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * BorderLayout is a {@link LayoutManager} that emulates {@link java.awt.BorderLayout}.
@@ -70,12 +70,12 @@ public class BorderLayout implements LayoutManager {
 	/**
 	 * The horizontal gap between the west, center and east cells, measured in pixels.
 	 */
-	private final GapSizeUtil.Size hgap;
+	private final SpaceUtil.Size hgap;
 
 	/**
 	 * The vertical gap between the north cell, middle row and south cell, measured in pixels.
 	 */
-	private final GapSizeUtil.Size vgap;
+	private final SpaceUtil.Size vgap;
 
 	/**
 	 * Creates a border layout.
@@ -97,7 +97,7 @@ public class BorderLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public BorderLayout(final int hgap, final int vgap) {
-		this (GapSizeUtil.intToSize(hgap), GapSizeUtil.intToSize(vgap));
+		this (SpaceUtil.intToSize(hgap), SpaceUtil.intToSize(vgap));
 	}
 	/**
 	 * Creates a border layout with the gap between component areas.
@@ -111,7 +111,7 @@ public class BorderLayout implements LayoutManager {
 	 * @param hgap the horizontal gap between the west, center and east cells
 	 * @param vgap the vertical gap between the north cell, middle row and south cell
 	 */
-	public BorderLayout(final GapSizeUtil.Size hgap, final GapSizeUtil.Size vgap) {
+	public BorderLayout(final SpaceUtil.Size hgap, final SpaceUtil.Size vgap) {
 		this.hgap = hgap;
 		this.vgap = vgap;
 	}
@@ -119,14 +119,14 @@ public class BorderLayout implements LayoutManager {
 	/**
 	 * @return the horizontal gap between the cells
 	 */
-	public GapSizeUtil.Size getHorizontalGap() {
+	public SpaceUtil.Size getHorizontalGap() {
 		return hgap;
 	}
 
 	/**
 	 * @return the vertical gap between the cells
 	 */
-	public GapSizeUtil.Size getVerticalGap() {
+	public SpaceUtil.Size getVerticalGap() {
 		return vgap;
 	}
 
@@ -135,7 +135,7 @@ public class BorderLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public int getHgap() {
-		return GapSizeUtil.sizeToInt(hgap);
+		return SpaceUtil.sizeToInt(hgap);
 	}
 
 	/**
@@ -143,6 +143,6 @@ public class BorderLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public int getVgap() {
-		return GapSizeUtil.sizeToInt(vgap);
+		return SpaceUtil.sizeToInt(vgap);
 	}
 }

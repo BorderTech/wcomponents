@@ -14,7 +14,7 @@ import com.github.bordertech.wcomponents.WPartialDateField;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.util.Date;
 
 /**
@@ -55,7 +55,7 @@ public class WPartialDateFieldExample extends WContainer {
 
 		WPanel buttonPanel = new WPanel(WPanel.Type.FEATURE);
 		buttonPanel.setLayout(new FlowLayout(Alignment.LEFT, 6));
-		buttonPanel.setMargin(new Margin(GapSizeUtil.Size.MEDIUM, null, null, null));
+		buttonPanel.setMargin(new Margin(SpaceUtil.Size.MEDIUM, null, null, null));
 		buttonPanel.add(copyBtn);
 		buttonPanel.add(btnGetDay);
 		buttonPanel.add(btnGetMonth);
@@ -67,7 +67,7 @@ public class WPartialDateFieldExample extends WContainer {
 		//
 		wrapper = new WPanel();
 		add(wrapper);
-		wrapper.setMargin(new Margin(GapSizeUtil.Size.LARGE, null, GapSizeUtil.Size.LARGE, null));
+		wrapper.setMargin(new Margin(SpaceUtil.Size.LARGE, null, SpaceUtil.Size.LARGE, null));
 		WFieldSet setDateFieldSet = new WFieldSet("Set some or all of the date");
 		wrapper.add(setDateFieldSet);
 		// setDateFieldSet.setFrameType(WFieldSet.FrameType.NO_BORDER);

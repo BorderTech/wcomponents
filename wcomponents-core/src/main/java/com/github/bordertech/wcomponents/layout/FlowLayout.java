@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.layout;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * FlowLayout is a {@link LayoutManager} that allows components to be added to a {@link WPanel} in an arrangement
@@ -92,7 +92,7 @@ public class FlowLayout implements LayoutManager {
 	 * The space between components added to the FlowLayout. The direction of the space is determined by the
 	 * FlowLayout's Alignment.
 	 */
-	private final GapSizeUtil.Size gap;
+	private final SpaceUtil.Size gap;
 
 	/**
 	 * The relative vertical alignment of content in each cell.
@@ -138,7 +138,7 @@ public class FlowLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public FlowLayout(final Alignment alignment, final int hgap, final int vgap) {
-		this(alignment, Alignment.VERTICAL.equals(alignment) ? GapSizeUtil.intToSize(vgap) : GapSizeUtil.intToSize(hgap), null);
+		this(alignment, Alignment.VERTICAL.equals(alignment) ? SpaceUtil.intToSize(vgap) : SpaceUtil.intToSize(hgap), null);
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class FlowLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public FlowLayout(final Alignment alignment, final int gap) {
-		this(alignment, GapSizeUtil.intToSize(gap), null);
+		this(alignment, SpaceUtil.intToSize(gap), null);
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class FlowLayout implements LayoutManager {
 	 * @param alignment the required alignment
 	 * @param gap the required gap between components in the layout
 	 */
-	public FlowLayout(final Alignment alignment, final GapSizeUtil.Size gap) {
+	public FlowLayout(final Alignment alignment, final SpaceUtil.Size gap) {
 		this(alignment, gap, null);
 	}
 
@@ -180,7 +180,7 @@ public class FlowLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public FlowLayout(final Alignment alignment, final int hgap, final int vgap, final ContentAlignment contentAlignment) {
-		this(alignment, Alignment.VERTICAL.equals(alignment) ? GapSizeUtil.intToSize(vgap) : GapSizeUtil.intToSize(hgap),
+		this(alignment, Alignment.VERTICAL.equals(alignment) ? SpaceUtil.intToSize(vgap) : SpaceUtil.intToSize(hgap),
 				Alignment.VERTICAL.equals(alignment) ? null : contentAlignment);
 	}
 
@@ -196,7 +196,7 @@ public class FlowLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public FlowLayout(final Alignment alignment, final int gap, final ContentAlignment contentAlignment) {
-		this(alignment, GapSizeUtil.intToSize(gap), contentAlignment);
+		this(alignment, SpaceUtil.intToSize(gap), contentAlignment);
 	}
 
 	/**
@@ -208,7 +208,7 @@ public class FlowLayout implements LayoutManager {
 	 * @param gap the required gap between components in the layout
 	 * @param contentAlignment the alignment of the content in each cell when alignment is not vertical
 	 */
-	public FlowLayout(final Alignment alignment, final GapSizeUtil.Size gap, final ContentAlignment contentAlignment) {
+	public FlowLayout(final Alignment alignment, final SpaceUtil.Size gap, final ContentAlignment contentAlignment) {
 		if (alignment == null) {
 			throw new IllegalArgumentException("Alignment must be provided.");
 		}
@@ -230,7 +230,7 @@ public class FlowLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public int getHgap() {
-		return Alignment.VERTICAL.equals(alignment) ? 0 : GapSizeUtil.sizeToInt(gap);
+		return Alignment.VERTICAL.equals(alignment) ? 0 : SpaceUtil.sizeToInt(gap);
 	}
 
 	/**
@@ -239,14 +239,14 @@ public class FlowLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public int getVgap() {
-		return Alignment.VERTICAL.equals(alignment) ? GapSizeUtil.sizeToInt(gap) : 0;
+		return Alignment.VERTICAL.equals(alignment) ? SpaceUtil.sizeToInt(gap) : 0;
 	}
 
 
 	/**
 	 * @return the gap between the components added to the FlowLayout
 	 */
-	public GapSizeUtil.Size getSpace() {
+	public SpaceUtil.Size getSpace() {
 		return gap;
 	}
 
@@ -255,7 +255,7 @@ public class FlowLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public int getGap() {
-		return GapSizeUtil.sizeToInt(gap);
+		return SpaceUtil.sizeToInt(gap);
 	}
 
 	/**

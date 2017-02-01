@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * This {@link Renderer} renders the children of a {@link WPanel} which have been arranged using a {@link FlowLayout}.
@@ -28,7 +28,7 @@ final class FlowLayoutRenderer extends AbstractWebXmlRenderer {
 		WPanel panel = (WPanel) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 		FlowLayout layout = (FlowLayout) panel.getLayout();
-		GapSizeUtil.Size gap = layout.getSpace();
+		SpaceUtil.Size gap = layout.getSpace();
 		String gapString = gap != null ? gap.toString() : null;
 		FlowLayout.Alignment align = layout.getAlignment();
 

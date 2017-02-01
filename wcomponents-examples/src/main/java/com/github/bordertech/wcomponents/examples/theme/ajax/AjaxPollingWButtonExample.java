@@ -11,7 +11,7 @@ import com.github.bordertech.wcomponents.WAjaxPollingRegion;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WText;
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import com.github.bordertech.wcomponents.util.Util;
 import java.util.HashMap;
 import java.util.Map;
@@ -78,7 +78,7 @@ public class AjaxPollingWButtonExample extends WContainer {
 			public void execute(final ActionEvent event) {
 				myDataComponent.setVisible(true);
 				if (null == poller.getMargin()) {
-					poller.setMargin(new Margin(GapSizeUtil.Size.LARGE, null, null, null)); // push the panel's content off of the button.
+					poller.setMargin(new Margin(SpaceUtil.Size.LARGE, null, null, null)); // push the panel's content off of the button.
 				}
 
 				fakeServiceCall();

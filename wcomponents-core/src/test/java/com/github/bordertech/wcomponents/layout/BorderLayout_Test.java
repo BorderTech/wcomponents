@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.layout;
 
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,11 +15,11 @@ public class BorderLayout_Test {
 	/**
 	 * A small gap.
 	 */
-	private static final GapSizeUtil.Size GAP = GapSizeUtil.Size.SMALL;
+	private static final SpaceUtil.Size GAP = SpaceUtil.Size.SMALL;
 	/**
 	 * A big gap.
 	 */
-	private static final GapSizeUtil.Size BIG_GAP = GapSizeUtil.Size.LARGE;
+	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
 
 	@Test
 	public void testDefaultConstructor() {
@@ -45,15 +45,15 @@ public class BorderLayout_Test {
 
 	@Test
 	public void testDeprecatedHgapVgapConstructor() {
-		BorderLayout layout = new BorderLayout(GapSizeUtil.sizeToInt(GAP), GapSizeUtil.sizeToInt(BIG_GAP));
+		BorderLayout layout = new BorderLayout(SpaceUtil.sizeToInt(GAP), SpaceUtil.sizeToInt(BIG_GAP));
 		Assert.assertEquals("Incorrect hgap", GAP, layout.getHorizontalGap());
 		Assert.assertEquals("Incorrect vgap", BIG_GAP, layout.getVerticalGap());
 
-		layout = new BorderLayout(GapSizeUtil.sizeToInt(GAP), 0);
+		layout = new BorderLayout(SpaceUtil.sizeToInt(GAP), 0);
 		Assert.assertEquals("Incorrect hgap", GAP, layout.getHorizontalGap());
 		Assert.assertNull("Incorrect vgap", layout.getVerticalGap());
 
-		layout = new BorderLayout(0, GapSizeUtil.sizeToInt(GAP));
+		layout = new BorderLayout(0, SpaceUtil.sizeToInt(GAP));
 		Assert.assertNull("Incorrect hgap", layout.getHorizontalGap());
 		Assert.assertEquals("Incorrect vgap", GAP, layout.getVerticalGap());
 	}

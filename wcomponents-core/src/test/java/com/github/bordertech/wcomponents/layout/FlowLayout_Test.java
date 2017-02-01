@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.layout;
 
-import com.github.bordertech.wcomponents.util.GapSizeUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -16,12 +16,12 @@ public class FlowLayout_Test {
 	/**
 	 * A reusable gap value.
 	 */
-	private static final GapSizeUtil.Size GAP = GapSizeUtil.Size.MEDIUM;
+	private static final SpaceUtil.Size GAP = SpaceUtil.Size.MEDIUM;
 
 	/**
 	 * A different reusable gap value. This is used to differentiate the (now deprecated) hgap and vgap properties.
 	 */
-	private static final GapSizeUtil.Size BIG_GAP = GapSizeUtil.Size.LARGE;
+	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testNullAlignment() {
@@ -103,7 +103,7 @@ public class FlowLayout_Test {
 		boolean isVertical;
 		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
 			isVertical = FlowLayout.Alignment.VERTICAL.equals(a);
-			flow = new FlowLayout(a, GapSizeUtil.sizeToInt(GAP), GapSizeUtil.sizeToInt(BIG_GAP));
+			flow = new FlowLayout(a, SpaceUtil.sizeToInt(GAP), SpaceUtil.sizeToInt(BIG_GAP));
 			Assert.assertEquals("Incorrect alignment", a, flow.getAlignment());
 			Assert.assertEquals("Incorrect horizontal gap", isVertical ? BIG_GAP : GAP, flow.getSpace());
 		}
@@ -116,7 +116,7 @@ public class FlowLayout_Test {
 		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
 			isVertical = FlowLayout.Alignment.VERTICAL.equals(a);
 			for (FlowLayout.ContentAlignment c : FlowLayout.ContentAlignment.values()) {
-				flow = new FlowLayout(a, GapSizeUtil.sizeToInt(GAP), GapSizeUtil.sizeToInt(BIG_GAP), c);
+				flow = new FlowLayout(a, SpaceUtil.sizeToInt(GAP), SpaceUtil.sizeToInt(BIG_GAP), c);
 				Assert.assertEquals("Incorrect alignment", a, flow.getAlignment());
 				Assert.assertEquals("Incorrect gap", isVertical ? BIG_GAP : GAP, flow.getSpace());
 
@@ -138,8 +138,8 @@ public class FlowLayout_Test {
 		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
 			isVertical = FlowLayout.Alignment.VERTICAL.equals(a);
 			flow = new FlowLayout(a, GAP);
-			Assert.assertEquals("Incorrect vertical gap", isVertical ? GapSizeUtil.sizeToInt(GAP) : 0, flow.getVgap());
-			Assert.assertEquals("incorrect horizontal gap", isVertical ? 0 : GapSizeUtil.sizeToInt(GAP), flow.getHgap());
+			Assert.assertEquals("Incorrect vertical gap", isVertical ? SpaceUtil.sizeToInt(GAP) : 0, flow.getVgap());
+			Assert.assertEquals("incorrect horizontal gap", isVertical ? 0 : SpaceUtil.sizeToInt(GAP), flow.getHgap());
 		}
 	}
 }
