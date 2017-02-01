@@ -17,16 +17,16 @@
 		position: absolute;
 		top: 0;
 
-		> [aria-expanded] {
-			padding-right: $wc-gap-normal;
-		}
-
 		&.wc_tree_root {
 			@include border($pos: left, $width: 0);
 			display: table;
 			left: 0;
 			position: relative;
 		}
+	}
+
+	[role='treeitem'] {
+		padding-right: $wc-gap-normal;
 	}
 
 	[aria-expanded='true'] > [role='group'] {
