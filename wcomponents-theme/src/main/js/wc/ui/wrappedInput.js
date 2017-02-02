@@ -7,7 +7,8 @@ define(["wc/dom/initialise",
 		"use strict";
 
 		function WrappedInputUI () {
-			var WRAPPED = wrappedInput.getWrappedWidgets();
+			var WRAPPED = wrappedInput.getWrappedWidgets(),
+				PLACEHOLDER_TEXT;
 
 			function mandate(element, action) {
 				var input,
@@ -18,7 +19,8 @@ define(["wc/dom/initialise",
 				if ((input = Widget.findDescendant(element, WRAPPED))) {
 					shed[action](input);
 					if (action === shed.actions.MANDATORY) {
-						input.setAttribute(PLACEHOLDER, i18n.get("requiredPlaceholder"));
+						PLACEHOLDER_TEXT = PLACEHOLDER_TEXT || i18n.get("requiredPlaceholder");
+						input.setAttribute(PLACEHOLDER, PLACEHOLDER_TEXT);
 					}
 					else {
 						input.removeAttribute(PLACEHOLDER);
