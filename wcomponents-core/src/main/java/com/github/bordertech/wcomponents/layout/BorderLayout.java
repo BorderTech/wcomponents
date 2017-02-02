@@ -70,12 +70,39 @@ public class BorderLayout implements LayoutManager {
 	/**
 	 * The horizontal gap between the west, center and east cells, measured in pixels.
 	 */
-	private final SpaceUtil.Size hgap;
+	private final SpaceUtil.Size hSpace;
 
 	/**
 	 * The vertical gap between the north cell, middle row and south cell, measured in pixels.
 	 */
-	private final SpaceUtil.Size vgap;
+	private final SpaceUtil.Size vSpace;
+
+	/**
+	 * For temporary backwards compatibility only.
+	 */
+	@Deprecated
+	private final int hgap;
+
+	/**
+	 * For temporary backwards compatibility only.
+	 */
+	@Deprecated
+	private final int vgap;
+
+	/**
+	 * For temporary backwards compatibility only.
+	 * @param hSpace the real horizontal space between cells
+	 * @param vSpace the real vertical space between rows of cells
+	 * @param hgap the requested horizontal space between cells
+	 * @param vgap the requested vertical space between rows of cells
+	 */
+	@Deprecated
+	private BorderLayout(final SpaceUtil.Size hSpace, final SpaceUtil.Size vSpace, final int hgap, final int vgap) {
+		this.hSpace = hSpace;
+		this.vSpace = vSpace;
+		this.hgap = hgap;
+		this.vgap = vgap;
+	}
 
 	/**
 	 * Creates a border layout.
@@ -93,11 +120,11 @@ public class BorderLayout implements LayoutManager {
 	 *
 	 * @param hgap the horizontal gap between the west, center and east cells, measured in pixels.
 	 * @param vgap the vertical gap between the north cell, middle row and south cell, measured in pixels
-	 * @deprecated use {@link #BorderLayout(GapSizeUtil.Size, GapSizeUtil.Size)} instead.
+	 * @deprecated use {@link #BorderLayout(SpaceUtil.Size, SpaceUtil.Size)} instead.
 	 */
 	@Deprecated
 	public BorderLayout(final int hgap, final int vgap) {
-		this (SpaceUtil.intToSize(hgap), SpaceUtil.intToSize(vgap));
+		this (SpaceUtil.intToSize(hgap), SpaceUtil.intToSize(vgap), hgap, vgap);
 	}
 	/**
 	 * Creates a border layout with the gap between component areas.
@@ -108,26 +135,28 @@ public class BorderLayout implements LayoutManager {
 	 * <p>
 	 * All <code>BorderLayout</code> constructors defer to this one.
 	 *
-	 * @param hgap the horizontal gap between the west, center and east cells
-	 * @param vgap the vertical gap between the north cell, middle row and south cell
+	 * @param hSpace the horizontal gap between the west, center and east cells
+	 * @param vSpace the vertical gap between the north cell, middle row and south cell
 	 */
-	public BorderLayout(final SpaceUtil.Size hgap, final SpaceUtil.Size vgap) {
-		this.hgap = hgap;
-		this.vgap = vgap;
+	public BorderLayout(final SpaceUtil.Size hSpace, final SpaceUtil.Size vSpace) {
+		this.hSpace = hSpace;
+		this.vSpace = vSpace;
+		this.hgap = -1;
+		this.vgap = -1;
 	}
 
 	/**
 	 * @return the horizontal gap between the cells
 	 */
 	public SpaceUtil.Size getHorizontalGap() {
-		return hgap;
+		return hSpace;
 	}
 
 	/**
 	 * @return the vertical gap between the cells
 	 */
 	public SpaceUtil.Size getVerticalGap() {
-		return vgap;
+		return vSpace;
 	}
 
 	/**
@@ -135,7 +164,7 @@ public class BorderLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public int getHgap() {
-		return SpaceUtil.sizeToInt(hgap);
+		return hgap;
 	}
 
 	/**
@@ -143,6 +172,6 @@ public class BorderLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public int getVgap() {
-		return SpaceUtil.sizeToInt(vgap);
+		return vgap;
 	}
 }

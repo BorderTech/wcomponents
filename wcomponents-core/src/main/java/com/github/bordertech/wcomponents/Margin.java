@@ -37,6 +37,76 @@ public class Margin implements Serializable {
 	private final SpaceUtil.Size left;
 
 	/**
+	 * For temporary backwards compatibility only.
+	 */
+	@Deprecated
+	private final int oldAll;
+	/**
+	 * For temporary backwards compatibility only.
+	 */
+	@Deprecated
+	private final int north;
+	/**
+	 * For temporary backwards compatibility only.
+	 */
+	@Deprecated
+	private final int east;
+	/**
+	 * For temporary backwards compatibility only.
+	 */
+	@Deprecated
+	private final int south;
+	/**
+	 * For temporary backwards compatibility only.
+	 */
+	@Deprecated
+	private final int west;
+	/**
+	 * For temporary backwards compatibility only.
+	 * @param all the real size of the margin
+	 * @param oldAll the requested size of the margin
+	 */
+	@Deprecated
+	private Margin(final SpaceUtil.Size all, final int oldAll) {
+		this.all = all;
+		this.top = null;
+		this.right = null;
+		this.bottom = null;
+		this.left = null;
+		this.oldAll = oldAll;
+		this.north = -1;
+		this.east = -1;
+		this.south = -1;
+		this.west = -1;
+	}
+
+	/**
+	 * For temporary backwards compatibility only.
+	 * @param top the real top margin
+	 * @param right the real right margin
+	 * @param bottom the real bottom margin
+	 * @param left the real left margin
+	 * @param north the requested north margin
+	 * @param east the requested east margin
+	 * @param south the requested south margin
+	 * @param west the requested west margin
+	 * @deprecated
+	 */
+	@Deprecated
+	private Margin(final SpaceUtil.Size top, final SpaceUtil.Size right, final SpaceUtil.Size bottom, final SpaceUtil.Size left, final int north,
+			final int east, final int south, final int west) {
+		this.all = null;
+		this.top = top;
+		this.right = right;
+		this.bottom = bottom;
+		this.left = left;
+		this.oldAll = -1;
+		this.north = north;
+		this.east = east;
+		this.south = south;
+		this.west = west;
+	}
+	/**
 	 * A margin equal on all sizes.
 	 * @param all the size of the margin to be used on all sides of the component.
 	 */
@@ -46,15 +116,20 @@ public class Margin implements Serializable {
 		this.right = null;
 		this.bottom = null;
 		this.left = null;
+		this.oldAll = -1;
+		this.north = -1;
+		this.east = -1;
+		this.south = -1;
+		this.west = -1;
 	}
 
 	/**
 	 * @param all the size of the margin to be used on all sides of the component.
-	 * @deprecated 1.4.0 use {@link #Margin(GapSizeUtil.Size)}
+	 * @deprecated use {@link #Margin(SpaceUtil.Size)}
 	 */
 	@Deprecated
 	public Margin(final int all) {
-		this(SpaceUtil.intToSize(all));
+		this(SpaceUtil.intToSize(all), all);
 	}
 
 	/**
@@ -71,6 +146,11 @@ public class Margin implements Serializable {
 		this.right = east;
 		this.bottom = south;
 		this.left = west;
+		this.oldAll = -1;
+		this.north = -1;
+		this.east = -1;
+		this.south = -1;
+		this.west = -1;
 	}
 
 	/**
@@ -80,50 +160,56 @@ public class Margin implements Serializable {
 	 * @param east the size of the east margin.
 	 * @param south the size of the south margin.
 	 * @param west the size of the west margin.
-	 * @deprecated 1.4.0 use {@link #Margin(GapSizeUtil.Size, GapSizeUtil.Size, GapSizeUtil.Size, GapSizeUtil.Size)}
+	 * @deprecated use {@link #Margin(SpaceUtil.Size, SpaceUtil.Size, SpaceUtil.Size, SpaceUtil.Size)}
 	 */
+	@Deprecated
 	public Margin(final int north, final int east, final int south, final int west) {
-		this(SpaceUtil.intToSize(north), SpaceUtil.intToSize(east), SpaceUtil.intToSize(south), SpaceUtil.intToSize(west));
+		this(SpaceUtil.intToSize(north), SpaceUtil.intToSize(east), SpaceUtil.intToSize(south), SpaceUtil.intToSize(west), north, east, south, west);
 	}
 
 	/**
 	 * @return the size of the margin to be used on all sides of the panel, or -1 if it has not been set.
-	 * @deprecated 1.4.0 do not use.
+	 * @deprecated use {@link #getMargin()}
 	 */
+	@Deprecated
 	public int getAll() {
-		return SpaceUtil.sizeToInt(all);
+		return oldAll;
 	}
 
 	/**
 	 * @return the size of the north margin, or -1 if it has not been set.
-	 * @deprecated 1.4.0 do not use.
+	 * @deprecated use {@link #getTop()}
 	 */
+	@Deprecated
 	public int getNorth() {
-		return SpaceUtil.sizeToInt(top);
+		return north;
 	}
 
 	/**
 	 * @return the size of the east margin, or -1 if it has not been set.
-	 * @deprecated 1.4.0 do not use.
+	 * @deprecated use {@link #getRight()}
 	 */
+	@Deprecated
 	public int getEast() {
-		return SpaceUtil.sizeToInt(right);
+		return east;
 	}
 
 	/**
 	 * @return the size of the south margin, or -1 if it has not been set.
-	 * @deprecated 1.4.0 do not use.
+	 * @deprecated use {@link #getBottom()}
 	 */
+	@Deprecated
 	public int getSouth() {
-		return SpaceUtil.sizeToInt(bottom);
+		return south;
 	}
 
 	/**
 	 * @return the size of the west margin, or -1 if it has not been set.
-	 * @deprecated 1.4.0 do not use.
+	 * @deprecated use {@link #getLeft()}
 	 */
+	@Deprecated
 	public int getWest() {
-		return SpaceUtil.sizeToInt(left);
+		return west;
 	}
 
 	/**

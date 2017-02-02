@@ -22,14 +22,58 @@ public class GridLayout implements LayoutManager {
 	private final int cols;
 
 	/**
-	 * The horizontal gap between the columns, measured in pixels.
+	 * The horizontal space between the columns.
 	 */
-	private final SpaceUtil.Size hgap;
+	private final SpaceUtil.Size hSpace;
 
 	/**
-	 * The vertical gap between the rows, measured in pixels.
+	 * The vertical space between the rows.
 	 */
-	private final SpaceUtil.Size vgap;
+	private final SpaceUtil.Size vSpace;
+
+	/**
+	 * For temporary backwards compatibility only.
+	 */
+	@Deprecated
+	private final int hgap;
+
+	/**
+	 * For temporary backwards compatibility only.
+	 */
+	@Deprecated
+	private final int vgap;
+
+	/**
+	 * For temporary backwards compatibility only.
+	 *
+	 * @param rows the rows, with the value zero meaning any number of rows
+	 * @param cols the columns, with the value zero meaning any number of columns
+	 * @param hSpace the real gap between columns in the grid
+	 * @param vSpace the real gap between rows in the gid
+	 * @param hgap the requested gap between the columns
+	 * @param vgap the requested gap between the rows
+	 */
+	@Deprecated
+	private GridLayout(final int rows, final int cols, final SpaceUtil.Size hSpace, final SpaceUtil.Size vSpace, final int hgap, final int vgap) {
+		if (rows < 0) {
+			throw new IllegalArgumentException("Rows must be greater than or equal to zero");
+		}
+
+		if (cols < 0) {
+			throw new IllegalArgumentException("Cols must be greater than or equal to zero");
+		}
+
+		if (rows == 0 && cols == 0) {
+			throw new IllegalArgumentException("One of rows or cols must be greater than zero");
+		}
+
+		this.rows = rows;
+		this.cols = cols;
+		this.hSpace = hSpace;
+		this.vSpace = vSpace;
+		this.hgap = hgap;
+		this.vgap = vgap;
+	}
 
 	/**
 	 * Creates a grid layout with the specified number of rows and columns.
@@ -49,14 +93,14 @@ public class GridLayout implements LayoutManager {
 	 *
 	 * @param rows the rows, with the value zero meaning any number of rows
 	 * @param cols the columns, with the value zero meaning any number of columns
-	 * @param hgap the horizontal gap between the columns, measured in pixels
-	 * @param vgap the vertical gap between the rows, measured in pixels
+	 * @param hgap the space between the columns, measured in pixels
+	 * @param vgap the space between the rows, measured in pixels
 	 *
-	 * @deprecated use {@link #GridLayout(int, int, GapSizeUtil.Size, GapSizeUtil.Size)}
+	 * @deprecated use {@link #GridLayout(int, int, SpaceUtil.Size, SpaceUtil.Size)}
 	 */
 	@Deprecated
 	public GridLayout(final int rows, final int cols, final int hgap, final int vgap) {
-		this(rows, cols, SpaceUtil.intToSize(hgap), SpaceUtil.intToSize(vgap));
+		this(rows, cols, SpaceUtil.intToSize(hgap), SpaceUtil.intToSize(vgap), hgap, vgap);
 	}
 	/**
 	 * Creates a grid layout with the specified number of rows and columns.
@@ -71,10 +115,10 @@ public class GridLayout implements LayoutManager {
 	 *
 	 * @param rows the rows, with the value zero meaning any number of rows
 	 * @param cols the columns, with the value zero meaning any number of columns
-	 * @param hgap the horizontal gap between the columns, measured in pixels.
-	 * @param vgap the vertical gap between the rows, measured in pixels.
+	 * @param hSpace the space between the columns
+	 * @param vSpace the space between the rows
 	 */
-	public GridLayout(final int rows, final int cols, final SpaceUtil.Size hgap, final SpaceUtil.Size vgap) {
+	public GridLayout(final int rows, final int cols, final SpaceUtil.Size hSpace, final SpaceUtil.Size vSpace) {
 		if (rows < 0) {
 			throw new IllegalArgumentException("Rows must be greater than or equal to zero");
 		}
@@ -89,22 +133,24 @@ public class GridLayout implements LayoutManager {
 
 		this.rows = rows;
 		this.cols = cols;
-		this.hgap = hgap;
-		this.vgap = vgap;
+		this.hSpace = hSpace;
+		this.vSpace = vSpace;
+		this.hgap = -1;
+		this.vgap = -1;
 	}
 
 	/**
 	 * @return the horizontal gap between the cells
 	 */
 	public SpaceUtil.Size getHorizontalGap() {
-		return hgap;
+		return hSpace;
 	}
 
 	/**
 	 * @return the vertical gap between the cells
 	 */
 	public SpaceUtil.Size getVerticalGap() {
-		return vgap;
+		return vSpace;
 	}
 
 	/**
@@ -112,7 +158,7 @@ public class GridLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public int getHgap() {
-		return SpaceUtil.sizeToInt(hgap);
+		return hgap;
 	}
 
 	/**
@@ -120,7 +166,7 @@ public class GridLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public int getVgap() {
-		return SpaceUtil.sizeToInt(vgap);
+		return vgap;
 	}
 
 	/**

@@ -135,11 +135,12 @@ public class FlowLayout_Test {
 	public void testHGapVGapAccessors() {
 		FlowLayout flow;
 		boolean isVertical;
+		int intGap = 12;
 		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
 			isVertical = FlowLayout.Alignment.VERTICAL.equals(a);
-			flow = new FlowLayout(a, GAP);
-			Assert.assertEquals("Incorrect vertical gap", isVertical ? SpaceUtil.sizeToInt(GAP) : 0, flow.getVgap());
-			Assert.assertEquals("incorrect horizontal gap", isVertical ? 0 : SpaceUtil.sizeToInt(GAP), flow.getHgap());
+			flow = new FlowLayout(a, intGap);
+			Assert.assertEquals("Incorrect vertical gap", isVertical ? intGap : 0, flow.getVgap());
+			Assert.assertEquals("incorrect horizontal gap", isVertical ? 0 : intGap, flow.getHgap());
 		}
 	}
 }

@@ -14,9 +14,26 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 		Marginable {
 
 	/**
-	 * The horizontal gap between the columns in the row, measured in pixels.
+	 * The horizontal space between the columns in the row, measured in pixels.
 	 */
-	private final SpaceUtil.Size gap;
+	private final SpaceUtil.Size space;
+
+	/**
+	 * For temporary backwards compatibility only.
+	 */
+	@Deprecated
+	private final int gap;
+
+	/**
+	 * For temporary backwards compatibility only.
+	 * @param space the real space between items
+	 * @param gap the requested space between items
+	 */
+	@Deprecated
+	private WRow(final SpaceUtil.Size space, final int gap) {
+		this.space = space;
+		this.gap = gap;
+	}
 
 	/**
 	 * Creates a WRow.
@@ -30,18 +47,19 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	 * @param gap THe Size of the space to use.
 	 */
 	public WRow(final SpaceUtil.Size gap) {
-		this.gap = gap;
+		this.space = gap;
+		this.gap = -1;
 	}
 
 	/**
 	 * Creates a WRow with the specified attributes.
 	 *
-	 * @param hgap the horizontal gap between the columns in the row, measured in pixels
-	 * @deprecated use {@link #WRow(com.github.bordertech.wcomponents.util.GapSizeUtil.Size)}
+	 * @param hgap the horizontal space between the columns in the row, measured in pixels
+	 * @deprecated use {@link #WRow(com.github.bordertech.wcomponents.util.SpaceUtil.Size)}
 	 */
 	@Deprecated
 	public WRow(final int hgap) {
-		this(SpaceUtil.intToSize(hgap));
+		this(SpaceUtil.intToSize(hgap), hgap);
 	}
 
 	/**
@@ -63,19 +81,19 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	}
 
 	/**
-	 * @return the horizontal gap between the columns in the row, measured in pixels
+	 * @return the horizontal space between the columns in the row, measured in pixels
 	 * @deprecated use {@link #getGap()}
 	 */
 	@Deprecated
 	public int getHgap() {
-		return SpaceUtil.sizeToInt(gap);
+		return gap;
 	}
 
 	/**
-	 * @return the horizontal gap between the columns in the row
+	 * @return the horizontal space between the columns in the row
 	 */
 	public SpaceUtil.Size getSpace() {
-		return gap;
+		return space;
 	}
 
 	/**
@@ -83,7 +101,7 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	 */
 	@Deprecated
 	public int getGap() {
-		return SpaceUtil.sizeToInt(gap);
+		return gap;
 	}
 
 	/**

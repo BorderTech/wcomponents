@@ -92,12 +92,36 @@ public class FlowLayout implements LayoutManager {
 	 * The space between components added to the FlowLayout. The direction of the space is determined by the
 	 * FlowLayout's Alignment.
 	 */
-	private final SpaceUtil.Size gap;
+	private final SpaceUtil.Size space;
+
+	/**
+	 * For temporary backwards compatibility only.
+	 */
+	@Deprecated
+	private final int gap;
 
 	/**
 	 * The relative vertical alignment of content in each cell.
 	 */
 	private final ContentAlignment contentAlignment;
+
+	/**
+	 * For temporary backwards compatibility only.
+	 * @param alignment the required alignment
+	 * @param space the real gap between components in the layout
+	 * @param contentAlignment the alignment of the content in each cell when alignment is not vertical
+	 * @param gap the requested gap between components in the layout
+	 */
+	@Deprecated
+	private FlowLayout(final Alignment alignment, final SpaceUtil.Size space, final ContentAlignment contentAlignment, final int gap) {
+		if (alignment == null) {
+			throw new IllegalArgumentException("Alignment must be provided.");
+		}
+		this.alignment = alignment;
+		this.space = space;
+		this.contentAlignment = Alignment.VERTICAL.equals(alignment) ? null : contentAlignment;
+		this.gap = gap;
+	}
 
 	/**
 	 * Constructs a new <code>FlowLayout</code> with a centered alignment.
@@ -134,11 +158,12 @@ public class FlowLayout implements LayoutManager {
 	 * @param hgap The horizontal gap between the cells, measured in pixels. Not used if alignment is VERTICAL.
 	 * @param vgap The vertical gap between the cells, measured in pixels. Used only if alignment is VERTICAL.
 	 *
-	 * @deprecated use {@link #FlowLayout(Alignment, GapSizeUtil.Size)}
+	 * @deprecated use {@link #FlowLayout(Alignment, SpaceUtil.Size)}
 	 */
 	@Deprecated
 	public FlowLayout(final Alignment alignment, final int hgap, final int vgap) {
-		this(alignment, Alignment.VERTICAL.equals(alignment) ? SpaceUtil.intToSize(vgap) : SpaceUtil.intToSize(hgap), null);
+		this(alignment, Alignment.VERTICAL.equals(alignment) ? SpaceUtil.intToSize(vgap) : SpaceUtil.intToSize(hgap), null,
+				Alignment.VERTICAL.equals(alignment) ? vgap : hgap);
 	}
 
 	/**
@@ -147,11 +172,11 @@ public class FlowLayout implements LayoutManager {
 	 *
 	 * @param alignment the required alignment
 	 * @param gap the required gap between components in the layout
-	 * @deprecated use {@link #FlowLayout(Alignment, GapSizeUtil.Size)}
+	 * @deprecated use {@link #FlowLayout(Alignment, SpaceUtil.Size)}
 	 */
 	@Deprecated
 	public FlowLayout(final Alignment alignment, final int gap) {
-		this(alignment, SpaceUtil.intToSize(gap), null);
+		this(alignment, SpaceUtil.intToSize(gap), null, gap);
 	}
 
 	/**
@@ -159,10 +184,10 @@ public class FlowLayout implements LayoutManager {
 	 * applied as a vertical gap if the alignment is VERTICAL otherwise it is applied as a horizontal gap.
 	 *
 	 * @param alignment the required alignment
-	 * @param gap the required gap between components in the layout
+	 * @param space the required gap between components in the layout
 	 */
-	public FlowLayout(final Alignment alignment, final SpaceUtil.Size gap) {
-		this(alignment, gap, null);
+	public FlowLayout(final Alignment alignment, final SpaceUtil.Size space) {
+		this(alignment, space, null);
 	}
 
 	/**
@@ -176,12 +201,13 @@ public class FlowLayout implements LayoutManager {
 	 * @param contentAlignment The relative vertical alignment of the content in each cell. Not used if alignment is
 	 * VERTICAL.
 	 *
-	 * @deprecated use {@link #FlowLayout(Alignment, GapSizeUtil.Size, ContentAlignment)}
+	 * @deprecated use {@link #FlowLayout(Alignment, SpaceUtil.Size, ContentAlignment)}
 	 */
 	@Deprecated
 	public FlowLayout(final Alignment alignment, final int hgap, final int vgap, final ContentAlignment contentAlignment) {
 		this(alignment, Alignment.VERTICAL.equals(alignment) ? SpaceUtil.intToSize(vgap) : SpaceUtil.intToSize(hgap),
-				Alignment.VERTICAL.equals(alignment) ? null : contentAlignment);
+				Alignment.VERTICAL.equals(alignment) ? null : contentAlignment,
+				Alignment.VERTICAL.equals(alignment) ? vgap : hgap);
 	}
 
 	/**
@@ -192,11 +218,11 @@ public class FlowLayout implements LayoutManager {
 	 * @param alignment the required alignment
 	 * @param gap the required gap between components in the layout
 	 * @param contentAlignment the alignment of the content in each cell when alignment is not vertical
-	 * @deprecated use {@link #FlowLayout(Alignment, GapSizeUtil.Size, ContentAlignment)}
+	 * @deprecated use {@link #FlowLayout(Alignment, SpaceUtil.Size, ContentAlignment)}
 	 */
 	@Deprecated
 	public FlowLayout(final Alignment alignment, final int gap, final ContentAlignment contentAlignment) {
-		this(alignment, SpaceUtil.intToSize(gap), contentAlignment);
+		this(alignment, SpaceUtil.intToSize(gap), contentAlignment, gap);
 	}
 
 	/**
@@ -205,16 +231,11 @@ public class FlowLayout implements LayoutManager {
 	 * is applied as a horizontal gap. The content alignment is applied only if alignment is <em>not</em> VERTICAL.
 	 *
 	 * @param alignment the required alignment
-	 * @param gap the required gap between components in the layout
+	 * @param space the required gap between components in the layout
 	 * @param contentAlignment the alignment of the content in each cell when alignment is not vertical
 	 */
-	public FlowLayout(final Alignment alignment, final SpaceUtil.Size gap, final ContentAlignment contentAlignment) {
-		if (alignment == null) {
-			throw new IllegalArgumentException("Alignment must be provided.");
-		}
-		this.alignment = alignment;
-		this.gap = gap;
-		this.contentAlignment = Alignment.VERTICAL.equals(alignment) ? null : contentAlignment;
+	public FlowLayout(final Alignment alignment, final SpaceUtil.Size space, final ContentAlignment contentAlignment) {
+		this(alignment, space, contentAlignment, -1);
 	}
 
 	/**
@@ -230,7 +251,7 @@ public class FlowLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public int getHgap() {
-		return Alignment.VERTICAL.equals(alignment) ? 0 : SpaceUtil.sizeToInt(gap);
+		return Alignment.VERTICAL.equals(alignment) ? 0 : gap;
 	}
 
 	/**
@@ -239,7 +260,7 @@ public class FlowLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public int getVgap() {
-		return Alignment.VERTICAL.equals(alignment) ? SpaceUtil.sizeToInt(gap) : 0;
+		return Alignment.VERTICAL.equals(alignment) ? gap : 0;
 	}
 
 
@@ -247,7 +268,7 @@ public class FlowLayout implements LayoutManager {
 	 * @return the gap between the components added to the FlowLayout
 	 */
 	public SpaceUtil.Size getSpace() {
-		return gap;
+		return space;
 	}
 
 	/**
@@ -255,7 +276,7 @@ public class FlowLayout implements LayoutManager {
 	 */
 	@Deprecated
 	public int getGap() {
-		return SpaceUtil.sizeToInt(gap);
+		return gap;
 	}
 
 	/**
