@@ -21,6 +21,16 @@ public class ColumnLayout_Test {
 	 */
 	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
 
+	/**
+	 * Integer equivalent of the small gap.
+	 */
+	private static final int INT_GAP = SpaceUtil.sizeToInt(GAP);
+
+	/**
+	 * Integer equivalent of the big gap.
+	 */
+	private static final int INT_BIG_GAP = SpaceUtil.sizeToInt(BIG_GAP);
+
 	@Test
 	public void testIntConstructor() {
 		final int[] cols = new int[]{20, 30, 50};
@@ -76,7 +86,7 @@ public class ColumnLayout_Test {
 		final int[] cols = new int[]{100};
 		final ColumnLayout.Alignment[] align = new ColumnLayout.Alignment[]{ColumnLayout.Alignment.RIGHT};
 
-		ColumnLayout layout = new ColumnLayout(cols, align, SpaceUtil.sizeToInt(GAP), SpaceUtil.sizeToInt(BIG_GAP));
+		ColumnLayout layout = new ColumnLayout(cols, align, INT_GAP, INT_BIG_GAP);
 		Assert.assertEquals("Incorrect column count", 1, layout.getColumnCount());
 		Assert.assertEquals("Incorrect column width", 100, layout.getColumnWidth(0));
 		Assert.assertEquals("Incorrect column alignment", ColumnLayout.Alignment.RIGHT, layout.

@@ -23,6 +23,16 @@ public class FlowLayout_Test {
 	 */
 	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
 
+	/**
+	 * Integer equivalent of the small gap.
+	 */
+	private static final int INT_GAP = SpaceUtil.sizeToInt(GAP);
+
+	/**
+	 * Integer equivalent of the big gap.
+	 */
+	private static final int INT_BIG_GAP = SpaceUtil.sizeToInt(BIG_GAP);
+
 	@Test(expected = IllegalArgumentException.class)
 	public void testNullAlignment() {
 		new FlowLayout(null);
@@ -103,7 +113,7 @@ public class FlowLayout_Test {
 		boolean isVertical;
 		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
 			isVertical = FlowLayout.Alignment.VERTICAL.equals(a);
-			flow = new FlowLayout(a, SpaceUtil.sizeToInt(GAP), SpaceUtil.sizeToInt(BIG_GAP));
+			flow = new FlowLayout(a, INT_GAP, INT_BIG_GAP);
 			Assert.assertEquals("Incorrect alignment", a, flow.getAlignment());
 			Assert.assertEquals("Incorrect horizontal gap", isVertical ? BIG_GAP : GAP, flow.getSpace());
 		}
@@ -116,7 +126,7 @@ public class FlowLayout_Test {
 		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
 			isVertical = FlowLayout.Alignment.VERTICAL.equals(a);
 			for (FlowLayout.ContentAlignment c : FlowLayout.ContentAlignment.values()) {
-				flow = new FlowLayout(a, SpaceUtil.sizeToInt(GAP), SpaceUtil.sizeToInt(BIG_GAP), c);
+				flow = new FlowLayout(a, INT_GAP, INT_BIG_GAP, c);
 				Assert.assertEquals("Incorrect alignment", a, flow.getAlignment());
 				Assert.assertEquals("Incorrect gap", isVertical ? BIG_GAP : GAP, flow.getSpace());
 
