@@ -264,10 +264,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 * @return The key that in combination with Alt will focus this input.
 	 */
 	public char getAccessKey() {
-		if (isTopLevelMenu()) {
-			return getComponentModel().accesskey;
-		}
-		return '\0';
+		return getComponentModel().accesskey;
 	}
 
 	/**
@@ -317,7 +314,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 */
 	@Deprecated
 	public void setSelectable(final Boolean selectable) {
-		// NO OP
+		setSelectability(selectable);
 	}
 
 	/**

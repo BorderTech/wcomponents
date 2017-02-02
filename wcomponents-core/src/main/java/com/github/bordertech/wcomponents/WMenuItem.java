@@ -305,10 +305,7 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	 * @return the menu item's accesskey.
 	 */
 	public char getAccessKey() {
-		if (isTopLevelItem()) {
-			return getComponentModel().accessKey;
-		}
-		return '\0';
+		return getComponentModel().accessKey;
 	}
 
 	/**

@@ -282,10 +282,10 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 		setActiveContext(createUIContext());
 		item.setSelectable(Boolean.TRUE);
 
-		Assert.assertNull("Should be not selectable in session as setSelectable is a no-op", item.isSelectable());
+		Assert.assertTrue("Should be not selectable in session as setSelectable is a no-op", item.isSelectable());
 
 		resetContext();
-		Assert.assertNull("Default should not be selectable setSelectable is a no-op", item.isSelectable());
+		Assert.assertFalse("Default should not be selectable setSelectable is a no-op", item.isSelectable());
 	}
 
 	@Test
