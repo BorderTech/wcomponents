@@ -174,14 +174,7 @@
 	}
 	catch(ex){}
 	config.config = wcconfig;
-	if(window.SystemJS) {
-				wcconfig.meta = { "*": { format: "amd", scriptLoad: false } };
-				wcconfig.packages = { ".": { defaultExtension: "js" } };
-				window.SystemJS.pluginFirst = wcconfig.pluginFirst = true;
-				window.SystemJS.defaultJSExtensions = config.defaultJSExtensions = true;
-				window.SystemJS.config(config);
-	}
-	else if(window.requirejs) window.requirejs.config(config);
+	if(window.requirejs) window.requirejs.config(config);
 	else require = config;
 })();</xsl:text>
 				</script>
@@ -195,7 +188,7 @@
 					Load requirejs
 				-->
 				<script type="text/javascript" src="{concat($resourceRoot, $scriptDir, '/lib/require.js?', $cacheBuster)}"></script>
-				
+
 				<xsl:if test="concat('${ie.css.list}','${css.pattern.list}') ne ''">
 					<script type="text/javascript">
 						<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
@@ -207,7 +200,6 @@
 				<xsl:if test="$registeredComponents ne ''">
 					<script type="text/javascript" class="registrationScripts">
 						<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
-						<xsl:text>require(["wc/i18n/i18n!"], function(){</xsl:text>
 						<xsl:text>require(["wc/common"], function(c){if(c){</xsl:text>
 						<!--
 							This looks strange, so here's what it's doing:
@@ -217,7 +209,7 @@
 						<xsl:text>require(["wc/fixes"], function(f){require(f);});</xsl:text>
 						<xsl:value-of select="$registeredComponents"/>
 						<xsl:text>require(["wc/ui/loading"]);</xsl:text>
-						<xsl:text>}});});});</xsl:text>
+						<xsl:text>}});});</xsl:text>
 					</script>
 					<!--<script type="text/javascript">
 						<xsl:text>require(["wc/a8n"]);</xsl:text>
@@ -281,8 +273,7 @@
 &lt;script type="text/javascript"&gt;
 (function(){
 	var i, el=["details","datalist","aside","dialog","summary","section","header","nav","footer","meter","output","progress","audio","video","source","time","track","figcaption","figure"];
-	if (window.SystemJS &amp;&amp; SystemJS.config) SystemJS.config({ "wc/fix/html5Fix_ie8": { elements: el } });
-	else if (window.require &amp;&amp; require.config) require.config["wc/fix/html5Fix_ie8"] = { elements: el };
+	if (window.require &amp;&amp; require.config) require.config["wc/fix/html5Fix_ie8"] = { elements: el };
 	for (i = 0; i &lt; el.length; i++){ document.createElement(el[i]); } })();
 &lt;/script&gt;
 &lt;![endif]</xsl:comment>
