@@ -109,7 +109,7 @@ public final class SpaceUtil {
 	}
 
 	/**
-	 * Convert a size back to a representative int. For backwards compatibility during conversion of int spaces to Size spaces.
+	 * Convert a size back to a representative int. For testing only during conversion of int spaces to Size spaces.
 	 * @param size the Size to convert
 	 * @return an int representative of the Size
 	 */
