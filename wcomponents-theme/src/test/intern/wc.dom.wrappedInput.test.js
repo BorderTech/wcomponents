@@ -1,5 +1,5 @@
-define(["intern!object", "intern/chai!assert", "wc/dom/wrappedInput", "wc/dom/shed", "./resources/test.utils!"],
-	function (registerSuite, assert, controller, shed, testutils) {
+define(["intern!object", "intern/chai!assert", "wc/dom/wrappedInput", "./resources/test.utils!"],
+	function (registerSuite, assert, controller, testutils) {
 		"use strict";
 		/*
 		 * Unit tests for wc/dom/wrappedInput
@@ -13,10 +13,9 @@ define(["intern!object", "intern/chai!assert", "wc/dom/wrappedInput", "wc/dom/sh
 				</div>";
 
 		registerSuite({
-			name: "wrappedInput",
+			name: "wc/dom/wrappedInput",
 			setup: function() {
 				testHolder = testutils.getTestHolder();
-				controller.postInit();
 			},
 			beforeEach: function() {
 				testHolder.innerHTML = testContent;
@@ -103,38 +102,6 @@ define(["intern!object", "intern/chai!assert", "wc/dom/wrappedInput", "wc/dom/sh
 			testGetNothing: function () {
 				assert.strictEqual(controller.get(document.getElementById("notwrapper")).length, 0);
 				assert.strictEqual(controller.get(document.getElementById("notwrapper"), true).length, 0);
-			},
-			testMandate: function () {
-				var wrapper = document.getElementById("wrapper"),
-					target = controller.getInput(wrapper);
-				shed.mandatory(wrapper);
-				assert.isTrue(shed.isMandatory(target));
-			},
-			testOptional: function () {
-				var wrapper = document.getElementById("wrapper"),
-					target = controller.getInput(wrapper);
-				shed.mandatory(wrapper);
-				assert.isTrue(shed.isMandatory(target));
-				shed.optional(wrapper);
-				assert.isFalse(shed.isMandatory(target));
-			},
-			testNoDefaultPlaceHolder: function() {
-				var wrapper = document.getElementById("wrapper"),
-					target = controller.getInput(wrapper);
-				assert.isFalse(target.hasAttribute("placeholder"));
-			},
-			testMandateSetsPlaceholder: function () {
-				var wrapper = document.getElementById("wrapper"),
-					target = controller.getInput(wrapper);
-				shed.mandatory(wrapper);
-				assert.isTrue(!!target.getAttribute("placeholder"));
-			},
-			testOptionalUnsetsPlaceholder: function () {
-				var wrapper = document.getElementById("wrapper"),
-					target = controller.getInput(wrapper);
-				shed.mandatory(wrapper);
-				shed.optional(wrapper);
-				assert.isFalse(target.hasAttribute("placeholder"));
 			}
 		});
 	}

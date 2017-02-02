@@ -216,11 +216,12 @@
 						-->
 						<xsl:text>require(["wc/fixes"], function(f){require(f);});</xsl:text>
 						<xsl:value-of select="$registeredComponents"/>
+						<xsl:text>require(["wc/ui/loading"],function(s){s.load();});</xsl:text>
 						<xsl:text>}});});});</xsl:text>
 					</script>
-					<script type="text/javascript">
+					<!--<script type="text/javascript">
 						<xsl:text>require(["wc/a8n"]);</xsl:text>
-					</script>
+					</script>-->
 				</xsl:if>
 
 				<!--
@@ -237,15 +238,17 @@
 				</xsl:choose>
 			</xsl:variable>
 			<body data-wc-domready="{$domready}">
-				<div id="wc-shim" class="wc_shim_loading">
-					<xsl:text>&#xa0;</xsl:text>
-					<noscript>
-						<p>You must have JavaScript enabled to use this application.</p>
-					</noscript>
-				</div>
-				<div id="wc-ui-loading">
-					<div tabindex="0" class="wc-icon">&#x200b;</div>
-				</div>
+				<xsl:if test="$registeredComponents!=''">
+					<div id="wc-shim" class="wc_shim_loading">
+						<xsl:text>&#xa0;</xsl:text>
+						<noscript>
+							<p>You must have JavaScript enabled to use this application.</p>
+						</noscript>
+					</div>
+					<div id="wc-ui-loading">
+						<div tabindex="0" class="wc-icon">&#x200b;</div>
+					</div>
+				</xsl:if>
 				<xsl:apply-templates >
 					<xsl:with-param name="nojs">
 						<xsl:choose>

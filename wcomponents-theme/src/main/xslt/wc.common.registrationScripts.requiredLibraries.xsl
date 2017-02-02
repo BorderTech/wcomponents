@@ -4,8 +4,6 @@
 	-->
 	<xsl:template name="requiredLibraries">
 		<xsl:variable name="libs">
-			<!-- these must always be present and are not necessarily required by other modules. -->
-			<xsl:text>"wc/ui/loading","wc/ui/template",</xsl:text>
 			<!--
 				These are very expensive lookups, especially in poorly optimized processors such as the default processor used by IE. For this reason
 				the first group are lookups which for most sensible purposes would be included in wc.common.js for all screens.
@@ -32,8 +30,12 @@
 				simply because it is more likely to get one early in source order.
 			-->
 			<xsl:if test=".//ui:label or .//ui:fieldset">
-				<xsl:text>"wc/ui/label","wc/ui/internalLink",</xsl:text>
+				<xsl:text>"wc/ui/label",</xsl:text>
+				<xsl:if test=".//ui:label[@what='group']">
+					<xsl:text>"wc/ui/internalLink",</xsl:text>
+				</xsl:if>
 			</xsl:if>
+			
 			<xsl:if test=".//ui:numberfield[not(@readOnly)]">
 				<xsl:text>"wc/ui/numberField",</xsl:text>
 			</xsl:if>
@@ -48,7 +50,7 @@
 				first successful nodeset is found. You REALLY want wc/ui/textField in your wc.common.js though.
 			-->
 			<xsl:if test=".//ui:textfield[not(@readOnly)] or .//ui:numberfield[not(@readOnly)] or .//ui:emailfield[not(@readOnly)] or .//ui:passwordfield[not(@readOnly)] or .//ui:phonenumberfield[not(@readOnly)]">
-				<xsl:text>"wc/dom/wrappedinput",</xsl:text>
+				<xsl:text>"wc/ui/wrappedinput",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//@accessKey">
 				<xsl:text>"wc/ui/tooltip",</xsl:text>
@@ -87,8 +89,11 @@
 			<xsl:if test=".//ui:listbox[not(@readOnly)]">
 				<xsl:text>"wc/ui/dropdown",</xsl:text>
 			</xsl:if>
-			<xsl:if test=".//ui:link[@type eq 'button' or ui:windowAttributes[count(@*) gt 1]]">
+			<xsl:if test=".//ui:link[@type eq 'button']">
 				<xsl:text>"wc/ui/navigationButton",</xsl:text>
+			</xsl:if>
+			<xsl:if test=".//ui:link[@disabled]">
+				<xsl:text>"wc/ui/disabledLink",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//ui:menu">
 				<xsl:text>"wc/ui/menu",</xsl:text>
@@ -100,7 +105,7 @@
 				<xsl:text>"wc/ui/multiSelectPair",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//ui:multitextfield[not(@readOnly)]">
-				<xsl:text>"wc/ui/multiFormComponent","wc/dom/wrappedinput",</xsl:text>
+				<xsl:text>"wc/ui/multiFormComponent","wc/ui/wrappedinput",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//ui:printbutton">
 				<xsl:text>"wc/ui/printButton",</xsl:text>
@@ -129,6 +134,11 @@
 			</xsl:if>
 			<xsl:if test=".//ui:session">
 				<xsl:text>"wc/ui/timeoutWarn",</xsl:text>
+			</xsl:if>
+			<xsl:if test=".//@required or .//ui:messagebox or .//ui:validationerrors or .//ui:multiselectpair or .//ui:shuffler or
+				.//ui:checkbox[@readOnly] or .//ui:radiobutton[@readOnly] or .//ui:collapsibletoggle or .//ui:selecttoggle or .//ui:table or
+				.//ui:multifileupload or .//ui:multidropdown or .//ui:multitextfield or .//ui:tree">
+				<xsl:text>"wc/ui/template",</xsl:text>
 			</xsl:if>
 			<xsl:if test=".//*[@submitOnChange and not(@readOnly)]">
 				<xsl:text>"wc/ui/onchangeSubmit",</xsl:text>

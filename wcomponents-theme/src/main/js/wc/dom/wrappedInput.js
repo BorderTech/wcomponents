@@ -1,8 +1,6 @@
 define(["wc/dom/initialise",
-	"wc/dom/Widget",
-	"wc/dom/shed",
-	"wc/i18n/i18n"],
-	function (intialise, Widget, shed, i18n) {
+		"wc/dom/Widget"],
+	function (intialise, Widget) {
 		"use strict";
 
 		function WrappedInput() {
@@ -14,42 +12,20 @@ define(["wc/dom/initialise",
 				WRAPPED = [INPUT, SELECT, TEXTAREA],
 				WIDGETS = [WRAPPER, RO_WRAPPER];
 
-			function mandate(element, action) {
-				var input,
-					PLACEHOLDER = "placeholder";
-				if (!(element && instance.isOneOfMe(element))) {
-					return;
-				}
-				if ((input = Widget.findDescendant(element, WRAPPED))) {
-					shed[action](input);
-					if (action === shed.actions.MANDATORY) {
-						input.setAttribute(PLACEHOLDER, i18n.get("requiredPlaceholder"));
-					}
-					else {
-						input.removeAttribute(PLACEHOLDER);
-					}
-				}
-			}
-
-			this.isReadOnly = function(element) {
-				return !!RO_WRAPPER.findAncestor(element);
-			};
-
-			this.postInit = function() {
-				shed.subscribe(shed.actions.MANDATORY, mandate);
-				shed.subscribe(shed.actions.OPTIONAL, mandate);
-			};
-
 			this.getWidget = function() {
 				return WRAPPER;
 			};
 
-			this.getROWidget = function() {
-				return RO_WRAPPER;
-			};
-
 			this.getWidgets = function() {
 				return WIDGETS;
+			};
+
+			this.getWrappedWidgets = function() {
+				return WRAPPED;
+			};
+
+			this.getROWidget = function() {
+				return RO_WRAPPER;
 			};
 
 			this.isOneOfMe = function(element, inclReadOnly) {

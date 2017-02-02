@@ -95,7 +95,7 @@
 			<fileset dir="${intern.target.dir}" id="unitTests">
 				<include name="*.js"/>
 			</fileset>
-			<pathconvert pathsep="," property="unit.tests" refid="unitTests">
+			<pathconvert pathsep=",&#10;" property="unit.tests" refid="unitTests">
 				<chainedmapper>
 					<regexpmapper from="([^\/]+)\.js" to="&quot;@{relativePathToTests}/\1&quot;" handledirsep="true"/>
 				</chainedmapper>

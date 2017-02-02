@@ -1,19 +1,14 @@
 define(["wc/dom/tag",
 		"wc/dom/Widget",
-		"wc/array/toArray"],
-	function(tag, Widget, toArray) {
+		"wc/array/toArray",
+		"wc/dom/wrappedInput"],
+	function(tag, Widget, toArray, wrappedInput) {
 		"use strict";
 
 		var LABELABLE = [tag.INPUT, tag.SELECT, tag.TEXTAREA, tag.PROGRESS],
 			FIELDSET,
 			LEGEND,
-			LABEL,
-			wrappedInput;
-
-		/* handle circular dependency */
-		require(["wc/dom/wrappedInput"], function (w) {
-			wrappedInput = w;
-		});
+			LABEL;
 
 		/**
 		 * Get labels and/or standins suing querySelector.

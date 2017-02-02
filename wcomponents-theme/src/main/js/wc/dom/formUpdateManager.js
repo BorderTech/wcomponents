@@ -67,13 +67,22 @@ define(["wc/dom/event",
 			 * @returns {Function} The subscriber function is returned unchanged.
 			 */
 			this.subscribe = function(subscriber) {
+				function _subscribe(_subscriber) {
+					var result = _subscriber;
+					if (typeof _subscriber === "function") {
+						observer.subscribe(_subscriber);
+					}
+					else {
+						result = observer.subscribe(_subscriber, subscriberMthd);
+					}
+					return result;
+				}
 				if (!observer) {
 					observer = new Observer();
+					this.subscribe = _subscribe;
+					// console.log("Configuring FormUpdateManager on first use");
 				}
-				if (typeof subscriber === "function") {
-					return observer.subscribe(subscriber);
-				}
-				return observer.subscribe(subscriber, subscriberMthd);
+				return _subscribe(subscriber);
 			};
 
 			/**
@@ -118,14 +127,14 @@ define(["wc/dom/event",
 				var result = true,
 					stateContainer,
 					_container = container;
-				if (observer) {
-					if (!ignoreForm) {
-						_container = getAncestorOrSelf(_container, FORM);
-					}
+				if (!ignoreForm) {
+					_container = getAncestorOrSelf(_container, FORM);
+				}
 
-					checkEnctype(_container);
-					stateContainer = this.getStateContainer(_container);
-					this.clean(_container);
+				checkEnctype(_container);
+				stateContainer = this.getStateContainer(_container);
+				this.clean(_container);
+				if (observer) {
 					observer.notify((region || _container), stateContainer);  // arg1 = "from", arg2 ="to"
 				}
 				return result;

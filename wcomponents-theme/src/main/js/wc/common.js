@@ -23,11 +23,16 @@
 *		});
  *
  * @ignore
- */
-define(["wc/ui/template",
+ *
+ * "wc/ui/template",
 		"wc/ui/loading",
 		"wc/ui/backToTop",
-		"wc/ui/label"],
+		"wc/ui/label"
+ */
+define(["wc/ui/loading",
+		"wc/ui/field",
+		"wc/ui/label",
+		"wc/ui/wrappedInput"],
 	function() {
 		"use strict";
 		return 1;
