@@ -21,7 +21,7 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 			},
 			stateStack = [],
 			registeredIds = {},
-			fbCanvas, fbImage;
+			fbCanvas;
 
 
 		function getDialogFrameConfig(onclose) {
@@ -194,11 +194,11 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 					fbCanvas = new fabric.Canvas("wc_img_canvas");
 					fbCanvas.setWidth(config.width || defaults.width);
 					fbCanvas.setHeight(config.height || defaults.height);
-					fbCanvas.on("selection:cleared", function() {
-						if (fbImage) {
-							fbCanvas.setActiveObject(fbImage);
-						}
-					});
+//					fbCanvas.on("selection:cleared", function() {
+//						if (fbImage) {
+//							fbCanvas.setActiveObject(fbImage);
+//						}
+//					});
 					overlayUrl = config.overlay;
 					if (file) {
 						fileReader = new FileReader();
@@ -216,6 +216,15 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 				require(["wc/ui/facetracking"], function(facetracking) {
 					callbacks.validate = facetracking.getValidator(config);
 					getEditor(config, callbacks, file).then(gotEditor);
+				});
+			}
+			else if (config.redact) {
+				require(["wc/ui/imageRedact"], function(imageRedact) {
+					config.redactor = imageRedact;
+					getEditor(config, callbacks, file).then(function() {
+						gotEditor();
+						config.redactor.activate(fbCanvas, imageEdit);
+					});
 				});
 			}
 			else {
@@ -280,7 +289,6 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 				console.warn(ex);
 			}
 			function renderFabricImage(fabricImage) {
-				fbImage = fabricImage;
 				fabricImage.set({
 					angle: 0,
 					top: 0,
@@ -304,7 +312,8 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 				fabricImage.minScaleLimit = minScaleLimit;
 				stateStack.length = 0;
 				fbCanvas.clear();
-				fbCanvas.add(fabricImage);
+				addToCanvas(fabricImage);
+
 				if (overlayUrl) {
 					fbCanvas.setOverlayImage(overlayUrl, positionOverlay);
 				}
@@ -318,6 +327,32 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 				}
 			}
 		}
+
+		function addToCanvas(object) {
+			fbCanvas.add(object);
+		}
+
+		this.getFbImage = function(container) {
+			var objects, currentContainer = (container || fbCanvas);
+			if (currentContainer && currentContainer.getObjects) {
+				objects = currentContainer.getObjects("image");
+				if (objects && objects.length) {
+					return objects[0];
+				}
+				objects = currentContainer.getObjects("group");
+				if (objects && objects.length) {
+					return objects[0];
+				}
+//				for (i = 0; i < objects.length; i++) {
+//					next = objects[i];
+//					result = imageEdit.getFbImage(next);
+//					if (result) {
+//						return result;
+//					}
+//				}
+			}
+			return null;
+		};
 
 		/**
 		 * Ensures that the overlay image is correctly positioned.
@@ -372,7 +407,8 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 								height: config.height || defaults.height
 							},
 							feature: {
-								face: false
+								face: false,
+								redact: false
 							}
 						};
 					container.className = "wc_img_editor";
@@ -388,8 +424,10 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 					cancelControl(eventConfig, container, callbacks, file);
 					saveControl(eventConfig, container, callbacks, file);
 					rotationControls(eventConfig);
-					// if (config.face) {
-					// }
+					if (config.redactor) {
+						config.redactor.controls(eventConfig, container);
+					}
+
 					if (!file) {
 						classList.add(container, "wc_camenable");
 						classList.add(container, "wc_showcam");
@@ -518,6 +556,7 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 		function numericProp(config, speed) {
 			var newValue,
 				currentValue,
+				fbImage = imageEdit.getFbImage(),  // this could be a group, does it matter?
 				getter = config.getter || ("get" + config.prop),
 				setter = config.setter || ("set" + config.prop),
 				step = config.step || 1; // do not allow step to be 0
@@ -544,7 +583,8 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 		 * Wires up the "reset" feature.
 		 */
 		function resetCanvas() {
-			var originalState = stateStack.length > 1 ? stateStack.pop() : stateStack[0];
+			var fbImage = imageEdit.getFbImage(),
+				originalState = stateStack.length > 1 ? stateStack.pop() : stateStack[0];
 			if (originalState) {
 				originalState = JSON.parse(originalState);
 				if (fbImage) {
@@ -666,18 +706,6 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 			};
 		}
 
-		/**
-		 * Determine if there is an image on the canvas.
-		 * @param fbCanvas the canvas object.
-		 * @returns {boolean} true if there is an image on the canvas.
-		 */
-		function hasImage(fbCanvas) {
-			if (fbCanvas && fbCanvas.getObjects) {
-				return fbCanvas.getObjects().length > 0;
-			}
-			return false;
-		}
-
 		/*
 		 * Wires up the "save" feature.
 		 */
@@ -688,7 +716,7 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 				};
 			click.save = {
 				func: function () {
-					if (hasImage(fbCanvas)) {
+					if (imageEdit.getFbImage()) {
 						if (callbacks.validate) {
 							showHideOverlay(fbCanvas);  // This hide is for the validation, not the save.
 							callbacks.validate(fbCanvas.getElement()).then(function(error) {
@@ -737,7 +765,7 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 		 */
 		function saveImage(editor, callbacks, cancel, file) {
 			var canvasElement, result, done = function() {
-					canvasElement = fbCanvas = fbImage = null;
+					canvasElement = fbCanvas = null;
 					imageCapture.stop();
 					editor.parentNode.removeChild(editor);
 				};
@@ -774,7 +802,7 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 		 * @returns {boolean} true if the user has made changes.
 		 */
 		function hasChanged() {
-			var currentState, originalState = stateStack[0];
+			var fbImage = imageEdit.getFbImage(), currentState, originalState = stateStack[0];
 			fbImage.saveState();
 			currentState = JSON.stringify(fbImage.originalState);
 			return currentState !== originalState;
