@@ -89,8 +89,7 @@ public class FlowLayout implements LayoutManager {
 	private final Alignment alignment;
 
 	/**
-	 * The space between components added to the FlowLayout. The direction of the space is determined by the
-	 * FlowLayout's Alignment.
+	 * The space between components added to the FlowLayout. The direction of the space is determined by the Alignment.
 	 */
 	private final SpaceUtil.Size space;
 
@@ -108,9 +107,9 @@ public class FlowLayout implements LayoutManager {
 	/**
 	 * For temporary backwards compatibility only.
 	 * @param alignment the required alignment
-	 * @param space the real gap between components in the layout
+	 * @param space the real space between components in the layout
 	 * @param contentAlignment the alignment of the content in each cell when alignment is not vertical
-	 * @param gap the requested gap between components in the layout
+	 * @param gap the requested space between components in the layout
 	 */
 	@Deprecated
 	private FlowLayout(final Alignment alignment, final SpaceUtil.Size space, final ContentAlignment contentAlignment, final int gap) {
@@ -155,8 +154,8 @@ public class FlowLayout implements LayoutManager {
 	 * gap is only used if alignment is not VERTICAl, the vertical gap is used only if alignment is VERTICAL.
 	 *
 	 * @param alignment the alignment of the components
-	 * @param hgap The horizontal gap between the cells, measured in pixels. Not used if alignment is VERTICAL.
-	 * @param vgap The vertical gap between the cells, measured in pixels. Used only if alignment is VERTICAL.
+	 * @param hgap The horizontal gap between the cells. Not used if alignment is VERTICAL.
+	 * @param vgap The vertical gap between the cells. Used only if alignment is VERTICAL.
 	 *
 	 * @deprecated use {@link #FlowLayout(Alignment, SpaceUtil.Size)}
 	 */
@@ -184,7 +183,7 @@ public class FlowLayout implements LayoutManager {
 	 * applied as a vertical gap if the alignment is VERTICAL otherwise it is applied as a horizontal gap.
 	 *
 	 * @param alignment the required alignment
-	 * @param space the required gap between components in the layout
+	 * @param space the required space between components in the layout
 	 */
 	public FlowLayout(final Alignment alignment, final SpaceUtil.Size space) {
 		this(alignment, space, null);
@@ -196,10 +195,9 @@ public class FlowLayout implements LayoutManager {
 	 * alignment is VERTICAL, content alignment is only relevant if alignment is not VERTICAL.
 	 *
 	 * @param alignment the alignment of the components
-	 * @param hgap The horizontal gap between the cells, measured in pixels. Not used if alignment is VERTICAL.
-	 * @param vgap The vertical gap between the cells, measured in pixels. Used only if alignment is VERTICAL.
-	 * @param contentAlignment The relative vertical alignment of the content in each cell. Not used if alignment is
-	 * VERTICAL.
+	 * @param hgap The horizontal gap between the cells. Not used if alignment is VERTICAL.
+	 * @param vgap The vertical gap between the cells. Used only if alignment is VERTICAL.
+	 * @param contentAlignment The relative vertical alignment of the content in each cell. Not used if alignment is VERTICAL.
 	 *
 	 * @deprecated use {@link #FlowLayout(Alignment, SpaceUtil.Size, ContentAlignment)}
 	 */
@@ -231,7 +229,7 @@ public class FlowLayout implements LayoutManager {
 	 * is applied as a horizontal gap. The content alignment is applied only if alignment is <em>not</em> VERTICAL.
 	 *
 	 * @param alignment the required alignment
-	 * @param space the required gap between components in the layout
+	 * @param space the required space between components in the layout
 	 * @param contentAlignment the alignment of the content in each cell when alignment is not vertical
 	 */
 	public FlowLayout(final Alignment alignment, final SpaceUtil.Size space, final ContentAlignment contentAlignment) {
@@ -246,8 +244,8 @@ public class FlowLayout implements LayoutManager {
 	}
 
 	/**
-	 * @return the horizontal gap between the cells, measured in pixels.
-	 * @deprecated use {@link #getGap()}
+	 * @return the horizontal gap between the cells
+	 * @deprecated use {@link #getSpace() }
 	 */
 	@Deprecated
 	public int getHgap() {
@@ -256,16 +254,15 @@ public class FlowLayout implements LayoutManager {
 
 	/**
 	 * @return the vertical gap between the cells, measured in pixels.
-	 * @deprecated use {@link #getGap()}
+	 * @deprecated use {@link #getSpace() }
 	 */
 	@Deprecated
 	public int getVgap() {
 		return Alignment.VERTICAL.equals(alignment) ? gap : 0;
 	}
 
-
 	/**
-	 * @return the gap between the components added to the FlowLayout
+	 * @return the space between the components added to the FlowLayout
 	 */
 	public SpaceUtil.Size getSpace() {
 		return space;
@@ -273,6 +270,7 @@ public class FlowLayout implements LayoutManager {
 
 	/**
 	 * @return the space between the components added to the layout
+	 * @deprecated use {@link #getSpace() }
 	 */
 	@Deprecated
 	public int getGap() {

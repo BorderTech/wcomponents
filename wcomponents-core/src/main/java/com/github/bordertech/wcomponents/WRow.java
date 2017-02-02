@@ -44,17 +44,17 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 
 	/**
 	 * Create a WRow with the specified space between columns.
-	 * @param gap THe Size of the space to use.
+	 * @param space the space between columns in the row
 	 */
-	public WRow(final SpaceUtil.Size gap) {
-		this.space = gap;
+	public WRow(final SpaceUtil.Size space) {
+		this.space = space;
 		this.gap = -1;
 	}
 
 	/**
 	 * Creates a WRow with the specified attributes.
 	 *
-	 * @param hgap the horizontal space between the columns in the row, measured in pixels
+	 * @param hgap the space between the columns in the row
 	 * @deprecated use {@link #WRow(com.github.bordertech.wcomponents.util.SpaceUtil.Size)}
 	 */
 	@Deprecated

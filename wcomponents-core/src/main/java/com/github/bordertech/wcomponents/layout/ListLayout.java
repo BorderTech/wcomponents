@@ -175,8 +175,8 @@ public class ListLayout implements LayoutManager {
 	 * @param alignment the item alignment.
 	 * @param separator the separator to display between items.
 	 * @param ordered whether the list is an ordered list.
-	 * @param hgap The horizontal gap between the list items, measured in pixels. Used only when type is Type.FLAT.
-	 * @param vgap The vertical gap between the list items, measured in pixels. Used only when type is not Type.FLAT.
+	 * @param hgap The horizontal gap between the list items. Used only when type is Type.FLAT.
+	 * @param vgap The vertical gap between the list items. Used only when type is not Type.FLAT.
 	 *
 	 * @deprecated use {@link #ListLayout(Type, Alignment, Separator, boolean, SpaceUtil.Size)}
 	 */
@@ -189,11 +189,11 @@ public class ListLayout implements LayoutManager {
 	/**
 	 * Creates a ListLayout with the specified attributes.
 	 *
-	 * @param type the list type.
-	 * @param alignment the item alignment.
-	 * @param separator the separator to display between items.
-	 * @param ordered whether the list is an ordered list.
-	 * @param gap the gap between the components added to the layouts.
+	 * @param type the list type
+	 * @param alignment the item alignment
+	 * @param separator the separator to display between items
+	 * @param ordered whether the list is an ordered list
+	 * @param gap the gap between the components added to the layouts
 	 * @deprecated use {@link #ListLayout(Type, Alignment, Separator, boolean, SpaceUtil.Size)}
 	 */
 	@Deprecated
@@ -204,11 +204,11 @@ public class ListLayout implements LayoutManager {
 	/**
 	 * Creates a ListLayout with the specified attributes.
 	 *
-	 * @param type the list type.
-	 * @param alignment the item alignment.
-	 * @param separator the separator to display between items.
-	 * @param ordered whether the list is an ordered list.
-	 * @param space the gap between the components added to the layouts.
+	 * @param type the list type
+	 * @param alignment the item alignment
+	 * @param separator the separator to display between items
+	 * @param ordered whether the list is an ordered list
+	 * @param space the space between the components added to the layouts
 	 */
 	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered, final SpaceUtil.Size space) {
 		if (type == null) {

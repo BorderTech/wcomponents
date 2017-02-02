@@ -132,8 +132,8 @@ public class ColumnLayout implements LayoutManager {
 	 * Creates a ColumnLayout with the specified percentage column widths.
 	 *
 	 * @param columnWidths the column widths, in percent units, 0 for undefined
-	 * @param hgap the horizontal gap between the columns, measured in pixels
-	 * @param vgap the vertical gap between the rows, measured in pixels
+	 * @param hgap the horizontal gap between the columns
+	 * @param vgap the vertical gap between the rows
 	 * @deprecated use {@link #ColumnLayout(int[], SpaceUtil.Size, SpaceUtil.Size)}
 	 */
 	@Deprecated
@@ -145,8 +145,8 @@ public class ColumnLayout implements LayoutManager {
 	 * Creates a ColumnLayout with the specified percentage column widths.
 	 *
 	 * @param columnWidths the column widths, in percent units, 0 for undefined
-	 * @param hSpace the horizontal gap between the columns, measured in pixels
-	 * @param vSpace the vertical gap between the rows, measured in pixels
+	 * @param hSpace the space between the columns
+	 * @param vSpace the space between the rows
 	 */
 	public ColumnLayout(final int[] columnWidths, final SpaceUtil.Size hSpace, final SpaceUtil.Size vSpace) {
 		this(columnWidths, null, hSpace, vSpace);
@@ -157,8 +157,8 @@ public class ColumnLayout implements LayoutManager {
 	 *
 	 * @param columnWidths the column widths, in percent units, 0 for undefined
 	 * @param columnAlignments the column alignments
-	 * @param hgap the horizontal gap between the columns, measured in pixels
-	 * @param vgap the vertical gap between the rows, measured in pixels
+	 * @param hgap the horizontal gap between the columns
+	 * @param vgap the vertical gap between the rows
 	 * @deprecated use {@link #ColumnLayout(int[], Alignment[], SpaceUtil.Size, SpaceUtil.Size)}
 	 */
 	@Deprecated
@@ -171,8 +171,8 @@ public class ColumnLayout implements LayoutManager {
 	 *
 	 * @param columnWidths the column widths, in percent units, 0 for undefined.
 	 * @param columnAlignments the column alignments
-	 * @param hSpace the horizontal gap between the columns
-	 * @param vSpace the vertical gap between the rows
+	 * @param hSpace the space between the columns
+	 * @param vSpace the space between the rows
 	 */
 	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments, final SpaceUtil.Size hSpace, final SpaceUtil.Size vSpace) {
 		this(columnWidths, columnAlignments, hSpace, vSpace, -1, -1);
@@ -189,14 +189,14 @@ public class ColumnLayout implements LayoutManager {
 	}
 
 	/**
-	 * @return the horizontal gap between the cells
+	 * @return the horizontal space between the cells
 	 */
 	public SpaceUtil.Size getHorizontalGap() {
 		return hSpace;
 	}
 
 	/**
-	 * @return the vertical gap between the cells
+	 * @return the vertical space between the cells
 	 */
 	public SpaceUtil.Size getVerticalGap() {
 		return vSpace;
@@ -204,6 +204,7 @@ public class ColumnLayout implements LayoutManager {
 
 	/**
 	 * @return the horizontal gap between the cells measured in pixels
+	 * @deprecated use {@link #getHorizontalGap() }
 	 */
 	@Deprecated
 	public int getHgap() {
@@ -212,6 +213,7 @@ public class ColumnLayout implements LayoutManager {
 
 	/**
 	 * @return the vertical gap between the cells, measured in pixels
+	 * @deprecated use {@link #getVerticalGap() }
 	 */
 	@Deprecated
 	public int getVgap() {

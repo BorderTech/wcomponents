@@ -197,7 +197,7 @@ public class WList extends WRepeater implements Marginable {
 	@Deprecated
 	public int getHgap() {
 		if (getType() == Type.FLAT) {
-			return SpaceUtil.sizeToInt(space);
+			return gap;
 		}
 		return 0;
 	}
@@ -211,7 +211,7 @@ public class WList extends WRepeater implements Marginable {
 		if (getType() == Type.FLAT) {
 			return 0;
 		}
-		return SpaceUtil.sizeToInt(space);
+		return gap;
 	}
 
 	/**
@@ -226,7 +226,7 @@ public class WList extends WRepeater implements Marginable {
 	 */
 	@Deprecated
 	public int getGap() {
-		return SpaceUtil.sizeToInt(space);
+		return gap;
 	}
 
 	/**

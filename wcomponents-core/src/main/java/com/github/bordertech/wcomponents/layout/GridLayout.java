@@ -48,8 +48,8 @@ public class GridLayout implements LayoutManager {
 	 *
 	 * @param rows the rows, with the value zero meaning any number of rows
 	 * @param cols the columns, with the value zero meaning any number of columns
-	 * @param hSpace the real gap between columns in the grid
-	 * @param vSpace the real gap between rows in the gid
+	 * @param hSpace the real space between columns in the grid
+	 * @param vSpace the real space between rows in the gid
 	 * @param hgap the requested gap between the columns
 	 * @param vgap the requested gap between the rows
 	 */
@@ -93,8 +93,8 @@ public class GridLayout implements LayoutManager {
 	 *
 	 * @param rows the rows, with the value zero meaning any number of rows
 	 * @param cols the columns, with the value zero meaning any number of columns
-	 * @param hgap the space between the columns, measured in pixels
-	 * @param vgap the space between the rows, measured in pixels
+	 * @param hgap the space between the columns
+	 * @param vgap the space between the rows
 	 *
 	 * @deprecated use {@link #GridLayout(int, int, SpaceUtil.Size, SpaceUtil.Size)}
 	 */
@@ -105,8 +105,8 @@ public class GridLayout implements LayoutManager {
 	/**
 	 * Creates a grid layout with the specified number of rows and columns.
 	 * <p>
-	 * In addition, the horizontal and vertical gaps are set to the specified values. Horizontal gaps are placed between each of the columns. Vertical
-	 * gaps are placed  between each of the rows.
+	 * In addition, the horizontal and vertical spaces are set to the specified values. Horizontal spaces are placed between each of the columns.
+	 * Vertical spaces are placed between each of the rows.
 	 * <p>
 	 * One, but not both, of <code>rows</code> and <code>cols</code> can be zero, which means that any number of objects can be placed in a row or in
 	 * a column.
@@ -155,6 +155,7 @@ public class GridLayout implements LayoutManager {
 
 	/**
 	 * @return the horizontal gap between the cells measured in pixels
+	 * @deprecated use {@link #getHorizontalGap() }
 	 */
 	@Deprecated
 	public int getHgap() {
@@ -163,6 +164,7 @@ public class GridLayout implements LayoutManager {
 
 	/**
 	 * @return the vertical gap between the cells measured in pixels
+	 * @deprecated use {@link #getVerticalGap() }
 	 */
 	@Deprecated
 	public int getVgap() {
