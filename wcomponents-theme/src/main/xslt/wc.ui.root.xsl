@@ -216,7 +216,7 @@
 						-->
 						<xsl:text>require(["wc/fixes"], function(f){require(f);});</xsl:text>
 						<xsl:value-of select="$registeredComponents"/>
-						<xsl:text>require(["wc/ui/loading"],function(s){s.load();});</xsl:text>
+						<xsl:text>require(["wc/ui/loading"]);</xsl:text>
 						<xsl:text>}});});});</xsl:text>
 					</script>
 					<!--<script type="text/javascript">
