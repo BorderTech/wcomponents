@@ -16,10 +16,8 @@
 				<xsl:otherwise>
 					<script type="text/javascript" class="registrationScripts">
 						<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
-						<xsl:text>require(["wc/i18n/i18n!"], function(){</xsl:text>
-						<xsl:text>require(["wc/common"], function(c){if(c){</xsl:text>
+						<xsl:text>require(["wc/common"], function(){</xsl:text>
 						<xsl:value-of select="$rego"/>
-						<xsl:text>}});</xsl:text>
 						<xsl:text>});});</xsl:text>
 					</script>
 				</xsl:otherwise>

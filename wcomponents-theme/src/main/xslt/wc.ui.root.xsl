@@ -200,7 +200,7 @@
 				<xsl:if test="$registeredComponents ne ''">
 					<script type="text/javascript" class="registrationScripts">
 						<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
-						<xsl:text>require(["wc/common"], function(c){if(c){</xsl:text>
+						<xsl:text>require(["wc/common"], function(){</xsl:text>
 						<!--
 							This looks strange, so here's what it's doing:
 							1. wc.fixes is loaded, it calculates what fix modules are needed and provides this as an array.
@@ -208,12 +208,13 @@
 						-->
 						<xsl:text>require(["wc/fixes"], function(f){require(f);});</xsl:text>
 						<xsl:value-of select="$registeredComponents"/>
+						<!--
+							NOTE: these should be in the layer for all themes
 						<xsl:text>require(["wc/ui/loading"]);</xsl:text>
-						<xsl:text>}});});</xsl:text>
-					</script>
-					<!--<script type="text/javascript">
 						<xsl:text>require(["wc/a8n"]);</xsl:text>
-					</script>-->
+						-->
+						<xsl:text>});});</xsl:text>
+					</script>
 				</xsl:if>
 
 				<!--
