@@ -190,33 +190,7 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 	 */
 	@Test
 	public void testAccessKeyAccessors() {
-		WSubMenu component = new WSubMenu(TEST_TEXT);
-		char expected = '\0';
-
-		try {
-			// default
-			Assert.assertEquals(component.getAccessKey(), expected);
-			// set should do nothing
-			component.setAccessKey('a');
-			Assert.assertEquals(component.getAccessKey(), expected);
-
-			// The component passed in might be a child component so find the top component to lock
-			WebUtilities.getTop(component).setLocked(true);
-
-			// Create a user context
-			setActiveContext(createUIContext());
-			// Check default value returned for user context
-			Assert.assertEquals(component.getAccessKey(), expected);
-			// Set user value
-			component.setAccessKey('b');
-			Assert.assertEquals(component.getAccessKey(), expected);
-			// Reset the context
-			resetContext();
-			// Check default value returned for user context
-			Assert.assertEquals(component.getAccessKey(), expected);
-		} finally {
-			resetContext();
-		}
+		assertAccessorsCorrect(new WSubMenu(TEST_TEXT), "accessKey", '\0', 'A', 'B');
 	}
 
 	@Test
@@ -225,7 +199,7 @@ public class WSubMenu_Test extends AbstractWComponentTestCase {
 		Assert.assertNull("Incorrect default acesskey as string", subMenu.getAccessKeyAsString());
 
 		subMenu.setAccessKey('C');
-		Assert.assertNull("Incorrect user set acesskey as string", subMenu.getAccessKeyAsString());
+		Assert.assertEquals("Incorrect user set acesskey as string", "C", subMenu.getAccessKeyAsString());
 
 		subMenu.setAccessKey('\0');
 		Assert.assertNull("Incorrect reset acesskey as string", subMenu.getAccessKeyAsString());

@@ -79,7 +79,7 @@ public class WMenuItem_Test extends AbstractWComponentTestCase {
 		String text = "A";
 		char key = 'K';
 		WMenuItem item = new WMenuItem(text, key);
-		Assert.assertEquals("Incorrect accesskey set by constructor", '\0', item.getAccessKey());
+		Assert.assertEquals("Incorrect accesskey set by constructor", key, item.getAccessKey());
 	}
 
 	@Test
@@ -102,7 +102,7 @@ public class WMenuItem_Test extends AbstractWComponentTestCase {
 		Action action = new TestAction();
 		WMenuItem item = new WMenuItem(text, key, action);
 		Assert.assertEquals("Incorrect text set by constructor", text, item.getText());
-		Assert.assertEquals("Incorrect accesskey set by constructor", '\0', item.getAccessKey());
+		Assert.assertEquals("Incorrect accesskey set by constructor", key, item.getAccessKey());
 		Assert.assertEquals("Incorrect action set by constructor", action, item.getAction());
 	}
 
@@ -203,7 +203,7 @@ public class WMenuItem_Test extends AbstractWComponentTestCase {
 		subMenu.add(item);
 		Assert.assertEquals('\0', item.getAccessKey());
 		item.setAccessKey('A');
-		Assert.assertEquals("Access key should not have been set on an item in a sub menu.", '\0', item.getAccessKey());
+		Assert.assertEquals("Access key should have been set on an item in a sub menu.", 'A', item.getAccessKey());
 	}
 
 	@Test
@@ -228,7 +228,7 @@ public class WMenuItem_Test extends AbstractWComponentTestCase {
 		subMenu.add(item);
 		Assert.assertNull(item.getAccessKeyAsString());
 		item.setAccessKey('A');
-		Assert.assertNull("Access key should not have been set on an item in a sub menu.", item.getAccessKeyAsString());
+		Assert.assertEquals("Access key should have been set on an item in a sub menu.", "A", item.getAccessKeyAsString());
 	}
 
 	@Test
