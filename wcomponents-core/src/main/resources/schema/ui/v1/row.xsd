@@ -3,6 +3,7 @@
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/xhtml">
 	<xs:include schemaLocation="attributeGroups.container.xsd" />
 	<xs:include schemaLocation="margin.xsd" />
+	<xs:include schemaLocation="gaps.xsd"/>
 
 	<xs:element name="row">
 		<xs:annotation>
@@ -77,14 +78,12 @@
 
 			<xs:attributeGroup ref="ui:container.attributes" />
 
-			<xs:attribute name="hgap" type="xs:positiveInteger">
+			<xs:attribute name="gap" type="ui:gaps">
 				<xs:annotation>
-					<xs:documentation> The hgap attribute is used to provide the horizontal space between each column within the row. It is applied only between sibling column
-						elements and is not used to create space between the outermost columns and the edge of the row's content box. If not specified then no gap is placed between
-						columns, this is the equivalent of an assumed default of 0. The hgap attribute will usually cause a column to have a smaller actual width than the notional
-						width determined by the column's width attribute.</xs:documentation>
+					<xs:documentation>Provides the horizontal space between each column within the row.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+			
 		</xs:complexType>
 	</xs:element>
 </xs:schema>

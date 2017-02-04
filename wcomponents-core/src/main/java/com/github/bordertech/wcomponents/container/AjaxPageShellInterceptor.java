@@ -59,7 +59,6 @@ public class AjaxPageShellInterceptor extends InterceptorComponent {
 		String focusId = uic.getFocussedId();
 
 		xml.append(XMLUtil.getXMLDeclarationWithThemeXslt(uic));
-		xml.append(XMLUtil.DOC_TYPE);  // It is possible that the AJAX response contains XHTML including &nbsp;
 		xml.appendTagOpen("ui:ajaxresponse");
 		xml.append(XMLUtil.STANDARD_NAMESPACES);
 		xml.appendOptionalAttribute("defaultFocusId", uic.isFocusRequired() && !Util.empty(focusId),

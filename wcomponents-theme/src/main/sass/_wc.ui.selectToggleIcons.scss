@@ -3,7 +3,7 @@
 .wc_seltog {
 	&[role='checkbox'] { // Rendered as a control
 		&:before {
-			@include wc-icon-fw-content($fa-var-square-o, left);
+			@include wc-icon-fw-content($fa-var-square-o, left, $wc-icon-small);
 		}
 
 		&[aria-checked='true']:before {
@@ -14,4 +14,8 @@
 			content: $fa-var-square;
 		}
 	}
+}
+
+.wc-rowselection[role='checkbox']:before {
+	width: $wc-icon-normal;
 }

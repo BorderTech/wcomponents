@@ -103,7 +103,6 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(component);
 		assertXpathNotExists("//ui:table/@caption", component);
-		assertXpathNotExists("//ui:table/@summary", component);
 		assertXpathEvaluatesTo("table", "//ui:table/@type", component);
 		assertXpathNotExists("//ui:table/@striping", component);
 		assertXpathNotExists("//ui:table/@separators", component);
@@ -123,7 +122,6 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(component);
 		assertXpathNotExists("//ui:table/@caption", component);
-		assertXpathNotExists("//ui:table/@summary", component);
 		assertXpathEvaluatesTo("table", "//ui:table/@type", component);
 		assertXpathEvaluatesTo("rows", "//ui:table/@striping", component);
 		assertXpathEvaluatesTo("horizontal", "//ui:table/@separators", component);
@@ -143,7 +141,6 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(component);
 		assertXpathNotExists("//ui:table/@caption", component);
-		assertXpathNotExists("//ui:table/@summary", component);
 		assertXpathEvaluatesTo("table", "//ui:table/@type", component);
 		assertXpathEvaluatesTo("cols", "//ui:table/@striping", component);
 		assertXpathEvaluatesTo("vertical", "//ui:table/@separators", component);
@@ -164,7 +161,6 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(component);
 		assertXpathNotExists("//ui:table/@caption", component);
-		assertXpathNotExists("//ui:table/@summary", component);
 		assertXpathEvaluatesTo("table", "//ui:table/@type", component);
 		assertXpathEvaluatesTo("cols", "//ui:table/@striping", component);
 		assertXpathEvaluatesTo("both", "//ui:table/@separators", component);
@@ -190,7 +186,6 @@ public class WDataTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		String tableId = component.getId();
 		assertXpathEvaluatesTo(tableId, "//ui:table/@id", component);
 		assertXpathEvaluatesTo(CAPTION_TEST, "//ui:table/@caption", component);
-		assertXpathEvaluatesTo(TABLE_SUMMARY_TEST, "//ui:table/@summary", component);
 		assertXpathEvaluatesTo("hierarchic", "//ui:table/@type", component);
 
 		// check header values

@@ -25,7 +25,6 @@ body {
 	}
 }
 
-// scss-lint:disable QualifyingElement
 // Some elements should not exist but devs persist in using them. These have been removed using a null transform but
 // this may not remove any which are injected in a way which will avoid the XSLT (such as by a custom script) so we keep
 // this CSS.
@@ -59,3 +58,5 @@ a[name],
 input[type='number'][maxlength] {
 	@include outline($color: $wc-ui-color-error-fg);
 }
+
+@import 'wc.debug.axs';

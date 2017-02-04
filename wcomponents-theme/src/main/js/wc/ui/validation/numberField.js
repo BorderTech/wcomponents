@@ -148,7 +148,10 @@ define(["wc/dom/attribute",
 			 * @param {module:wc/dom/event} $event A wrapped change event.
 			 */
 			function changeEvent($event) {
-				validationManager.revalidationHelper($event.target, validate);
+				var target = $event.target;
+				if (target && NUM_FIELD.isOneOfMe(target)) {
+					validationManager.revalidationHelper(target, validate);
+				}
 			}
 
 			/**

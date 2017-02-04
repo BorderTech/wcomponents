@@ -10,7 +10,6 @@
  * @requires module:wc/dom/shed
  * @requires module:wc/dom/Widget
  * @requires module:wc/ui/containerload
- * @requires module:wc/ajax/setLoading
  * @requires module:wc/dom/focus
  * @requires module:wc/dom/classList
  * @requires module:wc/ui/viewportUtils
@@ -27,15 +26,15 @@ define(["wc/array/toArray",
 	"wc/dom/shed",
 	"wc/dom/Widget",
 	"wc/ui/containerload",
-	"wc/ajax/setLoading",
 	"wc/dom/focus",
 	"wc/dom/classList",
 	"wc/ui/viewportUtils",
 	"wc/ui/ajax/processResponse",
 	"wc/dom/event",
-	"wc/timers"],
+	"wc/timers",
+	"wc/dom/getStyle"],
 	function(toArray, ariaAnalog, formUpdateManager, getFilteredGroup, initialise, shed, Widget, containerload,
-		setLoading, focus, classList, viewportUtils, processResponse, event, timers) {
+		focus, classList, viewportUtils, processResponse, event, timers, getStyle) {
 		"use strict";
 
 		/**
@@ -83,7 +82,27 @@ define(["wc/array/toArray",
 				TRUE = "true",
 				FALSE = "false",
 				ACCORDION_CLASS = "wc-tabset-type-accordion",
-				resizeTimer;
+				resizeTimer,
+				/**
+				 * @constant {String} OLD_HEIGHT The name of the attribute used to hold the pre-ajax height of a target
+				 * container if it was specified in a style attribute. Used to reset the height of the container to its
+				 * initial (fixed) height after it stops being busy.
+				 * @private
+				 */
+				OLD_HEIGHT = "data-wc-height",
+				/**
+				 * @constant {String} OLD_WIDTH The name of the attribute used to hold the pre-ajax width of a target
+				 * container if it was specified in a style attribute. Used to reset the width of the container to its
+				 * initial (fixed) width after it stops being busy.
+				 * @private
+				 */
+				OLD_WIDTH = "data-wc-width",
+				/**
+				 * @constant {String} UPDATE_SIZE The attribute name used to indicate that the busy region has had its
+				 * pre-update size calculated and set so that a region which has its contents removed does not collapse.
+				 * @private
+				 */
+				UPDATE_SIZE = "data-wc-size";
 
 			/**
 			 * The description of a tab control.
@@ -180,6 +199,61 @@ define(["wc/array/toArray",
 						shed.collapse(next);
 					}
 				}
+			}
+
+			/**
+			 * Removes the custom size set when making an ajax region busy.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element The element being made no longer busy.
+			 */
+			function clearSize (element) {
+				var size;
+				if (element.getAttribute(UPDATE_SIZE)) {
+					element.removeAttribute(UPDATE_SIZE);
+					if ((size = element.getAttribute(OLD_WIDTH))) {
+						element.style.width = size;
+					}
+					else if (element.style.width) {
+						element.style.width = "";
+					}
+					if ((size = element.getAttribute(OLD_HEIGHT))) {
+						element.style.height = size;
+					}
+					else if (element.style.height) {
+						element.style.height = "";
+					}
+				}
+			};
+
+			function fixSize (element) {
+				var result = false, width, height, oldWidth, oldHeight;
+
+				if (!element.getAttribute(UPDATE_SIZE)) {  // already targeted (ie: a conflict) therefore nothing to do
+					width = getStyle(element, "width", true, true);
+					height = getStyle(element, "height", true, true);
+					if (width && height) { // no point playing with custom sizes if the target has no size
+						result = true;
+						element.setAttribute(UPDATE_SIZE, "x");
+						oldWidth = element.style.width;
+
+						if (oldWidth) {
+							element.setAttribute(OLD_WIDTH, oldWidth);
+						}
+						else {
+							element.style.width = width;
+						}
+						oldHeight = element.style.height;
+						if (oldHeight) {
+							element.setAttribute(OLD_HEIGHT, oldHeight);
+						}
+						else {
+							element.style.height = height;
+						}
+					}
+				}
+				return result;
 			}
 
 			function expandCollapseAll(tabset, expand) {
@@ -289,13 +363,13 @@ define(["wc/array/toArray",
 							shed.show(content, true);
 							containerload.onshow(content).then(function() {
 								if (contentContainer) {
-									setLoading.clearSize(contentContainer);
+									clearSize(contentContainer);
 								}
 							});
 						}
 						else if (action === shed.actions.DESELECT) {
 							if (contentContainer) {
-								setLoading.fixSize(contentContainer);  // TODO only do this if it's an AJAX tab
+								fixSize(contentContainer);  // TODO only do this if it's an AJAX tab
 							}
 							shed.hide(content);
 						}
@@ -741,7 +815,7 @@ define(["wc/array/toArray",
 					if (successful) {
 						classList.add(tabset, ACCORDION_CLASS);
 						tablist.setAttribute(MULTISELECT, FALSE); // must be a single select accordion.
-						setLoading.clearSize(tabset);
+						clearSize(tabset);
 						tabset.setAttribute(CONVERTED, TRUE);
 					}
 				}

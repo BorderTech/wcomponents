@@ -1,18 +1,25 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.getHVGap.xsl"/>
+	<xsl:import href="wc.common.gapClass.xsl"/>
 	<xsl:import href="wc.common.column.xsl"/>
 	<!--
 		ui:columnlayout is one of the possible layout child elements of WPanel.
 	-->
 	<xsl:template match="ui:columnlayout">
-		<div>
-			<xsl:attribute name="class">
-				<xsl:text>wc-columnlayout</xsl:text>
-				<xsl:call-template name="getHVGapClass">
+		<xsl:variable name="vgap">
+			<xsl:if test="@vgap">
+				<xsl:call-template name="gapClass">
+					<xsl:with-param name="gap" select="@vgap"/>
 					<xsl:with-param name="isVGap" select="1"/>
 				</xsl:call-template>
-			</xsl:attribute>
+			</xsl:if>
+		</xsl:variable>
+		<div>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:value-of select="$vgap"/>
+				</xsl:with-param>
+			</xsl:call-template>
 			<xsl:variable name="width">
 				<xsl:choose>
 					<xsl:when test="ui:column[1]/@width">
@@ -44,12 +51,6 @@
 	</xsl:template>
 
 	<!--
-		This template creates each row and the first column in the row. It then applies
-		templates selecting the following-sibling::ui:cell[position lt $cols] to
-		build the rest of the columns in the row. The params to this template are
-		for convenience and speed since they could all be derived but it is better to
-		only calculate them once.
-		
 		param align: the column align property
 		param width: the width of the first column
 		param cols: the number of columns in each row in the layout.
@@ -61,10 +62,12 @@
 		<div>
 			<xsl:attribute name="class">
 				<xsl:text>wc-row</xsl:text>
-				<xsl:call-template name="getHVGapClass">
-					<xsl:with-param name="gap" select="../@hgap"/>
-				</xsl:call-template>
-				<xsl:if test="contains(ancestor::ui:panel[1]/@class, 'wc-respond')">
+				<xsl:if test = "../@hgap">
+					<xsl:call-template name="gapClass">
+						<xsl:with-param name="gap" select="../@hgap"/>
+					</xsl:call-template>
+				</xsl:if>
+				<xsl:if test="contains(../../@class, 'wc-respond')">
 					<xsl:text> wc-respond</xsl:text>
 				</xsl:if>
 			</xsl:attribute>
@@ -79,8 +82,7 @@
 	</xsl:template>
 
 	<!--
-		This template creates columns within a row (except the first). Each column has
-		to look up the alignment and width of its position equivalent ui:column.
+		Creates columns within a row (except the first). Each column has to look up the alignment and width of its position equivalent ui:column.
 	-->
 	<xsl:template match="ui:cell" mode="clInRow">
 		<!--

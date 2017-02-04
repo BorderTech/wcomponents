@@ -13,12 +13,10 @@ The XML schema for a WComponent page.
 	<xs:group name="contentGroup">
 		<xs:annotation>
 			<xs:documentation>
-				A group of stand-alone components: those which are able to be added directly to a WApplication or a
-				content container.
+				A group of stand-alone components: those which are able to be added directly to a WApplication or a content container.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:choice>
-			<xs:element ref="ui:abbr" />
 			<xs:element ref="ui:additionalParameters" />
 			<xs:element ref="ui:application" />
 			<xs:element ref="ui:ajaxtrigger" />
@@ -49,6 +47,7 @@ The XML schema for a WComponent page.
 			<xs:element ref="ui:menu" />
 			<xs:element ref="ui:messagebox" />
 			<xs:element ref="ui:multidropdown" />
+			<xs:element ref="ui:multifileupload" />
 			<xs:element ref="ui:multiselectpair" />
 			<xs:element ref="ui:multitextfield" />
 			<xs:element ref="ui:numberfield" />
@@ -80,7 +79,7 @@ The XML schema for a WComponent page.
 			<xs:element ref="ui:version" />
 			<xs:element ref="ui:video" />
 			<!-- Allow any XHTML elements such as script and style tags, and some basic formatting. -->
-			<xs:any processContents="lax" namespace="##other" />
+			<xs:any namespace="##other" processContents="skip" />
 		</xs:choice>
 	</xs:group>
 
@@ -98,7 +97,6 @@ The XML schema for a WComponent page.
 			<xs:element ref="ui:file" />
 			<xs:element ref="ui:menugroup" />
 			<xs:element ref="ui:menuitem" />
-			<xs:element ref="ui:separator" />
 			<xs:element ref="ui:submenu" />
 			<xs:element ref="ui:treeitem" />
 		</xs:choice>

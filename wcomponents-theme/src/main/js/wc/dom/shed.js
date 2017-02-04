@@ -1,54 +1,15 @@
-/**
- * Module for managing some custom faux-events: showing and hiding; enabling and disabling; selecting and deselecting;
- * expanding and collapsing; and making mandatory or optional.
- *
- * <p><strong>S</strong>how<br />
- * <strong>H</strong>ide<br />
- * <strong>E</strong>nable<br />
- * <strong>D</strong>isable<br />
- * 	and now:<br />
- * <strong>D</strong>eselect<br />
- * <strong>S</strong>elect<br />
- * <strong>E</strong>xpand<br />
- * <strong>C</strong>ollpase<br />
- * <strong>M</strong>andate<br />
- * <strong>O</strong>ptional<br />
- * <strong>R</strong>ead only (currently only as a test isReadOnly, not as a set/unset)</p>
- *
- * <p>Encapsulates factors such as:</p>
- * <ul><li>what css class/es to use to show and hide DOM elements</li>
- * <li>what attributes / properties to use to: disable DOM elements; select DOM elements</li>
- * <li>what additional attributes to set (such as aria attributes)</li>
- * <li>publishing the fact that a DOM element has been shown/hidden, de/deselected, and/or
- * enabled/disabled.</li></ul>
- *
- * @module
- * @requires module:wc/Observer
- * @requires module:wc/dom/aria
- * @requires module:wc/dom/impliedARIA
- * @requires module:wc/dom/classList
- * @requires module:wc/dom/disabledLink
- * @requires module:wc/dom/tag
- * @requires module:wc/dom/Widget
- * @requires module:wc/dom/getLabelsForElement
- * @requires module:wc/dom/role
- * @requires module:wc/dom/getStyle
- * @requires module:wc/dom/getBox
- *
- * @todo re-order code, document private methods.
- */
+
 define(["wc/Observer",
 		"wc/dom/aria",
 		"wc/dom/impliedARIA",
 		"wc/dom/classList",
-		"wc/dom/disabledLink",
 		"wc/dom/tag",
 		"wc/dom/Widget",
 		"wc/dom/getLabelsForElement",
 		"wc/dom/role",
 		"wc/dom/getStyle"],
-	/** @param Observer @param aria @param impliedAria @param classList @param disabledLink @param tag @param Widget @param getLabelsForElement @param $role @param getStyle @ignore */
-	function(Observer, aria, impliedAria, classList, disabledLink, tag, Widget, getLabelsForElement, $role, getStyle) {
+	/** @param Observer @param aria @param impliedAria @param classList  @param tag @param Widget @param getLabelsForElement @param $role @param getStyle @ignore */
+	function(Observer, aria, impliedAria, classList, tag, Widget, getLabelsForElement, $role, getStyle) {
 		"use strict";
 
 		/**
@@ -623,15 +584,17 @@ define(["wc/Observer",
 			 * @param {boolean} [onlyHiddenAttribute] if true base test only on the existance of the hidden attribute.
 			 *   This should only ever be used internally by toggle or for components which can _only_ be hidden by
 			 *   attribute (e.g. dialog with open attribute).
+			 * @param {boolean} [ignoreOffset] if truthy and onlyHiddenAttribute is falsey then do not use an offset size test. This is necessary if,
+			 *   for example, the element being tested is not in the DOM.
 			 * @returns {boolean} true if the element is hidden.
 			 */
-			this.isHidden = function (element, onlyHiddenAttribute) {
+			this.isHidden = function (element, onlyHiddenAttribute, ignoreOffset) {
 				var result, _el;
 				if (showWithOpen(element)) {
-					result = !element.getAttribute(OPEN);
+					result = !element.hasAttribute(OPEN);
 				}
 				else {
-					result = !!element.hasAttribute(HIDDEN);
+					result = element.hasAttribute(HIDDEN);
 				}
 				if (onlyHiddenAttribute || result) {
 					return result;
@@ -648,10 +611,16 @@ define(["wc/Observer",
 					// why are we testing a document or documentFragment?
 					return false;
 				}
-				if (_el.offsetWidth === 0 && _el.offsetHeight === 0) {
+				if (getStyle(_el, "visibility", false, true) === HIDDEN) {
 					return true;
 				}
-				if (getStyle(_el, "visibility", false, true) === HIDDEN) {
+				if (ignoreOffset) {
+					if (classList.contains(_el, "wc-off") || getStyle(_el, "display", false, true) === "none"
+							|| getStyle(_el, "visibility", false, true) === "hidden") {
+						return true;
+					}
+				}
+				else if ( _el.parentNode && _el.offsetWidth === 0 && _el.offsetHeight === 0) {
 					return true;
 				}
 				return false;
@@ -868,11 +837,45 @@ define(["wc/Observer",
 			};
 		}
 
-		var /** @alias module:wc/dom/shed */instance = new Shed();
-		disabledLink.setDisabled(function(element) {
-			return instance.isDisabled(element);
-		});
-
+		/**
+		 * Module for managing some custom faux-events: showing and hiding; enabling and disabling; selecting and deselecting;
+		 * expanding and collapsing; and making mandatory or optional.
+		 *
+		 * <p><strong>S</strong>how<br />
+		 * <strong>H</strong>ide<br />
+		 * <strong>E</strong>nable<br />
+		 * <strong>D</strong>isable<br />
+		 * 	and now:<br />
+		 * <strong>D</strong>eselect<br />
+		 * <strong>S</strong>elect<br />
+		 * <strong>E</strong>xpand<br />
+		 * <strong>C</strong>ollpase<br />
+		 * <strong>M</strong>andate<br />
+		 * <strong>O</strong>ptional<br />
+		 * <strong>R</strong>ead only (currently only as a test isReadOnly, not as a set/unset)</p>
+		 *
+		 * <p>Encapsulates factors such as:</p>
+		 * <ul><li>what css class/es to use to show and hide DOM elements</li>
+		 * <li>what attributes / properties to use to: disable DOM elements; select DOM elements</li>
+		 * <li>what additional attributes to set (such as aria attributes)</li>
+		 * <li>publishing the fact that a DOM element has been shown/hidden, de/deselected, and/or
+		 * enabled/disabled.</li></ul>
+		 *
+		 * @module
+		 * @requires module:wc/Observer
+		 * @requires module:wc/dom/aria
+		 * @requires module:wc/dom/impliedARIA
+		 * @requires module:wc/dom/classList
+		 * @requires module:wc/dom/tag
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/dom/getLabelsForElement
+		 * @requires module:wc/dom/role
+		 * @requires module:wc/dom/getStyle
+		 * @requires module:wc/dom/getBox
+		 *
+		 * @todo re-order code, document private methods.
+		 */
+		var instance = new Shed();
 		return instance;
 
 

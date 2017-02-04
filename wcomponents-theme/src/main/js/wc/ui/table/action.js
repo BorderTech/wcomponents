@@ -1,23 +1,11 @@
-/**
- * Table actions are WButtons which are bound to a particular WTable and are usually constrained such that the
- * action can only be invoked if the table has row selection and the number of rows selected is within set bounds.
- * It is not invalid to have table actions without constraints or event without row selection, but it would be unusual.
- *
- * @module
- * @requires module:wc/dom/event
- * @requires module:wc/dom/getFilteredGroup
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/shed
- * @requires module:wc/ui/table/common
- */
 define(["wc/dom/event",
 		"wc/dom/getFilteredGroup",
 		"wc/dom/initialise",
 		"wc/dom/shed",
 		"wc/ui/table/common",
-		"wc/ui/ajax/processResponse"],
-	/** @param event @param getFilteredGroup @param initialise  @param shed @param common @ignore */
-	function(event, getFilteredGroup, initialise, shed, common, processResponse) {
+		"wc/ui/ajax/processResponse",
+		"wc/dom/Widget"],
+	function(event, getFilteredGroup, initialise, shed, common, processResponse, Widget) {
 		"use strict";
 
 		/**
@@ -26,12 +14,15 @@ define(["wc/dom/event",
 		 * @private
 		 */
 		function Action() {
-			var ACTION_BUTTON = common.BUTTON.extend("wc_table_cond"),
+			var ACTION_CONTAINER = new Widget("", "wc-actions"),
+				ACTION_BUTTON = common.BUTTON.clone(),
 				ACTION_TABLE = common.WRAPPER,
 				ROW_CONTAINER = common.TBODY,
-				ROW = common.TR.clone();
+				ROW = common.TR.clone(),
+				registry = {};
 
 			ROW.descendFrom(ROW_CONTAINER, true);
+			ACTION_BUTTON.descendFrom(ACTION_CONTAINER);
 
 			/**
 			 * Determines if an action condition is met.
@@ -75,12 +66,8 @@ define(["wc/dom/event",
 			 * @param {Element} button The table action invoking button.
 			 * @returns {Object} The action conditions as a JSON object.
 			 */
-			function parseConditions(button) {
-				var conditions = button.getAttribute("data-wc-condition");
-				if (conditions) {
-					return window.JSON.parse(conditions);
-				}
-				return null;
+			function getConditions(button) {
+				return registry[button.id];
 			}
 			/**
 			 * Test if an action button can be enabled.
@@ -91,10 +78,10 @@ define(["wc/dom/event",
 			 */
 			function canEnableButton(button) {
 				var conditions;
-				if ((conditions = parseConditions(button))) {
-					return Array.prototype.every.call(conditions, function (next) {
-						if (next.type === "error") {
-							return isConditionMet(button, next);
+				if ((conditions = getConditions(button))) {
+					return Array.prototype.every.call(conditions, function (condition) {
+						if (condition.type === "error") {
+							return isConditionMet(button, condition);
 						}
 						return true;
 					});
@@ -121,13 +108,13 @@ define(["wc/dom/event",
 					return false;
 				}
 
-				if ((conditions = parseConditions(button))) {
-					return Array.prototype.every.call(conditions, function(next) {
-						if (next.type === "error") {
-							return isConditionMet(button, next);
+				if ((conditions = getConditions(button))) {
+					return Array.prototype.every.call(conditions, function(condition) {
+						if (condition.type === "error") {
+							return isConditionMet(button, condition);
 						}
-						if (!isConditionMet(button, next)) {
-							return window.confirm(next.message);
+						if (!isConditionMet(button, condition)) {
+							return window.confirm(condition.message);
 						}
 						return true;
 					});
@@ -155,6 +142,7 @@ define(["wc/dom/event",
 				}
 			}
 
+
 			/**
 			 * Set the initial state of action buttons when a page/ajax arrives.
 			 * @function
@@ -164,6 +152,7 @@ define(["wc/dom/event",
 			function setUp(container) {
 				var _container = container || document.body;
 				Array.prototype.forEach.call(ACTION_BUTTON.findDescendants(_container), function(next) {
+					next.setAttribute("formnovalidate", "formnovalidate");
 					enableDisableButton(next);
 				});
 			}
@@ -210,9 +199,19 @@ define(["wc/dom/event",
 			this.initialise = function(element) {
 				event.add(element, event.TYPE.click, clickEvent, -50);
 			};
+
+			function _register(action) {
+				if (action && action.trigger) {
+					registry[action.trigger] = action.conditions;
+				}
+			}
+
+			this.register = function(actionArray) {
+				actionArray.forEach(_register);
+			};
 		}
 
-		var /** @alias module:wc/ui/table/action */ instance = new Action();
+		var instance = new Action();
 		initialise.register(instance);
 		return instance;
 	});

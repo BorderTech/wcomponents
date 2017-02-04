@@ -39,8 +39,7 @@ import com.github.bordertech.wcomponents.util.Util;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WRadioButton extends WBeanComponent implements AjaxTarget, SubordinateTarget,
-		Disableable {
+public class WRadioButton extends WBeanComponent implements AjaxTarget, SubordinateTarget, Disableable, Labelable {
 
 	/**
 	 * The RadioButtonGroup the button belongs to.

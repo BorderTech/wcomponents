@@ -12,7 +12,10 @@
 // verbosely.
 
 @each $cl in $wc-gap-suffix-list {
-	@if ($cl == sm) {
+	@if ($cl == z) {
+		$size: 0;
+	}
+	@else if ($cl == sm) {
 		$size: $wc-gap-small;
 	}
 	@else if  ($cl == med) {
@@ -24,6 +27,7 @@
 	@else {
 		$size: $wc-gap-xl;
 	}
+
 
 	.wc-hgap-#{$cl} {
 		> div,

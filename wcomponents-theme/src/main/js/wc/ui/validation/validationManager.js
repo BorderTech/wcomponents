@@ -37,7 +37,7 @@ define(["wc/dom/classList",
 				 * @constant
 				 * @type {String}
 				 * @private */
-				LABEL_ATTRIB = "aria-labelledby",
+				LABEL_ATTRIB = "aria-describedby7",
 				/**
 				 * The class used to indicate an error: the type attribute of the ui:messageBox for errors.
 				 * @constant
@@ -92,7 +92,8 @@ define(["wc/dom/classList",
 				 * @constant
 				 * @type {module:wc/dom/Widget}
 				 * @private */
-				ERROR_LINK;
+				ERROR_LINK,
+				REVALIDATE_OBSERVER_GROUP = "reval";
 
 			/**
 			 * Get the error box associated with a given component.
@@ -306,6 +307,7 @@ define(["wc/dom/classList",
 						}
 					}
 					if (next) {
+						classList.remove(next, ERROR);
 						next.innerHTML = i18n.get("validation_ok");
 					}
 					removeWValidationErrorLink(element);
@@ -337,8 +339,9 @@ define(["wc/dom/classList",
 					isNowInvalid = !_validateFunc(element);
 				}
 
-				if (fieldset && isNowInvalid !== initiallyInvalid) {  // if the current component's validity has changed
-					fieldset.revalidateFieldset(element);
+				if (observer && isNowInvalid !== initiallyInvalid) { // if the current component's validity has changed
+					observer.setFilter(REVALIDATE_OBSERVER_GROUP);
+					observer.notify(element);
 				}
 			};
 
@@ -402,31 +405,18 @@ define(["wc/dom/classList",
 			 * @see {@link module:wc/Observer#subscribe}
 			 *
 			 * @param {Function} subscriber The function that will be notified by validationManager. This function MUST
-			 *                   be present at "publish" time, but need not be preset at "subscribe" time.
+			 *                   be present at "publish" time, but need not be present at "subscribe" time.
+			 * @param {boolean} [revalidate] if truthy subscribe to revalidation rather than validation.
 			 * @returns {?Function} A reference to the subscriber.
 			 */
-			this.subscribe = function(subscriber) {
-				function _subscribe(_subscriber) {
-					return observer.subscribe(_subscriber);
-				}
-
-				if (!observer) {
-					observer = new Observer();
-					this.subscribe = _subscribe;
-				}
-				return _subscribe(subscriber);
+			this.subscribe = function(subscriber, revalidate) {
+				observer = observer || new Observer();
+				var group = revalidate ? { group: REVALIDATE_OBSERVER_GROUP } : null;
+				return observer.subscribe(subscriber, group);
 			};
-
 		}
 
-		var repainter,
-			/** @alias module:wc/ui/validation/validationManager */ instance,
-			fieldset;
-
-		/* circular dependency on fieldset validation. */
-		require(["wc/ui/validation/fieldset"], function(f) {
-			fieldset = f;
-		});
+		var instance, repainter;
 
 		/* ie8's interesting inline-block bug means we need to force a repaint after all validating activites.*/
 		if (has("ie") === 8) {

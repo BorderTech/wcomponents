@@ -9,9 +9,9 @@
  * @requires module:wc/dom/initialise
  * @requires module:wc/dom/Widget
  * @requires module:wc/ui/ajax/processResponse
- * @requires module:wc/dom/cancelUpdate
+ * @requires module:wc/ui/cancelUpdate
  */
-define(["wc/dom/classList", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/ajax/processResponse", "wc/dom/cancelUpdate"],
+define(["wc/dom/classList", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/ajax/processResponse", "wc/ui/cancelUpdate"],
 	/* cancelUpdate is added as a requirement because any cancel button will need it implicitly */
 	function(classList, initialise, Widget, processResponse) {
 		"use strict";

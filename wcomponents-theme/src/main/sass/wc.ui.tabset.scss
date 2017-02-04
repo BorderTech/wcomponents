@@ -24,6 +24,24 @@
 			margin-left: 0;
 		}
 	}
+
+	@if ($wc-tabset-allow-left-right == 1) {
+		// LEFT or RIGHT
+		&[aria-ortientation='vertical'] {
+			@include flex-direction(column);
+			max-width: $wc-tabset-left-right-tab-width;
+			top: 0;
+
+			> [role] + [role] {
+				margin-left: 0;
+				margin-top: $wc-gap-small;
+			}
+
+			> [aria-selected='true'] {
+				@include border($pos: bottom);
+			}
+		}
+	}
 }
 
 [role='tab'] {
@@ -55,34 +73,11 @@
 	}
 }
 
-@include respond-not-small {
-	// only style left and right tabsets when we have a reasonable sized viewport.
+@if ($wc-tabset-allow-left-right == 1) {
 	.wc-tabset-type-left {
 		@include flex-direction(row);
-	}
 
-	.wc-tabset-type-right {
-		@include flex-direction(row-reverse);
-	}
-
-	[role='tablist'] {
-		.wc-tabset-type-left > &,
-		.wc-tabset-type-right > & {
-			@include flex-direction(column);
-			max-width: $wc-tabset-left-right-tab-width;
-			top: 0;
-
-			> [role] + [role] {
-				margin-left: 0;
-				margin-top: $wc-gap-small;
-			}
-
-			> [aria-selected='true'] {
-				@include border($pos: bottom);
-			}
-		}
-
-		.wc-tabset-type-left > & {
+		> [role='tablist'] {
 			left: $wc-border-width;
 
 			[role='tab'] {
@@ -93,8 +88,12 @@
 				}
 			}
 		}
+	}
 
-		.wc-tabset-type-right > & {
+	.wc-tabset-type-right {
+		@include flex-direction(row-reverse);
+
+		> [role='tablist'] {
 			right: $wc-border-width;
 
 			[role='tab'] {

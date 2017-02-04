@@ -24,7 +24,8 @@ define(["wc/dom/event",
 				BUTTON,
 				PSEUDO_PROTOCOL_RE = /^[\w]+\:[^\/].*$/,
 				ALIAS = "data-wc-ajaxalias",
-				ignoreChange = false;
+				ignoreChange = false,
+				triggers = [];
 
 			function fireThisTrigger(element, trigger) {
 				var result = false, isSuccessful;
@@ -170,6 +171,35 @@ define(["wc/dom/event",
 				return result;
 			}
 
+			function setControlsAttribute() {
+				if (triggers && triggers.length) {
+					try {
+						triggers.forEach(function(next) {
+							var trigger = triggerManager.getTrigger(next),
+								controllerId,
+								controller,
+								loads;
+							if (!trigger) {
+								return;
+							}
+							controllerId = trigger.alias || trigger.id;
+							if (controllerId && (controller = document.getElementById(controllerId)) && (loads = trigger.loads) && loads.length) {
+								controller.setAttribute("aria-controls", loads.join(" "));
+								loads.forEach(function(load) {
+									var loadEl = document.getElementById(load);
+									if (loadEl) {
+										loadEl.setAttribute("aria-live", "polite");
+									}
+								});
+							}
+						});
+					}
+					finally {
+						triggers = [];
+					}
+				}
+			}
+
 			/**
 			 * Set up event and {@link module:wc/dom/shed} subscribers.
 			 * @function module:wc/ui/ajaxRegion.initialise
@@ -177,6 +207,7 @@ define(["wc/dom/event",
 			 * @param {Element} element document body.
 			 */
 			this.initialise = function(element) {
+				setControlsAttribute();
 				event.add(element, event.TYPE.click, clickEvent, 50); // Trigger ajax AFTER other events to avoid submitting form fields before they can be updated.
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
@@ -187,6 +218,7 @@ define(["wc/dom/event",
 				shed.subscribe(shed.actions.SELECT, shedSubscriber);
 				shed.subscribe(shed.actions.DESELECT, shedSubscriber);
 				console.log("Initialising trigger listeners");
+				processResponse.subscribe(setControlsAttribute, true);
 			};
 
 			/**
@@ -280,6 +312,10 @@ define(["wc/dom/event",
 				function registerTrigger(next) {
 					var trigger = new Trigger(next, processResponse.processResponseXml, processResponse.processError);
 					triggerManager.addTrigger(trigger);
+					if (!triggers) {
+						triggers = [];
+					}
+					triggers.push(next.id);
 					return trigger;
 				}
 

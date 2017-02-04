@@ -26,7 +26,6 @@ final class WFileWidgetRenderer extends AbstractWebXmlRenderer {
 		WFileWidget fileWidget = (WFileWidget) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 		boolean readOnly = fileWidget.isReadOnly();
-		long maxFileSize = fileWidget.getMaxFileSize();
 
 		xml.appendTagOpen("ui:fileupload");
 		xml.appendAttribute("id", component.getId());
@@ -42,9 +41,8 @@ final class WFileWidgetRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("toolTip", fileWidget.getToolTip());
 			xml.appendOptionalAttribute("accessibleText", fileWidget.getAccessibleText());
 			xml.appendOptionalAttribute("acceptedMimeTypes", typesToString(fileWidget.getFileTypes()));
+			long maxFileSize = fileWidget.getMaxFileSize();
 			xml.appendOptionalAttribute("maxFileSize", maxFileSize > 0, maxFileSize);
-			xml.appendAttribute("maxFiles", "1");
-			xml.appendAttribute("async", "false");
 		}
 		xml.appendEnd();
 	}

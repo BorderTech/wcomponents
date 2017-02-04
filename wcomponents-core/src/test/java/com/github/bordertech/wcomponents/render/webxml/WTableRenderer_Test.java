@@ -15,6 +15,7 @@ import com.github.bordertech.wcomponents.WTable.TableModel;
 import com.github.bordertech.wcomponents.WTableColumn;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,11 +34,6 @@ import org.xml.sax.SAXException;
  * @since 1.0.0
  */
 public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
-
-	/**
-	 * table summary test string.
-	 */
-	private static final String TABLE_SUMMARY_TEST = "Table Summary Test";
 
 	/**
 	 * caption test.
@@ -108,7 +104,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(component);
 		assertXpathNotExists("//ui:table/@caption", component);
-		assertXpathNotExists("//ui:table/@summary", component);
 		assertXpathEvaluatesTo("table", "//ui:table/@type", component);
 		assertXpathNotExists("//ui:table/@striping", component);
 		assertXpathNotExists("//ui:table/@separators", component);
@@ -128,7 +123,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(component);
 		assertXpathNotExists("//ui:table/@caption", component);
-		assertXpathNotExists("//ui:table/@summary", component);
 		assertXpathEvaluatesTo("table", "//ui:table/@type", component);
 		assertXpathEvaluatesTo("rows", "//ui:table/@striping", component);
 		assertXpathEvaluatesTo("horizontal", "//ui:table/@separators", component);
@@ -148,7 +142,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(component);
 		assertXpathNotExists("//ui:table/@caption", component);
-		assertXpathNotExists("//ui:table/@summary", component);
 		assertXpathEvaluatesTo("table", "//ui:table/@type", component);
 		assertXpathEvaluatesTo("cols", "//ui:table/@striping", component);
 		assertXpathEvaluatesTo("vertical", "//ui:table/@separators", component);
@@ -169,7 +162,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(component);
 		assertXpathNotExists("//ui:table/@caption", component);
-		assertXpathNotExists("//ui:table/@summary", component);
 		assertXpathEvaluatesTo("table", "//ui:table/@type", component);
 		assertXpathEvaluatesTo("cols", "//ui:table/@striping", component);
 		assertXpathEvaluatesTo("both", "//ui:table/@separators", component);
@@ -184,7 +176,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		TableModel tableModel = createTableModel();
 		component.setTableModel(tableModel);
 		component.setVisible(true);
-		component.setSummary(TABLE_SUMMARY_TEST);
 		component.setCaption(CAPTION_TEST);
 		component.setType(WTable.Type.HIERARCHIC);
 
@@ -195,7 +186,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		String tableId = component.getId();
 		assertXpathEvaluatesTo(tableId, "//ui:table/@id", component);
 		assertXpathEvaluatesTo(CAPTION_TEST, "//ui:table/@caption", component);
-		assertXpathEvaluatesTo(TABLE_SUMMARY_TEST, "//ui:table/@summary", component);
 		assertXpathEvaluatesTo("hierarchic", "//ui:table/@type", component);
 
 		// check header values
@@ -750,23 +740,23 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		table.setMargin(margin);
 		assertXpathNotExists("//ui:table/ui:margin", table);
 
-		margin = new Margin(1);
+		margin = new Margin(SpaceUtil.Size.SMALL);
 		table.setMargin(margin);
 		assertSchemaMatch(table);
-		assertXpathEvaluatesTo("1", "//ui:table/ui:margin/@all", table);
+		assertXpathEvaluatesTo("sm", "//ui:table/ui:margin/@all", table);
 		assertXpathEvaluatesTo("", "//ui:table/ui:margin/@north", table);
 		assertXpathEvaluatesTo("", "//ui:table/ui:margin/@east", table);
 		assertXpathEvaluatesTo("", "//ui:table/ui:margin/@south", table);
 		assertXpathEvaluatesTo("", "//ui:table/ui:margin/@west", table);
 
-		margin = new Margin(1, 2, 3, 4);
+		margin = new Margin(SpaceUtil.Size.SMALL, SpaceUtil.Size.MEDIUM, SpaceUtil.Size.LARGE, SpaceUtil.Size.XL);
 		table.setMargin(margin);
 		assertSchemaMatch(table);
 		assertXpathEvaluatesTo("", "//ui:table/ui:margin/@all", table);
-		assertXpathEvaluatesTo("1", "//ui:table/ui:margin/@north", table);
-		assertXpathEvaluatesTo("2", "//ui:table/ui:margin/@east", table);
-		assertXpathEvaluatesTo("3", "//ui:table/ui:margin/@south", table);
-		assertXpathEvaluatesTo("4", "//ui:table/ui:margin/@west", table);
+		assertXpathEvaluatesTo("sm", "//ui:table/ui:margin/@north", table);
+		assertXpathEvaluatesTo("med", "//ui:table/ui:margin/@east", table);
+		assertXpathEvaluatesTo("lg", "//ui:table/ui:margin/@south", table);
+		assertXpathEvaluatesTo("xl", "//ui:table/ui:margin/@west", table);
 	}
 
 	@Test
@@ -792,9 +782,6 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSafeContent(table);
 
 		table.setCaption(getMaliciousAttribute("ui:table"));
-		assertSafeContent(table);
-
-		table.setSummary(getMaliciousAttribute("ui:table"));
 		assertSafeContent(table);
 
 	}

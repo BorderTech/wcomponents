@@ -4,29 +4,26 @@
 .wc-multiselectpair {
 	white-space: nowrap;
 
-	> span {// The containers for the parts of the multiSelectPair
+	> span,
+	> label {// The containers for the parts of the multiSelectPair
 		display: inline-block;
 		vertical-align: top;
 
-		+ span {
-			//just enough margin to keep the buttons and selects visually separated but not enough to make them appear
-			//as separate controls. This is why we do not use the usual hgap_small property as that tends to
-			//imply a separation of components within a custom grouping, rather than a separation of parts within a
-			//compound control.
+		+ span,
+		+ label {
 			margin-left: 1px;
-		}
-
-		&.wc-fieldindicator {
-			display: block;
 		}
 	}
 
-	label { //Making the label display:block will define a minimum size for the selects.
+	.wc-fieldindicator {
 		display: block;
 	}
 
-	select { //Allow the select to grow with the label. NOTE: min-height is roughly the height of the four buttons.
-		min-height: 8em;
+	.wc-lbltext {
+		display: block;
+	}
+
+	select { //Allow the select to grow with the label.
 		min-width: 100%;
 	}
 

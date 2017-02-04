@@ -1,32 +1,3 @@
-/**
- * This module allows the options of a select list to be loaded and cached. This is all about improving performance by
- * keeping the payload small and using listLoader to get cache benefits.
- *
- * Note that IE8 ruins this in a few ways:
- *
- * * Ideally we would simply transform the options into a documentFragment and then append that documentFragment to the
- *   existing select. However IE8 can simply not cope with options that are not inside a select. This creates a heavier
- *   routine for adding options the select.  Optgroup is not good as a container as it requires a label and alters
- *   formatting.
- * * Even with the above concession to IE, using a select instead of a documentFragment IE8 still has further issues in
- *   that you can't say sel1.innerHTML = sel2.innerHTML.  So we are forced to loop through each option and add then one
- *   by one for IE8 (tested on IE9, still can't do it).
- *
- * @module
- * @requires module:wc/ui/listLoader
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/Widget
- * @requires module:wc/dom/getFilteredGroup
- * @requires module:wc/ui/selectboxSearch
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/event
- * @requires module:wc/dom/textContent
- * @requires module:wc/dom/i18n
- * @requires module:wc/dom/getLabelsForElement
- * @requires module:wc/has
- *
- * @todo Document private members, check source order.
- */
 define(["wc/ui/listLoader",
 		"wc/dom/initialise",
 		"wc/dom/Widget",
@@ -38,7 +9,6 @@ define(["wc/ui/listLoader",
 		"wc/i18n/i18n",
 		"wc/dom/getLabelsForElement",
 		"wc/has"],
-	/** @param listLoader wc/ui/listLoader @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param getFilteredGroup wc/dom/getFilteredGroup @param selectboxSearch wc/ui/selectboxSearch @param shed wc/dom/shed @param event wc/dom/event @param textContent wc/dom/textContent @param i18n wc/i18n/i18n @param getLabelsForElement wc/dom/getLabelsForElement @param has wc/has @ignore */
 	function(listLoader, initialise, Widget, getFilteredGroup, selectboxSearch, shed, event, textContent, i18n, getLabelsForElement, has) {
 		"use strict";
 		/**
@@ -58,39 +28,45 @@ define(["wc/ui/listLoader",
 			 */
 			function callbackFactory(id) {
 				return function (datalist) {
-					var currentOptions, optContainer, message, element = document.getElementById(id);
+					var currentOptions, optContainer, message,
+						element = document.getElementById(id),
+						selectList;
 					if (element) {
 						message = getErrorMessage(id, false);
 						if (message) {
 							message.parentNode.removeChild(message);
 						}
-						if (shed.isDisabled(element) && element.hasAttribute(DISABLED_BY_ME)) {
-							element.removeAttribute(DISABLED_BY_ME);
-							shed.enable(element, true);
-						}
-						currentOptions = getFilteredGroup(element);
-						optContainer = OPTION_CONTAINER.findDescendant(datalist);
 						try {
+							selectList = OPTION_CONTAINER.isOneOfMe(element) ? element : OPTION_CONTAINER.findDescendant(element);
+							if (!selectList) {
+								return;
+							}
+							if (shed.isDisabled(element) && element.hasAttribute(DISABLED_BY_ME)) {
+								element.removeAttribute(DISABLED_BY_ME);
+								shed.enable(element, true);
+							}
+							currentOptions = getFilteredGroup(selectList);
+							optContainer = OPTION_CONTAINER.findDescendant(datalist);
 							if (optContainer) {
 								if (has("ie") < 10) {
 									console.info("Forced to populate list slowly due to IE8 bugs");
-									element.innerHTML = "";
+									selectList.innerHTML = "";
 									Array.prototype.forEach.call(optContainer.options, function(next) {
-										element.appendChild(next.cloneNode(true));
+										selectList.appendChild(next.cloneNode(true));
 									});
 								}
 								else {
-									element.innerHTML = optContainer.innerHTML;
+									selectList.innerHTML = optContainer.innerHTML;
 								}
 								// re-select all the options that were originally selected
 								Array.prototype.forEach.call(currentOptions, function(next) {
 									var nextIdx = selectboxSearch.indexOf(next, optContainer), selIdx;
 									if (nextIdx >= 0) {
-										shed.select(element.options[nextIdx], true); // do not publish as the selection has not changed.
-										if (!element.hasAttribute(("multiple"))) { // the following is a Safari 8.0.8 bug workaround.
-											selIdx = selectboxSearch.indexOf(next, element);
-											if (element.selectedIndex !== selIdx) {
-												element.selectedIndex = selIdx;
+										shed.select(selectList.options[nextIdx], true); // do not publish as the selection has not changed.
+										if (!selectList.hasAttribute(("multiple"))) { // the following is a Safari 8.0.8 bug workaround.
+											selIdx = selectboxSearch.indexOf(next, selectList);
+											if (selectList.selectedIndex !== selIdx) {
+												selectList.selectedIndex = selIdx;
 											}
 										}
 									}
@@ -102,7 +78,7 @@ define(["wc/ui/listLoader",
 						}
 						finally {
 							element.removeAttribute("aria-busy");
-							currentOptions = element = null;
+							currentOptions = element = selectList = null;
 						}
 					}
 					else {
@@ -212,7 +188,35 @@ define(["wc/ui/listLoader",
 				}
 			};
 		}
-
-		var /** @alias module:wc/ui/selectLoader */ instance = new SelectLoader();
+		/**
+		 * This module allows the options of a select list to be loaded and cached. This is all about improving performance by
+		 * keeping the payload small and using listLoader to get cache benefits.
+		 *
+		 * Note that IE8 ruins this in a few ways:
+		 *
+		 * * Ideally we would simply transform the options into a documentFragment and then append that documentFragment to the
+		 *   existing select. However IE8 can simply not cope with options that are not inside a select. This creates a heavier
+		 *   routine for adding options the select.  Optgroup is not good as a container as it requires a label and alters
+		 *   formatting.
+		 * * Even with the above concession to IE, using a select instead of a documentFragment IE8 still has further issues in
+		 *   that you can't say sel1.innerHTML = sel2.innerHTML.  So we are forced to loop through each option and add then one
+		 *   by one for IE8 (tested on IE9, still can't do it).
+		 *
+		 * @module
+		 * @requires module:wc/ui/listLoader
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/dom/getFilteredGroup
+		 * @requires module:wc/ui/selectboxSearch
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/textContent
+		 * @requires module:wc/dom/i18n
+		 * @requires module:wc/dom/getLabelsForElement
+		 * @requires module:wc/has
+		 *
+		 * @todo Document private members, check source order.
+		 */
+		var instance = new SelectLoader();
 		return instance;
 	});

@@ -1,16 +1,8 @@
-/**
- * @module wc/ui/validation/minMax
- * @requires module:wc/ui/getFirstLabelForElement
- * @requires module:wc/i18n/i18n
- * @requires external:lib/sprintf
- * @requires module:wc/ui/validation/validationManager
- *
- */
+
 define(["wc/ui/getFirstLabelForElement",
 		"wc/i18n/i18n",
 		"lib/sprintf",
 		"wc/ui/validation/validationManager"],
-	/** @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param i18n wc/i18n/i18n @param sprintf lib/sprintf @param validationManager wc/ui/validation/validationManager @ignore */
 	function(getFirstLabelForElement, i18n, sprintf, validationManager) {
 		"use strict";
 
@@ -37,7 +29,6 @@ define(["wc/ui/getFirstLabelForElement",
 				attachToFunc = conf.attachTo,
 				minText = conf.minText || "validation_common_undermin",
 				maxText = conf.maxText || "validation_common_overmax",
-				result = true,
 				selectables;
 			if (!(widget && container)) {
 				return true;
@@ -110,18 +101,26 @@ define(["wc/ui/getFirstLabelForElement",
 				validationManager.flagError(obj);
 			}
 
-			if (widget && container) {
-				if (widget.isOneOfMe(container)) {
-					selectables = [container].filter(filter);
-				}
-				else {
-					selectables = Array.prototype.filter.call(widget.findDescendants(container), filter);
-				}
-				if (selectables && selectables.length) {
-					result = false;
-				}
+			if (widget.isOneOfMe(container)) {
+				selectables = [container].filter(filter);
 			}
-			return result;
+			else {
+				selectables = Array.prototype.filter.call(widget.findDescendants(container), filter);
+			}
+			if (selectables && selectables.length) {
+				return false;
+			}
+			return true;
+		}
+		/**
+		 * @module
+		 * @requires module:wc/ui/getFirstLabelForElement
+		 * @requires module:wc/i18n/i18n
+		 * @requires external:lib/sprintf
+		 * @requires module:wc/ui/validation/validationManager
+		 *
+		 */
+		return minMax;
 
 		/**
 		 * The configuration object for the module's return function.
@@ -139,7 +138,4 @@ define(["wc/ui/getFirstLabelForElement",
 		 * @property {Element} [attachTo] Element to which the error is attached if not the element being tested.
 		 * @property {String} [position] Used as argument for insertAdjacentHTML, defaults to "afterEnd".
 		 */
-		}
-
-		return minMax;
 	});

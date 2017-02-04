@@ -270,16 +270,18 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 
 	/**
 	 * Adds a separator to the tab set.
+	 * @deprecated separators are not available to tabsets as it does not conform with a11y requirements.
 	 */
+	@Deprecated
 	public void addSeparator() {
-		add(new WSeparator());
+		// No-Op
 	}
 
 	/**
 	 * Adds a tab to the tab set.
 	 *
 	 * @param tab the tab to add.
-	 * @deprecated use e.g. {@link #addTab(WComponent, String, TabMode)}
+	 * @deprecated use {@link #addTab(WComponent, String, TabMode)}
 	 */
 	@Deprecated
 	public void add(final WTab tab) {
@@ -290,7 +292,9 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * Adds a tab group to the tab set.
 	 *
 	 * @param group the group to add.
+	 * @deprecated Do not use TabGroups
 	 */
+	@Deprecated
 	public void add(final WTabGroup group) {
 		super.add(group);
 	}
@@ -299,9 +303,11 @@ public class WTabSet extends AbstractNamingContextContainer implements Disableab
 	 * Adds a separator to the tab set.
 	 *
 	 * @param separator the separator to add.
+	 * @deprecated separators are not available to tabsets as it does not conform with a11y requirements.
 	 */
+	@Deprecated
 	public void add(final WSeparator separator) {
-		super.add(separator);
+		// No-Op
 	}
 
 	/**

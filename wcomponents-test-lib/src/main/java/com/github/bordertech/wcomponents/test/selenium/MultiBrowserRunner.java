@@ -58,7 +58,8 @@ public class MultiBrowserRunner extends Suite {
 		//Configuration error - no drivers defined.
 		if (ArrayUtils.isEmpty(drivers)) {
 			throw new SystemException("Cannot run the MultiBrowserRunner without drivers defined in default param ["
-					+ ConfigurationProperties.TEST_SELENIUM_MULTI_BROWSER_DRIVERS + "] or test-specific param [" + ConfigurationProperties.TEST_SELENIUM_MULTI_BROWSER_DRIVERS + "." + testClassName + "]");
+					+ ConfigurationProperties.TEST_SELENIUM_MULTI_BROWSER_DRIVERS + "] or test-specific param ["
+					+ ConfigurationProperties.TEST_SELENIUM_MULTI_BROWSER_DRIVERS + "." + testClassName + "]");
 		}
 
 		boolean runParallel = ConfigurationProperties.getTestSeleniumMultiBrowserDriverParallel();

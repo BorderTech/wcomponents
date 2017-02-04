@@ -159,7 +159,7 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	 * @return a wrapped copy of the given fragment, suitable for validation against the schema.
 	 */
 	protected String wrapXHtml(final String xml) {
-		return XMLUtil.XML_DECLERATION
+		return XMLUtil.XML_DECLARATION
 				+ "<ui:root " + XMLUtil.STANDARD_NAMESPACES + ">"
 				+ xml
 				+ "</ui:root>";

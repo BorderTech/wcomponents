@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples.theme;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WField;
 import com.github.bordertech.wcomponents.WFieldLayout;
@@ -20,19 +21,30 @@ public class WFieldSetExample extends WPanel {
 	 * Creates a WFieldSetExample.
 	 */
 	public WFieldSetExample() {
-		add(new WHeading(WHeading.MAJOR, "Normal field set"));
+		add(new WHeading(HeadingLevel.H2, "Normal field set"));
 		addFieldSet("Enter your address");
 
 		//various settings for frame type
-		add(new WHeading(WHeading.MAJOR, "Examples of WFieldSet FrameType"));
-		add(new WHeading(WHeading.SECTION, "FrameType NONE"));
+		add(new WHeading(HeadingLevel.H2, "Examples of WFieldSet FrameType"));
+		add(new WHeading(HeadingLevel.H3, "FrameType NONE"));
 		addFieldSet("Enter your address in a borderless fieldset with no visible legend",
 				WFieldSet.FrameType.NONE);
-		add(new WHeading(WHeading.SECTION, "FrameType NO_BORDER"));
+		add(new WHeading(HeadingLevel.H3, "FrameType NO_BORDER"));
 		addFieldSet("Enter your address in a borderless fieldset", WFieldSet.FrameType.NO_BORDER);
-		add(new WHeading(WHeading.SECTION, "FrameType NO_TEXT"));
+		add(new WHeading(HeadingLevel.H3, "FrameType NO_TEXT"));
 		addFieldSet("Enter your address in a fieldset with a hidden legend",
 				WFieldSet.FrameType.NO_TEXT);
+
+
+		add(new WHeading(HeadingLevel.H2, "WFieldSet anti patterns"));
+		add(new WHeading(HeadingLevel.H3, "No legend"));
+		addFieldSet(null);
+		add(new WHeading(HeadingLevel.H3, "Empty legend"));
+		addFieldSet("");
+		add(new WHeading(HeadingLevel.H3, "Almost empty legend"));
+		addFieldSet(" ");
+		add(new WHeading(HeadingLevel.H3, "Another almost empty legend"));
+		addFieldSet("\u00a0");
 	}
 
 	/**

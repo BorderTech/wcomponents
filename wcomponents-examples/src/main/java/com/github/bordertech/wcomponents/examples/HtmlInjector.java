@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
+import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
@@ -14,6 +15,7 @@ import com.github.bordertech.wcomponents.WTextArea;
  * a demonstration of why untrusted input should never be be displayed using {@link WText} with encoding disabled.
  *
  * @author Martin Shevchenko
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class HtmlInjector extends WContainer {
@@ -38,13 +40,13 @@ public class HtmlInjector extends WContainer {
 				injectedHtml.setText(html);
 			}
 		});
+		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
+		add(layout);
+		layout.addField("Enter HTML", htmlEditor);
+		layout.addField(injectBtn);
 
-		add(htmlEditor);
-		add(injectBtn);
-		add(new WHorizontalRule());
-
-		WPanel injectedHtmlPanel = new WPanel(WPanel.Type.BLOCK);
+		WPanel injectedHtmlPanel = new WPanel(WPanel.Type.BOX);
 		injectedHtmlPanel.add(injectedHtml);
-		add(injectedHtmlPanel, "injection");
+		add(injectedHtmlPanel);
 	}
 }

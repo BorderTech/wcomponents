@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.RadioButtonGroup;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
@@ -22,8 +23,6 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.examples.common.ExampleLookupTable.TableEntry;
-import com.github.bordertech.wcomponents.layout.FlowLayout;
-import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 import java.util.List;
@@ -58,117 +57,17 @@ public class EntryFieldExample extends WPanel {
 	 * Creates an EntryFieldExample.
 	 */
 	public EntryFieldExample() {
-		this.setLayout(new FlowLayout(Alignment.VERTICAL));
+		// this.setLayout(new FlowLayout(Alignment.VERTICAL));
 
 		WFieldLayout fieldLayout;
 		WValidationErrors errors = new WValidationErrors();
 		add(errors);
 
-		//
-		// Textfields
-		//
-		WHeading heading = new WHeading(WHeading.MAJOR, "TextFields");
-		add(heading);
-		fieldLayout = new WFieldLayout();
-
-		tf1 = new WTextField();
-		fieldLayout.addField("WTextField - Plain", tf1);
-
-		tf2 = new WTextField();
-		tf2.setColumns(5);
-		tf2.setMaxLength(6);
-		tf2.setMandatory(true);
-		fieldLayout.addField("WTextField - Mandatory, 5 columns, max length 6", tf2);
-
-		tf3 = new WTextField();
-		tf3.setColumns(5);
-		fieldLayout.addField("WTextField - Disabled, 5 columns", tf3);
-
-		tf4 = new WTextField();
-		fieldLayout.addField("WTextField - Plain and initially null", tf4);
-		add(fieldLayout);
-		add(new WHorizontalRule());
-
-		//
-		// Numeric fields
-		//
-		heading = new WHeading(WHeading.MAJOR, "Numeric fields");
-		add(heading);
-		fieldLayout = new WFieldLayout();
-		nf1 = new WNumberField();
-		fieldLayout.addField("WNumberField - Plain", nf1);
-
-		nf2 = new WNumberField();
-		nf2.setDecimalPlaces(0);
-		fieldLayout.addField("WNumberField - Zero Decimal Places", nf2);
-
-		nf3 = new WNumberField();
-		nf3.setMinValue(0);
-		fieldLayout.addField("WNumberField - Minimum of zero", nf3);
-
-		add(fieldLayout);
-		add(new WHorizontalRule());
-
-		//
-		// email fields.
-		//
-		heading = new WHeading(WHeading.MAJOR, "Email fields");
-		add(heading);
-		fieldLayout = new WFieldLayout();
-		ef1 = new WEmailField();
-		fieldLayout.addField("WEmailField", ef1);
-
-		add(fieldLayout);
-		add(new WHorizontalRule());
-
-		//
-		// Dropdowns
-		//
-		heading = new WHeading(WHeading.MAJOR, "Dropdowns");
-		add(heading);
-		fieldLayout = new WFieldLayout();
-		drop1 = new WDropdown(new String[]{"One", "Two", "Three"});
-		fieldLayout.addField("WDropdown", drop1);
-
-		drop2 = new WDropdown(new String[]{null, "Cat", "Dog", "Elephant", "Mouse"});
-		fieldLayout.addField("WDropdown - blank option", drop2);
-		add(fieldLayout);
-		add(new WHorizontalRule());
-
-		//
-		// Single Select
-		//
-		heading = new WHeading(WHeading.MAJOR, "Single Select");
-		add(heading);
-		fieldLayout = new WFieldLayout();
-		single1 = new WSingleSelect(new String[]{"One", "Two", "Three"});
-		fieldLayout.addField("WSingleSelect", single1);
-		add(fieldLayout);
-		add(new WHorizontalRule());
-
-		//
-		// Multi Select
-		//
-		heading = new WHeading(WHeading.MAJOR, "Multi select - List Box");
-		add(heading);
-		fieldLayout = new WFieldLayout();
-		multi1 = new WMultiSelect(new String[]{"Circle", "Oval", "Rectangle", "Square", "Triangle"});
-		fieldLayout.addField("WMultiSelect - String[]", multi1);
-
-		multi2 = new WMultiSelect("icao");
-		multi2.setRows(10);
-		fieldLayout.addField("WMultiSelect - table with 10 rows", multi2);
-
-		multiCb = new WCheckBoxSelect("sex");
-		fieldLayout.addField("WCheckBoxSelect", multiCb);
-
-		add(fieldLayout);
-		add(new WHorizontalRule());
 
 		//
 		// Radios
 		//
-		heading = new WHeading(WHeading.MAJOR, "Radio Button Select");
+		WHeading heading = new WHeading(HeadingLevel.H2, "Radio Button Select");
 		add(heading);
 		rbSelect = new WRadioButtonSelect(new String[]{"poor", "good", "great"});
 		rbSelect.setButtonLayout(WRadioButtonSelect.LAYOUT_FLAT);
@@ -201,9 +100,111 @@ public class EntryFieldExample extends WPanel {
 		add(new WHorizontalRule());
 
 		//
+		// Textfields
+		//
+		heading = new WHeading(HeadingLevel.H2, "TextFields");
+		add(heading);
+		fieldLayout = new WFieldLayout();
+
+		tf1 = new WTextField();
+		fieldLayout.addField("WTextField - Plain", tf1);
+
+		tf2 = new WTextField();
+		tf2.setColumns(5);
+		tf2.setMaxLength(6);
+		tf2.setMandatory(true);
+		fieldLayout.addField("WTextField - Mandatory, 5 columns, max length 6", tf2);
+
+		tf3 = new WTextField();
+		tf3.setColumns(5);
+		fieldLayout.addField("WTextField - Disabled, 5 columns", tf3);
+
+		tf4 = new WTextField();
+		fieldLayout.addField("WTextField - Plain and initially null", tf4);
+		add(fieldLayout);
+		add(new WHorizontalRule());
+
+		//
+		// Numeric fields
+		//
+		heading = new WHeading(HeadingLevel.H2, "Numeric fields");
+		add(heading);
+		fieldLayout = new WFieldLayout();
+		nf1 = new WNumberField();
+		fieldLayout.addField("WNumberField - Plain", nf1);
+
+		nf2 = new WNumberField();
+		nf2.setDecimalPlaces(0);
+		fieldLayout.addField("WNumberField - Zero Decimal Places", nf2);
+
+		nf3 = new WNumberField();
+		nf3.setMinValue(0);
+		fieldLayout.addField("WNumberField - Minimum of zero", nf3);
+
+		add(fieldLayout);
+		add(new WHorizontalRule());
+
+		//
+		// email fields.
+		//
+		heading = new WHeading(HeadingLevel.H2, "Email fields");
+		add(heading);
+		fieldLayout = new WFieldLayout();
+		ef1 = new WEmailField();
+		fieldLayout.addField("WEmailField", ef1);
+
+		add(fieldLayout);
+		add(new WHorizontalRule());
+
+		//
+		// Dropdowns
+		//
+		heading = new WHeading(HeadingLevel.H2, "Dropdowns");
+		add(heading);
+		fieldLayout = new WFieldLayout();
+		drop1 = new WDropdown(new String[]{"One", "Two", "Three"});
+		fieldLayout.addField("WDropdown", drop1);
+
+		drop2 = new WDropdown(new String[]{null, "Cat", "Dog", "Elephant", "Mouse"});
+		fieldLayout.addField("WDropdown - blank option", drop2);
+		add(fieldLayout);
+		add(new WHorizontalRule());
+
+		//
+		// Single Select
+		//
+		heading = new WHeading(HeadingLevel.H2, "Single Select");
+		add(heading);
+		fieldLayout = new WFieldLayout();
+		single1 = new WSingleSelect(new String[]{"One", "Two", "Three"});
+		fieldLayout.addField("WSingleSelect", single1);
+		add(fieldLayout);
+		add(new WHorizontalRule());
+
+		//
+		// Multi Select
+		//
+		heading = new WHeading(HeadingLevel.H2, "Multi select - List Box");
+		add(heading);
+		fieldLayout = new WFieldLayout();
+		multi1 = new WMultiSelect(new String[]{"Circle", "Oval", "Rectangle", "Square", "Triangle"});
+		fieldLayout.addField("WMultiSelect - String[]", multi1);
+
+		multi2 = new WMultiSelect("icao");
+		multi2.setRows(10);
+		fieldLayout.addField("WMultiSelect - table with 10 rows", multi2);
+
+		multiCb = new WCheckBoxSelect("sex");
+		fieldLayout.addField("WCheckBoxSelect", multiCb);
+
+		add(fieldLayout);
+		add(new WHorizontalRule());
+
+
+		//
 		// Checkboxes
 		//
-		heading = new WHeading(WHeading.MAJOR, "Check Boxes");
+		heading = new WHeading(HeadingLevel.H2, "Check Boxes");
 		add(heading);
 		cb1 = new WCheckBox();
 		cb2 = new WCheckBox();
@@ -219,7 +220,7 @@ public class EntryFieldExample extends WPanel {
 		//
 		// Textareas
 		//
-		heading = new WHeading(WHeading.MAJOR, "Text Areas");
+		heading = new WHeading(HeadingLevel.H2, "Text Areas");
 		add(heading);
 		fieldLayout = new WFieldLayout();
 		ta = new WTextArea();
@@ -231,7 +232,7 @@ public class EntryFieldExample extends WPanel {
 		add(new WHorizontalRule());
 
 		// Button
-		heading = new WHeading(WHeading.MAJOR, "Buttons");
+		heading = new WHeading(HeadingLevel.H2, "Buttons");
 		add(heading);
 
 		WText description = new WText("Press button to copy values into textarea");
@@ -373,7 +374,7 @@ public class EntryFieldExample extends WPanel {
 		}
 
 		if (radioButtonGroup.getSelectedValue() != null) {
-			String radioValue = radioButtonGroup.getSelectedValue().toString();
+			String radioValue = radioButtonGroup.getSelectedValue();
 			sb.append("\nRadioButtonGroup = ").append(radioValue);
 		}
 

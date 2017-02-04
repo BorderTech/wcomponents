@@ -23,6 +23,7 @@ import com.github.bordertech.wcomponents.subordinate.Enable;
 import com.github.bordertech.wcomponents.subordinate.Equal;
 import com.github.bordertech.wcomponents.subordinate.Rule;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.util.Date;
 
 /**
@@ -127,7 +128,7 @@ public class WDateFieldExample extends WContainer {
 
 		//do the layout
 		WPanel buttonPanel = new WPanel(WPanel.Type.FEATURE);
-		buttonPanel.setMargin(new Margin(12, 0, 0, 0));
+		buttonPanel.setMargin(new Margin(SpaceUtil.Size.LARGE, null, null, null));
 		buttonPanel.setLayout(new BorderLayout());
 
 		WPanel innerButtonPanel = new WPanel();

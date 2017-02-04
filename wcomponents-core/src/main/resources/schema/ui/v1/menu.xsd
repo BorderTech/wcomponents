@@ -12,12 +12,6 @@ XML schema for ui:menu (WMenu)
 	- Note that the selectedItem is not automatically preserved across form submissions - it must be explicitly set according to business logic.
 - Setting disabled on a menu is shorthand for disabling every menuItem within (descendents of) the menu.
 
-WMenu expects that the POSTed form data contains:
-
-Field name      Type        Mandatory       Value
-==========      ====        =========       =====
-@id + "-h"      String      yes             "x"
-
 -->
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
@@ -26,7 +20,6 @@ Field name      Type        Mandatory       Value
 	<xs:include schemaLocation="menuItem.xsd"/>
 	<xs:include schemaLocation="submenu.xsd"/>
 	<xs:include schemaLocation="menuGroup.xsd"/>
-	<xs:include schemaLocation="separator.xsd"/>
 	<xs:include schemaLocation="margin.xsd"/>
 	
 	<xs:element name="menu">

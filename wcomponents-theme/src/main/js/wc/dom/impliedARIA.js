@@ -1,15 +1,5 @@
 define(["wc/dom/tag", "wc/dom/Widget"], function (tag, Widget) {
 	"use strict";
-
-	/*
-	 * To determine the correct role for a table we need to know if it is expandable, and therefore a treegrid.
-	 */
-	var table;
-
-	require(["wc/ui/table/rowExpansion"], function (t) {
-		table = t;
-	});
-
 	/**
 	 * @constructor
 	 * @alias module:wc/dom/impliedARIA~ImpliedAria
@@ -43,7 +33,6 @@ define(["wc/dom/tag", "wc/dom/Widget"], function (tag, Widget) {
 			REQUIRED,
 			INPUT_NOT_REQUIRED,
 			THEAD;
-
 
 		/**
 		 * Determine if a HTML element supports the native required attribute. See
@@ -108,7 +97,7 @@ define(["wc/dom/tag", "wc/dom/Widget"], function (tag, Widget) {
 			var roleKey;
 			if (element.nodeType === Node.ELEMENT_NODE && !element.hasAttribute("role")) { // if something has an explicit role then implied roles should not be considered.
 				if (element.tagName === tag.TABLE) {
-					return (table && table.isTreeGrid(element)) ? "treegrid" : "grid";
+					return (element.className && element.className.indexOf("wc_tbl_expansion") > -1) ? "treegrid" : "grid";
 				}
 				if (element.tagName === tag.TH) {
 					THEAD = THEAD || new Widget(tag.THEAD);

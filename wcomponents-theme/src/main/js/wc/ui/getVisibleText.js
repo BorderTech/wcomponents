@@ -1,10 +1,9 @@
-define(["wc/dom/Widget",
-		"wc/dom/textContent",
-		"wc/dom/shed",
-		"wc/ui/tooltip"],
-	function(Widget, textContent, shed, tooltip) {
+define(["wc/dom/textContent",
+	"wc/dom/shed",
+	"wc/ui/tooltip",
+	"wc/ui/label"],
+	function (textContent, shed, tooltip, label) {
 		"use strict";
-		var HINT;
 
 		/**
 		 * Funny old treewalker filter: we want to get all the nodes we can remove from element so we ACCEPT anything
@@ -16,7 +15,7 @@ define(["wc/dom/Widget",
 		 * @returns {Number} NodeFilter.FILTER_ACCEPT if the node is hidden (and can therefore be removed).
 		 */
 		function treeWalkerFilter(element) {
-			if (shed.isHidden(element, true)) {
+			if (shed.isHidden(element, false, true)) {
 				return NodeFilter.FILTER_ACCEPT;
 			}
 
@@ -45,12 +44,14 @@ define(["wc/dom/Widget",
 		/**
 		 * @function module:wc/ui/getVisibleText
 		 * @param {Element} element The element for which we want to find the text.
-		 * @param {Boolean} removeHint If truthy also remove any HINT (applies only to labels).
+		 * @param {Boolean} [removeHint] If truthy also remove any HINT (applies only to labels).
+		 * @param {Boolean} [trim] if truthy then trim the content before returning it
 		 * @returns {String?} The text content of the element without HINT or TOOLTIP.
 		 */
-		function getVisibleText (element, removeHint) {
+		function getVisibleText(element, removeHint, trim) {
 			var clone = element.cloneNode(true),
-				removeableChild;
+				removeableChild,
+				content;
 
 			// ToolTip is not necessarily invisible at the time of calling (may have ALT/META key pressed).
 			if ((removeableChild = tooltip.getTooltip(clone))) {
@@ -58,21 +59,22 @@ define(["wc/dom/Widget",
 			}
 
 			if (removeHint) { // HINT is never "invisible"
-				HINT = HINT || new Widget("", "wc-label-hint");
-				while ((removeableChild = HINT.findDescendant(clone))) {
+				while ((removeableChild = label.getHint(clone))) {
 					removeableChild.parentNode.removeChild(removeableChild);
 				}
 			}
 
 			removeInvisibles(clone);
-			return textContent.get(clone);
+			content = textContent.get(clone);
+			return trim && content ? content.trim() : content;
 		}
-		/*
+		/**
 		 * @module
 		 * @requires module:wc/dom/Widget
 		 * @requires module:wc/dom/textContent
 		 * @requires module:wc/dom/shed
 		 * @requires module:wc/ui/tooltip
+		 * @requires module:wc/ui/label
 		 */
 		return getVisibleText;
 	});

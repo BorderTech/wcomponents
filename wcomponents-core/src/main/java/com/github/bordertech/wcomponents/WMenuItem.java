@@ -267,14 +267,16 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	 */
 	@Override
 	public boolean isDisabled() {
-		boolean disabled = false;
-
-		MenuContainer container = (MenuContainer) WebUtilities.getAncestorOfClass(MenuContainer.class, this);
-		if (container instanceof MenuItemGroup && container instanceof Disableable) {
-			disabled = ((Disableable) container).isDisabled();
+		if (isFlagSet(ComponentModel.DISABLED_FLAG)) {
+			return true;
 		}
 
-		return disabled || isFlagSet(ComponentModel.DISABLED_FLAG);
+		MenuContainer container = WebUtilities.getAncestorOfClass(MenuContainer.class, this);
+		if (container instanceof Disableable && ((Disableable) container).isDisabled()) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -288,6 +290,18 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
+	 * @return {@code true} if the WMenuItem is either an immediate child of a WMenu or an immediate child of a WMenuItemGroup which is itself
+	 * an immediate child of a WMenu.
+	 */
+	public final boolean isTopLevelItem() {
+		MenuContainer container = WebUtilities.getAncestorOfClass(MenuContainer.class, this);
+		if (container instanceof WMenuItemGroup) {
+			container = WebUtilities.getAncestorOfClass(MenuContainer.class, container);
+		}
+		return container instanceof WMenu;
+	}
+
+	/**
 	 * @return the menu item's accesskey.
 	 */
 	public char getAccessKey() {
@@ -295,8 +309,7 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * Set the accesskey on the menu item button or link. For more information on access keys see
-	 * {@link WButton#setAccessKey(char)}.
+	 * Set the accesskey on the menu item.
 	 *
 	 * @param accesskey The key that will form a keyboard shortcut to the menu item.
 	 */
@@ -520,7 +533,7 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 		private Serializable actionObject;
 
 		/**
-		 * Indicates whether the sub-menu itself can be selected (e.g. for column menus).
+		 * Indicates whether the menu item can be selected (e.g. for column menus).
 		 */
 		private Boolean selectability;
 

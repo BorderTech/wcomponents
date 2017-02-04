@@ -7,9 +7,8 @@ import com.github.bordertech.wcomponents.util.InternalMessages;
  *
  * @author Martin Shevchenko
  * @since 1.0.0
- *
- * @deprecated: does not provide useful functionality.
  */
+@Deprecated
 public class WPrintButton extends WButton {
 
 	/**

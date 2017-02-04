@@ -11,6 +11,7 @@ import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WSubMenu;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * Demonstrate {@link WMenuItem} action messages to confirm submit, cancel or navigate to a new URL.
@@ -122,7 +123,7 @@ public class MenuItemActionMessagesExample extends WContainer {
 		item.setUrl("http://www.example.com/");
 
 		WPanel panel = new WPanel();
-		panel.setMargin(new Margin(12, 0, 0, 0));
+		panel.setMargin(new Margin(SpaceUtil.Size.LARGE, null, null, null));
 		add(panel);
 
 		WFieldLayout layout = new WFieldLayout();

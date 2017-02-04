@@ -16,7 +16,7 @@ import java.util.List;
  * @author Yiannis Paschalidis
  * @since 1.0.0
  */
-public class WSelectToggle extends AbstractWComponent implements Disableable, AjaxTarget {
+public class WSelectToggle extends AbstractWComponent implements Disableable, AjaxTarget, Labelable {
 
 	/**
 	 * Describes the tri-state nature of a selectToggle.

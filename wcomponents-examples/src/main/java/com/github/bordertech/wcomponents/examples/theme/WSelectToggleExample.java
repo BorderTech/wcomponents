@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples.theme;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WCheckBoxSelect;
 import com.github.bordertech.wcomponents.WComponentGroup;
@@ -26,16 +27,16 @@ public class WSelectToggleExample extends WPanel {
 	public WSelectToggleExample() {
 		setLayout(new FlowLayout(Alignment.VERTICAL));
 
-		add(new WHeading(WHeading.MAJOR, "Client-side, as button"));
-		WSelectToggle toggle = new WSelectToggle(true);
+		add(new WHeading(HeadingLevel.H2, "As button"));
+		WSelectToggle toggle = new WSelectToggle();
 
 		NestedContent target = new NestedContent();
 		toggle.setTarget(target);
 		add(toggle);
 		add(target);
 
-		add(new WHeading(WHeading.MAJOR, "Client-side, as text"));
-		toggle = new WSelectToggle(true);
+		add(new WHeading(HeadingLevel.H2, "As text"));
+		toggle = new WSelectToggle();
 		toggle.setRenderAsText(true);
 
 		target = new NestedContent();
@@ -43,7 +44,7 @@ public class WSelectToggleExample extends WPanel {
 		add(toggle);
 		add(target);
 
-		add(new WHeading(WHeading.MAJOR, "Server-side, as button"));
+		add(new WHeading(HeadingLevel.H2, "Server-side (deprecated), as button"));
 		toggle = new WSelectToggle(false);
 
 		target = new NestedContent();
@@ -51,8 +52,7 @@ public class WSelectToggleExample extends WPanel {
 		add(toggle);
 		add(target);
 
-		add(new WHeading(WHeading.MAJOR,
-				"Client-side targeting of grouped checkboxes not in a WFieldSet"));
+		add(new WHeading(HeadingLevel.H2, "Targeting of grouped checkboxes not in a WFieldSet"));
 		WComponentGroup<WCheckBox> group = new WComponentGroup<>();
 		add(group);
 
@@ -62,7 +62,7 @@ public class WSelectToggleExample extends WPanel {
 		WCheckBox checkBox2 = new WCheckBox();
 		checkBox2.setGroup(group);
 
-		add(new WSelectToggle(true, checkBox1));
+		add(new WSelectToggle(group));
 
 		WPanel panel = new WPanel();
 		panel.add(new WLabel("Check-box 1", checkBox1));
@@ -71,11 +71,11 @@ public class WSelectToggleExample extends WPanel {
 		panel.add(checkBox2);
 		add(panel);
 		//Targeting a WCheckBoxSelect - simple
-		add(new WHeading(WHeading.MAJOR, "Client side targeting a WCheckBoxSelect"));
+		add(new WHeading(HeadingLevel.H2, "Targeting a WCheckBoxSelect"));
 		WCheckBoxSelect select = new WCheckBoxSelect("australian_state");
 		select.setFrameless(true);
 		select.setButtonColumns(3);
-		WSelectToggle stateToggle = new WSelectToggle(true, select);
+		WSelectToggle stateToggle = new WSelectToggle(select);
 		stateToggle.setRenderAsText(true);
 		stateToggle.setToolTip("Select all states and territories");
 		add(stateToggle);
@@ -85,13 +85,13 @@ public class WSelectToggleExample extends WPanel {
 		add(layout);
 
 		//targeting a WCheckBoxSelect AND labelling the selectToggle
-		add(new WHeading(WHeading.MAJOR, "Client side targeting a WCheckBoxSelect and with a label"));
+		add(new WHeading(HeadingLevel.H2, "With a label"));
 		select = new WCheckBoxSelect("australian_state");
 		select.setFrameless(true);
 		select.setButtonColumns(3);
 		layout = new WFieldLayout();
 		layout.setLabelWidth(33);
-		stateToggle = new WSelectToggle(true, select);
+		stateToggle = new WSelectToggle(select);
 
 		WLabel stateToggleLabel = new WLabel("Select all states and territories", stateToggle);
 		layout.addField(stateToggleLabel, stateToggle);
@@ -100,14 +100,13 @@ public class WSelectToggleExample extends WPanel {
 		add(layout);
 
 		//targeting a WCheckBoxSelect AND labelling the selectToggle
-		add(new WHeading(WHeading.MAJOR,
-				"Client side as text targeting a WCheckBoxSelect and with a label"));
+		add(new WHeading(HeadingLevel.H2, "As text with a label"));
 		select = new WCheckBoxSelect("australian_state");
 		select.setFrameless(true);
 		select.setButtonColumns(3);
 		layout = new WFieldLayout();
 		layout.setLabelWidth(33);
-		stateToggle = new WSelectToggle(true, select);
+		stateToggle = new WSelectToggle(select);
 
 		stateToggle.setRenderAsText(true);
 		stateToggleLabel = new WLabel("Select states and territories:", stateToggle);
@@ -115,6 +114,27 @@ public class WSelectToggleExample extends WPanel {
 
 		layout.addField("States and Territories", select);
 		add(layout);
+
+
+
+		add(new WHeading(HeadingLevel.H2, "Disabled"));
+		add(new WHeading(HeadingLevel.H3, "As Button"));
+		toggle = new WSelectToggle();
+		toggle.setDisabled(true);
+		target = new NestedContent();
+		toggle.setTarget(target);
+		add(toggle);
+		add(target);
+
+		add(new WHeading(HeadingLevel.H3, "As text"));
+		toggle = new WSelectToggle();
+		toggle.setRenderAsText(true);
+		toggle.setDisabled(true);
+
+		target = new NestedContent();
+		toggle.setTarget(target);
+		add(toggle);
+		add(target);
 	}
 
 	/**

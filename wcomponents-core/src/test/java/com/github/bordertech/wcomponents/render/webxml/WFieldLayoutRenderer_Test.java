@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -113,23 +114,23 @@ public class WFieldLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		layout.setMargin(margin);
 		assertXpathNotExists("//ui:fieldlayout/ui:margin", layout);
 
-		margin = new Margin(1);
+		margin = new Margin(SpaceUtil.Size.SMALL);
 		layout.setMargin(margin);
 		assertSchemaMatch(layout);
-		assertXpathEvaluatesTo("1", "//ui:fieldlayout/ui:margin/@all", layout);
+		assertXpathEvaluatesTo("sm", "//ui:fieldlayout/ui:margin/@all", layout);
 		assertXpathEvaluatesTo("", "//ui:fieldlayout/ui:margin/@north", layout);
 		assertXpathEvaluatesTo("", "//ui:fieldlayout/ui:margin/@east", layout);
 		assertXpathEvaluatesTo("", "//ui:fieldlayout/ui:margin/@south", layout);
 		assertXpathEvaluatesTo("", "//ui:fieldlayout/ui:margin/@west", layout);
 
-		margin = new Margin(1, 2, 3, 4);
+		margin = new Margin(SpaceUtil.Size.SMALL, SpaceUtil.Size.MEDIUM, SpaceUtil.Size.LARGE, SpaceUtil.Size.XL);
 		layout.setMargin(margin);
 		assertSchemaMatch(layout);
 		assertXpathEvaluatesTo("", "//ui:fieldlayout/ui:margin/@all", layout);
-		assertXpathEvaluatesTo("1", "//ui:fieldlayout/ui:margin/@north", layout);
-		assertXpathEvaluatesTo("2", "//ui:fieldlayout/ui:margin/@east", layout);
-		assertXpathEvaluatesTo("3", "//ui:fieldlayout/ui:margin/@south", layout);
-		assertXpathEvaluatesTo("4", "//ui:fieldlayout/ui:margin/@west", layout);
+		assertXpathEvaluatesTo("sm", "//ui:fieldlayout/ui:margin/@north", layout);
+		assertXpathEvaluatesTo("med", "//ui:fieldlayout/ui:margin/@east", layout);
+		assertXpathEvaluatesTo("lg", "//ui:fieldlayout/ui:margin/@south", layout);
+		assertXpathEvaluatesTo("xl", "//ui:fieldlayout/ui:margin/@west", layout);
 	}
 
 }

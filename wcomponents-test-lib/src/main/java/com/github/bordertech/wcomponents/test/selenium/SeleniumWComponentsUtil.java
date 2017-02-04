@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponen
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWDialogWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWEmailFieldWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWRadioButtonWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWSelectWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextAreaWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextFieldWebElement;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
@@ -30,6 +31,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * hierarchy.</p>
  *
  * @author Joshua Barclay
+ * @author Mark Reeves
  * @since 1.2.0
  */
 public final class SeleniumWComponentsUtil {
@@ -205,21 +207,24 @@ public final class SeleniumWComponentsUtil {
 
 		if (tag.equals(SeleniumWComponentInputWebElement.EDITABLE_TAG)) {
 			String type = element.getAttribute("type");
+			WebElement el = element.findElement(By.xpath(".."));
 			switch (type) {
 				case SeleniumWCheckBoxWebElement.TYPE:
-					return new SeleniumWCheckBoxWebElement(element, driver);
+					return new SeleniumWCheckBoxWebElement(el, driver);
 				case SeleniumWTextFieldWebElement.TYPE:
 					//Text fields have a wrapping Span, we want to wrap that
-					return new SeleniumWTextFieldWebElement(element.findElement(By.xpath("..")), driver);
+					return new SeleniumWTextFieldWebElement(el, driver);
 				case SeleniumWEmailFieldWebElement.TYPE:
-					return new SeleniumWEmailFieldWebElement(element, driver);
+					return new SeleniumWEmailFieldWebElement(el, driver);
 				case SeleniumWRadioButtonWebElement.TYPE:
-					return new SeleniumWRadioButtonWebElement(element, driver);
+					return new SeleniumWRadioButtonWebElement(el, driver);
 				default:
-					return new SeleniumWComponentInputWebElement(element, driver);
+					return new SeleniumWComponentInputWebElement(el, driver);
 			}
-		} else if (tag.equals(SeleniumWTextAreaWebElement.EDITABLE_TAG)) {
-			return new SeleniumWTextAreaWebElement(element, driver);
+		} else if (tag.equals(SeleniumWTextAreaWebElement.TEXTAREA_TAG)) {
+			return new SeleniumWTextAreaWebElement(element.findElement(By.xpath("..")), driver);
+		} else if (tag.equals(SeleniumWSelectWebElement.SELECT_TAG)) {
+			return new SeleniumWSelectWebElement(element.findElement(By.xpath("..")), driver);
 		}
 
 		return new SeleniumWComponentInputWebElement(element, driver);

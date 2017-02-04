@@ -1,7 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.getHVGap.xsl"/>
-	<xsl:import href="wc.common.n.className.xsl"/>
+	<xsl:import href="wc.common.gapClass.xsl"/>
+	<xsl:import href="wc.common.attributes.xsl"/>
 	<!--
 		ui:flowlayout is one of the possible child elements of WPanel
 
@@ -13,18 +13,21 @@
 			<xsl:if test="@valign">
 				<xsl:value-of select="concat('wc_fl_', @valign)"/>
 			</xsl:if>
-			<xsl:call-template name="getHVGapClass">
-				<xsl:with-param name="isVGap">
-					<xsl:choose>
-						<xsl:when test="@align and @align eq 'vertical'">
-							<xsl:number value="1"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:number value="0"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:with-param>
-			</xsl:call-template>
+			<xsl:if test="@gap">
+				<xsl:call-template name="gapClass">
+					<xsl:with-param name="gap" select="@gap"/>
+					<xsl:with-param name="isVGap">
+						<xsl:choose>
+							<xsl:when test="@align and @align eq 'vertical'">
+								<xsl:number value="1"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:number value="0"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:with-param>
+				</xsl:call-template>
+			</xsl:if>
 		</xsl:variable>
 		<div>
 			<xsl:call-template name="makeCommonClass">
@@ -41,7 +44,7 @@
 	-->
 	<xsl:template match="ui:cell" mode="fl">
 		<div class="wc-cell">
-			<xsl:apply-templates/>
+			<xsl:apply-templates />
 		</div>
 	</xsl:template>
 </xsl:stylesheet>

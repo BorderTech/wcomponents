@@ -1,17 +1,3 @@
-/**
- * Provides functionality for changing the order of options in a list (select or optgroup).
- *
- * @module
- * @requires module:wc/dom/event
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/formUpdateManager
- * @requires module:wc/dom/getFilteredGroup
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/Widget
- * @requires module:wc/ui/ajaxRegion
- *
- * @todo Document private members.
- */
 define(["wc/dom/event",
 		"wc/dom/initialise",
 		"wc/dom/formUpdateManager",
@@ -19,8 +5,7 @@ define(["wc/dom/event",
 		"wc/dom/shed",
 		"wc/dom/Widget",
 		"wc/ui/ajaxRegion"],
-	/** @param event wc/dom/event @param initialise wc/dom/initialise @param formUpdateManager wc/dom/formUpdateManager @param getFilteredGroup wc/dom/getFilteredGroup @param shed wc/dom/shed @param Widget wc/dom/Widget @param ajaxRegion wc/ui/ajaxRegion @ignore */
-	function(event, initialise, formUpdateManager, getFilteredGroup, shed, Widget, ajaxRegion) {
+	function(event, initialise, formUpdateManager, getFilteredGroup, shed, Widget) {
 		"use strict";
 		/**
 		 * @constructor
@@ -29,8 +14,7 @@ define(["wc/dom/event",
 		 */
 		function Shuffler() {
 			var MOVE_BUTTON = new Widget("button", "wc_sorter"),
-				FIELDSET = new Widget("fieldset"),
-				CONTAINER = FIELDSET.extend("wc-shuffler"),
+				CONTAINER = new Widget("", "wc-shuffler"),
 				SHUFFLER_SELECT,
 				UP = "up",
 				DOWN = "down",
@@ -167,7 +151,21 @@ define(["wc/dom/event",
 				return CONTAINER;
 			};
 		}
-		var /** @alias module:wc/ui/shuffler */ instance = new Shuffler();
+
+		/**
+		 * Provides functionality for changing the order of options in a list (select or optgroup).
+		 *
+		 * @module
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/formUpdateManager
+		 * @requires module:wc/dom/getFilteredGroup
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/Widget
+		 *
+		 * @todo Document private members.
+		 */
+		var instance = new Shuffler();
 		initialise.register(instance);
 		return instance;
 	});

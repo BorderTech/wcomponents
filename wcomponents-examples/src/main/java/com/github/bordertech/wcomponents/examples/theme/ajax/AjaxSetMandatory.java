@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
+import com.github.bordertech.wcomponents.WField;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WFieldSet;
 import com.github.bordertech.wcomponents.WLabel;
@@ -74,11 +75,11 @@ public class AjaxSetMandatory extends WContainer {
 		final WMultiSelect mediumSelection = new WMultiSelect(ONLINE_TYPES);
 
 		final WLabel mediumSelectionLabel = new WLabel(ONLINE_LABEL, mediumSelection);
-		layout.addField(mediumSelectionLabel, mediumSelection);
+		final WField mediumSelectionField = layout.addField(mediumSelectionLabel, mediumSelection);
 
 		// configure ajax triggers and targets.
 		WAjaxControl control = new WAjaxControl(rbSelect, mediumSelection);
-		control.addTarget(mediumSelectionLabel);
+		control.addTarget(mediumSelectionField);
 		add(control);
 
 		// configure the action.
@@ -110,8 +111,6 @@ public class AjaxSetMandatory extends WContainer {
 				//nop - we are valid this is reflected in the error box not appearing.
 			}
 		});
-
 		fieldSet.add(submit);
-
 	}
 }

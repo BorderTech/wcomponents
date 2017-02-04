@@ -1,10 +1,14 @@
 // Iconography for inline messages
 @import 'mixins-common';
 
-:first-of-type:before {
-	.wc-fieldindicator > & {
-		@include wc-icon($fa-var-minus-circle);
-		margin-right: $wc-gap-small;
+.wc-fieldindicator > span:before {
+	@include wc-icon-fw(-1);
+	content: '';
+}
+
+span:first-of-type:before {
+	.wc-fieldindicator-type-error > & {
+		content: $fa-var-times-circle;
 	}
 
 	.wc-fieldindicator-type-warn > & {

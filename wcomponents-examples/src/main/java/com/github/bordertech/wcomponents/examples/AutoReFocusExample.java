@@ -20,8 +20,6 @@ public class AutoReFocusExample extends WPanel {
 		setLayout(new FlowLayout(Alignment.VERTICAL));
 
 		add(new TextDuplicator());
-		add(new WRadioButtonTriggerActionExample());
 		add(new WDropdownSubmitOnChangeExample());
-		add(new WDropdownTriggerActionExample());
 	}
 }

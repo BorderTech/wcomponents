@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -7,24 +8,33 @@ import org.junit.Test;
  * Unit tests for {@link WRow}.
  *
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WRow_Test extends AbstractWComponentTestCase {
 
+	private static final SpaceUtil.Size GAP = SpaceUtil.Size.MEDIUM;
+
 	@Test
 	public void testConstructor1() {
 		WRow row = new WRow();
-		Assert.assertEquals("Constructor - Incorrect default hgap", 0, row.getHgap());
+		Assert.assertNull("Constructor - Incorrect default hgap", row.getSpace());
 	}
 
 	@Test
 	public void testConstructor2() {
-		WRow row = new WRow(1);
-		Assert.assertEquals("Constructor - Incorrect hgap", 1, row.getHgap());
+		WRow row = new WRow(GAP);
+		Assert.assertEquals("Constructor - Incorrect hgap", GAP, row.getSpace());
+	}
+
+	@Test
+	public void testDeprecatedConstructor() {
+		WRow row = new WRow(SpaceUtil.sizeToInt(GAP));
+		Assert.assertEquals("Constructor - Incorrect hgap", GAP, row.getSpace());
 	}
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WRow(), "margin", null, new Margin(1), new Margin(2));
+		assertAccessorsCorrect(new WRow(), "margin", null, new Margin(SpaceUtil.Size.SMALL), new Margin(SpaceUtil.Size.ZERO));
 	}
 }

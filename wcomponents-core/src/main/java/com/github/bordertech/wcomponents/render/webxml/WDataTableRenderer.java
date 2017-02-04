@@ -44,12 +44,8 @@ final class WDataTableRenderer extends AbstractWebXmlRenderer {
 		xml.appendTagOpen("ui:table");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("disabled", table.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", table.isHidden(), "true");
 		xml.appendOptionalAttribute("caption", table.getCaption());
-		xml.appendOptionalAttribute("summary", table.getSummary());
-		xml.appendOptionalAttribute("showRowIndices", table.isShowRowIndices(), "true");
-		xml.appendOptionalAttribute("activeFilters", getActiveFilterValues(table));
 
 		switch (table.getType()) {
 			case TABLE:
@@ -426,28 +422,5 @@ final class WDataTableRenderer extends AbstractWebXmlRenderer {
 		col.paint(renderContext);
 
 		xml.appendEndTag("ui:th");
-	}
-
-	/**
-	 * Retrieves the active filter values for the rows in the table.
-	 *
-	 * @param table the table to retrieve filter values for.
-	 * @return a comma-separated list of active filters.
-	 */
-	private String getActiveFilterValues(final WDataTable table) {
-		List<String> filterValues = table.getActiveFilters();
-
-		if (filterValues == null || filterValues.isEmpty()) {
-			return null;
-		}
-
-		StringBuffer sb = new StringBuffer(filterValues.get(0));
-
-		for (int i = 1; i < filterValues.size(); i++) {
-			sb.append(", ");
-			sb.append(filterValues.get(i));
-		}
-
-		return sb.toString();
 	}
 }

@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-		   elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
-		   xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns="http://www.w3.org/1999/xhtml">
-
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" 
+	targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns="http://www.w3.org/1999/xhtml">
 	<!--
-	A collection of all the top-level elements in the schema.
-	This is imported by schema.xsd.
+		A collection of all the top-level elements in the schema.
+		This is imported by schema.xsd.
 	-->
-	<xs:include schemaLocation="abbr.xsd" />
 	<xs:include schemaLocation="additionalParameters.xsd" />
 	<xs:include schemaLocation="ajaxTrigger.xsd" />
 	<xs:include schemaLocation="application.xsd" />
@@ -55,7 +53,6 @@
 	<xs:include schemaLocation="row.xsd" />
 	<xs:include schemaLocation="section.xsd" />
 	<xs:include schemaLocation="selectToggle.xsd" />
-	<xs:include schemaLocation="separator.xsd"/>
 	<xs:include schemaLocation="session.xsd"/>
 	<xs:include schemaLocation="shuffler.xsd" />
 	<xs:include schemaLocation="skipLinks.xsd" />

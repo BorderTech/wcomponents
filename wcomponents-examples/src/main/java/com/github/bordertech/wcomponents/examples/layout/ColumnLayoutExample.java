@@ -9,12 +9,14 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.layout.ColumnLayout.Alignment;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 
 /**
  * Example showing how to use the {@link ColumnLayout} component.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class ColumnLayoutExample extends WContainer {
@@ -26,10 +28,9 @@ public class ColumnLayoutExample extends WContainer {
 	{60, 40}, {70, 30}, {80, 20}, {90, 10},
 	{33, 33, 33}, {25, 25, 25, 25}, {20, 20, 20, 20, 20}};
 
-	/**
-	 * Example hgap, vgap widths.
-	 */
-	private static final int[][] EXAMPLE_HGAP_VGAP_WIDTHS = {{0, 0}, {25, 0}, {0, 25}, {6, 12}};
+	private static final SpaceUtil.Size[][] EXAMPLE_GAPS = {{SpaceUtil.Size.ZERO, SpaceUtil.Size.ZERO},
+		{SpaceUtil.Size.LARGE, SpaceUtil.Size.ZERO}, {SpaceUtil.Size.ZERO, SpaceUtil.Size.LARGE},
+		{SpaceUtil.Size.SMALL, SpaceUtil.Size.MEDIUM}};
 
 	/**
 	 * Creates a ColumnLayoutExample.
@@ -38,7 +39,7 @@ public class ColumnLayoutExample extends WContainer {
 		for (int[] colWidths : EXAMPLE_COLUMN_WIDTHS) {
 			addExample(colWidths);
 		}
-		for (int[] gaps : EXAMPLE_HGAP_VGAP_WIDTHS) {
+		for (SpaceUtil.Size[] gaps : EXAMPLE_GAPS) {
 			addHgapVGapExample(gaps[0], gaps[1]);
 		}
 		addAlignmentExample();
@@ -111,8 +112,8 @@ public class ColumnLayoutExample extends WContainer {
 	 * @param hgap the hgap width
 	 * @param vgap the vgap width
 	 */
-	private void addHgapVGapExample(final int hgap, final int vgap) {
-		add(new WHeading(HeadingLevel.H2, "Column Layout: hgap=" + hgap + " vgap=" + vgap));
+	private void addHgapVGapExample(final SpaceUtil.Size hgap, final SpaceUtil.Size vgap) {
+		add(new WHeading(HeadingLevel.H2, "Column Layout: hgap=" + hgap.toString() + " vgap=" + vgap.toString()));
 		WPanel panel = new WPanel();
 		panel.setLayout(new ColumnLayout(new int[]{25, 25, 25, 25}, hgap, vgap));
 		add(panel);
@@ -153,8 +154,10 @@ public class ColumnLayoutExample extends WContainer {
 				new Alignment[]{Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT}));
 		add(panel);
 		panel.add(new BoxComponent("Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."));
-		panel.add(new BoxComponent("Praesent eu turpis convallis, fringilla elit nec, ullamcorper purus. Proin dictum ac nunc rhoncus fringilla. Pellentesque habitant morbi tristique senectus et netus et malesuada fames."));
-		panel.add(new BoxComponent("Vestibulum vehicula a turpis et efficitur. Integer maximus enim a orci posuere, id fermentum magna dignissim. Sed condimentum, dui et condimentum faucibus, quam erat pharetra."));
+		panel.add(new BoxComponent("Praesent eu turpis convallis, fringilla elit nec, ullamcorper purus. Proin dictum ac nunc rhoncus fringilla. "
+				+ "Pellentesque habitant morbi tristique senectus et netus et malesuada fames."));
+		panel.add(new BoxComponent("Vestibulum vehicula a turpis et efficitur. Integer maximus enim a orci posuere, id fermentum magna dignissim. "
+				+ "Sed condimentum, dui et condimentum faucibus, quam erat pharetra."));
 		panel.add(new BoxComponent("Left"));
 		panel.add(new BoxComponent("Center"));
 		panel.add(new BoxComponent("Right"));
@@ -168,20 +171,24 @@ public class ColumnLayoutExample extends WContainer {
 		String htmlClass = "my_local_class";
 		add(new WHeading(HeadingLevel.H2, "Automatic (app defined) widths"));
 		add(new ExplanatoryText("This example shows the use of a htmlClass and app-specific CSS (in this case inline) to style the columns.\n"
-				+ "In this case the columns are: 20% and left, 50% and center, 30% and right; and the columns break to full width and are forced to left aligned at 1000px."));
+				+ "In this case the columns are: 20% and left, 50% and center, 30% and right; and the columns break to full width and are forced to "
+				+ "left aligned at 1000px."));
 		WPanel panel = new WPanel();
 		panel.setHtmlClass(htmlClass);
 		panel.setLayout(new ColumnLayout(new int[]{0, 0, 0},
 				new Alignment[]{Alignment.LEFT, Alignment.CENTER, Alignment.RIGHT}));
 		add(panel);
 		panel.add(new BoxComponent("Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."));
-		panel.add(new BoxComponent("Praesent eu turpis convallis, fringilla elit nec, ullamcorper purus. Proin dictum ac nunc rhoncus fringilla. Pellentesque habitant morbi tristique senectus et netus et malesuada fames."));
-		panel.add(new BoxComponent("Vestibulum vehicula a turpis et efficitur. Integer maximus enim a orci posuere, id fermentum magna dignissim. Sed condimentum, dui et condimentum faucibus, quam erat pharetra."));
+		panel.add(new BoxComponent("Praesent eu turpis convallis, fringilla elit nec, ullamcorper purus. Proin dictum ac nunc rhoncus fringilla. "
+				+ "Pellentesque habitant morbi tristique senectus et netus et malesuada fames."));
+		panel.add(new BoxComponent("Vestibulum vehicula a turpis et efficitur. Integer maximus enim a orci posuere, id fermentum magna dignissim. "
+				+ "Sed condimentum, dui et condimentum faucibus, quam erat pharetra."));
 		panel.add(new BoxComponent("Left"));
 		panel.add(new BoxComponent("Center"));
 		panel.add(new BoxComponent("Right"));
 
-		String rowSelector = "." + htmlClass + " > .wc-columnlayout > .wc-row"; // .columnLayout is the local name of ColumnLayout and is guranteed, row is now part of hte WComponents CSS API but _may_ change.
+		// .columnLayout is the local name of ColumnLayout and is guranteed, row is now part of the WComponents CSS API but _may_ change.
+		String rowSelector = "." + htmlClass + " > .wc-columnlayout > .wc-row";
 		String columnSelector =  rowSelector + " > .wc-column";
 		String css = columnSelector
 				+ " {width: 20%}"
