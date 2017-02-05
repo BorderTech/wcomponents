@@ -208,11 +208,6 @@
 						-->
 						<xsl:text>require(["wc/fixes"], function(f){require(f);});</xsl:text>
 						<xsl:value-of select="$registeredComponents"/>
-						<!--
-							NOTE: these should be in the layer for all themes
-						<xsl:text>require(["wc/ui/loading"]);</xsl:text>
-						<xsl:text>require(["wc/a8n"]);</xsl:text>
-						-->
 						<xsl:text>});});</xsl:text>
 					</script>
 				</xsl:if>

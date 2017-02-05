@@ -44,7 +44,6 @@ public class AutoReFocusExample_Test extends WComponentExamplesTestCase {
 		String path = "TextDuplicator/WButton";
 		driver.findElement(byWComponentPath(path)).click();
 
-		driver.waitForPageReady();
 		Assert.assertEquals("Incorrect focus",
 				driver.findElement(byWComponentPath(path)).getActiveId(),
 				driver.switchTo().activeElement().getAttribute("id"));
@@ -63,7 +62,6 @@ public class AutoReFocusExample_Test extends WComponentExamplesTestCase {
 			driver.findElement(byWComponentPath(path, dropdown.getOptions().get(1))).click();
 		}
 
-		driver.waitForPageReady();
 		Assert.assertEquals("Incorrect focus",
 				driver.findWDropdown(byWComponentPath(path)).getActiveId(),
 				driver.switchTo().activeElement().getAttribute("id"));

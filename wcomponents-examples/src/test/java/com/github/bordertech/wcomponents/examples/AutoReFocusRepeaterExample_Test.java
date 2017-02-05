@@ -60,7 +60,6 @@ public class AutoReFocusRepeaterExample_Test extends WComponentExamplesTestCase 
 				WDropdown dropdown = (WDropdown) comp;
 				driver.findElement(byWComponentPath(path, dropdown.getOptions().get(1))).click();
 			}
-			driver.waitForPageReady();
 			Assert.assertEquals("Incorrect focus",
 					driver.findWDropdown(byWComponentPath(path)).getActiveId(),
 					driver.switchTo().activeElement().getAttribute("id"));
@@ -75,7 +74,6 @@ public class AutoReFocusRepeaterExample_Test extends WComponentExamplesTestCase 
 		};
 		for (String path : paths) {
 			driver.findWRadioButton(byWComponentPath(path)).getInputField().click();
-			driver.waitForPageReady();
 			Assert.assertEquals("Incorrect focus",
 					driver.findWRadioButton(byWComponentPath(path)).getActiveId(),
 					driver.switchTo().activeElement().getAttribute("id"));
