@@ -269,7 +269,6 @@
 &lt;script type="text/javascript"&gt;
 (function(){
 	var i, el=["details","datalist","aside","dialog","summary","section","header","nav","footer","meter","output","progress","audio","video","source","time","track","figcaption","figure"];
-	if (window.require &amp;&amp; require.config) require.config["wc/fix/html5Fix_ie8"] = { elements: el };
 	for (i = 0; i &lt; el.length; i++){ document.createElement(el[i]); } })();
 &lt;/script&gt;
 &lt;![endif]</xsl:comment>
