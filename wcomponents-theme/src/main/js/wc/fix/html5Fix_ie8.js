@@ -7,9 +7,9 @@
  * @private
  * @requires module:wc/has
  */
-define(["wc/has", "module"],
-	/** @param {Object} has @param {Object} module @ignore */
-	function(has, module) {
+define(["wc/has"],
+	/** @param {Object} has */
+	function(has) {
 		"use strict";
 		/**
 		 * @function
@@ -19,10 +19,11 @@ define(["wc/has", "module"],
 		 * @ignore
 		 */
 		return function(doc) {
-			var i, config = (window.System) ? window.System.config : module.config(),
-				elements = (has("ie") < 9) ? config.elements : [];
-			for (i = 0; i < elements.length; i++) {  // NOTE: do not be tempted by Array.forEach ... IE8 does not have it and it may not be loaded yet.
-				doc.createElement(elements[i]);
+			var i, elements = ["details","datalist","aside","dialog","summary","section","header","nav","footer","meter","output","progress","audio","video","source","time","track","figcaption","figure"];
+			if (has("ie") < 9) {
+				for (i = 0; i < elements.length; i++) {  // NOTE: do not be tempted by Array.forEach ... IE8 does not have it and it may not be loaded yet.
+					doc.createElement(elements[i]);
+				}
 			}
 		};
 	});
