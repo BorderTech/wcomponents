@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.MemoryUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,7 +62,7 @@ public class CollapsibleGroup implements Serializable {
 	 * @param collapsible the collapsible to add.
 	 */
 	public void addCollapsible(final WCollapsible collapsible) {
-		collapsibleList.add(collapsible);
+		addComponent(collapsible);
 	}
 
 	/**
@@ -69,7 +70,16 @@ public class CollapsibleGroup implements Serializable {
 	 * @param collapsible the WTabSet to add to the group.
 	 */
 	public void addCollapsible(final WTabSet collapsible) {
-		collapsibleList.add(collapsible);
+		addComponent(collapsible);
+	}
+
+	/**
+	 * Responsible for updating the underlying group store.
+	 * @param component The component to add to the group.
+	 */
+	private void addComponent(final WComponent component) {
+		collapsibleList.add(component);
+		MemoryUtil.checkAndLog(collapsibleList.size(), this.getClass().getSimpleName());
 	}
 
 	/**

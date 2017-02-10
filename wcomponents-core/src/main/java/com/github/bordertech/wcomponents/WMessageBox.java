@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.Duplet;
 import com.github.bordertech.wcomponents.util.HtmlToXMLUtil;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
+import com.github.bordertech.wcomponents.util.MemoryUtil;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -194,6 +195,8 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 	public void addMessage(final boolean encode, final String msg, final Serializable... args) {
 		MessageModel model = getOrCreateComponentModel();
 		model.messages.add(new Duplet<>(I18nUtilities.asMessage(msg, args), encode));
+		// Potential for leaking memory here
+		MemoryUtil.checkAndLog(model.messages.size(), this.getClass().getSimpleName());
 	}
 
 	/**

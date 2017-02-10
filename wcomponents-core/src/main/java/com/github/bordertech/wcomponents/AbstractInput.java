@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.EmptyIterator;
 import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.util.MemoryUtil;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validator.FieldValidator;
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 
 		validator.setInputField(this);
 		model.validators.add(validator);
+		// possible source of memory leaks
+		MemoryUtil.checkAndLog(model.validators.size(), this.getClass().getSimpleName());
 	}
 
 	/**

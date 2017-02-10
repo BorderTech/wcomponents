@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.MemoryUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -102,13 +103,9 @@ public class WAjaxControl extends AbstractWComponent {
 	 */
 	public void addTargets(final List<? extends AjaxTarget> targets) {
 		if (targets != null) {
-			AjaxControlModel model = getOrCreateComponentModel();
-
-			if (model.targets == null) {
-				model.targets = new ArrayList<>();
+			for (AjaxTarget target : targets) {
+				this.addTarget(target);
 			}
-
-			model.targets.addAll(targets);
 		}
 	}
 
@@ -125,6 +122,7 @@ public class WAjaxControl extends AbstractWComponent {
 		}
 
 		model.targets.add(target);
+		MemoryUtil.checkAndLog(model.targets.size(), this.getClass().getSimpleName());
 	}
 
 	/**
