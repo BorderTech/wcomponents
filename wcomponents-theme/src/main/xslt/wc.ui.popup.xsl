@@ -1,25 +1,16 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.popups.xsl"/>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<!--
 		Transform of WPopup. This component opens a new window on page load. 
 		
-		Popup windows are often considered harmful to accessibility due to the possibility
-		of an unexpected change of context, and should be avoided. WLink accepts a
-		windowAttributes child which will create a launch button for a pop up window.
-		This launch button announces to compliant assistive technologies that it
-		creates a pop up. This provides some mitigation to the pop up window accessibility
-		problem, so if you must use a popup it is always better to do it with WLink than with WPopup.
-	
-		If WPopup must be used then any WButton which results in a screen with a
-		WPopup must have its popup property set true.
-		
+		Popup windows are often considered harmful to accessibility If WPopup must be used then any WButton which results in a screen with a WPopup 
+		must have its popup property set true.
+
 		It has no explicit HTML artefact in the UI and therefore has a null template.
 	-->
 	<xsl:template match="ui:popup"/>
-	
 	<!--
-		This template creates the JSON objects required to create the popup on page
-		load and should not usualy need to be overridden.
+		This template creates the JSON objects required to create the popup on page load.
 	-->
 	<xsl:template match="ui:popup" mode="JS">
 		<xsl:text>["</xsl:text>
@@ -35,7 +26,54 @@
 			</xsl:otherwise>
 		</xsl:choose>
 		<xsl:text>","</xsl:text>
-		<xsl:call-template name="getPopupSpecs"/>
+		<xsl:if test="@top or @left or @width or @height or @showMenuBar or @showToolbar or @showLocation or @showStatus">
+			<xsl:if test="@top">
+				<xsl:value-of select="concat('top=',@top,'px,')"/>
+			</xsl:if>
+			<xsl:if test="@left">
+				<xsl:value-of select="concat('left=',@left,'px,')"/>
+			</xsl:if>
+			<xsl:if test="@width">
+				<xsl:value-of select="concat('width=',@width,'px,')"/>
+			</xsl:if>
+			<xsl:if test="@height">
+				<xsl:value-of select="concat('height=',@height,'px,')"/>
+			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="@showMenubar">
+					<xsl:text>menubar=yes,</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>menubar=no,</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:choose>
+				<xsl:when test="@showToolbar">
+					<xsl:text>toolbar=yes,</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>toolbar=no,</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:choose>
+				<xsl:when test="@showLocation">
+					<xsl:text>location=yes,</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>location=no,</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:choose>
+				<xsl:when test="@showStatus">
+					<xsl:text>status=yes,</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>status=no,</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+			<xsl:text>resizable=yes,</xsl:text>
+			<xsl:text>scrollbars=yes</xsl:text>
+		</xsl:if>
 		<xsl:text>"]</xsl:text>
 		<xsl:if test="position() ne last()">
 			<xsl:text>,</xsl:text>

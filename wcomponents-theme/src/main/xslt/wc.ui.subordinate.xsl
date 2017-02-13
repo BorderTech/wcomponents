@@ -1,21 +1,7 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.ui.root.xsl"/>
-	<!--
-		Transforms for WSubordinateControl. These components have no in-place artefacts in the UI.
-		
-		Theme developer information
-		
-		Subordinate controls build javascript functions directly from the XSLT. These functions
-		are then stored as JSON objects and invoked as necessary from wc.ui.subordinate.js.
-		It is extremely unlikely that you will need to override any of this and it should never
-		be excluded.
-		
-		
-		key conditionKey
-		Key to find radio buttons which match a ui:subordinate ui:condition. Used by
-		ui:subordinate because a radio buttons name is not the same as its id.
-		-->
-	<xsl:key name="conditionKey" match="//ui:radiobutton" use="@id"/>
+
 	<!--
 		Template match="ui:subordinate|ui:componentGroup|ui:target|ui:onTrue|ui:onFalse|ui:and|ui:or"
 		 Null template to prevent inline UI artefacts.
@@ -71,23 +57,17 @@
 			<xsl:when test="self::ui:condition">
 				<!-- Escape backslashes because otherwise javascript will eat them all up -->
 				<xsl:variable name="valSlashEscaped">
-					<xsl:call-template name="replaceString">
-						<xsl:with-param name="text" select="@value"/>
-						<xsl:with-param name="replace" select="'\'"/>
-						<xsl:with-param name="with" select="'\\'"/>
-					</xsl:call-template>
+					<xsl:value-of select="replace(@value, '\\', '\\\\')"/>
 				</xsl:variable>
 				<!-- Escape single quotes because otherwise our string literals will be malformed -->
+				<xsl:variable name="apo">
+					<xsl:text>'</xsl:text>
+				</xsl:variable>
+				<xsl:variable name="escapo">
+					<xsl:text>\\'</xsl:text>
+				</xsl:variable>
 				<xsl:variable name="valEscaped">
-					<xsl:call-template name="replaceString">
-						<xsl:with-param name="text" select="$valSlashEscaped"/>
-						<xsl:with-param name="replace">
-							<xsl:text>'</xsl:text>
-						</xsl:with-param>
-						<xsl:with-param name="with">
-							<xsl:text>\'</xsl:text>
-						</xsl:with-param>
-					</xsl:call-template>
+					<xsl:value-of select="replace($valSlashEscaped, $apo, $escapo)"/>
 				</xsl:variable>
 				<xsl:text>test('</xsl:text>
 				<xsl:value-of select="@controller"/>

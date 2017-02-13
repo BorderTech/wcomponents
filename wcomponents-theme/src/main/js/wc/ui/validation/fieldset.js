@@ -1,26 +1,12 @@
-/**
- * Provides functionality to undertake client validation for WFieldSet.
- *
- * @module wc/ui/validation/fieldset
- * @requires module:wc/i18n/i18n
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/Widget
- * @requires module:wc/ui/getFirstLabelForElement
- * @requires module:wc/ui/validation/isComplete
- * @requires module:wc/ui/validation/validationManager
- * @requires module:wc/ui/validation/required
- */
 define(["wc/i18n/i18n",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/dom/Widget",
-		"wc/ui/getFirstLabelForElement",
-		"wc/ui/validation/isComplete",
-		"wc/ui/validation/validationManager",
-		"wc/ui/validation/required"],
-	/** @param i18n wc/i18n/i18n @param initialise wc/dom/initialise @param shed wc/dom/shed @param Widget wc/dom/Widget @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param isComplete wc/ui/validation/isComplete @param validationManager wc/ui/validation/validationManager @param required wc/ui/validation/required @ignore */
-	function(i18n, initialise, shed, Widget, getFirstLabelForElement, isComplete, validationManager, required) {
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/ui/getFirstLabelForElement",
+	"wc/ui/validation/isComplete",
+	"wc/ui/validation/validationManager",
+	"wc/ui/validation/required",
+	"wc/ui/fieldset"],
+	function(i18n, initialise, shed, getFirstLabelForElement, isComplete, validationManager, required, fieldset) {
 		"use strict";
 		/**
 		 * @constructor
@@ -28,7 +14,7 @@ define(["wc/i18n/i18n",
 		 * @private
 		 */
 		function ValidationFieldset() {
-			var FIELDSET = new Widget("fieldset"),
+			var FIELDSET = fieldset.getWidget(),
 				INVALID;
 
 			/**
@@ -85,19 +71,19 @@ define(["wc/i18n/i18n",
 			 * This function determines if a fieldset needs to be revalidated and if it does then it resets the
 			 * validation. *NOTE:* WFieldSet only needs validation if "required".
 			 *
-			 * * If something is shown or enabled inside an invalid fieldset it may be populated, making the fieldset
-			 * valid;
-			 * * if something is hidden or disabled inside an invalid fieldset it may make the fieldset 'empty'
-			 * thereby making the fieldset valid.
+			 * * If something is shown or enabled inside an invalid fieldset it may be populated, making the fieldset valid;
+			 * * if something is hidden or disabled inside an invalid fieldset it may make the fieldset 'empty' thereby making the fieldset valid.
 			 *
 			 * In both cases we need to revalidate to make sure.
 			 *
-			 * If something changes inside an invalid fieldset we also need to revalidate the fieldset.
+			 * If something changes inside an invalid fieldset we also need to revalidate the fieldset. This is done by having this module subscribe
+			 * to validationManager.
 			 *
-			 * @function module:wc/ui/validation/fieldset.revalidateFieldset
-			 * @param {Element} element A control which may be inside an invalid fieldset.
+			 * @function
+			 * @private
+			 * @param {Element} element a control which may be inside an invalid fieldset.
 			 */
-			this.revalidateFieldset = function(element) {
+			function revalidate(element) {
 				var container, result = true, initiallyInvalid;
 
 				INVALID = INVALID || FIELDSET.extend("wc_req", {"aria-invalid": "true"});
@@ -117,7 +103,7 @@ define(["wc/i18n/i18n",
 						break;  // if the innermost invalid fieldset is still invalid there is no point traversing
 					}
 				}
-			};
+			}
 
 			/**
 			 * Subscriber for {@link module:wc/dom/shed} functions which affect the validity of fieldsets.
@@ -129,7 +115,7 @@ define(["wc/i18n/i18n",
 			function validationShedSubscriber(element) {
 				var fieldset;
 				if (element && (fieldset = FIELDSET.findAncestor(element))) {
-					instance.revalidateFieldset(fieldset);
+					revalidate(fieldset);
 				}
 			}
 
@@ -140,6 +126,7 @@ define(["wc/i18n/i18n",
 			 */
 			this.postInit = function() {
 				validationManager.subscribe(validate);
+				validationManager.subscribe(revalidate, true);
 				shed.subscribe(shed.actions.SELECT, validationShedSubscriber);
 				shed.subscribe(shed.actions.DESELECT, validationShedSubscriber);
 				shed.subscribe(shed.actions.ENABLE, validationShedSubscriber);
@@ -148,7 +135,20 @@ define(["wc/i18n/i18n",
 				shed.subscribe(shed.actions.HIDE, validationShedSubscriber);
 			};
 		}
-		var /** @alias module:wc/ui/validation/fieldset */ instance = new ValidationFieldset();
+		/**
+		 * Provides functionality to undertake client validation for WFieldSet.
+		 *
+		 * @module
+		 * @requires module:wc/i18n/i18n
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/ui/getFirstLabelForElement
+		 * @requires module:wc/ui/validation/isComplete
+		 * @requires module:wc/ui/validation/validationManager
+		 * @requires module:wc/ui/validation/required
+		 * @requires module:wc/ui/fieldset
+		 */
+		var instance = new ValidationFieldset();
 		initialise.register(instance);
 		return instance;
 	});

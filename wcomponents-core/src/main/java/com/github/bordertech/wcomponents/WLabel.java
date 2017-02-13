@@ -79,6 +79,17 @@ public class WLabel extends AbstractMutableContainer implements AjaxTarget {
 		return super.getId();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void add(final WComponent component) {
+		super.add(component);
+		if (component instanceof Input) {
+			setForComponent(component);
+		}
+	}
+
 	// ================================
 	// Attributes
 	/**

@@ -34,8 +34,8 @@ public class WAbbrTextRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// Test with no abbreviation
 		assertSchemaMatch(text);
 
-		assertXpathEvaluatesTo(textString, "//ui:abbr", text);
-		assertXpathEvaluatesTo(description, "//ui:abbr/@toolTip", text);
+		assertXpathEvaluatesTo(textString, "//html:abbr", text);
+		assertXpathEvaluatesTo(description, "//html:abbr/@title", text);
 	}
 
 	@Test
@@ -45,7 +45,7 @@ public class WAbbrTextRenderer_Test extends AbstractWebXmlRendererTestCase {
 		text.setText(getMaliciousContent());
 		assertSafeContent(text);
 
-		text.setToolTip(getMaliciousAttribute("ui:abbr"));
+		text.setToolTip(getMaliciousAttribute("html:abbr"));
 		assertSafeContent(text);
 	}
 }

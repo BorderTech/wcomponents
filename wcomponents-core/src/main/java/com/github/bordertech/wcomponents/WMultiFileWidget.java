@@ -38,7 +38,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.0
  */
 public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxInternalTrigger, AjaxTrigger, AjaxTarget,
-		SubordinateTarget {
+		SubordinateTarget, MultiInputComponent {
 
 	/**
 	 * The logger instance for this class.

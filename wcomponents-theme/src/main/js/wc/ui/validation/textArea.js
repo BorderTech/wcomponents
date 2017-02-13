@@ -68,15 +68,17 @@ define(["wc/dom/attribute",
 				var result = false,
 					mask,
 					value = element.value,
+					size,
 					label,
 					flag,
 					message;
 				if (value && !validationManager.isExempt(element)) {
-					if ((mask = textArea.getMaxlength(element)) && value.length > mask) {
+					size = textArea.getLength(element);
+					if ((mask = textArea.getMaxlength(element)) && size > mask) {
 						result = true;
-						flag = i18n.get("validation_textarea_overmax", "%s", mask, value.length);
+						flag = i18n.get("validation_textarea_overmax", "%s", mask, size);
 					}
-					else if ((mask = element.getAttribute("data-wc-min")) && value.length < mask) {
+					else if ((mask = element.getAttribute("data-wc-min")) && size < mask) {
 						result = true;
 						flag = i18n.get("validation_text_belowmin", "%s", mask);
 					}

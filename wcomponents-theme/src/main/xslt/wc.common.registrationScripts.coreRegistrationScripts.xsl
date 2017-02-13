@@ -1,29 +1,15 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.constants.xsl"/>
-	<xsl:import href="wc.common.registrationScripts.localRegistrationScripts.xsl"/>
-
-
 	<!--
-		This template is a helper for "registrationScripts" which does set up and "requires" for components which need
-		pre-initialisation registration.
+		This template is a helper for "registrationScripts" which does set up and "requires" for components which need pre-initialisation registration.
 
-		This template is never called directly except by the template "registrationScripts" and is split out for ease of
-		override and maintenance.
-
-		You should not need to override this template but use the helper template "localRegistrationScripts" to add
-		implementation specific component registration.
-
-		If you KNOW your application does not use a particular component (and never will) then you could have an
-		override of this template which excludes the tests for those components you no longer need.
-
-		TODO: can any of these be offloaded using data- attributes?
+		This template is never called directly except by the template "registrationScripts" and is split out for ease of override and maintenance.
 	-->
 	<xsl:template name="coreRegistrationScripts">
 		<xsl:variable name="componentGroups" select=".//ui:componentGroup"/>
 		<xsl:variable name="dialogs" select=".//ui:dialog"/>
 		<xsl:variable name="dataListCombos" select=".//ui:dropdown[@data and @type and not(@readOnly)]|.//ui:suggestions[@data]"/>
 		<xsl:variable name="dataListComponents" select=".//ui:dropdown[@data and not(@type) and not(@readOnly)]|.//ui:listbox[@data and not(@readOnly)]|.//ui:shuffler[@data and not(@readOnly)]"/>
-		<xsl:variable name="filedrops" select=".//ui:fileupload[@ajax or @dropzone]"/>
+		<xsl:variable name="filedrops" select=".//ui:multifileupload[@ajax or @dropzone]"/>
 		<xsl:variable name="multiDDData" select=".//ui:multidropdown[@data and not(@readOnly)]"/>
 		<xsl:variable name="popups" select=".//ui:popup"/>
 		<xsl:variable name="redirects" select=".//ui:redirect"/>
@@ -34,10 +20,15 @@
 		<xsl:variable name="hasAjaxTriggers" select=".//ui:ajaxtrigger"/>
 		<xsl:variable name="timeoutWarn" select=".//ui:session[1]"/>
 		<xsl:variable name="editors" select=".//html:wc-imageedit"/>
-
+		<xsl:variable name="tableActions" select=".//ui:table/ui:actions/ui:action"/>
 		<xsl:if test="$componentGroups">
 			<xsl:text>require(["wc/ui/subordinate"], function(c){c.registerGroups([</xsl:text>
 			<xsl:apply-templates select="$componentGroups" mode="JS"/>
+			<xsl:text>]);});</xsl:text>
+		</xsl:if>
+		<xsl:if test="$tableActions">
+			<xsl:text>require(["wc/ui/table/action"], function(c){c.register([</xsl:text>
+			<xsl:apply-templates select="$tableActions" mode="JS"/>
 			<xsl:text>]);});</xsl:text>
 		</xsl:if>
 		<xsl:if test="$editors">
@@ -127,6 +118,27 @@
 			<xsl:value-of select="//@defaultFocusId[1]"/>
 			<xsl:text>");});</xsl:text>
 		</xsl:if>
-		<xsl:call-template name="localRegistrationScripts"/>
+	</xsl:template>
+
+	<!--
+		Simple template for any component which requires a registration id list.
+	-->
+	<xsl:template match="*" mode="registerIds">
+		<xsl:text>"</xsl:text>
+		<xsl:choose>
+			<xsl:when test="self::ui:tab">
+				<xsl:value-of select="ui:tabcontent/@id"/>
+			</xsl:when>
+			<xsl:when test="self::ui:collapsible or self::ui:submenu">
+				<xsl:value-of select="ui:content/@id"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="@id"/>
+			</xsl:otherwise>
+		</xsl:choose>
+		<xsl:text>"</xsl:text>
+		<xsl:if test="position() ne last()">
+			<xsl:text>,</xsl:text>
+		</xsl:if>
 	</xsl:template>
 </xsl:stylesheet>

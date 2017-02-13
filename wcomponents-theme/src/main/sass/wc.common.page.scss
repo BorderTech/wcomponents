@@ -125,7 +125,7 @@ pre {
 // but the actual style does not matter a lot. Eventually we should be able to remove the missing label warnings and
 // move this to textarea only.
 @if $wc-ui-color-error-fg != -1 {
-	.wc_error {
+	.wc-err {
 		color: $wc-ui-color-error-fg;
 	}
 }

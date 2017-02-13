@@ -39,12 +39,6 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			teardown: function() {
 				testHolder.innerHTML = "";
 			},
-			testLoadXml: function() {
-				testHolder.innerHTML = "<form data-wc-datalisturl=" + responseXmlUrl + "><input id=" + elementId + "></form>";
-				return controller.load("icao", document.getElementById(elementId)).then(listLoaderTestCallback, function(ex) {
-					assert.fail(ex);
-				});
-			},
 			testLoadHtml: function() {
 				testHolder.innerHTML = "<form data-wc-datalisturl=" + responseHtmlUrl + "><input id=" + elementId + "></form>";
 				return controller.load("icao", document.getElementById(elementId)).then(listLoaderTestCallback, function(ex) {

@@ -316,7 +316,6 @@ public class WTableOptionsExample extends WContainer {
 		addColumns(table);
 		table.setType(WTable.Type.TABLE);
 		table.setRowsPerPage(DEFAULT_ROWS_PER_PAGE);
-		table.setSummary("Basic table summary");
 		table.setCaption("Basic table caption");
 		table.setBeanProperty(".");
 
@@ -341,7 +340,6 @@ public class WTableOptionsExample extends WContainer {
 		addColumns(table);
 		table.setType(WTable.Type.TABLE);
 		table.setRowsPerPage(DEFAULT_ROWS_PER_PAGE);
-		table.setSummary("Expanded content table summary");
 		table.setCaption("Expanded content table caption");
 		table.setBeanProperty(".");
 
@@ -370,14 +368,12 @@ public class WTableOptionsExample extends WContainer {
 		addColumns(table);
 		table.setType(WTable.Type.HIERARCHIC);
 		table.setRowsPerPage(DEFAULT_ROWS_PER_PAGE);
-		table.setSummary("Hierarchic table summary");
 		table.setCaption("Hierarchic table caption");
 		table.setBeanProperty(".");
 
 		// Setup model with column properties and the "level" to iterate on (ie more details)
 		MyBeanBoundTableModel model = new MyBeanBoundTableModel(
-				new String[]{"firstName", "lastName",
-					"dateOfBirth"}, "more");
+				new String[]{"firstName", "lastName", "dateOfBirth"}, "more");
 
 		model.setIterateFirstLevel(true);
 		model.setSelectable(true);

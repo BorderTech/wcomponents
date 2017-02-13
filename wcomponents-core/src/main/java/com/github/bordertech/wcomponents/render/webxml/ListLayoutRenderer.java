@@ -6,11 +6,13 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.layout.ListLayout;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * This {@link Renderer} renders the children of a {@link WPanel} which have been arranged using a {@link ListLayout}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 final class ListLayoutRenderer extends AbstractWebXmlRenderer {
@@ -27,7 +29,8 @@ final class ListLayoutRenderer extends AbstractWebXmlRenderer {
 		XmlStringBuilder xml = renderContext.getWriter();
 		ListLayout layout = (ListLayout) panel.getLayout();
 		int childCount = panel.getChildCount();
-		int gap = layout.getGap();
+		SpaceUtil.Size gap = layout.getSpace();
+		String gapString = gap != null ? gap.toString() : null;
 
 		xml.appendTagOpen("ui:listlayout");
 
@@ -84,7 +87,7 @@ final class ListLayoutRenderer extends AbstractWebXmlRenderer {
 
 		xml.appendOptionalAttribute("ordered", layout.isOrdered(), "true");
 
-		xml.appendOptionalAttribute("gap", gap > 0, gap);
+		xml.appendOptionalAttribute("gap", gapString);
 
 		xml.appendClose();
 

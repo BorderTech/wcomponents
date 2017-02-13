@@ -1,7 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.constants.xsl"/>
 	<!--
 		Creates the text-mode row select all/none, pagination controls and the expand all/none controls if required.
 		Called from the transform for ui:table.
@@ -21,7 +20,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		
 		<xsl:variable name="hasRowSelection">
 			<xsl:choose>
 				<xsl:when test="ui:rowselection[@selectAll] and ..//ui:tr[not(@unselectable) and ancestor::ui:table[1]/@id eq $id]">
@@ -32,7 +30,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		
 		<xsl:variable name="hasPagination">
 			<xsl:choose>
 				<xsl:when test="not(ui:pagination) or not(ui:pagination/@controls) or ui:pagination/@controls eq 'bottom'">
@@ -46,7 +43,6 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-
 		<xsl:if test="$hasExpandAll + $hasRowSelection + $hasPagination gt 0">
 			<div class="wc_table_top_controls">
 				<xsl:if test="number($hasRowSelection) eq 1">

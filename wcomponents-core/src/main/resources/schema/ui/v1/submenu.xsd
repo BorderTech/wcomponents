@@ -6,7 +6,6 @@
 	<xs:include schemaLocation="decoratedLabel.xsd" />
 	<xs:include schemaLocation="menuItem.xsd" />
 	<xs:include schemaLocation="menuGroup.xsd" />
-	<xs:include schemaLocation="separator.xsd" />
 
 	<xs:element name="submenu">
 
@@ -66,57 +65,14 @@
 					</xs:complexType>
 				</xs:element>
 			</xs:sequence>
-
+			
 			<xs:attributeGroup ref="ui:button.attributes" />
+			<xs:attributeGroup ref="ui:ajax.mode.attributes" />
 
 			<xs:attribute name="open" type="xs:boolean">
 				<xs:annotation>
 					<xs:documentation>True indicates the sub menu is to be rendered as open. Not output if false. Only supported if the nearest ancestor menu has @type set to "tree"</xs:documentation>
 				</xs:annotation>
-			</xs:attribute>
-
-			<xs:attribute name="selectable" type="xs:boolean">
-				<xs:annotation>
-					<xs:documentation>Indicates that the sub menu may be selected as an entity separate from its contained components. Explicitly output if explicitly set "false"
-						to override a parent component's selectMode.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-			<xs:attribute name="selected" type="xs:boolean">
-				<xs:annotation>
-					<xs:documentation>indicates that the submenu is selected. Not output if "false".</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-
-			<xs:attributeGroup ref="ui:ajax.mode.attributes" />
-
-
-			<xs:attribute name="selectMode">
-				<xs:annotation>
-					<xs:documentation>Indicates that the items in the menu may be "selected". If not present then "none" is implied. The selectMode applies <strong>only</strong> to
-						the menu items in this submenu and is able to be overridden in a submenu's submenu[s] unless the menu @type is tree. Selection is additive with navigation
-						and command invocation.</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:NMTOKEN">
-						<xs:enumeration value="none">
-							<xs:annotation>
-								<xs:documentation>Indicates that selection is not supported. This is the default if not set.</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="single">
-							<xs:annotation>
-								<xs:documentation>Indicates that selection is exclusive and when selecting any selectable child node any previously selected nodes will be
-									deselected. This is analogous to a group of radio buttons.</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-						<xs:enumeration value="multiple">
-							<xs:annotation>
-								<xs:documentation>Indicates that selection is not exclusive and when selecting any selectable child node any previously selected nodes will remain
-									selected. This is analogous to a group of check boxes.</xs:documentation>
-							</xs:annotation>
-						</xs:enumeration>
-					</xs:restriction>
-				</xs:simpleType>
 			</xs:attribute>
 		</xs:complexType>
 	</xs:element>

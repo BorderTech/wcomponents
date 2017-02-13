@@ -1,7 +1,12 @@
 /* wc.ui.fileUpload.scss */
 @import 'mixins-common';
 
-.wc-fileupload {
+.wc-multifileupload {
+
+	> .wc_files {
+		@include flex-justify-content(space-between);
+	}
+
 	a {
 		@include flex-grow(1);
 		@include flex-shrink(1);
@@ -10,12 +15,6 @@
 
 		img {
 			max-width: 100%;
-		}
-
-		~ button {
-			@include flex-shrink(0);
-			display: inline-block;
-			margin-left: $wc-gap-small;
 		}
 	}
 
@@ -35,36 +34,12 @@
 		min-width: 10em; // see https://github.com/BorderTech/wcomponents/issues/1000
 	}
 
-	> .wc_filelist {
+	&[data-wc-cols='1'] > .wc_filelist {
 		display: table-cell;  // horrendously wrong no doubt but fixes columns
-		padding-top: $wc-gap-small;
-
-		&.wc-listlayout-type-flat {
-			padding-top: 0;
-
-			a {
-				width: auto;
-			}
-		}
 	}
 
-	&[data-wc-cols] {
-		> div {
-			@include flex($justify: space-between);
-			margin-top: $wc-gap-small;
-		}
-
-		ul {
-			@include flex-grow(1);
-
-			+ ul {
-				margin-left: $wc-gap-small;
-			}
-		}
-
-		li + li {
-			margin-top: $wc-gap-small;
-		}
+	> .wc-listlayout-type-flat  a {
+		width: auto;
 	}
 
 	input[type='file'][data-wc-editor] {
@@ -77,11 +52,15 @@
 	}
 
 	.wc_btn_camera {
-		display: none;  // This should only be available on desktop browsers, and only those which support webrtc or flash
+		display: none;  // This should only be available on desktop browsers, and only those which support webrtc --or flash--
 	}
 }
 
-.wc-rtc-gum .wc-fileupload .wc_btn_camera {
+.wc_filelist {
+	@include flex-grow(1);
+}
+
+.wc-rtc-gum .wc-multifileupload .wc_btn_camera {
 	display: inline-block;  // This will be enabled in javascript
 }
 

@@ -2,14 +2,16 @@ define(["wc/dom/classList",
 		"wc/dom/event",
 		"wc/dom/initialise",
 		"wc/dom/shed",
+		"wc/dom/uid",
 		"wc/dom/Widget",
 		"wc/i18n/i18n",
 		"wc/ui/ajaxRegion",
 		"wc/ui/ajax/processResponse",
 		"wc/ui/containerload",
 		"wc/timers",
-		"wc/ui/dialogFrame"],
-	function(classList, event, initialise, shed, Widget, i18n, ajaxRegion, processResponse, eagerLoader, timers, dialogFrame) {
+		"wc/ui/dialogFrame",
+		"wc/ui/getForm"],
+	function(classList, event, initialise, shed, uid, Widget, i18n, ajaxRegion, processResponse, eagerLoader, timers, dialogFrame, getForm) {
 		"use strict";
 
 		/**
@@ -30,12 +32,26 @@ define(["wc/dom/classList",
 				openThisDialog,
 				GET_ATTRIB = "data-wc-get";
 
+			function setHasPopup(id) {
+				var popupAttr = "aria-haspopup",
+					el = document.getElementById(id);
+				if (el && !el.getAttribute(popupAttr)) {
+					el.setAttribute(popupAttr, "true");
+				}
+			}
+
 			/**
 			 * Opens a dialog on page load.
 			 * @function
 			 * @private
 			 */
-			function openOnLoad() {
+			function setup() {
+				var o;
+				for (o in registry) {
+					if (registry.hasOwnProperty(o)) {
+						setHasPopup(o);
+					}
+				}
 				if (openThisDialog) {
 					if (openOnLoadTimer) {
 						timers.clearTimeout(openOnLoadTimer);
@@ -58,7 +74,6 @@ define(["wc/dom/classList",
 					registry[triggerId] = {
 						id: dialogObj.id,
 						className: BASE_CLASS + (dialogObj.className ? (" " + dialogObj.className) : ""),
-						formId: dialogObj.form,
 						width: dialogObj.width,
 						height: dialogObj.height,
 						initWidth: dialogObj.width,  // useful if we do not allow resize below initial size
@@ -196,7 +211,7 @@ define(["wc/dom/classList",
 			 * @param {String} triggerId The id of the trigger.
 			 */
 			function openDlg(triggerId) {
-				var regObj = registry[triggerId];
+				var regObj = registry[triggerId], trigger, form, formId;
 
 				function populateOnLoad() {
 					var content = dialogFrame.getContent(),
@@ -222,6 +237,12 @@ define(["wc/dom/classList",
 				}
 
 				if (regObj) {
+					if (!regObj.formId) {
+						if ((trigger = document.getElementById(triggerId)) && (form = getForm(trigger))) {
+							formId = form.id || (form.id = uid());
+							regObj["formId"] = formId;
+						}
+					}
 					dialogFrame.open(regObj).then(populateOnLoad).catch(function(err) {
 						console.warn(err);
 						openThisDialog = null; // belt **and** braces
@@ -336,7 +357,7 @@ define(["wc/dom/classList",
 			this.register = function(array) {
 				if (array && array.length) {
 					array.forEach(_register);
-					initialise.addCallback(openOnLoad);
+					initialise.addCallback(setup);
 				}
 			};
 
@@ -385,7 +406,6 @@ define(["wc/dom/classList",
 		/**
 		 * @typedef {Object} module:wc/ui/dialog~regObject An object which stores information about a dialog.
 		 * @property {String} id The WDialog id.
-		 * @property {String} formId The id of the form the dialog is in (more useful than you may think).
 		 * @property {int} [width] The dialog width in px.
 		 * @property {int} [height] The dialog height in px.
 		 * @property {int} [initWidth] The dialog width in px as set by the Java. This is used if the theme allows

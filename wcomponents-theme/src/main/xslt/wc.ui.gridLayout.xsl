@@ -1,11 +1,12 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.getHVGap.xsl"/>
+	<xsl:import href="wc.common.attributes.xsl"/>
+	<xsl:import href="wc.common.gapClass.xsl"/>
 	<!--
-		Creates a pseudo-grid where each column is the same width and each row is the height of the tallest cell in the
-		row. This is a very rough emulation of an AWT GridLayout. ui:gridlayout is one of the possible child elements of
-		ui:panel.
+		Creates a pseudo-grid where each column is the same width and each row is the height of the tallest cell in the row. This is a very rough
+		emulation of an AWT GridLayout. ui:gridlayout is one of the possible child elements of ui:panel.
 		
+		NOTE: this Layout is being phased out and should be replaced with a more web-focused grid system.
 		
 		Child elements
 
@@ -42,23 +43,26 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>
-			
-			<div>
-				<xsl:attribute name="class">
-					<xsl:text>wc-gridlayout</xsl:text><!-- prefixed local name -->
-					<xsl:if test="number($useCols) le 12">
-						<xsl:value-of select="concat(' wc-gridlayout-col-', $useCols)"/>
-					</xsl:if>
-					<xsl:call-template name="getHVGapClass">
+			<xsl:variable name="vgap">
+				<xsl:if test="@vgap">
+					<xsl:call-template name="gapClass">
+						<xsl:with-param name="gap" select="@vgap"/>
 						<xsl:with-param name="isVGap" select="1"/>
 					</xsl:call-template>
-				</xsl:attribute>
-
+				</xsl:if>
+			</xsl:variable>
+			<div>
+				<xsl:call-template name="makeCommonClass">
+					<xsl:with-param name="additional">
+						<xsl:if test="number($useCols) le 12">
+							<xsl:value-of select="concat('wc-gridlayout-col-', $useCols)"/>
+						</xsl:if>
+						<xsl:value-of select="$vgap"/>
+					</xsl:with-param>
+				</xsl:call-template>
 				<xsl:choose>
 					<xsl:when test="number($useCols) eq 1">
-						<xsl:apply-templates select="ui:cell" mode="gl">
-							<xsl:with-param name="hgap" select="@hgap"/>
-						</xsl:apply-templates>
+						<xsl:apply-templates select="ui:cell" mode="gl"/>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:apply-templates select="ui:cell[(position() mod number($useCols)) eq 1]" mode="gl">
@@ -68,7 +72,6 @@
 									<xsl:value-of select="format-number(1 div number($useCols),'##0.###%')"/>
 								</xsl:if>
 							</xsl:with-param>
-							<xsl:with-param name="hgap" select="@hgap"/>
 						</xsl:apply-templates>
 					</xsl:otherwise>
 				</xsl:choose>
@@ -77,20 +80,16 @@
 	</xsl:template>
 
 	<!--
-		This template creates a rows of cells and then applies templates to the
-		cell's following-siblings up to the number of columns in the row.
+		This template creates a rows of cells and then applies templates to the cell's following-siblings up to the number of columns in the row.
 		
-		param cols: the number of columns in the row. This is used to apply
-		templates on following-siblings up to 1 less than cols (this cell is the
-		first col)
+		param cols: the number of columns in the row. This is used to apply templates on following-siblings up to 1 less than cols (this cell is the
+		  first col)
 		param colWidth: the width of each cell in the grid.
 		param hgap the gridlayouts hgap value.
 	-->
 	<xsl:template match="ui:cell" mode="gl">
 		<xsl:param name="cols" select="1"/>
 		<xsl:param name="colWidth"/>
-		<xsl:param name="hgap"/>
-		
 		<xsl:choose>
 			<xsl:when test="number($cols) eq 1">
 				<xsl:call-template name="gridCell"/>
@@ -99,9 +98,11 @@
 				<div>
 					<xsl:attribute name="class">
 						<xsl:text>wc_gl_row</xsl:text>
-						<xsl:call-template name="getHVGapClass">
-							<xsl:with-param name="gap" select="$hgap"/>
-						</xsl:call-template>
+						<xsl:if test = "../@hgap">
+							<xsl:call-template name="gapClass">
+								<xsl:with-param name="gap" select="../@hgap"/>
+							</xsl:call-template>
+						</xsl:if>
 					</xsl:attribute>
 					<xsl:call-template name="gridCell">
 						<xsl:with-param name="width" select="$colWidth"/>
@@ -119,7 +120,7 @@
 	<!--
 		This template outputs each cell in a row other than the first.
 		
-		param width: the width of each cell in the grid.
+		param width: the width of each cell in the grid (only set if more than 12 cols).
 	-->
 	<xsl:template match="ui:cell" mode="inRow">
 		<xsl:param name="width"/>
@@ -141,7 +142,7 @@
 					<xsl:value-of select="concat('width:',$width,';')"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:apply-templates/>
+			<xsl:apply-templates />
 		</div>
 	</xsl:template>
 </xsl:stylesheet>

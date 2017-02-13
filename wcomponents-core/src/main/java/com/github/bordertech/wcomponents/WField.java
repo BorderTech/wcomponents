@@ -25,10 +25,6 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 	 */
 	private final WComponent field;
 	/**
-	 * The error indicator for the field.
-	 */
-	private final WFieldErrorIndicator errorIndicator;
-	/**
 	 * The warning indicator for the field.
 	 */
 	private final WFieldWarningIndicator warningIndicator;
@@ -78,12 +74,9 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 
 		// If there is a label field, and it is not nested in another WField, then set the error indicators
 		if (labelField != null && WebUtilities.getAncestorOfClass(WField.class, labelField) == this) {
-			errorIndicator = new WFieldErrorIndicator(labelField);
-			add(errorIndicator, "errorIndicator");
 			warningIndicator = new WFieldWarningIndicator(labelField);
 			add(warningIndicator, "warningIndicator");
 		} else {
-			errorIndicator = null;
 			warningIndicator = null;
 		}
 	}
@@ -154,9 +147,11 @@ public class WField extends AbstractContainer implements AjaxTarget, Subordinate
 
 	/**
 	 * @return the field's error indicator
+	 * @deprecated as WFieldErrorIndicator is being removed.
 	 */
+	@Deprecated
 	public WFieldErrorIndicator getErrorIndicator() {
-		return errorIndicator;
+		return null;
 	}
 
 	/**

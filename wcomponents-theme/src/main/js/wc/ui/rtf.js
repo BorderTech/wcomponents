@@ -27,7 +27,7 @@ define(["wc/dom/initialise", "wc/config", "wc/loader/style", "wc/mixin", "tinyMC
 			var id,
 				initObj = {
 					content_css: styleLoader.getMainCss(true),
-					plugins: "autolink link image lists print preview paste"
+					plugins: "autolink link lists print preview paste"
 				},
 				config = wcconfig.get("wc/ui/rtf"),
 				setupFunc = function (editor) {
@@ -40,7 +40,7 @@ define(["wc/dom/initialise", "wc/config", "wc/loader/style", "wc/mixin", "tinyMC
 			}
 
 			while ((id = idArr.shift())) {
-				initObj["selector"] = "textarea#" + id;
+				initObj["selector"] = "textarea#" + id + "_input";
 				if (!initObj["setup"]) {
 					initObj["setup"] = setupFunc;
 				}

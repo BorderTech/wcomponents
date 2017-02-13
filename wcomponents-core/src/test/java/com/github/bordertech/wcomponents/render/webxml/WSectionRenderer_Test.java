@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.WSection.SectionMode;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -116,23 +117,23 @@ public class WSectionRenderer_Test extends AbstractWebXmlRendererTestCase {
 		section.setMargin(margin);
 		assertXpathNotExists("//ui:section/ui:margin", section);
 
-		margin = new Margin(1);
+		margin = new Margin(SpaceUtil.Size.SMALL);
 		section.setMargin(margin);
 		assertSchemaMatch(section);
-		assertXpathEvaluatesTo("1", "//ui:section/ui:margin/@all", section);
+		assertXpathEvaluatesTo("sm", "//ui:section/ui:margin/@all", section);
 		assertXpathEvaluatesTo("", "//ui:section/ui:margin/@north", section);
 		assertXpathEvaluatesTo("", "//ui:section/ui:margin/@east", section);
 		assertXpathEvaluatesTo("", "//ui:section/ui:margin/@south", section);
 		assertXpathEvaluatesTo("", "//ui:section/ui:margin/@west", section);
 
-		margin = new Margin(1, 2, 3, 4);
+		margin = new Margin(SpaceUtil.Size.SMALL, SpaceUtil.Size.MEDIUM, SpaceUtil.Size.LARGE, SpaceUtil.Size.XL);
 		section.setMargin(margin);
 		assertSchemaMatch(section);
 		assertXpathEvaluatesTo("", "//ui:section/ui:margin/@all", section);
-		assertXpathEvaluatesTo("1", "//ui:section/ui:margin/@north", section);
-		assertXpathEvaluatesTo("2", "//ui:section/ui:margin/@east", section);
-		assertXpathEvaluatesTo("3", "//ui:section/ui:margin/@south", section);
-		assertXpathEvaluatesTo("4", "//ui:section/ui:margin/@west", section);
+		assertXpathEvaluatesTo("sm", "//ui:section/ui:margin/@north", section);
+		assertXpathEvaluatesTo("med", "//ui:section/ui:margin/@east", section);
+		assertXpathEvaluatesTo("lg", "//ui:section/ui:margin/@south", section);
+		assertXpathEvaluatesTo("xl", "//ui:section/ui:margin/@west", section);
 	}
 
 }

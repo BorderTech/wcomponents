@@ -41,9 +41,10 @@ define(["wc/dom/attribute",
 		"wc/dom/Widget",
 		"wc/i18n/i18n",
 		"lib/sprintf",
-		"wc/timers"],
+		"wc/timers",
+		"wc/dom/wrappedInput"],
 	/** @param attribute wc/dom/attribute @param classList wc/dom/classList @param event wc/dom/event @param initialise wc/dom/initialise @param shed wc/dom/shed @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param sprintf lib/sprintf @param timers wc/timers @ignore */
-	function(attribute, classList, event, initialise, shed, Widget, i18n, sprintf, timers) {
+	function(attribute, classList, event, initialise, shed, Widget, i18n, sprintf, timers, wrappedInput) {
 		"use strict";
 
 		/**
@@ -79,11 +80,11 @@ define(["wc/dom/attribute",
 			 * Get the 'real' length of the string in a textarea including double chrs for new lines.
 			 *
 			 * @function
-			 * @private
+			 * @public
 			 * @param {Element} element The textarea to test
 			 * @returns {Number} The 'length' of the value string amended for new lines.
 			 */
-			function getLength(element) {
+			this.getLength = function(element) {
 				var len = 0, raw = element.value, arr, arrLen;
 				if (!raw) {
 					return 0;
@@ -108,7 +109,7 @@ define(["wc/dom/attribute",
 					*/
 				});
 				return len;
-			}
+			};
 
 			/**
 			 * There has been a change to the field's content, recalculate the maxlength counter.
@@ -118,10 +119,10 @@ define(["wc/dom/attribute",
 			 * @param {Element} element The field in question.
 			 */
 			function tick(element) {
-				var maxLength, count, counter, ERR = "wc_error";
+				var maxLength, count, counter, ERR = "wc-err";
 				if ((counter = instance.getCounter(element))) {
 					maxLength = instance.getMaxlength(element);
-					count = (maxLength - getLength(element));
+					count = (maxLength - instance.getLength(element));
 					counter.setAttribute("value", count);
 					counter.setAttribute("title", sprintf.sprintf(i18n.get("chars_remaining", count)));
 					if (count < 0) {
@@ -239,7 +240,11 @@ define(["wc/dom/attribute",
 			 * @returns {?Element} The counter element associated with this field (if any).
 			 */
 			this.getCounter = function(element) {
-				return document.getElementById((element.id + "_tick"));
+				var wrapper = TEXTAREA.isOneOfMe(element) ? wrappedInput.getWrapper(element) : element;
+				if (wrapper) {
+					return document.getElementById((wrapper.id + "_tick"));
+				}
+				return null;
 			};
 
 			/**

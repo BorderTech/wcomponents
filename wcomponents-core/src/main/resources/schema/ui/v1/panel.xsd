@@ -4,6 +4,8 @@
 	<xs:include schemaLocation="attributeGroups.container.xsd" />
 	<xs:include schemaLocation="margin.xsd" />
 	<xs:include schemaLocation="contentGroups.xsd" />
+	<xs:include schemaLocation="gaps.xsd"/>
+
 	<xs:element name="panel">
 		<xs:annotation>
 			<xs:documentation>WPanel provides a generic content container and a number of special purpose container and layout components. It is a fundamental UI layout
@@ -113,9 +115,9 @@
 									</xs:restriction>
 								</xs:simpleType>
 							</xs:attribute>
-							<xs:attribute name="gap" type="xs:positiveInteger">
+							<xs:attribute name="gap" type="ui:gaps">
 								<xs:annotation>
-									<xs:documentation>The space between content components in the layout in pixels. This may be adjusted by the theme and/or user agent.</xs:documentation>
+									<xs:documentation>The space between content components in the layout.</xs:documentation>
 								</xs:annotation>
 							</xs:attribute>
 						</xs:complexType>
@@ -212,9 +214,9 @@
 										"false".</xs:documentation>
 								</xs:annotation>
 							</xs:attribute>
-							<xs:attribute name="gap" type="xs:positiveInteger">
+							<xs:attribute name="gap" type="ui:gaps">
 								<xs:annotation>
-									<xs:documentation>The space between content components in the layout in pixels. This may be adjusted by the theme and/or user agent.</xs:documentation>
+									<xs:documentation>The space between content components in the layout..</xs:documentation>
 								</xs:annotation>
 							</xs:attribute>
 						</xs:complexType>
@@ -383,14 +385,14 @@
 	</xs:complexType>
 
 	<xs:attributeGroup name="gaps.attributes">
-		<xs:attribute name="hgap" type="xs:positiveInteger">
+		<xs:attribute name="hgap" type="ui:gaps">
 			<xs:annotation>
-				<xs:documentation>The horizontal space between content components in the layout in pixels. This may be adjusted by the theme and/or user agent.</xs:documentation>
+				<xs:documentation>The horizontal space between content components in the layout.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
-		<xs:attribute name="vgap" type="xs:positiveInteger">
+		<xs:attribute name="vgap" type="ui:gaps">
 			<xs:annotation>
-				<xs:documentation>The vertical space between content components in the layout in pixels. This may be adjusted by the theme and/or user agent.</xs:documentation>
+				<xs:documentation>The vertical space between content components in the layout.</xs:documentation>
 			</xs:annotation>
 		</xs:attribute>
 	</xs:attributeGroup>

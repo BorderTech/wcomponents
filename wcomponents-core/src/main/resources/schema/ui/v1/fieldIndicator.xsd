@@ -3,7 +3,7 @@
 	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
 	<xs:element name="fieldindicator">
 		<xs:annotation>
-			<xs:documentation>WFieldIndicator represents a message to the user which is related to another WComponent.</xs:documentation>
+			<xs:documentation>WFieldWarningIndicator represents a message to the user which is related to another WComponent.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
@@ -29,9 +29,7 @@
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:NMTOKEN">
-						<xs:enumeration value="info" />
 						<xs:enumeration value="warn" />
-						<xs:enumeration value="error" />
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>

@@ -36,6 +36,8 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.examples.table.PersonBean.TravelDoc;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil.Size;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import java.io.Serializable;
 import java.util.Date;
@@ -245,7 +247,7 @@ public class TableLoadPerformance extends WApplication {
 	 */
 	public TableLoadPerformance() {
 		WPanel root = new WPanel();
-		root.setMargin(new Margin(12));
+		root.setMargin(new Margin(Size.LARGE));
 		add(root);
 
 		// Load options
@@ -296,7 +298,7 @@ public class TableLoadPerformance extends WApplication {
 		// Table layouts
 		root.add(tablePanel);
 		tableLayout.setLayout(new ColumnLayout(new int[]{50, 50}, 6, 6));
-		tableLayout.setMargin(new Margin(12, 0, 12, 0));
+		tableLayout.setMargin(new Margin(SpaceUtil.Size.LARGE, null, SpaceUtil.Size.LARGE, null));
 		tableLayout.setVisible(false);
 		tablePanel.add(tableLayout);
 

@@ -13,6 +13,10 @@
 			margin-left: $wc-gap-normal;
 		}
 	}
+
+	.wc_collapsibletoggle[aria-checked='true'] {
+		font-weight: bold;
+	}
 }
 
 @import 'wc.common.collapsibleToggleIcons';

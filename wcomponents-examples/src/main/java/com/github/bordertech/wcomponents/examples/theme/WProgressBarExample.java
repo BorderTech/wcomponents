@@ -27,29 +27,28 @@ public class WProgressBarExample extends WPanel {
 	 * Creates a WProgressBarExample.
 	 */
 	public WProgressBarExample() {
-		setLayout(new FlowLayout(Alignment.VERTICAL, 0, 1));
+		setLayout(new FlowLayout(Alignment.VERTICAL, 4));
 
-		add(new WText("Default, 100 max"));
-		WProgressBar progressBar = new WProgressBar(100);
-		add(new ProgressBarWithButtons(progressBar));
-
-		add(new WText("Default, 100 max, custom text"));
-		progressBar = new WProgressBar(100);
-		progressBar.setText("Demo in progress!");
+		add(new WText("Default, 10 max"));
+		WProgressBar progressBar = new WProgressBar(10);
+		progressBar.setToolTip("Page progress");
 		add(new ProgressBarWithButtons(progressBar));
 
 		add(new WText("Percent, 4 max"));
 		progressBar = new WProgressBar(ProgressBarType.NORMAL, UnitType.PERCENTAGE, 4);
+		progressBar.setToolTip("Progress out of 4");
 		add(new ProgressBarWithButtons(progressBar));
 
-		add(new WText("Small, 10 max, custom text"));
+		add(new WText("Small"));
 		progressBar = new WProgressBar(ProgressBarType.SMALL, UnitType.PERCENTAGE, 10);
-		progressBar.setText("Small text!");
+		progressBar.setToolTip("Small progress bar with meaningless title.");
 		add(new ProgressBarWithButtons(progressBar));
 
-		add(new WText("Small, fraction, 33 max, bound to a random value"));
+		add(new WText("Small, fraction"));
 		progressBar = new WProgressBar(ProgressBarType.SMALL, UnitType.FRACTION, 33);
 		progressBar.setBeanProperty("value");
+		progressBar.setAccessibleText("progress based on a pseudo-random value");
+
 		progressBar.setBeanProvider(new BeanProvider() {
 			private final RandomValueGenerator bean = new RandomValueGenerator(33);
 

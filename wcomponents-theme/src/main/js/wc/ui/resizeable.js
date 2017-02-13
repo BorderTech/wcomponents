@@ -25,7 +25,7 @@ define(["wc/dom/attribute",
 		 * @private
 		 */
 		function Resizeable() {
-			var RESIZE = new Widget("button", "wc_resize"),
+			var RESIZE = new Widget("", "wc_resize"),
 				CLASS_MAX_CONTROL = "wc_maxcont",
 				MAX = new Widget("button", CLASS_MAX_CONTROL),
 				MAX_BAR = new Widget("", CLASS_MAX_CONTROL),
@@ -502,7 +502,7 @@ define(["wc/dom/attribute",
 			 */
 			function bootstrap(element) {
 				var body = document.body;
-				if (!(attribute.get(element, BS) || shed.isHidden(element))) {
+				if (!attribute.get(element, BS)) {
 					attribute.set(element, BS, true);
 					event.add(element, event.TYPE.mousedown, mousedownEvent);
 					event.add(element, event.TYPE.keydown, keydownEvent);
@@ -527,7 +527,7 @@ define(["wc/dom/attribute",
 			 * @private
 			 * @param {Element} element The element being shown/inserted.
 			 */
-			function shedAjaxSubscriber(element) {
+			function ajaxSubscriber(element) {
 				if (element) {
 					if (RESIZE.isOneOfMe(element)) {
 						bootstrap(element);
@@ -589,10 +589,9 @@ define(["wc/dom/attribute",
 			 */
 			this.postInit = function() {
 				Array.prototype.forEach.call(RESIZE.findDescendants(document.body), bootstrap);
-				shed.subscribe(shed.actions.SHOW, shedAjaxSubscriber);
 				shed.subscribe(shed.actions.SELECT, shedSelectSubscriber);
 				shed.subscribe(shed.actions.DESELECT, shedSelectSubscriber);
-				processResponse.subscribe(shedAjaxSubscriber, true);
+				processResponse.subscribe(ajaxSubscriber, true);
 			};
 
 			/**

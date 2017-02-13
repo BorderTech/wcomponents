@@ -120,7 +120,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 			};
 
 			/**
-			 * Sets up the initial keymap for column menus as per {@link http://www.w3.org/TR/wai-aria-practices/#menu}.
+			 * Sets up the initial keymap for tree-ish menus as per {@link http://www.w3.org/TR/wai-aria-practices/#menu}.
 			 *
 			 * @function
 			 * @protected
