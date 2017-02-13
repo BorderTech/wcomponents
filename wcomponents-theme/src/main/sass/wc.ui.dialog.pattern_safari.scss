@@ -1,8 +1,0 @@
-@import 'mixins-common';
-
-dialog > [aria-live] { // dialog content container
-	// need to work around a Safari-OSX bug but not for full screen dialogs.
-	// scss-lint:disable VendorPrefix
-	height: -webkit-fit-content;
-	// scss-lint:enable VendorPrefix
-}

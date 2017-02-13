@@ -2,22 +2,31 @@
 // works in Chrome and Webkit.
 @import 'mixins-common';
 
-
 dialog {
 	@include border($width: 0); // oh chrome, you try so hard to annoy me
 	@include border-box;
 	@include tight-box;
-	bottom: auto;
+	// bottom: auto;
 	display: none;
-	height: auto;
 	left: 0;
-	max-height: 100%;
-	max-width: 100%;
 	position: fixed;
-	right: auto; // chrome again
+	// right: auto; // chrome again
 	top: 0;
-	width: auto;
 	z-index: $wc-z-index-dialog;
+
+	@if ($wc-ui-dialog-max-height > 0) {
+		max-height: $wc-ui-dialog-max-height;
+	}
+	@else {
+		max-height: 100%;
+	}
+	@if ($wc-ui-dialog-max-width > 0) {
+		max-width: $wc-ui-dialog-max-width;
+	}
+	@else {
+		max-width: 100%;
+	}
+
 	@if ($wc-ui-dialog-min-height > 0) {
 		min-height: $wc-ui-dialog-min-height;
 	}
@@ -25,21 +34,20 @@ dialog {
 		min-width: $wc-ui-dialog-min-width;
 	}
 
-	> [aria-live] { // dialog content container
-		@include padded-box;
-		height: 100%;
-		overflow: auto;
-	}
-
 	&[open] {
 		@include flex($direction: column);
+	}
 
-		> [aria-live] {
-			@include flex-grow(1);
-		}
-
-		&.wc_max > [aria-live] {
-			height: 100%;
+	@if ($wc-ui-dialog-allow-resize == 1) {
+		&.wc_max { // maximised:
+			// important to override any inline CSS
+			// scss-lint:disable ImportantRule
+			@include border-box;
+			left: 0 !important;
+			min-height: 100%;
+			min-width: 100%;
+			overflow: auto;
+			top: 0 !important;
 		}
 	}
 
@@ -67,41 +75,63 @@ dialog {
 			margin-right: $wc-gap-small;
 		}
 
-		.wc_btn_icon + button {
-			margin-left: $wc-gap-small;
-		}
 
-		.wc_maxcont {
-			display: inline-block;
+		@if ($wc-ui-dialog-allow-resize == 1) {
+			.wc_maxcont {
+				display: inline-block;
+			}
+
+			.wc_btn_icon + button {
+				margin-left: $wc-gap-small;
+			}
+		}
+		@else {
+			.wc_maxcont {
+				display: none;
+			}
 		}
 	}
 
-	> footer {
-		display: block;
-		line-height: 0;
-		padding: 0;
-		text-align: right;
+	> div { // dialog content container
+		@include padded-box;
+		@include flex-grow(1);
+		// height: 100%;
+		overflow: auto;
+	}
 
-		button:before {
-			padding: $wc-gap-small;
+	> footer {
+		@if ($wc-ui-dialog-allow-resize == 1) {
+			display: block;
+			line-height: 0;
+			padding: 0;
+			text-align: right;
+
+			button {
+				cursor: nwse-resize;
+
+				&:before {
+					padding: $wc-gap-small;
+				}
+			}
+		}
+		@else {
+			display: none;
 		}
 	}
 }
 
-@if ($wc-use-respond == 1) {
+@if ($wc-use-respond == 1 and $wc-use-respond-dialog == 1) {
 	@include respond-phonelike {
 		dialog {
-			height: 100%;
-			width: 100%;
-			@if ($wc-ui-dialog-min-height > 0) {
-				min-height: 100%;
-			}
-			@if ($wc-ui-dialog-min-width > 0) {
-				min-width: 100%;
-			}
+			max-height: 100%;
+			max-width: 100%;
+			min-height: 100%;
+			min-width: 100%;
 
-			> footer {
-				display: none; // only show footer if the dialog can be resized.
+			@if ($wc-ui-dialog-allow-resize == 1) {
+				> footer {
+					display: none;
+				}
 			}
 
 			> header .wc_maxcont {
@@ -117,7 +147,12 @@ dialog {
 		.wc_resizeflow { // keyboard and resize event initiated drag and resize animation
 			transition-delay: $wc-ui-dialog-transition-delay;
 			transition-duration: $wc-ui-dialog-transition-duration;
-			transition-property: left, top, height, width;
+			@if ($wc-ui-dialog-allow-resize == 1) {
+				transition-property: left, top, height, width;
+			}
+			@else {
+				transition-property: left, top;
+			}
 			transition-timing-function: ease-in-out;
 		}
 	}
