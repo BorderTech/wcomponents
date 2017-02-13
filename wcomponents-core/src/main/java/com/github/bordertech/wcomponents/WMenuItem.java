@@ -288,16 +288,12 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 		if (selectability == null || Boolean.FALSE.equals(selectability)) {
 			return false;
 		}
-		MenuContainer container = WebUtilities.getAncestorOfClass(MenuContainer.class, this);
-		if (container instanceof WSubMenu) {
-			SelectionMode mode = ((WSubMenu) container).getSelectionMode();
-			return !SelectionMode.NONE.equals(mode);
+		MenuSelectContainer container = WebUtilities.getAncestorOfClass(MenuSelectContainer.class, this);
+		if (container == null) {
+			return false;
 		}
-		if (container instanceof WMenu) {
-			SelectionMode mode = ((WMenu) container).getSelectionMode();
-			return !SelectionMode.NONE.equals(mode);
-		}
-		return false;
+		SelectionMode mode = container.getSelectionMode();
+		return !SelectionMode.NONE.equals(mode);
 	}
 
 	/**
