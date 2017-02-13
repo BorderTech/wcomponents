@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.MenuSelectContainer.SelectionMode;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -277,6 +278,23 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 		}
 
 		return false;
+	}
+
+	/**
+	 * Allow WMenuItemRenderer to determine if a WMenuItem is allowed to have a selection mode or state. Not for external use.
+	 * @return true if a WMenuItem is allowed to have a selection state. This is determined by its nearest ancestor MenuContainer's selectionMode.
+	 */
+	public boolean isSelectAllowed() {
+		Boolean selectability = getSelectability();
+		if (selectability == null || Boolean.FALSE.equals(selectability)) {
+			return false;
+		}
+		MenuSelectContainer container = WebUtilities.getAncestorOfClass(MenuSelectContainer.class, this);
+		if (container == null) {
+			return false;
+		}
+		SelectionMode mode = container.getSelectionMode();
+		return !SelectionMode.NONE.equals(mode);
 	}
 
 	/**

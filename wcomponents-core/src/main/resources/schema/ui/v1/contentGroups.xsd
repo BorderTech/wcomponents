@@ -40,7 +40,6 @@ The XML schema for a WComponent page.
 			<xs:element ref="ui:figure" />
 			<xs:element ref="ui:fileupload" />
 			<xs:element ref="ui:heading" />
-			<xs:element ref="ui:image" />
 			<xs:element ref="ui:label" />
 			<xs:element ref="ui:link" />
 			<xs:element ref="ui:listbox" />
