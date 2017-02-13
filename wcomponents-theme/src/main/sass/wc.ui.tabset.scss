@@ -1,4 +1,3 @@
-/* wc.ui.tabset.scss */
 @import 'tabset-mixins';
 
 .wc-tabset {
@@ -64,7 +63,7 @@
 	@include flex-grow(1);
 }
 
-@if ($wc-gap-reduce-when-narrow != -1) {
+@if ($wc-use-respond == 1 and $wc-gap-reduce-when-narrow == 1) {
 	@include respond-phonelike {
 		// Do not make role='tab' smaller because the padding is part of the hit zone.
 		[role='tabpanel'] {

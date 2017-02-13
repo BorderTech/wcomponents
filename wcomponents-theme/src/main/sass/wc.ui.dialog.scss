@@ -1,4 +1,3 @@
-/* wc.ui.dialog.scss */
 // The actual dialog. Its position is set on open such that it sits in the middle of the viewport. Margin:auto only
 // works in Chrome and Webkit.
 @import 'mixins-common';
@@ -10,15 +9,21 @@ dialog {
 	@include tight-box;
 	bottom: auto;
 	display: none;
-	height: 100%;
+	height: auto;
 	left: 0;
 	max-height: 100%;
 	max-width: 100%;
 	position: fixed;
 	right: auto; // chrome again
 	top: 0;
-	width: 100%;
+	width: auto;
 	z-index: $wc-z-index-dialog;
+	@if ($wc-ui-dialog-min-height > 0) {
+		min-height: $wc-ui-dialog-min-height;
+	}
+	@if ($wc-ui-dialog-min-width > 0) {
+		min-width: $wc-ui-dialog-min-width;
+	}
 
 	> [aria-live] { // dialog content container
 		@include padded-box;
@@ -67,39 +72,41 @@ dialog {
 		}
 
 		.wc_maxcont {
-			display: none;
+			display: inline-block;
 		}
 	}
 
 	> footer {
-		display: none; // only show footer if the dialog can be resized.
+		display: block;
+		line-height: 0;
+		padding: 0;
+		text-align: right;
+
+		button:before {
+			padding: $wc-gap-small;
+		}
 	}
 }
 
-@include respond-not-phonelike {
-	dialog {
-		height: auto;
-		@if ($wc-ui-dialog-min-height > 0) {
-			min-height: $wc-ui-dialog-min-height;
-		}
-		@if ($wc-ui-dialog-min-width > 0) {
-			min-width: $wc-ui-dialog-min-width;
-		}
-		width: auto;
-
-		> footer {
-			display: block;
-			line-height: 0;
-			padding: 0;
-			text-align: right;
-
-			button:before {
-				padding: $wc-gap-small;
+@if ($wc-use-respond == 1) {
+	@include respond-phonelike {
+		dialog {
+			height: 100%;
+			width: 100%;
+			@if ($wc-ui-dialog-min-height > 0) {
+				min-height: 100%;
 			}
-		}
+			@if ($wc-ui-dialog-min-width > 0) {
+				min-width: 100%;
+			}
 
-		> header .wc_maxcont {
-			display: inline-block;
+			> footer {
+				display: none; // only show footer if the dialog can be resized.
+			}
+
+			> header .wc_maxcont {
+				display: none;
+			}
 		}
 	}
 }

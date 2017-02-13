@@ -1,18 +1,20 @@
 // Default responsive design for rows and columns
 // opt-in for ColumnLayout by setting class "wc-respond" on its containing WPanel.
 // opt in for WRow/WColumn by setting class "wc-respond" the WRow.
-@include respond-phonelike {
-	.wc-row.wc-respond {
-		display: block;
-
-		> .wc-column {
+@if ($wc-use-respond == 1) {
+	@include respond-phonelike {
+		.wc-row.wc-respond {
 			display: block;
-			padding-left: 0;
-			padding-right: 0;
-			width: 100%;
 
-			+ .wc-column {
-				margin-top: $wc-gap-small;
+			> .wc-column {
+				display: block;
+				padding-left: 0;
+				padding-right: 0;
+				width: 100%;
+
+				+ .wc-column {
+					margin-top: $wc-gap-small;
+				}
 			}
 		}
 	}
