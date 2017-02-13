@@ -74,6 +74,10 @@ define(["wc/dom/attribute",
 				return result;
 			}
 
+			function getResizer(element) {
+				return RESIZE.findAncestor(element);
+			}
+
 			/**
 			 * Get the default font size of the BODY element in pixels.
 			 * @function
@@ -277,7 +281,7 @@ define(["wc/dom/attribute",
 			 */
 			function mousedownEvent($event) {
 				var target = $event.target, element, id, offset, resizeTarget;
-				if (!$event.defaultPrevented && (element = RESIZE.findAncestor(target)) && isAcceptableTarget(element, target) && (resizeTarget = getResizeTarget(element))) {
+				if (!$event.defaultPrevented && (element = getResizer(target)) && isAcceptableTarget(element, target) && (resizeTarget = getResizeTarget(element))) {
 					id = resizeTarget.id || (resizeTarget.id = uid());
 
 					instance.disableAnimation(resizeTarget);
@@ -297,7 +301,7 @@ define(["wc/dom/attribute",
 			function touchstartEvent($event) {
 				var touch, target, element, id, resizeTarget;
 				if (!$event.defaultPrevented && $event.touches.length === 1 && (touch = $event.touches[0]) && (target = touch.target) &&
-					(element = RESIZE.findAncestor(target)) && isAcceptableTarget(element, target) && (resizeTarget = getResizeTarget(element))) {
+					(element = getResizer(target)) && isAcceptableTarget(element, target) && (resizeTarget = getResizeTarget(element))) {
 					id = resizeTarget.id || (resizeTarget.id = uid());
 					resizing = id;
 					instance.disableAnimation(resizeTarget);
@@ -328,7 +332,7 @@ define(["wc/dom/attribute",
 					return;
 				}
 
-				if (!(element = RESIZE.findAncestor(target))) {
+				if (!(element = getResizer(target))) {
 					return;
 				}
 
@@ -533,7 +537,7 @@ define(["wc/dom/attribute",
 						bootstrap(element);
 					}
 					else {
-						Array.prototype.forEach.call(RESIZE.findDescendants(element), bootstrap);
+						setup(element);
 					}
 				}
 			}
@@ -582,15 +586,21 @@ define(["wc/dom/attribute",
 				classList.remove(element, CLASS_MAX_CONTROL);
 			};
 
+			function setup(element) {
+				var el = element || document.body;
+				Array.prototype.forEach.call(RESIZE.findDescendants(el), bootstrap);
+			}
+
 			/**
 			 * Late initialisation for ajax and shed subscribers.
 			 * @function module:wc/ui/resizeable.postInit
 			 * @public
 			 */
 			this.postInit = function() {
-				Array.prototype.forEach.call(RESIZE.findDescendants(document.body), bootstrap);
+				setup();
 				shed.subscribe(shed.actions.SELECT, shedSelectSubscriber);
 				shed.subscribe(shed.actions.DESELECT, shedSelectSubscriber);
+				shed.subscribe(shed.actions.SHOW, setup);
 				processResponse.subscribe(ajaxSubscriber, true);
 			};
 
