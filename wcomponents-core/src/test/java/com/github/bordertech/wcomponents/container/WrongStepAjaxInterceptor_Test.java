@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.WLabel;
+import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.render.webxml.AbstractWebXmlRendererTestCase;
 import com.github.bordertech.wcomponents.servlet.WServlet;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
@@ -44,13 +44,12 @@ public class WrongStepAjaxInterceptor_Test extends AbstractWebXmlRendererTestCas
 		app.setLocked(true);
 
 		MockResponse response = doAjaxRequest(app, 1, 1);
-		assertXpathEvaluatesTo(app.target.getText(), "//ui:label", response.getWriterOutput());
+		assertXpathEvaluatesTo(app.target.getText(), "//ui:textfield", response.getWriterOutput());
 	}
 
 	@Test
 	public void testInterceptorRedirect() throws XpathException, SAXException, IOException {
-		Config.getInstance().setProperty(ConfigurationProperties.STEP_ERROR_URL,
-				"http://test.test");
+		Config.getInstance().setProperty(ConfigurationProperties.STEP_ERROR_URL, "http://test.test");
 
 		MyApp app = new MyApp();
 		app.setLocked(true);
@@ -81,8 +80,7 @@ public class WrongStepAjaxInterceptor_Test extends AbstractWebXmlRendererTestCas
 	 */
 	private MockResponse doAjaxRequest(final MyApp app, final int clientStep, final int serverStep) {
 		UIContext uic = createUIContext();
-		WServlet.WServletEnvironment env = new WServlet.WServletEnvironment(APP_POSTPATH,
-				"http://localhost", "");
+		WServlet.WServletEnvironment env = new WServlet.WServletEnvironment(APP_POSTPATH, "http://localhost", "");
 		env.setStep(serverStep);
 		env.setSessionToken("T");
 		uic.setEnvironment(env);
@@ -135,12 +133,14 @@ public class WrongStepAjaxInterceptor_Test extends AbstractWebXmlRendererTestCas
 		/**
 		 * An AJAX target.
 		 */
-		private final WLabel target = new WLabel("WrongStepAjaxInterceptor_Test.MyApp.target");
+		private final WTextField target = new WTextField();
 
 		/**
 		 * Creates the test app.
 		 */
 		private MyApp() {
+			target.setText("WrongStepAjaxInterceptor_Test.MyApp.target");
+			target.setReadOnly(true);
 			trigger.setAjaxTarget(target);
 			add(trigger);
 			add(target);

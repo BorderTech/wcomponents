@@ -7,8 +7,6 @@ import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import java.awt.Dimension;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * {@link Renderer} for the {@link WImage} component.
@@ -17,12 +15,6 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.0
  */
 final class WImageRenderer extends AbstractWebXmlRenderer {
-
-	/**
-	 * The logger instance for this class.
-	 */
-	private static final Log LOG = LogFactory.getLog(WImageRenderer.class);
-
 	/**
 	 * Builds the "open tag" part of the XML, that is the tagname and attributes.
 	 *
@@ -38,19 +30,17 @@ final class WImageRenderer extends AbstractWebXmlRenderer {
 		// Check for alternative text on the image
 		String alternativeText = imageComponent.getAlternativeText();
 		if (alternativeText == null) {
-			LOG.warn("Image should have a description.");
 			alternativeText = "";
 		} else {
 			alternativeText = I18nUtilities.format(null, alternativeText);
 		}
 
-		xml.appendTagOpen("ui:image");
+		xml.appendTagOpen("img");
 		xml.appendAttribute("id", imageComponent.getId());
 		xml.appendOptionalAttribute("class", imageComponent.getHtmlClass());
-		xml.appendOptionalAttribute("track", imageComponent.isTracking(), "true");
 		xml.appendAttribute("src", imageComponent.getTargetUrl());
 		xml.appendAttribute("alt", alternativeText);
-		xml.appendOptionalAttribute("hidden", imageComponent.isHidden(), "true");
+		xml.appendOptionalAttribute("hidden", imageComponent.isHidden(), "hidden");
 
 		// Check for size information on the image
 		Dimension size = imageComponent.getSize();
@@ -75,12 +65,12 @@ final class WImageRenderer extends AbstractWebXmlRenderer {
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		WImage imageComponent = (WImage) component;
 		XmlStringBuilder xml = renderContext.getWriter();
-		
+
 		// No image set
 		if (imageComponent.getImage() == null && imageComponent.getImageUrl() == null) {
 			return;
 		}
-		
+
 		renderTagOpen(imageComponent, xml);
 		xml.appendEnd();
 	}

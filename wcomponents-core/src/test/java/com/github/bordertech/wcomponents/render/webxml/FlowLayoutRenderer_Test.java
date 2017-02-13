@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
@@ -11,7 +12,8 @@ import org.xml.sax.SAXException;
 /**
  * Junit test case for {@link FlowLayoutRenderer}.
  *
- * @author Yiannis Paschalidis, Mark Reeves
+ * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
@@ -19,12 +21,12 @@ public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	/**
 	 * A space between components.
 	 */
-	private static final int GAP = 12;
+	private static final SpaceUtil.Size GAP = SpaceUtil.Size.SMALL;
 
 	/**
 	 * A different space used to differentiate the (now deprecated) hgap and vgap in the two-gap constructors.
 	 */
-	private static final int BIG_GAP = 24;
+	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
 
 	// The expected render of the default constructor.
 	@Test
@@ -101,7 +103,7 @@ public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
 			panel.setLayout(new FlowLayout(a, GAP));
 			assertSchemaMatch(panel);
-			assertXpathEvaluatesTo(String.valueOf(GAP), "//ui:panel/ui:flowlayout/@gap", panel);
+			assertXpathEvaluatesTo(GAP.toString(), "//ui:panel/ui:flowlayout/@gap", panel);
 		}
 	}
 
@@ -112,9 +114,9 @@ public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		String expected;
 
 		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
-			panel.setLayout(new FlowLayout(a, GAP, BIG_GAP));
+			panel.setLayout(new FlowLayout(a, 3, 16));
 			assertSchemaMatch(panel);
-			expected = a == FlowLayout.VERTICAL ? String.valueOf(BIG_GAP) : String.valueOf(GAP);
+			expected = a == FlowLayout.VERTICAL ? BIG_GAP.toString() : GAP.toString();
 			assertXpathEvaluatesTo(expected, "//ui:panel/ui:flowlayout/@gap", panel);
 		}
 	}
@@ -126,9 +128,9 @@ public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		for (FlowLayout.Alignment a : FlowLayout.Alignment.values()) {
 			for (FlowLayout.ContentAlignment c : FlowLayout.ContentAlignment.values()) {
-				panel.setLayout(new FlowLayout(a, GAP, BIG_GAP, c));
+				panel.setLayout(new FlowLayout(a, 3, 16, c));
 				assertSchemaMatch(panel);
-				expected = a == FlowLayout.VERTICAL ? String.valueOf(BIG_GAP) : String.valueOf(GAP);
+				expected = a == FlowLayout.VERTICAL ? BIG_GAP.toString() : GAP.toString();
 				assertXpathEvaluatesTo(expected, "//ui:panel/ui:flowlayout/@gap", panel);
 			}
 		}

@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
-import java.util.Arrays;
-import java.util.List;
+import com.github.bordertech.wcomponents.util.Util;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -11,9 +11,14 @@ import org.openqa.selenium.WebElement;
  * for a read-only text input.
  *
  * @author Joshua Barclay
+ * @author Mark Reeves
  * @since 1.3.0
  */
 public class SeleniumWComponentInputWebElement extends SeleniumWComponentWebElement {
+	/**
+	 * The tag name of the wrapping element for WTextField.
+	 */
+	public static final String TOP_LEVEL_TAG = "span";
 
 	/**
 	 * The tag name of the editable CheckBox element.
@@ -31,10 +36,24 @@ public class SeleniumWComponentInputWebElement extends SeleniumWComponentWebElem
 	}
 
 	/**
+	 * @return the editable input field of a WTextField.
+	 */
+	public SeleniumWComponentWebElement getInputField() {
+		if (isReadOnly()) {
+			return null;
+		}
+
+		return findElement(By.tagName(EDITABLE_TAG));
+	}
+
+	/**
 	 * @return the value of the input component.
 	 */
 	public String getValue() {
-		return super.getAttribute(SeleniumWComponentWebProperties.ATTRIBUTE_HTML_VALUE.toString());
+		if (isReadOnly()) {
+			return getText();
+		}
+		return getInputField().getAttribute(SeleniumWComponentWebProperties.ATTRIBUTE_HTML_VALUE.toString());
 	}
 
 	/**
@@ -56,11 +75,54 @@ public class SeleniumWComponentInputWebElement extends SeleniumWComponentWebElem
 	 * @return true if the field is in a read-only state.
 	 */
 	public boolean isReadOnly() {
-		String className = getAttribute("class");
-		if (null == className) {
+		String roAttribute = getAttribute("data-wc-component");
+		if (Util.empty(roAttribute)) {
 			return false;
 		}
-		List<String> classAsList = Arrays.asList(className.split("\\s"));
-		return classAsList.contains(SeleniumWComponentWebProperties.CLASS_READ_ONLY.toString());
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean isEnabled() {
+		if (isReadOnly()) {
+			return false;
+		}
+		return getInputField().isEnabled();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void sendKeys(final CharSequence... keys) {
+		getInputField().sendKeys(keys);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void clear() {
+		getInputField().clear();
+	}
+
+	@Override
+	public String getActiveId() {
+		if (isReadOnly()) {
+			return super.getActiveId();
+		}
+		return getInputField().getAttribute("id");
+	}
+
+	@Override
+	public void click() {
+		if (isReadOnly()) {
+			super.click();
+		} else {
+			getInputField().click();
+		}
 	}
 }

@@ -1,10 +1,12 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.examples.table.SimplePaginationWithRowOptionsTableExample;
+import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTableWebElement;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 
 /**
@@ -14,6 +16,7 @@ import org.openqa.selenium.By;
  * @since 1.2.0
  */
 @Category(SeleniumTests.class)
+@RunWith(MultiBrowserRunner.class)
 public class SimplePaginationWithRowOptionsTableExample_Test extends WComponentExamplesTestCase {
 
 	/**
@@ -83,7 +86,8 @@ public class SimplePaginationWithRowOptionsTableExample_Test extends WComponentE
 	 * @param backwardsButtonsEnabled the expected state of the back buttons.
 	 * @param forwardsButtonsEnabled the expected state of the forward buttons.
 	 */
-	private void assertPageButtons(final SeleniumWTableWebElement table, final int firstResult, final int lastResult, final boolean backwardsButtonsEnabled, final boolean forwardsButtonsEnabled) {
+	private void assertPageButtons(final SeleniumWTableWebElement table, final int firstResult, final int lastResult,
+			final boolean backwardsButtonsEnabled, final boolean forwardsButtonsEnabled) {
 
 		Assert.assertEquals("First row index on page does not match expected.", firstResult, table.getFirstRowIndexOfPage());
 		Assert.assertEquals("Last row index on page does not match expected", lastResult, table.getLastRowIndexOfPage());

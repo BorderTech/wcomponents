@@ -127,7 +127,8 @@ public class SeleniumWTableWebElement extends SeleniumWComponentWebElement {
 		}
 
 		if (!elementClass.contains(TABLE_DIV_CLASS)) {
-			throw new SystemException("Incorrect element selected for SeleniumWTableWebElement. Expected div containing class " + TABLE_DIV_CLASS + " but found div with class " + elementClass);
+			throw new SystemException("Incorrect element selected for SeleniumWTableWebElement. Expected div containing class " + TABLE_DIV_CLASS
+					+ " but found div with class " + elementClass);
 		}
 	}
 
@@ -193,15 +194,15 @@ public class SeleniumWTableWebElement extends SeleniumWComponentWebElement {
 	/**
 	 * @return the page select.
 	 */
-	public SeleniumWSelectWebElement getPageSelect() {
-		return findSeleniumWSelectWebElement(By.cssSelector(SELECTOR_PAGE_SELECT));
+	public SeleniumSimpleSelectWebElement getPageSelect() {
+		return findSeleniumSimpleSelectWebElement(By.cssSelector(SELECTOR_PAGE_SELECT));
 	}
 
 	/**
 	 * @return the page select.
 	 */
-	public SeleniumWSelectWebElement getRowsPerPageSelect() {
-		return findSeleniumWSelectWebElement(By.cssSelector(SELECTOR_ROWS_PER_PAGE_SELECT));
+	public SeleniumSimpleSelectWebElement getRowsPerPageSelect() {
+		return findSeleniumSimpleSelectWebElement(By.cssSelector(SELECTOR_ROWS_PER_PAGE_SELECT));
 	}
 
 	/**

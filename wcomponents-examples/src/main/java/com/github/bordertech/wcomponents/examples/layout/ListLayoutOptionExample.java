@@ -12,14 +12,17 @@ import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WNumberField;
 import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.WRadioButtonSelect;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.ListLayout;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.math.BigDecimal;
 
 /**
  * Example showing how to use the {@link ListLayout} component.
  *
  * @author Jonathan Austin
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class ListLayoutOptionExample extends WContainer {
@@ -35,7 +38,7 @@ public class ListLayoutOptionExample extends WContainer {
 	public ListLayoutOptionExample() {
 
 		final WPanel panel = new WPanel();
-		panel.setLayout(new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.CENTER, ListLayout.Separator.BAR, false, 0, 0));
+		panel.setLayout(new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.CENTER, ListLayout.Separator.BAR, false, null));
 
 		final WDropdown wdPanelType = new WDropdown();
 		wdPanelType.setOptions(WPanel.Type.values());
@@ -60,18 +63,22 @@ public class ListLayoutOptionExample extends WContainer {
 		wnfGap.setStep(BigDecimal.ONE);
 		wnfGap.setMinValue(BigDecimal.ZERO);
 
+		final WRadioButtonSelect rbsGap = new WRadioButtonSelect();
+		rbsGap.setOptions(SpaceUtil.Size.values());
+
 		WFieldLayout layout = new WFieldLayout();
 		add(layout);
 
-		layout.setMargin(new Margin(0, 0, 12, 0));
+		layout.setMargin(new Margin(null, null, SpaceUtil.Size.LARGE, null));
 		layout.addField("Set containing WPanel Type", wdPanelType);
 		layout.addField("Set ListLayout Type", wdListLayoutType);
 		layout.addField("set ListLayout Alignment", wdListLayoutAlignment);
 		layout.addField("set ListLayout Separator", wdListLayoutSeparator);
 		layout.addField("Use ordered list", wcIsOrdered);
-		layout.addField("Space between items", wnfGap);
+		layout.addField("Space between items", rbsGap);
 
 		WButton button = new WButton("refresh");
+
 		layout.addField((WLabel) null, button);
 
 		button.setAction(new Action() {
@@ -79,9 +86,10 @@ public class ListLayoutOptionExample extends WContainer {
 			@Override
 			public void execute(final ActionEvent event) {
 				panel.setType((WPanel.Type) wdPanelType.getSelected());
-				int gap = wnfGap.getValue() == null ? 0 : wnfGap.getValue().intValue();
-				panel.setLayout(new ListLayout((ListLayout.Type) wdListLayoutType.getSelected(), (ListLayout.Alignment) wdListLayoutAlignment.getSelected(), (ListLayout.Separator) wdListLayoutSeparator.getSelected(), wcIsOrdered.isSelected(), gap, gap));
-
+				SpaceUtil.Size gap = rbsGap.getSelected() == null ? null : (SpaceUtil.Size) rbsGap.getSelected();
+				panel.setLayout(new ListLayout((ListLayout.Type) wdListLayoutType.getSelected(),
+						(ListLayout.Alignment) wdListLayoutAlignment.getSelected(), (ListLayout.Separator) wdListLayoutSeparator.getSelected(),
+						wcIsOrdered.isSelected(), gap));
 			}
 		});
 

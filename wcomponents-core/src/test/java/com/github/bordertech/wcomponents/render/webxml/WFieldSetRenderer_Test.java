@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.WFieldSet;
 import com.github.bordertech.wcomponents.WFieldSet.FrameType;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -66,23 +67,23 @@ public class WFieldSetRenderer_Test extends AbstractWebXmlRendererTestCase {
 		fieldSet.setMargin(margin);
 		assertXpathNotExists("//ui:fieldset/ui:margin", fieldSet);
 
-		margin = new Margin(1);
+		margin = new Margin(SpaceUtil.Size.SMALL);
 		fieldSet.setMargin(margin);
 		assertSchemaMatch(fieldSet);
-		assertXpathEvaluatesTo("1", "//ui:fieldset/ui:margin/@all", fieldSet);
+		assertXpathEvaluatesTo("sm", "//ui:fieldset/ui:margin/@all", fieldSet);
 		assertXpathEvaluatesTo("", "//ui:fieldset/ui:margin/@north", fieldSet);
 		assertXpathEvaluatesTo("", "//ui:fieldset/ui:margin/@east", fieldSet);
 		assertXpathEvaluatesTo("", "//ui:fieldset/ui:margin/@south", fieldSet);
 		assertXpathEvaluatesTo("", "//ui:fieldset/ui:margin/@west", fieldSet);
 
-		margin = new Margin(1, 2, 3, 4);
+		margin = new Margin(SpaceUtil.Size.SMALL, SpaceUtil.Size.MEDIUM, SpaceUtil.Size.LARGE, SpaceUtil.Size.XL);
 		fieldSet.setMargin(margin);
 		assertSchemaMatch(fieldSet);
 		assertXpathEvaluatesTo("", "//ui:fieldset/ui:margin/@all", fieldSet);
-		assertXpathEvaluatesTo("1", "//ui:fieldset/ui:margin/@north", fieldSet);
-		assertXpathEvaluatesTo("2", "//ui:fieldset/ui:margin/@east", fieldSet);
-		assertXpathEvaluatesTo("3", "//ui:fieldset/ui:margin/@south", fieldSet);
-		assertXpathEvaluatesTo("4", "//ui:fieldset/ui:margin/@west", fieldSet);
+		assertXpathEvaluatesTo("sm", "//ui:fieldset/ui:margin/@north", fieldSet);
+		assertXpathEvaluatesTo("med", "//ui:fieldset/ui:margin/@east", fieldSet);
+		assertXpathEvaluatesTo("lg", "//ui:fieldset/ui:margin/@south", fieldSet);
+		assertXpathEvaluatesTo("xl", "//ui:fieldset/ui:margin/@west", fieldSet);
 	}
 
 }

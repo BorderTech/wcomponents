@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.WLink.ImagePosition;
 import com.github.bordertech.wcomponents.file.File;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
+import com.github.bordertech.wcomponents.util.MemoryUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.thumbnail.ThumbnailUtil;
@@ -38,7 +39,7 @@ import org.apache.commons.logging.LogFactory;
  * @since 1.0.0
  */
 public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxInternalTrigger, AjaxTrigger, AjaxTarget,
-		SubordinateTarget {
+		SubordinateTarget, MultiInputComponent {
 
 	/**
 	 * The logger instance for this class.
@@ -120,6 +121,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 			setData(files);
 		}
 		files.add(file);
+		MemoryUtil.checkSize(files.size(), this.getClass().getSimpleName());
 	}
 
 	/**

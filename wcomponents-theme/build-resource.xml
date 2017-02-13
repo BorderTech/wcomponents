@@ -8,7 +8,6 @@
 	<property name="impl.resource.rootdir" location="${impl.src.main.dir}/resource" />
 
 	<target name="init" depends="clean">
-		<property file="${properties.build.constants}" />
 	</target>
 
 	<!--
@@ -17,7 +16,7 @@
 	-->
 	<target name="build" depends="init, getTimezoneData" description="Builds resources">
 		<copy todir="${resource.build.target.dir}" overwrite="true" flatten="true">
-			<fileset dir="${resource.rootdir}" includes="*.xml, *.rdf, *.html, *.txt, *.svg" excludesfile="${excludesfile}" />
+			<fileset dir="${resource.rootdir}" includes="*.xml, *.rdf, *.html, *.txt, *.svg" />
 			<fileset dir="${impl.resource.rootdir}" includes="*.xml, *.rdf, *.html, *.txt, *.svg" erroronmissingdir="false"/>
 			<filterchain>
 				<expandproperties />
@@ -36,7 +35,6 @@
 				<exclude name="*.html" />
 				<exclude name="*.txt" />
 				<exclude name="*.svg" />
-				<excludesfile name="${excludesfile}" />
 			</fileset>
 			<fileset dir="${impl.resource.rootdir}" excludes="*.xml, *.rdf, *.html, *.txt, *.svg" erroronmissingdir="false">
 				<include name="*" />
@@ -57,7 +55,7 @@
 		<!--
 		<gunzip src="${timezone.dir}/tzdata-latest.tar.gz" dest="${timezone.dir}"/>
 		<untar src="${timezone.dir}/tzdata-latest.tar" dest="${timezone.dir}/unzipped/">
-			 Add .txt because of this: https://github.com/BorderTech/wcomponents/issues/540 
+			 Add .txt because of this: https://github.com/BorderTech/wcomponents/issues/540
 			<regexpmapper from="^([^\.]+)$" to="\1.txt"/>
 		</untar>
 		-->

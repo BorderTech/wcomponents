@@ -68,7 +68,10 @@ define(["wc/dom/attribute",
 			 * @param {module:wc/dom/event} $event a wrapped change event as published by the WComponent event manager.
 			 */
 			function changeEvent($event) {
-				validationManager.revalidationHelper($event.target, validate);
+				var target = $event.target;
+				if (target && SELECT.isOneOfMe(target)) {
+					validationManager.revalidationHelper(target, validate);
+				}
 			}
 
 			/**

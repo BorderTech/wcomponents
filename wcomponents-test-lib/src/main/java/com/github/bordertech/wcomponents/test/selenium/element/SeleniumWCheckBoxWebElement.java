@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
-import org.apache.commons.lang.BooleanUtils;
+import java.util.Arrays;
+import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -8,24 +9,20 @@ import org.openqa.selenium.WebElement;
  * Selenium WebElement class representing a WCheckBox.
  *
  * @author Joshua Barclay
+ * @author Mark Reeves
  * @since 1.2.0
  */
 public class SeleniumWCheckBoxWebElement extends SeleniumWComponentInputWebElement {
 
 	/**
+	 * HTML attributes applied to the input element.
+	 */
+	private static final List<String> INPUT_ATTRIBUTES = Arrays.asList("disabled", "required", "checked");
+
+	/**
 	 * The input type for checkbox.
 	 */
 	public static final String TYPE = "checkbox";
-
-	/**
-	 * The tag name for a read-only CheckBox element.
-	 */
-	public static final String READ_ONLY_TAG = "span";
-
-	/**
-	 * The tag name of the field.
-	 */
-	private final String tagName;
 
 	/**
 	 * Default constructor for this element.
@@ -36,19 +33,10 @@ public class SeleniumWCheckBoxWebElement extends SeleniumWComponentInputWebEleme
 	public SeleniumWCheckBoxWebElement(final WebElement element, final WebDriver driver) {
 		super(element, driver);
 
-		this.tagName = element.getTagName();
-		if (!tagName.equals(EDITABLE_TAG) && !tagName.equals(READ_ONLY_TAG)) {
-
-			throw new IllegalArgumentException("element is not a WCheckBox. tag=[" + tagName + "]");
+		final String tagName = element.getTagName();
+		if (!tagName.equals(TOP_LEVEL_TAG)) {
+			throw new IllegalArgumentException("Element is not the expected wrapper. tag=[" + tagName + "].");
 		}
-	}
-
-	/**
-	 * @return true if the component is editable.
-	 */
-	@Override
-	public boolean isEnabled() {
-		return tagName.equals(EDITABLE_TAG) && super.isEnabled();
 	}
 
 	/**
@@ -70,7 +58,37 @@ public class SeleniumWCheckBoxWebElement extends SeleniumWComponentInputWebEleme
 	 * @return Whether the checkbox is checked.
 	 */
 	public boolean isChecked() {
-		String value = getValue();
-		return BooleanUtils.toBoolean(value);
+		return isSelected();
+	}
+
+	@Override
+	public boolean isSelected() {
+		if (isReadOnly()) {
+			String className = getAttribute("class");
+			if (null == className) {
+				return false;
+			}
+			List<String> classAsList = Arrays.asList(className.split("\\s"));
+			return classAsList.contains(SeleniumWComponentWebProperties.CLASS_READONLY_CHECKED.toString());
+		}
+		return getInputField().isSelected();
+	}
+
+	/**
+	 * Some attributes are applied to the wrapper, some to the input. This
+	 * override sorts out which is which.
+	 *
+	 * @param name the name of the attribute to find
+	 * @return the value of the attribute
+	 */
+	@Override
+	public String getAttribute(final String name) {
+		if (INPUT_ATTRIBUTES.contains(name)) {
+			if (isReadOnly()) {
+				return null;
+			}
+			return getInputField().getAttribute(name);
+		}
+		return super.getAttribute(name);
 	}
 }

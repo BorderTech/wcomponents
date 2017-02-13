@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.WList;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import java.util.Arrays;
 import junit.framework.Assert;
@@ -13,7 +14,8 @@ import org.xml.sax.SAXException;
 /**
  * Junit test case for {@link WListRenderer}.
  *
- * @author Yiannis Paschalidis, Mark Reeves
+ * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
@@ -21,12 +23,12 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 	/**
 	 * A reusable gap value.
 	 */
-	private static final int GAP = 12;
+	private static final SpaceUtil.Size GAP = SpaceUtil.Size.SMALL;
 
 	/**
 	 * A different reusable gap value. This is used to differentiate the (now deprecated) hgap and vgap properties.
 	 */
-	private static final int BIG_GAP = 18;
+	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
 
 	@Test
 	public void testLayoutCorrectlyConfigured() {
@@ -125,23 +127,23 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 		list.setMargin(margin);
 		assertXpathNotExists("//ui:panel/ui:margin", list);
 
-		margin = new Margin(GAP);
+		margin = new Margin(SpaceUtil.Size.SMALL);
 		list.setMargin(margin);
 		assertSchemaMatch(list);
-		assertXpathEvaluatesTo(String.valueOf(GAP), "//ui:panel/ui:margin/@all", list);
+		assertXpathEvaluatesTo("sm", "//ui:panel/ui:margin/@all", list);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@north", list);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@east", list);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@south", list);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@west", list);
 
-		margin = new Margin(1, 2, 3, 4);
+		margin = new Margin(SpaceUtil.Size.SMALL, SpaceUtil.Size.MEDIUM, SpaceUtil.Size.LARGE, SpaceUtil.Size.XL);
 		list.setMargin(margin);
 		assertSchemaMatch(list);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@all", list);
-		assertXpathEvaluatesTo("1", "//ui:panel/ui:margin/@north", list);
-		assertXpathEvaluatesTo("2", "//ui:panel/ui:margin/@east", list);
-		assertXpathEvaluatesTo("3", "//ui:panel/ui:margin/@south", list);
-		assertXpathEvaluatesTo("4", "//ui:panel/ui:margin/@west", list);
+		assertXpathEvaluatesTo("sm", "//ui:panel/ui:margin/@north", list);
+		assertXpathEvaluatesTo("med", "//ui:panel/ui:margin/@east", list);
+		assertXpathEvaluatesTo("lg", "//ui:panel/ui:margin/@south", list);
+		assertXpathEvaluatesTo("xl", "//ui:panel/ui:margin/@west", list);
 	}
 
 
@@ -152,15 +154,15 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WList list;
 
 		for (WList.Type t : WList.Type.values()) {
-			list = new WList(t, GAP, BIG_GAP);
+			list = new WList(t, SpaceUtil.sizeToInt(GAP), SpaceUtil.sizeToInt(BIG_GAP));
 			list.setRepeatedComponent(new WText());
 			list.setData(Arrays.asList(new String[]{"row1", "row2", "row3"}));
 			assertSchemaMatch(list);
 
 			if (t == WList.Type.FLAT) {
-				assertXpathEvaluatesTo(String.valueOf(GAP), "//ui:panel/ui:listlayout/@gap", list);
+				assertXpathEvaluatesTo(GAP.toString(), "//ui:panel/ui:listlayout/@gap", list);
 			} else {
-				assertXpathEvaluatesTo(String.valueOf(BIG_GAP), "//ui:panel/ui:listlayout/@gap", list);
+				assertXpathEvaluatesTo(BIG_GAP.toString(), "//ui:panel/ui:listlayout/@gap", list);
 			}
 		}
 	}

@@ -9,15 +9,21 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 import com.github.bordertech.wcomponents.layout.FlowLayout.ContentAlignment;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * <p>
  * This example demonstrates the {@link FlowLayout} layout.</p>
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class FlowLayoutExample extends WPanel {
+	/**
+	 * A nice readable space.
+	 */
+	private static final SpaceUtil.Size SPACE = SpaceUtil.Size.MEDIUM;
 
 	/**
 	 * Creates a FlowLayoutExample.
@@ -41,7 +47,7 @@ public class FlowLayoutExample extends WPanel {
 		// Left, with gap
 		add(new WHeading(HeadingLevel.H3, "Flow layout - left, horizontal gap"));
 		flowPanel = new WPanel();
-		flowPanel.setLayout(new FlowLayout(Alignment.LEFT, 6));
+		flowPanel.setLayout(new FlowLayout(Alignment.LEFT, SPACE));
 		add(flowPanel);
 		flowPanel.add(new WButton("Button 1 text"));
 		flowPanel.add(new WButton("B2"));
@@ -58,7 +64,7 @@ public class FlowLayoutExample extends WPanel {
 		// Right, with gap
 		add(new WHeading(HeadingLevel.H3, "Flow layout - right, horizontal gap"));
 		flowPanel = new WPanel();
-		flowPanel.setLayout(new FlowLayout(Alignment.RIGHT, 6));
+		flowPanel.setLayout(new FlowLayout(Alignment.RIGHT, SPACE));
 		add(flowPanel);
 		flowPanel.add(new WButton("Button 1 text"));
 		flowPanel.add(new WButton("B2"));
@@ -75,7 +81,7 @@ public class FlowLayoutExample extends WPanel {
 		// Center
 		add(new WHeading(HeadingLevel.H3, "Flow layout - center, horizontal gap"));
 		flowPanel = new WPanel();
-		flowPanel.setLayout(new FlowLayout(Alignment.CENTER, 6));
+		flowPanel.setLayout(new FlowLayout(Alignment.CENTER, SPACE));
 		add(flowPanel);
 		addBoxes(flowPanel, 5);
 		flowPanel.add(new WText("And some more text"));
@@ -89,13 +95,13 @@ public class FlowLayoutExample extends WPanel {
 
 		WPanel inner = new WPanel();
 		flowPanel.add(inner);
-		inner.setLayout(new FlowLayout(Alignment.VERTICAL, 6));
+		inner.setLayout(new FlowLayout(Alignment.VERTICAL, SPACE));
 		addBoxes(inner, 5);
 
 		// Content Alignment - TOP
 		add(new WHeading(HeadingLevel.H3, "Flow layout - center, horizontal gap, TOP"));
 		flowPanel = new WPanel();
-		flowPanel.setLayout(new FlowLayout(Alignment.CENTER, 6, ContentAlignment.TOP));
+		flowPanel.setLayout(new FlowLayout(Alignment.CENTER, SPACE, ContentAlignment.TOP));
 		add(flowPanel);
 		addBoxesWithDiffContent(flowPanel, 5);
 		flowPanel.add(new WText("some text"));
@@ -103,7 +109,7 @@ public class FlowLayoutExample extends WPanel {
 		// Content Alignment - MIDDLE
 		add(new WHeading(HeadingLevel.H3, "Flow layout - center, horizontal gap, MIDDLE"));
 		flowPanel = new WPanel();
-		flowPanel.setLayout(new FlowLayout(Alignment.CENTER, 6, ContentAlignment.MIDDLE));
+		flowPanel.setLayout(new FlowLayout(Alignment.CENTER, SPACE, ContentAlignment.MIDDLE));
 		add(flowPanel);
 		addBoxesWithDiffContent(flowPanel, 5);
 		flowPanel.add(new WText("some text"));
@@ -111,7 +117,7 @@ public class FlowLayoutExample extends WPanel {
 		// Content Alignment - BASELINE
 		add(new WHeading(HeadingLevel.H3, "Flow layout - center, horizontal gap, BASELINE"));
 		flowPanel = new WPanel();
-		flowPanel.setLayout(new FlowLayout(Alignment.CENTER, 6, ContentAlignment.BASELINE));
+		flowPanel.setLayout(new FlowLayout(Alignment.CENTER, SPACE, ContentAlignment.BASELINE));
 		add(flowPanel);
 		addBoxesWithDiffContent(flowPanel, 5);
 		flowPanel.add(new WText("some text"));
@@ -119,7 +125,7 @@ public class FlowLayoutExample extends WPanel {
 		// Content Alignment - BOTTOM
 		add(new WHeading(HeadingLevel.H3, "Flow layout - center, horizontal gap, BOTTOM"));
 		flowPanel = new WPanel();
-		flowPanel.setLayout(new FlowLayout(Alignment.CENTER, 6, ContentAlignment.BOTTOM));
+		flowPanel.setLayout(new FlowLayout(Alignment.CENTER, SPACE, ContentAlignment.BOTTOM));
 		add(flowPanel);
 		addBoxesWithDiffContent(flowPanel, 5);
 		flowPanel.add(new WText("some text"));

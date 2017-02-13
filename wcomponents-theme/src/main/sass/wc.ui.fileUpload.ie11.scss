@@ -1,7 +1,7 @@
 /* wc.ui.fileUpload.ie11.scss */
 @import 'mixins-common';
 
-.wc-fileupload .wc-file {
+.wc-multifileupload .wc-file {
 	padding-right: 3px; // IE11 cannot calc 100% - 1.333em and set a right pad in em at the same time. Useless POS.
 }
 

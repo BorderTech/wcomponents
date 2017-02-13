@@ -1,0 +1,18 @@
+@import 'mixins-common';
+
+// TODO: try to work WMenu Type TREE to be more like WTree so we can get rid of this.
+.wc-menu-type-tree {
+	.wc-menuitem {
+		padding: $wc-tree-item-pad;
+	}
+
+	.wc-submenu-o {
+		padding: $wc-tree-item-pad;
+	}
+
+	.wc_submenucontent {
+		margin-left: $wc-tree-indent;
+	}
+}
+
+@import 'wc.ui.menu.treeIcons';

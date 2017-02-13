@@ -17,21 +17,16 @@
 		position: absolute;
 		top: 0;
 
-		> :first-child {
-			padding-left: $wc-gap-small;
-			padding-right: $wc-gap-large;
-		}
-
 		&.wc_tree_root {
 			@include border($pos: left, $width: 0);
 			display: table;
 			left: 0;
 			position: relative;
-
-			> :first-child {
-				padding-left: 0;
-			}
 		}
+	}
+
+	[role='treeitem'] {
+		padding-right: $wc-gap-normal;
 	}
 
 	[aria-expanded='true'] > [role='group'] {
@@ -77,12 +72,12 @@
 
 // htree resize handles.
 .wc_branch_resize_handle {
-	@include padded-box($pad: 0 $wc-gap-small);
-	// bottom: 0;
+	@include content-box;
+	height: 100%;
 	position: absolute;
-	//right: 0;
 	right: -#{$wc-gap-normal};
 	top: 0;
+	width: $wc-gap-large;
 }
 
 @import 'wc.ui.htree.color';

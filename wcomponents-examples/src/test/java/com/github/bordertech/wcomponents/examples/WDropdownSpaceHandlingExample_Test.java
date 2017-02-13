@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.examples;
 import com.github.bordertech.wcomponents.WCheckBoxSelect;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
 import com.github.bordertech.wcomponents.util.TreeUtil;
 import java.util.List;
 import junit.framework.Assert;
@@ -20,7 +19,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class WDropdownSpaceHandlingExample_Test extends WComponentExamplesTestCase{
+public class WDropdownSpaceHandlingExample_Test extends WComponentExamplesTestCase {
 
 	/**
 	 * Construct test.

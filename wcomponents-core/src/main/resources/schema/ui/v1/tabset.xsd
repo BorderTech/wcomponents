@@ -4,7 +4,6 @@
 	<xs:include schemaLocation="attributeGroups.control.xsd" />
 
 	<xs:include schemaLocation="tab.xsd" />
-	<xs:include schemaLocation="separator.xsd" />
 	<xs:include schemaLocation="margin.xsd" />
 
 	<xs:element name="tabset">
@@ -41,26 +40,7 @@
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="ui:margin" minOccurs="0" />
-				<xs:choice maxOccurs="unbounded">
-					<xs:element ref="ui:tab" />
-					<xs:element name="tabgroup">
-						<xs:annotation>
-							<xs:documentation>Deprecated: do not use.</xs:documentation>
-						</xs:annotation>
-						<xs:complexType>
-							<xs:sequence>
-								<xs:element ref="ui:decoratedlabel" minOccurs="0" />
-								<xs:choice maxOccurs="unbounded">
-									<xs:element ref="ui:tab" />
-									<xs:element ref="ui:separator" />
-								</xs:choice>
-							</xs:sequence>
-							<xs:attribute name="id" use="required" type="xs:ID" />
-							<xs:attribute name="disabled" type="xs:boolean" />
-						</xs:complexType>
-					</xs:element>
-					<xs:element ref="ui:separator" />
-				</xs:choice>
+				<xs:element ref="ui:tab" maxOccurs="unbounded"/>
 			</xs:sequence>
 			<xs:attributeGroup ref="ui:interaction.attributes" />
 

@@ -1,23 +1,14 @@
-/**
- * @module
- * @requires module:wc/dom/tag
- * @requires module:wc/dom/Widget
- * @requires module:wc/array/toArray
- */
 define(["wc/dom/tag",
 		"wc/dom/Widget",
-		"wc/array/toArray"],
-	/** @param tag wc/dom/tag @param Widget wc/dom/Widget @param toArray wc/array/toArray @ignore */
-	function(tag, Widget, toArray) {
+		"wc/array/toArray",
+		"wc/dom/wrappedInput"],
+	function(tag, Widget, toArray, wrappedInput) {
 		"use strict";
 
 		var LABELABLE = [tag.INPUT, tag.SELECT, tag.TEXTAREA, tag.PROGRESS],
 			FIELDSET,
 			LEGEND,
-			WRAPPER,
-			INPUT,
 			LABEL;
-
 
 		/**
 		 * Get labels and/or standins suing querySelector.
@@ -49,9 +40,7 @@ define(["wc/dom/tag",
 			if (includeReadOnly) {
 				result = doLabelQuery(element, result, true);
 			}
-			INPUT = INPUT || new Widget(tag.INPUT);
-			_input = INPUT.findDescendant(element);
-			if (_input) {
+			if ((_input = wrappedInput.getInput(element))) {
 				return doLabelQuery(_input, result);
 			}
 			return result;
@@ -85,13 +74,12 @@ define(["wc/dom/tag",
 				label,
 				tagName;
 
-			FIELDSET = FIELDSET || new Widget(tag.FIELDSET);
-			WRAPPER = WRAPPER ||  new Widget("", "wc_input_wrapper");
 
-			if (WRAPPER.isOneOfMe(element)) {
+			if (wrappedInput.isOneOfMe(element)) {
 				return getLabelsForWrapper(element, includeReadOnly);
 			}
 
+			FIELDSET = FIELDSET || new Widget(tag.FIELDSET);
 			if (FIELDSET.isOneOfMe(element)) {
 				LEGEND = LEGEND || new Widget("legend");
 				if ((label = LEGEND.findDescendant(element, true))) {
@@ -113,6 +101,12 @@ define(["wc/dom/tag",
 
 			return [];
 		}
-
+		/**
+		 * @module
+		 * @requires module:wc/dom/tag
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/array/toArray
+		 * @requires module:wc/dom/wrappedInput
+		 */
 		return getLabels;
 	});

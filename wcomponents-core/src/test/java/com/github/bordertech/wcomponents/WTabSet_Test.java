@@ -374,27 +374,6 @@ public class WTabSet_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Test addSeparator.
-	 */
-	@Test
-	public void testAddSeparator() {
-		WTabSet tabset = new WTabSet();
-		WComponent content = new DefaultWComponent();
-		WDecoratedLabel label = new WDecoratedLabel("label");
-		WTabSet.TabMode mode = WTabSet.TabMode.DYNAMIC;
-		tabset.addTab(content, label, mode);
-
-		Assert.
-				assertEquals("first child should be the tab already added", 1, tabset.
-						getChildCount());
-		tabset.addSeparator();
-		Assert.assertEquals("there should be two children", 2, tabset.getChildCount());
-		Assert
-				.assertTrue("second child should be the separator just added",
-						tabset.getChildAt(1) instanceof WSeparator);
-	}
-
-	/**
 	 * Test getActiveIndex - without and with tabs in tabset.
 	 */
 	@Test

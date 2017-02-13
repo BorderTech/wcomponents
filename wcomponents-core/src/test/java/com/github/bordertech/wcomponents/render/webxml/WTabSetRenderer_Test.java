@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.WTabSet;
 import com.github.bordertech.wcomponents.WTabSet.TabMode;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -70,23 +71,14 @@ public class WTabSetRenderer_Test extends AbstractWebXmlRendererTestCase {
 		tabSet.setMargin(margin);
 		assertXpathNotExists("//ui:tabset/ui:margin", tabSet);
 
-		margin = new Margin(1);
+		margin = new Margin(SpaceUtil.Size.SMALL);
 		tabSet.setMargin(margin);
 		assertSchemaMatch(tabSet);
-		assertXpathEvaluatesTo("1", "//ui:tabset/ui:margin/@all", tabSet);
+		assertXpathEvaluatesTo("sm", "//ui:tabset/ui:margin/@all", tabSet);
 		assertXpathEvaluatesTo("", "//ui:tabset/ui:margin/@north", tabSet);
 		assertXpathEvaluatesTo("", "//ui:tabset/ui:margin/@east", tabSet);
 		assertXpathEvaluatesTo("", "//ui:tabset/ui:margin/@south", tabSet);
 		assertXpathEvaluatesTo("", "//ui:tabset/ui:margin/@west", tabSet);
-
-		margin = new Margin(1, 2, 3, 4);
-		tabSet.setMargin(margin);
-		assertSchemaMatch(tabSet);
-		assertXpathEvaluatesTo("", "//ui:tabset/ui:margin/@all", tabSet);
-		assertXpathEvaluatesTo("1", "//ui:tabset/ui:margin/@north", tabSet);
-		assertXpathEvaluatesTo("2", "//ui:tabset/ui:margin/@east", tabSet);
-		assertXpathEvaluatesTo("3", "//ui:tabset/ui:margin/@south", tabSet);
-		assertXpathEvaluatesTo("4", "//ui:tabset/ui:margin/@west", tabSet);
 	}
 
 	@Test

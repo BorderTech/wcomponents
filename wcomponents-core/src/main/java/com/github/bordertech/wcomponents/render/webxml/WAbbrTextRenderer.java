@@ -25,11 +25,11 @@ final class WAbbrTextRenderer extends AbstractWebXmlRenderer {
 		WAbbrText abbrText = (WAbbrText) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 
-		xml.appendTagOpen("ui:abbr");
-		xml.appendOptionalAttribute("toolTip", abbrText.getToolTip());
+		xml.appendTagOpen("abbr");
+		xml.appendOptionalAttribute("title", abbrText.getToolTip());
 		xml.appendOptionalAttribute("class", abbrText.getHtmlClass());
 		xml.appendClose();
 		xml.append(abbrText.getText(), abbrText.isEncodeText());
-		xml.appendEndTag("ui:abbr");
+		xml.appendEndTag("abbr");
 	}
 }

@@ -56,11 +56,29 @@ textarea {
 
 /// Read-only
 /// Display and box sizing is to make them the more akin to the editable element (input, textarea or select).
-.wc_ro {
+.wc-input-wrapper,
+.wc-ro-input {
 	@include border-box;
 	display: inline-block;
 	max-width: 100%;
+}
+
+.wc-ro-input {
 	word-break: break-all;
+}
+
+form {
+	// opacity: 1;
+	@if ($wc-app-usefade == 1) {
+		transition-delay: 0s;
+		transition-duration: $wc-app-fadeduration;
+		transition-property: opacity;
+		transition-timing-function: ease-in-out;
+	}
+
+	&.wc-loading {
+		opacity: 0;
+	}
 }
 
 @import 'wc.common.buttons';

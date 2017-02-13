@@ -26,7 +26,6 @@ import com.github.bordertech.wcomponents.examples.petstore.model.PetStoreDao;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
-import com.github.bordertech.wcomponents.validation.WFieldErrorIndicator;
 import com.github.bordertech.wcomponents.validator.AbstractFieldValidator;
 import java.text.DecimalFormat;
 
@@ -206,7 +205,6 @@ public class ConfirmOrderPanel extends WBeanContainer {
 			}
 
 			WContainer fieldAndIndicator = new WContainer();
-			fieldAndIndicator.add(new WFieldErrorIndicator(field));
 			fieldAndIndicator.add(field);
 			add(fieldAndIndicator);
 		}

@@ -34,48 +34,48 @@ public class WMultiFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCas
 
 		assertSchemaMatch(fileUpload);
 
-		assertXpathEvaluatesTo(fileUpload.getId(), "//ui:fileupload/@id", fileUpload);
-		assertXpathEvaluatesTo("10240000", "//ui:fileupload/@maxFileSize", fileUpload);
+		assertXpathEvaluatesTo(fileUpload.getId(), "//ui:multifileupload/@id", fileUpload);
+		assertXpathEvaluatesTo("10240000", "//ui:multifileupload/@maxFileSize", fileUpload);
 
-		assertXpathNotExists("//ui:fileupload/@disabled", fileUpload);
-		assertXpathNotExists("//ui:fileupload/@hidden", fileUpload);
-		assertXpathNotExists("//ui:fileupload/@required", fileUpload);
-		assertXpathNotExists("//ui:fileupload/@readOnly", fileUpload);
-		assertXpathNotExists("//ui:fileupload/@toolTip", fileUpload);
-		assertXpathNotExists("//ui:fileupload/@accessibleText", fileUpload);
-		assertXpathNotExists("//ui:fileupload/@acceptedMimeTypes", fileUpload);
-		assertXpathNotExists("//ui:fileupload/@maxFiles", fileUpload);
-		assertXpathNotExists("//ui:fileupload/ui:file", fileUpload);
+		assertXpathNotExists("//ui:multifileupload/@disabled", fileUpload);
+		assertXpathNotExists("//ui:multifileupload/@hidden", fileUpload);
+		assertXpathNotExists("//ui:multifileupload/@required", fileUpload);
+		assertXpathNotExists("//ui:multifileupload/@readOnly", fileUpload);
+		assertXpathNotExists("//ui:multifileupload/@toolTip", fileUpload);
+		assertXpathNotExists("//ui:multifileupload/@accessibleText", fileUpload);
+		assertXpathNotExists("//ui:multifileupload/@acceptedMimeTypes", fileUpload);
+		assertXpathNotExists("//ui:multifileupload/@maxFiles", fileUpload);
+		assertXpathNotExists("//ui:multifileupload/ui:file", fileUpload);
 
 		fileUpload.setDisabled(true);
 		assertSchemaMatch(fileUpload);
-		assertXpathEvaluatesTo("true", "//ui:fileupload/@disabled", fileUpload);
+		assertXpathEvaluatesTo("true", "//ui:multifileupload/@disabled", fileUpload);
 
 		setFlag(fileUpload, ComponentModel.HIDE_FLAG, true);
 		assertSchemaMatch(fileUpload);
-		assertXpathEvaluatesTo("true", "//ui:fileupload/@hidden", fileUpload);
+		assertXpathEvaluatesTo("true", "//ui:multifileupload/@hidden", fileUpload);
 
 		fileUpload.setMandatory(true);
 		assertSchemaMatch(fileUpload);
-		assertXpathEvaluatesTo("true", "//ui:fileupload/@required", fileUpload);
+		assertXpathEvaluatesTo("true", "//ui:multifileupload/@required", fileUpload);
 
 		fileUpload.setToolTip("tooltip");
 		assertSchemaMatch(fileUpload);
-		assertXpathEvaluatesTo(fileUpload.getToolTip(), "//ui:fileupload/@toolTip", fileUpload);
+		assertXpathEvaluatesTo(fileUpload.getToolTip(), "//ui:multifileupload/@toolTip", fileUpload);
 
 		fileUpload.setAccessibleText("accessible");
 		assertSchemaMatch(fileUpload);
-		assertXpathEvaluatesTo(fileUpload.getAccessibleText(), "//ui:fileupload/@accessibleText",
+		assertXpathEvaluatesTo(fileUpload.getAccessibleText(), "//ui:multifileupload/@accessibleText",
 				fileUpload);
 
 		fileUpload.setFileTypes(new String[]{"a/b", "c/d"});
-		assertXpathEvaluatesTo("a/b,c/d", "//ui:fileupload/@acceptedMimeTypes", fileUpload);
+		assertXpathEvaluatesTo("a/b,c/d", "//ui:multifileupload/@acceptedMimeTypes", fileUpload);
 
 		fileUpload.setMaxFileSize(12345);
-		assertXpathEvaluatesTo("12345", "//ui:fileupload/@maxFileSize", fileUpload);
+		assertXpathEvaluatesTo("12345", "//ui:multifileupload/@maxFileSize", fileUpload);
 
 		fileUpload.setMaxFiles(11);
-		assertXpathEvaluatesTo("11", "//ui:fileupload/@maxFiles", fileUpload);
+		assertXpathEvaluatesTo("11", "//ui:multifileupload/@maxFiles", fileUpload);
 
 		// Test file rendering
 		MockFileItem fileItem = new MockFileItem();
@@ -87,12 +87,12 @@ public class WMultiFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCas
 
 		fileUpload.setData(Arrays.asList(file));
 		assertSchemaMatch(fileUpload);
-		assertXpathEvaluatesTo("1", "count(//ui:fileupload/ui:file)", fileUpload);
-		assertXpathEvaluatesTo("X", "//ui:fileupload/ui:file/@id", fileUpload);
-		assertXpathEvaluatesTo(fileItem.getName(), "//ui:fileupload/ui:file/@name", fileUpload);
-		assertXpathEvaluatesTo(fileItem.getContentType(), "//ui:fileupload/ui:file/@type",
+		assertXpathEvaluatesTo("1", "count(//ui:multifileupload/ui:file)", fileUpload);
+		assertXpathEvaluatesTo("X", "//ui:multifileupload/ui:file/@id", fileUpload);
+		assertXpathEvaluatesTo(fileItem.getName(), "//ui:multifileupload/ui:file/@name", fileUpload);
+		assertXpathEvaluatesTo(fileItem.getContentType(), "//ui:multifileupload/ui:file/@type",
 				fileUpload);
-		assertXpathEvaluatesTo(String.valueOf(fileItem.getSize()), "//ui:fileupload/ui:file/@size",
+		assertXpathEvaluatesTo(String.valueOf(fileItem.getSize()), "//ui:multifileupload/ui:file/@size",
 				fileUpload);
 	}
 
@@ -101,20 +101,20 @@ public class WMultiFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCas
 		WMultiFileWidget fileUpload = new WMultiFileWidget();
 		fileUpload.setReadOnly(true);
 		assertSchemaMatch(fileUpload);
-		assertXpathEvaluatesTo("true", "//ui:fileupload/@readOnly", fileUpload);
+		assertXpathEvaluatesTo("true", "//ui:multifileupload/@readOnly", fileUpload);
 	}
 
 	@Test
 	public void testXssEscaping() throws IOException, SAXException, XpathException {
 		WMultiFileWidget fileUpload = new WMultiFileWidget();
-		fileUpload.setFileTypes(new String[]{getMaliciousAttribute("ui:fileupload")});
+		fileUpload.setFileTypes(new String[]{getMaliciousAttribute("ui:multifileupload")});
 
 		assertSafeContent(fileUpload);
 
-		fileUpload.setToolTip(getMaliciousAttribute("ui:fileupload"));
+		fileUpload.setToolTip(getMaliciousAttribute("ui:multifileupload"));
 		assertSafeContent(fileUpload);
 
-		fileUpload.setAccessibleText(getMaliciousAttribute("ui:fileupload"));
+		fileUpload.setAccessibleText(getMaliciousAttribute("ui:multifileupload"));
 		assertSafeContent(fileUpload);
 	}
 }

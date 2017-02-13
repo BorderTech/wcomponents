@@ -1,18 +1,3 @@
-/**
- * Provides functionality to undertake client validation of WFileWidget and WMultiFileWidget.
- *
- * @module wc/ui/validation/fileUpload
- * @requires module:wc/dom/attribute
- * @requires module:wc/dom/event
- * @requires module:wc/dom/initialise
- * @requires module:wc/i18n/i18n
- * @requires module:wc/ui/getFirstLabelForElement
- * @requires module:wc/dom/Widget
- * @requires module:wc/ui/validation/isComplete
- * @requires module:wc/ui/validation/validationManager
- * @requires module:wc/ui/validation/required
- * @requires module:wc/ui/multiFileUploader
- */
 define(["wc/dom/attribute",
 		"wc/dom/event",
 		"wc/dom/initialise",
@@ -23,7 +8,6 @@ define(["wc/dom/attribute",
 		"wc/ui/validation/validationManager",
 		"wc/ui/validation/required",
 		"wc/ui/multiFileUploader"],
-	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param i18n wc/i18n/i18n @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param Widget wc/dom/Widget @param isComplete wc/ui/validation/isComplete @param validationManager wc/ui/validation/validationManager @param required wc/ui/validation/required @param multiFileUploader wc/ui/multiFileUploader @ignore */
 	function(attribute, event, initialise, i18n, getFirstLabelForElement, Widget, isComplete, validationManager, required, multiFileUploader) {
 		"use strict";
 		/**
@@ -35,7 +19,7 @@ define(["wc/dom/attribute",
 			var INITED_KEY = "validation.multiFileUploader.inited",
 				CONTAINER = multiFileUploader.getWidget(),
 				INPUT_ELEMENT = multiFileUploader.getInputWidget(),
-				FILE_ELEMENT = new Widget("INPUT", "", {type: "checkbox"});
+				FILE_ELEMENT = new Widget("", "wc-file");
 
 			/**
 			 * Validates all file upload controls within a container.
@@ -59,7 +43,6 @@ define(["wc/dom/attribute",
 						messageFunc: _messageFunc};
 				return required.complexValidationHelper(obj);
 			}
-
 
 			/**
 			 * A WMultiFileWidget which is required will be valid if a "file" is present, even if unselected.  A
@@ -145,7 +128,22 @@ define(["wc/dom/attribute",
 			};
 		}
 
-		var /** @alias module:wc/ui/validation/fileUpload */ instance = new ValidationFileUpload();
+		/**
+		 * Provides functionality to undertake client validation of WFileWidget and WMultiFileWidget.
+		 *
+		 * @module
+		 * @requires module:wc/dom/attribute
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/i18n/i18n
+		 * @requires module:wc/ui/getFirstLabelForElement
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/ui/validation/isComplete
+		 * @requires module:wc/ui/validation/validationManager
+		 * @requires module:wc/ui/validation/required
+		 * @requires module:wc/ui/multiFileUploader
+		 */
+		var instance = new ValidationFileUpload();
 		initialise.register(instance);
 		return instance;
 	});

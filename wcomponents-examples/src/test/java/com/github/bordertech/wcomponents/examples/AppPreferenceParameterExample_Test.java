@@ -1,22 +1,23 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
+import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import com.github.bordertech.wcomponents.util.Config;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.WebDriver;
 
 /**
  * Selenium unit tests for {@link AppPreferenceParameterExample}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class AppPreferenceParameterExample_Test extends WComponentExamplesTestCase{
+public class AppPreferenceParameterExample_Test extends WComponentExamplesTestCase {
 
 	/**
 	 * Creates a new AppPreferenceParameterExample_Test.
@@ -28,7 +29,7 @@ public class AppPreferenceParameterExample_Test extends WComponentExamplesTestCa
 	@Test
 	public void testExample() {
 		// Launch the web browser to the LDE
-		WebDriver driver = getDriver();
+		SeleniumWComponentsWebDriver driver = getDriver();
 
 		// Note: When deployed to portal, the parameter "portlet.wcomponents-examples.example.preferred.state" will be used.
 		String preferenceParam = Config.getInstance().getString("example.preferred.state");

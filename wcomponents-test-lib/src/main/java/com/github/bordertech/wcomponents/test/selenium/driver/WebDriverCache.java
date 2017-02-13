@@ -67,7 +67,8 @@ public final class WebDriverCache {
 	 * thread-safe {@link org.openqa.selenium.support.ThreadGuard}, so using a
 	 * ThreadLocal provides an additional level of protection.
 	 */
-	private static final ThreadLocal<Map<String, SeleniumWComponentsWebDriver>> RUNNING_DRIVERS = new ThreadLocal<Map<String, SeleniumWComponentsWebDriver>>() {
+	private static final ThreadLocal<Map<String, SeleniumWComponentsWebDriver>> RUNNING_DRIVERS =
+			new ThreadLocal<Map<String, SeleniumWComponentsWebDriver>>() {
 		/**
 		 * @return an empty HashMap as the initial value.
 		 */

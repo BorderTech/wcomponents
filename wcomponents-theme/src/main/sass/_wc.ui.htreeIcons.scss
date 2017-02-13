@@ -8,6 +8,6 @@
 	cursor: ew-resize;
 
 	&:before {
-		content: $fa-var-arrows-h;
+		content: '';// $fa-var-arrows-h;
 	}
 }

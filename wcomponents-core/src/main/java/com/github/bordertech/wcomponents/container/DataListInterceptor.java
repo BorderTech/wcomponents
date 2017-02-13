@@ -76,7 +76,7 @@ public class DataListInterceptor extends InterceptorComponent {
 		response.setHeader("Cache-Control", CacheType.DATALIST_CACHE.getSettings());
 
 		XmlStringBuilder xml = new XmlStringBuilder(((WebXmlRenderContext) renderContext).getWriter());
-		xml.write(XMLUtil.XML_DECLERATION);
+		xml.write(XMLUtil.XML_DECLARATION);
 
 		if (data != null) {
 			xml.appendTagOpen("ui:datalist");

@@ -16,7 +16,6 @@
  * @requires module:wc/dom/getAncestorOrSelf
  * @requires module:wc/dom/shed
  * @requires module:wc/dom/Widget
- * @requires module:wc/dom/cancelUpdate
  *
  * @todo reorder code, document private members.
  * @todo OK so we have a melange, a trifle, a veritable stone soup of functions on the prototype chain and public
@@ -44,12 +43,7 @@ define(["wc/dom/event",
 			 * @alias module:wc/dom/formUpdateManager
 			 */
 			formUpdateManager,
-			cancelUpdate,
 			FILESELECTORWD;
-
-		require(["wc/dom/cancelUpdate"], function(canUp) {
-			cancelUpdate = canUp;  // prevent circular dependencies
-		});
 
 		/**
 		 * @constructor
@@ -133,17 +127,15 @@ define(["wc/dom/event",
 				var result = true,
 					stateContainer,
 					_container = container;
+				if (!ignoreForm) {
+					_container = getAncestorOrSelf(_container, FORM);
+				}
+
+				checkEnctype(_container);
+				stateContainer = this.getStateContainer(_container);
+				this.clean(_container);
 				if (observer) {
-					if (!ignoreForm) {
-						_container = getAncestorOrSelf(_container, FORM);
-					}
-					result = cancelUpdate ? (!(cancelUpdate.cancelSubmission(_container))) : true;
-					if (result) {
-						checkEnctype(_container);
-						stateContainer = this.getStateContainer(_container);
-						this.clean(_container);
-						observer.notify((region || _container), stateContainer);  // arg1 = "from", arg2 ="to"
-					}
+					observer.notify((region || _container), stateContainer);  // arg1 = "from", arg2 ="to"
 				}
 				return result;
 			};

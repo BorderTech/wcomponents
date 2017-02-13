@@ -60,7 +60,6 @@ final class WTableRowRendererRenderer extends AbstractWebXmlRenderer {
 		xml.appendAttribute("rowIndex", rowIndexAsString);
 		xml.appendOptionalAttribute("unselectable", !rowSelectable, "true");
 		xml.appendOptionalAttribute("selected", rowSelected, "true");
-		xml.appendOptionalAttribute("disabled", dataModel.isDisabled(rowIndex), "true");
 		xml.appendOptionalAttribute("expandable", rowExpandable && !rowExpanded, "true");
 		xml.appendClose();
 

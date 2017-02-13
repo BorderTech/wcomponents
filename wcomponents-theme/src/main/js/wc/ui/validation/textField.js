@@ -8,9 +8,8 @@ define(["wc/dom/initialise",
 		"wc/ui/dateField",
 		"wc/ui/validation/required",
 		"wc/ui/validation/validationManager",
-		"wc/ui/textField",
 		"wc/config"],
-	function(initialise, Widget, i18n, attribute, event, getFirstLabelForElement, sprintf, dateField, required, validationManager, textField, wcconfig) {
+	function(initialise, Widget, i18n, attribute, event, getFirstLabelForElement, sprintf, dateField, required, validationManager, wcconfig) {
 		"use strict";
 		/**
 		 * @constructor
@@ -22,12 +21,19 @@ define(["wc/dom/initialise",
 				TEXT = INPUT.extend("", {type: "text"}),
 				EMAIL = INPUT.extend("", {type: "email"}),
 				BOOTSTRAPPED = "validation.textInput.bs",
-				INPUT_WIDGETS = textField.getWidget(),
+				INPUT_WIDGETS,
 				WITH_PATTERN,
 				PATTERNS,
 				WITH_MIN,
 				DEFAULT_RX = /^(?:\".+\"|[a-zA-Z0-9\.!#\$%&'\*\+/=\?\^_`\{\|\}~]+)@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/,
 				RX_STRING = "";
+
+			function setUpWidgets() {
+				var types = ["password", "tel", "file"];  // input types which are not needed for validation other than mandatory-ness.
+				INPUT_WIDGETS = (types.map(function(next) {
+					return INPUT.extend("", {"type": next});
+				})).concat(EMAIL);  // we do not include type text here, we have to do special processing with it
+			}
 
 			/**
 			 * Test for an input which we are interested in.
@@ -37,6 +43,9 @@ define(["wc/dom/initialise",
 			 * @returns {Boolean} true if the element is an input which we need to test.
 			 */
 			function isValidatingInput(element) {
+				if (!INPUT_WIDGETS) {
+					setUpWidgets();
+				}
 				return Widget.isOneOfMe(element, INPUT_WIDGETS) || (TEXT.isOneOfMe(element) && !dateField.isOneOfMe(element));
 			}
 
@@ -121,7 +130,6 @@ define(["wc/dom/initialise",
 				return result;
 			}
 
-
 			/**
 			 * Validates all of the constrained fields we are interested in in a given container.
 			 * @function
@@ -131,24 +139,24 @@ define(["wc/dom/initialise",
 			 * @returns {Boolean} true if the container is valid.
 			 */
 			function validate(container) {
+				if (!INPUT_WIDGETS) {
+					setUpWidgets();
+				}
 				var candidates,
 					_requiredTextFields = true,
-					validConstrained = true;
-
-				function _getWrapper(element) {
-					if (element.type === "password") {
-						return element;
-					}
-					return element.parentNode;
-				}
+					validConstrained = true,
+					helperObj = {container: container,
+								widget: INPUT_WIDGETS.concat(TEXT),
+								filter: function(next) {
+									return !(dateField.isOneOfMe(next) || next.value);
+								},
+								attachTo: function (element) {
+									return element.parentNode;
+								}
+							};
 
 				/* This does required validation for all text-style inputs apart from date fields.*/
-				_requiredTextFields = required.complexValidationHelper({container: container,
-																		widget: INPUT_WIDGETS.concat(TEXT),
-																		filter: function(next) {
-																			return !(dateField.isOneOfMe(next) || next.value);
-																		},
-																		attachTo: _getWrapper});
+				_requiredTextFields = required.complexValidationHelper(helperObj);
 
 				// do the constraint tests
 				WITH_PATTERN = WITH_PATTERN || INPUT.extend("", {"pattern": null});

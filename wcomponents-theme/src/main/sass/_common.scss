@@ -55,8 +55,6 @@ $wc-button-include-helper-classes: 1 !default;
 // and cross-platform consistency but it _may_ make your buttons ugly if you are a hard-core OS X user. We recommend
 // leaving this at 1 - it will save you some grief.
 $wc-button-rationalise-text-styles: 1 !default;
-// If this next var == 1 and the previous var is not == 1 you can apply inherited font metrics _just_ to OS X.
-$wc-button-rationalise-text-styles-mac: 0 !default;
 // Set to 1 top turn on "invite" styles for all buttons. If you do this you _will_ want to set borders and default
 // backgrounds because this will add hover/focus backgrounds.
 $wc-button-use-invite: 0 !default;
@@ -68,8 +66,8 @@ $wc-button-use-invite: 0 !default;
 // in Sass calculations. The gap sizes and icon sizes must be in the same units.
 //**********************************************************************************************************************
 //**********************************************************************************************************************
-// The list of class suffixes. There is no point rewriting this unless you rewrite the XSLT.
-$wc-gap-suffix-list: sm, med, lg, xl !default;
+// The list of class suffixes. There is no point rewriting this unless you rewrite the Java and XSLT.
+$wc-gap-suffix-list: z, sm, med, lg, xl;
 // Common spacing variables. There should be a gap per entry in the list
 $wc-gap-small: 0.25rem !default;
 $wc-gap-normal: 0.5rem !default;
@@ -175,6 +173,9 @@ $wc-common-busy-size: $wc-icon-normal !default;
 // If you set this to 0 then it has the same effect as visibility:hidden but without the support for obsolete browsers.
 // You can ignore this, and leave everything as is, by setting this to 1 or more.
 $wc-common-busy-content-opacity: 0.25 !default;
+$wc-common-busy-content-usefade: 1 !default;
+$wc-common-busy-content-fadeduration: 1s !default;
+
 
 
 //**********************************************************************************************************************
@@ -218,7 +219,11 @@ $wc-section-space-header-reduced: $wc-section-space-reduced !default;
 // Variables for specific components
 //**********************************************************************************************************************
 //**********************************************************************************************************************
-
+//**********************************************************************************************************************
+// WApplication
+//**********************************************************************************************************************
+$wc-app-usefade: 1 !default;
+$wc-app-fadeduration: 1s !default;
 //**********************************************************************************************************************
 // ListLayout
 //**********************************************************************************************************************
@@ -259,6 +264,10 @@ $wc-ui-dialog-transition-duration: 0.5s !default;
 //**********************************************************************************************************************
 // WFieldLayout
 //**********************************************************************************************************************
+// Allow output of CSS to support `ordered` WFieldLayouts. This is not recommended **AT ALL**. Set to 1 to use, any
+// other value to not build the CSS required to output the numbering.
+$wc-fieldlayout-allow-ordered: 1 !default;
+
 // Force all WFieldLayouts to be LAYOUT_STACKED. This will annoy many people but will improve accessibilty **and** save
 // a lot of CSS.
 //
@@ -267,25 +276,49 @@ $wc-ui-dialog-transition-duration: 0.5s !default;
 //
 // If this is not 0 then none of the other settings in this group are applied.
 $wc-fieldlayout-force-stack: 0 !default;
+// NOTE all WFieldLayouts are fored to STACKED appearance on narrow viewports to improve usability.
+
+// If `$wc-fieldlayout-force-stack` is set to 0 we can still decide what values of labelWidth are to be honoured. We
+// need a default width (which will determine the label width for any value set in Java which is not supported in
+// your theme) and may then choose to support some or all other options. It takes a **lot** of CSS to support each value
+// so **only** include those values you really need to support.
+
+// The label width of a FLAT field layout with default width.
+// This must be a percent between 0 and 100. 25, 33, 50 are recommended options.
+$wc-fieldlayout-default-label-width: 50% !default;
+
+// If this is set to 0 then Java labelWidth settings will be honoured according to the values of `$wc-fld-list` and
+// `$wc-fld-widths-include-fives` (see below). If set to anything other than 0 then _only_ the default labelWidth
+// will be honoured, saving a LOT of CSS. This is the same as having an empty list in `$wc-fld-list`.
+$wc-fieldlayout-labelwidth-prevent-override: 0 !default;
+
+// This allows a theme to support indent of WFieldLayout Layout_STACKED with labelWidth set. A value of 1 is required to
+// support the old behaviour (which was to support indent). If `$wc-fieldlayout-force-stack` is set to anything other
+// than 0 then this is ignored and labelWidth is always ignored.
+//
+// NOTE: The indent was originally intended to make it possible to intersperse FLAT and STACKED WFieldLayouts to allow
+//for unneccessarily long label text but keep the INPUT controls lined up.
+$wc-fieldlayout-stack-allow-indent: 1 !default;
 
 // This defines a list of labelWidth settings to honour.
-// * If this variable consists of the single value -1 then all label Widths from 1% to 100% will be used at the cost of
-//   **much** more CSS.
-// * If the variable is set to the single value 0 then label widths which are a positive integer multiple of of 5% will
-//   be used.
-// * Otherwise label widths which are a multiple of 5 _or_ in this list will be honoured. Do not duplicate multiples of
-//   5 in this list.
-//
-// This setting will give you all width which are multiple of 5% plus those listed
+// * If this variable consists of the single value -1 then all label widths from 1% to 100% will be used at the cost of
+//   **much** more CSS. Variable `$wc-fld-widths-include-fives` is ignored.
+// * If this variable is set to the single value 0 then it is ignored. Widths which are multiples of 5% can still be
+//   used if `$wc-fld-widths-include-fives` is set to 1.
+// * Otherwise label widths which are in this list will be honoured. Do not duplicate multiples of 5 in this list if
+// `$wc-fld-widths-include-fives` is set to 1.
 $wc-fld-list: 16, 33, 34, 66, 67, 83 !default;
+// This is an ease-of-use helper for `$wc-fld-list` which, if set to 1, will ensure WFieldLayout labelWidth includes all
+// multiples of 5%. This is ignored if `$wc-fld-list` is set to -1.
+$wc-fld-widths-include-fives: 1 !default;
+// NOTE: This is the same as
+// $wc-fld-list: 5, 10, 15, 16, 20, 25, 30, 33, 34, 35, ... 65, 66, 67, 70, 75, 80, 83, 85 ... 95, 100 but much shorter!
+//
 // If you use the following version you get all multiple of 5% only
 // $wc-fld-list: 0;
+// $wc-fld-widths-include-fives: 1;
 // If you use the following version you get all widths from 1% to 100% and that is a LOT of CSS
 // $wc-fld-list: -1;
-
-// The label width of a flat field layout with default width. This must be a percent between 0 and 100. 25, 33, 50 are
-// recommended options. Do not pick one if it is not in the label width values you support (see above).
-$wc-fieldlayout-default-label-width: 50% !default;
 
 //**********************************************************************************************************************
 // WHeading
@@ -332,7 +365,7 @@ $wc-menu-tree-iconwidth: $wc-icon-normal !default;
 // WTable
 //**********************************************************************************************************************
 // Do we want the sort icon at the top, middle or bottom of the header?
-$wc-table-sort-icon-pos: top;
+$wc-table-sort-icon-pos: top !default;
 //**********************************************************************************************************************
 // WTabSet
 //**********************************************************************************************************************
@@ -340,6 +373,10 @@ $wc-table-sort-icon-pos: top;
 // This _should_ be a percentage, otherwise you will have to manipulate the IE9 Sass.
 $wc-tabset-left-right-tab-width: 15% !default;
 $wc-tabset-border-radius: $wc-gap-small !default;
+
+// Allow left and right tabset styles
+// 1 = allow, anything else = disallow.
+$wc-tabset-allow-left-right: 1 !default;
 
 //**********************************************************************************************************************
 // WTree
@@ -364,6 +401,3 @@ $wc-htree-branch-width-lame: 10rem !default;
 $wc-togglebutton-width: 2 * $wc-icon-normal !default;
 $wc-togglebutton-transition: all 0.4s ease !default;
 $wc-togglebutton-transition-slider: left 0.3s cubic-bezier(0.175, 0.885, 0.320, 1.275), padding 0.3s ease, margin 0.3s ease !default;
-// calculated vars
-$wc-togglebutton-double-border-width: 2 * $wc-border-width;
-$wc-togglebutton-slider-width: $wc-togglebutton-width / 2;

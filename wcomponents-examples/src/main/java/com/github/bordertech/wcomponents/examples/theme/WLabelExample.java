@@ -191,7 +191,8 @@ public class WLabelExample extends WPanel {
 		WImage labelImage = new WImage("/image/success.png", "I still like bananas");
 		labelImage.setHtmlClass("wc-valign-bottom");
 		rb1Label.add(labelImage);
-		WLabel rb2Label = new WLabel("", rb2);labelImage = new WImage("/image/error.png", "I still dislike bananas");
+		WLabel rb2Label = new WLabel("", rb2);
+		labelImage = new WImage("/image/error.png", "I still dislike bananas");
 		labelImage.setHtmlClass("wc-valign-bottom");
 		rb2Label.add(labelImage);
 		// Now it gets confusing. We want the radio buttons to flow with their labels but be apart from each other...
@@ -326,12 +327,26 @@ public class WLabelExample extends WPanel {
 		errorLayoutPanel.add(nestingErrorPanel);
 		nestingErrorPanel.add(myFieldLabel);
 		nestingErrorPanel.add(myField);
+
 		//adding the 'wrong' WTextField to a WLabel is what causes this error
 		myFieldLabel.add(notMyField);
+
 		add(new ExplanatoryText("The next field has a label explicitly set to only white space."));
 		WTextField emptyLabelTextField = new WTextField();
 		WLabel emptyLabel = new WLabel(" ", emptyLabelTextField);
 		add(emptyLabel);
 		add(emptyLabelTextField);
+
+		add(new WHeading(HeadingLevel.H2, "Unlabelled controls"));
+		add(new ExplanatoryText("These controls must be labelled but are not."));
+		fieldsFlat = new WFieldLayout();
+		add(fieldsFlat);
+		fieldsFlat.addField((WLabel) null, new WTextField());
+		fieldsFlat.addField((WLabel) null, new WTextArea());
+		fieldsFlat.addField((WLabel) null, new WDateField());
+		fieldsFlat.addField((WLabel) null, new WCheckBox());
+		fieldsFlat.addField((WLabel) null, new WCheckBoxSelect(
+				new String[]{"Apple", "Cherry", "Orange", "Pineapple"}));
+
 	}
 }
