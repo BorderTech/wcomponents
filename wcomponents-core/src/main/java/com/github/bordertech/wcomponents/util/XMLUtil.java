@@ -38,6 +38,13 @@ public final class XMLUtil {
 			+ UI_NAMESPACE;
 
 	/**
+	 * XML Declaration.
+	 * @deprecated 1.4.0 never used internally. Must never be used!
+	 */
+	@Deprecated
+	public static final String XML_DECLERATION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+
+	/**
 	 * Prevent instantiation of utility class.
 	 */
 	private XMLUtil() {
