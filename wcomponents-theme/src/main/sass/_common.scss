@@ -270,16 +270,17 @@ $wc-list-layout-bar-width-offset: 2 * $wc-gap-normal !default;
 // it is not likely you will want to force the same list (though you could).
 //
 // * -1 means support all widths from 1% to 100%. This is a LOT of CSS (but not so much as the WFieldLayout variant).
-// * 0 means support columns with widths which are multiples of 5% if $wc-column-widths-include-fives == 1.
+// * 0 means support columns with widths which are multiples of 5% if $wc-column-widths-include-fives == 1, otherwise
+// support nothing.
 // * a list of positive integer values means support all column widths which are a member of the list. Do not repeat
 // multiples of 5% in the list: if $wc-column-widths-include-fives == 1.
 //
 // This setting will support all available column widths at the cost of lots of CSS.
-$wc-column-list: 0 !default;
+// $wc-column-list: -1 !default;
 // This setting will support all column widths which are positive integer multiple of 5%.
-// $wc-column-list: 0;
+$wc-column-list: 0 !default;
 // This setting will give you all multiples of 5 plus the widths (as %) included in the list
-// $wc-column-list: 16, 33, 34, 66, 67, 83;
+// $wc-column-list: 16, 33, 34, 66, 67, 83 !default;
 // This is an ease-of-use helper for `$wc-column-list` which, if set to 1, will ensure column allowed widths includes
 // all multiples of 5%. This is ignored if `$wc-column-list` is set to -1.
 $wc-column-widths-include-fives: 1 !default;
