@@ -203,7 +203,7 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 			return;
 		}
 		model.jsResources.add(resource);
-		MemoryUtil.checkAndLog(model.jsResources.size(), this.getClass().getSimpleName());
+		MemoryUtil.checkSize(model.jsResources.size(), this.getClass().getSimpleName());
 	}
 
 	/**
@@ -280,7 +280,7 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 			return;
 		}
 		model.cssResources.add(resource);
-		MemoryUtil.checkAndLog(model.cssResources.size(), this.getClass().getSimpleName());
+		MemoryUtil.checkSize(model.cssResources.size(), this.getClass().getSimpleName());
 	}
 
 	/**

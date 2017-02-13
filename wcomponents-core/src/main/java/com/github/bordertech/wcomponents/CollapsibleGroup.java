@@ -79,7 +79,7 @@ public class CollapsibleGroup implements Serializable {
 	 */
 	private void addComponent(final WComponent component) {
 		collapsibleList.add(component);
-		MemoryUtil.checkAndLog(collapsibleList.size(), this.getClass().getSimpleName());
+		MemoryUtil.checkSize(collapsibleList.size(), this.getClass().getSimpleName());
 	}
 
 	/**

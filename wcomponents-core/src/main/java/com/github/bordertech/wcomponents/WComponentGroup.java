@@ -25,7 +25,7 @@ public class WComponentGroup<T extends WComponent> extends AbstractWComponent im
 	public void addToGroup(final T component) {
 		ComponentGroupModel model = getOrCreateComponentModel();
 		model.components.add(component);
-		MemoryUtil.checkAndLog(model.components.size(), this.getClass().getSimpleName());
+		MemoryUtil.checkSize(model.components.size(), this.getClass().getSimpleName());
 	}
 
 	/**

@@ -122,7 +122,7 @@ public class WAjaxControl extends AbstractWComponent {
 		}
 
 		model.targets.add(target);
-		MemoryUtil.checkAndLog(model.targets.size(), this.getClass().getSimpleName());
+		MemoryUtil.checkSize(model.targets.size(), this.getClass().getSimpleName());
 	}
 
 	/**

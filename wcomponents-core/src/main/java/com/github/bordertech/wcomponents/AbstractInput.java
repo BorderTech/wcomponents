@@ -40,7 +40,7 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 		validator.setInputField(this);
 		model.validators.add(validator);
 		// possible source of memory leaks
-		MemoryUtil.checkAndLog(model.validators.size(), this.getClass().getSimpleName());
+		MemoryUtil.checkSize(model.validators.size(), this.getClass().getSimpleName());
 	}
 
 	/**

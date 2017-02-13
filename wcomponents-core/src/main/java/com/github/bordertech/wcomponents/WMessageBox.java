@@ -196,7 +196,7 @@ public class WMessageBox extends AbstractWComponent implements AjaxTarget, Subor
 		MessageModel model = getOrCreateComponentModel();
 		model.messages.add(new Duplet<>(I18nUtilities.asMessage(msg, args), encode));
 		// Potential for leaking memory here
-		MemoryUtil.checkAndLog(model.messages.size(), this.getClass().getSimpleName());
+		MemoryUtil.checkSize(model.messages.size(), this.getClass().getSimpleName());
 	}
 
 	/**

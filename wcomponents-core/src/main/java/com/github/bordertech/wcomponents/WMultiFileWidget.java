@@ -121,7 +121,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 			setData(files);
 		}
 		files.add(file);
-		MemoryUtil.checkAndLog(files.size(), this.getClass().getSimpleName());
+		MemoryUtil.checkSize(files.size(), this.getClass().getSimpleName());
 	}
 
 	/**
