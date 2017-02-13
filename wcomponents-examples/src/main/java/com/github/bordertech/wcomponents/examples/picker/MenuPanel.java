@@ -13,6 +13,7 @@ import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
@@ -82,7 +83,7 @@ final class MenuPanel extends WPanel {
 		add(recentMenuHeading);
 		add(menu);
 		menu.setSelectionMode(WMenu.SelectionMode.SINGLE);
-		menu.setMargin(new Margin(0, 0, 16, 0));
+		menu.setMargin(new Margin(null, null, SpaceUtil.Size.LARGE, null));
 
 		tree.setActionOnChange(new Action() {
 			@Override

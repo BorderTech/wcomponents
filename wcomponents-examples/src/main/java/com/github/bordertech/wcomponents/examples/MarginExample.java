@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Marginable;
 import com.github.bordertech.wcomponents.WCollapsible;
@@ -23,6 +24,7 @@ import com.github.bordertech.wcomponents.WTable;
 import com.github.bordertech.wcomponents.WTableColumn;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.util.Arrays;
 
 /**
@@ -36,12 +38,12 @@ public class MarginExample extends WContainer {
 	/**
 	 * Default box margin.
 	 */
-	private static final Margin DEFAULT_BOX_MARGIN = new Margin(0, 0, 6, 0);
+	private static final Margin DEFAULT_BOX_MARGIN = new Margin(null, null, SpaceUtil.Size.MEDIUM, null);
 
 	/**
 	 * Default example margin.
 	 */
-	private static final Margin DEFAULT_MARGIN = new Margin(24);
+	private static final Margin DEFAULT_MARGIN = new Margin(SpaceUtil.Size.XL);
 
 	/**
 	 * Build example.
@@ -49,14 +51,14 @@ public class MarginExample extends WContainer {
 	public MarginExample() {
 		WPanel root = new WPanel();
 		add(root);
-		root.setMargin(new Margin(12));
+		root.setMargin(new Margin(SpaceUtil.Size.LARGE));
 
 		// WSection
 		WPanel box = new WPanel(Type.BOX);
 		box.setMargin(DEFAULT_BOX_MARGIN);
 		root.add(box);
 
-		WSection section = new WSection("Section with margin of all 24");
+		WSection section = new WSection("Section with margin of all XL");
 		section.setMargin(DEFAULT_MARGIN);
 		section.getContent().add(new WText("Section content"));
 		box.add(section);
@@ -66,7 +68,7 @@ public class MarginExample extends WContainer {
 		box.setMargin(DEFAULT_BOX_MARGIN);
 		root.add(box);
 		WCollapsible collapsible = new WCollapsible(new WText("Collapsible content"),
-				"Collapsible with margin of all 24");
+				"Collapsible with margin of all XL");
 		collapsible.setMargin(DEFAULT_MARGIN);
 		box.add(collapsible);
 
@@ -75,7 +77,7 @@ public class MarginExample extends WContainer {
 		box.setMargin(DEFAULT_BOX_MARGIN);
 		root.add(box);
 		WTable table = new WTable();
-		table.setCaption("WTable with margin of all 24");
+		table.setCaption("WTable with margin of all XL");
 		table.setMargin(DEFAULT_MARGIN);
 		table.addColumn(new WTableColumn("First name", new WText()));
 		table.addColumn(new WTableColumn("Last name", new WText()));
@@ -88,7 +90,7 @@ public class MarginExample extends WContainer {
 		root.add(box);
 		WFieldLayout fieldLayout = new WFieldLayout();
 		fieldLayout.setMargin(DEFAULT_MARGIN);
-		fieldLayout.addField("Field layout with margin of all 24", new WTextField());
+		fieldLayout.addField("Field layout with margin of all XL", new WTextField());
 		box.add(fieldLayout);
 
 		// WRow
@@ -99,14 +101,14 @@ public class MarginExample extends WContainer {
 		row.setMargin(DEFAULT_MARGIN);
 		box.add(row);
 		WColumn col = new WColumn(100);
-		col.add(new WText("WRow with margin of all 24"));
+		col.add(new WText("WRow with margin of all XL"));
 		row.add(col);
 
 		// WFieldset
 		box = new WPanel(Type.BOX);
 		box.setMargin(DEFAULT_BOX_MARGIN);
 		root.add(box);
-		WFieldSet fieldSet = new WFieldSet("FieldSet with margin of all 24");
+		WFieldSet fieldSet = new WFieldSet("FieldSet with margin of all XL");
 		fieldSet.setMargin(DEFAULT_MARGIN);
 		fieldSet.add(new WText("content"));
 		box.add(fieldSet);
@@ -117,7 +119,7 @@ public class MarginExample extends WContainer {
 		root.add(box);
 		WDefinitionList defList = new WDefinitionList();
 		defList.setMargin(DEFAULT_MARGIN);
-		defList.addTerm("Term", new WText("Definition list with a margin of all 24"));
+		defList.addTerm("Term", new WText("Definition list with a margin of all XL"));
 		box.add(defList);
 
 		// WList
@@ -153,8 +155,13 @@ public class MarginExample extends WContainer {
 		box = new WPanel(Type.BOX);
 		box.setMargin(DEFAULT_BOX_MARGIN);
 		root.add(box);
-		WHeading heading = new WHeading(WHeading.MAJOR, "Heading with margin of all 24");
+		WHeading heading = new WHeading(HeadingLevel.H2, "Heading with margin of all XL");
 		heading.setMargin(DEFAULT_MARGIN);
+		box.add(heading);
+		heading = new WHeading(HeadingLevel.H2, "Heading with default margin");
+		box.add(heading);
+		heading = new WHeading(HeadingLevel.H2, "Heading with margin set to zero");
+		heading.setMargin(new Margin(SpaceUtil.Size.ZERO));
 		box.add(heading);
 
 		// WPanel
@@ -163,7 +170,7 @@ public class MarginExample extends WContainer {
 		root.add(box);
 		WPanel panel = new WPanel(Type.BOX);
 		panel.setMargin(DEFAULT_MARGIN);
-		panel.add(new WText("Panel with margin of all 24"));
+		panel.add(new WText("Panel with margin of all XL"));
 		box.add(panel);
 	}
 

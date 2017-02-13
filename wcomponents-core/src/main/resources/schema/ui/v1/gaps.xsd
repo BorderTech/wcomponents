@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+	
+	<xs:simpleType name="gaps">
+		<xs:restriction base="xs:NMTOKEN">
+			<xs:enumeration value="z"></xs:enumeration>
+			<xs:enumeration value="sm"></xs:enumeration>
+			<xs:enumeration value="med"></xs:enumeration>
+			<xs:enumeration value="lg"></xs:enumeration>
+			<xs:enumeration value="xl"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

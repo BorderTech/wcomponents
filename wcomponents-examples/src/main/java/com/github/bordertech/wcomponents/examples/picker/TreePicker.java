@@ -16,6 +16,7 @@ import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.layout.ListLayout;
+import com.github.bordertech.wcomponents.util.SpaceUtil.Size;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
@@ -82,7 +83,7 @@ public class TreePicker extends WContainer {
 
 		mainPanel.setIdName("main_panel");
 		mainPanel.setLayout(new ColumnLayout(COL_WIDTH, COL_ALIGN, COL_HGAP, COL_VGAP));
-		mainPanel.setMargin(new Margin(COL_HGAP));
+		mainPanel.setMargin(new Margin(Size.LARGE));
 		mainPanel.setHtmlClass(HtmlClassProperties.RESPOND);
 
 		buildUI();
@@ -195,7 +196,7 @@ public class TreePicker extends WContainer {
 		 * Add the UI controls to the utility bar.
 		 */
 		private void setUp() {
-			setMargin(new Margin(0, 8, 0, 0));
+			setMargin(new Margin(null, Size.MEDIUM, null, null));
 			setLayout(new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.RIGHT, ListLayout.Separator.NONE,
 					false));
 			// The select another example button.

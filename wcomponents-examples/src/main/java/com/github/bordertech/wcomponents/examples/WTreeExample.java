@@ -22,6 +22,7 @@ import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.WTree;
 import com.github.bordertech.wcomponents.examples.table.ExampleDataUtil;
 import com.github.bordertech.wcomponents.examples.table.PersonBean;
+import com.github.bordertech.wcomponents.util.SpaceUtil.Size;
 import java.util.List;
 
 /**
@@ -79,7 +80,7 @@ public class WTreeExample extends WContainer {
 
 		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
 		add(layout);
-		layout.setMargin(new Margin(0, 0, 12, 0));
+		layout.setMargin(new Margin(Size.ZERO, Size.ZERO, Size.LARGE, Size.ZERO));
 		layout.addField("Use HTree", cbMakeHTree);
 		layout.addField("Enable multiple selection", cbUseMultiSelect);
 		layout.addField("Enable ajax control", cbAjaxTrigger);

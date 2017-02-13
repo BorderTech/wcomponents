@@ -1,10 +1,14 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
+import com.github.bordertech.wcomponents.Input;
+import com.github.bordertech.wcomponents.Labelable;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Util;
+import com.github.bordertech.wcomponents.MultiInputComponent;
+import com.github.bordertech.wcomponents.WRadioButton;
 
 /**
  * The Renderer for {@link WLabel}.
@@ -30,6 +34,25 @@ final class WLabelRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("for", label.getLabelFor());
+
+		WComponent what = label.getForComponent();
+		String whatFor = null;
+		if (what instanceof MultiInputComponent) {
+			whatFor = "group";
+		} else if (what instanceof Labelable) {
+			whatFor = "input";
+		}
+
+		boolean isReadOnly = ((what instanceof Input) && ((Input) what).isReadOnly())
+				|| (what instanceof WRadioButton && ((WRadioButton) what).isReadOnly());
+
+		boolean isMandatory = ((what instanceof Input) && ((Input) what).isMandatory())
+				|| (what instanceof WRadioButton && ((WRadioButton) what).isMandatory());
+
+		xml.appendOptionalAttribute("what", whatFor);
+		xml.appendOptionalAttribute("readonly", isReadOnly, "true");
+		xml.appendOptionalAttribute("required", isMandatory, "true");
+		xml.appendOptionalAttribute("hiddencomponent", (what != null && what.isHidden()), "true");
 		xml.appendOptionalAttribute("hint", label.getHint());
 		xml.appendOptionalAttribute("accessKey", Util.upperCase(label.getAccessKeyAsString()));
 		xml.appendOptionalAttribute("hidden", label.isHidden(), "true");

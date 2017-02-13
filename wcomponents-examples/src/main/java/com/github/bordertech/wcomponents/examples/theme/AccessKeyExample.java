@@ -3,12 +3,17 @@ package com.github.bordertech.wcomponents.examples.theme;
 import com.github.bordertech.wcomponents.RadioButtonGroup;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
+import com.github.bordertech.wcomponents.WCheckBoxSelect;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDropdown;
+import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WLink;
+import com.github.bordertech.wcomponents.WMultiDropdown;
+import com.github.bordertech.wcomponents.WMultiSelectPair;
 import com.github.bordertech.wcomponents.WRadioButton;
+import com.github.bordertech.wcomponents.WRadioButtonSelect;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
 
@@ -109,5 +114,27 @@ public class AccessKeyExample extends WContainer {
 		WLabel dropdownLabel = new WLabel("Dropdown", 'o', dropdown);
 		add(dropdownLabel);
 		add(dropdown);
+
+		// access keys for multiple input components
+		add(new WHorizontalRule());
+		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
+		add(layout);
+		String[] options = new String[]{"Dog", "Cat", "Bird", "Turtle"};
+		final WCheckBoxSelect select = new WCheckBoxSelect(options);
+		select.setFrameless(true);
+		WLabel label = new WLabel("Select some animals");
+		label.setAccessKey('O');
+		layout.addField(label, select);
+		WRadioButtonSelect rbs = new WRadioButtonSelect(options);
+		rbs.setFrameless(true);
+		label = new WLabel("Select an animal");
+		label.setAccessKey('A');
+		layout.addField(label, rbs);
+		label = new WLabel("Select some animals");
+		label.setAccessKey('L');
+		layout.addField(label, new WMultiSelectPair(options));
+		label = new WLabel("Select some animals");
+		label.setAccessKey('M');
+		layout.addField(label, new WMultiDropdown(options));
 	}
 }

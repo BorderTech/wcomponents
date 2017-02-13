@@ -1,7 +1,10 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
+import com.github.bordertech.wcomponents.WHeading;
+import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WTextField;
 
 /**
@@ -63,6 +66,15 @@ public class WTextFieldExample extends WContainer {
 		textfield.setPlaceholder("type here");
 		layout.addField("placeholder", textfield);
 
+
+		add(new WHeading(HeadingLevel.H2, "inadequately labelled"));
+		layout = new WFieldLayout();
+		add(layout);
+		layout.addField((WLabel) null, new WTextField());
+		layout.addField("", new WTextField());
+		layout.addField(new WLabel(), new WTextField());
+		layout.addField(new WLabel(""), new WTextField());
+		layout.addField(new WLabel(" "), new WTextField());
 	}
 
 }

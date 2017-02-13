@@ -1,7 +1,6 @@
 @import 'mixins-common';
 
 .wc_msgbox {
-	background-color: $wc-ui-color-global-bg;
 	border-color: $wc-ui-color-error-fg; // default error box
 
 	> h1 {

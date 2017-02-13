@@ -1,28 +1,33 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-	xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.getHVGap.xsl"/>
-	<!--
-		ui:borderlayout is a layout mode of WPanel which consists of one or more containers displayed in a particular 
-		pattern. This is a rough CSS based emulation of AWT BorderLayout. 
-		
-		This template arranges the child elements in the correct order. If there is one or more of ui:west, ui:center 
-		and ui:east then a wrapper is provided for them before they are applied.
-	-->
+	<xsl:import href="wc.common.attributes.xsl"/>
+	<xsl:import href="wc.common.gapClass.xsl"/>
+	<!-- BorderLayout is a rough CSS emulation of AWT BorderLayout. This Layout is deprecated and will be removed. -->
 	<xsl:template match="ui:borderlayout">
-		<div>
-			<xsl:attribute name="class">
-				<xsl:text>wc-borderlayout</xsl:text>
-				<xsl:call-template name="getHVGapClass">
+		<xsl:variable name="vgap">
+			<xsl:if test="@vgap">
+				<xsl:call-template name="gapClass">
+					<xsl:with-param name="gap" select="@vgap"/>
 					<xsl:with-param name="isVGap" select="1"/>
 				</xsl:call-template>
-			</xsl:attribute>
+			</xsl:if>
+		</xsl:variable>
+		<div>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:value-of select="$vgap"/>
+				</xsl:with-param>
+			</xsl:call-template>
 			<xsl:apply-templates select="ui:north"/>
 			<xsl:if test="count(ui:west|ui:center|ui:east) gt 0">
 				<div>
 					<xsl:attribute name="class">
 						<xsl:text>wc_bl_mid</xsl:text>
-						<xsl:call-template name="getHVGapClass"/>
+						<xsl:if test="@hgap">
+							<xsl:call-template name="gapClass">
+								<xsl:with-param name="gap" select="@hgap"/>
+							</xsl:call-template>
+						</xsl:if>
 					</xsl:attribute>
 					<xsl:apply-templates select="ui:west"/>
 					<xsl:apply-templates select="ui:center"/>
@@ -39,7 +44,7 @@
 	-->
 	<xsl:template match="ui:north|ui:south">
 		<div class="wc-{local-name()}">
-			<xsl:apply-templates/>
+			<xsl:apply-templates />
 		</div>
 	</xsl:template>
 
@@ -51,9 +56,9 @@
 			<xsl:attribute name="class">
 				<xsl:value-of select="concat('wc-',local-name(.))"/>
 				<!-- 
-					IE8 needs more help because it does not know about last child or flex layouts. We should be able to
-					remove all this stuff (eventually) when flex-grow: 3 differs from flex-grow: 1 on all target
-					browsers (wishful thinking?).
+					IE8 needs more help because it does not know about last child or flex layouts.
+					We should be able to remove all this stuff (eventually) when flex-grow: 3 differs from flex-grow: 1 on all target browsers
+					(wishful thinking?).
 				-->
 				<xsl:variable name="colCount" select="count(../ui:west|../ui:east|../ui:center)"/>
 				<xsl:variable name="classPrefix">
@@ -74,7 +79,7 @@
 					</xsl:when>
 				</xsl:choose>
 			</xsl:attribute>
-			<xsl:apply-templates/>
+			<xsl:apply-templates />
 		</div>
 	</xsl:template>
 </xsl:stylesheet>

@@ -37,8 +37,6 @@
 }
 
 .wc-menuitem {
-	// 'div' menu items need explicit border box, buttons have it by default.
-	@include border-box;
 	display: block;
 	vertical-align: bottom;
 
@@ -55,10 +53,14 @@
 	padding: $wc-gap-small;
 }
 
-.wc-menu [role='separator'] {
+[role='separator'] {
+	margin: 0;
 	padding: 0;
 
 	&[aria-orientation='vertical'] {
+		@include border($pos: left);
+		border-bottom: 0 none;
+		display: inline;
 		padding: $wc-menu-bar-vseparator-pad;
 		vertical-align: bottom;
 	}
@@ -96,3 +98,6 @@
 
 @import 'wc.ui.menu.negmargin';
 @import 'wc.ui.menu.color';
+@import 'wc.ui.menu.barColumn';
+@import 'wc.ui.menu.flyout';
+@import 'wc.ui.menu.tree';

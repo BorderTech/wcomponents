@@ -4,7 +4,7 @@ define(["wc/has",
 		"wc/date/interchange",
 		"wc/date/Format",
 		"wc/dom/attribute",
-		"wc/dom/cancelUpdate",
+		"wc/ui/cancelUpdate",
 		"wc/dom/event",
 		"wc/dom/focus",
 		"wc/dom/formUpdateManager",
@@ -40,9 +40,7 @@ define(["wc/has",
 				BOOTSTRAPPED = "wc.ui.dateField_bootstrapped",
 				DATE_FIELD = new Widget("div", FIELD_CLASS),
 				DATE_WRAPPER_INCL_RO = new Widget("", FIELD_CLASS),
-				DATE_FIELD_RO = new Widget("time", FIELD_CLASS),
-				PARTIAL_RO = new Widget("span", FIELD_CLASS),
-				ALL_RO = [DATE_FIELD_RO, PARTIAL_RO],
+				DATE_RO = new Widget("", "wc_datero"),
 				INPUT = new Widget("input"),
 				DATE = INPUT.extend("", {"type": "date"}),
 				DATE_PARTIAL = INPUT.extend("", {"type": "text"}),
@@ -512,7 +510,7 @@ define(["wc/has",
 					textVal,
 					textBox;
 				if ((value = (field.getAttribute(FAKE_VALUE_ATTRIB) || field.getAttribute("datetime"))) && (textVal = format(value))) {
-					if (Widget.isOneOfMe(field, ALL_RO)) {
+					if (DATE_RO.isOneOfMe(field)) {
 						textContent.set(field, textVal);
 					}
 					else {
@@ -541,7 +539,7 @@ define(["wc/has",
 				}
 
 				Array.prototype.forEach.call(fields, function(next) {
-					if (Widget.isOneOfMe(next, ALL_RO) || isPartial(next)) {
+					if (DATE_RO.isOneOfMe(next) || isPartial(next)) {
 						setInputValue(next);
 					}
 					else if (instance.isLameDateField(next)) {
@@ -1069,6 +1067,10 @@ define(["wc/has",
 				return result;
 			};
 
+			this.isReadOnly = function (element) {
+				return DATE_RO.isOneOfMe(element);
+			};
+
 			/**
 			 * Late initialisation to add other subscribers and set up the date fields for first use.
 			 * @function module:wc/ui/dateField.postInit
@@ -1112,7 +1114,7 @@ define(["wc/has",
 		 * @requires module:wc/date/interchange
 		 * @requires module:wc/date/Format
 		 * @requires module:wc/dom/attribute
-		 * @requires module:wc/dom/cancelUpdate
+		 * @requires module:wc/ui/cancelUpdate
 		 * @requires module:wc/dom/event
 		 * @requires module:wc/dom/focus
 		 * @requires module:wc/dom/formUpdateManager

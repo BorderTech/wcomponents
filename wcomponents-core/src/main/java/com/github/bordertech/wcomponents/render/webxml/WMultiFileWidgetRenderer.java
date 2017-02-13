@@ -38,7 +38,7 @@ final class WMultiFileWidgetRenderer extends AbstractWebXmlRenderer {
 		boolean readOnly = widget.isReadOnly();
 
 
-		xml.appendTagOpen("ui:fileupload");
+		xml.appendTagOpen("ui:multifileupload");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
@@ -85,7 +85,7 @@ final class WMultiFileWidgetRenderer extends AbstractWebXmlRenderer {
 			for (FileWidgetUpload file : widget.getFiles()) {
 				FileWidgetRendererUtil.renderFileElement(widget, xml, file, i++);
 			}
-			xml.appendEndTag("ui:fileupload");
+			xml.appendEndTag("ui:multifileupload");
 		}
 	}
 

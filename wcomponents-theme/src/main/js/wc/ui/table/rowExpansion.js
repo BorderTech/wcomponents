@@ -24,18 +24,94 @@ define(["wc/array/toArray",
 		 * @private
 		 */
 		function RowExpansion() {
-			var TABLE_WRAPPER = common.WRAPPER,
+			var EXP_COLL_ALL_CONTAINER = new Widget("", "wc-rowexpansion"),
+				TABLE_WRAPPER = common.WRAPPER,
 				ROW_TRIGGER = common.TD.extend("", {"role": "button"}),
 				TBL_EXPANDABLE_ROW = common.TR.extend("", {"aria-expanded": null}),
 				TABLE = common.TABLE.extend("wc_tbl_expansion"),
+				TBODY = common.TBODY.clone(),
 				EXPAND_COLLAPSE_ALL = new Widget("button", "wc_rowexpansion"),
+				CONTROLS = "aria-controls",
 				BOOTSTRAPPED = "wc.ui.table.rowExpansion.bootStrapped",
 				NO_AJAX = "data-wc-tablenoajax",
 				MODE = "data-wc-expmode",
+				VALUE = "data-wc-value",
+				EXPAND = "expand",
 				TRUE = "true",
 				FALSE = "false",
 				LAZY = "lazy",
 				CLIENT = "client";
+
+			TABLE.descendFrom(TABLE_WRAPPER, true);
+			TBODY.descendFrom(TABLE, true);
+			TBL_EXPANDABLE_ROW.descendFrom(TBODY, true);
+
+			function getControlled(trigger) {
+				var actualTrigger = EXP_COLL_ALL_CONTAINER.isOneOfMe(trigger) ? EXPAND_COLLAPSE_ALL.findDescendant(trigger) : trigger,
+					idList = actualTrigger.getAttribute(CONTROLS);
+				if (!idList) {
+					return null;
+				}
+				return idList.split(/\s+/).map(function (next) {
+					return document.getElementById(next);
+				});
+			}
+
+			/**
+			 * Get all controllers for a given row.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element the element being controlled
+			 * @returns {? Element[]} An array containing all of the controllers for the row
+			 */
+			function getControllers(element) {
+				var controllerWidget,
+					candidates;
+
+				if (!(element && element.id)) {
+					return null;
+				}
+
+				controllerWidget = EXPAND_COLLAPSE_ALL.extend("", {"aria-controls": element.id});
+				candidates = controllerWidget.findDescendants(document.body);
+
+				if (!(candidates && candidates.length)) {
+					return null;
+				}
+
+				return (toArray(candidates));
+			}
+
+			/**
+			 * Are all rows in a particular state?
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} controller The WCollapsibleToggle control.
+			 * @param {Boolean} expanded true if we are checking if all expanded, otherwise false
+			 */
+			function areAllInExpandedState(controller, expanded) {
+				var candidates = getControlled(controller);
+
+				if (candidates && candidates.length) {
+					return candidates.every(function (next) {
+						return next && shed.isExpanded(next) === expanded;
+					});
+				}
+				return false;
+			}
+
+			function setControllerState(controller) {
+				var testVal = controller.getAttribute(VALUE);
+
+				if (areAllInExpandedState(controller, testVal === "expand")) {
+					shed.select(controller, true); // no need to publish
+				}
+				else {
+					shed.deselect(controller, true); // no need to publish
+				}
+			}
 
 			function getWrapper(element) {
 				return TABLE_WRAPPER.findAncestor(element);
@@ -52,36 +128,6 @@ define(["wc/array/toArray",
 			function isAjaxExpansion(row) {
 				var mode = getMode(row);
 				return mode === LAZY || mode === "dynamic";
-			}
-
-			/**
-			 * Get the list of elements controlled by an expander.
-			 *
-			 * @param {Element} element A collapsible trigger.
-			 * @returns {?String} The value of the aria-controls attribute, being a space separated list of elemet IDs
-			 */
-			function getContentList(element) {
-				if (TBL_EXPANDABLE_ROW.isOneOfMe(element)) {
-					return element.getAttribute("aria-controls");
-				}
-				return null;
-			}
-
-			/**
-			 * Get the expandable rows which belong explicitly to a given table and not to any nested tables.
-			 *
-			 * @function
-			 * @private
-			 * @param {Element} table The table in which we are interested.
-			 * @param {module:wc/dom/Widget} [widget] A widget which describes the rows we want. If not set the fuinction gets all expandable rows.
-			 * @returns {Element[]} An array of rows.
-			 */
-			function getExpandableRows(table, widget) {
-				var rowWidget = widget || TBL_EXPANDABLE_ROW;
-
-				return toArray(rowWidget.findDescendants(table)).filter(function(next) {
-					return TABLE.findAncestor(next) === table;
-				});
 			}
 
 			/**
@@ -106,13 +152,15 @@ define(["wc/array/toArray",
 			 * @param {Element} stateContainer The element into which the sate is written.
 			 */
 			function writeState(form, stateContainer) {
-				Array.prototype.forEach.call(TBL_EXPANDABLE_ROW.findDescendants(form), function (element) {
-					var collapsibleTable, rowIndex;
-					if (shed.isExpanded(element) && !shed.isDisabled(element)) {
-						collapsibleTable = TABLE.findAncestor(element).parentElement; // the table id is on the table container
-						rowIndex = element.getAttribute("data-wc-rowindex");
-						formUpdateManager.writeStateField(stateContainer, collapsibleTable.id + ".expanded", rowIndex, false, true);
-					}
+				Array.prototype.forEach.call(TABLE.findDescendants(form), function(next) {
+					var id = next.parentElement.id,
+						rows = toArray(TBL_EXPANDABLE_ROW.findDescendants(next)).filter(function(row) {
+							return shed.isExpanded(row);
+						});
+					rows.forEach(function(row) {
+						var rowIndex = row.getAttribute("data-wc-rowindex");
+						formUpdateManager.writeStateField(stateContainer, id + ".expanded", rowIndex, false, true);
+					});
 				});
 			}
 
@@ -147,48 +195,6 @@ define(["wc/array/toArray",
 			}
 
 			/**
-			 * Expand/collapse all available row controllers in a table (but not in any further nested tables).
-			 * @function
-			 * @private
-			 * @param {Element} element One of the expand all/collapse all buttons.
-			 * @returns {Boolean} {@code true} if there are any rows to toggle.
-			 */
-			function toggleAll(element) {
-				var tableWrapper, table, candidates, open, rowWidget;
-
-				if (element && (tableWrapper = getWrapper(element)) && (table = TABLE.findDescendant(tableWrapper, true))) {
-					open = element.getAttribute("data-wc-value") === "expand";
-					rowWidget = common.TR.extend("", {"aria-expanded": (open ? FALSE : TRUE)});
-					candidates = getExpandableRows(table, rowWidget);
-
-					if (!(candidates && candidates.length)) {
-						return false;
-					}
-
-					if (open) {
-						candidates = candidates.filter(function(next) {
-							return !shed.isHidden(next);
-						});
-
-						if (!candidates.length) {
-							return false;
-						}
-					}
-					else {
-						candidates.reverse();
-					}
-
-					candidates.forEach(function(next) {
-						toggleRow(next, true);
-					});
-
-					return true;
-				}
-
-				return false;
-			}
-
-			/**
 			 * Helper to show and hide rows controlled by an expandable row.
 			 *
 			 * @function
@@ -197,16 +203,19 @@ define(["wc/array/toArray",
 			 * @param {String} action A {@link module:wc/dom/shed} action: one of shed.actions.EXPAND or shed.actions.COLLAPSE.
 			 */
 			function showHideContent(triggerRow, action) {
-				var content = getContentList(triggerRow),
-					shedFunc = action === shed.actions.EXPAND ? "show" : "hide";
-				if (content) {
-					content = content.split(" ");
-					content.forEach(function(next) {
-						var element = document.getElementById(next);
-						if (element) {
-							shed[shedFunc](element);
+				var shedFunc = action === shed.actions.EXPAND ? "show" : "hide",
+					controllers,
+					controlled = getControlled(triggerRow);
+
+				if (controlled) {
+					controlled.forEach(function(row) {
+						if (row) {
+							shed[shedFunc](row);
 						}
 					});
+					if ((controllers = getControllers(triggerRow))) {
+						controllers.forEach(setControllerState);
+					}
 				}
 			}
 
@@ -219,7 +228,7 @@ define(["wc/array/toArray",
 			 * @param {Element} element The expandable row being expanded or collapsed.
 			 * @param {String} action The shed action EXPAND or COLLAPSE.
 			 */
-			function shedObserver(element, action) {
+			function expCollapseObserver(element, action) {
 				if (element && TBL_EXPANDABLE_ROW.isOneOfMe(element)) {
 					if (action === shed.actions.EXPAND && isAjaxExpansion(element)) {
 						if (element.getAttribute(NO_AJAX) === TRUE) {
@@ -245,7 +254,7 @@ define(["wc/array/toArray",
 			 * @param {Element} element The expandable row being hidden.
 			 */
 			function closeOnHide(element) {
-				if (element && TBL_EXPANDABLE_ROW.isOneOfMe(element) && shed.isExpanded(element) && shed.isHidden(element)) {
+				if (element && TBL_EXPANDABLE_ROW.isOneOfMe(element) && shed.isExpanded(element)) {
 					toggleRow(element, true);
 				}
 			}
@@ -262,6 +271,7 @@ define(["wc/array/toArray",
 			 */
 			function ajaxSubscriber(element, action, triggerId) {
 				var button;
+				setControls();
 				if (element && triggerId && (TABLE_WRAPPER.isOneOfMe(element))) {
 					if ((button = document.getElementById(triggerId))) {
 						if (Widget.isOneOfMe(button, [ROW_TRIGGER, EXPAND_COLLAPSE_ALL])) {
@@ -349,22 +359,100 @@ define(["wc/array/toArray",
 			}
 
 			/**
+			 * Expand/collapse all available row controllers in a table (but not in any further nested tables).
+			 * @function
+			 * @private
+			 * @param {Element} element One of the expand all/collapse all buttons.
+			 * @returns {Boolean} {@code true} if there are any rows to toggle.
+			 */
+			function toggleAll(element) {
+				var candidates, open;
+
+				if (element && (candidates = getControlled(element))) {
+					if (!candidates.length) {
+						return false;
+					}
+					open = element.getAttribute(VALUE) === EXPAND;
+
+					candidates = candidates.filter(function(next) {
+						if (!next) {
+							return false;
+						}
+						if (open) {
+							return !(shed.isExpanded(next)|| shed.isHidden(next));
+						}
+						return shed.isExpanded(next);
+					});
+
+					if (!open) {
+						candidates.reverse();
+					}
+
+					candidates.forEach(function(next) {
+						toggleRow(next, true);
+					});
+
+					return true;
+				}
+
+				return false;
+			}
+
+			/**
 			 * Toggle rows whan the select/deselect all options are triggered.
 			 * @param {Element} element The element being selected.
 			 */
 			function activateOnSelect(element) {
-				var toggled;
+				var toggled, wrapper;
 
 				if (element && EXPAND_COLLAPSE_ALL.isOneOfMe(element)) {
-					try {
-						toggled = toggleAll(element);
-					}
-					finally {
-						if (toggled && element.getAttribute("data-wc-value") === "expand" && isAjaxExpansion(element)) {
-							ajaxRegion.requestLoad(element, getTriggerDTO(element));
-						}
+					toggled = toggleAll(element);
+					wrapper = EXP_COLL_ALL_CONTAINER.findAncestor(element);
+					Array.prototype.forEach.call(EXPAND_COLLAPSE_ALL.findDescendants(wrapper), setControllerState);
+					if (toggled && element.getAttribute(VALUE) === EXPAND && isAjaxExpansion(element)) {
+						ajaxRegion.requestLoad(element, getTriggerDTO(element));
 					}
 				}
+			}
+
+			/**
+			 * Set the aria-controls attribute on the buttons of a collapsibleToggle.
+			 *
+			 * @function
+			 * @private
+			 * @param {Element} element a collapsible toggle wrapper
+			 * @returns {undefined}
+			 */
+			function setControlList(element) {
+				var wrapper,
+					idArray = [],
+					ids;
+
+				wrapper = TABLE_WRAPPER.findAncestor(element);
+				if (!wrapper) {
+					return;
+				}
+
+				Array.prototype.forEach.call(TBL_EXPANDABLE_ROW.findDescendants(wrapper), function (next) {
+					idArray.push(next.id);
+				});
+
+				if (idArray.length) {
+					ids = idArray.join(" ");
+					Array.prototype.forEach.call(EXPAND_COLLAPSE_ALL.findDescendants(element), function (next) {
+						next.setAttribute(CONTROLS, ids);
+					});
+				}
+			}
+
+			/**
+			 * Set aria-controls for each collapsible toggle.
+			 *
+			 * @function
+			 * @private
+			 */
+			function setControls() {
+				Array.prototype.forEach.call(EXP_COLL_ALL_CONTAINER.findDescendants(document.body), setControlList);
 			}
 
 			/**
@@ -389,9 +477,10 @@ define(["wc/array/toArray",
 			 * @public
 			 */
 			this.postInit = function() {
+				setControls();
 				processResponse.subscribe(ajaxSubscriber, true);
-				shed.subscribe(shed.actions.EXPAND, shedObserver);
-				shed.subscribe(shed.actions.COLLAPSE, shedObserver);
+				shed.subscribe(shed.actions.EXPAND, expCollapseObserver);
+				shed.subscribe(shed.actions.COLLAPSE, expCollapseObserver);
 				shed.subscribe(shed.actions.HIDE, closeOnHide);
 				shed.subscribe(shed.actions.SELECT, activateOnSelect);
 				formUpdateManager.subscribe(writeState);
@@ -408,7 +497,7 @@ define(["wc/array/toArray",
 			};
 		}
 
-		var /**
+		/**
 		 * Provides controller for expanding and collapsing table rows.
 		 * @module
 		 * @requires module:wc/array/toArray
@@ -425,7 +514,10 @@ define(["wc/array/toArray",
 		 * @requires module:wc/ui/ajax/processResponse
 		 * @requires module:wc/ui/onloadFocusControl
 		 * @requires module:wc/ui/rowAnalog
-		 */ instance = new RowExpansion();
+		 * @requires module:wc/ui/table/common
+		 * @requires module:wc/ajax/triggerManager
+		 */
+		var instance = new RowExpansion();
 		initialise.register(instance);
 		return instance;
 	});

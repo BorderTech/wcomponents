@@ -1,22 +1,22 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
+import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.WebDriver;
 
 /**
  * Selenium unit tests for {@link WRadioButtonSubmitOnChangeExample}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class WRadioButtonSubmitOnChangeExample_Test extends WComponentExamplesTestCase{
+public class WRadioButtonSubmitOnChangeExample_Test extends WComponentExamplesTestCase {
 
 	/**
 	 * Creates a new WRadioButtonSubmitOnChangeExample_Test.
@@ -28,38 +28,33 @@ public class WRadioButtonSubmitOnChangeExample_Test extends WComponentExamplesTe
 	@Test
 	public void testExample() {
 		// Launch the web browser to the LDE
-		WebDriver driver = getDriver();
+		SeleniumWComponentsWebDriver driver = getDriver();
 
 		// Select "ACT"
-		driver.findElement(byWComponentPath("WRadioButton", "ACT")).click();
+		driver.findWRadioButton(byWComponentPath("WRadioButton", "ACT")).click();
 
 		// Should have round-tripped, check server and client-side states
-		Assert.assertTrue("Incorrect state selection on server", driver.getPageSource().contains(
-				"the heart of the nation!"));
-		Assert.assertTrue("Incorrect state selection on client", driver.findElement(
-				byWComponentPath("WRadioButton", "ACT")).isSelected());
-		Assert.assertTrue("Incorrect region selection on client", driver.findElement(
-				byWComponentPath("WDropdown", "")).isSelected());
+		Assert.assertTrue("Incorrect state selection on server", driver.getPageSource().contains("the heart of the nation!"));
+		Assert.assertTrue("Incorrect state selection on client", driver.findWRadioButton(byWComponentPath("WRadioButton", "ACT")).isSelected());
+		Assert.assertEquals("", driver.findWDropdown(byWComponentPath("WDropdown")).getValue());
+
 
 		// Select "City" from Region dropdown (no round trip)
+		driver.findWDropdown(byWComponentPath("WDropdown")).click(); // click the dropdown to open the options
 		driver.findElement(byWComponentPath("WDropdown", "City")).click();
-		Assert.assertTrue("Incorrect region selection on client", driver.findElement(
-				byWComponentPath("WDropdown", "City")).isSelected());
+		Assert.assertEquals("City", driver.findWDropdown(byWComponentPath("WDropdown")).getValue());
 
 		// Select "NSW"
-		driver.findElement(byWComponentPath("WRadioButton", "NSW")).click();
+		driver.findWRadioButton(byWComponentPath("WRadioButton", "NSW")).click();
 
 		// Should have round-tripped, check server and client-side states
-		Assert.assertFalse("Incorrect state selection on server", driver.getPageSource().contains(
-				"the heart of the nation!"));
-		Assert.assertTrue("Incorrect state selection on client", driver.findElement(
-				byWComponentPath("WRadioButton", "NSW")).isSelected());
-		Assert.assertTrue("Incorrect region selection on client", driver.findElement(
-				byWComponentPath("WDropdown", "")).isSelected());
+		Assert.assertFalse("Incorrect state selection on server", driver.getPageSource().contains("the heart of the nation!"));
+		Assert.assertTrue("Incorrect state selection on client", driver.findWRadioButton(byWComponentPath("WRadioButton", "NSW")).isSelected());
+		Assert.assertEquals("", driver.findWDropdown(byWComponentPath("WDropdown")).getValue());
 
 		// Select "Hunter" from Region dropdown (no round trip)
+		driver.findWDropdown(byWComponentPath("WDropdown")).click(); // click the dropdown to open the options
 		driver.findElement(byWComponentPath("WDropdown", "Hunter")).click();
-		Assert.assertTrue("Incorrect region selection on client", driver.findElement(
-				byWComponentPath("WDropdown", "Hunter")).isSelected());
+		Assert.assertEquals("Hunter", driver.findWDropdown(byWComponentPath("WDropdown")).getValue());
 	}
 }

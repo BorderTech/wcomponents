@@ -110,10 +110,8 @@ public class WFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// Check Input
 		assertXpathEvaluatesTo("text1", "//ui:field/ui:input/ui:textfield", field);
 		// Check Indicator
-		assertXpathEvaluatesTo("Test Error",
-				"//ui:field/ui:input/ui:fieldindicator[@type='error']/ui:message", field);
-		assertXpathEvaluatesTo("Test Warning",
-				"//ui:field/ui:input/ui:fieldindicator[@type='warn']/ui:message", field);
+		assertXpathNotExists("//ui:field/ui:input/ui:fieldindicator[@type='error']", field);
+		assertXpathEvaluatesTo("Test Warning", "//ui:field/ui:input/ui:fieldindicator[@type='warn']/ui:message", field);
 	}
 
 }

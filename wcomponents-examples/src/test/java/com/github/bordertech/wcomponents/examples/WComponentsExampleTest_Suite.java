@@ -9,15 +9,12 @@ import org.junit.runners.Suite;
  * {@link com.github.bordertech.wcomponents.examples} package.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	WCheckBoxTriggerActionExample_Test.class,
-	WDropdownTriggerActionExample_Test.class,
-	WRadioButtonTriggerActionExample_Test.class,
-	WDropdownSpaceHandlingExample_Test.class,
-	WDropdownSpecialCharHandlingExample_Test.class,
+	AjaxWDropdownExample_Test.class,
 	AppPreferenceParameterExample_Test.class,
 	AutoReFocusExample_Test.class,
 	AutoReFocusRepeaterExample_Test.class,
@@ -30,20 +27,28 @@ import org.junit.runners.Suite;
 	RadioButtonExample_Test.class,
 	// TODO Not sure why not working
 	// SimpleFileUpload_Test.class,
+	SimplePaginationWithRowOptionsTableExample_Test.class,
 	SimpleTabs_Test.class,
-	TextDuplicatorHandleRequestImpl_Test.class,
-	TextDuplicatorVelocityImpl_Test.class,
-	TextDuplicatorSeleniumImpl_Test.class,
 	TextAreaExample_Test.class,
+	TextDuplicatorHandleRequestImpl_Test.class,
+	TextDuplicatorSeleniumImpl_Test.class,
+	TextDuplicatorVelocityImpl_Test.class,
 	TextFieldExample_Test.class,
 	WButtonExample_Test.class,
+	WCheckBoxExample_Test.class,
 	WCheckBoxSelectExample_Test.class,
+	WCheckBoxTriggerActionExample_Test.class,
 	WDialogExample_Test.class,
+	WDropdownOptionsExample_Test.class,
+	WDropdownSpaceHandlingExample_Test.class,
+	WDropdownSpecialCharHandlingExample_Test.class,
 	WDropdownSubmitOnChangeExample_Test.class,
+	WDropdownTriggerActionExample_Test.class,
 	WPopupExample_Test.class,
-	WTextExample_Test.class,
 	WRadioButtonSelectExample_Test.class,
-	AjaxWDropdownExample_Test.class,
+	WRadioButtonSubmitOnChangeExample_Test.class,
+	WRadioButtonTriggerActionExample_Test.class,
+	WTextExample_Test.class,
 	PetStore_Suite.class
 })
 

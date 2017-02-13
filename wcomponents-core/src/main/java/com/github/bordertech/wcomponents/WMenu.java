@@ -14,8 +14,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class WMenu extends AbstractNamingContextContainer implements Disableable, AjaxTarget,
-		Marginable, MenuSelectContainer {
+public class WMenu extends AbstractNamingContextContainer implements Disableable, AjaxTarget, Marginable, MenuSelectContainer {
 
 	/**
 	 * The available types of client-side menus.

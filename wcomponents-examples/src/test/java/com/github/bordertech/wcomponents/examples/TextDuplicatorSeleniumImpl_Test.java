@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -18,7 +17,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class TextDuplicatorSeleniumImpl_Test extends WComponentExamplesTestCase{
+public class TextDuplicatorSeleniumImpl_Test extends WComponentExamplesTestCase {
 
 	/**
 	 * Creates a TextDuplicator_Test_SeleniumImpl.

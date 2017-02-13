@@ -13,17 +13,23 @@ $wc-input-width-slug: wc_fld_inpw; // DO NOT CHANGE
 	$iw: 100% - $lw;
 
 	.#{$wc-label-width-slug}_#{$lwdth} {
-		&.wc-layout-flat > .wc-field > :first-child {
-			width: $lw;
+		&.wc-layout-flat > .wc-field {
+			> :first-child {
+				width: $lw;
+			}
+
+			> .wc-input {
+				max-width: $iw;
+				width: $iw;
+			}
 		}
 
-		&.wc-layout-stacked > .wc-field > .wc-input {
-			margin-left: $lw;
-		}
-
-		> .wc-field > .wc-input {
-			max-width: $iw;
-			width: $iw;
+		@if ($wc-fieldlayout-stack-allow-indent == 1) {
+			&.wc-layout-stacked > .wc-field > .wc-input {
+				margin-left: $lw;
+				max-width: $iw;
+				width: $iw;
+			}
 		}
 	}
 

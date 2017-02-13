@@ -1,9 +1,12 @@
 package com.github.bordertech.wcomponents.layout;
 
+import com.github.bordertech.wcomponents.util.SpaceUtil;
+
 /**
  * GridLayout is a {@link LayoutManager} that emulates {@link java.awt.GridLayout}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class GridLayout implements LayoutManager {
@@ -19,14 +22,58 @@ public class GridLayout implements LayoutManager {
 	private final int cols;
 
 	/**
-	 * The horizontal gap between the columns, measured in pixels.
+	 * The horizontal space between the columns.
 	 */
+	private final SpaceUtil.Size hSpace;
+
+	/**
+	 * The vertical space between the rows.
+	 */
+	private final SpaceUtil.Size vSpace;
+
+	/**
+	 * For temporary backwards compatibility only.
+	 */
+	@Deprecated
 	private final int hgap;
 
 	/**
-	 * The vertical gap between the rows, measured in pixels.
+	 * For temporary backwards compatibility only.
 	 */
+	@Deprecated
 	private final int vgap;
+
+	/**
+	 * For temporary backwards compatibility only.
+	 *
+	 * @param rows the rows, with the value zero meaning any number of rows
+	 * @param cols the columns, with the value zero meaning any number of columns
+	 * @param hSpace the real space between columns in the grid
+	 * @param vSpace the real space between rows in the gid
+	 * @param hgap the requested gap between the columns
+	 * @param vgap the requested gap between the rows
+	 */
+	@Deprecated
+	private GridLayout(final int rows, final int cols, final SpaceUtil.Size hSpace, final SpaceUtil.Size vSpace, final int hgap, final int vgap) {
+		if (rows < 0) {
+			throw new IllegalArgumentException("Rows must be greater than or equal to zero");
+		}
+
+		if (cols < 0) {
+			throw new IllegalArgumentException("Cols must be greater than or equal to zero");
+		}
+
+		if (rows == 0 && cols == 0) {
+			throw new IllegalArgumentException("One of rows or cols must be greater than zero");
+		}
+
+		this.rows = rows;
+		this.cols = cols;
+		this.hSpace = hSpace;
+		this.vSpace = vSpace;
+		this.hgap = hgap;
+		this.vgap = vgap;
+	}
 
 	/**
 	 * Creates a grid layout with the specified number of rows and columns.
@@ -38,27 +85,40 @@ public class GridLayout implements LayoutManager {
 	 * @param cols the columns, with the value zero meaning any number of columns.
 	 */
 	public GridLayout(final int rows, final int cols) {
-		this(rows, cols, 0, 0);
+		this(rows, cols, null, null);
 	}
 
 	/**
+	 * Creates a grid layout with the specified number of rows and columns and spacing.
+	 *
+	 * @param rows the rows, with the value zero meaning any number of rows
+	 * @param cols the columns, with the value zero meaning any number of columns
+	 * @param hgap the space between the columns
+	 * @param vgap the space between the rows
+	 *
+	 * @deprecated use {@link #GridLayout(int, int, SpaceUtil.Size, SpaceUtil.Size)}
+	 */
+	@Deprecated
+	public GridLayout(final int rows, final int cols, final int hgap, final int vgap) {
+		this(rows, cols, SpaceUtil.intToSize(hgap), SpaceUtil.intToSize(vgap), hgap, vgap);
+	}
+	/**
 	 * Creates a grid layout with the specified number of rows and columns.
 	 * <p>
-	 * In addition, the horizontal and vertical gaps are set to the specified values. Horizontal gaps are placed at the
-	 * left and right edges, and between each of the columns. Vertical gaps are placed at the top and bottom edges, and
-	 * between each of the rows.
+	 * In addition, the horizontal and vertical spaces are set to the specified values. Horizontal spaces are placed between each of the columns.
+	 * Vertical spaces are placed between each of the rows.
 	 * <p>
-	 * One, but not both, of <code>rows</code> and <code>cols</code> can be zero, which means that any number of objects
-	 * can be placed in a row or in a column.
+	 * One, but not both, of <code>rows</code> and <code>cols</code> can be zero, which means that any number of objects can be placed in a row or in
+	 * a column.
 	 * <p>
 	 * All <code>GridLayout</code> constructors defer to this one.
 	 *
 	 * @param rows the rows, with the value zero meaning any number of rows
 	 * @param cols the columns, with the value zero meaning any number of columns
-	 * @param hgap the horizontal gap between the columns, measured in pixels.
-	 * @param vgap the vertical gap between the rows, measured in pixels.
+	 * @param hSpace the space between the columns
+	 * @param vSpace the space between the rows
 	 */
-	public GridLayout(final int rows, final int cols, final int hgap, final int vgap) {
+	public GridLayout(final int rows, final int cols, final SpaceUtil.Size hSpace, final SpaceUtil.Size vSpace) {
 		if (rows < 0) {
 			throw new IllegalArgumentException("Rows must be greater than or equal to zero");
 		}
@@ -67,34 +127,46 @@ public class GridLayout implements LayoutManager {
 			throw new IllegalArgumentException("Cols must be greater than or equal to zero");
 		}
 
-		if (hgap < 0) {
-			throw new IllegalArgumentException("Hgap must be greater than or equal to zero");
-		}
-
-		if (vgap < 0) {
-			throw new IllegalArgumentException("Vgap must be greater than or equal to zero");
-		}
-
 		if (rows == 0 && cols == 0) {
 			throw new IllegalArgumentException("One of rows or cols must be greater than zero");
 		}
 
 		this.rows = rows;
 		this.cols = cols;
-		this.hgap = hgap;
-		this.vgap = vgap;
+		this.hSpace = hSpace;
+		this.vSpace = vSpace;
+		this.hgap = -1;
+		this.vgap = -1;
 	}
 
 	/**
-	 * @return Returns the horizontal gap between the cells, measured in pixels.
+	 * @return the horizontal gap between the cells
 	 */
+	public SpaceUtil.Size getHorizontalGap() {
+		return hSpace;
+	}
+
+	/**
+	 * @return the vertical gap between the cells
+	 */
+	public SpaceUtil.Size getVerticalGap() {
+		return vSpace;
+	}
+
+	/**
+	 * @return the horizontal gap between the cells measured in pixels
+	 * @deprecated use {@link #getHorizontalGap() }
+	 */
+	@Deprecated
 	public int getHgap() {
 		return hgap;
 	}
 
 	/**
-	 * @return Returns the vertical gap between the cells, measured in pixels.
+	 * @return the vertical gap between the cells measured in pixels
+	 * @deprecated use {@link #getVerticalGap() }
 	 */
+	@Deprecated
 	public int getVgap() {
 		return vgap;
 	}

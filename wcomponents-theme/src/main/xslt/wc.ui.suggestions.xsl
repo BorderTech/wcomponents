@@ -1,25 +1,9 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	
-	<xsl:import href="wc.constants.xsl"/>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.fauxOption.xsl"/>
-	<xsl:import href="wc.common.n.className.xsl"/>
+	<xsl:import href="wc.common.attributes.xsl"/>
+
 	<xsl:template match="ui:suggestions">
-		<xsl:if test="parent::ui:ajaxtarget">
-			<xsl:call-template name="suggestions"/>
-		</xsl:if>
-	</xsl:template>
-	<!--
-		This is a transform for WSuggestions. This component is designed to convert a text input element into a combo.
-		
-		NOTE: we are still using the combo polyfill because the behaviour of dynamically generated and updated native 
-		input[@list]/datalist pairs gives sub-optimal UX.
-	-->
-	
-	<xsl:template match="ui:suggestions" mode="inline">
-		<xsl:call-template name="suggestions"/>
-	</xsl:template>
-	
-	<xsl:template name="suggestions">
 		<span id="{@id}" role="listbox">
 			<xsl:call-template name="makeCommonClass"/>
 			<xsl:if test="@min">
@@ -37,17 +21,15 @@
 					<xsl:value-of select="1"/>
 				</xsl:attribute>
 			</xsl:if>
+			<xsl:if test="@autocomplete">
+				<xsl:attribute name="data-wc-auto">
+					<xsl:value-of select="@autocomplete"/>
+				</xsl:attribute>
+			</xsl:if>
 			<xsl:if test="not(*)">
-				<xsl:choose>
-					<xsl:when test="not(@ajax) or parent::ui:ajaxtarget">
-						<span role="option" hidden="hidden"></span>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:attribute name="aria-busy">
-							<xsl:copy-of select="$t"/>
-						</xsl:attribute>
-					</xsl:otherwise>
-				</xsl:choose>
+				<xsl:attribute name="aria-busy">
+					<xsl:text>true</xsl:text>
+				</xsl:attribute>
 			</xsl:if>
 			<xsl:apply-templates select="ui:suggestion"/>
 		</span>

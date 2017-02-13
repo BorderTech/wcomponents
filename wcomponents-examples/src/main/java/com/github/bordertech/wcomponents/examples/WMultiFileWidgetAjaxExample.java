@@ -24,6 +24,7 @@ import com.github.bordertech.wcomponents.WNumberField;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
@@ -62,7 +63,7 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 
 		WFieldLayout paramsLayout = new WFieldLayout();
 		paramsLayout.setLabelWidth(25);
-		paramsLayout.setMargin(new Margin(0, 0, 12, 0));
+		paramsLayout.setMargin(new Margin(null, null, SpaceUtil.Size.LARGE, null));
 		add(paramsLayout);
 		cols.setMinValue(0);
 		cols.setMaxValue(8);
@@ -88,7 +89,7 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 		imageEditorParmsLayout.addField("Height", editorHeight);
 		imageEditorFieldSet.add(imageEditorParmsLayout);
 		add(imageEditorFieldSet);
-		imageEditorFieldSet.setMargin(new Margin(0, 0, 30, 0));
+		imageEditorFieldSet.setMargin(new Margin(null, null, SpaceUtil.Size.XL, null));
 
 		showThumnails.setSelected(true);
 		paramsLayout.addField("show thumbnails", showThumnails);

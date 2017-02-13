@@ -21,14 +21,7 @@
 define(["wc/has"], function(has) {
 	"use strict";
 	var global = window,
-		result = ["lib/dojo/sniff"],
-		promisify = function(deps) {
-			var i, promises = [];
-			for (i = 0; i < deps.length; i++) {  // Don't use array.map here in case the browser doesn't support it
-				promises.push(global.SystemJS["import"](deps[i]));
-			}
-			return promises;
-		};
+		result = ["lib/dojo/sniff"];
 
 	(function(addtest) {
 		// This block taken from tests from hasjs project. Didn't want to load the whole script.
@@ -468,10 +461,6 @@ define(["wc/has"], function(has) {
 					"loadEventEnd": ((new Date()) * 1)}}});
 			}
 		});
-	}
-
-	if (global.SystemJS) {
-		result = promisify(result);
 	}
 
 	result.load = function (id, parentRequire, callback) {

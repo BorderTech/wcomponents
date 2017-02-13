@@ -19,11 +19,14 @@ define(["wc/dom/attribute",
 	"wc/isNumeric",
 	"wc/ui/ajaxRegion",
 	"wc/config",
-	"wc/dom/toDocFragment"],
+	"wc/dom/toDocFragment",
+	"wc/ui/fieldset"],
 	function (attribute, prefetch, event, initialise, uid, Trigger, classList, sprintf, has, i18n, getFileSize,
 		accepted, Widget, formUpdateManager, filedrop, ajax, prompt, focus, isNumeric, ajaxRegion, wcconfig,
 		toDocFragment) {
 		"use strict";
+
+		// Note `wc/ui/fieldset` is implicitly required to handle various aspects of managing the wrapper element.
 
 		var
 			/**
@@ -53,7 +56,7 @@ define(["wc/dom/attribute",
 			 * @requires module:wc/config
 			 */
 			instance = new MultiFileUploader(),
-			CLASS_NAME = "wc-fileupload",
+			CLASS_NAME = "wc-multifileupload",
 			COL_ATTR = "data-wc-cols",
 			MAX_FILES_ATTR = "data-wc-maxfiles",
 			CLASS_NO_BULLET = "wc_list_nb",

@@ -71,9 +71,15 @@ $wc-root-loading-height-offset: $wc-root-loading-padding + ($wc-root-loading-ico
 [aria-busy='true'] {
 	position: relative; // to position the loading indicator.
 
-	@if ($wc-common-busy-content-opacity < 1) {
+	@if ($wc-common-busy-content-opacity >= 0 and $wc-common-busy-content-opacity < 1) {
 		> * {
-			@if ($wc-common-busy-content-opacity > 0) {
+			@if ($wc-common-busy-content-usefade == 1) {
+				transition-delay: 0s;
+				transition-duration: $wc-common-busy-content-fadeduration;
+				transition-property: opacity;
+				transition-timing-function: ease-in-out;
+			}
+			@if ($wc-common-busy-content-opacity > 0 or $wc-common-busy-content-usefade == 1) {
 				opacity: $wc-common-busy-content-opacity;
 			}
 			@else {
@@ -110,9 +116,15 @@ $wc-root-loading-height-offset: $wc-root-loading-padding + ($wc-root-loading-ico
 	}
 }
 
-@if ($wc-common-busy-content-opacity < 1) {
+@if ($wc-common-busy-content-opacity >= 0 and $wc-common-busy-content-opacity < 1) {
 	img[aria-busy='true'] {
-		@if ($wc-common-busy-content-opacity > 0) {
+		@if ($wc-common-busy-content-usefade == 1) {
+			transition-delay: 0s;
+			transition-duration: $wc-common-busy-content-fadeduration;
+			transition-property: opacity;
+			transition-timing-function: ease-in-out;
+		}
+		@if ($wc-common-busy-content-opacity > 0 or $wc-common-busy-content-usefade == 1) {
 			opacity: $wc-common-busy-content-opacity;
 		}
 		@else {

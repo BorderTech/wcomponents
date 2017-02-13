@@ -1,34 +1,65 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.SpaceUtil;
+
 /**
  * This is a layout component, to which you add {@link WColumn} components. The widths of all the columns added to the
  * row should total 100.
  *
  * @author Ming Gao
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  */
 public class WRow extends AbstractNamingContextContainer implements AjaxTarget, SubordinateTarget,
 		Marginable {
 
 	/**
-	 * The horizontal gap between the columns in the row, measured in pixels.
+	 * The horizontal space between the columns in the row, measured in pixels.
 	 */
-	private final int hgap;
+	private final SpaceUtil.Size space;
+
+	/**
+	 * For temporary backwards compatibility only.
+	 */
+	@Deprecated
+	private final int gap;
+
+	/**
+	 * For temporary backwards compatibility only.
+	 * @param space the real space between items
+	 * @param gap the requested space between items
+	 */
+	@Deprecated
+	private WRow(final SpaceUtil.Size space, final int gap) {
+		this.space = space;
+		this.gap = gap;
+	}
 
 	/**
 	 * Creates a WRow.
 	 */
 	public WRow() {
-		this(0);
+		this(null);
+	}
+
+	/**
+	 * Create a WRow with the specified space between columns.
+	 * @param space the space between columns in the row
+	 */
+	public WRow(final SpaceUtil.Size space) {
+		this.space = space;
+		this.gap = -1;
 	}
 
 	/**
 	 * Creates a WRow with the specified attributes.
 	 *
-	 * @param hgap the horizontal gap between the columns in the row, measured in pixels
+	 * @param hgap the space between the columns in the row
+	 * @deprecated use {@link #WRow(com.github.bordertech.wcomponents.util.SpaceUtil.Size)}
 	 */
+	@Deprecated
 	public WRow(final int hgap) {
-		this.hgap = hgap;
+		this(SpaceUtil.intToSize(hgap), hgap);
 	}
 
 	/**
@@ -50,10 +81,27 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	}
 
 	/**
-	 * @return the horizontal gap between the columns in the row, measured in pixels
+	 * @return the horizontal space between the columns in the row, measured in pixels
+	 * @deprecated use {@link #getGap()}
 	 */
+	@Deprecated
 	public int getHgap() {
-		return hgap;
+		return gap;
+	}
+
+	/**
+	 * @return the horizontal space between the columns in the row
+	 */
+	public SpaceUtil.Size getSpace() {
+		return space;
+	}
+
+	/**
+	 * @return the space between the components added to the layout.
+	 */
+	@Deprecated
+	public int getGap() {
+		return gap;
 	}
 
 	/**

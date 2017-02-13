@@ -52,18 +52,18 @@ define(["wc/date/interchange",
 			function isDateInvalid(element) {
 				var invalid = false,
 					date, flag, value,
-					textbox = dateField.getTextBox(element),
+					textbox,
 					comparisonDate,
 					label,
 					LABEL_PLACEHOLDER = "%s",
 					minAttrib = "data-wc-min",
 					maxAttrib = "data-wc-max";
 
-				if (!textbox || dateField.getPartialDateWidget().isOneOfMe(textbox)) {
-					return false;  // do not apply constraint validation to partial date fields, even if the date entered is a full date.
+				if (dateField.isReadOnly(element) || !(textbox = dateField.getTextBox(element)) || dateField.getPartialDateWidget().isOneOfMe(textbox)) {
+					return false;  // do not apply constraint validation to read-only or partial date fields, even if the date entered is a full date.
 				}
 
-				if (textbox && (value = dateField.getValue(element)) && !validationManager.isExempt(element)) {
+				if ((value = dateField.getValue(element)) && !validationManager.isExempt(element)) {
 					if (textbox.getAttribute("type") === "date") {
 						minAttrib = "min";
 						maxAttrib = "max";
@@ -160,6 +160,9 @@ define(["wc/date/interchange",
 				}
 				Array.prototype.forEach.call(candidates, function(next) {
 					var textBox;
+					if (dateField.isReadOnly(next)) {
+						return;
+					}
 					if (dateField.isLameDateField(next)) {
 						if (!next.getAttribute("aria-required")) {
 							return;
@@ -189,9 +192,8 @@ define(["wc/date/interchange",
 					});
 				}
 
-
 				if (dateField.isOneOfMe(container, true)) {
-					valid = !isDateInvalid(container);
+					valid = dateField.isReadOnly(container) || !isDateInvalid(container);
 				}
 				else {
 					invalid = Array.prototype.filter.call(candidates, isDateInvalid, this);

@@ -17,6 +17,7 @@ import org.openqa.selenium.WebElement;
  * A wrapper for WebElement to provide specific WComponents behavior.
  *
  * @author Joshua Barclay
+ * @author Mark Reeves
  * @since 1.2.0
  */
 public class SeleniumWComponentWebElement implements WebElement {
@@ -39,7 +40,7 @@ public class SeleniumWComponentWebElement implements WebElement {
 	 */
 	public SeleniumWComponentWebElement(final WebElement element, final WebDriver driver) {
 		if (element == null) {
-			throw new IllegalArgumentException("WComponetWebElement cannot wrap a null element.");
+			throw new IllegalArgumentException("WComponentWebElement cannot wrap a null element.");
 		}
 		if (driver == null) {
 			throw new IllegalArgumentException("driver must not be null.");
@@ -89,6 +90,14 @@ public class SeleniumWComponentWebElement implements WebElement {
 	 */
 	public SeleniumWSelectWebElement findSeleniumWSelectWebElement(final By by) {
 		return new SeleniumWSelectWebElement(element.findElement(by), driver);
+	}
+
+	/**
+	 * @param by the by to find the component.
+	 * @return the SeleniumSimpleSelectWebElement.
+	 */
+	public SeleniumSimpleSelectWebElement findSeleniumSimpleSelectWebElement(final By by) {
+		return new SeleniumSimpleSelectWebElement(element.findElement(by), driver);
 	}
 
 	/**
@@ -216,6 +225,14 @@ public class SeleniumWComponentWebElement implements WebElement {
 	@Override
 	public <X> X getScreenshotAs(final OutputType<X> ot) throws WebDriverException {
 		return element.getScreenshotAs(ot);
+	}
+
+	/**
+	 * Get the id of the default "active" part of the component. This may not be the WComponent id.
+	 * @return the active component's id, by default this is the WComponent id.
+	 */
+	public String getActiveId() {
+		return getAttribute("id");
 	}
 
 }

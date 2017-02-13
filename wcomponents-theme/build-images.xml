@@ -14,6 +14,9 @@
 	-->
 
 	<import file="build-import.xml"/>
+	<property name="images.rootdir" location="${common.src.rootdir}/images"/>
+	<property name="impl.images.rootdir" location="${impl.src.main.dir}/images"/>
+	<property name="images.build.target.dir" location="${target.rootdir}/images"/>
 
 	<target name="build" depends="init, copysrc" description="Builds images">
 		<copy todir="${images.build.target.dir}" overwrite="true">
@@ -29,13 +32,13 @@
 				- Property expansion (in SVGs)
 		-->
 		<copy todir="${images.tmp.src.dir}" overwrite="true">
-			<fileset dir="${images.rootdir}" includes="*.*" excludesfile="${excludesfile}" excludes="*.svg"/>
+			<fileset dir="${images.rootdir}" includes="*.*" excludes="*.svg"/>
 		</copy>
 		<copy todir="${images.tmp.src.dir}" overwrite="true">
 			<fileset dir="${impl.images.rootdir}" includes="*.*" excludes="*.svg" erroronmissingdir="false"/>
 		</copy>
 		<copy todir="${images.tmp.src.dir}" overwrite="true">
-			<fileset dir="${images.rootdir}" includes="*.svg" excludesfile="${excludesfile}"/>
+			<fileset dir="${images.rootdir}" includes="*.svg"/>
 			<filterchain>
 				<expandproperties/>
 				<deletecharacters chars="\t"/>
@@ -63,7 +66,6 @@
 	</target>
 
 	<target name="init" depends="clean">
-		<property file="${properties.build.constants}"/>
 		<mkdir dir="${images.tmp.src.dir}"/>
 	</target>
 

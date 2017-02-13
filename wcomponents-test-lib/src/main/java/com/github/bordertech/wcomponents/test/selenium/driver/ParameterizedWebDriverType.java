@@ -87,7 +87,8 @@ public class ParameterizedWebDriverType extends WebDriverType<WebDriver> {
 
 		final String classname = ConfigurationProperties.getTestSeleniumParameterisedDriver();
 		if (StringUtils.isBlank(classname)) {
-			throw new SystemException("No parameter defined for " + getClass().getName() + " expected parameter: " + ConfigurationProperties.TEST_SELENIUM_PARAMETERISED_DRIVER);
+			throw new SystemException("No parameter defined for " + getClass().getName() + " expected parameter: "
+					+ ConfigurationProperties.TEST_SELENIUM_PARAMETERISED_DRIVER);
 		}
 
 		return classname;

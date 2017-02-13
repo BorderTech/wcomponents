@@ -1,16 +1,5 @@
-/**
- * Module provides some generic DOM manipulation on any element which is in an ajax response. This manipulation is done
- * before the element is inserted into the DOM. The module replaces some ARIA states and properties which may not be
- * able to be calculated during XSLT of a partial screen such as aria-controls.
- *
- * @module
- * @requires module:wc/dom/initialise
- * @requires module:wc/ui/ajaxRegion
- * @requires module:wc/ui/ajax/processResponse
- */
-define(["wc/dom/initialise", "wc/ui/ajaxRegion", "wc/ui/ajax/processResponse"],
-	/** @param initialise wc/dom/initialise @param ajaxRegion wc/ui/ajaxRegion @param processResponse wc/ui/ajax/processResponse @ignore */
-	function(initialise, ajaxRegion, processResponse) {
+define(["wc/dom/initialise", "wc/ui/ajax/processResponse"],
+	function(initialise, processResponse) {
 		"use strict";
 
 		/**
@@ -31,20 +20,20 @@ define(["wc/dom/initialise", "wc/ui/ajaxRegion", "wc/ui/ajax/processResponse"],
 			 * @param {DocumentFragment} documentFragment The document fragment which will be inserted.
 			 */
 			function ajaxSubscriber(element, documentFragment) {
-				var trigger, allElements, i, len, next, id,
-					CONTROLS = "aria-controls";
+				var el,
+					LIVE = "aria-live",
+					liveSetting = element.getAttribute(LIVE);
 
-				if (typeof documentFragment.querySelectorAll !== "undefined") {
-					allElements = documentFragment.querySelectorAll("*");
-				}
-				else {
-					allElements = documentFragment.getElementsByTagName("*");
-				}
-				for (i = 0, len = allElements.length; i < len; ++i) {
-					next = allElements[i];
-					id = next.id;
-					if (id && !next.hasAttribute(CONTROLS) && (trigger = ajaxRegion.getTrigger(next, true))) {
-						next.setAttribute(CONTROLS, trigger.loads.join(" "));
+				if (liveSetting) {
+					if (documentFragment.getElementById) {
+						// IE, perhaps some others
+						el = documentFragment.getElementById(element.id);
+					}
+					else if (documentFragment.querySelector) {
+						el = documentFragment.querySelector("#" + element.id);
+					}
+					if (el) {
+						el.setAttribute(LIVE, liveSetting);
 					}
 				}
 			}
@@ -58,7 +47,16 @@ define(["wc/dom/initialise", "wc/ui/ajaxRegion", "wc/ui/ajax/processResponse"],
 			};
 		}
 
-		var /** @alias module:wc/ui/ajax/genericSubscriber */ instance = new GenericAjaxSubscriber();
+		/**
+		 * Module provides some generic DOM manipulation on any element which is in an ajax response. This manipulation is done
+		 * before the element is inserted into the DOM. The module replaces some ARIA states and properties which may not be
+		 * able to be calculated during XSLT of a partial screen such as aria-controls.
+		 *
+		 * @module
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/ui/ajax/processResponse
+		 */
+		var instance = new GenericAjaxSubscriber();
 		initialise.register(instance);
 		return instance;
 	});

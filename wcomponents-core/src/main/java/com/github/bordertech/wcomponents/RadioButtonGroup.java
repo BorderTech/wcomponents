@@ -32,7 +32,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, SubordinateTrigger {
+public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, SubordinateTrigger, MultiInputComponent {
 
 	/**
 	 * The logger instance for this class.

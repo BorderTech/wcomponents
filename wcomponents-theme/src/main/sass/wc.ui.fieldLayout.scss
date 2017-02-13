@@ -9,39 +9,41 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 	margin-top: $wc-gap-normal;
 }
 
-.wc_ordered {
-	&,
-	.wc-fieldlayout {
-		counter-reset: wcfld;
-	}
-
-	> .wc-field {
-		counter-increment: wcfld;
-
-		> :first-child::before {
-			content: counter(wcfld) '. ';
-			margin-right: $wc-gap-small;
-
-			.wc_ordered & {
-				content: counters(wcfld, '.') ' ';
-			}
+@if ($wc-fieldlayout-allow-ordered == 1) {
+	.wc_ordered {
+		&,
+		.wc-fieldlayout {
+			counter-reset: wcfld;
 		}
-	}
 
-	&.wc-layout-stacked > .wc-field {
-		&::before {
-			content: counter(wcfld) '. ';
-			margin-right: $wc-gap-small;
+		> .wc-field {
+			counter-increment: wcfld;
 
-			.wc_ordered & {
-				content: counters(wcfld, '.') ' ';
+			> :first-child::before {
+				content: counter(wcfld) '. ';
+				margin-right: $wc-gap-small;
+
+				.wc_ordered & {
+					content: counters(wcfld, '.') ' ';
+				}
 			}
 		}
 
-		> :first-child::before {
-			content: '';
-			display: none;
-			margin-right: 0;
+		&.wc-layout-stacked > .wc-field {
+			&::before {
+				content: counter(wcfld) '. ';
+				margin-right: $wc-gap-small;
+
+				.wc_ordered & {
+					content: counters(wcfld, '.') ' ';
+				}
+			}
+
+			> :first-child::before {
+				content: '';
+				display: none;
+				margin-right: 0;
+			}
 		}
 	}
 }
@@ -57,8 +59,8 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 
 	// InputWidth class is added to the field to signify that an inputWidth is in use so we can size the components.
 	.wc_inputwidth > & {
-		> .wc_input_wrapper,
-		> .wc_input_wrapper input,
+		> .wc-input-wrapper,
+		> .wc-input-wrapper input,
 		> [type='password'],
 		> [type='number'],
 		> textarea,
@@ -69,7 +71,7 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 		}
 	}
 
-	> .wc_input_wrapper,
+	> .wc-input-wrapper,
 	> input,
 	> select,
 	> textarea {
@@ -97,26 +99,35 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 				max-width: $wc-fieldlayout-input-width;
 				width: $wc-fieldlayout-input-width;
 			}
-		}
 
-		// This lot does the CSS for the various allowed values of WFieldLayout's labelWidth member.
-		// If you _really_ want to support all values of labelWidth then you will have to change the
-		// variable $wc-fld-list to be the single value -1.
-		@if ($wc-fld-list == -1) {
-			@for $i from 1 through 100 {
-				$wc-fld-lblw: $i * 1%;
-				@include wc-fld-layout($j);
+			.wc-moved-label {
+				@include offscreen;
 			}
 		}
-		@else {
-			@for $i from 1 through 20 {
-				$j: $i * 5;
-				@include wc-fld-layout($j);
-			}
 
-			@if ($wc-fld-list != 0) {
-				@each $w in $wc-fld-list {
-					@include wc-fld-layout($w);
+		// Optionally allow for labelWidth settings.
+		@if($wc-fieldlayout-labelwidth-prevent-override == 0) {
+			// This lot does the CSS for the various allowed values of WFieldLayout's labelWidth member.
+			// If you _really_ want to support all values of labelWidth then you will have to change the
+			// variable $wc-fld-list to be the single value -1.
+			@if ($wc-fld-list == -1) {
+				@for $i from 1 through 100 {
+					$wc-fld-lblw: $i * 1%;
+					@include wc-fld-layout($j);
+				}
+			}
+			@else {
+				@if ($wc-fld-widths-include-fives == 1) {
+					@for $i from 1 through 20 {
+						$j: $i * 5;
+						@include wc-fld-layout($j);
+					}
+				}
+
+				@if ($wc-fld-list != 0) {
+					@each $w in $wc-fld-list {
+						@include wc-fld-layout($w);
+					}
 				}
 			}
 		}

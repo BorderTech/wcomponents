@@ -16,7 +16,7 @@ import org.openqa.selenium.WebDriver;
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class WCheckBoxSelectExample_Test extends WComponentExamplesTestCase{
+public class WCheckBoxSelectExample_Test extends WComponentExamplesTestCase {
 
 	/**
 	 * Creates a new WCheckBoxSelectExample_Test.

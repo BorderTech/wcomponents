@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.ComponentModel;
+import com.github.bordertech.wcomponents.MenuSelectContainer;
 import com.github.bordertech.wcomponents.TestAction;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
@@ -78,6 +79,7 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 		// Test selection
 		item = new WMenuItem(itemText, url);
 		wrapped = wrapMenuItem(item);
+		wrapped.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);
 		assertXpathNotExists("//ui:menuitem/@selected", item);
 		assertXpathNotExists("//ui:menuitem/@selected", item);
 

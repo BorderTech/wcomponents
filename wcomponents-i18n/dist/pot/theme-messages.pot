@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-27 11:58+1100\n"
+"POT-Creation-Date: 2017-02-01 16:52+1100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -249,7 +249,6 @@ msgid "[a-zA-Z]"
 msgstr ""
 
 #. 
-#. both XSLT and JS
 #: requiredLabel
 #, java-format
 msgctxt "requiredLabel"
@@ -257,6 +256,7 @@ msgid "This component requires a label"
 msgstr ""
 
 #. 
+#. both XSLT and JS
 #: requiredPlaceholder
 #, java-format
 msgctxt "requiredPlaceholder"
@@ -1059,6 +1059,13 @@ msgid "The image contains too many faces"
 msgstr ""
 
 #. 
+#: imgedit_edit
+#, java-format
+msgctxt "imgedit_edit"
+msgid "Edit"
+msgstr ""
+
+#. 
 #: imgedit_noimage
 #, java-format
 msgctxt "imgedit_noimage"
@@ -1290,7 +1297,7 @@ msgstr ""
 #: mfc_add
 #, java-format
 msgctxt "mfc_add"
-msgid "Add item to:"
+msgid "Add item"
 msgstr ""
 
 #. 
@@ -1473,4 +1480,22 @@ msgid ""
 "saved.</p><p>To start a new session you can do one of the following actions:"
 "</p><ul><li>navigate to the home page; or</li><li>close this window and open "
 "a new application.</li></ul>"
+msgstr ""
+
+#. 
+#. # Headings ##
+#. JS only
+#: missingHeading
+#, java-format
+msgctxt "missingHeading"
+msgid "This heading requires text equivalent content"
+msgstr ""
+
+#. 
+#. 
+#. # WTree messages
+#: tree_resize_handle
+#, java-format
+msgctxt "tree_resize_handle"
+msgid "ARROW RIGHT to widen column, ARROW LEFT to narrow column"
 msgstr ""
