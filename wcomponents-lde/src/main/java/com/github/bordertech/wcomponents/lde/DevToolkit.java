@@ -40,7 +40,9 @@ import org.apache.velocity.VelocityContext;
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
+ * @deprecated 1.4.0 flagged for removal as not fit for purpose and has <strong>serious</strong> a11y issues.
  */
+@Deprecated
 public final class DevToolkit {
 
 	/**
@@ -147,7 +149,6 @@ public final class DevToolkit {
 
 		boolean debug = "true".equals(request.getParameter("devToolkit_debugEnabled"));
 		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_DEBUG_ENABLED, debug);
-		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_DEBUG_CLIENT_SIDE, debug);
 
 		// If the toolkit has been used, chances are that the WComponent configuration has changed.
 		// Update all configuration listeners.
@@ -336,8 +337,7 @@ public final class DevToolkit {
 	 * @return true if the client-side WComponent debugging features are enabled.
 	 */
 	public boolean isDebugEnabled() {
-		return ConfigurationProperties.getDeveloperDebugEnabled()
-				&& ConfigurationProperties.getDeveloperDebugClientSide();
+		return ConfigurationProperties.getDeveloperDebugEnabled();
 	}
 
 	/**

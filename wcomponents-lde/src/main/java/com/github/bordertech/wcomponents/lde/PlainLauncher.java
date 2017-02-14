@@ -11,7 +11,6 @@ import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,11 +59,6 @@ public class PlainLauncher extends TestServlet {
 	private String uiClassName;
 
 	/**
-	 * The dev toolkit instance for this LDE.
-	 */
-	private static final DevToolkit TOOLKIT = new DevToolkit();
-
-	/**
 	 * This method has been overridden to load a WComponent from parameters.
 	 *
 	 * @param httpServletRequest the servlet request being handled.
@@ -109,8 +103,6 @@ public class PlainLauncher extends TestServlet {
 	@Override
 	protected void service(final HttpServletRequest request, final HttpServletResponse response)
 			throws ServletException, IOException {
-		// The toolkit must access the request before any WComponent processing occurs
-		TOOLKIT.serviceRequest(request);
 		super.service(request, response);
 	}
 
@@ -124,19 +116,7 @@ public class PlainLauncher extends TestServlet {
 		// The toolkit must render itself within the page shell
 		// and wrap the main WComponent output.
 		InterceptorComponent.replaceInterceptor(PageShellInterceptor.class,
-				new PageShellInterceptor() {
-			@Override
-			protected void beforePaint(final PrintWriter writer) {
-				super.beforePaint(writer);
-				TOOLKIT.paintHeader(writer);
-			}
-
-			@Override
-			protected void afterPaint(final PrintWriter writer) {
-				TOOLKIT.paintFooter(writer);
-				super.afterPaint(writer);
-			}
-		}, chain);
+				new PageShellInterceptor(), chain);
 
 		return chain;
 	}
@@ -151,7 +131,7 @@ public class PlainLauncher extends TestServlet {
 		// Check if the parameter COMPONENT_TO_LAUNCH_PARAM_KEY has been
 		// configured with the name of a component to launch.
 
-		WComponent sharedApp = null;
+		WComponent sharedApp;
 
 		uiClassName = getComponentToLaunchClassName();
 
