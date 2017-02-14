@@ -178,6 +178,11 @@ public final class ConfigurationProperties {
 	public static final String LOGOUT_URL = "bordertech.wcomponents.logout.url";
 
 	/**
+	 * Memory utility will consider sizes above this level a possible memory leak.
+	 */
+	public static final String MEMUTIL_WARN_THRESHOLD = "bordertech.wcomponents.memutil.threshold.warn";
+
+	/**
 	 * The flag indicating whether plaintext should cache.
 	 */
 	public static final String PLAINTEXT_CACHE = "bordertech.wcomponents.plaintext.cache.enabled";
@@ -797,6 +802,15 @@ public final class ConfigurationProperties {
 	 */
 	public static String getLogoutUrl() {
 		return get().getString(LOGOUT_URL);
+	}
+
+	/**
+	 * The default warning threshold for MemoryUtil possible memory leaks.
+	 *
+	 * @return the parameter value if set, otherwise the default.
+	 */
+	public static int getMemoryUtilWarnThreshold() {
+		return get().getInt(MEMUTIL_WARN_THRESHOLD, 1000);
 	}
 
 	/**
