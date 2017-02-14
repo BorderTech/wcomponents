@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
+import com.github.bordertech.wcomponents.util.MemoryUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +23,9 @@ public class WComponentGroup<T extends WComponent> extends AbstractWComponent im
 	 * @param component the component to add.
 	 */
 	public void addToGroup(final T component) {
-		getOrCreateComponentModel().components.add(component);
+		ComponentGroupModel model = getOrCreateComponentModel();
+		model.components.add(component);
+		MemoryUtil.checkSize(model.components.size(), this.getClass().getSimpleName());
 	}
 
 	/**

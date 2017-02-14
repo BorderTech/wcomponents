@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.registry.UIRegistry;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
+import com.github.bordertech.wcomponents.util.MemoryUtil;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -202,6 +203,7 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 			return;
 		}
 		model.jsResources.add(resource);
+		MemoryUtil.checkSize(model.jsResources.size(), this.getClass().getSimpleName());
 	}
 
 	/**
@@ -278,6 +280,7 @@ public class WApplication extends AbstractMutableContainer implements AjaxTarget
 			return;
 		}
 		model.cssResources.add(resource);
+		MemoryUtil.checkSize(model.cssResources.size(), this.getClass().getSimpleName());
 	}
 
 	/**
