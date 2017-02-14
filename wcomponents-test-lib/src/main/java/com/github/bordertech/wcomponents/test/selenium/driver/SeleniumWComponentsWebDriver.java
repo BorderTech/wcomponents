@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWCheckBox
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponentWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWDialogWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWEmailFieldWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWLabelWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWPhoneNumberFieldWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWRadioButtonWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWSelectWebElement;
@@ -266,12 +267,44 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	}
 
 	/**
-	 * Find a WMultieSelect by the given criteria.
+	 * Find a WMultiSelect by the given criteria.
 	 * @param by the By selector
 	 * @return the SeleniumWRadioButtonWebElement or null if not found.
 	 */
 	public SeleniumWSelectWebElement findWMultiSelect(final By by) {
 		return new SeleniumWSelectWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WLabel by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWLabelWebElement
+	 */
+	public SeleniumWLabelWebElement findWLabel(final By by) {
+		return new SeleniumWLabelWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WLabel containing given text.
+	 * @param text the text in the label
+	 * @param idx the index to apply the selector to get the nth label when there are multiple on a page
+	 * @return the label containing the text (if found) at the given index
+	 */
+	public SeleniumWLabelWebElement findWLabelWithPartialText(final String text, final int idx) {
+		String selector = new StringBuilder("//*[contains(@class, 'wc-label') and contains(text(), '")
+				.append(text)
+				.append("')]").toString();
+		List<WebElement> elements = findElements(By.xpath(selector));
+		return new SeleniumWLabelWebElement(elements.get(idx), this);
+	}
+
+	/**
+	 * Find a WLabel containing given text.
+	 * @param text the text in the label
+	 * @return the label containing the text
+	 */
+	public SeleniumWLabelWebElement findWLabelWithPartialText(final String text) {
+		return findWLabelWithPartialText(text, 0);
 	}
 
 	/**
