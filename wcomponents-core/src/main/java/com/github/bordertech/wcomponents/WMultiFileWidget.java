@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.WLink.ImagePosition;
 import com.github.bordertech.wcomponents.file.File;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
+import com.github.bordertech.wcomponents.util.MemoryUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.thumbnail.ThumbnailUtil;
@@ -120,6 +121,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 			setData(files);
 		}
 		files.add(file);
+		MemoryUtil.checkSize(files.size(), this.getClass().getSimpleName());
 	}
 
 	/**
