@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.examples.SeleniumTests;
 import com.github.bordertech.wcomponents.examples.WComponentExamplesTestCase;
+import com.github.bordertech.wcomponents.test.selenium.ByLabel;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponentWebElement;
@@ -94,6 +95,55 @@ public class WLabelExample_Test extends WComponentExamplesTestCase {
 		Assert.assertTrue(label.isReadOnly());
 		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WTextField[2]"));
 		Assert.assertEquals(expected.getAttribute("id"), label.getLabelledComponent().getAttribute("id"));
+	}
+
+	// Use ByLabel to get a component by label text
+	@Test
+	public void testGetByLabelSimple() {
+		String labelText = "Normal input component";
+		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WTextField[0]"));
+		SeleniumWComponentWebElement actual = driver.findElement(new ByLabel(labelText, false));
+		Assert.assertEquals(expected.getAttribute("id"), actual.getAttribute("id"));
+	}
+
+	@Test
+	public void testGetByLabelSimplePartial() {
+		String labelText = "Normal input";
+		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WTextField[0]"));
+		SeleniumWComponentWebElement actual = driver.findElement(new ByLabel(labelText, true));
+		Assert.assertEquals(expected.getAttribute("id"), actual.getAttribute("id"));
+	}
+
+	@Test
+	public void testGetByLabelComplex() {
+		String labelText = "Select one or more options";
+		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WCheckBoxSelect[0]"));
+		SeleniumWComponentWebElement actual = driver.findElement(new ByLabel(labelText, false));
+		Assert.assertEquals(expected.getAttribute("id"), actual.getAttribute("id"));
+	}
+
+	@Test
+	public void testGetByLabelComplexPartial() {
+		String labelText = "one or more";
+		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WCheckBoxSelect[0]"));
+		SeleniumWComponentWebElement actual = driver.findElement(new ByLabel(labelText, true));
+		Assert.assertEquals(expected.getAttribute("id"), actual.getAttribute("id"));
+	}
+
+	@Test
+	public void testGetByLabelReadOnly() {
+		String labelText = "A hidden label for a read only field";
+		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WTextField[2]"));
+		SeleniumWComponentWebElement actual = driver.findElement(new ByLabel(labelText, false));
+		Assert.assertEquals(expected.getAttribute("id"), actual.getAttribute("id"));
+	}
+
+	@Test
+	public void testGetByLabelReadOnlyPartial() {
+		String labelText = "for a read only";
+		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WTextField[2]"));
+		SeleniumWComponentWebElement actual = driver.findElement(new ByLabel(labelText, true));
+		Assert.assertEquals(expected.getAttribute("id"), actual.getAttribute("id"));
 	}
 
 
