@@ -100,6 +100,9 @@ public class ByLabel extends By {
 		for (WebElement label : labels) {
 			String elementId = label.getAttribute(SeleniumWComponentWebProperties.ATTRIBUTE_LABEL_FOR.toString());
 			if (StringUtils.isEmpty(elementId)) {
+				elementId = label.getAttribute(SeleniumWComponentWebProperties.ATTRIBUTE_LABEL_FAUX_FOR.toString());
+			}
+			if (StringUtils.isEmpty(elementId)) {
 				elementId = label.getAttribute(SeleniumWComponentWebProperties.ATTRIBUTE_LABEL_FOR_READ_ONLY.toString());
 			}
 
