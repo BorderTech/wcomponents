@@ -9,23 +9,12 @@ dialog {
 	// bottom: auto;
 	display: none;
 	left: 0;
+	max-height: $wc-ui-dialog-max-height;
+	max-width: $wc-ui-dialog-max-width;
 	position: fixed;
 	// right: auto; // chrome again
 	top: 0;
 	z-index: $wc-z-index-dialog;
-
-	@if ($wc-ui-dialog-max-height > 0) {
-		max-height: $wc-ui-dialog-max-height;
-	}
-	@else {
-		max-height: 100%;
-	}
-	@if ($wc-ui-dialog-max-width > 0) {
-		max-width: $wc-ui-dialog-max-width;
-	}
-	@else {
-		max-width: 100%;
-	}
 
 	@if ($wc-ui-dialog-min-height > 0) {
 		min-height: $wc-ui-dialog-min-height;
@@ -38,17 +27,15 @@ dialog {
 		@include flex($direction: column);
 	}
 
-	@if ($wc-ui-dialog-allow-resize == 1) {
-		&.wc_max { // maximised:
-			// important to override any inline CSS
-			// scss-lint:disable ImportantRule
-			@include border-box;
-			left: 0 !important;
-			min-height: 100%;
-			min-width: 100%;
-			overflow: auto;
-			top: 0 !important;
-		}
+	&.wc_max { // maximised:
+		// important to override any inline CSS
+		// scss-lint:disable ImportantRule
+		@include border-box;
+		left: 0 !important;
+		min-height: 100%;
+		min-width: 100%;
+		overflow: auto;
+		top: 0 !important;
 	}
 
 	> header,
@@ -75,20 +62,12 @@ dialog {
 			margin-right: $wc-gap-small;
 		}
 
-
-		@if ($wc-ui-dialog-allow-resize == 1) {
-			.wc_maxcont {
-				display: inline-block;
-			}
-
-			.wc_btn_icon + button {
-				margin-left: $wc-gap-small;
-			}
+		.wc_maxcont {
+			display: inline-block;
 		}
-		@else {
-			.wc_maxcont {
-				display: none;
-			}
+
+		.wc_btn_icon + button {
+			margin-left: $wc-gap-small;
 		}
 	}
 
@@ -100,22 +79,17 @@ dialog {
 	}
 
 	> footer {
-		@if ($wc-ui-dialog-allow-resize == 1) {
-			display: block;
-			line-height: 0;
-			padding: 0;
-			text-align: right;
+		display: block;
+		line-height: 0;
+		padding: 0;
+		text-align: right;
 
-			button {
-				cursor: nwse-resize;
+		button {
+			cursor: nwse-resize;
 
-				&:before {
-					padding: $wc-gap-small;
-				}
+			&:before {
+				padding: $wc-gap-small;
 			}
-		}
-		@else {
-			display: none;
 		}
 	}
 }
@@ -128,10 +102,8 @@ dialog {
 			min-height: 100%;
 			min-width: 100%;
 
-			@if ($wc-ui-dialog-allow-resize == 1) {
-				> footer {
-					display: none;
-				}
+			> footer {
+				display: none;
 			}
 
 			> header .wc_maxcont {
@@ -147,12 +119,7 @@ dialog {
 		.wc_resizeflow { // keyboard and resize event initiated drag and resize animation
 			transition-delay: $wc-ui-dialog-transition-delay;
 			transition-duration: $wc-ui-dialog-transition-duration;
-			@if ($wc-ui-dialog-allow-resize == 1) {
-				transition-property: left, top, height, width;
-			}
-			@else {
-				transition-property: left, top;
-			}
+			transition-property: left, top, height, width;
 			transition-timing-function: ease-in-out;
 		}
 	}

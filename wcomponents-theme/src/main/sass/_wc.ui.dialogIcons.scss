@@ -5,21 +5,19 @@
 	content: $fa-var-times;
 }
 
-@if ($wc-ui-dialog-allow-resize == 1) {
-	dialog {
-		header .wc_maxcont {
-			&:before {
-				content: $fa-var-plus;
-			}
-
-			&[aria-pressed='true']:before {
-				content: $fa-var-minus;
-			}
+dialog {
+	header .wc_maxcont {
+		&:before {
+			content: $fa-var-plus;
 		}
 
-		footer .wc_resize:before {
-			content: $fa-var-arrows-alt;
-			opacity: 0.5;
+		&[aria-pressed='true']:before {
+			content: $fa-var-minus;
 		}
+	}
+
+	footer .wc_resize:before {
+		content: $fa-var-arrows-alt;
+		opacity: 0.5;
 	}
 }
