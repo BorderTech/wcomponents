@@ -181,27 +181,24 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/getStyle", "wc/dom/ui
 				}
 				positionedBySize[id] = {id: id, conf: conf};
 
-				if (!(width && height)) {
-					// reset left and top
-					_el.style.top = "";
-					_el.style.left = "";
-					if (_el.style.width) {
-						width = parseFloat(_el.style.width.replace(UNIT, ""));
-					}
-					else {
-						box = getBox(_el);
-						width = box.width;
-					}
-					if (_el.style.height) {
-						height = parseFloat(_el.style.height.replace(UNIT, ""));
-					}
-					else {
-						box = box || getBox(_el);
-						height = box.height;
-					}
+				_el.style.top = "";
+				_el.style.left = "";
+				box = getBox(_el);
+				if (box) {
+					width = box.width || width;
+					height = box.height || height;
 				}
-				top = (relSize.height - height) * topOffset;
+				if (!width && _el.style.width) {
+					width = parseFloat(_el.style.width.replace(UNIT, ""));
+				}
+				if (!height && _el.style.height) {
+					height = parseFloat(_el.style.height.replace(UNIT, ""));
+				}
+
+				width = width || 0;
 				left = (relSize.width - width) * leftOffset;
+				height = height || 0;
+				top = (relSize.height - height) * topOffset;
 				this.setPosition(_el, left, top);
 			};
 

@@ -3,6 +3,40 @@ $fa-font-path: '../resource';
 
 //**********************************************************************************************************************
 //**********************************************************************************************************************
+// RESPONSIVE DESIGN OPTIONS
+//**********************************************************************************************************************
+//**********************************************************************************************************************
+// These flags are used to turn on/off inbuilt responsive design CSS. There are a few reasons why you might turn off the
+// default responsive design:
+// 1. you have a better roll-your-own option;
+// 2. you have an intranet (or other limited use) application which does not need it;
+// 3. you have mobile users but hate them; or
+// 4. I can't think of another one but there must be something.
+// Turn on/off inbuilt responsive CSS set to anything other than 1 to turn ALL inbuilt responsive CSS off. This will
+// make your built CSS MUCH smaller.
+$wc-use-respond: 1 !default;
+// Some components have a LOT of inbuilt responsive CSS so you may want to disable the in-built responsive CSS for those
+// without disabling all of the responsive CSS. All of these are ignored if $wc-use-respond != 1.
+//
+// Intra- and inter- component spacing
+// If this is set to 1 then all horizontal gaps using wc-hgap-* wc-vgap-* and mc-margin-* will be
+// reduced to the sizes which follow this var in narrow viewports. You probably don't want to disable this if your gaps
+// are r/em based and you are changing the font size unless you are putting in your own more carefully crafted spacing
+// constraints.
+$wc-gap-reduce-when-narrow: 1 !default;
+// GridLayout set to 1 to use the inbuilt responsive design.
+$wc-use-respond-gridlayout: 1 !default;
+// WFieldLayout: the LAYOUT_FLAT and labelWidth indent options can produce a LOT of CSS - See
+// * $wc-fieldlayout-force-stack;
+// * $wc-fieldlayout-labelwidth-prevent-override;
+// * $wc-fieldlayout-stack-allow-indent; etc.
+$wc-use-respond-fieldlayout: 1 !default;
+// WTable: set to 1 to use the inbuilt responsive design.
+$wc-use-respond-table: 1 !default;
+// WDialog: set to 1 to allow inbuilt responsixe design (full screen on small viewports).
+$wc-use-respond-dialog: 1 !default;
+//**********************************************************************************************************************
+//**********************************************************************************************************************
 // FONTS.
 //**********************************************************************************************************************
 //**********************************************************************************************************************
@@ -74,13 +108,8 @@ $wc-gap-normal: 0.5rem !default;
 $wc-gap-large: 1rem !default;
 $wc-gap-xl: 1.5rem !default;
 
-// If this is set to anything other than -1 then all horizontal gaps using wc-hgap-* wc-vgap-* and mc-margin-* will be
-// reduced to the sizes which follow this var in narrow viewports. You probably don't want to disable this if your gaps
-// are r/em based and you are changing the font size unless you are putting in your own more carefully crafted spacing
-// constraints.
-$wc-gap-reduce-when-narrow: 1 !default;
-// If the previous var == -1 then the following are ignored, otherwise they are used to set the gap sizes for narrow
-// viewports.
+// If the $wc-gap-reduce-when-narrow != 1 then the following are ignored, otherwise they are used to set the gap sizes
+// for narrow viewports.
 $wc-phone-gap-small: 0.125rem !default;
 $wc-phone-gap-normal: 0.25rem !default;
 $wc-phone-gap-large: 0.5rem !default;
@@ -208,11 +237,11 @@ $wc-section-space-normal: $wc-gap-normal !default;
 $wc-section-space-header: $wc-section-space-normal !default;
 
 // the space between the section box and its content on small viewports. This is reversed to "doc" a menu. Not applied
-// if $wc-gap-reduce-when-narrow == -1.
+// if $wc-gap-reduce-when-narrow != 1.
 $wc-section-space-reduced: $wc-phone-gap-normal !default;
 
 // The space around section headers on narrow viewports. Not applied if $wc-section-space-header <= 0 or if
-// $wc-section-space-normal <= 0 or if $wc-gap-reduce-when-narrow == -1.
+// $wc-section-space-normal <= 0 or if $wc-gap-reduce-when-narrow != 1.
 $wc-section-space-header-reduced: $wc-section-space-reduced !default;
 
 //**********************************************************************************************************************
@@ -239,22 +268,32 @@ $wc-list-layout-bar-width-offset: 2 * $wc-gap-normal !default;
 // it is not likely you will want to force the same list (though you could).
 //
 // * -1 means support all widths from 1% to 100%. This is a LOT of CSS (but not so much as the WFieldLayout variant).
-// * 0 means support columns with widths which are multiples of 5%.
-// * a list of positive integer values means support all column widths which are a multiple of 5% or a member of the
-//   list. Do not repeat multiples of 5% in the list: they are redundant.
+// * 0 means support columns with widths which are multiples of 5% if $wc-column-widths-include-fives == 1, otherwise
+// support nothing.
+// * a list of positive integer values means support all column widths which are a member of the list. Do not repeat
+// multiples of 5% in the list: if $wc-column-widths-include-fives == 1.
 //
 // This setting will support all available column widths at the cost of lots of CSS.
-$wc-column-list: -1 !default;
+// $wc-column-list: -1 !default;
 // This setting will support all column widths which are positive integer multiple of 5%.
-// $wc-column-list: 0;
+$wc-column-list: 0 !default;
 // This setting will give you all multiples of 5 plus the widths (as %) included in the list
-// $wc-column-list: 16, 33, 34, 66, 67, 83;
+// $wc-column-list: 16, 33, 34, 66, 67, 83 !default;
+// This is an ease-of-use helper for `$wc-column-list` which, if set to 1, will ensure column allowed widths includes
+// all multiples of 5%. This is ignored if `$wc-column-list` is set to -1.
+$wc-column-widths-include-fives: 1 !default;
 
 //**********************************************************************************************************************
 // Dialogs - WDialog, Image editor.
 //**********************************************************************************************************************
-$wc-ui-dialog-min-width: 15rem !default;
-$wc-ui-dialog-min-height: 7rem !default;
+// The minimum width for a dialog (when not in a small viewport). Ignored if not greater than 0.
+$wc-ui-dialog-min-width: 0 !default; // 15rem !default;
+// The maximum width for a dialog (when not in a small viewport).
+$wc-ui-dialog-max-width: 100% !default;
+// The minimum height for a dialog (when not in a small viewport). Ignored if not greater than 0.
+$wc-ui-dialog-min-height: 0 !default; // 2rem !default;
+// The maximum height for a dialog (when not in a small viewport).
+$wc-ui-dialog-max-height: 100% !default;
 // Do we want to have the amusing but wasteful dialog resize/move transitions? 1 is yes, anything else is no.
 $wc-ui-dialog-use-transitions: 1 !default;
 // Used only if the scale and move transitions are turned on and supported.
@@ -369,14 +408,14 @@ $wc-table-sort-icon-pos: top !default;
 //**********************************************************************************************************************
 // WTabSet
 //**********************************************************************************************************************
-// The width of the tab in left/right TabSets.
+// Allow left and right tabset styles
+// 1 = allow, anything else = disallow.
+$wc-tabset-allow-left-right: 1 !default;
+// The width of the tab in left/right TabSets. Ignored if $wc-tabset-allow-left-right != 1
 // This _should_ be a percentage, otherwise you will have to manipulate the IE9 Sass.
 $wc-tabset-left-right-tab-width: 15% !default;
 $wc-tabset-border-radius: $wc-gap-small !default;
 
-// Allow left and right tabset styles
-// 1 = allow, anything else = disallow.
-$wc-tabset-allow-left-right: 1 !default;
 
 //**********************************************************************************************************************
 // WTree

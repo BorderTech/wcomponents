@@ -6,25 +6,36 @@
 // scss-lint:disable VendorPrefix DuplicateProperty
 
 /// Set a flex display mode with its associated gubbins.
+/// @param {display} $display [flex] the flex display to use, either flex or inline-flex
 /// @param {flex-direction} $direction [row] The flex-direction.
 /// @param {flex-wrap} $wrap [nowrap] The flex wrap model to apply.
 /// @param {justify-content} $justify [flex-start] The item justification model to apply.
 /// @param {align-items} $align-items [stretch] The item alignment model to apply.
 /// @param {align-content} $align-content [stretch] The item content alignment model to set.
-@mixin flex($direction: row, $wrap: nowrap, $justify: flex-start, $align-items: stretch, $align-content: stretch) {
+@mixin flex($display: flex, $direction: row, $wrap: nowrap, $justify: flex-start, $align-items: stretch, $align-content: stretch) {
 	display: block; // See issue #561
 	display: -webkit-flex;
-	-webkit-flex-direction: $direction;
-	-webkit-flex-wrap: $wrap;
-	-webkit-justify-content: $justify;
-	-webkit-align-items: $align-items;
-	-webkit-align-content: $align-content;
-	display: flex;
-	flex-direction: $direction;
-	flex-wrap: $wrap;
-	justify-content: $justify;
-	align-items: $align-items;
-	align-content: $align-content;
+	display: $display;
+	@if ($direction != row) {
+		-webkit-flex-direction: $direction;
+		flex-direction: $direction;
+	}
+	@if ($wrap != nowrap) {
+		-webkit-flex-wrap: $wrap;
+		flex-wrap: $wrap;
+	}
+	@if ($justify != flex-start) {
+		-webkit-justify-content: $justify;
+		justify-content: $justify;
+	}
+	@if ($align-items != stretch) {
+		-webkit-align-items: $align-items;
+		align-items: $align-items;
+	}
+	@if ($align-content != stretch) {
+		-webkit-align-content: $align-content;
+		align-content: $align-content;
+	}
 }
 
 /// Apply the align-items rule to an element. This assumes a flex display is already set.

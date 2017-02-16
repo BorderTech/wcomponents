@@ -1,4 +1,3 @@
-/* wc.ui.panel.scss */
 @import 'mixins-common';
 // Type.ACTION
 @import 'wc.ui.panel.action';
@@ -46,7 +45,7 @@ footer {
 @import 'wc.ui.panel.header';
 
 // Reduce padded panels on narrow viewports.
-@if ($wc-gap-reduce-when-narrow != -1) {
+@if ($wc-use-respond == 1 and $wc-gap-reduce-when-narrow == 1) {
 	@include respond-phonelike {
 		.wc-panel-type-block,
 		.wc-panel-type-box,
