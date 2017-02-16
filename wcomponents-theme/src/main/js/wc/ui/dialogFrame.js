@@ -44,7 +44,6 @@ define(["wc/dom/event",
 				MAX_BUTTON,
 				HEADER_WD = new Widget("header"),
 				TITLE_WD = new Widget("h1"),
-				FORM = new Widget("form"),
 				BUSY,
 				UNIT = "px",
 				repositionTimer,
@@ -917,10 +916,6 @@ define(["wc/dom/event",
 		 * @property {String} openerId The ID of the control which is opening the dialog.
 		 * @property {int} [width] The dialog width in px.
 		 * @property {int} [height] The dialog height in px.
-		 * @property {int} [initWidth] The dialog width in px as set by the Java. This is used if the theme allows resizing but prevents a dialog
-		 *   being made smaller than its intial size. This property is not in the registration object passed in to the module.
-		 * @property {int} [initHeight] The dialog height in px as set by the Java. This is used if the theme allows resizing but prevents a dialog
-		 *   being made smaller than its intial size. This property is not in the registration object passed in to the module.
 		 * @property {Boolean} [resizeable] Is the dialog resizeable?
 		 * @property {Boolean} [modal] Is the dialog modal?
 		 * @property {String} [title] The WDialog title. If not set a default title is used.

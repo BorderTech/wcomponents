@@ -1,4 +1,3 @@
-/* wc.ui.table.scss */
 // This is the core of the table CSS. The other CSS files are used for functional images and other items which are less
 // likely to be implementation specific
 @import 'mixins-common';
@@ -313,94 +312,95 @@ th[aria-sort] {
 	}
 }
 
-
-@include respond-phonelike {
-	.wc-table.wc-respond {
-		table,
-		caption,
-		thead,
-		tfoot,
-		tbody,
-		tr,
-		th,
-		td {
-			@include border-box;
-			display: block;
-			width: 100%;
-		}
-
-		caption {
-			padding: $wc-gap-small 0;
-		}
-
-		tr {
-			+ tr {
-				@include border($pos: top);
+@if ($wc-use-respond == 1 and $wc-use-respond-table == 1) {
+	@include respond-phonelike {
+		.wc-table.wc-respond {
+			table,
+			caption,
+			thead,
+			tfoot,
+			tbody,
+			tr,
+			th,
+			td {
+				@include border-box;
+				display: block;
+				width: 100%;
 			}
 
-			+ tr[aria-level='1'],
-			+ tr:not([aria-level]) {
-				margin-top: $wc-gap-small;
+			caption {
+				padding: $wc-gap-small 0;
 			}
-		}
 
-		.wc_table_sel_wrapper,
-		.wc_table_rowexp_container {
-			display: none;
-		}
+			tr {
+				+ tr {
+					@include border($pos: top);
+				}
 
-		.wc_table_rowexp_container[role='button'] {
-			display: inline-block;
-			padding: $wc-gap-small 0;
-			width: auto;
+				+ tr[aria-level='1'],
+				+ tr:not([aria-level]) {
+					margin-top: $wc-gap-small;
+				}
+			}
 
-			+ .wc-th,
-			+ .wc-td {
+			.wc_table_sel_wrapper,
+			.wc_table_rowexp_container {
+				display: none;
+			}
+
+			.wc_table_rowexp_container[role='button'] {
 				display: inline-block;
-				padding-left: 0;
-				width: calc(100% - $wc-icon-normal);
-			}
-		}
+				padding: $wc-gap-small 0;
+				width: auto;
 
-		@for $i from 2 to 6 {
-			[aria-level='#{$i}'] {
-				padding-left: $i * $wc-gap-normal;
-
-				th,
-				td {
+				+ .wc-th,
+				+ .wc-td {
+					display: inline-block;
 					padding-left: 0;
+					width: calc(100% - $wc-icon-normal);
 				}
 			}
-		}
 
-		.wc_table_top_controls {
-			@include flex-direction(column);
+			@for $i from 2 to 6 {
+				[aria-level='#{$i}'] {
+					padding-left: $i * $wc-gap-normal;
 
-			> div {
-				@include flex-shrink(1);
-
-				&:last-child {
-					@include flex-justify-content(flex-start);
-					text-align: left;
+					th,
+					td {
+						padding-left: 0;
+					}
 				}
 			}
-		}
 
-		tr[aria-selected='true'] {
-			&,
-			&.wc-invite:hover,
-			&.wc-invite:focus {
-				background-color: $wc-ui-color-selected-bg;
+			.wc_table_top_controls {
+				@include flex-direction(column);
+
+				> div {
+					@include flex-shrink(1);
+
+					&:last-child {
+						@include flex-justify-content(flex-start);
+						text-align: left;
+					}
+				}
 			}
 
-			> th,
-			> td {
-				// WARNING: you _may_ want to add overrides for coloured elements eg, headings.
+			tr[aria-selected='true'] {
 				&,
-				a,
-				a:visited,
-				.wc-linkbutton {
-					color: $wc-ui-color-selected-fg;
+				&.wc-invite:hover,
+				&.wc-invite:focus {
+					background-color: $wc-ui-color-selected-bg;
+				}
+
+				> th,
+				> td {
+					// WARNING: you _may_ want to add overrides for coloured elements eg, headings.
+					&,
+					a,
+					a:visited,
+					.wc-linkbutton {
+						color: $wc-ui-color-selected-fg;
+					}
 				}
 			}
 		}
