@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples.theme;
 
+import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WBeanContainer;
 import com.github.bordertech.wcomponents.WComponent;
@@ -32,19 +33,19 @@ public class WListExample extends WPanel {
 	public WListExample() {
 		super(Type.BLOCK);
 
-		add(new WHeading(WHeading.SECTION, "Simple horizontal list with a bar separator."));
+		add(new WHeading(HeadingLevel.H2, "Simple horizontal list with a bar separator."));
 		WText nameRenderer = new WText();
 		nameRenderer.setBeanProperty("name");
 		addList(WList.Type.FLAT, WList.Separator.BAR, false, nameRenderer);
 		add(new WHorizontalRule());
 
-		add(new WHeading(WHeading.SECTION, "Simple vertical list with a dot separator."));
+		add(new WHeading(HeadingLevel.H2, "Simple vertical list with a dot separator."));
 		nameRenderer = new WText();
 		nameRenderer.setBeanProperty("name");
 		addList(WList.Type.STACKED, WList.Separator.DOT, false, nameRenderer);
 		add(new WHorizontalRule());
 
-		add(new WHeading(WHeading.SECTION, "Striped list with a border and complex content."));
+		add(new WHeading(HeadingLevel.H2, "Striped list with a border and complex content."));
 		addList(WList.Type.STRIPED, null, true, new SimpleListRenderer());
 	}
 

@@ -45,7 +45,6 @@ final class WTableRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("hidden", table.isHidden(), "true");
 		xml.appendOptionalAttribute("caption", table.getCaption());
-		xml.appendOptionalAttribute("summary", table.getSummary());
 
 		switch (table.getType()) {
 			case TABLE:

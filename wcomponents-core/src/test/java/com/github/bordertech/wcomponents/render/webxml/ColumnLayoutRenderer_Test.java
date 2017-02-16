@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.layout.ColumnLayout.Alignment;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
@@ -13,9 +14,18 @@ import org.xml.sax.SAXException;
  * Junit test case for {@link ColumnLayoutRenderer}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class ColumnLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
+	/**
+	 * A small gap.
+	 */
+	private static final SpaceUtil.Size GAP = SpaceUtil.Size.SMALL;
+	/**
+	 * A big gap.
+	 */
+	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
 
 	@Test
 	public void testDoRenderWhenEmpty() throws IOException, SAXException, XpathException {
@@ -66,10 +76,10 @@ public class ColumnLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:panel/ui:columnlayout/@vgap", container);
 
 		// Test hgap, vgap
-		container.setLayout(new ColumnLayout(cols, 1, 2));
+		container.setLayout(new ColumnLayout(cols, GAP, BIG_GAP));
 		assertSchemaMatch(container);
-		assertXpathEvaluatesTo("1", "//ui:panel/ui:columnlayout/@hgap", container);
-		assertXpathEvaluatesTo("2", "//ui:panel/ui:columnlayout/@vgap", container);
+		assertXpathEvaluatesTo(GAP.toString(), "//ui:panel/ui:columnlayout/@hgap", container);
+		assertXpathEvaluatesTo(BIG_GAP.toString(), "//ui:panel/ui:columnlayout/@vgap", container);
 
 		// Test Alignment
 		container.setLayout(new ColumnLayout(cols, aligns));
@@ -80,10 +90,10 @@ public class ColumnLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("center", "//ui:panel/ui:columnlayout/ui:column[2]/@align", container);
 
 		// Test Alignment, hgap, vgap
-		container.setLayout(new ColumnLayout(cols, aligns, 1, 2));
+		container.setLayout(new ColumnLayout(cols, aligns, GAP, BIG_GAP));
 		assertSchemaMatch(container);
-		assertXpathEvaluatesTo("1", "//ui:panel/ui:columnlayout/@hgap", container);
-		assertXpathEvaluatesTo("2", "//ui:panel/ui:columnlayout/@vgap", container);
+		assertXpathEvaluatesTo(GAP.toString(), "//ui:panel/ui:columnlayout/@hgap", container);
+		assertXpathEvaluatesTo(BIG_GAP.toString(), "//ui:panel/ui:columnlayout/@vgap", container);
 		assertXpathEvaluatesTo("right", "//ui:panel/ui:columnlayout/ui:column[1]/@align", container);
 		assertXpathEvaluatesTo("center", "//ui:panel/ui:columnlayout/ui:column[2]/@align", container);
 	}

@@ -115,24 +115,6 @@ public class ValidateXMLInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
-	public void testWellFormedXMLWithDoctype() {
-		String testXML = XMLUtil.DOC_TYPE + "<ui:root " + XMLUtil.STANDARD_NAMESPACES + ">" + "<div>this is good xml with doctype</div></ui:root>";
-		MyComponent testUI = new MyComponent(testXML);
-		String xml = generateOutput(testUI);
-		Assert.assertEquals(INCORRECT_OUTPUT_MSG, testXML, xml);
-	}
-
-	@Test
-	public void testBadlyFormedXMLWithDoctype() {
-		String testXML = XMLUtil.DOC_TYPE + "<bad>this is bad xml with doctype";
-		MyComponent testUI = new MyComponent(testXML);
-		String xml = generateOutput(testUI);
-		Assert.assertTrue(DID_NOT_DETECT_ERROR_MSG, hasInterceptorMessage(xml));
-		Assert.assertTrue(WRAPPED_XML_INVALID_MSG, checkXMLWellFormed(xml));
-		Assert.assertTrue(MISSING_ORIGINAL_XML_MSG, hasOriginalXML(xml, testXML));
-	}
-
-	@Test
 	public void testWellFormedXMLWithChild() {
 		String testXML = "<div>this is good with child</div>";
 		String childXML = "<child>I am a child</child>";
@@ -156,14 +138,6 @@ public class ValidateXMLInterceptor_Test extends AbstractWComponentTestCase {
 		testUI.add(child2);
 		String xml = generateOutput(testUI);
 		Assert.assertEquals(INCORRECT_OUTPUT_MSG, testXML + childXML1, xml);
-	}
-
-	@Test
-	public void testWellFormedXMLWithNBSP() {
-		String testXML = "<div>this is good &nbsp;</div>";
-		MyComponent testUI = new MyComponent(testXML);
-		String xml = generateOutput(testUI);
-		Assert.assertEquals(INCORRECT_OUTPUT_MSG, testXML, xml);
 	}
 
 	@Test
@@ -309,6 +283,6 @@ public class ValidateXMLInterceptor_Test extends AbstractWComponentTestCase {
 	 * @return the wrapped xml.
 	 */
 	private String wrapXML(final String xml) {
-		return XMLUtil.XML_DECLERATION + "<ui:root" + XMLUtil.STANDARD_NAMESPACES + ">" + xml + "</ui:root>";
+		return XMLUtil.XML_DECLARATION + "<ui:root" + XMLUtil.STANDARD_NAMESPACES + ">" + xml + "</ui:root>";
 	}
 }

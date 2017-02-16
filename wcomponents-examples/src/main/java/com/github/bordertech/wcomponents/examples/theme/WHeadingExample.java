@@ -14,7 +14,7 @@ import com.github.bordertech.wcomponents.util.HtmlClassProperties;
 /**
  * This component demonstrates the {@link WHeading} component.
  *
- * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class WHeadingExample extends WContainer {
@@ -89,6 +89,35 @@ public class WHeadingExample extends WContainer {
 		add(iconHeading);
 
 		// you should NEVER set an icon as the ONLY visible text content of a WHeading
+		add(new WHorizontalRule());
+
+		add(new WHeading(HeadingLevel.H2, "Heading anti patterns"));
+		add(new ExplanatoryText("Bad heading examples - do NOT use these!"));
+		add(new WHeading(HeadingLevel.H3, "Empty headings"));
+
+		add(new WHeading(HeadingLevel.H1, ""));
+		add(new WHeading(HeadingLevel.H2, ""));
+		add(new WHeading(HeadingLevel.H3, ""));
+		add(new WHeading(HeadingLevel.H4, ""));
+		add(new WHeading(HeadingLevel.H5, ""));
+		add(new WHeading(HeadingLevel.H6, ""));
+
+		add(new WHeading(HeadingLevel.H3, "Almost empty headings"));
+		add(new WHeading(HeadingLevel.H1, "\u00a0"));
+		add(new WHeading(HeadingLevel.H2, "\u00a0"));
+		add(new WHeading(HeadingLevel.H3, "\u00a0"));
+		add(new WHeading(HeadingLevel.H4, "\u00a0"));
+		add(new WHeading(HeadingLevel.H5, "\u00a0"));
+		add(new WHeading(HeadingLevel.H6, "\u00a0"));
+
+		add(new WHeading(HeadingLevel.H3, "Bad image headings"));
+		add(new ExplanatoryText("The image in these headings has no description."));
+		add(new WHeading(HeadingLevel.H1, makeAntiPatternLabel()));
+		add(new WHeading(HeadingLevel.H2, makeAntiPatternLabel()));
+		add(new WHeading(HeadingLevel.H3, makeAntiPatternLabel()));
+		add(new WHeading(HeadingLevel.H4, makeAntiPatternLabel()));
+		add(new WHeading(HeadingLevel.H5, makeAntiPatternLabel()));
+		add(new WHeading(HeadingLevel.H6, makeAntiPatternLabel()));
 	}
 
 	/**
@@ -99,6 +128,14 @@ public class WHeadingExample extends WContainer {
 	private WDecoratedLabel makeHeadingLabel(final String text, final String statusText) {
 		return new WDecoratedLabel(new WImage("/image/information.png", "Informative heading"),
 				new WText(text), new WStyledText(statusText, WStyledText.Type.EMPHASISED));
+	}
+
+	/**
+	 *
+	 * @return a decorated label containing an undescribed image.
+	 */
+	private WDecoratedLabel makeAntiPatternLabel() {
+		return new WDecoratedLabel(new WImage("/image/information.png", ""));
 	}
 
 }

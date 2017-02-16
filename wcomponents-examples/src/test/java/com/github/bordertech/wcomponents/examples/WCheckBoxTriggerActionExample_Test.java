@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
+import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -12,11 +12,12 @@ import org.openqa.selenium.WebDriver;
  * Selenium unit tests for {@link WCheckBoxTriggerActionExample}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class WCheckBoxTriggerActionExample_Test extends WComponentExamplesTestCase{
+public class WCheckBoxTriggerActionExample_Test extends WComponentExamplesTestCase {
 
 	/**
 	 * Creates a new WCheckBoxTriggerActionExample_Test.
@@ -28,29 +29,25 @@ public class WCheckBoxTriggerActionExample_Test extends WComponentExamplesTestCa
 	@Test
 	public void testExample() {
 		// Launch the web browser to the LDE
-		WebDriver driver = getDriver();
+		SeleniumWComponentsWebDriver driver = getDriver();
 
 		WCheckBoxTriggerActionExample ui = (WCheckBoxTriggerActionExample) getUi();
 
 		// Select "Breakfast"
-		driver.findElement(byWComponent(ui.getBreakfastCheckBox())).click();
-		Assert.assertEquals("Should have submitted 'Breakfast' to server", "Breakfast selected",
-				getMessageText());
+		driver.findWCheckBox(byWComponent(ui.getBreakfastCheckBox())).click();
+		Assert.assertEquals("Should have submitted 'Breakfast' to server", "Breakfast selected", getMessageText());
 
 		// Select "Lunch"
-		driver.findElement(byWComponent(ui.getLunchCheckBox())).click();
-		Assert.assertEquals("Should have submitted 'Lunch' to server", "Lunch selected",
-				getMessageText());
+		driver.findWCheckBox(byWComponent(ui.getLunchCheckBox())).click();
+		Assert.assertEquals("Should have submitted 'Lunch' to server", "Lunch selected", getMessageText());
 
 		// Select "Dinner"
-		driver.findElement(byWComponent(ui.getDinnerCheckBox())).click();
-		Assert.assertEquals("Should have submitted 'Dinner' to server", "Dinner selected",
-				getMessageText());
+		driver.findWCheckBox(byWComponent(ui.getDinnerCheckBox())).click();
+		Assert.assertEquals("Should have submitted 'Dinner' to server", "Dinner selected", getMessageText());
 
 		// De-select "Lunch"
-		driver.findElement(byWComponent(ui.getLunchCheckBox())).click();
-		Assert.assertEquals("Should have submitted 'Lunch' to server", "Lunch unselected",
-				getMessageText());
+		driver.findWCheckBox(byWComponent(ui.getLunchCheckBox())).click();
+		Assert.assertEquals("Should have submitted 'Lunch' to server", "Lunch unselected", getMessageText());
 	}
 
 	/**

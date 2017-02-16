@@ -2,7 +2,6 @@ define(["wc/dom/event",
 	"wc/dom/focus",
 	"wc/dom/initialise",
 	"wc/dom/shed",
-	"wc/dom/tag",
 	"wc/dom/uid",
 	"wc/dom/Widget",
 	"wc/i18n/i18n",
@@ -17,8 +16,9 @@ define(["wc/dom/event",
 	"wc/dom/role",
 	"lib/handlebars/handlebars",
 	"wc/ui/viewportUtils",
+	"wc/ui/getForm",
 	"wc/config"],
-	function (event, focus, initialise, shed, tag, uid, Widget, i18n, loader, processResponse, modalShim, timers, has, resizeable, positionable, draggable, $role, handlebars, viewportUtils, wcconfig) {
+	function (event, focus, initialise, shed, uid, Widget, i18n, loader, processResponse, modalShim, timers, has, resizeable, positionable, draggable, $role, handlebars, viewportUtils, getForm, wcconfig) {
 		"use strict";
 
 		/**
@@ -112,25 +112,14 @@ define(["wc/dom/event",
 			 * @param {wc/ui/dialogFrame~dto} [dto] The config options for the dialog (if any).
 			 * @returns {?Element} The form element.
 			 */
-			function getForm(dto) {
+			function getDlgForm(dto) {
 				var formId = (dto ? (dto.formId || dto.openerId) : null),
-					candidate, forms;
+					el;
 
-				if (formId && (candidate = document.getElementById(formId))) {
-					if (candidate.tagName === tag.FORM) {
-						return candidate;
-					}
-					else if ((formId = candidate.form)) {
-						return document.getElementById(formId);
-					}
-					return FORM.findAncestor(candidate);
+				if (formId) {
+					el = document.getElementById(formId);
 				}
-				// no clue to the form get the last form in the view
-				forms = document.getElementsByTagName("form");
-				if (forms && forms.length) {
-					return forms[forms.length - 1];
-				}
-				return null;
+				return getForm(el);
 			}
 
 			/**
@@ -151,7 +140,7 @@ define(["wc/dom/event",
 					}
 					return Promise.reject(REJECT.ALREADY_OPEN);
 				}
-				else if ((form = getForm(dto))) {
+				else if ((form = getDlgForm(dto))) {
 					formId = form.id || (form.id = uid());
 
 					if (formId) {
@@ -451,13 +440,14 @@ define(["wc/dom/event",
 						},
 						dialogHTML = compiledTemplate(dialogProps);
 
-					if (formId && (form = document.getElementById(formId)) && !FORM.isOneOfMe(form)) {
-						form = FORM.findAncestor(form);
-					}
 
-					// fallback: will only work if there is only one form in a screen
+					if (formId) {
+						form = document.getElementById(formId);
+					}
+					form = getForm(form);
 					if (!form) {
-						form = FORM.findDescendant(document.body);
+						console.error("Cannot find form for dialog frame,");
+						return null;
 					}
 
 					form.insertAdjacentHTML("beforeEnd", dialogHTML);
@@ -890,7 +880,6 @@ define(["wc/dom/event",
 		 * @requires module:wc/dom/event
 		 * @requires module:wc/dom/focus
 		 * @requires module:wc/dom/initialise
-		 * @requires module:wc/dom/tag
 		 * @requires module:wc/dom/uid
 		 * @requires module:wc/dom/Widget
 		 * @requires module:wc/i18n/i18n
@@ -905,6 +894,7 @@ define(["wc/dom/event",
 		 * @requires module:wc/dom/role
 		 * @requires external:handlebars
 		 * @requires module:wc/ui/viewportUtils
+		 * @requires module:wc/ui/getForm
 		 */
 		var instance = new DialogFrame(),
 			repainter;

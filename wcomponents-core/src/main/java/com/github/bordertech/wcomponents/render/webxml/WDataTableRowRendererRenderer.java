@@ -52,7 +52,6 @@ final class WDataTableRowRendererRenderer extends AbstractWebXmlRenderer {
 		xml.appendAttribute("rowIndex", rowIndex);
 		xml.appendOptionalAttribute("unselectable", unselectable, "true");
 		xml.appendOptionalAttribute("selected", table.getSelectedRows().contains(rowIndex), "true");
-		xml.appendOptionalAttribute("disabled", dataModel.isDisabled(rowIndex), "true");
 		xml.appendOptionalAttribute("filterValues", getFilterValues(dataModel, rowIndex));
 
 		if (table.getExpandMode() != WDataTable.ExpandMode.NONE && dataModel instanceof TreeTableDataModel) {

@@ -8,24 +8,25 @@
 		"implementation.name". If not set then the tests from "common" alone will be used.
 	-->
 	<import file="build-import.xml"/>
-
-	<target name="build" description="Build unit tests" depends="init, intern">
-		<antcall target="checkPropertiesExpanded"/>
-		<jsunit srcDir="${intern.target.dir}"/>
-	</target>
-
+	<property name="common.test.rootdir" location="${theme.src.dir}/test"/>
+	<property name="test.output.dir" location="${build.rootdir}/test-classes"/>
 	<property name="test.output.rootdir" location="${test.output.dir}/${implementation.name}"/>
 	<property name="intern.target.dir" location="${test.output.rootdir}/intern"/>
 	<property name="impl.intern.srcdir" location="${impl.src.dir}/src/test/intern"/>
 	<property name="intern.srcdir" location="${common.test.rootdir}/intern"/>
 	<property environment="env"/>
 
+	<target name="build" description="Build unit tests" depends="init, intern">
+		<antcall target="checkPropertiesExpanded"/>
+		<jsunit srcDir="${intern.target.dir}"/>
+	</target>
+
 	<target name="intern">
 		<copy todir="${intern.target.dir}" overwrite="true">
-			<fileset dir="${intern.srcdir}" excludesfile="${excludesfile}">
+			<fileset dir="${intern.srcdir}">
 				<include name="**/*.js"/>
 			</fileset>
-			<fileset dir="${impl.intern.srcdir}" excludesfile="${excludesfile}" erroronmissingdir="false">
+			<fileset dir="${impl.intern.srcdir}" erroronmissingdir="false">
 				<include name="**/*.js"/>
 			</fileset>
 			<filterset>
@@ -39,57 +40,30 @@
 
 		<!-- NOTE: the two step copy here is so we do not try to apply filters to binary resources -->
 		<copy todir="${intern.target.dir}/resources">
-			<fileset dir="${intern.srcdir}/resources" excludesfile="${excludesfile}" includes="**/*.xml,**/*.html,**/*.css"/>
-			<fileset dir="${impl.intern.srcdir}/resources" excludesfile="${excludesfile}" includes="**/*.xml,**/*.html,**/*.css" erroronmissingdir="false"/>
+			<fileset dir="${intern.srcdir}/resources" includes="**/*.xml,**/*.html,**/*.css"/>
+			<fileset dir="${impl.intern.srcdir}/resources" includes="**/*.xml,**/*.html,**/*.css" erroronmissingdir="false"/>
 			<filterchain>
 				<expandproperties/>
 			</filterchain>
 		</copy>
 		<copy todir="${intern.target.dir}/resources">
-			<fileset dir="${intern.srcdir}/resources" excludesfile="${excludesfile}"  excludes="**/*.xml,**/*.html,**/*.css"/>
-			<fileset dir="${impl.intern.srcdir}/resources" excludesfile="${excludesfile}" excludes="**/*.xml,**/*.html,**/*.css" erroronmissingdir="false"/>
+			<fileset dir="${intern.srcdir}/resources" excludes="**/*.xml,**/*.html,**/*.css"/>
+			<fileset dir="${impl.intern.srcdir}/resources" excludes="**/*.xml,**/*.html,**/*.css" erroronmissingdir="false"/>
 		</copy>
-		<echo>Copying XSLT to test resources dir ${target.rootdir}/${xslt.target.dir.name}/${xsl.file.to.test}</echo>
-		<copy tofile="${intern.target.dir}/resources/wcomponents-all.xsl" file="${target.rootdir}/${xslt.target.dir.name}/${xsl.file.to.test}" failonerror="false"/><!-- Assumes there are no xsl imports or includes -->
 		<javascript.lint jsdir="${intern.target.dir}"/>
 	</target>
 
 
 	<target name="clean" description="Cleans up all artifacts produced by this build">
 		<delete dir="${intern.target.dir}"/>
+		<delete dir="${test.output.dir}"/>
 		<echo message="Clean from ${ant.file}"/>
 	</target>
 
 
 	<target name="init" depends="clean">
-		<if>
-			<os family="mac"/>
-			<!-- Mac reports the hostname as the IP address with dashes instead of dots, e.g. 192-168-1-9 -->
-			<then>
-				<propertyregex property="httpHost"
-					input="${env.HOSTNAME}"
-					regexp="^(\d+)-(\d+)-(\d+)-(\d+)$"
-					replace="\1.\2.\3.\4"
-					defaultValue="${env.HOSTNAME}"/>
-			</then>
-		</if>
-		<property name="httpHost" value="${env.HOSTNAME}"/>
-		<property file="${properties.build.constants}"/>
-		<property name="xsl.build.path" value="${implementation.name}/${xslt.target.dir.name}" />
-		<property name="xml.build.path" value="${implementation.name}/${resource.target.dir.name}" />
-		<property name="css.build.path" value="${implementation.name}/${css.target.dir.name}" />
-		<if>
-			<equals arg1="${test.target.mode}" arg2="debug" />
-			<then>
-				<property name="jsunit.path.totest" value="${implementation.name}/${script.debug.target.dir.name}"/>
-				<property name="xsl.file.to.test" value="${xslt.target.file.name}${debug.target.file.name.suffix}.xsl" />
-			</then>
-			<else>
-				<property name="jsunit.path.totest" value="${implementation.name}/${script.target.dir.name}"/>
-				<property name="xsl.file.to.test" value="${xslt.target.file.name}.xsl" />
-			</else>
-		</if>
-		<property name="xsl.build.totest" value="${xsl.build.path}/${xsl.file.to.test}" />
+		<mkdir dir="${intern.target.dir}"/>
+		<mkdir dir="${test.output.dir}"/>
 	</target>
 
 	<target name="test" depends="build" description="Run the JavaScript unit tests"/>
@@ -121,7 +95,7 @@
 			<fileset dir="${intern.target.dir}" id="unitTests">
 				<include name="*.js"/>
 			</fileset>
-			<pathconvert pathsep="," property="unit.tests" refid="unitTests">
+			<pathconvert pathsep=",&#10;" property="unit.tests" refid="unitTests">
 				<chainedmapper>
 					<regexpmapper from="([^\/]+)\.js" to="&quot;@{relativePathToTests}/\1&quot;" handledirsep="true"/>
 				</chainedmapper>
@@ -186,8 +160,8 @@ See: https://theintern.github.io/intern/#hosted-selenium
 					</echo>
 				</else>
 			</if>
-			
-			
+
+
 			<!--
 			<echo>${phantomjs.binary} - -webdriver=4444</echo>
 				<parallel>

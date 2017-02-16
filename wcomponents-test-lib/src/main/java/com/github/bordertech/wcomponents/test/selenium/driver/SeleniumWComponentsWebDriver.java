@@ -2,11 +2,15 @@ package com.github.bordertech.wcomponents.test.selenium.driver;
 
 import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
-import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponentWebElement;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWCheckBoxWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponentWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWDialogWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWEmailFieldWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWLabelWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWPhoneNumberFieldWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWRadioButtonWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWSelectWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTableWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextAreaWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTextFieldWebElement;
@@ -31,6 +35,7 @@ import org.openqa.selenium.WebElement;
  * appropriate.</p>
  *
  * @author Joshua Barclay
+ * @author Mark Reeves
  * @param <T> - the type of backing WebDriver class.
  * @since 1.2.0
  */
@@ -223,6 +228,83 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 */
 	public SeleniumWTableWebElement findWTable(final By by) {
 		return new SeleniumWTableWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WCheckBox by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWCheckBoxWebElement or null if not found.
+	 */
+	public SeleniumWCheckBoxWebElement findWCheckBox(final By by) {
+		return new SeleniumWCheckBoxWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WRadioButton by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWRadioButtonWebElement or null if not found.
+	 */
+	public SeleniumWRadioButtonWebElement findWRadioButton(final By by) {
+		return new SeleniumWRadioButtonWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WDropdown by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWRadioButtonWebElement or null if not found.
+	 */
+	public SeleniumWSelectWebElement findWDropdown(final By by) {
+		return new SeleniumWSelectWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WSingleSelect by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWRadioButtonWebElement or null if not found.
+	 */
+	public SeleniumWSelectWebElement findWSingleSelect(final By by) {
+		return new SeleniumWSelectWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WMultiSelect by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWRadioButtonWebElement or null if not found.
+	 */
+	public SeleniumWSelectWebElement findWMultiSelect(final By by) {
+		return new SeleniumWSelectWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WLabel by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWLabelWebElement
+	 */
+	public SeleniumWLabelWebElement findWLabel(final By by) {
+		return new SeleniumWLabelWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WLabel containing given text.
+	 * @param text the text in the label
+	 * @param idx the index to apply the selector to get the nth label when there are multiple on a page
+	 * @return the label containing the text (if found) at the given index
+	 */
+	public SeleniumWLabelWebElement findWLabelWithPartialText(final String text, final int idx) {
+		String selector = new StringBuilder("//*[contains(@class, 'wc-label') and contains(text(), '")
+				.append(text)
+				.append("')]").toString();
+		List<WebElement> elements = findElements(By.xpath(selector));
+		return new SeleniumWLabelWebElement(elements.get(idx), this);
+	}
+
+	/**
+	 * Find a WLabel containing given text.
+	 * @param text the text in the label
+	 * @return the label containing the text
+	 */
+	public SeleniumWLabelWebElement findWLabelWithPartialText(final String text) {
+		return findWLabelWithPartialText(text, 0);
 	}
 
 	/**

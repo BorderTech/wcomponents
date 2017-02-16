@@ -1,15 +1,19 @@
 package com.github.bordertech.wcomponents.layout;
 
+import com.github.bordertech.wcomponents.util.SpaceUtil;
+
 /**
  * BorderLayout is a {@link LayoutManager} that emulates {@link java.awt.BorderLayout}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  * @deprecated WComponents 1.1.4. Use {@link com.github.bordertech.wcomponents.WRow} and
  * {@link com.github.bordertech.wcomponents.WColumn} or {@link com.github.bordertech.wcomponents.layout.ColumnLayout} instead.
  * It is preferred that an application use {@link com.github.bordertech.wcomponents.WTemplate} for layout as this
  * provides for lighter payloads and more responsive UIs.
  */
+@Deprecated
 public class BorderLayout implements LayoutManager {
 
 	/**
@@ -66,55 +70,99 @@ public class BorderLayout implements LayoutManager {
 	/**
 	 * The horizontal gap between the west, center and east cells, measured in pixels.
 	 */
-	private final int hgap;
+	private final SpaceUtil.Size hSpace;
 
 	/**
 	 * The vertical gap between the north cell, middle row and south cell, measured in pixels.
 	 */
+	private final SpaceUtil.Size vSpace;
+
+	/**
+	 * For temporary backwards compatibility only.
+	 */
+	@Deprecated
+	private final int hgap;
+
+	/**
+	 * For temporary backwards compatibility only.
+	 */
+	@Deprecated
 	private final int vgap;
 
 	/**
-	 * Creates a border layout.
+	 * For temporary backwards compatibility only.
+	 * @param hSpace the real horizontal space between cells
+	 * @param vSpace the real vertical space between rows of cells
+	 * @param hgap the requested horizontal space between cells
+	 * @param vgap the requested vertical space between rows of cells
 	 */
-	public BorderLayout() {
-		this(0, 0);
-	}
-
-	/**
-	 * Creates a border layout with the gap between component areas.
-	 * <p>
-	 * The horizontal and vertical gaps are set to the specified values. Horizontal gaps are placed at the left and
-	 * right edges, and between each of the columns. Vertical gaps are placed at the top and bottom edges, and between
-	 * each of the rows.
-	 * <p>
-	 * All <code>BorderLayout</code> constructors defer to this one.
-	 *
-	 * @param hgap the horizontal gap between the west, center and east cells, measured in pixels.
-	 * @param vgap the vertical gap between the north cell, middle row and south cell, measured in pixels
-	 */
-	public BorderLayout(final int hgap, final int vgap) {
-		if (hgap < 0) {
-			throw new IllegalArgumentException("Hgap must be greater than or equal to zero");
-		}
-
-		if (vgap < 0) {
-			throw new IllegalArgumentException("Vgap must be greater than or equal to zero");
-		}
-
+	@Deprecated
+	private BorderLayout(final SpaceUtil.Size hSpace, final SpaceUtil.Size vSpace, final int hgap, final int vgap) {
+		this.hSpace = hSpace;
+		this.vSpace = vSpace;
 		this.hgap = hgap;
 		this.vgap = vgap;
 	}
 
 	/**
-	 * @return Returns the horizontal gap between the cells, measured in pixels.
+	 * Creates a border layout.
 	 */
+	public BorderLayout() {
+		this(null, null);
+	}
+
+	/**
+	 * Creates a border layout with the gap between component areas.
+	 *
+	 * @param hgap the horizontal space between the west, center and east cells
+	 * @param vgap the vertical space between the north cell, middle row and south cell
+	 * @deprecated use {@link #BorderLayout(SpaceUtil.Size, SpaceUtil.Size)} instead.
+	 */
+	@Deprecated
+	public BorderLayout(final int hgap, final int vgap) {
+		this (SpaceUtil.intToSize(hgap), SpaceUtil.intToSize(vgap), hgap, vgap);
+	}
+	/**
+	 * Creates a border layout with the gap between component areas.
+	 *
+	 * @param hSpace the horizontal space between the west, center and east cells
+	 * @param vSpace the vertical space between the north cell, middle row and south cell
+	 */
+	public BorderLayout(final SpaceUtil.Size hSpace, final SpaceUtil.Size vSpace) {
+		this.hSpace = hSpace;
+		this.vSpace = vSpace;
+		this.hgap = -1;
+		this.vgap = -1;
+	}
+
+	/**
+	 * @return the horizontal space between the cells
+	 */
+	public SpaceUtil.Size getHorizontalGap() {
+		return hSpace;
+	}
+
+	/**
+	 * @return the vertical space between the cells
+	 */
+	public SpaceUtil.Size getVerticalGap() {
+		return vSpace;
+	}
+
+	/**
+	 * @return the horizontal gap between the cells measured in pixels
+	 * @deprecated use {@link #getHorizontalGap() }
+	 */
+	@Deprecated
 	public int getHgap() {
 		return hgap;
 	}
 
 	/**
-	 * @return Returns the vertical gap between the cells, measured in pixels.
+	 * @return the vertical gap between the cells measured in pixels.
+	 * @deprecated use {@link #getVerticalGap() }
 	 */
+	@Deprecated
 	public int getVgap() {
 		return vgap;
 	}

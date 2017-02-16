@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.examples.theme.WRadioButtonSelectExample;
-import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -14,7 +13,7 @@ import org.openqa.selenium.WebDriver;
  * @since 1.0.0
  */
 @Category(SeleniumTests.class)
-public class WRadioButtonSelectExample_Test extends WComponentExamplesTestCase{
+public class WRadioButtonSelectExample_Test extends WComponentExamplesTestCase {
 
 	/**
 	 * Creates a new WRadioButtonSelectExample_Test.

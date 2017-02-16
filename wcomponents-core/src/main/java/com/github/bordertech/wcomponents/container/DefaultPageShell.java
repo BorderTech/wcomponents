@@ -37,9 +37,6 @@ public class DefaultPageShell implements PageShell {
 		String title = getApplicationTitle(uic);
 
 		writer.write(XMLUtil.getXMLDeclarationWithThemeXslt(uic));
-		// Provide temporary backward compatibility with &nbsp; while
-		// applications convert to be XML compliant.
-		writer.write(XMLUtil.DOC_TYPE);
 
 		StringBuilder rootElement = new StringBuilder();
 		rootElement.append("\n<ui:root title=\"");

@@ -1,53 +1,4 @@
-/**
- * Provides a means to load CSS files for particular user agents/platforms etc.
- *
- * You may be asking why I split IE out from "screen". It was simply to make changing the defaults easier.
- * For most browsers which aren't IE you only need one (or no) CSS overrides because old versions fall out of
- * usage pretty quickly and have been generally pretty good at CSS for a long time. This allows us to use simple
- * has tests for most major modern browsers (has("ff"), has("chrome") etc) without bothering too much about
- * versions. Safari may be a candidate for version testing though, and that is why the "screen" config property
- * allows an extension to have an object value.
- *
- * <h5>Configuration</h5>
- *
- * There is a default set of supported browsers including IE versions. These may be overridden using module
- * config. There is an XSLT helper for this to include these overrides in the existing config. Go look at
- * wc.ui.root.n.styleLoaderConfig.xslt. The module config addition, if required, is of the form:
- *
- * <pre><code>"ie": [string array of required ie versions],
- * "screen": {
- *     "ext": "hasTest",
- *     "ext": {
- *         "test": "hasTest",
- *         "version": versionInteger,
- *         "media": "css media selector"}}</code></pre>
- *
- * Go take a look at {@link module:wc/loader/style~config} and {@link module:wc/loader/style~configValueObject}.
- *
- * @example
- * // The module config object is like this if we support Custom CSS
- * //  only for ie10, ie11, Firefox, and Safari 8:
- * "wc/loader/style": {
- *    cssBaseUrl:"// url/to/css/dir/css/",// automatic
- *    cachebuster: "someStringThing",// automatic
- *    debug: 1,// automatic if in debug mode
- *    ie: ["ie11", "ie10"],
- *    css: {
- *        "ff": "ff",
- *        "saf8": {
- *            "test": "safari",
- *            "version": 8
- *        }
- *    }
- * }
- *
- * @module
- * @requires module:wc/has
- * @todo Maybe allow load to accept an Object or Object[] arg so it can be called from within another module?
- * @todo lib/dojo/sniff has been patched to include has("edge") but it not yet released. The include of fixes here is to
- * include our has test for edge. It can be removed once lib/dojo/sniff is updated.
- */
-define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @ignore */ function(has, wcconfig) {
+define(["wc/has", "wc/config"], function(has, wcconfig) {
 	"use strict";
 	/**
 	 * @constructor
@@ -80,26 +31,27 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 			 */
 			platformCSS = "${css.pattern.list}",
 			/**
-			 * <p>A JSON object containing a list of file name 'extensions' which are to be included. This is obtained
+			 * A JSON object containing a list of file name 'extensions' which are to be included. This is obtained
 			 * from a module config if you want implementation specific styles. The default/fallback includes only the
 			 * Firefox fixes and some bits of ios specific CSS for demo purposes. If you use a config override it must
 			 * include any of these defaults you want to keep because the config will replace the defaults, not add to
-			 * them.</p>
+			 * them.
 			 *
-			 * <p><string>DO NOT include IE specific files here</strong>. IE versions (e.g. ie8 or ie9) are included in
-			 * {@link module:wc/loader/style~ieVersionsToSupport}.</p>
+			 * **DO NOT include IE specific files here**. IE versions (e.g. ie8 or ie9) are included in
+			 * {@link module:wc/loader/style~ieVersionsToSupport}.
 			 *
-			 * <p>Some popular tests (see lib/dojo/sniff for more):</p>
-			 * <ul><li>has("ios")</li>
-			 * <li>has("android")</li>
-			 * <li>has("safari")</li>
-			 * <li>has("mac")</li></ul>
+			 * Some popular tests (see lib/dojo/sniff for more):
 			 *
-			 * <p>Hard coded file name extensions used in WComponents default theme include:
-			 * "dt" for desktop (ie not mobile: included by default, no need to add these);
-			 * "ios" for iOS specific CSS;
-			 * "safari" for Safari; or
-			 * "ff" for Firefox.</p>
+			 * * has("ios")
+			 * * has("android")
+			 * * has("safari")
+			 * * has("mac")
+			 *
+			 * Hard coded file name extensions used in WComponents default theme include:
+			 *
+			 * * `pattern_edge` for Edge;
+			 * * `pattern_safar` for Safari; and
+			 * * `pattern_ff` for Firefox.
 			 *
 			 * @var
 			 * @type {module:wc/loader/style~config}
@@ -108,8 +60,7 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 			 */
 			screenStylesToAdd = null,
 
-			/* NOTE TO SELF: the vars below which are only used once are used in a function which is called many times.
-			 * leave them here you twit!*/
+			/* NOTE TO SELF: the vars below which are only used once are used in a function which is called many times. Leave them here you twit! */
 
 			/**
 			 * The BASE URL for the CSS
@@ -125,13 +76,6 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 			 * @private
 			 */
 			CACHEBUSTER = null,
-			/**
-			 * Indicates if we are in debug mode.
-			 * @var
-			 * @type {boolean}
-			 * @private
-			 */
-			isDebug = false,
 			/**
 			 * The part of the CSS url which comes after the browser specific 'extension'.
 			 * @var
@@ -298,8 +242,7 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 				screenStylesToAdd = config.screen ? config.css : null;
 				CSS_BASE_URL = config.cssBaseUrl;
 				CACHEBUSTER = config.cachebuster;
-				isDebug = config.debug;
-				cssFileNameAndUrlExtension = (isDebug ? "${debug.target.file.name.suffix}" : "") + ".css" + (CACHEBUSTER ? ("?" + CACHEBUSTER) : "");
+				cssFileNameAndUrlExtension = ".css" + (CACHEBUSTER ? ("?" + CACHEBUSTER) : "");
 				if (config.ie) {
 					ieVersionsToSupport = config.ie;
 				}
@@ -363,11 +306,6 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 			if (screenStylesToAdd) {
 				loadScreen();
 			}
-
-			if (isDebug) {
-				// load the debug css
-				addStyle("${css.target.file.name.debug}");
-			}
 		};
 
 		/**
@@ -408,8 +346,52 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 			}
 		};
 	}
+
+	/**
+		 * Provides a means to load CSS files for particular user agents/platforms etc.
+		 *
+		 * You may be asking why I split IE out from "screen". It was simply to make changing the defaults easier.
+		 * For most browsers which aren't IE you only need one (or no) CSS overrides because old versions fall out of
+		 * usage pretty quickly and have been generally pretty good at CSS for a long time. This allows us to use simple
+		 * has tests for most major modern browsers (has("ff"), has("chrome") etc) without bothering too much about
+		 * versions. Safari may be a candidate for version testing though, and that is why the "screen" config property
+		 * allows an extension to have an object value.
+		 *
+		 * ##### Configuration
+		 *
+		 * There is a default set of supported browsers including IE versions. These may be overridden using module
+		 * config.
+		 *
+		 * <pre><code>"ie": [string array of required ie versions],
+		 * "screen": {
+		 *     "ext": "hasTest",
+		 *     "ext": {
+		 *         "test": "hasTest",
+		 *         "version": versionInteger,
+		 *         "media": "css media selector"}}</code></pre>
+		 *
+		 * Go take a look at {@link module:wc/loader/style~config} and {@link module:wc/loader/style~configValueObject}.
+		 *
+		 * @example
+		 * // The module config object is like this if we support Custom CSS
+		 * //  only for ie10, ie11, Firefox, and Safari 8:
+		 * "wc/loader/style": {
+		 *    ie: ["ie11", "ie10"],
+		 *    css: {
+		 *        "ff": "ff",
+		 *        "saf8": {
+		 *            "test": "safari",
+		 *            "version": 8
+		 *        }
+		 *    }
+		 * }
+		 *
+		 * @module
+		 * @requires module:wc/has
+		 * @todo Maybe allow load to accept an Object or Object[] arg so it can be called from within another module?
+		 */
 	var instance = new StyleLoader();
-	return /** @alias module:wc/loader/style */ instance;
+	return instance;
 
 
 	/**

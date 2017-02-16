@@ -9,34 +9,25 @@
  * ever expect to see ui widgets listed here but you can list whatever floats your boat, EXCEPT anything loaded in
  * compat or fixes.js - they're polyfills for ES5, DOM methods etc.
  *
- * You *must* include
- *
- * * "wc/ui/loading" and at least one of:
- *   * a module which requires "wc/dom/formUpdateManager"; or
- *   *  a module which requires "wc/dom/cancelUpdate"; or
- *   * at least one of these directly.
+ * The layer **must** include "wc/i18n/i18n!", "wc/a8n" and "wc/ui/loading", otherwise things will go terribly wrong :( (well, things wiull go wring
+ * in testing if you don't include "wc/a8n").
  *
  * During the build the dependencies and sub-dependencies of this module will be calculated and packaged into
  * this file meaning you get a whole lot of modules for one single HTTP request.
  *
  * @example
- *	define(["wc/ui/template",
- *			"wc/dom/cancelUpdate",
- *			"wc/ui/calendar",
- *			"wc/ui/subordinate",
- *			"wc/ui/menu/bar"],
- *		function() {
-*			return true;
-*		});
+ *	require(["wc/i18n/i18n!",
+		"wc/ui/loading",
+		"wc/ui/field",
+		"wc/ui/label",
+		"wc/ui/wrappedInput"]);
  *
  * @ignore
  */
-define(["wc/ui/template",
-		"wc/dom/cancelUpdate",
-		"wc/ui/loading",
-		"wc/ui/backToTop",
-		"wc/ui/label"],
-	function() {
-		"use strict";
-		return 1;
-	});
+require(["wc/i18n/i18n!", // ALWAYS REQUIRED IN THIS LAYER
+	"wc/a8n", // ALWAYS REQUIRED IN THIS LAYER
+	"wc/ui/loading", // ALWAYS REQUIRED IN THIS LAYER
+	"wc/ui/field",
+	"wc/ui/label",
+	"wc/ui/wrappedInput",
+	"wc/ui/menu"]);

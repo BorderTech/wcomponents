@@ -32,9 +32,15 @@ public class SimpleSelectableTableExample extends WPanel {
 	private final WTable table = new WTable();
 
 	/**
+	 * Echo the row selection.
+	 */
+	private final WStyledText selectionText = new WStyledText();
+
+	/**
 	 * Create example.
 	 */
 	public SimpleSelectableTableExample() {
+		selectionText.setWhitespaceMode(WStyledText.WhitespaceMode.PRESERVE);
 		add(new ExplanatoryText("This example shows a simple selection mechanism. The table actions show some variations on how to set up constrained"
 				+ " actions. The delete and edit buttons do nothing in this example: they are merely there to show how to wire up different "
 				+ "constraint types.\n The select button shows how to add an error constrain to prevent the action unless at least one row is "
@@ -70,20 +76,37 @@ public class SimpleSelectableTableExample extends WPanel {
 		table.addActionConstraint(deleteWithWarningCondition, new ActionConstraint(1, 0, true, "At least one row must be selected"));
 		// warn the user if more thanone row is selected but do not prevent the action unless the user bails.
 		table.addActionConstraint(deleteWithWarningCondition, new ActionConstraint(0, 1, false, "Are you sure you wish to delete these rows?"));
-
 		WButton editButton = new WButton("Edit");
 		table.addAction(editButton);
 		// prevent the action unless exactly one row is selected.
 		table.addActionConstraint(editButton, new ActionConstraint(1, 1, true, "Exactly one row must be selected"));
 
-		final WStyledText selectionText = new WStyledText();
-		selectionText.setWhitespaceMode(WStyledText.WhitespaceMode.PRESERVE);
 
+		deleteWithWarningCondition.setAction(buttonAction("Dummy delete of:"));
 		// The button displays the selected rows in text format.
-		selectButton.setAction(new Action() {
+		selectButton.setAction(buttonAction("Selection:"));
+		editButton.setAction(buttonAction("Dummy edit of:"));
+
+		WPanel textPanel = new WPanel();
+		selectButton.setAjaxTarget(textPanel);
+		deleteWithWarningCondition.setAjaxTarget(textPanel);
+		editButton.setAjaxTarget(textPanel);
+		textPanel.add(selectionText);
+		add(textPanel);
+	}
+
+	/**
+	 * Common action for the table buttons.
+	 * @param preface the initial content for the text output.
+	 * @return an Action instance
+	 */
+	private Action buttonAction(final String preface) {
+		return new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				StringBuffer buf = new StringBuffer("Selection:\n");
+
+				StringBuffer buf = new StringBuffer(preface);
+				buf.append("\n");
 
 				for (Object selected : table.getSelectedRows()) {
 					// The Model uses the "bean" as the key
@@ -93,12 +116,7 @@ public class SimpleSelectableTableExample extends WPanel {
 
 				selectionText.setText(buf.toString());
 			}
-		});
-
-		WPanel textPanel = new WPanel();
-		selectButton.setAjaxTarget(textPanel);
-		textPanel.add(selectionText);
-		add(textPanel);
+		};
 	}
 
 	/**

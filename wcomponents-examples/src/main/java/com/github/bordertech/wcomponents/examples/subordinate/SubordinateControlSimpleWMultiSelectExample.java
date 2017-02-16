@@ -11,6 +11,7 @@ import com.github.bordertech.wcomponents.subordinate.Hide;
 import com.github.bordertech.wcomponents.subordinate.Rule;
 import com.github.bordertech.wcomponents.subordinate.Show;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * This example demonstrates showing/hiding an extra field depending on the selection in a {@link WMultiSelect}.
@@ -34,7 +35,7 @@ public class SubordinateControlSimpleWMultiSelectExample extends WContainer {
 
 		WFieldLayout layout = new WFieldLayout();
 		layout.setLabelWidth(25);
-		layout.setMargin(new Margin(0, 0, 12, 0));
+		layout.setMargin(new Margin(null, null, SpaceUtil.Size.LARGE, null));
 		add(layout);
 		layout.addField("Select one or more options", groupSelect).getLabel().setHint(
 				"Option c requires further information");

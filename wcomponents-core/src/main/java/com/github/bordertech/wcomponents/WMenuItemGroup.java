@@ -77,7 +77,16 @@ public class WMenuItemGroup extends AbstractContainer implements Disableable, Me
 	 */
 	@Override
 	public boolean isDisabled() {
-		return isFlagSet(ComponentModel.DISABLED_FLAG);
+		if (isFlagSet(ComponentModel.DISABLED_FLAG)) {
+			return true;
+		}
+
+		MenuContainer container = WebUtilities.getAncestorOfClass(MenuContainer.class, this);
+		if (container instanceof Disableable && ((Disableable) container).isDisabled()) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -166,6 +175,8 @@ public class WMenuItemGroup extends AbstractContainer implements Disableable, Me
 		List<MenuItem> items = new ArrayList(getContent().getChildren());
 		return Collections.unmodifiableList(items);
 	}
+
+
 
 	/**
 	 * @return a String representation of this component, for debugging purposes.

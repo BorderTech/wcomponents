@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.BorderLayout;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
@@ -12,9 +13,18 @@ import org.xml.sax.SAXException;
  * Junit test case for {@link BorderLayoutRenderer}.
  *
  * @author Yiannis Paschalidis
+ * @author Mark Reeves
  * @since 1.0.0
  */
 public class BorderLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
+	/**
+	 * A small gap.
+	 */
+	private static final SpaceUtil.Size GAP = SpaceUtil.Size.SMALL;
+	/**
+	 * A big gap.
+	 */
+	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
 
 	@Test
 	public void testDoRenderWhenEmpty() throws IOException, SAXException, XpathException {
@@ -41,11 +51,11 @@ public class BorderLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		final String centerText = "BorderRenderer_Test.testPaint.centerText";
 
 		WPanel container = new WPanel();
-		container.setLayout(new BorderLayout(3, 4));
+		container.setLayout(new BorderLayout(GAP, BIG_GAP));
 		assertSchemaMatch(container);
 
-		assertXpathEvaluatesTo("3", "//ui:panel/ui:borderlayout/@hgap", container);
-		assertXpathEvaluatesTo("4", "//ui:panel/ui:borderlayout/@vgap", container);
+		assertXpathEvaluatesTo(GAP.toString(), "//ui:panel/ui:borderlayout/@hgap", container);
+		assertXpathEvaluatesTo(BIG_GAP.toString(), "//ui:panel/ui:borderlayout/@vgap", container);
 		assertXpathNotExists("//ui:panel/ui:borderlayout/ui:north", container);
 		assertXpathNotExists("//ui:panel/ui:borderlayout/ui:south", container);
 		assertXpathNotExists("//ui:panel/ui:borderlayout/ui:east", container);

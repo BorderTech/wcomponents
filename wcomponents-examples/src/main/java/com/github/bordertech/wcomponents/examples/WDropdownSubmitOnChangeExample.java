@@ -8,6 +8,8 @@ import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * This example demonstrates the use of the submitOnChange flag available on {@link WDropdown}. When you change the
@@ -46,25 +48,21 @@ public class WDropdownSubmitOnChangeExample extends WContainer {
 	/**
 	 * A Message to display when "ACT" is selected from the state selector.
 	 */
-	private final WText actMessage = new WText(
-			"<strong>Australian Capital Territory</strong> - the heart of the nation!");
+	private final WText actMessage = new WText("<strong>Australian Capital Territory</strong> - the heart of the nation!");
 
 	/**
 	 * Creates a WDropdownSubmitOnChangeExample.
 	 */
 	public WDropdownSubmitOnChangeExample() {
 		actMessage.setEncodeText(false);
-
-		WStyledText text = new WStyledText(
-				"Any form control component which is not a WButton will show a visiable warning in its label if its submitOnChange property is set true.");
-		text.setWhitespaceMode(WStyledText.WhitespaceMode.PARAGRAPHS);
-		add(text);
+		add(new ExplanatoryText("Any form control component which is not a WButton will show a visible warning in its label if its "
+				+ "submitOnChange property is set true."));
 
 		WFieldLayout flay = new WFieldLayout();
 		add(flay);
 		flay.setLabelWidth(25);
-		flay.setMargin(new Margin(0, 0, 12, 0));
-		flay.addField("State", stateSelector);
+		flay.setMargin(new Margin(null, null, SpaceUtil.Size.LARGE, null));
+		flay.addField("State", stateSelector).getLabel().setHint("Selecting a state will update the available regions.");
 		flay.addField("Region", regionSelector);
 
 		// Used to test control of visibility as part of submit on change.
@@ -83,6 +81,8 @@ public class WDropdownSubmitOnChangeExample extends WContainer {
 				regionSelector.resetData();
 			}
 		});
+
+		regionSelector.setSubmitOnChange(true);
 	}
 
 	/**

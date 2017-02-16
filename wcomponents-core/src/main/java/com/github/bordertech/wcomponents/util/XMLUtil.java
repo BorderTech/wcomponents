@@ -24,18 +24,7 @@ public final class XMLUtil {
 	/**
 	 * XML Declaration.
 	 */
-	public static final String XML_DECLERATION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-
-	/**
-	 * Doc Type to support nbsp.
-	 * @deprecated Make your XML be XML compliant!
-	 */
-	public static final String DOC_TYPE = "<!DOCTYPE validate [<!ENTITY nbsp \"&#160;\">]>";
-
-	/**
-	 * XML Declaration combined with Doc Type.
-	 */
-	public static final String XML_DECLERATION_WITH_DOC_TYPE = XML_DECLERATION + DOC_TYPE;
+	public static final String XML_DECLARATION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
 	/**
 	 * UI Namespace attribute.
@@ -47,6 +36,13 @@ public final class XMLUtil {
 	 */
 	public static final String STANDARD_NAMESPACES = " xmlns=\"" + XHTML_URI + "\" xmlns:html=\"" + XHTML_URI + "\""
 			+ UI_NAMESPACE;
+
+	/**
+	 * XML Declaration.
+	 * @deprecated 1.4.0 never used internally. Must never be used!
+	 */
+	@Deprecated
+	public static final String XML_DECLERATION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
 	/**
 	 * Prevent instantiation of utility class.
@@ -61,7 +57,7 @@ public final class XMLUtil {
 	 */
 	public static String getXMLDeclarationWithThemeXslt(final UIContext uic) {
 		String theme = WebUtilities.encode(ThemeUtil.getThemeXslt(uic));
-		String dec = XML_DECLERATION + "\n<?xml-stylesheet type=\"text/xsl\" href=\"" + theme + "\"?>";
+		String dec = XML_DECLARATION + "\n<?xml-stylesheet type=\"text/xsl\" href=\"" + theme + "\"?>";
 		return dec;
 	}
 }

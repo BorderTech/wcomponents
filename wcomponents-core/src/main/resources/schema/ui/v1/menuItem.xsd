@@ -43,7 +43,7 @@
 			<xs:sequence>
 				<xs:element ref="ui:decoratedlabel" />
 			</xs:sequence>
-
+			
 			<xs:attributeGroup ref="ui:button.attributes" />
 			<xs:attributeGroup ref="ui:button.menu.attributes" />
 
@@ -81,6 +81,31 @@
 				<xs:annotation>
 					<xs:documentation>indicates that the submenu is selected. Not output if "false".</xs:documentation>
 				</xs:annotation>
+			</xs:attribute>
+			
+			<xs:attribute name="role" default="menuitem">
+				<xs:annotation>
+					<xs:documentation>Indicates the selction mode for the menu item.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="menuitem">
+							<xs:annotation>
+								<xs:documentation>Indicates that selection is not supported.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="menuitemradio">
+							<xs:annotation>
+								<xs:documentation>Indicates that selection is exclusive.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="menuitemcheckbox">
+							<xs:annotation>
+								<xs:documentation>Indicates that selection is not exclusive.</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
 			</xs:attribute>
 
 		</xs:complexType>

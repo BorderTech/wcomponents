@@ -9,11 +9,7 @@ define(["module"], function(module) {
 
 	function initialise() {
 		var config;
-		if (window.SystemJS && window.SystemJS.config) {
-			// The loader is SystemJS, module.config will be a noop
-			instance.set(window.SystemJS.config);
-		}
-		else if (module && module.config) {
+		if (module && module.config) {
 			// The loader is RequireJS, module.config should be legit
 			config = module.config();
 			if (config && config.dehydrated) {

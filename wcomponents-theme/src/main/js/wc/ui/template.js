@@ -1,4 +1,4 @@
-require(["wc/template", "wc/dom/initialise"], function (template, initialise) {
+define(["wc/template", "wc/dom/initialise", "wc/i18n/i18n!"], function (template, initialise) {
 	/*
 	 * This module exists because QC158400.
 	 */
@@ -14,4 +14,5 @@ require(["wc/template", "wc/dom/initialise"], function (template, initialise) {
 			});
 		}
 	});
+	return 1;
 });
