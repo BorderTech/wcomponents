@@ -1,4 +1,3 @@
-/* wc.common.page.scss */
 //**********************************************************************************************************************
 // This file should not be excluded or overridden. It sets up some necessary common structural styles and anything
 // which can be made optional or configured is done through Sass variables.
@@ -158,18 +157,20 @@ pre {
 	zoom: 1;
 }
 
-@if ($wc-bigscreen-font-size != -1 and $wc-bigscreen-font-size != $wc-desktop-font-size) {
-	@include respond-bigger-screen {
-		body {
-			font-size: $wc-bigscreen-font-size;
+@if ($wc-use-respond == 1) {
+	@if ($wc-bigscreen-font-size != -1 and $wc-bigscreen-font-size != $wc-desktop-font-size) {
+		@include respond-bigger-screen {
+			body {
+				font-size: $wc-bigscreen-font-size;
+			}
 		}
 	}
-}
 
-@if ($wc-phone-font-size != -1 and $wc-phone-font-size != $wc-desktop-font-size) {
-	@include respond-phonelike {
-		body {
-			font-size: $wc-phone-font-size;
+	@if ($wc-phone-font-size != -1 and $wc-phone-font-size != $wc-desktop-font-size) {
+		@include respond-phonelike {
+			body {
+				font-size: $wc-phone-font-size;
+			}
 		}
 	}
 }

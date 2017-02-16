@@ -1,4 +1,3 @@
-/* wc.ui.row.scss */
 @import 'mixins-common';
 
 // All rows have this class, not just WRow
@@ -22,12 +21,14 @@
 	}
 }
 @else {
-	// Every multiple of 5%
-	@for $i from 1 through 20 {
-		$w: $i * 5;
+	@if ($wc-column-widths-include-fives == 1) {
+		// Every multiple of 5%
+		@for $i from 1 through 20 {
+			$w: $i * 5;
 
-		.wc_col_#{$w} {
-			width: percentage($w / 100);
+			.wc_col_#{$w} {
+				width: percentage($w / 100);
+			}
 		}
 	}
 	// and any other values in a list.

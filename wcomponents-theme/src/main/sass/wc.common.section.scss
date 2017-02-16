@@ -79,7 +79,7 @@ section {
 	}
 }
 
-@if ($wc-gap-reduce-when-narrow != -1) {
+@if ($wc-use-respond == 1 and $wc-gap-reduce-when-narrow == 1) {
 	@include respond-phonelike {
 
 		@if ($wc-section-space-header > 0) {

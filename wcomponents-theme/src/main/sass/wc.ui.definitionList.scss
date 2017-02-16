@@ -1,4 +1,3 @@
-/* wc.ui.definitionList.scss */
 @import 'mixins-common';
 
 // NOTE: the dl element is required here to differentiate from WFieldLayout with the same classNames generated from
@@ -64,15 +63,17 @@ dt {
 	}
 }
 
-@include respond-phonelike {
-	.wc-definitionlist-type-column {
-		> dt,
-		> dd {
-			@include border-box;
-			display: block;
-			margin-left: 0;
-			margin-right: 0;
-			width: 100%;
+@if ($wc-use-respond == 1) {
+	@include respond-phonelike {
+		.wc-definitionlist-type-column {
+			> dt,
+			> dd {
+				@include border-box;
+				display: block;
+				margin-left: 0;
+				margin-right: 0;
+				width: 100%;
+			}
 		}
 	}
 }
