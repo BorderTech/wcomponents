@@ -3,17 +3,11 @@ package com.github.bordertech.wcomponents.lde;
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WText;
-import com.github.bordertech.wcomponents.container.InterceptorComponent;
-import com.github.bordertech.wcomponents.container.PageShellInterceptor;
 import com.github.bordertech.wcomponents.monitor.ProfileContainer;
 import com.github.bordertech.wcomponents.registry.UIRegistry;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.Util;
-import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -95,30 +89,6 @@ public class PlainLauncher extends TestServlet {
 		}
 
 		return sharedUI;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void service(final HttpServletRequest request, final HttpServletResponse response)
-			throws ServletException, IOException {
-		super.service(request, response);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public InterceptorComponent createInterceptorChain(final Object request) {
-		InterceptorComponent chain = super.createInterceptorChain(request);
-
-		// The toolkit must render itself within the page shell
-		// and wrap the main WComponent output.
-		InterceptorComponent.replaceInterceptor(PageShellInterceptor.class,
-				new PageShellInterceptor(), chain);
-
-		return chain;
 	}
 
 	/**
