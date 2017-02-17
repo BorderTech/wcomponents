@@ -34,7 +34,6 @@ public class DebugStructureInterceptor_Test extends AbstractWebXmlRendererTestCa
 	@Test
 	public void testInterceptor() throws XpathException, SAXException, IOException {
 		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_DEBUG_ENABLED, "true");
-		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_DEBUG_CLIENT_SIDE, "true");
 		Config.notifyListeners();
 
 		// Only the label should have debug info rendered

@@ -1,4 +1,3 @@
-/* wc.ui.backToTop.scss */
 @import 'mixins-common';
 
 /// The back to top of page link.
@@ -11,7 +10,7 @@
 
 	&:before {
 		display: block;
-		font-size: $wc-btt-normal;
+		font-size: $wc-btt-large;
 		line-height: inherit;
 		text-align: center;
 		vertical-align: middle;
@@ -22,9 +21,11 @@
 	}
 }
 
-@include respond-not-small {
-	.wc_btt:before {
-		font-size: $wc-btt-large;
+@if ($wc-use-respond == 1) {
+	@include respond-phonelike {
+		.wc_btt:before {
+			font-size: $wc-btt-normal;
+		}
 	}
 }
 

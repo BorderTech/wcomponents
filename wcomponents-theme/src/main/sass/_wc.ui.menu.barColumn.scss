@@ -1,6 +1,77 @@
 // for WMenu type BAR, type FLYOUT, type COLUMN
 @import 'mixins-common';
 
+.wc-menu-type-column,
+.wc_menu_bar {
+	.wc-submenu {
+		position: relative;
+	}
+
+	.wc_submenucontent {
+		@include border;
+		height: auto; // override (mobile) default
+		min-width: 100%;
+		overflow: visible;
+		position: absolute;
+		top: 100%;
+		width: auto;
+
+		> [role] { // override (mobile) default.
+			font-size: inherit;
+		}
+	}
+
+	.wc_closesubmenu {
+		display: none;
+	}
+}
+
+// Now for the collision detection...
+.wc_submenucontent {
+	&.wc_colsth { //south collision
+		bottom: 0;
+		left: 100%;
+		top: auto;
+
+		&.wc_coleast { //collides both south and east
+			left: auto;
+			right: 100%;
+		}
+	}
+
+	// viewport edge collisions
+	&.wc_coleast {
+		left: auto;
+		right: 0;
+
+		&.wc_colwest { //collides both east and west
+			max-width: 100%;
+		}
+	}
+
+	&.wc_colwest {
+		left: 100%;
+		right: auto;
+	}
+}
+
+.wc-menu-type-column,
+.wc_submenucontent {
+	 // nested sub-menus. These must appear before the colision detection overrides below.
+	.wc_submenucontent {
+		left: 100%;
+		top: 0;
+
+		&.wc_coleast { // nested collisions
+			right: 100%;
+		}
+
+		&.wc_colwest {
+			right: 100%;
+		}
+	}
+}
+
 // The collapsed bar menu in a header.
 [role='banner'] .wc-menu-type-bar[data-wc-menufixed] {
 	display: inline-block;
@@ -18,111 +89,33 @@
 	}
 }
 
-// full screen sub menus
-.wc-menu-type-column,
-.wc_menu_bar {
-	.wc_submenucontent {
-		@include border-box;
-		height: 100%;
-		left: 0;
-		overflow: auto;
-		position: fixed;
-		top: 0;
-		width: 100%;
+@if ($wc-use-respond == 1) {
+	@include respond-phonelike {
+		// full screen sub menus
+		.wc-menu-type-column,
+		.wc_menu_bar {
+			.wc_submenucontent {
+				@include border-box;
+				height: 100%;
+				left: 0;
+				overflow: auto;
+				position: fixed;
+				top: 0;
+				width: 100%;
 
-		> [role] {
-			font-size: $wc-font-larger;
-		}
-	}
-
-	.wc_closesubmenu {
-		display: block;
-
-		.wc-decoratedlabel {
-			display: inline-table;
-			max-width: calc(100% - $wc-gap-normal);
-		}
-	}
-}
-
-@include respond-not-phonelike {
-	.wc-menu-type-column,
-	.wc_menu_bar {
-		.wc-submenu {
-			position: relative;
-		}
-
-		.wc_submenucontent {
-			@include border;
-			height: auto; // override (mobile) default
-			min-width: 100%;
-			overflow: visible;
-			position: absolute;
-			top: 100%;
-			width: auto;
-
-			> [role] { // override (mobile) default.
-				font-size: inherit;
-			}
-		}
-
-		.wc_closesubmenu {
-			display: none;
-		}
-	}
-
-	// Now for the collision detection...
-	.wc_submenucontent {
-		&.wc_colsth { //south collision
-			left: 100%;
-
-			&.wc_coleast { //collides both south and east
-				left: auto;
-				right: 100%;
-			}
-		}
-
-		&.wc_coleast.wc_colwest { //collides both east and west
-			max-width: 100%;
-		}
-
-		.wc_submenucontent.wc_coleast.wc_colwest { //nested submenus which collide both east and west - this is a design flaw and I refuse to cater for it!
-			max-width: none;
-		}
-	}
-
-	.wc-menu-type-column,
-	.wc_submenucontent {
-		 // nested sub-menus. These must appear before the colision detection overrides below.
-		.wc_submenucontent {
-			left: 100%;
-			top: 0;
-
-			&.wc_coleast { // nested collisions
-				right: 100%;
+				> [role] {
+					font-size: $wc-font-larger;
+				}
 			}
 
-			&.wc_colwest {
-				right: 100%;
+			.wc_closesubmenu {
+				display: block;
+
+				.wc-decoratedlabel {
+					display: inline-table;
+					max-width: calc(100% - $wc-gap-normal);
+				}
 			}
-		}
-	}
-
-	.wc_submenucontent {
-		// viewport edge collisions
-		&.wc_coleast {
-			left: auto;
-			right: 0;
-		}
-
-		&.wc_colwest {
-			left: 100%;
-			right: auto;
-		}
-
-		&.wc_colsth {
-			bottom: 0;
-			top: auto;
 		}
 	}
 }

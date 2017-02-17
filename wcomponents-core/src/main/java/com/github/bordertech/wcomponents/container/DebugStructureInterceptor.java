@@ -31,7 +31,7 @@ public class DebugStructureInterceptor extends InterceptorComponent {
 	public void paint(final RenderContext renderContext) {
 		super.paint(renderContext);
 
-		if (!DebugUtil.isDebugStructureEnabled() || !(renderContext instanceof WebXmlRenderContext)) {
+		if (!DebugUtil.isDebugFeaturesEnabled() || !(renderContext instanceof WebXmlRenderContext)) {
 			return;
 		}
 
