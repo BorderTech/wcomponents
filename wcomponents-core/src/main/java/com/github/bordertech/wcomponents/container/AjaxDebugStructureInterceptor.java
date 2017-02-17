@@ -25,7 +25,7 @@ public class AjaxDebugStructureInterceptor extends DebugStructureInterceptor {
 	 */
 	@Override
 	public void paint(final RenderContext renderContext) {
-		if (!DebugUtil.isDebugStructureEnabled() || !(renderContext instanceof WebXmlRenderContext)) {
+		if (!DebugUtil.isDebugFeaturesEnabled() || !(renderContext instanceof WebXmlRenderContext)) {
 			getBackingComponent().paint(renderContext);
 			return;
 		}
