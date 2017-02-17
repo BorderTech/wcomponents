@@ -71,16 +71,6 @@
 				<xsl:call-template name="externalScript">
 					<xsl:with-param name="scriptName" select="'lib/require'"/>
 				</xsl:call-template>
-
-				<script type="text/javascript">
-					<xsl:text>require(["wc/compat/compat!"], function() {</xsl:text>
-					<xsl:text>require(["wc/loader/style"</xsl:text>
-					<xsl:if test="number($isDebug) eq 1">
-						<xsl:text>,"wc/debug/common"</xsl:text>
-					</xsl:if>
-					<xsl:text>], function(s){s.load();});});</xsl:text>
-				</script>
-
 				<xsl:call-template name="registrationScripts"/>
 				<!--
 					We grab all base, meta and link elements from the content and place
