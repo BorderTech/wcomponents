@@ -100,9 +100,6 @@
 	-->
 	<xsl:template name="checkableSelectOption">
 		<xsl:param name="optionType" select="''"/>
-		<!--<xsl:variable name="uid">
-			<xsl:value-of select="concat(../@id,generate-id())"/>
-		</xsl:variable>-->
 		<li role="presentation">
 			<xsl:call-template name="makeCommonClass"/>
 			<xsl:choose>
@@ -115,9 +112,9 @@
 							<xsl:attribute name="type">
 								<xsl:value-of select="$optionType"/>
 							</xsl:attribute>
-							<!--<xsl:attribute name="id">
-								<xsl:value-of select="$uid"/>
-							</xsl:attribute>-->
+							<xsl:attribute name="id">
+								<xsl:value-of select="concat(../@id,generate-id())"/>
+							</xsl:attribute>
 							<xsl:attribute name="name">
 								<xsl:value-of select="../@id"/>
 							</xsl:attribute>
