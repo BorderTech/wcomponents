@@ -4,7 +4,6 @@ import com.github.bordertech.wcomponents.AjaxHelper;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.render.webxml.AbstractWebXmlRendererTestCase;
 import com.github.bordertech.wcomponents.servlet.WServlet;
@@ -42,7 +41,6 @@ public class AjaxDebugStructureInterceptor_Test extends AbstractWebXmlRendererTe
 	@Test
 	public void testInterceptor() throws XpathException, SAXException, IOException {
 		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_DEBUG_ENABLED, "true");
-		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_DEBUG_CLIENT_SIDE, "true");
 		Config.notifyListeners();
 
 		MyApp app = new MyApp();

@@ -1,6 +1,6 @@
-## This velocity template is used by the com.github.bordertech.wcomponents.lde.DevToolkit class to output the 
+## This velocity template is used by the com.github.bordertech.wcomponents.lde.DevToolkit class to output the
 ## controls necessary for the developer toolkit UI. It must not rely on any java WComponents or
-## XML in the "ui" namespace. 
+## XML in the "ui" namespace.
 ##
 ## This template renders content before the wrapped WComponent UI.
 ##
@@ -9,7 +9,7 @@
 ## ------------------------------------------------------------------------------------------------
 
 #macro(booleanPropertyToggle $fieldName $active $fieldDescription)
-  <input type="checkbox" value="true" name="$!{fieldName}" id="$!{fieldName}" onClick="document.forms.devToolkitForm.submit();" #if($!{active})checked="checked"#end></input>
+  <input type="checkbox" value="true" name="$!{fieldName}" id="$!{fieldName}" onClick="document.forms.devToolkitForm.submit();" #if($!{active})checked="checked"#end />
   <label for="$!{fieldName}">$!{fieldDescription}</label>
 #end
 
@@ -59,12 +59,12 @@
 ## ------------------------------------------------------------------------------------------------
 <style type="text/css">
 #devToolkit_wrappedContent.showId button[id]:after {
-	content: " (" attr(id) ") "; 
+	content: " (" attr(id) ") ";
 	opacity:0.3;
 	filter:alpha(opacity=30);
 }
 #devToolkit_wrappedContent.showId label[for]:after {
-	content: " (" attr(for) ") "; 
+	content: " (" attr(for) ") ";
 	opacity:0.3;
 	filter:alpha(opacity=30);
 }
@@ -134,7 +134,7 @@
 ## ------------------------------------------------------------------------------------------------
 <div id="devToolkitControls">
 	<form name="devToolkitForm" id="devToolkitForm" action="$!uic.getEnvironment().getPostPath()" method="POST">
-	
+
 	   <input type="hidden" name="wc_devToolkit" value="x"/>
 
        <label for="devToolkit_rootComponent">UI: </label>
@@ -142,23 +142,23 @@
 	   #button("devToolkit_rootComponentSelect" "Change UI")
 	   <br/>
 
-       #booleanPropertyToggle("devToolkit_showTree" $!{this.showTree} "Show tree") 
-       #booleanPropertyToggle("devToolkit_showConfig" $!{this.showConfig} "Show config") 
-       #booleanPropertyToggle("devToolkit_showUicStats" $!{this.showUicStats} "Show UIC stats") 
-       #booleanPropertyToggle("devToolkit_whitespaceFilterEnabled" $!{this.whitespaceFilterEnabled} "Enable whitespace filter") 
-       #booleanPropertyToggle("devToolkit_debugEnabled" $!{this.debugEnabled} "Debug mode") 
+       #booleanPropertyToggle("devToolkit_showTree" $!{this.showTree} "Show tree")
+       #booleanPropertyToggle("devToolkit_showConfig" $!{this.showConfig} "Show config")
+       #booleanPropertyToggle("devToolkit_showUicStats" $!{this.showUicStats} "Show UIC stats")
+       #booleanPropertyToggle("devToolkit_whitespaceFilterEnabled" $!{this.whitespaceFilterEnabled} "Enable whitespace filter")
+       #booleanPropertyToggle("devToolkit_debugEnabled" $!{this.debugEnabled} "Debug mode")
        #booleanPropertyToggle("devToolkit_showRequest" $!{this.showRequest} "Show HTTP request")
-       
+
        <input type="checkbox" id="devToolkit_showIds" name="devToolkit_showIds" value="true" #if($!{active})checked="checked"#end #if ($!{this.showIds})checked="checked"#end onclick="document.getElementById('devToolkit_wrappedContent').className = this.checked ? 'showId' : '';"/>
        <label for="devToolkit_showIds">Show ids</label>
-	   
+
 	   #button("devToolkit_refreshPage" "Refresh page")&#160;
 	   #button("devToolkit_resetSession" "Reset session")
-	   
+
 	   ##
-	   ## TODO: Show debug structure (Display AJAX / subordinate triggers) 
+	   ## TODO: Show debug structure (Display AJAX / subordinate triggers)
 	   ##
-	   
+
 	</form>
 	<div class="clear"></div>
 	<a href="#" class="button">Dev tools</a>
@@ -194,7 +194,7 @@
         #foreach($col in $row)<td>$this.encode($col)</td>#end
      </tr>
   #end
-  </table>  
+  </table>
 #end
 
 ##
