@@ -38,11 +38,15 @@
 		<xsl:param name="optionType" select="''"/>
 		<xsl:param name="readOnly" select="0"/>
 		<xsl:param name="cgAccessKey" select="''"/>
+		<xsl:param name="element" select="''"/>
 		<xsl:variable name="uid">
 			<xsl:value-of select="concat(../@id,generate-id())"/>
 		</xsl:variable>
 		<xsl:variable name="elementName">
 			<xsl:choose>
+				<xsl:when test="$element != ''">
+					<xsl:value-of select="$element"/>
+				</xsl:when>
 				<xsl:when test="number($readOnly) eq 1">
 					<xsl:text>li</xsl:text>
 				</xsl:when>

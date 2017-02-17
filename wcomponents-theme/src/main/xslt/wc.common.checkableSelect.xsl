@@ -74,40 +74,22 @@
 				</xsl:variable>
 				
 				<xsl:variable name="layout" select="@layout"/>
-				<xsl:variable name="cols">
-					<xsl:choose>
-						<xsl:when test="$layout eq 'column' and @layoutColumnCount and number(@layoutColumnCount) gt 1">
-							<xsl:number value="number(@layoutColumnCount)"/>
-						</xsl:when>
-						<xsl:otherwise>
-							<xsl:number value="1"/>
-						</xsl:otherwise>
-					</xsl:choose>
-				</xsl:variable>
-				<!--
-						variable rows
-						
-						The number of options to show in each column. If all options are in a single
-						column we use 0 as a shorthand value so that we do not need to continually
-						calculate the total number of options
-						
-						When read only we are only interested in selected options. Options which are
-						not selected are (currently) not output to the UI.
-					-->
 				<xsl:variable name="rows">
 					<xsl:choose>
-						<xsl:when test="number($cols) eq 1">
+						<xsl:when test="@layout eq 'flat'">
+							<xsl:number value="1"/>
+						</xsl:when>
+						<xsl:when test="not(@layoutColumnCount)">
 							<xsl:number value="0"/>
 						</xsl:when>
-						<xsl:when test="number($readOnly) eq 1">
-							<xsl:value-of select="ceiling(count(ui:option[@selected]) div $cols)"/>
+						<xsl:when test="@readOnly">
+							<xsl:value-of select="ceiling(count(ui:option[@selected]) div number(@layoutColumnCount))"/>
 						</xsl:when>
 						<xsl:otherwise>
-							<xsl:value-of select="ceiling(count(ui:option) div $cols)"/>
+							<xsl:value-of select="ceiling(count(ui:option) div number(@layoutColumnCount))"/>
 						</xsl:otherwise>
 					</xsl:choose>
 				</xsl:variable>
-				
 				<xsl:element name="{$element}">
 					<xsl:call-template name="commonWrapperAttributes">
 						<xsl:with-param name="isError" select="$isError"/>
@@ -116,6 +98,9 @@
 							<xsl:text>wc_chkgrp</xsl:text>
 							<xsl:if test="not(@frameless)">
 								<xsl:text> wc_chkgrp_bdr</xsl:text>
+							</xsl:if>
+							<xsl:if test="$layout ne 'flat' and number($rows) eq 1">
+								<xsl:text> wc-layout-flat</xsl:text>
 							</xsl:if>
 						</xsl:with-param>
 					</xsl:call-template>
@@ -158,12 +143,12 @@
 						<xsl:text>wc-row wc-hgap-med wc-respond</xsl:text>
 					</xsl:variable>
 					<xsl:choose>
-						<xsl:when test="number($readOnly) eq 1 and number($rows) eq 0">
+						<xsl:when test="number($readOnly) eq 1 and number($rows) le 1">
 							<ul>
 								<xsl:attribute name="class">
 									<xsl:text>wc_list_nb</xsl:text>
 									<xsl:choose>
-										<xsl:when test="$layout eq 'flat'">
+										<xsl:when test="$layout eq 'flat' or number($rows) eq 1">
 											<xsl:text> wc-hgap-med</xsl:text>
 										</xsl:when>
 										<xsl:otherwise>
@@ -178,15 +163,6 @@
 									<xsl:with-param name="readOnly" select="$readOnly"/>
 								</xsl:apply-templates>
 							</ul>
-						</xsl:when>
-						<xsl:when test="number($readOnly) eq 1 and number($rows) eq 1">
-							<xsl:apply-templates select="ui:option[@selected]" mode="checkableGroup">
-								<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
-								<xsl:with-param name="inputName" select="$id"/>
-								<xsl:with-param name="type" select="$inputType"/>
-								<xsl:with-param name="readOnly" select="$readOnly"/>
-								<xsl:with-param name="rows" select="0"/>
-							</xsl:apply-templates>
 						</xsl:when>
 						<xsl:when test="number($readOnly) eq 1">
 							<div class="{$rowClass}">
