@@ -6,6 +6,12 @@
 
 ### Bug Fixes
 
+### Enhancements
+
+## Release 1.3.4
+
+### Bug Fixes
+
 * Fixed imageeditor issues:
   * overlay confuses image validation #1048.
   * disallow save when no image has been captured from video stream #1062.
@@ -13,11 +19,7 @@
 * Fixed JS loading issue #1068.
 * Fixed layout of WCheckBoxSelect/WRadioButtonSelect with LAYOUT_COLUMN and COLUMN_COUNT >= options.
 
-### Enhancements
-
 ## Release 1.3.3
-
-### API Changes
 
 ### Bug Fixes
 
