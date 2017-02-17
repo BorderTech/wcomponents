@@ -3,15 +3,79 @@
 ## Release in-progress
 
 ### API Changes
+* Deprecated `com.github.bordertech.wcomponents.util.ConfigurationProperties.DEVELOPER_DEBUG_CLIENT_SIDE` in favour of
+  `com.github.bordertech.wcomponents.util.ConfigurationProperties.DEVELOPER_DEBUG_ENABLED` as part of #1012.
+  * Deprecated `com.github.bordertech.wcomponents.util.ConfigurationProperties.getDeveloperDebugClientSide()` in favour
+    of `com.github.bordertech.wcomponents.util.ConfigurationProperties.getDeveloperDebugEnabled()`
+  * Deprecated `com.github.bordertech.wcomponents.util.DebugUtil.isDebugStructureEnabled()` in favour of
+    `com.github.bordertech.wcomponents.util.DebugUtil.isDebugFeaturesEnabled()`.
+  * Removed all internal references to the deprecated members.
+* Deprecated `com.github.bordertech.wcomponents.lde.DevToolkit`; it is marked for removal due to functional and a11y
+  problems.
+* `WMenuItem` & `WSubMenu`: added public method `boolean isTopLevelItem()` required by the renderer of each.
+* `WSubMenu`: `getSelectability()`, `setSelectability(Boolean)`, `setSelectable(boolean)` and `setSelected(boolean)` are
+  all deprecated (always ignored in client UI).
+* `WMenuItemGroup`: `isDisabled()` will return true if the group is nested in a `WSubMenu` or `WMenu` which is disabled.
+  This brings it into line with `WMenuItem` and `WSubMenu` and provides for no UI change as previously this calculation
+  was in the client UI.
+* Margins and intra-component spaces (`hgap`, `vgap`) have been converted from `int` to values of an enum.
+  They were historically set as `int` but were output into the UI as an enumerated list of options based on
+  nearest-high-neighbour calculations. This was done to improve consistency and enhance responsive design. These
+  calculations have been removed from the client UI to Java. A temporary backwards compatibility layer
+  has been provided and all former `int` based constructors and getters have been deprecated. The values used for the
+  conversion points are as per the former conversion client code so there will be **no visible or functional change**.
+  * Added new utility class `SpaceUtil` used to manage consistent inter- and intra- component spaces.
+  *  `Margin`, `BorderLayout`, `ColumnLayout`, `GridLayout`,`FlowLayout`, `ListLayout`, `WList`, `WRow`
+    * All current `int`-based constructors are deprecated in favour of Space based constructors.
+  *  `Margin`
+    * `int getAll()` deprecated in favour of `SpaceUtil.Size getMargin()`
+    * `int getNorth()` deprecated in favour of `SpaceUtil.Size getTop()`
+    * `int getEast()` deprecated in favour of `SpaceUtil.Size getRight()`
+    * `int getSouth()` deprecated in favour of `SpaceUtil.Size getBottom()`
+    * `int getWest()` deprecated in favour of `SpaceUtil.Size getLeft()`
+  * `BorderLayout`, `ColumnLayout`, `GridLayout`:
+    * `int getHgap()` deprecated in favour of `SpaceUtil.Size getHorizontalGap()`
+    * `int getVgap()` deprecated in favour of `SpaceUtil.Size getVerticalGap()`
+  * `FlowLayout`, `ListLayout`, `WList`, `WRow`:
+    * `int getGap()` deprecated in favour of `SpaceUtil.Size getSpace()`
 
 ### Bug Fixes
 
 * Fixed imageeditor issues:
-  * #1048 overlay confuses image validation.
-  * #1062 disallow save when no image has been captured from video stream.
-  * #1073 fix phantom vertical scroll in some browsers (QC154504).
+  * overlay confuses image validation #1048.
+  * disallow save when no image has been captured from video stream #1062.
+  * fix phantom vertical scroll in some browsers (QC154504) #1073.
+* Fixed HTML error in `wcomponents/lde` resource `DevToolkit_header.vm` found during optimisations for #1012.
+* Fixed a significant network performance problem caused by loading JavaScript modules included in the layer #1068.
+  * Fixed all imports between the `wc/dom` and `wc/ui` namespaces so that no dom-level modules require anything in the
+  `wc/ui` space;
+  * removed the circular dependency between `formUpdateManager` and `cancelUpdate`;
+  * removed most other (managed) circular dependencies; and
+  *  improved reuse of Widgets.
+* Fixed a bug which could cause a (caught) exception when a WTree's item was selected if the WTree has client expansion
+  and was not an ajax trigger (found during testing for PR #1086).
 
 ### Enhancements
+
+* Made debug modes consistent between client and server code #1012.
+* Renderer updates as part of #639:
+  * `WAbbrTextRender` changed from XML to HTML as a performance improvement, no UI or functional change.
+  * `WDataTableRenderer` no longer renders any internal disabled states with no UI change as these were ignored.
+  * `WFieldErrorIndicatorRenderer` will not render with no UI change as these were ignored.
+  * `WLabelRenderer` is aware of the nature and state of its labeled component and is able to correctly set the state of
+     a `WLabel` in the UI without cross-reference to its component. This was required to fix several possible errors
+     caused when a `WLabel` was in an AJAX response.
+  * `WMenuItemRenderer` and `WSubMenuRenderer` will only output the `accessKey` member if the component is at the top
+    level of its `WMenu` with no UI change as `accessKey` settings on other instances were ignored.
+  * `WTabGroupRenderer` will no longer paint `WTabGroup` as `ui:tabgroup` but pass through to its `WTabs` with no UI
+    change as these were ignored.
+* Selenium test elements improved and extended.
+* Converted any XSLT calculation which relied on cross-element lookups to use javascript or improved Java renderers (as
+  described above) to prevent errors when the referenced element was not available in an ajax response #639 et al.
+* Changed the require config `baseUrl` to make it shorter as this makes adding application level modules easier. The new
+  BaseUrl only uses path settings which are also available in Java.
+* Added new JavaScript module `wc/ui/getForm` as we have several areas where we need to get the form from a particular
+  element.
 
 ## Release 1.3.3
 
