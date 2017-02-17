@@ -24,11 +24,9 @@
 			<xsl:call-template name="requiredLibraries"/>
 		</xsl:variable>
 		<xsl:if test="$rego ne '' or self::ui:root">
-			<xsl:variable name="scriptId" select="generate-id()"/>
-			<script type="text/javascript" class="registrationScripts" id="{$scriptId}">
+			<script type="text/javascript" class="registrationScripts">
 				<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
-				<xsl:text>require(["wc/i18n/i18n!"], function(){</xsl:text>
-				<xsl:text>require(["wc/common"], function(c){if(c){try{</xsl:text>
+				<xsl:text>require(["wc/common"], function(){</xsl:text>
 				<xsl:if test="self::ui:root">
 					<!--
 						This looks strange, so here's what it's doing:
@@ -40,9 +38,6 @@
 				<xsl:if test="$rego ne ''">
 					<xsl:value-of select="$rego"/>
 				</xsl:if>
-				<xsl:text>}finally{require(["wc/dom/removeElement"],function(r){r("</xsl:text>
-				<xsl:value-of select="$scriptId"/>
-				<xsl:text>",250);});}}});</xsl:text>
 				<xsl:text>});});</xsl:text>
 			</script>
 		</xsl:if>

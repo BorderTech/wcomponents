@@ -7,9 +7,11 @@
 ### Bug Fixes
 
 * Fixed imageeditor issues:
-  * #1048 overlay confuses image validation.
-  * #1062 disallow save when no image has been captured from video stream.
-  * #1073 fix phantom vertical scroll in some browsers (QC154504).
+  * overlay confuses image validation #1048.
+  * disallow save when no image has been captured from video stream #1062.
+  * fix phantom vertical scroll in some browsers (QC154504) #1073.
+* Fixed JS loading issue #1068.
+* Fixed layout of WCheckBoxSelect/WRadioButtonSelect with LAYOUT_COLUMN and COLUMN_COUNT >= options.
 
 ### Enhancements
 

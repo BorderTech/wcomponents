@@ -104,14 +104,7 @@
 	}
 	catch(ex){}
 	config.config = wcconfig;
-	if(window.SystemJS) {
-				wcconfig.meta = { "*": { format: "amd", scriptLoad: false } };
-				wcconfig.packages = { ".": { defaultExtension: "js" } };
-				window.SystemJS.pluginFirst = wcconfig.pluginFirst = true;
-				window.SystemJS.defaultJSExtensions = config.defaultJSExtensions = true;
-				window.SystemJS.config(config);
-	}
-	else if(window.requirejs) window.requirejs.config(config);
+	if(window.requirejs) window.requirejs.config(config);
 	else require = config;
 })();</xsl:text>
 		</script>
