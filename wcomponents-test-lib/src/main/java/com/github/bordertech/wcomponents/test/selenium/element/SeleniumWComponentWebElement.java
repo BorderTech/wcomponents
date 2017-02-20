@@ -162,6 +162,13 @@ public class SeleniumWComponentWebElement implements WebElement {
 	}
 
 	/**
+	 * @return {@code true} if the element is hidden in the current UI
+	 */
+	public boolean isHidden() {
+		return element.getAttribute("hidden") != null;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -234,5 +241,14 @@ public class SeleniumWComponentWebElement implements WebElement {
 	public String getActiveId() {
 		return getAttribute("id");
 	}
+
+	/**
+	 * @return the backing web element
+	 */
+	public WebElement getElement() {
+		return element;
+	}
+
+
 
 }
