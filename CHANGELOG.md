@@ -76,10 +76,20 @@
   BaseUrl only uses path settings which are also available in Java.
 * Added new JavaScript module `wc/ui/getForm` as we have several areas where we need to get the form from a particular
   element.
+* Update XSLT build to improve performance and protect component integrity #689.
+
+## Release 1.3.4
+
+### Bug Fixes
+
+* Fixed imageeditor issues:
+  * overlay confuses image validation #1048.
+  * disallow save when no image has been captured from video stream #1062.
+  * fix phantom vertical scroll in some browsers (QC154504) #1073.
+* Fixed JS loading issue #1068.
+* Fixed layout of WCheckBoxSelect/WRadioButtonSelect with LAYOUT_COLUMN and COLUMN_COUNT >= options.
 
 ## Release 1.3.3
-
-### API Changes
 
 ### Bug Fixes
 
