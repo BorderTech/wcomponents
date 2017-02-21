@@ -106,7 +106,7 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 			 * @private
 			 * @default {ff: "ff", safari: "safari", ios: "ios"}
 			 */
-			screenStylesToAdd = null,
+			stylesToAdd = null,
 
 			/* NOTE TO SELF: the vars below which are only used once are used in a function which is called many times.
 			 * leave them here you twit!*/
@@ -210,22 +210,22 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 		 * @private
 		 * @function
 		 */
-		function loadScreen() {
+		function loadStyle() {
 			var key,
 				value,
 				media;
-			for (ext in screenStylesToAdd) {
+			for (ext in stylesToAdd) {
 				key = value = media = null;
 
-				if (typeof screenStylesToAdd[ext] === "string") {
-					if (has(screenStylesToAdd[ext])) {
+				if (typeof stylesToAdd[ext] === "string") {
+					if (has(stylesToAdd[ext])) {
 						addStyle(CSS_FILE_NAME + ext);
 					}
 				}
 				else {
-					key = screenStylesToAdd[ext].test;
-					value = screenStylesToAdd[ext].version;
-					media = screenStylesToAdd[ext].media;
+					key = stylesToAdd[ext].test;
+					value = stylesToAdd[ext].version;
+					media = stylesToAdd[ext].media;
 					if (value || value === 0) {
 						if (has(key) <= value) {
 							addStyle(CSS_FILE_NAME + ext, media);
@@ -293,9 +293,9 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 		}
 
 		function initialise() {
-			var config = wcconfig.get("wc/loader/style");
+			var config = wcconfig.get("wc/loader/style"), i, next;
 			if (config) {
-				screenStylesToAdd = config.screen ? config.css : null;
+				stylesToAdd = config.screen ? config.css : null;
 				CSS_BASE_URL = config.cssBaseUrl;
 				CACHEBUSTER = config.cachebuster;
 				isDebug = config.debug;
@@ -318,7 +318,7 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 				}
 			}
 
-			if (platformCSS.length && !screenStylesToAdd) {
+			if (platformCSS.length && !stylesToAdd) {
 				platformCSS = platformCSS.split(",");
 				/* if(platformCSS.length > 1) {
 					// damn
@@ -327,10 +327,11 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 					// but .ff before .ios so reverse alphabet is not useful.
 					// which means we would be relying on case sensitivity to do unicode ordering - which is BAD!!
 				} */
-				screenStylesToAdd = {};
-				platformCSS.forEach(function(next) {
-					screenStylesToAdd[next] = next;
-				});
+				stylesToAdd = {};
+				for (i = 0; i < platformCSS.length; ++i) { // cannot rely on Array.forEach fix in IE.
+					next = platformCSS[i];
+					stylesToAdd[next] = next;
+				}
 			}
 		}
 
@@ -360,8 +361,8 @@ define(["wc/has", "wc/config", "wc/fixes"], /** @param has @param wcconfig @igno
 				loadIE();
 			}
 
-			if (screenStylesToAdd) {
-				loadScreen();
+			if (stylesToAdd) {
+				loadStyle();
 			}
 
 			if (isDebug) {

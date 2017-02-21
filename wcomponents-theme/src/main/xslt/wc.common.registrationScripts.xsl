@@ -25,7 +25,8 @@
 		</xsl:variable>
 		<xsl:if test="$rego ne '' or self::ui:root">
 			<script type="text/javascript" class="registrationScripts">
-				<xsl:text>require(["wc/compat/compat!", "wc/i18n/i18n!"], function(){</xsl:text>
+				<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
+				<xsl:text>require(["wc/i18n/i18n!"], function(){</xsl:text>
 				<xsl:text>require(["wc/common"], function(){</xsl:text>
 				<xsl:if test="self::ui:root">
 					<!--
@@ -33,17 +34,16 @@
 						1. wc.fixes is loaded, it calculates what fix modules are needed and provides this as an array.
 						2. The array of module names is then loaded via require, each module is a fix which "does stuff" once loaded.
 					-->
-					<xsl:text>require(["wc/fixes"], function(f){require(f);});
-						require(["wc/loader/style"</xsl:text>
-					<xsl:if test="number($isDebug) eq 1">
-						<xsl:text>,"wc/debug/common"</xsl:text>
-					</xsl:if>
-					<xsl:text>], function(s){s.load();});</xsl:text>
+					<xsl:text>require(["wc/fixes"], function(f){require(f);});</xsl:text>
+					<xsl:text>require(["wc/loader/style"], function(s){s.load();});</xsl:text>
 				</xsl:if>
-				<xsl:if test="$rego ne ''">
+				<xsl:if test="number($isDebug) eq 1">
+					<xsl:text>require(["wc/debug/common"]);</xsl:text>
+				</xsl:if>
+				<xsl:if test="$rego!=''">
 					<xsl:value-of select="$rego"/>
 				</xsl:if>
-				<xsl:text>});});</xsl:text>
+				<xsl:text>});});});</xsl:text>
 			</script>
 		</xsl:if>
 

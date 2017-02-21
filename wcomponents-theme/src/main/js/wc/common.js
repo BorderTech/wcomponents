@@ -16,7 +16,9 @@
  */
 require(["wc/a8n",
 	"wc/ui/template",
-	"wc/dom/cancelUpdate",
 	"wc/ui/loading",
 	"wc/ui/backToTop",
-	"wc/ui/label"]);
+	"wc/ui/label",
+	"wc/ui/menu",
+	"wc/ui/tabset",
+	"wc/ui/textField"]);
