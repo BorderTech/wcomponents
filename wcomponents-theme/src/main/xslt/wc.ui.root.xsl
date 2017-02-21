@@ -189,26 +189,36 @@
 				-->
 				<script type="text/javascript" src="{concat($resourceRoot, $scriptDir, '/lib/require.js?', $cacheBuster)}"></script>
 
-				<xsl:if test="concat('${ie.css.list}','${css.pattern.list}') ne ''">
+				<!--<xsl:if test="concat('${ie.css.list}','${css.pattern.list}') ne ''">
 					<script type="text/javascript">
 						<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
 						<xsl:text>require(["wc/loader/style"],function(s){s.load();});</xsl:text>
 						<xsl:text>});</xsl:text>
 					</script>
-				</xsl:if>
+				</xsl:if>-->
 
-				<xsl:if test="$registeredComponents ne ''">
+				<xsl:if test="$registeredComponents ne '' or concat('${ie.css.list}','${css.pattern.list}') ne ''">
 					<script type="text/javascript" class="registrationScripts">
 						<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
-						<xsl:text>require(["wc/common"], function(){</xsl:text>
 						<!--
 							This looks strange, so here's what it's doing:
 							1. wc.fixes is loaded, it calculates what fix modules are needed and provides this as an array.
 							2. The array of module names is then loaded via require, each module is a fix which "does stuff" once loaded.
 						-->
-						<xsl:text>require(["wc/fixes"], function(f){require(f);});</xsl:text>
-						<xsl:value-of select="$registeredComponents"/>
-						<xsl:text>});});</xsl:text>
+						<xsl:if test="concat('${ie.css.list}','${css.pattern.list}') ne ''">
+							<xsl:text>
+								require(["wc/loader/style"],function(s){s.load();});</xsl:text>
+						</xsl:if>
+						<xsl:if test="$registeredComponents ne ''">
+							<xsl:text>
+								require(["wc/common"], function(){
+							</xsl:text>
+							<xsl:value-of select="$registeredComponents"/>
+							<xsl:text>
+								});
+							</xsl:text>
+						</xsl:if>
+						<xsl:text>});</xsl:text>
 					</script>
 				</xsl:if>
 

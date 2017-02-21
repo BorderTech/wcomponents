@@ -161,6 +161,9 @@ define(["wc/dom/classList",
 
 				// Are we opening a dialog?
 				if ((_element = getTrigger(element)) && !isInsideDialog(element.id)) {
+					if (shed.isDisabled(_element)) { // This is needed because IE is broken and we have a potential race with the global fix.
+						return false;
+					}
 					instance.open(_element);
 					return isSubmitElement(_element);
 				}
@@ -307,6 +310,9 @@ define(["wc/dom/classList",
 			 * @param {Event} $event a click event.
 			 */
 			function clickEvent($event) {
+				if ($event.defaultPrevented) {
+					return;
+				}
 				if (activateClick($event.target)) {
 					$event.preventDefault();
 				}
