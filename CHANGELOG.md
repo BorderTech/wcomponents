@@ -8,6 +8,14 @@
 
 ### Enhancements
 
+##  Release 1.3.5
+
+### Bug Fixes
+
+* Fixed dialog open from disabled button in IE #1098.
+* Fixed a race between ajax and the IE activeX fix which could result in jammed loading screens in IE in some
+  circumstances.
+
 ## Release 1.3.4
 
 ### Bug Fixes
