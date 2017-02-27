@@ -3,6 +3,7 @@
 ## Release in-progress
 
 ### API Changes
+
 * Deprecated `com.github.bordertech.wcomponents.util.ConfigurationProperties.DEVELOPER_DEBUG_CLIENT_SIDE` in favour of
   `com.github.bordertech.wcomponents.util.ConfigurationProperties.DEVELOPER_DEBUG_ENABLED` as part of #1012.
   * Deprecated `com.github.bordertech.wcomponents.util.ConfigurationProperties.getDeveloperDebugClientSide()` in favour
@@ -54,6 +55,7 @@
   *  improved reuse of Widgets.
 * Fixed a bug which could cause a (caught) exception when a WTree's item was selected if the WTree has client expansion
   and was not an ajax trigger (found during testing for PR #1086).
+* Removed yellow fade as it caused potential a11y problems #1104.
 
 ### Enhancements
 
