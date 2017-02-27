@@ -82,9 +82,6 @@
 						<xsl:when test="not(@layoutColumnCount)">
 							<xsl:number value="0"/>
 						</xsl:when>
-						<xsl:when test="@readOnly">
-							<xsl:value-of select="ceiling(count(ui:option[@selected]) div number(@layoutColumnCount))"/>
-						</xsl:when>
 						<xsl:otherwise>
 							<xsl:value-of select="ceiling(count(ui:option) div number(@layoutColumnCount))"/>
 						</xsl:otherwise>
@@ -98,6 +95,9 @@
 							<xsl:text>wc_chkgrp</xsl:text>
 							<xsl:if test="not(@frameless)">
 								<xsl:text> wc_chkgrp_bdr</xsl:text>
+							</xsl:if>
+							<xsl:if test="$layout eq 'flat' or number($rows) eq 1">
+								<xsl:text> wc-hgap-med</xsl:text>
 							</xsl:if>
 							<xsl:if test="$layout ne 'flat' and number($rows) eq 1">
 								<xsl:text> wc-layout-flat</xsl:text>
@@ -176,17 +176,7 @@
 							</div>
 						</xsl:when>
 						<xsl:when test="number($rows) eq 0 and ui:option">
-							<div>
-								<xsl:attribute name="class">
-									<xsl:choose>
-										<xsl:when test="$layout eq 'flat'">
-											<xsl:text>wc-hgap-med</xsl:text>
-										</xsl:when>
-										<xsl:otherwise>
-											<xsl:text>wc-vgap-sm</xsl:text>
-										</xsl:otherwise>
-									</xsl:choose>
-								</xsl:attribute>
+							<div class="wc-vgap-sm">
 								<xsl:apply-templates select="ui:option" mode="checkableGroupInList">
 									<xsl:with-param name="firstItemAccessKey" select="$firstItemAccessKey"/>
 									<xsl:with-param name="inputName" select="$id"/>
