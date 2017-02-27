@@ -1,12 +1,7 @@
-/**
- * Provides colour conversion and manipulation tools.
- *
- * @module
- * @requires module:wc/loader/resource
- * @requires module:wc/xml/xpath
+/*
+ * NOTE: this is only used in wc/dom/getStyle and could potentially be merged with that module.
  */
 define(["wc/loader/resource", "wc/xml/xpath"],
-	/** @param loader wc/loader/resource @param xpath wc/xml/xpath @ignore */
 	function(loader, xpath) {
 		"use strict";
 		var FILE_NAME = "colormap.xml";
@@ -75,7 +70,7 @@ define(["wc/loader/resource", "wc/xml/xpath"],
 						hex = hex.trim();
 						hex = hex.replace(HEX_HASH_RE, "");
 						if (hex.length < 6) {
-							hex = this.convert3digitHexTo6(hex);
+							hex = convert3digitHexTo6(hex);
 						}
 						r = parseInt(hex.substring(0, 2), 16);
 						g = parseInt(hex.substring(2, 4), 16);
@@ -170,42 +165,14 @@ define(["wc/loader/resource", "wc/xml/xpath"],
 			};
 
 			/**
-			 * Blend two colors together, eg red and yellow make orange. Note the colors must be hex strings.
+			 * Convert a three digit hex string to a 6 digit hex string. The return string has a HASH if the input has a HASH.
 			 *
 			 * @function
-			 * @alias module:wc/dom/color.blend
-			 * @param {String} colorA The first colour to blend as a hex string.
-			 * @param {String} colorB The second colour to blend as a hex string.
-			 * @param {number} [percent] The percentage of the diffeence of colorA and colorB to apply to the blend. If
-			 *    not set (or explicitly 0) then 50% is assumed making an equal blend.
-			 * @returns {Object} The result of the blend as an object with properties r:red, g:green, b:blue.
-			 */
-			this.blend = function (colorA, colorB, percent) {
-				var result;
-				if (!percent && percent !== 0) {
-					percent = 50;
-				}
-				result = {
-					r: Math.round(colorA.r + (colorB.r - colorA.r) * (percent / 100)),
-					g: Math.round(colorA.g + (colorB.g - colorA.g) * (percent / 100)),
-					b: Math.round(colorA.b + (colorB.b - colorA.b) * (percent / 100))
-				};
-				// result = this.rgb2hex(result);
-				return result;
-			};
-
-			/**
-			 * Convert a three digit hex string to a 6 digit hex string. The return string has a HASH if the input has a
-			 * HASH.
-			 *
-			 * @function
-			 * @alias module:wc/dom/color.convert3digitHexTo6
+			 * @private
 			 * @param {String} hex 3 digit hex string.
 			 * @returns {String} 6 digit version of hex arg.
-			 * @example convert3digitHexTo6("#FFF") === "#FFFFFF"
-			 * @example convert3digitHexTo6("FFF") === "FFFFFF"
 			 */
-			this.convert3digitHexTo6 = function convert3digitHexTo6(hex) {
+			function convert3digitHexTo6(hex) {
 				var result,
 					i,
 					next;
@@ -223,14 +190,11 @@ define(["wc/loader/resource", "wc/xml/xpath"],
 						result[result.length] = next;
 						result[result.length] = next;
 					}
-					result = result.join("");
+					return result.join("");
 				}
-				else {
-					console.warn(hex, " is not a 3 digit hex string");
-					result = hex;
-				}
-				return result;
-			};
+				console.warn(hex, " is not a 3 digit hex string");
+				return hex;
+			}
 
 			/**
 			 * Is this a hex string? Includes 3 digit and 6 digit hex strings with or without a hash.
@@ -250,5 +214,13 @@ define(["wc/loader/resource", "wc/xml/xpath"],
 				return result;
 			};
 		}
-		return /** @alias module:wc/dom/color */ new Color();
+
+		/*
+		 * Provides colour conversion and manipulation tools.
+		 *
+		 * @module
+		 * @requires module:wc/loader/resource
+		 * @requires module:wc/xml/xpath
+		 */
+		return new Color();
 	});

@@ -1,8 +1,4 @@
-/**
- * @module
- * @requires module:wc/dom/color
- */
-define(["wc/dom/color"], /** @param color wc/dom/color @ignore */ function(color) {
+define(["wc/dom/color"], function(color) {
 	"use strict";
 	/**
 	 * Get the current value of the named CSS rule. It is best practice to use the CSS naming convention rather
@@ -13,16 +9,15 @@ define(["wc/dom/color"], /** @param color wc/dom/color @ignore */ function(color
 	 * measurement then set includeUnits to true.
 	 *
 	 * Colors will be returned as RGB (or RGBA) objects, for example {r:255 g:255 b:255} OR {r:255 g:255 b:255, a:0}
-	 *
-	 * @function module:wc/dom/getStyle
+	 * @module
+	 * @requires module:wc/dom/color
+	 * @alias module:wc/dom/getStyle
 	 * @param {Element} element The element to test.
 	 * @param {String} cssRule The cssRule we want to find the style of (eg, 'color', 'display', 'position')
-	 * @param {Boolean} [includeUnits] If true include the unit part of the CSS response (eg 2em) otherwise strip it
-	 *    (eg 2).
-	 * @param {Boolean} [notAColor] A shorthand to cut off further testing if we KNOW when calling this function
-	 *    that the style property we are after is definitely NOT a color.
-	 * @returns {?(String|number)} The value of the CSS rule if found (even if "") If the cssRule is not found or
-	 *    cannot be determined return null.
+	 * @param {Boolean} [includeUnits] If true include the unit part of the CSS response (eg 2em) otherwise strip it (eg 2).
+	 * @param {Boolean} [notAColor] A shorthand to cut off further testing if we KNOW when calling this function that the style property we are after
+	 *    is definitely NOT a color.
+	 * @returns {?(String|number)} The value of the CSS rule if found (even if "") If the cssRule is not found or cannot be determined return null.
 	 */
 	function getStyle(element, cssRule, includeUnits, notAColor) {
 		var re = /\-(\w)/g,

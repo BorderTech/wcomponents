@@ -54,6 +54,7 @@
   * improved reuse of Widgets.
 * Fixed a bug which could cause a (caught) exception when a WTree's item was selected if the WTree has client expansion
   and was not an ajax trigger (found during testing for PR #1086).
+* Removed yellow fade as it caused potential a11y problems #1104.
 
 ### Enhancements
 
