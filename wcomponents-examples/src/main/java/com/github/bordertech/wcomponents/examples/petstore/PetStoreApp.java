@@ -166,7 +166,6 @@ public class PetStoreApp extends WApplication implements MessageContainer {
 		// If this is the first time through the confirmation screen,
 		// set the bean to be filled in.
 		if (confirmOrder.getBean() == null) {
-			// TODO: Add support to demonstrate (pre-filled) known users?
 			confirmOrder.setBean(new ConfirmOrderBean());
 		}
 	}

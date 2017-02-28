@@ -3,10 +3,13 @@ package com.github.bordertech.wcomponents.examples;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Environment;
+import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTextArea;
+import com.github.bordertech.wcomponents.layout.ColumnLayout;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * A WComponent that displays information about the current environment.
@@ -28,7 +31,14 @@ public class InfoDump extends WContainer {
 		console = new WTextArea();
 		console.setColumns(80);
 		console.setRows(24);
+		console.setReadOnly(true);
 
+		WPanel buttonBar = new WPanel(WPanel.Type.FEATURE);
+
+
+		buttonBar.setLayout(new ColumnLayout(new int[]{50, 50},
+				new ColumnLayout.Alignment[]{ColumnLayout.Alignment.LEFT, ColumnLayout.Alignment.RIGHT}));
+		buttonBar.setMargin(new Margin(SpaceUtil.Size.ZERO, SpaceUtil.Size.ZERO, SpaceUtil.Size.SMALL, SpaceUtil.Size.ZERO));
 		WButton envBtn = new WButton("Print WEnvironment");
 
 		envBtn.setAction(new Action() {
@@ -37,6 +47,7 @@ public class InfoDump extends WContainer {
 				dumpWEnvironment();
 			}
 		});
+		envBtn.setAjaxTarget(console);
 
 		WButton clearBtn = new WButton("Clear");
 
@@ -46,15 +57,11 @@ public class InfoDump extends WContainer {
 				clearConsole();
 			}
 		});
+		clearBtn.setAjaxTarget(console);
 
-		add(clearBtn);
-		add(envBtn);
-
-		// TODO: This is bad - use a layout instead
-		WText lineBreak = new WText("<br />");
-		lineBreak.setEncodeText(false);
-		add(lineBreak);
-
+		buttonBar.add(clearBtn);
+		buttonBar.add(envBtn);
+		add(buttonBar);
 		add(console);
 	}
 

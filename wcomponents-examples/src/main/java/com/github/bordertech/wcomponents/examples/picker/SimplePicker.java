@@ -56,6 +56,7 @@ import com.github.bordertech.wcomponents.examples.datatable.TableCellWithActionE
 import com.github.bordertech.wcomponents.examples.datatable.TreeTableExample;
 import com.github.bordertech.wcomponents.examples.datatable.TreeTableHierarchyExample;
 import com.github.bordertech.wcomponents.examples.datatable.WDataTableExample;
+import com.github.bordertech.wcomponents.examples.othersys.LinkExamples;
 import com.github.bordertech.wcomponents.examples.repeater.RepeaterExample;
 import com.github.bordertech.wcomponents.examples.repeater.RepeaterExampleWithEditableRows;
 import com.github.bordertech.wcomponents.examples.repeater.link.RepeaterLinkExample;
@@ -111,7 +112,6 @@ import com.github.bordertech.wcomponents.examples.validation.basic.BasicFieldsVa
 import com.github.bordertech.wcomponents.examples.validation.fields.FieldValidation;
 import com.github.bordertech.wcomponents.monitor.UicStats;
 import com.github.bordertech.wcomponents.monitor.UicStatsAsHtml;
-import com.github.bordertech.wcomponents.examples.othersys.LinkExamples;
 import com.github.bordertech.wcomponents.registry.UIRegistry;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.ObjectGraphDump;
@@ -138,7 +138,9 @@ import org.apache.commons.logging.LogFactory;
  * A component that enables you to pick an example to display.
  *
  * @author Martin Shevchenko
+ * @deprecated 1.4.0 no longer useful.
  */
+@Deprecated
 public class SimplePicker extends WContainer implements MessageContainer {
 
 	private static final String RECENT_FILE_NAME = "recent.dat";
@@ -174,7 +176,7 @@ public class SimplePicker extends WContainer implements MessageContainer {
 		WButton resetContextBtn = new WButton("Reset Context");
 		profileBtn = new WButton("Profile");
 
-		// TODO: This is bad - use a layout instead
+		// This is bad - use a layout instead
 		WText lineBreak = new WText("<br />");
 		lineBreak.setEncodeText(false);
 

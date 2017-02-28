@@ -31,7 +31,7 @@ public class WPanelExample extends WContainer {
 			WPanel panel = new WPanel(panelType);
 			panel.setTitleText("Panel title");
 
-			// TODO: This is bad - use a layout instead
+			// This is bad - use a layout instead
 			WText text = new WText("Panel text<br />");
 			text.setEncodeText(false);
 			panel.add(text);

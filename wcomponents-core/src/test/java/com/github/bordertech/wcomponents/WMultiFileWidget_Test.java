@@ -139,13 +139,6 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 		Assert.assertNull("Date should be null after clearing files", widget.getData());
 	}
 
-//    @Test
-//    TODO reinstate a test that checks user contexts are not mixed up without checking that get returns the same instance as set
-//    public void testFileTypesAccessors()
-//    {
-//        assertAccessorsCorrect(new WMultiFileWidget(), "fileTypes", Collections.EMPTY_LIST,
-//                               Arrays.asList("text/plain", "image/gif"), Arrays.asList("image/jpeg"));
-//    }
 	@Test
 	public void testSetFileTypesAsArray() {
 		final String[] types1 = new String[]{"text/plain", "image/gif"};
