@@ -8,6 +8,7 @@
 * Fixed bug in able actions which could result in action buttons being in the incorrect (enabled) state if the table
   isloaded via AJAX #1049.
 * Fixed a bug in modalShim which resulted in accesskeys being stripped from inside WDialog content #1051.
+* Fixed AbstractContainerHelper to transform custom error pages #1103.
 
 ## Enhancements
 
