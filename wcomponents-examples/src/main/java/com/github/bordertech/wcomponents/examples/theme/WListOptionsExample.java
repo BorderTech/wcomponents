@@ -31,10 +31,6 @@ import java.util.List;
  * <li>field layout with a flat list</li>
  * <li>stacked or striped with bars on a flow layout</li>
  * </ul>
- * <p>
- * also note: as at WComponents 6 the hidden tag has not been implemented in WList this has been raised but as it is has
- * not been raised by a project it has been placed on the todo pile.
- * </p>
  *
  * @author Steve Harney
  * @since 1.0.0

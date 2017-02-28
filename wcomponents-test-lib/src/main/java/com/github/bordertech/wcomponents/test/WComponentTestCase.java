@@ -35,7 +35,6 @@ public abstract class WComponentTestCase {
 	 * @param ui the UI to test.
 	 */
 	public WComponentTestCase(final WComponent ui) {
-		// TODO Review how to wrap the tests with a WApplication
 		if (ui instanceof WApplication) {
 			wrappedUi = (WApplication) ui;
 		} else {

@@ -25,8 +25,6 @@ import org.junit.runners.Suite;
 	HtmlInjector_Test.class,
 	InfoDump_Test.class,
 	RadioButtonExample_Test.class,
-	// TODO Not sure why not working
-	// SimpleFileUpload_Test.class,
 	SimplePaginationWithRowOptionsTableExample_Test.class,
 	SimpleTabs_Test.class,
 	TextAreaExample_Test.class,

@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 import java.util.Arrays;
 
@@ -53,7 +54,7 @@ public class AllComponents extends WApplication {
 		add(new WConfirmationButton("Confirmation button"));
 		add(new WContainer());
 		add(new WContent());
-		//add(new WContentLink("Content link text")); // TODO: need to set content and cache key so that rendering is predictable
+		add(createSampleWContentLink());
 		add(new WDateField());
 		add(new WDecoratedLabel("Decorated label text"));
 		add(new WDefinitionList());
@@ -71,7 +72,7 @@ public class AllComponents extends WApplication {
 		add(new WInvisibleContainer());
 		add(new WLabel("Label text"));
 		add(new WLink("link text", "http://localhost"));
-		//add(new WList(WList.Type.STACKED)); // TODO: createWList with data
+		add(createSampleWList());
 		add(createMenu());
 		add(new WMessageBox(WMessageBox.INFO, "WMessageBox message"));
 		add(new WMessages());
@@ -89,7 +90,7 @@ public class AllComponents extends WApplication {
 		add(new WPrintButton("Print button text"));
 		add(new WProgressBar(100));
 		add(new WRadioButtonSelect(new String[]{"a", "b", "c", "d"}));
-		add(new WRepeater(new WText())); // TODO: set data
+		add(new WRepeater(new WText()));
 		add(createWRow());
 		add(new WSelectToggle(false, this));
 		add(new WSeparator());
@@ -239,6 +240,29 @@ public class AllComponents extends WApplication {
 		table.addColumn(new WTableColumn("Column 2", new WTextField()));
 		table.setTableModel(new AdapterBasicTableModel(new MyModel()));
 		return table;
+	}
+
+	/**
+	 * @return a simple WList for use in this test.
+	 */
+	private static WList createSampleWList() {
+		WText nameRenderer = new WText();
+		nameRenderer.setBeanProperty("name");
+		WList list = new WList(WList.Type.STACKED);
+		list.setSeparator(WList.Separator.DOT);
+		list.setRenderBorder(false);
+		list.setRepeatedComponent(nameRenderer);
+		return list;
+	}
+
+	/**
+	 * @return a WContentLink with cache key and content suitable for this test.
+	 */
+	private static WContentLink createSampleWContentLink() {
+		WContentLink link = new WContentLink("Content link text");
+		link.setCacheKey(ConfigurationProperties.getProjectVersion());
+		link.setContentAccess(new MockImage());
+		return link;
 	}
 
 	/**

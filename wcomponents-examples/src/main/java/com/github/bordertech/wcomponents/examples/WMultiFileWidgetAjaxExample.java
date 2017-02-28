@@ -24,8 +24,8 @@ import com.github.bordertech.wcomponents.WNumberField;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
-import com.github.bordertech.wcomponents.util.SpaceUtil;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 import java.awt.Dimension;
@@ -176,7 +176,6 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 		previewHeight.setActionOnChange(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				// TODO Auto-generated method stub
 				widget.clearThumbnails();
 			}
 		});
@@ -184,7 +183,6 @@ public class WMultiFileWidgetAjaxExample extends WContainer {
 		showThumnails.setActionOnChange(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				// TODO Auto-generated method stub
 				widget.setUseThumbnails(showThumnails.isSelected());
 			}
 		});
