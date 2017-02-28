@@ -100,10 +100,6 @@ public class WTabExample extends WPanel {
 
 		WTabSet tabset3 = new SampleTabSet(1);
 		add(tabset3);
-		//tabset3.setActiveIndex(1);
-		/* Instead of using setActiveIndex it is possible to set the active tab using the tab content.
-		 * TODO: this is stupid! setActiveTab should use the WTab not its content! */
-		/*tabset3.setActiveTab(tabset3.getTab(1).getContent());*/
 
 		add(new WHeading(HeadingLevel.H3, "Active tab disabled."));
 		WTabSet tabset4 = new SampleTabSet(1);

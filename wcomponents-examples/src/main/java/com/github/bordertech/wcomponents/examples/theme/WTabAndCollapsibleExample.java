@@ -35,7 +35,7 @@ public class WTabAndCollapsibleExample extends WPanel {
 				"Client Collapsed Content 1"));
 		tab0.add(newVisibilityToggleForTab(1));
 
-		// TODO: This is bad - use a layout instead
+		// This is bad - use a layout instead
 		WText lineBreak = new WText("<br />");
 		lineBreak.setEncodeText(false);
 		tab0.add(lineBreak);
