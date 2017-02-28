@@ -159,7 +159,7 @@ public class WebXmlRenderingPerformance_Test extends AbstractWComponentTestCase 
 
 		LOG.info("Render 1x time: " + (renderTime1 / 1000000.0) + "ms");
 		LOG.info("Render 10x time: " + (renderTime10 / 1000000.0) + "ms");
-		Assert.assertTrue("Render time scaling should be O(n)", renderTime10 < renderTime1 * 12); // TODO: Figure out why this doesn't scale nicely.
+		Assert.assertTrue("Render time scaling should be O(n)", renderTime10 < renderTime1 * 12);
 	}
 
 	/**

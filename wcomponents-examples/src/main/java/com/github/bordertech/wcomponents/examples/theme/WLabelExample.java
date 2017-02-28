@@ -271,8 +271,7 @@ public class WLabelExample extends WPanel {
 		//WLabel for something which is not labellable
 		errorLayoutPanel.add(new WLabel("I am for a component which should not be labelled",
 				fieldsFlat));
-		//If the WLabel is 'for' something that is not in the tree it becomes 'for' the WApplication
-		//TODO: this is not necessarily a good thing!!!
+		// If the WLabel is 'for' something that is not in the tree it becomes 'for' the WApplication. This is not necessarily a good thing!!!
 		WCheckBox notHere = new WCheckBox();
 		errorLayoutPanel.add(new WLabel("My component wasn't added", notHere));
 

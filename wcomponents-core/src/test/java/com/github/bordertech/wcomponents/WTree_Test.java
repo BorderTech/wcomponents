@@ -209,7 +209,6 @@ public class WTree_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testGetItemImageUrlWithUrl() {
-		// TODO Also test static resource and Image resource
 		WTree tree = MockTreeItemData.setupWTree();
 		// Idx for Item A
 		List<Integer> idx = Arrays.asList(0);
