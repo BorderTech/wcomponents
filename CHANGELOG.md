@@ -58,6 +58,8 @@
 
 ### Enhancements
 
+* Added methods to `Input` to allow some inputs to set autocomplete options. Implemented in `AbstractInput` and some
+  extensions have modifications where autocomplete is either not implemented or not appropriate #1007.
 * Made debug modes consistent between client and server code #1012.
 * Renderer updates as part of #639:
   * `WAbbrTextRender` changed from XML to HTML as a performance improvement, no UI or functional change.
