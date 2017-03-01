@@ -15,6 +15,7 @@
 * Fixed dialog open from disabled button in IE #1098.
 * Fixed a race between ajax and the IE activeX fix which could result in jammed loading screens in IE in some
   circumstances.
+* Fixed AbstractContainerHelper to transform custom error pages #1103.
 
 ## Release 1.3.4
 
