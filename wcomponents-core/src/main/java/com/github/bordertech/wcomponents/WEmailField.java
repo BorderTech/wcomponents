@@ -213,11 +213,8 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 	 */
 	@Override
 	public String getAutocomplete() {
-		String autoc = super.getAutocomplete();
-		if (autoc instanceof String) {
-			if (getSuggestions() == null) {
-				return autoc;
-			}
+		if (getSuggestions() == null) {
+			return super.getAutocomplete();
 		}
 		return null;
 	}

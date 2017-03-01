@@ -203,11 +203,8 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	 */
 	@Override
 	public String getAutocomplete() {
-		String autoc = super.getAutocomplete();
-		if (autoc instanceof String) {
-			if (getSuggestions() == null) {
-				return autoc;
-			}
+		if (getSuggestions() == null) {
+			return super.getAutocomplete();
 		}
 		return null;
 	}
