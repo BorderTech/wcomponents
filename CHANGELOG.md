@@ -15,6 +15,7 @@
 * Fixed dialog open from disabled button in IE #1098.
 * Fixed a race between ajax and the IE activeX fix which could result in jammed loading screens in IE in some
   circumstances.
+* Fixed AbstractContainerHelper to transform custom error pages #1103.
 
 ## Release 1.3.4
 
@@ -41,7 +42,6 @@
   state #1060.
 * Fixed bug which could result in WMultiSelectPair having mismatched select elements #1066.
 * Fixed a typographic error in the XSLT for WLink.
-* Fixed AbstractContainerHelper to transform custom error pages #1103.
 
 ### Enhancements
 * Improve efficiency of `Input` renderers when the rendered input is in a read-only state #781.
