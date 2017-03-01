@@ -1,9 +1,9 @@
 package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.WMessageBox;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * Example of using encoded and not encoded messages in {@link WMessages}.
@@ -18,7 +18,7 @@ public class WMessagesExample extends WContainer {
 	 */
 	public WMessagesExample() {
 		WMessages messages = new WMessages(true);
-		messages.setLayout(new FlowLayout(FlowLayout.Alignment.VERTICAL, 0, 12));
+		messages.setLayout(new FlowLayout(FlowLayout.Alignment.VERTICAL, SpaceUtil.Size.LARGE));
 		add(messages);
 
 		messages.error("Message with encoded mark-up: <a href='http://localhost'>link</a>");
@@ -42,6 +42,10 @@ public class WMessagesExample extends WContainer {
 		messages.info("This is a message with an &bull; entitity");
 		messages.info("This is a message with an &bull; entitity", false);
 
+		// WMessages with no messages should be hidden.
+		messages = new WMessages();
+		messages.setIdName("hidden_messages");
+		add(messages);
 	}
 
 }
