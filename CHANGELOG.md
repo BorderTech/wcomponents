@@ -42,7 +42,7 @@
 
 ### Bug Fixes
 
-* `WMessages.isHidden()` will return true if it has no messages #1082.
+* `WMessages.isHidden()` will return `true` if it has no messages #1082.
 * Fixed a bug in `com.github.bordertech.wcomponents.test.selenium.ByLabel` which resulted in WLabels for compound inputs
   being ignored when finding elements.
 * Fixed HTML error in `wcomponents/lde` resource `DevToolkit_header.vm` found during optimisations for #1012.
