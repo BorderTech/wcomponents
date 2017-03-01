@@ -33,9 +33,10 @@ class WPhoneNumberFieldRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("hidden", component.isHidden(), "true");
-		xml.appendOptionalAttribute("readOnly", readOnly, "true");
 
-		if (!readOnly) {
+		if (readOnly) {
+			xml.appendAttribute("readOnly", "true");
+		} else {
 			int cols = field.getColumns();
 			int minLength = field.getMinLength();
 			int maxLength = field.getMaxLength();

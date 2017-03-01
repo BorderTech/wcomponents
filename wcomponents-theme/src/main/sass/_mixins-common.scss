@@ -177,7 +177,8 @@
 	// Require important to ensure we are really off screen
 	// scss-lint:disable ImportantRule
 	left: -9999px !important;
-	max-width: 10px !important; // not zero otherwise the item may appear 'hidden' to dom/shed
+	max-height: 1rem; // not zero otherwise the item may appear 'hidden' to dom/shed
+	max-width: 9000px !important; // smaller than left but not zero otherwise the item may appear 'hidden' to dom/shed
 	overflow: hidden !important;
 	position: absolute !important;
 }

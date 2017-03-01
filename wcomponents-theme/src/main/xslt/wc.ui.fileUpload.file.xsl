@@ -26,6 +26,11 @@
 				<xsl:when test="ui:link">
 					<xsl:apply-templates select="ui:link">
 						<xsl:with-param name="imageAltText" select="concat('Thumbnail for uploaded file: ', @name)"/>
+						<xsl:with-param name="ajax">
+							<xsl:if test="parent::ui:fileupload[@ajax] and ../@readOnly">
+								<xsl:value-of select="../@id"/>
+							</xsl:if>
+						</xsl:with-param>
 					</xsl:apply-templates>
 				</xsl:when>
 				<xsl:otherwise>

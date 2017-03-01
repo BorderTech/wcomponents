@@ -27,26 +27,29 @@ final class WDropdownRenderer extends AbstractWebXmlRenderer {
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		WDropdown dropdown = (WDropdown) component;
 		XmlStringBuilder xml = renderContext.getWriter();
-		String dataKey = dropdown.getListCacheKey();
-		int optionWidth = dropdown.getOptionWidth();
 		boolean readOnly = dropdown.isReadOnly();
+		String dataKey = dropdown.getListCacheKey();
 
 		// Start tag
 		xml.appendTagOpen("ui:dropdown");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("data", dataKey != null && !readOnly, dataKey);
-		xml.appendOptionalAttribute("disabled", dropdown.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", dropdown.isHidden(), "true");
-		xml.appendOptionalAttribute("required", dropdown.isMandatory(), "true");
-		xml.appendOptionalAttribute("readOnly", readOnly, "true");
-		xml.appendOptionalAttribute("submitOnChange", dropdown.isSubmitOnChange(), "true");
-		xml.appendOptionalAttribute("tabindex", component.hasTabIndex(), component.getTabIndex());
-		xml.appendOptionalAttribute("toolTip", dropdown.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", dropdown.getAccessibleText());
-		xml.appendOptionalAttribute("optionWidth", optionWidth > 0, optionWidth);
-		xml.appendOptionalAttribute("type", getTypeAsString(dropdown.getType()));
+		if (readOnly) {
+			xml.appendAttribute("readOnly", "true");
+		} else {
+			xml.appendOptionalAttribute("data", dataKey != null, dataKey);
+			xml.appendOptionalAttribute("disabled", dropdown.isDisabled(), "true");
+			xml.appendOptionalAttribute("required", dropdown.isMandatory(), "true");
+			xml.appendOptionalAttribute("submitOnChange", dropdown.isSubmitOnChange(), "true");
+			xml.appendOptionalAttribute("tabindex", component.hasTabIndex(), component.getTabIndex());
+			xml.appendOptionalAttribute("toolTip", dropdown.getToolTip());
+			xml.appendOptionalAttribute("accessibleText", dropdown.getAccessibleText());
+			int optionWidth = dropdown.getOptionWidth();
+			xml.appendOptionalAttribute("optionWidth", optionWidth > 0, optionWidth);
+			xml.appendOptionalAttribute("type", getTypeAsString(dropdown.getType()));
+		}
 		xml.appendClose();
 
 		// Options
