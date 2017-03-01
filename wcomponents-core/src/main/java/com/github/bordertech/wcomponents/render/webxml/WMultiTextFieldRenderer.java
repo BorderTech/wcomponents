@@ -56,6 +56,7 @@ class WMultiTextFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("max", maxInputs > 0, maxInputs);
 			xml.appendOptionalAttribute("pattern", !Util.empty(pattern), pattern);
 			xml.appendOptionalAttribute("placeholder", textField.getPlaceholder());
+			xml.appendOptionalAttribute("autocomplete", textField.getAutocomplete());
 		}
 		xml.appendClose();
 

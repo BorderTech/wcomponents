@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.WSingleSelect.SingleSelectModel;
+import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -170,6 +171,22 @@ public class WRadioButtonSelect extends AbstractWSingleSelectList implements Aja
 	@Override
 	public AjaxTarget getAjaxTarget() {
 		return super.getAjaxTarget();
+	}
+
+	/**
+	 * @return {@code null} as autocomplete is not useful in this component.
+	 */
+	@Override
+	public String getAutocomplete() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setAutocomplete(final String autocomplete) {
+		throw new SystemException("Autocomplete not supported in this component.");
 	}
 
 	/**

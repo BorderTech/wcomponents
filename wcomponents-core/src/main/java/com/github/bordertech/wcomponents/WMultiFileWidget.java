@@ -490,6 +490,22 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	}
 
 	/**
+	 * @return {@code null} as autocomplete is not useful in this component.
+	 */
+	@Override
+	public String getAutocomplete() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setAutocomplete(final String autocomplete) {
+		throw new SystemException("Autocomplete not supported in this component.");
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override

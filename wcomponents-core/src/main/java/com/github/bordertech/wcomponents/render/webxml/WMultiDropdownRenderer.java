@@ -49,6 +49,7 @@ final class WMultiDropdownRenderer extends AbstractWebXmlRenderer {
 			int max = dropdown.getMaxSelect();
 			xml.appendOptionalAttribute("min", min > 0, min);
 			xml.appendOptionalAttribute("max", max > 0, max);
+			xml.appendOptionalAttribute("autocomplete", dropdown.getAutocomplete());
 		}
 
 		xml.appendClose();

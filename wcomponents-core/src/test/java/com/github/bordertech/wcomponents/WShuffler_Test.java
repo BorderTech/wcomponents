@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.util.Arrays;
 import java.util.Collections;
@@ -102,6 +103,12 @@ public class WShuffler_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testRowAccessors() {
 		assertAccessorsCorrect(new WShuffler(), "rows", 0, 1, 2);
+	}
+
+	@Test(expected = SystemException.class)
+	public void testSetAutocomplete() {
+		WShuffler shuffler = new WShuffler();
+		shuffler.setAutocomplete("off");
 	}
 
 	@Test

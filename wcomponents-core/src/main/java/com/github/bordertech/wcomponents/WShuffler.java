@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -80,6 +81,22 @@ public class WShuffler extends AbstractInput implements AjaxTrigger, AjaxTarget,
 	 */
 	public int getRows() {
 		return getComponentModel().rows;
+	}
+
+	/**
+	 * @return {@code null} as autocomplete is not useful in this component.
+	 */
+	@Override
+	public String getAutocomplete() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setAutocomplete(final String autocomplete) {
+		throw new SystemException("Autocomplete not supported in this component.");
 	}
 
 	/**

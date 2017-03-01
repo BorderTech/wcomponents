@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -135,6 +136,22 @@ public class WCheckBoxSelect extends AbstractWMultiSelectList implements AjaxTri
 	 */
 	public void setFrameless(final boolean frameless) {
 		getOrCreateComponentModel().frameless = frameless;
+	}
+
+	/**
+	 * @return {@code null} as autocomplete is not useful in this component.
+	 */
+	@Override
+	public String getAutocomplete() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setAutocomplete(final String autocomplete) {
+		throw new SystemException("Autocomplete not supported in this component.");
 	}
 
 	/**

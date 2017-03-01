@@ -60,6 +60,7 @@ final class WDateFieldRenderer extends AbstractWebXmlRenderer {
 			if (maxDate != null) {
 				xml.appendAttribute("max", new SimpleDateFormat(INTERNAL_DATE_FORMAT).format(maxDate));
 			}
+			xml.appendOptionalAttribute("autocomplete", dateField.getAutocomplete());
 		}
 
 		if (date != null) {

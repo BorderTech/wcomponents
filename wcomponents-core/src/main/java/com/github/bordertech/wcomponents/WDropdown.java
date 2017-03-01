@@ -147,6 +147,17 @@ public class WDropdown extends AbstractWSingleSelectList implements AjaxTrigger,
 	}
 
 	/**
+	 * @return the value of the autocomplete attribute unless the DropdownType is COMBO in which case always return {@code null}
+	 */
+	@Override
+	public String getAutocomplete() {
+		if (DropdownType.COMBO.equals(getType())) {
+			return null;
+		}
+		return super.getAutocomplete();
+	}
+
+	/**
 	 * Creates a new DropdownModel which holds Extrinsic state management of the drop down.
 	 *
 	 * @return a new DropdownModel.

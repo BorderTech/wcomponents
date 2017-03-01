@@ -59,6 +59,7 @@ class WTextFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("pattern", !Util.empty(pattern), pattern);
 			xml.appendOptionalAttribute("list", suggestionsId);
 			xml.appendOptionalAttribute("placeholder", textField.getPlaceholder());
+			xml.appendOptionalAttribute("autocomplete", textField.getAutocomplete());
 		}
 
 		xml.appendClose();

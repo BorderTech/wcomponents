@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.file.FileItemWrap;
 import com.github.bordertech.wcomponents.portlet.context.WFileWidgetCleanup;
+import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import java.io.IOException;
 import java.io.InputStream;
@@ -224,6 +225,22 @@ public class WFileWidget extends AbstractInput implements AjaxTarget, Subordinat
 	@Override
 	public FileItemWrap getValue() {
 		return (FileItemWrap) getData();
+	}
+
+	/**
+	 * @return {@code null} as autocomplete is not useful in this component.
+	 */
+	@Override
+	public String getAutocomplete() {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setAutocomplete(final String autocomplete) {
+		throw new SystemException("Autocomplete not supported in this component.");
 	}
 
 	// --------------------------------

@@ -209,6 +209,20 @@ public class WEmailField extends AbstractInput implements AjaxTrigger, AjaxTarge
 	}
 
 	/**
+	 * @return the value of the autocomplete attribute (if set) unless the input has suggestions in which case always return {@code null}.
+	 */
+	@Override
+	public String getAutocomplete() {
+		String autoc = super.getAutocomplete();
+		if (autoc instanceof String) {
+			if (getSuggestions() == null) {
+				return autoc;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Creates a new EmailFieldModel holds Extrinsic state management of the field.
 	 *
 	 * @return a new EmailFieldModel

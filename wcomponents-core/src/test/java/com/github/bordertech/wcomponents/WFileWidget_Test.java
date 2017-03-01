@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.file.FileItemWrap;
 import com.github.bordertech.wcomponents.util.StreamUtil;
+import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockFileItem;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.io.IOException;
@@ -267,6 +268,12 @@ public class WFileWidget_Test extends AbstractWComponentTestCase {
 		widget.setData(TEST_FILE_ITEM_WRAP);
 		Assert.assertEquals("Incorrect file item wrap returned", TEST_FILE_ITEM_WRAP, widget.
 				getValue());
+	}
+
+	@Test(expected = SystemException.class)
+	public void testSetAutocomplete() {
+		WFileWidget component = new WFileWidget();
+		component.setAutocomplete("off");
 	}
 
 	/**

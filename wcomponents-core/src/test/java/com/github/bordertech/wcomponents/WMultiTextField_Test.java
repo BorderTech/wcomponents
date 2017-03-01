@@ -397,4 +397,16 @@ public class WMultiTextField_Test extends AbstractWComponentTestCase {
 		Assert.assertFalse("Text is no match so should be invalid", diags.isEmpty());
 	}
 
+	@Test
+	public void testAutocompleteAccessors() {
+		assertAccessorsCorrect(new WTextField(), "autocomplete", null, "on", "off");
+	}
+
+	@Test
+	public void testComboAutocomplete() {
+		WTextField combo = new WTextField();
+		combo.setSuggestions(new WSuggestions());
+		combo.setAutocomplete("off");
+		Assert.assertNull(combo.getAutocomplete());
+	}
 }
