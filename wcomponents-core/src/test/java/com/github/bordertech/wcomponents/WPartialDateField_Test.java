@@ -1190,6 +1190,12 @@ public class WPartialDateField_Test extends AbstractWComponentTestCase {
 		Assert.assertTrue(prefix + " - ValidDate flag should be true", dateField.isValidDate());
 	}
 
+	@Test(expected = SystemException.class)
+	public void testSetAutocomplete() {
+		WPartialDateField component = new WPartialDateField();
+		component.setAutocomplete("off");
+	}
+
 	/**
 	 * Emulates user interaction with the date field.
 	 *

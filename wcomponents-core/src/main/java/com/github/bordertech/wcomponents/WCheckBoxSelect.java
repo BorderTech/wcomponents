@@ -139,14 +139,6 @@ public class WCheckBoxSelect extends AbstractWMultiSelectList implements AjaxTri
 	}
 
 	/**
-	 * @return {@code null} as autocomplete is not useful in this component.
-	 */
-	@Override
-	public String getAutocomplete() {
-		return null;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	@Override

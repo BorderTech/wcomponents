@@ -118,14 +118,6 @@ public class WMultiSelectPair extends WMultiSelect implements AjaxTrigger, AjaxT
 	}
 
 	/**
-	 * @return {@code null} as autocomplete is not useful in this component.
-	 */
-	@Override
-	public String getAutocomplete() {
-		return null;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	@Override

@@ -107,8 +107,8 @@ public class WShuffler_Test extends AbstractWComponentTestCase {
 
 	@Test(expected = SystemException.class)
 	public void testSetAutocomplete() {
-		WShuffler shuffler = new WShuffler();
-		shuffler.setAutocomplete("off");
+		WShuffler component = new WShuffler();
+		component.setAutocomplete("off");
 	}
 
 	@Test

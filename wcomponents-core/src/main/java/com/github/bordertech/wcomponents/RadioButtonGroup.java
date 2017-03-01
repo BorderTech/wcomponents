@@ -219,14 +219,6 @@ public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, Subo
 	}
 
 	/**
-	 * @return {@code null} as autocomplete is not useful in this component.
-	 */
-	@Override
-	public String getAutocomplete() {
-		return null;
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	@Override
