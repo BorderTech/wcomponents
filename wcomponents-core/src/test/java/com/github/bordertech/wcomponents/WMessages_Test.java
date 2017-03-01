@@ -151,4 +151,14 @@ public class WMessages_Test extends AbstractWComponentTestCase {
 			return messages;
 		}
 	}
+
+	@Test
+	public void testIsHiddenNoMessages() {
+		WMessages messages = new WMessages();
+		Assert.assertTrue("Expect WMessages with no messages to be hidden.", messages.isHidden());
+		messages.addMessage(new Message("Some information"));
+		Assert.assertFalse("Expect WMessages with message to not be hidden.", messages.isHidden());
+		messages.setHidden(true);
+		Assert.assertTrue("Expect WMessages with messages to be hidden if set hidden.", messages.isHidden());
+	}
 }
