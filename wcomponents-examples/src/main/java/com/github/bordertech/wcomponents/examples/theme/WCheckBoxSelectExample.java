@@ -227,6 +227,18 @@ public class WCheckBoxSelectExample extends WContainer {
 		select.setButtonLayout(WCheckBoxSelect.LAYOUT_COLUMNS);
 		select.setButtonColumns(2);
 		add(select);
+
+		final WCheckBoxSelect select2 = new WCheckBoxSelect(new String[]{"Dog", "Cat", "Bird", "Turtle"});
+		select2.setButtonColumns(4);
+		select2.setToolTip("Animals");
+		add(select2);
+
+		final WCheckBoxSelect select3 = new WCheckBoxSelect(new String[]{"Dog", "Cat", "Bird", "Turtle"});
+		select3.setButtonColumns(4);
+		select3.setToolTip("Animals");
+		select3.setSelected(select3.getOptions());
+		select3.setReadOnly(true);
+		add(select3);
 	}
 
 	/**

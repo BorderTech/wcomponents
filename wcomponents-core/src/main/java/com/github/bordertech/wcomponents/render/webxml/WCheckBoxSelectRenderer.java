@@ -27,24 +27,29 @@ final class WCheckBoxSelectRenderer extends AbstractWebXmlRenderer {
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		WCheckBoxSelect select = (WCheckBoxSelect) component;
 		XmlStringBuilder xml = renderContext.getWriter();
-		int tabIndex = select.getTabIndex();
 		int cols = select.getButtonColumns();
 		boolean readOnly = select.isReadOnly();
-		int min = select.getMinSelect();
-		int max = select.getMaxSelect();
 
 		xml.appendTagOpen("ui:checkboxselect");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("disabled", select.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", select.isHidden(), "true");
-		xml.appendOptionalAttribute("required", select.isMandatory(), "true");
-		xml.appendOptionalAttribute("readOnly", readOnly, "true");
-		xml.appendOptionalAttribute("submitOnChange", select.isSubmitOnChange(), "true");
-		xml.appendOptionalAttribute("tabIndex", component.hasTabIndex(), tabIndex);
-		xml.appendOptionalAttribute("toolTip", component.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", component.getAccessibleText());
+		if (readOnly) {
+			xml.appendAttribute("readOnly", "true");
+		} else {
+			int min = select.getMinSelect();
+			int max = select.getMaxSelect();
+			int tabIndex = select.getTabIndex();
+			xml.appendOptionalAttribute("disabled", select.isDisabled(), "true");
+			xml.appendOptionalAttribute("required", select.isMandatory(), "true");
+			xml.appendOptionalAttribute("submitOnChange", select.isSubmitOnChange(), "true");
+			xml.appendOptionalAttribute("tabIndex", component.hasTabIndex(), tabIndex);
+			xml.appendOptionalAttribute("toolTip", component.getToolTip());
+			xml.appendOptionalAttribute("accessibleText", component.getAccessibleText());
+			xml.appendOptionalAttribute("min", min > 0, min);
+			xml.appendOptionalAttribute("max", max > 0, max);
+		}
 		xml.appendOptionalAttribute("frameless", select.isFrameless(), "true");
 
 		switch (select.getButtonLayout()) {
@@ -62,8 +67,6 @@ final class WCheckBoxSelectRenderer extends AbstractWebXmlRenderer {
 				throw new SystemException("Unknown layout type: " + select.getButtonLayout());
 		}
 
-		xml.appendOptionalAttribute("min", min > 0, min);
-		xml.appendOptionalAttribute("max", max > 0, max);
 
 		xml.appendClose();
 

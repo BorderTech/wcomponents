@@ -27,7 +27,7 @@ class WMultiTextFieldRenderer extends AbstractWebXmlRenderer {
 		WMultiTextField textField = (WMultiTextField) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 
-		boolean isReadOnly = textField.isReadOnly();
+		boolean readOnly = textField.isReadOnly();
 
 		String[] values = textField.getTextInputs();
 
@@ -36,9 +36,10 @@ class WMultiTextFieldRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
 		xml.appendOptionalAttribute("hidden", textField.isHidden(), "true");
-		xml.appendOptionalAttribute("readOnly", isReadOnly, "true");
 
-		if (!isReadOnly) {
+		if (readOnly) {
+			xml.appendAttribute("readOnly", "true");
+		} else {
 			int cols = textField.getColumns();
 			int minLength = textField.getMinLength();
 			int maxLength = textField.getMaxLength();

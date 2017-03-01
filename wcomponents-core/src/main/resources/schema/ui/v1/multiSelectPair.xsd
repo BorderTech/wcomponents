@@ -45,10 +45,10 @@
 
 			<xs:attributeGroup ref="ui:input.attributes" />
 
-			<xs:attribute name="size" use="required">
+			<xs:attribute name="size">
 				<xs:annotation>
 					<xs:documentation>Indicates the number of options which should be visible in the component without scrolling. If not set then the display is determined by the
-						user agent.</xs:documentation>
+						user agent. This attribute is mandatory if the field is not in a read-only state.</xs:documentation>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:int">
@@ -59,15 +59,15 @@
 
 			<!--  TODO: we could probably have the @fromListName and @toListName not required and default to theme determined values. -->
 			
-			<xs:attribute name="fromListName" type="xs:string" use="required">
+			<xs:attribute name="fromListName" type="xs:string">
 				<xs:annotation>
-					<xs:documentation>The label text for the list of unselected options.</xs:documentation>
+					<xs:documentation>The label text for the list of unselected options. This attribute is mandatory if the field is not in a read-only state.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 
-			<xs:attribute name="toListName" type="xs:string" use="required">
+			<xs:attribute name="toListName" type="xs:string">
 				<xs:annotation>
-					<xs:documentation>The label text for the list of selected options.</xs:documentation>
+					<xs:documentation>The label text for the list of selected options. This attribute is mandatory if the field is not in a read-only state.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
 

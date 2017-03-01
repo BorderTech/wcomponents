@@ -35,14 +35,17 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("disabled", rbSelect.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", rbSelect.isHidden(), "true");
-		xml.appendOptionalAttribute("required", rbSelect.isMandatory(), "true");
-		xml.appendOptionalAttribute("readOnly", readOnly, "true");
-		xml.appendOptionalAttribute("submitOnChange", rbSelect.isSubmitOnChange(), "true");
-		xml.appendOptionalAttribute("tabIndex", component.hasTabIndex(), String.valueOf(tabIndex));
-		xml.appendOptionalAttribute("toolTip", component.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", component.getAccessibleText());
+		if (readOnly) {
+			xml.appendAttribute("readOnly", "true");
+		} else {
+			xml.appendOptionalAttribute("disabled", rbSelect.isDisabled(), "true");
+			xml.appendOptionalAttribute("required", rbSelect.isMandatory(), "true");
+			xml.appendOptionalAttribute("submitOnChange", rbSelect.isSubmitOnChange(), "true");
+			xml.appendOptionalAttribute("tabIndex", component.hasTabIndex(), String.valueOf(tabIndex));
+			xml.appendOptionalAttribute("toolTip", component.getToolTip());
+			xml.appendOptionalAttribute("accessibleText", component.getAccessibleText());
+		}
 		xml.appendOptionalAttribute("frameless", rbSelect.isFrameless(), "true");
 
 		switch (rbSelect.getButtonLayout()) {
@@ -57,8 +60,7 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 				xml.appendAttribute("layout", "stacked");
 				break;
 			default:
-				throw new SystemException("Unknown radio button layout: " + rbSelect.
-						getButtonLayout());
+				throw new SystemException("Unknown radio button layout: " + rbSelect.getButtonLayout());
 		}
 
 		xml.appendClose();
@@ -75,8 +77,7 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 				if (option instanceof OptionGroup) {
 					throw new SystemException("Option groups not supported in WRadioButtonSelect.");
 				} else {
-					renderOption(rbSelect, option, optionIndex++, xml, selectedOption,
-							renderSelectionsOnly);
+					renderOption(rbSelect, option, optionIndex++, xml, selectedOption, renderSelectionsOnly);
 				}
 			}
 		}
