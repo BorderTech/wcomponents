@@ -42,17 +42,16 @@
 
 ### Bug Fixes
 
-* Fixed imageeditor issues:
-  * overlay confuses image validation #1048.
-  * disallow save when no image has been captured from video stream #1062.
-  * fix phantom vertical scroll in some browsers (QC154504) #1073.
+* `WMessages.isHidden()` will return `true` if it has no messages #1082.
+* Fixed a bug in `com.github.bordertech.wcomponents.test.selenium.ByLabel` which resulted in WLabels for compound inputs
+  being ignored when finding elements.
 * Fixed HTML error in `wcomponents/lde` resource `DevToolkit_header.vm` found during optimisations for #1012.
 * Fixed a significant network performance problem caused by loading JavaScript modules included in the layer #1068.
   * Fixed all imports between the `wc/dom` and `wc/ui` namespaces so that no dom-level modules require anything in the
   `wc/ui` space;
   * removed the circular dependency between `formUpdateManager` and `cancelUpdate`;
   * removed most other (managed) circular dependencies; and
-  *  improved reuse of Widgets.
+  * improved reuse of Widgets.
 * Fixed a bug which could cause a (caught) exception when a WTree's item was selected if the WTree has client expansion
   and was not an ajax trigger (found during testing for PR #1086).
 * Removed yellow fade as it caused potential a11y problems #1104.
@@ -87,7 +86,7 @@
 * Fixed imageeditor issues:
   * overlay confuses image validation #1048.
   * disallow save when no image has been captured from video stream #1062.
-  * fix phantom vertical scroll in some browsers (QC154504) #1073.
+* fix phantom vertical scroll in some browsers (QC154504) #1073.
 * Fixed JS loading issue #1068.
 * Fixed layout of WCheckBoxSelect/WRadioButtonSelect with LAYOUT_COLUMN and COLUMN_COUNT >= options.
 

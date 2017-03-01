@@ -501,4 +501,15 @@ public class WMessages extends WPanel {
 
 		return null;
 	}
+
+	/**
+	 * @return {@code true} if explicitly hidden or if the WMessages has no messages.
+	 */
+	@Override
+	public boolean isHidden() {
+		if (super.isHidden()) {
+			return true;
+		}
+		return !hasMessages();
+	}
 }
