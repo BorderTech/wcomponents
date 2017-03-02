@@ -8,6 +8,12 @@
 
 ### Enhancements
 
+##  Release 1.3.7
+
+### Bug Fixes
+
+* Fixed wcomponents-example-lde standalone runtime properties issue. #1005.
+
 ##  Release 1.3.6
 
 ### Bug Fixes
