@@ -1,7 +1,20 @@
-define(["wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/config", "wc/ui/prompt",
-	"wc/loader/resource", "wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/template", "getUserMedia"],
-function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fabric, dialogFrame, template, getUserMedia) {
-	var imageEdit = new ImageEdit();
+define(["wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/ui/prompt",
+	"wc/loader/resource", "wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/template", "wc/ui/ImageCapture", "wc/ui/ImageUndoRedo"],
+function(has, event, uid, classList, timers, prompt, loader, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo) {
+	var timer, imageEdit = new ImageEdit();
+
+	ImageEdit.prototype.renderCanvas = function(callback) {
+		if (timer) {
+			timers.clearTimeout(timer);
+		}
+		timer = timers.setTimeout(function() {
+			var fbCanvas = imageEdit.getCanvas();
+			fbCanvas.renderAll();
+			if (callback) {
+				callback();
+			}
+		}, 50);
+	};
 
 	/**
 	 * This provides a mechanism to allow the user to edit images during the upload process.
@@ -13,13 +26,13 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 
 		var inited,
 			TEMPLATE_NAME = "imageEdit.xml",
-			imageCapture = new ImageCapture(),
+			imageCapture = new ImageCapture(this),
 			overlayUrl,
+			undoRedo,
 			defaults = {
 				width: 320,
 				height: 240
 			},
-			stateStack = [],
 			registeredIds = {},
 			fbCanvas;
 
@@ -33,6 +46,10 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 				title: i18n.get("imgedit_title")
 			};
 		}
+
+		this.getCanvas = function() {
+			return fbCanvas;
+		};
 
 		/**
 		 * Registers a configuration object against a unique ID to specificy variables such as overlay image URL, width, height etc.
@@ -223,7 +240,7 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 					config.redactor = imageRedact;
 					getEditor(config, callbacks, file).then(function() {
 						gotEditor();
-						config.redactor.activate(fbCanvas, imageEdit);
+						config.redactor.activate(imageEdit);
 					});
 				});
 			}
@@ -236,7 +253,7 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 		 * Callback invoked when a FileReader instance has loaded.
 		 */
 		function filereaderLoaded($event) {
-			renderImage($event.target.result);
+			imageEdit.renderImage($event.target.result);
 		}
 
 		/**
@@ -272,7 +289,7 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 		 * Displays an img element in the image editor.
 		 * @param {Element|string} img An image element or a dataURL.
 		 */
-		function renderImage(img, callback) {
+		this.renderImage = function(img, callback) {
 			var minScaleLimit = 0.1,
 				width = fbCanvas.getWidth(),
 				height = fbCanvas.getHeight(),
@@ -310,23 +327,21 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 				fabricImage.height = imageHeight;
 				minScaleLimit = calcMinScale(width, height, imageWidth, imageHeight);
 				fabricImage.minScaleLimit = minScaleLimit;
-				stateStack.length = 0;
 				fbCanvas.clear();
 				addToCanvas(fabricImage);
 
 				if (overlayUrl) {
 					fbCanvas.setOverlayImage(overlayUrl, positionOverlay);
 				}
-				else {
-					fbCanvas.renderAll();
-				}
+				fbCanvas.renderAll();
 				fabricImage.saveState();
-				stateStack.push(JSON.stringify(fabricImage.originalState));
+				undoRedo = new ImageUndoRedo(imageEdit);
+				undoRedo.save();
 				if (callback) {
 					callback();
 				}
 			}
-		}
+		};
 
 		function addToCanvas(object) {
 			fbCanvas.add(object);
@@ -481,7 +496,7 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 					config = getEventConfig(element, "click");
 				if (config) {
 					pressEnd();
-					timer = timers.setTimeout(config.func, 0, config);
+					timer = timers.setTimeout(config.func.bind(this, config, $event), 0);
 				}
 			}
 
@@ -514,7 +529,7 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 
 			function getEventConfig(element, type) {
 				var name = element.name;
-				if (element.localName === "button" && name && eventConfig[type]) {
+				if ((element.localName === "button" || element.type === "checkbox") && name && eventConfig[type]) {
 					return eventConfig[type][name];
 				}
 				return null;
@@ -575,22 +590,12 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 					newValue = Math.max(config.min, newValue);
 				}
 				fbImage[setter](newValue);
-				fbCanvas.renderAll();
-			}
-		}
-
-		/*
-		 * Wires up the "reset" feature.
-		 */
-		function resetCanvas() {
-			var fbImage = imageEdit.getFbImage(),
-				originalState = stateStack.length > 1 ? stateStack.pop() : stateStack[0];
-			if (originalState) {
-				originalState = JSON.parse(originalState);
-				if (fbImage) {
-					fbImage.setOptions(originalState);
-					fbCanvas.renderAll();
-				}
+				imageEdit.renderCanvas(function() {
+					if (undoRedo) {
+						undoRedo.save();
+					}
+				});
+				// fbCanvas.calcOffset();
 			}
 		}
 
@@ -679,12 +684,23 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 		}
 
 		/*
-		 * Wires up the "reset" feature.
+		 * Wires up the "reset/undo/redo" feature.
 		 */
 		function resetControl(eventConfig) {
 			var click = eventConfig.click;
-			click.reset = {
-				func: resetCanvas
+			click.undo = {
+				func: function() {
+					if (undoRedo) {
+						undoRedo.undo();
+					}
+				}
+			};
+			click.redo = {
+				func: function() {
+					if (undoRedo) {
+						undoRedo.redo();
+					}
+				}
 			};
 		}
 
@@ -764,8 +780,8 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 		 * @param {File} [file] The binary file being edited.
 		 */
 		function saveImage(editor, callbacks, cancel, file) {
-			var canvasElement, result, done = function() {
-					canvasElement = fbCanvas = null;
+			var fbImage, cropDimensions, result, canvasElement, done = function() {
+					fbImage = cropDimensions = fbCanvas = null;  // = canvasElement
 					imageCapture.stop();
 					editor.parentNode.removeChild(editor);
 				};
@@ -775,17 +791,34 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 					callbacks.lose();
 				}
 				else {
-					fbCanvas.deactivateAll();  // selection box should not be part of the image
+					if (fbCanvas.getActiveObject()) {
+						fbCanvas.deactivateAll();  // selection box should not be part of the image
+						fbCanvas.renderAll();  // got to render for the selection box to disappear
+					}
 					showHideOverlay(fbCanvas);
 					if (file && !hasChanged()) {
 						console.log("No changes made, using original file");
 						result = file;  // if the user has made no changes simply pass thru the original file.
 					}
 					else {
-						canvasElement = fbCanvas.getElement();
-						result = canvasElement.toDataURL();
-						result = dataURItoBlob(result);
-						result = blobToFile(result, file);
+						fbImage = imageEdit.getFbImage();
+						if (fbImage) {
+							cropDimensions = {
+								format: "png",
+								left: 0,
+								top: 0,
+								width: Math.min(fbCanvas.getWidth(), fbImage.getWidth()),
+								height: Math.min(fbCanvas.getHeight(), fbImage.getHeight())
+							};
+							// cropDimensions.width *= fbImage.getScaleX();
+							// cropDimensions.height *= fbImage.getScaleY();
+
+							canvasElement = fbCanvas.getElement();
+							// result = canvasElement.toDataURL();
+							result = fbCanvas.toDataURL(cropDimensions);
+							result = dataURItoBlob(result);
+							result = blobToFile(result, file);
+						}
 					}
 					done();
 					callbacks.win(result);
@@ -802,10 +835,7 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 		 * @returns {boolean} true if the user has made changes.
 		 */
 		function hasChanged() {
-			var fbImage = imageEdit.getFbImage(), currentState, originalState = stateStack[0];
-			fbImage.saveState();
-			currentState = JSON.stringify(fbImage.originalState);
-			return currentState !== originalState;
+			return undoRedo && undoRedo.hasChanges();
 		}
 
 		/**
@@ -820,8 +850,8 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 					name: element.id
 				};
 			if (element && element.src) {
-				canvas.width = element.width * scale;
-				canvas.height = element.height * scale;
+				canvas.width = element.naturalWidth * scale;
+				canvas.height = element.naturalHeight * scale;
 				context = canvas.getContext("2d");
 				context.drawImage(element, 0, 0);
 				dataUrl = canvas.toDataURL("image/png");
@@ -889,283 +919,6 @@ function(has, event, uid, classList, timers, wcconfig, prompt, loader, i18n, fab
 			}
 
 			return new Blob([ia], { type: mimeString });
-		}
-
-		/**
-		 * Encapsulates the image capture functionality.
-		 *
-		 * TODO allow user to select video source or rely on platform to provide this?
-		 *
-		 * @constructor
-		 */
-		function ImageCapture() {
-			var VIDEO_CONTAINER = "wc_img_video_container",
-				context,
-				canvas,
-				image,
-				streaming,
-				_stream,
-				pos = 0,
-				currentOptions,
-				defaultOptions = {
-					video: true,  // { facingMode: "user" },
-					audio: false,
-					extern: null,
-					append: true,
-					context: "",
-					swffile: window.require.toUrl("lib/getusermedia-js/fallback/jscam_canvas_only.swf"),
-					el: VIDEO_CONTAINER,
-					mode: "callback",
-					quality: 85,
-					onCapture: onCapture,
-					onSave: onSave
-				};
-
-			/*
-			 * Flash event handler
-			 */
-			function onCapture() {
-//				context = fbCanvas.getContext("2d");
-//				context.clearRect(0, 0, currentOptions.width, currentOptions.height);
-//				image = context.getImageData(0, 0, currentOptions.width, currentOptions.height);
-				canvas = document.createElement("canvas");
-				canvas.height = currentOptions.height;
-				canvas.width = currentOptions.width;
-				context = canvas.getContext("2d");
-				context.clearRect(0, 0, currentOptions.width, currentOptions.height);
-				image = context.getImageData(0, 0, currentOptions.width, currentOptions.height);
-				currentOptions.save();
-			}
-
-			/*
-			 * Flash event handler
-			 */
-			function onSave(data) {
-				var col = data.split(";"),
-					tmp = null,
-					width = currentOptions.width,
-					height = currentOptions.height;
-				for (var i = 0; i < width; i++) {
-					tmp = parseInt(col[i], 10);
-					image.data[pos + 0] = (tmp >> 16) & 0xff;
-					image.data[pos + 1] = (tmp >> 8) & 0xff;
-					image.data[pos + 2] = tmp & 0xff;
-					image.data[pos + 3] = 0xff;
-					pos += 4;
-				}
-
-				if (pos >= 4 * width * height) {
-					// fbCanvas.getContext("2d").putImageData(image, 0, 0);
-					context.putImageData(image, 0, 0);
-					renderImage(canvas.toDataURL());
-					pos = 0;
-				}
-			}
-
-			/*
-			 * Wires up the "take photo" feature.
-			 */
-			this.snapshotControl = function (eventConfig, container) {
-				var click = eventConfig.click,
-					done = function(_video) {
-						var video = _video || getVideo();
-						classList.remove(container, "wc_showcam");
-						imageCapture.stop();
-						video.parentNode.removeChild(video);
-					};
-				activateCameraControl(eventConfig, container);
-				click.snap = {
-					func: function() {
-						var video;
-						if (currentOptions.context === "webrtc") {
-							video = getVideo();
-							if (video) {
-								video.pause();
-								videoToImage(video, null, function($event) {
-									renderImage($event.target, done);
-								});
-							}
-						}
-						else if (currentOptions.context === "flash") {
-							currentOptions.capture();
-							classList.remove(container, "wc_showcam");
-						}
-						else {
-							prompt.alert("No context was supplied to getSnapshot()");
-						}
-					}
-				};
-			};
-
-			function activateCameraControl(eventConfig, container) {
-				var click = eventConfig.click;
-				click.camera = {
-					func: function() {
-						imageCapture.play({
-							width: fbCanvas.getWidth(),
-							height: fbCanvas.getHeight()
-						});
-						classList.add(container, "wc_showcam");
-					}
-				};
-			}
-
-			/*
-			 * Entry point to gum.
-			 * Uses native getUserMedia if possible and falls back to plugins if it must.
-			 */
-			function gumWithFallback(constraints, playCb, errCb) {
-				if (getUserMedia && arguments.length === 3) {
-					getUserMedia(constraints, playCb, errCb);
-				}
-			}
-
-			function playCb(stream) {
-				var video, vendorURL;
-				_stream = stream;
-				if (currentOptions.context === "webrtc") {
-
-					video = currentOptions.videoEl;
-					vendorURL = window.URL || window.webkitURL;
-					video.src = vendorURL ? vendorURL.createObjectURL(stream) : stream;
-
-					video.onerror = function () {
-						stream.getVideoTracks()[0].stop();
-						errCb(arguments[0]);
-					};
-
-					video.setAttribute("width", currentOptions.width);
-					streaming = false;
-					video.addEventListener("canplay", function() {
-						var height;
-						if (!streaming) {
-							height = video.videoHeight / (video.videoWidth / currentOptions.width);
-
-							// Firefox currently has a bug where the height can't be read from the video
-							if (isNaN(height)) {
-								height = currentOptions.width / (currentOptions.width / currentOptions.height);
-							}
-
-							video.setAttribute("width", currentOptions.width);
-							video.setAttribute("height", height);
-
-							streaming = true;
-						}
-					}, false);
-				}
-			}
-
-			function errCb(err) {
-				console.log("An error occured! " + err);
-//				dialogFrame.close();
-			}
-
-			/**
-			 * Close the web camera video stream.
-			 */
-			this.stop = function(pause) {
-				var i, track, tracks, video = getVideo();
-				if (video && !pause) {
-					video.src = "";
-				}
-				if (_stream) {
-					if (_stream.getTracks) {
-						tracks = _stream.getTracks();
-						for (i = 0; i < tracks.length; i++) {
-							track = tracks[i];
-							if (track.stop) {
-								track.stop();
-							}
-						}
-					}
-					else if (_stream.stop) {
-						_stream.stop();
-					}
-					if (!pause) {
-						_stream = null;
-					}
-				}
-			};
-
-			/**
-			 * Start the web camera video stream.
-			 * Any options not provided will be set to default values.
-			 * Default values may be globally overridden by "wc/config" options.
-			 * Option values provided to this function call override default and global option values.
-			 *
-			 * In other words:
-			 * 1. Options passed in argument trump all.
-			 * 2. Options set in wc/config trump defaults.
-			 * 3. Option defaults will be used if not set in any other way.
-			 *
-			 * To understand the options take a look at: https://github.com/addyosmani/getUserMedia.js and/or https://github.com/infusion/jQuery-webcam
-			 */
-			this.play = function(options) {
-				var play = function() {
-						gumWithFallback(currentOptions, playCb, errCb);
-					},
-					globalOptions, globalConf = wcconfig.get("wc/ui/imageEdit");
-				if (globalConf && globalConf.options) {
-					globalOptions = globalConf.options;
-				}
-				else {
-					globalOptions = {};
-				}
-				currentOptions = Object.assign({}, defaultOptions, globalOptions, options);
-				currentOptions.width *= 1;
-				currentOptions.height *= 1;
-				window.webcam = currentOptions;  // Needed for flash fallback
-				if (has("rtc-gum")) {
-					play();
-				}
-				else if (has("flash")) {
-					if (currentOptions.swffile === defaultOptions.swffile && (currentOptions.width !== 320 || currentOptions.height !== 240)) {
-						/*
-						 * The default swffile can only support 320 x 240.
-						 * Compile new swf files at different resolutions if you need them: https://github.com/infusion/jQuery-webcam
-						 * You can then change the swffile location in the options using wc/config
-						 */
-						console.warn("The default flash fallback only supports 320 x 240");
-						currentOptions.width = 320;
-						currentOptions.height = 240;
-					}
-					play();
-				}
-				else {
-					console.error("Browser does not support web-rtc or flash. It should not be possible to get here.");
-				}
-			};
-
-			function videoToDataUrl(video, scale) {
-				var _scale = scale || 1,
-					canvas = document.createElement("canvas");
-				canvas.width = video.videoWidth * _scale;
-				canvas.height = video.videoHeight * _scale;
-				canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
-				return canvas.toDataURL();
-			}
-
-			function videoToImage(video, scale, onload) {
-				var dataUrl = videoToDataUrl(video, scale),
-					img = new Image();
-				if (onload) {
-					event.add(img, "load", onload);
-				}
-				img.src = dataUrl;
-				return img;
-			}
-
-			/**
-			 * Gets the video element.
-			 * @returns {Element} The video element.
-			 */
-			function getVideo() {
-				var container = document.getElementById(VIDEO_CONTAINER);
-				if (!container) {
-					return null;
-				}
-				return container.querySelector("video");
-			}
 		}
 	}
 	return imageEdit;

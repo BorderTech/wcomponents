@@ -83,6 +83,10 @@
 		margin-left: $wc-gap-small;
 		vertical-align: middle;
 	}
+	
+	input[type='checkbox'] {
+		margin-left: $wc-gap-small;
+	}
 }
 
 @if ($wc-use-respond == 1) {
