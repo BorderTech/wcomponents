@@ -1,4 +1,3 @@
-/* wc.ui.panel.header.scss */
 // This contains CSS for WPanel Type.HEADER which is used to make the page header (role banner) and is most commonly
 // over-ridden.
 
@@ -16,8 +15,7 @@
 	}
 }
 
-@if ($wc-header-h1-size-small != -1) {
-
+@if ($wc-use-respond == 1 and $wc-header-h1-size-small != -1) {
 	@include respond-phonelike {
 		[role='banner'] {
 			h1 {

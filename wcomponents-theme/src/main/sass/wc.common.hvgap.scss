@@ -1,4 +1,3 @@
-/* wc.common.hvgap.scss */
 @import 'mixins-common';
 // The styles which create hgap and vgap.
 // See xslt/wc.common.getHVGap.xsl for changing the number of options or the pixel values at which the various classes
@@ -70,8 +69,7 @@
 		padding: $size;
 	}
 }
-
-@if ($wc-gap-reduce-when-narrow != -1) {
+@if ($wc-use-respond == 1 and $wc-gap-reduce-when-narrow == 1) {
 	// Reduce the gaps on narrow viewports.
 	@include respond-phonelike {
 		@each $cl in $wc-gap-suffix-list {

@@ -1,21 +1,5 @@
-/**
- * Provides actions used by {@link module:wc/ui/subordinate}.
- *
- * This module knows how to perform a subordinate action. Has no knowledge of if and when to perform the action.
- * Instances of this class are used to to populate the "onTrue" and "onFalse" properties of a subordinate rule.
- *
- * Once a subordinate condition has been evaluated to either true of false to corresponding action is executed.
- *
- * @module
- * @requires module:wc/ui/fx
- * @requires module:wc/dom/shed
- * @requires module:wc/has
- *
- * @todo Document private members. Work out why Rick has used this labrynthine constructor initialisation mechanism...
- */
-define(["wc/ui/fx", "wc/dom/shed", "wc/has"],
-	/** @param fx wc/ui/fx @param shed wc/dom/shed @param has wc/has @ignore */
-	function(fx, shed, has) {
+define(["wc/dom/shed", "wc/has"],
+	function(shed, has) {
 		"use strict";
 		var actionRegister = {},  // Map of subordinate action keywords to functions which implement the action.
 			groupRegister = {},
@@ -28,6 +12,16 @@ define(["wc/ui/fx", "wc/dom/shed", "wc/has"],
 		}
 
 		/**
+		 * Provides actions used by {@link module:wc/ui/subordinate}.
+		 *
+		 * This module knows how to perform a subordinate action. Has no knowledge of if and when to perform the action.
+		 * Instances of this class are used to to populate the "onTrue" and "onFalse" properties of a subordinate rule.
+		 *
+		 * Once a subordinate condition has been evaluated to either true of false to corresponding action is executed.
+		 *
+		 * @module
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/has
 		 * @constructor
 		 * @alias module:wc/ui/SubordinateAction
 		 * @param {module:wc/ui/SubordinateAction~ActionDTO} dto The object defining the action.
@@ -484,7 +478,6 @@ define(["wc/ui/fx", "wc/dom/shed", "wc/has"],
 				if (repainter) {
 					repainter.checkRepaint(element);
 				}
-				fx.yellowFade(element);
 			}
 		}
 

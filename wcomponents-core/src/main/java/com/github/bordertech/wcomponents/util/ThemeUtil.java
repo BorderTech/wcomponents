@@ -175,7 +175,7 @@ public final class ThemeUtil {
 	 * @return The name of the XSLT file without any path or cachebuster.
 	 */
 	public static String getThemeXsltName() {
-		if (DebugUtil.isDebugStructureEnabled()) {
+		if (DebugUtil.isDebugFeaturesEnabled()) {
 			return "all_debug.xsl";
 		}
 		return "all.xsl";

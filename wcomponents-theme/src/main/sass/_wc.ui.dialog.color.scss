@@ -5,7 +5,7 @@
 dialog {
 	background: transparent;
 
-	> [aria-live] { // dialog content container
+	> div { // dialog content container
 		background-color: $wc-ui-color-global-bg;
 	}
 
@@ -16,7 +16,6 @@ dialog {
 	}
 
 	> header {
-
 		> h1 { // the title
 			color: $wc-ui-color-dialog-head-fg;
 		}

@@ -3,18 +3,10 @@
 		NOTE: Building the XSLT requires an XSLT2 aware processor. There is a BUG in ANT 1.8.1
 		which prevents the xslt process' FACTORY from working correctly. Therefore you MUST
 		use ANT 1.8.2 or later to build.
-
-		Build the xslt for a given implementation. The resulting xslt will contain:
-		1. All the xslt from "common" AND
-		2. All the xslt for the specific implementation.
-
-		This build must be called with the name of the implementation rootdir set in property:
-		"implementation.name". If not set then the xslt from "common" alone will be used.
 	-->
 	<import file="build-import.xml"/>
 	<property name="xslt.build.target.dir" location="${target.rootdir}/xslt"/>
 	<property name="xsl.src.dir" location="${common.src.rootdir}/xslt"/>
-	<property name="impl.xsl.src.dir" location="${impl.src.main.dir}/xslt"/>
 	<property name="xsl.tmp.src.dir" location="${tmp.dir}/xsl"/>
 	<property name="xsl.target.file.prefix" value="all-${build.number}"/>
 	<property name="xsl.target.debug.file.name" value="${xsl.target.file.prefix}${debug.target.file.name.suffix}.xsl"/>
@@ -43,12 +35,6 @@
 		-->
 		<copy todir="${xsl.tmp.src.dir}" overwrite="true">
 			<fileset dir="${xsl.src.dir}" includes="*.xsl" />
-			<filterchain>
-				<expandproperties/>
-			</filterchain>
-		</copy>
-		<copy todir="${xsl.tmp.src.dir}" overwrite="true">
-			<fileset dir="${impl.xsl.src.dir}" includes="*.xsl" erroronmissingdir="false"/>
 			<filterchain>
 				<expandproperties/>
 			</filterchain>

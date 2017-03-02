@@ -341,13 +341,15 @@ public final class ConfigurationProperties {
 	* DEVELOPER PROPERTIES - used for local debugging.
 	* *****************************/
 	/**
-	 * The flag indicating whether to debug the client side.
-	 */
-	public static final String DEVELOPER_DEBUG_CLIENT_SIDE = "bordertech.wcomponents.debug.clientSide.enabled";
-	/**
 	 * The flag indicating whether debug is enabled.
 	 */
 	public static final String DEVELOPER_DEBUG_ENABLED = "bordertech.wcomponents.debug.enabled";
+	/**
+	 * The flag indicating whether to debug the client side.
+	 * @deprecated 1.4.0 replaced with {@link #DEVELOPER_DEBUG_ENABLED}
+	 */
+	@Deprecated
+	public static final String DEVELOPER_DEBUG_CLIENT_SIDE = DEVELOPER_DEBUG_ENABLED;
 
 	/**
 	 * The flag indicating whether to dump the UIContext.
@@ -1090,9 +1092,11 @@ public final class ConfigurationProperties {
 	 * The flag indicating whether to debug the client side.
 	 *
 	 * @return the parameter value if set, else false if not set
+	 * @deprecated 1.4.0 use {@link #getDeveloperDebugEnabled()]
 	 */
+	@Deprecated
 	public static boolean getDeveloperDebugClientSide() {
-		return get().getBoolean(DEVELOPER_DEBUG_CLIENT_SIDE, false);
+		return getDeveloperDebugEnabled();
 	}
 
 	/**

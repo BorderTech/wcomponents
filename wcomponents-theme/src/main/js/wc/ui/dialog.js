@@ -26,7 +26,6 @@ define(["wc/dom/classList",
 				BASE_CLASS = "wc-dialog",
 				registry = {},
 				registryByDialogId = {},
-				UNIT = "px",
 				keepContentOnClose = false,
 				openOnLoadTimer,
 				openThisDialog,
@@ -76,8 +75,6 @@ define(["wc/dom/classList",
 						className: BASE_CLASS + (dialogObj.className ? (" " + dialogObj.className) : ""),
 						width: dialogObj.width,
 						height: dialogObj.height,
-						initWidth: dialogObj.width,  // useful if we do not allow resize below initial size
-						initHeight: dialogObj.height,
 						modal: dialogObj.modal || false,
 						openerId: dialogObj.triggerid,
 						title: dialogObj.title || i18n.get("dialog_noTitle")
@@ -164,6 +161,9 @@ define(["wc/dom/classList",
 
 				// Are we opening a dialog?
 				if ((_element = getTrigger(element)) && !isInsideDialog(element.id)) {
+					if (shed.isDisabled(_element)) { // This is needed because IE is broken and we have a potential race with the global fix.
+						return false;
+					}
 					instance.open(_element);
 					return isSubmitElement(_element);
 				}
@@ -268,15 +268,6 @@ define(["wc/dom/classList",
 				}
 			}
 
-			function saveDialogDimensions(element, regObj) {
-				if (element.style.width) {
-					regObj["width"] = element.style.width.replace(UNIT, "");
-				}
-				if (element.style.height) {
-					regObj["height"] = element.style.height.replace(UNIT, "");
-				}
-			}
-
 			/**
 			 * Get a registry object based on a WDialog id attribute.
 			 * @param {String} id the ID of the WDialog to get.
@@ -303,10 +294,6 @@ define(["wc/dom/classList",
 					regObj;
 				if (element && element === dialogFrame.getDialog() && (content = dialogFrame.getContent()) && (id = content.id) && (regObj = getRegistryObjectByDialogId(id))) { // we are ONLY interested in WDialog inited dialogs.
 					try {
-						saveDialogDimensions(element, regObj);
-						/*
-						 * NOTE: clear the content and dimensions AFTER resetting all the registry settings.
-						 */
 						dialogFrame.unsetAllDimensions();
 						dialogFrame.resetContent(keepContentOnClose, (keepContentOnClose ? "" : regObj.id));
 					}
@@ -323,6 +310,9 @@ define(["wc/dom/classList",
 			 * @param {Event} $event a click event.
 			 */
 			function clickEvent($event) {
+				if ($event.defaultPrevented) {
+					return;
+				}
 				if (activateClick($event.target)) {
 					$event.preventDefault();
 				}
@@ -408,12 +398,6 @@ define(["wc/dom/classList",
 		 * @property {String} id The WDialog id.
 		 * @property {int} [width] The dialog width in px.
 		 * @property {int} [height] The dialog height in px.
-		 * @property {int} [initWidth] The dialog width in px as set by the Java. This is used if the theme allows
-		 *    resizing but prevents a dialog being made smaller than its intial size. This property is not in the
-		 *    registration object passed in to the module.
-		 * @property {int} [initHeight] The dialog height in px as set by the Java. This is used if the theme allows
-		 *    resizing but prevents a dialog being made smaller than its intial size. This property is not in the
-		 *    registration object passed in to the module.
 		 * @property {Boolean} [modal] Is the dialog modal?
 		 * @property {String} [title] The WDialog title. If not set a default title is used.
 		 * @property {Boolean} [open] If true then the dialog is to be open on page load. This is passed in as part of

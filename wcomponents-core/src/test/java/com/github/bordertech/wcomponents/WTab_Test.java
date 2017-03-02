@@ -150,8 +150,6 @@ public class WTab_Test extends AbstractWComponentTestCase {
 		tabSet.setActiveIndex(1);
 		tab.preparePaintComponent(request);
 		Assert.assertTrue("content should have been set to visible", component.isVisible());
-
-		// TODO - add assert on result of AjaxHelper.registerComponent
 	}
 
 	/**
@@ -180,7 +178,6 @@ public class WTab_Test extends AbstractWComponentTestCase {
 		tabSet.setActiveIndex(1);
 		tab.preparePaintComponent(request);
 		Assert.assertTrue("content should have been set to visible", component.isVisible());
-		// TODO - add assert on result of AjaxHelper.registerComponent
 	}
 
 	/**

@@ -1,4 +1,4 @@
-/**
+/*
  * This is the one true meta module. It only makes sense to have one of these.
  *
  * This module exists solely for the purposes of optimization. Optimization here means reducing the
@@ -24,10 +24,15 @@
  *
  * @ignore
  */
-require(["wc/i18n/i18n!", // ALWAYS REQUIRED IN THIS LAYER
+require(["wc/fixes",
+	"wc/i18n/i18n!", // ALWAYS REQUIRED IN THIS LAYER
 	"wc/a8n", // ALWAYS REQUIRED IN THIS LAYER
 	"wc/ui/loading", // ALWAYS REQUIRED IN THIS LAYER
 	"wc/ui/field",
 	"wc/ui/label",
 	"wc/ui/wrappedInput",
-	"wc/ui/menu"]);
+	"wc/ui/tabset",
+	"wc/ui/menu"], function (f) {
+	"use strict";
+	require(f);
+});

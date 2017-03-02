@@ -8,6 +8,8 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponen
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWDialogWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWEmailFieldWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWLabelWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMessageBoxWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMessagesWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWPhoneNumberFieldWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWRadioButtonWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWSelectWebElement;
@@ -264,6 +266,24 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 */
 	public SeleniumWSelectWebElement findWSingleSelect(final By by) {
 		return new SeleniumWSelectWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WMessages by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWMessagesWebElement
+	 */
+	public SeleniumWMessagesWebElement findWMessages(final By by) {
+		return new SeleniumWMessagesWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WMessageBox by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWMessageBoxWebElement
+	 */
+	public SeleniumWMessageBoxWebElement findWMessageBox(final By by) {
+		return new SeleniumWMessageBoxWebElement(findElement(by), this);
 	}
 
 	/**
