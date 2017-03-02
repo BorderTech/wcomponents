@@ -1,15 +1,20 @@
 <form id = "form01">
-	<input type="radio" name="sex" id="male" />
+	<input type="radio" name="sex" id="male">
 	<label id="maleLabel" for="male">Male</label>
 	<span data-wc-for="male">Extra information</span>
 	<br />
 	<label id="femaleLabel">Female
-		<input type="radio" name="sex" id="female" />
+		<input type="radio" name="sex" id="female">
 	</label>
 	<br />
-	<input type="radio" name="sex" id="yes" />
+	<input type="radio" name="sex" id="yes">
 	<label id="yesLabel" for="yes">Yes</label>
-	<input type="radio" name="like" id="likeBatman" />
+	<input type="radio" name="like" id="likeBatman">
 	<label id="likeBatmanLabel" for="likeBatman">Like Batman</label>
 	<fieldset id="fs1"><legend id="leg1">of Zenda</legend></fieldset>
+  <!-- fake label 'for' a component in a read-only state -->
+  <span id="rolabel" data-wc-rofor="rofield">read only</span><span id="rofield">content</span>
+  <label for="wrappedinput_input" id="wrappedlabel">label</label><span class="wc-input-wrapper" id="wrappedinput"><input type="text" id="wrappedinput_input"></span>
+  <span data-wc-rofor="wrappedroinput" id="wrappedrolabel">label</span><span class="wc-ro-input" id="wrappedroinput">value</span>
+  <input type="text" id="unlabelled">
 </form>
