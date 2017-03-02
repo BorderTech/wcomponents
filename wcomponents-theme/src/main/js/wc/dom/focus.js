@@ -58,11 +58,11 @@ define(["wc/array/toArray",
 			 * @returns {Boolean} true if the element is a viable tab stop.
 			 */
 			this.isTabstop = function(element) {
+				if (!(element && element.nodeType)) {
+					return false;
+				}
 				initialise();
-				var result = null,
-					observer = getTabstopObserver();
-				result = filterHelper(element, observer, this);
-				return result;
+				return filterHelper(element, getTabstopObserver(), this);
 			};
 
 
@@ -219,26 +219,26 @@ define(["wc/array/toArray",
 			 * @returns {?Element} the first ancestor element which can receive focus (if any).
 			 */
 			this.getFocusableAncestor = function(element, ignoreSelf) {
-				var result, tw, filter;
+				var tw, filter;
+				if (!element) {
+					return null;
+				}
 
 				if (!ignoreSelf && this.canFocus(element)) {
-					result = element;
+					return element;
 				}
-				else {
-					filter = function (node) {
-						var result = SKIP;
-						if (instance.isTabstop(node) && instance.canFocus(node)) {
-							result = ACCEPT;
-						}
-						return result;
-					};
+				filter = function (node) {
+					var result = SKIP;
+					if (instance.isTabstop(node) && instance.canFocus(node)) {
+						result = ACCEPT;
+					}
+					return result;
+				};
 
-					tw = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT, filter, false);
-					initialise();
-					tw.currentNode = element;
-					result = tw.parentNode();
-				}
-				return result;
+				tw = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT, filter, false);
+				initialise();
+				tw.currentNode = element;
+				return tw.parentNode();
 			};
 
 			/**
