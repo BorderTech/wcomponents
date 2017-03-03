@@ -1,6 +1,6 @@
-define(["wc/has", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/ui/prompt",
+define(["wc/has", "wc/mixin", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/ui/prompt",
 	"wc/loader/resource", "wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/template", "wc/ui/ImageCapture", "wc/ui/ImageUndoRedo"],
-function(has, event, uid, classList, timers, prompt, loader, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo) {
+function(has, mixin, event, uid, classList, timers, prompt, loader, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo) {
 	var timer, imageEdit = new ImageEdit();
 
 	ImageEdit.prototype.renderCanvas = function(callback) {
@@ -16,6 +16,16 @@ function(has, event, uid, classList, timers, prompt, loader, i18n, fabric, dialo
 		}, 50);
 	};
 
+	ImageEdit.prototype.defaults = {
+		width: 320,
+		height: 240,
+		format: "png",  // png or jpeg
+		quality: 1,  // only if format is jpeg
+		face: false,
+		redact: false,
+		crop: true
+	};
+
 	/**
 	 * This provides a mechanism to allow the user to edit images during the upload process.
 	 * It may also be used to edit static images after they have been uploaded as long as a file uploader is configured to take the edited images.
@@ -29,10 +39,6 @@ function(has, event, uid, classList, timers, prompt, loader, i18n, fabric, dialo
 			imageCapture = new ImageCapture(this),
 			overlayUrl,
 			undoRedo,
-			defaults = {
-				width: 320,
-				height: 240
-			},
 			registeredIds = {},
 			fbCanvas;
 
@@ -59,7 +65,8 @@ function(has, event, uid, classList, timers, prompt, loader, i18n, fabric, dialo
 		this.register = function(arr) {
 			var i, next;
 			for (i = 0; i < arr.length; i++) {
-				next = arr[i];
+				next = mixin(this.defaults);  // make a copy of defaults
+				next = mixin(arr[i], next);  // override defaults with explicit settings
 				registeredIds[next.id] = next;
 			}
 			if (!inited) {
@@ -113,19 +120,22 @@ function(has, event, uid, classList, timers, prompt, loader, i18n, fabric, dialo
 		 * @returns {Object} configuration
 		 */
 		this.getConfig = function(obj) {
-			var editorId, result = registeredIds[obj.id] || registeredIds[obj.name];
-			if (!result) {
-				if ("getAttribute" in obj) {
-					editorId = obj.getAttribute("data-wc-editor");
-				}
-				else {
-					editorId = obj.editorId;
-				}
-				if (editorId) {
-					result = registeredIds[editorId];
+			var editorId, result;
+			if (obj) {
+				result = registeredIds[obj.id] || registeredIds[obj.name];
+				if (!result) {
+					if ("getAttribute" in obj) {
+						editorId = obj.getAttribute("data-wc-editor");
+					}
+					else {
+						editorId = obj.editorId;
+					}
+					if (editorId) {
+						result = registeredIds[editorId];
+					}
 				}
 			}
-			return result || Object.create(defaults);
+			return result || mixin(this.defaults);
 		};
 
 		/**
@@ -209,8 +219,8 @@ function(has, event, uid, classList, timers, prompt, loader, i18n, fabric, dialo
 				gotEditor = function() {
 					var fileReader;
 					fbCanvas = new fabric.Canvas("wc_img_canvas");
-					fbCanvas.setWidth(config.width || defaults.width);
-					fbCanvas.setHeight(config.height || defaults.height);
+					fbCanvas.setWidth(config.width);
+					fbCanvas.setHeight(config.height);
 //					fbCanvas.on("selection:cleared", function() {
 //						if (fbImage) {
 //							fbCanvas.setActiveObject(fbImage);
@@ -263,9 +273,10 @@ function(has, event, uid, classList, timers, prompt, loader, i18n, fabric, dialo
 		 * @param {number} availHeight The height of the canvas.
 		 * @param {number} imgWidth The raw image width.
 		 * @param {number} imgHeight The raw image height.
+		 * @param {fabric.Image} fbImage The image we are limiting
 		 * @returns {number} The minimum scale to keep this image from getting too small.
 		 */
-		function calcMinScale(availWidth, availHeight, imgWidth, imgHeight) {
+		function calcMinScale(availWidth, availHeight, imgWidth, imgHeight, fbImage) {
 			var result, minScaleDefault = 0.1, minScaleX, minScaleY,
 				minWidth = availWidth * 0.7,
 				minHeight = availHeight * 0.7;
@@ -282,6 +293,10 @@ function(has, event, uid, classList, timers, prompt, loader, i18n, fabric, dialo
 				minScaleY = minScaleDefault;
 			}
 			result = Math.max(minScaleX, minScaleY);
+			if (fbImage.scaleX || fbImage.scaleY) {
+				// if the image has been auto-scaled already then we should allow it to stay in those parameters
+				result = Math.min(fbImage.scaleX, fbImage.scaleY, result);
+			}
 			return result;
 		}
 
@@ -290,8 +305,7 @@ function(has, event, uid, classList, timers, prompt, loader, i18n, fabric, dialo
 		 * @param {Element|string} img An image element or a dataURL.
 		 */
 		this.renderImage = function(img, callback) {
-			var minScaleLimit = 0.1,
-				width = fbCanvas.getWidth(),
+			var width = fbCanvas.getWidth(),
 				height = fbCanvas.getHeight(),
 				imageWidth, imageHeight;
 			try {
@@ -325,8 +339,7 @@ function(has, event, uid, classList, timers, prompt, loader, i18n, fabric, dialo
 				}
 				fabricImage.width = imageWidth;
 				fabricImage.height = imageHeight;
-				minScaleLimit = calcMinScale(width, height, imageWidth, imageHeight);
-				fabricImage.minScaleLimit = minScaleLimit;
+				calcMinScale(width, height, imageWidth, imageHeight, fabricImage);
 				fbCanvas.clear();
 				addToCanvas(fabricImage);
 
@@ -418,12 +431,12 @@ function(has, event, uid, classList, timers, prompt, loader, i18n, fabric, dialo
 					var container = document.body.appendChild(document.createElement("div")),
 						eventConfig, editorProps = {
 							style: {
-								width: config.width || defaults.width,
-								height: config.height || defaults.height
+								width: config.width,
+								height: config.height
 							},
 							feature: {
 								face: false,
-								redact: false
+								redact: config.redact
 							}
 						};
 					container.className = "wc_img_editor";
@@ -780,8 +793,8 @@ function(has, event, uid, classList, timers, prompt, loader, i18n, fabric, dialo
 		 * @param {File} [file] The binary file being edited.
 		 */
 		function saveImage(editor, callbacks, cancel, file) {
-			var fbImage, cropDimensions, result, canvasElement, done = function() {
-					fbImage = cropDimensions = fbCanvas = null;  // = canvasElement
+			var result, done = function() {
+					fbCanvas = null;  // = canvasElement
 					imageCapture.stop();
 					editor.parentNode.removeChild(editor);
 				};
@@ -801,24 +814,7 @@ function(has, event, uid, classList, timers, prompt, loader, i18n, fabric, dialo
 						result = file;  // if the user has made no changes simply pass thru the original file.
 					}
 					else {
-						fbImage = imageEdit.getFbImage();
-						if (fbImage) {
-							cropDimensions = {
-								format: "png",
-								left: 0,
-								top: 0,
-								width: Math.min(fbCanvas.getWidth(), fbImage.getWidth()),
-								height: Math.min(fbCanvas.getHeight(), fbImage.getHeight())
-							};
-							// cropDimensions.width *= fbImage.getScaleX();
-							// cropDimensions.height *= fbImage.getScaleY();
-
-							canvasElement = fbCanvas.getElement();
-							// result = canvasElement.toDataURL();
-							result = fbCanvas.toDataURL(cropDimensions);
-							result = dataURItoBlob(result);
-							result = blobToFile(result, file);
-						}
+						result = saveCanvasAsFile(file);
 					}
 					done();
 					callbacks.win(result);
@@ -828,6 +824,40 @@ function(has, event, uid, classList, timers, prompt, loader, i18n, fabric, dialo
 //				dialogFrame.close();
 				dialogFrame.resetContent();
 			}
+		}
+
+		function saveCanvasAsFile(file) {
+			var result, cropDimensions, canvasElement, config,
+				fbImage = imageEdit.getFbImage();
+			if (fbImage) {
+				config = imageEdit.getConfig();
+				if (config.crop) {
+					cropDimensions = {
+						left: 0,
+						top: 0,
+						width: Math.min(fbCanvas.getWidth(), fbImage.getWidth()),
+						height: Math.min(fbCanvas.getHeight(), fbImage.getHeight())
+					};
+				}
+				else {
+					cropDimensions = {
+						left: fbImage.getLeft(),
+						top: fbImage.getTop(),
+						width: fbImage.getWidth(),
+						height: fbImage.getHeight()
+					};
+				}
+				cropDimensions = mixin(cropDimensions, config);
+				// cropDimensions.width *= fbImage.getScaleX();
+				// cropDimensions.height *= fbImage.getScaleY();
+
+				canvasElement = fbCanvas.getElement();
+				// result = canvasElement.toDataURL();
+				result = fbCanvas.toDataURL(cropDimensions);
+				result = dataURItoBlob(result);
+				result = blobToFile(result, file);
+			}
+			return result;
 		}
 
 		/**

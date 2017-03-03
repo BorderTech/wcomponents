@@ -1,8 +1,13 @@
 define(["fabric"], function(fabric) {
 	var imageEdit, redactMode = false, startX, startY,
 		fabricRedact = {
-			mousedown: function(event) {
-				fabricRedact._rect = new fabric.Rect({
+			drawStart: function() {
+				var shape = fabricRedact._rect;
+				if (shape) {
+					console.warn("drawEnd not called");
+					imageEdit.getCanvas().remove(shape);
+				}
+				shape = fabricRedact._rect = new fabric.Rect({
 					top : startY,
 					left : startX,
 					width : 0,
@@ -12,13 +17,24 @@ define(["fabric"], function(fabric) {
 					selectable: true,
 					strokewidth: 4
 				});
-				fabricRedact.paintShape(fabricRedact._rect);
+				fabricRedact.paintShape(shape);
 			},
-			mouseup: function(event) {
-				var fbCanvas = imageEdit.getCanvas();
-				fbCanvas.trigger("object:added", { target: fabricRedact._rect });
+			drawEnd: function() {
+				var fbCanvas = imageEdit.getCanvas(),
+					shape = fabricRedact._rect;
+				try {
+					if (shape.width !== 0 && shape.height !== 0) {
+						fbCanvas.trigger("object:added", { target: shape });
+					}
+					else {
+						fbCanvas.remove(shape);
+					}
+				}
+				finally {
+					delete fabricRedact._rect;
+				}
 			},
-			mousemove: function(event, width, height) {
+			drawing: function(width, height) {
 				var shape = fabricRedact._rect;
 				shape.set("width", width);
 				shape.set("height", height);
@@ -37,7 +53,8 @@ define(["fabric"], function(fabric) {
 				imageEdit.renderCanvas();
 			},
 			paintShape: function(shape) {
-				imageEdit.getCanvas().add(shape);
+				var fbCanvas = imageEdit.getCanvas();
+				fbCanvas.add(shape);
 //				var lft, top, group;
 //				group = getGroup();
 //				group.add(shape);
@@ -111,41 +128,57 @@ define(["fabric"], function(fabric) {
 //	}
 
 	function wireEventListeners(handlers) {
-		var isMouseDown = false,
+		var initedKey = "wc_redact_inited",
+			isMouseDown = false,
 			fbCanvas = imageEdit.getCanvas();
 
-		fbCanvas.on("mouse:down", function(option) {
+		try {
+			if (!fbCanvas[initedKey]) {
+				fbCanvas[initedKey] = true;
+				fbCanvas.on("mouse:down", mousedownEvent);
+				fbCanvas.on("mouse:up", mouseupEvent);
+				fbCanvas.on("mouse:move", mousemoveEvent);
+			}
+			else {
+				console.warn("redact shouldn't double init");
+			}
+		}
+		finally {
+			fbCanvas =  null;
+		}
+
+		function mousedownEvent(option) {
 			var event = option.e;
 			if (redactMode && event.button === 0) {
 				startX = event.offsetX || 0;  // offsetX
 				startY = event.offsetY || 0;  // offsetY
 				isMouseDown = true;
-				if (handlers.mousedown) {
-					handlers.mousedown.call(this, handlers.mousedown(event));
+				if (handlers.drawStart) {
+					handlers.drawStart();
 				}
 			}
-		});
+		}
 
-		fbCanvas.on("mouse:up", function(option) {
+		function mouseupEvent(option) {
 			isMouseDown = false;
 			if (redactMode) {
-				if (handlers.mouseup) {
-					handlers.mouseup(option.e);
+				if (handlers.drawEnd) {
+					handlers.drawEnd();
 				}
 			}
 			startX = startY = 0;
-		});
+		}
 
-		fbCanvas.on("mouse:move", function(option) {
+		function mousemoveEvent(option) {
 			var width, height, event = option.e;
 
-			if (redactMode && isMouseDown && handlers.mousemove) {
+			if (redactMode && isMouseDown && handlers.drawing) {
 				width = event.offsetX - startX;
 				height = event.offsetY - startY;
-				handlers.mousemove(option.e, width, height);
+				handlers.drawing(width, height);
 				// console.log("width", width, "height", height, "event.offsetX", event.offsetX, "event.offsetY", event.offsetY, "startX", startX, "startY", startY);
 			}
-		});
+		}
 	}
 
 	return redactor;
