@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-01 16:52+1100\n"
+"POT-Creation-Date: 2017-03-01 13:05+1100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -856,6 +856,13 @@ msgid "Down"
 msgstr ""
 
 #. 
+#: imgedit_redact
+#, java-format
+msgctxt "imgedit_redact"
+msgid "Redaction"
+msgstr ""
+
+#. 
 #: imgedit_zoom
 #, java-format
 msgctxt "imgedit_zoom"
@@ -884,6 +891,20 @@ msgid "Reset"
 msgstr ""
 
 #. 
+#: imgedit_action_redo
+#, java-format
+msgctxt "imgedit_action_redo"
+msgid "Redo"
+msgstr ""
+
+#. 
+#: imgedit_action_undo
+#, java-format
+msgctxt "imgedit_action_undo"
+msgid "Undo"
+msgstr ""
+
+#. 
 #: imgedit_action_cancel
 #, java-format
 msgctxt "imgedit_action_cancel"
@@ -902,6 +923,13 @@ msgstr ""
 #, java-format
 msgctxt "imgedit_action_snap"
 msgid "Photo"
+msgstr ""
+
+#. 
+#: imgedit_action_redact
+#, java-format
+msgctxt "imgedit_action_redact"
+msgid "Redact"
 msgstr ""
 
 #. 
@@ -1017,6 +1045,20 @@ msgid "Undo all changes to the image"
 msgstr ""
 
 #. 
+#: imgedit_message_undo
+#, java-format
+msgctxt "imgedit_message_undo"
+msgid "Undo"
+msgstr ""
+
+#. 
+#: imgedit_message_redo
+#, java-format
+msgctxt "imgedit_message_redo"
+msgid "Redo"
+msgstr ""
+
+#. 
 #: imgedit_message_cancel
 #, java-format
 msgctxt "imgedit_message_cancel"
@@ -1035,6 +1077,13 @@ msgstr ""
 #, java-format
 msgctxt "imgedit_message_snap"
 msgid "Take a snapshot from the video stream"
+msgstr ""
+
+#. 
+#: imgedit_message_redact
+#, java-format
+msgctxt "imgedit_message_redact"
+msgid "Redaction mode"
 msgstr ""
 
 #. 
