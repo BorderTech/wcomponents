@@ -15,7 +15,7 @@ button[data-wc-img][data-wc-editor]:before {
 	}
 
 	.wc_btn_anticlock90:before {
-		content: $fa-var-reply;
+		content: $fa-var-step-backward;
 	}
 
 	.wc_btn_camera:before {
@@ -31,7 +31,7 @@ button[data-wc-img][data-wc-editor]:before {
 	}
 
 	.wc_btn_clock90:before {
-		content: $fa-var-share;
+		content: $fa-var-step-forward;
 	}
 
 	.wc_btn_down:before {
@@ -53,7 +53,11 @@ button[data-wc-img][data-wc-editor]:before {
 	.wc_btn_out:before {
 		content: $fa-var-search-minus;
 	}
-
+	
+	.wc_btn_redo:before {
+		content: $fa-var-share;
+	}
+	
 	.wc_btn_reset:before {
 		content: $fa-var-history;
 	}
@@ -68,6 +72,10 @@ button[data-wc-img][data-wc-editor]:before {
 
 	.wc_btn_snap:before {
 		content: $fa-var-camera;
+	}
+	
+	.wc_btn_undo:before {
+		content: $fa-var-reply;
 	}
 
 	.wc_btn_up:before {
