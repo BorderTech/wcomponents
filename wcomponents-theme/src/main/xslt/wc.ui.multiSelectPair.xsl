@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.listSortControls.xsl"/>
 	<xsl:import href="wc.common.hField.xsl"/>
@@ -34,18 +34,17 @@
 					</xsl:if>
 					<!-- AVAILABLE LIST -->
 					<xsl:variable name="availId" select="concat(@id, '_a')"/>
-					<label for="{$availId}">
-						<span class="wc-lbltext">
+					<span>
+						<label for="{$availId}">
 							<xsl:value-of select="@fromListName"/>
-						</span>
+						</label>
 						<select id="{$availId}" multiple="multiple" class="wc_msp_av wc-noajax" size="{$size}" autocomplete="off">
 							<xsl:call-template name="disabledElement"/>
 							<xsl:apply-templates select="ui:option[not(@selected)]|ui:optgroup[ui:option[not(@selected)]]" mode="multiselectPair">
 								<xsl:with-param name="applyWhich" select="'unselected'"/>
 							</xsl:apply-templates>
 						</select>
-					</label>
-					
+					</span>
 					<!-- BUTTONS -->
 					<span class="wc_msp_btncol">
 						<xsl:text>&#x00a0;</xsl:text>
@@ -66,21 +65,19 @@
 							<xsl:with-param name="buttonText"><xsl:text>{{t 'msp_removeAll'}}</xsl:text></xsl:with-param>
 						</xsl:call-template>
 					</span>
-					<!-- SELECTED LIST -->
-					<xsl:variable name="toId">
-						<xsl:value-of select="concat(@id, '_s')"/>
-					</xsl:variable>
-					<label for="{$toId}">
-						<span class="wc-lbltext">
+					<xsl:variable name="toId" select="concat(@id, '_s')"/>
+					<span>
+						<!-- SELECTED LIST -->
+						<label for="{$toId}">
 							<xsl:value-of select="@toListName"/>
-						</span>
+						</label>
 						<select id="{$toId}" multiple="multiple" class="wc_msp_chos wc-noajax" size="{$size}" autocomplete="off">
 							<xsl:call-template name="disabledElement"/>
 							<xsl:apply-templates select="ui:option[@selected]|ui:optgroup[ui:option[@selected]]" mode="multiselectPair">
 								<xsl:with-param name="applyWhich" select="'selected'"/>
 							</xsl:apply-templates>
 						</select>
-					</label>
+					</span>
 					<xsl:if test="@shuffle">
 						<xsl:call-template name="listSortControls">
 							<xsl:with-param name="id" select="$toId"/>
@@ -98,7 +95,7 @@
 
 	<!--
 		This template produces the add and remove buttons used in multiSelectPair.
-	
+
 		param value: The value attribute is used to determine the function of the button.
 		param buttonText: The text placed into the button's title attribute to  provide text equivalence of the button's function.
 	-->
@@ -109,16 +106,16 @@
 			<xsl:call-template name="disabledElement"/>
 		</button>
 	</xsl:template>
-	
+
 	<!--
 		The transform for optGroups within a multiSelectPair option list.
-		
+
 		param applyWhich:
 			Use: "selected", "unselected" or "all"; default "all"
-			
-			This parameter indicates which options in the optGroup should be included in apply-templates. It will depend upon whether we are building 
+
+			This parameter indicates which options in the optGroup should be included in apply-templates. It will depend upon whether we are building
 			the unselected list, the selected list or the reference list.
-		
+
 		param readOnly: the read only state of the parent multiSelectPair
 	-->
 	<xsl:template match="ui:optgroup" mode="multiselectPair">
@@ -151,10 +148,10 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
-	<!-- 
+
+	<!--
 		The transform for each option in the multiSelectPair.
-		
+
 		param readOnly: the read only state of the parent multiSelectPair.
 	-->
 	<xsl:template match="ui:option" mode="multiselectPair">
