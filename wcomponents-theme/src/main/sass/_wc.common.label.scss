@@ -81,7 +81,7 @@
 
 .wc-input-wrapper + label,
 .wc-ro-input + .wc-label,
-label > input + span,
+input + label, // WCheckBoxSelect, WRadioButtonSelect
 label + .wc-input-wrapper {
 	@if ($wc-label-weight != normal) {
 		font-weight: normal;
