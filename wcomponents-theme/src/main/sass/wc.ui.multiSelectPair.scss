@@ -4,13 +4,11 @@
 .wc-multiselectpair {
 	white-space: nowrap;
 
-	> span,
-	> label {// The containers for the parts of the multiSelectPair
+	> span {// The containers for the parts of the multiSelectPair
 		display: inline-block;
 		vertical-align: top;
 
-		+ span,
-		+ label {
+		+ span {
 			margin-left: 1px;
 		}
 	}
@@ -19,7 +17,7 @@
 		display: block;
 	}
 
-	.wc-lbltext {
+	label {
 		display: block;
 	}
 

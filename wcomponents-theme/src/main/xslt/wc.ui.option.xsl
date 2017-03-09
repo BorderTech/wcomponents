@@ -107,45 +107,44 @@
 					<xsl:call-template name="checkableSelectOptionLabel"/>
 				</xsl:when>
 				<xsl:otherwise>
-					<label>
-						<xsl:element name="input">
-							<xsl:attribute name="type">
-								<xsl:value-of select="$optionType"/>
+					<xsl:variable name="inputId"  select="concat(../@id,generate-id())"/>
+					<xsl:element name="input">
+						<xsl:attribute name="type">
+							<xsl:value-of select="$optionType"/>
+						</xsl:attribute>
+						<xsl:attribute name="id">
+							<xsl:value-of select="$inputId"/>
+						</xsl:attribute>
+						<xsl:attribute name="name">
+							<xsl:value-of select="../@id"/>
+						</xsl:attribute>
+						<xsl:attribute name="value">
+							<xsl:value-of select="@value"/>
+						</xsl:attribute>
+						<xsl:if test="../@submitOnChange">
+							<xsl:attribute name="class">
+								<xsl:text>wc_soc</xsl:text>
 							</xsl:attribute>
-							<xsl:attribute name="id">
-								<xsl:value-of select="concat(../@id,generate-id())"/>
+						</xsl:if>
+						<xsl:if test="@isNull and $optionType eq 'radio'">
+							<xsl:attribute name="data-wc-null">
+								<xsl:text>1</xsl:text>
 							</xsl:attribute>
-							<xsl:attribute name="name">
-								<xsl:value-of select="../@id"/>
-							</xsl:attribute>
-							<xsl:attribute name="value">
-								<xsl:value-of select="@value"/>
-							</xsl:attribute>
-							<xsl:if test="../@submitOnChange">
-								<xsl:attribute name="class">
-									<xsl:text>wc_soc</xsl:text>
-								</xsl:attribute>
-							</xsl:if>
-							<xsl:if test="@isNull and $optionType eq 'radio'">
-								<xsl:attribute name="data-wc-null">
-									<xsl:text>1</xsl:text>
-								</xsl:attribute>
-							</xsl:if>
-							<xsl:if test="@selected">
-								<xsl:attribute name="checked">checked</xsl:attribute>
-							</xsl:if>
-							<xsl:call-template name="disabledElement">
+						</xsl:if>
+						<xsl:if test="@selected">
+							<xsl:attribute name="checked">checked</xsl:attribute>
+						</xsl:if>
+						<xsl:call-template name="disabledElement">
+							<xsl:with-param name="field" select=".."/>
+						</xsl:call-template>
+						<xsl:if test="parent::ui:radiobuttonselect">
+							<xsl:call-template name="requiredElement">
 								<xsl:with-param name="field" select=".."/>
 							</xsl:call-template>
-							<xsl:if test="parent::ui:radiobuttonselect">
-								<xsl:call-template name="requiredElement">
-									<xsl:with-param name="field" select=".."/>
-								</xsl:call-template>
-							</xsl:if>
-						</xsl:element>
-						<span class="wc-lbltext">
-							<xsl:call-template name="checkableSelectOptionLabel"/>
-						</span>
+						</xsl:if>
+					</xsl:element>
+					<label for="{$inputId}" id="{concat($inputId,'_l')}">
+						<xsl:call-template name="checkableSelectOptionLabel"/>
 					</label>
 				</xsl:otherwise>
 			</xsl:choose>
