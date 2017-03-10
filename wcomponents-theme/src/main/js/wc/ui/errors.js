@@ -1,20 +1,33 @@
 define(["wc/dom/initialise",
 	"wc/dom/Widget",
 	"wc/array/toArray",
-	"wc/loader/resource",
-	"lib/handlebars/handlebars",
 	"wc/dom/tag",
 	"wc/ui/getFirstLabelForElement"],
-	function(initialise, Widget, toArray, loader, handlebars, tag, getFirstLabelForElement) {
+	function(initialise, Widget, toArray, tag, getFirstLabelForElement) {
 		"use strict";
-
+		var instance = new ErrorWriter();
+		/**
+		 * This module knows how to provide feedback to the user about error states and invalid input.
+		 * Note: I have removed the dependency on handlebars to increase this chance this module can continue to
+		 * operate in error conditions for example the network cable being unplugged.
+		 * @constructor
+		 */
 		function ErrorWriter() {
 			var ERROR_BOX = new Widget("section", "wc-validationerrors"),
-				ERROR = new Widget("","wc-error"),
+				ERROR = new Widget("", "wc-error"),
 				LINK = new Widget("a"),
 				writeOutsideThese = [tag.INPUT, tag.SELECT, tag.TEXTAREA, tag.TABLE],
-				CONTAINER_TEMPLATE,
-				ERROR_TEMPLATE,
+				CONTAINER_TEMPLATE = function(args) {
+					var result =  "<span class=\"wc-fieldindicator wc-fieldindicator-type-error\" id=\"" + args.id + "\">";
+					if (args.errors) {
+						result += "<span class=\"wc-error\">" + args.errors + "</span>";
+					}
+					result += "</span>";
+					return result;
+				},
+				ERROR_TEMPLATE = function(args) {
+					return "<span class=\"wc-error\">" + args.error + "</span>";
+				},
 				INPUT_WRAPPER,
 				INPUT;
 
@@ -67,36 +80,57 @@ define(["wc/dom/initialise",
 				return candidates;
 			}
 
-			function getContainerTemplate() {
-				if (!CONTAINER_TEMPLATE) {
-					return loader.load("validationerrors.html", true, true).then(function (template) {
-						CONTAINER_TEMPLATE = handlebars.compile(template);
-					});
-				}
-				return Promise.resolve();
-			}
-
-			function getErrorTemplate() {
-				if (!ERROR_TEMPLATE) {
-					return loader.load("validationerror.html", true, true).then(function (template) {
-						ERROR_TEMPLATE = handlebars.compile(template);
-					});
-				}
-				return Promise.resolve();
-			}
-
-
-			function writeError(err) {
-				var targetId,
-					props,
+			this.flagError = function(args) {
+				var props,
 					target,
 					tagName,
 					errorBoxId,
 					errorContainer,
-					writeWhere,
-					html;
+					writeWhere = args.position,
+					html,
+					doWriteError = function() {
+						var errorhtml,
+							innerprops;
+						innerprops = {
+							error: args.message
+						};
+						errorhtml = ERROR_TEMPLATE(innerprops);
+						if (errorhtml) {
+							errorContainer.insertAdjacentHTML("beforeEnd", errorhtml);
+						}
+					};
+				target = args.element;
+				if (!target) {
+					return; // linked to something not in the UI.
+				}
+				errorBoxId = target.id + "_err";
+				// if the target already has an error box then use it:
+				if ((errorContainer = document.getElementById(errorBoxId))) {
+					doWriteError();
+					return;
+				}
 
-				if (!err && err.innerHTML) {
+				props = {
+					id: errorBoxId,
+					errors: args.message
+				};
+				if ((html = CONTAINER_TEMPLATE(props))) {
+					tagName = target.tagName;
+					if (tagName === tag.INPUT && (target.type === "radio" || target.type === "checkbox")) {
+						target = getFirstLabelForElement(target) || target;
+					}
+					if (!writeWhere) {
+						writeWhere = ~writeOutsideThese.indexOf(target.tagName) ? "afterEnd" : "beforeEnd";
+					}
+					target.insertAdjacentHTML(writeWhere, html);
+					markInvalid(target);
+				}
+			};
+
+			function writeError(err) {
+				var targetId;
+
+				if (!err || !err.innerHTML) {
 					return;
 				}
 
@@ -106,54 +140,16 @@ define(["wc/dom/initialise",
 				}
 				targetId = targetId.substr(1);
 
-				target = document.getElementById(targetId);
-				if (!target) {
-					return; // linked to something not in the UI.
-				}
-
-				errorBoxId = targetId + "_err";
-				// if the target already has an error box then use it:
-				if ((errorContainer = document.getElementById(errorBoxId))) {
-					getErrorTemplate().then(function() {
-						var errorhtml,
-							innerprops;
-						if (ERROR_TEMPLATE) {
-							innerprops = {
-								error: err.innerHTML
-							};
-							errorhtml = ERROR_TEMPLATE(innerprops);
-
-							if (errorhtml) {
-								errorContainer.insertAdjacentHTML("beforeend", errorhtml);
-							}
-						}
-					});
-					return;
-				}
-
-				props = {
-					id: errorBoxId,
-					errors: err.innerHTML
-				};
-				if ((html = CONTAINER_TEMPLATE(props))) {
-					tagName = target.tagName;
-					if (tagName === tag.INPUT && (target.type === "radio" || target.type === "checkbox")) {
-						target = getFirstLabelForElement(target) || target;
-					}
-					writeWhere = ~writeOutsideThese.indexOf(target.tagName) ? "afterend" : "beforeEnd";
-					target.insertAdjacentHTML(writeWhere, html);
-					markInvalid(target);
-				}
+				instance.flagError({
+					element: document.getElementById(targetId),
+					message: err.innerHTML
+				});
 			}
 
 			function writeErrors(container) {
 				var errors = getAllErrors(container);
 				if (errors && errors.length) {
-					getContainerTemplate().then(function() {
-						if (CONTAINER_TEMPLATE) {
-							errors.forEach(writeError);
-						}
-					});
+					errors.forEach(writeError);
 				}
 			}
 
@@ -162,5 +158,5 @@ define(["wc/dom/initialise",
 			});
 		}
 
-		return new ErrorWriter();
+		return instance;
 	});
