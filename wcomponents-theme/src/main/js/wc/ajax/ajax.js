@@ -204,7 +204,7 @@
 			/**
 			 * Called when the readystate of the request changes.
 			 *
-			 * @param request The XHR created vy ajaxRqst
+			 * @param request The XHR created by ajaxRqst
 			 * @param config The config object as passed to ajaxRqst
 			 * @function
 			 * @private
@@ -220,7 +220,7 @@
 							config.callback.call(request, request[config.responseType]);
 						}
 						else if (config.onError) {
-							config.onError.call(request, request.responseText || request.statusText);
+							notifyError(request, config.onError);
 						}
 						if (markProfiles) {
 							endProfile(config);
@@ -239,6 +239,30 @@
 					}
 				}
 				return done;
+			}
+
+			/**
+			 * Invokes the error callback (possibly asynchronously) with a (hopefully) meaningful, internationalized message.
+			 * @param request The XHR created by ajaxRqst
+			 * @param {function} onError The error callback
+			 */
+			function notifyError(request, onError) {
+				var fallbackMessage = "ERROR! Unable to communicate with server",
+					doNotify = function(handleError) {
+						var message;
+						try {
+							if (handleError && handleError.getErrorMessage) {
+								message = handleError.getErrorMessage(request);
+							}
+							else {
+								message = fallbackMessage;
+							}
+						}
+						finally {
+							onError.call(request, message);
+						}
+					};
+				fetchErrorHandler(doNotify, doNotify);
 			}
 
 			/**
@@ -505,7 +529,8 @@
 				return s;
 			};
 		}
-		var getActiveX,
+		var handleError,
+			getActiveX,
 			W3C_IFACE = "XMLHttpRequest",
 			ieXmlHttpEngine,
 			/**
@@ -526,6 +551,41 @@
 			 * @type {module:wc/ajax/ajax~Ajax}
 			 * @alias module:wc/ajax/ajax */
 			ajax = new Ajax();
+
+		/*
+		 * Prefetch the error handler.
+		 *
+		 * - Why not fetch it right up front? Because it is only required under exceptional conditions.
+		 * - Why not wait until an error occurs to fetch it? Because the error may also prevent modules being loaded.
+		 * - Why not use HTML5 link preloading to fetch it (loader/prefetch.js)?
+		 * Technical reasons: this would fetch the module but not its dependencies.
+		 * Non-technical reasons: "request counters" and "byte counters" do not understand that the preload would
+		 * utilize browser idle time to asynchronously load resources in a way that does not adversly affect the user.
+		 */
+		timers.setTimeout(fetchErrorHandler, 60000);
+
+		/**
+		 * Fetch the error handler module.
+		 * We delay fetching this module because it is only required under exceptional conditions.
+		 * @param {function} callback Will be called with the error handler module.
+		 * @param {function} errback May possibly be invoked if there is an error loading the module.
+		 */
+		function fetchErrorHandler(callback, errback) {
+			var cb = function(handleError) {
+				if (callback) {
+					callback(handleError);
+				}
+			};
+			if (!handleError) {
+				require(["wc/ajax/handleError"], function(arg) {
+					handleError = arg;
+					cb(handleError);
+				}, errback);
+			}
+			else {
+				cb(handleError);
+			}
+		}
 
 		if (has("activex")) {
 			getActiveX = require("wc/fix/getActiveX_ieAll");  // this can only work if "wc/fix/getActiveX_ieAll" is already loaded - the compat script must ensure that.
