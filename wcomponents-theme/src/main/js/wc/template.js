@@ -1,5 +1,5 @@
-define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has"],
-	function(textContent, Handlebars, has) {
+define(["wc/dom/textContent", "wc/has"],
+	function(textContent, has) {
 		"use strict";
 
 		/**
@@ -9,6 +9,42 @@ define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has"],
 		 * @alias module:wc/template~Template
 		 */
 		function Template() {
+			var engine,
+				helperQueue = [];
+
+			/**
+			 * If handlebars templates are rendered on the server we may never need to fetch the handlebars JS.
+			 * This allows lazy loading and instantiation.
+			 * @param {function} cb Called with the Handlebars engine once it is loaded.
+			 */
+			function getEngine(cb) {
+				if (engine) {
+					cb(engine);
+				}
+				else {
+					require(["lib/handlebars/handlebars"], function(arg) {
+						engine = arg;
+						processHelperQueue();
+						cb(engine);
+					});
+				}
+			}
+
+			function processHelperQueue() {
+				var next;
+				while (helperQueue.length) {
+					try {
+						next = helperQueue.shift();
+						if (next) {
+							instance.registerHelper(next.callback, next.token, next.type);
+						}
+					}
+					catch (ignore) {
+						console.warn(ignore);
+					}
+				}
+			}
+
 			/**
 			 * @var {Object} module:wc/template.PROCESS Handlebars processing types available for use in module:wc/template.registerHelper
 			 * @public
@@ -26,20 +62,26 @@ define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has"],
 			 * @function
 			 * @private
 			 * @param {Node|String} template
-			 * @returns {Function} A compiled template.
+			 * @param {Function} callback Called with a compiled template.
 			 */
-			function getCompiledTemplate(template) {
-				if (template.constructor === String) {
-					return Handlebars.compile(template);
-				}
-				if (template.nodeType === Node.TEXT_NODE) {
-					return Handlebars.compile(textContent.get(template));
-				}
-				if (template.constructor === Function) {
-					// it's actually aleady a compiled template
-					return template;
-				}
-				return Handlebars.compile(template.innerHTML);
+			function getCompiledTemplate(template, callback) {
+				getEngine(function(Handlebars) {
+					var result;
+					if (template.constructor === String) {
+						result = Handlebars.compile(template);
+					}
+					else if (template.nodeType === Node.TEXT_NODE) {
+						result = Handlebars.compile(textContent.get(template));
+					}
+					else if (template.constructor === Function) {
+						// it's actually aleady a compiled template
+						result = template;
+					}
+					else {
+						result = Handlebars.compile(template.innerHTML);
+					}
+					callback(result);
+				});
 			}
 
 			/**
@@ -51,19 +93,34 @@ define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has"],
 			 * @param {Node|String} source The template or its container Node.
 			 * @param {Node} [targetContainer] The element that will be updated with the result of the translation.
 			 * @param {Object} [contextObject] The context to pass to the compiled template.
+			 * @param {string} [position] insertAdjacentHTML position
+			 * @param {function} [callback] called when processed, passed the compiled template.
 			 */
-			function processContainer(source, targetContainer, contextObject) {
-				var compiledTemplate = getCompiledTemplate(source),
-					target = targetContainer || source,
-					context = contextObject || {},
-					translatedString = compiledTemplate(context);
+			function processContainer(source, targetContainer, contextObject, position, callback) {
+				getCompiledTemplate(source, function(compiledTemplate) {
+					var target = targetContainer || source,
+						context = contextObject || {},
+						translatedString = compiledTemplate(context);
 
-				if (target.nodeType === Node.TEXT_NODE) {
-					target = translatedString;
-				}
-				else {
-					target.innerHTML = translatedString;
-				}
+					if (target.nodeType === Node.TEXT_NODE) {
+						target = translatedString;
+					}
+					else if (position) {
+						target.insertAdjacentHTML(position, translatedString);
+					}
+					else {
+						target.innerHTML = translatedString;
+					}
+					if (callback) {
+						try {
+							callback(compiledTemplate);
+						}
+						catch (ignore) {
+							console.warn(ignore);
+						}
+					}
+				});
+
 			}
 
 			/**
@@ -75,7 +132,7 @@ define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has"],
 			this.process = function(params) {
 				if (!has("ie") || has("ie") > 9) {
 					if (params && params.source) {
-						processContainer(params.source, params.target, params.context);
+						processContainer(params.source, params.target, params.context, params.position, params.callback);
 					}
 					else if (document.body) {
 						processContainer(document.body);
@@ -90,9 +147,10 @@ define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has"],
 			 * @private
 			 * @param {Function} func a function which returns a string or node list
 			 * @param {module:wc/template.PROCESS} processType the type of result processing we need
+			 * @param Handlebars The handlebars engine.
 			 * @returns {Function} a Handlebars helper callback function with one argument which is the simple key of the template helper
 			 */
-			function helperCallbackFactory(func, processType) {
+			function helperCallbackFactory(func, processType, Handlebars) {
 				return function(key) {
 					var result = func(key);
 
@@ -151,30 +209,47 @@ define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has"],
 			 */
 			this.registerHelper = function(callback, token, type) {
 				if (!has("ie") || has("ie") > 9) {
-					if (typeof callback === "object") {
-						Handlebars.registerHelper(callback);
-						return;
-					}
+					if (engine) {
+						if (typeof callback === "object") {
+							engine.registerHelper(callback);
+							return;
+						}
 
-					if (!token) {
-						throw new TypeError("Handlebars helper must be identified.");
-					}
+						if (!token) {
+							throw new TypeError("Handlebars helper must be identified.");
+						}
 
-					if (type) {
-						Handlebars.registerHelper(token, helperCallbackFactory(callback, type));
-						return;
+						if (type) {
+							engine.registerHelper(token, helperCallbackFactory(callback, type, engine));
+							return;
+						}
+						engine.registerHelper(token, callback);
 					}
-					Handlebars.registerHelper(token, callback);
+					else {
+						helperQueue.push({
+							callback: callback,
+							token: token,
+							type: type
+						});
+					}
 				}
 			};
 
 			/**
 			 * Unregister a Handlebars helper
 			 * @param {String} token the identifier of the helper to unregister
-			 * @returns {undefined}
 			 */
 			this.unregisterHelper = function(token) {
-				Handlebars.unregisterHelper(token);
+				if (token) {
+					if (engine) {
+						engine.unregisterHelper(token);
+					}
+					else {
+						helperQueue = helperQueue.filter(function(helper) {
+							return helper && helper.token !== token;
+						});
+					}
+				}
 			};
 		}
 
@@ -193,5 +268,7 @@ define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has"],
 		 * @property {Node|String} source The template source, can be an element or text node which contain the template or a string.
 		 * @property {Node} [target] The element that will be updated with the result of the translation; if not provided then container will be used as the target, if it is a Node.
 		 * @property {Object} [context] The context that will be passed to the compiled template.
+		 * @property {string} [position] insertAdjacentHTML position
+		 * @property {function} [callback] called when processed, passed the compiled template.
 		 */
 	});
