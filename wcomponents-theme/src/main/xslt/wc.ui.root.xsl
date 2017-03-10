@@ -44,6 +44,9 @@
 		</xsl:variable>
 
 		<html lang="{@lang}">
+			<xsl:attribute name="data-wc-rendered">
+				<xsl:text>{{rendered}}</xsl:text>
+			</xsl:attribute>
 			<head>
 				<!-- Favicon works more reliably if it is first -->
 				<xsl:choose>
