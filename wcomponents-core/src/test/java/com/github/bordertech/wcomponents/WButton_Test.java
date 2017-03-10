@@ -34,13 +34,8 @@ public class WButton_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrect access key returned", accessKey, button.getAccessKey());
 	}
 
-	/**
-	 * Test the access key methods on button.
-	 *
-	 * @throws java.lang.Exception
-	 */
 	@Test
-	public void testAccessKeyHandling() throws Exception {
+	public void testAccessKeyHandling() {
 		String buttonText = "ABCDE abcde";
 		WButton button = new WButton(buttonText);
 		button.setAccessKey('E');

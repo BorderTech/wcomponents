@@ -60,8 +60,7 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Ensure that the interceptor does nothing when the user agent string
-	 * opts out.
+	 * Ensure that the interceptor does nothing when the user agent string opts out.
 	 */
 	@Test
 	public void testPaintWithUserAgentOverride() {
@@ -75,8 +74,7 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Ensure that the interceptor does nothing as long as the controlling
-	 * property is disabled.
+	 * Ensure that the interceptor does nothing as long as the controlling property is disabled.
 	 */
 	@Test
 	public void testPaintWhileEnabledWithThemeContentPathSet() {
@@ -111,15 +109,14 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 		reloadTransformer();
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("User-Agent",
-			"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36");
+				"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36");
 		TestResult actual = generateOutput(testUI, headers);
 		Assert.assertEquals("XML should be transformed when interceptor enabled", EXPECTED, actual.result);
 		Assert.assertEquals("The content type should be correctly set", WebUtilities.CONTENT_TYPE_HTML, actual.contentType);
 	}
 
 	/**
-	 * Ensure that the interceptor does nothing as long as the controlling
-	 * property is disabled.
+	 * Ensure that the interceptor does nothing as long as the controlling property is disabled.
 	 */
 	@Test
 	public void testPaintWithCorruptCharacterException() {
@@ -143,18 +140,16 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Ensure that the interceptor does nothing as long as the controlling
-	 * property is disabled.
+	 * Ensure that the interceptor does nothing as long as the controlling property is disabled.
 	 *
-	 * @throws java.lang.NoSuchFieldException
-	 * @throws java.lang.IllegalAccessException
+	 * @throws java.lang.NoSuchFieldException an exception
+	 * @throws java.lang.IllegalAccessException an exception
 	 */
 	@Test
 	public void testPaintWithCorruptCharacterAllowed() throws NoSuchFieldException, IllegalAccessException {
 		/**
-		 * Have to use reflection to swap out the log implementation as
-		 * there's no way to programmatically disable logging without
-		 * coupling to a log implementation.
+		 * Have to use reflection to swap out the log implementation as there's no way to programmatically disable
+		 * logging without coupling to a log implementation.
 		 */
 		//Override the logger temporarily.
 		Field field = TransformXMLInterceptor.class.getDeclaredField("LOG");
@@ -239,8 +234,7 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * A 'fake' WComponent that renders the string we pass to the
-	 * constructor.
+	 * A 'fake' WComponent that renders the string we pass to the constructor.
 	 */
 	private static final class MyComponent extends WContainer {
 
@@ -316,8 +310,7 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * A simple DTO to pass back the results of the render to the calling
-	 * test.
+	 * A simple DTO to pass back the results of the render to the calling test.
 	 */
 	private final class TestResult {
 
