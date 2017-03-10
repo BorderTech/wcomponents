@@ -18,12 +18,12 @@ define(["wc/dom/attribute",
 	"wc/dom/focus",
 	"wc/isNumeric",
 	"wc/ui/ajaxRegion",
-	"wc/config",
 	"wc/dom/toDocFragment",
+	"wc/ui/errors",
 	"wc/ui/fieldset"],
 	function (attribute, prefetch, event, initialise, uid, Trigger, classList, sprintf, has, i18n, getFileSize,
-		accepted, Widget, formUpdateManager, filedrop, ajax, prompt, focus, isNumeric, ajaxRegion, wcconfig,
-		toDocFragment) {
+		accepted, Widget, formUpdateManager, filedrop, ajax, prompt, focus, isNumeric, ajaxRegion,
+		toDocFragment, errors) {
 		"use strict";
 
 		// Note `wc/ui/fieldset` is implicitly required to handle various aspects of managing the wrapper element.
@@ -823,73 +823,17 @@ define(["wc/dom/attribute",
 		 * @param {string} fileInfoId The ID of the widget tracking the upload in the DOM.
 		 */
 		function errorHandlerFactory(fileInfoId) {
-			return function () {
-				var message, fileInfo = document.getElementById(fileInfoId);
+			return function (errorMessage) {
+				var fileInfo = document.getElementById(fileInfoId);
 				delete inflightXhrs[fileInfoId];
 				if (fileInfo) {
-					message = getErrorElement(this);
-					fileInfo.appendChild(message);
+					errors.flagError({
+						element: fileInfo,
+						message: errorMessage,
+						position: "beforeEnd"});
 				}
 				console.log("Error in file upload:", fileInfoId);
 			};
-		}
-		/**
-		 * gets an error message to display to the user.
-		 * @param {XHR} response An XHR response.
-		 * @returns {Element} An error message.
-		 */
-		function getErrorElement(response) {
-			var element = document.createElement("span"),
-				message = getErrorMessage(response);
-			element.setAttribute("role", "alert");
-			element.setAttribute("class", "highPriority");
-			element.appendChild(document.createTextNode(message));
-			return element;
-		}
-
-		/**
-		 * Get an error message for the given response.
-		 * Allows for customized error messages based on HTTP status code by setting a config object like so:
-		 * @example
-		 require(["wc/config"], function(wcconfig){
-		 wcconfig.set({ messages: {
-		 403:"Oh noes! A 403 occurred!",
-		 404: "I can't find it!",
-		 200: "Some gateway proxies don't know basic HTTP",
-		 error: "An error occurred and I have not set a specific message for it!"
-		 }
-		 },"wc/ui/multiFileUploader");
-		 });
-		 *
-		 * @param {XHR} response An XHR response.
-		 * @returns {string} An error message, in order of preference:
-		 * - A custom message specific to the status code returned
-		 * - A custom default error message
-		 * - The response "statusText"
-		 * - The default WComponents error message for this.
-		 */
-		function getErrorMessage(response) {
-			var message, msgs, config = wcconfig.get("wc/ui/multiFileUploader");
-			if (response) {
-				if (response.status && config && (msgs = config.messages)) {
-					message = msgs[response.status];
-					if (!message) {
-						message = msgs.error;
-					}
-				}
-				/*
-				 * The response could be 200 if a badly configured gateway rejects the file but sends a 200 response.
-				 * While this is not really our problem we do need to tell the user something.
-				 * The something we tell them should not be "OK" or "Success".
-				 */
-				if (!message && response.statusText && response.status !== 200) {
-					message = response.statusText;
-				}
-			}
-			if (!message) {
-				message = i18n.get("file_errormsg");
-			}
-			return message;
 		}
 
 		/**
