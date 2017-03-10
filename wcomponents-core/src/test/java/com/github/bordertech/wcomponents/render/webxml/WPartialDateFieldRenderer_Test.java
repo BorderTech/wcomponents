@@ -33,9 +33,6 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 	 */
 	private static final String TEST_BUTTON_ID = "WPartialDateField button ID";
 
-	/**
-	 * Test renderer correctly configured.
-	 */
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WPartialDateField component = new WPartialDateField();
@@ -43,9 +40,6 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 				getWebXmlRenderer(component) instanceof WPartialDateFieldRenderer);
 	}
 
-	/**
-	 * Test doPaint - defaults.
-	 */
 	@Test
 	public void testDoPaintDefaults() throws IOException, SAXException, XpathException {
 		WPartialDateField dateField = new WPartialDateField();
@@ -60,9 +54,6 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		assertXpathEvaluatesTo("", "//ui:datefield", dateField);
 	}
 
-	/**
-	 * Test doPaint - optional attributes.
-	 */
 	@Test
 	public void testDoPaintOptionals() throws IOException, SAXException, XpathException {
 		WPartialDateField dateField = new WPartialDateField();
@@ -96,9 +87,6 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		assertXpathEvaluatesTo("", "//ui:datefield", dateField);
 	}
 
-	/**
-	 * Test doPaint - optional attributes.
-	 */
 	@Test
 	public void testReadOnly() throws IOException, SAXException, XpathException {
 		WPartialDateField dateField = new WPartialDateField();
@@ -108,9 +96,6 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		assertXpathEvaluatesTo("true", "//ui:datefield/@readOnly", dateField);
 	}
 
-	/**
-	 * Test doPaint - default attributes - partial date value.
-	 */
 	@Test
 	public void testDoPaintPartialDate() throws IOException, SAXException, XpathException {
 		WPartialDateField dateField = new WPartialDateField();
@@ -129,9 +114,6 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		assertXpathEvaluatesTo("2000-01-??", "//ui:datefield/@date", dateField);
 	}
 
-	/**
-	 * Test doPaint - default attributes - given date value.
-	 */
 	@Test
 	public void testDoPaintActualDate() throws IOException, SAXException, XpathException {
 		WPartialDateField dateField = new WPartialDateField();

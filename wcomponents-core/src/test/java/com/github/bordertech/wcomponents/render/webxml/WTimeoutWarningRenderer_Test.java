@@ -40,9 +40,9 @@ public class WTimeoutWarningRenderer_Test extends AbstractWebXmlRendererTestCase
 	 * timeout is set to -1 then the timeout warning is not rendered. This complies with the definition of a http
 	 * session timeout in which a value of -1 means that the session does not time out.
 	 *
-	 * @throws IOException
-	 * @throws SAXException
-	 * @throws XpathException
+	 * @throws IOException an exception
+	 * @throws SAXException an exception
+	 * @throws XpathException an exception
 	 */
 	@Test
 	public void testDoPaintWithMinusOne() throws IOException, SAXException, XpathException {
@@ -55,9 +55,9 @@ public class WTimeoutWarningRenderer_Test extends AbstractWebXmlRendererTestCase
 	 * If warningPeriod is exactly ZERO the warn attribute is not output and the warning time is determined entirely in
 	 * the client layer.
 	 *
-	 * @throws IOException
-	 * @throws SAXException
-	 * @throws XpathException
+	 * @throws IOException an exception
+	 * @throws SAXException an exception
+	 * @throws XpathException an exception
 	 */
 	@Test
 	public void testDoPaintWithZeroWarning() throws IOException, SAXException, XpathException {
