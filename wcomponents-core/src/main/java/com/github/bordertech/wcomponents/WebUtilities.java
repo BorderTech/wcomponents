@@ -1,12 +1,17 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.WRepeater.SubUIContext;
+import com.github.bordertech.wcomponents.container.InterceptorComponent;
+import com.github.bordertech.wcomponents.container.PageShellInterceptor;
+import com.github.bordertech.wcomponents.container.TemplateRenderInterceptor;
+import com.github.bordertech.wcomponents.container.TransformXMLInterceptor;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.TreeUtil;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
+import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URLConnection;
@@ -546,10 +551,64 @@ public final class WebUtilities {
 			StringWriter buffer = new StringWriter();
 
 			component.preparePaint(request);
-			PrintWriter writer = new PrintWriter(buffer);
-			component.paint(new WebXmlRenderContext(writer));
-			writer.close();
+			try (PrintWriter writer = new PrintWriter(buffer)) {
+				component.paint(new WebXmlRenderContext(writer));
+			}
+			return buffer.toString();
+		} finally {
+			if (needsContext) {
+				UIContextHolder.popContext();
+			}
+		}
+	}
 
+	/**
+	 * Renders and transforms the given WComponent to a HTML String outside of the context of a Servlet.
+	 *
+	 * @param component the root WComponent to render
+	 * @return the rendered output as a String
+	 */
+	public static String renderWithTransformToHTML(final WComponent component) {
+		return renderWithTransformToHTML(new MockRequest(), component, true);
+	}
+
+	/**
+	 * Renders and transforms the given WComponent to a HTML String outside of the context of a Servlet.
+	 *
+	 * @param request the request being responded to
+	 * @param component the root WComponent to render
+	 * @param includePageShell true if include page shell
+	 * @return the rendered output as a String.
+	 */
+	public static String renderWithTransformToHTML(final Request request, final WComponent component, final boolean includePageShell) {
+
+		// Setup a context (if needed)
+		boolean needsContext = UIContextHolder.getCurrent() == null;
+		if (needsContext) {
+			UIContextHolder.pushContext(new UIContextImpl());
+		}
+
+		try {
+
+			// Link Interceptors
+			InterceptorComponent templateRender = new TemplateRenderInterceptor();
+			InterceptorComponent transformXML = new TransformXMLInterceptor();
+			templateRender.setBackingComponent(transformXML);
+			if (includePageShell) {
+				transformXML.setBackingComponent(new PageShellInterceptor());
+			}
+
+			// Attach Component and Mock Response
+			InterceptorComponent chain = templateRender;
+			chain.attachUI(component);
+			chain.attachResponse(new MockResponse());
+
+			// Render chain
+			StringWriter buffer = new StringWriter();
+			chain.preparePaint(request);
+			try (PrintWriter writer = new PrintWriter(buffer)) {
+				chain.paint(new WebXmlRenderContext(writer));
+			}
 			return buffer.toString();
 		} finally {
 			if (needsContext) {
