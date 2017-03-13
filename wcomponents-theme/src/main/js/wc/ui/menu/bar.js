@@ -11,10 +11,10 @@ define(["wc/ui/menu/core",
 	"wc/timers",
 	"wc/ui/ajax/processResponse",
 	"wc/loader/resource",
-	"lib/handlebars/handlebars",
+	"wc/template",
 	"wc/ui/viewportUtils",
 	"wc/ui/menu/menuItem"],
-	function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid, i18n, classList, timers, processResponse, loader, handlebars, viewportUtils) {
+	function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid, i18n, classList, timers, processResponse, loader, template, viewportUtils) {
 		"use strict";
 
 		/* Unused dependencies:
@@ -281,21 +281,6 @@ define(["wc/ui/menu/core",
 			}
 
 			/**
-			 * Helper to get handlebars template for close button creation.
-			 *
-			 * @function
-			 * @private
-			 */
-			function getCloseButtonTemplate() {
-				if (!closeButtonTemplate) {
-					return loader.load("submenuCloseButton.mustache", true, true).then(function (template) {
-						closeButtonTemplate = handlebars.compile(template);
-					});
-				}
-				return Promise.resolve();
-			}
-
-			/**
 			 * Attach a close button to a submenu if required.
 			 *
 			 * @function
@@ -304,7 +289,7 @@ define(["wc/ui/menu/core",
 			 */
 			function attachSubMenuCloseButton(el) {
 				if (el && instance.isSubMenu(el)) {
-					getCloseButtonTemplate().then(function() {
+					loader.load("submenuCloseButton.mustache", true, true).then(function(rawTemplate) {
 						var branch,
 							opener,
 							label,
@@ -334,28 +319,20 @@ define(["wc/ui/menu/core",
 						if (!props.content) {
 							props.content = i18n.get("menu_close_label");
 						}
-						el.insertAdjacentHTML("afterBegin", closeButtonTemplate(props));
-						closeButton = el.firstChild;
-						if (!closeButton.id) {
-							closeButton.id = uid();
-						}
+						template.process({
+							source: rawTemplate,
+							target: el,
+							context: props,
+							position: "afterBegin",
+							callback: function() {
+								closeButton = el.firstChild;
+								if (!closeButton.id) {
+									closeButton.id = uid();
+								}
+							}
+						});
 					});
 				}
-			}
-
-			/**
-			 * Helper to get handlebars template for submenu creation.
-			 *
-			 * @function
-			 * @private
-			 */
-			function getSubMenuTemplate() {
-				if (!submenuTemplate) {
-					return loader.load("submenu.mustache", true, true).then(function (template) {
-						submenuTemplate = handlebars.compile(template);
-					});
-				}
-				return Promise.resolve();
 			}
 
 			/**
@@ -372,25 +349,28 @@ define(["wc/ui/menu/core",
 				if (classList.contains(nextMenu, MENU_FIXED)) {
 					return;
 				}
-
-				getSubMenuTemplate().then(function() {
-					var branchElement,
-						props = {
-							id: uid(),
-							class: " " + BURGER_MENU_CLASS,
-							opener: {
-								class: " wc_hbgr wc-icon",
-								tooltip: i18n.get("menu_open_label")
-							},
-							contentId: uid(),
-							open: false,
-							closeText: i18n.get("menu_close_label"),
-							items: nextMenu.innerHTML
-						};
+				loader.load("submenu.mustache", true, true).then(function(rawTemplate) {
+					var props = {
+						id: uid(),
+						class: " " + BURGER_MENU_CLASS,
+						opener: {
+							class: " wc_hbgr wc-icon",
+							tooltip: i18n.get("menu_open_label")
+						},
+						contentId: uid(),
+						open: false,
+						closeText: i18n.get("menu_close_label"),
+						items: nextMenu.innerHTML
+					};
 					if (submenuTemplate) {
-						branchElement = submenuTemplate(props);
-						nextMenu.innerHTML = branchElement;
-						classList.add(nextMenu, MENU_FIXED);
+						template.process({
+							source: rawTemplate,
+							target: nextMenu,
+							context: props,
+							callback: function() {
+								classList.add(nextMenu, MENU_FIXED);
+							}
+						});
 					}
 				});
 			}
@@ -525,7 +505,7 @@ define(["wc/ui/menu/core",
 		 * @requires module:wc/timers
 		 * @requires module:wc/ui/ajax/processResponse
 		 * @requires module:wc/loader/resource
-		 * @requires:module:lib/handlebars/handlebars
+		 * @requires:module:wc/template
 		 * @requires module:wc/ui/viewportUtils
 		 */
 		var instance;

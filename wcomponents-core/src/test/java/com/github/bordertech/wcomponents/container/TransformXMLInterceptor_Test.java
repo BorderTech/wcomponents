@@ -15,13 +15,10 @@ import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletReques
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import javax.xml.transform.Templates;
 import junit.framework.Assert;
 import org.apache.commons.logging.Log;
 import org.junit.AfterClass;
@@ -36,16 +33,6 @@ import org.junit.Test;
 public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 
 	/**
-	 * The input xml.
-	 */
-	private static final String TEST_XML = "<kung><fu>is good for you</fu></kung>";
-
-	/**
-	 * The expected HTML result.
-	 */
-	private static final String EXPECTED = "<omg><wtf>is good for you</wtf></omg>";
-
-	/**
 	 * The corrupt character input xml.
 	 */
 	private static final String TEST_CORRUPT_CHAR_XML = buildCorruptXML();
@@ -56,35 +43,33 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	@AfterClass
 	public static void tearDownClass() {
 		Config.reset();
-		reloadTransformer();
+		TransformXMLTestHelper.reloadTransformer();
 	}
 
 	/**
-	 * Ensure that the interceptor does nothing when the user agent string
-	 * opts out.
+	 * Ensure that the interceptor does nothing when the user agent string opts out.
 	 */
 	@Test
 	public void testPaintWithUserAgentOverride() {
-		MyComponent testUI = new MyComponent(TEST_XML);
+		MyComponent testUI = new MyComponent(TransformXMLTestHelper.TEST_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
-		reloadTransformer();
+		TransformXMLTestHelper.reloadTransformer();
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("User-Agent", "Mozilla/5.0 Firefox/26.0 wcnoxslt");
 		TestResult actual = generateOutput(testUI, headers);
-		Assert.assertEquals("XML should not be transformed when useragent string flag present", TEST_XML, actual.result);
+		Assert.assertEquals("XML should not be transformed when useragent string flag present", TransformXMLTestHelper.TEST_XML, actual.result);
 	}
 
 	/**
-	 * Ensure that the interceptor does nothing as long as the controlling
-	 * property is disabled.
+	 * Ensure that the interceptor does nothing as long as the controlling property is disabled.
 	 */
 	@Test
 	public void testPaintWhileEnabledWithThemeContentPathSet() {
-		MyComponent testUI = new MyComponent(TEST_XML);
+		MyComponent testUI = new MyComponent(TransformXMLTestHelper.TEST_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "set");
-		reloadTransformer();
+		TransformXMLTestHelper.reloadTransformer();
 		TestResult actual = generateOutput(testUI);
-		Assert.assertEquals("XML should be transformed when interceptor enabled and theme content path set", EXPECTED, actual.result);
+		Assert.assertEquals("XML should be transformed when interceptor enabled and theme content path set", TransformXMLTestHelper.EXPECTED, actual.result);
 	}
 
 	/**
@@ -92,11 +77,11 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	 */
 	@Test
 	public void testPaintWhileEnabled() {
-		MyComponent testUI = new MyComponent(TEST_XML);
+		MyComponent testUI = new MyComponent(TransformXMLTestHelper.TEST_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
-		reloadTransformer();
+		TransformXMLTestHelper.reloadTransformer();
 		TestResult actual = generateOutput(testUI);
-		Assert.assertEquals("XML should be transformed when interceptor enabled", EXPECTED, actual.result);
+		Assert.assertEquals("XML should be transformed when interceptor enabled", TransformXMLTestHelper.EXPECTED, actual.result);
 		Assert.assertEquals("The content type should be correctly set", WebUtilities.CONTENT_TYPE_HTML, actual.contentType);
 	}
 
@@ -106,27 +91,26 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testPaintWhileEnabledWithChromeUserAgent() {
 
-		MyComponent testUI = new MyComponent(TEST_XML);
+		MyComponent testUI = new MyComponent(TransformXMLTestHelper.TEST_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
-		reloadTransformer();
+		TransformXMLTestHelper.reloadTransformer();
 		Map<String, String> headers = new HashMap<String, String>();
 		headers.put("User-Agent",
-			"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36");
+				"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36");
 		TestResult actual = generateOutput(testUI, headers);
-		Assert.assertEquals("XML should be transformed when interceptor enabled", EXPECTED, actual.result);
+		Assert.assertEquals("XML should be transformed when interceptor enabled", TransformXMLTestHelper.EXPECTED, actual.result);
 		Assert.assertEquals("The content type should be correctly set", WebUtilities.CONTENT_TYPE_HTML, actual.contentType);
 	}
 
 	/**
-	 * Ensure that the interceptor does nothing as long as the controlling
-	 * property is disabled.
+	 * Ensure that the interceptor does nothing as long as the controlling property is disabled.
 	 */
 	@Test
 	public void testPaintWithCorruptCharacterException() {
 		MyComponent testUI = new MyComponent(TEST_CORRUPT_CHAR_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
 		Config.getInstance().setProperty(ConfigurationProperties.XSLT_ALLOW_CORRUPT_CHARACTER, "false");
-		reloadTransformer();
+		TransformXMLTestHelper.reloadTransformer();
 
 		testUI.setLocked(true);
 
@@ -143,18 +127,16 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Ensure that the interceptor does nothing as long as the controlling
-	 * property is disabled.
+	 * Ensure that the interceptor does nothing as long as the controlling property is disabled.
 	 *
-	 * @throws java.lang.NoSuchFieldException
-	 * @throws java.lang.IllegalAccessException
+	 * @throws java.lang.NoSuchFieldException an exception
+	 * @throws java.lang.IllegalAccessException an exception
 	 */
 	@Test
 	public void testPaintWithCorruptCharacterAllowed() throws NoSuchFieldException, IllegalAccessException {
 		/**
-		 * Have to use reflection to swap out the log implementation as
-		 * there's no way to programmatically disable logging without
-		 * coupling to a log implementation.
+		 * Have to use reflection to swap out the log implementation as there's no way to programmatically disable
+		 * logging without coupling to a log implementation.
 		 */
 		//Override the logger temporarily.
 		Field field = TransformXMLInterceptor.class.getDeclaredField("LOG");
@@ -168,7 +150,7 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 		MyComponent testUI = new MyComponent(TEST_CORRUPT_CHAR_XML);
 		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
 		Config.getInstance().setProperty(ConfigurationProperties.XSLT_ALLOW_CORRUPT_CHARACTER, "true");
-		reloadTransformer();
+		TransformXMLTestHelper.reloadTransformer();
 
 		testUI.setLocked(true);
 
@@ -182,32 +164,6 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 		Field resetValueField = TransformXMLInterceptor.class.getDeclaredField("LOG");
 		resetValueField.setAccessible(true);
 		field.set(null, oldValue);
-	}
-
-	/**
-	 * Use reflection the reinitialize the TransformXMLInterceptor class.
-	 */
-	private static void reloadTransformer() {
-		try {
-			Field field = TransformXMLInterceptor.class.getDeclaredField("TEMPLATES");
-			// Make the field accessible.
-			field.setAccessible(true);
-
-			//Make the field non-final.
-			Field modifiersField = Field.class.getDeclaredField("modifiers");
-			modifiersField.setAccessible(true);
-			modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-
-			//Get the value from the static method
-			Method initTemplates = TransformXMLInterceptor.class.getDeclaredMethod("initTemplates");
-			initTemplates.setAccessible(true);
-			Templates value = (Templates) initTemplates.invoke(null);
-
-			field.set(null, value);
-
-		} catch (SecurityException | InvocationTargetException | NoSuchFieldException | NoSuchMethodException | IllegalArgumentException | IllegalAccessException ex) {
-			throw new SystemException(ex);
-		}
 	}
 
 	/**
@@ -239,8 +195,7 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * A 'fake' WComponent that renders the string we pass to the
-	 * constructor.
+	 * A 'fake' WComponent that renders the string we pass to the constructor.
 	 */
 	private static final class MyComponent extends WContainer {
 
@@ -316,8 +271,7 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * A simple DTO to pass back the results of the render to the calling
-	 * test.
+	 * A simple DTO to pass back the results of the render to the calling test.
 	 */
 	private final class TestResult {
 
