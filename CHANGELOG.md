@@ -4,6 +4,14 @@
 
 ### API Changes
 
+### Bug Fixes
+
+### Enhancements
+
+## Release 1.4.0-beta
+
+### API Changes
+
 * Deprecated `com.github.bordertech.wcomponents.util.ConfigurationProperties.DEVELOPER_DEBUG_CLIENT_SIDE` in favour of
   `com.github.bordertech.wcomponents.util.ConfigurationProperties.DEVELOPER_DEBUG_ENABLED` as part of #1012.
   * Deprecated `com.github.bordertech.wcomponents.util.ConfigurationProperties.getDeveloperDebugClientSide()` in favour
