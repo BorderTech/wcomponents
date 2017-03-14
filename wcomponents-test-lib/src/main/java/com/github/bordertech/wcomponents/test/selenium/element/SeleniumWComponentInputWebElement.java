@@ -16,7 +16,7 @@ import org.openqa.selenium.WebElement;
  */
 public class SeleniumWComponentInputWebElement extends SeleniumWComponentWebElement {
 	/**
-	 * The tag name of the wrapping element for WTextField.
+	 * The tag name of the wrapping element for text-like inputs WTextField, WEmailField, WPhoneNumberField, WPasswordField.
 	 */
 	public static final String TOP_LEVEL_TAG = "span";
 
@@ -75,11 +75,7 @@ public class SeleniumWComponentInputWebElement extends SeleniumWComponentWebElem
 	 * @return true if the field is in a read-only state.
 	 */
 	public boolean isReadOnly() {
-		String roAttribute = getAttribute("data-wc-component");
-		if (Util.empty(roAttribute)) {
-			return false;
-		}
-		return true;
+		return !Util.empty(getAttribute("data-wc-component"));
 	}
 
 	/**
@@ -124,5 +120,39 @@ public class SeleniumWComponentInputWebElement extends SeleniumWComponentWebElem
 		} else {
 			getInputField().click();
 		}
+	}
+
+	/**
+	 * @return {@code true} if the input is a combo box
+	 */
+	public boolean isCombo() {
+		if (isReadOnly()) {
+			return false;
+		}
+		return null != getAttribute("data-wc-suggest");
+	}
+
+	/**
+	 * @return {@code true} if the input is mandatory
+	 */
+	public boolean isMandatory() {
+		if (isReadOnly()) {
+			return false;
+		}
+		return null != getInputField().getAttribute("required");
+	}
+
+	/**
+	 * @return the element representing a combo boxes list of suggestions if the element is a combo otherwise {@code null}
+	 */
+	public WebElement getSuggestionList() {
+		if (!isCombo()) {
+			return null;
+		}
+		String listId = getAttribute("data-wc-suggest");
+		if (Util.empty(listId)) {
+			return null;
+		}
+		return getDriver().findElement(By.xpath("//*[@id='" + listId + "']"));
 	}
 }

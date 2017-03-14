@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWCheckBoxWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWCheckBoxSelectWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponentWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWDialogWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWEmailFieldWebElement;
@@ -11,6 +12,7 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWLabelWeb
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMessageBoxWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMessagesWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWPhoneNumberFieldWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWRadioButtonSelectWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWRadioButtonWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWSelectWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTableWebElement;
@@ -251,6 +253,15 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	}
 
 	/**
+	 * Find a WRadioButtonSelect by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWRadioButtonSelectWebElement or null if not found.
+	 */
+	public SeleniumWRadioButtonSelectWebElement findWRadioButtonSelect(final By by) {
+		return new SeleniumWRadioButtonSelectWebElement(findElement(by), this);
+	}
+
+	/**
 	 * Find a WDropdown by the given criteria.
 	 * @param by the By selector
 	 * @return the SeleniumWRadioButtonWebElement or null if not found.
@@ -302,6 +313,15 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 */
 	public SeleniumWLabelWebElement findWLabel(final By by) {
 		return new SeleniumWLabelWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WCheckBoxSelect by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWCheckBoxSelectWebElement
+	 */
+	public SeleniumWCheckBoxSelectWebElement findWCheckBoxSelect(final By by) {
+		return new SeleniumWCheckBoxSelectWebElement(findElement(by), this);
 	}
 
 	/**
