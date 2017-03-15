@@ -57,7 +57,7 @@ public class WButtonDefaultSubmitExample extends WContainer {
 		add(new WText(
 				"The cursor position determines which submit button is triggered when the user hits the ENTER key."));
 
-		// TODO: This is bad - use a layout instead
+		// This is bad - use a layout instead
 		WText lineBreak = new WText("<br />");
 		lineBreak.setEncodeText(false);
 		add(lineBreak);
