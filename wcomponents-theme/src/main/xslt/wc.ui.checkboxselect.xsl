@@ -37,7 +37,6 @@
 							</xsl:apply-templates>
 						</div>
 					</xsl:if>
-					<xsl:call-template name="hField"/>
 				</div>
 			</xsl:when>
 			<xsl:otherwise>

@@ -10,18 +10,17 @@
 
 	<!-- Tranforms the options of a list into HTML option elements. -->
 	<xsl:template match="ui:option" mode="selectableList">
-		<xsl:variable name="value" select="@value"/>
-		<option>
-			<xsl:attribute name="value">
-				<xsl:choose>
-					<xsl:when test="$value">
-						<xsl:value-of select="$value"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="."/>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:attribute>
+		<xsl:variable name="value">
+			<xsl:choose>
+				<xsl:when test="@value">
+					<xsl:value-of select="@value"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="."/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<option class="wc-option" value="{$value}">
 			<xsl:if test="@selected">
 				<xsl:attribute name="selected">selected</xsl:attribute>
 			</xsl:if>
@@ -40,21 +39,22 @@
 	-->
 	<xsl:template match="ui:option" mode="readOnly">
 		<xsl:param name="single" select="1"/>
-		<xsl:choose>
-			<xsl:when test="number($single) eq 1">
-				<xsl:value-of select="."/>
-			</xsl:when>
-			<xsl:otherwise>
-				<li>
+		<xsl:variable name="element">
+			<xsl:choose>
+				<xsl:when test="number($single) eq 1">span</xsl:when>
+				<xsl:otherwise>li</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:element name="{$element}">
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
 					<xsl:if test="parent::ui:optgroup">
-						<xsl:attribute name="class">
-							<xsl:text>wc_inoptgroup</xsl:text>
-						</xsl:attribute>
+						<xsl:text>wc_inoptgroup</xsl:text>
 					</xsl:if>
-					<xsl:value-of select="."/>
-				</li>
-			</xsl:otherwise>
-		</xsl:choose>
+				</xsl:with-param>
+			</xsl:call-template>
+			<xsl:value-of select="."/>
+		</xsl:element>
 	</xsl:template>
 
 	
@@ -100,8 +100,7 @@
 	-->
 	<xsl:template name="checkableSelectOption">
 		<xsl:param name="optionType" select="''"/>
-		<li role="presentation">
-			<xsl:call-template name="makeCommonClass"/>
+		<li role="presentation" class="wc-option">
 			<xsl:choose>
 				<xsl:when test="../@readOnly">
 					<xsl:call-template name="checkableSelectOptionLabel"/>

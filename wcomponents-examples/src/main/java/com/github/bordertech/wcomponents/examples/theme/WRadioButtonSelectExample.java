@@ -9,16 +9,15 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WField;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WHeading;
-import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WMessageBox;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WRadioButtonSelect;
-import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.util.List;
 
 /**
@@ -59,24 +58,19 @@ public class WRadioButtonSelectExample extends WPanel {
 		addSingleColumnSelectExample();
 
 		add(new WHeading(HeadingLevel.H2, "WRadioButtonSelect examples showing other properties"));
-		addFMandatorySelectExample();
+		addMandatorySelectExample();
 		addDisabledExamples();
 		addReadOnlyExamples();
-
-		add(new WHorizontalRule());
-		addRadioButtonSelectWithLabelExample();
-
-		add(new WHorizontalRule());
 		addAntiPatternExamples();
 	}
 
 	/**
-	 * Make a simple editable example.
+	 * Make a simple editable example. The label for this example is used to get the example for use in the unit tests.
 	 */
 	private void makeSimpleExample() {
 		add(new WHeading(HeadingLevel.H3, "Simple WRadioButtonSelect"));
 		WPanel examplePanel = new WPanel();
-		examplePanel.setLayout(new FlowLayout(FlowLayout.VERTICAL, 0, 6));
+		examplePanel.setLayout(new FlowLayout(FlowLayout.VERTICAL, SpaceUtil.Size.MEDIUM));
 		add(examplePanel);
 
 		/**
@@ -115,8 +109,9 @@ public class WRadioButtonSelectExample extends WPanel {
 				+ "replaced by a toolTip. Using a frameless WRadioButtonSelect is useful within an existing WFieldLayout as it can provide a more "
 				+ "consistent user interface but only if it has a relatively small number of options."));
 		final WRadioButtonSelect select = new WRadioButtonSelect("australian_state");
-		select.setToolTip("Select a State or territory");
 		select.setFrameless(true);
+		add(new WLabel("Frameless with default selection", select));
+		select.setSelected(select.getOptions().get(0));
 		add(select);
 	}
 
@@ -137,19 +132,20 @@ public class WRadioButtonSelectExample extends WPanel {
 		layout.setLabelWidth(25);
 		add(layout);
 		String[] options = new String[]{"Dog", "Cat", "Bird", "Turtle"};
-		final WRadioButtonSelect select = new WRadioButtonSelect(options);
-		layout.addField("Select some animals", select);
+		WRadioButtonSelect select = new WRadioButtonSelect(options);
+		layout.addField("Select an animal", select);
 		String[] options2 = new String[]{"Parrot", "Galah", "Cockatoo", "Lyre"};
-		final WRadioButtonSelect select2 = new WRadioButtonSelect(options2);
-		layout.addField("Select some birds", select2);
-		select2.setFrameless(true);
+		select = new WRadioButtonSelect(options2);
+		select.setMandatory(true);
+		layout.addField("You must select a bird", select);
+		select.setFrameless(true);
 
 		//a tooltip can be used as a label stand-in even in a WField
 		String[] options3 = new String[]{"Carrot", "Beet", "Brocolli", "Bacon - the perfect vegetable"};
-		final WRadioButtonSelect select3 = new WRadioButtonSelect(options3);
+		select = new WRadioButtonSelect(options3);
 		//if you absolutely do not want a WLabel in a WField then it has to be added using null cast to a WLabel.
-		layout.addField((WLabel) null, select3);
-		select3.setToolTip("Veggies");
+		layout.addField((WLabel) null, select);
+		select.setToolTip("Veggies");
 	}
 
 	/*
@@ -165,8 +161,8 @@ public class WRadioButtonSelectExample extends WPanel {
 		add(new ExplanatoryText("Setting the layout to FLAT will make the radio buttons be rendered in a horizontal line. They will wrap when they"
 				+ " reach the edge of the parent container."));
 		final WRadioButtonSelect select = new WRadioButtonSelect("australian_state");
-		select.setToolTip("Make a selection");
 		select.setButtonLayout(WRadioButtonSelect.LAYOUT_FLAT);
+		add(new WLabel("Flat selection", select));
 		add(select);
 	}
 
@@ -178,15 +174,14 @@ public class WRadioButtonSelectExample extends WPanel {
 		add(new ExplanatoryText("Setting the layout to COLUMN will make the radio buttons be rendered in 'n' columns. The number of columns is"
 				+ " determined by the layoutColumnCount property."));
 		final WRadioButtonSelect select = new WRadioButtonSelect("australian_state");
-		select.setToolTip("Make a selection");
 		select.setButtonLayout(WRadioButtonSelect.LAYOUT_COLUMNS);
 		select.setButtonColumns(3);
+		add(new WLabel("Three column selection", select));
 		add(select);
 
 		add(new WHeading(HeadingLevel.H3, "Options equal to columns"));
 		String[] options = new String[]{"Dog", "Cat", "Bird"};
 		final WRadioButtonSelect select2 = new WRadioButtonSelect(options);
-		select2.setToolTip("Animals");
 		select2.setButtonColumns(3);
 		final WTextField text = new WTextField();
 		text.setReadOnly(true);
@@ -203,6 +198,7 @@ public class WRadioButtonSelectExample extends WPanel {
 		});
 		select2.setDefaultSubmitButton(update);
 
+		add(new WLabel("Three columns and three options", select2));
 		add(select2);
 		add(update);
 		add(text);
@@ -218,23 +214,23 @@ public class WRadioButtonSelectExample extends WPanel {
 		add(new ExplanatoryText("When layout is COLUMN, setting the layoutColumnCount property to one, or forgetting to set it at all (default is "
 				+ "one) is a little bit pointless."));
 		final WRadioButtonSelect select = new WRadioButtonSelect("australian_state");
-		select.setToolTip("Make a selection");
 		select.setButtonLayout(WRadioButtonSelect.LAYOUT_COLUMNS);
+		add(new WLabel("One column", select));
 		add(select);
 	}
 
 	/**
 	 * adds a WRadioButtonSelect with setMandatory(true).
 	 */
-	private void addFMandatorySelectExample() {
+	private void addMandatorySelectExample() {
 		add(new WHeading(HeadingLevel.H3, "Mandatory WRadioButtonSelect"));
 
 		add(new ExplanatoryText("When a WRadioButtonSelect is mandatory it needs a visible labelling element, otherwise many users may not know that "
 				+ "the component requires an answer."));
 		final WRadioButtonSelect select = new WRadioButtonSelect("australian_state");
-		select.setToolTip("Make a selection");
 		select.setButtonLayout(WRadioButtonSelect.LAYOUT_FLAT);
 		select.setMandatory(true);
+		add(new WLabel("Mandatory selection", select));
 		add(select);
 
 		add(new WHeading(HeadingLevel.H3, "Mandatory WRadioButtonSelect in a WFieldLayout"));
@@ -244,33 +240,12 @@ public class WRadioButtonSelectExample extends WPanel {
 		final WFieldLayout layout = new WFieldLayout();
 		layout.setLabelWidth(25);
 		add(layout);
-		layout.addField("Make a selection", select2).getLabel().setHint("Required");
+		layout.addField("Required selection", select2).getLabel().setHint("Required");
 		select2 = new WRadioButtonSelect("australian_state");
 		select2.setButtonLayout(WRadioButtonSelect.LAYOUT_FLAT);
 		select2.setMandatory(true);
 		select2.setToolTip("Select a state");
 		layout.addField((WLabel) null, select2);
-	}
-
-	/**
-	 * Add radio button select with a label.
-	 */
-	private void addRadioButtonSelectWithLabelExample() {
-		add(new WHeading(HeadingLevel.H3, "WRadioButtonSelect with a WLabel"));
-		add(new ExplanatoryText("When a WLabel is associated with a WRadioButtonSelect (not read only) the label is output in-situ and as part of the"
-				+ " WRadioButtonSelect.\nIt does not matter where in the UI the label is placed: the WRadioButtonSelect will hunt it out. The label"
-				+ " becomes the legend of the control's fieldset.\nYou must be aware though that unless the label is part of a WField it will be "
-				+ "present in the legend AND wherever it is placed. You can alleviate this by using setHidden(true) on the WLabel."));
-
-		final WRadioButtonSelect select = new WRadioButtonSelect("australian_state");
-		select.setButtonLayout(WRadioButtonSelect.LAYOUT_COLUMNS);
-		select.setButtonColumns(3);
-		add(select);
-		//normally you should add a WLabel BEFORE its control (except single WCheckBox or WRadioButton components)
-		//so I am going to add it after.
-		WLabel label = new WLabel("Make a selection (label not in the expected place)", select);
-		label.setHidden(true);
-		add(label);
 	}
 
 	/**
@@ -280,47 +255,23 @@ public class WRadioButtonSelectExample extends WPanel {
 	private void addReadOnlyExamples() {
 		add(new WHeading(HeadingLevel.H3, "Read-only WRadioButtonSelect examples"));
 		add(new ExplanatoryText("These examples all use the same list of options: the states and territories list from the editable examples above. "
-				+ "When the readOnly state is specified only that option which is selected is output.\nSince no more than one option is able to be "
-				+ "selected the layout and frame settings are ignored in the read only state."));
+				+ "When the readOnly state is specified only that option which is selected is output.\n"
+				+ "Since no more than one option is able to be selected the layout and frame settings are ignored in the read only state."));
 
-		//NOTE: when there are 0 or 1 selections the frame is not rendered.
-		add(new WHeading(HeadingLevel.H4, "Read only with no selection"));
+		WFieldLayout layout = new WFieldLayout();
+		add(layout);
+
 		WRadioButtonSelect select = new WRadioButtonSelect("australian_state");
-		add(select);
 		select.setReadOnly(true);
-		select.setToolTip("Read only with no selection");
-		add(new WText(
-				"End of unselected read only example (note that the component has presence in the UI but does not have any content)."));
+		layout.addField("Read only with no selection", select);
 
-		add(new WHeading(HeadingLevel.H4, "Read only with one selection"));
 		select = new WRadioButtonSelect("australian_state");
-		add(select);
 		select.setReadOnly(true);
-		select.setToolTip("Read only with one selection");
 		List<?> options = select.getOptions();
 		if (!options.isEmpty()) {
 			select.setSelected((Option) options.get(0));
 		}
-
-		//read only in a WFieldLayout
-		add(new WHeading(HeadingLevel.H4, "Read only in a WFieldLayout"));
-		WFieldLayout layout = new WFieldLayout();
-		layout.setLabelWidth(25);
-		add(layout);
-		//no selections
-		select = new WRadioButtonSelect("australian_state");
-		select.setReadOnly(true);
-		layout.addField("No selection was made", select);
-		//one selection
-		select = new WRadioButtonSelect("australian_state");
-		select.setReadOnly(true);
-
-		options = select.getOptions();
-
-		if (!options.isEmpty()) {
-			select.setSelected((Option) options.get(0));
-		}
-		layout.addField("This selection was made", select);
+		layout.addField("Read only with selection", select);
 	}
 
 	/**
@@ -332,29 +283,25 @@ public class WRadioButtonSelectExample extends WPanel {
 	 */
 	private void addDisabledExamples() {
 		add(new WHeading(HeadingLevel.H2, "Disabled WRadioButtonSelect examples"));
-		add(new WHeading(HeadingLevel.H3, "Disabled with no selection"));
+		WFieldLayout layout = new WFieldLayout();
+		add(layout);
 		WRadioButtonSelect select = new WRadioButtonSelect("australian_state");
-		select.setToolTip("Make a selection");
-		add(select);
 		select.setDisabled(true);
+		layout.addField("Disabled with no selection", select);
 
-		add(new WHeading(HeadingLevel.H3, "Disabled with no selection and no frame"));
 		select = new WRadioButtonSelect("australian_state");
-		add(select);
 		select.setDisabled(true);
 		select.setFrameless(true);
-		select.setToolTip("Make a selection (no frame)");
+		layout.addField("Disabled with no selection no frame", select);
 
-		add(new WHeading(HeadingLevel.H3, "Disabled with one selection"));
 		select = new WRadioButtonSelect("australian_state");
-		select.setToolTip("Make a selection");
-		add(select);
 		select.setDisabled(true);
 		List<?> options = select.getOptions();
 
 		if (!options.isEmpty()) {
 			select.setSelected((Option) options.get(0));
 		}
+		layout.addField("Disabled with selection", select);
 	}
 
 	/**
@@ -388,7 +335,6 @@ public class WRadioButtonSelectExample extends WPanel {
 		selected.setReadOnly(true);
 
 		select.setActionOnChange(new Action() {
-
 			@Override
 			public void execute(final ActionEvent event) {
 				//does not matter what this is
@@ -398,13 +344,10 @@ public class WRadioButtonSelectExample extends WPanel {
 		select.setSubmitOnChange(true);
 		//now put them all into the UI
 		WFieldLayout layout = new WFieldLayout();
-		layout.setLabelWidth(25);
 		add(layout);
 		WField selectField = layout.addField("Make a selection to update the page", select);
 		selectField.getLabel().setAccessKey('M');
 		layout.addField("Selected option", selected);
-
-		add(new WHorizontalRule());
 
 		//Too many options anti-pattern
 		add(new WHeading(HeadingLevel.H3, "WRadioButtonSelect with too many options"));
@@ -417,8 +360,6 @@ public class WRadioButtonSelectExample extends WPanel {
 		hugeSelect.setFrameless(true);
 		hugeSelect.setToolTip("Select your country of birth");
 		add(hugeSelect);
-
-		add(new WHorizontalRule());
 
 		//Don't use a radioButtonSelect if the user can make no selection unless you provide a null option
 		add(new WHeading(HeadingLevel.H3, "Optional WRadioButtonSelect with no null option"));
@@ -436,11 +377,9 @@ public class WRadioButtonSelectExample extends WPanel {
 		}
 
 		layout = new WFieldLayout();
-		layout.setLabelWidth(25);
 		add(layout);
 		layout.addField("Where would you like to sit?", noneOfTheAboveSelect);
 
-		add(new WHorizontalRule());
 		//don't use a yes/no group of radio buttons for something which should be a checkbox
 		add(new WHeading(HeadingLevel.H3, "Yes/No options"));
 		add(new ExplanatoryText(
@@ -454,5 +393,10 @@ public class WRadioButtonSelectExample extends WPanel {
 		yesNoSelect.setFrameless(true);
 		layout.addField("Do you agree to the terms and conditions?", yesNoSelect);
 
+		add(new WHeading(HeadingLevel.H3, "No options"));
+		add(new ExplanatoryText("An interactive WRadioButtonSelect with no options is rather pointless."));
+		layout = new WFieldLayout();
+		add(layout);
+		layout.addField("Select from no options", new WRadioButtonSelect());
 	}
 }

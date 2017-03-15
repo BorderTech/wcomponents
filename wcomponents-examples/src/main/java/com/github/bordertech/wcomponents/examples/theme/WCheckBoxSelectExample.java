@@ -10,7 +10,6 @@ import com.github.bordertech.wcomponents.WCheckBoxSelect;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WHeading;
-import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WMessageBox;
 import com.github.bordertech.wcomponents.WText;
@@ -37,54 +36,52 @@ public class WCheckBoxSelectExample extends WContainer {
 	 */
 	private static final String NO_SELECTION = "No selection";
 
-	/**
+		/**
 	 * Creates a WCheckBoxSelectExample.
 	 */
 	public WCheckBoxSelectExample() {
-		add(new WHeading(HeadingLevel.H2, "Simple WCheckBoxSelect examples"));
-		addAustralianStatesExample();
-
-		add(new WHorizontalRule());
-		addCarsExample();
-
-		add(new WHorizontalRule());
-		addAnimalExample();
-
-		add(new WHorizontalRule());
-		addCheckBoxSelectWithLabelExample();
-
-		add(new WHorizontalRule());
-		addInsideAFieldLayoutExample();
-
-		add(new WHeading(HeadingLevel.H2, "Examples showing LAYOUT properties"));
-		addFlatSelectExample();
-		addColumnSelectExample();
-		addSingleColumnSelectExample();
-
-		add(new WHeading(HeadingLevel.H2, "Examples showing other properties"));
-		addFrameExamples();
-		add(new WHorizontalRule());
-
+		addInteractiveExamples();
 		// disabled state
 		// NOTE: you would normally use WSubordinateControl to set a disabled state
 		addDisabledExamples();
-		add(new WHorizontalRule());
-
 		// read only state
 		addReadOnlyExamples();
-
-		add(new WHorizontalRule());
 		addAntiPatternExamples();
 	}
 
 	/**
-	 * This example creates the WCheckBoxSelect using an a look up table. This checkBoxSelect has a frame.
+	 * Simple interactive-state WCheckBoxSelect examples.
 	 */
-	private void addAustralianStatesExample() {
+	private void addInteractiveExamples() {
+		add(new WHeading(HeadingLevel.H2, "Simple WCheckBoxSelect examples"));
+		addExampleUsingLookupTable();
+		addExampleUsingArrayList();
+		addExampleUsingStringArray();
+		addInsideAFieldLayoutExamples();
+		add(new WHeading(HeadingLevel.H2, "Examples showing LAYOUT properties"));
+		addFlatSelectExample();
+		addColumnSelectExample();
+		addSingleColumnSelectExample();
+		add(new WHeading(HeadingLevel.H2, "WCheckBoxSelect showing the frameless state"));
+		add(new WHeading(HeadingLevel.H3, "Normal (with frame)"));
+		WCheckBoxSelect select = new WCheckBoxSelect("australian_state");
+		add(select);
+		select.setToolTip("Make a selection");
+		add(new WHeading(HeadingLevel.H3, "Without frame"));
+		select = new WCheckBoxSelect("australian_state");
+		add(select);
+		select.setFrameless(true);
+		select.setToolTip("Make a selection (no frame)");
+	}
+
+	/**
+	 * This example creates the WCheckBoxSelect using an a look up table. All other optional properties are in their default state.
+	 * <p>Note for Framework devs: the unit tests for this Example are used to test the Selenium WebElement extension and this example is expected
+	 * to be: the first WCheckBoxSelect in the example; and to be interactive; and to have the 9 options of the "australian_state" lookup table.
+	 */
+	private void addExampleUsingLookupTable() {
 		add(new WHeading(HeadingLevel.H3, "WCheckBoxSelect created using a lookup table"));
 		final WCheckBoxSelect select = new WCheckBoxSelect("australian_state");
-		select.setToolTip("Make a selection");
-		// select.setFrameless(true);
 		final WTextField text = new WTextField();
 		text.setReadOnly(true);
 		text.setText(NO_SELECTION);
@@ -99,7 +96,7 @@ public class WCheckBoxSelectExample extends WContainer {
 			}
 		});
 		select.setDefaultSubmitButton(update);
-
+		add(new WLabel("Select a state or territory", select));
 		add(select);
 		add(update);
 		add(text);
@@ -107,14 +104,14 @@ public class WCheckBoxSelectExample extends WContainer {
 	}
 
 	/**
-	 * This example creates the WCheckBoxSelect from an array of Strings. This checkBoxSelect has no frame and uses a
-	 * toolTip to set its legend
+	 * This example creates the WCheckBoxSelect from an array of Strings.
 	 */
-	private void addAnimalExample() {
+	private void addExampleUsingStringArray() {
 		add(new WHeading(HeadingLevel.H3, "WCheckBoxSelect created using a String array"));
 		String[] options = new String[]{"Dog", "Cat", "Bird", "Turtle"};
 		final WCheckBoxSelect select = new WCheckBoxSelect(options);
 		select.setToolTip("Animals");
+		select.setMandatory(true);
 		final WTextField text = new WTextField();
 		text.setReadOnly(true);
 		text.setText(NO_SELECTION);
@@ -129,7 +126,9 @@ public class WCheckBoxSelectExample extends WContainer {
 			}
 		});
 		select.setDefaultSubmitButton(update);
-
+		WLabel animalLabel = new WLabel("A selection is required", select);
+		animalLabel.setHint("mandatory");
+		add(animalLabel);
 		add(select);
 		add(update);
 		add(text);
@@ -137,10 +136,9 @@ public class WCheckBoxSelectExample extends WContainer {
 	}
 
 	/**
-	 * This example creates the WCheckBoxSelect from a List of CarOptions. This WCheckBoxSelect has no frame and uses a
-	 * toolTip to set its labelling element
+	 * This example creates the WCheckBoxSelect from a List of CarOptions.
 	 */
-	private void addCarsExample() {
+	private void addExampleUsingArrayList() {
 		add(new WHeading(HeadingLevel.H3, "WCheckBoxSelect created using an array list of options"));
 		List<CarOption> options = new ArrayList<>();
 		options.add(new CarOption("1", "Ferrari", "F-360"));
@@ -175,7 +173,7 @@ public class WCheckBoxSelectExample extends WContainer {
 	 * When a WCheckBoxSelect is added to a WFieldLayout the legend is moved. The first CheckBoxSelect has a frame, the
 	 * second doesn't
 	 */
-	private void addInsideAFieldLayoutExample() {
+	private void addInsideAFieldLayoutExamples() {
 		add(new WHeading(HeadingLevel.H3, "WCheckBoxSelect inside a WFieldLayout"));
 		add(new ExplanatoryText("When a WCheckBoxSelect is inside a WField its label is exposed in a way which appears and behaves like a regular "
 				+ "HTML label. This allows WCheckBoxSelects to be used in a layout with simple form controls (such as WTextField) and produce a "
@@ -263,25 +261,6 @@ public class WCheckBoxSelectExample extends WContainer {
 		final WCheckBoxSelect select = new WCheckBoxSelect("australian_state");
 		select.setToolTip("Make a selection");
 		select.setButtonLayout(WCheckBoxSelect.LAYOUT_COLUMNS);
-		add(select);
-	}
-
-	/**
-	 * Add check box with label.example.
-	 */
-	private void addCheckBoxSelectWithLabelExample() {
-		add(new WHeading(HeadingLevel.H3, "WCheckBoxSelect with a WLabel"));
-		add(new ExplanatoryText("When a WLabel is associated with a WCheckBoxSelect (not read only) the label is output in-situ and as part of the "
-				+ "WCheckBoxSelect.\nIt does not matter where in the UI the label is placed: the WCheckBoxSelect will hunt it out. The label becomes "
-				+ "the legend of the control's fieldset.\nYou must be aware though that unless the label is part of a WField it will be present in "
-				+ "the legend AND wherever it is placed. You can alleviate this by using setHidden(true) on the WLabel."));
-
-		final WCheckBoxSelect select = new WCheckBoxSelect("australian_state");
-		select.setButtonLayout(WCheckBoxSelect.LAYOUT_COLUMNS);
-		select.setButtonColumns(3);
-
-		WLabel label = new WLabel("Make a selection", select);
-		add(label);
 		add(select);
 	}
 
@@ -381,19 +360,15 @@ public class WCheckBoxSelectExample extends WContainer {
 
 		// many selections
 		select = new WCheckBoxSelect("australian_state");
-		select.setFrameless(true);
 		options = select.getOptions();
-
 		if (!options.isEmpty()) {
 			select.setSelected(options);
 		}
 		layout.addField("Many selections with frame", select);
 
 		select = new WCheckBoxSelect("australian_state");
-		select.setFrameless(true);
 		select.setReadOnly(true);
 		options = select.getOptions();
-
 		if (!options.isEmpty()) {
 			select.setSelected(options);
 		}
@@ -405,11 +380,11 @@ public class WCheckBoxSelectExample extends WContainer {
 		select.setButtonColumns(3);
 		select.setFrameless(true);
 		options = select.getOptions();
-
 		if (!options.isEmpty()) {
 			select.setSelected(options);
 		}
 		layout.addField("many selections, frameless, COLUMN layout (3 columns)", select);
+
 		select = new WCheckBoxSelect("australian_state");
 		select.setReadOnly(true);
 		select.setButtonLayout(WCheckBoxSelect.LAYOUT_COLUMNS);
@@ -432,6 +407,7 @@ public class WCheckBoxSelectExample extends WContainer {
 			select.setSelected(options);
 		}
 		layout.addField("Many selections, frameless, FLAT layout", select);
+
 		select = new WCheckBoxSelect("australian_state");
 		select.setReadOnly(true);
 		select.setButtonLayout(WCheckBoxSelect.LAYOUT_FLAT);
@@ -449,61 +425,39 @@ public class WCheckBoxSelectExample extends WContainer {
 	 * unless there is no facility for the user to enable a control.
 	 */
 	private void addDisabledExamples() {
-		add(new WHeading(HeadingLevel.H3, "Disabled WCheckBoxSelect examples"));
-		add(new WHeading(HeadingLevel.H4, "Disabled with no selection"));
+		add(new WHeading(HeadingLevel.H2, "Disabled WCheckBoxSelect examples"));
+		WFieldLayout layout = new WFieldLayout();
+		add(layout);
+
 		WCheckBoxSelect select = new WCheckBoxSelect("australian_state");
-		add(select);
 		select.setDisabled(true);
-		select.setToolTip("Make a selection");
-		add(new WHeading(HeadingLevel.H4, "Disabled with no selection and no frame"));
+		layout.addField("Disabled with no default selection", select);
+
+		add(new WHeading(HeadingLevel.H3, "Disabled with no selection and no frame"));
 		select = new WCheckBoxSelect("australian_state");
-		add(select);
 		select.setDisabled(true);
 		select.setFrameless(true);
-		select.setToolTip("Make a selection (no frame)");
+		layout.addField("Disabled with no selection and no frame", select);
 
-		add(new WHeading(HeadingLevel.H4, "Disabled with one selection"));
 		select = new WCheckBoxSelect("australian_state");
-		add(select);
 		select.setDisabled(true);
-		select.setToolTip("Make a selection");
 		List<?> options = select.getOptions();
-
 		if (!options.isEmpty()) {
 			List<Option> selectedOptions = new ArrayList<>();
 			selectedOptions.add((Option) options.get(0));
 			select.setSelected(selectedOptions);
 		}
+		layout.addField("Disabled with one selection", select);
 
-		add(new WHeading(HeadingLevel.H4, "Disabled with many selections and COLUMN layout"));
 		select = new WCheckBoxSelect("australian_state");
-		add(select);
 		select.setDisabled(true);
-		select.setToolTip("Make a selection");
 		select.setButtonLayout(WCheckBoxSelect.LAYOUT_COLUMNS);
 		select.setButtonColumns(3);
 		options = select.getOptions();
-
 		if (!options.isEmpty()) {
 			select.setSelected(options);
 		}
-
-	}
-
-	/**
-	 * Examples of setFrameless.
-	 */
-	private void addFrameExamples() {
-		add(new WHeading(HeadingLevel.H3, "WCheckBoxSelect showing the frameless state"));
-		add(new WHeading(HeadingLevel.H4, "Normal (with frame)"));
-		WCheckBoxSelect select = new WCheckBoxSelect("australian_state");
-		add(select);
-		select.setToolTip("Make a selection");
-		add(new WHeading(HeadingLevel.H4, "Without frame"));
-		select = new WCheckBoxSelect("australian_state");
-		add(select);
-		select.setFrameless(true);
-		select.setToolTip("Make a selection (no frame)");
+		layout.addField("Disabled with many selections and COLUMN layout", select);
 	}
 
 	/**
@@ -521,33 +475,22 @@ public class WCheckBoxSelectExample extends WContainer {
 				+ " a WLabel or have a toolTip."));
 		add(new WCheckBoxSelect("australian_state"));
 
-		add(new WHorizontalRule());
-
 		// Too many options anti-pattern
 		add(new WHeading(HeadingLevel.H3, "WCheckBoxSelect with too many options"));
-		add(new ExplanatoryText(
-				"Don't use a WCheckBoxSelect if you have more than a handful of options. A good rule of thumb is fewer than 10."));
+		add(new ExplanatoryText("Don't use a WCheckBoxSelect if you have more than a handful of options. A good rule of thumb is fewer than 10."));
 		// use the country code list at your peril!!
-		WCheckBoxSelect hugeSelect = new WCheckBoxSelect("icao");
-		hugeSelect.setButtonLayout(WCheckBoxSelect.LAYOUT_COLUMNS);
-		hugeSelect.setButtonColumns(5);
-		hugeSelect.setFrameless(true);
-		hugeSelect.setToolTip("Select your country of birth");
-		add(hugeSelect);
-
-		add(new WHorizontalRule());
-
-		add(new WHeading(HeadingLevel.H3, "WCheckBoxSelect with a WLabel in an unexpected place."));
-		add(new ExplanatoryText("The WLabel must precede the WCheckBoxSelect."));
-
-		final WCheckBoxSelect select = new WCheckBoxSelect("australian_state");
+		WCheckBoxSelect select = new WCheckBoxSelect("icao");
 		select.setButtonLayout(WCheckBoxSelect.LAYOUT_COLUMNS);
-		select.setButtonColumns(3);
-
-		WLabel label = new WLabel("Make a selection (label not in the expected place)", select);
+		select.setButtonColumns(5);
+		select.setFrameless(true);
+		add(new WLabel("Select your country of birth", select));
 		add(select);
-		add(label);
 
+		add(new WHeading(HeadingLevel.H3, "WCheckBoxSelect with no options."));
+		add(new ExplanatoryText("An interactive WCheckBoxSelect with no options is rather pointless."));
+		select = new WCheckBoxSelect();
+		add(new WLabel("WCheckBoxSelect with no options", select));
+		add(select);
 	}
 
 	/**
