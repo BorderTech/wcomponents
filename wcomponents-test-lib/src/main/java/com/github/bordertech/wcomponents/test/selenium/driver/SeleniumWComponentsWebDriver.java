@@ -11,6 +11,7 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWEmailFie
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWLabelWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMessageBoxWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMessagesWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMultiSelectPairWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWPhoneNumberFieldWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWRadioButtonSelectWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWRadioButtonWebElement;
@@ -300,10 +301,19 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	/**
 	 * Find a WMultiSelect by the given criteria.
 	 * @param by the By selector
-	 * @return the SeleniumWRadioButtonWebElement or null if not found.
+	 * @return the SeleniumWRadioButtonWebElement
 	 */
 	public SeleniumWSelectWebElement findWMultiSelect(final By by) {
 		return new SeleniumWSelectWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WMultiSelectPair by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWMultiSelectPairWebElement
+	 */
+	public SeleniumWMultiSelectPairWebElement findWMultiSelectPair(final By by) {
+		return new SeleniumWMultiSelectPairWebElement(findElement(by), this);
 	}
 
 	/**
