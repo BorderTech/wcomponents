@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
-import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenu.SelectMode;
 import com.github.bordertech.wcomponents.WMenuItem;

@@ -97,6 +97,12 @@ public class SimplePaginationWithRowOptionsTableExample_Test extends WComponentE
 		Assert.assertEquals("Last page button in unexpected state", forwardsButtonsEnabled, table.getLastPageButton().isEnabled());
 	}
 
+	/**
+	 * undertake the repeated asssertions on row content.
+	 * @param table the table
+	 * @param row the current row
+	 * @param cellContent the content of the current cell
+	 */
 	private void assertRowContent(final SeleniumWTableWebElement table, final int row, final String... cellContent) {
 		for (int i = 0; i < cellContent.length; i++) {
 			Assert.assertEquals("Unexpected cell content for row:column" + row + ":" + i, cellContent[i], table.getCellText(row, i));

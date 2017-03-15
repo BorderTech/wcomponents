@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.container.ResponseCacheInterceptor;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
