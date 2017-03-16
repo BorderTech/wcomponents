@@ -1,0 +1,204 @@
+// You REALLY don't want to even consider looking at this stuff!
+// Most of the configuration of WFieldLayout support is done through vars.
+@import 'wc.fieldlayout.mixins';
+
+// The space remaining for the input part of a control when the WFieldLayout is FLAT. Do not change.
+$wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
+
+.wc-fieldlayout + .wc-fieldlayout, // Vertical space between consecutive WFieldLayouts.
+.wc-field  + .wc-field { // Vertical space between fields in a WFieldLayout.
+	margin-top: $wc-gap-normal;
+}
+
+// This is the placeholder for a null or moved label (moved for checkbox or radio). Not shown on narrow viewports.
+.wc_fld_pl {
+	display: none;
+}
+
+// The input container div.
+.wc-input {
+	margin-top: $wc-gap-small; // push off of the label.
+
+	// InputWidth class is added to the field to signify that an inputWidth is in use so we can size the components.
+	.wc_inputwidth > & {
+		> .wc-input-wrapper,
+		> .wc-input-wrapper input,
+		> [type='password'],
+		> [type='number'],
+		> textarea,
+		> select,
+		> fieldset {
+			@include border-box;
+			width: 100%;
+		}
+	}
+
+	> .wc-input-wrapper,
+	> input,
+	> select,
+	> textarea {
+		max-width: 100%;
+	}
+}
+
+// NUMBERED fields
+@if ($wc-fieldlayout-allow-ordered == 1) {
+	.wc_ordered {
+		&,
+		.wc-fieldlayout {
+			counter-reset: wcfld;
+		}
+
+		> .wc-field {
+			counter-increment: wcfld;
+
+			> :first-child::before {
+				content: counter(wcfld) '. ';
+				margin-right: $wc-gap-small;
+
+				.wc_ordered & {
+					content: counters(wcfld, '.') ' ';
+				}
+			}
+		}
+
+		&.wc-layout-stacked > .wc-field {
+			&::before {
+				content: counter(wcfld) '. ';
+				margin-right: $wc-gap-small;
+
+				.wc_ordered & {
+					content: counters(wcfld, '.') ' ';
+				}
+			}
+
+			> :first-child::before {
+				content: '';
+				display: none;
+				margin-right: 0;
+			}
+		}
+	}
+}
+
+@if ($wc-fieldlayout-force-stack == 0) {
+	// When we have a viewport of sufficient width we can allow side-by-side label: input pairs.
+	.wc-layout-flat > .wc-field {
+		> label,
+		> span,
+		> div {
+			display: inline-block;
+			vertical-align: text-top;
+
+			&:first-child { //The first child is the label or stand-in or merely an empty placeholder/spacer.
+				width: $wc-fieldlayout-default-label-width;
+			}
+		}
+
+		> .wc-input {
+			margin-top: 0; // Remove stacked margin.
+			max-width: $wc-fieldlayout-input-width;
+			width: $wc-fieldlayout-input-width;
+		}
+
+		.wc-moved-label {
+			@include offscreen;
+		}
+	}
+
+	// Optionally allow for labelWidth settings.
+	@if($wc-fieldlayout-labelwidth-prevent-override == 0) {
+		// This lot does the CSS for the various allowed values of WFieldLayout's labelWidth member.
+		// If you _really_ want to support all values of labelWidth then you will have to change the
+		// variable $wc-fld-list to be the single value -1.
+		@if ($wc-fld-list == -1) {
+			@for $i from 1 through 100 {
+				$wc-fld-lblw: $i * 1%;
+				@include wc-fld-layout($j);
+			}
+		}
+		@else {
+			@if ($wc-fld-widths-include-fives == 1) {
+				@for $i from 1 through 20 {
+					$j: $i * 5;
+					@include wc-fld-layout($j);
+				}
+			}
+
+			@if ($wc-fld-list != 0) {
+				@each $w in $wc-fld-list {
+					@include wc-fld-layout($w);
+				}
+			}
+		}
+
+		@if ($wc-use-respond == 1) {
+			@include respond-phonelike {
+				// override flat widths
+				// scss-lint:disable ImportantRule
+				.wc-field {
+					> * {
+						display: block !important;
+						max-width: 100% !important;
+						width: 100% !important;
+					}
+
+					.wc-moved-label {
+						max-height: none;
+						max-width: 100% !important;
+						overflow: visible !important;
+						position: static !important;
+						width: 100% !important;
+					}
+
+					.wc_fld_pl {
+						display: none !important;
+					}
+
+					> .wc-input {
+						margin-left: 0 !important;
+					}
+				}
+			}
+		}
+	}
+	@else if ($wc-use-respond == 1 and $wc-use-respond-fieldlayout == 1) {
+		@include respond-phonelike {
+			.wc-layout-flat > .wc-field {
+				> label,
+				> span,
+				> div {
+					display: block;
+
+					&:first-child { //The first child is the label or stand-in or merely an empty placeholder/spacer.
+						width: 100%;
+					}
+				}
+
+				> .wc-input {
+					margin-top: $wc-gap-small; // push off of the label.
+					max-width: 100%;
+					width: 100%;
+				}
+
+				.wc-moved-label {
+					// override offscreen
+					// scss-lint:disable ImportantRule
+					max-height: none;
+					max-width: 100% !important;
+					overflow: visible !important;
+					position: static !important;
+					width: 100% !important;
+				}
+			}
+
+			@if ($wc-fieldlayout-stack-allow-indent == 1) {
+				.wc-field  > .wc-input {
+					// override indent
+					// scss-lint:disable ImportantRule
+					margin-left: 0 !important;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,22 @@
+@import 'mixins-common';
+
+.wc_msgbox {
+	@include border;
+	@include flex;
+	min-height: 0;
+
+	> h1 > span {
+		@include offscreen;
+	}
+
+	> div {
+		@include flex-align-self(center);
+
+		> div + div {
+			margin-top: $wc-gap-normal;
+		}
+	}
+}
+
+@import 'wc.messagebox.color';
+@import 'wc.messagebox.icons';

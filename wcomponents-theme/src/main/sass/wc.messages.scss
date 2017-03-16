@@ -1,0 +1,26 @@
+// WFieldWarningIndicator
+// WFieldErrorIndicator
+// WValidationErrors (server side validation) when "inline"
+// Client side validation error messages if plugin included
+@import 'mixins-common';
+
+.wc-fieldindicator {
+	display: block;
+	margin-top: $wc-gap-small;
+
+	> span {
+		display: block;
+
+		&:before {
+			@include wc-icon-fw(-1);
+			content: '';
+		}
+
+		+ span {
+			margin-top: $wc-gap-small;
+		}
+	}
+}
+
+@import 'wc.messages.color';
+@import 'wc.messages.icons';

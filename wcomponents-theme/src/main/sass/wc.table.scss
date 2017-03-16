@@ -1,0 +1,197 @@
+@import 'mixins-common';
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	min-width: 100%;
+}
+
+th,
+td {
+	padding: $wc-gap-small;
+	text-align: left; // use TableColumn.Alignment to change this.
+	vertical-align: top;
+}
+
+th {
+	&.wc_table_rowexp_container,
+	&.wc_table_sel_wrapper { // reset the vertical alignment of th with these classes
+		vertical-align: inherit;
+	}
+}
+
+td {
+	&.wc_table_rowexp_container,
+	&.wc_table_sel_wrapper {
+		vertical-align: text-top;
+	}
+
+	&.wc_table_sel_wrapper {
+		text-align: right;
+
+		[aria-selected] > & {
+			text-align: left;
+		}
+	}
+}
+
+caption {
+	padding: $wc-gap-normal 0;
+	text-align: left;
+}
+
+// fix the layout of tables where column width is applied
+.wc_table_fix {
+	table-layout: fixed;
+}
+
+.wc_table_colauto {
+	width: $wc-gap-normal; // actually anything small but more than zero.
+}
+
+//*****************************************************************************
+// Container for controsl above the table
+//*****************************************************************************
+.wc_table_top_controls {
+	@include flex($wrap: wrap, $justify: space-between, $align-items: baseline);
+	margin-bottom: $wc-gap-small;
+
+	> div {
+		@include flex-grow(1);
+		display: inline-block;
+
+		&:last-child {
+			@include flex-justify-content(flex-end);
+			text-align: right;
+		}
+	}
+
+	// do not use > div:first-child:last-child as we want the pagination and expand controls on the right if they
+	// are last even if they are first. Instead make the selection controls left aligned if they are last.
+	> .wc_table_sel_cont:last-child {
+		@include flex-justify-content(flex-start); //always put the selection controls at the start
+		text-align: left;
+	}
+}
+
+//*****************************************************************************
+// Container for actions and pagination
+//*****************************************************************************
+.wc_table_bottom_controls {
+	padding: $wc-gap-small;
+}
+
+//*****************************************************************************
+// ACTIONS
+//*****************************************************************************
+.wc-actions button + button {
+	margin-left: $wc-gap-small;
+}
+
+//*****************************************************************************
+// Row selection
+//*****************************************************************************
+.wc_table_sel_wrapper {
+	white-space: nowrap;
+
+	tr[aria-selected] > &:before {
+		@include wc-icon-fw($text-align: left);
+	}
+
+	.wc-menu-type-flyout {
+		button { // override unnecessary .wc_seltog style.
+			margin-left: 0;
+			text-decoration: none;
+		}
+
+		.wc-submenu-o { // the is the submenu opener emulator for the sub-row toggle control
+			@include button($background: $wc-ui-color-menu-bg, $padding: 0, $width: $wc-icon-normal);
+			height: $wc-icon-normal;
+			vertical-align: top;
+
+			> .wc-decoratedlabel::after {
+				display: inline-block;
+				padding-left: 0; // remove submenu opener indicator margin
+				width: $wc-icon-normal;
+			}
+		}
+	}
+}
+
+//*****************************************************************************
+// Row expansion
+//*****************************************************************************
+// The next lot does indentation of "child" rows
+@for $i from 2 to 6 {
+	[aria-level='#{$i}'] > .wc_table_rowexp_container {
+		+ td,
+		+ th {
+			padding-left: ($i - 1) * $wc-gap-large;
+		}
+	}
+}
+
+[aria-expanded] > td[role='button']:before {
+	@include wc-icon-fw;
+}
+
+//*****************************************************************************
+// Pagination controls
+//*****************************************************************************
+.wc_table_pag_cont {
+	> span,
+	> label {
+		margin-left: $wc-gap-large;
+		white-space: nowrap;
+
+		&:first-child {
+			margin-left: 0;
+		}
+	}
+
+	label > select {
+		margin-left: $wc-gap-small;
+	}
+
+	button::before {
+		min-width: $wc-icon-normal;
+	}
+
+	// This rule applies when the pagination controls are at the bottom of the table.
+	.wc_table_bottom_controls > & {
+		text-align: right;
+	}
+}
+
+//*****************************************************************************
+// Sort
+//*****************************************************************************
+th[aria-sort] {
+	cursor: pointer;
+	padding-right: $wc-gap-large;
+	position: relative;
+
+	&:after {
+		@include wc-icon-fw($text-align: right, $width: $wc-icon-small);
+		position: absolute;
+		right: $wc-gap-small;
+
+		@if ($wc-table-sort-icon-pos == middle) {
+			height: 0;
+			line-height: 0;
+			top: 50%;
+		}
+		@else if ($wc-table-sort-icon-pos == bottom) {
+			bottom: $wc-gap-small;
+		}
+	}
+
+	> .wc-decoratedlabel {
+		@include fit-content;
+		display: inline-block;
+	}
+}
+
+@import 'wc.table.respond';
+@import 'wc.table.color';
+@import 'wc.table.icons';

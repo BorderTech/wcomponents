@@ -1,0 +1,13 @@
+@import 'vars';
+
+.wc-multifileupload .wc_btn_abort:before {
+	content: $fa-var-ban;
+}
+
+.wc-multifileupload a ~ button:before {
+	content: $fa-var-trash;
+}
+
+.wc_btn_camera:before {
+	content: $fa-var-video-camera;
+}

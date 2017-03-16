@@ -1,0 +1,35 @@
+// One should never be surprised by the amount of invaid HTML peeople manage to generate.
+@import 'mixins-common';
+// this is just the simplest case.
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+pre,
+label,
+button {
+	dl,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	p,
+	pre,
+	div,
+	ul,
+	ol,
+	section {
+		@include outline($color: $wc-ui-color-error-fg);
+		// __really__ make these things stand out!
+		// scss-lint:disable ImportantRule
+		background-color: $wc-ui-color-error-bg !important;
+		color: $wc-ui-color-error-fg !important;
+		// scss-lint:enable ImportantRule
+	}
+}

@@ -1,0 +1,21 @@
+@import 'mixins-common';
+
+img {
+	border: 0;
+
+	@if ($wc-image-valign-button != -1) {
+		a &,
+		button & {
+			vertical-align: $wc-image-valign-button;
+		}
+
+		@if ($wc-image-valign-button-figure != -1 and $wc-image-valign-button-figure != $wc-image-valign-button) {
+			figure & {
+				&,
+				+ button {
+					vertical-align: bottom;
+				}
+			}
+		}
+	}
+}

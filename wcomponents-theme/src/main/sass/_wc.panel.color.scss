@@ -1,0 +1,62 @@
+@import 'vars';
+
+// WPanel type CHROME
+// See wc.section.color
+@if ($wc-ui-color-section-heading-bg != -1) {
+	.wc-panel-type-chrome > h1 {
+		background-color: $wc-ui-color-section-heading-bg;
+		color: $wc-ui-color-section-heading-fg;
+	}
+}
+
+// type ACTION
+// See wc.section.color
+.wc-panel-type-action {
+	@if ($wc-ui-color-panel-action-background != -1) {
+		background-color: $wc-ui-color-panel-action-background;
+	}
+	@if ($wc-ui-color-panel-action-border != -1) {
+		border-color: $wc-ui-color-panel-action-border;
+	}
+
+	@if ($wc-ui-color-panel-action-header-background != -1) {
+		> h1 {
+			background-color: $wc-ui-color-panel-action-header-background;
+			color: $wc-ui-color-panel-action-header-foreground;
+		}
+	}
+}
+
+// WPanel Type.FEATURE
+// 'The feature panel is highlighted by a background colour and border.'
+@if ($wc-ui-color-panel-feature-foreground != -1) {
+	.wc-panel-type-feature {
+		background-color: $wc-ui-color-panel-feature-background;
+		color: $wc-ui-color-panel-feature-foreground;
+	}
+}
+
+// Type FOOTER
+@if ($wc-ui-color-panel-footer-foreground != -1) {
+	footer {
+		background-color: $wc-ui-color-panel-footer-background;
+		color: $wc-ui-color-panel-footer-foreground;
+	}
+}
+
+// Type HEADER
+@if ($wc-ui-color-panel-header-background != -1) {
+	[role='banner'] {
+		background-color: $wc-ui-color-panel-header-background;
+
+		// Set the foreground colour of components which have their own defined colour so will not inherit from the
+		// container.
+		&,
+		h1,
+		.wc-linkbutton,
+		a,
+		a:visited {
+			color: $wc-ui-color-panel-header-foreground;
+		}
+	}
+}

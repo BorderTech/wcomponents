@@ -406,7 +406,7 @@
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
-			<!-- temporary fix for problem in ariaAnalog.js -->
+			<xsl:call-template name="disabledElement"/><!-- WDataTable only -->
 			<xsl:if test="number($hasRowExpansion) + $rowIsSelectable ge 1">
 				<xsl:attribute name="role">row</xsl:attribute>
 			</xsl:if>
