@@ -294,7 +294,7 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	 * Custom Log implementation to prevent all logging.
 	 *
 	 */
-	public final static class NoLogLogger implements Log {
+	public static final class NoLogLogger implements Log {
 
 		@Override
 		public boolean isDebugEnabled() {
@@ -327,62 +327,62 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 		}
 
 		@Override
-		public void trace(Object message) {
+		public void trace(final Object message) {
 			// No-impl
 		}
 
 		@Override
-		public void trace(Object message, Throwable t) {
+		public void trace(final Object message, final Throwable t) {
 			// No-impl
 		}
 
 		@Override
-		public void debug(Object message) {
+		public void debug(final Object message) {
 			// No-impl
 		}
 
 		@Override
-		public void debug(Object message, Throwable t) {
+		public void debug(final Object message, final Throwable t) {
 			// No-impl
 		}
 
 		@Override
-		public void info(Object message) {
+		public void info(final Object message) {
 			// No-impl
 		}
 
 		@Override
-		public void info(Object message, Throwable t) {
+		public void info(final Object message, final Throwable t) {
 			// No-impl
 		}
 
 		@Override
-		public void warn(Object message) {
+		public void warn(final Object message) {
 			// No-impl
 		}
 
 		@Override
-		public void warn(Object message, Throwable t) {
+		public void warn(final Object message, final Throwable t) {
 			// No-impl
 		}
 
 		@Override
-		public void error(Object message) {
+		public void error(final Object message) {
 			// No-impl
 		}
 
 		@Override
-		public void error(Object message, Throwable t) {
+		public void error(final Object message, final Throwable t) {
 			// No-impl
 		}
 
 		@Override
-		public void fatal(Object message) {
+		public void fatal(final Object message) {
 			// No-impl
 		}
 
 		@Override
-		public void fatal(Object message, Throwable t) {
+		public void fatal(final Object message, final Throwable t) {
 			// No-impl
 		}
 

@@ -15,27 +15,70 @@ import java.util.Set;
  * @author Jonathan Austin
  * @since 1.2.5
  */
-public class MockTreeItemData {
+public final class MockTreeItemData {
 
+	/**
+	 * Used for testing.
+	 */
 	public static final String TEST_MULTI_JSON = "{\"root\":[{\"id\":\"A\"},{\"id\":\"C\",\"items\":[{\"id\":\"C.1\",\"items\":[{\"id\":\"B\",\"expandable\":true}]}]},{\"id\":\"C.1.1\",\"expandable\":true}]}";
 
+	/**
+	 * Used for testing.
+	 */
 	public static final TreeItemIdNode TEST_MULTI_TREE = createTreeNodeMulti();
 
+	/**
+	 * Used for testing.
+	 */
 	public static final String TEST_BASIC_JSON = "{\"root\":[{\"id\":\"A\"}]}";
-
+	/**
+	 * Used for testing.
+	 */
 	public static final TreeItemIdNode TEST_BASIC_TREE = createTreeNodeBasic();
-
+	/**
+	 * Used for testing.
+	 */
 	public static final List<MyBean> DATA = new ArrayList<>();
+	/**
+	 * Used for testing.
+	 */
 	public static final MyBean BEAN_A = new MyBean("A");
-	public static final MyBean BEAN_B = new MyBean("B");
-	public static final MyBean BEAN_B_1 = new MyBean("B.1");
-	public static final MyBean BEAN_B_2 = new MyBean("B.2");
-	public static final MyBean BEAN_C = new MyBean("C");
-	public static final MyBean BEAN_C_1 = new MyBean("C.1");
-	public static final MyBean BEAN_C_1_1 = new MyBean("C.1.1");
-	public static final MyBean BEAN_C_1_1_1 = new MyBean("C.1.1.1");
 
+	/**
+	 * Used for testing.
+	 */
+	public static final MyBean BEAN_B = new MyBean("B");
+	/**
+	 * Used for testing.
+	 */
+	public static final MyBean BEAN_B_1 = new MyBean("B.1");
+	/**
+	 * Used for testing.
+	 */
+	public static final MyBean BEAN_B_2 = new MyBean("B.2");
+	/**
+	 * Used for testing.
+	 */
+	public static final MyBean BEAN_C = new MyBean("C");
+	/**
+	 * Used for testing.
+	 */
+	public static final MyBean BEAN_C_1 = new MyBean("C.1");
+	/**
+	 * Used for testing.
+	 */
+	public static final MyBean BEAN_C_1_1 = new MyBean("C.1.1");
+	/**
+	 * Used for testing.
+	 */
+	public static final MyBean BEAN_C_1_1_1 = new MyBean("C.1.1.1");
+	/**
+	 * Used for testing.
+	 */
 	public static final Set<String> SELECTED_B_C_1;
+	/**
+	 * Used for testing.
+	 */
 	public static final Set<String> SELECTED_B_2;
 
 	static {
@@ -64,6 +107,12 @@ public class MockTreeItemData {
 		sel.add(BEAN_B_2.getId());
 		SELECTED_B_2 = Collections.unmodifiableSet(sel);
 
+	}
+
+	/**
+	 * Prevent instantiation.
+	 */
+	private MockTreeItemData() {
 	}
 
 	/**

@@ -6,7 +6,6 @@ import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WFieldLayout;
-import com.github.bordertech.wcomponents.WStyledText;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.util.SpaceUtil;

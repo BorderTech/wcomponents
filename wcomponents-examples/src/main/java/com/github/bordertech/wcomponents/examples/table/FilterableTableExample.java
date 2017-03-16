@@ -12,7 +12,6 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDateField;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
-import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WSubMenu;

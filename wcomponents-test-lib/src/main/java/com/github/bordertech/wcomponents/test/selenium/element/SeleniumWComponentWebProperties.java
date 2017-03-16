@@ -65,7 +65,15 @@ public enum SeleniumWComponentWebProperties {
 	 * Common HTML class attribute value applied to a checkable Input WComponent in a
 	 * read-only state when it is selected.
 	 */
-	CLASS_READONLY_CHECKED("wc_ro_sel");
+	CLASS_READONLY_CHECKED("wc_ro_sel"),
+	/**
+	 * HTML class attribute value applied to fieldsets in which at least one field is mandatory.
+	 */
+	CLASS_REQUIRED("wc_req"),
+	/**
+	 * ID suffix used on wrapped inputs.
+	 */
+	ID_SUFFIX("_input");
 
 	/**
 	 * The attribute itemValue for items.
@@ -84,6 +92,7 @@ public enum SeleniumWComponentWebProperties {
 	/**
 	 * @return the item value of the enum item.
 	 */
+	@Override
 	public String toString() {
 		return itemValue;
 	}
