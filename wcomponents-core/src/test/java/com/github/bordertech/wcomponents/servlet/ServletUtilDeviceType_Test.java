@@ -50,7 +50,7 @@ public class ServletUtilDeviceType_Test {
 	 * @param desc the description of the user agent
 	 * @param userAgent the user agent
 	 */
-	public ServletUtilDeviceType_Test(final DeviceType expectedDeviceType, final String desc, String userAgent) {
+	public ServletUtilDeviceType_Test(final DeviceType expectedDeviceType, final String desc, final String userAgent) {
 		this.expectedDeviceType = expectedDeviceType;
 		this.desc = desc;
 		this.userAgent = userAgent;

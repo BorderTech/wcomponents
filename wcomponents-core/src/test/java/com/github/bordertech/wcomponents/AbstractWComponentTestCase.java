@@ -267,6 +267,7 @@ public abstract class AbstractWComponentTestCase {
 	 * This method will test that the methods used for a map property.
 	 * <p>
 	 * Assumes the following methods for "name":-
+	 * </p>
 	 * <ul>
 	 * <li>addName(key, value)</li>
 	 * <li>removeName(key)</li>
@@ -274,7 +275,6 @@ public abstract class AbstractWComponentTestCase {
 	 * <li>removeAllNames()</li>
 	 * <li>getNames()</li>
 	 * </ul>
-	 * </p>
 	 *
 	 * @param component the component to test the accessors on
 	 * @param method the method to test

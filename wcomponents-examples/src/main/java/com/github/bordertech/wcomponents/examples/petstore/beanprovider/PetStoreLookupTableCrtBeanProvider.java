@@ -30,7 +30,7 @@ public class PetStoreLookupTableCrtBeanProvider implements BeanProvider {
 	 * factory.newInstance(LookupTable), but we don't want to pollute tests with the specific property for the
 	 * PetSToreLookupTable.
 	 */
-	private static final LookupTable table = new PetStoreLookupTable();
+	private static final LookupTable TABLE = new PetStoreLookupTable();
 
 	/**
 	 * Creates a CrtBeanProvider that will use the given Crt, and the code from the bound component. The value returned
@@ -63,7 +63,7 @@ public class PetStoreLookupTableCrtBeanProvider implements BeanProvider {
 	@Override
 	public Object getBean(final BeanProviderBound beanProviderBound) {
 		if (lookupTableName != null) {
-			List<?> entries = table.getTable(lookupTableName);
+			List<?> entries = TABLE.getTable(lookupTableName);
 			String code = tableCode;
 			String desc = null;
 
@@ -73,8 +73,8 @@ public class PetStoreLookupTableCrtBeanProvider implements BeanProvider {
 			}
 
 			for (Object entry : entries) {
-				if (code.equals(table.getCode(lookupTableName, entry))) {
-					desc = table.getDescription(lookupTableName, entry);
+				if (code.equals(TABLE.getCode(lookupTableName, entry))) {
+					desc = TABLE.getDescription(lookupTableName, entry);
 					break;
 				}
 			}

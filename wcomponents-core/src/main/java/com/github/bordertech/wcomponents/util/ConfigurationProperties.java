@@ -328,6 +328,7 @@ public final class ConfigurationProperties {
 
 	/**
 	 * Whether to perform server-side XSLT.
+	 *
 	 * @deprecated 1.3.1 No longer used: no replacement, will be removed in v2.0.0.
 	 */
 	public static final String XSLT_SERVER_SIDE = "bordertech.wcomponents.xslt.enabled";
@@ -346,6 +347,7 @@ public final class ConfigurationProperties {
 	public static final String DEVELOPER_DEBUG_ENABLED = "bordertech.wcomponents.debug.enabled";
 	/**
 	 * The flag indicating whether to debug the client side.
+	 *
 	 * @deprecated 1.4.0 replaced with {@link #DEVELOPER_DEBUG_ENABLED}
 	 */
 	@Deprecated
@@ -1092,7 +1094,7 @@ public final class ConfigurationProperties {
 	 * The flag indicating whether to debug the client side.
 	 *
 	 * @return the parameter value if set, else false if not set
-	 * @deprecated 1.4.0 use {@link #getDeveloperDebugEnabled()]
+	 * @deprecated 1.4.0 use {@link #getDeveloperDebugEnabled()}
 	 */
 	@Deprecated
 	public static boolean getDeveloperDebugClientSide() {
