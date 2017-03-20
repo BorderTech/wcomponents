@@ -3,8 +3,8 @@ package com.github.bordertech.wcomponents.test.selenium.driver;
 import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
-import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWCheckBoxWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWCheckBoxSelectWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWCheckBoxWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponentWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWDialogWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWEmailFieldWebElement;
@@ -491,12 +491,35 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	}
 
 	/**
+	 * Call switchTo after an optional check of pageReady.
+	 * @param wait if {@code true} wait for pageReady before switching
+	 * @return the TargetLocator
+	 */
+	public TargetLocator switchTo(final boolean wait) {
+		if (wait) {
+			waitForPageReady();
+		}
+		return driver.switchTo();
+	}
+
+	/**
+	 * Navigate with an option to wait for the current page to be ready first.
+	 * @param wait if {@code true} wait for pageReady before navigating
+	 * @return the Navigation
+	 */
+	public Navigation navigate(final boolean wait) {
+		if (wait) {
+			waitForPageReady();
+		}
+		return driver.navigate();
+	}
+
+	/**
 	 * {@inheritDoc}.
 	 */
 	@Override
 	public TargetLocator switchTo() {
-		waitForPageReady();
-		return driver.switchTo();
+		return switchTo(false);
 	}
 
 	/**
@@ -504,8 +527,7 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 */
 	@Override
 	public Navigation navigate() {
-		waitForPageReady();
-		return driver.navigate();
+		return navigate(false);
 	}
 
 	/**
