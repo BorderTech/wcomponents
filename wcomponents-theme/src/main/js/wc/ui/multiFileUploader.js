@@ -738,6 +738,7 @@ define(["wc/dom/attribute",
 				removeButton.setAttribute("type", "button");  // .type causes issues in legacy IE
 				removeButton.className = "wc_btn_icon wc_btn_abort";
 				removeButton.value = i18n.get("file_abort", fileName);
+				removeButton.insertAdjacentHTML("afterbegin", "<span aria-hidden='true' class='fa fa-ban'></span>");
 				item.appendChild(removeButton);
 				item.appendChild(document.createTextNode(fileName));
 				progress = item.appendChild(document.createElement("progress"));

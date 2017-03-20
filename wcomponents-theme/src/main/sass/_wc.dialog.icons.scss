@@ -1,23 +1,23 @@
 @import 'mixins-common';
 
 // dialog close control
-.wc_dialog_close:before {
-	content: $fa-var-times;
-}
+// .wc_dialog_close:before {
+// 	content: $fa-var-times;
+// }
 
 dialog {
 	header .wc_maxcont {
-		&:before {
-			content: $fa-var-plus;
-		}
+		// &:before {
+		// 	content: $fa-var-plus;
+		// }
 
-		&[aria-pressed='true']:before {
+		&[aria-pressed='true'] > .fa:before {
 			content: $fa-var-minus;
 		}
 	}
 
-	footer .wc_resize:before {
-		content: $fa-var-arrows-alt;
-		opacity: 0.5;
-	}
+	// footer .wc_resize:before {
+	// 	content: $fa-var-arrows-alt;
+	// 	opacity: 0.5;
+	// }
 }

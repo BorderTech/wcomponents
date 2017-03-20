@@ -2,6 +2,6 @@
 
 // The wrapper for all combo widgets.
 // We need the child selector here because of The W[Partial]DateField calendar.
-[role='combobox'] > button:before {
-	content: $fa-var-caret-down;
-}
+// [role='combobox'] > button:before {
+// 	content: $fa-var-caret-down;
+// }

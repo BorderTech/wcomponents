@@ -1,6 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
+	<xsl:import href="wc.common.icon.xsl"/>
 	<!-- Common helper template to output the readOnly state of many form control components. -->
 	<xsl:template name="readOnlyControl">
 		<xsl:param name="class" select="''"/>
@@ -71,6 +72,18 @@
 			</xsl:if>
 			<!-- NOTE applies must use non-typed comparison as list components may pass in a list of nodeLists or list of nodes -->
 			<xsl:choose>
+				<xsl:when test="self::ui:checkbox or self::ui:radiobutton">
+					<xsl:call-template name="icon">
+						<xsl:with-param name="class">
+							<xsl:choose>
+								<xsl:when test="self::ui:checkbox and @selected">fa-check-square-o</xsl:when>
+								<xsl:when test="self::ui:checkbox">fa-square-o</xsl:when>
+								<xsl:when test="self::ui:radiobutton and @selected">fa-dot-circle-o</xsl:when>
+								<xsl:otherwise>fa-circle-o</xsl:otherwise>
+							</xsl:choose>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:when>
 				<xsl:when test="self::ui:checkboxselect or self::ui:radiobuttonselect">
 					<xsl:apply-templates select="*" mode="readOnly">
 						<xsl:with-param name="single" select="1 - number($isList)"/>

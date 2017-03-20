@@ -1,20 +1,20 @@
 @import 'mixins-common';
 
-.wc_msp_btncol button {
-	&:before {
-		content: $fa-var-angle-right;
-		width: $wc-icon-normal;
-	}
-
-	&:nth-of-type(2)::before {
-		content: $fa-var-angle-double-right;
-	}
-
-	&:nth-of-type(3)::before {
-		content: $fa-var-angle-left;
-	}
-
-	&:last-of-type::before {
-		content: $fa-var-angle-double-left;
-	}
-}
+// .wc_msp_btncol button {
+// 	&:before {
+// 		content: $fa-var-angle-right;
+// 		width: $wc-icon-normal;
+// 	}
+//
+// 	&:nth-of-type(2)::before {
+// 		content: $fa-var-angle-double-right;
+// 	}
+//
+// 	&:nth-of-type(3)::before {
+// 		content: $fa-var-angle-left;
+// 	}
+//
+// 	&:last-of-type::before {
+// 		content: $fa-var-angle-double-left;
+// 	}
+// }

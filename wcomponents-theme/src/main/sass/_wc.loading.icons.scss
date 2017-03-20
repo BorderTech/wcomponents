@@ -4,7 +4,7 @@
 
 // loading indicator is generated and identified
 // scss-lint:disable IdSelector
-#wc-ui-loading div,
+// #wc-ui-loading div,
 [aria-busy='true'] {
 	&:before {
 		@include wc-icon($fa-var-spinner);

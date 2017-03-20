@@ -247,7 +247,7 @@
 						</noscript>
 					</div>
 					<div id="wc-ui-loading">
-						<div tabindex="0" class="wc-icon">&#x200b;</div>
+						<div tabindex="0" class="fa fa-spinner fa-spin">&#x200b;</div>
 					</div>
 				</xsl:if>
 				<xsl:apply-templates >

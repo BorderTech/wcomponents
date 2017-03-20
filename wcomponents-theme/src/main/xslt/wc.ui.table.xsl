@@ -5,6 +5,7 @@
 	<xsl:import href="wc.common.toggleElement.xsl"/>
 	<xsl:import href="wc.ui.table.n.tableBottomControls.xsl"/>
 	<xsl:import href="wc.ui.table.n.topControls.xsl"/>
+	<xsl:import href="wc.common.icon.xsl"/>
 
 	<!--
 		WTable
@@ -1058,6 +1059,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:with-param>
+					<xsl:with-param name="name" select="'f'"/>
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
 					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_previous'}}</xsl:text></xsl:with-param>
@@ -1072,6 +1074,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:with-param>
+					<xsl:with-param name="name" select="'p'"/>
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
 					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_next'}}</xsl:text></xsl:with-param>
@@ -1086,6 +1089,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:with-param>
+					<xsl:with-param name="name" select="'n'"/>
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
 					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_last'}}</xsl:text></xsl:with-param>
@@ -1100,6 +1104,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:with-param>
+					<xsl:with-param name="name" select="'l'"/>
 				</xsl:call-template>
 			</span>
 		</xsl:if>
@@ -1107,11 +1112,7 @@
 	
 	<!--
 		The template which outputs the four buttons used in table pagination.
-		
-		param name: The button name, used for server pagination
 		param title: The button title text
-		param class: The class to apply to the button element
-		param type: The button type: "button" or "submit". Type is "submit" for server pagination.
 		param idSuffix: A string to append to the ID of the button element
 		param disabled: 1 if the button should be disabled based on the current page displayed.
 	-->
@@ -1119,12 +1120,24 @@
 		<xsl:param name="title"/>
 		<xsl:param name="idSuffix"/>
 		<xsl:param name="disabled" select="0"/>
+		<xsl:param name='name' select="''"/>
 		<button id="{concat(../@id,'.pagination.',$idSuffix)}" title="{$title}" type="button" class="wc_btn_icon wc-invite">
 			<xsl:if test="number($disabled) eq 1">
 				<xsl:attribute name="disabled">
 					<xsl:text>disabled</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
+			<xsl:call-template name="icon">
+				<xsl:with-param name="class">
+					<xsl:text>fa-fw </xsl:text>
+					<xsl:choose>
+						<xsl:when test="$name eq 'f'">fa-angle-double-left</xsl:when>
+						<xsl:when test="$name eq 'p'">fa-angle-left</xsl:when>
+						<xsl:when test="$name eq 'n'">fa-angle-right</xsl:when>
+						<xsl:otherwise>fa-angle-double-right</xsl:otherwise>
+					</xsl:choose>
+				</xsl:with-param>
+			</xsl:call-template>
 		</button>
 	</xsl:template>
 	

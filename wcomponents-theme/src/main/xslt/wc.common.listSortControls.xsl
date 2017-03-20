@@ -40,6 +40,17 @@
 		<xsl:param name="toolTip"/>
 		<button class="wc_sorter wc_btn_icon wc-invite" type="button" value="{$value}" aria-controls="{$id}" title="{$toolTip}">
 			<xsl:call-template name="disabledElement"/>
+			<xsl:call-template name="icon">
+				<xsl:with-param name="class">
+					<xsl:text>fa-fw </xsl:text>
+					<xsl:choose>
+						<xsl:when test="$value eq 'top'">fa-angle-double-up</xsl:when>
+						<xsl:when test="$value eq 'up'">fa-angle-up</xsl:when>
+						<xsl:when test="$value eq 'down'">fa-angle-down</xsl:when>
+						<xsl:otherwise>fa-angle-double-down</xsl:otherwise>
+					</xsl:choose>
+				</xsl:with-param>
+			</xsl:call-template>
 		</button>
 	</xsl:template>
 </xsl:stylesheet>

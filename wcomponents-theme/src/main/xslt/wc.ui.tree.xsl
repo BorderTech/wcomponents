@@ -2,6 +2,7 @@
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
+	<xsl:import href="wc.common.icon.xsl"/>
 
 	<xsl:template match="ui:tree">
 		<div role="tree">
@@ -176,15 +177,17 @@
 		<span class="wc_leaf_name">
 			<xsl:value-of select="@label"/>
 		</span>
-		<span class="wc_leaf_hopener wc-icon" aria-hidden="true">
-			<xsl:text>&#x0a;</xsl:text>
+		<span class="wc_leaf_hopener" aria-hidden="true">
+			<xsl:call-template name="icon">
+				<xsl:with-param name="class">fa-caret-right</xsl:with-param>
+			</xsl:call-template>
 		</span>
 	</xsl:template>
 	
 	<xsl:template name="resizerbar">
 		<xsl:param name="groupId"/>
 		<span class="wc_branch_resizer" aria-hidden="true">
-			<button type="button" class="wc-nobutton wc-invite wc_resize wc_branch_resize_handle wc-icon" data-wc-resize="{$groupId}">
+			<button type="button" class="wc-nobutton wc-invite wc_resize wc_branch_resize_handle" data-wc-resize="{$groupId}">
 				<xsl:call-template name="offscreenSpan">
 					<xsl:with-param name="text">
 						<xsl:text>{{t 'tree_resize_handle'}}</xsl:text>

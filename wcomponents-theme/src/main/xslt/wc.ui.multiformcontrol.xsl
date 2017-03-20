@@ -256,6 +256,9 @@
 					</xsl:call-template>
 				</xsl:otherwise>
 			</xsl:choose>
+			<xsl:call-template name="icon">
+				<xsl:with-param name="class">fa-minus-square</xsl:with-param>
+			</xsl:call-template>
 		</button>
 	</xsl:template>
 </xsl:stylesheet>

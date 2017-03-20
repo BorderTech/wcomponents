@@ -2,11 +2,11 @@
 @import 'vars';
 
 .wc_mfc {
-	button:before {
-		content: $fa-var-minus-square;
-	}
+	// button:before {
+	// 	content: $fa-var-minus-square;
+	// }
 
-	li:first-child button:before {
+	li:first-child button > .fa:before {
 		content: $fa-var-plus-square;
 	}
 }

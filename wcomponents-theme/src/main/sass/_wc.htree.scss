@@ -75,7 +75,12 @@
 	right: -#{$wc-gap-normal};
 	top: 0;
 	width: $wc-gap-large;
+
+	&.wc_resize {
+		cursor: ew-resize;
+	}
 }
+
 
 @import 'wc.htree.color';
 @import 'wc.htree.icons';
