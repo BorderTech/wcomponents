@@ -288,4 +288,12 @@ public class SeleniumWTableWebElement extends SeleniumWComponentWebElement {
 	public String getCellText(final int rowIndex, final int columnIndex) {
 		return getCellContent(rowIndex, columnIndex).getText();
 	}
+
+	/**
+	 * @param by the by to find the component.
+	 * @return the SeleniumSimpleSelectWebElement.
+	 */
+	public SeleniumSimpleSelectWebElement findSeleniumSimpleSelectWebElement(final By by) {
+		return new SeleniumSimpleSelectWebElement(findElement(by), getDriver());
+	}
 }
