@@ -129,6 +129,11 @@ noscript p {
 	@include wc-invite;
 }
 
+// Add a border to most simple elements. This will not work for components which have a complex selector setting border.
+.wc-border {
+	@include border;
+}
+
 //**********************************************************************************************************************
 // Classes needed by the framework. These are structural and must aways be present, preferably in this form.
 //**********************************************************************************************************************
