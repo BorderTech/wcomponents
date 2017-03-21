@@ -53,7 +53,8 @@ define(["wc/dom/attribute",
 				 */
 				DEFAULT_NOTIFY_TIMEOUT = 100,
 				STORED_SIZE_ATTRIB = "data-wc-storedsize";
-				ICON.descendFrom(MAX);
+
+			ICON.descendFrom(MAX);
 
 			/**
 			 * In which direction can the element be resized?
@@ -556,7 +557,7 @@ define(["wc/dom/attribute",
 				if (element && MAX.isOneOfMe(element) && (target = getResizeTarget(element))) {
 					classList[(action === shed.actions.SELECT ? "add" : "remove")](target, CLASS_MAX);
 					if ((icon = ICON.findDescendant(element))) {
-						classList[(action === shed.actions.SELECT ? "remove" : "add")](icon, "fa-minus");					
+						classList[(action === shed.actions.SELECT ? "remove" : "add")](icon, "fa-minus");
 						classList[(action === shed.actions.SELECT ? "add" : "remove")](target, "fa-plus");
 					}
 				}

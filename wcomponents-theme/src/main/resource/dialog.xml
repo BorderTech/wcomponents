@@ -10,6 +10,6 @@
 	{{message.loading}}
 </div>
 <footer>
-<button class="wc-nobutton wc_resize wc-icon" data-wc-resize="wc_dlgid" type="button"><span aria-hidden="true" class="fa fa-arrows-alt"></span></button>
+<button class="wc-nobutton wc_resize" data-wc-resize="wc_dlgid" type="button"><span aria-hidden="true" class="fa fa-arrows-alt"></span></button>
 </footer>
 </dialog>
