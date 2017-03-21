@@ -253,3 +253,6 @@ $RECYCLE.BIN/
 
 ### VSCode ###
 .vscode
+
+### OxyGen ###
+*.xpr

@@ -28,6 +28,7 @@ define(["wc/dom/attribute",
 			var RESIZE = new Widget("", "wc_resize"),
 				CLASS_MAX_CONTROL = "wc_maxcont",
 				MAX = new Widget("button", CLASS_MAX_CONTROL),
+				ICON = new WIdget("", "fa"),
 				MAX_BAR = new Widget("", CLASS_MAX_CONTROL),
 				RESIZEABLE_HAS_ANIMATION_CLASS = "wc_resizeflow",
 				CLASS_REMOVED_ATTRIB = "data-wc-resizeableremovedanimation",
@@ -52,6 +53,7 @@ define(["wc/dom/attribute",
 				 */
 				DEFAULT_NOTIFY_TIMEOUT = 100,
 				STORED_SIZE_ATTRIB = "data-wc-storedsize";
+				ICON.descendFrom(MAX);
 
 			/**
 			 * In which direction can the element be resized?
@@ -550,9 +552,13 @@ define(["wc/dom/attribute",
 			 * @param {String} action The shed action:  shed.actions.SELECT or shed.actions.DESELECT.
 			 */
 			function shedSelectSubscriber(element, action) {
-				var target;
+				var target, icon;
 				if (element && MAX.isOneOfMe(element) && (target = getResizeTarget(element))) {
 					classList[(action === shed.actions.SELECT ? "add" : "remove")](target, CLASS_MAX);
+					if ((icon = ICON.findDescendant(element))) {
+						classList[(action === shed.actions.SELECT ? "remove" : "add")](icon, "fa-minus");					
+						classList[(action === shed.actions.SELECT ? "add" : "remove")](target, "fa-plus");
+					}
 				}
 			}
 
