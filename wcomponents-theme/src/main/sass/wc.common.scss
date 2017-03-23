@@ -134,6 +134,11 @@ noscript p {
 	@include border;
 }
 
+// The following class is for backwards compatibility with 1.3 and before and should be removed.
+.wc-icon {
+	@include fa-icon;
+}
+
 //**********************************************************************************************************************
 // Classes needed by the framework. These are structural and must aways be present, preferably in this form.
 //**********************************************************************************************************************
