@@ -203,7 +203,11 @@
 				</xsl:otherwise>
 			</xsl:choose>
 			<xsl:if test="not(../@readOnly)">
-				<button type="button" class="wc_btn_icon wc-invite" title="{concat('Delete attachment: ', @name)}"></button>
+				<button type="button" class="wc_btn_icon wc-invite" title="{concat('Delete attachment: ', @name)}">
+					<xsl:call-template name="icon">
+						<xsl:with-param name="class">fa-trash</xsl:with-param>
+					</xsl:call-template>
+				</button>
 			</xsl:if>
 		</li>
 	</xsl:template>

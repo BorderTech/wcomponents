@@ -104,6 +104,17 @@
 		<xsl:param name="buttonText"/>
 		<button type="button" value="{$value}" title="{$buttonText}" class="wc_btn_icon wc-invite" aria-controls="{concat(@id, '_a',' ',@id, '_s')}">
 			<xsl:call-template name="disabledElement"/>
+			<xsl:call-template name="icon">
+				<xsl:with-param name="class">
+					<xsl:text>fa-fw </xsl:text>
+					<xsl:choose>
+						<xsl:when test="$value eq 'add'">fa-angle-right</xsl:when>
+						<xsl:when test="$value eq 'aall'">fa-angle-double-right</xsl:when>
+						<xsl:when test="$value eq 'rem'">fa-angle-left</xsl:when>
+						<xsl:otherwise>fa-angle-double-left</xsl:otherwise>
+					</xsl:choose>
+				</xsl:with-param>
+			</xsl:call-template>
 		</button>
 	</xsl:template>
 

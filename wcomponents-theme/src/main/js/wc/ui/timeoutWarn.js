@@ -1,5 +1,6 @@
-define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/loader/resource", "wc/dom/shed", "wc/timers", "wc/dom/classList", "wc/config"],
-	function(sprintf, event, Widget, i18n, loader, shed, timers, classList, wcconfig) {
+define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/loader/resource", "wc/dom/shed", "wc/timers", "wc/dom/classList",
+	"wc/ui/icon", "wc/config"],
+	function(sprintf, event, Widget, i18n, loader, shed, timers, classList, icon, wcconfig) {
 		"use strict";
 		/**
 		 * @constructor
@@ -133,6 +134,7 @@ define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/load
 						if ((section = container.firstChild)) {
 							classList.remove(section, "wc-messagebox-type-warn");
 							classList.add(section, "wc-messagebox-type-error");
+							icon.change(section, "fa-times-circle", "fa-exclamation-triangle");
 						}
 						if (shed.isHidden(container, true)) {
 							showDialog(container);  // re-show it if the warning was closed by the user

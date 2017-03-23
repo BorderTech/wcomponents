@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.MenuSelectContainer;
 import com.github.bordertech.wcomponents.TestAction;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
+import com.github.bordertech.wcomponents.WSubMenu;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -19,6 +20,17 @@ import org.xml.sax.SAXException;
  */
 public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 
+	/**
+	 * Text for WMenuItems created in these tests.
+	 */
+	private final String itemText = "WMenuItemRenderer_Test.testDoPaint.itemText !@#$%^&*()";
+
+	/**
+	 * URL for WMenuItems created in these tests.
+	 */
+	private final String url = "http://localhost/WMenuItemRenderer_Test.testDoPaint.url?a=b&c=d";
+
+
 	@Test
 	public void testRendererCorrectlyConfigured() {
 		WMenuItem menuItem = new WMenuItem("");
@@ -27,10 +39,7 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 	}
 
 	@Test
-	public void testDoPaint() throws IOException, SAXException, XpathException {
-		final String itemText = "WMenuItemRenderer_Test.testDoPaint.itemText !@#$%^&*()";
-		final String url = "http://localhost/WMenuItemRenderer_Test.testDoPaint.url?a=b&c=d";
-		final String targetWindow = "WMenuItemLayout-targetWindow";
+	public void testDoPaintDefaults() throws IOException, SAXException, XpathException {
 
 		WMenuItem item = new WMenuItem(itemText);
 		WMenu wrapped = wrapMenuItem(item);
@@ -47,56 +56,145 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:menuitem/@accessKey", item);
 		assertXpathNotExists("//ui:menuitem/@targetWindow", item);
 		assertXpathNotExists("//ui:menuitem/@selectable", item);
+		assertXpathNotExists("//ui:menuitem/@role", item);
+	}
 
-		item.setDisabled(true);
-		assertXpathEvaluatesTo("true", "//ui:menuitem/@disabled", item);
-
+	@Test
+	public void testUrl() throws IOException, SAXException, XpathException {
 		// Test with URL
-		item = new WMenuItem(itemText, url);
-		wrapped = wrapMenuItem(item);
+		WMenuItem item = new WMenuItem(itemText, url);
+		WMenu wrapped = wrapMenuItem(item);
 		assertSchemaMatch(wrapped);
 		assertXpathEvaluatesTo(itemText, "normalize-space(//ui:menuitem/ui:decoratedlabel)", item);
 		assertXpathEvaluatesTo(url, "//ui:menuitem/@url", item);
 		assertXpathNotExists("//ui:menuitem/@submit", item);
+	}
 
+	@Test
+	public void testAction() throws IOException, SAXException, XpathException {
 		// Test with action
-		item = new WMenuItem(itemText, new TestAction());
-
-		wrapped = wrapMenuItem(item);
+		WMenuItem item = new WMenuItem(itemText, new TestAction());
+		WMenu wrapped = wrapMenuItem(item);
 		assertSchemaMatch(wrapped);
 		assertXpathEvaluatesTo(itemText, "normalize-space(//ui:menuitem/ui:decoratedlabel)", item);
 		assertXpathNotExists("//ui:menuitem/@url", item);
 		assertXpathEvaluatesTo("true", "//ui:menuitem/@submit", item);
+	}
 
+	@Test
+	public void testTargetWindow() throws IOException, SAXException, XpathException {
+		final String targetWindow = "WMenuItemLayout-targetWindow";
 		// Test with target window
-		item = new WMenuItem(itemText, url);
+		WMenuItem item = new WMenuItem(itemText, url);
 		item.setTargetWindow(targetWindow);
-		wrapped = wrapMenuItem(item);
+		WMenu wrapped = wrapMenuItem(item);
 		assertSchemaMatch(wrapped);
 		assertXpathEvaluatesTo(itemText, "normalize-space(//ui:menuitem/ui:decoratedlabel)", item);
 		assertXpathEvaluatesTo(targetWindow, "//ui:menuitem/@targetWindow", item);
+	}
 
-		// Test selection
+	@Test
+	public void testDisabled() throws IOException, SAXException, XpathException {
+		// Disabled
+		WMenuItem item = new WMenuItem(itemText, url);
+		WMenu wrapped = wrapMenuItem(item);
+		item.setDisabled(true);
+		assertSchemaMatch(wrapped);
+		assertXpathEvaluatesTo("true", "//ui:menuitem/@disabled", item);
+		// disabled menu should provide disabled menu item
 		item = new WMenuItem(itemText, url);
 		wrapped = wrapMenuItem(item);
+		wrapped.setDisabled(true);
+		assertSchemaMatch(wrapped);
+		assertXpathEvaluatesTo("true", "//ui:menuitem/@disabled", item);
+	}
+
+	@Test
+	public void testAccessKey() throws IOException, SAXException, XpathException {
+		// AccessKey
+		WMenuItem item = new WMenuItem(itemText, url);
+		WMenu wrapped = wrapMenuItem(item);
+		item.setAccessKey('A');
+		assertSchemaMatch(wrapped);
+		assertXpathEvaluatesTo("A", "//ui:menuitem/@accessKey", item);
+		// no access key if nested
+		WSubMenu sub = new WSubMenu("sub");
+		wrapped.add(sub);
+		item = new WMenuItem(itemText, url);
+		sub.add(item);
+		item.setAccessKey('A');
+		assertSchemaMatch(wrapped);
+		assertXpathNotExists("//ui:menuitem/@accessKey", item);
+	}
+
+	@Test
+	public void testHidden() throws IOException, SAXException, XpathException {
+		WMenuItem item = new WMenuItem(itemText, url);
+		WMenu wrapped = wrapMenuItem(item);
+		setFlag(item, ComponentModel.HIDE_FLAG, true);
+		assertSchemaMatch(wrapped);
+		assertXpathEvaluatesTo("true", "//ui:menuitem/@hidden", item);
+	}
+
+	@Test
+	public void testSelection() throws IOException, SAXException, XpathException {
+		// Test selection
+		WMenuItem item = new WMenuItem(itemText);
+		WMenu wrapped = wrapMenuItem(item);
 		wrapped.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);
 		assertXpathNotExists("//ui:menuitem/@selected", item);
-		assertXpathNotExists("//ui:menuitem/@selected", item);
-
 		wrapped.setSelectedItem(item);
 		assertSchemaMatch(wrapped);
 		assertXpathEvaluatesTo("true", "//ui:menuitem/@selected", item);
+	}
 
-		item.setAccessKey('A');
-		item.setDisabled(true);
-		setFlag(item, ComponentModel.HIDE_FLAG, true);
-		item.setSelectable(true);
+	@Test
+	public void testSelectability() throws IOException, SAXException, XpathException {
+		// Selectability - output as @role
+		WMenuItem item = new WMenuItem(itemText);
+		WMenu wrapped = wrapMenuItem(item);
+		wrapped.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);
+		// default selectability is selectable
+		assertXpathEvaluatesTo("menuitemradio", "//ui:menuitem/@role", item);
+		item = new WMenuItem(itemText);
+		wrapped.add(item);
+		item.setSelectability(Boolean.FALSE);
 		assertSchemaMatch(wrapped);
-		assertXpathEvaluatesTo("A", "//ui:menuitem/@accessKey", item);
-		assertXpathEvaluatesTo("true", "//ui:menuitem/@disabled", item);
-		assertXpathEvaluatesTo("true", "//ui:menuitem/@hidden", item);
-		assertXpathEvaluatesTo("true", "//ui:menuitem/@selectable", item);
+		assertXpathNotExists("//ui:menuitem/@role", item);
+		item = new WMenuItem(itemText);
+		wrapped.add(item);
+		item.setSelectability(Boolean.TRUE);
+		assertSchemaMatch(wrapped);
+		assertXpathEvaluatesTo("menuitemradio", "//ui:menuitem/@role", item);
 
+		item = new WMenuItem(itemText);
+		wrapped = wrapMenuItem(item);
+		wrapped.setSelectionMode(MenuSelectContainer.SelectionMode.MULTIPLE);
+		//default selectability is selectable and so role is menuitemcheckbox
+		assertXpathEvaluatesTo("menuitemcheckbox", "//ui:menuitem/@role", item);
+		item = new WMenuItem(itemText);
+		wrapped.add(item);
+		item.setSelectability(Boolean.FALSE);
+		assertXpathNotExists("//ui:menuitem/@role", item);
+		item = new WMenuItem(itemText);
+		wrapped.add(item);
+		item.setSelectability(Boolean.TRUE);
+		assertXpathEvaluatesTo("menuitemcheckbox", "//ui:menuitem/@role", item);
+	}
+
+	@Test
+	public void testRoleWhenSelectedNotSelectable() throws IOException, SAXException, XpathException {
+		/*
+		 * A WMenuItem may be set as selected even if it is not in a selection container. This is a flaw in an
+		 * old part of the WComponents API.
+		 */
+		WMenuItem item = new WMenuItem(itemText);
+		WMenu wrapped = wrapMenuItem(item);
+		wrapped.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);
+		assertXpathNotExists("//ui:menuitem/@selected", item);
+		wrapped.setSelectedItem(item);
+		assertSchemaMatch(wrapped);
+		assertXpathEvaluatesTo("true", "//ui:menuitem/@selected", item);
 	}
 
 	/**

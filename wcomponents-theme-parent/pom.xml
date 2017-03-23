@@ -327,8 +327,8 @@
 						<phase>generate-resources</phase>
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>
-							<nodeVersion>v4.2.1</nodeVersion>
-							<npmVersion>2.14.7</npmVersion>
+							<nodeVersion>v6.9.5</nodeVersion>
+							<npmVersion>3.10.10</npmVersion>
 							<!--
 								This will only work if the nodejs binaries are unpacked first (see the execution with ID "unpack-nodejs").
 							-->

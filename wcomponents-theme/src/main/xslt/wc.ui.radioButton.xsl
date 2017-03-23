@@ -7,7 +7,7 @@
 			<xsl:when test="@readOnly">
 				<xsl:call-template name="readOnlyControl">
 					<xsl:with-param name="class">
-						<xsl:text>wc-icon wc-ro-input</xsl:text>
+						<xsl:text>wc-ro-input</xsl:text>
 						<xsl:if test="@selected">
 							<xsl:text> wc_ro_sel</xsl:text>
 						</xsl:if>

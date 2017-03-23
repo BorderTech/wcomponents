@@ -10,9 +10,11 @@ define(["wc/dom/shed",
 		"wc/ui/ajax/processResponse",
 		"wc/ui/getFirstLabelForElement",
 		"wc/i18n/i18n",
+		"wc/ui/icon",
 		"wc/ui/checkboxAnalog",
 		"wc/ui/radioAnalog"],
-	function(shed, getFilteredGroup, classList, toArray, formUpdateManager, Widget, initialise, table, rowAnalog, processResponse, getFirstLabelForElement, i18n) {
+	function(shed, getFilteredGroup, classList, toArray, formUpdateManager, Widget, initialise, table, rowAnalog, processResponse,
+		getFirstLabelForElement, i18n, icon) {
 		"use strict";
 
 		/**
@@ -351,19 +353,38 @@ define(["wc/dom/shed",
 			 * @param {String} status The status to set "all", "some" or "none".
 			 */
 			function setControllerStatus(controller, status) {
+				var initialState, from = [], to,
+					ICON_ALL = "fa-check-square-o",
+					ICON_SOME = "fa-square",
+					ICON_NONE = "fa-square-o";
 				if (!controller) {
 					return;
 				}
 
 				if (CONTROLLER_CHECKBOX_WD.isOneOfMe(controller)) {
-					if (status === STATE.ALL && shed.isSelected(controller) !== shed.state.SELECTED) {
+					// By this stage it is too late to calculate the old icon from the
+					// selected state as the controller may have had its state changed by
+					// a click event on itself, not by a change in the state of one of its
+					// controlled elements.
+					initialState = shed.isSelected(controller);
+					if (status === STATE.ALL && initialState !== shed.state.SELECTED) {
 						shed.select(controller, true);
+						to = ICON_ALL;
+						from = [ICON_SOME, ICON_NONE];
 					}
-					else if (status === STATE.MIXED && shed.isSelected(controller) !== shed.state.MIXED) {
+					else if (status === STATE.MIXED && initialState !== shed.state.MIXED) {
 						shed.mix(controller, true);
+						to = ICON_SOME;
+						from = [ICON_ALL, ICON_NONE];
 					}
-					else if (status === STATE.NONE && shed.isSelected(controller) !== shed.state.DESELECTED) {
+					else if (status === STATE.NONE && initialState !== shed.state.DESELECTED) {
 						shed.deselect(controller, true);
+						to = ICON_NONE;
+						from = [ICON_SOME, ICON_ALL];
+					}
+					if (to) {
+						icon.change(controller, to, from[0]);
+						icon.remove(controller, from[1]);
 					}
 					return;
 				}

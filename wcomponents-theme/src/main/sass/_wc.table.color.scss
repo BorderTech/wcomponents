@@ -1,0 +1,119 @@
+@import 'mixins-common';
+
+table {
+	@include border;
+	@if ($wc-ui-color-table-bg != -1) {
+		background-color: $wc-ui-color-table-bg;
+	}
+	@if ($wc-ui-color-table-fg != -1) {
+		color: $wc-ui-color-table-fg;
+	}
+}
+
+// thead
+@if ($wc-ui-color-table-head-bg != -1) {
+	thead {
+		background-color: $wc-ui-color-table-head-bg;
+
+		&,
+		.wc-nobutton,
+		.wc-linkbutton,
+		a,
+		a:visited {
+			color: $wc-ui-color-table-head-fg;
+		}
+
+		.wc-submenu .wc-menuitem {
+			color: $wc-ui-color-menu-fg;
+		}
+	}
+
+	@if ($wc-ui-color-table-head-sorted-bg != 1) {
+		th[sorted] { // the TH needs to be opague to over-ride the thead background color rather than over-lay it.
+			background-color: $wc-ui-color-table-head-sorted-bg;
+
+			&,
+			.wc-nobutton,
+			.wc-linkbutton,
+			a,
+			a:visited {
+				color: $wc-ui-color-table-head-sorted-fg;
+			}
+
+			.wc-nobutton[disabled],
+			.wc-nobutton[disabled],
+			a[aria-disabled='true'] {
+				color: $wc-ui-color-table-head-sorted-disabled-fg;
+			}
+		}
+	}
+}
+
+//*****************************************************************************
+// Separators
+//*****************************************************************************
+.wc_table_rowsep > tr + tr {
+	@include border($pos: top);
+}
+
+.wc_table_colsep {
+	> col + col {
+		@include border($pos: left);
+	}
+
+	// The first col after the last auto generated col is the first data col and cannot have a left border
+	> .wc_table_colauto {
+		@include border($pos: left, $width: 0);
+	}
+}
+
+//*****************************************************************************
+// Sort
+//*****************************************************************************
+// Sorted column
+@if ($wc-ui-color-table-col-sorted-bg != 1) {
+	.wc_table_sort_sorted {
+		background-color: $wc-ui-color-table-col-sorted-bg;
+	}
+}
+
+//*****************************************************************************
+// Stripong
+//*****************************************************************************
+// Column Striping.
+// Row striping: You'd think tr:nth-child(even) would be enough. You'd be wrong - that does not account for sub rows.
+@if ($wc-ui-color-table-zebra-bg != -1) {
+	.wc_table_stripe {
+		background-color: $wc-ui-color-table-zebra-bg;
+	}
+}
+
+//*****************************************************************************
+// Row selection
+//*****************************************************************************
+@if ($wc-ui-color-table-invite-bg != -1) {
+	// this only applies to rows with the invite class.
+	// scss-lint:disable QualifyingElement
+	tr.wc-invite {
+		&:hover,
+		&:focus {
+			background-color: $wc-ui-color-table-invite-bg;
+		}
+	}
+	// scss-lint:enable QualifyingElement
+}
+
+// the is the submenu opener emulator for the sub-row toggle control
+.wc_table_sel_wrapper .wc-submenu-o {
+	background-color: $wc-ui-color-menu-bg;
+}
+
+//*****************************************************************************
+// Container for actions and pagination
+//*****************************************************************************
+@if ($wc-ui-color-table-foot-bg != -1) {
+	.wc_table_bottom_controls {
+		background-color: $wc-ui-color-table-foot-bg;
+		color: $wc-ui-color-table-foot-fg;
+	}
+}

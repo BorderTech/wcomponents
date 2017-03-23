@@ -1,21 +1,3 @@
-/**
- * Module to control collapsible sections. These use a DETAILS element which has some functionality in some modern
- * browsers. Eventually this module should become redundant.
- *
- * @module
- * @requires module:wc/dom/event
- * @requires module:wc/dom/attribute
- * @requires module:wc/dom/focus
- * @requires module:wc/dom/formUpdateManager
- * @requires module:wc/has
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/Widget
- * @requires module:wc/dom/shed
- * @requires module:wc/timers
- * @requires module:wc/dom/isEventInLabel
- * @requires module:wc/dom/isAcceptableTarget
- * @requires module:wc/dom/role
- */
 define(["wc/dom/event",
 		"wc/dom/attribute",
 		"wc/dom/focus",
@@ -27,9 +9,9 @@ define(["wc/dom/event",
 		"wc/timers",
 		"wc/dom/isEventInLabel",
 		"wc/dom/isAcceptableTarget",
-		"wc/dom/role"],
-	/** @param event wc/dom/event @param attribute wc/dom/attribute @param focus wc/dom/focus @param formUpdateManager wc/dom/formUpdateManager @param has wc/has @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param shed wc/dom/shed @param timers wc/timers @param isEventInLabel wc/dom/isEventInLabel @param isAcceptableEventTarget wc/dom/isAcceptableTarget @param $role wc/dom/role @ignore */
-	function(event, attribute, focus, formUpdateManager, has, initialise, Widget, shed, timers, isEventInLabel, isAcceptableEventTarget, $role) {
+		"wc/dom/role",
+		"wc/ui/icon"],
+	function(event, attribute, focus, formUpdateManager, has, initialise, Widget, shed, timers, isEventInLabel, isAcceptableEventTarget, $role, icon) {
 		"use strict";
 
 		/**
@@ -218,6 +200,13 @@ define(["wc/dom/event",
 					else if ($role.get(header) === "button") {
 						header.setAttribute("aria-expanded", action === shed.actions.EXPAND ? TRUE : FALSE);
 					}
+
+					if (action === shed.actions.EXPAND) {
+						icon.change(header, "fa-caret-down", "fa-caret-right");
+					}
+					else if (action === shed.actions.COLLAPSE) {
+						icon.change(header, "fa-caret-right", "fa-caret-down");
+					}
 				}
 			}
 
@@ -316,7 +305,26 @@ define(["wc/dom/event",
 		}
 
 		var repainter = null,
-			/** @alias module:wc/ui/collapsible */ instance = new Collapsible();
+			/**
+			 * Module to control collapsible sections. These use a DETAILS element which has some functionality in some modern
+			 * browsers. Eventually this module should become redundant.
+			 *
+			 * @module
+			 * @requires module:wc/dom/event
+			 * @requires module:wc/dom/attribute
+			 * @requires module:wc/dom/focus
+			 * @requires module:wc/dom/formUpdateManager
+			 * @requires module:wc/has
+			 * @requires module:wc/dom/initialise
+			 * @requires module:wc/dom/Widget
+			 * @requires module:wc/dom/shed
+			 * @requires module:wc/timers
+			 * @requires module:wc/dom/isEventInLabel
+			 * @requires module:wc/dom/isAcceptableTarget
+			 * @requires module:wc/dom/role
+			 * @requires module:wc/ui/icon
+			 */
+			instance = new Collapsible();
 
 		if (has("ie") === 8) {
 			require(["wc/fix/inlineBlock_ie8"], function(inlineBlock) {

@@ -1,7 +1,8 @@
-define(["wc/has", "wc/mixin", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/ui/prompt",
+define(["wc/has", "wc/mixin", "wc/dom/Widget", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/ui/prompt",
 	"wc/loader/resource", "wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/template", "wc/ui/ImageCapture", "wc/ui/ImageUndoRedo"],
-function(has, mixin, event, uid, classList, timers, prompt, loader, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo) {
-	var timer, imageEdit = new ImageEdit();
+function(has, mixin, Widget, event, uid, classList, timers, prompt, loader, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo) {
+	var timer,
+		imageEdit = new ImageEdit();
 
 	ImageEdit.prototype.renderCanvas = function(callback) {
 		if (timer) {
@@ -40,7 +41,8 @@ function(has, mixin, event, uid, classList, timers, prompt, loader, i18n, fabric
 			overlayUrl,
 			undoRedo,
 			registeredIds = {},
-			fbCanvas;
+			fbCanvas,
+			BUTTON = new Widget("button");
 
 
 		function getDialogFrameConfig(onclose) {
@@ -82,7 +84,7 @@ function(has, mixin, event, uid, classList, timers, prompt, loader, i18n, fabric
 					 */
 					function clickEvent($event) {
 						var img, uploader, file,
-							element = $event.target,
+							element = BUTTON.findAncestor($event.target),
 							id = element.getAttribute("data-wc-selector");
 						if (id && element.localName === "button") {
 							uploader = document.getElementById(id);
@@ -505,7 +507,8 @@ function(has, mixin, event, uid, classList, timers, prompt, loader, i18n, fabric
 			event.add(container, "touchend", pressEnd);
 
 			function clickEvent($event) {
-				var element = $event.target,
+				var target = $event.target,
+					element = BUTTON.findAncestor(target),
 					config = getEventConfig(element, "click");
 				if (config) {
 					pressEnd();
@@ -526,7 +529,9 @@ function(has, mixin, event, uid, classList, timers, prompt, loader, i18n, fabric
 			}
 
 			function pressStart($event) {
-				var config = getEventConfig($event.target, "press");
+				var target = $event.target,
+					element = BUTTON.findAncestor(target),
+					config= getEventConfig(element, "press");
 				if (config) {
 					pressEnd();
 					timer = timers.setInterval(callbackWrapper, 100, config);

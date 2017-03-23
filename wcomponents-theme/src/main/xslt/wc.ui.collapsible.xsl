@@ -1,6 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
+	<xsl:import href="wc.common.icon.xsl"/>
 	<!-- WCollapsible -->
 	<xsl:template match="ui:collapsible">
 		<details id="{@id}">
@@ -16,7 +17,10 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
-			<summary class="wc-icon" tabindex="0">
+			<summary tabindex="0">
+				<xsl:call-template name="icon">
+					<xsl:with-param name="class">fa-caret-right</xsl:with-param>
+				</xsl:call-template>
 				<xsl:choose>
 					<xsl:when test="@level">
 						<xsl:element name="h{@level}">

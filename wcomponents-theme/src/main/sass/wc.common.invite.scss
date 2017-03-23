@@ -1,7 +1,0 @@
-/* wc.common.invite.scss */
-@import 'mixins-common';
-
-// wc-invite is a common class for indicating a control which has an "invitation" on hover/focus
-.wc-invite {
-	@include wc-invite;
-}
