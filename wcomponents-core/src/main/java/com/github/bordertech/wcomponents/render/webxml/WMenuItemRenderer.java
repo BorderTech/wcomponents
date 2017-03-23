@@ -17,19 +17,28 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 final class WMenuItemRenderer extends AbstractWebXmlRenderer {
 
 	/**
+	 * The value of the {@code role} attribute when a menu item is independently selectable or is a part of a multiple select MenuSelectContainer.
+	 */
+	private static final String CHECKBOX_ROLE = "menuitemcheckbox";
+	/**
+	 * The value of the {@code role} attribute when a menu item is part of a single select MenuSelectContainer.
+	 */
+	private static final String RADIO_ROLE = "menuitemradio";
+
+	/**
 	 * The selection mode of the menu item.
 	 * @param item the WMenuItem to test
 	 * @return the selection mode if any
 	 */
 	private String getRole(final WMenuItem item) {
 		if (!item.isSelectAllowed()) {
-			return "menuitem";
+			return null;
 		}
 		MenuSelectContainer selectContainer = WebUtilities.getAncestorOfClass(MenuSelectContainer.class, item);
 		if (selectContainer == null) {
-			return "menuitem";
+			return CHECKBOX_ROLE;
 		}
-		return selectContainer.getSelectionMode() == MenuSelectContainer.SelectionMode.MULTIPLE ? "menuitemcheckbox" : "menuitemradio";
+		return MenuSelectContainer.SelectionMode.MULTIPLE.equals(selectContainer.getSelectionMode()) ? CHECKBOX_ROLE : RADIO_ROLE;
 	}
 
 	/**
@@ -58,7 +67,6 @@ final class WMenuItemRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("disabled", item.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", item.isHidden(), "true");
 		xml.appendOptionalAttribute("selected", item.isSelected(), "true");
-		xml.appendOptionalAttribute("selectable", item.isSelectAllowed(), "true");
 		xml.appendOptionalAttribute("role", getRole(item));
 		xml.appendOptionalAttribute("cancel", item.isCancel(), "true");
 		xml.appendOptionalAttribute("msg", item.getMessage());

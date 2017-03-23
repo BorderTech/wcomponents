@@ -281,13 +281,14 @@ public class WMenuItem extends AbstractContainer implements Disableable, AjaxTri
 	}
 
 	/**
-	 * Allow WMenuItemRenderer to determine if a WMenuItem is allowed to have a selection mode or state. Not for external use.
-	 * @return true if a WMenuItem is allowed to have a selection state. This is determined by its nearest ancestor MenuContainer's selectionMode.
+	 * @return {@code true} if a WMenuItem is allowed to have a selection state. This is determined by its nearest ancestor
+	 * {@link MenuSelectContainer}'s selectionMode.
 	 */
+	@Override
 	public boolean isSelectAllowed() {
 		Boolean selectability = getSelectability();
-		if (selectability == null || Boolean.FALSE.equals(selectability)) {
-			return false;
+		if (selectability != null) {
+			return selectability;
 		}
 		MenuSelectContainer container = WebUtilities.getAncestorOfClass(MenuSelectContainer.class, this);
 		if (container == null) {
