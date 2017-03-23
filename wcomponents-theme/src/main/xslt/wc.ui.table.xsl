@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.hField.xsl"/>
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
@@ -12,7 +12,7 @@
 		This is long but reasonably straight-forward generation of HTML tables.
 
 		The HTML TABLE element itself is wrapped in a DIV. This is to provide somewhere to attach messages as a WTable
-		can be in an error state (yes, really). As a side-effect it makes it really easy to create more-or-les 
+		can be in an error state (yes, really). As a side-effect it makes it really easy to create more-or-les
 		accessible horizontal scrolling.
 	-->
 	<xsl:template match="ui:table">
@@ -48,7 +48,7 @@
 			</xsl:if>
 			<xsl:if test="number($rowExpansion) eq 1">
 				<xsl:variable name="expMode" select="ui:rowexpansion/@mode"/>
-				<xsl:attribute name="data-wc-expmode">	
+				<xsl:attribute name="data-wc-expmode">
 					<xsl:choose>
 						<xsl:when test="($expMode eq 'lazy') and ui:subtr/@open">
 							<xsl:text>client</xsl:text>
@@ -73,7 +73,7 @@
 			</xsl:if>
 			<!-- THIS IS WHERE THE DIV's CONTENT STARTS NO MORE ATTRIBUTES AFTER THIS POINT THANK YOU! -->
 			<!--
-				Add table controls which do not form part of the table structure but which control and reference the 
+				Add table controls which do not form part of the table structure but which control and reference the
 				table. The default are the select/deselect all, expand/collapse all and pagination controls (if position
 				is TOP or BOTH).
 			-->
@@ -180,17 +180,17 @@
 				<xsl:apply-templates select="ui:tbody"/>
 			</table>
 			<!--
-				Add table controls which do not form part of the table structure but which control and reference the 
+				Add table controls which do not form part of the table structure but which control and reference the
 				table. The default are actions and the pagination controls (if position is unsset, BOTTOM or BOTH).
 			-->
 			<xsl:call-template name="tableBottomControls"/>
 			<xsl:call-template name="hField"/>
 		</div>
 	</xsl:template>
-	
+
 	<!--
 		Creates each col element in the colgroup created in the transform of the table.
-	
+
 		param stripe: 1 if the table has column striping.
 		param sortCol: The 0 indexed column which is currently sorted (if any).
 	-->
@@ -245,54 +245,92 @@
 	<!-- ui:th inside the ui:thead element. -->
 	<xsl:template match="ui:th" mode="thead">
 		<xsl:variable name="tableId" select="../../@id"/>
+		<xsl:variable name="sortable">
+			<xsl:choose>
+				<xsl:when test="@sortable">
+					<xsl:number value="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:number value="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="sortControl" select="../../ui:sort"/>
+		<xsl:variable name="isSorted">
+			<xsl:choose>
+				<xsl:when test="$sortable != 1 or not($sortControl)">
+					<xsl:number value="0"/>
+				</xsl:when>
+				<xsl:when test="position() - 1 eq number($sortControl/@col)">
+					<xsl:number value="1"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:number value="0"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:variable name="sortDesc">
+			<xsl:choose>
+				<xsl:when test="number($sortable) ne 1 or not($sortControl)">
+					<xsl:text>false</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="$sortControl/@descending"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		<th id="{concat($tableId,'_thh', position())}" scope="col" data-wc-columnidx="{position() - 1}">
 			<xsl:call-template name="makeCommonClass"/>
-			<xsl:if test="@sortable">
-				<xsl:variable name="sortControl" select="../../ui:sort"/>
-				<xsl:if test="$sortControl">
-					<xsl:attribute name="tabindex">0</xsl:attribute>
-					<xsl:variable name="sortDesc" select="$sortControl/@descending"/>
-					<xsl:variable name="isSorted">
-						<xsl:choose>
-							<xsl:when test="position() - 1 eq number($sortControl/@col)">
-								<xsl:number value="1"/>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:number value="0"/>
-							</xsl:otherwise>
-						</xsl:choose>
-					</xsl:variable>
-					<xsl:if test="number($isSorted) eq 1">
-						<xsl:attribute name="sorted">
-							<xsl:if test="$sortDesc eq 'true'">
-								<xsl:text>reversed </xsl:text>
-							</xsl:if>
-							<xsl:text>1</xsl:text>
-						</xsl:attribute>
-					</xsl:if>
-					<xsl:attribute name="aria-sort">
-						<xsl:choose>
-							<xsl:when test="number($isSorted) eq 0">
-								<xsl:text>none</xsl:text>
-							</xsl:when>
-							<xsl:when test="$sortDesc eq 'true'">
-								<xsl:text>descending</xsl:text>
-							</xsl:when>
-							<xsl:otherwise>
-								<xsl:text>ascending</xsl:text>
-							</xsl:otherwise>
-						</xsl:choose>
+			<xsl:if test="number($sortable) eq 1 and $sortControl">
+				<xsl:attribute name="tabindex">0</xsl:attribute>
+				<xsl:if test="number($isSorted) eq 1">
+					<xsl:attribute name="sorted">
+						<xsl:if test="$sortDesc eq 'true'">
+							<xsl:text>reversed </xsl:text>
+						</xsl:if>
+						<xsl:text>1</xsl:text>
 					</xsl:attribute>
 				</xsl:if>
+				<xsl:attribute name="aria-sort">
+					<xsl:choose>
+						<xsl:when test="number($isSorted) eq 0">
+							<xsl:text>none</xsl:text>
+						</xsl:when>
+						<xsl:when test="$sortDesc eq 'true'">
+							<xsl:text>descending</xsl:text>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>ascending</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
 			</xsl:if>
 			<xsl:apply-templates select="ui:decoratedlabel">
 				<xsl:with-param name="output" select="'div'"/>
 			</xsl:apply-templates>
+			<xsl:if test="number($sortable) eq 1 and $sortControl">
+				<xsl:call-template name="icon">
+					<xsl:with-param name="class">
+						<xsl:text>fa-caret-</xsl:text>
+						<xsl:choose>
+							<xsl:when test="number($isSorted) eq 0">
+								<xsl:text>down</xsl:text>
+							</xsl:when>
+							<xsl:when test="$sortDesc eq 'true'">
+								<xsl:text>square-o-down</xsl:text>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:text>square-o-up</xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:with-param>
+				</xsl:call-template>
+			</xsl:if>
 		</th>
 	</xsl:template>
 
 <!-- TBODY -->
-	<!-- 
+	<!--
 		Transform of ui:tbody to tbody.
 	-->
 	<xsl:template match="ui:tbody">
@@ -314,7 +352,7 @@
 	</xsl:template>
 <!--
 		Structural: do not override.
-		
+
 		Transform for each row in the WTable.
 
 		param myTable: The first table ancestor of the current row. This is determined at the most efficient point
@@ -406,7 +444,7 @@
 					</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
-			<!-- temporary fix for problem in ariaAnalog.js -->
+			<xsl:call-template name="disabledElement"/><!-- WDataTable only -->
 			<xsl:if test="number($hasRowExpansion) + $rowIsSelectable ge 1">
 				<xsl:attribute name="role">row</xsl:attribute>
 			</xsl:if>
@@ -504,7 +542,7 @@
 			selection mechanism and state. The primary indicators are the aria-selected state.
 			-->
 			<xsl:if test="number($tableRowSelection) eq 1">
-				<td class="wc_table_sel_wrapper wc-icon">
+				<td class="wc_table_sel_wrapper">
 					<xsl:choose>
 						<xsl:when test="(number($hasRowExpansion) + number($tableRowSelection) eq 2) and $myTable/ui:rowselection/@toggle and ui:subtr/ui:tr[not(@unselectable)]">
 							<xsl:variable name="subRowControlList">
@@ -519,6 +557,13 @@
 								<xsl:attribute name="role">
 									<xsl:text>presentation</xsl:text>
 								</xsl:attribute>
+							</xsl:if>
+							<xsl:if test="number($rowIsSelectable) eq 1">
+								<xsl:call-template name="rowSelectionIcon">
+									<xsl:with-param name="myTable" select="$myTable"/>
+								</xsl:call-template>
+							</xsl:if>
+							<xsl:if test="$subRowControlList ne ''">
 								<xsl:variable name="subRowToggleControlId" select="concat($rowId, '_toggleController')"/>
 								<xsl:variable name="subRowToggleControlButtonId" select="concat($subRowToggleControlId, '_showbtn')"/>
 								<xsl:variable name="subRowToggleControlContentId" select="concat($subRowToggleControlId, '_content')"/>
@@ -535,11 +580,14 @@
 													<xsl:with-param name="text"><xsl:text>{{t 'table_rowSelection_toggleAll'}}</xsl:text></xsl:with-param>
 												</xsl:call-template>
 											</span>
+											<xsl:call-template name="icon">
+												<xsl:with-param name="class" select="'fa-caret-down'"/>
+											</xsl:call-template>
 										</button>
 										<div class="wc_submenucontent wc_seltog" role="menu" aria-expanded="false" id="{$subRowToggleControlContentId}" aria-labelledby="{$subRowToggleControlButtonId}">
 											<xsl:variable name="allSelectableSubRows" select="count(.//ui:subtr[ancestor::ui:table[1]/@id eq $tableId]/ui:tr[not(@unselectable)])"/>
 											<xsl:variable name="allUnselectedSubRows" select="count(.//ui:subtr[ancestor::ui:table[1]/@id eq $tableId]/ui:tr[not(@unselectable or @selected)])"/>
-											<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc-nobutton wc-invite wc-icon" aria-controls="{$subRowControlList}" data-wc-value="all">
+											<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc-nobutton wc-invite" aria-controls="{$subRowControlList}" data-wc-value="all">
 												<xsl:attribute name="aria-checked">
 													<xsl:choose>
 														<xsl:when test="number($allUnselectedSubRows) eq 0">
@@ -550,11 +598,14 @@
 														</xsl:otherwise>
 													</xsl:choose>
 												</xsl:attribute>
+												<xsl:call-template name="icon">
+													<xsl:with-param name="class" select="'fa-check-square-o'"/>
+												</xsl:call-template>
 												<xsl:call-template name="offscreenSpan">
 													<xsl:with-param name="text"><xsl:text>{{t 'toggle_all_label'}}</xsl:text></xsl:with-param>
 												</xsl:call-template>
 											</button>
-											<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc-nobutton wc-invite wc-icon" aria-controls="{$subRowControlList}" data-wc-value="none">
+											<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc-nobutton wc-invite" aria-controls="{$subRowControlList}" data-wc-value="none">
 												<xsl:attribute name="aria-checked">
 													<xsl:choose>
 														<xsl:when test="number($allSelectableSubRows) eq number($allUnselectedSubRows)">
@@ -565,6 +616,9 @@
 														</xsl:otherwise>
 													</xsl:choose>
 												</xsl:attribute>
+												<xsl:call-template name="icon">
+													<xsl:with-param name="class" select="'fa-square-o'"/>
+												</xsl:call-template>
 												<xsl:call-template name="offscreenSpan">
 													<xsl:with-param name="text"><xsl:text>{{t 'toggle_none_label'}}</xsl:text></xsl:with-param>
 												</xsl:call-template>
@@ -578,6 +632,11 @@
 							<xsl:attribute name="aria-hidden">
 								<xsl:text>true</xsl:text>
 							</xsl:attribute>
+							<xsl:if test="number($rowIsSelectable) eq 1">
+								<xsl:call-template name="rowSelectionIcon">
+									<xsl:with-param name="myTable" select="$myTable"/>
+								</xsl:call-template>
+							</xsl:if>
 						</xsl:otherwise>
 					</xsl:choose>
 				</td>
@@ -591,7 +650,7 @@
 			-->
 			<xsl:if test="$myTable/ui:rowexpansion">
 				<!-- The rowExpansion cell will hold the expansion control (if any) -->
-				<td class="wc_table_rowexp_container wc-icon">
+				<td class="wc_table_rowexp_container">
 					<xsl:if test="ui:subtr">
 						<xsl:attribute name="role">button</xsl:attribute>
 						<xsl:attribute name="aria-controls">
@@ -601,6 +660,19 @@
 						<xsl:call-template name="offscreenSpan">
 							<xsl:with-param name="text">
 								<xsl:text>{{t 'table_rowExpansion_rowButtonDescription'}}</xsl:text>
+							</xsl:with-param>
+						</xsl:call-template>
+						<xsl:call-template name="icon">
+							<xsl:with-param name="class">
+								<xsl:text>fa-fw fa-caret-</xsl:text>
+								<xsl:choose>
+									<xsl:when test="ui:subtr/@open">
+										<xsl:text>down</xsl:text>
+									</xsl:when>
+									<xsl:otherwise>
+										<xsl:text>right</xsl:text>
+									</xsl:otherwise>
+								</xsl:choose>
 							</xsl:with-param>
 						</xsl:call-template>
 					</xsl:if>
@@ -635,9 +707,9 @@
 	</xsl:template>
 
 	<!--
-		A row expander control needs to know what it controls. This could be a set of rows, including other	subRows. 
-		Since the rows are siblings they must be controlled individually. This template outputs ids of all rows which 
-		are controlled by a rowExpansion control. This is also used by WAI-ARIA to indicate the DOM nodes controlled by 
+		A row expander control needs to know what it controls. This could be a set of rows, including other	subRows.
+		Since the rows are siblings they must be controlled individually. This template outputs ids of all rows which
+		are controlled by a rowExpansion control. This is also used by WAI-ARIA to indicate the DOM nodes controlled by
 		the expander. The list is space separated.
 	-->
 	<xsl:template match="ui:tr" mode="subRowControlIdentifier">
@@ -648,7 +720,7 @@
 		</xsl:if>
 	</xsl:template>
 
-	<!-- 
+	<!--
 		Determine if a row is closed when rowExpansion is in client mode.
 	-->
 	<xsl:template name="clientRowClosedHelper">
@@ -675,7 +747,7 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
+
 	<!--
 		Transform of a ui:th element within a ui:tr. This is a row header and is a 1:1 map with a HTML th element.
 	-->
@@ -699,7 +771,7 @@
 			<xsl:apply-templates />
 		</th>
 	</xsl:template>
-	
+
 	<!--
 		The transform for data cells within the table. These are a 1:1 map with a HTML td element.
 	-->
@@ -736,7 +808,7 @@
 			<xsl:apply-templates />
 		</td>
 	</xsl:template>
-	
+
 	<!--
 		Transform of ui:subtr. This is a sub row element which is an optional child of a ui:tr element. It should not be
 		present if the table does not have rowExpansion. In HTML these are siblings of their parent ui:tr which makes
@@ -749,13 +821,13 @@
 		<xsl:param name="indent" select="0"/>
 		<!--
 		 We have to output content if:
-		 
+
 			* she subTr is open;
 			* the expansion mode is client;
 			* there is a ui:content child element; or
 			* there are ui:tr child elements.
-			
-		 Otherwise we have to create a null content placeholder with the appropriate wires to make the expansion AJAX 
+
+		 Otherwise we have to create a null content placeholder with the appropriate wires to make the expansion AJAX
 		 enabled or able to force a submit on open.
 		-->
 		<xsl:choose>
@@ -773,7 +845,7 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
+
 	<!--
 		Transform for ui:content child of a ui:subtr.
 	-->
@@ -849,7 +921,7 @@
 		</xsl:if>
 	</xsl:template>
 	<!--
-		Outputs a comma separated list of JSON objects stored in a button attribute which is used to determine whether 
+		Outputs a comma separated list of JSON objects stored in a button attribute which is used to determine whether
 		the action's conditions are met before undertaking the action.
 	-->
 	<xsl:template match="ui:condition" mode="action">
@@ -866,28 +938,28 @@
 			<xsl:text>,</xsl:text>
 		</xsl:if>
 	</xsl:template>
-	
+
 	<!--
-		1. Guard wrapper for action conditions. These are not output in place but are part of the sibling button's 
+		1. Guard wrapper for action conditions. These are not output in place but are part of the sibling button's
 		attribute data. The ui:action part of the match is to differentiate from ui:subordinate's ui:condition.
-		
-		2. Null template for ui:sort. The sort indicators are generated in the ui:table column generation and sort 
-		controls in ui:thead/ui:th. The ui:sort element itself contains metaData only and does not generate a usable 
+
+		2. Null template for ui:sort. The sort indicators are generated in the ui:table column generation and sort
+		controls in ui:thead/ui:th. The ui:sort element itself contains metaData only and does not generate a usable
 		HTML artefact.
 	-->
 	<xsl:template match="ui:action|ui:sort"/>
 
 	<!--
-		ui:rowexpansion controls the mode of the expandable rows and whether the expand/collapse all controls are 
+		ui:rowexpansion controls the mode of the expandable rows and whether the expand/collapse all controls are
 		visible. This template outputs those controls. It is called explicitly from the template name `topControls`.
-		
+
 		Structural: do not override.
 	-->
 	<xsl:template match="ui:rowexpansion">
 		<xsl:variable name="tableId" select="../@id"/>
 		<!--
 			NOTE: the guard code testing for the existance of collapsible rows in this template is a belt-and-braces fix
-			for slack front end developers. We have had genuine cases where applications have been built with 
+			for slack front end developers. We have had genuine cases where applications have been built with
 			ui:rowexpansion with @expandAll set to show the collapse/expand controls but with no collapsible rows in
 			the table and then bugs raised that the expand/collapse all controls don't seem to do anything!
 		 -->
@@ -911,14 +983,14 @@
 			<xsl:value-of select="."/>
 		</div>
 	</xsl:template>
-	
-	
+
+
 	<!--
-		This template creates the rowSelection (select all, select none) controls if required. It is called explicitly from the template named 
+		This template creates the rowSelection (select all, select none) controls if required. It is called explicitly from the template named
 		`topControls`. If there are no selectable rows then nothing is output.
-		
+
 		NOTE: This template does not make the individual rows selectable. That is done in the transform of ui:tr.
-		
+
 		Structural: do not override.
 	-->
 	<xsl:template match="ui:rowselection">
@@ -932,15 +1004,15 @@
 						<xsl:text>none</xsl:text>
 					</xsl:when>
 					<xsl:when test="@toggle">
-						<!-- 
+						<!--
 							When in parent row is a select toggle mode any row which is selected but has descendant rows
 							(in the same table)  which are not selected is **deemed to be unselected**.
-							
+
 							This is a horrible calculation and I wish I did not have to do it.
 						-->
-						<xsl:variable name="numberUnselectedParentRows" 
-							select="count(..//ui:tr[@selected and 
-							ancestor::ui:table[1]/@id eq $tableId and 
+						<xsl:variable name="numberUnselectedParentRows"
+							select="count(..//ui:tr[@selected and
+							ancestor::ui:table[1]/@id eq $tableId and
 							.//ui:subtr[ancestor::ui:table[1]/@id eq $tableId]/ui:tr[not(@unselectable or @selected)]])"/>
 						<xsl:choose>
 							<xsl:when test="number($numberSelectedRows) eq number($numberUnselectedParentRows)">
@@ -974,7 +1046,7 @@
 			</xsl:call-template>
 		</xsl:if>
 	</xsl:template>
-	
+
 	<!--
 		Outputs a comma separated list of JSON objects required for registering
 		the selection controls. See wc.common.registrationScripts.xsl.
@@ -989,8 +1061,8 @@
 			<xsl:text>,</xsl:text>
 		</xsl:if>
 	</xsl:template>
-	
-	
+
+
 	<!--
 		Pagination controls
 		Structural: do not override.
@@ -1058,6 +1130,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:with-param>
+					<xsl:with-param name="name" select="'f'"/>
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
 					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_previous'}}</xsl:text></xsl:with-param>
@@ -1072,6 +1145,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:with-param>
+					<xsl:with-param name="name" select="'p'"/>
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
 					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_next'}}</xsl:text></xsl:with-param>
@@ -1086,6 +1160,7 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:with-param>
+					<xsl:with-param name="name" select="'n'"/>
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
 					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_last'}}</xsl:text></xsl:with-param>
@@ -1100,18 +1175,15 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:with-param>
+					<xsl:with-param name="name" select="'l'"/>
 				</xsl:call-template>
 			</span>
 		</xsl:if>
 	</xsl:template>
-	
+
 	<!--
 		The template which outputs the four buttons used in table pagination.
-		
-		param name: The button name, used for server pagination
 		param title: The button title text
-		param class: The class to apply to the button element
-		param type: The button type: "button" or "submit". Type is "submit" for server pagination.
 		param idSuffix: A string to append to the ID of the button element
 		param disabled: 1 if the button should be disabled based on the current page displayed.
 	-->
@@ -1119,15 +1191,27 @@
 		<xsl:param name="title"/>
 		<xsl:param name="idSuffix"/>
 		<xsl:param name="disabled" select="0"/>
+		<xsl:param name='name' select="''"/>
 		<button id="{concat(../@id,'.pagination.',$idSuffix)}" title="{$title}" type="button" class="wc_btn_icon wc-invite">
 			<xsl:if test="number($disabled) eq 1">
 				<xsl:attribute name="disabled">
 					<xsl:text>disabled</xsl:text>
 				</xsl:attribute>
 			</xsl:if>
+			<xsl:call-template name="icon">
+				<xsl:with-param name="class">
+					<xsl:text>fa-fw </xsl:text>
+					<xsl:choose>
+						<xsl:when test="$name eq 'f'">fa-angle-double-left</xsl:when>
+						<xsl:when test="$name eq 'p'">fa-angle-left</xsl:when>
+						<xsl:when test="$name eq 'n'">fa-angle-right</xsl:when>
+						<xsl:otherwise>fa-angle-double-right</xsl:otherwise>
+					</xsl:choose>
+				</xsl:with-param>
+			</xsl:call-template>
 		</button>
 	</xsl:template>
-	
+
 	<!--
 		The rows per page selector.
 	-->
@@ -1147,7 +1231,7 @@
 			</select>
 		</label>
 	</xsl:template>
-	
+
 	<!--
 		The rows per page options.
 	-->
@@ -1170,4 +1254,27 @@
 			</xsl:choose>
 		</option>
 	</xsl:template>
+
+	<!--
+		Helper as we have a complex arrangement of attributes and content based on silly pathways so we need to make this icon in one of two places.
+	-->
+	<xsl:template name="rowSelectionIcon">
+		<xsl:param name="myTable"/>
+		<xsl:call-template name="icon">
+			<xsl:with-param name="class">
+				<xsl:text>fa-fw fa-</xsl:text>
+				<xsl:choose>
+					<xsl:when test="$myTable/ui:rowselection/@multiple">
+						<xsl:if test="@selected">check-</xsl:if>
+						<xsl:text>square-o</xsl:text>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:if test="@selected">dot-</xsl:if>
+						<xsl:text>circle-o</xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:with-param>
+		</xsl:call-template>
+	</xsl:template>
 </xsl:stylesheet>
+

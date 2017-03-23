@@ -1,0 +1,16 @@
+@import 'mixins-common';
+
+.wc-multifileupload.wc_dragging [type=file] {
+	@include outline($color: $wc-ui-color-invite-fg, $style: dotted, $width: 2px);
+	background-color: $wc-ui-color-invite-bg;
+}
+
+.wc-file {
+	background-color: $wc-ui-color-highlight-bg;
+	color: $wc-ui-color-highlight-fg;
+}
+
+input[type='file']::-webkit-file-upload-button {
+	@include button($border: 0);
+	@include border($pos: right);
+}

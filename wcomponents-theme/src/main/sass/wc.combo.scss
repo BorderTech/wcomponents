@@ -1,0 +1,103 @@
+@import 'mixins-common';
+// The following produce a combo box widget:
+// * WTextField, WEmailField or WPhoneNumberField with WSuggestions
+// * WPartialDateField
+// * WDateField if the browser does not support input type date
+// * WDropdown Type.COMBO.
+
+
+// padding-left + padding-right + icon width + a bit for the border.
+$wc-combo-button-width-allowance: 2 * $wc-combo-button-padding-lr + $wc-icon-normal + $wc-gap-small;
+
+// This redundant rule is not as redundant as you might think so just leave it be!
+datalist {
+	display: none;
+}
+
+// The wrapper for all combo widgets.
+[role='combobox'] {
+	display: inline-block;
+	position: relative;
+	white-space: nowrap;
+
+	@if ($wc-ui-color-error-bg != -1) {
+		// The whole combo is invalid but we only want to apply the background color to the textbox.
+		&[aria-invalid='true'] > input {
+			background-color: $wc-ui-color-error-bg;
+		}
+	}
+
+	input {
+		max-width: calc(100% - #{$wc-combo-button-width-allowance});
+	}
+
+	[role='listbox'] {
+		min-width: 100%;
+
+		dialog & {
+			min-width: initial;
+		}
+	}
+
+	&[aria-expanded='false'] [role='listbox'] {
+		display: none;
+	}
+
+	// We need the child selector here because of The W[Partial]DateField calendar.
+	> button {
+		padding-left: $wc-combo-button-padding-lr;
+		padding-right: $wc-combo-button-padding-lr;
+		@if ($wc-ui-color-border-form-control != -1) {
+			@include border($pos: left, $width: 0);
+			@if ($wc-input-padding != -1) {
+				padding-bottom: $wc-input-padding;
+				padding-top: $wc-input-padding;
+			}
+			@else { // this could cause issues with some browsers.
+				padding-bottom: 2px;
+				padding-top: 2px;
+			}
+		}
+		@else { // this could cause issues with some browsers.
+			padding-bottom: 2px;
+			padding-top: 2px;
+		}
+
+		&:before {
+			text-align: center;
+			width: $wc-icon-normal;
+		}
+	}
+}
+
+
+[role='listbox'] {
+	@include border;
+	@include border-box;
+	@include tight-box;
+	display: block;
+	list-style-type: none;
+	// allow for up to approx seven visible options. The factor 1.25 is a rough line-height
+	// Chrome & Safari on OS - X use 1.125 whereas FF appears to use 1.0625.
+	max-height: (7 * 1.125 * (1 + (2 * $wc-gap-small)));
+	max-width: 100%;
+	overflow: auto;
+	position: absolute;
+	z-index: $wc-z-index-common;
+
+	dialog & {
+		position: fixed;
+		z-index: $wc-z-index-common-in-dialog;
+	}
+}
+
+[role='option'] {
+	@include border-box;
+	display: block;
+	margin: 0;
+	min-height: 1em;
+	padding: $wc-gap-small;
+	width: 100%;
+}
+
+@import 'wc.combo.color';

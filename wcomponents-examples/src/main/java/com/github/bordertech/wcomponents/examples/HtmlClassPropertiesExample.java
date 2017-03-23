@@ -2,7 +2,9 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WButton;
+import com.github.bordertech.wcomponents.WFigure;
 import com.github.bordertech.wcomponents.WHeading;
+import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
@@ -46,12 +48,22 @@ public class HtmlClassPropertiesExample extends WPanel {
 		innerPanel.setHtmlClass(HtmlClassProperties.ALIGN_LEFT);
 		classedPanel.add(new WText("Some more centered content."));
 
+		add(new WHeading(HeadingLevel.H2, "Bordered panel"));
+		classedPanel = new WPanel(WPanel.Type.PLAIN);
+		add(classedPanel);
+		classedPanel.setHtmlClass(HtmlClassProperties.BORDER);
+		classedPanel.add(new ExplanatoryText("This is a panel with a border. The content sits directly against the border. This is not recommended"
+				+ "for a WPanel one should use WPanel.Type.BOX. Below this is a more suitable example with an image inside a WFigure."));
+		WImage image = new WImage("/com/github/bordertech/wcomponents/examples/portlet-portrait.jpg", "Portrait");
+		image.setHtmlClass(HtmlClassProperties.BORDER);
+		add(new WFigure(image, "A sample image with a border"));
 
 		add(new WHeading(HeadingLevel.H2, "scrolling panel"));
 		classedPanel = new WPanel(WPanel.Type.BOX);
 		add(classedPanel);
 		classedPanel.setHtmlClass(HtmlClassProperties.HORIZONTAL_SCROLL);
-		classedPanel.add(new WText("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"));
+		classedPanel.add(new WText("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+				+ "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"));
 
 
 		add(new WHeading(HeadingLevel.H2, "Panel out of viewport"));

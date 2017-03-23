@@ -123,7 +123,10 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 * @return true if this is a top-level menu.
 	 */
 	public boolean isTopLevelMenu() {
-		MenuContainer container = (MenuContainer) WebUtilities.getAncestorOfClass(MenuContainer.class, this);
+		MenuContainer container = WebUtilities.getAncestorOfClass(MenuContainer.class, this);
+		if (container instanceof WMenuItemGroup) {
+			container = WebUtilities.getAncestorOfClass(MenuContainer.class, container);
+		}
 		return container instanceof WMenu;
 	}
 
@@ -301,7 +304,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 
 	/**
 	 * @return true if this item is selectable, false if not, or null to default to the container.
-	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable see WTree.
+	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable use {@link com.github.bordertech.wcomponents.WTree}.
 	 */
 	@Deprecated
 	public Boolean isSelectable() {
@@ -310,7 +313,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 
 	/**
 	 * @param selectable true if this item is selectable, false if not, or null to default to the container.
-	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable see WTree.
+	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable use {@link com.github.bordertech.wcomponents.WTree}.
 	 */
 	@Deprecated
 	public void setSelectable(final Boolean selectable) {
@@ -319,7 +322,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 
 	/**
 	 * {@inheritDoc}
-	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable see WTree.
+	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable use {@link com.github.bordertech.wcomponents.WTree}.
 	 */
 	@Deprecated
 	@Override
@@ -329,12 +332,20 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 
 	/**
 	 * {@inheritDoc}
-	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable see WTree.
+	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable use {@link com.github.bordertech.wcomponents.WTree}.
 	 */
 	@Override
 	@Deprecated
 	public final void setSelectability(final Boolean selectability) {
 		getOrCreateComponentModel().selectability = selectability;
+	}
+
+	/**
+	 * @return always {@false} for WSubMenu.
+	 */
+	@Override
+	public boolean isSelectAllowed() {
+		return false;
 	}
 
 	/**

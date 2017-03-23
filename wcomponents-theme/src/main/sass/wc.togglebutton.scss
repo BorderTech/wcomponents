@@ -1,0 +1,40 @@
+// toggle button styles based on https://codepen.io/mallendeo/pen/eLIiG
+@import 'mixins-common';
+
+// calculated vars
+$wc-togglebutton-double-border-width: 2 * $wc-border-width;
+$wc-togglebutton-slider-width: $wc-togglebutton-width / 2;
+
+.wc-togglebutton > button {
+	border-radius: $wc-togglebutton-slider-width;
+	height: $wc-togglebutton-slider-width;
+	outline: 0;
+	position: relative;
+	transition: $wc-togglebutton-transition;
+	user-select: none;
+	width: $wc-togglebutton-width;
+
+	&:after {
+		border-radius: $wc-togglebutton-slider-width;
+		content: '';
+		display: block;
+		height: calc(100% - $wc-togglebutton-double-border-width);
+		left: 0;
+		position: relative;
+		transition: $wc-togglebutton-transition-slider;
+		width: 50%;
+	}
+
+	&.wc_ro_sel,
+	&[aria-checked='true'] {
+		&:after {
+			left: calc(50% - $wc-togglebutton-double-border-width);
+		}
+	}
+
+	> span {
+		@include offscreen;
+	}
+}
+
+@import 'wc.togglebutton.color';

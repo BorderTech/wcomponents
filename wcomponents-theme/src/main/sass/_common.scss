@@ -120,6 +120,7 @@ $wc-icon-small: 0.75rem !default; // about 12px in any unit
 $wc-icon-normal: 1rem !default; // min 16px in any unit
 $wc-icon-wider: 1.25rem !default;  //recommend min 20px in any unit - this will allow for wider glyphs.
 $wc-icon-large: 2rem !default; // really big icons. So far only for the full-screen loading indicator.
+$fa-fw-calc-size: $wc-icon-wider !default;
 
 // h1 in WSection, WPanel Types CHROME and SECTION, WMessageBox, WValidationErrors.
 // If you are mucking around here you may want to go look at the WHeading styles below. Set this to -1 to use the
@@ -205,8 +206,6 @@ $wc-common-busy-content-opacity: 0.25 !default;
 $wc-common-busy-content-usefade: 1 !default;
 $wc-common-busy-content-fadeduration: 1s !default;
 
-
-
 //**********************************************************************************************************************
 // Generic form input controls:
 //**********************************************************************************************************************
@@ -218,6 +217,10 @@ $wc-input-padding: 1px !default;
 // left and right padding of the combo button. Needed to calc the max-width for use when
 // WField.setInputWidth(int) is used.
 $wc-combo-button-padding-lr: $wc-gap-small !default;
+
+// legends
+// The legend font weight. Set to -1 to disable the rule.
+$wc-legend-weight: bold !default;
 //**********************************************************************************************************************
 
 
@@ -253,6 +256,7 @@ $wc-section-space-header-reduced: $wc-section-space-reduced !default;
 //**********************************************************************************************************************
 $wc-app-usefade: 1 !default;
 $wc-app-fadeduration: 1s !default;
+
 //**********************************************************************************************************************
 // ListLayout
 //**********************************************************************************************************************
@@ -369,13 +373,30 @@ $wc-heading-h3-font-size: 1.125rem !default; // May make IE cry...
 $wc-heading-h4-font-size: 1rem !default;
 $wc-heading-h5-font-size: -1 !default;
 $wc-heading-h6-font-size: -1 !default;
+// Font weights. Set to -1 to ignore the rule.
+$wc-h1-weight: normal !default;
+$wc-h2-weight: normal !default;
+$wc-h3-weight: normal !default;
+$wc-h4-weight: normal !default;
+$wc-h5-weight: -1 !default;
+$wc-h6-weight: -1 !default;
+
+//**********************************************************************************************************************
+// WImage and other images
+//**********************************************************************************************************************
+// Vertical alignment of images in buttons and links. Set to -1 to disable this rule.
+$wc-image-valign-button: text-bottom !default;
+// If the image is in a figure it goes a bit skewed usng text-bottom. Probably due to the problem of calculating the
+// text-bottom in a flex box with no text content. Set to -1 to ignore just this rule, it is not used at all if the
+// above == -1.
+$wc-image-valign-button-figure: bottom !default;
 
 //**********************************************************************************************************************
 // WLabel
 //**********************************************************************************************************************
 // The font weight of a label. bold, normal, whatever.
 $wc-label-weight: bold !default;
-// The mandatory indicator character. If this is set to 0 then no visible mandatory field indicator will be shown. This
+// The mandatory indicator character. If this is set to -1 then no visible mandatory field indicator will be shown. This
 // may defeat the purpose of WStyledText.Type.MANDATORY_INDICATOR
 $wc-label-mandatory-indicator: '*' !default;
 // The font-size of the label hint. Set to 0 or less to use the same size as the label.
@@ -394,12 +415,13 @@ $wc-menu-bar-vseparator-pad: (2 * $wc-menu-item-pad-topbottom) 0 0 0 !default;
 // the gap bewtten the text label of a sub menu and its 'opener' image
 $wc-menu-bar-column-opener-indicator-before-after: $wc-gap-small !default;
 // width of the open state icon in WMenu type TREE
-$wc-menu-tree-iconwidth: $wc-icon-normal !default;
+$wc-menu-iconwidth: $wc-icon-normal !default;
 
 //**********************************************************************************************************************
 // WSection
 // May also affect WPanels
 //**********************************************************************************************************************
+
 //**********************************************************************************************************************
 // WTable
 //**********************************************************************************************************************
@@ -415,7 +437,6 @@ $wc-tabset-allow-left-right: 1 !default;
 // This _should_ be a percentage, otherwise you will have to manipulate the IE9 Sass.
 $wc-tabset-left-right-tab-width: 15% !default;
 $wc-tabset-border-radius: $wc-gap-small !default;
-
 
 //**********************************************************************************************************************
 // WTree

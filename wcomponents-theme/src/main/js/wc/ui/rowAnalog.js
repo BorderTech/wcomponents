@@ -1,19 +1,12 @@
-/**
- * Provides ARIA based row in treegrid functionality (lists of selectable options - cf a select element).
- * @module
- * @extends module:wc/dom/ariaAnalog
- * @requires module:wc/dom/ariaAnalog
- * @requires module:wc/dom/initialise
- * @requires module:wc/ui/table/common
- */
+
 define(["wc/dom/ariaAnalog",
 		"wc/dom/initialise",
-		"wc/ui/table/common"],
-	/** @param ariaAnalog wc/dom/ariaAnalog @param initialise wc/dom/initialise @param table @ignore */
-	function(ariaAnalog, initialise, table) {
+		"wc/dom/shed",
+		"wc/dom/Widget",
+		"wc/ui/table/common",
+		"wc/ui/icon"],
+	function(ariaAnalog, initialise, shed, Widget, table, icon) {
 		"use strict";
-
-		/* Unused dependency: selectToggle is required implicitly. It is probably loaded but we cannot be sure. */
 
 		/**
 		 * @constructor
@@ -21,6 +14,7 @@ define(["wc/dom/ariaAnalog",
 		 * @private
 		 */
 		function RowAnalog() {
+			var EXPANDER;
 			/**
 			 * The selection mode is mixed: list boxes may be single or multiple as per select elements.
 			 * @var
@@ -66,10 +60,48 @@ define(["wc/dom/ariaAnalog",
 			 * @override
 			 */
 			this.CONTAINER = table.TABLE;
+
+			/**
+			 * Change icon on select/deselect.
+			 * @function
+			 * @public
+			 * @override
+			 * @param {Element} element the element being acted upon
+			 * @param {String} action the shed action
+			 */
+			this.shedObserver = function(element, action) {
+				var cell, isMultiSelect, add, remove;
+				if (element && (action === shed.actions.SELECT || action === shed.actions.DESELECT) && this.ITEM.isOneOfMe(element)) {
+					EXPANDER = EXPANDER || new Widget("td", "wc_table_sel_wrapper");
+					if ((cell = EXPANDER.findDescendant(element, true))) {
+						isMultiSelect = this.isMultiSelect(element);
+						if (action === shed.actions.SELECT) {
+							add = isMultiSelect ? "fa-check-square-o" : "fa-dot-circle-o";
+							remove = isMultiSelect ? "fa-square-o" : "fa-circle-o";
+						}
+						else {
+							add = isMultiSelect ? "fa-square-o" : "fa-circle-o";
+							remove = isMultiSelect ? "fa-check-square-o" : "fa-dot-circle-o";
+						}
+						icon.change(cell, add, remove);
+					}
+				}
+
+				this.constructor.prototype.shedObserver.call(this, element, action);
+			};
 		}
 
 		RowAnalog.prototype = ariaAnalog;
-		var /** @alias module:wc/ui/RowAnalog */ instance = new RowAnalog();
+		/**
+		 * Provides ARIA based row in treegrid functionality (lists of selectable options - cf a select element).
+		 * @module module:wc/ui/RowAnalog
+		 * @extends module:wc/dom/ariaAnalog
+		 * @requires module:wc/dom/ariaAnalog
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/ui/table/common
+		 */
+		var instance = new RowAnalog();
 		instance.constructor = RowAnalog;
 		initialise.register(instance);
 		return instance;

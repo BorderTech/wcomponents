@@ -1,5 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
+	<xsl:import href="wc.common.icon.xsl"/>
 	<!-- Builds the a button that invokes an image editor. -->
 	<xsl:template name="imageEditButton">
 		<xsl:param name="text"/>
@@ -28,6 +29,15 @@
 			<span class="wc-off">
 				<xsl:value-of select="$text"/>
 			</span>
+			<xsl:call-template name="icon">
+				<xsl:with-param name="class">
+					<xsl:choose>
+						<xsl:when test="self::ui:image">fa-pencil-square-o</xsl:when>
+						<xsl:otherwise>fa-video-camera</xsl:otherwise>
+					</xsl:choose>
+				</xsl:with-param>
+				<xsl:with-param name="element" select="'i'"/>
+			</xsl:call-template>
 		</button>
 	</xsl:template>
 </xsl:stylesheet>

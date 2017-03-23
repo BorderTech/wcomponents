@@ -1,0 +1,34 @@
+@import 'mixins-common';
+
+select {
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	margin: 0;
+	max-width: 100%;
+
+	@if ($wc-ui-color-border-form-control != -1 and $wc-input-padding != -1) {
+		@include border-box;
+		padding: $wc-input-padding;
+	}
+
+	@if ($wc-ui-color-error-bg != -1) {
+		&[aria-invalid='true'] {
+			background-color: $wc-ui-color-error-bg;
+		}
+	}
+
+	&[disabled] {
+		background-color: $wc-ui-color-disabled-bg;
+	}
+}
+
+// SELECT element typeahead indicator
+.wc_selsch {
+	display: block;
+	margin-top: -1.25em;
+	padding: 0 $wc-gap-small;
+	position: absolute;
+}
+
+@import 'wc.select.color';

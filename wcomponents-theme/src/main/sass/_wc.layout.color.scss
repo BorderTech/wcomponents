@@ -1,0 +1,6 @@
+@import 'vars';
+
+.wc-listlayout-type-striped > :nth-child(even) {
+	background-color: $wc-ui-color-highlight-bg;
+	color: $wc-ui-color-highlight-fg;
+}

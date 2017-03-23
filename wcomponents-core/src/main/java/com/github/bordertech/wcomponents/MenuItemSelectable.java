@@ -9,6 +9,8 @@ package com.github.bordertech.wcomponents;
 public interface MenuItemSelectable extends MenuItem {
 
 	/**
+	 * Symmetric accessor which should not generally be used. If you need to know if an instance of MenuItemSelectable is
+	 * selectable then it is better to use {@link #isSelectAllowed()}.
 	 * @return true if this item is selectable, false if not, or null if default to its container.
 	 */
 	Boolean getSelectability();
@@ -22,4 +24,9 @@ public interface MenuItemSelectable extends MenuItem {
 	 * @return true if selected, otherwise false
 	 */
 	boolean isSelected();
+
+	/**
+	 * @return {@code true} if the menu item may be selected.
+	 */
+	boolean isSelectAllowed();
 }

@@ -1,0 +1,83 @@
+@import 'mixins-common';
+
+@if ($wc-use-respond == 1) {
+	@if ($wc-bigscreen-font-size != -1 and $wc-bigscreen-font-size != $wc-desktop-font-size) {
+		@include respond-bigger-screen {
+			body {
+				font-size: $wc-bigscreen-font-size;
+			}
+		}
+	}
+
+	@include respond-phonelike {
+		// Making fonts BIGGER seems counter-intuitive but it makes phone screens easier to read and
+		// makes buttons etc MUCH easier to hit
+		@if ($wc-phone-font-size != -1 and $wc-phone-font-size != $wc-desktop-font-size) {
+			body {
+				font-size: $wc-phone-font-size;
+			}
+		}
+
+
+		@if ($wc-gap-reduce-when-narrow == 1) {
+			// Reduce the gaps on narrow viewports.
+			@each $cl in $wc-gap-suffix-list {
+				@if ($cl == sm) {
+					$size: $wc-phone-gap-small;
+				}
+				@else if  ($cl == med) {
+					$size: $wc-phone-gap-normal;
+				}
+				@else if  ($cl == lg) {
+					$size: $wc-phone-gap-large;
+				}
+				@else {
+					$size: $wc-phone-gap-xl;
+				}
+
+				.wc-hgap-#{$cl} {
+					> div,
+					> ul,
+					> li,
+					> span {
+						padding-left: $size / 2;
+						padding-right: $size / 2;
+					 }
+				}
+
+				@if ($cl != sm) {
+					.wc-vgap-#{$cl} {
+						> div + div,
+						> li + li {
+							margin-top: $wc-phone-gap-small;
+						 }
+					}
+				}
+
+				.wc-margin-all-#{$cl} {
+					margin: $size;
+				}
+
+				.wc-margin-n-#{$cl} {
+					margin-top: $size;
+				}
+
+				.wc-margin-e-#{$cl} {
+					margin-right: $size;
+				}
+
+				.wc-margin-s-#{$cl} {
+					margin-bottom: $size;
+				}
+
+				.wc-margin-w-#{$cl} {
+					margin-left: $size;
+				}
+
+				.wc-pad-#{$cl} {
+					padding: $size;
+				}
+			}
+		}
+	}
+}

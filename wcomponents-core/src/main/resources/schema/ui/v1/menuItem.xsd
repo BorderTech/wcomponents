@@ -69,14 +69,6 @@
 				</xs:annotation>
 			</xs:attribute>
 
-			<xs:attribute name="selectable" type="xs:boolean">
-				<xs:annotation>
-					<xs:documentation>Indicates that the sub menu may be selected as an entity separate from its contained components. Explicitly output if explicitly set "false"
-						to override a parent component's selectMode. Selectable defaults to the container. e.g. if the container has a selectMode of NONE, then selectable defaults
-						to false.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
-
 			<xs:attribute name="selected" type="xs:boolean">
 				<xs:annotation>
 					<xs:documentation>indicates that the submenu is selected. Not output if "false".</xs:documentation>

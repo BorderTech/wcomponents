@@ -2,6 +2,7 @@
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
 	<xsl:import href="wc.common.offscreenSpan.xsl"/>
+	<xsl:import href="wc.common.icon.xsl"/>
 
 	<xsl:template match="ui:tree">
 		<div role="tree">
@@ -107,7 +108,7 @@
 						<xsl:text>0</xsl:text>
 					</xsl:attribute>
 					<xsl:call-template name="title"/>
-					<span class="wc_leaf_vopener wc-icon" aria-hidden="true">
+					<span class="wc_leaf_vopener" aria-hidden="true">
 						<xsl:text>&#x0a;</xsl:text>
 					</span>
 					<xsl:call-template name="treeitemContent"/>
@@ -126,13 +127,22 @@
 					<xsl:variable name="nameButtonId">
 						<xsl:value-of select="concat(@id, '-branch-name')"/>
 					</xsl:variable>
-					<button class="wc-nobutton wc-invite wc_leaf_vopener wc-icon" aria-hidden="true" type="button" tabindex="-1">
-						<xsl:text>&#x0a;</xsl:text>
+					<button class="wc-nobutton wc-invite wc_leaf_vopener" aria-hidden="true" type="button" tabindex="-1">
+						<xsl:call-template name="icon">
+							<xsl:with-param name="class">
+								<xsl:choose>
+									<xsl:when test="@open and not(@disabled)">fa-caret-down</xsl:when>
+									<xsl:otherwise>fa-caret-right</xsl:otherwise>
+								</xsl:choose>
+							</xsl:with-param>
+						</xsl:call-template>
 					</button>
 					<!-- leave tabindex="0" on this button, it is used as a short-hand to find focusable controls in the core menu JavaScript. -->
 					<button type="button" class="wc-nobutton wc-invite wc_leaf" id="{$nameButtonId}" aria-controls="{@id}" tabindex="0">
 						<xsl:call-template name="title"/>
-						<xsl:call-template name="treeitemContent"/>
+						<xsl:call-template name="treeitemContent">
+							<xsl:with-param name="isButton" select="1"/>
+						</xsl:call-template>
 					</button>
 					<!-- The content ID here is just for theme AJAX purposes. -->
 					<xsl:variable name="groupId" select="concat(@id, '-content')"/>
@@ -162,29 +172,38 @@
 	</xsl:template>
 	
 	<xsl:template name="treeitemContent">
-		<span aria-hidden="true">
-			<xsl:attribute name="class">
-				<xsl:text>wc_leaf_img</xsl:text>
-				<xsl:if test="not(@imageUrl)">
-					<xsl:text> wc_leaf_noimg wc-icon</xsl:text>
-				</xsl:if>
-			</xsl:attribute>
-			<xsl:if test="@imageUrl">
-				<img src="{@imageUrl}" alt=""/>
-			</xsl:if>
+		<xsl:param name="isButton" select="0"/>
+		<span aria-hidden="true" class="wc_leaf_img">
+			<xsl:choose>
+				<xsl:when test="@imageUrl">
+					<img src="{@imageUrl}" alt=""/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:call-template name="icon">
+						<xsl:with-param name="class">
+							<xsl:choose>
+								<xsl:when test="$isButton = 0">fa-file-o</xsl:when>
+								<xsl:otherwise>fa-folder-o</xsl:otherwise>
+							</xsl:choose>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:otherwise>
+			</xsl:choose>
 		</span>
 		<span class="wc_leaf_name">
 			<xsl:value-of select="@label"/>
 		</span>
-		<span class="wc_leaf_hopener wc-icon" aria-hidden="true">
-			<xsl:text>&#x0a;</xsl:text>
+		<span class="wc_leaf_hopener" aria-hidden="true">
+			<xsl:call-template name="icon">
+				<xsl:with-param name="class">fa-caret-right</xsl:with-param>
+			</xsl:call-template>
 		</span>
 	</xsl:template>
 	
 	<xsl:template name="resizerbar">
 		<xsl:param name="groupId"/>
 		<span class="wc_branch_resizer" aria-hidden="true">
-			<button type="button" class="wc-nobutton wc-invite wc_resize wc_branch_resize_handle wc-icon" data-wc-resize="{$groupId}">
+			<button type="button" class="wc-nobutton wc-invite wc_resize wc_branch_resize_handle" data-wc-resize="{$groupId}">
 				<xsl:call-template name="offscreenSpan">
 					<xsl:with-param name="text">
 						<xsl:text>{{t 'tree_resize_handle'}}</xsl:text>

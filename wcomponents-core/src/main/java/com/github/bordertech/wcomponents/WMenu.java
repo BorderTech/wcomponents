@@ -384,7 +384,7 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 		MenuModel model = getOrCreateComponentModel();
 		if (selectedItem == null) {
 			model.selectedMenuItems = null;
-		} else {
+		} else if (selectedItem.isSelectAllowed()) {
 			if (model.selectedMenuItems == null) {
 				model.selectedMenuItems = new ArrayList<>();
 			} else {
@@ -418,7 +418,17 @@ public class WMenu extends AbstractNamingContextContainer implements Disableable
 		if (selectedItems == null || selectedItems.isEmpty()) {
 			model.selectedMenuItems = null;
 		} else {
-			model.selectedMenuItems = new ArrayList<>(selectedItems);
+			List<MenuItemSelectable> items = new ArrayList<>();
+			for (MenuItemSelectable item : selectedItems) {
+				if (item.isSelectAllowed()) {
+					items.add(item);
+				}
+			}
+			if (items.isEmpty()) {
+				model.selectedMenuItems = null;
+			} else {
+				model.selectedMenuItems = items;
+			}
 		}
 	}
 
