@@ -111,7 +111,7 @@
 				<xsl:text>data-wc-attach</xsl:text>
 			</xsl:attribute>
 			<xsl:call-template name="icon">
-				<xsl:with-param name="class">fa-file-text</xsl:with-param>
+				<xsl:with-param name="class">fa-fw fa-file-text</xsl:with-param>
 			</xsl:call-template>
 			<xsl:if test="@desc">
 				<xsl:value-of select="@desc"/>

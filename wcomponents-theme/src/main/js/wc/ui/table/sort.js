@@ -1,21 +1,3 @@
-/**
- * Provides table sort controls. A column is sorted by an algorithm controlled by the server application. There is no
- * client side sorting.
- *
- * @module
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/event
- * @requires module:wc/dom/formUpdateManager
- * @requires module:wc/dom/attribute
- * @requires module:wc/dom/group
- * @requires module:wc/ui/ajaxRegion
- * @requires module:wc/ui/ajax/processResponse
- * @requires module:wc/ui/onloadFocusControl
- * @requires module:wc/dom/isEventInLabel
- * @requires module:wc/dom/isAcceptableTarget
- * @requires module:wc/dom/shed
- * @requires module:wc/ui/table/common
- */
 define(["wc/dom/initialise",
 		"wc/dom/event",
 		"wc/dom/formUpdateManager",
@@ -28,7 +10,6 @@ define(["wc/dom/initialise",
 		"wc/dom/isAcceptableTarget",
 		"wc/dom/shed",
 		"wc/ui/table/common"],
-	/** @param initialise @param event @param formUpdateManager @param attribute @param ajaxRegion @param processResponse @param onloadFocusControl @param isEventInLabel @param isAcceptableEventTarget @param shed @param common @ignore */
 	function(initialise, event, formUpdateManager, attribute, group, ajaxRegion, processResponse, onloadFocusControl, isEventInLabel, isAcceptableEventTarget, shed, common) {
 		"use strict";
 
@@ -181,7 +162,26 @@ define(["wc/dom/initialise",
 			};
 		}
 
-		var /** @alias module:wc/ui/table/sort */ instance = new Sort();
+		/**
+		 * Provides table sort controls. A column is sorted by an algorithm controlled by the server application. There is no
+		 * client side sorting.
+		 *
+		 * @module
+		 * @alias module:wc/ui/table/sort
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/event
+		 * @requires module:wc/dom/formUpdateManager
+		 * @requires module:wc/dom/attribute
+		 * @requires module:wc/dom/group
+		 * @requires module:wc/ui/ajaxRegion
+		 * @requires module:wc/ui/ajax/processResponse
+		 * @requires module:wc/ui/onloadFocusControl
+		 * @requires module:wc/dom/isEventInLabel
+		 * @requires module:wc/dom/isAcceptableTarget
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/ui/table/common
+		 */
+		var instance = new Sort();
 		initialise.register(instance);
 		return instance;
 	});

@@ -3,10 +3,6 @@
 
 .wc-menu-type-column,
 .wc_menu_bar {
-	.wc-submenu {
-		position: relative;
-	}
-
 	.wc_submenucontent {
 		height: auto; // override (mobile) default
 		min-width: 100%;
@@ -22,6 +18,23 @@
 
 	.wc_closesubmenu {
 		display: none;
+	}
+}
+
+.wc-menu-type-column,
+.wc_submenucontent {
+	 // nested sub-menus. These must appear before the colision detection overrides below.
+	.wc_submenucontent {
+		left: 100%;
+		top: 0;
+
+		&.wc_coleast { // nested collisions
+			right: 100%;
+		}
+
+		&.wc_colwest {
+			right: 100%;
+		}
 	}
 }
 
@@ -54,22 +67,6 @@
 	}
 }
 
-.wc-menu-type-column,
-.wc_submenucontent {
-	 // nested sub-menus. These must appear before the colision detection overrides below.
-	.wc_submenucontent {
-		left: 100%;
-		top: 0;
-
-		&.wc_coleast { // nested collisions
-			right: 100%;
-		}
-
-		&.wc_colwest {
-			right: 100%;
-		}
-	}
-}
 
 // The collapsed bar menu in a header.
 [role='banner'] .wc-menu-type-bar[data-wc-menufixed] {
@@ -87,22 +84,6 @@
 		width: auto;
 	}
 }
-
-.wc-submenu-o > .wc-decoratedlabel:after {
-	.wc_menu_bar &,
-	.wc-menu-type-column & {
-		@include wc-icon(-1);
-		display: table-cell;
-		padding-left: $wc-menu-bar-column-opener-indicator-before-after;
-	}
-}
-
-.wc_hbgr.wc-submenu-o > .wc-decoratedlabel:after { // the hamburger icon,
-	display: none;
-	margin-left: 0;
-}
-
-$wc-closesubmenu-icon-offset: $wc-icon-normal + $wc-gap-small;
 
 .wc_closesubmenu:before {
 	margin-right: $wc-gap-small;

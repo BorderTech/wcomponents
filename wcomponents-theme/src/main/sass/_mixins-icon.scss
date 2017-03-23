@@ -22,7 +22,7 @@
 	width: $width;
 }
 
-/// Add content and fixed-width to an icon. Used with class .wc-icon and .wc-icon-after.
+/// Add content and fixed-width to an icon. Used with class .wc-icon-after.
 @mixin wc-icon-fw-content($icon: -1, $text-align: center, $width: $wc-icon-normal) {
 	@if($icon != -1) {
 		content: $icon;

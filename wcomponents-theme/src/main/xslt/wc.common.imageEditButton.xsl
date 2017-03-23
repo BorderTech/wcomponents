@@ -26,6 +26,9 @@
 					</xsl:attribute>
 				</xsl:otherwise>
 			</xsl:choose>
+			<span class="wc-off">
+				<xsl:value-of select="$text"/>
+			</span>
 			<xsl:call-template name="icon">
 				<xsl:with-param name="class">
 					<xsl:choose>
@@ -33,10 +36,8 @@
 						<xsl:otherwise>fa-video-camera</xsl:otherwise>
 					</xsl:choose>
 				</xsl:with-param>
+				<xsl:with-param name="element" select="'i'"/>
 			</xsl:call-template>
-			<span class="wc-off">
-				<xsl:value-of select="$text"/>
-			</span>
 		</button>
 	</xsl:template>
 </xsl:stylesheet>

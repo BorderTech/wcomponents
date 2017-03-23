@@ -91,6 +91,10 @@ dialog {
 				padding: $wc-gap-small;
 			}
 		}
+
+		.fa {
+			opacity: 0.5;
+		}
 	}
 }
 
@@ -126,4 +130,3 @@ dialog {
 }
 
 @import 'wc.dialog.color';
-@import 'wc.dialog.icons';

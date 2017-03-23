@@ -10,13 +10,18 @@
 		}
 	}
 
-	&[role='checkbox'] + label {
-		margin-left: $wc-gap-small;
+	&[role='checkbox'] {
+		+ label {
+			margin-left: $wc-gap-small;
+		}
+
+		> .fa {
+			text-align: left;
+			width: $wc-icon-normal;
+		}
 	}
 
 	&[data-wc-value][aria-checked='true'] {
 		font-weight: bold;
 	}
 }
-
-@import 'wc.selecttoggle.icons';

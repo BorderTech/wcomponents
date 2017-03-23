@@ -185,12 +185,6 @@ $wc-align-list: left, center, right;
 
 // ICON POSITIONING CLASSES.
 // You probably want these in some form, almost certainly this form. The class names are in the Java API.
-.wc-icon:before,
-.wc-icon-before:before,
-.wc-icon-after:before {
-	@include wc-icon;
-}
-
 .wc-icon-before:before {
 	margin-right: $wc-gap-small;
 }

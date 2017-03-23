@@ -8,14 +8,6 @@
 	right: $wc-gap-large;
 	text-decoration: none;
 
-	&:before {
-		display: block;
-		font-size: $wc-btt-large;
-		line-height: inherit;
-		text-align: center;
-		vertical-align: middle;
-	}
-
 	> span {
 		@include offscreen;
 	}
@@ -28,5 +20,3 @@
 		}
 	}
 }
-
-@import 'wc.btt.icons';

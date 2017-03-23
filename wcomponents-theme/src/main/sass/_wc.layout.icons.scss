@@ -1,7 +1,0 @@
-@import 'vars';
-
-// dot bullets should be default but need pseudo-elements for flat lists.
-.wc-listlayout-type-flat.wc-listlayout-separator-dot > li + li:before {
-	// dot bullets should be default but need pseudo-elements for flat lists.
-	content: $fa-var-circle;
-}

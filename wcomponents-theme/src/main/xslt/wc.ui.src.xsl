@@ -28,7 +28,7 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:call-template name="icon">
-				<xsl:with-param name="class">fa-play</xsl:with-param>
+				<xsl:with-param name="class">fa-fw fa-play</xsl:with-param>
 			</xsl:call-template>
 			<xsl:choose>
 				<xsl:when test="../@alt">

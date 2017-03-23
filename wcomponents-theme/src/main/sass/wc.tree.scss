@@ -42,10 +42,10 @@ button[role='treeitem'],
 }
 
 .wc_leaf_vopener,
-.wc_leaf_noimg {
+.wc_leaf_img {
 	width: $wc-icon-wider;
 
-	&:before {
+	> .fa:before {
 		text-align: left;
 		width: $wc-icon-normal;
 	}
@@ -80,4 +80,3 @@ button[role='treeitem'],
 
 @import 'wc.htree';
 @import 'wc.tree.color';
-@import 'wc.tree.icons';

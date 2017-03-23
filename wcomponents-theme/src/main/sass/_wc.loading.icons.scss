@@ -3,15 +3,13 @@
 @import 'wc.keyframes';
 
 // loading indicator is generated and identified
-// scss-lint:disable IdSelector
-// #wc-ui-loading div,
 [aria-busy='true'] {
 	&:before {
-		@include wc-icon($fa-var-spinner);
+		@include fa-icon;
 		@include wc-spin; // fa do not yet have a mixin for this.
+		content: $fa-var-spinner;
 	}
 }
-// scss-lint:enable IdSelector
 
 input,
 select,

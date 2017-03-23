@@ -69,6 +69,7 @@ define(["wc/dom/attribute",
 			fileInfoContainerWd = new Widget("UL", CLASS_FILE_LIST),
 			fileInfoWd = new Widget("LI", CLASS_FILE_INFO),
 			itemActivationWd = new Widget("A"),
+			BUTTON = new Widget("button"),
 			removeButtonWd = new Widget("BUTTON"),
 			filesWrapperWd = new Widget("div", CLASS_WRAPPER),
 			inflightXhrs = {},
@@ -146,9 +147,9 @@ define(["wc/dom/attribute",
 			 * @param {Event} $event The click event.
 			 */
 			function clickEvent($event) {
-				var fileInfo, container, trigger, proceed,
-					element = $event.target;
+				var fileInfo, container, trigger, proceed, element;
 				if (!$event.defaultPrevented) {
+					element = BUTTON.findAncestor($event.target) || $event.target;
 					initialiseFileInput(element);
 					fileInfo = fileInfoWd.findAncestor(element);
 					if (fileInfo) {

@@ -1,5 +1,7 @@
 @import 'mixins-common';
 
+$wc-table-cell-padding: $wc-gap-small !default;
+
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
@@ -8,31 +10,9 @@ table {
 
 th,
 td {
-	padding: $wc-gap-small;
+	padding: $wc-table-cell-padding;
 	text-align: left; // use TableColumn.Alignment to change this.
 	vertical-align: top;
-}
-
-th {
-	&.wc_table_rowexp_container,
-	&.wc_table_sel_wrapper { // reset the vertical alignment of th with these classes
-		vertical-align: inherit;
-	}
-}
-
-td {
-	&.wc_table_rowexp_container,
-	&.wc_table_sel_wrapper {
-		vertical-align: text-top;
-	}
-
-	&.wc_table_sel_wrapper {
-		text-align: right;
-
-		[aria-selected] > & {
-			text-align: left;
-		}
-	}
 }
 
 caption {
@@ -91,30 +71,33 @@ caption {
 //*****************************************************************************
 // Row selection
 //*****************************************************************************
+// The unusual text-align settings in this section is to cater for when we have
+// multiple selection and the parent-selects-children setting menu where some
+// parents with a menu are not selectable (so we use right) and some selectable
+// are not parents (so need left). This could be handled with a new column ...
 .wc_table_sel_wrapper {
+	text-align: right;
 	white-space: nowrap;
 
-	tr[aria-selected] > &:before {
-		@include wc-icon-fw($text-align: left);
+	tr[aria-selected] > & {
+		text-align: left;
 	}
 
 	.wc-menu-type-flyout {
 		button { // override unnecessary .wc_seltog style.
 			margin-left: 0;
-			text-decoration: none;
 		}
 
 		.wc-submenu-o { // the is the submenu opener emulator for the sub-row toggle control
-			@include button($background: $wc-ui-color-menu-bg, $padding: 0, $width: $wc-icon-normal);
+			// background-color: $wc-ui-color-menu-bg;
 			height: $wc-icon-normal;
+			padding: 0;
 			vertical-align: top;
-
-			> .wc-decoratedlabel::after {
-				display: inline-block;
-				padding-left: 0; // remove submenu opener indicator margin
-				width: $wc-icon-normal;
-			}
 		}
+	}
+
+	> .fa + .wc-menu-type-flyout {
+		margin-left: $wc-gap-small;
 	}
 }
 
@@ -129,10 +112,6 @@ caption {
 			padding-left: ($i - 1) * $wc-gap-large;
 		}
 	}
-}
-
-[aria-expanded] > td[role='button']:before {
-	@include wc-icon-fw;
 }
 
 //*****************************************************************************
@@ -168,30 +147,36 @@ caption {
 //*****************************************************************************
 th[aria-sort] {
 	cursor: pointer;
-	padding-right: $wc-gap-large;
-	position: relative;
-
-	&:after {
-		@include wc-icon-fw($text-align: right, $width: $wc-icon-small);
-		position: absolute;
-		right: $wc-gap-small;
-
-		@if ($wc-table-sort-icon-pos == middle) {
-			height: 0;
-			line-height: 0;
-			top: 50%;
-		}
-		@else if ($wc-table-sort-icon-pos == bottom) {
-			bottom: $wc-gap-small;
-		}
+	@if ($wc-table-sort-icon-pos == middle or $wc-table-sort-icon-pos == bottom) {
+		position: relative;
 	}
 
 	> .wc-decoratedlabel {
-		@include fit-content;
 		display: inline-block;
+		width: calc(100% - $wc-icon-normal);
+		word-break: break-word;
+	}
+
+	> .fa {
+		display: inline-block;
+		width: $wc-icon-normal;
+
+		@if ($wc-table-sort-icon-pos == middle or $wc-table-sort-icon-pos == bottom) {
+			position: absolute;
+			@if ($wc-table-sort-icon-pos == middle) {
+				height: 0;
+				line-height: 0;
+				top: 50%;
+			}
+			@else if ($wc-table-sort-icon-pos == bottom) {
+				bottom: $wc-table-cell-padding;
+			}
+		}
+		@else {
+			vertical-align: top;
+		}
 	}
 }
 
 @import 'wc.table.respond';
 @import 'wc.table.color';
-@import 'wc.table.icons';

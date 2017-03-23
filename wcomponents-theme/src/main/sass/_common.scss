@@ -120,6 +120,7 @@ $wc-icon-small: 0.75rem !default; // about 12px in any unit
 $wc-icon-normal: 1rem !default; // min 16px in any unit
 $wc-icon-wider: 1.25rem !default;  //recommend min 20px in any unit - this will allow for wider glyphs.
 $wc-icon-large: 2rem !default; // really big icons. So far only for the full-screen loading indicator.
+$fa-fw-calc-size: $wc-icon-wider !default;
 
 // h1 in WSection, WPanel Types CHROME and SECTION, WMessageBox, WValidationErrors.
 // If you are mucking around here you may want to go look at the WHeading styles below. Set this to -1 to use the
@@ -414,7 +415,7 @@ $wc-menu-bar-vseparator-pad: (2 * $wc-menu-item-pad-topbottom) 0 0 0 !default;
 // the gap bewtten the text label of a sub menu and its 'opener' image
 $wc-menu-bar-column-opener-indicator-before-after: $wc-gap-small !default;
 // width of the open state icon in WMenu type TREE
-$wc-menu-tree-iconwidth: $wc-icon-normal !default;
+$wc-menu-iconwidth: $wc-icon-normal !default;
 
 //**********************************************************************************************************************
 // WSection

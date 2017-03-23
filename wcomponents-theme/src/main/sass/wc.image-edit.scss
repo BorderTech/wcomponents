@@ -1,12 +1,6 @@
 @import 'mixins-common';
 
 .wc_img_editor {
-	.wc_img_cap,
-	.wc_img_nocap,
-	.wc_img_capture {
-		display: none;
-	}
-
 	&.wc_nortc .wc_img_nocap {
 		display: block;
 	}
@@ -21,7 +15,6 @@
 			display: none;
 		}
 	}
-
 
 	&.wc_camenable .wc_img_capture {
 		display: block;
@@ -55,6 +48,27 @@
 			display: block;
 			margin: $wc-gap-small auto 0;
 		}
+
+		> .fa:before {
+			min-width: $wc-icon-normal;
+		}
+	}
+
+	input {
+		&[type='range'] {
+			margin-left: $wc-gap-small;
+			vertical-align: middle;
+		}
+
+		&[type='checkbox'] {
+			margin-left: $wc-gap-small;
+		}
+	}
+
+	.wc_img_cap,
+	.wc_img_nocap,
+	.wc_img_capture {
+		display: none;
 	}
 
 	.wc_img_controls {
@@ -68,15 +82,6 @@
 			margin-top: 0;
 		}
 
-	}
-
-	input[type='range'] {
-		margin-left: $wc-gap-small;
-		vertical-align: middle;
-	}
-
-	input[type='checkbox'] {
-		margin-left: $wc-gap-small;
 	}
 }
 
@@ -107,5 +112,4 @@
 	}
 }
 
-@import 'wc.image-edit.icons';
 @import 'wc.image-edit.color';

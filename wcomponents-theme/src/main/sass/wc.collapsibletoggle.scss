@@ -13,7 +13,7 @@
 		}
 	}
 
-	button:before {
+	button > .fa:before {
 		@include margin($pos: right);
 	}
 
@@ -21,5 +21,3 @@
 		font-weight: bold;
 	}
 }
-
-@import 'wc.collapsibletoggle.icons';

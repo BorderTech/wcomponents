@@ -23,8 +23,10 @@ summary {
 	font-weight: bold;
 	padding: $wc-gap-normal 0;
 
-	&:before {
-		@include wc-icon-fw-content(-1, left, $wc-collapsible-icon-width);
+	> .fa:before {
+		margin-right: $wc-gap-small;
+		text-align: left;
+		width: $wc-collapsible-icon-width;
 	}
 
 	> h1,
@@ -47,4 +49,3 @@ summary {
 }
 
 @import 'wc.collapsible.color';
-@import 'wc.collapsible.icons';

@@ -1,5 +1,6 @@
 @import 'mixins-common';
 
+$wc-menu-icon-space: $wc-menu-iconwidth + $wc-gap-small;
 // Structural styles common to all menus.
 .wc-menuitem,
 .wc-submenu {
@@ -16,6 +17,7 @@
 .wc-menuitem,
 .wc-submenu-o {
 	padding: $wc-menu-bar-column-item-pad;
+	width: 100%;
 
 	.wc-decoratedlabel {
 		display: inline-table; // this is so we can hold an icon on WMenuItem
@@ -35,6 +37,18 @@
 	}
 }
 
+.wc-submenu-o {
+	> .wc-decoratedlabel {
+		width: calc(100% - $wc-menu-icon-space);
+	}
+
+	> .fa {
+		margin-left: $wc-gap-small;
+		text-align: left;
+		width: $wc-menu-iconwidth;
+	}
+}
+
 .wc-menuitem {
 	display: block;
 	vertical-align: bottom;
@@ -42,7 +56,11 @@
 	&.wc-icon-before,
 	&.wc-icon-after {
 		.wc-decoratedlabel {
-			width: calc(100% - $wc-icon-normal - $wc-gap-small);
+			width: calc(100% - $wc-menu-icon-space);
+		}
+
+		&:before {
+			width: $wc-menu-iconwidth;
 		}
 	}
 }
@@ -105,6 +123,15 @@
 	display: inline-block;
 }
 
+.wc-submenu {
+	position: relative;
+
+	.wc-menu-type-tree & {
+		position: static;
+	}
+}
+
+
 // Type TREE
 // TODO: try to work WMenu Type TREE to be more like WTree so we can get rid of this.
 .wc-menu-type-tree {
@@ -115,8 +142,8 @@
 	.wc-submenu-o {
 		padding: $wc-tree-item-pad;
 
-		> .wc-decoratedlabel:before {
-			@include wc-icon-fw(-1, $text-align: left, $width: $wc-menu-tree-iconwidth);
+		> .fa {
+			margin-left: 0;
 		}
 	}
 
@@ -129,16 +156,17 @@
 // Negative margins!!!
 // WARNING
 //
-// When a WMenu of Type.BAR is the first child of a WPanel of Type.CHROME or of Type.ACTION (ie a WPanel with exposed
-// title) _or_ is the first child of a WPanel child of WSection; **and** that WPanel does not have a Layout applied then
-// a negative margin is applied to make the menu "dock" to the header bar.
-// This class `.wc-neg-margin` can be used to force this same negative margin on WMenus of Type.BAR when it is not
-// feasible to have them in unnested WPanel's in the appropriate circimstance.
+// When a WMenu of MenuType.BAR is the first child of a WPanel of Type.CHROME or of Type.ACTION (ie a WPanel with
+// exposed title) _or_ is the first child of a WPanel child of WSection; **and** that WPanel does not have a Layout
+//  applied then a negative margin is applied to make the menu "dock" to the header bar.
+// The class `.wc-neg-margin` can be used to force this same negative margin on WMenus of MenuType.BAR when it is not
+// feasible to have them in WPanel's with no Layout in the appropriate circumstance.
 //
 // WARNING
 //
 // This makes no attempt to determine the location of the menu, it just uses the section padding as a negative margin.
 // This means it will apply wherever it is used.
+//
 // It is intended that this **only** be used when the menu is the first visible component in such a section as described
 // above but I am not going to enforce that.
 //
@@ -163,5 +191,4 @@
 }
 // ####################################################################################################################
 @import 'wc.menu.color';
-@import 'wc.menu.icons';
 @import 'wc.menu.respond';

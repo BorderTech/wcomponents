@@ -103,6 +103,11 @@ table {
 	// scss-lint:enable QualifyingElement
 }
 
+// the is the submenu opener emulator for the sub-row toggle control
+.wc_table_sel_wrapper .wc-submenu-o {
+	background-color: $wc-ui-color-menu-bg;
+}
+
 //*****************************************************************************
 // Container for actions and pagination
 //*****************************************************************************

@@ -853,6 +853,29 @@ define(["wc/has",
 			return null;
 		};
 
+		/**
+		 * Determine if an ARIA analog control is multi-selectable. This is a helper which is only really useful for those analogs which may
+		 * have a mixed mode such as list options and table rows.
+		 * @param {Element} [element] an element which is itself a WAI-ARIA analog component. That is, it will be something which for some sub-class
+		 * of this will return `true` from `this.ITEM.isOneOfMe(element)`. This arg is mandatory for mixed mode analogs, and this function is only
+		 * really useful for those analogs.
+		 * @returns {Boolean} `true` if the current analog is multi-selectable.
+		 * @throws {TypeError} if the selection mode is mixed and no element is provided as a reference.
+		 */
+		AriaAnalog.prototype.isMultiSelect = function(element) {
+			if (this.exclusiveSelect === this.SELECT_MODE.SINGLE) {
+				return false;
+			}
+			if (this.exclusiveSelect === this.SELECT_MODE.MULTIPLE) {
+				return true;
+			}
+			if (!element) {
+				throw new TypeError ("Cannot determine mixed selection nature without a sample element.");
+			}
+			var container = this.getGroupContainer(element);
+			return container ? (container.getAttribute("aria-multiselectable") === "true") : false;
+		};
+
 		ariaAnalog = new AriaAnalog();
 		if (typeof Object.freeze !== "undefined") {
 			Object.freeze(ariaAnalog);  // freeze, cos this is shared as the proto for many different constructors

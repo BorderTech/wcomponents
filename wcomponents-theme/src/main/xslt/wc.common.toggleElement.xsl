@@ -147,12 +147,28 @@
 					</xsl:if>
 					<xsl:call-template name="makeCommonClass">
 						<xsl:with-param name="additional">
-							<xsl:text>wc_seltog wc-nobutton wc-icon</xsl:text>
+							<xsl:text>wc_seltog wc-nobutton</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:if test="self::ui:selecttoggle">
 						<xsl:call-template name="disabledElement"/>
 					</xsl:if>
+					<xsl:call-template name="icon">
+						<xsl:with-param name="class">
+							<xsl:text>fa-</xsl:text>
+							<xsl:choose>
+								<xsl:when test="$selected eq 'all'">
+									<xsl:text>check-square-o</xsl:text>
+								</xsl:when>
+								<xsl:when test="$selected eq 'some'">
+									<xsl:text>square</xsl:text>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:text>square-o</xsl:text>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:with-param>
+					</xsl:call-template>
 				</button>
 			</xsl:otherwise>
 		</xsl:choose>
@@ -191,7 +207,7 @@
 				<xsl:when test="self::ui:selecttoggle"><!-- WCollapsibleToggle does not have a disabled state. -->
 					<xsl:call-template name="disabledElement"/>
 				</xsl:when>
-				<xsl:otherwise>
+				<xsl:when test="not(self::ui:rowselection)">
 					<xsl:call-template name="icon">
 						<xsl:with-param name="class">
 							<xsl:choose>
@@ -204,7 +220,7 @@
 							</xsl:choose>
 						</xsl:with-param>
 					</xsl:call-template>
-				</xsl:otherwise>
+				</xsl:when>
 			</xsl:choose>
 			<xsl:value-of select="$text"/>
 		</button>

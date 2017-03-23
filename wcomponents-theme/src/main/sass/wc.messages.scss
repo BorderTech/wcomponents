@@ -8,19 +8,25 @@
 	display: block;
 	margin-top: $wc-gap-small;
 
-	> span {
-		display: block;
-
-		&:before {
-			@include wc-icon-fw(-1);
-			content: '';
-		}
+	> .fa {
+		text-align: left;
+		width: $wc-icon-normal;
 
 		+ span {
+			display: inline-block;
+		}
+	}
+
+	> span {
+		display: block;
+		width: calc(100% - $wc-icon-normal);
+
+		+ span {
+			margin-left: $wc-icon-normal;
 			margin-top: $wc-gap-small;
 		}
 	}
 }
 
+
 @import 'wc.messages.color';
-@import 'wc.messages.icons';

@@ -17,7 +17,7 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:call-template name="hideElementIfHiddenSet"/>
-			<summary class="wc-icon" tabindex="0">
+			<summary tabindex="0">
 				<xsl:call-template name="icon">
 					<xsl:with-param name="class">fa-caret-right</xsl:with-param>
 				</xsl:call-template>
