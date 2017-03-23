@@ -1,9 +1,0 @@
-/* wc.ui.dateField.scss */
-@import 'mixins-common';
-
-.wc-datefield > [role='listbox'] {
-	max-height: none;
-}
-
-@import 'wc.ui.dateFieldIcons';
-@import 'wc.ui.calendar';

@@ -21,7 +21,7 @@
 	<property name="sass.tmp.src.dir" location="${tmp.dir}/sass" />
 	<property name="style.build.target.dir" location="${target.rootdir}/${css.target.dir.name}"/>
 
-	<target name="build" depends="init, copyCssSrc, compileScssVaadinAntWrapper, initExcludes, buildCss, minify" description="Builds CSS artifacts then minifies them"> </target>
+	<target name="build" depends="init, copyCssSrc, compileScssVaadinAntWrapper, buildCss, minify" description="Builds CSS artifacts then minifies them"> </target>
 
 	<target name="minify" unless="minifiy.resources.off" depends="imagesToDataUrl">
 		<stopwatch name="minifyCss" action="start" />
@@ -64,36 +64,14 @@
 	<target name="buildCss" depends="buildBrowserCss">
 		<concat destfile="${style.tmp.target.dir}/${css.target.file.name}${debug.target.file.name.suffix}.css" fixlastline="yes" encoding="UTF-8">
 			<path id="style.full.path">
-				<path refid="style.core.file.path" />
-				<fileset dir="${style.tmp.src.dir}" includes="wc.*.css">
-					<excludesfile name="${tmp.dir}/style.core.txt" />
+				<fileset dir="${style.tmp.src.dir}" includes="*.css">
 					<excludesfile name="${style.excludesfile.dynamic}" />
 				</fileset>
 				<fileset dir="${style.tmp.src.dir}" includes="*.css">
-					<excludesfile name="${tmp.dir}/style.core.txt" />
 					<excludesfile name="${style.excludesfile.dynamic}" />
 				</fileset>
 			</path>
 		</concat>
-	</target>
-
-	<!--
-		To be called after copyCssSource is complete
-	-->
-	<target name="initExcludes">
-		<path id="style.core.file.path">
-			<!--
-				NOTE: wc.imports.css MUST come first in the CSS file. The rest of this is not really necessary - it
-				is a hangover from a simpler time.
-			-->
-			<fileset dir="${style.tmp.src.dir}" includes="wc.imports.css" />
-			<fileset dir="${style.tmp.src.dir}" includes="*.imports.css" excludes="wc.imports.css" />
-			<fileset dir="${style.tmp.src.dir}" includes="wc.common.page.css" />
-			<fileset dir="${style.tmp.src.dir}" includes="*.page.css" excludes="wc.common.page.css" />
-			<fileset dir="${style.tmp.src.dir}" includes="wc.common.form.css" />
-			<fileset dir="${style.tmp.src.dir}" includes="*.form.css" excludes="wc.common.form.css" />
-		</path>
-		<pathToExcludesFile excludesFileName="${tmp.dir}/style.core.txt" pathId="style.core.file.path" />
 	</target>
 
 	<!--
@@ -106,17 +84,11 @@
 		<!-- wcomponents-theme SCSS -->
 		<copy todir="${sass.tmp.src.dir}" overwrite="true">
 			<fileset dir="${sass.rootdir}" includes="**/*.scss" excludesfile="${excludesfile}" />
-			<filterchain>
-				<expandproperties />
-			</filterchain>
 		</copy>
 
 		<!-- Implementation SCSS -->
 		<copy todir="${sass.tmp.src.dir}" overwrite="true">
 			<fileset dir="${impl.sass.rootdir}" includes="**/*.scss" erroronmissingdir="false"/>
-			<filterchain>
-				<expandproperties />
-			</filterchain>
 		</copy>
 	</target>
 
@@ -140,7 +112,6 @@
 				<buildCSSSets pattern="@{version}" targetFile="${css.target.file.name}.@{version}" />
 			</sequential>
 		</for>
-		<buildCSSSets pattern="dt" targetFile="${css.target.file.name}.dt" />
 		<getPlatformCSS sourceDir="${style.tmp.src.dir}" />
 		<for list="${platform.list}" param="platform">
 			<sequential>
@@ -205,11 +176,9 @@
 			<concat destfile="${style.tmp.target.dir}/@{targetFile}${debug.target.file.name.suffix}.css" fixlastline="yes">
 				<path>
 					<fileset dir="${style.tmp.src.dir}" includes="wc.*@{pattern}.css">
-						<excludesfile name="${tmp.dir}/style.core.txt" />
 						<excludesfile name="${style.excludesfile.dynamic}" />
 					</fileset>
 					<fileset dir="${style.tmp.src.dir}" includes="*@{pattern}.css" excludes="wc.*.@{pattern}.css">
-						<excludesfile name="${tmp.dir}/style.core.txt" />
 						<excludesfile name="${style.excludesfile.dynamic}" />
 					</fileset>
 				</path>
@@ -288,7 +257,6 @@
 			</else>
 		</if>
 	</target>
-
 
 	<!--
 		Sets the property ie.version.list with a list of the versions of ie specific source files in the sourceDir

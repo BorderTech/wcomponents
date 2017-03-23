@@ -22,6 +22,7 @@ import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
+import com.github.bordertech.wcomponents.util.HtmlIconUtil;
 
 /**
  * <p>
@@ -186,18 +187,18 @@ public class WButtonExample extends WPanel implements MessageContainer {
 		iconButton.setHtmlClass(HtmlClassProperties.ICON_SEARCH_AFTER);
 		add(iconButton);
 
-		add(new ExplanatoryText("These examples show ways to add a Font-Awesome icon to a button using 'setHtmlClass(String)'."));
+		add(new ExplanatoryText("These examples show ways to add a Font-Awesome icon to a button using 'setHtmlClass'."));
 		iconButton = new WButton("\u200b"); // \u200b is a zero-width space.
 		iconButton.setToolTip("Open Menu");
-		iconButton.setHtmlClass("wc-icon fa-bars");
+		iconButton.setHtmlClass(HtmlIconUtil.getIconClasses("fa bars"));
 		add(iconButton);
 
 		iconButton = new WButton("With text content");
-		iconButton.setHtmlClass("wc-icon-before fa-hand-o-left");
+		iconButton.setHtmlClass(HtmlIconUtil.getIconClasses("fa-hand-o-left", HtmlIconUtil.IconPosition.BEFORE));
 		add(iconButton);
 
 		iconButton = new WButton("Right icon with text content");
-		iconButton.setHtmlClass("wc-icon-after fa-hand-o-right");
+		iconButton.setHtmlClass(HtmlIconUtil.getIconClasses("fa-hand-o-right", HtmlIconUtil.IconPosition.AFTER));
 		add(iconButton);
 	}
 

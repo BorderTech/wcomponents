@@ -2,8 +2,10 @@
 @import 'vars';
 @import 'mixins-flex'; // flex layouts.
 @import 'mixins-respond'; // responsive design media queries.
-@import 'mixins-icon'; // in-built iconography.
 @import 'mixins-invite'; // 'invitation' styles.
+@import 'mixins-animate';
+@import 'libs/fa/variables';
+@import 'libs/fa/mixins';
 
 // Allow Vendor Prefix in mixins.
 // scss-lint:disable VendorPrefix

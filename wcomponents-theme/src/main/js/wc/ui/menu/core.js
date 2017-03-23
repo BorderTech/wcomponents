@@ -40,8 +40,8 @@ define(["wc/dom/attribute",
 				COLLIDE_WEST: "wc_colwest",
 				COLLIDE_SOUTH: "wc_colsth",
 				// no collide north...
-				DEFAULT_DIRECTION: "wc_col" + i18n.get("menu_popout_direction"),
-				AGAINST_DEFAULT: "wc_col" + i18n.get("menu_popout_reverse"),
+				DEFAULT_DIRECTION: null,
+				AGAINST_DEFAULT: null,
 				CLOSER: "wc_closesubmenu"
 			},
 			/**
@@ -438,27 +438,28 @@ define(["wc/dom/attribute",
 		 * webkit focus fix to kick in and refocus the original button.
 		 *
 		 * @function
-		 * @protected
+		 * @private
 		 * @param {Element} menu The menu to close.
-		 * @param {Element} element The element which has caused the menu to close (most commonly by receiving focus).
+		 * @param {Element} [element] the element which has caused the menu to close (most commonly by receiving focus). if not set then close all
+		 * paths.
 		 */
-		AbstractMenu.prototype._closeOpenMenu = function(menu, element) {
+		function closeOpenMenu(menu, element, instance) {
 			try {
 				if (element === window) {
-					this.closeAllPaths(menu, null);
+					instance.closeAllPaths(menu);
 				}
-				else if (element.tabIndex >= 0) {
-					timers.setTimeout(this.closeAllPaths.bind(this), 150, menu, element);
+				else if (!element || element.tabIndex >= 0) {
+					timers.setTimeout(instance.closeAllPaths.bind(instance), 150, menu, element);
 				}
 				else {
-					this.closeAllPaths(menu, element);
+					instance.closeAllPaths(menu, element);
 				}
 			}
 			finally {
 				openMenu = null;
 				activateOnHover = null;
 			}
-		};
+		}
 
 		/**
 		 * Gets an instance of TreeWalker for a particular menu.
@@ -617,6 +618,9 @@ define(["wc/dom/attribute",
 				box,
 				iCollideInDefaultDirection,
 				iCollideAgainstDefaultDirection;
+
+			CLASS.DEFAULT_DIRECTION = CLASS.DEFAULT_DIRECTION || "wc_col" + i18n.get("menu_popout_direction");
+			CLASS.AGAINST_DEFAULT = CLASS.AGAINST_DEFAULT || "wc_col" + i18n.get("menu_popout_reverse");
 			if (_submenu) {
 				collision = viewportCollision(_submenu);
 				iCollideInDefaultDirection = doICollide(collision);  // we need to know if the submenu would collide east by itself not because its parent submenu collides east
@@ -888,8 +892,10 @@ define(["wc/dom/attribute",
 				instance._expand(branch, root);
 			}
 			else if (action === shed.actions.COLLAPSE && (content = instance.getSubMenu(branch, true))) {
-				classList.remove(content, CLASS.DEFAULT_DIRECTION);
-				classList.remove(content, CLASS.AGAINST_DEFAULT);
+				if (CLASS.DEFAULT_DIRECTION) {
+					classList.remove(content, CLASS.DEFAULT_DIRECTION);
+					classList.remove(content, CLASS.AGAINST_DEFAULT);
+				}
 				classList.remove(content, CLASS.COLLIDE_SOUTH);
 				content.style.bottom = "";
 				content.removeAttribute("style");
@@ -1672,7 +1678,7 @@ define(["wc/dom/attribute",
 			genericRoot = ((target === window || target === document) ? null : this.getFirstMenuAncestor(target));
 			if (root && (root === genericRoot)) {
 				if (openMenu && (localOpenMenu = document.getElementById(openMenu)) && localOpenMenu !== root) {
-					this._closeOpenMenu(localOpenMenu, target);
+					closeOpenMenu(localOpenMenu, target, this);
 				}
 				if (this.isTransient) {
 					if (!attribute.get(root, BOOTSTRAPPED)) {
@@ -1689,7 +1695,7 @@ define(["wc/dom/attribute",
 				}
 			}
 			else if (!genericRoot && openMenu && (localOpenMenu = document.getElementById(openMenu)) && this.isRoot(localOpenMenu)) {  // focus is not in any menu
-				this._closeOpenMenu(localOpenMenu, target);
+				closeOpenMenu(localOpenMenu, target, this);
 			}
 		};
 
@@ -1713,7 +1719,8 @@ define(["wc/dom/attribute",
 				if (target !== window && (root = this.getRoot(target))) {
 					if ((item = this.getItem(target)) && !shed.isDisabled(item)) {
 						if (openMenu && (localOpenMenu = document.getElementById(openMenu)) && root !== localOpenMenu) {
-							this._closeOpenMenu(localOpenMenu, target);
+							// click in inside a different menu, close the previous open menu.
+							closeOpenMenu(localOpenMenu, null, this);
 						}
 						preventDefault = this[FUNC_MAP.ACTION](target);
 						if (this.isTransient) {
@@ -1722,15 +1729,14 @@ define(["wc/dom/attribute",
 								activateOnHover = expandable ? (shed.isExpanded(expandable) ? root.id : null) : null;
 							}
 							else if (this._isLeaf(item)) {
-								// timers.setTimeout(this._closeOpenMenu.bind(this), 0, root, item);
-								this._closeOpenMenu(root, item);
+								closeOpenMenu(root, null, this);
 							}
 						}
 					}
 				}
 				else if (openMenu && (localOpenMenu = document.getElementById(openMenu)) && this.isRoot(localOpenMenu)) {
 					// click outside any menu we need to close any open transient menu
-					this._closeOpenMenu(localOpenMenu, target);
+					closeOpenMenu(localOpenMenu, null, this);
 				}
 			}
 			catch (ex) {

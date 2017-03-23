@@ -1,0 +1,10 @@
+// Stub for WDecoratedLabel
+@import 'vars';
+
+.wc_dlbl_seg {
+	display: inline-block;
+
+	+ .wc_dlbl_seg {
+		margin-left: $wc-gap-small;
+	}
+}

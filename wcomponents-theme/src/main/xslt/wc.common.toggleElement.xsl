@@ -1,6 +1,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
+	<xsl:import href="wc.common.icon.xsl"/>
 	
 	<!-- Output expand all and collapse all buttons. -->
 	<xsl:template name="collapsibleToggle">
@@ -23,7 +24,7 @@
 			WCollapsible on the page.
 		-->
 		<xsl:variable name="toggleClass">
-			<xsl:value-of select="concat('wc-icon wc_', local-name(.))"/>
+			<xsl:value-of select="concat('wc_', local-name(.))"/>
 		</xsl:variable>
 		<ul id="{$id}" role="radiogroup">
 			<xsl:call-template name="makeCommonClass">
@@ -146,12 +147,28 @@
 					</xsl:if>
 					<xsl:call-template name="makeCommonClass">
 						<xsl:with-param name="additional">
-							<xsl:text>wc_seltog wc-nobutton wc-icon</xsl:text>
+							<xsl:text>wc_seltog wc-nobutton</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
 					<xsl:if test="self::ui:selecttoggle">
 						<xsl:call-template name="disabledElement"/>
 					</xsl:if>
+					<xsl:call-template name="icon">
+						<xsl:with-param name="class">
+							<xsl:text>fa-</xsl:text>
+							<xsl:choose>
+								<xsl:when test="$selected eq 'all'">
+									<xsl:text>check-square-o</xsl:text>
+								</xsl:when>
+								<xsl:when test="$selected eq 'some'">
+									<xsl:text>square</xsl:text>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:text>square-o</xsl:text>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:with-param>
+					</xsl:call-template>
 				</button>
 			</xsl:otherwise>
 		</xsl:choose>
@@ -186,9 +203,25 @@
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:attribute>
-			<xsl:if test="self::ui:selecttoggle"><!-- WCollapsibleToggle does not have a disabled state. -->
-				<xsl:call-template name="disabledElement"/>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="self::ui:selecttoggle"><!-- WCollapsibleToggle does not have a disabled state. -->
+					<xsl:call-template name="disabledElement"/>
+				</xsl:when>
+				<xsl:when test="not(self::ui:rowselection)">
+					<xsl:call-template name="icon">
+						<xsl:with-param name="class">
+							<xsl:choose>
+								<xsl:when test="$value eq 'expand'">
+									<xsl:text>fa-plus-square-o</xsl:text>
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:text>fa-minus-square-o</xsl:text>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:with-param>
+					</xsl:call-template>
+				</xsl:when>
+			</xsl:choose>
 			<xsl:value-of select="$text"/>
 		</button>
 	</xsl:template>

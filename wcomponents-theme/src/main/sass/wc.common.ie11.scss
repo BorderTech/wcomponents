@@ -1,0 +1,4 @@
+// IE (up to and including 11) prefer to not wrap text in legends and let the legend width be as big as it needs.
+legend {
+	max-width: 100%;
+}

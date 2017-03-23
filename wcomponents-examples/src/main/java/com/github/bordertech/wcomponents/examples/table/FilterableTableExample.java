@@ -19,6 +19,7 @@ import com.github.bordertech.wcomponents.WTable;
 import com.github.bordertech.wcomponents.WTableColumn;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.util.HtmlIconUtil;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -268,7 +269,7 @@ public class FilterableTableExample extends WContainer {
 //		filterImage.setCacheKey("filterImage");
 		final WDecoratedLabel filterSubMenuLabel = new WDecoratedLabel(new WText("\u200b"));
 		filterSubMenuLabel.setToolTip("Filter this column");
-		filterSubMenuLabel.setHtmlClass("wc-icon fa-filter");
+		filterSubMenuLabel.setHtmlClass(HtmlIconUtil.getIconClasses("fa-filter"));
 		final WSubMenu submenu = new WSubMenu(filterSubMenuLabel);
 		submenu.setSelectionMode(SELECTION_MODE);
 		menu.add(submenu);

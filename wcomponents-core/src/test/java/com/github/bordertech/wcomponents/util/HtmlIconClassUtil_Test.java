@@ -15,7 +15,7 @@ public class HtmlIconClassUtil_Test {
 	@Test
 	public void testGetIconClasses() {
 		String icon = "fa-some-icon";
-		String expResult = "wc-icon fa-some-icon";
+		String expResult = "fa fa-some-icon";
 		String result = HtmlIconUtil.getIconClasses(icon);
 		Assert.assertEquals(expResult, result);
 	}
@@ -27,7 +27,7 @@ public class HtmlIconClassUtil_Test {
 	public void testGetIconClassesWithIconPositionNull() {
 		String icon = "fa-some-icon";
 		HtmlIconUtil.IconPosition position = null;
-		String expResult = "wc-icon fa-some-icon";
+		String expResult = "fa fa-some-icon";
 		String result = HtmlIconUtil.getIconClasses(icon, position);
 		Assert.assertEquals(expResult, result);
 	}
@@ -40,7 +40,7 @@ public class HtmlIconClassUtil_Test {
 	public void testGetIconClassesWithIconPositionAfter() {
 		String icon = "fa-some-icon";
 		HtmlIconUtil.IconPosition position = HtmlIconUtil.IconPosition.AFTER;
-		String expResult = "wc-icon-after fa-some-icon";
+		String expResult = "fa wc-icon-after fa-some-icon";
 		String result = HtmlIconUtil.getIconClasses(icon, position);
 		Assert.assertEquals(expResult, result);
 	}
@@ -53,7 +53,7 @@ public class HtmlIconClassUtil_Test {
 	public void testGetIconClassesWithIconPositionBefore() {
 		String icon = "fa-some-icon";
 		HtmlIconUtil.IconPosition position = HtmlIconUtil.IconPosition.BEFORE;
-		String expResult = "wc-icon-before fa-some-icon";
+		String expResult = "fa wc-icon-before fa-some-icon";
 		String result = HtmlIconUtil.getIconClasses(icon, position);
 		Assert.assertEquals(expResult, result);
 	}
@@ -65,7 +65,7 @@ public class HtmlIconClassUtil_Test {
 	public void testGetIconClassesWithIconPositionundefined() {
 		String icon = "fa-some-icon";
 		HtmlIconUtil.IconPosition position = HtmlIconUtil.IconPosition.UNDEFINED;
-		String expResult = "wc-icon fa-some-icon";
+		String expResult = "fa fa-some-icon";
 		String result = HtmlIconUtil.getIconClasses(icon, position);
 		Assert.assertEquals(expResult, result);
 	}

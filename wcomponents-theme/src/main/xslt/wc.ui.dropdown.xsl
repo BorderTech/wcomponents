@@ -85,6 +85,9 @@
 			</xsl:element>
 			<button value="{concat(@id,'_input')}" tabindex="-1" id="{concat(@id, '_list')}" type="button" aria-hidden="true" class="wc_suggest wc_btn_icon wc-invite">
 				<xsl:call-template name="disabledElement"/>
+				<xsl:call-template name="icon">
+					<xsl:with-param name="class">fa-caret-down</xsl:with-param>
+				</xsl:call-template>
 			</button>
 			<span id="{concat(@id, '_l')}" role="listbox" aria-controls="{@id}">
 				<xsl:if test="not(*)">

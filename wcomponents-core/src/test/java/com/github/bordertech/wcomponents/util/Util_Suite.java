@@ -21,7 +21,6 @@ import org.junit.runners.Suite;
 	Factory_Test.class,
 	HTMLSanitizerPerformance_Test.class,
 	HTMLToXMLUtil_Test.class,
-	HtmlClassProperties_Test.class,
 	HtmlIconClassUtil_Test.class,
 	HtmlSanitizerUtil_Test.class,
 	I18nUtilities_Test.class,

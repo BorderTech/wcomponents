@@ -74,6 +74,25 @@
 					<xs:documentation>True indicates the sub menu is to be rendered as open. Not output if false. Only supported if the nearest ancestor menu has @type set to "tree"</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+			<xs:attribute name="type">
+				<xs:annotation>
+					<xs:documentation>Reflects the type of the nearest ancestor WMenu.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="bar"/>
+						<xs:enumeration value="flyout"/>
+						<xs:enumeration value="tree"/>
+						<xs:enumeration value="column"/>
+						<!-- add new menu types here -->
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="nested" type="xs:boolean" default="false">
+				<xs:annotation>
+					<xs:documentation>True indicates the sub menu is inside another WSubMenu.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 

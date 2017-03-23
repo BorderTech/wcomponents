@@ -1,6 +1,20 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
+	<xsl:import href="wc.common.icon.xsl"/>
+	
+	<xsl:template name='submenuIcon'>
+		<xsl:call-template name="icon">
+			<xsl:with-param name="class">
+				<xsl:choose>
+					<xsl:when test="@open = 'false'">fa-caret-right</xsl:when> <!-- only tree menus have the @open attribute -->
+					<xsl:when test="@open">fa-caret-down</xsl:when>
+					<xsl:when test="@nested or @type='column'">fa-caret-right</xsl:when>
+					<xsl:otherwise>fa-caret-down</xsl:otherwise>
+				</xsl:choose>
+			</xsl:with-param>
+		</xsl:call-template>
+	</xsl:template>
 
 	<!-- Transform for WSubMenu. -->
 	<xsl:template match="ui:submenu">
@@ -11,17 +25,36 @@
 				<xsl:with-param name="isControl" select="0"/>
 			</xsl:call-template>
 			<!-- This is the submenu opener/label element. -->
-			<button type="button" id="{concat(@id, '_o')}" name="{@id}" class="wc-nobutton wc-invite wc-submenu-o" aria-controls="{@id}" aria-haspopup="true">
+			<xsl:variable name="isTree">
+				<xsl:choose>
+					<xsl:when test="@type = 'tree'">
+						<xsl:number value="1"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:number value="0"/>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<button type="button" id="{concat(@id, '_o')}" name="{@id}" class="wc-nobutton wc-invite wc-submenu-o" aria-controls="{@id}">
 				<xsl:attribute name="aria-pressed">
 					<xsl:choose>
-						<xsl:when test="@open">true</xsl:when>
+						<xsl:when test="@open = 'true'">true</xsl:when>
 						<xsl:otherwise>false</xsl:otherwise>
 					</xsl:choose>
 				</xsl:attribute>
+				<xsl:if test="number($isTree) eq 1">
+					<xsl:attribute name="aria-haspopup">true</xsl:attribute>
+				</xsl:if>
 				<xsl:call-template name="title"/>
 				<xsl:call-template name="disabledElement"/>
 				<xsl:call-template name="accessKey"/>
+				<xsl:if test="number($isTree) eq 1">
+					<xsl:call-template name="submenuIcon"/>
+				</xsl:if>
 				<xsl:apply-templates select="ui:decoratedlabel"/>
+				<xsl:if test="number($isTree) eq 0">
+					<xsl:call-template name="submenuIcon"/>
+				</xsl:if>
 			</button>
 			<xsl:apply-templates select="ui:content" mode="submenu"/>
 		</div>
@@ -32,7 +65,7 @@
 		<xsl:variable name="mode" select="../@mode"/>
 		<xsl:variable name="isAjaxMode">
 			<xsl:choose>
-				<xsl:when test="$mode eq 'dynamic' or $mode eq 'eager' or ($mode eq 'lazy' and not(../@open))">
+				<xsl:when test="$mode eq 'dynamic' or $mode eq 'eager' or ($mode eq 'lazy' and not(../@open = 'true'))">
 					<xsl:number value="1"/>
 				</xsl:when>
 				<xsl:otherwise>
@@ -41,15 +74,17 @@
 			</xsl:choose>
 		</xsl:variable>
 		<div id="{@id}" arial-labelledby="{concat(../@id, '_o')}" role="menu">
-			<xsl:attribute name="class">
-				<xsl:text>wc_submenucontent</xsl:text>
-				<xsl:if test="number($isAjaxMode) eq 1">
-					<xsl:text> wc_magic</xsl:text>
-					<xsl:if test="$mode eq 'dynamic'">
-						<xsl:text> wc_dynamic</xsl:text>
+			<xsl:call-template name="makeCommonClass">
+				<xsl:with-param name="additional">
+					<xsl:text>wc_submenucontent</xsl:text>
+					<xsl:if test="number($isAjaxMode) eq 1">
+						<xsl:text> wc_magic</xsl:text>
+						<xsl:if test="$mode eq 'dynamic'">
+							<xsl:text> wc_dynamic</xsl:text>
+						</xsl:if>
 					</xsl:if>
-				</xsl:if>
-			</xsl:attribute>
+				</xsl:with-param>
+			</xsl:call-template>
 			<xsl:if test="number($isAjaxMode) eq 1">
 				<xsl:attribute name="data-wc-ajaxalias">
 					<xsl:value-of select="../@id"/>
@@ -57,7 +92,7 @@
 			</xsl:if>
 			<xsl:attribute name="aria-expanded">
 				<xsl:choose>
-					<xsl:when test="../@open">
+					<xsl:when test="../@open = 'true'">
 						<xsl:text>true</xsl:text>
 					</xsl:when>
 					<xsl:otherwise>

@@ -1,0 +1,8 @@
+@import 'mixins-common';
+
+hr {
+	//we want  to reset the border then set it only on the bottom.
+	@include border($width: 0);
+	@include border($pos: bottom);
+	margin: $wc-gap-normal 0;
+}

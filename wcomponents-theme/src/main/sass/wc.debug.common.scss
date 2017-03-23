@@ -1,4 +1,3 @@
-/* wc.debug.common.scss */
 // CSS for common debug mode diagnostics
 // NOTE FOR MARK
 // YES, that means **YOU** Mark
@@ -8,7 +7,7 @@
 @import 'mixins-common';
 
 body {
-	&::before { // I no longer care about IE8.
+	&::before {
 		background-color: $wc-ui-color-highlight-bg;
 		color: $wc-ui-color-highlight-fg;
 		content: 'Client debug/diagnostic mode: document has ' attr(data-wc-nodeCount) ' elements.';
@@ -60,3 +59,4 @@ input[type='number'][maxlength] {
 }
 
 @import 'wc.debug.axs';
+@import 'wc.debug.invalid';

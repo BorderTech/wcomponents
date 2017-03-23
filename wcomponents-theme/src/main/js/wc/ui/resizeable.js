@@ -14,9 +14,10 @@ define(["wc/dom/attribute",
 		"wc/ui/ajax/processResponse",
 		"wc/Observer",
 		"wc/timers",
+		"wc/ui/icon",
 		"wc/config"],
 	function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcceptableTarget, getBox, getStyle,
-		initialise, shed, uid, Widget, has, processResponse, Observer, timers, wcconfig) {
+		initialise, shed, uid, Widget, has, processResponse, Observer, timers, icon, wcconfig) {
 
 		"use strict";
 		/**
@@ -553,6 +554,12 @@ define(["wc/dom/attribute",
 				var target;
 				if (element && MAX.isOneOfMe(element) && (target = getResizeTarget(element))) {
 					classList[(action === shed.actions.SELECT ? "add" : "remove")](target, CLASS_MAX);
+					if (action === shed.actions.SELECT) {
+						icon.change(element, "fa-plus", "fa-minus");
+					}
+					else {
+						icon.change(element, "fa-minus", "fa-plus");
+					}
 				}
 			}
 

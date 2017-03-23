@@ -10,8 +10,9 @@ define(["wc/has",
 		"wc/timers",
 		"wc/ui/prompt",
 		"wc/ui/ajaxRegion",
-		"wc/ui/fieldset"],
-	function(has, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers, prompt, ajaxRegion, fieldset) {
+		"wc/ui/fieldset",
+		"wc/dom/classList"],
+	function(has, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers, prompt, ajaxRegion, fieldset, classList) {
 		"use strict";
 
 		/**
@@ -185,8 +186,8 @@ define(["wc/has",
 						nextButton.setAttribute("aria-controls", nextId);
 						nextButton.title = REMOVE_BUTTON_TITLE;
 						if ((buttonTextElement = BUTTON_MESSAGE_WD.findDescendant(nextButton))) {
-							buttonTextElement.innerHTML = "";
-							buttonTextElement.innerHTML = REMOVE_BUTTON_TITLE;
+							classList.remove(buttonTextElement, "fa-plus-square");
+							classList.remove(buttonTextElement, "fa-minus-square");
 						}
 					}
 					next.id = nextId;

@@ -1,0 +1,25 @@
+@import 'mixins-common';
+
+dialog {
+	background: transparent;
+
+	> div { // dialog content container
+		background-color: $wc-ui-color-global-bg;
+	}
+
+	> header,
+	> footer { // top and bottom bars of dialog
+		background-color: $wc-ui-color-dialog-head-bg;
+		color: $wc-ui-color-dialog-head-fg;
+	}
+
+	> header {
+		> h1 { // the title
+			color: $wc-ui-color-dialog-head-fg;
+		}
+
+		button {
+			@include border($color: $wc-ui-color-dialog-head-fg);
+		}
+	}
+}

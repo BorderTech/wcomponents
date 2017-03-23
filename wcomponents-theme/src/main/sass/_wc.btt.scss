@@ -1,0 +1,22 @@
+@import 'mixins-common';
+
+/// The back to top of page link.
+.wc_btt {
+	bottom: $wc-gap-large;
+	opacity: 0.5;
+	position: fixed;
+	right: $wc-gap-large;
+	text-decoration: none;
+
+	> span {
+		@include offscreen;
+	}
+}
+
+@if ($wc-use-respond == 1) {
+	@include respond-phonelike {
+		.wc_btt:before {
+			font-size: $wc-btt-normal;
+		}
+	}
+}
