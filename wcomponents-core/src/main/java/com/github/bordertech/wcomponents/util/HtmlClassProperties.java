@@ -102,7 +102,7 @@ public enum HtmlClassProperties {
 	 * component has no other visible content.
 	 * </p>
 	 */
-	ICON("fa"),
+	ICON("wc-icon"),
 	/**
 	 * Apply an icon to the end of a component. The icon will appear after any other content in the component and there
 	 * will be a small gap between the end of the content and the icon.
@@ -114,7 +114,7 @@ public enum HtmlClassProperties {
 	 * component has visible text.
 	 * </p>
 	 */
-	ICON_AFTER("fa wc-icon-after"),
+	ICON_AFTER("wc-icon wc-icon-after"),
 	/**
 	 * Apply an icon to the beginning of a component. The icon will appear before any other content in the component.and
 	 * there will be a small gap between the icon and the content.
@@ -126,7 +126,7 @@ public enum HtmlClassProperties {
 	 * component has visible text.
 	 * </p>
 	 */
-	ICON_BEFORE("fa wc-icon-before"),
+	ICON_BEFORE("wc-icon wc-icon-before"),
 	// START OF ICONS: some helpers to attach common icons.
 
 	/**
@@ -135,19 +135,19 @@ public enum HtmlClassProperties {
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.help".</p>
 	 */
-	ICON_HELP("fa ", ConfigurationProperties.getHtmlIconClassHelp()),
+	ICON_HELP("wc-icon ", ConfigurationProperties.getHtmlIconClassHelp()),
 	/**
 	 * Apply a "help" icon to the end of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.help".</p>
 	 */
-	ICON_HELP_AFTER("fa wc-icon-after ", ConfigurationProperties.getHtmlIconClassHelp()),
+	ICON_HELP_AFTER("wc-icon wc-icon-after ", ConfigurationProperties.getHtmlIconClassHelp()),
 	/**
 	 * Apply a "help" icon to the beginning of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.help".</p>
 	 */
-	ICON_HELP_BEFORE("fa wc-icon-before ", ConfigurationProperties.getHtmlIconClassHelp()),
+	ICON_HELP_BEFORE("wc-icon wc-icon-before ", ConfigurationProperties.getHtmlIconClassHelp()),
 	// STATUS ICONS
 
 	/**
@@ -156,81 +156,81 @@ public enum HtmlClassProperties {
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.info".</p>
 	 */
-	ICON_INFO("fa ", ConfigurationProperties.getHtmlIconClassInfo()),
+	ICON_INFO("wc-icon ", ConfigurationProperties.getHtmlIconClassInfo()),
 	/**
 	 * Apply an "information" icon to the end of a component. Do not use with
 	 * {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.info".</p>
 	 */
-	ICON_INFO_AFTER("fa wc-icon-after ", ConfigurationProperties.getHtmlIconClassInfo()),
+	ICON_INFO_AFTER("wc-icon wc-icon-after ", ConfigurationProperties.getHtmlIconClassInfo()),
 	/**
 	 * Apply an "information" icon to the beginning of a component. Do not use with
 	 * {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.info".</p>
 	 */
-	ICON_INFO_BEFORE("fa wc-icon-before ", ConfigurationProperties.getHtmlIconClassInfo()),
+	ICON_INFO_BEFORE("wc-icon wc-icon-before ", ConfigurationProperties.getHtmlIconClassInfo()),
 	/**
 	 * Apply a "warning" icon to a component. Do not use with {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.warn".</p>
 	 */
-	ICON_WARN("fa ", ConfigurationProperties.getHtmlIconClassWarn()),
+	ICON_WARN("wc-icon ", ConfigurationProperties.getHtmlIconClassWarn()),
 	/**
 	 * Apply a "warning" icon to the end of a component. Do not use with
 	 * {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.warn".</p>
 	 */
-	ICON_WARN_AFTER("fa wc-icon-after ", ConfigurationProperties.getHtmlIconClassWarn()),
+	ICON_WARN_AFTER("wc-icon wc-icon-after ", ConfigurationProperties.getHtmlIconClassWarn()),
 	/**
 	 * Apply a "warning" icon to the end of a component. Do not use with
 	 * {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.warn".</p>
 	 */
-	ICON_WARN_BEFORE("fa wc-icon-before ", ConfigurationProperties.getHtmlIconClassWarn()),
+	ICON_WARN_BEFORE("wc-icon wc-icon-before ", ConfigurationProperties.getHtmlIconClassWarn()),
 	/**
 	 * Apply an "error" icon to a component. Do not use with {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.error".</p>
 	 */
-	ICON_ERROR("fa ", ConfigurationProperties.getHtmlIconClassError()),
+	ICON_ERROR("wc-icon ", ConfigurationProperties.getHtmlIconClassError()),
 	/**
 	 * Apply an "error" icon to the end of a component. Do not use with
 	 * {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.error".</p>
 	 */
-	ICON_ERROR_AFTER("fa wc-icon-after ", ConfigurationProperties.getHtmlIconClassError()),
+	ICON_ERROR_AFTER("wc-icon wc-icon-after ", ConfigurationProperties.getHtmlIconClassError()),
 	/**
 	 * Apply an "error" icon to the beginning of a component. Do not use with
 	 * {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.error".</p>
 	 */
-	ICON_ERROR_BEFORE("fa wc-icon-before ", ConfigurationProperties.getHtmlIconClassError()),
+	ICON_ERROR_BEFORE("wc-icon wc-icon-before ", ConfigurationProperties.getHtmlIconClassError()),
 	/**
 	 * Apply a "success" icon to a component. Do not use with {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.success".</p>
 	 */
-	ICON_SUCCESS("fa ", ConfigurationProperties.getHtmlIconClassSuccess()),
+	ICON_SUCCESS("wc-icon ", ConfigurationProperties.getHtmlIconClassSuccess()),
 	/**
 	 * Apply a "success" icon to the end of a component. Do not use with
 	 * {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.success".</p>
 	 */
-	ICON_SUCCESS_AFTER("fa wc-icon-after ", ConfigurationProperties.getHtmlIconClassSuccess()),
+	ICON_SUCCESS_AFTER("wc-icon wc-icon-after ", ConfigurationProperties.getHtmlIconClassSuccess()),
 	/**
 	 * Apply a "success" icon to the beginning of a component. Do not use with
 	 * {@link com.github.bordertech.wcomponents.WMessageBox}.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.success".</p>
 	 */
-	ICON_SUCCESS_BEFORE("fa wc-icon-before ", ConfigurationProperties.getHtmlIconClassSuccess()),
+	ICON_SUCCESS_BEFORE("wc-icon wc-icon-before ", ConfigurationProperties.getHtmlIconClassSuccess()),
 	// ACTION ICONS
 
 	/**
@@ -238,149 +238,149 @@ public enum HtmlClassProperties {
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.add".</p>
 	 */
-	ICON_ADD("fa ", ConfigurationProperties.getHtmlIconClassAdd()),
+	ICON_ADD("wc-icon ", ConfigurationProperties.getHtmlIconClassAdd()),
 	/**
 	 * Add an "add" icon to the end of a component. The default icon is the same as is used in WMultiTextField and
 	 * WMultiDropdown.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.add".</p>
 	 */
-	ICON_ADD_AFTER("fa wc-icon-after ", ConfigurationProperties.getHtmlIconClassAdd()),
+	ICON_ADD_AFTER("wc-icon wc-icon-after ", ConfigurationProperties.getHtmlIconClassAdd()),
 	/**
 	 * Add an "add" icon to the beginning of a component. The default icon is the same as is used in WMultiTextField and
 	 * WMultiDropdown.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.add".</p>
 	 */
-	ICON_ADD_BEFORE("fa wc-icon-before ", ConfigurationProperties.getHtmlIconClassAdd()),
+	ICON_ADD_BEFORE("wc-icon wc-icon-before ", ConfigurationProperties.getHtmlIconClassAdd()),
 	/**
 	 * Add a "delete" icon. The default icon is the same as is used in WMultiTextField and WMultiDropdown.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.delete".</p>
 	 */
-	ICON_DELETE("fa ", ConfigurationProperties.getHtmlIconClassDelete()),
+	ICON_DELETE("wc-icon ", ConfigurationProperties.getHtmlIconClassDelete()),
 	/**
 	 * Add a "delete" icon to the end of a component. The default icon is the same as is used in WMultiTextField and
 	 * WMultiDropdown.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.delete".</p>
 	 */
-	ICON_DELETE_AFTER("fa wc-icon-after ", ConfigurationProperties.getHtmlIconClassDelete()),
+	ICON_DELETE_AFTER("wc-icon wc-icon-after ", ConfigurationProperties.getHtmlIconClassDelete()),
 	/**
 	 * Add a "delete" icon to the beginning of a component. The default icon is the same as is used in WMultiTextField
 	 * and WMultiDropdown.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.delete".</p>
 	 */
-	ICON_DELETE_BEFORE("fa wc-icon-before ", ConfigurationProperties.getHtmlIconClassDelete()),
+	ICON_DELETE_BEFORE("wc-icon wc-icon-before ", ConfigurationProperties.getHtmlIconClassDelete()),
 	/**
 	 * Add an "edit" icon.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.edit".</p>
 	 */
-	ICON_EDIT("fa ", ConfigurationProperties.getHtmlIconClassEdit()),
+	ICON_EDIT("wc-icon ", ConfigurationProperties.getHtmlIconClassEdit()),
 	/**
 	 * Add an "edit" icon to the end of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.edit".</p>
 	 */
-	ICON_EDIT_AFTER("fa wc-icon-after ", ConfigurationProperties.getHtmlIconClassEdit()),
+	ICON_EDIT_AFTER("wc-icon wc-icon-after ", ConfigurationProperties.getHtmlIconClassEdit()),
 	/**
 	 * Add an "edit" icon to the beginning of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.edit".</p>
 	 */
-	ICON_EDIT_BEFORE("fa wc-icon-before ", ConfigurationProperties.getHtmlIconClassEdit()),
+	ICON_EDIT_BEFORE("wc-icon wc-icon-before ", ConfigurationProperties.getHtmlIconClassEdit()),
 	/**
 	 * Add a "save" icon.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.save".</p>
 	 */
-	ICON_SAVE("fa ", ConfigurationProperties.getHtmlIconClassSave()),
+	ICON_SAVE("wc-icon ", ConfigurationProperties.getHtmlIconClassSave()),
 	/**
 	 * Add a "save" icon to the end of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.save".</p>
 	 */
-	ICON_SAVE_AFTER("fa wc-icon-after ", ConfigurationProperties.getHtmlIconClassSave()),
+	ICON_SAVE_AFTER("wc-icon wc-icon-after ", ConfigurationProperties.getHtmlIconClassSave()),
 	/**
 	 * Add a "save" icon to the beginning of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.save".</p>
 	 */
-	ICON_SAVE_BEFORE("fa wc-icon-before ", ConfigurationProperties.getHtmlIconClassSave()),
+	ICON_SAVE_BEFORE("wc-icon wc-icon-before ", ConfigurationProperties.getHtmlIconClassSave()),
 	/**
 	 * Add a "search" icon.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.search".</p>
 	 */
-	ICON_SEARCH("fa ", ConfigurationProperties.getHtmlIconClassSearch()),
+	ICON_SEARCH("wc-icon ", ConfigurationProperties.getHtmlIconClassSearch()),
 	/**
 	 * Add a "search" icon to the end of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.search".</p>
 	 */
-	ICON_SEARCH_AFTER("fa wc-icon-after ", ConfigurationProperties.getHtmlIconClassSearch()),
+	ICON_SEARCH_AFTER("wc-icon wc-icon-after ", ConfigurationProperties.getHtmlIconClassSearch()),
 	/**
 	 * Add a "search" icon to the beginning of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.search".</p>
 	 */
-	ICON_SEARCH_BEFORE("fa wc-icon-before ", ConfigurationProperties.getHtmlIconClassSearch()),
+	ICON_SEARCH_BEFORE("wc-icon wc-icon-before ", ConfigurationProperties.getHtmlIconClassSearch()),
 	/**
 	 * Add a "cancel" icon.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.cancel".</p>
 	 */
-	ICON_CANCEL("fa ", ConfigurationProperties.getHtmlIconClassCancel()),
+	ICON_CANCEL("wc-icon ", ConfigurationProperties.getHtmlIconClassCancel()),
 	/**
 	 * Add a "cancel" icon to the end of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.cancel".</p>
 	 */
-	ICON_CANCEL_AFTER("fa wc-icon-after ", ConfigurationProperties.getHtmlIconClassCancel()),
+	ICON_CANCEL_AFTER("wc-icon wc-icon-after ", ConfigurationProperties.getHtmlIconClassCancel()),
 	/**
 	 * Add a "cancel" icon to the beginning of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.cancel".</p>
 	 */
-	ICON_CANCEL_BEFORE("fa wc-icon-before ", ConfigurationProperties.getHtmlIconClassCancel()),
+	ICON_CANCEL_BEFORE("wc-icon wc-icon-before ", ConfigurationProperties.getHtmlIconClassCancel()),
 	/**
 	 * Add a "menu" icon.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.menu".</p>
 	 */
-	ICON_MENU("fa ", ConfigurationProperties.getHtmlIconClassMenu()),
+	ICON_MENU("wc-icon ", ConfigurationProperties.getHtmlIconClassMenu()),
 	/**
 	 * Add a "menu" icon to the end of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.menu".</p>
 	 */
-	ICON_MENU_AFTER("fa wc-icon-after ", ConfigurationProperties.getHtmlIconClassMenu()),
+	ICON_MENU_AFTER("wc-icon wc-icon-after ", ConfigurationProperties.getHtmlIconClassMenu()),
 	/**
 	 * Add a "menu" icon to the beginning of a component.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.menu".</p>
 	 */
-	ICON_MENU_BEFORE("fa wc-icon-before ", ConfigurationProperties.getHtmlIconClassMenu()),
+	ICON_MENU_BEFORE("wc-icon wc-icon-before ", ConfigurationProperties.getHtmlIconClassMenu()),
 	/**
 	 * Add a "print" icon.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.print".</p>
 	 */
-	ICON_PRINT("fa ", ConfigurationProperties.getHtmlIconClassPrint()),
+	ICON_PRINT("wc-icon ", ConfigurationProperties.getHtmlIconClassPrint()),
 	/**
 	 * Add a "print" icon.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.print".</p>
 	 */
-	ICON_PRINT_AFTER("fa wc-icon-after ", ConfigurationProperties.getHtmlIconClassPrint()),
+	ICON_PRINT_AFTER("wc-icon wc-icon-after ", ConfigurationProperties.getHtmlIconClassPrint()),
 	/**
 	 * Add a "print" icon.
 	 * <p>
 	 * To change the icon use configuration param "com.github.bordertech.wcomponents.HtmlClass.icon.print".</p>
 	 */
-	ICON_PRINT_BEFORE("fa wc-icon-before ", ConfigurationProperties.getHtmlIconClassPrint());
+	ICON_PRINT_BEFORE("wc-icon wc-icon-before ", ConfigurationProperties.getHtmlIconClassPrint());
 	// END OF ICONS
 	private final String className;
 
