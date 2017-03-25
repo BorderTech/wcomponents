@@ -15,7 +15,7 @@ import org.junit.Test;
  */
 public class WList_Test extends AbstractWComponentTestCase {
 
-	private static final SpaceUtil.Size GAP = SpaceUtil.Size.SMALL;
+	private static final Size GAP = Size.SMALL;
 
 	@Test
 	public void testConstructor1() {
@@ -49,7 +49,7 @@ public class WList_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WList(Type.FLAT), "margin", null, new Margin(GAP), new Margin(SpaceUtil.Size.LARGE));
+		assertAccessorsCorrect(new WList(Type.FLAT), "margin", null, new Margin(GAP), new Margin(Size.LARGE));
 	}
 
 	@Test
@@ -71,7 +71,7 @@ public class WList_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testConstructor2Gaps() {
 		WList list;
-		SpaceUtil.Size bigGap = SpaceUtil.Size.LARGE;
+		Size bigGap = Size.LARGE;
 		for (WList.Type t : WList.Type.values()) {
 			list = new WList(t, SpaceUtil.sizeToInt(GAP), SpaceUtil.sizeToInt(bigGap));
 			Assert.assertEquals("Constructor - Incorrect type", t, list.getType());
