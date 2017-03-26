@@ -116,26 +116,19 @@ define(["wc/dom/Widget", "wc/dom/classList", "wc/i18n/i18n", "wc/ui/icon"], func
 		 * @param {Element} element the HTML element which was in an error state.
 		 */
 		this.setOK = function(element) {
-			var errorBox = getErrorBox(element), next;
+			var errorBox = getErrorBox(element), error;
 			if (errorBox) {
 				classList.remove(errorBox, ERROR);
 				classList.add(errorBox, SUCCESS);
 				element.removeAttribute(INVALID);
 				icon.change(errorBox, "fa-check-circle", "fa-times-circle");
 
-				if (!(next = errorBox.firstElementChild)) {
-					while ((next = errorBox.firstChild)) {
-						if (next.nodeType === Node.ELEMENT_NODE) {
-							break;
-						}
-						else {
-							errorBox.removeChild(next);
-						}
-					}
-				}
-				if (next) {
-					classList.remove(next, ERROR);
-					next.innerHTML = i18n.get("validation_ok");
+				MESSAGE_HOLDER = MESSAGE_HOLDER || new Widget("span");
+				error = MESSAGE_HOLDER.findDescendant(errorBox);
+
+				if ((error = MESSAGE_HOLDER.findDescendant(errorBox))) {
+					classList.remove(error, ERROR);
+					error.innerHTML = i18n.get("validation_ok");
 				}
 				removeWValidationErrorLink(element);
 			}
