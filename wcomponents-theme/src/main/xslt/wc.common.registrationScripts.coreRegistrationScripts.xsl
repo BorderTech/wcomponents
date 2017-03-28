@@ -106,12 +106,6 @@
 			<xsl:text>require(["wc/ui/ajaxRegion","wc/ui/ajax/genericSubscriber"], function(c, s){c.register([</xsl:text>
 			<xsl:apply-templates select="$hasAjaxTriggers" mode="JS"/>
 			<xsl:text>]);});</xsl:text>
-			<xsl:variable name="hasDelayedAjaxTriggers" select=".//ui:ajaxtrigger[@delay]"/>
-			<xsl:if test="$hasDelayedAjaxTriggers">
-				<xsl:text>require(["wc/ui/ajax/delayedTrigger"], function(c){c.register([</xsl:text>
-				<xsl:apply-templates select="$hasDelayedAjaxTriggers" mode="JSdelay"/>
-				<xsl:text>]);});</xsl:text>
-			</xsl:if>
 		</xsl:if>
 		<xsl:if test="//@defaultFocusId">
 			<xsl:text>require(["wc/ui/onloadFocusControl"], function(c){c.register("</xsl:text>

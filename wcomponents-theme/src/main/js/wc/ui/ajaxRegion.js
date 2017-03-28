@@ -9,8 +9,9 @@ define(["wc/dom/event",
 		"wc/dom/initialise",
 		"wc/ui/ajax/processResponse",
 		"wc/dom/classList",
-		"wc/mixin"],
-	function(event, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse, classList, mixin) {
+		"wc/mixin",
+		"wc/timers"],
+	function(event, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse, classList, mixin, timers) {
 		"use strict";
 
 		/**
@@ -171,6 +172,11 @@ define(["wc/dom/event",
 				return result;
 			}
 
+			/**
+			 * Accessibility helper. Any target of an ajax trigger should be marked as an aria-live region.
+			 * @function
+			 * @private
+			 */
 			function setControlsAttribute() {
 				if (triggers && triggers.length) {
 					try {
@@ -207,7 +213,6 @@ define(["wc/dom/event",
 			 * @param {Element} element document body.
 			 */
 			this.initialise = function(element) {
-				setControlsAttribute();
 				event.add(element, event.TYPE.click, clickEvent, 50); // Trigger ajax AFTER other events to avoid submitting form fields before they can be updated.
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
@@ -215,10 +220,19 @@ define(["wc/dom/event",
 				else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
+				console.log("Initialising trigger listeners");
+			};
+
+			/**
+			 * Late initialisation. We set the aria-live regions late to give everything time to register its triggers.
+			 * @function
+			 * @public
+			 */
+			this.postInit = function() {
+				setControlsAttribute();
+				processResponse.subscribe(setControlsAttribute, true);
 				shed.subscribe(shed.actions.SELECT, shedSubscriber);
 				shed.subscribe(shed.actions.DESELECT, shedSubscriber);
-				console.log("Initialising trigger listeners");
-				processResponse.subscribe(setControlsAttribute, true);
 			};
 
 			/**
@@ -301,6 +315,50 @@ define(["wc/dom/event",
 			};
 
 			/**
+			 * Fire a delayed trigger.
+			 * @function
+			 * @private
+			 * @param {String} triggerId the ID of the trigger to fire
+			 */
+			function fireAfterDelay(triggerId) {
+				var trigger = triggerManager.getTrigger(triggerId);
+				if (trigger) {
+					try {
+						trigger.method = trigger.METHODS.GET;
+						trigger.serialiseForm = false;
+						trigger.oneShot = 1;
+						trigger.fire();
+					}
+					catch (ex) {
+						console.log("error in delayed ajax trigger for id " + triggerId, ex.message);
+					}
+				}
+			}
+
+			/**
+			 * Helper for module:wc/ui/ajaxRegion.register.
+			 * @function
+			 * @private
+			 * @param {Object} next The registration object
+			 */
+			function _register(next) {
+				var trigger = new Trigger(next, processResponse.processResponseXml, processResponse.processError),
+					delay = next.delay,
+					triggerId = next.id;
+				triggerManager.addTrigger(trigger);
+				if (!triggers) {
+					triggers = [];
+				}
+				triggers[triggers.length] = triggerId;
+				if (delay) {
+					initialise.addCallback(function() {
+						timers.setTimeout(fireAfterDelay, delay, triggerId);
+					});
+				}
+				return trigger;
+			}
+
+			/**
 			 * Register an ajax trigger. This method is a wrapper for {@link module:wc/ajax/triggerManager#addTrigger} and UI controls will usually
 			 * use this module rather than going straight to the trigger manager module.
 			 * @see {@link module:wc/ajax/triggerManager}
@@ -309,21 +367,11 @@ define(["wc/dom/event",
 			 * @param {Object} obj The registration object
 			 */
 			this.register = function (obj) {
-				function registerTrigger(next) {
-					var trigger = new Trigger(next, processResponse.processResponseXml, processResponse.processError);
-					triggerManager.addTrigger(trigger);
-					if (!triggers) {
-						triggers = [];
-					}
-					triggers.push(next.id);
-					return trigger;
-				}
-
 				if (Array.isArray(obj)) {
-					obj.forEach(registerTrigger);
+					obj.forEach(_register);
 				}
 				else {
-					registerTrigger(obj);
+					_register(obj);
 				}
 			};
 		}
