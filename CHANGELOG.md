@@ -6,7 +6,6 @@
 
 * Added new WebElement extensions for Selenium testing.
 
-
 ### Bug Fixes
 
 * Fixed a flaw which could result in a WSubMenu being stuck open when a not-submitting WMenuItem is clicked #1137.
@@ -23,6 +22,7 @@
   component which does not already have a border style set by a more specific (or later equally specific) selector.
 * improved efficiency of CSS by deleting WComponents custom icon classes and using fa classes instead. This involved
   changing the string values of elements in the HTMLClassProperties enum.
+* Simplified delayed, self-actuating Ajax triggers, removed module wc/ui/ajax/delayedTrigger.
 
 ## Release 1.4.0-beta
 

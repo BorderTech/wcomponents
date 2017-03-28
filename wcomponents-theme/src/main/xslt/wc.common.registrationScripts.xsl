@@ -14,10 +14,14 @@
 					<xsl:value-of select="$rego"/>
 				</xsl:when>
 				<xsl:otherwise>
-					<script type="text/javascript" class="registrationScripts">
+					<xsl:variable name="scriptId" select="concat('wcscript_', generate-id())"/>
+					<script type="text/javascript" class="registrationScripts" id="{$scriptId}">
 						<xsl:text>require(["wc/compat/compat!"], function(){</xsl:text>
 						<xsl:text>require(["wc/common"], function(){</xsl:text>
 						<xsl:value-of select="$rego"/>
+						<xsl:text>require(["wc/dom/removeElement"], function(r){ r("</xsl:text>
+							<xsl:value-of select="$scriptId"/>
+						<xsl:text>", true);});</xsl:text>
 						<xsl:text>});});</xsl:text>
 					</script>
 				</xsl:otherwise>

@@ -5,7 +5,9 @@
 
 	<!-- This creates the JSON objects required to register the triggers. -->
 	<xsl:template match="ui:ajaxtrigger" mode="JS">
-		<xsl:text>{"oneShot":</xsl:text>
+		<xsl:text>{"id":"</xsl:text>
+		<xsl:value-of select="@triggerId"/>
+		<xsl:text>","oneShot":</xsl:text>
 		<xsl:choose>
 			<xsl:when test="not(@loadOnce)">
 				<xsl:text>false</xsl:text>
@@ -16,11 +18,12 @@
 		</xsl:choose>
 		<xsl:text>,"loads":[</xsl:text>
 		<xsl:apply-templates select="*"/>
-		<xsl:text>],"id":"</xsl:text>
-		<xsl:value-of select="@triggerId"/>
-		<xsl:text>","alias":"</xsl:text>
-		<xsl:value-of select="@triggerId"/>
-		<xsl:text>"}</xsl:text>
+		<xsl:text>]</xsl:text>
+		<xsl:if test="@delay">
+			<xsl:text>,"delay":</xsl:text>
+			<xsl:value-of select="@delay"/>
+		</xsl:if>
+		<xsl:text>}</xsl:text>
 		<xsl:if test="position() ne last()">
 			<xsl:text>,</xsl:text>
 		</xsl:if>
