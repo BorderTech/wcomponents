@@ -1,29 +1,35 @@
 // toggle button styles based on https://codepen.io/mallendeo/pen/eLIiG
 @import 'mixins-common';
 
-.wc-togglebutton > button {
-	@include border;
-	background-color: $wc-ui-color-highlight-bg;
-
-	// invite ???
-	&:focus {
-		background-color: $wc-ui-color-invite-bg;
-	}
-
-	&:after {
+.wc-togglebutton {
+	&.wc_ro,
+	> button {
 		@include border;
 		background-color: $wc-ui-color-highlight-bg;
-	}
 
-	&[aria-checked='true'] {
-		background-color: $wc-ui-color-togglebutton-selected;
-	}
-
-	&[disabled] {
-		background-color: $wc-ui-color-disabled-bg;
+		&:after {
+			@include border;
+			background-color: $wc-ui-color-highlight-bg;
+		}
 	}
 
 	&.wc_ro {
 		background-color: $wc-ui-color-global-bg;
+	}
+
+	> button {
+		// invite ???
+		&:focus {
+			background-color: $wc-ui-color-invite-bg;
+		}
+
+		&[aria-checked='true'] {
+			background-color: $wc-ui-color-togglebutton-selected;
+		}
+
+		&[disabled] {
+			background-color: $wc-ui-color-disabled-bg;
+		}
+
 	}
 }
