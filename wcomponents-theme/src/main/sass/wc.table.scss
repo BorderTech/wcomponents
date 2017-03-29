@@ -154,7 +154,7 @@ th[aria-sort] {
 	> .wc-decoratedlabel {
 		display: inline-block;
 		width: calc(100% - $wc-icon-normal);
-		word-break: break-word;
+		word-wrap: break-word;
 	}
 
 	> .fa {
