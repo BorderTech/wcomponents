@@ -7,10 +7,6 @@
 	position: fixed;
 	right: $wc-gap-large;
 	text-decoration: none;
-
-	> span {
-		@include offscreen;
-	}
 }
 
 @if ($wc-use-respond == 1) {

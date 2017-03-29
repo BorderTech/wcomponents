@@ -58,6 +58,12 @@ public enum HtmlClassProperties {
 	 */
 	BORDER("wc-border"),
 	/**
+	 * Allow the text content of this component to break at non-word boundaries. This should be used with extreme caution. If you apply
+	 * it to a component in a horizontal FlowLayout you could end up with a long column of single letters.
+	 * Best applied to WStyledText.
+	 */
+	BREAK_WORDS("wc-brkall"),
+	/**
 	 * Make a container scroll horizontally if its content does not fit. Probably only really useful for
 	 * {@link com.github.bordertech.wcomponents.WTable}. Using this on any component which contains menus or date fields
 	 * may have unexpected consequences.
