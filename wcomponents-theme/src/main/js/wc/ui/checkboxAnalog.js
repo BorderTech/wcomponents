@@ -1,19 +1,4 @@
-/**
- * Module to provide an ARIA role of checkbox with useful functionality. That is: to make something which is not a
- * checkbox behave like a check box based on its role: {@link http://www.w3.org/TR/wai-aria-practices/#checkbox}.
- * Strictly speaking checkbox should not get arrow key navigation.
- *
- * @module
- * @extends module:wc/dom/ariaAnalog
- *
- * @requires module:wc/dom/ariaAnalog
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/Widget
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/formUpdateManager
- */
 define(["wc/dom/ariaAnalog", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed", "wc/dom/formUpdateManager"],
-	/** @param ariaAnalog wc/dom/ariaAnalog @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param shed wc/dom/shed @param formUpdateManager wc/dom/formUpdateManager*/
 	function(ariaAnalog, initialise, Widget, shed, formUpdateManager) {
 		"use strict";
 
@@ -24,6 +9,8 @@ define(["wc/dom/ariaAnalog", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed"
 		 * @private
 		 */
 		function CheckboxAnalog() {
+			var BUTTON_VAL_ATTRIB = "value",
+				BUTTON_NAME_ATTRIB = "name";
 
 			/**
 			 * The description of a group item. This makes this class concrete.
@@ -43,19 +30,33 @@ define(["wc/dom/ariaAnalog", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed"
 			 * @param {Element} container The container to whch state is written.
 			 */
 			this.writeState = function(form, container) {
-				var items = this.ITEM.findDescendants(form);
-
-				Array.prototype.forEach.call(items, function(next) {
-					if (next.hasAttribute(this.VALUE_ATTRIB) && !shed.isDisabled(next)) {
-						formUpdateManager.writeStateField(container, next.getAttribute("data-wc-name"),
-							shed.isSelected(next) ? next.getAttribute(this.VALUE_ATTRIB) : "");
+				Array.prototype.forEach.call(this.ITEM.findDescendants(form), function(next) {
+					var name, val;
+					if (!shed.isDisabled(next)) {
+						name = next.hasAttribute(this.VALUE_ATTRIB) ? "data-wc-name" : BUTTON_NAME_ATTRIB;
+						val = next.hasAttribute(this.VALUE_ATTRIB) ? this.VALUE_ATTRIB : BUTTON_VAL_ATTRIB;
+						formUpdateManager.writeStateField(container, next.getAttribute(name), shed.isSelected(next) ? next.getAttribute(val) : "");
 					}
 				}, this);
 			};
 		}
 
 		CheckboxAnalog.prototype = ariaAnalog;
-		var /** @alias module:wc/ui/checkboxAnalog */ instance = new CheckboxAnalog();
+		/**
+		 * Module to provide an ARIA role of checkbox with useful functionality. That is: to make something which is not a
+		 * checkbox behave like a check box based on its role: {@link http://www.w3.org/TR/wai-aria-practices/#checkbox}.
+		 * Strictly speaking checkbox should not get arrow key navigation.
+		 *
+		 * @module
+		 * @extends module:wc/dom/ariaAnalog
+		 *
+		 * @requires module:wc/dom/ariaAnalog
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/formUpdateManager
+		 */
+		var instance = new CheckboxAnalog();
 		instance.constructor = CheckboxAnalog;
 		initialise.register(instance);
 		return instance;
