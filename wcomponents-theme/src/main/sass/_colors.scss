@@ -1,20 +1,20 @@
-//**********************************************************************************************************************
-//**********************************************************************************************************************
+// *****************************************************************************
+// *****************************************************************************
 // Color definitions used throughout WComponents.
 //
 // We try to use a simple triad based scheme for the main components. Highlights and transient effects should then
 // work with that default scheme.
-//**********************************************************************************************************************
-//**********************************************************************************************************************
+// *****************************************************************************
+// *****************************************************************************
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // These two are pretty common...
 $std-color-white: #fff !default;
 $std-color-black: #000 !default;
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // MAIN COLOR SCHEME.
-//**********************************************************************************************************************
+// *****************************************************************************
 // The primary color is the root of the colour scheme and is generally used as a heading and link colour and can be used
 // for significant panel decoration.
 $std-color-primary: #45699f !default;
@@ -29,24 +29,24 @@ $std-color-primary-accent: $std-color-white !default;
 $std-color-secondary-accent: $std-color-white !default;
 $std-color-tertiary-accent: $std-color-primary !default;
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // disabled colours are special They are harder to get 4.5:1 and still look disabled!
 $wc-ui-color-disabled-fg: #696969 !default;
 $wc-ui-color-disabled-bg: #f3f3f3 !default;
 // Disabled controls in the banner, WSection headers, dialog headers etc
 // Must pass 4.5:1 against $std-color-primary.
 $wc-ui-color-primary-disabled: #ccc !default;
-//**********************************************************************************************************************
+// *****************************************************************************
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // Commonly used colors
 // You can sometimes turn off setting colour styles by setting a colour to -1.
 // This will, eventually, be implemented throughout the entire Sass codebase.
 // Each component will indicate which, if any, colours can be 'turned off' in
 // this manner.
-//**********************************************************************************************************************
+// *****************************************************************************
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // Global colours
 // The "global" foreground colour is the colour for normal text and anything you want to emulate normal text. This
 // should be explicitly set even if it is black so it does not have the ability to set -1 to leave it out.
@@ -56,30 +56,30 @@ $wc-ui-color-global-fg: $std-color-black !default;
 // is white so it does not have the ability to set -1 to leave it out.
 $wc-ui-color-global-bg: $std-color-white !default;
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // Transient and specific purpose accents
 // Wherever there is a background there should be a foreground and vice-versa.
 // Each foreground:background pair should have a contrast ration no less than 4.5:1 or 1:4.5
-//**********************************************************************************************************************
+// *****************************************************************************
 // hover/focus
 $wc-ui-color-invite-fg: $std-color-black !default;
 $wc-ui-color-invite-bg: #bbd6ff !default;
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // Selected WAI-ARIA widgets.
 $wc-ui-color-selected-fg: #fafafa !default;
 $wc-ui-color-selected-bg: #6a6a6a !default;
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // Highlights. These are for sections of the UI which should **subtlely** stand out as different.
 $wc-ui-color-highlight-bg: #f2f2f2 !default;
 $wc-ui-color-highlight-fg: $std-color-black !default;
 // The rgba colour is used when highlights overlay other colours. At the moment this is only in table rows which may
 // overlay coloured columns.
 $wc-ui-color-highlight-bg-rgba: rgba(0, 0, 0, 0.02) !default;
-//**********************************************************************************************************************
+// *****************************************************************************
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // COMMON BORDERS
 $wc-ui-color-border: #ccc !default;
 // This will make inputs (except checkbox/radio), textareas and selects (with either multiple or size attributes set)
@@ -93,30 +93,30 @@ $wc-ui-color-border: #ccc !default;
 // if you change this.
 $wc-ui-color-border-form-control: $wc-ui-color-border !default;
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // LINKS
 // Set to -1 to not output a colour block for `a` elements.
 $wc-ui-color-link: $std-color-primary !default;
 // Set to -1 to not output a colour block for a:visited
 $wc-ui-color-link-visited: $std-color-secondary !default;
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // HEADINGS h1 ... h6
 // Set to -1 to not output a colour block for headings
 // NOTE though that h1 as a WPanel (ACTION or CHROME) or WSection heading is treated differently.
 $wc-ui-color-heading: $std-color-primary !default;
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // required field marker
 $wc-ui-color-required-marker: $std-color-secondary !default;
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // aria-busy components. Set each to -1 to not use that particular colour rule.
 $wc-ui-color-busy-fg: rgba(0, 0, 0, 0.25) !default;
 $wc-ui-color-busy-input-border: rgba(0, 0, 0, 0.1) !default;
 $wc-ui-color-busy-loading-icon: $wc-ui-color-disabled-fg !default;
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // FEEDBACK
 // TODO: the variable names here are a bit misleading as the fg colour is used in the foreground of inline message
 // iconography, the background of the message box header and border of the message box.
@@ -133,30 +133,30 @@ $wc-ui-color-warning-fg: #cf4000 !default;
 // Message box WMessageBox, WValidationErrors. Needs to be 1:4.5 compared with the -fg colours above.
 $wc-ui-color-msgbox-header-fg: $std-color-white !default;
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // Section headers: WSection, WPanel Type.CHROME
-//**********************************************************************************************************************
+// *****************************************************************************
 // The background colour of a section heading. Set to -1 and sections will not have background or foreground overrides
 // of noremal header/h1 styles.
 $wc-ui-color-section-heading-bg: $std-color-primary !default;
 $wc-ui-color-section-heading-fg: $std-color-primary-accent !default;
 $wc-ui-color-section-heading-fg-disabled: $wc-ui-color-primary-disabled !default;
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // Dialog frames (WDialog, image editor)
-//**********************************************************************************************************************
+// *****************************************************************************
 $wc-ui-color-dialog-head-bg: $std-color-primary !default;
 $wc-ui-color-dialog-head-fg: $std-color-primary-accent !default;
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // Accesskey pop-up
-//**********************************************************************************************************************
+// *****************************************************************************
 $wc-ui-color-tooltip-fg: $wc-ui-color-highlight-fg !default;
 $wc-ui-color-tooltip-bg: $wc-ui-color-highlight-bg !default;
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // modal shim
-//**********************************************************************************************************************
+// *****************************************************************************
 $wc-ui-color-modal-shim: rgba(0, 0, 0, 0.9) !default;
 $wc-ui-color-modal-shim-foreground: $std-color-black !default;
 
@@ -164,24 +164,24 @@ $wc-ui-color-modal-shim-foreground: $std-color-black !default;
 $wc-ui-color-collapsible-header-fg: $wc-ui-color-global-fg !default;
 $wc-ui-color-collapsible-header-bg: -1 !default;
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // WLabel
 $wc-ui-color-label-fg: -1 !default;
 $wc-ui-color-label-bg: -1 !default;
 $wc-ui-color-label-hint: $std-color-secondary !default;
-//**********************************************************************************************************************
+// *****************************************************************************
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // WMenu
-//**********************************************************************************************************************
+// *****************************************************************************
 //generic menu colours
 $wc-ui-color-menu-bg: $std-color-tertiary !default;
 $wc-ui-color-menu-fg: $wc-ui-color-global-fg !default;
 //NOTE: hover and focus effects use the global invite colours.
 
-//**********************************************************************************************************************
+// *****************************************************************************
 //WPanel
-//**********************************************************************************************************************
+// *****************************************************************************
 // Type.ACTION
 $wc-ui-color-panel-action-header-background: $std-color-secondary !default;
 $wc-ui-color-panel-action-header-foreground: $std-color-secondary-accent !default;
@@ -201,9 +201,9 @@ $wc-ui-color-panel-footer-background: $std-color-tertiary !default;
 $wc-ui-color-panel-header-background: $std-color-primary !default;
 $wc-ui-color-panel-header-foreground: $std-color-primary-accent !default;
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // WTable
-//**********************************************************************************************************************
+// *****************************************************************************
 // Apply to all WTables
 // turn off by setting to -1
 // your _really_ should set neither or both.
@@ -232,13 +232,13 @@ $wc-ui-color-table-col-sorted-bg: $wc-ui-color-highlight-bg-rgba !default;
 // Table row focus must be translucent with alpha no greater than 0.5. Set to -1 to not set
 $wc-ui-color-table-invite-bg: rgba(204, 229, 255, 0.5) !default;
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // WTabSet
-//**********************************************************************************************************************
+// *****************************************************************************
 $wc-ui-color-tab-inactive: $std-color-tertiary !default;
 $wc-ui-color-tab-active: $std-color-white !default;
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // WToggleButton
-//**********************************************************************************************************************
+// *****************************************************************************
 $wc-ui-color-togglebutton-selected: $wc-ui-color-selected-bg !default; //#86d993;
