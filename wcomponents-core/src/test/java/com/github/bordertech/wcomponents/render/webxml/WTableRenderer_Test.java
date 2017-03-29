@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.render.webxml;
 import com.github.bordertech.wcomponents.AdapterBasicTableModel;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.SimpleTableModel;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WTable;
@@ -15,7 +16,6 @@ import com.github.bordertech.wcomponents.WTable.TableModel;
 import com.github.bordertech.wcomponents.WTableColumn;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
-import com.github.bordertech.wcomponents.util.SpaceUtil;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -740,7 +740,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		table.setMargin(margin);
 		assertXpathNotExists("//ui:table/ui:margin", table);
 
-		margin = new Margin(SpaceUtil.Size.SMALL);
+		margin = new Margin(Size.SMALL);
 		table.setMargin(margin);
 		assertSchemaMatch(table);
 		assertXpathEvaluatesTo("sm", "//ui:table/ui:margin/@all", table);
@@ -749,7 +749,7 @@ public class WTableRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:table/ui:margin/@south", table);
 		assertXpathEvaluatesTo("", "//ui:table/ui:margin/@west", table);
 
-		margin = new Margin(SpaceUtil.Size.SMALL, SpaceUtil.Size.MEDIUM, SpaceUtil.Size.LARGE, SpaceUtil.Size.XL);
+		margin = new Margin(Size.SMALL, Size.MEDIUM, Size.LARGE, Size.XL);
 		table.setMargin(margin);
 		assertSchemaMatch(table);
 		assertXpathEvaluatesTo("", "//ui:table/ui:margin/@all", table);

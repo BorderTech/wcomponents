@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.ImageResource;
 import com.github.bordertech.wcomponents.Margin;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.TreeItemIdNode;
 import com.github.bordertech.wcomponents.TreeItemImage;
 import com.github.bordertech.wcomponents.WAjaxControl;
@@ -22,7 +23,6 @@ import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.WTree;
 import com.github.bordertech.wcomponents.examples.table.ExampleDataUtil;
 import com.github.bordertech.wcomponents.examples.table.PersonBean;
-import com.github.bordertech.wcomponents.util.SpaceUtil.Size;
 import java.util.List;
 
 /**

@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WAjaxControl;
@@ -27,7 +28,6 @@ import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.BorderLayout;
 import com.github.bordertech.wcomponents.util.SpaceUtil;
-import com.github.bordertech.wcomponents.util.SpaceUtil.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -186,7 +186,7 @@ public class RepeaterExampleWithStaticIDs extends WContainer {
 
 		WFieldLayout layout = new WFieldLayout();
 		add(layout);
-		layout.setMargin(new Margin(SpaceUtil.Size.LARGE, null, null, null));
+		layout.setMargin(new Margin(Size.LARGE, null, null, null));
 		layout.addField("Print output", printOutput);
 		layout.addField((WLabel) null, printBtn);
 		add(new WAjaxControl(printBtn, printOutput));

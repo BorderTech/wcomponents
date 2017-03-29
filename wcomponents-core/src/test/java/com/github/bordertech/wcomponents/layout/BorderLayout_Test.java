@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.layout;
 
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.util.SpaceUtil;
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,12 +16,12 @@ public class BorderLayout_Test {
 	/**
 	 * A small gap.
 	 */
-	private static final SpaceUtil.Size GAP = SpaceUtil.Size.SMALL;
+	private static final Size GAP = Size.SMALL;
 
 	/**
 	 * A big gap.
 	 */
-	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
+	private static final Size BIG_GAP = Size.LARGE;
 
 	/**
 	 * Integer equivalent of the small gap.
