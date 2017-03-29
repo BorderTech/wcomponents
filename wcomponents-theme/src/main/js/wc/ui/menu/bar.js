@@ -34,8 +34,6 @@ define(["wc/ui/menu/core",
 				MENU_FIXED = "wc_menu_fix",
 				resizeTimer,
 				BURGER_MENU_CLASS = "wc_menu_hbgr",
-				submenuTemplate,
-				closeButtonTemplate,
 				DECORATED_LABEL,
 				RESPONSIVE_MENU,
 				SEPARATOR;
@@ -354,7 +352,7 @@ define(["wc/ui/menu/core",
 						id: uid(),
 						class: " " + BURGER_MENU_CLASS,
 						opener: {
-							class: " wc_hbgr wc-icon",
+							class: " wc_hbgr fa fa-bars",
 							tooltip: i18n.get("menu_open_label")
 						},
 						contentId: uid(),
@@ -362,16 +360,14 @@ define(["wc/ui/menu/core",
 						closeText: i18n.get("menu_close_label"),
 						items: nextMenu.innerHTML
 					};
-					if (submenuTemplate) {
-						template.process({
-							source: rawTemplate,
-							target: nextMenu,
-							context: props,
-							callback: function() {
-								classList.add(nextMenu, MENU_FIXED);
-							}
-						});
-					}
+					template.process({
+						source: rawTemplate,
+						target: nextMenu,
+						context: props,
+						callback: function() {
+							classList.add(nextMenu, MENU_FIXED);
+						}
+					});
 				});
 			}
 

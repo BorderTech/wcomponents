@@ -10,8 +10,9 @@ define(["wc/ui/menu/core",
 		"wc/dom/formUpdateManager",
 		"wc/dom/getFilteredGroup",
 		"wc/ui/ajaxRegion",
-		"wc/timers"],
-	function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, has, classList, formUpdateManager, getFilteredGroup, ajaxRegion, timers) {
+		"wc/timers",
+		"wc/ui/icon"],
+	function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, has, classList, formUpdateManager, getFilteredGroup, ajaxRegion, timers, icon) {
 		"use strict";
 
 		/**
@@ -24,7 +25,8 @@ define(["wc/ui/menu/core",
 		function Tree() {
 			var VOPENER,
 				LEAF_WD,
-				ajaxTimer;
+				ajaxTimer,
+				IMAGE_HOLDER_WD;
 
 			if (has("ie") === 8) {
 				// IE8 fails to repaint closes in a timely manner if the repainter is not included explicitly.
@@ -521,7 +523,7 @@ define(["wc/ui/menu/core",
 			 * @param {String} action The action being taken.
 			 */
 			this._shedSubscriber = function(element, action) {
-				var root;
+				var root, iconContainer;
 
 				if (!(element && (root = this.getRoot(element)))) {
 					return;
@@ -546,13 +548,20 @@ define(["wc/ui/menu/core",
 					return;
 				}
 
+				this.constructor.prototype._shedSubscriber.call(this, element, action);
+				VOPENER = VOPENER || new Widget ("", "wc_leaf_vopener");
+				IMAGE_HOLDER_WD = IMAGE_HOLDER_WD || new Widget("", "wc_leaf_img");
 				if (action === shed.actions.EXPAND) {
-					this.constructor.prototype._shedSubscriber.call(this, element, action);
 					ajaxExpand(element, root);
+					if (!this.isHTree(root) && (iconContainer = VOPENER.findDescendant(element, true))) {
+						icon.change(iconContainer, "fa-caret-down", "fa-caret-right");
+					}
+					if ((iconContainer = this._getBranchOpener(element)) &&
+						(iconContainer = IMAGE_HOLDER_WD.findDescendant(iconContainer, true))) {
+						icon.change(iconContainer, "fa-folder-open-o", "fa-folder-o");
+					}
 					return;
 				}
-
-				this.constructor.prototype._shedSubscriber.call(this, element, action);
 			};
 
 			/**
@@ -619,6 +628,7 @@ define(["wc/ui/menu/core",
 			this._shedCollapseHelper = function (element, root) {
 				var group,
 					groupContainer,
+					iconContainer,
 					_root = root || this.getRoot(element);
 
 				if (!_root) {
@@ -626,6 +636,17 @@ define(["wc/ui/menu/core",
 				}
 
 				if (element && this._isBranch(element)) {
+					VOPENER = VOPENER || new Widget ("", "wc_leaf_vopener");
+					IMAGE_HOLDER_WD = IMAGE_HOLDER_WD || new Widget("", "wc_leaf_img");
+					if (!this.isHTree(root) && (iconContainer = VOPENER.findDescendant(element, true))) {
+						icon.change(iconContainer, "fa-caret-right", "fa-caret-down");
+					}
+
+					if ((iconContainer = this._getBranchOpener(element)) &&
+						(iconContainer = IMAGE_HOLDER_WD.findDescendant(iconContainer, true))) {
+						icon.change(iconContainer, "fa-folder-o", "fa-folder-open-o");
+					}
+
 					groupContainer = this.getSubMenu(element, true);
 					if (groupContainer && (group = getFilteredGroup(groupContainer, {itemWd: this._wd.leaf[0]})) && group.length) {
 						group.forEach(function(next) {
@@ -637,28 +658,6 @@ define(["wc/ui/menu/core",
 					}
 				}
 			};
-
-			/*
-			 * Reset selections after Ajax.
-			 *
-			 * @function module:wc/ui/menu/tree._ajaxSubscriber
-			 * @protected
-			 *
-			 * @param {Element} element the ajax target.
-			 * @param {DocumentFragment} documentFragment the content of the response
-			 */
-//			this._ajaxSubscriber = function (element, documentFragment) {
-//				if (element && this.getRoot(element) === this.getFirstMenuAncestor(element)) {
-//					Array.prototype.forEach.call(this._wd.branch.findDescendants(documentFragment), function(next) {
-//						var id, _el;
-//						if ((id = next.id) && (_el = document.getElementById(id))) {
-//							if (shed.isSelected(_el)) {
-//								shed.select(next, true);
-//				}
-//						}
-//					}, this);
-//				}
-//			};
 		}
 
 		/**
@@ -683,6 +682,7 @@ define(["wc/ui/menu/core",
 		 * @requires module:wc/dom/getFilteredGroup
 		 * @requires module:wc/ui/ajaxRegion
 		 * @requires module:wc/timers
+		 * @requires module:wc/ui/icon
 		 */
 		var instance;
 		Tree.prototype = abstractMenu;

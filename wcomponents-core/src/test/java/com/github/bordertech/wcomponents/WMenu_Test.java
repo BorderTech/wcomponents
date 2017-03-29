@@ -186,32 +186,51 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSelectedItemsAccessors() {
-		assertAccessorsCorrect(new WMenu(), "selectedItems", Collections.EMPTY_LIST, Arrays.asList(new WMenuItem("A")), Arrays.asList(new WMenuItem("B")));
+		WMenu menu = new WMenu();
+		menu.setSelectionMode(SelectionMode.MULTIPLE);
+		WMenuItem itemA = new WMenuItem("A");
+		menu.add(itemA);
+		WMenuItem itemB = new WMenuItem("B");
+		menu.add(itemB);
+		assertAccessorsCorrect(menu, "selectedItems", Collections.EMPTY_LIST, Arrays.asList(itemA), Arrays.asList(itemB));
 	}
 
 	@Test
 	public void testSelectedItemAccessors1() {
-		assertAccessorsCorrect(new WMenu(), "selectedItem", null, new WMenuItem("A"), new WMenuItem("B"));
+		WMenu menu = new WMenu();
+		menu.setSelectionMode(SelectionMode.SINGLE);
+		WMenuItem itemA = new WMenuItem("A");
+		menu.add(itemA);
+		WMenuItem itemB = new WMenuItem("B");
+		menu.add(itemB);
+		assertAccessorsCorrect(menu, "selectedItem", null, itemA, itemB);
 	}
 
 	@Test
 	public void testSelectedItemAccessors2() {
 		WMenu menu = new WMenu();
+		menu.setSelectionMode(SelectionMode.MULTIPLE);
 		WComponent item1 = new WMenuItem("A");
-		menu.setSelectedItems(Arrays.asList(item1, new WMenuItem("B")));
+		menu.add(item1);
+		WComponent itemB = new WMenuItem("B");
+		menu.add(itemB);
+		menu.setSelectedItems(Arrays.asList(item1, itemB));
 		Assert.assertEquals("Should return the first selected item", item1, menu.getSelectedItem());
 	}
 
 	@Test
 	public void testClearSelectedItems() {
 		WMenu menu = new WMenu();
+		menu.setSelectionMode(SelectionMode.MULTIPLE);
 
 		// Check nothing selected
 		Assert.assertNull("Should be nothing selected by default", menu.getSelectedItem());
 		Assert.assertTrue("Should be nothing selected in the list by default", menu.getSelectedItems().isEmpty());
 
 		// Set selected
-		menu.setSelectedItem(new WMenuItem("A"));
+		WMenuItem itemA = new WMenuItem("A");
+		menu.add(itemA);
+		menu.setSelectedItem(itemA);
 		Assert.assertNotNull("Should have selected item", menu.getSelectedItem());
 		Assert.assertFalse("Should have selected item in list", menu.getSelectedItems().isEmpty());
 
@@ -223,32 +242,51 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSelectedMenuItemsAccessors() {
-		assertAccessorsCorrect(new WMenu(), "selectedMenuItems", Collections.EMPTY_LIST, Arrays.asList(new WMenuItem("")), Arrays.asList(new WMenuItem("")));
+		WMenu menu = new WMenu();
+		menu.setSelectionMode(SelectionMode.MULTIPLE);
+		WMenuItem itemA = new WMenuItem("A");
+		menu.add(itemA);
+		WMenuItem itemB = new WMenuItem("B");
+		menu.add(itemB);
+		assertAccessorsCorrect(menu, "selectedMenuItems", Collections.EMPTY_LIST, Arrays.asList(itemA), Arrays.asList(itemB));
 	}
 
 	@Test
 	public void testSelectedMenuItemAccessors1() {
-		assertAccessorsCorrect(new WMenu(), "selectedMenuItem", null, new WMenuItem("A"), new WMenuItem("B"));
+		WMenu menu = new WMenu();
+		menu.setSelectionMode(SelectionMode.SINGLE);
+		WMenuItem itemA = new WMenuItem("A");
+		menu.add(itemA);
+		WMenuItem itemB = new WMenuItem("B");
+		menu.add(itemB);
+		assertAccessorsCorrect(menu, "selectedMenuItem", null, itemA, itemB);
 	}
 
 	@Test
 	public void testSelectedMenuItemAccessors2() {
 		WMenu menu = new WMenu();
-		WMenuItem item1 = new WMenuItem("A");
-		menu.setSelectedMenuItems(Arrays.asList(item1, new WMenuItem("B")));
-		Assert.assertEquals("Should return the first selected item", item1, menu.getSelectedMenuItem());
+		menu.setSelectionMode(SelectionMode.MULTIPLE);
+		WMenuItem itemA = new WMenuItem("A");
+		menu.add(itemA);
+		WMenuItem itemB = new WMenuItem("B");
+		menu.add(itemB);
+		menu.setSelectedMenuItems(Arrays.asList(itemA, itemB));
+		Assert.assertEquals("Should return the first selected item", itemA, menu.getSelectedMenuItem());
 	}
 
 	@Test
 	public void testClearSelectedMenuItems() {
 		WMenu menu = new WMenu();
+		menu.setSelectionMode(SelectionMode.SINGLE);
+		WMenuItem itemA = new WMenuItem("A");
+		menu.add(itemA);
 
 		// Check nothing selected
 		Assert.assertNull("Should be nothing selected by default", menu.getSelectedMenuItem());
 		Assert.assertTrue("Should be nothing selected in the list by default", menu.getSelectedMenuItems().isEmpty());
 
 		// Set selected
-		menu.setSelectedMenuItem(new WMenuItem("A"));
+		menu.setSelectedMenuItem(itemA);
 		Assert.assertNotNull("Should have selected item", menu.getSelectedMenuItem());
 		Assert.assertFalse("Should have selected item in list", menu.getSelectedMenuItems().isEmpty());
 
@@ -264,7 +302,7 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testHandleRequest() {
 		WMenu menu = new WMenu();
-		menu.setSelectionMode(SelectionMode.SINGLE);
+		menu.setSelectionMode(SelectionMode.MULTIPLE);
 
 		WMenuItem item1 = new WMenuItem(new WDecoratedLabel("label1"));
 		WMenuItem item2 = new WMenuItem(new WDecoratedLabel("label2"));
@@ -313,10 +351,13 @@ public class WMenu_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testHandleRequestNoSelections() {
 		WMenu menu = new WMenu();
+		menu.setSelectionMode(SelectionMode.MULTIPLE);
 		WMenuItem item1 = new WMenuItem(new WDecoratedLabel("label1"));
 		WMenuItem item2 = new WMenuItem(new WDecoratedLabel("label2"));
 		WSubMenu subMenu1 = new WSubMenu("label3");
 		WMenuItem item3 = new WMenuItem(new WDecoratedLabel("label4"));
+		item3.setSelectability(true);
+
 		menu.add(item1);
 		menu.add(item2);
 		menu.add(subMenu1);

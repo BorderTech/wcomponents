@@ -74,6 +74,11 @@ public class WTreeExample extends WContainer {
 	private final WCheckBox cbCustomTree = new WCheckBox();
 
 	/**
+	 * A check box to use custom image.
+	 */
+	private final WCheckBox cbUseImage = new WCheckBox();
+
+	/**
 	 * Construct the example.
 	 */
 	public WTreeExample() {
@@ -85,6 +90,7 @@ public class WTreeExample extends WContainer {
 		layout.addField("Enable multiple selection", cbUseMultiSelect);
 		layout.addField("Enable ajax control", cbAjaxTrigger);
 		layout.addField("Use documents", cbUseDocuments);
+		layout.addField("Use custom image", cbUseImage);
 		layout.addField("Custom tree", cbCustomTree);
 
 		ddExpMode.setOptions(WTree.ExpandMode.values());
@@ -140,7 +146,7 @@ public class WTreeExample extends WContainer {
 
 		// This model holds the data so would be included on the user session.
 		ExampleTreeModel data = new ExampleTreeModel(ExampleDataUtil.
-				createExampleData(), cbUseDocuments.isSelected());
+				createExampleData(), cbUseDocuments.isSelected(), cbUseImage.isSelected());
 		tree.setTreeModel(data);
 		if (cbCustomTree.isSelected()) {
 			TreeItemIdNode custom = new TreeItemIdNode(null);
@@ -205,12 +211,19 @@ public class WTreeExample extends WContainer {
 		private final boolean useDocs;
 
 		/**
+		 * Flag if use custom image.
+		 */
+		private final boolean useImage;
+
+		/**
 		 * @param data the sample data
 		 * @param useDocs use documents in the expand level
+		 * @param useImage use image in each node
 		 */
-		public ExampleTreeModel(final List<PersonBean> data, final boolean useDocs) {
+		public ExampleTreeModel(final List<PersonBean> data, final boolean useDocs, final boolean useImage) {
 			this.data = data;
 			this.useDocs = useDocs;
+			this.useImage = useImage;
 		}
 
 		/**
@@ -287,6 +300,9 @@ public class WTreeExample extends WContainer {
 
 		@Override
 		public TreeItemImage getItemImage(final List<Integer> row) {
+			if (!this.useImage) {
+				return null;
+			}
 			if (useDocs && row.size() == 2) {
 				return PDF_IMAGE;
 			}

@@ -415,7 +415,7 @@ define(["wc/dom/attribute",
 			 */
 			function clickEvent($event) {
 				var element = $event.target, action;
-				if (!$event.defaultPrevented && !shed.isDisabled(element) && (action = getAction(element))) {
+				if (!$event.defaultPrevented && (element = BUTTON.findAncestor(element)) && !shed.isDisabled(element) && (action = getAction(element))) {
 					action(element);
 				}
 			}

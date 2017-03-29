@@ -28,6 +28,7 @@ require(["wc/fixes",
 	"wc/i18n/i18n!", // ALWAYS REQUIRED IN THIS LAYER
 	"wc/a8n", // ALWAYS REQUIRED IN THIS LAYER
 	"wc/ui/loading", // ALWAYS REQUIRED IN THIS LAYER
+	"wc/ui/backToTop",
 	"wc/ui/field",
 	"wc/ui/label",
 	"wc/ui/wrappedInput",

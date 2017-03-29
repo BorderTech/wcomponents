@@ -18,7 +18,7 @@ define(["wc/dom/initialise",
 				LINK = new Widget("a"),
 				writeOutsideThese = [tag.INPUT, tag.SELECT, tag.TEXTAREA, tag.TABLE],
 				CONTAINER_TEMPLATE = function(args) {
-					var result =  "<span class=\"wc-fieldindicator wc-fieldindicator-type-error\" id=\"" + args.id + "\">";
+					var result =  "<span class=\"wc-fieldindicator wc-fieldindicator-type-error\" id=\"" + args.id + "\"><i aria-hidden='true' class='fa fa-times-circle'></i>";
 					if (args.errors) {
 						result += "<span class=\"wc-error\">" + args.errors + "</span>";
 					}

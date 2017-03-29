@@ -15,8 +15,7 @@ import org.openqa.selenium.internal.FindsByXPath;
 
 /**
  * <p>
- * An implementation of By which can find HTML elements by the element's
- * Label.</p>
+ * An implementation of By which can find HTML elements by the element's label.</p>
  *
  * @author Joshua Barclay
  * @since 1.3.0
@@ -26,11 +25,21 @@ public class ByLabel extends By {
 	/**
 	 * The XPATH for matching a label with exact text.
 	 */
-	public static final String XPATH_LABEL_TEXT_EXACT = "//span[text()='%1$s']|//label[text()='%1$s']";
+	public static final String XPATH_LABEL_TEXT_EXACT_ROOT = "//span[text()='%1$s']|//label[text()='%1$s']|//legend[text()='%1$s']";
 	/**
 	 * The XPATH for matching a label that contains the text.
 	 */
-	public static final String XPATH_LABEL_TEXT_CONTAINS = "//span[contains(text(),'%1$s')]|//label[contains(text(),'%1$s')]";
+	public static final String XPATH_LABEL_TEXT_CONTAINS_ROOT =
+			"//span[contains(text(),'%1$s')]|//label[contains(text(),'%1$s')]|//legend[contains(text(),'%1$s')]";
+	/**
+	 * The XPATH for matching a label with exact text.
+	 */
+	public static final String XPATH_LABEL_TEXT_EXACT_RELATIVE = ".//span[text()='%1$s']|.//label[text()='%1$s']|.//legend[text()='%1$s']";
+	/**
+	 * The XPATH for matching a label that contains the text.
+	 */
+	public static final String XPATH_LABEL_TEXT_CONTAINS_RELATIVE =
+			".//span[contains(text(),'%1$s')]|.//label[contains(text(),'%1$s')]|.//legend[contains(text(),'%1$s')]";
 
 	/**
 	 * The ID of the label.
@@ -46,6 +55,11 @@ public class ByLabel extends By {
 	private final boolean partialMatch;
 
 	/**
+	 * Whether the xpath lookup is relative to the current element ({@code true}) or not.
+	 */
+	private final boolean relative;
+
+	/**
 	 * ByLabel using the label's ID.
 	 *
 	 * @param labelId the ID of the label.
@@ -55,6 +69,21 @@ public class ByLabel extends By {
 		this.labelId = labelId;
 		this.labelText = null;
 		this.partialMatch = false;
+		this.relative = false;
+	}
+
+	/**
+	 * ByLabel using the label's text, either as an exact or partial match and using a relative XPATh to explicitly look 'inside' the current element.
+	 *
+	 * @param labelText the text used to find the label
+	 * @param partialMatch whether it can be a partial text match
+	 * @param relative whether to use a relative xpath lookup
+	 */
+	public ByLabel(final String labelText, final boolean partialMatch, final boolean relative) {
+		this.labelText = labelText;
+		this.labelId = null;
+		this.partialMatch = partialMatch;
+		this.relative = relative;
 	}
 
 	/**
@@ -64,10 +93,7 @@ public class ByLabel extends By {
 	 * @param partialMatch whether it can be a partial text match.
 	 */
 	public ByLabel(final String labelText, final boolean partialMatch) {
-
-		this.labelText = labelText;
-		this.labelId = null;
-		this.partialMatch = partialMatch;
+		this(labelText, partialMatch, false);
 	}
 
 	/**
@@ -85,9 +111,9 @@ public class ByLabel extends By {
 		} else {
 			String xpath;
 			if (partialMatch) {
-				xpath = String.format(XPATH_LABEL_TEXT_CONTAINS, labelText);
+				xpath = String.format((relative ? XPATH_LABEL_TEXT_CONTAINS_RELATIVE : XPATH_LABEL_TEXT_CONTAINS_ROOT), labelText);
 			} else {
-				xpath = String.format(XPATH_LABEL_TEXT_EXACT, labelText);
+				xpath = String.format((relative ? XPATH_LABEL_TEXT_EXACT_RELATIVE : XPATH_LABEL_TEXT_EXACT_ROOT), labelText);
 			}
 			labels = ((FindsByXPath) context).findElementsByXPath(xpath);
 		}
@@ -98,6 +124,13 @@ public class ByLabel extends By {
 
 		List<WebElement> results = new ArrayList<>();
 		for (WebElement label : labels) {
+			WebElement nestedElement;
+			if ("legend".equalsIgnoreCase(label.getTagName())) {
+				// the labelled element is the label's parent element
+				results.add(label.findElement(By.xpath("..")));
+				continue;
+			}
+
 			String elementId = label.getAttribute(SeleniumWComponentWebProperties.ATTRIBUTE_LABEL_FOR.toString());
 			if (StringUtils.isEmpty(elementId)) {
 				elementId = label.getAttribute(SeleniumWComponentWebProperties.ATTRIBUTE_LABEL_FAUX_FOR.toString());
@@ -107,13 +140,29 @@ public class ByLabel extends By {
 			}
 
 			if (StringUtils.isEmpty(elementId)) {
-				//The search has probably picked up a non-label span element.
+				if ("label".equalsIgnoreCase(label.getTagName())) {
+					nestedElement = label.findElement(By.tagName("input"));
+					if (nestedElement == null) {
+						nestedElement = label.findElement(By.tagName("select"));
+					}
+					if (nestedElement == null) {
+						nestedElement = label.findElement(By.tagName("textarea"));
+					}
+					if (nestedElement != null) {
+						results.add(nestedElement);
+					}
+				}
+				// otherwise the search has probably picked up a non-label span element.
 				continue;
 			}
 
 			WebElement element = ((FindsById) context).findElementById(elementId);
-			SeleniumWComponentInputWebElement wrapped = SeleniumWComponentsUtil.wrapInputElementWithTypedWebElement((WebDriver) context, element);
-			results.add(wrapped);
+			if (elementId.endsWith(SeleniumWComponentWebProperties.ID_SUFFIX.toString())) {
+				SeleniumWComponentInputWebElement wrapped = SeleniumWComponentsUtil.wrapInputElementWithTypedWebElement((WebDriver) context, element);
+				results.add(wrapped);
+			} else {
+				results.add(element);
+			}
 		}
 
 		return results;

@@ -22,6 +22,9 @@ import org.junit.runner.RunWith;
 @RunWith(MultiBrowserRunner.class)
 public class WLabelExample_Test extends WComponentExamplesTestCase {
 
+	/**
+	 * The SeleniumWebDriver for these examples.
+	 */
 	private SeleniumWComponentsWebDriver driver;
 	/**
 	 * Create a test instance.

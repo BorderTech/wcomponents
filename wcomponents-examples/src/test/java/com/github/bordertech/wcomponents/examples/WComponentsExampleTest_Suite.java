@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.examples.petstore.PetStore_Suite;
+import com.github.bordertech.wcomponents.examples.theme.ThemeExampleTest_Suite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -21,7 +22,6 @@ import org.junit.runners.Suite;
 	CheckBoxExample_Test.class,
 	EntryFieldExample_Test.class,
 	ErrorGenerator_Test.class,
-	ForwardExample_Test.class,
 	HtmlInjector_Test.class,
 	InfoDump_Test.class,
 	RadioButtonExample_Test.class,
@@ -42,12 +42,14 @@ import org.junit.runners.Suite;
 	WDropdownSpecialCharHandlingExample_Test.class,
 	WDropdownSubmitOnChangeExample_Test.class,
 	WDropdownTriggerActionExample_Test.class,
+	WMultiSelectPairTestingExample_Test.class,
 	WPopupExample_Test.class,
 	WRadioButtonSelectExample_Test.class,
 	WRadioButtonSubmitOnChangeExample_Test.class,
 	WRadioButtonTriggerActionExample_Test.class,
 	WTextExample_Test.class,
-	PetStore_Suite.class
+	PetStore_Suite.class,
+	ThemeExampleTest_Suite.class
 })
 
 /**

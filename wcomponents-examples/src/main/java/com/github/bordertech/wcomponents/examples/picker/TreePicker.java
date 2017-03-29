@@ -16,8 +16,9 @@ import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.layout.ListLayout;
-import com.github.bordertech.wcomponents.util.SpaceUtil.Size;
 import com.github.bordertech.wcomponents.util.HtmlClassProperties;
+import com.github.bordertech.wcomponents.util.HtmlIconUtil;
+import com.github.bordertech.wcomponents.util.SpaceUtil.Size;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import java.text.SimpleDateFormat;
@@ -203,7 +204,7 @@ public class TreePicker extends WContainer {
 			final WButton selectOtherButton = new WButton("\u200b");
 			selectOtherButton.setToolTip("Select");
 			//selectOtherButton.setImage("/image/open-in-browser-w.png");
-			selectOtherButton.setHtmlClass("wc-icon fa-file-code-o");
+			selectOtherButton.setHtmlClass(HtmlIconUtil.getIconClasses("fa-file-code-o"));
 			selectOtherButton.setRenderAsLink(true);
 			selectOtherButton.setAction(new ValidatingAction(exampleSection.getMessages().getValidationErrors(), selectOtherButton) {
 				@Override

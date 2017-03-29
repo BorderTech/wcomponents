@@ -85,22 +85,6 @@ public class SeleniumWComponentWebElement implements WebElement {
 	}
 
 	/**
-	 * @param by the by to find the component.
-	 * @return the SeleniumWSelectWebElement.
-	 */
-	public SeleniumWSelectWebElement findSeleniumWSelectWebElement(final By by) {
-		return new SeleniumWSelectWebElement(element.findElement(by), driver);
-	}
-
-	/**
-	 * @param by the by to find the component.
-	 * @return the SeleniumSimpleSelectWebElement.
-	 */
-	public SeleniumSimpleSelectWebElement findSeleniumSimpleSelectWebElement(final By by) {
-		return new SeleniumSimpleSelectWebElement(element.findElement(by), driver);
-	}
-
-	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -162,7 +146,9 @@ public class SeleniumWComponentWebElement implements WebElement {
 	}
 
 	/**
-	 * @return {@code true} if the element is hidden in the current UI
+	 * @return {@code true} if the element is hidden in the current UI. This is not exactly the same as the reverse of isDisplayed as it tests only
+	 * for the element being hidden using the meachanism internal to WComponents and not any other (CSS-based) mechanism which may result in
+	 * isDisplayed() returning {@code false}.
 	 */
 	public boolean isHidden() {
 		return element.getAttribute("hidden") != null;

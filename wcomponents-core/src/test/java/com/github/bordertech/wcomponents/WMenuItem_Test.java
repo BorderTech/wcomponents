@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.MenuSelectContainer.SelectionMode;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.io.Serializable;
 import junit.framework.Assert;
@@ -165,6 +166,7 @@ public class WMenuItem_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testIsSelected() {
 		WMenu menu = new WMenu();
+		menu.setSelectionMode(SelectionMode.MULTIPLE);
 		WMenuItem item = new WMenuItem("");
 		menu.add(item);
 

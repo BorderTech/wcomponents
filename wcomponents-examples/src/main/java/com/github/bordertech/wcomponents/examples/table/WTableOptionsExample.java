@@ -4,7 +4,6 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.SimpleBeanBoundTableModel;
 import com.github.bordertech.wcomponents.SimpleBeanBoundTableModel.LevelDetails;
-import com.github.bordertech.wcomponents.WBeanContainer;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;

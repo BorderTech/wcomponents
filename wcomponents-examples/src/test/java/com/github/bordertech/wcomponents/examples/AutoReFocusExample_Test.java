@@ -46,7 +46,7 @@ public class AutoReFocusExample_Test extends WComponentExamplesTestCase {
 
 		Assert.assertEquals("Incorrect focus",
 				driver.findElement(byWComponentPath(path)).getActiveId(),
-				driver.switchTo().activeElement().getAttribute("id"));
+				driver.switchTo(true).activeElement().getAttribute("id"));
 	}
 
 	@Test
@@ -64,6 +64,6 @@ public class AutoReFocusExample_Test extends WComponentExamplesTestCase {
 
 		Assert.assertEquals("Incorrect focus",
 				driver.findWDropdown(byWComponentPath(path)).getActiveId(),
-				driver.switchTo().activeElement().getAttribute("id"));
+				driver.switchTo(true).activeElement().getAttribute("id"));
 	}
 }

@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.test.selenium.driver;
 import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWCheckBoxSelectWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWCheckBoxWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponentWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWDialogWebElement;
@@ -10,7 +11,9 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWEmailFie
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWLabelWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMessageBoxWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMessagesWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMultiSelectPairWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWPhoneNumberFieldWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWRadioButtonSelectWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWRadioButtonWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWSelectWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWTableWebElement;
@@ -251,6 +254,15 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	}
 
 	/**
+	 * Find a WRadioButtonSelect by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWRadioButtonSelectWebElement or null if not found.
+	 */
+	public SeleniumWRadioButtonSelectWebElement findWRadioButtonSelect(final By by) {
+		return new SeleniumWRadioButtonSelectWebElement(findElement(by), this);
+	}
+
+	/**
 	 * Find a WDropdown by the given criteria.
 	 * @param by the By selector
 	 * @return the SeleniumWRadioButtonWebElement or null if not found.
@@ -289,10 +301,19 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	/**
 	 * Find a WMultiSelect by the given criteria.
 	 * @param by the By selector
-	 * @return the SeleniumWRadioButtonWebElement or null if not found.
+	 * @return the SeleniumWRadioButtonWebElement
 	 */
 	public SeleniumWSelectWebElement findWMultiSelect(final By by) {
 		return new SeleniumWSelectWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WMultiSelectPair by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWMultiSelectPairWebElement
+	 */
+	public SeleniumWMultiSelectPairWebElement findWMultiSelectPair(final By by) {
+		return new SeleniumWMultiSelectPairWebElement(findElement(by), this);
 	}
 
 	/**
@@ -302,6 +323,15 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 */
 	public SeleniumWLabelWebElement findWLabel(final By by) {
 		return new SeleniumWLabelWebElement(findElement(by), this);
+	}
+
+	/**
+	 * Find a WCheckBoxSelect by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWCheckBoxSelectWebElement
+	 */
+	public SeleniumWCheckBoxSelectWebElement findWCheckBoxSelect(final By by) {
+		return new SeleniumWCheckBoxSelectWebElement(findElement(by), this);
 	}
 
 	/**
@@ -461,12 +491,35 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	}
 
 	/**
+	 * Call switchTo after an optional check of pageReady.
+	 * @param wait if {@code true} wait for pageReady before switching
+	 * @return the TargetLocator
+	 */
+	public TargetLocator switchTo(final boolean wait) {
+		if (wait) {
+			waitForPageReady();
+		}
+		return driver.switchTo();
+	}
+
+	/**
+	 * Navigate with an option to wait for the current page to be ready first.
+	 * @param wait if {@code true} wait for pageReady before navigating
+	 * @return the Navigation
+	 */
+	public Navigation navigate(final boolean wait) {
+		if (wait) {
+			waitForPageReady();
+		}
+		return driver.navigate();
+	}
+
+	/**
 	 * {@inheritDoc}.
 	 */
 	@Override
 	public TargetLocator switchTo() {
-		waitForPageReady();
-		return driver.switchTo();
+		return switchTo(false);
 	}
 
 	/**
@@ -474,8 +527,7 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 */
 	@Override
 	public Navigation navigate() {
-		waitForPageReady();
-		return driver.navigate();
+		return navigate(false);
 	}
 
 	/**

@@ -1,0 +1,55 @@
+@import 'mixins-common';
+
+// Type.ACTION
+// The actual styling of WPanel Type.ACTION is due to it being a section element. See wc.section.scss.
+//
+// From the JavaDoc: 'An action panel is similar to CHROME but with a different appearance.'
+// OK, so not very useful. The panel will have an exposed title and some decoration (border and/or background).
+//
+// It should be inferred that a WPanel of type ACTION will contain the aspect of the current screen which contains the
+// primary activity of the screen. If this is not able to be determined then this type should probably not be used.
+//
+// This inference leads us to make the ACTION panel into a piece of sectioning content using a SECTION element and set
+// its title as the H1 of the section.
+
+// Type.BLOCK/
+// If you are reading this with knowledge of HTML and CSS you are possibly thinking, 'divs are blocks so surely WPanel
+// type 'block' should do nothing?' But that would be too easy. To get just an unstyled div then the (default) WPanel
+// Type of PLAIN is used.
+// Aaccording to the javadoc: 'A 'block' type panel has padding around the edges.'
+// Fortunately it is deprecated so we no longer _need_ to style it by default, but if you wanted to do so in an
+// implementation of a theme you could use something like:
+// .wc-panel-type-block {
+// 	padding: $wc-gap-normal;
+// }
+
+// Type.BOX:
+// According to the JavaDoc: 'A box panel has a border.'
+// It has to have padding to remove the content from the border.
+.wc-panel-type-box,
+// Type.FEATURE
+// From the JavaDoc: 'The feature panel is highlighted by a background colour and border.'
+.wc-panel-type-feature {
+	@include padded-box;
+}
+
+// Type.CHROME
+// See wc.section.scss
+
+// TYPE FOOTER
+footer {
+	padding: $wc-gap-normal;
+}
+
+// Type HEADER
+// This is the one most commonly overridden as it is not a structural type.
+@import 'wc.panel.header';
+
+// All the structural layouts
+@import 'wc.layout';
+
+// default responsive design for panels and layouts
+@import 'wc.panel.respond';
+
+// colours
+@import 'wc.panel.color';

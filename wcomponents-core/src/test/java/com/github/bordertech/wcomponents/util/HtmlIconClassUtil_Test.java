@@ -40,7 +40,7 @@ public class HtmlIconClassUtil_Test {
 	public void testGetIconClassesWithIconPositionAfter() {
 		String icon = "fa-some-icon";
 		HtmlIconUtil.IconPosition position = HtmlIconUtil.IconPosition.AFTER;
-		String expResult = "wc-icon-after fa-some-icon";
+		String expResult = "wc-icon wc-icon-after fa-some-icon";
 		String result = HtmlIconUtil.getIconClasses(icon, position);
 		Assert.assertEquals(expResult, result);
 	}
@@ -53,7 +53,7 @@ public class HtmlIconClassUtil_Test {
 	public void testGetIconClassesWithIconPositionBefore() {
 		String icon = "fa-some-icon";
 		HtmlIconUtil.IconPosition position = HtmlIconUtil.IconPosition.BEFORE;
-		String expResult = "wc-icon-before fa-some-icon";
+		String expResult = "wc-icon wc-icon-before fa-some-icon";
 		String result = HtmlIconUtil.getIconClasses(icon, position);
 		Assert.assertEquals(expResult, result);
 	}

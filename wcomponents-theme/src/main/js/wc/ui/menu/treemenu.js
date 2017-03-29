@@ -1,19 +1,5 @@
-/**
- * Menu controller extension for WMenu of type TREE. This represents a vertical menu with optional sliding submenus
- * which may be indented. See WTree which produces a WAI-ARIA tree widget which is a selection tool.
- *
- * @see {@link http://www.w3.org/TR/wai-aria-practices/#menu}
- * @module
- * @extends module:wc/ui/menu/core
- * @requires module:wc/ui/menu/core
- * @requires module:wc/dom/keyWalker
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/Widget
- * @requires module:wc/dom/initialise
- */
-define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "wc/dom/initialise", "wc/ui/menu/menuItem"],
-	/** @param abstractMenu @param keyWalker @param shed  @param Widget @param initialise @ignore */
-	function(abstractMenu, keyWalker, shed, Widget, initialise) {
+define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "wc/dom/initialise", "wc/ui/icon", "wc/ui/menu/menuItem"],
+	function(abstractMenu, keyWalker, shed, Widget, initialise, icon) {
 		"use strict";
 
 		/**
@@ -134,9 +120,44 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 					"DOM_VK_ESCAPE": this._FUNC_MAP.CLOSE_MY_BRANCH
 				};
 			};
+
+
+			this._shedSubscriber = function(element, action) {
+				var root, opener;
+				if (!(element && (root = this.getRoot(element)))) {
+					return;
+				}
+
+				if (action === shed.actions.EXPAND || action === shed.actions.COLLAPSE) {
+					if ((opener = this._getBranch(element)) && (opener = this._getBranchOpener(opener))) {
+						if (action === shed.actions.EXPAND) {
+							icon.change(opener, "fa-caret-down", "fa-caret-right");
+						}
+						else if (action === shed.actions.COLLAPSE) {
+							icon.change(opener, "fa-caret-right", "fa-caret-down");
+						}
+					}
+				}
+
+				this.constructor.prototype._shedSubscriber.call(this, element, action);
+			};
 		}
 
-		var /** @alias module:wc/ui/menu/treemenu */instance;
+		/**
+		 * Menu controller extension for WMenu of type TREE. This represents a vertical menu with optional sliding submenus
+		 * which may be indented. See WTree which produces a WAI-ARIA tree widget which is a selection tool.
+		 *
+		 * @see {@link http://www.w3.org/TR/wai-aria-practices/#menu}
+		 * @module
+		 * @extends module:wc/ui/menu/core
+		 * @requires module:wc/ui/menu/core
+		 * @requires module:wc/dom/keyWalker
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/ui/icon
+		 */
+		var instance;
 		TreeMenu.prototype = abstractMenu;
 		instance = new TreeMenu();
 		instance.constructor = TreeMenu;

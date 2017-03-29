@@ -6,7 +6,22 @@
 
 ### Bug Fixes
 
+* Fixed a flaw which could result in a WSubMenu being stuck open when a not-submitting WMenuItem is clicked #1137.
+* Fixed an accessibility flaw which could result in AT attempting to read icons #1136.
+* Fixed a JavaScript flaw which could result in unhandled events on buttons in some conditions #1135.
+* Fixed a newly introduced bug which caused failure of WMenuItem selection #1134.
+* Fixed a flaw which could result in non-selectable menu items being set as selected in WMenu #1133.
+
 ### Enhancements
+
+* Simplified Sass and removed unnecessary icon CSS as part of the fix for #1136. This included removing some Sass which
+  is no longer used but had not been cleaned up at the time.
+* Added a new generic class to HTMLCLassProperties. Class `wc-border` will apply the theme default border to any
+  component which does not already have a border style set by a more specific (or later equally specific) selector.
+* improved efficiency of CSS by deleting WComponents custom icon classes and using fa classes instead. This involved
+  changing the string values of elements in the HTMLClassProperties enum.
+* Simplified delayed, self-actuating Ajax triggers, removed module wc/ui/ajax/delayedTrigger.
+* Updated the new space class to fix some redundancy.
 
 ## Release 1.4.0-beta
 

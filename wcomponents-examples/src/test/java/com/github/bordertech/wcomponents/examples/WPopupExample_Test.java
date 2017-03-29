@@ -1,10 +1,5 @@
 package com.github.bordertech.wcomponents.examples;
 
-import java.util.Set;
-import junit.framework.Assert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-
 /**
  * Selenium unit tests for {@link WPopupExample}.
  *
@@ -24,7 +19,7 @@ public class WPopupExample_Test extends WComponentExamplesTestCase {
 
 	// Joshua-Barclay: Deactivate this test as the requirement to access an external website is not ideal for repeatable testing.
 	//	@Test
-	public void testExample() {
+	/*public void testExample() {
 		// Launch the web browser to the LDE
 		WebDriver driver = getDriver();
 
@@ -42,5 +37,5 @@ public class WPopupExample_Test extends WComponentExamplesTestCase {
 		newWindowDriver.findElement(By.tagName("html")).click();
 		String url = newWindowDriver.getCurrentUrl();
 		Assert.assertTrue("Incorrect popup URL: " + url, url.startsWith("http://www.example.com/"));
-	}
+	}*/
 }

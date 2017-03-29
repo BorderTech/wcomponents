@@ -42,16 +42,16 @@ public class WMultiSelectPairExample extends WContainer {
 		WTabSet exampleTabs = new WTabSet();
 
 		ExamplePanel panel = new ExamplePanel(SHAPES, false);
-		exampleTabs.addTab(panel, "Plain", WTabSet.TAB_MODE_SERVER);
+		exampleTabs.addTab(panel, "Plain", WTabSet.TAB_MODE_DYNAMIC);
 
 		panel = new ExamplePanel(SHAPES, true);
-		exampleTabs.addTab(panel, "Shuffle", WTabSet.TAB_MODE_SERVER);
+		exampleTabs.addTab(panel, "Shuffle", WTabSet.TAB_MODE_DYNAMIC);
 
 		panel = new ExamplePanel(groups, false);
-		exampleTabs.addTab(panel, "Groups", WTabSet.TAB_MODE_SERVER);
+		exampleTabs.addTab(panel, "Groups", WTabSet.TAB_MODE_DYNAMIC);
 
 		panel = new ExamplePanel(groups, true);
-		exampleTabs.addTab(panel, "Groups + Shuffle", WTabSet.TAB_MODE_SERVER);
+		exampleTabs.addTab(panel, "Groups + Shuffle", WTabSet.TAB_MODE_DYNAMIC);
 
 		add(exampleTabs);
 	}

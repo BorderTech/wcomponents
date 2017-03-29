@@ -17,6 +17,7 @@ import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.WTabSet;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.util.HtmlIconUtil;
 import com.github.bordertech.wcomponents.util.StreamUtil;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import java.io.IOException;
@@ -90,7 +91,7 @@ final class ExampleSection extends WSection implements MessageContainer {
 		// The refresh current view button.
 		WButton refreshButton = new WButton("\u200b");
 		refreshButton.setToolTip("Refresh");
-		refreshButton.setHtmlClass("wc-icon fa-refresh");
+		refreshButton.setHtmlClass(HtmlIconUtil.getIconClasses("fa-refresh"));
 		//refreshButton.setImage("/image/refresh-w.png");
 		refreshButton.setRenderAsLink(true);
 		refreshButton.setAction(new ValidatingAction(messages.getValidationErrors(), refreshButton) {
@@ -103,7 +104,7 @@ final class ExampleSection extends WSection implements MessageContainer {
 		// The reset example button.
 		final WButton resetButton = new WButton("\u200b");
 		resetButton.setToolTip("Reset");
-		resetButton.setHtmlClass("wc-icon fa-times-circle");
+		resetButton.setHtmlClass(HtmlIconUtil.getIconClasses("fa-times-circle"));
 		//resetButton.setImage("/image/cancel-w.png");
 		resetButton.setRenderAsLink(true);
 		resetButton.setAction(new ValidatingAction(messages.getValidationErrors(), resetButton) {

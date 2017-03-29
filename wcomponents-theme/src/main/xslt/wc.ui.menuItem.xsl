@@ -20,7 +20,18 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<button>
+		
+		<xsl:variable name="role">
+			<xsl:choose>
+				<xsl:when test="@role">
+					<xsl:value-of select="@role"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>menuitem</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<button role="{$role}">
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="isControl" select="1"/>
 				<xsl:with-param name="class">
@@ -92,17 +103,7 @@
 					<xsl:value-of select="@msg"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:attribute name="role">
-				<xsl:choose>
-					<xsl:when test="@role">
-						<xsl:value-of select="@role"/>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>menuitem</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
-			</xsl:attribute>
-			<xsl:if test="@selectable">
+			<xsl:if test="$role ne 'menuitem'">
 				<xsl:attribute name="aria-checked">
 					<xsl:choose>
 						<xsl:when test="@selected">

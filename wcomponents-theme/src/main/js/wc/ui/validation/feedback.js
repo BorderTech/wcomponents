@@ -1,5 +1,5 @@
 // TODO make this module use wc/ui/errors
-define(["wc/dom/Widget", "wc/dom/classList", "wc/i18n/i18n"], function(Widget, classList, i18n) {
+define(["wc/dom/Widget", "wc/dom/classList", "wc/i18n/i18n", "wc/ui/icon"], function(Widget, classList, i18n, icon) {
 	var instance = new Feedback(),
 		/** Handle for the string "true".
 		 * @constant {String}
@@ -82,11 +82,12 @@ define(["wc/dom/Widget", "wc/dom/classList", "wc/i18n/i18n"], function(Widget, c
 					classList.remove(errorBox, SUCCESS);
 					classList.add(errorBox, ERROR);
 					element.setAttribute(INVALID, TRUE);
+					icon.change(errorBox, "fa-times-circle", "fa-check-circle");
 				}
 			}
 			else {
 				errorBoxId = element.id + ERROR_BOX_SUFFIX;
-				errorBox = "<span id='" + errorBoxId + "' class='wc-fieldindicator "+ ERROR +"' role='alert'><span>" + message + "</span></span>";
+				errorBox = "<span id='" + errorBoxId + "' class='wc-fieldindicator "+ ERROR +"' role='alert'><i aria-hidden='true' class='fa fa-times-circle'></i><span>" + message + "</span></span>";
 				attachTo.insertAdjacentHTML(position, errorBox);
 				element.setAttribute(INVALID, TRUE);
 				if ((labelledBy = element.getAttribute(LABEL_ATTRIB))) {
@@ -115,25 +116,19 @@ define(["wc/dom/Widget", "wc/dom/classList", "wc/i18n/i18n"], function(Widget, c
 		 * @param {Element} element the HTML element which was in an error state.
 		 */
 		this.setOK = function(element) {
-			var errorBox = getErrorBox(element), next;
+			var errorBox = getErrorBox(element), error;
 			if (errorBox) {
 				classList.remove(errorBox, ERROR);
 				classList.add(errorBox, SUCCESS);
 				element.removeAttribute(INVALID);
+				icon.change(errorBox, "fa-check-circle", "fa-times-circle");
 
-				if (!(next = errorBox.firstElementChild)) {
-					while ((next = errorBox.firstChild)) {
-						if (next.nodeType === Node.ELEMENT_NODE) {
-							break;
-						}
-						else {
-							errorBox.removeChild(next);
-						}
-					}
-				}
-				if (next) {
-					classList.remove(next, ERROR);
-					next.innerHTML = i18n.get("validation_ok");
+				MESSAGE_HOLDER = MESSAGE_HOLDER || new Widget("span");
+				error = MESSAGE_HOLDER.findDescendant(errorBox);
+
+				if ((error = MESSAGE_HOLDER.findDescendant(errorBox))) {
+					classList.remove(error, ERROR);
+					error.innerHTML = i18n.get("validation_ok");
 				}
 				removeWValidationErrorLink(element);
 			}

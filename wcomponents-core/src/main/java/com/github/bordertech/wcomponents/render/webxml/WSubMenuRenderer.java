@@ -20,6 +20,15 @@ import com.github.bordertech.wcomponents.util.SystemException;
 final class WSubMenuRenderer extends AbstractWebXmlRenderer {
 
 	/**
+	 * @param submenu the WSubMenu currently being rendered
+	 * @return {@code true} if the submenu is in a WMenu of MenuType.TREE
+	 */
+	private boolean isTree(final WSubMenu submenu) {
+		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, submenu);
+		return menu != null && WMenu.MenuType.TREE == menu.getType();
+	}
+
+	/**
 	 * Only SubMenus in a TREE are allowed to be open.
 	 * @param submenu the WSubMenu to test
 	 * @return the open state of submenus inside a tree or false for all other submenus
@@ -28,8 +37,28 @@ final class WSubMenuRenderer extends AbstractWebXmlRenderer {
 		if (!submenu.isOpen()) {
 			return false;
 		}
+		return isTree(submenu);
+	}
+
+	/**
+	 * Get the string value of a WMenu.MenuType.
+	 * @param submenu he WSubMenu currently being rendered
+	 * @return the menu type as a string
+	 */
+	private String getMenuType(final WSubMenu submenu) {
 		WMenu menu = WebUtilities.getAncestorOfClass(WMenu.class, submenu);
-		return menu != null && WMenu.MenuType.TREE == menu.getType();
+		switch (menu.getType()) {
+			case BAR:
+				return "bar";
+			case FLYOUT:
+				return "flyout";
+			case TREE:
+				return "tree";
+			case COLUMN:
+				return "column";
+			default:
+				throw new IllegalStateException("Invalid menu type: " + menu.getType());
+		}
 	}
 
 	/**
@@ -47,12 +76,17 @@ final class WSubMenuRenderer extends AbstractWebXmlRenderer {
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("open", isOpen(menu), "true");
+		if (isTree(menu)) {
+			xml.appendAttribute("open", String.valueOf(isOpen(menu)));
+		}
 		xml.appendOptionalAttribute("disabled", menu.isDisabled(), "true");
 		xml.appendOptionalAttribute("hidden", menu.isHidden(), "true");
 		if (menu.isTopLevelMenu()) {
 			xml.appendOptionalAttribute("accessKey", menu.getAccessKeyAsString());
+		} else {
+			xml.appendAttribute("nested", "true");
 		}
+		xml.appendOptionalAttribute("type", getMenuType(menu));
 
 		switch (menu.getMode()) {
 			case CLIENT:
@@ -65,8 +99,6 @@ final class WSubMenuRenderer extends AbstractWebXmlRenderer {
 				xml.appendAttribute("mode", "eager");
 				break;
 			case DYNAMIC:
-				xml.appendAttribute("mode", "dynamic");
-				break;
 			case SERVER:
 				// mode server mapped to mode dynamic as per https://github.com/BorderTech/wcomponents/issues/687
 				xml.appendAttribute("mode", "dynamic");
