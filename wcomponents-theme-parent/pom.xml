@@ -35,7 +35,9 @@
 		<i18n.unpack.dir>${project.build.directory}${file.separator}i18n-unpacked</i18n.unpack.dir>
 		<nodejs.dist.dir>${project.build.directory}/nodejsdist</nodejs.dist.dir><!-- The nodejs binaries get unpacked to here -->
 		<nodejs.dir>${basedir}/node</nodejs.dir><!-- Where we expect to find Node installed -->
+		<nodejs.version>v6.9.5</nodejs.version><!-- the version of node to be installed -->
 		<npmjs.dir>${nodejs.dir}/node_modules/npm/bin</npmjs.dir><!-- Where we expect to find NPM installed -->
+		<npmjs.version>3.10.10</npmjs.version><!-- the version of npm to be installed - should be the version that goes with your version of node -->
 		<theme.skip.antrun>true</theme.skip.antrun><!-- All child projects that want to build a theme should set this to false -->
 		<theme.skip.unpack>true</theme.skip.unpack><!-- child projects outside of wcomponents will set this to false -->
 		<theme.core.dir>${theme.dir}</theme.core.dir><!-- In child projects this would probably be ${theme.unpack.dir}${file.separator}${theme.default.name} -->
@@ -327,8 +329,8 @@
 						<phase>generate-resources</phase>
 						<configuration>
 							<skip>${theme.skip.antrun}</skip>
-							<nodeVersion>v6.9.5</nodeVersion>
-							<npmVersion>3.10.10</npmVersion>
+							<nodeVersion>${nodejs.version}</nodeVersion>
+							<npmVersion>${npmjs.version}</npmVersion>
 							<!--
 								This will only work if the nodejs binaries are unpacked first (see the execution with ID "unpack-nodejs").
 							-->
