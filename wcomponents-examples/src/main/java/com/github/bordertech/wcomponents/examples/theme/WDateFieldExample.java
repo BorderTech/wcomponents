@@ -3,6 +3,10 @@ package com.github.bordertech.wcomponents.examples.theme;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Margin;
+<<<<<<< HEAD
+=======
+import com.github.bordertech.wcomponents.Size;
+>>>>>>> 94ab6e2... Refactor SpaceUtil.Size to Size
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCancelButton;
@@ -22,7 +26,6 @@ import com.github.bordertech.wcomponents.subordinate.Enable;
 import com.github.bordertech.wcomponents.subordinate.Equal;
 import com.github.bordertech.wcomponents.subordinate.Rule;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
-import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.util.Date;
 
 /**
@@ -127,7 +130,7 @@ public class WDateFieldExample extends WContainer {
 
 		//do the layout
 		WPanel buttonPanel = new WPanel(WPanel.Type.FEATURE);
-		buttonPanel.setMargin(new Margin(SpaceUtil.Size.LARGE, null, null, null));
+		buttonPanel.setMargin(new Margin(Size.LARGE, null, null, null));
 		buttonPanel.setLayout(new BorderLayout());
 
 		WPanel innerButtonPanel = new WPanel();

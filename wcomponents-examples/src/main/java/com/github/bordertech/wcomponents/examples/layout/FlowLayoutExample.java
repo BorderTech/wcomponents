@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.examples.layout;
 
 import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
@@ -9,7 +10,6 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
 import com.github.bordertech.wcomponents.layout.FlowLayout.ContentAlignment;
-import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * <p>
@@ -23,7 +23,7 @@ public class FlowLayoutExample extends WPanel {
 	/**
 	 * A nice readable space.
 	 */
-	private static final SpaceUtil.Size SPACE = SpaceUtil.Size.MEDIUM;
+	private static final Size SPACE = Size.MEDIUM;
 
 	/**
 	 * Creates a FlowLayoutExample.

@@ -2,10 +2,10 @@ package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.Margin;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenu.SelectMode;
 import com.github.bordertech.wcomponents.WMenuItem;
-import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -90,7 +90,7 @@ public class WMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 		menu.setMargin(margin);
 		assertXpathNotExists("//ui:menu/ui:margin", menu);
 
-		margin = new Margin(SpaceUtil.Size.SMALL);
+		margin = new Margin(Size.SMALL);
 		menu.setMargin(margin);
 		assertSchemaMatch(menu);
 		assertXpathEvaluatesTo("sm", "//ui:menu/ui:margin/@all", menu);
@@ -99,7 +99,7 @@ public class WMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:menu/ui:margin/@south", menu);
 		assertXpathEvaluatesTo("", "//ui:menu/ui:margin/@west", menu);
 
-		margin = new Margin(SpaceUtil.Size.SMALL, SpaceUtil.Size.MEDIUM, SpaceUtil.Size.LARGE, SpaceUtil.Size.XL);
+		margin = new Margin(Size.SMALL, Size.MEDIUM, Size.LARGE, Size.XL);
 		menu.setMargin(margin);
 		assertSchemaMatch(menu);
 		assertXpathEvaluatesTo("", "//ui:menu/ui:margin/@all", menu);

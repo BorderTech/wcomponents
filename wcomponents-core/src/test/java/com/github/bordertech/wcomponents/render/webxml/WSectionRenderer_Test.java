@@ -5,11 +5,11 @@ import com.github.bordertech.wcomponents.AjaxOperation;
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.DefaultWComponent;
 import com.github.bordertech.wcomponents.Margin;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.WSection.SectionMode;
 import com.github.bordertech.wcomponents.WText;
-import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -117,7 +117,7 @@ public class WSectionRenderer_Test extends AbstractWebXmlRendererTestCase {
 		section.setMargin(margin);
 		assertXpathNotExists("//ui:section/ui:margin", section);
 
-		margin = new Margin(SpaceUtil.Size.SMALL);
+		margin = new Margin(Size.SMALL);
 		section.setMargin(margin);
 		assertSchemaMatch(section);
 		assertXpathEvaluatesTo("sm", "//ui:section/ui:margin/@all", section);
@@ -126,7 +126,7 @@ public class WSectionRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:section/ui:margin/@south", section);
 		assertXpathEvaluatesTo("", "//ui:section/ui:margin/@west", section);
 
-		margin = new Margin(SpaceUtil.Size.SMALL, SpaceUtil.Size.MEDIUM, SpaceUtil.Size.LARGE, SpaceUtil.Size.XL);
+		margin = new Margin(Size.SMALL, Size.MEDIUM, Size.LARGE, Size.XL);
 		section.setMargin(margin);
 		assertSchemaMatch(section);
 		assertXpathEvaluatesTo("", "//ui:section/ui:margin/@all", section);

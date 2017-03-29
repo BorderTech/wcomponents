@@ -57,7 +57,7 @@ public class WList extends WRepeater implements Marginable {
 	/**
 	 * The space between the components in the list.
 	 */
-	private final SpaceUtil.Size space;
+	private final Size space;
 
 	/**
 	 * For temporary backwards compatibility only.
@@ -72,7 +72,7 @@ public class WList extends WRepeater implements Marginable {
 	 * @param gap the requested space between items
 	 */
 	@Deprecated
-	private WList(final Type type, final SpaceUtil.Size space, final int gap) {
+	private WList(final Type type, final Size space, final int gap) {
 		getComponentModel().type = type;
 		this.space = space;
 		this.gap = gap;
@@ -84,7 +84,7 @@ public class WList extends WRepeater implements Marginable {
 	 * @param type the list type.
 	 * @param space the space between the list items
 	 */
-	public WList(final Type type, final SpaceUtil.Size space) {
+	public WList(final Type type, final Size space) {
 		getComponentModel().type = type;
 		this.space = space;
 		this.gap = -1;
@@ -104,7 +104,7 @@ public class WList extends WRepeater implements Marginable {
 	 *
 	 * @param type the list type.
 	 * @param gap the space between the list items
-	 * @deprecated use {@link #WList(Type, SpaceUtil.Size)}
+	 * @deprecated use {@link #WList(Type, Size)}
 	 */
 	@Deprecated
 	public WList(final Type type, final int gap) {
@@ -117,7 +117,7 @@ public class WList extends WRepeater implements Marginable {
 	 * @param type the list type.
 	 * @param hgap the horizontal space between the list items, used only if type is Type.FLAT
 	 * @param vgap the vertical space between the list items,  used only if type is not Type.FLAT
-	 * @deprecated use {@link #WList(Type, SpaceUtil.Size)}
+	 * @deprecated use {@link #WList(Type, Size)}
 	 */
 	@Deprecated
 	public WList(final Type type, final int hgap, final int vgap) {
@@ -217,7 +217,7 @@ public class WList extends WRepeater implements Marginable {
 	/**
 	 * @return the space between items in the List.
 	 */
-	public SpaceUtil.Size getSpace() {
+	public Size getSpace() {
 		return space;
 	}
 
