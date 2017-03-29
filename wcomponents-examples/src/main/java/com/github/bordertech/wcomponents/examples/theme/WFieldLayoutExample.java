@@ -2,10 +2,7 @@ package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
-<<<<<<< HEAD
-=======
 import com.github.bordertech.wcomponents.Size;
->>>>>>> 94ab6e2... Refactor SpaceUtil.Size to Size
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WHeading;

@@ -3,10 +3,7 @@ package com.github.bordertech.wcomponents.examples.theme;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Margin;
-<<<<<<< HEAD
-=======
 import com.github.bordertech.wcomponents.Size;
->>>>>>> 94ab6e2... Refactor SpaceUtil.Size to Size
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCancelButton;
