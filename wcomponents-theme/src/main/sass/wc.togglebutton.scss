@@ -5,35 +5,42 @@
 $wc-togglebutton-double-border-width: 2 * $wc-border-width;
 $wc-togglebutton-slider-width: $wc-togglebutton-width / 2;
 
-.wc-togglebutton > button {
-	border-radius: $wc-togglebutton-slider-width;
-	height: $wc-togglebutton-slider-width;
-	outline: 0;
-	position: relative;
-	transition: $wc-togglebutton-transition;
-	user-select: none;
-	width: $wc-togglebutton-width;
-
-	&:after {
+.wc-togglebutton {
+	&.wc_ro,
+	> button {
 		border-radius: $wc-togglebutton-slider-width;
-		content: '';
-		display: block;
-		height: calc(100% - $wc-togglebutton-double-border-width);
-		left: 0;
+		display: inline-block;
+		height: $wc-togglebutton-slider-width;
 		position: relative;
-		transition: $wc-togglebutton-transition-slider;
-		width: 50%;
-	}
+		width: $wc-togglebutton-width;
 
-	&.wc_ro_sel,
-	&[aria-checked='true'] {
 		&:after {
-			left: calc(50% - $wc-togglebutton-double-border-width);
+			border-radius: $wc-togglebutton-slider-width;
+			content: '';
+			display: block;
+			height: calc(100% - $wc-togglebutton-double-border-width);
+			left: 0;
+			position: relative;
+			width: 50%;
 		}
 	}
 
-	> span {
-		@include offscreen;
+	> button {
+		outline: 0;
+		padding: 0;
+		transition: $wc-togglebutton-transition;
+		user-select: none;
+
+		&:after {
+			transition: $wc-togglebutton-transition-slider;
+		}
+	}
+
+	&.wc_ro_sel,
+	> [aria-checked='true'] {
+		&:after {
+			left: calc(50% - $wc-togglebutton-double-border-width);
+		}
 	}
 }
 
