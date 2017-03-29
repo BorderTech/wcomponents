@@ -18,7 +18,7 @@
 		"handlebars": "~4.0.5",
 		"i18next": "~3.4.1",
 		"i18next-xhr-backend": "~1.0.1",
-		"intern": "~3.0.6",
+		"intern": "~3.4.3",
 		"jsdoc": "~3.3.2",
 		"promise-polyfill": "~2.1.0",
 		"properties": "~1.2.1",
