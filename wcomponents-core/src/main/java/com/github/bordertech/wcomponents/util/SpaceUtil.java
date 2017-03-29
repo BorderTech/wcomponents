@@ -3,10 +3,12 @@ package com.github.bordertech.wcomponents.util;
 import com.github.bordertech.wcomponents.Size;
 
 /**
- * Size utility class used to ensure consistent spacing of intra-component gaps and Margins.
+ * Size utility class used to ensure consistent spacing of intra-component gaps and Margins For backwards compatibility only.
  * @author Mark Reeves
+ * @author John McGuiness
  * @since 1.4.0
  */
+@Deprecated
 public final class SpaceUtil {
 	/**
 	 * prevent instantiation.

@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents;
 /**
  * Used to ensure consistent spacing of intra-component gaps and Margins.
  * @author Mark Reeves
+ * @author John McGuiness
  * @since 1.4.0
  */
 public enum Size {
