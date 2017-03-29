@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.layout;
 
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.util.Arrays;
 
@@ -44,12 +43,12 @@ public class ColumnLayout implements LayoutManager {
 	/**
 	 * The horizontal gap between the columns.
 	 */
-	private final Size hSpace;
+	private final SpaceUtil.Size hSpace;
 
 	/**
 	 * The vertical gap between the rows.
 	 */
-	private final Size vSpace;
+	private final SpaceUtil.Size vSpace;
 
 	/**
 	 * For temporary backwards compatibility only.
@@ -73,7 +72,7 @@ public class ColumnLayout implements LayoutManager {
 	 * @param vgap  the requested vertical space between rows
 	 */
 	@Deprecated
-	private ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments, final Size hSpace, final Size vSpace,
+	private ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments, final SpaceUtil.Size hSpace, final SpaceUtil.Size vSpace,
 			final int hgap, final int vgap) {
 		if (columnWidths == null || columnWidths.length == 0) {
 			throw new IllegalArgumentException("ColumnWidths must be provided");
@@ -135,7 +134,7 @@ public class ColumnLayout implements LayoutManager {
 	 * @param columnWidths the column widths, in percent units, 0 for undefined
 	 * @param hgap the horizontal gap between the columns
 	 * @param vgap the vertical gap between the rows
-	 * @deprecated use {@link #ColumnLayout(int[], Size, Size)}
+	 * @deprecated use {@link #ColumnLayout(int[], SpaceUtil.Size, SpaceUtil.Size)}
 	 */
 	@Deprecated
 	public ColumnLayout(final int[] columnWidths, final int hgap, final int vgap) {
@@ -149,7 +148,7 @@ public class ColumnLayout implements LayoutManager {
 	 * @param hSpace the space between the columns
 	 * @param vSpace the space between the rows
 	 */
-	public ColumnLayout(final int[] columnWidths, final Size hSpace, final Size vSpace) {
+	public ColumnLayout(final int[] columnWidths, final SpaceUtil.Size hSpace, final SpaceUtil.Size vSpace) {
 		this(columnWidths, null, hSpace, vSpace);
 	}
 
@@ -160,7 +159,7 @@ public class ColumnLayout implements LayoutManager {
 	 * @param columnAlignments the column alignments
 	 * @param hgap the horizontal gap between the columns
 	 * @param vgap the vertical gap between the rows
-	 * @deprecated use {@link #ColumnLayout(int[], Alignment[], Size, Size)}
+	 * @deprecated use {@link #ColumnLayout(int[], Alignment[], SpaceUtil.Size, SpaceUtil.Size)}
 	 */
 	@Deprecated
 	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments, final int hgap, final int vgap) {
@@ -175,7 +174,7 @@ public class ColumnLayout implements LayoutManager {
 	 * @param hSpace the space between the columns
 	 * @param vSpace the space between the rows
 	 */
-	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments, final Size hSpace, final Size vSpace) {
+	public ColumnLayout(final int[] columnWidths, final Alignment[] columnAlignments, final SpaceUtil.Size hSpace, final SpaceUtil.Size vSpace) {
 		this(columnWidths, columnAlignments, hSpace, vSpace, -1, -1);
 	}
 
@@ -192,14 +191,14 @@ public class ColumnLayout implements LayoutManager {
 	/**
 	 * @return the horizontal space between the cells
 	 */
-	public Size getHorizontalGap() {
+	public SpaceUtil.Size getHorizontalGap() {
 		return hSpace;
 	}
 
 	/**
 	 * @return the vertical space between the cells
 	 */
-	public Size getVerticalGap() {
+	public SpaceUtil.Size getVerticalGap() {
 		return vSpace;
 	}
 

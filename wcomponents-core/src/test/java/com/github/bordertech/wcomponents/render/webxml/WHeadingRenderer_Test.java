@@ -1,10 +1,10 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.Margin;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -88,7 +88,7 @@ public class WHeadingRenderer_Test extends AbstractWebXmlRendererTestCase {
 		heading.setMargin(margin);
 		assertXpathNotExists("//ui:heading/ui:margin", heading);
 
-		margin = new Margin(Size.SMALL);
+		margin = new Margin(SpaceUtil.Size.SMALL);
 		heading.setMargin(margin);
 		assertSchemaMatch(heading);
 		assertXpathEvaluatesTo("sm", "//ui:heading/ui:margin/@all", heading);
@@ -97,7 +97,7 @@ public class WHeadingRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:heading/ui:margin/@south", heading);
 		assertXpathEvaluatesTo("", "//ui:heading/ui:margin/@west", heading);
 
-		margin = new Margin(Size.SMALL, Size.MEDIUM, Size.LARGE, Size.XL);
+		margin = new Margin(SpaceUtil.Size.SMALL, SpaceUtil.Size.MEDIUM, SpaceUtil.Size.LARGE, SpaceUtil.Size.XL);
 		heading.setMargin(margin);
 		assertSchemaMatch(heading);
 		assertXpathEvaluatesTo("", "//ui:heading/ui:margin/@all", heading);

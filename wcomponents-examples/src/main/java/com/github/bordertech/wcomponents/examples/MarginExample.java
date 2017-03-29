@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.examples;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Marginable;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WCollapsible;
 import com.github.bordertech.wcomponents.WColumn;
 import com.github.bordertech.wcomponents.WContainer;
@@ -25,6 +24,7 @@ import com.github.bordertech.wcomponents.WTable;
 import com.github.bordertech.wcomponents.WTableColumn;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.util.Arrays;
 
 /**
@@ -38,12 +38,12 @@ public class MarginExample extends WContainer {
 	/**
 	 * Default box margin.
 	 */
-	private static final Margin DEFAULT_BOX_MARGIN = new Margin(null, null, Size.MEDIUM, null);
+	private static final Margin DEFAULT_BOX_MARGIN = new Margin(null, null, SpaceUtil.Size.MEDIUM, null);
 
 	/**
 	 * Default example margin.
 	 */
-	private static final Margin DEFAULT_MARGIN = new Margin(Size.XL);
+	private static final Margin DEFAULT_MARGIN = new Margin(SpaceUtil.Size.XL);
 
 	/**
 	 * Build example.
@@ -51,7 +51,7 @@ public class MarginExample extends WContainer {
 	public MarginExample() {
 		WPanel root = new WPanel();
 		add(root);
-		root.setMargin(new Margin(Size.LARGE));
+		root.setMargin(new Margin(SpaceUtil.Size.LARGE));
 
 		// WSection
 		WPanel box = new WPanel(Type.BOX);
@@ -161,7 +161,7 @@ public class MarginExample extends WContainer {
 		heading = new WHeading(HeadingLevel.H2, "Heading with default margin");
 		box.add(heading);
 		heading = new WHeading(HeadingLevel.H2, "Heading with margin set to zero");
-		heading.setMargin(new Margin(Size.ZERO));
+		heading.setMargin(new Margin(SpaceUtil.Size.ZERO));
 		box.add(heading);
 
 		// WPanel

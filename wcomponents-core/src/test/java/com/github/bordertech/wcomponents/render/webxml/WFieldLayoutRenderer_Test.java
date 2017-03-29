@@ -2,9 +2,9 @@ package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.Margin;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -114,7 +114,7 @@ public class WFieldLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		layout.setMargin(margin);
 		assertXpathNotExists("//ui:fieldlayout/ui:margin", layout);
 
-		margin = new Margin(Size.SMALL);
+		margin = new Margin(SpaceUtil.Size.SMALL);
 		layout.setMargin(margin);
 		assertSchemaMatch(layout);
 		assertXpathEvaluatesTo("sm", "//ui:fieldlayout/ui:margin/@all", layout);
@@ -123,7 +123,7 @@ public class WFieldLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:fieldlayout/ui:margin/@south", layout);
 		assertXpathEvaluatesTo("", "//ui:fieldlayout/ui:margin/@west", layout);
 
-		margin = new Margin(Size.SMALL, Size.MEDIUM, Size.LARGE, Size.XL);
+		margin = new Margin(SpaceUtil.Size.SMALL, SpaceUtil.Size.MEDIUM, SpaceUtil.Size.LARGE, SpaceUtil.Size.XL);
 		layout.setMargin(margin);
 		assertSchemaMatch(layout);
 		assertXpathEvaluatesTo("", "//ui:fieldlayout/ui:margin/@all", layout);

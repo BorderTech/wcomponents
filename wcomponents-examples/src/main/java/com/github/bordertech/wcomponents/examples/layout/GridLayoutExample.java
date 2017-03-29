@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.examples.layout;
 
 import com.github.bordertech.wcomponents.HeadingLevel;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
@@ -12,6 +11,7 @@ import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.GridLayout;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * <p>
@@ -26,11 +26,11 @@ public class GridLayoutExample extends WContainer {
 	/**
 	 * A small gap.
 	 */
-	private static final Size GAP = Size.SMALL;
+	private static final SpaceUtil.Size GAP = SpaceUtil.Size.SMALL;
 	/**
 	 * A big gap.
 	 */
-	private static final Size BIG_GAP = Size.LARGE;
+	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
 
 	/**
 	 * Creates a GridLayoutExample.

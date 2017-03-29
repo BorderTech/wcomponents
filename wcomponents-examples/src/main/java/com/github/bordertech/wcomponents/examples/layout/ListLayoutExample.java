@@ -1,13 +1,13 @@
 package com.github.bordertech.wcomponents.examples.layout;
 
 import com.github.bordertech.wcomponents.HeadingLevel;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.ListLayout;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * Example showing how to use the {@link ListLayout} component.
@@ -41,9 +41,9 @@ public class ListLayoutExample extends WContainer {
 		addExample("Flat, Bar Separator", new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.LEFT, ListLayout.Separator.BAR, false));
 		addExample("Flat, Dot Separator", new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.LEFT, ListLayout.Separator.DOT, false));
 		addExample("Stacked with gap",
-				new ListLayout(ListLayout.Type.STACKED, ListLayout.Alignment.LEFT, ListLayout.Separator.NONE, false, Size.LARGE));
+				new ListLayout(ListLayout.Type.STACKED, ListLayout.Alignment.LEFT, ListLayout.Separator.NONE, false, SpaceUtil.Size.LARGE));
 		addExample("Flat with gap",
-				new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.LEFT, ListLayout.Separator.NONE, false, Size.LARGE));
+				new ListLayout(ListLayout.Type.FLAT, ListLayout.Alignment.LEFT, ListLayout.Separator.NONE, false, SpaceUtil.Size.LARGE));
 	}
 
 	/**

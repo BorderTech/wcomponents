@@ -5,11 +5,11 @@ import com.github.bordertech.wcomponents.AjaxOperation;
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.DefaultWComponent;
 import com.github.bordertech.wcomponents.Margin;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WFigure;
 import com.github.bordertech.wcomponents.WFigure.FigureMode;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -113,7 +113,7 @@ public class WFigureRenderer_Test extends AbstractWebXmlRendererTestCase {
 		figure.setMargin(margin);
 		assertXpathNotExists("//ui:figure/ui:margin", figure);
 
-		margin = new Margin(Size.SMALL);
+		margin = new Margin(SpaceUtil.Size.SMALL);
 		figure.setMargin(margin);
 		assertSchemaMatch(figure);
 		assertXpathEvaluatesTo("sm", "//ui:figure/ui:margin/@all", figure);
@@ -122,7 +122,7 @@ public class WFigureRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:figure/ui:margin/@south", figure);
 		assertXpathEvaluatesTo("", "//ui:figure/ui:margin/@west", figure);
 
-		margin = new Margin(Size.SMALL, Size.MEDIUM, Size.LARGE, Size.XL);
+		margin = new Margin(SpaceUtil.Size.SMALL, SpaceUtil.Size.MEDIUM, SpaceUtil.Size.LARGE, SpaceUtil.Size.XL);
 		figure.setMargin(margin);
 		assertSchemaMatch(figure);
 		assertXpathEvaluatesTo("", "//ui:figure/ui:margin/@all", figure);

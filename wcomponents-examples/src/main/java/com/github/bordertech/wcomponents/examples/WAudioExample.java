@@ -6,7 +6,6 @@ import com.github.bordertech.wcomponents.Audio;
 import com.github.bordertech.wcomponents.AudioResource;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WAudio;
 import com.github.bordertech.wcomponents.WButton;
@@ -19,6 +18,7 @@ import com.github.bordertech.wcomponents.subordinate.Enable;
 import com.github.bordertech.wcomponents.subordinate.Equal;
 import com.github.bordertech.wcomponents.subordinate.Rule;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * An example showing the basic use of the {@link WAudio} component.
@@ -90,7 +90,7 @@ public class WAudioExample extends WContainer {
 	private void buildUI() {
 		// build the configuration options UI.
 		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
-		layout.setMargin(new Margin(null, null, Size.LARGE, null));
+		layout.setMargin(new Margin(null, null, SpaceUtil.Size.LARGE, null));
 		add(layout);
 		layout.addField("Autoplay", cbAutoPlay);
 		layout.addField("Loop", cbLoop);

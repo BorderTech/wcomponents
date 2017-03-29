@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents.examples.validation.repeater;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.Margin;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WDataRenderer;
 import com.github.bordertech.wcomponents.WField;
@@ -11,6 +10,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WRepeater;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * Repeated fields.
@@ -28,7 +28,7 @@ public class RepeaterFields extends WDataRenderer {
 	 */
 	public RepeaterFields() {
 		WFieldLayout fields = new WFieldLayout();
-		fields.setMargin(new Margin(null, null, Size.LARGE, null));
+		fields.setMargin(new Margin(null, null, SpaceUtil.Size.LARGE, null));
 		add(fields);
 
 		nameText = new WTextField();
@@ -40,7 +40,7 @@ public class RepeaterFields extends WDataRenderer {
 		repeater.setRepeatedComponent(new RepeaterComponent());
 		add(repeater);
 		WPanel buttonPanel = new WPanel(WPanel.Type.FEATURE);
-		buttonPanel.setMargin(new Margin(Size.LARGE, null, null, null));
+		buttonPanel.setMargin(new Margin(SpaceUtil.Size.LARGE, null, null, null));
 		add(buttonPanel);
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		submitBtn = new WButton("Submit", 'S');

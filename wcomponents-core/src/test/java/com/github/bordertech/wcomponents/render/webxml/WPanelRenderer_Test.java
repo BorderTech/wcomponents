@@ -5,12 +5,12 @@ import com.github.bordertech.wcomponents.AjaxOperation;
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.DefaultWComponent;
 import com.github.bordertech.wcomponents.Margin;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WPanel.PanelMode;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -155,7 +155,7 @@ public class WPanelRenderer_Test extends AbstractWebXmlRendererTestCase {
 		panel.setMargin(margin);
 		assertXpathNotExists("//ui:panel/ui:margin", panel);
 
-		margin = new Margin(Size.SMALL);
+		margin = new Margin(SpaceUtil.Size.SMALL);
 		panel.setMargin(margin);
 		assertSchemaMatch(panel);
 		assertXpathEvaluatesTo("sm", "//ui:panel/ui:margin/@all", panel);
@@ -184,7 +184,7 @@ public class WPanelRenderer_Test extends AbstractWebXmlRendererTestCase {
 		panel.setMargin(margin);
 		assertXpathExists("//ui:panel/ui:margin", panel);
 
-		margin = new Margin(Size.SMALL, Size.MEDIUM, Size.LARGE, Size.XL);
+		margin = new Margin(SpaceUtil.Size.SMALL, SpaceUtil.Size.MEDIUM, SpaceUtil.Size.LARGE, SpaceUtil.Size.XL);
 		panel.setMargin(margin);
 		assertSchemaMatch(panel);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@all", panel);

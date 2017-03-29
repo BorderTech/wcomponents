@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.Renderer;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
@@ -9,6 +8,7 @@ import com.github.bordertech.wcomponents.layout.BorderLayout;
 import com.github.bordertech.wcomponents.layout.BorderLayout.BorderLayoutConstraint;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.Duplet;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +32,9 @@ final class BorderLayoutRenderer extends AbstractWebXmlRenderer {
 		WPanel panel = (WPanel) component;
 		XmlStringBuilder xml = renderContext.getWriter();
 		BorderLayout layout = (BorderLayout) panel.getLayout();
-		Size hgap = layout.getHorizontalGap();
+		SpaceUtil.Size hgap = layout.getHorizontalGap();
 		String hgapString = hgap == null ? null : hgap.toString();
-		Size vgap = layout.getVerticalGap();
+		SpaceUtil.Size vgap = layout.getVerticalGap();
 		String vgapString = vgap == null ? null : vgap.toString();
 
 		xml.appendTagOpen("ui:borderlayout");

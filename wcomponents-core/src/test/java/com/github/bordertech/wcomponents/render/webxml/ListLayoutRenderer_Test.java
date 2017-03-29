@@ -1,9 +1,9 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.ListLayout;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
@@ -18,7 +18,7 @@ import org.xml.sax.SAXException;
  */
 public class ListLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 
-	private static final Size GAP = Size.SMALL;
+	private static final SpaceUtil.Size GAP = SpaceUtil.Size.SMALL;
 
 
 	@Test

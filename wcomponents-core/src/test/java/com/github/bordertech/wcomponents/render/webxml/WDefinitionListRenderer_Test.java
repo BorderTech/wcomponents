@@ -1,9 +1,9 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.Margin;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -105,7 +105,7 @@ public class WDefinitionListRenderer_Test extends AbstractWebXmlRendererTestCase
 		section.setMargin(margin);
 		assertXpathNotExists("//ui:definitionlist/ui:margin", section);
 
-		margin = new Margin(Size.SMALL);
+		margin = new Margin(SpaceUtil.Size.SMALL);
 		section.setMargin(margin);
 		assertSchemaMatch(section);
 		assertXpathEvaluatesTo("sm", "//ui:definitionlist/ui:margin/@all", section);
@@ -114,7 +114,7 @@ public class WDefinitionListRenderer_Test extends AbstractWebXmlRendererTestCase
 		assertXpathEvaluatesTo("", "//ui:definitionlist/ui:margin/@south", section);
 		assertXpathEvaluatesTo("", "//ui:definitionlist/ui:margin/@west", section);
 
-		margin = new Margin(Size.SMALL, Size.MEDIUM, Size.LARGE, Size.XL);
+		margin = new Margin(SpaceUtil.Size.SMALL, SpaceUtil.Size.MEDIUM, SpaceUtil.Size.LARGE, SpaceUtil.Size.XL);
 		section.setMargin(margin);
 		assertSchemaMatch(section);
 		assertXpathEvaluatesTo("", "//ui:definitionlist/ui:margin/@all", section);

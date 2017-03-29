@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.layout;
 
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
@@ -91,7 +90,7 @@ public class ListLayout implements LayoutManager {
 	/**
 	 * The space between the components added to the layout.
 	 */
-	private final Size space;
+	private final SpaceUtil.Size space;
 
 	/**
 	 * For temporary backwards compatibility only.
@@ -110,7 +109,7 @@ public class ListLayout implements LayoutManager {
 	 * @param gap the requested gap between the components added to the layouts
 	 */
 	@Deprecated
-	private ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered, final Size space,
+	private ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered, final SpaceUtil.Size space,
 			final int gap) {
 		if (type == null) {
 			throw new IllegalArgumentException("Type must be provided.");
@@ -179,7 +178,7 @@ public class ListLayout implements LayoutManager {
 	 * @param hgap The horizontal gap between the list items. Used only when type is Type.FLAT.
 	 * @param vgap The vertical gap between the list items. Used only when type is not Type.FLAT.
 	 *
-	 * @deprecated use {@link #ListLayout(Type, Alignment, Separator, boolean, Size)}
+	 * @deprecated use {@link #ListLayout(Type, Alignment, Separator, boolean, SpaceUtil.Size)}
 	 */
 	@Deprecated
 	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered, final int hgap, final int vgap) {
@@ -195,7 +194,7 @@ public class ListLayout implements LayoutManager {
 	 * @param separator the separator to display between items
 	 * @param ordered whether the list is an ordered list
 	 * @param gap the gap between the components added to the layouts
-	 * @deprecated use {@link #ListLayout(Type, Alignment, Separator, boolean, Size)}
+	 * @deprecated use {@link #ListLayout(Type, Alignment, Separator, boolean, SpaceUtil.Size)}
 	 */
 	@Deprecated
 	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered, final int gap) {
@@ -211,7 +210,7 @@ public class ListLayout implements LayoutManager {
 	 * @param ordered whether the list is an ordered list
 	 * @param space the space between the components added to the layouts
 	 */
-	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered, final Size space) {
+	public ListLayout(final Type type, final Alignment alignment, final Separator separator, final boolean ordered, final SpaceUtil.Size space) {
 		if (type == null) {
 			throw new IllegalArgumentException("Type must be provided.");
 		}
@@ -278,7 +277,7 @@ public class ListLayout implements LayoutManager {
 	/**
 	 * @return the space between the components added to the layout
 	 */
-	public Size getSpace() {
+	public SpaceUtil.Size getSpace() {
 		return space;
 	}
 

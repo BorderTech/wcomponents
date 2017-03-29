@@ -2,13 +2,15 @@ package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
-import com.github.bordertech.wcomponents.Size;
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WHeading;
+import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * <p>
@@ -196,7 +198,7 @@ public class WFieldLayoutExample extends WPanel {
 		innerLayout.setLabelWidth(20);
 
 		if (curr == 0 && startAt == 0) {
-			innerLayout.setMargin(new Margin(Size.LARGE, null, null, null));
+			innerLayout.setMargin(new Margin(SpaceUtil.Size.LARGE, null, null, null));
 		}
 		innerLayout.setOrdered(true);
 
@@ -229,7 +231,7 @@ public class WFieldLayoutExample extends WPanel {
 		innerLayout.setLabelWidth(20);
 
 		if (curr == 0 && startAt == 0) {
-			innerLayout.setMargin(new Margin(Size.LARGE, null, null, null));
+			innerLayout.setMargin(new Margin(SpaceUtil.Size.LARGE, null, null, null));
 		}
 		innerLayout.setOrdered(ordered);
 

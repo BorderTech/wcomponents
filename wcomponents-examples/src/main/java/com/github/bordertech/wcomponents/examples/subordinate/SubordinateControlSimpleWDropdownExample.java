@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.examples.subordinate;
 
 import com.github.bordertech.wcomponents.Margin;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WField;
@@ -12,6 +11,7 @@ import com.github.bordertech.wcomponents.subordinate.Hide;
 import com.github.bordertech.wcomponents.subordinate.Rule;
 import com.github.bordertech.wcomponents.subordinate.Show;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * This example demonstrates showing/hiding an extra field depending on the selection in a {@link WDropdown}.
@@ -40,7 +40,7 @@ public class SubordinateControlSimpleWDropdownExample extends WContainer {
 
 		WFieldLayout flay = new WFieldLayout();
 		flay.setLabelWidth(25);
-		flay.setMargin(new Margin(null, null, Size.LARGE, null));
+		flay.setMargin(new Margin(null, null, SpaceUtil.Size.LARGE, null));
 		add(flay);
 		flay.addField("Extra information required?", extraInfoRequired);
 		WField extraInfoField = flay.addField("Extra information", extraField);

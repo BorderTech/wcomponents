@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.RadioButtonGroup;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WFieldSet;
@@ -10,6 +9,7 @@ import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WRadioButton;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * Shows the various properties of WRadioButton.
@@ -57,7 +57,7 @@ public class WRadioButtonExample extends WContainer {
 				"Radio buttons may be mandatory but the required marker has to go on the 'question', not on the 'answers'."));
 		fset = new WFieldSet("Choose your nearest neighbour");
 		add(fset);
-		fset.setMargin(new Margin(Size.LARGE, null, null, null));
+		fset.setMargin(new Margin(SpaceUtil.Size.LARGE, null, null, null));
 		fset.setMandatory(true);
 		layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
 		fset.add(layout);

@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.examples.subordinate;
 
 import com.github.bordertech.wcomponents.Margin;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WField;
@@ -13,6 +12,7 @@ import com.github.bordertech.wcomponents.subordinate.Hide;
 import com.github.bordertech.wcomponents.subordinate.Rule;
 import com.github.bordertech.wcomponents.subordinate.Show;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * <p>
@@ -41,7 +41,7 @@ public class SubordinateControlCrtWDropdownExample extends WContainer {
 		WFieldLayout layout = new WFieldLayout();
 		add(layout);
 		layout.setLabelWidth(25);
-		layout.setMargin(new Margin(null, null, Size.LARGE, null));
+		layout.setMargin(new Margin(null, null, SpaceUtil.Size.LARGE, null));
 
 		WDropdown genderDropdown = new WDropdown(new TableWithNullOption("sex"));
 

@@ -1,10 +1,10 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.Margin;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WTabSet;
 import com.github.bordertech.wcomponents.WTabSet.TabMode;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import junit.framework.Assert;
 import org.custommonkey.xmlunit.exceptions.XpathException;
@@ -71,7 +71,7 @@ public class WTabSetRenderer_Test extends AbstractWebXmlRendererTestCase {
 		tabSet.setMargin(margin);
 		assertXpathNotExists("//ui:tabset/ui:margin", tabSet);
 
-		margin = new Margin(Size.SMALL);
+		margin = new Margin(SpaceUtil.Size.SMALL);
 		tabSet.setMargin(margin);
 		assertSchemaMatch(tabSet);
 		assertXpathEvaluatesTo("sm", "//ui:tabset/ui:margin/@all", tabSet);

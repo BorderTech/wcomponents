@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.Margin;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WColumn;
 import com.github.bordertech.wcomponents.WRow;
 import com.github.bordertech.wcomponents.util.SpaceUtil;
@@ -22,11 +21,11 @@ public class WRowRenderer_Test extends AbstractWebXmlRendererTestCase {
 	/**
 	 * A small gap.
 	 */
-	private static final Size GAP = Size.SMALL;
+	private static final SpaceUtil.Size GAP = SpaceUtil.Size.SMALL;
 	/**
 	 * A big gap.
 	 */
-	private static final Size BIG_GAP = Size.LARGE;
+	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
 
 	@Test
 	public void testRendererCorrectlyConfigured() {
@@ -80,14 +79,14 @@ public class WRowRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:row/ui:margin/@south", row);
 		assertXpathEvaluatesTo("", "//ui:row/ui:margin/@west", row);
 
-		margin = new Margin(Size.SMALL, Size.MEDIUM, Size.LARGE, Size.XL);
+		margin = new Margin(SpaceUtil.Size.SMALL, SpaceUtil.Size.MEDIUM, SpaceUtil.Size.LARGE, SpaceUtil.Size.XL);
 		row.setMargin(margin);
 		assertSchemaMatch(row);
 		assertXpathEvaluatesTo("", "//ui:row/ui:margin/@all", row);
-		assertXpathEvaluatesTo(Size.SMALL.toString(), "//ui:row/ui:margin/@north", row);
-		assertXpathEvaluatesTo(Size.MEDIUM.toString(), "//ui:row/ui:margin/@east", row);
-		assertXpathEvaluatesTo(Size.LARGE.toString(), "//ui:row/ui:margin/@south", row);
-		assertXpathEvaluatesTo(Size.XL.toString(), "//ui:row/ui:margin/@west", row);
+		assertXpathEvaluatesTo(SpaceUtil.Size.SMALL.toString(), "//ui:row/ui:margin/@north", row);
+		assertXpathEvaluatesTo(SpaceUtil.Size.MEDIUM.toString(), "//ui:row/ui:margin/@east", row);
+		assertXpathEvaluatesTo(SpaceUtil.Size.LARGE.toString(), "//ui:row/ui:margin/@south", row);
+		assertXpathEvaluatesTo(SpaceUtil.Size.XL.toString(), "//ui:row/ui:margin/@west", row);
 	}
 
 }

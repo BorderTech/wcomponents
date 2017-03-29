@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents.examples.subordinate;
 
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.RadioButtonGroup;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WField;
 import com.github.bordertech.wcomponents.WFieldLayout;
@@ -13,6 +12,7 @@ import com.github.bordertech.wcomponents.subordinate.Hide;
 import com.github.bordertech.wcomponents.subordinate.Rule;
 import com.github.bordertech.wcomponents.subordinate.Show;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * This example demonstrates showing/hiding an extra field depending on the selection in a {@link RadioButtonGroup}.
@@ -34,7 +34,7 @@ public class SubordinateControlSimpleWFieldExample extends WContainer {
 		extraGroup.setButtonLayout(WRadioButtonSelect.LAYOUT_FLAT);
 		WFieldLayout layout = new WFieldLayout();
 		layout.setLabelWidth(25);
-		layout.setMargin(new Margin(null, null, Size.LARGE, null));
+		layout.setMargin(new Margin(null, null, SpaceUtil.Size.LARGE, null));
 		add(layout);
 		layout.addField("Extra info required", extraGroup);
 		WField extraField = layout.addField("Extra Text", new WTextField());

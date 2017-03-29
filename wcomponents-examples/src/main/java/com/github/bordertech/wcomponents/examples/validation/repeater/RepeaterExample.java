@@ -4,11 +4,11 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCardManager;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 
@@ -54,7 +54,7 @@ public class RepeaterExample extends WContainer {
 
 		WPanel buttonPanel = new WPanel(WPanel.Type.FEATURE);
 		successPanel.add(buttonPanel);
-		buttonPanel.setMargin(new Margin(Size.LARGE, null, null, null));
+		buttonPanel.setMargin(new Margin(SpaceUtil.Size.LARGE, null, null, null));
 		WButton backBtn = new WButton("Back");
 		buttonPanel.add(backBtn);
 

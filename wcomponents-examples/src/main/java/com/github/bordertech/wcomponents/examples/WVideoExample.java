@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.ImageResource;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.Video;
 import com.github.bordertech.wcomponents.VideoResource;
 import com.github.bordertech.wcomponents.WAjaxControl;
@@ -20,6 +19,7 @@ import com.github.bordertech.wcomponents.subordinate.Enable;
 import com.github.bordertech.wcomponents.subordinate.Equal;
 import com.github.bordertech.wcomponents.subordinate.Rule;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * An example showing the basic use of the {@link WVideo} component.
@@ -99,7 +99,7 @@ public class WVideoExample extends WContainer {
 	private void buildUI() {
 		// build the configuration options UI.
 		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
-		layout.setMargin(new Margin(null, null, Size.LARGE, null));
+		layout.setMargin(new Margin(null, null, SpaceUtil.Size.LARGE, null));
 		add(layout);
 		layout.addField("Autoplay", cbAutoPlay);
 		layout.addField("Loop", cbLoop);

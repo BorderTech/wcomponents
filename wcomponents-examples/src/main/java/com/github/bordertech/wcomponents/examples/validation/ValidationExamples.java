@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents.examples.validation;
 
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Margin;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
@@ -14,6 +13,7 @@ import com.github.bordertech.wcomponents.examples.validation.basic.BasicFieldLay
 import com.github.bordertech.wcomponents.examples.validation.basic.BasicFieldsValidationExample;
 import com.github.bordertech.wcomponents.examples.validation.fields.FieldValidation;
 import com.github.bordertech.wcomponents.examples.validation.repeater.RepeaterExample;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 
@@ -52,7 +52,7 @@ public class ValidationExamples extends WContainer {
 		add(layout);
 		layout.addField("Use client side validation? ", useClientValidation);
 		layout.addField((WLabel) null, btnApplySettings);
-		layout.setMargin(new Margin(null, null, Size.LARGE, null));
+		layout.setMargin(new Margin(null, null, SpaceUtil.Size.LARGE, null));
 
 		WTabSet tabs = new WTabSet();
 		tabs.addTab(new BasicFieldsValidationExample(), "Basic", WTabSet.TAB_MODE_CLIENT);

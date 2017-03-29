@@ -2,9 +2,9 @@ package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Marginable;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * Utility methods for rendering margin element.
@@ -99,7 +99,7 @@ public final class MarginRendererUtil {
 			xml.appendEnd();
 		} else if (margin.getTop() != null || margin.getRight() != null || margin.getBottom() != null || margin.getLeft() != null) {
 			xml.appendTagOpen("ui:margin");
-			Size size = margin.getTop();
+			SpaceUtil.Size size = margin.getTop();
 			if (size != null) {
 				xml.appendAttribute("north", size.toString());
 			}

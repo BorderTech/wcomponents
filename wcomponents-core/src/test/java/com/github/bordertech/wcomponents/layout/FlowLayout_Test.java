@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.layout;
 
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.util.SpaceUtil;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,12 +16,12 @@ public class FlowLayout_Test {
 	/**
 	 * A reusable gap value.
 	 */
-	private static final Size GAP = Size.MEDIUM;
+	private static final SpaceUtil.Size GAP = SpaceUtil.Size.MEDIUM;
 
 	/**
 	 * A different reusable gap value. This is used to differentiate the (now deprecated) hgap and vgap properties.
 	 */
-	private static final Size BIG_GAP = Size.LARGE;
+	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
 
 	/**
 	 * Integer equivalent of the small gap.

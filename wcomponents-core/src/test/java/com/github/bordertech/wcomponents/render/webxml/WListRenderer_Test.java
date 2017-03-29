@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.Margin;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WList;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.util.SpaceUtil;
@@ -24,12 +23,12 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 	/**
 	 * A reusable gap value.
 	 */
-	private static final Size GAP = Size.SMALL;
+	private static final SpaceUtil.Size GAP = SpaceUtil.Size.SMALL;
 
 	/**
 	 * A different reusable gap value. This is used to differentiate the (now deprecated) hgap and vgap properties.
 	 */
-	private static final Size BIG_GAP = Size.LARGE;
+	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
 
 	@Test
 	public void testLayoutCorrectlyConfigured() {
@@ -128,7 +127,7 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 		list.setMargin(margin);
 		assertXpathNotExists("//ui:panel/ui:margin", list);
 
-		margin = new Margin(Size.SMALL);
+		margin = new Margin(SpaceUtil.Size.SMALL);
 		list.setMargin(margin);
 		assertSchemaMatch(list);
 		assertXpathEvaluatesTo("sm", "//ui:panel/ui:margin/@all", list);
@@ -137,7 +136,7 @@ public class WListRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@south", list);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@west", list);
 
-		margin = new Margin(Size.SMALL, Size.MEDIUM, Size.LARGE, Size.XL);
+		margin = new Margin(SpaceUtil.Size.SMALL, SpaceUtil.Size.MEDIUM, SpaceUtil.Size.LARGE, SpaceUtil.Size.XL);
 		list.setMargin(margin);
 		assertSchemaMatch(list);
 		assertXpathEvaluatesTo("", "//ui:panel/ui:margin/@all", list);

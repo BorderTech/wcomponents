@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.examples.theme;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Margin;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WToggleButton;
@@ -13,6 +12,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.subordinate.builder.SubordinateBuilder;
+import com.github.bordertech.wcomponents.util.SpaceUtil.Size;
 
 /**
  * Shows the various properties of WToggleButton.
