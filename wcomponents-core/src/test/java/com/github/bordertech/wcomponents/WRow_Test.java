@@ -13,7 +13,7 @@ import org.junit.Test;
  */
 public class WRow_Test extends AbstractWComponentTestCase {
 
-	private static final SpaceUtil.Size GAP = SpaceUtil.Size.MEDIUM;
+	private static final Size GAP = Size.MEDIUM;
 
 	@Test
 	public void testConstructor1() {
@@ -35,6 +35,6 @@ public class WRow_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WRow(), "margin", null, new Margin(SpaceUtil.Size.SMALL), new Margin(SpaceUtil.Size.ZERO));
+		assertAccessorsCorrect(new WRow(), "margin", null, new Margin(Size.SMALL), new Margin(Size.ZERO));
 	}
 }

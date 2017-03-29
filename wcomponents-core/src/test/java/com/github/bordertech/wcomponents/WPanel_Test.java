@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.WPanel.PanelMode;
 import com.github.bordertech.wcomponents.layout.BorderLayout;
-import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.Serializable;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -138,6 +137,6 @@ public class WPanel_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testMarginAccessors() {
-		assertAccessorsCorrect(new WPanel(), "margin", null, new Margin(SpaceUtil.Size.SMALL), new Margin(SpaceUtil.Size.LARGE));
+		assertAccessorsCorrect(new WPanel(), "margin", null, new Margin(Size.SMALL), new Margin(Size.LARGE));
 	}
 }

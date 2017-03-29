@@ -4,12 +4,12 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.Margin;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTextArea;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
-import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * A WComponent that displays information about the current environment.
@@ -38,7 +38,7 @@ public class InfoDump extends WContainer {
 
 		buttonBar.setLayout(new ColumnLayout(new int[]{50, 50},
 				new ColumnLayout.Alignment[]{ColumnLayout.Alignment.LEFT, ColumnLayout.Alignment.RIGHT}));
-		buttonBar.setMargin(new Margin(SpaceUtil.Size.ZERO, SpaceUtil.Size.ZERO, SpaceUtil.Size.SMALL, SpaceUtil.Size.ZERO));
+		buttonBar.setMargin(new Margin(Size.ZERO, Size.ZERO, Size.SMALL, Size.ZERO));
 		WButton envBtn = new WButton("Print WEnvironment");
 
 		envBtn.setAction(new Action() {

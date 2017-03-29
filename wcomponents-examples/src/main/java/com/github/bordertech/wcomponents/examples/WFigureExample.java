@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.ImageResource;
 import com.github.bordertech.wcomponents.Margin;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WContainer;
@@ -15,7 +16,6 @@ import com.github.bordertech.wcomponents.subordinate.Hide;
 import com.github.bordertech.wcomponents.subordinate.Rule;
 import com.github.bordertech.wcomponents.subordinate.Show;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
-import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * Demonstrate how {@link WFigure} can be used.
@@ -28,12 +28,12 @@ public class WFigureExample extends WContainer {
 	/**
 	 * Default box margin.
 	 */
-	private static final Margin DEFAULT_BOX_MARGIN = new Margin(null, null, SpaceUtil.Size.MEDIUM, null);
+	private static final Margin DEFAULT_BOX_MARGIN = new Margin(null, null, Size.MEDIUM, null);
 
 	/**
 	 * Default example margin.
 	 */
-	private static final Margin DEFAULT_MARGIN = new Margin(SpaceUtil.Size.XL);
+	private static final Margin DEFAULT_MARGIN = new Margin(Size.XL);
 
 	/**
 	 * Image resource.

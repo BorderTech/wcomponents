@@ -18,23 +18,23 @@ public class Margin implements Serializable {
 	/**
 	 * The size of the margins on all sides of the panel.
 	 */
-	private final SpaceUtil.Size all;
+	private final Size all;
 	/**
 	 * The size of the north margin.
 	 */
-	private final SpaceUtil.Size top;
+	private final Size top;
 	/**
 	 * The size of the east margin.
 	 */
-	private final SpaceUtil.Size right;
+	private final Size right;
 	/**
 	 * The size of the south margin.
 	 */
-	private final SpaceUtil.Size bottom;
+	private final Size bottom;
 	/**
 	 * The size of the west margin.
 	 */
-	private final SpaceUtil.Size left;
+	private final Size left;
 
 	/**
 	 * For temporary backwards compatibility only.
@@ -67,7 +67,7 @@ public class Margin implements Serializable {
 	 * @param oldAll the requested size of the margin
 	 */
 	@Deprecated
-	private Margin(final SpaceUtil.Size all, final int oldAll) {
+	private Margin(final Size all, final int oldAll) {
 		this.all = all;
 		this.top = null;
 		this.right = null;
@@ -93,7 +93,7 @@ public class Margin implements Serializable {
 	 * @deprecated
 	 */
 	@Deprecated
-	private Margin(final SpaceUtil.Size top, final SpaceUtil.Size right, final SpaceUtil.Size bottom, final SpaceUtil.Size left, final int north,
+	private Margin(final Size top, final Size right, final Size bottom, final Size left, final int north,
 			final int east, final int south, final int west) {
 		this.all = null;
 		this.top = top;
@@ -110,7 +110,7 @@ public class Margin implements Serializable {
 	 * A margin equal on all sizes.
 	 * @param all the size of the margin to be used on all sides of the component.
 	 */
-	public Margin(final SpaceUtil.Size all) {
+	public Margin(final Size all) {
 		this.all = all;
 		this.top = null;
 		this.right = null;
@@ -125,7 +125,7 @@ public class Margin implements Serializable {
 
 	/**
 	 * @param all the size of the margin to be used on all sides of the component.
-	 * @deprecated use {@link #Margin(SpaceUtil.Size)}
+	 * @deprecated use {@link #Margin(Size)}
 	 */
 	@Deprecated
 	public Margin(final int all) {
@@ -140,7 +140,7 @@ public class Margin implements Serializable {
 	 * @param south the size of the south margin.
 	 * @param west the size of the west margin.
 	 */
-	public Margin(final SpaceUtil.Size north, final SpaceUtil.Size east, final SpaceUtil.Size south, final SpaceUtil.Size west) {
+	public Margin(final Size north, final Size east, final Size south, final Size west) {
 		this.all = null;
 		this.top = north;
 		this.right = east;
@@ -160,7 +160,7 @@ public class Margin implements Serializable {
 	 * @param east the size of the east margin.
 	 * @param south the size of the south margin.
 	 * @param west the size of the west margin.
-	 * @deprecated use {@link #Margin(SpaceUtil.Size, SpaceUtil.Size, SpaceUtil.Size, SpaceUtil.Size)}
+	 * @deprecated use {@link #Margin(Size, Size, Size, Size)}
 	 */
 	@Deprecated
 	public Margin(final int north, final int east, final int south, final int west) {
@@ -215,35 +215,35 @@ public class Margin implements Serializable {
 	/**
 	 * @return the margin on all sides of the container.
 	 */
-	public SpaceUtil.Size getMargin() {
+	public Size getMargin() {
 		return all;
 	}
 
 	/**
 	 * @return the margin on the top of the container.
 	 */
-	public SpaceUtil.Size getTop() {
+	public Size getTop() {
 		return top;
 	}
 
 	/**
 	 * @return the margin on the east side of the container.
 	 */
-	public SpaceUtil.Size getRight() {
+	public Size getRight() {
 		return right;
 	}
 
 	/**
 	 * @return the margin on the south side of the container.
 	 */
-	public SpaceUtil.Size getBottom() {
+	public Size getBottom() {
 		return bottom;
 	}
 
 	/**
 	 * @return the margin on the west side of the container.
 	 */
-	public SpaceUtil.Size getLeft() {
+	public Size getLeft() {
 		return left;
 	}
 }

@@ -16,7 +16,7 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	/**
 	 * The horizontal space between the columns in the row, measured in pixels.
 	 */
-	private final SpaceUtil.Size space;
+	private final Size space;
 
 	/**
 	 * For temporary backwards compatibility only.
@@ -30,7 +30,7 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	 * @param gap the requested space between items
 	 */
 	@Deprecated
-	private WRow(final SpaceUtil.Size space, final int gap) {
+	private WRow(final Size space, final int gap) {
 		this.space = space;
 		this.gap = gap;
 	}
@@ -46,7 +46,7 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	 * Create a WRow with the specified space between columns.
 	 * @param space the space between columns in the row
 	 */
-	public WRow(final SpaceUtil.Size space) {
+	public WRow(final Size space) {
 		this.space = space;
 		this.gap = -1;
 	}
@@ -55,7 +55,7 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	 * Creates a WRow with the specified attributes.
 	 *
 	 * @param hgap the space between the columns in the row
-	 * @deprecated use {@link #WRow(com.github.bordertech.wcomponents.util.SpaceUtil.Size)}
+	 * @deprecated use {@link #WRow(com.github.bordertech.wcomponents.Size)}
 	 */
 	@Deprecated
 	public WRow(final int hgap) {
@@ -92,7 +92,7 @@ public class WRow extends AbstractNamingContextContainer implements AjaxTarget, 
 	/**
 	 * @return the horizontal space between the columns in the row
 	 */
-	public SpaceUtil.Size getSpace() {
+	public Size getSpace() {
 		return space;
 	}
 

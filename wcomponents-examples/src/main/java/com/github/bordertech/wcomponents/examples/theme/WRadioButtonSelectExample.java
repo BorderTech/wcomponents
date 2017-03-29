@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Option;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WField;
@@ -17,7 +18,6 @@ import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
-import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.util.List;
 
 /**
@@ -70,7 +70,7 @@ public class WRadioButtonSelectExample extends WPanel {
 	private void makeSimpleExample() {
 		add(new WHeading(HeadingLevel.H3, "Simple WRadioButtonSelect"));
 		WPanel examplePanel = new WPanel();
-		examplePanel.setLayout(new FlowLayout(FlowLayout.VERTICAL, SpaceUtil.Size.MEDIUM));
+		examplePanel.setLayout(new FlowLayout(FlowLayout.VERTICAL, Size.MEDIUM));
 		add(examplePanel);
 
 		/**
