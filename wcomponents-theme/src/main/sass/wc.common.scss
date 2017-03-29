@@ -45,6 +45,7 @@ pre {
 fieldset {
 	@include padded-box($pad: $wc-gap-small);
 	margin: 0;
+	min-width: 0; // Issue #1146
 
 	&.wc_noborder { // it is pretty common to remove borders from fieldsets.
 		border: 0;
