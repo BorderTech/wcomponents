@@ -1,12 +1,12 @@
 package com.github.bordertech.wcomponents.examples.layout;
 
 import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.BorderLayout;
-import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
  * <p>
@@ -20,11 +20,11 @@ public class BorderLayoutExample extends WContainer {
 	/**
 	 * A small gap.
 	 */
-	private static final SpaceUtil.Size GAP = SpaceUtil.Size.SMALL;
+	private static final Size GAP = Size.SMALL;
 	/**
 	 * A big gap.
 	 */
-	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
+	private static final Size BIG_GAP = Size.LARGE;
 
 	/**
 	 * Some dummy text.

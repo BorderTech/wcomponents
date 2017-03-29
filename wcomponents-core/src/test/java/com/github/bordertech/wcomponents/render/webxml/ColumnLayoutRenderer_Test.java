@@ -1,10 +1,10 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.layout.ColumnLayout.Alignment;
-import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
@@ -21,11 +21,11 @@ public class ColumnLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	/**
 	 * A small gap.
 	 */
-	private static final SpaceUtil.Size GAP = SpaceUtil.Size.SMALL;
+	private static final Size GAP = Size.SMALL;
 	/**
 	 * A big gap.
 	 */
-	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
+	private static final Size BIG_GAP = Size.LARGE;
 
 	@Test
 	public void testDoRenderWhenEmpty() throws IOException, SAXException, XpathException {

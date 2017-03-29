@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
-import com.github.bordertech.wcomponents.util.SpaceUtil.Size;
+import com.github.bordertech.wcomponents.Size;
 
 /**
  * <p>

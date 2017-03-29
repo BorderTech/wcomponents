@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.layout;
 
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
@@ -24,12 +25,12 @@ public class GridLayout implements LayoutManager {
 	/**
 	 * The horizontal space between the columns.
 	 */
-	private final SpaceUtil.Size hSpace;
+	private final Size hSpace;
 
 	/**
 	 * The vertical space between the rows.
 	 */
-	private final SpaceUtil.Size vSpace;
+	private final Size vSpace;
 
 	/**
 	 * For temporary backwards compatibility only.
@@ -54,7 +55,7 @@ public class GridLayout implements LayoutManager {
 	 * @param vgap the requested gap between the rows
 	 */
 	@Deprecated
-	private GridLayout(final int rows, final int cols, final SpaceUtil.Size hSpace, final SpaceUtil.Size vSpace, final int hgap, final int vgap) {
+	private GridLayout(final int rows, final int cols, final Size hSpace, final Size vSpace, final int hgap, final int vgap) {
 		if (rows < 0) {
 			throw new IllegalArgumentException("Rows must be greater than or equal to zero");
 		}
@@ -96,7 +97,7 @@ public class GridLayout implements LayoutManager {
 	 * @param hgap the space between the columns
 	 * @param vgap the space between the rows
 	 *
-	 * @deprecated use {@link #GridLayout(int, int, SpaceUtil.Size, SpaceUtil.Size)}
+	 * @deprecated use {@link #GridLayout(int, int, Size, Size)}
 	 */
 	@Deprecated
 	public GridLayout(final int rows, final int cols, final int hgap, final int vgap) {
@@ -118,7 +119,7 @@ public class GridLayout implements LayoutManager {
 	 * @param hSpace the space between the columns
 	 * @param vSpace the space between the rows
 	 */
-	public GridLayout(final int rows, final int cols, final SpaceUtil.Size hSpace, final SpaceUtil.Size vSpace) {
+	public GridLayout(final int rows, final int cols, final Size hSpace, final Size vSpace) {
 		if (rows < 0) {
 			throw new IllegalArgumentException("Rows must be greater than or equal to zero");
 		}
@@ -142,14 +143,14 @@ public class GridLayout implements LayoutManager {
 	/**
 	 * @return the horizontal gap between the cells
 	 */
-	public SpaceUtil.Size getHorizontalGap() {
+	public Size getHorizontalGap() {
 		return hSpace;
 	}
 
 	/**
 	 * @return the vertical gap between the cells
 	 */
-	public SpaceUtil.Size getVerticalGap() {
+	public Size getVerticalGap() {
 		return vSpace;
 	}
 

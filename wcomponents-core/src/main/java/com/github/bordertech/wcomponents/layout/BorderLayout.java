@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.layout;
 
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.util.SpaceUtil;
 
 /**
@@ -70,12 +71,12 @@ public class BorderLayout implements LayoutManager {
 	/**
 	 * The horizontal gap between the west, center and east cells, measured in pixels.
 	 */
-	private final SpaceUtil.Size hSpace;
+	private final Size hSpace;
 
 	/**
 	 * The vertical gap between the north cell, middle row and south cell, measured in pixels.
 	 */
-	private final SpaceUtil.Size vSpace;
+	private final Size vSpace;
 
 	/**
 	 * For temporary backwards compatibility only.
@@ -97,7 +98,7 @@ public class BorderLayout implements LayoutManager {
 	 * @param vgap the requested vertical space between rows of cells
 	 */
 	@Deprecated
-	private BorderLayout(final SpaceUtil.Size hSpace, final SpaceUtil.Size vSpace, final int hgap, final int vgap) {
+	private BorderLayout(final Size hSpace, final Size vSpace, final int hgap, final int vgap) {
 		this.hSpace = hSpace;
 		this.vSpace = vSpace;
 		this.hgap = hgap;
@@ -116,7 +117,7 @@ public class BorderLayout implements LayoutManager {
 	 *
 	 * @param hgap the horizontal space between the west, center and east cells
 	 * @param vgap the vertical space between the north cell, middle row and south cell
-	 * @deprecated use {@link #BorderLayout(SpaceUtil.Size, SpaceUtil.Size)} instead.
+	 * @deprecated use {@link #BorderLayout(Size, Size)} instead.
 	 */
 	@Deprecated
 	public BorderLayout(final int hgap, final int vgap) {
@@ -128,7 +129,7 @@ public class BorderLayout implements LayoutManager {
 	 * @param hSpace the horizontal space between the west, center and east cells
 	 * @param vSpace the vertical space between the north cell, middle row and south cell
 	 */
-	public BorderLayout(final SpaceUtil.Size hSpace, final SpaceUtil.Size vSpace) {
+	public BorderLayout(final Size hSpace, final Size vSpace) {
 		this.hSpace = hSpace;
 		this.vSpace = vSpace;
 		this.hgap = -1;
@@ -138,14 +139,14 @@ public class BorderLayout implements LayoutManager {
 	/**
 	 * @return the horizontal space between the cells
 	 */
-	public SpaceUtil.Size getHorizontalGap() {
+	public Size getHorizontalGap() {
 		return hSpace;
 	}
 
 	/**
 	 * @return the vertical space between the cells
 	 */
-	public SpaceUtil.Size getVerticalGap() {
+	public Size getVerticalGap() {
 		return vSpace;
 	}
 

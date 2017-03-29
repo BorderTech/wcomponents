@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.RadioButtonGroup;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WBeanContainer;
 import com.github.bordertech.wcomponents.WButton;
@@ -20,7 +21,6 @@ import com.github.bordertech.wcomponents.WRadioButton;
 import com.github.bordertech.wcomponents.WRepeater;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.subordinate.builder.SubordinateBuilder;
-import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.util.Arrays;
 
 /**
@@ -62,7 +62,7 @@ public class WRadioButtonInRepeater extends WContainer {
 
 		WFieldSet fset = new WFieldSet("Select an option");
 		add(fset);
-		fset.setMargin(new Margin(null, null, SpaceUtil.Size.MEDIUM, null));
+		fset.setMargin(new Margin(null, null, Size.MEDIUM, null));
 		fset.add(repeater);
 		WFieldLayout layout = new WFieldLayout();
 		fset.add(layout);

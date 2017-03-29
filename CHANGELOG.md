@@ -4,8 +4,6 @@
 
 ### API Changes
 
-* Added new WebElement extensions for Selenium testing.
-
 ### Bug Fixes
 
 * Fixed a flaw which could result in a WSubMenu being stuck open when a not-submitting WMenuItem is clicked #1137.
@@ -23,6 +21,7 @@
 * improved efficiency of CSS by deleting WComponents custom icon classes and using fa classes instead. This involved
   changing the string values of elements in the HTMLClassProperties enum.
 * Simplified delayed, self-actuating Ajax triggers, removed module wc/ui/ajax/delayedTrigger.
+* Updated the new space class to fix some redundancy.
 
 ## Release 1.4.0-beta
 

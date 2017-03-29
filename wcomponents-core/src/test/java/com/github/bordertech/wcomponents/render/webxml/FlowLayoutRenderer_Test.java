@@ -1,9 +1,9 @@
 package com.github.bordertech.wcomponents.render.webxml;
 
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
-import com.github.bordertech.wcomponents.util.SpaceUtil;
 import java.io.IOException;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.junit.Test;
@@ -21,12 +21,12 @@ public class FlowLayoutRenderer_Test extends AbstractWebXmlRendererTestCase {
 	/**
 	 * A space between components.
 	 */
-	private static final SpaceUtil.Size GAP = SpaceUtil.Size.SMALL;
+	private static final Size GAP = Size.SMALL;
 
 	/**
 	 * A different space used to differentiate the (now deprecated) hgap and vgap in the two-gap constructors.
 	 */
-	private static final SpaceUtil.Size BIG_GAP = SpaceUtil.Size.LARGE;
+	private static final Size BIG_GAP = Size.LARGE;
 
 	// The expected render of the default constructor.
 	@Test

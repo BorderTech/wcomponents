@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.MessageContainer;
+import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
@@ -20,7 +21,6 @@ import com.github.bordertech.wcomponents.examples.common.ClientValidationTemplat
 import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
-import com.github.bordertech.wcomponents.util.SpaceUtil;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
@@ -88,7 +88,7 @@ public class I18nExample extends WPanel implements MessageContainer {
 
 		final WFieldLayout layout = new WFieldLayout();
 		add(layout);
-		layout.setMargin(new Margin(null, null, SpaceUtil.Size.LARGE, null));
+		layout.setMargin(new Margin(null, null, Size.LARGE, null));
 		layout.addField("CLIENT_SIDE_PROMPT", useClientValidation);
 		layout.addField(new WLabel("ENTER_NAME_PROMPT"), nameField);
 		layout.addField("DATE_PROMPT", dateField);
