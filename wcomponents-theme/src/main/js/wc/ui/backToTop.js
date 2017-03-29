@@ -110,7 +110,7 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 						link = document.createElement("a");
 						link.className = "wc_btt";
 						link.href = "#";
-						link.innerHTML = "<i class='fa fa-chevron-circle-up fa-5x'></i><span>" + i18n.get("back_to_top") + "</span>";
+						link.innerHTML = "<i class='fa fa-chevron-circle-up fa-5x'></i><span class='wc-off'>" + i18n.get("back_to_top") + "</span>";
 						document.body.appendChild(link);
 					}
 					shed.show(link, true);  // nothing needs to be notified that the back to top link is showing

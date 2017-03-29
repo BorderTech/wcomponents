@@ -1,5 +1,5 @@
 @import 'mixins-common';
-//**********************************************************************************************************************
+// *****************************************************************************
 // HTML and BODY structure
 // It is important that at least the height rules remain as we need to have the document body fill the viewport in all
 // browsers to correctly propagate some click events. Please leave this as it is.
@@ -16,9 +16,20 @@ body {
 	height: 100%; // body to fill viewport for event propagation.
 }
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // COMMON element styles.
 // Change any of these you like. The defaults are pretty basic.
+
+fieldset {
+	@include padded-box($pad: $wc-gap-small);
+	margin: 0;
+	min-width: 0; // Issue #1146
+
+	&.wc_noborder { // it is pretty common to remove borders from fieldsets.
+		border: 0;
+		padding: 0;
+	}
+}
 
 form {
 	// opacity: 1;
@@ -34,70 +45,51 @@ form {
 	}
 }
 
-p {
-	margin: 0 0 $wc-gap-large;
-}
-
-pre {
-	font-family: $wc-mono-font;
-}
-
-fieldset {
-	@include padded-box($pad: $wc-gap-small);
-	margin: 0;
-
-	&.wc_noborder { // it is pretty common to remove borders from fieldsets.
-		border: 0;
-		padding: 0;
-	}
-
-	legend {
-		@if ($wc-legend-weight != -1) {
-			font-weight: $wc-legend-weight;
-		}
-
-		.wc_noborder > & {
-			padding-left: 0;
-		}
-
-		// force offscreen legends back on screen if they are in an error state.
-		&.wc-off.wc-err {
-			position: static;
-		}
-
-		@if ($wc-label-mandatory-indicator != -1) {
-			.wc_req > &:before {
-				@include mandatory-indicator;
-				float: right;
-				width: 0; // allow for wrapping legends.
-			}
-		}
-	}
-}
-
 input,
+select,
 textarea {
+	// take a look at wc.select.scss too
 	font-family: inherit;
 	font-size: inherit;
 	line-height: inherit;
 	margin: 0;
 	max-width: 100%;
+
+	@if ($wc-ui-color-border-form-control != -1 and $wc-input-padding != -1) {
+		@include border-box;
+		padding: $wc-input-padding;
+	}
 }
 
 @if ($wc-ui-color-border-form-control != -1) {
-	@if ($wc-input-padding != -1) {
-		input,
-		textarea {
-			@include border-box;
-			padding: $wc-input-padding;
-		}
-	}
-
 	input {
 		&[type='checkbox'],
 		&[type='radio'] {
 			border: 0;
 			// NOTE: no need to remove the padding in modern browsers.
+		}
+	}
+}
+
+legend {
+	@if ($wc-legend-weight != -1) {
+		font-weight: $wc-legend-weight;
+	}
+
+	.wc_noborder > & {
+		padding-left: 0;
+	}
+
+	// force offscreen legends back on screen if they are in an error state.
+	&.wc-off.wc-err {
+		position: static;
+	}
+
+	@if ($wc-label-mandatory-indicator != -1) {
+		.wc_req > &:before {
+			@include mandatory-indicator;
+			float: right;
+			width: 0; // allow for wrapping legends.
 		}
 	}
 }
@@ -110,58 +102,44 @@ noscript p {
 	text-align: center;
 }
 
-//**********************************************************************************************************************
-// Common classes which can be ignored or overridden.
-//**********************************************************************************************************************
-// Vertical alignment helpers. Not used by FlowLayout for its vertical alignment control which is flex based. May be
-// omitted by setting the list variable to 0.
-@if ($wc-valign-list != 0) {
-	@each $wc-v in $wc-valign-list {
-		.wc-valign-#{$wc-v} {
-			vertical-align: $wc-v;
-		}
-	}
+
+p {
+	margin: 0 0 $wc-gap-large;
 }
 
-// wc-invite is a common class for indicating a control which has an "invitation" on hover/focus.
-// An implementation is better served changing the mixin than this class.
-.wc-invite {
-	@include wc-invite;
+pre {
+	font-family: $wc-mono-font;
 }
 
-// Add a border to most simple elements. This will not work for components which have a complex selector setting border.
-.wc-border {
-	@include border;
-}
-
-//**********************************************************************************************************************
-// Classes needed by the framework. These are structural and must aways be present, preferably in this form.
-//**********************************************************************************************************************
-// Move an element out of viewport but still in the accessibility tree. This is a surprisingly important class and MUST
-// be present and MUST move things out of viewport without removing them from the a11y tree so you probably want to
-// leave the thing alone.
-.wc-off {
-	@include offscreen;
-}
-
-// [hidden] hides content and removes it from the a11y tree. Applying this to [hidden] is redundant but needed because
-// of irregular hidden support. It is important to override more specific selectors for individual components. Again,
-// this is needed for re-applying hidden after it has been removed.
-[hidden] {
-	// important required to override more specific display rules (see menus, collapsibles for examples)
-	// scss-lint:disable ImportantRule
-	display: none !important;
-	// scss-lint:enable ImportantRule
-}
-
-/// Disabled.
+// *****************************************************************************
+// Common class (and attribute) selectors
+// *****************************************************************************
+// Disabled.
 [disabled],
 [aria-disabled='true'] {
 	@include aria-disabled;
 }
 
-/// Read-only
-/// Display and box sizing is to make them the more akin to the editable element (input, textarea or select).
+// [hidden] hides content and removes it from the a11y tree. Applying this to
+// [hidden] is redundant but needed because of irregular hidden support. It is
+// important to override more specific selectors for individual components.
+// Again, this is needed for re-applying hidden after it has been removed.
+[hidden] {
+	// important required to override more specific display rules (eg menus)
+	// scss-lint:disable ImportantRule
+	display: none !important;
+	// scss-lint:enable ImportantRule
+}
+
+// wc-invite is a common class for indicating a control which has an
+// "invitation" on hover/focus.
+.wc-invite {
+	@include wc-invite;
+}
+
+// Read-only
+// Display and box sizing is to make them the more akin to the editable
+// element (input, textarea or select).
 .wc-input-wrapper,
 .wc-ro-input {
 	@include border-box;
@@ -173,44 +151,89 @@ noscript p {
 	word-break: break-all;
 }
 
+// Vertical alignment helpers. Not used by FlowLayout for its vertical alignment
+// control which is flex based. May be omitted by setting the list variable to 0
+@if ($wc-valign-list != 0) {
+	@each $wc-v in $wc-valign-list {
+		.wc-valign-#{$wc-v} {
+			vertical-align: $wc-v;
+		}
+	}
+}
+
+// *****************************************************************************
+// Classes which are in the Java API so you better keep 'em.'
+// *****************************************************************************
 // Text alignment
-// These are required for WComponents inbuilt alignment and are not a complete list of CSS3 text alignment options.
-// Not to be overridden therefore no !default marker.
+// These are required for WComponents inbuilt alignment and are not a complete
+// list of CSS3 text alignment options. Not to be overridden therefore no
+// !default marker.
 $wc-align-list: left, center, right;
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.ALIGN_CENTER
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.ALIGN_LEFT
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.ALIGN_RIGHT
 @each $wc-a in $wc-align-list {
 	.wc-align-#{$wc-a} {
 		text-align: $wc-a;
 	}
 }
 
-// The following class is to allow an icon to be placed directly into a compoent without an element wrapper.
+// Add a border to most simple elements. This will not work for components which
+// have a complex selector setting border.
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.BORDER
+.wc-border {
+	@include border;
+}
+
+// Move an element out of viewport but still in the accessibility tree. This is
+// a surprisingly important class and MUST be present and MUST move things out
+// of viewport without removing them from the a11y tree so you probably want to
+// leave the thing alone.
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.OFF_SCREEN
+.wc-off {
+	@include offscreen;
+}
+
+// The following class is to allow an icon to be placed directly into a compoent
+// without an element wrapper.
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.ICON
 .wc-icon:before {
 	@include fa-icon;
 }
 
 // ICON POSITIONING CLASSES.
-// You probably want these in some form, almost certainly this form. The class names are in the Java API.
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.ICON_BEFORE
 .wc-icon-before:before {
 	margin-right: $wc-gap-small;
 }
 
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.ICON_AFTER
 .wc-icon-after:before {
 	float: right;
 	margin-left: $wc-gap-small;
 }
 
-// Make a container scroll horizontally if needed. One would be surprised how often this is requested if one was not me.
-// It is so common it has made it into the Java API so do not remove it!
+// Make a container scroll horizontally if needed. One would be surprised how
+// often this is requested if one was not me. It is so common it has made it
+// into the Java API so do not remove it!
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.HORIZONTAL_SCROLL
 .wc-hscroll {
 	max-width: 100%;
 	overflow-x: auto;
 }
 
-
-//**********************************************************************************************************************
-// Modal Shim is used on page load until the underlying page is ready and when opening a modal dialog.
+// Helper class to force a container to break-all. This is a hammer to crack a
+// chestnut.
+// com.github.bordertech.wcomponents.util.HtmlClassProperties.BREAK_WORDS
+.wc-brkall {
+	word-break: break-all;
+}
+// *****************************************************************************
+// Modal Shim is used on page load until the underlying page is ready and when
+// opening a modal dialog.
+// TODO: maybe change this to a class rather than an ID now we do not have IE6
+// performance to worry about?
 // The modal shim is a single generated artefact with a constant id.
-// TODO: maybe change this to a class rather than an ID now we do not have IE6 performance to worry about?
 // scss-lint:disable IdSelector
 #wc-shim {
 	left: 0;
@@ -227,10 +250,11 @@ $wc-align-list: left, center, right;
 }
 // scss-lint:enable IdSelector
 
-//**********************************************************************************************************************
-// This is non-standard but quite important. Zoom should not be disabled in a web appno matter how much pain it causes
-// designers. It is an a11y thing and I cannot use your site on my phone without it.
-// cannot use a mixin with Vaadin Sass compiler.
+// *****************************************************************************
+// This is non-standard but quite important. Zoom should not be disabled in a
+// web appno matter how much pain it causes designers. It is an a11y thing and
+// I cannot use your site on my phone without it. Cannot use a mixin with
+// Vaadin Sass compiler.
 @-ms-viewport {
 	user-zoom: zoom;
 	width: extend-to-zoom;
@@ -242,6 +266,7 @@ $wc-align-list: left, center, right;
 	width: extend-to-zoom;
 	zoom: 1;
 }
+
 // Buttons are ridiculously complex. Should do something about this.
 @import 'wc.buttons';
 // As are labels

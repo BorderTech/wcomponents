@@ -6,12 +6,12 @@ body {
 }
 
 input,
+select,
 textarea {
-	font-family: inherit;
-	font-size: inherit;
-	line-height: inherit;
-	margin: 0;
-	max-width: 100%;
+	@if ($wc-ui-color-border-form-control != -1) {
+		// Border on select makes firefox OS X quite ugly but is better than any other option on all other UAs.
+		@include border($color: $wc-ui-color-border-form-control);
+	}
 
 	@if ($wc-ui-color-error-bg != -1) {
 		&[aria-invalid='true'] {
@@ -24,25 +24,17 @@ textarea {
 	}
 }
 
-@if ($wc-ui-color-border-form-control != -1) {
-	input,
-	textarea {
-		// Border on select makes firefox OS X quite ugly but is better than any other option on all other UAs.
-		@include border($color: $wc-ui-color-border-form-control);
-	}
-}
-
 noscript p {
 	@include border($width: 3px, $color: $wc-ui-color-error-fg);
 	background-color: $wc-ui-color-global-bg;
 	color: $wc-ui-color-global-fg;
 }
 
-//**********************************************************************************************************************
+// *****************************************************************************
 // LINKS (`a` element not `link` element)
 // The order of these matters even though it looks wrong. By defining :visited before a we do not have to do a double
 // override of the disabled state. Disabled links. Gotta love the monkey who came up with that one.
-//**********************************************************************************************************************
+// *****************************************************************************
 @if  $wc-ui-color-link-visited != -1 {
 	a:visited {
 		color: $wc-ui-color-link-visited;
