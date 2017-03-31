@@ -6,6 +6,7 @@
 
 ### Bug Fixes
 
+* Fixed a flaw which could result in images inside links getting the incrrect URL under some conditions #1150.
 * Fixed a flaw which could result in a WSubMenu being stuck open when a not-submitting WMenuItem is clicked #1137.
 * Fixed an accessibility flaw which could result in AT attempting to read icons #1136.
 * Fixed a JavaScript flaw which could result in unhandled events on buttons in some conditions #1135.
