@@ -1,0 +1,5 @@
+// Links which contain a positioned image must be forced to be inline block.
+// For generic `a` styles see sc.common.scss
+.wc_a_ilb {
+	display: inline-block;
+}

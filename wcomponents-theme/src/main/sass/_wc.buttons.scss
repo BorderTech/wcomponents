@@ -61,7 +61,7 @@ button {
 	text-decoration: underline;
 
 	// class wc_nti (no text image) is applied to buttons and links which hold an image but no visible text.
-	&.wc_nti,
+	.wc_nti,
 	&.wc-icon:before,
 	> .fa {
 		text-decoration: none;

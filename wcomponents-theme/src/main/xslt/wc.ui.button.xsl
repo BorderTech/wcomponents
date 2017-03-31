@@ -16,14 +16,6 @@
 					<xsl:if test="@type">
 						<xsl:text> wc-linkbutton</xsl:text>
 					</xsl:if>
-					<xsl:choose>
-						<xsl:when test="@imagePosition">
-							<xsl:value-of select="concat(' wc_btn_img wc_btn_img', @imagePosition)"/><!-- no gap after 2nd `_img` -->
-						</xsl:when>
-						<xsl:when test="@imageUrl">
-							<xsl:text> wc_nti</xsl:text>
-						</xsl:when>
-					</xsl:choose>
 				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:call-template name="title"/>
@@ -62,11 +54,6 @@
 			<xsl:call-template name="accessKey"/>
 			<xsl:choose>
 				<xsl:when test="@imageUrl">
-					<xsl:if test="@imagePosition">
-						<span>
-							<xsl:apply-templates />
-						</span>
-					</xsl:if>
 					<xsl:variable name="alt">
 						<xsl:choose>
 							<xsl:when test="@imagePosition">
@@ -77,7 +64,24 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:variable>
-					<img src="{@imageUrl}" alt="{$alt}" />
+					<span>
+						<xsl:attribute name="class">
+							<xsl:choose>
+								<xsl:when test="@imagePosition">
+									<xsl:value-of select="concat('wc_btn_img wc_btn_img', @imagePosition)"/><!-- no gap after 2nd `_img` -->
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:text>wc_nti</xsl:text>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:attribute>
+						<xsl:if test="@imagePosition">
+							<span>
+								<xsl:apply-templates />
+							</span>
+						</xsl:if>
+						<img src="{@imageUrl}" alt="{$alt}" />
+					</span>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:apply-templates />

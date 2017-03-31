@@ -1,12 +1,12 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.attributes.xsl"/>
-	<!-- 
+	<!--
 		WLink and WInternalLink. 
 	-->
 	<xsl:template match="ui:link">
 		<xsl:param name="imageAltText" select="''"/>
-		<xsl:param name="ajax" select="''"/>
+		<xsl:param name="ajax" select="''"/><!-- file in multi-file-upload -->
 		<xsl:variable name="elementType">
 			<xsl:choose>
 				<xsl:when test="@type">
@@ -28,6 +28,9 @@
 							<xsl:number value="0"/>
 						</xsl:otherwise>
 					</xsl:choose>
+				</xsl:with-param>
+				<xsl:with-param name="class">
+					<xsl:if test="not(@type) and @imageUrl and @imagePosition">wc_a_ilb</xsl:if>
 				</xsl:with-param>
 			</xsl:call-template>
 			<xsl:call-template name="title"/>
@@ -52,6 +55,11 @@
 					<xsl:attribute name="href">
 						<xsl:value-of select="@url"/>
 					</xsl:attribute>
+					<xsl:if test="ui:windowAttributes">
+						<xsl:attribute name="target">
+							<xsl:value-of select="ui:windowAttributes/@name"/>
+						</xsl:attribute>
+					</xsl:if>
 					<xsl:if test="$ajax != ''">
 						<xsl:attribute name="data-wc-ajaxalias">
 							<xsl:value-of select="$ajax"/>
@@ -79,21 +87,11 @@
 							</xsl:choose>
 						</xsl:attribute>
 					</xsl:if>
-					<xsl:if test="ui:windowAttributes">
-						<xsl:attribute name="target">
-							<xsl:value-of select="ui:windowAttributes/@name"/>
-						</xsl:attribute>
-					</xsl:if>
 				</xsl:otherwise>
 			</xsl:choose>
 			<xsl:call-template name="accessKey"/>
 			<xsl:choose>
 				<xsl:when test="@imageUrl">
-					<xsl:if test="@imagePosition">
-						<span>
-							<xsl:apply-templates />
-						</span>
-					</xsl:if>
 					<xsl:variable name="alt">
 						<xsl:choose>
 							<xsl:when test="$imageAltText ne ''">
@@ -107,7 +105,24 @@
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:variable>
-					<img src="{@imageUrl}" alt="{$alt}" />
+					<span>
+						<xsl:attribute name="class">
+							<xsl:choose>
+								<xsl:when test="@imagePosition">
+									<xsl:value-of select="concat('wc_btn_img wc_btn_img', @imagePosition)"/><!-- no gap after 2nd `_img` -->
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:text>wc_nti</xsl:text>
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:attribute>
+						<xsl:if test="@imagePosition">
+							<span>
+								<xsl:apply-templates />
+							</span>
+						</xsl:if>
+						<img src="{@imageUrl}" alt="{$alt}" />
+					</span>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:apply-templates />
@@ -115,7 +130,7 @@
 			</xsl:choose>
 		</xsl:element>
 	</xsl:template>
-	
+
 	<!-- Window Attrributes applied to WLink -->
 	<xsl:template match="ui:windowAttributes"/>
 </xsl:stylesheet>

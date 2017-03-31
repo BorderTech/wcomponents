@@ -190,7 +190,7 @@ public class WButtonExample extends WPanel implements MessageContainer {
 		add(new ExplanatoryText("These examples show ways to add a Font-Awesome icon to a button using 'setHtmlClass'."));
 		iconButton = new WButton("\u200b"); // \u200b is a zero-width space.
 		iconButton.setToolTip("Open Menu");
-		iconButton.setHtmlClass(HtmlIconUtil.getIconClasses("fa bars"));
+		iconButton.setHtmlClass(HtmlIconUtil.getIconClasses("fa-bars"));
 		add(iconButton);
 
 		iconButton = new WButton("With text content");
