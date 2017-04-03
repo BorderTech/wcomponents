@@ -19,7 +19,13 @@
 			<xsl:call-template name="hideElementIfHiddenSet"/>
 			<summary tabindex="0">
 				<xsl:call-template name="icon">
-					<xsl:with-param name="class">fa-caret-right</xsl:with-param>
+					<xsl:with-param name="class">
+						<xsl:text>fa-caret-</xsl:text>
+						<xsl:choose>
+						<xsl:when test="@collapsed">right</xsl:when>
+						<xsl:otherwise>down</xsl:otherwise>
+					</xsl:choose>
+					</xsl:with-param>
 				</xsl:call-template>
 				<xsl:choose>
 					<xsl:when test="@level">
