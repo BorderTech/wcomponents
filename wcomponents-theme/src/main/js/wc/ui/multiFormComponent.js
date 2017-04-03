@@ -11,8 +11,8 @@ define(["wc/has",
 		"wc/ui/prompt",
 		"wc/ui/ajaxRegion",
 		"wc/ui/fieldset",
-		"wc/dom/classList"],
-	function(has, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers, prompt, ajaxRegion, fieldset, classList) {
+		"wc/ui/icon"],
+	function(has, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers, prompt, ajaxRegion, fieldset, icon) {
 		"use strict";
 
 		/**
@@ -28,7 +28,6 @@ define(["wc/has",
 				FIELD = new Widget("li"),
 				BUTTON = new Widget("button"),
 				SELECT_WD = new Widget("select"),
-				BUTTON_MESSAGE_WD = new Widget("SPAN"),
 				INPUT_WD = new Widget("input"),
 				CONTROLS = [SELECT_WD, INPUT_WD],
 				REMOVE_BUTTON_TITLE;
@@ -169,7 +168,7 @@ define(["wc/has",
 			function resetField(field) {
 				var idWd = new Widget("", "", {id: null}),
 					candidates = idWd.findDescendants(field),
-					labelWd, buttonWd, buttonTextElement,
+					labelWd, buttonWd,
 					nextLabel, nextButton, next, nextId, i;
 				for (i = 0; i < candidates.length; i++) {
 					next = candidates[i];
@@ -185,10 +184,7 @@ define(["wc/has",
 					if (nextButton) {
 						nextButton.setAttribute("aria-controls", nextId);
 						nextButton.title = REMOVE_BUTTON_TITLE;
-						if ((buttonTextElement = BUTTON_MESSAGE_WD.findDescendant(nextButton))) {
-							classList.remove(buttonTextElement, "fa-plus-square");
-							classList.remove(buttonTextElement, "fa-minus-square");
-						}
+						icon.change(nextButton,"fa-minus-square", "fa-plus-square");
 					}
 					next.id = nextId;
 				}
@@ -371,6 +367,7 @@ define(["wc/has",
 		 * @requires module:wc/ui/prompt
 		 * @requires module:wc/ui/ajaxRegion
 		 * @requires module:wc/ui/fieldset
+		 * @requires module:wc/ui/icon
 		 * @todo Document private members, fix source order.
 		 */
 		var instance = new MultiFormComponent();

@@ -23,8 +23,7 @@ summary {
 	font-weight: bold;
 	padding: $wc-gap-normal 0;
 
-	> .fa:before {
-		margin-right: $wc-gap-small;
+	> .fa {
 		text-align: left;
 		width: $wc-collapsible-icon-width;
 	}

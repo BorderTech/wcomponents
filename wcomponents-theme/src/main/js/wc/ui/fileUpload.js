@@ -42,10 +42,11 @@ function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted
 			KB = Math.pow(10, 3),  /* NOTE: see IEC 80000-13 a kilo-byte is 1000 bytes, NOT 1024 bytes */
 			MB = Math.pow(10, 6),
 			GB = Math.pow(10, 9),
-			inputElementWd = new Widget("INPUT", "", { type: "file", "data-wc-maxfiles": "1" }),
+			CONTAINER = new Widget("", "wc-fileupload"),
+			inputElementWd = new Widget("INPUT", "", { type: "file"}),
 			messageTimer;
 
-
+		inputElementWd.descendFrom(CONTAINER, true);
 
 		/**
 		 * Rounds a numerical filesize value to something acceptable to display to the user.
@@ -216,7 +217,7 @@ function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted
 		 * @returns {Boolean} true if element is the Widget type rewuested
 		 */
 		this.isOneOfMe = function(element) {
-			if (element)	{
+			if (element) {
 				return inputElementWd.isOneOfMe(element);
 			}
 			return false;

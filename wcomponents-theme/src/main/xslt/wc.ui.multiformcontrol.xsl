@@ -152,7 +152,10 @@
 		<xsl:variable name="ancestorMDD" select="ancestor::ui:multidropdown"/>
 		<xsl:variable name="id" select="$ancestorMDD/@id"/>
 		<li>
-			<select name="{$id}" id="{concat($id,generate-id(),'-',position())}" title="{{t 'mfc_option'}}">
+			<select name="{$id}" id="{concat($id,generate-id(),'-',position())}">
+				<xsl:attribute name="title">
+					<xsl:text>{{t 'mfc_option'}}</xsl:text>
+				</xsl:attribute>
 				<xsl:if test="$ancestorMDD/@submitOnChange">
 					<xsl:attribute name="class">
 						<xsl:text>wc_soc</xsl:text>
@@ -257,7 +260,14 @@
 				</xsl:otherwise>
 			</xsl:choose>
 			<xsl:call-template name="icon">
-				<xsl:with-param name="class">fa-minus-square</xsl:with-param>
+				<xsl:with-param name="class">
+					<xsl:text>fa-</xsl:text>
+					<xsl:choose>
+						<xsl:when test="position() = 1 or number($isSingular) eq 1">plus</xsl:when>
+						<xsl:otherwise>minus</xsl:otherwise>
+					</xsl:choose>
+					<xsl:text>-square</xsl:text>
+				</xsl:with-param>
 			</xsl:call-template>
 		</button>
 	</xsl:template>

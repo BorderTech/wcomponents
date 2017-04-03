@@ -64,7 +64,7 @@ define(["wc/Observer",
 					ariaSupported,
 					func;
 
-				if (role) {
+				if (role && role !== "presentation") {
 					supported = aria.getSupported(role);
 					ariaSupported = (supported && supported[_ariaState]);
 				}

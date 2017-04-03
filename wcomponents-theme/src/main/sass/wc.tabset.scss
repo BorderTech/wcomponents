@@ -26,7 +26,7 @@
 
 	@if ($wc-tabset-allow-left-right == 1) {
 		// LEFT or RIGHT
-		&[aria-ortientation='vertical'] {
+		&[aria-orientation='vertical'] {
 			@include flex-direction(column);
 			max-width: $wc-tabset-left-right-tab-width;
 			top: 0;
