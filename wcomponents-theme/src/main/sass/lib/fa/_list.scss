@@ -1,6 +1,7 @@
 // List Icons
 // -------------------------
 
+
 .#{$fa-css-prefix}-ul {
   padding-left: 0;
   margin-left: $fa-li-width;
@@ -11,7 +12,7 @@
   position: absolute;
   left: -$fa-li-width;
   width: $fa-li-width;
-  top: (2em / 14);
+  top: 0.143em; //(2em / 14);
   text-align: center;
   &.#{$fa-css-prefix}-lg {
     left: -$fa-li-width + (4em / 14);

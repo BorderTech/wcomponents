@@ -768,6 +768,9 @@ define(["wc/array/toArray",
 				finally {
 					if (successful) {
 						classList.remove(accordion, ACCORDION_CLASS);
+						if (classList.contains(accordion, "wc-tabset-type-left") || classList.contains(accordion, "wc-tabset-type-right")) {
+							tablist.setAttribute("aria-orientation", "vertical");
+						}
 						tablist.removeAttribute(MULTISELECT);
 						accordion.removeAttribute(CONVERTED);
 					}
@@ -815,6 +818,7 @@ define(["wc/array/toArray",
 					if (successful) {
 						classList.add(tabset, ACCORDION_CLASS);
 						tablist.setAttribute(MULTISELECT, FALSE); // must be a single select accordion.
+						tablist.removeAttribute("aria-orientation");
 						clearSize(tabset);
 						tabset.setAttribute(CONVERTED, TRUE);
 					}
