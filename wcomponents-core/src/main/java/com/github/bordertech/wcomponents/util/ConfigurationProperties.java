@@ -930,7 +930,7 @@ public final class ConfigurationProperties {
 	 * render will not occur. "sniff" means the render will occur based on user agent.
 	 */
 	public static String getTemplateRenderingMode() {
-		return get().getString(TEMPLATE_RENDERING_MODE, "off");
+		return get().getString(TEMPLATE_RENDERING_MODE, "on");
 	}
 
 	/**

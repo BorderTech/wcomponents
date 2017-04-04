@@ -4,6 +4,8 @@
 
 ### API Changes
 
+* Default template render mode to on (previously off). This improves UI performance for most users.
+
 ### Bug Fixes
 
 ### Enhancements
