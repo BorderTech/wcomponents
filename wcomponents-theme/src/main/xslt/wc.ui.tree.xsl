@@ -136,6 +136,11 @@
 								</xsl:choose>
 							</xsl:with-param>
 						</xsl:call-template>
+						<xsl:call-template name="offscreenSpan">
+							<xsl:with-param name="text">
+								<xsl:text>{{t 'tree_toggle_branch'}}</xsl:text>
+							</xsl:with-param>
+						</xsl:call-template>
 					</button>
 					<!-- leave tabindex="0" on this button, it is used as a short-hand to find focusable controls in the core menu JavaScript. -->
 					<button type="button" class="wc-nobutton wc-invite wc_leaf" id="{$nameButtonId}" aria-controls="{@id}" tabindex="0">

@@ -4,6 +4,7 @@
 
 // Override Font Awesome font path.
 $fa-font-path: '../resource';
+$fa-fw-calc-size: 1.25rem !default; // see $wc-icon-wider
 
 // *****************************************************************************
 // *****************************************************************************
@@ -124,7 +125,6 @@ $wc-icon-small: 0.75rem !default; // about 12px in any unit
 $wc-icon-normal: 1rem !default; // min 16px in any unit
 $wc-icon-wider: 1.25rem !default;  //recommend min 20px in any unit - this will allow for wider glyphs.
 $wc-icon-large: 2rem !default; // really big icons. So far only for the full-screen loading indicator.
-$fa-fw-calc-size: $wc-icon-wider !default;
 
 // h1 in WSection, WPanel Types CHROME and SECTION, WMessageBox, WValidationErrors.
 // If you are mucking around here you may want to go look at the WHeading styles below. Set this to -1 to use the
@@ -469,5 +469,5 @@ $wc-togglebutton-transition-slider: left 0.3s cubic-bezier(0.175, 0.885, 0.320, 
 
 // *****************************************************************************
 // Import library vars last
-@import 'libs/fa/variables';
+@import 'lib/fa/variables';
 // *****************************************************************************

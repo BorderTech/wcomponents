@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-07 10:19+1100\n"
+"POT-Creation-Date: 2017-04-04 11:23+1000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1547,6 +1547,13 @@ msgstr ""
 #, java-format
 msgctxt "tree_resize_handle"
 msgid "ARROW RIGHT to widen column, ARROW LEFT to narrow column"
+msgstr ""
+
+#. 
+#: tree_toggle_branch
+#, java-format
+msgctxt "tree_toggle_branch"
+msgid "Open/close this branch"
 msgstr ""
 
 #. 
