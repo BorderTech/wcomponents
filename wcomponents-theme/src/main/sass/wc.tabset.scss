@@ -105,6 +105,23 @@
 			}
 		}
 	}
+
+	.wc-tabset-type-left,
+	.wc-tabset-type-right {
+		&[data-wc-converted] {
+			@include flex-direction(column);
+
+			> [role='tablist'] {
+				left: 0;
+				right: 0;
+
+				[role='tab'] {
+					border-radius: 0;
+					text-align: left;
+				}
+			}
+		}
+	}
 }
 
 @import 'wc.tabset.color';
