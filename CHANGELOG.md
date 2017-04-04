@@ -6,6 +6,12 @@
 
 ### Bug Fixes
 
+### Enhancements
+
+## Release 1.4.0-beta-2
+
+### Bug Fixes
+
 * Fixed a flaw which could result in images inside links getting the incrrect URL under some conditions #1150.
 * Fixed a flaw which could result in a WSubMenu being stuck open when a not-submitting WMenuItem is clicked #1137.
 * Fixed an accessibility flaw which could result in AT attempting to read icons #1136.
