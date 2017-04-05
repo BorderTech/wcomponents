@@ -84,12 +84,11 @@ public class PlainLauncher_Test {
 
 	@Test
 	public void testServer() throws Exception {
-		Config.getInstance().setProperty(ConfigurationProperties.LDE_PLAINLAUNCHER_COMPONENT_TO_LAUNCH,
-				MyTestApp.class.getName());
+		Config.getInstance().setProperty(ConfigurationProperties.LDE_PLAINLAUNCHER_COMPONENT_TO_LAUNCH, MyTestApp.class.getName());
 		// random port
 		Config.getInstance().setProperty(ConfigurationProperties.LDE_SERVER_PORT, "0");
-		Config.getInstance().
-				setProperty(ConfigurationProperties.WHITESPACE_FILTER, "false");
+		Config.getInstance().setProperty(ConfigurationProperties.WHITESPACE_FILTER, "false");
+		Config.getInstance().setProperty(ConfigurationProperties.TEMPLATE_RENDERING_MODE, "off");
 
 		launcher = new PlainLauncher();
 		launcher.run();
@@ -103,7 +102,8 @@ public class PlainLauncher_Test {
 		Assert.assertEquals("HandleRequest should have been called once", 1,
 				MyTestApp.handleRequestCount);
 		Assert.assertEquals("PaintComponent should have been called once", 1, MyTestApp.paintCount);
-		Assert.assertTrue("Content should contain the rendered application", content.contains((new MyTestApp()).getContent()));
+		Assert.assertTrue("Content should contain the rendered application, got '" + content + "'",
+				content.contains((new MyTestApp()).getContent()));
 	}
 
 	/**
