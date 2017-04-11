@@ -1,7 +1,7 @@
 @import 'mixins-common';
 
 @if ($wc-ui-color-section-heading-bg != -1) {
-	.wc-section > .wc-decoratedlabel {
+	section > header {
 		background-color: $wc-ui-color-section-heading-bg;
 		color: $wc-ui-color-section-heading-fg;
 

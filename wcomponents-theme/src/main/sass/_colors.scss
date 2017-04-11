@@ -94,6 +94,11 @@ $wc-ui-color-border: #ccc !default;
 $wc-ui-color-border-form-control: $wc-ui-color-border !default;
 
 // *****************************************************************************
+// BODY
+$wc-ui-body-bg: $wc-use-color-global-bg !default;
+$wc-ui-body-fg: $wc-use-color-global-fg !default;
+
+// *****************************************************************************
 // LINKS
 // Set to -1 to not output a colour block for `a` elements.
 $wc-ui-color-link: $std-color-primary !default;

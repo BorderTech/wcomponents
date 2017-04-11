@@ -51,7 +51,7 @@
 				</xsl:attribute>
 			</xsl:element>
 			<!-- This is the date picker launch control element. -->
-			<button value="{concat(@id,'_input')}" tabindex="-1" type="button" aria-hidden="true" class="wc_wdf_cal wc_btn_icon wc-invite">
+			<button value="{concat(@id,'_input')}" tabindex="-1" type="button" aria-hidden="true" class="wc_wdf_cal wc_btn_icon wc-invite" aria-haspopup="true">
 				<xsl:call-template name="disabledElement"/>
 				<xsl:call-template name="icon">
 					<xsl:with-param name="class">fa-calendar</xsl:with-param>
