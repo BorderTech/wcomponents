@@ -295,7 +295,7 @@ define(["wc/string/escapeRe",
 					console.log("Got regex from cache: ", containsRe.source);
 				}
 				else {
-					containsRe = regexCache.contains[search] = new RegExp(startsWithRe.source, flags);
+					containsRe = regexCache.contains[search] = new RegExp(".+" + escapeRe(search), flags);
 				}
 
 				if ((options = getOptions(element)) && options.length) {

@@ -458,17 +458,20 @@ define(["wc/dom/attribute",
 			 * @function
 			 * @private
 			 * @param {Element} response An HTML element which contains the content to display in the list of uploaded files.
+			 * @returns {number} The number of files updated by this response, zero would indicate an error.
 			 */
 			function processResponse(response) {
-				var i, newFiles = response.getElementsByTagName(fileInfoWd.tagName);
+				var result = 0, i, newFiles = response.getElementsByTagName(fileInfoWd.tagName);
 				if (newFiles && newFiles.length > 0) {
 					for (i = 0; i < newFiles.length; i++) {
 						updateFileInfo(newFiles[i]);
+						result++;
 					}
 				}
 				else {
 					console.warn("Unexpected response");
 				}
+				return result;
 			}
 
 			function updateFileInfo(newFile) {
@@ -952,7 +955,7 @@ define(["wc/dom/attribute",
 			}
 
 			function processResponse(response, fileId) {
-				var onError = function () {
+				var processed, onError = function () {
 						errorHandlerFactory(fileId).call(response.xhr);
 					},
 					df = toDocFragment(response.xhr.responseText),
@@ -965,12 +968,12 @@ define(["wc/dom/attribute",
 						df = df.firstElementChild;
 					}
 					container.appendChild(df);
-					dto.callback(container);
+					processed = dto.callback(container);
 					inflight = Object.keys(inflightXhrs);
 					if (inflight.length === 0) {
 						dto.complete(dto.container.id);
 					}
-					if (!container.innerHTML) {
+					if (!container.innerHTML || processed === 0) {
 						onError();
 					}
 				}

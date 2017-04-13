@@ -5,6 +5,8 @@
 ### API Changes
 
 ### Bug Fixes
+* Fixed partial text matches in dropdown typeahead #1164.
+* MultiFileWidget better handles when the response "lies" and says it is "200 OK" when it isn't #1163.
 
 ### Enhancements
 
