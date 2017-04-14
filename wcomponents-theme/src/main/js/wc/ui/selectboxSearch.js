@@ -13,6 +13,8 @@
  * @requires module:wc/dom/group
  * @requires module:wc/i18n/i18n
  * @requires module:wc/timers
+ * @requires module:wc/config
+ * @requires module:wc/mixin
  * @requires module:wc/dom/textContent
  *
  * @todo Document private members, fix source order.
@@ -28,9 +30,10 @@ define(["wc/string/escapeRe",
 	"wc/dom/group",
 	"wc/i18n/i18n",
 	"wc/timers",
+	"wc/config",
+	"wc/mixin",
 	"wc/dom/textContent"],
-	/** @param escapeRe wc/string/escapeRe @param tag wc/dom/tag @param uid wc/dom/uid @param classList wc/dom/classList @param initialise wc/dom/initialise @param attribute wc/dom/attribute @param shed wc/dom/shed @param event wc/dom/event @param group wc/dom/group @param i18n wc/i18n/i18n @param timers wc/timers @param textContent wc/dom/textContent @ignore */
-	function(escapeRe, tag, uid, classList, initialise, attribute, shed, event, group, i18n, timers, textContent) {
+	function(escapeRe, tag, uid, classList, initialise, attribute, shed, event, group, i18n, timers, wcconfig, mixin, textContent) {
 		"use strict";
 
 		/**
@@ -39,13 +42,15 @@ define(["wc/string/escapeRe",
 		 * @private
 		 */
 		function SelectboxSearch() {
-			var fireOnchange = false,
+			var config = {
+					textTrumpsValue: true,
+					minLenSubstring: 3,
+					minLenVal: 1,
+					debounceDelay: 250
+				},
+				fireOnchange = false,
 				searchTimer,
-				MIN_LEN_SUBSTRING_MATCH = 3,
-				MIN_LEN_VAL_MATCH = 1,
-				TEXT_TRUMPS_VALUE = true,
 				NO_ENDS_WITH_STRING_RE = /[^ ]$/,
-				SEARCH_DELAY = 250,
 				/* NOTE: moved the initialisation of ALLOWED to initialise because
 				 * parts of AJAX which i18n depend upon are not yet available in IE */
 				ALLOWED,  // "abcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:'\",<.>/? ",
@@ -66,6 +71,7 @@ define(["wc/string/escapeRe",
 			function focusEvent(evt) {
 				var element = evt.target;
 				if (needsSelectSearch(element)) {
+					initConfig();
 					initSelect(element);
 					closeSearch(element);
 				}
@@ -198,7 +204,7 @@ define(["wc/string/escapeRe",
 				if (searchTimer) {
 					timers.clearTimeout(searchTimer);
 				}
-				searchTimer = timers.setTimeout(highlightSearch, SEARCH_DELAY, element, search);
+				searchTimer = timers.setTimeout(highlightSearch, config.debounceDelay, element, search);
 			}
 
 			/*
@@ -210,7 +216,7 @@ define(["wc/string/escapeRe",
 				var match;
 				// fireOnchange = true;
 				if (search) {
-					if (TEXT_TRUMPS_VALUE) {
+					if (config.textTrumpsValue) {
 						match = getMatchByText(element, search) || getMatchByValue(element, search);
 					}
 					else {
@@ -264,7 +270,7 @@ define(["wc/string/escapeRe",
 			}
 			/*
 			 * Search for first option with a matching 'text' property text match can be a partial
-			 * match (case insensitive) if it is at least MIN_LEN_SUBSTRING_MATCH characters long
+			 * match (case insensitive) if it is at least config.minLenSubstring characters long
 			 *
 			 * @param element The select element to search
 			 * @param search The string to search for
@@ -295,7 +301,7 @@ define(["wc/string/escapeRe",
 					console.log("Got regex from cache: ", containsRe.source);
 				}
 				else {
-					containsRe = regexCache.contains[search] = new RegExp(startsWithRe.source, flags);
+					containsRe = regexCache.contains[search] = new RegExp(".+" + escapeRe(search), flags);
 				}
 
 				if ((options = getOptions(element)) && options.length) {
@@ -309,7 +315,7 @@ define(["wc/string/escapeRe",
 						result = next;
 						break;
 					}
-					else if (!partialMatch && search.length >= MIN_LEN_SUBSTRING_MATCH && containsRe.test(nextTxt)) {
+					else if (!partialMatch && search.length >= config.minLenSubstring && containsRe.test(nextTxt)) {
 						partialMatch = next;
 					}
 				}
@@ -318,7 +324,7 @@ define(["wc/string/escapeRe",
 
 			/*
 			 * Search for first option with a matching 'value' property value match must be an exact
-			 * match (case insensitive) and must be at least MIN_LEN_VAL_MATCH characters long
+			 * match (case insensitive) and must be at least config.minLenVal characters long
 			 *
 			 * @param element The select element to search
 			 * @param search The string to search for
@@ -332,7 +338,7 @@ define(["wc/string/escapeRe",
 					i = 0,
 					result;
 				// allow for reset to null option if search is ""
-				if (search === "" || search.length >= MIN_LEN_VAL_MATCH) {
+				if (search === "" || search.length >= config.minLenVal) {
 					if (search !== "") {
 						search = search.toLocaleLowerCase();
 					}
@@ -373,6 +379,33 @@ define(["wc/string/escapeRe",
 			function hideSearch(search) {
 				classList.remove(search, CLASS_NOT_FOUND);
 				shed.hide(search);
+			}
+
+			/**
+			 * Initialises the module configuration options.
+			 * This should be called as late as possible to give the application developer time to register any configuration overrides.
+			 * Call it comme ça
+				require(["wc/config"], function(wcconfig){
+					wcconfig.set({
+						textTrumpsValue: true,  // if true text matches are given priority over value matches (i.e. the hidden value of the option instead of the visible text)
+						minLenSubstring: 3,  // minimum length of input string to search on for partial matches (i.e. not "starts with" matches)
+						minLenVal: 1,  // minimum length of input string to search on for value matches
+						debounceDelay: 250  //  typing debounce delay in milliseconds
+				}, "wc/ui/selectboxSearch")});
+			 */
+			function initConfig() {
+				if (config.inited) {
+					return;
+				}
+				try {
+					var configOveride = wcconfig.get("wc/ui/selectboxSearch");
+					if (configOveride) {
+						mixin(configOveride, config);
+					}
+				}
+				finally {
+					config.inited = true;
+				}
 			}
 
 			/**

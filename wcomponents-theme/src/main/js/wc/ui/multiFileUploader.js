@@ -471,7 +471,7 @@ define(["wc/dom/attribute",
 					}
 				}
 				else {
-					console.warn("Unexpected response");
+					throw new Error("Unexpected fileupload response");
 				}
 			}
 
