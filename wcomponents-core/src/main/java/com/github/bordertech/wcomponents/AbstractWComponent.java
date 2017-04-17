@@ -572,22 +572,15 @@ public abstract class AbstractWComponent implements WComponent {
 		// Prepare this component.
 		preparePaintComponent(request);
 
-		// Prepare its children.
-		final ArrayList<WComponent> children = (ArrayList<WComponent>) getComponentModel().
-				getChildren();
+		if (getComponentModel().hasChildren()) {
 
-		if (children != null) {
+			// Prepare its children.
+			final List<WComponent> children = getComponentModel().getChildren();
 			final int size = children.size();
 
 			for (int i = 0; i < size; i++) {
 				children.get(i).preparePaint(request);
 			}
-
-			// Chances are that the WComponent tree is fairly stable now, so take
-			// the opportunity to trim the child list to size if we have one.
-			// This is just a memory optimization - it won't prevent adding more
-			// children later, of course.
-			children.trimToSize();
 		}
 	}
 
@@ -672,10 +665,11 @@ public abstract class AbstractWComponent implements WComponent {
 			Renderer templateRenderer = UIManager.getTemplateRenderer(renderContext);
 			templateRenderer.render(this, renderContext);
 		} else if (renderer == null) {
-			// Default is juxtaposition
-			List<WComponent> children = getComponentModel().getChildren();
 
-			if (children != null) {
+			if (getComponentModel().hasChildren()) {
+
+				// Default is juxtaposition
+				List<WComponent> children = getComponentModel().getChildren();
 				final int size = children.size();
 
 				for (int i = 0; i < size; i++) {
@@ -725,10 +719,10 @@ public abstract class AbstractWComponent implements WComponent {
 		// Validate this component.
 		validateComponent(diags);
 
-		// Validate children
-		List<WComponent> children = getComponentModel().getChildren();
+		if (getComponentModel().hasChildren()) {
 
-		if (children != null) {
+			// Validate children
+			List<WComponent> children = getComponentModel().getChildren();
 			final int size = children.size();
 
 			for (int i = 0; i < size; i++) {
@@ -780,10 +774,10 @@ public abstract class AbstractWComponent implements WComponent {
 			// Show indicators for this component.
 			showErrorIndicatorsForComponent(diags);
 
-			// Show indicators for its children.
-			List<WComponent> children = getComponentModel().getChildren();
+			if (getComponentModel().hasChildren()) {
 
-			if (children != null) {
+				// Show indicators for its children.
+				List<WComponent> children = getComponentModel().getChildren();
 				final int size = children.size();
 
 				for (int i = 0; i < size; i++) {
@@ -815,11 +809,11 @@ public abstract class AbstractWComponent implements WComponent {
 			// Show indicators for this component.
 			showWarningIndicatorsForComponent(diags);
 
-			// Show indicators for its children.
-			List<WComponent> children = getComponentModel().getChildren();
+			if (getComponentModel().hasChildren()) {
 
-			if (children != null) {
-				final int size = children.size();
+				// Show indicators for its children.
+				List<WComponent> children = getComponentModel().getChildren();
+                        	final int size = children.size();
 
 				for (int i = 0; i < size; i++) {
 					children.get(i).showWarningIndicators(diags);
@@ -1247,9 +1241,9 @@ public abstract class AbstractWComponent implements WComponent {
 		if (uic != null) {
 			tidyUpUIContext();
 
-			List<WComponent> children = getComponentModel().getChildren();
+			if (getComponentModel().hasChildren()) {
 
-			if (children != null) {
+				List<WComponent> children = getComponentModel().getChildren();				
 				final int size = children.size();
 
 				for (int i = 0; i < size; i++) {
@@ -1283,7 +1277,7 @@ public abstract class AbstractWComponent implements WComponent {
 	 */
 	int getChildCount() {
 		ComponentModel model = getComponentModel();
-		return (model.getChildren() == null ? 0 : model.getChildren().size());
+		return (!model.hasChildren() ? 0 : model.getChildren().size());
 	}
 
 	/**
@@ -1305,9 +1299,8 @@ public abstract class AbstractWComponent implements WComponent {
 	 */
 	int getIndexOfChild(final WComponent childComponent) {
 		ComponentModel model = getComponentModel();
-		List<WComponent> children = model.getChildren();
 
-		return children == null ? -1 : children.indexOf(childComponent);
+		return !model.hasChildren() ? -1 : model.getChildren().indexOf(childComponent);
 	}
 
 	/**
@@ -1361,13 +1354,7 @@ public abstract class AbstractWComponent implements WComponent {
 			throw new UnsupportedOperationException("Components can only be added to a container");
 		}
 
-		ComponentModel model = getOrCreateComponentModel();
-
-		if (model.getChildren() == null) {
-			model.setChildren(new ArrayList<WComponent>(1));
-		}
-
-		model.getChildren().add(component);
+		getOrCreateComponentModel().addChild(component);
 
 		if (isLocked()) {
 			component.setLocked(true);
@@ -1409,15 +1396,11 @@ public abstract class AbstractWComponent implements WComponent {
 	void remove(final WComponent aChild) {
 		ComponentModel model = getOrCreateComponentModel();
 
-		if (model.getChildren() == null) {
+		if (!model.hasChildren()) {
 			model.setChildren(copyChildren(getComponentModel().getChildren()));
 		}
 
-		if (model.getChildren().remove(aChild)) {
-			// Deallocate children list if possible, to reduce session size.
-			if (model.getChildren().isEmpty()) {
-				model.setChildren(null);
-			}
+		if (model.removeChild(aChild)) {
 
 			// The child component has been successfully removed so clean up the context.
 			aChild.reset();
