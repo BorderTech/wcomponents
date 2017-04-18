@@ -13,7 +13,7 @@ require(["wc/template", "wc/dom/initialise", "wc/dom/removeElement"], function (
 				templateTarget;
 			if (templateSrc) {
 				templateTarget = document.getElementById("wc-root");
-				template.process({ source: templateSrc, target: templateTarget });
+				template.process({ source: templateSrc, target: templateTarget, removeSrc: true });
 				removeElement(templateSrc);
 				return;
 			}

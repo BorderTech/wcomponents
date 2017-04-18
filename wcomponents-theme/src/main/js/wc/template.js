@@ -81,16 +81,11 @@ define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has", "wc/dom/rem
 						processContainer(document.body);
 					}
 				}
-				else {
+				else if (params && params.source && params.target && params.removeSrc) {
 					// We may end up with the whole page inside a script element.
-					var source = document.getElementById("ui:root"),
-						target = document.getElementById("wc-root"),
-						content;
-					if (source && target) {
-						content = source.innerHTML;
-						removeElement(target); // remove first otherwise double elements!
-						target.innerHTML = content;
-					}
+					var content = source.innerHTML;
+					removeElement(params.source); // remove first otherwise double elements and duplicate IDs
+					params.target.innerHTML = content;
 				}
 			};
 
