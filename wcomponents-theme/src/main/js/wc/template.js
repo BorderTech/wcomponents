@@ -1,5 +1,5 @@
-define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has"],
-	function(textContent, Handlebars, has) {
+define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has", "wc/dom/removeElement"],
+	function(textContent, Handlebars, has, removeElement) {
 		"use strict";
 
 		/**
@@ -80,6 +80,12 @@ define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has"],
 					else if (document.body) {
 						processContainer(document.body);
 					}
+				}
+				else if (params && params.source && params.target && params.removeSrc) {
+					// We may end up with the whole page inside a script element.
+					var content = source.innerHTML;
+					removeElement(params.source); // remove first otherwise double elements and duplicate IDs
+					params.target.innerHTML = content;
 				}
 			};
 
@@ -174,7 +180,9 @@ define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has"],
 			 * @returns {undefined}
 			 */
 			this.unregisterHelper = function(token) {
-				Handlebars.unregisterHelper(token);
+				if (!has("ie") || has("ie") > 9) {
+					Handlebars.unregisterHelper(token);
+				}
 			};
 		}
 

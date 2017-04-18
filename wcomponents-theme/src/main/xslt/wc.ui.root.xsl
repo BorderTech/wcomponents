@@ -105,7 +105,10 @@
 				<div id="wc-ui-loading">
 					<div tabindex="0" class="wc-icon">&#x200b;</div>
 				</div>
-				<xsl:apply-templates />
+				<div id="wc-root"></div>
+				<script type="x-handlebars-template" id="ui:root">
+					<xsl:apply-templates />
+				</script>
 			</body>
 		</html>
 	</xsl:template>

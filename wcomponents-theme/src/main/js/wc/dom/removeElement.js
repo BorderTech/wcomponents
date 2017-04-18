@@ -12,7 +12,7 @@ define(["wc/timers"], /** @param timers wc/timers @ignore */ function(timers) {
 	 *
 	 * @function module:wc/dom/removeElement
 	 *
-	 * @param {string} id The id of the element to be removed.
+	 * @param {String|Element} id The element, or id of the element, to be removed.
 	 * @param {int} [useTimeout] If set then wrap the removal in a timeout of this many milliseconds. Probably pointless
 	 * especially if this is called from a finally block.
 	 */
@@ -23,9 +23,9 @@ define(["wc/timers"], /** @param timers wc/timers @ignore */ function(timers) {
 		}
 
 		function _remove() {
-			var el,
+			var el = id.nodeType === Node.ELEMENT_NODE ? id : document.getElementById(id),
 				parent;
-			if ((el = document.getElementById(id)) && (parent = el.parentNode)) {
+			if (el && (parent = el.parentNode)) {
 				parent.removeChild(el);
 			}
 		}
