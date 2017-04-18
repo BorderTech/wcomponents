@@ -89,7 +89,7 @@ public class DiagnosticImpl implements Diagnostic {
 	 */
 	@Override
 	public String getDescription() {
-		// We need to change references to input fields to their label or accessible text.
+		// We need to change references to input fields to their label.
 		Object[] modifiedArgs = new Object[args.length];
 
 		for (int i = 0; i < args.length; i++) {
@@ -109,9 +109,6 @@ public class DiagnosticImpl implements Diagnostic {
 						}
 					}
 
-					if (text == null) {
-						text = input.getAccessibleText();
-					}
 				} finally {
 					UIContextHolder.popContext();
 				}

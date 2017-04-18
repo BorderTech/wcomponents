@@ -38,7 +38,6 @@ public class WFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:fileUpload/@required", fileUpload);
 		assertXpathNotExists("//ui:fileUpload/@readOnly", fileUpload);
 		assertXpathNotExists("//ui:fileUpload/@toolTip", fileUpload);
-		assertXpathNotExists("//ui:fileUpload/@accessibleText", fileUpload);
 		assertXpathNotExists("//ui:fileUpload/@acceptedMimeTypes", fileUpload);
 		assertXpathNotExists("//ui:fileUpload/@maxFileSize", fileUpload);
 
@@ -62,11 +61,6 @@ public class WFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(fileUpload);
 		assertXpathEvaluatesTo(fileUpload.getToolTip(), "//ui:fileUpload/@toolTip", fileUpload);
 
-		fileUpload.setAccessibleText("accessible");
-		assertSchemaMatch(fileUpload);
-		assertXpathEvaluatesTo(fileUpload.getAccessibleText(), "//ui:fileUpload/@accessibleText",
-				fileUpload);
-
 		fileUpload.setFileTypes(new String[]{"a/b", "c/d"});
 		assertXpathEvaluatesTo("a/b,c/d", "//ui:fileUpload/@acceptedMimeTypes", fileUpload);
 
@@ -82,9 +76,6 @@ public class WFileWidgetRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSafeContent(fileUpload);
 
 		fileUpload.setToolTip(getMaliciousAttribute("ui:fileUpload"));
-		assertSafeContent(fileUpload);
-
-		fileUpload.setAccessibleText(getMaliciousAttribute("ui:fileUpload"));
 		assertSafeContent(fileUpload);
 	}
 }

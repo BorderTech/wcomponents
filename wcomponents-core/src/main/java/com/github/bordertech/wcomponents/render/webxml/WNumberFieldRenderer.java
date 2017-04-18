@@ -45,7 +45,6 @@ final class WNumberFieldRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("size", cols > 0, cols);
 		xml.appendOptionalAttribute("tabIndex", field.hasTabIndex(), field.getTabIndex());
 		xml.appendOptionalAttribute("toolTip", field.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", field.getAccessibleText());
 		xml.appendOptionalAttribute("min", min != null, String.valueOf(min));
 		xml.appendOptionalAttribute("max", max != null, String.valueOf(max));
 		xml.appendOptionalAttribute("step", step != null, String.valueOf(step));

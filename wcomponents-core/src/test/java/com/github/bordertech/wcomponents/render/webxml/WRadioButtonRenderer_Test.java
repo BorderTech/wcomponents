@@ -97,9 +97,6 @@ public class WRadioButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		button.setToolTip(getMaliciousAttribute());
 		assertSafeContent(button);
-
-		button.setAccessibleText(getMaliciousAttribute());
-		assertSafeContent(button);
 	}
 
 	@Test

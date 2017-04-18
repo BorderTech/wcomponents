@@ -51,7 +51,6 @@ public class AjaxWRadioButtonSelectExample extends WPanel {
 	public AjaxWRadioButtonSelectExample() {
 		setLayout(new FlowLayout(Alignment.VERTICAL, 0, 6));
 
-		rbSelect.setAccessibleText("Content selection");
 		rbSelect.setFrameless(true);
 
 		// Setup the radio button select options

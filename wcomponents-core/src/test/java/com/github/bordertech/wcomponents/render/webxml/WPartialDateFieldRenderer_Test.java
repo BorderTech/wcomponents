@@ -73,7 +73,6 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		dateField.setMandatory(true);
 		dateField.setReadOnly(true);
 		dateField.setToolTip(TEST_TITLE);
-		dateField.setAccessibleText(TEST_ALT_TEXT);
 		dateField.setDefaultSubmitButton(new WButton(TEST_BUTTON_ID));
 
 		assertSchemaMatch(dateField);
@@ -89,7 +88,6 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		assertXpathEvaluatesTo("true", "//ui:dateField/@required", dateField);
 		assertXpathEvaluatesTo("true", "//ui:dateField/@readOnly", dateField);
 		assertXpathEvaluatesTo(TEST_TITLE, "//ui:dateField/@toolTip", dateField);
-		assertXpathEvaluatesTo(TEST_ALT_TEXT, "//ui:dateField/@accessibleText", dateField);
 		assertXpathEvaluatesTo(String.valueOf(dateField.getDefaultSubmitButton().getId()),
 				"//ui:dateField/@buttonId",
 				dateField);
@@ -155,9 +153,6 @@ public class WPartialDateFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 
 		dateField.setData(null);
 		dateField.setToolTip(getMaliciousAttribute("ui:dateField"));
-		assertSafeContent(dateField);
-
-		dateField.setAccessibleText(getMaliciousAttribute("ui:dateField"));
 		assertSafeContent(dateField);
 	}
 }

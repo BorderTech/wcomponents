@@ -87,19 +87,16 @@ public class TableRowEditingAjaxExample extends WPanel {
 		table.setRowsPerPage(3);
 
 		// Column - First name
-		firstNameField.setAccessibleText("First name");
 		WDecoratedLabel label = new WDecoratedLabel("First name");
 		label.setIdName("col_fn");
 		table.addColumn(new WTableColumn(label, firstNameField));
 
 		// Column - Last name
-		lastNameField.setAccessibleText("last name");
 		label = new WDecoratedLabel("Last name");
 		label.setIdName("col_ln");
 		table.addColumn(new WTableColumn(label, lastNameField));
 
 		// Column - Date field
-		dobField.setAccessibleText("Date of birth");
 		label = new WDecoratedLabel("Date of birth");
 		label.setIdName("col_dob");
 		table.addColumn(new WTableColumn(label, dobField));

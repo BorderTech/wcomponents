@@ -46,7 +46,6 @@ public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:numberField/@readOnly", numberField);
 		assertXpathNotExists("//ui:numberField/@size", numberField);
 		assertXpathNotExists("//ui:numberField/@toolTip", numberField);
-		assertXpathNotExists("//ui:numberField/@accessibleText", numberField);
 		assertXpathNotExists("//ui:numberField/@min", numberField);
 		assertXpathNotExists("//ui:numberField/@max", numberField);
 		assertXpathNotExists("//ui:numberField/@step", numberField);
@@ -76,11 +75,6 @@ public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		numberField.setToolTip("toolTip");
 		assertSchemaMatch(numberField);
 		assertXpathEvaluatesTo(numberField.getToolTip(), "//ui:numberField/@toolTip", numberField);
-
-		numberField.setAccessibleText("accessibleText");
-		assertSchemaMatch(numberField);
-		assertXpathEvaluatesTo(numberField.getAccessibleText(), "//ui:numberField/@accessibleText",
-				numberField);
 
 		numberField.setMinValue(45);
 		assertSchemaMatch(numberField);
@@ -118,9 +112,6 @@ public class WNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSafeContent(numberField);
 
 		numberField.setToolTip(getMaliciousAttribute("ui:numberField"));
-		assertSafeContent(numberField);
-
-		numberField.setAccessibleText(getMaliciousAttribute("ui:numberField"));
 		assertSafeContent(numberField);
 	}
 }

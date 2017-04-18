@@ -42,7 +42,6 @@ final class WMultiFileWidgetRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("readOnly", widget.isReadOnly(), "true");
 		xml.appendOptionalAttribute("tabIndex", widget.hasTabIndex(), widget.getTabIndex());
 		xml.appendOptionalAttribute("toolTip", widget.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", widget.getAccessibleText());
 		xml.appendOptionalAttribute("acceptedMimeTypes", typesToString(widget.getFileTypes()));
 		xml.appendOptionalAttribute("maxFileSize", maxFileSize > 0, maxFileSize);
 		xml.appendOptionalAttribute("maxFiles", maxFiles > 0, maxFiles);

@@ -36,7 +36,6 @@ public class WInternalLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		String linkText = "TEXT TEST";
 		String linkTip = "TIP TEST";
-		String linkAccessibleText = "ACCESS TEST";
 
 		link.setText(linkText);
 		link.setReference(refer);
@@ -47,14 +46,11 @@ public class WInternalLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(linkText, "//ui:link", link);
 		assertXpathNotExists("//ui:link/@type", link);
 		assertXpathNotExists("//ui:link/@toolTip", link);
-		assertXpathNotExists("//ui:link/@accessibleText", link);
 
 		link.setToolTip(linkTip);
-		link.setAccessibleText(linkAccessibleText);
 
 		assertSchemaMatch(link);
 		assertXpathEvaluatesTo(linkTip, "//ui:link/@toolTip", link);
-		assertXpathEvaluatesTo(linkAccessibleText, "//ui:link/@accessibleText", link);
 
 		link.setText(null);
 		Assert.assertEquals("A link with no text should not render any output", "", render(link));
@@ -66,9 +62,6 @@ public class WInternalLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSafeContent(link);
 
 		link.setToolTip(getMaliciousAttribute("ui:link"));
-		assertSafeContent(link);
-
-		link.setAccessibleText(getMaliciousAttribute("ui:link"));
 		assertSafeContent(link);
 	}
 }

@@ -43,7 +43,6 @@ final class WRadioButtonSelectRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("submitOnChange", rbSelect.isSubmitOnChange(), "true");
 		xml.appendOptionalAttribute("tabIndex", component.hasTabIndex(), String.valueOf(tabIndex));
 		xml.appendOptionalAttribute("toolTip", component.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", component.getAccessibleText());
 		xml.appendOptionalAttribute("frameless", rbSelect.isFrameless(), "true");
 
 		switch (rbSelect.getButtonLayout()) {

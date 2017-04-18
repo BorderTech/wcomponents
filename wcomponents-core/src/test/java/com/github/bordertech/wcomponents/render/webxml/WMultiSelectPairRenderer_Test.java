@@ -43,7 +43,6 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 				select);
 		assertXpathNotExists("//ui:multiSelectPair/@disabled", select);
 		assertXpathNotExists("//ui:multiSelectPair/@required", select);
-		assertXpathNotExists("//ui:multiSelectPair/@accessibleText", select);
 		assertXpathEvaluatesTo(select.getAvailableListName(), "//ui:multiSelectPair/@fromListName",
 				select);
 		assertXpathEvaluatesTo(select.getSelectedListName(), "//ui:multiSelectPair/@toListName",
@@ -79,12 +78,6 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 		assertSchemaMatch(select);
 		assertXpathEvaluatesTo("true", "//ui:multiSelectPair/@required", select);
 
-		// Accessible text
-		String accessibleText = "WMultiSelectPairRenderer_Test.testDoPaint.accessibleText";
-		select.setAccessibleText(accessibleText);
-		assertSchemaMatch(select);
-		assertXpathEvaluatesTo(accessibleText, "//ui:multiSelectPair/@accessibleText", select);
-
 		// Disabled list
 		select.setDisabled(true);
 		assertSchemaMatch(select);
@@ -113,7 +106,6 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 		select.setShuffle(true);
 		select.setAvailableListName("available");
 		select.setSelectedListName("selected");
-		select.setAccessibleText("accessible text");
 		select.setMinSelect(1);
 		select.setMaxSelect(2);
 
@@ -128,7 +120,6 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 		assertXpathEvaluatesTo("true", "//ui:multiSelectPair/@shuffle", select);
 		assertXpathEvaluatesTo("available", "//ui:multiSelectPair/@fromListName", select);
 		assertXpathEvaluatesTo("selected", "//ui:multiSelectPair/@toListName", select);
-		assertXpathEvaluatesTo("accessible text", "//ui:multiSelectPair/@accessibleText", select);
 		assertXpathEvaluatesTo("1", "//ui:multiSelectPair/@min", select);
 		assertXpathEvaluatesTo("2", "//ui:multiSelectPair/@max", select);
 	}
@@ -234,9 +225,6 @@ public class WMultiSelectPairRenderer_Test extends AbstractWebXmlRendererTestCas
 		assertSafeContent(select);
 
 		select.setToolTip(getMaliciousAttribute("ui:multiSelectPair"));
-		assertSafeContent(select);
-
-		select.setAccessibleText(getMaliciousAttribute("ui:multiSelectPair"));
 		assertSafeContent(select);
 	}
 }

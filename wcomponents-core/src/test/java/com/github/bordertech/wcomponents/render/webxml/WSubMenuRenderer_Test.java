@@ -103,8 +103,5 @@ public class WSubMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		subMenu.setToolTip(getMaliciousAttribute("ui:submenu"));
 		assertSafeContent(menu);
-
-		subMenu.setAccessibleText(getMaliciousAttribute("ui:submenu"));
-		assertSafeContent(menu);
 	}
 }

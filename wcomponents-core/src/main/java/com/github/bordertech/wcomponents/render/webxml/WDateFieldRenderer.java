@@ -48,7 +48,6 @@ final class WDateFieldRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("tabIndex", dateField.hasTabIndex(), String.valueOf(dateField.
 				getTabIndex()));
 		xml.appendOptionalAttribute("toolTip", dateField.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", dateField.getAccessibleText());
 		xml.appendOptionalAttribute("buttonId", submitControlId);
 
 		if (date != null) {

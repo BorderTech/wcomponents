@@ -46,7 +46,6 @@ public class WEmailFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:emailField/@readOnly", field);
 		assertXpathNotExists("//ui:emailField/@maxLength", field);
 		assertXpathNotExists("//ui:emailField/@toolTip", field);
-		assertXpathNotExists("//ui:emailField/@accessibleText", field);
 		assertXpathNotExists("//ui:emailField/@size", field);
 		assertXpathNotExists("//ui:emailField/@buttonId", field);
 		assertXpathNotExists("//ui:emailField/@list", field);
@@ -75,10 +74,6 @@ public class WEmailFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(field.getToolTip(), "//ui:emailField/@toolTip", field);
 
-		field.setAccessibleText("accessible");
-		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getAccessibleText(), "//ui:emailField/@accessibleText", field);
-
 		field.setColumns(40);
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo("40", "//ui:emailField/@size", field);
@@ -104,9 +99,6 @@ public class WEmailFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSafeContent(field);
 
 		field.setToolTip(getMaliciousAttribute("ui:emailField"));
-		assertSafeContent(field);
-
-		field.setAccessibleText(getMaliciousAttribute("ui:emailField"));
 		assertSafeContent(field);
 	}
 }

@@ -70,8 +70,6 @@ public class WRadioButtonSubmitOnChangeExample extends WContainer {
 		regionPanel.add(new WHeading(WHeading.SECTION, "Region"));
 		regionPanel.add(regionSelector);
 
-		regionSelector.setAccessibleText("Region");
-
 		add(actMessagePanel);
 		actMessagePanel.add(new WStyledText("Australian Capital Territory",
 				WStyledText.Type.EMPHASISED));

@@ -58,7 +58,6 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:dateField[@readOnly]", dateField);
 		assertXpathNotExists("//ui:dateField[@tabIndex]", dateField);
 		assertXpathNotExists("//ui:dateField[@toolTip]", dateField);
-		assertXpathNotExists("//ui:dateField[@accessibleText]", dateField);
 		assertXpathNotExists("//ui:dateField[@buttonId]", dateField);
 		assertXpathNotExists("//ui:dateField[@date]", dateField);
 		assertXpathNotExists("//ui:dateField[@min]", dateField);
@@ -75,7 +74,6 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		dateField.setMandatory(true);
 		dateField.setReadOnly(true);
 		dateField.setToolTip("TITLE");
-		dateField.setAccessibleText("ALT");
 		dateField.setDefaultSubmitButton(button);
 		dateField.setMinDate(DateUtilities.createDate(01, 02, 2011));
 		dateField.setMaxDate(DateUtilities.createDate(02, 03, 2012));
@@ -94,7 +92,6 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("true", "//ui:dateField/@readOnly", dateField);
 		assertXpathEvaluatesTo("", "//ui:dateField/@tabIndex", dateField);
 		assertXpathEvaluatesTo("TITLE", "//ui:dateField/@toolTip", dateField);
-		assertXpathEvaluatesTo("ALT", "//ui:dateField/@accessibleText", dateField);
 		assertXpathEvaluatesTo(button.getId(), "//ui:dateField/@buttonId", dateField);
 		assertXpathEvaluatesTo("2011-02-01", "//ui:dateField/@min", dateField);
 		assertXpathEvaluatesTo("2012-03-02", "//ui:dateField/@max", dateField);
@@ -106,9 +103,6 @@ public class WDateFieldRenderer_Test extends AbstractWebXmlRendererTestCase {
 		setActiveContext(createUIContext());
 
 		dateField.setToolTip(getMaliciousAttribute("ui:dateField"));
-		assertSafeContent(dateField);
-
-		dateField.setAccessibleText(getMaliciousAttribute("ui:dateField"));
 		assertSafeContent(dateField);
 
 		MockRequest request = new MockRequest();

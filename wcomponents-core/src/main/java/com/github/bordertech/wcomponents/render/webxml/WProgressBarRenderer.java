@@ -36,7 +36,6 @@ final class WProgressBarRenderer extends AbstractWebXmlRenderer {
 		xml.appendAttribute("value", progressBar.getValue());
 		xml.appendAttribute("max", progressBar.getMax());
 		xml.appendOptionalAttribute("toolTip", progressBar.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", progressBar.getAccessibleText());
 
 		ProgressBarType type = progressBar.getProgressBarType();
 		xml.appendOptionalAttribute("type", type == ProgressBarType.NORMAL ? null : "small");

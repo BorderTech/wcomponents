@@ -139,7 +139,6 @@ public class SubordinateBuilderComplexExample extends WContainer {
 		 */
 		private WImage createCardImage(final String cardType) {
 			WImage image = new WImage();
-			image.setAccessibleText(cardType);
 			image.setImage(new TextImage(cardType, new Dimension(50, 30)));
 			return image;
 		}

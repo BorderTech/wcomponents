@@ -49,9 +49,6 @@ public class WMultiTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase
 
 		field.setToolTip(getMaliciousAttribute("ui:multiTextField"));
 		assertSafeContent(field);
-
-		field.setAccessibleText(getMaliciousAttribute("ui:multiTextField"));
-		assertSafeContent(field);
 	}
 
 	@Test
@@ -67,7 +64,6 @@ public class WMultiTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase
 		assertXpathNotExists("//ui:multiTextField/@required", field);
 		assertXpathNotExists("//ui:multiTextField/@readOnly", field);
 		assertXpathNotExists("//ui:multiTextField/@toolTip", field);
-		assertXpathNotExists("//ui:multiTextField/@accessibleText", field);
 		assertXpathNotExists("//ui:multiTextField/@size", field);
 		assertXpathNotExists("//ui:multiTextField/@minLength", field);
 		assertXpathNotExists("//ui:multiTextField/@maxLength", field);
@@ -93,11 +89,6 @@ public class WMultiTextFieldRenderer_Test extends AbstractWebXmlRendererTestCase
 		field.setToolTip("tooltip");
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(field.getToolTip(), "//ui:multiTextField/@toolTip", field);
-
-		field.setAccessibleText("accessible");
-		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getAccessibleText(), "//ui:multiTextField/@accessibleText",
-				field);
 
 		field.setColumns(40);
 		assertSchemaMatch(field);

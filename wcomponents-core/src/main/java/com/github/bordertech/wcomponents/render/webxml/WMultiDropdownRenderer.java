@@ -45,7 +45,6 @@ final class WMultiDropdownRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("submitOnChange", dropdown.isSubmitOnChange(), "true");
 		xml.appendOptionalAttribute("tabIndex", component.hasTabIndex(), tabIndex);
 		xml.appendOptionalAttribute("toolTip", component.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", component.getAccessibleText());
 		xml.appendOptionalAttribute("min", min > 0, min);
 		xml.appendOptionalAttribute("max", max > 0, max);
 

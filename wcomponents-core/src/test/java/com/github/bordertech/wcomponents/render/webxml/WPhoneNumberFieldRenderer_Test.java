@@ -46,7 +46,6 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		assertXpathNotExists("//ui:phoneNumberField/@minLength", field);
 		assertXpathNotExists("//ui:phoneNumberField/@maxLength", field);
 		assertXpathNotExists("//ui:phoneNumberField/@toolTip", field);
-		assertXpathNotExists("//ui:phoneNumberField/@accessibleText", field);
 		assertXpathNotExists("//ui:phoneNumberField/@size", field);
 		assertXpathNotExists("//ui:phoneNumberField/@buttonId", field);
 		assertXpathNotExists("//ui:phoneNumberField/@pattern", field);
@@ -79,11 +78,6 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		field.setToolTip("tooltip");
 		assertSchemaMatch(field);
 		assertXpathEvaluatesTo(field.getToolTip(), "//ui:phoneNumberField/@toolTip", field);
-
-		field.setAccessibleText("accessible");
-		assertSchemaMatch(field);
-		assertXpathEvaluatesTo(field.getAccessibleText(), "//ui:phoneNumberField/@accessibleText",
-				field);
 
 		field.setColumns(40);
 		assertSchemaMatch(field);
@@ -118,9 +112,6 @@ public class WPhoneNumberFieldRenderer_Test extends AbstractWebXmlRendererTestCa
 		assertSafeContent(field);
 
 		field.setToolTip(getMaliciousAttribute("ui:phoneNumberField"));
-		assertSafeContent(field);
-
-		field.setAccessibleText(getMaliciousAttribute("ui:phoneNumberField"));
 		assertSafeContent(field);
 	}
 }

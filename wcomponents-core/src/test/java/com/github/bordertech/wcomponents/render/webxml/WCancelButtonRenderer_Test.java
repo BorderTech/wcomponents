@@ -43,8 +43,5 @@ public class WCancelButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		button.setToolTip(getMaliciousAttribute("ui:button"));
 		assertSafeContent(button);
-
-		button.setAccessibleText(getMaliciousAttribute("ui:button"));
-		assertSafeContent(button);
 	}
 }

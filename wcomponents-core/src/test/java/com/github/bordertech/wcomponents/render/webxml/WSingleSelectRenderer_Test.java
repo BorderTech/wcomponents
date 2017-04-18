@@ -61,7 +61,6 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 	@Test
 	public void testDoPaintOptions() throws IOException, SAXException, XpathException {
 		String tooltip = "test tooltip";
-		String accessible = "test accessible text";
 		int rows = 2;
 
 		WSingleSelect single = new WSingleSelect(new String[]{"a", "b", "c"});
@@ -71,7 +70,6 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 		single.setReadOnly(true);
 		single.setSubmitOnChange(true);
 		single.setToolTip(tooltip);
-		single.setAccessibleText(accessible);
 		single.setRows(rows);
 		assertSchemaMatch(single);
 		assertXpathEvaluatesTo("true", "//ui:listBox/@disabled", single);
@@ -80,7 +78,6 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("true", "//ui:listBox/@readOnly", single);
 		assertXpathEvaluatesTo("true", "//ui:listBox/@submitOnChange", single);
 		assertXpathEvaluatesTo(tooltip, "//ui:listBox/@toolTip", single);
-		assertXpathEvaluatesTo(accessible, "//ui:listBox/@accessibleText", single);
 		assertXpathEvaluatesTo(Integer.toString(rows), "//ui:listBox/@rows", single);
 		assertXpathEvaluatesTo("true", "//ui:listBox/@single", single);
 	}
@@ -161,9 +158,6 @@ public class WSingleSelectRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSafeContent(single);
 
 		single.setToolTip(getMaliciousAttribute("ui:listBox"));
-		assertSafeContent(single);
-
-		single.setAccessibleText(getMaliciousAttribute("ui:listBox"));
 		assertSafeContent(single);
 	}
 

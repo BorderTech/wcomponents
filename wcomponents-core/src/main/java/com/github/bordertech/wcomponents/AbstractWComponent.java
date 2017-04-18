@@ -1623,26 +1623,6 @@ public abstract class AbstractWComponent implements WComponent {
 
 	/**
 	 * {@inheritDoc}
-	 * @deprecated use setToolTip
-	 */
-	@Override
-	public void setAccessibleText(final String text, final Serializable... args) {
-		ComponentModel model = getOrCreateComponentModel();
-		model.setAccessibleText(text, args);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 * @deprecated use getToolTip
-	 */
-	@Override
-	public String getAccessibleText() {
-		ComponentModel model = getComponentModel();
-		return I18nUtilities.format(null, model.getAccessibleText());
-	}
-
-	/**
-	 * {@inheritDoc}
 	 */
 	@Override
 	public void setHtmlClass(final String text, final Serializable... args) {

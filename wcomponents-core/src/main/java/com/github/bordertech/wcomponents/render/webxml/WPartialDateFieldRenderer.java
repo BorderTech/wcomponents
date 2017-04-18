@@ -40,7 +40,6 @@ final class WPartialDateFieldRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("readOnly", dateField.isReadOnly(), "true");
 		xml.appendOptionalAttribute("tabIndex", dateField.hasTabIndex(), dateField.getTabIndex());
 		xml.appendOptionalAttribute("toolTip", dateField.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", dateField.getAccessibleText());
 		xml.appendOptionalAttribute("buttonId", submitControlId);
 		xml.appendOptionalAttribute("date", date);
 

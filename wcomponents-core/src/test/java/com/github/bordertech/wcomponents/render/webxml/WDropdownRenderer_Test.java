@@ -86,7 +86,6 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:dropdown/@readOnly", drop);
 		assertXpathNotExists("//ui:dropdown/@submitOnChange", drop);
 		assertXpathNotExists("//ui:dropdown/@toolTip", drop);
-		assertXpathNotExists("//ui:dropdown/@accessibleText", drop);
 		assertXpathNotExists("//ui:dropdown/@optionWidth", drop);
 		assertXpathNotExists("//ui:dropdown/@type", drop);
 
@@ -113,10 +112,6 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 		drop.setToolTip("tooltip");
 		assertSchemaMatch(drop);
 		assertXpathEvaluatesTo(drop.getToolTip(), "//ui:dropdown/@toolTip", drop);
-
-		drop.setAccessibleText("accessible");
-		assertSchemaMatch(drop);
-		assertXpathEvaluatesTo(drop.getAccessibleText(), "//ui:dropdown/@accessibleText", drop);
 
 		drop.setOptionWidth(20);
 		assertSchemaMatch(drop);
@@ -293,9 +288,6 @@ public class WDropdownRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSafeContent(drop);
 
 		drop.setToolTip(getMaliciousAttribute("ui:dropdown"));
-		assertSafeContent(drop);
-
-		drop.setAccessibleText(getMaliciousAttribute("ui:dropdown"));
 		assertSafeContent(drop);
 	}
 }

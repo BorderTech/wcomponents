@@ -41,12 +41,6 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="accessibleText" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>Text content which provides extra contextual information regarding the heading for users of assistive technologies. Deprecated: do not use;
-						all headings should be self labelling in perceptable content.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
 		</xs:complexType>
 	</xs:element>
 

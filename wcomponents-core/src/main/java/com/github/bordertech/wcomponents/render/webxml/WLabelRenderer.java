@@ -34,7 +34,6 @@ final class WLabelRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("accessKey", Util.upperCase(label.getAccessKeyAsString()));
 		xml.appendOptionalAttribute("hidden", label.isHidden(), "true");
 		xml.appendOptionalAttribute("toolTip", label.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", label.getAccessibleText());
 		xml.appendClose();
 
 		xml.append(label.getText(), label.isEncodeText());

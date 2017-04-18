@@ -23,11 +23,6 @@
 					<xs:documentation>Informational text which may be used to provide extra context for the progress bar. Should be used with caution.</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
-			<xs:attribute name="accessibleText" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>Deprecated: do not use.</xs:documentation>
-				</xs:annotation>
-			</xs:attribute>
 			<xs:attribute name="type">
 				<xs:annotation>
 					<xs:documentation>Indicates the size of the progress bar. If not specified then "normal" is assumed.</xs:documentation>

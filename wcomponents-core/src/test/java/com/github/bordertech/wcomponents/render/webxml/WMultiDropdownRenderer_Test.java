@@ -70,7 +70,6 @@ public class WMultiDropdownRenderer_Test extends AbstractWebXmlRendererTestCase 
 		dropdown.setReadOnly(true);
 		dropdown.setSubmitOnChange(true);
 		dropdown.setToolTip("tool tip");
-		dropdown.setAccessibleText("accessible text");
 		dropdown.setMinSelect(1);
 		dropdown.setMaxSelect(2);
 
@@ -83,7 +82,6 @@ public class WMultiDropdownRenderer_Test extends AbstractWebXmlRendererTestCase 
 		assertXpathEvaluatesTo("true", "//ui:multiDropdown/@readOnly", dropdown);
 		assertXpathEvaluatesTo("true", "//ui:multiDropdown/@submitOnChange", dropdown);
 		assertXpathEvaluatesTo("tool tip", "//ui:multiDropdown/@toolTip", dropdown);
-		assertXpathEvaluatesTo("accessible text", "//ui:multiDropdown/@accessibleText", dropdown);
 		assertXpathEvaluatesTo("1", "//ui:multiDropdown/@min", dropdown);
 		assertXpathEvaluatesTo("2", "//ui:multiDropdown/@max", dropdown);
 	}
@@ -116,9 +114,6 @@ public class WMultiDropdownRenderer_Test extends AbstractWebXmlRendererTestCase 
 		assertSafeContent(drop);
 
 		drop.setToolTip(getMaliciousAttribute("ui:multiDropdown"));
-		assertSafeContent(drop);
-
-		drop.setAccessibleText(getMaliciousAttribute("ui:multiDropdown"));
 		assertSafeContent(drop);
 	}
 

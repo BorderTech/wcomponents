@@ -58,7 +58,6 @@ public class WMultiFileWidgetExample extends WContainer {
 
 		// Multi file upload widgets
 		// smallFiles.setMaxFileSize(1024);
-		allFiles.setAccessibleText("File selector for all files");
 		WPanel dropzone = new WPanel(WPanel.Type.ACTION);
 		dropzone.setTitleText("File Upload");
 		WLabel labelAll = new WLabel("Drop files in here to upload or use selector below", allFiles);
@@ -71,7 +70,6 @@ public class WMultiFileWidgetExample extends WContainer {
 				"A WMultiFileWidget that accepts images of any type and displays thumbnails in two columns"));
 
 		imageFiles.setFileTypes(new String[]{"image/*"});
-		imageFiles.setAccessibleText("File selector for image files");
 		imageFiles.setUseThumbnails(true);
 		imageFiles.setColumns(2);
 		add(imageFiles);
@@ -81,7 +79,6 @@ public class WMultiFileWidgetExample extends WContainer {
 
 		textFiles.setFileTypes(new String[]{".txt"});  // N.B. this one uses an extension instead of a mime type "text/plain"
 		// textFiles.setMaxFileSize(8 * 1024);
-		textFiles.setAccessibleText("File selector for text files");
 		textFiles.setUseThumbnails(true);
 		textFiles.setMaxFiles(1);
 		add(textFiles);
@@ -91,7 +88,6 @@ public class WMultiFileWidgetExample extends WContainer {
 
 		pdfFiles.setFileTypes(new String[]{"application/pdf", "text/html"});
 		pdfFiles.setMaxFileSize(5 * 1024 * 1024);
-		pdfFiles.setAccessibleText("File selector for PDF or HTML files");
 		pdfFiles.setUseThumbnails(true);
 		add(pdfFiles);
 

@@ -43,13 +43,6 @@
 					</xsl:with-param>
 				</xsl:call-template>
 			</xsl:when>
-			<xsl:when test="@accessibleText">
-				<xsl:call-template name="makeTextLegend">
-					<xsl:with-param name="content">
-						<xsl:value-of select="normalize-space(@accessibleText)"/>
-					</xsl:with-param>
-				</xsl:call-template>
-			</xsl:when>
 			<xsl:when test="not(ancestor::ui:ajaxTarget)">
 				<xsl:call-template name="makeTextLegend">
 					<xsl:with-param name="content">

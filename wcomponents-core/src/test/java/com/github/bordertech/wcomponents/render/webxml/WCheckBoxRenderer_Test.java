@@ -93,12 +93,6 @@ public class WCheckBoxRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(wcbTest);
 		assertXpathEvaluatesTo(wcbTest.getToolTip(), "//ui:checkBox/@toolTip", wcbTest);
 
-		// Check accessibleText
-		assertXpathNotExists("//ui:checkBox/@accessibleText", wcbTest);
-		wcbTest.setAccessibleText("WCheckBox_Test.testRenderedFormat.accessibleText");
-		assertSchemaMatch(wcbTest);
-		assertXpathEvaluatesTo(wcbTest.getAccessibleText(), "//ui:checkBox/@accessibleText", wcbTest);
-
 		// Check button id
 		assertXpathNotExists("//ui:checkBox/@buttonId", wcbTest);
 		wcbTest.setDefaultSubmitButton(button);
@@ -113,9 +107,6 @@ public class WCheckBoxRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSafeContent(checkBox);
 
 		checkBox.setToolTip(getMaliciousAttribute());
-		assertSafeContent(checkBox);
-
-		checkBox.setAccessibleText(getMaliciousAttribute());
 		assertSafeContent(checkBox);
 	}
 }

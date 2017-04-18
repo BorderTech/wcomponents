@@ -45,7 +45,6 @@ final class WRadioButtonRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("submitOnChange", button.isSubmitOnChange(), "true");
 		xml.appendOptionalAttribute("tabIndex", component.hasTabIndex(), component.getTabIndex());
 		xml.appendOptionalAttribute("toolTip", button.getToolTip());
-		xml.appendOptionalAttribute("accessibleText", button.getAccessibleText());
 		xml.appendOptionalAttribute("isNull", isNull, "true");
 		xml.appendEnd();
 	}
