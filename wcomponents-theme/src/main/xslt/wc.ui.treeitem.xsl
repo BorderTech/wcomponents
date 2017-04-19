@@ -85,7 +85,7 @@
 					</xsl:attribute>
 					<xsl:call-template name="title"/>
 					<span class="wc_leaf_vopener wc-icon" aria-hidden="true">
-						<xsl:text>&#x0a;</xsl:text>
+						<xsl:text>&#x200b;</xsl:text>
 					</span>
 					<xsl:call-template name="treeitemContent"/>
 				</xsl:when>
@@ -104,7 +104,7 @@
 							<xsl:value-of select="concat(@id, '-branch-name')"/>
 					</xsl:variable>
 					<button class="wc-nobutton wc-invite wc_leaf_vopener wc-icon" aria-hidden="true" type="button" tabindex="-1">
-						<xsl:text>&#x0a;</xsl:text>
+						<xsl:text>&#x200b;</xsl:text>
 					</button>
 					<!-- leave tabindex="0" on this button, it is used as a short-hand to find focusable controls in the core menu JavaScript. -->
 					<button type="button" class="wc-nobutton wc-invite wc_leaf" id="{$nameButtonId}" aria-controls="{@id}" tabindex="0">
@@ -153,12 +153,13 @@
 			<xsl:if test="@imageUrl">
 				<img src="{@imageUrl}" alt=""/>
 			</xsl:if>
+			<xsl:text>&#x200b;</xsl:text>
 		</span>
 		<span class="wc_leaf_name">
 			<xsl:value-of select="@label"/>
 		</span>
 		<span class="wc_leaf_hopener wc-icon" aria-hidden="true">
-			<xsl:text>&#x0a;</xsl:text>
+			<xsl:text>&#x200b;</xsl:text>
 		</span>
 	</xsl:template>
 </xsl:stylesheet>

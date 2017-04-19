@@ -201,5 +201,6 @@ define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has", "wc/dom/rem
 		 * @property {Node|String} source The template source, can be an element or text node which contain the template or a string.
 		 * @property {Node} [target] The element that will be updated with the result of the translation; if not provided then container will be used as the target, if it is a Node.
 		 * @property {Object} [context] The context that will be passed to the compiled template.
+		 * @property {boolean} [removeSrc] Set true to remove the source element from the HTML tree after processing. This will only be honoured if source and target are both defined.
 		 */
 	});
