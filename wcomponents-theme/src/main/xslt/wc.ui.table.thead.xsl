@@ -12,7 +12,7 @@
 			<tr>
 				<xsl:if test="../ui:rowselection">
 					<th class="wc_table_sel_wrapper" scope="col" aria-hidden="true">
-						<xsl:text>&#xa0;</xsl:text>
+						<xsl:text>&#x200b;</xsl:text>
 					</th>
 				</xsl:if>
 				<xsl:if test="../ui:rowexpansion">
@@ -23,7 +23,6 @@
 					</th>
 				</xsl:if>
 				<xsl:apply-templates select="ui:th" mode="thead"/>
-				
 			</tr>
 		</thead>
 	</xsl:template>

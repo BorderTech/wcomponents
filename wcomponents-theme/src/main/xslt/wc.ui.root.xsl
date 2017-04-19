@@ -95,7 +95,6 @@
 					the page level loading indicator.
 				-->
 				<div id="wc-shim" class="wc_shim_loading">
-					<xsl:text>&#xa0;</xsl:text>
 					<noscript>
 						<p>
 							<xsl:text>You must have JavaScript enabled to use this application.</xsl:text>
@@ -103,9 +102,12 @@
 					</noscript>
 				</div>
 				<div id="wc-ui-loading">
-					<div tabindex="0" class="wc-icon">&#x200b;</div>
+					<div tabindex="0" class="wc-icon"></div>
 				</div>
-				<xsl:apply-templates />
+				<div id="wc-root"></div>
+				<script type="text/x-handlebars-template" id="ui:root" hidden="hidden" style="display:none;">
+					<xsl:apply-templates />
+				</script>
 			</body>
 		</html>
 	</xsl:template>
