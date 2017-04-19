@@ -217,7 +217,17 @@
 					try {
 						done = true;
 						if (request.status === 200 && config.callback) {
-							config.callback.call(request, request[config.responseType]);
+							try {
+								config.callback.call(request, request[config.responseType]);
+							}
+							catch (ex) {
+								if (config.onError) {
+									notifyError(request, config.onError);
+								}
+								else {
+									console.error(ex);
+								}
+							}
 						}
 						else if (config.onError) {
 							notifyError(request, config.onError);

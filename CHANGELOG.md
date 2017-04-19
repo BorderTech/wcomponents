@@ -7,6 +7,8 @@
 * Default template render mode to on (previously off). This improves UI performance for most users.
 
 ### Bug Fixes
+* Fixed partial text matches in dropdown typeahead #1164.
+* Improve AJAX error handling when the response "lies" and says it is "200 OK" when it isn't #1163.
 
 ### Enhancements
 
