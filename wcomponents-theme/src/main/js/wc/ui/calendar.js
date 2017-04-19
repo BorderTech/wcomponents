@@ -1,44 +1,3 @@
-/**
- * Provides a calendar based date chooser control for use by WDateFields when a native date control is not available
- * and WPartialDateFields in all cases.
- *
- * @typedef {Object} module:wc/ui/calendar.config() Optional module configuration.
- * @property {?int} min The minimum year to allow in the date picker.
- * @default 1000
- * @property {?int} max The maximum year to allow in the date picker.
- * @default 9999.
- *
- * @module
- * @requires module:wc/dom/attribute
- * @requires module:wc/date/addDays
- * @requires module:wc/date/copy
- * @requires module:wc/date/dayName
- * @requires module:wc/date/daysInMonth
- * @requires module:wc/date/getDifference
- * @requires module:wc/date/monthName
- * @requires module:wc/date/today
- * @requires module:wc/date/interchange
- * @requires module:wc/dom/classList
- * @requires module:wc/dom/event
- * @requires module:wc/dom/focus
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/tag
- * @requires module:wc/dom/viewportCollision
- * @requires module:wc/dom/getBox
- * @requires module:wc/dom/Widget
- * @requires module:wc/i18n/i18n
- * @requires module:wc/loader/resource
- * @requires module:wc/isNumeric
- * @requires module:wc/ui/dateField
- * @requires module:wc/dom/initialise
- * @requires module:wc/timers
- * @requires module:lib/handlebars
- * @requires module:wc/config
- *
- * @see {@link module:wc/ui/datefield}
- *
- * @todo needs a lot of documentation of private members.
- */
 define(["wc/dom/attribute",
 		"wc/date/addDays",
 		"wc/date/copy",
@@ -64,11 +23,9 @@ define(["wc/dom/attribute",
 		"wc/timers",
 		"lib/handlebars/handlebars",
 		"wc/config"],
-
 function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthName, today, interchange, classList, event,
 		focus, shed, tag, viewportCollision, getBox, Widget, i18n, loader, isNumeric, dateField, initialise,
 		timers, handlebars, wcconfig) {
-
 	"use strict";
 
 	/**
@@ -516,6 +473,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 			container = document.createElement("div");
 			container.id = CONTAINER_ID;
+			container.setAtribute("role", "dialog");
 			document.body.appendChild(container);
 			container.innerHTML = calendar;
 			document.getElementById(MONTH_SELECT_ID).selectedIndex = _today.getMonth();
@@ -1161,9 +1119,44 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		this._keydownEventHandler = _calendarKeydownEvent;
 	}
 
-	var /** @alias module:wc/ui/calendar */ instance = new Calendar();
-
 	/**
+	 * Provides a calendar based date chooser control for use by WDateFields when a native date control is not available
+	 * and WPartialDateFields in all cases.
+	 *
+	 * @module
+	 * @requires module:wc/dom/attribute
+	 * @requires module:wc/date/addDays
+	 * @requires module:wc/date/copy
+	 * @requires module:wc/date/dayName
+	 * @requires module:wc/date/daysInMonth
+	 * @requires module:wc/date/getDifference
+	 * @requires module:wc/date/monthName
+	 * @requires module:wc/date/today
+	 * @requires module:wc/date/interchange
+	 * @requires module:wc/dom/classList
+	 * @requires module:wc/dom/event
+	 * @requires module:wc/dom/focus
+	 * @requires module:wc/dom/shed
+	 * @requires module:wc/dom/tag
+	 * @requires module:wc/dom/viewportCollision
+	 * @requires module:wc/dom/getBox
+	 * @requires module:wc/dom/Widget
+	 * @requires module:wc/i18n/i18n
+	 * @requires module:wc/loader/resource
+	 * @requires module:wc/isNumeric
+	 * @requires module:wc/ui/dateField
+	 * @requires module:wc/dom/initialise
+	 * @requires module:wc/timers
+	 * @requires module:lib/handlebars
+	 * @requires module:wc/config
+	 *
+	 * @see {@link module:wc/ui/datefield}
+	 *
+	 * @todo needs a lot of documentation of private members.
+	 */
+	var instance = new Calendar();
+
+	/*
 	 * Registers a handlebars helper that takes a dayname and returns the shortest possible meaningful
 	 * abbreviation for use when building a month-view calendar as each "day of week" column header.
 	 * For example in English this suffices: M, T, W, T, F, S, S (even though S and S are theoretically
@@ -1179,4 +1172,12 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 	initialise.register(instance);
 	return instance;
+
+	/**
+	 * @typedef {Object} module:wc/ui/calendar.config() Optional module configuration.
+	 * @property {?int} min The minimum year to allow in the date picker.
+	 * @default 1000
+	 * @property {?int} max The maximum year to allow in the date picker.
+	 * @default 9999.
+	 */
 });

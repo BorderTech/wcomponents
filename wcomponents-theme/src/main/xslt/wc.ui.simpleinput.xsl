@@ -214,7 +214,17 @@
 	-->
 	<xsl:template match="ui:textarea">
 		<xsl:variable name="tickerId" select="concat(@id,'_tick')"/>
-		<span>
+		<xsl:variable name="element">
+			<xsl:choose>
+				<xsl:when test="ui:rtf">
+					<xsl:text>div</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>span</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
+		<xsl:element name="{$element}">
 			<xsl:call-template name="commonInputWrapperAttributes"/>
 			<textarea>
 				<xsl:call-template name="wrappedTextInputAttributes"/>
@@ -256,7 +266,7 @@
 			<xsl:if test="@maxLength">
 				<output id="{$tickerId}" name="{$tickerId}" for="{@id}_input" hidden="hidden"></output>
 			</xsl:if>
-		</span>
+		</xsl:element>
 	</xsl:template>
 
 	<xsl:template match="ui:rtf"/>
