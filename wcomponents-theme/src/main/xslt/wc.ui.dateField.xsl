@@ -36,6 +36,7 @@
 							<xsl:value-of select="$myLabel/@id"/>
 						</xsl:attribute>
 					</xsl:if>
+					<xsl:call-template name="roComponentName"/>
 					<xsl:choose>
 						<xsl:when test="@date">
 							<xsl:variable name="datetimeattrib">
@@ -150,6 +151,11 @@
 								<xsl:if test="@max">
 									<xsl:attribute name="max">
 										<xsl:value-of select="@max"/>
+									</xsl:attribute>
+								</xsl:if>
+								<xsl:if test="@autocomplete">
+									<xsl:attribute name="autocomplete">
+										<xsl:value-of select="@autocomplete"/>
 									</xsl:attribute>
 								</xsl:if>
 							</xsl:otherwise>

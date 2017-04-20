@@ -31,10 +31,8 @@ define(["wc/dom/initialise", "wc/ui/ajaxRegion", "wc/ui/ajax/processResponse"],
 			 * @param {DocumentFragment} documentFragment The document fragment which will be inserted.
 			 */
 			function ajaxSubscriber(element, documentFragment) {
-				var trigger, allElements, i, len, next, alias, id, url,
-					CONTROLS = "aria-controls",
-					ALIAS = "data-wc-ajaxalias",
-					URL = "data-wc-ajaxurl";
+				var trigger, allElements, i, len, next, id,
+					CONTROLS = "aria-controls";
 
 				if (typeof documentFragment.querySelectorAll !== "undefined") {
 					allElements = documentFragment.querySelectorAll("*");
@@ -47,24 +45,6 @@ define(["wc/dom/initialise", "wc/ui/ajaxRegion", "wc/ui/ajax/processResponse"],
 					id = next.id;
 					if (id && !next.hasAttribute(CONTROLS) && (trigger = ajaxRegion.getTrigger(next, true))) {
 						next.setAttribute(CONTROLS, trigger.loads.join(" "));
-						if ((alias = trigger.alias) && !next.hasAttribute(ALIAS)) {
-							next.setAttribute(ALIAS, alias);
-						}
-						/* debugging only - remove before delivery */
-						/* if (element.id == id) {
-							url = element.getAttribute(URL);
-						}
-						else
-						{
-							var descendant = document.getElementById(id);
-							if (descendant) {
-								url = descendant.getAttribute(URL);
-							}
-						} */
-						/* almost end of debug stuff, remember to remove the ||url from the next line */
-						if ((url = trigger.url/* ||url */) && !next.hasAttribute(URL)) {
-							next.setAttribute(URL, url);
-						}
 					}
 				}
 			}

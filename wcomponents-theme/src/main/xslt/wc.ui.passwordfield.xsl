@@ -1,7 +1,5 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
-	<xsl:import href="wc.common.required.xsl"/>
 	<!--
 		Single line input controls which may be associated with a datalist.
    -->
@@ -56,7 +54,7 @@
 						</xsl:attribute>
 					</xsl:if>
 					<xsl:if test="@minLength">
-						<xsl:attribute name="data-wc-minlength">
+						<xsl:attribute name="minlength">
 							<xsl:value-of select="@minLength"/>
 						</xsl:attribute>
 					</xsl:if>
@@ -65,6 +63,22 @@
 							<xsl:value-of select="@pattern"/>
 						</xsl:attribute>
 					</xsl:if>
+					<!-- #1007 - choose one or the other of these -->
+					<xsl:if test="@autocomplete">
+						<xsl:attribute name="autocomplete">
+							<xsl:value-of select="@autocomplete"/>
+						</xsl:attribute>
+					</xsl:if>
+					<!--<xsl:attribute name="autocomplete">
+						<xsl:choose>
+							<xsl:when test="@autocomplete">
+								<xsl:value-of select="@autocomplete"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:text>off</xsl:text>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>-->
 				</xsl:element>
 				<xsl:call-template name="inlineError">
 					<xsl:with-param name="errors" select="$isError"/>

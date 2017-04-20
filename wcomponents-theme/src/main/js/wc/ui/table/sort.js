@@ -58,6 +58,10 @@ define(["wc/dom/initialise",
 			THEAD.descendFrom(SORTABLE_TABLE, true);
 			SORT_CONTROL.descendFrom(THEAD);
 
+			function getWrapper(element) {
+				return TABLE_WRAPPER.findAncestor(element);
+			}
+
 			/**
 			 * Provides a post insertion subscriber to {@link module:wc/ui/ajax/processResponse} which will
 			 * attempt to refocus the replacement sort control when one of the unsorted sort controls is the ajax
@@ -94,8 +98,6 @@ define(["wc/dom/initialise",
 			 */
 			function toggleEventHelper($event, element) {
 				var target = $event.target,
-					alias,
-					id = element.id,
 					sorted,
 					controlGroup;
 				if ((element === target || (!isEventInLabel(target) && isAcceptableEventTarget(element, target))) && !shed.isDisabled(element)) {
@@ -119,17 +121,7 @@ define(["wc/dom/initialise",
 						element.setAttribute(ARIA_SORT_ATTRIB, "descending");
 					}
 
-					if ((alias = element.getAttribute("data-wc-ajaxalias"))) {
-						ajaxRegion.register({
-							id: id,
-							loads: [alias],
-							alias: alias,
-							oneShot: true,
-							formRegion: alias
-						});
-
-						ajaxRegion.requestLoad(element);
-					}
+					ajaxRegion.requestLoad(element, common.getAjaxDTO(element, true));
 				}
 			}
 
@@ -159,7 +151,7 @@ define(["wc/dom/initialise",
 
 			function writeState(container, stateContainer) {
 				Array.prototype.forEach.call(SORTABLE_TABLE.findDescendants(container), function(next) {
-					var container = TABLE_WRAPPER.findAncestor(next),
+					var container = getWrapper(next),
 						tableId = container.id,
 						sortedColumn;
 

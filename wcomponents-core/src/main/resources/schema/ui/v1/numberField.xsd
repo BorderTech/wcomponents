@@ -2,13 +2,6 @@
 <!--
 
 XML schema for numberField (WNumberField)
-
-WNumberField expects that the POSTed form data contains:
-
-Field name      Type        Mandatory       Value
-==========      ====        =========       =====
-@id             String      yes             value
-
 -->
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0">
@@ -38,36 +31,31 @@ Field name      Type        Mandatory       Value
 				</table>
 			</xs:documentation>
 		</xs:annotation>
-		
+
 		<xs:complexType>
 			<xs:simpleContent>
 				<xs:extension base="xs:string">
 					<xs:attributeGroup ref="ui:submitting.input.attributes"/>
-					
-					<xs:attribute name="size" type="xs:positiveInteger">
-						<xs:annotation>
-							<xs:documentation>The rendered width of the field in units determined by the usr agent but generally at least as large as the same number of digits. This attribute has no bearing on the number of digits which can be entered into the field.</xs:documentation>
-						</xs:annotation>
-					</xs:attribute>
-					
+					<xs:attributeGroup ref="ui:autocomplete.attributes"/>
+
 					<xs:attribute name="min" type="xs:decimal">
 						<xs:annotation>
 							<xs:documentation>The minimum allowed value in the field. Determined by the user agent if not specified and generally in the region of 0 - &lt;largest supported long integer&gt;. Note that if @step is not an integer then @min must also be not an integer.</xs:documentation>
 						</xs:annotation>
 					</xs:attribute>
-					
+
 					<xs:attribute name="max" type="xs:decimal">
 						<xs:annotation>
 							<xs:documentation>The maximum allowed value in the field. Determined by the user agent if not specified and generally in the region of 0 + &lt;largest supported long integer&gt;.</xs:documentation>
 						</xs:annotation>
 					</xs:attribute>
-					
+
 					<xs:attribute name="step" type="xs:decimal">
 						<xs:annotation>
 							<xs:documentation>The increment to apply when the user interacts with the controls spin button nature. Defaults to 1. NOTE: @step may only be a non-integer if @min is a non-integer.</xs:documentation>
 						</xs:annotation>
 					</xs:attribute>
-					
+
 					<xs:attribute name="decimals" type="xs:positiveInteger">
 						<xs:annotation>
 							<xs:documentation>The number of decimal places to show in the number field. If not set defaults to 0 to display integer values. If @step and @min are non-integer values the field may show floats (with an unqualified but user agent determined number of decimal places) if this attribute is not set or set to "0".</xs:documentation>

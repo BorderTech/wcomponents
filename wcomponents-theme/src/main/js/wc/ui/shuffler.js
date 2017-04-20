@@ -66,10 +66,9 @@ define(["wc/dom/event",
 			 * @param {Element} element The button which causes all the fuss.
 			 */
 			function move(element) {
-				var selected, i, container,
+				var selected, i,
 					select = document.getElementById(element.getAttribute("aria-controls")),
-					position = element.value,
-					result = false;
+					position = element.value;
 
 				/*
 				 * Given an option we look up position and move the option accordingly (if possible)
@@ -100,7 +99,6 @@ define(["wc/dom/event",
 							reference = option.previousSibling;
 							if (reference && selected.indexOf(reference) === -1) {  // the test on selected is to prevent a group of consecutive options at the top or bottom fighting each other
 								parent.insertBefore(option, reference);
-								result = true;
 							}
 							break;
 						case DOWN:
@@ -110,25 +108,21 @@ define(["wc/dom/event",
 							if (reference) {
 								if (selected.indexOf(option.nextSibling) === -1 || selected.indexOf(reference) === -1) {
 									parent.insertBefore(option, reference);
-									result = true;
 								}
 							}
 							else if ((reference = option.nextSibling) && selected.indexOf(reference) === -1) {
 								// this will happen if we try to move the penultimate child down
 								parent.appendChild(option);
-								result = true;
 							}
 							break;
 						case TOP:
 							if ((reference = parent.firstChild) && reference !== option) {
 								parent.insertBefore(option, reference);
-								result = true;
 							}
 							break;
 						case BOTTOM:
 							if (option.nextSibling) {
 								parent.appendChild(option);
-								result = true;
 							}
 							break;
 					}
@@ -143,9 +137,6 @@ define(["wc/dom/event",
 					else {
 						selected.forEach(_moveIt);
 					}
-				}
-				if (result && (container = FIELDSET.findAncestor(select)) && container.hasAttribute("data-wc-ajaxalias")) {
-					ajaxRegion.requestLoad(container);
 				}
 			}
 

@@ -102,15 +102,22 @@
 						<xsl:call-template name="disabledElement">
 							<xsl:with-param name="isControl" select="1"/>
 						</xsl:call-template>
-						<xsl:if test="$list">
-							<xsl:attribute name="role">
-								<xsl:text>textbox</xsl:text>
-							</xsl:attribute>
-							<!-- every input that implements combo should have autocomplete turned off -->
-							<xsl:attribute name="autocomplete">
-								<xsl:text>off</xsl:text>
-							</xsl:attribute>
-						</xsl:if>
+						<xsl:choose>
+							<xsl:when test="$list">
+								<xsl:attribute name="role">
+									<xsl:text>textbox</xsl:text>
+								</xsl:attribute>
+								<!-- every input that implements combo should have autocomplete turned off -->
+								<xsl:attribute name="autocomplete">
+									<xsl:text>off</xsl:text>
+								</xsl:attribute>
+							</xsl:when>
+							<xsl:when test="@autocomplete">
+								<xsl:attribute name="autocomplete">
+									<xsl:value-of select="@autocomplete"/>
+								</xsl:attribute>
+							</xsl:when>
+						</xsl:choose>
 						<xsl:if test="@size">
 							<xsl:attribute name="size">
 								<xsl:value-of select="@size"/>
@@ -122,7 +129,7 @@
 							</xsl:attribute>
 						</xsl:if>
 						<xsl:if test="@minLength">
-							<xsl:attribute name="data-wc-minlength">
+							<xsl:attribute name="minlength">
 								<xsl:value-of select="@minLength"/>
 							</xsl:attribute>
 						</xsl:if>

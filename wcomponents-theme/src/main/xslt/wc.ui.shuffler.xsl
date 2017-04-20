@@ -1,11 +1,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.ajax.xsl"/>
-	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.listSortControls.xsl"/>
-	<xsl:import href="wc.common.missingLabel.xsl"/>
-	<xsl:import href="wc.common.title.xsl"/>
-	<xsl:import href="wc.common.makeLegend.xsl"/>
-	<xsl:import href="wc.common.n.className.xsl"/>
+	<xsl:import href="wc.common.readOnly.xsl"/>
 	<!--
 		WShuffler is a component designed to allow a fixed list of options to have their order changed.
 
@@ -34,6 +29,7 @@
 							<xsl:value-of select="$myLabel/@id"/>
 						</xsl:attribute>
 					</xsl:if>
+					<xsl:call-template name="roComponentName"/>
 					<xsl:apply-templates select="ui:option|ui:optgroup" mode="readOnly">
 						<xsl:with-param name="showOptions" select="'all'"/>
 						<xsl:with-param name="single" select="0"/>
@@ -49,7 +45,7 @@
 						<xsl:with-param name="myLabel" select="$myLabel"/>
 					</xsl:call-template>
 					<xsl:variable name="listId" select="concat($id,'_l')"/>
-					<select id="{$listId}" class="wc_shuffler" multiple="multiple">
+					<select id="{$listId}" class="wc_shuffler wc-noajax" multiple="multiple" autocomplete="off">
 						<xsl:call-template name="disabledElement">
 							<xsl:with-param name="isControl" select="1"/>
 						</xsl:call-template>

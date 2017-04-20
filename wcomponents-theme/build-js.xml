@@ -46,11 +46,6 @@
 		<stopwatch name="copySrc" action="start"/>
 		<property name="lib.tmp.src.dir" location="${script.tmp.src.dir}/lib"/>
 		<copy file="${basedir}/node_modules/requirejs/require.js" tofile="${lib.tmp.src.dir}/require.js"/>
-		<copy todir="${lib.tmp.src.dir}" overwrite="true">
-			<fileset dir="${basedir}/node_modules/systemjs/dist">
-				<include name="*.*"/>
-			</fileset>
-		</copy>
 		<copy todir="${lib.tmp.src.dir}/getusermedia-js" overwrite="true">
 			<fileset dir="${basedir}/node_modules/getusermedia-js/dist">
 				<include name="**/*"/>

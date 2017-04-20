@@ -51,6 +51,7 @@ import com.github.bordertech.wcomponents.examples.WMultiFileWidgetAjaxExample;
 import com.github.bordertech.wcomponents.examples.WMultiSelectExample;
 import com.github.bordertech.wcomponents.examples.WNumberFieldExample;
 import com.github.bordertech.wcomponents.examples.WPanelExample;
+import com.github.bordertech.wcomponents.examples.WPasswordFieldExample;
 import com.github.bordertech.wcomponents.examples.WPopupExample;
 import com.github.bordertech.wcomponents.examples.WRadioButtonInRepeater;
 import com.github.bordertech.wcomponents.examples.WRadioButtonTriggerActionExample;
@@ -250,6 +251,7 @@ public final class ExampleData implements Serializable {
 		new ExampleData("Multi-text field", WMultiTextFieldExample.class),
 		new ExampleData("Number Field", WNumberFieldExample.class),
 		new ExampleData("Partial date field", WPartialDateFieldExample.class),
+		new ExampleData("WPasswordField", WPasswordFieldExample.class),
 		new ExampleData("Phone Number Field", WPhoneNumberFieldExample.class),
 		new ExampleData("RadioButton", WRadioButtonExample.class),
 		new ExampleData("RadioButton (action on change)", WRadioButtonTriggerActionExample.class),

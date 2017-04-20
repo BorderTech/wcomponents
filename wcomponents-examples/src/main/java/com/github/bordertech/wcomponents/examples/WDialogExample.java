@@ -22,6 +22,7 @@ import com.github.bordertech.wcomponents.WRadioButtonSelect;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.examples.common.ExplanatoryText;
 import com.github.bordertech.wcomponents.layout.BorderLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
@@ -314,6 +315,25 @@ public class WDialogExample extends WPanel implements MessageContainer {
 
 		add(dateDlg);
 		add(outputPanel);
+
+
+		add(new WHeading(HeadingLevel.H3, "Multi polling ajax inside a dialog"));
+		add(new ExplanatoryText("You really don't want to do this."));
+		WDialog pollingDialog = new WDialog(new MultiPollingExample());
+		pollingDialog.setMode(WDialog.MODAL);
+		WButton openPollingButton = new WButton("Open dialog with multi polling");
+		pollingDialog.setTrigger(openPollingButton);
+		add(openPollingButton);
+		add(pollingDialog);
+
+
+		add(new WHeading(HeadingLevel.H3, "WDialog with disabled launch button"));
+		add(new ExplanatoryText("This is here to test a workaround for an IE 'feature'."));
+		// WDialog with disabled activation button
+		WButton disabledButton = new WButton("Open dialog (disabled)");
+		disabledButton.setDisabled(true);
+		WDialog dialogWithDisabledButton = new WDialog(new ViewPersonList(), disabledButton);
+		add(dialogWithDisabledButton);
 	}
 
 	/**

@@ -69,34 +69,35 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:variable name="containerTag">
-					<xsl:if test="number($readOnly) ne 1">
-						<xsl:text>fieldset</xsl:text>
-					</xsl:if>
-					<xsl:if test="number($readOnly) eq 1">
-						<xsl:text>div</xsl:text>
-					</xsl:if>
+					<xsl:choose>
+						<xsl:when test="number($readOnly) eq 1">
+							<xsl:text>div</xsl:text>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>fieldset</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
 				</xsl:variable>
 				<xsl:element name="{$containerTag}">
 					<xsl:call-template name="commonWrapperAttributes">
 						<xsl:with-param name="isError" select="$isError"/>
 						<xsl:with-param name="myLabel" select="$myLabel"/>
 						<xsl:with-param name="class">
+							<xsl:if test="@ajax">
+								<xsl:text>wc-ajax</xsl:text>
+							</xsl:if>
 							<xsl:if test="number($readOnly) eq 1">
-								<xsl:text>wc_ro</xsl:text>
+								<xsl:text> wc_ro</xsl:text>
 							</xsl:if>
 						</xsl:with-param>
 					</xsl:call-template>
-					<xsl:if test="@ajax">
-						<xsl:attribute name="data-wc-ajaxalias">
-							<xsl:value-of select="@id"/>
-						</xsl:attribute>
-					</xsl:if>
 					<xsl:attribute name="data-wc-cols">
 						<xsl:value-of select="$cols"/>
 					</xsl:attribute>
 					<xsl:choose>
 						<xsl:when test="number($readOnly) eq 1">
 							<xsl:call-template name="title"/>
+							<xsl:call-template name="roComponentName"/>
 						</xsl:when>
 						<xsl:otherwise>
 							<xsl:call-template name="makeLegend">

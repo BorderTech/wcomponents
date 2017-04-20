@@ -23,7 +23,7 @@
 		<xsl:variable name="dialogs" select=".//ui:dialog"/>
 		<xsl:variable name="dataListCombos" select=".//ui:dropdown[@data and @type and not(@readOnly)]|.//ui:suggestions[@data]"/>
 		<xsl:variable name="dataListComponents" select=".//ui:dropdown[@data and not(@type) and not(@readOnly)]|.//ui:listbox[@data and not(@readOnly)]|.//ui:shuffler[@data and not(@readOnly)]"/>
-		<xsl:variable name="filedrops" select=".//ui:fileupload[not(@readOnly)]"/>
+		<xsl:variable name="filedrops" select=".//ui:fileupload[@ajax or @dropzone]"/>
 		<xsl:variable name="multiDDData" select=".//ui:multidropdown[@data and not(@readOnly)]"/>
 		<xsl:variable name="popups" select=".//ui:popup"/>
 		<xsl:variable name="redirects" select=".//ui:redirect"/>

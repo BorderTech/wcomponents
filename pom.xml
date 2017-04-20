@@ -6,7 +6,7 @@
 
 	<groupId>com.github.bordertech.wcomponents</groupId>
 	<artifactId>wcomponents-parent</artifactId>
-	<version>1.2.15-SNAPSHOT</version>
+	<version>1.3.6-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 
@@ -406,6 +406,19 @@
 					<mavenExecutorId>forked-path</mavenExecutorId>
 					<releaseProfiles>release</releaseProfiles>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${surefire.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-junit47</artifactId>
+						<version>${surefire.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 
 		</plugins>

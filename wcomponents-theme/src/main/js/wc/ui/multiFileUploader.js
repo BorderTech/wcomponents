@@ -1,67 +1,68 @@
-/**
- * Provides functionality associated with uploading multiple files using a WMultiFileWidget.
- *
- * @module
- * @requires module:wc/dom/attribute
- * @requires module:wc/loader/prefetch
- * @requires module:wc/dom/event
- * @requires module:wc/dom/initialise
- * @requires module:wc/dom/uid
- * @requires module:wc/ajax/Trigger
- * @requires module:wc/dom/classList
- * @requires external:lib/sprintf
- * @requires module:wc/has
- * @requires module:wc/i18n/i18n
- * @requires module:wc/file/getFileSize
- * @requires module:wc/file/accepted
- * @requires module:wc/dom/Widget
- * @requires module:wc/file/formUpdateManager
- * @requires module:wc/file/filedrop
- * @requires module:wc/ajax/ajax
- * @requires module:wc/xml/xslTransform
- * @requires module:wc/ui/prompt
- * @requires module:wc/dom/focus
- * @requires module:wc/isNumeric
- * @requires module:wc/ui/ajaxRegion
- *
- */
 define(["wc/dom/attribute",
-		"wc/loader/prefetch",
-		"wc/dom/event",
-		"wc/dom/initialise",
-		"wc/dom/uid",
-		"wc/ajax/Trigger",
-		"wc/dom/classList",
-		"lib/sprintf",
-		"wc/has",
-		"wc/i18n/i18n",
-		"wc/file/getFileSize",
-		"wc/file/accepted",
-		"wc/dom/Widget",
-		"wc/dom/formUpdateManager",
-		"wc/file/filedrop",
-		"wc/ajax/ajax",
-		"wc/xml/xslTransform",
-		"wc/ui/prompt",
-		"wc/dom/focus",
-		"wc/isNumeric",
-		"wc/ui/ajaxRegion",
-		"wc/config"],
-	function(attribute, prefetch, event, initialise, uid, Trigger, classList, sprintf, has, i18n, getFileSize,
-			accepted, Widget, formUpdateManager, filedrop, ajax, xslTransform, prompt, focus, isNumeric, ajaxRegion, wcconfig) {
+	"wc/loader/prefetch",
+	"wc/dom/event",
+	"wc/dom/initialise",
+	"wc/dom/uid",
+	"wc/ajax/Trigger",
+	"wc/dom/classList",
+	"lib/sprintf",
+	"wc/has",
+	"wc/i18n/i18n",
+	"wc/file/getFileSize",
+	"wc/file/accepted",
+	"wc/dom/Widget",
+	"wc/dom/formUpdateManager",
+	"wc/file/filedrop",
+	"wc/ajax/ajax",
+	"wc/ui/prompt",
+	"wc/dom/focus",
+	"wc/isNumeric",
+	"wc/ui/ajaxRegion",
+	"wc/config",
+	"wc/dom/toDocFragment"],
+	function (attribute, prefetch, event, initialise, uid, Trigger, classList, sprintf, has, i18n, getFileSize,
+		accepted, Widget, formUpdateManager, filedrop, ajax, prompt, focus, isNumeric, ajaxRegion, wcconfig,
+		toDocFragment) {
 		"use strict";
 
-		var /** @alias module:wc/ui/multiFileUploader */ instance = new MultiFileUploader(),
+		var
+			/**
+			 * Provides functionality associated with uploading multiple files using a WMultiFileWidget.
+			 *
+			 * @module
+			 * @requires module:wc/dom/attribute
+			 * @requires module:wc/loader/prefetch
+			 * @requires module:wc/dom/event
+			 * @requires module:wc/dom/initialise
+			 * @requires module:wc/dom/uid
+			 * @requires module:wc/ajax/Trigger
+			 * @requires module:wc/dom/classList
+			 * @requires external:lib/sprintf
+			 * @requires module:wc/has
+			 * @requires module:wc/i18n/i18n
+			 * @requires module:wc/file/getFileSize
+			 * @requires module:wc/file/accepted
+			 * @requires module:wc/dom/Widget
+			 * @requires module:wc/file/formUpdateManager
+			 * @requires module:wc/file/filedrop
+			 * @requires module:wc/ajax/ajax
+			 * @requires module:wc/ui/prompt
+			 * @requires module:wc/dom/focus
+			 * @requires module:wc/isNumeric
+			 * @requires module:wc/ui/ajaxRegion
+			 * @requires module:wc/config
+			 */
+			instance = new MultiFileUploader(),
 			CLASS_NAME = "wc-fileupload",
-			AJAX_ATTR = "data-wc-ajaxalias",
 			COL_ATTR = "data-wc-cols",
 			MAX_FILES_ATTR = "data-wc-maxfiles",
 			CLASS_NO_BULLET = "wc_list_nb",
 			CLASS_WRAPPER = "wc_files",
 			CLASS_FILE_INFO = "wc-file",
 			CLASS_FILE_LIST = "wc_filelist",
+			CLASS_AJAX_UPLOADER = "wc-ajax",
 			containerWd = new Widget("", CLASS_NAME),
-			inputElementWd = new Widget("INPUT", "", { type: "file" }),
+			inputElementWd = new Widget("INPUT", "", {type: "file"}),
 			fileInfoContainerWd = new Widget("UL", CLASS_FILE_LIST),
 			fileInfoWd = new Widget("LI", CLASS_FILE_INFO),
 			itemActivationWd = new Widget("A"),
@@ -103,7 +104,7 @@ define(["wc/dom/attribute",
 			var INITED_KEY = "wc/ui/multiFileUploader.inited",
 				uploader,
 				ROUND_SIG_FIG = 1,
-				KB = Math.pow(10, 3),  /* NOTE: see IEC 80000-13 a kilo-byte is 1000 bytes, NOT 1024 bytes */
+				KB = Math.pow(10, 3), /* NOTE: see IEC 80000-13 a kilo-byte is 1000 bytes, NOT 1024 bytes */
 				MB = Math.pow(10, 6),
 				GB = Math.pow(10, 9);
 
@@ -129,8 +130,8 @@ define(["wc/dom/attribute",
 			 */
 			function filesChanged(id) {
 				var element = document.getElementById(id);
-				if (element && element.getAttribute(AJAX_ATTR)) {
-					ajaxRegion.requestLoad(element);
+				if (element && ajaxRegion.getTrigger(element, true)) {
+					ajaxRegion.requestLoad(element, null, true);
 				}
 			}
 
@@ -154,14 +155,11 @@ define(["wc/dom/attribute",
 								removeFileItem(fileInfo);
 							}
 						}
-						else if ((container = containerWd.findAncestor(fileInfo)) && container.hasAttribute(AJAX_ATTR)) {
+						else if ((container = containerWd.findAncestor(fileInfo)) && classList.contains(container, CLASS_AJAX_UPLOADER)) {
 							trigger = itemActivationWd.isOneOfMe(element) ? element : itemActivationWd.findAncestor(element);
 							if (trigger) {
 								// trigger.removeAttribute("target");
 								trigger.setAttribute("data-wc-params", "wc_fileid=" + window.encodeURIComponent(fileInfo.id));
-								if (!trigger.hasAttribute(AJAX_ATTR)) {
-									trigger.setAttribute(AJAX_ATTR, container.getAttribute(AJAX_ATTR));
-								}
 								console.log("wc_fileid", fileInfo.id);
 							}
 						}
@@ -229,10 +227,10 @@ define(["wc/dom/attribute",
 			 * @param {File[]} files Binary file data.
 			 * @param {boolean} [suppressEdit] true if image editing should be bypassed regardless of whether it is configured or not.
 			 */
-			this.upload = function(element, files, suppressEdit) {
+			this.upload = function (element, files, suppressEdit) {
 				var input = inputElementWd.isOneOfMe(element) ? element : inputElementWd.findDescendant(element);
 				if (input) {
-					focus.setFocusRequest(input, function() {
+					focus.setFocusRequest(input, function () {
 						/*
 						 * The focus is primarily necesary to bootstrap the file widget.
 						 * This is critical if the file widget is needs to be wired up by
@@ -253,21 +251,24 @@ define(["wc/dom/attribute",
 			function checkDoUpload(element, files, suppressEdit) {
 				var skipEdit, editorId, testObj, maxFileInfo, filesToAdd,
 					useFilesArg = (!element.value && (files && files.length > 0)),
-					done = function(message) {
+					done = function (message) {
 						instance.clearInput(element);
 						if (message) {
 							prompt.alert(message);
 						}
 					};
-				getUploader(function(uploader) { // this wraps the possible async wait for the fauxjax module to load, otherwise clearInput has been called before the upload begins
-					var checkAndUpload = function(files) {
+				getUploader(function (uploader) { // this wraps the possible async wait for the fauxjax module to load, otherwise clearInput has been called before the upload begins
+					var checkAndUpload = function (files) {
 						var message;
 						try {
-							message = checkFileSize(element, testObj);
-							if (!message && !accepted(testObj)) {
-								message = i18n.get("file_wrongtype", element.accept);
+							if ((message = checkFileSize(element, testObj))) {
+								return;
 							}
-							else if (inputElementWd.isOneOfMe(element)) {
+							if (!accepted(testObj)) {
+								message = i18n.get("file_wrongtype", element.accept);
+								return;
+							}
+							if (inputElementWd.isOneOfMe(element)) {
 								commenceUpload({
 									uploader: uploader,
 									element: element,
@@ -287,7 +288,7 @@ define(["wc/dom/attribute",
 							editorId = element.getAttribute("data-wc-editor");
 							skipEdit = suppressEdit || (has("ie") > 0 && has("ie") < 10);
 							if (!skipEdit && editorId) {
-								require(["wc/ui/imageEdit"], function(imageEdit) {
+								require(["wc/ui/imageEdit"], function (imageEdit) {
 									testObj.editorId = editorId;
 									imageEdit.editFiles(testObj, checkAndUpload, done);
 								});
@@ -314,7 +315,7 @@ define(["wc/dom/attribute",
 			function checkFileSize(element, testObj) {
 				var i, message, roundTo, maxFileSizeHR, fileSizeHR, units,
 					maxFileSize = parseInt(element.getAttribute("data-wc-maxfilesize"), 10),
-					fileIsToBig = function(size) {
+					fileIsToBig = function (size) {
 						return maxFileSize < size;
 					},
 					fileSizes = getFileSize(testObj);
@@ -439,7 +440,7 @@ define(["wc/dom/attribute",
 						callback(uploader);
 					}
 					else {
-						require(["wc/file/FauxJax"], function(FauxJax) {
+						require(["wc/file/FauxJax"], function (FauxJax) {
 							uploader = new FauxJax(instance.createFileInfo, getUploadUrl);
 							callback(uploader);
 						});
@@ -470,41 +471,16 @@ define(["wc/dom/attribute",
 				}
 			}
 
-			/**
-			 * Copy the data-wc-ajaxalias attribute from the file container to the link.
-			 * @funciton
-			 * @private
-			 *
-			 * @param {Element} file The content of the returned HTML.
-			 * @param {type} containerId The id of the file container - sent as a data- attribute on the "file".
-			 */
-			function resetAjaxAttribOnActivationLink(file, containerId) {
-				var container = document.getElementById(containerId),
-					link;
-				if (container) {
-					if (container && container.hasAttribute(AJAX_ATTR)) {
-						link = itemActivationWd.findDescendant(file);
-						if (link) {
-							link.setAttribute(AJAX_ATTR, container.getAttribute(AJAX_ATTR));
-						}
-					}
-				}
-			}
-
 			function updateFileInfo(newFile) {
 				var container, containerId, fileId = newFile.getAttribute("id"),
 					oldFile = document.getElementById(fileId);
 				delete inflightXhrs[fileId];
 				if (oldFile) {
-					containerId = newFile.getAttribute("data-wc-containerid");
-					if (containerId) {
-						resetAjaxAttribOnActivationLink(newFile, containerId);
-					}
+
 					oldFile.innerHTML = newFile.innerHTML;
 					// oldFile.parentNode.replaceChild(newFile, oldFile);  // Problems with importing node
 				}
 				else if ((containerId = newFile.getAttribute("data-wc-containerid")) && (container = document.getElementById(containerId))) {
-					resetAjaxAttribOnActivationLink(newFile, containerId);
 					// This is an extreme edge case - if the fileWidget UI has been replaced during upload attempt to recover
 					container.insertAdjacentHTML("beforeend", newFile.outerHTML);
 				}
@@ -590,7 +566,7 @@ define(["wc/dom/attribute",
 					var dropzoneId = input.getAttribute("data-dropzone");
 					if (dropzoneId) {
 						input = null;
-						filedrop.register(dropzoneId, function(type, files) {
+						filedrop.register(dropzoneId, function (type, files) {
 							var className = "wc_dragging";
 							if (type === "drop") {
 								instance.upload(element, files);
@@ -624,17 +600,17 @@ define(["wc/dom/attribute",
 			 * @public
 			 * @param {String[]} idArr An array of mutliFileWidget ids.
 			 */
-			this.register = function(idArr) {
+			this.register = function (idArr) {
 				if (idArr && idArr.length) {
-					initialise.addCallback(function() {
+					initialise.addCallback(function () {
 						processNow(idArr);
 					});
 				}
 			};
 
-			this.writeState = function(form, container) {
+			this.writeState = function (form, container) {
 				var multiFileWidgets = containerWd.findDescendants(form);
-				Array.prototype.forEach.call(multiFileWidgets, function(multiFileWidget) {
+				Array.prototype.forEach.call(multiFileWidgets, function (multiFileWidget) {
 					var i, next, stateField, fileInfos = fileInfoWd.findDescendants(multiFileWidget);
 					for (i = 0; i < fileInfos.length; i++) {
 						next = fileInfos[i];
@@ -650,7 +626,7 @@ define(["wc/dom/attribute",
 			 * @function module:wc/ui/multiFileUpload.initialise
 			 * @param {Element} element The element being initialised - usually document.body.
 			 */
-			this.initialise = function(element) {
+			this.initialise = function (element) {
 				formUpdateManager.subscribe(this);
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, bootStrap, null, null, true);
@@ -669,7 +645,7 @@ define(["wc/dom/attribute",
 			 * @function module:wc/ui/multiFileUpload.getWidget
 			 * @returns {module:wc/dom/Widget} The widget descriptor.
 			 */
-			this.getWidget = function() {
+			this.getWidget = function () {
 				return containerWd;
 			};
 
@@ -680,7 +656,7 @@ define(["wc/dom/attribute",
 			 * @function module:wc/ui/multiFileUpload.getInputWidget
 			 * @returns {module:wc/dom/Widget} The widget descriptor.
 			 */
-			this.getInputWidget = function() {
+			this.getInputWidget = function () {
 				return inputElementWd;
 			};
 
@@ -748,7 +724,7 @@ define(["wc/dom/attribute",
 			 * @param {string} fileName The name of the file being uploaded.
 			 * @returns {string} The ID of the newly created UI widget.
 			 */
-			this.createFileInfo = function(container, fileName) {
+			this.createFileInfo = function (container, fileName) {
 				var id = uid(),
 					removeButton,
 					progress,
@@ -777,9 +753,9 @@ define(["wc/dom/attribute",
 			 * @param {Boolean} input If true test the input element, not the container
 			 * @returns {Boolean} true if element is the Widget type rewuested
 			 */
-			this.isOneOfMe = function(element, input) {
+			this.isOneOfMe = function (element, input) {
 				var result = false;
-				if (element)	{
+				if (element) {
 					if (input) {
 						result = inputElementWd.isOneOfMe(element);
 					}
@@ -819,9 +795,6 @@ define(["wc/dom/attribute",
 				result = element.form.action;
 				console.log("File upload URL not set, attempting to use original form action instead", result);
 			}
-//			qs = urlParser.parse(result);
-//			qs = qs ? qs.search : "";
-//			result += (qs ? "&" : "?") + "wc_ajax=" + element.name;
 			return result;
 		}
 
@@ -830,7 +803,7 @@ define(["wc/dom/attribute",
 		 * @param {string} fileInfoId The ID of the widget tracking the upload in the DOM.
 		 */
 		function progressEventFactory(fileInfoId) {
-			return function(e) {
+			return function (e) {
 				var progress, fileInfo = document.getElementById(fileInfoId);
 				if (e.lengthComputable && fileInfo) {
 					progress = fileInfo.querySelector("progress");
@@ -847,7 +820,7 @@ define(["wc/dom/attribute",
 		 * @param {string} fileInfoId The ID of the widget tracking the upload in the DOM.
 		 */
 		function errorHandlerFactory(fileInfoId) {
-			return function() {
+			return function () {
 				var message, fileInfo = document.getElementById(fileInfoId);
 				delete inflightXhrs[fileInfoId];
 				if (fileInfo) {
@@ -875,15 +848,15 @@ define(["wc/dom/attribute",
 		 * Get an error message for the given response.
 		 * Allows for customized error messages based on HTTP status code by setting a config object like so:
 		 * @example
-			require(["wc/config"], function(wcconfig){
-				wcconfig.set({ messages: {
-						403:"Oh noes! A 403 occurred!",
-						404: "I can't find it!",
-						200: "Some gateway proxies don't know basic HTTP",
-						error: "An error occurred and I have not set a specific message for it!"
-					}
-				},"wc/ui/multiFileUploader");
-			});
+		 require(["wc/config"], function(wcconfig){
+		 wcconfig.set({ messages: {
+		 403:"Oh noes! A 403 occurred!",
+		 404: "I can't find it!",
+		 200: "Some gateway proxies don't know basic HTTP",
+		 error: "An error occurred and I have not set a specific message for it!"
+		 }
+		 },"wc/ui/multiFileUploader");
+		 });
 		 *
 		 * @param {XHR} response An XHR response.
 		 * @returns {string} An error message, in order of preference:
@@ -921,7 +894,7 @@ define(["wc/dom/attribute",
 		 * @param {string} fileInfoId The ID of the widget tracking the upload in the DOM.
 		 */
 		function abortHandlerFactory(fileInfoId) {
-			return function() {
+			return function () {
 				delete inflightXhrs[fileInfoId];
 				console.log("Aborted file upload:", fileInfoId);
 			};
@@ -938,7 +911,7 @@ define(["wc/dom/attribute",
 			/**
 			 * @returns {Number} The total number of uploads in progress.
 			 */
-			this.getUploading = function() {
+			this.getUploading = function () {
 				var progress = progressWd.findDescendants(document.body);
 				return progress ? progress.length : 0;
 			};
@@ -947,7 +920,7 @@ define(["wc/dom/attribute",
 			 * Upload the files reference in the dto.
 			 * @param {module:wc/file/MultiFileUploader~fileInfo} dto
 			 */
-			this.request = function(dto) {
+			this.request = function (dto) {
 				var i, uploadName = dto.element.name, id, file,
 					container = dto.container;
 				try {
@@ -969,7 +942,7 @@ define(["wc/dom/attribute",
 			 * @returns {Function} The callback wrapper.
 			 */
 			function callbackWrapper(dto, fileId) {
-				return function(srcTree) {
+				return function (srcTree) {
 					processResponse({
 						dto: dto,
 						srcTree: srcTree,
@@ -979,13 +952,18 @@ define(["wc/dom/attribute",
 			}
 
 			function processResponse(response, fileId) {
-				var onError = function() {
-					errorHandlerFactory(fileId).call(response.xhr);
-				};
-				xslTransform.transform({ xmlDoc: response.srcTree }).then(function(df) {
-					var dto = response.dto,
-						inflight,
-						container = document.createElement(fileInfoContainerWd.tagName);
+				var onError = function () {
+						errorHandlerFactory(fileId).call(response.xhr);
+					},
+					df = toDocFragment(response.xhr.responseText),
+					dto = response.dto,
+					inflight,
+					container = document.createElement(fileInfoContainerWd.tagName);
+
+				if (df) {
+					if (df.NodeType === Node.DOCUMENT_NODE) {
+						df = df.firstElementChild;
+					}
 					container.appendChild(df);
 					dto.callback(container);
 					inflight = Object.keys(inflightXhrs);
@@ -995,7 +973,7 @@ define(["wc/dom/attribute",
 					if (!container.innerHTML) {
 						onError();
 					}
-				}, onError);
+				}
 			}
 
 			/**
@@ -1011,8 +989,9 @@ define(["wc/dom/attribute",
 					onProgress = progressEventFactory(fileId),
 					onError = errorHandlerFactory(fileId),
 					onAbort = abortHandlerFactory(fileId);
-				formData.append("wc_target", uploadName);
-				formData.append("wc_fileid", fileId);
+				formData.append("wc_ajax", uploadName);
+				formData.append("wc_ajax_int", "x");
+				formData.append("wc_fileuploadid", fileId);
 				/*
 				 * On the line below we specify the file name because some browsers do not support the File constructor.
 				 * In this case the file object is actually a Blob with the same duck type as a File.

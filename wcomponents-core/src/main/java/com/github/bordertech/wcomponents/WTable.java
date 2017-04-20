@@ -88,7 +88,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		 * Indicates that multiple rows may be selected.
 		 */
 		MULTIPLE
-	};
+	}
 
 	/**
 	 * This is used to control how the "select all" function should work.
@@ -106,7 +106,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		 * Indicates that the select all/none function should is displayed as a control (checkbox).
 		 */
 		CONTROL
-	};
+	}
 
 	/**
 	 * This is used to control how row expansion should work.
@@ -128,7 +128,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		 * Indicates that row expansion should make an AJAX call every time.
 		 */
 		DYNAMIC
-	};
+	}
 
 	/**
 	 * This is used to control how pagination should work.
@@ -146,7 +146,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		 * Indicates that pagination occurs via AJAX calls to the server.
 		 */
 		DYNAMIC
-	};
+	}
 
 	/**
 	 * This is used to control where in the table the pagination controls appear.
@@ -168,7 +168,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		 * Indicates that the pagination controls should be placed both at the top and at the bottom of the table.
 		 */
 		BOTH
-	};
+	}
 
 	/**
 	 * This is used to control the type of striping used, if any.
@@ -186,7 +186,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		 * Indicates that zebra striping should be used to highlight columns.
 		 */
 		COLUMNS
-	};
+	}
 
 	/**
 	 * This is used to control the type of striping used, if any.
@@ -208,7 +208,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		 * Indicates that both horizontal and vertical separators should be displayed.
 		 */
 		BOTH
-	};
+	}
 
 	/**
 	 * This is used to control how sorting should work.
@@ -222,7 +222,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		 * Indicates that sorting is via AJAX calls.
 		 */
 		DYNAMIC
-	};
+	}
 
 	/**
 	 * This is used to control how table data should be displayed.
@@ -236,7 +236,7 @@ public class WTable extends WBeanComponent implements Container, AjaxInternalTri
 		 * Indicates that the table should be displayed as a hierarchical list.
 		 */
 		HIERARCHIC
-	};
+	}
 
 	/**
 	 * Prefix used in row ids.

@@ -32,6 +32,11 @@
 						<xsl:value-of select="$ancestorMDD/@data"/>
 					</xsl:attribute>
 				</xsl:if>
+				<xsl:if test="$ancestorMDD/@autocomplete">
+					<xsl:attribute name="autocomplete">
+						<xsl:value-of select="$ancestorMDD/@autocomplete"/>
+					</xsl:attribute>
+				</xsl:if>
 				<xsl:apply-templates select="$ancestorMDD/*" mode="mfcInList">
 					<xsl:with-param name="selectedOption" select="."/>
 					<xsl:with-param name="isSingular" select="$isSingular"/>

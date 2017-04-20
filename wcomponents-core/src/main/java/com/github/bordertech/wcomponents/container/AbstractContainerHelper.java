@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.container;
 import com.github.bordertech.wcomponents.ActionEscape;
 import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.Escape;
+import com.github.bordertech.wcomponents.FatalErrorPage;
 import com.github.bordertech.wcomponents.FatalErrorPageFactory;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.Response;
@@ -20,7 +21,6 @@ import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.Factory;
 import com.github.bordertech.wcomponents.util.SerializationUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
-import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.io.IOException;
 import java.io.PrintWriter;
 import org.apache.commons.logging.Log;
@@ -154,6 +154,10 @@ public abstract class AbstractContainerHelper {
 			}
 
 			UIContextHolder.pushContext(uic);
+
+			// Make sure maps are cleared up
+			uic.clearScratchMap();
+			uic.clearRequestScratchMap();
 
 			prepareRequest();
 
@@ -583,14 +587,14 @@ public abstract class AbstractContainerHelper {
 	 * Last resort error handling.
 	 *
 	 * @param error the error to handle.
-	 * @throws IOException if there is an error writing the error html.
+	 * @throws IOException if there is an error writing the error HTML.
 	 */
 	public void handleError(final Throwable error) throws IOException {
+
 		LOG.debug("Start handleError...");
 
 		// Should the session be removed upon error?
 		boolean terminate = ConfigurationProperties.getTerminateSessionOnError();
-
 		// If we are unfriendly, terminate the session
 		if (terminate) {
 			invalidateSession();
@@ -602,17 +606,10 @@ public abstract class AbstractContainerHelper {
 		FatalErrorPageFactory factory = Factory.newInstance(FatalErrorPageFactory.class);
 		WComponent errorPage = factory.createErrorPage(friendly, error);
 
-		UIContextHolder.pushContext(new UIContextImpl());
-		String html = null;
+		String html = renderErrorPageToHTML(errorPage);
 
-		try {
-			html = WebUtilities.render(new MockRequest(), errorPage);
-		} finally {
-			UIContextHolder.popContext();
-		}
-
+		// Setup the response
 		Response response = getResponse();
-
 		response.setContentType(WebUtilities.CONTENT_TYPE_HTML);
 
 		// Make sure not cached
@@ -623,6 +620,50 @@ public abstract class AbstractContainerHelper {
 		getPrintWriter().println(html);
 
 		LOG.debug("End handleError");
+	}
+
+	/**
+	 * Render the error page component to HTML.
+	 *
+	 * @param errorPage the error page component
+	 * @return the error page as HTML
+	 */
+	protected String renderErrorPageToHTML(final WComponent errorPage) {
+
+		// Check if using the default error page
+		boolean defaultErrorPage = errorPage instanceof FatalErrorPage;
+
+		String html = null;
+
+		// If not default implementation of error page, Transform error page to HTML
+		if (!defaultErrorPage) {
+			// Set UIC and Environment (Needed for Theme Paths)
+			UIContext uic = new UIContextImpl();
+			uic.setEnvironment(createEnvironment());
+			UIContextHolder.pushContext(uic);
+			try {
+				html = WebUtilities.renderWithTransformToHTML(errorPage);
+			} catch (Exception e) {
+				LOG.warn("Could not transform error page.", e);
+			} finally {
+				UIContextHolder.popContext();
+			}
+		}
+
+		// Not transformed. So just render.
+		if (html == null) {
+			UIContextHolder.pushContext(new UIContextImpl());
+			try {
+				html = WebUtilities.render(errorPage);
+			} catch (Exception e) {
+				LOG.warn("Could not render error page.", e);
+				html = "System error occurred but could not render error page.";
+			} finally {
+				UIContextHolder.popContext();
+			}
+		}
+
+		return html;
 	}
 
 	/**

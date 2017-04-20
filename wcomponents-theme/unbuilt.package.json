@@ -24,7 +24,6 @@
 		"properties": "~1.2.1",
 		"requirejs": "~2.2.0",
 		"sprintf-js": "~1.0.3",
-		"systemjs": "~0.19.22",
 		"timezone-js": "~0.4.13",
 		"tinymce": "~4.2.5",
 		"tracking": "~1.1.2"

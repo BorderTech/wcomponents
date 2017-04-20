@@ -174,25 +174,45 @@ public interface UIContext extends Serializable {
 	Set getFwkAttributeNames();
 
 	/**
-	 * Reserved for internal framework use. Retrieves a scratch area, where data can be temporarily stored. WComponents
-	 * must not rely on data being available in the scratch area after each phase.
+	 * Reserved for internal framework use. Retrieves a scratch area with phse scope, where data can be temporarily
+	 * stored. WComponents must not rely on data being available in the scratch area after each phase.
 	 *
 	 * @param component the component to retrieve the scratch map for.
-	 * @return the scratch map for the given component.
+	 * @return the scratch map with phase scope for the given component.
 	 */
 	Map getScratchMap(WComponent component);
 
 	/**
-	 * Reserved for internal framework use. Clears the scratch map for the given component.
+	 * Reserved for internal framework use. Clears the scratch map with phase scope for the given component.
 	 *
 	 * @param component the component to clear the scratch map for.
 	 */
 	void clearScratchMap(WComponent component);
 
 	/**
-	 * Reserved for internal framework use. Clears the scratch map.
+	 * Reserved for internal framework use. Clears the scratch map with phase scope.
 	 */
 	void clearScratchMap();
+
+	/**
+	 * Reserved for internal framework use. Get scratch map with request scope.
+	 *
+	 * @param component the component to retrieve the scratch map for.
+	 * @return the scratch map with request scope
+	 */
+	Map<Object, Object> getRequestScratchMap(WComponent component);
+
+	/**
+	 * Reserved for internal framework use. Clears the scratch map with request scope.
+	 *
+	 * @param component the component to clear the scratch map for.
+	 */
+	void clearRequestScratchMap(WComponent component);
+
+	/**
+	 * Reserved for internal framework use. Clears the scratch map with request scope.
+	 */
+	void clearRequestScratchMap();
 
 	/**
 	 * Returns the creation time of this UIContext, which can be used to approximate the user session creation time.

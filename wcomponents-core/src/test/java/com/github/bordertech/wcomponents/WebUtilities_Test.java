@@ -1,8 +1,10 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.container.TransformXMLTestHelper;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,19 +25,19 @@ import org.junit.Test;
  */
 public class WebUtilities_Test extends AbstractWComponentTestCase {
 
-	private static Configuration originalConfig;
-
 	@BeforeClass
 	public static void setUp() {
-		originalConfig = Config.getInstance();
-		Configuration copyConfig = Config.copyConfiguration(originalConfig);
-		Config.setConfiguration(copyConfig);
+		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
+		TransformXMLTestHelper.reloadTransformer();
 	}
 
+	/**
+	 * When these tests are done put things back as they were.
+	 */
 	@AfterClass
-	public static void tearDown() {
-		// Remove overrides
-		Config.setConfiguration(originalConfig);
+	public static void tearDownClass() {
+		Config.reset();
+		TransformXMLTestHelper.reloadTransformer();
 	}
 
 	@Test
@@ -102,6 +104,20 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 				WComponent.class, root));
 		Assert.assertNull("Incorrect ancestor returned", WebUtilities.getClosestOfClass(
 				WButton.class, dropdown));
+	}
+
+	@Test
+	public void testGetTop() {
+		WContainer root = new WContainer();
+		WTabSet tabs = new WTabSet();
+		WDropdown dropdown = new WDropdown();
+
+		root.add(tabs);
+		tabs.addTab(dropdown, "dropdown tab", WTabSet.TAB_MODE_CLIENT);
+
+		Assert.assertEquals("Incorrect top component returned for child", root, WebUtilities.getTop(dropdown));
+		Assert.assertEquals("Incorrect top component returned for child", root, WebUtilities.getTop(tabs));
+		Assert.assertEquals("Incorrect top component returned for top", root, WebUtilities.getTop(root));
 	}
 
 	// @Test
@@ -641,6 +657,37 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		} catch (Exception e) {
 			throw new IllegalStateException("Could not encode input string [" + input + "].");
 		}
+	public void testRenderWithPlainText() {
+		String msg = "Test error message";
+		WText text = new WText(msg);
+		String output = WebUtilities.render(text);
+		Assert.assertEquals("Invalid output returned", msg, output);
+	}
+
+	@Test
+	public void testRenderWithXML() {
+		WText text = new WText(TransformXMLTestHelper.TEST_XML);
+		text.setEncodeText(false);
+		String output = WebUtilities.render(text);
+		Assert.assertEquals("Invalid output with XML", TransformXMLTestHelper.TEST_XML, output);
+	}
+
+	@Test(expected = SystemException.class)
+	public void testRenderToHtmlWithPlainText() {
+		String msg = "Test error message";
+		WText text = new WText(msg);
+		// Text will fail as it is not valid XML
+		String output = WebUtilities.renderWithTransformToHTML(new MockRequest(), text, false);
+		Assert.assertEquals("Invalid html output returned", msg, output);
+	}
+
+	@Test
+	public void testRenderToHtmlWithXML() {
+		WText text = new WText(TransformXMLTestHelper.TEST_XML);
+		text.setEncodeText(false);
+		// Dont use PageShell as it wraps the XML with ui:root and test xslt does not pass the other tags
+		String output = WebUtilities.renderWithTransformToHTML(new MockRequest(), text, false);
+		Assert.assertEquals("Invalid html output with XML", TransformXMLTestHelper.EXPECTED, output);
 	}
 
 //	/**

@@ -1,8 +1,7 @@
-define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next", "wc/ajax/ajax", "wc/loader/resource", "wc/template"],
-	function(sprintf, toArray, wcconfig, mixin, i18next, ajax, resource, template) {
+define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/ajax", "wc/loader/resource", "wc/template", "wc/has"],
+	function(sprintf, toArray, wcconfig, mixin, ajax, resource, template, has) {
 		"use strict";
-		var DEFAULT_LANG = "en",
-			funcTranslate;
+		var funcTranslate;
 
 		/**
 		 * Manages the loading of i18n "messages" from the relevant i18n "resource bundle".
@@ -20,13 +19,52 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 		 * @requires module:wc/loader/resource
 		 * @requires module:wc/template
 		 */
-		var instance = new I18n();
+		var i18next, instance = new I18n();
+
 		/**
 		 * @constructor
 		 * @alias module:wc/i18n/i18n~I18n
 		 * @private
 		 */
 		function I18n() {
+
+			var GOOG_RE = /^(.+)-x-mtfrom-(.+)$/;
+
+			/**
+			 * The language to use when no preference has been explicitly specified.
+			 * In the unlikely event this ever needs to be changed bear in mind the server
+			 * side i18n also has a similar hardcoded setting.
+			 */
+			this._DEFAULT_LANG = "en";
+
+			/**
+			 * Determine the language of the document.
+			 * @param Element [element] Optionally provide a context element which will take precedence over the documentElement.
+			 * @returns {String} the current document language.
+			 */
+			this._getLang = function(element) {
+				/*
+				 * Handles a special case for Google Tranlate, full details here: https://github.com/BorderTech/wcomponents/issues/994
+				 * Format is: toLang-x-mtfrom-fromLang
+				 */
+				var result, docElement, doc = document, googParsed;
+				if (element) {
+					result = element.lang;
+				}
+				if (!result && doc) {
+					docElement = doc.documentElement;
+					if (docElement) {
+						result = docElement.lang;  // should we consider xml:lang (which takes precedence over lang)?
+					}
+				}
+				if (!result) {
+					result = this._DEFAULT_LANG;
+				}
+				else if ((googParsed = GOOG_RE.exec(result))) {
+					result = googParsed[1];
+				}
+				return result;
+			};
 
 			/**
 			 * Initialize this module.
@@ -36,15 +74,27 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 			 * @param {Function} [callback] Called when initialized.
 			 */
 			this.initialize = function(config, callback) {
-				initI18next(config || {}, function(err, translate) {
-					if (translate) {
-						funcTranslate = translate;
-					}
-					if (err) {
-						console.error(err);
-					}
+				if (!has("ie") || has("ie") > 9) {
+					require(["lib/i18next"], function(engine) {  // Should we prefetch this? Does this make it load too late? Does it NEED to be in the layer?
+						i18next = engine;
+						initI18next(config || {}, function(err, translate) {
+							if (translate) {
+								funcTranslate = translate;
+							}
+							if (err) {
+								console.error(err);
+							}
+							callback();
+						});
+					});
+					// Register the i18n Handlebars helper.
+					template.registerHelper(function(i18n_key) {
+						return instance.get(i18n_key);
+					}, "t", template.PROCESS.SAFE_STRING);
+				}
+				else {
 					callback();
-				});
+				}
 			};
 
 			/**
@@ -94,7 +144,9 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 			 * @return {String} The internationalised version of the input.
 			 */
 			this.t = function() {
-				return i18next.t.apply(i18next, arguments);
+				if (i18next) {
+					return i18next.t.apply(i18next, arguments);
+				}
 			};
 		}
 
@@ -106,36 +158,20 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 		 */
 		function getOptions(i18nConfig) {
 			var basePath = i18nConfig.basePath || resource.getResourceUrl(),
-				currentLanguage = getLang(),
+				currentLanguage = instance._getLang(),
+				cachebuster = resource.getCacheBuster(),
+				nsResource = "{{ns}}/{{lng}}.json" + (cachebuster ? "?" + cachebuster : ""),
 				defaultOptions = {
 					load: "currentOnly",
 					initImmediate: true,
 					lng: currentLanguage,
-					fallbackLng: DEFAULT_LANG,
+					fallbackLng: instance._DEFAULT_LANG,
 					backend: {
-						loadPath: basePath + "{{ns}}/{{lng}}.json"
+						loadPath: basePath + nsResource
 					}
 				},
 				result = mixin(defaultOptions, {});
 			result = mixin(i18nConfig.options, result);
-			return result;
-		}
-
-		/**
-		 * Determine the language of the document.
-		 * @returns {String} the current document language.
-		 */
-		function getLang() {
-			var result, docElement, doc = document;
-			if (doc) {
-				docElement = doc.documentElement;
-				if (docElement) {
-					result = docElement.lang;
-				}
-			}
-			if (!result) {
-				result = DEFAULT_LANG;
-			}
 			return result;
 		}
 
@@ -195,10 +231,6 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "lib/i18next
 			};
 		}
 
-		// Register the i18n Handlebars helper.
-		template.registerHelper(function(i18n_key) {
-			return instance.get(i18n_key);
-		}, "t", template.PROCESS.SAFE_STRING);
 
 		// I18n.call(instance.get);
 		mixin(instance, instance.get);

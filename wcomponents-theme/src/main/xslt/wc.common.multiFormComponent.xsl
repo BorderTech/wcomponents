@@ -53,6 +53,7 @@
 							<xsl:value-of select="$myLabel/@id"/>
 						</xsl:attribute>
 					</xsl:if>
+					<xsl:call-template name="roComponentName"/>
 					<xsl:choose>
 						<xsl:when test="self::ui:multidropdown">
 							<xsl:apply-templates select="ui:option[@selected]|ui:optgroup[ui:option[@selected]]" mode="readOnly">

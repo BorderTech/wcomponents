@@ -1,5 +1,4 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
-	<xsl:import href="wc.common.attributeSets.xsl"/>
 	<xsl:import href="wc.common.readOnly.xsl"/>
 
 	<xsl:template match="ui:numberfield">
@@ -36,6 +35,8 @@
 							to be cancelled once there is something in the autocomplete list, i.e. once you have
 							entered something into that field. So your event listeners are called with a cancelled
 							event but you can find no code that cancels the event - very tricky to track down.
+						
+						TODO: check this in IE 11 and possibly implement autocomplete or move this attribute fix to JavaScript.
 					-->
 					<xsl:attribute name="autocomplete">
 						<xsl:text>off</xsl:text>

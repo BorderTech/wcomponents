@@ -32,26 +32,24 @@ public class WRadioButtonSelectRenderer_Test extends AbstractWebXmlRendererTestC
 		WRadioButtonSelect buttonGroup = new WRadioButtonSelect(new String[]{"a", "b", "c"});
 		assertSchemaMatch(buttonGroup);
 		assertXpathEvaluatesTo("3", "count(//ui:radiobuttonselect/ui:option)", buttonGroup);
-
 		// Check selected
 		assertXpathNotExists("//ui:radiobuttonselect/ui:option[@selected='true']", buttonGroup);
-
 		buttonGroup.setSelected("b");
 		assertSchemaMatch(buttonGroup);
-		assertXpathEvaluatesTo("1", "count(//ui:radiobuttonselect/ui:option[@selected='true'])",
-				buttonGroup);
-		assertXpathEvaluatesTo("b", "//ui:radiobuttonselect/ui:option[@selected='true']",
-				buttonGroup);
+		assertXpathEvaluatesTo("1", "count(//ui:radiobuttonselect/ui:option[@selected='true'])", buttonGroup);
+		assertXpathEvaluatesTo("b", "//ui:radiobuttonselect/ui:option[@selected='true']", buttonGroup);
+	}
 
+	@Test
+	public void testReadOnly() throws IOException, SAXException, XpathException {
+		WRadioButtonSelect buttonGroup = new WRadioButtonSelect(new String[]{"a", "b", "c"});
 		// Check Readonly - only render selected option
 		buttonGroup.setReadOnly(true);
+		buttonGroup.setSelected("b");
 		assertSchemaMatch(buttonGroup);
 		assertXpathEvaluatesTo("true", "//ui:radiobuttonselect/@readOnly", buttonGroup);
-		assertXpathEvaluatesTo("1", "count(//ui:radiobuttonselect/ui:option[@selected='true'])",
-				buttonGroup);
-		assertXpathEvaluatesTo("b", "//ui:radiobuttonselect/ui:option[@selected='true']",
-				buttonGroup);
-
+		assertXpathEvaluatesTo("1", "count(//ui:radiobuttonselect/ui:option[@selected='true'])", buttonGroup);
+		assertXpathEvaluatesTo("b", "//ui:radiobuttonselect/ui:option[@selected='true']", buttonGroup);
 	}
 
 	@Test
@@ -62,7 +60,6 @@ public class WRadioButtonSelectRenderer_Test extends AbstractWebXmlRendererTestC
 		group.setDisabled(true);
 		setFlag(group, ComponentModel.HIDE_FLAG, true);
 		group.setMandatory(true);
-		group.setReadOnly(true);
 		group.setSubmitOnChange(true);
 		group.setToolTip("tip");
 		group.setFrameless(true);
@@ -76,7 +73,6 @@ public class WRadioButtonSelectRenderer_Test extends AbstractWebXmlRendererTestC
 		assertXpathEvaluatesTo("true", "//ui:radiobuttonselect/@disabled", group);
 		assertXpathEvaluatesTo("true", "//ui:radiobuttonselect/@hidden", group);
 		assertXpathEvaluatesTo("true", "//ui:radiobuttonselect/@required", group);
-		assertXpathEvaluatesTo("true", "//ui:radiobuttonselect/@readOnly", group);
 		assertXpathEvaluatesTo("true", "//ui:radiobuttonselect/@submitOnChange", group);
 		assertXpathEvaluatesTo("tip", "//ui:radiobuttonselect/@toolTip", group);
 		assertXpathEvaluatesTo("true", "//ui:radiobuttonselect/@frameless", group);

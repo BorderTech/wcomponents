@@ -52,6 +52,25 @@ public class WCheckBoxSelectRenderer_Test extends AbstractWebXmlRendererTestCase
 		assertXpathEvaluatesTo("b", "//ui:checkboxselect/ui:option[@selected='true']", wcbTest);
 	}
 
+
+	@Test
+	public void testDoPaintReadOnly() throws IOException, SAXException, XpathException {
+		WCheckBoxSelect wcbTest = new WCheckBoxSelect(new String[]{"a", "b", "c"});
+		assertSchemaMatch(wcbTest);
+		setActiveContext(createUIContext());
+		// Check Readonly - only render selected option
+		wcbTest.setReadOnly(true);
+		wcbTest.setSelected(Arrays.asList(new String[]{"b"}));
+
+		assertSchemaMatch(wcbTest);
+		assertXpathEvaluatesTo("true", "//ui:checkboxselect/@readOnly", wcbTest);
+		assertXpathEvaluatesTo("1", "count(//ui:checkboxselect/ui:option)", wcbTest);
+		assertXpathEvaluatesTo("1", "count(//ui:checkboxselect/ui:option[@selected='true'])",
+				wcbTest);
+		assertXpathEvaluatesTo("b", "//ui:checkboxselect/ui:option[@selected='true']", wcbTest);
+	}
+
+
 	@Test
 	public void testDoPaintAllOptions() throws IOException, SAXException, XpathException {
 		WCheckBoxSelect wcbTest = new WCheckBoxSelect(new String[]{"a", "b", "c"});
@@ -60,7 +79,6 @@ public class WCheckBoxSelectRenderer_Test extends AbstractWebXmlRendererTestCase
 		wcbTest.setDisabled(true);
 		setFlag(wcbTest, ComponentModel.HIDE_FLAG, true);
 		wcbTest.setMandatory(true);
-		wcbTest.setReadOnly(true);
 		wcbTest.setSubmitOnChange(true);
 		wcbTest.setToolTip("tool tip");
 		wcbTest.setAccessibleText("accessible text");
@@ -74,7 +92,6 @@ public class WCheckBoxSelectRenderer_Test extends AbstractWebXmlRendererTestCase
 		assertXpathEvaluatesTo("true", "//ui:checkboxselect/@disabled", wcbTest);
 		assertXpathEvaluatesTo("true", "//ui:checkboxselect/@hidden", wcbTest);
 		assertXpathEvaluatesTo("true", "//ui:checkboxselect/@required", wcbTest);
-		assertXpathEvaluatesTo("true", "//ui:checkboxselect/@readOnly", wcbTest);
 		assertXpathEvaluatesTo("true", "//ui:checkboxselect/@submitOnChange", wcbTest);
 		assertXpathEvaluatesTo("tool tip", "//ui:checkboxselect/@toolTip", wcbTest);
 		assertXpathEvaluatesTo("accessible text", "//ui:checkboxselect/@accessibleText", wcbTest);
@@ -95,7 +112,6 @@ public class WCheckBoxSelectRenderer_Test extends AbstractWebXmlRendererTestCase
 		wcbTest.setButtonLayout(WCheckBoxSelect.LAYOUT_STACKED);
 		assertXpathEvaluatesTo("stacked", "//ui:checkboxselect/@layout", wcbTest);
 		assertXpathNotExists("//ui:checkboxselect/@layoutColumnCount", wcbTest);
-
 	}
 
 	@Test(expected = SystemException.class)

@@ -1,18 +1,8 @@
-/**
- * @module
- * @requires module:wc/dom/Widget
- * @requires module:wc/dom/textContent
- * @requires module:wc/dom/shed
- * @requires module:wc/dom/getStyle
- * @requires module:wc/ui/tooltip
- */
 define(["wc/dom/Widget",
 		"wc/dom/textContent",
 		"wc/dom/shed",
-		"wc/dom/getStyle",
 		"wc/ui/tooltip"],
-	/** @param @param Widget @param textContent @param shed @param getStyle @param tooltip @ignore */
-	function(Widget, textContent, shed, getStyle, tooltip) {
+	function(Widget, textContent, shed, tooltip) {
 		"use strict";
 		var HINT;
 
@@ -26,7 +16,7 @@ define(["wc/dom/Widget",
 		 * @returns {Number} NodeFilter.FILTER_ACCEPT if the node is hidden (and can therefore be removed).
 		 */
 		function treeWalkerFilter(element) {
-			if (shed.isDisabled(element) || shed.isHidden(element)) {
+			if (shed.isHidden(element, true)) {
 				return NodeFilter.FILTER_ACCEPT;
 			}
 
@@ -68,7 +58,7 @@ define(["wc/dom/Widget",
 			}
 
 			if (removeHint) { // HINT is never "invisible"
-				HINT = HINT || new Widget("span", "hint");
+				HINT = HINT || new Widget("", "wc-label-hint");
 				while ((removeableChild = HINT.findDescendant(clone))) {
 					removeableChild.parentNode.removeChild(removeableChild);
 				}
@@ -77,6 +67,13 @@ define(["wc/dom/Widget",
 			removeInvisibles(clone);
 			return textContent.get(clone);
 		}
+		/*
+		 * @module
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/dom/textContent
+		 * @requires module:wc/dom/shed
+		 * @requires module:wc/ui/tooltip
+		 */
 		return getVisibleText;
 	});
 

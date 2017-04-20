@@ -149,6 +149,9 @@ define(["wc/dom/classList",
 
 				// Are we opening a dialog?
 				if ((_element = getTrigger(element)) && !isInsideDialog(element.id)) {
+					if (shed.isDisabled(_element)) {
+						return false;
+					}
 					instance.open(_element);
 					return isSubmitElement(_element);
 				}
@@ -302,6 +305,9 @@ define(["wc/dom/classList",
 			 * @param {Event} $event a click event.
 			 */
 			function clickEvent($event) {
+				if ($event.defaultPrevented) {
+					return;
+				}
 				if (activateClick($event.target)) {
 					$event.preventDefault();
 				}

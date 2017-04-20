@@ -1,5 +1,5 @@
-define(["wc/dom/initialise", "wc/ui/modalShim", "wc/timers"],
-	function(initialise, modalShim, timers) {
+define(["wc/dom/initialise", "wc/ui/modalShim", "wc/timers", "wc/has"],
+	function(initialise, modalShim, timers, has) {
 		"use strict";
 
 		/**
@@ -40,6 +40,11 @@ define(["wc/dom/initialise", "wc/ui/modalShim", "wc/timers"],
 			try {
 				Array.prototype.forEach.call(document.getElementsByTagName("form"), function(form) {
 					form.removeAttribute("hidden");
+					if (has("ie") === 8) {
+						require(["wc/fix/inlineBlock_ie8"], function(inlineBlock) {
+							inlineBlock.checkRepaint(form);
+						});
+					}
 				});
 				container = document.getElementById("wc-ui-loading");
 				if (container && container.parentNode) {

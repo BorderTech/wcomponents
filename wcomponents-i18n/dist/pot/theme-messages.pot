@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-29 13:58+1000\n"
+"POT-Creation-Date: 2017-01-27 11:58+1100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1056,6 +1056,14 @@ msgstr ""
 #, java-format
 msgctxt "imgedit_message_val_maxface"
 msgid "The image contains too many faces"
+msgstr ""
+
+#. 
+#: imgedit_noimage
+#, java-format
+msgctxt "imgedit_noimage"
+msgid ""
+"First click the button to capture a snapshot from the live video stream."
 msgstr ""
 
 #. 

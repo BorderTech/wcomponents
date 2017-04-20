@@ -3,22 +3,26 @@ package com.github.bordertech.wcomponents.container;
 import com.github.bordertech.wcomponents.ActionEscape;
 import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.Escape;
+import com.github.bordertech.wcomponents.FatalErrorPage;
+import com.github.bordertech.wcomponents.FatalErrorPageFactory;
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.Response;
 import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WLabel;
+import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.WebComponent;
 import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
+import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import junit.framework.Assert;
-import org.apache.commons.configuration.Configuration;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -31,24 +35,25 @@ import org.junit.Test;
  */
 public class AbstractContainerHelper_Test {
 
-	private static Configuration originalConfig;
-
 	@BeforeClass
 	public static void setUp() {
-		originalConfig = Config.getInstance();
-
-		// Want to test with "emulated clustering"
-		Configuration config = Config.copyConfiguration(originalConfig);
-		config.setProperty(ConfigurationProperties.DEVELOPER_MODE_CLUSTER_EMULATION, "true");
-		config.setProperty(ConfigurationProperties.DEVELOPER_MODE_ERROR_HANDLING, true);
-
-		Config.setConfiguration(config);
+		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
+		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_MODE_CLUSTER_EMULATION, "true");
+		Config.getInstance().setProperty(ConfigurationProperties.DEVELOPER_MODE_ERROR_HANDLING, true);
+		Config.getInstance().setProperty("bordertech.wcomponents.factory.impl.com.github.bordertech.wcomponents.FatalErrorPageFactory",
+				"com.github.bordertech.wcomponents.container.AbstractContainerHelper_Test$MyFatalErrorPageFactory");
+		Config.getInstance().setProperty("bordertech.wcomponents.factory.impl.com.github.bordertech.wcomponents.container.PageShell",
+				"com.github.bordertech.wcomponents.container.AbstractContainerHelper_Test$MyCustomPageShell");
+		TransformXMLTestHelper.reloadTransformer();
 	}
 
+	/**
+	 * When these tests are done put things back as they were.
+	 */
 	@AfterClass
-	public static void tearDown() {
-		// Remove overrides
-		Config.setConfiguration(originalConfig);
+	public static void tearDownClass() {
+		Config.reset();
+		TransformXMLTestHelper.reloadTransformer();
 	}
 
 	@Test
@@ -278,6 +283,24 @@ public class AbstractContainerHelper_Test {
 		Assert.assertTrue("Should be a continuing conversation", helper.isContinuingConversation());
 	}
 
+	@Test
+	public void testHandleErrorDefault() throws IOException {
+		MyContainerHelper helper = new MyContainerHelper();
+		SystemException error = new SystemException("test");
+		helper.handleError(error);
+		String output = helper.stringWriter.toString();
+		Assert.assertTrue("Should contain default error message", output.contains("currently unavailable"));
+	}
+
+	@Test
+	public void testHandleErrorCustom() throws IOException {
+		MyContainerHelper helper = new MyContainerHelper();
+		SystemException error = new SystemException("custom");
+		helper.handleError(error);
+		String output = helper.stringWriter.toString();
+		Assert.assertTrue("Should contain transformed XML", output.contains(TransformXMLTestHelper.EXPECTED));
+	}
+
 	/**
 	 * A trivial implementation of ContainerHelper for testing.
 	 */
@@ -341,7 +364,6 @@ public class AbstractContainerHelper_Test {
 		protected void updateRequest(final Request request) {
 			// NOP
 		}
-
 	}
 
 	/**
@@ -453,6 +475,65 @@ public class AbstractContainerHelper_Test {
 		@Override
 		public void escape() {
 			escapeCalled = true;
+		}
+	}
+
+	/**
+	 * Custom Error Page Factory.
+	 */
+	public static class MyFatalErrorPageFactory implements FatalErrorPageFactory {
+
+		@Override
+		public WComponent createErrorPage(final boolean developerFriendly, final Throwable error) {
+			if (error.getMessage().equals("custom")) {
+				return new MyCustomErrorPage();
+			} else {
+				return new FatalErrorPage(developerFriendly, error);
+			}
+		}
+	}
+
+	/**
+	 * Custom error page.
+	 */
+	public static class MyCustomErrorPage extends WText {
+
+		/**
+		 * Setup custom error page.
+		 */
+		public MyCustomErrorPage() {
+			super(TransformXMLTestHelper.TEST_XML);
+			setEncodeText(false);
+		}
+	}
+
+	/**
+	 * Custom page shell that does not wrap the test component with ui:root as the test xslt does not cater for this.
+	 */
+	public static class MyCustomPageShell implements PageShell {
+
+		@Override
+		public void openDoc(final PrintWriter writer) {
+		}
+
+		@Override
+		public void writeHeader(final PrintWriter writer) {
+		}
+
+		@Override
+		public void writeApplicationHeader(final PrintWriter writer) {
+		}
+
+		@Override
+		public void writeApplicationFooter(final PrintWriter writer) {
+		}
+
+		@Override
+		public void writeFooter(final PrintWriter writer) {
+		}
+
+		@Override
+		public void closeDoc(final PrintWriter writer) {
 		}
 	}
 }

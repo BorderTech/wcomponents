@@ -158,6 +158,7 @@ public abstract class AbstractRequest implements Request {
 	 * @deprecated portal specific
 	 */
 	@Override
+	@Deprecated
 	public void setEvent(final String actionName, final String parameter, final Serializable value) {
 		// default behaviour is to do nothing
 	}
@@ -172,6 +173,7 @@ public abstract class AbstractRequest implements Request {
 	 * @deprecated portal specific
 	 */
 	@Override
+	@Deprecated
 	public void setEvent(final String action, final HashMap<String, Serializable> eventMap) {
 		// default behaviour is to do nothing
 	}

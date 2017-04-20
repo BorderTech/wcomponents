@@ -54,13 +54,18 @@
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="$field/@minLength">
-				<xsl:attribute name="data-wc-minlength">
+				<xsl:attribute name="minlength">
 					<xsl:value-of select="$field/@minLength"/>
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:if test="$field/@placeholder">
 				<xsl:attribute name="placeholder">
 					<xsl:value-of select="$field/@placeholder"/>
+				</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="$field/@autocomplete">
+				<xsl:attribute name="autocomplete">
+					<xsl:value-of select="$field/@autocomplete"/>
 				</xsl:attribute>
 			</xsl:if>
 			<xsl:call-template name="disabledElement">

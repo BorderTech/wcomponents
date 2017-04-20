@@ -69,11 +69,7 @@
 			<xsl:value-of select="concat('baseUrl:&quot;', normalize-space($resourceRoot), $scriptDir, '/&quot;,&#10;')"/>
 			<xsl:value-of select="concat('baseURL:&quot;', normalize-space($resourceRoot), $scriptDir, '/&quot;,&#10;')"/>
 			<xsl:value-of select="concat('urlArgs:&quot;', $cacheBuster, '&quot;&#10;')"/>
-			<xsl:text>};&#10;wcconfig = {"wc/xml/xslTransform": {</xsl:text>
-			<xsl:value-of select="concat('xslEngine:&quot;', system-property('xsl:vendor'), '&quot;,&#10;')"/>
-			<!-- Used for testing purposes -->
-			<xsl:value-of select="concat('xslUrl:&quot;', normalize-space($xslPath), '&quot;')"/>
-			<xsl:text>},&#10;"wc/i18n/i18n": { </xsl:text>
+			<xsl:text>};&#10;wcconfig = {"wc/i18n/i18n": { </xsl:text>
 			<xsl:text>options:{ backend: {</xsl:text>
 			<xsl:value-of select="concat('cachebuster:&quot;', $cacheBuster, '&quot;')"/>
 			<xsl:text>} } },&#10;"wc/loader/resource": {</xsl:text>
@@ -108,14 +104,7 @@
 	}
 	catch(ex){}
 	config.config = wcconfig;
-	if(window.SystemJS) {
-				wcconfig.meta = { "*": { format: "amd", scriptLoad: false } };
-				wcconfig.packages = { ".": { defaultExtension: "js" } };
-				window.SystemJS.pluginFirst = wcconfig.pluginFirst = true;
-				window.SystemJS.defaultJSExtensions = config.defaultJSExtensions = true;
-				window.SystemJS.config(config);
-	}
-	else if(window.requirejs) window.requirejs.config(config);
+	if(window.requirejs) window.requirejs.config(config);
 	else require = config;
 })();</xsl:text>
 		</script>
