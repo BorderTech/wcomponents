@@ -62,7 +62,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:video/@poster", video);
 		assertXpathEvaluatesTo("0", "count(//ui:video/ui:track)", video);
 		assertXpathEvaluatesTo("1", "count(//ui:video/ui:src)", video);
-		assertXpathEvaluatesTo(video.getVideoUrls()[0], "//ui:video/ui:src/@uri", video);
+		assertXpathUrlEvaluatesTo(video.getVideoUrls()[0], "//ui:video/ui:src/@uri", video);
 		assertXpathEvaluatesTo(video.getVideo()[0].getMimeType(), "//ui:video/ui:src/@type", video);
 		assertXpathEvaluatesTo(String.valueOf(mockVideo.getSize().width), "//ui:video/ui:src/@width",
 				video);
@@ -138,7 +138,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 		video.reset();
 
 		video.setPoster(new MockImage());
-		assertXpathEvaluatesTo(video.getPosterUrl(), "//ui:video/@poster", video);
+		assertXpathUrlEvaluatesTo(video.getPosterUrl(), "//ui:video/@poster", video);
 		video.reset();
 
 		MockTrack track = new MockTrack();
@@ -151,7 +151,7 @@ public class WVideoRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("en", "//ui:video/ui:track/@lang", video);
 		assertXpathEvaluatesTo("subtitles", "//ui:video/ui:track/@kind", video);
 		assertXpathEvaluatesTo("trackDesc", "//ui:video/ui:track/@desc", video);
-		assertXpathEvaluatesTo(video.getTrackUrls()[0], "//ui:video/ui:track/@src", video);
+		assertXpathUrlEvaluatesTo(video.getTrackUrls()[0], "//ui:video/ui:track/@src", video);
 		track.setKind(Track.Kind.CAPTIONS);
 		assertXpathEvaluatesTo("captions", "//ui:video/ui:track/@kind", video);
 		track.setKind(Track.Kind.DESCRIPTIONS);

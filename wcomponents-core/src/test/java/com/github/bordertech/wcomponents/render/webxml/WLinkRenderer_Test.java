@@ -20,7 +20,7 @@ import org.xml.sax.SAXException;
 public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 	private static final String TEXT = "WLink_Test.text";
-	private static final String LINK_URL = "http://localhost/WLink_Test.href?a=b&c=d";
+	private static final String LINK_URL = "http://localhost/WLinkTest?a=b&c=d";
 	private static final String IMAGE_URL = "http://localhost/404.jpg";
 	private static final char ACCESS_KEY = 'K';
 	private static final String TITLE = "WLink_Test.title";
@@ -64,12 +64,12 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		link = new WLink(null, LINK_URL);
 		assertSchemaMatch(link);
-		assertXpathEvaluatesTo(LINK_URL, "//ui:link/@url", link);
+		assertXpathUrlEvaluatesTo(LINK_URL, "//ui:link/@url", link);
 
 		link = new WLink(null, LINK_URL);
 		link.setOpenNewWindow(false);
 		assertSchemaMatch(link);
-		assertXpathEvaluatesTo(LINK_URL, "//ui:link/@url", link);
+		assertXpathUrlEvaluatesTo(LINK_URL, "//ui:link/@url", link);
 
 		// Test all attributes at once
 		link = new WLink(TEXT, LINK_URL);
@@ -86,8 +86,8 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(Character.toString(ACCESS_KEY), "//ui:link/@accessKey", link);
 		assertXpathEvaluatesTo(TITLE, "//ui:link/@toolTip", link);
 		assertXpathEvaluatesTo(REL, "//ui:link/@rel", link);
-		assertXpathEvaluatesTo(LINK_URL, "//ui:link/@url", link);
-		assertXpathEvaluatesTo(IMAGE_URL, "//ui:link/@imageUrl", link);
+		assertXpathUrlEvaluatesTo(LINK_URL, "//ui:link/@url", link);
+		assertXpathUrlEvaluatesTo(IMAGE_URL, "//ui:link/@imageUrl", link);
 		assertXpathEvaluatesTo("button", "//ui:link/@type", link);
 		assertXpathEvaluatesTo("e", "//ui:link/@imagePosition", link);
 		assertXpathEvaluatesTo(link.getTargetWindowName(), "//ui:link/ui:windowAttributes/@name",
@@ -106,6 +106,9 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		link.setAccessibleText(getMaliciousAttribute("ui:link"));
 		assertSafeContent(link);
+
+		link.setUrl(getMaliciousAttribute());
+		assertSafeContent(link);
 	}
 
 	@Test
@@ -113,7 +116,7 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WLink link = new WLink.Builder(TEXT, LINK_URL).build();
 		assertSchemaMatch(link);
 		assertXpathEvaluatesTo(TEXT, "normalize-space(//ui:link)", link);
-		assertXpathEvaluatesTo(LINK_URL, "//ui:link/@url", link);
+		assertXpathUrlEvaluatesTo(LINK_URL, "//ui:link/@url", link);
 		assertXpathNotExists("//ui:link/ui:windowAttributes/@top", link);
 		assertXpathNotExists("//ui:link/ui:windowAttributes/@left", link);
 		assertXpathNotExists("//ui:link/ui:windowAttributes/@width", link);
@@ -130,7 +133,7 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(link);
 		assertXpathEvaluatesTo(TEXT, "normalize-space(//ui:link)", link);
-		assertXpathEvaluatesTo(LINK_URL, "//ui:link/@url", link);
+		assertXpathUrlEvaluatesTo(LINK_URL, "//ui:link/@url", link);
 		assertXpathEvaluatesTo(String.valueOf(top), "//ui:link/ui:windowAttributes/@top", link);
 		assertXpathEvaluatesTo(String.valueOf(left), "//ui:link/ui:windowAttributes/@left", link);
 		assertXpathEvaluatesTo(String.valueOf(width), "//ui:link/ui:windowAttributes/@width", link);
@@ -142,7 +145,7 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WLink link = new WLink.Builder(TEXT, LINK_URL).build();
 		assertSchemaMatch(link);
 		assertXpathEvaluatesTo(TEXT, "normalize-space(//ui:link)", link);
-		assertXpathEvaluatesTo(LINK_URL, "//ui:link/@url", link);
+		assertXpathUrlEvaluatesTo(LINK_URL, "//ui:link/@url", link);
 		assertXpathNotExists("//ui:link/ui:windowAttributes/@resizable", link);
 		assertXpathNotExists("//ui:link/ui:windowAttributes/@showMenubar", link);
 		assertXpathNotExists("//ui:link/ui:windowAttributes/@showToolbar", link);
@@ -165,7 +168,7 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(link);
 		assertXpathEvaluatesTo(TEXT, "normalize-space(//ui:link)", link);
-		assertXpathEvaluatesTo(LINK_URL, "//ui:link/@url", link);
+		assertXpathUrlEvaluatesTo(LINK_URL, "//ui:link/@url", link);
 		assertXpathEvaluatesTo("true", "//ui:link/ui:windowAttributes/@resizable", link);
 		assertXpathEvaluatesTo("true", "//ui:link/ui:windowAttributes/@showMenubar", link);
 		assertXpathEvaluatesTo("true", "//ui:link/ui:windowAttributes/@showToolbar", link);
@@ -203,8 +206,6 @@ public class WLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo(target2.getId(), "//ui:ajaxtrigger/ui:ajaxtargetid[2]/@targetId",
 				root);
 	}
-
-
 
 	@Test
 	public void testButtonImageToolTipRender() throws IOException, SAXException, XpathException {

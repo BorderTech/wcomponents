@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.UIContextImpl;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WebComponent;
+import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.UIManager;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.NullWriter;
@@ -163,6 +164,40 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 				+ "<ui:root " + XMLUtil.STANDARD_NAMESPACES + ">"
 				+ xml
 				+ "</ui:root>";
+	}
+
+	/**
+	 * Renders the <code>component</code> to xhtml and asserts that the <code>xpathExpression</code> evaluates to the
+	 * <code>expectedValue</code> for a URL.
+	 *
+	 * @param expectedUrlValue the expected value
+	 * @param xpathExpression the xpath expression
+	 * @param component the component to validate
+	 * @throws IOException if there is an I/O error
+	 * @throws SAXException if there is a parsing error
+	 * @throws XpathException if there is a xpath error
+	 */
+	public void assertXpathUrlEvaluatesTo(final String expectedUrlValue, final String xpathExpression,
+			final WebComponent component) throws SAXException, IOException, XpathException {
+		String xhtml = toWrappedXHtml(component);
+		assertXpathUrlEvaluatesTo(expectedUrlValue, xpathExpression, xhtml);
+	}
+
+	/**
+	 * Asserts that the <code>xpathExpression</code> evaluates to the <code>expectedValue</code> for a URL.
+	 *
+	 * @param expectedUrlValue the expected URL value
+	 * @param xpathExpression the xpath expression
+	 * @param xml the xml to validate
+	 * @throws IOException if there is an I/O error
+	 * @throws SAXException if there is a parsing error
+	 * @throws XpathException if there is a xpath error
+	 */
+	public void assertXpathUrlEvaluatesTo(final String expectedUrlValue, final String xpathExpression,
+			final String xml) throws SAXException, IOException, XpathException {
+		// As XPATH undoes the XML entites, only percentEncode the expected value
+		String encoded = WebUtilities.percentEncodeUrl(expectedUrlValue);
+		XMLAssert.assertXpathEvaluatesTo(encoded, xpathExpression, xml);
 	}
 
 	/**
@@ -443,7 +478,7 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	 * @return some malicious content.
 	 */
 	protected String getMaliciousContent() {
-		return "<script language='javascript'>alert('test');</script>";
+		return "<script language='javascript'>alert('test');</script>{{bad}}";
 	}
 
 	/**
@@ -453,7 +488,7 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	 * @return some malicious content.
 	 */
 	protected String getMaliciousAttribute() {
-		return "\"/><script language='javascript'>alert('test');</script><a name=\"";
+		return "\"/><script language='javascript'>alert('test');</script>{{bad}}<a name=\"";
 	}
 
 	/**
@@ -466,7 +501,7 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	protected String getMaliciousAttribute(final String tagName) {
 		return "\"></"
 				+ tagName
-				+ "><script language='javascript'>alert('test');</script><"
+				+ "><script language='javascript'>alert('test');</script>{{bad}}<"
 				+ tagName
 				+ " dummy=\"";
 	}
@@ -500,6 +535,8 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 
 		assertSchemaMatch(xhtml);
 		Assert.assertTrue("Unsafe content should have been escaped", xhtml.indexOf("<script") == -1);
+		Assert.assertTrue("Unsafe handlebars open bracket should have been escaped", xhtml.indexOf("{{") == -1);
+		Assert.assertTrue("Unsafe handlebars close bracket should have been escaped", xhtml.indexOf("}}") == -1);
 	}
 
 	/**
