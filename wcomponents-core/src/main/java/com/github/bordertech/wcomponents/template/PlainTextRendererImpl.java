@@ -46,6 +46,11 @@ public class PlainTextRendererImpl implements TemplateRenderer {
 	public static final String XML_ENCODE = "encode";
 
 	/**
+	 * Use cache setting (true or false). Overrides global cache setting.
+	 */
+	public static final String USE_CACHE = "USE_CACHE";
+
+	/**
 	 * The logger instance for this class.
 	 */
 	private static final Log LOG = LogFactory.getLog(PlainTextRendererImpl.class);
@@ -67,9 +72,13 @@ public class PlainTextRendererImpl implements TemplateRenderer {
 		String cacheKey = templateName + "-" + xmlEncode;
 		InputStream stream = null;
 
+		// Caching
+		Object value = options.get(USE_CACHE);
+		boolean cache = (isCaching() && value == null) || (value != null && "true".equalsIgnoreCase(value.toString()));
+
 		try {
 			String output = null;
-			if (isCaching()) {
+			if (cache) {
 				output = getCache().get(cacheKey);
 			}
 			if (output == null) {
@@ -81,7 +90,7 @@ public class PlainTextRendererImpl implements TemplateRenderer {
 				if (xmlEncode) {
 					output = WebUtilities.encode(output);
 				}
-				if (isCaching()) {
+				if (cache) {
 					getCache().put(cacheKey, output);
 				}
 			}

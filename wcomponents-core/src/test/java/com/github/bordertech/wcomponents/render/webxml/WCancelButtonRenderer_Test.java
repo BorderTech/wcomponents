@@ -46,5 +46,8 @@ public class WCancelButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		button.setAccessibleText(getMaliciousAttribute("ui:button"));
 		assertSafeContent(button);
+
+		button.setImageUrl(getMaliciousAttribute());
+		assertSafeContent(button);
 	}
 }

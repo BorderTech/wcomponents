@@ -9,7 +9,6 @@ import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.EscapingStrategy;
 import com.github.jknack.handlebars.Handlebars;
-//import com.github.jknack.handlebars.MarkdownHelper;
 import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.cache.TemplateCache;
 import com.github.jknack.handlebars.context.JavaBeanValueResolver;
@@ -41,12 +40,17 @@ import org.apache.commons.logging.LogFactory;
 public class HandlebarsRendererImpl implements TemplateRenderer {
 
 	/**
-	 * Pretty print option.
+	 * Use cache setting (true or false). Overrides global cache setting.
+	 */
+	public static final String USE_CACHE = "USE_CACHE";
+
+	/**
+	 * Pretty print option (true or false).
 	 */
 	public static final String PRETTY_PRINT = "PRETTY_PRINT";
 
 	/**
-	 * Markdown option.
+	 * Markdown option (true or false).
 	 */
 	public static final String MARKDOWN = "MARKDOWN";
 
@@ -174,11 +178,9 @@ public class HandlebarsRendererImpl implements TemplateRenderer {
 			handlebars.registerHelper("md", new MarkdownHelper());
 		}*/
 		// Caching
-		if (isCaching()) {
-			handlebars.with(CACHE);
-		}
-
-		if (isCaching()) {
+		value = options.get(USE_CACHE);
+		boolean cache = (isCaching() && value == null) || (value != null && "true".equalsIgnoreCase(value.toString()));
+		if (cache) {
 			handlebars.with(CACHE);
 		}
 

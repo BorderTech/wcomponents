@@ -108,4 +108,18 @@ public class WMenuRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("4", "//ui:menu/ui:margin/@west", menu);
 	}
 
+	@Test
+	public void testXssEscaping() throws IOException, SAXException, XpathException {
+		WMenu menu = new WMenu();
+		menu.add(new WMenuItem("test"));
+		
+		assertSafeContent(menu);
+
+		menu.setToolTip(getMaliciousAttribute());
+		assertSafeContent(menu);
+
+		menu.setAccessibleText(getMaliciousAttribute());
+		assertSafeContent(menu);
+	}
+
 }

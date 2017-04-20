@@ -155,4 +155,31 @@
 		Do not put a HTML form inside any ui:application.
 	-->
 	<xsl:template match="html:form" />
+
+	<xsl:template match="html:script[not(@src)]|html:style">
+		<xsl:variable name="scriptcontent">
+			<xsl:value-of select="normalize-space(text())"/>
+		</xsl:variable>
+		<xsl:if test="$scriptcontent != ''">
+			<xsl:variable name="element">
+				<xsl:choose>
+					<xsl:when test="self::html:script">script</xsl:when>
+					<xsl:otherwise>style</xsl:otherwise>
+				</xsl:choose>
+			</xsl:variable>
+			<xsl:element name="{$element}">
+				<xsl:if test="not(@type)">
+					<xsl:attribute name="type">
+						<xsl:text>text/</xsl:text>
+						<xsl:choose>
+							<xsl:when test="self::html:script">javascript</xsl:when>
+							<xsl:otherwise>css</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+				</xsl:if>
+				<xsl:apply-templates select="@*"/>
+				<xsl:value-of select="$scriptcontent" disable-output-escaping="yes"/>
+			</xsl:element>
+		</xsl:if>
+	</xsl:template>
 </xsl:stylesheet>

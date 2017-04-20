@@ -97,7 +97,7 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("true", "//ui:button/@disabled", button);
 		assertXpathEvaluatesTo("true", "//ui:button/@hidden", button);
 		assertXpathEvaluatesTo(button.getToolTip(), "//ui:button/@toolTip", button);
-		assertXpathEvaluatesTo(button.getImageUrl(), "//ui:button/@imageUrl", button);
+		assertXpathUrlEvaluatesTo(button.getImageUrl(), "//ui:button/@imageUrl", button);
 		assertXpathEvaluatesTo("e", "//ui:button/@imagePosition", button);
 		assertXpathEvaluatesTo(button.getAccessKeyAsString(), "//ui:button/@accessKey", button);
 		assertXpathEvaluatesTo("true", "//ui:button/@popup", button);
@@ -127,6 +127,9 @@ public class WButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSafeContent(button);
 
 		button.setAccessibleText(getMaliciousAttribute("ui:button"));
+		assertSafeContent(button);
+
+		button.setImageUrl(getMaliciousAttribute());
 		assertSafeContent(button);
 	}
 
