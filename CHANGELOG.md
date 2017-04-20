@@ -5,8 +5,18 @@
 ### API Changes
 
 ### Bug Fixes
+* Fixed partial text matches in select element typeahead #1164.
+* WMultiFileWidget better handles when the response "lies" and says it is "200 OK" when it isn't #1163.
+* Fixed double request for images by wrapping initial render in a script element and using Handlebars on that element
+  #1158.
 
 ### Enhancements
+
+##  Release 1.3.7
+
+### Bug Fixes
+
+* Fixed wcomponents-example-lde standalone runtime properties issue. #1005.
 
 ##  Release 1.3.6
 

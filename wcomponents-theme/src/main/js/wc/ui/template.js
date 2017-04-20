@@ -1,4 +1,4 @@
-require(["wc/template", "wc/dom/initialise"], function (template, initialise) {
+require(["wc/template", "wc/dom/initialise", "wc/dom/removeElement"], function (template, initialise, removeElement) {
 	/*
 	 * This module exists because QC158400.
 	 */
@@ -9,6 +9,14 @@ require(["wc/template", "wc/dom/initialise"], function (template, initialise) {
 		 * @public
 		 */
 		preInit: function () {
+			var templateSrc = document.getElementById("ui:root"),
+				templateTarget;
+			if (templateSrc) {
+				templateTarget = document.getElementById("wc-root");
+				template.process({ source: templateSrc, target: templateTarget, removeSrc: true });
+				removeElement(templateSrc);
+				return;
+			}
 			Array.prototype.forEach.call(document.getElementsByTagName("form"), function (form) {
 				template.process({ source: form });
 			});

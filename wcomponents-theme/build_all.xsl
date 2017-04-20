@@ -145,11 +145,8 @@
 	<xsl:template match="concat">
 		<x:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml"
 					  version="2.0" exclude-result-prefixes="xsl ui html doc">
-			<x:output encoding="UTF-8" indent="no" method="html" doctype-system="about:legacy-compat" omit-xml-declaration="yes" />
+			<x:output encoding="UTF-8" indent="no" method="xhtml" doctype-system="about:legacy-compat" omit-xml-declaration="yes" media-type="text/html" />
 			<x:strip-space elements="*" />
-			<xsl:comment>
-				<xsl:value-of select="system-property('xsl:vendor')" />
-			</xsl:comment>
 			<xsl:apply-templates select=".//xsl:param[parent::xsl:stylesheet]" />
 			<xsl:apply-templates select=".//xsl:key[parent::xsl:stylesheet]" />
 			<xsl:apply-templates select=".//xsl:variable[parent::xsl:stylesheet]" />
