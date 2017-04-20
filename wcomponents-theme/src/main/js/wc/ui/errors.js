@@ -2,15 +2,27 @@ define(["wc/dom/initialise",
 	"wc/dom/Widget",
 	"wc/array/toArray",
 	"wc/dom/tag",
-	"wc/ui/getFirstLabelForElement"],
-	function(initialise, Widget, toArray, tag, getFirstLabelForElement) {
+	"wc/ui/getFirstLabelForElement",
+	"wc/dom/wrappedInput"],
+	function(initialise, Widget, toArray, tag, getFirstLabelForElement, wrappedInput) {
 		"use strict";
-		var instance = new ErrorWriter();
 		/**
 		 * This module knows how to provide feedback to the user about error states and invalid input.
 		 * Note: I have removed the dependency on handlebars to increase this chance this module can continue to
 		 * operate in error conditions for example the network cable being unplugged.
+		 * @module
+		 * @requires module:wc/dom/initialise
+		 * @requires module:wc/dom/Widget
+		 * @requires module:wc/array/toArray
+		 * @requires module:wc/dom/tag
+		 * @requires module:wc/ui/getFirstLabelForElement
+		 * @requires module:wc/dom/wrappedInput
+		 */
+		var instance = new ErrorWriter();
+		/**
 		 * @constructor
+		 * @alias module:wc/ui/errors~ErrorWriter
+		 * @private
 		 */
 		function ErrorWriter() {
 			var ERROR_BOX = new Widget("section", "wc-validationerrors"),
@@ -27,30 +39,21 @@ define(["wc/dom/initialise",
 				},
 				ERROR_TEMPLATE = function(args) {
 					return "<span class=\"wc-error\">" + args.error + "</span>";
-				},
-				INPUT_WRAPPER,
-				INPUT;
+				};
 
 			ERROR.descendFrom(ERROR_BOX);
 			LINK.descendFrom(ERROR);
 
+			/**
+			 * Mark an invalid component as aria-invalid.
+			 * @param {Element} target the component to mark
+			 */
 			function markInvalid(target) {
-				var tagName,
-					invalidElement;
-				if (!target && (tagName = target.tagName)) {
+				var invalidElement;
+				if (!target && target.tagName) {
 					return;
 				}
-				INPUT_WRAPPER = INPUT_WRAPPER || new Widget("", "wc-input-wrapper");
-				if (~writeOutsideThese.indexOf(tagName)) {
-					invalidElement = target;
-				}
-				else if (INPUT_WRAPPER.isOneOfMe(target)) {
-					INPUT = INPUT || new Widget("input");
-					invalidElement = INPUT.findDescendant(target);
-				}
-				else {
-					invalidElement = target;
-				}
+				invalidElement =  wrappedInput.getInput(target) || target;
 				if (invalidElement) {
 					invalidElement.setAttribute("aria-invalid", "true");
 					invalidElement.setAttribute("aria-describedby", target.id + "_err");
@@ -59,6 +62,8 @@ define(["wc/dom/initialise",
 
 			/**
 			 * Get all validation error boxes from a container element.
+			 * @function
+			 * @private
 			 * @param {Element} [container] the target container defaults to document.body
 			 * @returns {Array} an array of error boxes, usually there should only be one.
 			 */
@@ -70,6 +75,13 @@ define(["wc/dom/initialise",
 				return toArray(ERROR_BOX.findDescendants(_container));
 			}
 
+			/**
+			 * Get all WValidationErrors errors in a container.
+			 * @function
+			 * @private
+			 * @param {Element} container the container to test
+			 * @returns {Array} an array of error `a` elements or an empty array if none found
+			 */
 			function getAllErrors(container) {
 				var errorBoxes = getErrorBoxes(container),
 					candidates = [];
@@ -80,6 +92,10 @@ define(["wc/dom/initialise",
 				return candidates;
 			}
 
+			/**
+			 * Flag a component with an error message and put it into an invalid state..
+			 * @param {module:wc/ui/errors.flagDto} args a config dto
+			 */
 			this.flagError = function(args) {
 				var props,
 					target,
@@ -118,6 +134,11 @@ define(["wc/dom/initialise",
 					tagName = target.tagName;
 					if (tagName === tag.INPUT && (target.type === "radio" || target.type === "checkbox")) {
 						target = getFirstLabelForElement(target) || target;
+						writeWhere = writeWhere || "beforeEnd";
+					}
+					else if (wrappedInput.isOneOfMe(target)) {
+						target = wrappedInput.getWrapper(target) || target;
+						writeWhere = "afterEnd";
 					}
 					if (!writeWhere) {
 						writeWhere = ~writeOutsideThese.indexOf(target.tagName) ? "afterEnd" : "beforeEnd";
@@ -156,7 +177,20 @@ define(["wc/dom/initialise",
 			initialise.addCallback(function(element) {
 				writeErrors(element);
 			});
+
+			/**
+			 * Public for testing.
+			 * @ignore
+			 */
+			this._writeErrors = writeErrors;
 		}
 
 		return instance;
+
+		/**
+		 * @typedef {Object} module:wc/ui/errors.flagDto The properties used to describe a custom error message.
+		 * @property {String} message The message to display.
+		 * @property {Element} element The element which is to be flagged with the error message.
+		 * @property {String} [position=afterEnd] The position for the message as a `insertAdjacentHTML` position.
+		 */
 	});
