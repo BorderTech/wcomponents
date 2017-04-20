@@ -43,7 +43,7 @@ public class WInternalLinkRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		assertSchemaMatch(link);
 		assertXpathEvaluatesTo(link.getId(), "//ui:link/@id", link);
-		assertXpathEvaluatesTo("#" + refer.getId(), "//ui:link/@url", link);
+		assertXpathUrlEvaluatesTo("#" + refer.getId(), "//ui:link/@url", link);
 		assertXpathEvaluatesTo(linkText, "//ui:link", link);
 		assertXpathNotExists("//ui:link/@type", link);
 		assertXpathNotExists("//ui:link/@toolTip", link);

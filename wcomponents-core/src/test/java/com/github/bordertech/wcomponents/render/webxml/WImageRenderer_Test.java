@@ -96,5 +96,9 @@ public class WImageRenderer_Test extends AbstractWebXmlRendererTestCase {
 		setActiveContext(createUIContext());
 		image.setImage(content);
 		assertSafeContent(image);
+
+		image.setImageUrl(getMaliciousAttribute());
+		assertSafeContent(image);
+
 	}
 }

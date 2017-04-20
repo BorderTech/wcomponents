@@ -58,13 +58,13 @@ final class WContentRenderer extends AbstractWebXmlRenderer {
 			case DISPLAY_INLINE:
 			case PROMPT_TO_SAVE:
 				xml.appendTagOpen("ui:redirect");
-				xml.appendAttribute("url", content.getUrl());
+				xml.appendUrlAttribute("url", content.getUrl());
 				xml.appendEnd();
 				break;
 
 			case OPEN_NEW_WINDOW:
 				xml.appendTagOpen("ui:popup");
-				xml.appendAttribute("url", content.getUrl());
+				xml.appendUrlAttribute("url", content.getUrl());
 				xml.appendAttribute("width", content.getWidth().replaceAll("px", ""));
 				xml.appendAttribute("height", content.getHeight().replaceAll("px", ""));
 				xml.appendOptionalAttribute("resizable", content.isResizable(), "true");

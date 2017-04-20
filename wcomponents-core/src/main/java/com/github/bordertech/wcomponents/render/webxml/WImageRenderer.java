@@ -48,7 +48,7 @@ final class WImageRenderer extends AbstractWebXmlRenderer {
 		xml.appendAttribute("id", imageComponent.getId());
 		xml.appendOptionalAttribute("class", imageComponent.getHtmlClass());
 		xml.appendOptionalAttribute("track", imageComponent.isTracking(), "true");
-		xml.appendAttribute("src", imageComponent.getTargetUrl());
+		xml.appendUrlAttribute("src", imageComponent.getTargetUrl());
 		xml.appendAttribute("alt", alternativeText);
 		xml.appendOptionalAttribute("hidden", imageComponent.isHidden(), "true");
 
@@ -75,12 +75,12 @@ final class WImageRenderer extends AbstractWebXmlRenderer {
 	public void doRender(final WComponent component, final WebXmlRenderContext renderContext) {
 		WImage imageComponent = (WImage) component;
 		XmlStringBuilder xml = renderContext.getWriter();
-		
+
 		// No image set
 		if (imageComponent.getImage() == null && imageComponent.getImageUrl() == null) {
 			return;
 		}
-		
+
 		renderTagOpen(imageComponent, xml);
 		xml.appendEnd();
 	}
