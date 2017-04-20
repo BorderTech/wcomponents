@@ -6,12 +6,15 @@ import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.servlet.ServletRequest;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.template.HandlebarsRendererImpl;
 import com.github.bordertech.wcomponents.template.TemplateRenderer;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -23,6 +26,17 @@ public class TemplateRenderInterceptor extends InterceptorComponent {
 	 * Template engine.
 	 */
 	private static final TemplateRenderer TEMPLATE_RENDERER = TemplateRendererFactory.newInstance(TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+
+	/**
+	 * No CACHE option.
+	 */
+	private static final Map<String, Object> OPTIONS;
+
+	static {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put(HandlebarsRendererImpl.USE_CACHE, "false");
+		OPTIONS = Collections.unmodifiableMap(map);
+	}
 
 	private boolean doRender = false;
 
@@ -70,6 +84,6 @@ public class TemplateRenderInterceptor extends InterceptorComponent {
 		PrintWriter writer = webRenderContext.getWriter();
 
 		// Transform handlebars
-		TEMPLATE_RENDERER.renderInline(outputBuffer.toString(), Collections.EMPTY_MAP, Collections.EMPTY_MAP, writer, Collections.EMPTY_MAP);
+		TEMPLATE_RENDERER.renderInline(outputBuffer.toString(), Collections.EMPTY_MAP, Collections.EMPTY_MAP, writer, OPTIONS);
 	}
 }

@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import junit.framework.Assert;
-import org.apache.commons.configuration.Configuration;
 import org.apache.commons.httpclient.util.URIUtil;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -657,6 +656,8 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		} catch (Exception e) {
 			throw new IllegalStateException("Could not encode input string [" + input + "].");
 		}
+	}
+
 	public void testRenderWithPlainText() {
 		String msg = "Test error message";
 		WText text = new WText(msg);
