@@ -4,9 +4,11 @@
 
 ### API Changes
 
-* Default template render mode to on (previously off). This improves UI performance for most users.
+* Default template render mode to on (previously off). This improves UI performance for most users. #1158.
 
 ### Bug Fixes
+
+* Fixed position of server-generated error messages for simple WInputs #1161.
 * Fixed partial text matches in dropdown typeahead #1164.
 * Improve AJAX error handling when the response "lies" and says it is "200 OK" when it isn't #1163.
 
@@ -16,7 +18,7 @@
 
 ### Bug Fixes
 
-* Fixed a flaw which could result in images inside links getting the incrrect URL under some conditions #1150.
+* Fixed a flaw which could result in images inside links getting the incorrect URL under some conditions #1150.
 * Fixed a flaw which could result in a WSubMenu being stuck open when a not-submitting WMenuItem is clicked #1137.
 * Fixed an accessibility flaw which could result in AT attempting to read icons #1136.
 * Fixed a JavaScript flaw which could result in unhandled events on buttons in some conditions #1135.
