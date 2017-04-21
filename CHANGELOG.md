@@ -9,6 +9,7 @@
 * WMultiFileWidget better handles when the response "lies" and says it is "200 OK" when it isn't #1163.
 * Fixed double request for images by wrapping initial render in a script element and using Handlebars on that element
   #1158.
+* Fixed Handlebars bracket escaping in user input, Handlebars no caching option and URL percent encoding #1158.
 
 ### Enhancements
 
