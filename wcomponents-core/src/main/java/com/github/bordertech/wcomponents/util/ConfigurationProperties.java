@@ -910,9 +910,11 @@ public final class ConfigurationProperties {
 	/**
 	 * @return The render mode, can be either "on", "off" or "sniff". "on" means the render will occur. "off" means the
 	 * render will not occur. "sniff" means the render will occur based on user agent.
+	 * @Deprecated no longer used.
 	 */
+	@Deprecated
 	public static String getTemplateRenderingMode() {
-		return get().getString(TEMPLATE_RENDERING_MODE, "off");
+		return "on";
 	}
 
 	/**

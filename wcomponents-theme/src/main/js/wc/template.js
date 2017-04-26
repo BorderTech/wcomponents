@@ -76,12 +76,18 @@ define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has", "wc/dom/rem
 				if (!has("ie") || has("ie") > 9) {
 					if (params && params.source) {
 						processContainer(params.source, params.target, params.context);
+						if (params.removeSrc) {
+							removeElement(params.source);
+						}
+						return;
 					}
-					else if (document.body) {
+					if (document.body) {
 						processContainer(document.body);
 					}
+					return;
 				}
-				else if (params && params.source && params.target && params.removeSrc) {
+
+				if (params && params.source && params.target && params.removeSrc) {
 					// We may end up with the whole page inside a script element.
 					var content = source.innerHTML;
 					removeElement(params.source); // remove first otherwise double elements and duplicate IDs
