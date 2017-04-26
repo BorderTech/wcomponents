@@ -44,12 +44,12 @@ public class HandlebarsRendererImpl implements TemplateRenderer {
 	public static final String USE_CACHE = "USE_CACHE";
 
 	/**
-	 * Pretty print option.
+	 * Pretty print option (true or false).
 	 */
 	public static final String PRETTY_PRINT = "PRETTY_PRINT";
 
 	/**
-	 * Markdown option.
+	 * Markdown option (true or false).
 	 */
 	public static final String MARKDOWN = "MARKDOWN";
 
@@ -177,7 +177,9 @@ public class HandlebarsRendererImpl implements TemplateRenderer {
 			handlebars.registerHelper("md", new MarkdownHelper());
 		}*/
 		// Caching
-		if (isCaching()) {
+		value = options.get(USE_CACHE);
+		boolean cache = (isCaching() && value == null) || (value != null && "true".equalsIgnoreCase(value.toString()));
+		if (cache) {
 			handlebars.with(CACHE);
 		}
 

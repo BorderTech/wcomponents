@@ -193,6 +193,47 @@ public final class XmlStringBuilder extends PrintWriter {
 	// === end formatting routines ===
 	/**
 	 * <p>
+	 * Adds an xml URL attribute name+value pair to the end of this XmlStringBuilder. All attribute values are URL
+	 * encoded to prevent malformed XML and XSS attacks.
+	 * </p>
+	 * <p>
+	 * If the value is null an empty string "" is output.
+	 * </p>
+	 * <p>
+	 * Eg. name="value"
+	 * </p>
+	 *
+	 * @param name the name of the attribute to be added.
+	 * @param value the URL value of the attribute to be added.
+	 */
+	public void appendUrlAttribute(final String name, final String value) {
+		write(' ');
+		write(name);
+		write("=\"");
+		if (value != null) {
+			write(WebUtilities.encodeUrl(value));
+		}
+		write('"');
+	}
+
+	/**
+	 * <p>
+	 * If the value is not null, add an xml attribute name+value pair to the end of this XmlStringBuilder
+	 * <p>
+	 * Eg. name="value"
+	 * </p>
+	 *
+	 * @param name the name of the attribute to be added.
+	 * @param value the value of the attribute.
+	 */
+	public void appendOptionalUrlAttribute(final String name, final String value) {
+		if (value != null) {
+			appendUrlAttribute(name, value);
+		}
+	}
+
+	/**
+	 * <p>
 	 * Adds an xml attribute name+value pair to the end of this XmlStringBuilder. All attribute values are escaped to
 	 * prevent malformed XML and XSS attacks.
 	 * </p>

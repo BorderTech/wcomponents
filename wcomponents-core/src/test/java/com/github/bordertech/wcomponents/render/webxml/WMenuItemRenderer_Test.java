@@ -66,7 +66,7 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WMenu wrapped = wrapMenuItem(item);
 		assertSchemaMatch(wrapped);
 		assertXpathEvaluatesTo(itemText, "normalize-space(//ui:menuitem/ui:decoratedlabel)", item);
-		assertXpathEvaluatesTo(url, "//ui:menuitem/@url", item);
+		assertXpathUrlEvaluatesTo(url, "//ui:menuitem/@url", item);
 		assertXpathNotExists("//ui:menuitem/@submit", item);
 	}
 
@@ -197,6 +197,24 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathEvaluatesTo("true", "//ui:menuitem/@selected", item);
 	}
 
+	@Test
+	public void testXssEscaping() throws IOException, SAXException, XpathException {
+		WMenu menu = new WMenu();
+		WMenuItem item = new WMenuItem(getMaliciousAttribute());
+		menu.add(item);
+
+		assertSafeContent(menu);
+
+		item.setToolTip(getMaliciousAttribute());
+		assertSafeContent(menu);
+
+		item.setAccessibleText(getMaliciousAttribute());
+		assertSafeContent(menu);
+
+		item.setUrl(getMaliciousAttribute());
+		assertSafeContent(menu);
+	}
+
 	/**
 	 * Menu items can not be used stand-alone, so we must test them through a WMenu.
 	 *
@@ -208,4 +226,5 @@ public class WMenuItemRenderer_Test extends AbstractWebXmlRendererTestCase {
 		menu.add(item);
 		return menu;
 	}
+
 }

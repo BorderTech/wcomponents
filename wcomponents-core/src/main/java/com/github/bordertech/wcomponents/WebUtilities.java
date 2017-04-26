@@ -18,6 +18,8 @@ import java.net.URLConnection;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
+import org.apache.commons.httpclient.URI;
+import org.apache.commons.httpclient.util.URIUtil;
 
 /**
  * WComponent and HTML related utility methods.
@@ -181,6 +183,43 @@ public final class WebUtilities {
 	}
 
 	/**
+	 * Encode URL for XML.
+	 *
+	 * @param urlStr the URL to escape
+	 * @return the URL percent encoded
+	 */
+	public static String encodeUrl(final String urlStr) {
+		if (Util.empty(urlStr)) {
+			return urlStr;
+		}
+		// Percent Encode
+		String percentEncode = percentEncodeUrl(urlStr);
+		// XML Enocde
+		return encode(percentEncode);
+	}
+
+	/**
+	 * Percent encode a URL to include in HTML.
+	 *
+	 * @param urlStr the URL to escape
+	 * @return the URL percent encoded
+	 */
+	public static String percentEncodeUrl(final String urlStr) {
+		if (Util.empty(urlStr)) {
+			return urlStr;
+		}
+
+		try {
+			// Avoid double encoding
+			String decode = URIUtil.decode(urlStr);
+			URI uri = new URI(decode, false);
+			return uri.getEscapedURIReference();
+		} catch (Exception e) {
+			return urlStr;
+		}
+	}
+
+	/**
 	 * Escapes the given string to make it presentable in a URL. This follows RFC 3986, with some extensions for UTF-8.
 	 *
 	 * @param input the String to escape.
@@ -247,6 +286,14 @@ public final class WebUtilities {
 				buffer.append(AMP_ESCAPE);
 			} else if (c == '"') {
 				buffer.append(QUOT_ESCAPE);
+			} else if (c == '{') {
+				buffer.append("&#123;");
+			} else if (c == '}') {
+				buffer.append("&#125;");
+//			} else if (c == '{') {
+//				buffer.append(AMP_ESCAPE).append("&#35;").append("123;");
+//			} else if (c == '}') {
+//				buffer.append(AMP_ESCAPE).append("&#35;").append("125;");
 			} else if (c >= 32 || c == '\n' || c == '\r' || c == '\t') {
 				// All other unicode characters can be sent as is, with the
 				// exception of control codes, which are illegal
@@ -289,10 +336,12 @@ public final class WebUtilities {
 			return encoded;
 		}
 
-		String decoded = encoded.replaceAll(LT_ESCAPE, "<")
-				.replaceAll(GT_ESCAPE, ">")
-				.replaceAll(AMP_ESCAPE, "&")
-				.replaceAll(QUOT_ESCAPE, "\"");
+		String decoded = encoded.replace(LT_ESCAPE, "<")
+				.replace(GT_ESCAPE, ">")
+				.replace(AMP_ESCAPE, "&")
+				.replace(QUOT_ESCAPE, "\"")
+				.replace("&#123;", "{")
+				.replace("&#125;", "}");
 
 		return decoded;
 	}

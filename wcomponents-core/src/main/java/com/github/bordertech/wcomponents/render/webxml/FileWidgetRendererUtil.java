@@ -39,11 +39,11 @@ public final class FileWidgetRendererUtil {
 		// Link to file
 		xml.appendTagOpen("ui:link");
 		xml.appendAttribute("id", widget.getId() + "-" + idx);
-		xml.appendAttribute("url", widget.getFileUrl(file.getFileId()));
+		xml.appendUrlAttribute("url", widget.getFileUrl(file.getFileId()));
 
 		// Thumb nail (if used)
 		if (widget.isUseThumbnails()) {
-			xml.appendAttribute("imageUrl", widget.getFileThumbnailUrl(file.getFileId()));
+			xml.appendUrlAttribute("imageUrl", widget.getFileThumbnailUrl(file.getFileId()));
 			// Position (if provided)
 			ImagePosition thumbnailPosition = widget.getThumbnailPosition();
 			if (thumbnailPosition != null) {

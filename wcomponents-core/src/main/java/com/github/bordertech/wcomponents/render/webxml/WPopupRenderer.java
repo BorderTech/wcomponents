@@ -30,7 +30,7 @@ final class WPopupRenderer extends AbstractWebXmlRenderer {
 		String targetWindow = popup.getTargetWindow();
 
 		xml.appendTagOpen("ui:popup");
-		xml.appendAttribute("url", popup.getUrl());
+		xml.appendUrlAttribute("url", popup.getUrl());
 		xml.appendOptionalAttribute("width", width > 0, width);
 		xml.appendOptionalAttribute("height", height > 0, height);
 		xml.appendOptionalAttribute("resizable", popup.isResizable(), "true");
