@@ -1,5 +1,5 @@
-define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/ajax", "wc/loader/resource", "wc/template", "wc/has"],
-	function(sprintf, toArray, wcconfig, mixin, ajax, resource, template, has) {
+define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/ajax", "wc/loader/resource", "wc/has"],
+	function(sprintf, toArray, wcconfig, mixin, ajax, resource, has) {
 		"use strict";
 		var funcTranslate;
 
@@ -87,10 +87,6 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 							callback();
 						});
 					});
-					// Register the i18n Handlebars helper.
-					template.registerHelper(function(i18n_key) {
-						return instance.get(i18n_key);
-					}, "t", template.PROCESS.SAFE_STRING);
 				}
 				else {
 					callback();

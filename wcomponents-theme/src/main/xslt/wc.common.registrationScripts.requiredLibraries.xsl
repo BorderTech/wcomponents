@@ -135,11 +135,6 @@
 			<xsl:if test=".//ui:session">
 				<xsl:text>"wc/ui/timeoutWarn",</xsl:text>
 			</xsl:if>
-			<xsl:if test=".//@required or .//ui:messagebox or .//ui:validationerrors or .//ui:multiselectpair or .//ui:shuffler or
-				.//ui:checkbox[@readOnly] or .//ui:radiobutton[@readOnly] or .//ui:collapsibletoggle or .//ui:selecttoggle or .//ui:table or
-				.//ui:multifileupload or .//ui:multidropdown or .//ui:multitextfield or .//ui:tree">
-				<xsl:text>"wc/ui/template",</xsl:text>
-			</xsl:if>
 			<xsl:if test=".//*[@submitOnChange and not(@readOnly)]">
 				<xsl:text>"wc/ui/onchangeSubmit",</xsl:text>
 			</xsl:if>
