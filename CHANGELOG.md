@@ -4,6 +4,15 @@
 
 ### API Changes
 
+### Bug Fixes
+
+
+### Enhancements
+
+## Release 1.3.10
+
+### API Changes
+
 * Removed property used to control template render mode and deprecated
   `com.github.bordertech.wcomponents.util.ConfigurationProperties.getTemplateRenderingMode()` #1158.
 
