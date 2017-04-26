@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
+import com.github.bordertech.wcomponents.template.HandlebarsRendererImpl;
 import com.github.bordertech.wcomponents.template.TemplateRenderer;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 import java.io.PrintWriter;
@@ -22,12 +23,15 @@ public class TemplateRenderInterceptor extends InterceptorComponent {
 	 */
 	private static final TemplateRenderer TEMPLATE_RENDERER = TemplateRendererFactory.newInstance(TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 
-	private static final Map<String, Object> CONTEXT;
+	/**
+	 * No CACHE option.
+	 */
+	private static final Map<String, Object> OPTIONS;
 
 	static {
-		Map<String, Object> tmpContext = new HashMap<>();
-		tmpContext.put("rendered", "server");
-		CONTEXT = Collections.unmodifiableMap(tmpContext);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put(HandlebarsRendererImpl.USE_CACHE, "false");
+		OPTIONS = Collections.unmodifiableMap(map);
 	}
 
 	/**
@@ -48,6 +52,6 @@ public class TemplateRenderInterceptor extends InterceptorComponent {
 		PrintWriter writer = webRenderContext.getWriter();
 
 		// Transform handlebars
-		TEMPLATE_RENDERER.renderInline(outputBuffer.toString(), CONTEXT, Collections.EMPTY_MAP, writer, Collections.EMPTY_MAP);
+		TEMPLATE_RENDERER.renderInline(outputBuffer.toString(), Collections.EMPTY_MAP, Collections.EMPTY_MAP, writer, OPTIONS);
 	}
 }
