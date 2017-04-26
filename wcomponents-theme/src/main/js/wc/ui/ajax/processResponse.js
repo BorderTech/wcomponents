@@ -2,9 +2,8 @@ define(["wc/Observer",
 		"wc/dom/tag",
 		"wc/dom/toDocFragment",
 		"wc/dom/Widget",
-		"wc/timers",
-		"wc/template"],
-	function(Observer, tag, toDocFragment, Widget, timers, template) {
+		"wc/timers"],
+	function(Observer, tag, toDocFragment, Widget, timers) {
 		"use strict";
 		/**
 		 * @constructor
@@ -155,7 +154,6 @@ define(["wc/Observer",
 									action = next.getAttribute("data-action");
 									content = document.createDocumentFragment();
 									while (next.firstChild) {
-										template.process({ source: next.firstChild });
 										content.appendChild(next.firstChild);
 									}
 									insertPayloadIntoDom(element, content, action, trigger, false);
@@ -519,7 +517,6 @@ define(["wc/Observer",
 		 * @requires module:wc/dom/tag
 		 * @requires module:wc/dom/toDocFragment
 		 * @requires module:wc/dom/Widget
-		 * @requires module:wc/template
 		 *
 		 * @todo re-order code, document private memebers.
 		 */

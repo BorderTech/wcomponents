@@ -88,7 +88,6 @@ public class PlainLauncher_Test {
 		// random port
 		Config.getInstance().setProperty(ConfigurationProperties.LDE_SERVER_PORT, "0");
 		Config.getInstance().setProperty(ConfigurationProperties.WHITESPACE_FILTER, "false");
-		Config.getInstance().setProperty(ConfigurationProperties.TEMPLATE_RENDERING_MODE, "off");
 
 		launcher = new PlainLauncher();
 		launcher.run();

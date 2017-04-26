@@ -29,7 +29,7 @@ final class WImageEditorRenderer extends AbstractWebXmlRenderer {
 		xml.appendTagOpen("wc-imageedit");
 		xml.appendAttribute("id", editorComponent.getId());
 		xml.appendOptionalAttribute("class", editorComponent.getHtmlClass());
-		xml.appendOptionalAttribute("overlay", editorComponent.getOverlayUrl());
+		xml.appendOptionalUrlAttribute("overlay", editorComponent.getOverlayUrl());
 		xml.appendOptionalAttribute("camera", editorComponent.getUseCamera());
 		xml.appendOptionalAttribute("face", editorComponent.getIsFace());
 

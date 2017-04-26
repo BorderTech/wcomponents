@@ -4,10 +4,13 @@
 
 ### API Changes
 
-* Default template render mode to on (previously off). This improves UI performance for most users. #1158.
+* Removed property used to control template render mode and deprecated
+  `com.github.bordertech.wcomponents.util.ConfigurationProperties.getTemplateRenderingMode()` #1158.
 
 ### Bug Fixes
 
+* Fixed Handlebars brace escaping in user input, Handlebars no caching option and URL percent encoding #1158.
+* Prevented double request for images during internationalisation #1158.
 * Fixed position of server-generated error messages for simple WInputs #1161.
 * Fixed partial text matches in dropdown typeahead #1164.
 * Improve AJAX error handling when the response "lies" and says it is "200 OK" when it isn't #1163.

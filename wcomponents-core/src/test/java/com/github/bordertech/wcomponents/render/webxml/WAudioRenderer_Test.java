@@ -37,7 +37,7 @@ public class WAudioRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		// Test with minimal options
 		audio = new WAudio(mockAudio);
-		audio.setCacheKey("x"); // so that the URIs are consistent
+		audio.setCacheKey("x{}<>"); // so that the URIs are consistent
 		setActiveContext(createUIContext());
 
 		assertSchemaMatch(audio);
@@ -54,7 +54,7 @@ public class WAudioRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertXpathNotExists("//ui:audio/@tooltip", audio);
 		assertXpathNotExists("//ui:audio/@duration", audio);
 		assertXpathEvaluatesTo("1", "count(//ui:audio/ui:src)", audio);
-		assertXpathEvaluatesTo(audio.getAudioUrls()[0], "//ui:audio/ui:src/@uri", audio);
+		assertXpathUrlEvaluatesTo(audio.getAudioUrls()[0], "//ui:audio/ui:src/@uri", audio);
 		assertXpathEvaluatesTo(audio.getAudio()[0].getMimeType(), "//ui:audio/ui:src/@type", audio);
 
 		// Test other options, resetting them after each test
