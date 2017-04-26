@@ -4,9 +4,16 @@
 
 ### API Changes
 
+* Removed property used to control template render mode and deprecated
+  `com.github.bordertech.wcomponents.util.ConfigurationProperties.getTemplateRenderingMode()` #1158.
+
 ### Bug Fixes
 
+* Reverted client code changes from 1.3.8 and 1.3.9 designed to improve client side Handlebars #1158.
+
 ### Enhancements
+
+* Handlebars pre-processed before sending UI to the client #1158.
 
 ## Release 1.3.9
 

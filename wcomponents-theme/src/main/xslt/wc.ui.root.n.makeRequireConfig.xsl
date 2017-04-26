@@ -15,7 +15,8 @@
 		You really don't want to be here.
 	-->
 	<xsl:template name="makeRequireConfig">
-		<xsl:variable name="requireconfigcontent">
+		<script type="text/javascript" class="wcconfig"><!-- todo: I think this class is no longer required -->
+			<!-- Yes, we are defining a global require here. We are not using window.require = {} because the doco says this can cause problems in IE. -->
 			<xsl:text>(function(){
 	var wcconfig, timing,
 		config = {
@@ -106,10 +107,6 @@
 	if(window.requirejs) window.requirejs.config(config);
 	else require = config;
 })();</xsl:text>
-		</xsl:variable>
-		<script type="text/javascript" class="wcconfig"><!-- todo: I think this class is no longer required -->
-			<!-- Yes, we are defining a global require here. We are not using window.require = {} because the doco says this can cause problems in IE. -->
-			<xsl:value-of select="$requireconfigcontent" disable-output-escaping="yes"/>
 		</script>
 	</xsl:template>
 </xsl:stylesheet>

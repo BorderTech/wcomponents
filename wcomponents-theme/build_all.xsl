@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:x="https://github.com/bordertech/wcomponents/namespace/ui/dummy"
-	xmlns:doc="http://www.oxygenxml.com/ns/doc/xsl"
 	version="2.0">
 	<!--
 		Part of building the output is to build xslt. We cannot output xsl:stylesheet directly from within an
@@ -143,9 +142,11 @@
 		structure using the namespace alias defined above.
 	-->
 	<xsl:template match="concat">
-		<x:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml"
-					  version="2.0" exclude-result-prefixes="xsl ui html doc">
-			<x:output encoding="UTF-8" indent="no" method="xhtml" doctype-system="about:legacy-compat" omit-xml-declaration="yes" media-type="text/html" />
+		<x:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+			xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" 
+			xmlns:html="http://www.w3.org/1999/xhtml"
+			version="2.0" exclude-result-prefixes="xsl ui html">
+			<x:output encoding="UTF-8" indent="no" method="html" doctype-system="about:legacy-compat" omit-xml-declaration="yes" />
 			<x:strip-space elements="*" />
 			<xsl:apply-templates select=".//xsl:param[parent::xsl:stylesheet]" />
 			<xsl:apply-templates select=".//xsl:key[parent::xsl:stylesheet]" />
@@ -153,7 +154,4 @@
 			<xsl:call-template name="writeTemplates" />
 		</x:stylesheet>
 	</xsl:template>
-
-	<!-- Remove all XSLT documentation elements.
-		<xsl:template match="doc:*" /> -->
 </xsl:stylesheet>
