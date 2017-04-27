@@ -35,7 +35,7 @@ public class WContentRenderer_Test extends AbstractWebXmlRendererTestCase {
 		WContent wContent = new WContent();
 		setActiveContext(createUIContext());
 		wContent.setContentAccess(content);
-		wContent.setCacheKey("abcd"); // this test needs the URLs to be consistent
+		wContent.setCacheKey("abcd{}<>"); // this test needs the URLs to be consistent
 		wContent.handleRequest(request);
 
 		String xml = render(wContent);
@@ -48,7 +48,7 @@ public class WContentRenderer_Test extends AbstractWebXmlRendererTestCase {
 		assertSchemaMatch(wContent);
 		// Display again (as reset after paint)
 		wContent.display();
-		assertXpathEvaluatesTo(wContent.getUrl(), "//ui:popup/@url", wContent);
+		assertXpathUrlEvaluatesTo(wContent.getUrl(), "//ui:popup/@url", wContent);
 		// Display again (as reset after paint)
 		wContent.display();
 		assertXpathNotExists("ui:redirect", wContent);
@@ -69,7 +69,7 @@ public class WContentRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		// Display again (as reset after paint)
 		wContent.display();
-		assertXpathEvaluatesTo(wContent.getUrl(), "//ui:redirect/@url", wContent);
+		assertXpathUrlEvaluatesTo(wContent.getUrl(), "//ui:redirect/@url", wContent);
 
 		// Test null content
 		wContent.setContentAccess(null);

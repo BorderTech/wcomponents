@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import junit.framework.Assert;
+import org.apache.commons.httpclient.util.URIUtil;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -434,6 +435,8 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrectly encoded 1 char string", "x", WebUtilities.encode("x"));
 		Assert.assertEquals("Incorrectly encoded 1 special char string", "&amp;", WebUtilities.
 				encode("&"));
+		Assert.assertEquals("Incorrectly encoded open bracket", "&#123;", WebUtilities.encode("{"));
+		Assert.assertEquals("Incorrectly encoded close bracket", "&#125;", WebUtilities.encode("}"));
 
 		String in = "Hello world greater> less< amper& quote\"\t\r\n";
 		String expected = "Hello world greater&gt; less&lt; amper&amp; quote&quot;\t\r\n";
@@ -447,6 +450,8 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrectly decoded 1 char string", "x", WebUtilities.decode("x"));
 		Assert.assertEquals("Incorrectly decoded 1 special char string", "&", WebUtilities.decode(
 				"&amp;"));
+		Assert.assertEquals("Incorrectly decoded open bracket", "{", WebUtilities.decode("&#123;"));
+		Assert.assertEquals("Incorrectly decoded close bracket", "}", WebUtilities.decode("&#125;"));
 
 		String in = "Hello world greater&gt; less&lt; amper&amp; quote&quot;";
 		String expected = "Hello world greater> less< amper& quote\"";
@@ -585,6 +590,105 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		// Dont use PageShell as it wraps the XML with ui:root and test xslt does not pass the other tags
 		String output = WebUtilities.renderWithTransformToHTML(new MockRequest(), text, false);
 		Assert.assertEquals("Invalid html output with XML", TransformXMLTestHelper.EXPECTED, output);
+	}
+	@Test
+	public void testEscapeUrlBasic() {
+		String in = "http://test.com";
+		Assert.assertEquals("Basic url not escaped correctly", in, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlBasic2() {
+		String in = "http://test.com/";
+		Assert.assertEquals("Basic url not escaped correctly", in, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlBasicParameters() {
+		String in = "http://test.com?a=foo";
+		Assert.assertEquals("Basic url not escaped correctly", in, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlBasicParameters2() {
+		String parms = "a=foo&b=g h j";
+		String in = "http://test.com?" + parms;
+		String out = "http://test.com?" + encodeQuery(parms);
+		Assert.assertEquals("Basic url not escaped correctly", out, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlBasicParameters3() {
+		String parms = "a=foo&b=<>{{}}";
+		String in = "http://test.com?" + parms;
+		String out = "http://test.com?" + encodeQuery(parms);
+		Assert.assertEquals("Basic url not escaped correctly", out, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlRelBasic() {
+		String in = "rel/";
+		Assert.assertEquals("Basic url not escaped correctly", in, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlRelBasicParameters() {
+		String in = "rel?a=foo";
+		Assert.assertEquals("Basic url not escaped correctly", in, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlRelBasicParameters2() {
+		String parms = "a=foo&b=g h j";
+		String in = "rel?" + parms;
+		String out = "rel?" + encodeQuery(parms);
+		Assert.assertEquals("Basic url not escaped correctly", out, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlRelBasicParameters3() {
+		String parms = "a=foo&b=<>{{}}";
+		String in = "rel?" + parms;
+		String out = "rel?" + encodeQuery(parms);
+		Assert.assertEquals("Basic url not escaped correctly", out, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlRef() {
+		String in = "#REF1";
+		Assert.assertEquals("Basic Reference not escaped correctly", in, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlRef2() {
+		String in = "rel?#REF1";
+		Assert.assertEquals("Basic Reference not escaped correctly", in, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlRef3() {
+		String in = "rel?a=foo#REF1";
+		Assert.assertEquals("Basic Reference not escaped correctly", in, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEncodeUrl() {
+		String in = "http://test.com?a=foo&b=<>{}#REF1";
+		String out = "http://test.com?a=foo&amp;b=%3C%3E%7B%7D#REF1";
+		Assert.assertEquals("Encoded URL not correct", out, WebUtilities.encodeUrl(in));
+	}
+
+	/**
+	 *
+	 * @param input the query string input
+	 * @return the percent encoded query string
+	 */
+	private String encodeQuery(final String input) {
+		try {
+			return URIUtil.encodeQuery(input);
+		} catch (Exception e) {
+			throw new IllegalStateException("Could not encode input string [" + input + "].");
+		}
 	}
 
 //	/**

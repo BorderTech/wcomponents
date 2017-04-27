@@ -38,7 +38,8 @@ final class WImageRenderer extends AbstractWebXmlRenderer {
 		xml.appendTagOpen("img");
 		xml.appendAttribute("id", imageComponent.getId());
 		xml.appendOptionalAttribute("class", imageComponent.getHtmlClass());
-		xml.appendAttribute("src", imageComponent.getTargetUrl());
+		xml.appendOptionalAttribute("track", imageComponent.isTracking(), "true");
+		xml.appendUrlAttribute("src", imageComponent.getTargetUrl());
 		xml.appendAttribute("alt", alternativeText);
 		xml.appendOptionalAttribute("hidden", imageComponent.isHidden(), "hidden");
 

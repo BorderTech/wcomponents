@@ -108,7 +108,7 @@ final class WAudioRenderer extends AbstractWebXmlRenderer {
 
 		for (int i = 0; i < urls.length; i++) {
 			xml.appendTagOpen("ui:src");
-			xml.appendAttribute("uri", urls[i]);
+			xml.appendUrlAttribute("uri", urls[i]);
 			xml.appendOptionalAttribute("type", audio[i].getMimeType());
 			xml.appendEnd();
 		}
