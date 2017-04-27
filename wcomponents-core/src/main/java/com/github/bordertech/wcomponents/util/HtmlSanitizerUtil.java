@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.util;
 
+import com.github.bordertech.wcomponents.WebUtilities;
 import java.net.URL;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -109,7 +110,10 @@ public final class HtmlSanitizerUtil {
 		}
 		try {
 			CleanResults results = ANTISAMY.scan(input, policy);
-			return results.getCleanHTML();
+			String result = results.getCleanHTML();
+			// Escape brackets for handlebars
+			result = WebUtilities.encodeBrackets(result);
+			return result;
 		} catch (ScanException | PolicyException ex) {
 			throw new SystemException("Cannot sanitize " + ex.getMessage(), ex);
 		}
@@ -139,6 +143,7 @@ public final class HtmlSanitizerUtil {
 
 	/**
 	 * Create a Policy from a named local resource.
+	 *
 	 * @param resourceName the path to AntiSamy policy file
 	 * @return the AntiSamy Policy
 	 */

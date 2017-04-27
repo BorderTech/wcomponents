@@ -645,6 +645,54 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Encoded URL not correct", out, WebUtilities.encodeUrl(in));
 	}
 
+	@Test
+	public void testContainsBrackets() {
+		Assert.assertTrue("Contains a open bracket", WebUtilities.containsBrackets("{"));
+		Assert.assertTrue("Contains a closed bracket", WebUtilities.containsBrackets("}"));
+		Assert.assertFalse("Contains an encoded open bracket", WebUtilities.containsBrackets("&#123;"));
+		Assert.assertFalse("Contains an encoded closed bracket", WebUtilities.containsBrackets("&#125;"));
+		Assert.assertFalse("Contains a double encoded open bracket", WebUtilities.containsBrackets("&amp;#123;"));
+		Assert.assertFalse("Contains a double encoded closed bracket", WebUtilities.containsBrackets("&amp;#125;"));
+	}
+
+	@Test
+	public void testContainsEncodeBrackets() {
+		Assert.assertTrue("Contains an encoded open bracket", WebUtilities.containsEncodedBrackets("&#123;"));
+		Assert.assertTrue("Contains an encoded closed bracket", WebUtilities.containsEncodedBrackets("&#125;"));
+		Assert.assertFalse("Contains a double encoded open bracket", WebUtilities.containsEncodedBrackets("&amp;#123;"));
+		Assert.assertFalse("Contains a double encoded closed bracket", WebUtilities.containsEncodedBrackets("&amp;#125;"));
+		Assert.assertFalse("Contains a open bracket", WebUtilities.containsEncodedBrackets("{"));
+		Assert.assertFalse("Contains a closed bracket", WebUtilities.containsEncodedBrackets("}"));
+	}
+
+	@Test
+	public void testEncodeBrackets() {
+		String in = "{}<>";
+		String out = "&#123;&#125;<>";
+		Assert.assertEquals("Encode brackets not correct", out, WebUtilities.encodeBrackets(in));
+	}
+
+	@Test
+	public void testDecodeBrackets() {
+		String in = "&#123;&#125;<>";
+		String out = "{}<>";
+		Assert.assertEquals("Decode brackets not correct", out, WebUtilities.decodeBrackets(in));
+	}
+
+	@Test
+	public void testDoubleEncodeBrackets() {
+		String in = "&#123;&#125;<>";
+		String out = "&amp;#123;&amp;#125;<>";
+		Assert.assertEquals("Double encode brackets not correct", out, WebUtilities.doubleEncodeBrackets(in));
+	}
+
+	@Test
+	public void testDoubleDecodeBrackets() {
+		String in = "&amp;#123;&amp;#125;<>";
+		String out = "&#123;&#125;<>";
+		Assert.assertEquals("Double decode brackets not correct", out, WebUtilities.doubleDecodeBrackets(in));
+	}
+
 	/**
 	 *
 	 * @param input the query string input

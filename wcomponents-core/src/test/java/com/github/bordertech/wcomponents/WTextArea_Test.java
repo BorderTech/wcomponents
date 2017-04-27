@@ -24,18 +24,20 @@ public class WTextArea_Test extends AbstractWComponentTestCase {
 
 	@Test
 	public void testSanitizeOnOutputAccessors() {
-		assertAccessorsCorrect(new WTextArea(), "sanitizeOnOutput", false, true, false);
+		assertAccessorsCorrect(new WTextArea(), "sanitizeOnOutput", true, false, true);
 	}
 
 	@Test
 	public void testPlaceholderAccessors() {
 		assertAccessorsCorrect(new WTextArea(), "placeholder", null, "A", "B");
 	}
+
 	@Test
 	public void testNoSanitizeOnOutput() {
 		String input = "<form>content</form>";
 		WTextArea textArea = new WTextArea();
 		textArea.setData(input);
+		textArea.setSanitizeOnOutput(false);
 		// do not setRichText until after setData otherwise content will be sanitized on setData
 		textArea.setRichTextArea(true);
 		Assert.assertEquals("Expect output to not be sanitized", input, textArea.getText());
