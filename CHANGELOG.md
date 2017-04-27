@@ -5,7 +5,8 @@
 ### API Changes
 
 ### Bug Fixes
-
+* Modified `HtmlSanitizerUtil` and `HtmlToXMLUtil` to handle escaping brackets. `WTextArea` now defaults to
+  `santizeOutput` on #1158.
 
 ### Enhancements
 
