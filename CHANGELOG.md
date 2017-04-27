@@ -8,6 +8,7 @@
 
 ### Bug Fixes
 
+* Remove client handlebars i18n support #1158.
 * Fixed position of server-generated error messages for simple WInputs #1161.
 * Fixed partial text matches in dropdown typeahead #1164.
 * Improve AJAX error handling when the response "lies" and says it is "200 OK" when it isn't #1163.

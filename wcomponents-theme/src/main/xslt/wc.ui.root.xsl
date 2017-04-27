@@ -3,11 +3,6 @@
 	<xsl:import href="wc.common.registrationScripts.xsl"/>
 
 	<!--
-		Debug flag. This is a global parameter as it is pulled out of the compressed XSLT and we do not want it renamed.
-	-->
-	<xsl:param name="isDebug" select="1"/>
-
-	<!--
 		Used to calculate the path to the libs based on the stylesheet processing instruction stripped is used in the config object. Param so it can
 		be overridden if necessary.
 	-->
