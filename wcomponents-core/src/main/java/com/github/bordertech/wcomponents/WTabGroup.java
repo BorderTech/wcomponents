@@ -124,7 +124,8 @@ public class WTabGroup extends AbstractContainer implements Disableable {
 	 * Adds a tab to the tab set.
 	 *
 	 * @param tab the tab to add.
-	 * @deprecated use e.g. {@link #addTab(WComponent, String, TabMode)}
+	 * @deprecated use
+	 * {@link #addTab(com.github.bordertech.wcomponents.WComponent, java.lang.String, com.github.bordertech.wcomponents.WTabSet.TabMode)}
 	 */
 	@Deprecated
 	public void add(final WTab tab) {

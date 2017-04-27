@@ -1,10 +1,12 @@
 package com.github.bordertech.wcomponents.util;
 
+import com.github.bordertech.wcomponents.WebUtilities;
 import junit.framework.Assert;
 import org.junit.Test;
 
 /**
  * Tests for {@link HtmlToXMLUtil}.
+ *
  * @author Mark Reeves
  * @since 1.2.0
  */
@@ -105,4 +107,29 @@ public class HTMLToXMLUtil_Test {
 		String testString = "'";
 		Assert.assertEquals(testString, HtmlToXMLUtil.unescapeToXML(testString));
 	}
+
+	@Test
+	public void testNoUnConvertOpenBracketEscaped() {
+		String testString = WebUtilities.OPEN_BRACKET_ESCAPE;
+		Assert.assertEquals(testString, HtmlToXMLUtil.unescapeToXML(testString));
+	}
+
+	@Test
+	public void testNoUnConvertCloseBracketEscaped() {
+		String testString = WebUtilities.CLOSE_BRACKET_ESCAPE;
+		Assert.assertEquals(testString, HtmlToXMLUtil.unescapeToXML(testString));
+	}
+
+	@Test
+	public void testNoUnConvertOpenBracket() {
+		String testString = "{";
+		Assert.assertEquals(testString, HtmlToXMLUtil.unescapeToXML(testString));
+	}
+
+	@Test
+	public void testNoUnConvertCloseBracket() {
+		String testString = "}";
+		Assert.assertEquals(testString, HtmlToXMLUtil.unescapeToXML(testString));
+	}
+
 }
