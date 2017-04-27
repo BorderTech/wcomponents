@@ -473,7 +473,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 			container = document.createElement("div");
 			container.id = CONTAINER_ID;
-			container.setAtribute("role", "dialog");
+			container.setAttribute("role", "dialog");
 			document.body.appendChild(container);
 			container.innerHTML = calendar;
 			document.getElementById(MONTH_SELECT_ID).selectedIndex = _today.getMonth();

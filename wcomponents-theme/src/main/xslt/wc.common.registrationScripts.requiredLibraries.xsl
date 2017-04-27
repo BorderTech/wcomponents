@@ -1,5 +1,10 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ui="https://github.com/bordertech/wcomponents/namespace/ui/v1.0" xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<!--
+		Debug flag. This is a global parameter as it is pulled out of the compressed XSLT and we do not want it renamed.
+	-->
+	<xsl:param name="isDebug" select="1"/>
+
+	<!--
 		Helper template for "registrationScripts" to wire up AMD/require.js requires.
 	-->
 	<xsl:template name="requiredLibraries">
@@ -135,11 +140,6 @@
 			<xsl:if test=".//ui:session">
 				<xsl:text>"wc/ui/timeoutWarn",</xsl:text>
 			</xsl:if>
-			<xsl:if test=".//@required or .//ui:messagebox or .//ui:validationerrors or .//ui:multiselectpair or .//ui:shuffler or
-				.//ui:checkbox[@readOnly] or .//ui:radiobutton[@readOnly] or .//ui:collapsibletoggle or .//ui:selecttoggle or .//ui:table or
-				.//ui:multifileupload or .//ui:multidropdown or .//ui:multitextfield or .//ui:tree">
-				<xsl:text>"wc/ui/template",</xsl:text>
-			</xsl:if>
 			<xsl:if test=".//*[@submitOnChange and not(@readOnly)]">
 				<xsl:text>"wc/ui/onchangeSubmit",</xsl:text>
 			</xsl:if>
@@ -155,6 +155,9 @@
 			<!-- NOTE: not every mode SERVER needs this but the include is cheaper than the tests and mode server should eventually die -->
 			<xsl:if test=".//*[@mode eq 'dynamic'] or .//*[@mode eq 'lazy']">
 				<xsl:text>"wc/ui/containerload",</xsl:text>
+			</xsl:if>
+			<xsl:if test="$isDebug = 1">
+				<xsl:text>"wc/debug/common",</xsl:text>
 			</xsl:if>
 		</xsl:variable>
 		<xsl:variable name="nLibs" select="normalize-space($libs)"/>
