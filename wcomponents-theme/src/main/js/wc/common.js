@@ -6,7 +6,6 @@
  *
  * @example
  *	require(["wc/a8n"
- *			"wc/ui/template",
  *			"wc/dom/cancelUpdate",
  *			"wc/ui/calendar",
  *			"wc/ui/subordinate",
@@ -15,7 +14,6 @@
  * @ignore
  */
 require(["wc/a8n",
-	"wc/ui/template",
 	"wc/ui/loading",
 	"wc/ui/backToTop",
 	"wc/ui/label",

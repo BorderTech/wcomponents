@@ -41,7 +41,7 @@
 					<xsl:text>require(["wc/debug/common"]);</xsl:text>
 				</xsl:if>
 				<xsl:if test="$rego!=''">
-					<xsl:value-of select="$rego"/>
+					<xsl:value-of select="$rego" />
 				</xsl:if>
 				<xsl:text>});});});</xsl:text>
 			</script>
