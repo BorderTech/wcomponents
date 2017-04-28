@@ -160,6 +160,6 @@ public class WTextArea extends WTextField {
 		 * will not require output sanitization. It should be turned on if the text area is rich text and the upstream
 		 * content (not user-input content) is unverified.
 		 */
-		private boolean sanitizeOnOutput;
+		private boolean sanitizeOnOutput = true;
 	}
 }

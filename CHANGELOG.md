@@ -8,6 +8,7 @@
 
 ### Bug Fixes
 
+* Modified `HtmlSanitizerUtil` and `HtmlToXMLUtil` to handle escaping brackets'; `WTextArea` now defaults to `santizeOutput` on #1158.
 * Remove client handlebars i18n support #1158.
 * Fixed position of server-generated error messages for simple WInputs #1161.
 * Fixed partial text matches in dropdown typeahead #1164.

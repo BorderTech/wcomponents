@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.util;
 
+import com.github.bordertech.wcomponents.WebUtilities;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.owasp.validator.html.Policy;
@@ -164,7 +165,6 @@ public class HtmlSanitizerUtil_Test {
 		Assert.assertEquals(expected, HtmlSanitizerUtil.sanitize(input));
 	}
 
-
 	// Test of lax sanitiser rules.
 	@Test
 	public void testStrictSanitizerElement() throws ScanException, PolicyException {
@@ -262,5 +262,29 @@ public class HtmlSanitizerUtil_Test {
 		} catch (SystemException ex) {
 			Assert.assertTrue(true);
 		}
+	}
+
+	@Test
+	public void testSanitizeOpenBracketEscaped() {
+		String testString = WebUtilities.OPEN_BRACKET_ESCAPE;
+		Assert.assertEquals(testString, HtmlSanitizerUtil.sanitize(testString));
+	}
+
+	@Test
+	public void testSanitizeCloseBracketEscaped() {
+		String testString = WebUtilities.CLOSE_BRACKET_ESCAPE;
+		Assert.assertEquals(testString, HtmlSanitizerUtil.sanitize(testString));
+	}
+
+	@Test
+	public void testSanitizeOpenBracket() {
+		String testString = "{";
+		Assert.assertEquals(WebUtilities.OPEN_BRACKET_ESCAPE, HtmlSanitizerUtil.sanitize(testString));
+	}
+
+	@Test
+	public void testSanitizeCloseBracket() {
+		String testString = "}";
+		Assert.assertEquals(WebUtilities.CLOSE_BRACKET_ESCAPE, HtmlSanitizerUtil.sanitize(testString));
 	}
 }

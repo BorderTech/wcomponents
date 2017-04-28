@@ -67,6 +67,26 @@ public final class WebUtilities {
 	public static final String AMP_ESCAPE = "&amp;";
 
 	/**
+	 * The HTML escape sequence for an open bracket (&#123;).
+	 */
+	public static final String OPEN_BRACKET_ESCAPE = "&#123;";
+
+	/**
+	 * The HTML escape sequence for a close bracket (&#125;).
+	 */
+	public static final String CLOSE_BRACKET_ESCAPE = "&#125;";
+
+	/**
+	 * The HTML escape sequence for an open bracket with ampersand double escaped (&#123;).
+	 */
+	public static final String OPEN_BRACKET_DOUBLE_ESCAPE = "&amp;#123;";
+
+	/**
+	 * The HTML escape sequence for a close bracket with ampersand double escaped (&#125;).
+	 */
+	public static final String CLOSE_BRACKET_DOUBLE_ESCAPE = "&amp;#125;";
+
+	/**
 	 * The HTML escape sequence for less than (&lt;).
 	 */
 	public static final String LT_ESCAPE = "&lt;";
@@ -287,13 +307,9 @@ public final class WebUtilities {
 			} else if (c == '"') {
 				buffer.append(QUOT_ESCAPE);
 			} else if (c == '{') {
-				buffer.append("&#123;");
+				buffer.append(OPEN_BRACKET_ESCAPE);
 			} else if (c == '}') {
-				buffer.append("&#125;");
-//			} else if (c == '{') {
-//				buffer.append(AMP_ESCAPE).append("&#35;").append("123;");
-//			} else if (c == '}') {
-//				buffer.append(AMP_ESCAPE).append("&#35;").append("125;");
+				buffer.append(CLOSE_BRACKET_ESCAPE);
 			} else if (c >= 32 || c == '\n' || c == '\r' || c == '\t') {
 				// All other unicode characters can be sent as is, with the
 				// exception of control codes, which are illegal
@@ -340,9 +356,123 @@ public final class WebUtilities {
 				.replace(GT_ESCAPE, ">")
 				.replace(AMP_ESCAPE, "&")
 				.replace(QUOT_ESCAPE, "\"")
-				.replace("&#123;", "{")
-				.replace("&#125;", "}");
+				.replace(OPEN_BRACKET_ESCAPE, "{")
+				.replace(CLOSE_BRACKET_ESCAPE, "}");
 
+		return decoded;
+	}
+
+	/**
+	 * Check if the input String contains brackets.
+	 *
+	 * @param input the String to test if it contains open or closed brackets
+	 * @return true if String contains open or closed brackets
+	 */
+	public static boolean containsBrackets(final String input) {
+		if (Util.empty(input)) {
+			return false;
+		}
+		return input.contains("{") || input.contains("}");
+	}
+
+	/**
+	 * Check if the input String contains encoded brackets.
+	 *
+	 * @param input the String to test if it contains open or closed encoded brackets
+	 * @return true if String contains open or closed encoded brackets
+	 */
+	public static boolean containsEncodedBrackets(final String input) {
+		if (Util.empty(input)) {
+			return false;
+		}
+		return input.contains(OPEN_BRACKET_ESCAPE) || input.contains(CLOSE_BRACKET_ESCAPE);
+	}
+
+	/**
+	 * Encode open or closed brackets in the input String.
+	 *
+	 * @param input the String to encode open or closed brackets
+	 * @return the String with encoded open or closed brackets
+	 */
+	public static String encodeBrackets(final String input) {
+		if (Util.empty(input)) {
+			return input;
+		}
+		String encoded = input;
+		// Open bracket
+		if (encoded.contains("{")) {
+			encoded = encoded.replace("{", OPEN_BRACKET_ESCAPE);
+		}
+		// Close bracket
+		if (encoded.contains("}")) {
+			encoded = encoded.replace("}", CLOSE_BRACKET_ESCAPE);
+		}
+		return encoded;
+	}
+
+	/**
+	 * Decode open or closed brackets in the input String.
+	 *
+	 * @param input the String to decode open or closed brackets
+	 * @return the String with decode open or closed brackets
+	 */
+	public static String decodeBrackets(final String input) {
+		if (Util.empty(input)) {
+			return input;
+		}
+		String decoded = input;
+		// Open bracket
+		if (decoded.contains(OPEN_BRACKET_ESCAPE)) {
+			decoded = decoded.replace(OPEN_BRACKET_ESCAPE, "{");
+		}
+		// Close bracket
+		if (decoded.contains(CLOSE_BRACKET_ESCAPE)) {
+			decoded = decoded.replace(CLOSE_BRACKET_ESCAPE, "}");
+		}
+		return decoded;
+	}
+
+	/**
+	 * Double encode open or closed brackets in the input String.
+	 *
+	 * @param input the String to double encode open or closed brackets
+	 * @return the String with double encoded open or closed brackets
+	 */
+	public static String doubleEncodeBrackets(final String input) {
+		if (Util.empty(input)) {
+			return input;
+		}
+		String encoded = input;
+		// Open bracket
+		if (encoded.contains(OPEN_BRACKET_ESCAPE)) {
+			encoded = encoded.replace(OPEN_BRACKET_ESCAPE, OPEN_BRACKET_DOUBLE_ESCAPE);
+		}
+		// Close bracket
+		if (encoded.contains(CLOSE_BRACKET_ESCAPE)) {
+			encoded = encoded.replace(CLOSE_BRACKET_ESCAPE, CLOSE_BRACKET_DOUBLE_ESCAPE);
+		}
+		return encoded;
+	}
+
+	/**
+	 * Decode double encoded open or closed brackets in the input String.
+	 *
+	 * @param input the String to decode double encoded open or closed brackets
+	 * @return the String with decoded double encoded open or closed brackets
+	 */
+	public static String doubleDecodeBrackets(final String input) {
+		if (Util.empty(input)) {
+			return input;
+		}
+		String decoded = input;
+		// Open bracket
+		if (decoded.contains(OPEN_BRACKET_DOUBLE_ESCAPE)) {
+			decoded = decoded.replace(OPEN_BRACKET_DOUBLE_ESCAPE, OPEN_BRACKET_ESCAPE);
+		}
+		// Close bracket
+		if (decoded.contains(CLOSE_BRACKET_DOUBLE_ESCAPE)) {
+			decoded = decoded.replace(CLOSE_BRACKET_DOUBLE_ESCAPE, CLOSE_BRACKET_ESCAPE);
+		}
 		return decoded;
 	}
 

@@ -140,17 +140,18 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 			// Remove illegal HTML characters from the content before transforming it.
 			xml = removeCorruptCharacters(xml);
 		}
-		if (xml.contains("&#123;") || xml.contains("&#125;")) {
-			// Encode brackets
-			xml = xml.replace("&#123;", "&amp;#123;").replace("&#125;", "&amp;#125;");
+		// Check if XML contains encoded brackets
+		if (WebUtilities.containsEncodedBrackets(xml)) {
+			// Double encode brackets
+			xml = WebUtilities.doubleEncodeBrackets(xml);
 			// Setup temp writer
 			StringWriter tempBuffer = new StringWriter();
 			PrintWriter tempWriter = new PrintWriter(tempBuffer);
 			// Perform the transformation and write the result.
 			transform(xml, uic, tempWriter);
-			// Decode Brackets
+			// Decode Double Encoded Brackets
 			String tempResp = tempBuffer.toString();
-			tempResp = tempResp.replace("&amp;#123;", "&#123;").replace("&amp;#125;", "&#125;");
+			tempResp = WebUtilities.doubleDecodeBrackets(tempResp);
 			// Write response
 			writer.write(tempResp);
 		} else {
