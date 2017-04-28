@@ -60,7 +60,7 @@ final class WVideoRenderer extends AbstractWebXmlRenderer {
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
 		xml.appendOptionalAttribute("track", component.isTracking(), "true");
-		xml.appendOptionalAttribute("poster", videoComponent.getPosterUrl());
+		xml.appendOptionalUrlAttribute("poster", videoComponent.getPosterUrl());
 		xml.appendOptionalAttribute("alt", alternativeText);
 		xml.appendOptionalAttribute("autoplay", videoComponent.isAutoplay(), "true");
 		xml.appendOptionalAttribute("mediagroup", videoComponent.getMediaGroup());
@@ -116,7 +116,7 @@ final class WVideoRenderer extends AbstractWebXmlRenderer {
 
 		for (int i = 0; i < urls.length; i++) {
 			xml.appendTagOpen("ui:src");
-			xml.appendAttribute("uri", urls[i]);
+			xml.appendUrlAttribute("uri", urls[i]);
 			xml.appendOptionalAttribute("type", video[i].getMimeType());
 
 			if (video[i].getSize() != null) {
@@ -134,7 +134,7 @@ final class WVideoRenderer extends AbstractWebXmlRenderer {
 
 			for (int i = 0; i < tracks.length; i++) {
 				xml.appendTagOpen("ui:track");
-				xml.appendAttribute("src", trackUrls[i]);
+				xml.appendUrlAttribute("src", trackUrls[i]);
 				xml.appendOptionalAttribute("lang", tracks[i].getLanguage());
 				xml.appendOptionalAttribute("desc", tracks[i].getDescription());
 				xml.appendOptionalAttribute("kind", trackKindToString(tracks[i].getKind()));

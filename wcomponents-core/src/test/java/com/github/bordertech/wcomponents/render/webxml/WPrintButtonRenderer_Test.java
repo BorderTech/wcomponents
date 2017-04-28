@@ -40,5 +40,8 @@ public class WPrintButtonRenderer_Test extends AbstractWebXmlRendererTestCase {
 
 		button.setAccessibleText(getMaliciousAttribute("ui:printbutton"));
 		assertSafeContent(button);
+
+		button.setImageUrl(getMaliciousAttribute());
+		assertSafeContent(button);
 	}
 }

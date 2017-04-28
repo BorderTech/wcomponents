@@ -48,13 +48,13 @@ final class WApplicationRenderer extends AbstractWebXmlRenderer {
 		xml.appendTagOpen("ui:application");
 		xml.appendAttribute("id", component.getId());
 		xml.appendOptionalAttribute("class", component.getHtmlClass());
-		xml.appendAttribute("applicationUrl", uic.getEnvironment().getPostPath());
-		xml.appendAttribute("ajaxUrl", uic.getEnvironment().getWServletPath());
+		xml.appendUrlAttribute("applicationUrl", uic.getEnvironment().getPostPath());
+		xml.appendUrlAttribute("ajaxUrl", uic.getEnvironment().getWServletPath());
 		xml.appendOptionalAttribute("unsavedChanges", application.hasUnsavedChanges(), "true");
 		xml.appendOptionalAttribute("title", application.getTitle());
 		xml.appendOptionalAttribute("defaultFocusId", uic.isFocusRequired() && !Util.empty(focusId),
 				focusId);
-		xml.appendOptionalAttribute("icon", WApplication.getIcon());
+		xml.appendOptionalUrlAttribute("icon", WApplication.getIcon());
 		xml.appendClose();
 
 		// Tracking enabled globally
@@ -83,7 +83,7 @@ final class WApplicationRenderer extends AbstractWebXmlRenderer {
 			String url = resource.getTargetUrl();
 			if (!Util.empty(url)) {
 				xml.appendTagOpen("ui:css");
-				xml.appendAttribute("url", url);
+				xml.appendUrlAttribute("url", url);
 				xml.appendEnd();
 			}
 		}
@@ -93,7 +93,7 @@ final class WApplicationRenderer extends AbstractWebXmlRenderer {
 			String url = resource.getTargetUrl();
 			if (!Util.empty(url)) {
 				xml.appendTagOpen("ui:js");
-				xml.appendAttribute("url", url);
+				xml.appendUrlAttribute("url", url);
 				xml.appendEnd();
 			}
 		}

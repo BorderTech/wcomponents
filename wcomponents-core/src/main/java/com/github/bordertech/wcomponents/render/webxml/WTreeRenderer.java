@@ -171,7 +171,7 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 		xml.appendTagOpen("ui:treeitem");
 		xml.appendAttribute("id", tree.getItemIdPrefix() + itemId);
 		xml.appendAttribute("label", model.getItemLabel(rowIndex));
-		xml.appendOptionalAttribute("imageUrl", url);
+		xml.appendOptionalUrlAttribute("imageUrl", url);
 		xml.appendOptionalAttribute("selected", selected, "true");
 		xml.appendOptionalAttribute("expandable", expandable, "true");
 		xml.appendOptionalAttribute("open", expandable && expanded, "true");
@@ -246,7 +246,7 @@ final class WTreeRenderer extends AbstractWebXmlRenderer {
 		xml.appendTagOpen("ui:treeitem");
 		xml.appendAttribute("id", tree.getItemIdPrefix() + itemId);
 		xml.appendAttribute("label", model.getItemLabel(rowIndex));
-		xml.appendOptionalAttribute("imageUrl", url);
+		xml.appendOptionalUrlAttribute("imageUrl", url);
 		xml.appendOptionalAttribute("selected", selected, "true");
 		xml.appendOptionalAttribute("expandable", expandable, "true");
 		xml.appendOptionalAttribute("open", expandable && expanded, "true");

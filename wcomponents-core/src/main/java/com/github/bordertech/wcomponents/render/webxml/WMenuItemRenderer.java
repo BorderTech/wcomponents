@@ -60,7 +60,7 @@ final class WMenuItemRenderer extends AbstractWebXmlRenderer {
 		if (item.isSubmit()) {
 			xml.appendAttribute("submit", "true");
 		} else {
-			xml.appendOptionalAttribute("url", item.getUrl());
+			xml.appendOptionalUrlAttribute("url", item.getUrl());
 			xml.appendOptionalAttribute("targetWindow", item.getTargetWindow());
 		}
 
