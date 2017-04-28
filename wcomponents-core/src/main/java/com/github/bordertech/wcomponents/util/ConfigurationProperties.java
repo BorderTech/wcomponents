@@ -254,7 +254,9 @@ public final class ConfigurationProperties {
 
 	/**
 	 * The render mode for template rendering, can be "on", "off" or "sniff".
+	 * @deprecated no longer used.
 	 */
+	@Deprecated
 	public static final String TEMPLATE_RENDERING_MODE = "bordertech.wcomponents.template.render.mode";
 
 	/**
@@ -928,9 +930,11 @@ public final class ConfigurationProperties {
 	/**
 	 * @return The render mode, can be either "on", "off" or "sniff". "on" means the render will occur. "off" means the
 	 * render will not occur. "sniff" means the render will occur based on user agent.
+	 * @deprecated no longer used
 	 */
+	@Deprecated
 	public static String getTemplateRenderingMode() {
-		return get().getString(TEMPLATE_RENDERING_MODE, "on");
+		return "on";
 	}
 
 	/**
