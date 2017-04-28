@@ -43,7 +43,6 @@ import org.junit.runners.Suite;
 	WDropdownSubmitOnChangeExample_Test.class,
 	WDropdownTriggerActionExample_Test.class,
 	WMultiSelectPairTestingExample_Test.class,
-	WPopupExample_Test.class,
 	WRadioButtonSelectExample_Test.class,
 	WRadioButtonSubmitOnChangeExample_Test.class,
 	WRadioButtonTriggerActionExample_Test.class,

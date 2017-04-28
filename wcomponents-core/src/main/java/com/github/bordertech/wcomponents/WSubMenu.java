@@ -120,7 +120,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	/**
 	 * Indicates whether this is a top-level menu (ie. attached to a menu bar).
 	 *
-	 * @return true if this is a top-level menu.
+	 * @return {@code true} if this is a top-level menu.
 	 */
 	public boolean isTopLevelMenu() {
 		MenuContainer container = WebUtilities.getAncestorOfClass(MenuContainer.class, this);
@@ -341,7 +341,7 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	}
 
 	/**
-	 * @return always {@false} for WSubMenu.
+	 * @return always {@code false} for WSubMenu.
 	 */
 	@Override
 	public boolean isSelectAllowed() {

@@ -1,10 +1,10 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.examples.theme.WRadioButtonSelectExample;
+import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.openqa.selenium.WebDriver;
 
 /**
  * Selenium unit tests for {@link WRadioButtonSelectExample}.
@@ -25,7 +25,7 @@ public class WRadioButtonSelectExample_Test extends WComponentExamplesTestCase {
 	@Test
 	public void testExample() {
 		// Launch the web browser to the LDE
-		WebDriver driver = getDriver();
+		SeleniumWComponentsWebDriver driver = getDriver();
 
 		// Select NT and submit
 		driver.findElement(byWComponentPath("WRadioButtonSelect[0]", "Northern Territory")).click();
