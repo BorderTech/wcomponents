@@ -12,7 +12,6 @@ import com.github.bordertech.wcomponents.util.mock.MockResponse;
 import com.github.bordertech.wcomponents.util.mock.servlet.MockHttpServletRequest;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import junit.framework.Assert;
@@ -47,55 +46,13 @@ public class TemplateRenderInterceptorTest extends AbstractWComponentTestCase {
 	}
 
 	/**
-	 * Ensure that the interceptor does nothing as long as the controlling property is disabled.
-	 */
-	@Test
-	public void testPaintWhileDisabled() {
-		MyComponent testUI = new MyComponent(TEST_HTML);
-		Config.getInstance().setProperty(ConfigurationProperties.I18N_THEME_RESOURCE_BUNDLE_BASE_NAME, "i18n/theme");
-		Config.getInstance().setProperty(ConfigurationProperties.TEMPLATE_RENDERING_MODE, "off");
-		TestResult actual = generateOutput(testUI);
-		Assert.assertEquals("Template should not be rendered when interceptor disabled", TEST_HTML, actual.result);
-	}
-
-	/**
 	 * Ensure that the interceptor honors the "on" property.
 	 */
 	@Test
 	public void testPaintWhileEnabled() {
 		MyComponent testUI = new MyComponent(TEST_HTML);
 		Config.getInstance().setProperty(ConfigurationProperties.I18N_THEME_RESOURCE_BUNDLE_BASE_NAME, "i18n/theme");
-		Config.getInstance().setProperty(ConfigurationProperties.TEMPLATE_RENDERING_MODE, "on");
 		TestResult actual = generateOutput(testUI);
-		Assert.assertEquals("Template should not be rendered when interceptor disabled", EXPECTED_RENDERED, actual.result);
-	}
-
-	/**
-	 * Ensure that the interceptor ignores chrome in sniff mode.
-	 */
-	@Test
-	public void testPaintWhileSniffWithChrome() {
-		MyComponent testUI = new MyComponent(TEST_HTML);
-		Config.getInstance().setProperty(ConfigurationProperties.I18N_THEME_RESOURCE_BUNDLE_BASE_NAME, "i18n/theme");
-		Config.getInstance().setProperty(ConfigurationProperties.TEMPLATE_RENDERING_MODE, "sniff");
-		Map<String, String> headers = new HashMap<String, String>();
-		headers.put("User-Agent",
-				"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36");
-		TestResult actual = generateOutput(testUI, headers);
-		Assert.assertEquals("Template should not be rendered when interceptor disabled", TEST_HTML, actual.result);
-	}
-
-	/**
-	 * Ensure that the interceptor does not ignore IE8 in sniff mode.
-	 */
-	@Test
-	public void testPaintWhileSniffWithIE8() {
-		MyComponent testUI = new MyComponent(TEST_HTML);
-		Config.getInstance().setProperty(ConfigurationProperties.I18N_THEME_RESOURCE_BUNDLE_BASE_NAME, "i18n/theme");
-		Config.getInstance().setProperty(ConfigurationProperties.TEMPLATE_RENDERING_MODE, "sniff");
-		Map<String, String> headers = new HashMap<String, String>();
-		headers.put("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0)");
-		TestResult actual = generateOutput(testUI, headers);
 		Assert.assertEquals("Template should not be rendered when interceptor disabled", EXPECTED_RENDERED, actual.result);
 	}
 
