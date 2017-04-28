@@ -184,10 +184,6 @@ public class HandlebarsRendererImpl implements TemplateRenderer {
 			handlebars.with(CACHE);
 		}
 
-		if (isCaching()) {
-			handlebars.with(CACHE);
-		}
-
 		return handlebars;
 	}
 

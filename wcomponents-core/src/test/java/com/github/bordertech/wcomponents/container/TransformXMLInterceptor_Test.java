@@ -167,6 +167,42 @@ public class TransformXMLInterceptor_Test extends AbstractWComponentTestCase {
 	}
 
 	/**
+	 * Test that the interceptor transforms with HTML entities.
+	 */
+	@Test
+	public void testPaintWithXMLEntities() {
+		// Should not change after transform
+		String entities = "&amp;&lt;&gt;";
+
+		String in = "<kung><fu>" + entities + "</fu></kung>";
+		String out = "<omg><wtf>" + entities + "</wtf></omg>";
+
+		MyComponent testUI = new MyComponent(in);
+		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
+		TransformXMLTestHelper.reloadTransformer();
+		TestResult actual = generateOutput(testUI);
+		Assert.assertEquals("XML entities should not be decoded", out, actual.result);
+	}
+
+	/**
+	 * Test that the interceptor transforms with HTML entities.
+	 */
+	@Test
+	public void testPaintWithEncodedBrackets() {
+		// Should not change after transform
+		String entities = "&#123;&#125;{}";
+
+		String in = "<kung><fu>" + entities + "</fu></kung>";
+		String out = "<omg><wtf>" + entities + "</wtf></omg>";
+
+		MyComponent testUI = new MyComponent(in);
+		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
+		TransformXMLTestHelper.reloadTransformer();
+		TestResult actual = generateOutput(testUI);
+		Assert.assertEquals("XML entities should not be decoded", out, actual.result);
+	}
+
+	/**
 	 *
 	 * @return XML with bad characters
 	 */
