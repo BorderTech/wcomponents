@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.net.URL;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.transform.Source;
@@ -30,7 +29,6 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.lang3.text.translate.AggregateTranslator;
 import org.apache.commons.lang3.text.translate.CharSequenceTranslator;
-import org.apache.commons.lang3.text.translate.CodePointTranslator;
 import org.apache.commons.lang3.text.translate.LookupTranslator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -140,24 +138,18 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 			// Remove illegal HTML characters from the content before transforming it.
 			xml = removeCorruptCharacters(xml);
 		}
-		// Check if XML contains encoded brackets
-		if (WebUtilities.containsEncodedBrackets(xml)) {
-			// Double encode brackets
-			xml = WebUtilities.doubleEncodeBrackets(xml);
-			// Setup temp writer
-			StringWriter tempBuffer = new StringWriter();
-			PrintWriter tempWriter = new PrintWriter(tempBuffer);
-			// Perform the transformation and write the result.
-			transform(xml, uic, tempWriter);
-			// Decode Double Encoded Brackets
-			String tempResp = tempBuffer.toString();
-			tempResp = WebUtilities.doubleDecodeBrackets(tempResp);
-			// Write response
-			writer.write(tempResp);
-		} else {
-			// Perform the transformation and write the result.
-			transform(xml, uic, writer);
-		}
+		// Double encode template tokens in the XML
+		xml = WebUtilities.doubleEncodeBrackets(xml);
+		// Setup temp writer
+		StringWriter tempBuffer = new StringWriter();
+		PrintWriter tempWriter = new PrintWriter(tempBuffer);
+		// Perform the transformation and write the result.
+		transform(xml, uic, tempWriter);
+		// Decode Double Encoded Brackets
+		String tempResp = tempBuffer.toString();
+		tempResp = WebUtilities.doubleDecodeBrackets(tempResp);
+		// Write response
+		writer.write(tempResp);
 
 		LOG.debug("Transform XML Interceptor: Finished");
 	}
@@ -259,79 +251,9 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 								{"\ufffe", ""},
 								{"\uffff", ""}
 							}),
-					NumericEntityIgnorer.between(0x00, 0x08),
-					NumericEntityIgnorer.between(0x0e, 0x1f),
-					NumericEntityIgnorer.between(0x7f, 0x9f)
+					WebUtilities.NumericEntityIgnorer.between(0x00, 0x08),
+					WebUtilities.NumericEntityIgnorer.between(0x0e, 0x1f),
+					WebUtilities.NumericEntityIgnorer.between(0x7f, 0x9f)
 			);
-
-	/**
-	 * <p>
-	 * Implementation of the CodePointTranslator to throw away the matching characters. This is copied from
-	 * org.apache.commons.lang3.text.translate.NumericEntityEscaper, but has been changed to discard the characters
-	 * rather than attempting to encode them.<p>
-	 * <p>
-	 * Discarding the characters is necessary because certain invalid characters (e.g. decimal 129) cannot be encoded
-	 * for HTML. An existing library was not available for this function because no HTML page should ever contain these
-	 * characters.</p>
-	 */
-	private static final class NumericEntityIgnorer extends CodePointTranslator {
-
-		private final int below;
-		private final int above;
-		private final boolean between;
-
-		/**
-		 * <p>
-		 * Constructs a <code>NumericEntityEscaper</code> for the specified range. This is the underlying method for the
-		 * other constructors/builders. The <code>below</code> and <code>above</code> boundaries are inclusive when
-		 * <code>between</code> is <code>true</code> and exclusive when it is <code>false</code>. </p>
-		 *
-		 * @param below int value representing the lowest codepoint boundary
-		 * @param above int value representing the highest codepoint boundary
-		 * @param between whether to escape between the boundaries or outside them
-		 */
-		private NumericEntityIgnorer(final int below, final int above, final boolean between) {
-			this.below = below;
-			this.above = above;
-			this.between = between;
-		}
-
-		/**
-		 * <p>
-		 * Constructs a <code>NumericEntityEscaper</code> between the specified values (inclusive). </p>
-		 *
-		 * @param codepointLow above which to escape
-		 * @param codepointHigh below which to escape
-		 * @return the newly created {@code NumericEntityEscaper} instance
-		 */
-		public static NumericEntityIgnorer between(final int codepointLow, final int codepointHigh) {
-			return new NumericEntityIgnorer(codepointLow, codepointHigh, true);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean translate(final int codepoint, final Writer out) throws IOException {
-			if (between) {
-				if (codepoint < below || codepoint > above) {
-					return false;
-				}
-			} else if (codepoint >= below && codepoint <= above) {
-				return false;
-			}
-// Commented out from org.apache.commons.lang3.text.translate.NumericEntityEscaper
-// these characters cannot be handled in any way - write no output.
-
-//			out.write("&#");
-//			out.write(Integer.toString(codepoint, 10));
-//			out.write(';');
-			if (LOG.isWarnEnabled()) {
-				LOG.warn("Illegal HTML character stripped from XML. codepoint=" + codepoint);
-			}
-
-			return true;
-		}
-	}
 
 }

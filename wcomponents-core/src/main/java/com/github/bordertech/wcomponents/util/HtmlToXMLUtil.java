@@ -53,12 +53,9 @@ public final class HtmlToXMLUtil {
 			return input;
 		}
 		// Check if input has encoded brackets
-		if (WebUtilities.containsEncodedBrackets(input)) {
-			String encoded = WebUtilities.doubleEncodeBrackets(input);
-			String unescaped = UNESCAPE_HTML_TO_XML.translate(encoded);
-			String decoded = WebUtilities.doubleDecodeBrackets(unescaped);
-			return decoded;
-		}
-		return UNESCAPE_HTML_TO_XML.translate(input);
+		String encoded = WebUtilities.doubleEncodeBrackets(input);
+		String unescaped = UNESCAPE_HTML_TO_XML.translate(encoded);
+		String decoded = WebUtilities.doubleDecodeBrackets(unescaped);
+		return decoded;
 	}
 }
