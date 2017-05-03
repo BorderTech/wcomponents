@@ -12,14 +12,22 @@ import com.github.bordertech.wcomponents.util.TreeUtil;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
+
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.net.URLConnection;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
+
 import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.util.URIUtil;
+import org.apache.commons.lang3.text.translate.AggregateTranslator;
+import org.apache.commons.lang3.text.translate.CharSequenceTranslator;
+import org.apache.commons.lang3.text.translate.CodePointTranslator;
+import org.apache.commons.lang3.text.translate.LookupTranslator;
 
 /**
  * WComponent and HTML related utility methods.
@@ -100,6 +108,73 @@ public final class WebUtilities {
 	 * Counter used in combination with a timestamp to make random string.
 	 */
 	private static final AtomicLong ATOMIC_COUNT = new AtomicLong();
+
+	/**
+	 * Used to doubly encode template tokens.
+	 */
+	private static final CharSequenceTranslator DOUBLE_ENCODE_BRACKETS = new LookupTranslator(
+			new String[][]{
+					{OPEN_BRACKET_ESCAPE, OPEN_BRACKET_DOUBLE_ESCAPE},
+					{CLOSE_BRACKET_ESCAPE, CLOSE_BRACKET_DOUBLE_ESCAPE}
+			});
+
+	/**
+	 * Used to decode doubly-encoded template tokens.
+	 */
+	private static final CharSequenceTranslator DOUBLE_DECODE_BRACKETS = new LookupTranslator(
+			new String[][]{
+					{OPEN_BRACKET_DOUBLE_ESCAPE, OPEN_BRACKET_ESCAPE},
+					{CLOSE_BRACKET_DOUBLE_ESCAPE, CLOSE_BRACKET_ESCAPE}
+			});
+
+	/**
+	 * Used to encode template tokens.
+	 */
+	private static final CharSequenceTranslator ENCODE_BRACKETS = new LookupTranslator(
+			new String[][]{
+					{"{", OPEN_BRACKET_ESCAPE},
+					{"}", CLOSE_BRACKET_ESCAPE}
+			});
+
+	/**
+	 * Used to decode template tokens.
+	 */
+	private static final CharSequenceTranslator DECODE_BRACKETS = new LookupTranslator(
+			new String[][]{
+					{OPEN_BRACKET_ESCAPE, "{"},
+					{CLOSE_BRACKET_ESCAPE, "}"}
+			});
+
+	/**
+	 * Used to decode any escaped characters.
+	 */
+	private static final CharSequenceTranslator DECODE = new LookupTranslator(
+			new String[][]{
+					{LT_ESCAPE, "<"},
+					{GT_ESCAPE, ">"},
+					{AMP_ESCAPE, "&"},
+					{QUOT_ESCAPE, "\""},
+					{OPEN_BRACKET_ESCAPE, "{"},
+					{CLOSE_BRACKET_ESCAPE, "}"}
+			});
+
+	/**
+	 * Used to encode characters as necessary.
+	 */
+	private static final CharSequenceTranslator ENCODE = new AggregateTranslator(
+			new LookupTranslator(
+					new String[][]{
+							{"<", LT_ESCAPE},
+							{">", GT_ESCAPE},
+							{"&", AMP_ESCAPE},
+							{"\"", QUOT_ESCAPE},
+							{"{", OPEN_BRACKET_ESCAPE},
+							{"}", CLOSE_BRACKET_ESCAPE}
+					}),
+			WebUtilities.NumericEntityIgnorer.between(0x00, 0x08),
+			WebUtilities.NumericEntityIgnorer.between(0x0b, 0x0c),
+			WebUtilities.NumericEntityIgnorer.between(0x0e, 0x1f)
+	);
 
 	/**
 	 * Prevent instantiation of this class.
@@ -250,10 +325,11 @@ public final class WebUtilities {
 			return input;
 		}
 
-		final StringBuffer buffer = new StringBuffer(input.length() * 2); // worst-case
+		final StringBuilder buffer = new StringBuilder(input.length() * 2); // worst-case
+		char[] characters = input.toCharArray();
 
-		for (int i = 0; i < input.length(); ++i) {
-			final char ch = input.charAt(i);
+		for (int i = 0, len = input.length(); i < len; ++i) {
+			final char ch = characters[i];
 
 			// Section 2.3 - Unreserved chars
 			if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9')
@@ -292,32 +368,7 @@ public final class WebUtilities {
 		if (input == null || input.length() == 0) {
 			return input;
 		}
-
-		StringBuffer buffer = new StringBuffer(input.length());
-
-		for (int i = 0; i < input.length(); i++) {
-			char c = input.charAt(i);
-
-			if (c == '<') {
-				buffer.append(LT_ESCAPE);
-			} else if (c == '>') {
-				buffer.append(GT_ESCAPE);
-			} else if (c == '&') {
-				buffer.append(AMP_ESCAPE);
-			} else if (c == '"') {
-				buffer.append(QUOT_ESCAPE);
-			} else if (c == '{') {
-				buffer.append(OPEN_BRACKET_ESCAPE);
-			} else if (c == '}') {
-				buffer.append(CLOSE_BRACKET_ESCAPE);
-			} else if (c >= 32 || c == '\n' || c == '\r' || c == '\t') {
-				// All other unicode characters can be sent as is, with the
-				// exception of control codes, which are illegal
-				buffer.append(c);
-			}
-		}
-
-		return buffer.toString();
+		return ENCODE.translate(input);
 	}
 
 	/**
@@ -351,42 +402,21 @@ public final class WebUtilities {
 		if (encoded == null || encoded.length() == 0 || encoded.indexOf('&') == -1) {
 			return encoded;
 		}
-
-		String decoded = encoded.replace(LT_ESCAPE, "<")
-				.replace(GT_ESCAPE, ">")
-				.replace(AMP_ESCAPE, "&")
-				.replace(QUOT_ESCAPE, "\"")
-				.replace(OPEN_BRACKET_ESCAPE, "{")
-				.replace(CLOSE_BRACKET_ESCAPE, "}");
-
-		return decoded;
+		return DECODE.translate(encoded);
 	}
 
-	/**
-	 * Check if the input String contains brackets.
-	 *
-	 * @param input the String to test if it contains open or closed brackets
-	 * @return true if String contains open or closed brackets
-	 */
-	public static boolean containsBrackets(final String input) {
-		if (Util.empty(input)) {
-			return false;
-		}
-		return input.contains("{") || input.contains("}");
-	}
-
-	/**
-	 * Check if the input String contains encoded brackets.
-	 *
-	 * @param input the String to test if it contains open or closed encoded brackets
-	 * @return true if String contains open or closed encoded brackets
-	 */
-	public static boolean containsEncodedBrackets(final String input) {
-		if (Util.empty(input)) {
-			return false;
-		}
-		return input.contains(OPEN_BRACKET_ESCAPE) || input.contains(CLOSE_BRACKET_ESCAPE);
-	}
+//	/**
+//	 * Check if the input String contains brackets.
+//	 *
+//	 * @param input the String to test if it contains open or closed brackets
+//	 * @return true if String contains open or closed brackets
+//	 */
+//	public static boolean containsBrackets(final String input) {
+//		if (Util.empty(input)) {
+//			return false;
+//		}
+//		return input.contains("{") || input.contains("}");
+//	}
 
 	/**
 	 * Encode open or closed brackets in the input String.
@@ -395,19 +425,10 @@ public final class WebUtilities {
 	 * @return the String with encoded open or closed brackets
 	 */
 	public static String encodeBrackets(final String input) {
-		if (Util.empty(input)) {
+		if (input == null || input.length() == 0) {  // For performance reasons don't use Util.empty
 			return input;
 		}
-		String encoded = input;
-		// Open bracket
-		if (encoded.contains("{")) {
-			encoded = encoded.replace("{", OPEN_BRACKET_ESCAPE);
-		}
-		// Close bracket
-		if (encoded.contains("}")) {
-			encoded = encoded.replace("}", CLOSE_BRACKET_ESCAPE);
-		}
-		return encoded;
+		return ENCODE_BRACKETS.translate(input);
 	}
 
 	/**
@@ -417,19 +438,10 @@ public final class WebUtilities {
 	 * @return the String with decode open or closed brackets
 	 */
 	public static String decodeBrackets(final String input) {
-		if (Util.empty(input)) {
+		if (input == null || input.length() == 0) {  // For performance reasons don't use Util.empty
 			return input;
 		}
-		String decoded = input;
-		// Open bracket
-		if (decoded.contains(OPEN_BRACKET_ESCAPE)) {
-			decoded = decoded.replace(OPEN_BRACKET_ESCAPE, "{");
-		}
-		// Close bracket
-		if (decoded.contains(CLOSE_BRACKET_ESCAPE)) {
-			decoded = decoded.replace(CLOSE_BRACKET_ESCAPE, "}");
-		}
-		return decoded;
+		return DECODE_BRACKETS.translate(input);
 	}
 
 	/**
@@ -439,19 +451,10 @@ public final class WebUtilities {
 	 * @return the String with double encoded open or closed brackets
 	 */
 	public static String doubleEncodeBrackets(final String input) {
-		if (Util.empty(input)) {
+		if (input == null || input.length() == 0) {  // For performance reasons don't use Util.empty
 			return input;
 		}
-		String encoded = input;
-		// Open bracket
-		if (encoded.contains(OPEN_BRACKET_ESCAPE)) {
-			encoded = encoded.replace(OPEN_BRACKET_ESCAPE, OPEN_BRACKET_DOUBLE_ESCAPE);
-		}
-		// Close bracket
-		if (encoded.contains(CLOSE_BRACKET_ESCAPE)) {
-			encoded = encoded.replace(CLOSE_BRACKET_ESCAPE, CLOSE_BRACKET_DOUBLE_ESCAPE);
-		}
-		return encoded;
+		return DOUBLE_ENCODE_BRACKETS.translate(input);
 	}
 
 	/**
@@ -461,19 +464,10 @@ public final class WebUtilities {
 	 * @return the String with decoded double encoded open or closed brackets
 	 */
 	public static String doubleDecodeBrackets(final String input) {
-		if (Util.empty(input)) {
+		if (input == null || input.length() == 0) {  // For performance reasons don't use Util.empty
 			return input;
 		}
-		String decoded = input;
-		// Open bracket
-		if (decoded.contains(OPEN_BRACKET_DOUBLE_ESCAPE)) {
-			decoded = decoded.replace(OPEN_BRACKET_DOUBLE_ESCAPE, OPEN_BRACKET_ESCAPE);
-		}
-		// Close bracket
-		if (decoded.contains(CLOSE_BRACKET_DOUBLE_ESCAPE)) {
-			decoded = decoded.replace(CLOSE_BRACKET_DOUBLE_ESCAPE, CLOSE_BRACKET_ESCAPE);
-		}
-		return decoded;
+		return DOUBLE_DECODE_BRACKETS.translate(input);
 	}
 
 	/**
@@ -872,4 +866,73 @@ public final class WebUtilities {
 		return parent;
 	}
 
+	/**
+	 * <p>
+	 * Implementation of the CodePointTranslator to throw away the matching characters. This is copied from
+	 * org.apache.commons.lang3.text.translate.NumericEntityEscaper, but has been changed to discard the characters
+	 * rather than attempting to encode them.<p>
+	 * <p>
+	 * Discarding the characters is necessary because certain invalid characters (e.g. decimal 129) cannot be encoded
+	 * for HTML. An existing library was not available for this function because no HTML page should ever contain these
+	 * characters.</p>
+	 */
+	public static final class NumericEntityIgnorer extends CodePointTranslator {
+
+		private final int below;
+		private final int above;
+		private final boolean between;
+
+		/**
+		 * <p>
+		 * Constructs a <code>NumericEntityEscaper</code> for the specified range. This is the underlying method for the
+		 * other constructors/builders. The <code>below</code> and <code>above</code> boundaries are inclusive when
+		 * <code>between</code> is <code>true</code> and exclusive when it is <code>false</code>. </p>
+		 *
+		 * @param below int value representing the lowest codepoint boundary
+		 * @param above int value representing the highest codepoint boundary
+		 * @param between whether to escape between the boundaries or outside them
+		 */
+		private NumericEntityIgnorer(final int below, final int above, final boolean between) {
+			this.below = below;
+			this.above = above;
+			this.between = between;
+		}
+
+		/**
+		 * <p>
+		 * Constructs a <code>NumericEntityEscaper</code> between the specified values (inclusive). </p>
+		 *
+		 * @param codepointLow above which to escape
+		 * @param codepointHigh below which to escape
+		 * @return the newly created {@code NumericEntityEscaper} instance
+		 */
+		public static NumericEntityIgnorer between(final int codepointLow, final int codepointHigh) {
+			return new NumericEntityIgnorer(codepointLow, codepointHigh, true);
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public boolean translate(final int codepoint, final Writer out) throws IOException {
+			if (between) {
+				if (codepoint < below || codepoint > above) {
+					return false;
+				}
+			} else if (codepoint >= below && codepoint <= above) {
+				return false;
+			}
+// Commented out from org.apache.commons.lang3.text.translate.NumericEntityEscaper
+// these characters cannot be handled in any way - write no output.
+
+//			out.write("&#");
+//			out.write(Integer.toString(codepoint, 10));
+//			out.write(';');
+//			if (LOG.isWarnEnabled()) {
+//				LOG.warn("Illegal HTML character stripped from XML. codepoint=" + codepoint);
+//			}
+
+			return true;
+		}
+	}
 }
