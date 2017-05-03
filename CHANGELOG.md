@@ -16,6 +16,9 @@
 
 ### Enhancements
 
+* Improved efficiency of XML escaping and sanitization as part of #1158.
+* Removed PetStore #1190.
+
 ## Release 1.4.0-beta-2
 
 ### Bug Fixes
