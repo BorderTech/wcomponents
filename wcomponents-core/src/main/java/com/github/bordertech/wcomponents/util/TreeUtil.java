@@ -382,6 +382,15 @@ public final class TreeUtil {
 	}
 
 	/**
+	 * @param component the component to search from.
+	 * @param path the path to the WComponent.
+	 * @return the component matching the given path, or null if not found.
+	 */
+	public static ComponentWithContext[] findWComponents(final WComponent component, final String[] path) {
+		return findWComponents(component, path, true);
+	}
+
+	/**
 	 * Retrieves WComponents by their path in the WComponent tree.
 	 * <p>
 	 * Paths are specified using class names, starting from the furthest ancestor. To reduce the path lengths, class
@@ -406,12 +415,17 @@ public final class TreeUtil {
 	 *
 	 * @param component the component to search from.
 	 * @param path the path to the WComponent.
+	 * @param visibleOnly visible only
 	 * @return the component matching the given path, or null if not found.
 	 */
 	public static ComponentWithContext[] findWComponents(final WComponent component,
-			final String[] path) {
+			final String[] path, final boolean visibleOnly) {
+		UIContext uic = UIContextHolder.getCurrent();
+		if (uic == null) {
+			throw new IllegalStateException("No user context available.");
+		}
 		List<ComponentWithContext> matchAtLevel = new ArrayList<>();
-		matchAtLevel.add(new ComponentWithContext(component, UIContextHolder.getCurrent()));
+		matchAtLevel.add(new ComponentWithContext(component, uic));
 
 		for (int i = 0; i < path.length; i++) {
 			List<ComponentWithContext> matchAtLastLevel = matchAtLevel;
@@ -427,7 +441,11 @@ public final class TreeUtil {
 				UIContextHolder.pushContext(comp.getContext());
 
 				try {
-					TreeUtil.traverse(comp.getComponent(), visitor);
+					if (visibleOnly) {
+						TreeUtil.traverseVisible(comp.getComponent(), visitor);
+					} else {
+						TreeUtil.traverse(comp.getComponent(), visitor);
+					}
 				} finally {
 					UIContextHolder.popContext();
 				}
@@ -455,7 +473,21 @@ public final class TreeUtil {
 	 */
 	public static ComponentWithContext findWComponent(final WComponent component,
 			final String[] path) {
-		ComponentWithContext[] components = findWComponents(component, path);
+		return findWComponent(component, path, true);
+	}
+
+	/**
+	 * Retrieves the first WComponent by its path in the WComponent tree. See
+	 * {@link #findWComponents(WComponent, String[])} for a description of paths.
+	 *
+	 * @param component the component to search from.
+	 * @param path the path to the WComponent.
+	 * @param visibleOnly visible only
+	 * @return the first component matching the given path, or null if not found.
+	 */
+	public static ComponentWithContext findWComponent(final WComponent component,
+			final String[] path, final boolean visibleOnly) {
+		ComponentWithContext[] components = findWComponents(component, path, visibleOnly);
 
 		return components.length == 0 ? null : components[0];
 	}

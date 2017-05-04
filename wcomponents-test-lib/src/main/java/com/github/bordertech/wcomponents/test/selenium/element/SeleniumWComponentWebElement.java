@@ -1,6 +1,9 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
+import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
+import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
+import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.By;
@@ -69,19 +72,69 @@ public class SeleniumWComponentWebElement implements WebElement {
 	 */
 	@Override
 	public void click() {
-		element.click();
-		SeleniumWComponentsUtil.waitForPageReady(driver);
+		// Wrapped element might already be a WComponent WebElement
+		if (element instanceof SeleniumWComponentWebElement) {
+			element.click();
+		} else {
+			element.click();
+			SeleniumWComponentsUtil.waitForPageReady(driver);
+		}
 	}
 
 	/**
 	 * <p>
-	 * Perform a click action without waiting for the WComponent ready
-	 * status</p>
+	 * Perform a click action without waiting for the WComponent ready status</p>
 	 * <p>
 	 * Used when the click will result in a non-WComponents page.</p>
 	 */
 	public void clickNoWait() {
-		element.click();
+		// Wrapped element might already be a WComponent WebElement
+		if (element instanceof SeleniumWComponentWebElement) {
+			((SeleniumWComponentWebElement) element).clickNoWait();
+		} else {
+			element.click();
+		}
+	}
+
+	/**
+	 * Find immediate with no polling.
+	 *
+	 * @param by the by condition
+	 * @return the matching element
+	 */
+	public SeleniumWComponentWebElement findElementImmediate(final By by) {
+		if (by instanceof ByWComponent) {
+			((ByWComponent) by).setContext(SeleniumLauncher.getContextForSession(((SeleniumWComponentsWebDriver) driver).getSessionId()));
+		}
+		try {
+			SeleniumWComponentsUtil.configureImmediateImplicitWait(driver);
+			return new SeleniumWComponentWebElement(element.findElement(by), driver);
+		} finally {
+			SeleniumWComponentsUtil.configureImplicitWait(driver);
+		}
+	}
+
+	/**
+	 * Find immediate with no polling.
+	 *
+	 * @param by the by condition
+	 * @return the matching element
+	 */
+	public List<WebElement> findElementsImmediate(final By by) {
+		if (by instanceof ByWComponent) {
+			((ByWComponent) by).setContext(SeleniumLauncher.getContextForSession(((SeleniumWComponentsWebDriver) driver).getSessionId()));
+		}
+		try {
+			SeleniumWComponentsUtil.configureImmediateImplicitWait(driver);
+			List<WebElement> webElements = element.findElements(by);
+			List<WebElement> wrappedList = new ArrayList<>();
+			for (WebElement webElement : webElements) {
+				wrappedList.add(new SeleniumWComponentWebElement(webElement, driver));
+			}
+			return wrappedList;
+		} finally {
+			SeleniumWComponentsUtil.configureImplicitWait(driver);
+		}
 	}
 
 	/**
@@ -101,7 +154,6 @@ public class SeleniumWComponentWebElement implements WebElement {
 		for (WebElement e : element.findElements(by)) {
 			elements.add(new SeleniumWComponentWebElement(e, driver));
 		}
-
 		return elements;
 	}
 
@@ -146,9 +198,9 @@ public class SeleniumWComponentWebElement implements WebElement {
 	}
 
 	/**
-	 * @return {@code true} if the element is hidden in the current UI. This is not exactly the same as the reverse of isDisplayed as it tests only
-	 * for the element being hidden using the meachanism internal to WComponents and not any other (CSS-based) mechanism which may result in
-	 * isDisplayed() returning {@code false}.
+	 * @return {@code true} if the element is hidden in the current UI. This is not exactly the same as the reverse of
+	 * isDisplayed as it tests only for the element being hidden using the meachanism internal to WComponents and not
+	 * any other (CSS-based) mechanism which may result in isDisplayed() returning {@code false}.
 	 */
 	public boolean isHidden() {
 		return element.getAttribute("hidden") != null;
@@ -222,6 +274,7 @@ public class SeleniumWComponentWebElement implements WebElement {
 
 	/**
 	 * Get the id of the default "active" part of the component. This may not be the WComponent id.
+	 *
 	 * @return the active component's id, by default this is the WComponent id.
 	 */
 	public String getActiveId() {
@@ -235,6 +288,15 @@ public class SeleniumWComponentWebElement implements WebElement {
 		return element;
 	}
 
-
+	/**
+	 * @param element the element to click with no wait
+	 */
+	protected void clickElementNoWait(final WebElement element) {
+		if (element instanceof SeleniumWComponentWebElement) {
+			((SeleniumWComponentWebElement) element).clickNoWait();
+		} else {
+			element.click();
+		}
+	}
 
 }

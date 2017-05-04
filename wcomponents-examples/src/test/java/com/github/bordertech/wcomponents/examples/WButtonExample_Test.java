@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
+import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -59,8 +60,7 @@ public class WButtonExample_Test extends WComponentExamplesTestCase {
 	 */
 	private void assertHasMessage(final String assertText, final String message) {
 		WebDriver driver = getDriver();
-		WebElement messageElement = driver.findElement(byWComponentPath("WMessageBox"));
-
+		WebElement messageElement = SeleniumWComponentsUtil.findElementImmediateForDriver(driver, byWComponentPath("WMessageBox"));
 		Assert.assertTrue(assertText, messageElement.getText().contains(message));
 	}
 }

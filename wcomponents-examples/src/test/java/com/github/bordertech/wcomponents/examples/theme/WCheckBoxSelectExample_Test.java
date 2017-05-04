@@ -16,8 +16,9 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.WebElement;
 
 /**
- * Unit tests for WCheckBoxSelectExample which are really used to test {@link SeleniumWCheckBoxSelectWebElement}. These tests combine
- * assertions to compensate for the slowness of reloading the example to be tested in Selenium.
+ * Unit tests for WCheckBoxSelectExample which are really used to test {@link SeleniumWCheckBoxSelectWebElement}. These
+ * tests combine assertions to compensate for the slowness of reloading the example to be tested in Selenium.
+ *
  * @author Mark Reeves
  * @since 1.4.0
  */
@@ -38,7 +39,8 @@ public class WCheckBoxSelectExample_Test extends WComponentExamplesTestCase {
 	}
 
 	/**
-	 * @return The first WCheckBoxSelect in the example. This is an interactive component with no selections and no optional properties set.
+	 * @return The first WCheckBoxSelect in the example. This is an interactive component with no selections and no
+	 * optional properties set.
 	 */
 	private SeleniumWCheckBoxSelectWebElement getExampleNoSelections() {
 		return driver.findWCheckBoxSelect(byWComponentPath("WCheckBoxSelect[0]"));
@@ -116,7 +118,6 @@ public class WCheckBoxSelectExample_Test extends WComponentExamplesTestCase {
 	public void testGetOptions() {
 		Assert.assertEquals(9, getExampleNoSelections().getOptions().size());
 		Assert.assertEquals(9, getExampleWithReadOnlySelection().getOptions().size());
-		Assert.assertEquals(9, getExampleWithReadOnlySelection().getOptions().size());
 		// when empty
 		Assert.assertTrue(CollectionUtils.isEmpty(getExampleNoOptions().getOptions()));
 		// read-only and empty
@@ -189,8 +190,8 @@ public class WCheckBoxSelectExample_Test extends WComponentExamplesTestCase {
 		Assert.assertTrue(readOnly.isSelected(readOnly.getOption(0)));
 		// cannot test for false in read only mode
 		// disabled always false
-		SeleniumWCheckBoxSelectWebElement disabled =
-				driver.findWCheckBoxSelect(new ByLabel("Disabled with many selections and COLUMN layout", false));
+		SeleniumWCheckBoxSelectWebElement disabled
+				= driver.findWCheckBoxSelect(new ByLabel("Disabled with many selections and COLUMN layout", false));
 		int i = 0;
 		for (WebElement option : disabled.getOptions()) {
 			Assert.assertFalse(disabled.isSelected(option));
@@ -276,34 +277,34 @@ public class WCheckBoxSelectExample_Test extends WComponentExamplesTestCase {
 		// by option
 		WebElement option = cbs.getOption(0); // the selected option
 		boolean selected = cbs.isSelected(option);
-		cbs.click(option);
+		cbs.clickNoWait(option);
 		Assert.assertEquals("Option selection should have changed.", !selected, cbs.isSelected(option));
-		cbs.click(option);
+		cbs.clickNoWait(option);
 		Assert.assertEquals("Option selection should have changed back.", selected, cbs.isSelected(option));
 		// by label
 		String labelText = "New South Wales";
 		selected = cbs.isSelected(labelText);
-		cbs.click(labelText);
+		cbs.clickNoWait(labelText);
 		Assert.assertEquals("Option with label '" + labelText + "' selection should have changed.", !selected, cbs.isSelected(labelText));
-		cbs.click(labelText);
+		cbs.clickNoWait(labelText);
 		Assert.assertEquals("Option with label '" + labelText + "' selection should have changed back.", selected, cbs.isSelected(labelText));
 		// by index
 		int idx = 3;
 		selected = cbs.isSelected(idx);
-		cbs.click(idx);
+		cbs.clickNoWait(idx);
 		Assert.assertEquals("Option with index '" + String.valueOf(idx) + "' selection should have changed.", !selected, cbs.isSelected(idx));
-		cbs.click(idx);
+		cbs.clickNoWait(idx);
 		Assert.assertEquals("Option with index '" + String.valueOf(idx) + "' selection should have changed back.", selected, cbs.isSelected(idx));
 		// disabled does nothing
 		cbs = getDisabledExample();
 		Assert.assertFalse(cbs.isSelected(0));
-		cbs.click(0);
+		cbs.clickNoWait(0);
 		getDriver().waitForPageReady();
 		Assert.assertFalse(cbs.isSelected(0));
 		// readOnly does nothing
 		cbs = getExampleWithReadOnlySelection();
 		Assert.assertTrue(cbs.isSelected(0));
-		cbs.click(0);
+		cbs.clickNoWait(0);
 		getDriver().waitForPageReady();
 		Assert.assertTrue(cbs.isSelected(0));
 	}

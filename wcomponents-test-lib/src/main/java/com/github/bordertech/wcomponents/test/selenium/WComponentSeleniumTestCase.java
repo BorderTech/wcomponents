@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.test.selenium;
 
-import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverCache;
 import com.github.bordertech.wcomponents.test.selenium.driver.ParameterizedWebDriverType;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
+import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverCache;
 import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverType;
 import com.github.bordertech.wcomponents.test.selenium.server.ServerCache;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;

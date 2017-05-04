@@ -57,8 +57,8 @@ public class SeleniumWTextAreaWebElement extends SeleniumWComponentInputWebEleme
 	}
 
 	/**
-	 * WTextArea's line breaks will be in Java format "\n whereas HTML
-	 * textarea's value has line breaks in the HTML specified format "\r\n".
+	 * WTextArea's line breaks will be in Java format "\n whereas HTML textarea's value has line breaks in the HTML
+	 * specified format "\r\n".
 	 *
 	 * @return the value of the attribute
 	 */
@@ -68,8 +68,7 @@ public class SeleniumWTextAreaWebElement extends SeleniumWComponentInputWebEleme
 	}
 
 	/**
-	 * Some attributes are applied to the wrapper, some to the input. This
-	 * override sorts out which is which.
+	 * Some attributes are applied to the wrapper, some to the input. This override sorts out which is which.
 	 *
 	 * @param name the name of the attribute to find
 	 * @return the value of the attribute
@@ -112,7 +111,7 @@ public class SeleniumWTextAreaWebElement extends SeleniumWComponentInputWebEleme
 			return null;
 		}
 
-		return findElement(By.tagName(TEXTAREA_TAG));
+		return findElementImmediate(By.tagName(TEXTAREA_TAG));
 	}
 
 	/**

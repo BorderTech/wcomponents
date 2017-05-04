@@ -1,7 +1,10 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Environment;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
+import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -27,7 +30,6 @@ public class InfoDump_Test extends WComponentExamplesTestCase {
 
 	@Test
 	public void testExample() {
-		Environment env = getUi().getEnvironment();
 
 		// Launch the web browser to the LDE
 		SeleniumWComponentsWebDriver driver = getDriver();
@@ -37,7 +39,15 @@ public class InfoDump_Test extends WComponentExamplesTestCase {
 
 		String text = driver.findWTextArea(byWComponentPath("WTextArea")).getText();
 		Assert.assertTrue("Text should contain dump info", text.contains("WEnvironment"));
-		Assert.assertTrue("Incorrect AppId", text.contains("AppId: " + env.getAppId()));
+
+		UIContext uic = SeleniumLauncher.getContextForSession(driver.getSessionId());
+		UIContextHolder.pushContext(uic);
+		try {
+			Environment env = getUi().getEnvironment();
+			Assert.assertTrue("Incorrect AppId", text.contains("AppId: " + env.getAppId()));
+		} finally {
+			UIContextHolder.popContext();
+		}
 
 		driver.findElement(byWComponentPath("WButton[0]")).click();
 		Assert.assertEquals("Text should have been cleared", "", driver.findWTextArea(byWComponentPath("WTextArea")).getText());

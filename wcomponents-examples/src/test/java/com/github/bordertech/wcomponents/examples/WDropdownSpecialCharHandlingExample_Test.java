@@ -1,7 +1,10 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
+import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import com.github.bordertech.wcomponents.util.TreeUtil;
 import java.util.List;
@@ -31,20 +34,26 @@ public class WDropdownSpecialCharHandlingExample_Test extends WComponentExamples
 	public void testExample() {
 		WDropdownSpecialCharHandlingExample example = (WDropdownSpecialCharHandlingExample) getUi();
 
-		WDropdown dropdown = (WDropdown) TreeUtil.findWComponent(example, new String[]{"WDropdown"}).
-				getComponent();
-		List<?> options = dropdown.getOptions();
-
 		// Launch the web browser to the LDE
 		SeleniumWComponentsWebDriver driver = getDriver();
 
-		for (Object option : options) {
-			driver.findElement(byWComponent(dropdown, option)).click();
-			driver.findElement(byWComponentPath("WButton")).click();
+		UIContext uic = SeleniumLauncher.getContextForSession(driver.getSessionId());
+		UIContextHolder.pushContext(uic);
+		try {
+			WDropdown dropdown = (WDropdown) TreeUtil.findWComponent(example, new String[]{"WDropdown"}).
+					getComponent();
+			List<?> options = dropdown.getOptions();
 
-			Assert.assertEquals("Incorrect option selected", option, dropdown.getSelected());
-			Assert.assertEquals("Incorrect text field text", (option == null ? "" : option),
-					driver.findWTextField(byWComponentPath("WTextField")).getValue());
+			for (Object option : options) {
+				driver.findElement(byWComponent(dropdown, option)).click();
+				driver.findElement(byWComponentPath("WButton")).click();
+
+				Assert.assertEquals("Incorrect option selected", option, dropdown.getSelected());
+				Assert.assertEquals("Incorrect text field text", (option == null ? "" : option),
+						driver.findWTextField(byWComponentPath("WTextField")).getValue());
+			}
+		} finally {
+			UIContextHolder.popContext();
 		}
 	}
 }

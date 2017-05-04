@@ -18,6 +18,7 @@ import org.openqa.selenium.support.ui.Select;
  * @since 1.2.0
  */
 public class SeleniumWSelectWebElement extends SeleniumWComponentInputWebElement {
+
 	/**
 	 * HTML attributes applied to the input element.
 	 */
@@ -74,8 +75,7 @@ public class SeleniumWSelectWebElement extends SeleniumWComponentInputWebElement
 	}
 
 	/**
-	 * @return the value of the selected option, or null if no selected
-	 * option.
+	 * @return the value of the selected option, or null if no selected option.
 	 */
 	@Override
 	public String getValue() {
@@ -90,7 +90,7 @@ public class SeleniumWSelectWebElement extends SeleniumWComponentInputWebElement
 		if (isReadOnly()) {
 			if (isMultiSelect()) {
 				try {
-					return findElement(By.tagName(RO_MULTI_OPTION_TAG));
+					return findElementImmediate(By.tagName(RO_MULTI_OPTION_TAG));
 				} catch (final NoSuchElementException nsee) {
 					//There is not a selected element - return null.
 					return null;
@@ -118,14 +118,14 @@ public class SeleniumWSelectWebElement extends SeleniumWComponentInputWebElement
 	 * @return the last option for this select.
 	 */
 	public SeleniumWComponentWebElement getFirstOption() {
-		return getInputField().findElement(By.cssSelector(SELECTOR_FIRST_OPTION));
+		return getInputField().findElementImmediate(By.cssSelector(SELECTOR_FIRST_OPTION));
 	}
 
 	/**
 	 * @return the last option for this select.
 	 */
 	public SeleniumWComponentWebElement getLastOption() {
-		return getInputField().findElement(By.cssSelector(SELECTOR_LAST_OPTION));
+		return getInputField().findElementImmediate(By.cssSelector(SELECTOR_LAST_OPTION));
 	}
 
 	/**
@@ -133,12 +133,11 @@ public class SeleniumWSelectWebElement extends SeleniumWComponentInputWebElement
 	 * @param optionNumber - the
 	 */
 	public SeleniumWComponentWebElement getNthOption(final int optionNumber) {
-		return getInputField().findElement(By.cssSelector(String.format(SELECTOR_NTH_OPTION, optionNumber)));
+		return getInputField().findElementImmediate(By.cssSelector(String.format(SELECTOR_NTH_OPTION, optionNumber)));
 	}
 
 	/**
-	 * Some attributes are applied to the wrapper, some to the input. This
-	 * override sorts out which is which.
+	 * Some attributes are applied to the wrapper, some to the input. This override sorts out which is which.
 	 *
 	 * @param name the name of the attribute to find
 	 * @return the value of the attribute
@@ -159,11 +158,12 @@ public class SeleniumWSelectWebElement extends SeleniumWComponentInputWebElement
 		if (isReadOnly()) {
 			return null;
 		}
-		return findElement(By.tagName(SELECT_TAG));
+		return findElementImmediate(By.tagName(SELECT_TAG));
 	}
 
 	/**
 	 * Is the component a multi-select list?
+	 *
 	 * @return {@code true} if the component is a multi-select
 	 */
 	public boolean isMultiSelect() {
@@ -179,7 +179,7 @@ public class SeleniumWSelectWebElement extends SeleniumWComponentInputWebElement
 	 */
 	public List<WebElement> getOptions() {
 		if (isReadOnly()) {
-			return findElements(By.tagName(RO_MULTI_OPTION_TAG));
+			return findElementsImmediate(By.tagName(RO_MULTI_OPTION_TAG));
 		}
 		WebElement input = getInputField();
 		Select se = new Select(input);
@@ -201,6 +201,7 @@ public class SeleniumWSelectWebElement extends SeleniumWComponentInputWebElement
 
 	/**
 	 * Get an option based on its visible text.
+	 *
 	 * @param optionText the text of the option we are trying to find
 	 * @return the option
 	 */

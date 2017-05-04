@@ -13,6 +13,7 @@ import org.junit.experimental.categories.Category;
  * @since 1.0.0
  */
 @Category(SeleniumTests.class)
+@RunWith(MultiBrowserRunner.class)
 public class WRadioButtonSelectExample_Test extends WComponentExamplesTestCase {
 
 	/**
