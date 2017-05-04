@@ -441,6 +441,9 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		String in = "Hello world greater> less< amper& quote\"\t\r\n";
 		String expected = "Hello world greater&gt; less&lt; amper&amp; quote&quot;\t\r\n";
 		Assert.assertEquals("Incorrectly encoded value", expected, WebUtilities.encode(in));
+
+		in = characterRange(0, 32);
+		Assert.assertEquals("Encode should blat special characters", "\t\n\r ", WebUtilities.encode(in));
 	}
 
 	@Test
@@ -645,37 +648,51 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Encoded URL not correct", out, WebUtilities.encodeUrl(in));
 	}
 
-	@Test
-	public void testContainsBrackets() {
-		Assert.assertTrue("Contains a open bracket", WebUtilities.containsBrackets("{"));
-		Assert.assertTrue("Contains a closed bracket", WebUtilities.containsBrackets("}"));
-		Assert.assertFalse("Contains an encoded open bracket", WebUtilities.containsBrackets("&#123;"));
-		Assert.assertFalse("Contains an encoded closed bracket", WebUtilities.containsBrackets("&#125;"));
-		Assert.assertFalse("Contains a double encoded open bracket", WebUtilities.containsBrackets("&amp;#123;"));
-		Assert.assertFalse("Contains a double encoded closed bracket", WebUtilities.containsBrackets("&amp;#125;"));
-	}
+//	@Test
+//	public void testContainsBrackets() {
+//		Assert.assertTrue("Contains a open bracket", WebUtilities.containsBrackets("{"));
+//		Assert.assertTrue("Contains a closed bracket", WebUtilities.containsBrackets("}"));
+//		Assert.assertFalse("Contains an encoded open bracket", WebUtilities.containsBrackets("&#123;"));
+//		Assert.assertFalse("Contains an encoded closed bracket", WebUtilities.containsBrackets("&#125;"));
+//		Assert.assertFalse("Contains a double encoded open bracket", WebUtilities.containsBrackets("&amp;#123;"));
+//		Assert.assertFalse("Contains a double encoded closed bracket", WebUtilities.containsBrackets("&amp;#125;"));
+//	}
 
-	@Test
-	public void testContainsEncodeBrackets() {
-		Assert.assertTrue("Contains an encoded open bracket", WebUtilities.containsEncodedBrackets("&#123;"));
-		Assert.assertTrue("Contains an encoded closed bracket", WebUtilities.containsEncodedBrackets("&#125;"));
-		Assert.assertFalse("Contains a double encoded open bracket", WebUtilities.containsEncodedBrackets("&amp;#123;"));
-		Assert.assertFalse("Contains a double encoded closed bracket", WebUtilities.containsEncodedBrackets("&amp;#125;"));
-		Assert.assertFalse("Contains a open bracket", WebUtilities.containsEncodedBrackets("{"));
-		Assert.assertFalse("Contains a closed bracket", WebUtilities.containsEncodedBrackets("}"));
-	}
+//	@Test
+//	public void testContainsEncodeBrackets() {
+//		Assert.assertTrue("Contains an encoded open bracket", WebUtilities.containsEncodedBrackets("&#123;"));
+//		Assert.assertTrue("Contains an encoded closed bracket", WebUtilities.containsEncodedBrackets("&#125;"));
+//		Assert.assertFalse("Contains a double encoded open bracket", WebUtilities.containsEncodedBrackets("&amp;#123;"));
+//		Assert.assertFalse("Contains a double encoded closed bracket", WebUtilities.containsEncodedBrackets("&amp;#125;"));
+//		Assert.assertFalse("Contains a open bracket", WebUtilities.containsEncodedBrackets("{"));
+//		Assert.assertFalse("Contains a closed bracket", WebUtilities.containsEncodedBrackets("}"));
+//	}
 
 	@Test
 	public void testEncodeBrackets() {
-		String in = "{}<>";
-		String out = "&#123;&#125;<>";
+		String in = "{}<{}>";
+		String out = "&#123;&#125;<&#123;&#125;>";
+		Assert.assertEquals("Encode brackets not correct", out, WebUtilities.encodeBrackets(in));
+	}
+
+	@Test
+	public void testEncodeBracketsWithNoBrackets() {
+		String in = "<oranges>&#123;&#125;";
+		String out = in;
 		Assert.assertEquals("Encode brackets not correct", out, WebUtilities.encodeBrackets(in));
 	}
 
 	@Test
 	public void testDecodeBrackets() {
-		String in = "&#123;&#125;<>";
-		String out = "{}<>";
+		String in = "&#123;&#125;<>&#123;&#125;a";
+		String out = "{}<>{}a";
+		Assert.assertEquals("Decode brackets not correct", out, WebUtilities.decodeBrackets(in));
+	}
+
+	@Test
+	public void testDecodeBracketsWithNoBrackets() {
+		String in = "{}<>";
+		String out = in;
 		Assert.assertEquals("Decode brackets not correct", out, WebUtilities.decodeBrackets(in));
 	}
 
@@ -687,9 +704,30 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
+	public void testDoubleEncodeBracketsWithNoBrackets() {
+		String in = "then you win";
+		String out = in;
+		Assert.assertEquals("Double encode brackets not correct", out, WebUtilities.doubleEncodeBrackets(in));
+	}
+
+	@Test
+	public void testDoubleEncodeBracketsWithMultipleMatches() {
+		String in = "&#123;&#125;<> &#123;&#125;&#125;";
+		String out = "&amp;#123;&amp;#125;<> &amp;#123;&amp;#125;&amp;#125;";
+		Assert.assertEquals("Double encode brackets not correct", out, WebUtilities.doubleEncodeBrackets(in));
+	}
+
+	@Test
 	public void testDoubleDecodeBrackets() {
 		String in = "&amp;#123;&amp;#125;<>";
 		String out = "&#123;&#125;<>";
+		Assert.assertEquals("Double decode brackets not correct", out, WebUtilities.doubleDecodeBrackets(in));
+	}
+
+	@Test
+	public void testDoubleDecodeBracketsWithNoMatches() {
+		String in = "then you win";
+		String out = in;
 		Assert.assertEquals("Double decode brackets not correct", out, WebUtilities.doubleDecodeBrackets(in));
 	}
 
@@ -704,6 +742,20 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		} catch (Exception e) {
 			throw new IllegalStateException("Could not encode input string [" + input + "].");
 		}
+	}
+
+	/**
+	 * Generates a range of characters.
+	 * @param from The first character in the range (must be > 0).
+	 * @param to The last character in the range (must be >= from).
+	 * @return A string containing the character range.
+	 */
+	private static String characterRange(final int from, final int to) {
+		StringBuilder result = new StringBuilder(to);
+		for (int i = from; i <= to; i++) {
+			result.append((char) i);
+		}
+		return result.toString();
 	}
 
 	public void testRenderWithPlainText() {
