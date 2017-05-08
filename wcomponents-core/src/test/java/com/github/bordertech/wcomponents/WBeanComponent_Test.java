@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import junit.framework.Assert;
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.Test;
 
 /**
@@ -20,8 +20,8 @@ public class WBeanComponent_Test extends AbstractWComponentTestCase {
 	/**
 	 * When these tests are done put things back as they were.
 	 */
-	@AfterClass
-	public static void tearDownClass() {
+	@After
+	public void tearDownClass() {
 		Config.reset();
 	}
 
