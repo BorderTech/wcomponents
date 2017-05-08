@@ -354,12 +354,13 @@ public class WRadioButtonSelectExample extends WPanel {
 		add(new ExplanatoryText(
 				"Don't use a WRadioButtonSelect if you have more than a handful of options. A good rule of thumb is fewer than 10."));
 		//use the country code list at your peril!!
-		WRadioButtonSelect hugeSelect = new WRadioButtonSelect("icao");
-		hugeSelect.setButtonLayout(WRadioButtonSelect.LAYOUT_COLUMNS);
-		hugeSelect.setButtonColumns(5);
-		hugeSelect.setFrameless(true);
-		hugeSelect.setToolTip("Select your country of birth");
-		add(hugeSelect);
+		WRadioButtonSelect rbsTooBig = new WRadioButtonSelect(new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
+			"q", "r", "s", "t", "u", "v", "w", "x", "y", "z"});
+		rbsTooBig.setButtonLayout(WRadioButtonSelect.LAYOUT_COLUMNS);
+		rbsTooBig.setButtonColumns(6);
+		rbsTooBig.setFrameless(true);
+		rbsTooBig.setToolTip("Select your country of birth");
+		add(rbsTooBig);
 
 		//Don't use a radioButtonSelect if the user can make no selection unless you provide a null option
 		add(new WHeading(HeadingLevel.H3, "Optional WRadioButtonSelect with no null option"));
