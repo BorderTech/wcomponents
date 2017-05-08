@@ -9,8 +9,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  * <p>
  * WebDriverType implementation for Chrome.</p>
  * <p>
- * Subclasses can override to alter the configuration or change the
- * implementation.</p>
+ * Subclasses can override to alter the configuration or change the implementation.</p>
  *
  * @author Joshua Barclay
  * @since 1.2.0
@@ -34,8 +33,7 @@ public class ChromeWebDriverType extends WebDriverType<ChromeDriver> {
 	}
 
 	/**
-	 * Get the ChromeDriverService to use. Exists to allow subclasses to
-	 * override.
+	 * Get the ChromeDriverService to use. Exists to allow subclasses to override.
 	 *
 	 * @return the default chrome service.
 	 */
@@ -51,4 +49,16 @@ public class ChromeWebDriverType extends WebDriverType<ChromeDriver> {
 		return DesiredCapabilities.chrome();
 	}
 
+//	@Override
+//	public DesiredCapabilities getCapabilities() {
+//		DesiredCapabilities cap = super.getCapabilities();
+//		ChromeOptions options = new ChromeOptions();
+//		options.addArguments("--headless");
+//		options.addArguments("--no-sandbox");
+//		options.addArguments("--disable-gpu");
+//		options.addArguments("--dom-automation");
+//		options.addArguments("--disable-images");
+//		cap.setCapability("chromeOptions", options);
+//		return cap;
+//	}
 }

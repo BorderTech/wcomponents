@@ -382,6 +382,12 @@ public final class TreeUtil {
 	}
 
 	/**
+	 * Retrieves WComponents by their path in the WComponent tree. See {@link #findWComponents(WComponent, String[])}
+	 * for a description of paths.
+	 * <p>
+	 * Searches only visible components.
+	 * </p>
+	 *
 	 * @param component the component to search from.
 	 * @param path the path to the WComponent.
 	 * @return the component matching the given path, or null if not found.
@@ -466,6 +472,9 @@ public final class TreeUtil {
 	/**
 	 * Retrieves the first WComponent by its path in the WComponent tree. See
 	 * {@link #findWComponents(WComponent, String[])} for a description of paths.
+	 * <p>
+	 * Searches only visible components.
+	 * </p>
 	 *
 	 * @param component the component to search from.
 	 * @param path the path to the WComponent.

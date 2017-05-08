@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import com.github.bordertech.wcomponents.util.TreeUtil;
 import junit.framework.Assert;
@@ -57,7 +56,7 @@ public class AutoReFocusExample_Test extends WComponentExamplesTestCase {
 		String path = "WDropdownSubmitOnChangeExample/WDropdown[0]";
 		driver.findWDropdown(byWComponentPath(path)).click();
 
-		UIContext uic = SeleniumLauncher.getContextForSession(driver.getSessionId());
+		UIContext uic = getUserContextForSession();
 		UIContextHolder.pushContext(uic);
 		try {
 			// The dropdowns in the example need something to be selected to trigger the submit

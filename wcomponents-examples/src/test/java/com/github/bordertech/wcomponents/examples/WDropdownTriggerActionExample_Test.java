@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -40,7 +40,8 @@ public class WDropdownTriggerActionExample_Test extends WComponentExamplesTestCa
 
 		// Context is required for in-JVM calls to work.
 		// This is generally not a good test, as it relies on the JVM not on the servlet.
-		UIContextHolder.pushContext(SeleniumLauncher.getContextForSession(driver.getSessionId()));
+		UIContext uic = getUserContextForSession();
+		UIContextHolder.pushContext(uic);
 		// Should have round-tripped, check server and client-side states
 		Assert.assertEquals("Incorrect state selection on server", "ACT", ui.getStateDropdown().
 				getSelected());

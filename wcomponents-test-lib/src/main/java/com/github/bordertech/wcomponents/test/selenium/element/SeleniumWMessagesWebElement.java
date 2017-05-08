@@ -74,7 +74,7 @@ public class SeleniumWMessagesWebElement extends SeleniumWComponentWebElement {
 	 */
 	public WebElement getErrorBox() {
 		By by = By.className(SeleniumWMessageBoxWebElement.TYPE_ERROR_CLASS_NAME);
-		return SeleniumWComponentsUtil.findElementImmediateForDriver(getDriver(), by);
+		return findViaDriver(by);
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class SeleniumWMessagesWebElement extends SeleniumWComponentWebElement {
 	 */
 	public WebElement getWarningBox() {
 		By by = By.className(SeleniumWMessageBoxWebElement.TYPE_WARNING_CLASS_NAME);
-		return SeleniumWComponentsUtil.findElementImmediateForDriver(getDriver(), by);
+		return findViaDriver(by);
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class SeleniumWMessagesWebElement extends SeleniumWComponentWebElement {
 	 */
 	public WebElement getInfoBox() {
 		By by = By.className(SeleniumWMessageBoxWebElement.TYPE_INFO_CLASS_NAME);
-		return SeleniumWComponentsUtil.findElementImmediateForDriver(getDriver(), by);
+		return findViaDriver(by);
 	}
 
 	/**
@@ -98,6 +98,14 @@ public class SeleniumWMessagesWebElement extends SeleniumWComponentWebElement {
 	 */
 	public WebElement getSuccessBox() {
 		By by = By.className(SeleniumWMessageBoxWebElement.TYPE_SUCCESS_CLASS_NAME);
+		return findViaDriver(by);
+	}
+
+	/**
+	 * @param by the match condition
+	 * @return the web element
+	 */
+	private WebElement findViaDriver(final By by) {
 		return SeleniumWComponentsUtil.findElementImmediateForDriver(getDriver(), by);
 	}
 

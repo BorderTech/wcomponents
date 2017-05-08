@@ -4,7 +4,6 @@ import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWCheckBoxWebElement;
 import com.github.bordertech.wcomponents.util.TreeUtil;
@@ -77,7 +76,7 @@ public class WDropdownOptionsExample_Test extends WComponentExamplesTestCase {
 
 		WDropdown.DropdownType type = WDropdown.DropdownType.NATIVE;
 		configureDropDown(driver, type, 4);
-		UIContext uic = SeleniumLauncher.getContextForSession(driver.getSessionId());
+		UIContext uic = getUserContextForSession();
 		UIContextHolder.pushContext(uic);
 		try {
 			WDropdown dropdown = (WDropdown) TreeUtil.findWComponent(example, new String[]{"WDropdown"}).getComponent();
@@ -108,7 +107,7 @@ public class WDropdownOptionsExample_Test extends WComponentExamplesTestCase {
 		WDropdown.DropdownType type = WDropdown.DropdownType.NATIVE;
 		configureDropDown(driver, type, 2);
 
-		UIContext uic = SeleniumLauncher.getContextForSession(driver.getSessionId());
+		UIContext uic = getUserContextForSession();
 		UIContextHolder.pushContext(uic);
 		try {
 			WDropdown dropdown = (WDropdown) TreeUtil.findWComponent(example, new String[]{"WDropdown"})

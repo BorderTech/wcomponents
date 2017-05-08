@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.test.selenium.driver;
 
+import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
@@ -378,11 +379,11 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 */
 	public SeleniumWComponentWebElement findElementImmediate(final By by) {
 		if (by instanceof ByWComponent) {
-			((ByWComponent) by).setContext(SeleniumLauncher.getContextForSession(getSessionId()));
+			((ByWComponent) by).setContext(getUserContextForSession());
 		}
 		try {
 			SeleniumWComponentsUtil.configureImmediateImplicitWait(driver);
-			return new SeleniumWComponentWebElement(driver.findElement(by), this);
+			return wrapElement(driver.findElement(by));
 		} finally {
 			SeleniumWComponentsUtil.configureImplicitWait(driver);
 		}
@@ -396,14 +397,14 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 */
 	public List<WebElement> findElementsImmediate(final By by) {
 		if (by instanceof ByWComponent) {
-			((ByWComponent) by).setContext(SeleniumLauncher.getContextForSession(getSessionId()));
+			((ByWComponent) by).setContext(getUserContextForSession());
 		}
 		try {
 			SeleniumWComponentsUtil.configureImmediateImplicitWait(driver);
 			List<WebElement> webElements = driver.findElements(by);
 			List<WebElement> wrappedList = new ArrayList<>();
 			for (WebElement webElement : webElements) {
-				wrappedList.add(new SeleniumWComponentWebElement(webElement, this));
+				wrappedList.add(wrapElement(webElement));
 			}
 			return wrappedList;
 		} finally {
@@ -486,7 +487,7 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 * @return the matching WebElement.
 	 */
 	public List<WebElement> findElements(final ByWComponent by, final boolean pageWait) {
-		by.setContext(SeleniumLauncher.getContextForSession(getSessionId()));
+		by.setContext(getUserContextForSession());
 		return findElementsInt(by, pageWait);
 	}
 
@@ -515,7 +516,7 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 */
 	public SeleniumWComponentWebElement findElement(final ByWComponent by, final boolean pageWait) {
 
-		by.setContext(SeleniumLauncher.getContextForSession(getSessionId()));
+		by.setContext(getUserContextForSession());
 		return findElementInt(by, pageWait);
 	}
 
@@ -533,7 +534,7 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 		List<WebElement> webElements = driver.findElements(by);
 		List<WebElement> wrappedList = new ArrayList<>();
 		for (WebElement webElement : webElements) {
-			wrappedList.add(new SeleniumWComponentWebElement(webElement, this));
+			wrappedList.add(wrapElement(webElement));
 		}
 
 		return wrappedList;
@@ -550,7 +551,7 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 		if (wait) {
 			waitForPageReady();
 		}
-		return new SeleniumWComponentWebElement(driver.findElement(by), this);
+		return wrapElement(driver.findElement(by));
 	}
 
 	/**
@@ -674,6 +675,30 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 
 		return ((TakesScreenshot) driver).getScreenshotAs(target);
 
+	}
+
+	/**
+	 *
+	 * @return the user context for this session
+	 */
+	public UIContext getUserContextForSession() {
+		String sessionId = getSessionId();
+		return SeleniumLauncher.getContextForSession(sessionId);
+	}
+
+	/**
+	 *
+	 * @param element the element to wrap
+	 * @return the element wrapped as {@link SeleniumWComponentWebElement}
+	 */
+	protected SeleniumWComponentWebElement wrapElement(final WebElement element) {
+		if (element == null) {
+			return null;
+		}
+		if (element instanceof SeleniumWComponentWebElement) {
+			return (SeleniumWComponentWebElement) element;
+		}
+		return new SeleniumWComponentWebElement(element, this);
 	}
 
 }

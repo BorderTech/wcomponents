@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
+import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
-import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
 import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import java.util.ArrayList;
@@ -77,7 +77,7 @@ public class SeleniumWComponentWebElement implements WebElement {
 			element.click();
 		} else {
 			element.click();
-			SeleniumWComponentsUtil.waitForPageReady(driver);
+			waitForPageReady();
 		}
 	}
 
@@ -104,11 +104,11 @@ public class SeleniumWComponentWebElement implements WebElement {
 	 */
 	public SeleniumWComponentWebElement findElementImmediate(final By by) {
 		if (by instanceof ByWComponent) {
-			((ByWComponent) by).setContext(SeleniumLauncher.getContextForSession(((SeleniumWComponentsWebDriver) driver).getSessionId()));
+			((ByWComponent) by).setContext(getUserContextForSession());
 		}
 		try {
 			SeleniumWComponentsUtil.configureImmediateImplicitWait(driver);
-			return new SeleniumWComponentWebElement(element.findElement(by), driver);
+			return wrapElement(element.findElement(by));
 		} finally {
 			SeleniumWComponentsUtil.configureImplicitWait(driver);
 		}
@@ -122,14 +122,14 @@ public class SeleniumWComponentWebElement implements WebElement {
 	 */
 	public List<WebElement> findElementsImmediate(final By by) {
 		if (by instanceof ByWComponent) {
-			((ByWComponent) by).setContext(SeleniumLauncher.getContextForSession(((SeleniumWComponentsWebDriver) driver).getSessionId()));
+			((ByWComponent) by).setContext(getUserContextForSession());
 		}
 		try {
 			SeleniumWComponentsUtil.configureImmediateImplicitWait(driver);
 			List<WebElement> webElements = element.findElements(by);
 			List<WebElement> wrappedList = new ArrayList<>();
 			for (WebElement webElement : webElements) {
-				wrappedList.add(new SeleniumWComponentWebElement(webElement, driver));
+				wrappedList.add(wrapElement(webElement));
 			}
 			return wrappedList;
 		} finally {
@@ -142,7 +142,7 @@ public class SeleniumWComponentWebElement implements WebElement {
 	 */
 	@Override
 	public SeleniumWComponentWebElement findElement(final By by) {
-		return new SeleniumWComponentWebElement(element.findElement(by), driver);
+		return wrapElement(element.findElement(by));
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class SeleniumWComponentWebElement implements WebElement {
 	public List<WebElement> findElements(final By by) {
 		List<WebElement> elements = new ArrayList<>();
 		for (WebElement e : element.findElements(by)) {
-			elements.add(new SeleniumWComponentWebElement(e, driver));
+			elements.add(wrapElement(e));
 		}
 		return elements;
 	}
@@ -212,7 +212,7 @@ public class SeleniumWComponentWebElement implements WebElement {
 	@Override
 	public void sendKeys(final CharSequence... keys) {
 		element.sendKeys(keys);
-		SeleniumWComponentsUtil.waitForPageReady(driver);
+		waitForPageReady();
 	}
 
 	/**
@@ -221,7 +221,7 @@ public class SeleniumWComponentWebElement implements WebElement {
 	@Override
 	public void submit() {
 		element.submit();
-		SeleniumWComponentsUtil.waitForPageReady(driver);
+		waitForPageReady();
 	}
 
 	/**
@@ -289,6 +289,26 @@ public class SeleniumWComponentWebElement implements WebElement {
 	}
 
 	/**
+	 *
+	 * @return the user context for this session
+	 */
+	public UIContext getUserContextForSession() {
+		if (driver instanceof SeleniumWComponentsWebDriver) {
+			return ((SeleniumWComponentsWebDriver) driver).getUserContextForSession();
+		}
+		return null;
+	}
+
+	/**
+	 * Wait for the page to have loaded, including all AJAX and JavaScript. Uses default values for timeout and polling
+	 * interval.
+	 *
+	 */
+	public void waitForPageReady() {
+		SeleniumWComponentsUtil.waitForPageReady(driver);
+	}
+
+	/**
 	 * @param element the element to click with no wait
 	 */
 	protected void clickElementNoWait(final WebElement element) {
@@ -297,6 +317,21 @@ public class SeleniumWComponentWebElement implements WebElement {
 		} else {
 			element.click();
 		}
+	}
+
+	/**
+	 *
+	 * @param element the element to wrap
+	 * @return the element wrapped as {@link SeleniumWComponentWebElement}
+	 */
+	protected SeleniumWComponentWebElement wrapElement(final WebElement element) {
+		if (element == null) {
+			return null;
+		}
+		if (element instanceof SeleniumWComponentWebElement) {
+			return (SeleniumWComponentWebElement) element;
+		}
+		return new SeleniumWComponentWebElement(element, getDriver());
 	}
 
 }

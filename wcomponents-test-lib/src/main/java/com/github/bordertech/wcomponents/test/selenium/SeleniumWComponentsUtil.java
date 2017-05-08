@@ -123,7 +123,6 @@ public final class SeleniumWComponentsUtil {
 
 		configureImplicitWait(driver);
 		driver.manage().window().setSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-//		driver.manage().window().fullscreen();
 	}
 
 	/**
@@ -132,7 +131,7 @@ public final class SeleniumWComponentsUtil {
 	 * @param driver the WebDriver to configure.
 	 */
 	public static void configureImplicitWait(final WebDriver driver) {
-		driver.manage().timeouts().implicitlyWait(IMPLICIT_WAIT_SECONDS, TimeUnit.SECONDS);
+		configureImplicitWait(driver, IMPLICIT_WAIT_SECONDS, TimeUnit.SECONDS);
 	}
 
 	/**
@@ -141,7 +140,18 @@ public final class SeleniumWComponentsUtil {
 	 * @param driver the WebDriver to configure.
 	 */
 	public static void configureImmediateImplicitWait(final WebDriver driver) {
-		driver.manage().timeouts().implicitlyWait(0, TimeUnit.MILLISECONDS);
+		configureImplicitWait(driver, 0, TimeUnit.MILLISECONDS);
+	}
+
+	/**
+	 * Configure the WebDriver implicit wait.
+	 *
+	 * @param driver the WebDriver to configure.
+	 * @param time the amount of time to wait.
+	 * @param unit the unit of measure for {@code time}.
+	 */
+	public static void configureImplicitWait(final WebDriver driver, final long time, final TimeUnit unit) {
+		driver.manage().timeouts().implicitlyWait(time, unit);
 	}
 
 	/**
@@ -156,7 +166,7 @@ public final class SeleniumWComponentsUtil {
 			throw new IllegalArgumentException("a driver must be provided.");
 		}
 
-		SeleniumWComponentsUtil.waitForPageReady(driver, PAGE_READY_WAIT_TIMEOUT, PAGE_READY_POLL_INTERVAL);
+		waitForPageReady(driver, PAGE_READY_WAIT_TIMEOUT, PAGE_READY_POLL_INTERVAL);
 	}
 
 	/**
@@ -183,12 +193,9 @@ public final class SeleniumWComponentsUtil {
 	 */
 	public static boolean isOpenDialog(final WebDriver driver) {
 		try {
-			if (driver instanceof SeleniumWComponentsWebDriver) {
-				((SeleniumWComponentsWebDriver) driver).findElementImmediate(By.cssSelector(SeleniumWDialogWebElement.getOpenDialogCssSelector()));
-			} else {
-				driver.findElement(By.cssSelector(SeleniumWDialogWebElement.getOpenDialogCssSelector()));
-			}
-			return true;
+			By by = By.cssSelector(SeleniumWDialogWebElement.getOpenDialogCssSelector());
+			WebElement element = findElementImmediateForDriver(driver, by);
+			return element != null;
 		} catch (NoSuchElementException e) {
 			return false;
 		}
@@ -202,13 +209,9 @@ public final class SeleniumWComponentsUtil {
 	 * @return a WDialogWebElement for the dialog.
 	 */
 	public static SeleniumWDialogWebElement getDialog(final WebDriver driver) {
-		WebElement dialog;
-		if (driver instanceof SeleniumWComponentsWebDriver) {
-			dialog = ((SeleniumWComponentsWebDriver) driver).findElementImmediate(By.cssSelector(SeleniumWDialogWebElement.getDialogCssSelector()));
-		} else {
-			dialog = driver.findElement(By.cssSelector(SeleniumWDialogWebElement.getDialogCssSelector()));
-		}
-		return new SeleniumWDialogWebElement(dialog, driver);
+		By by = By.cssSelector(SeleniumWDialogWebElement.getOpenDialogCssSelector());
+		WebElement dialog = findElementImmediateForDriver(driver, by);
+		return dialog == null ? null : new SeleniumWDialogWebElement(dialog, driver);
 	}
 
 	/**
@@ -258,6 +261,8 @@ public final class SeleniumWComponentsUtil {
 	}
 
 	/**
+	 * Find immediately the first element via the driver using the given method.
+	 *
 	 * @param driver the web driver
 	 * @param by the by condition
 	 * @return the web element
@@ -271,6 +276,8 @@ public final class SeleniumWComponentsUtil {
 	}
 
 	/**
+	 * Find immediately the elements via the driver using the given method.
+	 *
 	 * @param driver the web driver
 	 * @param by the by condition
 	 * @return the web element
@@ -284,6 +291,8 @@ public final class SeleniumWComponentsUtil {
 	}
 
 	/**
+	 * Find immediately the first element via the passed in element and given method.
+	 *
 	 * @param element the web driver
 	 * @param by the by condition
 	 * @return the web element
@@ -297,6 +306,8 @@ public final class SeleniumWComponentsUtil {
 	}
 
 	/**
+	 * Find immediately the elements via the passed in element and given method.
+	 *
 	 * @param element the web driver
 	 * @param by the by condition
 	 * @return the web element

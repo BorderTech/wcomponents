@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WCheckBoxSelect;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import com.github.bordertech.wcomponents.util.TreeUtil;
 import java.util.List;
@@ -37,7 +36,7 @@ public class WDropdownSpaceHandlingExample_Test extends WComponentExamplesTestCa
 		// Launch the web browser to the LDE
 		SeleniumWComponentsWebDriver driver = getDriver();
 
-		UIContext uic = SeleniumLauncher.getContextForSession(driver.getSessionId());
+		UIContext uic = getUserContextForSession();
 		UIContextHolder.pushContext(uic);
 		try {
 			WDropdown dropdown = (WDropdown) TreeUtil.findWComponent(example, new String[]{"WDropdown"}).
@@ -62,7 +61,7 @@ public class WDropdownSpaceHandlingExample_Test extends WComponentExamplesTestCa
 		// Launch the web browser to the LDE
 		SeleniumWComponentsWebDriver driver = getDriver();
 
-		UIContext uic = SeleniumLauncher.getContextForSession(driver.getSessionId());
+		UIContext uic = getUserContextForSession();
 		UIContextHolder.pushContext(uic);
 		try {
 			WCheckBoxSelect group = (WCheckBoxSelect) TreeUtil.findWComponent(example,

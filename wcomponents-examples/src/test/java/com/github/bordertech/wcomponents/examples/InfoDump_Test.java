@@ -4,7 +4,6 @@ import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
-import com.github.bordertech.wcomponents.test.selenium.SeleniumLauncher;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -40,7 +39,7 @@ public class InfoDump_Test extends WComponentExamplesTestCase {
 		String text = driver.findWTextArea(byWComponentPath("WTextArea")).getText();
 		Assert.assertTrue("Text should contain dump info", text.contains("WEnvironment"));
 
-		UIContext uic = SeleniumLauncher.getContextForSession(driver.getSessionId());
+		UIContext uic = getUserContextForSession();
 		UIContextHolder.pushContext(uic);
 		try {
 			Environment env = getUi().getEnvironment();
