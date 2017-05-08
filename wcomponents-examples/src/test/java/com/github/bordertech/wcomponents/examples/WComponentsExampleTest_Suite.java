@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.examples;
 
-import com.github.bordertech.wcomponents.examples.petstore.PetStore_Suite;
 import com.github.bordertech.wcomponents.examples.theme.ThemeExampleTest_Suite;
 import com.github.bordertech.wcomponents.test.selenium.server.ServerCache;
 import org.junit.AfterClass;
@@ -51,7 +50,6 @@ import org.junit.runners.Suite;
 	WRadioButtonSubmitOnChangeExample_Test.class,
 	WRadioButtonTriggerActionExample_Test.class,
 	WTextExample_Test.class,
-	PetStore_Suite.class,
 	ThemeExampleTest_Suite.class
 })
 
