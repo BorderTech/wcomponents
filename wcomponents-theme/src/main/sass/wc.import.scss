@@ -1,0 +1,13 @@
+// This file deliberately left empty.
+
+// If you have CSS @import rules (eg to import a web font) then put them here
+// as this will _always_ be the first file in wc.css.
+
+// Disabled all lint rules so I can see the transient build output without being
+// bothered by the linter.
+// scss-lint:disable all
+
+// Example: using @import to grab a font from Google:
+// @import url('https://fonts.googleapis.com/css?family=Roboto');
+// don't forget to use it! - see wc.common.scss for the default body style
+// and var _vars.scss~$wc-default-font for where we define the default font.

@@ -18,7 +18,7 @@ $wc-togglebutton-slider-width: $wc-togglebutton-width / 2;
 			border-radius: $wc-togglebutton-slider-width;
 			content: '';
 			display: block;
-			height: calc(100% - $wc-togglebutton-double-border-width);
+			height: calc(100% - #{$wc-togglebutton-double-border-width});
 			left: 0;
 			position: relative;
 			width: 50%;
@@ -39,7 +39,7 @@ $wc-togglebutton-slider-width: $wc-togglebutton-width / 2;
 	&.wc_ro_sel,
 	> [aria-checked='true'] {
 		&:after {
-			left: calc(50% - $wc-togglebutton-double-border-width);
+			left: calc(50% - #{$wc-togglebutton-double-border-width});
 		}
 	}
 }
