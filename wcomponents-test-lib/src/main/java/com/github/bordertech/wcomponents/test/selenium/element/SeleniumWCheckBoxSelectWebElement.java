@@ -28,7 +28,7 @@ public class SeleniumWCheckBoxSelectWebElement extends SeleniumCheckableGroupInp
 	 * @param option the option to toggle
 	 */
 	public void toggle(final WebElement option) {
-		click(option);
+		clickNoWait(option);
 	}
 	/**
 	 * Toggle the selected state of an option by its index.
@@ -52,7 +52,7 @@ public class SeleniumWCheckBoxSelectWebElement extends SeleniumCheckableGroupInp
 	 */
 	public void deselect(final WebElement option) {
 		if (isSelected(option)) {
-			click(option);
+			clickNoWait(option);
 		}
 	}
 

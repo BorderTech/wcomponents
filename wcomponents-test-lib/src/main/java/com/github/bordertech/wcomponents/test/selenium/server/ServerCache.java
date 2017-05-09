@@ -6,9 +6,8 @@ import com.github.bordertech.wcomponents.util.SystemException;
 
 /**
  * <p>
- * Static utility testing class to keep a Web Server open between tests. This is
- * to prevent the expensive server creation/deploy occurring multiple times per
- * test suite.</p>
+ * Static utility testing class to keep a Web Server open between tests. This is to prevent the expensive server
+ * creation/deploy occurring multiple times per test suite.</p>
  *
  * @author Joshua Barclay
  * @since 1.2.0
@@ -20,6 +19,8 @@ public final class ServerCache {
 	 */
 	private static final LdeLauncher LAUNCHER = Factory.newInstance(LdeLauncher.class);
 
+	private static boolean inSuite;
+
 	/**
 	 * Static class - no constructor.
 	 */
@@ -30,9 +31,8 @@ public final class ServerCache {
 	 * <p>
 	 * Get the shared instance of the launcher.</p>
 	 * <p>
-	 * <b>Warning: </b> ensure concurrency is considered with any commands run
-	 * on the TestLauncher. Lock on the returned instance to ensure safe
-	 * concurrent behaviour with other threads using this class.</p>
+	 * <b>Warning: </b> ensure concurrency is considered with any commands run on the TestLauncher. Lock on the returned
+	 * instance to ensure safe concurrent behaviour with other threads using this class.</p>
 	 *
 	 * @return the TestLauncher.
 	 */
@@ -53,6 +53,9 @@ public final class ServerCache {
 	 * Stop the server.
 	 */
 	public static void stopServer() {
+		if (isInSuite()) {
+			return;
+		}
 		synchronized (LAUNCHER) {
 			try {
 				LAUNCHER.stop();
@@ -90,7 +93,6 @@ public final class ServerCache {
 	 */
 	public static void startServer() {
 		synchronized (LAUNCHER) {
-
 			try {
 				if (!isRunning()) {
 					LAUNCHER.run();
@@ -99,5 +101,24 @@ public final class ServerCache {
 				throw new SystemException("Unable to start server", ex);
 			}
 		}
+	}
+
+	/**
+	 * Set true if running in a suite.
+	 *
+	 * @param flag true if running in a suite
+	 */
+	public static void setInSuite(final boolean flag) {
+		synchronized (LAUNCHER) {
+			inSuite = flag;
+		}
+	}
+
+	/**
+	 *
+	 * @return true if running a test suite
+	 */
+	public static boolean isInSuite() {
+		return inSuite;
 	}
 }

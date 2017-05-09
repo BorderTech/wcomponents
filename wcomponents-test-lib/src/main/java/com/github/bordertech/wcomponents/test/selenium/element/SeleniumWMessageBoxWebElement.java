@@ -9,10 +9,12 @@ import org.openqa.selenium.WebElement;
 
 /**
  * A Selenium WebElement which models the output of WMessages.
+ *
  * @author Mark Reeves
  * @since 1.4.0
  */
 public class SeleniumWMessageBoxWebElement extends SeleniumWComponentWebElement {
+
 	/**
 	 * The HTML element which defines the WMessageBox.
 	 */
@@ -58,9 +60,9 @@ public class SeleniumWMessageBoxWebElement extends SeleniumWComponentWebElement 
 	 */
 	public static final String TYPE_SUCCESS_CLASS_NAME = "wc-messagebox-type-success";
 
-
 	/**
 	 * Create a SeleniumWMessagesWebElement from a generic WebElement.
+	 *
 	 * @param element a generic WebElement
 	 * @param driver the current WebDriver instance
 	 */
@@ -85,13 +87,14 @@ public class SeleniumWMessageBoxWebElement extends SeleniumWComponentWebElement 
 	 */
 	public List<WebElement> getMessages() {
 		if (isWValidationErrors()) {
-			return findElements(By.className(ERROR_CLASS_NAME));
+			return findElementsImmediate(By.className(ERROR_CLASS_NAME));
 		}
-		return findElements(By.className(MESSAGE_CLASS_NAME));
+		return findElementsImmediate(By.className(MESSAGE_CLASS_NAME));
 	}
 
 	/**
 	 * Get a given message.
+	 *
 	 * @param idx the index of the message to get
 	 * @return the message at the given index
 	 */
@@ -108,6 +111,7 @@ public class SeleniumWMessageBoxWebElement extends SeleniumWComponentWebElement 
 
 	/**
 	 * Is a WMessageBox actually a WValidationErrors? They look mighty similar.
+	 *
 	 * @return {@code true} if the element represents a WValidationErrors.
 	 */
 	private boolean isWValidationErrors() {

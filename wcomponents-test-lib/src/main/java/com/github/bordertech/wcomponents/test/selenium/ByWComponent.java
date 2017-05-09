@@ -139,6 +139,14 @@ public class ByWComponent extends By {
 		try {
 			if (searchContext instanceof FindsById) {
 				String componentId = component.getId();
+//				try {
+//					WebElement element = ((FindsById) searchContext).findElementById(componentId);
+//					if (element != null) {
+//						result.add(element);
+//					}
+//				} catch (Exception e) {
+//					System.out.println("Could not find element by ID [" + componentId + "]. " + e.getMessage());
+//				}
 				result = ((FindsById) searchContext).findElementsById(componentId);
 			} else if (searchContext instanceof FindsByName) {
 				String name = component.getId();

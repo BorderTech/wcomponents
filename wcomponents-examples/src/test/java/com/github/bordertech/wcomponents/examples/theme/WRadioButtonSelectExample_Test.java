@@ -244,48 +244,48 @@ public class WRadioButtonSelectExample_Test extends WComponentExamplesTestCase {
 		SeleniumWRadioButtonSelectWebElement rbs = getExampleNoSelection();
 		// idx
 		Assert.assertFalse(rbs.isSelected(0));
-		rbs.click(0);
+		rbs.clickNoWait(0);
 		Assert.assertTrue(rbs.isSelected(0));
-		rbs.click(1);
+		rbs.clickNoWait(1);
 		Assert.assertFalse(rbs.isSelected(0));
 		Assert.assertTrue(rbs.isSelected(1));
 		// labelText
 		Assert.assertFalse(rbs.isSelected("Outside Australia"));
-		rbs.click("Outside Australia");
+		rbs.clickNoWait("Outside Australia");
 		Assert.assertTrue(rbs.isSelected("Outside Australia"));
-		rbs.click("Victoria");
+		rbs.clickNoWait("Victoria");
 		Assert.assertFalse(rbs.isSelected("Outside Australia"));
 		Assert.assertTrue(rbs.isSelected("Victoria"));
 		// option
 		WebElement option = rbs.getOption(0);
 		Assert.assertFalse(rbs.isSelected(option));
-		rbs.click(option);
+		rbs.clickNoWait(option);
 		Assert.assertTrue(rbs.isSelected(option));
 		WebElement option2 = rbs.getOption(1);
 		Assert.assertFalse(rbs.isSelected(option2));
-		rbs.click(option2);
+		rbs.clickNoWait(option2);
 		Assert.assertTrue(rbs.isSelected(option2));
 		Assert.assertFalse(rbs.isSelected(option));
 
 		// clicking a selected option does nothing
 		rbs = getExampleWithSelection();
 		Assert.assertTrue(rbs.isSelected(0));
-		rbs.click(0);
+		rbs.clickNoWait(0);
 		getDriver().waitForPageReady();
 		Assert.assertTrue(rbs.isSelected(0));
 
 		// disabled does nothing
 		rbs = getDisabledExample();
 		Assert.assertFalse(rbs.isSelected(0));
-		rbs.click(0);
+		rbs.clickNoWait(0);
 		Assert.assertFalse(rbs.isSelected(0));
-		rbs.click(1);
+		rbs.clickNoWait(1);
 		Assert.assertFalse(rbs.isSelected(0));
 		Assert.assertFalse(rbs.isSelected(1));
 		// read-only does nothing
 		rbs = getReadOnlyExampleWithSelection();
 		Assert.assertTrue(rbs.isSelected(0));
-		rbs.click(0); // cannot select outside of selection.
+		rbs.clickNoWait(0); // cannot select outside of selection.
 		Assert.assertTrue(rbs.isSelected(0));
 	}
 }
