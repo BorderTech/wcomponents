@@ -30,7 +30,7 @@ button[role='treeitem'],
 		width: $wc-icon-wider;
 
 		+ button {
-			width: calc(100% - $wc-icon-wider);
+			width: calc(100% - #{$wc-icon-wider});
 		}
 	}
 }
