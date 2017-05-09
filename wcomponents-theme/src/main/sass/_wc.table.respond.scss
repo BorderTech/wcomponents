@@ -45,7 +45,7 @@
 				+ .wc-td {
 					display: inline-block;
 					padding-left: 0;
-					width: calc(100% - $wc-icon-normal);
+					width: calc(100% - #{$wc-icon-normal});
 				}
 			}
 

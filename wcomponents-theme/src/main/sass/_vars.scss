@@ -45,7 +45,11 @@ $wc-use-respond-dialog: 1 !default;
 // FONTS.
 // *****************************************************************************
 // *****************************************************************************
+// The default font is set on body in wc.common.scss
 $wc-default-font: sans-serif !default;
+// If the example import in wc.import.scss is used then the var should include
+// the imported font.
+// $wc-default-font: 'Roboto', sans-serif !default;
 $wc-mono-font: monospace !default;
 // *****************************************************************************
 // FONT SIZES

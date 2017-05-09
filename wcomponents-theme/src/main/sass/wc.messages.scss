@@ -18,7 +18,7 @@
 
 	> span {
 		display: block;
-		width: calc(100% - $wc-icon-normal);
+		width: calc(100% - #{$wc-icon-normal});
 
 		+ span {
 			margin-left: $wc-icon-normal;

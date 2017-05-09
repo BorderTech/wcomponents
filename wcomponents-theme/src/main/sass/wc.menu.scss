@@ -39,7 +39,7 @@ $wc-menu-icon-space: $wc-menu-iconwidth + $wc-gap-small;
 
 .wc-submenu-o {
 	> .wc-decoratedlabel {
-		width: calc(100% - $wc-menu-icon-space);
+		width: calc(100% - #{$wc-menu-icon-space});
 	}
 
 	> .fa {
@@ -56,7 +56,7 @@ $wc-menu-icon-space: $wc-menu-iconwidth + $wc-gap-small;
 	&.wc-icon-before,
 	&.wc-icon-after {
 		.wc-decoratedlabel {
-			width: calc(100% - $wc-menu-icon-space);
+			width: calc(100% - #{$wc-menu-icon-space});
 		}
 
 		&:before {

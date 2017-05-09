@@ -24,7 +24,7 @@
 
 				.wc-decoratedlabel {
 					display: inline-table;
-					max-width: calc(100% - $wc-gap-normal);
+					max-width: calc(100% - #{$wc-gap-normal});
 				}
 			}
 		}
