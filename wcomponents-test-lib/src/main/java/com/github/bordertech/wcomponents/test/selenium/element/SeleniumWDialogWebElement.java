@@ -78,7 +78,7 @@ public class SeleniumWDialogWebElement extends SeleniumWComponentWebElement {
 	 * @return the button to maximize/restore the dialog.
 	 */
 	public SeleniumWComponentWebElement getMaximizeRestoreButton() {
-		return findElement(By.cssSelector("button." + MAXIMIZE_RESTORE_CLASS));
+		return findElementImmediate(By.cssSelector("button." + MAXIMIZE_RESTORE_CLASS));
 	}
 
 	/**
@@ -87,14 +87,15 @@ public class SeleniumWDialogWebElement extends SeleniumWComponentWebElement {
 	 * @return the button to close the dialog.
 	 */
 	public SeleniumWComponentWebElement getCloseButton() {
-		return findElement(By.cssSelector("button." + CLOSE_CLASS));
+		return findElementImmediate(By.cssSelector("button." + CLOSE_CLASS));
 	}
 
 	/**
 	 * Close the dialog.
 	 */
 	public void close() {
-		getCloseButton().click();
+		clickElementNoWait(getCloseButton());
+//		getCloseButton().click();
 	}
 
 	/**
@@ -103,7 +104,7 @@ public class SeleniumWDialogWebElement extends SeleniumWComponentWebElement {
 	 * @return the element containing the content.
 	 */
 	public SeleniumWComponentWebElement getContent() {
-		return findElement(By.cssSelector("." + CONTENT_CLASS));
+		return findElementImmediate(By.cssSelector("." + CONTENT_CLASS));
 	}
 
 	/**
@@ -121,7 +122,7 @@ public class SeleniumWDialogWebElement extends SeleniumWComponentWebElement {
 	 * @return the heading element.
 	 */
 	public SeleniumWComponentWebElement getHeading() {
-		return findElement(By.cssSelector("header > h1"));
+		return findElementImmediate(By.cssSelector("header > h1"));
 	}
 
 	/**

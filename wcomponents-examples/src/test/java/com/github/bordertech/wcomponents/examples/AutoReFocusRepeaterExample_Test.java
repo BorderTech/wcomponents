@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
@@ -52,13 +54,17 @@ public class AutoReFocusRepeaterExample_Test extends WComponentExamplesTestCase 
 		};
 		for (String path : paths) {
 			driver.findWDropdown(byWComponentPath(path)).getInputField().click();
-
-			// The dropdowns in the example need something to be selected to trigger the submit
-			WComponent comp = TreeUtil.findWComponent(getUi(), path.split("/")).getComponent();
-
-			if (comp instanceof WDropdown) {
-				WDropdown dropdown = (WDropdown) comp;
-				driver.findElement(byWComponentPath(path, dropdown.getOptions().get(1))).click();
+			UIContext uic = getUserContextForSession();
+			UIContextHolder.pushContext(uic);
+			try {
+				// The dropdowns in the example need something to be selected to trigger the submit
+				WComponent comp = TreeUtil.findWComponent(getUi(), path.split("/"), false).getComponent();
+				if (comp instanceof WDropdown) {
+					WDropdown dropdown = (WDropdown) comp;
+					driver.findElement(byWComponentPath(path, dropdown.getOptions().get(1))).click();
+				}
+			} finally {
+				UIContextHolder.popContext();
 			}
 			Assert.assertEquals("Incorrect focus",
 					driver.findWDropdown(byWComponentPath(path)).getActiveId(),

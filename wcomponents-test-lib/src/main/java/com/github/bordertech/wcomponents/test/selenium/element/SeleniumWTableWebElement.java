@@ -136,7 +136,7 @@ public class SeleniumWTableWebElement extends SeleniumWComponentWebElement {
 	 * @return the index of the first row displayed on the current page.
 	 */
 	public int getFirstRowIndexOfPage() {
-		SeleniumWComponentWebElement wrapper = findElement(By.cssSelector(SELECTOR_FIRST_ROW_INDEX_OF_PAGE));
+		SeleniumWComponentWebElement wrapper = findElementImmediate(By.cssSelector(SELECTOR_FIRST_ROW_INDEX_OF_PAGE));
 		return Integer.parseInt(wrapper.getText());
 	}
 
@@ -144,7 +144,7 @@ public class SeleniumWTableWebElement extends SeleniumWComponentWebElement {
 	 * @return the index of the last row displayed on the current page.
 	 */
 	public int getLastRowIndexOfPage() {
-		SeleniumWComponentWebElement wrapper = findElement(By.cssSelector(SELECTOR_LAST_ROW_INDEX_OF_PAGE));
+		SeleniumWComponentWebElement wrapper = findElementImmediate(By.cssSelector(SELECTOR_LAST_ROW_INDEX_OF_PAGE));
 		return Integer.parseInt(wrapper.getText());
 	}
 
@@ -152,7 +152,7 @@ public class SeleniumWTableWebElement extends SeleniumWComponentWebElement {
 	 * @return the total number of rows in the table..
 	 */
 	public int getTotalRows() {
-		SeleniumWComponentWebElement wrapper = findElement(By.cssSelector(SELECTOR_TOTAL_ROWS));
+		SeleniumWComponentWebElement wrapper = findElementImmediate(By.cssSelector(SELECTOR_TOTAL_ROWS));
 		return Integer.parseInt(wrapper.getText());
 	}
 
@@ -160,35 +160,35 @@ public class SeleniumWTableWebElement extends SeleniumWComponentWebElement {
 	 * @return the actual table element within the elements that make up an advanced WComponent table.
 	 */
 	public SeleniumWComponentWebElement getTable() {
-		return findElement(By.tagName(TABLE_CHILD_TAG_NAME));
+		return findElementImmediate(By.tagName(TABLE_CHILD_TAG_NAME));
 	}
 
 	/**
 	 * @return the first page button for pagination.
 	 */
 	public SeleniumWComponentWebElement getFirstPageButton() {
-		return findElement(By.cssSelector(SELECTOR_FIRST_PAGE_BUTTON));
+		return findElementImmediate(By.cssSelector(SELECTOR_FIRST_PAGE_BUTTON));
 	}
 
 	/**
 	 * @return the previous page button for pagination.
 	 */
 	public SeleniumWComponentWebElement getPreviousPageButton() {
-		return findElement(By.cssSelector(SELECTOR_PREVIOUS_PAGE_BUTTON));
+		return findElementImmediate(By.cssSelector(SELECTOR_PREVIOUS_PAGE_BUTTON));
 	}
 
 	/**
 	 * @return the next page button for pagination.
 	 */
 	public SeleniumWComponentWebElement getNextPageButton() {
-		return findElement(By.cssSelector(SELECTOR_NEXT_PAGE_BUTTON));
+		return findElementImmediate(By.cssSelector(SELECTOR_NEXT_PAGE_BUTTON));
 	}
 
 	/**
 	 * @return the last page button for pagination.
 	 */
 	public SeleniumWComponentWebElement getLastPageButton() {
-		return findElement(By.cssSelector(SELECTOR_LAST_PAGE_BUTTON));
+		return findElementImmediate(By.cssSelector(SELECTOR_LAST_PAGE_BUTTON));
 	}
 
 	/**
@@ -230,14 +230,14 @@ public class SeleniumWTableWebElement extends SeleniumWComponentWebElement {
 	 * @return the table caption.
 	 */
 	public String getTableCaption() {
-		return findElement(By.cssSelector(SELECTOR_TABLE_CAPTION)).getText();
+		return findElementImmediate(By.cssSelector(SELECTOR_TABLE_CAPTION)).getText();
 	}
 
 	/**
 	 * @return the table header.
 	 */
 	public SeleniumWComponentWebElement getTableHeader() {
-		return findElement(By.tagName(TABLE_HEADER_TAG_NAME));
+		return findElementImmediate(By.tagName(TABLE_HEADER_TAG_NAME));
 	}
 
 	/**
@@ -248,7 +248,7 @@ public class SeleniumWTableWebElement extends SeleniumWComponentWebElement {
 	 */
 	public SeleniumWComponentWebElement getHeaderForColumn(final int columnIndex) {
 		String selector = MessageFormat.format(SELECTOR_COLUMN_HEADER, columnIndex);
-		return findElement(By.cssSelector(selector));
+		return findElementImmediate(By.cssSelector(selector));
 	}
 
 	/**
@@ -259,7 +259,7 @@ public class SeleniumWTableWebElement extends SeleniumWComponentWebElement {
 	 */
 	public String getHeaderTextForColumn(final int columnIndex) {
 		String selector = MessageFormat.format(SELECTOR_COLUMN_HEADER_TEXT, columnIndex);
-		return findElement(By.cssSelector(selector)).getText();
+		return findElementImmediate(By.cssSelector(selector)).getText();
 	}
 
 	/**
@@ -275,7 +275,7 @@ public class SeleniumWTableWebElement extends SeleniumWComponentWebElement {
 		// Manually adjust the index to hide this inconsistency.
 		int adjustedColIndex = columnIndex + 1;
 		String selector = MessageFormat.format(SELECTOR_CELL_CONTENT, rowIndex, adjustedColIndex);
-		return findElement(By.cssSelector(selector));
+		return findElementImmediate(By.cssSelector(selector));
 	}
 
 	/**
@@ -294,6 +294,6 @@ public class SeleniumWTableWebElement extends SeleniumWComponentWebElement {
 	 * @return the SeleniumSimpleSelectWebElement.
 	 */
 	public SeleniumSimpleSelectWebElement findSeleniumSimpleSelectWebElement(final By by) {
-		return new SeleniumSimpleSelectWebElement(findElement(by), getDriver());
+		return new SeleniumSimpleSelectWebElement(findElementImmediate(by), getDriver());
 	}
 }

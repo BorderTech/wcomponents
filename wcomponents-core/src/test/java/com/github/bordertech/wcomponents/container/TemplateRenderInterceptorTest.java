@@ -15,7 +15,7 @@ import java.io.StringWriter;
 import java.util.Locale;
 import java.util.Map;
 import junit.framework.Assert;
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.Test;
 
 /**
@@ -36,12 +36,11 @@ public class TemplateRenderInterceptorTest extends AbstractWComponentTestCase {
 	 */
 	private static final String EXPECTED_RENDERED = "<fu>No yeah nah yeah</fu>";
 
-
 	/**
 	 * When these tests are done put things back as they were.
 	 */
-	@AfterClass
-	public static void tearDownClass() {
+	@After
+	public void tearDownClass() {
 		Config.reset();
 	}
 

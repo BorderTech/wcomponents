@@ -1,6 +1,9 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.examples.theme.ThemeExampleTest_Suite;
+import com.github.bordertech.wcomponents.test.selenium.server.ServerCache;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -42,6 +45,7 @@ import org.junit.runners.Suite;
 	WDropdownSubmitOnChangeExample_Test.class,
 	WDropdownTriggerActionExample_Test.class,
 	WMultiSelectPairTestingExample_Test.class,
+	//	WPopupExample_Test.class,
 	WRadioButtonSelectExample_Test.class,
 	WRadioButtonSubmitOnChangeExample_Test.class,
 	WRadioButtonTriggerActionExample_Test.class,
@@ -54,4 +58,15 @@ import org.junit.runners.Suite;
  */
 public class WComponentsExampleTest_Suite {
 
+	@BeforeClass
+	public static final void startServer() {
+		ServerCache.setInSuite(true);
+		ServerCache.startServer();
+	}
+
+	@AfterClass
+	public static final void stopServer() {
+		ServerCache.setInSuite(false);
+		ServerCache.stopServer();
+	}
 }

@@ -1,12 +1,14 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.test.selenium.DynamicLauncher;
+import com.github.bordertech.wcomponents.lde.LdeLauncher;
 import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
 import com.github.bordertech.wcomponents.test.selenium.ByWComponentPath;
+import com.github.bordertech.wcomponents.test.selenium.DynamicLauncher;
 import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
 import com.github.bordertech.wcomponents.test.selenium.server.ServerCache;
-import com.github.bordertech.wcomponents.lde.LdeLauncher;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 
 /**
  * <p>
@@ -22,6 +24,16 @@ import com.github.bordertech.wcomponents.lde.LdeLauncher;
  */
 public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestCase {
 
+	@BeforeClass
+	public static final void startServer() {
+		ServerCache.startServer();
+	}
+
+	@AfterClass
+	public static final void stopServer() {
+		ServerCache.stopServer();
+	}
+
 	/**
 	 * The UI being tested.
 	 */
@@ -34,7 +46,7 @@ public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestC
 	 */
 	public WComponentExamplesTestCase(final WComponent ui) {
 
-		// Retrieve the launcher from the server 
+		// Retrieve the launcher from the server
 		LdeLauncher launcher = ServerCache.getLauncher();
 		// If a DynamicLauncher is being used, set the UI to match this component.
 		if (launcher instanceof DynamicLauncher) {
@@ -42,8 +54,6 @@ public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestC
 		} else {
 			this.ui = ui;
 		}
-		// Start the server (if not started).
-		ServerCache.startServer();
 		super.setUrl(ServerCache.getUrl());
 	}
 
@@ -58,6 +68,17 @@ public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestC
 	}
 
 	/**
+	 * Find by WComponent path using the test's UI.
+	 *
+	 * @param path the path to find.
+	 * @param visibleOnly visible components only
+	 * @return the Selenium By implementation.
+	 */
+	public ByWComponentPath byWComponentPath(final String path, final boolean visibleOnly) {
+		return new ByWComponentPath(ui, path, visibleOnly);
+	}
+
+	/**
 	 * Find by WComponent path and value using the test's UI.
 	 *
 	 * @param path the path to find.
@@ -66,6 +87,18 @@ public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestC
 	 */
 	public ByWComponentPath byWComponentPath(final String path, final Object value) {
 		return new ByWComponentPath(ui, null, path, value);
+	}
+
+	/**
+	 * Find by WComponent path and value using the test's UI.
+	 *
+	 * @param path the path to find.
+	 * @param value the value of the field to match.
+	 * @param visibleOnly visible components only
+	 * @return the Selenium By implementation.
+	 */
+	public ByWComponentPath byWComponentPath(final String path, final Object value, final boolean visibleOnly) {
+		return new ByWComponentPath(ui, null, path, value, visibleOnly);
 	}
 
 	/**

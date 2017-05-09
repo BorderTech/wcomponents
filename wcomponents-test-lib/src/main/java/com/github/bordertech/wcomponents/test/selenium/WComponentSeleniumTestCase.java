@@ -1,8 +1,9 @@
 package com.github.bordertech.wcomponents.test.selenium;
 
-import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverCache;
+import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.test.selenium.driver.ParameterizedWebDriverType;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
+import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverCache;
 import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverType;
 import com.github.bordertech.wcomponents.test.selenium.server.ServerCache;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
@@ -45,9 +46,9 @@ public abstract class WComponentSeleniumTestCase {
 	private String url;
 
 	/**
-	 * Whether the driver has been launched.
+	 * The driver and null if not launched.
 	 */
-	private boolean driverLaunched = false;
+	private SeleniumWComponentsWebDriver driver;
 
 	/**
 	 * <p>
@@ -186,7 +187,7 @@ public abstract class WComponentSeleniumTestCase {
 	 * Launch the driver against the configured Url, but only if configuration is complete.
 	 */
 	private void launchDriver() {
-		if (!driverLaunched) {
+		if (driver == null) {
 			if (driverType == null) {
 				throw new SystemException("Attempted to launch driver prior to configuring the driverType.");
 			}
@@ -195,13 +196,12 @@ public abstract class WComponentSeleniumTestCase {
 				throw new SystemException("Attempted to launch driver prior to configuring the url.");
 			}
 
-			SeleniumWComponentsWebDriver driver = getDriverWithoutLaunching();
+			driver = getDriverWithoutLaunching();
 			if (driver.hasSession()) {
 				driver.newSession(getUrl());
 			} else {
 				driver.get(getUrl());
 			}
-			driverLaunched = true;
 		}
 	}
 
@@ -221,8 +221,7 @@ public abstract class WComponentSeleniumTestCase {
 
 		this.driverType = driverType;
 		this.driverId = driverId;
-
-		driverLaunched = false;
+		this.driver = null;
 	}
 
 	/**
@@ -232,8 +231,7 @@ public abstract class WComponentSeleniumTestCase {
 	 */
 	public void setUrl(final String url) {
 		this.url = url;
-
-		driverLaunched = false;
+		driver = null;
 	}
 
 	/**
@@ -261,9 +259,10 @@ public abstract class WComponentSeleniumTestCase {
 					+ " Ensure the correct constructor was called or the setter has been invoked.");
 		}
 
-		launchDriver();
-
-		return getDriverWithoutLaunching();
+		if (driver == null) {
+			launchDriver();
+		}
+		return driver;
 	}
 
 	/**
@@ -285,6 +284,13 @@ public abstract class WComponentSeleniumTestCase {
 		}
 
 		return WebDriverCache.getDriver(driverType, driverId);
+	}
+
+	/**
+	 * @return the user context for this session
+	 */
+	public UIContext getUserContextForSession() {
+		return driver == null ? null : driver.getUserContextForSession();
 	}
 
 }

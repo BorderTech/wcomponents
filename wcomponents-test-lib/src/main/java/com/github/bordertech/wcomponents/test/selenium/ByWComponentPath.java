@@ -33,6 +33,8 @@ import org.openqa.selenium.WebElement;
  */
 public class ByWComponentPath extends ByWComponent {
 
+	private final boolean visibleOnly;
+
 	/**
 	 * The component to search for.
 	 */
@@ -56,11 +58,33 @@ public class ByWComponentPath extends ByWComponent {
 	/**
 	 * Creates a ByWComponentPath which searches for a path to a component.
 	 *
+	 * @param componentWithContext the component to search for.
+	 * @param path the path to traverse.
+	 * @param visibleOnly only look for components that are visible
+	 */
+	public ByWComponentPath(final ComponentWithContext componentWithContext, final String path, final boolean visibleOnly) {
+		this(componentWithContext.getComponent(), componentWithContext.getContext(), path, visibleOnly);
+	}
+
+	/**
+	 * Creates a ByWComponentPath which searches for a path to a component.
+	 *
 	 * @param component the component instance to search for.
 	 * @param path the path to traverse.
 	 */
 	public ByWComponentPath(final WComponent component, final String path) {
 		this(component, null, path);
+	}
+
+	/**
+	 * Creates a ByWComponentPath which searches for a path to a component.
+	 *
+	 * @param component the component instance to search for.
+	 * @param path the path to traverse.
+	 * @param visibleOnly only look for components that are visible
+	 */
+	public ByWComponentPath(final WComponent component, final String path, final boolean visibleOnly) {
+		this(component, null, path, visibleOnly);
 	}
 
 	/**
@@ -80,12 +104,39 @@ public class ByWComponentPath extends ByWComponent {
 	 * @param component the component instance to search for.
 	 * @param context the context to search in, use null for the default context.
 	 * @param path the path to traverse.
+	 * @param visibleOnly only look for components that are visible
+	 */
+	public ByWComponentPath(final WComponent component, final UIContext context, final String path, final boolean visibleOnly) {
+		this(component, context, path, null, visibleOnly);
+	}
+
+	/**
+	 * Creates a ByWComponentPath which searches for a path to a component.
+	 *
+	 * @param component the component instance to search for.
+	 * @param context the context to search in, use null for the default context.
+	 * @param path the path to traverse.
 	 * @param value If not null, narrow the search by value for e.g. list or drop-down entries.
 	 */
 	public ByWComponentPath(final WComponent component, final UIContext context, final String path,
 			final Object value) {
+		this(component, context, path, value, true);
+	}
+
+	/**
+	 * Creates a ByWComponentPath which searches for a path to a component.
+	 *
+	 * @param component the component instance to search for.
+	 * @param context the context to search in, use null for the default context.
+	 * @param path the path to traverse.
+	 * @param value If not null, narrow the search by value for e.g. list or drop-down entries.
+	 * @param visibleOnly only look for components that are visible
+	 */
+	public ByWComponentPath(final WComponent component, final UIContext context, final String path,
+			final Object value, final boolean visibleOnly) {
 		super(component, context, value);
 		this.path = path.split("/");
+		this.visibleOnly = visibleOnly;
 	}
 
 	/**
@@ -97,9 +148,8 @@ public class ByWComponentPath extends ByWComponent {
 		ComponentWithContext[] components = null;
 
 		UIContextHolder.pushContext(getContext());
-
 		try {
-			components = TreeUtil.findWComponents(getComponent(), path);
+			components = TreeUtil.findWComponents(getComponent(), path, visibleOnly);
 		} finally {
 			UIContextHolder.popContext();
 		}
@@ -112,10 +162,13 @@ public class ByWComponentPath extends ByWComponent {
 			WComponent cmp = comp.getComponent();
 			UIContext cmpUic = comp.getContext();
 			UIContextHolder.pushContext(cmpUic);
+			try {
+				List<WebElement> resultForComp = findElement(searchContext, cmpUic, cmp, getValue());
+				result.addAll(resultForComp);
+			} finally {
+				UIContextHolder.popContext();
+			}
 
-			List<WebElement> resultForComp = findElement(searchContext, cmpUic, cmp, getValue());
-
-			result.addAll(resultForComp);
 		}
 
 		return result;

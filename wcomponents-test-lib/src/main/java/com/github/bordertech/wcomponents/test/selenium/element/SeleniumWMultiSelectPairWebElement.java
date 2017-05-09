@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.test.selenium.element;
 
+import com.github.bordertech.wcomponents.test.selenium.SeleniumWComponentsUtil;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +10,12 @@ import org.openqa.selenium.WebElement;
 
 /**
  * WebElement to facilitate tests of WMultiSelectPair.
+ *
  * @author Mark Reeves
  * @since 1.4.0
  */
 public class SeleniumWMultiSelectPairWebElement extends SeleniumGroupInputWebElement {
+
 	/**
 	 * The value of the read-only indicator for WMultiSelectPair.
 	 */
@@ -20,6 +23,7 @@ public class SeleniumWMultiSelectPairWebElement extends SeleniumGroupInputWebEle
 
 	/**
 	 * Create a SeleniumWMultiSelectPairWebElement.
+	 *
 	 * @param element the backing WebElement
 	 * @param driver the current Selenium web driver
 	 */
@@ -47,7 +51,7 @@ public class SeleniumWMultiSelectPairWebElement extends SeleniumGroupInputWebEle
 		if (isReadOnly()) {
 			throw new SystemException("Cannot get available list from a read-only WMultiSelectPair");
 		}
-		return findElement(By.className("wc_msp_av"));
+		return findElementImmediate(By.className("wc_msp_av"));
 	}
 
 	/**
@@ -57,15 +61,14 @@ public class SeleniumWMultiSelectPairWebElement extends SeleniumGroupInputWebEle
 		if (isReadOnly()) {
 			throw new SystemException("Cannot get selected list from a read-only WMultiSelectPair");
 		}
-		return findElement(By.className("wc_msp_chos"));
+		return findElementImmediate(By.className("wc_msp_chos"));
 	}
-
 
 	/**
 	 * @return the selected options for this control if it is in a read-only state
 	 */
 	private List<WebElement> getReadOnlyOptions() {
-		return findElements(By.cssSelector(".wc-option"));
+		return findElementsImmediate(By.cssSelector(".wc-option"));
 	}
 
 	/**
@@ -73,8 +76,10 @@ public class SeleniumWMultiSelectPairWebElement extends SeleniumGroupInputWebEle
 	 * @return the options in a given list
 	 */
 	private List<WebElement> getOptions(final WebElement list) {
-		return list.findElements(By.tagName("option"));
+		By by = By.tagName("option");
+		return SeleniumWComponentsUtil.findElementsImmediateForElement(list, by);
 	}
+
 	/**
 	 * @return the available options for this control
 	 */
@@ -106,7 +111,7 @@ public class SeleniumWMultiSelectPairWebElement extends SeleniumGroupInputWebEle
 	 * @return the option
 	 */
 	public WebElement getOption(final String labelText) {
-		for (WebElement option: getOptions()) {
+		for (WebElement option : getOptions()) {
 			if (labelText.equalsIgnoreCase(option.getText())) {
 				return option;
 			}
@@ -116,11 +121,12 @@ public class SeleniumWMultiSelectPairWebElement extends SeleniumGroupInputWebEle
 
 	/**
 	 * Is an option with given label text selected?
+	 *
 	 * @param labelText the text visible in the option to be tested
 	 * @return {@code true} if an option with that text is in the selected list.
 	 */
 	public boolean isSelected(final String labelText) {
-		for (WebElement o: getSelected()) {
+		for (WebElement o : getSelected()) {
 			if (labelText.equalsIgnoreCase(o.getText())) {
 				return true;
 			}
@@ -130,6 +136,7 @@ public class SeleniumWMultiSelectPairWebElement extends SeleniumGroupInputWebEle
 
 	/**
 	 * Is an option selected?
+	 *
 	 * @param option the option to be tested
 	 * @return {@code true} if an option is in the selected list.
 	 */
@@ -139,6 +146,7 @@ public class SeleniumWMultiSelectPairWebElement extends SeleniumGroupInputWebEle
 
 	/**
 	 * FInd a button based on a CSS selector.
+	 *
 	 * @param selector the CSS selector to use
 	 * @return a WebElement representing the button.
 	 */
@@ -146,7 +154,7 @@ public class SeleniumWMultiSelectPairWebElement extends SeleniumGroupInputWebEle
 		if (isReadOnly()) {
 			throw new SystemException("Cannot get buttons from a read-only WMultiSelectPair");
 		}
-		return findElement(By.cssSelector("button" + selector));
+		return findElementImmediate(By.cssSelector("button" + selector));
 	}
 
 	/**
@@ -179,19 +187,21 @@ public class SeleniumWMultiSelectPairWebElement extends SeleniumGroupInputWebEle
 
 	/**
 	 * Select a given option.
+	 *
 	 * @param option the option to select
 	 */
 	public void select(final WebElement option) {
 		if (!isReadOnly() && isEnabled() && !isSelected(option)) {
 			if (!option.isSelected()) {
-				option.click();
+				clickElementNoWait(option);
 			}
-			getSelectButton().click();
+			clickElementNoWait(getSelectButton());
 		}
 	}
 
 	/**
 	 * Select the option with given text.
+	 *
 	 * @param labelText the text of the option to select
 	 */
 	public void select(final String labelText) {
@@ -200,19 +210,21 @@ public class SeleniumWMultiSelectPairWebElement extends SeleniumGroupInputWebEle
 
 	/**
 	 * Deselect a given option.
+	 *
 	 * @param option the option to deselect
 	 */
 	public void deselect(final WebElement option) {
 		if (!isReadOnly() && isEnabled() && isSelected(option)) {
 			if (!option.isSelected()) {
-				option.click();
+				clickElementNoWait(option);
 			}
-			getDeselectButton().click();
+			clickElementNoWait(getDeselectButton());
 		}
 	}
 
 	/**
 	 * Deselect the option with given text.
+	 *
 	 * @param labelText the text of the option to deselect
 	 */
 	public void deselect(final String labelText) {
@@ -224,7 +236,7 @@ public class SeleniumWMultiSelectPairWebElement extends SeleniumGroupInputWebEle
 	 */
 	public void selectAll() {
 		if (!isReadOnly() && isEnabled()) {
-			getSelectAllButton().click();
+			clickElementNoWait(getSelectAllButton());
 		}
 	}
 
@@ -233,7 +245,7 @@ public class SeleniumWMultiSelectPairWebElement extends SeleniumGroupInputWebEle
 	 */
 	public void deselectAll() {
 		if (!isReadOnly() && isEnabled()) {
-			getDeselectAllButton().click();
+			clickElementNoWait(getDeselectAllButton());
 		}
 	}
 
