@@ -216,7 +216,7 @@ public final class WebDriverCache {
 	 * @param driverType the type of the driver to close.
 	 * @param driverId the unique driver id of the driver to close
 	 */
-	private static void closeDriver(final WebDriverType driverType, final String driverId) {
+	public static void closeDriver(final WebDriverType driverType, final String driverId) {
 
 		if (driverType == null) {
 			throw new IllegalArgumentException("driverType must not be null.");

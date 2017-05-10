@@ -307,7 +307,23 @@ public abstract class WComponentSeleniumTestCase {
 	 */
 	public void releaseDriver() {
 		if (driver != null) {
-			driver.clearUserContext();
+			if (driver.hasSession()) {
+				// Try to close User Session
+				try {
+					driver.clearUserContext();
+				} catch (Exception e) {
+					LOG.warn("Could not clear User Session. " + e.getMessage(), e);
+					// Try to close the driver
+					try {
+						WebDriverCache.closeDriver(driverType, driverId);
+					} catch (Exception e2) {
+						LOG.warn("Could not close driver. " + e2.getMessage(), e2);
+					}
+					// Dont put back into pool
+					driver = null;
+					return;
+				}
+			}
 			WebDriverCache.releaseDriver(driverType, driverId);
 			driver = null;
 		}

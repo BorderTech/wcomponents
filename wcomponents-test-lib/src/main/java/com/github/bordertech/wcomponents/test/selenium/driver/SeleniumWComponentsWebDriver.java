@@ -683,7 +683,10 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 */
 	public UIContext getUserContextForSession() {
 		String sessionId = getSessionId();
-		return SeleniumLauncher.getContextForSession(sessionId);
+		if (sessionId != null) {
+			return SeleniumLauncher.getContextForSession(sessionId);
+		}
+		return null;
 	}
 
 	/**
@@ -691,7 +694,9 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 */
 	public void clearUserContext() {
 		String sessionId = getSessionId();
-		SeleniumLauncher.destroyContextForSession(sessionId);
+		if (sessionId != null) {
+			SeleniumLauncher.destroyContextForSession(sessionId);
+		}
 	}
 
 	/**
