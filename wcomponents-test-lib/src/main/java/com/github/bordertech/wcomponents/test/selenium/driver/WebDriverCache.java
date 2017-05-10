@@ -122,10 +122,7 @@ public final class WebDriverCache {
 		// Check pool of drivers
 		SeleniumWComponentsWebDriver<T> wcompDriver = checkPoolOfDrivers(driverType);
 		if (wcompDriver == null) {
-			System.out.println("Creating new DRIVER");
 			wcompDriver = SeleniumWComponentsWebDriverFactory.createDriver(driverType);
-		} else {
-			System.out.println("Driver from POOL");
 		}
 		return registerDriver(driverType, wcompDriver, driverId);
 	}
@@ -255,8 +252,6 @@ public final class WebDriverCache {
 				RUNNING_DRIVERS.remove(getKey(driverType, driverId));
 				DRIVERS_TO_DESTROY.remove(driver);
 				saveDriverInPool(driverType, driver);
-				System.out.println("");
-				System.out.println("BACK to POOL");
 			}
 		}
 	}
