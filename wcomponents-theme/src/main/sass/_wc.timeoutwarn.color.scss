@@ -1,7 +1,5 @@
-@import 'mixins-common';
-
 // timeout warning container is generated and identified.
 // scss-lint:disable IdSelector
 #wc_session_container {
-	background-color: $wc-ui-color-global-bg; // to make it opaque;
+	background-color: $wc-clr-global-bg; // to make it opaque;
 }

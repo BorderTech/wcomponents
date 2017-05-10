@@ -1,14 +1,14 @@
-@import 'mixins-common';
 @if ($wc-use-respond == 1) {
-
 	// Default responsive design for GridLayout
 	// opt-in by setting class "wc-respond" on its containing WPanel.
-	// This is a proof of concept and is probably overkill. Ths is why it has its own var to turn it off.
+	// This is a proof of concept and is probably overkill. Ths is why it has
+	// its own var to turn it off.
 	@if ($wc-use-respond-gridlayout == 1) {
 		@include respond-small-screen {
 			.wc-respond {
-				// NOTE: I used loops here but removed them as the output CSS is much larger .
-				// It seems that the Sass compiler and css-cleaner are not able to compress these complex rules correctly.
+				// NOTE: I used loops here but removed them as the output CSS is
+				// much larger. It seems that the Sass compiler and css-cleaner
+				// are not able to compress these complex rules correctly.
 				> .wc-gridlayout-col-6,
 				> .wc-gridlayout-col-7,
 				> .wc-gridlayout-col-8,
@@ -117,7 +117,8 @@
 			}
 		}
 		// Default responsive design for rows and columns
-		// opt-in for ColumnLayout by setting class "wc-respond" on its containing WPanel.
+		// opt-in for ColumnLayout by setting class "wc-respond" on its
+		// containing WPanel.
 		// opt in for WRow/WColumn by setting class "wc-respond" the WRow.
 		.wc-row.wc-respond {
 			display: block;

@@ -1,4 +1,4 @@
-@import 'mixins-common';
+@import 'mixins/common';
 
 img {
 	border: 0;
@@ -9,7 +9,8 @@ img {
 			vertical-align: $wc-image-valign-button;
 		}
 
-		@if ($wc-image-valign-button-figure != -1 and $wc-image-valign-button-figure != $wc-image-valign-button) {
+		@if ($wc-image-valign-button-figure != -1 and
+			$wc-image-valign-button-figure != $wc-image-valign-button) {
 			figure & {
 				&,
 				+ button {

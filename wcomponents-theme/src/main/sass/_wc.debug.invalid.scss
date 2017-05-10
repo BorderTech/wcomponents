@@ -1,6 +1,5 @@
-// One should never be surprised by the amount of invalid HTML peeople manage to generate.
-@import 'mixins-common';
-// this is just the simplest case.
+// One should never be surprised by the amount of invalid HTML peeople manage to
+// generate. These just cover the simplest cases.
 h1,
 h2,
 h3,
@@ -25,11 +24,11 @@ button {
 	ul,
 	ol,
 	section {
-		@include outline($color: $wc-ui-color-error-fg);
+		@include outline($color: $wc-clr-error-fg);
 		// __really__ make these things stand out!
 		// scss-lint:disable ImportantRule
-		background-color: $wc-ui-color-error-bg !important;
-		color: $wc-ui-color-error-fg !important;
+		background-color: $wc-clr-error-bg !important;
+		color: $wc-clr-error-fg !important;
 		// scss-lint:enable ImportantRule
 	}
 }

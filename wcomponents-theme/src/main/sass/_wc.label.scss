@@ -1,7 +1,6 @@
 // styles for WLabel and the label emulators
-@import 'mixins-common';
-
- // hint is additional text for labels that describe other information for the related form element
+// hint is additional text for labels that describe other information for the
+// related form element
 .wc-label-hint {
 	display: block;
 	@if ($wc-label-hint-size > 0) {
@@ -12,7 +11,8 @@
 	}
 }
 
-// WLabel produces many things which are not label elements, so we have to use the class here.
+// WLabel produces many things which are not label elements, so we have to use
+// the class here.
 .wc-label {
 	// use inline-block to prevent a required marker flying off the end
 	display: inline-block;
@@ -24,7 +24,8 @@
 		// mandatory indicator
 		&.wc_req {
 			@include border-box;
-			@include fit-content; // allows for better position of mandatory indicator.
+			// allows for better position of mandatory indicator.
+			@include fit-content;
 			max-width: 100%; // do not allow fit-content to grow too big.
 			padding-right: 1em;
 			position: relative; // for the placing of the mandatory indicator.
@@ -38,8 +39,8 @@
 		}
 	}
 
-	// The label emulator for fieldset-bound Input controls (eg WCheckBoxSelect) are hidden by default. In some
-	// field layouts they are made visible.
+	// The label emulator for fieldset-bound Input controls (eg WCheckBoxSelect)
+	// are hidden by default. In some field layouts they are made visible.
 	&[data-wc-for] {
 		display: none;
 	}
@@ -64,12 +65,13 @@
 
 // Label/read-only equivalent for a checkbox or radio button.
 .wc-ro-input + .wc-label {
-	// .wc-label's inline-block can cause the label to fall under the input when there is not enough room for the label
+	// .wc-label's inline-block can cause the label to fall under the input when
+	// there is not enough room for the label
 	display: inline;
 }
 
-// When WCheckBoxSelect/WRadioButtonSelect these labels do not have the wc-label class
-// as they are generated from options. TODO: We should fix that.
+// When WCheckBoxSelect/WRadioButtonSelect these labels do not have the wc-label
+// class as they are generated from options. TODO: We should fix that.
 .wc-input-wrapper + label,
 .wc-ro-input + .wc-label,
 input + label, // WCheckBoxSelect, WRadioButtonSelect

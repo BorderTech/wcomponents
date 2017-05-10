@@ -1,12 +1,13 @@
-@import 'mixins-common';
 // The styles which create spaces, padding, margins, gaps, hgap and vgap.
 
-// NOTE: Most layouts and WRow have div children. ListLayout/WList has li children.
-// We can (at the moment) safely use the universal selector here but maybe not into the future. Even so, it has
-// terrible performance so we are probably better off without it.
+// NOTE: Most layouts and WRow have div children. ListLayout/WList has li
+// children.
+// We can (at the moment) safely use the universal selector here but maybe not
+// into the future. Even so, it has terrible performance so we are probably
+// better off without it.
 
-// Vaadin Scss compiler does not appear to handle multiple assignment so the simple each below has to be done a bit more
-// verbosely.
+// Vaadin Scss compiler does not appear to handle multiple assignment so the
+// simple each below has to be done a bit more verbosely.
 
 
 @each $gap-suffix in $wc-gap-suffix-list {

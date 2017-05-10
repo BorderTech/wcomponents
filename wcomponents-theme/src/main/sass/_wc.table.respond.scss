@@ -1,5 +1,3 @@
-@import 'mixins-common';
-
 @if ($wc-use-respond == 1 and $wc-use-respond-table == 1) {
 	@include respond-phonelike {
 		.wc-table.wc-respond {

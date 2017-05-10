@@ -1,0 +1,34 @@
+// buttons and toggles
+@import 'button';
+// #############################################################################
+// GENERIC FORM INPUT CONTROLS
+// #############################################################################
+// Text-like inputs and textareas.
+// The padding to be applied (only used if $wc-clr-border-form-control is a
+// colour; not if it is -1). Changing this may have flow-on effects but I have
+// tried to ensure all necessary styles are calculated allowing for the vaue of
+// this option.
+$wc-input-padding: 1px !default;
+//
+// left and right padding of the combo button. Needed to calc the max-width for
+// use when WField.setInputWidth(int) is used.
+$wc-combo-button-padding-lr: $wc-gap-small !default;
+
+// #############################################################################
+// LEGENDS
+// #############################################################################
+// The legend font weight. Set to -1 to disable the rule.
+$wc-legend-weight: bold !default;
+
+// #############################################################################
+// WLabel
+// #############################################################################
+// The font weight of a label. bold, normal, whatever.
+$wc-label-weight: bold !default;
+// The mandatory indicator character. If this is set to -1 then no visible
+// mandatory field indicator will be shown. This may defeat the purpose of
+// WStyledText.Type.MANDATORY_INDICATOR
+$wc-label-mandatory-indicator: '*' !default;
+// The font-size of the label hint. Set to 0 or less to use the same size as the
+// label.
+$wc-label-hint-size: 82.5% !default;

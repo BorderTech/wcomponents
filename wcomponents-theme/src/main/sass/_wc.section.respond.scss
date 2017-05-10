@@ -1,6 +1,4 @@
 // Default responsive design for sections. See wc.section.scss.
-@import 'mixins-common';
-
 @if ($wc-use-respond == 1 and $wc-gap-reduce-when-narrow == 1) {
 	@include respond-phonelike {
 

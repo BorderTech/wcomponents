@@ -3,30 +3,29 @@
 // YES, that means **YOU** Mark
 // Next time you decide to delete all of the debug Sass and stop building it:
 // ### **DON'T** ###
-// Really, just don't otherwise you will have to put some of it back again and that is a PITA.
-@import 'mixins-common';
+// Really, just don't otherwise you will have to put some of it back again and
+// that is a PITA.
+@import 'mixins/common';
 
 body {
 	&::before {
-		background-color: $wc-ui-color-highlight-bg;
-		color: $wc-ui-color-highlight-fg;
+		background-color: $wc-clr-highlight-bg;
+		color: $wc-clr-highlight-fg;
 		content: 'Client debug/diagnostic mode: document has ' attr(data-wc-nodeCount) ' elements.';
 		display: block;
 		padding: $wc-gap-normal;
 	}
 
 	&.wc_loggedwarn {
-		background-color: $wc-ui-color-warning-fg;
+		background-color: $wc-clr-warning-fg;
 	}
 
 	&.wc_loggederror { //the error style MUST TRUMP the warn style
-		background-color: $wc-ui-color-error-fg;
+		background-color: $wc-clr-error-fg;
 	}
 }
 
-// Some elements should not exist but devs persist in using them. These have been removed using a null transform but
-// this may not remove any which are injected in a way which will avoid the XSLT (such as by a custom script) so we keep
-// this CSS.
+// Some elements should not exist but people persist in using them.
 applet,
 acronym,
 bgsound,
@@ -55,7 +54,7 @@ tt,
 img[border='0'],
 a[name],
 input[type='number'][maxlength] {
-	@include outline($color: $wc-ui-color-error-fg);
+	@include outline($color: $wc-clr-error-fg);
 }
 
 @import 'wc.debug.axs';

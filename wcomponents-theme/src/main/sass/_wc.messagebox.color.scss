@@ -1,35 +1,33 @@
-@import 'vars';
-
 .wc_msgbox {
-	border-color: $wc-ui-color-error-fg; // default error box
+	border-color: $wc-clr-error-fg; // default error box
 
 	> h1 {
-		background-color: $wc-ui-color-error-fg; // default error box
-		color: $wc-ui-color-msgbox-header-fg;
+		background-color: $wc-clr-error-fg; // default error box
+		color: $wc-clr-msgbox-header-fg;
 	}
 }
 
 // message types - there can only be one type per box
 .wc-messagebox-type-warn {
-	border-color: $wc-ui-color-warning-fg;
+	border-color: $wc-clr-warning-fg;
 
 	> h1 {
-		background-color: $wc-ui-color-warning-fg;
+		background-color: $wc-clr-warning-fg;
 	}
 }
 
 .wc-messagebox-type-info {
-	border-color: $wc-ui-color-info-fg;
+	border-color: $wc-clr-info-fg;
 
 	> h1 {
-		background-color: $wc-ui-color-info-fg;
+		background-color: $wc-clr-info-fg;
 	}
 }
 
 .wc-messagebox-type-success {
-	border-color: $wc-ui-color-success-fg;
+	border-color: $wc-clr-success-fg;
 
 	> h1 {
-		background-color: $wc-ui-color-success-fg;
+		background-color: $wc-clr-success-fg;
 	}
 }

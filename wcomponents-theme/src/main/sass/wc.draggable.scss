@@ -1,5 +1,6 @@
 // Components which implement the wc/ui/draggable JavaScript pseudo-interface.
-// As at 1.4.0 these are WDialog, WMultiFileWidget's/WImage's image editor, and WTree as htree.
+// As at 1.4.0 these are WDialog, WMultiFileWidget's/WImage's image editor,
+// and WTree as htree.
 [data-wc-draggable='true'] {
 	cursor: move;
 }

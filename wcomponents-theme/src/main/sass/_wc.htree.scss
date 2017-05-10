@@ -1,5 +1,3 @@
-@import 'mixins-common';
-
 // htree extends and overrides parts of wc.tree.scss
 [role='tree'].wc_htree {
 	@include border;
@@ -7,7 +5,8 @@
 
 	[role='group'] {
 		@include max-content;
-		 // the right border of each level in a tree: helps to see where the levels occur.
+		 // the right border of each level in a tree: helps to see where the
+		 // levels occur.
 		@include border($pos: left, $width: $wc-gap-small);
 		left: 100%;
 		min-height: 100%;
@@ -37,7 +36,8 @@
 
 		> .wc_leaf_hopener {
 			@include flex-grow(1);
-			display: inline-block; // Only show hopener when we are in a branch opener.
+			// Only show hopener when we are in a branch opener.
+			display: inline-block;
 			padding: $wc-tree-item-pad-t $wc-tree-item-pad-r $wc-tree-item-pad-b 0;
 		}
 	}
@@ -63,7 +63,8 @@
 .wc_branch_resizer {
 	@include border-box;
 	display: none;
-	height: $wc-icon-normal; // allow size for the absolutely positioned iconic button.
+	// allow size for the absolutely positioned iconic button.
+	height: $wc-icon-normal;
 	width: 100%;
 }
 

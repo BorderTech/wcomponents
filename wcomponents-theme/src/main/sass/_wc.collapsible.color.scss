@@ -1,10 +1,10 @@
 
 summary {
-	@if ($wc-ui-color-collapsible-header-bg != -1) {
-		background-color: $wc-ui-color-collapsible-header-bg;
+	@if ($wc-clr-collapsible-header-bg != -1) {
+		background-color: $wc-clr-collapsible-header-bg;
 	}
-	@if ($wc-ui-color-collapsible-header-fg != -1) {
-		color: $wc-ui-color-collapsible-header-fg;
+	@if ($wc-clr-collapsible-header-fg != -1) {
+		color: $wc-clr-collapsible-header-fg;
 	}
 
 	> h1,
@@ -13,9 +13,10 @@ summary {
 	> h4,
 	> h5,
 	> h6 {
-		@if ($wc-ui-color-collapsible-header-fg != $wc-ui-color-heading and $wc-ui-color-collapsible-header-fg != -1) {
+		@if ($wc-clr-collapsible-header-fg != $wc-clr-heading and
+			$wc-clr-collapsible-header-fg != -1) {
 			// override default heading colour;
-			color: $wc-ui-color-collapsible-header-fg;
+			color: $wc-clr-collapsible-header-fg;
 		}
 	}
 }

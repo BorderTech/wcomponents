@@ -1,15 +1,12 @@
-/* wc.ui.tree.color.scss */
-@import 'mixins-common';
-
 [role='tree'] {
 	[aria-selected='true'] {
-		background-color: $wc-ui-color-selected-bg;
-		color: $wc-ui-color-selected-fg;
+		background-color: $wc-clr-selected-bg;
+		color: $wc-clr-selected-fg;
 	}
 
 	&,
 	[role='group'] {
-		background-color: $wc-ui-color-global-bg;
-		color: $wc-ui-color-global-fg;
+		background-color: $wc-clr-global-bg;
+		color: $wc-clr-global-fg;
 	}
 }

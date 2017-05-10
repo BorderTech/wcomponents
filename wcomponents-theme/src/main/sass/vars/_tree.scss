@@ -1,0 +1,16 @@
+// #############################################################################
+// WTree, WMenu Type TREE (some)
+// #############################################################################
+// indent of branches in the tree - also applies to WMenu Type TREE.
+$wc-tree-indent: 0.75rem !default;
+// The bi-modal nature of the tree expander button means we
+// have to pad the inner components rather than the button.
+// It _may_ be worth puttiing in another content wrapper...
+$wc-tree-item-pad-l: $wc-gap-small !default;
+$wc-tree-item-pad-r: $wc-gap-small !default;
+$wc-tree-item-pad-t: $wc-gap-small !default;
+$wc-tree-item-pad-b: $wc-gap-small !default;
+// padding of each tree item. Also used for WMenu type TREE.
+$wc-tree-item-pad: $wc-gap-small 0 !default;
+// the start width of a htree group when the browser is rubbish.
+$wc-htree-branch-width-lame: 10rem !default;
