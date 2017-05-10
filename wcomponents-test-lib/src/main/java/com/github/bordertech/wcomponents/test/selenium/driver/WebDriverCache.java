@@ -9,28 +9,36 @@ import org.openqa.selenium.WebDriver;
 
 /**
  * <p>
- * Static utility testing class to keep a Selenium Web Driver open between tests
- * using the same thread. This is to prevent the expensive WebDriver creation
- * occurring multiple times per test suite.</p>
+ * Static utility testing class to keep a Selenium Web Driver open between tests using the same thread. This is to
+ * prevent the expensive WebDriver creation occurring multiple times per test suite.</p>
  * <p>
- * WebDriver implementations are not thread-safe, so the drivers opened by this
- * class will be separated from other threads via a ThreadLocal.</p>
+ * WebDriver implementations are not thread-safe, so the drivers opened by this class will be separated from other
+ * threads via a ThreadLocal.</p>
  * <p>
- * Multiple concurrent instances of the same driver type can be created using a
- * different driver id.</p>
+ * Multiple concurrent instances of the same driver type can be created using a different driver id.</p>
  * <p>
  * This class will clean up open drivers when the JVM terminates.</p>
  *
  * @author Joshua Barclay
+ * @author Jonathan Austin
  * @since 1.2.0
  */
 public final class WebDriverCache {
 
 	/**
-	 * A list of all drivers opened by all threads so they can be destroyed when
-	 * the JVM shuts down.
+	 * Store open WebDriver implementations.
+	 */
+	private static final Map<String, SeleniumWComponentsWebDriver> RUNNING_DRIVERS = new HashMap<>();
+
+	/**
+	 * A list of all drivers opened by all threads so they can be destroyed when the JVM shuts down.
 	 */
 	private static final List<SeleniumWComponentsWebDriver> DRIVERS_TO_DESTROY = new ArrayList<>();
+
+	/**
+	 * A pool of available drivers to the tests.
+	 */
+	private static final Map<String, List<SeleniumWComponentsWebDriver>> POOL_OF_DRIVERS = new HashMap<>();
 
 	/*
 	 * The separator between the driver type and the driver id.
@@ -63,22 +71,6 @@ public final class WebDriverCache {
 	}
 
 	/**
-	 * ThreadLocal to store open WebDriver implementations. WebDrivers are not
-	 * thread-safe {@link org.openqa.selenium.support.ThreadGuard}, so using a
-	 * ThreadLocal provides an additional level of protection.
-	 */
-	private static final ThreadLocal<Map<String, SeleniumWComponentsWebDriver>> RUNNING_DRIVERS =
-			new ThreadLocal<Map<String, SeleniumWComponentsWebDriver>>() {
-		/**
-		 * @return an empty HashMap as the initial value.
-		 */
-		@Override
-		protected Map<String, SeleniumWComponentsWebDriver> initialValue() {
-			return new HashMap<>();
-		}
-	};
-
-	/**
 	 * Get or create the driver for the given driver type.
 	 *
 	 * @param <T> the type of the WebDriver.
@@ -95,67 +87,54 @@ public final class WebDriverCache {
 	 * @param <T> the type of the WebDriver.
 	 * @param driverType the WebDriver type wrapper.
 	 * @param driverId the unique identifier for this driver implementation.
-	 * @return A shared (ThreadLocal) instance of the given WebDriver type and
-	 * unique driver id.
+	 * @return A shared (ThreadLocal) instance of the given WebDriver type and unique driver id.
 	 */
 	public static <T extends WebDriver> SeleniumWComponentsWebDriver<T> getDriver(final WebDriverType<T> driverType, final String driverId) {
 		if (driverType == null) {
 			throw new IllegalArgumentException("driverType must not be null.");
 		}
 
-		SeleniumWComponentsWebDriver<T> driver = RUNNING_DRIVERS.get().get(getKey(driverType, driverId));
-
-		if (driver == null) {
-			return openDriver(driverType, driverId);
+		synchronized (RUNNING_DRIVERS) {
+			SeleniumWComponentsWebDriver<T> driver = RUNNING_DRIVERS.get(getKey(driverType, driverId));
+			if (driver == null) {
+				return createDriver(driverType, driverId);
+			}
+			return driver;
 		}
-
-		return driver;
-	}
-
-	/**
-	 * <p>
-	 * Open a new instance of the given driver type</p>
-	 * <p>
-	 * Will close and replace any existing driver with the same type and default
-	 * driver id.</p>
-	 *
-	 * @param <T> the type of the WebDriver.
-	 * @param driverType the WebDriver type wrapper.
-	 * @return A shared (ThreadLocal) instance of the given WebDriver type.
-	 */
-	public static <T extends WebDriver> SeleniumWComponentsWebDriver<T> openDriver(final WebDriverType<T> driverType) {
-		return openDriver(driverType, DEFAULT_DRIVER_ID);
 	}
 
 	/**
 	 * <p>
 	 * Open a new instance of the given driver type with a unique driver id</p>
 	 * <p>
-	 * Will close and replace any existing driver with the same type and driver
-	 * id.</p>
+	 * Will close and replace any existing driver with the same type and driver id.</p>
 	 *
 	 * @param <T> the type of the WebDriver.
 	 * @param driverType the WebDriver type wrapper.
 	 * @param driverId the unique identifier for this driver implementation.
 	 * @return A shared (ThreadLocal) instance of the given WebDriver type.
 	 */
-	public static <T extends WebDriver> SeleniumWComponentsWebDriver<T> openDriver(final WebDriverType<T> driverType, final String driverId) {
+	private static <T extends WebDriver> SeleniumWComponentsWebDriver<T> createDriver(final WebDriverType<T> driverType, final String driverId) {
 		if (driverType == null) {
 			throw new IllegalArgumentException("driverType must not be null.");
 		}
 
-		SeleniumWComponentsWebDriver<T> wcompDriver = SeleniumWComponentsWebDriverFactory.createDriver(driverType);
-
-		return openDriver(driverType, wcompDriver, driverId);
+		// Check pool of drivers
+		SeleniumWComponentsWebDriver<T> wcompDriver = checkPoolOfDrivers(driverType);
+		if (wcompDriver == null) {
+			System.out.println("Creating new DRIVER");
+			wcompDriver = SeleniumWComponentsWebDriverFactory.createDriver(driverType);
+		} else {
+			System.out.println("Driver from POOL");
+		}
+		return registerDriver(driverType, wcompDriver, driverId);
 	}
 
 	/**
 	 * <p>
-	 * Register the given driver implementation to be shared with this class
-	 * using the given type and driver Id</p>
+	 * Register the given driver implementation to be shared with this class using the given type and driver Id</p>
 	 * <p>
-	 * Will close and replace any existing driver with the same type and driver
-	 * id.</p>
+	 * Will close and replace any existing driver with the same type and driver id.</p>
 	 *
 	 * @param <T> the type of the WebDriver.
 	 * @param driverType the WebDriver type wrapper.
@@ -163,7 +142,7 @@ public final class WebDriverCache {
 	 * @param driverId the unique identifier for this driver implementation.
 	 * @return A shared (ThreadLocal) instance of the given WebDriver type.
 	 */
-	public static <T extends WebDriver> SeleniumWComponentsWebDriver<T> openDriver(final WebDriverType<T> driverType,
+	private static <T extends WebDriver> SeleniumWComponentsWebDriver<T> registerDriver(final WebDriverType<T> driverType,
 			final SeleniumWComponentsWebDriver<T> driver,
 			final String driverId) {
 
@@ -177,44 +156,38 @@ public final class WebDriverCache {
 		final String key = getKey(driverType, driverId);
 
 		//Close the old driver if one exists.
-		if (RUNNING_DRIVERS.get().get(key) != null) {
-
-			closeDriver(driverType, driverId);
+		synchronized (RUNNING_DRIVERS) {
+			if (RUNNING_DRIVERS.get(key) != null) {
+				closeDriver(driverType, driverId);
+			}
+			RUNNING_DRIVERS.put(key, driver);
+			DRIVERS_TO_DESTROY.add(driver);
 		}
-
-		RUNNING_DRIVERS.get().put(key, driver);
-		DRIVERS_TO_DESTROY.add(driver);
 		return driver;
-	}
-
-	/**
-	 * Close all drivers created by the <b>current thread</b>.
-	 */
-	public static void closeDriversForCurrentThread() {
-
-		closeDrivers(RUNNING_DRIVERS.get().values());
-
 	}
 
 	/**
 	 * <p>
 	 * Close all drivers for <b>all threads</b></p>
 	 * <p>
-	 * <b>Warning: </b> this method will not clear out the ThreadLocals for any
-	 * thread. Any thread reusing this class after this method was invoked must
-	 * manually close and reopen all driver handles.</p>
+	 * <b>Warning: </b> this method will not clear out the ThreadLocals for any thread. Any thread reusing this class
+	 * after this method was invoked must manually close and reopen all driver handles.</p>
 	 */
-	public static void closeDriversForAllThreads() {
+	private static void closeDriversForAllThreads() {
 		closeDrivers(DRIVERS_TO_DESTROY);
+		for (List<SeleniumWComponentsWebDriver> driver : POOL_OF_DRIVERS.values()) {
+			if (driver != null) {
+				closeDrivers(driver);
+			}
+		}
 	}
 
 	/**
 	 * <p>
 	 * Close all drivers in the given list and empty the list.</p>
 	 * <p>
-	 * All drivers will attempt to be closed regardless of any exceptions
-	 * encountered. The first caught exception will be thrown at the end of the
-	 * process.</p>
+	 * All drivers will attempt to be closed regardless of any exceptions encountered. The first caught exception will
+	 * be thrown at the end of the process.</p>
 	 *
 	 * @param drivers the list of open drivers.
 	 */
@@ -241,12 +214,26 @@ public final class WebDriverCache {
 	}
 
 	/**
-	 * Close the driver of the given driver type and default driver id.
+	 * Close the driver of the given type and driver id.
 	 *
 	 * @param driverType the type of the driver to close.
+	 * @param driverId the unique driver id of the driver to close
 	 */
-	public static void closeDriver(final WebDriverType driverType) {
-		closeDriver(driverType, DEFAULT_DRIVER_ID);
+	private static void closeDriver(final WebDriverType driverType, final String driverId) {
+
+		if (driverType == null) {
+			throw new IllegalArgumentException("driverType must not be null.");
+		}
+
+		//Remove the driver from the list before quitting in case an exception is thrown.
+		synchronized (RUNNING_DRIVERS) {
+			SeleniumWComponentsWebDriver driver = RUNNING_DRIVERS.get(getKey(driverType, driverId));
+			if (driver != null) {
+				RUNNING_DRIVERS.remove(getKey(driverType, driverId));
+				DRIVERS_TO_DESTROY.remove(driver);
+				driver.quit();
+			}
+		}
 	}
 
 	/**
@@ -255,21 +242,23 @@ public final class WebDriverCache {
 	 * @param driverType the type of the driver to close.
 	 * @param driverId the unique driver id of the driver to close
 	 */
-	public static void closeDriver(final WebDriverType driverType, final String driverId) {
+	public static void releaseDriver(final WebDriverType driverType, final String driverId) {
 
 		if (driverType == null) {
 			throw new IllegalArgumentException("driverType must not be null.");
 		}
 
-		SeleniumWComponentsWebDriver driver = RUNNING_DRIVERS.get().get(getKey(driverType, driverId));
-		if (driver == null) {
-			throw new IllegalArgumentException("Unable to close driver. Open Driver not found for WebDriverType: " + driverType);
-		}
-
 		//Remove the driver from the list before quitting in case an exception is thrown.
-		RUNNING_DRIVERS.get().remove(getKey(driverType, driverId));
-		DRIVERS_TO_DESTROY.remove(driver);
-		driver.quit();
+		synchronized (RUNNING_DRIVERS) {
+			SeleniumWComponentsWebDriver driver = RUNNING_DRIVERS.get(getKey(driverType, driverId));
+			if (driver != null) {
+				RUNNING_DRIVERS.remove(getKey(driverType, driverId));
+				DRIVERS_TO_DESTROY.remove(driver);
+				saveDriverInPool(driverType, driver);
+				System.out.println("");
+				System.out.println("BACK to POOL");
+			}
+		}
 	}
 
 	/**
@@ -291,4 +280,39 @@ public final class WebDriverCache {
 
 		return driverType.getDriverTypeName() + KEY_SEPARATOR + driverId;
 	}
+
+	/**
+	 * Check if there is a driver available in the pool.
+	 *
+	 * @param type the web driver type
+	 * @return the driver from the pool or null if none available
+	 */
+	private static SeleniumWComponentsWebDriver checkPoolOfDrivers(final WebDriverType type) {
+		synchronized (POOL_OF_DRIVERS) {
+			List<SeleniumWComponentsWebDriver> drivers = POOL_OF_DRIVERS.get(type.getDriverTypeName());
+			if (drivers == null || drivers.isEmpty()) {
+				return null;
+			}
+			SeleniumWComponentsWebDriver driver = drivers.remove(0);
+			return driver;
+		}
+	}
+
+	/**
+	 * Put the driver back in the pool.
+	 *
+	 * @param type the web driver type
+	 * @param driver the driver to put back in the pool
+	 */
+	private static void saveDriverInPool(final WebDriverType type, final SeleniumWComponentsWebDriver driver) {
+		synchronized (POOL_OF_DRIVERS) {
+			List<SeleniumWComponentsWebDriver> drivers = POOL_OF_DRIVERS.get(type.getDriverTypeName());
+			if (drivers == null) {
+				drivers = new ArrayList<>();
+				POOL_OF_DRIVERS.put(type.getDriverTypeName(), drivers);
+			}
+			drivers.add(driver);
+		}
+	}
+
 }

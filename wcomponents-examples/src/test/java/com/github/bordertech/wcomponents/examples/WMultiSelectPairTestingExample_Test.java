@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMultiSel
 import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -16,17 +15,13 @@ import org.openqa.selenium.WebElement;
 /**
  * Tests for {@link WMultiSelectPairTestingExample}. Really these are tests of the Selenium WebElement extension
  * SeleniumWMultiSelectPairWebElement.
+ *
  * @author Mark Reeves
  * @since 1.4.0
  */
 @Category(SeleniumTests.class)
 @RunWith(MultiBrowserRunner.class)
-public class WMultiSelectPairTestingExample_Test  extends WComponentExamplesTestCase {
-
-	/**
-	 * The SeleniumWebDriver for these examples.
-	 */
-	private SeleniumWComponentsWebDriver driver;
+public class WMultiSelectPairTestingExample_Test extends WComponentExamplesTestCase {
 
 	/**
 	 * The set of shape options used in the test example.
@@ -37,6 +32,7 @@ public class WMultiSelectPairTestingExample_Test  extends WComponentExamplesTest
 	 * @return a known good interactive example with no selections
 	 */
 	private SeleniumWMultiSelectPairWebElement getExampleNoSelection() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		return driver.findWMultiSelectPair(new ByLabel("Simple", false));
 	}
 
@@ -44,6 +40,7 @@ public class WMultiSelectPairTestingExample_Test  extends WComponentExamplesTest
 	 * @return a known good interactive example with selections
 	 */
 	private SeleniumWMultiSelectPairWebElement getExampleWithSelection() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		return driver.findWMultiSelectPair(new ByLabel("All selected", false));
 	}
 
@@ -51,6 +48,7 @@ public class WMultiSelectPairTestingExample_Test  extends WComponentExamplesTest
 	 * @return a known good disabled example with default selections
 	 */
 	private SeleniumWMultiSelectPairWebElement getExampleDisabledWithSelection() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		return driver.findWMultiSelectPair(new ByLabel("Disabled with apparent selection", false));
 	}
 
@@ -58,6 +56,7 @@ public class WMultiSelectPairTestingExample_Test  extends WComponentExamplesTest
 	 * @return a known good read-only example with no selections
 	 */
 	private SeleniumWMultiSelectPairWebElement getExampleRadOnlyNoSelection() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		return driver.findWMultiSelectPair(new ByLabel("Read-only no selection", false));
 	}
 
@@ -65,6 +64,7 @@ public class WMultiSelectPairTestingExample_Test  extends WComponentExamplesTest
 	 * @return a known good read-only example with selections
 	 */
 	private SeleniumWMultiSelectPairWebElement getExampleReadOnlyWithSelection() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		return driver.findWMultiSelectPair(new ByLabel("Read-only with selection", false));
 	}
 
@@ -72,6 +72,7 @@ public class WMultiSelectPairTestingExample_Test  extends WComponentExamplesTest
 	 * @return a known good example with some selected options
 	 */
 	private SeleniumWMultiSelectPairWebElement getExampleWithSomeSelection() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		return driver.findWMultiSelectPair(new ByLabel("Some selected", false));
 	}
 
@@ -80,12 +81,6 @@ public class WMultiSelectPairTestingExample_Test  extends WComponentExamplesTest
 	 */
 	public WMultiSelectPairTestingExample_Test() {
 		super(new WMultiSelectPairTestingExample());
-	}
-
-
-	@Before
-	public void doBefore() {
-		driver = getDriver();
 	}
 
 	@Test
@@ -97,6 +92,7 @@ public class WMultiSelectPairTestingExample_Test  extends WComponentExamplesTest
 
 	@Test
 	public void testComponentProperties() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		SeleniumWMultiSelectPairWebElement interactive = getExampleNoSelection();
 		SeleniumWMultiSelectPairWebElement disabled = getExampleDisabledWithSelection();
 		SeleniumWMultiSelectPairWebElement readOnly = getExampleReadOnlyWithSelection();
@@ -128,6 +124,7 @@ public class WMultiSelectPairTestingExample_Test  extends WComponentExamplesTest
 
 	@Test
 	public void testGetOptions() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		int expected = SHAPES.length;
 		// get options should get a single ArrayList containing all of the same options as in SHAPES
 		Assert.assertEquals(expected, getExampleNoSelection().getOptions().size());
@@ -149,7 +146,7 @@ public class WMultiSelectPairTestingExample_Test  extends WComponentExamplesTest
 		SeleniumWMultiSelectPairWebElement disabled = getExampleDisabledWithSelection();
 		SeleniumWMultiSelectPairWebElement readOnly = getExampleReadOnlyWithSelection();
 		SeleniumWMultiSelectPairWebElement msp = getExampleWithSomeSelection();
-		for (String text: SHAPES) {
+		for (String text : SHAPES) {
 			Assert.assertEquals(text, noSelection.getOption(text).getText());
 			Assert.assertEquals(text, withSelection.getOption(text).getText());
 			Assert.assertEquals(text, readOnly.getOption(text).getText());

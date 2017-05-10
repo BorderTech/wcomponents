@@ -1,14 +1,14 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.lde.LdeLauncher;
 import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
 import com.github.bordertech.wcomponents.test.selenium.ByWComponentPath;
-import com.github.bordertech.wcomponents.test.selenium.DynamicLauncher;
 import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
+import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverType;
 import com.github.bordertech.wcomponents.test.selenium.server.ServerCache;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import java.util.UUID;
+import org.junit.After;
+import org.junit.Before;
 
 /**
  * <p>
@@ -20,19 +20,10 @@ import org.junit.BeforeClass;
  * </p>
  *
  * @author Joshua Barclay
+ * @author Jonathan Austin
  * @since 1.2.0
  */
 public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestCase {
-
-	@BeforeClass
-	public static final void startServer() {
-		ServerCache.startServer();
-	}
-
-	@AfterClass
-	public static final void stopServer() {
-		ServerCache.stopServer();
-	}
 
 	/**
 	 * The UI being tested.
@@ -45,15 +36,7 @@ public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestC
 	 * @param ui the UI being tested.
 	 */
 	public WComponentExamplesTestCase(final WComponent ui) {
-
-		// Retrieve the launcher from the server
-		LdeLauncher launcher = ServerCache.getLauncher();
-		// If a DynamicLauncher is being used, set the UI to match this component.
-		if (launcher instanceof DynamicLauncher) {
-			this.ui = ((DynamicLauncher) launcher).setComponentToLaunch(this.getClass().getName(), ui);
-		} else {
-			this.ui = ui;
-		}
+		this.ui = ServerCache.setUI(this.getClass().getName(), ui);
 		super.setUrl(ServerCache.getUrl());
 	}
 
@@ -127,6 +110,24 @@ public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestC
 	 */
 	public WComponent getUi() {
 		return ui;
+	}
+
+	/**
+	 * Setup the driver and device id (ie session) before each test method.
+	 */
+	@Before
+	public void setupDriver() {
+		WebDriverType type = getDriverType();
+		String driverId = UUID.randomUUID().toString();
+		setDriver(type, driverId);
+	}
+
+	/**
+	 * Clear the session and release the driver.
+	 */
+	@After
+	public void tearDownDriver() {
+		releaseDriver();
 	}
 
 }

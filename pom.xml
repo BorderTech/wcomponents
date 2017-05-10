@@ -14,7 +14,7 @@
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<wcomponents.junit.version>4.8.2</wcomponents.junit.version>
+		<wcomponents.junit.version>4.12</wcomponents.junit.version>
 		<parentLoc>wcomponents</parentLoc>
 		<wc.qa.skip>true</wc.qa.skip>
 		<checkstyle.skip>${wc.qa.skip}</checkstyle.skip>
@@ -23,7 +23,7 @@
 		<findbugs.skip>${wc.qa.skip}</findbugs.skip>
 		<jacoco.skip>${wc.qa.skip}</jacoco.skip>
 		<!-- Surefire 2.19 has issues with netbeans. -->
-		<surefire.version>2.18</surefire.version>
+		<surefire.version>2.20</surefire.version>
 		<jetty.version>8.1.16.v20140903</jetty.version>
 		<stagingBaseUrl>https://oss.sonatype.org/</stagingBaseUrl>
 		<stagingUrl>${stagingBaseUrl}service/local/staging/deploy/maven2/</stagingUrl>

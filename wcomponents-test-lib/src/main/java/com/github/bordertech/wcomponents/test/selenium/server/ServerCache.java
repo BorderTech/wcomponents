@@ -1,6 +1,8 @@
 package com.github.bordertech.wcomponents.test.selenium.server;
 
+import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lde.LdeLauncher;
+import com.github.bordertech.wcomponents.test.selenium.DynamicLauncher;
 import com.github.bordertech.wcomponents.util.Factory;
 import com.github.bordertech.wcomponents.util.SystemException;
 
@@ -121,4 +123,23 @@ public final class ServerCache {
 	public static boolean isInSuite() {
 		return inSuite;
 	}
+
+	/**
+	 * Set the UI for the launcher.
+	 *
+	 * @param key the UI key
+	 * @param ui ui component
+	 * @return the UI
+	 */
+	public static WComponent setUI(final String key, final WComponent ui) {
+		synchronized (LAUNCHER) {
+			// If a DynamicLauncher is being used, set the UI to match this component.
+			if (LAUNCHER instanceof DynamicLauncher) {
+				return ((DynamicLauncher) LAUNCHER).setComponentToLaunch(key, ui);
+			} else {
+				return ui;
+			}
+		}
+	}
+
 }
