@@ -1,6 +1,8 @@
 machine:
   java:
     version: oraclejdk7
+  environment:
+    _JAVA_OPTIONS: "-Xmx1024m -XX:MaxPermSize=512m"
 # Dependencies are installed as part of mvn install
 dependencies:
   override:

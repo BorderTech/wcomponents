@@ -1,3 +1,5 @@
+before_install: echo "MAVEN_OPTS='-Xmx1024m -XX:MaxPermSize=512m'" > ~/.mavenrc
+
 language: Java
 jdk:
   - oraclejdk7
