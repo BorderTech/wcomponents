@@ -123,7 +123,10 @@
 				<version>${surefire.version}</version>
 				<configuration>
 					<parallel>methods</parallel>
-					<threadCount>5</threadCount>
+					<threadCount>4</threadCount>
+					<perCoreThreadCount>false</perCoreThreadCount>
+					<threadCountClasses>1</threadCountClasses>
+					<threadCountSuites>1</threadCountSuites>
 					<properties>
 						<property>
 							<name>listener</name>
