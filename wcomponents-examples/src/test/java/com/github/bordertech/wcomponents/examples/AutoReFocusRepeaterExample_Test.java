@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import com.github.bordertech.wcomponents.util.TreeUtil;
 import junit.framework.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -25,11 +24,6 @@ import org.junit.runner.RunWith;
 public class AutoReFocusRepeaterExample_Test extends WComponentExamplesTestCase {
 
 	/**
-	 * The web driver used in these tests.
-	 */
-	private static SeleniumWComponentsWebDriver driver;
-
-	/**
 	 * Root of the complex selector paths.
 	 */
 	private static final String ROOT_PATH = "AutoReFocusRepeaterExample/WRepeater/AutoReFocusRepeaterExample$FocusRepeatRenderer";
@@ -41,13 +35,9 @@ public class AutoReFocusRepeaterExample_Test extends WComponentExamplesTestCase 
 		super(new AutoReFocusRepeaterExample());
 	}
 
-	@Before
-	public void beforeEach() {
-		driver = getDriver();
-	}
-
 	@Test
 	public void testAutoReFocusWDropdowns() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		String[] paths = {
 			ROOT_PATH + "[0]/WDropdownTriggerActionExample/WDropdown",
 			ROOT_PATH + "[1]/WDropdownTriggerActionExample/WDropdown"
@@ -74,6 +64,7 @@ public class AutoReFocusRepeaterExample_Test extends WComponentExamplesTestCase 
 
 	@Test
 	public void testAutoReFocusWRadioButtons() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		String[] paths = {
 			ROOT_PATH + "[0]/WRadioButtonTriggerActionExample/WRadioButton",
 			ROOT_PATH + "[1]/WRadioButtonTriggerActionExample/WRadioButton"

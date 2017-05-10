@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import com.github.bordertech.wcomponents.util.TreeUtil;
 import junit.framework.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -25,24 +24,15 @@ import org.junit.runner.RunWith;
 public class AutoReFocusExample_Test extends WComponentExamplesTestCase {
 
 	/**
-	 * The WebDriver used in these tests.
-	 */
-	private static SeleniumWComponentsWebDriver driver;
-
-	/**
 	 * Creates a new AutoReFocusExample_Test.
 	 */
 	public AutoReFocusExample_Test() {
 		super(new AutoReFocusExample());
 	}
 
-	@Before
-	public void beforeEach() {
-		driver = getDriver();
-	}
-
 	@Test
 	public void testAutoRefocusWButton() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		String path = "TextDuplicator/WButton";
 		driver.findElement(byWComponentPath(path)).click();
 
@@ -53,6 +43,7 @@ public class AutoReFocusExample_Test extends WComponentExamplesTestCase {
 
 	@Test
 	public void testRefocusWDropdown() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		String path = "WDropdownSubmitOnChangeExample/WDropdown[0]";
 		driver.findWDropdown(byWComponentPath(path)).click();
 

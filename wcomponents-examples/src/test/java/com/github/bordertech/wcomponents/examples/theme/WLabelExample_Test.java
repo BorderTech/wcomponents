@@ -8,13 +8,13 @@ import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponent
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWComponentWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWLabelWebElement;
 import junit.framework.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 /**
  * Tests of WLabelExample. This is primarily used to test the WLabel Selenium WebElement extension.
+ *
  * @author Mark Reeves
  * @since 1.4.0
  */
@@ -23,63 +23,55 @@ import org.junit.runner.RunWith;
 public class WLabelExample_Test extends WComponentExamplesTestCase {
 
 	/**
-	 * The SeleniumWebDriver for these examples.
-	 */
-	private SeleniumWComponentsWebDriver driver;
-	/**
 	 * Create a test instance.
 	 */
 	public WLabelExample_Test() {
 		super(new WLabelExample());
 	}
 
-	@Before
-	public void doBefore() {
-		driver = getDriver();
-	}
-
 	@Test
 	public void testLabelCreated() {
-		Assert.assertNotNull(driver.findWLabel(byWComponentPath("WLabel[0]")));
+		Assert.assertNotNull(getDriver().findWLabel(byWComponentPath("WLabel[0]")));
 	}
 
 	@Test
 	public void testGetByText() {
-		Assert.assertNotNull(driver.findWLabelWithPartialText("Normal input component"));
+		Assert.assertNotNull(getDriver().findWLabelWithPartialText("Normal input component"));
 	}
 
 	@Test
 	public void testGetByTextComplexComponent() {
-		Assert.assertNotNull(driver.findWLabelWithPartialText("Select one or more options"));
+		Assert.assertNotNull(getDriver().findWLabelWithPartialText("Select one or more options"));
 	}
 
 	@Test
 	public void testGetByTextWFieldSet() {
-		Assert.assertNotNull(driver.findWLabelWithPartialText("Enter the dates of entry and exit"));
+		Assert.assertNotNull(getDriver().findWLabelWithPartialText("Enter the dates of entry and exit"));
 	}
 
 	@Test
 	public void testIsHidden() {
-		SeleniumWLabelWebElement label = driver.findWLabel(byWComponentPath("WLabel[1]"));
+		SeleniumWLabelWebElement label = getDriver().findWLabel(byWComponentPath("WLabel[1]"));
 		Assert.assertTrue(label.isHidden());
 	}
 
 	@Test
 	public void testGetByTextHidden() {
-		SeleniumWLabelWebElement label = driver.findWLabel(byWComponentPath("WLabel[1]"));
+		SeleniumWLabelWebElement label = getDriver().findWLabel(byWComponentPath("WLabel[1]"));
 		Assert.assertTrue(label.isHidden());
 		String text = label.getText();
-		Assert.assertNotNull(driver.findWLabelWithPartialText(text));
+		Assert.assertNotNull(getDriver().findWLabelWithPartialText(text));
 	}
 
 	@Test
 	public void testIsReadOnly() {
-		SeleniumWLabelWebElement label = driver.findWLabel(byWComponentPath("WLabel[2]"));
+		SeleniumWLabelWebElement label = getDriver().findWLabel(byWComponentPath("WLabel[2]"));
 		Assert.assertTrue(label.isReadOnly());
 	}
 
 	@Test
 	public void testGetComponentSimple() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		SeleniumWLabelWebElement label = driver.findWLabel(byWComponentPath("WLabel[0]"));
 		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WTextField[0]"));
 		Assert.assertEquals(expected.getAttribute("id"), label.getLabelledComponent().getAttribute("id"));
@@ -87,6 +79,7 @@ public class WLabelExample_Test extends WComponentExamplesTestCase {
 
 	@Test
 	public void testGetComponentComplex() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		SeleniumWLabelWebElement label = driver.findWLabel(byWComponentPath("WLabel[6]"));
 		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WCheckBoxSelect[0]"));
 		Assert.assertEquals(expected.getAttribute("id"), label.getLabelledComponent().getAttribute("id"));
@@ -94,6 +87,7 @@ public class WLabelExample_Test extends WComponentExamplesTestCase {
 
 	@Test
 	public void testGetComponentReadOnly() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		SeleniumWLabelWebElement label = driver.findWLabel(byWComponentPath("WLabel[2]"));
 		Assert.assertTrue(label.isReadOnly());
 		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WTextField[2]"));
@@ -103,6 +97,7 @@ public class WLabelExample_Test extends WComponentExamplesTestCase {
 	// Use ByLabel to get a component by label text
 	@Test
 	public void testGetByLabelSimple() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		String labelText = "Normal input component";
 		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WTextField[0]"));
 		SeleniumWComponentWebElement actual = driver.findElement(new ByLabel(labelText, false));
@@ -112,6 +107,7 @@ public class WLabelExample_Test extends WComponentExamplesTestCase {
 	@Test
 	public void testGetByLabelSimplePartial() {
 		String labelText = "Normal input";
+		SeleniumWComponentsWebDriver driver = getDriver();
 		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WTextField[0]"));
 		SeleniumWComponentWebElement actual = driver.findElement(new ByLabel(labelText, true));
 		Assert.assertEquals(expected.getAttribute("id"), actual.getAttribute("id"));
@@ -120,6 +116,7 @@ public class WLabelExample_Test extends WComponentExamplesTestCase {
 	@Test
 	public void testGetByLabelComplex() {
 		String labelText = "Select one or more options";
+		SeleniumWComponentsWebDriver driver = getDriver();
 		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WCheckBoxSelect[0]"));
 		SeleniumWComponentWebElement actual = driver.findElement(new ByLabel(labelText, false));
 		Assert.assertEquals(expected.getAttribute("id"), actual.getAttribute("id"));
@@ -128,6 +125,7 @@ public class WLabelExample_Test extends WComponentExamplesTestCase {
 	@Test
 	public void testGetByLabelComplexPartial() {
 		String labelText = "one or more";
+		SeleniumWComponentsWebDriver driver = getDriver();
 		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WCheckBoxSelect[0]"));
 		SeleniumWComponentWebElement actual = driver.findElement(new ByLabel(labelText, true));
 		Assert.assertEquals(expected.getAttribute("id"), actual.getAttribute("id"));
@@ -136,6 +134,7 @@ public class WLabelExample_Test extends WComponentExamplesTestCase {
 	@Test
 	public void testGetByLabelReadOnly() {
 		String labelText = "A hidden label for a read only field";
+		SeleniumWComponentsWebDriver driver = getDriver();
 		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WTextField[2]"));
 		SeleniumWComponentWebElement actual = driver.findElement(new ByLabel(labelText, false));
 		Assert.assertEquals(expected.getAttribute("id"), actual.getAttribute("id"));
@@ -144,10 +143,10 @@ public class WLabelExample_Test extends WComponentExamplesTestCase {
 	@Test
 	public void testGetByLabelReadOnlyPartial() {
 		String labelText = "for a read only";
+		SeleniumWComponentsWebDriver driver = getDriver();
 		SeleniumWComponentWebElement expected = driver.findElement(byWComponentPath("WTextField[2]"));
 		SeleniumWComponentWebElement actual = driver.findElement(new ByLabel(labelText, true));
 		Assert.assertEquals(expected.getAttribute("id"), actual.getAttribute("id"));
 	}
-
 
 }

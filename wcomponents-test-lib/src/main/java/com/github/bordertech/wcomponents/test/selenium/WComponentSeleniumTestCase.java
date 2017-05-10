@@ -21,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
  * </p>
  *
  * @author Yiannis Paschalidis
+ * @author Jonathan Austin
  * @since 1.0.0
  */
 public abstract class WComponentSeleniumTestCase {
@@ -150,6 +151,21 @@ public abstract class WComponentSeleniumTestCase {
 		this.driverId = driverId;
 		this.url = url;
 		configureUrlAndServerFromConfig();
+	}
+
+	/**
+	 *
+	 * @return the drive id (ie session)
+	 */
+	public String getDriverId() {
+		return driverId;
+	}
+
+	/**
+	 * @return the driver type
+	 */
+	public WebDriverType getDriverType() {
+		return driverType;
 	}
 
 	/**
@@ -284,6 +300,17 @@ public abstract class WComponentSeleniumTestCase {
 		}
 
 		return WebDriverCache.getDriver(driverType, driverId);
+	}
+
+	/**
+	 * Release the driver.
+	 */
+	public void releaseDriver() {
+		if (driver != null) {
+			driver.clearUserContext();
+			WebDriverCache.releaseDriver(driverType, driverId);
+			driver = null;
+		}
 	}
 
 	/**

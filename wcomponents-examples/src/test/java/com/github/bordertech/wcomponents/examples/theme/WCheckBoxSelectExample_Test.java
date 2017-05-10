@@ -9,7 +9,6 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWCheckBox
 import com.github.bordertech.wcomponents.util.SystemException;
 import junit.framework.Assert;
 import org.apache.commons.collections.CollectionUtils;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -27,11 +26,6 @@ import org.openqa.selenium.WebElement;
 public class WCheckBoxSelectExample_Test extends WComponentExamplesTestCase {
 
 	/**
-	 * The SeleniumWebDriver for these examples.
-	 */
-	private SeleniumWComponentsWebDriver driver;
-
-	/**
 	 * Create a test instance.
 	 */
 	public WCheckBoxSelectExample_Test() {
@@ -43,6 +37,7 @@ public class WCheckBoxSelectExample_Test extends WComponentExamplesTestCase {
 	 * optional properties set.
 	 */
 	private SeleniumWCheckBoxSelectWebElement getExampleNoSelections() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		return driver.findWCheckBoxSelect(byWComponentPath("WCheckBoxSelect[0]"));
 	}
 
@@ -50,6 +45,7 @@ public class WCheckBoxSelectExample_Test extends WComponentExamplesTestCase {
 	 * @return a known good example which is read-only and has selections.
 	 */
 	private SeleniumWCheckBoxSelectWebElement getExampleWithSelections() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		return driver.findWCheckBoxSelect(new ByLabel("Many selections with frame", false));
 	}
 
@@ -57,6 +53,7 @@ public class WCheckBoxSelectExample_Test extends WComponentExamplesTestCase {
 	 * @return a known good example which is read-only and has selections.
 	 */
 	private SeleniumWCheckBoxSelectWebElement getExampleWithReadOnlySelection() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		return driver.findWCheckBoxSelect(new ByLabel("Many selections with frame (read only)", false));
 	}
 
@@ -64,6 +61,7 @@ public class WCheckBoxSelectExample_Test extends WComponentExamplesTestCase {
 	 * @return a known good example which is disabled.
 	 */
 	private SeleniumWCheckBoxSelectWebElement getDisabledExample() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		return driver.findWCheckBoxSelect(new ByLabel("Disabled with no default selection", false));
 	}
 
@@ -71,6 +69,7 @@ public class WCheckBoxSelectExample_Test extends WComponentExamplesTestCase {
 	 * @return a known anti-pattern example which is interactive but has no options.
 	 */
 	private SeleniumWCheckBoxSelectWebElement getExampleNoOptions() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		return driver.findWCheckBoxSelect(new ByLabel("WCheckBoxSelect with no options", false));
 	}
 
@@ -78,12 +77,8 @@ public class WCheckBoxSelectExample_Test extends WComponentExamplesTestCase {
 	 * @return a known good example of read-only with no selections.
 	 */
 	private SeleniumWCheckBoxSelectWebElement getReadOnlyNoSelection() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		return driver.findWCheckBoxSelect(new ByLabel("No selections were made (read only)", false));
-	}
-
-	@Before
-	public void doBefore() {
-		driver = getDriver();
 	}
 
 	@Test
@@ -95,6 +90,7 @@ public class WCheckBoxSelectExample_Test extends WComponentExamplesTestCase {
 
 	@Test
 	public void testComponentLevelBooleanProperties() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		SeleniumWCheckBoxSelectWebElement interactive = getExampleNoSelections();
 		SeleniumWCheckBoxSelectWebElement readOnly = getExampleWithReadOnlySelection();
 		SeleniumWCheckBoxSelectWebElement disabled = getDisabledExample();
@@ -150,6 +146,7 @@ public class WCheckBoxSelectExample_Test extends WComponentExamplesTestCase {
 
 	@Test
 	public void testGetSelected() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		// use item with default selection
 		Assert.assertEquals(9, getExampleWithSelections().getSelected().size());
 		// read only with selection
@@ -171,6 +168,7 @@ public class WCheckBoxSelectExample_Test extends WComponentExamplesTestCase {
 
 	@Test
 	public void testIsSelected() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		SeleniumWCheckBoxSelectWebElement interactive = driver.findWCheckBoxSelect(new ByLabel("One selection was made", false));
 		SeleniumWCheckBoxSelectWebElement readOnly = driver.findWCheckBoxSelect(new ByLabel("One selection was made (read only)", false));
 		// by index
@@ -202,6 +200,7 @@ public class WCheckBoxSelectExample_Test extends WComponentExamplesTestCase {
 
 	@Test
 	public void testSelect() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		SeleniumWCheckBoxSelectWebElement cbs = getExampleNoSelections();
 		// by option
 		WebElement option = cbs.getOption(0);
@@ -241,6 +240,7 @@ public class WCheckBoxSelectExample_Test extends WComponentExamplesTestCase {
 
 	@Test
 	public void testDeselect() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		SeleniumWCheckBoxSelectWebElement cbs = getExampleWithSelections();
 		// by option
 		WebElement option = cbs.getOption(0);
@@ -273,6 +273,7 @@ public class WCheckBoxSelectExample_Test extends WComponentExamplesTestCase {
 
 	@Test
 	public void testClick() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		SeleniumWCheckBoxSelectWebElement cbs = driver.findWCheckBoxSelect(new ByLabel("One selection was made", false));
 		// by option
 		WebElement option = cbs.getOption(0); // the selected option
