@@ -1,6 +1,6 @@
 scss_files: 'src/main/sass/*.scss'
 
-exclude: 'src/main/sass/libs/**'
+exclude: 'src/main/sass/lib/**'
 
 linters:
 # inherit defaults except:
