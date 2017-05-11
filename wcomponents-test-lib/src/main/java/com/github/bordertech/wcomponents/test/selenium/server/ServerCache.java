@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.test.selenium.server;
 
-import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.lde.LdeLauncher;
 import com.github.bordertech.wcomponents.test.selenium.DynamicLauncher;
 import com.github.bordertech.wcomponents.util.Factory;
@@ -131,7 +131,7 @@ public final class ServerCache {
 	 * @param ui ui component
 	 * @return the UI
 	 */
-	public static WComponent setUI(final String key, final WComponent ui) {
+	public static WApplication setUI(final String key, final WApplication ui) {
 		synchronized (LAUNCHER) {
 			// If a DynamicLauncher is being used, set the UI to match this component.
 			if (LAUNCHER instanceof DynamicLauncher) {
