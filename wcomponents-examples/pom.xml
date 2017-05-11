@@ -127,6 +127,7 @@
 					<parallelTestsTimeoutInSeconds>0</parallelTestsTimeoutInSeconds>
 					<threadCount>4</threadCount>
 					<perCoreThreadCount>false</perCoreThreadCount>
+					<rerunFailingTestsCount>2</rerunFailingTestsCount>
 					<properties>
 						<property>
 							<name>listener</name>
