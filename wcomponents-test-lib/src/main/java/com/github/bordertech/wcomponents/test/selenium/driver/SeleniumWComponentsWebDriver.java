@@ -417,7 +417,7 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 */
 	@Override
 	public List<WebElement> findElements(final By by) {
-		return findElements(by, true);
+		return findElements(by, false);
 	}
 
 	/**
@@ -442,7 +442,7 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 */
 	@Override
 	public SeleniumWComponentWebElement findElement(final By by) {
-		return findElement(by, true);
+		return findElement(by, false);
 	}
 
 	/**
@@ -473,7 +473,7 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 * @return the matching WebElement.
 	 */
 	public List<WebElement> findElements(final ByWComponent by) {
-		return findElements(by, true);
+		return findElements(by, false);
 	}
 
 	/**
@@ -501,7 +501,7 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 * @return the matching WebElement.
 	 */
 	public SeleniumWComponentWebElement findElement(final ByWComponent by) {
-		return findElement(by, true);
+		return findElement(by, false);
 	}
 
 	/**
@@ -683,7 +683,20 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 */
 	public UIContext getUserContextForSession() {
 		String sessionId = getSessionId();
-		return SeleniumLauncher.getContextForSession(sessionId);
+		if (sessionId != null) {
+			return SeleniumLauncher.getContextForSession(sessionId);
+		}
+		return null;
+	}
+
+	/**
+	 * Clear the user context on the session.
+	 */
+	public void clearUserContext() {
+		String sessionId = getSessionId();
+		if (sessionId != null) {
+			SeleniumLauncher.destroyContextForSession(sessionId);
+		}
 	}
 
 	/**

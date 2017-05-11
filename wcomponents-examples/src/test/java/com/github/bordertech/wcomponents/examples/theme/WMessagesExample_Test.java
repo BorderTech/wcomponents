@@ -8,13 +8,13 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMessageB
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMessagesWebElement;
 import java.util.List;
 import junit.framework.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 /**
  * Tests of WMessagesExample.
+ *
  * @author Mark Reeves
  * @since 1.4.0
  */
@@ -23,24 +23,15 @@ import org.junit.runner.RunWith;
 public class WMessagesExample_Test extends WComponentExamplesTestCase {
 
 	/**
-	 * The Selenium Driver for these tests.
-	 */
-	private SeleniumWComponentsWebDriver driver;
-
-	/**
 	 * Instantiate the tests.
 	 */
 	public WMessagesExample_Test() {
 		super(new WMessagesExample());
 	}
 
-	@Before
-	public void doBefore() {
-		driver = getDriver();
-	}
-
 	@Test
 	public void testMessageBoxes() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		SeleniumWMessagesWebElement messages = driver.findWMessages(byWComponentPath("WMessages[0]"));
 		List<SeleniumWMessageBoxWebElement> messageBoxes = messages.getMessageBoxes();
 		Assert.assertEquals(4, messageBoxes.size());
@@ -48,6 +39,7 @@ public class WMessagesExample_Test extends WComponentExamplesTestCase {
 
 	@Test
 	public void testMessageBoxTypes() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		SeleniumWMessagesWebElement messages = driver.findWMessages(byWComponentPath("WMessages[0]"));
 		List<SeleniumWMessageBoxWebElement> messageBoxes = messages.getMessageBoxes();
 		Assert.assertEquals(4, messageBoxes.size());
@@ -60,6 +52,7 @@ public class WMessagesExample_Test extends WComponentExamplesTestCase {
 
 	@Test
 	public void testHiddenWMessages() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		SeleniumWMessagesWebElement messages = driver.findWMessages(byWComponentPath("WMessages[1]"));
 		Assert.assertTrue(messages.isHidden());
 		Assert.assertFalse(messages.isDisplayed());

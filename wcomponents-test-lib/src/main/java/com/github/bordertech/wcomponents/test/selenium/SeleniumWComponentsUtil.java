@@ -33,6 +33,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  *
  * @author Joshua Barclay
  * @author Mark Reeves
+ * @author Jonathan Austin
  * @since 1.2.0
  */
 public final class SeleniumWComponentsUtil {
@@ -140,7 +141,10 @@ public final class SeleniumWComponentsUtil {
 	 * @param driver the WebDriver to configure.
 	 */
 	public static void configureImmediateImplicitWait(final WebDriver driver) {
-		configureImplicitWait(driver, 0, TimeUnit.MILLISECONDS);
+		// Only change the wait if it has a value
+		if (IMPLICIT_WAIT_SECONDS != 0) {
+			configureImplicitWait(driver, 0, TimeUnit.MILLISECONDS);
+		}
 	}
 
 	/**

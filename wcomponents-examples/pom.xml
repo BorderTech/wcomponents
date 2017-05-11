@@ -122,11 +122,22 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${surefire.version}</version>
 				<configuration>
+					<parallel>methods</parallel>
+					<parallelTestsTimeoutForcedInSeconds>0</parallelTestsTimeoutForcedInSeconds>
+					<parallelTestsTimeoutInSeconds>0</parallelTestsTimeoutInSeconds>
+					<threadCount>4</threadCount>
+					<perCoreThreadCount>false</perCoreThreadCount>
+					<properties>
+						<property>
+							<name>listener</name>
+							<value>com.github.bordertech.wcomponents.examples.ServerStartStopListener</value>
+						</property>
+					</properties>
 					<systemPropertyVariables>
 						<phantomjs.binary.path>${phantomjs.binary}</phantomjs.binary.path>
 					</systemPropertyVariables>
 					<!-- Arg set by jacoco. -->
-					<argLine>${surefireArgLine}</argLine>
+					<argLine>${surefireArgLine} -Xmx512m -XX:MaxPermSize=128m</argLine>
 					<excludedGroups>${excludedTestGroups}</excludedGroups>
 				</configuration>
 			</plugin>
