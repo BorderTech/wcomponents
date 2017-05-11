@@ -137,7 +137,7 @@
 						<phantomjs.binary.path>${phantomjs.binary}</phantomjs.binary.path>
 					</systemPropertyVariables>
 					<!-- Arg set by jacoco. -->
-					<argLine>${surefireArgLine}</argLine>
+					<argLine>${surefireArgLine} -Xmx512m -XX:MaxPermSize=128m</argLine>
 					<excludedGroups>${excludedTestGroups}</excludedGroups>
 				</configuration>
 			</plugin>
