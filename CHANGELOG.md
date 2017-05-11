@@ -5,6 +5,19 @@
 ### API Changes
 
 * Default template render mode to on (previously off). This improves UI performance for most users. #1158.
+* Selenium performance API changes #1138:-
+  - The methods in TreeUtil (i.e. findWComponent and findWComponents) that use a path to find components have been
+    changed to search only visible components. New find methods that provide a visible only boolean flag have been
+    included to toggle this. This change will effect selenium tests that use byWComponentPath with invisible
+    components in their path. Either change the path to use only visible components or use the new constructor
+    on byWComponentPath that allows the visible only flag to be toggled.
+  - SeleniumWComponentsWebDriver and SeleniumWComponentWebElement provide new findImmediate methods that can be used
+    to find an element without the wait implicit. This assumes the page is already loaded and will return immediately
+    if the element is not present. The findElement methods now default to not wait for the page. New findElement methods
+    provide a wait boolean flag to toggle this.
+  - SeleniumWComponentsWebDriver and SeleniumWComponentWebElement provide a new helper method getUserContextSession()
+    to retrieve the user context.
+  - SeleniumWComponentTestCase provides a new helper method getUserContextSession() to retrieve the user context.
 
 ### Bug Fixes
 
@@ -14,12 +27,20 @@
 * Fixed position of server-generated error messages for simple WInputs #1161.
 * Fixed partial text matches in dropdown typeahead #1164.
 * Improve AJAX error handling when the response "lies" and says it is "200 OK" when it isn't #1163.
+* Fixed issue in ByWComponentPath that was leaving the user context on the Thread. Unit tests that check a component's
+  state may have depended on this wrong behaviour. These tests will need to be changed to push and pop the User Context
+  when checking the components state #1138.
 
 ### Enhancements
 
 * Improved efficiency of XML escaping and sanitization as part of #1158.
 * Removed PetStore #1190.
-* Improve performance of Selenium tests and helpers #1138.
+* Selenium performance enhancements #1138:-
+  - Upgrade JUNIT 4.8.2 to 4.12 and Surefire Plugin 2.18 to 2.20.
+  - WebDriverCache now uses a concept of a pool of drivers. Improves performance for parallel selenium tests.
+  - Provide a new ServerStartStopListener for JUNITs to start and stop the web server for selenium tests.
+  - Improved selenium utility classes and helper methods.
+  - WComponent example module demonstrates running selenium tests in parallel.
 
 ## Release 1.4.0-beta-2
 
