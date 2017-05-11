@@ -123,6 +123,8 @@
 				<version>${surefire.version}</version>
 				<configuration>
 					<parallel>methods</parallel>
+					<parallelTestsTimeoutForcedInSeconds>0</parallelTestsTimeoutForcedInSeconds>
+					<parallelTestsTimeoutInSeconds>0</parallelTestsTimeoutInSeconds>
 					<threadCount>4</threadCount>
 					<perCoreThreadCount>false</perCoreThreadCount>
 					<properties>

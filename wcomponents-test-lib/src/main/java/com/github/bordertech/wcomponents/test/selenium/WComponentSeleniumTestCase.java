@@ -213,10 +213,20 @@ public abstract class WComponentSeleniumTestCase {
 			}
 
 			driver = getDriverWithoutLaunching();
-			if (driver.hasSession()) {
-				driver.newSession(getUrl());
-			} else {
-				driver.get(getUrl());
+			try {
+				if (driver.hasSession()) {
+					driver.newSession(getUrl());
+				} else {
+					driver.get(getUrl());
+				}
+			} catch (Exception e) {
+				try {
+					// Close driver
+					WebDriverCache.closeDriver(driverType, driverId);
+				} finally {
+					driver = null;
+				}
+				throw new SystemException("Could not launch the driver. " + e.getMessage());
 			}
 		}
 	}
@@ -306,27 +316,28 @@ public abstract class WComponentSeleniumTestCase {
 	 * Release the driver.
 	 */
 	public void releaseDriver() {
-		if (driver != null) {
-			if (driver.hasSession()) {
-				// Try to close User Session
-				try {
-					driver.clearUserContext();
-				} catch (Exception e) {
-					LOG.warn("Could not clear User Session. " + e.getMessage(), e);
-					// Try to close the driver
-					try {
-						WebDriverCache.closeDriver(driverType, driverId);
-					} catch (Exception e2) {
-						LOG.warn("Could not close driver. " + e2.getMessage(), e2);
-					}
-					// Dont put back into pool
-					driver = null;
-					return;
-				}
-			}
-			WebDriverCache.releaseDriver(driverType, driverId);
-			driver = null;
+		if (driver == null) {
+			return;
 		}
+		if (driver.hasSession()) {
+			// Try to close User Session
+			try {
+				driver.clearUserContext();
+			} catch (Exception e) {
+				LOG.warn("Could not clear User Session. Will not use driver any more." + e.getMessage(), e);
+				// Try to close the driver
+				try {
+					WebDriverCache.closeDriver(driverType, driverId);
+				} catch (Exception e2) {
+					LOG.warn("Could not close the driver. Will not use driver any more. " + e2.getMessage(), e2);
+				}
+				driver = null;
+				return;
+			}
+		}
+		// Put back in the pool
+		WebDriverCache.releaseDriver(driverType, driverId);
+		driver = null;
 	}
 
 	/**
