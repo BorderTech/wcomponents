@@ -1,0 +1,8 @@
+// #############################################################################
+// MANDATORY Indcator
+// #############################################################################
+// Show the mandatory indicator
+@mixin mandatory-indicator {
+	color: $wc-clr-required-marker;
+	content: $wc-label-mandatory-indicator;
+}

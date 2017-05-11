@@ -1,9 +1,8 @@
-@import 'mixins-common';
-
 $phone-gap-size: $wc-phone-gap-xl;
 
 @if ($wc-use-respond == 1) {
-	@if ($wc-bigscreen-font-size != -1 and $wc-bigscreen-font-size != $wc-desktop-font-size) {
+	@if ($wc-bigscreen-font-size != -1 and
+		$wc-bigscreen-font-size != $wc-desktop-font-size) {
 		@include respond-bigger-screen {
 			body {
 				font-size: $wc-bigscreen-font-size;
@@ -12,9 +11,10 @@ $phone-gap-size: $wc-phone-gap-xl;
 	}
 
 	@include respond-phonelike {
-		// Making fonts BIGGER seems counter-intuitive but it makes phone screens easier to read and
-		// makes buttons etc MUCH easier to hit
-		@if ($wc-phone-font-size != -1 and $wc-phone-font-size != $wc-desktop-font-size) {
+		// Making fonts BIGGER seems counter-intuitive but it makes phone
+		// screens easier to read and makes buttons etc MUCH easier to hit.
+		@if ($wc-phone-font-size != -1 and
+			$wc-phone-font-size != $wc-desktop-font-size) {
 			body {
 				font-size: $wc-phone-font-size;
 			}

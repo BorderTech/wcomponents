@@ -1,5 +1,6 @@
-// Make sure WComponents vars are included before lib vars are declared.
-@import 'vars';
-
+// #############################################################################
+// The only purpose of this file is to include external libraries which for
+// whatever reason we have to build from source in WComponents.
+// #############################################################################
 // include font-awesome
 @import 'lib/fa/font-awesome';

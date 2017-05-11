@@ -1,0 +1,31 @@
+// #############################################################################
+// GENERIC BUTTONS
+// #############################################################################
+// If this is set to 1 then _all_ buttons will inherit font metrics. You may
+// find this useful in getting cross-browser and cross-platform consistency but
+// it _may_ make your buttons ugly if you are a hard-core OS X user. We
+// recommend leaving this at 1 - it will save you some grief.
+$wc-button-rationalise-text-styles: 1 !default;
+// Set to 1 top turn on "invite" styles for all buttons. If you do this you
+// _will_ want to set borders and default backgrounds because this will add
+// hover/focus backgrounds (with the corrollary effect on button borders).
+$wc-button-use-invite: 0 !default;
+// #############################################################################
+// BUTTON STYLE CLASSES
+// #############################################################################
+// Add some simple button style helper classes to the output CSS.
+// Set this to 1 to include the helpers, any other value to not include them and
+// save your CSS a few bytes.
+$wc-button-include-helper-classes: 1 !default;
+
+
+// #############################################################################
+// WToggleButton
+// #############################################################################
+$wc-togglebutton-width: 2 * $wc-icon-normal !default;
+// The transition when a toggle button is de/selected. Set to the single value
+// -1 to not use transitions.
+$wc-togglebutton-transition: all 0.4s ease !default;
+// The toggle button transition. Ignored if $wc-togglebutton-transition == -1
+$wc-togglebutton-transition-slider: left 0.3s cubic-bezier(0.175, 0.885, 0.320,
+ 	1.275), padding 0.3s ease, margin 0.3s ease !default;

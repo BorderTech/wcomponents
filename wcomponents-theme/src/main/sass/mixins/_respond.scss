@@ -1,7 +1,8 @@
-// Skeleton responsive design mixin. Gives what we need by default but feel free to add to it with other responsive
-// design mixins as required.
+// Skeleton responsive design mixin. Gives what we need by default but feel free
+// to add to it with other responsive design mixins as required.
 
-// NOTE: If you change any of these take a look at the configuration of wc/ui/viewportUtils.
+// NOTE: If you change any of these take a look at the configuration of
+// JavaScript module "wc/ui/viewportUtils".
 
 @mixin respond-phonelike {
 	@media only screen and (max-width : 773px) {

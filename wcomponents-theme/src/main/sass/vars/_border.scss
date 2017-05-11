@@ -1,0 +1,8 @@
+// #############################################################################
+// GENERIC BORDERS
+// #############################################################################
+// Many things have borders and it is nice to have a common look to all of them.
+// You may want to cross reference this to the mixin border mixin which uses
+// these as default values but allows overrides.
+$wc-border-style: solid !default;
+$wc-border-width: 1px !default;

@@ -1,9 +1,11 @@
 // WPanel Layouts and common layouts such as row/column (as it is ColunLayout).
-// You really don't want to be here - that is partially why it is all in the same file now.
-@import 'mixins-common';
+// You really don't want to be here - that is partially why it is all in the
+// same file now.
 
+// #############################################################################
 // BorderLayout
 // NOTE BorderLayout is deprecated.
+// #############################################################################
 .wc_bl_mid {
 	// NOTE: the justification should be moot but keep it here
 	@include flex($justify: space-between);
@@ -40,10 +42,12 @@
 	text-align: right;
 }
 
+// #############################################################################
 // FlowLayout
-
+// #############################################################################
 .wc-flowlayout {
-	@include flex($wrap: wrap, $justify: flex-start, $align-items: flex-start, $align-content: flex-start);
+	@include flex($wrap: wrap, $justify: flex-start, $align-items: flex-start,
+		$align-content: flex-start);
 
 	> div {
 		display: inline-block;
@@ -84,15 +88,18 @@
 	@include flex-align-items(center);
 }
 
+// #############################################################################
 // GridLayout
-
+// #############################################################################
 // **READ THIS FIRST.**
-// GridLayout was first implemented as a CSS variation on a Java Swing or AWT GridLayout. It is not a general purpose
-// layout tool and is considered "legacy" and is best avoided. See
-// https://github.com/BorderTech/wcomponents/wiki/WPanel-GridLayout
-
-// The styles in this file assume we allow nested grids or grids with other nested layouts. It would make less CSS if
-// we did not assume this as we could get of the intermediate row class in the  width settings.
+// GridLayout was first implemented as a CSS variation on a Java Swing or AWT
+// GridLayout. It is not a general purpose layout tool and is considered legacy
+// and is best avoided.
+// See https://github.com/BorderTech/wcomponents/wiki/WPanel-GridLayout
+// #############################################################################
+// The styles in this file assume we allow nested grids or grids with other
+// nested layouts. It would make less CSS if we did not assume this as we could
+// get of the intermediate row class in the  width settings.
 
 // rows in the GridLayout.
 .wc_gl_row {
@@ -106,8 +113,9 @@
 	}
 }
 
+// #############################################################################
 // ListLayout and WList
-
+// #############################################################################
 .wc-listlayout {
 	@include tight-box;
 
@@ -208,8 +216,9 @@ ol.wc-listlayout {
 }
 
 
+// #############################################################################
 // ColumnLayout WRow and WColumn (and a few other column-based controls)
-
+// #############################################################################
 // All rows have this class, not just WRow
 .wc-row {
 	@include flex;
@@ -251,8 +260,10 @@ ol.wc-listlayout {
 	}
 }
 
+// #############################################################################
 // cells common to many layouts
 // .wc-cell is an item in a FlowLayout, ColumnLayout, ListLayout or GridLayout.
+// #############################################################################
 .wc-cell {
 	@include border-box;
 }

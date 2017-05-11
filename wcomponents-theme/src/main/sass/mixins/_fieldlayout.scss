@@ -1,13 +1,14 @@
-// I recommend this never be overridden as it is purely structural and a bit of a pain.
-@import 'mixins-common';
+// I recommend this never be overridden as it is purely structural and a bit of
+// a pain.
 
 $wc-label-width-slug: wc_fld_lblwth; // DO NOT CHANGE
 $wc-input-width-slug: wc_fld_inpw; // DO NOT CHANGE
 
-// This mixin outputs the classes to handle flat WFieldLayout styles for supported labelWidths.
-// There could be anything up to 100 iterations of this stuff.
-// When we combine that with the use of nested WFieldLayouts (don't get me started) which mean we have to use child
-// selectors you can see we end up with a LOT of CSS.
+// This mixin outputs the classes to handle flat WFieldLayout styles for
+// supported labelWidths. There could be anything up to 100 iterations of this
+// stuff. When we combine that with the use of nested WFieldLayouts (don't get
+// me started) which mean we have to use child selectors you can see we end up
+// with a LOT of CSS.
 @mixin wc-fld-layout($lwdth) {
 	$lw: $lwdth * 1%;
 	$iw: 100% - $lw;

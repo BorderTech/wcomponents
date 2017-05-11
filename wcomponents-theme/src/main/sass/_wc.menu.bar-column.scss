@@ -1,6 +1,4 @@
 // for WMenu type BAR, type FLYOUT, type COLUMN
-@import 'mixins-common';
-
 .wc-menu-type-column,
 .wc_menu_bar {
 	.wc_submenucontent {
@@ -23,7 +21,8 @@
 
 .wc-menu-type-column,
 .wc_submenucontent {
-	 // nested sub-menus. These must appear before the colision detection overrides below.
+	 // nested sub-menus. These must appear before the colision detection
+	 // overrides below.
 	.wc_submenucontent {
 		left: 100%;
 		top: 0;

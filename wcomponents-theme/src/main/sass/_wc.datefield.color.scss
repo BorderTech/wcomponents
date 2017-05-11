@@ -1,11 +1,10 @@
-@import 'mixins-common';
-
-// We use a single ID'd component for all calendar date pickers and move it around to where it is needed.
+// We use a single ID'd component for all calendar date pickers and move it
+// around to where it is needed.
 // scss-lint:disable IdSelector
 // This is the calendar container.
 #wc_calbox {
 	@include border;
-	background-color: $wc-ui-color-global-bg;
+	background-color: $wc-clr-global-bg;
 }
 
 // The calendar table
@@ -15,23 +14,23 @@
 	}
 
 	th {
-		background-color: $wc-ui-color-highlight-bg;
-		color: $wc-ui-color-highlight-fg;
+		background-color: $wc-clr-highlight-bg;
+		color: $wc-clr-highlight-fg;
 	}
 }
 
 #wc_caldaybox td {
-	color: $wc-ui-color-disabled-fg;
+	color: $wc-clr-disabled-fg;
 }
 // scss-lint:enable IdSelector
 
 // date picker buttons
 .wc_wdf_pick {
-	color: $wc-ui-color-global-fg;
+	color: $wc-clr-global-fg;
 
 	&[aria-pressed='true'] { // selected date
-		background-color: $wc-ui-color-selected-bg;
-		color: $wc-ui-color-selected-fg;
+		background-color: $wc-clr-selected-bg;
+		color: $wc-clr-selected-fg;
 	}
 }
 

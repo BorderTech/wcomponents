@@ -1,5 +1,5 @@
 // toggle button styles based on https://codepen.io/mallendeo/pen/eLIiG
-@import 'mixins-common';
+@import 'mixins/common';
 
 // calculated vars
 $wc-togglebutton-double-border-width: 2 * $wc-border-width;
@@ -28,11 +28,14 @@ $wc-togglebutton-slider-width: $wc-togglebutton-width / 2;
 	> button {
 		outline: 0;
 		padding: 0;
-		transition: $wc-togglebutton-transition;
 		user-select: none;
 
-		&:after {
-			transition: $wc-togglebutton-transition-slider;
+		@if ($wc-togglebutton-transition != -1) {
+			transition: $wc-togglebutton-transition;
+
+			&:after {
+				transition: $wc-togglebutton-transition-slider;
+			}
 		}
 	}
 

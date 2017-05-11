@@ -1,5 +1,3 @@
-@import 'mixins-common';
-
 @if ($wc-use-respond == 1 and $wc-use-respond-table == 1) {
 	@include respond-phonelike {
 		.wc-table.wc-respond {
@@ -7,17 +5,18 @@
 				&,
 				&.wc-invite:hover,
 				&.wc-invite:focus {
-					background-color: $wc-ui-color-selected-bg;
+					background-color: $wc-clr-selected-bg;
 				}
 
 				> th,
 				> td {
-					// WARNING: you _may_ want to add overrides for coloured elements eg, headings.
+					// WARNING: you _may_ want to add overrides for coloured
+					// elements eg, headings.
 					&,
 					a,
 					a:visited,
 					.wc-linkbutton {
-						color: $wc-ui-color-selected-fg;
+						color: $wc-clr-selected-fg;
 					}
 				}
 			}

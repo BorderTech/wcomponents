@@ -1,16 +1,15 @@
 // styles for WLabel and the label emulators
-@import 'mixins-common';
-
-@if ($wc-ui-color-label-fg != -1) {
+@if ($wc-clr-label-fg != -1) {
 	label {
-		background-color: $wc-ui-color-label-bg;
-		color: $wc-ui-color-label-fg;
+		background-color: $wc-clr-label-bg;
+		color: $wc-clr-label-fg;
 	}
 }
 
- // hint is additional text for labels that describe other information for the related form element
+ // hint is additional text for labels that describe other information for the
+ // related form element
 .wc-label-hint {
-	@if ($wc-ui-color-label-hint != -1) {
-		color: $wc-ui-color-label-hint;
+	@if ($wc-clr-label-hint != -1) {
+		color: $wc-clr-label-hint;
 	}
 }

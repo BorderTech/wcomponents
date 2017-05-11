@@ -228,6 +228,7 @@ define(["wc/dom/initialise",
 		 * @property {String} rx The email regular expression as a string.
 		 *
 		 * @module wc/ui/validation/textField
+		 *
 		 * @requires module:wc/dom/initialise
 		 * @requires module:wc/dom/Widget
 		 * @requires module:wc/i18n/i18n
@@ -238,7 +239,6 @@ define(["wc/dom/initialise",
 		 * @requires module:wc/ui/dateField
 		 * @requires module:wc/ui/validation/required
 		 * @requires module:wc/ui/validation/validationManager
-		 * @requires module:wc/ui/textField
 		 * @requires module:wc/config
 		 */
 		var instance = new ValidationTextInput();

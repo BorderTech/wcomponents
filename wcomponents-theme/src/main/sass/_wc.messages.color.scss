@@ -1,18 +1,16 @@
 // Colors for inline messages
-@import 'vars';
-
 .wc-fieldindicator-type-error {
-	color: $wc-ui-color-error-fg;
+	color: $wc-clr-error-fg;
 }
 
 .wc-fieldindicator-type-warn {
-	color: $wc-ui-color-warning-fg;
+	color: $wc-clr-warning-fg;
 }
 
 .wc-fieldindicator-type-info {
-	color: $wc-ui-color-info-fg;
+	color: $wc-clr-info-fg;
 }
 
 .wc-fieldindicator-type-success {
-	color: $wc-ui-color-success-fg;
+	color: $wc-clr-success-fg;
 }

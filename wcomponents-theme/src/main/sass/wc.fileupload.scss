@@ -1,4 +1,4 @@
-@import 'mixins-common';
+@import 'mixins/common';
 
 .wc-multifileupload {
 
@@ -30,11 +30,12 @@
 	progress {
 		margin-left: $wc-gap-small;
 		margin-right: $wc-gap-small;
-		min-width: 10em; // see https://github.com/BorderTech/wcomponents/issues/1000
+		// see https://github.com/BorderTech/wcomponents/issues/1000
+		min-width: 10em;
 	}
 
 	&[data-wc-cols='1'] > .wc_filelist {
-		display: table-cell;  // horrendously wrong no doubt but fixes columns
+		display: table-cell; // horrendously wrong no doubt but fixes columns
 	}
 
 	> .wc-listlayout-type-flat  a {
@@ -51,7 +52,8 @@
 	}
 
 	.wc_btn_camera {
-		// This should only be available on desktop browsers, and only those which support webrtc --or flash--
+		// This should only be available on desktop browsers, and only those
+		// which support webrtc --or flash--
 		display: none;
 	}
 }

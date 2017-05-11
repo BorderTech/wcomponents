@@ -1,15 +1,18 @@
-@import 'mixins-common';
+@import 'mixins/common';
 
 .wc-multifileupload .wc-file {
-	padding-right: 3px; // IE11 cannot calc 100% - 1.333em and set a right pad in em at the same time. Useless POS.
+	// IE11 cannot calc 100% - 1.333em and set a right pad in em at the same
+	// time. Useless POS.
+	padding-right: 3px;
 }
 
-// The default file upload in IE is a bit ugly if anything is styled at all. This CSS may be considered lipstick. If we
-// cannot style the pseudo elements (IE9-) then it can remain ugly.
+// The default file upload in IE is a bit ugly if anything is styled at all.
+// This CSS may be considered lipstick. If we cannot style the pseudo elements
+// (IE9-) then it can remain ugly.
 //scss-lint:disable VendorPrefix
 input[type='file'] {
-	@if ($wc-ui-color-global-bg != -1) {
-		background-color: $wc-ui-color-global-bg;
+	@if ($wc-clr-global-bg != -1) {
+		background-color: $wc-clr-global-bg;
 	}
 	padding: 0;
 
@@ -23,9 +26,9 @@ input[type='file'] {
 		margin: 0;
 	}
 
-	@if ($wc-ui-color-disabled-bg != -1) {
+	@if ($wc-clr-disabled-bg != -1) {
 		&[disabled] {
-			background-color: $wc-ui-color-disabled-bg;
+			background-color: $wc-clr-disabled-bg;
 		}
 	}
 }

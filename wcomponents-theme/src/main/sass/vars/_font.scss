@@ -1,0 +1,32 @@
+// #############################################################################
+// FONTS.
+// #############################################################################
+// The default font is set on body in wc.common.scss
+$wc-default-font: sans-serif !default;
+// If the example import in wc.import.scss is used then the var should include
+// the imported font.
+// $wc-default-font: 'Roboto', sans-serif !default;
+$wc-mono-font: monospace !default;
+// #############################################################################
+// FONT SIZES
+// #############################################################################
+// If you are mucking around here you may want to go look at the generic section
+// heading sizes (in the SPACING and REM SIZES section) and WHeading styles
+// below.
+
+// Sizes for screens which are not small but not particularly big. Pick any
+// reasonable value for this. 100% is good and will result in no CSS!
+$wc-desktop-font-size: 75% !default;
+// Font size small screens (phone-like). You should probably leave this as it
+// is. If this is set to -1 or is the same
+// as $wc-desktop-font-size then the CSS media block will not be written.
+$wc-phone-font-size: 100% !default;
+// Font size on really large, dense monitors (eg Apple cinema and thunderbolt
+// displays) where small fonts become too tiny to be useful. Pick a value but
+// test it out on someone old (like Mark) or who needs a screen magnifier. If
+// this is set to -1 or is the same as $wc-desktop-font-size then the media
+// block will not be written.
+$wc-bigscreen-font-size: 100% !default;
+
+// mobile menus - used only to make the menu items bigger for easier touch use.
+$wc-font-larger: 1.5rem !default;

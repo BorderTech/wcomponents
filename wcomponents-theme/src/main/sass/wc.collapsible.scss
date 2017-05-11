@@ -1,9 +1,11 @@
-// WCollapsible is a close map of the HTML5 details element in which the header is a summary element.
-@import 'mixins-common';
+// WCollapsible is a close map of the HTML5 details element in which the header
+// is a summary element.
+@import 'mixins/common';
 
 details {
-	// We only have to style immediate child elements of the collapsible container. In an ideal world we would not have
-	// to do this but so far only webkit has native support for <details> and that is still flawed.
+	// We only have to style immediate child elements of the collapsible
+	// container. In an ideal world we would not have to do this but so far only
+	// webkit has native support for <details> and that is still flawed.
 	> div {
 		display: none;
 	}
@@ -36,11 +38,13 @@ summary {
 		font-size: inherit;
 		font-weight: bold;
 		vertical-align: text-top;
-		width: calc(100% - #{$wc-collapsible-icon-width}); // allow for the iconography
+		// allow for the iconography
+		width: calc(100% - #{$wc-collapsible-icon-width});
 	}
 }
 
-::-webkit-details-marker { // remove the default summary marker from webkit browsers
+// remove the default summary marker from webkit browsers
+::-webkit-details-marker {
 	display: none;
 }
 
