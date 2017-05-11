@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
 import com.github.bordertech.wcomponents.test.selenium.ByWComponentPath;
@@ -32,11 +33,27 @@ public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestC
 
 	/**
 	 * Constructor to set the UI component.
+	 * <p>
+	 * The example will be wrapped in a {@link WApplication}.
+	 * </p>
 	 *
 	 * @param ui the UI being tested.
 	 */
 	public WComponentExamplesTestCase(final WComponent ui) {
-		this.ui = ServerCache.setUI(this.getClass().getName(), ui);
+		// Wrap the example in an WApplication
+		WApplication egUI;
+		boolean wrapped = false;
+		if (ui instanceof WApplication) {
+			egUI = (WApplication) ui;
+		} else {
+			egUI = new WApplication();
+			egUI.add(ui);
+			wrapped = true;
+		}
+		// Register the Example UI (if already registered, the original instance will be returned)
+		egUI = ServerCache.setUI(this.getClass().getName(), egUI);
+		// Hold onto the Example instance
+		this.ui = wrapped ? egUI.getChildAt(0) : egUI;
 		super.setUrl(ServerCache.getUrl());
 	}
 

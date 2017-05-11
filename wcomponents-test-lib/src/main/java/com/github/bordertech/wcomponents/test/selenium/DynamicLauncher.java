@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.test.selenium;
 
-import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.registry.UIRegistry;
 import org.apache.commons.lang.StringUtils;
 
@@ -29,7 +29,7 @@ public class DynamicLauncher extends SeleniumLauncher {
 	 * @param componentToLaunch the WComponent to launch.
 	 * @return the registered component as a singleton.
 	 */
-	public WComponent setComponentToLaunch(final String uniqueId, final WComponent componentToLaunch) {
+	public WApplication setComponentToLaunch(final String uniqueId, final WApplication componentToLaunch) {
 		uiRegistryKey = uniqueId;
 
 		//Only register the component if it is not already registered.
@@ -37,7 +37,7 @@ public class DynamicLauncher extends SeleniumLauncher {
 			UIRegistry.getInstance().register(uiRegistryKey, componentToLaunch);
 			return componentToLaunch;
 		} else {
-			return UIRegistry.getInstance().getUI(uiRegistryKey);
+			return (WApplication) UIRegistry.getInstance().getUI(uiRegistryKey);
 		}
 	}
 
