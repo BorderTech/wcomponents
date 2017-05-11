@@ -1,16 +1,21 @@
 // You REALLY don't want to even consider looking at this stuff!
 // Most of the configuration of WFieldLayout support is done through vars.
-@import 'wc.fieldlayout.mixins';
+@import 'mixins/common';
+@import 'mixins/fieldlayout';
 
-// The space remaining for the input part of a control when the WFieldLayout is FLAT. Do not change.
+// The space remaining for the input part of a control when the WFieldLayout is
+// FLAT. Do not change.
 $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 
-.wc-fieldlayout + .wc-fieldlayout, // Vertical space between consecutive WFieldLayouts.
-.wc-field  + .wc-field { // Vertical space between fields in a WFieldLayout.
+// Vertical space between consecutive WFieldLayouts.
+.wc-fieldlayout + .wc-fieldlayout,
+// Vertical space between fields in a WFieldLayout.
+.wc-field  + .wc-field {
 	margin-top: $wc-gap-normal;
 }
 
-// This is the placeholder for a null or moved label (moved for checkbox or radio). Not shown on narrow viewports.
+// This is the placeholder for a null or moved label (moved for checkbox or
+// radio). Not shown on narrow viewports or in stacked field layouts.
 .wc_fld_pl {
 	display: none;
 }
@@ -19,7 +24,8 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 .wc-input {
 	margin-top: $wc-gap-small; // push off of the label.
 
-	// InputWidth class is added to the field to signify that an inputWidth is in use so we can size the components.
+	// InputWidth class is added to the field to signify that an inputWidth is
+	// in use so we can size the components.
 	.wc_inputwidth > & {
 		> .wc-input-wrapper,
 		> .wc-input-wrapper input,
@@ -82,7 +88,8 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 }
 
 @if ($wc-fieldlayout-force-stack == 0) {
-	// When we have a viewport of sufficient width we can allow side-by-side label: input pairs.
+	// When we have a viewport of sufficient width we can allow side-by-side
+	// label: input pairs.
 	.wc-layout-flat > .wc-field {
 		> label,
 		> span,
@@ -90,7 +97,9 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 			display: inline-block;
 			vertical-align: text-top;
 
-			&:first-child { //The first child is the label or stand-in or merely an empty placeholder/spacer.
+			// The first child is the label or stand-in or merely an empty
+			// placeholder/spacer.
+			&:first-child {
 				width: $wc-fieldlayout-default-label-width;
 			}
 		}
@@ -107,10 +116,11 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 	}
 
 	// Optionally allow for labelWidth settings.
-	@if($wc-fieldlayout-labelwidth-prevent-override == 0) {
-		// This lot does the CSS for the various allowed values of WFieldLayout's labelWidth member.
-		// If you _really_ want to support all values of labelWidth then you will have to change the
-		// variable $wc-fld-list to be the single value -1.
+	@if($wc-fieldlayout-labelwidth-prevent-override != 0) {
+		// This lot does the CSS for the various allowed values of
+		// WFieldLayout's labelWidth member. If you _really_ want to support all
+		// values of labelWidth then you will have to change the variable
+		// $wc-fld-list to be the single value -1.
 		@if ($wc-fld-list == -1) {
 			@for $i from 1 through 100 {
 				$wc-fld-lblw: $i * 1%;
@@ -170,7 +180,7 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 				> div {
 					display: block;
 
-					&:first-child { //The first child is the label or stand-in or merely an empty placeholder/spacer.
+					&:first-child {
 						width: 100%;
 					}
 				}
@@ -182,13 +192,14 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 				}
 
 				.wc-moved-label {
+					max-height: none;
 					// override offscreen
 					// scss-lint:disable ImportantRule
-					max-height: none;
 					max-width: 100% !important;
 					overflow: visible !important;
 					position: static !important;
 					width: 100% !important;
+					// scss-lint:enable ImportantRule
 				}
 			}
 
@@ -197,6 +208,7 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 					// override indent
 					// scss-lint:disable ImportantRule
 					margin-left: 0 !important;
+					// scss-lint:enable ImportantRule
 				}
 			}
 		}

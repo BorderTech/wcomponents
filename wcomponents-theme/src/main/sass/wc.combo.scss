@@ -1,4 +1,4 @@
-@import 'mixins-common';
+@import 'mixins/common';
 // The following produce a combo box widget:
 // * WTextField, WEmailField or WPhoneNumberField with WSuggestions
 // * WPartialDateField
@@ -7,9 +7,10 @@
 
 
 // padding-left + padding-right + icon width + a bit for the border.
-$wc-combo-button-width-allowance: 2 * $wc-combo-button-padding-lr + $wc-icon-normal + $wc-gap-small;
+$wc-combo-button-width-allowance: 2 * $wc-combo-button-padding-lr +
+	$wc-icon-normal + $wc-gap-small;
 
-// This redundant rule is not as redundant as you might think so just leave it be!
+// This redundant rule is not as redundant as you might think.
 datalist {
 	display: none;
 }
@@ -20,10 +21,11 @@ datalist {
 	position: relative;
 	white-space: nowrap;
 
-	@if ($wc-ui-color-error-bg != -1) {
-		// The whole combo is invalid but we only want to apply the background color to the textbox.
+	@if ($wc-clr-error-bg != -1) {
+		// The whole combo is invalid but we only want to apply the background
+		// color to the textbox.
 		&[aria-invalid='true'] > input {
-			background-color: $wc-ui-color-error-bg;
+			background-color: $wc-clr-error-bg;
 		}
 	}
 
@@ -43,11 +45,12 @@ datalist {
 		display: none;
 	}
 
-	// We need the child selector here because of The W[Partial]DateField calendar.
+	// We need the child selector here because of The W[Partial]DateField
+	// calendar.
 	> button {
 		padding-left: $wc-combo-button-padding-lr;
 		padding-right: $wc-combo-button-padding-lr;
-		@if ($wc-ui-color-border-form-control != -1) {
+		@if ($wc-clr-border-form-control != -1) {
 			@include border($pos: left, $width: 0);
 			@if ($wc-input-padding != -1) {
 				padding-bottom: $wc-input-padding;
@@ -77,8 +80,9 @@ datalist {
 	@include tight-box;
 	display: block;
 	list-style-type: none;
-	// allow for up to approx seven visible options. The factor 1.25 is a rough line-height
-	// Chrome & Safari on OS - X use 1.125 whereas FF appears to use 1.0625.
+	// allow for up to approx seven visible options. The factor 1.25 is a rough
+	// line-height Chrome & Safari on OS - X use 1.125 whereas FF appears to use
+	// 1.0625.
 	max-height: (7 * 1.125 * (1 + (2 * $wc-gap-small)));
 	max-width: 100%;
 	overflow: auto;

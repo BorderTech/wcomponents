@@ -1,6 +1,4 @@
 // CSS for the AXE/AXS output in debug mode
-@import 'mixins-common';
-
 .wc_a11y {
 	@include border;
 	margin: $wc-gap-large;
@@ -9,20 +7,23 @@
 		margin: 0 $wc-gap-small;
 	}
 
-	&.warning { // I have never seen a warning level issue in WComponents which has NOT been a false negative.
-		border-color: $wc-ui-color-warning-fg;
+	// I have never seen a warning level issue in WComponents which has NOT been
+	// a false negative.
+	&.warning {
+
+		border-color: $wc-clr-warning-fg;
 
 		&:before {
-			background-color: $wc-ui-color-warning-fg;
+			background-color: $wc-clr-warning-fg;
 			content: 'A11Y: WARNING';
 		}
 	}
 
 	&.severe {
-		border-color: $wc-ui-color-error-fg;
+		border-color: $wc-clr-error-fg;
 
 		&:before {
-			background-color: $wc-ui-color-error-fg;
+			background-color: $wc-clr-error-fg;
 			content: 'A11Y: SEVERE';
 		}
 	}
@@ -31,7 +32,7 @@
 	&.severe {
 		&:before {
 			@include border-box;
-			color: $wc-ui-color-global-bg;
+			color: $wc-clr-global-bg;
 			display: block;
 			font-weight: bold;
 			margin-bottom: $wc-gap-normal;

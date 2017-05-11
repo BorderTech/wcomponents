@@ -52,7 +52,7 @@
 			</xsl:if>
 			<!--
 				These are in order of 'likelihood'. We use or rather than | as most decent processors will stop after the
-				first successful nodeset is found. You REALLY want wc/ui/textField in your wc.common.js though.
+				first successful nodeset is found. You REALLY want wc/ui/wrappedInput in your wc.common.js though.
 			-->
 			<xsl:if test=".//ui:textfield[not(@readOnly)] or .//ui:numberfield[not(@readOnly)] or .//ui:emailfield[not(@readOnly)] or .//ui:passwordfield[not(@readOnly)] or .//ui:phonenumberfield[not(@readOnly)]">
 				<xsl:text>"wc/ui/wrappedInput",</xsl:text>

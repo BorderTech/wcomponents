@@ -1,23 +1,22 @@
-@import 'mixins-common';
-
-@if ($wc-ui-color-section-heading-bg != -1) {
+@if ($wc-clr-section-heading-bg != -1) {
 	section > header {
-		background-color: $wc-ui-color-section-heading-bg;
-		color: $wc-ui-color-section-heading-fg;
+		background-color: $wc-clr-section-heading-bg;
+		color: $wc-clr-section-heading-fg;
 
 		h1,
-		// color links, link-like buttons and 'buttonless' buttons to make them visible.
+		// color links, link-like buttons and 'buttonless' buttons to make them
+		// visible.
 		.wc-nobutton,
 		.wc-linkbutton,
 		a,
 		a:visited {
-			color: $wc-ui-color-section-heading-fg;
+			color: $wc-clr-section-heading-fg;
 		}
 
 		.wc-nobutton[disabled],
 		.wc-linkbutton[disabled],
 		a[aria-disabled='true'] {
-			color: $wc-ui-color-section-heading-fg-disabled;
+			color: $wc-clr-section-heading-fg-disabled;
 		}
 	}
 }

@@ -1,5 +1,6 @@
-@import 'mixins-common';
-
+// #############################################################################
+// Mixins for WTabSet.
+// #############################################################################
 @mixin wc-ui-tabset-top-border-radius {
 	@if ($wc-tabset-border-radius > 0) {
 		border-top-left-radius: $wc-tabset-border-radius;

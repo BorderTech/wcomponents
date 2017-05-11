@@ -1,6 +1,6 @@
-// WDateField and WPartialDateField. For WDateField this is mostly for those browsers which do not yet implement
-// input type date (Firefox!!!).
-@import 'mixins-common';
+// WDateField and WPartialDateField. For WDateField this is mostly for those
+// browsers which do not yet implement input type date (Firefox!!!).
+@import 'mixins/common';
 
 .wc-datefield > [role='listbox'] {
 	max-height: none;
@@ -8,8 +8,10 @@
 
 // The date picker calendar
 // WPartialDateField and WDateField's polyfill
-// We use a single ID'd component for all calendar date pickers and move it around to where it is needed.
+// We use a single ID'd component for all calendar date pickers and move it
+//  around to where it is needed.
 // scss-lint:disable IdSelector
+
 // This is the calendar container.
 #wc_calbox {
 	@include fit-content;
@@ -74,9 +76,9 @@
 }
 
 @if ($wc-use-respond == 1) {
-	// The main purpose of this CSS is to make the pop-up calendar full screen. We make all of the buttons bigger to make
-	// them easier for fingers to push and finally add a close button to make up for the lack of an escape key.
-	// The calendar container is a single generated element with a fixed id.
+	// The main purpose of this CSS is to make the pop-up calendar full screen.
+	// We make all of the buttons bigger to make them easier for fingers to push
+	// and finally add a close button to make up for the lack of an escape key.
 	@include respond-phonelike {
 		#wc_calbox { // This is the calendar container.
 			// scss-lint:disable ImportantRule

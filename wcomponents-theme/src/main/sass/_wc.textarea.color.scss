@@ -1,12 +1,10 @@
-@import 'mixins-common';
-
 // the ticker
 textarea + output {
 	@include border($color: -1);
 	@include border($pos: top, $width: 0);
-	background-color: $wc-ui-color-disabled-bg;
-	@if ($wc-ui-color-border-form-control != -1) {
-		border-color: $wc-ui-color-border-form-control;
+	background-color: $wc-clr-disabled-bg;
+	@if ($wc-clr-border-form-control != -1) {
+		border-color: $wc-clr-border-form-control;
 	}
-	color: $wc-ui-color-disabled-fg;
+	color: $wc-clr-disabled-fg;
 }

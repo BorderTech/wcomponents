@@ -1,5 +1,3 @@
-@import 'mixins-common';
-
 @if ($wc-use-respond == 1) {
 	@include respond-phonelike {
 		// full screen sub menus

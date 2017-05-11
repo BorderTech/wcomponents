@@ -1,0 +1,84 @@
+// #############################################################################
+// Import/define all common and overrideable variables.
+// #############################################################################
+
+// #############################################################################
+// Used by themes to override WComponents defaults. Must always be imported
+// first.
+@import '../implementation_vars';
+// #############################################################################
+
+
+// #############################################################################
+// FONT AWESOME vars are available for use in WComponents Sass.
+// Override Font Awesome font path.
+$fa-font-path: '../resource';
+// We added a var to font-awesome (I believe it is on the road map).
+// See vars/icon/$wc-icon-wider you may want to keep them in sync.
+// It has to be !default to allow theme override but because of the !default it
+// has to be declared before we import the font-awesome vars.
+$fa-fw-calc-size: 1.25rem !default;
+// Import library vars
+@import '../lib/fa/variables';
+// #############################################################################
+
+
+// #############################################################################
+// These variables control whether the default repsonsive design CSS is output
+// or not and are not part of ensuring consistent styles.
+// #############################################################################
+@import 'respond';
+// #############################################################################
+
+// #############################################################################
+// SOME vars are reused in other vars so these are the ones we want to import
+// first.
+// #############################################################################
+// Margin, padding and generally gappiness sizes.
+@import 'space';
+// Icon sizes
+@import 'icon';
+// #############################################################################
+
+
+// #############################################################################
+// Generic design vars
+// #############################################################################
+// Basic font definitions and metrics.
+@import 'font';
+// heading size and weight.
+@import 'headings';
+// default borders
+@import 'border';
+
+// busy (e.g awaiting AJAX response) components.
+@import 'busy';
+// Form controls, inputs, selects, buttons, etc.
+@import 'form';
+// Sections - WSection, WMessageBox, WValidationErrors, WPanel CHROME or ACTION.
+@import 'section';
+// WPanel layouts, rows and columns, field layout
+@import 'layout';
+
+// all images
+@import 'image';
+// #############################################################################
+// Variables for specific WComponents start here.
+// #############################################################################
+// WCollapsible
+@import 'collapsible';
+// WDialog
+@import 'dialog';
+// WMenu
+@import 'menu';
+// WTable
+@import 'table';
+// WTabSet
+@import 'tabset';
+// Back to top link
+@import 'btt';
+// WTree
+@import 'tree';
+
+// Colours
+@import 'colors';
