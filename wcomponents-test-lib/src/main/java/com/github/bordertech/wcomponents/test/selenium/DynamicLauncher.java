@@ -34,6 +34,8 @@ public class DynamicLauncher extends SeleniumLauncher {
 
 		//Only register the component if it is not already registered.
 		if (!UIRegistry.getInstance().isRegistered(uiRegistryKey)) {
+			// Lock component
+			componentToLaunch.setLocked(true);
 			UIRegistry.getInstance().register(uiRegistryKey, componentToLaunch);
 			return componentToLaunch;
 		} else {
