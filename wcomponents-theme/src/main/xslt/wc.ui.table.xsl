@@ -1112,10 +1112,12 @@
 				</select>
 			</label>
 			<!-- rows per page chooser -->
-			<xsl:apply-templates select="ui:rowsselect">
-				<xsl:with-param name="tableId" select="$tableId"/>
-				<xsl:with-param name="idSuffix" select="$idSuffix"/>
-			</xsl:apply-templates>
+			<xsl:if test="not(@mode = 'client')">
+				<xsl:apply-templates select="ui:rowsselect">
+					<xsl:with-param name="tableId" select="$tableId"/>
+					<xsl:with-param name="idSuffix" select="$idSuffix"/>
+				</xsl:apply-templates>
+			</xsl:if>
 			<span class="wc_table_pag_btns">
 				<xsl:call-template name="paginationButton">
 					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_first'}}</xsl:text></xsl:with-param>
@@ -1277,4 +1279,3 @@
 		</xsl:call-template>
 	</xsl:template>
 </xsl:stylesheet>
-
