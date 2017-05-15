@@ -51,7 +51,7 @@
 
 	<build>
 		<plugins>
-<!--			<plugin>
+			<!--			<plugin>
 				<groupId>com.github.klieber</groupId>
 				<artifactId>phantomjs-maven-plugin</artifactId>
 				<version>0.7</version>
@@ -118,26 +118,6 @@
 							</artifactItems>
 						</configuration>
 					</execution>
-					<execution>
-						<id>unpack-i18n</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<skip>${theme.skip.antrun}</skip>
-							<outputDirectory>${i18n.unpack.dir}</outputDirectory>
-							<artifactItems>
-								<artifactItem>
-									<groupId>com.github.bordertech.wcomponents</groupId>
-									<artifactId>wcomponents-i18n</artifactId>
-									<version>${wc.project.version}</version>
-									<overWrite>true</overWrite>
-									<type>jar</type>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
 				</executions>
 			</plugin>
 
@@ -158,7 +138,7 @@
 			<plugin>
 				<groupId>com.googlecode.maven-download-plugin</groupId>
 				<artifactId>download-maven-plugin</artifactId>
-				<version>1.2.1</version>
+				<version>1.3.0</version>
 				<executions>
 					<execution>
 						<id>unpack-xsltjson</id>
@@ -184,6 +164,24 @@
 							<url>${timezonedata.download.url}</url>
 							<unpack>true</unpack>
 							<outputDirectory>${timezone.dir}</outputDirectory>
+						</configuration>
+					</execution>
+					<!-- Use download plugin as dependency plugin demanded the unpack to be after pack. -->
+					<execution>
+						<id>unpack-i18n</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>artifact</goal>
+						</goals>
+						<configuration>
+							<skip>${theme.skip.antrun}</skip>
+							<outputDirectory>${i18n.unpack.dir}</outputDirectory>
+							<unpack>true</unpack>
+							<groupId>com.github.bordertech.wcomponents</groupId>
+							<artifactId>wcomponents-i18n</artifactId>
+							<version>${wc.project.version}</version>
+							<overWrite>true</overWrite>
+							<type>jar</type>
 						</configuration>
 					</execution>
 				</executions>
@@ -287,7 +285,7 @@
 						<artifactId>commons-codec</artifactId>
 						<version>1.4</version>
 					</dependency>
-<!--					<dependency>
+					<!--					<dependency>
 						<groupId>rhino</groupId>
 						<artifactId>js</artifactId>
 						<version>1.7R2</version>
@@ -297,12 +295,12 @@
 						<artifactId>Saxon-HE</artifactId>
 						<version>9.6.0-7</version>
 					</dependency>
-<!--					<dependency>
+					<!--					<dependency>
 						<groupId>com.google.javascript</groupId>
 						<artifactId>closure-compiler</artifactId>
 						<version>v20130603</version>
 					</dependency>-->
-<!--					<dependency>
+					<!--					<dependency>
 						<groupId>com.googlecode.jgenhtml</groupId>
 						<artifactId>jgenhtml</artifactId>
 						<version>1.5</version>

@@ -10,5 +10,7 @@ env:
    #   via the "travis encrypt" command using the project repo's public key
    - secure: "MAirt38nl74gOmupg6oWoghoXT8YDgjMJmPzrv6YcMLJ92tS8kv7PGtSfdM+BlxXwlvvXIlqXNwb2R+U4CnjsZUsL+28RGqFiKReAbDUON55Cucb/Yy0ZB+QC9NpCxM5LfC4BycDPI6HStx7ZmDy61/U9alogrbhiqomD/LlMTQ="
 
-before_script: mvn clean install -Dmaven.javadoc.skip=true -DskipTests
-script: "mvn test"
+before_script:
+ - mvn clean install -Dmaven.javadoc.skip=true -DskipTests
+script:
+ - mvn test
