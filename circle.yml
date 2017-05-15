@@ -6,8 +6,8 @@ machine:
 # Dependencies are installed as part of mvn install
 dependencies:
   override:
-    - mvn clean
+    - mvn clean install -Dmaven.javadoc.skip=true -DskipTests
 # Tests are run as part of mvn install
 test:
   override:
-    - mvn install -Dmaven.javadoc.skip=true
+    - mvn test

@@ -254,6 +254,7 @@ public final class ConfigurationProperties {
 
 	/**
 	 * The render mode for template rendering, can be "on", "off" or "sniff".
+	 *
 	 * @deprecated no longer used.
 	 */
 	@Deprecated
@@ -467,6 +468,11 @@ public final class ConfigurationProperties {
 	 * The flag indicating whether to run the MultiBrowserRunner in parallel.
 	 */
 	public static final String TEST_SELENIUM_MULTI_BROWSER_PARALLEL = "bordertech.wcomponents.test.selenium.runParallel";
+
+	/**
+	 * The flag indicating whether the selenium tests are running in parallel methods.
+	 */
+	public static final String TEST_SELENIUM_PARALLEL_METHODS = "bordertech.wcomponents.test.selenium.parallel.methods";
 
 	/**
 	 * The duration in seconds to wait for the page to be ready.
@@ -1325,6 +1331,15 @@ public final class ConfigurationProperties {
 	 */
 	public static boolean getTestSeleniumMultiBrowserDriverParallel() {
 		return get().getBoolean(TEST_SELENIUM_MULTI_BROWSER_PARALLEL, false);
+	}
+
+	/**
+	 * The flag indicating whether the Selenium Tests are running in parallel methods.
+	 *
+	 * @return the parameter value, or false if not set.
+	 */
+	public static boolean getTestSeleniumParallelMethods() {
+		return get().getBoolean(TEST_SELENIUM_PARALLEL_METHODS, false);
 	}
 
 	/**

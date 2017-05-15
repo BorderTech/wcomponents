@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.test.selenium.server;
 
 import com.github.bordertech.wcomponents.WApplication;
+import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lde.LdeLauncher;
 import com.github.bordertech.wcomponents.test.selenium.DynamicLauncher;
 import com.github.bordertech.wcomponents.util.Factory;
@@ -128,18 +129,47 @@ public final class ServerCache {
 	 * Set the UI for the launcher.
 	 *
 	 * @param key the UI key
-	 * @param ui ui component
-	 * @return the UI
+	 * @param ui the UI component
+	 * @return the registered UI instance
 	 */
-	public static WApplication setUI(final String key, final WApplication ui) {
-		synchronized (LAUNCHER) {
-			// If a DynamicLauncher is being used, set the UI to match this component.
-			if (LAUNCHER instanceof DynamicLauncher) {
-				return ((DynamicLauncher) LAUNCHER).setComponentToLaunch(key, ui);
-			} else {
-				return ui;
-			}
+	public static WComponent setUI(final String key, final WComponent ui) {
+
+		if (!(LAUNCHER instanceof DynamicLauncher)) {
+			return ui;
 		}
+
+		// If a DynamicLauncher is being used, set the UI to match this component.
+		synchronized (LAUNCHER) {
+			DynamicLauncher dynamic = (DynamicLauncher) LAUNCHER;
+			// Set the current key
+			dynamic.setCurrentKey(key);
+			// Check if already registered
+			WApplication egUI = dynamic.getRegisteredComponent(key);
+			if (egUI != null) {
+				// Already registered, check if wrapped
+				return (ui instanceof WApplication) ? egUI : egUI.getChildAt(0);
+			}
+			// Register UI - Check if needs to be wrapped
+			dynamic.registerComponent(key, wrapUI(ui));
+			// This is the registered instance
+			return ui;
+		}
+	}
+
+	/**
+	 *
+	 * @param ui the UI component
+	 * @return the UI component wrapped in WApplication
+	 */
+	private static WApplication wrapUI(final WComponent ui) {
+		WApplication egUI;
+		if (ui instanceof WApplication) {
+			egUI = (WApplication) ui;
+		} else {
+			egUI = new WApplication();
+			egUI.add(ui);
+		}
+		return egUI;
 	}
 
 }
