@@ -83,30 +83,32 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, loader, i18n
 					 * @param {Event} $event A click event.
 					 */
 					function clickEvent($event) {
-						var img, uploader, file,
-							element = BUTTON.findAncestor($event.target),
+						var img, uploader, file, id,
+							element = BUTTON.findAncestor($event.target);
+						if (element) {
 							id = element.getAttribute("data-wc-selector");
-						if (id && element.localName === "button") {
-							uploader = document.getElementById(id);
-							if (uploader) {
-								img = document.getElementById(element.getAttribute("data-wc-img"));
-								if (img) {
-									file = imgToFile(img);
-									multiFileUploader.upload(uploader, [file]);
-								}
-								else {
-									var win = function(files) {
-										multiFileUploader.upload(uploader, files, true);
-									};
-									var lose = function(message) {
-										if (message) {
-											prompt.alert(message);
-										}
-									};
-									imageEdit.editFiles({
-										id: id,
-										name: element.getAttribute("data-wc-editor")
-									}, win, lose);
+							if (id && element.localName === "button") {
+								uploader = document.getElementById(id);
+								if (uploader) {
+									img = document.getElementById(element.getAttribute("data-wc-img"));
+									if (img) {
+										file = imgToFile(img);
+										multiFileUploader.upload(uploader, [file]);
+									}
+									else {
+										var win = function(files) {
+											multiFileUploader.upload(uploader, files, true);
+										};
+										var lose = function(message) {
+											if (message) {
+												prompt.alert(message);
+											}
+										};
+										imageEdit.editFiles({
+											id: id,
+											name: element.getAttribute("data-wc-editor")
+										}, win, lose);
+									}
 								}
 							}
 						}
@@ -149,7 +151,8 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, loader, i18n
 		 *
 		 *
 		 * @param {Object} obj An object with a "files" property that references an array of File blobs to be edited and a registered "id" or "name".
-		 * @returns {Promise} resolved with an array of File blobs that have potentially been edited by the user.
+		 * @param {Function} onSuccess Called with an array of File blobs that have potentially been edited by the user.
+		 * @param {Function} onError called if something goes wrong.
 		 */
 		this.editFiles = function(obj, onSuccess, onError) {
 			var config = imageEdit.getConfig(obj);
@@ -207,7 +210,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, loader, i18n
 		};
 
 		/**
-		 * Promise is resolved with the edited image when editing completed.
+		 * Callback is called with the edited image when editing completed.
 		 * @param {Object} config Options for the image editor
 		 * @param {File} file The image to edit.
 		 * @param {function} win callback on success (passed a File)
@@ -259,7 +262,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, loader, i18n
 			else {
 				getEditor(config, callbacks, file).then(gotEditor);
 			}
-		};
+		}
 
 		/*
 		 * Callback invoked when a FileReader instance has loaded.
@@ -429,56 +432,89 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, loader, i18n
 			});
 
 			function renderEditor() {
-				return loader.load(TEMPLATE_NAME, true, true).then(function(rawTemplate) {
-					var container = document.body.appendChild(document.createElement("div")),
-						eventConfig, editorProps = {
-							style: {
-								width: config.width,
-								height: config.height
-							},
-							feature: {
-								face: false,
-								redact: config.redact
-							}
-						};
-					container.className = "wc_img_editor";
-					template.process({
-						source: rawTemplate,
-						target: container,
-						context: editorProps
-					});
-					eventConfig = attachEventHandlers(container);
-					zoomControls(eventConfig);
-					moveControls(eventConfig);
-					resetControl(eventConfig);
-					cancelControl(eventConfig, container, callbacks, file);
-					saveControl(eventConfig, container, callbacks, file);
-					rotationControls(eventConfig);
-					if (config.redactor) {
-						config.redactor.controls(eventConfig, container);
-					}
+				var result = new Promise(function (win, lose) {
+					var done = function(container) {
+						var dialogContent, eventConfig = attachEventHandlers(container);
+						zoomControls(eventConfig);
+						moveControls(eventConfig);
+						resetControl(eventConfig);
+						cancelControl(eventConfig, container, callbacks, file);
+						saveControl(eventConfig, container, callbacks, file);
+						rotationControls(eventConfig);
+						if (config.redactor) {
+							config.redactor.controls(eventConfig, container);
+						}
 
-					if (!file) {
-						classList.add(container, "wc_camenable");
-						classList.add(container, "wc_showcam");
-						imageCapture.snapshotControl(eventConfig, container);
-					}
-					return container;
-				}).then(function(container) {
-					var dialogContent = dialogFrame.getContent();
+						if (!file) {
+							classList.add(container, "wc_camenable");
+							classList.add(container, "wc_showcam");
+							imageCapture.snapshotControl(eventConfig, container);
+						}
 
-					if (dialogContent && container) {
-						dialogContent.innerHTML = "";
-						dialogContent.appendChild(container);
-						dialogFrame.reposition();
+						dialogContent = dialogFrame.getContent();
+						if (dialogContent && container) {
+							dialogContent.innerHTML = "";
+							dialogContent.appendChild(container);
+							dialogFrame.reposition();
+						}
+						win(container);
+					};
+					try {
+						loader.load(TEMPLATE_NAME, true, true).then(function(rawTemplate) {
+							var container = document.body.appendChild(document.createElement("div")),
+								editorProps = {
+									style: {
+										width: config.width,
+										height: config.height
+									},
+									feature: {
+										face: false,
+										redact: config.redact
+									}
+								};
+							getTranslations(editorProps);
+							container.className = "wc_img_editor";
+							template.process({
+								source: rawTemplate,
+								target: container,
+								context: editorProps,
+								callback: function() {
+									done(container);
+								}
+							});
+							return container;
+						});
+					}
+					catch (ex) {
+						lose(ex);
 					}
 				});
-			}
+				return result;
+			}  // end "renderEditor"
 
 			if (dialogFrame.isOpen()) {
 				return renderEditor();
 			}
 			return dialogFrame.open(onDialogClose).then(renderEditor);
+		}
+
+		function getTranslations(obj) {
+			var result = obj || {},
+				messages = ["imgedit_action_camera", "imgedit_action_cancel", "imgedit_action_redact",
+					"imgedit_action_redo", "imgedit_action_save", "imgedit_action_snap", "imgedit_action_undo",
+					"imgedit_capture", "imgedit_message_camera", "imgedit_message_cancel", "imgedit_message_move_down",
+					"imgedit_message_move_left", "imgedit_message_move_right", "imgedit_message_move_up",
+					"imgedit_message_nocapture", "imgedit_message_redact", "imgedit_message_redo",
+					"imgedit_message_rotate_left", "imgedit_message_rotate_left90", "imgedit_message_rotate_right",
+					"imgedit_message_rotate_right90", "imgedit_message_save", "imgedit_message_snap",
+					"imgedit_message_undo", "imgedit_message_zoom_in", "imgedit_message_zoom_out", "imgedit_move",
+					"imgedit_move_down", "imgedit_move_left", "imgedit_move_right", "imgedit_move_up", "imgedit_redact",
+					"imgedit_rotate", "imgedit_rotate_left", "imgedit_rotate_left90", "imgedit_rotate_right",
+					"imgedit_rotate_right90", "imgedit_zoom", "imgedit_zoom_in", "imgedit_zoom_out"];
+			messages.forEach(function(message) {
+				result[message] = i18n.get(message);
+			});
+			return result;
 		}
 
 		/**
@@ -546,6 +582,9 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, loader, i18n
 			}
 
 			function getEventConfig(element, type) {
+				if (!element) {
+					return null;
+				}
 				var name = element.name;
 				if ((element.localName === "button" || element.type === "checkbox") && name && eventConfig[type]) {
 					return eventConfig[type][name];
@@ -921,6 +960,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, loader, i18n
 //				return new File([blob], name, filePropertyBag);
 //			}
 			if (!blob.type) {
+				// noinspection JSAnnotator
 				blob.type = filePropertyBag.type;
 			}
 			blob.lastModifiedDate = filePropertyBag.lastModified;
