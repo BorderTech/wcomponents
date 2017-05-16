@@ -47,6 +47,9 @@
 		<timezonedata.download.url>http://www.iana.org/time-zones/repository/tzdata-latest.tar.gz</timezonedata.download.url>
 		<timezone.dir>${project.build.directory}/timezone</timezone.dir><!-- Fetch Timezone Database -->
 		<test.intern.version>~3.4.3</test.intern.version><!-- intern version: use ~3.4.3 for nexus 3+, ~3.0.6 if you are stuck with Nexus 2 -->
+		<i18n.gen.skip>true</i18n.gen.skip><!-- Use for WC build as I18N module cannot be packaged before theme needs it. -->
+		<i18n.module.dir>${basedir}</i18n.module.dir>
+		<i18n.resources.dir>${i18n.module.dir}/src/main/resources</i18n.resources.dir>
 	</properties>
 
 	<build>
@@ -91,7 +94,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.8</version>
+				<version>2.10</version>
 				<executions>
 					<execution>
 						<id>unpack-core</id>
@@ -114,6 +117,26 @@
 									<classifier>sources</classifier>
 									<overWrite>true</overWrite>
 									<type>zip</type>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+					<execution>
+						<id>unpack-i18n</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<skip>${theme.skip.unpack}</skip>
+							<outputDirectory>${i18n.unpack.dir}</outputDirectory>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.github.bordertech.wcomponents</groupId>
+									<artifactId>wcomponents-i18n</artifactId>
+									<version>${wc.project.version}</version>
+									<overWrite>true</overWrite>
+									<type>jar</type>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
@@ -164,24 +187,6 @@
 							<url>${timezonedata.download.url}</url>
 							<unpack>true</unpack>
 							<outputDirectory>${timezone.dir}</outputDirectory>
-						</configuration>
-					</execution>
-					<!-- Use download plugin as dependency plugin demanded the unpack to be after pack. -->
-					<execution>
-						<id>unpack-i18n</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>artifact</goal>
-						</goals>
-						<configuration>
-							<skip>${theme.skip.antrun}</skip>
-							<outputDirectory>${i18n.unpack.dir}</outputDirectory>
-							<unpack>true</unpack>
-							<groupId>com.github.bordertech.wcomponents</groupId>
-							<artifactId>wcomponents-i18n</artifactId>
-							<version>${wc.project.version}</version>
-							<overWrite>true</overWrite>
-							<type>jar</type>
 						</configuration>
 					</execution>
 				</executions>
@@ -257,6 +262,27 @@
 								<ant antfile="${theme.core.dir}/build.xml">
 									<target name="document" />
 								</ant>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+					<!-- Build the i18n Resources from the wcomponents-i18n module. -->
+					<execution>
+						<id>generate-i18n-resources</id>
+						<phase>generate-resources</phase>
+						<configuration>
+							<skip>${i18n.gen.skip}</skip>
+							<target>
+								<taskdef name="prop2pot" classname="org.fedorahosted.tennera.antgettext.Prop2PotTask" />
+								<mkdir dir="${i18n.unpack.dir}" />
+								<!-- Generate POT from property files.-->
+								<prop2pot srcDir="${i18n.resources.dir}/com/github/bordertech/wcomponents" dstDir="${i18n.unpack.dir}/com/github/bordertech/wcomponents" includes="*.properties" />
+								<!-- Copy all I18N Resources. -->
+								<copy todir="${i18n.unpack.dir}">
+									<fileset dir="${i18n.resources.dir}" />
+								</copy>
 							</target>
 						</configuration>
 						<goals>
