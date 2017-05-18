@@ -4,6 +4,9 @@
 // Learn more about configuring this file at <https://github.com/theintern/intern/wiki/Configuring-Intern>.
 define({
 	suites: [ ${unit.tests} ],
+	
+	// Defaults to 3
+	maxConcurrency: 1,
 
 	// The port on which the instrumenting proxy will listen
 	proxyPort: 9000,
