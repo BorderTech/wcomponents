@@ -46,7 +46,7 @@
 		<xsltjson.dir>${project.build.directory}/xsltjson</xsltjson.dir><!-- Convert XML to JSON at build time -->
 		<timezonedata.download.url>http://www.iana.org/time-zones/repository/tzdata-latest.tar.gz</timezonedata.download.url>
 		<timezone.dir>${project.build.directory}/timezone</timezone.dir><!-- Fetch Timezone Database -->
-		<test.intern.version>~3.4.3</test.intern.version><!-- intern version: use ~3.4.3 for nexus 3+, ~3.0.6 if you are stuck with Nexus 2 -->
+		<test.intern.version>~3.4.4</test.intern.version><!-- intern version: use ~3.4.3 for nexus 3+, ~3.0.6 if you are stuck with Nexus 2 -->
 		<i18n.gen.skip>true</i18n.gen.skip><!-- Use for WC build as I18N module cannot be packaged before theme needs it. -->
 		<i18n.module.dir>${basedir}</i18n.module.dir>
 		<i18n.resources.dir>${i18n.module.dir}/src/main/resources</i18n.resources.dir>
