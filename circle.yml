@@ -10,4 +10,5 @@ dependencies:
 # Tests are run as part of mvn install
 test:
   override:
-    - mvn test
+    - mvn test:
+        timeout: 900
