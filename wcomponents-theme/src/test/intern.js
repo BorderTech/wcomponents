@@ -5,8 +5,11 @@
 define({
 	suites: [ ${unit.tests} ],
 	
+	capabilities: {
+		seleniumVersion: '2.53.0'
+	},
 	// Defaults to 3
-	maxConcurrency: 1,
+	// maxConcurrency: 1,
 
 	// The port on which the instrumenting proxy will listen
 	proxyPort: 9000,
@@ -16,7 +19,7 @@ define({
 
 	tunnel: 'SauceLabsTunnel',
 	tunnelOptions: {
-		verbose: 'true'
+		verbose: true
 	},
 	environments: [ ${test.environments} ],
 
