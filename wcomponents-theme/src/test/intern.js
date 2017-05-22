@@ -6,10 +6,9 @@ define({
 	suites: [ ${unit.tests} ],
 	
 	capabilities: {
-		seleniumVersion: '2.53.0'
+		recordVideo: false,
+		recordScreenshots: false
 	},
-	// Defaults to 3
-	// maxConcurrency: 1,
 
 	// The port on which the instrumenting proxy will listen
 	proxyPort: 9000,
