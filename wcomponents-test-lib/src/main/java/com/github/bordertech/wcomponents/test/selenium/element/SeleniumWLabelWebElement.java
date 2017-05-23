@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 
 /**
  * Selenium WebElement specific to WLabel.
+ *
  * @author Mark Reeves
  * @since 1.4.0
  */
@@ -46,6 +47,7 @@ public class SeleniumWLabelWebElement extends SeleniumWComponentWebElement {
 
 	/**
 	 * Create a SeleniumWLabelWebElement from a generic WebElement.
+	 *
 	 * @param element a generic WebElement
 	 * @param driver the current WebDriver instance
 	 */
@@ -81,7 +83,8 @@ public class SeleniumWLabelWebElement extends SeleniumWComponentWebElement {
 		if (Util.empty(forId)) {
 			throw new SystemException("No labelled component found, expected id " + forId);
 		}
-		SeleniumWComponentWebElement element = findElement(By.xpath("//*[@id='" + forId + "']"));
+		// TODO Maybe should not be immediate!!
+		SeleniumWComponentWebElement element = findElementImmediate(By.xpath("//*[@id='" + forId + "']"));
 		if (attribName.equals(LABEL_FOR_ATTRIB)) {
 			return SeleniumWComponentsUtil.wrapInputElementWithTypedWebElement(getDriver(), element);
 		}
@@ -92,11 +95,12 @@ public class SeleniumWLabelWebElement extends SeleniumWComponentWebElement {
 	 * @return the hint child element of a WLabel
 	 */
 	public WebElement getHint() {
-		return findElement(By.cssSelector(".wc-label-hint"));
+		return findElementImmediate(By.cssSelector(".wc-label-hint"));
 	}
 
 	/**
 	 * Is the label "for" a component in a read-only state?
+	 *
 	 * @return {@code true} if the label should be for a WComponent in a read-only state.
 	 */
 	public boolean isReadOnly() {
@@ -106,6 +110,7 @@ public class SeleniumWLabelWebElement extends SeleniumWComponentWebElement {
 
 	/**
 	 * Indicates if the WLabel is "hidden". Note that hidden for a WLabel means rendered out-of-viewport.
+	 *
 	 * @return {@code true} if the label is 'hidden'.
 	 */
 	public boolean isHidden() {

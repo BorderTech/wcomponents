@@ -1,5 +1,3 @@
-@import 'mixins-common';
-
 @if ($wc-use-respond == 1 and $wc-use-respond-table == 1) {
 	@include respond-phonelike {
 		.wc-table.wc-respond {
@@ -45,7 +43,7 @@
 				+ .wc-td {
 					display: inline-block;
 					padding-left: 0;
-					width: calc(100% - $wc-icon-normal);
+					width: calc(100% - #{$wc-icon-normal});
 				}
 			}
 

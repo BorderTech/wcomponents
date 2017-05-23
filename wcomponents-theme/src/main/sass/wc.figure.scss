@@ -1,4 +1,4 @@
-@import 'mixins-common';
+@import 'mixins/common';
 
 figure {
 	@include flex($direction: column, $align-content: center);

@@ -1,4 +1,4 @@
-@import 'mixins-common';
+@import 'mixins/common';
 
 // See wc.common.scss for essential element level styles.
 
@@ -21,9 +21,10 @@ textarea + output {
 }
 
 
-// A readonly textarea must preserve whitespace so uses a pre element (for IE compatibility) so we need to override PRE
-// defaults and set whitespace to textarea-like settings.
-//scss-lint:disable QualifyingElement
+// A readonly textarea must preserve whitespace so uses a pre element
+// (for IE compatibility) so we need to override PRE defaults and set whitespace
+// to textarea-like settings.
+// scss-lint:disable QualifyingElement
 pre.wc-textarea {
 	font-family: inherit;
 	margin: 0;
@@ -34,6 +35,6 @@ pre.wc-textarea {
 div.wc-textarea {
 	word-break: normal;
 }
-//scss-lint:enable QualifyingElement
+// scss-lint:enable QualifyingElement
 
 @import 'wc.textarea.color';

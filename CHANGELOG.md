@@ -8,6 +8,7 @@
 
 ### Bug Fixes
 
+* Improved the Sass to CSS build to ensure implementation CSS is placed after default CSS in the output #1160.
 * Modified `HtmlSanitizerUtil` and `HtmlToXMLUtil` to handle escaping brackets'; `WTextArea` now defaults to `santizeOutput` on #1158.
 * Remove client handlebars i18n support #1158.
 * Fixed position of server-generated error messages for simple WInputs #1161.
@@ -15,6 +16,10 @@
 * Improve AJAX error handling when the response "lies" and says it is "200 OK" when it isn't #1163.
 
 ### Enhancements
+
+* Improved efficiency of XML escaping and sanitization as part of #1158.
+* Removed PetStore #1190.
+* Improve performance of Selenium tests and helpers #1138.
 
 ## Release 1.4.0-beta-2
 

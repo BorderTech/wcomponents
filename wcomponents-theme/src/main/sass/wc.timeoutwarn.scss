@@ -1,5 +1,4 @@
-/* wc.ui.timeoutWarn.scss */
-@import 'mixins-common';
+@import 'mixins/common';
 
 // timeout warning container is generated and identified.
 // scss-lint:disable IdSelector
@@ -9,7 +8,7 @@
 	max-width: 100%;
 	position: fixed;
 	right: 0;
-	z-index: $wc-z-index-unloading-message; // z-index needs to be above dialogs, unloading shims etc
+	z-index: $wc-z-index-unloading-message;
 }
 
 @import 'wc.timeoutwarn.color';

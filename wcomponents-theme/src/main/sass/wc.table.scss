@@ -1,4 +1,4 @@
-@import 'mixins-common';
+@import 'mixins/common';
 
 $wc-table-cell-padding: $wc-gap-small !default;
 
@@ -29,9 +29,9 @@ caption {
 	width: $wc-gap-normal; // actually anything small but more than zero.
 }
 
-//*****************************************************************************
+// #############################################################################
 // Container for controsl above the table
-//*****************************************************************************
+// #############################################################################
 .wc_table_top_controls {
 	@include flex($wrap: wrap, $justify: space-between, $align-items: baseline);
 	margin-bottom: $wc-gap-small;
@@ -46,31 +46,33 @@ caption {
 		}
 	}
 
-	// do not use > div:first-child:last-child as we want the pagination and expand controls on the right if they
-	// are last even if they are first. Instead make the selection controls left aligned if they are last.
+	// Do not use > div:first-child:last-child as we want the pagination and
+	// expand controls on the right if they are last even if they are first.
+	// Instead make the selection controls left aligned if they are last.
 	> .wc_table_sel_cont:last-child {
-		@include flex-justify-content(flex-start); //always put the selection controls at the start
+		// always put the selection controls at the start
+		@include flex-justify-content(flex-start);
 		text-align: left;
 	}
 }
 
-//*****************************************************************************
+// #############################################################################
 // Container for actions and pagination
-//*****************************************************************************
+// #############################################################################
 .wc_table_bottom_controls {
 	padding: $wc-gap-small;
 }
 
-//*****************************************************************************
+// #############################################################################
 // ACTIONS
-//*****************************************************************************
+// #############################################################################
 .wc-actions button + button {
 	margin-left: $wc-gap-small;
 }
 
-//*****************************************************************************
+// #############################################################################
 // Row selection
-//*****************************************************************************
+// #############################################################################
 // The unusual text-align settings in this section is to cater for when we have
 // multiple selection and the parent-selects-children setting menu where some
 // parents with a menu are not selectable (so we use right) and some selectable
@@ -88,8 +90,9 @@ caption {
 			margin-left: 0;
 		}
 
-		.wc-submenu-o { // the is the submenu opener emulator for the sub-row toggle control
-			// background-color: $wc-ui-color-menu-bg;
+		// the submenu opener emulator for the sub-row toggle control
+		.wc-submenu-o {
+			// background-color: $wc-clr-menu-bg;
 			height: $wc-icon-normal;
 			padding: 0;
 			vertical-align: top;
@@ -101,9 +104,9 @@ caption {
 	}
 }
 
-//*****************************************************************************
+// #############################################################################
 // Row expansion
-//*****************************************************************************
+// #############################################################################
 // The next lot does indentation of "child" rows
 @for $i from 2 to 6 {
 	[aria-level='#{$i}'] > .wc_table_rowexp_container {
@@ -114,9 +117,9 @@ caption {
 	}
 }
 
-//*****************************************************************************
+// #############################################################################
 // Pagination controls
-//*****************************************************************************
+// #############################################################################
 .wc_table_pag_cont {
 	> span,
 	> label {
@@ -136,24 +139,26 @@ caption {
 		min-width: $wc-icon-normal;
 	}
 
-	// This rule applies when the pagination controls are at the bottom of the table.
+	// This rule applies when the pagination controls are at the bottom of the
+	// table.
 	.wc_table_bottom_controls > & {
 		text-align: right;
 	}
 }
 
-//*****************************************************************************
+// #############################################################################
 // Sort
-//*****************************************************************************
+// #############################################################################
 th[aria-sort] {
 	cursor: pointer;
-	@if ($wc-table-sort-icon-pos == middle or $wc-table-sort-icon-pos == bottom) {
+	@if ($wc-table-sort-icon-pos == middle or
+		$wc-table-sort-icon-pos == bottom) {
 		position: relative;
 	}
 
 	> .wc-decoratedlabel {
 		display: inline-block;
-		width: calc(100% - $wc-icon-normal);
+		width: calc(100% - #{$wc-icon-normal});
 		word-wrap: break-word;
 	}
 
@@ -161,7 +166,8 @@ th[aria-sort] {
 		display: inline-block;
 		width: $wc-icon-normal;
 
-		@if ($wc-table-sort-icon-pos == middle or $wc-table-sort-icon-pos == bottom) {
+		@if ($wc-table-sort-icon-pos == middle or
+			$wc-table-sort-icon-pos == bottom) {
 			position: absolute;
 			@if ($wc-table-sort-icon-pos == middle) {
 				height: 0;

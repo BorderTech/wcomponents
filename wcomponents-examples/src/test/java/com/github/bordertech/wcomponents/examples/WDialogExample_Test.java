@@ -85,13 +85,13 @@ public class WDialogExample_Test extends WComponentExamplesTestCase {
 				sendKeys("First");
 		driver.findWTextField(byWComponentPath("WDialogExample$SelectPersonPanel/WTextField[1]")).
 				sendKeys("Last");
-		driver.findElement(byWComponentPath("WDialogExample$SelectPersonPanel/WButton[2]")).click();
+		driver.findElement(byWComponentPath("WDialogExample$SelectPersonPanel/WButton[1]")).click();
 
 		driver.findElement(byWComponentPath("WDialogExample$SelectPersonPanel/WRadioButtonSelect",
 				"Last, First")).click();
 		driver.findElement(byWComponentPath("WDialogExample$SelectPersonPanel/WButton[1]")).click();
 
-		String message = driver.findElement(byWComponentPath("WMessageBox")).getText();
+		String message = driver.findElementImmediate(byWComponentPath("WMessageBox")).getText();
 		Assert.assertTrue("Incorrect message text", message.contains("Selected: Last, First"));
 	}
 

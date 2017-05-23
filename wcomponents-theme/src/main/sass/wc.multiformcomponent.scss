@@ -1,7 +1,8 @@
 // WMultiTextField and WMultiDropdown
-@import 'mixins-common';
+@import 'mixins/common';
 
-$wc-mfc-button-width-allowance: 2 * $wc-combo-button-padding-lr + $wc-icon-normal + $wc-gap-small;
+$wc-mfc-button-width-allowance: 2 * $wc-combo-button-padding-lr +
+ 	$wc-icon-normal + $wc-gap-small;
 
 .wc_mfc {
 	white-space: nowrap;
@@ -14,7 +15,7 @@ $wc-mfc-button-width-allowance: 2 * $wc-combo-button-padding-lr + $wc-icon-norma
 	button {
 		padding-left: $wc-combo-button-padding-lr;
 		padding-right: $wc-combo-button-padding-lr;
-		@if ($wc-ui-color-border-form-control != -1) {
+		@if ($wc-clr-border-form-control != -1) {
 			@include border($pos: left, $width: 0);
 			@if ($wc-input-padding != -1) {
 				padding-bottom: $wc-input-padding;

@@ -1,18 +1,12 @@
-@import 'mixins-common';
 // Provides the styling for the accesskey indicator.
-// The accesskey callout will be in a label, legend, link or button. The callout is placed as the first child of the
-// element (where possible) or immediately preceding the element.
-// NOTE: Collision detection
-// The callout position is fixed and, by default, is above the item to which it points. Collision detection is very
-// low priority since most application use a banner of some kind and the access keys live below this banner.
 [role='tooltip'] {
-	@include border($color: $wc-ui-color-tooltip-bg);
-	background-color: $wc-ui-color-tooltip-bg;
-	color: $wc-ui-color-tooltip-fg;
+	@include border($color: $wc-clr-tooltip-bg);
+	background-color: $wc-clr-tooltip-bg;
+	color: $wc-clr-tooltip-fg;
 	// scss-lint:enable ImportantRule
 
 	&:before,
 	&:after {
-		border-color: $wc-ui-color-tooltip-bg transparent transparent;
+		border-color: $wc-clr-tooltip-bg transparent transparent;
 	}
 }

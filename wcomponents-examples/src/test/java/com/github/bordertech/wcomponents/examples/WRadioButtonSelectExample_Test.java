@@ -1,10 +1,12 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.examples.theme.WRadioButtonSelectExample;
+import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.junit.runner.RunWith;
 
 /**
  * Selenium unit tests for {@link WRadioButtonSelectExample}.
@@ -13,6 +15,7 @@ import org.junit.experimental.categories.Category;
  * @since 1.0.0
  */
 @Category(SeleniumTests.class)
+@RunWith(MultiBrowserRunner.class)
 public class WRadioButtonSelectExample_Test extends WComponentExamplesTestCase {
 
 	/**

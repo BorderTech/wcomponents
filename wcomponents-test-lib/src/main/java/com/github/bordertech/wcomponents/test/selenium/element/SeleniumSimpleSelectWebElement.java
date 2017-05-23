@@ -15,6 +15,7 @@ import org.openqa.selenium.support.ui.Select;
  * @since 1.4.0
  */
 public class SeleniumSimpleSelectWebElement extends SeleniumWComponentWebElement {
+
 	/**
 	 * HTML tagName for the select element.
 	 */
@@ -41,8 +42,7 @@ public class SeleniumSimpleSelectWebElement extends SeleniumWComponentWebElement
 	}
 
 	/**
-	 * @return the value of the selected option, or null if no selected
-	 * option.
+	 * @return the value of the selected option, or null if no selected option.
 	 */
 	public String getValue() {
 		WebElement selected = getSelectedOption();
@@ -78,11 +78,12 @@ public class SeleniumSimpleSelectWebElement extends SeleniumWComponentWebElement
 	 * @param optionNumber - the
 	 */
 	public SeleniumWComponentWebElement getNthOption(final int optionNumber) {
-		return findElement(By.cssSelector(String.format(SELECTOR_NTH_OPTION, optionNumber)));
+		return findElementImmediate(By.cssSelector(String.format(SELECTOR_NTH_OPTION, optionNumber)));
 	}
 
 	/**
 	 * Is the component a multi-select list?
+	 *
 	 * @return {@code true} if the component is a multi-select
 	 */
 	public boolean isMultiSelect() {
@@ -110,6 +111,7 @@ public class SeleniumSimpleSelectWebElement extends SeleniumWComponentWebElement
 
 	/**
 	 * Get an option based on its visible text.
+	 *
 	 * @param optionText the text of the option we are trying to find
 	 * @return the option
 	 */

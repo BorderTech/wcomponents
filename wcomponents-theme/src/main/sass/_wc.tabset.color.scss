@@ -1,16 +1,14 @@
-@import 'mixins-common';
-
 [role='tab'] {
-	background-color: $wc-ui-color-tab-inactive;
-	color: $wc-ui-color-global-fg;
+	background-color: $wc-clr-tab-inactive;
+	color: $wc-clr-global-fg;
 
 	&[aria-selected='true'],
 	&[aria-expanded='true'] {
-		background-color: $wc-ui-color-tab-active;
+		background-color: $wc-clr-tab-active;
 	}
 }
 
 [role='tabpanel'] {
-	background-color: $wc-ui-color-global-bg;
-	color: $wc-ui-color-global-fg;
+	background-color: $wc-clr-global-bg;
+	color: $wc-clr-global-fg;
 }

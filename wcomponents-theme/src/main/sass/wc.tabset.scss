@@ -1,4 +1,5 @@
-@import 'tabset-mixins';
+@import 'mixins/common';
+@import 'mixins/tabset';
 
 .wc-tabset {
 	@include flex($direction: column);

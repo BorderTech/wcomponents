@@ -1,0 +1,33 @@
+// #############################################################################
+// SECTION HEADINGS
+// WSection, WPanel Type CHROME and SECTION, WMessageBox, WValidationErrors.
+// #############################################################################
+// If you are mucking around here you may want to go look at the WHeading styles
+// below. Set this to -1 to use the default h1 size for your theme.
+$wc-section-header-size: 1rem !default;
+// h1 in dialogs
+$wc-dialog-header-size: $wc-section-header-size !default;
+
+// #############################################################################
+// WHeading
+// #############################################################################
+// h1 in the screen header (WPanel Type HEADER) Set to -1 to inherit from the
+// theme default h1 size.
+$wc-header-h1-size-full: 2.25rem !default;
+// h1 in the screen header on small screens. Set to -1 to not implement this
+// (inherit from $wc-header-h1-size-full). Ignored if $wc-use-respond != 1.
+$wc-header-h1-size-small: 1rem !default;
+// Generic headings. Set to -1 to not use (use UA default)
+$wc-heading-h1-font-size: 1.25rem !default;
+$wc-heading-h2-font-size: 1.25rem !default;
+$wc-heading-h3-font-size: 1.125rem !default; // May make IE cry...
+$wc-heading-h4-font-size: 1rem !default;
+$wc-heading-h5-font-size: -1 !default;
+$wc-heading-h6-font-size: -1 !default;
+// Font weights. Set to -1 to ignore the rule.
+$wc-h1-weight: normal !default;
+$wc-h2-weight: normal !default;
+$wc-h3-weight: normal !default;
+$wc-h4-weight: normal !default;
+$wc-h5-weight: -1 !default;
+$wc-h6-weight: -1 !default;

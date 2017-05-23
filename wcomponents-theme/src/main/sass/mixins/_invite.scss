@@ -1,0 +1,20 @@
+// Sets common hover and focus effects.
+@mixin wc-invite {
+	cursor: pointer;
+
+	@if ($wc-clr-invite-bg != -1) {
+		&:hover,
+		&:focus {
+			background-color: $wc-clr-invite-bg;
+			color: $wc-clr-invite-fg;
+		}
+
+		&[disabled],
+		&[aria-disabled='true'] {
+			&:hover {
+				background-color: $wc-clr-disabled-bg;
+				color: $wc-clr-disabled-fg;
+			}
+		}
+	}
+}

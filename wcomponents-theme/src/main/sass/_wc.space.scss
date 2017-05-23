@@ -1,70 +1,69 @@
-@import 'mixins-common';
 // The styles which create spaces, padding, margins, gaps, hgap and vgap.
 
-// NOTE: Most layouts and WRow have div children. ListLayout/WList has li children.
-// We can (at the moment) safely use the universal selector here but maybe not into the future. Even so, it has
-// terrible performance so we are probably better off without it.
+// NOTE: Most layouts and WRow have div children. ListLayout/WList has li
+// children.
+// We can (at the moment) safely use the universal selector here but maybe not
+// into the future. Even so, it has terrible performance so we are probably
+// better off without it.
 
-// Vaadin Scss compiler does not appear to handle multiple assignment so the simple each below has to be done a bit more
-// verbosely.
-
-@each $cl in $wc-gap-suffix-list {
-	@if ($cl == z) {
-		$size: 0;
-	}
-	@else if ($cl == sm) {
-		$size: $wc-gap-small;
-	}
-	@else if  ($cl == med) {
-		$size: $wc-gap-normal;
-	}
-	@else if  ($cl == lg) {
-		$size: $wc-gap-large;
-	}
-	@else {
-		$size: $wc-gap-xl;
-	}
+// Vaadin Scss compiler does not appear to handle multiple assignment so the
+// simple each below has to be done a bit more verbosely.
 
 
-	.wc-hgap-#{$cl} {
+@each $gap-suffix in $wc-gap-suffix-list {
+	$gap-size: $wc-gap-xl;
+	@if ($gap-suffix == z) {
+		$gap-size: 0;
+	}
+	@else if ($gap-suffix == sm) {
+		$gap-size: $wc-gap-small;
+	}
+	@else if  ($gap-suffix == med) {
+		$gap-size: $wc-gap-normal;
+	}
+	@else if  ($gap-suffix == lg) {
+		$gap-size: $wc-gap-large;
+	}
+
+	.wc-hgap-#{$gap-suffix} {
 		> div,
 		> li,
 		> ul,
 		> span {
-			padding-left: $size / 2;
-			padding-right: $size / 2;
+			padding-left: $gap-size / 2;
+			padding-right: $gap-size / 2;
 		 }
 	}
 
-	.wc-vgap-#{$cl} {
+	.wc-vgap-#{$gap-suffix} {
 		> div + div,
 		> li + li {
-			margin-top: $size;
+			margin-top: $gap-size;
 		 }
 	}
 
-	.wc-margin-all-#{$cl} {
-		margin: $size;
+	.wc-margin-all-#{$gap-suffix} {
+		margin: $gap-size;
 	}
 
-	.wc-margin-n-#{$cl} {
-		margin-top: $size;
+	.wc-margin-n-#{$gap-suffix} {
+		margin-top: $gap-size;
 	}
 
-	.wc-margin-e-#{$cl} {
-		margin-right: $size;
+	.wc-margin-e-#{$gap-suffix} {
+		margin-right: $gap-size;
 	}
 
-	.wc-margin-s-#{$cl} {
-		margin-bottom: $size;
+	.wc-margin-s-#{$gap-suffix} {
+		margin-bottom: $gap-size;
 	}
 
-	.wc-margin-w-#{$cl} {
-		margin-left: $size;
+	.wc-margin-w-#{$gap-suffix} {
+		margin-left: $gap-size;
 	}
 
-	.wc-pad-#{$cl} {
-		padding: $size;
+	.wc-pad-#{$gap-suffix} {
+		padding: $gap-size;
 	}
 }
 

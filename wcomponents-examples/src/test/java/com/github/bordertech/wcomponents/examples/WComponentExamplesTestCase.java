@@ -1,12 +1,15 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.test.selenium.DynamicLauncher;
 import com.github.bordertech.wcomponents.test.selenium.ByWComponent;
 import com.github.bordertech.wcomponents.test.selenium.ByWComponentPath;
 import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
+import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverType;
 import com.github.bordertech.wcomponents.test.selenium.server.ServerCache;
-import com.github.bordertech.wcomponents.lde.LdeLauncher;
+import java.util.UUID;
+import org.junit.After;
+import org.junit.Before;
 
 /**
  * <p>
@@ -18,6 +21,7 @@ import com.github.bordertech.wcomponents.lde.LdeLauncher;
  * </p>
  *
  * @author Joshua Barclay
+ * @author Jonathan Austin
  * @since 1.2.0
  */
 public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestCase {
@@ -25,26 +29,23 @@ public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestC
 	/**
 	 * The UI being tested.
 	 */
-	private final WComponent ui;
+	private final WComponent testUI;
+
+	/**
+	 * The Running instance of UI.
+	 */
+	private WComponent ui;
 
 	/**
 	 * Constructor to set the UI component.
+	 * <p>
+	 * The example will be wrapped in a {@link WApplication}.
+	 * </p>
 	 *
-	 * @param ui the UI being tested.
+	 * @param testUI the UI being tested.
 	 */
-	public WComponentExamplesTestCase(final WComponent ui) {
-
-		// Retrieve the launcher from the server 
-		LdeLauncher launcher = ServerCache.getLauncher();
-		// If a DynamicLauncher is being used, set the UI to match this component.
-		if (launcher instanceof DynamicLauncher) {
-			this.ui = ((DynamicLauncher) launcher).setComponentToLaunch(this.getClass().getName(), ui);
-		} else {
-			this.ui = ui;
-		}
-		// Start the server (if not started).
-		ServerCache.startServer();
-		super.setUrl(ServerCache.getUrl());
+	public WComponentExamplesTestCase(final WComponent testUI) {
+		this.testUI = testUI;
 	}
 
 	/**
@@ -58,6 +59,17 @@ public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestC
 	}
 
 	/**
+	 * Find by WComponent path using the test's UI.
+	 *
+	 * @param path the path to find.
+	 * @param visibleOnly visible components only
+	 * @return the Selenium By implementation.
+	 */
+	public ByWComponentPath byWComponentPath(final String path, final boolean visibleOnly) {
+		return new ByWComponentPath(ui, path, visibleOnly);
+	}
+
+	/**
 	 * Find by WComponent path and value using the test's UI.
 	 *
 	 * @param path the path to find.
@@ -66,6 +78,18 @@ public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestC
 	 */
 	public ByWComponentPath byWComponentPath(final String path, final Object value) {
 		return new ByWComponentPath(ui, null, path, value);
+	}
+
+	/**
+	 * Find by WComponent path and value using the test's UI.
+	 *
+	 * @param path the path to find.
+	 * @param value the value of the field to match.
+	 * @param visibleOnly visible components only
+	 * @return the Selenium By implementation.
+	 */
+	public ByWComponentPath byWComponentPath(final String path, final Object value, final boolean visibleOnly) {
+		return new ByWComponentPath(ui, null, path, value, visibleOnly);
 	}
 
 	/**
@@ -94,6 +118,41 @@ public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestC
 	 */
 	public WComponent getUi() {
 		return ui;
+	}
+
+	/**
+	 * Setup the driver and device id (ie session) before each test method.
+	 */
+	@Before
+	public void setupDriver() {
+		// Give the driver id (ie session id)
+		WebDriverType type = getDriverType();
+		String driverId = UUID.randomUUID().toString();
+		setDriver(type, driverId);
+
+		// Wrap the example in an WApplication
+		WApplication egUI;
+		boolean wrapped = false;
+		if (testUI instanceof WApplication) {
+			egUI = (WApplication) testUI;
+		} else {
+			egUI = new WApplication();
+			egUI.add(testUI);
+			wrapped = true;
+		}
+		// Register the Example UI (if already registered, the original instance will be returned)
+		egUI = ServerCache.setUI(this.getClass().getName(), egUI);
+		// Hold onto the Example instance
+		ui = wrapped ? egUI.getChildAt(0) : egUI;
+		super.setUrl(ServerCache.getUrl());
+	}
+
+	/**
+	 * Clear the session and release the driver.
+	 */
+	@After
+	public void tearDownDriver() {
+		releaseDriver();
 	}
 
 }

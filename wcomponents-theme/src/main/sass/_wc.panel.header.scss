@@ -1,6 +1,5 @@
-// This contains CSS for WPanel Type.HEADER which is used to make the page header (role banner) and is most commonly
-// over-ridden.
-@import 'mixins-common';
+// This contains CSS for WPanel Type.HEADER which is used to make the page
+// header (role banner) and is most commonly over-ridden.
 
 [role='banner'] {
 	@if ($wc-header-h1-size-full != -1) {

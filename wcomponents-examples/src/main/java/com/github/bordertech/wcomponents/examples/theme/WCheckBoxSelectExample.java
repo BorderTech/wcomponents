@@ -478,10 +478,10 @@ public class WCheckBoxSelectExample extends WContainer {
 		// Too many options anti-pattern
 		add(new WHeading(HeadingLevel.H3, "WCheckBoxSelect with too many options"));
 		add(new ExplanatoryText("Don't use a WCheckBoxSelect if you have more than a handful of options. A good rule of thumb is fewer than 10."));
-		// use the country code list at your peril!!
-		WCheckBoxSelect select = new WCheckBoxSelect("icao");
+		WCheckBoxSelect select = new WCheckBoxSelect(new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
+			"q", "r", "s", "t", "u", "v", "w", "x", "y", "z"});
 		select.setButtonLayout(WCheckBoxSelect.LAYOUT_COLUMNS);
-		select.setButtonColumns(5);
+		select.setButtonColumns(6);
 		select.setFrameless(true);
 		add(new WLabel("Select your country of birth", select));
 		add(select);

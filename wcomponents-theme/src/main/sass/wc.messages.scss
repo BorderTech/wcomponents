@@ -1,7 +1,7 @@
 // WFieldWarningIndicator
 // WValidationErrors (server side validation) when "inline"
 // Client side validation error messages if plugin included
-@import 'mixins-common';
+@import 'mixins/common';
 
 .wc-fieldindicator {
 	display: block;
@@ -18,7 +18,7 @@
 
 	> span {
 		display: block;
-		width: calc(100% - $wc-icon-normal);
+		width: calc(100% - #{$wc-icon-normal});
 
 		+ span {
 			margin-left: $wc-icon-normal;

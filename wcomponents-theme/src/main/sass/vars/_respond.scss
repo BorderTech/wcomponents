@@ -1,0 +1,36 @@
+// #############################################################################
+// RESPONSIVE DESIGN OPTIONS
+// #############################################################################
+// These flags are used to turn on/off inbuilt responsive design CSS. There are
+// a few reasons why you might turn off the default responsive design:
+// 1. you have a better roll-your-own option;
+// 2. you have an intranet (or other limited use) app which does not need it;
+// 3. you have mobile users but hate them; or
+// 4. I can't think of another one but there must be something.
+// Turn on/off inbuilt responsive CSS set to anything other than 1 to turn ALL
+// inbuilt responsive CSS off. This will make your built CSS MUCH smaller.
+$wc-use-respond: 1 !default;
+// Some components have a LOT of inbuilt responsive CSS so you may want to
+// disable the in-built responsive CSS for those without disabling all of the
+// responsive CSS. All of these are ignored if $wc-use-respond != 1.
+//
+// Intra- and inter- component spacing
+// If this is set to 1 then all horizontal gaps using wc-hgap-* wc-vgap-* and
+// mc-margin-* will be reduced to the sizes which follow this var in narrow
+// viewports. You probably don't want to disable this if your gaps are r/em
+// based and you are changing the font size unless you are putting in your own
+// more carefully crafted spacing constraints.
+$wc-gap-reduce-when-narrow: 1 !default;
+// GridLayout set to 1 to use the inbuilt responsive design.
+$wc-use-respond-gridlayout: 1 !default;
+// WFieldLayout: the LAYOUT_FLAT and labelWidth indent options can produce a
+// LOT of CSS - See:
+// * $wc-fieldlayout-force-stack;
+// * $wc-fieldlayout-labelwidth-prevent-override;
+// * $wc-fieldlayout-stack-allow-indent; etc.
+$wc-use-respond-fieldlayout: 1 !default;
+// WTable: set to 1 to use the inbuilt responsive design. This is
+$wc-use-respond-table: 1 !default;
+// WDialog: set to 1 to allow inbuilt responsive design (full screen on small
+// viewports).
+$wc-use-respond-dialog: 1 !default;

@@ -256,3 +256,6 @@ $RECYCLE.BIN/
 
 ### OxyGen ###
 *.xpr
+
+### Sass ###
+.sass-cache

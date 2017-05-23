@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponent
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWRadioButtonSelectWebElement;
 import junit.framework.Assert;
 import org.apache.commons.collections.CollectionUtils;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -16,6 +15,7 @@ import org.openqa.selenium.WebElement;
 
 /**
  * Unit tests of WRadioButtonSelectExample. Real use is as unit tests of the SeleniumWRadioButtonSelectWebElement.
+ *
  * @author Mark Reeves
  * @since 1.4.0
  */
@@ -24,38 +24,42 @@ import org.openqa.selenium.WebElement;
 public class WRadioButtonSelectExample_Test extends WComponentExamplesTestCase {
 
 	/**
-	 * The SeleniumWebDriver for these examples.
+	 * @return an example which is interactive and has no default selection.
 	 */
-	private SeleniumWComponentsWebDriver driver;
+	private SeleniumWRadioButtonSelectWebElement getExampleNoSelection() {
+		SeleniumWComponentsWebDriver driver = getDriver();
+		return driver.findWRadioButtonSelect(new ByLabel("Select a state or territory", false));
+	}
 
 	/**
 	 * @return an example which is interactive and has no default selection.
 	 */
-	private SeleniumWRadioButtonSelectWebElement getExampleNoSelection() {
-		return driver.findWRadioButtonSelect(new ByLabel("Select a state or territory", false));
-	}
-	/**
-	 * @return an example which is interactive and has no default selection.
-	 */
 	private SeleniumWRadioButtonSelectWebElement getExampleWithSelection() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		return driver.findWRadioButtonSelect(new ByLabel("Frameless with default selection", false));
 	}
+
 	/**
 	 * @return an example which is interactive and has no default selection.
 	 */
 	private SeleniumWRadioButtonSelectWebElement getReadOnlyExampleNoSelection() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		return driver.findWRadioButtonSelect(new ByLabel("Read only with no selection", false));
 	}
+
 	/**
 	 * @return an example which is interactive and has no default selection.
 	 */
 	private SeleniumWRadioButtonSelectWebElement getReadOnlyExampleWithSelection() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		return driver.findWRadioButtonSelect(new ByLabel("Read only with selection", false));
 	}
+
 	/**
 	 * @return an example which is interactive and has no default selection.
 	 */
 	private SeleniumWRadioButtonSelectWebElement getDisabledExample() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		return driver.findWRadioButtonSelect(new ByLabel("Disabled with selection", false));
 	}
 
@@ -64,11 +68,6 @@ public class WRadioButtonSelectExample_Test extends WComponentExamplesTestCase {
 	 */
 	public WRadioButtonSelectExample_Test() {
 		super(new WRadioButtonSelectExample());
-	}
-
-	@Before
-	public void doBefore() {
-		driver = getDriver();
 	}
 
 	@Test
@@ -80,6 +79,7 @@ public class WRadioButtonSelectExample_Test extends WComponentExamplesTestCase {
 
 	@Test
 	public void testComponentLevelProperties() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		SeleniumWRadioButtonSelectWebElement interactive = getExampleNoSelection();
 		SeleniumWRadioButtonSelectWebElement disabled = getDisabledExample();
 		SeleniumWRadioButtonSelectWebElement readOnly = getReadOnlyExampleWithSelection();
@@ -104,6 +104,7 @@ public class WRadioButtonSelectExample_Test extends WComponentExamplesTestCase {
 
 	@Test
 	public void testGetOptions() {
+		SeleniumWComponentsWebDriver driver = getDriver();
 		Assert.assertEquals(9, getExampleNoSelection().getOptions().size());
 		Assert.assertEquals(9, getDisabledExample().getOptions().size());
 		Assert.assertTrue(CollectionUtils.isEmpty(getReadOnlyExampleNoSelection().getOptions()));
@@ -244,48 +245,48 @@ public class WRadioButtonSelectExample_Test extends WComponentExamplesTestCase {
 		SeleniumWRadioButtonSelectWebElement rbs = getExampleNoSelection();
 		// idx
 		Assert.assertFalse(rbs.isSelected(0));
-		rbs.click(0);
+		rbs.clickNoWait(0);
 		Assert.assertTrue(rbs.isSelected(0));
-		rbs.click(1);
+		rbs.clickNoWait(1);
 		Assert.assertFalse(rbs.isSelected(0));
 		Assert.assertTrue(rbs.isSelected(1));
 		// labelText
 		Assert.assertFalse(rbs.isSelected("Outside Australia"));
-		rbs.click("Outside Australia");
+		rbs.clickNoWait("Outside Australia");
 		Assert.assertTrue(rbs.isSelected("Outside Australia"));
-		rbs.click("Victoria");
+		rbs.clickNoWait("Victoria");
 		Assert.assertFalse(rbs.isSelected("Outside Australia"));
 		Assert.assertTrue(rbs.isSelected("Victoria"));
 		// option
 		WebElement option = rbs.getOption(0);
 		Assert.assertFalse(rbs.isSelected(option));
-		rbs.click(option);
+		rbs.clickNoWait(option);
 		Assert.assertTrue(rbs.isSelected(option));
 		WebElement option2 = rbs.getOption(1);
 		Assert.assertFalse(rbs.isSelected(option2));
-		rbs.click(option2);
+		rbs.clickNoWait(option2);
 		Assert.assertTrue(rbs.isSelected(option2));
 		Assert.assertFalse(rbs.isSelected(option));
 
 		// clicking a selected option does nothing
 		rbs = getExampleWithSelection();
 		Assert.assertTrue(rbs.isSelected(0));
-		rbs.click(0);
+		rbs.clickNoWait(0);
 		getDriver().waitForPageReady();
 		Assert.assertTrue(rbs.isSelected(0));
 
 		// disabled does nothing
 		rbs = getDisabledExample();
 		Assert.assertFalse(rbs.isSelected(0));
-		rbs.click(0);
+		rbs.clickNoWait(0);
 		Assert.assertFalse(rbs.isSelected(0));
-		rbs.click(1);
+		rbs.clickNoWait(1);
 		Assert.assertFalse(rbs.isSelected(0));
 		Assert.assertFalse(rbs.isSelected(1));
 		// read-only does nothing
 		rbs = getReadOnlyExampleWithSelection();
 		Assert.assertTrue(rbs.isSelected(0));
-		rbs.click(0); // cannot select outside of selection.
+		rbs.clickNoWait(0); // cannot select outside of selection.
 		Assert.assertTrue(rbs.isSelected(0));
 	}
 }

@@ -1,8 +1,9 @@
 package com.github.bordertech.wcomponents.test.selenium;
 
-import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverCache;
+import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.test.selenium.driver.ParameterizedWebDriverType;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
+import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverCache;
 import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverType;
 import com.github.bordertech.wcomponents.test.selenium.server.ServerCache;
 import com.github.bordertech.wcomponents.util.ConfigurationProperties;
@@ -20,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
  * </p>
  *
  * @author Yiannis Paschalidis
+ * @author Jonathan Austin
  * @since 1.0.0
  */
 public abstract class WComponentSeleniumTestCase {
@@ -45,9 +47,9 @@ public abstract class WComponentSeleniumTestCase {
 	private String url;
 
 	/**
-	 * Whether the driver has been launched.
+	 * The driver and null if not launched.
 	 */
-	private boolean driverLaunched = false;
+	private SeleniumWComponentsWebDriver driver;
 
 	/**
 	 * <p>
@@ -152,6 +154,21 @@ public abstract class WComponentSeleniumTestCase {
 	}
 
 	/**
+	 *
+	 * @return the drive id (ie session)
+	 */
+	public String getDriverId() {
+		return driverId;
+	}
+
+	/**
+	 * @return the driver type
+	 */
+	public WebDriverType getDriverType() {
+		return driverType;
+	}
+
+	/**
 	 * <p>
 	 * Whether to use the Config to set the URL and launch the server.</p>
 	 *
@@ -186,7 +203,7 @@ public abstract class WComponentSeleniumTestCase {
 	 * Launch the driver against the configured Url, but only if configuration is complete.
 	 */
 	private void launchDriver() {
-		if (!driverLaunched) {
+		if (driver == null) {
 			if (driverType == null) {
 				throw new SystemException("Attempted to launch driver prior to configuring the driverType.");
 			}
@@ -195,13 +212,22 @@ public abstract class WComponentSeleniumTestCase {
 				throw new SystemException("Attempted to launch driver prior to configuring the url.");
 			}
 
-			SeleniumWComponentsWebDriver driver = getDriverWithoutLaunching();
-			if (driver.hasSession()) {
-				driver.newSession(getUrl());
-			} else {
-				driver.get(getUrl());
+			driver = getDriverWithoutLaunching();
+			try {
+				if (driver.hasSession()) {
+					driver.newSession(getUrl());
+				} else {
+					driver.get(getUrl());
+				}
+			} catch (Exception e) {
+				try {
+					// Close driver
+					WebDriverCache.closeDriver(driverType, driverId);
+				} finally {
+					driver = null;
+				}
+				throw new SystemException("Could not launch the driver. " + e.getMessage());
 			}
-			driverLaunched = true;
 		}
 	}
 
@@ -221,8 +247,7 @@ public abstract class WComponentSeleniumTestCase {
 
 		this.driverType = driverType;
 		this.driverId = driverId;
-
-		driverLaunched = false;
+		this.driver = null;
 	}
 
 	/**
@@ -232,8 +257,7 @@ public abstract class WComponentSeleniumTestCase {
 	 */
 	public void setUrl(final String url) {
 		this.url = url;
-
-		driverLaunched = false;
+		driver = null;
 	}
 
 	/**
@@ -261,9 +285,10 @@ public abstract class WComponentSeleniumTestCase {
 					+ " Ensure the correct constructor was called or the setter has been invoked.");
 		}
 
-		launchDriver();
-
-		return getDriverWithoutLaunching();
+		if (driver == null) {
+			launchDriver();
+		}
+		return driver;
 	}
 
 	/**
@@ -285,6 +310,41 @@ public abstract class WComponentSeleniumTestCase {
 		}
 
 		return WebDriverCache.getDriver(driverType, driverId);
+	}
+
+	/**
+	 * Release the driver.
+	 */
+	public void releaseDriver() {
+		if (driver == null) {
+			return;
+		}
+		if (driver.hasSession()) {
+			// Try to close User Session
+			try {
+				driver.clearUserContext();
+			} catch (Exception e) {
+				LOG.warn("Could not clear User Session. Will not use driver any more." + e.getMessage(), e);
+				// Try to close the driver
+				try {
+					WebDriverCache.closeDriver(driverType, driverId);
+				} catch (Exception e2) {
+					LOG.warn("Could not close the driver. Will not use driver any more. " + e2.getMessage(), e2);
+				}
+				driver = null;
+				return;
+			}
+		}
+		// Put back in the pool
+		WebDriverCache.releaseDriver(driverType, driverId);
+		driver = null;
+	}
+
+	/**
+	 * @return the user context for this session
+	 */
+	public UIContext getUserContextForSession() {
+		return driver == null ? null : driver.getUserContextForSession();
 	}
 
 }

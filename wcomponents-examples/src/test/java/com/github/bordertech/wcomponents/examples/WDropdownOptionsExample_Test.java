@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.test.selenium.MultiBrowserRunner;
 import com.github.bordertech.wcomponents.test.selenium.driver.SeleniumWComponentsWebDriver;
@@ -74,16 +76,21 @@ public class WDropdownOptionsExample_Test extends WComponentExamplesTestCase {
 
 		WDropdown.DropdownType type = WDropdown.DropdownType.NATIVE;
 		configureDropDown(driver, type, 4);
+		UIContext uic = getUserContextForSession();
+		UIContextHolder.pushContext(uic);
+		try {
+			WDropdown dropdown = (WDropdown) TreeUtil.findWComponent(example, new String[]{"WDropdown"}).getComponent();
+			List<?> options = dropdown.getOptions();
 
-		WDropdown dropdown = (WDropdown) TreeUtil.findWComponent(example, new String[]{"WDropdown"}).getComponent();
-		List<?> options = dropdown.getOptions();
+			for (Object option : options) {
+				driver.findElement(byWComponent(dropdown, option)).click();
 
-		for (Object option : options) {
-			driver.findElement(byWComponent(dropdown, option)).click();
-
-			Assert.assertEquals("Incorrect option selected", option, dropdown.getSelected());
-			Assert.assertEquals("Incorrect text field text", option,
-					driver.findElement(byWComponentPath("WDropdownOptionsExample/WPanel[1]")).getText());
+				Assert.assertEquals("Incorrect option selected", option, dropdown.getSelected());
+				Assert.assertEquals("Incorrect text field text", option,
+						driver.findElement(byWComponentPath("WDropdownOptionsExample/WPanel[1]")).getText());
+			}
+		} finally {
+			UIContextHolder.popContext();
 		}
 	}
 
@@ -100,16 +107,22 @@ public class WDropdownOptionsExample_Test extends WComponentExamplesTestCase {
 		WDropdown.DropdownType type = WDropdown.DropdownType.NATIVE;
 		configureDropDown(driver, type, 2);
 
-		WDropdown dropdown = (WDropdown) TreeUtil.findWComponent(example, new String[]{"WDropdown"})
-				.getComponent();
-		List<?> options = dropdown.getOptions();
+		UIContext uic = getUserContextForSession();
+		UIContextHolder.pushContext(uic);
+		try {
+			WDropdown dropdown = (WDropdown) TreeUtil.findWComponent(example, new String[]{"WDropdown"})
+					.getComponent();
+			List<?> options = dropdown.getOptions();
 
-		for (Object option : options) {
-			driver.findElement(byWComponent(dropdown, option)).click();
-			Assert.assertEquals("Incorrect option selected", option, dropdown.getSelected());
+			for (Object option : options) {
+				driver.findElement(byWComponent(dropdown, option)).click();
+				Assert.assertEquals("Incorrect option selected", option, dropdown.getSelected());
 
-			Assert.assertEquals("Incorrect text field text", option,
-					driver.findElement(byWComponentPath("WDropdownOptionsExample/WPanel[1]")).getText());
+				Assert.assertEquals("Incorrect text field text", option,
+						driver.findElement(byWComponentPath("WDropdownOptionsExample/WPanel[1]")).getText());
+			}
+		} finally {
+			UIContextHolder.popContext();
 		}
 	}
 }

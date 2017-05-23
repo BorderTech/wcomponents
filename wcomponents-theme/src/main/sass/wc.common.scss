@@ -1,8 +1,9 @@
-@import 'mixins-common';
-// *****************************************************************************
+@import 'mixins/common';
+// #############################################################################
 // HTML and BODY structure
-// It is important that at least the height rules remain as we need to have the document body fill the viewport in all
-// browsers to correctly propagate some click events. Please leave this as it is.
+// It is important that at least the height rules remain as we need to have the
+// document body fill the viewport in all browsers to correctly propagate some
+// click events. Please leave this as it is.
 html {
 	height: 100%;
 }
@@ -16,7 +17,7 @@ body {
 	height: 100%; // body to fill viewport for event propagation.
 }
 
-// *****************************************************************************
+// #############################################################################
 // COMMON element styles.
 // Change any of these you like. The defaults are pretty basic.
 
@@ -55,13 +56,13 @@ textarea {
 	margin: 0;
 	max-width: 100%;
 
-	@if ($wc-ui-color-border-form-control != -1 and $wc-input-padding != -1) {
+	@if ($wc-clr-border-form-control != -1 and $wc-input-padding != -1) {
 		@include border-box;
 		padding: $wc-input-padding;
 	}
 }
 
-@if ($wc-ui-color-border-form-control != -1) {
+@if ($wc-clr-border-form-control != -1) {
 	input {
 		&[type='checkbox'],
 		&[type='radio'] {
@@ -111,9 +112,9 @@ pre {
 	font-family: $wc-mono-font;
 }
 
-// *****************************************************************************
+// #############################################################################
 // Common class (and attribute) selectors
-// *****************************************************************************
+// #############################################################################
 // Disabled.
 [disabled],
 [aria-disabled='true'] {
@@ -161,9 +162,9 @@ pre {
 	}
 }
 
-// *****************************************************************************
+// #############################################################################
 // Classes which are in the Java API so you better keep 'em.'
-// *****************************************************************************
+// #############################################################################
 // Text alignment
 // These are required for WComponents inbuilt alignment and are not a complete
 // list of CSS3 text alignment options. Not to be overridden therefore no
@@ -228,7 +229,7 @@ $wc-align-list: left, center, right;
 .wc-brkall {
 	word-break: break-all;
 }
-// *****************************************************************************
+// #############################################################################
 // Modal Shim is used on page load until the underlying page is ready and when
 // opening a modal dialog.
 // TODO: maybe change this to a class rather than an ID now we do not have IE6
@@ -250,7 +251,7 @@ $wc-align-list: left, center, right;
 }
 // scss-lint:enable IdSelector
 
-// *****************************************************************************
+// #############################################################################
 // This is non-standard but quite important. Zoom should not be disabled in a
 // web appno matter how much pain it causes designers. It is an a11y thing and
 // I cannot use your site on my phone without it. Cannot use a mixin with

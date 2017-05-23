@@ -1,12 +1,10 @@
-@import 'vars';
-
-@if ($wc-ui-color-heading != -1) {
+@if ($wc-clr-heading != -1) {
 	h1,
 	h2,
 	h3,
 	h4,
 	h5,
 	h6 {
-		color: $wc-ui-color-heading;
+		color: $wc-clr-heading;
 	}
 }

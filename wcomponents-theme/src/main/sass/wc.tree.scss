@@ -1,4 +1,4 @@
-@import 'mixins-common';
+@import 'mixins/common';
 
 [role='tree'] {
 	[role='group'] {
@@ -30,7 +30,7 @@ button[role='treeitem'],
 		width: $wc-icon-wider;
 
 		+ button {
-			width: calc(100% - $wc-icon-wider);
+			width: calc(100% - #{$wc-icon-wider});
 		}
 	}
 }
@@ -51,8 +51,8 @@ button[role='treeitem'],
 	}
 }
 
-
-.wc_leaf_vopener { // the vertical opener button and its span placeholder equivalent.
+// The vertical opener button and its span placeholder equivalent.
+.wc_leaf_vopener {
 	@include border-box; // required for the span.
 	padding: $wc-tree-item-pad-t 0 $wc-tree-item-pad-b $wc-tree-item-pad-l;
 	text-align: left;

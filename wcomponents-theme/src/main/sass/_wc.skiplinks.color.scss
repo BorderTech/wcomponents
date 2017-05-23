@@ -1,6 +1,4 @@
-@import 'vars';
-
 .wc-skiplinks a:focus {
-	background-color: $wc-ui-color-global-bg;
-	color: $wc-ui-color-global-fg;
+	background-color: $wc-clr-global-bg;
+	color: $wc-clr-global-fg;
 }
