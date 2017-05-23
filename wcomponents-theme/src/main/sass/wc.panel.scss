@@ -30,7 +30,7 @@
 // default, but if you wanted to do so in an implementation of a theme you could
 // use something like:
 // .wc-panel-type-block {
-// 	padding: $wc-gap-normal;
+//   padding: $wc-gap-normal;
 // }
 
 // #############################################################################
@@ -45,7 +45,7 @@
 // From the JavaDoc: 'The feature panel is highlighted by a background colour
 // and border.'
 .wc-panel-type-feature {
-	@include padded-box;
+  @include padded-box;
 }
 
 // #############################################################################
@@ -57,7 +57,7 @@
 // TYPE FOOTER
 // #############################################################################
 footer {
-	padding: $wc-gap-normal;
+  padding: $wc-gap-normal;
 }
 
 // #############################################################################

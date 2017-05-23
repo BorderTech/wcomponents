@@ -1,32 +1,32 @@
 body {
-	background-color: $wc-ui-body-bg;
-	color: $wc-ui-body-fg;
+  background-color: $wc-ui-body-bg;
+  color: $wc-ui-body-fg;
 }
 
 input,
 select,
 textarea {
-	@if ($wc-clr-border-form-control != -1) {
-		// Border on select makes firefox OS X quite ugly but is better than any
-		// other option on all other UAs.
-		@include border($color: $wc-clr-border-form-control);
-	}
+  @if ($wc-clr-border-form-control != -1) {
+    // Border on select makes firefox OS X quite ugly but is better than any
+    // other option on all other UAs.
+    @include border($color: $wc-clr-border-form-control);
+  }
 
-	@if ($wc-clr-error-bg != -1) {
-		&[aria-invalid='true'] {
-			background-color: $wc-clr-error-bg;
-		}
-	}
+  @if ($wc-clr-error-bg != -1) {
+    &[aria-invalid='true'] {
+      background-color: $wc-clr-error-bg;
+    }
+  }
 
-	&[disabled] {
-		background-color: $wc-clr-disabled-bg;
-	}
+  &[disabled] {
+    background-color: $wc-clr-disabled-bg;
+  }
 }
 
 noscript p {
-	@include border($width: 3px, $color: $wc-clr-error-fg);
-	background-color: $wc-clr-global-bg;
-	color: $wc-clr-global-fg;
+  @include border($width: 3px, $color: $wc-clr-error-fg);
+  background-color: $wc-clr-global-bg;
+  color: $wc-clr-global-fg;
 }
 
 // #############################################################################
@@ -36,20 +36,20 @@ noscript p {
 // Disabled links. Gotta love the monkey who came up with that one.
 // #############################################################################
 @if  $wc-clr-link-visited != -1 {
-	a:visited {
-		color: $wc-clr-link-visited;
-	}
+  a:visited {
+    color: $wc-clr-link-visited;
+  }
 }
 
 @if  $wc-clr-link != -1 {
-	a {
-		color: $wc-clr-link;
+  a {
+    color: $wc-clr-link;
 
-		// NOTE: we need the disabled color to override the :visited state
-		&[aria-disabled='true'] {
-			color: $wc-clr-disabled-fg;
-		}
-	}
+    // NOTE: we need the disabled color to override the :visited state
+    &[aria-disabled='true'] {
+      color: $wc-clr-disabled-fg;
+    }
+  }
 }
 
 // Mark an error state. This is a secondary indicator of an error state separate
@@ -58,26 +58,26 @@ noscript p {
 // present but the actual style does not matter a lot. Eventually we should be
 // able to remove the missing label warnings and move this to textarea only.
 @if $wc-clr-error-fg != -1 {
-	.wc-err {
-		color: $wc-clr-error-fg;
-	}
+  .wc-err {
+    color: $wc-clr-error-fg;
+  }
 }
 
 @if ($wc-clr-modal-shim-foreground != -1) {
-	// The modal shim is a single generated artefact with a constant id.
-	// scss-lint:disable IdSelector
-	#wc-shim {
-		background-color: $wc-clr-modal-shim;
-		color: $wc-clr-modal-shim-foreground;
-	}
-	// scss-lint:enable IdSelector
+  // The modal shim is a single generated artefact with a constant id.
+  // sass-lint:disable no-ids
+  #wc-shim {
+    background-color: $wc-clr-modal-shim;
+    color: $wc-clr-modal-shim-foreground;
+  }
+  // sass-lint:enable no-ids
 }
 
 @if ($wc-clr-error-fg != -1) {
-	// invalid
-	[aria-invalid='true'] {
-		@include outline($color: $wc-clr-error-fg);
-	}
+  // invalid
+  [aria-invalid='true'] {
+    @include outline($color: $wc-clr-error-fg);
+  }
 }
 
 // These are colour classes. Colour classes are _very_ dangerous. Therefore we
@@ -85,17 +85,17 @@ noscript p {
 // therefore, only act on the pseudo element used to generate an icon. Extend
 // these as you feel fit.
 .wc-cerror::before {
-	color: $wc-clr-error-fg;
+  color: $wc-clr-error-fg;
 }
 
 .wc-cwarning::before {
-	color: $wc-clr-warning-fg;
+  color: $wc-clr-warning-fg;
 }
 
 .wc-cinfo::before {
-	color: $wc-clr-info-fg;
+  color: $wc-clr-info-fg;
 }
 
 .wc-csuccess::before {
-	color: $wc-clr-success-fg;
+  color: $wc-clr-success-fg;
 }

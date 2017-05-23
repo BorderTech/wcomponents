@@ -1,5 +1,5 @@
 // timeout warning container is generated and identified.
-// scss-lint:disable IdSelector
+// sass-lint:disable no-ids
 #wc_session_container {
-	background-color: $wc-clr-global-bg; // to make it opaque;
+  background-color: $wc-clr-global-bg; // to make it opaque;
 }

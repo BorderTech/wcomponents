@@ -3,14 +3,14 @@
 @import 'mixins/common';
 
 @if ($wc-label-mandatory-indicator != -1) {
-	// This Type of WStyledText allows something other than a WLabel/WFieldSet
-	// legend to show a mandatory field indicator. Why? To present a "key" if
-	// required or to mark a table column header as containing fields which must
-	// be completed. Not terribly good use-cases but use-cases non-the-less.
-	.wc-text-type-mandatoryIndicator:after {
-		@include mandatory-indicator;
-		margin-left: $wc-gap-small;
-	}
+  // This Type of WStyledText allows something other than a WLabel/WFieldSet
+  // legend to show a mandatory field indicator. Why? To present a "key" if
+  // required or to mark a table column header as containing fields which must
+  // be completed. Not terribly good use-cases but use-cases non-the-less.
+  .wc-text-type-mandatoryIndicator::after {
+    @include mandatory-indicator;
+    margin-left: $wc-gap-small;
+  }
 }
 
 // NOTE:

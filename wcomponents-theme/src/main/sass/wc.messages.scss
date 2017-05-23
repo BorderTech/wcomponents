@@ -4,27 +4,27 @@
 @import 'mixins/common';
 
 .wc-fieldindicator {
-	display: block;
-	margin-top: $wc-gap-small;
+  display: block;
+  margin-top: $wc-gap-small;
 
-	> .fa {
-		text-align: left;
-		width: $wc-icon-normal;
+  > .fa {
+    text-align: left;
+    width: $wc-icon-normal;
 
-		+ span {
-			display: inline-block;
-		}
-	}
+    + span {
+      display: inline-block;
+    }
+  }
 
-	> span {
-		display: block;
-		width: calc(100% - #{$wc-icon-normal});
+  > span {
+    display: block;
+    width: calc(100% - #{$wc-icon-normal});
 
-		+ span {
-			margin-left: $wc-icon-normal;
-			margin-top: $wc-gap-small;
-		}
-	}
+    + span {
+      margin-left: $wc-icon-normal;
+      margin-top: $wc-gap-small;
+    }
+  }
 }
 
 

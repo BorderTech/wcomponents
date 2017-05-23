@@ -26,98 +26,98 @@
 // User agent button styles are the bane of our lives. The _main_ problem is
 // hard coded font styles rather than allowing them to inherit.
 button {
-	margin: 0;
-	@if ($wc-button-rationalise-text-styles == 1) {
-		@include button-like-text;
-	}
-	@if($wc-button-use-invite == 1) {
-		@include wc-invite;
-		// this prevents the border flicker on hover/focus.
-		@include button($background: -1, $text-align: '');
-	}
+  margin: 0;
+  @if ($wc-button-rationalise-text-styles == 1) {
+    @include button-like-text;
+  }
+  @if($wc-button-use-invite == 1) {
+    @include wc-invite;
+    // this prevents the border flicker on hover/focus.
+    @include button($background: -1, $text-align: '');
+  }
 
-	&[disabled] {
-		@include aria-disabled;
-	}
+  &[disabled] {
+    @include aria-disabled;
+  }
 }
 
 // common styles for a button which inherits fonts.
 @mixin expose-plain-button {
-	@if ($wc-button-rationalise-text-styles != 1) {
-		@include button-like-text;
-	}
-	cursor: pointer;
+  @if ($wc-button-rationalise-text-styles != 1) {
+    @include button-like-text;
+  }
+  cursor: pointer;
 }
 
 // .wc-nobutton is a button stripped of its button nature.
 // .wc-linkbutton is a button pretending to be a link.
 .wc-linkbutton,
 .wc-nobutton {
-	@include expose-plain-button;
-	@include button($border: 0, $padding: 0, $text-align: inherit);
+  @include expose-plain-button;
+  @include button($border: 0, $padding: 0, $text-align: inherit);
 }
 
 .wc-nobutton {
-	color: inherit;
+  color: inherit;
 }
 
 .wc-linkbutton {
-	color: $wc-clr-link;
-	text-decoration: underline;
+  color: $wc-clr-link;
+  text-decoration: underline;
 
-	// class wc_nti (no text image) is applied to buttons and links which hold
-	//  an image but no visible text.
-	.wc_nti,
-	&.wc-icon:before,
-	> .fa {
-		text-decoration: none;
-	}
+  // class wc_nti (no text image) is applied to buttons and links which hold
+  //  an image but no visible text.
+  .wc_nti,
+  &.wc-icon::before,
+  > .fa {
+    text-decoration: none;
+  }
 }
 
 // A common class for buttons which only contain icons.
 // This is for framework use only so _may_ be changed without notice!
 .wc_btn_icon {
-	@include expose-plain-button;
-	// To use regular platform buttons ($background: -1, $border: false);
-	@include button;
-	@include content-box;
-	@if($wc-button-use-invite != 1) {
-		@include wc-invite;
-	}
-	color: inherit;
-	overflow: hidden;
-	width: $wc-icon-normal;
+  @include expose-plain-button;
+  // To use regular platform buttons ($background: -1, $border: false);
+  @include button;
+  @include content-box;
+  @if($wc-button-use-invite != 1) {
+    @include wc-invite;
+  }
+  color: inherit;
+  overflow: hidden;
+  width: $wc-icon-normal;
 }
 
 // ########## Unused (in framework) convenience classes ##########
 @if ($wc-button-include-helper-classes == 1) {
-	@if ($wc-button-rationalise-text-styles != 1) {
-		// a button with inherited font metrics
-		.wc-textbutton {
-			@include button-like-text;
-		}
-	}
+  @if ($wc-button-rationalise-text-styles != 1) {
+    // a button with inherited font metrics
+    .wc-textbutton {
+      @include button-like-text;
+    }
+  }
 
-	// a button with a simple 1px border
-	.wc-simplebutton {
-		@include button($background: -1);
-	}
+  // a button with a simple 1px border
+  .wc-simplebutton {
+    @include button($background: -1);
+  }
 
-	.wc-transparentbutton {
-		@include expose-plain-button;
-		@include button;
-	}
+  .wc-transparentbutton {
+    @include expose-plain-button;
+    @include button;
+  }
 
-	.wc-bgbutton {
-		@include expose-plain-button;
-		@include button($background: $wc-clr-global-bg);
-		color: $wc-clr-global-fg;
+  .wc-bgbutton {
+    @include expose-plain-button;
+    @include button($background: $wc-clr-global-bg);
+    color: $wc-clr-global-fg;
 
-		&[disabled] {
-			background-color: $wc-clr-disabled-bg;
-			color: $wc-clr-disabled-fg;
-		}
-	}
+    &[disabled] {
+      background-color: $wc-clr-disabled-bg;
+      color: $wc-clr-disabled-fg;
+    }
+  }
 }
 //########## End of unused (in framework) convenience classes ##########
 
@@ -125,12 +125,12 @@ button {
 // rare and is currently limited to summary elements in browsers which do not
 // provide native details/summary behaviour.
 [role='button'] {
-	cursor: pointer;
+  cursor: pointer;
 
-	&[disabled],
-	&[aria-disabled='true'] {
-		cursor: auto;
-	}
+  &[disabled],
+  &[aria-disabled='true'] {
+    cursor: auto;
+  }
 }
 
 // Positioning of an image in a WButton or WLink based on the component's
@@ -141,42 +141,42 @@ button {
 // Images in buttons and links are placed in a container so they can be
 // positioned
 .wc_btn_img {
-	@include flex($align-items: center, $align-content: center);
+  @include flex($align-items: center, $align-content: center);
 }
 
 .wc_btn_imgn,
 .wc_btn_imgs {
-	text-align: center;
+  text-align: center;
 }
 
 .wc_btn_imgn {
-	@include flex-direction(column-reverse);
+  @include flex-direction(column-reverse);
 
-	> img {
-		@include margin(bottom);
-	}
+  > img {
+    @include margin(bottom);
+  }
 }
 
 .wc_btn_imgs {
-	@include flex-direction(column);
+  @include flex-direction(column);
 
-	> img {
-		@include margin(top);
-	}
+  > img {
+    @include margin(top);
+  }
 }
 
 .wc_btn_imge {
-	@include flex-direction(row);
+  @include flex-direction(row);
 
-	> img {
-		@include margin(left);
-	}
+  > img {
+    @include margin(left);
+  }
 }
 
 .wc_btn_imgw {
-	@include flex-direction(row-reverse);
+  @include flex-direction(row-reverse);
 
-	> img {
-		@include margin(right);
-	}
+  > img {
+    @include margin(right);
+  }
 }

@@ -1,81 +1,83 @@
 @import 'mixins/common';
 
 [role='tree'] {
-	[role='group'] {
-		display: none;
-		padding-left: $wc-tree-indent;
+  [role='group'] {
+    display: none;
+    padding-left: $wc-tree-indent;
 
-		&.wc_tree_root {
-			display: block;
-			padding-left: 0;
-		}
-	}
+    &.wc_tree_root {
+      display: block;
+      padding-left: 0;
+    }
+  }
 
-	[aria-expanded='true'] > [role='group'] {
-		display: block;
-	}
+  [aria-expanded='true'] > [role='group'] {
+    display: block;
+  }
 }
 
+// sass-lint:disable no-qualifying-elements
 button[role='treeitem'],
 [role='treeitem'] > button {
-	width: 100%;
+  width: 100%;
 }
+// sass-lint:enable no-qualifying-elements
 
 [role='treeitem'] {
-	@include border-box;
-	display: block;
-	width: 100%;
+  @include border-box;
+  display: block;
+  width: 100%;
 
-	> .wc_leaf_vopener {
-		width: $wc-icon-wider;
+  > .wc_leaf_vopener {
+    width: $wc-icon-wider;
 
-		+ button {
-			width: calc(100% - #{$wc-icon-wider});
-		}
-	}
+    + button {
+      width: calc(100% - #{$wc-icon-wider});
+    }
+  }
 }
 
 .wc_leaf_vopener,
 .wc_leaf_img,
 .wc_leaf_hopener {
-	display: inline-block;
+  display: inline-block;
 }
 
 .wc_leaf_vopener,
 .wc_leaf_img {
-	width: $wc-icon-wider;
+  width: $wc-icon-wider;
 
-	> .fa:before {
-		text-align: left;
-		width: $wc-icon-normal;
-	}
+  > .fa::before {
+    text-align: left;
+    width: $wc-icon-normal;
+  }
 }
 
 // The vertical opener button and its span placeholder equivalent.
 .wc_leaf_vopener {
-	@include border-box; // required for the span.
-	padding: $wc-tree-item-pad-t 0 $wc-tree-item-pad-b $wc-tree-item-pad-l;
-	text-align: left;
+  @include border-box; // required for the span.
+  padding: $wc-tree-item-pad-t 0 $wc-tree-item-pad-b $wc-tree-item-pad-l;
+  text-align: left;
 }
 
 // The icon container
 .wc_leaf_img {
-	padding: $wc-tree-item-pad-t 0 $wc-tree-item-pad-b;
+  padding: $wc-tree-item-pad-t 0 $wc-tree-item-pad-b;
 
-	img {
-		max-height: $wc-icon-normal;
-		max-width: $wc-icon-normal;
-	}
+  img {
+    max-height: $wc-icon-normal;
+    max-width: $wc-icon-normal;
+  }
 }
 
 .wc_leaf_name {
-	padding: $wc-tree-item-pad-t $wc-tree-item-pad-r $wc-tree-item-pad-b 0;
+  padding: $wc-tree-item-pad-t $wc-tree-item-pad-r $wc-tree-item-pad-b 0;
 }
 
 // htree branch opener.
 .wc_leaf_hopener {
-	display: none;
-	text-align: right;
+  display: none;
+  text-align: right;
 }
 
 @import 'wc.htree';

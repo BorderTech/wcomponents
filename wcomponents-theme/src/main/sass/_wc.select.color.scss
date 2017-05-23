@@ -1,27 +1,27 @@
 select {
-	@if ($wc-clr-border-form-control != -1) {
-		// Border on select makes firefox OS X quite ugly but is better than any
-		// other option on all other UAs.
-		@include border($color: $wc-clr-border-form-control);
-	}
+  @if ($wc-clr-border-form-control != -1) {
+    // Border on select makes firefox OS X quite ugly but is better than any
+    // other option on all other UAs.
+    @include border($color: $wc-clr-border-form-control);
+  }
 
-	@if ($wc-clr-error-bg != -1) {
-		&[aria-invalid='true'] {
-			background-color: $wc-clr-error-bg;
-		}
-	}
+  @if ($wc-clr-error-bg != -1) {
+    &[aria-invalid='true'] {
+      background-color: $wc-clr-error-bg;
+    }
+  }
 
-	&[disabled] {
-		background-color: $wc-clr-disabled-bg;
-	}
+  &[disabled] {
+    background-color: $wc-clr-disabled-bg;
+  }
 }
 
 // typeahead indicator
 .wc_selsch {
-	background-color: $wc-clr-highlight-bg;
-	color: $wc-clr-highlight-fg;
+  background-color: $wc-clr-highlight-bg;
+  color: $wc-clr-highlight-fg;
 
-	&.wc_selsch_notfound {
-		color: $wc-clr-error-fg;
-	}
+  &.wc_selsch_notfound {
+    color: $wc-clr-error-fg;
+  }
 }

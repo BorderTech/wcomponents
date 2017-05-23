@@ -4,9 +4,9 @@
 
 .wc-src,
 .wc-track {
-	display: inline-block;
+  display: inline-block;
 
-	& + & {
-		margin-left: $wc-gap-normal;
-	}
+  & + & {
+    margin-left: $wc-gap-normal;
+  }
 }

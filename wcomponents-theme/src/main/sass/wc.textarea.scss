@@ -4,37 +4,37 @@
 
 // the ticker
 textarea + output {
-	display: block;
-	margin-top: -$wc-border-width;
-	padding: $wc-gap-small;
-	position: absolute;
-	z-index: $wc-z-index-common;
+  display: block;
+  margin-top: -$wc-border-width;
+  padding: $wc-gap-small;
+  position: absolute;
+  z-index: $wc-z-index-common;
 
-	&:before { // show the number of chars remaining
-		content: attr(value);
-		font-size: 85%;
-	}
+  &::before { // show the number of chars remaining
+    content: attr(value);
+    font-size: 85%;
+  }
 
-	dialog & {
-		z-index: $wc-z-index-common-in-dialog;
-	}
+  dialog & {
+    z-index: $wc-z-index-common-in-dialog;
+  }
 }
 
 
 // A readonly textarea must preserve whitespace so uses a pre element
 // (for IE compatibility) so we need to override PRE defaults and set whitespace
 // to textarea-like settings.
-// scss-lint:disable QualifyingElement
+// sass-lint:disable no-qualifying-elements
 pre.wc-textarea {
-	font-family: inherit;
-	margin: 0;
-	white-space: pre-wrap;
-	word-break: normal;
+  font-family: inherit;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: normal;
 }
 
 div.wc-textarea {
-	word-break: normal;
+  word-break: normal;
 }
-// scss-lint:enable QualifyingElement
+// sass-lint:enable no-qualifying-elements
 
 @import 'wc.textarea.color';
