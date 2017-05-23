@@ -66,7 +66,7 @@
 						</xsl:with-param>
 					</xsl:call-template>
 					<label class="wc-off" for="{concat(@id,'_input')}">
-						<xsl:text>{{t 'file_inputLabel'}}</xsl:text>
+						<xsl:text>{{#i18n}}file_inputLabel{{/i18n}}</xsl:text>
 					</label>
 					<xsl:element name="input">
 						<xsl:call-template name="wrappedInputAttributes">
@@ -199,7 +199,7 @@
 				<xsl:otherwise>
 					<!-- This case should not happen because it is lame -->
 					<xsl:value-of select="concat(@name,' (',@size,') ')"/><!-- a space so it reads "N bytes" instead of "Nbytes" -->
-					<xsl:text>{{t 'file_size_'}}</xsl:text>
+					<xsl:text>{{#i18n}}file_size_{{/i18n}}</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
 			<xsl:if test="not(../@readOnly)">

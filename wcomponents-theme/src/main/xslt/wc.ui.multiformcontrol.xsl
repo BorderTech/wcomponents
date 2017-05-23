@@ -103,7 +103,7 @@
 				</xsl:if>
 			</xsl:attribute>
 			<xsl:attribute name="title">
-				<xsl:text>{{t 'mfc_option'}}</xsl:text>
+				<xsl:text>{{#i18n}}mfc_option{{/i18n}}</xsl:text>
 			</xsl:attribute>
 			<xsl:if test="$field/@size">
 				<xsl:attribute name="size">
@@ -154,7 +154,7 @@
 		<li>
 			<select name="{$id}" id="{concat($id,generate-id(),'-',position())}">
 				<xsl:attribute name="title">
-					<xsl:text>{{t 'mfc_option'}}</xsl:text>
+					<xsl:text>{{#i18n}}mfc_option{{/i18n}}</xsl:text>
 				</xsl:attribute>
 				<xsl:if test="$ancestorMDD/@submitOnChange">
 					<xsl:attribute name="class">
@@ -231,10 +231,10 @@
 		<xsl:variable name="toolTip">
 			<xsl:choose>
 				<xsl:when test="number($isSingular) eq 1 or position() eq 1">
-					<xsl:text>{{t 'mfc_add'}}</xsl:text>
+					<xsl:text>{{#i18n}}mfc_add{{/i18n}}</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
-					<xsl:text>{{t 'mfc_remove'}}</xsl:text>
+					<xsl:text>{{#i18n}}mfc_remove{{/i18n}}</xsl:text>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>

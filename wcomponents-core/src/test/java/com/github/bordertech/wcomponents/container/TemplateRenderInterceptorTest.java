@@ -29,12 +29,12 @@ public class TemplateRenderInterceptorTest extends AbstractWComponentTestCase {
 	/**
 	 * The input html.
 	 */
-	private static final String TEST_HTML = "<fu>{{#if active}}Yes {{else}}No {{/if}}{{t 'some_i18n_key'}}</fu>";
+	private static final String TEST_HTML = "<fu>{{#i18n}}some_i18n_key{{/i18n}}</fu>";
 
 	/**
 	 * Expected result of rendering the template.
 	 */
-	private static final String EXPECTED_RENDERED = "<fu>No yeah nah yeah</fu>";
+	private static final String EXPECTED_RENDERED = "<fu>yeah nah yeah</fu>";
 
 	/**
 	 * When these tests are done put things back as they were.

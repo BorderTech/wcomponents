@@ -39,7 +39,7 @@
 				<xsl:call-template name="toggleElement">
 					<xsl:with-param name="name" select="$id"/>
 					<xsl:with-param name="value" select="'expand'"/>
-					<xsl:with-param name="text"><xsl:text>{{t 'expandall'}}</xsl:text></xsl:with-param>
+					<xsl:with-param name="text"><xsl:text>{{#i18n}}expandall{{/i18n}}</xsl:text></xsl:with-param>
 					<xsl:with-param name="class" select="$toggleClass"/>
 				</xsl:call-template>
 			</li>
@@ -47,7 +47,7 @@
 				<xsl:call-template name="toggleElement">
 					<xsl:with-param name="name" select="$id"/>
 					<xsl:with-param name="value" select="'collapse'"/>
-					<xsl:with-param name="text"><xsl:text>{{t 'collapseall'}}</xsl:text></xsl:with-param>
+					<xsl:with-param name="text"><xsl:text>{{#i18n}}collapseall{{/i18n}}</xsl:text></xsl:with-param>
 					<xsl:with-param name="class" select="$toggleClass"/>
 				</xsl:call-template>
 			</li>
@@ -91,7 +91,7 @@
 						<xsl:with-param name="name" select="$name"/>
 						<xsl:with-param name="value" select="'all'"/>
 						<xsl:with-param name="class" select="$subClass"/>
-						<xsl:with-param name="text"><xsl:text>{{t 'toggle_all'}}</xsl:text></xsl:with-param>
+						<xsl:with-param name="text"><xsl:text>{{#i18n}}toggle_all{{/i18n}}</xsl:text></xsl:with-param>
 						<xsl:with-param name="selected">
 							<xsl:choose>
 								<xsl:when test="$selected eq 'all'">
@@ -107,7 +107,7 @@
 						<xsl:with-param name="name" select="$name"/>
 						<xsl:with-param name="value" select="'none'"/>
 						<xsl:with-param name="class" select="$subClass"/>
-						<xsl:with-param name="text"><xsl:text>{{t 'toggle_none'}}</xsl:text></xsl:with-param>
+						<xsl:with-param name="text"><xsl:text>{{#i18n}}toggle_none{{/i18n}}</xsl:text></xsl:with-param>
 						<xsl:with-param name="selected">
 							<xsl:choose>
 								<xsl:when test="$selected eq 'none'">
