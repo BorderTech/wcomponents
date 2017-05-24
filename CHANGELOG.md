@@ -8,7 +8,8 @@
 
 ### Bug Fixes
 
-* Reverted an undocumented change to URL handling which resulted in URLs becoming mal-formed under some circumstances.
+* Reverted a change (commit facddabd6842e884877ba762d921b517b2f49e74 cherry picked see PR #1185) to URL handling which resulted in URLs becoming
+  mal-formed under some circumstances.
 * Improved the Sass to CSS build to ensure implementation CSS is placed after default CSS in the output #1160.
 * Modified `HtmlSanitizerUtil` and `HtmlToXMLUtil` to handle escaping brackets'; `WTextArea` now defaults to `santizeOutput` on #1158.
 * Remove client handlebars i18n support #1158.
