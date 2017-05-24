@@ -31,7 +31,7 @@
 					<xsl:if test="@hint">
 						<xsl:element name="br"/>
 					</xsl:if>
-					<xsl:text>{{t 'submitOnChange'}}</xsl:text>
+					<xsl:text>{{#i18n}}submitOnChange{{/i18n}}</xsl:text>
 				</xsl:if>
 			</span>
 		</xsl:if>

@@ -18,6 +18,7 @@
 		"handlebars": "~4.0.5",
 		"i18next": "~3.4.1",
 		"i18next-xhr-backend": "~1.0.1",
+		"leadfoot": "1.7.1",
 		"intern": "${test.intern.version}",
 		"jsdoc": "~3.3.2",
 		"promise-polyfill": "~2.1.0",

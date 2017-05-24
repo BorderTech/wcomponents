@@ -61,10 +61,10 @@
 					<xsl:with-param name="toolTip">
 						<xsl:choose>
 							<xsl:when test="@selected">
-								<xsl:text>{{t 'input_selected'}}</xsl:text>
+								<xsl:text>{{#i18n}}input_selected{{/i18n}}</xsl:text>
 							</xsl:when>
 							<xsl:otherwise>
-								<xsl:text>{{t 'input_unselected'}}</xsl:text>
+								<xsl:text>{{#i18n}}input_unselected{{/i18n}}</xsl:text>
 							</xsl:otherwise>
 						</xsl:choose>
 					</xsl:with-param>

@@ -44,7 +44,7 @@
 		<xsltjson.dir>${project.build.directory}/xsltjson</xsltjson.dir><!-- Convert XML to JSON at build time -->
 		<timezonedata.download.url>http://www.iana.org/time-zones/repository/tzdata-latest.tar.gz</timezonedata.download.url>
 		<timezone.dir>${project.build.directory}/timezone</timezone.dir><!-- Fetch Timezone Database -->
-		<test.intern.version>~3.4.3</test.intern.version><!-- intern version: use ~3.4.3 for nexus 3+, ~3.0.6 if you are stuck with Nexus 2 -->
+		<test.intern.version>3.4.4</test.intern.version><!-- intern version: use 3.4.4 for nexus 3+, 3.0.6 if you are stuck with Nexus 2 -->
 	</properties>
 
 	<build>

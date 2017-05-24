@@ -18,7 +18,7 @@
 				<xsl:value-of select="normalize-space(ui:labelbody)"/>
 			</xsl:variable>
 			<xsl:if test="$emptyBody eq ''">
-				<xsl:text>{{t 'requiredLabel'}}</xsl:text>
+				<xsl:text>{{#i18n}}requiredLabel{{/i18n}}</xsl:text>
 			</xsl:if>
 			<xsl:apply-templates select="ui:labeltail">
 				<xsl:with-param name="output" select="'div'"/>

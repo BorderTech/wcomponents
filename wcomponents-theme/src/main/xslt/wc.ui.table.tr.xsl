@@ -257,7 +257,7 @@
 											<span class="wc-decoratedlabel">
 												<xsl:call-template name="offscreenSpan">
 													<xsl:with-param name="class" select="'wc-labelbody'"/>
-													<xsl:with-param name="text"><xsl:text>{{t 'table_rowSelection_toggleAll'}}</xsl:text></xsl:with-param>
+													<xsl:with-param name="text"><xsl:text>{{#i18n}}table_rowSelection_toggleAll{{/i18n}}</xsl:text></xsl:with-param>
 												</xsl:call-template>
 											</span>
 										</button>
@@ -276,7 +276,7 @@
 													</xsl:choose>
 												</xsl:attribute>
 												<xsl:call-template name="offscreenSpan">
-													<xsl:with-param name="text"><xsl:text>{{t 'toggle_all_label'}}</xsl:text></xsl:with-param>
+													<xsl:with-param name="text"><xsl:text>{{#i18n}}toggle_all_label{{/i18n}}</xsl:text></xsl:with-param>
 												</xsl:call-template>
 											</button>
 											<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc-nobutton wc-invite wc-icon" aria-controls="{$subRowControlList}" data-wc-value="none">
@@ -291,7 +291,7 @@
 													</xsl:choose>
 												</xsl:attribute>
 												<xsl:call-template name="offscreenSpan">
-													<xsl:with-param name="text"><xsl:text>{{t 'toggle_none_label'}}</xsl:text></xsl:with-param>
+													<xsl:with-param name="text"><xsl:text>{{#i18n}}toggle_none_label{{/i18n}}</xsl:text></xsl:with-param>
 												</xsl:call-template>
 											</button>
 										</div>
@@ -325,7 +325,7 @@
 						<xsl:attribute name="tabindex">0</xsl:attribute>
 						<xsl:call-template name="offscreenSpan">
 							<xsl:with-param name="text">
-								<xsl:text>{{t 'table_rowExpansion_rowButtonDescription'}}</xsl:text>
+								<xsl:text>{{#i18n}}table_rowExpansion_rowButtonDescription{{/i18n}}</xsl:text>
 							</xsl:with-param>
 						</xsl:call-template>
 					</xsl:if>
