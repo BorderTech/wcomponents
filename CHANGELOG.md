@@ -6,6 +6,9 @@
 
 ### Bug Fixes
 
+* Reverted an undocumented change to URL handling which was back-ported from "freddie" but resulted in URLs
+  becoming mal-formed under some circumstances.
+
 ### Enhancements
 
 ## Release 1.3.12
