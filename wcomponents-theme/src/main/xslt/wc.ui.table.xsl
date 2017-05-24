@@ -233,7 +233,7 @@
 				<xsl:if test="../ui:rowexpansion">
 					<th class="wc_table_rowexp_container" scope="col">
 						<xsl:call-template name="offscreenSpan">
-							<xsl:with-param name="text"><xsl:text>{{t 'table_rowExpansion_toggleAll'}}</xsl:text></xsl:with-param>
+							<xsl:with-param name="text"><xsl:text>{{#i18n}}table_rowExpansion_toggleAll{{/i18n}}</xsl:text></xsl:with-param>
 						</xsl:call-template>
 					</th>
 				</xsl:if>
@@ -577,7 +577,7 @@
 											<span class="wc-decoratedlabel">
 												<xsl:call-template name="offscreenSpan">
 													<xsl:with-param name="class" select="'wc-labelbody'"/>
-													<xsl:with-param name="text"><xsl:text>{{t 'table_rowSelection_toggleAll'}}</xsl:text></xsl:with-param>
+													<xsl:with-param name="text"><xsl:text>{{#i18n}}table_rowSelection_toggleAll{{/i18n}}</xsl:text></xsl:with-param>
 												</xsl:call-template>
 											</span>
 											<xsl:call-template name="icon">
@@ -602,7 +602,7 @@
 													<xsl:with-param name="class" select="'fa-check-square-o'"/>
 												</xsl:call-template>
 												<xsl:call-template name="offscreenSpan">
-													<xsl:with-param name="text"><xsl:text>{{t 'toggle_all_label'}}</xsl:text></xsl:with-param>
+													<xsl:with-param name="text"><xsl:text>{{#i18n}}toggle_all_label{{/i18n}}</xsl:text></xsl:with-param>
 												</xsl:call-template>
 											</button>
 											<button type="button" role="menuitemradio" class="wc-menuitem wc_seltog wc-nobutton wc-invite" aria-controls="{$subRowControlList}" data-wc-value="none">
@@ -620,7 +620,7 @@
 													<xsl:with-param name="class" select="'fa-square-o'"/>
 												</xsl:call-template>
 												<xsl:call-template name="offscreenSpan">
-													<xsl:with-param name="text"><xsl:text>{{t 'toggle_none_label'}}</xsl:text></xsl:with-param>
+													<xsl:with-param name="text"><xsl:text>{{#i18n}}toggle_none_label{{/i18n}}</xsl:text></xsl:with-param>
 												</xsl:call-template>
 											</button>
 										</div>
@@ -659,7 +659,7 @@
 						<xsl:attribute name="tabindex">0</xsl:attribute>
 						<xsl:call-template name="offscreenSpan">
 							<xsl:with-param name="text">
-								<xsl:text>{{t 'table_rowExpansion_rowButtonDescription'}}</xsl:text>
+								<xsl:text>{{#i18n}}table_rowExpansion_rowButtonDescription{{/i18n}}</xsl:text>
 							</xsl:with-param>
 						</xsl:call-template>
 						<xsl:call-template name="icon">
@@ -1091,7 +1091,7 @@
 				<span class="wc_table_pag_rows" data-wc-tablerpp="{@rowsPerPage}" data-wc-tablerows="{@rows}" data-wc-tablepage="{@currentPage}"></span>
 			</xsl:if>
 			<label for="{$id}">
-				<xsl:text>{{t 'table_pagination_page'}}</xsl:text>
+				<xsl:text>{{#i18n}}table_pagination_page{{/i18n}}</xsl:text>
 				<select id="{$id}" class="wc_table_pag_select" data-wc-pages="{$pages}">
 					<!-- NOTE: do not use name or data-wc-name as we do not want to trigger an unsaved changes warning -->
 					<xsl:choose>
@@ -1120,7 +1120,7 @@
 			</xsl:if>
 			<span class="wc_table_pag_btns">
 				<xsl:call-template name="paginationButton">
-					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_first'}}</xsl:text></xsl:with-param>
+					<xsl:with-param name="title"><xsl:text>{{#i18n}}table_pagination_button_first{{/i18n}}</xsl:text></xsl:with-param>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'1')"/>
 					<xsl:with-param name="disabled">
 						<xsl:choose>
@@ -1135,7 +1135,7 @@
 					<xsl:with-param name="name" select="'f'"/>
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
-					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_previous'}}</xsl:text></xsl:with-param>
+					<xsl:with-param name="title"><xsl:text>{{#i18n}}table_pagination_button_previous{{/i18n}}</xsl:text></xsl:with-param>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'2')"/>
 					<xsl:with-param name="disabled">
 						<xsl:choose>
@@ -1150,7 +1150,7 @@
 					<xsl:with-param name="name" select="'p'"/>
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
-					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_next'}}</xsl:text></xsl:with-param>
+					<xsl:with-param name="title"><xsl:text>{{#i18n}}table_pagination_button_next{{/i18n}}</xsl:text></xsl:with-param>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'3')"/>
 					<xsl:with-param name="disabled">
 						<xsl:choose>
@@ -1165,7 +1165,7 @@
 					<xsl:with-param name="name" select="'n'"/>
 				</xsl:call-template>
 				<xsl:call-template name="paginationButton">
-					<xsl:with-param name="title"><xsl:text>{{t 'table_pagination_button_last'}}</xsl:text></xsl:with-param>
+					<xsl:with-param name="title"><xsl:text>{{#i18n}}table_pagination_button_last{{/i18n}}</xsl:text></xsl:with-param>
 					<xsl:with-param name="idSuffix" select="concat($idSuffix,'4')"/>
 					<xsl:with-param name="disabled">
 						<xsl:choose>
@@ -1224,7 +1224,7 @@
 			<xsl:value-of select="concat($tableId,'.rows', $idSuffix)"/>
 		</xsl:variable>
 		<label for="{$rppChooserName}">
-			<xsl:text>{{t 'table_pagination_label_rppChooser'}}</xsl:text>
+			<xsl:text>{{#i18n}}table_pagination_label_rppChooser{{/i18n}}</xsl:text>
 			<!-- NOTE: do not use name or data-wc-name as we do not want to trigger an unsaved changes warning -->
 			<select id="{$rppChooserName}" class="wc_table_pag_rpp">
 				<xsl:apply-templates select="ui:option" mode="rowsPerPage">
@@ -1248,7 +1248,7 @@
 			</xsl:if>
 			<xsl:choose>
 				<xsl:when test="number($value) eq 0">
-					<xsl:text>{{t 'table_pagination_option_allRows'}}</xsl:text>
+					<xsl:text>{{#i18n}}table_pagination_option_allRows{{/i18n}}</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:value-of select="$value"/>

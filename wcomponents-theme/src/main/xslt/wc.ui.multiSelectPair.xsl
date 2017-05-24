@@ -50,19 +50,19 @@
 						<xsl:text>&#x00a0;</xsl:text>
 						<xsl:call-template name="multiSelectPairButton">
 							<xsl:with-param name="value" select="'add'"/>
-							<xsl:with-param name="buttonText"><xsl:text>{{t 'msp_add'}}</xsl:text></xsl:with-param>
+							<xsl:with-param name="buttonText"><xsl:text>{{#i18n}}msp_add{{/i18n}}</xsl:text></xsl:with-param>
 						</xsl:call-template>
 						<xsl:call-template name="multiSelectPairButton">
 							<xsl:with-param name="value" select="'aall'"/>
-							<xsl:with-param name="buttonText"><xsl:text>{{t 'msp_addAll'}}</xsl:text></xsl:with-param>
+							<xsl:with-param name="buttonText"><xsl:text>{{#i18n}}msp_addAll{{/i18n}}</xsl:text></xsl:with-param>
 						</xsl:call-template>
 						<xsl:call-template name="multiSelectPairButton">
 							<xsl:with-param name="value" select="'rem'"/>
-							<xsl:with-param name="buttonText"><xsl:text>{{t 'msp_remove'}}</xsl:text></xsl:with-param>
+							<xsl:with-param name="buttonText"><xsl:text>{{#i18n}}msp_remove{{/i18n}}</xsl:text></xsl:with-param>
 						</xsl:call-template>
 						<xsl:call-template name="multiSelectPairButton">
 							<xsl:with-param name="value" select="'rall'"/>
-							<xsl:with-param name="buttonText"><xsl:text>{{t 'msp_removeAll'}}</xsl:text></xsl:with-param>
+							<xsl:with-param name="buttonText"><xsl:text>{{#i18n}}msp_removeAll{{/i18n}}</xsl:text></xsl:with-param>
 						</xsl:call-template>
 					</span>
 					<xsl:variable name="toId" select="concat(@id, '_s')"/>
