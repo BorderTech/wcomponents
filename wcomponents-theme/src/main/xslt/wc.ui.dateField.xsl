@@ -166,12 +166,12 @@
 						</xsl:call-template>
 						<xsl:if test="@required">
 							<xsl:attribute name="placeholder">
-								<xsl:text>{{t 'requiredPlaceholder'}}</xsl:text>
+								<xsl:text>{{#i18n}}requiredPlaceholder{{/i18n}}</xsl:text>
 							</xsl:attribute>
 						</xsl:if>
 						<xsl:call-template name="title">
 							<xsl:with-param name="contentAfter">
-								<xsl:text>{{t 'datefield_title_default'}}</xsl:text>
+								<xsl:text>{{#i18n}}datefield_title_default{{/i18n}}</xsl:text>
 							</xsl:with-param>
 						</xsl:call-template>
 						<xsl:call-template name="ajaxController"/>

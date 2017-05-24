@@ -38,7 +38,7 @@
 									<xsl:value-of select="@placeholder"/>
 								</xsl:when>
 								<xsl:otherwise>
-									<xsl:text>{{t 'requiredPlaceholder'}}</xsl:text>
+									<xsl:text>{{#i18n}}requiredPlaceholder{{/i18n}}</xsl:text>
 								</xsl:otherwise>
 							</xsl:choose>
 						</xsl:attribute>

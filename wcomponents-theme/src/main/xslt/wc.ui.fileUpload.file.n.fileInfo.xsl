@@ -7,7 +7,7 @@
 -->
 	<xsl:template name="fileInfo">
 		<xsl:value-of select="concat(@name,' (',@size,' ',') ')"/>
-		<xsl:text>{{t 'file_size_'}}</xsl:text>
+		<xsl:text>{{#i18n}}file_size_{{/i18n}}</xsl:text>
 		<!-- a space so it reads "N bytes" instead of "Nbytes" -->
 	</xsl:template>
 </xsl:stylesheet>
