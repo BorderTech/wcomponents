@@ -8,6 +8,10 @@
 
 ### Enhancements
 
+## Release 1.3.12
+
+### Enhancements
+
  +* Improve performance of TemplateRendererInterceptor by switching to Mouchstache template engine #1207.
 
 ## Release 1.3.11
