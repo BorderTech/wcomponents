@@ -138,7 +138,7 @@
 						</xsl:call-template>
 						<xsl:call-template name="offscreenSpan">
 							<xsl:with-param name="text">
-								<xsl:text>{{t 'tree_toggle_branch'}}</xsl:text>
+								<xsl:text>{{#i18n}}tree_toggle_branch{{/i18n}}</xsl:text>
 							</xsl:with-param>
 						</xsl:call-template>
 					</button>
@@ -211,7 +211,7 @@
 			<button type="button" class="wc-nobutton wc-invite wc_resize wc_branch_resize_handle" data-wc-resize="{$groupId}">
 				<xsl:call-template name="offscreenSpan">
 					<xsl:with-param name="text">
-						<xsl:text>{{t 'tree_resize_handle'}}</xsl:text>
+						<xsl:text>{{#i18n}}tree_resize_handle{{/i18n}}</xsl:text>
 					</xsl:with-param>
 				</xsl:call-template>
 			</button>

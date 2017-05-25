@@ -40,16 +40,16 @@
 							<xsl:value-of select="@title"/>
 						</xsl:when>
 						<xsl:when test="$type eq 'error'">
-							<xsl:text>{{t 'messagetitle_error'}}</xsl:text>
+							<xsl:text>{{#i18n}}messagetitle_error{{/i18n}}</xsl:text>
 						</xsl:when>
 						<xsl:when test="$type eq 'warn'">
-							<xsl:text>{{t 'messagetitle_warn'}}</xsl:text>
+							<xsl:text>{{#i18n}}messagetitle_warn{{/i18n}}</xsl:text>
 						</xsl:when>
 						<xsl:when test="$type eq 'info'">
-							<xsl:text>{{t 'messagetitle_info'}}</xsl:text>
+							<xsl:text>{{#i18n}}messagetitle_info{{/i18n}}</xsl:text>
 						</xsl:when>
 						<xsl:when test="$type eq 'success'">
-							<xsl:text>{{t 'messagetitle_success'}}</xsl:text>
+							<xsl:text>{{#i18n}}messagetitle_success{{/i18n}}</xsl:text>
 						</xsl:when>
 					</xsl:choose>
 				</span>

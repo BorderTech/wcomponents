@@ -41,6 +41,8 @@
   - Provide a new ServerStartStopListener for JUNITs to start and stop the web server for selenium tests.
   - Improved selenium utility classes and helper methods.
   - WComponent example module demonstrates running selenium tests in parallel.
+* Improve performance of Selenium tests and helpers #1138.
+* Improve performance of TemplateRendererInterceptor by switching to Mouchstache template engine #1207.
 
 ## Release 1.4.0-beta-2
 
