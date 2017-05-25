@@ -131,7 +131,7 @@
 					<properties>
 						<property>
 							<name>listener</name>
-							<value>com.github.bordertech.wcomponents.examples.ServerStartStopListener</value>
+							<value>com.github.bordertech.wcomponents.test.selenium.server.ServerStartStopListener</value>
 						</property>
 					</properties>
 					<systemPropertyVariables>

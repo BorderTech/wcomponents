@@ -4,6 +4,11 @@
 // Learn more about configuring this file at <https://github.com/theintern/intern/wiki/Configuring-Intern>.
 define({
 	suites: [ ${unit.tests} ],
+	
+	capabilities: {
+		recordVideo: false,
+		recordScreenshots: false
+	},
 
 	// The port on which the instrumenting proxy will listen
 	proxyPort: 9000,
@@ -13,7 +18,7 @@ define({
 
 	tunnel: 'SauceLabsTunnel',
 	tunnelOptions: {
-		verbose: 'true'
+		verbose: true
 	},
 	environments: [ ${test.environments} ],
 
