@@ -126,7 +126,7 @@ define(["wc/has",
 					if (shed.isDisabled(childEl)) {
 						launcherHtml += " disabled='disabled'";
 					}
-					launcherHtml += "></button>";
+					launcherHtml += "><i class='fa fa-calendar' aria-hidden='true'></i></button>";
 
 					element.insertAdjacentHTML("beforeend", launcherHtml);
 				}
