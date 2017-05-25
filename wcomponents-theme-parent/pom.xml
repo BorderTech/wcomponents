@@ -46,12 +46,12 @@
 		<xsltjson.dir>${project.build.directory}/xsltjson</xsltjson.dir><!-- Convert XML to JSON at build time -->
 		<timezonedata.download.url>http://www.iana.org/time-zones/repository/tzdata-latest.tar.gz</timezonedata.download.url>
 		<timezone.dir>${project.build.directory}/timezone</timezone.dir><!-- Fetch Timezone Database -->
-		<test.intern.version>~3.4.3</test.intern.version><!-- intern version: use ~3.4.3 for nexus 3+, ~3.0.6 if you are stuck with Nexus 2 -->
+		<test.intern.version>3.4.4</test.intern.version><!-- intern version: use ~3.4.3 for nexus 3+, ~3.0.6 if you are stuck with Nexus 2 -->
 	</properties>
 
 	<build>
 		<plugins>
-<!--			<plugin>
+			<!--			<plugin>
 				<groupId>com.github.klieber</groupId>
 				<artifactId>phantomjs-maven-plugin</artifactId>
 				<version>0.7</version>
@@ -287,7 +287,7 @@
 						<artifactId>commons-codec</artifactId>
 						<version>1.4</version>
 					</dependency>
-<!--					<dependency>
+					<!--					<dependency>
 						<groupId>rhino</groupId>
 						<artifactId>js</artifactId>
 						<version>1.7R2</version>
@@ -297,12 +297,12 @@
 						<artifactId>Saxon-HE</artifactId>
 						<version>9.6.0-7</version>
 					</dependency>
-<!--					<dependency>
+					<!--					<dependency>
 						<groupId>com.google.javascript</groupId>
 						<artifactId>closure-compiler</artifactId>
 						<version>v20130603</version>
 					</dependency>-->
-<!--					<dependency>
+					<!--					<dependency>
 						<groupId>com.googlecode.jgenhtml</groupId>
 						<artifactId>jgenhtml</artifactId>
 						<version>1.5</version>

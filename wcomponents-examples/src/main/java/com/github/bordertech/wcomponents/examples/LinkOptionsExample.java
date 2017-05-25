@@ -77,7 +77,7 @@ public class LinkOptionsExample extends WPanel {
 	/**
 	 * link URL.
 	 */
-	private static final String URL = "http://www.example.com";
+	private static final String URL = "http://www.example.com/&foo=fu%2Fbar";
 
 	private final WTextField tfUrlField = new WTextField();
 
