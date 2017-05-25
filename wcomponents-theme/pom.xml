@@ -19,8 +19,6 @@
 
 	<properties>
 		<theme.skip.antrun>false</theme.skip.antrun>
-		<i18n.gen.skip>false</i18n.gen.skip>
-		<i18n.module.dir>${basedir}../../wcomponents-i18n</i18n.module.dir>
 	</properties>
 	<name>wcomponents-theme</name>
 </project>
