@@ -207,13 +207,7 @@ public final class XmlStringBuilder extends PrintWriter {
 	 * @param value the URL value of the attribute to be added.
 	 */
 	public void appendUrlAttribute(final String name, final String value) {
-		write(' ');
-		write(name);
-		write("=\"");
-		if (value != null) {
-			write(WebUtilities.encodeUrl(value));
-		}
-		write('"');
+		appendAttribute(name, value);
 	}
 
 	/**

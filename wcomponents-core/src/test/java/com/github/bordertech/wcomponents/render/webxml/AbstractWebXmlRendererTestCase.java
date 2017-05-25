@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.UIContextImpl;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WebComponent;
-import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.UIManager;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 import com.github.bordertech.wcomponents.util.NullWriter;
@@ -195,9 +194,7 @@ public abstract class AbstractWebXmlRendererTestCase extends AbstractWComponentT
 	 */
 	public void assertXpathUrlEvaluatesTo(final String expectedUrlValue, final String xpathExpression,
 			final String xml) throws SAXException, IOException, XpathException {
-		// As XPATH undoes the XML entites, only percentEncode the expected value
-		String encoded = WebUtilities.percentEncodeUrl(expectedUrlValue);
-		XMLAssert.assertXpathEvaluatesTo(encoded, xpathExpression, xml);
+		XMLAssert.assertXpathEvaluatesTo(expectedUrlValue, xpathExpression, xml);
 	}
 
 	/**
