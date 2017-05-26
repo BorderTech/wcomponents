@@ -277,7 +277,7 @@ define(["wc/dom/attribute",
 									files: files
 								});
 							}
-						}						finally {
+						} finally {
 							done(message);
 						}
 					};
@@ -859,7 +859,7 @@ define(["wc/dom/attribute",
 						id = instance.createFileInfo(container, file.name);
 						sendFile(dto.url, uploadName, id, file, callbackWrapper(dto, id));
 					}
-				}				finally {
+				} finally {
 					instance.clearInput(dto.element);
 				}
 			};

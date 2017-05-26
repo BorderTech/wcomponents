@@ -72,7 +72,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 					return useDomParser(xmlstring);
 				}
 				return null;
-			}			finally {
+			} finally {
 				xmlstring = null;
 			}
 		};

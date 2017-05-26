@@ -447,7 +447,7 @@ define(["wc/dom/attribute",
 				} else {
 					instance.closeAllPaths(menu, element);
 				}
-			}			finally {
+			} finally {
 				openMenu = null;
 				activateOnHover = null;
 			}
@@ -1717,7 +1717,7 @@ define(["wc/dom/attribute",
 			} catch (ex) {
 				$event.preventDefault(); // in case a link or submit was clicked, don't hide/lose the error
 				console.error("Uncaught exception in AbstractMenu.onClick: ", ex.message);
-			}			finally {
+			} finally {
 				if (preventDefault) {
 					$event.preventDefault();
 				}

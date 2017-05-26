@@ -181,7 +181,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 						console.error("Error in callback: ", callback, ex.message);
 					}
 				}
-			}			finally {
+			} finally {
 				// reset instance variables
 				filterFn = null;
 				callback = null;

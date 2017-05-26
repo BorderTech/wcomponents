@@ -47,7 +47,7 @@ define(["wc/ajax/ajax",
 							try {
 								observer.setFilter(group);  // WARNING! IT IS CRITICAL!!! (in IE) THAT THIS CALL HAPPENS AFTER THE TRANSFORMATION!
 								observer.notify(response);
-							}							finally {
+							} finally {
 								delete pending[config.url];
 								observer.reset(groupWin);
 								observer.reset(groupLose);

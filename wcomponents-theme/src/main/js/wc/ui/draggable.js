@@ -101,7 +101,7 @@ define(["wc/dom/attribute",
 					positionable.clearZeros(moveTarget, true);
 					positionable.setPosition(moveTarget, position.left + x, position.top + y);
 					return true;
-				}				finally {
+				} finally {
 					if (animationsDisabled) {
 						resizeable.restoreAnimation(moveTarget);
 					}
@@ -216,7 +216,7 @@ define(["wc/dom/attribute",
 						positionable.clearZeros(element, true);
 						positionable.setPosition(element, left, top);
 					}
-				}				finally {
+				} finally {
 					clearSelection();
 					if (animationsDisabled) {
 						resizeable.restoreAnimation(element);
@@ -282,7 +282,7 @@ define(["wc/dom/attribute",
 					if (has("event-ontouchstart")) {
 						event[func](element, event.TYPE.touchstart, touchstartEvent);
 					}
-				}				finally {
+				} finally {
 					func = remove ? "remove" : "set";
 					attribute[func](element, BS, true);
 				}

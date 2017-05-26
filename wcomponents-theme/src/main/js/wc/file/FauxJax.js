@@ -187,7 +187,7 @@ define(["wc/dom/formUpdateManager",
 						dto.complete(dto.element.id);
 					} catch (ex) {
 						console.log("Error in callback ", ex);
-					}					finally {
+					} finally {
 						body.innerHTML = "";  // reset
 						trackLoading(dto.container, true);
 					}

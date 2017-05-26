@@ -222,7 +222,7 @@
 						if (markProfiles) {
 							endProfile(config);
 						}
-					}					finally {
+					} finally {
 						if (config.async) {
 							updatePending(true);
 						}
@@ -252,7 +252,7 @@
 							} else {
 								message = fallbackMessage;
 							}
-						}						finally {
+						} finally {
 							onError.call(request, message);
 						}
 					};

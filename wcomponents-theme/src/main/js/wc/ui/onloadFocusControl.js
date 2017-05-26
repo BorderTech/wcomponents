@@ -19,7 +19,7 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 							return;
 						}
 						instance.requestFocus(focusId);
-					}					finally {
+					} finally {
 						focusId = null;
 					}
 				}, 0));

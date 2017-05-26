@@ -156,7 +156,7 @@ define(function() {
 				next = tags[i];
 				tags[next] = lower ? next.toLowerCase() : next;
 			}
-		}		finally {
+		} finally {
 			a = null;  // this cleanup is essential to avoid known memory leak (IE6/7)
 		}
 	})();

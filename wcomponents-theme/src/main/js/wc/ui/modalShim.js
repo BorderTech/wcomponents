@@ -158,7 +158,7 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 						shed.hide(shimElement, true);
 					}
 					notify = true;
-				}				finally {
+				} finally {
 					activeElement = null;
 					accessKeyMap = {};
 					if (notify && observer) {

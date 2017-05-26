@@ -170,7 +170,7 @@ define(["wc/dom/ariaAnalog",
 						}
 					}
 					clearSelection();
-				}				finally {
+				} finally {
 					inGroupMode = false;
 				}
 			};

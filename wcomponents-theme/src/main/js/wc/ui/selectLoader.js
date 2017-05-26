@@ -73,7 +73,7 @@ define(["wc/ui/listLoader",
 							} else {
 								console.warn("Datalist malformed");
 							}
-						}						finally {
+						} finally {
 							element.removeAttribute("aria-busy");
 							currentOptions = element = selectList = null;
 						}

@@ -111,7 +111,7 @@ define(["wc/loader/resource", "wc/xml/xpath"],
 							if (color) {
 								result = this.rgb2hex(color);
 							}
-						}						finally {
+						} finally {
 							document.body.removeChild(tmp);
 						}
 					} else {

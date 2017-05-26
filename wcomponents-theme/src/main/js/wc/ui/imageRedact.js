@@ -28,7 +28,7 @@ define(["fabric"], function(fabric) {
 					} else {
 						fbCanvas.remove(shape);
 					}
-				}				finally {
+				} finally {
 					delete fabricRedact._rect;
 				}
 			},
@@ -136,7 +136,7 @@ define(["fabric"], function(fabric) {
 			} else {
 				console.warn("redact shouldn't double init");
 			}
-		}		finally {
+		} finally {
 			fbCanvas =  null;
 		}
 

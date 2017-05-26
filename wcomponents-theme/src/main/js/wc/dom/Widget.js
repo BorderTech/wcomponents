@@ -249,7 +249,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 					result = getTree ? [next] : next;
 				}
 			}
-		}		finally {
+		} finally {
 			this.element = null;
 			this.limitTagName = null;
 			this.outermost = null;

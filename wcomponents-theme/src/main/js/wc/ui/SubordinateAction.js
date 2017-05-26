@@ -134,7 +134,7 @@ define(["wc/dom/shed", "wc/has"],
 					} else if ((group = this.getGroup())) {
 						result = group.indexOf(id) >= 0;
 					}
-				}				finally {
+				} finally {
 					idsOnly = false;
 				}
 				return result;

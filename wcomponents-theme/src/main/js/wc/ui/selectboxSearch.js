@@ -392,7 +392,7 @@ define(["wc/string/escapeRe",
 					if (configOveride) {
 						mixin(configOveride, config);
 					}
-				}				finally {
+				} finally {
 					config.inited = true;
 				}
 			}

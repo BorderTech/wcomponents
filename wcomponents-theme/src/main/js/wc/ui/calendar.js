@@ -888,7 +888,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					isOpening = true;
 					show(element);
 				}
-			}			finally {
+			} finally {
 				isOpening = false;
 			}
 		}

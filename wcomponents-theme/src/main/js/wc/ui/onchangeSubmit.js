@@ -167,7 +167,7 @@ define(["wc/dom/attribute",
 					if (!$event.defaultPrevented && !ignoreChange && SUBMITTER.isOneOfMe(element) && !Widget.isOneOfMe(element, TRIGGERS)) {
 						fireElement(element);
 					}
-				}				finally {
+				} finally {
 					ignoreChange = false;
 				}
 			}

@@ -332,7 +332,7 @@ define(["wc/loader/resource", "wc/xml/xpath"], /** @param loader wc/loader/resou
 						}
 					}
 					return result;
-				}				finally {
+				} finally {
 					superclassRoles = null;
 				}
 			}

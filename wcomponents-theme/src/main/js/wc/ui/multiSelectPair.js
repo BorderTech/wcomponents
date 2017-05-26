@@ -545,7 +545,7 @@ define(["wc/dom/attribute",
 			function modalSubscriber() {
 				try {
 					fixWidthHeight();
-				}				finally {
+				} finally {
 					modal.unsubscribe(modalSubscriber);
 				}
 			}

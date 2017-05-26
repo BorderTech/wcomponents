@@ -293,7 +293,7 @@ define(["wc/dom/classList",
 					try {
 						dialogFrame.unsetAllDimensions();
 						dialogFrame.resetContent(keepContentOnClose, (keepContentOnClose ? "" : regObj.id));
-					}					finally {
+					} finally {
 						keepContentOnClose = false;
 					}
 				}

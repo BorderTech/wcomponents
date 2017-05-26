@@ -596,7 +596,7 @@ define(["wc/dom/attribute",
 								onloadFocusControl.requestFocus(triggerButtonId);
 							}
 						}
-					}					finally {
+					} finally {
 						/* NOTE: only set triggerButtonId to null when we are sure we are
 						 * processing the pagination ajax response as there may be many
 						 * responses betwixt setting the triggerButtonId and the one we

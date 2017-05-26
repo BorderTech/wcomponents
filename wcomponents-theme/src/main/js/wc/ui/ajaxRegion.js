@@ -198,7 +198,7 @@ define(["wc/dom/event",
 								});
 							}
 						});
-					}					finally {
+					} finally {
 						triggers = [];
 					}
 				}

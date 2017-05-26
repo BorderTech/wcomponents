@@ -190,7 +190,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/modalShim", "wc/dom/shed"]
 					controller.subscribe(localSubscriber, true);
 					controller.setModal();
 					assert.isNotNull(actual, "Expected to be notified with an arg");
-				}				finally {
+				} finally {
 					controller.unsubscribe(localSubscriber, true);
 				}
 			},
@@ -207,7 +207,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/modalShim", "wc/dom/shed"]
 						assert.fail(actual, shim, "Expected subscriber to notify with shim element");
 					}
 					assert.strictEqual(actual.id, shim.id, "Expected subscriber to notify with shim as arg");
-				}				finally {
+				} finally {
 					controller.unsubscribe(localSubscriber, true);
 				}
 			},
@@ -221,7 +221,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/modalShim", "wc/dom/shed"]
 					controller.subscribe(localSubscriber, true);
 					controller.setModal(activeRegion);
 					assert.isNotNull(actual, "Expected to be notified with an arg");
-				}				finally {
+				} finally {
 					controller.unsubscribe(localSubscriber, true);
 				}
 			},
@@ -238,7 +238,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/modalShim", "wc/dom/shed"]
 						assert.fail(actual, activeRegion, "Expected subscriber to notify with active region");
 					}
 					assert.strictEqual(actual.id, "outsideshim", "Expected subscriber to notify with active region as arg");
-				}				finally {
+				} finally {
 					controller.unsubscribe(localSubscriber, true);
 				}
 			}

@@ -157,7 +157,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				done = function(arg) {
 					try {
 						onSuccess(arg);
-					}					finally {
+					} finally {
 						dialogFrame.close();
 					}
 				};
@@ -747,7 +747,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				cancelFunc = function() {
 					try {
 						saveImage(editor, callbacks, true);
-					}					finally {
+					} finally {
 						dialogFrame.close();
 					}
 				};
@@ -833,7 +833,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 					done();
 					callbacks.win(result);
 				}
-			}			finally {
+			} finally {
 //				dialogFrame.close();
 				dialogFrame.resetContent();
 			}

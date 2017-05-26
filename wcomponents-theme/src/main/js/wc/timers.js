@@ -112,7 +112,7 @@
 						}
 						handler.apply(global, args); // notify the callback
 						updatePending(handle, true);
-					}					finally { // memory leak paranoia
+					} finally { // memory leak paranoia
 						args = null;
 					}
 				};

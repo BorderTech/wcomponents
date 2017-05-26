@@ -226,7 +226,7 @@ define(["wc/has"], function(has) {
 				result = d === el.type;
 			} catch (e) {
 				result = false;
-			}			finally {
+			} finally {
 				el = null;
 			}
 			return result;

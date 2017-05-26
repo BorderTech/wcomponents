@@ -55,7 +55,7 @@ define(["wc/dom/initialise",
 						if (callback && typeof callback === "function") {
 							callback(optionList, element);
 						}
-					}					finally {
+					} finally {
 						element.removeAttribute(BUSY);
 					}
 				};

@@ -242,7 +242,7 @@ define(["wc/dom/tag",
 						if (onsuccess) {
 							cbresult = onsuccess.apply(scope, arguments);
 						}
-					}					finally {
+					} finally {
 						// The purpose of the Promise.resolve here is to WAIT for the callback to complete, ESPECIALLY if the callback returns a promise itself
 						Promise.resolve(cbresult).then(function(result) {
 							notify(scope, "after", { success: result });
@@ -255,7 +255,7 @@ define(["wc/dom/tag",
 						if (onerror) {
 							onerror.apply(trigger, arguments);
 						}
-					}					finally {
+					} finally {
 						notify(trigger, "after", { error: err });
 					}
 				};
@@ -651,7 +651,7 @@ define(["wc/dom/tag",
 				}
 				triggerId = encodeURIComponent(triggerId);
 				result = addToQueryString(result, "wc_ajax=" + triggerId);
-			}			finally {
+			} finally {
 				this._submitTriggerElement = false;  // reset, the idea is the next click event will set to true
 			}
 
@@ -817,7 +817,7 @@ define(["wc/dom/tag",
 					} catch (ex) {
 						console.error(ex);
 					}
-				}				finally {
+				} finally {
 					if (queueBlocked) {
 						trigger.scheduleQueueProcessing();  // if the queue was blocked check again now
 					}

@@ -562,7 +562,7 @@ define(["wc/array/toArray",
 					if (openTabs && openTabs.length) {
 						instance.setFocusIndex(openTabs[0]);
 					}
-				}				finally {
+				} finally {
 					lastTabId = "";
 				}
 			}
@@ -749,7 +749,7 @@ define(["wc/array/toArray",
 						});
 						successful = true;
 					}
-				}				finally {
+				} finally {
 					if (successful) {
 						classList.remove(accordion, ACCORDION_CLASS);
 						if (classList.contains(accordion, "wc-tabset-type-left") || classList.contains(accordion, "wc-tabset-type-right")) {
@@ -796,7 +796,7 @@ define(["wc/array/toArray",
 						});
 						successful = true;
 					}
-				}				finally {
+				} finally {
 					if (successful) {
 						classList.add(tabset, ACCORDION_CLASS);
 						tablist.setAttribute(MULTISELECT, FALSE); // must be a single select accordion.

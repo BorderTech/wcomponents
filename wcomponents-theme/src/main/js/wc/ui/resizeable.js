@@ -185,7 +185,7 @@ define(["wc/dom/attribute",
 					width = width ? parseFloat(width.replace(UNIT, "")) : box.width;
 
 					return {width: width, height: height};
-				}				finally {
+				} finally {
 					if (_width) {
 						element.style.width = _width;
 					}
@@ -258,7 +258,7 @@ define(["wc/dom/attribute",
 							}
 						}
 					}
-				}				finally {
+				} finally {
 					clearSelection();
 					if (notify && _notify && observer) {
 						if (notifyTimer) {

@@ -56,7 +56,7 @@ define(["wc/has", "wc/dom/event", "wc/dom/storage", "wc/dom/initialise", "wc/isN
 						timing.unloadEventEnd = storage.get(storeKey.UNLOAD_END, true) || 0;
 						timing.fetchStart = storage.get(storeKey.BEFOREUNLOAD_END, true) || 0;  // The closest we can get for "fetchStart" is the end of the beforeunload event.
 
-					}					finally {
+					} finally {
 						storage.erase(storeKey.UNLOAD_START, true);
 						storage.erase(storeKey.UNLOAD_END, true);
 						storage.erase(storeKey.BEFOREUNLOAD_END, true);

@@ -157,7 +157,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 					 * displaying this annoying confirmation dialog. IE9 seems to be particularly annoying in this regard.
 					 */
 					// return !($event.defaultPrevented);
-				}				finally {
+				} finally {
 					currentEvent[type] = false;
 				}
 			}

@@ -119,7 +119,7 @@ define(["wc/Observer", "wc/timers", "lib/dojo/domReady"],
 							callback();
 						}
 					}
-				}				finally {
+				} finally {
 					if (observer === null) {  // if no new subscribers were added while were were executing the existing subscribers
 						goingObserver.reset();  // clear all the subscribers we have just finished calling
 						observer = goingObserver;  // put the empty observer instance back ready for new subscribers
@@ -175,7 +175,7 @@ define(["wc/Observer", "wc/timers", "lib/dojo/domReady"],
 			timers.setTimeout(function() {
 				try {
 					instance.go(document.body);
-				}				finally {
+				} finally {
 					instance.domLoaded = true;
 				}
 			}, 0);

@@ -182,7 +182,7 @@ define(["wc/dom/ariaAnalog",
 							this.exclusiveSelect = this.SELECT_MODE.SINGLE;
 						}
 						this.constructor.prototype.activate.call(this, element, SHIFT, CTRL);
-					}					finally {
+					} finally {
 						if (selectMode) {
 							this.exclusiveSelect = selectMode;
 							selectMode = null;

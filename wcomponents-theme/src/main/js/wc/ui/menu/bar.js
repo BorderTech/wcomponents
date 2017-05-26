@@ -264,7 +264,7 @@ define(["wc/ui/menu/core",
 					}
 					burger.parentNode.removeChild(burger);
 
-				}				finally {
+				} finally {
 					classList.remove(nextMenu, MENU_FIXED);
 				}
 			}

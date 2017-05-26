@@ -275,7 +275,7 @@ define(["wc/dom/event",
 						animationsDisabled = true;
 						resizeable.clearSize(dialog, true);
 					}
-				}				finally {
+				} finally {
 					if (animationsDisabled) {
 						resizeable.restoreAnimation(dialog);
 					}
@@ -387,7 +387,7 @@ define(["wc/dom/event",
 							}
 						}
 					}
-				}				finally {
+				} finally {
 					if (disabledAnimations) {
 						resizeable.restoreAnimation(dialog);
 					}
@@ -528,7 +528,7 @@ define(["wc/dom/event",
 					if (repainter) {
 						repainter.checkRepaint(element);
 					}
-				}				finally {
+				} finally {
 					if (!animate) {
 						resizeable.restoreAnimation(element);
 					}
@@ -612,7 +612,7 @@ define(["wc/dom/event",
 							}
 						}
 					}
-				}				finally {
+				} finally {
 					if (clearOpener) {
 						openerId = null;
 					}

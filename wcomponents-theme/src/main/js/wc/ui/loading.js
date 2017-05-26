@@ -41,7 +41,7 @@ define(["wc/dom/initialise", "wc/ui/modalShim", "wc/timers", "wc/dom/classList"]
 				if (container && container.parentNode) {
 					container.parentNode.removeChild(container);
 				}
-			}			finally {
+			} finally {
 				modalShim.clearModal();
 			}
 		}
@@ -51,7 +51,7 @@ define(["wc/dom/initialise", "wc/ui/modalShim", "wc/timers", "wc/dom/classList"]
 				Array.prototype.forEach.call(document.getElementsByTagName("form"), function(form) {
 					classList.remove(form, "wc-loading");
 				});
-			}			finally {
+			} finally {
 				modalShim.unsubscribe(loadingShimSubscriber);
 			}
 		}

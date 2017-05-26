@@ -179,7 +179,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 						trigger.fire().then(function() {
 							try {
 								assert.fail("one shot trigger should not fire twice");
-							}							finally {
+							} finally {
 								lose();
 							}
 						}, win);

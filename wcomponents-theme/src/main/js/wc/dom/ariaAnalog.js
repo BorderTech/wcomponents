@@ -651,7 +651,7 @@ define(["wc/has",
 				if (setLastActivated && this.lastActivated) {
 					this.setLastActivated(element, container);
 				}
-			}			finally {
+			} finally {
 				if (selectMode !== undefined) {
 					this.exclusiveSelect = selectMode;
 				}
