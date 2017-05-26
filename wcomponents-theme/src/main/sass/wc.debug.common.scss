@@ -8,21 +8,21 @@
 @import 'mixins/common';
 
 body {
-	&::before {
-		background-color: $wc-clr-highlight-bg;
-		color: $wc-clr-highlight-fg;
-		content: 'Client debug/diagnostic mode: document has ' attr(data-wc-nodeCount) ' elements.';
-		display: block;
-		padding: $wc-gap-normal;
-	}
+  &::before {
+    background-color: $wc-clr-highlight-bg;
+    color: $wc-clr-highlight-fg;
+    content: 'Client debug/diagnostic mode: document has ' attr(data-wc-nodeCount) ' elements.';
+    display: block;
+    padding: $wc-gap-normal;
+  }
 
-	&.wc_loggedwarn {
-		background-color: $wc-clr-warning-fg;
-	}
+  &.wc_loggedwarn {
+    background-color: $wc-clr-warning-fg;
+  }
 
-	&.wc_loggederror { //the error style MUST TRUMP the warn style
-		background-color: $wc-clr-error-fg;
-	}
+  &.wc_loggederror { //the error style MUST TRUMP the warn style
+    background-color: $wc-clr-error-fg;
+  }
 }
 
 // Some elements should not exist but people persist in using them.
@@ -51,11 +51,13 @@ multicol,
 nobr,
 spacer,
 tt,
+// sass-lint:disable no-qualifying-elements
 img[border='0'],
 a[name],
 input[type='number'][maxlength] {
-	@include outline($color: $wc-clr-error-fg);
+  @include outline($color: $wc-clr-error-fg);
 }
+// sass-lint:enable no-qualifying-elements
 
 @import 'wc.debug.axs';
 @import 'wc.debug.invalid';

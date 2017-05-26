@@ -1,15 +1,15 @@
 // Allow Vendor Prefix in mixins.
-//scss-lint:disable VendorPrefix
+//sass-lint:disable no-vendor-prefixes
 // stolen from FontAwesome.
 @keyframes wc-spin {
-	0% {
-		-webkit-transform: rotate(0deg);
-		transform: rotate(0deg);
-	}
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
 
-	100% {
-		-webkit-transform: rotate(359deg);
-		transform: rotate(359deg);
-	}
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
 }
-//scss-lint:enable VendorPrefix
+//sass-lint:enable no-vendor-prefixes

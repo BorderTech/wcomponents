@@ -1,29 +1,30 @@
 @import 'mixins/common';
+
 // Yes: Edge uses the -ms- shadow elements and has the same lipstick on a pig
 // appearance as IE 11.
-//scss-lint:disable VendorPrefix
-input[type='file'] {
-	@include border($width: 0);
-	background-color: transparent;
-	padding: 0;
+//sass-lint:disable no-vendor-prefixes
+[type='file'] {
+  @include border($width: 0);
+  background-color: transparent;
+  padding: 0;
 
-	// pseudo-element ::-ms-browse on its own has detrimental effects on ALL
-	// buttons!!
-	&::-ms-browse {
-		@include button;
-		@include border($pos: left, $width: 0);
-	}
+  // pseudo-element ::-ms-browse on its own has detrimental effects on ALL
+  // buttons!!
+  &::-ms-browse {
+    @include button;
+    @include border($pos: left, $width: 0);
+  }
 
-	&::-ms-value {
-		@include border;
-		background-color: transparent;
-		margin: 0;
-	}
+  &::-ms-value {
+    @include border;
+    background-color: transparent;
+    margin: 0;
+  }
 
-	@if ($wc-clr-disabled-bg != -1) {
-		&[disabled]::-ms-value {
-			background-color: $wc-clr-disabled-bg;
-		}
-	}
+  @if ($wc-clr-disabled-bg != -1) {
+    &[disabled]::-ms-value {
+      background-color: $wc-clr-disabled-bg;
+    }
+  }
 }
-//scss-lint:enable VendorPrefix
+//sass-lint:enable no-vendor-prefixes

@@ -1,71 +1,73 @@
 table {
-	@include border;
-	@if ($wc-clr-table-bg != -1) {
-		background-color: $wc-clr-table-bg;
-	}
-	@if ($wc-clr-table-fg != -1) {
-		color: $wc-clr-table-fg;
-	}
+  @include border;
+  @if ($wc-clr-table-bg != -1) {
+    background-color: $wc-clr-table-bg;
+  }
+  @if ($wc-clr-table-fg != -1) {
+    color: $wc-clr-table-fg;
+  }
 }
 
 // thead
 @if ($wc-clr-table-head-bg != -1) {
-	thead {
-		background-color: $wc-clr-table-head-bg;
+  thead {
+    background-color: $wc-clr-table-head-bg;
 
-		&,
-		.wc-nobutton,
-		.wc-linkbutton,
-		a,
-		a:visited {
-			color: $wc-clr-table-head-fg;
-		}
+    &,
+    .wc-nobutton,
+    .wc-linkbutton,
+    a,
+    a:visited {
+      color: $wc-clr-table-head-fg;
+    }
 
-		.wc-submenu .wc-menuitem {
-			color: $wc-clr-menu-fg;
-		}
-	}
+    .wc-submenu .wc-menuitem {
+      color: $wc-clr-menu-fg;
+    }
+  }
 
-	@if ($wc-clr-table-head-sorted-bg != 1) {
-		th[sorted] {
-			// the TH needs to be opague to over-ride the thead background color
-			// rather than over-lay it.
-			background-color: $wc-clr-table-head-sorted-bg;
+  @if ($wc-clr-table-head-sorted-bg != 1) {
+    [sorted] {
+      // the TH needs to be opague to over-ride the thead background color
+      // rather than over-lay it.
+      background-color: $wc-clr-table-head-sorted-bg;
 
-			&,
-			.wc-nobutton,
-			.wc-linkbutton,
-			a,
-			a:visited {
-				color: $wc-clr-table-head-sorted-fg;
-			}
+      &,
+      .wc-nobutton,
+      .wc-linkbutton,
+      a,
+      a:visited {
+        color: $wc-clr-table-head-sorted-fg;
+      }
 
-			.wc-nobutton[disabled],
-			.wc-nobutton[disabled],
-			a[aria-disabled='true'] {
-				color: $wc-clr-table-head-sorted-disabled-fg;
-			}
-		}
-	}
+      .wc-nobutton[disabled],
+      .wc-nobutton[disabled],
+      // sass-lint:disable no-qualifying-elements
+      a[aria-disabled='true'] {
+        color: $wc-clr-table-head-sorted-disabled-fg;
+      }
+      // sass-lint:enable no-qualifying-elements
+    }
+  }
 }
 
 // #############################################################################
 // Separators
 // #############################################################################
 .wc_table_rowsep > tr + tr {
-	@include border($pos: top);
+  @include border($pos: top);
 }
 
 .wc_table_colsep {
-	> col + col {
-		@include border($pos: left);
-	}
+  > col + col {
+    @include border($pos: left);
+  }
 
-	// The first col after the last auto generated col is the first data col and
-	// cannot have a left border
-	> .wc_table_colauto {
-		@include border($pos: left, $width: 0);
-	}
+  // The first col after the last auto generated col is the first data col and
+  // cannot have a left border
+  > .wc_table_colauto {
+    @include border($pos: left, $width: 0);
+  }
 }
 
 // #############################################################################
@@ -73,9 +75,9 @@ table {
 // #############################################################################
 // Sorted column
 @if ($wc-clr-table-col-sorted-bg != 1) {
-	.wc_table_sort_sorted {
-		background-color: $wc-clr-table-col-sorted-bg;
-	}
+  .wc_table_sort_sorted {
+    background-color: $wc-clr-table-col-sorted-bg;
+  }
 }
 
 // #############################################################################
@@ -85,37 +87,37 @@ table {
 // Row striping: You'd think tr:nth-child(even) would be enough but that does
 // not account for sub rows.
 @if ($wc-clr-table-zebra-bg != -1) {
-	.wc_table_stripe {
-		background-color: $wc-clr-table-zebra-bg;
-	}
+  .wc_table_stripe {
+    background-color: $wc-clr-table-zebra-bg;
+  }
 }
 
 // #############################################################################
 // Row selection
 // #############################################################################
 @if ($wc-clr-table-invite-bg != -1) {
-	// this only applies to rows with the invite class.
-	// scss-lint:disable QualifyingElement
-	tr.wc-invite {
-		&:hover,
-		&:focus {
-			background-color: $wc-clr-table-invite-bg;
-		}
-	}
-	// scss-lint:enable QualifyingElement
+  // this only applies to rows with the invite class.
+  // sass-lint:disable no-qualifying-elements
+  tr.wc-invite {
+    &:hover,
+    &:focus {
+      background-color: $wc-clr-table-invite-bg;
+    }
+  }
+  // sass-lint:enable no-qualifying-elements
 }
 
 // the is the submenu opener emulator for the sub-row toggle control
 .wc_table_sel_wrapper .wc-submenu-o {
-	background-color: $wc-clr-menu-bg;
+  background-color: $wc-clr-menu-bg;
 }
 
 // #############################################################################
 // Container for actions and pagination
 // #############################################################################
 @if ($wc-clr-table-foot-bg != -1) {
-	.wc_table_bottom_controls {
-		background-color: $wc-clr-table-foot-bg;
-		color: $wc-clr-table-foot-fg;
-	}
+  .wc_table_bottom_controls {
+    background-color: $wc-clr-table-foot-bg;
+    color: $wc-clr-table-foot-fg;
+  }
 }

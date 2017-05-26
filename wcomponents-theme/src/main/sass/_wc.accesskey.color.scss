@@ -1,12 +1,12 @@
 // Provides the styling for the accesskey indicator.
 [role='tooltip'] {
-	@include border($color: $wc-clr-tooltip-bg);
-	background-color: $wc-clr-tooltip-bg;
-	color: $wc-clr-tooltip-fg;
-	// scss-lint:enable ImportantRule
+  @include border($color: $wc-clr-tooltip-bg);
+  background-color: $wc-clr-tooltip-bg;
+  color: $wc-clr-tooltip-fg;
+  // sass-lint:enable no-important
 
-	&:before,
-	&:after {
-		border-color: $wc-clr-tooltip-bg transparent transparent;
-	}
+  &::before,
+  &::after {
+    border-color: $wc-clr-tooltip-bg transparent transparent;
+  }
 }

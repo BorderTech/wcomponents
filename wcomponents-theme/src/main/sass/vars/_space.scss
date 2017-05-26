@@ -8,8 +8,8 @@
 // rewrite the Java and XSLT.
 $wc-gap-suffix-list: z, sm, med, lg, xl;
 // Common spacing variables. There should be a gap per entry in the list
-$wc-gap-small: 0.25rem !default;
-$wc-gap-normal: 0.5rem !default;
+$wc-gap-small: .25rem !default;
+$wc-gap-normal: .5rem !default;
 $wc-gap-large: 1rem !default;
 $wc-gap-xl: 1.5rem !default;
 
@@ -17,7 +17,7 @@ $wc-gap-xl: 1.5rem !default;
 // Gap sizes for narrow viewports.
 // #############################################################################
 // ignored if $wc-use-respond != 1 or $wc-gap-reduce-when-narrow != 1.
-$wc-phone-gap-small: 0.125rem !default;
-$wc-phone-gap-normal: 0.25rem !default;
-$wc-phone-gap-large: 0.5rem !default;
-$wc-phone-gap-xl: 0.75rem !default;
+$wc-phone-gap-small: .125rem !default;
+$wc-phone-gap-normal: .25rem !default;
+$wc-phone-gap-large: .5rem !default;
+$wc-phone-gap-xl: .75rem !default;

@@ -2,7 +2,7 @@
 // WTree, WMenu Type TREE (some)
 // #############################################################################
 // indent of branches in the tree - also applies to WMenu Type TREE.
-$wc-tree-indent: 0.75rem !default;
+$wc-tree-indent: .75rem !default;
 // The bi-modal nature of the tree expander button means we
 // have to pad the inner components rather than the button.
 // It _may_ be worth puttiing in another content wrapper...

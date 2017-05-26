@@ -3,113 +3,113 @@
 @import 'mixins/common';
 
 .wc-datefield > [role='listbox'] {
-	max-height: none;
+  max-height: none;
 }
 
 // The date picker calendar
 // WPartialDateField and WDateField's polyfill
 // We use a single ID'd component for all calendar date pickers and move it
 //  around to where it is needed.
-// scss-lint:disable IdSelector
+// sass-lint:disable no-ids
 
 // This is the calendar container.
 #wc_calbox {
-	@include fit-content;
-	position: absolute;
-	right: 0;
-	white-space: nowrap;
-	z-index: $wc-z-index-common;
+  @include fit-content;
+  position: absolute;
+  right: 0;
+  white-space: nowrap;
+  z-index: $wc-z-index-common;
 
-	&.wc_colwest { // right collision
-		left: 0;
-		right: auto;
-	}
+  &.wc_colwest { // right collision
+    left: 0;
+    right: auto;
+  }
 
-	dialog & {
-		z-index: $wc-z-index-common-in-dialog;
-	}
+  dialog & {
+    z-index: $wc-z-index-common-in-dialog;
+  }
 
-	.wc-row {
-		@include flex-align-items(baseline);
-		padding: $wc-gap-small;
+  .wc-row {
+    @include flex-align-items(baseline);
+    padding: $wc-gap-small;
 
-		button {
-			margin-left: $wc-gap-normal;
-		}
+    button {
+      margin-left: $wc-gap-normal;
+    }
 
-		input { //year field:
-			margin: 0 $wc-gap-large;
-			width: 5em; //  FF and IE do not size by max.
-		}
-	}
+    input { //year field:
+      margin: 0 $wc-gap-large;
+      width: 5em; //  FF and IE do not size by max.
+    }
+  }
 
-	.wc-column:last-child {
-		text-align: right;
-	}
+  .wc-column:last-child {
+    text-align: right;
+  }
 }
 
 // The calendar table
 #wc_calendar {
-	border: 0;
+  border: 0;
 
-	th {
-		text-align: center;
-	}
+  th {
+    text-align: center;
+  }
 
-	// abbr { // days of the week
-	// 	border: 0;
-	// }
+  // abbr { // days of the week
+  //   border: 0;
+  // }
 }
 
 #wc_caldaybox td {
-	padding: 0;
-	text-align: center;
-	vertical-align: middle;
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
 }
 
 // date picker buttons
 .wc_wdf_pick {
-	min-width: 100%;
-	padding: $wc-gap-small;
-	text-align: center;
-	width: 100%;
+  min-width: 100%;
+  padding: $wc-gap-small;
+  text-align: center;
+  width: 100%;
 }
 
 @if ($wc-use-respond == 1) {
-	// The main purpose of this CSS is to make the pop-up calendar full screen.
-	// We make all of the buttons bigger to make them easier for fingers to push
-	// and finally add a close button to make up for the lack of an escape key.
-	@include respond-phonelike {
-		#wc_calbox { // This is the calendar container.
-			// scss-lint:disable ImportantRule
-			border: 0;
-			height: 100%;
-			left: 0 !important;
-			position: fixed;
-			right: 0;
-			top: 0 !important;
-			width: 100%;
+  // The main purpose of this CSS is to make the pop-up calendar full screen.
+  // We make all of the buttons bigger to make them easier for fingers to push
+  // and finally add a close button to make up for the lack of an escape key.
+  @include respond-phonelike {
+    #wc_calbox { // This is the calendar container.
+      // sass-lint:disable no-important
+      border: 0;
+      height: 100%;
+      left: 0 !important;
+      position: fixed;
+      right: 0;
+      top: 0 !important;
+      width: 100%;
 
-			&.wc_colwest { // right collision
-				left: auto;
-			}
+      &.wc_colwest { // right collision
+        left: auto;
+      }
 
-			dialog & {
-				position: fixed;
-				right: 0;
-			}
-		}
+      dialog & {
+        position: fixed;
+        right: 0;
+      }
+    }
 
-		#wc_calendar {
-			font-size: $wc-font-larger;
-		}
+    #wc_calendar {
+      font-size: $wc-font-larger;
+    }
 
-		.wc_wdf_pick {
-			line-height: 2;
-			max-width: 100%;
-		}
-	}
+    .wc_wdf_pick {
+      line-height: 2;
+      max-width: 100%;
+    }
+  }
 }
-// scss-lint:enable IdSelector
+// sass-lint:enable no-ids
 
 @import 'wc.datefield.color';

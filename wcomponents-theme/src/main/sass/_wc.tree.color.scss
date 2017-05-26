@@ -1,12 +1,12 @@
 [role='tree'] {
-	[aria-selected='true'] {
-		background-color: $wc-clr-selected-bg;
-		color: $wc-clr-selected-fg;
-	}
+  [aria-selected='true'] {
+    background-color: $wc-clr-selected-bg;
+    color: $wc-clr-selected-fg;
+  }
 
-	&,
-	[role='group'] {
-		background-color: $wc-clr-global-bg;
-		color: $wc-clr-global-fg;
-	}
+  &,
+  [role='group'] {
+    background-color: $wc-clr-global-bg;
+    color: $wc-clr-global-fg;
+  }
 }

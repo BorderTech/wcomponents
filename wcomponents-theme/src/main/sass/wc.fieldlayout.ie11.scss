@@ -5,8 +5,8 @@
 // input width set. This gives consuming applications a way to control overflow
 // without having internal scroll bars on random text areas.
 
-//scss-lint:disable QualifyingElement
+//sass-lint:disable no-qualifying-elements
 .wc_inputwidth > .wc-input > pre.wc-ro-input {
-	display: block;
-	overflow: auto;
+  display: block;
+  overflow: auto;
 }
