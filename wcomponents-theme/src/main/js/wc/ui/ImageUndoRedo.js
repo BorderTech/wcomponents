@@ -70,7 +70,7 @@ define(function() {
 					if (serializedState === oldState) {
 						return;
 					}
-				}				else {
+				} else {
 					theVeryFirstState = serializedState;
 				}
 				diff = state.length - modPointer;

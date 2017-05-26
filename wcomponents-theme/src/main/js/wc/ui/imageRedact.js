@@ -25,7 +25,7 @@ define(["fabric"], function(fabric) {
 				try {
 					if (shape.width !== 0 && shape.height !== 0) {
 						fbCanvas.trigger("object:added", { target: shape });
-					}					else {
+					} else {
 						fbCanvas.remove(shape);
 					}
 				}				finally {
@@ -38,12 +38,12 @@ define(["fabric"], function(fabric) {
 				shape.set("height", height);
 				if (width < 0) {
 					shape.setOriginX("right");
-				}				else {
+				} else {
 					shape.setOriginX("left");
 				}
 				if (height < 0) {
 					shape.setOriginY("bottom");
-				}				else {
+				} else {
 					shape.setOriginY("top");
 				}
 				imageEdit.renderCanvas();
@@ -80,7 +80,7 @@ define(["fabric"], function(fabric) {
 									next.selectable = redactMode;
 								}
 							}
-						}						else {
+						} else {
 							redactMode = element.checked = false;
 						}
 					}
@@ -133,7 +133,7 @@ define(["fabric"], function(fabric) {
 				fbCanvas.on("mouse:down", mousedownEvent);
 				fbCanvas.on("mouse:up", mouseupEvent);
 				fbCanvas.on("mouse:move", mousemoveEvent);
-			}			else {
+			} else {
 				console.warn("redact shouldn't double init");
 			}
 		}		finally {

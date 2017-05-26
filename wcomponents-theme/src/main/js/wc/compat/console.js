@@ -144,7 +144,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 					return $console || ($console = new FakeConsole());
 				}
 			});
-		}		else {
+		} else {
 			global[c] = new FakeConsole();
 		}
 	}	else {  // IE console, FF4 console, FF25 console

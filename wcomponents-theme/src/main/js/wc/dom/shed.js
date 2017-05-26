@@ -73,9 +73,9 @@ define(["wc/Observer",
 					if (reverse) {
 						element.removeAttribute(_nativeState);
 						element.removeAttribute(_ariaState);
-					}					else if (nativeSupported) {
+					} else if (nativeSupported) {
 						element.setAttribute(_nativeState, _nativeState);
-					}					else if (ariaSupported) {
+					} else if (ariaSupported) {
 						element.setAttribute(_ariaState, "true");
 					}
 					if (STATE === DISABLED) {
@@ -97,9 +97,9 @@ define(["wc/Observer",
 						if (element.hasAttribute("tabIndex")) {
 							if (!reverse) {
 								element.tabIndex = -1;
-							}							else if ($role.get(element)) {
+							} else if ($role.get(element)) {
 								element.tabIndex = 0;
-							}							else {
+							} else {
 								element.removeAttribute("tabIndex");
 							}
 						}
@@ -112,7 +112,7 @@ define(["wc/Observer",
 					 */
 					func = reverse ? "remove" : "add";
 					classList[func](element, CLASS_REQUIRED);
-				}				else {
+				} else {
 					applyStateToChildren(element, STATE, reverse);
 				}
 			}
@@ -127,13 +127,13 @@ define(["wc/Observer",
 				// cannot set state on the target but may be able to set it on its children. So we go into child tree until we find something to which we can apply the STATE change.
 				if (useChildren || (useChildren !== false && (useChildren = !!element.children))) {
 					kids = element.children;  // FF 3.5, Safari and IE
-				}				else {
+				} else {
 					kids = element.childNodes;
 				}
 				if (kids && kids.length) {
 					if (STATE === REQUIRED) {
 						func = reverse ? actions.OPTIONAL : actions.MANDATORY;
-					}					else {
+					} else {
 						func = reverse ? actions.ENABLE : actions.DISABLE;
 					}
 				}
@@ -176,14 +176,14 @@ define(["wc/Observer",
 
 				if (impliedAria.supportsNativeState(element, CHECKED)) {
 					attribute = CHECKED;
-				}				else if (impliedAria.supportsNativeState(element, SELECTED)) {
+				} else if (impliedAria.supportsNativeState(element, SELECTED)) {
 					attribute = SELECTED;
 				}
 				if (attribute) {
 					if (value === true) {
 						element.setAttribute(attribute, attribute);
 						element[attribute] = true;
-					}					else if (value === false) {
+					} else if (value === false) {
 						element[attribute] = false;
 						element.removeAttribute(attribute);
 						if (attribute === CHECKED) {
@@ -199,7 +199,7 @@ define(["wc/Observer",
 								SELECT_WD = SELECT_WD || new Widget("select");
 								selectElement = SELECT_WD.findAncestor(element);
 								selectElement.selectedIndex = 0;  // this is the default in other browsers
-							}							else if (attribute === CHECKED) {  // this appears to be fixed in IE8 so I moved it to the second test
+							} else if (attribute === CHECKED) {  // this appears to be fixed in IE8 so I moved it to the second test
 								element.checked = false;
 								element[attribute] = false;
 								// delete element[attribute];  // don't do this, it breaks webkit
@@ -208,7 +208,7 @@ define(["wc/Observer",
 					}
 					if (element.indeterminate) {
 						result = instance.state.MIXED;
-					}					else {
+					} else {
 						result = element[attribute] ? true : false;
 					}
 				}
@@ -242,7 +242,7 @@ define(["wc/Observer",
 				if (element) {
 					if (value || value === false || value === 0) {
 						element.setAttribute(attribute, value.toString());
-					}					else {
+					} else {
 						element.removeAttribute(attribute);
 					}
 				}
@@ -327,7 +327,7 @@ define(["wc/Observer",
 					for (i = 0; i < len; i++) {
 						shedHelper(element, preferred[i], mixed ? "mixed" : action);
 					}
-				}				else {
+				} else {
 					getSetNativeSelected(element, !!action, mixed);
 				}
 			}
@@ -466,7 +466,7 @@ define(["wc/Observer",
 			this[actions.EXPAND] = function (element, quiet) {
 				if (expandWithOpen(element)) {
 					setMyAttribute(element, OPEN, OPEN);
-				}				else {
+				} else {
 					setMyAttribute(element, ARIA_STATE.expanded, true);
 				}
 				if (!quiet) {
@@ -484,7 +484,7 @@ define(["wc/Observer",
 			this[actions.COLLAPSE] = function (element, quiet) {
 				if (expandWithOpen(element)) {
 					setMyAttribute(element, OPEN, null);
-				}				else {
+				} else {
 					setMyAttribute(element, ARIA_STATE.expanded, false);
 				}
 				if (!quiet) {
@@ -554,7 +554,7 @@ define(["wc/Observer",
 				var result = false;
 				if (expandWithOpen(element)) {
 					result = element.hasAttribute(OPEN);
-				}				else {
+				} else {
 					result = !!isThisMyAttribute(element, ARIA_STATE.expanded, true);
 				}
 				return result;
@@ -576,7 +576,7 @@ define(["wc/Observer",
 				var result, _el;
 				if (showWithOpen(element)) {
 					result = !element.hasAttribute(OPEN);
-				}				else {
+				} else {
 					result = element.hasAttribute(HIDDEN);
 				}
 				if (onlyHiddenAttribute || result) {
@@ -602,7 +602,7 @@ define(["wc/Observer",
 							|| getStyle(_el, "visibility", false, true) === "hidden") {
 						return true;
 					}
-				}				else if ( _el.parentNode && _el.offsetWidth === 0 && _el.offsetHeight === 0) {
+				} else if ( _el.parentNode && _el.offsetWidth === 0 && _el.offsetHeight === 0) {
 					return true;
 				}
 				return false;
@@ -648,7 +648,7 @@ define(["wc/Observer",
 				var result = false, role, supported;
 				if (impliedAria.supportsNativeState(element, ANY_SEL_STATE)) {
 					result = true;
-				}				else {
+				} else {
 					role = $role.get(element, true);
 					if ((supported = aria.getSupported(role))) {
 						supported = ARIA_STATE[SELECTED].filter(function(attr) {
@@ -694,18 +694,18 @@ define(["wc/Observer",
 							if (nextResult !== null) {
 								if (nextResult) {
 									result = instance.state.SELECTED;
-								}								else if (isThisMyAttribute(element, next, "mixed")) {
+								} else if (isThisMyAttribute(element, next, "mixed")) {
 									result = instance.state.MIXED;
-								}								else {
+								} else {
 									result = instance.state.DESELECTED;
 								}
 								break;  // take the first one we find - there should not be more than one
-							}							else if (level === aria.REQUIRED) {
+							} else if (level === aria.REQUIRED) {
 								throw new TypeError("Required ARIA attribute not found! " + next);
 							}
 						}
 					}
-				}				else {
+				} else {
 					result = getSetNativeSelected(element);
 				}
 				return result;

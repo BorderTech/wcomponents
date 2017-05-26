@@ -43,7 +43,7 @@ define(["wc/dom/event",
 					validationContainer;
 				if (validationId) {
 					validationContainer = document.getElementById(validationId);
-				}				else if (ajaxRegion.getTrigger(submitter)) {
+				} else if (ajaxRegion.getTrigger(submitter)) {
 					// if a submitter is an ajax trigger and does not have a validating region
 					// we do not validate.
 					return false;

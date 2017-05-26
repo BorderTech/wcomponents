@@ -82,9 +82,9 @@ define(["wc/has",
 				var result, dateField;
 				if (force === -1 || (!force && DATE_FIELD.isOneOfMe(element))) {
 					result = SUGGESTION_LIST.findDescendant(element);
-				}				else if (force === 1) {
+				} else if (force === 1) {
 					result = SUGGESTION_LIST.findAncestor(element);
-				}				else if ((dateField = DATE_FIELD.findAncestor(element))) {
+				} else if ((dateField = DATE_FIELD.findAncestor(element))) {
 					result = SUGGESTION_LIST.findDescendant(dateField);
 				}
 				return result;
@@ -170,7 +170,7 @@ define(["wc/has",
 						timers.setTimeout(function() {
 							shed.collapse(_df);
 						}, 150);
-					}					else {
+					} else {
 						shed.collapse(_df);
 					}
 				}
@@ -207,7 +207,7 @@ define(["wc/has",
 					// NOTE: this timeout has been tested further and is absolutely required in IE8
 					if (IETimeout) {
 						timers.setTimeout(focus.focusFirstTabstop, IETimeout, suggestionList);
-					}					else {
+					} else {
 						focus.focusFirstTabstop(suggestionList);
 					}
 				}
@@ -353,7 +353,7 @@ define(["wc/has",
 
 				if (DATE_PARTIAL.isOneOfMe(element)) {
 					result = parsers.partial;
-				}				else {
+				} else {
 					result = parsers.standard;
 				}
 
@@ -440,7 +440,7 @@ define(["wc/has",
 						if (!shed.isExpanded(dateField)) {
 							shed.expand(dateField);
 						}
-					}					else if (shed.isExpanded(dateField)) {
+					} else if (shed.isExpanded(dateField)) {
 						shed.collapse(dateField);
 					}
 				}
@@ -466,7 +466,7 @@ define(["wc/has",
 							shed.expand(dateField);
 						}
 						showSuggestions(matches, dateField);
-					}					else if ((suggestionList = getSuggestionList(dateField))) {
+					} else if ((suggestionList = getSuggestionList(dateField))) {
 						suggestionList.innerHTML = "";
 						suggestionList.setAttribute("aria-busy", "true");
 						if (shed.isExpanded(dateField)) {
@@ -481,7 +481,7 @@ define(["wc/has",
 					}
 					if (delay === 0) {
 						_filter();
-					}					else {
+					} else {
 						if (!_delay) {
 							_delay = 125;
 						}
@@ -504,7 +504,7 @@ define(["wc/has",
 				if ((value = (field.getAttribute(FAKE_VALUE_ATTRIB) || field.getAttribute("datetime"))) && (textVal = format(value))) {
 					if (DATE_RO.isOneOfMe(field)) {
 						textContent.set(field, textVal);
-					}					else {
+					} else {
 						textBox = instance.getTextBox(field);
 						textBox.value = textVal;
 					}
@@ -524,16 +524,16 @@ define(["wc/has",
 
 				if (container && DATE_WRAPPER_INCL_RO.isOneOfMe(container)) {
 					fields = [container];
-				}				else {
+				} else {
 					fields = DATE_WRAPPER_INCL_RO.findDescendants(_container);
 				}
 
 				Array.prototype.forEach.call(fields, function(next) {
 					if (DATE_RO.isOneOfMe(next) || isPartial(next)) {
 						setInputValue(next);
-					}					else if (instance.isLameDateField(next)) {
+					} else if (instance.isLameDateField(next)) {
 						fixLameDateField(next);
-					}					else { // proper date inputs
+					} else { // proper date inputs
 						next.removeAttribute(FAKE_VALUE_ATTRIB);
 					}
 				});
@@ -573,7 +573,7 @@ define(["wc/has",
 								optionVal[(element.id)] = instance.getValue(element);
 								filterOptions(element, 0);
 							}
-						}						else if (action === shed.actions.COLLAPSE) {
+						} else if (action === shed.actions.COLLAPSE) {
 							if (!shed.isExpanded(element)) {
 								optionVal[(element.id)] = null;
 								openDateCombo = "";
@@ -582,7 +582,7 @@ define(["wc/has",
 									filterTimer = null;
 								}
 							}
-						}						else if ((textbox = instance.getTextBox(element))) {
+						} else if ((textbox = instance.getTextBox(element))) {
 							func = getFuncForAction(action);
 							if (func) {
 								shed[func](textbox);  // publish this to make changes to the label
@@ -644,7 +644,7 @@ define(["wc/has",
 							if ((textBox = instance.getTextBox(next)) && textBox.value) {
 								formUpdateManager.writeStateField(stateContainer, name, textBox.value);
 							}
-						}						else if ((numVal = instance.getValue(next))) {
+						} else if ((numVal = instance.getValue(next))) {
 							formUpdateManager.writeStateField(stateContainer, name, numVal);
 						}
 					}
@@ -753,7 +753,7 @@ define(["wc/has",
 					focus.setFocusRequest(textbox, function() {
 						shed.collapse(element);
 					});
-				}				else {
+				} else {
 					shed.collapse(element);
 				}
 			}
@@ -783,22 +783,22 @@ define(["wc/has",
 				}
 				if (keyCode === KeyEvent.DOM_VK_ESCAPE) {
 					preventDefault = handleEscapeKey(element, target);
-				}				else if (keyCode === KeyEvent.DOM_VK_RETURN) {
+				} else if (keyCode === KeyEvent.DOM_VK_RETURN) {
 					if (handleEnterKey(element, target)) {
 						preventDefault = true;
 					}
-				}				else if ((keyCode === KeyEvent.DOM_VK_DOWN || keyCode === KeyEvent.DOM_VK_UP) && !(getSuggestionList(target, 1))) {
+				} else if ((keyCode === KeyEvent.DOM_VK_DOWN || keyCode === KeyEvent.DOM_VK_UP) && !(getSuggestionList(target, 1))) {
 					if (shed.isExpanded(element) && (suggestionList = getSuggestionList(element, -1))) {
 						focusListbox(suggestionList);
 						preventDefault = true;  // so we don't cause a line scroll
 					}
-				}				else if (keyCode === KeyEvent.DOM_VK_SPACE && target.hasAttribute(FAKE_VALUE_ATTRIB) && getSuggestionList(target, 1)) {
+				} else if (keyCode === KeyEvent.DOM_VK_SPACE && target.hasAttribute(FAKE_VALUE_ATTRIB) && getSuggestionList(target, 1)) {
 					// SPACE on an option should update the dateField
 					focusAndSetValue(element, target);
 					preventDefault = true;  // so we don't cause a page scroll
-				}				else if (keyCode === KeyEvent.DOM_VK_TAB) {
+				} else if (keyCode === KeyEvent.DOM_VK_TAB) {
 					handleTabKey(element, target);
-				}				else if (!key.isMeta(keyCode) && isDateInput(target)) {
+				} else if (!key.isMeta(keyCode) && isDateInput(target)) {
 					element.removeAttribute(FAKE_VALUE_ATTRIB);
 					filterOptions(element);
 				}
@@ -816,7 +816,7 @@ define(["wc/has",
 					if (target.hasAttribute(FAKE_VALUE_ATTRIB) && getSuggestionList(target, 1)) {
 						preventDefault = true;  // so we don't submit from the suggestion list - yes this is needed I checked.
 						focusAndSetValue(element, target);
-					}					else if (isDateInput(target)) {
+					} else if (isDateInput(target)) {
 						instance.acceptFirstMatch(target);
 					}
 				}
@@ -836,7 +836,7 @@ define(["wc/has",
 						}
 						// tab from textbox in dateField should update by accepting the first match
 						instance.acceptFirstMatch(target);
-					}					else if (target.hasAttribute(FAKE_VALUE_ATTRIB) && getSuggestionList(target, 1)) {
+					} else if (target.hasAttribute(FAKE_VALUE_ATTRIB) && getSuggestionList(target, 1)) {
 						// tab from an option should update the dateField
 						setValueFromOption(element, target);
 						shed.collapse(element);
@@ -856,7 +856,7 @@ define(["wc/has",
 							shed.collapse(element);
 						});
 						preventDefault = true;  // so we don't close a dialog which contains the dropdown
-					}					else {
+					} else {
 						shed.collapse(element);
 						preventDefault = true;
 					}
@@ -974,7 +974,7 @@ define(["wc/has",
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
 					event.add(element, event.TYPE.blur, blurEvent, null, null, true);
-				}				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 				event.add(element, event.TYPE.click, clickEvent);
@@ -996,7 +996,7 @@ define(["wc/has",
 				if (hasNative) {
 					if (forceInput) {
 						textBox = el;
-					}					else {
+					} else {
 						textBox = DATE_FIELD.isOneOfMe(el) ? instance.getTextBox(el) : el;
 					}
 					return textBox ? DATE.isOneOfMe(textBox) : false;
@@ -1031,9 +1031,9 @@ define(["wc/has",
 				var result;
 				if (onlyContainer) {
 					result = DATE_WRAPPER_INCL_RO.isOneOfMe(element);
-				}				else if (onlyContainer === false) {
+				} else if (onlyContainer === false) {
 					result = INPUT.isOneOfMe(element);
-				}				else {
+				} else {
 					result = Widget.isOneOfMe(element, [INPUT, DATE_WRAPPER_INCL_RO]);
 				}
 				return result;

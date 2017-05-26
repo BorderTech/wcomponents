@@ -38,7 +38,7 @@ define(function() {
 					engine: nextEngine
 				};
 				break;
-			}			catch (ex) {
+			} catch (ex) {
 				// try again
 			}
 		}

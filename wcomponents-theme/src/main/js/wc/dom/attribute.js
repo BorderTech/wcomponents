@@ -76,7 +76,7 @@ define(function() {
 					 * See: wc/ecma5/Object.defineProperty
 					 */
 					Object.defineProperty(element, EXPANDO_NAME, {get: getter});
-				}				else {
+				} else {
 					// element[EXPANDO_NAME] = {};  // could just as easily do this for FF
 					element.__defineGetter__(EXPANDO_NAME, getter);
 				}

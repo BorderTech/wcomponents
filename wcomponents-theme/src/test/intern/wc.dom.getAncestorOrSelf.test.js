@@ -109,7 +109,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					var foo = document.getElementById("doesntExist");
 					getAncestorOrSelf(foo, "p");
 					assert.fail("This line should not be executed");
-				}				catch (ex) {
+				} catch (ex) {
 					assert.isTrue(true);
 				}
 			},

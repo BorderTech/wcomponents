@@ -55,10 +55,10 @@ define(["wc/has",
 						if (_container === group.getContainer(next, inst.CONTAINER)) {
 							shed.deselect(next, silent);
 						}
-					}					else {
+					} else {
 						shed.deselect(next, silent);
 					}
-				}				else {
+				} else {
 					doneException = true;
 				}
 			}
@@ -92,7 +92,7 @@ define(["wc/has",
 				handler;
 			if (methodName === "focusout") {
 				methodName = "blur";
-			}			else if (methodName === "focusin") {
+			} else if (methodName === "focusin") {
 				methodName = "focus";
 			}
 			handler = this[methodName + "Event"];
@@ -117,7 +117,7 @@ define(["wc/has",
 			var result;
 			if (analog.CONTAINER) {
 				result = group.getGroup(element, analog.ITEM, analog.CONTAINER);
-			}			else {
+			} else {
 				result = group.get(element);
 			}
 			return result;
@@ -327,7 +327,7 @@ define(["wc/has",
 			if (action === shed.actions.SELECT && this.ITEM.isOneOfMe(element)) {
 				if (this.exclusiveSelect === this.SELECT_MODE.SINGLE) {
 					deselectOthers = true;
-				}				else if (this.exclusiveSelect === this.SELECT_MODE.MIXED) {
+				} else if (this.exclusiveSelect === this.SELECT_MODE.MIXED) {
 					if ((container = this.getGroupContainer(element))) {
 						if (container.getAttribute("aria-multiselectable") !== TRUE) {
 							deselectOthers = true;
@@ -366,7 +366,7 @@ define(["wc/has",
 			if (event.canCapture) {
 				event.add(element, event.TYPE.focus, eventWrapper.bind(this), null, null, true);
 				event.add(element, event.TYPE.click, eventWrapper.bind(this), null, null, true);
-			}			else {
+			} else {
 				event.add(element, event.TYPE.focusin, eventWrapper.bind(this));
 				event.add(element, event.TYPE.click, eventWrapper.bind(this));
 			}
@@ -451,7 +451,7 @@ define(["wc/has",
 						}
 						preventDefaultAction = true;
 					}
-				}				else if (keyCode === KeyEvent.DOM_VK_SPACE && !Widget.isOneOfMe(element, this.actionable)) {
+				} else if (keyCode === KeyEvent.DOM_VK_SPACE && !Widget.isOneOfMe(element, this.actionable)) {
 					if (isAcceptableEventTarget(element, target)) {
 						this.activate(element, $event.shiftKey, ($event.ctrlKey || $event.metaKey));
 						preventDefaultAction = true;  // preventDefault here otherwise you get a page scroll
@@ -526,7 +526,7 @@ define(["wc/has",
 			if (_group && (_group = filterGroup(_group)) && _group.length > 1) {  // no point navigating if only 1 option
 				if (keyWalkerConfig) {
 					keyWalkerConfig["root"] = _group;
-				}				else {
+				} else {
 					keyWalkerConfig = {
 						root: _group,
 						filter: function(el) {
@@ -635,16 +635,16 @@ define(["wc/has",
 					selectMode = this.exclusiveSelect;
 					if (this.simpleSelection || SHIFT || CTRL) {
 						this.exclusiveSelect = this.SELECT_MODE.MULTIPLE;
-					}					else {
+					} else {
 						this.exclusiveSelect = this.SELECT_MODE.SINGLE;
 					}
 				}
 
 				if (this.exclusiveSelect === this.SELECT_MODE.SINGLE || this.exclusiveSelect === this.SELECT_MODE.MIXED) {
 					singleSelectActivateHelper(element, CTRL, this);
-				}				else if (SHIFT && container) {
+				} else if (SHIFT && container) {
 					setLastActivated = multiSelectWithShiftHelper(element, container, CTRL, this);
-				}				else {
+				} else {
 					shed.toggle(element, shed.actions.SELECT);
 				}
 
@@ -684,7 +684,7 @@ define(["wc/has",
 			if (shed.isSelected(element)) {
 				selectedFilter = getFilteredGroup.FILTERS.selected;
 				groupAction = shed.deselect;
-			}			else {
+			} else {
 				selectedFilter = getFilteredGroup.FILTERS.deselected;
 				groupAction = shed.select;
 			}
@@ -701,7 +701,7 @@ define(["wc/has",
 						if (~filtered.indexOf(next)) {
 							groupAction(next);
 						}
-					}					else if (!CTRL && selectedFilter === getFilteredGroup.FILTERS.deselected && next !== lastActivated && shed.isSelected(next)) {
+					} else if (!CTRL && selectedFilter === getFilteredGroup.FILTERS.deselected && next !== lastActivated && shed.isSelected(next)) {
 						shed.deselect(next);
 					}
 				}

@@ -49,7 +49,7 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 				if ((element = document.getElementById(targetId)) && canPolitelyChangeFocus()) {
 					if (focus.canFocus(element)) {
 						focus.setFocusRequest(element, focusCallback);
-					}					else if (focus.canFocusInside(element)) { // try focusing inside the target
+					} else if (focus.canFocusInside(element)) { // try focusing inside the target
 						focus.focusFirstTabstop(element, focusCallback);
 					} else if (element.clientHeight === 0 && element.clientWidth === 0 && (element = focus.getFocusableAncestor(element))) {
 						// as a last resort try focusing the nearest focusable ancestor of element if element has no dimensions
@@ -87,7 +87,7 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 			function ajaxSubscriber(element, action, triggerId) {
 				if (focusId) {
 					instance.requestFocus(focusId);
-				}				else if (triggerId) {
+				} else if (triggerId) {
 					instance.requestFocus(triggerId, FOCUS_DELAY);
 				}
 			}
@@ -106,7 +106,7 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 				focusId = null;
 				if (timeout || timeout === 0) {
 					timers.setTimeout(doRequestFocus, timeout, targetId);
-				}				else {
+				} else {
 					doRequestFocus(targetId);
 				}
 			};

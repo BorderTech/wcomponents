@@ -27,7 +27,7 @@ define(function() {
 		var result;
 		if (allowWildcard) {
 			result = string.replace(NO_WILDCARD_RE, REPLACER).replace(WILDCARD_RE, ".*");
-		}		else {
+		} else {
 			result = string.replace(RE_RE, REPLACER);
 		}
 		return result;

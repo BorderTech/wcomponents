@@ -174,7 +174,7 @@ define(["wc/dom/ariaAnalog",
 					try {
 						if (!(SHIFT || CTRL)) {
 							forceSingle = true;
-						}						else if (multiSelect === "true" && tree.isHTree(container)) {
+						} else if (multiSelect === "true" && tree.isHTree(container)) {
 							forceSingle = isFirstAtLevel(element);
 						}
 						if (forceSingle) {

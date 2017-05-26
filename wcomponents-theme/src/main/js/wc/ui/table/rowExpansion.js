@@ -109,7 +109,7 @@ define(["wc/array/toArray",
 
 				if (areAllInExpandedState(controller, testVal === "expand")) {
 					shed.select(controller, true); // no need to publish
-				}				else {
+				} else {
 					shed.deselect(controller, true); // no need to publish
 				}
 			}
@@ -188,7 +188,7 @@ define(["wc/array/toArray",
 							row.setAttribute(NO_AJAX, TRUE);
 						}
 						shed.expand(row);
-					}					else if (show === FALSE) { // We need to collapse disabled rows otherwise we have nesting vestige issues
+					} else if (show === FALSE) { // We need to collapse disabled rows otherwise we have nesting vestige issues
 						shed.collapse(row);
 					}
 				}
@@ -239,7 +239,7 @@ define(["wc/array/toArray",
 					if (action === shed.actions.EXPAND && isAjaxExpansion(element)) {
 						if (element.getAttribute(NO_AJAX) === TRUE) {
 							element.removeAttribute(NO_AJAX);
-						}						else if (element.getAttribute(MODE) !== CLIENT) {
+						} else if (element.getAttribute(MODE) !== CLIENT) {
 							ajaxRegion.requestLoad(element, getTriggerDTO(element));
 						}
 						if (getMode(element) === LAZY) {
@@ -357,7 +357,7 @@ define(["wc/array/toArray",
 							$event.preventDefault();
 						}
 					}
-				}				else if ((element = EXPAND_COLLAPSE_ALL.findAncestor($event.target)) && !shed.isDisabled(element)) {
+				} else if ((element = EXPAND_COLLAPSE_ALL.findAncestor($event.target)) && !shed.isDisabled(element)) {
 					triggerManager.removeTrigger(element.id);
 				}
 			}
@@ -468,7 +468,7 @@ define(["wc/array/toArray",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-				}				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 				event.add(element, event.TYPE.click, clickEvent);

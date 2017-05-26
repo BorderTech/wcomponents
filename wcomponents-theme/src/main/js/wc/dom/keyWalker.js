@@ -155,7 +155,7 @@ define(function() {
 					idx = next ? 0 : group.length - 1;
 					return {target: group[idx], idx: idx, cycled: true};
 				}
-			}			else {
+			} else {
 				idx = currentIndex + (next ? 1 : -1);
 				result.target = group[idx];
 				result.idx = idx;

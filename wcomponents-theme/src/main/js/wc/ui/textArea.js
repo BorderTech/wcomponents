@@ -98,7 +98,7 @@ define(["wc/dom/attribute",
 					var l = next.length;
 					if (idx < arrLen - 1) {
 						len += l + 2; // add two chars for each new line after an existing line of text
-					}					else if (next) { // if the last item in the array is content add its length
+					} else if (next) { // if the last item in the array is content add its length
 						len += l;
 					}
 					/*
@@ -130,7 +130,7 @@ define(["wc/dom/attribute",
 						 * since maxLength violation is an allowed transient state until
 						 * such time as the control is part of a form submission.*/
 						classList.add(counter, ERR);
-					}					else {
+					} else {
 						classList.remove(counter, ERR);
 					}
 				}
@@ -214,7 +214,7 @@ define(["wc/dom/attribute",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-				}				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 			};

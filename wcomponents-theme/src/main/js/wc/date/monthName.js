@@ -65,7 +65,7 @@ define(["wc/i18n/i18n", "wc/i18n/asciify"],
 				if (hasAsciiVersion) {
 					// console.log("Building ascii versions of month names");
 					monthsAbbrAscii = monthsAbbr.map(asciify);
-				}				else {
+				} else {
 					monthsAscii = null;
 					monthsAbbrAscii = null;
 				}
@@ -103,7 +103,7 @@ define(["wc/i18n/i18n", "wc/i18n/asciify"],
 				}
 				if (asciified && monthsAscii) {
 					result = abbreviated ? monthsAbbrAscii : monthsAscii;
-				}				else {
+				} else {
 					result = abbreviated ? monthsAbbr : months;
 				}
 				return result.concat();

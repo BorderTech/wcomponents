@@ -126,9 +126,9 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 				// interested in finding the next logical element in the tree
 				if (filterResult === null) {
 					filterResult = 0; // case for first time run - filterResult is null
-				}				else if (nodeTypeMap[node.nodeType] & whatToShow) { // if this nodeType matches whatToShow then we pass it through the filter function
+				} else if (nodeTypeMap[node.nodeType] & whatToShow) { // if this nodeType matches whatToShow then we pass it through the filter function
 					filterResult = filter ? filter.acceptNode(node) : FILTER_ACCEPT;
-				}				else { // 'hop' over/into this node
+				} else { // 'hop' over/into this node
 					filterResult = FILTER_SKIP;
 				}
 				// TODO typecheck filterResult
@@ -152,7 +152,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 				if (filterResult === FILTER_ACCEPT) {
 					if (isPreviousNode && child) {
 						backtrack = node;
-					}					else {
+					} else {
 						result = self.currentNode = node;
 						break;
 					}
@@ -164,21 +164,21 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 						if ((lastChild = child.lastChild)) {
 							node = child = lastChild;
 							continue PROCESSING;
-						}						else if (!(nodeTypeMap[node.nodeType] & whatToShow)) {  // is this node a type we can accept?
+						} else if (!(nodeTypeMap[node.nodeType] & whatToShow)) {  // is this node a type we can accept?
 							if (node.previousSibling) {
 								node = (node.previousSibling);
 							}
 							filterResult = FILTER_REJECT;
 							child = null;
 							continue PROCESSING;
-						}						else if (backtrack) {
+						} else if (backtrack) {
 							result = self.currentNode = backtrack;
 							break;
 						} else {
 							// child is lastChild in the previous skipped branch
 							node = branch;
 						}
-					}					else if (backtrack) {
+					} else if (backtrack) {
 						result = self.currentNode = backtrack;
 						break;
 					} else {
@@ -199,7 +199,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 						if ((node.id || root.id) && node.id === root.id) {  // this is  a cheap test which IE will probably pass
 							result = null;
 							break;
-						}						else if ((root.outerHTML || node.outerHTML) && root.outerHTML === node.outerHTML) {  // this is a definitive IE test for the same elements if the element has no id
+						} else if ((root.outerHTML || node.outerHTML) && root.outerHTML === node.outerHTML) {  // this is a definitive IE test for the same elements if the element has no id
 							result = null;
 							break;
 						}
@@ -209,7 +209,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 					if ((child = branch = node.previousSibling)) {
 						node = child;
 						continue PROCESSING;
-					}					else if ((parent = node.parentNode)) {
+					} else if ((parent = node.parentNode)) {
 						node = parent;
 						continue PROCESSING;
 					}
@@ -255,7 +255,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 							trueParent = temp.parentNode;
 							break;
 						}
-					}					else {
+					} else {
 						break;
 					}
 				}
@@ -270,11 +270,11 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 				// element in the tree and then filtering it
 				if (filterResult === null) {
 					filterResult = 0; // case for first time run - filterResult is null
-				}				else {
+				} else {
 					// if this nodeType matches whatToShow then we pass it through the filter function
 					if (nodeTypeMap[node.nodeType] & whatToShow) {
 						filterResult = filter ? filter.acceptNode(node) : FILTER_ACCEPT;
-					}					else { // 'hop' over/into this node
+					} else { // 'hop' over/into this node
 						filterResult = FILTER_SKIP;
 					}
 					// TODO typecheck filterResult
@@ -308,7 +308,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 							if (node !== sibling) {
 								node = sibling;
 								continue PROCESSING;
-							}							else {
+							} else {
 								throw new Error("Treewalker can not process this tree, appears malformed");
 							}
 						}
@@ -416,7 +416,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 			while ((node = node === root ? null : node.parentNode)) {
 				if (nodeTypeMap[node.nodeType] & whatToShow) {
 					filterResult = filter ? filter.acceptNode(node) : FILTER_ACCEPT;
-				}				else {
+				} else {
 					return null;
 				}
 				if (filterResult === FILTER_ACCEPT) {

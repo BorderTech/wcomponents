@@ -36,7 +36,7 @@ define( function() {
 				date = new Date();
 				date.setTime(date.getTime() + days);
 				expires = "; expires=" + date.toGMTString();
-			}			else {
+			} else {
 				expires = "";
 			}
 			cookies = null;  // the cookie cache is no longer valid

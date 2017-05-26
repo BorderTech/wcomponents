@@ -54,7 +54,7 @@ define(["wc/ui/listLoader",
 									Array.prototype.forEach.call(optContainer.options, function(next) {
 										selectList.appendChild(next.cloneNode(true));
 									});
-								}								else {
+								} else {
 									selectList.innerHTML = optContainer.innerHTML;
 								}
 								// re-select all the options that were originally selected
@@ -70,14 +70,14 @@ define(["wc/ui/listLoader",
 										}
 									}
 								});
-							}							else {
+							} else {
 								console.warn("Datalist malformed");
 							}
 						}						finally {
 							element.removeAttribute("aria-busy");
 							currentOptions = element = selectList = null;
 						}
-					}					else {
+					} else {
 						console.warn("Could not load list", id);
 					}
 				};
@@ -99,7 +99,7 @@ define(["wc/ui/listLoader",
 							shed.disable(element, true);
 						}
 						element.removeAttribute("aria-busy");
-					}					else {
+					} else {
 						console.warn("Could not find element", id);
 					}
 				};
@@ -120,7 +120,7 @@ define(["wc/ui/listLoader",
 					if (labels && labels.length) {
 						label = textContent.get(labels[0]);
 						label = " '" + label + "'";
-					}					else {
+					} else {
 						label = "";
 					}
 					label = i18n.get("loader_loaderr", label);

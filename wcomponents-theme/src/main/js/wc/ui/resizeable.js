@@ -100,7 +100,7 @@ define(["wc/dom/attribute",
 					} else if (size.indexOf("%")) {
 						// IE8 will return the style rule eg 75% or 0.75em or even 12pt if you are silly.
 						return (16 * _s / 100);
-					}					else if (size.indexOf("em")) {
+					} else if (size.indexOf("em")) {
 						return (16 * _s);
 					}
 					// if you are going to set your default font size in points, picas or exes you deserve what you get
@@ -532,7 +532,7 @@ define(["wc/dom/attribute",
 				if (element) {
 					if (RESIZE.isOneOfMe(element)) {
 						bootstrap(element);
-					}					else {
+					} else {
 						setup(element);
 					}
 				}
@@ -551,7 +551,7 @@ define(["wc/dom/attribute",
 					classList[(action === shed.actions.SELECT ? "add" : "remove")](target, CLASS_MAX);
 					if (action === shed.actions.SELECT) {
 						icon.change(element, "fa-plus", "fa-minus");
-					}					else {
+					} else {
 						icon.change(element, "fa-minus", "fa-plus");
 					}
 				}

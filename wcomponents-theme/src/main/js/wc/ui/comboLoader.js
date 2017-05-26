@@ -74,7 +74,7 @@ define(["wc/dom/initialise",
 						if ((dataId = element.getAttribute(DATA_LIST_ATTRIB))) {
 							if (SUGGESTION_LIST.isOneOfMe(element)) {
 								optionList = element;
-							}							else {
+							} else {
 								optionList = comboBox._getList(element);
 							}
 						}

@@ -21,9 +21,9 @@ define(["wc/dom/focus",
 				if (!shed.isDisabled(element)) {
 					if (LEGEND.isOneOfMe(element)) {
 						target = element.parentNode;
-					}					else if (element.hasAttribute(FOR_ATTRIB)) {
+					} else if (element.hasAttribute(FOR_ATTRIB)) {
 						target = document.getElementById(element.getAttribute(FOR_ATTRIB));
-					}					else if (element.href) {
+					} else if (element.href) {
 						url = element.getAttribute("href");
 						if (url.indexOf("#") === 0) {
 							target = document.getElementById(url.substr(1));

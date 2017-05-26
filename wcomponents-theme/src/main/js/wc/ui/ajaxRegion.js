@@ -33,7 +33,7 @@ define(["wc/dom/event",
 				if (trigger) {
 					if (trigger.successful === null) {
 						result = true;
-					}					else {
+					} else {
 						isSuccessful = isSuccessfulElement(element, true);
 						if ((trigger.successful === true && isSuccessful) || (trigger.successful === false && !isSuccessful)) {
 							result = true;
@@ -214,7 +214,7 @@ define(["wc/dom/event",
 				event.add(element, event.TYPE.click, clickEvent, 50); // Trigger ajax AFTER other events to avoid submitting form fields before they can be updated.
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-				}				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 				console.log("Initialising trigger listeners");
@@ -266,12 +266,12 @@ define(["wc/dom/event",
 				if (!trigger) {
 					if (obj) {
 						this.register(obj);
-					}					else {
+					} else {
 						id = element.id;
 						alias = element.getAttribute(ALIAS);
 						if ((controls = element.getAttribute("aria-controls"))) {
 							loads = controls.split(" ");
-						}						else {
+						} else {
 							loads = [id];
 						}
 						this.register({
@@ -281,7 +281,7 @@ define(["wc/dom/event",
 					}
 
 					trigger = triggerManager.getTrigger(element);
-				}				else if (obj) {
+				} else if (obj) {
 					mixin(obj, trigger);  // QC158630
 				}
 
@@ -322,7 +322,7 @@ define(["wc/dom/event",
 						trigger.serialiseForm = false;
 						trigger.oneShot = 1;
 						trigger.fire();
-					}					catch (ex) {
+					} catch (ex) {
 						console.log("error in delayed ajax trigger for id " + triggerId, ex.message);
 					}
 				}
@@ -362,7 +362,7 @@ define(["wc/dom/event",
 			this.register = function (obj) {
 				if (Array.isArray(obj)) {
 					obj.forEach(_register);
-				}				else {
+				} else {
 					_register(obj);
 				}
 			};

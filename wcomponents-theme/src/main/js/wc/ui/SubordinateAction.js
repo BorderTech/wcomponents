@@ -31,7 +31,7 @@ define(["wc/dom/shed", "wc/has"],
 			if (actionRegister.hasOwnProperty(dto.type)) {
 				// making the function a property of the action gives the correct scope "for free" (no "call" or "bind")
 				this.doToElement = actionRegister[dto.type];
-			}			else {
+			} else {
 				throw new TypeError("Not a known action type", dto.type);
 			}
 			this.targets = [];  // one or more identifiers (ids or group names)
@@ -39,7 +39,7 @@ define(["wc/dom/shed", "wc/has"],
 			dto.targets.forEach(function(target) {
 				try {
 					this.targets.push(new Target(target.id, target.groupId));
-				}				catch (ex) {
+				} catch (ex) {
 					console.warn(ex);
 				}
 			}, this);
@@ -59,7 +59,7 @@ define(["wc/dom/shed", "wc/has"],
 					groupName = group.name;
 					if (groupName) {
 						groupRegister[groupName] = group;
-					}					else {
+					} else {
 						console.warn("Can not register a group without a name", group);
 					}
 				}
@@ -131,7 +131,7 @@ define(["wc/dom/shed", "wc/has"],
 					idsOnly = true;
 					if (this.id !== null && this.id === id) {
 						result = true;
-					}					else if ((group = this.getGroup())) {
+					} else if ((group = this.getGroup())) {
 						result = group.indexOf(id) >= 0;
 					}
 				}				finally {
@@ -152,7 +152,7 @@ define(["wc/dom/shed", "wc/has"],
 				if (this.id) {
 					if ((element = document.getElementById(this.id))) {
 						result = element;
-					}					else {
+					} else {
 						throw new ReferenceError("Could not find element " + this.id);
 					}
 				}
@@ -172,17 +172,17 @@ define(["wc/dom/shed", "wc/has"],
 					if ((group = Action.getGroup(this.groupId))) {
 						if (idsOnly) {
 							result = group;
-						}						else {
+						} else {
 							result = [];
 							for (i = 0, len = group.length; i < len; i++) {
 								if ((next = document.getElementById(group[i]))) {
 									result[result.length] = next;
-								}								else {
+								} else {
 									console.warn("Could not find element", group[i]);
 								}
 							}
 						}
-					}					else {
+					} else {
 						throw new ReferenceError("Could not find group " + this.groupId);
 					}
 				}
@@ -222,10 +222,10 @@ define(["wc/dom/shed", "wc/has"],
 					try {
 						if ((element = next.getElement())) {
 							this.doToElement(element);
-						}						else if ((group = next.getGroup())) {
+						} else if ((group = next.getGroup())) {
 							group.forEach(this.doToElement, this);
 						}
-					}					catch (ex) {
+					} catch (ex) {
 						console.warn(ex);
 					}
 				}
@@ -450,7 +450,7 @@ define(["wc/dom/shed", "wc/has"],
 				var originalState = shed.isDisabled(element);
 				if (enable) {
 					shed.enable(element);
-				}				else {
+				} else {
 					shed.disable(element);
 				}
 				return (shed.isDisabled(element) !== originalState);

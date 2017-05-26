@@ -31,7 +31,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 				 */
 				if (typeof node.xml === "string") {
 					result = node.xml;
-				}				else if (window.XMLSerializer) {
+				} else if (window.XMLSerializer) {
 					serializer = serializer || new window.XMLSerializer();
 					result = serializer.serializeToString(node);
 				}
@@ -66,7 +66,7 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 				if (has("activex")) {
 					this.from = useActiveX;
 					return useActiveX(xmlstring);
-				}				else if (window.DOMParser) {
+				} else if (window.DOMParser) {
 					domParser = new window.DOMParser();
 					this.from = useDomParser;
 					return useDomParser(xmlstring);

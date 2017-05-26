@@ -94,7 +94,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 									if (img) {
 										file = imgToFile(img);
 										multiFileUploader.upload(uploader, [file]);
-									}									else {
+									} else {
 										var win = function(files) {
 											multiFileUploader.upload(uploader, files, true);
 										};
@@ -128,7 +128,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				if (!result) {
 					if ("getAttribute" in obj) {
 						editorId = obj.getAttribute("data-wc-editor");
-					}					else {
+					} else {
 						editorId = obj.editorId;
 					}
 					if (editorId) {
@@ -165,13 +165,13 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				if (files) {
 					if (has("dom-canvas")) {
 						editNextFile();
-					}					else {
+					} else {
 						done(files);
 					}
-				}				else if (config.camera) {
+				} else if (config.camera) {
 					editFile(config, null, saveEditedFile, onError);
 				}
-			}			catch (ex) {
+			} catch (ex) {
 				onError(ex);
 			}
 
@@ -191,10 +191,10 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 					file = files[idx++];
 					if (file.type.indexOf("image/") === 0) {
 						editFile(config, file, saveEditedFile, onError);
-					}					else {
+					} else {
 						saveEditedFile(file);
 					}
-				}				else {
+				} else {
 					done(result);
 				}
 			}
@@ -227,7 +227,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 						fileReader = new FileReader();
 						fileReader.onload = filereaderLoaded;
 						fileReader.readAsDataURL(file);
-					}					else {
+					} else {
 						imageCapture.play({
 							width: fbCanvas.getWidth(),
 							height: fbCanvas.getHeight()
@@ -239,7 +239,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 					callbacks.validate = facetracking.getValidator(config);
 					getEditor(config, callbacks, file).then(gotEditor);
 				});
-			}			else if (config.redact) {
+			} else if (config.redact) {
 				require(["wc/ui/imageRedact"], function(imageRedact) {
 					config.redactor = imageRedact;
 					getEditor(config, callbacks, file).then(function() {
@@ -247,7 +247,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 						config.redactor.activate(imageEdit);
 					});
 				});
-			}			else {
+			} else {
 				getEditor(config, callbacks, file).then(gotEditor);
 			}
 		}
@@ -275,12 +275,12 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				minHeight = availHeight * 0.7;
 			if (imgWidth > minWidth) {
 				minScaleX = minWidth / imgWidth;
-			}			else {
+			} else {
 				minScaleX = minScaleDefault;
 			}
 			if (imgHeight > minHeight) {
 				minScaleY = minHeight / imgHeight;
-			}			else {
+			} else {
 				minScaleY = minScaleDefault;
 			}
 			result = Math.max(minScaleX, minScaleY);
@@ -302,10 +302,10 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			try {
 				if (img.nodeType) {
 					renderFabricImage(new fabric.Image(img));
-				}				else {
+				} else {
 					fabric.Image.fromURL(img, renderFabricImage);
 				}
-			}			catch (ex) {
+			} catch (ex) {
 				console.warn(ex);
 			}
 			function renderFabricImage(fabricImage) {
@@ -322,7 +322,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				imageHeight = fabricImage.getHeight();
 				if (imageWidth > imageHeight) {
 					fabricImage.scaleToWidth(width).setCoords();
-				}				else {
+				} else {
 					fabricImage.scaleToHeight(height).setCoords();
 				}
 				fabricImage.width = imageWidth;
@@ -466,7 +466,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 							}
 						});
 						return container;
-					}					catch (ex) {
+					} catch (ex) {
 						lose(ex);
 					}
 				});
@@ -539,7 +539,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				speed += (speed * 0.1);
 				if (speed < MIN_SPEED) {
 					speed = MIN_SPEED;
-				}				else if (speed > MAX_SPEED) {
+				} else if (speed > MAX_SPEED) {
 					speed = MAX_SPEED;
 				}
 			}
@@ -616,9 +616,9 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				currentValue = fbImage[getter]();
 				if (config.exact) {
 					newValue = rotateToStepHelper(currentValue, step);
-				}				else if (speed) {
+				} else if (speed) {
 					newValue = currentValue + (step * speed);
-				}				else {
+				} else {
 					newValue = currentValue + step;
 				}
 				if (config.min) {
@@ -776,24 +776,24 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 										prompt.confirm(error, function(ignoreValidationError) {
 											if (ignoreValidationError) {
 												saveFunc();
-											}											else {
+											} else {
 												callbacks.lose();
 											}
 										});
-									}									else {
+									} else {
 										callbacks.lose(error);
 									}
-								}								else {
+								} else {
 									saveFunc();
 								}
 
 							}, function() {
 								callbacks.lose();
 							});
-						}						else {
+						} else {
 							saveFunc();
 						}
-					}					else {
+					} else {
 						// we should only be here if the user has not taken a snapshot from the video stream
 						prompt.alert(i18n.get("imgedit_noimage"));
 					}
@@ -818,7 +818,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				if (cancel) {
 					done();
 					callbacks.lose();
-				}				else {
+				} else {
 					if (fbCanvas.getActiveObject()) {
 						fbCanvas.deactivateAll();  // selection box should not be part of the image
 						fbCanvas.renderAll();  // got to render for the selection box to disappear
@@ -827,7 +827,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 					if (file && !hasChanged()) {
 						console.log("No changes made, using original file");
 						result = file;  // if the user has made no changes simply pass thru the original file.
-					}					else {
+					} else {
 						result = saveCanvasAsFile(file);
 					}
 					done();
@@ -851,7 +851,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 						width: Math.min(fbCanvas.getWidth(), fbImage.getWidth()),
 						height: Math.min(fbCanvas.getHeight(), fbImage.getHeight())
 					};
-				}				else {
+				} else {
 					cropDimensions = {
 						left: fbImage.getLeft(),
 						top: fbImage.getTop(),
@@ -947,7 +947,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			var byteString, mimeString, ia, i;
 			if (dataURI.split(",")[0].indexOf("base64") >= 0) {
 				byteString = atob(dataURI.split(",")[1]);
-			}			else {
+			} else {
 				byteString = unescape(dataURI.split(",")[1]);
 			}
 

@@ -100,7 +100,7 @@ function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted
 				if (maxFileSize < fileSize) {
 					handleFileTooLarge(maxFileSize, fileSize);
 					instance.clearInput(element);
-				}				else if (!accepted(element)) {
+				} else if (!accepted(element)) {
 					showMessage(i18n.get("file_wrongtype", element.accept));
 					instance.clearInput(element);
 				}
@@ -121,10 +121,10 @@ function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted
 			if (maxFileSize >= GB) {
 				roundTo = GB;
 				units = i18n.get("file_size_gb");
-			}			else if (maxFileSize >= MB) {
+			} else if (maxFileSize >= MB) {
 				roundTo = MB;
 				units = i18n.get("file_size_mb");
-			}			else if (maxFileSize >= KB) {
+			} else if (maxFileSize >= KB) {
 				roundTo = KB;
 				units = i18n.get("file_size_kb");
 			}
@@ -132,7 +132,7 @@ function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted
 			if (roundTo) {
 				maxFileSizeHR = round(maxFileSize / roundTo);
 				fileSizeHR = round(fileSize / roundTo);
-			}			else {
+			} else {
 				maxFileSizeHR = maxFileSize;
 				fileSizeHR = fileSize;
 				units = i18n.get("file_size_");
@@ -191,7 +191,7 @@ function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted
 		this.initialise = function(element) {
 			if (event.canCapture) {
 				event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-			}			else {
+			} else {
 				event.add(element, event.TYPE.focusin, focusEvent);
 			}
 		};

@@ -21,7 +21,7 @@ define(["wc/date/isLeapYear"], /** @param isLeapYear wc/date/isLeapYear @ignore 
 		var result;
 		if (month === 2) {
 			result = (year || year === 0) ? (isLeapYear(year) ? 29 : 28) : 29;
-		}		else {
+		} else {
 			result = [undefined, 31, undefined, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
 		}
 		return result;

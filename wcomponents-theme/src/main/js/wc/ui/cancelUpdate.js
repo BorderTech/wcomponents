@@ -127,7 +127,7 @@ define(["wc/i18n/i18n",
 							buttonClicked = null;
 							$event.preventDefault();
 						}
-					}					else if (buttonClicked) {
+					} else if (buttonClicked) {
 						buttonClicked = null;
 					}
 				}
@@ -225,7 +225,7 @@ define(["wc/i18n/i18n",
 						formUpdateManager.clean(form);  // clear the write state info left over from the ajax request
 						storeFormState(form);
 						delete registry[key];
-					}					else {
+					} else {
 						instance.addElements(element);
 					}
 				}
@@ -310,11 +310,11 @@ define(["wc/i18n/i18n",
 						next = newKeys[i];
 						if (oldState.hasOwnProperty(next)) {
 							oldState[next] = oldState[next].concat(newState[next]);
-						}						else {
+						} else {
 							oldState[next] = newState[next];
 						}
 					}
-				}				else {
+				} else {
 					console.log("Could not add state for element", element);
 				}
 			};
@@ -354,7 +354,7 @@ define(["wc/i18n/i18n",
 							}
 						}
 					}
-				}				else {
+				} else {
 					console.log("Could not remove state for element", element);
 				}
 			};

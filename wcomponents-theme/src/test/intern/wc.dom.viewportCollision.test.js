@@ -50,7 +50,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 
 			if (expectGreater) {
 				assert.isTrue(collision[collDirection] > 0, msg);
-			}			else {
+			} else {
 				assert.isTrue(collision[collDirection] < 0, msg);
 			}
 		}

@@ -84,14 +84,14 @@ define(["wc/dom/Widget", "wc/dom/classList", "wc/i18n/i18n", "wc/ui/icon"], func
 					element.setAttribute(INVALID, TRUE);
 					icon.change(errorBox, "fa-times-circle", "fa-check-circle");
 				}
-			}			else {
+			} else {
 				errorBoxId = element.id + ERROR_BOX_SUFFIX;
 				errorBox = "<span id='" + errorBoxId + "' class='wc-fieldindicator "+ ERROR +"' role='alert'><i aria-hidden='true' class='fa fa-times-circle'></i><span>" + message + "</span></span>";
 				attachTo.insertAdjacentHTML(position, errorBox);
 				element.setAttribute(INVALID, TRUE);
 				if ((labelledBy = element.getAttribute(LABEL_ATTRIB))) {
 					element.setAttribute(LABEL_ATTRIB, labelledBy + " " + errorBoxId);
-				}				else {
+				} else {
 					element.setAttribute(LABEL_ATTRIB, errorBoxId);
 				}
 			}
@@ -202,7 +202,7 @@ define(["wc/dom/Widget", "wc/dom/classList", "wc/i18n/i18n", "wc/ui/icon"], func
 
 				if ((labelledBy = labelledBy.sort().join(" ").trim())) {  // sorting before joining makes sure trim gets rid of the excess space since all the nulls will be at one end
 					element.setAttribute(LABEL_ATTRIB, labelledBy);
-				}				else {
+				} else {
 					element.removeAttribute(LABEL_ATTRIB);
 				}
 			}

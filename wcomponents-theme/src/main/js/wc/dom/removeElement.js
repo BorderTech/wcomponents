@@ -32,7 +32,7 @@ define(["wc/timers"], /** @param timers wc/timers @ignore */ function(timers) {
 
 		if (useTimeout || useTimeout === 0) {
 			timers.setTimeout(_remove, _timeout);
-		}		else {
+		} else {
 			_remove();
 		}
 	}

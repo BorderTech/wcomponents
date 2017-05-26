@@ -404,7 +404,7 @@ define([
 					if (asciified && asciified !== next) {
 						next += asciified;
 					}
-				}				catch (ex) {
+				} catch (ex) {
 					rval += character;
 				}
 				rval += ("[" + next + "]");

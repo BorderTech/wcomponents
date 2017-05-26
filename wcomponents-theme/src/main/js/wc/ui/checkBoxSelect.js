@@ -106,7 +106,7 @@ define(["wc/dom/ariaAnalog",
 						}
 						if (selectedValArr.indexOf(option.value) > -1) {
 							shed.select(option, silent);
-						}						else {
+						} else {
 							shed.deselect(option, silent);
 						}
 						lastOption = option;

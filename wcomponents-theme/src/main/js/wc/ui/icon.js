@@ -69,8 +69,7 @@ define(["wc/dom/classList",
 				var icon = ICON.findDescendant(element, true);
 				if (icon) {
 					icon.className = "fa"; // clear out icon types
-				}
-				else {
+				} else {
 					element.addAjacentHTML("afterbegin", "<span aria-hidden='true' class='fa'></span>");
 					icon = ICON.findDescendant(element, true);
 				}

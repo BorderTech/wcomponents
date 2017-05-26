@@ -125,9 +125,9 @@ define(["wc/dom/shed",
 					if (!shed.isDisabled(next) && isWSelectToggle(next)) {
 						if (shed.isSelected(next) === shed.state.MIXED) {
 							state = STATE.MIXED;
-						}						else if (shed.isSelected(next) === shed.state.SELECTED) {
+						} else if (shed.isSelected(next) === shed.state.SELECTED) {
 							state = STATE.ALL;
-						}						else if (shed.isSelected(next) === shed.state.DESELECTED) {
+						} else if (shed.isSelected(next) === shed.state.DESELECTED) {
 							state = STATE.NONE;
 						}
 						if (state !== STATE.UNKNOWN) {
@@ -179,7 +179,7 @@ define(["wc/dom/shed",
 
 				if (CONTROLLER_LIST_WD.isOneOfMe(trigger)) {
 					actualTrigger = RADIO_SUBCONTROLLER.findDescendant(trigger);
-				}				else if (CONTROLLER_MENU_WD.isOneOfMe((trigger))) {
+				} else if (CONTROLLER_MENU_WD.isOneOfMe((trigger))) {
 					actualTrigger = MENU_SUBCONTROLLER.findDescendant(trigger);
 				}
 
@@ -368,11 +368,11 @@ define(["wc/dom/shed",
 						shed.select(controller, true);
 						to = ICON_ALL;
 						from = [ICON_SOME, ICON_NONE];
-					}					else if (status === STATE.MIXED && initialState !== shed.state.MIXED) {
+					} else if (status === STATE.MIXED && initialState !== shed.state.MIXED) {
 						shed.mix(controller, true);
 						to = ICON_SOME;
 						from = [ICON_ALL, ICON_NONE];
-					}					else if (status === STATE.NONE && initialState !== shed.state.DESELECTED) {
+					} else if (status === STATE.NONE && initialState !== shed.state.DESELECTED) {
 						shed.deselect(controller, true);
 						to = ICON_NONE;
 						from = [ICON_SOME, ICON_ALL];
@@ -443,10 +443,10 @@ define(["wc/dom/shed",
 
 				if (controlledElements.length === 0) {
 					groupState = STATE.NONE;
-				}				else if ((selected = getFilteredGroup(controlledElements))) {
+				} else if ((selected = getFilteredGroup(controlledElements))) {
 					if (selected.length === 0) {
 						groupState = STATE.NONE;
-					}					else if (controlledElements.length === selected.length) {
+					} else if (controlledElements.length === selected.length) {
 						groupState = STATE.ALL;
 					}
 				}
@@ -474,7 +474,7 @@ define(["wc/dom/shed",
 						ids = idArray.join(" ");
 						if (CONTROLLER_CHECKBOX_WD.isOneOfMe(element)) {
 							element.setAttribute(ARIA_CONTROLS, ids);
-						}						else {
+						} else {
 							Array.prototype.forEach.call(RADIO_SUBCONTROLLER.findDescendants(element), function (next) {
 								next.setAttribute(ARIA_CONTROLS, ids);
 							});
@@ -526,7 +526,7 @@ define(["wc/dom/shed",
 				STAND_IN_TEXT_EQUIV = STAND_IN_TEXT_EQUIV || i18n.get("toggle_all_label");
 				if (isWSelectToggle(element)) {
 					element.setAttribute("title", STAND_IN_TEXT_EQUIV);
-				}				else {
+				} else {
 					element.insertAdjacentHTML("beforeend", "<span>" + STAND_IN_TEXT_EQUIV + "</span>");
 				}
 			}
@@ -538,9 +538,9 @@ define(["wc/dom/shed",
 				}
 				if (CONTROLLER_LIST_WD.isOneOfMe(el)) {
 					setAriaLabelAttrib(el);
-				}				else if (CONTROLLER_CHECKBOX_WD.isOneOfMe(el)) {
+				} else if (CONTROLLER_CHECKBOX_WD.isOneOfMe(el)) {
 					setTextEquivalent(el);
-				}				else {
+				} else {
 					Array.prototype.forEach.call(CONTROLLER_LIST_WD.findDescendants(el), setAriaLabelAttrib);
 					Array.prototype.forEach.call(CONTROLLER_CHECKBOX_WD.findDescendants(el), setTextEquivalent);
 				}

@@ -20,7 +20,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"
 			var result;
 			if (window.getSelection) {
 				result = window.getSelection().toString();
-			}			else if (document.selection) {
+			} else if (document.selection) {
 				result = document.selection.createRange().text;
 			}
 			return result;
@@ -46,12 +46,12 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"
 						range = document.createRange();
 						range.selectNode(el);
 						window.getSelection().addRange(range);
-					}					else {
+					} else {
 						range = document.body.createTextRange();
 						range.moveToElementText(el);
 						range.select();
 					}
-				}				else {
+				} else {
 					assert.fail("Cannot find element with id " + SELECT_ID);
 				}
 			},

@@ -28,7 +28,7 @@ define(["wc/dom/initialise", "wc/ui/ajax/processResponse"],
 					if (documentFragment.getElementById) {
 						// IE, perhaps some others
 						el = documentFragment.getElementById(element.id);
-					}					else if (documentFragment.querySelector) {
+					} else if (documentFragment.querySelector) {
 						el = documentFragment.querySelector("#" + element.id);
 					}
 					if (el) {

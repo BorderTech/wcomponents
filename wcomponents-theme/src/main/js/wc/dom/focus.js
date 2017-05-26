@@ -132,11 +132,11 @@ define(["wc/array/toArray",
 									setFocusCallback();
 								}
 							}
-						}						catch (err) {
+						} catch (err) {
 							console.log("cannot focus element with id " + focusElementId + " " + err.message);
 						}
 					}, 0);
-				}				else {
+				} else {
 					throw new TypeError("Cannot focus something that ain't an element!");
 				}
 			};
@@ -170,7 +170,7 @@ define(["wc/array/toArray",
 						setFocusCallback();
 						result = next;
 						break;
-					}					catch (e) {
+					} catch (e) {
 						result = null;
 					}
 				}
@@ -304,13 +304,13 @@ define(["wc/array/toArray",
 					 */
 					if (shed.isDisabled(element) || shed.isHidden(element)) {
 						result = REJECT;
-					}					else if (tagName === tag.INPUT && element.type === "radio" && !shed.isSelected(element)) {
+					} else if (tagName === tag.INPUT && element.type === "radio" && !shed.isSelected(element)) {
 						if (getFilteredGroup(element).length) {
 							result = REJECT;
-						}						else {
+						} else {
 							result = ACCEPT;
 						}
-					}					else {
+					} else {
 						result = focusTabHelper(element, instance);
 					}
 				}
@@ -364,7 +364,7 @@ define(["wc/array/toArray",
 						(getStyle(element, "visibility", false, true) === "hidden") ||
 						(getStyle(element, "display", false, true) === "none")) {
 						result = REJECT;
-					}					else {
+					} else {
 						result = focusTabHelper(element, instance);
 					}
 				}
@@ -407,7 +407,7 @@ define(["wc/array/toArray",
 				if (instance.isTabstop(node) && instance.canFocus(node)) {
 					if (node !== document.activeElement) {
 						result = ACCEPT;
-					}					else {
+					} else {
 						result = REJECT;
 					}
 				}
@@ -429,13 +429,13 @@ define(["wc/array/toArray",
 				 */
 				if (tabIndex || tabIndex === "0") {
 					tabIndex = parseInt(tabIndex, 10);
-				}				else if (instance.isNativelyFocusable(tagName)) {
+				} else if (instance.isNativelyFocusable(tagName)) {
 					tabIndex = 0;
 				}
 				if (tabIndex || tabIndex === 0) {
 					if (tabIndex >= 0) {
 						result = ACCEPT;
-					}					else {
+					} else {
 						result = REJECT;
 					}
 				}

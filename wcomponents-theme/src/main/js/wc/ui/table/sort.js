@@ -96,7 +96,7 @@ define(["wc/dom/initialise",
 						}
 						element.setAttribute(SORT_ATTRIB, "1");
 						element.setAttribute(ARIA_SORT_ATTRIB, "ascending");
-					}					else {
+					} else {
 						element.setAttribute(SORT_ATTRIB, "1 reversed");
 						element.setAttribute(ARIA_SORT_ATTRIB, "descending");
 					}
@@ -148,7 +148,7 @@ define(["wc/dom/initialise",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-				}				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 				event.add(element, event.TYPE.click, clickEvent);

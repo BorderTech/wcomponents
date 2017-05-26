@@ -83,8 +83,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"],
 					}
 					if (target) {
 						activateButton(target);
-					}
-					else {
+					} else {
 						clearDefaultSubmit();
 					}
 				}
@@ -151,7 +150,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget"],
 					}
 					if (submitId) {
 						result = document.getElementById(submitId);
-					}					else if (form) {
+					} else if (form) {
 						result = SUBMIT_CONTROL_WD.findDescendant(form);
 					}
 				}

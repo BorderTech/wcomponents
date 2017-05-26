@@ -20,7 +20,7 @@ define(["wc/has"], function(has) {
 		var i = len - 1;
 		if (arguments.length >= 2) {
 			rv = arguments[1];
-		}		else {
+		} else {
 			do {
 				if (i in this) {
 					rv = this[i--];

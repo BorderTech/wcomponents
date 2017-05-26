@@ -97,7 +97,7 @@ define(["wc/dom/attribute",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.change, changeEvent, 1, null, true);
-				}				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 			};

@@ -106,7 +106,7 @@ define(["wc/dom/initialise",
 											controlled = controlled.join(" ");
 											next.setAttribute(CONTROLS, controlled);
 										}
-									}									else {
+									} else {
 										next.setAttribute(CONTROLS, myId);
 									}
 								});

@@ -88,7 +88,7 @@ define(["wc/dom/attribute",
 						count = unique(Array.prototype.filter.call(count, selectValidOptionFilter), function(a, b) {
 							return a.selectedIndex - b.selectedIndex;
 						}).length;
-					}					else if ((count = INPUT_WD.findDescendants(next)) && count.length) {
+					} else if ((count = INPUT_WD.findDescendants(next)) && count.length) {
 						// WMultiTextField may have empty inputs to fool the validator!
 						count = unique(Array.prototype.filter.call(count, function(input) {
 							return input.value;
@@ -97,7 +97,7 @@ define(["wc/dom/attribute",
 						}).length;
 						underFlag = "validation_multitext_undermin";
 						overFlag = "validation_multitext_overmax";
-					}					else {
+					} else {
 						// set it to zero because otherwise it will be a zero length nodelist and not equivalent of false
 						count = 0;
 					}
@@ -107,7 +107,7 @@ define(["wc/dom/attribute",
 							isInvalid = true;
 							flag = i18n.get(underFlag);
 							limit = min;
-						}						else if (max && count > max) {
+						} else if (max && count > max) {
 							isInvalid = true;
 							flag = i18n.get(overFlag);
 							limit = max;
@@ -224,7 +224,7 @@ define(["wc/dom/attribute",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.change, changeEvent, null, null, true);
-				}				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 				event.add(element, event.TYPE.click, clickEvent, 1);  // we want the click handler late so that add/remove runs first.

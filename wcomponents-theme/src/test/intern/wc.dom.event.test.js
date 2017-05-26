@@ -67,7 +67,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					assert.strictEqual(window.Event.CAPTURING_PHASE, 1);
 					assert.strictEqual(window.Event.AT_TARGET, 2);
 					assert.strictEqual(window.Event.BUBBLING_PHASE, 3);
-				}				else {
+				} else {
 					assert.isTrue(true);
 				}
 			},
@@ -150,7 +150,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 						event.add(element, EVENT, clickEvent, null, null, true);
 						event.fire(element, EVENT);
 						assert.isTrue(called);
-					}					else {
+					} else {
 						assert.isTrue(true);  // just so IE does not feel left out.
 					}
 				}				finally {
@@ -193,7 +193,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			testCanCapture: function() {
 				if (window.addEventListener) {
 					assert.isTrue(event.canCapture);
-				}				else {
+				} else {
 					assert.isFalse(event.canCapture);
 				}
 			},

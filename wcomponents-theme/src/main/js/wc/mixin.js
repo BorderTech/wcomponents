@@ -16,10 +16,10 @@ define(function() {
 					if (source[prop].constructor === Object) {
 						if (!result[prop] || result[prop].constructor === Object) {
 							result[prop] = mixin(source[prop], result[prop]);
-						}						else {
+						} else {
 							result[prop] = source[prop];
 						}
-					}					else {
+					} else {
 						result[prop] = source[prop];
 					}
 				}

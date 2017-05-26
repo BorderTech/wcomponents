@@ -112,7 +112,7 @@ define(["wc/loader/resource", "wc/xml/xpath"], /** @param loader wc/loader/resou
 				if (role.getAttribute) {
 					role = role.getAttribute("role") || baseRole;
 				}
-			}			else {
+			} else {
 				role = baseRole;
 			}
 			in$tance = getInstance(role);
@@ -152,7 +152,7 @@ define(["wc/loader/resource", "wc/xml/xpath"], /** @param loader wc/loader/resou
 						expression = "//owl:Class[child::" + nodeName + "[@rdf:resource='#" + role + "']]/@*[local-name()='ID']";
 						result = cache[role] = cleanRoles(config.query(expression, false, xmlDoc));
 					}
-				}				else {
+				} else {
 					throw new TypeError("role can not be null");
 				}
 				return result;
@@ -181,7 +181,7 @@ define(["wc/loader/resource", "wc/xml/xpath"], /** @param loader wc/loader/resou
 				initialise();
 				if (role) {
 					result = cache[role] || (cache[role] = getRoleNodes(role, false, nodeName));
-				}				else {
+				} else {
 					role = "*";
 					result = cache[role] || (cache[role] = getScopedRoles(nodeName));
 				}
@@ -264,7 +264,7 @@ define(["wc/loader/resource", "wc/xml/xpath"], /** @param loader wc/loader/resou
 				var i, superclasses, required, supported, name;
 				if (typeof classElement.getAttributeNS !== "undefined") {
 					name = classElement.getAttributeNS("http://www.w3.org/1999/02/22-rdf-syntax-ns#", "ID");
-				}				else {
+				} else {
 					name = classElement.getAttribute("rdf:ID");
 				}
 				if (!constructors[name]) {
@@ -322,7 +322,7 @@ define(["wc/loader/resource", "wc/xml/xpath"], /** @param loader wc/loader/resou
 							superClass = new constructors[superclassRoles[i]]();
 							if (i === 0) {
 								result.prototype = superClass;
-							}							else {
+							} else {
 								for (prop in superClass) {
 									if (!(prop in result.prototype)) {
 										result.prototype[prop] = superClass[prop];

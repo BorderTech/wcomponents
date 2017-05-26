@@ -61,7 +61,7 @@ define(["wc/dom/attribute",
 						if (!message) {
 							message = checkMin(element, value, min);
 						}
-					}					else if (isNaN(value)) {
+					} else if (isNaN(value)) {
 						message = i18n.get("validation_number_nan");
 					}
 					if (message) {
@@ -89,7 +89,7 @@ define(["wc/dom/attribute",
 				if (MAX_FIELD.isOneOfMe(element)) {
 					if (isNaN(value)) {
 						result = min ? i18n.get("validation_number_nanwithrange") : i18n.get("validation_number_nanwithmax");
-					}					else if (value > parseFloat(max)) {
+					} else if (value > parseFloat(max)) {
 						// if value < min it cannot be > max
 						result = min ? i18n.get("validation_number_outofrange") : i18n.get("validation_number_overmax");
 					}
@@ -111,7 +111,7 @@ define(["wc/dom/attribute",
 				if (MIN_FIELD.isOneOfMe(element)) {
 					if (isNaN(value)) {
 						result = i18n.get("validation_number_nanwithmin");
-					}					else if (value < parseFloat(min)) {
+					} else if (value < parseFloat(min)) {
 						result = i18n.get("validation_number_undermin");
 					}
 				}
@@ -173,7 +173,7 @@ define(["wc/dom/attribute",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.change, changeEvent, 1, null, true);
-				}				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 			};

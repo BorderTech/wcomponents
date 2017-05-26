@@ -104,7 +104,7 @@ define(["wc/date/interchange",
 								flag = sprintf.sprintf(flag, LABEL_PLACEHOLDER, comparisonDate);
 							}
 						}
-					}					else {
+					} else {
 						// a full date field can only be valid if a full date is entered and getDateFromElement will return ""
 						flag = i18n.get("validation_date_incomplete");
 						invalid = true;
@@ -153,7 +153,7 @@ define(["wc/date/interchange",
 
 				if (dateField.isOneOfMe(container, true)) {
 					candidates = [container];
-				}				else {
+				} else {
 					candidates = DATE_FIELD.findDescendants(container);
 				}
 				Array.prototype.forEach.call(candidates, function(next) {
@@ -168,7 +168,7 @@ define(["wc/date/interchange",
 						if (!dateField.getValue(next)) {
 							incomplete.push(next);
 						}
-					}					else {
+					} else {
 						textBox = dateField.getTextBox(next);
 						if (!textBox.getAttribute("required")) {
 							return;
@@ -191,7 +191,7 @@ define(["wc/date/interchange",
 
 				if (dateField.isOneOfMe(container, true)) {
 					valid = dateField.isReadOnly(container) || !isDateInvalid(container);
-				}				else {
+				} else {
 					invalid = Array.prototype.filter.call(candidates, isDateInvalid, this);
 					if (invalid && invalid.length) {
 						valid = false;
@@ -253,7 +253,7 @@ define(["wc/date/interchange",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.change, changeEvent, 1, null, true);
-				}				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent, 1);
 				}
 			};

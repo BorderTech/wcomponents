@@ -23,7 +23,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/shed", "wc/dom/Widget", "wc
 						timers.clearTimeout(showing);
 						showing = null;
 					}
-				}				else {  // someone is (re)showing tooltips, (re)schedule a cleanup
+				} else {  // someone is (re)showing tooltips, (re)schedule a cleanup
 					if (showing) {
 						timers.clearTimeout(showing);
 					}

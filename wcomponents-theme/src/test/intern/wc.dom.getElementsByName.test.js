@@ -30,7 +30,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				if (!has("ie")) {
 					gebnToString = document.getElementsByName.toString();
 					assert.isTrue(isNativeRe.test(gebnToString), "Do not override native methods that don't need it");
-				}				else {
+				} else {
 					assert.isFalse(isNativeRe.test(gebnToString), "IE below 10 should have a custom getElementsByName");
 				}
 			}

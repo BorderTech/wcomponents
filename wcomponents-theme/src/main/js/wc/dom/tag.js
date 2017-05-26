@@ -177,7 +177,7 @@ define(function() {
 		if (closing) {
 			tag.push("/");
 			tag.push(tagName);
-		}		else {
+		} else {
 			tag.push(tagName);
 			if (attributes) {
 				tag.push(" ");

@@ -33,7 +33,7 @@ define(["wc/dom/initialise",
 				var el = element || document.body;
 				if (element && WRAPPER.isOneOfMe(el)) {
 					makeLegend(el);
-				}				else {
+				} else {
 					Array.prototype.forEach.call(WRAPPER.findDescendants(el), makeLegend);
 				}
 			}

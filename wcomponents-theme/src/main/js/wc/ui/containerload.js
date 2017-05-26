@@ -110,11 +110,11 @@ define(["wc/dom/shed",
 							timers.setTimeout(function() {
 								trigger.fire().then(resolve, reject);
 							}, 0);
-						}						else {
+						} else {
 							reject();
 						}
 					});
-				}				else {
+				} else {
 					promise = Promise.resolve();
 				}
 				return promise;
@@ -135,7 +135,7 @@ define(["wc/dom/shed",
 						if ((form = getForm(element, true))) {
 							timers.setTimeout(event.fire, 0, form, event.TYPE.submit);
 						}
-					}					else if (MAGIC_CONTAINER.isOneOfMe(element)) {
+					} else if (MAGIC_CONTAINER.isOneOfMe(element)) {
 						promise = requestLoad(element, false, true);
 					}
 				}
@@ -155,7 +155,7 @@ define(["wc/dom/shed",
 				var _element, _widgets = [LAME_CONTAINER, DYNAMIC_CONTAINER];
 				if (action === shed.actions.COLLAPSE) {
 					 _element = Widget.isOneOfMe(element, _widgets) ? element : (Widget.findDescendant(element, _widgets, true) || element);
-				}				else {
+				} else {
 					_element = element;
 				}
 				if (_element && Widget.isOneOfMe(_element, _widgets)) {

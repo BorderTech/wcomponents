@@ -64,7 +64,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/uid", "wc/dom/Widget", "wc/
 				// NOTE: new issue found in IE8 after an update in March 2014!! window.open(url, name, null) no longer has the same effect as window.open(url, name);
 				if (specs) {
 					window.open(infoArr[URL_INDEX], name, specs);
-				}				else {
+				} else {
 					window.open(infoArr[URL_INDEX], name);
 				}
 			}
@@ -82,7 +82,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/uid", "wc/dom/Widget", "wc/
 				var url;
 				if ((url = element.getAttribute("data-wc-url"))) {
 					_open([url, element.getAttribute("data-wc-window"), element.getAttribute("data-wc-specs")]);
-				}				else {
+				} else {
 					console.warn("Could not find popup URL ", element.id);
 				}
 			}

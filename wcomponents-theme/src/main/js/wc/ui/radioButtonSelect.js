@@ -69,7 +69,7 @@ define(["wc/dom/group",
 							// should be only one
 							shed.deselect(next);
 						});
-					}					else {
+					} else {
 						_group = group.getGroup(element, RADIO);
 						for (i = 0; i < _group.length; ++i) {
 							option = _group[i];

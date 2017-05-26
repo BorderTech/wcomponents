@@ -13,13 +13,13 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			if (datalist) {
 				if (typeof datalist.querySelector !== "undefined") {
 					options = datalist.querySelectorAll("option");
-				}				else if (typeof datalist.getElementsByTagName !== "undefined") {
+				} else if (typeof datalist.getElementsByTagName !== "undefined") {
 					options = datalist.getElementsByTagName("option");
-				}				else {
+				} else {
 					assert.fail("CBF");  // i don't think any browser will end up here...
 				}
 				assert.strictEqual(262, options.length);
-			}			else {
+			} else {
 				assert.fail("Did not load datalist");
 			}
 		}

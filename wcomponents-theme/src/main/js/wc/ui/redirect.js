@@ -77,7 +77,7 @@ define(["wc/dom/uid", "wc/timers"], /** @param uid wc/dom/uid @param timers wc/t
 					if (instance.isLaunchUrl(url)) {
 						target = getRedirectFrame();
 						target.src = url;
-					}					else {
+					} else {
 						/* we use window.parent here to break out of iframe in multiFileUploader
 						MDC: https://developer.mozilla.org/en/window.parent
 						If a window does not have a parent, its parent property is a reference to itself.
@@ -113,7 +113,7 @@ define(["wc/dom/uid", "wc/timers"], /** @param uid wc/dom/uid @param timers wc/t
 					if (result) {
 						break;
 					}
-				}				catch (ex) {
+				} catch (ex) {
 					console.error(ex);
 				}
 			}

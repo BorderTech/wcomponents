@@ -72,7 +72,7 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 			if (flag !== null) {
 				if (pending) {
 					globalPending |= flag;
-				}				else {
+				} else {
 					globalPending &= ~flag;
 				}
 			}
@@ -92,7 +92,7 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 					notify = stateChangeFactory(element, instance.attr);
 					if (!isReady) {  // If the DOM is busy we want to notify ASAP
 						notify();
-					}					else {  // If the DOM is ready notify "soon" in case another action is about to start
+					} else {  // If the DOM is ready notify "soon" in case another action is about to start
 						delay = storage.get("wc.a8n.delay") || 501;  // String should be ok without casting...
 						timer = window.setTimeout(function() {
 							notify();
@@ -173,7 +173,7 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 			if (callback) {
 				if (instance.isReady()) {
 					window.setTimeout(callback, 0);
-				}				else {
+				} else {
 					if (!observer) {
 						observer = new Observer();
 					}
@@ -201,7 +201,7 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 			if (Object.freeze) {
 				Object.freeze(instance);
 			}
-		}		catch (ex) {
+		} catch (ex) {
 			console.warn(ex);
 		}
 		initialise.register(instance);

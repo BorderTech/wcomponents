@@ -123,7 +123,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 					registry.register(newSubscriber, group, priority);
 				}
 				result = subscriber;  // this is stupid, maybe we should return newSubscriber and that can be used to unsubscribe?
-			}			else {
+			} else {
 				throw new ReferenceError("Call to Observer.subscribe without a subscriber");
 			}
 			return result;
@@ -177,7 +177,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 								break;
 							}
 						}
-					}					catch (ex) {
+					} catch (ex) {
 						console.error("Error in callback: ", callback, ex.message);
 					}
 				}
@@ -230,7 +230,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 			} else if (arg.constructor === Function) {
 				// custom filter provided by caller
 				filterFn = arg;
-			}			else {
+			} else {
 				throw new TypeError("arg must be a String or Function");
 			}
 		};
@@ -268,7 +268,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 		this.setCallback = function(fn) {
 			if (fn) {
 				callback = fn;
-			}			else {
+			} else {
 				throw new TypeError("Callback function cannot be null.");
 			}
 		};
@@ -409,7 +409,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 				if (groups.constructor !== Array) {
 					// it must be a string
 					groupStore = getGroupStore(groups);
-				}				else {  // multiple entries in the group store are involved
+				} else {  // multiple entries in the group store are involved
 					groupStore = new GroupStore();
 					// loop the groups checking and add their subscribers
 					groups.forEach(function(groupName) {
@@ -439,7 +439,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 				groupStore = getGroupStore(group);
 			if (groupStore) {
 				result = groupStore.contains(subscriber);
-			}			else {
+			} else {
 				result = false;
 			}
 			return result;
@@ -523,11 +523,11 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 			var result, groups;
 			if (!filterFn) {
 				result = DEFAULT_GROUP;
-			}			else {
+			} else {
 				groups = Object.keys(store).filter(filterFn);
 				if (groups.length === 1) {
 					result = groups[0];
-				}				else {
+				} else {
 					result = groups;
 				}
 			}
@@ -583,13 +583,13 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 			if (subscriber instanceof Subscriber) {
 				if (!priority || isNaN(priority)) {  // zero or null or false or undefined or a non-numeric string
 					arr = this[MED];
-				}				else if (priority < 0) {  // negative number is low priority
+				} else if (priority < 0) {  // negative number is low priority
 					arr = this[LOW];
-				}				else {  // anything else, e.g. positive number, true
+				} else {  // anything else, e.g. positive number, true
 					arr = this[HIGH];
 				}
 				arr[arr.length] = subscriber;
-			}			else {
+			} else {
 				throw new TypeError("Can not subscribe " + subscriber);
 			}
 		};
@@ -698,7 +698,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 				this[HIGH] = mergeGroup(this[HIGH], groupStore[HIGH], HIGH);
 				this[MED] = mergeGroup(this[MED], groupStore[MED], MED);
 				this[LOW] = mergeGroup(this[LOW], groupStore[LOW], LOW);
-			}			else {
+			} else {
 				throw new TypeError("Can not merge " + groupStore);
 			}
 		};
@@ -734,7 +734,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 			if (len1 && len2) {
 				result = arr1.concat(arr2);
 				unsorted += flag;
-			}			else {
+			} else {
 				result = len2 ? arr2 : arr1;
 			}
 			return result;
@@ -786,10 +786,10 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 			if (typeof func === FUNCTION) {
 				try {
 					result = func.apply(getContext(this), args);
-				}				catch (ex) {
+				} catch (ex) {
 					console.error("Error in subscriber: ", $self, ex.message);
 				}
-			}			else {
+			} else {
 				console.warn("Could not notify: ", $self);
 			}
 			return result;
@@ -807,9 +807,9 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 			if (!result) {
 				if (method) {  // if we are calling a public method on an object
 					result = subscriber;  // return the object to which the method is bound
-				}				else if (callerScope !== $self && !(callerScope instanceof Observer)) {// if the caller has been called with "call" or "apply"
+				} else if (callerScope !== $self && !(callerScope instanceof Observer)) {// if the caller has been called with "call" or "apply"
 					result = callerScope;  // pass through scope
-				}				else {  // scope is not set in any way, it should be the global scope
+				} else {  // scope is not set in any way, it should be the global scope
 					result = window.self;  // global scope (this window)
 				}
 			}

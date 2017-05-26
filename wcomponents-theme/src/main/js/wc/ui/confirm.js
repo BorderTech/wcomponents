@@ -37,7 +37,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/cancelButto
 							// console.info("Cancelled event");
 							focus.setFocusRequest(target);
 						}
-					}					else {
+					} else {
 						console.warn("No message found for element", target);
 					}
 				}

@@ -77,7 +77,7 @@ define(["wc/Observer", "wc/timers", "lib/dojo/domReady"],
 							queueGo();
 						}
 						result = observer.subscribe(listener, config);
-					}					else {
+					} else {
 						console.error("Could not add ", listener);
 						result = null;
 					}
@@ -138,7 +138,7 @@ define(["wc/Observer", "wc/timers", "lib/dojo/domReady"],
 				var result;
 				if (observer) {
 					result = observer.toString();
-				}				else {
+				} else {
 					result = "no subscribers";
 				}
 				return result;

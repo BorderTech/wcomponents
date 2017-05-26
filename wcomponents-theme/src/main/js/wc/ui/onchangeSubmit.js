@@ -106,14 +106,14 @@ define(["wc/dom/attribute",
 									timers.setTimeout(event.fire, 0, form, event.TYPE.submit);
 								}
 								removeLoadedOptionRegistry(element);
-							}							else {
+							} else {
 								submitting = true;
 								console.warn(DEP_WARNING);
 								timers.setTimeout(event.fire, 0, form, event.TYPE.submit);
 							}
 						}
 					}
-				}				else {
+				} else {
 					console.warn("onchange submit fired twice");  // this is going to be hard to spot when the page is submitting
 				}
 			}
@@ -201,7 +201,7 @@ define(["wc/dom/attribute",
 								if (hintContent.indexOf(submitOnChangeHint) === -1) {
 									label.setHint(myLabel, submitOnChangeHint);
 								}
-							}							else {
+							} else {
 								label.setHint(myLabel, submitOnChangeHint);
 							}
 						}
@@ -218,7 +218,7 @@ define(["wc/dom/attribute",
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, domFocusEvent, null, null, true);
 					event.add(element, event.TYPE.change, changeEvent, null, null, true);
-				}				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 				timers.setTimeout(addAllWarnings, 0, element);

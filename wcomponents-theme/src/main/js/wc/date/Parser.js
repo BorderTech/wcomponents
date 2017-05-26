@@ -202,7 +202,7 @@ define(["wc/date/today",
 							if (rolled) {
 								continue;
 							}
-						}						else {
+						} else {
 							// if we are rolling we return the 'rolled' date
 							next.day = check.getDate();
 							next.month = check.getMonth() + 1;

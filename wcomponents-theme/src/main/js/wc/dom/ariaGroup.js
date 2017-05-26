@@ -101,7 +101,7 @@ define(["wc/array/toArray",
 				if ((scopedRoles && scopedRoles.length)) {
 					container = element;
 					rescope = false;
-				}				else {
+				} else {
 					container = this.getContainer(element, null, true);
 				}
 
@@ -125,14 +125,14 @@ define(["wc/array/toArray",
 							if (candidates && candidates.length) {
 								if (ignoreInnerGroups) {
 									result = candidates;
-								}								else {
+								} else {
 									result = candidates.filter(function(next) {
 										return this.getContainer(next, containerWd, true) === container;
 									}, this);
 								}
 							}
 						}
-					}					else {
+					} else {
 						console.log("could not find any scoped roles");
 					}
 				}
@@ -160,7 +160,7 @@ define(["wc/array/toArray",
 				if (!result) {
 					if (containerWd) {
 						result = containerWd.findAncestor(element);
-					}					else if ((role = $role.get(element, true))) {
+					} else if ((role = $role.get(element, true))) {
 						scope = aria.getScope(role);
 						if (!(scope && scope.length)) {
 							scope = aria.getScopedBy(role);
@@ -169,14 +169,14 @@ define(["wc/array/toArray",
 							widgets = buildWidgetArrayFromRoles(scope);
 							if (widgets.length === 0) {
 								widgets = null;
-							}							else if (widgets.length === 1) {
+							} else if (widgets.length === 1) {
 								widgets = widgets[0];
 							}
 
 							if (widgets) {
 								if (Array.isArray(widgets)) {
 									result = Widget.findAncestor(element, widgets);
-								}								else {
+								} else {
 									result = widgets.findAncestor(element);
 								}
 							}

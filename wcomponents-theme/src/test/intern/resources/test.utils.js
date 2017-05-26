@@ -48,7 +48,7 @@ define(["wc/compat/compat!"], function() {
 							win(args);
 						}, setupTimeout);
 					});
-				}				catch (ex) {
+				} catch (ex) {
 					lose(ex);
 				}
 			});
@@ -63,7 +63,7 @@ define(["wc/compat/compat!"], function() {
 				testHolder = document.createElement("section");
 				testHolder.id = testHolderId;
 				document.body.appendChild(testHolder);
-			}			else if (!keepContent) {
+			} else if (!keepContent) {
 				testHolder.innerHTML = "";
 			}
 

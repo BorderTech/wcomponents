@@ -29,7 +29,7 @@ define(["module"], function(module) {
 		this.set = function(config, id) {
 			if (id) {
 				configObject[id] = config || configObject[id];
-			}			else {
+			} else {
 				configObject = config || configObject;
 			}
 		};

@@ -102,11 +102,11 @@ define(["wc/dom/initialise",
 
 						regexp = RX_STRING ? new RegExp(RX_STRING) : DEFAULT_RX;
 						patternFlag = i18n.get("validation_email_format");
-					}					else if ((mask = element.getAttribute("pattern"))) {
+					} else if ((mask = element.getAttribute("pattern"))) {
 						try {
 							regexp = new RegExp("^(?:" + mask + ")$");
 							patternFlag = i18n.get("validation_common_pattern");
-						}						catch (e) {
+						} catch (e) {
 							regexp = null;
 							// console.log("cannot convert input mask to regular expression, assuming valid");
 						}
@@ -115,7 +115,7 @@ define(["wc/dom/initialise",
 						if (flag) {
 							patternFlag = patternFlag.replace("%s ", "");
 							flag = sprintf.sprintf(concatenator, flag, patternFlag);
-						}						else {
+						} else {
 							flag = patternFlag;
 						}
 						result = true;
@@ -202,7 +202,7 @@ define(["wc/dom/initialise",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.change, changeEvent, 1, null, true);
-				}				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 			};

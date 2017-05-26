@@ -25,7 +25,7 @@ define(["wc/dom/formUpdateManager",
 				if (stopped) {
 					delete uploading[id];
 					container.removeAttribute(BUSY_ATTRIBUTE);
-				}				else {
+				} else {
 					uploading[id] = true;
 					container.setAttribute(BUSY_ATTRIBUTE, true);
 				}
@@ -64,7 +64,7 @@ define(["wc/dom/formUpdateManager",
 						this.writeState(form, dto.container, dto.element);
 						try {
 							event.fire(form, event.TYPE.submit);
-						}						catch (ex) {  // this can happen if user types invalid path in file input element (can't happen in FF)
+						} catch (ex) {  // this can happen if user types invalid path in file input element (can't happen in FF)
 							console.log(ex);
 						}
 					}
@@ -83,7 +83,7 @@ define(["wc/dom/formUpdateManager",
 				if (iframe) {
 					if (iframe.contentWindow.stop) {
 						iframe.contentWindow.stop();  // browsers
-					}					else {
+					} else {
 						iframe.contentWindow.document.execCommand("Stop");  // IE
 					}
 				}
@@ -110,7 +110,7 @@ define(["wc/dom/formUpdateManager",
 					result = document.getElementById(iframeId);
 					if (result.addEventListener) {
 						result.addEventListener(event.TYPE.load, callback, false);
-					}					else {
+					} else {
 						result.attachEvent("on" + event.TYPE.load, callback);
 					}
 				}
@@ -161,7 +161,7 @@ define(["wc/dom/formUpdateManager",
 						formHTML = sprintf.sprintf(formHTML, iframeId, action, formId, element.name);
 						document.body.insertAdjacentHTML("beforeEnd", formHTML);
 						result = document.getElementById(formId);
-					}					else {
+					} else {
 						console.log("File upload URL not set ");
 					}
 				}
@@ -185,7 +185,7 @@ define(["wc/dom/formUpdateManager",
 					try {
 						dto.callback(body);
 						dto.complete(dto.element.id);
-					}					catch (ex) {
+					} catch (ex) {
 						console.log("Error in callback ", ex);
 					}					finally {
 						body.innerHTML = "";  // reset
@@ -238,7 +238,7 @@ define(["wc/dom/formUpdateManager",
 			parent2.replaceChild(el1, el2);
 			if (el1next) {
 				parent1.insertBefore(el2, el1next);
-			}			else {
+			} else {
 				parent1.appendChild(el2);
 			}
 		}

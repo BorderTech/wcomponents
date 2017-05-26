@@ -78,7 +78,7 @@ define(["wc/dom/ariaAnalog",
 						if (action === shed.actions.SELECT) {
 							add = isMultiSelect ? "fa-check-square-o" : "fa-dot-circle-o";
 							remove = isMultiSelect ? "fa-square-o" : "fa-circle-o";
-						}						else {
+						} else {
 							add = isMultiSelect ? "fa-square-o" : "fa-circle-o";
 							remove = isMultiSelect ? "fa-check-square-o" : "fa-dot-circle-o";
 						}

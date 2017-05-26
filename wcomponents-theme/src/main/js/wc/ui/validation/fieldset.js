@@ -98,7 +98,7 @@ define(["wc/i18n/i18n",
 							validationManager.setOK(container);
 						}
 						container = INVALID.findAncestor(container.parentNode);
-					}					else {
+					} else {
 						break;  // if the innermost invalid fieldset is still invalid there is no point traversing
 					}
 				}

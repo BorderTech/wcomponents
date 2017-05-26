@@ -36,7 +36,7 @@ define(["wc/dom/event",
 						obj = { width: element.style.width, height: element.style.height} ;
 						resized[id] = obj;
 						store = true;
-					}					else if (resized[id]) {
+					} else if (resized[id]) {
 						delete resized[id];
 						store = true;
 					}
@@ -160,7 +160,7 @@ define(["wc/dom/event",
 
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-				}				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 

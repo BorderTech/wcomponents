@@ -77,7 +77,7 @@ define(["wc/dom/attribute",
 					if ((mask = textArea.getMaxlength(element)) && size > mask) {
 						result = true;
 						flag = i18n.get("validation_textarea_overmax", "%s", mask, size);
-					}					else if ((mask = element.getAttribute("data-wc-min")) && size < mask) {
+					} else if ((mask = element.getAttribute("data-wc-min")) && size < mask) {
 						result = true;
 						flag = i18n.get("validation_text_belowmin", "%s", mask);
 					}
@@ -152,7 +152,7 @@ define(["wc/dom/attribute",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.change, changeEvent, 1, null, true);
-				}				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 			};

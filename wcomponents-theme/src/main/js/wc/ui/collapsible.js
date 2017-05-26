@@ -52,12 +52,12 @@ define(["wc/dom/event",
 					if (isOpen) {
 						if (isStillOpen) {
 							shed.collapse(container);
-						}						else {
+						} else {
 							shed.publish(container, shed.actions.COLLAPSE);
 						}
-					}					else if (!isStillOpen) {
+					} else if (!isStillOpen) {
 						shed.expand(container);
-					}					else {
+					} else {
 						shed.publish(container, shed.actions.EXPAND);
 					}
 
@@ -94,11 +94,11 @@ define(["wc/dom/event",
 					if (isAcceptableEventTarget(element, target)) {
 						toggle(element);
 						result = element;
-					}					else if ((focusableAncestor = focus.getFocusableAncestor(target))) {
+					} else if ((focusableAncestor = focus.getFocusableAncestor(target))) {
 						if (focusableAncestor !== target) {
 							$event.preventDefault();
 							timers.setTimeout(event.fire, 0, focusableAncestor, event.TYPE.click);
-						}						else {
+						} else {
 							result = focusableAncestor;
 						}
 					}
@@ -191,13 +191,13 @@ define(["wc/dom/event",
 						if (shed.isDisabled(header)) {
 							shed.enable(header, true);
 						}
-					}					else if ($role.get(header) === "button") {
+					} else if ($role.get(header) === "button") {
 						header.setAttribute("aria-expanded", action === shed.actions.EXPAND ? TRUE : FALSE);
 					}
 
 					if (action === shed.actions.EXPAND) {
 						icon.change(header, "fa-caret-down", "fa-caret-right");
-					}					else if (action === shed.actions.COLLAPSE) {
+					} else if (action === shed.actions.COLLAPSE) {
 						icon.change(header, "fa-caret-right", "fa-caret-down");
 					}
 				}
@@ -235,9 +235,9 @@ define(["wc/dom/event",
 				var result;
 				if (onlyContainer) {
 					result = COLLAPSIBLE_CONTAINER.isOneOfMe(element);
-				}				else if (onlyContainer === false) {
+				} else if (onlyContainer === false) {
 					result = COLLAPSIBLE_HEADER.isOneOfMe(element);
-				}				else {
+				} else {
 					result = Widget.isOneOfMe(element, [COLLAPSIBLE_HEADER, COLLAPSIBLE_CONTAINER]);
 				}
 				return result;
@@ -267,7 +267,7 @@ define(["wc/dom/event",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-				}				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 				event.add(element, event.TYPE.click, clickEvent);

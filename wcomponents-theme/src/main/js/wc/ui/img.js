@@ -34,7 +34,7 @@ define(["wc/dom/initialise",
 				var el = element || document.body;
 				if (element && IMG.isOneOfMe(element)) {
 					makeEditButton(element);
-				}				else {
+				} else {
 					Array.prototype.forEach.call(IMG.findDescendants(el), makeEditButton);
 				}
 			}

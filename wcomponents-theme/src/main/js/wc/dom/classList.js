@@ -96,7 +96,7 @@ define(["wc/has"], /** @param has wc/has @ignore */function(has) {
 			toggle: function(token) {
 				if (checkAndGetIndex(classes, token) === -1) {
 					this.add(token);
-				}				else {
+				} else {
 					this.remove(token);
 				}
 			},

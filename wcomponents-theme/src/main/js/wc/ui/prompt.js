@@ -26,7 +26,7 @@ define(["wc/timers"], function(timers) {
 		if (Array.isArray(message)) {
 			msg = message.map(formatMessage);
 			msg = msg.join("\n");
-		}		else {
+		} else {
 			msg = formatMessage(message);
 		}
 		return msg;
@@ -47,7 +47,7 @@ define(["wc/timers"], function(timers) {
 				if (callback) {
 					try {
 						callback(result);
-					}					catch (ex) {
+					} catch (ex) {
 						console.warn(ex);
 					}
 				}

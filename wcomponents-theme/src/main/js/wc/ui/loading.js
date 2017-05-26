@@ -23,7 +23,7 @@ define(["wc/dom/initialise", "wc/ui/modalShim", "wc/timers", "wc/dom/classList"]
 			done: new Promise(function(loaded, error) {
 				try {
 					loaded();
-				}				catch (ex) {
+				} catch (ex) {
 					error(ex);
 				}
 			})

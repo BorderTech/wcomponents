@@ -28,7 +28,7 @@ define(["wc/dom/focus"],/** @param focus wc/dom/focus @ignore */function(focus) 
 		if (!result) {
 			if ((firstActiveAncestor = focus.getFocusableAncestor(target))) {
 				result = firstActiveAncestor === element;
-			}			else {
+			} else {
 				// element has no focusable ancestors (and therefore no clickable ancestors) and is therefore may as well be clickable itself
 				result = true;
 			}

@@ -75,7 +75,7 @@ define(["wc/Observer",
 				/* input of type hidden is exempt from validation but is not allowed to determine that a container is complete. */
 				if (candidate.tagName === tag.INPUT && candidate.type === "hidden") {
 					result = true;
-				}				else {
+				} else {
 					// remove any elements which are exempt from validation as these are also exempt from completeness tests
 					result = !validationManager.isExempt(candidate);
 				}
@@ -108,9 +108,9 @@ define(["wc/Observer",
 
 				if (Widget.isOneOfMe(container, widget)) {
 					result = isNotExempt(container) && filter(container);
-				}				else if (Array.isArray(widget)) {
+				} else if (Array.isArray(widget)) {
 					candidates = Widget.findDescendants(container, widget);
-				}				else {
+				} else {
 					candidates = widget.findDescendants(container);
 				}
 				if (candidates && candidates.length) {
@@ -146,13 +146,13 @@ define(["wc/Observer",
 				 */
 				if (CONTROLS.isOneOfMe(container)) {
 					result = [container];
-				}				else {
+				} else {
 					result = Widget.findDescendants(container, [CONTROLS, ANALOGS]);
 				}
 
 				if (result && result.length) {
 					result = Array.prototype.filter.call(result, isNotExempt);
-				}				else {
+				} else {
 					result = null;
 				}
 				return result;
@@ -183,7 +183,7 @@ define(["wc/Observer",
 				if (container.getAttribute("data-wc-name") && container.hasAttribute("data-wc-value")) {
 					// a control may have a name analog but no value analog and still not be incomplete, weird eh? (see selectToggle)
 					result = !!container.getAttribute("data-wc-value");
-				}				else {
+				} else {
 					if (observer) {
 						observer.setFilter(OBSERVER_GROUP);
 						observer.setCallback(function(decision) {
@@ -199,13 +199,13 @@ define(["wc/Observer",
 						candidates = getComponents(container);
 						if (candidates === null) {  // nothing of interest in the container
 							result = true;  // nothing in the container, must be complete
-						}						else if (!candidates.length) {  // empty array, so we had candidates but they are all exempt.
+						} else if (!candidates.length) {  // empty array, so we had candidates but they are all exempt.
 							if (result === undefined) {  // no subscribers, so we have only exempt candidates
 								result = true;
 							}
 							/* else result was explicitly false from all interested subscribers so we can assume notComplete
 							 * otherwise there would have been at least one true amongst them. */
-						}						else {
+						} else {
 							candidates = toArray(candidates);
 							result = candidates.some(_amIComplete, this);
 						}
@@ -240,9 +240,9 @@ define(["wc/Observer",
 						if ((option = element.options[element.selectedIndex]) && option.getAttribute(NULL_OPTION_ATTRIBUTE)) {
 							result = false;
 						}
-					}					else if (tagName === tag.INPUT && element.type === "hidden") {
+					} else if (tagName === tag.INPUT && element.type === "hidden") {
 						result = false;
-					}					else if ((tagName === tag.INPUT && element.type !== "checkbox") || tagName === tag.TEXTAREA) {
+					} else if ((tagName === tag.INPUT && element.type !== "checkbox") || tagName === tag.TEXTAREA) {
 						result = !!(element.value);
 					}
 				}

@@ -33,7 +33,7 @@ define(["wc/has"],/** @param has wc/has @ignore */ function(has) {
 					(a !== b && b.contains(a) && 8) +
 					(a.sourceIndex >= 0 && b.sourceIndex >= 0 ?
 			(a.sourceIndex < b.sourceIndex && 4) + (a.sourceIndex > b.sourceIndex && 2) : 1) + 0;
-		}		else {
+		} else {
 			result = 0;
 		}
 		return result;

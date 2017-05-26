@@ -109,10 +109,10 @@ define(["wc/has",
 					if ((_validateFunc(element))) {
 						feedback.setOK(element);
 						isNowInvalid = false;
-					}					else {
+					} else {
 						isNowInvalid = true;
 					}
-				}				else if (feedback.isMarkedOK(element, this)) {
+				} else if (feedback.isMarkedOK(element, this)) {
 					isNowInvalid = !_validateFunc(element);
 				}
 

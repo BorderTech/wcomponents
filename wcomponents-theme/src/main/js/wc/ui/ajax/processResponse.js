@@ -41,7 +41,7 @@ define(["wc/Observer",
 						};
 						if (this._errors) {
 							cb(this._errors);
-						}						else {
+						} else {
 							require(["wc/ui/errors"], cb, cb);
 						}
 					}
@@ -116,11 +116,11 @@ define(["wc/Observer",
 							doc = toDocFragment(response);
 							processResponseHtml(doc, trigger);
 							resolve();
-						}						else {
+						} else {
 							reject("Unknown response type");
 						}
 					});
-				}				else {
+				} else {
 					promise = Promise.reject("Response is empty");
 				}
 				return promise;
@@ -132,7 +132,7 @@ define(["wc/Observer",
 				if (documentFragment) {
 					if (documentFragment.querySelector) {
 						doc = documentFragment.querySelector(".wc-ajaxresponse");
-					}					else {
+					} else {
 						doc = documentFragment.firstElementChild || documentFragment.firstChild;
 					}
 					if (doc) {
@@ -153,7 +153,7 @@ define(["wc/Observer",
 										content.appendChild(next.firstChild);
 									}
 									insertPayloadIntoDom(element, content, action, trigger, false);
-								}								else {
+								} else {
 									console.warn("Could not find element", targetId);
 								}
 							}
@@ -162,10 +162,10 @@ define(["wc/Observer",
 						if (doc.children.length) {
 							document.body.appendChild(documentFragment);
 						}
-					}					else {
+					} else {
 						console.warn("Response does not appear well formed");
 					}
-				}				else {
+				} else {
 					console.warn("Response is empty");
 				}
 			};
@@ -220,7 +220,7 @@ define(["wc/Observer",
 					case instance.actions.REPLACE:
 						if (element.tagName !== tag.BODY) {
 							actionMethod = replaceElement;
-						}						else {
+						} else {
 							console.warn("Refuse to replace BODY element, use action", instance.actions.FILL);
 						}
 						break;
@@ -251,7 +251,7 @@ define(["wc/Observer",
 								observer.setFilter(OBSERVER_GROUP);
 								observer.notify(nextElement, action, triggerId);
 							});
-						}						else {
+						} else {
 							observer.setFilter(OBSERVER_GROUP);
 							observer.notify(_element, action, triggerId);
 						}
@@ -308,7 +308,7 @@ define(["wc/Observer",
 				while ((child = _content.firstChild)) {
 					if (child.nodeType === Node.ELEMENT_NODE) {
 						result[result.length] = parent.insertBefore(child, element);
-					}					else {
+					} else {
 						_content.removeChild(child);
 					}
 				}
@@ -317,7 +317,7 @@ define(["wc/Observer",
 
 				if (result.length === 1) {
 					result = result[0];
-				}				else if (!result.length) {
+				} else if (!result.length) {
 					result = null;
 				}
 				insertScripts(scripts, parent);
@@ -347,10 +347,10 @@ define(["wc/Observer",
 					if ((id = child.id)) {
 						if ((_element = document.getElementById(id))) {
 							result = replaceElement(_element, wrapper);
-						}						else {
+						} else {
 							result = appendElementContent(element, wrapper);
 						}
-					}					else {
+					} else {
 						result = appendElementContent(element, wrapper);
 					}
 
@@ -391,7 +391,7 @@ define(["wc/Observer",
 					}
 					if ((src = next.getAttribute(srcAttr))) {
 						newScript.setAttribute(srcAttr, src);
-					}					else {
+					} else {
 						textProp = next.textContent ? "textContent" : "text";
 						newScript[textProp] = next[textProp];
 					}
@@ -412,14 +412,14 @@ define(["wc/Observer",
 				try {
 					if (typeof content.querySelectorAll !== "undefined") {
 						scripts = content.querySelectorAll(tag.SCRIPT);
-					}					else {
+					} else {
 						scripts = content.getElementsByTagName(tag.SCRIPT);
 					}
 
 					for (i = 0; i < scripts.length; i++) {
 						result[result.length] = scripts[i].parentNode.removeChild(scripts[i]);
 					}
-				}				catch (ex) {
+				} catch (ex) {
 					console.error("Could not extract scripts from content ", ex.message);
 				}
 				return result;
@@ -441,7 +441,7 @@ define(["wc/Observer",
 				if (content) {
 					if (typeof content.querySelectorAll !== "undefined") {
 						checkDuplicateIdsElement(content);
-					}					else if (content.constructor === String) {
+					} else if (content.constructor === String) {
 						checkDuplicateIdsHtml(content);
 					}
 				}
