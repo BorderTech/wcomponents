@@ -10,11 +10,11 @@ define(["wc/ui/menu/core",
 	"wc/dom/classList",
 	"wc/timers",
 	"wc/ui/ajax/processResponse",
-	"wc/loader/resource",
 	"wc/template",
 	"wc/ui/viewportUtils",
 	"wc/ui/menu/menuItem"],
-	function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid, i18n, classList, timers, processResponse, loader, template, viewportUtils) {
+	function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid, i18n, classList, timers,
+	         processResponse, template, viewportUtils) {
 		"use strict";
 
 		/* Unused dependencies:
@@ -29,8 +29,7 @@ define(["wc/ui/menu/core",
 		 * @private
 		 */
 		function Menubar() {
-			var BANNER = BANNER || new Widget("header", "", {role: "banner"}),
-				HAMBURGER,
+			var HAMBURGER,
 				MENU_FIXED = "wc_menu_fix",
 				resizeTimer,
 				BURGER_MENU_CLASS = "wc_menu_hbgr",
@@ -283,52 +282,51 @@ define(["wc/ui/menu/core",
 			 *
 			 * @function
 			 * @private
-			 * @param {type} el the element to test and (possibly) manipulate.
+			 * @param {Element} el the element to test and (possibly) manipulate.
 			 */
 			function attachSubMenuCloseButton(el) {
+				var branch,
+					opener,
+					label,
+					props = {},
+					closeButton;
 				if (el && instance.isSubMenu(el)) {
-					loader.load("submenuCloseButton.mustache", true, true).then(function(rawTemplate) {
-						var branch,
-							opener,
-							label,
-							props = {},
-							closeButton;
-						if ((branch = instance._getBranch(el)) && (opener = instance._getBranchOpener(branch))) {
-							DECORATED_LABEL = DECORATED_LABEL || new Widget("", "wc-decoratedlabel");
-							label = DECORATED_LABEL.findDescendant(opener);
+					if ((branch = instance._getBranch(el)) && (opener = instance._getBranchOpener(branch))) {
+						DECORATED_LABEL = DECORATED_LABEL || new Widget("", "wc-decoratedlabel");
+						label = DECORATED_LABEL.findDescendant(opener);
 
-							if (label) {
-								Array.prototype.forEach.call(label.childNodes, function(child) {
-									if (child.nodeType !== Node.ELEMENT_NODE) {
-										return;
-									}
-									if (classList.contains(child, "wc-labelhead")) {
-										props.labelhead = child.innerHTML;
-									}
-									else if (classList.contains(child, "wc-labeltail")) {
-										props.labeltail = child.innerHTML;
-									}
-									else {
-										props.content = child.innerHTML;
-									}
-								});
-							}
-						}
-						if (!props.content) {
-							props.content = i18n.get("menu_close_label");
-						}
-						template.process({
-							source: rawTemplate,
-							target: el,
-							context: props,
-							position: "afterBegin",
-							callback: function() {
-								closeButton = el.firstChild;
-								if (!closeButton.id) {
-									closeButton.id = uid();
+						if (label) {
+							Array.prototype.forEach.call(label.childNodes, function(child) {
+								if (child.nodeType !== Node.ELEMENT_NODE) {
+									return;
 								}
+								if (classList.contains(child, "wc-labelhead")) {
+									props.labelhead = child.innerHTML;
+								}
+								else if (classList.contains(child, "wc-labeltail")) {
+									props.labeltail = child.innerHTML;
+								}
+								else {
+									props.content = child.innerHTML;
+								}
+							});
+						}
+					}
+					if (!props.content) {
+						props.content = i18n.get("menu_close_label");
+					}
+					template.process({
+						source: "submenuCloseButton.mustache",
+						loadSource: true,
+						target: el,
+						context: props,
+						position: "afterBegin",
+						callback: function() {
+							closeButton = el.firstChild;
+							if (!closeButton.id) {
+								closeButton.id = uid();
 							}
-						});
+						}
 					});
 				}
 			}
@@ -347,27 +345,26 @@ define(["wc/ui/menu/core",
 				if (classList.contains(nextMenu, MENU_FIXED)) {
 					return;
 				}
-				loader.load("submenu.mustache", true, true).then(function(rawTemplate) {
-					var props = {
-						id: uid(),
-						class: " " + BURGER_MENU_CLASS,
-						opener: {
-							class: " wc_hbgr fa fa-bars",
-							tooltip: i18n.get("menu_open_label")
-						},
-						contentId: uid(),
-						open: false,
-						closeText: i18n.get("menu_close_label"),
-						items: nextMenu.innerHTML
-					};
-					template.process({
-						source: rawTemplate,
-						target: nextMenu,
-						context: props,
-						callback: function() {
-							classList.add(nextMenu, MENU_FIXED);
-						}
-					});
+				var props = {
+					id: uid(),
+					class: " " + BURGER_MENU_CLASS,
+					opener: {
+						class: " wc_hbgr fa fa-bars",
+						tooltip: i18n.get("menu_open_label")
+					},
+					contentId: uid(),
+					open: false,
+					closeText: i18n.get("menu_close_label"),
+					items: nextMenu.innerHTML
+				};
+				template.process({
+					source: "submenu.mustache",
+					loadSource: true,
+					target: nextMenu,
+					context: props,
+					callback: function() {
+						classList.add(nextMenu, MENU_FIXED);
+					}
 				});
 			}
 
@@ -500,7 +497,6 @@ define(["wc/ui/menu/core",
 		 * @requires module:wc/dom/classList
 		 * @requires module:wc/timers
 		 * @requires module:wc/ui/ajax/processResponse
-		 * @requires module:wc/loader/resource
 		 * @requires:module:wc/template
 		 * @requires module:wc/ui/viewportUtils
 		 */

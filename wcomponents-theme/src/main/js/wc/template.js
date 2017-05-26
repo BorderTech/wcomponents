@@ -105,9 +105,27 @@ define(["wc/dom/textContent", "wc/has"],
 			 * @param {module:wc/template~params} [params] will process document.body if undefined
 			 */
 			this.process = function(params) {
+				var processSource = function(source) {
+						processContainer(source, params.target, params.context, params.position, params.callback);
+					},
+					onerror = function(err) {
+						if (params.errback) {
+							params.errback(err);
+						}
+						else {
+							console.warn("error processing template " + err);
+						}
+					};
 				if (!has("ie") || has("ie") > 9) {
 					if (params && params.source) {
-						processContainer(params.source, params.target, params.context, params.position, params.callback);
+						if (params.loadSource) {
+							require(["wc/loader/resource"], function(loader) {
+								loader.load(params.source, true, true).then(processSource, onerror);
+							});
+						}
+						else {
+							processSource(params.source);
+						}
 					}
 					else if (document.body) {
 						processContainer(document.body);
@@ -129,9 +147,11 @@ define(["wc/dom/textContent", "wc/has"],
 		/**
 		 * @typedef {Object} module:wc/template~params
 		 * @property {Node|String} source The template source, can be an element or text node which contain the template or a string.
+		 * @property {boolean} [loadSource] If true the source is a template to be loaded asynchronously.
 		 * @property {Node} [target] The element that will be updated with the result of the translation; if not provided then container will be used as the target, if it is a Node.
 		 * @property {Object} [context] The context that will be passed to the compiled template.
 		 * @property {string} [position] insertAdjacentHTML position
 		 * @property {function} [callback] called when processed, passed the compiled template.
+		 * @property {function} [errback] called if something goes wrong
 		 */
 	});
