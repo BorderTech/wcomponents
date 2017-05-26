@@ -614,7 +614,7 @@ public final class WebUtilities {
 	 */
 	public static UIContext getContextForComponent(final WComponent component) {
 		// Start with the current Context
-		UIContext result = UIContextHolder.getCurrentPrimaryUIContext();
+		UIContext result = UIContextHolder.getCurrent();
 		// Go through the contexts until we find the component
 		while (result instanceof SubUIContext && !((SubUIContext) result).isInContext(component)) {
 			result = ((SubUIContext) result).getBacking();
