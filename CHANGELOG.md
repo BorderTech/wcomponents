@@ -18,6 +18,7 @@
   - SeleniumWComponentsWebDriver and SeleniumWComponentWebElement provide a new helper method getUserContextSession()
     to retrieve the user context.
   - SeleniumWComponentTestCase provides a new helper method getUserContextSession() to retrieve the user context.
+* Client side API: removed `wc/template.registerHelper`.
 
 ### Bug Fixes
 
@@ -32,6 +33,7 @@
 * Fixed issue in ByWComponentPath that was leaving the user context on the Thread. Unit tests that check a component's
   state may have depended on this wrong behaviour. These tests will need to be changed to push and pop the User Context
   when checking the components state #1138.
+* Fixed image editor (part 2), this should hopefully fix the regressions originally addressed in #1206.
 
 ### Enhancements
 
@@ -45,6 +47,7 @@
   - WComponent example module demonstrates running selenium tests in parallel.
 * Improve performance of Selenium tests and helpers #1138.
 * Improve performance of TemplateRendererInterceptor by switching to Mouchstache template engine #1207.
+* Switched (back) to Mustache on the client to match the server implementation.
 
 ## Release 1.4.0-beta-2
 
