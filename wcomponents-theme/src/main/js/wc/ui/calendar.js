@@ -16,7 +16,6 @@ define(["wc/dom/attribute",
 		"wc/dom/getBox",
 		"wc/dom/Widget",
 		"wc/i18n/i18n",
-		"wc/loader/resource",
 		"wc/isNumeric",
 		"wc/ui/dateField",
 		"wc/dom/initialise",
@@ -24,7 +23,7 @@ define(["wc/dom/attribute",
 		"wc/template",
 		"wc/config"],
 function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthName, today, interchange, classList, event,
-		focus, shed, tag, viewportCollision, getBox, Widget, i18n, loader, isNumeric, dateField, initialise,
+		focus, shed, tag, viewportCollision, getBox, Widget, i18n, isNumeric, dateField, initialise,
 		timers, template, wcconfig) {
 	"use strict";
 
@@ -34,8 +33,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 	 * @private
 	 */
 	function Calendar() {
-		var TEMPLATE_NAME = "wc.ui.dateField.calendar.html",
-			DATE_KEY = "date_key",
+		var DATE_KEY = "date_key",
 			CONTAINER_ID = "wc_calbox",
 			DAY_CONTAINER_ID = "wc_caldaybox",
 			MONTH_SELECT_ID = "wc_calmonth",
@@ -71,15 +69,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 		function findYearField() {
 			return document.getElementById(YEAR_ELEMENT_ID);
-		}
-
-		/*
-		 * get the empty calendar sprintf base string
-		 */
-		function getEmptyCalendar(callback) {
-			// TODO this needs to be made async
-			var template = loader.load(TEMPLATE_NAME, true);
-			callback(template);
 		}
 
 		function resetMonthPickerOptions(disable) {
@@ -181,20 +170,18 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			var yearField = findYearField(),
 				input = getInputForCalendar(),
 				limit = getLimits(yearField, input),
-				year = getYearValueAsNumber(yearField),
-				month,
-				current,
-				newDate;
+				year = getYearValueAsNumber(yearField);
 
 			// ignore invalid years
 			if (!isNaN(year)) {
-				current = retrieveDate();
+				retrieveDate(function(current) {
+					var month, newDate;
+					newDate = setYear(current, year);  // YEAR
+					month = setMonth(newDate, year, limit);  // MONTH
+					setDay(current, newDate, year, month, limit);  // DAY
 
-				newDate = setYear(current, year);  // YEAR
-				month = setMonth(newDate, year, limit);  // MONTH
-				setDay(current, newDate, year, month, limit);  // DAY
-
-				setDate(newDate, false);
+					setDate(newDate, false);
+				});
 			}
 		}
 
@@ -314,7 +301,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		/**
 		 * Hide the calendar.
 		 *
-		 * @param {Boolean} ignoreFocusReset If true do not attempt to re-focus the calendar icon this is required by
+		 * @param {Boolean} [ignoreFocusReset] If true do not attempt to re-focus the calendar icon this is required by
 		 * {@link module:wc/ui/calendar~selectDay} which needs to focus the dateField not the calendar icon
 		 * in order to bootstrap the field.
 		 */
@@ -450,42 +437,40 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 * Builds the actual HTML calendar component
 		 */
 		function create(callback) {
-			getEmptyCalendar(function(rawTemplate) {
-				var _today = today.get(),
-					container,
-					calendarProps;
+			var _today = today.get(),
+				container,
+				calendarProps;
 
-				calendarProps = {
-					dayName: dayName.get(true),
-					monthName: monthName.get(),
-					fullYear: _today.getFullYear(),
-					monthLabel: i18n.get("datefield_calendarMonthLabel"),
-					yearLabel: i18n.get("datefield_calendarYearLabel"),
-					lastMonth: i18n.get("datefield_lastMonth"),
-					today: i18n.get("datefield_today"),
-					nextMonth: i18n.get("datefield_nextMonth"),
-					closeLabel: i18n.get("datefield_close"),
-					dayColHeader: dayColHeader
-				};
+			calendarProps = {
+				dayName: dayName.get(true),
+				monthName: monthName.get(),
+				fullYear: _today.getFullYear(),
+				monthLabel: i18n.get("datefield_calendarMonthLabel"),
+				yearLabel: i18n.get("datefield_calendarYearLabel"),
+				lastMonth: i18n.get("datefield_lastMonth"),
+				today: i18n.get("datefield_today"),
+				nextMonth: i18n.get("datefield_nextMonth"),
+				closeLabel: i18n.get("datefield_close"),
+				dayColHeader: dayColHeader
+			};
 
-				container = document.createElement("div");
-				container.id = CONTAINER_ID;
-				container.setAttribute("role", "dialog");
-				document.body.appendChild(container);
+			container = document.createElement("div");
+			container.id = CONTAINER_ID;
+			container.setAttribute("role", "dialog");
+			document.body.appendChild(container);
 
-				template.process({
-					source: rawTemplate,
-					target: container,
-					context: calendarProps,
-					callback: function() {
-						document.getElementById(MONTH_SELECT_ID).selectedIndex = _today.getMonth();
-
-						event.add(container, event.TYPE.keydown, _calendarKeydownEvent);
-						event.add(findMonthSelect(), event.TYPE.change, monthChangeEvent);
-						event.add(findYearField(), event.TYPE.change, yearChangeEvent);
-						callback(container);
-					}
-				});
+			template.process({
+				source: "wc.ui.dateField.calendar.html",
+				loadSource: true,
+				target: container,
+				context: calendarProps,
+				callback: function() {
+					document.getElementById(MONTH_SELECT_ID).selectedIndex = _today.getMonth();
+					event.add(container, event.TYPE.keydown, _calendarKeydownEvent);
+					event.add(findMonthSelect(), event.TYPE.change, monthChangeEvent);
+					event.add(findYearField(), event.TYPE.change, yearChangeEvent);
+					callback(container);
+				}
 			});
 		}
 
@@ -530,16 +515,17 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		/*
 		 * retrieve a stored date for a picker. If one has not been stored return the current date @returns a date object
 		 */
-		function retrieveDate() {
-			var dateObj = null;
+		function retrieveDate(callback) {
 			getOrCreateCal(function(cal) {
-				var millis = attribute.get(cal, DATE_KEY);
+				var dateObj, millis = attribute.get(cal, DATE_KEY);
 				if (millis || millis === 0) {
 					dateObj = new Date(millis);
+					callback(dateObj);
 				}
-				console.log("retrieving date", new Date(millis));
+				else {
+					callback(null);
+				}
 			});
-			return dateObj;
 		}
 
 
@@ -948,21 +934,22 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		 */
 		function selectDay(dayElement) {
 			getOrCreateCal(function(calendar) {
-				var day, date, sb, newValue, input = getInputForCalendar(calendar);
+				var day, sb, newValue, input = getInputForCalendar(calendar);
 
 				if (input && !shed.isDisabled(input)) {
-					day = dayElement.value;
-					date = retrieveDate(input);
-					date.setDate(day);
+					retrieveDate(function(date) {
+						day = dayElement.value;
+						date.setDate(day);
 
-					sb = [date.getDate(), (date.getMonth() + 1), date.getFullYear()];
-					newValue = sb.join(" ");
+						sb = [date.getDate(), (date.getMonth() + 1), date.getFullYear()];
+						newValue = sb.join(" ");
 
-					input.value = newValue;
-					focus.setFocusRequest(input, function(_el) {
-						dateField.acceptFirstMatch(_el);
+						input.value = newValue;
+						focus.setFocusRequest(input, function(_el) {
+							dateField.acceptFirstMatch(_el);
+						});
+						hideCalendar(true);
 					});
-					hideCalendar(true);
 				}
 				else {
 					hideCalendar();  // should never get here!
@@ -1144,7 +1131,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			event.add(window, event.TYPE.resize, reposEvent);
 			shed.subscribe(shed.actions.SHOW, shedSubscriber);
 			shed.subscribe(shed.actions.HIDE, shedSubscriber);
-			loader.preload(TEMPLATE_NAME);
 		};
 
 		/**
@@ -1180,7 +1166,6 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 	 * @requires module:wc/dom/getBox
 	 * @requires module:wc/dom/Widget
 	 * @requires module:wc/i18n/i18n
-	 * @requires module:wc/loader/resource
 	 * @requires module:wc/isNumeric
 	 * @requires module:wc/ui/dateField
 	 * @requires module:wc/dom/initialise

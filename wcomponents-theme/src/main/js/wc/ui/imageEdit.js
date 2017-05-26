@@ -1,6 +1,6 @@
 define(["wc/has", "wc/mixin", "wc/dom/Widget", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/ui/prompt",
-	"wc/loader/resource", "wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/template", "wc/ui/ImageCapture", "wc/ui/ImageUndoRedo"],
-function(has, mixin, Widget, event, uid, classList, timers, prompt, loader, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo) {
+	"wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/template", "wc/ui/ImageCapture", "wc/ui/ImageUndoRedo"],
+function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo) {
 	var timer,
 		imageEdit = new ImageEdit();
 
@@ -114,7 +114,6 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, loader, i18n
 						}
 					}
 				});
-				loader.preload(TEMPLATE_NAME);
 			}
 		};
 
@@ -433,57 +432,56 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, loader, i18n
 
 			function renderEditor() {
 				var result = new Promise(function (win, lose) {
-					var done = function(container) {
-						var dialogContent, eventConfig = attachEventHandlers(container);
-						zoomControls(eventConfig);
-						moveControls(eventConfig);
-						resetControl(eventConfig);
-						cancelControl(eventConfig, container, callbacks, file);
-						saveControl(eventConfig, container, callbacks, file);
-						rotationControls(eventConfig);
-						if (config.redactor) {
-							config.redactor.controls(eventConfig, container);
-						}
+					var container = document.body.appendChild(document.createElement("div")),
+						editorProps = {
+							style: {
+								width: config.width,
+								height: config.height
+							},
+							feature: {
+								face: false,
+								redact: config.redact
+							}
+						},
+						done = function(container) {
+							var dialogContent, eventConfig = attachEventHandlers(container);
+							zoomControls(eventConfig);
+							moveControls(eventConfig);
+							resetControl(eventConfig);
+							cancelControl(eventConfig, container, callbacks, file);
+							saveControl(eventConfig, container, callbacks, file);
+							rotationControls(eventConfig);
+							if (config.redactor) {
+								config.redactor.controls(eventConfig, container);
+							}
 
-						if (!file) {
-							classList.add(container, "wc_camenable");
-							classList.add(container, "wc_showcam");
-							imageCapture.snapshotControl(eventConfig, container);
-						}
+							if (!file) {
+								classList.add(container, "wc_camenable");
+								classList.add(container, "wc_showcam");
+								imageCapture.snapshotControl(eventConfig, container);
+							}
 
-						dialogContent = dialogFrame.getContent();
-						if (dialogContent && container) {
-							dialogContent.innerHTML = "";
-							dialogContent.appendChild(container);
-							dialogFrame.reposition();
-						}
-						win(container);
-					};
+							dialogContent = dialogFrame.getContent();
+							if (dialogContent && container) {
+								dialogContent.innerHTML = "";
+								dialogContent.appendChild(container);
+								dialogFrame.reposition();
+							}
+							win(container);
+						};
 					try {
-						loader.load(TEMPLATE_NAME, true, true).then(function(rawTemplate) {
-							var container = document.body.appendChild(document.createElement("div")),
-								editorProps = {
-									style: {
-										width: config.width,
-										height: config.height
-									},
-									feature: {
-										face: false,
-										redact: config.redact
-									}
-								};
-							getTranslations(editorProps);
-							container.className = "wc_img_editor";
-							template.process({
-								source: rawTemplate,
-								target: container,
-								context: editorProps,
-								callback: function() {
-									done(container);
-								}
-							});
-							return container;
+						getTranslations(editorProps);
+						container.className = "wc_img_editor";
+						template.process({
+							source: TEMPLATE_NAME,
+							loadSource: true,
+							target: container,
+							context: editorProps,
+							callback: function() {
+								done(container);
+							}
 						});
+						return container;
 					}
 					catch (ex) {
 						lose(ex);

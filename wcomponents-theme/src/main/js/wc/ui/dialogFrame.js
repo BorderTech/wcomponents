@@ -5,7 +5,6 @@ define(["wc/dom/event",
 	"wc/dom/uid",
 	"wc/dom/Widget",
 	"wc/i18n/i18n",
-	"wc/loader/resource",
 	"wc/ui/ajax/processResponse",
 	"wc/ui/modalShim",
 	"wc/timers",
@@ -18,7 +17,7 @@ define(["wc/dom/event",
 	"wc/ui/viewportUtils",
 	"wc/ui/getForm",
 	"wc/config"],
-	function (event, focus, initialise, shed, uid, Widget, i18n, loader, processResponse, modalShim, timers, has,
+	function (event, focus, initialise, shed, uid, Widget, i18n, processResponse, modalShim, timers, has,
 	          resizeable, positionable, draggable, $role, template, viewportUtils, getForm, wcconfig) {
 		"use strict";
 
@@ -28,8 +27,7 @@ define(["wc/dom/event",
 		 * @private
 		 */
 		function DialogFrame() {
-			var TEMPLATE_NAME = "dialog.xml",
-				DIALOG_ID = "wc_dlgid",
+			var DIALOG_ID = "wc_dlgid",
 				CONTENT_BASE_CLASS = "content",
 				INITIAL_TOP_PROPORTION = 0.33, // when setting the initial position offset the dialog so that the gap at the top is this proportion of the difference between the dialog size and viewport size
 				openerId,
@@ -416,58 +414,58 @@ define(["wc/dom/event",
 			 */
 			function buildDialog(formId) {
 				return new Promise(function(win, lose) {
-					loader.load(TEMPLATE_NAME, true, true).then(function (rawTemplate) {
-						var form,
-							dialogProps = {
-								heading: {
-									maxRestore: i18n.get("dialog_maxRestore"),
-									close: i18n.get("dialog_close")
-								},
-								message: {
-									loading: i18n.get("loading")
-								}
+					var form,
+						dialogProps = {
+							heading: {
+								maxRestore: i18n.get("dialog_maxRestore"),
+								close: i18n.get("dialog_close")
 							},
-							done = function () {
-								var dialog,
-									dialogHeader,
-									resizeHandle,
-									headerTitle,
-									resizeHandleTitle;
-								if ((dialog = instance.getDialog())) {
-									event.add(dialog, event.TYPE.keydown, keydownEvent);
-									if ((dialogHeader = HEADER_WD.findDescendant(dialog, true)) && (headerTitle = i18n.get("dialog_move"))) {
-										dialogHeader.title = headerTitle;
-									}
-
-									if (RESIZE_WD && (resizeHandle = RESIZE_WD.findDescendant(dialog)) && (resizeHandleTitle = i18n.get("dialog_resize"))) {
-										resizeHandle.title = resizeHandleTitle;
-									}
-									win(dialog);
+							message: {
+								loading: i18n.get("loading")
+							}
+						},
+						done = function () {
+							var dialog,
+								dialogHeader,
+								resizeHandle,
+								headerTitle,
+								resizeHandleTitle;
+							if ((dialog = instance.getDialog())) {
+								event.add(dialog, event.TYPE.keydown, keydownEvent);
+								if ((dialogHeader = HEADER_WD.findDescendant(dialog, true)) && (headerTitle = i18n.get("dialog_move"))) {
+									dialogHeader.title = headerTitle;
 								}
-								else {
-									lose(null);
+
+								if (RESIZE_WD && (resizeHandle = RESIZE_WD.findDescendant(dialog)) && (resizeHandleTitle = i18n.get("dialog_resize"))) {
+									resizeHandle.title = resizeHandleTitle;
 								}
-							};
+								win(dialog);
+							}
+							else {
+								lose(null);
+							}
+						};
 
 
-						if (formId) {
-							form = document.getElementById(formId);
-						}
-						form = getForm(form);
-						if (!form) {
-							console.error("Cannot find form for dialog frame");
-							lose(null);
-							return null;
-						}
+					if (formId) {
+						form = document.getElementById(formId);
+					}
+					form = getForm(form);
+					if (!form) {
+						console.error("Cannot find form for dialog frame");
+						lose(null);
+						return null;
+					}
 
-						template.process({
-							source: rawTemplate,
-							target: form,
-							context: dialogProps,
-							position: "beforeEnd",
-							callback: done
-						});
-					}, lose);
+					template.process({
+						source: "dialog.xml",
+						loadSource: true,
+						target: form,
+						context: dialogProps,
+						position: "beforeEnd",
+						callback: done,
+						errback: lose
+					});
 				});
 			}
 
@@ -793,7 +791,6 @@ define(["wc/dom/event",
 				processResponse.subscribe(ajaxSubscriber, true);
 				shed.subscribe(shed.actions.SHOW, shedShowSubscriber);
 				shed.subscribe(shed.actions.HIDE, shedHideSubscriber);
-				loader.preload(TEMPLATE_NAME);
 			};
 
 			/**
@@ -888,7 +885,6 @@ define(["wc/dom/event",
 		 * @requires module:wc/dom/uid
 		 * @requires module:wc/dom/Widget
 		 * @requires module:wc/i18n/i18n
-		 * @requires module:wc/loader/resource
 		 * @requires module:wc/ui/ajax/processResponse
 		 * @requires module:wc/ui/modalShim
 		 * @requires module:wc/timers

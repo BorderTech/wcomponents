@@ -1,5 +1,5 @@
-define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/loader/resource", "wc/dom/shed", "wc/timers", "wc/dom/classList",
-	"wc/ui/icon", "wc/config"],
+define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/loader/resource",
+		"wc/dom/shed", "wc/timers", "wc/dom/classList", "wc/ui/icon", "wc/config"],
 	function(sprintf, event, Widget, i18n, loader, shed, timers, classList, icon, wcconfig) {
 		"use strict";
 		/**
@@ -62,8 +62,6 @@ define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/load
 			 * for convenience and consistency.
 			 * @function
 			 * @private
-			 * @param {String} level The warning level either "error" (for when the timeout has occurred) or "warn" (for
-			 * showing the warning of imminent timeout).
 			 * @returns {Promise} resolved with the messagebox documentFragment.
 			 */
 			function getDialog() {
@@ -79,7 +77,7 @@ define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/load
 			 * @param {number} minsRemaining The number of minutes until the session will expire.
 			 */
 			function warn(minsRemaining) {
-				getDialog("warn").then(function(warningDf) {
+				getDialog().then(function(warningDf) {
 					var container = getContainer(),
 						minutes = expiresAt.getMinutes(),
 						readableMins, secs, mins,
@@ -123,7 +121,7 @@ define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/load
 			 * @private
 			 */
 			function expire() {
-				getDialog("error").then(function(errorDf) {
+				getDialog().then(function(errorDf) {
 					var body, header, title, container = getContainer(), section;
 					if (container) {
 						container.innerHTML = "";

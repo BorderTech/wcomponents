@@ -1,10 +1,9 @@
 define(["wc/dom/initialise",
 	"wc/dom/Widget",
-	"wc/loader/resource",
 	"wc/template",
 	"wc/i18n/i18n",
 	"wc/ui/ajax/processResponse"],
-	function(initialise, Widget, loader, template, i18n, processResponse) {
+	function(initialise, Widget, template, i18n, processResponse) {
 		"use strict";
 
 		function Image() {
@@ -16,19 +15,18 @@ define(["wc/dom/initialise",
 				if (sibling && sibling.getAttribute("data-wc-img") === id) {
 					return;
 				}
-				loader.load("imgedit.html", true, true).then(function (rawTemplate) {
-					var props = {
-						id: id,
-						editor: element.getAttribute("data-wc-editor"),
-						text: EDIT || (EDIT = i18n.get("imgedit_edit"))
-					};
+				var props = {
+					id: id,
+					editor: element.getAttribute("data-wc-editor"),
+					text: EDIT || (EDIT = i18n.get("imgedit_edit"))
+				};
 
-					template.process({
-						source: rawTemplate,
-						target: element,
-						context: props,
-						position: "afterend"
-					});
+				template.process({
+					source: "imgedit.html",
+					loadSource: true,
+					target: element,
+					context: props,
+					position: "afterend"
 				});
 			}
 

@@ -14,10 +14,7 @@ Its goal is to enable Java developers to build AJAX enabled, WCAG 2.0 compliant 
 [![Findbugs](http://bordertech.github.io/wcomponents/badges/findbugs-report.svg)](http://bordertech.github.io/wcomponents/findbugs-report.html)
 [![Coverage](http://bordertech.github.io/wcomponents/badges/coverage-report.svg)](http://bordertech.github.io/wcomponents/coverage-report/index.html)
 [![Codacy](https://api.codacy.com/project/badge/grade/7ba92824eb1f4d60abeddf1e72108bbc)](https://www.codacy.com/app/BorderTech/wcomponents)
-
-<!---
 [![CircleCI](https://circleci.com/gh/BorderTech/wcomponents.svg?style=svg)](https://circleci.com/gh/BorderTech/wcomponents)
---->
 
 Frontend Tests:
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/javatech.svg)](https://saucelabs.com/u/javatech)
