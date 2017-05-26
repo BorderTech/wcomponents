@@ -34,6 +34,10 @@
   state may have depended on this wrong behaviour. These tests will need to be changed to push and pop the User Context
   when checking the components state #1138.
 * Fixed image editor (part 2), this should hopefully fix the regressions originally addressed in #1206.
+* AJAX Controls and Subordinate Controls are now registered on the User Context. This allows WComponent Applications to
+  be run on multiple servlets. AjaxHelper and SubordinateControlHelper methods no longer include the “request” parameter
+  as it is not required. This should have no impact to projects as these methods are only called by framework code.
+  UIContextHolder has new helper methods to retrieve the Primary User Context #1077.
 
 ### Enhancements
 
