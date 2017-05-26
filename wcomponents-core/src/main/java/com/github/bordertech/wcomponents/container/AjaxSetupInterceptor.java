@@ -10,7 +10,6 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.servlet.WServlet;
 import com.github.bordertech.wcomponents.util.SystemException;
-import java.util.Map;
 
 /**
  * This interceptor setups the AJAX operation details.
@@ -54,11 +53,7 @@ public class AjaxSetupInterceptor extends InterceptorComponent {
 			ajaxOperation = new AjaxOperation(triggerId);
 		} else {
 			// Check for a registered AJAX operation
-			Map<String, AjaxOperation> operations = (Map<String, AjaxOperation>) request
-					.getSessionAttribute(AjaxHelper.AJAX_OPERATIONS_SESSION_KEY);
-			if (operations != null) {
-				ajaxOperation = operations.get(triggerId);
-			}
+			ajaxOperation = AjaxHelper.getAjaxOperation(triggerId);
 
 			// Override registered operation if it is a GET and trigger supports Internal AJAX
 			// TODO This is only required until all components start using the Internal param flag

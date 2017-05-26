@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 import java.util.WeakHashMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * <p>
@@ -29,6 +31,11 @@ import java.util.WeakHashMap;
  * @since 1.0.0
  */
 public final class UIContextHolder {
+
+	/**
+	 * The logger instance for this class.
+	 */
+	private static final Log LOG = LogFactory.getLog(UIContextHolder.class);
 
 	/**
 	 * Hide the constructor as there are no instance methods.
@@ -58,7 +65,7 @@ public final class UIContextHolder {
 	 */
 	public static void pushContext(final UIContext uic) {
 		if (DebugUtil.isDebugFeaturesEnabled()) {
-			ALL_ACTIVE_CONTEXTS.put(UIContextDelegate.getPrimaryUIContext(uic), null);
+			ALL_ACTIVE_CONTEXTS.put(getPrimaryUIContext(uic), null);
 		}
 
 		getStack().push(uic);
@@ -116,6 +123,45 @@ public final class UIContextHolder {
 		}
 
 		return stack;
+	}
+
+	/**
+	 * @return the primary context for the current context
+	 */
+	public static UIContext getCurrentPrimaryUIContext() {
+		return getPrimaryUIContext(getCurrent());
+	}
+
+	/**
+	 * A utility function to iterate to the primary (top most) context and return it.
+	 *
+	 * @param uic the UIContext to retrieve the primary context for.
+	 * @return the primary context for the given context.
+	 */
+	public static UIContext getPrimaryUIContext(final UIContext uic) {
+		if (uic == null) {
+			return null;
+		}
+
+		UIContext primary = null;
+		UIContext current = uic;
+
+		while (primary == null) {
+			if (current instanceof UIContextDelegate) {
+				UIContext backing = ((UIContextDelegate) current).getBacking();
+				if (backing != null) {
+					current = backing;
+				} else {
+					// This case should probably never happen.
+					primary = current;
+					LOG.warn("UIContextDelegate found without a backing context");
+				}
+			} else {
+				primary = current;
+			}
+		}
+
+		return primary;
 	}
 
 	/**

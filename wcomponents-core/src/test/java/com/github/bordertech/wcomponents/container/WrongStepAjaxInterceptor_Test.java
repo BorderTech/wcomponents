@@ -104,7 +104,7 @@ public class WrongStepAjaxInterceptor_Test extends AbstractWebXmlRendererTestCas
 
 		// Action phase
 		try {
-			AjaxHelper.registerComponent(app.target.getId(), request, app.trigger.getId());
+			AjaxHelper.registerComponent(app.target.getId(), app.trigger.getId());
 			request.setParameter(WServlet.AJAX_TRIGGER_PARAM_NAME, app.trigger.getId());
 			request.setParameter(Environment.STEP_VARIABLE, String.valueOf(clientStep));
 

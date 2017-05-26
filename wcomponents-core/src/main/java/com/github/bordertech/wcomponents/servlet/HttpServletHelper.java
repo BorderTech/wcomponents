@@ -58,17 +58,17 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	/**
 	 * The servlet which is handling the request.
 	 */
-	private HttpServlet servlet;
+	private final HttpServlet servlet;
 
 	/**
 	 * The request being responded to.
 	 */
-	private HttpServletRequest httpServletRequest;
+	private final HttpServletRequest backingRequest;
 
 	/**
 	 * The response for the current request.
 	 */
-	private HttpServletResponse httpServletResponse;
+	private final HttpServletResponse backingResponse;
 
 	/**
 	 * The name of a session parameter used to store the UIContext. We try to make the key unique between servlets by
@@ -99,8 +99,8 @@ public class HttpServletHelper extends AbstractContainerHelper {
 		this.uiContextSessionKey = servlet.getClass().getName() + ".servlet.model";
 
 		this.servlet = servlet;
-		this.httpServletRequest = httpServletRequest;
-		this.httpServletResponse = httpServletResponse;
+		this.backingRequest = httpServletRequest;
+		this.backingResponse = httpServletResponse;
 
 		Map<String, String[]> parameters = ServletUtil.getRequestParameters(httpServletRequest);
 		dataRequest = parameters.get(WServlet.DATA_LIST_PARAM_NAME) != null;
@@ -123,14 +123,14 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	 * @return the backing http request.
 	 */
 	public HttpServletRequest getBackingRequest() {
-		return httpServletRequest;
+		return backingRequest;
 	}
 
 	/**
 	 * @return the backing http response
 	 */
 	public HttpServletResponse getBackingResponse() {
-		return httpServletResponse;
+		return backingResponse;
 	}
 
 	/**
@@ -141,15 +141,35 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 *
+	 * @return true if environment updated
 	 */
-	@Override
-	protected void dispose() {
-		servlet = null;
-		httpServletRequest = null;
-		httpServletResponse = null;
+	protected boolean isEnvironmentUpdated() {
+		return environmentUpdated;
+	}
 
-		super.dispose();
+	/**
+	 *
+	 * @param environmentUpdated true if environment updated
+	 */
+	protected void setEnvironmentUpdated(final boolean environmentUpdated) {
+		this.environmentUpdated = environmentUpdated;
+	}
+
+	/**
+	 *
+	 * @return the target component id or null
+	 */
+	protected String getTargetComponentId() {
+		return targetComponentId;
+	}
+
+	/**
+	 *
+	 * @return true if processing a data request
+	 */
+	protected boolean isDataRequest() {
+		return dataRequest;
 	}
 
 	/**
@@ -157,11 +177,11 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	 */
 	@Override
 	protected UIContext getUIContext() {
-		HttpSession session = httpServletRequest.getSession(false);
+		HttpSession session = getBackingRequest().getSession(false);
 		if (session == null) {
 			return null;
 		}
-		UIContext uic = (UIContext) session.getAttribute(uiContextSessionKey);
+		UIContext uic = (UIContext) session.getAttribute(getUiContextSessionKey());
 		return uic;
 	}
 
@@ -170,8 +190,8 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	 */
 	@Override
 	protected void setUIContext(final UIContext uiContext) {
-		HttpSession session = httpServletRequest.getSession();
-		session.setAttribute(uiContextSessionKey, uiContext);
+		HttpSession session = getBackingRequest().getSession();
+		session.setAttribute(getUiContextSessionKey(), uiContext);
 	}
 
 	/**
@@ -179,7 +199,7 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	 */
 	@Override
 	protected UIContext createUIContext() {
-		if (targetComponentId != null) {
+		if (getTargetComponentId() != null) {
 			throw new SystemException("AJAX request for a session with no context set");
 		}
 		return super.createUIContext();
@@ -215,7 +235,7 @@ public class HttpServletHelper extends AbstractContainerHelper {
 		if (!environmentUpdated) {
 			environmentUpdated = true;
 			// Post path may have changed (if mapped with multiple URLs)
-			String postPath = getResponseUrl(httpServletRequest);
+			String postPath = getResponseUrl(backingRequest);
 			env.setPostPath(postPath);
 		}
 	}
@@ -225,7 +245,7 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	 */
 	@Override
 	protected Request createRequest() {
-		Request request = new ServletRequest(httpServletRequest);
+		Request request = new ServletRequest(backingRequest);
 		return request;
 	}
 
@@ -250,7 +270,7 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	 */
 	@Override
 	protected PrintWriter getPrintWriter() throws IOException {
-		PrintWriter writer = httpServletResponse.getWriter();
+		PrintWriter writer = backingResponse.getWriter();
 		return writer;
 	}
 
@@ -259,7 +279,7 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	 */
 	@Override
 	protected Response getResponse() {
-		return new ServletResponse(httpServletResponse);
+		return new ServletResponse(backingResponse);
 	}
 
 	/**
@@ -267,7 +287,7 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	 */
 	@Override
 	protected void invalidateSession() {
-		HttpSession session = httpServletRequest.getSession(true);
+		HttpSession session = backingRequest.getSession(true);
 		session.invalidate();
 	}
 
@@ -303,10 +323,10 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	 * @return the URL that will be used in the form's action attribute and also in hyperlinks
 	 */
 	protected String getResponseUrl(final HttpServletRequest request) {
-		String suffix = servlet.getServletConfig().getInitParameter(ONGOING_URL_SUFFIX);
+		String suffix = getServlet().getServletConfig().getInitParameter(ONGOING_URL_SUFFIX);
 		String uri = request.getRequestURI();
 
-		if (suffix != null && uri.indexOf(suffix) == -1) {
+		if (suffix != null && uri.contains(suffix)) {
 			return uri + suffix;
 		} else {
 			return uri;
@@ -326,7 +346,7 @@ public class HttpServletHelper extends AbstractContainerHelper {
 			LOG.debug("Extract base url from " + request);
 		}
 
-		StringBuffer results = new StringBuffer();
+		StringBuilder results = new StringBuilder();
 
 		results.append(request.getScheme());
 		results.append("://");
@@ -354,15 +374,15 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	protected void addGenericHeaders(final UIContext uic, final WComponent ui) {
 		// Note: This effectively prevents caching of anything served up from a WServlet.
 		// We are ok for WContent and thrown ContentEscapes, as addGenericHeaders will not be called
-		if (httpServletRequest instanceof SubSessionHttpServletRequestWrapper) {
-			httpServletResponse.setHeader("Cache-Control", CacheType.NO_CACHE.getSettings());
-			httpServletResponse.setHeader("Pragma", "no-cache");
-			httpServletResponse.setHeader("Expires", "-1");
+		if (getBackingRequest() instanceof SubSessionHttpServletRequestWrapper) {
+			getBackingResponse().setHeader("Cache-Control", CacheType.NO_CACHE.getSettings());
+			getBackingResponse().setHeader("Pragma", "no-cache");
+			getBackingResponse().setHeader("Expires", "-1");
 		}
 		// This is to prevent clickjacking. It can also be set to "DENY" to prevent embedding in a frames at all or
 		// "ALLOW-FROM uri" to allow embedding in a frame within a particular site.
 		// The default will allow WComponents applications in a frame on the same origin.
-		httpServletResponse.setHeader("X-Frame-Options", "SAMEORIGIN");
+		getBackingResponse().setHeader("X-Frame-Options", "SAMEORIGIN");
 	}
 
 	/**
@@ -370,7 +390,7 @@ public class HttpServletHelper extends AbstractContainerHelper {
 	 */
 	@Override
 	public void handleError(final Throwable error) throws IOException {
-		if (targetComponentId != null || dataRequest) {
+		if (getTargetComponentId() != null || isDataRequest()) {
 			getResponse().sendError(500, "Internal Error");
 		} else {
 			super.handleError(error);

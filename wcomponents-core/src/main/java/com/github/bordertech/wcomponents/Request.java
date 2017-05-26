@@ -152,7 +152,9 @@ public interface Request {
 	 * @param key the session attribute key
 	 * @return an <code>Object</code> containing the value of the attribute, or <code>null</code> if the attribute does
 	 * not exist
+	 * @deprecated portlet specific
 	 */
+	@Deprecated
 	Serializable getAppSessionAttribute(String key);
 
 	/**
@@ -177,7 +179,9 @@ public interface Request {
 	 *
 	 * @param key the session attribute key.
 	 * @param value an <code>Object</code> containing the value of the attribute.
+	 * @deprecated portlet specific
 	 */
+	@Deprecated
 	void setAppSessionAttribute(String key, Serializable value);
 
 	/**
