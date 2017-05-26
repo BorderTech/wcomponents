@@ -2,57 +2,57 @@
 
 // font weights
 h1 {
-	@if ($wc-h1-weight != -1) {
-		font-weight: $wc-h1-weight;
-	}
-	@if ($wc-heading-h1-font-size != -1) {
-		font-size: $wc-heading-h1-font-size;
-	}
+  @if ($wc-h1-weight != -1) {
+    font-weight: $wc-h1-weight;
+  }
+  @if ($wc-heading-h1-font-size != -1) {
+    font-size: $wc-heading-h1-font-size;
+  }
 }
 
 h2 {
-	@if ($wc-h2-weight != -1) {
-		font-weight: $wc-h2-weight;
-	}
-	@if ($wc-heading-h2-font-size != -1) {
-		font-size: $wc-heading-h2-font-size;
-	}
+  @if ($wc-h2-weight != -1) {
+    font-weight: $wc-h2-weight;
+  }
+  @if ($wc-heading-h2-font-size != -1) {
+    font-size: $wc-heading-h2-font-size;
+  }
 }
 
 h3 {
-	@if ($wc-h3-weight != -1) {
-		font-weight: $wc-h3-weight;
-	}
-	@if ($wc-heading-h3-font-size != -1) {
-		font-size: $wc-heading-h3-font-size;
-	}
+  @if ($wc-h3-weight != -1) {
+    font-weight: $wc-h3-weight;
+  }
+  @if ($wc-heading-h3-font-size != -1) {
+    font-size: $wc-heading-h3-font-size;
+  }
 }
 
 h4 {
-	@if ($wc-h4-weight != -1) {
-		font-weight: $wc-h4-weight;
-	}
-	@if ($wc-heading-h4-font-size != -1) {
-		font-size: $wc-heading-h4-font-size;
-	}
+  @if ($wc-h4-weight != -1) {
+    font-weight: $wc-h4-weight;
+  }
+  @if ($wc-heading-h4-font-size != -1) {
+    font-size: $wc-heading-h4-font-size;
+  }
 }
 
 h5 {
-	@if ($wc-h5-weight != -1) {
-		font-weight: $wc-h5-weight;
-	}
-	@if ($wc-heading-h5-font-size != -1) {
-		font-size: $wc-heading-h5-font-size;
-	}
+  @if ($wc-h5-weight != -1) {
+    font-weight: $wc-h5-weight;
+  }
+  @if ($wc-heading-h5-font-size != -1) {
+    font-size: $wc-heading-h5-font-size;
+  }
 }
 
 h6 {
-	@if ($wc-h6-weight != -1) {
-		font-weight: $wc-h6-weight;
-	}
-	@if ($wc-heading-h6-font-size != -1) {
-		font-size: $wc-heading-h6-font-size;
-	}
+  @if ($wc-h6-weight != -1) {
+    font-weight: $wc-h6-weight;
+  }
+  @if ($wc-heading-h6-font-size != -1) {
+    font-size: $wc-heading-h6-font-size;
+  }
 }
 
 @import 'wc.heading.color';

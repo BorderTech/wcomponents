@@ -1,33 +1,33 @@
 // toggle button styles based on https://codepen.io/mallendeo/pen/eLIiG
 .wc-togglebutton {
-	&.wc_ro,
-	> button {
-		@include border;
-		background-color: $wc-clr-highlight-bg;
+  &.wc_ro,
+  > button {
+    @include border;
+    background-color: $wc-clr-highlight-bg;
 
-		&:after {
-			@include border;
-			background-color: $wc-clr-highlight-bg;
-		}
-	}
+    &::after {
+      @include border;
+      background-color: $wc-clr-highlight-bg;
+    }
+  }
 
-	&.wc_ro {
-		background-color: $wc-clr-global-bg;
-	}
+  &.wc_ro {
+    background-color: $wc-clr-global-bg;
+  }
 
-	> button {
-		// invite ???
-		&:focus {
-			background-color: $wc-clr-invite-bg;
-		}
+  > button {
+    // invite ???
+    &:focus {
+      background-color: $wc-clr-invite-bg;
+    }
 
-		&[aria-checked='true'] {
-			background-color: $wc-clr-togglebutton-selected;
-		}
+    &[aria-checked='true'] {
+      background-color: $wc-clr-togglebutton-selected;
+    }
 
-		&[disabled] {
-			background-color: $wc-clr-disabled-bg;
-		}
+    &[disabled] {
+      background-color: $wc-clr-disabled-bg;
+    }
 
-	}
+  }
 }

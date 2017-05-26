@@ -4,16 +4,16 @@
 
 // represents a list with no bullets
 .wc_list_nb {
-	@include tight-box;
-	list-style-type: none;
+  @include tight-box;
+  list-style-type: none;
 }
 
 // text mode option and optgroup emulation
 .wc_inoptgroup {
-	text-indent: $wc-gap-large;
+  text-indent: $wc-gap-large;
 }
 
 // opt group emulator
 .wc-optgroup {
-	font-weight: bold;
+  font-weight: bold;
 }

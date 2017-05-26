@@ -4,17 +4,17 @@
 
 // loading indicator is generated and identified
 [aria-busy='true'] {
-	&:before {
-		@include fa-icon;
-		@include wc-spin; // fa do not yet have a mixin for this.
-		content: $fa-var-spinner;
-	}
+  &::before {
+    @include fa-icon;
+    @include wc-spin; // fa do not yet have a mixin for this.
+    content: $fa-var-spinner;
+  }
 }
 
 input,
 select,
 textarea {
-	&[aria-busy='true'] {
-		background: url('../images/loading-dark.gif') 50% 50% no-repeat transparent;
-	}
+  &[aria-busy='true'] {
+    background: url('../images/loading-dark.gif') 50% 50% no-repeat transparent;
+  }
 }

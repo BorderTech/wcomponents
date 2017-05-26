@@ -2,9 +2,9 @@
 @import 'mixins/common';
 
 .wc_dlbl_seg {
-	display: inline-block;
+  display: inline-block;
 
-	+ .wc_dlbl_seg {
-		margin-left: $wc-gap-small;
-	}
+  + .wc_dlbl_seg {
+    margin-left: $wc-gap-small;
+  }
 }
