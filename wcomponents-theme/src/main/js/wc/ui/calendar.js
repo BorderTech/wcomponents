@@ -1,27 +1,27 @@
 define(["wc/dom/attribute",
-		"wc/date/addDays",
-		"wc/date/copy",
-		"wc/date/dayName",
-		"wc/date/daysInMonth",
-		"wc/date/getDifference",
-		"wc/date/monthName",
-		"wc/date/today",
-		"wc/date/interchange",
-		"wc/dom/classList",
-		"wc/dom/event",
-		"wc/dom/focus",
-		"wc/dom/shed",
-		"wc/dom/tag",
-		"wc/dom/viewportCollision",
-		"wc/dom/getBox",
-		"wc/dom/Widget",
-		"wc/i18n/i18n",
-		"wc/isNumeric",
-		"wc/ui/dateField",
-		"wc/dom/initialise",
-		"wc/timers",
-		"wc/template",
-		"wc/config"],
+	"wc/date/addDays",
+	"wc/date/copy",
+	"wc/date/dayName",
+	"wc/date/daysInMonth",
+	"wc/date/getDifference",
+	"wc/date/monthName",
+	"wc/date/today",
+	"wc/date/interchange",
+	"wc/dom/classList",
+	"wc/dom/event",
+	"wc/dom/focus",
+	"wc/dom/shed",
+	"wc/dom/tag",
+	"wc/dom/viewportCollision",
+	"wc/dom/getBox",
+	"wc/dom/Widget",
+	"wc/i18n/i18n",
+	"wc/isNumeric",
+	"wc/ui/dateField",
+	"wc/dom/initialise",
+	"wc/timers",
+	"wc/template",
+	"wc/config"],
 function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthName, today, interchange, classList, event,
 		focus, shed, tag, viewportCollision, getBox, Widget, i18n, isNumeric, dateField, initialise,
 		timers, template, wcconfig) {
@@ -78,8 +78,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				for (i = 0; i < monthSelect.options.length; ++i) {
 					if (disable) {
 						shed.disable(monthSelect.options[i], true);
-					}
-					else {
+					}					else {
 						shed.enable(monthSelect.options[i], true);
 					}
 				}
@@ -156,8 +155,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			var result = element.value.trim();
 			if (result && isNumeric(result)) {
 				result = parseInt(result, 10);
-			}
-			else {
+			}			else {
 				result = NaN;
 			}
 			return result;
@@ -227,8 +225,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					if ((limit.monthMin || limit.monthMin === 0) && limit.monthMin > month) {
 						date.setMonth(limit.monthMin);
 						monthSelect.selectedIndex = limit.monthMin;
-					}
-					else {
+					}					else {
 						date.setMonth(month);
 					}
 				}
@@ -236,13 +233,11 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					if (limit.monthMax && limit.monthMax < month) {
 						date.setMonth(limit.monthMax);
 						monthSelect.selectedIndex = limit.monthMax;
-					}
-					else {
+					}					else {
 						date.setMonth(month);
 					}
 				}
-			}
-			else {
+			}			else {
 				date.setMonth(month);
 			}
 			return monthSelect.selectedIndex;
@@ -264,8 +259,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					if (limit.dayMin > days) {
 						days = limit.dayMin;
 					}
-				}
-				else if (limit.monthMax === month) {
+				}				else if (limit.monthMax === month) {
 					if (limit.dayMax < days) {
 						days = limit.dayMax;
 					}
@@ -273,8 +267,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			}
 			if (days > daysMax) {
 				date.setDate(daysMax);
-			}
-			else {
+			}			else {
 				date.setDate(days);
 			}
 		}
@@ -314,8 +307,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				// focus the dateField if required
 				if (!ignoreFocusReset && (input = getInputForCalendar(cal))) {
 					refocusId = input.id;
-				}
-				else {
+				}				else {
 					refocusId = null;
 				}
 				shed.hide(cal);
@@ -391,18 +383,15 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			if (keyCode === KeyEvent.DOM_VK_ESCAPE) {
 				hideCalendar();
 				handled = true;  // if the date field is in a dialog, do not close dialog
-			}
-			else if (element.id === YEAR_ELEMENT_ID && keyCode !== KeyEvent.DOM_VK_TAB && keyCode !== KeyEvent.DOM_VK_SHIFT) {
+			}			else if (element.id === YEAR_ELEMENT_ID && keyCode !== KeyEvent.DOM_VK_TAB && keyCode !== KeyEvent.DOM_VK_SHIFT) {
 				handled = keydownHelperChangeYear(element, keyCode);
-			}
-			else if (keyCode === KeyEvent.DOM_VK_TAB && shiftKey && element === findMonthSelect()) {  // tabbing back past month select
+			}			else if (keyCode === KeyEvent.DOM_VK_TAB && shiftKey && element === findMonthSelect()) {  // tabbing back past month select
 				getOrCreateCal(function(cal) {
 					buttons = PICKABLE.findDescendants(cal);
 					focus.setFocusRequest(buttons[buttons.length - 1]);  // move focus to last element
 				});
 				handled = true;
-			}
-			else if ((element = PICKABLE.findAncestor(element))) {
+			}			else if ((element = PICKABLE.findAncestor(element))) {
 				handled = keydownHelperDateButton(element, keyCode, shiftKey);
 			}
 
@@ -506,8 +495,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			var cal = getCal();
 			if (cal) {
 				callback(cal);
-			}
-			else {
+			}			else {
 				create(callback);
 			}
 		}
@@ -521,8 +509,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				if (millis || millis === 0) {
 					dateObj = new Date(millis);
 					callback(dateObj);
-				}
-				else {
+				}				else {
 					callback(null);
 				}
 			});
@@ -604,8 +591,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					if ((maxYear && year >= maxYear)) {
 						if (year > maxYear) {
 							disableEverything = true;
-						}
-						else {
+						}						else {
 							maxMonth = getMinMaxMonthDay(input, true);
 
 							if (maxMonth || maxMonth === 0) {
@@ -616,8 +602,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 								if (maxMonth === monthIndex) {
 									maxDay = getMinMaxMonthDay(input, true, true);
 								}
-							}
-							else {  // should never be here
+							}							else {  // should never be here
 								resetMonthPickerOptions();
 							}
 						}
@@ -626,8 +611,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					if ((minYear && year <= minYear)) {
 						if (year < minYear) {
 							disableEverything = true;
-						}
-						else {
+						}						else {
 							minMonth = getMinMaxMonthDay(input);
 							if (minMonth || minMonth === 0) {
 								// disable before minMonth
@@ -640,8 +624,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 								if (minMonth === monthIndex) {
 									minDay = getMinMaxMonthDay(input, false, true);
 								}
-							}
-							else {  // should never be here
+							}							else {  // should never be here
 								resetMonthPickerOptions();
 							}
 						}
@@ -649,13 +632,11 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 					if (disableEverything) {
 						resetMonthPickerOptions(true);
-					}
-					// if we did not disableEverything because we were in the wrng year we may still have to disable all days if we are in the wrong month
-					else if ((minMonth && minMonth > monthIndex) || ((maxMonth || maxMonth === 0) && maxMonth < monthIndex)) {
+					} else if ((minMonth && minMonth > monthIndex) || ((maxMonth || maxMonth === 0) && maxMonth < monthIndex)) {
+						// if we did not disableEverything because we were in the wrng year we may still have to disable all days if we are in the wrong month
 						disableEverything = true;
 					}
-				}
-				else {
+				}				else {
 					resetMonthPickerOptions();  // make sure all months are enabled if the date field does not have min/max limit
 				}
 
@@ -664,8 +645,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					if (monthEnd) {
 						shed.hide(weeks[i]);
 						break;
-					}
-					else {
+					}					else {
 						shed.show(weeks[i]);
 					}
 
@@ -688,15 +668,13 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 							if (disableEverything || (minDay && text < minDay) || (maxDay && text > maxDay)) {
 								shed.disable(button, true);
-							}
-							else {
+							}							else {
 								shed.enable(button, true);
 							}
 
 							if (setSelected && (getDifference(_date, date) === 0)) {
 								shed.select(button, true);
-							}
-							else if (!setSelected && (input = getInputForCalendar(cal)) && input.value && (inputDate = dateField.getValue(input)) && (inputDate = interchange.toDate(inputDate)) && getDifference(_date, inputDate) === 0) {
+							}							else if (!setSelected && (input = getInputForCalendar(cal)) && input.value && (inputDate = dateField.getValue(input)) && (inputDate = interchange.toDate(inputDate)) && getDifference(_date, inputDate) === 0) {
 								shed.select(button, true);
 							}
 
@@ -707,8 +685,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 							if (setFocus && !focusDay && (getDifference(_date, date) === 0)) {
 								focusDay = button;
 							}
-						}
-						else {
+						}						else {
 							day.appendChild(document.createTextNode(text));
 						}
 						addDays(1, _date);
@@ -741,8 +718,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					if (xfrObj.year) {
 						year.setAttribute(MIN_ATTRIB, xfrObj.year);
 					}
-				}
-				else {
+				}				else {
 					year.setAttribute(MIN_ATTRIB, MIN_YEAR);
 				}
 
@@ -751,8 +727,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					if (xfrObj.year) {
 						year.setAttribute(MAX_ATTRIB, xfrObj.year);
 					}
-				}
-				else {
+				}				else {
 					year.setAttribute(MAX_ATTRIB, MAX_YEAR);
 				}
 			}
@@ -805,8 +780,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 				 */
 				if (element.nextSibling) {
 					element.parentNode.insertBefore(cal, element.nextSibling);
-				}
-				else {
+				}				else {
 					element.parentNode.appendChild(cal);
 				}
 				shed.show(cal);
@@ -860,8 +834,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 
 			if (element.value === "t") {
 				setDate(_today, true);
-			}
-			else {
+			}			else {
 				monthList = findMonthSelect();
 				numberOfMonths = monthList.options.length;
 				yearBox = document.getElementById(YEAR_ELEMENT_ID);
@@ -878,29 +851,24 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 							yearBox.value = currentYear - 1;
 							monthList.selectedIndex = numberOfMonths - 1;
 						}
-					}
-					else if ((minYear = yearBox.getAttribute(MIN_ATTRIB)) && minYear === yearBox.value) {
+					}					else if ((minYear = yearBox.getAttribute(MIN_ATTRIB)) && minYear === yearBox.value) {
 						if (getMinMaxMonthDay(getInputForCalendar()) < monthList.selectedIndex) {
 							monthList.selectedIndex = monthList.selectedIndex - 1;
 						}
-					}
-					else {
+					}					else {
 						monthList.selectedIndex = monthList.selectedIndex - 1;
 					}
-				}
-				else if (monthList.selectedIndex === numberOfMonths - 1) { // go to next month
+				}				else if (monthList.selectedIndex === numberOfMonths - 1) { // go to next month
 					// change the year first. If we do not have a year set then default to this year then change
 					if (!(maxYear = yearBox.getAttribute(MAX_ATTRIB)) || parseInt(maxYear, 10) > yearBox.value) {
 						yearBox.value = currentYear + 1;
 						monthList.selectedIndex = 0;
 					}
-				}
-				else  if ((maxYear = yearBox.getAttribute(MAX_ATTRIB)) && maxYear === yearBox.value) { // if we have a max on the year input we have a max date, so we need to get the max month if the current year is equal to the max year
+				}				else  if ((maxYear = yearBox.getAttribute(MAX_ATTRIB)) && maxYear === yearBox.value) { // if we have a max on the year input we have a max date, so we need to get the max month if the current year is equal to the max year
 					if (getMinMaxMonthDay(getInputForCalendar(), true) > monthList.selectedIndex) {
 						monthList.selectedIndex = monthList.selectedIndex + 1;
 					}
-				}
-				else {
+				}				else {
 					monthList.selectedIndex = monthList.selectedIndex + 1;
 				}
 				refresh();
@@ -920,8 +888,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 					isOpening = true;
 					show(element);
 				}
-			}
-			finally {
+			}			finally {
 				isOpening = false;
 			}
 		}
@@ -950,8 +917,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 						});
 						hideCalendar(true);
 					});
-				}
-				else {
+				}				else {
 					hideCalendar();  // should never get here!
 				}
 			});
@@ -973,15 +939,12 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 			if (!$event.defaultPrevented) {
 				if ((element = LAUNCHER.findAncestor($event.target))) {
 					doLaunch(element);
-				}
-				else if (getCal()) {  // by using getCal() we can by-pass a widget descriptor lookup if the calendar has never been opened as document.getElementById is very fast.
+				}				else if (getCal()) {  // by using getCal() we can by-pass a widget descriptor lookup if the calendar has never been opened as document.getElementById is very fast.
 					if ((element = PICKABLE.findAncestor($event.target))) {
 						selectDay(element);
-					}
-					else if ((element = CAL_BUTTON.findAncestor($event.target))) {
+					}					else if ((element = CAL_BUTTON.findAncestor($event.target))) {
 						changeMonth(element);
-					}
-					else if (CLOSE_BUTTON.findAncestor($event.target)) {
+					}					else if (CLOSE_BUTTON.findAncestor($event.target)) {
 						hideCalendar();
 					}
 				}
@@ -1014,8 +977,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 						box = getBox(input);
 						cal.style.top = box.bottom + "px";
 					}
-				}
-				else {
+				}				else {
 					cal.style.top = "";
 				}
 				detectCollision(cal);
@@ -1042,13 +1004,11 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 						}
 						refocusId = null;
 					}
-				}
-				else if (action === shed.actions.SHOW) {
+				}				else if (action === shed.actions.SHOW) {
 					position(element);
 					focus.focusFirstTabstop(element);
 				}
-			}
-			else if (action === shed.actions.HIDE && ((cal = getCal()) && !!(element.compareDocumentPosition(cal) & Node.DOCUMENT_POSITION_CONTAINS))) {  // if we are hiding something inside the calendar it is probably a row
+			}			else if (action === shed.actions.HIDE && ((cal = getCal()) && !!(element.compareDocumentPosition(cal) & Node.DOCUMENT_POSITION_CONTAINS))) {  // if we are hiding something inside the calendar it is probably a row
 				ROW = ROW || new Widget("tr");
 				if (ROW.isOneOfMe(element)) {
 					// we have to remove the pickable elements from any dates which are no longer in the visible calendar
@@ -1114,8 +1074,7 @@ function(attribute, addDays, copy, dayName, daysInMonth, getDifference, monthNam
 		this.initialise = function(element) {
 			if (event.canCapture) {
 				event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-			}
-			else {
+			}			else {
 				event.add(element, event.TYPE.focusin, focusEvent);
 			}
 			event.add(element, event.TYPE.click, clickEvent);

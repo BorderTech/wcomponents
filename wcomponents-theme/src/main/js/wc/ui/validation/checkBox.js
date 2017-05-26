@@ -12,11 +12,11 @@
  * @requires module:wc/wc/ui/getFirstLabelForElement
  */
 define(["wc/dom/initialise",
-		"wc/dom/Widget",
-		"wc/dom/shed",
-		"wc/ui/validation/required",
-		"wc/ui/validation/validationManager",
-		"wc/ui/getFirstLabelForElement"],
+	"wc/dom/Widget",
+	"wc/dom/shed",
+	"wc/ui/validation/required",
+	"wc/ui/validation/validationManager",
+	"wc/ui/getFirstLabelForElement"],
 	/** @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param shed wc/dom/shed @param required wc/ui/validation/required @param validationManager wc/ui/validation/validationManager @param getFirstLabelForElement wc/ui/getFirstLabelForElement @ignore */
 	function(initialise, Widget, shed, required, validationManager, getFirstLabelForElement) {
 		"use strict";
@@ -51,9 +51,9 @@ define(["wc/dom/initialise",
 			 */
 			function validate(container) {
 				var obj = {container: container,
-							widget: REQUIRED,
-							attachTo: getFirstLabelForElement
-						};
+					widget: REQUIRED,
+					attachTo: getFirstLabelForElement
+				};
 				return required.complexValidationHelper(obj);
 			}
 

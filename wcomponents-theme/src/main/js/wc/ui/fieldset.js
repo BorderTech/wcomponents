@@ -1,8 +1,8 @@
 define(["wc/dom/initialise",
-		"wc/ui/ajax/processResponse",
-		"wc/ui/getFirstLabelForElement",
-		"wc/dom/Widget",
-		"wc/dom/tag"],
+	"wc/ui/ajax/processResponse",
+	"wc/ui/getFirstLabelForElement",
+	"wc/dom/Widget",
+	"wc/dom/tag"],
 	function(initialise, processResponse, getFirstLabelForElement, Widget, tag) {
 		"use strict";
 		/**
@@ -33,8 +33,7 @@ define(["wc/dom/initialise",
 				var el = element || document.body;
 				if (element && WRAPPER.isOneOfMe(el)) {
 					makeLegend(el);
-				}
-				else {
+				}				else {
 					Array.prototype.forEach.call(WRAPPER.findDescendants(el), makeLegend);
 				}
 			}

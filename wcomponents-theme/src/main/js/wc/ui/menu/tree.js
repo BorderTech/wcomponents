@@ -1,17 +1,17 @@
 define(["wc/ui/menu/core",
-		"wc/dom/keyWalker",
-		"wc/dom/shed",
-		"wc/dom/Widget",
-		"wc/array/toArray",
-		"wc/ui/menu/treeItem",
-		"wc/dom/initialise",
-		"wc/has",
-		"wc/dom/classList",
-		"wc/dom/formUpdateManager",
-		"wc/dom/getFilteredGroup",
-		"wc/ui/ajaxRegion",
-		"wc/timers",
-		"wc/ui/icon"],
+	"wc/dom/keyWalker",
+	"wc/dom/shed",
+	"wc/dom/Widget",
+	"wc/array/toArray",
+	"wc/ui/menu/treeItem",
+	"wc/dom/initialise",
+	"wc/has",
+	"wc/dom/classList",
+	"wc/dom/formUpdateManager",
+	"wc/dom/getFilteredGroup",
+	"wc/ui/ajaxRegion",
+	"wc/timers",
+	"wc/ui/icon"],
 	function(abstractMenu, keyWalker, shed, Widget, toArray, treeItem, initialise, has, classList, formUpdateManager, getFilteredGroup, ajaxRegion, timers, icon) {
 		"use strict";
 
@@ -215,8 +215,7 @@ define(["wc/ui/menu/core",
 				if (root && root.getAttribute("aria-multiselectable")) {
 					if (silent) {
 						shed.select(item, silent);
-					}
-					else {
+					}					else {
 						treeItem.activate(item, SHIFT, CTRL);
 					}
 				}
@@ -269,12 +268,10 @@ define(["wc/ui/menu/core",
 							if (isHTree) {
 								this._keyMap[VK_RIGHT] = keyWalker.MOVE_TO.CHILD;
 								this._keyMap[VK_LEFT] = keyWalker.MOVE_TO.PARENT;
-							}
-							else {
+							}							else {
 								this._keyMap[VK_LEFT] = this._FUNC_MAP.CLOSE;
 							}
-						}
-						else {
+						}						else {
 							this._keyMap[VK_RIGHT] = this._FUNC_MAP.ACTION;
 							this._keyMap[VK_LEFT] = keyWalker.MOVE_TO.PARENT;
 						}
@@ -540,8 +537,7 @@ define(["wc/ui/menu/core",
 					if (this.isHTree(root) && action === shed.actions.SELECT) {
 						if (this._isBranch(element) && !shed.isExpanded(element)) {
 							this[this._FUNC_MAP.OPEN](element);
-						}
-						else {
+						}						else {
 							this.closeAllPaths(root, element);
 						}
 					}

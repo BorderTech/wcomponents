@@ -14,15 +14,15 @@
  * @requires module:wc/ui/numberField
  */
 define(["wc/dom/attribute",
-		"wc/dom/initialise",
-		"wc/dom/event",
-		"wc/dom/Widget",
-		"wc/i18n/i18n",
-		"wc/ui/validation/validationManager",
-		"wc/ui/validation/required",
-		"wc/ui/getFirstLabelForElement",
-		"lib/sprintf",
-		"wc/ui/numberField"],
+	"wc/dom/initialise",
+	"wc/dom/event",
+	"wc/dom/Widget",
+	"wc/i18n/i18n",
+	"wc/ui/validation/validationManager",
+	"wc/ui/validation/required",
+	"wc/ui/getFirstLabelForElement",
+	"lib/sprintf",
+	"wc/ui/numberField"],
 	/** @param attribute wc/dom/attribute @param initialise wc/dom/initialise @param event wc/dom/event @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param validationManager wc/ui/validation/validationManager @param required wc/ui/validation/required @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf lib/sprintf @param numberField wc/ui/numberField @ignore */
 	function(attribute, initialise, event, Widget, i18n, validationManager, required, getFirstLabelForElement, sprintf, numberField) {
 		"use strict";
@@ -61,8 +61,7 @@ define(["wc/dom/attribute",
 						if (!message) {
 							message = checkMin(element, value, min);
 						}
-					}
-					else if (isNaN(value)) {
+					}					else if (isNaN(value)) {
 						message = i18n.get("validation_number_nan");
 					}
 					if (message) {
@@ -90,8 +89,7 @@ define(["wc/dom/attribute",
 				if (MAX_FIELD.isOneOfMe(element)) {
 					if (isNaN(value)) {
 						result = min ? i18n.get("validation_number_nanwithrange") : i18n.get("validation_number_nanwithmax");
-					}
-					else if (value > parseFloat(max)) {
+					}					else if (value > parseFloat(max)) {
 						// if value < min it cannot be > max
 						result = min ? i18n.get("validation_number_outofrange") : i18n.get("validation_number_overmax");
 					}
@@ -113,8 +111,7 @@ define(["wc/dom/attribute",
 				if (MIN_FIELD.isOneOfMe(element)) {
 					if (isNaN(value)) {
 						result = i18n.get("validation_number_nanwithmin");
-					}
-					else if (value < parseFloat(min)) {
+					}					else if (value < parseFloat(min)) {
 						result = i18n.get("validation_number_undermin");
 					}
 				}
@@ -176,8 +173,7 @@ define(["wc/dom/attribute",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.change, changeEvent, 1, null, true);
-				}
-				else {
+				}				else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 			};

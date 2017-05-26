@@ -131,8 +131,7 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 			el.setAttribute("href", url);
 			if (sibling) {
 				head.insertBefore(el, sibling);
-			}
-			else {
+			}			else {
 				head.appendChild(el);
 			}
 		}
@@ -164,8 +163,7 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 					if (has(stylesToAdd[ext])) {
 						addStyle(CSS_FILE_NAME + ext);
 					}
-				}
-				else {
+				}				else {
 					key = stylesToAdd[ext].test;
 					value = stylesToAdd[ext].version;
 					media = stylesToAdd[ext].media;
@@ -173,8 +171,7 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 						if (has(key) <= value) {
 							addStyle(CSS_FILE_NAME + ext, media);
 						}
-					}
-					else if (has(key)) {
+					}					else if (has(key)) {
 						addStyle(CSS_FILE_NAME + ext, media);
 					}
 				}
@@ -211,8 +208,7 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 						_v = version * 1;
 						if (has("ie") && has("ie") <= _v) {
 							addStyle(CSS_FILE_NAME + IE_PREFIX + version);
-						}
-						else if (_v >= 10) {
+						}						else if (_v >= 10) {
 							/*
 							 * WARNING... DANGER WILL ROBINSON
 							 * ie10+ use trident version, which is non-linear compared to ieVerion but we are going
@@ -222,11 +218,9 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 							 */
 							if (has("trident") < 7) {
 								addStyle(CSS_FILE_NAME + IE_PREFIX + "10");
-							}
-							else if (has("trident") <= _v - 4) {
+							}							else if (has("trident") <= _v - 4) {
 								addStyle(CSS_FILE_NAME + IE_PREFIX + version);
-							}
-							else if (_v >= 11) {
+							}							else if (_v >= 11) {
 								addStyle(CSS_FILE_NAME + IE_PREFIX + "11");
 							}
 						}
@@ -335,12 +329,10 @@ define(["wc/has", "wc/config"], function(has, wcconfig) {
 			if (isUrl) {
 				// Huzzah we have a URL! Simply write the link element.
 				addLinkElement(nameOrUrl, media);
-			}
-			else if (nameOrUrl.indexOf(".css") > 0) {
+			}			else if (nameOrUrl.indexOf(".css") > 0) {
 				// Name already has extension so we cannot add it using addStyle; it still needs the path though.
 				addLinkElement(CSS_BASE_URL + nameOrUrl, media);
-			}
-			else {
+			}			else {
 				addStyle(nameOrUrl, media);
 			}
 		};

@@ -11,11 +11,11 @@
  * @todo Get rid of the state writing: it is nuts!
  */
 define(["wc/dom/initialise",
-		"wc/dom/Widget",
-		"wc/dom/shed",
-		"wc/dom/formUpdateManager",
-		"wc/ui/ajax/processResponse",
-		"wc/dom/cbrShedPublisher"],
+	"wc/dom/Widget",
+	"wc/dom/shed",
+	"wc/dom/formUpdateManager",
+	"wc/ui/ajax/processResponse",
+	"wc/dom/cbrShedPublisher"],
 	/** @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param shed wc/dom/shed @param formUpdateManager wc/dom/formUpdateManager @param processResponse wc/ui/ajax/processResponse @ignore */
 	function(initialise, Widget, shed, formUpdateManager, processResponse) {
 		"use strict";
@@ -106,8 +106,7 @@ define(["wc/dom/initialise",
 											controlled = controlled.join(" ");
 											next.setAttribute(CONTROLS, controlled);
 										}
-									}
-									else {
+									}									else {
 										next.setAttribute(CONTROLS, myId);
 									}
 								});

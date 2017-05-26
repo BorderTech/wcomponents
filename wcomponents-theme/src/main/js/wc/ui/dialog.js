@@ -1,16 +1,16 @@
 define(["wc/dom/classList",
-		"wc/dom/event",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/dom/uid",
-		"wc/dom/Widget",
-		"wc/i18n/i18n",
-		"wc/ui/ajaxRegion",
-		"wc/ui/ajax/processResponse",
-		"wc/ui/containerload",
-		"wc/timers",
-		"wc/ui/dialogFrame",
-		"wc/ui/getForm"],
+	"wc/dom/event",
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/dom/uid",
+	"wc/dom/Widget",
+	"wc/i18n/i18n",
+	"wc/ui/ajaxRegion",
+	"wc/ui/ajax/processResponse",
+	"wc/ui/containerload",
+	"wc/timers",
+	"wc/ui/dialogFrame",
+	"wc/ui/getForm"],
 	function(classList, event, initialise, shed, uid, Widget, i18n, ajaxRegion, processResponse, eagerLoader, timers, dialogFrame, getForm) {
 		"use strict";
 
@@ -182,8 +182,7 @@ define(["wc/dom/classList",
 				// we need to know if a click is on an ajax trigger inside a dialog
 				if ((trigger = ajaxRegion.getTrigger(element, true))) {
 					_element = element;
-				}
-				else {
+				}				else {
 					// this is a chrome thing: it honours clicks on img elements and does not pass them through to the underlying link/button
 					ANCHOR = ANCHOR || new Widget("A");
 					_element = Widget.findAncestor(element, [ BUTTON, ANCHOR ]);
@@ -222,15 +221,13 @@ define(["wc/dom/classList",
 						if (!(openThisDialog && openThisDialog === triggerId) && (openerId = regObj.openerId)) {
 							opener = document.getElementById(openerId);
 							content.setAttribute(GET_ATTRIB, openerId + "=" + (opener ? encodeURIComponent(opener.value) : "x"));
-						}
-						else {
+						}						else {
 							content.removeAttribute(GET_ATTRIB);
 						}
 						classList.add(content, "wc_magic");
 						classList.add(content, "wc_dynamic");
 						eagerLoader.load(content, false, false);
-					}
-					else {
+					}					else {
 						console.warn("Could not find dialog content wrapper.");
 					}
 					openThisDialog = null;
@@ -296,8 +293,7 @@ define(["wc/dom/classList",
 					try {
 						dialogFrame.unsetAllDimensions();
 						dialogFrame.resetContent(keepContentOnClose, (keepContentOnClose ? "" : regObj.id));
-					}
-					finally {
+					}					finally {
 						keepContentOnClose = false;
 					}
 				}

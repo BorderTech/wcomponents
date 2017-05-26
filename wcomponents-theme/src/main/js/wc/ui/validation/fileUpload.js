@@ -1,13 +1,13 @@
 define(["wc/dom/attribute",
-		"wc/dom/event",
-		"wc/dom/initialise",
-		"wc/i18n/i18n",
-		"wc/ui/getFirstLabelForElement",
-		"wc/dom/Widget",
-		"wc/ui/validation/isComplete",
-		"wc/ui/validation/validationManager",
-		"wc/ui/validation/required",
-		"wc/ui/multiFileUploader"],
+	"wc/dom/event",
+	"wc/dom/initialise",
+	"wc/i18n/i18n",
+	"wc/ui/getFirstLabelForElement",
+	"wc/dom/Widget",
+	"wc/ui/validation/isComplete",
+	"wc/ui/validation/validationManager",
+	"wc/ui/validation/required",
+	"wc/ui/multiFileUploader"],
 	function(attribute, event, initialise, i18n, getFirstLabelForElement, Widget, isComplete, validationManager, required, multiFileUploader) {
 		"use strict";
 		/**
@@ -37,10 +37,10 @@ define(["wc/dom/attribute",
 				}
 
 				obj = {container: container,
-						widget: CONTAINER,
-						constraint: required.CONSTRAINTS.CLASSNAME,
-						position: "beforeEnd",
-						messageFunc: _messageFunc};
+					widget: CONTAINER,
+					constraint: required.CONSTRAINTS.CLASSNAME,
+					position: "beforeEnd",
+					messageFunc: _messageFunc};
 				return required.complexValidationHelper(obj);
 			}
 
@@ -112,8 +112,7 @@ define(["wc/dom/attribute",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.change, changeEvent, null, null, true);
-				}
-				else {
+				}				else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 			};

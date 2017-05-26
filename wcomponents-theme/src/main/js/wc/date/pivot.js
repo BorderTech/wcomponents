@@ -38,8 +38,7 @@ define(function() {
 		this.set = function(value) {
 			if (value > 0 && value < 101) {
 				pivotWindow = value;
-			}
-			else {
+			}			else {
 				throw new RangeError("value must be between 1 and 100 (inclusive)");
 			}
 		};

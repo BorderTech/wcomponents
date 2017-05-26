@@ -44,8 +44,7 @@ define(["wc/has"], /** @param has wc/has @ignore */function(has) {
 				global.Object.defineProperty(global.Element.prototype, classListProp, { get: classListGetter });
 			}
 		}
-	}
-	finally {
+	}	finally {
 		constructorProto = null;  // IE8 memory cleanup. Yes IE8, not 6 or 7.
 	}
 
@@ -97,8 +96,7 @@ define(["wc/has"], /** @param has wc/has @ignore */function(has) {
 			toggle: function(token) {
 				if (checkAndGetIndex(classes, token) === -1) {
 					this.add(token);
-				}
-				else {
+				}				else {
 					this.remove(token);
 				}
 			},

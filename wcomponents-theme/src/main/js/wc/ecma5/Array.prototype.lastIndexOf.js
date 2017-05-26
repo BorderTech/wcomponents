@@ -12,8 +12,7 @@ define(["wc/has"], function(has) {
 
 		if (from === undefined || from >= length) {
 			from = length - 1;
-		}
-		else if (from < 0) {
+		}		else if (from < 0) {
 			from = from + length;
 		}
 		for (; from > -1; from--) {

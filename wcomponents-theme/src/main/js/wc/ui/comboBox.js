@@ -1,19 +1,19 @@
 define(["wc/has",
-		"wc/dom/attribute",
-		"wc/dom/classList",
-		"wc/dom/event",
-		"wc/dom/focus",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/dom/Widget",
-		"wc/key",
-		"wc/timers",
-		"wc/ui/ajaxRegion",
-		"wc/ui/ajax/processResponse",
-		"wc/ui/onchangeSubmit",
-		"wc/ui/listboxAnalog",
-		"wc/config"
-	],
+	"wc/dom/attribute",
+	"wc/dom/classList",
+	"wc/dom/event",
+	"wc/dom/focus",
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/dom/Widget",
+	"wc/key",
+	"wc/timers",
+	"wc/ui/ajaxRegion",
+	"wc/ui/ajax/processResponse",
+	"wc/ui/onchangeSubmit",
+	"wc/ui/listboxAnalog",
+	"wc/config"
+],
 	function(has, attribute, classList, event, focus, initialise, shed, Widget, key, timers, ajaxRegion, processResponse, onchangeSubmit, listboxAnalog, wcconfig) {
 		"use strict";
 
@@ -154,8 +154,7 @@ define(["wc/has",
 								setTabIndexOn = i;
 								next.tabIndex = 0;
 							}
-						}
-						else {
+						}						else {
 							shed.hide(next, true);
 							next.tabIndex = -1;
 						}
@@ -264,8 +263,7 @@ define(["wc/has",
 								listboxAnalog.activate(target);
 							}
 						});
-					}
-					else {
+					}					else {
 						timers.setTimeout(focus.focusFirstTabstop, IETimeout, listbox);
 					}
 				}
@@ -382,8 +380,7 @@ define(["wc/has",
 						if (handleKeyCombobox(target, keyCode, $event.altKey)) {
 							$event.preventDefault();
 						}
-					}
-					else if ((listbox = getListBox(target, 1))) {
+					}					else if ((listbox = getListBox(target, 1))) {
 						if (handleKeyListbox(listbox, keyCode)) {
 							$event.preventDefault();
 						}
@@ -423,8 +420,7 @@ define(["wc/has",
 					if (listbox) {
 						focusListbox(listbox);
 					}
-				}
-				else if (altKey) {
+				}				else if (altKey) {
 					shed.expand(combo);
 					if (listbox) {
 						focusListbox(listbox);
@@ -437,8 +433,7 @@ define(["wc/has",
 				if (shed.isExpanded(combo)) {
 					if (altKey) {
 						shed.collapse(combo);
-					}
-					else if ((listbox = getListBox(target))) {
+					}					else if ((listbox = getListBox(target))) {
 						focusListbox(listbox);
 					}
 				}
@@ -507,8 +502,7 @@ define(["wc/has",
 
 					if (CHAR_KEYS.indexOf(keyCode) > -1) {
 						updateList(element);
-					}
-					else if ((keyName = key.getLiteral(keyCode))) {
+					}					else if ((keyName = key.getLiteral(keyCode))) {
 						if (keyName.indexOf("+") > -1) {
 							keyName = keyName.split("+");
 							keyName = keyName[keyName.length - 1];
@@ -644,8 +638,7 @@ define(["wc/has",
 							classList.add(combo, CLASS_CHATTY);
 							if (event.canCapture) {
 								event.add(element, event.TYPE.input, inputEvent);
-							}
-							else {
+							}							else {
 								event.add(element, event.TYPE.keydown, lameInputEvent);
 							}
 						}
@@ -662,8 +655,7 @@ define(["wc/has",
 								if (element === window || !((listbox = getListBox(combo)) && listbox === getListBox(openCombo))) {
 									shed.collapse(openCombo);
 								}
-							}
-							else {
+							}							else {
 								openSelect = "";
 							}
 						}
@@ -753,8 +745,7 @@ define(["wc/has",
 						return;
 					}
 					setValue(element, match);
-				}
-				else {
+				}				else {
 					textbox.value = "";
 				}
 			}
@@ -775,8 +766,7 @@ define(["wc/has",
 					if (listBox.getAttribute("data-wc-auto") === "list") {
 						el.setAttribute("data-wc-listcomplete", "true");
 					}
-				}
-				else {
+				}				else {
 					el.insertAdjacentHTML("beforeend", "<span role='listbox' aria-busy='true' id='" + listId + "'></span>");
 				}
 			}
@@ -785,8 +775,7 @@ define(["wc/has",
 				var el = element || document.body;
 				if (element && COMBO.isOneOfMe(element)) {
 					moveSugestionList(el);
-				}
-				else {
+				}				else {
 					Array.prototype.forEach.call(COMBO.findDescendants(el), moveSugestionList);
 				}
 			}
@@ -802,8 +791,7 @@ define(["wc/has",
 				setUpSuggestions(element);
 				if (event.canCapture) {
 					event.add(window, event.TYPE.focus, focusEvent, null, null, true);
-				}
-				else {
+				}				else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 				event.add(element, event.TYPE.click, clickEvent);

@@ -56,14 +56,12 @@ define(["wc/has", "wc/dom/event", "wc/dom/storage", "wc/dom/initialise", "wc/isN
 						timing.unloadEventEnd = storage.get(storeKey.UNLOAD_END, true) || 0;
 						timing.fetchStart = storage.get(storeKey.BEFOREUNLOAD_END, true) || 0;  // The closest we can get for "fetchStart" is the end of the beforeunload event.
 
-					}
-					finally {
+					}					finally {
 						storage.erase(storeKey.UNLOAD_START, true);
 						storage.erase(storeKey.UNLOAD_END, true);
 						storage.erase(storeKey.BEFOREUNLOAD_END, true);
 					}
-				}
-				else {  // the origin check found the previous page was not in the same origin, clear the timers
+				}				else {  // the origin check found the previous page was not in the same origin, clear the timers
 					timing.unloadEventStart = 0;
 					timing.unloadEventEnd = 0;
 					timing.fetchStart = 0;
@@ -104,13 +102,11 @@ define(["wc/has", "wc/dom/event", "wc/dom/storage", "wc/dom/initialise", "wc/isN
 							window.performance[ORIGIN_CHECK_PROP] = ORIGIN_CHECK.bad;
 							console.info("Detected 'foreign origin' navigation. Nulling cross page timers.");
 							initialiseCrossPageTimers();  // this will reset all the timers to zero
-						}
-						else {
+						}						else {
 							window.performance[ORIGIN_CHECK_PROP] = ORIGIN_CHECK.good;
 							console.info("Detected 'same origin' navigation. Allowing cross page timers.");
 						}
-					}
-					else { // we are not able to check the origin, best to err on the side of caution
+					}					else { // we are not able to check the origin, best to err on the side of caution
 						window.performance[ORIGIN_CHECK_PROP] = ORIGIN_CHECK.bad;
 						console.info("Could not check origin. Nulling cross page timers.");
 						initialiseCrossPageTimers();  // this will reset all the timers to zero
@@ -123,8 +119,7 @@ define(["wc/has", "wc/dom/event", "wc/dom/storage", "wc/dom/initialise", "wc/isN
 				// if the origin check result is not "unknown" we have been on the page long enough to trust the history length
 				if (window.performance[ORIGIN_CHECK_PROP] !== ORIGIN_CHECK.unknown) {
 					storage.put(HISTORY_CHECK_PARAM, window.history.length, true);
-				}
-				else {
+				}				else {
 					storage.erase(HISTORY_CHECK_PARAM, true); // can't trust window.history at this point so null it
 				}
 			}
@@ -134,8 +129,7 @@ define(["wc/has", "wc/dom/event", "wc/dom/storage", "wc/dom/initialise", "wc/isN
 					Object.defineProperty(window, "performance", {get: function() {
 						return performance;
 					}});
-				}
-				else {
+				}				else {
 					window.performance = performance;
 				}
 
@@ -145,8 +139,7 @@ define(["wc/has", "wc/dom/event", "wc/dom/storage", "wc/dom/initialise", "wc/isN
 				if (has("ie") === 8) {
 					console.info("Queuing 'origin check' for profiling to work around IE8 bugs.");
 					window.setTimeout(checkOrigin, 10000);  // ie8 bugs mean we have to wait 10 secs to do origin check
-				}
-				else {
+				}				else {
 					checkOrigin();  // everyone else can do origin check immediately
 				}
 				event.add(window, event.TYPE.unload, unloadStart, -101);

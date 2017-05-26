@@ -1,14 +1,14 @@
 define(["wc/dom/initialise",
-		"wc/dom/Widget",
-		"wc/i18n/i18n",
-		"wc/dom/attribute",
-		"wc/dom/event",
-		"wc/ui/getFirstLabelForElement",
-		"lib/sprintf",
-		"wc/ui/dateField",
-		"wc/ui/validation/required",
-		"wc/ui/validation/validationManager",
-		"wc/config"],
+	"wc/dom/Widget",
+	"wc/i18n/i18n",
+	"wc/dom/attribute",
+	"wc/dom/event",
+	"wc/ui/getFirstLabelForElement",
+	"lib/sprintf",
+	"wc/ui/dateField",
+	"wc/ui/validation/required",
+	"wc/ui/validation/validationManager",
+	"wc/config"],
 	function(initialise, Widget, i18n, attribute, event, getFirstLabelForElement, sprintf, dateField, required, validationManager, wcconfig) {
 		"use strict";
 		/**
@@ -66,8 +66,8 @@ define(["wc/dom/initialise",
 					attachTo = element.parentNode.lastChild;
 				}
 				validationManager.flagError({element: element,
-											message: message,
-											attachTo: attachTo});
+					message: message,
+					attachTo: attachTo});
 			}
 
 			/**
@@ -102,13 +102,11 @@ define(["wc/dom/initialise",
 
 						regexp = RX_STRING ? new RegExp(RX_STRING) : DEFAULT_RX;
 						patternFlag = i18n.get("validation_email_format");
-					}
-					else if ((mask = element.getAttribute("pattern"))) {
+					}					else if ((mask = element.getAttribute("pattern"))) {
 						try {
 							regexp = new RegExp("^(?:" + mask + ")$");
 							patternFlag = i18n.get("validation_common_pattern");
-						}
-						catch (e) {
+						}						catch (e) {
 							regexp = null;
 							// console.log("cannot convert input mask to regular expression, assuming valid");
 						}
@@ -117,8 +115,7 @@ define(["wc/dom/initialise",
 						if (flag) {
 							patternFlag = patternFlag.replace("%s ", "");
 							flag = sprintf.sprintf(concatenator, flag, patternFlag);
-						}
-						else {
+						}						else {
 							flag = patternFlag;
 						}
 						result = true;
@@ -146,14 +143,14 @@ define(["wc/dom/initialise",
 					_requiredTextFields = true,
 					validConstrained = true,
 					helperObj = {container: container,
-								widget: INPUT_WIDGETS.concat(TEXT),
-								filter: function(next) {
-									return !(dateField.isOneOfMe(next) || next.value);
-								},
-								attachTo: function (element) {
-									return element.parentNode;
-								}
-							};
+						widget: INPUT_WIDGETS.concat(TEXT),
+						filter: function(next) {
+							return !(dateField.isOneOfMe(next) || next.value);
+						},
+						attachTo: function (element) {
+							return element.parentNode;
+						}
+					};
 
 				/* This does required validation for all text-style inputs apart from date fields.*/
 				_requiredTextFields = required.complexValidationHelper(helperObj);
@@ -205,8 +202,7 @@ define(["wc/dom/initialise",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.change, changeEvent, 1, null, true);
-				}
-				else {
+				}				else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 			};

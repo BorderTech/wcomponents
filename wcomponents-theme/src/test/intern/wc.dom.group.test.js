@@ -18,16 +18,14 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			innerExpected;
 		if (!group) {
 			assert.fail(null, !null, "could not get group");
-		}
-		else {
+		}		else {
 			expected = expected || offset.length;
 			assert.strictEqual(group.length, expected, "did not find expected group length");
 			for (i = 0; i < group.length; i++) {
 				if (usePrefix) {
 					innerExpected = prefix + (i + offset);
 					assert.strictEqual(group[i].id, innerExpected, "Did not get expected element id: " + innerExpected);
-				}
-				else {
+				}				else {
 					innerExpected = group[i].id;
 					assert.isTrue(offset.indexOf(innerExpected) >= 0, "Did not find element id (" + innerExpected + ") in group.");
 				}

@@ -48,8 +48,7 @@ define(["wc/has"], function(has) {
 			try {
 				input = d.createElement("<input type='hidden' name='hasjs'>");
 				supported = input.type === "hidden" && input.name === "hasjs";
-			}
-			catch (e) {
+			}			catch (e) {
 				// Do nothing
 			}
 			return supported;
@@ -75,8 +74,7 @@ define(["wc/has"], function(has) {
 					if (flashPlayer) {
 						hasFlash = true;
 					}
-				}
-				catch (ignore) {
+				}				catch (ignore) {
 					// ignore
 				}
 			}
@@ -205,8 +203,7 @@ define(["wc/has"], function(has) {
 			if (result) {
 				try {
 					s.trim();
-				}
-				catch (e) {
+				}				catch (e) {
 					result = false;  // not good enough to count
 				}
 			}
@@ -227,11 +224,9 @@ define(["wc/has"], function(has) {
 				el = document.createElement("input");
 				el.type = d;
 				result = d === el.type;
-			}
-			catch (e) {
+			}			catch (e) {
 				result = false;
-			}
-			finally {
+			}			finally {
 				el = null;
 			}
 			return result;
@@ -255,8 +250,7 @@ define(["wc/has"], function(has) {
 					g.Object.defineProperty(obj, "id", { get: function() {
 						return "c";
 					}});
-				}
-				catch (ex) {
+				}				catch (ex) {
 					result = false;  // this is not a working defineProperty (i.e. perhaps Safari 5 which does not support defineProperty on DOM objects)
 				}
 			}

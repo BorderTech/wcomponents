@@ -45,16 +45,13 @@ define(["wc/has", "wc/dom/cookie"],
 					if (session) {
 						if (hasSessionStorage) {
 							window.sessionStorage[key] = value;
-						}
-						else {
+						}						else {
 							key += SESSION_SUFFIX;
 							cookie.create(key, value);
 						}
-					}
-					else if (hasLocalStorage) {
+					}					else if (hasLocalStorage) {
 						window.localStorage[key] = value;
-					}
-					else {
+					}					else {
 						cookie.create(key, value, 365);
 					}
 				}
@@ -73,16 +70,13 @@ define(["wc/has", "wc/dom/cookie"],
 					if (session) {
 						if (hasSessionStorage) {
 							result = window.sessionStorage[key];
-						}
-						else {
+						}						else {
 							key += SESSION_SUFFIX;
 							result = cookie.read(key);
 						}
-					}
-					else if (hasLocalStorage) {
+					}					else if (hasLocalStorage) {
 						result = window.localStorage[key];
-					}
-					else {
+					}					else {
 						result = cookie.read(key);
 					}
 				}
@@ -118,31 +112,26 @@ define(["wc/has", "wc/dom/cookie"],
 						if (hasSessionStorage) {
 							try {
 								delete window.sessionStorage[key];
-							}
-							catch (ex) {
+							}							catch (ex) {
 								// IE8
 								if (typeof window.sessionStorage[key] !== "undefined") {
 									window.sessionStorage[key] = "";
 								}
 							}
-						}
-						else {
+						}						else {
 							key += SESSION_SUFFIX;
 							cookie.erase(key);
 						}
-					}
-					else if (hasLocalStorage) {
+					}					else if (hasLocalStorage) {
 						try {
 							delete window.localStorage[key];
-						}
-						catch (ex) {
+						}						catch (ex) {
 							// IE8
 							if (typeof window.localStorage[key] !== "undefined") {
 								window.localStorage[key] = "";
 							}
 						}
-					}
-					else {
+					}					else {
 						cookie.erase(key);
 					}
 				}

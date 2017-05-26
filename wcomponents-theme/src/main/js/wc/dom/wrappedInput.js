@@ -1,5 +1,5 @@
 define(["wc/dom/initialise",
-		"wc/dom/Widget"],
+	"wc/dom/Widget"],
 	function (intialise, Widget) {
 		"use strict";
 

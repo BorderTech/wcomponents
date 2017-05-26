@@ -60,8 +60,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				try {
 					pivot.set(0);
 					assert.fail("should have got an exception setting pivot too low");
-				}
-				catch (ignore) {
+				}				catch (ignore) {
 					// good
 				}
 			},
@@ -69,8 +68,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				try {
 					pivot.set(101);
 					assert.fail("should have got an exception setting pivot too high");
-				}
-				catch (ignore) {
+				}				catch (ignore) {
 					// good
 				}
 			}

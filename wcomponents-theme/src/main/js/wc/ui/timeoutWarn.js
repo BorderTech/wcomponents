@@ -1,5 +1,5 @@
 define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/loader/resource",
-		"wc/dom/shed", "wc/timers", "wc/dom/classList", "wc/ui/icon", "wc/config"],
+	"wc/dom/shed", "wc/timers", "wc/dom/classList", "wc/ui/icon", "wc/config"],
 	function(sprintf, event, Widget, i18n, loader, shed, timers, classList, icon, wcconfig) {
 		"use strict";
 		/**
@@ -173,8 +173,7 @@ define(["lib/sprintf", "wc/dom/event", "wc/dom/Widget", "wc/i18n/i18n", "wc/load
 					timerWarn = timers.setTimeout(warn, (millis - warning), warning / 60000);
 					timerExpired = timers.setTimeout(expire, millis);
 					console.log("Session will expire at ", expiresAt);
-				}
-				else {
+				}				else {
 					console.warn("Timeout invalid or too short: ", seconds);
 				}
 			};

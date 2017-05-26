@@ -22,16 +22,16 @@
  * @todo Check source order.
  */
 define(["wc/dom/tag",
-		"wc/dom/attribute",
-		"wc/date/interchange",
-		"wc/dom/getFilteredGroup",
-		"wc/dom/initialise",
-		"wc/ui/SubordinateAction",
-		"wc/array/unique",
-		"wc/dom/getAncestorOrSelf",
-		"wc/dom/shed",
-		"wc/timers",
-		"wc/array/toArray"],
+	"wc/dom/attribute",
+	"wc/date/interchange",
+	"wc/dom/getFilteredGroup",
+	"wc/dom/initialise",
+	"wc/ui/SubordinateAction",
+	"wc/array/unique",
+	"wc/dom/getAncestorOrSelf",
+	"wc/dom/shed",
+	"wc/timers",
+	"wc/array/toArray"],
 	/** @param tag wc/dom/tag @param attribute wc/dom/attribute @param interchange wc/date/interchange @param getFilteredGroup wc/dom/getFilteredGroup @param initialise wc/dom/initialise @param Action wc/ui/SubordinateAction @param unique wc/array/unique @param getAncestorOrSelf wc/dom/getAncestorOrSelf @param shed wc/dom/shed @param timers wc/timers @param toArray wc/array/toArray @ignore */
 	function(tag, attribute, interchange, getFilteredGroup, initialise, Action, unique, getAncestorOrSelf, shed, timers, toArray) {
 		"use strict";
@@ -74,12 +74,10 @@ define(["wc/dom/tag",
 						try {
 							if ((action = new Action(actions[i]))) {
 								result[result.length] = action;
-							}
-							else {
+							}							else {
 								console.warn("Could not parse", actions[i]);
 							}
-						}
-						catch (ex) {
+						}						catch (ex) {
 							console.warn(ex, actions[i]);
 						}
 					}
@@ -103,8 +101,7 @@ define(["wc/dom/tag",
 					result = ruleIds.map(function(ruleId) {
 						return ruleStore[ruleId];
 					});
-				}
-				else if (checkAncestors && (element = element.parentNode)) {
+				}				else if (checkAncestors && (element = element.parentNode)) {
 					result = getControlledRules(element, checkAncestors);
 				}
 				return result;
@@ -131,8 +128,7 @@ define(["wc/dom/tag",
 							for (j = 0, jLen = actions.length; j < jLen; j++) {
 								try {
 									actions[j].execute();
-								}
-								catch (ex) {
+								}								catch (ex) {
 									console.error(ex + " executing subordinate action for rule " + rule.id);
 								}
 							}
@@ -158,8 +154,7 @@ define(["wc/dom/tag",
 				var result = document.getElementsByName(identifier);
 				if (result.length && (result[0].tagName === tag.INPUT || result[0].tagName === tag.SELECT || result[0].tagName === tag.TEXTAREA || result[0].tagName === tag.BUTTON)) {// gebn always returns a nodelist even if nothing found
 					result = result[0];
-				}
-				else {
+				}				else {
 					result = document.getElementById(identifier);
 				}
 				return result;
@@ -233,13 +228,11 @@ define(["wc/dom/tag",
 								doEqualityTest(element, testValue, testType.negate, selectedItems);
 							}
 						}
-					}
-					else {
+					}					else {
 						// we are not dealing with a selectable group , just test element
 						result = testElementValue(element, testValue, operator);
 					}
-				}
-				else if (!element) {
+				}				else if (!element) {
 					console.warn("Could not find element ", id);
 				}
 				return result;
@@ -271,8 +264,7 @@ define(["wc/dom/tag",
 					if (isEmpty(testValue) || testValue === "false") {  // we know element is not selected
 						result = !negate;
 					}
-				}
-				else if (testValue === "true" || testValue === "false") {
+				}				else if (testValue === "true" || testValue === "false") {
 					if ((shed.isSelected(element) + "") === testValue) {
 						result = !negate;
 					}
@@ -331,17 +323,14 @@ define(["wc/dom/tag",
 					if (multiSelectPair && multiSelectPair.isOneOfMe(element)) {
 						result = multiSelectPair.getValue(element);
 						result = toArray(result);
-					}
-					else if ((group = gfg(element, gfgConf)) && (group.filtered.length || group.unfiltered.length)) {
+					}					else if ((group = gfg(element, gfgConf)) && (group.filtered.length || group.unfiltered.length)) {
 						result = group.filtered;
-					}
-					else if (shed.isSelectable(element)) {
+					}					else if (shed.isSelectable(element)) {
 						// we are dealing with a something that is not an intrinsic part of a selectable group
 						// but it might still be a standalone selection mechanism and for subordinate that is
 						// good enough
 						result = shed.isSelected(element) ? [element] : group.filtered;
-					}
-					else {
+					}					else {
 						result = null;  // flag that this element simply has nothing to do with selection of any type
 					}
 				}
@@ -448,14 +437,11 @@ define(["wc/dom/tag",
 				var result;
 				if (type === "rx") {
 					result = parseRegex(val);
-				}
-				else if (type === "date") {
+				}				else if (type === "date") {
 					result = getDateCompareValue(val);
-				}
-				else if (type === "number") {
+				}				else if (type === "number") {
 					result = getNumberCompareValue(val);
-				}
-				else {
+				}				else {
 					result = val;
 				}
 				return result;
@@ -470,8 +456,7 @@ define(["wc/dom/tag",
 				var result;
 				if (val === "" || interchange.isComplete(val)) {
 					result = val;
-				}
-				else {
+				}				else {
 					console.warn("Date is not complete", val);
 					result = null;
 				}
@@ -491,8 +476,7 @@ define(["wc/dom/tag",
 						console.warn("Can not parse to a number", val);
 						result = null;
 					}
-				}
-				else {
+				}				else {
 					result = val;
 				}
 				return result;
@@ -545,11 +529,9 @@ define(["wc/dom/tag",
 				var result;
 				if ((dateField && dateField.isOneOfMe(element))) {
 					result = "date";
-				}
-				else if (numberField && numberField.isOneOfMe(element)) {
+				}				else if (numberField && numberField.isOneOfMe(element)) {
 					result = "number";
-				}
-				else {
+				}				else {
 					result = "string";
 				}
 				return result;
@@ -571,13 +553,11 @@ define(["wc/dom/tag",
 						try {
 							if (re.indexOf("(?i)") === 0) {
 								result = new RegExp(re.substring(4), "i");
-							}
-							else {
+							}							else {
 								result = new RegExp(re);
 							}
 							regexCache[re] = result;
-						}
-						catch (ex) {
+						}						catch (ex) {
 							console.error("Error parsing regexp", re, ex);
 						}
 					}
@@ -605,8 +585,7 @@ define(["wc/dom/tag",
 							changeInited = true;
 							if (event.canCapture) {
 								event.add(element, event.TYPE.change, changeEvent, null, null, true);
-							}
-							else {
+							}							else {
 								event.add(element, event.TYPE.focusin, focusEvent);
 							}
 						}
@@ -704,8 +683,7 @@ define(["wc/dom/tag",
 					getRule = function(id) {
 						if (elementToRuleMap[id]) {
 							elementToRuleMap[id][elementToRuleMap[id].length] = ruleId;
-						}
-						else {
+						}						else {
 							elementToRuleMap[id] = [ruleId];
 						}
 					};

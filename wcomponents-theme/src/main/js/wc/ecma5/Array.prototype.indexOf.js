@@ -12,8 +12,7 @@ define(["wc/has"], function(has) {
 		var length = this.length;
 		if (from === undefined) {
 			from = 0;
-		}
-		else if (from < 0) {
+		}		else if (from < 0) {
 			from = from + length;
 		}
 		for (; from < length; from++) {

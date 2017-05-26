@@ -154,16 +154,14 @@ define(["wc/ui/menu/core",
 						this._keyMap[VK_LEFT] = this._FUNC_MAP.CLOSE_MY_BRANCH;
 						this._keyMap[VK_UP] = keyWalker.MOVE_TO.PREVIOUS;
 						this._keyMap[VK_DOWN] = keyWalker.MOVE_TO.NEXT;
-					}
-					else {
+					}					else {
 						// this._keyMap[VK_LEFT] = "openPreviousTopLevelSibling";
 						this._keyMap[VK_LEFT] = null;
 					}
 
 					if (this._isBranchOrOpener(_item)) {
 						this._keyMap[VK_RIGHT] = this._FUNC_MAP.ACTION;
-					}
-					else {
+					}					else {
 						// this._keyMap[VK_RIGHT] = "openNextTopLevelSibling";
 						this._keyMap[VK_RIGHT] = null;
 					}
@@ -181,22 +179,19 @@ define(["wc/ui/menu/core",
 							if (isFirstLastItem(_item, root)) {
 								// If I am the first submenu item UP should go to the opener
 								this._keyMap[VK_UP] = keyWalker.MOVE_TO.PARENT;
-							}
-							else {
+							}							else {
 								this._keyMap[VK_UP] = keyWalker.MOVE_TO.PREVIOUS;
 							}
 							// this is no an else if because an item can be both first and last
 							if (isFirstLastItem(_item, root, true)) {
 								// If I am the last submenu item then DOWN should go to the opener
 								this._keyMap[VK_DOWN] = keyWalker.MOVE_TO.PARENT;
-							}
-							else {
+							}							else {
 								this._keyMap[VK_DOWN] = keyWalker.MOVE_TO.NEXT;
 							}
 						}
 					}
-				}
-				else {
+				}				else {
 					this._keyMap[VK_LEFT] = keyWalker.MOVE_TO.PREVIOUS;
 					this._keyMap[VK_RIGHT] = keyWalker.MOVE_TO.NEXT;
 					// if I am a branch/opener and the menu is open then I have to cycle through my children
@@ -207,8 +202,7 @@ define(["wc/ui/menu/core",
 						if (shed.isExpanded(_item)) {
 							this._keyMap[VK_UP] = keyWalker.MOVE_TO.LAST_CHILD; // "lastChildItem";
 							this._keyMap[VK_DOWN] = keyWalker.MOVE_TO.CHILD;
-						}
-						else {
+						}						else {
 							this._keyMap[VK_UP] = this._FUNC_MAP.ACTION;
 							this._keyMap[VK_DOWN] = this._FUNC_MAP.ACTION;
 						}
@@ -264,15 +258,13 @@ define(["wc/ui/menu/core",
 					while ((current = submenuContent.firstChild)) {
 						if (classList.contains(current, "wc_closesubmenu")) {
 							submenuContent.removeChild(current);
-						}
-						else {
+						}						else {
 							nextMenu.appendChild(current);
 						}
 					}
 					burger.parentNode.removeChild(burger);
 
-				}
-				finally {
+				}				finally {
 					classList.remove(nextMenu, MENU_FIXED);
 				}
 			}
@@ -302,11 +294,9 @@ define(["wc/ui/menu/core",
 								}
 								if (classList.contains(child, "wc-labelhead")) {
 									props.labelhead = child.innerHTML;
-								}
-								else if (classList.contains(child, "wc-labeltail")) {
+								}								else if (classList.contains(child, "wc-labeltail")) {
 									props.labeltail = child.innerHTML;
-								}
-								else {
+								}								else {
 									props.content = child.innerHTML;
 								}
 							});
@@ -385,8 +375,7 @@ define(["wc/ui/menu/core",
 
 				if (RESPONSIVE_MENU.isOneOfMe(element)) {
 					candidates = [element];
-				}
-				else {
+				}				else {
 					candidates = toArray(RESPONSIVE_MENU.findDescendants(element));
 				}
 
@@ -401,8 +390,7 @@ define(["wc/ui/menu/core",
 				if (candidates.length) {
 					if (viewportUtils.isPhoneLike()) {
 						candidates.forEach(makeIconified);
-					}
-					else {
+					}					else {
 						candidates.forEach(removeIconified);
 					}
 				}

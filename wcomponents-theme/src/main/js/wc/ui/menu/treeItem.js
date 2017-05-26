@@ -19,11 +19,11 @@
  * @requires module:wc/dom/getFilteredGroup
  */
 define(["wc/dom/ariaAnalog",
-		"wc/dom/initialise",
-		"wc/dom/Widget",
-		"wc/dom/isAcceptableTarget",
-		"wc/dom/shed",
-		"wc/dom/getFilteredGroup"],
+	"wc/dom/initialise",
+	"wc/dom/Widget",
+	"wc/dom/isAcceptableTarget",
+	"wc/dom/shed",
+	"wc/dom/getFilteredGroup"],
 	/** @param ariaAnalog @param initialise @param Widget @param isAcceptableTarget @param shed @param getFilteredGroup @ignore */
 	function(ariaAnalog, initialise, Widget, isAcceptableTarget, shed, getFilteredGroup) {
 		"use strict";
@@ -174,8 +174,7 @@ define(["wc/dom/ariaAnalog",
 					try {
 						if (!(SHIFT || CTRL)) {
 							forceSingle = true;
-						}
-						else if (multiSelect === "true" && tree.isHTree(container)) {
+						}						else if (multiSelect === "true" && tree.isHTree(container)) {
 							forceSingle = isFirstAtLevel(element);
 						}
 						if (forceSingle) {
@@ -183,8 +182,7 @@ define(["wc/dom/ariaAnalog",
 							this.exclusiveSelect = this.SELECT_MODE.SINGLE;
 						}
 						this.constructor.prototype.activate.call(this, element, SHIFT, CTRL);
-					}
-					finally {
+					}					finally {
 						if (selectMode) {
 							this.exclusiveSelect = selectMode;
 							selectMode = null;

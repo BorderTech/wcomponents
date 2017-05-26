@@ -32,8 +32,7 @@ define(["wc/xml/xpath", "wc/loader/resource"],
 					element = xpath.query("//mime[ext[@name='" + extension + "']]", true, result);
 					if (element) {
 						result = element.getAttribute("type");
-					}
-					else {
+					}					else {
 						console.info("Could not find extension in MIME type file", extension);
 						result = null;
 					}
@@ -79,8 +78,7 @@ define(["wc/xml/xpath", "wc/loader/resource"],
 						ext: ext
 					};
 				}
-			}
-			else {
+			}			else {
 				ext = getExtension(fileInfo.value);
 				result = [{
 					mime: getMimeTypeFromXmlMap(ext),

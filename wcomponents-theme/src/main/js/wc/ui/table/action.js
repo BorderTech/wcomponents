@@ -1,10 +1,10 @@
 define(["wc/dom/event",
-		"wc/dom/getFilteredGroup",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/ui/table/common",
-		"wc/ui/ajax/processResponse",
-		"wc/dom/Widget"],
+	"wc/dom/getFilteredGroup",
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/ui/table/common",
+	"wc/ui/ajax/processResponse",
+	"wc/dom/Widget"],
 	function(event, getFilteredGroup, initialise, shed, common, processResponse, Widget) {
 		"use strict";
 

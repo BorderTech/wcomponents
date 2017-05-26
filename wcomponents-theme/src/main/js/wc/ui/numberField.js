@@ -13,12 +13,12 @@
  * @todo document private members
  */
 define(["wc/dom/attribute",
-		"wc/dom/initialise",
-		"wc/dom/event",
-		"wc/isNumeric",
-		"wc/dom/shed",
-		"wc/dom/Widget",
-		"wc/timers"],
+	"wc/dom/initialise",
+	"wc/dom/event",
+	"wc/isNumeric",
+	"wc/dom/shed",
+	"wc/dom/Widget",
+	"wc/timers"],
 	/** @param attribute wc/dom/attribute @param initialise wc/dom/initialise @param event wc/dom/event @param isNumeric wc/isNumeric @param shed wc/dom/shed @param Widget wc/dom/Widget @param timers wc/timers @ignore */
 	function(attribute, initialise, event, isNumeric, shed, Widget, timers) {
 		"use strict";
@@ -63,8 +63,7 @@ define(["wc/dom/attribute",
 
 						if (min && (tempVal < min)) {
 							tempVal = min;
-						}
-						else if (max && (tempVal > max)) {
+						}						else if (max && (tempVal > max)) {
 							tempVal = max;
 						}
 
@@ -150,8 +149,7 @@ define(["wc/dom/attribute",
 			this.initialise = function (element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-				}
-				else {
+				}				else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 			};

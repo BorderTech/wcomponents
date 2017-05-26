@@ -15,16 +15,16 @@
  * @requires module:wc/ui/validation/validationManager
  */
 define(["wc/dom/attribute",
-		"wc/dom/event",
-		"wc/dom/initialise",
-		"wc/dom/Widget",
-		"wc/i18n/i18n",
-		"wc/ui/multiFormComponent",
-		"wc/array/unique",
-		"wc/ui/getFirstLabelForElement",
-		"lib/sprintf",
-		"wc/ui/validation/required",
-		"wc/ui/validation/validationManager"],
+	"wc/dom/event",
+	"wc/dom/initialise",
+	"wc/dom/Widget",
+	"wc/i18n/i18n",
+	"wc/ui/multiFormComponent",
+	"wc/array/unique",
+	"wc/ui/getFirstLabelForElement",
+	"lib/sprintf",
+	"wc/ui/validation/required",
+	"wc/ui/validation/validationManager"],
 	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param multiFormComponent wc/ui/multiFormComponent @param unique wc/array/unique @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param sprintf lib/sprintf @param required wc/ui/validation/required @param validationManager wc/ui/validation/validationManager @ignore */
 	function(attribute, event, initialise, Widget, i18n, multiFormComponent, unique, getFirstLabelForElement, sprintf, required, validationManager) {
 		"use strict";
@@ -88,8 +88,7 @@ define(["wc/dom/attribute",
 						count = unique(Array.prototype.filter.call(count, selectValidOptionFilter), function(a, b) {
 							return a.selectedIndex - b.selectedIndex;
 						}).length;
-					}
-					else if ((count = INPUT_WD.findDescendants(next)) && count.length) {
+					}					else if ((count = INPUT_WD.findDescendants(next)) && count.length) {
 						// WMultiTextField may have empty inputs to fool the validator!
 						count = unique(Array.prototype.filter.call(count, function(input) {
 							return input.value;
@@ -98,8 +97,7 @@ define(["wc/dom/attribute",
 						}).length;
 						underFlag = "validation_multitext_undermin";
 						overFlag = "validation_multitext_overmax";
-					}
-					else {
+					}					else {
 						// set it to zero because otherwise it will be a zero length nodelist and not equivalent of false
 						count = 0;
 					}
@@ -109,8 +107,7 @@ define(["wc/dom/attribute",
 							isInvalid = true;
 							flag = i18n.get(underFlag);
 							limit = min;
-						}
-						else if (max && count > max) {
+						}						else if (max && count > max) {
 							isInvalid = true;
 							flag = i18n.get(overFlag);
 							limit = max;
@@ -150,9 +147,9 @@ define(["wc/dom/attribute",
 				var result = true,
 					controls,
 					obj = {container: container,
-							widget: CONTAINER,
-							constraint: required.CONSTRAINTS.CLASSNAME,
-							position: "beforeEnd"},
+						widget: CONTAINER,
+						constraint: required.CONSTRAINTS.CLASSNAME,
+						position: "beforeEnd"},
 					_required = required.complexValidationHelper(obj);
 
 				if ((controls = (CONTAINER.isOneOfMe(container)) ? [container] : CONTAINER.findDescendants(container))) {
@@ -227,8 +224,7 @@ define(["wc/dom/attribute",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.change, changeEvent, null, null, true);
-				}
-				else {
+				}				else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 				event.add(element, event.TYPE.click, clickEvent, 1);  // we want the click handler late so that add/remove runs first.

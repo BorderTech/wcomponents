@@ -88,8 +88,7 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 					$event.preventDefault();
 					if (docEl.scrollIntoView) {
 						docEl.scrollIntoView();
-					}
-					else {
+					}					else {
 						docEl.scrollTop = 0;
 					}
 					focus.focusFirstTabstop(docEl);  // this would actually be sufficient if we could guarantee a focusable element.
@@ -114,8 +113,7 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 						document.body.appendChild(link);
 					}
 					shed.show(link, true);  // nothing needs to be notified that the back to top link is showing
-				}
-				else if (link) {
+				}				else if (link) {
 					shed.hide(link, true);  // nothing needs to be notified that the back to top link is hidden
 				}
 			}
@@ -145,8 +143,7 @@ define(["wc/i18n/i18n", "wc/dom/event", "wc/dom/focus", "wc/dom/initialise", "wc
 
 				if (MIN_SCROLL_BEFORE_SHOW > 0) {
 					min = MIN_SCROLL_BEFORE_SHOW;
-				}
-				else {
+				}				else {
 					min = getViewportSize().height;
 				}
 				toggle((scroll > min));

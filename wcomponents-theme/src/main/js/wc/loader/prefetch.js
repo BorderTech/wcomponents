@@ -13,8 +13,7 @@ define(function() {
 			link = document.createElement("link");
 			if (rel) {
 				link.rel = rel;  // allow for proprietary mechanisms
-			}
-			else {
+			}			else {
 				link.rel = "preload";  // the standards way
 			}
 			if (as) {
@@ -48,8 +47,7 @@ define(function() {
 			try {
 				addLink(href, as);
 				// addLink(href, as, "subresource");  // This should not be necessary anymore - use standard method or nothing
-			}
-			catch (ex) {
+			}			catch (ex) {
 				console.warn(ex);  // don't die on prefetch exceptions, log 'em and move on
 			}
 		},
@@ -77,8 +75,7 @@ define(function() {
 						this.request(href, "script");
 					}
 				}
-			}
-			catch (ex) {
+			}			catch (ex) {
 				console.warn(ex);  // don't die on prefetch exceptions, log 'em and move on
 			}
 		}

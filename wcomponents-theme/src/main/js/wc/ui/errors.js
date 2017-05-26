@@ -135,8 +135,7 @@ define(["wc/dom/initialise",
 					if (tagName === tag.INPUT && (target.type === "radio" || target.type === "checkbox")) {
 						target = getFirstLabelForElement(target) || target;
 						writeWhere = writeWhere || "beforeEnd";
-					}
-					else if (wrappedInput.isOneOfMe(target)) {
+					}					else if (wrappedInput.isOneOfMe(target)) {
 						target = wrappedInput.getWrapper(target) || target;
 						writeWhere = "afterEnd";
 					}

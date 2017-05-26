@@ -137,8 +137,7 @@ define(["wc/dom/event",
 						return Promise.resolve(openDlgHelper(dto));
 					}
 					return Promise.reject(REJECT.ALREADY_OPEN);
-				}
-				else if ((form = getDlgForm(dto))) {
+				}				else if ((form = getDlgForm(dto))) {
 					formId = form.id || (form.id = uid());
 
 					if (formId) {
@@ -175,8 +174,7 @@ define(["wc/dom/event",
 				if (dialog && !instance.isOpen(dialog)) {
 					if (dto && dto.openerId) {
 						openerId = dto.openerId;
-					}
-					else {
+					}					else {
 						openerId = document.activeElement ? document.activeElement.id : null;
 					}
 					reinitializeDialog(dialog, dto);
@@ -201,8 +199,7 @@ define(["wc/dom/event",
 				if (isModal) {
 					dialog.setAttribute("role", "alertdialog");
 					modalShim.setModal(dialog);
-				}
-				else {
+				}				else {
 					dialog.removeAttribute("role");
 				}
 			}
@@ -251,8 +248,7 @@ define(["wc/dom/event",
 						draggable.makeDraggable(control, DIALOG_ID);
 						resizeable.setMaxBar(control);
 						resizeable.makeAnimatable(dialog);
-					}
-					else {
+					}					else {
 						resizeable.clearAnimatable(dialog);
 						draggable.clearDraggable(control);
 						resizeable.clearMaxBar(control);
@@ -274,14 +270,12 @@ define(["wc/dom/event",
 				try {
 					if (canMoveResize()) {
 						resizeable.resetSize(dialog);
-					}
-					else {
+					}					else {
 						resizeable.disableAnimation(dialog);
 						animationsDisabled = true;
 						resizeable.clearSize(dialog, true);
 					}
-				}
-				finally {
+				}				finally {
 					if (animationsDisabled) {
 						resizeable.restoreAnimation(dialog);
 					}
@@ -356,14 +350,11 @@ define(["wc/dom/event",
 				if (globalConf && globalConf.offset) {
 					if (isNaN(globalConf.offset)) {
 						console.log("Offset must be a number, what are you playing at?");
-					}
-					else if (globalConf.offset <= 0) {
+					}					else if (globalConf.offset <= 0) {
 						console.log("Offset must be greater than zero otherwise dialogs will be above the top of the screen.");
-					}
-					else if (globalConf.offset >= 1) {
+					}					else if (globalConf.offset >= 1) {
 						console.log("Offset must be less than one otherwise dialogs will be below the bottom of the screen.");
-					}
-					else {
+					}					else {
 						offset = globalConf.offset;
 					}
 				}
@@ -390,15 +381,13 @@ define(["wc/dom/event",
 								resizeable.disableAnimation(dialog);
 								disabledAnimations = true;
 								positionable.setBySize(dialog, configObj);
-							}
-							else {
+							}							else {
 								positionable.storePosBySize(dialog, configObj);
 								positionable.clear(dialog);
 							}
 						}
 					}
-				}
-				finally {
+				}				finally {
 					if (disabledAnimations) {
 						resizeable.restoreAnimation(dialog);
 					}
@@ -440,8 +429,7 @@ define(["wc/dom/event",
 									resizeHandle.title = resizeHandleTitle;
 								}
 								win(dialog);
-							}
-							else {
+							}							else {
 								lose(null);
 							}
 						};
@@ -486,8 +474,7 @@ define(["wc/dom/event",
 					if (docFragment.querySelector("#" + DIALOG_ID)) {
 						removeShim = true;
 					}
-				}
-				else if (docFragment.getElementById && docFragment.getElementById(DIALOG_ID)) {
+				}				else if (docFragment.getElementById && docFragment.getElementById(DIALOG_ID)) {
 					removeShim = true;
 				}
 				if (removeShim && (dialog = instance.getDialog()) && instance.isOpen(dialog)) {
@@ -541,8 +528,7 @@ define(["wc/dom/event",
 					if (repainter) {
 						repainter.checkRepaint(element);
 					}
-				}
-				finally {
+				}				finally {
 					if (!animate) {
 						resizeable.restoreAnimation(element);
 					}
@@ -621,14 +607,12 @@ define(["wc/dom/event",
 								callback = subscriber.close;
 								subscriber.close = null;
 								callback();
-							}
-							catch (ex) {
+							}							catch (ex) {
 								console.warn(ex);
 							}
 						}
 					}
-				}
-				finally {
+				}				finally {
 					if (clearOpener) {
 						openerId = null;
 					}

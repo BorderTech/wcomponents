@@ -72,8 +72,7 @@ define(["wc/array/toArray",
 							if (!result) {
 								return false;
 							}
-						}
-						else if (shed.isExpanded(next) !== test) {
+						}						else if (shed.isExpanded(next) !== test) {
 							return false;
 						}
 					}
@@ -100,12 +99,10 @@ define(["wc/array/toArray",
 					if (open !== collapsible.hasAttribute("open") && (collapser = COLLAPSIBLE_TRIGGER.findDescendant(collapsible))) {
 						event.fire(collapser, event.TYPE.click);
 					}
-				}
-				else if (TABSET.isOneOfMe(collapsible) && !shed.isDisabled(collapsible)) {
+				}				else if (TABSET.isOneOfMe(collapsible) && !shed.isDisabled(collapsible)) {
 					if (open) {
 						tabset.expandAll(collapsible);
-					}
-					else {
+					}					else {
 						tabset.collapseAll(collapsible);
 					}
 				}
@@ -167,8 +164,7 @@ define(["wc/array/toArray",
 
 				if (areAllInExpandedState(controller, testVal === "expand")) {
 					shed.select(controller, true); // no need to publish
-				}
-				else {
+				}				else {
 					shed.deselect(controller, true); // no need to publish
 				}
 			}

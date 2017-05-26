@@ -175,8 +175,7 @@ define(["wc/dom/tag",
 				if (queryString) {
 					result += "&";
 					result += newArgs;
-				}
-				else {
+				}				else {
 					result = newArgs;
 				}
 			}
@@ -197,11 +196,9 @@ define(["wc/dom/tag",
 			if (trigger.id) {
 				if ((element = document.getElementById(trigger.id))) {
 					result = element;
-				}
-				else if (trigger.alias && (element = document.getElementById(trigger.alias))) {
+				}				else if (trigger.alias && (element = document.getElementById(trigger.alias))) {
 					result = element;
-				}
-				else if (trigger.loads.length && (element = document.getElementById(trigger.loads[0]))) {
+				}				else if (trigger.loads.length && (element = document.getElementById(trigger.loads[0]))) {
 					result = element;
 				}
 			}
@@ -220,8 +217,7 @@ define(["wc/dom/tag",
 			var form;
 			if (typeof element.form !== UNDEFINED) {
 				form = element.form;
-			}
-			else if (element.tagName !== tag.FORM) {  // if you want an infinte loop remove this check :P
+			}			else if (element.tagName !== tag.FORM) {  // if you want an infinte loop remove this check :P
 				form = getAncestorOrSelf(element, tag.FORM);
 			}
 			return form;
@@ -246,8 +242,7 @@ define(["wc/dom/tag",
 						if (onsuccess) {
 							cbresult = onsuccess.apply(scope, arguments);
 						}
-					}
-					finally {
+					}					finally {
 						// The purpose of the Promise.resolve here is to WAIT for the callback to complete, ESPECIALLY if the callback returns a promise itself
 						Promise.resolve(cbresult).then(function(result) {
 							notify(scope, "after", { success: result });
@@ -260,8 +255,7 @@ define(["wc/dom/tag",
 						if (onerror) {
 							onerror.apply(trigger, arguments);
 						}
-					}
-					finally {
+					}					finally {
 						notify(trigger, "after", { error: err });
 					}
 				};
@@ -273,8 +267,7 @@ define(["wc/dom/tag",
 				this._submitTriggerElement = (typeof obj._submitTriggerElement === UNDEFINED) ? false : obj._submitTriggerElement;  // if true the element that fired the trigger will be serialised in the form data
 				if (obj.loads && obj.loads.length) {  // either string or array
 					this.loads = Array.isArray(obj.loads) ? obj.loads : [obj.loads];
-				}
-				else {
+				}				else {
 					// strictly speaking we don't care but for usability and error detection purposes we lock this down a little
 					throw new ReferenceError("An AJAX Trigger must target something");
 				}
@@ -288,15 +281,12 @@ define(["wc/dom/tag",
 
 				if (!obj.oneShot || obj.oneShot === "false") {  // if oneshot is not defined or false then it's not oneshot
 					this.oneShot = -1;
-				}
-				else if (/^\d+$/.test(obj.oneShot)) {  // if oneshot is an integer set it to that number
+				}				else if (/^\d+$/.test(obj.oneShot)) {  // if oneshot is an integer set it to that number
 					this.oneShot = obj.oneShot;
-				}
-				else {  // if oneshot is anything else it is true (it probably is the string "true")
+				}				else {  // if oneshot is anything else it is true (it probably is the string "true")
 					this.oneShot = 1;
 				}
-			}
-			else {
+			}			else {
 				throw new TypeError("Trigger id can not be empty");
 			}
 		}
@@ -316,8 +306,7 @@ define(["wc/dom/tag",
 			if (phase) {
 				if (phase < 0) {
 					group = { group: "before" };
-				}
-				else {
+				}				else {
 					group = { group: "after" };
 				}
 			}
@@ -339,8 +328,7 @@ define(["wc/dom/tag",
 				if (phase) {
 					if (phase < 0) {
 						group = "before";
-					}
-					else {
+					}					else {
 						group = "after";
 					}
 				}
@@ -415,8 +403,7 @@ define(["wc/dom/tag",
 								result = getUrlHtml5(element);
 							}
 						}
-					}
-					else {  // trigger must be a dom element
+					}					else {  // trigger must be a dom element
 						result = trigger.getAttribute(URL_DATA_ATTRIBUTE);
 						if (!result) {
 							console.log("Could not find URL for element ", trigger.id);
@@ -427,8 +414,7 @@ define(["wc/dom/tag",
 							}
 						}
 					}
-				}
-				else {
+				}				else {
 					throw new TypeError("trigger can not be null");
 				}
 				return result;
@@ -542,8 +528,7 @@ define(["wc/dom/tag",
 						queueBlocked = false;
 						request = requestBuffer.shift();
 						request.send();
-					}
-					else {
+					}					else {
 						queueBlocked = true;  // flag that we are blocked. next response will check this flag and reinvoke.
 						console.log("AJAX trigger queue blocked while pending UI update");
 						break;
@@ -586,15 +571,13 @@ define(["wc/dom/tag",
 				if (!requestBuffer[endOfQueue] || requestBuffer[endOfQueue].trigger.id !== trigger.id) {  // yes, use id for equality
 					requestBuffer.push(request);
 					setLoading(request);  // do this AFTER the form has been serialized (because it will disable stuff)
-				}
-				else {
+				}				else {
 					requestBuffer[endOfQueue] = request;
 					console.log("Cancelling consecutive request for ", trigger.id);
 				}
 				trigger.scheduleQueueProcessing();
 				promise = getFirePromise(trigger);
-			}
-			else {
+			}			else {
 				promise = Promise.reject("Trigger has no more shots left: " + trigger.id);
 			}
 			return promise;
@@ -610,8 +593,7 @@ define(["wc/dom/tag",
 						if (result) {
 							if (result.error) {
 								reject(result.error);
-							}
-							else {
+							}							else {
 								resolve(result.success);
 							}
 						}
@@ -664,14 +646,12 @@ define(["wc/dom/tag",
 				if (this.alias) {
 					triggerId = this.alias;
 					console.log("Reporting alias to server");
-				}
-				else {
+				}				else {
 					triggerId = this.id;
 				}
 				triggerId = encodeURIComponent(triggerId);
 				result = addToQueryString(result, "wc_ajax=" + triggerId);
-			}
-			finally {
+			}			finally {
 				this._submitTriggerElement = false;  // reset, the idea is the next click event will set to true
 			}
 
@@ -696,13 +676,11 @@ define(["wc/dom/tag",
 				if (element.tagName === tag.BUTTON && element.type === "submit") {
 					params = triggerName + "=";
 					params += element.value;
-				}
-				else if (element.tagName === tag.INPUT && (element.type === "submit" || element.type === "image")) {
+				}				else if (element.tagName === tag.INPUT && (element.type === "submit" || element.type === "image")) {
 					params = triggerName + "=";
 					if (element.hasAttribute && !element.hasAttribute("value")) {
 						params += EMPTY_VALUE;
-					}
-					else {
+					}					else {
 						params += element.value;
 					}
 				}
@@ -734,13 +712,11 @@ define(["wc/dom/tag",
 					result = addToQueryString(result, serialize.serialize(region.getElementsByTagName(TAG.SELECT)));
 					result = addToQueryString(result, serialize.serialize(region.getElementsByTagName(TAG.TEXTAREA)));
 					result = addToQueryString(result, serialize.serialize(stateContainer.getElementsByTagName(TAG.INPUT)));
-				}
-				else {
+				}				else {
 					formUpdateManager.update(form);
 					result = serialize.serialize(form);
 				}
-			}
-			else {
+			}			else {
 				console.warn("Could not find form");
 			}
 			return result;
@@ -827,31 +803,26 @@ define(["wc/dom/tag",
 					idx = pendingList.indexOf($self);
 					if (idx >= 0) {
 						pendingList.splice(idx, 1);
-					}
-					else {
+					}					else {
 						console.warn("Got response for trigger that was not in pending queue", trigger.id);
 					}
 					try {
 						if (!isError) {
 							trigger.callback(response, trigger);
-						}
-						else if (trigger.onerror) {
+						}						else if (trigger.onerror) {
 							trigger.onerror(response, trigger);
 						}
 						// Remove "aria-busy" AFTER the new content is loaded to avoid collapsing to zero pixels
 						done();
-					}
-					catch (ex) {
+					}					catch (ex) {
 						console.error(ex);
 					}
-				}
-				finally {
+				}				finally {
 					if (queueBlocked) {
 						trigger.scheduleQueueProcessing();  // if the queue was blocked check again now
 					}
 				}
-			}
-			else {
+			}			else {
 				console.warn("Forbid AJAX response while unloading");
 			}
 		}
@@ -871,8 +842,7 @@ define(["wc/dom/tag",
 						if (trigger.method === trigger.METHODS.GET && this.postData) {
 							if (this.url.indexOf("?") > 0) {
 								this.url = addToQueryString(this.url, this.postData);
-							}
-							else {
+							}							else {
 								this.url += "?" + this.postData;
 							}
 							this.postData = "";
@@ -880,18 +850,15 @@ define(["wc/dom/tag",
 						pendingList.push(this);  // we must do this before sending cos we can't guarantee what AJAX will do (could be forced into synchronous mode)
 						trigger.profile.sent = Date.now();
 						ajax.simpleRequest(this);
-					}
-					catch (ex) {
+					}					catch (ex) {
 						pendingList.pop();  // error so assume the request is not pending - pop it off the queue
 						notify(trigger);
 						console.error(ex);
 					}
-				}
-				else {
+				}				else {
 					console.warn("Could not find URL for trigger", this.trigger.id);
 				}
-			}
-			else {
+			}			else {
 				console.warn("Forbid AJAX request while unloading");
 			}
 		};

@@ -21,8 +21,7 @@ define(["wc/dom/initialise",
 					if (action === shed.actions.MANDATORY) {
 						PLACEHOLDER_TEXT = PLACEHOLDER_TEXT || i18n.get("requiredPlaceholder");
 						input.setAttribute(PLACEHOLDER, PLACEHOLDER_TEXT);
-					}
-					else {
+					}					else {
 						input.removeAttribute(PLACEHOLDER);
 					}
 				}

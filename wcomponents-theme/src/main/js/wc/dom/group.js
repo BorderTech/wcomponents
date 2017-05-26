@@ -71,8 +71,7 @@ define(["wc/dom/tag", "wc/array/toArray",  "wc/dom/getAncestorOrSelf", "wc/dom/a
 					if (!Array.isArray(group)) {
 						group = toArray(group);
 					}
-				}
-				else {
+				}				else {
 					group = [];
 				}
 				return group;
@@ -101,8 +100,7 @@ define(["wc/dom/tag", "wc/array/toArray",  "wc/dom/getAncestorOrSelf", "wc/dom/a
 					result = (toArray(result)).filter(function(next) {
 						return containerWd.findAncestor(next) === container;
 					});
-				}
-				else {
+				}				else {
 					result = toArray(itemWd.findDescendants(element));
 				}
 				return result;
@@ -124,8 +122,7 @@ define(["wc/dom/tag", "wc/array/toArray",  "wc/dom/getAncestorOrSelf", "wc/dom/a
 
 				if (containerWd) {
 					container = containerWd.findAncestor(element);
-				}
-				else if (element.tagName === tag.OPTION || element.tagName === tag.OPTGROUP) {
+				}				else if (element.tagName === tag.OPTION || element.tagName === tag.OPTGROUP) {
 					container = getAncestorOrSelf(element, tag.OPTGROUP, tag.SELECT);
 					if (!container) {
 						container = getAncestorOrSelf(element, tag.SELECT);
@@ -160,20 +157,16 @@ define(["wc/dom/tag", "wc/array/toArray",  "wc/dom/getAncestorOrSelf", "wc/dom/a
 					if (element.name) {
 						group = document.getElementsByName(element.name);
 					}
-				}
-				else if (tagName === tag.SELECT) {
+				}				else if (tagName === tag.SELECT) {
 					group = element.options;
-				}
-				else if (tagName === tag.OPTGROUP) {
+				}				else if (tagName === tag.OPTGROUP) {
 					group = element.getElementsByTagName(tag.OPTION);
-				}
-				else if (tagName === tag.OPTION) {
+				}				else if (tagName === tag.OPTION) {
 					container = elementGroup.getContainer(element);
 					if (container) {
 						group = elementGroup.get(container);
 					}
-				}
-				else if (tagName === tag.TBODY) {  // yes a tbody is a grouping element for trs
+				}				else if (tagName === tag.TBODY) {  // yes a tbody is a grouping element for trs
 					group = element.getElementsByTagName(tag.TR);
 				}
 			}

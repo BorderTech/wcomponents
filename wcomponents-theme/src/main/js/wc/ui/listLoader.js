@@ -1,10 +1,10 @@
 define(["wc/ajax/ajax",
-		"wc/urlParser",
-		"wc/dom/tag",
-		"wc/Observer",
-		"wc/dom/getAncestorOrSelf",
-		"wc/dom/toDocFragment",
-		"wc/timers"],
+	"wc/urlParser",
+	"wc/dom/tag",
+	"wc/Observer",
+	"wc/dom/getAncestorOrSelf",
+	"wc/dom/toDocFragment",
+	"wc/timers"],
 	function(ajax, urlParser, tag, Observer, getAncestorOrSelf, toDocFragment, timers) {
 		"use strict";
 
@@ -47,8 +47,7 @@ define(["wc/ajax/ajax",
 							try {
 								observer.setFilter(group);  // WARNING! IT IS CRITICAL!!! (in IE) THAT THIS CALL HAPPENS AFTER THE TRANSFORMATION!
 								observer.notify(response);
-							}
-							finally {
+							}							finally {
 								delete pending[config.url];
 								observer.reset(groupWin);
 								observer.reset(groupLose);
@@ -63,8 +62,7 @@ define(["wc/ajax/ajax",
 							callback: function(srcTree) {
 								if ((srcTree === null || srcTree.documentElement === null) && this.responseText) {
 									promiseDone(groupWin, toDocFragment(this.responseText));
-								}
-								else {
+								}								else {
 									promiseDone(groupWin, toDocFragment(srcTree));
 								}
 							},
@@ -82,8 +80,7 @@ define(["wc/ajax/ajax",
 				observer.subscribe(config, { group: groupLose, method: "onerror" });  // add this callback to the list of subscribers for this URL
 				if (!pending.hasOwnProperty(config.url)) {
 					sendRequest();
-				}
-				else {
+				}				else {
 					console.log("Queuing request while pending: ", config.url);
 				}
 			}
@@ -120,8 +117,7 @@ define(["wc/ajax/ajax",
 							urlParsed = urlParser.parse(url);
 							if (urlParsed && urlParsed.search) {
 								qsSeparator = "&";
-							}
-							else {
+							}							else {
 								qsSeparator = "?";
 							}
 							url += qsSeparator + LIST_ID_PARAM + "=" + encodeURIComponent(id);  // yes it needs the encode
@@ -134,17 +130,14 @@ define(["wc/ajax/ajax",
 									onerror: lose,
 									element: element
 								});
-							}
-							else {
+							}							else {
 								timers.setTimeout(win, 0);
 								console.log("Already prefetched: ", url);
 							}
-						}
-						else {
+						}						else {
 							timers.setTimeout(lose, 0, "Can not find URL");
 						}
-					}
-					else {
+					}					else {
 						timers.setTimeout(lose, 0, "param 'id' must be a string");
 					}
 				});

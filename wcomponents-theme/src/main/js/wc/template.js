@@ -19,8 +19,7 @@ define(["wc/dom/textContent", "wc/has"],
 			function getEngine(cb) {
 				if (engine) {
 					cb(engine);
-				}
-				else {
+				}				else {
 					require(["lib/mustache/mustache.min"], function(arg) {
 						engine = arg;
 						cb(engine);
@@ -40,11 +39,9 @@ define(["wc/dom/textContent", "wc/has"],
 					var result;
 					if (template.constructor === String) {
 						result = template;
-					}
-					else if (template.nodeType === Node.TEXT_NODE) {
+					}					else if (template.nodeType === Node.TEXT_NODE) {
 						result = textContent.get(template);
-					}
-					else {
+					}					else {
 						result = template.innerHTML;
 					}
 					if (result) {
@@ -73,25 +70,21 @@ define(["wc/dom/textContent", "wc/has"],
 						translatedString;
 					if (compiledTemplate.constructor === Function) {
 						translatedString = compiledTemplate(context);
-					}
-					else {
+					}					else {
 						translatedString = engine.render(compiledTemplate, context);
 
 					}
 					if (target.nodeType === Node.TEXT_NODE) {
 						target.nodeValue = translatedString;
-					}
-					else if (position) {
+					}					else if (position) {
 						target.insertAdjacentHTML(position, translatedString);
-					}
-					else {
+					}					else {
 						target.innerHTML = translatedString;
 					}
 					if (callback) {
 						try {
 							callback(compiledTemplate);
-						}
-						catch (ignore) {
+						}						catch (ignore) {
 							console.warn(ignore);
 						}
 					}
@@ -111,8 +104,7 @@ define(["wc/dom/textContent", "wc/has"],
 					onerror = function(err) {
 						if (params.errback) {
 							params.errback(err);
-						}
-						else {
+						}						else {
 							console.warn("error processing template " + err);
 						}
 					};
@@ -122,12 +114,10 @@ define(["wc/dom/textContent", "wc/has"],
 							require(["wc/loader/resource"], function(loader) {
 								loader.load(params.source, true, true).then(processSource, onerror);
 							});
-						}
-						else {
+						}						else {
 							processSource(params.source);
 						}
-					}
-					else if (document.body) {
+					}					else if (document.body) {
 						processContainer(document.body);
 					}
 				}

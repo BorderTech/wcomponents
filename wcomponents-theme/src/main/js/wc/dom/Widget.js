@@ -137,8 +137,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 					cn.forEach(function(nxt) {
 						result += (DOT + escapeQs(nxt));
 					});
-				}
-				else {
+				}				else {
 					result += DOT + cn;
 				}
 			}
@@ -174,8 +173,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 				operator = "=";
 			if (hasVal && name === "id") {
 				result += "#" + escapeQs(val);
-			}
-			else {
+			}			else {
 				if (hasVal && val.indexOf(" ") === -1) {
 					operator = "~" + operator;
 				}
@@ -242,19 +240,16 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 								if (next.length) {
 									result = tree.concat(next);
 								}
-							}
-							else {
+							}							else {
 								result = tree[0];
 							}
 						}
 					}
-				}
-				else {
+				}				else {
 					result = getTree ? [next] : next;
 				}
 			}
-		}
-		finally {
+		}		finally {
 			this.element = null;
 			this.limitTagName = null;
 			this.outermost = null;
@@ -319,8 +314,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 					}
 				}
 				qs += immediatePrefix + toQs(next);
-			}
-			else {
+			}			else {
 				qs += toQs(next);
 			}
 		}
@@ -366,8 +360,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 			if (additionalClassName) {
 				if (this.className) {
 					result.className = [].concat(this.className, additionalClassName);
-				}
-				else {
+				}				else {
 					result.className = additionalClassName;
 				}
 			}
@@ -380,8 +373,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 					result.attributes[key] = this.attributes[key];
 				}
 			}
-		}
-		else {
+		}		else {
 			throw new TypeError("You do not need to extend this widget");
 		}
 		return result;
@@ -412,8 +404,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/uid"], /** @param getAncestorOrSelf 
 			result = widgets.some(function(widget) {
 				return widget.isOneOfMe(element);
 			});
-		}
-		else {
+		}		else {
 			result = widgets.isOneOfMe(element);
 		}
 		return result;

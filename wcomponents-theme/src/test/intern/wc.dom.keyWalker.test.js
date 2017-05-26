@@ -87,8 +87,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				var container = document.getElementById("domKeyWalkerGroup");
 				if (container) {
 					groupedElements = container.getElementsByTagName("span");
-				}
-				else {
+				}				else {
 					assert.fail(null, !null, "Could not get container of group to traverse");
 				}
 				if (!(groupedElements && groupedElements.length)) {
@@ -482,8 +481,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				disabled.setAttribute("aria-disabled", "true");
 				actual= controller.getTarget(makeTreeConfig(), start, controller.MOVE_TO.NEXT);
 				assert.strictEqual(actual, expected);
-			}
-			finally {
+			}			finally {
 				disabled.removeAttribute("aria-disabled");
 			}
 		},
@@ -496,8 +494,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				hidden.setAttribute("hidden", "hidden");
 				actual= controller.getTarget(makeTreeConfig(), start, controller.MOVE_TO.NEXT);
 				assert.strictEqual(actual, expected);
-			}
-			finally {
+			}			finally {
 				hidden.removeAttribute("hidden");
 			}
 		},
@@ -510,8 +507,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				disabled.setAttribute("aria-disabled", "true");
 				actual= controller.getTarget(makeTreeConfig(), start, controller.MOVE_TO.PREVIOUS);
 				assert.strictEqual(actual, expected);
-			}
-			finally {
+			}			finally {
 				disabled.removeAttribute("aria-disabled");
 			}
 		},
@@ -524,8 +520,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				hidden.setAttribute("hidden", "hidden");
 				actual= controller.getTarget(makeTreeConfig(), start, controller.MOVE_TO.PREVIOUS);
 				assert.strictEqual(actual, expected);
-			}
-			finally {
+			}			finally {
 				hidden.removeAttribute("hidden");
 			}
 		},
@@ -538,8 +533,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				disabled.setAttribute("aria-disabled", "true");
 				actual= controller.getTarget(makeTreeConfig(), start, controller.MOVE_TO.FIRST);
 				assert.strictEqual(actual, expected);
-			}
-			finally {
+			}			finally {
 				disabled.removeAttribute("aria-disabled");
 			}
 		},
@@ -552,8 +546,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				hidden.setAttribute("hidden", "hidden");
 				actual= controller.getTarget(makeTreeConfig(), start, controller.MOVE_TO.FIRST);
 				assert.strictEqual(actual, expected);
-			}
-			finally {
+			}			finally {
 				hidden.removeAttribute("hidden");
 			}
 		},
@@ -566,8 +559,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				disabled.setAttribute("aria-disabled", "true");
 				actual= controller.getTarget(makeTreeConfig(), start, controller.MOVE_TO.LAST);
 				assert.strictEqual(actual, expected);
-			}
-			finally {
+			}			finally {
 				disabled.removeAttribute("aria-disabled");
 			}
 		},
@@ -580,8 +572,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				hidden.setAttribute("hidden", "hidden");
 				actual= controller.getTarget(makeTreeConfig(), start, controller.MOVE_TO.LAST);
 				assert.strictEqual(actual, expected);
-			}
-			finally {
+			}			finally {
 				hidden.removeAttribute("hidden");
 			}
 		},
@@ -594,8 +585,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				disabled.setAttribute("aria-disabled", "true");
 				actual= controller.getTarget(makeTreeConfig(true), start, controller.MOVE_TO.PREVIOUS);
 				assert.strictEqual(actual, expected);
-			}
-			finally {
+			}			finally {
 				disabled.removeAttribute("aria-disabled");
 			}
 		},
@@ -608,8 +598,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				hidden.setAttribute("hidden", "hidden");
 				actual= controller.getTarget(makeTreeConfig(true), start, controller.MOVE_TO.PREVIOUS);
 				assert.strictEqual(actual, expected);
-			}
-			finally {
+			}			finally {
 				hidden.removeAttribute("hidden");
 			}
 		},
@@ -622,8 +611,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				disabled.setAttribute("aria-disabled", "true");
 				actual= controller.getTarget(makeTreeConfig(true), start, controller.MOVE_TO.NEXT);
 				assert.strictEqual(actual, expected);
-			}
-			finally {
+			}			finally {
 				disabled.removeAttribute("aria-disabled");
 			}
 		},
@@ -636,8 +624,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				hidden.setAttribute("hidden", "hidden");
 				actual= controller.getTarget(makeTreeConfig(true), start, controller.MOVE_TO.NEXT);
 				assert.strictEqual(actual, expected);
-			}
-			finally {
+			}			finally {
 				hidden.removeAttribute("hidden");
 			}
 		},
@@ -656,8 +643,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			try {
 				controller.getTarget(makeGroupConfig(), start, controller.MOVE_TO.PARENT);
 				assert.fail(null, !null, "controller.MOVE_TO.PARENT should throw a ReferenceError");
-			}
-			catch (e) {
+			}			catch (e) {
 				assert.isTrue(true);
 			}
 		},
@@ -666,8 +652,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			try {
 				controller.getTarget(makeGroupConfig(), start, controller.MOVE_TO.CHILD);
 				assert.fail(null, !null, "controller.MOVE_TO.CHILD should throw a ReferenceError");
-			}
-			catch (e) {
+			}			catch (e) {
 				assert.isTrue(true);
 			}
 		},
@@ -676,8 +661,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			try {
 				controller.getTarget(makeGroupConfig(), start, controller.MOVE_TO.LAST_CHILD);
 				assert.fail(null, !null, "controller.MOVE_TO.LAST_CHILD should throw a ReferenceError");
-			}
-			catch (e) {
+			}			catch (e) {
 				assert.isTrue(true);
 			}
 		},
@@ -686,8 +670,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			try {
 				controller.getTarget(makeTreeConfig(), start, -1);
 				assert.isTrue(false, "direction -1 should throw a ReferenceError");
-			}
-			catch (e) {
+			}			catch (e) {
 				assert.isTrue(true);
 			}
 		},
@@ -695,8 +678,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			try {
 				controller.getTarget();
 				assert.isTrue(false);
-			}
-			catch (ex) {
+			}			catch (ex) {
 				assert.strictEqual(ex.constructor, TypeError, "Expected a TypeError");
 			}
 		},
@@ -704,8 +686,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			try {
 				controller.getTarget({});
 				assert.isTrue(false);
-			}
-			catch (ex) {
+			}			catch (ex) {
 				assert.strictEqual(ex.constructor, TypeError, "Expected a TypeError");
 			}
 		},
@@ -714,8 +695,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			try {
 				controller.getTarget(conf);
 				assert.isTrue(false);
-			}
-			catch (ex) {
+			}			catch (ex) {
 				assert.strictEqual(ex.constructor, TypeError, "Expected a TypeError");
 			}
 		}

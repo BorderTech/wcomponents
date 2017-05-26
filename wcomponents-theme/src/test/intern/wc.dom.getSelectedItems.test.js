@@ -176,11 +176,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				result = getFilteredGroup(element);
 			if (result[0].value === "Bike") {
 				assert.strictEqual(result[1].value, "Airplane");
-			}
-			else if (result[0].value === "Airplane") {
+			}			else if (result[0].value === "Airplane") {
 				assert.strictEqual(result[1].value, "Bike");
-			}
-			else {
+			}			else {
 				assert.fail(null, !null, "getFilteredGroup did not find the selected checkboxes in the group");
 			}
 		},
@@ -220,11 +218,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				result = getFilteredGroup(element);
 			if (result[0].value === "volvo") {
 				assert.strictEqual(result[1].value, "mercedes");
-			}
-			else if (result[0].value === "mercedes") {
+			}			else if (result[0].value === "mercedes") {
 				assert.strictEqual(result[1].value, "volvo");
-			}
-			else {
+			}			else {
 				assert.fail(null, !null, "getFilteredGroup did not find the selected options in the multi-select");
 			}
 		},
@@ -244,11 +240,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				result = getFilteredGroup(element);
 			if (result[0].value === "volvo") {
 				assert.strictEqual(result[1].value, "audi");
-			}
-			else if (result[0].value === "audi") {
+			}			else if (result[0].value === "audi") {
 				assert.strictEqual(result[1].value, "volvo");
-			}
-			else {
+			}			else {
 				assert.fail(null, !null, "getFilteredGroup did not find the selected options in the multi-select");
 			}
 		},
@@ -287,11 +281,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				result = getFilteredGroup(element.options[0]);
 			if (result[0].value === "volvo") {
 				assert.strictEqual(result[1].value, "mercedes");
-			}
-			else if (result[0].value === "mercedes") {
+			}			else if (result[0].value === "mercedes") {
 				assert.strictEqual(result[1].value, "volvo");
-			}
-			else {
+			}			else {
 				assert.fail(null, !null, "getFilteredGroup did not find the selected options in the multi-select");
 			}
 		},
@@ -504,8 +496,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			try {
 				getFilteredGroup(null);
 				assert.fail(null, !null, "Should have got an exception");
-			}
-			catch (ex) {
+			}			catch (ex) {
 				assert.isTrue(true);
 			}
 		}

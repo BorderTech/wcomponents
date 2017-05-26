@@ -109,8 +109,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					var foo = document.getElementById("doesntExist");
 					getAncestorOrSelf(foo, "p");
 					assert.fail("This line should not be executed");
-				}
-				catch (ex) {
+				}				catch (ex) {
 					assert.isTrue(true);
 				}
 			},
@@ -262,49 +261,49 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			testGetAncestorMultiAttributeSingleLookupNoMatch: function() {
 				var start = document.getElementById("multistart"),
 					dto = {element: start,
-							attributes: {"data-multi": "foobar"}},
+						attributes: {"data-multi": "foobar"}},
 					result = getAncestorOrSelf(dto);
 				assert.isNull(result, "did not fail to find the correct ancestor with one attribute from many" + result);
 			},
 			testGetAncestorMultiAttributeMultiLookup: function() {
 				var start = document.getElementById("multistart"), expected = "multi",
 					dto = {element: start,
-							attributes: {"data-multi": "foo pong"}},
+						attributes: {"data-multi": "foo pong"}},
 					result = getAncestorOrSelf(dto);
 				assert.strictEqual(expected, result.id, "did not find the correct ancestor with some attributes from many");
 			},
 			testGetAncestorMultiAttributeMultiLookupAllOutOfOrder: function() {
 				var start = document.getElementById("multistart"), expected = "multi",
 					dto = {element: start,
-							attributes: {"data-multi": "bar ping foo pong"}},
+						attributes: {"data-multi": "bar ping foo pong"}},
 					result = getAncestorOrSelf(dto);
 				assert.strictEqual(expected, result.id, "did not find the correct ancestor with all attributes from many in different order");
 			},
 			testGetAncestorMultiAttributeMultiLookupNoMatch: function() {
 				var start = document.getElementById("multistart"),
 					dto = {element: start,
-							attributes: {"data-multi": "foobar foo bar"}},
+						attributes: {"data-multi": "foobar foo bar"}},
 					result = getAncestorOrSelf(dto);
 				assert.isNull(result, "did not fail to find the correct ancestor with several attributes from many" + result);
 			},
 			testGetAncestorMultiAttributeMultiLookupNoMatchTooManyAttributes: function() {
 				var start = document.getElementById("multistart"),
 					dto = {element: start,
-							attributes: {"data-multi": "foobar ping pong foo bar"}},
+						attributes: {"data-multi": "foobar ping pong foo bar"}},
 					result = getAncestorOrSelf(dto);
 				assert.isNull(result, "did not fail to find the correct ancestor with several attributes from many" + result);
 			},
 			testGetSelfMultiAttributeSingleLookup: function() {
 				var start = document.getElementById("multi"), expected = "multi",
 					dto = {element: start,
-							attributes: {"data-multi": "foo"}},
+						attributes: {"data-multi": "foo"}},
 					result = getAncestorOrSelf(dto);
 				assert.strictEqual(expected, result.id, "did not find the correct ancestor with one attribute from many");
 			},
 			testGetSelfMultiAttributeMultiLookup: function() {
 				var start = document.getElementById("multi"), expected = "multi",
 					dto = {element: start,
-							attributes: {"data-multi": "foo pong"}},
+						attributes: {"data-multi": "foo pong"}},
 					result = getAncestorOrSelf(dto);
 				assert.strictEqual(expected, result.id, "did not find the correct ancestor with one attribute from many");
 			}

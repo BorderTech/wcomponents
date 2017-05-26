@@ -1,10 +1,10 @@
 define(["wc/dom/group",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/dom/Widget",
-		"wc/dom/getFilteredGroup",
-		"wc/dom/cbrShedPublisher",
-		"wc/ui/fieldset"],
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/dom/Widget",
+	"wc/dom/getFilteredGroup",
+	"wc/dom/cbrShedPublisher",
+	"wc/ui/fieldset"],
 	function(group, initialise, shed, Widget, getFilteredGroup) {
 		"use strict";
 
@@ -69,8 +69,7 @@ define(["wc/dom/group",
 							// should be only one
 							shed.deselect(next);
 						});
-					}
-					else {
+					}					else {
 						_group = group.getGroup(element, RADIO);
 						for (i = 0; i < _group.length; ++i) {
 							option = _group[i];

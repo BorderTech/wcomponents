@@ -40,8 +40,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					assert.strictEqual(sContainer, markerElement.parentNode);
 					formUpdateManager.update(form);
 					assert.isNull(markerElement.parentNode);
-				}
-				finally {
+				}				finally {
 					formUpdateManager.unsubscribe(subscriber);
 				}
 			},
@@ -138,8 +137,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					result = testutils._getElementsByName(form, name);
 					assert.strictEqual(1, result.length);
 					assert.strictEqual(val, result[0].value);
-				}
-				finally {
+				}				finally {
 					formUpdateManager.unsubscribe(subscriber);
 				}
 			},
@@ -157,8 +155,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					result = testutils._getElementsByName(form, name);
 					assert.strictEqual(1, result.length);
 					assert.strictEqual(val, result[0].value);
-				}
-				finally {
+				}				finally {
 					formUpdateManager.unsubscribe(subscriber);
 				}
 			},

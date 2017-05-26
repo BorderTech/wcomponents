@@ -1,16 +1,16 @@
 define(["wc/dom/attribute",
-		"wc/dom/event",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/ajax/triggerManager",
-		"wc/dom/serialize",
-		"wc/dom/Widget",
-		"wc/timers",
-		"wc/ui/getFirstLabelForElement",
-		"wc/ui/label",
-		"wc/i18n/i18n",
-		"wc/dom/textContent",
-		"wc/ui/ajax/processResponse"],
+	"wc/dom/event",
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/ajax/triggerManager",
+	"wc/dom/serialize",
+	"wc/dom/Widget",
+	"wc/timers",
+	"wc/ui/getFirstLabelForElement",
+	"wc/ui/label",
+	"wc/i18n/i18n",
+	"wc/dom/textContent",
+	"wc/ui/ajax/processResponse"],
 	function(attribute, event, initialise, shed, triggerManager, serialize, Widget, timers, getFirstLabelForElement, label, i18n, textContent, processResponse) {
 		"use strict";
 
@@ -24,9 +24,9 @@ define(["wc/dom/attribute",
 				SUBMITTER = new Widget("", "wc_soc"),
 				LOAD_SELECT = SUBMITTER.extend("", {"data-wc-list": null}),
 				TRIGGERS = [SUBMITTER.extend("", {"type": "checkbox"}),
-							SUBMITTER.extend("", {"type": "radio"}),
-							SUBMITTER.extend("", {"role": "checkbox"}),
-							SUBMITTER.extend("", {"role": "radio"})],
+					SUBMITTER.extend("", {"type": "radio"}),
+					SUBMITTER.extend("", {"role": "checkbox"}),
+					SUBMITTER.extend("", {"role": "radio"})],
 				FORM = new Widget("form"),
 				optionOnLoad = [],
 				ignoreChange = false,
@@ -106,16 +106,14 @@ define(["wc/dom/attribute",
 									timers.setTimeout(event.fire, 0, form, event.TYPE.submit);
 								}
 								removeLoadedOptionRegistry(element);
-							}
-							else {
+							}							else {
 								submitting = true;
 								console.warn(DEP_WARNING);
 								timers.setTimeout(event.fire, 0, form, event.TYPE.submit);
 							}
 						}
 					}
-				}
-				else {
+				}				else {
 					console.warn("onchange submit fired twice");  // this is going to be hard to spot when the page is submitting
 				}
 			}
@@ -169,8 +167,7 @@ define(["wc/dom/attribute",
 					if (!$event.defaultPrevented && !ignoreChange && SUBMITTER.isOneOfMe(element) && !Widget.isOneOfMe(element, TRIGGERS)) {
 						fireElement(element);
 					}
-				}
-				finally {
+				}				finally {
 					ignoreChange = false;
 				}
 			}
@@ -204,8 +201,7 @@ define(["wc/dom/attribute",
 								if (hintContent.indexOf(submitOnChangeHint) === -1) {
 									label.setHint(myLabel, submitOnChangeHint);
 								}
-							}
-							else {
+							}							else {
 								label.setHint(myLabel, submitOnChangeHint);
 							}
 						}
@@ -222,8 +218,7 @@ define(["wc/dom/attribute",
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, domFocusEvent, null, null, true);
 					event.add(element, event.TYPE.change, changeEvent, null, null, true);
-				}
-				else {
+				}				else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 				timers.setTimeout(addAllWarnings, 0, element);

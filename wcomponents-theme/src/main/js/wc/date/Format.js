@@ -121,8 +121,7 @@ define(["wc/date/interchange", "wc/date/monthName"],
 			}
 			if (failFlag) {
 				result = "";
-			}
-			else if (result) {
+			}			else if (result) {
 				result = result.trim();
 				result = result.replace(NORMALIZE_WHITESPACE_RE, " ");
 			}
@@ -137,8 +136,7 @@ define(["wc/date/interchange", "wc/date/monthName"],
 					if (twelve) {
 						if (result > 12) {
 							result -= 12;
-						}
-						else if (result === 0) {
+						}						else if (result === 0) {
 							result = 12;
 						}
 					}

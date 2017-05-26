@@ -12,8 +12,7 @@ define(["lib/date", "wc/ajax/ajax", "wc/loader/resource", "wc/dom/textContent", 
 		date.timezone.zoneFileBasePath = resource.getResourceUrl() + "timezone";
 		if (config && config.defaultZone) {
 			date.timezone.defaultZoneFile = config.defaultZone;
-		}
-		else {
+		}		else {
 			date.timezone.defaultZoneFile = ["australasia"];
 		}
 
@@ -38,8 +37,7 @@ define(["lib/date", "wc/ajax/ajax", "wc/loader/resource", "wc/dom/textContent", 
 				};
 			if (config.format) {
 				formatter = new Format(config.format);
-			}
-			else {
+			}			else {
 				formatter = new Format(config.seconds ? defaultFormatWithSeconds : defaultFormat);
 			}
 			tick();
@@ -56,8 +54,7 @@ define(["lib/date", "wc/ajax/ajax", "wc/loader/resource", "wc/dom/textContent", 
 				if (config.callback) {
 					try {
 						config.callback(dateString, result.date);
-					}
-					catch (ex) {
+					}					catch (ex) {
 						config.callback = null;
 						console.error(ex);
 					}
@@ -65,8 +62,7 @@ define(["lib/date", "wc/ajax/ajax", "wc/loader/resource", "wc/dom/textContent", 
 
 				if (config.seconds) {
 					nextTick = 1000;
-				}
-				else {
+				}				else {
 					nextTick = 60 - result.date.getSeconds();
 					nextTick *= 1000;
 				}
@@ -98,8 +94,7 @@ define(["lib/date", "wc/ajax/ajax", "wc/loader/resource", "wc/dom/textContent", 
 						inited = true;
 						processClocks(clocks);
 					}});
-				}
-				else {
+				}				else {
 					processClocks(clocks);
 				}
 			};

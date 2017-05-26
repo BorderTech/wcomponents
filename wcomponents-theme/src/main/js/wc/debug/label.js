@@ -94,8 +94,7 @@ define(["wc/dom/classList",
 				if (isLabelMissing(element)) {
 					if (element.tagName === tag.FIELDSET) {
 						insertLegend(element);
-					}
-					else {
+					}					else {
 						insertLabel(element);
 					}
 				}

@@ -58,9 +58,9 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 				len,
 				next,
 				types = ["animationstart", "animationend", "animationiteration", "beforeunload", "blur", "canplay", "change", "click", "dblclick", "ended", "focus", "focusin", "focusout", "input",
-				"keydown", "keypress", "keyup", "load", "loadeddata", "loadedmetadata", "mousedown", "mousemove", "mouseout", "mouseover",
-				"mouseup", "mousewheel", "paste", "pause", "play", "playing", "progress", "propertychange", "readystatechange", "resize", "scroll", "seeked", "seeking",
-				"stop", "submit", "timeupdate", "touchcancel", "touchend", "touchmove", "touchstart", "transitionend", "unload", "volumechange", "waiting"];
+					"keydown", "keypress", "keyup", "load", "loadeddata", "loadedmetadata", "mousedown", "mousemove", "mouseout", "mouseover",
+					"mouseup", "mousewheel", "paste", "pause", "play", "playing", "progress", "propertychange", "readystatechange", "resize", "scroll", "seeked", "seeking",
+					"stop", "submit", "timeupdate", "touchcancel", "touchend", "touchmove", "touchstart", "transitionend", "unload", "volumechange", "waiting"];
 			for (i = 0, len = types.length; i < len; i++) {
 				next = types[i];
 				types[next] = next;
@@ -113,8 +113,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 
 				if (!currentEvent[type]) {
 					currentEvent[type] = true;
-				}
-				else {
+				}				else {
 					throw new Error("eventListener calling itself? calling element.onXXXX() directly?");
 				}
 				if (fixEvent.fixInstance) {
@@ -124,12 +123,10 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 					if (phase === window.Event.BUBBLING_PHASE) {  // if both are undefined or if it actually is bubbling phase
 						filter = type + BUBBLE_SUFFIX;
 						atTargetEvent = null;
-					}
-					else if (phase === window.Event.CAPTURING_PHASE) {
+					}					else if (phase === window.Event.CAPTURING_PHASE) {
 						filter = type + CAPTURE_SUFFIX;
 						atTargetEvent = null;
-					}
-					else if (phase === window.Event.AT_TARGET && atTargetEvent !== $event) {
+					}					else if (phase === window.Event.AT_TARGET && atTargetEvent !== $event) {
 						filter = targetPhaseFilterFactory(type);
 						atTargetEvent = $event;  // flag that this event has already been handled in the target phase
 					}
@@ -160,8 +157,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 					 * displaying this annoying confirmation dialog. IE9 seems to be particularly annoying in this regard.
 					 */
 					// return !($event.defaultPrevented);
-				}
-				finally {
+				}				finally {
 					currentEvent[type] = false;
 				}
 			}
@@ -215,27 +211,23 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 				if ((capture = !!capture)) {  // test and cast to keep it pure for addEventListener
 					if (dom2) {
 						group = type + CAPTURE_SUFFIX;
-					}
-					else {
+					}					else {
 						throw new TypeError("Can not use capture in this browser");
 					}
-				}
-				else {
+				}				else {
 					group = type + BUBBLE_SUFFIX;
 				}
 				observer = events[elementElid] || (events[elementElid] = new Observer());
 				if (observer.isSubscribed(listener, group)) {
 					console.warn("listener: ", listener, " already bound to: ", type, " on element: ", element);
 					result = false;
-				}
-				else {
+				}				else {
 					if (observer.subscriberCount(group) < 0) {
 						// if less than zero this is the first subscriber for this type on this element
 						if (dom2) {
 							// wham bam lighting fast test for modern browsers
 							element.addEventListener(type, eventListener, capture);
-						}
-						else {
+						}						else {
 							// WARNING: with attachEvent "this" is ALWAYS "window" so we must bind it to the element
 							element.attachEvent("on" + type, eventListener.bind(element));
 						}
@@ -299,8 +291,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 						if ($event !== $this.TYPE.submit && element[$event] &&
 								!(type === "text" || type === "password" || tagName === tag.TEXTAREA || tagName === tag.SELECT)) {
 							element[$event]();
-						}
-						else if (document.createEvent) {
+						}						else if (document.createEvent) {
 							// won't fully simulate a click (ie naviagate a link)
 							evt = document.createEvent("HTMLEvents");
 							evt.initEvent($event, true, true); // type, bubbling, cancelable
@@ -309,8 +300,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 								// webkit browsers AND IE9 and above need this, firefox doesn't
 								element[$event]();
 							}
-						}
-						else {
+						}						else {
 							// won't fully simulate a click (ie naviagate a link)
 							evt = document.createEventObject();
 							rval = element.fireEvent("on" + $event, evt);
@@ -320,12 +310,10 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 								}
 							}
 						}
-					}
-					else {
+					}					else {
 						throw new TypeError("arguments can not be null");
 					}
-				}
-				else {
+				}				else {
 					console.log("Not firing ", $event, " while firing ", currentEvent, " Action queued.");
 					timers.setTimeout($this.fire, 0, element, $event);
 				}
@@ -520,8 +508,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 						if (typeof $event.defaultPrevented === UNDEFINED) {
 							$event.defaultPrevented = ($event.returnValue === false);
 						}
-					}
-					catch (e) {
+					}					catch (e) {
 						console.warn(e);
 					}
 					return $event;
@@ -566,8 +553,7 @@ define(["wc/Observer", "wc/dom/tag", "wc/dom/attribute", "wc/dom/uid", "wc/has",
 				if (window.Event && (proto = window.Event.prototype)) {
 					if (!proto.preventDefault) {
 						fixEventInternetExplorer(proto);
-					}
-					else if (!("defaultPrevented" in proto)) {  // quick test to skip FF6 and IE9
+					}					else if (!("defaultPrevented" in proto)) {  // quick test to skip FF6 and IE9
 						/*
 						 * If we are in here we are either in Firefox 5 (or ealier) OR Chrome.
 						 * We want to weed out Chrome but "do stuff" if it is FF5.

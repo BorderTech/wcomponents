@@ -59,8 +59,7 @@ define(["wc/ajax/ajax", "wc/loader/prefetch", "wc/config", "module"],
 				if (config) {
 					path = config.resourceBaseUrl;
 					cachebuster = config.cachebuster;
-				}
-				else {
+				}				else {
 					idx = module.uri.indexOf(module.id);
 					path = module.uri.substring(0, idx);
 					path = path.replace(/\/[^\/]+\/$/, "/${resource.target.dir.name}/");
@@ -69,8 +68,7 @@ define(["wc/ajax/ajax", "wc/loader/prefetch", "wc/config", "module"],
 				baseUrl = baseUrl || path || "";  // ${resource.target.dir.name}/";
 				if (fileName) {
 					url = baseUrl + fileName + "?" + cachebuster;
-				}
-				else {
+				}				else {
 					url = baseUrl;
 				}
 				return url;
@@ -93,8 +91,7 @@ define(["wc/ajax/ajax", "wc/loader/prefetch", "wc/config", "module"],
 				if (!config) {
 					if (window.System && window.System.config) {
 						config = window.System.config;
-					}
-					else if (module && module.config) {
+					}					else if (module && module.config) {
 						config = module.config();
 					}
 				}

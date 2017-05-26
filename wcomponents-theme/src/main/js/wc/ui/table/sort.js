@@ -1,15 +1,15 @@
 define(["wc/dom/initialise",
-		"wc/dom/event",
-		"wc/dom/formUpdateManager",
-		"wc/dom/attribute",
-		"wc/dom/group",
-		"wc/ui/ajaxRegion",
-		"wc/ui/ajax/processResponse",
-		"wc/ui/onloadFocusControl",
-		"wc/dom/isEventInLabel",
-		"wc/dom/isAcceptableTarget",
-		"wc/dom/shed",
-		"wc/ui/table/common"],
+	"wc/dom/event",
+	"wc/dom/formUpdateManager",
+	"wc/dom/attribute",
+	"wc/dom/group",
+	"wc/ui/ajaxRegion",
+	"wc/ui/ajax/processResponse",
+	"wc/ui/onloadFocusControl",
+	"wc/dom/isEventInLabel",
+	"wc/dom/isAcceptableTarget",
+	"wc/dom/shed",
+	"wc/ui/table/common"],
 	function(initialise, event, formUpdateManager, attribute, group, ajaxRegion, processResponse, onloadFocusControl, isEventInLabel, isAcceptableEventTarget, shed, common) {
 		"use strict";
 
@@ -96,8 +96,7 @@ define(["wc/dom/initialise",
 						}
 						element.setAttribute(SORT_ATTRIB, "1");
 						element.setAttribute(ARIA_SORT_ATTRIB, "ascending");
-					}
-					else {
+					}					else {
 						element.setAttribute(SORT_ATTRIB, "1 reversed");
 						element.setAttribute(ARIA_SORT_ATTRIB, "descending");
 					}
@@ -149,8 +148,7 @@ define(["wc/dom/initialise",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-				}
-				else {
+				}				else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 				event.add(element, event.TYPE.click, clickEvent);

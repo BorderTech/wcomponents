@@ -40,8 +40,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 							try {
 								assert.strictEqual(testHolder.innerHTML, expected, "Template should have been processed.");
 								win();
-							}
-							catch (ex) {
+							}							catch (ex) {
 								lose(ex);
 							}
 						}
@@ -65,8 +64,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 							try {
 								assert.strictEqual(testHolder.innerHTML, expected, "Template should have been processed.");
 								win();
-							}
-							catch (ex) {
+							}							catch (ex) {
 								lose(ex);
 							}
 

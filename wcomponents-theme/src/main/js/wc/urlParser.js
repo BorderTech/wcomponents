@@ -136,24 +136,20 @@ define(function() {
 				if (result[PROTOCOL] === "") {
 					// no protocol means a relative url like foo.html and all we have is simple path
 					result[PATH_ARRAY] = [url];
-				}
-				else {
+				}				else {
 					// we have no path and the hostname is all that is left;
 					result[HOST_NAME] = mDCHostNameFixer(url);
 					mDCSquareBrackets = mDCSquareBracketsRe.test(url);
 					result[HOST_ARRAY] = result[HOST_NAME].split(".");
 					// result[HOST_ARRAY] = url.split(result[HOST_NAME]);
 				}
-			}
-			else if (pathnameSeparator === 0) {
+			}			else if (pathnameSeparator === 0) {
 				// we have a server relative URL because it starts with "/" and all we have left is path
 				result[PATH_ARRAY] = url.substr(1).split("/");  // split the path without the leading "/" otherwise pathnameArray[0] is always empty
-			}
-			else if (result[PROTOCOL] === "") {
+			}			else if (result[PROTOCOL] === "") {
 				// relative URL with complex path and the first character is not a "/"
 				result[PATH_ARRAY] = url.split("/");
-			}
-			else {
+			}			else {
 				// the first slash separates the hostname from the path
 				hostname = url.substr(0, pathnameSeparator);
 				pathname = url.substr(pathnameSeparator);  // Location.pathname includes leading "/"
@@ -166,8 +162,7 @@ define(function() {
 			}
 			if (result[HOST_NAME] && result[PORT] !== NO_VALUE) {
 				result[HOST] = (mDCSquareBrackets ? "[" : "") + result[HOST_NAME] + (mDCSquareBrackets ? "]" : "") + ":" + result[PORT];
-			}
-			else {
+			}			else {
 				result[HOST] = (mDCSquareBrackets ? "[" : "") + result[HOST_NAME] + (mDCSquareBrackets ? "]" : "");
 			}
 			return result;
@@ -278,8 +273,7 @@ define(function() {
 				if (url.match(schemeRe)) {
 					this[PROTOCOL] = RegExp.$1.toLowerCase();
 					parser.call(this, url.replace(schemeRe, ""));
-				}
-				else {
+				}				else {
 					parser.call(this);
 				}
 

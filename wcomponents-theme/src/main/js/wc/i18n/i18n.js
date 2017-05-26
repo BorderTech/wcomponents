@@ -58,8 +58,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 				}
 				if (!result) {
 					result = this._DEFAULT_LANG;
-				}
-				else if ((googParsed = GOOG_RE.exec(result))) {
+				}				else if ((googParsed = GOOG_RE.exec(result))) {
 					result = googParsed[1];
 				}
 				return result;
@@ -86,8 +85,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 							callback();
 						});
 					});
-				}
-				else {
+				}				else {
 					callback();
 				}
 			};
@@ -124,8 +122,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 			this.load = function (id, parentRequire, callback, config) {
 				if (!config || !config.isBuild) {
 					instance.initialize(wcconfig.get("wc/i18n/i18n"), callback);
-				}
-				else {
+				}				else {
 					callback();
 				}
 			};
@@ -182,8 +179,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 				backend = new Backend();
 			try {
 				i18next.use(backend).init(options, callback);
-			}
-			catch (ex) {
+			}			catch (ex) {
 				callback(ex);
 			}
 		}
@@ -216,8 +212,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 						try {
 							var data = JSON.parse(response);
 							callback(null, data);
-						}
-						catch (ex) {
+						}						catch (ex) {
 							callback(ex, response);
 						}
 					},

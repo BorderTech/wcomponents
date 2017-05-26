@@ -43,14 +43,12 @@ define(["wc/dom/tag", "wc/dom/isSuccessfulElement", "wc/dom/getFilteredGroup"],
 								}
 								return result;
 							});
-						}
-						else {
+						}						else {
 							console.log("Param has changed", key, stateAVal, stateBVal);
 						}
 						return same;
 					});
-				}
-				else {
+				}				else {
 					console.log("Form params changed", keysStateA, keysStateB);
 				}
 			}
@@ -83,19 +81,16 @@ define(["wc/dom/tag", "wc/dom/isSuccessfulElement", "wc/dom/getFilteredGroup"],
 					tagName = element.tagName;
 				if (tagName === tag.INPUT || tagName === tag.TEXTAREA) {
 					result = element.value;
-				}
-				else if (tagName === tag.OPTION) {
+				}				else if (tagName === tag.OPTION) {
 					result = element.getAttribute("value");
 					if (result === null) {  // standards
 						result = element.text;
-					}
-					else if (result === "") {
+					}					else if (result === "") {
 						if (element.outerHTML) {
 							if (!element.outerHTML.match(/value="[^"]*/gi)) {  // is ok that is IE only, only IE will end up here
 								result = element.text;
 							}
-						}
-						else {
+						}						else {
 							result = element.value;
 						}
 					}
@@ -127,8 +122,7 @@ define(["wc/dom/tag", "wc/dom/isSuccessfulElement", "wc/dom/getFilteredGroup"],
 					tempVal = (twoDArray.length === 2) ? twoDArray[1] : null;  // if there is no = then the correct value is null
 					if (result[tempName]) {
 						result[tempName].push(tempVal);
-					}
-					else {
+					}					else {
 						result[tempName] = [tempVal];
 					}
 				}
@@ -183,8 +177,7 @@ define(["wc/dom/tag", "wc/dom/isSuccessfulElement", "wc/dom/getFilteredGroup"],
 						if (filter && filter(next) === false) {
 							continue;
 						}
-					}
-					catch (ex) {
+					}					catch (ex) {
 						console.error(ex);
 					}
 					if (isSuccessfulElement(next, includeButtons)) {
@@ -198,8 +191,7 @@ define(["wc/dom/tag", "wc/dom/isSuccessfulElement", "wc/dom/getFilteredGroup"],
 									sb[sb.length] = encodeName(next.name) + NV_SEPARATOR + encodeURIComponent(value);
 								}
 							}
-						}
-						else {
+						}						else {
 							value = getValue(next);
 							if (value !== null) {
 								// If a control doesn't have a stateB value when the form is submitted, user agents are not required to treat it as a successful control.
@@ -243,8 +235,7 @@ define(["wc/dom/tag", "wc/dom/isSuccessfulElement", "wc/dom/getFilteredGroup"],
 								addToDom(container, name, nextVal);
 							}
 						}
-					}
-					else {
+					}					else {
 						result[name] = value = decodeURIComponent(value);
 						if (container) {
 							addToDom(container, name, value);

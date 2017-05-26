@@ -10,8 +10,7 @@ define(["wc/has", "wc/ui/loading", "wc/dom/storage"], function(has, loading, sto
 				console.log("Pending a11y check in 3 seconds");
 				a11yTest();
 			}
-		}
-		else {
+		}		else {
 			console.log("a11y check disabled via stored property `wc.a11y.DISABLE`");
 		}
 	}, 3000));
@@ -28,8 +27,7 @@ define(["wc/has", "wc/ui/loading", "wc/dom/storage"], function(has, loading, sto
 				console.timeEnd("a11y_goog");
 				console.log("Finished a11y check.");
 			});
-		}
-		else {
+		}		else {
 			require(["axe"], function(axe) {
 				console.time("a11y_deque");
 				axeCore(axe);
@@ -83,8 +81,7 @@ define(["wc/has", "wc/ui/loading", "wc/dom/storage"], function(has, loading, sto
 					formatIssue(obj);
 				}
 			});
-		}
-		catch (ex) {
+		}		catch (ex) {
 			console.error(ex);
 		}
 	}
@@ -106,8 +103,7 @@ define(["wc/has", "wc/ui/loading", "wc/dom/storage"], function(has, loading, sto
 			var html, listItem = document.createElement("li");
 			if (element.html) {
 				html = element.html;
-			}
-			else {
+			}			else {
 				html = element.outerHTML;
 			}
 			// html = html.replace(/</g, "&lt;");
@@ -119,8 +115,7 @@ define(["wc/has", "wc/ui/loading", "wc/dom/storage"], function(has, loading, sto
 		container.className = "wc_a11y";
 		if (!issue.isWarning) {
 			container.classList.add("severe");
-		}
-		else {
+		}		else {
 			container.classList.add("warning");
 		}
 		container.appendChild(link);

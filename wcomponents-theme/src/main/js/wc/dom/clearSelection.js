@@ -23,13 +23,11 @@ define(function() {
 			 */
 			try {
 				document.selection.empty();
-			}
-			catch (err) {
+			}			catch (err) {
 				// continue on
 				console.log(err.message);
 			}
-		}
-		else if (window.getSelection) {  // Mozilla
+		}		else if (window.getSelection) {  // Mozilla
 			var selection = window.getSelection();
 			if (selection && selection.removeAllRanges) {
 				selection.removeAllRanges();
@@ -38,8 +36,7 @@ define(function() {
 				if (!selection.isCollapsed) {
 					selection.collapseToEnd();
 				}
-			}
-			catch (ex) {
+			}			catch (ex) {
 				// consume the exception, we don't want failures here causing the UI to totally stop working
 				console.warn(ex.message);
 			}

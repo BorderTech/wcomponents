@@ -63,8 +63,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 					element = this._getBranchExpandableElement(element);
 					if (!shed.isExpanded(element)) {
 						this._keyMap["DOM_VK_RIGHT"] = this._FUNC_MAP.ACTION;
-					}
-					else {
+					}					else {
 						this._keyMap["DOM_VK_RIGHT"] = keyWalker.MOVE_TO.CHILD;
 					}
 				}

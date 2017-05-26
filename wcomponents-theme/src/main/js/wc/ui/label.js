@@ -44,8 +44,7 @@ define(["wc/dom/classList",
 						mandatorySpan += tag.toTag(MANDATORY_SPAN.tagName, true);
 						label.insertAdjacentHTML("beforeend", mandatorySpan);
 					}
-				}
-				else if (mandatorySpan) {
+				}				else if (mandatorySpan) {
 					mandatorySpan.parentNode.removeChild(mandatorySpan);
 				}
 			}
@@ -121,8 +120,7 @@ define(["wc/dom/classList",
 				if (isRO) {
 					newLabellingElement = document.createElement("span");
 					newLabellingElement.setAttribute("data-wc-rofor", element.id);
-				}
-				else {
+				}				else {
 					newLabellingElement = document.createElement("label");
 					if ((input = wrappedInput.getInput(element))) { // should always be found
 						newLabellingElement.setAttribute("for", input.id);
@@ -171,8 +169,7 @@ define(["wc/dom/classList",
 						}
 						if (shed.isHidden(next, true)) {
 							shed.hide(label, true);
-						}
-						else {
+						}						else {
 							shed.show(next);
 						}
 					});
@@ -226,12 +223,10 @@ define(["wc/dom/classList",
 							hint.insertAdjacentHTML("beforeEnd", "<br>");
 						}
 						hint.insertAdjacentHTML("beforeEnd", content);
-					}
-					else {
+					}					else {
 						hint.parentNode.removeChild(hint);
 					}
-				}
-				else if (content) {
+				}				else if (content) {
 					hint = tag.toTag(tag.SPAN, false, "class='" + CLASS_HINT + "'") + content + tag.toTag(tag.SPAN, true);
 					label.insertAdjacentHTML("beforeend", hint);
 				}
@@ -255,8 +250,7 @@ define(["wc/dom/classList",
 					parent = wrapper.parentNode;
 					if ((sibling = wrapper.nextSibling)) {
 						parent.insertBefore(label, sibling);
-					}
-					else {
+					}					else {
 						parent.appendChild(label);
 					}
 				}
@@ -273,8 +267,7 @@ define(["wc/dom/classList",
 				var el = element || document.body;
 				if (element && Widget.isOneOfMe(element, MOVE_WIDGETS)) {
 					moveLabel(el);
-				}
-				else {
+				}				else {
 					Array.prototype.forEach.call(Widget.findDescendants(el, MOVE_WIDGETS), moveLabel);
 				}
 			}
