@@ -8,76 +8,76 @@
 // * WValidationErrors (message box output).
 
 section {
-	@if ($wc-section-use-border == 1) {
-		@include border;
-	}
+  @if ($wc-section-use-border == 1) {
+    @include border;
+  }
 
-	@if ($wc-section-header-size != -1) {
-		> h1,
-		> header h1 {
-			font-size: $wc-section-header-size;
-			font-weight: normal;
-			margin: 0;
-		}
+  @if ($wc-section-header-size != -1) {
+    > h1,
+    > header h1 {
+      font-size: $wc-section-header-size;
+      font-weight: normal;
+      margin: 0;
+    }
 
-		@if ($wc-section-space-header > 0) {
-			> h1,
-			> header {
-				padding: $wc-section-space-header;
-			}
-		}
-	}
+    @if ($wc-section-space-header > 0) {
+      > h1,
+      > header {
+        padding: $wc-section-space-header;
+      }
+    }
+  }
 
-	// Structural CSS to make the header segments behave. We want the body (h1
-	// element) to occupy as much space as possible.
-	> header {
-		> .wc_dlbl_seg {
-			display: table-cell;
-		}
+  // Structural CSS to make the header segments behave. We want the body (h1
+  // element) to occupy as much space as possible.
+  > header {
+    > .wc_dlbl_seg {
+      display: table-cell;
+    }
 
-		h1 {
-			width: 100%;
-		}
+    h1 {
+      width: 100%;
+    }
 
-		> div {
-			white-space: nowrap;
-			width: 0;
-		}
-	}
+    > div {
+      white-space: nowrap;
+      width: 0;
+    }
+  }
 
-	@if ($wc-section-space-normal > 0) {
-		> div,
-		> .wc-listLayout {
-			padding: $wc-section-space-normal;
-		}
+  @if ($wc-section-space-normal > 0) {
+    > div,
+    > .wc-listLayout {
+      padding: $wc-section-space-normal;
+    }
 
-		// Docking a Bar menu
-		// If you have a WPanel of type CHROME or ACTION or a WSection
-		// containing a plain WPanel and the WPanel does not have a layout then
-		// add a WMenu Type BAR to the content of the WPanel then we can 'dock'
-		// the menu to the panel/section header.
-		&,
-		> .wc-panel {
-			> .wc-content > .wc-menu-type-bar:first-child {
-				$neg-margin: -$wc-section-space-normal;
-				margin: $neg-margin $neg-margin $wc-section-space-normal;
-			}
-		}
-	}
+    // Docking a Bar menu
+    // If you have a WPanel of type CHROME or ACTION or a WSection
+    // containing a plain WPanel and the WPanel does not have a layout then
+    // add a WMenu Type BAR to the content of the WPanel then we can 'dock'
+    // the menu to the panel/section header.
+    &,
+    > .wc-panel {
+      > .wc-content > .wc-menu-type-bar:first-child {
+        $neg-margin: -$wc-section-space-normal;
+        margin: $neg-margin $neg-margin $wc-section-space-normal;
+      }
+    }
+  }
 
-	// We *really* want to prevent Margin being set on the WPanel content holder
-	// of a WSection. We also want to make sure the default styling of types
-	// FEATURE, BOX, BLOCK etc are not applied. It would be better if this was
-	// enforced in the Java API.
-	&.wc-section > .wc-panel {
-		background-color: transparent;
-		border: 0 none;
-		margin: 0;
+  // We *really* want to prevent Margin being set on the WPanel content holder
+  // of a WSection. We also want to make sure the default styling of types
+  // FEATURE, BOX, BLOCK etc are not applied. It would be better if this was
+  // enforced in the Java API.
+  &.wc-section > .wc-panel {
+    background-color: transparent;
+    border: 0 none;
+    margin: 0;
 
-		@if ($wc-section-space-normal > 0) {
-			padding: $wc-section-space-normal;
-		}
-	}
+    @if ($wc-section-space-normal > 0) {
+      padding: $wc-section-space-normal;
+    }
+  }
 }
 
 

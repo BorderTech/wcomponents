@@ -1,43 +1,40 @@
 // WMultiTextField and WMultiDropdown
 @import 'mixins/common';
 
-$wc-mfc-button-width-allowance: 2 * $wc-combo-button-padding-lr +
- 	$wc-icon-normal + $wc-gap-small;
+$wc-mfc-button-width-allowance: 2 * $wc-combo-button-padding-lr + $wc-icon-normal + $wc-gap-small;
 
 .wc_mfc {
-	white-space: nowrap;
+  white-space: nowrap;
 
-	input,
-	select {
-		max-width: calc(100% - #{$wc-mfc-button-width-allowance});
-	}
+  input,
+  select {
+    max-width: calc(100% - #{$wc-mfc-button-width-allowance});
+  }
 
-	button {
-		padding-left: $wc-combo-button-padding-lr;
-		padding-right: $wc-combo-button-padding-lr;
-		@if ($wc-clr-border-form-control != -1) {
-			@include border($pos: left, $width: 0);
-			@if ($wc-input-padding != -1) {
-				padding-bottom: $wc-input-padding;
-				padding-top: $wc-input-padding;
-			}
-			@else { // this could cause issues with some browsers.
-				padding-bottom: 2px;
-				padding-top: 2px;
-			}
-		}
-		@else { // this could cause issues with some browsers.
-			padding-bottom: 2px;
-			padding-top: 2px;
-		}
+  button {
+    padding-left: $wc-combo-button-padding-lr;
+    padding-right: $wc-combo-button-padding-lr;
+    @if ($wc-clr-border-form-control != -1) {
+      @include border($pos: left, $width: 0);
+      @if ($wc-input-padding != -1) {
+        padding-bottom: $wc-input-padding;
+        padding-top: $wc-input-padding;
+      } @else { // this could cause issues with some browsers.
+        padding-bottom: 2px;
+        padding-top: 2px;
+      }
+    } @else { // this could cause issues with some browsers.
+      padding-bottom: 2px;
+      padding-top: 2px;
+    }
 
-		&:before {
-			text-align: center;
-			width: $wc-icon-normal;
-		}
-	}
+    &::before {
+      text-align: center;
+      width: $wc-icon-normal;
+    }
+  }
 
-	.wc-fieldindicator {
-		white-space: normal;
-	}
+  .wc-fieldindicator {
+    white-space: normal;
+  }
 }

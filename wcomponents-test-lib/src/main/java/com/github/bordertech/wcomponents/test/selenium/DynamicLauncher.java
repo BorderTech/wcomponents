@@ -30,17 +30,58 @@ public class DynamicLauncher extends SeleniumLauncher {
 	 * @return the registered component as a singleton.
 	 */
 	public WApplication setComponentToLaunch(final String uniqueId, final WApplication componentToLaunch) {
-		uiRegistryKey = uniqueId;
-
-		//Only register the component if it is not already registered.
-		if (!UIRegistry.getInstance().isRegistered(uiRegistryKey)) {
-			// Lock component
-			componentToLaunch.setLocked(true);
-			UIRegistry.getInstance().register(uiRegistryKey, componentToLaunch);
-			return componentToLaunch;
-		} else {
-			return (WApplication) UIRegistry.getInstance().getUI(uiRegistryKey);
+		setCurrentKey(uniqueId);
+		// Check if already registered
+		WApplication appl = getRegisteredComponent(uniqueId);
+		if (appl != null) {
+			return appl;
 		}
+		// Register the componenent
+		registerComponent(uniqueId, componentToLaunch);
+		return componentToLaunch;
+	}
+
+	/**
+	 * Register the component.
+	 *
+	 * @param uniqueId the uniqueId to register the component.
+	 * @param componentToLaunch the WComponent to launch.
+	 */
+	public void registerComponent(final String uniqueId, final WApplication componentToLaunch) {
+		// Must be locked
+		if (!componentToLaunch.isLocked()) {
+			componentToLaunch.setLocked(true);
+		}
+		UIRegistry.getInstance().register(uniqueId, componentToLaunch);
+	}
+
+	/**
+	 * Retrieve a registered component.
+	 *
+	 * @param key the key of the registered component
+	 * @return the registers component or null if not registered
+	 */
+	public WApplication getRegisteredComponent(final String key) {
+		UIRegistry reg = UIRegistry.getInstance();
+		if (reg.isRegistered(key)) {
+			return (WApplication) reg.getUI(key);
+		}
+		return null;
+	}
+
+	/**
+	 * @param key the current UI to be run by the launcher.
+	 */
+	public void setCurrentKey(final String key) {
+		this.uiRegistryKey = key;
+
+	}
+
+	/**
+	 * @return the current UI being run by the launcher
+	 */
+	public String getCurrentKey() {
+		return uiRegistryKey;
 	}
 
 	/**
@@ -51,10 +92,11 @@ public class DynamicLauncher extends SeleniumLauncher {
 	 */
 	@Override
 	protected String getComponentToLaunchClassName() {
-		if (StringUtils.isBlank(uiRegistryKey)) {
+		String key = getCurrentKey();
+		if (StringUtils.isBlank(key)) {
 			return super.getComponentToLaunchClassName();
 		} else {
-			return uiRegistryKey;
+			return key;
 		}
 	}
 }

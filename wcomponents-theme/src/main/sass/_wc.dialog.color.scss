@@ -1,23 +1,23 @@
 dialog {
-	background: transparent;
+  background: transparent;
 
-	> div { // dialog content container
-		background-color: $wc-clr-global-bg;
-	}
+  > div { // dialog content container
+    background-color: $wc-clr-global-bg;
+  }
 
-	> header,
-	> footer { // top and bottom bars of dialog
-		background-color: $wc-clr-dialog-head-bg;
-		color: $wc-clr-dialog-head-fg;
-	}
+  > header,
+  > footer { // top and bottom bars of dialog
+    background-color: $wc-clr-dialog-head-bg;
+    color: $wc-clr-dialog-head-fg;
+  }
 
-	> header {
-		> h1 { // the title
-			color: $wc-clr-dialog-head-fg;
-		}
+  > header {
+    > h1 { // the title
+      color: $wc-clr-dialog-head-fg;
+    }
 
-		button {
-			@include border($color: $wc-clr-dialog-head-fg);
-		}
-	}
+    button {
+      @include border($color: $wc-clr-dialog-head-fg);
+    }
+  }
 }

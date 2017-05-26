@@ -12,16 +12,26 @@
 		"inherit" missing messages from the default.
 	-->
 	<property name="default.i18n.locale" value="en"/>
-	<property name="i18n.unpacked.dir" location="${build.rootdir}/i18n-unpacked/com/github/bordertech/wcomponents"/>
 
 	<target name="init" depends="clean">
+		<mkdir dir="${i18n.unpack.dir}" />
 		<mkdir dir="${i18n.build.target.dir}"/>
+		<condition property="i18n.resources.exists">
+			<available file="${i18n.resources.dir}" type="dir"/>
+		</condition>
 	</target>
 
-	<target name="build" depends="init, buildJsonBundles" description="Builds i18n resource bundles">
+	<target name="build" depends="init, copyResources, buildJsonBundles" description="Builds i18n resource bundles">
 		<!-- i18n -->
 		<copy todir="${resource.build.target.dir}/translation" overwrite="true">
 			<fileset dir="${i18n.build.target.dir}" includes="*.json"/>
+		</copy>
+	</target>
+
+	<target name="copyResources" if="${i18n.resources.exists}">
+		<echo message="Copy i18n resources from ${i18n.resources.dir}"/>
+		<copy todir="${i18n.unpack.dir}">
+			<fileset dir="${i18n.resources.dir}" />
 		</copy>
 	</target>
 
@@ -49,7 +59,7 @@
 		<sequential>
 			<concat fixlastline="true" append="false" destfile="@{destfile}">
 				<path>
-					<fileset dir="${i18n.unpacked.dir}" includes="@{filename}" />
+					<fileset dir="${i18n.unpack.dir}/com/github/bordertech/wcomponents" includes="@{filename}" />
 				</path>
 				<filterchain>
 					<expandproperties/>

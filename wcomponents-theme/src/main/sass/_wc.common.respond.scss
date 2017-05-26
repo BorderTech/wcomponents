@@ -1,85 +1,80 @@
 $phone-gap-size: $wc-phone-gap-xl;
 
 @if ($wc-use-respond == 1) {
-	@if ($wc-bigscreen-font-size != -1 and
-		$wc-bigscreen-font-size != $wc-desktop-font-size) {
-		@include respond-bigger-screen {
-			body {
-				font-size: $wc-bigscreen-font-size;
-			}
-		}
-	}
+  @if ($wc-bigscreen-font-size != -1 and $wc-bigscreen-font-size != $wc-desktop-font-size) {
+    @include respond-bigger-screen {
+      body {
+        font-size: $wc-bigscreen-font-size;
+      }
+    }
+  }
 
-	@include respond-phonelike {
-		// Making fonts BIGGER seems counter-intuitive but it makes phone
-		// screens easier to read and makes buttons etc MUCH easier to hit.
-		@if ($wc-phone-font-size != -1 and
-			$wc-phone-font-size != $wc-desktop-font-size) {
-			body {
-				font-size: $wc-phone-font-size;
-			}
-		}
+  @include respond-phonelike {
+    // Making fonts BIGGER seems counter-intuitive but it makes phone
+    // screens easier to read and makes buttons etc MUCH easier to hit.
+    @if ($wc-phone-font-size != -1 and $wc-phone-font-size != $wc-desktop-font-size) {
+      body {
+        font-size: $wc-phone-font-size;
+      }
+    }
 
 
-		@if ($wc-gap-reduce-when-narrow == 1) {
-			// Reduce the gaps on narrow viewports.
-			@each $phone-gap-suffix in $wc-gap-suffix-list {
-				@if ($phone-gap-suffix == sm) {
-					$phone-gap-size: $wc-phone-gap-small;
-				}
-				@else if  ($phone-gap-suffix == med) {
-					$phone-gap-size: $wc-phone-gap-normal;
-				}
-				@else if  ($phone-gap-suffix == lg) {
-					$phone-gap-size: $wc-phone-gap-large;
-				}
-				@else {
-					$phone-gap-size: $wc-phone-gap-xl;
-				}
+    @if ($wc-gap-reduce-when-narrow == 1) {
+      // Reduce the gaps on narrow viewports.
+      @each $phone-gap-suffix in $wc-gap-suffix-list {
+        @if ($phone-gap-suffix == sm) {
+          $phone-gap-size: $wc-phone-gap-small;
+        } @else if  ($phone-gap-suffix == med) {
+          $phone-gap-size: $wc-phone-gap-normal;
+        } @else if  ($phone-gap-suffix == lg) {
+          $phone-gap-size: $wc-phone-gap-large;
+        } @else {
+          $phone-gap-size: $wc-phone-gap-xl;
+        }
 
-				.wc-hgap-#{$phone-gap-suffix} {
-					> div,
-					> ul,
-					> li,
-					> span {
-						padding-left: $phone-gap-size / 2;
-						padding-right: $phone-gap-size / 2;
-					 }
-				}
+        .wc-hgap-#{$phone-gap-suffix} {
+          > div,
+          > ul,
+          > li,
+          > span {
+            padding-left: $phone-gap-size / 2;
+            padding-right: $phone-gap-size / 2;
+           }
+        }
 
-				@if ($phone-gap-suffix != sm) {
-					.wc-vgap-#{$phone-gap-suffix} {
-						> div + div,
-						> li + li {
-							margin-top: $wc-phone-gap-small;
-						 }
-					}
-				}
+        @if ($phone-gap-suffix != sm) {
+          .wc-vgap-#{$phone-gap-suffix} {
+            > div + div,
+            > li + li {
+              margin-top: $wc-phone-gap-small;
+             }
+          }
+        }
 
-				.wc-margin-all-#{$phone-gap-suffix} {
-					margin: $phone-gap-size;
-				}
+        .wc-margin-all-#{$phone-gap-suffix} {
+          margin: $phone-gap-size;
+        }
 
-				.wc-margin-n-#{$phone-gap-suffix} {
-					margin-top: $phone-gap-size;
-				}
+        .wc-margin-n-#{$phone-gap-suffix} {
+          margin-top: $phone-gap-size;
+        }
 
-				.wc-margin-e-#{$phone-gap-suffix} {
-					margin-right: $phone-gap-size;
-				}
+        .wc-margin-e-#{$phone-gap-suffix} {
+          margin-right: $phone-gap-size;
+        }
 
-				.wc-margin-s-#{$phone-gap-suffix} {
-					margin-bottom: $phone-gap-size;
-				}
+        .wc-margin-s-#{$phone-gap-suffix} {
+          margin-bottom: $phone-gap-size;
+        }
 
-				.wc-margin-w-#{$phone-gap-suffix} {
-					margin-left: $phone-gap-size;
-				}
+        .wc-margin-w-#{$phone-gap-suffix} {
+          margin-left: $phone-gap-size;
+        }
 
-				.wc-pad-#{$phone-gap-suffix} {
-					padding: $phone-gap-size;
-				}
-			}
-		}
-	}
+        .wc-pad-#{$phone-gap-suffix} {
+          padding: $phone-gap-size;
+        }
+      }
+    }
+  }
 }

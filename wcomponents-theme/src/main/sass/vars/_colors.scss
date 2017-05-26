@@ -106,7 +106,7 @@ $wc-clr-highlight-bg: #f2f2f2 !default;
 $wc-clr-highlight-fg: $std-color-black !default;
 // The rgba colour is used when highlights overlay other colours. At the moment
 // this is only in table rows which may overlay coloured columns.
-$wc-clr-highlight-bg-rgba: rgba(0, 0, 0, 0.02) !default;
+$wc-clr-highlight-bg-rgba: rgba(0, 0, 0, .02) !default;
 // #############################################################################
 
 // #############################################################################
@@ -156,8 +156,8 @@ $wc-clr-required-marker: $std-color-secondary !default;
 // #############################################################################
 // aria-busy components. Set each to -1 to not use that particular colour rule.
 // #############################################################################
-$wc-clr-busy-fg: rgba(0, 0, 0, 0.25) !default;
-$wc-clr-busy-input-border: rgba(0, 0, 0, 0.1) !default;
+$wc-clr-busy-fg: rgba(0, 0, 0, .25) !default;
+$wc-clr-busy-input-border: rgba(0, 0, 0, .1) !default;
 $wc-clr-busy-loading-icon: $wc-clr-disabled-fg !default;
 
 // #############################################################################
@@ -205,8 +205,8 @@ $wc-clr-tooltip-bg: $wc-clr-highlight-bg !default;
 // #############################################################################
 // modal shim
 // #############################################################################
-$wc-clr-modal-shim: rgba(0, 0, 0, 0.9) !default;
-$wc-clr-modal-shim-foreground: $std-color-black !default;
+$wc-clr-modal-shim: rgba(0, 0, 0, .9) !default;
+$wc-clr-modal-shim-fg: $std-color-black !default;
 
 // #############################################################################
 // WCollapsible
@@ -233,23 +233,23 @@ $wc-clr-menu-fg: $wc-clr-global-fg !default;
 // WPanel
 // #############################################################################
 // Type.ACTION
-$wc-clr-panel-action-header-background: $std-color-secondary !default;
-$wc-clr-panel-action-header-foreground: $std-color-secondary-accent !default;
-$wc-clr-panel-action-background: $std-color-white !default;
+$wc-clr-panel-action-header-bg: $std-color-secondary !default;
+$wc-clr-panel-action-header-fg: $std-color-secondary-accent !default;
+$wc-clr-panel-action-bg: $std-color-white !default;
 $wc-clr-panel-action-border: $std-color-secondary !default;
 // Type.CHROME uses section colours.
 // Type.FEATURE
 // Set to -1 to not use either colour
-$wc-clr-panel-feature-foreground: $std-color-tertiary-accent !default;
-$wc-clr-panel-feature-background: $std-color-tertiary !default;
+$wc-clr-panel-feature-fg: $std-color-tertiary-accent !default;
+$wc-clr-panel-feature-bg: $std-color-tertiary !default;
 // Type.FOOTER
 // Set to -1 to not use either colour
-$wc-clr-panel-footer-foreground: $std-color-tertiary-accent !default;
-$wc-clr-panel-footer-background: $std-color-tertiary !default;
+$wc-clr-panel-footer-fg: $std-color-tertiary-accent !default;
+$wc-clr-panel-footer-bg: $std-color-tertiary !default;
 // Type.HEADER
 // Set the background colour to -1 to ignore all header colours.
-$wc-clr-panel-header-background: $std-color-primary !default;
-$wc-clr-panel-header-foreground: $std-color-primary-accent !default;
+$wc-clr-panel-header-bg: $std-color-primary !default;
+$wc-clr-panel-header-fg: $std-color-primary-accent !default;
 
 // #############################################################################
 // WTable
@@ -279,9 +279,9 @@ $wc-color-table-foot-disabled: $wc-clr-disabled-fg !default;
 $wc-clr-table-zebra-bg: $wc-clr-highlight-bg-rgba !default;
 // sorted column colour, set to -1 to not set.
 $wc-clr-table-col-sorted-bg: $wc-clr-highlight-bg-rgba !default;
-// Table row focus must be translucent with alpha no greater than 0.5. Set to
+// Table row focus must be translucent with alpha no greater than .5. Set to
 // -1 to not use this invite style.
-$wc-clr-table-invite-bg: rgba(204, 229, 255, 0.5) !default;
+$wc-clr-table-invite-bg: rgba(204, 229, 255, .5) !default;
 
 // #############################################################################
 // WTabSet

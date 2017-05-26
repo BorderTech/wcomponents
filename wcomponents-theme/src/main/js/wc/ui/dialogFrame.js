@@ -14,11 +14,12 @@ define(["wc/dom/event",
 	"wc/ui/positionable",
 	"wc/ui/draggable",
 	"wc/dom/role",
-	"lib/handlebars/handlebars",
+	"wc/template",
 	"wc/ui/viewportUtils",
 	"wc/ui/getForm",
 	"wc/config"],
-	function (event, focus, initialise, shed, uid, Widget, i18n, loader, processResponse, modalShim, timers, has, resizeable, positionable, draggable, $role, handlebars, viewportUtils, getForm, wcconfig) {
+	function (event, focus, initialise, shed, uid, Widget, i18n, loader, processResponse, modalShim, timers, has,
+	          resizeable, positionable, draggable, $role, template, viewportUtils, getForm, wcconfig) {
 		"use strict";
 
 		/**
@@ -414,54 +415,59 @@ define(["wc/dom/event",
 			 * @returns {Promise} resolved with {Element} dialog The dialog element.
 			 */
 			function buildDialog(formId) {
-				return loader.load(TEMPLATE_NAME, true, true).then(function (template) {
-					/*
-					 * sprintf replacements
-					 * 1: maximise button title dialog_maxRestore
-					 * 2: close button title dialog_close
-					 * 3: content loading message loading
-					 */
-					var compiledTemplate = handlebars.compile(template),
-						form,
-						dialog,
-						dialogHeader,
-						resizeHandle,
-						headerTitle,
-						resizeHandleTitle,
-						dialogProps = {
-							heading: {
-								maxRestore: i18n.get("dialog_maxRestore"),
-								close: i18n.get("dialog_close")
+				return new Promise(function(win, lose) {
+					loader.load(TEMPLATE_NAME, true, true).then(function (rawTemplate) {
+						var form,
+							dialogProps = {
+								heading: {
+									maxRestore: i18n.get("dialog_maxRestore"),
+									close: i18n.get("dialog_close")
+								},
+								message: {
+									loading: i18n.get("loading")
+								}
 							},
-							message: {
-								loading: i18n.get("loading")
-							}
-						},
-						dialogHTML = compiledTemplate(dialogProps);
+							done = function () {
+								var dialog,
+									dialogHeader,
+									resizeHandle,
+									headerTitle,
+									resizeHandleTitle;
+								if ((dialog = instance.getDialog())) {
+									event.add(dialog, event.TYPE.keydown, keydownEvent);
+									if ((dialogHeader = HEADER_WD.findDescendant(dialog, true)) && (headerTitle = i18n.get("dialog_move"))) {
+										dialogHeader.title = headerTitle;
+									}
+
+									if (RESIZE_WD && (resizeHandle = RESIZE_WD.findDescendant(dialog)) && (resizeHandleTitle = i18n.get("dialog_resize"))) {
+										resizeHandle.title = resizeHandleTitle;
+									}
+									win(dialog);
+								}
+								else {
+									lose(null);
+								}
+							};
 
 
-					if (formId) {
-						form = document.getElementById(formId);
-					}
-					form = getForm(form);
-					if (!form) {
-						console.error("Cannot find form for dialog frame,");
-						return null;
-					}
-
-					form.insertAdjacentHTML("beforeEnd", dialogHTML);
-
-					if ((dialog = instance.getDialog())) {
-						event.add(dialog, event.TYPE.keydown, keydownEvent);
-						if ((dialogHeader = HEADER_WD.findDescendant(dialog, true)) && (headerTitle = i18n.get("dialog_move"))) {
-							dialogHeader.title = headerTitle;
+						if (formId) {
+							form = document.getElementById(formId);
+						}
+						form = getForm(form);
+						if (!form) {
+							console.error("Cannot find form for dialog frame");
+							lose(null);
+							return null;
 						}
 
-						if (RESIZE_WD && (resizeHandle = RESIZE_WD.findDescendant(dialog)) && (resizeHandleTitle = i18n.get("dialog_resize"))) {
-							resizeHandle.title = resizeHandleTitle;
-						}
-					}
-					return dialog;
+						template.process({
+							source: rawTemplate,
+							target: form,
+							context: dialogProps,
+							position: "beforeEnd",
+							callback: done
+						});
+					}, lose);
 				});
 			}
 
@@ -891,7 +897,7 @@ define(["wc/dom/event",
 		 * @requires module:wc/ui/positionable
 		 * @requires module:wc/ui/draggable
 		 * @requires module:wc/dom/role
-		 * @requires external:handlebars
+		 * @requires module:wc/template
 		 * @requires module:wc/ui/viewportUtils
 		 * @requires module:wc/ui/getForm
 		 */

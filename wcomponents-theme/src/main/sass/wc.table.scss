@@ -3,71 +3,71 @@
 $wc-table-cell-padding: $wc-gap-small !default;
 
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
-	min-width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  min-width: 100%;
 }
 
 th,
 td {
-	padding: $wc-table-cell-padding;
-	text-align: left; // use TableColumn.Alignment to change this.
-	vertical-align: top;
+  padding: $wc-table-cell-padding;
+  text-align: left; // use TableColumn.Alignment to change this.
+  vertical-align: top;
 }
 
 caption {
-	padding: $wc-gap-normal 0;
-	text-align: left;
+  padding: $wc-gap-normal 0;
+  text-align: left;
 }
 
 // fix the layout of tables where column width is applied
 .wc_table_fix {
-	table-layout: fixed;
+  table-layout: fixed;
 }
 
 .wc_table_colauto {
-	width: $wc-gap-normal; // actually anything small but more than zero.
+  width: $wc-gap-normal; // actually anything small but more than zero.
 }
 
 // #############################################################################
 // Container for controsl above the table
 // #############################################################################
 .wc_table_top_controls {
-	@include flex($wrap: wrap, $justify: space-between, $align-items: baseline);
-	margin-bottom: $wc-gap-small;
+  @include flex($wrap: wrap, $justify: space-between, $align-items: baseline);
+  margin-bottom: $wc-gap-small;
 
-	> div {
-		@include flex-grow(1);
-		display: inline-block;
+  > div {
+    @include flex-grow(1);
+    display: inline-block;
 
-		&:last-child {
-			@include flex-justify-content(flex-end);
-			text-align: right;
-		}
-	}
+    &:last-child {
+      @include flex-justify-content(flex-end);
+      text-align: right;
+    }
+  }
 
-	// Do not use > div:first-child:last-child as we want the pagination and
-	// expand controls on the right if they are last even if they are first.
-	// Instead make the selection controls left aligned if they are last.
-	> .wc_table_sel_cont:last-child {
-		// always put the selection controls at the start
-		@include flex-justify-content(flex-start);
-		text-align: left;
-	}
+  // Do not use > div:first-child:last-child as we want the pagination and
+  // expand controls on the right if they are last even if they are first.
+  // Instead make the selection controls left aligned if they are last.
+  > .wc_table_sel_cont:last-child {
+    // always put the selection controls at the start
+    @include flex-justify-content(flex-start);
+    text-align: left;
+  }
 }
 
 // #############################################################################
 // Container for actions and pagination
 // #############################################################################
 .wc_table_bottom_controls {
-	padding: $wc-gap-small;
+  padding: $wc-gap-small;
 }
 
 // #############################################################################
 // ACTIONS
 // #############################################################################
 .wc-actions button + button {
-	margin-left: $wc-gap-small;
+  margin-left: $wc-gap-small;
 }
 
 // #############################################################################
@@ -78,30 +78,30 @@ caption {
 // parents with a menu are not selectable (so we use right) and some selectable
 // are not parents (so need left). This could be handled with a new column ...
 .wc_table_sel_wrapper {
-	text-align: right;
-	white-space: nowrap;
+  text-align: right;
+  white-space: nowrap;
 
-	tr[aria-selected] > & {
-		text-align: left;
-	}
+  [aria-selected] > & {
+    text-align: left;
+  }
 
-	.wc-menu-type-flyout {
-		button { // override unnecessary .wc_seltog style.
-			margin-left: 0;
-		}
+  .wc-menu-type-flyout {
+    button { // override unnecessary .wc_seltog style.
+      margin-left: 0;
+    }
 
-		// the submenu opener emulator for the sub-row toggle control
-		.wc-submenu-o {
-			// background-color: $wc-clr-menu-bg;
-			height: $wc-icon-normal;
-			padding: 0;
-			vertical-align: top;
-		}
-	}
+    // the submenu opener emulator for the sub-row toggle control
+    .wc-submenu-o {
+      // background-color: $wc-clr-menu-bg;
+      height: $wc-icon-normal;
+      padding: 0;
+      vertical-align: top;
+    }
+  }
 
-	> .fa + .wc-menu-type-flyout {
-		margin-left: $wc-gap-small;
-	}
+  > .fa + .wc-menu-type-flyout {
+    margin-left: $wc-gap-small;
+  }
 }
 
 // #############################################################################
@@ -109,80 +109,78 @@ caption {
 // #############################################################################
 // The next lot does indentation of "child" rows
 @for $i from 2 to 6 {
-	[aria-level='#{$i}'] > .wc_table_rowexp_container {
-		+ td,
-		+ th {
-			padding-left: ($i - 1) * $wc-gap-large;
-		}
-	}
+  [aria-level='#{$i}'] > .wc_table_rowexp_container {
+    + td,
+    + th {
+      padding-left: ($i - 1) * $wc-gap-large;
+    }
+  }
 }
 
 // #############################################################################
 // Pagination controls
 // #############################################################################
 .wc_table_pag_cont {
-	> span,
-	> label {
-		margin-left: $wc-gap-large;
-		white-space: nowrap;
+  > span,
+  > label {
+    margin-left: $wc-gap-large;
+    white-space: nowrap;
 
-		&:first-child {
-			margin-left: 0;
-		}
-	}
+    &:first-child {
+      margin-left: 0;
+    }
+  }
 
-	label > select {
-		margin-left: $wc-gap-small;
-	}
+  label > select {
+    margin-left: $wc-gap-small;
+  }
 
-	button::before {
-		min-width: $wc-icon-normal;
-	}
+  button::before {
+    min-width: $wc-icon-normal;
+  }
 
-	// This rule applies when the pagination controls are at the bottom of the
-	// table.
-	.wc_table_bottom_controls > & {
-		text-align: right;
-	}
+  // This rule applies when the pagination controls are at the bottom of the
+  // table.
+  .wc_table_bottom_controls > & {
+    text-align: right;
+  }
 }
 
 // #############################################################################
 // Sort
 // #############################################################################
+// sass-lint:disable no-qualifying-elements
 th[aria-sort] {
-	cursor: pointer;
-	@if ($wc-table-sort-icon-pos == middle or
-		$wc-table-sort-icon-pos == bottom) {
-		position: relative;
-	}
+  cursor: pointer;
+  @if ($wc-table-sort-icon-pos == middle or $wc-table-sort-icon-pos == bottom) {
+    position: relative;
+  }
 
-	> .wc-decoratedlabel {
-		display: inline-block;
-		width: calc(100% - #{$wc-icon-normal});
-		word-wrap: break-word;
-	}
+  > .wc-decoratedlabel {
+    display: inline-block;
+    width: calc(100% - #{$wc-icon-normal});
+    word-wrap: break-word;
+  }
 
-	> .fa {
-		display: inline-block;
-		width: $wc-icon-normal;
+  > .fa {
+    display: inline-block;
+    width: $wc-icon-normal;
 
-		@if ($wc-table-sort-icon-pos == middle or
-			$wc-table-sort-icon-pos == bottom) {
-			position: absolute;
-			@if ($wc-table-sort-icon-pos == middle) {
-				height: 0;
-				line-height: 0;
-				top: 50%;
-			}
-			@else if ($wc-table-sort-icon-pos == bottom) {
-				bottom: $wc-table-cell-padding;
-			}
-		}
-		@else {
-			vertical-align: top;
-		}
-	}
+    @if ($wc-table-sort-icon-pos == middle or $wc-table-sort-icon-pos == bottom) {
+      position: absolute;
+      @if ($wc-table-sort-icon-pos == middle) {
+        height: 0;
+        line-height: 0;
+        top: 50%;
+      } @else if ($wc-table-sort-icon-pos == bottom) {
+        bottom: $wc-table-cell-padding;
+      }
+    } @else {
+      vertical-align: top;
+    }
+  }
 }
+// sass-lint:enable no-qualifying-elements
 
 @import 'wc.table.respond';
 @import 'wc.table.color';

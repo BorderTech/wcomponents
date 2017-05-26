@@ -9,8 +9,7 @@
 // implemented. These are not used by FlowLayout for its vertical alignment
 // control so they are safe to omit. This list covers the CSS3
 // vertical-alignment values. You may not need or want all of them.
-$wc-valign-list: baseline, bottom, inherit, initial, middle, sub, super,
-	text-bottom, text-top, top !default;
+$wc-valign-list: baseline, bottom, inherit, initial, middle, sub, super, text-bottom, text-top, top !default;
 
 // #############################################################################
 // WColumn, ColumnLayout
