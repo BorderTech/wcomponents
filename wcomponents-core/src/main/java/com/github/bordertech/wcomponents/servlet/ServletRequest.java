@@ -96,8 +96,18 @@ public class ServletRequest extends AbstractRequest {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Returns the object bound with the specified name in the application session, or <code>null</code> if no object is
+	 * bound under the name.
+	 * <p>
+	 * This method is relevant for portlets in which case getAppSessionAttribute accesses a portlet scoped session,
+	 * while getSessionAttribute accesses the global session.
+	 *
+	 * @param key the session attribute key
+	 * @return an <code>Object</code> containing the value of the attribute, or <code>null</code> if the attribute does
+	 * not exist
+	 * @deprecated portlet specific
 	 */
+	@Deprecated
 	@Override
 	public Serializable getAppSessionAttribute(final String key) {
 		return getSessionAttribute(key);
@@ -113,9 +123,19 @@ public class ServletRequest extends AbstractRequest {
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Binds an object to the application session, using the name specified. If an object of the same name is already
+	 * bound to the session, the object is replaced.
+	 * <p>
+	 * If the value passed in is null, this has the same effect as removing the attribute.
+	 * <p>
+	 * This method is relevant for portlets in which case getAppSessionAttribute accesses a portlet scoped session,
+	 * while getSessionAttribute accesses the global session.
+	 *
+	 * @param key the session attribute key.
+	 * @param value an <code>Object</code> containing the value of the attribute.
+	 * @deprecated portlet specific
 	 */
-	@Override
+	@Deprecated
 	public void setAppSessionAttribute(final String key, final Serializable value) {
 		setSessionAttribute(key, value);
 	}

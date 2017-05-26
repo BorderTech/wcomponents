@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
-import com.github.bordertech.wcomponents.UIContextDelegate;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.UserAgentInfo;
 import com.github.bordertech.wcomponents.WWindow;
@@ -66,7 +65,7 @@ public class WWindowInterceptor extends InterceptorComponent {
 			}
 
 			// Setup the Environment on the context
-			UIContext uic = UIContextDelegate.getPrimaryUIContext(UIContextHolder.getCurrent());
+			UIContext uic = UIContextHolder.getCurrentPrimaryUIContext();
 			Environment originalEnvironment = uic.getEnvironment();
 			uic.setEnvironment(new EnvironmentDelegate(originalEnvironment, windowId, target));
 
@@ -99,7 +98,7 @@ public class WWindowInterceptor extends InterceptorComponent {
 				throw new SystemException("No window component for id " + windowId);
 			}
 
-			UIContext uic = UIContextDelegate.getPrimaryUIContext(UIContextHolder.getCurrent());
+			UIContext uic = UIContextHolder.getCurrentPrimaryUIContext();
 			Environment originalEnvironment = uic.getEnvironment();
 			uic.setEnvironment(new EnvironmentDelegate(originalEnvironment, windowId, target));
 
@@ -129,7 +128,7 @@ public class WWindowInterceptor extends InterceptorComponent {
 				throw new SystemException("No window component for id " + windowId);
 			}
 
-			UIContext uic = UIContextDelegate.getPrimaryUIContext(UIContextHolder.getCurrent());
+			UIContext uic = UIContextHolder.getCurrentPrimaryUIContext();
 			Environment originalEnvironment = uic.getEnvironment();
 			uic.setEnvironment(new EnvironmentDelegate(originalEnvironment, windowId, target));
 

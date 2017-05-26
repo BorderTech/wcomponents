@@ -57,17 +57,6 @@ public interface Environment extends Serializable {
 	String UNIQUE_RANDOM_PARAM = "no-cache";
 
 	/**
-	 * The key we use to store the primary contexts in the user's session. The AJAX and content helper servlets will use
-	 * this key to retrieve the appropriate UIC and process the request. The map is keyed by application Id, and will
-	 * contain one entry per Portlet in the application. If the application does not use portlets, the map will only
-	 * contain the single UIContext for the main servlet.
-	 *
-	 * @deprecated portal specific
-	 */
-	@Deprecated
-	String PRIMARY_UIC_MAP_SESSION_KEY = "ajax.control.uic";
-
-	/**
 	 * Gets the relative URL path to which this WComponent application should post its requests.
 	 * <p>
 	 * Examples of what this method may return:

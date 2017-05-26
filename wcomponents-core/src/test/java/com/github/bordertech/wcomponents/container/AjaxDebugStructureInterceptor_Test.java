@@ -81,7 +81,7 @@ public class AjaxDebugStructureInterceptor_Test extends AbstractWebXmlRendererTe
 
 		// Action phase
 		MockRequest request = new MockRequest();
-		AjaxHelper.registerComponent(app.target.getId(), request, app.trigger.getId());
+		AjaxHelper.registerComponent(app.target.getId(), app.trigger.getId());
 		request.setParameter(WServlet.AJAX_TRIGGER_PARAM_NAME, app.trigger.getId());
 
 		ajaxSetupInterceptor.serviceRequest(request);

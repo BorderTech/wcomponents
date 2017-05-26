@@ -22,7 +22,7 @@ public class AjaxCleanupInterceptor extends InterceptorComponent {
 	@Override
 	public void serviceRequest(final Request request) {
 		// Clear all the registered AJAX operations
-		AjaxHelper.clearAllRegisteredOperations(request);
+		AjaxHelper.clearAllRegisteredOperations();
 		// Process Service Request
 		super.serviceRequest(request);
 	}

@@ -161,7 +161,7 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 
 		if (isAjax() && uic.getUI() != null) {
 			AjaxTarget target = getAjaxTarget();
-			AjaxHelper.registerComponent(target.getId(), request, getId());
+			AjaxHelper.registerComponent(target.getId(), getId());
 		}
 	}
 

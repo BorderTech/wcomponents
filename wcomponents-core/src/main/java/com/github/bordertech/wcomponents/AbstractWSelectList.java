@@ -369,7 +369,7 @@ public abstract class AbstractWSelectList extends AbstractInput {
 
 		if (isAjax() && UIContextHolder.getCurrent().getUI() != null) {
 			AjaxTarget target = getAjaxTarget();
-			AjaxHelper.registerComponent(target.getId(), request, getId());
+			AjaxHelper.registerComponent(target.getId(), getId());
 		}
 
 		String cacheKey = getListCacheKey();

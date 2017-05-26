@@ -72,7 +72,7 @@ public class WSubordinateControl extends AbstractWComponent {
 	 */
 	@Override
 	protected void preparePaintComponent(final Request request) {
-		SubordinateControlHelper.registerSubordinateControl(getId(), request);
+		SubordinateControlHelper.registerSubordinateControl(getId());
 	}
 
 	/**
