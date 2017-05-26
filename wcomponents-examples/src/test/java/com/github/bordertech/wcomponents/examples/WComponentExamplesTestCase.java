@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.test.selenium.ByWComponentPath;
 import com.github.bordertech.wcomponents.test.selenium.WComponentSeleniumTestCase;
 import com.github.bordertech.wcomponents.test.selenium.driver.WebDriverType;
 import com.github.bordertech.wcomponents.test.selenium.server.ServerCache;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
 import java.util.UUID;
 import org.junit.After;
 import org.junit.Before;
@@ -27,14 +28,14 @@ import org.junit.Before;
 public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestCase {
 
 	/**
-	 * The UI being tested.
+	 * Flag if parallel methods are being used.
 	 */
-	private final WComponent testUI;
+	private static boolean USE_PARALLEL_METHODS = ConfigurationProperties.getTestSeleniumParallelMethods();
 
 	/**
 	 * The Running instance of UI.
 	 */
-	private WComponent ui;
+	private final WComponent ui;
 
 	/**
 	 * Constructor to set the UI component.
@@ -45,7 +46,8 @@ public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestC
 	 * @param testUI the UI being tested.
 	 */
 	public WComponentExamplesTestCase(final WComponent testUI) {
-		this.testUI = testUI;
+		this.ui = ServerCache.setUI(this.getClass().getName(), testUI);
+		super.setUrl(ServerCache.getUrl());
 	}
 
 	/**
@@ -125,26 +127,12 @@ public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestC
 	 */
 	@Before
 	public void setupDriver() {
-		// Give the driver id (ie session id)
-		WebDriverType type = getDriverType();
-		String driverId = UUID.randomUUID().toString();
-		setDriver(type, driverId);
-
-		// Wrap the example in an WApplication
-		WApplication egUI;
-		boolean wrapped = false;
-		if (testUI instanceof WApplication) {
-			egUI = (WApplication) testUI;
-		} else {
-			egUI = new WApplication();
-			egUI.add(testUI);
-			wrapped = true;
+		// For parallel methods, each method has a different session, set the unique driver id (ie session id)
+		if (USE_PARALLEL_METHODS) {
+			WebDriverType type = getDriverType();
+			String driverId = UUID.randomUUID().toString();
+			setDriver(type, driverId);
 		}
-		// Register the Example UI (if already registered, the original instance will be returned)
-		egUI = ServerCache.setUI(this.getClass().getName(), egUI);
-		// Hold onto the Example instance
-		ui = wrapped ? egUI.getChildAt(0) : egUI;
-		super.setUrl(ServerCache.getUrl());
 	}
 
 	/**
@@ -152,7 +140,10 @@ public abstract class WComponentExamplesTestCase extends WComponentSeleniumTestC
 	 */
 	@After
 	public void tearDownDriver() {
-		releaseDriver();
+		// For parallel methods, release the session after each method
+		if (USE_PARALLEL_METHODS) {
+			releaseDriver();
+		}
 	}
 
 }

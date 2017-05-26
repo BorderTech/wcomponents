@@ -1,22 +1,23 @@
 @if ($wc-clr-section-heading-bg != -1) {
-	section > header {
-		background-color: $wc-clr-section-heading-bg;
-		color: $wc-clr-section-heading-fg;
+  section > header {
+    background-color: $wc-clr-section-heading-bg;
+    color: $wc-clr-section-heading-fg;
 
-		h1,
-		// color links, link-like buttons and 'buttonless' buttons to make them
-		// visible.
-		.wc-nobutton,
-		.wc-linkbutton,
-		a,
-		a:visited {
-			color: $wc-clr-section-heading-fg;
-		}
+    h1,
+    // color links, link-like buttons and 'buttonless' buttons to make them
+    // visible.
+    .wc-nobutton,
+    .wc-linkbutton,
+    a,
+    a:visited {
+      color: $wc-clr-section-heading-fg;
+    }
 
-		.wc-nobutton[disabled],
-		.wc-linkbutton[disabled],
-		a[aria-disabled='true'] {
-			color: $wc-clr-section-heading-fg-disabled;
-		}
-	}
+    .wc-nobutton[disabled],
+    .wc-linkbutton[disabled],
+    // sass-lint:disable no-qualifying-elements
+    a[aria-disabled='true'] {
+      color: $wc-clr-section-heading-fg-disabled;
+    }// sass-lint:enable no-qualifying-elements
+  }
 }

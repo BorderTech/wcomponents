@@ -32,6 +32,7 @@
 		<theme.impl.dir>${theme.tmp.dir}/fakeImplRoot</theme.impl.dir>
 		<theme.impl.name />
 		<theme.unpack.dir>${project.build.directory}${file.separator}${theme.unpacked.name}</theme.unpack.dir>
+		<i18n.resources.dir>${theme.dir}/../wcomponents-i18n/src/main/resources</i18n.resources.dir>
 		<i18n.unpack.dir>${project.build.directory}${file.separator}i18n-unpacked</i18n.unpack.dir>
 		<nodejs.dist.dir>${project.build.directory}/nodejsdist</nodejs.dist.dir><!-- The nodejs binaries get unpacked to here -->
 		<nodejs.dir>${basedir}/node</nodejs.dir><!-- Where we expect to find Node installed -->
@@ -46,30 +47,18 @@
 		<xsltjson.dir>${project.build.directory}/xsltjson</xsltjson.dir><!-- Convert XML to JSON at build time -->
 		<timezonedata.download.url>http://www.iana.org/time-zones/repository/tzdata-latest.tar.gz</timezonedata.download.url>
 		<timezone.dir>${project.build.directory}/timezone</timezone.dir><!-- Fetch Timezone Database -->
+		<!--
+		Intern version 3.4.0 switched to using "~" for its "digdug" and "leadfoot" dependencies. So when intern, as of 20th May 2017,
+		started picking up the latest versions of digdug (1.6.4) and leadfoot (1.7.2) it broke saucelabs. Leadfoot 1.7.2 is sending
+		a "GET window/rect" command that the web drivers in saucelabs does not support yet. The version for leadfoot has been hardcoded
+		in "unbuilt.package.json" to 1.7.1. If a new version of intern is required, then this version will need to be reviewed.
+		Issue raised with intern. https://github.com/theintern/intern/issues/744.
+		-->
 		<test.intern.version>3.4.4</test.intern.version><!-- intern version: use ~3.4.3 for nexus 3+, ~3.0.6 if you are stuck with Nexus 2 -->
 	</properties>
 
 	<build>
 		<plugins>
-			<!--			<plugin>
-				<groupId>com.github.klieber</groupId>
-				<artifactId>phantomjs-maven-plugin</artifactId>
-				<version>0.7</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>install</goal>
-						</goals>
-						<phase>generate-test-sources</phase>
-					</execution>
-				</executions>
-				<configuration>
-					<version>2.0.0</version>
-					<source>URL</source>
-					<baseUrl>${phantomjs.download.root}</baseUrl>
-					<phase>test</phase>
-				</configuration>
-			</plugin>-->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.3</version>
@@ -91,7 +80,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.8</version>
+				<version>2.10</version>
 				<executions>
 					<execution>
 						<id>unpack-core</id>
@@ -125,7 +114,7 @@
 							<goal>unpack</goal>
 						</goals>
 						<configuration>
-							<skip>${theme.skip.antrun}</skip>
+							<skip>${theme.skip.unpack}</skip>
 							<outputDirectory>${i18n.unpack.dir}</outputDirectory>
 							<artifactItems>
 								<artifactItem>
@@ -158,7 +147,7 @@
 			<plugin>
 				<groupId>com.googlecode.maven-download-plugin</groupId>
 				<artifactId>download-maven-plugin</artifactId>
-				<version>1.2.1</version>
+				<version>1.3.0</version>
 				<executions>
 					<execution>
 						<id>unpack-xsltjson</id>

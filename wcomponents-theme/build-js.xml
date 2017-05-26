@@ -62,6 +62,11 @@
 				<include name="has.js"/>
 			</fileset>
 		</copy>
+		<copy todir="${lib.tmp.src.dir}/mustache" overwrite="true">
+			<fileset dir="${basedir}/node_modules/mustache" includes="**/*.js">
+				<exclude name="*wrappers*"/>
+			</fileset>
+		</copy>
 		<copy todir="${lib.tmp.src.dir}/handlebars" overwrite="true">
 			<fileset dir="${basedir}/node_modules/handlebars/dist/amd"/>
 		</copy>
@@ -93,6 +98,11 @@
 		<copy todir="${lib.build.target.dir}/tinymce" >
 			<fileset dir="${basedir}/node_modules/tinymce" includes="**">
 				<exclude name="*jquery*"/>
+			</fileset>
+		</copy>
+		<copy todir="${lib.build.target.dir}/mustache" >
+			<fileset dir="${basedir}/node_modules/mustache" includes="**">
+				<exclude name="*wrappers*"/>
 			</fileset>
 		</copy>
 		<copy todir="${lib.build.target.dir}/tracking" >

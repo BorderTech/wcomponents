@@ -1,6 +1,5 @@
-package com.github.bordertech.wcomponents.examples;
+package com.github.bordertech.wcomponents.test.selenium.server;
 
-import com.github.bordertech.wcomponents.test.selenium.server.ServerCache;
 import org.junit.runner.Description;
 import org.junit.runner.Result;
 import org.junit.runner.notification.RunListener;

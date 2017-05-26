@@ -5,47 +5,50 @@
 // JavaScript module "wc/ui/viewportUtils".
 
 @mixin respond-phonelike {
-	@media only screen and (max-width : 773px) {
-		@content;
-	}
+  @media only screen and (max-width: 773px) {
+    @content;
+  }
 }
 
 @mixin respond-not-phonelike {
-	@media only screen and (min-width: 774px) {
-		@content;
-	}
+  @media only screen and (min-width: 774px) {
+    @content;
+  }
 }
 
 @mixin respond-small-screen {
-	@media only screen and (max-width: 1000px) {
-		@content;
-	}
+  @media only screen and (max-width: 1000px) {
+    @content;
+  }
 }
 
 @mixin respond-not-small {
-	@media only screen and (min-width: 1001px) {
-		@content;
-	}
+  @media only screen and (min-width: 1001px) {
+    @content;
+  }
 }
 
 @mixin respond-bigger-screen {
-	@media only screen and (min-width: 1281px) {
-		@content;
-	}
+  @media only screen and (min-width: 1281px) {
+    @content;
+  }
 }
 
+// sass-lint:disable no-vendor-prefixes
 @mixin respond-medium-density {
-	@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
-	only screen and (min-resolution: 1.5dppx),
-	only screen and (min-resolution: 144dpi) {
-		@content;
-	}
+  @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+    only screen and (min-resolution: 1.5dppx),
+    only screen and (min-resolution: 144dpi) {
+      @content;
+  }
 }
 
 @mixin respond-high-density {
-	@media only screen and (-webkit-min-device-pixel-ratio: 2),
-	only screen and (min-resolution: 2dppx),
-	only screen and (min-resolution: 192dpi) {
-		@content;
-	}
+  @media only screen and (-webkit-min-device-pixel-ratio: 2),
+    only screen and (min-resolution: 2dppx),
+    only screen and (min-resolution: 192dpi) {
+      @content;
+  }
 }
+
+// sass-lint: enable no-vendor-prefixes

@@ -428,6 +428,8 @@ chromedriver_cdnurl=${mirror.root}/chromedriver
 				<property name="npmjs.dir" location="${npmjs.dir}"/>
 				<property name="npm.registry.url" value="${npm.registry.url}"/>
 				<property name="phantomjs.binary" value="${phantomjs.binary}"/>
+				<property name="i18n.resources.dir" location="${i18n.resources.dir}"/>
+				<property name="i18n.unpack.dir" location="${i18n.unpack.dir}"/>
 			</ant>
 			<stopwatch name="@{antFile}" action="total"/>
 		</sequential>

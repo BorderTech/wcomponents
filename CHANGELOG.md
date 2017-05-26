@@ -5,24 +5,49 @@
 ### API Changes
 
 * Default template render mode to on (previously off). This improves UI performance for most users. #1158.
+* Selenium performance API changes #1138:-
+  - The methods in TreeUtil (i.e. findWComponent and findWComponents) that use a path to find components have been
+    changed to search only visible components. New find methods that provide a visible only boolean flag have been
+    included to toggle this. This change will effect selenium tests that use byWComponentPath with invisible
+    components in their path. Either change the path to use only visible components or use the new constructor
+    on byWComponentPath that allows the visible only flag to be toggled.
+  - SeleniumWComponentsWebDriver and SeleniumWComponentWebElement provide new findImmediate methods that can be used
+    to find an element without the wait implicit. This assumes the page is already loaded and will return immediately
+    if the element is not present. The findElement methods now default to not wait for the page. New findElement methods
+    provide a wait boolean flag to toggle this.
+  - SeleniumWComponentsWebDriver and SeleniumWComponentWebElement provide a new helper method getUserContextSession()
+    to retrieve the user context.
+  - SeleniumWComponentTestCase provides a new helper method getUserContextSession() to retrieve the user context.
+* Client side API: removed `wc/template.registerHelper`.
 
 ### Bug Fixes
 
-* Reverted a change (commit facddabd6842e884877ba762d921b517b2f49e74 cherry picked see PR #1185) to URL handling which resulted in URLs becoming
-  mal-formed under some circumstances.
+* Change Sass linter from scss-lint to sass-lint, removed some custom rules and refactored Sass to be more "standard" #1203.
+* Reverted a change to URL handling which resulted in URLs becoming mal-formed under some circumstances.
 * Improved the Sass to CSS build to ensure implementation CSS is placed after default CSS in the output #1160.
 * Modified `HtmlSanitizerUtil` and `HtmlToXMLUtil` to handle escaping brackets'; `WTextArea` now defaults to `santizeOutput` on #1158.
 * Remove client handlebars i18n support #1158.
 * Fixed position of server-generated error messages for simple WInputs #1161.
 * Fixed partial text matches in dropdown typeahead #1164.
 * Improve AJAX error handling when the response "lies" and says it is "200 OK" when it isn't #1163.
+* Fixed issue in ByWComponentPath that was leaving the user context on the Thread. Unit tests that check a component's
+  state may have depended on this wrong behaviour. These tests will need to be changed to push and pop the User Context
+  when checking the components state #1138.
+* Fixed image editor (part 2), this should hopefully fix the regressions originally addressed in #1206.
 
 ### Enhancements
 
 * Improved efficiency of XML escaping and sanitization as part of #1158.
 * Removed PetStore #1190.
+* Selenium performance enhancements #1138:-
+  - Upgrade JUNIT 4.8.2 to 4.12 and Surefire Plugin 2.18 to 2.20.
+  - WebDriverCache now uses a concept of a pool of drivers. Improves performance for parallel selenium tests.
+  - Provide a new ServerStartStopListener for JUNITs to start and stop the web server for selenium tests.
+  - Improved selenium utility classes and helper methods.
+  - WComponent example module demonstrates running selenium tests in parallel.
 * Improve performance of Selenium tests and helpers #1138.
 * Improve performance of TemplateRendererInterceptor by switching to Mouchstache template engine #1207.
+* Switched (back) to Mustache on the client to match the server implementation.
 
 ## Release 1.4.0-beta-2
 

@@ -1,0 +1,22 @@
+# Linter Options
+options:
+  merge-default-rules: true
+# File Options
+files:
+  include: 'src/main/sass/**/*.scss'
+  ignore:
+    - 'src/main/sass/lib/**'
+rules:
+  brace-style:
+    - 2
+    - allow-single-line: false
+  class-name-format:
+    - 1
+    - convention: ^[a-z]+[_|\-]?[_\-a-z]* # to be revisited later
+  nesting-depth:
+    - 1
+    - max-depth: 3
+  ## these next ones may be reviewed, they are here to match the old scss-lint rules.
+  force-pseudo-nesting: 0
+  force-attribute-nesting: 0
+  force-element-nesting: 0
