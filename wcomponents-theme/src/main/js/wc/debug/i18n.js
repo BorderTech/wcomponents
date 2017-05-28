@@ -23,8 +23,7 @@ require(["lib/i18next", "wc/array/diff", "wc/timers"], function(i18next, arrayDi
 					}
 				}
 			}
-		}
-		catch (ex) {
+		} catch (ex) {
 			console.warn(ex);  // don't die checking missing translations and other debug fluff
 		}
 	}

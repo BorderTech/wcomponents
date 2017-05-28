@@ -40,8 +40,7 @@ define(["intern!object", "intern/chai!assert", "wc/ui/errors", "./resources/test
 				while (errorContainer && errorContainer.nodeType === Node.TEXT_NODE) {
 					errorContainer = errorContainer.nextSibling;
 				}
-			}
-			else {
+			} else {
 				errorContainer = element.lastChild;
 				while (errorContainer && errorContainer.nodeType === Node.TEXT_NODE) {
 					errorContainer = errorContainer.previousSibling;

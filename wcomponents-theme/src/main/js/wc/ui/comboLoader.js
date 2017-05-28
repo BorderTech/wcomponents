@@ -1,7 +1,7 @@
 define(["wc/dom/initialise",
-		"wc/dom/Widget",
-		"wc/ui/listLoader",
-		"wc/ui/comboBox"],
+	"wc/dom/Widget",
+	"wc/ui/listLoader",
+	"wc/ui/comboBox"],
 	function(initialise, Widget, listLoader, comboBox) {
 		"use strict";
 
@@ -55,8 +55,7 @@ define(["wc/dom/initialise",
 						if (callback && typeof callback === "function") {
 							callback(optionList, element);
 						}
-					}
-					finally {
+					} finally {
 						element.removeAttribute(BUSY);
 					}
 				};
@@ -75,8 +74,7 @@ define(["wc/dom/initialise",
 						if ((dataId = element.getAttribute(DATA_LIST_ATTRIB))) {
 							if (SUGGESTION_LIST.isOneOfMe(element)) {
 								optionList = element;
-							}
-							else {
+							} else {
 								optionList = comboBox._getList(element);
 							}
 						}

@@ -10,10 +10,10 @@
  *
  */
 define(["wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/ui/validation/required",
-		"wc/ui/validation/validationManager",
-		"wc/ui/radioButtonSelect"],
+	"wc/dom/shed",
+	"wc/ui/validation/required",
+	"wc/ui/validation/validationManager",
+	"wc/ui/radioButtonSelect"],
 	/** @param initialise wc/dom/initialise @param shed wc/dom/shed @param required wc/ui/validation/required @param validationManager wc/ui/validation/validationManager @param radioButtonSelect wc/ui/radioButtonSelect @ignore */
 	function(initialise, shed, required, validationManager, radioButtonSelect) {
 		"use strict";

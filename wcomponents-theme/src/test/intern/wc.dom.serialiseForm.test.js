@@ -223,8 +223,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"
 			var result = input, prop, i;
 			if (input.constructor === String) {
 				result = result.replace("%0D%0A", "%0A");  // replace \n\r with \n so browsers behave the same
-			}
-			else {
+			} else {
 				for (prop in result) {
 					for (i = 0; i < result[prop].length; ++i) {
 						result[prop][i] = (result[prop][i]).replace("%0D%0A", "%0A");
@@ -245,8 +244,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"
 			element.options[2].selected = true;
 			if (input.constructor === String) {
 				serializedForm = serialize.serialize(form);
-			}
-			else {
+			} else {
 				serializedForm = serialize.serialize(form, false, true);
 			}
 			serializedForm = fixIESerialized(serializedForm);
@@ -278,8 +276,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"
 					next = value[i];
 					result += (key.toString() + ((next !== null) ? ("=" + next.toString()) : "") + "&");
 				}
-			}
-			else {
+			} else {
 				result = key.toString() + ((value !== null) ? ("=" + value.toString()) : "") + "&";
 			}
 			return result;
@@ -309,8 +306,7 @@ define(["intern!object", "intern/chai!assert", "../intern/resources/test.utils!"
 					n = input[i].split("=");
 					_makeField(n[0], (n[1] || ""));
 				}
-			}
-			else {
+			} else {
 				for (n in input) {
 					for (i = 0; i < input[n].length; ++i) {
 						_makeField(n, input[n][i]);

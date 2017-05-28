@@ -26,8 +26,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			if (onReady) {
 				if (ready) {
 					notify();
-				}
-				else {
+				} else {
 					a8n.subscribe(subscriber);
 				}
 			}
@@ -53,27 +52,23 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 							// it went ready so it must have gone busy
 							if (!wentBusy) {
 								reject("Page went ready but didn't see it go busy");
-							}
-							else {
+							} else {
 								window.setTimeout(resolve, 50);
 							}
 							a8n.unsubscribe(subscriber);
-						}
-						else {
+						} else {
 							wentBusy = true;
 						}
 					};
 				try {
 					if (!isReady()) {
 						reject("must start in ready state for tests to work");
-					}
-					else {
+					} else {
 						a8n.subscribe(subscriber);
 						triggerFired = true;
 						triggerFunc();
 					}
-				}
-				catch (ex) {
+				} catch (ex) {
 					reject(ex);
 				}
 			});
@@ -103,8 +98,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					try {
 						// We may need to wait for the ready state to update from a previous test, will either resolve or time out
 						isReady(resolve);
-					}
-					catch (ex) {
+					} catch (ex) {
 						reject(ex);
 					}
 				});

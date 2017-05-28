@@ -43,8 +43,8 @@ define(["wc/i18n/i18n",
 					message = i18n.get("validation_common_incompletegroup", legend);
 
 				validationManager.flagError({element: fset,
-											message: message,
-											position: "beforeEnd"});
+					message: message,
+					position: "beforeEnd"});
 			}
 
 			/**
@@ -98,8 +98,7 @@ define(["wc/i18n/i18n",
 							validationManager.setOK(container);
 						}
 						container = INVALID.findAncestor(container.parentNode);
-					}
-					else {
+					} else {
 						break;  // if the innermost invalid fieldset is still invalid there is no point traversing
 					}
 				}

@@ -15,18 +15,18 @@
  *
  */
 define(["wc/dom/attribute",
-		"wc/dom/event",
-		"wc/dom/initialise",
-		"lib/sprintf",
-		"wc/has",
-		"wc/i18n/i18n",
-		"wc/file/getFileSize",
-		"wc/file/accepted",
-		"wc/dom/Widget",
-		"wc/timers",
-		"wc/dom/focus",
-		"wc/isNumeric",
-		"wc/ui/ajaxRegion"],
+	"wc/dom/event",
+	"wc/dom/initialise",
+	"lib/sprintf",
+	"wc/has",
+	"wc/i18n/i18n",
+	"wc/file/getFileSize",
+	"wc/file/accepted",
+	"wc/dom/Widget",
+	"wc/timers",
+	"wc/dom/focus",
+	"wc/isNumeric",
+	"wc/ui/ajaxRegion"],
 	/** @param attribute @param event @param initialise @param sprintf @param has @param i18n @param getFileSize @param accepted @param Widget @param timers @ignore */
 function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted, Widget, timers) {
 	"use strict";
@@ -100,8 +100,7 @@ function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted
 				if (maxFileSize < fileSize) {
 					handleFileTooLarge(maxFileSize, fileSize);
 					instance.clearInput(element);
-				}
-				else if (!accepted(element)) {
+				} else if (!accepted(element)) {
 					showMessage(i18n.get("file_wrongtype", element.accept));
 					instance.clearInput(element);
 				}
@@ -122,12 +121,10 @@ function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted
 			if (maxFileSize >= GB) {
 				roundTo = GB;
 				units = i18n.get("file_size_gb");
-			}
-			else if (maxFileSize >= MB) {
+			} else if (maxFileSize >= MB) {
 				roundTo = MB;
 				units = i18n.get("file_size_mb");
-			}
-			else if (maxFileSize >= KB) {
+			} else if (maxFileSize >= KB) {
 				roundTo = KB;
 				units = i18n.get("file_size_kb");
 			}
@@ -135,8 +132,7 @@ function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted
 			if (roundTo) {
 				maxFileSizeHR = round(maxFileSize / roundTo);
 				fileSizeHR = round(fileSize / roundTo);
-			}
-			else {
+			} else {
 				maxFileSizeHR = maxFileSize;
 				fileSizeHR = fileSize;
 				units = i18n.get("file_size_");
@@ -195,8 +191,7 @@ function(attribute, event, initialise, sprintf, has, i18n, getFileSize, accepted
 		this.initialise = function(element) {
 			if (event.canCapture) {
 				event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-			}
-			else {
+			} else {
 				event.add(element, event.TYPE.focusin, focusEvent);
 			}
 		};

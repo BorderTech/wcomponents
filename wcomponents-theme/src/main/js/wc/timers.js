@@ -54,16 +54,14 @@
 					try {
 						if (clear) {
 							delete pendingTimeouts[handle];
-						}
-						else {
+						} else {
 							pendingTimeouts[handle] = true;
 						}
 						pendingCount = Object.keys(pendingTimeouts);
 						pendingCount = pendingCount.length;
 						// console.log("Pending timeouts: ", pendingCount);
 						notify(!!pendingCount);
-					}
-					catch (ignore) {  // don't let errors here break everything else - this is just a testing hook
+					} catch (ignore) {  // don't let errors here break everything else - this is just a testing hook
 						console.error(ignore);
 					}
 				}
@@ -80,8 +78,7 @@
 				if (timeout >= ignoreThreshold) {
 					result = global[type](callback, timeout);
 					callback[CB_HANDLE_PROP] = result;
-				}
-				else {
+				} else {
 					console.info("Ignoring timeout delay!", timeout);
 					callback();
 				}
@@ -115,8 +112,7 @@
 						}
 						handler.apply(global, args); // notify the callback
 						updatePending(handle, true);
-					}
-					finally { // memory leak paranoia
+					} finally { // memory leak paranoia
 						args = null;
 					}
 				};
@@ -132,8 +128,7 @@
 					try {
 						next = subscribers[i];
 						next(pending);
-					}
-					catch (ex) {
+					} catch (ex) {
 						console.error(ex);
 					}
 				}

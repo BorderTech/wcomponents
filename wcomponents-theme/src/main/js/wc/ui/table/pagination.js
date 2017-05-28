@@ -1,16 +1,16 @@
 define(["wc/dom/attribute",
-		"wc/dom/event",
-		"wc/dom/focus",
-		"wc/dom/formUpdateManager",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/dom/Widget",
-		"wc/ui/ajaxRegion",
-		"wc/ui/ajax/processResponse",
-		"wc/ui/onloadFocusControl",
-		"wc/timers",
-		"wc/ui/table/common",
-		"wc/i18n/i18n"],
+	"wc/dom/event",
+	"wc/dom/focus",
+	"wc/dom/formUpdateManager",
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/dom/Widget",
+	"wc/ui/ajaxRegion",
+	"wc/ui/ajax/processResponse",
+	"wc/ui/onloadFocusControl",
+	"wc/timers",
+	"wc/ui/table/common",
+	"wc/i18n/i18n"],
 	function(attribute, event, focus, formUpdateManager, initialise, shed, Widget, ajaxRegion, processResponse, onloadFocusControl, timers, common, i18n) {
 		"use strict";
 
@@ -100,13 +100,11 @@ define(["wc/dom/attribute",
 						startIdx = (rpp * currentPage) + 1;
 						if (rpp === 1) {
 							i18nString = i18n.get("table_pagination_label_one", startIdx, rows);
-						}
-						else {
+						} else {
 							endIdx = Math.min(rows, (rpp * currentPage) + rpp);
 							if (startIdx === endIdx) {
 								i18nString = i18n.get("table_pagination_label_one", endIdx, rows);
-							}
-							else {
+							} else {
 								i18nString = i18n.get("table_pagination_label_many", startIdx, endIdx, rows);
 							}
 						}
@@ -293,14 +291,11 @@ define(["wc/dom/attribute",
 					buttonType = getButtonType(button);
 					if (buttonType === IDX_BUTTON.LAST) {
 						newIndex = len - 1;  // select last option in list
-					}
-					else if (buttonType === IDX_BUTTON.PREV) {
+					} else if (buttonType === IDX_BUTTON.PREV) {
 						newIndex = oldIndex ? oldIndex - 1 : oldIndex;  // if oldIndex is zero don't decrement
-					}
-					else if (buttonType === IDX_BUTTON.NEXT) {
+					} else if (buttonType === IDX_BUTTON.NEXT) {
 						newIndex = (oldIndex < (len - 1)) ? oldIndex + 1 : oldIndex;  // if we are at last page don't increment
-					}
-					else {  // FIRST
+					} else {  // FIRST
 						newIndex = 0;
 					}
 					if (newIndex >= 0 && newIndex !== oldIndex) {
@@ -349,20 +344,16 @@ define(["wc/dom/attribute",
 						if (idx === 0) {
 							if (type === IDX_BUTTON.FIRST || type === IDX_BUTTON.PREV) {
 								shed[d](button, true);
-							}
-							else {
+							} else {
 								shed[e](button, true);
 							}
-						}
-						else if (idx === element.options.length - 1) {
+						} else if (idx === element.options.length - 1) {
 							if (type === IDX_BUTTON.FIRST || type === IDX_BUTTON.PREV) {
 								shed[e](button, true);
-							}
-							else {
+							} else {
 								shed[d](button, true);
 							}
-						}
-						else {
+						} else {
 							shed[e](button, true);
 						}
 					});
@@ -393,8 +384,7 @@ define(["wc/dom/attribute",
 						if (nextShow) {
 							shed.show(nextShow);
 						}
-					}
-					else {
+					} else {
 						break;
 					}
 				}
@@ -441,8 +431,7 @@ define(["wc/dom/attribute",
 				if (isAjax(element)) {
 					triggerButtonId = button.id;
 					requestAjaxLoad(element);
-				}
-				else if ((wrapper = getWrapper(element)) && (paginatedTable = TABLE.findDescendant(wrapper, true)) && (page = PAGE.findDescendant(paginatedTable, true))) {
+				} else if ((wrapper = getWrapper(element)) && (paginatedTable = TABLE.findDescendant(wrapper, true)) && (page = PAGE.findDescendant(paginatedTable, true))) {
 					rows = ROW.findDescendants(page, true);
 					len = rows.length;
 					requestedPage = element.value;
@@ -504,8 +493,7 @@ define(["wc/dom/attribute",
 				if (SELECTOR.isOneOfMe(element) && isAjax(element)) {
 					// dynamic pagination and change rows per page (latter always ajax).
 					requestAjaxLoad(element);
-				}
-				else if (PAGINATION_SELECTOR.isOneOfMe(element)) {
+				} else if (PAGINATION_SELECTOR.isOneOfMe(element)) {
 					requestPageChange(element);
 				}
 			}
@@ -562,8 +550,7 @@ define(["wc/dom/attribute",
 				if (event.canCapture) {
 					// event.add(element, event.TYPE.focus, focusEvent, null, null, true);
 					event.add(element, event.TYPE.change, changeEvent, 1);
-				}
-				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 				event.add(element, event.TYPE.click, clickEvent);
@@ -598,8 +585,7 @@ define(["wc/dom/attribute",
 								 * we do not need to re-test for other focus since onloadFocusControl will
 								 * have done that before focussing the select.*/
 								focus.setFocusRequest(button);
-							}
-							else {
+							} else {
 								/*
 								 * There are two circumstances where we may not have focused the
 								 * select: something else has focus OR onloadFocusControl's own
@@ -610,8 +596,7 @@ define(["wc/dom/attribute",
 								onloadFocusControl.requestFocus(triggerButtonId);
 							}
 						}
-					}
-					finally {
+					} finally {
 						/* NOTE: only set triggerButtonId to null when we are sure we are
 						 * processing the pagination ajax response as there may be many
 						 * responses betwixt setting the triggerButtonId and the one we

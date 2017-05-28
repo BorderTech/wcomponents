@@ -1,10 +1,10 @@
 define(["wc/has",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/dom/tag",
-		"wc/dom/Widget",
-		"wc/Observer",
-		"wc/ui/validation/feedback"],
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/dom/tag",
+	"wc/dom/Widget",
+	"wc/Observer",
+	"wc/ui/validation/feedback"],
 	function(has, initialise, shed, tag, Widget, Observer, feedback) {
 		"use strict";
 
@@ -109,12 +109,10 @@ define(["wc/has",
 					if ((_validateFunc(element))) {
 						feedback.setOK(element);
 						isNowInvalid = false;
-					}
-					else {
+					} else {
 						isNowInvalid = true;
 					}
-				}
-				else if (feedback.isMarkedOK(element, this)) {
+				} else if (feedback.isMarkedOK(element, this)) {
 					isNowInvalid = !_validateFunc(element);
 				}
 

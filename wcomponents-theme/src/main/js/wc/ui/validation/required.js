@@ -103,8 +103,7 @@ define([
 					var extendedWidget = nextWidget;  // if no extension just return itself
 					if (typeof exObj === "string") {
 						extendedWidget = nextWidget.extend(exObj);
-					}
-					else if (exObj) {
+					} else if (exObj) {
 						extendedWidget = nextWidget.extend("", exObj);
 					}
 					return extendedWidget;
@@ -136,17 +135,14 @@ define([
 				if (!Array.isArray(widget) && (widget = _mapFn(widget))) {
 					if (widget.isOneOfMe(container)) {
 						result = [container];
-					}
-					else {
+					} else {
 						result = widget.findDescendants(container);
 					}
-				}
-				else {
+				} else {
 					reqWidget = widget.map(_mapFn);
 					if (Widget.isOneOfMe(container, reqWidget)) {
 						result = [container];
-					}
-					else {
+					} else {
 						result = Widget.findDescendants(container, reqWidget);
 					}
 				}

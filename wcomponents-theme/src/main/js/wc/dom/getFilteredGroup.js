@@ -104,18 +104,15 @@ define(["wc/dom/group", "wc/dom/shed"],
 					filter = config.filter || mask.selected;
 					ignoreInnerGroups = config.ignoreInnerGroups;
 					shedAttributeOnly = !! config.shedAttributeOnly;
-				}
-				else {
+				} else {
 					filter = mask.selected;
 				}
 
 				if (Array.isArray(element)) {
 					group = element;
-				}
-				else if (itemWd) {
+				} else if (itemWd) {
 					group = $group.getGroup(element, itemWd, containerWd);
-				}
-				else {
+				} else {
 					group = $group.get(element, ignoreInnerGroups);
 				}
 				if (asObject) {
@@ -123,12 +120,10 @@ define(["wc/dom/group", "wc/dom/shed"],
 						unfiltered: group,
 						filtered: group.filter(filterFunc)
 					};
-				}
-				else {
+				} else {
 					result = group.filter(filterFunc);
 				}
-			}
-			else {
+			} else {
 				throw new TypeError("Element can not be null");
 			}
 			return result;

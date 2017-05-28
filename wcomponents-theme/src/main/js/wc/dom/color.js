@@ -79,8 +79,7 @@ define(["wc/loader/resource", "wc/xml/xpath"],
 						result.g = g;
 						result.b = b;
 					}
-				}
-				else {
+				} else {
 					throw new TypeError("hex can not be null / must be an instance of String");
 				}
 				return result;
@@ -112,12 +111,10 @@ define(["wc/loader/resource", "wc/xml/xpath"],
 							if (color) {
 								result = this.rgb2hex(color);
 							}
-						}
-						finally {
+						} finally {
 							document.body.removeChild(tmp);
 						}
-					}
-					else {
+					} else {
 						result = getLiteralFromMap(c);
 					}
 					literal2hexCache[c] = result || null;  // cache result OR flag not to search again
@@ -147,11 +144,9 @@ define(["wc/loader/resource", "wc/xml/xpath"],
 					hex = ["#"];
 					if (rgb.constructor === String && RGB_RE.test(rgb)) {
 						arrRgb = rgb.match(/\d+/g);
-					}
-					else if (Array.isArray(rgb)) {
+					} else if (Array.isArray(rgb)) {
 						arrRgb = rgb;
-					}
-					else if (rgb.constructor === Object) {
+					} else if (rgb.constructor === Object) {
 						arrRgb = [rgb.r, rgb.g, rgb.b];
 					}
 					if (arrRgb) {
@@ -181,8 +176,7 @@ define(["wc/loader/resource", "wc/xml/xpath"],
 					if (HEX_HASH_RE.test(hex)) {
 						hex = hex.replace(HEX_HASH_RE, "");
 						result = ["#"];
-					}
-					else {
+					} else {
 						result = [];
 					}
 					for (i = 0; i < 3; i++) {

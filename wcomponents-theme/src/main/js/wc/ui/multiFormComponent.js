@@ -1,17 +1,17 @@
 define(["wc/has",
-		"wc/dom/event",
-		"wc/dom/initialise",
-		"wc/dom/focus",
-		"wc/dom/shed",
-		"wc/dom/uid",
-		"wc/dom/Widget",
-		"wc/i18n/i18n",
-		"wc/ui/selectLoader",
-		"wc/timers",
-		"wc/ui/prompt",
-		"wc/ui/ajaxRegion",
-		"wc/ui/fieldset",
-		"wc/ui/icon"],
+	"wc/dom/event",
+	"wc/dom/initialise",
+	"wc/dom/focus",
+	"wc/dom/shed",
+	"wc/dom/uid",
+	"wc/dom/Widget",
+	"wc/i18n/i18n",
+	"wc/ui/selectLoader",
+	"wc/timers",
+	"wc/ui/prompt",
+	"wc/ui/ajaxRegion",
+	"wc/ui/fieldset",
+	"wc/ui/icon"],
 	function(has, event, initialise, focus, shed, uid, Widget, i18n, selectLoader, timers, prompt, ajaxRegion, fieldset, icon) {
 		"use strict";
 
@@ -91,8 +91,7 @@ define(["wc/has",
 				if (type === BUTTON_TYPE.add) {
 					addNewField(button);
 					tryAjax = true;
-				}
-				else if (type === BUTTON_TYPE.remove) {
+				} else if (type === BUTTON_TYPE.remove) {
 					removeField(button, SHIFT);
 					if (button.type === event.TYPE.submit) {
 						shed.hide(button);
@@ -225,8 +224,7 @@ define(["wc/has",
 				function processCandidateField($element) {
 					if (SELECT_WD.isOneOfMe($element)) {
 						$element.selectedIndex = 0;
-					}
-					else {
+					} else {
 						$element.value = "";
 					}
 				}
@@ -243,8 +241,7 @@ define(["wc/has",
 						newField = prototypeField.cloneNode(true);
 						if (prototypeField.nextSibling) {
 							prototypeField.parentNode.insertBefore(newField, prototypeField.nextSibling);
-						}
-						else {
+						} else {
 							prototypeField.parentNode.appendChild(newField);
 						}
 
@@ -252,8 +249,7 @@ define(["wc/has",
 						setSelectValues(newField, prototypeField);
 						resetPrototypeField(prototypeField);
 						repaint(element);
-					}
-					else {
+					} else {
 						prompt.alert(i18n.get("mfc_max"));
 					}
 
@@ -276,8 +272,7 @@ define(["wc/has",
 					while (--i > 0) {
 						removeField(fields[i]);
 					}
-				}
-				else if ((field = FIELD.findAncestor(element))) {
+				} else if ((field = FIELD.findAncestor(element))) {
 					container = field.parentNode;
 					container.removeChild(field);
 

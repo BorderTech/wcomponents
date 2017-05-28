@@ -92,11 +92,9 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed", "wc
 						 */
 						registry[(target.id)] = !target.checked;
 						callback(target);
-					}
-					else if (Widget.isOneOfMe(target, WIDGETS)) {
+					} else if (Widget.isOneOfMe(target, WIDGETS)) {
 						callback(target);
-					}
-					else {
+					} else {
 						LABEL = LABEL || new Widget("label");
 						if ((label = LABEL.findAncestor(target)) && (labelFor = label.getAttribute("for")) && (radio = document.getElementById(labelFor)) && RADIO.isOneOfMe(radio) && radio.id) {
 							registry[(radio.id)] = radio.checked;
@@ -115,8 +113,7 @@ define(["wc/dom/event", "wc/dom/initialise", "wc/dom/Widget", "wc/dom/shed", "wc
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-				}
-				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 				event.add(element, event.TYPE.click, clickEvent);

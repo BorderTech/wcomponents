@@ -5,8 +5,7 @@ define(["wc/dom/Widget"], function (Widget) {
 		descendFrom = function () {
 			if (this.hasOwnProperty("descendFrom")) {
 				console.error("refusing to modify widget");
-			}
-			else {
+			} else {
 				Widget.prototype.descendFrom.apply(this, arguments);
 			}
 		},

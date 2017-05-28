@@ -50,8 +50,7 @@ define(["wc/ui/ajax/processResponse", "wc/dom/Widget", "wc/dom/initialise", "wc/
 				if (documentFragment.getElementById) {
 					// IE, perhaps some others
 					fieldElement = documentFragment.getElementById(element.id);
-				}
-				else if (documentFragment.querySelector) {
+				} else if (documentFragment.querySelector) {
 					fieldElement = documentFragment.querySelector("#" + element.id);
 				}
 

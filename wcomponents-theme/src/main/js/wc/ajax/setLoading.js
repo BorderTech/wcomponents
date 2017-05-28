@@ -48,8 +48,7 @@ define([], function() {
 							if (conflicts.length < 1) {
 								element.removeAttribute("aria-busy");
 							}
-						}
-						else if (conflicts.length > 0) {
+						} else if (conflicts.length > 0) {
 							/*
 							* We are being asked to clear the loading state by a trigger which has just received
 							* its response HOWEVER there is a chance it is WRONG and we may even need to reapply
@@ -58,12 +57,10 @@ define([], function() {
 							*/
 							setLoading(conflicts[0]);
 						}
-					}
-					else if (element) {
+					} else if (element) {
 						element.setAttribute("aria-busy", true);
 					}
-				}
-				catch (ex) {
+				} catch (ex) {
 					console.warn(ex);  // probably can't find element
 				}
 			}

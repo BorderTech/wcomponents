@@ -1,21 +1,21 @@
 define(["wc/dom/attribute",
-		"wc/dom/classList",
-		"wc/dom/clearSelection",
-		"wc/dom/event",
-		"wc/dom/getEventOffset",
-		"wc/dom/isAcceptableTarget",
-		"wc/dom/getBox",
-		"wc/dom/getStyle",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/dom/uid",
-		"wc/dom/Widget",
-		"wc/has",
-		"wc/ui/ajax/processResponse",
-		"wc/Observer",
-		"wc/timers",
-		"wc/ui/icon",
-		"wc/config"],
+	"wc/dom/classList",
+	"wc/dom/clearSelection",
+	"wc/dom/event",
+	"wc/dom/getEventOffset",
+	"wc/dom/isAcceptableTarget",
+	"wc/dom/getBox",
+	"wc/dom/getStyle",
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/dom/uid",
+	"wc/dom/Widget",
+	"wc/has",
+	"wc/ui/ajax/processResponse",
+	"wc/Observer",
+	"wc/timers",
+	"wc/ui/icon",
+	"wc/config"],
 	function(attribute, classList, clearSelection, event, getMouseEventOffset, isAcceptableTarget, getBox, getStyle,
 		initialise, shed, uid, Widget, has, processResponse, Observer, timers, icon, wcconfig) {
 
@@ -97,12 +97,10 @@ define(["wc/dom/attribute",
 					_s = parseFloat(size);
 					if (size.indexOf(UNIT)) {
 						return _s;
-					}
-					// IE8 will return the style rule eg 75% or 0.75em or even 12pt if you are silly.
-					else if (size.indexOf("%")) {
+					} else if (size.indexOf("%")) {
+						// IE8 will return the style rule eg 75% or 0.75em or even 12pt if you are silly.
 						return (16 * _s / 100);
-					}
-					else if (size.indexOf("em")) {
+					} else if (size.indexOf("em")) {
 						return (16 * _s);
 					}
 					// if you are going to set your default font size in points, picas or exes you deserve what you get
@@ -187,8 +185,7 @@ define(["wc/dom/attribute",
 					width = width ? parseFloat(width.replace(UNIT, "")) : box.width;
 
 					return {width: width, height: height};
-				}
-				finally {
+				} finally {
 					if (_width) {
 						element.style.width = _width;
 					}
@@ -261,8 +258,7 @@ define(["wc/dom/attribute",
 							}
 						}
 					}
-				}
-				finally {
+				} finally {
 					clearSelection();
 					if (notify && _notify && observer) {
 						if (notifyTimer) {
@@ -536,8 +532,7 @@ define(["wc/dom/attribute",
 				if (element) {
 					if (RESIZE.isOneOfMe(element)) {
 						bootstrap(element);
-					}
-					else {
+					} else {
 						setup(element);
 					}
 				}
@@ -556,8 +551,7 @@ define(["wc/dom/attribute",
 					classList[(action === shed.actions.SELECT ? "add" : "remove")](target, CLASS_MAX);
 					if (action === shed.actions.SELECT) {
 						icon.change(element, "fa-plus", "fa-minus");
-					}
-					else {
+					} else {
 						icon.change(element, "fa-minus", "fa-plus");
 					}
 				}

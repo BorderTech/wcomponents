@@ -98,8 +98,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 					element = this._getBranchExpandableElement(element);
 					if (!shed.isExpanded(element)) {
 						this._keyMap["DOM_VK_RIGHT"] = this._FUNC_MAP.ACTION;
-					}
-					else {
+					} else {
 						this._keyMap["DOM_VK_RIGHT"] = keyWalker.MOVE_TO.CHILD;
 					}
 				}
@@ -132,8 +131,7 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 					if ((opener = this._getBranch(element)) && (opener = this._getBranchOpener(opener))) {
 						if (action === shed.actions.EXPAND) {
 							icon.change(opener, "fa-caret-down", "fa-caret-right");
-						}
-						else if (action === shed.actions.COLLAPSE) {
+						} else if (action === shed.actions.COLLAPSE) {
 							icon.change(opener, "fa-caret-right", "fa-caret-down");
 						}
 					}

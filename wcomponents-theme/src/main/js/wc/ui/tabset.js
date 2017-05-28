@@ -214,14 +214,12 @@ define(["wc/array/toArray",
 					element.removeAttribute(UPDATE_SIZE);
 					if ((size = element.getAttribute(OLD_WIDTH))) {
 						element.style.width = size;
-					}
-					else if (element.style.width) {
+					} else if (element.style.width) {
 						element.style.width = "";
 					}
 					if ((size = element.getAttribute(OLD_HEIGHT))) {
 						element.style.height = size;
-					}
-					else if (element.style.height) {
+					} else if (element.style.height) {
 						element.style.height = "";
 					}
 				}
@@ -240,15 +238,13 @@ define(["wc/array/toArray",
 
 						if (oldWidth) {
 							element.setAttribute(OLD_WIDTH, oldWidth);
-						}
-						else {
+						} else {
 							element.style.width = width;
 						}
 						oldHeight = element.style.height;
 						if (oldHeight) {
 							element.setAttribute(OLD_HEIGHT, oldHeight);
-						}
-						else {
+						} else {
 							element.style.height = height;
 						}
 					}
@@ -330,8 +326,7 @@ define(["wc/array/toArray",
 							if (getAccordion(container) === FALSE) {
 								collapseOthers(element);
 							}
-						}
-						else if (action === shed.actions.COLLAPSE) {
+						} else if (action === shed.actions.COLLAPSE) {
 							shed.hide(content);
 
 						}
@@ -366,8 +361,7 @@ define(["wc/array/toArray",
 									clearSize(contentContainer);
 								}
 							});
-						}
-						else if (action === shed.actions.DESELECT) {
+						} else if (action === shed.actions.DESELECT) {
 							if (contentContainer) {
 								fixSize(contentContainer);  // TODO only do this if it's an AJAX tab
 							}
@@ -492,8 +486,7 @@ define(["wc/array/toArray",
 								console.warn("Unknown action", action);
 								break;
 						}
-					}
-					else if ((action === shed.actions.DISABLE || action === shed.actions.ENABLE) && TABLIST.isOneOfMe(element)) {
+					} else if ((action === shed.actions.DISABLE || action === shed.actions.ENABLE) && TABLIST.isOneOfMe(element)) {
 						// if the tablist is disabled or enabled, diable/enable all the tabs.
 						Array.prototype.forEach.call(this.ITEM.findDescendants(element), function (next) {
 							shed[action](next);
@@ -521,12 +514,10 @@ define(["wc/array/toArray",
 							if (!shed.isExpanded(element)) {
 								shed.expand(element);
 							}
-						}
-						else {
+						} else {
 							shed.toggle(element, shed.actions.EXPAND);
 						}
-					}
-					else if (!shed.isSelected(element)) {
+					} else if (!shed.isSelected(element)) {
 						shed.select(element);
 					}
 				}
@@ -571,8 +562,7 @@ define(["wc/array/toArray",
 					if (openTabs && openTabs.length) {
 						instance.setFocusIndex(openTabs[0]);
 					}
-				}
-				finally {
+				} finally {
 					lastTabId = "";
 				}
 			}
@@ -589,8 +579,7 @@ define(["wc/array/toArray",
 						resetFocusIndex();
 					}
 					lastTabId = tab.id;
-				}
-				else if (lastTabId) {
+				} else if (lastTabId) {
 					resetFocusIndex();
 				}
 			};
@@ -604,8 +593,7 @@ define(["wc/array/toArray",
 				if (!(shed.isDisabled(next) || shed.isDisabled(next.parentElement))) {
 					if (getAccordion(next)) {
 						config.filter = config.filter | getFilteredGroup.FILTERS.expanded;
-					}
-					else {
+					} else {
 						config.filter = config.filter | getFilteredGroup.FILTERS.selected;
 					}
 					if ((tabs = getFilteredGroup(next, config))) {
@@ -614,8 +602,7 @@ define(["wc/array/toArray",
 						if (!selected.length) {
 							// no open tabs (or all individually disabled)
 							formUpdateManager.writeStateField(stateContainer, tabsetName, "", false, true);
-						}
-						else {
+						} else {
 							selected.forEach(function(theTab) {
 								position = tabs.indexOf(theTab);
 								formUpdateManager.writeStateField(stateContainer, tabsetName, position, false, true);
@@ -703,11 +690,9 @@ define(["wc/array/toArray",
 						direction = (keyCode === KeyEvent.DOM_VK_PAGE_UP ? instance.KEY_DIRECTION.PREVIOUS : instance.KEY_DIRECTION.NEXT);
 						targetTab = instance.navigate(tab, direction);
 					}
-				}
-				else if (keyCode === KeyEvent.DOM_VK_UP) {
+				} else if (keyCode === KeyEvent.DOM_VK_UP) {
 					targetTab = getTabFor(target);
-				}
-				else {
+				} else {
 					this.constructor.prototype.keydownEvent.call(this, $event);
 					return;
 				}
@@ -764,8 +749,7 @@ define(["wc/array/toArray",
 						});
 						successful = true;
 					}
-				}
-				finally {
+				} finally {
 					if (successful) {
 						classList.remove(accordion, ACCORDION_CLASS);
 						if (classList.contains(accordion, "wc-tabset-type-left") || classList.contains(accordion, "wc-tabset-type-right")) {
@@ -802,8 +786,7 @@ define(["wc/array/toArray",
 							if (tabPanel) {
 								if (tab.nextSibling) {
 									parent.insertBefore(tabPanel, tab.nextSibling);
-								}
-								else {
+								} else {
 									parent.appendChild(tabPanel);
 								}
 							}
@@ -813,8 +796,7 @@ define(["wc/array/toArray",
 						});
 						successful = true;
 					}
-				}
-				finally {
+				} finally {
 					if (successful) {
 						classList.add(tabset, ACCORDION_CLASS);
 						tablist.setAttribute(MULTISELECT, FALSE); // must be a single select accordion.
@@ -837,8 +819,7 @@ define(["wc/array/toArray",
 
 				if (TABSET.isOneOfMe(element)) {
 					candidates = [element];
-				}
-				else {
+				} else {
 					candidates = toArray(TABSET.findDescendants(element));
 				}
 
@@ -848,8 +829,7 @@ define(["wc/array/toArray",
 
 				if (viewportUtils.isSmallScreen()) {
 					candidates.forEach(tabsetToAccordion);
-				}
-				else {
+				} else {
 					candidates.forEach(accordionToTabset);
 				}
 			}

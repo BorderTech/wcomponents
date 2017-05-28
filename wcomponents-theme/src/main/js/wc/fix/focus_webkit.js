@@ -59,8 +59,7 @@ require(["wc/has"], /** @param has @ignore */ function(has) {
 						inputTypesNeedFix = ["button", "file", "submit", "radio", "checkbox", "range"];
 					if (inputTypesNeedFix.indexOf(element.type) >= 0 || element.tagName === tag.A) {
 						result = true;
-					}
-					else if (!focus.isNativelyFocusable(element.tagName)) {
+					} else if (!focus.isNativelyFocusable(element.tagName)) {
 						result = element.tabIndex > -1;
 					}
 					return result;
@@ -70,8 +69,7 @@ require(["wc/has"], /** @param has @ignore */ function(has) {
 					timers.setTimeout(function() {
 						try {
 							element.focus();
-						}
-						catch (ex) {
+						} catch (ex) {
 							console.error("Error applying webkit focus fix", ex);
 						}
 					}, 0);

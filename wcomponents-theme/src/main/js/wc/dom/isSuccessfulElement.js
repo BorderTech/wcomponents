@@ -61,8 +61,7 @@ define(["wc/dom/shed", "wc/dom/tag"], /** @param shed wc/dom/shed @param tag wc/
 		if (element && element.nodeType === Node.ELEMENT_NODE) {
 			if (isSuccessfulElement(element, buttonsAlwaysSucceed)) {
 				result.push(element);
-			}
-			else if (element.childNodes) {
+			} else if (element.childNodes) {
 				for (i = 0; i < element.childNodes.length; i++) {
 					next = element.childNodes[i];
 					nextResult = isSuccessfulElement.getAll(next, buttonsAlwaysSucceed);

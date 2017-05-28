@@ -1,10 +1,10 @@
 define(["wc/dom/event",
-		"wc/dom/initialise",
-		"wc/dom/formUpdateManager",
-		"wc/dom/getFilteredGroup",
-		"wc/dom/shed",
-		"wc/dom/Widget",
-		"wc/ui/ajaxRegion"],
+	"wc/dom/initialise",
+	"wc/dom/formUpdateManager",
+	"wc/dom/getFilteredGroup",
+	"wc/dom/shed",
+	"wc/dom/Widget",
+	"wc/ui/ajaxRegion"],
 	function(event, initialise, formUpdateManager, getFilteredGroup, shed, Widget) {
 		"use strict";
 		/**
@@ -93,8 +93,7 @@ define(["wc/dom/event",
 								if (selected.indexOf(option.nextSibling) === -1 || selected.indexOf(reference) === -1) {
 									parent.insertBefore(option, reference);
 								}
-							}
-							else if ((reference = option.nextSibling) && selected.indexOf(reference) === -1) {
+							} else if ((reference = option.nextSibling) && selected.indexOf(reference) === -1) {
 								// this will happen if we try to move the penultimate child down
 								parent.appendChild(option);
 							}
@@ -117,8 +116,7 @@ define(["wc/dom/event",
 						for (i = selected.length - 1; i >= 0; --i) {  // reverse the order of move to top
 							_moveIt(selected[i]);
 						}
-					}
-					else {
+					} else {
 						selected.forEach(_moveIt);
 					}
 				}

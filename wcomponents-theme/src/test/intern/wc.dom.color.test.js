@@ -41,8 +41,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/color"],
 				try {
 					controller.hex2rgb(0x0); // this is a hex
 					assert.isFalse(true, "expected an exception.");
-				}
-				catch (e) {
+				} catch (e) {
 					assert.isTrue(e instanceof TypeError, e.message);
 				}
 			},
@@ -50,8 +49,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/color"],
 				try {
 					controller.hex2rgb();
 					assert.isFalse(true, "expected an exception.");
-				}
-				catch (e) {
+				} catch (e) {
 					assert.isTrue(e instanceof TypeError, e.message);
 				}
 			},
@@ -85,8 +83,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/color"],
 				var result = controller.getLiteral("not-a-color");
 				if (typeof window.getComputedStyle !== "undefined") {
 					assert.strictEqual("#000000", result);
-				}
-				else {
+				} else {
 					assert.isNull(result);
 				}
 			},
@@ -94,8 +91,7 @@ define(["intern!object", "intern/chai!assert", "wc/dom/color"],
 				var result = controller.getLiteral();
 				if (typeof window.getComputedStyle !== "undefined") {
 					assert.strictEqual("#000000", result);
-				}
-				else {
+				} else {
 					assert.isNull(result);
 				}
 			},

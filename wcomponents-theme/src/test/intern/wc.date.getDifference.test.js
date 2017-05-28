@@ -116,8 +116,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 						if (i === a.length - 1) {
 							aMapped[aMapped.length] = controller(a[i], a[0]);
 							eMapped[eMapped.length] = (e[i] - e[0]) / MC;
-						}
-						else {
+						} else {
 							aMapped[aMapped.length] = controller(a[i], a[i + 1]);
 							eMapped[eMapped.length] = (e[i] - e[i + 1]) / MC;
 						}
@@ -176,8 +175,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 						if (i === a.length - 1) {
 							aMapped[aMapped.length] = controller(a[i], a[0], true);
 							eMapped[eMapped.length] = e[i] - e[0];
-						}
-						else {
+						} else {
 							aMapped[aMapped.length] = controller(a[i], a[i + 1], true);
 							eMapped[eMapped.length] = e[i] - e[i + 1];
 						}
@@ -210,8 +208,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 								console.log(a[i] + " does not have the same toString as " + b[i] + " i = " + i);
 								break;
 							}
-						}
-						else if (!(result = a[i] === b[i])) {
+						} else if (!(result = a[i] === b[i])) {
 							break;
 						}
 					}
