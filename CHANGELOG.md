@@ -4,6 +4,14 @@
 
 ### API Changes
 
+### Bug Fixes
+
+### Enhancements
+
+## Release 1.4.0
+
+### API Changes
+
 * Default template render mode to on (previously off). This improves UI performance for most users. #1158.
 * Selenium performance API changes #1138:-
   - The methods in TreeUtil (i.e. findWComponent and findWComponents) that use a path to find components have been
