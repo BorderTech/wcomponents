@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.TestLookupTable.DayOfWeekTable;
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.Arrays;
 import java.util.List;
 import junit.framework.Assert;
@@ -80,5 +81,11 @@ public class WMultiSelectPair_Test extends AbstractWComponentTestCase {
 
 		multi.setShuffle(true);
 		Assert.assertTrue("SelectionOrderable should be true", multi.isSelectionOrderable());
+	}
+
+	@Test(expected = SystemException.class)
+	public void testSetAutocomplete() {
+		WMultiSelectPair component = new WMultiSelectPair();
+		component.setAutocomplete("off");
 	}
 }

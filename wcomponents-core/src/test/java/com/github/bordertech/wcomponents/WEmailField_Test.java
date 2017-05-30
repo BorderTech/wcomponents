@@ -270,4 +270,16 @@ public class WEmailField_Test extends AbstractWComponentTestCase {
 		assertAccessorsCorrect(new WEmailField(), "placeholder", null, "A", "B");
 	}
 
+	@Test
+	public void testAutocompleteAccessors() {
+		assertAccessorsCorrect(new WEmailField(), "autocomplete", null, "on", "off");
+	}
+
+	@Test
+	public void testComboAutocomplete() {
+		WEmailField combo = new WEmailField();
+		combo.setSuggestions(new WSuggestions());
+		combo.setAutocomplete("off");
+		Assert.assertNull(combo.getAutocomplete());
+	}
 }

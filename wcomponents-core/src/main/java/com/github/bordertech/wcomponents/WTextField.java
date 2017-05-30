@@ -199,6 +199,17 @@ public class WTextField extends AbstractInput implements AjaxTrigger, AjaxTarget
 	}
 
 	/**
+	 * @return the value of the autocomplete attribute (if set) unless the input has suggestions in which case always return {@code null}.
+	 */
+	@Override
+	public String getAutocomplete() {
+		if (getSuggestions() == null) {
+			return super.getAutocomplete();
+		}
+		return null;
+	}
+
+	/**
 	 * Override validateComponent to perform further validation.
 	 *
 	 * @param diags the list into which any validation diagnostics are added.

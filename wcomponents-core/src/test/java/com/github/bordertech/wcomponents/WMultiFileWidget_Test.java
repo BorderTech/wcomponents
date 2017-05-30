@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.WMultiFileWidget.FileWidgetUpload;
 import com.github.bordertech.wcomponents.file.FileItemWrap;
+import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockFileItem;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -311,6 +312,12 @@ public class WMultiFileWidget_Test extends AbstractWComponentTestCase {
 	@Test
 	public void testMaxFilesAccessors() {
 		assertAccessorsCorrect(new WMultiFileWidget(), "maxFiles", 0, 1, 2);
+	}
+
+	@Test(expected = SystemException.class)
+	public void testSetAutocomplete() {
+		WMultiFileWidget component = new WMultiFileWidget();
+		component.setAutocomplete("off");
 	}
 
 //    @Test

@@ -251,6 +251,17 @@ public class WPhoneNumberField extends AbstractInput implements AjaxTrigger, Aja
 	}
 
 	/**
+	 * @return the value of the autocomplete attribute (if set) unless the input has suggestions in which case always return {@code null}.
+	 */
+	@Override
+	public String getAutocomplete() {
+		if (getSuggestions() == null) {
+			return super.getAutocomplete();
+		}
+		return null;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override

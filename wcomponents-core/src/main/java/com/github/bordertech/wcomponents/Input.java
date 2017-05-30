@@ -107,6 +107,18 @@ public interface Input extends WComponent, Disableable, Mandatable, DataBound, B
 	 */
 	void setReadOnly(final boolean readOnly);
 
+	/**
+	 * @return the autocomplete value or null if unset.
+	 */
+	String getAutocomplete();
+
+	/**
+	 * Sets the value used in the autocomplete attribute.
+	 * @param autocomplete the value used to set autocomplete rules. See
+	 * <a href="https://html.spec.whatwg.org/multipage/forms.html#autofilling-form-controls:-the-autocomplete-attribute">HTML Spec</a>.
+	 */
+	void setAutocomplete(final String autocomplete);
+
 	// ================================
 	// Input Value
 	/**

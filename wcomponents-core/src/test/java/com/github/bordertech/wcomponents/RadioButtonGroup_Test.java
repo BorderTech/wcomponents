@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.util.Date;
 import junit.framework.Assert;
@@ -300,6 +301,12 @@ public class RadioButtonGroup_Test extends AbstractWComponentTestCase {
 		Assert.assertNull("Radio button value should be null", radio.getValue());
 		Assert.assertEquals("Radio button bean property should default to \".\"", ".", radio.
 				getBeanProperty());
+	}
+
+	@Test(expected = SystemException.class)
+	public void testSetAutocomplete() {
+		RadioButtonGroup component = new RadioButtonGroup();
+		component.setAutocomplete("off");
 	}
 
 	/**

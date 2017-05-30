@@ -49,6 +49,7 @@ final class WMultiSelectRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("rows", rows >= 2, rows);
 			xml.appendOptionalAttribute("min", min > 0, min);
 			xml.appendOptionalAttribute("max", max > 0, max);
+			xml.appendOptionalAttribute("autocomplete", listBox.getAutocomplete());
 		}
 		xml.appendClose();
 

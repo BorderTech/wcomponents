@@ -53,6 +53,7 @@ final class WNumberFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("step", step != null, String.valueOf(step));
 			xml.appendOptionalAttribute("decimals", decimals > 0, decimals);
 			xml.appendOptionalAttribute("buttonId", submitControlId);
+			xml.appendOptionalAttribute("autocomplete", field.getAutocomplete());
 		}
 
 		xml.appendClose();

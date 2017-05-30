@@ -55,6 +55,7 @@ class WEmailFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("buttonId", submitControlId);
 			xml.appendOptionalAttribute("list", suggestionsId);
 			xml.appendOptionalAttribute("placeholder", field.getPlaceholder());
+			xml.appendOptionalAttribute("autocomplete", field.getAutocomplete());
 		}
 		xml.appendClose();
 

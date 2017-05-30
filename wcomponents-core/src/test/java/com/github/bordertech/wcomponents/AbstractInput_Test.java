@@ -146,6 +146,11 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 	}
 
 	@Test
+	public void testAutocompleteAccessors() {
+		assertAccessorsCorrect(new MyInput(), "autocomplete", null, "on", "off");
+	}
+
+	@Test
 	public void testHandleRequest() {
 		AbstractInput input = new MyInput();
 		TestAction action = new TestAction();

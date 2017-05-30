@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -188,4 +189,9 @@ public class WCheckBox_Test extends AbstractWComponentTestCase {
 		return request;
 	}
 
+	@Test(expected = SystemException.class)
+	public void testSetAutocomplete() {
+		WCheckBox component = new WCheckBox();
+		component.setAutocomplete("off");
+	}
 }

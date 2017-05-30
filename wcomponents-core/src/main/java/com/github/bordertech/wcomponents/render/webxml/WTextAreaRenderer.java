@@ -53,6 +53,7 @@ class WTextAreaRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("cols", cols > 0, cols);
 			xml.appendOptionalAttribute("buttonId", submitControlId);
 			xml.appendOptionalAttribute("placeholder", textArea.getPlaceholder());
+			xml.appendOptionalAttribute("autocomplete", textArea.getAutocomplete());
 		}
 		xml.appendClose();
 

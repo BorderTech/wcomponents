@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.util.I18nUtilities;
 import com.github.bordertech.wcomponents.util.InternalMessages;
+import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.List;
 
 /**
@@ -114,6 +115,14 @@ public class WMultiSelectPair extends WMultiSelect implements AjaxTrigger, AjaxT
 	@Override
 	protected boolean isSelectionOrderable() {
 		return isShuffle();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setAutocomplete(final String autocomplete) {
+		throw new SystemException("Autocomplete not supported in this component.");
 	}
 
 	/**

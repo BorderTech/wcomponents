@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.SystemException;
+
 /**
  * <p>
  * A WCheckBox is a wcomponent used to display a checkbox input field. Note that WCheckBox does not render any text. To
@@ -144,6 +146,14 @@ public class WCheckBox extends AbstractInput implements AjaxTrigger, AjaxTarget,
 	@Override
 	public boolean isSubmitOnChange() {
 		return super.isSubmitOnChange();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setAutocomplete(final String autocomplete) {
+		throw new SystemException("Autocomplete not supported in this component.");
 	}
 
 	/**

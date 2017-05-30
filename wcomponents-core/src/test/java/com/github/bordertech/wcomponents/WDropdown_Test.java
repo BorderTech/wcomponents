@@ -64,4 +64,17 @@ public class WDropdown_Test extends AbstractWComponentTestCase {
 				WDropdown.DropdownType.COMBO);
 	}
 
+	@Test
+	public void testAutocompleteAccessors() {
+		assertAccessorsCorrect(new WDropdown(), "autocomplete", null, "on", "off");
+	}
+
+	@Test
+	public void testComboAutocomplete() {
+		WDropdown combo = new WDropdown();
+		combo.setType(WDropdown.DropdownType.COMBO);
+		combo.setAutocomplete("off");
+		Assert.assertNull(combo.getAutocomplete());
+	}
+
 }

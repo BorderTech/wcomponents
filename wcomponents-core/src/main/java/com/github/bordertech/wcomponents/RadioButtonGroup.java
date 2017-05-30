@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -215,5 +216,13 @@ public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, Subo
 		WRadioButton radioButton = new WRadioButton(this);
 		radioButton.setBeanProperty(".");
 		return radioButton;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setAutocomplete(final String autocomplete) {
+		throw new SystemException("Autocomplete not supported in this component.");
 	}
 }

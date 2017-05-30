@@ -60,6 +60,7 @@ class WPhoneNumberFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("pattern", !Util.empty(pattern), pattern);
 			xml.appendOptionalAttribute("list", suggestionsId);
 			xml.appendOptionalAttribute("placeholder", field.getPlaceholder());
+			xml.appendOptionalAttribute("autocomplete", field.getAutocomplete());
 		}
 		xml.appendClose();
 

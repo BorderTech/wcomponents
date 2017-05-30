@@ -322,4 +322,16 @@ public class WPhoneNumberField_Test extends AbstractWComponentTestCase {
 		assertAccessorsCorrect(new WPhoneNumberField(), "placeholder", null, "A", "B");
 	}
 
+	@Test
+	public void testAutocompleteAccessors() {
+		assertAccessorsCorrect(new WPhoneNumberField(), "autocomplete", null, "on", "off");
+	}
+
+	@Test
+	public void testComboAutocomplete() {
+		WPhoneNumberField combo = new WPhoneNumberField();
+		combo.setSuggestions(new WSuggestions());
+		combo.setAutocomplete("off");
+		Assert.assertNull(combo.getAutocomplete());
+	}
 }

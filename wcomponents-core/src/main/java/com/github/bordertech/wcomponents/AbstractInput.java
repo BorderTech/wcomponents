@@ -387,6 +387,24 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 		setFlag(ComponentModel.SUBMIT_ON_CHANGE_FLAG, flag);
 	}
 
+	// ================================
+	// Autocomplete
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setAutocomplete(final String autocomplete) {
+		getOrCreateComponentModel().autocomplete = autocomplete;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getAutocomplete() {
+		return getComponentModel().autocomplete;
+	}
+
 	/**
 	 * Indicates whether the form should submit to server when the component's value changes.
 	 *
@@ -466,6 +484,13 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 		 * The action that will be executed when the input field's value is changed by the user.
 		 */
 		private Action actionOnChange;
+
+		/**
+		 * The setting of the autocomplete attribute. If not set then autocomplete is determined by the browser. See
+		 * <a href="https://html.spec.whatwg.org/multipage/forms.html#autofilling-form-controls:-the-autocomplete-attribute">HTML Spec</a> for
+		 * values which are potentially useful. Mostly this will be left empty or set to "off".
+		 */
+		private String autocomplete;
 
 	}
 }

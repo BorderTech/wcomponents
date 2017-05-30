@@ -52,6 +52,7 @@ class WPasswordFieldRenderer extends AbstractWebXmlRenderer {
 			xml.appendOptionalAttribute("size", cols > 0, cols);
 			xml.appendOptionalAttribute("buttonId", submitControlId);
 			xml.appendOptionalAttribute("placeholder", field.getPlaceholder());
+			xml.appendOptionalAttribute("autocomplete", field.getAutocomplete());
 		}
 		xml.appendEnd();
 	}

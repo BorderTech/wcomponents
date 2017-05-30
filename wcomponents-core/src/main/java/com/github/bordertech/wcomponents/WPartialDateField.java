@@ -761,6 +761,14 @@ public class WPartialDateField extends AbstractInput implements AjaxTrigger, Aja
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setAutocomplete(final String autocomplete) {
+		throw new SystemException("Autocomplete not supported in this component.");
+	}
+
 	// --------------------------------
 	// Extrinsic state management
 	/**

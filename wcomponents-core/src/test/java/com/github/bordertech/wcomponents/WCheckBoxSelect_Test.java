@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents;
 
 import com.github.bordertech.wcomponents.TestLookupTable.DayOfWeekTable;
+import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.Arrays;
 import java.util.List;
 import junit.framework.Assert;
@@ -68,5 +69,11 @@ public class WCheckBoxSelect_Test extends AbstractWComponentTestCase {
 	public void testButtonlayoutAccessors() {
 		assertAccessorsCorrect(new WCheckBoxSelect(), "buttonLayout", WCheckBoxSelect.LAYOUT_STACKED,
 				WCheckBoxSelect.LAYOUT_COLUMNS, WCheckBoxSelect.LAYOUT_FLAT);
+	}
+
+	@Test(expected = SystemException.class)
+	public void testSetAutocomplete() {
+		WCheckBoxSelect component = new WCheckBoxSelect();
+		component.setAutocomplete("off");
 	}
 }

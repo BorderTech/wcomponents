@@ -493,6 +493,14 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 	 * {@inheritDoc}
 	 */
 	@Override
+	public void setAutocomplete(final String autocomplete) {
+		throw new SystemException("Autocomplete not supported in this component.");
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	protected boolean doHandleRequest(final Request request) {
 		// This is a normal page request.
 		List<FileWidgetUpload> newSelections = getNewSelection(request);
