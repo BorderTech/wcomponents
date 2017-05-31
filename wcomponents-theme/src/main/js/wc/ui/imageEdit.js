@@ -524,9 +524,12 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			event.add(container, "touchend", pressEnd);
 
 			function clickEvent($event) {
-				var target = $event.target,
-					element = BUTTON.findAncestor(target),
+				var element = $event.target,
 					config = getEventConfig(element, "click");
+				if (!config) {
+					element = BUTTON.findAncestor(element);
+					config = getEventConfig(element, "click");
+				}
 				if (config) {
 					pressEnd();
 					timer = timers.setTimeout(config.func.bind(this, config, $event), 0);
