@@ -63,12 +63,12 @@ noscript p {
   }
 }
 
-@if ($wc-clr-modal-shim-foreground != -1) {
+@if ($wc-clr-modal-shim-fg != -1) {
   // The modal shim is a single generated artefact with a constant id.
   // sass-lint:disable no-ids
   #wc-shim {
     background-color: $wc-clr-modal-shim;
-    color: $wc-clr-modal-shim-foreground;
+    color: $wc-clr-modal-shim-fg;
   }
   // sass-lint:enable no-ids
 }
