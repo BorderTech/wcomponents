@@ -124,7 +124,7 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
     @if ($wc-fld-list == -1) {
       @for $i from 1 through 100 {
         $wc-fld-lblw: $i * 1%;
-        @include wc-fld-layout($j);
+        @include wc-fld-layout($i);
       }
     } @else {
       @if ($wc-fld-widths-include-fives == 1) {
