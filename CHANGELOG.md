@@ -6,6 +6,9 @@
 
 ### Bug Fixes
 
+* Updated theme resource build to split core and implementation copy into separate steps #1222.
+* Fixed an error which caused the maximise button in dialog frames to sometimes display the wrong state #1229.
+
 ### Enhancements
 
 ## Release 1.4.1
