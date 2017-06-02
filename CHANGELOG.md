@@ -5,6 +5,13 @@
 ### API Changes
 
 ### Bug Fixes
+
+### Enhancements
+
+## Release 1.4.1
+
+### Bug Fixes
+
 * Prevent race condition in IE when using AJAX module very early (e.g. i18n).
 * Update fabricjs to latest version.
 * Image edit produces files with filename extension consistent with mime type.
@@ -12,8 +19,6 @@
   - Image redaction objects are scaled accordingly.
 * Fixed redaction checkbox non-functional.
 * Fixed an error in the Sass vars which are used to build WFieldLayout CSS for various conditions of support.
-
-### Enhancements
 
 ## Release 1.4.0
 
