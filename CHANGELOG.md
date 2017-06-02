@@ -11,6 +11,7 @@
 * Edited images maintain the original image dimensions (unless they are cropped).
   - Image redaction objects are scaled accordingly.
 * Fixed redaction checkbox non-functional.
+* Fixed an error in the Sass vars which are used to build WFieldLayout CSS for various conditions of support.
 
 ### Enhancements
 
