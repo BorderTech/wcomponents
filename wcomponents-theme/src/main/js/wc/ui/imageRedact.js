@@ -22,14 +22,16 @@ define(["fabric"], function(fabric) {
 			drawEnd: function() {
 				var fbCanvas = imageEdit.getCanvas(),
 					shape = fabricRedact._rect;
-				try {
-					if (shape.width !== 0 && shape.height !== 0) {
-						fbCanvas.trigger("object:added", { target: shape });
-					} else {
-						fbCanvas.remove(shape);
+				if (shape) {
+					try {
+						if (shape.width !== 0 && shape.height !== 0) {
+							fbCanvas.trigger("object:added", { target: shape });
+						} else {
+							fbCanvas.remove(shape);
+						}
+					} finally {
+						delete fabricRedact._rect;
 					}
-				} finally {
-					delete fabricRedact._rect;
 				}
 			},
 			drawing: function(width, height) {

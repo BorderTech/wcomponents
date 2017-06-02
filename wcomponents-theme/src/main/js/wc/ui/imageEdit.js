@@ -1,8 +1,14 @@
 define(["wc/has", "wc/mixin", "wc/dom/Widget", "wc/dom/event", "wc/dom/uid", "wc/dom/classList", "wc/timers", "wc/ui/prompt",
-	"wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/template", "wc/ui/ImageCapture", "wc/ui/ImageUndoRedo"],
-function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo) {
+	"wc/i18n/i18n", "fabric", "wc/ui/dialogFrame", "wc/template", "wc/ui/ImageCapture", "wc/ui/ImageUndoRedo", "wc/file/getMimeType"],
+function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric, dialogFrame, template, ImageCapture, ImageUndoRedo, getMimeType) {
 	var timer,
 		imageEdit = new ImageEdit();
+
+	ImageEdit.prototype.mimeToExt = {
+		"image/jpeg": "jpeg",
+		"image/png": "png",
+		"image/webp": "webp"
+	};
 
 	ImageEdit.prototype.renderCanvas = function(callback) {
 		if (timer) {
@@ -22,6 +28,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		height: 240,
 		format: "png",  // png or jpeg
 		quality: 1,  // only if format is jpeg
+		multiplier: 1,
 		face: false,
 		redact: false,
 		crop: true
@@ -214,7 +221,9 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				},
 				gotEditor = function() {
 					var fileReader;
-					fbCanvas = new fabric.Canvas("wc_img_canvas");
+					fbCanvas = new fabric.Canvas("wc_img_canvas", {
+						enableRetinaScaling: false
+					});
 					fbCanvas.setWidth(config.width);
 					fbCanvas.setHeight(config.height);
 //					fbCanvas.on("selection:cleared", function() {
@@ -321,8 +330,10 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 				imageWidth = fabricImage.getWidth();
 				imageHeight = fabricImage.getHeight();
 				if (imageWidth > imageHeight) {
+					// fbCanvas.setZoom(width / imageWidth);
 					fabricImage.scaleToWidth(width).setCoords();
 				} else {
+					// fbCanvas.setZoom(height / imageHeight);
 					fabricImage.scaleToHeight(height).setCoords();
 				}
 				fabricImage.width = imageWidth;
@@ -347,6 +358,22 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		function addToCanvas(object) {
 			fbCanvas.add(object);
 		}
+
+		this.selectAll = function() {
+			var objects = fbCanvas.getObjects().map(function(o) {
+				return o.set('active', true);
+			});
+
+			var group = new fabric.Group(objects, {
+				originX: 'center',
+				originY: 'center'
+			});
+
+			fbCanvas._activeObject = null;
+
+			fbCanvas.setActiveGroup(group.setCoords()).renderAll();
+			return group;
+		};
 
 		this.getFbImage = function(container) {
 			var objects, currentContainer = (container || fbCanvas);
@@ -409,7 +436,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 * @private
 		 */
 		function getEditor(config, callbacks, file) {
-			var onDialogClose = getDialogFrameConfig(function() {
+			var dialogConfig = getDialogFrameConfig(function() {
 				imageCapture.stop();
 				callbacks.lose();
 			});
@@ -476,7 +503,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			if (dialogFrame.isOpen()) {
 				return renderEditor();
 			}
-			return dialogFrame.open(onDialogClose).then(renderEditor);
+			return dialogFrame.open(dialogConfig).then(renderEditor);
 		}
 
 		function getTranslations(obj) {
@@ -524,9 +551,12 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			event.add(container, "touchend", pressEnd);
 
 			function clickEvent($event) {
-				var target = $event.target,
-					element = BUTTON.findAncestor(target),
+				var element = $event.target,
 					config = getEventConfig(element, "click");
+				if (!config) {
+					element = BUTTON.findAncestor(element);
+					config = getEventConfig(element, "click");
+				}
 				if (config) {
 					pressEnd();
 					timer = timers.setTimeout(config.func.bind(this, config, $event), 0);
@@ -839,33 +869,54 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			}
 		}
 
+		/**
+		 * Before saving the image we may wish to discard any scaling the user has performed.
+		 * This function removes scaling on the image and preserves relative ratios with other objects on the canvas.
+		 * @param {fabric.Image} fbImage The image to un-scale.
+		 */
+		function unscale(fbImage) {
+			var originaSize = fbImage.getOriginalSize(),
+				objects = fbCanvas.getObjects().map(function(o) {
+					return o.set("active", true);
+				}),
+				group = new fabric.Group(objects, {
+					originX: "left",
+					originY: "top"
+				});
+			fbCanvas.setActiveGroup(group.setCoords()).renderAll();
+			group.scaleToWidth(originaSize.width);
+			group.scaleToHeight(originaSize.height);
+			return group;
+		}
+
 		function saveCanvasAsFile(file) {
-			var result, cropDimensions, canvasElement, config,
+			var result, toDataUrlParams, config, object,
 				fbImage = imageEdit.getFbImage();
 			if (fbImage) {
 				config = imageEdit.getConfig();
 				if (config.crop) {
-					cropDimensions = {
+					object = fbImage;
+					toDataUrlParams = {
 						left: 0,
 						top: 0,
-						width: Math.min(fbCanvas.getWidth(), fbImage.getWidth()),
-						height: Math.min(fbCanvas.getHeight(), fbImage.getHeight())
+						width: Math.min(fbCanvas.getWidth(), object.getWidth()),
+						height: Math.min(fbCanvas.getHeight(), object.getHeight())
 					};
 				} else {
-					cropDimensions = {
-						left: fbImage.getLeft(),
-						top: fbImage.getTop(),
-						width: fbImage.getWidth(),
-						height: fbImage.getHeight()
+					object = unscale(fbImage);
+					toDataUrlParams = {
+						left: object.getLeft(),
+						top: object.getTop(),
+						width: object.getWidth(),
+						height: object.getHeight()
 					};
 				}
-				cropDimensions = mixin(cropDimensions, config);
-				// cropDimensions.width *= fbImage.getScaleX();
-				// cropDimensions.height *= fbImage.getScaleY();
+				// Add params such as format, quality, multiplier etc
+				toDataUrlParams = mixin(toDataUrlParams, config);
 
-				canvasElement = fbCanvas.getElement();
+				// canvasElement = fbCanvas.getElement();
 				// result = canvasElement.toDataURL();
-				result = fbCanvas.toDataURL(cropDimensions);
+				result = fbCanvas.toDataURL(toDataUrlParams);
 				result = dataURItoBlob(result);
 				result = blobToFile(result, file);
 			}
@@ -934,6 +985,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			blob.lastModifiedDate = filePropertyBag.lastModified;
 			blob.lastModified = filePropertyBag.lastModified.getTime();
 			blob.name = name;
+			checkFileExtension(blob);
 			return blob;
 		}
 
@@ -961,6 +1013,26 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			}
 
 			return new Blob([ia], { type: mimeString });
+		}
+
+		/**
+		 * Ensures that the file name ends with an extension that matches its mime type.
+		 * @param file The file to check.
+		 */
+		function checkFileExtension(file) {
+			var expectedExtension,
+				info = getMimeType({
+					files: [file]
+				});
+			if (info && info.length) {
+				info = info[0];
+				if (info.mime && imageEdit.mimeToExt[info.mime]) {
+					expectedExtension = imageEdit.mimeToExt[info.mime];
+					if (expectedExtension !== info.ext) {
+						file.name += "." + expectedExtension;
+					}
+				}
+			}
 		}
 	}
 	return imageEdit;

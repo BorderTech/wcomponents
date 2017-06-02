@@ -5,6 +5,12 @@
 ### API Changes
 
 ### Bug Fixes
+* Prevent race condition in IE when using AJAX module very early (e.g. i18n).
+* Update fabricjs to latest version.
+* Image edit produces files with filename extension consistent with mime type.
+* Edited images maintain the original image dimensions (unless they are cropped).
+  - Image redaction objects are scaled accordingly.
+* Fixed redaction checkbox non-functional.
 
 ### Enhancements
 

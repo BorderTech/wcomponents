@@ -12,8 +12,8 @@
 	 *
 	 * @todo Document private members
 	 */
-	define(["wc/Observer", "wc/xml/xmlString", "wc/timers", "wc/has", "wc/dom/uid", "require"],
-	function(Observer, xmlString, timers, has, uid, require) {
+	define(["wc/Observer", "wc/xml/xmlString", "wc/timers", "wc/has", "wc/dom/uid", "wc/fix/getActiveX_ieAll", "require"],
+	function(Observer, xmlString, timers, has, uid, getActiveX, require) {
 		"use strict";
 
 		/**
@@ -519,7 +519,6 @@
 			};
 		}
 		var handleError,
-			getActiveX,
 			W3C_IFACE = "XMLHttpRequest",
 			ieXmlHttpEngine,
 			/**
@@ -573,10 +572,6 @@
 			} else {
 				cb(handleError);
 			}
-		}
-
-		if (has("activex")) {
-			getActiveX = require("wc/fix/getActiveX_ieAll");  // this can only work if "wc/fix/getActiveX_ieAll" is already loaded - the compat script must ensure that.
 		}
 		return ajax;
 
