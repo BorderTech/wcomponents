@@ -907,6 +907,7 @@ define(["wc/dom/event",
 		 * @property {String} [title] The WDialog title. If not set a default title is used.
 		 * @property {Boolean} [open] If true then the dialog is to be open on page load. This is passed in as part ofthe registration object but is
 		 *   not stored in the registry.
+		 * @property {Function} onclose Called when the dialog is closed.
 		 *
 		 * @typedef {Object} module:wc/ui/dialogFrame~config An object which allows override of aspects of the dialogFrame
 		 * @property {String} [vpUtil="isPhonelike"] A name of a public member of {@link module:wc/ui/viewportUtils. This should only be set if a Sass
