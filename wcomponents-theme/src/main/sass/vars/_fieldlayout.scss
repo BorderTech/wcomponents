@@ -32,10 +32,9 @@ $wc-fieldlayout-force-stack: 0 !default;
 $wc-fieldlayout-default-label-width: 50% !default;
 //
 // Only support the default label width.
-// If set to anything other than 0 then _only_ the default labelWidth will be
-// honoured, saving a LOT of CSS.
-// If this is set to anything other than 0 then Java labelWidth settings will be
-// honoured according to the values of `$wc-fld-list` and
+// If set to 1 then _only_ the default labelWidth will be honoured, saving a LOT
+// of CSS.  If this is set to anything other than 0 then Java labelWidth
+// settings will be honoured according to the values of `$wc-fld-list` and
 // `$wc-fld-widths-include-fives` (see below).
 $wc-fieldlayout-labelwidth-prevent-override: 0 !default;
 

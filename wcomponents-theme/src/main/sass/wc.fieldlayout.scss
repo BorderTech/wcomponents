@@ -116,7 +116,7 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
   }
 
   // Optionally allow for labelWidth settings.
-  @if($wc-fieldlayout-labelwidth-prevent-override != 0) {
+  @if($wc-fieldlayout-labelwidth-prevent-override != 1) {
     // This lot does the CSS for the various allowed values of
     // WFieldLayout's labelWidth member. If you _really_ want to support all
     // values of labelWidth then you will have to change the variable
