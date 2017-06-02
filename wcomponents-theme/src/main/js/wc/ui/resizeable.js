@@ -550,9 +550,9 @@ define(["wc/dom/attribute",
 				if (element && MAX.isOneOfMe(element) && (target = getResizeTarget(element))) {
 					classList[(action === shed.actions.SELECT ? "add" : "remove")](target, CLASS_MAX);
 					if (action === shed.actions.SELECT) {
-						icon.change(element, "fa-plus", "fa-minus");
-					} else {
 						icon.change(element, "fa-minus", "fa-plus");
+					} else {
+						icon.change(element, "fa-plus", "fa-minus");
 					}
 				}
 			}
