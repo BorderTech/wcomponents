@@ -44,6 +44,9 @@ public class WPrintButtonExample extends WPanel {
 		button.setImage("/image/printer-w.png");
 		button.setImagePosition(WButton.ImagePosition.WEST);
 		add(button);
+
+		button = new WPrintButton(PRINT_LABEL);
+		button.setDisabled(true);
 	}
 
 
