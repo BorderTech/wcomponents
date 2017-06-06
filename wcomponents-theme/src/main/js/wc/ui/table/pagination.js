@@ -85,7 +85,7 @@ define(["wc/dom/attribute",
 				var labels = PAGINATION_LABEL_WRAPPER.findDescendants(wrapper);
 
 				Array.prototype.forEach.call(labels, function (next) {
-					var rows, rpp, currentPage, i18nString, startIdx, endIdx;
+					var rows, rpp, currentPage, promise, startIdx, endIdx;
 					if (getWrapper(next) === wrapper) {
 						// we have the correct spans
 						rows = next.getAttribute("data-wc-tablerows");
@@ -99,17 +99,19 @@ define(["wc/dom/attribute",
 						currentPage = parseInt(currentPage, 10); // currentpage is 0 based.
 						startIdx = (rpp * currentPage) + 1;
 						if (rpp === 1) {
-							i18nString = i18n.get("table_pagination_label_one", startIdx, rows);
+							promise = i18n.translate("table_pagination_label_one", startIdx, rows);
 						} else {
 							endIdx = Math.min(rows, (rpp * currentPage) + rpp);
 							if (startIdx === endIdx) {
-								i18nString = i18n.get("table_pagination_label_one", endIdx, rows);
+								promise = i18n.translate("table_pagination_label_one", endIdx, rows);
 							} else {
-								i18nString = i18n.get("table_pagination_label_many", startIdx, endIdx, rows);
+								promise = i18n.translate("table_pagination_label_many", startIdx, endIdx, rows);
 							}
 						}
-						if (i18nString) {
-							next.innerHTML = i18nString;
+						if (promise) {
+							promise.then(function(i18nString) {
+								next.innerHTML = i18nString;
+							});
 						}
 					}
 				});

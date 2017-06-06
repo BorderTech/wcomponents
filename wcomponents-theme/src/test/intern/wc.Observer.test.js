@@ -4,14 +4,16 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 	var ns = "An_observed_nameSpace",
 		testHolder,
 		containerId,
+		timers,
 		Observer,
 		observer;
 
 	registerSuite({
 		name: "Observer",
 		setup: function() {
-			return testutils.setupHelper(["wc/Observer"]).then(function(arr) {
+			return testutils.setupHelper(["wc/Observer", "wc/timers"]).then(function(arr) {
 				Observer = arr[0];
+				timers = arr[1];
 				observer = new Observer();
 				testHolder = testutils.getTestHolder();
 				containerId = testHolder.id;
@@ -39,7 +41,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 
 			observer.subscribe(subscriber);
 			observer.notify();
-			assert.isTrue(wasNotified, "The observered subscriber should be notified if it was correctly subscribed.");
+			assert.isTrue(wasNotified, "The subscriber should be notified if it was correctly subscribed.");
 		},
 		testObserverSubscribePromise: function() {
 			var wasNotified = false;
@@ -51,7 +53,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 
 			observer.subscribe(subscriber);
 			observer.notify().then(function() {
-				assert.isTrue(wasNotified, "The observered subscriber should be notified if it was correctly subscribed.");
+				assert.isTrue(wasNotified, "The subscriber should be notified if it was correctly subscribed.");
 			});
 		},
 		testObserverSubscribeStagedPromise: function() {
@@ -65,7 +67,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 
 			observer.subscribe(subscriber);
 			observer.notify().then(function() {
-				assert.isTrue(wasNotified, "The observered subscriber should be notified if it was correctly subscribed.");
+				assert.isTrue(wasNotified, "The subscriber should be notified if it was correctly subscribed.");
 			});
 		},
 		testObserverSubscribeSubscriberNeedsArgs: function() {
@@ -108,14 +110,14 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				prop1: null,
 				prop2: function() {
 					return true;
-				}};
+				} };
 
 			assert.strictEqual(observer.subscribe(someObject), someObject, "We should be able to subscribe anything and have it returned.");
 		},
 		/* Subscriber groups are really an issue for notify(). This just tests that  the subscriber gets subscribed (by returning itself) and does not throw an exception. */
 		testObserverSubscribeWithGroup: function() {
-			function subscriber() {}
-			assert.strictEqual(observer.subscribe(subscriber, {group: ns}), subscriber, "Subscribe with a group should return the subscriber.");
+			function subscriber() { }
+			assert.strictEqual(observer.subscribe(subscriber, { group: ns }), subscriber, "Subscribe with a group should return the subscriber.");
 		},
 		/* Tests of Observer context applied to a subscriber. The context supplied by a call to subscribe should be the "this" of the subscriber when notified. */
 		testObserverSubscribeWithContext: function() {
@@ -125,7 +127,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			function subscriber() {
 				actualContext = this;
 			}
-			observer.subscribe(subscriber, {context: expectedContext});
+			observer.subscribe(subscriber, { context: expectedContext });
 			observer.notify();
 			assert.strictEqual(actualContext, expectedContext, "Notify should have reset actualContext.");
 		},
@@ -133,7 +135,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			var actualContext1,
 				actualContext2,
 				expectedContext1 = document.getElementById(containerId),
-				expectedContext2 = {foo: "bar"};
+				expectedContext2 = { foo: "bar" };
 
 			function subscriber1() {
 				actualContext1 = this;
@@ -143,8 +145,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				actualContext2 = this;
 			}
 
-			observer.subscribe(subscriber1, {context: expectedContext1});
-			observer.subscribe(subscriber2, {context: expectedContext2});
+			observer.subscribe(subscriber1, { context: expectedContext1 });
+			observer.subscribe(subscriber2, { context: expectedContext2 });
 			observer.notify();
 
 			assert.strictEqual(actualContext1, expectedContext1, "Notify should have reset actualContext1.");
@@ -157,13 +159,13 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			function subscriber() {
 				actualContext = this;
 			}
-			observer.subscribe(subscriber, {context: null});  // pass nothing and we should get global context
+			observer.subscribe(subscriber, { context: null });  // pass nothing and we should get global context
 			observer.notify();
 			assert.strictEqual(actualContext, expectedContext, "Notify should have reset actualContext.");
 		},
 		testObserverSubscribeWithContextPassthru: function() {
 			var actualContext,
-				expectedContext = {foo: "bar"};
+				expectedContext = { foo: "bar" };
 
 			function subscriber() {
 				actualContext = this;
@@ -184,7 +186,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			}
 
 			expectedContext = new Subscriber();
-			observer.subscribe(expectedContext, {method: "myMethod"}); // calling a method the context should be the object to which the method belongs
+			observer.subscribe(expectedContext, { method: "myMethod" }); // calling a method the context should be the object to which the method belongs
 			observer.notify();
 			assert.strictEqual(actualContext, expectedContext, "Notify should have reset actualContext.");
 		},
@@ -197,7 +199,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 					actualContext = this;
 				};
 			}
-			observer.subscribe(new Subscriber(), {context: expectedContext, method: "myMethod"});
+			observer.subscribe(new Subscriber(), { context: expectedContext, method: "myMethod" });
 			observer.notify();
 			assert.strictEqual(actualContext, expectedContext, "Notify should have reset actualContext");
 		},
@@ -213,8 +215,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			}
 
 			// two subscribers, the second is important so gets notified first.
-			observer.subscribe(iAmNotImportant, {priority: Observer.priority.MED});
-			observer.subscribe(iAmImportant, {priority: Observer.priority.HIGH});
+			observer.subscribe(iAmNotImportant, { priority: Observer.priority.MED });
+			observer.subscribe(iAmImportant, { priority: Observer.priority.HIGH });
 			observer.notify();
 			assert.isFalse(amIImportant, "The important subscriber should be notified first, therefore amIImportant should be reset by the first subscriber");
 		},
@@ -223,7 +225,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 
 			observer.subscribe(function() {
 				lastcaller = 2;
-			}, {priority: Observer.priority.LOW});
+			}, { priority: Observer.priority.LOW });
 			observer.subscribe(function() {
 				lastcaller = 3;
 			});
@@ -238,7 +240,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			});
 			observer.subscribe(function() {
 				firstcaller = firstcaller || 2;
-			}, {priority: Observer.priority.HIGH});
+			}, { priority: Observer.priority.HIGH });
 			observer.subscribe(function() {
 				firstcaller = firstcaller || 3;
 			});
@@ -261,8 +263,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				}
 				return false;
 			}
-			observer.subscribe(iAmNotImportant, {priority: setImportanceParameter({p1: "empty"})});
-			observer.subscribe(iAmImportant, {priority: setImportanceParameter("anything")});
+			observer.subscribe(iAmNotImportant, { priority: setImportanceParameter({ p1: "empty" }) });
+			observer.subscribe(iAmImportant, { priority: setImportanceParameter("anything") });
 			observer.notify();
 			assert.isFalse(amIImportant, "The important subscriber should be notified first, therefore amIImportant should be reset by the first subscriber");
 		},
@@ -299,6 +301,76 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				assert.equal(order.join(), expected.join());
 			});
 		},
+		testStagedImportanceWaits: function () {
+			var observer = new Observer(true),
+				expected = ["high", "medium", "low"],
+				order = [];
+			/*
+				Even if the low subscribers are very fast and the high subscribers
+				very slow, each stage will complete in order if "staged" is true.
+			 */
+			observer.subscribe(function() {
+				return new Promise(function(win) {
+					timers.setTimeout(function() {
+						order.push("medium");
+						win();
+					}, 20);
+				});
+			});
+			observer.subscribe(function() {
+				order.push("low");
+			}, { priority: Observer.priority.LOW });
+			observer.subscribe(function() {
+				return new Promise(function(win) {
+					timers.setTimeout(function() {
+						order.push("high");
+						win();
+					}, 40);
+				});
+			}, { priority: Observer.priority.HIGH });
+
+			return observer.notify().then(function() {
+				assert.equal(order.join(), expected.join(), "Subscribers should wait for the previous stage to complete");
+			});
+		},
+		testStagedImportanceRandomWaits: function () {
+			var observer = new Observer(true),
+				expected = ["high", "medium", "low"],
+				delays = [getRandomInt(0, 50), getRandomInt(0, 50), getRandomInt(0, 50)],
+				order = [];
+			/*
+			 Same as test above but mix up the times
+			 */
+			observer.subscribe(function() {
+				return new Promise(function(win) {
+					timers.setTimeout(function() {
+						order.push("medium");
+						win();
+					}, delays[0]);
+				});
+			});
+			observer.subscribe(function() {
+				return new Promise(function(win) {
+					timers.setTimeout(function() {
+						order.push("low");
+						win();
+					}, delays[1]);
+				});
+			}, { priority: Observer.priority.LOW });
+			observer.subscribe(function() {
+				return new Promise(function(win) {
+					timers.setTimeout(function() {
+						order.push("high");
+						win();
+					}, delays[2]);
+				});
+			}, { priority: Observer.priority.HIGH });
+
+			return observer.notify().then(function() {
+				assert.equal(order.join(), expected.join(),
+					"Subscribers should wait for the previous stage to complete " + delays.join());
+			});
+		},
 		/* Testing the method parameter */
 		testObserverSubscribeWithMethod: function() {
 			var calledIn = null,
@@ -311,7 +383,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			}
 
 			objectSubscriber = new ObjectSubscriber();
-			observer.subscribe(objectSubscriber, {method: "doSubscribe"});
+			observer.subscribe(objectSubscriber, { method: "doSubscribe" });
 			observer.notify();
 			assert.isNotNull(calledIn, "Subscribed method should have been called.");
 		},
@@ -326,7 +398,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			}
 
 			objectSubscriber = new ObjectSubscriber();
-			observer.subscribe(objectSubscriber, {method: "doSubscribe"});
+			observer.subscribe(objectSubscriber, { method: "doSubscribe" });
 			observer.notify();
 			assert.strictEqual(calledIn, objectSubscriber, "Context should have been kept when using a subscriber Object with method name.");
 		},
@@ -345,7 +417,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			}
 
 			objectSubscriber = new ObjectSubscriber();
-			observer.subscribe(objectSubscriber, {method: "listSubscribe"});
+			observer.subscribe(objectSubscriber, { method: "listSubscribe" });
 			assert.isTrue(iHaveBeenCalled, "Subscribe should have instantiated a subscriber object");
 			observer.notify();
 			assert.isFalse(hasSubscribed, "I should not have been subscribed");
@@ -358,7 +430,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			function subscriber() {
 				isSubscribed = true;
 			}
-			function dummySubscriber() {}
+			function dummySubscriber() { }
 
 			try {
 				observer.subscribe(subscriber);
@@ -423,7 +495,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				return true;
 			}
 
-			theSubscriber = observer.subscribe(subscriber, {group: ns});
+			theSubscriber = observer.subscribe(subscriber, { group: ns });
 			assert.strictEqual(observer.unsubscribe(subscriber, ns), theSubscriber, "unsubscribe with group should return the subscriber.");
 		},
 		testObserverUnsubscribeWithGroupMismatchNotSubscriber: function() {
@@ -434,7 +506,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				return true;
 			}
 
-			theSubscriber = observer.subscribe(subscriber, {group: ns});
+			theSubscriber = observer.subscribe(subscriber, { group: ns });
 			assert.notEqual(observer.unsubscribe(subscriber), theSubscriber, "unsubscribe should not return the subscriber if not using the same group.");
 		},
 		testObserverUnsubscribeWithGroupMismatchIsNull: function() {
@@ -443,7 +515,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				return true;
 			}
 
-			observer.subscribe(subscriber, {group: ns});
+			observer.subscribe(subscriber, { group: ns });
 			assert.isNull(observer.unsubscribe(subscriber), "unsubscribe when subscribe used a different group should return null.");
 		},
 		testObserverUnsubscribeWithGroupMismatch: function() {
@@ -454,7 +526,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				isSubscribed = true;
 			}
 
-			observer.subscribe(subscriber, {group: ns});
+			observer.subscribe(subscriber, { group: ns });
 			observer.unsubscribe(subscriber); // should be nothing
 			observer.setFilter(ns);
 			observer.notify();
@@ -478,15 +550,15 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 		},
 		testObserverNotifyOrderWithMultipleImportantAndNotImportant: function() {
 			var idx = 0,
-				result = {},
-				expected = {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5};
+				result = { },
+				expected = { 0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 };
 
-			observer.subscribe(curriedSubscriber(2), {priority: Observer.priority.MED});
-			observer.subscribe(curriedSubscriber(5), {priority: Observer.priority.LOW});
-			observer.subscribe(curriedSubscriber(0), {priority: Observer.priority.HIGH});
+			observer.subscribe(curriedSubscriber(2), { priority: Observer.priority.MED });
+			observer.subscribe(curriedSubscriber(5), { priority: Observer.priority.LOW });
+			observer.subscribe(curriedSubscriber(0), { priority: Observer.priority.HIGH });
 			observer.subscribe(curriedSubscriber(3));
 			observer.subscribe(curriedSubscriber(4));
-			observer.subscribe(curriedSubscriber(1), {priority: Observer.priority.HIGH});
+			observer.subscribe(curriedSubscriber(1), { priority: Observer.priority.HIGH });
 
 			observer.notify();
 			assert.deepEqual(expected, result);
@@ -504,8 +576,12 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				ns1 = "oscar.mike.foxtrot.golf",
 				ns2 = "oscar.mike.*.golf",
 				ns3 = "whisky.tango.foxtrot",
-				result = {},
-				expected = {0: 0, 1: 1, 2: 3, 3: 5};
+				result = { },
+				expected = {
+					0: 0,
+					1: 1,
+					2: 3,
+					3: 5 };
 
 			function curriedSubscriber(expected) {
 				return function () {
@@ -514,12 +590,12 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			}
 			/* The try/finally is only here to ensure proper cleanup of the various groups. */
 			try {
-				observer.subscribe(curriedSubscriber(0), {group: ns1});
-				observer.subscribe(curriedSubscriber(1), {group: ns2});
-				observer.subscribe(curriedSubscriber(2), {group: ns3});
-				observer.subscribe(curriedSubscriber(3), {group: ns2});
-				observer.subscribe(curriedSubscriber(4), {group: ns3});
-				observer.subscribe(curriedSubscriber(5), {group: ns1});
+				observer.subscribe(curriedSubscriber(0), { group: ns1 });
+				observer.subscribe(curriedSubscriber(1), { group: ns2 });
+				observer.subscribe(curriedSubscriber(2), { group: ns3 });
+				observer.subscribe(curriedSubscriber(3), { group: ns2 });
+				observer.subscribe(curriedSubscriber(4), { group: ns3 });
+				observer.subscribe(curriedSubscriber(5), { group: ns1 });
 
 				observer.setFilter(filter);
 				observer.notify().then(function() {
@@ -544,8 +620,14 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				ns1 = "oscar.mike.foxtrot.golf",
 				ns2 = "oscar.mike.*.golf",
 				ns3 = "whisky.tango.foxtrot",
-				result = {},
-				expected = {0: 1, 1: 6, 2: 3, 3: 7, 4: 0, 5: 5};
+				result = { },
+				expected = {
+					0: 1,
+					1: 6,
+					2: 3,
+					3: 7,
+					4: 0,
+					5: 5 };
 
 			function curriedSubscriber(expected) {
 				return function () {
@@ -553,14 +635,14 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				};
 			}
 			try {
-				observer.subscribe(curriedSubscriber(0), {group: ns1, priority: Observer.priority.LOW});
-				observer.subscribe(curriedSubscriber(1), {group: ns2, priority: Observer.priority.HIGH});
-				observer.subscribe(curriedSubscriber(2), {group: ns3, priority: Observer.priority.HIGH});
-				observer.subscribe(curriedSubscriber(3), {group: ns2});
-				observer.subscribe(curriedSubscriber(4), {group: ns3});
-				observer.subscribe(curriedSubscriber(5), {group: ns1, priority: Observer.priority.LOW});
-				observer.subscribe(curriedSubscriber(6), {group: ns1, priority: Observer.priority.HIGH});
-				observer.subscribe(curriedSubscriber(7), {group: ns1, priority: Observer.priority.MED});
+				observer.subscribe(curriedSubscriber(0), { group: ns1, priority: Observer.priority.LOW });
+				observer.subscribe(curriedSubscriber(1), { group: ns2, priority: Observer.priority.HIGH });
+				observer.subscribe(curriedSubscriber(2), { group: ns3, priority: Observer.priority.HIGH });
+				observer.subscribe(curriedSubscriber(3), { group: ns2 });
+				observer.subscribe(curriedSubscriber(4), { group: ns3 });
+				observer.subscribe(curriedSubscriber(5), { group: ns1, priority: Observer.priority.LOW });
+				observer.subscribe(curriedSubscriber(6), { group: ns1, priority: Observer.priority.HIGH });
+				observer.subscribe(curriedSubscriber(7), { group: ns1, priority: Observer.priority.MED });
 				observer.setFilter(filter);
 				observer.notify().then(function() {
 					assert.deepEqual(result, expected, "YOU HAVE BROKEN OBSERVER: GO AND FIX IT! _DO NOT_ CHANGE THIS TEST.");
@@ -597,9 +679,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				wasNotified = true;
 			}
 
-			observer.subscribe(filterSubscriber, {group: ns});
+			observer.subscribe(filterSubscriber, { group: ns });
 			// if filter does nothing then the next subscriber will be the last called.
-			observer.subscribe(subscriber, {priority: Observer.priority.LOW});
+			observer.subscribe(subscriber, { priority: Observer.priority.LOW });
 
 			observer.setFilter(ns);
 			observer.notify();
@@ -626,8 +708,8 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 
 			try {
 				observer.subscribe(subscriber);
-				observer.subscribe(filterSubscriber, {group: otherNs});
-				observer.subscribe(wildFilterSubscriber, {group: wildNs});
+				observer.subscribe(filterSubscriber, { group: otherNs });
+				observer.subscribe(wildFilterSubscriber, { group: wildNs });
 
 				// wild card filter should result in both subscriberTwo and subscriberThree being called by notify
 				observer.setFilter(filterFn);
@@ -669,9 +751,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			}
 
 
-			observer.subscribe(subscriber, {group: localns});
-			observer.subscribe(filterSubscriber, {group: otherNs});
-			observer.subscribe(wildFilterSubscriber, {group: thirdNs});
+			observer.subscribe(subscriber, { group: localns });
+			observer.subscribe(filterSubscriber, { group: otherNs });
+			observer.subscribe(wildFilterSubscriber, { group: thirdNs });
 
 			observer.setFilter(filterFn);
 			observer.notify();
@@ -708,9 +790,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				wasNotified += 4;
 			}
 
-			observer.subscribe(subscriber, {group: localns});
-			observer.subscribe(filterSubscriber, {group: otherNs});
-			observer.subscribe(wildFilterSubscriber, {group: thirdNs});
+			observer.subscribe(subscriber, { group: localns });
+			observer.subscribe(filterSubscriber, { group: otherNs });
+			observer.subscribe(wildFilterSubscriber, { group: thirdNs });
 
 			observer.setFilter(filterFn);
 
@@ -734,7 +816,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			}
 
 			observer.subscribe(subscriber);
-			observer.subscribe(filterSubscriber, {group: ns});
+			observer.subscribe(filterSubscriber, { group: ns });
 
 			try {
 				observer.setFilter();  // try to call observer.setFilter with no filter defined should throw an error
@@ -756,7 +838,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			}
 
 			observer.subscribe(subscriber);
-			observer.subscribe(filterSubscriber, {group: ns});
+			observer.subscribe(filterSubscriber, { group: ns });
 
 			try {
 				observer.setFilter(null);
@@ -845,7 +927,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 		},
 		testObserverCallbackNoFunction: function() {
 			var hadError = false;
-			observer.subscribe(function () {});
+			observer.subscribe(function () { });
 			try {
 				observer.setCallback();  // this call should always result in an error
 			} catch (error) {
@@ -856,7 +938,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 		},
 		testObserverCallbackNotFunctionStillNotifies: function() {
 			var wasNotified,
-				callback = {};
+				callback = { };
 
 			function subscriber() {
 				wasNotified = true;
@@ -938,7 +1020,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			function subscriber() {
 				wasNotified = true;
 			}
-			observer.subscribe(subscriber, {group: ns});
+			observer.subscribe(subscriber, { group: ns });
 
 			observer.reset(ns);
 			observer.setFilter(ns);
@@ -954,7 +1036,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			function subscriber2() {
 				wasNotified = 2;
 			}
-			observer.subscribe(subscriber, {group: ns});
+			observer.subscribe(subscriber, { group: ns });
 			observer.subscribe(subscriber2);
 
 			observer.reset();
@@ -972,7 +1054,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			function subscriber2() {
 				wasNotified = 2;
 			}
-			observer.subscribe(subscriber, {group: ns});
+			observer.subscribe(subscriber, { group: ns });
 			observer.subscribe(subscriber2);
 
 			observer.reset(ns);
@@ -982,4 +1064,10 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			assert.strictEqual(wasNotified, 2);
 		}
 	});
+
+	function getRandomInt(min, max) {
+		min = Math.ceil(min);
+		max = Math.floor(max);
+		return Math.floor(Math.random() * (max - min)) + min;
+	}
 });

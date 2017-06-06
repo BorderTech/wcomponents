@@ -70,7 +70,7 @@ define(["wc/Observer", "wc/timers", "lib/dojo/domReady"],
 			function add(priority, method, listener) {
 				var result,
 					config = {priority: priority, method: method};
-				if (observer || (observer = new Observer())) {
+				if (observer || (observer = new Observer(true))) {
 					if (listener && (typeof listener === "function" || method)) {
 						if (instance.domLoaded) {
 							// if the page has already loaded
@@ -107,7 +107,7 @@ define(["wc/Observer", "wc/timers", "lib/dojo/domReady"],
 			*
 			* @function  module:wc/dom/initialise.go
 			* @param {Element} element document.body
-			* @param {Finction} [callback] Function which will be called after all the routines are executed.
+			* @param {Function} [callback] Function which will be called after all the routines are executed.
 			*/
 			this.go = function(element, callback) {
 				var goingObserver = observer;

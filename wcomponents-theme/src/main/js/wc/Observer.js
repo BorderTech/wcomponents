@@ -167,9 +167,9 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 				subscribers = registry.getSubscribers(filterFn);
 				if (notifyInStages) {
 					return notify(subscribers[0], scope, args).then(function() {
-						notify(subscribers[1], scope, args).then(function() {
-							notify(subscribers[2], scope, args);
-						});
+						return notify(subscribers[1], scope, args);
+					}).then(function() {
+						return notify(subscribers[2], scope, args);
 					});
 				}
 				return Promise.all([

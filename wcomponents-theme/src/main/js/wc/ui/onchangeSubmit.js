@@ -30,8 +30,7 @@ define(["wc/dom/attribute",
 				FORM = new Widget("form"),
 				optionOnLoad = [],
 				ignoreChange = false,
-				DEP_WARNING = "DEPRECATION WARNING: onChangeSubmit is deprecated as it causes accessibility problems. Use AJAX or a submit button.",
-				submitOnChangeHint;
+				DEP_WARNING = "DEPRECATION WARNING: onChangeSubmit is deprecated as it causes accessibility problems. Use AJAX or a submit button.";
 
 			/**
 			 * Registry setter helper for selects which are loaded dynamically via a datalist. Stores the option which
@@ -190,20 +189,24 @@ define(["wc/dom/attribute",
 
 				Array.prototype.forEach.call(candidates,
 					function (next) {
-						var myLabel, hint, hintContent;
+						var myLabel;
 						if (triggerManager.getTrigger(next)) {
 							return;
 						}
-						if ((myLabel = getFirstLabelForElement(next))) {
-							submitOnChangeHint = submitOnChangeHint || i18n.get("submitOnChange");
-							if ((hint = label.getHint(myLabel))) {
-								hintContent = textContent.get(hint);
-								if (hintContent.indexOf(submitOnChangeHint) === -1) {
+						myLabel = getFirstLabelForElement(next);
+						if (myLabel) {
+							i18n.translate("submitOnChange").then(function(submitOnChangeHint) {
+								var hintContent, hint = label.getHint(myLabel);
+								if (hint) {
+									hintContent = textContent.get(hint);
+									if (hintContent.indexOf(submitOnChangeHint) === -1) {
+										label.setHint(myLabel, submitOnChangeHint);
+									}
+								} else {
 									label.setHint(myLabel, submitOnChangeHint);
 								}
-							} else {
-								label.setHint(myLabel, submitOnChangeHint);
-							}
+							});
+
 						}
 					});
 			}

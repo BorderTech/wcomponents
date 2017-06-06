@@ -1,12 +1,21 @@
-define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/ajax", "wc/loader/resource", "wc/has"],
-	function(sprintf, toArray, wcconfig, mixin, ajax, resource, has) {
+define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/ajax",
+	"wc/loader/resource", "wc/has", "wc/dom/initialise"],
+	function(sprintf, toArray, wcconfig, mixin, ajax, resource, has, initialise) {
 		"use strict";
 
 		/**
 		 * Manages the loading of i18n "messages" from the relevant i18n "resource bundle".
 		 *
-		 * WARNING This module is not usable unless it is loaded as a plugin (with a bang like so "wc/i18n/i18n!") before subsequent use.
-		 * Either all modules must use it as a plugin OR this can happen in a bootstrapping phase.
+		 * WARNING i18n depends on at least one asynchronously loaded resource (the message bundle).
+		 * If you try to use it before async resources have loaded "stuff" will break.
+		 *
+		 * The easiest way to solve this is to call the async "translate" method, unfortunately
+		 * this means the calling method is async too and this can quickly branch out into EVERYTHING
+		 * being async.
+		 *
+		 * Alternatively ensure you do not use i18n "too early".
+		 * If you register with "wc/dom/initialise" you should be fine, though if you use i18n in the "preInit" phase,
+		 * it may cause a race because that's where i18n does its own initialization.
 		 *
 		 * @module
 		 * @requires external:lib/sprintf
@@ -72,6 +81,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 			 * @function module:wc/i18n/i18n.initialize
 			 * @public
 			 * @param {Object} [config] Configuration options, if provided FORCES initialize even if it has already run.
+			 * @returns {Promise} resolved when COMPLETELY initialised.
 			 */
 			this.initialize = function(config) {
 				return new Promise(function(win, lose) {
@@ -127,7 +137,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 			};
 
 			/*
-			 * Handles the requirejs plugin lifecycle.
+			 * Handles the requirejs plugin lifecycle. (TODO no longer necessary?)
 			 * For information {@see http://requirejs.org/docs/plugins.html#apiload}
 			 * @function  module:wc/i18n/i18n.load
 			 * @public
@@ -247,6 +257,12 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 				});
 			};
 		}
+
+		initialise.register({
+			preInit: function() {
+				return instance.initialize();  // Totes important, return a promise!
+			}
+		});
 
 		return instance;
 	});
