@@ -41,6 +41,33 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			observer.notify();
 			assert.isTrue(wasNotified, "The observered subscriber should be notified if it was correctly subscribed.");
 		},
+		testObserverSubscribePromise: function() {
+			var wasNotified = false;
+
+			function subscriber() {
+				wasNotified = true;
+				return Promise.resolve();
+			}
+
+			observer.subscribe(subscriber);
+			observer.notify().then(function() {
+				assert.isTrue(wasNotified, "The observered subscriber should be notified if it was correctly subscribed.");
+			});
+		},
+		testObserverSubscribeStagedPromise: function() {
+			var wasNotified = false,
+				observer = new Observer(true);
+
+			function subscriber() {
+				wasNotified = true;
+				return Promise.resolve();
+			}
+
+			observer.subscribe(subscriber);
+			observer.notify().then(function() {
+				assert.isTrue(wasNotified, "The observered subscriber should be notified if it was correctly subscribed.");
+			});
+		},
 		testObserverSubscribeSubscriberNeedsArgs: function() {
 			var wasNotified = false;
 			function subscriber(arg1, arg2) {
@@ -216,7 +243,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				firstcaller = firstcaller || 3;
 			});
 			observer.notify();
-			assert.strictEqual(firstcaller, 2, "The High prioritey subscriber should be called first.");
+			assert.strictEqual(firstcaller, 2, "The High priority subscriber should be called first.");
 		},/* The important parameter is boolean and therefore should be able to be set by another function */
 		testObserverSubscribeImportanceFunction: function() {
 			var amIImportant = true;
@@ -238,6 +265,39 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			observer.subscribe(iAmImportant, {priority: setImportanceParameter("anything")});
 			observer.notify();
 			assert.isFalse(amIImportant, "The important subscriber should be notified first, therefore amIImportant should be reset by the first subscriber");
+		},
+		testImportanceWithPromise: function () {
+			var expected = ["high", "medium", "low"],
+				order = [];
+			observer.subscribe(function() {
+				order.push("medium");
+			});
+			observer.subscribe(function() {
+				order.push("low");
+			}, { priority: Observer.priority.LOW });
+			observer.subscribe(function() {
+				order.push("high");
+			}, { priority: Observer.priority.HIGH });
+			return observer.notify().then(function() {
+				assert.equal(order.join(), expected.join());
+			});
+		},
+		testStagedImportance: function () {
+			var observer = new Observer(true),
+				expected = ["high", "medium", "low"],
+				order = [];
+			observer.subscribe(function() {
+				order.push("medium");
+			});
+			observer.subscribe(function() {
+				order.push("low");
+			}, { priority: Observer.priority.LOW });
+			observer.subscribe(function() {
+				order.push("high");
+			}, { priority: Observer.priority.HIGH });
+			return observer.notify().then(function() {
+				assert.equal(order.join(), expected.join());
+			});
 		},
 		/* Testing the method parameter */
 		testObserverSubscribeWithMethod: function() {
@@ -462,7 +522,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				observer.subscribe(curriedSubscriber(5), {group: ns1});
 
 				observer.setFilter(filter);
-				observer.notify();
+				observer.notify().then(function() {
+					assert.deepEqual(result, expected);
+				});
 			} finally {
 				assert.deepEqual(result, expected);
 				observer.reset(ns1);
@@ -500,7 +562,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				observer.subscribe(curriedSubscriber(6), {group: ns1, priority: Observer.priority.HIGH});
 				observer.subscribe(curriedSubscriber(7), {group: ns1, priority: Observer.priority.MED});
 				observer.setFilter(filter);
-				observer.notify();
+				observer.notify().then(function() {
+					assert.deepEqual(result, expected, "YOU HAVE BROKEN OBSERVER: GO AND FIX IT! _DO NOT_ CHANGE THIS TEST.");
+				});
 			} finally {
 				assert.deepEqual(result, expected, "YOU HAVE BROKEN OBSERVER: GO AND FIX IT! _DO NOT_ CHANGE THIS TEST.");
 				observer.reset(ns1);

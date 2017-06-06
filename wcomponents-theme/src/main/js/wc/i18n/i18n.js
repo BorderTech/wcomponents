@@ -26,8 +26,8 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 		 */
 		function I18n() {
 
-			var noop = function() {
-					console.warn("Calling i18n before inited");
+			var noop = function(key) {
+					console.warn("Calling i18n before inited ", key);
 					return "";
 				},
 				GOOG_RE = /^(.+)-x-mtfrom-(.+)$/;
