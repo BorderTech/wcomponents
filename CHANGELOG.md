@@ -8,6 +8,7 @@
 
 * Updated theme resource build to split core and implementation copy into separate steps #1222.
 * Fixed an error which caused the maximise button in dialog frames to sometimes display the wrong state #1229.
+* Fixed an XSLT error which caused incorrect render of WPrintButton when the button contained an image #1232.
 
 ### Enhancements
 
