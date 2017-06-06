@@ -212,7 +212,18 @@ public class SeleniumWComponentWebElement implements WebElement {
 	@Override
 	public void sendKeys(final CharSequence... keys) {
 		element.sendKeys(keys);
-		waitForPageReady();
+	}
+
+	/**
+	 * Send a key sequence and optionally wait for page ready afterwards.
+	 * @param wait if {@code true} then wait for page ready after sending the keys
+	 * @param keys The keys to send
+	 */
+	public void sendKeys(final boolean wait, final CharSequence... keys) {
+		element.sendKeys(keys);
+		if (wait) {
+			waitForPageReady();
+		}
 	}
 
 	/**
