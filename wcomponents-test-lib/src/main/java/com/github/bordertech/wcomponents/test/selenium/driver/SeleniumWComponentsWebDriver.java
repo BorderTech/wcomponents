@@ -12,6 +12,7 @@ import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWEmailFie
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWLabelWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMessageBoxWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMessagesWebElement;
+import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMultiDropdownWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWMultiSelectPairWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWPhoneNumberFieldWebElement;
 import com.github.bordertech.wcomponents.test.selenium.element.SeleniumWRadioButtonSelectWebElement;
@@ -304,6 +305,15 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 	 */
 	public SeleniumWMessageBoxWebElement findWMessageBox(final By by) {
 		return new SeleniumWMessageBoxWebElement(findElementImmediate(by), this);
+	}
+
+	/**
+	 * Fins a WMultiDropdown by the given criteria.
+	 * @param by the By selector
+	 * @return the SeleniumWMultiDropdownWebElement
+	 */
+	public SeleniumWMultiDropdownWebElement findWMultiDropdown(final By by) {
+		return new SeleniumWMultiDropdownWebElement(findElementImmediate(by), this);
 	}
 
 	/**
@@ -713,5 +723,4 @@ public class SeleniumWComponentsWebDriver<T extends WebDriver> implements WebDri
 		}
 		return new SeleniumWComponentWebElement(element, this);
 	}
-
 }

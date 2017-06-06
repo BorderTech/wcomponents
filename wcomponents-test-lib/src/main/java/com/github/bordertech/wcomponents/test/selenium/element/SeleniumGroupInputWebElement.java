@@ -56,7 +56,7 @@ public abstract class SeleniumGroupInputWebElement extends SeleniumWComponentWeb
 	 * @return {@code true} if the input is mandatory
 	 */
 	public boolean isMandatory() {
-		if (isReadOnly()) {
+		if (!isEnabled()) {
 			return false;
 		}
 		String className = getAttribute("class");
