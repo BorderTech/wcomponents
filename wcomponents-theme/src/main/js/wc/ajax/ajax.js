@@ -1,19 +1,20 @@
-/* This is IIFE as it needs "window" and is a dependency of the wc/i18n/i18n plugin. */
-(function (global) {
-	/**
-	 * Provides non-implementation specific ajax functionality. Beef it up as you need to.
-	 *
-	 * @module
-	 *
-	 * @requires module:wc/Observer
-	 * @requires module:wc/xml/xmlString
-	 * @requires module:wc/timers
-	 * @requires module:wc/has
-	 *
-	 * @todo Document private members
-	 */
-	define(["wc/Observer", "wc/xml/xmlString", "wc/timers", "wc/has", "wc/dom/uid", "wc/fix/getActiveX_ieAll", "require"],
-	function(Observer, xmlString, timers, has, uid, getActiveX, require) {
+/**
+ * Provides non-implementation specific ajax functionality. Beef it up as you need to.
+ *
+ * @module
+ *
+ * @requires module:wc/Observer
+ * @requires module:wc/global
+ * @requires module:wc/xml/xmlString
+ * @requires module:wc/timers
+ * @requires module:wc/has
+ * @requires module:wc/dom/uid
+ * @requires module:wc/fix/getActiveX_ieAll
+ *
+ * @todo Document private members
+ */
+define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "wc/dom/uid", "wc/fix/getActiveX_ieAll", "require"],
+	function(Observer, global, xmlString, timers, has, uid, getActiveX, require) {
 		"use strict";
 
 		/**
@@ -364,7 +365,7 @@
 			 * @public
 			 * @param {module:wc/ajax/ajax~Request} request Holds the details of the request to be sent.
 			 * @returns {XMLHTTPRequest} The XHR instance.
-			*/
+			 */
 			this.simpleRequest = function(request) {
 				var result;
 				request.async = (request.async === undefined) ? true : request.async;
@@ -589,4 +590,3 @@
 		 *    browsers, don't rely on this, get it right on the server).
 		 */
 	});
-}(this));
