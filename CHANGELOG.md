@@ -6,6 +6,12 @@
 
 ### Bug Fixes
 
+### Enhancements
+
+## Release 1.4.2
+
+### Bug Fixes
+
 * Replaced support for WDropdown optionWidth on native dropdowns (should not be there) but in a more configurable and potentially responive way #1243.
 * Updated theme resource build to split core and implementation copy into separate steps #1222.
 * Fixed an error which caused the maximise button in dialog frames to sometimes display the wrong state #1229.
