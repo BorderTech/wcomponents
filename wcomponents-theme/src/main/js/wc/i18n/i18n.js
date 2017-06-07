@@ -1,13 +1,21 @@
-define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/ajax", "wc/loader/resource", "wc/has"],
-	function(sprintf, toArray, wcconfig, mixin, ajax, resource, has) {
+define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/ajax",
+	"wc/loader/resource", "wc/has", "wc/dom/initialise"],
+	function(sprintf, toArray, wcconfig, mixin, ajax, resource, has, initialise) {
 		"use strict";
-		var funcTranslate;
 
 		/**
 		 * Manages the loading of i18n "messages" from the relevant i18n "resource bundle".
 		 *
-		 * WARNING This module is not usable unless it is loaded as a plugin (with a bang like so "wc/i18n/i18n!") before subsequent use.
-		 * Either all modules must use it as a plugin OR this can happen in a bootstrapping phase.
+		 * WARNING i18n depends on at least one asynchronously loaded resource (the message bundle).
+		 * If you try to use it before async resources have loaded "stuff" will break.
+		 *
+		 * The easiest way to solve this is to call the async "translate" method, unfortunately
+		 * this means the calling method is async too and this can quickly branch out into EVERYTHING
+		 * being async.
+		 *
+		 * Alternatively ensure you do not use i18n "too early".
+		 * If you register with "wc/dom/initialise" you should be fine, though if you use i18n in the "preInit" phase,
+		 * it may cause a race because that's where i18n does its own initialization.
 		 *
 		 * @module
 		 * @requires external:lib/sprintf
@@ -18,7 +26,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 		 * @requires module:wc/ajax/ajax
 		 * @requires module:wc/loader/resource
 		 */
-		var i18next, instance = new I18n();
+		var instance = new I18n();
 
 		/**
 		 * @constructor
@@ -27,7 +35,11 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 		 */
 		function I18n() {
 
-			var GOOG_RE = /^(.+)-x-mtfrom-(.+)$/;
+			var noop = function(key) {
+					console.warn("Calling i18n before inited ", key);
+					return "";
+				},
+				GOOG_RE = /^(.+)-x-mtfrom-(.+)$/;
 
 			/**
 			 * The language to use when no preference has been explicitly specified.
@@ -68,27 +80,42 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 			 * Initialize this module.
 			 * @function module:wc/i18n/i18n.initialize
 			 * @public
-			 * @param {Object} [config] Configuration options.
-			 * @param {Function} [callback] Called when initialized.
+			 * @param {Object} [config] Configuration options, if provided FORCES initialize even if it has already run.
+			 * @returns {Promise} resolved when COMPLETELY initialised.
 			 */
-			this.initialize = function(config, callback) {
-				if (!has("ie") || has("ie") > 9) {
-					require(["lib/i18next"], function(engine) {  // Should we prefetch this? Does this make it load too late? Does it NEED to be in the layer?
-						i18next = engine;
-						initI18next(config || {}, function(err, translate) {
-							if (translate) {
-								funcTranslate = translate;
-							}
-							if (err) {
-								console.error(err);
-							}
-							callback();
-						});
-					});
-				} else {
-					callback();
-				}
+			this.initialize = function(config) {
+				return new Promise(function(win, lose) {
+					// If we're not in an old version of Internet Explorer
+					if (!has("ie") || has("ie") > 9) {
+						if (config || instance.get === noop) {
+							require(["lib/i18next"], function(engine) {  // Should we prefetch this? Does this make it load too late? Does it NEED to be in the layer?
+								var useConfig = config || wcconfig.get("wc/i18n/i18n") || {};
+								initI18next(engine, useConfig, function(err, translate) {
+									if (translate) {
+										instance.get = translatorFactory(translate);
+									}
+									if (err) {
+										lose(err);
+									} else {
+										win();
+									}
+
+								});
+							});
+						} else {
+							win();
+						}
+					} else {
+						win();
+					}
+				});
 			};
+
+			/**
+			 * This will be set to something useful when is inited.
+			 * @deprecated Use translate method instead.
+			 */
+			this.get = noop;
 
 			/**
 			 * Gets an internationalized string/message from the resource bundle.
@@ -99,47 +126,56 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 			 * @param {*} [args]* 0..n additional arguments will be used to printf format the string before it is
 			 *    returned. Note: It's up to the caller to ensure the correct args (type, number etc...) are passed to
 			 *    printf formatted messages.
-			 * @returns {String} The message value, i.e. the value of an i18n key/value pair. If not found will return an empty string.
+			 * @returns {Promise} resolved with {String} The message value, i.e. the value of an i18n key/value pair.
+			 *     If not found will return an empty string.
 			 */
-			this.get = function(key/* , args */) {
-				var args,
-					result = (key && funcTranslate) ? funcTranslate(key) : "";
-				if (result && arguments.length > 1) {
-					args = toArray(arguments);
-					args.shift();
-					args.unshift(result);
-					result = sprintf.sprintf.apply(this, args);
-				}
-				return result;
+			this.translate = function(/* key, args */) {
+				var outerArgs = arguments;
+				return instance.initialize().then(function() {
+					return instance.get.apply(instance, outerArgs);
+				});
 			};
 
 			/*
-			 * Handles the requirejs plugin lifecycle.
+			 * Handles the requirejs plugin lifecycle. (TODO no longer necessary?)
 			 * For information {@see http://requirejs.org/docs/plugins.html#apiload}
 			 * @function  module:wc/i18n/i18n.load
 			 * @public
 			 */
 			this.load = function (id, parentRequire, callback, config) {
 				if (!config || !config.isBuild) {
-					instance.initialize(wcconfig.get("wc/i18n/i18n"), callback);
+					instance.initialize().then(callback);
 				} else {
 					callback();
 				}
 			};
 
-			/**
-			 * Pass-through for i18next.t.
-			 *
-			 * @function  module:wc/i18n/i18n.t
-			 * @public
-			 * @param {*} [arguments]* 0..n arguments passed to i18next.t
-			 * @return {String} The internationalised version of the input.
-			 */
-			this.t = function() {
-				if (i18next) {
-					return i18next.t.apply(i18next, arguments);
+			function translatorFactory(funcTranslate) {
+				/**
+				 * Gets an internationalized string/message from the resource bundle.
+				 *
+				 * @function module:wc/i18n/i18n.get
+				 * @public
+				 * @param {String} key A message key, i.e. the key of an i18n key/value pair.
+				 * @param {*} [args]* 0..n additional arguments will be used to printf format the string before it is
+				 *    returned. Note: It's up to the caller to ensure the correct args (type, number etc...) are passed to
+				 *    printf formatted messages.
+				 * @returns {String} The message value, i.e. the value of an i18n key/value pair. If not found will return an empty string.
+				 * @deprecated Use translate method instead.
+				 */
+				function translator(key/* , args */) {
+					var args,
+						result = (key && funcTranslate) ? funcTranslate(key) : "";
+					if (result && arguments.length > 1) {
+						args = toArray(arguments);
+						args.shift();
+						args.unshift(result);
+						result = sprintf.sprintf.apply(this, args);
+					}
+					return result;
 				}
-			};
+				return translator;
+			}
 		}
 
 		/**
@@ -171,14 +207,15 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 		 * Initialize the underlying i18next instance.
 		 * @function
 		 * @private
+		 * @param engine The instance of i18next to initialise.
 		 * @param config Configuration options.
-		 * @param {Function} [callback] Called when initialized.
+		 * @param {Function} [callback] Called when initialized, if the first arg is not falsey it's an error.
 		 */
-		function initI18next(config, callback) {
+		function initI18next(engine, config, callback) {
 			var options = getOptions(config),
 				backend = new Backend();
 			try {
-				i18next.use(backend).init(options, callback);
+				engine.use(backend).init(options, callback);
 			} catch (ex) {
 				callback(ex);
 			}
@@ -221,9 +258,11 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 			};
 		}
 
+		initialise.register({
+			preInit: function() {
+				return instance.initialize();  // Totes important, return a promise!
+			}
+		});
 
-		// I18n.call(instance.get);
-		mixin(instance, instance.get);
-
-		return instance.get;
+		return instance;
 	});

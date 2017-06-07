@@ -5,12 +5,12 @@
  * @module
  * @requires module:wc/Observer
  * @requires module:wc/timers
- * @requires external:lib/dojo/domReady
+ * @requires module:wc/global
+ * @requires external:lib/requirejs/domReady
  * @todo re-order code, document private members.
  */
-define(["wc/Observer", "wc/timers", "lib/dojo/domReady"],
-	/** @param Observer wc/Observer @param timers wc/timers @param domReady lib/dojo/domReady @ignore */
-	function(Observer, timers, domReady) {
+define(["wc/Observer", "wc/timers", "wc/global", "lib/requirejs/domReady"],
+	function(Observer, timers, global, domReady) {
 		"use strict";
 
 		/**
@@ -70,7 +70,7 @@ define(["wc/Observer", "wc/timers", "lib/dojo/domReady"],
 			function add(priority, method, listener) {
 				var result,
 					config = {priority: priority, method: method};
-				if (observer || (observer = new Observer())) {
+				if (observer || (observer = new Observer(true))) {
 					if (listener && (typeof listener === "function" || method)) {
 						if (instance.domLoaded) {
 							// if the page has already loaded
@@ -96,7 +96,7 @@ define(["wc/Observer", "wc/timers", "lib/dojo/domReady"],
 				if (queue) {
 					timers.clearTimeout(queue);
 				}
-				queue = timers.setTimeout(instance.go, 100, document.body);
+				queue = timers.setTimeout(instance.go, 100, global.document.body);
 			}
 
 			/**
@@ -107,7 +107,7 @@ define(["wc/Observer", "wc/timers", "lib/dojo/domReady"],
 			*
 			* @function  module:wc/dom/initialise.go
 			* @param {Element} element document.body
-			* @param {Finction} [callback] Function which will be called after all the routines are executed.
+			* @param {Function} [callback] Function which will be called after all the routines are executed.
 			*/
 			this.go = function(element, callback) {
 				var goingObserver = observer;
@@ -172,13 +172,15 @@ define(["wc/Observer", "wc/timers", "lib/dojo/domReady"],
 		var /** @alias module:wc/dom/initialise */ instance = new Initialise();
 
 		domReady(function() {
-			timers.setTimeout(function() {
-				try {
-					instance.go(document.body);
-				} finally {
-					instance.domLoaded = true;
-				}
-			}, 0);
+			if (global.document) {
+				timers.setTimeout(function() {
+					try {
+						instance.go(global.document.body);
+					} finally {
+						instance.domLoaded = true;
+					}
+				}, 0);
+			}
 		});
 
 		return instance;

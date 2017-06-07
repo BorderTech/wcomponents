@@ -64,7 +64,7 @@ define(["wc/has",
 			 * @function
 			 * @private
 			 * @param {Element} element A dateField or an option in the list.
-			 * @param {integer} force Use a specific direction rather than doing a component lookup:
+			 * @param {integer} [force] Use a specific direction rather than doing a component lookup:
 			 *    <ul>
 			 *    <li>-1 look down (findDescendant)</li>
 			 *    <li>1 look up (findAncestor)</li>
@@ -452,7 +452,7 @@ define(["wc/has",
 			 * @function
 			 * @private
 			 * @param {Element} dateField a date field
-			 * @param {integer} [delay] a timeout delay, default to 250 if not set. Set explicitly to 0 to have no delay.
+			 * @param {Number} [delay] a timeout delay, default to 250 if not set. Set explicitly to 0 to have no delay.
 			 */
 			function filterOptions(dateField, delay) {
 				var _delay = delay;
@@ -516,7 +516,7 @@ define(["wc/has",
 			 * unnecessary artifacts if the input is a native date input.
 			 * @function
 			 * @private
-			 * @param {Element} container A HTML element which is itself or may contain date fields.
+			 * @param {Element|DocumentFragment} [container] A HTML element which is itself or may contain date fields.
 			 */
 			function setUpDateFields(container) {
 				var _container = container || document.body,

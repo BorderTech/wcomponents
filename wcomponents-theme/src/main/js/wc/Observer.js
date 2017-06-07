@@ -12,7 +12,9 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 	 *
 	 * After instantiating an observer instance subsribe using {@link module:wc/Observer#subscribe} and publish using
 	 * {@link module:wc/Observer#notify}
-	 *
+	 * @param {boolean} [notifyInStages] If true then lower priority subscribers will only be notified once all higher
+	 *     subscribers in a higher priority have resolved. This only makes sense when subscribers return a promise.
+	 *     Beware that it effectively makes the notify call asynchronous!
 	 * @constructor
 	 * @alias module:wc/Observer
 	 * @example  // the simplest usage
@@ -21,7 +23,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 	 * observer.notify("foo");  // alerts "foo"
 	 *
 	 */
-	function Observer() {
+	function Observer(notifyInStages) {
 		var registry = new SubscriberRegistry(),
 			filterFn = null,
 			callback = null,
@@ -76,7 +78,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 		 * @function
 		 * @public
 		 * @param {(Function|Object)} subscriber A callback which will be called when the notify method is called or
-		 * an object which provides a public method with the name specified in config.method.
+		 *    an object which provides a public method with the name specified in config.method.
 		 * @param {Object} [config] An object containing configuration option.
 		 * @param {String} [config.group] Associate the subscriber with the given group. When notify is called the
 		 *    subscribers to be notified can be filtered based on their group. Default value is DEFAULT_GROUP. See
@@ -147,6 +149,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 		 * @function
 		 * @public
 		 * @param {...*} [args] 0..n additional arguments to supply to the subscriber.
+		 * @returns {Promise} resolved when all subscribers are resolved (if they returned a "thenable").
 		 * @example
 		 * var observer = new Observer();
 		 * observer.subscribe(function() {var i=0; while (i < arguments.length)console.log(arguments[i++]);});
@@ -159,34 +162,56 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 		 * // tweet
 		 */
 		this.notify = function() {
+			var subscribers, scope = this, args = arguments;
 			try {
-				var result,
-					next,
-					i,
-					subscribers = registry.getSubscribers(filterFn),
-					len = subscribers ? subscribers.length : 0;
-				// notify each subscriber
-				// if a callback is set we will notify the callback after each subscriber
-				// the callback can short-circuit the process by returning true
-				for (i = 0; i < len; i++) {
-					next = subscribers[i];
-					result = next.notify.call(this, arguments);  // "call" so caller can pass thru scope
-					try {
-						if (typeof callback === FUNCTION) {
-							if (callback(result) === true) {
-								break;
-							}
-						}
-					} catch (ex) {
-						console.error("Error in callback: ", callback, ex.message);
-					}
+				subscribers = registry.getSubscribers(filterFn);
+				if (notifyInStages) {
+					return notify(subscribers[0], scope, args).then(function() {
+						return notify(subscribers[1], scope, args);
+					}).then(function() {
+						return notify(subscribers[2], scope, args);
+					});
 				}
+				return Promise.all([
+					notify(subscribers[0], scope, args),
+					notify(subscribers[1], scope, args),
+					notify(subscribers[2], scope, args)]);
 			} finally {
 				// reset instance variables
 				filterFn = null;
 				callback = null;
 			}
 		};
+
+		function notify(subscribers, scope, args) {
+			var promises = [],
+				nextResult,
+				next,
+				i,
+				len = subscribers ? subscribers.length : 0;
+			// notify each subscriber
+			// if a callback is set we will notify the callback after each subscriber
+			// the callback can short-circuit the process by returning true
+			for (i = 0; i < len; i++) {
+				next = subscribers[i];
+				nextResult = next.notify.call(scope, args);  // "call" so caller can pass thru scope
+				try {
+					if (typeof callback === FUNCTION) {
+						if (callback(nextResult) === true) {
+							promises[promises.length] = Promise.reject();
+							break;
+						}
+					}
+				} catch (ex) {
+					console.error("Error in callback: ", callback, ex.message);
+				}
+				if (nextResult && typeof nextResult.then === FUNCTION) {
+					// We accept any "thenable" whether it's a real Promise or not.
+					promises[promises.length] = nextResult;  // Promise.all will wrap "thenable" objects in a Promise
+				}
+			}
+			return Promise.all(promises);  // will be immediately resolved if zero length
+		}
 
 		/**
 		 * A filter function should be set before each call to notify if it is desired, as notify will reset the
@@ -648,9 +673,15 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 		 * Get a sorted collection of all subscribers in this group.
 		 * @function
 		 * @public
-		 * @returns {module:wc/Observer~Subscriber[]} An array of ALL Subscriber instances in this group, sorted from
-		 * high priority to low priority where index zero is the first high priority subscriber added and the highest
-		 * index is the last low priority subscriber added.
+		 * @returns {module:wc/Observer~Subscriber[][]} An array of ALL Subscriber instances in this group.
+		 *     index 0 is high priority
+		 *     index 1 is medium priority
+		 *     index 2 is low priority
+		 * Each array is sorted according to when the subscriber was added for example:
+		 * [0][0] is the first high priority subscriber added
+		 * [1][0] is the first medium priority subscriber added
+		 * [2][0] is the first low priority subscriber added
+		 *
 		 */
 		this.getSubscribers = function() {
 			if (unsorted & HIGH) {
@@ -663,12 +694,12 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 				this[LOW].sort(sortSubscribers);
 			}
 			unsorted = 0;
-			return this[HIGH].concat(this[MED], this[LOW]);
+			return [this[HIGH].concat(), this[MED].concat(), this[LOW].concat()];
 		};
 
 		/**
-		 * This is a performance friendly way of getting a count of all subscribers. Do not call "getSubscribers" just
-		 * to get the length (because that will cause a sort).
+		 * This is a performance friendly way of getting a count of all subscribers.
+		 * Do not call "getSubscribers" just to get the length (because that will cause a sort).
 		 * @function
 		 * @public
 		 * @returns {number} The count of all subscribers in this group.
