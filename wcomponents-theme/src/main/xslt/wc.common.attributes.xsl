@@ -251,7 +251,7 @@
 				</xsl:if>
 				<xsl:if test="self::ui:dropdown and @optionWidth">
 					<xsl:if test="(@submitOnChange and not(@list))">
-						<xsl:text> </xsl:text>
+						<xsl:value-of select="' '"/>
 					</xsl:if>
 					<xsl:text>wc-dd-ow-</xsl:text>
 					<xsl:value-of select="@optionWidth"/>
