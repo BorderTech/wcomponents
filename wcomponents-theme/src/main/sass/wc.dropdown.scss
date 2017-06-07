@@ -1,0 +1,31 @@
+@import 'mixins/common';
+
+$wc-dd-opt-max-fives: floor($wc-dd-optwidth-max / 5);
+
+@if ($wc-dd-optwidth-list == -1) {
+  @for $i from 1 through $wc-dd-optwidth-max {
+    .wc-dd-ow-#{$i} {
+      max-width: #{$i}em;
+    }
+  }
+} @else {
+  @if ($wc-dd-optwidth-include-fives == 1) {
+
+    // Every multiple of 5%
+    @for $i from 1 through $wc-dd-opt-max-fives {
+      $w: $i * 5;
+
+      .wc-dd-ow-#{$w} {
+        max-width: #{$w}em;
+      }
+    }
+  }
+
+  @if ($wc-dd-optwidth-list != 0) {
+    @each $w in $wc-dd-optwidth-list {
+      .wc-dd-ow-#{$w} {
+        max-width: #{$w}em;
+      }
+    }
+  }
+}

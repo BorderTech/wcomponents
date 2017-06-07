@@ -244,9 +244,18 @@
 				<xsl:value-of select="@buttonId" />
 			</xsl:attribute>
 		</xsl:if>
-		<xsl:if test="@submitOnChange and not(@list)">
+		<xsl:if test="(@submitOnChange and not(@list)) or (self::ui:dropdown and @optionWidth)">
 			<xsl:attribute name="class">
-				<xsl:text>wc_soc</xsl:text>
+				<xsl:if test="@submitOnChange and not(@list)">
+					<xsl:text>wc_soc</xsl:text>
+				</xsl:if>
+				<xsl:if test="self::ui:dropdown and @optionWidth">
+					<xsl:if test="(@submitOnChange and not(@list))">
+						<xsl:text> </xsl:text>
+					</xsl:if>
+					<xsl:text>wc-dd-ow-</xsl:text>
+					<xsl:value-of select="@optionWidth"/>
+				</xsl:if>
 			</xsl:attribute>
 		</xsl:if>
 	</xsl:template>
