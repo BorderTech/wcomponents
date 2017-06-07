@@ -29,51 +29,55 @@ public class WMultiSelectPairTestingExample_Test extends WComponentExamplesTestC
 	private static final String[] SHAPES = new String[]{"Circle", "Oval", "Rectangle", "Square", "Triangle"};
 
 	/**
+	 *
+	 * @param text the WMultiSelectPair's label's text
+	 * @return a representation of a WMultiSelectPair
+	 */
+	private SeleniumWMultiSelectPairWebElement getByLabel(final String text) {
+		SeleniumWComponentsWebDriver driver = getDriver();
+		return driver.findWMultiSelectPair(new ByLabel(text, false));
+	}
+
+	/**
 	 * @return a known good interactive example with no selections
 	 */
 	private SeleniumWMultiSelectPairWebElement getExampleNoSelection() {
-		SeleniumWComponentsWebDriver driver = getDriver();
-		return driver.findWMultiSelectPair(new ByLabel("Simple", false));
+		return getByLabel("Simple");
 	}
 
 	/**
 	 * @return a known good interactive example with selections
 	 */
 	private SeleniumWMultiSelectPairWebElement getExampleWithSelection() {
-		SeleniumWComponentsWebDriver driver = getDriver();
-		return driver.findWMultiSelectPair(new ByLabel("All selected", false));
+		return getByLabel("All selected");
 	}
 
 	/**
 	 * @return a known good disabled example with default selections
 	 */
 	private SeleniumWMultiSelectPairWebElement getExampleDisabledWithSelection() {
-		SeleniumWComponentsWebDriver driver = getDriver();
-		return driver.findWMultiSelectPair(new ByLabel("Disabled with apparent selection", false));
+		return getByLabel("Disabled with apparent selection");
 	}
 
 	/**
 	 * @return a known good read-only example with no selections
 	 */
 	private SeleniumWMultiSelectPairWebElement getExampleRadOnlyNoSelection() {
-		SeleniumWComponentsWebDriver driver = getDriver();
-		return driver.findWMultiSelectPair(new ByLabel("Read-only no selection", false));
+		return getByLabel("Read-only no selection");
 	}
 
 	/**
 	 * @return a known good read-only example with selections
 	 */
 	private SeleniumWMultiSelectPairWebElement getExampleReadOnlyWithSelection() {
-		SeleniumWComponentsWebDriver driver = getDriver();
-		return driver.findWMultiSelectPair(new ByLabel("Read-only with selection", false));
+		return getByLabel("Read-only with selection");
 	}
 
 	/**
 	 * @return a known good example with some selected options
 	 */
 	private SeleniumWMultiSelectPairWebElement getExampleWithSomeSelection() {
-		SeleniumWComponentsWebDriver driver = getDriver();
-		return driver.findWMultiSelectPair(new ByLabel("Some selected", false));
+		return getByLabel("Some selected");
 	}
 
 	/**
