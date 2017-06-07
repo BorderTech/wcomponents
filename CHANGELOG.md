@@ -6,11 +6,14 @@
 
 ### Bug Fixes
 
+* Replaced support for WDropdown optionWidth on native dropdowns (should not be there) but in a more configurable and potentially responive way #1243.
 * Updated theme resource build to split core and implementation copy into separate steps #1222.
 * Fixed an error which caused the maximise button in dialog frames to sometimes display the wrong state #1229.
 * Fixed an XSLT error which caused incorrect render of WPrintButton when the button contained an image #1232.
 
 ### Enhancements
+
+* Added a Selenium WebElement extension for WMultiDropdown #605.
 
 ## Release 1.4.1
 

@@ -1,0 +1,18 @@
+@import 'mixins/common';
+
+
+@if ($wc-dd-optwidth-list == -1) {
+  @if ($wc-dd-optwidth-min >= 1 and $wc-dd-optwidth-min <= $wc-dd-optwidth-max) {
+    @for $i from $wc-dd-optwidth-min through $wc-dd-optwidth-max {
+      .wc-dd-ow-#{$i} {
+        max-width: #{$i}em;
+      }
+    }
+  }
+} @else if ($wc-dd-optwidth-list != 0) {
+  @each $w in $wc-dd-optwidth-list {
+    .wc-dd-ow-#{$w} {
+      max-width: #{$w}em;
+    }
+  }
+}

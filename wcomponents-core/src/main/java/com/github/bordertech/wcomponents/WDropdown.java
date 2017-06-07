@@ -129,10 +129,12 @@ public class WDropdown extends AbstractWSingleSelectList implements AjaxTrigger,
 	}
 
 	/**
-	 * Set the width of the selectable options when rendered to screen. Has no effect with a native drop down.
+	 * Set the width of the selectable options in a COMBO when rendered to screen. Has no effect with a native drop down.
 	 *
 	 * @param optionWidth the option width.
+	 * @deprecated as DropdownType.COMBO is deprecated.
 	 */
+	@Deprecated
 	public void setOptionWidth(final int optionWidth) {
 		getOrCreateComponentModel().optionWidth = optionWidth;
 	}
