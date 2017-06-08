@@ -97,6 +97,26 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					assert.isTrue(result.indexOf(arg) >= 0);
 				});
 			},
+			testGetKeyArray: function() {
+				return new Promise(function(win, lose) {
+					try {
+						i18n.translate("chars_remaining", 2).then(function(charsRemaining) {
+							i18n.translate("day4").then(function(day4) {
+								/*
+								 * Check that we receive an array of translations in the correct order.
+								 */
+								var expected = [day4, charsRemaining],
+									key = ["day4", "chars_remaining"],
+									actual = i18n.get(key, 2);
+								assert.equal(actual.join(), expected.join());
+								win();
+							}, lose);
+						}, lose);
+					} catch (ex) {
+						lose(ex);
+					}
+				});
+			},
 			testTranslate: function() {
 				return new Promise(function(win, lose) {
 					try {
@@ -108,6 +128,49 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 						i18n.translate(key).then(function(result) {
 							assert.isTrue(result.length > 0);
 							win();
+						}, lose);
+					} catch (ex) {
+						lose(ex);
+					}
+				});
+			},
+			testTranslateKeyArray: function() {
+				return new Promise(function(win, lose) {
+					try {
+						i18n.translate("chars_remaining", 2).then(function(charsRemaining) {
+							i18n.translate("day4").then(function(day4) {
+								/*
+								 * Check that we receive an array of translations in the correct order.
+								 */
+								var expected = [day4, charsRemaining],
+									key = ["day4", "chars_remaining"];
+								i18n.translate(key, 2).then(function(result) {
+									assert.equal(result.join(), expected.join());
+									win();
+								}, lose);
+							}, lose);
+						}, lose);
+					} catch (ex) {
+						lose(ex);
+					}
+				});
+			},
+			testTranslateKeyArrayDodgyKeys: function() {
+				return new Promise(function(win, lose) {
+					try {
+						i18n.translate("chars_remaining").then(function(charsRemaining) {
+							i18n.translate("day4").then(function(day4) {
+								/*
+								 * Check that we receive an array of translations in the correct order.
+								 */
+								var key = ["day4", null, "chars_remaining", "fukung_kungfu"];
+								i18n.translate(key).then(function(result) {
+									assert.equal(result.length, key.length, "should get a translation for each key");
+									assert.equal(result[0], day4);
+									assert.equal(result[2], charsRemaining);
+									win();
+								}, lose);
+							}, lose);
 						}, lose);
 					} catch (ex) {
 						lose(ex);

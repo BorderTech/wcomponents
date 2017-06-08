@@ -366,7 +366,7 @@ define(["wc/Observer",
 			this[actions.SHOW] = function (element, quiet) {
 				shedHelper(element, HIDDEN, null);
 				if (!quiet) {
-					instance.publish(element, actions.SHOW);
+					return instance.publish(element, actions.SHOW);
 				}
 			};
 
@@ -380,8 +380,9 @@ define(["wc/Observer",
 			this[actions.HIDE] = function (element, quiet) {
 				shedHelper(element, HIDDEN, HIDDEN);
 				if (!quiet) {
-					instance.publish(element, actions.HIDE);
+					return instance.publish(element, actions.HIDE);
 				}
+				return Promise.resolve();
 			};
 
 			/**
@@ -394,8 +395,9 @@ define(["wc/Observer",
 			this[actions.ENABLE] = function (element, quiet) {
 				disabledMandatoryHelper(element, NATIVE_STATE[DISABLED], true);
 				if (!quiet) {
-					instance.publish(element, actions.ENABLE);
+					return instance.publish(element, actions.ENABLE);
 				}
+				return Promise.resolve();
 			};
 
 			/**
@@ -410,8 +412,9 @@ define(["wc/Observer",
 			this[actions.DISABLE] = function (element, quiet) {
 				disabledMandatoryHelper(element, NATIVE_STATE[DISABLED], false);
 				if (!quiet) {
-					instance.publish(element, actions.DISABLE);
+					return instance.publish(element, actions.DISABLE);
 				}
+				return Promise.resolve();
 			};
 
 			/**
@@ -425,8 +428,9 @@ define(["wc/Observer",
 			this[actions.DESELECT] = function (element, quiet) {
 				selectHelper(instance.state.DESELECTED, element);
 				if (!quiet) {
-					instance.publish(element, actions.DESELECT);
+					return instance.publish(element, actions.DESELECT);
 				}
+				return Promise.resolve();
 			};
 
 			/**
@@ -440,8 +444,9 @@ define(["wc/Observer",
 			this[actions.SELECT] = function (element, quiet) {
 				selectHelper(instance.state.SELECTED, element);
 				if (!quiet) {
-					instance.publish(element, actions.SELECT);
+					return instance.publish(element, actions.SELECT);
 				}
+				return Promise.resolve();
 			};
 
 			/**
@@ -451,9 +456,12 @@ define(["wc/Observer",
 			 * @param {Element} element The element to set to indeterminate.
 			 * @param {Boolean} [quiet] If true then do not publish this event.
 			 */
-			this[actions.MIX] = function (element) {
+			this[actions.MIX] = function (element, quiet) {
 				selectHelper(instance.state.MIXED, element);
-				instance.publish(element, actions.MIX);
+				if (!quiet) {
+					return instance.publish(element, actions.MIX);
+				}
+				return Promise.resolve();
 			};
 
 			/**
@@ -470,8 +478,9 @@ define(["wc/Observer",
 					setMyAttribute(element, ARIA_STATE.expanded, true);
 				}
 				if (!quiet) {
-					instance.publish(element, actions.EXPAND);
+					return instance.publish(element, actions.EXPAND);
 				}
+				return Promise.resolve();
 			};
 
 			/**
@@ -488,8 +497,9 @@ define(["wc/Observer",
 					setMyAttribute(element, ARIA_STATE.expanded, false);
 				}
 				if (!quiet) {
-					instance.publish(element, actions.COLLAPSE);
+					return instance.publish(element, actions.COLLAPSE);
 				}
+				return Promise.resolve();
 			};
 
 			/**
@@ -502,8 +512,9 @@ define(["wc/Observer",
 			this[actions.MANDATORY] = function (element, quiet) {
 				disabledMandatoryHelper(element, REQUIRED, false);
 				if (!quiet) {
-					instance.publish(element, actions.MANDATORY);
+					return instance.publish(element, actions.MANDATORY);
 				}
+				return Promise.resolve();
 			};
 
 			/**
@@ -516,8 +527,9 @@ define(["wc/Observer",
 			this[actions.OPTIONAL] = function (element, quiet) {
 				disabledMandatoryHelper(element, REQUIRED, true);
 				if (!quiet) {
-					instance.publish(element, actions.OPTIONAL);
+					return instance.publish(element, actions.OPTIONAL);
 				}
+				return Promise.resolve();
 			};
 
 			/**
@@ -718,12 +730,14 @@ define(["wc/Observer",
 			 * @function module:wc/dom/shed.publish
 			 * @param {Element} element The element to test.
 			 * @param {string} action One of {@link module:wc/dom/shed~actions}, e.g. "show" or "hide".
+			 * @returns {Promise} when publish is complete (waits for subscribers that return a "thenable").
 			 */
 			this.publish = function(element, action) {
 				if (observer) {
 					observer.setFilter(action);
-					observer.notify(element, action);
+					return observer.notify(element, action);
 				}
+				return Promise.resolve();
 			};
 
 			/**
@@ -793,7 +807,7 @@ define(["wc/Observer",
 					default:
 						throw new TypeError("Unknown action: " + action);
 				}
-				func(element, quiet);
+				return func(element, quiet);
 			};
 
 			/**

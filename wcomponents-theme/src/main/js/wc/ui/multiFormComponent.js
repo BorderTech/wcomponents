@@ -335,8 +335,10 @@ define(["wc/has",
 			 * @param {Element} element a DOM element: in practice BODY
 			 */
 			this.initialise = function(element) {
-				REMOVE_BUTTON_TITLE = i18n.get("mfc_remove");
 				event.add(element, event.TYPE.click, clickEvent);
+				return i18n.translate("mfc_remove").then(function(s) {
+					REMOVE_BUTTON_TITLE = s;
+				});
 			};
 		}
 

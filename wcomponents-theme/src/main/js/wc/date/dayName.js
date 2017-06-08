@@ -18,14 +18,7 @@ define(["wc/i18n/i18n"],/** @param i18n wc/i18n/i18n @ignore */function(i18n) {
 		 * @private
 		 */
 		function initialise() {
-			days = [
-				i18n.get("day0"),
-				i18n.get("day1"),
-				i18n.get("day2"),
-				i18n.get("day3"),
-				i18n.get("day4"),
-				i18n.get("day5"),
-				i18n.get("day6")];
+			days = i18n.get(["day0", "day1", "day2", "day3", "day4", "day5", "day6"]);
 		}
 
 		/**

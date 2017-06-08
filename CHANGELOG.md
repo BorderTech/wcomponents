@@ -3,10 +3,14 @@
 ## Release in-progress
 
 ### API Changes
-
+* Client side:
+  - shed.js subscribers can return a promise and shed.notify will resolve when all subscriber promises complete.
+  - i18n translation methods can now take an array of keys to translate.
+  
 ### Bug Fixes
 
 ### Enhancements
+* Rewrote several synchronous i18n calls to use the async version (fixed at least one more definite race condition).
 
 ## Release 1.4.2
 

@@ -67,22 +67,29 @@ define(["wc/dom/classList",
 			 * @param {module:wc/ui/dialog~regObject} dialogObj The dialog dto.
 			 */
 			function _register(dialogObj) {
-				var triggerId = dialogObj.triggerid || dialogObj.id;
+				var triggerId = dialogObj.triggerid || dialogObj.id,
+					add = function(title) {
+						registry[triggerId] = {
+							id: dialogObj.id,
+							className: BASE_CLASS + (dialogObj.className ? (" " + dialogObj.className) : ""),
+							width: dialogObj.width,
+							height: dialogObj.height,
+							modal: dialogObj.modal || false,
+							openerId: dialogObj.triggerid,
+							title: dialogObj.title || title
+						};
+						registryByDialogId[dialogObj.id] = triggerId;
+
+						if (dialogObj.open) {
+							openThisDialog = triggerId;
+						}
+					};
 
 				if (triggerId) {
-					registry[triggerId] = {
-						id: dialogObj.id,
-						className: BASE_CLASS + (dialogObj.className ? (" " + dialogObj.className) : ""),
-						width: dialogObj.width,
-						height: dialogObj.height,
-						modal: dialogObj.modal || false,
-						openerId: dialogObj.triggerid,
-						title: dialogObj.title || i18n.get("dialog_noTitle")
-					};
-					registryByDialogId[dialogObj.id] = triggerId;
-
-					if (dialogObj.open) {
-						openThisDialog = triggerId;
+					if (dialogObj.title) {
+						add(dialogObj.title);
+					} else {
+						i18n.translate("dialog_noTitle").then(add);  // This is called too early for a synchronous i18n call
 					}
 				}
 			}
