@@ -53,13 +53,15 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 
 
 		function getDialogFrameConfig(onclose) {
-			return {
-				onclose: onclose,
-				id: "wc_img_editor",
-				modal: true,
-				resizable: true,
-				title: i18n.get("imgedit_title")
-			};
+			return i18n.translate("imgedit_title").then(function(title) {
+				return {
+					onclose: onclose,
+					id: "wc_img_editor",
+					modal: true,
+					resizable: true,
+					title: title
+				};
+			});
 		}
 
 		this.getCanvas = function() {
@@ -436,9 +438,14 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 		 * @private
 		 */
 		function getEditor(config, callbacks, file) {
-			var dialogConfig = getDialogFrameConfig(function() {
+			return getDialogFrameConfig(function() {
 				imageCapture.stop();
 				callbacks.lose();
+			}).then(function(dialogConfig) {
+				if (dialogFrame.isOpen()) {
+					return renderEditor();
+				}
+				return dialogFrame.open(dialogConfig).then(renderEditor);
 			});
 
 			function renderEditor() {
@@ -481,48 +488,47 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 							win(container);
 						};
 					try {
-						getTranslations(editorProps);
-						container.className = "wc_img_editor";
-						template.process({
-							source: TEMPLATE_NAME,
-							loadSource: true,
-							target: container,
-							context: editorProps,
-							callback: function() {
-								done(container);
-							}
-						});
-						return container;
+						return getTranslations(editorProps).then(function() {
+							container.className = "wc_img_editor";
+							template.process({
+								source: TEMPLATE_NAME,
+								loadSource: true,
+								target: container,
+								context: editorProps,
+								callback: function() {
+									done(container);
+								}
+							});
+							return container;
+						}, lose);
 					} catch (ex) {
 						lose(ex);
 					}
 				});
-				return result;
+				return result;  // a promise
 			}  // end "renderEditor"
-
-			if (dialogFrame.isOpen()) {
-				return renderEditor();
-			}
-			return dialogFrame.open(dialogConfig).then(renderEditor);
 		}
 
 		function getTranslations(obj) {
-			var result = obj || {},
-				messages = ["imgedit_action_camera", "imgedit_action_cancel", "imgedit_action_redact",
-					"imgedit_action_redo", "imgedit_action_save", "imgedit_action_snap", "imgedit_action_undo",
-					"imgedit_capture", "imgedit_message_camera", "imgedit_message_cancel", "imgedit_message_move_down",
-					"imgedit_message_move_left", "imgedit_message_move_right", "imgedit_message_move_up",
-					"imgedit_message_nocapture", "imgedit_message_redact", "imgedit_message_redo",
-					"imgedit_message_rotate_left", "imgedit_message_rotate_left90", "imgedit_message_rotate_right",
-					"imgedit_message_rotate_right90", "imgedit_message_save", "imgedit_message_snap",
-					"imgedit_message_undo", "imgedit_message_zoom_in", "imgedit_message_zoom_out", "imgedit_move",
-					"imgedit_move_down", "imgedit_move_left", "imgedit_move_right", "imgedit_move_up", "imgedit_redact",
-					"imgedit_rotate", "imgedit_rotate_left", "imgedit_rotate_left90", "imgedit_rotate_right",
-					"imgedit_rotate_right90", "imgedit_zoom", "imgedit_zoom_in", "imgedit_zoom_out"];
-			messages.forEach(function(message) {
-				result[message] = i18n.get(message);
+			var messages = ["imgedit_action_camera", "imgedit_action_cancel", "imgedit_action_redact",
+				"imgedit_action_redo", "imgedit_action_save", "imgedit_action_snap", "imgedit_action_undo",
+				"imgedit_capture", "imgedit_message_camera", "imgedit_message_cancel", "imgedit_message_move_down",
+				"imgedit_message_move_left", "imgedit_message_move_right", "imgedit_message_move_up",
+				"imgedit_message_nocapture", "imgedit_message_redact", "imgedit_message_redo",
+				"imgedit_message_rotate_left", "imgedit_message_rotate_left90", "imgedit_message_rotate_right",
+				"imgedit_message_rotate_right90", "imgedit_message_save", "imgedit_message_snap",
+				"imgedit_message_undo", "imgedit_message_zoom_in", "imgedit_message_zoom_out", "imgedit_move",
+				"imgedit_move_down", "imgedit_move_left", "imgedit_move_right", "imgedit_move_up", "imgedit_redact",
+				"imgedit_rotate", "imgedit_rotate_left", "imgedit_rotate_left90", "imgedit_rotate_right",
+				"imgedit_rotate_right90", "imgedit_zoom", "imgedit_zoom_in", "imgedit_zoom_out"];
+			return i18n.translate(messages).then(function(translations) {
+				var result = obj || {};
+				messages.forEach(function(message, idx) {
+					result[message] = translations[idx];
+
+				});
+				return result;
 			});
-			return result;
 		}
 
 		/**
@@ -825,7 +831,9 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 						}
 					} else {
 						// we should only be here if the user has not taken a snapshot from the video stream
-						prompt.alert(i18n.get("imgedit_noimage"));
+						i18n.translate("imgedit_noimage").then(function(message) {
+							prompt.alert(message);
+						});
 					}
 				}
 			};

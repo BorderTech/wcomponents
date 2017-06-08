@@ -7,7 +7,7 @@ define(["wc/dom/initialise",
 		"use strict";
 
 		function Image() {
-			var EDIT, IMG = new Widget("img", "", {"data-wc-editor": null});
+			var IMG = new Widget("img", "", {"data-wc-editor": null});
 
 			function makeEditButton(element) {
 				var id = element.id,
@@ -15,18 +15,20 @@ define(["wc/dom/initialise",
 				if (sibling && sibling.getAttribute("data-wc-img") === id) {
 					return;
 				}
-				var props = {
-					id: id,
-					editor: element.getAttribute("data-wc-editor"),
-					text: EDIT || (EDIT = i18n.get("imgedit_edit"))
-				};
+				i18n.translate("imgedit_edit").then(function(editButtonText) {
+					var props = {
+						id: id,
+						editor: element.getAttribute("data-wc-editor"),
+						text: editButtonText
+					};
 
-				template.process({
-					source: "imgedit.html",
-					loadSource: true,
-					target: element,
-					context: props,
-					position: "afterend"
+					template.process({
+						source: "imgedit.html",
+						loadSource: true,
+						target: element,
+						context: props,
+						position: "afterend"
+					});
 				});
 			}
 

@@ -281,7 +281,25 @@ define(["wc/ui/menu/core",
 					opener,
 					label,
 					props = {},
-					closeButton;
+					closeButton,
+					render = function(content) {
+						if (content) {
+							props.content = content;
+						}
+						template.process({
+							source: "submenuCloseButton.mustache",
+							loadSource: true,
+							target: el,
+							context: props,
+							position: "afterBegin",
+							callback: function() {
+								closeButton = el.firstChild;
+								if (!closeButton.id) {
+									closeButton.id = uid();
+								}
+							}
+						});
+					};
 				if (el && instance.isSubMenu(el)) {
 					if ((branch = instance._getBranch(el)) && (opener = instance._getBranchOpener(branch))) {
 						DECORATED_LABEL = DECORATED_LABEL || new Widget("", "wc-decoratedlabel");
@@ -303,21 +321,10 @@ define(["wc/ui/menu/core",
 						}
 					}
 					if (!props.content) {
-						props.content = i18n.get("menu_close_label");
+						i18n.translate("menu_close_label").then(render);
+					} else {
+						render();
 					}
-					template.process({
-						source: "submenuCloseButton.mustache",
-						loadSource: true,
-						target: el,
-						context: props,
-						position: "afterBegin",
-						callback: function() {
-							closeButton = el.firstChild;
-							if (!closeButton.id) {
-								closeButton.id = uid();
-							}
-						}
-					});
 				}
 			}
 
@@ -335,26 +342,28 @@ define(["wc/ui/menu/core",
 				if (classList.contains(nextMenu, MENU_FIXED)) {
 					return;
 				}
-				var props = {
-					id: uid(),
-					class: " " + BURGER_MENU_CLASS,
-					opener: {
-						class: " wc_hbgr fa fa-bars",
-						tooltip: i18n.get("menu_open_label")
-					},
-					contentId: uid(),
-					open: false,
-					closeText: i18n.get("menu_close_label"),
-					items: nextMenu.innerHTML
-				};
-				template.process({
-					source: "submenu.mustache",
-					loadSource: true,
-					target: nextMenu,
-					context: props,
-					callback: function() {
-						classList.add(nextMenu, MENU_FIXED);
-					}
+				i18n.translate(["menu_open_label", "menu_close_label"]).then(function(strings) {
+					var props = {
+						id: uid(),
+						class: " " + BURGER_MENU_CLASS,
+						opener: {
+							class: " wc_hbgr fa fa-bars",
+							tooltip: strings[0]
+						},
+						contentId: uid(),
+						open: false,
+						closeText: strings[0],
+						items: nextMenu.innerHTML
+					};
+					template.process({
+						source: "submenu.mustache",
+						loadSource: true,
+						target: nextMenu,
+						context: props,
+						callback: function() {
+							classList.add(nextMenu, MENU_FIXED);
+						}
+					});
 				});
 			}
 
@@ -394,7 +403,7 @@ define(["wc/ui/menu/core",
 						candidates.forEach(removeIconified);
 					}
 				}
-			};
+			}
 
 			/**
 			 * Resize event sets up a timer to undertake menu manipulation.

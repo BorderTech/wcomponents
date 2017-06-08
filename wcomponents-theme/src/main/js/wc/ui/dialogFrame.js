@@ -134,7 +134,7 @@ define(["wc/dom/event",
 
 				if (dialog) {
 					if (!this.isOpen(dialog)) {
-						return Promise.resolve(openDlgHelper(dto));
+						return openDlgHelper(dto);
 					}
 					return Promise.reject(REJECT.ALREADY_OPEN);
 				} else if ((form = getDlgForm(dto))) {
@@ -142,7 +142,7 @@ define(["wc/dom/event",
 
 					if (formId) {
 						return buildDialog(formId).then(function () {
-							openDlgHelper(dto);
+							return openDlgHelper(dto);
 						});
 					}
 					return Promise.reject(REJECT.NO_FORM);
@@ -169,21 +169,27 @@ define(["wc/dom/event",
 			 * @function
 			 */
 			function openDlgHelper(dto) {
-				var dialog = instance.getDialog();
+				return i18n.translate("dialog_noTitle").then(function(defaultTitle) {
+					var effectiveDto = dto || {},
+						dialog = instance.getDialog();
 
-				if (dialog && !instance.isOpen(dialog)) {
-					if (dto && dto.openerId) {
-						openerId = dto.openerId;
-					} else {
-						openerId = document.activeElement ? document.activeElement.id : null;
+					if (dialog && !instance.isOpen(dialog)) {
+						if (effectiveDto.openerId) {
+							openerId = effectiveDto.openerId;
+						} else {
+							openerId = document.activeElement ? document.activeElement.id : null;
+						}
+						if (!effectiveDto.title) {
+							effectiveDto.title = defaultTitle;
+						}
+						reinitializeDialog(dialog, effectiveDto);
+						// show the dialog
+						shed.show(dialog);
+						initDialogPosition(dialog, dto);  // deliberately didn't use effectiveDto here to preserve behavior
+						return true;
 					}
-					reinitializeDialog(dialog, dto);
-					// show the dialog
-					shed.show(dialog);
-					initDialogPosition(dialog, dto);
-					return true;
-				}
-				return false;
+					return false;
+				});
 			}
 
 			/**
@@ -218,17 +224,17 @@ define(["wc/dom/event",
 				var title, isModal;
 
 				instance.unsetAllDimensions(dialog);
-				dialog.className = (obj && obj.className) ? obj.className : "";
-				instance.resetContent(false, (obj ? obj.id : ""));
+				dialog.className = (obj.className || "");
+				instance.resetContent(false, (obj.id  || ""));
 				// set the dialog title
 				if ((title = TITLE_WD.findDescendant(dialog))) {
 					title.innerHTML = ""; // ??? This _cannot_ really still be needed?
-					title.innerHTML = (obj && obj.title) ? obj.title : i18n.get("dialog_noTitle");
+					title.innerHTML = obj.title;
 				}
 				subscriber.close = obj.onclose;
 				initDialogControls(dialog, obj);
 				initDialogDimensions(dialog, obj);
-				isModal = (obj && typeof obj.modal !== "undefined") ? obj.modal : true;
+				isModal = (typeof obj.modal !== "undefined") ? obj.modal : true;
 				setModality(dialog, isModal);
 			}
 
@@ -403,56 +409,56 @@ define(["wc/dom/event",
 			 */
 			function buildDialog(formId) {
 				return new Promise(function(win, lose) {
-					var form,
-						dialogProps = {
-							heading: {
-								maxRestore: i18n.get("dialog_maxRestore"),
-								close: i18n.get("dialog_close")
+					i18n.translate(["dialog_maxRestore", "dialog_close", "loading", "dialog_move", "dialog_resize"]).then(function(translations) {
+						var done = function () {
+								var dialog,
+									dialogHeader,
+									resizeHandle,
+									headerTitle,
+									resizeHandleTitle;
+								if ((dialog = instance.getDialog())) {
+									event.add(dialog, event.TYPE.keydown, keydownEvent);
+									if ((dialogHeader = HEADER_WD.findDescendant(dialog, true)) && (headerTitle = translations[3])) {
+										dialogHeader.title = headerTitle;
+									}
+
+									if (RESIZE_WD && (resizeHandle = RESIZE_WD.findDescendant(dialog)) && (resizeHandleTitle = translations[4])) {
+										resizeHandle.title = resizeHandleTitle;
+									}
+									win(dialog);
+								} else {
+									lose(null);
+								}
 							},
-							message: {
-								loading: i18n.get("loading")
-							}
-						},
-						done = function () {
-							var dialog,
-								dialogHeader,
-								resizeHandle,
-								headerTitle,
-								resizeHandleTitle;
-							if ((dialog = instance.getDialog())) {
-								event.add(dialog, event.TYPE.keydown, keydownEvent);
-								if ((dialogHeader = HEADER_WD.findDescendant(dialog, true)) && (headerTitle = i18n.get("dialog_move"))) {
-									dialogHeader.title = headerTitle;
+							form, dialogProps = {
+								heading: {
+									maxRestore: translations[0],
+									close: translations[1]
+								},
+								message: {
+									loading: translations[2]
 								}
+							};
 
-								if (RESIZE_WD && (resizeHandle = RESIZE_WD.findDescendant(dialog)) && (resizeHandleTitle = i18n.get("dialog_resize"))) {
-									resizeHandle.title = resizeHandleTitle;
-								}
-								win(dialog);
-							} else {
-								lose(null);
-							}
-						};
+						if (formId) {
+							form = document.getElementById(formId);
+						}
+						form = getForm(form);
+						if (!form) {
+							console.error("Cannot find form for dialog frame");
+							lose(null);
+							return null;
+						}
 
-
-					if (formId) {
-						form = document.getElementById(formId);
-					}
-					form = getForm(form);
-					if (!form) {
-						console.error("Cannot find form for dialog frame");
-						lose(null);
-						return null;
-					}
-
-					template.process({
-						source: "dialog.xml",
-						loadSource: true,
-						target: form,
-						context: dialogProps,
-						position: "beforeEnd",
-						callback: done,
-						errback: lose
+						template.process({
+							source: "dialog.xml",
+							loadSource: true,
+							target: form,
+							context: dialogProps,
+							position: "beforeEnd",
+							callback: done,
+							errback: lose
+						});
 					});
 				});
 			}
@@ -830,7 +836,9 @@ define(["wc/dom/event",
 
 					if (!keepContent) {
 						content.innerHTML = ""; // Do we really still need this IE 6 fix?
-						content.innerHTML = i18n.get("loading");
+						i18n.translate("loading").then(function(loadingText) {
+							content.innerHTML = loadingText;
+						});
 					}
 				}
 			};

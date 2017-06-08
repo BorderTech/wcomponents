@@ -122,7 +122,10 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 			 *
 			 * @function module:wc/i18n/i18n.get
 			 * @public
-			 * @param {String} key A message key, i.e. the key of an i18n key/value pair.
+			 * @param {String|String[]} key A message key, i.e. the key of an i18n key/value pair.
+			 *    If an array is provided then each item is taken to be a key. The promise will be resolved with
+			 *    an array of translations in the order they appeared in the key array.
+			 *    Each key will be passed the same arguments, it probably mainly makes sense when there are no args.
 			 * @param {*} [args]* 0..n additional arguments will be used to printf format the string before it is
 			 *    returned. Note: It's up to the caller to ensure the correct args (type, number etc...) are passed to
 			 *    printf formatted messages.
@@ -161,16 +164,27 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 				 *    returned. Note: It's up to the caller to ensure the correct args (type, number etc...) are passed to
 				 *    printf formatted messages.
 				 * @returns {String} The message value, i.e. the value of an i18n key/value pair. If not found will return an empty string.
-				 * @deprecated Use translate method instead.
 				 */
 				function translator(key/* , args */) {
-					var args,
-						result = (key && funcTranslate) ? funcTranslate(key) : "";
-					if (result && arguments.length > 1) {
+					var args, result, printfArgs;
+					if (arguments.length > 1) {
 						args = toArray(arguments);
 						args.shift();
-						args.unshift(result);
-						result = sprintf.sprintf.apply(this, args);
+					}
+					if (Array.isArray(key)) {
+						result = key.map(function(nextKey) {
+							var innerArgs = [nextKey];
+							if (args) {
+								innerArgs = innerArgs.concat(args);
+							}
+							return translator.apply(instance, innerArgs);
+						});
+					} else {
+						result = (key && funcTranslate) ? funcTranslate(key) : "";
+						if (result && args) {
+							printfArgs = [result].concat(args);
+							result = sprintf.sprintf.apply(this, printfArgs);
+						}
 					}
 					return result;
 				}

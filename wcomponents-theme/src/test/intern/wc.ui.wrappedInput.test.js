@@ -23,16 +23,20 @@ define(["intern!object", "intern/chai!assert", "wc/ui/wrappedInput", "wc/dom/she
 			testMandate: function () {
 				var wrapper = document.getElementById("wrapper"),
 					target = domWrappedInput.getInput(wrapper);
-				shed.mandatory(wrapper);
-				assert.isTrue(shed.isMandatory(target));
+				return shed.mandatory(wrapper).then(function() {
+					assert.isTrue(shed.isMandatory(target));
+				});
 			},
 			testOptional: function () {
 				var wrapper = document.getElementById("wrapper"),
 					target = domWrappedInput.getInput(wrapper);
-				shed.mandatory(wrapper);
-				assert.isTrue(shed.isMandatory(target));
-				shed.optional(wrapper);
-				assert.isFalse(shed.isMandatory(target));
+				return shed.mandatory(wrapper).then(function() {
+					assert.isTrue(shed.isMandatory(target));
+				}).then(function() {
+					return shed.optional(wrapper).then(function() {
+						assert.isFalse(shed.isMandatory(target));
+					});
+				});
 			},
 			testNoDefaultPlaceHolder: function() {
 				var wrapper = document.getElementById("wrapper"),
@@ -42,15 +46,18 @@ define(["intern!object", "intern/chai!assert", "wc/ui/wrappedInput", "wc/dom/she
 			testMandateSetsPlaceholder: function () {
 				var wrapper = document.getElementById("wrapper"),
 					target = domWrappedInput.getInput(wrapper);
-				shed.mandatory(wrapper);
-				assert.isTrue(!!target.getAttribute("placeholder"));
+				return shed.mandatory(wrapper).then(function() {
+					assert.isTrue(!!target.getAttribute("placeholder"));
+				});
 			},
 			testOptionalUnsetsPlaceholder: function () {
 				var wrapper = document.getElementById("wrapper"),
 					target = domWrappedInput.getInput(wrapper);
-				shed.mandatory(wrapper);
-				shed.optional(wrapper);
-				assert.isFalse(target.hasAttribute("placeholder"));
+				return shed.mandatory(wrapper).then(function() {
+					return shed.optional(wrapper).then(function() {
+						assert.isFalse(target.hasAttribute("placeholder"));
+					});
+				});
 			}
 		});
 	}

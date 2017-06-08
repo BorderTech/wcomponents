@@ -15,7 +15,7 @@ define(["wc/dom/classList",
 		 * @private
 		 */
 		function Heading() {
-			var TAGS = [tag.H1, tag.H2, tag.H3, tag.H4, tag.H5, tag.H6],
+			var MISSING_HEADING, TAGS = [tag.H1, tag.H2, tag.H3, tag.H4, tag.H5, tag.H6],
 				IMG_QS;
 
 
@@ -37,7 +37,7 @@ define(["wc/dom/classList",
 
 			function testHeading(element) {
 				if (isHeadingEmpty(element)) {
-					element.insertAdjacentHTML("beforeend", i18n.get("missingHeading"));
+					element.insertAdjacentHTML("beforeend", MISSING_HEADING);
 					classList.add(element, "wc-err");
 				}
 			}
@@ -87,8 +87,11 @@ define(["wc/dom/classList",
 			 * @public
 			 */
 			this.postInit = function () {
-				processResponse.subscribe(ajaxSubscriber, true);
-				flagBadHeadings();
+				return i18n.translate("missingHeading").then(function(missingHeading) {
+					MISSING_HEADING = missingHeading;
+					processResponse.subscribe(ajaxSubscriber, true);
+					flagBadHeadings();
+				});
 			};
 		}
 

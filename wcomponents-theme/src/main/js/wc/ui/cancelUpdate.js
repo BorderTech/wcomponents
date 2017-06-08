@@ -26,6 +26,8 @@ define(["wc/i18n/i18n",
 			var loading = false,  // if cancel button && unsavedOnServer() get dialog twice without this
 				buttonClicked,
 				FORM = new Widget("FORM"),
+				CANCEL_TITLE,
+				CANCEL_MESSAGE,
 				FORM_UNSAVED,
 				// SUBMIT_CONTROL = new Widget("BUTTON", "", {"type":"submit"}),
 				CANCEL_BUTTON,
@@ -144,8 +146,8 @@ define(["wc/i18n/i18n",
 			 *    to continue with the submission/navigation.
 			 */
 			function cancelSubmit(element, submitter) {
-				var title = i18n.get("cancel_title"),
-					message = i18n.get("cancel_message"),
+				var title = CANCEL_TITLE,
+					message = CANCEL_MESSAGE,
 					keep = true,
 					result,
 					form,
@@ -367,6 +369,10 @@ define(["wc/i18n/i18n",
 			 */
 			this.initialise = function(element) {
 				event.add(element, event.TYPE.click, clickEvent, -100);
+				return i18n.translate(["cancel_title", "cancel_message"]).then(function(translations) {
+					CANCEL_TITLE = translations[0];
+					CANCEL_MESSAGE = translations[1];
+				});
 			};
 
 			/**
