@@ -3,13 +3,17 @@
 ## Release in-progress
 
 ### API Changes
+
 * Client side:
   - shed.js subscribers can return a promise and shed.notify will resolve when all subscriber promises complete.
   - i18n translation methods can now take an array of keys to translate.
-  
+
 ### Bug Fixes
 
+* Removed IE 11 specific dialog Sass which proved to be not only superfluous but actually harmful #1247.
+
 ### Enhancements
+
 * Rewrote several synchronous i18n calls to use the async version (fixed at least one more definite race condition).
 
 ## Release 1.4.2
