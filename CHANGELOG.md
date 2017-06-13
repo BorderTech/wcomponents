@@ -11,10 +11,12 @@
 ### Bug Fixes
 
 * Removed IE 11 specific dialog Sass which proved to be not only superfluous but actually harmful #1247.
+* Fixed an XSLT bug which caused incorrrect TAB key behaviour in some menus #1249.
 
 ### Enhancements
 
 * Rewrote several synchronous i18n calls to use the async version (fixed at least one more definite race condition).
+* Removed a workaround for a Firefox issue https://bugzilla.mozilla.org/show_bug.cgi?id=984869 #1250.
 
 ## Release 1.4.2
 

@@ -31,7 +31,8 @@
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
-		<button role="{$role}">
+		<!-- leave tabindex on this butten, it is used as a short-hand to find fousable controls in the core menu JavaScript. -->
+		<button role="{$role}" tabindex="0">
 			<xsl:call-template name="commonAttributes">
 				<xsl:with-param name="isControl" select="1"/>
 				<xsl:with-param name="class">
