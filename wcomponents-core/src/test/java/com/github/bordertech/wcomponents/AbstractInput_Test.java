@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.validator.AbstractFieldValidator;
 import com.github.bordertech.wcomponents.validator.FieldValidator;
 import java.util.ArrayList;
 import java.util.List;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -215,70 +215,6 @@ public class AbstractInput_Test extends AbstractWComponentTestCase {
 
 		resetContext();
 
-	}
-
-	@Test
-	public void testFoccussed() {
-		AbstractInput input = new MyInput();
-
-		setActiveContext(createUIContext());
-
-		// No submit on change flag (no focus should be set)
-		input.doHandleChanged();
-		Assert.assertNull("Focussed should be null submit flag set to false", UIContextHolder.
-				getCurrent()
-				.getFocussed());
-
-		// Submit on change (focus should be set)
-		input.setSubmitOnChange(true);
-		input.doHandleChanged();
-		Assert.assertEquals("Focussed should be set with submit flag set to true", input,
-				UIContextHolder.getCurrent()
-				.getFocussed());
-
-		// Test focus does not change if already set
-		MyInput inputFocussed = new MyInput();
-		inputFocussed.setFocussed();
-		input.doHandleChanged();
-		Assert.
-				assertEquals("Focussed should not have changed with focus already set",
-						inputFocussed, UIContextHolder
-						.getCurrent().getFocussed());
-
-		// Test focused when input has an action set
-		resetContext();
-		setActiveContext(createUIContext());
-
-		TestAction action = new TestAction();
-		input = new MyInput();
-		input.setActionOnChange(action);
-
-		// No submit on change flag (no focus should be set)
-		input.doHandleChanged();
-		UIContextHolder.getCurrent().doInvokeLaters();
-		Assert.assertNull(
-				"Focussed should be null with submit flag set to false and input has change action",
-				UIContextHolder.getCurrent().getFocussed());
-
-		// Submit on change (focus should be set)
-		input.setSubmitOnChange(true);
-		input.doHandleChanged();
-		UIContextHolder.getCurrent().doInvokeLaters();
-		Assert.assertEquals(
-				"Focussed should be set with submit flag set to true and input has change action",
-				input,
-				UIContextHolder.getCurrent().getFocussed());
-
-		// Test focus does not change if already set
-		inputFocussed.setFocussed();
-		input.doHandleChanged();
-		UIContextHolder.getCurrent().doInvokeLaters();
-		Assert.
-				assertEquals("Focussed should not have changed with focus already set",
-						inputFocussed, UIContextHolder
-						.getCurrent().getFocussed());
-
-		resetContext();
 	}
 
 	@Test

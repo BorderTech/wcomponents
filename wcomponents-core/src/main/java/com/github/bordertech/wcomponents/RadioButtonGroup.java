@@ -156,7 +156,10 @@ public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, Subo
 	 * Sets whether the form should be submitted when the selection changes.
 	 *
 	 * @param submitOnChange true to submit the form on change.
+	 * @deprecated 1.4.0 as it results in a level A accessibility problem See
+	 * https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-unpredictable-change.html.
 	 */
+	@Deprecated
 	@Override
 	public void setSubmitOnChange(final boolean submitOnChange) {
 		super.setSubmitOnChange(submitOnChange);
@@ -166,7 +169,10 @@ public class RadioButtonGroup extends AbstractInput implements AjaxTrigger, Subo
 	 * Indicates whether the form should be submitted when the selection changes.
 	 *
 	 * @return true if the form should be submitted on change.
+	 * @deprecated 1.4.0 as it results in a level A accessibility problem See
+	 * https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-unpredictable-change.html.
 	 */
+	@Deprecated
 	@Override
 	public boolean isSubmitOnChange() {
 		return super.isSubmitOnChange();

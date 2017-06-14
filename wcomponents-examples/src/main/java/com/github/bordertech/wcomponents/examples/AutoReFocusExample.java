@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.examples;
 
+import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.layout.FlowLayout.Alignment;
@@ -20,6 +21,9 @@ public class AutoReFocusExample extends WPanel {
 		setLayout(new FlowLayout(Alignment.VERTICAL));
 
 		add(new TextDuplicator());
-		add(new WDropdownSubmitOnChangeExample());
+		WDropdownSubmitOnChangeExample ddExample = new WDropdownSubmitOnChangeExample();
+		add(ddExample);
+		add(new WAjaxControl(ddExample.getStateSelector(), this));
+		add(new WAjaxControl(ddExample.getRegionSelector(), this));
 	}
 }

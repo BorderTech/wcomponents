@@ -90,7 +90,8 @@ public class WRadioButton extends WBeanComponent implements AjaxTarget, Subordin
 
 		if (onRequest) {
 			boolean changed = getGroup().handleButtonOnRequest(request);
-			if (changed && isSubmitOnChange() && UIContextHolder.getCurrent().getFocussed() == null) {
+			if (changed && (UIContextHolder.getCurrent() != null) && (UIContextHolder.getCurrent().getFocussed() == null)
+					&& AjaxHelper.isCurrentAjaxTrigger(getGroup())) {
 				setFocussed();
 			}
 		}
@@ -164,7 +165,10 @@ public class WRadioButton extends WBeanComponent implements AjaxTarget, Subordin
 	 * Indicates whether selection of the radio button should trigger a form submit.
 	 *
 	 * @return true if selection should trigger a submit.
+	 * @deprecated 1.4.0 as it results in a level A accessibility problem See
+	 * https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-unpredictable-change.html.
 	 */
+	@Deprecated
 	public boolean isSubmitOnChange() {
 		return group.isSubmitOnChange();
 	}

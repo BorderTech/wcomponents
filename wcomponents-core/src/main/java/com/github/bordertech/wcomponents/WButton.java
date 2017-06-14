@@ -202,16 +202,18 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 		// handle request has been performed on the entire component tree.
 		if (pressed) {
 			final Action action = getAction();
-
 			if (action == null) {
-				// Need to run the "afterActionExecute" as late as possible.
-				Runnable later = new Runnable() {
-					@Override
-					public void run() {
-						focusMe();
-					}
-				};
-				invokeLater(later);
+				// Reset focus only if the current Request is an Ajax request.
+				if (AjaxHelper.isCurrentAjaxTrigger(this)) {
+					// Need to run the "afterActionExecute" as late as possible.
+					Runnable later = new Runnable() {
+						@Override
+						public void run() {
+							focusMe();
+						}
+					};
+					invokeLater(later);
+				}
 			} else {
 				final ActionEvent event = new ActionEvent(this, getActionCommand(),
 						getActionObject());
@@ -242,13 +244,15 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 
 	/**
 	 * Called after the button action has been executed. Subclasses may override. Provides an opportunity to do cleanup
-	 * work after the action.execute. In this implementation an actioned button will try to refocus itself if nothing
-	 * else has focus.
+	 * work after the action.execute.
 	 *
 	 * @param request the request that is being responded to.
 	 */
 	protected void afterActionExecute(final Request request) {
-		focusMe();
+		// Only do focus if button is AJAX trigger
+		if (AjaxHelper.isCurrentAjaxTrigger(this)) {
+			focusMe();
+		}
 	}
 
 	/**

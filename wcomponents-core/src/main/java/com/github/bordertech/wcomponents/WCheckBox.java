@@ -130,7 +130,10 @@ public class WCheckBox extends AbstractInput implements AjaxTrigger, AjaxTarget,
 	 * SubmitOnChange seen by all user sessions.
 	 *
 	 * @param submitOnChange true to submit the form on change.
+	 * @deprecated 1.4.0 as it results in a level A accessibility problem See
+	 * https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-unpredictable-change.html.
 	 */
+	@Deprecated
 	@Override
 	public void setSubmitOnChange(final boolean submitOnChange) {
 		super.setSubmitOnChange(submitOnChange);
@@ -140,7 +143,10 @@ public class WCheckBox extends AbstractInput implements AjaxTrigger, AjaxTarget,
 	 * Indicates whether the form should be submitted when the checkbox is checked/unchecked.
 	 *
 	 * @return true if the form should be submitted on change.
+	 * @deprecated 1.4.0 as it results in a level A accessibility problem See
+	 * https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-unpredictable-change.html.
 	 */
+	@Deprecated
 	@Override
 	public boolean isSubmitOnChange() {
 		return super.isSubmitOnChange();
