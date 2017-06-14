@@ -223,7 +223,7 @@ define(["wc/array/toArray",
 						element.style.height = "";
 					}
 				}
-			};
+			}
 
 			function fixSize (element) {
 				var result = false, width, height, oldWidth, oldHeight;

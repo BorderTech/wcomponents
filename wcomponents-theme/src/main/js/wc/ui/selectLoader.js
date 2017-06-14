@@ -17,7 +17,7 @@ define(["wc/ui/listLoader",
 		 * @private
 		 */
 		function SelectLoader() {
-			var DISABLED_BY_ME = "data-selectloader-disabled",
+			var DISABLED_BY_ME = "data-wc-selectloader-disabled",
 				OPTION_CONTAINER = new Widget("SELECT");
 
 			/**

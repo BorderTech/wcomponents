@@ -168,7 +168,7 @@ define(["wc/Observer",
 				} else {
 					console.warn("Response is empty");
 				}
-			};
+			}
 
 			/**
 			 * If there was an error attempt to inform the user of this.

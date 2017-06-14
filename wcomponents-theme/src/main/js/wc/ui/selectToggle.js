@@ -38,7 +38,6 @@ define(["wc/dom/shed",
 				ARIA_CB_WD,
 				ROW_WD,
 				ALL_CB,
-				TABLE_WRAPPER,
 				TABLE_WD,
 				TBODY_WD,
 				ARIA_CONTROLS = "aria-controls",
@@ -84,8 +83,6 @@ define(["wc/dom/shed",
 				TBODY_WD.descendFrom(TABLE_WD, true);
 				ROW_WD.descendFrom(TBODY_WD, true);
 				ALL_CB = [CHECKBOX_WD, ARIA_CB_WD, ROW_WD];
-				TABLE_WRAPPER = table.WRAPPER;
-
 				inited = true;
 			}
 
@@ -151,26 +148,6 @@ define(["wc/dom/shed",
 						}
 					}
 				});
-			}
-
-			/**
-			 * Get a group object from the registry based on name. This is a helper for getController.
-			 *
-			 * @function
-			 * @private
-			 * @param {String} name The groupName we are hoping to find in the registry.
-			 * @returns {Object} registry object if any found.
-			 */
-			function getNamedGroup(name) {
-				var key,
-					next;
-				for (key in registry) {
-					next = registry[key];
-					if (next.groupName === name) {
-						return next;
-					}
-				}
-				return null;
 			}
 
 			function getControlledElements(trigger) {

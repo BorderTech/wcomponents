@@ -102,13 +102,11 @@ define(["wc/dom/event",
 			 */
 			function triggersOnChange(element) {
 				var tagName = element.tagName,
-					type = element.type,
-					alias;
+					type = element.type;
 				// NOTE: a standalone listbox or dropdown is an ajax trigger, a select element as a sub element of a compund controller is not
 				if (shed.isSelectable(element) || classList.contains(element, "wc-noajax")) {
 					return false;
 				}
-				alias = element.getAttribute(ALIAS);
 				// Don't allow file to trigger on change it breaks multiFileUploader when large number of files are selected
 				return (tagName === tag.SELECT || tagName === tag.TEXTAREA || (tagName === tag.INPUT && type !== "file"));
 			}

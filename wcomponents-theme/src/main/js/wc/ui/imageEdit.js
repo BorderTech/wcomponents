@@ -1015,7 +1015,7 @@ function(has, mixin, Widget, event, uid, classList, timers, prompt, i18n, fabric
 			mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
 
 			// write the bytes of the string to a typed array
-			ia = new Uint8Array(byteString.length);
+			ia = new window.Uint8Array(byteString.length);
 			for (i = 0; i < byteString.length; i++) {
 				ia[i] = byteString.charCodeAt(i);
 			}

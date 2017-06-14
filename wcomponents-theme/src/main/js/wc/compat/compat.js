@@ -70,7 +70,7 @@ define(["wc/has"], function(has) {
 			var flashPlayer, hasFlash = false;
 			if (has("activex")) {
 				try {
-					flashPlayer = new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
+					flashPlayer = new window.ActiveXObject("ShockwaveFlash.ShockwaveFlash");
 					if (flashPlayer) {
 						hasFlash = true;
 					}

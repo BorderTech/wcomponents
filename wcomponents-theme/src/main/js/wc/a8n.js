@@ -151,7 +151,7 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 				observer.reset();
 				observer.reset("onready");
 			}
-		};
+		}
 
 		/**
 		 * Remove this specific subscriber.
@@ -162,7 +162,7 @@ define(["wc/dom/initialise", "wc/ajax/ajax", "wc/ajax/Trigger", "wc/timers", "wc
 				return;
 			}
 			return observer.unsubscribe(subscriber);
-		};
+		}
 
 		/**
 		 * This is a "one shot" subscribe - your callback will be called when a8n is next "ready" and then discarded.
