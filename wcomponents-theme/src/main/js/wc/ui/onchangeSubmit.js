@@ -10,8 +10,9 @@ define(["wc/dom/attribute",
 	"wc/ui/label",
 	"wc/i18n/i18n",
 	"wc/dom/textContent",
-	"wc/ui/ajax/processResponse"],
-	function(attribute, event, initialise, shed, triggerManager, serialize, Widget, timers, getFirstLabelForElement, label, i18n, textContent, processResponse) {
+	"wc/ui/ajax/processResponse",
+	"wc/dom/classList"],
+	function(attribute, event, initialise, shed, triggerManager, serialize, Widget, timers, getFirstLabelForElement, label, i18n, textContent, processResponse, classList) {
 		"use strict";
 
 		/**
@@ -185,31 +186,46 @@ define(["wc/dom/attribute",
 			}
 
 			function addAllWarnings(container) {
-				var candidates = SUBMITTER.isOneOfMe(container) ? [container] : SUBMITTER.findDescendants(container);
-
-				Array.prototype.forEach.call(candidates,
-					function (next) {
-						var myLabel;
-						if (triggerManager.getTrigger(next)) {
-							return;
-						}
-						myLabel = getFirstLabelForElement(next);
-						if (myLabel) {
-							i18n.translate("submitOnChange").then(function(submitOnChangeHint) {
-								var hintContent, hint = label.getHint(myLabel);
-								if (hint) {
-									hintContent = textContent.get(hint);
-									if (hintContent.indexOf(submitOnChangeHint) === -1) {
-										label.setHint(myLabel, submitOnChangeHint);
-									}
-								} else {
-									label.setHint(myLabel, submitOnChangeHint);
-								}
-							});
-
-						}
+				if (SUBMITTER.isOneOfMe(container)) {
+					instance.warn(container);
+				} else {
+					Array.prototype.forEach.call(SUBMITTER.findDescendants(container), function(next) {
+						instance.warn(next);
 					});
+				}
 			}
+
+			/**
+			 * Allow an external module which manipulates labels to be able to set the SoC warning.
+			 * @function module:wc/ui/onchangeSubmit.warn
+			 * @public
+			 * @param {Element} el THe element which may be able to "submit on change"
+			 * @param {Element} [lbl] The element's label/legend/labelling element if it is already available - just prevents us having to do double
+			 * look-ups.
+			 */
+			this.warn = function(el, lbl) {
+				var myLabel;
+				if (!el || !SUBMITTER.isOneOfMe(el) || triggerManager.getTrigger(el)) {
+					return;
+				}
+				myLabel = lbl || getFirstLabelForElement(el);
+				if (myLabel) {
+					i18n.translate("submitOnChange").then(function(submitOnChangeHint) {
+						var hintContent,
+							hint = label.getHint(myLabel);
+						if (hint) {
+							hintContent = textContent.get(hint);
+							if (hintContent.indexOf(submitOnChangeHint) === -1) {
+								label.setHint(myLabel, submitOnChangeHint);
+							}
+						} else {
+							label.setHint(myLabel, submitOnChangeHint);
+						}
+						// if the label is off-screen force it back on.
+						classList.remove(myLabel, "wc-off");
+					});
+				}
+			};
 
 			/**
 			 * Set up the core body listeners for submit on change.
@@ -268,6 +284,7 @@ define(["wc/dom/attribute",
 		 *
 		 * @module
 		 * @requires module:wc/dom/attribute
+		 * @requires module:wc/dom/classList
 		 * @requires module:wc/dom/event
 		 * @requires module:wc/dom/initialise
 		 * @requires module:wc/dom/shed
