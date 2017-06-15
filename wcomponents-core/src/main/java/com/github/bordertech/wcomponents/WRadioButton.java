@@ -72,26 +72,28 @@ public class WRadioButton extends WBeanComponent implements AjaxTarget, Subordin
 			return;
 		}
 
+		RadioButtonGroup currentGroup = getGroup();
+
 		// Check if the group is not on the request (do nothing)
-		if (!getGroup().isPresent(request)) {
+		if (!currentGroup.isPresent(request)) {
 			return;
 		}
 
 		// Check if the group has a null value (will be handled by the group handle request)
-		if (request.getParameter(getGroup().getId()) == null) {
+		if (request.getParameter(currentGroup.getId()) == null) {
 			return;
 		}
 
 		// Get the groups value on the request
-		String requestValue = getGroup().getRequestValue(request);
+		String requestValue = currentGroup.getRequestValue(request);
 
 		// Check if this button's value matches the request
 		boolean onRequest = Util.equals(requestValue, getValue());
 
 		if (onRequest) {
-			boolean changed = getGroup().handleButtonOnRequest(request);
+			boolean changed = currentGroup.handleButtonOnRequest(request);
 			if (changed && (UIContextHolder.getCurrent() != null) && (UIContextHolder.getCurrent().getFocussed() == null)
-					&& AjaxHelper.isCurrentAjaxTrigger(getGroup())) {
+					&& AjaxHelper.isCurrentAjaxTrigger(currentGroup)) {
 				setFocussed();
 			}
 		}

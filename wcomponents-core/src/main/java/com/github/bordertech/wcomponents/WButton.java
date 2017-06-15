@@ -169,7 +169,9 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	 * Clear button is pressed flag.
 	 */
 	protected void clearPressed() {
-		getOrCreateComponentModel().isPressed = false;
+		if (isPressed()) {
+			getOrCreateComponentModel().isPressed = false;
+		}
 	}
 
 	/**
@@ -196,7 +198,9 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 			return;
 		}
 
-		getOrCreateComponentModel().isPressed = pressed;
+		if (pressed != isPressed()) {
+			getOrCreateComponentModel().isPressed = pressed;
+		}
 
 		// If an action has been supplied then execute it, but only after
 		// handle request has been performed on the entire component tree.
@@ -500,7 +504,9 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	 * @param renderAsLink true if this button should be rendered like a link.
 	 */
 	public void setRenderAsLink(final boolean renderAsLink) {
-		getOrCreateComponentModel().renderAsLink = renderAsLink;
+		if (isRenderAsLink() != renderAsLink) {
+			getOrCreateComponentModel().renderAsLink = renderAsLink;
+		}
 	}
 
 	/**
@@ -524,7 +530,9 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	 * @param client indicates if the current button is to trigger a client action without a submit
 	 */
 	public void setClientCommandOnly(final boolean client) {
-		getOrCreateComponentModel().client = client;
+		if (isClientCommandOnly() != client) {
+			getOrCreateComponentModel().client = client;
+		}
 	}
 
 	/**
@@ -549,7 +557,9 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	 * @param popupTrigger The popupTrigger to set.
 	 */
 	public void setPopupTrigger(final boolean popupTrigger) {
-		getOrCreateComponentModel().popupTrigger = popupTrigger;
+		if (isPopupTrigger() != popupTrigger) {
+			getOrCreateComponentModel().popupTrigger = popupTrigger;
+		}
 	}
 
 	/**
@@ -633,7 +643,9 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	 * @param hasUnsavedChanges true if there are unsaved changes, false if not.
 	 */
 	public void setUnsavedChanges(final boolean hasUnsavedChanges) {
-		getOrCreateComponentModel().unsavedChanges = hasUnsavedChanges;
+		if (isUnsavedChanges() != hasUnsavedChanges) {
+			getOrCreateComponentModel().unsavedChanges = hasUnsavedChanges;
+		}
 	}
 
 	/**
@@ -680,7 +692,9 @@ public class WButton extends WBeanComponent implements Container, Disableable, A
 	 * @param cancel true if the button is a cancel control and will warn the user of unsaved changes, otherwise false
 	 */
 	public void setCancel(final boolean cancel) {
-		getOrCreateComponentModel().cancel = cancel;
+		if (isCancel() != cancel) {
+			getOrCreateComponentModel().cancel = cancel;
+		}
 	}
 
 	/**
