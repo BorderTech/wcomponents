@@ -16,6 +16,14 @@
 	<property name="intern.srcdir" location="${common.test.rootdir}/intern"/>
 	<property environment="env"/>
 
+	<!--
+		Intern config options
+	-->
+	<property name="intern.capabilities" value="recordVideo: false, recordScreenshots: false" />
+	<property name="intern.tunnel" value="SauceLabsTunnel" />
+	<property name="intern.tunnel.options" value="verbose: true" />
+	<property name="intern.fail.local.test" value="false" />
+
 	<target name="build" description="Build unit tests" depends="init, intern">
 		<antcall target="checkPropertiesExpanded"/>
 		<jsunit srcDir="${intern.target.dir}"/>
@@ -135,6 +143,7 @@ Clicky the linky and the tests should run.
 			</echo>
 			<if>
 				<and>
+					<equals arg1="${intern.tunnel}" arg2="SauceLabsTunnel"/>
 					<isset property="env.SAUCE_USERNAME"/>
 					<isset property="env.SAUCE_ACCESS_KEY"/>
 				</and>
@@ -147,6 +156,31 @@ Clicky the linky and the tests should run.
 						</arguments>
 					</nodejs.exec>
 				</then>
+				<elseif>
+					<equals arg1="${intern.tunnel}" arg2="SeleniumTunnel"/>
+					<then>
+						<echo>node ${intern.executable} config=@{relativePathToTestdir}/@{configModule}</echo>
+						<nodejs.exec cwd="${basedir}" failonerror="${intern.fail.local.test}" spawn="false">
+							<arguments>
+								<arg value="${intern.executable}"/>
+								<arg value="config=@{relativePathToTestdir}/@{configModule}"/>
+							</arguments>
+						</nodejs.exec>
+					</then>
+				</elseif>
+				<elseif>
+					<equals arg1="${intern.tunnel}" arg2="NullTunnel"/>
+					<then>
+						<echo>
+☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠
+Skipping unit tests because you have set a NullTunnel:
+
+To manually start the tests try:
+node ${intern.executable} config=@{relativePathToTestdir}/@{configModule}
+☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠
+						</echo>
+					</then>
+				</elseif>
 				<else>
 					<echo>
 ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠ ☠

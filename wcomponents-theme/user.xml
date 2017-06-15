@@ -31,13 +31,6 @@
 		the project root dir.
 
 		************************************************************************
-		CONTROLLING WHICH THEME IS BUILT
-		************************************************************************
-		This section has been deleted. The WComponent build will now only build
-		wcomponents-theme. All implementations have been moved to a different Maven
-		project.
-
-		************************************************************************
 		THEME BUILD CONFIGURATION
 		************************************************************************
 
@@ -86,15 +79,17 @@
 		************************************************************************
 		UNIT TESTING
 		************************************************************************
-		test.target.mode:
-			Comment out this one to run real tests, uncomment it when developing
-			otherwise you will not be able to debug your JavaScript.
+		Intern capabilities
 
-			The tests will run against the compressed theme files unless this
-			property is set to debug.
+		<property name="intern.capabilities" value="recordVideo: false, recordScreenshots: false" />
 
-			values are one of: minified | debug
-		<property name="test.target.mode" value="debug"/>
+		Intern Tunnel.
+		The default is set for Saucelabs but also needs secrets to actually run on Saucelabs. For local
+		testing this could be set to NullTunnel or SeleniumTunnel with appropriate tunnel options.
+		<property name="intern.tunnel" value="SauceLabsTunnel" />
+
+		Intern tunnel options
+		<property name="intern.tunnel.options" value="verbose: true" />
 
 		test.environments:
 			Determines which browsers to run tests against.
