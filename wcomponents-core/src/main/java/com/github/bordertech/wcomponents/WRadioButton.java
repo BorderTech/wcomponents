@@ -93,7 +93,7 @@ public class WRadioButton extends WBeanComponent implements AjaxTarget, Subordin
 		if (onRequest) {
 			boolean changed = currentGroup.handleButtonOnRequest(request);
 			if (changed && (UIContextHolder.getCurrent() != null) && (UIContextHolder.getCurrent().getFocussed() == null)
-					&& AjaxHelper.isCurrentAjaxTrigger(currentGroup)) {
+					&& currentGroup.isCurrentAjaxTrigger()) {
 				setFocussed();
 			}
 		}

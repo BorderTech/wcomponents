@@ -302,12 +302,12 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 		// If there is an associated action, execute it
 		if (getActionOnChange() != null) {
 			final ActionEvent event = new ActionEvent(this, getActionCommand(), getActionObject());
-			final WComponent currentInput = this;
+			final boolean isCAT = isCurrentAjaxTrigger();
 			Runnable later = new Runnable() {
 				@Override
 				public void run() {
 					getActionOnChange().execute(event);
-					if (AjaxHelper.isCurrentAjaxTrigger(currentInput) && UIContextHolder.getCurrent().getFocussed() == null) {
+					if (isCAT && UIContextHolder.getCurrent().getFocussed() == null) {
 						setFocussed();
 					}
 				}
@@ -375,6 +375,13 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 			InputModel model = getOrCreateComponentModel();
 			model.changedInLastRequest = changed;
 		}
+	}
+
+	/**
+	 * @return {@code true} if the current Input is also the current Ajax trigger.
+	 */
+	public final boolean isCurrentAjaxTrigger() {
+		return AjaxHelper.isCurrentAjaxTrigger(this);
 	}
 
 	// ================================
