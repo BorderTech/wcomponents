@@ -1,21 +1,120 @@
 define(["intern!object", "intern/chai!assert", "./resources/test.utils"], function (registerSuite, assert, testutils) {
 	"use strict";
+	/*
+	 * To create a new Intern unit test file:
+	 *
+	 * 1. Save this as a *.js file.
+	 * 2. Set TEST_MODULE to the name of the module to test, e.g. "wc/ui/foo" and optionally set a suiteName.
+	 * 3. If the test requires other dependencies create the deps array containing these.
+	 * 4. If the controller needs specific UI to test set ONE of testContent (HTML) OR urlResource (from where the test UI will be loaded)
+	 * 5. If there are other dependencies they can be named. This is optional. Add the suite level vars for each named dependency and change setup to
+	 *    map the deps array to the named vars.
+	 * 7. Optionally update (or remove if not needed) setup, beforeEach, afterEach and teardown
+	 * 6. Write tests use `controller` as the var name for the module being tested. Review `testGotController` as a simple sample.
+	 */
 
-	var TEST_MODULE = "",
-		controller/*,
-		testHolder,
-		urlResource = "@RESOURCES@/SOME_PAGE.html"*/;
+	var
+		/**
+		 * The module name of the module being tested eg "wc/ui/foo".
+		 * @type String
+		 */
+		TEST_MODULE = "",
+		/**
+		 * A human readable name for the suite. This could be as simpl as TEST_MODULE.
+		 * @type String
+		 */
+		suiteName = TEST_MODULE,// .match(/\/([.]+)$/)[1],
+		/**
+		 * An options array of dependency names in addition to TEST_MODULE, Define a String Array here and setup will convert it to a module array.
+		 * @type arr
+		 */
+		deps,
+		// Load test UI content if required: only one of these is needed and testContent will take precedence over urlResource
+		/**
+		 * HTML test UI e.g. "<div>Test HTML</div>". Only needed ig the tests use common HTML. Optionally use urlResource instead if the test HTML
+		 * is complex. If both are set testContent takes precedence and urlResource is ignored.
+		 * @type String
+		 */
+		testContent,
+		/**
+		 * Load test UI froman external resource e.g. "@RESOURCES@/SOME_PAGE.html". Leave undefined if not required. Simple test UIs may be set inline
+		 * using testContent instead. If both are set testContent takes precedence and urlResource is ignored.
+		 * Note that the property `@RESOURCES@` will be mapped to the test/intern/resources directory as a URL.
+		 * @type URL
+		 */
+		urlResource,
+		/**
+		 * If true and either testContent or urlResource is used to set test UI then the test UI will be reset to its original state before each test.
+		 * @type Boolean
+		 */
+		resetBeforeEach = false,
+		/**
+		 * If true and either testContent or urlResource is used to set test UI then the test UI will be reset to its original state after each test.
+		 * @type Boolean
+		 */
+		resetAfterEach = true,
+		// END CONFIGURATION VARS
+		// the next two are not settable.
+		controller, // This will be the actual module named above. Tests of public functions use this e.g. `controller.getSomething()`.
+		testHolder; // This will hold any UI needed for the tests. It is left undefined if testContent & urlResource are both falsey.
+
 	registerSuite({
-		name: TEST_MODULE,
+		name: suiteName,
+
 		setup: function() {
-			return testutils.setupHelper([TEST_MODULE], function(obj) {
-				controller = obj;
-				/*testHolder = testutils.getTestHolder();
-				testutils.setUpExternalHTML(urlResource, testHolder);*/
+			if (!TEST_MODULE) {
+				return Promise.resolve();
+				console.error("Your tests won't work!");
+			}
+			var allDeps = (deps && deps.length) ? deps : [];
+			allDeps.unshift(TEST_MODULE);
+			return testutils.setupHelper(allDeps).then(function(arr) {
+
+				// The module to be tested is the controller
+				controller = arr.shift();
+				// The other dependencies
+				// If you want to have named dependencies the vars are assigned here
+				deps = arr;
+
+				// Set up initial test UI if needed
+				if (testContent || urlResource) {
+					testHolder = testutils.getTestHolder();
+				}
+
+				// Set up the test content if required
+				if (testContent) {
+					testHolder.innerHTML = testContent;
+				} else if (urlResource) {
+					testutils.setUpExternalHTML(urlResource, testHolder);
+					if (resetBeforeEach || resetAfterEach) {
+						// Hold the initial HTML for future use
+						testContent = testHolder.innerHTML;
+					}
+				}
 			});
 		},
-		teardown: function (){
-			//testHolder.innerHTML = "";
+
+		beforeEach: function () {
+			if (testHolder && resetBeforeEach) {
+				testHolder.innerHTML = testContent;
+			}
+		},
+
+		afterEach: function() {
+			if (testHolder && resetAfterEach) {
+				testHolder.innerHTML = testContent;
+			}
+		},
+		teardown: function () {
+			if (testHolder) {
+				testHolder.innerHTML = "";
+			}
+		},
+		testGotController: function () {
+			if (!TEST_MODULE) {
+				assert.isOk(TEST_MODULE, "Cannot test an undefined module you tailless monkey!");
+			}
+			assert.typeOf(controller, "object", "Expected the test module to be available as an object otherwise the tests won't work.");
 		}
 	});
 });

@@ -1,10 +1,11 @@
 /*
  * NOTE: this is only used in wc/dom/getStyle and could potentially be merged with that module.
  */
-define(["wc/loader/resource", "wc/xml/xpath"],
-	function(loader, xpath) {
+define(["wc/loader/resource"],
+	function(loader) {
 		"use strict";
-		var FILE_NAME = "colormap.xml";
+		var FILE_NAME = "colormap.json",
+			lameMap;
 
 		loader.preload(FILE_NAME);
 		/**
@@ -31,19 +32,20 @@ define(["wc/loader/resource", "wc/xml/xpath"],
 			 * @returns {?String} The hex string for the given color.
 			 */
 			function getLiteralFromMap(c) {
-				var result,
-					colormap,
-					match;
+				var colormap;
 				if (c) {
-					colormap = loader.load(FILE_NAME);
-					if (colormap) {
-						match = xpath.query("//color[@name='" + c + "']", true, colormap);
-						if (match) {
-							result = match.getAttribute("hex");
+					if (!lameMap) {
+						// This is a synchronous file load.
+						colormap = loader.load(FILE_NAME, true);
+						if (colormap) {
+							lameMap = JSON.parse(colormap);
 						}
 					}
+					if (lameMap) {
+						return lameMap[c];
+					}
 				}
-				return result;
+				return null;
 			}
 
 			/**
@@ -115,6 +117,7 @@ define(["wc/loader/resource", "wc/xml/xpath"],
 							document.body.removeChild(tmp);
 						}
 					} else {
+						// really? We really want to support this?
 						result = getLiteralFromMap(c);
 					}
 					literal2hexCache[c] = result || null;  // cache result OR flag not to search again
@@ -214,7 +217,6 @@ define(["wc/loader/resource", "wc/xml/xpath"],
 		 *
 		 * @module
 		 * @requires module:wc/loader/resource
-		 * @requires module:wc/xml/xpath
 		 */
 		return new Color();
 	});
