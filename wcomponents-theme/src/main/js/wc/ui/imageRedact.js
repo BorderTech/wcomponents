@@ -154,7 +154,7 @@ define(["fabric"], function(fabric) {
 			}
 		}
 
-		function mouseupEvent(option) {
+		function mouseupEvent() {
 			isMouseDown = false;
 			if (redactMode) {
 				if (handlers.drawEnd) {

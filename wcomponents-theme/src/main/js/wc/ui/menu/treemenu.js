@@ -122,8 +122,8 @@ define(["wc/ui/menu/core", "wc/dom/keyWalker", "wc/dom/shed", "wc/dom/Widget", "
 
 
 			this._shedSubscriber = function(element, action) {
-				var root, opener;
-				if (!(element && (root = this.getRoot(element)))) {
+				var opener;
+				if (!(element && this.getRoot(element))) {
 					return;
 				}
 

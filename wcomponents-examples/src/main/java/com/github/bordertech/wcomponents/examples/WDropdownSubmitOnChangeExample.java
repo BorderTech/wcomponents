@@ -105,4 +105,21 @@ public class WDropdownSubmitOnChangeExample extends WContainer {
 			regionSelector.setOptions(new Object[]{null});
 		}
 	}
+
+	/**
+	 * Provide access to the stateSelector for use in other examples.
+	 *
+	 * @return the state selector dropdown.
+	 */
+	public WDropdown getStateSelector() {
+		return stateSelector;
+	}
+	/**
+	 * Provide access to the regionSelector for use in other examples.
+	 *
+	 * @return the region selector dropdown.
+	 */
+	public WDropdown getRegionSelector() {
+		return regionSelector;
+	}
 }

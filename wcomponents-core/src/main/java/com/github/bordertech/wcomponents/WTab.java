@@ -171,8 +171,7 @@ public class WTab extends AbstractNamingContextContainer implements Disableable,
 	@Override
 	public void handleRequest(final Request request) {
 		// If is LAZY or DYNAMIC and is the current trigger, then process the WTabSet for the correct open/closed tabs
-		if ((TabMode.LAZY.equals(getMode()) || TabMode.DYNAMIC.equals(getMode())) && AjaxHelper.
-				isCurrentAjaxTrigger(this)) {
+		if ((TabMode.LAZY.equals(getMode()) || TabMode.DYNAMIC.equals(getMode())) && AjaxHelper.isCurrentAjaxTrigger(this)) {
 			WTabSet tabSet = (WTabSet) WebUtilities.getAncestorOfClass(WTabSet.class, this);
 			tabSet.handleRequest(request);
 		}

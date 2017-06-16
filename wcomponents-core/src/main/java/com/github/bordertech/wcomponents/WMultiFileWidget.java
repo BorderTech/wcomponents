@@ -553,7 +553,7 @@ public class WMultiFileWidget extends AbstractInput implements Targetable, AjaxI
 		}
 
 		// Check if AJAX trigger
-		if (AjaxHelper.isCurrentAjaxTrigger(this)) {
+		if (isCurrentAjaxTrigger()) {
 			// Upload file request (check for multi part and file id)
 			if (request.getParameter(FILE_UPLOAD_MULTI_PART_ID_KEY) != null && request.getFileItems(getId()) != null) {
 				doHandleUploadRequest(request);

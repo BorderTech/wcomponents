@@ -296,24 +296,25 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 
 	/**
 	 * Perform change logic for this component.
+	 * <p>Reset focus ONLY if the current Request is an Ajax request. See https://github.com/BorderTech/wcomponents/issues/501.</p>
 	 */
 	protected void doHandleChanged() {
 		// If there is an associated action, execute it
 		if (getActionOnChange() != null) {
 			final ActionEvent event = new ActionEvent(this, getActionCommand(), getActionObject());
+			final boolean isCAT = isCurrentAjaxTrigger();
 			Runnable later = new Runnable() {
 				@Override
 				public void run() {
 					getActionOnChange().execute(event);
-
-					if (isSubmitOnChange() && UIContextHolder.getCurrent().getFocussed() == null) {
+					if (isCAT && UIContextHolder.getCurrent().getFocussed() == null) {
 						setFocussed();
 					}
 				}
 			};
 
 			invokeLater(later);
-		} else if (isSubmitOnChange() && UIContextHolder.getCurrent().getFocussed() == null) {
+		} else if (AjaxHelper.isCurrentAjaxTrigger(this) && UIContextHolder.getCurrent().getFocussed() == null) {
 			setFocussed();
 		}
 	}
@@ -376,13 +377,23 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 		}
 	}
 
+	/**
+	 * @return {@code true} if the current Input is also the current Ajax trigger.
+	 */
+	public final boolean isCurrentAjaxTrigger() {
+		return AjaxHelper.isCurrentAjaxTrigger(this);
+	}
+
 	// ================================
 	// Submit On Change
 	/**
 	 * Setting this flag to true will cause this component to post the form to the server when it changes.
 	 *
 	 * @param flag if true, the form is submitted when the component changes.
+	 * @deprecated 1.4.0 as it results in a level A accessibility problem See
+	 * https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-unpredictable-change.html.
 	 */
+	@Deprecated
 	void setSubmitOnChange(final boolean flag) {
 		setFlag(ComponentModel.SUBMIT_ON_CHANGE_FLAG, flag);
 	}
@@ -391,7 +402,10 @@ public abstract class AbstractInput extends WBeanComponent implements Input {
 	 * Indicates whether the form should submit to server when the component's value changes.
 	 *
 	 * @return true if the form is submitted when the value changes.
+	 * @deprecated 1.4.0 as it results in a level A accessibility problem See
+	 * https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-unpredictable-change.html.
 	 */
+	@Deprecated
 	boolean isSubmitOnChange() {
 		return isFlagSet(ComponentModel.SUBMIT_ON_CHANGE_FLAG);
 	}

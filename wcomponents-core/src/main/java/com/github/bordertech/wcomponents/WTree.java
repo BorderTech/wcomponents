@@ -610,7 +610,7 @@ public class WTree extends AbstractInput
 		super.preparePaintComponent(request);
 
 		// If is an internal AJAX action, set the action type.
-		if (AjaxHelper.isCurrentAjaxTrigger(this)) {
+		if (isCurrentAjaxTrigger()) {
 			AjaxOperation operation = AjaxHelper.getCurrentOperation();
 			if (operation.isInternalAjaxRequest()) {
 				// Want to replace children in the target (Internal defaults to REPLACE target)

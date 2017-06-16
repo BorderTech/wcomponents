@@ -39,8 +39,8 @@ public class AutoReFocusRepeaterExample_Test extends WComponentExamplesTestCase 
 	public void testAutoReFocusWDropdowns() {
 		SeleniumWComponentsWebDriver driver = getDriver();
 		String[] paths = {
-			ROOT_PATH + "[0]/WDropdownTriggerActionExample/WDropdown",
-			ROOT_PATH + "[1]/WDropdownTriggerActionExample/WDropdown"
+			ROOT_PATH + "[0]/AutoReFocusExample/WDropdown",
+			ROOT_PATH + "[1]/AutoReFocusExample/WDropdown"
 		};
 		for (String path : paths) {
 			driver.findWDropdown(byWComponentPath(path)).getInputField().click();

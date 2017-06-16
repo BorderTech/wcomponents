@@ -2,9 +2,10 @@ package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WLabel;
+import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTextField;
 
 /**
@@ -17,7 +18,7 @@ import com.github.bordertech.wcomponents.WTextField;
  * @author Martin Shevchenko
  * @since 1.0.0
  */
-public class TextDuplicator extends WContainer {
+public class TextDuplicator extends WPanel {
 
 	/**
 	 * The text field which the actions modify the state of.
@@ -37,16 +38,26 @@ public class TextDuplicator extends WContainer {
 	 * @param name the name label text
 	 */
 	public TextDuplicator(final String name) {
+		setupUI(name);
+	}
+
+	/**
+	 * Add the controls to the UI.
+	 * @param labelText the text to show in the duplicator field's label.
+	 */
+	private void setupUI(final String labelText) {
 		WButton dupBtn = new WButton("Duplicate");
 		dupBtn.setAction(new DuplicateAction());
 
 		WButton clrBtn = new WButton("Clear");
 		clrBtn.setAction(new ClearAction());
 
-		add(new WLabel(name, textFld));
+		add(new WLabel(labelText, textFld));
 		add(textFld);
 		add(dupBtn);
 		add(clrBtn);
+		add(new WAjaxControl(dupBtn, this));
+		add(new WAjaxControl(clrBtn, this));
 	}
 
 	/**

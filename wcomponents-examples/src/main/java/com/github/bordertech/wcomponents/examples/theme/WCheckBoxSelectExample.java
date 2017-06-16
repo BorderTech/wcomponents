@@ -183,18 +183,23 @@ public class WCheckBoxSelectExample extends WContainer {
 		layout.setLabelWidth(25);
 		add(layout);
 		String[] options = new String[]{"Dog", "Cat", "Bird", "Turtle"};
-		final WCheckBoxSelect select = new WCheckBoxSelect(options);
+		WCheckBoxSelect select = new WCheckBoxSelect(options);
 		layout.addField("Select some animals", select);
 		String[] options2 = new String[]{"Parrot", "Galah", "Cockatoo", "Lyre"};
-		final WCheckBoxSelect select2 = new WCheckBoxSelect(options2);
-		layout.addField("Select some birds", select2);
-		select2.setFrameless(true);
+
+		select = new WCheckBoxSelect(options2);
+		layout.addField("Select some birds", select);
+		select.setFrameless(true);
 
 		// a tooltip can be used as a label stand-in even in a WField
 		String[] options3 = new String[]{"Carrot", "Beet", "Brocolli", "Bacon - the perfect vegetable"};
-		final WCheckBoxSelect select3 = new WCheckBoxSelect(options3);
-		layout.addField((WLabel) null, select3);
-		select3.setToolTip("Veggies");
+		select = new WCheckBoxSelect(options3);
+		layout.addField((WLabel) null, select);
+		select.setToolTip("Veggies");
+
+		select = new WCheckBoxSelect("australian_state");
+		layout.addField("Select a state", select).getLabel().setHint("This is an ajax trigger");
+		add(new WAjaxControl(select, layout));
 	}
 
 	/**
@@ -469,6 +474,17 @@ public class WCheckBoxSelectExample extends WContainer {
 				WMessageBox.WARN,
 				"These examples are purposely bad and should not be used as samples of how to use WComponents but samples of how NOT to use them."));
 
+		add(new WHeading(HeadingLevel.H3, "WCheckBoxSelect with submitOnChange"));
+		WFieldLayout layout = new WFieldLayout(WFieldLayout.LAYOUT_STACKED);
+		add(layout);
+		WCheckBoxSelect select = new WCheckBoxSelect("australian_state");
+		select.setSubmitOnChange(true);
+		layout.addField("Select a state or territory with auto save", select);
+
+		select = new WCheckBoxSelect("australian_state");
+		select.setSubmitOnChange(true);
+		layout.addField("Select a state or territory with auto save and hint", select).getLabel().setHint("This is a hint");
+
 		// Even compound controls need a label
 		add(new WHeading(HeadingLevel.H3, "WCheckBoxSelect with no labelling component"));
 		add(new ExplanatoryText("All input controls, even those which are complex and do not output labellable HTML elements, must be associated with"
@@ -478,7 +494,7 @@ public class WCheckBoxSelectExample extends WContainer {
 		// Too many options anti-pattern
 		add(new WHeading(HeadingLevel.H3, "WCheckBoxSelect with too many options"));
 		add(new ExplanatoryText("Don't use a WCheckBoxSelect if you have more than a handful of options. A good rule of thumb is fewer than 10."));
-		WCheckBoxSelect select = new WCheckBoxSelect(new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
+		select = new WCheckBoxSelect(new String[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
 			"q", "r", "s", "t", "u", "v", "w", "x", "y", "z"});
 		select.setButtonLayout(WCheckBoxSelect.LAYOUT_COLUMNS);
 		select.setButtonColumns(6);

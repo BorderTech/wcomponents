@@ -280,7 +280,7 @@ define(["wc/array/toArray",
 				if (element && triggerId && (TABLE_WRAPPER.isOneOfMe(element))) {
 					if ((button = document.getElementById(triggerId))) {
 						if (Widget.isOneOfMe(button, [ROW_TRIGGER, EXPAND_COLLAPSE_ALL])) {
-							onloadFocusControl.requestFocus(triggerId);
+							onloadFocusControl.requestFocus(triggerId, null, true);
 						}
 					}
 				}

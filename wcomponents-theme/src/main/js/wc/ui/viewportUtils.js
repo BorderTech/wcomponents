@@ -55,7 +55,7 @@ define(["wc/dom/getViewportSize", "wc/config"], function (getViewportSize, wccon
 		this.isPhoneLike = function() {
 			var conf = wcconfig.get("wc/ui/viewportUtils"),
 				limit = phoneLimit;
-			if (conf && conf.phone && !isNan(conf.phone)) {
+			if (conf && conf.phone && !isNaN(conf.phone)) {
 				limit = conf.phone;
 			}
 			return testViewportSize(limit);
@@ -72,7 +72,7 @@ define(["wc/dom/getViewportSize", "wc/config"], function (getViewportSize, wccon
 		this.isSmallScreen = function() {
 			var conf = wcconfig.get("wc/ui/viewportUtils"),
 				limit = smallScreenLimit;
-			if (conf && conf.small && !isNan(conf.small)) {
+			if (conf && conf.small && !isNaN(conf.small)) {
 				limit = conf.small;
 			}
 			return testViewportSize(limit);
@@ -89,7 +89,7 @@ define(["wc/dom/getViewportSize", "wc/config"], function (getViewportSize, wccon
 		this.isLargeScreen = function() {
 			var conf = wcconfig.get("wc/ui/viewportUtils"),
 				limit = largeScreenLimit;
-			if (conf && conf.large && !isNan(conf.large)) {
+			if (conf && conf.large && !isNaN(conf.large)) {
 				limit = conf.large;
 			}
 			return testViewportSize(limit, true);

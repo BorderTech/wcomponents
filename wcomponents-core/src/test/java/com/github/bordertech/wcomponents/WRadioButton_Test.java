@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.util.Arrays;
 import java.util.Date;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -101,60 +101,6 @@ public class WRadioButton_Test extends AbstractWComponentTestCase {
 				"Group should have changed for request with value that matches the button",
 				buttonValue,
 				group.getData());
-	}
-
-	@Test
-	public void testHandleRequestFocussed() {
-		String buttonValue = "A";
-
-		// Setup Group
-		RadioButtonGroup group = new RadioButtonGroup();
-
-		setActiveContext(createUIContext());
-
-		// -------------------
-		// No Submit on change (focus not set when change)
-		// Setup radio button and request to cause a change
-		WRadioButton rb1 = group.addRadioButton(buttonValue);
-		MockRequest request = setupRequest(group, buttonValue);
-		group.setData(null);
-
-		rb1.handleRequest(request);
-
-		Assert.assertNull("Foccussed should not have been set as submit on change is false",
-				UIContextHolder
-				.getCurrent().getFocussed());
-
-		// -------------------
-		// Submit on change (focus should be set)
-		// Setup radio button and request to cause a change
-		rb1 = group.addRadioButton(buttonValue);
-		request = setupRequest(group, buttonValue);
-		group.setData(null);
-		group.setSubmitOnChange(true);
-
-		rb1.handleRequest(request);
-
-		Assert.assertEquals("Foccussed should be the radio button as submit on change is true", rb1,
-				UIContextHolder
-				.getCurrent().getFocussed());
-
-		// -------------------
-		// Submit on change but focus already set (focus should not change)
-		// Set focus
-		WTextField otherField = new WTextField();
-		otherField.setFocussed();
-
-		// Setup radiobutton and request to cause a change
-		rb1 = group.addRadioButton(buttonValue);
-		request = setupRequest(group, buttonValue);
-		group.setData(null);
-
-		rb1.handleRequest(request);
-
-		Assert.assertEquals("Foccussed should not have changed as already set", otherField,
-				UIContextHolder
-				.getCurrent().getFocussed());
 	}
 
 	@Test
