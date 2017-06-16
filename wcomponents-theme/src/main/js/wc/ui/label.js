@@ -137,6 +137,14 @@ define(["wc/dom/classList",
 				label.id = "";
 				parent.insertBefore(newLabellingElement, label);
 				parent.removeChild(label);
+				// Add submitOnChange warnings.
+				if (!isRO) {
+					// this cannot be a module level dependency as it would cause a circular
+					// dependency. It is also not really important how long this takes.
+					require(["wc/ui/onchangeSubmit"], function (soc) {
+						soc.warn(element, newLabellingElement);
+					});
+				}
 			}
 
 			/**
@@ -154,8 +162,9 @@ define(["wc/dom/classList",
 				moveLabels(element);
 
 				Array.prototype.forEach.call(wrappedInput.get(element, true), function (next) {
-					var isRO = wrappedInput.isReadOnly(next);
-					getLabelsForElement(next, true).forEach(function (label) {
+					var isRO = wrappedInput.isReadOnly(next),
+						labels = getLabelsForElement(next, true);
+					labels.forEach(function (label) {
 						var isLabel = label.tagName === tag.LABEL,
 							input;
 						// if the new element is readOnly and the old one

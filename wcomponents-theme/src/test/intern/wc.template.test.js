@@ -2,11 +2,11 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 
-		var template, testHolder, i = 0;
+		var template, testHolder; // , i = 0;
 
-		function getNewKeyName() {
-			return "key" + i++;
-		}
+//		function getNewKeyName() {
+//			return "key" + i++;
+//		}
 
 		registerSuite({
 			name: "template",

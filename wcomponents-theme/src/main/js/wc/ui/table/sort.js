@@ -57,7 +57,7 @@ define(["wc/dom/initialise",
 			function ajaxSubscriber(element, action, triggerId) {
 				if (element && triggerId && triggerId.indexOf(ID_EXTENDER) > 0 && TABLE_WRAPPER.isOneOfMe(element)) {
 					if (document.getElementById(triggerId)) {
-						onloadFocusControl.requestFocus(triggerId);
+						onloadFocusControl.requestFocus(triggerId, null, true);
 					}
 				}
 			}

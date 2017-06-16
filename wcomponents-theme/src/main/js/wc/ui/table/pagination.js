@@ -595,7 +595,7 @@ define(["wc/dom/attribute",
 								 * call the focus helper from onloadFocusControl which will take care
 								 * of the alternate focus issue for us.
 								 */
-								onloadFocusControl.requestFocus(triggerButtonId);
+								onloadFocusControl.requestFocus(triggerButtonId, null, true);
 							}
 						}
 					} finally {

@@ -158,6 +158,7 @@
 		"browser": true,
 		"amd": true
 	},
+	"extends": "eslint:recommended",
 	"rules": {
 		"no-console": 0,
 		"no-use-before-define": 0,
@@ -180,7 +181,8 @@
 		"quotes": 0
 	},
 	"globals": {
-		"KeyEvent": true
+		"KeyEvent": true,
+		"Promise": true
 	}
 }
 </echo>

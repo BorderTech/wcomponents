@@ -94,7 +94,7 @@ define(["wc/dom/event",
 			 * @returns {Boolean} true if the dialog has any content in an aria-busy state.
 			 */
 			function hasBusyContent() {
-				var content = getContent();
+				var content = instance.getContent();
 				if (content) {
 					BUSY = BUSY || new Widget("","",{"aria-busy": "true"});
 					return !!BUSY.findDescendant(content);

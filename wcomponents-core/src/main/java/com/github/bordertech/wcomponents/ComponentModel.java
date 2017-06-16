@@ -85,7 +85,10 @@ public class ComponentModel implements WebModel, Externalizable {
 
 	/**
 	 * The bit-mask for the flag that indicates whether a component is submitted on change/click (client side).
+	 * @deprecated 1.4.0 as it results in a level A accessibility problem See
+	 * https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-unpredictable-change.html.
 	 */
+	@Deprecated
 	public static final int SUBMIT_ON_CHANGE_FLAG = 1 << 6;
 
 	/**
