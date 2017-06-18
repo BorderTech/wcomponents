@@ -21,6 +21,8 @@ define({
 	},
 	environments: [ ${test.environments} ],
 
+	${intern.reporters}
+
 	// Configuration options for the module loader; any AMD configuration options supported by the specified AMD loader
 	// can be used here
 	loaderOptions: {

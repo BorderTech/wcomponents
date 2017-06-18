@@ -1,8 +1,3 @@
-/**
- * This module is used by low level ajax functionality to handle error situations.
- * It is in a separate module because we should not need to load many of these module dependencies under normal conditions.
- * The intention is that it is loaded lazily, on demand, with an errback to requirejs.
- */
 define(["wc/config", "wc/i18n/i18n", "wc/mixin"], function(wcconfig, i18n, mixin) {
 	/**
 	 * Get an error message for the given response.
@@ -70,7 +65,16 @@ define(["wc/config", "wc/i18n/i18n", "wc/mixin"], function(wcconfig, i18n, mixin
 		return result;
 	}
 
-
+	/**
+	 * This module is used by low level ajax functionality to handle error situations.
+	 * It is in a separate module because we should not need to load many of these module dependencies under normal conditions.
+	 * The intention is that it is loaded lazily, on demand, with an errback to requirejs.
+	 *
+	 * @module
+	 * @requires module:wc/config
+	 * @requires module:wc/i18n/i18n
+	 * @requires module:wc/mixin
+	 */
 	return {
 		getErrorMessage: getErrorMessage
 	};

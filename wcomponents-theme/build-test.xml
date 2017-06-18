@@ -22,7 +22,27 @@
 	<property name="intern.capabilities" value="recordVideo: false, recordScreenshots: false" />
 	<property name="intern.tunnel" value="SauceLabsTunnel" />
 	<property name="intern.tunnel.options" value="verbose: true" />
+	<!-- set true to force build to fail if tests fail when running a local tunnel using tunnel = "SeleniumTunnel" -->
 	<property name="intern.fail.local.test" value="false" />
+	<!--
+		Intern reporters
+		================
+
+		Needs to include the `	reporters: [],` bit (including the comma). See https://theintern.github.io/intern/#reporter-results.
+
+		Some samples:
+
+		simple reporters:
+			reporters: [{id: 'Console'}], - just output to console
+			reporters: [{id: 'JUnit' filename '/PATH/TO/junit.xml'}],
+			reporters: [{id: 'Runner', filename: '/PATH/TO/runner.txt'}],
+
+		coverage reporters:
+			reporters: [{id: 'LcovHtml', directory: '/PATH/TO/'}],
+			reporters: [{id: 'Lcov', filename: '/PATH/TO/lcov.info'}],
+
+	-->
+	<property name="intern.reporters" value=""/>
 
 	<target name="build" description="Build unit tests" depends="init, intern">
 		<antcall target="checkPropertiesExpanded"/>
