@@ -11,6 +11,7 @@
 
 ### Bug Fixes
 
+* Fixed an XSLT error which caused read-only WNumberField to appear to be editable #1262.
 * Removed a potential source of null pointer exceptions in WRadioButton.handleRequest which had been masked by most WRadioButtons not having
   `submitOnChange` set #1258.
 * Updated load-time focus requests (module `wc/ui/onloadFocusControl`) so that the focus request is not honoured if the load is a full page load (not
@@ -23,6 +24,7 @@
 
 ### Enhancements
 
+* Improved JavaScript unit tests; added mechanism to do local automated testing with optional coverage; improved the intern test skeleton.
 * Added new eslint rules (eslint:recommended) and fixed a pile of stylistic issues in JavaScript.
 * Rewrote several synchronous i18n calls to use the async version (fixed at least one more definite race condition).
 * Removed a workaround for a [Firefox issue](https://bugzilla.mozilla.org/show_bug.cgi?id=984869) as that issue is now resolved #1250.
