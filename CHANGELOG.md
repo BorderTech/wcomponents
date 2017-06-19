@@ -3,6 +3,15 @@
 ## Release in-progress
 
 ### API Changes
+
+### Bug Fixes
+
+### Enhancements
+
+## Release 1.4.3
+
+### API Changes
+
 * Deprecated `AbstractInput.setSubmitOnChange` and `AbstractInput.isSubmitOnChange` and all overrides thereof. This is a source of significant a11y
   difficulty and should be removed #1255.
 * Client side:
