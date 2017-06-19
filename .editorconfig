@@ -19,10 +19,16 @@ trim_trailing_whitespace=true
 [*.properties]
 trim_trailing_whitespace=false
 
-[*.scss]
+[*.{css,sass,scss}]
+indent_style=space
+indent_size=2
+trim_trailing_whitespace=true
+
+[*.{yml,yaml}]
 indent_style=space
 indent_size=2
 
-[{*.yml,*.yaml}]
+[*.md]
 indent_style=space
 indent_size=2
+trim_trailing_whitespace=true
