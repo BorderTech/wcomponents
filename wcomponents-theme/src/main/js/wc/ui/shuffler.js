@@ -5,7 +5,7 @@ define(["wc/dom/event",
 	"wc/dom/shed",
 	"wc/dom/Widget",
 	"wc/ui/ajaxRegion"],
-	function(event, initialise, formUpdateManager, getFilteredGroup, shed, Widget) {
+	function(event, initialise, formUpdateManager, getFilteredGroup, shed, Widget, ajaxRegion) {
 		"use strict";
 		/**
 		 * @constructor
@@ -52,7 +52,8 @@ define(["wc/dom/event",
 			function move(element) {
 				var selected, i,
 					select = document.getElementById(element.getAttribute("aria-controls")),
-					position = element.value;
+					position = element.value,
+					container;
 
 				/*
 				 * Given an option we look up position and move the option accordingly (if possible)
@@ -118,6 +119,10 @@ define(["wc/dom/event",
 						}
 					} else {
 						selected.forEach(_moveIt);
+					}
+					// If we are in a WShuffler we will have to manually fire any ajax triggers
+					if ((container = CONTAINER.findAncestor(element))) {
+						ajaxRegion.requestLoad(container, null, true);
 					}
 				}
 			}

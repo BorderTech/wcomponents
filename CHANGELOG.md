@@ -6,6 +6,9 @@
 
 ### Bug Fixes
 
+* Fix flaw which caused WButton with a message to not stop ajax submit if the button was an ajax trigger **and** the user chooses to cancel the button action # 1266.
+* Fix flaw which prevented WShuffler acting as an ajax trigger #1267.
+
 ### Enhancements
 * Allow custom AJAX error handlers so that we can handle *any* response format conceivable, e.g. XML, JSON, protobuf, binary.
 

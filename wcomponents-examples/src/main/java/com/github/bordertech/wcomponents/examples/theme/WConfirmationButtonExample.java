@@ -2,12 +2,16 @@ package com.github.bordertech.wcomponents.examples.theme;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
+import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WConfirmationButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WFieldLayout;
+import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 
@@ -70,7 +74,39 @@ public class WConfirmationButtonExample extends WContainer {
 
 		clear.setAction(clearAction);
 		clearLink.setAction(clearAction);
+
+		addAjaxExample();
 	}
+
+
+
+	/**
+	 * This is used to reproduce a WComponents bug condition to make sure we do not re-create it once it is fixed.
+	 * See https://github.com/BorderTech/wcomponents/issues/1266.
+	 */
+	private void addAjaxExample() {
+		add(new WHeading(HeadingLevel.H2, "Confirm as ajax trigger"));
+		final String before = "Before";
+		final String after = "After";
+		final WText ajaxContent = new WText("Before");
+		final WPanel target = new WPanel(WPanel.Type.BOX);
+
+		add(target);
+		target.add(ajaxContent);
+
+		WButton confirmWithAjax = new WButton("Replace");
+		confirmWithAjax.setMessage("Are you sure?");
+		confirmWithAjax.setAction(new Action() {
+			@Override
+			public void execute(final ActionEvent event) {
+				ajaxContent.setText(before.equals(ajaxContent.getText()) ? after : before);
+			}
+		});
+		add(confirmWithAjax);
+		add(new WAjaxControl(confirmWithAjax, target));
+	}
+
+
 
 	/**
 	 * Clears the contents of the text field.
