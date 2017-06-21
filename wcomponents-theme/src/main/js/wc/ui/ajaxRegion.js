@@ -119,7 +119,7 @@ define(["wc/dom/event",
 				BUTTON = BUTTON || new Widget(tag.BUTTON);
 				element = Widget.findAncestor($event.target, [BUTTON, ANCHOR]);
 
-				if (element && !shed.isDisabled(element) && checkActivateTrigger(element) && (isSubmitElement(element) || isNavLink(element))) {
+				if (!$event.defaultPrevented && element && !shed.isDisabled(element) && checkActivateTrigger(element) && (isSubmitElement(element) || isNavLink(element))) {
 					$event.preventDefault();
 				}
 			}
