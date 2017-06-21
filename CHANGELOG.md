@@ -7,6 +7,7 @@
 ### Bug Fixes
 
 ### Enhancements
+* Allow custom AJAX error handlers so that we can handle *any* response format conceivable, e.g. XML, JSON, protobuf, binary.
 
 ## Release 1.4.3
 

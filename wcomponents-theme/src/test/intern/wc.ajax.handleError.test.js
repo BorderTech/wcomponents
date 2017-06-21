@@ -146,6 +146,17 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				wcconfig.set({ messages: {
 					403: "Oh noes! A 403 occurred!",
 					404: "I can't find it!",
+					418: function(response) {
+						// this is an example of handling a JSON response body
+						var data;
+						try {
+							data = JSON.parse(response.responseText);
+							data = data.message;
+						} catch (ex) {
+							data = response.responseText;
+						}
+						return data + " " + response.status;
+					},
 					200: "Some gateway proxies don't know basic HTTP",
 					error: "An error occurred and I have not set a specific message for it!"
 				}}, "wc/ui/xhr");
@@ -157,6 +168,11 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils"], functi
 				// 404
 				expected = "I can't find it!";
 				response = new MockResponse(404, "foo", "bar");
+				actual = controller.getErrorMessage(response);
+				assert.strictEqual(actual, expected);
+				// 418
+				expected = "Short and stout 418";
+				response = new MockResponse(418, "{ \"message\": \"Short and stout\" }", "I'm a teapot");
 				actual = controller.getErrorMessage(response);
 				assert.strictEqual(actual, expected);
 				// 200
