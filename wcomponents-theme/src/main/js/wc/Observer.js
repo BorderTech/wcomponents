@@ -162,20 +162,30 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 		 * // tweet
 		 */
 		this.notify = function() {
-			var subscribers, scope = this, args = arguments;
+			var result,
+				subscribers, scope = this, args = arguments,
+				promiseFactories = [function() {
+					return notify(subscribers[0], scope, args);
+				}, function() {
+					return notify(subscribers[1], scope, args);
+				}, function() {
+					return notify(subscribers[2], scope, args);
+				}];
 			try {
 				subscribers = registry.getSubscribers(filterFn);
 				if (notifyInStages) {
-					return notify(subscribers[0], scope, args).then(function() {
-						return notify(subscribers[1], scope, args);
-					}).then(function() {
-						return notify(subscribers[2], scope, args);
+					// notify sequentially
+					result = Promise.resolve();
+					promiseFactories.forEach(function (promiseFactory) {
+						result = result.then(promiseFactory, promiseFactory);
 					});
+				} else {
+					// notify in parallel
+					result = Promise.all(promiseFactories.map(function(promiseFactory) {
+						return promiseFactory();
+					}));
 				}
-				return Promise.all([
-					notify(subscribers[0], scope, args),
-					notify(subscribers[1], scope, args),
-					notify(subscribers[2], scope, args)]);
+				return result;
 			} finally {
 				// reset instance variables
 				filterFn = null;
@@ -183,6 +193,15 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 			}
 		};
 
+		/**
+		 * Helper for notify, takes an array of subscribers and calls them with the correct scope and arguments.
+		 * Ensures that all subscribers are called, ingoring accidental issues (such as exceptions) but honoring
+		 * callbacks.
+		 * @param {Subscriber[]} subscribers
+		 * @param scope The "this" to pass through to the subscriber.
+		 * @param args Any array-like which contains the arguments to pass to the subscriber.
+		 * @returns {Promise}
+		 */
 		function notify(subscribers, scope, args) {
 			var promises = [],
 				nextResult,
@@ -198,7 +217,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 				try {
 					if (typeof callback === FUNCTION) {
 						if (callback(nextResult) === true) {
-							promises[promises.length] = Promise.reject();
+							promises[promises.length] = Promise.reject("Subscriber aborted notify chain");
 							break;
 						}
 					}
@@ -210,7 +229,9 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 					promises[promises.length] = nextResult;  // Promise.all will wrap "thenable" objects in a Promise
 				}
 			}
-			return Promise.all(promises);  // will be immediately resolved if zero length
+			return Promise.all(promises).catch(function() {
+				return promises;
+			});  // will be immediately resolved if zero length
 		}
 
 		/**
