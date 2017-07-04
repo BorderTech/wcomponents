@@ -143,10 +143,12 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 			 * Handles the requirejs plugin lifecycle. (TODO no longer necessary?)
 			 * For information {@see http://requirejs.org/docs/plugins.html#apiload}
 			 * @function  module:wc/i18n/i18n.load
+			 * @deprecated
 			 * @public
 			 */
 			this.load = function (id, parentRequire, callback, config) {
 				if (!config || !config.isBuild) {
+					console.warn("Calling i18n as a loader plugin is deprecated");
 					instance.initialize().then(callback);
 				} else {
 					callback();
