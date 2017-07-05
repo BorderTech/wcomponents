@@ -284,6 +284,37 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 				assert.equal(order.join(), expected.join());
 			});
 		},
+		testImportanceWithPromiseRejectsAndErrors: function () {
+			var expected = ["high", "high", "medium", "medium", "low", "low"],
+				order = [];
+			observer.subscribe(function() {
+				order.push("medium");
+				return Promise.reject("Observer testing reject in medium subscriber");
+			});
+			observer.subscribe(function() {
+				order.push("medium");
+				throw new Error("Observer testing error in medium subscriber");
+			});
+			observer.subscribe(function() {
+				order.push("low");
+				throw new Error("Observer testing error in low subscriber");
+			}, { priority: Observer.priority.LOW });
+			observer.subscribe(function() {
+				order.push("low");
+				return Promise.reject("Observer testing reject in low subscriber");
+			}, { priority: Observer.priority.LOW });
+			observer.subscribe(function() {
+				order.push("high");
+				throw new Error("Observer testing error in high subscriber");
+			}, { priority: Observer.priority.HIGH });
+			observer.subscribe(function() {
+				order.push("high");
+				return Promise.reject("Observer testing reject in high subscriber");
+			}, { priority: Observer.priority.HIGH });
+			return observer.notify().then(function() {
+				assert.equal(order.join(), expected.join());
+			});
+		},
 		testStagedImportance: function () {
 			var observer = new Observer(true),
 				expected = ["high", "medium", "low"],
@@ -296,6 +327,36 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"], funct
 			}, { priority: Observer.priority.LOW });
 			observer.subscribe(function() {
 				order.push("high");
+			}, { priority: Observer.priority.HIGH });
+			return observer.notify().then(function() {
+				assert.equal(order.join(), expected.join());
+			});
+		},
+		testStagedImportanceSubscriberThrowsErrors: function () {
+			var observer = new Observer(true),
+				expected = ["high", "high", "medium", "medium", "low", "low"],
+				order = [];
+			observer.subscribe(function() {
+				order.push("medium");
+				throw new Error("Observer testing error in medium subscriber");
+			});
+			observer.subscribe(function() {
+				order.push("medium");
+				throw new Error("Observer testing error in medium subscriber");
+			});
+			observer.subscribe(function() {
+				order.push("low");
+			}, { priority: Observer.priority.LOW });
+			observer.subscribe(function() {
+				order.push("low");
+			}, { priority: Observer.priority.LOW });
+			observer.subscribe(function() {
+				order.push("high");
+				throw new Error("Observer testing error in high subscriber");
+			}, { priority: Observer.priority.HIGH });
+			observer.subscribe(function() {
+				order.push("high");
+				throw new Error("Observer testing error in high subscriber");
 			}, { priority: Observer.priority.HIGH });
 			return observer.notify().then(function() {
 				assert.equal(order.join(), expected.join());
