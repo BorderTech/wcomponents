@@ -149,7 +149,7 @@ define(["lib/sprintf", "wc/array/toArray", "wc/config", "wc/mixin", "wc/ajax/aja
 			this.load = function (id, parentRequire, callback, config) {
 				if (!config || !config.isBuild) {
 					console.warn("Calling i18n as a loader plugin is deprecated");
-					instance.initialize().then(callback);
+					instance.initialize().then(callback, callback);
 				} else {
 					callback();
 				}

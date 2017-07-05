@@ -72,6 +72,7 @@ public class I18nExample extends WPanel implements MessageContainer {
 		buttons.add(new ChangeLocaleButton(null));
 		buttons.add(new ChangeLocaleButton(new Locale("en")));
 		buttons.add(new ChangeLocaleButton(new Locale("fr", "CA")));
+		buttons.add(new ChangeLocaleButton(new Locale("en", "US")));
 
 		add(new WHeading(HeadingLevel.H2, "Internationalisation example"));
 
