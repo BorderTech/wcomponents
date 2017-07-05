@@ -3,6 +3,14 @@
 ## Release in-progress
 
 ### API Changes
+
+### Bug Fixes
+
+### Enhancements
+
+## Release 1.4.4
+
+### API Changes
 * JS only: deprecated the use of wc/i18n/i18n as a loader plugin (in favor of async methods).
 
 ### Bug Fixes
