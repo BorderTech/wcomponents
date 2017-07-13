@@ -8,11 +8,9 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			setup: function() {
 				var result = testutils.setupHelper(["wc/loader/resource"]).then(function(arr) {
 					resourceLoader = arr[0];
+					resourceLoader._theRealFetch = resourceLoader._fetch;
 				});
 				return result;
-			},
-			beforeEach: function() {
-				resourceLoader._theRealFetch = resourceLoader._fetch;
 			},
 			afterEach: function() {
 				resourceLoader._fetch = resourceLoader._theRealFetch;
@@ -62,6 +60,23 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					assert.strictEqual(1, fetchCount.bar, "Should have throttled AJAX calls bar");
 					assert.strictEqual(calledExpected.foo, called.foo, "Should have called every subscriber foo");
 					assert.strictEqual(calledExpected.bar, called.bar, "Should have called every subscriber bar");
+				});
+			},
+			testLoaderRepeatedCalls: function() {
+				// This tests that requests are passed through as normal when there is no matching request inflight.
+				var fetchCount = 0, called = 0;
+				resourceLoader._fetch = function() {
+					fetchCount++;
+					return Promise.resolve();
+				};
+				function callback() {
+					return called++;
+				}
+				return resourceLoader.load("foo", true, true).then(callback).then(function() {
+					return resourceLoader.load("foo", true, true).then(callback).then(function() {
+						assert.strictEqual(2, fetchCount, "Should have fetched twice");
+						assert.strictEqual(2, called, "Should have been called twice");
+					});
 				});
 			}
 		});
