@@ -5,6 +5,7 @@
 ### API Changes
 
 ### Bug Fixes
+* Debounce / throttle rapidly repeated requests for the same theme resources to prevent superfluous network requests #1274
 
 ### Enhancements
 
