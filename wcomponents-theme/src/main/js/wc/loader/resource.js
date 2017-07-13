@@ -3,8 +3,8 @@
  * @requires module:wc/ajax/ajax
  * @requires module:wc/loader/prefetch
  */
-define(["wc/ajax/ajax", "wc/loader/prefetch", "wc/config", "module"],
-	function(ajax, prefetch, wcconfig, module) {
+define(["wc/ajax/ajax", "wc/loader/prefetch", "wc/config", "wc/Observer", "module"],
+	function(ajax, prefetch, wcconfig, Observer, module) {
 		"use strict";
 		/**
 		 * @constructor
@@ -12,7 +12,7 @@ define(["wc/ajax/ajax", "wc/loader/prefetch", "wc/config", "module"],
 		 * @private
 		 */
 		function Loader() {
-			var baseUrl;
+			var baseUrl, observer;
 
 			/**
 			 * Politely suggest to the browser that it may wish to prefetch this resource if it finds a convenient moment.
@@ -44,9 +44,37 @@ define(["wc/ajax/ajax", "wc/loader/prefetch", "wc/config", "module"],
 			 * @returns {?Document|Promise} The loaded file or a Promise resolved with the loaded file if async is true.
 			 */
 			this.load = function(fileName, asText, async) {
-				var url = this.getResourceUrl(fileName);
-				console.log("Loading " + url);
-				return ajax.loadXmlDoc(url, null, asText, async);
+				var loader = this,
+					pendingCount, result,
+					url = loader.getResourceUrl(fileName);
+				if (async) {
+					if (!observer) {
+						// initialise on first use
+						observer = new Observer();
+						pendingCount = 0;
+					} else {
+						pendingCount = observer.subscriberCount(url);
+					}
+					result = new Promise(function (win) {
+						observer.subscribe(win, { group: url });
+					});
+					if (pendingCount < 1) {
+						console.log("Loading async " + url);
+						// There is no currently pending request for this URL
+						loader._fetch(url, asText, async).then(function(theResource) {
+							try {
+								observer.setFilter(url);
+								return observer.notify(theResource);
+							} finally {
+								observer.reset(url);  // clear all of the subscribers to this URL
+							}
+						});
+					}
+				} else {
+					console.log("Loading sync " + url);
+					result = loader._fetch(url, asText, async);
+				}
+				return result;
 			};
 
 			/**
@@ -84,6 +112,14 @@ define(["wc/ajax/ajax", "wc/loader/prefetch", "wc/config", "module"],
 					return config.cachebuster;
 				}
 				return null;
+			};
+
+			/**
+			 * Exposed for testing purposes - this is the function that does the actual ajax call.
+			 * @private
+			 */
+			this._fetch = function(url, asText, async) {
+				return ajax.loadXmlDoc(url, null, asText, async);
 			};
 
 			function getConfig() {
