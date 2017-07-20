@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lde;
 
 import com.github.bordertech.wcomponents.UIContext;
-import com.github.bordertech.wcomponents.UIContextDelegate;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.monitor.UicStats;
@@ -240,7 +239,7 @@ public final class DevToolkit {
 	 * @return a tree representation of the WComponent UI.
 	 */
 	public TreeNode getTree() {
-		UIContext uic = UIContextDelegate.getPrimaryUIContext(UIContextHolder.getCurrent());
+		UIContext uic = UIContextHolder.getCurrentPrimaryUIContext();
 
 		String[] debugTree = uic.getUI().toString().split("\n");
 		TreeNode root = new UITreeNode(debugTree[0]);
@@ -404,7 +403,7 @@ public final class DevToolkit {
 			Template template = VelocityEngineFactory.getVelocityEngine().getTemplate(templateName);
 			VelocityContext context = new VelocityContext();
 			context.put("this", this);
-			UIContext uic = UIContextDelegate.getPrimaryUIContext(UIContextHolder.getCurrent());
+			UIContext uic = UIContextHolder.getCurrentPrimaryUIContext();
 			context.put("uic", uic);
 			context.put("ui", uic.getUI());
 			template.merge(context, writer);

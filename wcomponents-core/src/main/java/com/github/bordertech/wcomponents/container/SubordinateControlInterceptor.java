@@ -46,7 +46,7 @@ public class SubordinateControlInterceptor extends InterceptorComponent {
 	@Override
 	public void preparePaint(final Request request) {
 		// Clear all registered controls on Session
-		SubordinateControlHelper.clearAllRegisteredControls(request);
+		SubordinateControlHelper.clearAllRegisteredControls();
 
 		super.preparePaint(request);
 

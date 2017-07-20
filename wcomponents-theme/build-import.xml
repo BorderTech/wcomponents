@@ -158,6 +158,7 @@
 		"browser": true,
 		"amd": true
 	},
+	"extends": "eslint:recommended",
 	"rules": {
 		"no-console": 0,
 		"no-use-before-define": 0,
@@ -171,7 +172,7 @@
 		"no-extend-native": 0,
 		"no-debugger": 0,
 		"no-alert": 0,
-		"brace-style": [2, "stroustrup", { "allowSingleLine": false }],
+		"brace-style": [2, "1tbs", { "allowSingleLine": false }],
 		"semi": [2, "always"],
 		"space-before-blocks": [2, "always"],
 		"spaced-comment": [2, "always"],
@@ -180,7 +181,8 @@
 		"quotes": 0
 	},
 	"globals": {
-		"KeyEvent": true
+		"KeyEvent": true,
+		"Promise": true
 	}
 }
 </echo>

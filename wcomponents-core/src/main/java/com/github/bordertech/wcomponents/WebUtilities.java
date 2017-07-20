@@ -12,7 +12,6 @@ import com.github.bordertech.wcomponents.util.TreeUtil;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import com.github.bordertech.wcomponents.util.mock.MockResponse;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -21,7 +20,6 @@ import java.net.URLConnection;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
-
 import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.commons.lang3.text.translate.AggregateTranslator;
@@ -114,8 +112,8 @@ public final class WebUtilities {
 	 */
 	private static final CharSequenceTranslator DOUBLE_ENCODE_BRACKETS = new LookupTranslator(
 			new String[][]{
-					{OPEN_BRACKET_ESCAPE, OPEN_BRACKET_DOUBLE_ESCAPE},
-					{CLOSE_BRACKET_ESCAPE, CLOSE_BRACKET_DOUBLE_ESCAPE}
+				{OPEN_BRACKET_ESCAPE, OPEN_BRACKET_DOUBLE_ESCAPE},
+				{CLOSE_BRACKET_ESCAPE, CLOSE_BRACKET_DOUBLE_ESCAPE}
 			});
 
 	/**
@@ -123,8 +121,8 @@ public final class WebUtilities {
 	 */
 	private static final CharSequenceTranslator DOUBLE_DECODE_BRACKETS = new LookupTranslator(
 			new String[][]{
-					{OPEN_BRACKET_DOUBLE_ESCAPE, OPEN_BRACKET_ESCAPE},
-					{CLOSE_BRACKET_DOUBLE_ESCAPE, CLOSE_BRACKET_ESCAPE}
+				{OPEN_BRACKET_DOUBLE_ESCAPE, OPEN_BRACKET_ESCAPE},
+				{CLOSE_BRACKET_DOUBLE_ESCAPE, CLOSE_BRACKET_ESCAPE}
 			});
 
 	/**
@@ -132,8 +130,8 @@ public final class WebUtilities {
 	 */
 	private static final CharSequenceTranslator ENCODE_BRACKETS = new LookupTranslator(
 			new String[][]{
-					{"{", OPEN_BRACKET_ESCAPE},
-					{"}", CLOSE_BRACKET_ESCAPE}
+				{"{", OPEN_BRACKET_ESCAPE},
+				{"}", CLOSE_BRACKET_ESCAPE}
 			});
 
 	/**
@@ -141,8 +139,8 @@ public final class WebUtilities {
 	 */
 	private static final CharSequenceTranslator DECODE_BRACKETS = new LookupTranslator(
 			new String[][]{
-					{OPEN_BRACKET_ESCAPE, "{"},
-					{CLOSE_BRACKET_ESCAPE, "}"}
+				{OPEN_BRACKET_ESCAPE, "{"},
+				{CLOSE_BRACKET_ESCAPE, "}"}
 			});
 
 	/**
@@ -150,12 +148,12 @@ public final class WebUtilities {
 	 */
 	private static final CharSequenceTranslator DECODE = new LookupTranslator(
 			new String[][]{
-					{LT_ESCAPE, "<"},
-					{GT_ESCAPE, ">"},
-					{AMP_ESCAPE, "&"},
-					{QUOT_ESCAPE, "\""},
-					{OPEN_BRACKET_ESCAPE, "{"},
-					{CLOSE_BRACKET_ESCAPE, "}"}
+				{LT_ESCAPE, "<"},
+				{GT_ESCAPE, ">"},
+				{AMP_ESCAPE, "&"},
+				{QUOT_ESCAPE, "\""},
+				{OPEN_BRACKET_ESCAPE, "{"},
+				{CLOSE_BRACKET_ESCAPE, "}"}
 			});
 
 	/**
@@ -164,12 +162,12 @@ public final class WebUtilities {
 	private static final CharSequenceTranslator ENCODE = new AggregateTranslator(
 			new LookupTranslator(
 					new String[][]{
-							{"<", LT_ESCAPE},
-							{">", GT_ESCAPE},
-							{"&", AMP_ESCAPE},
-							{"\"", QUOT_ESCAPE},
-							{"{", OPEN_BRACKET_ESCAPE},
-							{"}", CLOSE_BRACKET_ESCAPE}
+						{"<", LT_ESCAPE},
+						{">", GT_ESCAPE},
+						{"&", AMP_ESCAPE},
+						{"\"", QUOT_ESCAPE},
+						{"{", OPEN_BRACKET_ESCAPE},
+						{"}", CLOSE_BRACKET_ESCAPE}
 					}),
 			WebUtilities.NumericEntityIgnorer.between(0x00, 0x08),
 			WebUtilities.NumericEntityIgnorer.between(0x0b, 0x0c),
@@ -417,7 +415,6 @@ public final class WebUtilities {
 //		}
 //		return input.contains("{") || input.contains("}");
 //	}
-
 	/**
 	 * Encode open or closed brackets in the input String.
 	 *
@@ -596,19 +593,32 @@ public final class WebUtilities {
 	}
 
 	/**
-	 * Returns the primary context for the given component.
+	 * Returns the context for the given component.
 	 *
 	 * @param uic the current user's UIContext.
-	 * @param component the component to retrieve the primary context for.
-	 * @return the primary context for the given component.
+	 * @param component the component to retrieve its context for.
+	 * @return the context for the given component.
+	 * @deprecated Badly named Method. Use {@link #getContextForComponent(com.github.bordertech.wcomponents.WComponent)}
+	 * instead
 	 */
+	@Deprecated
 	public static UIContext getPrimaryContext(final UIContext uic, final WComponent component) {
-		UIContext result = uic;
+		return getContextForComponent(component);
+	}
 
+	/**
+	 * Returns the context for this component. The component may not be in the current context.
+	 *
+	 * @param component the component to find the context it belongs to
+	 * @return the component's context
+	 */
+	public static UIContext getContextForComponent(final WComponent component) {
+		// Start with the current Context
+		UIContext result = UIContextHolder.getCurrent();
+		// Go through the contexts until we find the component
 		while (result instanceof SubUIContext && !((SubUIContext) result).isInContext(component)) {
 			result = ((SubUIContext) result).getBacking();
 		}
-
 		return result;
 	}
 
@@ -931,7 +941,6 @@ public final class WebUtilities {
 //			if (LOG.isWarnEnabled()) {
 //				LOG.warn("Illegal HTML character stripped from XML. codepoint=" + codepoint);
 //			}
-
 			return true;
 		}
 	}

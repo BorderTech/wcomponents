@@ -46,8 +46,7 @@ define(["wc/has"],
 				if (html5Fix) {
 					html5Fix(tmpDF);
 				}
-			}
-			else {
+			} else {
 				tmpDF = document.createDocumentFragment();
 			}
 
@@ -56,8 +55,7 @@ define(["wc/has"],
 			if (noScope) {
 				tmpContainer.innerHTML = noScope(html);
 				noScope(tmpContainer);
-			}
-			else {
+			} else {
 				tmpContainer.innerHTML = html;
 			}
 			while ((next = tmpContainer.firstChild)) {

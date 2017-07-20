@@ -246,16 +246,17 @@ public class WAjaxControl extends AbstractWComponent {
 		if (targets != null && !targets.isEmpty()) {
 			WComponent triggerComponent = trigger == null ? this : trigger;
 
-			UIContext triggerContext = WebUtilities.getPrimaryContext(UIContextHolder.getCurrent(),
-					triggerComponent);
+			// The trigger maybe in a different context
+			UIContext triggerContext = WebUtilities.getContextForComponent(triggerComponent);
 			UIContextHolder.pushContext(triggerContext);
 
+			// TODO The IDs of the targets are based on the Triggers Context. Not good for targets in repeaters
 			try {
 				List<String> targetIds = new ArrayList<>();
 				for (AjaxTarget target : getTargets()) {
 					targetIds.add(target.getId());
 				}
-				AjaxHelper.registerComponents(targetIds, request, triggerComponent.getId());
+				AjaxHelper.registerComponents(targetIds, triggerComponent.getId());
 			} finally {
 				UIContextHolder.popContext();
 			}

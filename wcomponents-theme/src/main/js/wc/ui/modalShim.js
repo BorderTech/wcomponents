@@ -72,8 +72,7 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 				shed.hide(result, true);
 				if (b.firstChild) {
 					b.insertBefore(result, b.firstChild);
-				}
-				else {
+				} else {
 					b.appendChild(result);
 				}
 				return result;
@@ -89,8 +88,7 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 				if (!(add && attribute.get(element, HAS_EVENTS))) {
 					if (add) {
 						attribute.set(element, HAS_EVENTS, true);
-					}
-					else {
+					} else {
 						attribute.remove(element, HAS_EVENTS);
 					}
 					event[action](element, event.TYPE.keydown, keyEvent, false);
@@ -99,13 +97,11 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 						if (add) {
 							event[action](element, event.TYPE.focus, focusEvent, null, null, true);
 							event[action](document.body, event.TYPE.touchstart, touchstartEvent, null, null, true);
-						}
-						else {
+						} else {
 							event[action](element, event.TYPE.focus, focusEvent, true);
 							event[action](document.body, event.TYPE.touchstart, touchstartEvent, true);
 						}
-					}
-					else {
+					} else {
 						event[action](element, event.TYPE.focusin, focusEvent);
 					}
 				}
@@ -162,8 +158,7 @@ define(["wc/dom/attribute", "wc/dom/uid", "wc/dom/classList", "wc/dom/event", "w
 						shed.hide(shimElement, true);
 					}
 					notify = true;
-				}
-				finally {
+				} finally {
 					activeElement = null;
 					accessKeyMap = {};
 					if (notify && observer) {

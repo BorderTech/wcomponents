@@ -10,11 +10,11 @@ define(["wc/ui/menu/core",
 	"wc/dom/classList",
 	"wc/timers",
 	"wc/ui/ajax/processResponse",
-	"wc/loader/resource",
 	"wc/template",
 	"wc/ui/viewportUtils",
 	"wc/ui/menu/menuItem"],
-	function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid, i18n, classList, timers, processResponse, loader, template, viewportUtils) {
+	function(abstractMenu, toArray, event, keyWalker, shed, Widget, initialise, uid, i18n, classList, timers,
+	         processResponse, template, viewportUtils) {
 		"use strict";
 
 		/* Unused dependencies:
@@ -29,8 +29,7 @@ define(["wc/ui/menu/core",
 		 * @private
 		 */
 		function Menubar() {
-			var BANNER = BANNER || new Widget("header", "", {role: "banner"}),
-				HAMBURGER,
+			var HAMBURGER,
 				MENU_FIXED = "wc_menu_fix",
 				resizeTimer,
 				BURGER_MENU_CLASS = "wc_menu_hbgr",
@@ -155,16 +154,14 @@ define(["wc/ui/menu/core",
 						this._keyMap[VK_LEFT] = this._FUNC_MAP.CLOSE_MY_BRANCH;
 						this._keyMap[VK_UP] = keyWalker.MOVE_TO.PREVIOUS;
 						this._keyMap[VK_DOWN] = keyWalker.MOVE_TO.NEXT;
-					}
-					else {
+					} else {
 						// this._keyMap[VK_LEFT] = "openPreviousTopLevelSibling";
 						this._keyMap[VK_LEFT] = null;
 					}
 
 					if (this._isBranchOrOpener(_item)) {
 						this._keyMap[VK_RIGHT] = this._FUNC_MAP.ACTION;
-					}
-					else {
+					} else {
 						// this._keyMap[VK_RIGHT] = "openNextTopLevelSibling";
 						this._keyMap[VK_RIGHT] = null;
 					}
@@ -182,22 +179,19 @@ define(["wc/ui/menu/core",
 							if (isFirstLastItem(_item, root)) {
 								// If I am the first submenu item UP should go to the opener
 								this._keyMap[VK_UP] = keyWalker.MOVE_TO.PARENT;
-							}
-							else {
+							} else {
 								this._keyMap[VK_UP] = keyWalker.MOVE_TO.PREVIOUS;
 							}
 							// this is no an else if because an item can be both first and last
 							if (isFirstLastItem(_item, root, true)) {
 								// If I am the last submenu item then DOWN should go to the opener
 								this._keyMap[VK_DOWN] = keyWalker.MOVE_TO.PARENT;
-							}
-							else {
+							} else {
 								this._keyMap[VK_DOWN] = keyWalker.MOVE_TO.NEXT;
 							}
 						}
 					}
-				}
-				else {
+				} else {
 					this._keyMap[VK_LEFT] = keyWalker.MOVE_TO.PREVIOUS;
 					this._keyMap[VK_RIGHT] = keyWalker.MOVE_TO.NEXT;
 					// if I am a branch/opener and the menu is open then I have to cycle through my children
@@ -208,8 +202,7 @@ define(["wc/ui/menu/core",
 						if (shed.isExpanded(_item)) {
 							this._keyMap[VK_UP] = keyWalker.MOVE_TO.LAST_CHILD; // "lastChildItem";
 							this._keyMap[VK_DOWN] = keyWalker.MOVE_TO.CHILD;
-						}
-						else {
+						} else {
 							this._keyMap[VK_UP] = this._FUNC_MAP.ACTION;
 							this._keyMap[VK_DOWN] = this._FUNC_MAP.ACTION;
 						}
@@ -265,15 +258,13 @@ define(["wc/ui/menu/core",
 					while ((current = submenuContent.firstChild)) {
 						if (classList.contains(current, "wc_closesubmenu")) {
 							submenuContent.removeChild(current);
-						}
-						else {
+						} else {
 							nextMenu.appendChild(current);
 						}
 					}
 					burger.parentNode.removeChild(burger);
 
-				}
-				finally {
+				} finally {
 					classList.remove(nextMenu, MENU_FIXED);
 				}
 			}
@@ -283,42 +274,21 @@ define(["wc/ui/menu/core",
 			 *
 			 * @function
 			 * @private
-			 * @param {type} el the element to test and (possibly) manipulate.
+			 * @param {Element} el the element to test and (possibly) manipulate.
 			 */
 			function attachSubMenuCloseButton(el) {
-				if (el && instance.isSubMenu(el)) {
-					loader.load("submenuCloseButton.mustache", true, true).then(function(rawTemplate) {
-						var branch,
-							opener,
-							label,
-							props = {},
-							closeButton;
-						if ((branch = instance._getBranch(el)) && (opener = instance._getBranchOpener(branch))) {
-							DECORATED_LABEL = DECORATED_LABEL || new Widget("", "wc-decoratedlabel");
-							label = DECORATED_LABEL.findDescendant(opener);
-
-							if (label) {
-								Array.prototype.forEach.call(label.childNodes, function(child) {
-									if (child.nodeType !== Node.ELEMENT_NODE) {
-										return;
-									}
-									if (classList.contains(child, "wc-labelhead")) {
-										props.labelhead = child.innerHTML;
-									}
-									else if (classList.contains(child, "wc-labeltail")) {
-										props.labeltail = child.innerHTML;
-									}
-									else {
-										props.content = child.innerHTML;
-									}
-								});
-							}
-						}
-						if (!props.content) {
-							props.content = i18n.get("menu_close_label");
+				var branch,
+					opener,
+					label,
+					props = {},
+					closeButton,
+					render = function(content) {
+						if (content) {
+							props.content = content;
 						}
 						template.process({
-							source: rawTemplate,
+							source: "submenuCloseButton.mustache",
+							loadSource: true,
 							target: el,
 							context: props,
 							position: "afterBegin",
@@ -329,7 +299,32 @@ define(["wc/ui/menu/core",
 								}
 							}
 						});
-					});
+					};
+				if (el && instance.isSubMenu(el)) {
+					if ((branch = instance._getBranch(el)) && (opener = instance._getBranchOpener(branch))) {
+						DECORATED_LABEL = DECORATED_LABEL || new Widget("", "wc-decoratedlabel");
+						label = DECORATED_LABEL.findDescendant(opener);
+
+						if (label) {
+							Array.prototype.forEach.call(label.childNodes, function(child) {
+								if (child.nodeType !== Node.ELEMENT_NODE) {
+									return;
+								}
+								if (classList.contains(child, "wc-labelhead")) {
+									props.labelhead = child.innerHTML;
+								} else if (classList.contains(child, "wc-labeltail")) {
+									props.labeltail = child.innerHTML;
+								} else {
+									props.content = child.innerHTML;
+								}
+							});
+						}
+					}
+					if (!props.content) {
+						i18n.translate("menu_close_label").then(render);
+					} else {
+						render();
+					}
 				}
 			}
 
@@ -347,21 +342,22 @@ define(["wc/ui/menu/core",
 				if (classList.contains(nextMenu, MENU_FIXED)) {
 					return;
 				}
-				loader.load("submenu.mustache", true, true).then(function(rawTemplate) {
+				i18n.translate(["menu_open_label", "menu_close_label"]).then(function(strings) {
 					var props = {
 						id: uid(),
 						class: " " + BURGER_MENU_CLASS,
 						opener: {
 							class: " wc_hbgr fa fa-bars",
-							tooltip: i18n.get("menu_open_label")
+							tooltip: strings[0]
 						},
 						contentId: uid(),
 						open: false,
-						closeText: i18n.get("menu_close_label"),
+						closeText: strings[0],
 						items: nextMenu.innerHTML
 					};
 					template.process({
-						source: rawTemplate,
+						source: "submenu.mustache",
+						loadSource: true,
 						target: nextMenu,
 						context: props,
 						callback: function() {
@@ -388,8 +384,7 @@ define(["wc/ui/menu/core",
 
 				if (RESPONSIVE_MENU.isOneOfMe(element)) {
 					candidates = [element];
-				}
-				else {
+				} else {
 					candidates = toArray(RESPONSIVE_MENU.findDescendants(element));
 				}
 
@@ -404,12 +399,11 @@ define(["wc/ui/menu/core",
 				if (candidates.length) {
 					if (viewportUtils.isPhoneLike()) {
 						candidates.forEach(makeIconified);
-					}
-					else {
+					} else {
 						candidates.forEach(removeIconified);
 					}
 				}
-			};
+			}
 
 			/**
 			 * Resize event sets up a timer to undertake menu manipulation.
@@ -500,7 +494,6 @@ define(["wc/ui/menu/core",
 		 * @requires module:wc/dom/classList
 		 * @requires module:wc/timers
 		 * @requires module:wc/ui/ajax/processResponse
-		 * @requires module:wc/loader/resource
 		 * @requires:module:wc/template
 		 * @requires module:wc/ui/viewportUtils
 		 */

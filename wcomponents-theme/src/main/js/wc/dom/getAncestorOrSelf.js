@@ -63,18 +63,15 @@ define(["wc/dom/tag", "wc/dom/classList"], /** @param {wc/dom/tag} tag @param {w
 					_result = false, i;
 				if (expectedVal === null) {
 					_result = element.hasAttribute(name);
-				}
-				else if (expectedVal === actualVal) {  // short cut
+				} else if (expectedVal === actualVal) {  // short cut
 					_result = true;
-				}
-				else if (SPACE.test(actualVal)) {
+				} else if (SPACE.test(actualVal)) {
 					actualVal = actualVal.split(SPACE);
 					if (SPACE.test(expectedVal)) {
 						expectedVal = expectedVal.split(SPACE);
 						if (expectedVal.length > actualVal.length) {
 							_result = false;
-						}
-						else {
+						} else {
 							for (i = 0; i < expectedVal.length; ++i) {
 								_result = !!~actualVal.indexOf(expectedVal[i]);
 								if (!_result) {
@@ -82,12 +79,10 @@ define(["wc/dom/tag", "wc/dom/classList"], /** @param {wc/dom/tag} tag @param {w
 								}
 							}
 						}
-					}
-					else {
+					} else {
 						_result = !!~actualVal.indexOf(expectedVal);
 					}
-				}
-				else {
+				} else {
 					_result = expectedVal === actualVal;
 				}
 				return _result;
@@ -147,8 +142,7 @@ define(["wc/dom/tag", "wc/dom/classList"], /** @param {wc/dom/tag} tag @param {w
 			attributes = arguments[0].attributes;
 			attributeLogic = arguments[0].attributeLogic || DEFAULT_LOGIC;
 			outermost = arguments[0].outermost || false;
-		}
-		else {
+		} else {
 			element = arguments[0];
 			tagName = arguments[1];
 			limitTagName = (arguments.length > 2) ? arguments[2] : null;
@@ -187,8 +181,7 @@ define(["wc/dom/tag", "wc/dom/classList"], /** @param {wc/dom/tag} tag @param {w
 					if (!outermost) {
 						break;
 					}
-				}
-				else if (nextTagName === limit) {
+				} else if (nextTagName === limit) {
 					break;
 				}
 			}/*

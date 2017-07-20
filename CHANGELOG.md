@@ -4,6 +4,85 @@
 
 ### API Changes
 
+### Bug Fixes
+* Debounce / throttle rapidly repeated requests for the same theme resources to prevent superfluous network requests #1274
+
+### Enhancements
+
+## Release 1.4.4
+
+### API Changes
+* JS only: deprecated the use of wc/i18n/i18n as a loader plugin (in favor of async methods).
+
+### Bug Fixes
+* Fix flaw which caused WButton with a message to not stop ajax submit if the button was an ajax trigger **and** the user chooses to cancel the button action # 1266.
+* Fix flaw which prevented WShuffler acting as an ajax trigger #1267.
+
+### Enhancements
+* Better handling of rejected promises in Subscribers to the Observer module.
+* Upgraded FabricJS 1.7.11 -> 1.7.14 to fix issues in Internet Explorer 11.
+* Allow custom AJAX error handlers so that we can handle *any* response format conceivable, e.g. XML, JSON, protobuf, binary.
+
+## Release 1.4.3
+
+### API Changes
+
+* Deprecated `AbstractInput.setSubmitOnChange` and `AbstractInput.isSubmitOnChange` and all overrides thereof. This is a source of significant a11y
+  difficulty and should be removed #1255.
+* Client side:
+  - shed.js subscribers can return a promise and shed.notify will resolve when all subscriber promises complete.
+  - i18n translation methods can now take an array of keys to translate.
+
+### Bug Fixes
+
+* Fixed an XSLT error which caused read-only WNumberField to appear to be editable #1262.
+* Removed a potential source of null pointer exceptions in WRadioButton.handleRequest which had been masked by most WRadioButtons not having
+  `submitOnChange` set #1258.
+* Updated load-time focus requests (module `wc/ui/onloadFocusControl`) so that the focus request is not honoured if the load is a full page load (not
+  ajax) and there is a message box (`WMessageBox`, `WValidationErrors`) visible on the page #1253.
+* Fixed a flaw which could result in a fieldset not having a legend under some circumstances #1257.
+* Updated components which automatically try to refocus themselves during or after handleRequest so that the focus will only be set if the component
+  is the trigger for the current ajax request. This means the old `submitOnChange` focus will not be implemented. This fixes a major a11y flaw #501.
+* Removed IE 11 specific dialog Sass which proved to be not only superfluous but actually harmful #1247.
+* Fixed an XSLT bug which caused incorrect TAB key behaviour in some menus #1249.
+
+### Enhancements
+
+* Improved JavaScript unit tests; added mechanism to do local automated testing with optional coverage; improved the intern test skeleton.
+* Added new eslint rules (eslint:recommended) and fixed a pile of stylistic issues in JavaScript.
+* Rewrote several synchronous i18n calls to use the async version (fixed at least one more definite race condition).
+* Removed a workaround for a [Firefox issue](https://bugzilla.mozilla.org/show_bug.cgi?id=984869) as that issue is now resolved #1250.
+
+## Release 1.4.2
+
+### Bug Fixes
+
+* Replaced support for `WDropdown` `optionWidth` on native dropdowns (should not be there) but in a more configurable and potentially responsive way
+  #1243.
+* Updated theme resource build to split core and implementation copy into separate steps #1222.
+* Fixed an error which caused the maximise button in dialog frames to sometimes display the wrong state #1229.
+* Fixed an XSLT error which caused incorrect render of `WPrintButton` when the button contained an image #1232.
+
+### Enhancements
+
+* Added a Selenium WebElement extension for WMultiDropdown #605.
+
+## Release 1.4.1
+
+### Bug Fixes
+
+* Prevent race condition in IE when using AJAX module very early (e.g. i18n).
+* Update fabricjs to latest version.
+* Image edit produces files with filename extension consistent with mime type.
+* Edited images maintain the original image dimensions (unless they are cropped).
+  - Image redaction objects are scaled accordingly.
+* Fixed redaction checkbox non-functional.
+* Fixed an error in the Sass vars which are used to build WFieldLayout CSS for various conditions of support.
+
+## Release 1.4.0
+
+### API Changes
+
 * Default template render mode to on (previously off). This improves UI performance for most users. #1158.
 * Selenium performance API changes #1138:-
   - The methods in TreeUtil (i.e. findWComponent and findWComponents) that use a path to find components have been
@@ -34,6 +113,10 @@
   state may have depended on this wrong behaviour. These tests will need to be changed to push and pop the User Context
   when checking the components state #1138.
 * Fixed image editor (part 2), this should hopefully fix the regressions originally addressed in #1206.
+* AJAX Controls and Subordinate Controls are now registered on the User Context. This allows WComponent Applications to
+  be run on multiple servlets. AjaxHelper and SubordinateControlHelper methods no longer include the “request” parameter
+  as it is not required. This should have no impact to projects as these methods are only called by framework code.
+  UIContextHolder has new helper methods to retrieve the Primary User Context #1077.
 
 ### Enhancements
 

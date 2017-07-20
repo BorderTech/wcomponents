@@ -426,7 +426,7 @@ public class WLink extends WBeanComponent implements Container, Disableable, Aja
 					targetIds.add(target.getId());
 				}
 				// Register the action targets
-				AjaxHelper.registerComponents(targetIds, request, getId());
+				AjaxHelper.registerComponents(targetIds, getId());
 			}
 		}
 	}

@@ -1,9 +1,10 @@
 define(["wc/dom/initialise",
-		"wc/ui/ajax/processResponse",
-		"wc/ui/getFirstLabelForElement",
-		"wc/dom/Widget",
-		"wc/dom/tag"],
-	function(initialise, processResponse, getFirstLabelForElement, Widget, tag) {
+	"wc/ui/ajax/processResponse",
+	"wc/ui/getFirstLabelForElement",
+	"wc/dom/Widget",
+	"wc/dom/tag",
+	"wc/ui/onchangeSubmit"],
+	function(initialise, processResponse, getFirstLabelForElement, Widget, tag, onchangeSubmit) {
 		"use strict";
 		/**
 		 * @constructor
@@ -15,26 +16,39 @@ define(["wc/dom/initialise",
 				WRAPPER = FSET.extend("wc-fset-wrapper");
 
 			function makeLegend(el) {
-				var label,
-					accesskey;
+				var label = el.firstChild,
+					accesskey,
+					labelContent;
+
 				// quickly jump out if we have already got a legend in this fieldset.
-				if ((label = el.firstChild) && label.tagName === tag.LEGEND) {
+				while (label && label.nodeType !== Node.ELEMENT_NODE) {
+					label = label.nextSibling;
+				}
+				if (label && label.tagName === tag.LEGEND) {
 					return;
 				}
 				label = getFirstLabelForElement(el);
-				if (!label || label.tagName === tag.LEGEND) {
-					return;
+				if (!label) {
+					labelContent = el.getAttribute("aria-label");
+					if (labelContent) {
+						el.removeAttribute("aria-label");
+					} else {
+						labelContent = el.getAttribute("title");
+						el.removeAttribute("title");
+					}
+				} else {
+					labelContent = label.innerHTML;
+					accesskey = label.getAttribute("data-wc-accesskey");
 				}
-				accesskey = label.getAttribute("data-wc-accesskey");
-				el.insertAdjacentHTML("afterbegin", "<legend class='wc-moved-label'" + (accesskey ? " accesskey = '" + accesskey + "'" : "") + ">" + label.innerHTML + "</legend>");
+				el.insertAdjacentHTML("afterbegin", "<legend class='wc-moved-label'" + (accesskey ? " accesskey = '" + accesskey + "'" : "") + ">" + labelContent + "</legend>");
+				onchangeSubmit.warn(el, el.firstChild);
 			}
 
 			function labelToLegend(element) {
 				var el = element || document.body;
 				if (element && WRAPPER.isOneOfMe(el)) {
 					makeLegend(el);
-				}
-				else {
+				} else {
 					Array.prototype.forEach.call(WRAPPER.findDescendants(el), makeLegend);
 				}
 			}

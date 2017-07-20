@@ -140,7 +140,7 @@ public class WAjaxControl_Test extends AbstractWComponentTestCase {
 		control.handleRequest(req);
 		control.preparePaint(req);
 
-		AjaxOperation ajaxOperation = AjaxHelper.getAjaxOperation(trigger.getId(), req);
+		AjaxOperation ajaxOperation = AjaxHelper.getAjaxOperation(trigger.getId());
 		Assert.assertNotNull("Ajax operation should have been registered", ajaxOperation);
 		Assert.assertEquals("Incorrect ajax operation trigger id", trigger.getId(), ajaxOperation.
 				getTriggerId());

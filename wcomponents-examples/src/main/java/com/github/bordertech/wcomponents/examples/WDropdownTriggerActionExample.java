@@ -93,10 +93,7 @@ public class WDropdownTriggerActionExample extends WContainer {
 			}
 		});
 
-		/*
-         * You should NEVER use submitOnChange with a WDropdown. Therefore any
-         * action on change should be set using AJAX.
-		 */
+		// You should NEVER use submitOnChange with a WDropdown. Therefore any action on change should be set using AJAX.
 		add(new WAjaxControl(state, new AjaxTarget[]{region, suburb}));
 
 		// the action on the region dropdown populates the appropriate suburb

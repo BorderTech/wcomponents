@@ -158,8 +158,7 @@ define(["wc/dom/attribute",
 							if (proceed) {
 								removeFileItem(fileInfo);
 							}
-						}
-						else if ((container = containerWd.findAncestor(fileInfo)) && classList.contains(container, CLASS_AJAX_UPLOADER)) {
+						} else if ((container = containerWd.findAncestor(fileInfo)) && classList.contains(container, CLASS_AJAX_UPLOADER)) {
 							trigger = itemActivationWd.isOneOfMe(element) ? element : itemActivationWd.findAncestor(element);
 							if (trigger) {
 								// trigger.removeAttribute("target");
@@ -168,8 +167,7 @@ define(["wc/dom/attribute",
 							}
 						}
 					}
-				}
-				else {
+				} else {
 					bootStrap($event);  // increasingly browsers do not focus some elements when they are clicked (traditionally webkit only did this) - I'm looking at you FireFox.
 				}
 			}
@@ -279,8 +277,7 @@ define(["wc/dom/attribute",
 									files: files
 								});
 							}
-						}
-						finally {
+						} finally {
 							done(message);
 						}
 					};
@@ -296,12 +293,10 @@ define(["wc/dom/attribute",
 									testObj.editorId = editorId;
 									imageEdit.editFiles(testObj, checkAndUpload, done);
 								});
-							}
-							else {
+							} else {
 								checkAndUpload(testObj.files);
 							}
-						}
-						else {
+						} else {
 							done(i18n.get("file_toomany", filesToAdd, maxFileInfo.max, maxFileInfo.before));
 						}
 					}
@@ -331,12 +326,10 @@ define(["wc/dom/attribute",
 							if (maxFileSize >= GB) {
 								roundTo = GB;
 								units = i18n.get("file_size_gb");
-							}
-							else if (maxFileSize >= MB) {
+							} else if (maxFileSize >= MB) {
 								roundTo = MB;
 								units = i18n.get("file_size_mb");
-							}
-							else if (maxFileSize >= KB) {
+							} else if (maxFileSize >= KB) {
 								roundTo = KB;
 								units = i18n.get("file_size_kb");
 							}
@@ -344,8 +337,7 @@ define(["wc/dom/attribute",
 							if (roundTo) {
 								maxFileSizeHR = round(maxFileSize / roundTo);
 								fileSizeHR = round(fileSizes[i] / roundTo);
-							}
-							else {
+							} else {
 								maxFileSizeHR = maxFileSize;
 								fileSizeHR = fileSizes[i];
 								units = i18n.get("file_size_");
@@ -442,15 +434,13 @@ define(["wc/dom/attribute",
 					if (has("formdata")) {
 						uploader = new TrueAjax();
 						callback(uploader);
-					}
-					else {
+					} else {
 						require(["wc/file/FauxJax"], function (FauxJax) {
 							uploader = new FauxJax(instance.createFileInfo, getUploadUrl);
 							callback(uploader);
 						});
 					}
-				}
-				else {
+				} else {
 					callback(uploader);
 				}
 
@@ -469,8 +459,7 @@ define(["wc/dom/attribute",
 					for (i = 0; i < newFiles.length; i++) {
 						updateFileInfo(newFiles[i]);
 					}
-				}
-				else {
+				} else {
 					throw new Error("Unexpected fileupload response");
 				}
 			}
@@ -483,12 +472,10 @@ define(["wc/dom/attribute",
 
 					oldFile.innerHTML = newFile.innerHTML;
 					// oldFile.parentNode.replaceChild(newFile, oldFile);  // Problems with importing node
-				}
-				else if ((containerId = newFile.getAttribute("data-wc-containerid")) && (container = document.getElementById(containerId))) {
+				} else if ((containerId = newFile.getAttribute("data-wc-containerid")) && (container = document.getElementById(containerId))) {
 					// This is an extreme edge case - if the fileWidget UI has been replaced during upload attempt to recover
 					container.insertAdjacentHTML("beforeend", newFile.outerHTML);
-				}
-				else {
+				} else {
 					console.warn("Could not find", fileId);
 				}
 			}
@@ -575,11 +562,9 @@ define(["wc/dom/attribute",
 							if (type === "drop") {
 								instance.upload(element, files);
 								element.classList.remove(className);
-							}
-							else if (type === "dragstart") {
+							} else if (type === "dragstart") {
 								element.classList.add(className);
-							}
-							else if (type === "dragstop") {
+							} else if (type === "dragstop") {
 								element.classList.remove(className);
 							}
 						});
@@ -634,8 +619,7 @@ define(["wc/dom/attribute",
 				formUpdateManager.subscribe(this);
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, bootStrap, null, null, true);
-				}
-				else {
+				} else {
 					event.add(element, event.TYPE.focusin, bootStrap);
 				}
 				event.add(element, event.TYPE.click, clickEvent);
@@ -685,14 +669,12 @@ define(["wc/dom/attribute",
 						col.className = CLASS_NO_BULLET + " " + CLASS_FILE_LIST;
 						if (filesWrapper) {
 							filesWrapper.appendChild(col);
-						}
-						else {
+						} else {
 							container.appendChild(col);
 						}
 					}
 					itemContainers = fileInfoContainerWd.findDescendants(container);
-				}
-				else if (cols === "0" && !itemContainers.length) {
+				} else if (cols === "0" && !itemContainers.length) {
 					col = document.createElement(fileInfoContainerWd.tagName);
 					col.className = CLASS_NO_BULLET + " wc-listlayout-type-flat " + CLASS_FILE_LIST;
 					container.appendChild(col);
@@ -763,8 +745,7 @@ define(["wc/dom/attribute",
 				if (element) {
 					if (input) {
 						result = inputElementWd.isOneOfMe(element);
-					}
-					else {
+					} else {
 						result = containerWd.isOneOfMe(element);
 					}
 				}
@@ -878,8 +859,7 @@ define(["wc/dom/attribute",
 						id = instance.createFileInfo(container, file.name);
 						sendFile(dto.url, uploadName, id, file, callbackWrapper(dto, id));
 					}
-				}
-				finally {
+				} finally {
 					instance.clearInput(dto.element);
 				}
 			};

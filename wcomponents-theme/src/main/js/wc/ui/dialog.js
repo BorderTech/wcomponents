@@ -1,16 +1,16 @@
 define(["wc/dom/classList",
-		"wc/dom/event",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/dom/uid",
-		"wc/dom/Widget",
-		"wc/i18n/i18n",
-		"wc/ui/ajaxRegion",
-		"wc/ui/ajax/processResponse",
-		"wc/ui/containerload",
-		"wc/timers",
-		"wc/ui/dialogFrame",
-		"wc/ui/getForm"],
+	"wc/dom/event",
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/dom/uid",
+	"wc/dom/Widget",
+	"wc/i18n/i18n",
+	"wc/ui/ajaxRegion",
+	"wc/ui/ajax/processResponse",
+	"wc/ui/containerload",
+	"wc/timers",
+	"wc/ui/dialogFrame",
+	"wc/ui/getForm"],
 	function(classList, event, initialise, shed, uid, Widget, i18n, ajaxRegion, processResponse, eagerLoader, timers, dialogFrame, getForm) {
 		"use strict";
 
@@ -67,22 +67,29 @@ define(["wc/dom/classList",
 			 * @param {module:wc/ui/dialog~regObject} dialogObj The dialog dto.
 			 */
 			function _register(dialogObj) {
-				var triggerId = dialogObj.triggerid || dialogObj.id;
+				var triggerId = dialogObj.triggerid || dialogObj.id,
+					add = function(title) {
+						registry[triggerId] = {
+							id: dialogObj.id,
+							className: BASE_CLASS + (dialogObj.className ? (" " + dialogObj.className) : ""),
+							width: dialogObj.width,
+							height: dialogObj.height,
+							modal: dialogObj.modal || false,
+							openerId: dialogObj.triggerid,
+							title: dialogObj.title || title
+						};
+						registryByDialogId[dialogObj.id] = triggerId;
+
+						if (dialogObj.open) {
+							openThisDialog = triggerId;
+						}
+					};
 
 				if (triggerId) {
-					registry[triggerId] = {
-						id: dialogObj.id,
-						className: BASE_CLASS + (dialogObj.className ? (" " + dialogObj.className) : ""),
-						width: dialogObj.width,
-						height: dialogObj.height,
-						modal: dialogObj.modal || false,
-						openerId: dialogObj.triggerid,
-						title: dialogObj.title || i18n.get("dialog_noTitle")
-					};
-					registryByDialogId[dialogObj.id] = triggerId;
-
-					if (dialogObj.open) {
-						openThisDialog = triggerId;
+					if (dialogObj.title) {
+						add(dialogObj.title);
+					} else {
+						i18n.translate("dialog_noTitle").then(add);  // This is called too early for a synchronous i18n call
 					}
 				}
 			}
@@ -182,8 +189,7 @@ define(["wc/dom/classList",
 				// we need to know if a click is on an ajax trigger inside a dialog
 				if ((trigger = ajaxRegion.getTrigger(element, true))) {
 					_element = element;
-				}
-				else {
+				} else {
 					// this is a chrome thing: it honours clicks on img elements and does not pass them through to the underlying link/button
 					ANCHOR = ANCHOR || new Widget("A");
 					_element = Widget.findAncestor(element, [ BUTTON, ANCHOR ]);
@@ -222,15 +228,13 @@ define(["wc/dom/classList",
 						if (!(openThisDialog && openThisDialog === triggerId) && (openerId = regObj.openerId)) {
 							opener = document.getElementById(openerId);
 							content.setAttribute(GET_ATTRIB, openerId + "=" + (opener ? encodeURIComponent(opener.value) : "x"));
-						}
-						else {
+						} else {
 							content.removeAttribute(GET_ATTRIB);
 						}
 						classList.add(content, "wc_magic");
 						classList.add(content, "wc_dynamic");
 						eagerLoader.load(content, false, false);
-					}
-					else {
+					} else {
 						console.warn("Could not find dialog content wrapper.");
 					}
 					openThisDialog = null;
@@ -296,8 +300,7 @@ define(["wc/dom/classList",
 					try {
 						dialogFrame.unsetAllDimensions();
 						dialogFrame.resetContent(keepContentOnClose, (keepContentOnClose ? "" : regObj.id));
-					}
-					finally {
+					} finally {
 						keepContentOnClose = false;
 					}
 				}

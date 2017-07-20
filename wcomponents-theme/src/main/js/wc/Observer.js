@@ -12,7 +12,9 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 	 *
 	 * After instantiating an observer instance subsribe using {@link module:wc/Observer#subscribe} and publish using
 	 * {@link module:wc/Observer#notify}
-	 *
+	 * @param {boolean} [notifyInStages] If true then lower priority subscribers will only be notified once all higher
+	 *     subscribers in a higher priority have resolved. This only makes sense when subscribers return a promise.
+	 *     Beware that it effectively makes the notify call asynchronous!
 	 * @constructor
 	 * @alias module:wc/Observer
 	 * @example  // the simplest usage
@@ -21,7 +23,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 	 * observer.notify("foo");  // alerts "foo"
 	 *
 	 */
-	function Observer() {
+	function Observer(notifyInStages) {
 		var registry = new SubscriberRegistry(),
 			filterFn = null,
 			callback = null,
@@ -76,7 +78,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 		 * @function
 		 * @public
 		 * @param {(Function|Object)} subscriber A callback which will be called when the notify method is called or
-		 * an object which provides a public method with the name specified in config.method.
+		 *    an object which provides a public method with the name specified in config.method.
 		 * @param {Object} [config] An object containing configuration option.
 		 * @param {String} [config.group] Associate the subscriber with the given group. When notify is called the
 		 *    subscribers to be notified can be filtered based on their group. Default value is DEFAULT_GROUP. See
@@ -123,8 +125,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 					registry.register(newSubscriber, group, priority);
 				}
 				result = subscriber;  // this is stupid, maybe we should return newSubscriber and that can be used to unsubscribe?
-			}
-			else {
+			} else {
 				throw new ReferenceError("Call to Observer.subscribe without a subscriber");
 			}
 			return result;
@@ -148,6 +149,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 		 * @function
 		 * @public
 		 * @param {...*} [args] 0..n additional arguments to supply to the subscriber.
+		 * @returns {Promise} resolved when all subscribers are resolved (if they returned a "thenable").
 		 * @example
 		 * var observer = new Observer();
 		 * observer.subscribe(function() {var i=0; while (i < arguments.length)console.log(arguments[i++]);});
@@ -160,36 +162,77 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 		 * // tweet
 		 */
 		this.notify = function() {
+			var result,
+				subscribers, scope = this, args = arguments,
+				promiseFactories = [function() {
+					return notify(subscribers[0], scope, args);
+				}, function() {
+					return notify(subscribers[1], scope, args);
+				}, function() {
+					return notify(subscribers[2], scope, args);
+				}];
 			try {
-				var result,
-					next,
-					i,
-					subscribers = registry.getSubscribers(filterFn),
-					len = subscribers ? subscribers.length : 0;
-				// notify each subscriber
-				// if a callback is set we will notify the callback after each subscriber
-				// the callback can short-circuit the process by returning true
-				for (i = 0; i < len; i++) {
-					next = subscribers[i];
-					result = next.notify.call(this, arguments);  // "call" so caller can pass thru scope
-					try {
-						if (typeof callback === FUNCTION) {
-							if (callback(result) === true) {
-								break;
-							}
-						}
-					}
-					catch (ex) {
-						console.error("Error in callback: ", callback, ex.message);
-					}
+				subscribers = registry.getSubscribers(filterFn);
+				if (notifyInStages) {
+					// notify sequentially
+					result = Promise.resolve();
+					promiseFactories.forEach(function (promiseFactory) {
+						result = result.then(promiseFactory, promiseFactory);
+					});
+				} else {
+					// notify in parallel
+					result = Promise.all(promiseFactories.map(function(promiseFactory) {
+						return promiseFactory();
+					}));
 				}
-			}
-			finally {
+				return result;
+			} finally {
 				// reset instance variables
 				filterFn = null;
 				callback = null;
 			}
 		};
+
+		/**
+		 * Helper for notify, takes an array of subscribers and calls them with the correct scope and arguments.
+		 * Ensures that all subscribers are called, ingoring accidental issues (such as exceptions) but honoring
+		 * callbacks.
+		 * @param {Subscriber[]} subscribers
+		 * @param scope The "this" to pass through to the subscriber.
+		 * @param args Any array-like which contains the arguments to pass to the subscriber.
+		 * @returns {Promise}
+		 */
+		function notify(subscribers, scope, args) {
+			var promises = [],
+				nextResult,
+				next,
+				i,
+				len = subscribers ? subscribers.length : 0;
+			// notify each subscriber
+			// if a callback is set we will notify the callback after each subscriber
+			// the callback can short-circuit the process by returning true
+			for (i = 0; i < len; i++) {
+				next = subscribers[i];
+				nextResult = next.notify.call(scope, args);  // "call" so caller can pass thru scope
+				try {
+					if (typeof callback === FUNCTION) {
+						if (callback(nextResult) === true) {
+							promises[promises.length] = Promise.reject("Subscriber aborted notify chain");
+							break;
+						}
+					}
+				} catch (ex) {
+					console.error("Error in callback: ", callback, ex.message);
+				}
+				if (nextResult && typeof nextResult.then === FUNCTION) {
+					// We accept any "thenable" whether it's a real Promise or not.
+					promises[promises.length] = nextResult;  // Promise.all will wrap "thenable" objects in a Promise
+				}
+			}
+			return Promise.all(promises).catch(function() {
+				return promises;
+			});  // will be immediately resolved if zero length
+		}
 
 		/**
 		 * A filter function should be set before each call to notify if it is desired, as notify will reset the
@@ -230,12 +273,10 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 				filterFn = function (group) {
 					return group === arg;
 				};
-			}
-			// custom filter provided by caller
-			else if (arg.constructor === Function) {
+			} else if (arg.constructor === Function) {
+				// custom filter provided by caller
 				filterFn = arg;
-			}
-			else {
+			} else {
 				throw new TypeError("arg must be a String or Function");
 			}
 		};
@@ -273,8 +314,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 		this.setCallback = function(fn) {
 			if (fn) {
 				callback = fn;
-			}
-			else {
+			} else {
 				throw new TypeError("Callback function cannot be null.");
 			}
 		};
@@ -415,8 +455,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 				if (groups.constructor !== Array) {
 					// it must be a string
 					groupStore = getGroupStore(groups);
-				}
-				else {  // multiple entries in the group store are involved
+				} else {  // multiple entries in the group store are involved
 					groupStore = new GroupStore();
 					// loop the groups checking and add their subscribers
 					groups.forEach(function(groupName) {
@@ -446,8 +485,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 				groupStore = getGroupStore(group);
 			if (groupStore) {
 				result = groupStore.contains(subscriber);
-			}
-			else {
+			} else {
 				result = false;
 			}
 			return result;
@@ -531,13 +569,11 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 			var result, groups;
 			if (!filterFn) {
 				result = DEFAULT_GROUP;
-			}
-			else {
+			} else {
 				groups = Object.keys(store).filter(filterFn);
 				if (groups.length === 1) {
 					result = groups[0];
-				}
-				else {
+				} else {
 					result = groups;
 				}
 			}
@@ -593,16 +629,13 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 			if (subscriber instanceof Subscriber) {
 				if (!priority || isNaN(priority)) {  // zero or null or false or undefined or a non-numeric string
 					arr = this[MED];
-				}
-				else if (priority < 0) {  // negative number is low priority
+				} else if (priority < 0) {  // negative number is low priority
 					arr = this[LOW];
-				}
-				else {  // anything else, e.g. positive number, true
+				} else {  // anything else, e.g. positive number, true
 					arr = this[HIGH];
 				}
 				arr[arr.length] = subscriber;
-			}
-			else {
+			} else {
 				throw new TypeError("Can not subscribe " + subscriber);
 			}
 		};
@@ -661,9 +694,15 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 		 * Get a sorted collection of all subscribers in this group.
 		 * @function
 		 * @public
-		 * @returns {module:wc/Observer~Subscriber[]} An array of ALL Subscriber instances in this group, sorted from
-		 * high priority to low priority where index zero is the first high priority subscriber added and the highest
-		 * index is the last low priority subscriber added.
+		 * @returns {module:wc/Observer~Subscriber[][]} An array of ALL Subscriber instances in this group.
+		 *     index 0 is high priority
+		 *     index 1 is medium priority
+		 *     index 2 is low priority
+		 * Each array is sorted according to when the subscriber was added for example:
+		 * [0][0] is the first high priority subscriber added
+		 * [1][0] is the first medium priority subscriber added
+		 * [2][0] is the first low priority subscriber added
+		 *
 		 */
 		this.getSubscribers = function() {
 			if (unsorted & HIGH) {
@@ -676,12 +715,12 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 				this[LOW].sort(sortSubscribers);
 			}
 			unsorted = 0;
-			return this[HIGH].concat(this[MED], this[LOW]);
+			return [this[HIGH].concat(), this[MED].concat(), this[LOW].concat()];
 		};
 
 		/**
-		 * This is a performance friendly way of getting a count of all subscribers. Do not call "getSubscribers" just
-		 * to get the length (because that will cause a sort).
+		 * This is a performance friendly way of getting a count of all subscribers.
+		 * Do not call "getSubscribers" just to get the length (because that will cause a sort).
 		 * @function
 		 * @public
 		 * @returns {number} The count of all subscribers in this group.
@@ -711,8 +750,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 				this[HIGH] = mergeGroup(this[HIGH], groupStore[HIGH], HIGH);
 				this[MED] = mergeGroup(this[MED], groupStore[MED], MED);
 				this[LOW] = mergeGroup(this[LOW], groupStore[LOW], LOW);
-			}
-			else {
+			} else {
 				throw new TypeError("Can not merge " + groupStore);
 			}
 		};
@@ -748,8 +786,7 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 			if (len1 && len2) {
 				result = arr1.concat(arr2);
 				unsorted += flag;
-			}
-			else {
+			} else {
 				result = len2 ? arr2 : arr1;
 			}
 			return result;
@@ -801,12 +838,10 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 			if (typeof func === FUNCTION) {
 				try {
 					result = func.apply(getContext(this), args);
-				}
-				catch (ex) {
+				} catch (ex) {
 					console.error("Error in subscriber: ", $self, ex.message);
 				}
-			}
-			else {
+			} else {
 				console.warn("Could not notify: ", $self);
 			}
 			return result;
@@ -824,11 +859,9 @@ define(["wc/string/escapeRe"], /** @param escapeRe wc/string/escapeRe @ignore */
 			if (!result) {
 				if (method) {  // if we are calling a public method on an object
 					result = subscriber;  // return the object to which the method is bound
-				}
-				else if (callerScope !== $self && !(callerScope instanceof Observer)) {// if the caller has been called with "call" or "apply"
+				} else if (callerScope !== $self && !(callerScope instanceof Observer)) {// if the caller has been called with "call" or "apply"
 					result = callerScope;  // pass through scope
-				}
-				else {  // scope is not set in any way, it should be the global scope
+				} else {  // scope is not set in any way, it should be the global scope
 					result = window.self;  // global scope (this window)
 				}
 			}

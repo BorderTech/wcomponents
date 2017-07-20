@@ -53,6 +53,7 @@ import com.github.bordertech.wcomponents.examples.WNumberFieldExample;
 import com.github.bordertech.wcomponents.examples.WPanelExample;
 import com.github.bordertech.wcomponents.examples.WPasswordFieldExample;
 import com.github.bordertech.wcomponents.examples.WPopupExample;
+import com.github.bordertech.wcomponents.examples.WPrintButtonExample;
 import com.github.bordertech.wcomponents.examples.WRadioButtonInRepeater;
 import com.github.bordertech.wcomponents.examples.WRadioButtonTriggerActionExample;
 import com.github.bordertech.wcomponents.examples.WSectionExample;
@@ -254,6 +255,7 @@ public final class ExampleData implements Serializable {
 		new ExampleData("WPasswordField", WPasswordFieldExample.class),
 		new ExampleData("Phone Number Field", WPhoneNumberFieldExample.class),
 		new ExampleData("RadioButton", WRadioButtonExample.class),
+		new ExampleData("WPrintButton", WPrintButtonExample.class),
 		new ExampleData("RadioButton (action on change)", WRadioButtonTriggerActionExample.class),
 		new ExampleData("RadioButton in a repeater", WRadioButtonInRepeater.class),
 		new ExampleData("RadioButtonSelect", WRadioButtonSelectExample.class),

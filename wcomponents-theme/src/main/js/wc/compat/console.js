@@ -144,12 +144,10 @@ define(["wc/has"], /** @param has wc/has @ignore */ function(has) {
 					return $console || ($console = new FakeConsole());
 				}
 			});
-		}
-		else {
+		} else {
 			global[c] = new FakeConsole();
 		}
-	}
-	else {  // IE console, FF4 console, FF25 console
+	}	else {  // IE console, FF4 console, FF25 console
 		wrapPretendFunctions();  // if we are in IE8 or IE9 we need to wrap the existing fake functions before we do anything
 		if (!has("native-console-debug")) {
 			global[c].debug = global[c].log;

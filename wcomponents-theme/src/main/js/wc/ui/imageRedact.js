@@ -22,16 +22,16 @@ define(["fabric"], function(fabric) {
 			drawEnd: function() {
 				var fbCanvas = imageEdit.getCanvas(),
 					shape = fabricRedact._rect;
-				try {
-					if (shape.width !== 0 && shape.height !== 0) {
-						fbCanvas.trigger("object:added", { target: shape });
+				if (shape) {
+					try {
+						if (shape.width !== 0 && shape.height !== 0) {
+							fbCanvas.trigger("object:added", { target: shape });
+						} else {
+							fbCanvas.remove(shape);
+						}
+					} finally {
+						delete fabricRedact._rect;
 					}
-					else {
-						fbCanvas.remove(shape);
-					}
-				}
-				finally {
-					delete fabricRedact._rect;
 				}
 			},
 			drawing: function(width, height) {
@@ -40,14 +40,12 @@ define(["fabric"], function(fabric) {
 				shape.set("height", height);
 				if (width < 0) {
 					shape.setOriginX("right");
-				}
-				else {
+				} else {
 					shape.setOriginX("left");
 				}
 				if (height < 0) {
 					shape.setOriginY("bottom");
-				}
-				else {
+				} else {
 					shape.setOriginY("top");
 				}
 				imageEdit.renderCanvas();
@@ -84,8 +82,7 @@ define(["fabric"], function(fabric) {
 									next.selectable = redactMode;
 								}
 							}
-						}
-						else {
+						} else {
 							redactMode = element.checked = false;
 						}
 					}
@@ -138,12 +135,10 @@ define(["fabric"], function(fabric) {
 				fbCanvas.on("mouse:down", mousedownEvent);
 				fbCanvas.on("mouse:up", mouseupEvent);
 				fbCanvas.on("mouse:move", mousemoveEvent);
-			}
-			else {
+			} else {
 				console.warn("redact shouldn't double init");
 			}
-		}
-		finally {
+		} finally {
 			fbCanvas =  null;
 		}
 
@@ -159,7 +154,7 @@ define(["fabric"], function(fabric) {
 			}
 		}
 
-		function mouseupEvent(option) {
+		function mouseupEvent() {
 			isMouseDown = false;
 			if (redactMode) {
 				if (handlers.drawEnd) {

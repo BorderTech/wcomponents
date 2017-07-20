@@ -9,9 +9,9 @@
  * @requires module:wc/dom/isAcceptableTarget
  */
 define(["wc/dom/ariaAnalog",
-		"wc/dom/initialise",
-		"wc/dom/Widget",
-		"wc/dom/isAcceptableTarget"],
+	"wc/dom/initialise",
+	"wc/dom/Widget",
+	"wc/dom/isAcceptableTarget"],
 	/** @param ariaAnalog @param initialise @param Widget @param isAcceptableEventTarget @ignore */
 	function(ariaAnalog, initialise, Widget, isAcceptableEventTarget) {
 		"use strict";

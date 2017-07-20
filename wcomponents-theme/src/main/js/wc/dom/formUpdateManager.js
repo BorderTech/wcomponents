@@ -24,13 +24,13 @@
  * constructor, methods on the proto chain.
  */
 define(["wc/dom/event",
-		"wc/dom/initialise",
-		"wc/Observer",
-		"wc/dom/uid",
-		"wc/dom/getAncestorOrSelf",
-		"wc/dom/shed",
-		"wc/dom/attribute",
-		"wc/dom/Widget"],
+	"wc/dom/initialise",
+	"wc/Observer",
+	"wc/dom/uid",
+	"wc/dom/getAncestorOrSelf",
+	"wc/dom/shed",
+	"wc/dom/attribute",
+	"wc/dom/Widget"],
 	/** @param event wc/dom/event @param initialise wc/dom/initialise @param Observer wc/Observer @param uid wc/dom/uid @param getAncestorOrSelf wc/dom/getAncestorOrSelf @param shed wc/dom/shed @param attribute wc/dom/attribute @param Widget wc/dom/Widget @ignore */
 	function(event, initialise, Observer, uid, getAncestorOrSelf, shed, attribute, Widget) {
 		"use strict";
@@ -71,8 +71,7 @@ define(["wc/dom/event",
 					var result = _subscriber;
 					if (typeof _subscriber === "function") {
 						observer.subscribe(_subscriber);
-					}
-					else {
+					} else {
 						result = observer.subscribe(_subscriber, subscriberMthd);
 					}
 					return result;
@@ -152,8 +151,7 @@ define(["wc/dom/event",
 				if (event.canCapture) {
 					// ok i did a lazy test for non-ie by checking to see if capture was available even tho we not using it
 					event.add(element, event.TYPE.submit, submitEvent);
-				}
-				else {  // Internet Explorer
+				} else {  // Internet Explorer
 					/*
 					 * This block handles Internet Explorer < 9.
 					 * The problem we need to deal with is that submit events should bubble
@@ -204,20 +202,17 @@ define(["wc/dom/event",
 						event[func](el, event.TYPE.change, genericEventCancel, -1, null, true);
 						event[func](el, event.TYPE.keydown, genericEventCancel, -1, null, true);
 						event[func](el, event.TYPE.keypress, genericEventCancel, -1, null, true);
-					}
-					else {
+					} else {
 						event[func](el, event.TYPE.click, genericEventCancel, true);
 						event[func](el, event.TYPE.change, genericEventCancel, true);
 						event[func](el, event.TYPE.keydown, genericEventCancel, true);
 						event[func](el, event.TYPE.keypress, genericEventCancel, true);
 					}
-				}
-				else  if (add) {
+				} else  if (add) {
 					event[func](el, event.TYPE.click, genericEventCancel, -1);
 					event[func](el, event.TYPE.keydown, genericEventCancel, -1);
 					event[func](el, event.TYPE.keypress, genericEventCancel, -1);
-				}
-				else {
+				} else {
 					event[func](el, event.TYPE.click, genericEventCancel);
 					event[func](el, event.TYPE.keydown, genericEventCancel);
 					event[func](el, event.TYPE.keypress, genericEventCancel);
@@ -249,15 +244,13 @@ define(["wc/dom/event",
 							attribute.remove(form, INITED_ATTR);
 							console.info("Submit event was cancelled AFTER subscribers were notified.");
 						}
-					}
-					catch (ex) {
+					} catch (ex) {
 						addRemoveEvents(form);
 						attribute.remove(form, INITED_ATTR);
 						console.error("error in subscriber", ex);
 						debugger;
 					}
-				}
-				else {
+				} else {
 					console.log("Submit event cancelled. Suscribers not notified.");
 				}
 			}
@@ -313,8 +306,7 @@ define(["wc/dom/event",
 						state.value = value;
 					}
 					container.appendChild(state);
-				}
-				else {
+				} else {
 					console.warn("Not writing duplicate state field", name);
 				}
 			}

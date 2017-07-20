@@ -59,8 +59,7 @@ define(["wc/dom/classList", "wc/dom/initialise", "wc/dom/Widget", "wc/ui/ajax/pr
 				var button, form;
 				if ((button = UNSAVED_BUTTON.findDescendant(document.body)) && (form = FORM.findAncestor(button))) {
 					classList.add(form, UNSAVED);
-				}
-				else {
+				} else {
 					processResponse.subscribe(ajaxSubscriber, true);
 				}
 			};

@@ -1,15 +1,15 @@
 define(["wc/i18n/i18n",
-		"wc/ajax/triggerManager",
-		"wc/dom/uid",
-		"wc/dom/event",
-		"wc/dom/initialise",
-		"wc/dom/serialize",
-		"wc/dom/isSuccessfulElement",
-		"lib/sprintf",
-		"wc/dom/Widget",
-		"wc/dom/formUpdateManager",
-		"wc/dom/focus",
-		"wc/ui/ajax/processResponse"],
+	"wc/ajax/triggerManager",
+	"wc/dom/uid",
+	"wc/dom/event",
+	"wc/dom/initialise",
+	"wc/dom/serialize",
+	"wc/dom/isSuccessfulElement",
+	"lib/sprintf",
+	"wc/dom/Widget",
+	"wc/dom/formUpdateManager",
+	"wc/dom/focus",
+	"wc/ui/ajax/processResponse"],
 	function(i18n, triggerManager, uid, event, initialise, serialize, isSuccessfulElement, sprintf, Widget, formUpdateManager, focus, processResponse) {
 		"use strict";
 
@@ -26,6 +26,8 @@ define(["wc/i18n/i18n",
 			var loading = false,  // if cancel button && unsavedOnServer() get dialog twice without this
 				buttonClicked,
 				FORM = new Widget("FORM"),
+				CANCEL_TITLE,
+				CANCEL_MESSAGE,
 				FORM_UNSAVED,
 				// SUBMIT_CONTROL = new Widget("BUTTON", "", {"type":"submit"}),
 				CANCEL_BUTTON,
@@ -127,8 +129,7 @@ define(["wc/i18n/i18n",
 							buttonClicked = null;
 							$event.preventDefault();
 						}
-					}
-					else if (buttonClicked) {
+					} else if (buttonClicked) {
 						buttonClicked = null;
 					}
 				}
@@ -145,8 +146,8 @@ define(["wc/i18n/i18n",
 			 *    to continue with the submission/navigation.
 			 */
 			function cancelSubmit(element, submitter) {
-				var title = i18n.get("cancel_title"),
-					message = i18n.get("cancel_message"),
+				var title = CANCEL_TITLE,
+					message = CANCEL_MESSAGE,
 					keep = true,
 					result,
 					form,
@@ -226,8 +227,7 @@ define(["wc/i18n/i18n",
 						formUpdateManager.clean(form);  // clear the write state info left over from the ajax request
 						storeFormState(form);
 						delete registry[key];
-					}
-					else {
+					} else {
 						instance.addElements(element);
 					}
 				}
@@ -312,13 +312,11 @@ define(["wc/i18n/i18n",
 						next = newKeys[i];
 						if (oldState.hasOwnProperty(next)) {
 							oldState[next] = oldState[next].concat(newState[next]);
-						}
-						else {
+						} else {
 							oldState[next] = newState[next];
 						}
 					}
-				}
-				else {
+				} else {
 					console.log("Could not add state for element", element);
 				}
 			};
@@ -358,8 +356,7 @@ define(["wc/i18n/i18n",
 							}
 						}
 					}
-				}
-				else {
+				} else {
 					console.log("Could not remove state for element", element);
 				}
 			};
@@ -372,6 +369,10 @@ define(["wc/i18n/i18n",
 			 */
 			this.initialise = function(element) {
 				event.add(element, event.TYPE.click, clickEvent, -100);
+				return i18n.translate(["cancel_title", "cancel_message"]).then(function(translations) {
+					CANCEL_TITLE = translations[0];
+					CANCEL_MESSAGE = translations[1];
+				});
 			};
 
 			/**

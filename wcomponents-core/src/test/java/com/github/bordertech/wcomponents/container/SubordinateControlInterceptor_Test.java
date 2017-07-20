@@ -11,7 +11,6 @@ import com.github.bordertech.wcomponents.subordinate.Disable;
 import com.github.bordertech.wcomponents.subordinate.Enable;
 import com.github.bordertech.wcomponents.subordinate.Equal;
 import com.github.bordertech.wcomponents.subordinate.Rule;
-import com.github.bordertech.wcomponents.subordinate.SubordinateControlHelper;
 import com.github.bordertech.wcomponents.subordinate.WSubordinateControl;
 import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import junit.framework.Assert;
@@ -86,10 +85,6 @@ public class SubordinateControlInterceptor_Test extends AbstractWComponentTestCa
 		interceptor.preparePaint(request);
 		// Target should be disabled (Disabled by control as box is not selected)
 		Assert.assertTrue("After service request target should be disabled", target.isDisabled());
-		// Check Subordinate Controls have been registered
-		Assert.assertNotNull("Registered Controls should be registered on the session",
-				request.
-				getSessionAttribute(SubordinateControlHelper.SUBORDINATE_CONTROL_SESSION_KEY));
 
 		// Test Service Request - Simulate button click as it was enabled on the client by the check box being selected.
 		// As the controls have been registered from the Prepare Paint, they will be applied in the Service Request and

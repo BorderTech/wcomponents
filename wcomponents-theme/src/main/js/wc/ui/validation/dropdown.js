@@ -12,13 +12,13 @@
  * @requires module:wc/dom/getFilteredGroup
  */
 define(["wc/dom/attribute",
-		"wc/dom/event",
-		"wc/dom/initialise",
-		"wc/dom/Widget",
-		"wc/ui/validation/minMax",
-		"wc/ui/validation/validationManager",
-		"wc/ui/validation/required",
-		"wc/dom/getFilteredGroup"],
+	"wc/dom/event",
+	"wc/dom/initialise",
+	"wc/dom/Widget",
+	"wc/ui/validation/minMax",
+	"wc/ui/validation/validationManager",
+	"wc/ui/validation/required",
+	"wc/dom/getFilteredGroup"],
 	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param minMax wc/ui/validation/minMax @param validationManager wc/ui/validation/validationManager @param required wc/ui/validation/required @param getFilteredGroup wc/dom/getFilteredGroup @ignore */
 	function(attribute, event, initialise, Widget, minMax, validationManager, required, getFilteredGroup) {
 		"use strict";
@@ -97,8 +97,7 @@ define(["wc/dom/attribute",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.change, changeEvent, 1, null, true);
-				}
-				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 			};

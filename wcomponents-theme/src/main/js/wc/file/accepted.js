@@ -57,8 +57,7 @@ define(["wc/file/getMimeType"],
 								if (mimeType === next) {
 									passed = true;
 									break;
-								}
-								else if (next.indexOf("*") === next.length - 1) {
+								} else if (next.indexOf("*") === next.length - 1) {
 									next = next.substring(0, next.length - 1);
 									if (mimeType.indexOf(next) === 0) {
 										passed = true;

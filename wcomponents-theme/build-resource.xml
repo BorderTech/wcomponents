@@ -17,6 +17,15 @@
 	<target name="build" depends="init, getTimezoneData" description="Builds resources">
 		<copy todir="${resource.build.target.dir}" overwrite="true" flatten="true">
 			<fileset dir="${resource.rootdir}" includes="*.xml, *.rdf, *.html, *.txt, *.svg" />
+			<filterchain>
+				<expandproperties />
+				<deletecharacters chars="\t" />
+				<trim />
+				<ignoreblank />
+				<striplinebreaks />
+			</filterchain>
+		</copy>
+		<copy todir="${resource.build.target.dir}" overwrite="true" flatten="true">
 			<fileset dir="${impl.resource.rootdir}" includes="*.xml, *.rdf, *.html, *.txt, *.svg" erroronmissingdir="false"/>
 			<filterchain>
 				<expandproperties />
@@ -36,6 +45,8 @@
 				<exclude name="*.txt" />
 				<exclude name="*.svg" />
 			</fileset>
+		</copy>
+		<copy todir="${resource.build.target.dir}" overwrite="true" flatten="true">
 			<fileset dir="${impl.resource.rootdir}" excludes="*.xml, *.rdf, *.html, *.txt, *.svg" erroronmissingdir="false">
 				<include name="*" />
 			</fileset>

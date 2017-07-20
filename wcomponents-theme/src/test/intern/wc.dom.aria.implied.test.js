@@ -13,8 +13,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 
 				if (notThisState) {
 					assert.isFalse(impliedARIA.supportsNativeState(next, state), "native state (" + state + ") returned unexpected result for " + next.id);
-				}
-				else {
+				} else {
 					assert.isTrue(impliedARIA.supportsNativeState(next, state), "native state (" + state + ") returned unexpected result for " + next.id);
 				}
 			}

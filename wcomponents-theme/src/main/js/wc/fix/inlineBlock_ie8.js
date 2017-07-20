@@ -33,8 +33,7 @@ define(["wc/has", "wc/dom/classList", "wc/timers"], function(has, classList, tim
 				}
 				redrawTimer = timers.setTimeout(repaint, REDRAW_DELAY);
 			}
-		}
-		catch (ex) {
+		} catch (ex) {
 			// don't let this fix break other stuff
 		}
 	}

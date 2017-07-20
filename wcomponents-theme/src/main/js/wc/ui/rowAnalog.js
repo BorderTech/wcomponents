@@ -1,10 +1,10 @@
 
 define(["wc/dom/ariaAnalog",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/dom/Widget",
-		"wc/ui/table/common",
-		"wc/ui/icon"],
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/dom/Widget",
+	"wc/ui/table/common",
+	"wc/ui/icon"],
 	function(ariaAnalog, initialise, shed, Widget, table, icon) {
 		"use strict";
 
@@ -78,8 +78,7 @@ define(["wc/dom/ariaAnalog",
 						if (action === shed.actions.SELECT) {
 							add = isMultiSelect ? "fa-check-square-o" : "fa-dot-circle-o";
 							remove = isMultiSelect ? "fa-square-o" : "fa-circle-o";
-						}
-						else {
+						} else {
 							add = isMultiSelect ? "fa-square-o" : "fa-circle-o";
 							remove = isMultiSelect ? "fa-check-square-o" : "fa-dot-circle-o";
 						}

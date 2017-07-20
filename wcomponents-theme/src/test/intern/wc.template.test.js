@@ -2,11 +2,11 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 	function (registerSuite, assert, testutils) {
 		"use strict";
 
-		var template, testHolder, i = 0;
+		var template, testHolder; // , i = 0;
 
-		function getNewKeyName() {
-			return "key" + i++;
-		}
+//		function getNewKeyName() {
+//			return "key" + i++;
+//		}
 
 		registerSuite({
 			name: "template",
@@ -40,8 +40,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 							try {
 								assert.strictEqual(testHolder.innerHTML, expected, "Template should have been processed.");
 								win();
-							}
-							catch (ex) {
+							} catch (ex) {
 								lose(ex);
 							}
 						}
@@ -65,8 +64,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 							try {
 								assert.strictEqual(testHolder.innerHTML, expected, "Template should have been processed.");
 								win();
-							}
-							catch (ex) {
+							} catch (ex) {
 								lose(ex);
 							}
 

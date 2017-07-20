@@ -1,8 +1,8 @@
 
 define(["wc/ui/getFirstLabelForElement",
-		"wc/i18n/i18n",
-		"lib/sprintf",
-		"wc/ui/validation/validationManager"],
+	"wc/i18n/i18n",
+	"lib/sprintf",
+	"wc/ui/validation/validationManager"],
 	function(getFirstLabelForElement, i18n, sprintf, validationManager) {
 		"use strict";
 
@@ -61,8 +61,7 @@ define(["wc/ui/getFirstLabelForElement",
 							isInvalid = true;
 							limit = min;
 							flag = i18n.get(minText);
-						}
-						else if (max && count > max) {
+						} else if (max && count > max) {
 							isInvalid = true;
 							limit = max;
 							flag = i18n.get(maxText);
@@ -103,8 +102,7 @@ define(["wc/ui/getFirstLabelForElement",
 
 			if (widget.isOneOfMe(container)) {
 				selectables = [container].filter(filter);
-			}
-			else {
+			} else {
 				selectables = Array.prototype.filter.call(widget.findDescendants(container), filter);
 			}
 			if (selectables && selectables.length) {

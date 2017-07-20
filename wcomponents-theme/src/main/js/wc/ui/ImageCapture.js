@@ -95,12 +95,10 @@ define(["wc/has", "wc/dom/classList", "wc/dom/event", "wc/ui/prompt", "wc/config
 								imageEdit.renderImage($event.target, done);
 							});
 						}
-					}
-					else if (currentOptions.context === "flash") {
+					} else if (currentOptions.context === "flash") {
 						currentOptions.capture();
 						classList.remove(container, "wc_showcam");
-					}
-					else {
+					} else {
 						prompt.alert("No context was supplied to getSnapshot()");
 					}
 				}
@@ -189,8 +187,7 @@ define(["wc/has", "wc/dom/classList", "wc/dom/event", "wc/ui/prompt", "wc/config
 							track.stop();
 						}
 					}
-				}
-				else if (_stream.stop) {
+				} else if (_stream.stop) {
 					_stream.stop();
 				}
 				if (!pause) {
@@ -219,8 +216,7 @@ define(["wc/has", "wc/dom/classList", "wc/dom/event", "wc/ui/prompt", "wc/config
 				globalOptions, globalConf = wcconfig.get("wc/ui/imageEdit");
 			if (globalConf && globalConf.options) {
 				globalOptions = globalConf.options;
-			}
-			else {
+			} else {
 				globalOptions = {};
 			}
 			currentOptions = Object.assign({}, defaultOptions, globalOptions, options);
@@ -229,8 +225,7 @@ define(["wc/has", "wc/dom/classList", "wc/dom/event", "wc/ui/prompt", "wc/config
 			window.webcam = currentOptions;  // Needed for flash fallback
 			if (has("rtc-gum")) {
 				play();
-			}
-			else if (has("flash")) {
+			} else if (has("flash")) {
 				if (currentOptions.swffile === defaultOptions.swffile && (currentOptions.width !== 320 || currentOptions.height !== 240)) {
 					/*
 					 * The default swffile can only support 320 x 240.
@@ -242,8 +237,7 @@ define(["wc/has", "wc/dom/classList", "wc/dom/event", "wc/ui/prompt", "wc/config
 					currentOptions.height = 240;
 				}
 				play();
-			}
-			else {
+			} else {
 				console.error("Browser does not support web-rtc or flash. It should not be possible to get here.");
 			}
 		};

@@ -1,7 +1,7 @@
 define(["wc/dom/tag",
-		"wc/dom/Widget",
-		"wc/array/toArray",
-		"wc/dom/wrappedInput"],
+	"wc/dom/Widget",
+	"wc/array/toArray",
+	"wc/dom/wrappedInput"],
 	function(tag, Widget, toArray, wrappedInput) {
 		"use strict";
 

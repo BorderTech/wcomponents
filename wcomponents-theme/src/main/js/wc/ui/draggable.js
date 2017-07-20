@@ -1,18 +1,18 @@
 define(["wc/dom/attribute",
-		"wc/dom/clearSelection",
-		"wc/dom/event",
-		"wc/dom/getEventOffset",
-		"wc/dom/isAcceptableTarget",
-		"wc/dom/getBox",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/dom/uid",
-		"wc/dom/Widget",
-		"wc/has",
-		"wc/ui/ajax/processResponse",
-		"wc/ui/positionable",
-		"wc/ui/resizeable",
-		"wc/config"],
+	"wc/dom/clearSelection",
+	"wc/dom/event",
+	"wc/dom/getEventOffset",
+	"wc/dom/isAcceptableTarget",
+	"wc/dom/getBox",
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/dom/uid",
+	"wc/dom/Widget",
+	"wc/has",
+	"wc/ui/ajax/processResponse",
+	"wc/ui/positionable",
+	"wc/ui/resizeable",
+	"wc/config"],
 	function(attribute, clearSelection, event, getMouseEventOffset, isAcceptableEventTarget, getBox, initialise, shed, uid, Widget, has, processResponse, positionable, resizeable, wcconfig) {
 		"use strict";
 
@@ -101,8 +101,7 @@ define(["wc/dom/attribute",
 					positionable.clearZeros(moveTarget, true);
 					positionable.setPosition(moveTarget, position.left + x, position.top + y);
 					return true;
-				}
-				finally {
+				} finally {
 					if (animationsDisabled) {
 						resizeable.restoreAnimation(moveTarget);
 					}
@@ -217,8 +216,7 @@ define(["wc/dom/attribute",
 						positionable.clearZeros(element, true);
 						positionable.setPosition(element, left, top);
 					}
-				}
-				finally {
+				} finally {
 					clearSelection();
 					if (animationsDisabled) {
 						resizeable.restoreAnimation(element);
@@ -284,8 +282,7 @@ define(["wc/dom/attribute",
 					if (has("event-ontouchstart")) {
 						event[func](element, event.TYPE.touchstart, touchstartEvent);
 					}
-				}
-				finally {
+				} finally {
 					func = remove ? "remove" : "set";
 					attribute[func](element, BS, true);
 				}

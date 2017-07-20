@@ -103,8 +103,7 @@ define(["wc/string/escapeRe",
 					// we still queue a search so that we can return to a null/no value option if we backspace/delete to nothing
 					queueSearch(element, val);
 					evt.preventDefault();
-				}
-				else if (keyCode === KeyEvent.DOM_VK_SPACE) {
+				} else if (keyCode === KeyEvent.DOM_VK_SPACE) {
 					search = getSearchElement();
 					val = textContent.get(search);
 					if (NO_ENDS_WITH_STRING_RE.test(val)) {
@@ -117,8 +116,7 @@ define(["wc/string/escapeRe",
 						textContent.set(search, val + " ");
 						queueSearch(element, textContent.get(search));
 					}
-				}
-				else if (keyCode === KeyEvent.DOM_VK_RETURN) {
+				} else if (keyCode === KeyEvent.DOM_VK_RETURN) {
 					closeSearch(element);
 				}
 			}
@@ -218,21 +216,17 @@ define(["wc/string/escapeRe",
 				if (search) {
 					if (config.textTrumpsValue) {
 						match = getMatchByText(element, search) || getMatchByValue(element, search);
-					}
-					else {
+					} else {
 						match = getMatchByValue(element, search) || getMatchByText(element, search);
 					}
 
 					if (match) {
 						classList.remove(getSearchElement(), CLASS_NOT_FOUND);
 						selectMatch(element, match);
-					}
-					else {
+					} else {
 						classList.add(getSearchElement(), CLASS_NOT_FOUND);
 					}
-				}
-
-				else if (search === "") {
+				} else if (search === "") {
 					// we have previously searched and have backspaced to an empty string
 					if ((match = getMatchByValue(element, search)) && !shed.isSelected(match)) {
 						selectMatch(element, match);
@@ -250,8 +244,7 @@ define(["wc/string/escapeRe",
 					if (match) {
 						fireOnchange = true;
 						element.selectedIndex = match.index;
-					}
-					else {
+					} else {
 						fireOnchange = true;
 						element.selectedIndex = 0;
 					}
@@ -291,16 +284,14 @@ define(["wc/string/escapeRe",
 				if (regexCache.starts.hasOwnProperty(search)) {
 					startsWithRe = regexCache.starts[search];
 					console.log("Got regex from cache: ", startsWithRe.source);
-				}
-				else {
+				} else {
 					startsWithRe = regexCache.starts[search] = new RegExp("^" + escapeRe(search), flags);
 				}
 
 				if (regexCache.contains.hasOwnProperty(search)) {
 					containsRe = regexCache.contains[search];
 					console.log("Got regex from cache: ", containsRe.source);
-				}
-				else {
+				} else {
 					containsRe = regexCache.contains[search] = new RegExp(".+" + escapeRe(search), flags);
 				}
 
@@ -314,8 +305,7 @@ define(["wc/string/escapeRe",
 					if (nextTxt && startsWithRe.test(nextTxt)) {
 						result = next;
 						break;
-					}
-					else if (!partialMatch && search.length >= config.minLenSubstring && containsRe.test(nextTxt)) {
+					} else if (!partialMatch && search.length >= config.minLenSubstring && containsRe.test(nextTxt)) {
 						partialMatch = next;
 					}
 				}
@@ -402,8 +392,7 @@ define(["wc/string/escapeRe",
 					if (configOveride) {
 						mixin(configOveride, config);
 					}
-				}
-				finally {
+				} finally {
 					config.inited = true;
 				}
 			}
@@ -450,8 +439,7 @@ define(["wc/string/escapeRe",
 				ALLOWED = i18n.get("select_typeahead");
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-				}
-				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 			};

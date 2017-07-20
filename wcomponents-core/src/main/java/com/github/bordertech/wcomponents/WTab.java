@@ -111,8 +111,9 @@ public class WTab extends AbstractNamingContextContainer implements Disableable,
 	}
 
 	/**
-	 * Set the mode of operation for this tab.
-	 * See <a href="https://github.com/BorderTech/wcomponents/issues/692">#692</a>.
+	 * Set the mode of operation for this tab. See
+	 * <a href="https://github.com/BorderTech/wcomponents/issues/692">#692</a>.
+	 *
 	 * @param mode the tab mode.
 	 */
 	public void setMode(final TabMode mode) {
@@ -170,8 +171,7 @@ public class WTab extends AbstractNamingContextContainer implements Disableable,
 	@Override
 	public void handleRequest(final Request request) {
 		// If is LAZY or DYNAMIC and is the current trigger, then process the WTabSet for the correct open/closed tabs
-		if ((TabMode.LAZY.equals(getMode()) || TabMode.DYNAMIC.equals(getMode())) && AjaxHelper.
-				isCurrentAjaxTrigger(this)) {
+		if ((TabMode.LAZY.equals(getMode()) || TabMode.DYNAMIC.equals(getMode())) && AjaxHelper.isCurrentAjaxTrigger(this)) {
 			WTabSet tabSet = (WTabSet) WebUtilities.getAncestorOfClass(WTabSet.class, this);
 			tabSet.handleRequest(request);
 		}
@@ -192,23 +192,20 @@ public class WTab extends AbstractNamingContextContainer implements Disableable,
 				case EAGER: {
 					// Will always be visible
 					content.setVisible(true);
-					AjaxHelper.registerContainer(getId(), getId() + "-content", content.getId(),
-							request);
+					AjaxHelper.registerContainer(getId(), getId() + "-content", content.getId());
 					break;
 				}
 				case LAZY: {
 					content.setVisible(isOpen());
 					if (!isOpen()) {
-						AjaxHelper.registerContainer(getId(), getId() + "-content", content.getId(),
-								request);
+						AjaxHelper.registerContainer(getId(), getId() + "-content", content.getId());
 					}
 
 					break;
 				}
 				case DYNAMIC: {
 					content.setVisible(isOpen());
-					AjaxHelper.registerContainer(getId(), getId() + "-content", content.getId(),
-							request);
+					AjaxHelper.registerContainer(getId(), getId() + "-content", content.getId());
 					break;
 				}
 				case SERVER: {

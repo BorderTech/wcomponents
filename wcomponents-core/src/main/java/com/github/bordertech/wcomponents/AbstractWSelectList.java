@@ -64,7 +64,10 @@ public abstract class AbstractWSelectList extends AbstractInput {
 	 * changed.
 	 *
 	 * @param flag if true, the form is submitted when the selection changes.
+	 * @deprecated 1.4.0 as it results in a level A accessibility problem See
+	 * https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-unpredictable-change.html.
 	 */
+	@Deprecated
 	@Override
 	public void setSubmitOnChange(final boolean flag) {
 		super.setSubmitOnChange(flag);
@@ -74,7 +77,10 @@ public abstract class AbstractWSelectList extends AbstractInput {
 	 * Indicates whether the form should submit to server when the list component's selection changes.
 	 *
 	 * @return true if the form is submitted when the selection changes.
+	 * @deprecated 1.4.0 as it results in a level A accessibility problem See
+	 * https://www.w3.org/TR/UNDERSTANDING-WCAG20/consistent-behavior-unpredictable-change.html.
 	 */
+	@Deprecated
 	@Override
 	public boolean isSubmitOnChange() {
 		return super.isSubmitOnChange();
@@ -369,7 +375,7 @@ public abstract class AbstractWSelectList extends AbstractInput {
 
 		if (isAjax() && UIContextHolder.getCurrent().getUI() != null) {
 			AjaxTarget target = getAjaxTarget();
-			AjaxHelper.registerComponent(target.getId(), request, getId());
+			AjaxHelper.registerComponent(target.getId(), getId());
 		}
 
 		String cacheKey = getListCacheKey();

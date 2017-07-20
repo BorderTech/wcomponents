@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.examples;
 
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDataRenderer;
 import com.github.bordertech.wcomponents.WHorizontalRule;
@@ -63,8 +64,10 @@ public class AutoReFocusRepeaterExample extends WContainer {
 		 * Creates a FocusRepeatRenderer.
 		 */
 		public FocusRepeatRenderer() {
-			add(new WDropdownTriggerActionExample());
-			add(new WRadioButtonTriggerActionExample());
+			add(new AutoReFocusExample());
+			WRadioButtonTriggerActionExample rbExample = new WRadioButtonTriggerActionExample();
+			add(rbExample);
+			add(new WAjaxControl(rbExample.getRadioButtonGroup(), rbExample));
 			add(new WHorizontalRule());
 		}
 	}

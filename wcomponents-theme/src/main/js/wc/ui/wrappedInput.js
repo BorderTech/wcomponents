@@ -7,9 +7,15 @@ define(["wc/dom/initialise",
 		"use strict";
 
 		function WrappedInputUI () {
-			var WRAPPED = wrappedInput.getWrappedWidgets(),
-				PLACEHOLDER_TEXT;
+			var WRAPPED = wrappedInput.getWrappedWidgets();
 
+			/**
+			 * This is a shed subscriber.
+			 * Sets or clears the "mandatory" state of an input (whether it is a "required" field).
+			 * @param element The element candidate for setting or clearing mandatory state.
+			 * @param action either shed.actions.MANDATORY or shed.actions.OPTIONAL
+			 * @returns {void|Promise}
+			 */
 			function mandate(element, action) {
 				var input,
 					PLACEHOLDER = "placeholder";
@@ -19,12 +25,13 @@ define(["wc/dom/initialise",
 				if ((input = Widget.findDescendant(element, WRAPPED))) {
 					shed[action](input);
 					if (action === shed.actions.MANDATORY) {
-						PLACEHOLDER_TEXT = PLACEHOLDER_TEXT || i18n.get("requiredPlaceholder");
-						input.setAttribute(PLACEHOLDER, PLACEHOLDER_TEXT);
-					}
-					else {
+						return i18n.translate("requiredPlaceholder").then(function(placeHolderText) {
+							input.setAttribute(PLACEHOLDER, placeHolderText);
+						});
+					} else {
 						input.removeAttribute(PLACEHOLDER);
 					}
+
 				}
 			}
 

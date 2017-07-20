@@ -1,7 +1,9 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * AjaxHelper provides convenience methods to register components for use with the AJAX servlet.
@@ -26,21 +28,12 @@ public final class AjaxHelper {
 	 * The key we use to store the operations in the user's session. The ajax servlet will use this key to retrieve the
 	 * UIC and process the request.
 	 */
-	public static final String AJAX_OPERATIONS_SESSION_KEY = "ajax.control.operations";
+	private static final String AJAX_OPERATIONS_SESSION_KEY = "ajax.control.operations";
 
 	/**
 	 * Prevent instantiation of this class.
 	 */
 	private AjaxHelper() {
-	}
-
-	/**
-	 * Clear the registered AJAX operations.
-	 *
-	 * @param request the current request being responded to.
-	 */
-	public static void clearAllRegisteredOperations(final Request request) {
-		request.setSessionAttribute(AJAX_OPERATIONS_SESSION_KEY, null);
 	}
 
 	/**
@@ -61,8 +54,7 @@ public final class AjaxHelper {
 	 * @param operation the current AJAX operation.
 	 * @param trigger the current AJAX operation trigger and its context.
 	 */
-	public static void setCurrentOperationDetails(final AjaxOperation operation,
-			final ComponentWithContext trigger) {
+	public static void setCurrentOperationDetails(final AjaxOperation operation, final ComponentWithContext trigger) {
 		if (operation == null) {
 			THREAD_LOCAL_OPERATION.remove();
 		} else {
@@ -102,15 +94,12 @@ public final class AjaxHelper {
 	 * Registers one or more components as being AJAX capable.
 	 *
 	 * @param targetIds the components to register. Each component will be re-painted when the trigger occurs.
-	 * @param request the current request being responded to.
 	 * @param triggerId the id of the trigger that will cause the components to be painted.
 	 * @return the AjaxOperation control configuration object.
 	 */
-	public static AjaxOperation registerComponents(final List<String> targetIds,
-			final Request request,
-			final String triggerId) {
+	public static AjaxOperation registerComponents(final List<String> targetIds, final String triggerId) {
 		AjaxOperation operation = new AjaxOperation(triggerId, targetIds);
-		registerAjaxOperation(operation, request);
+		registerAjaxOperation(operation);
 		return operation;
 	}
 
@@ -118,14 +107,12 @@ public final class AjaxHelper {
 	 * Registers a single component as being AJAX capable.
 	 *
 	 * @param targetId the component to register. The component will be re-painted when the trigger occurs.
-	 * @param request the current request being responded to.
 	 * @param triggerId the id of the trigger that will cause the component to be painted.
 	 * @return the AjaxOperation control configuration object.
 	 */
-	public static AjaxOperation registerComponent(final String targetId, final Request request,
-			final String triggerId) {
+	public static AjaxOperation registerComponent(final String targetId, final String triggerId) {
 		AjaxOperation operation = new AjaxOperation(triggerId, targetId);
-		registerAjaxOperation(operation, request);
+		registerAjaxOperation(operation);
 		return operation;
 	}
 
@@ -136,16 +123,14 @@ public final class AjaxHelper {
 	 * @param triggerId the id of the trigger that will cause the component to be painted.
 	 * @param containerId the target container id. This is not necessarily a WComponent id.
 	 * @param containerContentId the container content.
-	 * @param request the current request being responded to.
 	 * @return the AjaxOperation control configuration object.
 	 */
 	static AjaxOperation registerContainer(final String triggerId, final String containerId,
-			final String containerContentId, final Request request) {
+			final String containerContentId) {
 		AjaxOperation operation = new AjaxOperation(triggerId, containerContentId);
 		operation.setTargetContainerId(containerId);
 		operation.setAction(AjaxOperation.AjaxAction.REPLACE_CONTENT);
-		registerAjaxOperation(operation, request);
-
+		registerAjaxOperation(operation);
 		return operation;
 	}
 
@@ -156,16 +141,14 @@ public final class AjaxHelper {
 	 * @param triggerId the id of the trigger that will cause the component to be painted.
 	 * @param containerId the target container id. This is not necessarily a WComponent id.
 	 * @param containerContentIds the container content.
-	 * @param request the current request being responded to.
 	 * @return the AjaxOperation control configuration object.
 	 */
 	static AjaxOperation registerContainer(final String triggerId, final String containerId,
-			final List<String> containerContentIds, final Request request) {
+			final List<String> containerContentIds) {
 		AjaxOperation operation = new AjaxOperation(triggerId, containerContentIds);
 		operation.setTargetContainerId(containerId);
 		operation.setAction(AjaxOperation.AjaxAction.REPLACE_CONTENT);
-		registerAjaxOperation(operation, request);
-
+		registerAjaxOperation(operation);
 		return operation;
 	}
 
@@ -174,38 +157,49 @@ public final class AjaxHelper {
 	 * is no corresponding operation registered.
 	 *
 	 * @param triggerId the trigger id.
-	 * @param request the current request.
 	 * @return the AjaxOperation corresponding to the trigger id.
 	 */
-	public static AjaxOperation getAjaxOperation(final String triggerId, final Request request) {
-		HashMap<String, AjaxOperation> operations = (HashMap<String, AjaxOperation>) request
-				.getSessionAttribute(AJAX_OPERATIONS_SESSION_KEY);
-
-		if (operations != null) {
-			return operations.get(triggerId);
-		}
-
-		return null;
+	public static AjaxOperation getAjaxOperation(final String triggerId) {
+		Map<String, AjaxOperation> operations = getRegisteredOperations();
+		return operations == null ? null : operations.get(triggerId);
 	}
 
 	/**
-	 * The Ajax servlet needs access to the AjaxOperation Store the operation in the session using the trigger Id, as
-	 * this will be present in the Servlet HttpRequest. agreed key. The ajax id is passed in the url to the servlet so
-	 * it can then access the context.
+	 * Clear the registered AJAX operations for this user context.
+	 */
+	public static void clearAllRegisteredOperations() {
+		UIContext uic = UIContextHolder.getCurrentPrimaryUIContext();
+		if (uic != null) {
+			uic.setFwkAttribute(AJAX_OPERATIONS_SESSION_KEY, null);
+		}
+	}
+
+	/**
+	 *
+	 * @return the registered AJAX operations for this user context or null
+	 */
+	public static Map<String, AjaxOperation> getRegisteredOperations() {
+		UIContext uic = UIContextHolder.getCurrentPrimaryUIContext();
+		return uic == null ? null : (Map<String, AjaxOperation>) uic.getFwkAttribute(AJAX_OPERATIONS_SESSION_KEY);
+	}
+
+	/**
+	 * The Ajax servlet needs access to the AjaxOperation Store the operation in the user context using the trigger Id,
+	 * as this will be present in the Servlet HttpRequest. agreed key. The ajax id is passed in the url to the servlet
+	 * so it can then access the context.
 	 *
 	 * @param operation the operation to register.
-	 * @param request the request to store the operation under.
 	 */
-	private static void registerAjaxOperation(final AjaxOperation operation, final Request request) {
-		// Add operation to backing session
-		HashMap<String, AjaxOperation> operations = (HashMap<String, AjaxOperation>) request
-				.getSessionAttribute(AJAX_OPERATIONS_SESSION_KEY);
-
+	private static void registerAjaxOperation(final AjaxOperation operation) {
+		UIContext uic = UIContextHolder.getCurrentPrimaryUIContext();
+		if (uic == null) {
+			throw new SystemException("No User Context Available to Register AJAX Operations.");
+		}
+		Map<String, AjaxOperation> operations = (Map<String, AjaxOperation>) uic.getFwkAttribute(AJAX_OPERATIONS_SESSION_KEY);
 		if (operations == null) {
 			operations = new HashMap<>();
-			request.setSessionAttribute(AJAX_OPERATIONS_SESSION_KEY, operations);
+			uic.setFwkAttribute(AJAX_OPERATIONS_SESSION_KEY, operations);
 		}
-
 		operations.put(operation.getTriggerId(), operation);
 	}
 }

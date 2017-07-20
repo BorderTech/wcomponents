@@ -12,11 +12,11 @@
  * @requires module:wc/ui/validation/validationManager
  */
 define(["wc/dom/event",
-		"wc/dom/initialise",
-		"wc/dom/Widget",
-		"wc/dom/focus",
-		"wc/ui/validation/validationManager",
-		"wc/ui/ajaxRegion"],
+	"wc/dom/initialise",
+	"wc/dom/Widget",
+	"wc/dom/focus",
+	"wc/ui/validation/validationManager",
+	"wc/ui/ajaxRegion"],
 	/** @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param focus wc/dom/focus @param validationManager wc/ui/validation/validationManager @ignore */
 	function(event, initialise, Widget, focus, validationManager, ajaxRegion) {
 		"use strict";
@@ -43,8 +43,7 @@ define(["wc/dom/event",
 					validationContainer;
 				if (validationId) {
 					validationContainer = document.getElementById(validationId);
-				}
-				else if (ajaxRegion.getTrigger(submitter)) {
+				} else if (ajaxRegion.getTrigger(submitter)) {
 					// if a submitter is an ajax trigger and does not have a validating region
 					// we do not validate.
 					return false;

@@ -44,8 +44,7 @@ define(["wc/has"], /** @param has wc/has @ignore */function(has) {
 				global.Object.defineProperty(global.Element.prototype, classListProp, { get: classListGetter });
 			}
 		}
-	}
-	finally {
+	} finally {
 		constructorProto = null;  // IE8 memory cleanup. Yes IE8, not 6 or 7.
 	}
 
@@ -97,8 +96,7 @@ define(["wc/has"], /** @param has wc/has @ignore */function(has) {
 			toggle: function(token) {
 				if (checkAndGetIndex(classes, token) === -1) {
 					this.add(token);
-				}
-				else {
+				} else {
 					this.remove(token);
 				}
 			},
@@ -179,5 +177,13 @@ function ClassList($classListGetter, nativeClassList) {
 			return element.classList.toString();
 		}
 		return $classListGetter.call(element, null).toString();
+	};
+
+	/**
+	 * Here for testing without having to find a copy of IE8: forces all calls for this ClassList instance through the polyfill.
+	 * ** DO NOT USE FOR REAL SCENARIOS!! **
+	 */
+	$this._hobble = function() {
+		nativeClassList = null;
 	};
 }

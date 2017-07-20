@@ -1,6 +1,6 @@
 /**
  * Module which knows the names of the months for the locale in use. Month names are available as full names (for
- * example January, janvier) and usual appreviation (for example Jan, Janv) and ascii-fied versions of these.
+ * example January, janvier) and usual abbreviation (for example Jan, Janv) and ascii-fied versions of these.
  *
  * @module
  * @requires module:wc/i18n/i18n
@@ -29,32 +29,11 @@ define(["wc/i18n/i18n", "wc/i18n/asciify"],
 			 */
 			function initialise() {
 				var hasAsciiVersion = false;
-				months = [
-					i18n.get("month0"),
-					i18n.get("month1"),
-					i18n.get("month2"),
-					i18n.get("month3"),
-					i18n.get("month4"),
-					i18n.get("month5"),
-					i18n.get("month6"),
-					i18n.get("month7"),
-					i18n.get("month8"),
-					i18n.get("month9"),
-					i18n.get("monthA"),
-					i18n.get("monthB")];
-				monthsAbbr = [
-					i18n.get("monthabbr0"),
-					i18n.get("monthabbr1"),
-					i18n.get("monthabbr2"),
-					i18n.get("monthabbr3"),
-					i18n.get("monthabbr4"),
-					i18n.get("monthabbr5"),
-					i18n.get("monthabbr6"),
-					i18n.get("monthabbr7"),
-					i18n.get("monthabbr8"),
-					i18n.get("monthabbr9"),
-					i18n.get("monthabbrA"),
-					i18n.get("monthabbrB")];
+				months = i18n.get(["month0", "month1", "month2", "month3", "month4", "month5", "month6", "month7",
+					"month8", "month9", "monthA", "monthB"]);
+
+				monthsAbbr = i18n.get(["monthabbr0", "monthabbr1", "monthabbr2", "monthabbr3", "monthabbr4",
+					"monthabbr5", "monthabbr6", "monthabbr7", "monthabbr8", "monthabbr9", "monthabbrA", "monthabbrB"]);
 
 				monthsAscii = new Array(months.length);
 				months.forEach(function(mnthname, idx) {
@@ -65,8 +44,7 @@ define(["wc/i18n/i18n", "wc/i18n/asciify"],
 				if (hasAsciiVersion) {
 					// console.log("Building ascii versions of month names");
 					monthsAbbrAscii = monthsAbbr.map(asciify);
-				}
-				else {
+				} else {
 					monthsAscii = null;
 					monthsAbbrAscii = null;
 				}
@@ -104,8 +82,7 @@ define(["wc/i18n/i18n", "wc/i18n/asciify"],
 				}
 				if (asciified && monthsAscii) {
 					result = abbreviated ? monthsAbbrAscii : monthsAscii;
-				}
-				else {
+				} else {
 					result = abbreviated ? monthsAbbr : months;
 				}
 				return result.concat();

@@ -12,12 +12,12 @@
  * @requires module:wc/ui/checkBoxSelect
  */
 define(["wc/dom/initialise",
-		"wc/dom/getFilteredGroup",
-		"wc/ui/validation/ariaAnalog",
-		"wc/ui/validation/validationManager",
-		"wc/ui/validation/required",
-		"wc/ui/validation/minMax",
-		"wc/ui/checkBoxSelect"],
+	"wc/dom/getFilteredGroup",
+	"wc/ui/validation/ariaAnalog",
+	"wc/ui/validation/validationManager",
+	"wc/ui/validation/required",
+	"wc/ui/validation/minMax",
+	"wc/ui/checkBoxSelect"],
 	/** @param initialise dom/initialise @param getFilteredGroup dom/getFilteredGroup @param ariaAnalog wc/ui/validation/ariaAnalog @param validationManager wc/ui/validation/validationManager @param required wc/ui/validation/required @param minMax wc/ui/validation/minMax @param checkBoxSelect ui/checkBoxSelect @ignore */
 	function(initialise, getFilteredGroup, ariaAnalog, validationManager, required, minMax, checkBoxSelect) {
 		"use strict";
@@ -72,9 +72,9 @@ define(["wc/dom/initialise",
 			this.validate = function(container) {
 				var result = true,
 					obj = {container: container,
-							widget: instance.CONTAINER,
-							constraint: required.CONSTRAINTS.CLASSNAME,
-							position: "beforeEnd"},
+						widget: instance.CONTAINER,
+						constraint: required.CONSTRAINTS.CLASSNAME,
+						position: "beforeEnd"},
 					_required = required.complexValidationHelper(obj);
 
 				// add a selectedFunc to be able to do min/max validation

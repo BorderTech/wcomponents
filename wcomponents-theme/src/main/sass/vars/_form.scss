@@ -32,3 +32,20 @@ $wc-label-mandatory-indicator: '*' !default;
 // The font-size of the label hint. Set to 0 or less to use the same size as the
 // label.
 $wc-label-hint-size: 82.5% !default;
+
+// #############################################################################
+// WDropdown
+// #############################################################################
+// The list of optionWidth settings to honour. This is used to limit the max
+// width of a select element.
+// * If the single value -1 then all option widths from $wc-dd-optwidth-min to
+//  $wc-dd-optionwidth-max will be used at the potential cost of lots of CSS.
+// * If set to the single value 0 then the list is ignored and no optionWidth
+//   settings are supported.
+// * Otherwise option widths which are in this list will be honoured and
+//   $wc-dd-optwidth-min and $wc-dd-optwidth-max are ignored.
+$wc-dd-optwidth-list: -1 !default;
+// minimum supported optionWdith. Must be >= 1
+$wc-dd-optwidth-min: 1 !default;
+// maximum supported optionWdith. 36 chosen for pretty bad reasons!
+$wc-dd-optwidth-max: 36 !default;

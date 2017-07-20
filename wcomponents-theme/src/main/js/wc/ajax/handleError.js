@@ -1,25 +1,23 @@
-/**
- * This module is used by low level ajax functionality to handle error situations.
- * It is in a separate module because we should not need to load many of these module dependencies under normal conditions.
- * The intention is that it is loaded lazily, on demand, with an errback to requirejs.
- */
 define(["wc/config", "wc/i18n/i18n", "wc/mixin"], function(wcconfig, i18n, mixin) {
 	/**
 	 * Get an error message for the given response.
 	 * Allows for customized error messages based on HTTP status code by setting a config object like so:
 	 * @example
 	 require(["wc/config"], function(wcconfig){
-	 wcconfig.set({ messages: {
-	 403:"Oh noes! A 403 occurred!",
-	 404: "I can't find it!",
-	 200: "Some gateway proxies don't know basic HTTP",
-	 error: "An error occurred and I have not set a specific message for it!"
+	  wcconfig.set({ messages: {
+	  403:"Oh noes! A 403 occurred!",
+	  404: "I can't find it!",
+	  418: function(response) { return "Short and stout"; },
+	  200: "Some gateway proxies don't know basic HTTP",
+	  error: "An error occurred and I have not set a specific message for it!"
 	 }
 	 },"wc/ui/xhr");
 	 });
+	 * Note that you can provide either a string or function that will be passed the raw XHR response
+	 * and is expected to return a string.
 	 *
 	 * @param {XHR} response An XHR response.
-	 * @param {Object} [messages] Optionsally provide the messages object directly to this function.
+	 * @param {Object} [messages] Optionally provide the messages object directly to this function.
 	 * @returns {string} An error message, in order of preference:
 	 * - A custom message specific to the status code, provided in the module configuration
 	 * - A custom default error message
@@ -34,6 +32,14 @@ define(["wc/config", "wc/i18n/i18n", "wc/mixin"], function(wcconfig, i18n, mixin
 				message = msgs[response.status];
 				if (!message) {
 					message = msgs.error;
+				}
+				if (message && typeof message === "function") {
+					// a message override has been provided and it's a function which will provide the actual message.
+					try {
+						message = message(response);
+					} catch (ex) {
+						console.warn(ex);  // consume this error and continue
+					}
 				}
 			}
 			/*
@@ -56,7 +62,7 @@ define(["wc/config", "wc/i18n/i18n", "wc/mixin"], function(wcconfig, i18n, mixin
 	/**
 	 * Gets application specific message overrides, if configured.
 	 * @returns {Object} Message overrides for specific status codes, if set.
-	 * If there is a conflict then the message set in the messages aregument takes precedence over those in module config.
+	 * If there is a conflict then the message set in the messages argument takes precedence over those in module config.
 	 */
 	function getMessageOverrides() {
 		var result = {}, config = wcconfig.get("wc/ui/xhr"),
@@ -70,7 +76,16 @@ define(["wc/config", "wc/i18n/i18n", "wc/mixin"], function(wcconfig, i18n, mixin
 		return result;
 	}
 
-
+	/**
+	 * This module is used by low level ajax functionality to handle error situations.
+	 * It is in a separate module because we should not need to load many of these module dependencies under normal conditions.
+	 * The intention is that it is loaded lazily, on demand, with an errback to requirejs.
+	 *
+	 * @module
+	 * @requires module:wc/config
+	 * @requires module:wc/i18n/i18n
+	 * @requires module:wc/mixin
+	 */
 	return {
 		getErrorMessage: getErrorMessage
 	};

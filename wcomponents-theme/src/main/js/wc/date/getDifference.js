@@ -26,8 +26,7 @@ define(function() {
 				divisor = 86400000;
 			}
 			result = (date1 - date2) / divisor;
-		}
-		else {
+		} else {
 			throw new TypeError("Cannot compare dates which are not of the same type");
 		}
 		return result;

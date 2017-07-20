@@ -1,17 +1,17 @@
 define(["wc/dom/attribute",
-		"wc/dom/event",
-		"wc/dom/initialise",
-		"wc/dom/focus",
-		"wc/dom/formUpdateManager",
-		"wc/dom/getBox",
-		"wc/dom/shed",
-		"wc/dom/tag",
-		"wc/dom/Widget",
-		"wc/ui/ajaxRegion",
-		"wc/ui/ajax/processResponse",
-		"wc/ui/selectboxSearch",
-		"wc/ui/modalShim",
-		"wc/ui/fieldset"],
+	"wc/dom/event",
+	"wc/dom/initialise",
+	"wc/dom/focus",
+	"wc/dom/formUpdateManager",
+	"wc/dom/getBox",
+	"wc/dom/shed",
+	"wc/dom/tag",
+	"wc/dom/Widget",
+	"wc/ui/ajaxRegion",
+	"wc/ui/ajax/processResponse",
+	"wc/ui/selectboxSearch",
+	"wc/ui/modalShim",
+	"wc/ui/fieldset"],
 	function(attribute, event, initialise, focus, formUpdateManager, getBox, shed, tag, Widget, ajaxRegion, processResponse, selectboxSearch, modal, fieldset) {
 		"use strict";
 
@@ -31,9 +31,9 @@ define(["wc/dom/attribute",
 				BUTTON = new Widget("button"),
 				OPTGROUP = new Widget("optgroup"),
 				ACTION_MAP = {"aall": addAll,
-							"add": addSelected,
-							"rall": removeAll,
-							"rem": removeSelected};
+					"add": addSelected,
+					"rall": removeAll,
+					"rem": removeSelected};
 
 			LISTS[LIST_TYPE_AVAILABLE] = SELECT.extend("wc_msp_av");
 			LISTS[LIST_TYPE_CHOSEN] = SELECT.extend("wc_msp_chos");
@@ -56,8 +56,7 @@ define(["wc/dom/attribute",
 					components, PX = "px";
 				if (CONTAINER.isOneOfMe(el)) {
 					components = [container];
-				}
-				else {
+				} else {
 					components = CONTAINER.findDescendants(el);
 				}
 				Array.prototype.forEach.call(components, function(next) {
@@ -167,13 +166,11 @@ define(["wc/dom/attribute",
 								toIndex = calcToIndex(originalIndex, fromGroupIndex);
 								if (toIndex >= optgroup.children.length) {
 									optgroup.appendChild(next);
-								}
-								else {
+								} else {
 									optgroup.insertBefore(next, optgroup.children[toIndex]);
 								}
 								result = true;
-							}
-							else {
+							} else {
 								// we need to make an optgroup in toList, but where?
 								optgroup = document.createElement(tag.OPTGROUP);
 								optgroup.label = parent.label;
@@ -181,14 +178,12 @@ define(["wc/dom/attribute",
 								toIndex = calcToIndex(originalIndex, fromIndex);
 								if (toIndex >= toList.options.length) {
 									toList.appendChild(optgroup);
-								}
-								else {
+								} else {
 									// does the option we are creating the optgroup before have an optgroup parent?
 									toOptgroup = toList.options[toIndex].parentNode;
 									if (OPTGROUP.isOneOfMe(toOptgroup)) {
 										toList.insertBefore(optgroup, toOptgroup);
-									}
-									else {
+									} else {
 										toList.insertBefore(optgroup, toList.options[toIndex]);
 									}
 								}
@@ -199,20 +194,17 @@ define(["wc/dom/attribute",
 							if (parent.children.length === 0) {
 								fromList.removeChild(parent);
 							}
-						}
-						else {
+						} else {
 							originalIndex = selectboxSearch.indexOf(next, orderList);
 							toIndex = calcToIndex(originalIndex, fromIndex);
 							if (toIndex >= toList.options.length) {
 								toList.appendChild(next);
 								result = true;
-							}
-							else {
+							} else {
 								toOptgroup = toList.options[toIndex].parentNode;
 								if (OPTGROUP.isOneOfMe(toOptgroup)) {
 									toList.insertBefore(next, toOptgroup);
-								}
-								else {
+								} else {
 									toList.insertBefore(next, toList.options[toIndex]);
 								}
 								result = true;
@@ -247,8 +239,7 @@ define(["wc/dom/attribute",
 			function publishSelection(fromList, toList) {
 				if (instance.getListType(fromList) === LIST_TYPE_CHOSEN) {
 					shed.select(toList);  // the list won't actually be selected but the selection will be published
-				}
-				else {
+				} else {
 					shed.deselect(toList);  // moving from chose to available publishes a deselection
 				}
 			}
@@ -367,8 +358,7 @@ define(["wc/dom/attribute",
 				if (keyCode === KeyEvent.DOM_VK_RETURN) {
 					$event.preventDefault();  // chrome submits form for "enter" in select multiple="multiple"
 					addRemoveSelected(selectList);
-				}
-				else {
+				} else {
 					selectType = instance.getListType(selectList);
 					focusOpposite = false;
 					if ((keyCode === KeyEvent.DOM_VK_RIGHT && selectType === LIST_TYPE_AVAILABLE) || (keyCode === KeyEvent.DOM_VK_LEFT && selectType === LIST_TYPE_CHOSEN)) {
@@ -383,8 +373,7 @@ define(["wc/dom/attribute",
 						selectList.selectedIndex = -1;
 						try {
 							focus.setFocusRequest(opposite);
-						}
-						catch (ignore) {
+						} catch (ignore) {
 							// Do nothing
 						}
 					}
@@ -556,8 +545,7 @@ define(["wc/dom/attribute",
 			function modalSubscriber() {
 				try {
 					fixWidthHeight();
-				}
-				finally {
+				} finally {
 					modal.unsubscribe(modalSubscriber);
 				}
 			}
@@ -573,8 +561,7 @@ define(["wc/dom/attribute",
 				modal.subscribe(modalSubscriber);
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-				}
-				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 

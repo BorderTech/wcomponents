@@ -117,14 +117,12 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/getStyle", "wc/dom/ui
 				if (id && (key = positionedBySize[id]) && (conf = key.conf)) {
 					if (element.style.width) {
 						conf.width = element.style.width.replace(UNIT, "");
-					}
-					else {
+					} else {
 						delete conf.width;
 					}
 					if (element.style.height) {
 						conf.height = element.style.height.replace(UNIT, "");
-					}
-					else {
+					} else {
 						delete conf.height;
 					}
 					instance.storePosBySize(element, conf);
@@ -245,8 +243,7 @@ define(["wc/dom/getViewportSize", "wc/dom/getBox", "wc/dom/getStyle", "wc/dom/ui
 					if (!overflow || overflow === "visible") {
 						el.style.overflow = "auto";
 					}
-				}
-				else if (el.style.overflow === "auto") {
+				} else if (el.style.overflow === "auto") {
 					el.style.overflow = "";
 				}
 

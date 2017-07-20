@@ -2,7 +2,7 @@
 	xmlns:html="http://www.w3.org/1999/xhtml" version="2.0">
 	<xsl:import href="wc.common.readOnly.xsl"/>
 
-	<xsl:template match="ui:textfield[@readOnly]|ui:phonenumberfield[@readOnly]|ui:emailfield[@readOnly]|ui:passwordfield[@readOnly]|ui:numberField[@readOnly]|ui:textarea[@readOnly]|ui:fileupload[@readOnly]">
+	<xsl:template match="ui:textfield[@readOnly]|ui:phonenumberfield[@readOnly]|ui:emailfield[@readOnly]|ui:passwordfield[@readOnly]|ui:numberfield[@readOnly]|ui:textarea[@readOnly]|ui:fileupload[@readOnly]">
 		<xsl:call-template name="readOnlyControl">
 			<xsl:with-param name="class" select="'wc-ro-input'"/>
 		</xsl:call-template>

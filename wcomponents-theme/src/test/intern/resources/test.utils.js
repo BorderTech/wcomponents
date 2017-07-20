@@ -14,13 +14,15 @@ define(["wc/compat/compat!"], function() {
 		 */
 		this.load = function (id, parentRequire, callback/* , config */) {
 			/* If you want to test IE then you must ensure compat is loaded before trying to load ajax. */
-			parentRequire(["wc/ajax/ajax", "wc/dom/event", "wc/has", "wc/fixes", "wc/i18n/i18n!"], function (a, evt, has) {
+			parentRequire(["wc/ajax/ajax", "wc/dom/event", "wc/has", "wc/fixes", "wc/i18n/i18n"], function (a, evt, has, f, i18n) {
 				ajax = a;
 				event = evt;
 				if (has("edge") || has("trident")) {
 					setupTimeout = 1000;
 				}
-				callback(instance);
+				i18n.initialize().then(function() {
+					callback(instance);
+				});
 			});
 		};
 
@@ -48,8 +50,7 @@ define(["wc/compat/compat!"], function() {
 							win(args);
 						}, setupTimeout);
 					});
-				}
-				catch (ex) {
+				} catch (ex) {
 					lose(ex);
 				}
 			});
@@ -64,8 +65,7 @@ define(["wc/compat/compat!"], function() {
 				testHolder = document.createElement("section");
 				testHolder.id = testHolderId;
 				document.body.appendChild(testHolder);
-			}
-			else if (!keepContent) {
+			} else if (!keepContent) {
 				testHolder.innerHTML = "";
 			}
 

@@ -1,17 +1,18 @@
 define(["wc/dom/attribute",
-		"wc/dom/event",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/ajax/triggerManager",
-		"wc/dom/serialize",
-		"wc/dom/Widget",
-		"wc/timers",
-		"wc/ui/getFirstLabelForElement",
-		"wc/ui/label",
-		"wc/i18n/i18n",
-		"wc/dom/textContent",
-		"wc/ui/ajax/processResponse"],
-	function(attribute, event, initialise, shed, triggerManager, serialize, Widget, timers, getFirstLabelForElement, label, i18n, textContent, processResponse) {
+	"wc/dom/event",
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/ajax/triggerManager",
+	"wc/dom/serialize",
+	"wc/dom/Widget",
+	"wc/timers",
+	"wc/ui/getFirstLabelForElement",
+	"wc/ui/label",
+	"wc/i18n/i18n",
+	"wc/dom/textContent",
+	"wc/ui/ajax/processResponse",
+	"wc/dom/classList"],
+	function(attribute, event, initialise, shed, triggerManager, serialize, Widget, timers, getFirstLabelForElement, label, i18n, textContent, processResponse, classList) {
 		"use strict";
 
 		/**
@@ -24,14 +25,13 @@ define(["wc/dom/attribute",
 				SUBMITTER = new Widget("", "wc_soc"),
 				LOAD_SELECT = SUBMITTER.extend("", {"data-wc-list": null}),
 				TRIGGERS = [SUBMITTER.extend("", {"type": "checkbox"}),
-							SUBMITTER.extend("", {"type": "radio"}),
-							SUBMITTER.extend("", {"role": "checkbox"}),
-							SUBMITTER.extend("", {"role": "radio"})],
+					SUBMITTER.extend("", {"type": "radio"}),
+					SUBMITTER.extend("", {"role": "checkbox"}),
+					SUBMITTER.extend("", {"role": "radio"})],
 				FORM = new Widget("form"),
 				optionOnLoad = [],
 				ignoreChange = false,
-				DEP_WARNING = "DEPRECATION WARNING: onChangeSubmit is deprecated as it causes accessibility problems. Use AJAX or a submit button.",
-				submitOnChangeHint;
+				DEP_WARNING = "DEPRECATION WARNING: onChangeSubmit is deprecated as it causes accessibility problems. Use AJAX or a submit button.";
 
 			/**
 			 * Registry setter helper for selects which are loaded dynamically via a datalist. Stores the option which
@@ -106,16 +106,14 @@ define(["wc/dom/attribute",
 									timers.setTimeout(event.fire, 0, form, event.TYPE.submit);
 								}
 								removeLoadedOptionRegistry(element);
-							}
-							else {
+							} else {
 								submitting = true;
 								console.warn(DEP_WARNING);
 								timers.setTimeout(event.fire, 0, form, event.TYPE.submit);
 							}
 						}
 					}
-				}
-				else {
+				} else {
 					console.warn("onchange submit fired twice");  // this is going to be hard to spot when the page is submitting
 				}
 			}
@@ -169,8 +167,7 @@ define(["wc/dom/attribute",
 					if (!$event.defaultPrevented && !ignoreChange && SUBMITTER.isOneOfMe(element) && !Widget.isOneOfMe(element, TRIGGERS)) {
 						fireElement(element);
 					}
-				}
-				finally {
+				} finally {
 					ignoreChange = false;
 				}
 			}
@@ -189,28 +186,46 @@ define(["wc/dom/attribute",
 			}
 
 			function addAllWarnings(container) {
-				var candidates = SUBMITTER.isOneOfMe(container) ? [container] : SUBMITTER.findDescendants(container);
+				if (SUBMITTER.isOneOfMe(container)) {
+					instance.warn(container);
+				} else {
+					Array.prototype.forEach.call(SUBMITTER.findDescendants(container), function(next) {
+						instance.warn(next);
+					});
+				}
+			}
 
-				Array.prototype.forEach.call(candidates,
-					function (next) {
-						var myLabel, hint, hintContent;
-						if (triggerManager.getTrigger(next)) {
-							return;
-						}
-						if ((myLabel = getFirstLabelForElement(next))) {
-							submitOnChangeHint = submitOnChangeHint || i18n.get("submitOnChange");
-							if ((hint = label.getHint(myLabel))) {
-								hintContent = textContent.get(hint);
-								if (hintContent.indexOf(submitOnChangeHint) === -1) {
-									label.setHint(myLabel, submitOnChangeHint);
-								}
-							}
-							else {
+			/**
+			 * Allow an external module which manipulates labels to be able to set the SoC warning.
+			 * @function module:wc/ui/onchangeSubmit.warn
+			 * @public
+			 * @param {Element} el THe element which may be able to "submit on change"
+			 * @param {Element} [lbl] The element's label/legend/labelling element if it is already available - just prevents us having to do double
+			 * look-ups.
+			 */
+			this.warn = function(el, lbl) {
+				var myLabel;
+				if (!el || !SUBMITTER.isOneOfMe(el) || triggerManager.getTrigger(el)) {
+					return;
+				}
+				myLabel = lbl || getFirstLabelForElement(el);
+				if (myLabel) {
+					i18n.translate("submitOnChange").then(function(submitOnChangeHint) {
+						var hintContent,
+							hint = label.getHint(myLabel);
+						if (hint) {
+							hintContent = textContent.get(hint);
+							if (hintContent.indexOf(submitOnChangeHint) === -1) {
 								label.setHint(myLabel, submitOnChangeHint);
 							}
+						} else {
+							label.setHint(myLabel, submitOnChangeHint);
 						}
+						// if the label is off-screen force it back on.
+						classList.remove(myLabel, "wc-off");
 					});
-			}
+				}
+			};
 
 			/**
 			 * Set up the core body listeners for submit on change.
@@ -222,8 +237,7 @@ define(["wc/dom/attribute",
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, domFocusEvent, null, null, true);
 					event.add(element, event.TYPE.change, changeEvent, null, null, true);
-				}
-				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 				timers.setTimeout(addAllWarnings, 0, element);
@@ -270,6 +284,7 @@ define(["wc/dom/attribute",
 		 *
 		 * @module
 		 * @requires module:wc/dom/attribute
+		 * @requires module:wc/dom/classList
 		 * @requires module:wc/dom/event
 		 * @requires module:wc/dom/initialise
 		 * @requires module:wc/dom/shed

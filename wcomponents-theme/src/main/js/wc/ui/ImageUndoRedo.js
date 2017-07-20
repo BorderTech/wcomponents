@@ -17,24 +17,7 @@ define(function() {
 			timer,
 			state = [],
 			theVeryFirstState,
-			modPointer = 0,
-			debounceSave;
-
-		this.save = debounceSave;
-
-		this.undo = function() {
-			var idx = modPointer - 1;
-			if (idx >= 0) {
-				restoreState(idx);
-			}
-		};
-
-		this.redo = function() {
-			var idx = modPointer + 1;
-			if (modPointer < state.length) {
-				restoreState(idx);
-			}
-		};
+			modPointer = 0;
 
 		/**
 		 * Does the current state differ from the initial state?
@@ -70,8 +53,7 @@ define(function() {
 					if (serializedState === oldState) {
 						return;
 					}
-				}
-				else {
+				} else {
 					theVeryFirstState = serializedState;
 				}
 				diff = state.length - modPointer;
@@ -116,6 +98,22 @@ define(function() {
 
 		imageEdit.getCanvas().on("object:modified", debounceSave);
 		imageEdit.getCanvas().on("object:added", objectAdded);
+
+		this.save = debounceSave;
+
+		this.undo = function() {
+			var idx = modPointer - 1;
+			if (idx >= 0) {
+				restoreState(idx);
+			}
+		};
+
+		this.redo = function() {
+			var idx = modPointer + 1;
+			if (modPointer < state.length) {
+				restoreState(idx);
+			}
+		};
 	}
 	return FabricUndoRedo;
 });

@@ -76,11 +76,6 @@
 			<xsl:apply-templates select="$rtfs" mode="registerIds"/>
 			<xsl:text>]);});</xsl:text>
 		</xsl:if>
-		<xsl:if test="$selectToggles">
-			<xsl:text>require(["wc/ui/selectToggle","wc/ui/radioAnalog"], function(c){c.register([</xsl:text>
-			<xsl:apply-templates select="$selectToggles" mode="JS"/>
-			<xsl:text>]);});</xsl:text>
-		</xsl:if>
 		<xsl:if test="$subordinates">
 			<xsl:text>require(["wc/ui/subordinate","wc/ui/SubordinateAction"], function(c){c.register([</xsl:text>
 			<xsl:apply-templates select="$subordinates" mode="JS"/>

@@ -1,21 +1,21 @@
 define(["wc/dom/attribute",
-		"wc/dom/classList",
-		"wc/dom/event",
-		"wc/dom/focus",
-		"wc/dom/formUpdateManager",
-		"wc/dom/getFilteredGroup",
-		"wc/dom/keyWalker",
-		"wc/dom/shed",
-		"wc/dom/viewportCollision",
-		"wc/dom/Widget",
-		"wc/key",
-		"wc/ui/ajax/processResponse",
-		"wc/timers",
-		"wc/i18n/i18n",
-		"wc/dom/getBox",
-		"wc/array/toArray",
-		"wc/ui/viewportUtils"
-	],
+	"wc/dom/classList",
+	"wc/dom/event",
+	"wc/dom/focus",
+	"wc/dom/formUpdateManager",
+	"wc/dom/getFilteredGroup",
+	"wc/dom/keyWalker",
+	"wc/dom/shed",
+	"wc/dom/viewportCollision",
+	"wc/dom/Widget",
+	"wc/key",
+	"wc/ui/ajax/processResponse",
+	"wc/timers",
+	"wc/i18n/i18n",
+	"wc/dom/getBox",
+	"wc/array/toArray",
+	"wc/ui/viewportUtils"
+],
 	function(attribute, classList, event, focus, formUpdateManager, getFilteredGroup, keyWalker, shed,
 		viewportCollision, Widget, key, processResponse, timers, i18n, getBox, toArray, viewportUtils) {
 		"use strict";
@@ -159,8 +159,7 @@ define(["wc/dom/attribute",
 				handler;
 			if (methodName === "focusout") {
 				methodName = "blur";
-			}
-			else if (methodName === "focusin") {
+			} else if (methodName === "focusin") {
 				methodName = "focus";
 			}
 			handler = this[methodName + "Event"];
@@ -186,8 +185,7 @@ define(["wc/dom/attribute",
 			if (collision) {
 				if (CLASS.DEFAULT_DIRECTION === CLASS.COLLIDE_EAST) {
 					result = isNotDefaultDirection ? (collision.w < 0) : (collision.e > 0);
-				}
-				else {
+				} else {
 					result = isNotDefaultDirection ? (collision.e > 0) : (collision.w < 0);
 				}
 			}
@@ -280,8 +278,7 @@ define(["wc/dom/attribute",
 					textNodeContent = node.nodeValue;
 					if (textNodeContent.toLocaleUpperCase().indexOf(letter.toLocaleUpperCase()) === 0) {
 						result = NodeFilter.FILTER_ACCEPT;
-					}
-					else if (textNodeContent) {
+					} else if (textNodeContent) {
 						result = NodeFilter.FILTER_REJECT;
 					}
 				}
@@ -358,8 +355,7 @@ define(["wc/dom/attribute",
 
 				if (shed.isDisabled(element) || shed.isHidden(element)) {
 					result = NodeFilter.FILTER_REJECT;
-				}
-				else if (instance._isItem(element)) {
+				} else if (instance._isItem(element)) {
 					// branch or leaf
 					result = NodeFilter.FILTER_ACCEPT;
 				}
@@ -370,8 +366,7 @@ define(["wc/dom/attribute",
 						if ((expandable = instance._getBranchExpandableElement(branch)) && !shed.isExpanded(expandable)) {
 							result = NodeFilter.FILTER_REJECT;
 						}
-					}
-					else {
+					} else {
 						result = NodeFilter.FILTER_SKIP;
 					}
 				}
@@ -447,15 +442,12 @@ define(["wc/dom/attribute",
 			try {
 				if (element === window) {
 					instance.closeAllPaths(menu);
-				}
-				else if (!element || element.tabIndex >= 0) {
+				} else if (!element || element.tabIndex >= 0) {
 					timers.setTimeout(instance.closeAllPaths.bind(instance), 150, menu, element);
-				}
-				else {
+				} else {
 					instance.closeAllPaths(menu, element);
 				}
-			}
-			finally {
+			} finally {
 				openMenu = null;
 				activateOnHover = null;
 			}
@@ -638,8 +630,7 @@ define(["wc/dom/attribute",
 					classList.add(_submenu, CLASS.DEFAULT_DIRECTION);
 					classList.add(_submenu, CLASS.AGAINST_DEFAULT);
 					console.warn("There is something seriously wrong with this menu design, it overflows both edges of the screen");
-				}
-				else {
+				} else {
 					/* If my parent menu is colliding in the default direction I am deemed
 					 * to be colliding in the default direction until or unless I collide
 					 * in the other direction.
@@ -728,8 +719,7 @@ define(["wc/dom/attribute",
 						if (!document.activeElement) {
 							if (focus.canFocus(element)) {
 								focus.setFocusRequest(element);
-							}
-							else {
+							} else {
 								focus.focusFirstTabstop(element);
 							}
 						}
@@ -765,8 +755,7 @@ define(["wc/dom/attribute",
 				if (path.length <= 2) {
 					// path length of 2 means is only root & branch, anything less is an error
 					newTabStopItem = this._getFirstAvailableItem(root);
-				}
-				else {
+				} else {
 					newTabStopItem = path[(path.length - 2)];  // second last item
 				}
 			}
@@ -774,8 +763,7 @@ define(["wc/dom/attribute",
 			if (!document.activeElement || document.activeElement === element || document.activeElement === document.body/* ie */ || document.activeElement === document.documentElement/* ie sometimes does this too */ || (document.activeElement.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_CONTAINS)) {
 				// oh, it is in the hidden/disabled submenu better reset focus. If we have a new tabstop item, set it to that
 				this._focusItem((newTabStopItem || this._getFirstAvailableItem(root)), root);
-			}
-			else if (newTabStopItem) {
+			} else if (newTabStopItem) {
 				setTabstop(newTabStopItem, this);
 			}
 		};
@@ -797,14 +785,12 @@ define(["wc/dom/attribute",
 				// if the focus point is inside the branch then refocus to the opener
 				if ((opener !== document.activeElement) && (branch.compareDocumentPosition(document.activeElement) & Node.DOCUMENT_POSITION_CONTAINED_BY)) {
 					this._focusItem(opener, root);
-				}
-				else {
+				} else {
 					this._remapKeys(opener);
 					// we still have to reset the tabIndex
 					setTabstop(opener, this);
 				}
-			}
-			else {
+			} else {
 				focus.focusFirstTabstop(root);
 			}
 		};
@@ -869,8 +855,7 @@ define(["wc/dom/attribute",
 			if (action === shed.actions.EXPAND && this._enterOnOpen) {
 				if (this._isBranch(element)) {
 					this._expand(element, root);
-				}
-				else if (this.isSubMenu(element) && (branch = this._getBranch(element))) {
+				} else if (this.isSubMenu(element) && (branch = this._getBranch(element))) {
 					this._expand(branch, root);
 				}
 			}
@@ -890,8 +875,7 @@ define(["wc/dom/attribute",
 			if (action === shed.actions.EXPAND) {
 				openMenu = root.id;
 				instance._expand(branch, root);
-			}
-			else if (action === shed.actions.COLLAPSE && (content = instance.getSubMenu(branch, true))) {
+			} else if (action === shed.actions.COLLAPSE && (content = instance.getSubMenu(branch, true))) {
 				if (CLASS.DEFAULT_DIRECTION) {
 					classList.remove(content, CLASS.DEFAULT_DIRECTION);
 					classList.remove(content, CLASS.AGAINST_DEFAULT);
@@ -952,8 +936,7 @@ define(["wc/dom/attribute",
 
 			if (this._isBranch(nextSubmenu)) { // tree
 				name = nextSubmenu.id;
-			}
-			else if (this.isSubMenu(nextSubmenu) && (branchItem = this._getBranch(nextSubmenu))) { // menu
+			} else if (this.isSubMenu(nextSubmenu) && (branchItem = this._getBranch(nextSubmenu))) { // menu
 				name = branchItem.id;
 			}
 
@@ -1024,14 +1007,12 @@ define(["wc/dom/attribute",
 				// if the container is a menu
 				if (this.isRoot(container)) {
 					this.writeMenuState(container, toContainer);
-				}
-				else if ((root = this.getRoot(container))) { // if the container is a menu item of some kind.
+				} else if ((root = this.getRoot(container))) { // if the container is a menu item of some kind.
 					if (this._isBranch(container) || this._isLeaf(container) || this.isSubMenu(container)) {
 						this.writeMenuState(root, toContainer);
 					}
 				}
-			}
-			catch (ex) {
+			} catch (ex) {
 				console.log(ex);
 				throw ex;
 			}
@@ -1540,8 +1521,7 @@ define(["wc/dom/attribute",
 
 				if (focus.canFocus(item)) {
 					focus.setFocusRequest(item, extendedCallback.bind(this));
-				}
-				else {
+				} else {
 					focus.focusFirstTabstop(item, extendedCallback.bind(this));
 				}
 			}
@@ -1636,8 +1616,7 @@ define(["wc/dom/attribute",
 					return this[action](item);
 				}
 				target = this._getTargetItem(item, action, root);
-			}
-			else if (keyName && (keyName = keyName.replace(/^DOM_VK_/, "")) && keyName.length === 1 && LETTER.test(keyName)) {
+			} else if (keyName && (keyName = keyName.replace(/^DOM_VK_/, "")) && keyName.length === 1 && LETTER.test(keyName)) {
 				target = this._getTextTarget(item, keyName, root);
 			}
 			if (target) {
@@ -1693,8 +1672,7 @@ define(["wc/dom/attribute",
 					}
 					setTabstop(item, this);
 				}
-			}
-			else if (!genericRoot && openMenu && (localOpenMenu = document.getElementById(openMenu)) && this.isRoot(localOpenMenu)) {  // focus is not in any menu
+			} else if (!genericRoot && openMenu && (localOpenMenu = document.getElementById(openMenu)) && this.isRoot(localOpenMenu)) {  // focus is not in any menu
 				closeOpenMenu(localOpenMenu, target, this);
 			}
 		};
@@ -1727,23 +1705,19 @@ define(["wc/dom/attribute",
 							if (this._isBranch(item)) {
 								expandable = this._getBranchExpandableElement(item);
 								activateOnHover = expandable ? (shed.isExpanded(expandable) ? root.id : null) : null;
-							}
-							else if (this._isLeaf(item)) {
+							} else if (this._isLeaf(item)) {
 								closeOpenMenu(root, null, this);
 							}
 						}
 					}
-				}
-				else if (openMenu && (localOpenMenu = document.getElementById(openMenu)) && this.isRoot(localOpenMenu)) {
+				} else if (openMenu && (localOpenMenu = document.getElementById(openMenu)) && this.isRoot(localOpenMenu)) {
 					// click outside any menu we need to close any open transient menu
 					closeOpenMenu(localOpenMenu, null, this);
 				}
-			}
-			catch (ex) {
+			} catch (ex) {
 				$event.preventDefault(); // in case a link or submit was clicked, don't hide/lose the error
 				console.error("Uncaught exception in AbstractMenu.onClick: ", ex.message);
-			}
-			finally {
+			} finally {
 				if (preventDefault) {
 					$event.preventDefault();
 				}
@@ -1814,8 +1788,7 @@ define(["wc/dom/attribute",
 			if (event.canCapture) {
 				event.add(window, event.TYPE.focus, eventWrapper.bind(this), null, null, true);
 				event.add(window, event.TYPE.click, eventWrapper.bind(this));
-			}
-			else {
+			} else {
 				// oddly IE8 does not suffer from the body smaller than the viewport issue!
 				event.add(element, event.TYPE.focusin, eventWrapper.bind(this));
 				event.add(element, event.TYPE.click, eventWrapper.bind(this));

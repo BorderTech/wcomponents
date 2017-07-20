@@ -1,5 +1,5 @@
-define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/timers", "wc/ui/loading", "wc/config"],
-	function(focus, initialise, processResponse, timers, loading, wcconfig) {
+define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/timers", "wc/ui/loading", "wc/dom/Widget", "wc/config"],
+	function(focus, initialise, processResponse, timers, loading, Widget, wcconfig) {
 		"use strict";
 		/**
 		 * @constructor
@@ -10,8 +10,23 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 			var focusId,
 				conf = wcconfig.get("wc/ui/onloadFocusControl"),
 				SCROLL_TO_TOP = (conf ? conf.rescroll : false),  // true to turn on scroll to top of viewport on load focus, false will apply user agent default (usually scroll to just in view)
-				FOCUS_DELAY = null;  // if set to a non-negstive integer this will delay focus requests to allow native autofocus to work. Native autofocus is currently problematic since it does not fire a focus event.
+				FOCUS_DELAY = null, // if set to a non-negstive integer this will delay focus requests to allow native autofocus to work. Native autofocus is currently problematic since it does not fire a focus event.
+				MESSAGE_BOX,
+				/**
+				 * Class name(s) used to describe the message box.
+				 * @constant
+				 * @type String|Array
+				 * @private
+				 * @todo This should really be imnported from a messaging module but wc/ui/errors only deals with error boxes.
+				 */
+				MESSAGE_BOX_CLASS = "wc_msgbox";
+				// To only check for ERROR boxes use: ["wc_msgbox", "wc-messagebox-type-error"];
 
+			/**
+			 * Set focus request on page load.
+			 * @function
+			 * @private
+			 */
 			function processNow() {
 				loading.done.then(timers.setTimeout(function() {
 					try {
@@ -19,8 +34,7 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 							return;
 						}
 						instance.requestFocus(focusId);
-					}
-					finally {
+					} finally {
 						focusId = null;
 					}
 				}, 0));
@@ -44,18 +58,17 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 			 * @function
 			 * @private
 			 * @param {String} targetId The id of the element to focus (or focus in).
+			 * @param {boolean} [ignoreMessages] if `true` then allow focus request even if there are message boxes in the view
 			 */
-			function doRequestFocus(targetId) {
+			function doRequestFocus(targetId, ignoreMessages) {
 				var element;
-				if ((element = document.getElementById(targetId)) && canPolitelyChangeFocus()) {
+				if ((element = document.getElementById(targetId)) && canPolitelyChangeFocus(ignoreMessages)) {
 					if (focus.canFocus(element)) {
 						focus.setFocusRequest(element, focusCallback);
-					}
-					else if (focus.canFocusInside(element)) { // try focusing inside the target
+					} else if (focus.canFocusInside(element)) { // try focusing inside the target
 						focus.focusFirstTabstop(element, focusCallback);
-					}
-					// as a last resort try focusing the nearest focusable ancestor of element if element has no dimensions
-					else if (element.clientHeight === 0 && element.clientWidth === 0 && (element = focus.getFocusableAncestor(element))) {
+					} else if (element.clientHeight === 0 && element.clientWidth === 0 && (element = focus.getFocusableAncestor(element))) {
+						// as a last resort try focusing the nearest focusable ancestor of element if element has no dimensions
 						focus.setFocusRequest(element, focusCallback);
 					}
 				}
@@ -68,8 +81,9 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 			 * @function
 			 * @private
 			 * @returns {Boolean} true if it is ok to change focus from whereever it happens to be at the moment.
+			 * @param {boolean} [ignoreMessages] if `true` then allow focus request even if there are message boxes in the view
 			 */
-			function canPolitelyChangeFocus() {
+			function canPolitelyChangeFocus(ignoreMessages) {
 				var element = document.activeElement,
 					result = !element || !element.tagName || element === document.body || element === document.documentElement;
 				if (!result) {
@@ -81,6 +95,14 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 					 */
 					result = (element.clientHeight === 0 && element.clientWidth === 0);
 				}
+				if (result && !ignoreMessages) {
+					// we still can't focus if there are message boxes in the view
+					MESSAGE_BOX = MESSAGE_BOX || new Widget("", MESSAGE_BOX_CLASS);
+					if (MESSAGE_BOX.findDescendant(document.body)) {
+						// if we have a message box we cannot grab focus.
+						result = false;
+					}
+				}
 				return result;
 			}
 
@@ -89,10 +111,9 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 			 */
 			function ajaxSubscriber(element, action, triggerId) {
 				if (focusId) {
-					instance.requestFocus(focusId);
-				}
-				else if (triggerId) {
-					instance.requestFocus(triggerId, FOCUS_DELAY);
+					instance.requestFocus(focusId, null, true);
+				} else if (triggerId) {
+					instance.requestFocus(triggerId, FOCUS_DELAY, null, true);
 				}
 			}
 
@@ -105,14 +126,14 @@ define(["wc/dom/focus", "wc/dom/initialise", "wc/ui/ajax/processResponse", "wc/t
 			 * @param {int} [timeout] A timeout for the focus call. Explicit 0 is acceptable. If not set (falsey other
 			 *    than explicit 0) then {@link module:wc/ui/onloadFocusControl~doRequestFocus} is called immediately
 			 *    which may have implications so think carefuly.
+			 * @param {boolean} [ignoreMessages] if `true` then allow focus request even if there are message boxes in the view
 			 */
-			this.requestFocus = function(targetId, timeout) {
+			this.requestFocus = function(targetId, timeout, ignoreMessages) {
 				focusId = null;
 				if (timeout || timeout === 0) {
-					timers.setTimeout(doRequestFocus, timeout, targetId);
-				}
-				else {
-					doRequestFocus(targetId);
+					timers.setTimeout(doRequestFocus, timeout, targetId, ignoreMessages);
+				} else {
+					doRequestFocus(targetId, ignoreMessages);
 				}
 			};
 

@@ -19,14 +19,14 @@
  * @todo re-order code, comment private members.
  */
 define(["wc/array/toArray",
-		"wc/dom/tag",
-		"wc/Observer",
-		"wc/dom/getStyle",
-		"wc/dom/shed",
-		"wc/dom/uid",
-		"wc/dom/Widget",
-		"wc/dom/getFilteredGroup",
-		"wc/timers"],
+	"wc/dom/tag",
+	"wc/Observer",
+	"wc/dom/getStyle",
+	"wc/dom/shed",
+	"wc/dom/uid",
+	"wc/dom/Widget",
+	"wc/dom/getFilteredGroup",
+	"wc/timers"],
 	/** @param toArray wc/array/toArray @param tag wc/dom/tag @param Observer wc/Observer @param getStyle wc/dom/getStyle @param shed wc/dom/shed @param uid wc/dom/uid @param Widget wc/dom/Widget @param getFilteredGroup wc/dom/getFilteredGroup @param timers wc/timers @ignore */
 	function(toArray, tag, Observer, getStyle, shed, uid, Widget, getFilteredGroup, timers) {
 		"use strict";
@@ -132,13 +132,11 @@ define(["wc/array/toArray",
 									setFocusCallback();
 								}
 							}
-						}
-						catch (err) {
+						} catch (err) {
 							console.log("cannot focus element with id " + focusElementId + " " + err.message);
 						}
 					}, 0);
-				}
-				else {
+				} else {
 					throw new TypeError("Cannot focus something that ain't an element!");
 				}
 			};
@@ -172,8 +170,7 @@ define(["wc/array/toArray",
 						setFocusCallback();
 						result = next;
 						break;
-					}
-					catch (e) {
+					} catch (e) {
 						result = null;
 					}
 				}
@@ -307,16 +304,13 @@ define(["wc/array/toArray",
 					 */
 					if (shed.isDisabled(element) || shed.isHidden(element)) {
 						result = REJECT;
-					}
-					else if (tagName === tag.INPUT && element.type === "radio" && !shed.isSelected(element)) {
+					} else if (tagName === tag.INPUT && element.type === "radio" && !shed.isSelected(element)) {
 						if (getFilteredGroup(element).length) {
 							result = REJECT;
-						}
-						else {
+						} else {
 							result = ACCEPT;
 						}
-					}
-					else {
+					} else {
 						result = focusTabHelper(element, instance);
 					}
 				}
@@ -370,8 +364,7 @@ define(["wc/array/toArray",
 						(getStyle(element, "visibility", false, true) === "hidden") ||
 						(getStyle(element, "display", false, true) === "none")) {
 						result = REJECT;
-					}
-					else {
+					} else {
 						result = focusTabHelper(element, instance);
 					}
 				}
@@ -414,8 +407,7 @@ define(["wc/array/toArray",
 				if (instance.isTabstop(node) && instance.canFocus(node)) {
 					if (node !== document.activeElement) {
 						result = ACCEPT;
-					}
-					else {
+					} else {
 						result = REJECT;
 					}
 				}
@@ -437,15 +429,13 @@ define(["wc/array/toArray",
 				 */
 				if (tabIndex || tabIndex === "0") {
 					tabIndex = parseInt(tabIndex, 10);
-				}
-				else if (instance.isNativelyFocusable(tagName)) {
+				} else if (instance.isNativelyFocusable(tagName)) {
 					tabIndex = 0;
 				}
 				if (tabIndex || tabIndex === 0) {
 					if (tabIndex >= 0) {
 						result = ACCEPT;
-					}
-					else {
+					} else {
 						result = REJECT;
 					}
 				}

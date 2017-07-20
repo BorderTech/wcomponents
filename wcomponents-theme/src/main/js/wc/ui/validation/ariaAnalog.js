@@ -15,9 +15,9 @@
  * @requires module:wc/ui/validation/isComplete
  */
 define(["wc/dom/group",
-		"wc/dom/shed",
-		"wc/ui/validation/validationManager",
-		"wc/ui/validation/isComplete"],
+	"wc/dom/shed",
+	"wc/ui/validation/validationManager",
+	"wc/ui/validation/isComplete"],
 	/** @param group wc/dom/group @param shed wc/dom/shed @param validationManager wc/ui/validation/validationManager @param isComplete wc/ui/validation/isComplete @ignore */
 	function(group, shed, validationManager, isComplete) {
 		"use strict";

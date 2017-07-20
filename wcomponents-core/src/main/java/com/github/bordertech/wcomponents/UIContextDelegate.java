@@ -312,30 +312,10 @@ public class UIContextDelegate implements UIContext {
 	 *
 	 * @param uic the UIContext to retrieve the primary context for.
 	 * @return the primary context for the given context.
+	 * @deprecated Use {@link UIContextHolder#getPrimaryUIContext(com.github.bordertech.wcomponents.UIContext)} instead.
 	 */
+	@Deprecated
 	public static UIContext getPrimaryUIContext(final UIContext uic) {
-		if (uic == null) {
-			return null;
-		}
-
-		UIContext primary = null;
-		UIContext current = uic;
-
-		while (primary == null) {
-			if (current instanceof UIContextDelegate) {
-				UIContext backing = ((UIContextDelegate) current).getBacking();
-				if (backing != null) {
-					current = backing;
-				} else {
-					// This case should probably never happen.
-					primary = current;
-					LOG.warn("UIContextDelegate found without a backing context");
-				}
-			} else {
-				primary = current;
-			}
-		}
-
-		return primary;
+		return UIContextHolder.getPrimaryUIContext(uic);
 	}
 }

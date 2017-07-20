@@ -1,16 +1,16 @@
 define(["wc/isNumeric", "wc/i18n/i18n", "ccv", "face"], function(isNumeric, i18n, ccv, cascade) {
 	var instance = {
-			_interval: 5,
-			_minNeighbours: 1,
-			_confidenceThreshold: 0,
-			track: trackFace,
-			getValidator: getValidator,
-			validationIgnorable: true
-		},
-		constraints = {  // constraints would ideally allow larger images on more powerful devices (or should we resize image?)
-			px: 640 * 480,
-			len: 99999
-		};
+		_interval: 5,
+		_minNeighbours: 1,
+		_confidenceThreshold: 0,
+		track: trackFace,
+		getValidator: getValidator,
+		validationIgnorable: true
+	}; //
+//		constraints = {  // constraints would ideally allow larger images on more powerful devices (or should we resize image?)
+//			px: 640 * 480,
+//			len: 99999
+//		};
 
 	function getValidator(config) {
 		/**
@@ -23,11 +23,10 @@ define(["wc/isNumeric", "wc/i18n/i18n", "ccv", "face"], function(isNumeric, i18n
 			var faceCount;
 			if (config.face === true) {
 				faceCount = 1;
-			}
-			else if (isNumeric(config.face) && config.face > 0) {
+			} else if (isNumeric(config.face) && config.face > 0) {
 				faceCount = config.face;
 			}
-			if (config.face) {
+			if (faceCount) {
 				return instance.track(element).then(function(arr) {
 					var confidentFaces, error = {
 							ignorable: instance.validationIgnorable
@@ -40,8 +39,7 @@ define(["wc/isNumeric", "wc/i18n/i18n", "ccv", "face"], function(isNumeric, i18n
 								error.message += "\n" + i18n.get("validation_common_ignore");
 							}
 							return error;
-						}
-						else if (confidentFaces.length > config.face) {
+						} else if (confidentFaces.length > config.face) {
 							error.message = i18n.get("imgedit_message_val_maxface");
 							if (instance.validationIgnorable) {
 								error.message += "\n" + i18n.get("validation_common_ignore");
@@ -74,20 +72,19 @@ define(["wc/isNumeric", "wc/i18n/i18n", "ccv", "face"], function(isNumeric, i18n
 					min_neighbors: instance._minNeighbours
 				});
 				resolve(faces);
-			}
-			catch (ex) {
+			} catch (ex) {
 				reject(ex);
 			}
 		});
 		return result;
 	}
 
-	function getSize(obj) {
-		if (obj) {
-			return obj.width * obj.height;
-		}
-		return 0;
-	}
+//	function getSize(obj) {
+//		if (obj) {
+//			return obj.width * obj.height;
+//		}
+//		return 0;
+//	}
 
 	return instance;
 });

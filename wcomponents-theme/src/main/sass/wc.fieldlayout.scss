@@ -24,21 +24,6 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
 .wc-input {
   margin-top: $wc-gap-small; // push off of the label.
 
-  // InputWidth class is added to the field to signify that an inputWidth is
-  // in use so we can size the components.
-  .wc_inputwidth > & {
-    > .wc-input-wrapper,
-    > .wc-input-wrapper input,
-    > [type='password'],
-    > [type='number'],
-    > textarea,
-    > select,
-    > fieldset {
-      @include border-box;
-      width: 100%;
-    }
-  }
-
   > .wc-input-wrapper,
   > input,
   > select,
@@ -46,6 +31,36 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
     max-width: 100%;
   }
 }
+
+// InputWidth class is added to the field to signify that an inputWidth is
+// in use so we can size the components.
+.wc_inputwidth {
+  > .wc-input {
+    > .wc-input-wrapper,
+    > .wc-input-wrapper input,
+    > .wc-input-wrapper textarea,
+    > .wc-input-wrapper select,
+    > fieldset {
+      @include border-box;
+      width: 100%;
+    }
+
+    > .wc-input-wrapper {
+      &.wc-checkbox,
+      &.wc-radiobutton {
+        @include fit-content;
+      }
+
+      input {
+        &[type='checkbox'],
+        &[type='radio'] {
+          width: auto;
+        }
+      }
+    }
+  }
+}
+
 
 // NUMBERED fields
 @if ($wc-fieldlayout-allow-ordered == 1) {
@@ -116,7 +131,7 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
   }
 
   // Optionally allow for labelWidth settings.
-  @if($wc-fieldlayout-labelwidth-prevent-override != 0) {
+  @if($wc-fieldlayout-labelwidth-prevent-override != 1) {
     // This lot does the CSS for the various allowed values of
     // WFieldLayout's labelWidth member. If you _really_ want to support all
     // values of labelWidth then you will have to change the variable
@@ -124,7 +139,7 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
     @if ($wc-fld-list == -1) {
       @for $i from 1 through 100 {
         $wc-fld-lblw: $i * 1%;
-        @include wc-fld-layout($j);
+        @include wc-fld-layout($i);
       }
     } @else {
       @if ($wc-fld-widths-include-fives == 1) {

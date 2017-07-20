@@ -138,8 +138,7 @@ define([ "wc/has", "wc/dom/classList", "wc/dom/initialise", "wc/dom/Widget", "wc
 				var elements = Widget.isOneOfMe(element, MEDIA) ? [element] : Widget.findDescendants(element, MEDIA);
 				if (useNative) {
 					Array.prototype.filter.call(elements, cantPlay).forEach(moveSourceLinks);
-				}
-				else {
+				} else {
 					Array.prototype.forEach.call(elements, moveSourceLinks);
 				}
 			}

@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents.util;
 
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
-import com.github.bordertech.wcomponents.UIContextDelegate;
 import com.github.bordertech.wcomponents.UIContextHolder;
 
 /**
@@ -10,7 +9,9 @@ import com.github.bordertech.wcomponents.UIContextHolder;
  *
  * @author Yiannis Paschalidis
  * @since 1.0.0
+ * @deprecated Lookup Tables should not be dependant on User Context. This helper does not work with multiple servlets.
  */
+@Deprecated
 public final class LookupTableHelper {
 
 	/**
@@ -32,9 +33,7 @@ public final class LookupTableHelper {
 	 * @param request the current request being responded to.
 	 */
 	public static void registerList(final String key, final Request request) {
-		UIContext uic = UIContextHolder.getCurrent();
-		request.setSessionAttribute(DATA_LIST_UIC_SESSION_KEY, UIContextDelegate.
-				getPrimaryUIContext(uic));
+		request.setSessionAttribute(DATA_LIST_UIC_SESSION_KEY, UIContextHolder.getCurrentPrimaryUIContext());
 	}
 
 	/**

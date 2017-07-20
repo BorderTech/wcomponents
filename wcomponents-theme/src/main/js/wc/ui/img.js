@@ -1,14 +1,13 @@
 define(["wc/dom/initialise",
 	"wc/dom/Widget",
-	"wc/loader/resource",
 	"wc/template",
 	"wc/i18n/i18n",
 	"wc/ui/ajax/processResponse"],
-	function(initialise, Widget, loader, template, i18n, processResponse) {
+	function(initialise, Widget, template, i18n, processResponse) {
 		"use strict";
 
 		function Image() {
-			var EDIT, IMG = new Widget("img", "", {"data-wc-editor": null});
+			var IMG = new Widget("img", "", {"data-wc-editor": null});
 
 			function makeEditButton(element) {
 				var id = element.id,
@@ -16,15 +15,16 @@ define(["wc/dom/initialise",
 				if (sibling && sibling.getAttribute("data-wc-img") === id) {
 					return;
 				}
-				loader.load("imgedit.html", true, true).then(function (rawTemplate) {
+				i18n.translate("imgedit_edit").then(function(editButtonText) {
 					var props = {
 						id: id,
 						editor: element.getAttribute("data-wc-editor"),
-						text: EDIT || (EDIT = i18n.get("imgedit_edit"))
+						text: editButtonText
 					};
 
 					template.process({
-						source: rawTemplate,
+						source: "imgedit.html",
+						loadSource: true,
 						target: element,
 						context: props,
 						position: "afterend"
@@ -36,8 +36,7 @@ define(["wc/dom/initialise",
 				var el = element || document.body;
 				if (element && IMG.isOneOfMe(element)) {
 					makeEditButton(element);
-				}
-				else {
+				} else {
 					Array.prototype.forEach.call(IMG.findDescendants(el), makeEditButton);
 				}
 			}

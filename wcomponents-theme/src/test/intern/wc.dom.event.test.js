@@ -67,8 +67,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					assert.strictEqual(window.Event.CAPTURING_PHASE, 1);
 					assert.strictEqual(window.Event.AT_TARGET, 2);
 					assert.strictEqual(window.Event.BUBBLING_PHASE, 3);
-				}
-				else {
+				} else {
 					assert.isTrue(true);
 				}
 			},
@@ -92,8 +91,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					event.add(element, EVENT, clickEvent);
 					event.fire(element, EVENT);
 					assert.isTrue(called);
-				}
-				finally {
+				} finally {
 					event.remove(element, EVENT, clickEvent);
 				}
 			},
@@ -107,8 +105,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					event.add(element, EVENT, clickEvent);
 					event.fire(element, EVENT);
 					assert.isTrue(called);
-				}
-				finally {
+				} finally {
 					event.remove(element, EVENT, clickEvent);
 				}
 
@@ -123,8 +120,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					event.add(element, EVENT, clickEvent);
 					event.fire(element, EVENT);
 					assert.isTrue(called);
-				}
-				finally {
+				} finally {
 					event.remove(element, EVENT, clickEvent);
 				}
 			},
@@ -138,8 +134,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					event.add(element, EVENT, clickEvent);
 					event.fire(element, EVENT);
 					assert.isTrue(called);
-				}
-				finally {
+				} finally {
 					event.remove(element, EVENT, clickEvent);
 				}
 
@@ -155,12 +150,10 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 						event.add(element, EVENT, clickEvent, null, null, true);
 						event.fire(element, EVENT);
 						assert.isTrue(called);
-					}
-					else {
+					} else {
 						assert.isTrue(true);  // just so IE does not feel left out.
 					}
-				}
-				finally {
+				} finally {
 					if (event.capCapture) {
 						event.remove(element, EVENT, clickEvent);
 					}
@@ -176,8 +169,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					event.add(element, EVENT, clickEvent);
 					event.fire(element, EVENT);
 					assert.isTrue(called);
-				}
-				finally {
+				} finally {
 					event.remove(element, EVENT, clickEvent);
 				}
 
@@ -193,8 +185,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					event.add(element, EVENT, clickEvent);
 					event.fire(element, EVENT);
 					assert.strictEqual((element.checked ? true : false), !checked, "Checkbox state should be toggled");
-				}
-				finally {
+				} finally {
 					event.remove(element, EVENT, clickEvent);
 				}
 			},
@@ -202,8 +193,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 			testCanCapture: function() {
 				if (window.addEventListener) {
 					assert.isTrue(event.canCapture);
-				}
-				else {
+				} else {
 					assert.isFalse(event.canCapture);
 				}
 			},
@@ -235,8 +225,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					event.fire(element2, EVENT);
 					assert.notStrictEqual(element.checked, element2.checked, "Two radio buttons in same group can not both be checked");
 					assert.strictEqual((element2.checked ? true : false), !checked, "Radio state should be toggled");
-				}
-				finally {
+				} finally {
 					event.remove(element2, EVENT, clickEvent);
 				}
 			},
@@ -251,8 +240,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					event.add(element, EVENT, clickEvent);
 					event.fire(element, EVENT);
 					assert.isTrue(called);
-				}
-				finally {
+				} finally {
 					event.remove(element, EVENT, clickEvent);
 				}
 
@@ -297,8 +285,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					event.remove(element, EVENT, clickEvent, true);
 					event.fire(element, EVENT);
 					assert.isTrue(called);
-				}
-				finally {
+				} finally {
 					event.remove(element, EVENT, clickEvent);
 				}
 			},
@@ -315,8 +302,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 						event.fire(element, EVENT);
 						assert.isTrue(called);
 					}
-				}
-				finally {
+				} finally {
 					if (event.canCapture) {
 						event.remove(element, EVENT, clickEvent, true);
 					}
@@ -334,8 +320,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					event.fire(element, EVENT);
 					assert.isFalse(called, "Event was removed and should not have fired");
 					assert.strictEqual((element.checked ? true : false), !checked, "Checkbox state should be toggled");
-				}
-				finally {
+				} finally {
 					event.remove(element, EVENT, clickEventSelfRemoving);  // just in case it fails to remove itself
 				}
 
@@ -631,8 +616,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					event.add(element, EVENT, clickEventScopeCheck, null, scope);
 					event.fire(element, EVENT);
 					assert.isTrue(scopeChecked);
-				}
-				finally {
+				} finally {
 					event.remove(element, EVENT, clickEventScopeCheck);
 				}
 
@@ -646,8 +630,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				try {
 					assert.ok(event.add(element, EVENT, clickEvent), "Should return true(ish) when event add succeeds");
 					assert.notOk(event.add(element, EVENT, clickEvent), "Should return false(ish) when event add fails");
-				}
-				finally {
+				} finally {
 					event.remove(element, EVENT, clickEvent);
 				}
 			},
@@ -669,8 +652,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 					clone = element.cloneNode(true);
 					element.parentNode.replaceChild(clone, element);
 					assert.ok("The cloned node should not have any events attached", event.add(clone, EVENT, clickEvent));
-				}
-				finally {
+				} finally {
 					event.remove(element, EVENT, clickEvent);
 					event.remove(clone, EVENT, clickEvent);
 				}

@@ -1,4 +1,5 @@
 # Sass Information
+
 <!-- TOC depthFrom:2 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [File naming conventions](#file-naming-conventions)
@@ -8,14 +9,14 @@
 - [Things to do](#things-to-do)
 
 <!-- /TOC -->
-This is a work in progress. The conversion from CSS with ANT properties to Sass is recent and ongoing. Feel free to fix stuff!
+This is a work in progress. Feel free to fix stuff!
 
 ## File naming conventions
 
 The WComponents roadmap includes moving to web components so eventually the CSS should become more modular. Until then we have the following conventions:
 
-* most files which are named `wc.COMPONENT_NAME.OPTIONAL_PATTERN.scss`;
-* files which are for a particular platform or browser/family are named as:
+- most files which are named `wc.COMPONENT_NAME.OPTIONAL_PATTERN.scss`;
+- files which are for a particular platform or browser/family are named as:
     * if for Internet Explorer `/^.*\.ie[0-9]+\.scss$/`;
     * otherwise `/^.*\.pattern_[^\.]+\.scss$/`
 
@@ -39,17 +40,16 @@ The take-home message of this is: there is no hard and fast rule for when to use
 
 ## Coding Standards
 
-* All Sass must be in SCSS format.
-* Generated CSS **must** comply with the [CSS standards](http://www.w3.org/Style/CSS/) and we use CSS3 except where vendor extensions are **absolutely required** for consistent implementation.
-* Comments are Sass inline format (`//`).
-* Indent is by TAB because **I** like a three space indent - it looks nice.
-* The preferred line length is 120 characters but this is flexible within sensible limits.
-* Sass should be linted. The lint rules are here to make the SCSS more readable for humans and are mostly the defaults for scss-lint; exceptions to which are documented in the included `.scss-lint.yaml` configuration file.
-* Local variations in scss-lint rules are allowed but must be commented. Most commonly this would be to allow local `!important` rules.
+- All Sass must be in SCSS format.
+- Generated CSS **must** comply with the [CSS standards](http://www.w3.org/Style/CSS/) and we use CSS3 except where vendor extensions are **absolutely required** for consistent implementation.
+- Comments are Sass inline format (`//`).
+- Sass should be linted using sass-lint and the rules in the project's `.sass-lint.yml` file.
+- The preferred line length is 80 characters but this is flexible within sensible limits.
+- Local variations in sass-lint rules are allowed but must be commented.
 
 ## Things to do
 
-* The conversion from CSS is still early so there is a lot of optimization which could happen.
-* We need to get on top of the documentation.
-* A lot of this CSS was inherited and has grown like topsy, we are not completely sure it is all needed.
-* Finish making color rules optional using a consistent value (-1) for any color to be completely ignored.
+-There is quite a lot of optimization which could happen.
+- We need to get some documentation.
+- A lot of this CSS was inherited and has grown like topsy, we are not completely sure it is all needed.
+- Finish making color rules optional using a consistent value (-1) for any color to be completely ignored.

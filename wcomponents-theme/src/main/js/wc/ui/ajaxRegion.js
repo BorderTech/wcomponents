@@ -1,16 +1,16 @@
 define(["wc/dom/event",
-		"wc/dom/attribute",
-		"wc/dom/isSuccessfulElement",
-		"wc/dom/tag",
-		"wc/ajax/Trigger",
-		"wc/ajax/triggerManager",
-		"wc/dom/shed",
-		"wc/dom/Widget",
-		"wc/dom/initialise",
-		"wc/ui/ajax/processResponse",
-		"wc/dom/classList",
-		"wc/mixin",
-		"wc/timers"],
+	"wc/dom/attribute",
+	"wc/dom/isSuccessfulElement",
+	"wc/dom/tag",
+	"wc/ajax/Trigger",
+	"wc/ajax/triggerManager",
+	"wc/dom/shed",
+	"wc/dom/Widget",
+	"wc/dom/initialise",
+	"wc/ui/ajax/processResponse",
+	"wc/dom/classList",
+	"wc/mixin",
+	"wc/timers"],
 	function(event, attribute, isSuccessfulElement, tag, Trigger, triggerManager, shed, Widget, initialise, processResponse, classList, mixin, timers) {
 		"use strict";
 
@@ -33,8 +33,7 @@ define(["wc/dom/event",
 				if (trigger) {
 					if (trigger.successful === null) {
 						result = true;
-					}
-					else {
+					} else {
 						isSuccessful = isSuccessfulElement(element, true);
 						if ((trigger.successful === true && isSuccessful) || (trigger.successful === false && !isSuccessful)) {
 							result = true;
@@ -103,13 +102,11 @@ define(["wc/dom/event",
 			 */
 			function triggersOnChange(element) {
 				var tagName = element.tagName,
-					type = element.type,
-					alias;
+					type = element.type;
 				// NOTE: a standalone listbox or dropdown is an ajax trigger, a select element as a sub element of a compund controller is not
 				if (shed.isSelectable(element) || classList.contains(element, "wc-noajax")) {
 					return false;
 				}
-				alias = element.getAttribute(ALIAS);
 				// Don't allow file to trigger on change it breaks multiFileUploader when large number of files are selected
 				return (tagName === tag.SELECT || tagName === tag.TEXTAREA || (tagName === tag.INPUT && type !== "file"));
 			}
@@ -122,7 +119,7 @@ define(["wc/dom/event",
 				BUTTON = BUTTON || new Widget(tag.BUTTON);
 				element = Widget.findAncestor($event.target, [BUTTON, ANCHOR]);
 
-				if (element && !shed.isDisabled(element) && checkActivateTrigger(element) && (isSubmitElement(element) || isNavLink(element))) {
+				if (!$event.defaultPrevented && element && !shed.isDisabled(element) && checkActivateTrigger(element) && (isSubmitElement(element) || isNavLink(element))) {
 					$event.preventDefault();
 				}
 			}
@@ -199,8 +196,7 @@ define(["wc/dom/event",
 								});
 							}
 						});
-					}
-					finally {
+					} finally {
 						triggers = [];
 					}
 				}
@@ -216,8 +212,7 @@ define(["wc/dom/event",
 				event.add(element, event.TYPE.click, clickEvent, 50); // Trigger ajax AFTER other events to avoid submitting form fields before they can be updated.
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-				}
-				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 				console.log("Initialising trigger listeners");
@@ -269,14 +264,12 @@ define(["wc/dom/event",
 				if (!trigger) {
 					if (obj) {
 						this.register(obj);
-					}
-					else {
+					} else {
 						id = element.id;
 						alias = element.getAttribute(ALIAS);
 						if ((controls = element.getAttribute("aria-controls"))) {
 							loads = controls.split(" ");
-						}
-						else {
+						} else {
 							loads = [id];
 						}
 						this.register({
@@ -286,8 +279,7 @@ define(["wc/dom/event",
 					}
 
 					trigger = triggerManager.getTrigger(element);
-				}
-				else if (obj) {
+				} else if (obj) {
 					mixin(obj, trigger);  // QC158630
 				}
 
@@ -328,8 +320,7 @@ define(["wc/dom/event",
 						trigger.serialiseForm = false;
 						trigger.oneShot = 1;
 						trigger.fire();
-					}
-					catch (ex) {
+					} catch (ex) {
 						console.log("error in delayed ajax trigger for id " + triggerId, ex.message);
 					}
 				}
@@ -369,8 +360,7 @@ define(["wc/dom/event",
 			this.register = function (obj) {
 				if (Array.isArray(obj)) {
 					obj.forEach(_register);
-				}
-				else {
+				} else {
 					_register(obj);
 				}
 			};

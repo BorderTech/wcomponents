@@ -92,8 +92,8 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 	 *
 	 * @param text the sub menu text
 	 * @param accessKey the access key - not used
-	 * @deprecated access keys are not implemented in menus. See https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-9 for
-	 * information regarding key access to menus.
+	 * @deprecated access keys are not implemented in menus. See
+	 * https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-9 for information regarding key access to menus.
 	 */
 	@Deprecated
 	public WSubMenu(final String text, final char accessKey) {
@@ -304,7 +304,8 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 
 	/**
 	 * @return true if this item is selectable, false if not, or null to default to the container.
-	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable use {@link com.github.bordertech.wcomponents.WTree}.
+	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable use
+	 * {@link com.github.bordertech.wcomponents.WTree}.
 	 */
 	@Deprecated
 	public Boolean isSelectable() {
@@ -313,7 +314,8 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 
 	/**
 	 * @param selectable true if this item is selectable, false if not, or null to default to the container.
-	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable use {@link com.github.bordertech.wcomponents.WTree}.
+	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable use
+	 * {@link com.github.bordertech.wcomponents.WTree}.
 	 */
 	@Deprecated
 	public void setSelectable(final Boolean selectable) {
@@ -322,7 +324,9 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 
 	/**
 	 * {@inheritDoc}
-	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable use {@link com.github.bordertech.wcomponents.WTree}.
+	 *
+	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable use
+	 * {@link com.github.bordertech.wcomponents.WTree}.
 	 */
 	@Deprecated
 	@Override
@@ -332,7 +336,9 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 
 	/**
 	 * {@inheritDoc}
-	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable use {@link com.github.bordertech.wcomponents.WTree}.
+	 *
+	 * @deprecated WSubMenu is never selectable for a11y reasons. If you need a selectable use
+	 * {@link com.github.bordertech.wcomponents.WTree}.
 	 */
 	@Override
 	@Deprecated
@@ -573,22 +579,22 @@ public class WSubMenu extends AbstractNamingContextContainer implements Disablea
 		switch (getComponentModel().mode) {
 			case LAZY: {
 				getContent().setVisible(isOpen());
-				AjaxHelper.registerContainer(getId(), contentId, targetId, request);
+				AjaxHelper.registerContainer(getId(), contentId, targetId);
 				break;
 			}
 			case DYNAMIC: {
-				AjaxHelper.registerContainer(getId(), contentId, targetId, request);
+				AjaxHelper.registerContainer(getId(), contentId, targetId);
 				getContent().setVisible(isOpen());
 				break;
 			}
 			case EAGER: {
-				AjaxHelper.registerContainer(getId(), contentId, targetId, request);
+				AjaxHelper.registerContainer(getId(), contentId, targetId);
 				// Will always be visible
 				break;
 			}
 			case SERVER: {
 				// same as DYNAMIC
-				AjaxHelper.registerContainer(getId(), contentId, targetId, request);
+				AjaxHelper.registerContainer(getId(), contentId, targetId);
 				getContent().setVisible(isOpen());
 				break;
 			}

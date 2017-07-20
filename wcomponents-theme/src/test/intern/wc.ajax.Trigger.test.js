@@ -42,8 +42,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 				next = document.getElementById(ids[i]);
 				if (expectBusy) {
 					assert.strictEqual("true", next.getAttribute("aria-busy"),"busy state not set on " + ids[i]);
-				}
-				else {
+				} else {
 					assert.notStrictEqual("true", next.getAttribute("aria-busy"),"busy state not cleared on " + ids[i]);
 				}
 
@@ -71,8 +70,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 							testBusy(ids, expectBusy);
 							win();
 						}, 100);
-					}
-					catch (ex) {
+					} catch (ex) {
 						lose(ex);
 					}
 				};
@@ -181,8 +179,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 						trigger.fire().then(function() {
 							try {
 								assert.fail("one shot trigger should not fire twice");
-							}
-							finally {
+							} finally {
 								lose();
 							}
 						}, win);
@@ -198,8 +195,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 							assert.strictEqual(trigger.id, instance.id, "first argument to subscriber should be trigger");
 							assert.isTrue(pending, "when firing a Trigger pending must be true");
 							win();
-						}
-						catch (ex) {
+						} catch (ex) {
 							lose();
 						}
 					};
@@ -217,8 +213,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 							assert.strictEqual(trigger.id, instance.id, "first argument to subscriber should be trigger");
 							assert.isFalse(pending, "when the last Trigger has fired pending must be false");
 							win();
-						}
-						catch (ex) {
+						} catch (ex) {
 							lose();
 						}
 					};
@@ -241,8 +236,7 @@ define(["intern!object", "intern/chai!assert", "./resources/test.utils!"],
 							assert.strictEqual(trigger.id, instance.id, "first argument to subscriber should be trigger");
 							assert.isFalse(pending, "when the last Trigger has fired pending must be false");
 							win();
-						}
-						catch (ex) {
+						} catch (ex) {
 							lose();
 						}
 					};

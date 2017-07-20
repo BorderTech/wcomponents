@@ -69,8 +69,7 @@ define(["wc/has", "wc/dom/event", "wc/timers"], function(has, event, timers) {
 			event.add(element, "dragleave", wrappedCallback);
 			event.add(element, "dragover", wrappedCallback);
 			event.add(element, "drop", wrappedCallback);
-		}
-		else {
+		} else {
 			console.warn("Could not register dropzone", id);
 		}
 	}

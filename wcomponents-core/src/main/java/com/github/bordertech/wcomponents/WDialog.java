@@ -364,7 +364,7 @@ public class WDialog extends AbstractWComponent implements Container {
 			getOrCreateComponentModel().state = ACTIVE_STATE;
 		}
 		if (getContent() != null) {
-			AjaxHelper.registerContainer(getId(), getId(), getContent().getId(), request);
+			AjaxHelper.registerContainer(getId(), getId(), getContent().getId());
 		}
 	}
 

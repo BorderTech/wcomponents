@@ -23,17 +23,14 @@ define(["wc/dom/getBox"], /** @param getBox wc/dom/getBox @ignore */ function(ge
 		if (withoutScrollbars) {
 			result[WIDTH] = DOCUMENT_ELEMENT.clientWidth;
 			result[HEIGHT] = DOCUMENT_ELEMENT.clientHeight;
-		}
-		else if (typeof SELF.innerWidth !== "undefined") {
+		} else if (typeof SELF.innerWidth !== "undefined") {
 			result[WIDTH] = SELF.innerWidth;
 			result[HEIGHT] = SELF.innerHeight;
-		}
-		else if (document.documentElement && document.documentElement.getBoundingClientRect) {
+		} else if (document.documentElement && document.documentElement.getBoundingClientRect) {
 			box = getBox(DOCUMENT_ELEMENT);
 			result[WIDTH] = box[WIDTH];
 			result[HEIGHT] = box[HEIGHT];
-		}
-		else {
+		} else {
 			result[WIDTH] = DOCUMENT_ELEMENT.clientWidth || document.body.clientWidth || 0;
 			result[HEIGHT] = DOCUMENT_ELEMENT.clientHeight || document.body.clientHeight || 0;
 		}

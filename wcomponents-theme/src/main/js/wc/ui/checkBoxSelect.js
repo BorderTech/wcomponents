@@ -1,12 +1,12 @@
 define(["wc/dom/ariaAnalog",
-		"wc/dom/Widget",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/dom/clearSelection",
-		"wc/dom/group",
-		"wc/dom/getFilteredGroup",
-		"wc/ui/fieldset",
-		"wc/dom/cbrShedPublisher"],
+	"wc/dom/Widget",
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/dom/clearSelection",
+	"wc/dom/group",
+	"wc/dom/getFilteredGroup",
+	"wc/ui/fieldset",
+	"wc/dom/cbrShedPublisher"],
 	function(ariaAnalog, Widget, initialise, shed, clearSelection, group, getFilteredGroup, fieldset) {
 		"use strict";
 
@@ -106,8 +106,7 @@ define(["wc/dom/ariaAnalog",
 						}
 						if (selectedValArr.indexOf(option.value) > -1) {
 							shed.select(option, silent);
-						}
-						else {
+						} else {
 							shed.deselect(option, silent);
 						}
 						lastOption = option;
@@ -171,8 +170,7 @@ define(["wc/dom/ariaAnalog",
 						}
 					}
 					clearSelection();
-				}
-				finally {
+				} finally {
 					inGroupMode = false;
 				}
 			};

@@ -66,8 +66,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/tag"],
 					if (element.parentNode) {
 						result = getAncestorOrSelf(element.parentNode, tag.A);
 					}
-				}
-				else {
+				} else {
 					result = getAncestorOrSelf(element, tag.A);
 				}
 				if (!result && isFormControlOrLink(element)) {
@@ -109,8 +108,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/tag"],
 							console.log("Finding trigger by id");
 							result = triggerRegister[ref];
 						}
-					}
-					else {  // it must be a DOM element
+					} else {  // it must be a DOM element
 						if ((id = ref.id)) {  // try id
 							console.log("Found trigger by element (id match)");
 							result = this.getTrigger(id);
@@ -135,8 +133,7 @@ define(["wc/dom/getAncestorOrSelf", "wc/dom/tag"],
 				if (result) {
 					if (ref.getAttribute && (triggerParams = ref.getAttribute("data-wc-params"))) {
 						result._triggerParams = triggerParams;
-					}
-					else {
+					} else {
 						delete result._triggerParams;
 					}
 				}

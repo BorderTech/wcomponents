@@ -1,19 +1,20 @@
-/* This is IIFE as it needs "window" and is a dependency of the wc/i18n/i18n plugin. */
-(function (global) {
-	/**
-	 * Provides non-implementation specific ajax functionality. Beef it up as you need to.
-	 *
-	 * @module
-	 *
-	 * @requires module:wc/Observer
-	 * @requires module:wc/xml/xmlString
-	 * @requires module:wc/timers
-	 * @requires module:wc/has
-	 *
-	 * @todo Document private members
-	 */
-	define(["wc/Observer", "wc/xml/xmlString", "wc/timers", "wc/has", "wc/dom/uid", "require"],
-	function(Observer, xmlString, timers, has, uid, require) {
+/**
+ * Provides non-implementation specific ajax functionality. Beef it up as you need to.
+ *
+ * @module
+ *
+ * @requires module:wc/Observer
+ * @requires module:wc/global
+ * @requires module:wc/xml/xmlString
+ * @requires module:wc/timers
+ * @requires module:wc/has
+ * @requires module:wc/dom/uid
+ * @requires module:wc/fix/getActiveX_ieAll
+ *
+ * @todo Document private members
+ */
+define(["wc/Observer", "wc/global", "wc/xml/xmlString", "wc/timers", "wc/has", "wc/dom/uid", "wc/fix/getActiveX_ieAll", "require"],
+	function(Observer, global, xmlString, timers, has, uid, getActiveX, require) {
 		"use strict";
 
 		/**
@@ -45,12 +46,10 @@
 				if (decrement) {
 					if (pending) {
 						pending--;
-					}
-					else {
+					} else {
 						console.warn("Cannot decrement ", pending);
 					}
-				}
-				else {
+				} else {
 					pending++;
 				}
 				if (observer) {
@@ -86,12 +85,10 @@
 						global.performance.measure(request.url, markStart, markEnd);
 						global.performance.clearMarks(markStart);
 						global.performance.clearMarks(markEnd);
-					}
-					else {
+					} else {
 						console.warn("could not find start mark", markStart);
 					}
-				}
-				else {
+				} else {
 					console.warn("request has not uid", request);
 				}
 			}
@@ -158,12 +155,10 @@
 					if (ieVersion && ieVersion < 10 && (supported = getActiveX("Msxml2.XMLHTTP", ["6.0", "3.0"]))) {
 						// This is intended for IE9 and earlier - ActiveX is better in ancient IE
 						ieXmlHttpEngine = supported.engine;
-					}
-					else if (global[W3C_IFACE]) {
+					} else if (global[W3C_IFACE]) {
 						// All browsers including IE10 and above
 						ieXmlHttpEngine = W3C_IFACE;
-					}
-					else {
+					} else {
 						ieXmlHttpEngine = null;
 					}
 					console.log("Using XMLHTTP engine: " + ieXmlHttpEngine);
@@ -171,11 +166,9 @@
 
 				if (ieXmlHttpEngine === W3C_IFACE) {
 					result = getW3cRequest();
-				}
-				else if (ieXmlHttpEngine) {
+				} else if (ieXmlHttpEngine) {
 					result = new global.ActiveXObject(ieXmlHttpEngine);
-				}
-				else {
+				} else {
 					throw new Error("No AJAX support");
 				}
 				return result;
@@ -191,11 +184,9 @@
 				var result;
 				if (has("activex")) {  // do this test first, see comments on getMsRequest
 					result = getMsRequest;
-				}
-				else if (global[W3C_IFACE]) {
+				} else if (global[W3C_IFACE]) {
 					result = getW3cRequest;
-				}
-				else {
+				} else {
 					console.error("User agent does not provide necessary XML support");
 				}
 				return result;
@@ -219,24 +210,20 @@
 						if (request.status === 200 && config.callback) {
 							try {
 								config.callback.call(request, request[config.responseType]);
-							}
-							catch (ex) {
+							} catch (ex) {
 								if (config.onError) {
 									notifyError(request, config.onError);
-								}
-								else {
+								} else {
 									console.error(ex);
 								}
 							}
-						}
-						else if (config.onError) {
+						} else if (config.onError) {
 							notifyError(request, config.onError);
 						}
 						if (markProfiles) {
 							endProfile(config);
 						}
-					}
-					finally {
+					} finally {
 						if (config.async) {
 							updatePending(true);
 						}
@@ -263,12 +250,10 @@
 						try {
 							if (handleError && handleError.getErrorMessage) {
 								message = handleError.getErrorMessage(request);
-							}
-							else {
+							} else {
 								message = fallbackMessage;
 							}
-						}
-						finally {
+						} finally {
 							onError.call(request, message);
 						}
 					};
@@ -304,8 +289,7 @@
 						// this allows feature rich browsers to weather the storm when the server gets it wrong
 						request.overrideMimeType(config.forceMime);
 					}
-				}
-				catch (ex) {
+				} catch (ex) {
 					// comsume errors and try to proceed - this is most likely to happen in legacy IE
 					console.warn(ex);
 				}
@@ -326,8 +310,7 @@
 					// IE10 and greater need this to prevent the XML dom that is not an XML dom
 					try {
 						request.responseType = "msxml-document";
-					}
-					catch (ignore) {
+					} catch (ignore) {
 						// Do nothing
 					}
 				}
@@ -382,7 +365,7 @@
 			 * @public
 			 * @param {module:wc/ajax/ajax~Request} request Holds the details of the request to be sent.
 			 * @returns {XMLHTTPRequest} The XHR instance.
-			*/
+			 */
 			this.simpleRequest = function(request) {
 				var result;
 				request.async = (request.async === undefined) ? true : request.async;
@@ -392,12 +375,10 @@
 				}
 				if (!request.async) {
 					result = ajaxRqst(request);
-				}
-				else if (pending < limit) {
+				} else if (pending < limit) {
 					updatePending();
 					result = ajaxRqst(request);
-				}
-				else {
+				} else {
 					queue.push(request);
 					console.log("Queued AJAX. Queue length: ", queue.length);
 				}
@@ -491,8 +472,7 @@
 					if (callback) {
 						try {
 							callback.call(this, response);
-						}
-						catch (ex) {
+						} catch (ex) {
 							console.error("Error in callback ", ex);
 						}
 					}
@@ -540,7 +520,6 @@
 			};
 		}
 		var handleError,
-			getActiveX,
 			W3C_IFACE = "XMLHttpRequest",
 			ieXmlHttpEngine,
 			/**
@@ -591,14 +570,9 @@
 					handleError = arg;
 					cb(handleError);
 				}, errback);
-			}
-			else {
+			} else {
 				cb(handleError);
 			}
-		}
-
-		if (has("activex")) {
-			getActiveX = require("wc/fix/getActiveX_ieAll");  // this can only work if "wc/fix/getActiveX_ieAll" is already loaded - the compat script must ensure that.
 		}
 		return ajax;
 
@@ -616,4 +590,3 @@
 		 *    browsers, don't rely on this, get it right on the server).
 		 */
 	});
-}(this));

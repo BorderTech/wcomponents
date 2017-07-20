@@ -14,17 +14,17 @@
 // #############################################################################
 // See wc.section.color
 .wc-panel-type-action {
-  @if ($wc-clr-panel-action-background != -1) {
-    background-color: $wc-clr-panel-action-background;
+  @if ($wc-clr-panel-action-bg != -1) {
+    background-color: $wc-clr-panel-action-bg;
   }
   @if ($wc-clr-panel-action-border != -1) {
     border-color: $wc-clr-panel-action-border;
   }
 
-  @if ($wc-clr-panel-action-header-background != -1) {
+  @if ($wc-clr-panel-action-header-bg != -1) {
     > h1 {
-      background-color: $wc-clr-panel-action-header-background;
-      color: $wc-clr-panel-action-header-foreground;
+      background-color: $wc-clr-panel-action-header-bg;
+      color: $wc-clr-panel-action-header-fg;
     }
   }
 }
@@ -33,29 +33,29 @@
 // WPanel Type.FEATURE
 // #############################################################################
 // 'The feature panel is highlighted by a background colour and border.'
-@if ($wc-clr-panel-feature-foreground != -1) {
+@if ($wc-clr-panel-feature-fg != -1) {
   .wc-panel-type-feature {
-    background-color: $wc-clr-panel-feature-background;
-    color: $wc-clr-panel-feature-foreground;
+    background-color: $wc-clr-panel-feature-bg;
+    color: $wc-clr-panel-feature-fg;
   }
 }
 
 // #############################################################################
 // Type FOOTER
 // #############################################################################
-@if ($wc-clr-panel-footer-foreground != -1) {
+@if ($wc-clr-panel-footer-fg != -1) {
   footer {
-    background-color: $wc-clr-panel-footer-background;
-    color: $wc-clr-panel-footer-foreground;
+    background-color: $wc-clr-panel-footer-bg;
+    color: $wc-clr-panel-footer-fg;
   }
 }
 
 // #############################################################################
 // Type HEADER
 // #############################################################################
-@if ($wc-clr-panel-header-background != -1) {
+@if ($wc-clr-panel-header-bg != -1) {
   [role='banner'] {
-    background-color: $wc-clr-panel-header-background;
+    background-color: $wc-clr-panel-header-bg;
 
     // Set the foreground colour of components which have their own defined
     // colour so will not inherit from the container.
@@ -64,7 +64,7 @@
     .wc-linkbutton,
     a,
     a:visited {
-      color: $wc-clr-panel-header-foreground;
+      color: $wc-clr-panel-header-fg;
     }
   }
 }

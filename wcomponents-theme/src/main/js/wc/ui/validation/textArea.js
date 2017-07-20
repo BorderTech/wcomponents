@@ -14,15 +14,15 @@
  * @requires module:wc/ui/textArea
  */
 define(["wc/dom/attribute",
-		"wc/dom/event",
-		"wc/dom/initialise",
-		"wc/dom/Widget",
-		"wc/i18n/i18n",
-		"lib/sprintf",
-		"wc/ui/validation/required",
-		"wc/ui/validation/validationManager",
-		"wc/ui/getFirstLabelForElement",
-		"wc/ui/textArea"],
+	"wc/dom/event",
+	"wc/dom/initialise",
+	"wc/dom/Widget",
+	"wc/i18n/i18n",
+	"lib/sprintf",
+	"wc/ui/validation/required",
+	"wc/ui/validation/validationManager",
+	"wc/ui/getFirstLabelForElement",
+	"wc/ui/textArea"],
 	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param Widget wc/dom/Widget @param i18n wc/i18n/i18n @param sprintf lib/sprintf @param required wc/ui/validation/required @param validationManager wc/ui/validation/validationManager @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param textArea wc/ui/textArea @ignore */
 	function(attribute, event, initialise, Widget, i18n, sprintf, required, validationManager, getFirstLabelForElement, textArea) {
 		"use strict";
@@ -49,8 +49,8 @@ define(["wc/dom/attribute",
 				}
 
 				var obj = {container: container,
-							widget: textArea.getWidget(),
-							attachTo: _getAttachmentPoint};
+					widget: textArea.getWidget(),
+					attachTo: _getAttachmentPoint};
 				return required.complexValidationHelper(obj);
 			}
 
@@ -77,8 +77,7 @@ define(["wc/dom/attribute",
 					if ((mask = textArea.getMaxlength(element)) && size > mask) {
 						result = true;
 						flag = i18n.get("validation_textarea_overmax", "%s", mask, size);
-					}
-					else if ((mask = element.getAttribute("data-wc-min")) && size < mask) {
+					} else if ((mask = element.getAttribute("data-wc-min")) && size < mask) {
 						result = true;
 						flag = i18n.get("validation_text_belowmin", "%s", mask);
 					}
@@ -153,8 +152,7 @@ define(["wc/dom/attribute",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.change, changeEvent, 1, null, true);
-				}
-				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 			};

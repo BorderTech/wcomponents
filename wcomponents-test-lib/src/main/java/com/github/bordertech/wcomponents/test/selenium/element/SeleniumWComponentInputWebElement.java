@@ -103,6 +103,14 @@ public class SeleniumWComponentInputWebElement extends SeleniumWComponentWebElem
 	 * {@inheritDoc}
 	 */
 	@Override
+	public void sendKeys(final boolean wait, final CharSequence... keys) {
+		getInputField().sendKeys(wait, keys);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void clear() {
 		getInputField().clear();
 	}

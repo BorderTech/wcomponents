@@ -15,16 +15,16 @@
  * @requires module:wc/i18n/i18n
  */
 define(["wc/dom/attribute",
-		"wc/dom/event",
-		"wc/dom/initialise",
-		"wc/dom/shed",
-		"wc/ui/multiSelectPair",
-		"wc/ui/validation/isComplete",
-		"wc/ui/validation/minMax",
-		"wc/ui/validation/required",
-		"wc/ui/validation/validationManager",
-		"wc/ui/getFirstLabelForElement",
-		"wc/i18n/i18n"],
+	"wc/dom/event",
+	"wc/dom/initialise",
+	"wc/dom/shed",
+	"wc/ui/multiSelectPair",
+	"wc/ui/validation/isComplete",
+	"wc/ui/validation/minMax",
+	"wc/ui/validation/required",
+	"wc/ui/validation/validationManager",
+	"wc/ui/getFirstLabelForElement",
+	"wc/i18n/i18n"],
 	/** @param attribute wc/dom/attribute @param event wc/dom/event @param initialise wc/dom/initialise @param shed wc/dom/shed @param multiSelectPair wc/ui/multiSelectPair @param isComplete wc/ui/validation/isComplete @param minMax wc/ui/validation/minMax @param required wc/ui/validation/required @param validationManager wc/ui/validation/validationManager @param getFirstLabelForElement wc/ui/getFirstLabelForElement @param i18n wc/i18n/i18n @ignore */
 	function(attribute, event, initialise, shed, multiSelectPair, isComplete, minMax, required, validationManager, getFirstLabelForElement, i18n) {
 		"use strict";
@@ -187,12 +187,12 @@ define(["wc/dom/attribute",
 			 */
 			function validate(container) {
 				var obj = {container: container,
-							widget: CONTAINER,
-							constraint: required.CONSTRAINTS.CLASSNAME,
-							filter: _filter,
-							position: "beforeEnd",
-							messageFunc: _requiredMessageFunc
-						},
+						widget: CONTAINER,
+						constraint: required.CONSTRAINTS.CLASSNAME,
+						filter: _filter,
+						position: "beforeEnd",
+						messageFunc: _requiredMessageFunc
+					},
 					_required = required.complexValidationHelper(obj),
 					result = true;
 
@@ -219,8 +219,7 @@ define(["wc/dom/attribute",
 			this.initialise = function(element) {
 				if (event.canCapture) {
 					event.add(element, event.TYPE.focus, focusEvent, null, null, true);
-				}
-				else {
+				} else {
 					event.add(element, event.TYPE.focusin, focusEvent);
 				}
 			};

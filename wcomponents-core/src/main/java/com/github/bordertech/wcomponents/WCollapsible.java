@@ -297,24 +297,21 @@ public class WCollapsible extends AbstractNamingContextContainer implements Ajax
 				case EAGER: {
 					// Always visible
 					content.setVisible(true);
-					AjaxHelper.registerContainer(getId(), getId() + "-content", content.getId(),
-							request);
+					AjaxHelper.registerContainer(getId(), getId() + "-content", content.getId());
 					break;
 				}
 				case LAZY:
 					content.setVisible(!isCollapsed());
 
 					if (isCollapsed()) {
-						AjaxHelper.registerContainer(getId(), getId() + "-content", content.getId(),
-								request);
+						AjaxHelper.registerContainer(getId(), getId() + "-content", content.getId());
 					}
 
 					break;
 
 				case DYNAMIC: {
 					content.setVisible(!isCollapsed());
-					AjaxHelper.registerContainer(getId(), getId() + "-content", content.getId(),
-							request);
+					AjaxHelper.registerContainer(getId(), getId() + "-content", content.getId());
 					break;
 				}
 				case SERVER: {
