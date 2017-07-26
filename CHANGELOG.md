@@ -8,6 +8,8 @@
 * Debounce / throttle rapidly repeated requests for the same theme resources to prevent superfluous network requests #1274
 
 ### Enhancements
+* Added Sass to allow re-implementation of support for WField.inputWidth from 1 - 99 in sub-themes based only on Sass variables #1278.
+
 
 ## Release 1.4.4
 
