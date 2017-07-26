@@ -5,22 +5,26 @@
 ### API Changes
 
 ### Bug Fixes
+
 * Debounce / throttle rapidly repeated requests for the same theme resources to prevent superfluous network requests #1274
 
 ### Enhancements
-* Added Sass to allow re-implementation of support for WField.inputWidth from 1 - 99 in sub-themes based only on Sass variables #1278.
 
+* Added Sass to allow re-implementation of support for WField.inputWidth from 1 - 99 in sub-themes based only on Sass variables #1278.
 
 ## Release 1.4.4
 
 ### API Changes
+
 * JS only: deprecated the use of wc/i18n/i18n as a loader plugin (in favor of async methods).
 
 ### Bug Fixes
+
 * Fix flaw which caused WButton with a message to not stop ajax submit if the button was an ajax trigger **and** the user chooses to cancel the button action # 1266.
 * Fix flaw which prevented WShuffler acting as an ajax trigger #1267.
 
 ### Enhancements
+
 * Better handling of rejected promises in Subscribers to the Observer module.
 * Upgraded FabricJS 1.7.11 -> 1.7.14 to fix issues in Internet Explorer 11.
 * Allow custom AJAX error handlers so that we can handle *any* response format conceivable, e.g. XML, JSON, protobuf, binary.
