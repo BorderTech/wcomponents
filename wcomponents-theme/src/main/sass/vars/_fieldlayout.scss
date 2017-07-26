@@ -71,3 +71,16 @@ $wc-fld-widths-include-fives: 1 !default;
 // If you use the following version you get all widths from 1% to 100% and that
 // is a LOT of CSS
 // $wc-fld-list: -1;
+
+// Support for WField.inputWidth
+// - set to 1 to support use of inputWidth from $wc-fld-min-inputwidth to
+//   $wc-fld-max-inputwidth
+// - set to a list to support specific inputWidths
+// - leave as 0 to only support inputWidth 100
+$wc-fld-use-inputwidth: 0 !default;
+// Minimum inputWidth to support. Used only if $wc-fld-use-inputwidth == 1
+// Must be integer between 1 and 98
+$wc-fld-min-inputwidth: 1 !default;
+// Maximum inputWidth to support. Used only if $wc-fld-use-inputwidth == 1
+// Must be integer between $wc-fld-min-inputwidth + 1 and 99
+$wc-fld-max-inputwidth: 99 !default;

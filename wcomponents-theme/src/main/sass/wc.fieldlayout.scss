@@ -61,6 +61,26 @@ $wc-fieldlayout-input-width: 100% - $wc-fieldlayout-default-label-width;
   }
 }
 
+// support for WField.inputWidth
+@if ($wc-fld-use-inputwidth == 1) {
+  @for $i from $wc-fld-min-inputwidth through $wc-fld-max-inputwidth {
+    .wc_fld_inpw_#{$i} > .wc-input {
+      > .wc-input-wrapper,
+      > fieldset {
+        max-width: percentage(#{$i} / 100);
+      }
+    }
+  }
+} @else if ($wc-fld-use-inputwidth != 0) {
+  @each $i in $wc-fld-use-inputwidth {
+    .wc_fld_inpw_#{$i} > .wc-input {
+      > .wc-input-wrapper,
+      > fieldset {
+        max-width: percentage(#{$i} / 100);
+      }
+    }
+  }
+}
 
 // NUMBERED fields
 @if ($wc-fieldlayout-allow-ordered == 1) {
