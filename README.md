@@ -1,4 +1,5 @@
 # wcomponents
+
 Accessible Web UI Framework for Enterprise
 
 *<sup>Born in 2005 - Open source since August 2015</sup>*
@@ -8,7 +9,8 @@ WComponents is an opinionated Java framework for building accessible web applica
 Its goal is to enable Java developers to build AJAX enabled, WCAG 2.0 compliant web applications without the need for expertise in accessibility or client side technologies.
 
 ## Status
-[![Build Status](https://travis-ci.org/BorderTech/wcomponents.svg?branch=master)](https://travis-ci.org/BorderTech/wcomponents)
+
+[![Build Status](https://travis-ci.org/BorderTech/wcomponents.svg?branch=freddie)](https://travis-ci.org/BorderTech/wcomponents)
 [![PMD](http://bordertech.github.io/wcomponents/badges/pmd.svg)](http://bordertech.github.io/wcomponents/pmd.html)
 [![Checkstyle](http://bordertech.github.io/wcomponents/badges/checkstyle-result.svg)](http://bordertech.github.io/wcomponents/checkstyle-aggregate.html)
 [![Findbugs](http://bordertech.github.io/wcomponents/badges/findbugs-report.svg)](http://bordertech.github.io/wcomponents/findbugs-report.html)
@@ -20,11 +22,11 @@ Frontend Tests:
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/javatech.svg)](https://saucelabs.com/u/javatech)
 
 ## Contributing
+
 Contributions welcome: [Contributing](https://github.com/BorderTech/wcomponents/wiki/Contributing)
 
-[![Join the chat at https://gitter.im/BorderTech/wcomponents](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/BorderTech/wcomponents?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 ## Why Use WComponents
+
 WComponents is **yet another Java UI framework**, so why would you bother?
 
 1. WComponents is designed to make it possible to build applications which meet [WCAG 2.0](http://www.w3.org/TR/WCAG20/) at level AA or better. This is a **mandatory** requirement for Australian Government web-based applications which is where WComponents started life in 2005.
@@ -34,25 +36,29 @@ WComponents is **yet another Java UI framework**, so why would you bother?
 5. We are nice so you would _like_ to use this framework just because of that.
 
 ## Supported Browsers
+
 Out of the box WComponents supports all modern desktop and mobile browsers including:
 
 ### Mobile
-* Mobile Safari
-* Chrome
-* Mobile Firefox
-* UC
-* Mobile IE (Windows Phone) and Edge (Windows 10 mobile)
+
+- Mobile Safari
+- Chrome
+- Mobile Firefox
+- UC
+- Mobile IE (Windows Phone) and Edge (Windows 10 mobile)
 
 ### Desktop
-* Chrome
-* Firefox
-* Safari
-* Microsoft Edge
-* Internet Explorer 11
+
+- Chrome
+- Firefox
+- Safari
+- Microsoft Edge
+- Internet Explorer 11
 
 WComponents client side code is extensible and configurable therefore it is perfectly feasible to add support for older browsers not listed above.
 
 ## Building
+
 If you wish to build WComponents you will need [Apache Maven](https://maven.apache.org/) installed.
 
 Run these commands to fetch the source and build:
@@ -62,7 +68,9 @@ Run these commands to fetch the source and build:
 3. `mvn install`
 
 ## Running the Examples
+
 ### Running the executable jar file
+
 After following the steps above to build WComponents you may run the `wcomponents-examples-lde`
 
 1. `cd wcomponents-examples-lde/target/`
@@ -71,6 +79,7 @@ After following the steps above to build WComponents you may run the `wcomponent
 Note: you may also be able to simply double-click the jar file.
 
 ### Running the examples project
+
 The examples project is most easily run from the project view of your IDE.
 
 For example:
