@@ -12,18 +12,17 @@
 			<tr>
 				<xsl:if test="../ui:rowselection">
 					<th class="wc_table_sel_wrapper" scope="col" aria-hidden="true">
-						<xsl:text>&#xa0;</xsl:text>
+						<xsl:text>&#x200b;</xsl:text>
 					</th>
 				</xsl:if>
 				<xsl:if test="../ui:rowexpansion">
 					<th class="wc_table_rowexp_container" scope="col">
 						<xsl:call-template name="offscreenSpan">
-							<xsl:with-param name="text"><xsl:text>{{t 'table_rowExpansion_toggleAll'}}</xsl:text></xsl:with-param>
+							<xsl:with-param name="text"><xsl:text>{{#i18n}}table_rowExpansion_toggleAll{{/i18n}}</xsl:text></xsl:with-param>
 						</xsl:call-template>
 					</th>
 				</xsl:if>
 				<xsl:apply-templates select="ui:th" mode="thead"/>
-				
 			</tr>
 		</thead>
 	</xsl:template>

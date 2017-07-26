@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.net.URL;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.transform.Source;
@@ -30,17 +29,15 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.lang3.text.translate.AggregateTranslator;
 import org.apache.commons.lang3.text.translate.CharSequenceTranslator;
-import org.apache.commons.lang3.text.translate.CodePointTranslator;
 import org.apache.commons.lang3.text.translate.LookupTranslator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This interceptor is used to perform server-side XSLT so that HTML is
- * delivered to the client instead of XML. This works by buffering the response
- * in memory and then transforming it before sending the response to the client.
- * This will use more memory and CPU on the server. If this becomes a problem it
- * may be better to perform the transform on an appliance (or the client).
+ * This interceptor is used to perform server-side XSLT so that HTML is delivered to the client instead of XML. This
+ * works by buffering the response in memory and then transforming it before sending the response to the client. This
+ * will use more memory and CPU on the server. If this becomes a problem it may be better to perform the transform on an
+ * appliance (or the client).
  *
  * @author Rick Brown
  * @since 1.0.0
@@ -68,15 +65,13 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	private static final Templates TEMPLATES = initTemplates();
 
 	/**
-	 * If true then server side XSLT will be ignored regardless of the
-	 * configuration property. This is to account for user agents that
-	 * cannot handle HTML, yes such a thing exists.
+	 * If true then server side XSLT will be ignored regardless of the configuration property. This is to account for
+	 * user agents that cannot handle HTML, yes such a thing exists.
 	 */
 	private boolean doTransform = true;
 
 	/**
-	 * Override preparePaint in order to perform processing specific to this
-	 * interceptor.
+	 * Override preparePaint in order to perform processing specific to this interceptor.
 	 *
 	 * @param request the request being responded to.
 	 */
@@ -140,25 +135,31 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 
 		String xml = xmlBuffer.toString();
 		if (isAllowCorruptCharacters() && !Util.empty(xml)) {
-
 			// Remove illegal HTML characters from the content before transforming it.
 			xml = removeCorruptCharacters(xml);
 		}
-
+		// Double encode template tokens in the XML
+		xml = WebUtilities.doubleEncodeBrackets(xml);
+		// Setup temp writer
+		StringWriter tempBuffer = new StringWriter();
+		PrintWriter tempWriter = new PrintWriter(tempBuffer);
 		// Perform the transformation and write the result.
-		transform(xml, uic, writer);
+		transform(xml, uic, tempWriter);
+		// Decode Double Encoded Brackets
+		String tempResp = tempBuffer.toString();
+		tempResp = WebUtilities.doubleDecodeBrackets(tempResp);
+		// Write response
+		writer.write(tempResp);
 
 		LOG.debug("Transform XML Interceptor: Finished");
 	}
 
 	/**
-	 * Transform the UI XML to HTML using the correct XSLT from the
-	 * classpath.
+	 * Transform the UI XML to HTML using the correct XSLT from the classpath.
 	 *
 	 * @param xml The XML to transform.
 	 * @param uic The UIContext used to determine variables such as locale.
-	 * @param writer The result of the transformation will be written to
-	 * this writer.
+	 * @param writer The result of the transformation will be written to this writer.
 	 */
 	private void transform(final String xml, final UIContext uic, final PrintWriter writer) {
 
@@ -174,10 +175,8 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	}
 
 	/**
-	 * Creates a new Transformer instance using cached XSLT Templates. There
-	 * will be one cached template. Transformer instances are not
-	 * thread-safe and cannot be reused (they can after the transformation
-	 * is complete).
+	 * Creates a new Transformer instance using cached XSLT Templates. There will be one cached template. Transformer
+	 * instances are not thread-safe and cannot be reused (they can after the transformation is complete).
 	 *
 	 * @return A new Transformer instance.
 	 */
@@ -195,8 +194,7 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	}
 
 	/**
-	 * Statically initialize the XSLT templates that are cached for all
-	 * future transforms.
+	 * Statically initialize the XSLT templates that are cached for all future transforms.
 	 *
 	 * @return the XSLT Templates.
 	 */
@@ -241,103 +239,21 @@ public class TransformXMLInterceptor extends InterceptorComponent {
 	/**
 	 * Translator object for escaping XML 1.0.
 	 *
-	 * While {@link #escapeXml10(String)} is the expected method of use,
-	 * this object allows the XML escaping functionality to be used as the
-	 * foundation for a custom translator.
+	 * While {@link #escapeXml10(String)} is the expected method of use, this object allows the XML escaping
+	 * functionality to be used as the foundation for a custom translator.
 	 */
 	private static final CharSequenceTranslator ESCAPE_BAD_XML10
-		= new AggregateTranslator(
-			new LookupTranslator(
-				new String[][]{
-					{"\u000b", ""},
-					{"\u000c", ""},
-					{"\ufffe", ""},
-					{"\uffff", ""}
-				}),
-			NumericEntityIgnorer.between(0x00, 0x08),
-			NumericEntityIgnorer.between(0x0e, 0x1f),
-			NumericEntityIgnorer.between(0x7f, 0x9f)
-		);
-
-	/**
-	 * <p>
-	 * Implementation of the CodePointTranslator to throw away the matching
-	 * characters. This is copied from
-	 * org.apache.commons.lang3.text.translate.NumericEntityEscaper, but has
-	 * been changed to discard the characters rather than attempting to
-	 * encode them.<p>
-	 * <p>
-	 * Discarding the characters is necessary because certain invalid
-	 * characters (e.g. decimal 129) cannot be encoded for HTML. An existing
-	 * library was not available for this function because no HTML page
-	 * should ever contain these characters.</p>
-	 */
-	private static final class NumericEntityIgnorer extends CodePointTranslator {
-
-		private final int below;
-		private final int above;
-		private final boolean between;
-
-		/**
-		 * <p>
-		 * Constructs a <code>NumericEntityEscaper</code> for the
-		 * specified range. This is the underlying method for the other
-		 * constructors/builders. The <code>below</code> and
-		 * <code>above</code> boundaries are inclusive when
-		 * <code>between</code> is <code>true</code> and exclusive when
-		 * it is <code>false</code>. </p>
-		 *
-		 * @param below int value representing the lowest codepoint
-		 * boundary
-		 * @param above int value representing the highest codepoint
-		 * boundary
-		 * @param between whether to escape between the boundaries or
-		 * outside them
-		 */
-		private NumericEntityIgnorer(final int below, final int above, final boolean between) {
-			this.below = below;
-			this.above = above;
-			this.between = between;
-		}
-
-		/**
-		 * <p>
-		 * Constructs a <code>NumericEntityEscaper</code> between the
-		 * specified values (inclusive). </p>
-		 *
-		 * @param codepointLow above which to escape
-		 * @param codepointHigh below which to escape
-		 * @return the newly created {@code NumericEntityEscaper}
-		 * instance
-		 */
-		public static NumericEntityIgnorer between(final int codepointLow, final int codepointHigh) {
-			return new NumericEntityIgnorer(codepointLow, codepointHigh, true);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean translate(final int codepoint, final Writer out) throws IOException {
-			if (between) {
-				if (codepoint < below || codepoint > above) {
-					return false;
-				}
-			} else if (codepoint >= below && codepoint <= above) {
-				return false;
-			}
-// Commented out from org.apache.commons.lang3.text.translate.NumericEntityEscaper
-// these characters cannot be handled in any way - write no output.
-
-//			out.write("&#");
-//			out.write(Integer.toString(codepoint, 10));
-//			out.write(';');
-			if (LOG.isWarnEnabled()) {
-				LOG.warn("Illegal HTML character stripped from XML. codepoint=" + codepoint);
-			}
-
-			return true;
-		}
-	}
+			= new AggregateTranslator(
+					new LookupTranslator(
+							new String[][]{
+								{"\u000b", ""},
+								{"\u000c", ""},
+								{"\ufffe", ""},
+								{"\uffff", ""}
+							}),
+					WebUtilities.NumericEntityIgnorer.between(0x00, 0x08),
+					WebUtilities.NumericEntityIgnorer.between(0x0e, 0x1f),
+					WebUtilities.NumericEntityIgnorer.between(0x7f, 0x9f)
+			);
 
 }

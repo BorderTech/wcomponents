@@ -17,7 +17,7 @@
 		<xsl:variable name="ancestorMDD" select="ancestor::ui:multidropdown"/>
 		<xsl:variable name="id" select="$ancestorMDD/@id"/>
 		<li>
-			<select name="{$id}" id="{concat($id,generate-id(),'-',position())}" title="{{t 'mfc_option'}}">
+			<select name="{$id}" id="{concat($id,generate-id(),'-',position())}" title="{{#i18n}}mfc_option{{/i18n}}">
 				<xsl:if test="$ancestorMDD/@submitOnChange">
 					<xsl:attribute name="class">
 						<xsl:text>wc_soc</xsl:text>

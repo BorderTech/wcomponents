@@ -6,16 +6,90 @@
 
 ### Bug Fixes
 
-* Fixed imageeditor issues:
-  * #1048 overlay confuses image validation.
-  * #1062 disallow save when no image has been captured from video stream.
-  * #1073 fix phantom vertical scroll in some browsers (QC154504).
+### Enhancements
+
+## Release 1.3.13
+
+### Bug Fixes
+
+* Partial revert a change to URL handling which was back-ported from "freddie" but resulted in URLs becoming mal-formed under some circumstances. See
+  commit [facddabd6842e884877ba762d921b517b2f49e74](https://github.com/BorderTech/wcomponents/commit/facddabd6842e884877ba762d921b517b2f49e74).
+
+## Release 1.3.12
 
 ### Enhancements
 
-## Release 1.3.3
+* Improve performance of TemplateRendererInterceptor by switching to Mouchstache template engine #1207.
+
+## Release 1.3.11
+
+### Bug Fixes
+
+* Modified `HtmlSanitizerUtil` and `HtmlToXMLUtil` to handle escaping brackets. `WTextArea` now defaults to
+  `santizeOutput` on #1158.
+
+## Release 1.3.10
 
 ### API Changes
+
+* Removed property used to control template render mode and deprecated
+  `com.github.bordertech.wcomponents.util.ConfigurationProperties.getTemplateRenderingMode()` #1158.
+
+### Bug Fixes
+
+* Reverted client code changes from 1.3.8 and 1.3.9 designed to improve client side Handlebars #1158.
+
+### Enhancements
+
+* Handlebars pre-processed before sending UI to the client #1158.
+
+## Release 1.3.9
+
+### Bug Fixes
+
+* Fixed an XSLT error which could result in WSubordinateControls causing uncaught JavaScript exceptions in some circumstances. Part of #1158.
+
+## Release 1.3.8
+
+### Bug Fixes
+
+* Fixed Handlebars brace escaping in user input, Handlebars no caching option and URL percent encoding #1158.
+* Fixed partial text matches in select element typeahead #1164.
+* WMultiFileWidget better handles when the response "lies" and says it is "200 OK" when it isn't #1163.
+* Fixed double request for images by wrapping initial render in a script element and using Handlebars on that element #1158.
+
+##  Release 1.3.7
+
+### Bug Fixes
+
+* Fixed wcomponents-example-lde standalone runtime properties issue. #1005.
+
+##  Release 1.3.6
+
+### Bug Fixes
+
+* Fixed AbstractContainerHelper to transform custom error pages #1103.
+
+##  Release 1.3.5
+
+### Bug Fixes
+
+* Fixed dialog open from disabled button in IE #1098.
+* Fixed a race between ajax and the IE activeX fix which could result in jammed loading screens in IE in some
+  circumstances.
+
+## Release 1.3.4
+
+### Bug Fixes
+
+* Fixed imageeditor issues:
+  * overlay confuses image validation #1048.
+  * disallow save when no image has been captured from video stream #1062.
+  * fix phantom vertical scroll in some browsers (QC154504) #1073.
+* Fixed JS loading issue #1068.
+* Fixed layout of WCheckBoxSelect/WRadioButtonSelect with LAYOUT_COLUMN and COLUMN_COUNT >= options.
+
+## Release 1.3.3
 
 ### Bug Fixes
 

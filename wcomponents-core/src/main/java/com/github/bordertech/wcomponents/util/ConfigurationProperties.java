@@ -323,6 +323,7 @@ public final class ConfigurationProperties {
 
 	/**
 	 * Whether to perform server-side XSLT.
+	 *
 	 * @deprecated 1.3.1 No longer used: no replacement, will be removed in v2.0.0.
 	 */
 	public static final String XSLT_SERVER_SIDE = "bordertech.wcomponents.xslt.enabled";
@@ -910,9 +911,11 @@ public final class ConfigurationProperties {
 	/**
 	 * @return The render mode, can be either "on", "off" or "sniff". "on" means the render will occur. "off" means the
 	 * render will not occur. "sniff" means the render will occur based on user agent.
+	 * @deprecated no longer used
 	 */
+	@Deprecated
 	public static String getTemplateRenderingMode() {
-		return get().getString(TEMPLATE_RENDERING_MODE, "off");
+		return "on";
 	}
 
 	/**

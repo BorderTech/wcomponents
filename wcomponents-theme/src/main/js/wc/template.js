@@ -1,5 +1,5 @@
-define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has"],
-	function(textContent, Handlebars, has) {
+define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has", "wc/dom/removeElement"],
+	function(textContent, Handlebars, has, removeElement) {
 		"use strict";
 
 		/**
@@ -76,10 +76,22 @@ define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has"],
 				if (!has("ie") || has("ie") > 9) {
 					if (params && params.source) {
 						processContainer(params.source, params.target, params.context);
+						if (params.removeSrc) {
+							removeElement(params.source);
+						}
+						return;
 					}
-					else if (document.body) {
+					if (document.body) {
 						processContainer(document.body);
 					}
+					return;
+				}
+
+				if (params && params.source && params.target && params.removeSrc) {
+					// We may end up with the whole page inside a script element.
+					var content = source.innerHTML;
+					removeElement(params.source); // remove first otherwise double elements and duplicate IDs
+					params.target.innerHTML = content;
 				}
 			};
 
@@ -174,7 +186,9 @@ define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has"],
 			 * @returns {undefined}
 			 */
 			this.unregisterHelper = function(token) {
-				Handlebars.unregisterHelper(token);
+				if (!has("ie") || has("ie") > 9) {
+					Handlebars.unregisterHelper(token);
+				}
 			};
 		}
 
@@ -193,5 +207,6 @@ define(["wc/dom/textContent", "lib/handlebars/handlebars", "wc/has"],
 		 * @property {Node|String} source The template source, can be an element or text node which contain the template or a string.
 		 * @property {Node} [target] The element that will be updated with the result of the translation; if not provided then container will be used as the target, if it is a Node.
 		 * @property {Object} [context] The context that will be passed to the compiled template.
+		 * @property {boolean} [removeSrc] Set true to remove the source element from the HTML tree after processing. This will only be honoured if source and target are both defined.
 		 */
 	});

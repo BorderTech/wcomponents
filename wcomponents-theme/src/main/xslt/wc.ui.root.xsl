@@ -71,23 +71,6 @@
 				<xsl:call-template name="externalScript">
 					<xsl:with-param name="scriptName" select="'lib/require'"/>
 				</xsl:call-template>
-
-				<!-- We can delete some script nodes after they have been used. To do this we need the script element to have an ID. -->
-				<xsl:variable name="scriptId" select="generate-id()"/>
-				<!-- We want to load up the CSS as soon as we can, so do it immediately after loading require. -->
-				<xsl:variable name="styleLoaderId" select="concat($scriptId,'-styleloader')"/>
-				<script type="text/javascript" id="{$styleLoaderId}">
-					<xsl:text>require(["wc/compat/compat!"], function() {</xsl:text>
-					<xsl:text>require(["wc/a8n", "wc/loader/style", "wc/dom/removeElement"</xsl:text>
-					<xsl:if test="number($isDebug) eq 1">
-						<xsl:text>,"wc/debug/common"</xsl:text>
-					</xsl:if>
-					<xsl:text>], function(a, s, r){try{s.load();}finally{r("</xsl:text>
-					<xsl:value-of select="$styleLoaderId"/>
-					<xsl:text>", 250);}});</xsl:text>
-					<xsl:text>});</xsl:text>
-				</script>
-
 				<xsl:call-template name="registrationScripts"/>
 				<!--
 					We grab all base, meta and link elements from the content and place
@@ -112,7 +95,6 @@
 					the page level loading indicator.
 				-->
 				<div id="wc-shim" class="wc_shim_loading">
-					<xsl:text>&#xa0;</xsl:text>
 					<noscript>
 						<p>
 							<xsl:text>You must have JavaScript enabled to use this application.</xsl:text>
@@ -120,7 +102,7 @@
 					</noscript>
 				</div>
 				<div id="wc-ui-loading">
-					<div tabindex="0" class="wc-icon">&#x200b;</div>
+					<div tabindex="0" class="wc-icon"></div>
 				</div>
 				<xsl:apply-templates />
 			</body>

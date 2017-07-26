@@ -56,7 +56,7 @@ class WButtonRenderer extends AbstractWebXmlRenderer {
 		xml.appendOptionalAttribute("client", button.isClientCommandOnly(), "true");
 
 		if (imageUrl != null) {
-			xml.appendAttribute("imageUrl", imageUrl);
+			xml.appendUrlAttribute("imageUrl", imageUrl);
 			ImagePosition imagePosition = button.getImagePosition();
 
 			if (imagePosition != null) {

@@ -38,7 +38,7 @@
 		</xsl:if>
 		<xsl:if test="@title">
 			<xsl:text>,"title":"</xsl:text>
-			<xsl:value-of select="@title" disable-output-escaping="yes"/>
+			<xsl:value-of select="@title"/>
 			<xsl:text>"</xsl:text>
 		</xsl:if>
 		<xsl:if test="@triggerid or ./ui:button">

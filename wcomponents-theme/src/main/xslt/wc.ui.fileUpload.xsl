@@ -105,7 +105,7 @@
 							</xsl:call-template>
 							<xsl:variable name="inputId" select="concat($id,'_input')"/>
 							<label class="wc-off" for="{$inputId}">
-								<xsl:text>{{t 'file_inputLabel'}}</xsl:text>
+								<xsl:text>{{#i18n}}file_inputLabel{{/i18n}}</xsl:text>
 							</label>
 							<xsl:call-template name="fileInput">
 								<xsl:with-param name="id" select="$inputId"/>

@@ -74,6 +74,15 @@ public class WPopupRenderer_Test extends AbstractWebXmlRendererTestCase {
 			}
 		};
 
+		popup.setToolTip(getMaliciousAttribute());
+		assertSafeContent(popup);
+
+		popup.setHtmlClass(getMaliciousAttribute());
+		assertSafeContent(popup);
+
+		popup.setAccessibleText(getMaliciousAttribute());
+		assertSafeContent(popup);
+
 		popup.setUrl("http://www.invalid/cgi?a=" + getMaliciousAttribute());
 		assertSafeContent(popup);
 	}

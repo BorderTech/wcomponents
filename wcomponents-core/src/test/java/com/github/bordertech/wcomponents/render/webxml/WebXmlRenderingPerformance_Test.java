@@ -2,11 +2,14 @@ package com.github.bordertech.wcomponents.render.webxml;
 
 import com.github.bordertech.wcomponents.AbstractWComponentTestCase;
 import com.github.bordertech.wcomponents.AllComponents;
+import com.github.bordertech.wcomponents.Container;
+import com.github.bordertech.wcomponents.Mandatable;
 import com.github.bordertech.wcomponents.PerformanceTests;
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Response;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.container.InterceptorComponent;
 import com.github.bordertech.wcomponents.servlet.ServletUtil;
 import com.github.bordertech.wcomponents.servlet.WServlet;
@@ -159,7 +162,60 @@ public class WebXmlRenderingPerformance_Test extends AbstractWComponentTestCase 
 
 		LOG.info("Render 1x time: " + (renderTime1 / 1000000.0) + "ms");
 		LOG.info("Render 10x time: " + (renderTime10 / 1000000.0) + "ms");
-		Assert.assertTrue("Render time scaling should be O(n)", renderTime10 < renderTime1 * 12); // TODO: Figure out why this doesn't scale nicely.
+		Assert.assertTrue("Render time scaling should be O(n)", renderTime10 < renderTime1 * 12);
+	}
+
+	@Test
+	public void testRenderingScalingWithInterceptorChain() throws Exception {
+		final RenderContext renderContext = new WebXmlRenderContext(
+				new PrintWriter(new NullWriter()));
+
+		final AllComponents component1 = new AllComponents();
+		makeAllInputsMandatory(component1);
+
+		component1.setLocked(true);
+		final UIContext uic1 = createUIContext();
+		final UIContext uicChain = createUIContext();
+		sendRequest(component1, uic1);
+
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				setActiveContext(uic1);
+
+				for (int i = 0; i < NUM_REPETITIONS; i++) {
+					// Just paint component
+					component1.preparePaint(new MockRequest());
+					component1.paint(renderContext);
+				}
+			}
+		};
+
+		// JIT warm-up
+		runnable.run();
+
+		long renderTime1 = time(runnable) / NUM_REPETITIONS;
+
+		runnable = new Runnable() {
+			@Override
+			public void run() {
+				setActiveContext(uicChain);
+
+				for (int i = 0; i < NUM_REPETITIONS; i++) {
+					// Paint with the interceptor chain
+					WebUtilities.renderWithTransformToHTML(component1);
+				}
+			}
+		};
+
+		// JIT warm-up
+		runnable.run();
+
+		long renderTimeChain = time(runnable) / NUM_REPETITIONS;
+
+		LOG.info("Render Component time: " + (renderTime1 / 1000000.0) + "ms");
+		LOG.info("Render Component/Chain time: " + (renderTimeChain / 1000000.0) + "ms");
+		Assert.assertTrue("Render with Chain time scaling should not be more than 3x.", renderTimeChain < renderTime1 * 3);
 	}
 
 	/**
@@ -233,6 +289,17 @@ public class WebXmlRenderingPerformance_Test extends AbstractWComponentTestCase 
 		 */
 		public void resetCount() {
 			count = 0;
+		}
+	}
+
+	private void makeAllInputsMandatory(final WComponent component) {
+		if (component instanceof Mandatable) {
+			((Mandatable) component).setMandatory(true);
+		}
+		if (component instanceof Container) {
+			for (WComponent child : ((Container) component).getChildren()) {
+				makeAllInputsMandatory(child);
+			}
 		}
 	}
 }

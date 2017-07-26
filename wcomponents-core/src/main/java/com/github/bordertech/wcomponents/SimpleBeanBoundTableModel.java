@@ -593,8 +593,8 @@ public class SimpleBeanBoundTableModel extends AbstractBeanBoundTableModel {
 	 * <p>
 	 * For levels that have a "renderer", if the data for the level is a list, then a row can be rendered for "each"
 	 * item in the list. However, if the data is not a list or the renderer will handle rendering the "list" then the
-	 * rowPerListItem flag needs to be set to false via {@link LevelDetails#LevelDetails(String, Class, boolean)}
-	 * constructor.
+	 * rowPerListItem flag needs to be set to false via
+	 * {@link LevelDetails#LevelDetails(java.lang.String, java.lang.Class, boolean)} constructor.
 	 * </p>
 	 *
 	 * @author Jonathan Austin

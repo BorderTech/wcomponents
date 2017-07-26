@@ -68,12 +68,12 @@
 				<xsl:call-template name="accessKey"/>
 				<xsl:apply-templates select="ui:decoratedlabel"/>
 				<xsl:if test="number($emptyLegend) eq 1">
-					<xsl:text>{{t 'requiredLabel'}}</xsl:text>
+					<xsl:text>{{#i18n}}requiredLabel{{/i18n}}</xsl:text>
 				</xsl:if>
 				<xsl:if test="@required">
 					<xsl:call-template name="offscreenSpan">
 						<xsl:with-param name="text">
-							<xsl:text>{{t 'requiredPlaceholder'}}</xsl:text>
+							<xsl:text>{{#i18n}}requiredPlaceholder{{/i18n}}</xsl:text>
 						</xsl:with-param>
 					</xsl:call-template>
 				</xsl:if>

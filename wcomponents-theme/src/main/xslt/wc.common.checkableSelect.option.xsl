@@ -50,7 +50,7 @@
 				<xsl:when test="number($readOnly) eq 1">
 					<xsl:text>ul</xsl:text>
 				</xsl:when>
-				<xsl:when test="$layout eq 'flat'">
+				<xsl:when test="$layout eq 'flat' or number($rows) eq 0">
 					<xsl:text>span</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
@@ -63,12 +63,17 @@
 			<xsl:if test="$elementName eq 'ul'">
 				<xsl:text> wc_list_nb</xsl:text>
 			</xsl:if>
-			<xsl:if test="$layout eq 'column'">
-				<xsl:text> wc-column</xsl:text>
-			</xsl:if>
-			<xsl:if test="not($layout eq 'flat')">
-				<xsl:text> wc-vgap-sm</xsl:text>
-			</xsl:if>
+			<xsl:choose>
+				<xsl:when test="$layout eq 'flat' or number($rows) eq 0">
+					<xsl:text> wc-hgap-med</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text> wc-vgap-sm</xsl:text>
+					<xsl:if test="$layout eq 'column'">
+						<xsl:text> wc-column</xsl:text>
+					</xsl:if>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:variable>
 		<xsl:element name="{$elementName}">
 			<xsl:if test="$class ne ''">
@@ -81,6 +86,16 @@
 				<xsl:with-param name="optionType" select="$type"/>
 				<xsl:with-param name="readOnly" select="$readOnly"/>
 				<xsl:with-param name="cgAccessKey" select="$firstAccessKey"/>
+				<xsl:with-param name="element">
+					<xsl:choose>
+						<xsl:when test="number($readOnly) eq 1">
+							<xsl:text>li</xsl:text>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="$elementName"/>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:with-param>
 			</xsl:call-template>			
 			<xsl:if test="number($rows) gt 0">
 				<xsl:choose>

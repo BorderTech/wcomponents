@@ -90,13 +90,13 @@
 
 			<xsl:apply-templates/>
 			<xsl:if test="normalize-space(.) eq '' and not(.//ui:image)">
-				<xsl:text>{{t 'requiredLabel'}}</xsl:text>
+				<xsl:text>{{#i18n}}requiredLabel{{/i18n}}</xsl:text>
 			</xsl:if>
 
 			<xsl:if test="$elementType eq 'label' and $labelableElement/@required">
 				<xsl:call-template name="offscreenSpan">
 					<xsl:with-param name="text">
-						<xsl:text>{{t 'requiredPlaceholder'}}</xsl:text>
+						<xsl:text>{{#i18n}}requiredPlaceholder{{/i18n}}</xsl:text>
 					</xsl:with-param>
 				</xsl:call-template>
 			</xsl:if>

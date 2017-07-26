@@ -1,19 +1,20 @@
 package com.github.bordertech.wcomponents;
 
+import com.github.bordertech.wcomponents.container.TransformXMLTestHelper;
+import com.github.bordertech.wcomponents.util.Config;
+import com.github.bordertech.wcomponents.util.ConfigurationProperties;
+import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.util.mock.MockRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import junit.framework.Assert;
-import org.apache.commons.configuration.Configuration;
+import org.apache.commons.httpclient.util.URIUtil;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.github.bordertech.wcomponents.util.Config;
-import com.github.bordertech.wcomponents.util.ConfigurationProperties;
-import com.github.bordertech.wcomponents.util.SystemException;
 
 /**
  * WebUtilities_Test - unit tests for {@link WebUtilities}.
@@ -23,19 +24,19 @@ import com.github.bordertech.wcomponents.util.SystemException;
  */
 public class WebUtilities_Test extends AbstractWComponentTestCase {
 
-	private static Configuration originalConfig;
-
 	@BeforeClass
 	public static void setUp() {
-		originalConfig = Config.getInstance();
-		Configuration copyConfig = Config.copyConfiguration(originalConfig);
-		Config.setConfiguration(copyConfig);
+		Config.getInstance().setProperty(ConfigurationProperties.THEME_CONTENT_PATH, "");
+		TransformXMLTestHelper.reloadTransformer();
 	}
 
+	/**
+	 * When these tests are done put things back as they were.
+	 */
 	@AfterClass
-	public static void tearDown() {
-		// Remove overrides
-		Config.setConfiguration(originalConfig);
+	public static void tearDownClass() {
+		Config.reset();
+		TransformXMLTestHelper.reloadTransformer();
 	}
 
 	@Test
@@ -102,6 +103,20 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 				WComponent.class, root));
 		Assert.assertNull("Incorrect ancestor returned", WebUtilities.getClosestOfClass(
 				WButton.class, dropdown));
+	}
+
+	@Test
+	public void testGetTop() {
+		WContainer root = new WContainer();
+		WTabSet tabs = new WTabSet();
+		WDropdown dropdown = new WDropdown();
+
+		root.add(tabs);
+		tabs.addTab(dropdown, "dropdown tab", WTabSet.TAB_MODE_CLIENT);
+
+		Assert.assertEquals("Incorrect top component returned for child", root, WebUtilities.getTop(dropdown));
+		Assert.assertEquals("Incorrect top component returned for child", root, WebUtilities.getTop(tabs));
+		Assert.assertEquals("Incorrect top component returned for top", root, WebUtilities.getTop(root));
 	}
 
 	// @Test
@@ -420,10 +435,15 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrectly encoded 1 char string", "x", WebUtilities.encode("x"));
 		Assert.assertEquals("Incorrectly encoded 1 special char string", "&amp;", WebUtilities.
 				encode("&"));
+		Assert.assertEquals("Incorrectly encoded open bracket", "&#123;", WebUtilities.encode("{"));
+		Assert.assertEquals("Incorrectly encoded close bracket", "&#125;", WebUtilities.encode("}"));
 
 		String in = "Hello world greater> less< amper& quote\"\t\r\n";
 		String expected = "Hello world greater&gt; less&lt; amper&amp; quote&quot;\t\r\n";
 		Assert.assertEquals("Incorrectly encoded value", expected, WebUtilities.encode(in));
+
+		in = characterRange(0, 32);
+		Assert.assertEquals("Encode should blat special characters", "\t\n\r ", WebUtilities.encode(in));
 	}
 
 	@Test
@@ -433,6 +453,8 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 		Assert.assertEquals("Incorrectly decoded 1 char string", "x", WebUtilities.decode("x"));
 		Assert.assertEquals("Incorrectly decoded 1 special char string", "&", WebUtilities.decode(
 				"&amp;"));
+		Assert.assertEquals("Incorrectly decoded open bracket", "{", WebUtilities.decode("&#123;"));
+		Assert.assertEquals("Incorrectly decoded close bracket", "}", WebUtilities.decode("&#125;"));
 
 		String in = "Hello world greater&gt; less&lt; amper&amp; quote&quot;";
 		String expected = "Hello world greater> less< amper& quote\"";
@@ -537,6 +559,236 @@ public class WebUtilities_Test extends AbstractWComponentTestCase {
 				WebUtilities.getParentNamingContext(child2));
 		Assert.assertEquals("Naming context for child3 should be context3", context3,
 				WebUtilities.getParentNamingContext(child3));
+	}
+
+	@Test
+	public void testEscapeUrlBasic() {
+		String in = "http://test.com";
+		Assert.assertEquals("Basic url not escaped correctly", in, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlBasic2() {
+		String in = "http://test.com/";
+		Assert.assertEquals("Basic url not escaped correctly", in, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlBasicParameters() {
+		String in = "http://test.com?a=foo";
+		Assert.assertEquals("Basic url not escaped correctly", in, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlBasicParameters2() {
+		String parms = "a=foo&b=g h j";
+		String in = "http://test.com?" + parms;
+		String out = "http://test.com?" + encodeQuery(parms);
+		Assert.assertEquals("Basic url not escaped correctly", out, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlBasicParameters3() {
+		String parms = "a=foo&b=<>{{}}";
+		String in = "http://test.com?" + parms;
+		String out = "http://test.com?" + encodeQuery(parms);
+		Assert.assertEquals("Basic url not escaped correctly", out, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlRelBasic() {
+		String in = "rel/";
+		Assert.assertEquals("Basic url not escaped correctly", in, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlRelBasicParameters() {
+		String in = "rel?a=foo";
+		Assert.assertEquals("Basic url not escaped correctly", in, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlRelBasicParameters2() {
+		String parms = "a=foo&b=g h j";
+		String in = "rel?" + parms;
+		String out = "rel?" + encodeQuery(parms);
+		Assert.assertEquals("Basic url not escaped correctly", out, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlRelBasicParameters3() {
+		String parms = "a=foo&b=<>{{}}";
+		String in = "rel?" + parms;
+		String out = "rel?" + encodeQuery(parms);
+		Assert.assertEquals("Basic url not escaped correctly", out, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlRef() {
+		String in = "#REF1";
+		Assert.assertEquals("Basic Reference not escaped correctly", in, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlRef2() {
+		String in = "rel?#REF1";
+		Assert.assertEquals("Basic Reference not escaped correctly", in, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEscapeUrlRef3() {
+		String in = "rel?a=foo#REF1";
+		Assert.assertEquals("Basic Reference not escaped correctly", in, WebUtilities.percentEncodeUrl(in));
+	}
+
+	@Test
+	public void testEncodeUrl() {
+		String in = "http://test.com?a=foo&b=<>{}#REF1";
+		String out = "http://test.com?a=foo&amp;b=%3C%3E%7B%7D#REF1";
+		Assert.assertEquals("Encoded URL not correct", out, WebUtilities.encodeUrl(in));
+	}
+
+//	@Test
+//	public void testContainsBrackets() {
+//		Assert.assertTrue("Contains a open bracket", WebUtilities.containsBrackets("{"));
+//		Assert.assertTrue("Contains a closed bracket", WebUtilities.containsBrackets("}"));
+//		Assert.assertFalse("Contains an encoded open bracket", WebUtilities.containsBrackets("&#123;"));
+//		Assert.assertFalse("Contains an encoded closed bracket", WebUtilities.containsBrackets("&#125;"));
+//		Assert.assertFalse("Contains a double encoded open bracket", WebUtilities.containsBrackets("&amp;#123;"));
+//		Assert.assertFalse("Contains a double encoded closed bracket", WebUtilities.containsBrackets("&amp;#125;"));
+//	}
+
+//	@Test
+//	public void testContainsEncodeBrackets() {
+//		Assert.assertTrue("Contains an encoded open bracket", WebUtilities.containsEncodedBrackets("&#123;"));
+//		Assert.assertTrue("Contains an encoded closed bracket", WebUtilities.containsEncodedBrackets("&#125;"));
+//		Assert.assertFalse("Contains a double encoded open bracket", WebUtilities.containsEncodedBrackets("&amp;#123;"));
+//		Assert.assertFalse("Contains a double encoded closed bracket", WebUtilities.containsEncodedBrackets("&amp;#125;"));
+//		Assert.assertFalse("Contains a open bracket", WebUtilities.containsEncodedBrackets("{"));
+//		Assert.assertFalse("Contains a closed bracket", WebUtilities.containsEncodedBrackets("}"));
+//	}
+
+	@Test
+	public void testEncodeBrackets() {
+		String in = "{}<{}>";
+		String out = "&#123;&#125;<&#123;&#125;>";
+		Assert.assertEquals("Encode brackets not correct", out, WebUtilities.encodeBrackets(in));
+	}
+
+	@Test
+	public void testEncodeBracketsWithNoBrackets() {
+		String in = "<oranges>&#123;&#125;";
+		String out = in;
+		Assert.assertEquals("Encode brackets not correct", out, WebUtilities.encodeBrackets(in));
+	}
+
+	@Test
+	public void testDecodeBrackets() {
+		String in = "&#123;&#125;<>&#123;&#125;a";
+		String out = "{}<>{}a";
+		Assert.assertEquals("Decode brackets not correct", out, WebUtilities.decodeBrackets(in));
+	}
+
+	@Test
+	public void testDecodeBracketsWithNoBrackets() {
+		String in = "{}<>";
+		String out = in;
+		Assert.assertEquals("Decode brackets not correct", out, WebUtilities.decodeBrackets(in));
+	}
+
+	@Test
+	public void testDoubleEncodeBrackets() {
+		String in = "&#123;&#125;<>";
+		String out = "&amp;#123;&amp;#125;<>";
+		Assert.assertEquals("Double encode brackets not correct", out, WebUtilities.doubleEncodeBrackets(in));
+	}
+
+	@Test
+	public void testDoubleEncodeBracketsWithNoBrackets() {
+		String in = "then you win";
+		String out = in;
+		Assert.assertEquals("Double encode brackets not correct", out, WebUtilities.doubleEncodeBrackets(in));
+	}
+
+	@Test
+	public void testDoubleEncodeBracketsWithMultipleMatches() {
+		String in = "&#123;&#125;<> &#123;&#125;&#125;";
+		String out = "&amp;#123;&amp;#125;<> &amp;#123;&amp;#125;&amp;#125;";
+		Assert.assertEquals("Double encode brackets not correct", out, WebUtilities.doubleEncodeBrackets(in));
+	}
+
+	@Test
+	public void testDoubleDecodeBrackets() {
+		String in = "&amp;#123;&amp;#125;<>";
+		String out = "&#123;&#125;<>";
+		Assert.assertEquals("Double decode brackets not correct", out, WebUtilities.doubleDecodeBrackets(in));
+	}
+
+	@Test
+	public void testDoubleDecodeBracketsWithNoMatches() {
+		String in = "then you win";
+		String out = in;
+		Assert.assertEquals("Double decode brackets not correct", out, WebUtilities.doubleDecodeBrackets(in));
+	}
+
+	/**
+	 *
+	 * @param input the query string input
+	 * @return the percent encoded query string
+	 */
+	private String encodeQuery(final String input) {
+		try {
+			return URIUtil.encodeQuery(input);
+		} catch (Exception e) {
+			throw new IllegalStateException("Could not encode input string [" + input + "].");
+		}
+	}
+
+	/**
+	 * Generates a range of characters.
+	 * @param from The first character in the range (must be > 0).
+	 * @param to The last character in the range (must be >= from).
+	 * @return A string containing the character range.
+	 */
+	private static String characterRange(final int from, final int to) {
+		StringBuilder result = new StringBuilder(to);
+		for (int i = from; i <= to; i++) {
+			result.append((char) i);
+		}
+		return result.toString();
+	}
+
+	public void testRenderWithPlainText() {
+		String msg = "Test error message";
+		WText text = new WText(msg);
+		String output = WebUtilities.render(text);
+		Assert.assertEquals("Invalid output returned", msg, output);
+	}
+
+	@Test
+	public void testRenderWithXML() {
+		WText text = new WText(TransformXMLTestHelper.TEST_XML);
+		text.setEncodeText(false);
+		String output = WebUtilities.render(text);
+		Assert.assertEquals("Invalid output with XML", TransformXMLTestHelper.TEST_XML, output);
+	}
+
+	@Test(expected = SystemException.class)
+	public void testRenderToHtmlWithPlainText() {
+		String msg = "Test error message";
+		WText text = new WText(msg);
+		// Text will fail as it is not valid XML
+		String output = WebUtilities.renderWithTransformToHTML(new MockRequest(), text, false);
+		Assert.assertEquals("Invalid html output returned", msg, output);
+	}
+
+	@Test
+	public void testRenderToHtmlWithXML() {
+		WText text = new WText(TransformXMLTestHelper.TEST_XML);
+		text.setEncodeText(false);
+		// Dont use PageShell as it wraps the XML with ui:root and test xslt does not pass the other tags
+		String output = WebUtilities.renderWithTransformToHTML(new MockRequest(), text, false);
+		Assert.assertEquals("Invalid html output with XML", TransformXMLTestHelper.EXPECTED, output);
 	}
 
 //	/**

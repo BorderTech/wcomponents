@@ -70,7 +70,7 @@
 					<xsl:with-param name="for" select="$targetList"/>
 					<xsl:with-param name="name" select="$id"/>
 					<xsl:with-param name="value" select="'expand'"/>
-					<xsl:with-param name="text"><xsl:text>{{t 'expandall'}}</xsl:text></xsl:with-param>
+					<xsl:with-param name="text"><xsl:text>{{#i18n}}expandall{{/i18n}}</xsl:text></xsl:with-param>
 					<xsl:with-param name="class" select="$toggleClass"/>
 				</xsl:call-template>
 			</li>
@@ -81,7 +81,7 @@
 					<xsl:with-param name="for" select="$targetList"/>
 					<xsl:with-param name="name" select="$id"/>
 					<xsl:with-param name="value" select="'collapse'"/>
-					<xsl:with-param name="text"><xsl:text>{{t 'collapseall'}}</xsl:text></xsl:with-param>
+					<xsl:with-param name="text"><xsl:text>{{#i18n}}collapseall{{/i18n}}</xsl:text></xsl:with-param>
 					<xsl:with-param name="class" select="$toggleClass"/>
 				</xsl:call-template>
 			</li>

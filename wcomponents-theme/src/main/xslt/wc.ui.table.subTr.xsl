@@ -75,7 +75,7 @@
 			-->
 			<xsl:if test="$myTable/ui:rowselection">
 				<td class="wc_table_sel_wrapper">
-					<xsl:text>&#x2002;</xsl:text>
+					<xsl:text>&#x200b;</xsl:text>
 				</td>
 			</xsl:if>
 
@@ -84,7 +84,7 @@
 				to its parent row.
 			-->
 			<td class="wc_table_rowexp_container">
-				<xsl:text>&#x2002;</xsl:text>
+				<xsl:text>&#x200b;</xsl:text>
 			</td>
 
 			<td>
